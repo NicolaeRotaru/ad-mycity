@@ -36,7 +36,11 @@ const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
 const GIORNI = Number(process.env.TASSO_LEZIONI_GIORNI || 30);
 
-const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI");
+// L'override esiste perche' una prova possa far girare il comando VERO su una copia sua, invece di
+// riscrivere la memoria di produzione o di accontentarsi di leggere il file gia' scritto — che e'
+// esattamente il buco di AR-051: il caso guardava l'artefatto, non chi lo produce, quindi togliendo
+// la riga che scrive l'istante restava verde. Stesso idioma di COSTO_AI_FILE e CANTIERE_FILE.
+const VAULT = process.env.TASSO_LEZIONI_VAULT || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI");
 const APPR_PATH = join(VAULT, "auto-coscienza/apprendimento.json");
 const BRIEFING_DIR = join(VAULT, "Briefing");
 const DECISIONI_PATH = join(VAULT, "DECISIONI.md");

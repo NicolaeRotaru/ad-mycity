@@ -45,6 +45,7 @@
 //      opz TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID · tuning SENTINELLA_DATI_* (vedi sotto).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { queryOrdiniInRitardo } from "./ordini-in-ritardo.mjs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
@@ -223,6 +224,7 @@ export async function leggiStatoReale(state) {
     runway_mesi: null, runway_stato: null, runway_soglia: null, giri_sconosciuto: null,
     // AR-036: fonti web (sentinella-fonti.mjs → fonti-salute.json)
     fonti_allerta_critico: null,
+    fonti_cieco: null, // AR-860: il sensore delle fonti non ha potuto guardare (⚪, non «tutto bene»)
   };
 
   // ===== BUSINESS (marketplace, sola lettura) =====
@@ -278,10 +280,7 @@ export async function leggiStatoReale(state) {
     // AR-071 — Puntualità consegne (promessa core del modello Glovo): ordini con lo slot promesso
     // già scaduto (expected_delivery superato) ma non ancora consegnati (delivered_at nullo). È lo
     // stato OPERATIVO/temporale dell'ordine, non quello contabile: prima invisibile ai sensori.
-    s.ordini_slot_scaduto = await conta(
-      MK_URL, MK_KEY,
-      `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
-    );
+    s.ordini_slot_scaduto = await conta(MK_URL, MK_KEY, queryOrdiniInRitardo(new Date().toISOString()));
   }
 
   // ===== MACCHINA (auto-coscienza: sola lettura di ciò che il cervello già scrive) =====
@@ -352,6 +351,19 @@ export async function leggiStatoReale(state) {
   const fonti = readJson(FONTI_SALUTE_PATH, {});
   s.fonti_allerta_critico = Array.isArray(fonti.allerta_peso_critico) && fonti.allerta_peso_critico.length
     ? fonti.allerta_peso_critico
+    : null;
+  // AR-860 — il ⚪ del sensore delle fonti non si perde piu'. Quando sentinella-fonti non trova il suo
+  // radar scrive {ok:false, errore} SENZA il campo allerta_peso_critico: la riga qui sopra diventa
+  // null, M8 non scatta, e il risultato non e' un falso allarme ma SILENZIO. Cioe' il giorno in cui
+  // il radar sparisce nessuno sa piu' se le fonti web sono vive — e nessuno se ne accorge, perche'
+  // «nessuna fonte morta» e «non ho guardato nessuna fonte» erano lo stesso identico dato.
+  // ⚠️ NON basta `ok === false`, e ci sono cascato scrivendo questa riga la prima volta: quel campo
+  // vale `morteCritiche.length === 0`, quindi diventa false anche quando il sensore ha guardato
+  // benissimo e ha TROVATO fonti morte. Con quella versione il ⚪ si sarebbe acceso su un ❌ vero, e
+  // avrebbe suonato insieme a M8 per la stessa cosa. La domanda giusta non e' «hai trovato un
+  // problema?» ma «hai misurato?»: `fonti_totali` esiste solo se le fonti le ha contate davvero.
+  s.fonti_cieco = fonti.ok === false && typeof fonti.fonti_totali !== "number"
+    ? String(fonti.errore || "motivo non dichiarato")
     : null;
 
   // ═══ L'ETÀ DEI REFERTI (AR-578 · AR-592 · AR-594 · AR-195) ═══
@@ -565,6 +577,19 @@ export function valutaRegole(s, state) {
       titolo: `Sensore-cassa cieco da ${s.giri_sconosciuto} giri (runway sconosciuto)`,
       firma: "cieco",
       prompt: `Sentinella macchina 🧠 — SENSORE-CASSA CIECO: runway 'sconosciuto' da ${s.giri_sconosciuto} giri (cassa-runway.json). Verifica: Stripe spesso GIÀ ok (cassa letta); blocco tipico = BURN_MENSILE_EUR mancante nel .env VPS. Prepara diagnosi per Nicola (consegne/finanza/) — NON muovere denaro da solo.`,
+    });
+  }
+
+  // M8b — Sensore delle fonti CIECO (AR-860): stessa forma di M6b per la cassa. Un sensore che non
+  // ha potuto guardare non e' un sensore che ha guardato e non ha trovato niente. Firma stabile
+  // ("cieco") perche' il motivo puo' cambiare parole e la diagnosi non deve riaccodarsi ogni giro.
+  if (s.fonti_cieco) {
+    eventi.push({
+      ambito: "macchina", chiave: "fonti_cieco", colore: "🟡", reparto: "intelligence", cooldownOre: 24,
+      dedupPersistente: true,
+      titolo: "Il sensore delle fonti web non riesce a guardare",
+      firma: "cieco",
+      prompt: `Sentinella macchina 🧠 — SENSORE FONTI CIECO: fonti-salute.json dice ok:false (${s.fonti_cieco}). Finche' e' cosi', «nessuna fonte morta» NON vuol dire che le fonti stiano bene: vuol dire che nessuno le ha guardate. Ripara cervello/radar-fonti.json (o l'accesso a quel file) e rilancia node cervello/sentinella-fonti.mjs finche' esce 0.`,
     });
   }
 

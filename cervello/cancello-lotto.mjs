@@ -993,6 +993,16 @@ function main() {
     // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue
     // le altre è una violazione, non un contributo.
     passi.push(esegui("prove in bash senza esecutore (tetto)", "node", ["cervello/debito-prove-bash.mjs"]));
+    // AR-840 — le mutazioni il cui `test` non e' un percorso risultano SEMPRE verificate, perche'
+    // `non-vacuita` legge l'uscita ≠ 0 di `node "node x.mjs"` come «la prova e' diventata rossa».
+    // E' il metro della copertura che si da' buono da solo: va contato, e non deve crescere.
+    passi.push(esegui("mutazioni che nessuno puo' eseguire (tetto)", "node", ["cervello/mutazioni-senza-esecutore.mjs"]));
+    // AR-843 — il tetto e' ZERO: la classe e' chiusa oggi, e questo passo esiste per impedire che
+    // si riapra. Un vincolo nuovo scritto a mano su un guardiano che puo' accecarsi fa rosso subito.
+    passi.push(esegui("vincoli che non sanno dire «non lo so» (tetto)", "node", ["cervello/vincoli-senza-cieco.mjs"]));
+    // AR-844 — il tetto e' ZERO. Una scheda in uno stato che i misuratori non capiscono resta contata
+    // aperta per sempre, riparata o no: 18 trovate cosi' il 27/8, tutte col fix e la prova a posto.
+    passi.push(esegui("stati che nessun misuratore capisce (tetto)", "node", ["cervello/stati-che-nessuno-capisce.mjs"]));
     // AR-706 — e la stessa domanda sulle prove che guidano una superficie VIVA: quante non è mai
     // stata rotta apposta? Una prova a runtime non provata col fix disfatto può misurare il tema
     // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando

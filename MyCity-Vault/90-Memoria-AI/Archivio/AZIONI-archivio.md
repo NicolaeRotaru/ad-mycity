@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-08-24 20:49
+aggiornato: 2026-08-26 17:51
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-08-26 17:51 · 25 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -742,3 +749,76 @@ cieco esce 0.
 **Cosa non ho verificato.** Gli script del server che leggono la coda (`giro.sh`,
 `riconcilia-memoria.sh`) li ho letti, non eseguiti: qui non c'è `bats`, quindi le prove in shell non
 girano. Li nominano solo nei commenti, ma la prova vera la darà il primo giro del worker.
+
+---
+
+### ✅ #174 — Due comandi per il database, e l'ordine conta · ⏳ accodata 2026-08-24 16:10 · ✔️ FATTA 2026-08-26 17:41
+
+> **Fatta tutta, e verificata.** Il primo comando era già dato il 25/8. Il secondo l'avevo **fermato
+> apposta**: la condizione che avevo scritto io nominava un posto solo (il Pannello), mentre nella coda
+> scrivono in quattro punti, e tre stanno sul server. Darlo in quel momento avrebbe fatto fallire ogni
+> ri-accodamento — il danno che questa card diceva di voler evitare, causato dalla card stessa.
+>
+> **Cosa ha sbloccato l'attesa.** Non una supposizione: una misura. La macchina scrive nella coda una
+> volta al giorno verso le 11 (ora di Piacenza). Stamattina ha scritto **cinque righe alle 11:01**, e
+> **tutte e cinque portano il campo nuovo**. Cioè il server sta girando col codice giusto — provato dai
+> dati, non dedotto.
+>
+> **Com'è adesso.** 3.281 righe, nessuna senza il negozio, e il campo è diventato **obbligatorio**.
+> Provato in tutti e due i versi: una riga scritta senza il negozio viene **respinta**, una scritta con
+> il negozio **passa**. La riga di prova l'ho tolta subito, il conto è tornato identico.
+>
+> **Ritorno indietro con una riga sola**, se mai servisse:
+> `alter table public.lavori alter column negozio_id drop not null;`
+
+**In parole semplici.** La macchina delle botteghe deve servire tanti negozi con un programma solo.
+Perché funzioni, ogni lavoro nella coda deve dire a quale negozio appartiene. Oggi non lo dice: la
+tabella dei lavori quel campo non ce l'ha proprio. Sono 3.255 righe, nessuna con un negozio.
+
+Il codice il muro ce l'aveva già. La tabella no. E finché la tabella non ce l'ha, il muro tiene solo
+per chi passa dalla porta giusta: chi scrive nella coda in un altro modo lo scavalca senza
+accorgersene, e nessuno se ne accorge nemmeno dopo.
+
+**Cosa ho fatto io.** Il Pannello adesso scrive sempre il negozio. Chi non ne dichiara uno sta
+chiedendo un lavoro della macchina per sé. E lo dice con un nome, «centro», invece di lasciare il
+campo vuoto. Un campo vuoto si dimentica. Un nome no.
+
+**Cosa cambia per te.** Niente, finché non dai i due comandi qui sotto. Dopo il secondo, la coda dei
+lavori non accetta più una riga senza negozio. È il pezzo che mancava per far partire la macchina
+delle botteghe.
+
+**Per esempio, una cosa che ho trovato leggendo.** Quando il database rifiuta una riga, il Pannello
+riprovava a scriverla togliendo il campo che dava fastidio. Per il raggruppamento della chat va
+bene: si perde un dettaglio estetico. Sul negozio sarebbe stato il difetto stesso, automatizzato:
+«il database non vuole la riga col negozio? allora scrivila senza». Il lavoro di una bottega
+finirebbe nel mucchio comune, in silenzio, e la riga risulterebbe scritta bene. Adesso quel ripiego
+vale solo per i lavori della macchina.
+
+**Cosa devi fare.** Due comandi nel database della memoria, e l'ordine conta.
+
+Il primo lo puoi dare adesso, non rompe niente:
+
+`pannello/sql/lavori-negozio-id.sql`
+
+Aggiunge il campo, scrive «centro» sulle 3.255 righe che ci sono già, crea l'indice. Il Pannello di
+oggi ignora il campo nuovo e continua a funzionare come sempre.
+
+Il secondo **solo dopo** che questa richiesta di unione è andata online:
+
+`pannello/sql/lavori-negozio-id-obbligatorio.sql`
+
+**Cosa cambia:** è il secondo comando a chiudere il buco. Da lì in poi, chi prova a scrivere un
+lavoro senza dire di quale negozio è, non ci riesce. Prima ci riusciva.
+
+**Perché l'ordine conta, e non è pignoleria.** Il Pannello che è online adesso il negozio non lo
+scrive. Se dai il secondo comando prima che il Pannello nuovo sia pubblicato, ogni creazione di
+lavoro fallisce: chat, giri, report, sentinelle. La macchina si ferma. L'avvertenza è scritta anche
+dentro il file, in cima.
+
+**Se va bene:** il muro fra i negozi esiste anche nella tabella. Allora si può costruire il secondo
+pezzo: quello che fa rifiutare al database le righe di un altro negozio.
+
+**Cosa non ho verificato.** I due comandi non li ho eseguiti: il database è in sola lettura per me,
+e questa è una firma tua. Quindi non ho visto la colonna comparire né l'obbligo mordere. Quello che
+ho provato è il lato codice: 9 controlli, e ho rotto il fix in 6 modi diversi per vedere se il
+controllo diventava rosso ogni volta. Diventa rosso ogni volta.

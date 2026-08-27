@@ -37,8 +37,11 @@ function main() {
   const quando = nowPiacenza();
   if (!existsSync(AGENTS_DIR)) {
     const out = { ok: false, errore: "cartella agenti mancante", quando };
-    console.log(JSON_MODE ? JSON.stringify(out) : "❌ .claude/agents/ non trovata");
-    process.exit(1);
+    console.log(JSON_MODE ? JSON.stringify(out) : "⚪ .claude/agents/ non trovata: non ho potuto guardare");
+    // AR-859 — 2 = NON HO POTUTO MISURARE. Uscire 1 qui faceva dire al giro «due agenti si
+    // dichiarano owner della stessa keyword», che e' una diagnosi che nessuno ha fatto: senza la
+    // cartella degli agenti non ho confrontato niente.
+    process.exit(2);
   }
 
   const files = readdirSync(AGENTS_DIR).filter((f) => f.endsWith(".md"));

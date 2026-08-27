@@ -281,6 +281,10 @@ export function esitoRiverifica({ rimasti = [], nonRimisurabili = [], risolti = 
 export const VARIABILI_PER_LAVORO = [
   // Quanto ragiona il motore. Se resta a 0 da un lavoro di volume, il giro dopo risponde d'istinto.
   "AI_THINKING",
+  // AR-838 — Di chi e' la spesa. Il worker la mette dal lavoro che ha preso; se sopravvivesse al
+  // lavoro, la spesa del prossimo verrebbe addebitata al negozio di quello di prima — e un tetto
+  // che ferma la corsia sbagliata e' peggio di un tetto che non c'e'.
+  "AI_NEGOZIO",
   // Le mani armate. Se resta a 0 dalla chat, il lavoro dopo parte senza gli strumenti che gli servono.
   "AI_ALLOW_ACTIONS",
   // L'istruzione aggiuntiva del giro: appartiene al lavoro che l'ha chiesta, non al successivo.
@@ -329,6 +333,24 @@ export const DIFESE_WORKER = [
     cosa: "marca worker_owner sul lavoro preso, così il recupero orfani non tocca i lavori vivi dell'altro worker",
     sh: /worker_owner/,
     ps1: /worker_owner/,
+  },
+  {
+    // AR-804. La difesa vive in `worker-coda.sh`, che worker.sh sorgente: qui si cerca la CHIAMATA,
+    // perche' e' quella a dire che il worker la usa davvero — ed e' esattamente la cosa che mancava
+    // quando il turno era scritto, provato e chiamato da nessuno.
+    nome: "turno fra i negozi",
+    cosa: "prende i lavori di fondo a turno fra i negozi invece che in ordine d'arrivo: con quaranta botteghe la piu' lenta non ferma le altre",
+    sh: /coda_prossima_riga/,
+    ps1: /coda_prossima_riga/,
+  },
+  {
+    // AR-839. Come il turno, vive in un file sorgibile (`worker-bottega.sh`) e qui si cerca la
+    // CHIAMATA: e' quella a dire che il worker la usa davvero. Un muro scritto e mai montato e'
+    // il difetto stesso, non la difesa — e' cosi' che AR-839 e' nato.
+    nome: "muro fra i negozi",
+    cosa: "un lavoro di un negozio di un tipo senza percorso isolato NON si esegue: sul percorso del centro i dati di due botteghe si incontrerebbero senza che nessuno se ne accorga",
+    sh: /bottega_muro/,
+    ps1: /bottega_muro/,
   },
   {
     nome: "recupero orfani",

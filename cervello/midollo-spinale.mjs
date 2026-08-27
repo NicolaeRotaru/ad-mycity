@@ -41,7 +41,8 @@ function main() {
   if (!existsSync(FILE)) {
     const out = { ok: false, quando, errore: "sentinella-dati.json non trovato" };
     console.log(JSON_MODE ? JSON.stringify(out) : "❌ sentinella-dati.json non trovato");
-    process.exit(1);
+    process.exit(2); // AR-859 — 2 = NON HO POTUTO MISURARE. Uscire 1 qui direbbe «ho guardato
+    // e ho trovato un problema», che e' falso: senza sentinella-dati.json non ho guardato niente.
   }
   const j = JSON.parse(readFileSync(FILE, "utf8"));
   const s = j.ultimo_stato || {};

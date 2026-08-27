@@ -23,11 +23,25 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
+
+/** Esegue un rilevatore di `prove-difetti.mjs` puntato su una radice scelta. */
+function eseguiProva(flag, radice) {
+  const r = spawnSync("node", [join(REPO, "cervello/prove-difetti.mjs"), flag], {
+    cwd: REPO,
+    encoding: "utf8",
+    timeout: 120_000,
+    env: { ...process.env, PROVE_DIFETTI_RADICE: radice },
+  });
+  return { codice: r.status, detto: `${r.stdout || ""}${r.stderr || ""}`.trim() };
+}
 const leggi = (p) => readFileSync(join(REPO, p), "utf8");
 
 const { provaSoddisfatta, patternTrovato } = await import(join(REPO, "cervello/prove-regole.mjs"));
@@ -131,4 +145,37 @@ test("AR-743 · lo strumento che risponde «è ancora vivo?» dice CURATO, e lo 
   assert.match(out, /AR-743/, "lo strumento deve pronunciarsi su questo difetto");
   assert.match(out, /✅/, `il rilevatore dice ancora che il difetto c'è: ${out.trim().slice(0, 200)}`);
   assert.doesNotMatch(out, /❌ AR-743/, "se torna ❌, o il difetto è tornato o il rilevatore si è rotto");
+});
+
+// ── ⑤ Il RILEVATORE, non solo la regola (27/8, AR-840) ──────────────────────────────────────────
+//
+// I casi qui sopra rifanno il controllo per conto loro, sul repo vero. È coperto il DATO e non è
+// coperto il RILEVATORE: la mutazione che neutralizza `--ar-743` dentro `prove-difetti.mjs` — cioè
+// quello che gira nella macchina — li lasciava tutti verdi. Qui gli si dà un mondo finto e si
+// guarda se vede quello che deve vedere, nei due versi.
+
+function radiceFinta({ conCopia }) {
+  const dir = mkdtempSync(join(tmpdir(), "copie-"));
+  mkdirSync(join(dir, "cervello"), { recursive: true });
+  writeFileSync(join(dir, "cervello/prove-regole.mjs"), "export function patternTrovato() { return true; }\n");
+  const corpo = conCopia
+    // rifà il confronto a mano e NON importa la casa: è il difetto
+    ? 'const ok = v.presente === true && new RegExp(v.pattern).test(testo);\n'
+    // chiede alla casa: è la cura
+    : 'import { patternTrovato } from "./prove-regole.mjs";\nconst ok = patternTrovato(v.pattern, testo);\n';
+  writeFileSync(join(dir, "cervello/sorvegliante.mjs"), corpo);
+  return dir;
+}
+
+test("AR-743 · il rilevatore VEDE una copia della decisione, e non accusa chi chiede alla casa", () => {
+  const conCopia = radiceFinta({ conCopia: true });
+  const r1 = eseguiProva("--ar-743", conCopia);
+  assert.equal(r1.codice, 1, `il rilevatore non ha visto una copia piantata apposta: ${r1.detto.slice(0, 300)}`);
+  rmSync(conCopia, { recursive: true, force: true });
+
+  // Il verso opposto, o sarebbe un rilevatore inchiodato sul rosso: chi importa la casa passa.
+  const pulita = radiceFinta({ conCopia: false });
+  const r2 = eseguiProva("--ar-743", pulita);
+  assert.equal(r2.codice, 0, `il rilevatore accusa chi chiede alla casa: ${r2.detto.slice(0, 300)}`);
+  rmSync(pulita, { recursive: true, force: true });
 });

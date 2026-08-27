@@ -88,25 +88,8 @@ fi
 # AR-307 — mostra l'ESITO di un guardiano senza perdere la riga che conta.
 # Prima si usava `| tail -N`: i guardiani stampano il verdetto in TESTA e node mette lo stack in
 # MEZZO, così nel log del giro restava la coda decorativa e l'errore vero spariva. Chi leggeva il log
-# vedeva un guardiano «passato» che in realtà era esploso alla prima riga.
-# Questo filtro tiene: la PRIMA riga (il verdetto), fino a 2 righe di errore ovunque siano, e la coda.
-# Uso: <comando> 2>&1 | esito_righe 4
-esito_righe() {
-  local n="${1:-4}"
-  awk -v n="$n" '
-    { L[NR] = $0 }
-    END {
-      if (NR == 0) exit
-      if (NR <= n) { for (i = 1; i <= NR; i++) print L[i]; exit }
-      print L[1]
-      err = 0
-      for (i = 2; i <= NR - n + 1 && err < 2; i++) {
-        if (L[i] ~ /(Error|ERRORE|Errore|Traceback|⛔|❌)/) { print L[i]; err++ }
-      }
-      print "   …"
-      for (i = NR - n + 2; i <= NR; i++) print L[i]
-    }'
-}
+# `esito_righe` vive in cervello/giro-esito.sh (caricato piu' sotto): la usano sia le righe di
+# questo file sia la funzione `sensore`, e una regola sola non deve avere due copie.
 
 # AR-293/AR-317: le mani condivise delle tre cadenze (lucchetto d'esecuzione, marcatore di scrittura,
 # motore col timeout derivato, registro degli esiti). Vedi cervello/lib-cadenza.sh.
@@ -310,7 +293,7 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Sensore cassa/runway (AR-016)..."
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | esito_righe 4 || true
   echo "[$(ts)] Sentinella fonti web (AR-036)..."
-  node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | esito_righe 4 || true
+  sensore "sentinella-fonti.mjs" 4 || true   # AR-859: il suo ⚪ non finisce piu' nella pipe
   echo "[$(ts)] Agenda intelligence (fonti dovute oggi)..."
   node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | esito_righe 3 || true
   # AR-617 — i 114 senior che promettono di lavorare in sola lettura adesso hanno il limite scritto
@@ -330,12 +313,10 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Guardiano permessi dei senior (AR-617)..."
   _solalettura_out="$(node "$SCRIPT_DIR/senior-sola-lettura.mjs" 2>&1)"; _solalettura_rc=$?
   printf '%s\n' "$_solalettura_out" | tail -4
-  if [ "$_solalettura_rc" -eq 1 ]; then
-    SENIOR_SOLA_LETTURA_VINCOLO="⛔ UN SENIOR PROMETTE SOLA LETTURA E HA GLI STRUMENTI PER SCRIVERE (senior-sola-lettura.mjs rc=$_solalettura_rc, AR-617): allinea il mansionario prima di delegargli lavoro."
-    echo "[$(ts)] ⚠️  AR-617: senior-sola-lettura FALLITO (rc=$_solalettura_rc) → vincolo hard al motore." >&2
-  elif [ "$_solalettura_rc" -ne 0 ]; then
-    echo "[$(ts)] ⚪ AR-617: senior-sola-lettura non ha potuto misurare (rc=$_solalettura_rc) — cieco, non verde." >&2
-  fi
+  # AR-843 — il cieco lo vedeva gia', e lo scriveva solo nel log: al motore non arrivava niente.
+  # Un guardiano che non ha potuto misurare, e di cui il motore non sa niente, è un verde.
+  SENIOR_SOLA_LETTURA_VINCOLO="$(vincolo_da_rc "senior-sola-lettura.mjs" "$_solalettura_rc" "⛔ UN SENIOR PROMETTE SOLA LETTURA E HA GLI STRUMENTI PER SCRIVERE (senior-sola-lettura.mjs rc=$_solalettura_rc, AR-617): allinea il mansionario prima di delegargli lavoro.")"
+  [ -n "$SENIOR_SOLA_LETTURA_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-617: senior-sola-lettura non è passato (rc=$_solalettura_rc) → vincolo hard al motore." >&2
   echo "[$(ts)] Guardiano registro agenti (AR-007/008 — gate hard)..."
   _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
   printf '%s\n' "$_agenti_out" | tail -4
@@ -474,10 +455,10 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Test del cervello (la rete c'è o non c'è)..."
   _testc_out="$(node "$SCRIPT_DIR/test-cervello.mjs" 2>&1)"; _testc_rc=$?
   printf '%s\n' "$_testc_out" | tail -6
-  if [ "$_testc_rc" -ne 0 ]; then
-    TEST_VINCOLO="⛔ TEST DEL CERVELLO ROSSI (test-cervello.mjs rc=$_testc_rc): uno o più file di test non passano o non partono. NON dichiarare 'fatto' e non aprire PR finché non tornano verdi: rimettili a posto PRIMA di ogni altro lavoro, poi rilancia 'node cervello/test-cervello.mjs'. Un test rosso ignorato è il difetto che ha generato tutti gli altri."
-    echo "[$(ts)] ⚠️  Test del cervello ROSSI (rc=$_testc_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-843 — «rossi» e «non sono riuscito a lanciarli» sono due notizie diverse, e la seconda manda
+  # a cercare nel posto sbagliato: si va a leggere i test invece di riparare lo strumento.
+  TEST_VINCOLO="$(vincolo_da_rc "test-cervello.mjs" "$_testc_rc" "⛔ TEST DEL CERVELLO ROSSI (test-cervello.mjs rc=$_testc_rc): uno o più file di test non passano o non partono. NON dichiarare 'fatto' e non aprire PR finché non tornano verdi: rimettili a posto PRIMA di ogni altro lavoro, poi rilancia 'node cervello/test-cervello.mjs'. Un test rosso ignorato è il difetto che ha generato tutti gli altri.")"
+  [ -n "$TEST_VINCOLO" ] && echo "[$(ts)] ⚠️  Test del cervello: rc=$_testc_rc → passo un vincolo hard al motore." >&2
   # PANNELLO = INFORMATIVO, e il motivo è onesto: girano solo col type-stripping di Node (≥22.18),
   # e da qui non posso verificare quale Node esegue davvero il giro sul VPS. Consegnare un vincolo
   # hard che non ho potuto provare sulla macchina bersaglio è l'errore che ho già fatto. Si promuove
@@ -486,15 +467,20 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | esito_righe 4 || true
 
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
-  # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
-  # VINCOLO: se fallisce (una 'scelta_ragionata' accumula asset pesanti mentre un negozio 'confermato'
-  # payout-ready è a 0) passiamo un vincolo hard al motore, invece di ingoiare l'errore in silenzio.
-  _alloc_out="$(node "$SCRIPT_DIR/allocazione-check.mjs" 2>&1)"; _alloc_rc=$?
-  printf '%s\n' "$_alloc_out" | tail -6
-  if [ "$_alloc_rc" -ne 0 ]; then
-    ALLOC_VINCOLO="⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$_alloc_rc): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili."
-    echo "[$(ts)] ⚠️  AR-081: allocazione-check FALLITO (rc=$_alloc_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-081: NON scartiamo l'exit-code con "|| true". Il verdetto del guardiano diventa un VINCOLO
+  # HARD per il motore, non una riga di log ingoiata — un pre-mortem che si può saltare viene
+  # saltato proprio nel giorno in cui servirebbe.
+  #
+  # 27/8 — QUESTO BLOCCO SI SCRIVEVA DA SOLO IL VINCOLO, E SUL CIECO DICEVA UNA COSA FALSA.
+  # `allocazione-check.mjs` esce 2 quando la quota di sforzo NON è misurabile (storia git troncata):
+  # è il contratto AR-322, «non ho potuto misurare». Trattando ogni rc≠0 come una bocciatura di
+  # dominio, il motore si sentiva dire «una entità non confermata sta accumulando asset pesanti» —
+  # una frase sul CONTENUTO, mentre il guardiano non aveva guardato niente. Adesso passa dalle due
+  # funzioni di casa: `guardiano` (che non perde l'esito) e `vincolo_da_rc` (che sul cieco dice
+  # «ripara lo strumento», non una bugia sul contenuto).
+  guardiano "allocazione-check.mjs" || true
+  ALLOC_VINCOLO="$(vincolo_da_rc "allocazione-check.mjs" "$GUARDIANO_RC" "⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$GUARDIANO_RC): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili.")"
+  [ -n "$ALLOC_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-081: allocazione-check non è passato (rc=$GUARDIANO_RC) → passo un vincolo hard al motore." >&2
   echo "[$(ts)] Guardiano registro scelte ragionate (AR-103: dossier vendite ↔ registro-realta)..."
   _rs_out="$(node "$SCRIPT_DIR/registro-scelte-check.mjs" 2>&1)"; _rs_rc=$?
   printf '%s\n' "$_rs_out" | tail -8
@@ -509,6 +495,20 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | esito_righe 6 || true
   echo "[$(ts)] Housekeeping coda azioni (sposta ✅/❌ in archivio se >20)..."
   node "$SCRIPT_DIR/housekeeping-azioni.mjs" 2>&1 | esito_righe 2 || true
+  # AR-847 — STATO.md cresce di una voce a ogni lotto e supera il campo visivo del controllo di
+  # leggibilita' ogni pochi giorni (misurato: 22/8 a 345.000 caratteri, 27/8 a 200.864). Prima se ne
+  # accorgeva solo il cancello, a lavoro finito. Adesso lo spostamento e' qui, all'80% del campo:
+  # si sposta PRIMA di sforare, non dopo. Le voci si spostano, non si cancellano.
+  echo "[$(ts)] Housekeeping STATO.md (sposta le voci vecchie in archivio se sopra l'80% del campo)..."
+  # L'ESITO NON FINISCE IN UNA PIPE, e il guardiano delle malattie ha avuto ragione a fermarmi:
+  # avevo copiato la riga di housekeeping-azioni, dove `| esito_righe 2 || true` seppellisce il
+  # codice d'uscita due volte. Su questo attrezzo l'uscita 2 vuol dire una cosa precisa — «non
+  # riconosco la forma di STATO.md, non l'ho toccato» — cioe' esattamente il ⚪ che non deve poter
+  # passare per un verde. Se la struttura del file cambia e lo spostamento diventa cieco, il giro lo
+  # dice invece di andare avanti in silenzio: e' la stessa lezione di AR-842, un piano piu' in la'.
+  _hks_out="$(node "$SCRIPT_DIR/housekeeping-stato.mjs" 2>&1)"; _hks_rc=$?
+  printf '%s\n' "$_hks_out" | esito_righe 2
+  [ "$_hks_rc" -eq 2 ] && echo "[$(ts)] ⚠️  AR-847: lo spostamento di STATO.md non ha riconosciuto la forma del file (rc=2) — il file cresce e nessuno lo alleggerisce piu'." >&2
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | esito_righe 4 || true
   # PZ-008 (piano "chiudi i loop"): GATE chiusura-loop — chi ha scritto FATTO in Sala OGGI deve avere
@@ -517,10 +517,9 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Gate chiusura-loop (FATTO in Sala ⇒ ESITO nel quaderno)..."
   _loop_out="$(node "$SCRIPT_DIR/chiusura-loop.mjs" --gate 2>&1)"; _loop_rc=$?
   printf '%s\n' "$_loop_out" | tail -6
-  if [ "$_loop_rc" -ne 0 ]; then
-    LOOP_VINCOLO="⛔ LOOP NON CHIUSO (chiusura-loop --gate rc=$_loop_rc): reparti con FATTO in SALA-OPERATIVA oggi ma SENZA riga ESITO nel loro quaderno memoria-squadra. PRIMA di chiudere questo giro, registra l'ESITO per ognuno con: node cervello/chiusura-loop.mjs registra <reparto> \"<contesto>\" \"<scorecard>\" \"<atteso>\" \"<reale>\". Il loop atteso→reale è la calibrazione: senza, l'azienda non impara."
-    echo "[$(ts)] ⚠️  PZ-008: gate chiusura-loop FALLITO (rc=$_loop_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-843 — un registro illeggibile diceva al motore che i reparti non avevano chiuso il loro loop.
+  LOOP_VINCOLO="$(vincolo_da_rc "chiusura-loop.mjs" "$_loop_rc" "⛔ LOOP NON CHIUSO (chiusura-loop --gate rc=$_loop_rc): reparti con FATTO in SALA-OPERATIVA oggi ma SENZA riga ESITO nel loro quaderno memoria-squadra. PRIMA di chiudere questo giro, registra l'ESITO per ognuno con: node cervello/chiusura-loop.mjs registra <reparto> \"<contesto>\" \"<scorecard>\" \"<atteso>\" \"<reale>\". Il loop atteso→reale è la calibrazione: senza, l'azienda non impara.")"
+  [ -n "$LOOP_VINCOLO" ] && echo "[$(ts)] ⚠️  PZ-008: gate chiusura-loop non è passato (rc=$_loop_rc) → passo un vincolo hard al motore." >&2
   # AR-053: sweep deterministico delle previsioni SCADUTE via `node cervello/calibrazione.mjs scadute` —
   # marca 'scaduta' quelle oltre 'entro' senza esito, così non marciscono aperte contando come 'prova'
   # mai misurata (la chiusura del ciclo prevedi→misura non resta delegata alla memoria dell'LLM).
@@ -535,10 +534,9 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Debito di misura (previsioni mai confrontate col reale)..."
   _deb_out="$(node "$SCRIPT_DIR/calibrazione.mjs" debito --gate 2>&1)"; _deb_rc=$?
   printf '%s\n' "$_deb_out" | tail -12
-  if [ "$_deb_rc" -ne 0 ]; then
-    DEBITO_VINCOLO="⛔ DEBITO DI MISURA APERTO (calibrazione.mjs debito rc=$_deb_rc): ci sono previsioni fatte e mai confrontate col reale. PRIMA di chiudere questo giro chiudine almeno UNA con 'node cervello/calibrazione.mjs esito --id=<id> --reale=<n> --fonte=<fonte>' — il numero va LETTO da una fonte ammessa, mai stimato. Se una previsione non è più misurabile, chiudila lo stesso dicendo perché nella nota: una rinuncia motivata insegna, una scadenza silenziosa no."
-    echo "[$(ts)] ⚠️  Debito di misura aperto (rc=$_deb_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-843 — un registro delle previsioni illeggibile diventava «hai un debito di misura aperto».
+  DEBITO_VINCOLO="$(vincolo_da_rc "calibrazione.mjs debito" "$_deb_rc" "⛔ DEBITO DI MISURA APERTO (calibrazione.mjs debito rc=$_deb_rc): ci sono previsioni fatte e mai confrontate col reale. PRIMA di chiudere questo giro chiudine almeno UNA con 'node cervello/calibrazione.mjs esito --id=<id> --reale=<n> --fonte=<fonte>' — il numero va LETTO da una fonte ammessa, mai stimato. Se una previsione non è più misurabile, chiudila lo stesso dicendo perché nella nota: una rinuncia motivata insegna, una scadenza silenziosa no.")"
+  [ -n "$DEBITO_VINCOLO" ] && echo "[$(ts)] ⚠️  Debito di misura: rc=$_deb_rc → passo un vincolo hard al motore." >&2
 
   # AR-042: guardiano schema calibrazione — verifica che almeno una voce abbia il campo 'stato'
   # (lo schema CLI, non lo schema legacy a mano). Se il registro è tutto voci legacy, il motore di autonomia
@@ -597,11 +595,12 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Sonda CI (le PR aperte passano le prove?)..."
   _ci_out="$(node "$SCRIPT_DIR/ci-stato.mjs" --sonda 2>&1)"; _ci_rc=$?
   printf '%s\n' "$_ci_out" | esito_righe 4
-  if [ "$_ci_rc" -eq 1 ]; then
-    CI_VINCOLO="⛔ PR APERTE CON LE PROVE ROSSE (ci-stato.mjs rc=$_ci_rc): il lavoro è già su GitHub e non passa i controlli — finché resta così, Nicola non può unirlo. Guarda di chi è il rosso PRIMA di toccare qualcosa (\`node cervello/ci-stato.mjs\`): se dice «ereditata», il guasto è su main e si ripara LÀ una volta sola, non su ogni PR.
-$_ci_out"
-    echo "[$(ts)] ⚠️  CI: rc=$_ci_rc → vincolo hard al motore." >&2
-  fi
+  # AR-843 — era `-eq 1`, quindi una sonda che NON era riuscita a leggere GitHub (rc=2) usciva in
+  # silenzio: il motore non sentiva niente e il giro proseguiva come se le PR fossero verdi. È il
+  # verso peggiore del difetto, perché un cieco travestito da verde non lo va a cercare nessuno.
+  CI_VINCOLO="$(vincolo_da_rc "ci-stato.mjs" "$_ci_rc" "⛔ PR APERTE CON LE PROVE ROSSE (ci-stato.mjs rc=$_ci_rc): il lavoro è già su GitHub e non passa i controlli — finché resta così, Nicola non può unirlo. Guarda di chi è il rosso PRIMA di toccare qualcosa (\`node cervello/ci-stato.mjs\`): se dice «ereditata», il guasto è su main e si ripara LÀ una volta sola, non su ogni PR.
+$_ci_out")"
+  [ -n "$CI_VINCOLO" ] && echo "[$(ts)] ⚠️  CI: rc=$_ci_rc → vincolo hard al motore." >&2
   # AR-030: freschezza CHECKLIST-NICOLA.md — se è stantia (>2 giorni), il motore riceve un VINCOLO.
   echo "[$(ts)] Freschezza checklist Nicola (AR-030)..."
   _checklist_out="$(node "$SCRIPT_DIR/freschezza-checklist.mjs" 2>&1)"; _checklist_rc=$?
@@ -637,10 +636,10 @@ $_cad_out")"
   echo "[$(ts)] Freschezza OKR-Squadra (AR-115)..."
   _okr_out="$(node "$SCRIPT_DIR/freschezza-okr.mjs" 2>&1)"; _okr_rc=$?
   printf '%s\n' "$_okr_out" | tail -3
-  if [ "$_okr_rc" -ne 0 ]; then
-    OKR_VINCOLO="$(printf '%s\n' "$_okr_out" | head -1)"
-    echo "[$(ts)] ⚠️  AR-115: OKR stantio/scaduto → vincolo hard al motore." >&2
-  fi
+  # AR-859: idem. Con rc=2 il file degli OKR non c'e' proprio, e la prima riga dell'uscita non e' una
+  # diagnosi di stantio: e' un ⚪. `vincolo_da_rc` lo dice per quello che e'.
+  OKR_VINCOLO="$(vincolo_da_rc "freschezza-okr.mjs" "$_okr_rc" "$(printf '%s\n' "$_okr_out" | head -1)")"
+  [ -n "$OKR_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-115: freschezza-okr non è passato (rc=$_okr_rc) → vincolo hard al motore." >&2
   # PZ-012 (era AR-077, mai cablato): sentinella BUDGET per reparto — se un reparto sfora il suo
   # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
   echo "[$(ts)] Sentinella budget per reparto (AR-077)..."
@@ -813,17 +812,20 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   echo "[$(ts)] ⭐ North Star (AR-113 — vincolo allocazione se stallo ≥ soglia giorni)..."
   _north_out="$(node "$SCRIPT_DIR/north-star-check.mjs" --gate 2>&1)"; _north_rc=$?
   printf '%s\n' "$_north_out" | tail -8
-  if [ "$_north_rc" -ne 0 ]; then
-    NORTH_STAR_VINCOLO="⛔ NORTH STAR IN STALLO (north-star-check.mjs --gate rc=$_north_rc, AR-113): 0 ordini pagati da ≥${NORTH_STAR_GIORNI_GATE:-3} giorni. Questo giro produce SOLO azioni che avvicinano il 1° ordine pagato; lavoro sulla macchina ammesso solo se sblocca direttamente una card business in coda (es. ordine test PQ, payout, contatto negozio)."
-    echo "[$(ts)] ⚠️  AR-113: north-star-check FALLITO (rc=$_north_rc) → vincolo hard allocazione al motore." >&2
-  fi
+  # AR-843 — il guardiano lo dice da solo nel suo codice, «un guardiano che esplode è CIECO, non
+  # bocciato», e qui la distinzione si perdeva: il giro intero veniva dirottato sul north star per
+  # un sensore rotto. È il vincolo più caro di tutti da sbagliare, perché riscrive il giro.
+  NORTH_STAR_VINCOLO="$(vincolo_da_rc "north-star-check.mjs" "$_north_rc" "⛔ NORTH STAR IN STALLO (north-star-check.mjs --gate rc=$_north_rc, AR-113): 0 ordini pagati da ≥${NORTH_STAR_GIORNI_GATE:-3} giorni. Questo giro produce SOLO azioni che avvicinano il 1° ordine pagato; lavoro sulla macchina ammesso solo se sblocca direttamente una card business in coda (es. ordine test PQ, payout, contatto negozio).")"
+  [ -n "$NORTH_STAR_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-113: north-star-check non è passato (rc=$_north_rc) → vincolo hard allocazione al motore." >&2
   echo "[$(ts)] Guardiano owner-keyword (AR-009/AR-027 — ora gate hard)..."
   _keyword_out="$(node "$SCRIPT_DIR/keyword-owner-check.mjs" 2>&1)"; _keyword_rc=$?
   printf '%s\n' "$_keyword_out" | tail -4
-  if [ "$_keyword_rc" -ne 0 ]; then
-    KEYWORD_VINCOLO="⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare."
-    echo "[$(ts)] ⚠️  AR-109: keyword-owner-check FALLITO (rc=$_keyword_rc) → vincolo hard al motore." >&2
-  fi
+  # AR-859: il vincolo lo compone `vincolo_da_rc`, non un `if rc -ne 0` scritto a mano. La differenza
+  # e' il caso 2: adesso lo strumento sa dire «non ho potuto guardare» — senza .claude/agents/ non ha
+  # confrontato niente — e comporre lo stesso il testo del duplicato sarebbe raccontare al motore una
+  # diagnosi che nessuno ha fatto. E' la malattia di AR-843, un piano piu' su.
+  KEYWORD_VINCOLO="$(vincolo_da_rc "keyword-owner-check.mjs" "$_keyword_rc" "⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare.")"
+  [ -n "$KEYWORD_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-109: keyword-owner-check non è passato (rc=$_keyword_rc) → vincolo hard al motore." >&2
   # ── 10/8 — Guardiano freschezza Intelligence: la Cabina non deve mostrare analisi scadute. ──
   # Nasce dalla domanda di Nicola «ogni quanto si aggiorna?»: la risposta vera era «da undici giorni
   # non si aggiorna», e nessuno se n'era accorto perché la vecchiaia di un'analisi non era misurata
@@ -913,15 +915,15 @@ $_chius_out"
   # oggi esce 1 dicendo «sei tu il vincolo, la macchina ha già fatto la sua parte». Un cancello che
   # ferma la macchina perché un umano non ha ancora firmato punisce la parte sbagliata. AR-291.
   echo "[$(ts)] ⏱️  #38 Guardiano del Tuo Tempo (carico firme)..."
-  node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | esito_righe 3 || true
+  sensore "guardiano-tempo.mjs" 3 || true    # AR-859
   echo "[$(ts)] 🪙 #30 Metabolismo (costo AI per organo)..."
-  node "$SCRIPT_DIR/metabolismo.mjs" 2>&1 | esito_righe 3 || true
+  sensore "metabolismo.mjs" 3 || true        # AR-859
   echo "[$(ts)] 💶 #13 Bilancio Vivo (margine per ordine)..."
-  node "$SCRIPT_DIR/bilancio-vivo.mjs" 2>&1 | esito_righe 3 || true
+  sensore "bilancio-vivo.mjs" 3 || true      # AR-859
   echo "[$(ts)] 🦠 #12 Sistema Immunitario (red team sicurezza)..."
   node "$SCRIPT_DIR/sistema-immunitario.mjs" 2>&1 | esito_righe 4 || true
   echo "[$(ts)] ⚡ #23 Midollo Spinale (riflessi proposti)..."
-  node "$SCRIPT_DIR/midollo-spinale.mjs" 2>&1 | esito_righe 3 || true
+  sensore "midollo-spinale.mjs" 3 || true    # AR-859
   echo "[$(ts)] 🛌 #37 Letargo (livello di degradazione)..."
   # AR-392 — «chi deve spegnere il superfluo quando finisce la benzina parla e nessuno lo ascolta».
   # La riga era `node letargo.mjs 2>&1 | esito_righe 3 || true`: in bash il codice d'uscita di una

@@ -147,3 +147,17 @@ test("SUL REPO VERO: le due case si leggono tutte e due, e le carte chiuse sono 
   const archivio = readFileSync(CASE[1], "utf8");
   assert.ok((archivio.match(/^### (✅|❌)/gm) || []).length > 0, "l'archivio è vuoto: o non si archivia più, o le carte sono andate perse");
 });
+
+test("il cartello vecchio si TOGLIE: una pulizia che aggiunge righe allunga il file che doveva accorciare", () => {
+  // 27/8, AR-840 — la mutazione che smette di sostituire il cartello lasciava la prova verde: nessun
+  // caso guardava QUANTI cartelli restano. È il difetto più beffardo di questa famiglia, perché la
+  // pulizia continuerebbe a girare e a dire di aver pulito, aggiungendo una riga a ogni giro al
+  // file che esiste per accorciare. Dopo un mese la coda ha trenta cartelli e una carta.
+  const dopo = pulisci(codaFinta(["### ✅ Card chiusa\n\nun testo qualunque"]), "");
+  // La riga INTERA, non il prefisso: con `/^> 🧹 \*\*Housekeeping/` il match torna solo le parole
+  // cercate e la data non ci sta dentro — cioè il controllo sulla data non guardava niente. Misurato
+  // applicando la mutazione a mano e vedendo il caso restare verde (27/8).
+  const cartelli = (dopo.coda.match(/^> 🧹 \*\*Housekeeping.*$/gm) || []);
+  assert.equal(cartelli.length, 1, `nella coda ci sono ${cartelli.length} cartelli: quello vecchio non è stato tolto`);
+  assert.ok(!cartelli[0].includes("2026-01-01"), `il cartello rimasto è quello VECCHIO: la pulizia non ha aggiornato niente — «${cartelli[0]}»`);
+});

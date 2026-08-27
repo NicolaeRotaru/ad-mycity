@@ -84,12 +84,77 @@ prova("il mansionario dell'AD (CLAUDE.md) insegna TUTTI e quattro i blocchi del 
   );
 });
 
-prova("i prompt del worker (chat E lavori) pretendono i quattro blocchi sulle risposte lunghe", () => {
+/**
+ * I DUE PROMPT DEL WORKER, ritagliati uno per uno.
+ *
+ * ⚠️ 27/8 · AR-855 — QUI SI CONTAVANO LE OCCORRENZE IN TUTTO IL FILE, con la soglia a due. Ma
+ * «Cosa non ho verificato» in `worker.sh` compare SEI volte: due nelle istruzioni ai prompt, e
+ * quattro dentro messaggi di esempio già scritti. Togliendone una — proprio quella del prompt
+ * della chat, cioè la regola che Nicola legge di riflesso in ogni risposta dal server — ne
+ * restavano cinque, e il caso restava verde. Verificato eseguendo la mutazione.
+ *
+ * È la parola che la rottura si porta dietro, in forma di conteggio: il numero è soddisfatto dagli
+ * ESEMPI, e la regola può sparire senza che il conto se ne accorga.
+ *
+ * La cura è guardare dentro ogni prompt invece che nel file intero. Se gli ancoraggi non ci sono
+ * più, questa funzione GRIDA invece di tornare una lista vuota: una lista vuota renderebbe il caso
+ * verde per il motivo peggiore, cioè «non ho trovato niente da controllare».
+ */
+const PROMPT_GENERALI = [
+  { nome: "chat", attacco: "Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello" },
+  { nome: "lavori", attacco: "Sei l'AD digitale di MyCity (segui CLAUDE.md). Esegui questo lavoro" },
+];
+
+function promptiDelWorker(src) {
+  const righe = src.split("\n");
+  // Il corpo di un `prompt="..."` finisce alla PRIMA riga che chiude la stringa — cioè che termina
+  // con un `"` non scappato. Tagliare invece fino al prompt SUCCESSIVO (la prima stesura di questo
+  // caso) si porta dentro il codice in mezzo, e lì la frase cercata ricompare dentro un commento:
+  // il caso restava verde con la regola tolta dal prompt. Misurato il 27/8.
+  const corpo = (apre) => {
+    const i0 = righe[apre].indexOf('prompt="') + 8;
+    const out = [righe[apre].slice(i0)];
+    if (/[^\\]"\s*$/.test(out[0])) return out.join("\n");
+    for (let i = apre + 1; i < righe.length; i++) {
+      out.push(righe[i]);
+      if (/[^\\]"\s*$/.test(righe[i]) || righe[i].trimEnd() === '"') return out.join("\n");
+    }
+    return null; // stringa mai chiusa: non è un prompt che so leggere
+  };
+  return PROMPT_GENERALI.map(({ nome, attacco }) => {
+    const apre = righe.findIndex((r) => r.includes(`prompt="${attacco}`));
+    const testo = apre === -1 ? null : corpo(apre);
+    if (!testo) {
+      throw new Error(
+        `CIECO: in worker.sh non trovo il prompt «${nome}» (attacco: «${attacco.slice(0, 48)}…») — l'ancoraggio non c'è più, e questo caso non sta controllando niente`,
+      );
+    }
+    return { nome, testo };
+  });
+}
+
+prova("AR-855: OGNI prompt dell'AD nel worker pretende i quattro blocchi — non basta che il file li nomini", () => {
   const t = readFileSync(join(REPO, "cervello", "worker.sh"), "utf8");
-  for (const b of BLOCCHI) {
-    const volte = t.split(b).length - 1;
-    assert.ok(volte >= 2, `«${b}» compare ${volte} volta/e in worker.sh: serve sia nel prompt della CHAT sia in quello dei LAVORI`);
+  // I DUE prompt GENERALI, non tutti: quelli stretti (per esempio «esegui-azione») consegnano una
+  // riga d'esito, e su una risposta corta i quattro blocchi non ci vanno — sarebbero quattro
+  // intestazioni sopra sei righe, che è la regola opposta scritta nello stesso manuale.
+  for (const { nome, testo } of promptiDelWorker(t)) {
+    for (const b of BLOCCHI) {
+      assert.ok(
+        testo.includes(b),
+        `il prompt «${nome}» non nomina «${b}»: chi risponde da lì scriverà senza quel blocco, e il file resta pieno di esempi che lo contengono`,
+      );
+    }
   }
+});
+
+prova("AR-855: se l'ancoraggio dei prompt sparisce il caso GRIDA, non passa", () => {
+  // Il verso che rende viva la difesa: un ritaglio che non trova niente deve rompersi, non
+  // dichiararsi soddisfatto. È il ⚪ che non deve poter diventare ✅.
+  assert.throws(() => promptiDelWorker("qui non c'è nessun prompt"), /CIECO: .*«chat»/);
+  // E se ne resta UNO solo, grida per quello che manca: due prompt controllati, non «almeno due».
+  const soloChat = `  prompt="Sei l'AD digitale di MyCity e stai parlando con Nicola nella chat del Pannello."`;
+  assert.throws(() => promptiDelWorker(soloChat), /CIECO: .*«lavori»/);
 });
 
 const rotte = casi.filter((c) => !c.ok);

@@ -2,324 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-14T06:30:20.009Z",
-      "scatti": 6638,
-      "voci": 19,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 14,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T06:35:54.159Z",
-      "scatti": 6656,
-      "voci": 19,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 14,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T06:49:36.948Z",
-      "scatti": 6699,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T08:35:54.573Z",
-      "scatti": 6722,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T08:49:45.249Z",
-      "scatti": 6733,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:02:14.137Z",
-      "scatti": 6755,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:03:36.110Z",
-      "scatti": 6768,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:13:46.632Z",
-      "scatti": 6805,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:16:39.734Z",
-      "scatti": 6809,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:39:05.212Z",
-      "scatti": 6923,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:39:50.781Z",
-      "scatti": 6924,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T09:59:44.017Z",
-      "scatti": 6930,
-      "voci": 29,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 24,
-        "prova-accecata": 2
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «.claude/workflows/giro-operativo.js», che è il codice su cui poggia la mutazione di AR-435",
-          "ripetuta": 24
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/valida-contratti.mjs», che è il codice su cui poggia la mutazione di AR-579",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/verifica-sensori.mjs», che è il codice su cui poggia la mutazione di AR-573 sensori-calpestati",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/verifica-automazione.mjs», che è il codice su cui poggia la mutazione di AR-370",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/censimento-guardiani.mjs», che è il codice su cui poggia la mutazione di AR-387",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/ritmo.sh», che è il codice su cui poggia la mutazione di AR-628",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/gate-pubblicazione.sh», che è il codice su cui poggia la mutazione di AR-633",
-          "ripetuta": 6
-        }
-      ]
-    },
-    {
-      "quando": "2026-08-14T10:01:13.201Z",
-      "scatti": 6939,
-      "voci": 29,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 24,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T17:30:04.803Z",
-      "scatti": 7449,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T17:32:05.507Z",
-      "scatti": 7456,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T17:49:07.855Z",
-      "scatti": 7532,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T17:50:16.108Z",
-      "scatti": 7536,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T18:06:44.375Z",
-      "scatti": 7602,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T18:20:34.967Z",
-      "scatti": 7651,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T18:26:34.917Z",
-      "scatti": 7668,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T18:27:46.836Z",
-      "scatti": 7670,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T18:28:28.425Z",
-      "scatti": 7671,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T20:07:25.567Z",
-      "scatti": 7677,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T20:08:00.332Z",
-      "scatti": 7678,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T20:08:41.092Z",
-      "scatti": 7680,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-14T20:17:06.516Z",
       "scatti": 607,
       "voci": 12,
@@ -2327,7 +2009,346 @@
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T07:19:11.386Z",
+      "scatti": 325,
+      "voci": 24,
+      "per_classe": {
+        "prova-accecata": 16,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T10:46:15.081Z",
+      "scatti": 359,
+      "voci": 24,
+      "per_classe": {
+        "prova-accecata": 16,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T10:57:44.295Z",
+      "scatti": 361,
+      "voci": 24,
+      "per_classe": {
+        "prova-accecata": 16,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T11:40:10.238Z",
+      "scatti": 363,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "cervello/prossimo-ar.mjs",
+          "cosa": "la mutazione di AR-830 («il numero torna a cercarsi solo qui e su main: la finestra in cui la collisione e' evitabile ridiventa cieca») non trova più il suo pezzo in questo file",
+          "ripetuta": 2
+        }
+      ]
+    },
+    {
+      "quando": "2026-08-27T12:09:12.273Z",
+      "scatti": 369,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T12:53:19.538Z",
+      "scatti": 371,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T13:19:32.142Z",
+      "scatti": 373,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T13:39:38.441Z",
+      "scatti": 375,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T13:58:35.138Z",
+      "scatti": 377,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T14:24:14.882Z",
+      "scatti": 379,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T15:02:40.616Z",
+      "scatti": 381,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T15:18:37.382Z",
+      "scatti": 383,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T15:52:40.256Z",
+      "scatti": 389,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T16:11:08.072Z",
+      "scatti": 391,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T16:31:37.791Z",
+      "scatti": 393,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T16:56:02.872Z",
+      "scatti": 395,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T17:10:40.829Z",
+      "scatti": 397,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T17:33:35.684Z",
+      "scatti": 399,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T17:50:52.896Z",
+      "scatti": 401,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "cervello/worker-coda.sh",
+          "cosa": "la mutazione di AR-838 («la presa non passa piu' la spesa contata a chi sceglie: il tetto torna a non avere chi lo alimenta») non trova più il suo pezzo in questo file",
+          "ripetuta": 2
+        }
+      ]
+    },
+    {
+      "quando": "2026-08-27T18:05:22.894Z",
+      "scatti": 403,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T18:24:10.303Z",
+      "scatti": 405,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T18:48:37.677Z",
+      "scatti": 407,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T19:06:42.042Z",
+      "scatti": 409,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T19:28:05.189Z",
+      "scatti": 411,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T19:58:49.572Z",
+      "scatti": 417,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-24T12:18:45.132Z"
+  "aggiornato": "2026-08-27T19:58:49.573Z"
 }

@@ -299,8 +299,11 @@ function main() {
   if (!files.length) {
     const msg = "nessun .claude/settings*.json trovato: permessi non verificabili.";
     if (JSON_MODE) console.log(JSON.stringify({ esito: "cieco", quando, messaggio: msg }, null, 2));
-    else console.error(`\n🔐 PERMESSI — ${quando}\n\n❌ ${msg}`);
-    process.exit(1);
+    else console.error(`\n🔐 PERMESSI — ${quando}\n\n⚪ ${msg}`);
+    // AR-859 — il caso piu' netto di tutti: il JSON qui sopra dichiara esito "cieco" e il codice
+    // d'uscita diceva 1, cioe' «ho guardato e ho trovato violazioni». Si contraddiceva da solo, in
+    // due righe. 2 = NON HO POTUTO MISURARE.
+    process.exit(2);
   }
 
   const { violazioni: tutte, inerti } = analizza(files);

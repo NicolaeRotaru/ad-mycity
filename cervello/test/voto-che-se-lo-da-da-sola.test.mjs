@@ -67,7 +67,7 @@ test("AR-065 · il campione minimo è un numero dichiarato, e il lower-bound da 
 // ── AR-062 · nessun esito senza fonte ────────────────────────────────────────────────────────────
 
 test("AR-062 · un esito SENZA fonte non entra nel punteggio", () => {
-  const { contaNelPunteggio, fonteVerificabile } = prev;
+  const { contaNelPunteggio, fonteVerificabile, ESCLUSA } = prev;
 
   const amm = cal.fontiAmmesse();
   assert.ok(Array.isArray(amm) && amm.length > 0, "un elenco vuoto renderebbe impossibile ogni esito");
@@ -79,6 +79,15 @@ test("AR-062 · un esito SENZA fonte non entra nel punteggio", () => {
 
   const conFonte = { ...senzaFonte, fonte: "Supabase MCP", sensore_stato: "ok" };
   assert.equal(contaNelPunteggio(conFonte).conta, true, "con una fonte che vedeva, invece, conta");
+
+  // AR-062 — una previsione BANALE non conia autonomia. «Atteso 3 partendo da 3» è una tautologia:
+  // vera comunque vada, e se contasse basterebbe prevedere che non cambi niente per farsi un voto.
+  // Il caso di prima passava anche senza questo freno, perché non ne provava nessuna: qui si guarda
+  // il verdetto composto, non la funzione presa da sola.
+  const tautologia = { ...conFonte, atteso: 3, baseline: 3 };
+  const esito = contaNelPunteggio(tautologia);
+  assert.equal(esito.conta, false, "una previsione che non poteva sbagliare si è presa un punto");
+  assert.ok(esito.motivi.includes(ESCLUSA.BANALE), `il motivo dev'essere «banale», non un altro: ${esito.motivi.join(", ")}`);
   assert.equal(typeof fonteVerificabile, "function", "il giudizio sulla fonte dev'essere eseguibile");
 });
 

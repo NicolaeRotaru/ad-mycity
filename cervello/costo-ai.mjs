@@ -18,7 +18,10 @@ import { tokenPerGate } from "./fonte-numero.mjs";
 import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
-const OUT_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json");
+// Dove vive il registro. L'override esiste perche' una prova possa far girare il comando VERO su un
+// file suo, invece di scrivere nel registro di produzione o di accontentarsi di chiamare la funzione
+// pura. E' l'idioma di casa: `puntatori-scollegati.mjs` fa lo stesso con CANTIERE_FILE e TETTI_FILE.
+const OUT_PATH = process.env.COSTO_AI_FILE || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json");
 const SOGLIA_DEFAULT = 2_000_000;
 // Finestra rolling sessione Max/Cursor (~5h) — allineata a retry-policy.mjs MAX_ATTESA_QUOTA_MIN.
 export const SESSIONE_ROLLING_MIN = Number(process.env.COSTO_SESSIONE_ROLLING_MIN || 360);
@@ -58,6 +61,53 @@ export function finestraContinua(voci, oraMs, minuti = SESSIONE_ROLLING_MIN) {
 }
 
 /** Token (misurati + stimati) nella finestra rolling: il vero muro è la sessione, non il giorno. */
+/** Il negozio della macchina stessa: le voci nate prima di AR-838 non dicono di chi sono, ed erano tutte sue. */
+export const CENTRO = "centro";
+
+/**
+ * AR-838 — QUANTO HA SPESO OGNI NEGOZIO, dentro la finestra che scorre.
+ *
+ * La misura e' in TOKEN, non in euro, e la ragione va detta: in casa non esiste nessun listino che
+ * trasformi i token in euro. Inventarne uno sarebbe un numero senza fonte. Quindi il tetto di un
+ * negozio si dichiara in token, e la conversione in euro e' un pezzo suo — che vuole un prezzo per
+ * modello, cioe' un dato che oggi non abbiamo.
+ *
+ * Le stime NON si sommano alle misure: entrano in un conto separato. Un tetto fatto scattare da una
+ * stima fermerebbe un negozio per un numero che nessuno ha misurato — e un freno che si basa su un
+ * pavimento non e' un freno, e' un caso.
+ */
+export function spesaPerNegozio(voci, oraMs, minuti = SESSIONE_ROLLING_MIN) {
+  const dentro = finestraContinua(voci, oraMs, minuti);
+  const out = {};
+  for (const v of dentro) {
+    const id = String(v?.negozio ?? "").trim() || CENTRO;
+    const t = Number(v?.token);
+    if (!Number.isFinite(t) || t < 0) continue;
+    if (!out[id]) out[id] = { misurato: 0, stimato: 0 };
+    if (v?.stima_grezza) out[id].stimato += t;
+    else out[id].misurato += t;
+  }
+  return out;
+}
+
+/**
+ * Solo il numero su cui si frena: le misure. Le stime restano visibili accanto, non dentro.
+ *
+ * Uno zero NON entra, e la ragione e' la differenza fra una misura e un pavimento. Un negozio che
+ * compare nel registro con sole stime ha «misurato zero», che e' vero e non dice niente: se quello
+ * zero uscisse di qui, andrebbe a coprire un `speso` dichiarato a mano nelle impostazioni — cioe'
+ * una conoscenza che il registro non ha (per esempio la spesa di prima della finestra). Chi non ha
+ * niente di misurato semplicemente non risponde, e chi legge tiene quello che aveva.
+ */
+export function spesoDaFrenare(spesa) {
+  const out = {};
+  for (const [id, v] of Object.entries(spesa || {})) {
+    const m = Number(v?.misurato) || 0;
+    if (m > 0) out[id] = m;
+  }
+  return out;
+}
+
 export function tokenSessioneRolling(voci, oraMs, minuti = SESSIONE_ROLLING_MIN) {
   const tutte = voci || [];
   const dentro = finestraContinua(tutte, oraMs, minuti);
@@ -112,6 +162,14 @@ function main() {
   const quando = nowPiacenza();
   const oggiData = quando.slice(0, 10);
   const stato = leggi();
+
+  // AR-838 — SOLO LEGGERE: quanto ha speso ogni negozio dentro la finestra che scorre. Esce e basta,
+  // senza toccare il file: chi chiede un numero non deve poterlo cambiare chiedendolo.
+  if (process.argv.includes("--spesa-negozi")) {
+    const spesa = spesaPerNegozio(stato.voci_recenti || stato.oggi?.voci || [], msDaTimbro(quando));
+    process.stdout.write(JSON.stringify(spesoDaFrenare(spesa)) + "\n");
+    return;
+  }
   stato.soglia_giornaliera_token = Number(process.env.COSTO_SOGLIA_TOKEN_GIORNO || stato.soglia_giornaliera_token || SOGLIA_DEFAULT);
   // AR-442 — se manca, eredita il tetto del giorno: in sei ore non si può spendere ciò che è
   // concesso in ventiquattro. Un tetto assente farebbe tornare il freno a UNA gamba sola.
@@ -157,7 +215,12 @@ function main() {
     // AR-043: --stima = il conteggio token è una stima (non una misura reale dalla CLI).
     // Le stime finiscono in un contatore separato e NON alzano token_totali usato dai gate.
     const isStima = process.argv.includes("--stima");
-    const voce = { quando, tipo, durata_sec: durata, token, modello: modello || null };
+    // AR-838 — DI CHI E' QUESTA SPESA. Senza questo campo il tetto per negozio ha una porta e
+    // nessuno che ci passi: `statoSpesa` sa fermare una corsia che ha finito il tetto, e `speso`
+    // restava zero per sempre perche' nessuno lo contava. Chi non lo dichiara e' il centro, cioe'
+    // la macchina stessa: e' il caso di oggi, e va scritto, non lasciato vuoto.
+    const negozio = String(getFlag("negozio") || "").trim() || CENTRO;
+    const voce = { quando, tipo, negozio, durata_sec: durata, token, modello: modello || null };
     if (isStima) voce.stima_grezza = true;
     stato.oggi.voci.push(voce);
     stato.voci_recenti.push(voce); // AR-442: la stessa voce entra anche nella coda che scorre

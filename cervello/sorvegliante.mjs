@@ -851,6 +851,18 @@ export function sorveglia({
   oggi = "",
   leggi = null,
   inMisura = new Set(),
+  // ⏱️ 27/8 · AR-858 — IL BUDGET ARRIVA DA FUORI, e prima era una costante letta qui dentro.
+  //
+  // Il freno del budget (AR-542) aveva la sua mutazione registrata e NON mordeva: nessun caso lo
+  // esercitava, perché per esercitarlo serviva una regex che consumasse davvero due secondi — cioè
+  // una prova da venticinque secondi, e per giunta legata all'orologio della macchina che la lancia.
+  // Misurato il 27/8: la stessa regex catastrofica costa 24.231 ms al primo giro e 439 ms al quarto.
+  // Una difesa che si può provare solo con una prova lenta e ballerina è una difesa che non si prova.
+  //
+  // Con il budget iniettabile il caso diventa immediato e deterministico: budget a zero, due righe,
+  // e il freno deve scattare sulla seconda dichiarando il motivo. In produzione nessuno lo passa e
+  // resta `BUDGET_PATTERN_MS`, che è il valore vero.
+  budgetMs = BUDGET_PATTERN_MS,
 } = {}) {
   const voci = [];
   const motivi = [];
@@ -868,7 +880,7 @@ export function sorveglia({
   // potuto cercare non è una malattia assente.
   const speso = new Map();
   const troppoLenta = (id) => {
-    if ((speso.get(id) || 0) <= BUDGET_PATTERN_MS) return false;
+    if ((speso.get(id) || 0) <= budgetMs) return false;
     if (!speso.get(`detto:${id}`)) {
       speso.set(`detto:${id}`, 1);
       motivi.push(`malattia ${id}: il suo pattern ha già consumato ${speso.get(id)} ms, l'ho lasciata indietro su questo file — non è un verde, è una misura che non ho finito`);
@@ -1864,14 +1876,34 @@ function indiceImportatori(fileRel = []) {
  * guardia diventa lenta, e una guardia lenta viene staccata come una rumorosa.
  */
 export function statoFusione() {
+  return statoFusioneDa(
+    () => execFileSync("git", ["rev-parse", "--absolute-git-dir"], { cwd: REPO, encoding: "utf8" }).trim(),
+    (percorso) => existsSync(percorso),
+  );
+}
+
+/**
+ * La stessa decisione, ma con le due domande al mondo passate da fuori — come `fusioneInCorso`, che
+ * riceve `esiste` per lo stesso motivo.
+ *
+ * 27/8, AR-840. Il caso che doveva provare il terzo stato chiamava `statoFusione()` sul repo VERO,
+ * dove git risponde sempre: prendeva solo la strada felice, e l'assert `s.leggibile || s.errore` era
+ * soddisfatto dal `leggibile: true`. Cioè la mutazione che fa tornare al `catch` un `leggibile: true`
+ * — che è ESATTAMENTE il difetto di AR-552, «una domanda senza risposta diventa un no» — lasciava il
+ * caso verde. Settima forma in due giorni di un verde vero per la ragione sbagliata, e la prima di
+ * questa specie: **la prova percorreva solo la strada che l'ambiente le faceva prendere.**
+ *
+ * Una funzione pura non ha una strada preferita: gliele si fanno prendere tutte e tre.
+ */
+export function statoFusioneDa(chiediCartellaGit, esiste) {
   let dir;
   try {
-    dir = execFileSync("git", ["rev-parse", "--absolute-git-dir"], { cwd: REPO, encoding: "utf8" }).trim();
+    dir = chiediCartellaGit();
   } catch (e) {
-    return { fusione: null, leggibile: false, errore: e.message.split("\n")[0] };
+    return { fusione: null, leggibile: false, errore: String(e?.message ?? e).split("\n")[0] };
   }
   if (!dir) return { fusione: null, leggibile: false, errore: "git non dice dove tiene la sua cartella" };
-  return { fusione: fusioneInCorso((nome) => existsSync(join(dir, nome))), leggibile: true };
+  return { fusione: fusioneInCorso((nome) => esiste(join(dir, nome))), leggibile: true };
 }
 
 /**

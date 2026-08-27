@@ -31,7 +31,7 @@ import { eDaFare } from "./stati-cantiere.mjs";
 // davvero è `auto-fix.mjs`, e non passava di lì: zero occorrenze, verificato col grep il 23/8.
 // Due cancelli costruiti bene, montati sulla porta che non si apre. Adesso il freno sta sulla
 // strada dell\'atto, cioè dentro il verdetto che il chiuditore già chiamava.
-import { ammissibilitaProva } from "./prova-ammissibile.mjs";
+import { ammissibilitaProva, umanaDichiarata } from "./prova-ammissibile.mjs";
 
 /** Le forme di prova che una scheda può portare. La forte è una sola: un comando che si esegue. */
 export function formaProva(verifica) {
@@ -107,6 +107,31 @@ export function verdettoChiusura(dif, esitoProva, { fileEsiste = () => true } = 
   if (esitoProva !== "risolto") {
     return { chiude: false, debole: false, bloccata: false, inammissibile: false, marca: null, motivo: `la prova non dice risolto (${esitoProva})` };
   }
+  // ⛔ LA VERIFICA DICHIARATA UMANA NON LA CHIUDE UNA MACCHINA — è cosa vuol dire quella parola.
+  //
+  // 27/8, trovato con la lente della sicurezza sul perimetro di AR-848 (il difetto lì accanto): a
+  // una scheda `{tipo:"umano"}` con esito «risolto» questa funzione rispondeva `chiude: true` col
+  // motivo «chiusa da una prova che si esegue». Una verifica umana non esegue niente: il motivo era
+  // falso, e sopra a un `true`. Oggi in produzione non ci arriva nessuno — `verificaFix` dà
+  // «manuale» a tutto ciò che non è un pattern, e il ramo sopra lo ferma — ma la porta era aperta
+  // per chiunque calcoli l'esito in un altro modo, e il freno di AR-848 l'ha allargata dai gravi ai
+  // bloccanti (prima un bloccante+umano cadeva nel cancello delle prove, che qui sotto ha smesso di
+  // prenderlo, perché una dichiarazione umana adesso soddisfa l'obbligo — ed è giusto che lo
+  // soddisfi: quello che non deve fare è aprire una chiusura automatica).
+  //
+  // Chi ha dichiarato «questo lo può chiudere solo un umano» ha detto la verità più scomoda che una
+  // scheda possa dire. Rispettarla vuol dire non chiuderla al posto suo.
+  if (umanaDichiarata(dif?.verifica)) {
+    return {
+      chiude: false,
+      debole: false,
+      bloccata: false,
+      inammissibile: false,
+      marca: null,
+      motivo: "la verifica è dichiarata umana: nessun guardiano la chiude — serve che qualcuno la guardi",
+    };
+  }
+
   // ⛔ IL FRENO. Sta dopo la dichiarazione umana (che batte tutto) e prima della chiusura: una
   // prova soddisfatta ma non ammessa NON chiude, e il motivo che esce è lo stesso che il referto
   // stampa già — così chi legge il rifiuto e chi legge il conto leggono la stessa frase.

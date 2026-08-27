@@ -9,6 +9,11 @@
 // diventare un test che può fallire — se qualcuno rimette il divieto sul vocabolario, qui si spacca.
 
 import assert from "node:assert/strict";
+import { spawnSync } from "node:child_process";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   BLOCCHI,
   COPERTURA,
@@ -26,6 +31,8 @@ import {
   messaggiDiNicola,
   PAROLE_MACCHINA,
 } from "../si-capisce.mjs";
+
+const QUI = dirname(fileURLToPath(import.meta.url));
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -45,6 +52,69 @@ const glossario = new Set(["cancello", "guardiano", "sensore", "freno", "tetto",
 prova("una parola della macchina che sta nel glossario passa: Nicola la sta studiando", () => {
   const t = "Il cancello ha bloccato il lavoro e il guardiano ha segnalato il sensore spento.";
   assert.deepEqual(tipi(t, { noteAGlossario: glossario }), [], "parole studiabili: non si toccano");
+});
+
+prova("AR-854: senza glossario NON accuso nessuna parola — dichiaro che non ho misurato", () => {
+  // Il difetto vero, misurato il 27/8 sullo stesso identico testo: lanciato dalla radice del repo
+  // il misuratore diceva «✅ si capisce», lanciato da un'altra cartella diceva «❌ 2 punti che
+  // costringono Nicola a rileggere» — e le due parole accusate stanno nel glossario da agosto.
+  // La colpa era di un `?.`: senza elenco l'espressione vale `undefined`, cioè «non è nel
+  // glossario», e ogni parola della macchina diventava un problema.
+  //
+  // È il ⚪ letto come ❌, sullo strumento che si lancia PRIMA di ogni consegna. Un misuratore che
+  // accusa quando non ha misurato si impara a ignorarlo: è il modo in cui muore un freno.
+  const t = "Il cancello ha bloccato il lavoro e il guardiano ha segnalato il sensore spento.";
+  const cieco = misura(t, { noteAGlossario: null });
+  assert.deepEqual(
+    cieco.problemi.filter((x) => x.tipo === "parola-mia"),
+    [],
+    "senza glossario accusa lo stesso: il ⚪ è diventato un ❌",
+  );
+  assert.equal(cieco.glossarioCieco, true, "non ha misurato e non lo segna: un cieco muto è peggio di un cieco che parla");
+});
+
+prova("AR-854: col glossario in mano il controllo torna a mordere — non l'ho spento, l'ho reso onesto", () => {
+  // Il verso opposto, o la cura sarebbe «non accusare mai»: con l'elenco vero le parole fuori
+  // devono ancora uscire, e quelle dentro devono ancora passare.
+  const fuori = "Il potatore ha ridotto l archivio e la spazzata non ha trovato fratelli.";
+  assert.equal(misura(fuori, { noteAGlossario: glossario }).problemi.filter((x) => x.tipo === "parola-mia").length, 2);
+  const dentro = "Il cancello ha bloccato il lavoro e il guardiano ha segnalato il sensore spento.";
+  assert.deepEqual(misura(dentro, { noteAGlossario: glossario }).problemi.filter((x) => x.tipo === "parola-mia"), []);
+  assert.equal(misura(dentro, { noteAGlossario: glossario }).glossarioCieco, false, "si dichiara cieco col glossario in mano");
+});
+
+prova("AR-854: il COMANDO dichiara la cecità — provato lanciandolo, non leggendolo", () => {
+  // La malattia di casa, ripresa sul mio stesso fix: la regola sta in una funzione pura con i suoi
+  // casi, e la RIGA CHE LA STAMPA non la prova nessuno. Verificato spegnendola a mano: il file di
+  // prova restava tutto verde. Quindi qui il comando si LANCIA, con una radice in cui il glossario
+  // non c'è, e si guarda cosa esce.
+  const dir = mkdtempSync(join(tmpdir(), "si-capisce-cieco-"));
+  const testo = join(dir, "bozza.md");
+  writeFileSync(testo, "In parole semplici. Il cancello ha fermato il lavoro.\n\nCosa cambia per te. Niente.\n");
+  const r = spawnSync(process.execPath, [join(QUI, "..", "si-capisce.mjs"), testo], {
+    encoding: "utf8",
+    env: { ...process.env, RADICE_REPO: dir },
+  });
+  const uscita = `${r.stdout || ""}${r.stderr || ""}`;
+  assert.match(uscita, /non ho letto il glossario/, `il comando non dichiara di essere cieco:\n${uscita.slice(0, 400)}`);
+  assert.ok(!/parole mie, fuori dal glossario/.test(uscita), "cieco e accusa lo stesso");
+  rmSync(dir, { recursive: true, force: true });
+});
+
+prova("AR-854: col glossario raggiungibile il comando NON dichiara nessuna cecità", () => {
+  // Il verso opposto: un comando che si dichiara cieco sempre è un ⚪ che nessuno legge più.
+  const dir = mkdtempSync(join(tmpdir(), "si-capisce-vede-"));
+  mkdirSync(join(dir, "MyCity-Vault", "90-Memoria-AI"), { recursive: true });
+  writeFileSync(join(dir, "MyCity-Vault", "90-Memoria-AI", "GLOSSARIO.md"), "# Glossario\n\n### Cancello\nL'esame prima di uscire.\n");
+  const testo = join(dir, "bozza.md");
+  writeFileSync(testo, "In parole semplici. Il cancello ha fermato il lavoro.\n\nCosa cambia per te. Niente.\n");
+  const r = spawnSync(process.execPath, [join(QUI, "..", "si-capisce.mjs"), testo], {
+    encoding: "utf8",
+    env: { ...process.env, RADICE_REPO: dir },
+  });
+  const uscita = `${r.stdout || ""}${r.stderr || ""}`;
+  assert.ok(!/non ho letto il glossario/.test(uscita), `si dichiara cieco col glossario in mano:\n${uscita.slice(0, 400)}`);
+  rmSync(dir, { recursive: true, force: true });
 });
 
 prova("una parola inventata da me, fuori dal glossario, viene bocciata", () => {
@@ -133,9 +203,17 @@ prova("un anno non è un numero senza metro", () => {
 });
 
 prova("senza glossario lo strumento non inventa né un verde né un rosso", () => {
-  // noteAGlossario null = cieco: nessuna parola viene accusata di essere fuori dal glossario.
-  const p = misura("Il potatore ha fatto la spazzata.", { noteAGlossario: null }).problemi;
-  assert.equal(p.filter((x) => x.tipo === "parola-mia").length, 2, "senza glossario tutto è da spiegare");
+  // ⚠️ 27/8 · AR-854 — IL TITOLO E IL CORPO DICEVANO DUE COSE OPPOSTE, e il titolo era quello
+  // giusto. Il corpo pretendeva DUE accuse («senza glossario tutto è da spiegare»), cioè esattamente
+  // «invento un rosso»: la frase che il nome del caso promette di impedire. Nessuno se n'è accorto
+  // perché il nome si legge e il corpo no.
+  //
+  // Adesso il caso misura quello che dichiara: cieco vuol dire che non accuso, e che LO DICO.
+  const m = misura("Il potatore ha fatto la spazzata.", { noteAGlossario: null });
+  assert.deepEqual(m.problemi.filter((x) => x.tipo === "parola-mia"), [], "cieco e accusa lo stesso: è un rosso inventato");
+  assert.equal(m.glossarioCieco, true, "non ha misurato e non lo segna: chi legge non può saperlo");
+  // E col glossario in mano il campo si spegne, o direbbe «cieco» sempre.
+  assert.equal(misura("Il potatore ha fatto la spazzata.", { noteAGlossario: glossario }).glossarioCieco, false);
 });
 
 prova("il voto di difficoltà confronta testi di lunghezza diversa", () => {

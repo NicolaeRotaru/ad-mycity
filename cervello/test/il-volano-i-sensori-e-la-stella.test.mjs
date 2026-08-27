@@ -28,7 +28,8 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -116,9 +117,26 @@ test("AR-050 · «attive» e «vive» non sono più sinonimi a caso, e il conto 
 });
 
 test("AR-051 · il tasso di applicazione è CALCOLATO, non scritto a mano", () => {
-  const src = leggi("cervello/tasso-lezioni.mjs");
-  assert.match(src, /tasso_applicazione/, "deve esistere chi lo calcola");
-  const dati = json("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
+  // Prima questo caso leggeva il file GIÀ SCRITTO e cercava una parola nel sorgente. Nessuna delle
+  // due cose poteva fallire: togliendo dal codice la riga che scrive l'istante, il file su disco lo
+  // conteneva lo stesso — restava il numero di ieri. Adesso il comando VERO gira su una copia sua
+  // (`TASSO_LEZIONI_VAULT`, lo stesso idioma di COSTO_AI_FILE) e si guarda cosa ha scritto lui.
+  const dir = mkdtempSync(join(tmpdir(), "tasso-lezioni-"));
+  mkdirSync(join(dir, "auto-coscienza"), { recursive: true });
+  // La copia parte SENZA i tre campi: se restassero, il caso resterebbe verde anche con il
+  // produttore rotto — leggerebbe il valore di ieri invece di quello appena calcolato. È il motivo
+  // per cui prima non mordeva.
+  const partenza = JSON.parse(
+    readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"), "utf8"),
+  );
+  for (const k of ["tasso_applicazione", "tasso_calcolato_il", "tasso_finestra_giorni"]) delete partenza.meta?.[k];
+  writeFileSync(join(dir, "auto-coscienza/apprendimento.json"), JSON.stringify(partenza), "utf8");
+  spawnSync("node", ["cervello/tasso-lezioni.mjs"], {
+    cwd: REPO,
+    env: { ...process.env, TASSO_LEZIONI_VAULT: dir },
+    encoding: "utf8",
+  });
+  const dati = JSON.parse(readFileSync(join(dir, "auto-coscienza/apprendimento.json"), "utf8"));
   assert.ok(Number.isFinite(dati.meta.tasso_applicazione), "il numero dev'esserci…");
   assert.ok(dati.meta.tasso_calcolato_il, "…con l'istante in cui è stato calcolato, o è di nuovo un'opinione");
   assert.ok(Number.isFinite(dati.meta.tasso_finestra_giorni), "e con la finestra su cui è stato misurato");
@@ -150,9 +168,14 @@ test("AR-055 · le proposte di auto-riscrittura hanno uno stato, quindi possono 
 
 // ── I SENSORI ────────────────────────────────────────────────────────────────────────────────────
 
-test("AR-067 · esiste un sensore che dice se il sito è irraggiungibile", () => {
+test("AR-067 · esiste un sensore che dice se il sito è irraggiungibile", async () => {
+  // Prima questo caso cercava la parola `sito_uptime` nel testo del file. Non poteva fallire: quel
+  // nome lì dentro compare cinque volte, quindi togliere la riga che DICHIARA il sensore lo lasciava
+  // verde. Adesso la mappa si importa e si guarda: se il sensore non è dichiarato, non c'è.
+  const { SENSOR_CLASSE } = await import(join(REPO, "cervello/verifica-sensori.mjs"));
+  assert.ok(Object.hasOwn(SENSOR_CLASSE, "sito_uptime"), "era il buco: se il marketplace è giù, la macchina è cieca sugli ordini");
+  assert.equal(SENSOR_CLASSE.sito_uptime, "uptime", "dichiarato con la classe sbagliata: finirebbe fra i sensori di dati");
   const src = leggi("cervello/verifica-sensori.mjs");
-  assert.match(src, /sito_uptime/, "era il buco: se il marketplace è giù, la macchina è cieca sugli ordini");
   assert.match(src, /MARKETPLACE_SITE_URL/, "e deve bussare a un indirizzo vero, non a una costante");
 });
 
@@ -182,11 +205,29 @@ test("uno spento si legge come SPENTO, mai come verde (il buco di AR-070 resta a
     "se un giorno arriva davvero, questa riga cade e AR-070 va richiuso con la sua prova vera");
 });
 
-test("AR-071 · la puntualità delle consegne ha il suo sensore, ed è la promessa del modello", () => {
+test("AR-071 · la puntualità delle consegne ha il suo sensore, ed è la promessa del modello", async () => {
+  // Prima questo caso cercava tre parole nel sorgente di `sentinella-dati.mjs`. Lì dentro il nome
+  // del sensore compare sette volte, quindi la mutazione che lo spegneva ne cambiava una e il caso
+  // restava verde. Adesso la domanda al database la COSTRUISCE una funzione pura, e qui si esegue.
+  const { queryOrdiniInRitardo, SENSORE_RITARDO } = await import(join(REPO, "cervello/ordini-in-ritardo.mjs"));
+  const q = queryOrdiniInRitardo("2026-08-26T23:00:00.000Z");
+
+  // Servono TUTTE E DUE le condizioni: solo la prima conterebbe anche gli ordini consegnati in
+  // tempo ieri, solo la seconda quelli che devono ancora arrivare e sono in orario.
+  assert.match(q, /expected_delivery=lt\.2026-08-26T23:00:00\.000Z/, "lo slot dev'essere già passato");
+  assert.match(q, /delivered_at=is\.null/, "e la consegna non ancora avvenuta");
+  assert.match(q, /^orders\?/, "si guardano gli ordini, non un'altra tabella");
+  assert.equal(SENSORE_RITARDO, "ordini_slot_scaduto", "il nome del sensore ha una casa sola");
+
+  // Un istante storto NON entra in una query: una `&` aggiungerebbe un parametro alla domanda, e il
+  // sensore conterebbe un'altra cosa credendo di contare i ritardi.
+  for (const storto of ["", "   ", "ieri", "2026-08-26", "2026-08-26T23:00:00.000Z&limit=1"]) {
+    assert.throws(() => queryOrdiniInRitardo(storto), `«${storto}» è finito dentro la query`);
+  }
+
+  // E il sensore la usa davvero: la chiamata, non il nome.
   const src = leggi("cervello/sentinella-dati.mjs");
-  assert.match(src, /ordini_slot_scaduto/, "un ordine oltre lo slot promesso dev'essere un numero");
-  assert.match(src, /expected_delivery=lt\./, "misurato sul dato vero: slot passato e consegna non avvenuta");
-  assert.match(src, /delivered_at=is\.null/);
+  assert.match(src, /queryOrdiniInRitardo\(/, "il sensore deve chiedere la domanda a chi la sa costruire");
 });
 
 test("AR-068 · ogni rischio di compliance ha un owner, e vive in una casa sola", () => {
@@ -216,13 +257,15 @@ test("AR-080 · la North Star è un motore che gira e dà un numero, non prosa i
   assert.match(out, /Fonte del numero/, "…e con la sua fonte, o è un numero orfano");
 });
 
-test("AR-079 · il silo di allocazione è misurato a ogni giro, non solo constatato", () => {
-  const giro = leggi("cervello/giro.sh");
-  assert.match(giro, /allocazione-check\.mjs/, "era conclamato e mai corretto: adesso è un guardiano");
-  assert.match(giro, /_alloc_rc=\$\?/, "e il suo verdetto viene RACCOLTO, non buttato in una pipe");
-});
-
-test("AR-081 · il verdetto dell'allocazione diventa un vincolo per il motore, non un avviso", () => {
-  const giro = leggi("cervello/giro.sh");
-  assert.match(giro, /ALLOC_VINCOLO/, "senza vincolo il pre-mortem resta un rituale che si può saltare");
-});
+// AR-079 e AR-081 — il silo di allocazione misurato a ogni giro, e il suo verdetto che diventa un
+// vincolo per il motore — stavano qui come due ricerche di parole dentro `giro.sh`, e nessuna delle
+// due poteva diventare rossa:
+//   · AR-079 cercava `_alloc_rc=$?`, cioè un idioma. Cambiare idioma la rompeva anche MIGLIORANDO il
+//     codice, e togliere il vincolo la lasciava verde: guardava la forma, non l'effetto.
+//   · AR-081 cercava `ALLOC_VINCOLO`, che in `giro.sh` compare cinque volte. La mutazione registrata
+//     per rimettere il difetto ne rinominava una in `ALLOC_VINCOLO_SPENTO` — che contiene ancora,
+//     lettera per lettera, la parola cercata.
+// Le due prove sono state SOSTITUITE, non tolte: adesso vivono in
+// `cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs`, che ritaglia da `giro.sh` i tratti
+// veri, li esegue con un guardiano finto a 0/1/2 e guarda il prompt che arriva al motore. Da 2 casi
+// che non potevano fallire a 15 che si eseguono (27/8, AR-840).

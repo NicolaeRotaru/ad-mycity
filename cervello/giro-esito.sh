@@ -135,6 +135,50 @@ aggiungi_vincolo() {
 # aveva, lui per primo, l'allarme staccato — e per settimane nessuno se n'è accorto perché nel giro il
 # modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sta in due
 # caratteri. Qui la differenza diventa il NOME della funzione che chiami.
+# vedeva un guardiano «passato» che in realtà era esploso alla prima riga.
+# Questo filtro tiene: la PRIMA riga (il verdetto), fino a 2 righe di errore ovunque siano, e la coda.
+# Uso: <comando> 2>&1 | esito_righe 4
+esito_righe() {
+  local n="${1:-4}"
+  awk -v n="$n" '
+    { L[NR] = $0 }
+    END {
+      if (NR == 0) exit
+      if (NR <= n) { for (i = 1; i <= NR; i++) print L[i]; exit }
+      print L[1]
+      err = 0
+      for (i = 2; i <= NR - n + 1 && err < 2; i++) {
+        if (L[i] ~ /(Error|ERRORE|Errore|Traceback|⛔|❌)/) { print L[i]; err++ }
+      }
+      print "   …"
+      for (i = NR - n + 2; i <= NR; i++) print L[i]
+    }'
+}
+
+# sensore <script> <righe> [args...]
+#
+# AR-859 — per gli attrezzi che NON sono cancelli. `guardiano()` non va bene per loro: marca un
+# «freno scattato» a ogni uscita diversa da zero, e questi escono 1 tutti i giorni per ragioni
+# legittime (il Bilancio Vivo dice 1 finche' il margine realizzato e' zero, che oggi e' la verita').
+# Marcarli come freni riempirebbe di rumore il conto delle lezioni usate.
+#
+# Ma il 2 e' un'altra cosa, ed e' il motivo per cui questa funzione esiste: da oggi questi attrezzi
+# sanno dire «non ho potuto misurare», e finche' li si lancia dentro una pipe quel ⚪ non lo sente
+# nessuno. La pipe restituisce l'uscita dell'ULTIMO comando, che va sempre bene.
+#
+# Quindi: l'esito si cattura PRIMA di stampare, le righe si stampano lo stesso, e sul 2 si grida.
+# Niente vincolo hard: un sensore cieco non deve fermare il giro, deve smettere di essere invisibile.
+sensore() {
+  local _script="$1" _righe="${2:-3}"; shift 2 || shift
+  local _out _rc
+  _out="$(node "${SCRIPT_DIR:-.}/$_script" "$@" 2>&1)"; _rc=$?
+  printf '%s\n' "$_out" | esito_righe "$_righe"
+  if [ "$_rc" -eq 2 ]; then
+    printf '⚪ %s non ha potuto misurare (rc=2). Un ⚪ non vale un verde: ripara lo strumento prima di fidarti di questo giro.\n' "$_script" >&2
+  fi
+  return "$_rc"
+}
+
 guardiano() {
   local _script="$1"; shift
   GUARDIANO_OUT="$(node "${SCRIPT_DIR:-.}/$_script" "$@" 2>&1)"; GUARDIANO_RC=$?

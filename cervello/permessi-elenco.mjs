@@ -105,14 +105,30 @@ function fileDi(relDir) {
  */
 function dentroIlCervello(grezzo) {
   let s = String(grezzo).replace(/^["']/, "");
-  // PRIMA occorrenza, non l'ultima: con `lastIndexOf` un percorso come
-  // `/opt/mycity/ad-mycity/cervello/vps/collega-claude.sh` perdeva il segmento `vps/`, e i tre
-  // script che stanno lì dentro risultavano «nominati ma non esistono» mentre esistono eccome.
+  // PRIMA occorrenza, non l'ultima.
+  //
+  // ⚠️ 27/8 — QUI SOPRA C'ERA UNA SPIEGAZIONE FALSA, e la correggo invece di lasciarla. Diceva che
+  // con `lastIndexOf` un percorso come `/opt/mycity/ad-mycity/cervello/vps/collega-claude.sh`
+  // perdeva il segmento `vps/`. Non è vero: lì «cervello/» compare UNA volta sola, quindi le due
+  // funzioni danno lo stesso indice. Misurato sui lanci veri dell'elenco: **zero** contengono
+  // «cervello/» più di una volta, quindi oggi la scelta non cambia nessun risultato.
+  //
+  // Resta la scelta giusta lo stesso, e per un motivo che si può dire senza inventare: un percorso
+  // annidato — `$REPO/cervello/test/cervello/x.mjs` — con `lastIndexOf` perderebbe `test/cervello/`
+  // e il file risulterebbe «nominato ma non esiste» mentre esiste. È un caso che oggi non capita, e
+  // la prova che lo tiene fermo lo dice: è costruito, non pescato dai dati.
   const i = s.indexOf("cervello/");
   if (i >= 0) s = s.slice(i + "cervello/".length);
   else s = s.replace(/^\.\//, "").replace(/^\$\{?SCRIPT_DIR\}?\//, "");
   // Un percorso che continua a uscire dalla cartella non lo copre questo elenco.
-  if (!s || s.startsWith("..") || s.startsWith("/") || s.includes("$")) return null;
+  //
+  // ⚠️ 27/8, AR-846 — QUESTO CONTROLLO GUARDAVA SOLO L'INIZIO. `startsWith("..")` fermava
+  // `../fuori.mjs`, e lasciava passare `cervello/a/../../../etc/passwd.mjs`, che dopo il taglio
+  // diventa `a/../../../etc/passwd.mjs`: un nome che esce dal repo dentro l'elenco dei permessi.
+  // Trovato dalla lente della sicurezza sul perimetro toccato, eseguendo invece di rileggere.
+  // Adesso si guarda OGNI segmento: un `..` in mezzo esce come uno in testa.
+  if (!s || s.startsWith("/") || s.includes("$")) return null;
+  if (s.split("/").some((pezzo) => pezzo === "..")) return null;
   return s;
 }
 

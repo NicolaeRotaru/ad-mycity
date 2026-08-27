@@ -48,6 +48,33 @@ const RADICE = process.env.PROVE_DIFETTI_RADICE || AD_ROOT;
 const APERTO = { riparato: false };
 const RIPARATO = { riparato: true };
 
+/**
+ * IL VERDETTO SULL'ALLERTA (AR-365), a partire da quello che la sonda ha detto.
+ *
+ * 27/8, AR-840 — perché è una funzione e non più cinque `if` dentro il rilevatore. Il ramo che
+ * conta di più è l'ULTIMO: quando mancano le chiavi della memoria il modulo dell'allerta si spegne
+ * prima di rispondere, e il rilevatore deve dire «non ho misurato» invece di inventarsi un verdetto.
+ * La mutazione che rimette lì un ✅ lasciava la prova VERDE — non perché la prova fosse debole, ma
+ * perché **in questa sessione quel ramo non lo prende nessuno**: la sonda trova il difetto tre righe
+ * sopra ed esce. Un ramo che l'ambiente non percorre non lo prova nessuno, e resta l'unico posto
+ * dove un ⚪ può diventare un ✅ senza che se ne accorga niente.
+ *
+ * Da fuori si può interrogare con tutte e sei le uscite della sonda, che è il punto.
+ */
+export function verdettoAllerta(t = "") {
+  const testo = String(t ?? "");
+  if (testo.includes("ASSENTE")) return { ...APERTO, detto: "non esiste nessuna `consegnaAllerta` da esercitare: l'allerta esce da un canale solo e non riporta a chi è arrivata" };
+  if (testo.includes("ESPLODE:")) return { ...APERTO, detto: `consegnaAllerta esiste ma esplode senza canali configurati (${testo.split("ESPLODE:")[1].trim().slice(0, 90)}): un'allerta che muore non è un'allerta` };
+  if (testo.includes("SENZA-ELENCO")) return { ...APERTO, detto: "consegnaAllerta non ritorna l'elenco dei canali raggiunti: chi la chiama non può sapere se l'allerta è partita" };
+  const m = testo.match(/ELENCO:(\d+)/);
+  if (m) return { ...RIPARATO, detto: `consegnaAllerta risponde con l'elenco dei canali raggiunti (senza canali configurati: ${m[1]})` };
+  // Il modulo si spegne da solo quando mancano le chiavi della memoria: da una sessione senza .env
+  // la sua consegna non è esercitabile. È un ⚪ onesto — sul server, dove le chiavi ci sono, questa
+  // prova misura davvero.
+  if (/no-op|SUPABASE_URL/.test(testo)) return { cieco: "da qui non posso esercitarla: senza le chiavi della memoria sentinella-dati si spegne prima di rispondere. Sul server la prova misura" };
+  return { cieco: `la sonda non ha detto niente di leggibile: ${testo.trim().slice(0, 120) || "(uscita vuota)"}` };
+}
+
 /** Una cartella usa-e-getta dove far girare le prove che scrivono. */
 function sandbox(nome) {
   return mkdtempSync(join(tmpdir(), `prova-${nome}-`));
@@ -472,17 +499,7 @@ const PROVE = {
       delete senzaCanali.TELEGRAM_CHAT_ID;
       const r = spawnSync("node", [sonda], { cwd: AD_ROOT, encoding: "utf8", timeout: 60_000, env: senzaCanali });
       if (r.error) return { cieco: `non ho potuto eseguire la sonda: ${r.error.message}` };
-      const t = `${r.stdout || ""}`;
-      if (t.includes("ASSENTE")) return { ...APERTO, detto: "non esiste nessuna `consegnaAllerta` da esercitare: l'allerta esce da un canale solo e non riporta a chi è arrivata" };
-      if (t.includes("ESPLODE:")) return { ...APERTO, detto: `consegnaAllerta esiste ma esplode senza canali configurati (${t.split("ESPLODE:")[1].trim().slice(0, 90)}): un'allerta che muore non è un'allerta` };
-      if (t.includes("SENZA-ELENCO")) return { ...APERTO, detto: "consegnaAllerta non ritorna l'elenco dei canali raggiunti: chi la chiama non può sapere se l'allerta è partita" };
-      const m = t.match(/ELENCO:(\d+)/);
-      if (m) return { ...RIPARATO, detto: `consegnaAllerta risponde con l'elenco dei canali raggiunti (senza canali configurati: ${m[1]})` };
-      // Il modulo si spegne da solo quando mancano le chiavi della memoria: da una sessione senza
-      // .env la sua consegna non è esercitabile. È un ⚪ onesto — sul server, dove le chiavi ci sono,
-      // questa prova misura davvero.
-      if (/no-op|SUPABASE_URL/.test(t)) return { cieco: "da qui non posso esercitarla: senza le chiavi della memoria sentinella-dati si spegne prima di rispondere. Sul server la prova misura" };
-      return { cieco: `la sonda non ha detto niente di leggibile: ${t.trim().slice(0, 120) || "(uscita vuota)"}` };
+      return verdettoAllerta(`${r.stdout || ""}`);
     },
   },
 

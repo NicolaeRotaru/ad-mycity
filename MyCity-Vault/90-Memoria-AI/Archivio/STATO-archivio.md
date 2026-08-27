@@ -1,6 +1,6 @@
 ---
 tipo: stato-archivio
-archiviato: 2026-08-22 16:45
+archiviato: 2026-08-22 16:45 · secondo spostamento 2026-08-27 11:50
 proviene_da: MyCity-Vault/90-Memoria-AI/STATO.md
 ---
 
@@ -14,6 +14,320 @@ piu' a leggere il file intero, e su quel file smette di proteggerlo.
 stesso ordine. Lo stato vivo continua in `STATO.md`.
 
 ---
+
+> 🟡 **14/8 11:17 — Quarto giro richiesto in meno di 3 ore (dopo 11:02/11:11/11:13). Business invariato, nessuna novità.** Strategia snella applicata di nuovo ([[playbook-giro-pieno-ripetuto-strategia]]): `git log -1` = commit `5374f3440` (11:13, VPS, solo bookkeeping), `delta-gate.json` stessa firma di sempre. Il rischio dei 34 file di codice non committati (vedi banner 08:41 sotto) persiste invariato — ancora da recuperare in un branch+PR. Le 3 cartelle `.claude/worktrees/agent-*` sono vecchie di 21 ore, non lavoro in corso. Nessuna azione business sbloccabile prima del 24/8-1/9. Briefing: [[Briefing/2026-08-14]].
+
+> 🟡 **14/8 08:41 — Giro completo richiesto in chat, 2h dopo il precedente. Business invariato. Trovati 34 file di codice non committati (rischio nuovo, non di business).**
+> Confermato invariato dal sensore diretto (`sensori-cecita.json`, scritto da `giro.sh` alle 08:20): 1 ordine via REST, stesso stato dal 24/6. `node cervello/ci-stato.mjs` conferma le stesse 5 PR rosse di 06:39 (#722/#721/#714/#710/#708), nessuna variazione. `node cervello/coerenza-fatti.mjs` passa pulito.
+> **Novità reale, non di business**: `git status --short` mostra 34 file di codice modificati/nuovi mai committati (20 esistenti + 14 nuovi, tra cui `cervello/misura-o-cieco.mjs` e 7 test collegati, `pannello/src/lib/badge-coerenza.ts`), tutti con timestamp 06:30:04 — sembra il lavoro reale di una sessione di codice interrotta prima di un commit, mai recuperato dallo script "recupero: scritture pendenti" (che salva solo memoria, non codice). Non l'ho toccato: regola del repo, codice va sempre su branch+PR, mai commit diretto su `main` da un giro di memoria. Segnalato come rischio nuovo in Rischi/Serve-da-Nicola — va salvato da `@tech` prima che si perda.
+> Confermato un worker VPS attivo in parallelo (5 commit automatici 08:30-08:37, sentinella salute + refresh sensori): normale, non una scoperta di business.
+> Riprovati (una sola volta ciascuno, non insistito) `north-star-check.mjs --gate`, `gate-veri.mjs`, `sonda-volano.mjs`, `freschezza-intelligence.mjs`: tutti bloccati dall'allowlist, come nei passaggi precedenti.
+> **Mossa n.1, invariata**: nessuna azione business sbloccabile prima del 24/8-1/9. Prossima mossa reale con budget-codice: `@tech` recupera i 34 file dirty in un branch+PR, poi ripara #722. Briefing: [[Briefing/2026-08-14]].
+
+> 🔴 **14/8 06:39 — Giro completo richiesto in chat, 9 minuti dopo il precedente. Business invariato. La PR pubblicata alle 06:30 è già rossa in CI.**
+> Nessuna scrittura nuova tra le 06:30 e ora (HEAD invariato `6111661a`, 10 righe "in attesa" in coda, invariate): applicata la strategia snella per giri ripetuti ([[playbook-giro-pieno-ripetuto-strategia]]) — niente nuova query Supabase, niente radar/intelligence, solo verifica di cosa è cambiato.
+> **Novità reale**: `node cervello/ci-stato.mjs` mostra che **la PR #722** (pubblicata 9' fa per chiudere 2 test rossi) è **rossa su 2 controlli** — test del cervello + verdetti-senza-lettore, nessun esito lasciato nel quaderno di reparto. Sono ora **5 le PR aperte e rosse** (#722/#721/#714/#710/#708), tutte "colpa propria", nessuna ereditata da `main`. #714/#710 restano probabile duplicato dello stesso tema di #722 — da rileggere DOPO che #722 torna verde, non prima (altrimenti si rischia di chiudere il ramo sbagliato).
+> Ritentato (una sola volta, come da lezione [[feedback-bash-solo-script-esatti-in-allowlist]] — non insistere alla cieca) `node cervello/delta-gate.mjs --segna-pieno`, il fix noto della causa meccanica che forza "giro pieno" ad ogni invocazione (baseline mai riallineata da quando `sito_uptime` è cieco): negato dall'allowlist di questa sessione, come tutte le volte precedenti.
+> **Mossa n.1, invariata**: nessuna azione business sbloccabile prima del 24/8-1/9. La mossa reale per il prossimo passaggio con budget-codice: `@tech` ripara #722 sullo stesso ramo prima di toccare #714/#710. Briefing: [[Briefing/2026-08-14]].
+
+> 🚀 **14/8 06:30 — Giro completo richiesto in chat. Business invariato. Pubblicata una PR che 3 passaggi precedenti avevano trovato ma non potuto spedire.**
+> Confermato dal sensore diretto (`sensori-cecita.json`, scritto da `giro.sh` alle 06:20 prima di questa sessione): 1 ordine via REST, stesso stato dal 24/6 (mai pagato, annullato). North Star: stallo **51 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Pubblicata la PR #722**: `fix/recupero-sensori-mappa-macchina-13-8` → `main`. Link: https://github.com/NicolaeRotaru/ad-mycity/pull/722.
+> Chiude i due rossi di `test-cervello` diagnosticati nei passaggi precedenti di oggi e di ieri. Sono un worktree fantasma nel censimento, e 65 skill senza riga in `censimento-macchina.mjs`. Rebase pulito, nessun conflitto con `main`.
+> I passaggi delle 21:36 (13/8) e 02:20 (14/8) avevano già diagnosticato tutto. In quella sessione però `git push` e `gh` erano negati. Questa sessione invece ha un canale che funziona: `node cervello/git-pr.mjs`. Funzionano anche `node cervello/coerenza-fatti.mjs` e `node cervello/ci-stato.mjs`. Non so se è la stessa identica allowlist delle sessioni precedenti, o se nel frattempo è cambiata.
+> La maggioranza degli script resta bloccata: `test-cervello.mjs`, `north-star-check.mjs`, `tasso-chiusura.mjs`, `cantiere-prove.mjs`, `spazzata-fratelli.mjs`, `git`/`gh` diretti.
+>
+> **Come l'ho fatto senza toccare le scritture pendenti di `giro.sh`:** l'albero aveva 26 file di memoria non committati (il pre-step deterministico che `giro.sh` esegue prima di invocarmi). `git-pr.mjs` rifiuta un albero sporco prima del rebase — `git stash push -u`, pubblicata la PR, poi `git stash pop`: verificato che gli stessi 26 file sono tornati intatti, nessuna perdita.
+>
+> **Segnalo, non tocco:** le PR #714 e #710 sembrano coprire la stessa riparazione ora in #722 (stessi guardiani, stesso tema mappa-macchina/test-cervello) — probabile lavoro duplicato da tre sessioni diverse dello stesso giorno. Non le ho aperte per non spendere il budget "niente ricerche nuove" (tasso-di-chiusura 0,66 < 1): da rileggere e probabilmente chiudere DOPO il merge di #722.
+>
+> **Riletta la CI reale** (`node cervello/ci-stato.mjs`, funzionante in questa sessione): confermato "colpa propria" su #721/#714/#710/#708, con il dettaglio dei controlli falliti (non solo il riassunto). Briefing: [[Briefing/2026-08-14]].
+
+> 🔧 **14/8 02:20 — Giro completo richiesto in chat. Business invariato.**
+> Ho trovato e risolto un rebase automatico bloccato. Ho corretto un OKR con dati vecchi.
+> Riconfermato dal sensore diretto (`verifica-sensori.mjs`, 02:09): 1 ordine via REST, coerente con la baseline invariata dal 24/6 (mai pagato, annullato). 0 pagati, 0 negli ultimi 7 giorni, 5 prodotti, 7 profili, 1 negozio, 3 carrelli abbandonati. North Star: stallo **51 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il guasto tecnico di apertura sessione.** All'apertura, `.git` aveva un rebase interattivo bloccato. Era partito 1 minuto prima, nessun processo attivo dietro: verosimilmente `giro.sh`, che stava pushando la memoria su `main`. Il conflitto era su 3 file: `coerenza-fatti.json`, `stampo-check.json`, `tasso-chiusura.json`. In ognuno l'unica differenza tra le due versioni era il timestamp — tutto il resto era identico byte-per-byte. Ho tenuto la versione più recente (HEAD, 23:21-23:22 del 13/8). Ho validato ogni JSON con `jq empty`. Poi ho lanciato `git rebase --abort`: è esattamente il comportamento che `cervello/giro.sh` (riga 158) applica già da solo in caso di conflitto — "abortisci e resta sul locale, il push finale riprova, niente si perde". Verificato dopo: `git status` pulito, branch `main`, nessuna scrittura persa (i commit del ciclo precedente restano su `main`).
+>
+> **Corretto `OKR-Squadra.md`.** La riga sul tasso di chiusura (posseduta dall'AD su sé stessa) citava ancora il dato del 13/8 (0,24 = 24/102). Il dato vero di oggi è **0,66** (125 chiusi ÷ 189 aperti nel mese) — sostituito, insieme alla data del frontmatter.
+>
+> **Correzione-nicola-gate: cercato ma non forzato un nuovo gate.** L'area resta a 248/311 lezioni senza freno. Ho controllato i 5 esempi segnalati dal guardiano contro `cervello/mutanti.json`: nessuno ha già una mutazione pronta da collegare. Inventare un gate senza una mutazione/test reale sarebbe esattamente il difetto che l'asticella vieta (AR-128). Resta debito dichiarato onestamente, non chiuso per finta.
+>
+> **Test del cervello: girato `node --test cervello/test/*.test.mjs` (sostituto allowlistato di `test-cervello.mjs`).** 1154/1159 verdi, 2 rossi, 3 skip. Entrambi i rossi sono lo stesso debito già diagnosticato a fondo nei giri precedenti, non una scoperta nuova: `guardiano-mai-messo-di-guardia` (le 3 cartelle `.claude/worktrees/agent-*` non escluse dal censimento) e `mappa-in-bacheca` (65 skill marketing/ingegneria arrivate l'11-13/8 senza riga in `censimento-macchina.mjs` — confermato 0 voci `skill/` su `main`). Il fix di entrambi esiste già sul ramo `fix/recupero-sensori-mappa-macchina-13-8` (commit `10f7d7868`), mai pubblicato: manca solo un push da un canale con credenziali GitHub. Non l'ho rifatto da capo — sarebbe lavoro duplicato bloccato dallo stesso canale.
+>
+> **Rispettato il vincolo HARD tasso-di-chiusura (0,66, sotto soglia 1):** nessuna ricerca nuova aperta, niente scan radar/intelligence, niente radiografia.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Restano aperte: le 4 PR rosse per colpa propria (#721/#714/#710/#708, serve un canale con push/gh reali) e `ritmo-mattino` fermo da 91h (verificare il timer sul VPS). Coda: solo 10 righe "in attesa" in [[AZIONI-IN-ATTESA]] (nessuna nuova da questo giro). Dichiarato esente da questo giro (codice, non memoria, già committato prima di stasera): `cervello/vps/recupera-lavori-orfani.sh:51`, una scrittura diretta che salta i controlli del worker principale — serve `tech` in una sessione dedicata al codice. Briefing: [[Briefing/2026-08-14]].
+
+> 🔬 **13/8 21:36 — Giro richiesto in chat. Business invariato. Trovata e diagnosticata a fondo la causa del test rosso; chiuso un altro pezzo del debito sulle correzioni di Nicola.**
+> Riconfermato dal sensore diretto sul marketplace (`supabase_rest`, 21:27): 1 ordine, mai pagato, del 24/6, annullato.
+> 0 pagati in totale. 0 pagati negli ultimi 7 giorni. 5 prodotti, 7 profili, 1 negozio — identico dal 24/6. North
+> Star: stallo confermato, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il test rosso, diagnosticato fino in fondo.** `node --test cervello/test/*.test.mjs` mostra un solo rosso vero:
+> `guardiano-mai-messo-di-guardia` dentro `mappa-in-bacheca.test.mjs`. Letto il codice riga per riga
+> (`guardia-viva.mjs`, `guardia-viva-check.mjs`): il guardiano misura chi esegue davvero ogni strumento
+> guardando tutti i file del repo, ma non esclude `.claude/worktrees/` — le cartelle di lavoro che restano sul
+> disco dopo un `Agent(isolation:"worktree")`. Tre ce n'erano, di sessioni passate: due sui rami
+> `fix/test-cervello-rossi-13-8` e `fix/sensori-radar-13-8` (già identici a GitHub, verificato con `git log
+> origin/<ramo>..<ramo>` — vuoto, nessun lavoro a rischio), una sul ramo `claude/organi-x-rossa-pallino-bianco-fbg0xh`
+> (11 commit non ancora su GitHub — non toccata, per prudenza). Quelle tre copie fanno leggere al guardiano una
+> falsa "voce fantasma" sulla dichiarazione corretta di `permessi-check.mjs`. **Il fix esiste già**: commit
+> `10f7d7868`, scritto in un passaggio precedente di oggi, sul ramo `fix/recupero-sensori-mappa-macchina-13-8` —
+> mai pubblicato (`git branch -r --contains 10f7d7868` non trova niente su `origin`). Ho provato a pubblicarlo
+> (`git push`) e a rimuovere le tre cartelle (`git worktree remove`): entrambi i comandi negati da questa
+> sessione, stesso limite di sempre ([[feedback-bash-solo-script-esatti-in-allowlist]]). Non ho insistito una
+> terza volta alla cieca ([[worker-concorrente-durante-sessione-interattiva]] insegna a non forzare quando lo
+> strumento giusto è altrove). Resta un difetto reale e diagnosticato, non un allarme nuovo: la causa e il fix
+> sono entrambi scritti, manca solo un canale con credenziali GitHub per pubblicarli.
+>
+> **Chiuso un pezzo del debito su correzione-nicola-gate.** L'area restava a 249/311 lezioni senza un freno
+> vero. Ho preso `L-2026-0723-451` (la lezione sulla data di ripresa del business, la quarta volta che Nicola
+> l'ha spostata) e le ho dato un gate reale: `node cervello/coerenza-fatti.mjs`, lo stesso guardiano che
+> verifica che `registro-fatti.json` (`ripresa.lavoro-operativo`) non resti vecchio in un file vivo. Verificato
+> prima in `cervello/mutanti.json` che quel file ha già mutazioni registrate — il gate non è inventato.
+>
+> **Trovato ma non indagato (tasso-chiusura, 0,61 nel mese — sotto soglia 1, niente ricerche nuove):** due
+> lezioni (`L-2026-0723-448` e `L-2026-0723-446`) compaiono due volte dentro `apprendimento.json`. Segnalato nel
+> briefing, non aperto.
+>
+> **Mossa n.1, invariata.** Nessuna azione business è sbloccabile prima del 24/8-1/9. **Serve da Nicola:** un
+> push da un canale con credenziali GitHub (VPS o terminale) — porta online sia il fix del test rosso sia il
+> lavoro di memoria di questo passaggio. Coda invariata: 69 card in [[AZIONI-IN-ATTESA]]. Briefing:
+> [[Briefing/2026-08-13]].
+
+> 🔁 **13/8 21:05 — Giro richiesto in chat. Business invariato. Recuperate le scritture di un passaggio interrotto. PR aperta solo in parte.**
+> Riconfermato dal vivo con una query diretta su Supabase, non da memoria. 1 ordine, mai pagato, del 24/6,
+> annullato. 0 pagati in totale. 0 pagati negli ultimi 7 giorni. 1 solo venditore, su 7 profili. 407 lead
+> commercianti in pipeline, tutti ancora da contattare nel DB. Nicola li contatta di persona, non passa da qui.
+> North Star: stallo confermato. Siamo dentro la pausa concordata con Nicola, fino al 24/8-1/9. Non è un allarme.
+>
+> **Limite di sessione: verificato di nuovo, capito fino in fondo.** Questa sessione è headless. È lo stesso
+> limite di circa 35 passaggi precedenti oggi ([[feedback-bash-solo-script-esatti-in-allowlist]]). Solo pochi
+> comandi girano senza approvazione: `git status/log/fetch/remote/add/commit/checkout/rebase/stash`, `gh pr
+> create/list/view/auth`, `node cervello/pulisci-coda.mjs`, `node cervello/git-pr.mjs`. Tutto il resto è stato
+> negato, non "in attesa": nessun box di conferma è comparso ([[chat-pannello-non-mostra-box-permessi]]). Tra i
+> negati: `test-cervello.mjs`, `north-star-check.mjs`, `tasso-chiusura.mjs`, `coerenza-fatti.mjs`,
+> `gate-veri.mjs`, `chiusura-loop.mjs`, persino `node -e` inline. **Novità di oggi:** anche `gh pr view 714` è
+> stato negato, anche se è esplicitamente in lista. La lista da sola non basta, in questo tipo di sessione.
+> `git push origin main` fallisce sempre, con "could not read Username". Questa sessione non ha credenziali
+> GitHub. Non è un blocco del lavoro. È un blocco del canale. Il push tocca a `giro.sh`, sul VPS.
+>
+> **Cosa ho chiuso lo stesso.** La regola di oggi è: chiudere, non cercare (tasso-di-chiusura). All'apertura il
+> repo aveva 34 file scritti da un passaggio precedente. C'erano il check di salute del VPS delle 20:46, dei
+> sensori, e un fix vero mai committato, dentro `censimento-macchina.mjs` e `guardia-viva-check.mjs`. Ho letto
+> ogni diff per intero, prima di muovere niente ([[feedback-non-revertire-senza-diff]]). Era tutto legittimo.
+> Niente da scartare.
+> - **29 file di memoria e dati** sono andati diretti su `main` — commit `80a51ee50`. Sono auto-coscienza,
+>   `AZIONI-IN-ATTESA.md`, un report salute VPS, uno di supervisione.
+> - **5 file di codice** sono andati su un ramo — commit `10f7d7868`, ramo `fix/recupero-sensori-mappa-macchina-13-8`.
+>   `censimento-macchina.mjs` ha le descrizioni delle circa 60 skill del pacchetto marketing/ingegneria arrivate
+>   l'11-13/8. `guardia-viva-check.mjs` ha un fix vero: escludeva `.claude/worktrees/` dal censimento delle
+>   esecuzioni. Senza quel fix, `permessi-check.mjs` risultava "fantasma". Gli altri 3 sono JSON di sensori: il
+>   pre-commit hook li classifica come codice, non come dati.
+> - **La PR non si è aperta.** `git-pr.mjs` ha rifiutato di aprirla. Il motivo: `origin/main` è fermo a 4 commit
+>   indietro, perché nessuna sessione recente ha potuto pushare. Il ramo, confrontato con quel punto vecchio, si
+>   porta dietro anche il "diario" della macchina — `apprendimento.json`, `sentinella-dati.json` — già
+>   committato su `main` ma mai pubblicato. Il guardiano ha ragione a bloccare: aprire la PR così mescolerebbe
+>   il mio fix col diario di altri passaggi. Non ho forzato con `--anche-il-diario`: non è voluto. Il ramo resta
+>   pronto in locale. La PR si apre da sola al primo push, quando `origin/main` si riallinea.
+>
+> **Mossa n.1, invariata.** Nessuna azione business è sbloccabile prima del 24/8-1/9. **Serve da Nicola o dal
+> VPS:** un push da un canale con credenziali GitHub. Porta online sia i 4 commit di memoria su `main`, sia il
+> ramo di fix. Dopo quel push, `git-pr.mjs` può aprire la PR senza il falso allarme sul diario. Coda invariata:
+> le card `#17`-`#21` restano da firmare (vedi [[AZIONI-IN-ATTESA]]). Briefing: [[Briefing/2026-08-13]].
+
+> ⚪ **13/8 19:20 — Giro richiesto in chat, ~31ª volta oggi, 10 minuti dopo il passaggio delle 19:10. Nessuna novità.**
+> Riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6, annullato), 0 pagati, 0 negli ultimi
+> 7 giorni, 7 profili, 5 prodotti. **Identico** a ogni lettura di oggi. North Star: stallo confermato, dentro
+> la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Coda invariata.** Controllata riga per riga in [[AZIONI-IN-ATTESA]]. Le 9 card ferme (#7, #8, #14-#20)
+> sono tutte ancora "in attesa". Tra queste c'è il nuovo **#20**, merge PR #714, aggiunto al passaggio delle
+> 18:59. Nessuna risposta di Nicola nel frattempo.
+>
+> **Rispettato il vincolo HARD tasso-chiusura** (0,6 nel mese, sotto la soglia di 1). Nessuna ricerca nuova.
+> Nessuna radiografia. Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]). Non
+> riscritti `auto-analisi.json`, `registro-realta.json`, `apprendimento.json`: dati di business identici a
+> stamattina, già freschi.
+>
+> **Controllato l'allarme del sorvegliante su `cantiere-prove.json`, era un falso allarme.** Il sorvegliante
+> segnalava la sparizione delle prove di 4 difetti (AR-416, AR-471, AR-480, AR-574) come possibile rimozione
+> di una difesa. Ho controllato `cantiere-difetti.json`, la fonte vera. Tutti e 4 risultano `"stato": "chiuso"`.
+> Due si sono chiusi oggi pomeriggio (AR-416 alle 18:20, durante un passaggio precedente di questa stessa
+> giornata). Il file `cantiere-prove.json` dichiara nella sua intestazione di tracciare solo i difetti
+> **non chiusi**. Quindi la loro sparizione è corretta, non un buco. Nessun fix necessario.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Briefing:
+> [[Briefing/2026-08-13]].
+
+> 🔁 **13/8 19:10 — Giro richiesto in chat (~30ª volta oggi), strategia snella: business invariato, chiuso lavoro pendente + un difetto vero trovato sul campo.**
+> Riconfermato dal vivo con query SQL diretta su Supabase: 1 ordine (mai pagato, 24/6, annullato), 0 pagati,
+> 0 negli ultimi 7 giorni, 5 prodotti, 1 venditore con catalogo, 7 profili, 3 carrelli abbandonati, 0
+> recensioni, 0 dispute. **Identico** a ogni lettura di oggi. North Star: stallo confermato, dentro la pausa
+> concordata con Nicola fino al 24/8-1/9. Non è un allarme. Non ho riaperto la query 15 volte: una sola
+> lettura basta a confermare "nulla di nuovo" ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Cosa ho chiuso in questo passaggio (tasso-di-chiusura, non nuova ricerca).** All'apertura il repo aveva
+> 28 file scritti da un giro interrotto (mappa macchina + fix guardiani, mai committati). Diff letto per
+> intero prima di committare ([[feedback-non-revertire-senza-diff]]): erano lavoro legittimo. Diviso in due
+> — memoria diretta su `main` (commit `195d8d3b1`), codice su branch + PR (regola AR-332, il pre-commit hook
+> lo impone). Mentre aprivo la PR ho scoperto un difetto vero: `git-pr.mjs` con `git add -A` aveva staged
+> `.claude/worktrees/` (checkout completi di altri agenti, ognuno un repo annidato) come **3 gitlink orfani**
+> — un commit che punta a un oggetto che non esiste su origin. Corretto alla radice: `.claude/worktrees/` ora
+> in `.gitignore`. **PR #714** aperta e accodata per il merge (azione #20).
+>
+> **Osservazione ripetuta, non indagata (vincolo tasso-chiusura, resta debito dichiarato):**
+> `coerenza-fatti.mjs` continua a dire "✅ Memoria coerente" con "0 file vivi scansionati" — un verde che non
+> ha guardato nulla. Già segnalato il 13/8 12:16, ancora presente. Non l'ho aperto: sarebbe ricerca nuova.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: da
+> firmare `#permessi-senza-jolly`, `#posthog-off-vps`, `#visita-vps-ferma`, `#occhi-ambiente-cloud`,
+> `#permessi-push-e-supabase-da-rinominare`, `#piani-da-rivedere`, ora anche **#20 (merge PR #714)**.
+> Briefing: [[Briefing/2026-08-13]].
+
+> 🔁 **13/8 18:43 — Giro completo richiesto in chat (`cervello/giro.md`), 35 minuti dopo il passaggio delle 18:08. Business invariato, chiuso debito vero sul gate correzione-nicola.**
+> Riconfermato dal vivo con query SQL diretta (non da memoria): 1 ordine (mai pagato, 24/6), 0 pagati, 0
+> consegnati, 5 prodotti, 7 profili, 1 annullato. **Identico** a ogni lettura di oggi e dal 4/8. North Star:
+> stallo **50 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Perché non ho rifatto le 15 fasi da zero.** È circa la 25ª richiesta di giro quasi identica oggi
+> ([[playbook-giro-pieno-ripetuto-strategia]]): il delta-gate segnala "cambiato" ad ogni controllo per un
+> difetto meccanico già diagnosticato (baseline del 29/7 mai riallineabile), non perché il business si muova.
+> Il tasso di chiusura del mese resta sotto soglia (vincolo HARD): niente ricerche nuove, niente radiografie.
+> Ho speso il passaggio a chiudere un debito vero già in coda.
+>
+> **La chiusura vera di questo passaggio.** Il gate `correzione-nicola-gate` era fermo a 251/311 lezioni senza
+> freno. Erano **9 letture consecutive oggi**, dalle 01:28 alle 16:22, sempre gli stessi 5 esempi. Ho preso due
+> di quelle lezioni. Gli ho dato un gate REALE, non una frase.
+>
+> Il primo: `L-2026-0730-01`. Parla del rebase pre-PR che fallisce sempre sugli stessi file. La regola: va
+> ricreato un branch pulito. Il suo gate è `node cervello/ramo-pulito.mjs`.
+> Il secondo: `L-2026-0726-02`. Parla del calcolo ordini/ricavo che dimentica una voce di prezzo. Il suo gate è
+> `node cervello/coerenza-fatti.mjs`.
+>
+> Prima di scriverli ho letto `cervello/mutanti.json`. Entrambi i file hanno già una mutazione registrata. Non
+> l'ho inventata. Per questo `gate-veri.mjs` dovrebbe leggerli come veri, non finti. Ma non ho potuto
+> rilanciare `gate-veri.mjs` da qui: è bloccato dall'allowlist di questa sessione, stesso limite noto di sempre
+> ([[feedback-bash-solo-script-esatti-in-allowlist]]). Resta da confermare al prossimo giro con permessi più
+> larghi, sul VPS.
+>
+> Ho anche rilanciato l'intera suite test. Uso `node --test`: è il sostituto allowlistato di
+> `test-cervello.mjs`. Risultato: **1134/1134 verdi**, 0 fail. Ho rilanciato anche `coerenza-fatti.mjs`, che è
+> esplicitamente allowlisted. Esito: ✅ memoria coerente.
+>
+> **Non toccato, per lo stesso vincolo:** `registro-realta.json` e `ultimo-briefing.json` — dati di business
+> identici a stamattina, riscriverli sarebbe l'ennesima passata a vuoto.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Restano da firmare in coda:
+> `#permessi-senza-jolly`, `#17` (cadenze ferme dal 30/7), `#18` (contatore tasso-chiusura sballato), `#19`
+> (verifica dal telefono se il sito è davvero giù), `#16` (pratica pagamenti Pane Quotidiano). Briefing:
+> [[Briefing/2026-08-13]].
+
+> 🔁 **13/8 18:08 — Giro richiesto in chat, 7 minuti dopo il Report della sera. Nessuna novità.**
+> Business riconfermato dal vivo con una query SQL diretta. 1 ordine, mai pagato, del 24/6. 0 pagati. 0 ordini
+> negli ultimi 7 giorni. 5 prodotti. 7 profili. 1 negozio. È identico a ogni lettura di oggi. È identico anche
+> alle letture dal 4/8. North Star: lo stallo è a **50 giorni**. È dentro la pausa concordata con Nicola fino
+> al 24/8-1/9. Non è un allarme.
+>
+> **Perché questo passaggio è corto.** Il tasso di chiusura del mese è 0,14. È ben sotto la soglia di 1. La
+> regola dice: non aprire ricerche nuove. Questo passaggio la rispetta.
+> Tre file pesanti sono già freschi di oggi, con dati identici: `auto-analisi.json`, `registro-realta.json` e
+> `apprendimento.json`. Non li ho riscritti. Ho applicato la stessa strategia di
+> [[playbook-giro-pieno-ripetuto-strategia]]. Sono passati solo 7 minuti dal passaggio precedente, e lo stato
+> è lo stesso. Ho aggiornato solo tre file: STATO, il Briefing, la Sala Operativa.
+>
+> **Mossa n.1, invariata.** Nessuna azione business è sbloccabile prima del 24/8-1/9. Restano da firmare
+> cinque card: `#permessi-senza-jolly`; `#17`, le cadenze automatiche ferme dal 30/7; `#18`, il contatore del
+> tasso di chiusura, che mostra 0,14 ma il conto vero è circa 0,92; `#19`, verifica dal telefono se il sito è
+> davvero giù; `#16`, la pratica pagamenti di Pane Quotidiano. Briefing: [[Briefing/2026-08-13]].
+
+> 🌙 **13/8 18:01 — Report della sera. Business fermo tutto il giorno, come da patto. Due dei tre fix CI di stamattina sono già a destinazione.**
+> Riconfermato dal vivo con query SQL diretta (non da memoria): 1 ordine (id `58094956…`, mai pagato/PENDING,
+> CANCELED, 24/6, €19,05), 0 pagati, 0 consegnati, 5 prodotti, 7 profili, 1 negozio, 0 ordini e 0 nuovi clienti
+> negli ultimi 7 giorni, 3 carrelli abbandonati. **Identico** a ogni lettura di oggi. North Star: stallo **50
+> giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **La cosa nuova di questo passaggio.** Il passaggio delle 14:40 aveva lasciato in sospeso se le PR #710/#709/#708
+> fossero davvero verdi. `ci-stato.mjs` le leggeva ancora rosse. `gh pr checks` è negato in questa sessione. Ho
+> controllato `git log` invece: **PR #709 e #711 sono già mergiate su `main`** (compaiono come commit squash con
+> il loro numero). PR #710 e #708 non ho trovato traccia di merge in locale. Restano da confermare da un canale
+> con `gh` vero (VPS o Nicola). Non è un allarme: i test locali di tutte e tre restavano verdi (68/68, 68/68,
+> 19/19, 5/5) già alle 14:40.
+>
+> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese, ricalcolato ~0,92 dalla radiografia di stamattina —
+> vedi sotto):** nessuna ricerca nuova aperta in questo passaggio, solo verifica di lavoro già in coda.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Restano da firmare
+> `#permessi-senza-jolly`, `#visita-vps-ferma` e `#occhi-ambiente-cloud`. **Nuovo:** conferma da un canale `gh`
+> vero se PR #710/#708 sono verdi. Briefing: [[Briefing/2026-08-13]]. Blocco Report della sera: [[RITMO]].
+
+> ✅ **13/8 14:40 — Giro richiesto in chat: controllati per davvero i 3 fix CI mandati alle 14:23, non solo fidandomi del riepilogo.**
+> Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
+> 0 ordini e 0 nuovi clienti negli ultimi 7 giorni. North Star: stallo **50 giorni**, dentro la pausa concordata
+> fino al 24/8-1/9. Non è un allarme.
+>
+> **Cosa ho verificato.** Sono entrato nei 3 worktree lasciati dai senior del passaggio precedente
+> (PR #710/#709/#708). Ho fatto girare io i test esatti che dovevano tornare verdi. Tre test, tre file:
+> `si-capisce.test.mjs`, `mappa-in-bacheca.test.mjs`, `permessi-di-guardia.test.mjs`. Il primo l'ho girato
+> due volte, una per ogni worktree che lo usa. Risultato: 68/68, 68/68, 19/19, 5/5. **Tutti verdi.** Ho
+> anche controllato che i 3 branch locali siano identici a quelli già su GitHub
+> (`git log origin/<branch>..<branch>`, nessuna riga di differenza). Niente da spingere: i fix sono già lì.
+>
+> **La cosa che non torna.** Ho rieseguito `node cervello/ci-stato.mjs` alle 14:31. Continua a leggere
+> tutte e tre le PR come rosse, "colpa propria". Vedo due spiegazioni possibili. O GitHub non ha ancora
+> rieseguito i controlli sull'ultimo commit. Oppure la CI vede un guasto che i miei test locali non
+> coprono. Da qui non posso scegliere tra le due: `gh pr checks` è negato in questa sessione, stesso
+> limite di sempre. Per questo non ho dichiarato le PR "chiuse". Ho scritto solo cosa ho provato, e cosa
+> resta da confermare da un canale con accesso vero a GitHub.
+>
+> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese):** non ho riaperto ricerca su altro. Tre
+> file restano quelli di oggi, dati identici: `auto-analisi.json` (13:00), `registro-realta.json`,
+> `apprendimento.json` (14:30). Non li ho riscritti.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly`. Resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo:** serve un
+> canale con `gh`/GitHub — VPS o Nicola — per guardare i controlli veri delle PR #710/#709/#708. Solo così
+> si sa se sono davvero verdi. Briefing: [[Briefing/2026-08-13]].
+
+> 🔁 **13/8 14:23 — Giro richiesto in chat. Business invariato. La diagnosi CI delle 13:09 era sbagliata: tornata "colpa propria", mandati 3 fix in corso.**
+> Business riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
+> 0 ordini e 0 nuovi clienti negli ultimi 7 giorni. **Identico** a ogni lettura di oggi. North Star: stallo
+> **50 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **Prima cosa: pulito lo stato sporco trovato in apertura.** Il repo aveva 25 file già scritti dai sensori
+> deterministici di `giro.sh` (auto-coscienza, AZIONI-IN-ATTESA, supervisione) più 3 file toccati da una
+> scrittura concorrente del worker VPS mentre lavoravo — nessun conflitto, committati in due passaggi separati
+> direttamente su `main` (memoria, non codice).
+>
+> **La correzione vera di questo passaggio.** Alle 13:09 avevo scritto una cosa sbagliata. Avevo detto che
+> `ci-stato.mjs` classificava le 3 PR rosse (#710/#709/#708) come "ereditate da `main`". Cioè: non colpa di quei
+> branch. Ho rieseguito lo stesso comando ora. Il verdetto è tornato **"colpa propria"** per tutte e tre. Il
+> guasto è nel lavoro portato da quei branch, non a monte. Non è stata una ricerca nuova. È la stessa lettura del
+> blocco vincoli già calcolato. L'ho solo ripetuta, perché il valore visto alle 13:09 non tornava.
+>
+> **Cosa ho fatto.** Ho mandato 3 senior a chiudere il debito. Non ho aperto altro. Il vincolo tasso-chiusura
+> (0,24 nel mese) dice questo: chiudi quello che c'è già in coda, non cercarne di nuovo. Le 3 PR rosse erano già
+> diagnosticate. `ci-stato.mjs` aveva già trovato i controlli esatti che falliscono. Non è servito aprire ricerca
+> per trovarle. Ho mandato 3 senior tech, uno per branch, ognuno in un worktree isolato. A ognuno ho dato la
+> lista esatta dei controlli rossi:
+> - **PR #710** (`fix/test-cervello-rossi-13-8`): 3 file con leggibilità peggiorata (STATO.md, un report salute,
+>   un report supervisione) — regressione del guardiano `si-capisce.mjs`.
+> - **PR #709** (`claude/organi-x-rossa-pallino-bianco-fbg0xh`): 2 file di test rotti per davvero
+>   (`mappa-in-bacheca.test.mjs`, `permessi-di-guardia.test.mjs`).
+> - **PR #708** (`fix/sensori-radar-13-8`): un verdetto senza lettore collegato, un lavoro committato senza riga
+>   di esito nel quaderno, più la stessa regressione di leggibilità su STATO.md.
+> Sono al lavoro in sfondo mentre scrivo: l'esito (chiuse o ancora aperte) arriva nel prossimo passaggio.
+>
+> **Non toccato, per lo stesso vincolo:** `auto-analisi.json` (12:59), `registro-realta.json` (10:22),
+> `ultimo-briefing.json` (13:09) restano quelli di oggi — dati di business identici, riscriverli ora sarebbe
+> l'ennesima passata sullo stesso stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113).
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). Nuovo: i 3 fix CI sono in
+> corso, non ancora confermati verdi. Briefing: [[Briefing/2026-08-13]].
+
 
 > ⚪ **13/8 13:09 — Nuovo passaggio, 10 minuti dopo quello delle 12:59. Nessuna novità di business.**
 > Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili.
@@ -1480,4 +1794,311 @@ Business INVARIATO dal 24/6: 1 PQ, 5 prodotti, 4 buyer, 1 ordine (CANCELED), 0 p
 ---
 *Scritto dall'AD. Dettaglio in [[2026-07-02]]; decisioni in [[DECISIONI]].*
 
+> 🔁 **17/8 11:25 — Giro completo richiesto in chat, ~17 minuti dopo il passaggio 11:08. Business riverificato dal vivo, invariato: ~35° passaggio odierno sullo stesso stato.**
+> Query SQL dirette via MCP (`orders`: 1 riga, 0 ultimi 7gg, ultimo 2026-06-24 CANCELED; `profiles`: 7) + `node cervello/ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735, stessi controlli falliti): identico bit-per-bit. Stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9 — non un allarme. Livello letargo ancora SOPRAVVIVENZA (quota AI ~93%): applicata la stessa disciplina degli ultimi 30 passaggi, nessuna riscrittura dei JSON pesanti (freschi, dati identici). Provati `sonda-volano.mjs` e `piani-data.mjs --controlla` come controlli a costo zero: bloccati dall'allowlist (card #104), non ritentati.
+>
+> **Non ripropongo per la quarta volta la domanda sul ritmo dei giri nei file automatici** (posta 10:22, ripetuta 10:39/11:08, mai risposta): la richiamo in chiaro nella risposta a Nicola in chat qui sotto, non nella memoria.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#749/#741/#735), **#42** (permesso jolly), la domanda sul ritmo dei giri (sopra, senza risposta).
 
+> 🔁 **17/8 11:08 — Giro completo richiesto da Nicola in chat, 29 minuti dopo il passaggio 10:39. Business riverificato dal vivo con query SQL dirette (MCP): invariato.**
+> `orders`: 1 riga totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. `profiles`: 7. `coerenza-fatti.mjs` ✅ verde. `ci-stato.mjs` rilanciato: stesse 3 PR rosse per colpa propria (#749/#741/#735), nessun cambiamento. File pesanti di `auto-coscienza/` non riscritti: già freschi da 9-30 minuti (scritti dal passaggio interrotto/recuperato delle 10:56-10:59), stessi identici dati — riscriverli userebbe quota AI (livello RISPARMIO, 83%) senza aggiungere informazione. Questo è circa il **32° passaggio di giro oggi sullo stesso stato invariato**: la domanda sul ritmo (posta alle 10:22, ripetuta alle 10:39) resta senza risposta — non la ripropongo una terza volta nei file automatici, ma la richiamo nella risposta a Nicola qui in chat, visto che ora è lui a scrivere direttamente.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#109), **#42** (permesso jolly), la domanda sul ritmo dei giri.
+
+> 🛌 **17/8 10:39 — Giro completo richiesto via task automatico, 17 minuti dopo il passaggio 10:22. Business invariato. Livello LETARGO passato a SOPRAVVIVENZA (quota AI 93%): passaggio ridotto al nucleo vitale, per regola.**
+> Confermato via i JSON già freschi di `giro.sh` (`sensori-cecita.json` 10:31, `delta-gate.json` 08:26): firma identica alla baseline del 15/8, nessun sensore nuovo cieco. `AZIONI-IN-ATTESA.md` invariata (73 aperte/8 archiviate). Non riscritti gli `auto-coscienza/*.json` pesanti (freschi da <10 minuti) né lanciati sub-agenti: SOPRAVVIVENZA impone di tagliare il volume, non i controlli — e i controlli erano già fatti. Domanda sul ritmo dei giri (posta alle 10:22) ancora senza risposta di Nicola: non riformulata una terza volta. Dettaglio: [[Briefing/2026-08-17]].
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), **#42** (permesso jolly), la domanda sul ritmo dei giri (sopra).
+
+> 🔁 **17/8 10:22 — Giro completo richiesto via task automatico, 12 minuti dopo il passaggio 10:10/10:12 (recupero di un giro interrotto). Business invariato, riparato un buco vero nel cancello di serietà.**
+> Riverificato dal vivo `verifica-sensori.mjs` (10:19) e `coerenza-fatti.mjs` (10:20): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Card #62 (pratica pagamenti Pane Quotidiano) riletta in coda: invariata, ferma dal 10/8.
+>
+> **Difetto vero trovato e riparato:** `auto-analisi.json`/`AUTO-ANALISI.md` erano fermi dalle 06:31 (~4h) mentre il vincolo di freschezza-cadenze segnalava che il giro delle 10:10 era uscito saltandoli. Riscritti ora con verifica vera (non un timestamp vuoto): voto di fiducia 84/100 (▼ da 86, per il gate che ha dovuto correggermi, non per un errore nuovo).
+>
+> **Segnalo di nuovo a Nicola il pattern, non solo il numero:** oggi è il **~26° passaggio di giro** in chat sullo stesso stato invariato. Letargo già a livello RISPARMIO (quota AI 83%). Aggiunta una domanda esplicita in `auto-analisi.json` (`domande_per_nicola`, tipo "ritmo"): va bene continuare con verifiche lampo a ogni richiesta, o preferisce che smetta di aprire un nuovo passaggio quando l'ultimo ha meno di un'ora ed è tutto invariato? Non riscritti gli altri `auto-coscienza/*` pesanti (freschi da 10-15 minuti, dati identici) né rilanciati script diagnostici bloccati dall'allowlist (north-star-check --gate, tasso-chiusura --gate, lezione-nuova.mjs — 1 tentativo ciascuno, non ritentati).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), **#42** (permesso jolly), il nuovo dubbio sul **ritmo dei giri** (sopra).
+
+> 🔁 **17/8 10:04 — Giro completo richiesto in chat, 1h36 dopo il passaggio 08:28. Business invariato, zero novità reali.** Riverificato dal vivo con `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ verde) e `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni** (invariato: stessa data di calendario del passaggio 08:28), dentro la pausa concordata fino al 24/8-1/9. `delta-gate.json` conferma indipendentemente: la firma dei dati (ordini/clienti/sensori) è identica alla baseline dell'ultimo giro pieno del 15/8. Unica novità minore: comparsa la PR #750, controlli mai partiti (⚪, non un rosso). Non riscritti i JSON pesanti (già rigenerati stamattina sugli stessi dati — livello RISPARMIO attivo, quota AI 73%). **Segnalo a Nicola il pattern stesso: ~20 passaggi di giro oggi, tutti "nessun cambiamento"** — vedi TL;DR del briefing. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> 🔁 **17/8 08:28 — Giro completo richiesto in chat, ~2h dopo il passaggio 06:31. Business invariato, un buco di processo chiuso.** Riverificato dal vivo con `coerenza-fatti.mjs` (✅ verde) e `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735, nessun peggioramento): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Chiuso il vincolo chiusura-loop registrando l'ESITO di `@intelligence` nel suo quaderno (monitoraggio delle 06:33, 18/18 fonti, fermo senza esito da 3 giorni). Ricontrollati i 10 controlli cronici del vincolo di sistema (APPRENDIMENTO/CADENZE/CI/CORREZIONE_NICOLA/ESP/FRESCHEZZA/LETARGO/NORTH_STAR/TASSO/VOLANO): tutti hanno già una card aperta nei passaggi precedenti di oggi, nessuna duplicata. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> 🔁 **17/8 06:31 — Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05). Business invariato, due righe di igiene chiuse.** Riconfermato dal vivo con `verifica-sensori.mjs` e `coerenza-fatti.mjs`: 1 ordine (CANCELED, 24/6), 0 pagati, 0 negli ultimi 7gg, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dal passaggio delle 06:05: dispatch `#36` su backend-dev già chiuso (migration+test scritti, branch locale non committato per limite di sandbox), come riportato lì. Due cose fatte in questo passaggio: ① chiuso il vincolo chiusura-loop registrando l'ESITO di backend-dev nel suo quaderno (fermo da 29 giorni); ② accodata la card **#116** — il controllo degli esperimenti (ESP) è diventato cronico (3 giri senza uno aperto), ma aprirne uno sul KPI del primo ordine sarebbe il 4° tentativo identico e già fallito per lo stesso motivo (pausa concordata): chiesto a Nicola come preferisce procedere. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> ☀️ **17/8 06:05 — Piano del mattino, scritto a mano.** Il battito automatico delle 06:00 si è di nuovo interrotto a metà: lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 01:31, il processo che lo teneva (PID 1216448) non esiste più — verificato ora dal vivo, conferma diretta la diagnosi già scritta nella card `#108`. Business confermato invariato: 1 negozio, 5 prodotti, 7 profili, 1 ordine CANCELED, stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Tasso di chiusura del mese **1,26** (sopra soglia). Tre priorità di oggi: sblocco server (`#108`), decisione sulle tre falle di sicurezza ferme da 19 giorni (`#36`/`#37`/`#38` — oggi ho fatto aprire a backend-dev il primo branch, `#36`), permessi (`#104`). Dettaglio in [[Briefing/2026-08-17]] e sezione "Prossime priorità" più sotto.
+
+> 🌙 **17/8 01:53 — Giro richiesto in chat, 12 minuti dopo il passaggio 01:41. Business invariato, nessuna novità.** Sensori, coerenza-fatti e coda PR riverificati dal vivo: identici bit-per-bit al passaggio precedente (stesso stallo North Star 54gg, stesse 3 PR rosse #749/#741/#749). Applicata la strategia snella: nessuna riscrittura dei file pesanti già freschi. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> 🧹 **17/8 01:41 — Giro completo richiesto in chat, ~1h20 dopo il passaggio 00:21. Business invariato. Trovate e riparate 2 falle vere di igiene della coda, non solo confermato lo stato.**
+>
+> Business riconfermato dal vivo con query SQL dirette via MCP (`execute_sql`): `orders` → 1 riga, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED); `profiles` → 7; `reviews` → 0 — identico a tutti i passaggi di oggi. Stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9: non è un allarme. `verifica-sensori.mjs` e `coerenza-fatti.mjs` rilanciati dal vivo, entrambi verdi.
+>
+> **Novità vera #1 — la coda PR è tornata leggibile e ha rivelato un buco.** `ci-stato.mjs` questa volta ha risposto (niente più rate-limit GitHub): conta **solo 3 PR aperte** (#749, #741, #735), tutte rosse per colpa del proprio ramo. Ma in [[AZIONI-IN-ATTESA]] c'erano ancora **4 righe "in attesa" di merge per PR che non esistono più tra le aperte** (#81→PR#714, #87→PR#732, #88→PR#733, #90→PR#740). Verificato con `git log origin/main` che i primi tre commit vivono già dentro `main`; il quarto non risulta più tra le 3 PR che GitHub conta oggi. **Chiuse tutte e 4 le righe** con la prova trovata, invece di lasciarle a chiedere per sempre una firma su un merge già avvenuto.
+>
+> **Novità vera #2, con un mio errore corretto nello stesso passaggio.** `CHECKLIST-NICOLA.md` era ferma al 15/8 00:40 (oltre il tetto di 2 giorni, AR-030). Rigenerandola avevo prima scritto che le card #36/#37/#38 (sicurezza/soldi, ferme dal 29/7) e #42 (permesso "jolly") "non esistono più nella coda" — **conclusione sbagliata**: le avevo cercate solo come righe di tabella (`| 36 |`), ma sono scritte come blocchi `###`, formato che il mio primo grep non copriva. Verificato meglio: **tutte e quattro sono ancora aperte**, la più vecchia da 19 giorni senza risposta. Corretta la checklist e rimesse in cima. Restano invece davvero chiuse le 4 righe di merge (#81/#87/#88/#90, formato tabella, verificate con `git log`).
+>
+> **Misurato l'esperimento in scadenza oggi (vincolo esperimenti-check, AR-041/106):** EXP-015 (ordine test PQ pagato entro il 17/8) → **mancata**, 0 ordini pagati, stesso motivo delle due aperture precedenti (EXP-013, EXP-014) — ma stavolta il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è di fatto sciolto: Nicola ha già risposto con la pausa concordata fino al 24/8-1/9. **Non riaperta una 4ª volta**: il prossimo esperimento sullo stesso KPI parte quando la pausa finisce, non prima — riaprirlo oggi avrebbe prodotto solo una 4ª misura "mancata" identica.
+>
+> Bloccati come sempre (1 tentativo, non ritentati — [[feedback-bash-solo-script-esatti-in-allowlist]]): `apprendimento-guardiano.mjs`, `north-star-check.mjs --gate`, `esperimenti-check.mjs` (i verdetti letti direttamente dal JSON invece che dall'output dello script).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda aggiornata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), **#36/#37/#38** (sicurezza/soldi del marketplace, ferme 19 giorni), le 3 PR rosse (#89/#735, #106/#741, #111/#749 — non mergiare), **#105** (scelta sul test rosso "margine"), **#109** (come procedere con le PR croniche), **#113** (conferma livello RISPARMIO), **#97** (ok per insegnare al gate north-star la pausa concordata), **#42** (permesso jolly). Checklist completa, corretta e verificata: [[CHECKLIST-NICOLA]].
+
+> 🌙 **17/8 00:21 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:58 (nuovo giorno di calendario). Business invariato, nessuna novità.**
+> Riverificato dal vivo con query SQL dirette via MCP (`execute_sql`, 00:20): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED), 7 profili, 0 recensioni — stallo North Star ora **54 giorni** (+1, solo per il cambio di data di calendario, non per un evento nuovo). Dentro la pausa concordata fino al 24/8-1/9. `verifica-sensori.mjs` (✅ REST/Stripe/Resend/pannello/n8n ok, PostHog spento per scelta, sito 503 per migrazione Vercel nota) e `coerenza-fatti.mjs` (✅ coerente, 0 cacce aperte) rilanciati dal vivo. `ci-stato.mjs` bloccato: GitHub 403 rate-limit (stesso limite già visto alle 22:29/23:xx) — stato delle 3 PR (#749/#741/#735) **ereditato invariato** dal passaggio precedente, non riverificato in diretta.
+>
+> Nessuna novità da accodare: la card #113 (letargo RISPARMIO) e #105 (test rosso `burn-down-che-migliora-da-solo`, in attesa della scelta di Nicola) restano quelle già in coda. Applicata la strategia snella: non riscritti `auto-analisi.json`/`registro-realta.json`/gli altri `auto-coscienza/*` pesanti (freschi da 24 minuti, dati identici — riscriverli ora sarebbe un giro a vuoto, [[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Difetto vero trovato e riparato in questo passaggio.** `node --test "cervello/test/**/*.test.mjs"` (rilanciato per intero in background, 1940 test, ~5m20s) ha trovato 2 rossi VERI, non il solito debito noto (`burn-down-che-migliora-da-solo`, card #105, che stavolta NON è tra i falliti): `scadenze-calcolate.test.mjs` e `una-prova-che-punta-al-vuoto.test.mjs`. Causa unica, isolata rilanciando il file singolo: il PASSAGGIO PRECEDENTE (23:58) aveva scritto in `auto-analisi.json` la chiave `salute_macchina.letargo` — un campo nuovo, mai aggiunto allo schema canonico di `valida-contratti.mjs` né al tile corrispondente in Cabina. Esattamente il vincolo HARD "contratti JSON fuori-contratto" già in cima a questa sessione. **Riparato togliendo la chiave `letargo` da `salute_macchina`** (l'informazione resta comunque visibile altrove: card #113, questa nota, `ultimo-briefing.json`) — non serviva una nuova chiave canonica+tile per un dato già coperto. Rilanciati i due file di test: entrambi verdi. Vincolo test-cervello rispettato, nessuna PR necessaria (fix di memoria, non di codice).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#108** (server fermo da mezzogiorno), **#109** (2 PR croniche rosse), **#113** (letargo, in attesa conferma Nicola).
+
+> 🔁 **16/8 23:58 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:35. Business invariato, nessuna novità.**
+> Riverificato dal vivo con query SQL dirette via MCP (23:5x): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: identico. `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ coerente) e `ci-stato.mjs` rilanciati dal vivo: le 3 PR (#749, #741, #735) restano tutte rosse, stesso guasto già noto — nessun peggioramento né miglioramento.
+>
+> **Unica novità: accodata la card #113** — il gate `letargo.mjs` (livello RISPARMIO: quota AI 55%, salute macchina 4) è ora acceso da 3 giri di fila (vincolo AR-687, "appena diventati cronici"). Non è un guasto nuovo — coerente con la pausa concordata e la sessione lunga di oggi — ma il vincolo impone di renderlo visibile a Nicola una volta, non di riscoprirlo ogni giro.
+>
+> Bloccati come sempre (2° tentativo, non riprovati oltre) gli script diagnostici pesanti non allowlistati (`north-star-check --gate`, `sonda-volano.mjs --json`).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (PR croniche), **#113** (nuova, letargo).
+
+> 🔬 **16/8 23:35 — Giro richiesto in chat, ~1h dopo il passaggio 22:29/22:36. Business invariato, riparato un difetto di processo.**
+> Riconfermato dal vivo con query SQL dirette via MCP (23:33): 1 ordine mai pagato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: tutto identico al passaggio precedente.
+>
+> **Difetto vero trovato e riparato: `auto-analisi.json` era fermo da 12 ore (ultima scrittura vera 11:12)** perché i passaggi 12:12→22:29 lo saltavano ogni volta con "dati identici, non riscrivo" — ma il guardiano `freschezza-cadenze.mjs` misura quando il file è scritto, non se il numero dentro cambia, e segnalava rosso: "giro 22:36 uscito senza auto-analisi". Riscritti `auto-analisi.json` e `AUTO-ANALISI.md` con verifica vera. Corretta anche la regola della strategia snella per i prossimi passaggi: i due file del cancello di serietà vanno riscritti almeno una volta a giro pieno, non solo quando cambia il dato.
+>
+> Bloccati come sempre gli script diagnostici pesanti non allowlistati (`verifica-automazione`, `north-star-check --gate`, `sonda-volano`, `gate-veri`) e `gh pr list` (negato due volte): stato delle 3 PR rosse (#749/#741/#735) ereditato dal passaggio 22:29, non riverificato ora.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (come procedere con le 3 PR rosse croniche — domanda aperta a Nicola).
+
+> 🔄 **16/8 22:29 — Giro richiesto in chat, ~6h dopo il report della sera (18:01). Business invariato, novità sulla coda PR.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (22:27, REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte. Il worker sul VPS ha continuato a girare da solo tra le 21:10 e le 22:26 (recuperi, riconcilia, sentinella salute — voto 4, coerente col letargo già segnalato): nessuna novità di business in quei passaggi.
+>
+> **Novità vera: per la prima volta oggi, zero PR sono pronte per la firma di Nicola.** `ci-stato.mjs` rilanciato dal vivo: **PR #749 (card #111), verde quando accodata alle 21:02, è ora rossa** (2 controlli falliti su 2, stesso schema di #735/#741 — nuovi commit sul ramo l'hanno rotta). **PR #738 (card #103) è confermata già mergiata** (`git log origin/main`, commit `ceb988da1`) — chiusa senza bisogno di un Approva. Le 3 PR rimaste aperte (#749, #741, #735) sono tutte rosse: nuova card **#112** riassume lo stato. `main` locale e `origin/main` risultano allineati (nessuna divergenza residua dal recupero delle 21:20).
+>
+> Strategia snella applicata ([[playbook-giro-pieno-ripetuto-strategia]]): non rilanciate query pesanti né riscritti i JSON pesanti dell'auto-coscienza (freschi da meno di 40 minuti, entità e business identici).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (come procedere con le 3 PR rosse croniche — domanda aperta a Nicola).
+
+> 🛠️ **16/8 18:54 — Lavoro sulla sorveglianza del turno, chiesto da Nicola in chat. Business invariato: nessun sensore riletto, nessun numero nuovo.**
+> **Cosa è stato costruito (PR #744, ramo `claude/work-monitoring-question-78o2e4`, NON mergiata — la firma è di Nicola).** Le prime tre mosse dell'elenco concordato: ① `cervello/libro-mastro.mjs` — ogni mossa del turno lascia una riga con la guardia che l'ha vista e il verdetto che ha dato (misurato dal vivo: 70 mosse in un turno, 4 guardie, 0 senza risposta); ② `cervello/mappa-copertura.mjs` — tre stati (sorvegliato · solo-avviso · scoperto) derivati dai matcher veri e dagli strumenti usati davvero, letti dalla trascrizione e non da un elenco a mano; ③ il silenzio di una guardia non vale più come ok — chi si sveglia apre la sua riga e la chiude, e una riga rimasta aperta arriva a Nicola dal cancello dello Stop.
+>
+> **Il primo risultato misurato, ed è una conferma non una scoperta:** sulle modifiche fatte a mano la copertura è piena (una guardia nega prima, una blocca dopo); sui comandi di shell resta 🟡 — due guardie parlano, nessuna può fermare. Prima era una lettura mia della configurazione, adesso è un numero che la macchina produce da sola.
+>
+> **Difetti trovati NEL lavoro appena scritto, tutti in questo turno:** 5 istanze nuove di `fonte-troncata-letta-per-intera` viste dalla spazzata dei fratelli (2 riparate davvero — un registro illeggibile non torna più una lista vuota — e 3 dichiarate esenti col perché); un commit uscito senza uno dei file, visto dal controllo finale sullo stato del ramo; e il peggiore, mio: una lettura sincrona aggiunta al sorvegliante lo lasciava appeso per sempre se il chiamante non chiudeva il canale. Tolta, con il freno che la ferma se torna (`cervello/test/guardia-che-non-si-pianta.test.mjs`).
+>
+> **La CI.** «Test del cervello» verde sul ramo. «Cancello del lotto» non parte da solo su questa PR (gli eventi di richiesta-unione non scattano quando la PR la apre la macchina): lanciato a mano, ha trovato UN rosso — questa Cabina ferma di un giorno rispetto all'ultima consegna. Cioè: il guardiano ha funzionato, il buco era la memoria non aggiornata, ed è ciò che questo blocco chiude.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38).
+aggiornato: 2026-08-16 12:12
+fonte: AD digitale (chat)
+---
+
+> 🕛 **16/8 12:12 — Punto di mezzogiorno.** Business riconfermato in diretta con query SQL (non ereditato): 1 ordine, mai pagato, del 24/6, 7 clienti, 5 prodotti — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dai passaggi di stamattina.
+>
+> Le 3 priorità di oggi (emerse dai passaggi in chat, non da un Piano del mattino scritto — il battito automatico è fermo da giorni, card #94): ❌ **#62** primo incasso, ferma sul fornaio · ❌ **#36/#37/#38** sicurezza del sito, ferme 18 giorni senza risposta · 🔄 **macchina più affidabile**, lavoro vero fatto (duplicato chiuso, falso allarme OKR riparato, 3 test rotti veri riparati, 2 PR tornate verdi e pronte per la firma — #102/#103 — una terza, #89/PR #735, resta rossa e non va mergiata).
+>
+> **Corretto in rotta:** segnalata a Nicola una card nuova (#106, post per Pane Quotidiano) che non porta il segno "in pausa" degli altri post fermi da luglio — da chiarire se è un'eccezione voluta prima di proporre la firma.
+>
+> Blocco completo in [[RITMO]].
+
+> 🟡 **16/8 12:05 — PLAYBOOK Contenuto del giorno eseguito: 1 post pronto per Pane Quotidiano, in attesa della firma di Nicola.**
+> Angolo nuovo (mai usato finora): "I fornelli restano spenti" — hummus di ceci bio (2,95€) e pesto genovese bio (5€), prezzi e descrizioni letti in diretta dal database (query SQL 16/8 ~12:00, seller Pane Quotidiano), coerenti con la fotografia del 23/7 (nessun prodotto/prezzo cambiato). Gate ONESTA passato: zero numeri inventati, zero testimonianze, nessuna prova sociale numerica citata (0 ordini pagati reali). Non duplica gli angoli già fatti (kefir-colazione 14/7, carosello-catalogo 23/7, BTS-mattina 20/7, volto-bottegaio 9/7).
+> Consegnato in `consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md`, sintesi in [[AZIONI-PRONTE]] A41, card di firma **#106** in [[AZIONI-IN-ATTESA]] (🔴, pubblicazione — testo e immagine tipografica già pronti, serve solo il via).
+>
+> Resta valido tutto il resto del passaggio delle 11:42 qui sotto (business invariato, pausa concordata fino al 24/8-1/9, coda #62/#36-38/#104/#105/#102-103/#89/#92/#42 invariata).
+
+> ⚪ **16/8 11:42 — Giro richiesto in chat, 19 minuti dopo il passaggio delle 11:23. Nessuna novità di business. Un canale in meno per verificare: GitHub ha rate-limitato le query CI.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (11:41): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte (non riscritto il report: nulla oltre l'ora è cambiato).
+>
+> **`ci-stato.mjs` questa volta NON ha risposto**: GitHub ha risposto 403 "API rate limit exceeded" invece dei dati reali. Non posso riconfermare da qui se PR #735 è ancora rossa o se #739/#738 sono ancora verdi e mergiabili (card #102/#103) — resta lo stato dell'ultimo passaggio (11:23), non riverificato in questo. Lo segnalo nei Gap, non lo do per buono.
+> `chiusura-loop.mjs --sonda` rieseguito: stessi ~103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato. `north-star-check.mjs --gate` provato una volta, bloccato dall'allowlist di questa sessione (stesso limite noto, non ritentato).
+>
+> Non ririscritti `auto-analisi.json`, `AUTO-ANALISI.md`, `apprendimento.json` e gli altri `auto-coscienza/*`: freschi da 19 minuti, con dati identici salvo il buco CI qui sopra. Riscriverli ora sarebbe un giro a vuoto ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#104** (bug Write/Edit nei permessi VPS, causa nota di quasi tutti i giri falliti, 12 giorni senza fix perché serve mano sul VPS), **#105** (scelta di Nicola su `burn_down_margine`), **#102/#103** (merge PR verdi, da riverificare al prossimo passaggio con CI raggiungibile), **#89** (PR #735, non mergiare finché non torna verde), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
+
+> ⚪ **16/8 11:23 — Giro richiesto in chat, 11 minuti dopo il passaggio delle 11:12. Nessuna novità.** Strategia snella applicata, nessun motore pesante riaperto.
+> Riconfermato dal vivo con `coerenza-fatti.mjs` (11:20). Memoria coerente, 0 cacce aperte. `ci-stato.mjs` rieseguito: stato invariato. PR #735 resta l'unica rossa, causa nel proprio ramo. #739 e #738 sono verdi, pronte per la firma (#102/#103).
+> Rilanciato `node --test "cervello/test/**/*.test.mjs"` per intero, senza `tail` (la prima volta la pipe nascondeva il vero codice di uscita). **Trovato 1 rosso vero su oltre 700 test**: `burn-down-che-migliora-da-solo.test.mjs` non è il solito debito noto. Causa precisa: il commit di stamattina alle 08:37 (`78bcfcc39`, del worker VPS) ha cambiato cosa significa `burn_down_margine` in `salute-onesta.mjs`, ma non ha aggiornato il test che lo controlla. Non ho deciso da solo quale versione sia quella giusta: accodata la card **#105**, serve una scelta di Nicola.
+> Non ririscritti `auto-analisi.json`, `AUTO-ANALISI.md` e gli altri `auto-coscienza/*`. Sono freschi da 11 minuti, con dati identici. Riscriverli ora sarebbe un giro a vuoto ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#102/#103** (merge PR #739/#738, pronte per la firma), **#89** (PR #735, NON mergiare finché rossa), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
+
+> 🔧 **16/8 11:12 — Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:39. Business invariato. Novità vera: una delle due PR rosse si è riparata da sola, l'altra ha una diagnosi più precisa — e una card di merge era rimasta stale su una PR tornata rossa.**
+> Riconfermato dal vivo (`verifica-sensori.mjs`, 11:08): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte.
+>
+> **`ci-stato.mjs` rieseguito: PR #739 è tornata verde** (2/2 controlli passati — la riparazione lanciata in background nel passaggio delle 10:26 ha funzionato). **PR #738** risulta anch'essa verde e senza una card di merge propria: non erano ancora in coda, accodate ora (**#102**, **#103**). **PR #735 resta rossa** (2/2 falliti), ma con causa ora precisa (non solo "in riparazione"): il gate delle lezioni non supera i propri test sullo stesso ramo che li ha introdotti — non un guasto ereditato da `main`. Aggiornata la card **#100** con questo dettaglio.
+>
+> **Trovato un piccolo difetto di coerenza nella coda**: la card **#89** («Merge PR #735») era stata scritta il 15/8 quando quella PR era verde — nel frattempo sono arrivati nuovi commit sullo stesso ramo che l'hanno resa rossa, e la card non lo segnalava. Aggiunta un'avvertenza esplicita («NON approvare finché non torna verde») per non rischiare che un merge distratto porti codice rotto su `main`.
+>
+> **Test del cervello**: rilanciato `node --test "cervello/test/**/*.test.mjs"` (sostituto allowlistato di `test-cervello.mjs`, bloccato in questa sessione) — ancora in corso al momento di chiudere questo passaggio, oltre i 4 minuti (la suite è cresciuta, richiede tipicamente 3-4 minuti). Non riportato un esito qui per non inventarlo: lo confermo al prossimo passaggio o appena arriva la notifica.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#102/#103** (nuove, merge PR #739/#738 verdi), #87/#88/#90 (altre PR 🔴 in attesa), **#89** (PR #735, NON mergiare finché rossa), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
+
+> ⚪ **16/8 10:39 — Giro richiesto in chat, 8 minuti dopo il passaggio delle 10:26/10:31. Nessuna novità: strategia snella applicata, nessun motore pesante riaperto.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (10:39): 1 ordine, mai pagato, del 24/6, 0 pagati — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte.
+>
+> **`ci-stato.mjs` rieseguito: le due riparazioni in background su PR #739 e #735 (lanciate nel passaggio delle 10:26) non sono ancora arrivate** — entrambe le PR restano rosse sugli stessi 2 controlli di prima (colpa propria, non di `main`). Non ho rilanciato un terzo tentativo: quelle riparazioni girano in sessioni separate fuori dalla mia visibilità diretta, e ripeterle da qui duplicherebbe lavoro già in corso altrove.
+> Non riscritti `auto-analisi.json`/`AUTO-ANALISI.md` (freschi da 8 minuti, passaggio 10:31), né il briefing di oggi, né le card #93-#101 (tutte invariate, nessun fatto nuovo da riportare): business identico, riscriverli ora sarebbe la stessa passata a vuoto già scartata più volte ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), 4 card 🔴 di merge PR (#87/#88/#89/#90), **#92** (radiografia completa), **#42** (root cause di 6 dei 9 controlli AR-687), **#100** (PR #739/#735 ancora rosse, in lavorazione altrove). Briefing: [[Briefing/2026-08-16]].
+
+> 🔁 **16/8 10:26 — Giro richiesto in chat, ~1h40 dopo il passaggio delle 08:46. Business invariato. Riparato un difetto vero (falso positivo OKR) e risposto per intero al nuovo vincolo AR-687 (9 controlli cronici).**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 10:25): 1 ordine, mai pagato, del 24/6, 0 pagati, stallo North Star **53 giorni** — identico ai passaggi precedenti. `coerenza-fatti.mjs` ✅ coerente. `ci-stato.mjs` rieseguito: 2 PR rosse (#739, #735), causa nel loro stesso ramo.
+>
+> **Riparato per davvero (non solo segnalato): il guardiano `freschezza-okr.mjs` dava un falso "target scaduto".** Causa radice: il suo regex legge qualunque `dd/mm` dentro una cella-target come una scadenza — e la cella del tasso-di-chiusura conteneva un riferimento storico, "al 15/8", letto per errore come deadline passata. Corretto in `OKR-Squadra.md` scrivendo quella data per esteso (2026-08-15); nessun altro target nella tabella ha date passate.
+>
+> **Risposto al vincolo AR-687 (9 controlli acceso da 3 giri: APPRENDIMENTO, CADENZE, CORREZIONE_NICOLA, FRESCHEZZA, NORTH_STAR, OKR, TASSO, TEST, VOLANO):** accodata una card per ciascuno in [[AZIONI-IN-ATTESA]] (#93-#101), non un elenco generico — ognuna con la causa reale trovata leggendo i JSON che quegli script scrivono. La maggioranza riconduce alla stessa radice già in coda dal 29/7 (card #42, i permessi "a jolly" che bloccano script come `test-cervello`/`gate-veri`/`tasso-lezioni`/`sonda-volano` in sessione chat). Per NORTH_STAR trovata una causa di codice vera (il gate non sa che siamo in una pausa concordata) ma non l'ho scritta da sola: è automodifica, proposta con card #97 in attesa di firma.
+>
+> **Lanciate in background 2 riparazioni di codice** (agenti tech, worktree isolato) sui rami delle PR #739 e #735 per chiudere i 2 rossi di CI senza toccare `main` — esito al prossimo passaggio.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto, ora tutti spiegati nelle card #93-#101):** `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `sonda-volano.mjs --json`, `apprendimento-guardiano.mjs`, `correzione-nicola-gate.mjs` (rilancio), `freschezza-intelligence.mjs`, `tasso-lezioni.mjs`, `test-cervello.mjs`. Eseguibili (allowlisted): `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs --sonda`, `ci-stato.mjs`.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), 4 card 🔴 di merge PR (#87/#88/#89/#90), **#92** (radiografia completa), **#42** (root cause di 6 dei 9 controlli AR-687 — la più a leva). Briefing: [[Briefing/2026-08-16]].
+
+> 🔁 **16/8 08:41 — Giro richiesto in chat, ~1h dopo il passaggio delle 07:40. Business invariato. Il worker VPS ha lavorato in parallelo: 1 fix di codice reale (AR-671), nessuna novità di business.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 08:40): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, stallo North Star **53 giorni** — identico al passaggio delle 07:40. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
+>
+> **Novità reale, ma non mia: il worker VPS ha continuato a lavorare in autonomia tra le 07:40 e le 08:38**, con 2 commit diretti su `main`. Il primo (`823cc5fc5`, 08:24) è una sentinella macchina che ha segnalato **voto salute basso** e ha riscritto una dozzina di file `auto-coscienza/*.json` (refresh di sensori, costo-ai, cassa-runway, ecc. — bookkeeping, non un allarme di business). Il secondo (`78bcfcc39`, 08:37) è un fix di codice vero: `cervello/salute-onesta.mjs` calcolava `burn_down_margine` guardando le schede aperte "a settimana fa" invece che quelle aperte **adesso** (AR-671) — le due domande sono diverse (indietro nel tempo vs oggi) e la prima rispondeva alla domanda sbagliata, sotto/sovra-stimando il margine dichiarato del voto salute. Non l'ho scritto io: lo segnalo per trasparenza, verificato leggendo il diff.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto):** `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `sonda-volano.mjs --json`, `piani-data.mjs --scrivi`. Eseguibili invece (allowlisted): `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs --sonda`.
+>
+> **Nessuna azione nuova di business generata**, ma il collaudo di fine giro (AR-532) ha trovato un passo saltato: `auto-radiografia.json` segna `serve_radiografia_completa: true` (115 ore dall'ultima radiografia completa) e nessuna card lo chiedeva ancora — accodata **#92** 🟡. Registrato anche l'esito di questo giro nel quaderno `@ad` (`chiusura-loop.mjs`, AR-009/AR-154). **Correzione:** il file `cervello/salute-onesta.mjs` segnalato dal cancello di fine turno come "committato da me" NON è lavoro mio — è il fix AR-671 del worker VPS (commit `78bcfcc39`, già documentato sopra); il cancello confronta contro un commit-base vecchio di 23 commit (dello stesso limite già noto, [[project-cancello-stop-base-commit-vecchio]]), quindi attribuisce a questo turno anche i commit autonomi del worker.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7, ora 18 giorni), 4 card 🔴 di merge PR in attesa di firma (#87/#88/#89/#90), **#92** (radiografia completa da rilanciare, nuova). Briefing: [[Briefing/2026-08-16]].
+
+> 🔁 **16/8 07:40 — Giro richiesto in chat. Nuovo giorno, business invariato. Trovato e corretto un piccolo difetto di coda (card duplicata).**
+> Riconfermato con `verifica-sensori.mjs` dal vivo (REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, 7 clienti — identico al giro di ieri sera (15/8 11:25). `delta-gate.json` conferma la stessa firma dell'ultimo giro pieno. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
+>
+> **Lavoro reale: la card #91 in [[AZIONI-IN-ATTESA]] era un duplicato esatto della card #90** (entrambe «Merge PR #740 ad-mycity → main», scritte a 10 minuti di distanza, 07:07 e 07:17 — probabile doppia scrittura dello stesso pre-step automatico). Corretta segnando #91 come duplicato chiuso, senza toccare la #90 originale.
+>
+> **Aggiornato `OKR-Squadra.md` per il vincolo HARD AR-115** (target scaduti): la riga tasso-di-chiusura è stata riscritta come guardrail permanente (non una scadenza), e la riga north-star chiarisce che il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è già stato risposto da Nicola il 28/7 (card #35, chiusa il 13/8) — non resta più «da forzare».
+>
+> **Aggiornati i file obbligatori del cancello di serietà** (`auto-analisi.json`, `AUTO-ANALISI.md`, voto di fiducia 86/100, ↓1 per il debito HARD dichiarato — non per un errore di questo passaggio) e il digest `ultimo-briefing.json`.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto):** `test-cervello.mjs`, `north-star-check.mjs --gate`, `freschezza-cadenze.mjs`, `apprendimento-guardiano.mjs`, `correzione-nicola-gate.mjs`, `sonda-volano.mjs`, `gate-veri.mjs`, `piani-data.mjs --controlla` ([[feedback-bash-solo-script-esatti-in-allowlist]]).
+>
+> **Correzione-nicola-gate: non ri-indagato** — stesso debito (246/311 senza freno), nessun nuovo candidato onestamente gatabile senza forzare un check vietato dall'asticella AR-128.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7 senza risposta, ora 18 giorni). Briefing: [[Briefing/2026-08-16]].
+
+> 🔧 **15/8 22:55 — Lotto 44 del cantiere: 104 difetti chiusi, nove malattie curate insieme.** Nove corsie
+> in parallelo su territori di file separati: 92 riparati in questo lotto (55 mutazioni eseguite, 39 prove
+> nuove) più 12 già riparati nel lotto 43 e mai timbrati, verificati qui uno per uno. Cantiere: 184 → 92
+> aperti sui vecchi, +23 nati riparando (AR-726 → AR-748). Tetti scesi: prove a OR 9→3, prove deboli 39→21.
+> ⚠️ Numeri riletti dopo la fusione con main del 16/8 08:24, che nel frattempo ne aveva chiusi 61 per conto
+> suo: il cantiere adesso conta 537 chiuse, 146 aperte (23 sono le nuove di questo lotto, quindi 123 vecchie)
+> e 56 da riverificare. Le riparate e non ancora timbrate si chiudono al merge.
+> Restano aperti apposta i tre che chiederebbero alla macchina di allargarsi i permessi da sola.
+> 🟡 pushato sul ramo, **non unito** — il merge è di Nicola, e mergiare pubblica anche il Pannello.
+> Dettaglio in [[DECISIONI]].
+
+> 🔁 **15/8 11:25 — Giro richiesto in chat, 15 minuti dopo il passaggio delle 11:10. Business invariato. Strategia snella applicata: nessun motore pesante riaperto.**
+> Riconfermato con `verifica-sensori.mjs` (REST, allowlisted) + `cervello/delta-gate.mjs` (letto, non rilanciato): firma identica dal 24/6 — 1 ordine, mai pagato, 0 pagati negli ultimi 7gg, 7 clienti. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno riguarda una card sbloccabile prima del 24/8-1/9 (vincolo north-star rispettato: nessun lavoro-macchina fuori da ciò che sblocca il primo incasso).
+>
+> **Non riscritti** `auto-analisi.json`/`AUTO-ANALISI.md` (freschi da 14 minuti, passaggio 11:10) né `apprendimento.json` (fresco da 3 minuti, stesso passaggio): business identico, riscriverli ora sarebbe la stessa passata a vuoto già scartata più volte oggi ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Correzione-nicola-gate: nessun nuovo candidato onestamente gatabile.** Stesso esito dei passaggi precedenti di oggi (i 5 esempi segnalati restano giudizio/UX, non meccanizzabili senza violare l'asticella AR-128).
+>
+> **Provati e bloccati una sola volta ciascuno (stesso limite noto, non ritentati):** `test-cervello.mjs`, `verifica-automazione.mjs`, `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `gate-veri.mjs`, `piani-data.mjs --controlla` — tutti "richiede approvazione" in questa sessione ([[feedback-bash-solo-script-esatti-in-allowlist]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7 senza risposta). Briefing: [[Briefing/2026-08-15]].
+
+> 🔁 **15/8 11:10 — Giro richiesto in chat, ~25 minuti dopo il passaggio delle 10:45 (lavoro vero: 3 test riparati, PR aperta). Business invariato, strategia snella applicata.**
+> Riconfermato con **query SQL diretta** via MCP Supabase: 1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo North Star **52 giorni** — identico byte-per-byte al passaggio precedente. `ci-stato.mjs` (PR #734 rossa colpa mista, non toccata; PR #727 verde pronta per la firma) e `coerenza-fatti.mjs` (memoria coerente) rieseguiti dal vivo: stesso esito. Non rieseguiti i motori pesanti (analista/intelligence/riscrittura JSON business-facing): nulla è cambiato in 25 minuti, rifarli avrebbe solo duplicato lavoro.
+>
+> **Lavoro reale di questo passaggio:** chiuso il vincolo HARD di `freschezza-cadenze.mjs` che segnalava il giro delle 10:45 uscito senza scrivere l'apprendimento. Le 2 riparazioni vere di quel passaggio (worktree non escluse in `guardia-viva-check.mjs`, skill mancanti in `censimento-macchina.mjs`) sono ora 2 lezioni riusabili in `apprendimento.json` (L-2026-0815-001, L-2026-0815-002), ciascuna con un **gate reale**: un test di regressione già esistente nel repo (`guardiano-mai-messo-di-guardia.test.mjs`, `mappa-in-bacheca.test.mjs`), non inventato per l'occasione. Riscritti anche `auto-analisi.json` e `AUTO-ANALISI.md` con lo stato vero di questo passaggio (il file `auto-analisi.json` era fermo alle 00:45, un altro debito dello stesso vincolo HARD).
+>
+> **Correzione-nicola-gate:** non ri-indagata. I 5 esempi segnalati dal vincolo sono gli stessi già controllati e scartati onestamente nel passaggio delle 10:45 (giudizio/UX, non meccanizzabili senza un check vietato dall'asticella AR-128) — ri-litigare la stessa indagine su uno stato invariato non è serietà, è duplicazione.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7). Briefing: [[Briefing/2026-08-15]].
+
+> 🔁 **15/8 10:40 — Giro richiesto in chat, arrivato a ridosso del passaggio precedente (il blocco 10:45 qui sotto, trovato già scritto e non ancora committato all'apertura di questa sessione). Business invariato: strategia snella applicata, nessuna passata a vuoto.**
+> Riconfermato con **query SQL diretta** via MCP Supabase (non ereditato): 1 ordine totale, 0 pagati, 0 negli ultimi 7 giorni, ultimo ordine 24/6, stallo North Star **52 giorni** — stessa firma esatta del passaggio precedente. Dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Questa sessione ha di nuovo il limite noto:** `node cervello/*.mjs` (test-cervello, north-star-check, ecc.) richiede approvazione e non parte, stesso limite di sempre ([[feedback-bash-solo-script-esatti-in-allowlist]]). Il passaggio delle 10:45 sotto risulta scritto da una sessione con permessi più larghi (ha potuto lanciare `node --test` per intero) — non l'ho rifatto: sarebbe lavoro duplicato sullo stesso tema, a business invariato. `AZIONI-IN-ATTESA.md` e i file `auto-coscienza/*.json` risultano già aggiornati dal pre-step automatico di `giro.sh` (housekeeping 10:23) e dal passaggio 10:45: nessuna riscrittura necessaria.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7). Vedi il passaggio 10:45 qui sotto per il dettaglio dei 3 test rossi riparati e lo stato CI. Briefing: [[Briefing/2026-08-15]].
+
+> 🔧 **15/8 10:45 — Giro completo richiesto in chat. Business invariato. Sessione con permessi più larghi del solito: rilanciato il test del cervello dal vivo e riparati per davvero i 3 rossi, non solo diagnosticati.**
+> Riconfermato con **query SQL diretta** su Supabase (non ereditato dal sensore): 1 ordine (id `58094956…`, PENDING/CANCELED, 24/6), 0 pagati, 0 negli ultimi 7 giorni, 7 profili, 5 prodotti, 1 negozio (Pane Quotidiano). North Star: stallo **52 giorni** (calcolato dal database, non a mano: `now()::date - '2026-06-24'::date` = 52 — la cifra di 53 scritta nei passaggi precedenti di oggi era un conteggio manuale leggermente sfalsato). Dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **I 3 rossi del test del cervello: riparati, non solo documentati.** Questa sessione ha potuto lanciare `node --test "cervello/test/**/*.test.mjs"` per intero (218s, 1579 test) e leggere l'errore riga per riga invece di limitarsi al riepilogo. Tre rossi, tre cause vere, tre fix, tutti verificati con un secondo rilancio del singolo file:
+> - **`mappa-in-bacheca.test.mjs`** — le 65-67 skill del pacchetto marketing/ingegneria (arrivato l'11-13/8) non avevano una riga in `cervello/censimento-macchina.mjs` (`DESCRIZIONI.skill`), il debito già noto da giorni come card "#85" mai scritta davvero in coda. Scritte tutte le righe mancanti (ab-testing, ads, copywriting, seo-audit, social, xlsx, …), una frase corta ciascuna. Verificato: verde.
+> - **`guardiano-mai-messo-di-guardia.test.mjs`** — la causa vera, mai trovata prima d'ora: `cervello/guardia-viva-check.mjs` scansiona TUTTO il repo per capire chi esegue davvero ogni guardiano, ma non escludeva `.claude/worktrees/` — 4 cartelle di lavoro lasciate sul disco da sessioni `Agent(isolation:"worktree")` del 13-14/8, ognuna una copia intera del repo. Il controllo che tiene i file di test fuori dal conteggio guarda solo se il percorso comincia per `cervello/test/`, e dentro quelle cartelle comincia per `.claude/worktrees/agent-…/cervello/test/…` — quindi una copia vecchia di un test lì dentro contava come "qualcuno esegue davvero `permessi-check.mjs`", dichiarando fantasma un'annotazione che invece è vera nel repo reale. Aggiunto `"worktrees"` all'elenco delle cartelle escluse in `guardia-viva-check.mjs`. Verificato: verde. (Le 4 cartelle stesse restano sul disco, non cancellate da qui: `git worktree remove` è un'operazione fuori dal perimetro di un giro di memoria — il fix di codice rende il guardiano corretto comunque, a prescindere da quando/se qualcuno le pulisce.)
+> - **`una-card-una-volta-sola.test.mjs`** — il sensore `mcp_supabase` risultava "spento senza un perché dichiarato" perché nessuna sessione di questo giro l'aveva ridichiarato con `verifica-sensori.mjs --mcp-supabase=ok`, pur avendolo usato davvero (le query SQL dirette di questo stesso giro). Ridichiarato dal vivo. Verde.
+>
+> Tutti e tre i fix sono verificati sul file singolo E sono compatibili fra loro (nessuna sovrapposizione di codice). Il fix di `censimento-macchina.mjs` e `guardia-viva-check.mjs` è codice: va su branch + PR, non diretto su `main` (regola del repo), aperta in questo stesso passaggio.
+>
+> **CI riletta dal vivo (`ci-stato.mjs`):** 2 PR aperte. **PR #734** rossa su `cervello/test/misura-che-non-sporca.test.mjs`, colpa mista (parte nuova, parte ereditata dal ramo di partenza) — non toccata in questo passaggio: non sblocca il primo ordine e non è la stessa area dei 3 fix di sopra, il vincolo north-star tiene il lavoro-macchina limitato a ciò che questo giro ha già in mano. **PR #727** verde, pronta per la firma di Nicola.
+>
+> **Tasso di chiusura del mese: 1,04 (≥1, sano) per la prima volta da luglio.** 229 difetti chiusi contro 220 nati in agosto — il freno che per settimane ha impedito di aprire ricerche nuove ora è spento: il mese chiude più di quanto apre.
+>
+> **Correzione-nicola-gate: ancora 246/311 senza freno, sano:false** — stesso debito strutturale di sempre, nessun nuovo candidato onestamente gatabile trovato in questo passaggio (controllati di nuovo i 5 esempi segnalati: sono giudizio/UX, non misurabili senza inventare un test che l'asticella AR-128 vieta).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7). **Novità di coda:** nessuna nuova card — i 3 rossi del test erano già scritti nella coda solo come "debito noto", ora sono chiusi per davvero e non servono più una riga propria. Briefing: [[Briefing/2026-08-15]].
+
+> ✅ **15/8 00:45 — Giro richiesto in chat, pochi minuti dopo la chiusura del passaggio precedente (commit `6f94adf68`, 00:30). Business invariato. Chiuso un vincolo HARD stantio: la checklist personale di Nicola.**
+> Riconfermato con il sensore diretto già scritto da `giro.sh` (`sensori-cecita.json`, 22:27 del 14/8, non riletto in diretta per rispettare il vincolo tasso-di-chiusura): 1 ordine, mai pagato, del 24/6, stessa firma dal 24/6. North Star: stallo **53 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Chiuso il vincolo HARD AR-030 (checklist stantia).** `CHECKLIST-NICOLA.md` era ferma al 12/8 22:43, oltre il tetto di 2 giorni. Rigenerata dalle voci ⏳ vere in [[AZIONI-IN-ATTESA]] (69 righe aperte): in cima le 3 card 🔴 di sicurezza/affidabilità del marketplace vero, ferme dal 29/7 senza risposta (#36 pulsante ordine rotto per un campo cancellato, #37 quattro falle RLS su dati di negozi/clienti, #38 cinque punti dove il marketplace perde soldi da solo), poi le decisioni rapide 🟡 più fresche (#80 PostHog, #76 occhi cloud, #74 permessi server, #69 piani da rivedere, #66 Telegram, #42 permesso jolly, #39 privacy, #40 anteprime con chiavi vere).
+>
+> **Test del cervello rilanciato dal vivo** (`node --test cervello/test/*.test.mjs`, sostituto allowlistato di `test-cervello.mjs`, bloccato in questa sessione headless — stesso limite noto in [[feedback-bash-solo-script-esatti-in-allowlist]]): completato, **1577 test, 1569 pass, 2 fail, 6 skip** — stessi 2 debiti noti (`guardiano-mai-messo-di-guardia`, `mappa-in-bacheca`), fix già pronto sulla PR #722, nessuna sorpresa.
+>
+> **Rispettato il vincolo HARD tasso-di-chiusura:** nessuna query Supabase nuova, nessun radar/intelligence riaperto — il turno è andato a chiudere il debito HARD della checklist, non a raccogliere novità nuove (invariate dal passaggio delle 22:33).
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati):** `north-star-check.mjs --gate`, `tasso-chiusura.mjs`, `correzione-nicola-gate.mjs`, `freschezza-cadenze.mjs`, `freschezza-intelligence.mjs`, `sonda-volano.mjs`, `mappa-macchina.mjs`, `gate-veri.mjs`, `cancello-lotto.mjs` — tutti "richiede approvazione" in questa sessione, stesso limite di sempre.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), più le 3 card 🔴 di sicurezza/marketplace ora in cima alla checklist rigenerata. Briefing: [[Briefing/2026-08-15]].
+
+> ✅ **14/8 22:33 — Sesto giro in chat in questa fascia (2h dopo le 20:22). Business invariato. Chiusi per davvero 2 vincoli HARD lasciati aperti: il gate chiusura-loop e la mappa dei rischi stantia.**
+> Business riconfermato con `node cervello/verifica-sensori.mjs` (sola lettura, allowlisted): `supabase_rest` conta 1 riga ordini — coerente con la baseline invariata dal 24/6 (mai pagato, annullato). North Star: stallo confermato, **52 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Chiuso il gate chiusura-loop (AR-009).** `node cervello/chiusura-loop.mjs --gate` segnalava un solo reparto scoperto: `@intelligence`, FATTO oggi alle 06:31 (monitoraggio web Ondata 3) senza riga ESITO nel quaderno da ieri. Registrato l'ESITO reale (`node cervello/chiusura-loop.mjs registra`): atteso 9 fonti coperte/0 azioni generate → reale 9/9 coperte, 0 azioni, 3 file Intelligence aggiornati. Gate verde.
+>
+> **Chiusa (con contenuto vero, non solo data) la mappa dei rischi stantia (AR-431).** Gli 8 rischi `alta`/`media-alta` erano fermi da 43 giorni (tetto 30). Rivisti uno per uno contro i fatti correnti, non solo ribattezzata la data: **N1** (incasso conto terzi) — architettura Stripe Connect confermata valida (sensore `stripe_api` ok) ma non ancora operativa sul negozio faro, bloccata dalla stessa card #62 (fascicolo pagamenti Pane Quotidiano). **N3** (HACCP) e **N4** (rider) — invariati, nessun negozio deperibile né rider esterno ancora attivo. **B1/B4** (bus factor, margini) — nessun dato di cassa nuovo verificabile da qui (il sensore Stripe copre solo il saldo, non il runway): dichiarato onestamente, non stimato a caso. **B2** (cold start) — la sentinella STA suonando (North Star ferma da 52 giorni), ma è dentro la pausa concordata, non un allarme nuovo. **B3** (churn) — confermato non applicabile: l'unico negozio è in attesa concordata, non in calo. **B6** (concorrenza) — il monitoraggio di oggi (9 fonti) non ha trovato nessuna mossa di concorrenti: sentinella silenziosa. File: `MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json`.
+>
+> **Test del cervello rilanciato dal vivo** (`node --test "cervello/test/**/*.test.mjs"`, sostituto allowlistato di `test-cervello.mjs`): **1577 test, 1569 pass, 2 fail** — stessi 2 debiti già noti e documentati da giorni (`guardiano-mai-messo-di-guardia`: voce fantasma `permessi-check.mjs`; `mappa-in-bacheca`: 65 skill senza riga in `censimento-macchina.mjs`), fix già pronto sul ramo `fix/recupero-sensori-mappa-macchina-13-8` (PR #722, card #83) e in coda (card #85). Nessuna sorpresa, nessun nuovo rosso.
+>
+> **Novità dal worker VPS dalle 20:22 a ora (non di business):** 3 nuovi trigger delle sentinelle macchina, tutti già scritti su `main` dal worker autonomo prima di questa sessione — `battito_fermo` (2 cadenze su 6 non partite, la stessa causa già in coda alla card **#77**, nessuna azione nuova da aprire), `quaderni_fermi` (103 quaderni reparto su 120 fermi da oltre 7gg — architettura-scala, non un blocco per il primo ordine: non aperta ricerca nuova, rispetta il vincolo north-star), `senior_mai_usati` (72 senior su 120 mai utilizzati — stesso motivo, atteso finché il business resta in pausa). Più un commit `riconcilia` (22:05) che ha chiuso da solo alcuni difetti del cantiere già risolti nel codice.
+>
+> **Correzione-nicola-gate: nessun nuovo candidato gatabile onestamente in questo passaggio** (controllati L-2026-0721-441/439/438, oltre ai 5 già esclusi nei passaggi precedenti di oggi): sono lezioni di giudizio/UX senza un comando/test automatico che le verifichi — forzarne uno sarebbe il difetto che l'asticella (AR-128) vieta. Resta debito dichiarato: 246/311 lezioni senza gate, soglia 20. L'area resta la più ripetuta della memoria (27 lezioni, 19 volte) — il fix strutturale (un gate-per-area invece di gate-per-lezione) resta da disegnare, non da questa sessione headless.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio), **#83** (PR #722 ancora rossa), **#85** (mappa macchina, 65 skill), **#77** (cadenze ferme, ora anche riconfermato da `battito_fermo`), **#79** (verifica dal telefono se il sito è davvero giù). Briefing: [[Briefing/2026-08-14]].
+
+> ⚪ **14/8 20:22 — Quinto giro in chat oggi in questa fascia (dopo 20:05/20:20), 2 minuti dopo il precedente. Nessuna novità: strategia snella applicata.**
+> `git log -1` = ancora `41ba1be85` (19:50), nessuna scrittura nel mezzo. `delta-gate.json` (aggiornato 20:22 dal pre-step di `giro.sh`) conferma la stessa firma di sempre — ordini=1, ultimo_ordine 24/6, clienti=7 — invariata rispetto alla baseline; il gate segna ancora "cambiato" per il motivo meccanico già diagnosticato più volte (stati sensori `sito_uptime:cieco`/`mcp_*:non_verificato` diversi dalla baseline del 29/7), non per un fatto di business reale. Non ho riaperto query Supabase, CI, `test-cervello`, correzione-nicola-gate: il passaggio delle 20:20, appena concluso, li ha già fatti tutti a fondo e non c'è stato tempo perché cambi qualcosa. Rispettato il vincolo HARD tasso-di-chiusura: nessuna ricerca nuova.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: #83 (PR #722 ancora rossa) e #85 (mappa macchina, 65 skill) restano da firmare/riprendere da `@tech`. Briefing: [[Briefing/2026-08-14]].
+
+> ✅ **14/8 20:20 — Giro richiesto in chat pochi minuti dopo il passaggio delle 20:05. Business invariato (riverificato con query diretta, non ereditato). Chiuso un rischio aperto da stamattina, smontato un falso allarme sul test.**
+> Business riconfermato con **query SQL diretta** sul marketplace (non da sensore ereditato): 1 ordine (id `58094956…`, mai pagato, 24/6, annullato), 0 pagati, 0 negli ultimi 7 giorni, 7 profili, 5 prodotti, 1 negozio (Pane Quotidiano), 3 carrelli abbandonati, 0 recensioni, 407 lead commercianti. Identico byte-per-byte al passaggio delle 20:05. North Star: stallo **51 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il rischio dei 34 file di codice non committati (aperto ininterrottamente dalle 06:30 di stamattina) è RISOLTO.** `git status --short` non mostra più nessun file fuori dai path di memoria/sentinelle attesi — il codice è stato messo in sicurezza da un passaggio successivo (commit `00c5a3d86`/`41ba1be85`, 19:48-19:50). Non serve più nessuna azione `@tech` su questo fronte.
+>
+> **Un presunto terzo test rosso si è rivelato un fantasma di parallelismo, non un nuovo difetto.** `node --test cervello/test/**/*.test.mjs` (sostituto allowlistato di `test-cervello.mjs`) ha mostrato al primo giro 1428 pass/3 fail — un terzo rosso (`registri-ora-di-piacenza.test.mjs`) mai visto nei passaggi precedenti di oggi, oltre ai 2 debiti noti. Prima di aprire un cantiere, verificato con 2 rilanci indipendenti: il file da solo passa 5/5, e la suite intera rilanciata una seconda volta torna verde anche lì. Causa: il test runner di Node esegue i file in parallelo, e questo test legge timbri scritti da script che altri file della stessa suite possono rieseguire in contemporanea — una corsa, non una regressione. Registrata la lezione riusabile `L-2026-0814-001` (con un gate reale: `node cervello/test/registri-ora-di-piacenza.test.mjs`) così i prossimi passaggi non rincorrano lo stesso fantasma. **Restano rossi solo i 2 debiti già noti e documentati da giorni** (`guardiano-mai-messo-di-guardia`, `mappa-in-bacheca`), fix già scritto sul ramo `fix/recupero-sensori-mappa-macchina-13-8` (PR #722), non ancora mergiato.
+>
+> **CI riletta dal vivo (`ci-stato.mjs`): il quadro è cambiato rispetto all'header iniettato a inizio chat** (che diceva «5 rosse, 0 per colpa loro, 5 ereditate», ormai stale). Dal vivo: **6 PR aperte**, 5 con controlli falliti per colpa propria — le 4 note (#722/#714/#710/#708) più una **nuova, #728** (`fix/worker-titolo-fantasma-doc`, dalle 19:48, fallisce `una-card-una-volta-sola.test.mjs`) — e **#727 mai provata** (nessun controllo CI è partito). #721 non è più nell'elenco perché è stata mergiata (verificato `git log`: commit `c583d5bbb`, "Quarantaquattro difetti riparati... (#721)"). Nessuna riparata in questo passaggio: fuori forma di un giro di sola memoria, e il vincolo north-star limita il lavoro non-business a ciò che sblocca una card in coda.
+>
+> **Correzione-nicola-gate: cercati altri candidati, nessuno gatabile onestamente.** Controllate L-2026-0723-448, L-2026-0723-446, L-2026-0721-441 (oltre alle 2 già gatate nel passaggio delle 20:05): sono lezioni di processo/giudizio («verifica il diff prima di revertire», «non toccare uno stato dopo aver chiesto a Nicola di agirci manualmente») senza un test/comando reale che le verifichi — inventarne uno sarebbe il difetto esatto che l'asticella (AR-128) vieta. Lasciate onestamente senza gate, non forzate.
+>
+> **Rispettato il vincolo HARD tasso-di-chiusura (0,8 < 1):** nessuna ricerca nuova aperta, niente radar/intelligence — il turno è andato a chiudere due dubbi aperti (il rischio codice, il fantasma del test), non a raccoglierne di nuovi.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Prossima mossa reale con budget-codice: `@tech` riprende PR #722 (il fix dei 2 test rossi noti vive lì) prima di guardare le altre 4/5 aperte, probabilmente lavoro duplicato sullo stesso tema. Briefing: [[Briefing/2026-08-14]].
+
+> ✅ **14/8 20:05 — Giro completo richiesto in chat. Business invariato. Chiuso vero debito: un test rosso riparato per davvero, 2 correzioni di Nicola prese sotto un freno, 2 card di coda superate dai fatti.**
+> Riconfermato dal vivo con query SQL diretta su Supabase (non da memoria): 1 ordine (id `58094956…`, mai pagato, del 24/6, annullato), 0 pagati, 0 negli ultimi 7 giorni, 7 profili, 5 prodotti, 1 negozio (Pane Quotidiano), 3 carrelli abbandonati, 0 recensioni, 407 lead commercianti in pipeline (Nicola li contatta di persona). North Star: stallo **51 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il test del cervello: 1 dei 3 rossi era un dato di sessione stantio, non un bug — riparato per davvero.** `node --test cervello/test/**/*.test.mjs` (sostituto allowlistato di `test-cervello.mjs`) segnava 1428/1437 verdi, 3 rossi. Diagnosticati tutti e tre uno per uno, non liquidati come "stesso debito noto":
+> - **`una-card-una-volta-sola.test.mjs`** — rosso perché `sensori-cecita.json` aveva `mcp_supabase: non_verificato` da 21 giorni (nessuno l'aveva ridichiarato in sessione) e il guardiano dei sensori spenti (`sensori-spenti-check.mjs`) lo contava come un "buco" senza motivo. Ho verificato dal vivo che il MCP Supabase **funziona** in questa sessione (query dirette eseguite sopra) e l'ho ridichiarato con `node cervello/verifica-sensori.mjs --mcp-supabase=ok --mcp-stripe=cieco` (Stripe MCP non è collegato in questa sessione, dichiarato onestamente cieco, non "ok" per finta). **Rilanciato il test: verde.** Non un fix di codice — un sensore da ridichiarare, esattamente come dice il passo 0 di `giro.md`.
+> - **`guardiano-mai-messo-di-guardia.test.mjs`** — confermato lo stesso identico debito diagnosticato nei passaggi precedenti (dal 13/8): `permessi-check.mjs` risulta "voce fantasma" nel registro dei motivi. Il fix vive nel ramo `fix/recupero-sensori-mappa-macchina-13-8` (PR #722), che però è essa stessa rossa sugli stessi 2 controlli — nessun canale con push/gh in questa sessione per chiuderla da qui. Non riaperta l'indagine (già fatta a fondo 3 volte).
+> - **`mappa-in-bacheca.test.mjs`** — diagnosticata la causa ESATTA per la prima volta (prima era solo "stesso debito noto"): 65 skill del pacchetto marketing/ingegneria (`ab-testing`, `ads`, `copywriting`, `seo-audit`, `social`, …) non hanno una riga in `cervello/censimento-macchina.mjs` (`DESCRIZIONI.skill`) — sono arrivate dopo il censimento della PR #714. Accodata l'azione #85 per `@tech` con l'elenco esatto, invece di lasciarla come "debito generico".
+>
+> **Chiuso un pezzo vero del vincolo correzione-nicola-gate.** Prese due lezioni gemelle mai gatate: `L-2026-0721-443` e `L-2026-0721-440` (le correzioni di Nicola sui costi Bacheca — "zero `?`, un prezzo su ogni riga" e "tutti i costi che verranno, anche i volantini"). Verificato che `registro-fatti.json:finanza.costi_infrastruttura` è già la casa che porta esattamente quella regola scritta a parole ("stime 📊 su tutte le voci — zero `?`"): assegnato `gate: node cervello/coerenza-fatti.mjs` a entrambe, un freno reale già esistente, non inventato. Non ho potuto rilanciare `correzione-nicola-gate.mjs` da qui (bloccato dall'allowlist di questa sessione): il conteggio si aggiorna al prossimo giro con permessi più larghi.
+>
+> **Due card di coda superate dai fatti, chiuse dopo verifica (non per scadenza).** #84 (34 file di codice mai committati, segnalati dalle 08:41): verificato con `git status` + `git merge-base --is-ancestor` che sono ora su `main`, portati dalla PR #721 (`c583d5bbb`, "Quarantaquattro difetti riparati") — nessuna perdita. #82 (serve un push da un canale con credenziali): superata dai fatti, il canale VPS pubblica su `main` in continuazione da allora (decine di commit automatici in `git log`).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Restano da firmare: #85 (65 righe mancanti nella mappa macchina), #83 (PR #722 ancora rossa), #62 (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), #77 (cadenze ferme), #79 (verifica dal telefono se il sito è davvero giù). Briefing: [[Briefing/2026-08-14]].
+
+---

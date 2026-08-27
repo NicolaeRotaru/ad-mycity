@@ -100,13 +100,22 @@ test("AR-354: anche l'impatto di crescita ALTO obbliga alla prova che esegue —
   assert.match(v.perche, /ALTO/);
 });
 
-test("AR-354: un bloccante SENZA `verifica`, o con una verifica umana, resta non chiudibile e viene marcato", () => {
+test("AR-354: un bloccante SENZA `verifica` resta non chiudibile e viene marcato", () => {
   const senza = classifica(scheda({ gravita: "bloccante", impatto_crescita: "alto" }));
   assert.equal(senza.auto_chiudibile, false);
   assert.equal(senza.prova_debole_su_grave, true, "«nessuna prova» non è «{comando: …}»: la clausola vale anche qui");
+});
+
+test("AR-848: una verifica UMANA dichiarata non è una prova debole — è la seconda strada del manuale", () => {
+  // 27/8 — questo caso chiedeva `prova_debole_su_grave: true` anche sulla verifica umana, e non è
+  // giusto: il manuale nomina DUE uscite oneste per un difetto pesante, «una prova che gira»
+  // **oppure** `{tipo:"umano"}` dichiarato. Il conto `prova_debole_su_grave` è «il numero che deve
+  // scendere scrivendo test»: tenerci dentro le umane chiede un test a chi ha appena dichiarato che
+  // un test non esiste, e un numero che non si può portare a zero si impara a ignorarlo. Misurato
+  // il 27/8: erano 27 su 53. Quello che NON cambia, ed è il punto: non si chiude lo stesso.
   const umana = classifica(scheda({ gravita: "bloccante", verifica: { tipo: "umano" } }));
-  assert.equal(umana.auto_chiudibile, false);
-  assert.equal(umana.prova_debole_su_grave, true);
+  assert.equal(umana.auto_chiudibile, false, "una verifica umana non la chiude nessun guardiano");
+  assert.notEqual(umana.prova_debole_su_grave, true, "una dichiarazione onesta viene contata come debolezza");
 });
 
 test("AR-354: la FORMA giusta non basta — un comando che il motore non sa eseguire non è una prova", () => {
@@ -135,11 +144,17 @@ test("AR-354: la regola sta in una funzione PURA, che un test può eseguire senz
   assert.equal(provaComportamentaleObbligatoria({ gravita: "bloccante" }).obbligatoria, true);
   assert.equal(provaComportamentaleObbligatoria({ severita: "bloccante" }).obbligatoria, true, "il nome nuovo del campo si legge dalla porta unica");
   assert.equal(provaComportamentaleObbligatoria({ impatto_crescita: "alto" }).obbligatoria, true);
-  assert.equal(provaComportamentaleObbligatoria({ gravita: "grave", impatto_crescita: "medio" }).obbligatoria, false);
+  // ⚠️ 27/8 · AR-848 — QUESTA RIGA CHIEDEVA `false`, ED ERA IL DIFETTO SCRITTO COME ASSERZIONE.
+  // Il manuale dice «un difetto **grave o bloccante** nasce con una prova che gira»: una grave a
+  // impatto medio deve obbligare. Finché chiedeva `false`, AR-128 — la scheda da cui quella regola
+  // è nata — si chiudeva scrivendo «chargeback» in un documento.
+  assert.equal(provaComportamentaleObbligatoria({ gravita: "grave", impatto_crescita: "medio" }).obbligatoria, true);
+  assert.equal(provaComportamentaleObbligatoria({ gravita: "minore", impatto_crescita: "medio" }).obbligatoria, false, "sui minori il pattern resta ammesso, o il cancello è un muro");
   // Nel registro vero `impatto_crescita` porta anche 40 frasi di prosa: un confronto largo le
-  // tirerebbe dentro tutte, e il cancello diventerebbe un muro.
+  // tirerebbe dentro tutte, e il cancello diventerebbe un muro. Il caso si misura su una gravità
+  // che NON obbliga da sola — altrimenti la prosa non decide niente e la riga non prova più nulla.
   assert.equal(
-    provaComportamentaleObbligatoria({ gravita: "grave", impatto_crescita: "indiretto: è debito della macchina, non una leva sul primo ordine" }).obbligatoria,
+    provaComportamentaleObbligatoria({ gravita: "minore", impatto_crescita: "indiretto: è debito della macchina, non una leva sul primo ordine" }).obbligatoria,
     false,
   );
 });

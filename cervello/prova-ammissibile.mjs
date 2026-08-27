@@ -59,8 +59,29 @@ export const CLASSE_IMPOSSIBILE = "prova-orfana";
 export const MARCA_NON_GIUDICABILE = "⚪ non giudicabile";
 export const CLASSE_NON_GIUDICABILE = "campo-non-dichiarato";
 
-/** Le gravità che da sole obbligano alla prova comportamentale. */
-export const GRAVITA_CHE_OBBLIGANO = Object.freeze(["bloccante"]);
+/**
+ * Le gravità che da sole obbligano alla prova comportamentale.
+ *
+ * ⚠️ 27/8 — `grave` È ENTRATO QUI, e prima non c'era. Il manuale di casa lo dice da sempre con
+ * queste parole: «un difetto **grave o bloccante** nasce con una prova che gira». Il cancello
+ * d'INGRESSO lo rispetta (`proveDeboliNate` in cancello-lotto.mjs rifiuta una GRAVE nata adesso con
+ * una prova a pattern). Questo, che è il cancello d'USCITA, leggeva solo `bloccante`: una grave non
+ * poteva ENTRARE con una parola cercata in un file, ma poteva USCIRE — cioè chiudersi — con quella
+ * stessa parola. Due porte, due altezze, e quella che conta di più era la più bassa.
+ *
+ * Non è teoria: l'ha fatto davvero. Il 27/8 `allinea-scan-cantiere.mjs` ha chiuso il reperto GRAVE
+ * «Il banco delle prove non sa cosa sia un test saltato: non lo conta e dichiara verde» perché
+ * `cervello/test-cervello.mjs` contiene la parola «saltati». Che quella parola ci sia non dice
+ * niente su quanti test saltati il banco conti: è AR-128 un'altra volta.
+ *
+ * IL COSTO, MISURATO PRIMA DI CAMBIARE (27/8, non stimato): 6 schede aperte del cantiere e 36
+ * reperti della radiografia della macchina — 42 in tutto — passano da «chiudibile su una parola» a
+ * «da alzare». Zero sul referto del sito. Il numero che il commento storico qui sotto temeva
+ * (l'84% del cantiere congelato, AR-444) valeva per il divieto TOTALE, non per questa riga: quel
+ * conto è del 30/7, quando le prove deboli erano 127 su 151, e il tetto `prova_debole` da allora è
+ * sceso a 17. Un cancello che ferma 42 schede non è un cancello sempre rosso.
+ */
+export const GRAVITA_CHE_OBBLIGANO = Object.freeze(["bloccante", "grave"]);
 
 /** Il valore di `impatto_crescita` che obbliga alla prova comportamentale. */
 export const IMPATTO_CHE_OBBLIGA = "alto";
@@ -72,10 +93,11 @@ export const IMPATTO_CHE_OBBLIGA = "alto";
 /**
  * Il difetto è di quelli a cui una parola cercata in un file non basta?
  *
- * Due strade, e bastano perché sono le due che pesano: la gravità `bloccante` (il difetto che
- * ferma qualcosa) e l'impatto di crescita `alto` (il difetto che costa soldi). Sui `minore` e sui
- * `medio` la prova a pattern resta ammessa: vietarla ovunque congelerebbe l'84% del cantiere
- * (AR-444), e un cancello che nessuno può attraversare è un cancello che si impara ad aggirare.
+ * Due strade: la gravità che pesa — `bloccante` o `grave`, le due parole che CLAUDE.md nomina
+ * insieme — e l'impatto di crescita `alto` (il difetto che costa soldi). Sui `minore` la prova a
+ * pattern resta ammessa, e resta ammessa apposta: vietarla OVUNQUE congelerebbe l'84% del cantiere
+ * (AR-444, misurato il 30/7), e un cancello che nessuno può attraversare è un cancello che si
+ * impara ad aggirare. La riga di mezzo — la grave — è quella che il manuale non ha mai concesso.
  *
  * `impatto_crescita` si legge con l'uguale esatto, come fa `cantiere-owner-check.mjs`: nel registro
  * vero quel campo porta anche 40 frasi di prosa («indiretto: è debito della macchina…»), e un
@@ -92,7 +114,10 @@ export function provaComportamentaleObbligatoria(d) {
 
   if (perGravita || perImpatto) {
     const motivi = [];
-    if (perGravita) motivi.push("è un BLOCCANTE");
+    // Il messaggio nomina la gravità VERA, non la parola «BLOCCANTE» per tutte: da quando la
+    // grave obbliga anche lei, un motivo che dicesse «è un BLOCCANTE» su una scheda grave sarebbe
+    // un cancello che mente su perché ha fermato.
+    if (perGravita) motivi.push(`è un ${g.valore.toUpperCase()}`);
     if (perImpatto) motivi.push("ha impatto di crescita ALTO");
     return { obbligatoria: true, indecidibile: false, perche: `questo difetto ${motivi.join(" e ")}` };
   }
@@ -134,6 +159,17 @@ export function provaComportamentaleObbligatoria(d) {
 export function provaCheEsegue(verifica) {
   if (formaProvaScheda(verifica) !== "comando") return false;
   return verdettoProva(verifica).eseguibile === true;
+}
+
+/**
+ * La prova dichiara di essere UMANA? È la terza uscita onesta del manuale, accanto al comando.
+ *
+ * Si legge dal contratto (`formaProvaScheda`) e non dal campo grezzo, perché il nome del campo ha
+ * due scritture vive nel registro — `{tipo:"umano"}` e `{tipo:"umana"}` — e un confronto a mano
+ * qui dentro sarebbe la quinta copia di una domanda che ha già una casa sola.
+ */
+export function umanaDichiarata(verifica) {
+  return formaProvaScheda(verifica) === "umana";
 }
 
 /** Com'è fatta questa prova, detto in italiano per chi legge il referto. */
@@ -196,16 +232,35 @@ export function ammissibilitaProva(d, { fileEsiste = () => false } = {}) {
   }
 
   // (a) — il peso del difetto contro la forza della prova.
+  //
+  // ⚠️ 27/8 — LA TERZA USCITA ONESTA, che qui mancava. Il manuale di casa ne dichiara DUE per un
+  // difetto pesante: «una prova che gira» **oppure** `verifica: {tipo:"umano"}`. Il cancello
+  // d'ingresso le riconosce tutt'e due (`proveDeboliNate`: «dichiarata umana: onesto, si vede,
+  // passa»); questo leggeva solo la prima, quindi una scheda che ha detto la verità più scomoda —
+  // «questo non lo potrà mai chiudere un guardiano» — finiva marcata come prova debole.
+  //
+  // Perché non è un dettaglio di etichette: `prova_debole_su_grave` è «il numero che deve
+  // scendere, e scende solo scrivendo dei test». Metterci dentro le schede a verifica umana chiede
+  // un test a chi ha già dichiarato che un test non esiste: il numero smette di indicare del
+  // lavoro e diventa rumore, e un numero che non si può portare a zero si impara a ignorarlo.
+  // Misurato aggiungendo `grave` alla riga sopra: 53 marcate, di cui 27 erano umane dichiarate.
+  //
+  // Resta vero il fatto che conta: una scheda a verifica umana NON la chiude nessun guardiano.
+  // Cade nella sua classe `umana` qui sotto, che è dove un umano la va a cercare.
   const obbligo = provaComportamentaleObbligatoria(d);
-  if (obbligo.obbligatoria && !provaCheEsegue(v)) {
+  if (obbligo.obbligatoria && !provaCheEsegue(v) && !umanaDichiarata(v)) {
     return {
       ammessa: false,
       marca: MARCA_DEBOLE_SU_GRAVE,
       classe: CLASSE_DEBOLE_SU_GRAVE,
       senza_controllo: false,
+      // La frase di chiusura si adatta alla prova che ha davvero: dire «non si chiude su una parola
+      // cercata in un file» a una scheda che di prove non ne ha nessuna, o che ha un comando rotto,
+      // manda chi legge a cercare un pattern che non esiste. Un cancello che sbaglia a dire perché
+      // ha fermato si guadagna la fama di sbagliare anche a fermare.
       motivo:
         `${obbligo.perche}, e la sua prova è ${descriviProva(v)}. ` +
-        "Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
+        "Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo.",
     };
   }
 

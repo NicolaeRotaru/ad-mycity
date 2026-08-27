@@ -4391,6 +4391,124 @@ legittimo, ed è il file dei permessi.
 regola di casa dice il contrario. Ha trovato quattro cose e sono state riparate, fra cui
 una soglia che stavo alzando e che il sorvegliante del delta ha respinto con ragione.
 
+## 2026-08-26 20:15 — 🟡 Il turno fra i negozi collegato al worker (AR-804), e la finestra tolta
+
+**Cosa.** La presa dei lavori del worker esce da `worker.sh` e va in `cervello/worker-coda.sh`, che sceglie a turno fra i negozi invece che in ordine d'arrivo. La chat resta davanti a tutto.
+
+**Perche'.** Il turno era scritto e provato dal 23/8 e non lo chiamava nessuno: la scheda diceva che mancava il campo del negozio sulla coda, arrivato con la card 174. Un cancello costruito bene su una porta che nessuno usa non e' un cancello.
+
+**Due scelte mie, dichiarate.** (a) Il centro e' esente da UN freno solo e in UN caso solo — il tetto non dichiarato — perche' il suo freno di spesa vive gia' in `costo-ai.mjs`; resta soggetto a quota, interruttore e tetto dichiarato e finito. Senza questa esenzione la coda di oggi, tutta del centro, non sarebbe partita affatto. (b) Niente finestra sulla coda: si chiede prima quali negozi hanno lavori, poi il lavoro del negozio scelto. La finestra da 200 righe che avevo messo per prima rimetteva dentro la fame che la scheda esiste per togliere.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. La firma sul merge resta di Nicola (PR #850).
+
+## 2026-08-26 20:50 — 🟡 Il contatore della spesa per negozio (AR-838)
+
+**Cosa.** Ogni voce di costo porta il negozio a cui appartiene; la presa legge la somma e la passa a chi sceglie il turno, cosi' il tetto per negozio ha finalmente chi lo alimenta.
+
+**Tre scelte mie, dichiarate.** (a) La misura e' in token e non in euro: in casa non esiste un listino che li converta, e inventarlo sarebbe un numero senza fonte. La conversione e' un pezzo suo. (b) Le stime non entrano nel numero su cui si frena — restano visibili accanto. (c) Uno zero misurato non esce dal contatore, per non coprire un valore dichiarato a mano che il registro non conosce.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+
+## 2026-08-27 06:40 — 🟡 La porta di bottega: il lavoro di un negozio adesso ha una strada sua (AR-839)
+
+**Cosa.** Il worker sa fare un tipo di lavoro nuovo, `bottega`. Il testo che l'AI legge non lo scrive piu' il worker: esce da un costruttore solo, quello che scarta le righe degli altri negozi e non ha nessun campo da cui possano entrare le chiavi del negoziante.
+
+**Perche' adesso.** I due meccanismi che tengono separati i negozi erano scritti e provati dal 23/8, e non li chiamava nessuno. La mia prima diagnosi era sbagliata e l'ho corretta: non erano aggirati, erano in ATTESA — tutti i tipi di lavoro erano del centro, e un lavoro del centro non ha nessun negozio da tenere separato. Il difetto era che il giorno del primo lavoro di bottega niente avrebbe obbligato chi lo costruiva a passare di li'.
+
+**Tre scelte mie, dichiarate.** (a) Il muro sta all'ESECUZIONE, non nella presa dei lavori: nella presa rendeva cieche cinque prove del turno, misurato ieri. Un freno che spegne le prove di un altro freno e' un cattivo affare. (b) Fail-closed con una lista: si entra nella lista pagando, perche' la prova prende ogni nome dichiarato e ne collauda la porta eseguendola. Il conto non lo paga chi costruisce il muro, lo paga chi apre la porta. (c) L'impiegato di una bottega non vede la memoria della macchina e non ha le sue mani: niente repo, niente PR, niente invii.
+
+**Cosa NON copre.** La separazione la fa il codice, sopra quello che il database ha gia' consegnato: se una query sbaglia, le righe altrui arrivano fino al filtro, vengono scartate e contate ad alta voce, ma sono uscite. Il muro dentro il database resta aperto (AR-802) ed e' rosso: non lo posso provare da qui.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 07:35 — 🟡 Il guardiano dell'allocazione dello sforzo passa dal contratto di casa (AR-081, AR-842)
+
+**Cosa.** Il blocco che interroga il guardiano dell'allocazione dentro il giro adesso usa le due funzioni che esistevano gia': quella che non perde l'esito e quella che traduce l'esito in un vincolo.
+
+**Perche'.** La prova di quel pezzo cercava una parola dentro `giro.sh`, dove compare cinque volte, e la mutazione che rimette il difetto ne rinomina una in modo che contiene ancora la parola cercata. Non poteva diventare rossa nemmeno col vincolo spento. Adesso i due tratti veri vengono ritagliati ed ESEGUITI con un guardiano finto: si guarda il testo che arriva al motore.
+
+**Il difetto vero trovato riparando (AR-842).** Quel blocco si scriveva il vincolo da solo e trattava ogni esito diverso da zero come una bocciatura di merito. Ma quel guardiano esce **2** quando non ha potuto misurare. Il motore riceveva come regola non negoziabile la frase «una entita' non confermata sta accumulando asset pesanti» — una diagnosi sul contenuto, mentre nessuno aveva guardato il contenuto. Un vincolo sbagliato non viene ignorato: viene seguito.
+
+**Cosa NON ho fatto, e perche' (AR-843).** Ho contato i fratelli invece di curare il caso singolo e andarmene: in `giro.sh` ci sono 96 assegnazioni di vincolo, 25 passano dal contratto, 2 scrivono a mano il caso «non ho misurato». Restano 27 da controllare una per una. NON le ho toccate: sapere se ognuna e' viva vuol dire leggere il guardiano corrispondente, ed e' un lavoro suo. Scheda aperta col conto dentro.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 08:15 — 🟡 I sei vincoli del giro che non sapevano dire «non ho potuto misurare» (AR-843)
+
+**Cosa.** Sei blocchi di `giro.sh` passano dal contratto dei guardiani invece di scriversi il testo da soli. Nasce anche il contatore che impedisce alla classe di riaprirsi, col tetto a zero.
+
+**Il conto vero, e perche' e' diverso da quello di stamattina.** Avevo scritto «27 da controllare», contando le RIGHE. Contando i GUARDIANI il numero e' un altro: 19 vincoli scritti a mano, 3 gia' col ramo del cieco, 10 su guardiani che possono accecarsi, **6 vivi**. Contare per righe accusava chi ha due righe giuste — una per il bocciato e una per il cieco — che e' la forma corretta.
+
+**I sei erano vivi in due versi opposti, e fanno danno tutti e due.** Due erano legati a «uguale a 1»: su un guardiano cieco non dicevano niente, e un cieco travestito da verde non lo va a cercare nessuno. Quattro erano legati a «diverso da zero»: al motore arrivava la diagnosi di merito. Il piu' caro e' quello della stella polare, perche' riscrive il giro intero — e lo avrebbe riscritto per un sensore rotto.
+
+**Una conseguenza dichiarata, non scoperta dopo.** Adesso un guardiano cieco conta come vincolo attivo: il giro non puo' piu' saltare il motore quando uno strumento e' rotto. E' voluto, ed e' gia' il comportamento dei due guardiani che il ramo del cieco ce l'avevano.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 09:10 — 🟡 Cinquantasette prove finte sbloccate, e tre non guardavano niente per una ragione nuova (AR-840)
+
+**Cosa.** Quattro grappoli di mutazioni cieche sbloccati e fatti girare per davvero: **54 su 57 mordono**, 3 no. Il tetto scende da 393 a 340.
+
+**Il tasso e' cambiato, e conta.** Nel primo lotto (il 26/8) non mordeva un terzo. Qui uno su venti. La differenza non e' fortuna: i grappoli di oggi puntano a file di prova recenti e ben tenuti, quelli di ieri erano pescati a caso.
+
+**Le tre non erano prove deboli, ed e' la scoperta.** Sono prove scritte bene, con l'assert giusto, sul ramo piu' importante del loro file — e la mutazione le lasciava verdi perche' **quella riga qui non la esegue nessuno**. Il controllo della fusione chiedeva a git, e «git non risponde» in un repo sano non capita mai. Il rilevatore dell'allerta arrivava al ramo «non ho potuto misurare» solo senza le chiavi, e la sonda trovava il difetto tre righe prima. In tutti e due il ramo protetto era quello del ⚪ — cioe' l'unico posto dove un «non ho misurato» puo' diventare un «va bene» senza che se ne accorga niente.
+
+**La cura, la stessa due volte.** Si tira fuori la decisione in una funzione che riceve da fuori la risposta del mondo, e allora tutte le strade si possono percorrere — non solo quella che la macchina di oggi prende.
+
+**Una nota di metodo, perche' e' la terza volta oggi.** La prima spiegazione che mi ero data era «la prova e' debole». L'ho scoperta falsa misurando: il rilevatore usciva 1, non 2.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 09:35 — 🟡 Altri 56 sblocchi, e quattro fix che nessuno aveva mai provato (AR-840)
+
+**Cosa.** Otto grappoli sbloccati: 62 mutazioni mordono, 4 no. Tetto da 340 a **284**.
+
+**Le quattro non erano quello che mi aspettavo.** Stamattina la forma era «il ramo l'ambiente non lo prende mai». Qui erano tre COLLEGAMENTI mai provati e un mio errore. La regola che dice «il cervello e' acceso ma non finisce niente» era provata quattro volte presa da sola, e la CHIAMATA dentro la sentinella da nessuno: si poteva spegnere e le quattro prove restavano verdi. Uguale per il verdetto che decide se una scheda si chiude, e per il guardiano del campo visivo dentro il cancello.
+
+**L'errore mio, che vale piu' degli altri tre.** Avevo scritto il caso nuovo con una ricerca che prendeva solo l'inizio della riga: il controllo sulla data non guardava niente. L'ho scoperto applicando la mutazione a mano invece di fidarmi del verde. **Una prova appena scritta e' sospetta quanto una vecchia.**
+
+**E una forma che ho ritrovato in casa mia.** Il controllo «il guardiano e' montato nel cancello» cercava una riga che una riga COMMENTATA contiene ancora, lettera per lettera. Ne avevo scritti due oggi con lo stesso difetto: irrobustiti tutti e tre, e verificato commentando la riga a mano.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 10:15 — 🟡 Altri 55 sblocchi: sei collegamenti che nessuno aveva mai provato (AR-840)
+
+**Cosa.** Undici grappoli sbloccati: 49 mordono, 6 no. Tetto da 284 a **229**. Tutti e sei riparati.
+
+**Tre erano collegamenti.** Il guardiano dei workflow applicava tre regole: le prime due provate da dodici casi, la terza — quella che dice «questo script parte e poi muore alla prima riga» — collegata e mai provata. Si poteva togliere e restava tutto verde. Il rilevatore delle copie di una decisione era coperto solo dal suo gemello scritto dentro il test: il rilevatore VERO, quello che gira nella macchina, da nessuno.
+
+**Due erano la parola che la rottura si porta dietro.** Il gancio del commit nomina il freno due volte: una per chiedere se il file esiste, una per eseguirlo. Spegnendo l'esecuzione la parola restava, e il controllo non se ne accorgeva. È la terza volta oggi che incontro questa forma.
+
+**E una era la mia macchina che si dà ragione da sola.** Una radice scritta a mano — `/home/user/ad-mycity` — su questa macchina È quella giusta. Da qui nessun comportamento le distingue. L'ho dichiarato invece di fingere: metà del caso guarda il comportamento (il bagaglio segue la radice che gli si dà), metà guarda il sorgente, e il perché è scritto lì.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 10:55 — 🟡 Diciotto schede riparate che ogni misuratore contava aperte (AR-844, AR-780, AR-796)
+
+**Cosa.** Venti schede tornano al loro stato vero: due riparate il 23/8 e mai chiuse, e diciotto scritte con la parola dell'altro registro. Nasce il freno che impedisce alla cosa di ripetersi.
+
+**La causa.** In casa ci sono due registri di difetti e due vocabolari, a due cartelle di distanza. Nel cantiere della macchina l'unico stato chiuso e' «chiuso», e lo usano tutti i misuratori. Nel registro dei difetti del sito valgono anche «riparato» e «gia riparato prima». Chi ha lavorato sui due nella stessa giornata ha usato la seconda parola nel primo registro.
+
+**Perche' conta piu' del numero.** Una scheda riparata resta in una lista che qualcuno un giorno riaprira' per finire un lavoro gia' finito. E il tasso di chiusura — il voto che la macchina si da' — restava piu' basso del vero: la macchina si frenava da sola.
+
+**Il rilevatore c'era gia', e non fermava niente.** Il guardiano delle prove le vedeva («18 schede in uno stato che non so nominare») e usciva zero lo stesso. Non mancava l'occhio: mancava la porta.
+
+**Prima di toccare uno stato ho rifatto girare tutte le prove.** Undici comandi per diciotto schede, tutti verdi. E le date sono quelle vere, prese dai commit: si corregge lo stato di un fix che c'e', non si dichiara chiuso un fix che non c'e', e non si racconta che sia successo stamattina.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 11:40 — 🟡 Lo strumento di una prova leggeva «non ho misurato» come «zero» (AR-845, AR-846)
+
+**Cosa.** Altri 55 sblocchi (tetto da 229 a 174), e le due mutazioni che non mordevano hanno portato a due difetti veri.
+
+**Il primo e' dentro una prova (AR-845).** Un caso misurava la leggibilita' di una riga chiamando il misuratore come processo separato, e gli passava il testo su `/dev/stdin`. Con la pipe di Node quel percorso non si puo' riaprire: il misuratore rispondeva «non ho potuto leggere il testo» e usciva 2 — la risposta giusta. Ma l'aiutante cercava solo la forma «N punti difficili» e su nessuna corrispondenza tornava zero. Un ⚪ letto come un ✅, dentro lo strumento di una prova. I due casi che lo usano misuravano il vuoto da quando sono nati.
+
+**Il secondo e' nell'elenco dei permessi (AR-846).** Riparando il primo ho guardato il perimetro con la lente della sicurezza, ed eseguendo la funzione — non rileggendola — ho visto che il controllo che scarta i percorsi fuori dal repo guardava solo l'inizio della stringa. Fermava «../fuori.mjs» e lasciava passare «cervello/a/../../../etc/passwd.mjs». E' il file che dice quali script si possono lanciare.
+
+**Una correzione contro di me.** Il commento che spiegava perche' si taglia dalla PRIMA occorrenza diceva una cosa falsa: portava un esempio che non distingue i due casi. Misurato sui lanci veri: zero contengono due volte quella parola. Ho corretto il commento e aggiunto il caso costruito che distingue davvero, dicendo che e' costruito.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
 ---
 
 ## 2026-08-26 23:05 · 🟡 Il cancello rompeva il codice delle schede che chiudevo, non di quello che avevo toccato
@@ -4433,3 +4551,28 @@ posto — ma si vede subito, e l'errore va nel verso giusto.
 **Cosa serve da Nicola.** La firma sul merge. Restano in attesa, dal lotto prima, la scelta
 sulla forma del divieto di pubblicazione diretta (AR-833) e le sette prove in bash agganciate
 alla sintassi di ieri (AR-834).
+
+## 2026-08-27 18:20 — 🟡 Il triage di «esito-in-una-pipe»: 49 classificate, tetto a 39
+
+**Cosa.** Fatto il triage voce per voce che AR-375 chiedeva dal 29 luglio. Le 49 istanze
+dell'allarme «l'esito di un guardiano finisce in una pipe» sono classificate guardando cosa
+significa l'uscita di ogni attrezzo: 22 seppelliscono un ⚪ («non ho misurato»), 17 seppelliscono
+un verdetto, 10 sono rapporti informativi e stanno in `esenti` col perché scritto. Tetto 49 → 39,
+più il campo `controprova` che tiene onesto il metro.
+
+**Perché.** Finché il triage non c'era, 49 non voleva dire niente: dentro stavano sia gli allarmi
+zittiti sia i rapporti che giustamente non fermano nessuno. Un numero che nessuno può portare a
+zero si impara a ignorarlo.
+
+**Da ricordare.** Il conto l'ho sbagliato la prima volta nello stesso modo del difetto che stavo
+curando — classificatore tarato su `process.exit(1)` letterale, cieco su `process.exit(out.ok ? 0 : 1)`.
+Avrebbe dichiarato innocue 23 istanze invece di 10.
+
+**AR-375 resta APERTA**, ed è voluto: la sua verifica è dichiarata umana (AR-849), e la parte nuova
+l'ho costruita io — chi ha costruito non collauda.
+
+**Nello stesso lotto:** AR-847 chiusa (lo spostamento delle voci vecchie di STATO.md lo fa il giro,
+passa da `scriviTestoAtomico`, e dichiara il mezzo lavoro con uscita 2). Il foglio dei permessi
+rigenerato perché era indietro di uno script.
+
+**Colore.** 🟡 — codice della macchina su ramo, nessun deploy. PR #850.

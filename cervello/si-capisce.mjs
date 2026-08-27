@@ -691,13 +691,31 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
   const avvisi = [];
 
   // ① Le parole della macchina: nel glossario si studiano, fuori dal glossario vanno spiegate.
+  //
+  // ⛔ 27/8 · AR-854 — SE IL GLOSSARIO NON SI LEGGE, QUESTO CONTROLLO NON PARLA.
+  //
+  // Prima c'era `noteAGlossario?.has(parola)`, e quel `?.` faceva sparire la differenza fra «non è
+  // nel glossario» e «il glossario non l'ho potuto leggere»: senza elenco l'espressione vale
+  // `undefined`, cioè falso, e OGNI parola della macchina diventava un problema. Misurato sullo
+  // stesso testo il 27/8: dalla radice del repo «✅ si capisce», da un'altra cartella «❌ 2 punti
+  // che costringono Nicola a rileggere» — e le due parole accusate stanno nel glossario da agosto.
+  //
+  // È il ⚪ letto come ❌, sullo strumento che si lancia PRIMA di ogni consegna. Un misuratore che
+  // accusa quando non ha misurato si impara a ignorarlo, ed è il modo in cui muore un freno: ho
+  // riscritto due volte un testo che andava già bene, prima di andare a guardarlo.
+  //
+  // Il fratello a dieci righe da qui — `if (testoGlossario != null)` — la domanda la faceva giusta.
+  // La cecità NON diventa un avviso qui dentro: `misura` è pura e la chiamano decine di prove
+  // senza glossario, che è un caso legittimo — «non me l'hai passato» non è «non l'ho trovato».
+  // Esce come un CAMPO del referto, e a dirlo è chi ha provato a leggerlo: il comando qui sotto.
   const fuoriGlossario = new Map();
+  const glossarioCieco = noteAGlossario == null;
   righeNicola.forEach((riga, i) => {
+    if (glossarioCieco) return;
     for (const parola of PAROLE_MACCHINA) {
       const re = new RegExp(`(?<![\\w-])${parola.replace(/-/g, "[- ]")}[aeio]?(?![\\w-])`, "gi");
       if (!re.test(riga)) continue;
-      const nota = noteAGlossario?.has(parola);
-      if (nota) continue; // Nicola la può studiare: la uso e va bene così
+      if (noteAGlossario.has(parola)) continue; // Nicola la può studiare: la uso e va bene così
       const spiegataQui = SEGNI_DI_SPIEGAZIONE.test(riga);
       if (spiegataQui) continue;
       if (!fuoriGlossario.has(parola)) fuoriGlossario.set(parola, i + 1);
@@ -943,7 +961,7 @@ export function misura(testo, { noteAGlossario = null, testoGlossario = null, pr
     }
   }
 
-  return { problemi, avvisi, testoLungo, parole, minuti: minutiStimati, fuoriGlossario: [...fuoriGlossario.keys()] };
+  return { problemi, avvisi, testoLungo, parole, minuti: minutiStimati, glossarioCieco, fuoriGlossario: [...fuoriGlossario.keys()] };
 }
 
 /** Il voto di difficoltà: problemi per 100 parole. Confrontabile fra testi di lunghezza diversa. */
@@ -1278,6 +1296,14 @@ function main() {
   const { problemi, avvisi, minuti, parole } = m;
 
   console.log(`📏 ${parole} parole · ~${minuti} min di lettura · voto di difficoltà ${difficolta(m)}\n`);
+
+  // ⚪ AR-854 — chi ha PROVATO a leggere il glossario è questo comando, e quindi tocca a lui dirlo.
+  // Un controllo che non ha misurato deve dichiararlo: il silenzio si legge come «ho guardato e va
+  // bene», ed è la bugia più comoda che uno strumento possa raccontare.
+  if (m.glossarioCieco) {
+    console.log(`⚪ non ho letto il glossario (${gFile}): le parole della macchina in questo testo NON le ho controllate.`);
+    console.log("   Rimedio: lancia dalla radice del repo, oppure passa RADICE_REPO=<cartella>.\n");
+  }
 
   if (!problemi.length) {
     console.log("✅ si capisce" + (m.testoLungo ? " (tre risposte in cima, e c'è un esempio)" : ""));

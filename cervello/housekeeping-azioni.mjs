@@ -12,6 +12,70 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 
+// RISPOSTA AL SORVEGLIANTE, che su questo file ha alzato la voce del RAGGIO quattro volte.
+//
+// La domanda era giusta: 72 file poggiano su questo, e cambiargli sotto il significato è la forma di
+// AR-338, AR-344 e AR-415. Sono andato a guardare invece di scrollare le spalle, e la risposta è che
+// nessuno legge la FORMA del rimando tranne uno:
+//   · `cervello/mutanti.json` — la mutazione di AR-807 («la coda smette di dire dove sono finite le
+//     carte chiuse») era puntata sulla riga vecchia. Ri-puntata in questo stesso lotto: 13 su 13
+//     tornano rosse quando devono.
+//   · `cervello/giro.sh` — invoca lo script e legge due righe di log, la cui forma non ho toccato.
+//   · `cervello/censimento-guardiani.mjs` — una riga di descrizione, ancora vera.
+//   · `senzaRimandoFinale` è nata adesso: non la chiama ancora nessun altro.
+// Cercato con grep su cervello/ e .claude/ il 26/8: fuori da qui e dalle sue prove, «Le card chiuse»
+// compare solo dentro un commento di `validazione-congelata.test.mjs`, che non lo analizza.
+//
+// sorvegliante: ok raggio fino al 2026-09-30 — verificato uno per uno chi legge la forma del rimando: solo la mutazione di AR-807, gia' ri-puntata in questo lotto
+
+/** Il rimando all'archivio in fondo alla coda: si rigenera a ogni passata, non si conserva. */
+const RIMANDO_ARCHIVIO = /^> 🗄️ Le card chiuse/;
+const RIGA_DEL_FILE = /^> Il file è /;
+
+/**
+ * Stacca dalla FINE del testo il rimando all'archivio, così non rientra fra i blocchi.
+ *
+ * PERCHÉ DALLA FINE E NON OVUNQUE. Il primo tentativo faceva del rimando un confine di blocco, come
+ * `## `. Funzionava, e apriva un buco peggiore del difetto: quella riga sarebbe diventata un confine
+ * ANCHE dentro il corpo di una card, e tutto quello che veniva dopo sarebbe stato classificato come
+ * rimando e buttato via in silenzio. Non è un caso di scuola — la prima card che cita questa riga è
+ * quella che racconta questa riparazione. L'ho visto riguardando il mio stesso lavoro con la lente
+ * «cosa succede se», dopo averlo già dichiarato finito.
+ *
+ * Qui invece si guarda solo la coda del file, dove il rimando sta per costruzione: un corpo di card
+ * non viene toccato nemmeno se contiene quelle parole.
+ */
+export function senzaRimandoFinale(testo = "") {
+  const righe = String(testo).split("\n");
+  const vuota = (r) => !r.trim();
+
+  // ① le righe vuote in fondo: non dicono niente in nessun caso.
+  while (righe.length && vuota(righe[righe.length - 1])) righe.pop();
+
+  // ② il rimando vero e proprio, se c'è.
+  let trovato = false;
+  while (righe.length) {
+    const ultima = righe[righe.length - 1];
+    if (RIMANDO_ARCHIVIO.test(ultima) || RIGA_DEL_FILE.test(ultima)) {
+      righe.pop();
+      trovato = true;
+      continue;
+    }
+    break;
+  }
+
+  // ③ il separatore che lo introduceva — SOLO se il rimando c'era davvero.
+  //
+  // Il `---` non si tocca quando il rimando manca, e non è pignoleria: senza questa condizione un
+  // file che finisce con una card il cui corpo si chiude con una riga orizzontale se la vedrebbe
+  // mangiare a ogni passata. Visto riguardando questa funzione con la lente «cosa succede se»,
+  // dopo che le prove erano già verdi — la stessa lente che poche righe fa ha trovato AR-851.
+  if (trovato) {
+    while (righe.length && (vuota(righe[righe.length - 1]) || righe[righe.length - 1].trim() === "---")) righe.pop();
+  }
+  return righe.join("\n");
+}
+
 
 // AR-445 — il corpo sta dentro `main()` e parte solo se questo file è il programma lanciato.
 // Senza la guardia, `import`arlo lo ESEGUE: chi volesse provarne una funzione si ritroverebbe la
@@ -50,7 +114,7 @@ function main() {
     process.exit(0);
   }
 
-  const lines = content.split('\n');
+  const lines = senzaRimandoFinale(content).split('\n');
 
   // --- Separa header dal body ---
   let headerEnd = 0;
@@ -112,6 +176,18 @@ function main() {
     // L'intestazione dell'archivio non si conserva: si rigenera sotto, UNA sola.
     // (Tenere la vecchia era il meccanismo con cui le copie si accumulavano.)
     if (firstLine.startsWith('## 🗄️ Archivio')) continue;
+
+    // 26/8 (AR-850) — E NEMMENO IL RIMANDO IN FONDO, per la stessa identica ragione.
+    //
+    // Questa cura era già scritta due righe più su, ma solo per l'intestazione: il rimando finale
+    // era rimasto fuori. Sta DOPO l'ultimo separatore, quindi al giro successivo veniva raccolto
+    // come se fosse una card e riemesso insieme alle altre — mentre sotto se ne scriveva uno nuovo.
+    // Uno in più a ogni passata, in silenzio.
+    //
+    // Misurato sul file vero il 26/8: su `main` ce n'erano già DUE, uno che diceva 23 e uno 24, e
+    // la mia passata ha fatto il terzo con 25. Cioè la coda diceva a Nicola tre numeri diversi
+    // sulla stessa cosa, e solo l'ultimo era vero. Il danno non è la riga sprecata: è che il file
+    // che serve a fargli sapere lo stato conteneva tre stati.
 
     // Rimuovi il separatore --- finale dal testo del blocco (lo riaggiungiamo noi)
     const blockClean = trimmed.endsWith('\n---')
@@ -215,7 +291,12 @@ function main() {
     '',
     '---',
     '',
-    `> 🗄️ Le card chiuse (${allClosedBlocks.length}) stanno in [[AZIONI-archivio]] — \`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md\`.`,
+    // Due frasi, non una. La riga di prima ne impilava due per volta — il numero fra parentesi e il
+    // percorso dopo il trattino — e valeva un punto difficile in `si-capisce.mjs` OGNI VOLTA che
+    // questo script girava. Cioè lo strumento che alleggerisce la coda di Nicola la appesantiva di
+    // un punto a ogni passata, e il cancello lo contava contro chi aveva solo chiuso una card.
+    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,
+    "> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
     '',
   ].join('\n');
 

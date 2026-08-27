@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-24 20:49** — Automatico: **103 aperte · 24 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-26 17:51** — Automatico: **103 aperte · 25 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,7 +22,54 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- parte-venditore-strada -->
+
+### 🟡 #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40
+
+**In parole semplici.** Il negoziante, per lavorare, apre un pannello con quattordici voci di menù.
+È un gestionale, e un gestionale è una cosa da imparare.
+
+Nel documento sul perché esiste MyCity c'è un paletto scritto da te. Dice che il negoziante non
+deve avere nessuna app nuova da imparare, e che si lavora su WhatsApp con l'anteprima da approvare.
+La parte che conta è «con l'anteprima da approvare»: lui guarda e dice sì, non compila.
+
+Le due cose non stanno insieme. Nessuno le aveva mai messe una accanto all'altra.
+
+**Per esempio**, il fornaio alle sette di sera vuole sapere quanto ha incassato e cosa sta finendo.
+Col paletto gli arriva un messaggio, risponde «ordina» e ha chiuso. Col pannello di oggi apre il
+sito, sceglie fra quattordici voci, e cerca in due pagine diverse.
+
+**Cosa cambia per te.** Finché non scegli, ogni pezzo nuovo del pannello allarga la distanza fra
+quello che hai scritto e quello che c'è. Tre strade, e ti consiglio la seconda:
+
+**(A) Il paletto è cambiato.** Il pannello resta il posto dove si lavora. Legittimo, ma allora il
+paletto va riscritto davvero nel documento, o continuiamo a misurarci con una regola che non
+seguiamo.
+
+**(B) WhatsApp è la porta, il pannello è la casa.** ⭐ Le cose di tutti i giorni arrivano su
+WhatsApp e si rispondono con una parola. Il pannello resta per le cose rare: prezzi, conti,
+catalogo. Il negoziante non impara niente per lavorare.
+
+**(C) Tutto su WhatsApp.** Il pannello sparisce. Coerente col paletto, ma butta via 5.520 righe che
+funzionano, e un catalogo da trecento prodotti dentro una chat non si carica.
+
+**Se va bene:** con la (B) preparo il disegno di quali messaggi arrivano e con quale anteprima, e
+conto cosa serve per mandarli davvero. Non mando niente a nessuno finché non firmi quello.
+
+**Cosa non ho verificato.** Non ho aperto nessuna di quelle diciannove pagine: la rete di questa
+macchina non arriva all'anteprima del sito, quindi ho contato leggendo il codice. E non ho parlato
+con un negoziante: se quella distanza dia fastidio a chi sta dietro un bancone lo sa solo chi ci sta.
+
+**Dettagli tecnici.** Il foglio intero sta in `consegne/design/2026-08-26-parte-venditore-seconda-passata.md`.
+Misurato oggi: 19 pagine, 5.520 righe, 30 componenti, 14 voci di menù. WhatsApp esiste in tre forme
+(link dall'Aiuto del venditore verso di noi, numero del negozio verso i suoi clienti, canale di
+condivisione) e in nessuna delle tre MyCity scrive al negoziante di sua iniziativa. Oggi gli parla
+per email, con un modello solo: «è arrivato un ordine».
+
+---
+
 <!-- serratura-cancello -->
+
 ### 🔴 #177 — Il controllo che protegge il codice avvisa ma non ferma: decidi tu se dargli la serratura · ⏳ accodata 2026-08-26 08:05
 
 **In parole semplici.** Prima che una mia modifica entri nel codice buono, gira un controllo
@@ -147,62 +194,6 @@ la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
 
 **Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
 numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
-
----
-
-### 🟡 #174 — Due comandi per il database, e l'ordine conta · ⏳ accodata 2026-08-24 16:10
-
-**In parole semplici.** La macchina delle botteghe deve servire tanti negozi con un programma solo.
-Perché funzioni, ogni lavoro nella coda deve dire a quale negozio appartiene. Oggi non lo dice: la
-tabella dei lavori quel campo non ce l'ha proprio. Sono 3.255 righe, nessuna con un negozio.
-
-Il codice il muro ce l'aveva già. La tabella no. E finché la tabella non ce l'ha, il muro tiene solo
-per chi passa dalla porta giusta: chi scrive nella coda in un altro modo lo scavalca senza
-accorgersene, e nessuno se ne accorge nemmeno dopo.
-
-**Cosa ho fatto io.** Il Pannello adesso scrive sempre il negozio. Chi non ne dichiara uno sta
-chiedendo un lavoro della macchina per sé. E lo dice con un nome, «centro», invece di lasciare il
-campo vuoto. Un campo vuoto si dimentica. Un nome no.
-
-**Cosa cambia per te.** Niente, finché non dai i due comandi qui sotto. Dopo il secondo, la coda dei
-lavori non accetta più una riga senza negozio. È il pezzo che mancava per far partire la macchina
-delle botteghe.
-
-**Per esempio, una cosa che ho trovato leggendo.** Quando il database rifiuta una riga, il Pannello
-riprovava a scriverla togliendo il campo che dava fastidio. Per il raggruppamento della chat va
-bene: si perde un dettaglio estetico. Sul negozio sarebbe stato il difetto stesso, automatizzato:
-«il database non vuole la riga col negozio? allora scrivila senza». Il lavoro di una bottega
-finirebbe nel mucchio comune, in silenzio, e la riga risulterebbe scritta bene. Adesso quel ripiego
-vale solo per i lavori della macchina.
-
-**Cosa devi fare.** Due comandi nel database della memoria, e l'ordine conta.
-
-Il primo lo puoi dare adesso, non rompe niente:
-
-`pannello/sql/lavori-negozio-id.sql`
-
-Aggiunge il campo, scrive «centro» sulle 3.255 righe che ci sono già, crea l'indice. Il Pannello di
-oggi ignora il campo nuovo e continua a funzionare come sempre.
-
-Il secondo **solo dopo** che questa richiesta di unione è andata online:
-
-`pannello/sql/lavori-negozio-id-obbligatorio.sql`
-
-**Cosa cambia:** è il secondo comando a chiudere il buco. Da lì in poi, chi prova a scrivere un
-lavoro senza dire di quale negozio è, non ci riesce. Prima ci riusciva.
-
-**Perché l'ordine conta, e non è pignoleria.** Il Pannello che è online adesso il negozio non lo
-scrive. Se dai il secondo comando prima che il Pannello nuovo sia pubblicato, ogni creazione di
-lavoro fallisce: chat, giri, report, sentinelle. La macchina si ferma. L'avvertenza è scritta anche
-dentro il file, in cima.
-
-**Se va bene:** il muro fra i negozi esiste anche nella tabella. Allora si può costruire il secondo
-pezzo: quello che fa rifiutare al database le righe di un altro negozio.
-
-**Cosa non ho verificato.** I due comandi non li ho eseguiti: il database è in sola lettura per me,
-e questa è una firma tua. Quindi non ho visto la colonna comparire né l'obbligo mordere. Quello che
-ho provato è il lato codice: 9 controlli, e ho rotto il fix in 6 modi diversi per vedere se il
-controllo diventava rosso ogni volta. Diventa rosso ogni volta.
 
 ---
 
@@ -2695,8 +2686,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse (23) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
-
----
-
-> 🗄️ Le card chiuse (24) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.
+> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

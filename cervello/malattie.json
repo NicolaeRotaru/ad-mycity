@@ -6,7 +6,7 @@
   {
    "id": "esito-in-una-pipe",
    "nome": "L'esito di un guardiano finisce in una pipe e sparisce",
-   "perche_e_grave": "In una pipe il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0). Il guardiano gira, trova il problema, lo stampa — e chi lo ha chiamato riceve «tutto a posto». Se poi c'è anche un `|| true`, l'esito è sepolto due volte. È il difetto AR-165: il guardiano nato apposta per scoprire i controlli spenti in silenzio aveva, lui per primo, l'allarme staccato. Nel giro il modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sono due caratteri, ed è per questo che si sbaglia.",
+   "perche_e_grave": "In una pipe il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0). Il guardiano gira, trova il problema, lo stampa — e chi lo ha chiamato riceve «tutto a posto». Se poi c'è anche un `|| true`, l'esito è sepolto due volte. È il difetto AR-165: il guardiano nato apposta per scoprire i controlli spenti in silenzio aveva, lui per primo, l'allarme staccato. Nel giro il modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sono due caratteri, ed è per questo che si sbaglia. ⚠️ CORREZIONE al «perche» qui sopra, misurata il 27/8: in giro.sh — dove stanno TUTTE e 44 le istanze — la spiegazione della pipe non regge, perche quel file apre con `set -uo pipefail`, e con pipefail l esito di una pipe NON e quello dell ultimo comando ma il primo non-zero. Provato: `set -uo pipefail; (exit 2) | tail -2` torna 2. Quindi li il colpevole vero e il `|| true` finale, che seppellisce l esito una seconda volta e da solo. Il conteggio non cambia (la forma da sorvegliare e la stessa), ma chi cura una di queste istanze deve sapere che togliere la pipe senza togliere il `|| true` non ripara niente.",
    "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*(\\|[^|\\n]*(tail|head|esito_righe)|\\|\\|[ \\t]*true)",
    "dove": [
     "cervello"
@@ -14,7 +14,7 @@
    "estensioni": [
     ".sh"
    ],
-   "baseline": 49,
+   "baseline": 34,
    "file_noti": [
     "cervello/giro.sh",
     "cervello/ritmo.sh",
@@ -24,11 +24,64 @@
    "curati": [
     "freschezza-segnali.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
     "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
-    "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
+    "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura",
+    "sentinella-fonti, guardiano-tempo, metabolismo, bilancio-vivo, midollo-spinale — passati a `sensore` (giro-esito.sh) il 27/8 sera, insieme alla cura AR-859 che ha dato loro un vero codice 2"
    ],
-   "nota_onesta": "Cinquanta istanze, quasi tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba fermare il giro. Ma la differenza va DECISA una per una e dichiarata negli esenti, non lasciata al caso — ed è il triage che manca. La radice è installata: la funzione `guardiano()` rende la scelta esplicita invece che implicita in due caratteri.",
-   "esenti": [],
-   "nota_baseline": "50, misurato il 2026-08-14 sulla forma VIVA — `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true`. Dove sono: giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1. ⚠️ IL NUMERO NON È SALITO DA 0 A 50: era 0 perché il rilevatore cercava solo `| tail`, e il codice nel frattempo era passato a `esito_righe`. Cioè la malattia risultava guarita perché avevamo cambiato nome al tubo (AR-375), e per due settimane nessuno ha visto le cinquanta istanze vive. Da qui il tetto scende e non risale. La scheda di AR-375 diceva 34, ma era il conto del 29 luglio: il giro è cresciuto da allora. Lotto 44: scesa a 49 — una istanza curata dal lotto. Il tetto scende e non risale."
+   "nota_onesta": "Quarantanove istanze lorde, quasi tutte in giro.sh. Il triage che mancava adesso c'e, fatto voce per voce guardando COSA SIGNIFICA l'uscita di ogni attrezzo: 22 seppelliscono un ⚪ (l'attrezzo esce non-zero apposta per dire «non ho misurato»: il file che gli serve non c'e), 17 seppelliscono un verdetto, 10 sono rapporti informativi veri e stanno negli esenti col perche scritto. Restano 39 istanze di debito: quelle il tetto le conta, e scende solo quando qualcuna viene curata davvero.",
+   "esenti": [
+    {
+     "file": "cervello/giro.sh",
+     "quale": "pagella-intelligenza.mjs (riga 460)",
+     "perche": "Stampa una pagella e basta: non ha nessuna uscita non-zero che sia un verdetto, solo il ramo di crash. Non esiste un fallimento suo che debba fermare il giro — e se crepa, le righe dell'errore le stampa esito_righe."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "sincronizza-proposte.mjs (riga 719)",
+     "perche": "Allinea le proposte e lascia il suo esito in un segnale su file (stampSegnale): il verdetto viaggia di la, non nel codice d'uscita. L'unica uscita non-zero e il crash."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "capacita.mjs (riga 966)",
+     "perche": "Non ha nessuna uscita diversa da zero in tutto il file: esce 0 sia in modalita JSON sia normale. Da un codice d'uscita che e sempre lo stesso non si perde niente incanalandolo."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "contesto-lezioni.mjs (riga 1052)",
+     "perche": "Nessuna uscita non-zero nel file: serve solo a comporre il testo di contesto per il motore. Non c'e verdetto da salvare."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "retry-policy.mjs (riga 1474)",
+     "perche": "Esce sempre 0 e comunica la decisione sullo standard output, che il giro cattura in una variabile: il valore utile e il TESTO, non il codice d'uscita."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "costo-ai.mjs (riga 1022)",
+     "perche": "Rendiconto di spesa: l'unica uscita non-zero e il crash. Il freno vero sul budget e sentinella-budget.mjs, che infatti resta contato come debito e non e esente."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "costo-ai.mjs (riga 1835)",
+     "perche": "Stessa chiamata di rendiconto nella coda del giro: nessun verdetto nel codice d'uscita, solo il ramo di crash."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "costo-ai.mjs (riga 1839)",
+     "perche": "Terza chiamata di rendiconto nella coda del giro, stessa forma: niente verdetto da perdere nel codice d'uscita."
+    },
+    {
+     "file": "cervello/ritmo.sh",
+     "quale": "costo-ai.mjs (riga 313)",
+     "perche": "Il rendiconto di spesa dentro le cadenze: come nel giro, l'unica uscita non-zero e il crash e non c'e nessun verdetto che debba fermare la cadenza."
+    },
+    {
+     "file": "cervello/monitora.sh",
+     "quale": "costo-ai.mjs (riga 164)",
+     "perche": "Il rendiconto di spesa dentro il monitoraggio: nessuna uscita non-zero che sia un giudizio, quindi la pipe non seppellisce niente."
+    }
+   ],
+   "nota_baseline": "34, misurato il 2026-08-27 in serata: 44 istanze lorde meno 10 rapporti informativi dichiarati uno per uno negli esenti. Erano 49 lorde stamattina; cinque sono state CURATE davvero (sentinella-fonti, guardiano-tempo, metabolismo, bilancio-vivo, midollo-spinale), passando dalla funzione `sensore` di giro-esito.sh che cattura l esito prima di stampare e grida sul 2. Quei cinque attrezzi in questo stesso lotto hanno imparato a dire «non ho potuto misurare» (AR-859): lasciarli dentro una pipe voleva dire dargli una voce e poi tapparla. ⚠️ Il calo 49→44 e una CURA, non un cambio di metro — il pattern e lo stesso e la controprova regge. Prima ancora il numero era 0, perche il rilevatore cercava «tail» mentre il codice era passato a esito_righe: la malattia risultava guarita perche avevamo cambiato nome al tubo. Da qui il tetto scende e non risale.",
+   "controprova": "node \"$SCRIPT_DIR/sonda-volano.mjs\" --json | esito_righe 3 || true"
   },
   {
    "id": "buco-letto-come-zero",

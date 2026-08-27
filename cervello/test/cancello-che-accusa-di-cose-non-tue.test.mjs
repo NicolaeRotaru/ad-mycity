@@ -148,6 +148,57 @@ prova("guardare più testo trova PIÙ problemi, non meno (la soglia è un campo 
   );
 });
 
+// ── ③bis LA STESSA PROTEZIONE, SU UN TESTO COSTRUITO ─────────────────────────
+//
+// ⚠️ 27/8 · AR-857 — IL CASO QUI SOPRA SI È SPENTO DA SOLO, e per una buona ragione: la coda è
+// stata accorciata (le carte chiuse sono andate in archivio) e adesso fa 184.688 caratteri contro
+// un tetto di 200.000. Quindi `if (testo.length < TETTO_TESTO) return;` esce subito, e la
+// protezione — «finché è tagliato, marcalo tagliato» — non la esercita più nessuno. Misurato: la
+// mutazione che toglie il marchio lascia il file di prova tutto verde.
+//
+// È la forma ① del catalogo: il ramo che l'ambiente non prende mai. Con una torsione che vale la
+// pena scrivere: qui il ramo si è chiuso perché qualcosa è MIGLIORATO. Una difesa che vive solo
+// finché il problema c'è sparisce insieme al problema, ed è lo stesso giorno in cui smette di
+// servire e quello in cui nessuno se ne accorge.
+//
+// La cura è quella di casa: il testo lo costruisco io, invece di sperare che il mondo sia lungo.
+
+prova("AR-857: un testo oltre il tetto viene marcato tagliato, coda vera lunga o corta che sia", () => {
+  const g = parolePeggioNoteAGlossario(REPO);
+  const lungo = "Il cancello ha fermato il lavoro e il guardiano ha visto tutto. ".repeat(4000);
+  assert.ok(lungo.length >= TETTO_TESTO, `il testo costruito non supera il tetto: ${lungo.length} < ${TETTO_TESTO}`);
+  const fuori = testiIlleggibili(
+    [{
+      file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      contenuto: lungo.slice(0, TETTO_TESTO),
+      contenutoPrima: null,
+      contenutoSuMain: "",
+      troncato: lungo.length >= TETTO_TESTO,
+    }],
+    g,
+  );
+  assert.ok(fuori.length > 0, "il caso costruito non produce nessun verdetto: la prova non misura niente");
+  assert.equal(fuori[0].troncato, true, "un testo tagliato non è marcato come tale: il verdetto non può sapere di esserlo");
+});
+
+prova("AR-857: e sotto il tetto NON si marca tagliato — o sarebbe un ⚪ per sempre", () => {
+  // Il verso opposto. Se tutto risultasse tagliato, il cancello direbbe «non ho potuto misurare»
+  // su ogni testo, che è il modo più silenzioso di spegnere un controllo.
+  const g = parolePeggioNoteAGlossario(REPO);
+  const corto = "Il cancello ha fermato il lavoro.\n".repeat(10);
+  const fuori = testiIlleggibili(
+    [{
+      file: "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      contenuto: corto,
+      contenutoPrima: null,
+      contenutoSuMain: "",
+      troncato: corto.length >= TETTO_TESTO,
+    }],
+    g,
+  );
+  if (fuori.length) assert.equal(fuori[0].troncato, false, "un testo corto risulta tagliato: il ⚪ diventerebbe eterno");
+});
+
 // ── ④ IL VERDETTO SU UN TESTO TAGLIATO NON È UN'ACCUSA ───────────────────────
 prova("il codice del verdetto manda i testi tagliati fra le incerte, non fra le accuse", () => {
   const sorgente = readFileSync(join(REPO, "cervello/cancello-stop.mjs"), "utf8");

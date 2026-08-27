@@ -3301,7 +3301,15 @@
       "impatto": "",
       "fix": "In app/product/[id]/page.tsx:676-679 sostituire rose-500/400/200 con secondary-500/400/200 e 'focus-visible:ring-rose-400' con 'focus-visible:ring-primary-700', che è l'anello di fuoco usato ovunque altrove.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/il-cuore-dei-preferiti-ha-un-colore-solo.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "coerenza-brand",
@@ -3855,7 +3863,15 @@
       "impatto": "",
       "fix": "Aggiungere uno stato che non si spegne: `const [inPartenza, setInPartenza] = useState(false)`, messo a true come PRIMA riga di entrambi gli `onSuccess` e mai rimesso a false, e includerlo in `isCheckingOut` insieme a `placeOrders.isSuccess || payWithStripe.isSuccess`. In più una guardia `if (isCheckingOut) return;` in cima a `handleSubmit`.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/l-ordine-partito-non-torna-indietro.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "stati-ui",
@@ -4857,7 +4873,15 @@
       "impatto": "",
       "fix": "Cambiare le due stringhe in it.json e en.json: «Ti abbiamo scritto: apri l'email e clicca il link per confermare l'iscrizione» e «Controlla la posta — l'iscrizione si attiva col link che ti abbiamo mandato». Aggiungere «non trovi l'email? guarda nello spam».",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/la-newsletter-non-dice-iscritto-prima-del-tempo.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -4869,7 +4893,15 @@
       "impatto": "",
       "fix": "Spostare translateAuthError in lib/errors.ts, esportarla e chiamarla dentro friendlyError per gli errori di supabase.auth. Coprire almeno: user already registered, password should be at least N characters, unable to validate email address, email rate limit exceeded.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/gli-errori-di-accesso-parlano-italiano.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -4893,7 +4925,15 @@
       "impatto": "",
       "fix": "Riga 70: `throw new Error(apiErrorMessage(j, 'Impossibile aprire la chat'))`; riga 77: `toast.error(friendlyError(e))`.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/il-motivo-vero-arriva-al-cliente.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -4905,7 +4945,15 @@
       "impatto": "",
       "fix": "Riga 194: `throw new Error(apiErrorMessage(corpo, 'Impossibile annullare'))` importando apiErrorMessage da @/lib/errors. Stesso fix in components/seller/ReturnRequestCard.tsx riga 78.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/il-motivo-vero-arriva-al-cliente.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -4929,7 +4977,15 @@
       "impatto": "",
       "fix": "O si toglie il campo, o si fa quello che dice: prima di updateUser verificare con `signInWithPassword({ email, password: currentPassword })` e, se fallisce, «Password attuale non corretta». Va reso obbligatorio anche nel disabled del pulsante.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/la-password-attuale-si-controlla-davvero.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -4941,7 +4997,15 @@
       "impatto": "",
       "fix": "«SOS registrato, MyCity è stata avvisata. Ora premi CHIAMA sul telefono per parlare col 112». Stessa correzione al ramo di ripiego a riga 79.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/il-testo-dice-quello-che-succede-davvero.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "microcopy",
@@ -5183,7 +5247,15 @@
       "impatto": "",
       "fix": "Decidere una porta sola e aprirla: rimettere la scheda «Assistenza» fra quelle del compratore, o togliere isBuyer dalla condizione di SupportChatButton, o aggiungere la voce nel menu account. Se la chat non deve esistere per i clienti, rimuovere il modale morto dalla barra.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-27 10:23",
+      "chiuso_da": "richiesta #243 del marketplace, unita su main il 2026-08-27 10:23 (commit f4c3c22)",
+      "riparato_in": "NicolaeRotaru/mycity#243",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "npx vitest run tests/unit/chi-compra-puo-scrivere-all-assistenza.test.ts",
+        "esito": "verde sulla testa unita f4c3c22, 27/8 09:02 UTC"
+      }
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -5771,16 +5843,16 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-26 09:26",
+    "aggiornato": "2026-08-27 21:58",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 176,
-    "findings_chiusi": 245,
+    "findings_aperti": 167,
+    "findings_chiusi": 254,
     "findings_tot": 421,
     "aperti_per_severita": {
       "bloccante": 0,
-      "grave": 59,
+      "grave": 50,
       "minore": 117,
       "altre": 0
     },

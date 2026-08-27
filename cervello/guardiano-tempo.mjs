@@ -21,6 +21,39 @@ import { azioniDellaCoda, aspettaLaFirma } from "./coda-cabina.mjs";
 const JSON_MODE = process.argv.includes("--json");
 const SOGLIA_STALLO_GG = 7; // oltre questa attesa una firma è "ferma da troppo"
 
+/** Oltre un mese del ritmo reale di Nicola, la coda è il vincolo (seconda metà di AR-569). */
+export const SETTIMANE_MAX = 4;
+
+/**
+ * IL VERDETTO SULLA CODA DELLE FIRME — puro, così una prova lo può ESEGUIRE su un mondo finto.
+ *
+ * ⚠️ 27/8 · AR-856 — QUESTA FUNZIONE NON C'ERA, e le tre righe che la compongono vivevano dentro il
+ * corpo dello script, fra una lettura di file e una stampa. Il caso di prova che difende la
+ * seconda metà di AR-569 — «il volume, non solo l'età» — era scritto così:
+ *
+ *     if (c.totale_in_attesa > 20 && (c.piu_vecchia_gg ?? 0) <= soglia) { …asserzioni… }
+ *
+ * cioè misurava la coda VERA di oggi. E la coda di oggi ha la più vecchia a 44 giorni, ben oltre i
+ * 7 di soglia: quel ramo non ci entra mai, le asserzioni non girano, e la mutazione che toglie il
+ * volume dal verdetto (`ok: !stallo && !troppeInCoda` → `ok: !stallo`) lascia tutto verde.
+ * Misurato il 27/8. È il ramo che l'ambiente non prende mai: la prova era scritta bene e parlava
+ * di uno stato del mondo che qui non capita.
+ *
+ * La cura è quella di casa: la decisione esce, e il mondo le arriva da fuori. Adesso le due metà
+ * del difetto — l'età e il volume — si possono percorrere tutt'e due, sempre.
+ *
+ * @param {{etaPiuVecchiaGg?: number, inAttesa?: number, ritmoSettimanale?: number}} mondo
+ * @returns {{stallo: boolean, settimaneArretrato: number|null, troppeInCoda: boolean, ok: boolean}}
+ */
+export function verdettoCoda({ etaPiuVecchiaGg = 0, inAttesa = 0, ritmoSettimanale = 0 } = {}) {
+  const stallo = etaPiuVecchiaGg > SOGLIA_STALLO_GG;
+  // Con ritmo zero non si divide per zero: si dichiara che l'arretrato non è calcolabile, e resta
+  // il conteggio nudo. Un `null` qui è un «non lo so», e non deve diventare un «va bene».
+  const settimaneArretrato = ritmoSettimanale > 0 ? +(inAttesa / ritmoSettimanale).toFixed(1) : null;
+  const troppeInCoda = settimaneArretrato != null && settimaneArretrato > SETTIMANE_MAX;
+  return { stallo, settimaneArretrato, troppeInCoda, ok: !stallo && !troppeInCoda };
+}
+
 // La coda da leggere. Di norma quella vera; `GUARDIANO_TEMPO_CODA` la sposta su un file finto, così
 // il freno può metterlo alla prova su una coda costruita apposta invece che sul dato vivo.
 const CODA = process.env.GUARDIANO_TEMPO_CODA || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
@@ -60,8 +93,10 @@ async function main() {
 
   if (!existsSync(CODA)) {
     const out = { ok: false, quando: quandoStr, errore: "AZIONI-IN-ATTESA.md non trovato" };
-    console.log(JSON_MODE ? JSON.stringify(out) : "❌ AZIONI-IN-ATTESA.md non trovato");
-    process.exit(1);
+    console.log(JSON_MODE ? JSON.stringify(out) : "⚪ AZIONI-IN-ATTESA.md non trovato: non ho potuto misurare la coda");
+    // AR-859 — 2 = NON HO POTUTO MISURARE. Uscire 1 qui diceva «la coda e' in stallo», che senza il
+    // file non lo sa nessuno: la coda potrebbe essere vuota e perfetta.
+    process.exit(2);
   }
 
   // --- La coda si legge COME LA LEGGE LA CABINA (AR-569) ---
@@ -125,24 +160,15 @@ async function main() {
     }
   }
 
-  const stallo = (piuVecchia?.eta_gg ?? 0) > SOGLIA_STALLO_GG;
-
-  // --- Il volume, non solo l'età (seconda metà di AR-569) ---
-  //
-  // Col parser riparato la coda è passata da 5 a 57, e il guardiano continuava a dire «✅ Coda sotto
-  // controllo» perché guardava solo se la più vecchia avesse superato i 7 giorni. Cinquantasette
-  // firme in attesa NON sono sotto controllo, per nessuna lettura della frase.
-  //
-  // La soglia non me la invento: la deduco dal ritmo VERO di Nicola. Se nelle ultime settimane firma
-  // 4 cose a settimana, 57 card sono quattordici settimane di arretrato — e quel numero è la cosa
-  // che voleva sapere: «sono io il collo di bottiglia?». Con ritmo zero non si divide per zero: si
-  // dichiara che l'arretrato non è calcolabile, e resta il conteggio nudo.
-  const SETTIMANE_MAX = 4; // oltre un mese del suo ritmo reale, la coda è il vincolo
-  const ritmoSettimanale = coinvolgonoNicola7gg; // decisioni che lo coinvolgono negli ultimi 7 giorni
-  const settimaneArretrato = ritmoSettimanale > 0 ? +(inAttesa.length / ritmoSettimanale).toFixed(1) : null;
-  const troppeInCoda = settimaneArretrato != null && settimaneArretrato > SETTIMANE_MAX;
+  const { stallo, settimaneArretrato, troppeInCoda, ok } = verdettoCoda({
+    etaPiuVecchiaGg: piuVecchia?.eta_gg ?? 0,
+    inAttesa: inAttesa.length,
+    ritmoSettimanale: coinvolgonoNicola7gg,
+  });
   const out = {
-    ok: !stallo && !troppeInCoda,
+    // Il verdetto arriva da `verdettoCoda` e NON si ricalcola qui: due lettori della stessa regola
+    // divergono al primo che cambia, ed è la malattia che questo repo paga più spesso.
+    ok,
     quando: quandoStr,
     fonte: "AZIONI-IN-ATTESA.md + DECISIONI.md (conteggio deterministico, nessun numero inventato)",
     coda_firma_nicola: {

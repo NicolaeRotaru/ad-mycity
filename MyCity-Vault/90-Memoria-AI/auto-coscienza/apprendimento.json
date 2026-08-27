@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-26 09:19",
+ "aggiornato": "2026-08-27 19:37",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -125,7 +125,12 @@
    "nato": "2026-08-13",
    "ultima_conferma": "2026-08-13 10:22",
    "stato": "attiva",
-   "usi": []
+   "usi": [
+    {
+     "quando": "2026-08-27 12:09",
+     "ref": "freno rosso nel cancello: gate delle lezioni"
+    }
+   ]
   },
   {
    "id": "L-2026-0813-01",
@@ -10893,6 +10898,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -10946,6 +10963,14 @@
     },
     {
      "quando": "2026-08-25 16:17",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-26 21:43",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-27 18:43",
      "ref": "freno rosso nel cancello: nascita dei difetti"
     }
    ]
@@ -11057,6 +11082,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11214,6 +11251,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11297,6 +11346,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11461,6 +11522,18 @@
     },
     {
      "quando": "2026-08-26 09:19",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:42",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:52",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 18:20",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11634,6 +11707,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11743,6 +11828,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11908,6 +12005,18 @@
     {
      "quando": "2026-08-26 09:19",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:42",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:52",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 18:20",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12069,6 +12178,18 @@
     {
      "quando": "2026-08-26 09:19",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:42",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:52",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 18:20",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12150,6 +12271,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -12230,6 +12363,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12429,6 +12574,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 18:09",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12744,6 +12901,18 @@
     {
      "quando": "2026-08-26 09:19",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:42",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 17:52",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 18:20",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12892,6 +13061,100 @@
    "usi": 0,
    "gate": "node cervello/prossimo-ar.mjs",
    "data": "2026-08-26 07:55"
+  },
+  {
+   "id": "L-2026-0827-01",
+   "testo": "**Un meccanismo costruito PRIMA del suo consumatore va consegnato col freno che obbliga il futuro consumatore a passarci — se no «costruito presto» diventa «costruito e aggirato» (AR-839).** Il muro fra i negozi dal lato del testo (`soloDelNegozio`, `testoPerAI`, `segretiNelTesto`) stava scritto e provato dal 23/8, e non lo chiamava nessuno. **La prima diagnosi che avevo scritto era sbagliata**: dicevo che il worker se lo saltava. Non era vero — tutti i tipi di lavoro erano del centro, e un lavoro del centro non ha nessun negozio da tenere separato. Il difetto non era un aggiramento, era un'ATTESA: il giorno del primo lavoro di bottega, niente avrebbe obbligato chi lo costruiva a passare di li'. **La forma che ha funzionato: un muro fail-closed con un ELENCO vuoto, e nell'elenco si entra pagando.** Aggiungere il proprio tipo li' e' l'atto che apre il muro, e la prova dell'elenco prende OGNI nome dichiarato e ne collauda la porta ESEGUENDOLA (due negozi dentro, un negozio solo fuori). Cosi' il conto non lo paga chi costruisce il muro: lo paga chi apre la porta, nel momento in cui la apre. **Il freno generale: quando scrivi una difesa prima del suo utente, scrivi insieme la lista che la apre e la prova che collauda ogni voce della lista — mai un commento che dice «chi verra' dopo deve...».** Costo di non averlo fatto altrove: `ARCHITETTURA-TRE-MACCHINE.md` lo chiama «il lavoro piu' caro e pericoloso che esista», perche' il muro aggiunto su dati gia' mescolati arriva tardi.",
+   "tag": [
+    "bottega",
+    "guardiani",
+    "fail-closed",
+    "muro-dati"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "AR-839, 27/8: costruendo la porta di bottega e pagando il conto che il muro del 26/8 aveva lasciato scritto.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-27",
+   "ultima_conferma": "2026-08-27 06:55",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/test/il-muro-arriva-prima-della-porta.test.mjs",
+   "data": "2026-08-27 06:55"
+  },
+  {
+   "id": "L-2026-0827-02",
+   "testo": "**Una prova può essere vuota non perché è debole, ma perché l'ambiente non le fa mai prendere il ramo che difende (27/8, due volte in un'ora).** Forma nuova, e la più difficile da vedere: la prova è scritta bene, l'assert è giusto, il ramo è il più importante del file — e la mutazione che ci rimette il difetto lascia tutto verde, perché **quella riga qui non la esegue nessuno**. I due casi: `statoFusione()` chiedeva a git e il caso «git non risponde» era irraggiungibile in un repo sano (AR-552); il rilevatore di AR-365 arrivava al ramo «non ho potuto misurare» solo senza le chiavi della memoria, e la sonda trovava il difetto tre righe sopra ed usciva. In tutti e due il ramo protetto era esattamente quello del ⚪ — «non ho misurato» — cioè il posto in cui un ⚪ può diventare un ✅ senza che nessuno lo veda. **Il segno per riconoscerla: la mutazione non morde e il ramo mutato parla di un guasto dell'ambiente** (rete assente, chiavi mancanti, comando che non risponde). **La cura è sempre la stessa e funziona: si tira fuori la decisione in una funzione pura che riceve da fuori la risposta del mondo** — `statoFusioneDa(chiediCartellaGit, esiste)`, `verdettoAllerta(testoDellaSonda)` — e allora tutte le strade si possono percorrere, non solo quella che la macchina di oggi prende. Nota di metodo che vale da sola: la prima volta ho creduto che la prova fosse debole. L'ho scoperto misurando che il rilevatore usciva 1 e non 2.",
+   "tag": [
+    "prove-vacue",
+    "rami-irraggiungibili",
+    "funzioni-pure",
+    "cieco-non-e-verde"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "evidenze": 2,
+   "fonte": "AR-840, 27/8: due mutazioni su 57 sbloccate non mordevano, e la ragione era la stessa in tutte e due.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-27",
+   "ultima_conferma": "2026-08-27 09:10",
+   "stato": "attiva",
+   "usi": [
+    {
+     "quando": "2026-08-27 13:29",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-27 19:37",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ],
+   "gate": "node cervello/test/sorvegliante.test.mjs",
+   "data": "2026-08-27 09:10"
+  },
+  {
+   "id": "L-2026-0827-03",
+   "testo": "**Quando una regola vale su due porte, va misurata su tutt'e due — perché quella che conta di più è quasi sempre la seconda (27/8).** L'asticella («un difetto grave o bloccante nasce con una prova che gira») era montata bene sul cancello d'INGRESSO e leggeva solo `bloccante` su quello d'USCITA. Cioè: una scheda grave non poteva entrare con una parola cercata in un file, ma poteva **chiudersi** con quella stessa parola. **La porta d'uscita pesa di più, e per un motivo strutturale: un difetto che entra resta in un elenco che qualcuno guarda, un difetto che si chiude sparisce — e per definizione non lo guarda più nessuno.** La misura che l'ha inchiodato: AR-128, la scheda che il manuale cita **per nome** come storia fondativa di quella regola, usciva `ammessa: true` dal cancello d'uscita sedici giorni dopo che la regola era stata scritta a partire da lei. **Il segno per riconoscerlo: una regola scritta al singolare («il cancello dell'asticella») quando le funzioni che la applicano sono due o più.** Il modo di trovarlo in cinque minuti: prendere il caso-simbolo citato nel manuale e passarlo a ogni funzione che decide, non solo a quella che si sta guardando. Due trappole nella cura, tutt'e due pagate qui: ① il commento che spiega perché la porta è larga può essere **vero ma vecchio** — «vietarla ovunque congelerebbe l'84%» era misurato il 30/7 e valeva per il divieto totale, mentre il costo vero della sola riga di mezzo era 42 schede; rimisurare prima di credere alla motivazione scritta. ② allineare la porta bassa a quella alta va fatto **con tutte** le uscite oneste che la porta alta concede, non solo la prima: dimenticando `verifica: {tipo:\"umano\"}` il conto delle prove da alzare passava da 20 a 53, riempiendosi di 27 schede su cui non c'è alcun test da scrivere — e un numero che non si può portare a zero si impara a ignorarlo.",
+   "tag": [
+    "due-porte-due-altezze",
+    "cancelli",
+    "asticella",
+    "commenti-veri-ma-vecchi",
+    "numeri-che-non-scendono"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "evidenze": 2,
+   "fonte": "AR-848, 27/8: l'allineatore ha chiuso da solo un reperto GRAVE su una parola in un file, e la stessa porta ammetteva AR-128.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-27",
+   "ultima_conferma": "2026-08-27 11:45",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/test/due-porte-due-altezze.test.mjs",
+   "data": "2026-08-27 11:45"
+  },
+  {
+   "id": "L-2026-0827-04",
+   "testo": "**Quando ripari un guaio A MANO, vai a vedere se la difesa che doveva impedirlo morde davvero — quasi sempre no, ed è il momento in cui puoi provarlo (27/8).** Ho passato un'ora a rimediare a mano a tre numeri di scheda presi due volte da due sessioni. Poi, per tutt'altra ragione, ho sbloccato la mutazione di AR-535 — la scheda che quel difetto lo chiude — e **non mordeva**. La difesa c'era nel codice, era dichiarata chiusa e provata da giorni, e nessuno l'aveva mai vista fallire. **Il momento giusto per controllarla è proprio quello: hai appena visto il guasto vero, quindi sai esattamente quale comportamento la prova deve pretendere.** Un'ora dopo non lo sai più. La forma del buco era la ② del catalogo — il collegamento mai provato: `prossimiLiberi` aveva cinque casi e stava benissimo, ma la riga che decide QUALI FONTI passargli viveva dentro `main()`, fra una lettura di disco e una chiamata a git, cioè dove nessuna prova arriva. Togli main dall'elenco e il test resta verde, perché la funzione pura risponde benissimo sulla fonte sola che le arriva. **La regola operativa, in tre mosse:** ① dopo ogni riparazione fatta a mano, cerca la scheda che quel difetto lo chiude; ② lancia la sua mutazione, non fidarti del fatto che risulti «verificata»; ③ se non morde, la cura è sempre la stessa — la decisione esce in una funzione pura che riceve da fuori la risposta del mondo. **E il costo di non farlo si misura in lavoro manuale ripetuto:** la stessa collisione ricapiterà, perché niente la ferma.",
+   "tag": [
+    "prove-vacue",
+    "collegamenti",
+    "riparazioni-a-mano",
+    "funzioni-pure"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "AR-853, 27/8: la sola mutazione che non mordeva su 19 sbloccate era quella del difetto appena pagato a mano nella fusione.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-27",
+   "ultima_conferma": "2026-08-27 13:45",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node --test cervello/test/prossimo-ar.test.mjs",
+   "data": "2026-08-27 13:45"
   }
  ],
  "principi": [

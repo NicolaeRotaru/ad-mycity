@@ -72,6 +72,47 @@ export function prossimiLiberi(fonti = [], quanti = 1) {
   return fuori;
 }
 
+/**
+ * LE FONTI da cui si sceglie il numero: la mia copia, main, e ogni ramo aperto che porta un cantiere.
+ *
+ * ⚠️ 27/8 · AR-853 — QUESTA FUNZIONE NON C'ERA, e la riga che monta l'elenco viveva dentro `main()`,
+ * fra una lettura di disco e una chiamata a git. Cioè in un posto che nessuna prova poteva eseguire.
+ * Il risultato: `prossimiLiberi` aveva cinque casi, e la decisione di COSA passargli non ne aveva
+ * nessuno. Togliendo main e i rami dall'elenco — la mutazione registrata per AR-535, fatta girare
+ * per la prima volta oggi — il test restava verde: le cinque prove parlano della funzione pura, e
+ * quella continua a rispondere benissimo sulla fonte sola che le arriva.
+ *
+ * Non è un difetto teorico: è ESATTAMENTE quello che è successo. AR-835, AR-836 e AR-837 sono stati
+ * allocati due volte, qui e su un'altra sessione, e la collisione l'ho pagata a mano nella fusione
+ * di stamattina rinumerando tre schede e i loro richiami. La scheda che quel difetto lo chiude
+ * (AR-535) risultava chiusa e provata: la difesa c'era nel codice, e non la guardava nessuno.
+ *
+ * La cura è quella di casa: la decisione esce in una funzione PURA che riceve da fuori la risposta
+ * del mondo, così una prova può percorrere tutte le strade — anche quelle che l'ambiente di qui non
+ * prende mai.
+ *
+ * @param {{locali?: object[], suMain?: object[], daRami?: number[][]}} mondo le tre risposte, da fuori
+ * @returns {number[][]} le liste di numeri usati, una per fonte
+ */
+export function fontiDelNumero({ locali = [], suMain = [], daRami = [] } = {}) {
+  // ⛔ UNA FONTE CHE NON È UN ELENCO FERMA TUTTO, e non diventa una lista vuota.
+  //
+  // Trovato con la lente della sicurezza sul perimetro, misurando invece di rileggere: `null` qui
+  // dentro tirava un errore per caso — `numeriUsati` fa `.map` — mentre `undefined` diventava `[]`
+  // in silenzio, per via del valore di scorta qui sopra. Le due strade sono la stessa domanda con
+  // due risposte diverse, e la seconda è quella cattiva: una fonte sparita senza dirlo è ESATTAMENTE
+  // il difetto che questa funzione esiste per chiudere, rifatto un piano più in basso.
+  //
+  // Il tono lo detta il file: qui si rifiuta invece di indovinare. «Non ho potuto leggere il
+  // cantiere locale: non rispondo con un numero inventato» è la prima cosa che fa `main()`.
+  for (const [nome, fonte] of [["locali", locali], ["suMain", suMain], ["daRami", daRami]]) {
+    if (!Array.isArray(fonte)) {
+      throw new TypeError(`la fonte «${nome}» non è un elenco (${fonte === null ? "null" : typeof fonte}): non scelgo un numero guardando meno fonti di quelle che dovrei`);
+    }
+  }
+  return [numeriUsati(locali), numeriUsati(suMain), ...daRami];
+}
+
 /** Gli id che compaiono due volte: due schede diverse con lo stesso numero. */
 export function duplicati(difetti = []) {
   const visti = new Map();
@@ -252,7 +293,7 @@ function main() {
     process.exit(2);
   }
 
-  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain), ...daRami], quanti);
+  const liberi = prossimiLiberi(fontiDelNumero({ locali, suMain, daRami }), quanti);
   const id = liberi.map((n) => `AR-${n}`);
   if (json) {
     console.log(JSON.stringify({ id, locali: locali.length, suMain: suMain.length, rami: daRami.length }, null, 2));

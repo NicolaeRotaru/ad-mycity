@@ -48,7 +48,15 @@ test("una prova a pattern resta classificata come prima: il fix non è un giro d
 });
 
 test("senza verifica resta «umana»: quello è il caso vero", () => {
-  assert.equal(classifica({ id: "AR-002", gravita: "grave", nato: "2026-07-01", titolo: "x" }).classe, "umana");
+  // 27/8 · AR-848 — la gravità di prova era `grave`, e da oggi la grave obbliga alla prova che
+  // esegue: una scheda grave SENZA verifica esce «prova-debole-su-grave», ed è giusto — «non ho
+  // dichiarato niente» non è «ho dichiarato che serve un umano», che è la confusione curata
+  // nell'altro verso nello stesso lotto. Il caso che questo test vuole misurare — la forma
+  // dell'assenza — si misura su una gravità che non obbliga.
+  assert.equal(classifica({ id: "AR-002", gravita: "minore", nato: "2026-07-01", titolo: "x" }).classe, "umana");
+  const grave = classifica({ id: "AR-002b", gravita: "grave", nato: "2026-07-01", titolo: "x" });
+  assert.equal(grave.classe, "prova-debole-su-grave", "su una grave l'assenza di prova è debolezza, non una dichiarazione");
+  assert.equal(grave.auto_chiudibile, false);
 });
 
 test("un comando che punta a un file inesistente non passa per prova buona", () => {
@@ -64,9 +72,13 @@ test("un comando che punta a un file inesistente non passa per prova buona", () 
 });
 
 test("un comando fuori dalle forme ammesse è sospetto, non auto-chiudibile", () => {
+  // 27/8 · AR-848 — su una gravità che OBBLIGA vince la marca più pesante («prova debole su
+  // grave»), come già succedeva ai bloccanti prima di oggi: non è un'incoerenza nuova, è quella di
+  // sempre applicata a più schede. La diagnosi precisa non si perde — il motivo nomina il comando
+  // per esteso — ma il caso qui sotto misura la CLASSE, quindi va su una gravità che non obbliga.
   const c = classifica({
     id: "AR-004",
-    gravita: "grave",
+    gravita: "minore",
     nato: "2026-07-01",
     titolo: "finto",
     verifica: { comando: "rm -rf /" },

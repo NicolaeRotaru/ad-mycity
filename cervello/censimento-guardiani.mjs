@@ -24,6 +24,13 @@
 /** Come `giro.sh` chiama un guardiano: forma diretta o helper `guardiano()` (AR-165). */
 const RE_DIRETTA = /node\s+"?\$\{?SCRIPT_DIR\}?\/([a-z0-9-]+)\.mjs/g;
 const RE_HELPER = /\bguardiano\s+"?([a-z0-9-]+)\.mjs/g;
+/**
+ * L'altro helper del giro: `sensore <nome>.mjs N` (AR-859). Serve agli attrezzi che NON sono cancelli —
+ * escono 1 tutti i giorni per ragioni legittime — ma che sanno dire 2 quando non hanno potuto
+ * misurare. Come `guardiano`, cattura l'esito prima di stampare: quindi non lo perde. A differenza
+ * di `guardiano` non ferma il giro, e infatti qui NON conta come bloccante.
+ */
+const RE_SENSORE = /\bsensore\s+"?([a-z0-9-]+)\.mjs/g;
 
 /** L'esito buttato via: la pipe e poi `|| true`. Chi finisce così parla, non ferma. */
 const RE_SCARTATO = /\|\|\s*true\s*$/;
@@ -164,6 +171,7 @@ export const DESCRIZIONI = {
   "scadenzario-check": { famiglia: "tempo", cosa: "Nessuna scadenza esterna arriva a sorpresa, e nessun conto alla rovescia trascritto resta a mentire." },
   "pausa-check": { famiglia: "tempo", cosa: "Una card messa in pausa deve avere una sveglia: senza, dorme per sempre e nessuno se ne accorge." },
   "housekeeping-azioni": { famiglia: "tempo", cosa: "Sposta in archivio le azioni già fatte o rifiutate, così la coda da firmare resta corta e vera." },
+  "housekeeping-stato": { famiglia: "tempo", cosa: "Sposta in archivio le voci vecchie del quaderno di stato quando il file cresce oltre il campo visivo, così quello che si legge resta la situazione di adesso." },
   "guardiano-tempo": { famiglia: "tempo", cosa: "Misura quanto lavoro sta aspettando la firma di Nicola e da quanti giorni: la coda è un costo." },
   letargo: { famiglia: "tempo", cosa: "Se quota, cassa o sensori calano, spegne il superfluo in ordine e tiene vivo solo il nucleo." },
   "freschezza-rischi": { famiglia: "tempo", cosa: "Controlla che i rischi gravi dell'azienda siano stati riguardati di recente, invece di restare fermi per mesi." },
@@ -226,6 +234,8 @@ export function guardianiDiGiro(testoGiro = "", testoGate = "") {
     if (/^\s*#/.test(riga)) return; // un'invocazione dentro un commento non gira
     for (const m of riga.matchAll(RE_DIRETTA)) segna(m[1], i, !RE_SCARTATO.test(riga) && RE_PRESO.test(riga));
     for (const m of riga.matchAll(RE_HELPER)) segna(m[1], i, true); // l'helper esiste per NON perdere l'esito
+    // `sensore` l'esito non lo perde, ma non ferma il giro: parla, e sul ⚪ grida. Quindi false.
+    for (const m of riga.matchAll(RE_SENSORE)) segna(m[1], i, false);
   });
   const perVincolo = vincoliPerGuardiano(righe, trovati);
   const contati = vincoliContati(righe);
@@ -311,7 +321,7 @@ function vincoliPerGuardiano(righe, trovati) {
       for (let j = i - 1; j >= Math.max(0, i - RIGHE_RISALITA); j--) {
         const sopra = righe[j];
         if (/^\s*#/.test(sopra)) continue;
-        const inv = [...sopra.matchAll(RE_DIRETTA), ...sopra.matchAll(RE_HELPER)].map((x) => x[1])[0];
+        const inv = [...sopra.matchAll(RE_DIRETTA), ...sopra.matchAll(RE_HELPER), ...sopra.matchAll(RE_SENSORE)].map((x) => x[1])[0];
         if (inv) { scelto = inv; break; }
       }
     }
