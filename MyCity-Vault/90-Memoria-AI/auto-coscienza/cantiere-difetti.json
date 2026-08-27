@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 12:30",
+  "aggiornato": "2026-08-27 13:35",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18339,6 +18339,29 @@
         "nota": "Due casi: «NESSUNA macchina la chiude al posto dell'umano» prova le tre gravita' e pretende che il motivo dica perche'; «una prova che ESEGUE chiude ancora» e' il verso opposto, o il freno sarebbe un muro. Mutazione `if (false && umanaDichiarata(...))` verificata rossa."
       },
       "chiuso_il": "2026-08-27 12:05"
+    },
+    {
+      "id": "AR-853",
+      "titolo": "Il numero di una scheda nuova lo sceglie una riga che nessuna prova poteva eseguire: e' cosi' che tre numeri sono stati presi due volte",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 13:05",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: sbloccando 19 mutazioni cieche di AR-840, quella di AR-535 non mordeva",
+      "causa_radice": "`prossimiLiberi` — la funzione che sceglie il numero — ha cinque casi di prova e sta bene. Ma la decisione di COSA passarle (la mia copia, main, e ogni ramo aperto col suo cantiere) viveva dentro `main()` di prossimo-ar.mjs, fra una lettura di disco e una chiamata a git: un posto che nessuna prova puo' eseguire. La mutazione registrata per AR-535 riduce l'elenco alla sola copia locale, ed e' rimasta VERDE — perche' le cinque prove parlano della funzione pura, e quella risponde benissimo sulla fonte sola che le arriva. E' la forma ② del catalogo di oggi: la regola ha dieci casi, la CHIAMATA non ne ha nessuno.",
+      "dove": "cervello/prossimo-ar.mjs (fontiDelNumero, main)",
+      "fix_fatto": "🟡 La decisione esce in una funzione PURA — `fontiDelNumero({locali, suMain, daRami})` — che riceve da fuori le tre risposte del mondo, e `main()` la chiama. Adesso una prova puo' percorrere tutte le strade, anche quelle che l'ambiente di qui non prende mai. ⑵ TROVATO RIGUARDANDO IL PERIMETRO CON LA LENTE DELLA SICUREZZA, nello stesso lotto: una fonte `null` tirava un errore per CASO (`numeriUsati` fa `.map`) mentre `undefined` diventava `[]` in silenzio, per via del valore di scorta. Le due strade sono la stessa domanda con due risposte, e la seconda fa sparire una fonte senza dirlo — cioe' rifa' questo stesso difetto un piano piu' in basso. Adesso una fonte che non e' un elenco ferma tutto, col nome della fonte nel messaggio. E' il tono che il file gia' teneva: «non rispondo con un numero inventato».",
+      "impatto": "Il conto non e' teorico, e' gia' stato pagato: AR-835, AR-836 e AR-837 sono stati allocati DUE VOLTE, qui e su un'altra sessione, e la collisione l'ho sistemata a mano nella fusione del 27/8 rinumerando tre schede e tutti i loro richiami. La scheda che quel difetto lo chiude (AR-535) risultava chiusa e provata: la difesa c'era nel codice e non la guardava nessuno. Il guardiano che ha visto la collisione e' un altro — quello dei numeri usati due volte, che pero' se ne accorge DOPO, quando i due rami esistono gia'.",
+      "origine": "lotto 68, scoperto sbloccando le mutazioni cieche",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/prossimo-ar.test.mjs",
+        "nota": "Sei casi nuovi. Uno pretende che l'elenco porti tutt'e tre le fonti; uno ricrea il difetto vero invece di descriverlo (con main dentro esce 10, senza esce 2 — e AR-2 su main esiste gia'); uno che un ramo aperto conta quanto main; uno sul verso opposto (mondo vuoto = elenco vuoto, non un numero inventato); uno che una fonte storta FERMI tutto invece di diventare una lista vuota, provato su cinque forme e su tutt'e tre le fonti; uno che il montaggio sia VIVO, scartando le righe commentate. Tre mutazioni su questa scheda, tutte verificate rosse a mano."
+      },
+      "chiuso_il": "2026-08-27 13:35"
     }
   ],
   "meta": {

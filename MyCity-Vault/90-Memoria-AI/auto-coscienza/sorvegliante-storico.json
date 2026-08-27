@@ -2,28 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-14T08:35:54.573Z",
-      "scatti": 6722,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T08:49:45.249Z",
-      "scatti": 6733,
-      "voci": 22,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 17,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-14T09:02:14.137Z",
       "scatti": 6755,
       "voci": 22,
@@ -2333,7 +2311,40 @@
         "difesa-rimossa": 3
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T11:40:10.238Z",
+      "scatti": 363,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "cervello/prossimo-ar.mjs",
+          "cosa": "la mutazione di AR-830 («il numero torna a cercarsi solo qui e su main: la finestra in cui la collisione e' evitabile ridiventa cieca») non trova più il suo pezzo in questo file",
+          "ripetuta": 2
+        }
+      ]
+    },
+    {
+      "quando": "2026-08-27T12:09:12.273Z",
+      "scatti": 369,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-27T10:57:44.296Z"
+  "aggiornato": "2026-08-27T12:09:12.274Z"
 }

@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-27 12:45",
+ "aggiornato": "2026-08-27 13:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -1501,7 +1501,7 @@
    "file": "cervello/cantiere-integrita.mjs",
    "cerca": "    .filter((id) => id && !ci_sono.has(id));",
    "sostituisci": "    .filter((id) => id && ci_sono.has(id));",
-   "test": "node --test cervello/test/cantiere-integrita.test.mjs"
+   "test": "cervello/test/cantiere-integrita.test.mjs"
   },
   {
    "difetto": "AR-512",
@@ -1509,7 +1509,7 @@
    "file": "cervello/cantiere-integrita.mjs",
    "cerca": "export const ID_CANONICO = /\\bAR-\\d{3}\\b/g;",
    "sostituisci": "export const ID_CANONICO = /\\bAR-\\d+\\b/g;",
-   "test": "node --test cervello/test/cantiere-integrita.test.mjs"
+   "test": "cervello/test/cantiere-integrita.test.mjs"
   },
   {
    "difetto": "AR-517",
@@ -1600,7 +1600,7 @@
    "file": "cervello/pre-scrittura.mjs",
    "cerca": "    if (VERBI_DI_SCRITTURA.test(verbo)) {",
    "sostituisci": "    if (false) {",
-   "test": "node --test cervello/test/pre-scrittura.test.mjs"
+   "test": "cervello/test/pre-scrittura.test.mjs"
   },
   {
    "difetto": "AR-525",
@@ -1608,7 +1608,7 @@
    "file": "cervello/pre-scrittura.mjs",
    "cerca": "  if (/\\bgit\\s+commit\\b[^\\n]*(--no-verify|(?:^|\\s)-n(?:\\s|$))/.test(c)) {",
    "sostituisci": "  if (false) {",
-   "test": "node --test cervello/test/pre-scrittura.test.mjs"
+   "test": "cervello/test/pre-scrittura.test.mjs"
   },
   {
    "difetto": "AR-526",
@@ -1616,7 +1616,7 @@
    "file": "cervello/hooks-check.mjs",
    "cerca": "    if (oggi && v.scade < oggi) scaduti.push({ file: s, ...v });",
    "sostituisci": "    if (false) scaduti.push({ file: s, ...v });",
-   "test": "node --test cervello/test/hooks-check.test.mjs"
+   "test": "cervello/test/hooks-check.test.mjs"
   },
   {
    "difetto": "AR-526",
@@ -1624,7 +1624,7 @@
    "file": "cervello/hooks-check.mjs",
    "cerca": "    if (!v || !v.scade) {",
    "sostituisci": "    if (!v) {",
-   "test": "node --test cervello/test/hooks-check.test.mjs"
+   "test": "cervello/test/hooks-check.test.mjs"
   },
   {
    "difetto": "AR-527",
@@ -1696,7 +1696,7 @@
    "file": "cervello/materiale-in-mano.mjs",
    "cerca": "    if (MATERIALE.test(testo)) continue;",
    "sostituisci": "    if (true) continue;",
-   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+   "test": "cervello/test/materiale-in-mano.test.mjs"
   },
   {
    "difetto": "AR-524",
@@ -1704,7 +1704,7 @@
    "file": "cervello/materiale-in-mano.mjs",
    "cerca": "    if (!ALTROVE.test(testo)) continue;",
    "sostituisci": "    if (false) continue;",
-   "test": "node --test cervello/test/materiale-in-mano.test.mjs"
+   "test": "cervello/test/materiale-in-mano.test.mjs"
   },
   {
    "difetto": "AR-529",
@@ -1905,9 +1905,10 @@
    "lezione": "L-2026-0804-553",
    "nome": "il numero torna a leggersi dalla sola copia locale: la collisione col worker ricompare",
    "file": "cervello/prossimo-ar.mjs",
-   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain), ...daRami], quanti);",
-   "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali)], quanti);",
-   "test": "node --test cervello/test/prossimo-ar.test.mjs"
+   "cerca": "  return [numeriUsati(locali), numeriUsati(suMain), ...daRami];",
+   "sostituisci": "  return [numeriUsati(locali)];",
+   "test": "cervello/test/prossimo-ar.test.mjs",
+   "nota_riancoraggio": "27/8 · AR-853: la riga che montava l'elenco e' uscita da `main()` ed e' diventata la funzione pura `fontiDelNumero`, proprio perche' questa mutazione non mordeva. Ri-puntata dentro la funzione, e adesso morde. Le tre rotture sono distinte: questa riduce l'elenco alla SOLA copia locale (il difetto che AR-535 nomina), la prima di AR-853 salta la funzione del tutto, la seconda toglie main lasciando i rami."
   },
   {
    "difetto": "AR-536",
@@ -1925,7 +1926,7 @@
    "file": "cervello/prossimo-ar.mjs",
    "cerca": "    if (natoDiverso && titoloDiverso) perse.push({ id: mio.id, qui: String(mio.titolo), suMain: String(loro.titolo) });",
    "sostituisci": "",
-   "test": "node --test cervello/test/prossimo-ar.test.mjs"
+   "test": "cervello/test/prossimo-ar.test.mjs"
   },
   {
    "difetto": "AR-540",
@@ -5164,7 +5165,7 @@
    "file": "cervello/salute.mjs",
    "cerca": "  if (m.liberi < minimo) {",
    "sostituisci": "  if (false) { // mutante: nessuna soglia, il disco pieno passa per buono",
-   "test": "node cervello/test/salute.test.mjs"
+   "test": "cervello/test/salute.test.mjs"
   },
   {
    "difetto": "AR-774 sensore-disco-percentuale",
@@ -5172,7 +5173,7 @@
    "file": "cervello/salute.mjs",
    "cerca": "Math.max(soglie.discoLiberoMinMB * 1024 * 1024, m.totali * soglie.discoLiberoMinFrazione)",
    "sostituisci": "soglie.discoLiberoMinMB * 1024 * 1024",
-   "test": "node cervello/test/salute.test.mjs"
+   "test": "cervello/test/salute.test.mjs"
   },
   {
    "difetto": "AR-774 misura-cieca-non-e-verde",
@@ -5180,7 +5181,7 @@
    "file": "cervello/salute.mjs",
    "cerca": "  if (!m || m.leggibile !== true) return nonVisto(",
    "sostituisci": "  if (false) return nonVisto(",
-   "test": "node cervello/test/salute.test.mjs"
+   "test": "cervello/test/salute.test.mjs"
   },
   {
    "difetto": "AR-775 chi-occupa-il-posto",
@@ -6193,7 +6194,7 @@
    "file": "cervello/prova-ammissibile.mjs",
    "cerca": "  if (!g.dichiarato || !i.dichiarato) {",
    "sostituisci": "  if (false) {",
-   "test": "node cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+   "test": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
   },
   {
    "lotto": 50,
@@ -6202,7 +6203,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "  const testa = secco.match(/^(alto|medio|basso|indiretto)\\s*[:,–—-]/);",
    "sostituisci": "  const testa = secco.match(/(alto|medio|basso|indiretto)/);",
-   "test": "node cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+   "test": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
   },
   {
    "lotto": 50,
@@ -6211,7 +6212,7 @@
    "file": "cervello/cantiere-prove.mjs",
    "cerca": "const campiIlleggibili = schedeNonGiudicabili(aperti);",
    "sostituisci": "const campiIlleggibili = nonGiudicabili;",
-   "test": "node cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+   "test": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
   },
   {
    "lotto": 52,
@@ -7238,9 +7239,10 @@
    "lezione": "L-2026-0826-02",
    "nome": "il numero torna a cercarsi solo qui e su main: la finestra in cui la collisione e' evitabile ridiventa cieca",
    "file": "cervello/prossimo-ar.mjs",
-   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain), ...daRami], quanti);",
-   "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);",
-   "test": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
+   "cerca": "  return [numeriUsati(locali), numeriUsati(suMain), ...daRami];",
+   "sostituisci": "  return [numeriUsati(locali), numeriUsati(suMain)];",
+   "test": "cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs",
+   "nota_riancoraggio": "27/8 · AR-853: la riga che montava l'elenco e' uscita da `main()` ed e' diventata la funzione pura `fontiDelNumero`. Ri-puntata dentro la funzione. Le quattro rotture su questo elenco restano distinte: AR-830 toglie i RAMI (la finestra in cui la collisione si evita prima), AR-535 riduce alla sola copia locale, la prima di AR-853 salta la funzione, la seconda toglie main."
   },
   {
    "difetto": "AR-830",
@@ -7249,7 +7251,7 @@
    "file": "cervello/prossimo-ar.mjs",
    "cerca": "[\"for-each-ref\", \"--format=%(refname)\", \"--no-merged\", \"origin/main\", \"refs/remotes/origin\"],",
    "sostituisci": "[\"for-each-ref\", \"--format=%(refname)\", \"refs/remotes/origin\"],",
-   "test": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
+   "test": "cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
   },
   {
    "difetto": "AR-830",
@@ -7258,7 +7260,7 @@
    "file": "cervello/prossimo-ar.mjs",
    "cerca": "      nonLetti.push(`${r.replace(\"refs/remotes/\", \"\")} (${e.message.split(\"\\n\")[0]})`);",
    "sostituisci": "      void e;",
-   "test": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
+   "test": "cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
   },
   {
    "difetto": "AR-825",
@@ -8007,6 +8009,33 @@
    "cerca": "  if (umanaDichiarata(dif?.verifica)) {",
    "sostituisci": "  if (false && umanaDichiarata(dif?.verifica)) {",
    "test": "cervello/test/due-porte-due-altezze.test.mjs"
+  },
+  {
+   "difetto": "AR-853",
+   "nome": "il montaggio salta: chi sceglie il numero torna a leggere la sola copia locale",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "  const liberi = prossimiLiberi(fontiDelNumero({ locali, suMain, daRami }), quanti);",
+   "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali)], quanti);",
+   "test": "cervello/test/prossimo-ar.test.mjs",
+   "lezione": "L-2026-0827-04"
+  },
+  {
+   "difetto": "AR-853",
+   "nome": "l'elenco delle fonti perde main: il numero si sceglie senza sapere cosa c'e' gia' di la'",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "  return [numeriUsati(locali), numeriUsati(suMain), ...daRami];",
+   "sostituisci": "  return [numeriUsati(locali), ...daRami];",
+   "test": "cervello/test/prossimo-ar.test.mjs",
+   "lezione": "L-2026-0827-04"
+  },
+  {
+   "difetto": "AR-853",
+   "nome": "via il rifiuto sulla fonte storta: una fonte sparita torna a diventare una lista vuota in silenzio",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "    if (!Array.isArray(fonte)) {",
+   "sostituisci": "    if (false && !Array.isArray(fonte)) {",
+   "test": "cervello/test/prossimo-ar.test.mjs",
+   "lezione": "L-2026-0827-04"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."
