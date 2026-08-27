@@ -6,7 +6,7 @@
  "totale": 194,
  "fonte": "workflow .claude/workflows/radiografia.js — run wf_cb9e3d74-727",
  "codice_analizzato": "NicolaeRotaru/mycity @ 637de93 (allineato a origin/main)",
- "dimensioni_dettaglio": [
+ "result": [
   {
    "dimensione": "architettura",
    "findings": [
@@ -1625,5 +1625,6 @@
     }
    ]
   }
- ]
+ ],
+ "agentCount": 26
 }
