@@ -128,8 +128,15 @@ prova("il guardiano è MONTATO nel cancello del lotto, non solo scritto", () => 
   // La malattia di casa: un cancello costruito bene su una porta che nessuno usa. Un contatore che
   // nessuno esegue lascerebbe crescere il numero esattamente come prima.
   const gate = readFileSync(join(AD, "cervello/cancello-lotto.mjs"), "utf8");
+  // La riga deve essere VIVA, non commentata: una riga commentata contiene ancora, lettera per
+  // lettera, tutto quello che una ricerca cerca. Stessa forma di AR-077 — la parola che la rottura
+  // si porta dietro — ritrovata il 27/8 misurando su un guardiano vicino.
+  const viva = gate
+    .split("\n")
+    .filter((r) => !r.trimStart().startsWith("//"))
+    .join("\n");
   assert.match(
-    gate,
+    viva,
     /passi\.push\(esegui\((?:(?!\)\);)[\s\S])*mutazioni-senza-esecutore\.mjs/,
     "il cancello non esegue il contatore: il tetto non ferma nessuno",
   );

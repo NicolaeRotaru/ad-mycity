@@ -16,6 +16,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { esitoConsegna, vaSegnataComeData, refertoConsegna, consegnaAllerta, vivoMaNonProduce } from "../consegna-allerta.mjs";
+import { valutaRegole } from "../sentinella-dati.mjs";
 
 // ── AR-365 · la ricevuta ─────────────────────────────────────────────────────
 
@@ -127,4 +128,28 @@ test("AR-366 · la sentinella legge il segnale nuovo, non solo il battito", () =
   const s = readFileSync(new URL("../sentinella-dati.mjs", import.meta.url), "utf8");
   assert.match(s, /worker:ultimo:lavoro-riuscito/, "senza leggerlo, la regola guarderebbe un campo sempre vuoto e non suonerebbe mai");
   assert.match(s, /vivoMaNonProduce\(\{/, "la regola deve essere chiamata, non solo scritta");
+});
+
+test("AR-366 — la sentinella CHIAMA la regola: non basta che la regola sia scritta bene", () => {
+  // 27/8, AR-840 — i quattro casi qui sopra provano `vivoMaNonProduce` presa da sola, e la mutazione
+  // che spegne la CHIAMATA dentro `sentinella-dati.mjs` li lasciava tutti verdi. È la malattia di
+  // casa vista dal lato del chiamante: una regola giusta che non suona mai perché nessuno la
+  // interroga. Qui si esegue `valutaRegole` col mondo finto e si guarda se l'allarme esce davvero.
+  const acceso = {
+    worker_eta_min: 1,            // il cervello batte: M1 tace
+    lavoro_riuscito_eta_min: 600, // e non chiude niente da dieci ore
+    lavori_in_attesa: 4,          // con la coda piena: non è riposo, è un guasto
+    lavori_in_corso: 0,
+  };
+  const eventi = valutaRegole(acceso, {}) || [];
+  const suona = eventi.some((e) => e?.chiave === "worker_vivo_ma_muto");
+  assert.ok(suona, "la regola è scritta e non la chiama nessuno: il cervello resterebbe muto senza che nessuno lo dica");
+
+  // E il verso opposto, o sarebbe una prova inchiodata su un lato solo: senza niente da fare, non
+  // produrre non è un guasto — è riposo, e un allarme che grida di notte lo stacca qualcuno.
+  const riposo = { ...acceso, lavori_in_attesa: 0 };
+  assert.ok(
+    !(valutaRegole(riposo, {}) || []).some((e) => e?.chiave === "worker_vivo_ma_muto"),
+    "suona su una macchina che sta solo riposando",
+  );
 });

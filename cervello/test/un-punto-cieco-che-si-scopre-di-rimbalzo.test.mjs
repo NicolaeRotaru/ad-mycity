@@ -203,3 +203,22 @@ test("SUL REPO VERO: DECISIONI è davvero l'unico esente, e sfonda davvero", () 
   const dim = readFileSync(join(RADICE, "MyCity-Vault/90-Memoria-AI/DECISIONI.md"), "utf8").length;
   assert.ok(dim > TETTO_TESTO, "se DECISIONI sta dentro il campo, l'esenzione va tolta invece che spiegata");
 });
+
+test("il guardiano è MONTATO nel cancello del lotto, non solo scritto", () => {
+  // 27/8, AR-840 — la mutazione che commenta la riga del cancello lasciava tutto verde: la funzione
+  // era provata da nove casi e il COLLEGAMENTO da nessuno. È la malattia di casa — un cancello
+  // costruito bene su una porta che nessuno usa — e qui si vedeva solo togliendo la porta.
+  const gate = readFileSync(join(RADICE, "cervello/cancello-lotto.mjs"), "utf8");
+  // La riga deve essere VIVA, non commentata: `// passi.push(esegui(… campo-visivo-memoria.mjs))`
+  // contiene ancora, lettera per lettera, tutto quello che una ricerca cerca. È la stessa forma di
+  // AR-077 — la parola che la rottura si porta dietro — e l'ho ritrovata qui misurando (27/8).
+  const viva = gate
+    .split("\n")
+    .filter((r) => !r.trimStart().startsWith("//"))
+    .join("\n");
+  assert.match(
+    viva,
+    /passi\.push\(esegui\((?:(?!\)\);)[\s\S])*campo-visivo-memoria\.mjs/,
+    "il cancello non esegue il guardiano del campo visivo: il tetto non ferma nessuno",
+  );
+});

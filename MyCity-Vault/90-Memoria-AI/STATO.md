@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 09:10
+aggiornato: 2026-08-27 09:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🔗 **27/8 09:35 — Quattro regole scritte bene che non chiamava nessuno.**
+>
+> **In parole semplici.** Altri 56 controlli finti sbloccati: 62 mordono, 4 no. Le quattro non erano regole sbagliate. Erano regole giuste che nessuno interrogava.
+>
+> **Per esempio.** C'e' una regola che dice: se il cervello e' acceso ma non finisce piu' niente e ha lavoro in coda, suona l'allarme. Quella regola era provata quattro volte. Ma il pezzo che la chiama non lo provava nessuno: si poteva staccare, e tutte e quattro le prove restavano verdi. L'allarme non avrebbe mai suonato.
+>
+> **Cosa cambia per te.** Il numero dei controlli finti scende da 340 a 284. E adesso quattro regole vere sono collegate per davvero, non solo scritte.
+>
+> **Cosa devi fare.** Niente: e' lavoro sulla macchina.
+>
+> **Cosa non ho verificato.** Restano 284 controlli da guardare. E una cosa la dico contro di me: uno dei quattro buchi l'avevo appena creato io, scrivendo una prova che sembrava controllare una data e non controllava niente. L'ho visto solo perche' ho rotto il codice a mano invece di fidarmi del verde.
+>
+> **Dettagli tecnici.** Otto grappoli. I quattro: AR-366 (la chiamata a `vivoMaNonProduce` dentro `sentinella-dati`, provata ora con `valutaRegole`), AR-796 (estratto `dovePuntaLaScheda` da `auto-fix`), AR-807 due volte — il guardiano del campo visivo nel cancello, e il cartello della pulizia. Tetto `mutazioni_senza_esecutore` 340 → 284. Irrobustiti tre controlli di montaggio che una riga commentata soddisfaceva lo stesso.
 
 > 🧪 **27/8 09:10 — Tre prove non guardavano niente, e non perche' fossero scritte male.**
 >

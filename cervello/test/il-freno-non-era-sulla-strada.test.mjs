@@ -40,6 +40,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { verdettoChiusura } from "../chiusura-dichiarata.mjs";
+import { dovePuntaLaScheda } from "../auto-fix.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -335,4 +336,28 @@ test("il referto conta le chiusure dichiarate, e il rilevatore non è cieco", ()
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+test("AR-796 — chi chiude LEGGE il verdetto, non se lo rifà a mano", () => {
+  // 27/8, AR-840 — il fix c'era ed era giusto: la chiusura la decide `vc.chiude`, non una condizione
+  // riscritta dal chiamante. Ma la catena viveva dentro un ciclo dentro un comando, e nessuno poteva
+  // interrogarla: la mutazione che rimette il verdetto ricalcolato (`r.esito === "risolto"`)
+  // lasciava tutto verde. Adesso la decisione è una funzione, e questo è il caso che la distingue.
+  //
+  // La differenza si vede SOLO qui: il grezzo dice «risolto», ma la funzione che sa dei cancelli
+  // dice di no. Chi si rifà il verdetto a mano chiude una scheda che non doveva chiudere.
+  assert.equal(
+    dovePuntaLaScheda({ vc: { chiude: false, debole: true }, g: { ammessa: true } }),
+    "aperta",
+    "una scheda che il cancello NON fa chiudere è stata chiusa lo stesso: il verdetto è stato ricalcolato",
+  );
+  assert.equal(dovePuntaLaScheda({ vc: { chiude: true }, g: { ammessa: true } }), "da-chiudere", "e quando il verdetto dice sì, si chiude");
+  assert.equal(dovePuntaLaScheda({ vc: { chiude: true }, g: { ammessa: false } }), "aperta", "il guardiano che non ammette la prova vale quanto il verdetto");
+
+  // L'ordine è la regola: ciò che è dichiarato aperto vince su tutto, e «non ho misurato» viene per
+  // ultimo — o un metro rotto finirebbe fra le scelte invece che fra i guasti.
+  assert.equal(dovePuntaLaScheda({ vc: { bloccata: true, chiude: true }, g: { ammessa: true } }), "dichiarati-aperti");
+  assert.equal(dovePuntaLaScheda({ vc: { inammissibile: true, chiude: true }, g: { ammessa: true } }), "rifiutate-dal-cancello");
+  assert.equal(dovePuntaLaScheda({ vc: {}, g: {}, bloccato: true, cieca: true }), "rifiutate", "il cieco non deve mangiarsi il rifiuto");
+  assert.equal(dovePuntaLaScheda({ vc: {}, g: {}, cieca: true }), "non-misurate");
 });

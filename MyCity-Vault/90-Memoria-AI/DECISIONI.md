@@ -4422,3 +4422,15 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **Una nota di metodo, perche' e' la terza volta oggi.** La prima spiegazione che mi ero data era «la prova e' debole». L'ho scoperta falsa misurando: il rilevatore usciva 1, non 2.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 09:35 — 🟡 Altri 56 sblocchi, e quattro fix che nessuno aveva mai provato (AR-840)
+
+**Cosa.** Otto grappoli sbloccati: 62 mutazioni mordono, 4 no. Tetto da 340 a **284**.
+
+**Le quattro non erano quello che mi aspettavo.** Stamattina la forma era «il ramo l'ambiente non lo prende mai». Qui erano tre COLLEGAMENTI mai provati e un mio errore. La regola che dice «il cervello e' acceso ma non finisce niente» era provata quattro volte presa da sola, e la CHIAMATA dentro la sentinella da nessuno: si poteva spegnere e le quattro prove restavano verdi. Uguale per il verdetto che decide se una scheda si chiude, e per il guardiano del campo visivo dentro il cancello.
+
+**L'errore mio, che vale piu' degli altri tre.** Avevo scritto il caso nuovo con una ricerca che prendeva solo l'inizio della riga: il controllo sulla data non guardava niente. L'ho scoperto applicando la mutazione a mano invece di fidarmi del verde. **Una prova appena scritta e' sospetta quanto una vecchia.**
+
+**E una forma che ho ritrovato in casa mia.** Il controllo «il guardiano e' montato nel cancello» cercava una riga che una riga COMMENTATA contiene ancora, lettera per lettera. Ne avevo scritti due oggi con lo stesso difetto: irrobustiti tutti e tre, e verificato commentando la riga a mano.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).

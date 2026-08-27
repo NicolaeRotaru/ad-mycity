@@ -145,8 +145,15 @@ prova("il contatore è MONTATO nel cancello del lotto, non solo scritto", () => 
   // costruito bene su una porta che nessuno usa. Il tetto è zero, quindi qui basta un vincolo nuovo
   // scritto a mano per far rosso — ma solo se qualcuno esegue il contatore.
   const gate = readFileSync(join(QUI, "..", "cancello-lotto.mjs"), "utf8");
+  // La riga deve essere VIVA, non commentata: una riga commentata contiene ancora, lettera per
+  // lettera, tutto quello che una ricerca cerca. Stessa forma di AR-077 — la parola che la rottura
+  // si porta dietro — ritrovata il 27/8 misurando su un guardiano vicino.
+  const viva = gate
+    .split("\n")
+    .filter((r) => !r.trimStart().startsWith("//"))
+    .join("\n");
   assert.match(
-    gate,
+    viva,
     /passi\.push\(esegui\((?:(?!\)\);)[\s\S])*vincoli-senza-cieco\.mjs/,
     "il cancello non esegue il contatore: il tetto non ferma nessuno",
   );

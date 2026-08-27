@@ -107,6 +107,30 @@ function writeJson(path, data) {
  * un giorno i rami non facessero il totale, il file lo dichiara di sé invece di lasciarlo scoprire
  * a una radiografia sei settimane dopo.
  */
+/**
+ * DOVE FINISCE UNA SCHEDA dopo che i verdetti sono stati raccolti.
+ *
+ * AR-796 diceva: la chiusura la decide `vc.chiude`, non una condizione riscritta qui. Prima questa
+ * catena rifaceva il verdetto (`r.esito === "risolto" && g.ammessa`), e il `chiude` che la funzione
+ * pura tornava veniva buttato — un verdetto che il chiamante ricalcola non decide niente, e i
+ * cancelli aggiunti alla funzione non sarebbero mai arrivati fin qui.
+ *
+ * 27/8, AR-840 — perché adesso è una funzione. Il fix c'era ed era giusto; la sua mutazione, che
+ * rimette il verdetto ricalcolato, lasciava la prova VERDE perché la catena viveva in mezzo a un
+ * ciclo dentro un comando, e nessuno poteva interrogarla. Qui si può, con tutte le combinazioni.
+ *
+ * L'ORDINE È LA REGOLA, non un dettaglio: prima ciò che è dichiarato aperto, poi ciò che il cancello
+ * non ammette, poi la chiusura, poi il rifiuto, e per ultimo «non ho potuto misurare».
+ */
+export function dovePuntaLaScheda({ vc = {}, g = {}, bloccato = false, cieca = false } = {}) {
+  if (vc.bloccata) return "dichiarati-aperti";
+  if (vc.inammissibile) return "rifiutate-dal-cancello";
+  if (vc.chiude && g.ammessa) return "da-chiudere";
+  if (bloccato) return "rifiutate";
+  if (cieca) return "non-misurate";
+  return "aperta";
+}
+
 export function ricalcolaMeta(cantiere) {
   cantiere.meta = metaCantiere(cantiere.difetti || [], { oggiMs: Date.parse(nowPiacenza().slice(0, 10)) });
 }
@@ -391,11 +415,12 @@ async function cmdVerifica(cantiere) {
     // riga rifaceva il verdetto (`r.esito === "risolto" && g.ammessa`) e il `chiude` che la funzione
     // pura tornava veniva buttato: un verdetto che il chiamante ricalcola non decide niente, e i
     // cancelli aggiunti alla funzione non sarebbero mai arrivati fin qui.
-    if (vc.bloccata) dichiaratiAperti.push({ d, motivo: vc.motivo });
-    else if (vc.inammissibile) rifiutateDalCancello.push({ d, motivo: vc.motivo, marca: vc.marca });
-    else if (vc.chiude && g.ammessa) daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
-    else if (bloccato) rifiutate.push({ d, motivo: g.motivo });
-    else if (cieca) nonMisurate.push({ d, motivo: r.dettaglio });
+    const dove = dovePuntaLaScheda({ vc, g, bloccato, cieca });
+    if (dove === "dichiarati-aperti") dichiaratiAperti.push({ d, motivo: vc.motivo });
+    else if (dove === "rifiutate-dal-cancello") rifiutateDalCancello.push({ d, motivo: vc.motivo, marca: vc.marca });
+    else if (dove === "da-chiudere") daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
+    else if (dove === "rifiutate") rifiutate.push({ d, motivo: g.motivo });
+    else if (dove === "non-misurate") nonMisurate.push({ d, motivo: r.dettaglio });
   }
   if (nonMisurate.length) {
     // Il terzo esito del contratto di casa, stampato come tale: 0 = passato · 1 = violazione ·
