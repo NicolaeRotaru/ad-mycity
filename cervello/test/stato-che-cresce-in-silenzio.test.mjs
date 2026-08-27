@@ -15,7 +15,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync, existsSync } from "no
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { BERSAGLIO, SEZIONE, SOGLIA, spaccaStato, vociDaSpostare } from "../housekeeping-stato.mjs";
+import { BERSAGLIO, SEZIONE, SOGLIA, spaccaStato, vociDaSpostare, esitoScritture } from "../housekeeping-stato.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const STRUMENTO = join(QUI, "..", "housekeeping-stato.mjs");
@@ -175,6 +175,40 @@ prova("AR-847: l'archivio si scrive PRIMA del vivo — se muore in mezzo, duplic
   const iV = src.indexOf("scriviTestoAtomico(VIVO");
   assert.ok(iA > 0 && iV > 0, "CIECO: non trovo le due scritture, questo caso non controlla niente");
   assert.ok(iA < iV, "il file vivo si scrive prima dell'archivio: una morte in mezzo perde le voci invece di duplicarle");
+});
+
+prova("AR-847: archivio scritto e file vivo no → le voci sono DOPPIE, e non si dice «spostate»", () => {
+  // Lente «come si rompe». L'ordine delle scritture decide il verso: prima l'archivio, quindi una
+  // rottura in mezzo DUPLICA invece di perdere. Ma un doppione non e' un lavoro finito, e chiamarlo
+  // «spostate N» sarebbe un verde su STATO.md ancora lungo come prima — al giro dopo si
+  // duplicherebbe di nuovo.
+  //
+  // La risposta del mondo arriva da FUORI (l'ho scritta io qui), invece di allestire i percorsi e
+  // gli interruttori che la produrrebbero: quella combinazione il freno la decide guardando la
+  // radice vera del repo, e una prova che ci provasse dipenderebbe da quanto e' lungo STATO.md
+  // oggi. Ci sono gia' cascato dentro un'ora fa: il caso passava, poi il file e' sceso sotto la
+  // soglia ed e' diventato rosso senza che il codice fosse cambiato.
+  const mezzo = esitoScritture({ scrittoArchivio: "/x/archivio.md", scrittoVivo: null, quante: 7, prima: 200000, dimensione: 200000 });
+  assert.equal(mezzo.ok, false, "un lavoro a meta' non e' ok");
+  assert.equal(mezzo.codice, 2, "deve uscire 2: e' il ⚪/rosso che si vede nel giro, non uno zero");
+  assert.equal(mezzo.spostate, 0, "non ha spostato niente: le voci sono doppie");
+  assert.match(mezzo.messaggio, /DOPPIE/, "il messaggio deve dire che sono doppie");
+  assert.match(mezzo.messaggio, /7/, "e quante toglierne a mano");
+});
+
+prova("AR-847: il freno che dice no SUBITO non e' un errore, e non e' nemmeno un lavoro fatto", () => {
+  const secco = esitoScritture({ scrittoArchivio: null, scrittoVivo: null, quante: 7, prima: 200000 });
+  assert.equal(secco.codice, 0, "in sola lettura non aver scritto e' il comportamento giusto, non un guasto");
+  assert.equal(secco.spostate, 0, "e va detto che non ha spostato niente");
+  assert.equal(secco.secco, true);
+  assert.equal(secco.dimensione, 200000, "la dimensione resta quella di prima: non e' cambiato niente");
+});
+
+prova("AR-847: tutt'e due scritte → e' l'unico caso che puo' dire «spostate»", () => {
+  const pieno = esitoScritture({ scrittoArchivio: "/x/a.md", scrittoVivo: "/x/v.md", quante: 7, prima: 200000, dimensione: 100000 });
+  assert.equal(pieno.ok, true);
+  assert.equal(pieno.codice, 0);
+  assert.equal(pieno.spostate, 7);
 });
 
 prova("AR-847: lo strumento e' MONTATO nel giro — o e' un attrezzo che non usa nessuno", () => {

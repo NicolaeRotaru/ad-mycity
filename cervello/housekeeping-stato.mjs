@@ -134,6 +134,33 @@ export function rimandoDa(quante, dimensionePrima) {
   ];
 }
 
+/**
+ * Che cosa dire dopo le due scritture — funzione PURA: riceve da fuori la risposta del mondo
+ * (che cosa ha scritto davvero il freno della memoria) invece di andarsela a prendere.
+ *
+ * Serve perche' lo stato interessante — l'archivio scritto e il file vivo no — si raggiunge solo
+ * con una combinazione di percorsi e interruttori che da un test non si puo' allestire: il freno
+ * decide guardando la radice VERA del repo, e quella non si sposta da un env. Una prova che
+ * provasse a montarla dovrebbe scrivere dentro il vault vero, o dipendere da quanto e' lungo
+ * STATO.md oggi — cioe' sarebbe una prova che passa o fallisce a seconda del mondo, non del codice.
+ * Cosi' invece i quattro casi si scrivono tutti, e nessuno tocca niente.
+ *
+ * I tre esiti, e perche' sono diversi:
+ *   · il freno ha detto no subito       → ⚪ non ho spostato niente, ed e' giusto cosi' (uscita 0)
+ *   · archivio scritto, vivo no         → le voci sono DOPPIE: non e' una perdita, ma non e' un
+ *                                          lavoro fatto, e va tolto a mano (uscita 2)
+ *   · tutt'e due scritti                → spostate davvero (uscita 0)
+ */
+export function esitoScritture({ scrittoArchivio, scrittoVivo, quante = 0, prima = 0, dimensione = 0 } = {}) {
+  if (!scrittoArchivio) {
+    return { ok: true, secco: true, spostate: 0, dimensione: prima, messaggio: "⚪ il freno di scrittura dice di no (sola lettura o memoria deviata): non ho spostato niente", codice: 0 };
+  }
+  if (!scrittoVivo) {
+    return { ok: false, spostate: 0, dimensione: prima, prima, messaggio: `⚠️ le voci sono finite in archivio ma STATO.md non si e' lasciato riscrivere: adesso sono DOPPIE, non spostate. Togli a mano le ${quante} voci piu' vecchie da STATO.md, oppure l'ultimo blocco dall'archivio.`, codice: 2 };
+  }
+  return { ok: true, spostate: quante, dimensione, prima, messaggio: `🗄️ spostate ${quante} voci in archivio: STATO.md da ${prima} a ${dimensione} caratteri`, codice: 0 };
+}
+
 function main() {
   const argv = process.argv.slice(2);
   const secco = argv.includes("--dry-run");
@@ -179,11 +206,8 @@ function main() {
     ARCHIVIO,
     `${testa}\n\n${vecchie.map((v) => v.join("\n").replace(/\s*$/, "")).join("\n\n")}\n`,
   );
-  if (!scrittoArchivio) {
-    return dillo({ ok: true, secco: true, spostate: 0, dimensione: prima, messaggio: "⚪ il freno di scrittura dice di no (sola lettura o memoria deviata): non ho spostato niente", codice: 0 });
-  }
-  scriviTestoAtomico(VIVO, `${nuovo.replace(/\s*$/, "")}\n`);
-  dillo({ ok: true, spostate: d.quante, dimensione: d.dimensione, prima, messaggio: `🗄️ spostate ${d.quante} voci in archivio: STATO.md da ${prima} a ${d.dimensione} caratteri`, codice: 0 });
+  const scrittoVivo = scrittoArchivio ? scriviTestoAtomico(VIVO, `${nuovo.replace(/\s*$/, "")}\n`) : null;
+  dillo(esitoScritture({ scrittoArchivio, scrittoVivo, quante: d.quante, prima, dimensione: d.dimensione }));
 }
 
 if (import.meta.url === pathToFileURL(process.argv[1] || "").href) main();
