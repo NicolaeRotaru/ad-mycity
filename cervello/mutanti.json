@@ -6862,10 +6862,10 @@
    "difetto": "AR-807",
    "nome": "la coda smette di dire dove sono finite le carte chiuse",
    "file": "cervello/housekeeping-azioni.mjs",
-   "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,",
+   "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,\n    \"> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.\",",
    "sostituisci": "    \"\",",
    "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs",
-   "nota_riancoraggio": "27/8: il rimando era stato spezzato in due righe (il numero da una parte, il percorso dall'altra) e l'ancoraggio vecchio cercava la riga unica. Ri-puntato alla riga che porta il conto."
+   "nota_riancoraggio": "27/8: il rimando era stato spezzato in due righe (il conto da una parte, il percorso dall'altra) e l'ancoraggio vecchio cercava la riga unica. Ri-puntato — e al primo giro NON MORDEVA: spegnere la prima riga lasciava la seconda, che porta ancora la parola «AZIONI-archivio» che il test cerca. E' la parola che la rottura si porta dietro. Adesso la mutazione toglie tutt'e due le righe, cioe' il rimando intero, che e' quello che il difetto dice."
   },
   {
    "lotto": 59,
