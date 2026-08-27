@@ -14,7 +14,7 @@
    "estensioni": [
     ".sh"
    ],
-   "baseline": 49,
+   "baseline": 39,
    "file_noti": [
     "cervello/giro.sh",
     "cervello/ritmo.sh",
@@ -26,9 +26,61 @@
     "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
     "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
    ],
-   "nota_onesta": "Cinquanta istanze, quasi tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba fermare il giro. Ma la differenza va DECISA una per una e dichiarata negli esenti, non lasciata al caso — ed è il triage che manca. La radice è installata: la funzione `guardiano()` rende la scelta esplicita invece che implicita in due caratteri.",
-   "esenti": [],
-   "nota_baseline": "50, misurato il 2026-08-14 sulla forma VIVA — `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true`. Dove sono: giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1. ⚠️ IL NUMERO NON È SALITO DA 0 A 50: era 0 perché il rilevatore cercava solo `| tail`, e il codice nel frattempo era passato a `esito_righe`. Cioè la malattia risultava guarita perché avevamo cambiato nome al tubo (AR-375), e per due settimane nessuno ha visto le cinquanta istanze vive. Da qui il tetto scende e non risale. La scheda di AR-375 diceva 34, ma era il conto del 29 luglio: il giro è cresciuto da allora. Lotto 44: scesa a 49 — una istanza curata dal lotto. Il tetto scende e non risale."
+   "nota_onesta": "Quarantanove istanze lorde, quasi tutte in giro.sh. Il triage che mancava adesso c'e, fatto voce per voce guardando COSA SIGNIFICA l'uscita di ogni attrezzo: 22 seppelliscono un ⚪ (l'attrezzo esce non-zero apposta per dire «non ho misurato»: il file che gli serve non c'e), 17 seppelliscono un verdetto, 10 sono rapporti informativi veri e stanno negli esenti col perche scritto. Restano 39 istanze di debito: quelle il tetto le conta, e scende solo quando qualcuna viene curata davvero.",
+   "esenti": [
+    {
+     "file": "cervello/giro.sh",
+     "quale": "pagella-intelligenza.mjs (riga 460)",
+     "perche": "Stampa una pagella e basta: non ha nessuna uscita non-zero che sia un verdetto, solo il ramo di crash. Non esiste un fallimento suo che debba fermare il giro — e se crepa, le righe dell'errore le stampa esito_righe."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "sincronizza-proposte.mjs (riga 719)",
+     "perche": "Allinea le proposte e lascia il suo esito in un segnale su file (stampSegnale): il verdetto viaggia di la, non nel codice d'uscita. L'unica uscita non-zero e il crash."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "capacita.mjs (riga 966)",
+     "perche": "Non ha nessuna uscita diversa da zero in tutto il file: esce 0 sia in modalita JSON sia normale. Da un codice d'uscita che e sempre lo stesso non si perde niente incanalandolo."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "contesto-lezioni.mjs (riga 1052)",
+     "perche": "Nessuna uscita non-zero nel file: serve solo a comporre il testo di contesto per il motore. Non c'e verdetto da salvare."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "retry-policy.mjs (riga 1474)",
+     "perche": "Esce sempre 0 e comunica la decisione sullo standard output, che il giro cattura in una variabile: il valore utile e il TESTO, non il codice d'uscita."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "costo-ai.mjs (riga 1022)",
+     "perche": "Rendiconto di spesa: l'unica uscita non-zero e il crash. Il freno vero sul budget e sentinella-budget.mjs, che infatti resta contato come debito e non e esente."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "costo-ai.mjs (riga 1835)",
+     "perche": "Stessa chiamata di rendiconto nella coda del giro: nessun verdetto nel codice d'uscita, solo il ramo di crash."
+    },
+    {
+     "file": "cervello/giro.sh",
+     "quale": "costo-ai.mjs (riga 1839)",
+     "perche": "Terza chiamata di rendiconto nella coda del giro, stessa forma: niente verdetto da perdere nel codice d'uscita."
+    },
+    {
+     "file": "cervello/ritmo.sh",
+     "quale": "costo-ai.mjs (riga 313)",
+     "perche": "Il rendiconto di spesa dentro le cadenze: come nel giro, l'unica uscita non-zero e il crash e non c'e nessun verdetto che debba fermare la cadenza."
+    },
+    {
+     "file": "cervello/monitora.sh",
+     "quale": "costo-ai.mjs (riga 164)",
+     "perche": "Il rendiconto di spesa dentro il monitoraggio: nessuna uscita non-zero che sia un giudizio, quindi la pipe non seppellisce niente."
+    }
+   ],
+   "nota_baseline": "39, misurato il 2026-08-27: 49 istanze lorde meno 10 rapporti informativi dichiarati uno per uno negli esenti. ⚠️ IL CALO 49→39 NON E UNA CURA: e il triage che AR-375 chiedeva da fine luglio, e le 39 che restano sono debito vero, non ancora toccato. Prima era 49 senza nessun triage (e prima ancora 0, perche il rilevatore cercava «tail» mentre il codice era passato a esito_righe: la malattia risultava guarita perche avevamo cambiato nome al tubo). Il triage stesso e stato rifatto due volte, e la seconda ha corretto la prima: il primo classificatore cercava «process.exit(1)» scritto cosi e non vedeva «process.exit(out.ok ? 0 : 1)», cioe la forma con cui 8 attrezzi esprimono il loro giudizio — avrebbe dichiarato esenti 23 istanze invece di 10, piu del doppio. E lo stesso identico vizio che ha generato AR-375: un metro tarato sulla sintassi di ieri invece che sul comportamento. Da qui il tetto scende e non risale.",
+   "controprova": "node \"$SCRIPT_DIR/sonda-volano.mjs\" --json | esito_righe 3 || true"
   },
   {
    "id": "buco-letto-come-zero",
