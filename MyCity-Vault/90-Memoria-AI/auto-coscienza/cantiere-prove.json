@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-27 18:21",
+  "aggiornato": "2026-08-27 18:44",
   "giorni_sospetto": 3,
-  "difetti_aperti": 120,
-  "difetti_da_fare": 120,
+  "difetti_aperti": 121,
+  "difetti_da_fare": 121,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 849,
+    "totale": 850,
     "chiusi": 729,
-    "aperti": 109,
+    "aperti": 110,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 120,
+    "da_fare": 121,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 729,
-      "aperto": 109,
+      "aperto": 110,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 120,
-    "viste": 120,
+    "attese": 121,
+    "viste": 121,
     "fuori": 0,
-    "motivo": "bilancio a posto: 729 chiuse + 120 classificate = 849 schede, e ogni stato vivo è dentro (109 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 729 chiuse + 121 classificate = 850 schede, e ogni stato vivo è dentro (110 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 79,
     "prova-debole-su-grave": 26,
-    "auto-comando": 11,
+    "auto-comando": 12,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -3328,6 +3328,19 @@
       "titolo": "Meta' delle mutazioni risultano verificate senza esserlo: il metro della copertura si da' buono da solo",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-859",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Ventun programmi dicono «ho trovato un problema» quando in realtà non hanno guardato niente",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/cieco-che-esce-come-un-errore.test.mjs",
       "auto_chiudibile": true
     }
   ]

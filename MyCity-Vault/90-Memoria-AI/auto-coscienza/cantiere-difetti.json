@@ -18492,13 +18492,13 @@
       "colore": "🟡",
       "stato": "aperto",
       "nato": "2026-08-27 18:45",
-      "nota": "Trovato riparando, non cercando: stavo curando il triage di AR-375 e ho lanciato bilancio-vivo per vedere se qualcuno degli organi fosse cieco in questo momento. Esce 1 — ma NON è cieco: ha misurato benissimo e dice che il margine realizzato è zero, che è la verità dell'azienda oggi. Cioè lo stesso codice d'uscita copre due stati opposti: «non ho potuto guardare» e «ho guardato e va male». Da fuori non si distinguono, e chi legge va a riparare la cosa sbagliata. Misurato sul codice vero il 27/8: 21 programmi, elencati dal caso di prova. Il caso peggiore non è teorico — è bilancio-vivo, che se STATO.md sparisce dice esattamente quello che dice adesso che sta bene.",
+      "nota": "Trovato riparando, non cercando: stavo curando il triage di AR-375 e ho lanciato bilancio-vivo per vedere se qualcuno degli organi fosse cieco in questo momento. Esce 1 — ma NON è cieco: ha misurato benissimo e dice che il margine realizzato è zero, che è la verità dell'azienda oggi. Cioè lo stesso codice d'uscita copre due stati opposti: «non ho potuto guardare» e «ho guardato e va male». Da fuori non si distinguono, e chi legge va a riparare la cosa sbagliata. Misurato sul codice vero il 27/8: 21 programmi, elencati dal caso di prova. Il caso peggiore non è teorico — è bilancio-vivo, che se STATO.md sparisce dice esattamente quello che dice adesso che sta bene. (Nato_come: scoperta, non regressione — il difetto c era gia, l ho solo incontrato mentre riparavo AR-375; nessun mio fix l ha creato.)",
       "verifica": {
         "tipo": "comando",
         "comando": "node cervello/test/cieco-che-esce-come-un-errore.test.mjs",
         "esito": "7 casi su 7. Cinque sono puri sul riconoscitore (sorgente costruito). Uno LANCIA i tre curati in una copia dell'albero senza MyCity-Vault accanto — la radice se la calcolano da dove sta il loro file, quindi il ramo del cieco si apre davvero — e pretende uscita 2: misurato, 0,16 secondi in tutto. L'ultimo è il tetto, sceso da 21 a 18."
       },
-      "nato_come": "riparando"
+      "nato_come": "scoperta"
     }
   ],
   "meta": {
