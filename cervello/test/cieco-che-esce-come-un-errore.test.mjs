@@ -77,7 +77,7 @@ prova("un sorgente vuoto non e' malato, ed e' il ⚪ che non deve diventare un �
   assert.equal(confondeCiecoEdErrore().confonde, false);
 });
 
-prova("SUL SERIO: gli otto curati, senza il loro file sotto, escono 2 e non 1", () => {
+prova("SUL SERIO: i nove curati, senza il loro file sotto, escono 2 e non 1", () => {
   // Questa e' la prova che GIRA, e serve proprio qui. La cura tocca un ramo che in casa non si
   // apre mai — il vault c'e' sempre — cioe' la forma di prova vuota numero ①: scritta bene, sul
   // ramo giusto, e quella riga qui non la esegue nessuno.
@@ -101,6 +101,7 @@ prova("SUL SERIO: gli otto curati, senza il loro file sotto, escono 2 e non 1", 
       { nome: "guardiano-tempo" },
       { nome: "chiusure-audit" },
       { nome: "sentinella-fonti", togli: "cervello/radar-fonti.json" },
+      { nome: "permessi-check", togli: ".claude" },
     ];
     for (const { nome, togli } of CURATI) {
       if (togli) rmSync(join(dir, togli), { force: true });
@@ -128,13 +129,22 @@ prova("IL TETTO: quanti programmi confondono ancora «non ho misurato» con «ho
       "«il documento non e' quello che mi aspettavo, non scrivo niente» e' un reperto e una scelta: meglio un file vecchio che un file mezzo corretto. Non e' cecita'.",
     "rivedi-lezione.mjs":
       "«questa lezione non esiste» e' la risposta a una domanda, non l'impossibilita' di rispondere. Come grep che non trova: 1 e' il codice giusto.",
+    "coerenza-fatti.mjs":
+      "«fatto X non trovato» su un comando `rimuovi <id>`: e' la risposta a quello che gli hai chiesto, non una cecita'.",
+    "git-merge.mjs":
+      "«--force non esiste piu'» e' un RIFIUTO deliberato, messo li' apposta per non saltare il freno sull'azione piu' irreversibile della macchina. Uscire 1 e' esattamente giusto.",
+    "git-pr.mjs":
+      "«il branch locale non esiste, crealo prima» dice cosa c'e' che non va nella richiesta. E' un reperto sull'invocazione, non un «non ho potuto guardare».",
+    "test-pannello.mjs":
+      "«nessun test .test.mts: il Pannello non ha rete» E' il reperto, ed e' grave: non che non abbia potuto contarli, ma che non ce ne siano.",
   };
 
-  // Misurato il 2026-08-27 sul codice vero: 21 lordi. Otto curati in questo lotto, cinque dichiarati
-  // esenti qui sopra col perche'. Restano 8 di debito. Scende quando qualcuno converte il ramo del
+  // Misurato il 2026-08-27 sul codice vero: 21 lordi. Nove curati in questo lotto, nove dichiarati
+  // esenti qui sopra col perche'. Restano 3 di debito, e sono i tre in cui il codice d'uscita lo
+  // legge il cancello o il giro: li' la cura e' doppia e va fatta con la mano ferma, non a fine giornata. Scende quando qualcuno converte il ramo del
   // cieco a process.exit(2) — e se lo strumento e' letto dal giro, anche il blocco di giro.sh deve
   // passare da vincolo_da_rc. Non risale mai.
-  const TETTO = 8;
+  const TETTO = 3;
   const malati = readdirSync(CERVELLO)
     .filter((f) => f.endsWith(".mjs"))
     .filter((f) => confondeCiecoEdErrore(readFileSync(join(CERVELLO, f), "utf8")).confonde);
