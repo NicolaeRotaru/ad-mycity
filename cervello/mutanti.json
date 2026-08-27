@@ -1973,7 +1973,7 @@
    "file": "cervello/ci-lettura.mjs",
    "cerca": "  if (stato === STATO.ROSSO) {\n    return { ok: false, misurato: true, motivo: `controlli rossi:",
    "sostituisci": "  if (false) {\n    return { ok: false, misurato: true, motivo: `controlli rossi:",
-   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
+   "test": "cervello/test/ci-rossa-di-chi.test.mjs"
   },
   {
    "difetto": "CI-lettura",
@@ -1981,7 +1981,7 @@
    "file": "cervello/ci-lettura.mjs",
    "cerca": "      .replace(/\\b\\d+\\b/g, \"#\")",
    "sostituisci": "      .replace(/(?!)/g, \"#\")",
-   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
+   "test": "cervello/test/ci-rossa-di-chi.test.mjs"
   },
   {
    "difetto": "CI-lettura",
@@ -1989,7 +1989,7 @@
    "file": "cervello/ci-lettura.mjs",
    "cerca": "  if (/non sono scattati|non so leggere/.test(String(v?.motivo || \"\"))) {",
    "sostituisci": "  if (false) {",
-   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
+   "test": "cervello/test/ci-rossa-di-chi.test.mjs"
   },
   {
    "difetto": "conta-verdetti-muti · lavoro di Nicola contato come debito mio",
@@ -2617,7 +2617,7 @@
    "file": "cervello/forma-json.mjs",
    "cerca": "    const sporchi = rif.workingTree",
    "sostituisci": "    const sporchi = false && rif.workingTree",
-   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+   "test": "cervello/test/cancello-verde-senza-misurare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2626,7 +2626,7 @@
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "    if (muto) ciechiProve.push(muto);",
    "sostituisci": "    if (false) ciechiProve.push(muto);",
-   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+   "test": "cervello/test/cancello-verde-senza-misurare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2635,7 +2635,7 @@
    "file": "cervello/forma-json.mjs",
    "cerca": "    fuori: [\"origin/main non raggiungibile (clone superficiale): i JSON già committati sul ramo non li ho confrontati con nessuno\"],",
    "sostituisci": "    fuori: [],",
-   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+   "test": "cervello/test/cancello-verde-senza-misurare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2716,7 +2716,7 @@
    "file": "pannello/src/lib/freschezza-intelligence.ts",
    "cerca": "  const a = Date.parse(vaultToIso(`${isoVecchia} 12:00`));",
    "sostituisci": "  const a = Date.parse(`${isoVecchia}T12:00:00+02:00`);",
-   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   },
   {
    "lotto": 40,
@@ -2725,7 +2725,7 @@
    "file": "pannello/src/lib/verdetto-dato.ts",
    "cerca": "    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));",
    "sostituisci": "    const t = Date.parse(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`);",
-   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   },
   {
    "lotto": 40,
@@ -2815,7 +2815,7 @@
    "file": "pannello/src/lib/format.ts",
    "cerca": "iso = vaultToIso(`${y}-${mo}-${d} ${hh ?? hDef}:${mi ?? miDef}`);",
    "sostituisci": "iso = `${y}-${mo}-${d}T${hh ?? hDef}:${mi ?? miDef}:00+02:00`;",
-   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   },
   {
    "lotto": 40,
@@ -2923,7 +2923,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "const mandato = (iDomande >= 0 ? resto.slice(0, iDomande) : resto)",
    "sostituisci": "const mandato = (iDomande >= 0 ? resto.slice(iDomande) : resto)",
-   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
+   "test": "cervello/test/mandato-senza-padrone.test.mjs"
   },
   {
    "lotto": 40,
@@ -2932,7 +2932,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (!condivise.some(specifica)) continue;",
    "sostituisci": "if (true) continue;",
-   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
+   "test": "cervello/test/mandato-senza-padrone.test.mjs"
   },
   {
    "lotto": 40,
@@ -2941,7 +2941,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (fb.radici.length - condivise.length > MAX_RADICI_ESTRANEE) continue;",
    "sostituisci": "if (true) continue;",
-   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
+   "test": "cervello/test/mandato-senza-padrone.test.mjs"
   },
   {
    "lotto": 40,
@@ -2950,7 +2950,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "return nomi.filter((n) => rimanda.get(n).size === 0 && ricevuti.get(n) >= soglia);",
    "sostituisci": "return nomi.filter((n) => false && ricevuti.get(n) >= soglia);",
-   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2959,7 +2959,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "for (const p of percorsiCitati(testo)) if (!risolvi(p)) out.push({ agente: nome, percorso: p });",
    "sostituisci": "for (const p of percorsiCitati(testo)) if (false) out.push({ agente: nome, percorso: p });",
-   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2968,7 +2968,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (!/client|negozian/.test(aCosaServe)) continue;",
    "sostituisci": "if (true) continue;",
-   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2977,7 +2977,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (owner.length === 0) out.push({ canale: c.mano, chiave: c.chiave });",
    "sostituisci": "if (false) out.push({ canale: c.mano, chiave: c.chiave });",
-   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -3015,7 +3015,7 @@
    "file": "cervello/turno-senior.mjs",
    "cerca": "    return !voci.some((v) => v.autore === h.a && v.data >= h.data);",
    "sostituisci": "    return false;",
-   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+   "test": "cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "lotto": 40,
@@ -3159,7 +3159,7 @@
    "file": "cervello/prompt-senior.mjs",
    "cerca": "  const dir = join(radice, \".claude\", \"agents\");",
    "sostituisci": "  const dir = join(radice, \".claude\", \"agents-che-non-esistono\");",
-   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+   "test": "cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "lotto": 40,
@@ -3263,7 +3263,7 @@
    "file": "pannello/src/lib/cancello-atto.ts",
    "cerca": "  const posto = await p.prenota();",
    "sostituisci": "  const posto: Prenotazione = \"mia\"; await p.prenota();",
-   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
+   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
   },
   {
    "lotto": 41,
@@ -3281,7 +3281,7 @@
    "file": "pannello/src/lib/cancello-atto.ts",
    "cerca": "if (res.status === 409) return \"gia-presa\";",
    "sostituisci": "if (res.status === 409) return \"mia\";",
-   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
+   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
   },
   {
    "lotto": 41,
@@ -3290,7 +3290,7 @@
    "file": "pannello/src/lib/cancello-atto.ts",
    "cerca": "  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: true });",
    "sostituisci": "  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: false });",
-   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
+   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
   },
   {
    "lotto": 41,
@@ -3362,7 +3362,7 @@
    "file": "pannello/src/lib/tocco-bersaglio.ts",
    "cerca": "export const CAMPO_MIN_PX = 16;",
    "sostituisci": "export const CAMPO_MIN_PX = 0;",
-   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
+   "test": "cervello/test/c3-tocco-bersaglio.test.mjs"
   },
   {
    "lotto": 41,
@@ -3371,7 +3371,7 @@
    "file": "pannello/src/lib/tocco-bersaglio.ts",
    "cerca": "export const BERSAGLIO_MIN_PX = 44;",
    "sostituisci": "export const BERSAGLIO_MIN_PX = 1;",
-   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
+   "test": "cervello/test/c3-tocco-bersaglio.test.mjs"
   },
   {
    "lotto": 41,
@@ -3380,7 +3380,7 @@
    "file": "pannello/src/lib/tocco-bersaglio.ts",
    "cerca": "      fuori.push(TETTO_RESPONSIVO[t] || \"max-h-none\");",
    "sostituisci": "      fuori.push(t);",
-   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
+   "test": "cervello/test/c3-tocco-bersaglio.test.mjs"
   },
   {
    "lotto": 41,
@@ -3389,7 +3389,7 @@
    "file": "pannello/src/components/Bacheca.tsx",
    "cerca": "usePanelRefresh([\"memoria\", \"all\"], carica, intervalloRipasso());",
    "sostituisci": "usePanelSync([\"memoria\", \"all\"], carica);",
-   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
+   "test": "cervello/test/c3-casella-ricarica.test.mjs"
   },
   {
    "lotto": 41,
@@ -3398,7 +3398,7 @@
    "file": "pannello/src/lib/casella-ricarica.ts",
    "cerca": "      messaggio: motivo\n        ? `⚠️ Non sono riuscito a leggere: ${motivo}. Riprova fra un momento.`\n        : \"⚠️ Non sono riuscito a leggere questo dato. Riprova fra un momento.\",",
    "sostituisci": "      messaggio: p.testoVuoto || \"Non c'è ancora niente qui.\",",
-   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
+   "test": "cervello/test/c3-casella-ricarica.test.mjs"
   },
   {
    "lotto": 41,
@@ -3434,7 +3434,7 @@
    "file": "pannello/src/lib/casella-ricarica.ts",
    "cerca": "  if (!p.controllerPrima) {\n    return { azione: \"niente\", motivo: \"primo controllo del service worker: non è un aggiornamento\" };\n  }",
    "sostituisci": "",
-   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
+   "test": "cervello/test/c3-casella-ricarica.test.mjs"
   },
   {
    "lotto": 41,
@@ -3479,7 +3479,7 @@
    "file": "cervello/worker.sh",
    "cerca": "if [ \"$_freno_rc\" = 1 ]; then",
    "sostituisci": "if [ \"$_freno_rc\" = 99 ]; then",
-   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+   "test": "cervello/test/c4-freno-su-ogni-corsia.test.mjs"
   },
   {
    "lotto": 41,
@@ -3488,7 +3488,7 @@
    "file": "cervello/motore-ai.sh",
    "cerca": "  out=\"$(node \"$dir/freno-costi.mjs\" 2>/dev/null)\"; rc=$?",
    "sostituisci": "  out=\"lascia\\tfinto\"; rc=0",
-   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+   "test": "cervello/test/c4-freno-su-ogni-corsia.test.mjs"
   },
   {
    "lotto": 41,
@@ -3497,7 +3497,7 @@
    "file": "cervello/worker.sh",
    "cerca": "    ai_registra_costo \"worker-$tipo\"",
    "sostituisci": "    : # ai_registra_costo \"worker-$tipo\"",
-   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+   "test": "cervello/test/c4-freno-su-ogni-corsia.test.mjs"
   },
   {
    "lotto": 41,
@@ -4909,7 +4909,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "      const bugiardi = esperimentiSmentiti(lista);",
    "sostituisci": "      const bugiardi = [];",
-   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
+   "test": "cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 44,
@@ -5313,7 +5313,7 @@
    "file": "cervello/turno-senior.mjs",
    "cerca": "  const quotaPassaggi = Math.max(1, Math.floor(quanti / 2));",
    "sostituisci": "  const quotaPassaggi = quanti;",
-   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+   "test": "cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "difetto": "AR-778 passaggi-che-ruotano",
@@ -5321,7 +5321,7 @@
    "file": "cervello/turno-senior.mjs",
    "cerca": "  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
    "sostituisci": "  for (const h of pendenti) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
-   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+   "test": "cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "difetto": "AR-779 un-numero-solo-per-la-coda",
@@ -5467,7 +5467,7 @@
    "file": "cervello/test-cervello.mjs",
    "cerca": "  const cecita = cecitaDaAmbiente(testo);",
    "sostituisci": "  const cecita = { cieco: false };",
-   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-781",
@@ -5475,7 +5475,7 @@
    "file": "cervello/ambiente-prova.mjs",
    "cerca": "  const m = /^\\s*(?:#\\s+)?1\\.\\.0(?:\\s+\\\\?#\\s*SKIP\\b(.*))?\\s*$/im.exec(String(uscita || \"\"));",
    "sostituisci": "  const m = /^\\s*1\\.\\.0(?:\\s+#\\s*SKIP\\b(.*))?\\s*$/im.exec(String(uscita || \"\"));",
-   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-437",
@@ -5483,7 +5483,7 @@
    "file": "cervello/test/aiuto-pannello.mjs",
    "cerca": "  if (!amb.pronto) {",
    "sostituisci": "  if (false) {",
-   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-781",
@@ -5491,7 +5491,7 @@
    "file": "cervello/non-vacuita.mjs",
    "cerca": "  if (leggiSalto(uscita).salto) return true;",
    "sostituisci": "  if (/^\\s*1\\.\\.0\\b[^\\n]*#\\s*skip/im.test(String(uscita))) return true;",
-   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-065",
@@ -5563,7 +5563,7 @@
    "file": "pannello/src/lib/confidenza-calibrazione.ts",
    "cerca": "    valore: conf,",
    "sostituisci": "    valore: grezzo,",
-   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-131",
@@ -5571,7 +5571,7 @@
    "file": "pannello/src/lib/confidenza-calibrazione.ts",
    "cerca": "  if (!Number.isFinite(conf)) {",
    "sostituisci": "  if (false) {",
-   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-131",
@@ -5579,7 +5579,7 @@
    "file": "pannello/src/components/AutoCoscienza.tsx",
    "cerca": "{barra(barraConfidenza(r).valore ?? undefined)}",
    "sostituisci": "{barra(r.punteggio)}",
-   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-175",
@@ -5587,7 +5587,7 @@
    "file": "cervello/pagella-intelligenza.mjs",
    "cerca": "  const misurato = grezzo !== null && grezzo !== undefined && Number.isFinite(Number(grezzo));",
    "sostituisci": "  const misurato = true;",
-   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-072",
@@ -6155,7 +6155,7 @@
    "file": "cervello/esperimenti-regole.mjs",
    "cerca": "    return { ...e, stato: effettivo, stato_dichiarato: dichiarato };",
    "sostituisci": "    return e;",
-   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
+   "test": "cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 49,
@@ -6164,7 +6164,7 @@
    "file": "cervello/esperimenti-check.mjs",
    "cerca": "  const corretta = correggiStati(esperimenti);",
    "sostituisci": "  const corretta = { esperimenti, corretti: [] };",
-   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
+   "test": "cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 49,
@@ -6817,7 +6817,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s) && esiste(`cervello/${s}`)).sort();",
    "sostituisci": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s)).sort();",
-   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 58,
@@ -6826,7 +6826,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "    } catch {\n      continue; // una fonte illeggibile non allarga l'elenco: al massimo lo lascia più stretto\n    }",
    "sostituisci": "    } catch {\n      txt = readFileSync(join(AD_ROOT, 'cervello/giro.sh'), 'utf8');\n    }",
-   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 58,
@@ -6835,7 +6835,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "  const i = s.indexOf(\"cervello/\");",
    "sostituisci": "  const i = s.lastIndexOf(\"cervello/\");",
-   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 58,
@@ -6844,7 +6844,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "export function mancantiNellaConsegna(elenco, testoConsegna) {",
    "sostituisci": "export function mancantiNellaConsegna(elenco, testoConsegna) {\n  if (!testoConsegna) return [];",
-   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 59,
@@ -7363,7 +7363,7 @@
    "file": "cervello/pota-apprendimento.mjs",
    "cerca": "  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));\n  const decadute = [...spente];",
    "sostituisci": "  const spente = new Set(lezioni.filter((l) => l.stato === \"decaduta\"));\n  const decadute = [...spente];",
-   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7372,7 +7372,7 @@
    "file": "cervello/misura-parziale.mjs",
    "cerca": "export const STATI_LEZIONE = [\"attiva\", \"principio\", \"in-prova\", \"decaduta\", \"ritirata\", \"senza-stato\"];",
    "sostituisci": "export const STATI_LEZIONE = [\"attiva\", \"principio\", \"in-prova\", \"decaduta\", \"senza-stato\"];",
-   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7381,7 +7381,7 @@
    "file": "cervello/misura-parziale.mjs",
    "cerca": "  return tutte.filter((l) => [\"decaduta\", \"ritirata\"].includes(String(l?.stato ?? \"\").trim()));",
    "sostituisci": "  return tutte.filter((l) => ![\"attiva\", \"principio\"].includes(String(l?.stato ?? \"\").trim()));",
-   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7390,7 +7390,7 @@
    "file": "cervello/pota-apprendimento.mjs",
    "cerca": "  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));",
    "sostituisci": "  const spente = new Set(lezioniSpente(j));",
-   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-829",
@@ -7543,7 +7543,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,\n    \"> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.\",",
    "sostituisci": "    `> 🗄️ Le card chiuse (${allClosedBlocks.length}) stanno in [[AZIONI-archivio]] — \\`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md\\`.`,",
-   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
    "difetto": "AR-835",
@@ -7552,7 +7552,7 @@
    "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
    "cerca": "> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.\n> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
    "sostituisci": "> 🗄️ Le card chiuse (25) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
-   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
    "difetto": "AR-836",
@@ -7561,7 +7561,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "  const lines = senzaRimandoFinale(content).split('\\n');",
    "sostituisci": "  const lines = content.split('\\n');",
-   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
    "difetto": "AR-836",
@@ -7570,7 +7570,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "  if (trovato) {\n    while (righe.length && (vuota(righe[righe.length - 1]) || righe[righe.length - 1].trim() === \"---\")) righe.pop();\n  }",
    "sostituisci": "  while (righe.length && (vuota(righe[righe.length - 1]) || righe[righe.length - 1].trim() === \"---\")) righe.pop();",
-   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7884,6 +7884,30 @@
    "cerca": "    passi.push(esegui(\"stati che nessun misuratore capisce (tetto)\", \"node\", [\"cervello/stati-che-nessuno-capisce.mjs\"]));",
    "sostituisci": "",
    "test": "cervello/test/uno-stato-che-nessuno-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-845",
+   "nome": "una misura che non si e' potuta fare torna a valere zero: il ⚪ letto come un ✅",
+   "file": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+   "cerca": "  throw new Error(`non ho potuto misurare il testo (uscita ${status}): ${t.trim().slice(0, 200) || \"(niente)\"}`);",
+   "sostituisci": "  return 0;",
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+  },
+  {
+   "difetto": "AR-845",
+   "nome": "il testo torna a passare da /dev/stdin, dove il misuratore non lo puo' leggere",
+   "file": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+   "cerca": "  const r = spawnSync(process.execPath, [MISURA, f], { encoding: \"utf8\" });",
+   "sostituisci": "  const r = spawnSync(process.execPath, [MISURA, \"/dev/stdin\"], { input: testo, encoding: \"utf8\" });",
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+  },
+  {
+   "difetto": "AR-846",
+   "nome": "il controllo torna a guardare solo l'inizio: un «..» in mezzo entra nell'elenco dei permessi",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  if (!s || s.startsWith(\"/\") || s.includes(\"$\")) return null;\n  if (s.split(\"/\").some((pezzo) => pezzo === \"..\")) return null;",
+   "sostituisci": "  if (!s || s.startsWith(\"..\") || s.startsWith(\"/\") || s.includes(\"$\")) return null;",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   }
  ]
 }

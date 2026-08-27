@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-27 10:01",
+  "aggiornato": "2026-08-27 10:47",
   "giorni_sospetto": 3,
-  "difetti_aperti": 124,
-  "difetti_da_fare": 124,
+  "difetti_aperti": 125,
+  "difetti_da_fare": 125,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 835,
-    "chiusi": 711,
-    "aperti": 113,
+    "totale": 838,
+    "chiusi": 713,
+    "aperti": 114,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 124,
+    "da_fare": 125,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 711,
-      "aperto": 113,
+      "chiuso": 713,
+      "aperto": 114,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 124,
-    "viste": 124,
+    "attese": 125,
+    "viste": 125,
     "fuori": 0,
-    "motivo": "bilancio a posto: 711 chiuse + 124 classificate = 835 schede, e ogni stato vivo è dentro (113 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 713 chiuse + 125 classificate = 838 schede, e ogni stato vivo è dentro (114 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 20,
     "auto-sospetta": 10,
-    "umana": 79,
+    "umana": 80,
     "auto-comando": 15
   },
   "difetti_senza_controllo": 0,
@@ -391,7 +391,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 109,
+  "non_auto_chiudibili": 110,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3424,6 +3424,19 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-847",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "STATO.md supera il campo visivo ogni pochi giorni, e ad accorgersene e' sempre il cancello a lavoro finito",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

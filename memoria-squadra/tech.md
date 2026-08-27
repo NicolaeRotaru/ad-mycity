@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-27 10:33 · AR-840: altri 55 sblocchi, tetto 229→174, e due difetti veri trovati dentro · V5 C5 A5 K4 I3 M5 E5 (media 4.57) · atteso due mutazioni che non mordono, le riparo e vado → reale una era lo strumento della prova che leggeva ⚪ come ✅ (AR-845), l'altra ha portato a un buco nell'elenco dei permessi (AR-846) · #prove-vacue #sicurezza
 - 2026-08-27 09:59 · AR-844: 18 schede riparate che ogni misuratore contava aperte, piu' il freno sul vocabolario · V5 C5 A5 K4 I4 M5 E5 (media 4.71) · atteso flippare 18 stati e via → reale no: la causa era due vocabolari a due cartelle di distanza, e il rilevatore che le vedeva usciva 0 lo stesso · #vocabolario #guardrail
 - 2026-08-27 09:30 · AR-840: altri 55 sblocchi, tetto 284→229, sei collegamenti mai provati riparati · V5 C5 A5 K4 I3 M4 E5 (media 4.43) · atteso le sei saranno rami irraggiungibili → reale no: tre collegamenti mai provati, due parole che la rottura si porta dietro, e un rilevatore coperto solo dal suo gemello nel test · #prove-vacue #collegamenti
 - 2026-08-27 09:07 · AR-840: altri 56 sblocchi, tetto 340→284, e quattro fix scoperti dentro · V5 C5 A5 K4 I3 M5 E5 (media 4.57) · atteso le quattro che non mordono saranno rami irraggiungibili come stamattina → reale no: tre erano collegamenti mai provati e una era una mia espressione regolare che leggeva solo il prefisso · #prove-vacue #collegamenti

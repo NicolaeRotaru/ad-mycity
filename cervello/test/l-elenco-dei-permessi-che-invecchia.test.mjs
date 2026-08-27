@@ -41,9 +41,42 @@ test("le cinque forme di lancio finiscono tutte nello stesso nome", () => {
 });
 
 test("il percorso assoluto del VPS non perde la sua sottocartella", () => {
-  // Con `lastIndexOf` invece di `indexOf` il segmento `vps/` spariva, e tre script che esistono
-  // risultavano «nominati ma non presenti sul disco».
   assert.ok(scriptLanciatiIn("bash /opt/mycity/ad-mycity/cervello/vps/setup.sh").has("vps/setup.sh"));
+});
+
+test("AR-846 · un «..» in MEZZO al percorso esce come uno in testa", () => {
+  // Trovato dalla lente della sicurezza sul perimetro di questo lotto, eseguendo invece di
+  // rileggere. Il controllo guardava solo l'INIZIO: `startsWith("..")` fermava `../fuori.mjs` e
+  // lasciava passare `cervello/a/../../../etc/passwd.mjs`, che dopo il taglio diventa
+  // `a/../../../etc/passwd.mjs` — un nome che esce dal repo dentro l'ELENCO DEI PERMESSI.
+  for (const fuori of [
+    "node cervello/a/../../../etc/passwd.mjs",
+    "node cervello/test/../../fuori.mjs",
+    "bash cervello/vps/../../fuori.sh",
+    "node cervello/../../fuori.mjs",
+    "node ../fuori.mjs",
+    "node /assoluto/x.mjs",
+  ]) {
+    assert.equal(scriptLanciatiIn(fuori).size, 0, `è passato: ${fuori}`);
+  }
+  // E il verso opposto, o sarebbe un controllo che blocca tutto: i percorsi normali restano.
+  assert.ok(scriptLanciatiIn("node cervello/test/x.mjs").has("test/x.mjs"), "un percorso onesto è stato bloccato");
+  assert.ok(scriptLanciatiIn("bash cervello/vps/setup.sh").has("vps/setup.sh"));
+});
+
+test("si taglia dalla PRIMA «cervello/», non dall'ultima", () => {
+  // 27/8 — QUESTO CASO NON C'ERA, e il commento che c'era al posto suo diceva una cosa falsa:
+  // sosteneva che con `lastIndexOf` il percorso del VPS qui sopra perdesse il segmento `vps/`.
+  // Non è vero — lì «cervello/» compare una volta sola, e le due funzioni danno lo stesso indice.
+  // Misurato sui lanci veri: ZERO ne contengono due. Ecco perché la mutazione che mette
+  // `lastIndexOf` non faceva diventare rosso niente.
+  //
+  // La scelta resta giusta, e questo è il caso che la distingue davvero. È COSTRUITO, non pescato
+  // dai dati di oggi: un percorso annidato. Con `lastIndexOf` il nome diventerebbe `x.mjs` e il
+  // file risulterebbe «nominato ma non esiste» mentre esiste.
+  const trovati = scriptLanciatiIn("node $REPO/cervello/test/cervello/x.mjs");
+  assert.ok(trovati.has("test/cervello/x.mjs"), `tagliato dall'ultima occorrenza: ${[...trovati].join(", ")}`);
+  assert.ok(!trovati.has("x.mjs"), "il segmento in mezzo è sparito");
 });
 
 test("un file citato in una frase non è un lancio", () => {

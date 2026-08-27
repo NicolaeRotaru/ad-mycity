@@ -18,18 +18,48 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { dirname, join } from "node:path";
 
 const REPO = join(import.meta.dirname, "..", "..");
 const MISURA = join(REPO, "cervello/si-capisce.mjs");
 const CODA = join(REPO, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 
-/** I punti difficili di un testo, secondo il metro che il cancello usa davvero. */
+/**
+ * I punti difficili di un testo, secondo il metro che il cancello usa davvero.
+ *
+ * 27/8, AR-845 — QUESTA FUNZIONE NON MISURAVA NIENTE, e il modo in cui falliva è esattamente la
+ * malattia che questo file esiste per sorvegliare. Passava il testo su `/dev/stdin` con l'`input:`
+ * di `spawnSync`: Node usa una pipe, e `/dev/stdin` non si può riaprire — il misuratore rispondeva
+ * «⚪ non ho potuto leggere il testo: ENXIO» e usciva 2. Che è la risposta GIUSTA. Ma qui sotto
+ * l'espressione cercava solo `❌ N punti` e su nessuna corrispondenza tornava **0**, cioè
+ * «nessun punto difficile»: un ⚪ letto come un ✅. I due casi che la usano misuravano il vuoto da
+ * quando sono nati.
+ *
+ * Adesso: il testo passa da un FILE vero, che è il modo in cui il misuratore è fatto per lavorare, e
+ * se non si capisce cosa abbia risposto si LANCIA invece di tornare uno zero. Una misura che non si
+ * è potuta fare non è uno zero.
+ */
 function puntiDifficili(testo) {
-  const r = spawnSync(process.execPath, [MISURA, "/dev/stdin"], { input: testo, encoding: "utf8" });
-  const m = (r.stdout + r.stderr).match(/❌ (\d+) punti/);
-  return m ? Number(m[1]) : 0;
+  const f = join(mkdtempSync(join(tmpdir(), "si-capisce-")), "testo.md");
+  writeFileSync(f, testo);
+  const r = spawnSync(process.execPath, [MISURA, f], { encoding: "utf8" });
+  const uscita = `${r.stdout || ""}${r.stderr || ""}`;
+  rmSync(dirname(f), { recursive: true, force: true });
+  return leggiPunti(uscita, r.status);
+}
+
+/**
+ * Cosa ha risposto il misuratore. Separata apposta, perché è QUI che stava il difetto e qui si prova.
+ * Tre risposte, non due: un numero · zero · **non l'ho potuto misurare**, che LANCIA.
+ */
+export function leggiPunti(uscita, status = null) {
+  const t = String(uscita ?? "");
+  const m = t.match(/❌ (\d+) punti/);
+  if (m) return Number(m[1]);
+  if (/✅/.test(t)) return 0;
+  throw new Error(`non ho potuto misurare il testo (uscita ${status}): ${t.trim().slice(0, 200) || "(niente)"}`);
 }
 
 test("la riga di riepilogo dell'archivio non impila due incisi", () => {
@@ -73,8 +103,6 @@ test("archiviare NON deve far salire il conto della coda", () => {
 // Su `main` il 26/8 ce n'erano già due, uno che diceva 23 e uno 24; la mia passata ha fatto il
 // terzo con 25. La coda diceva a Nicola tre numeri diversi sulla stessa cosa.
 
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
 
 const SCRIPT = join(REPO, "cervello/housekeeping-azioni.mjs");
 
@@ -207,4 +235,19 @@ test("AR-836 — senza rimando il separatore finale NON si tocca", async () => {
     "col rimando invece se ne va anche il separatore che lo introduceva, o resterebbe orfano",
   );
   assert.equal(senzaRimandoFinale(""), "", "testo vuoto: nessun giro a vuoto");
+});
+
+test("AR-845 · una misura che non si è potuta fare NON è uno zero", () => {
+  // È il difetto che ha reso vuoti i due casi qui sopra da quando sono nati. Il misuratore rispondeva
+  // «⚪ non ho potuto leggere il testo: ENXIO» e usciva 2 — la risposta giusta — e questa funzione,
+  // trovando solo `❌ N punti`, tornava 0: un ⚪ letto come un ✅, dentro lo strumento di una prova.
+  assert.equal(leggiPunti("❌ 3 punti che costringono Nicola a rileggere"), 3);
+  assert.equal(leggiPunti("✅ si capisce"), 0);
+  assert.throws(
+    () => leggiPunti("⚪ non ho potuto leggere il testo: ENXIO: no such device or address", 2),
+    /non ho potuto misurare/,
+    "un ⚪ è tornato come uno zero: è il difetto rimesso",
+  );
+  assert.throws(() => leggiPunti("", 1), /non ho potuto misurare/, "il silenzio è tornato uno zero");
+  assert.throws(() => leggiPunti(null), /non ho potuto misurare/);
 });

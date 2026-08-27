@@ -4460,3 +4460,15 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **Prima di toccare uno stato ho rifatto girare tutte le prove.** Undici comandi per diciotto schede, tutti verdi. E le date sono quelle vere, prese dai commit: si corregge lo stato di un fix che c'e', non si dichiara chiuso un fix che non c'e', e non si racconta che sia successo stamattina.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 11:40 — 🟡 Lo strumento di una prova leggeva «non ho misurato» come «zero» (AR-845, AR-846)
+
+**Cosa.** Altri 55 sblocchi (tetto da 229 a 174), e le due mutazioni che non mordevano hanno portato a due difetti veri.
+
+**Il primo e' dentro una prova (AR-845).** Un caso misurava la leggibilita' di una riga chiamando il misuratore come processo separato, e gli passava il testo su `/dev/stdin`. Con la pipe di Node quel percorso non si puo' riaprire: il misuratore rispondeva «non ho potuto leggere il testo» e usciva 2 — la risposta giusta. Ma l'aiutante cercava solo la forma «N punti difficili» e su nessuna corrispondenza tornava zero. Un ⚪ letto come un ✅, dentro lo strumento di una prova. I due casi che lo usano misuravano il vuoto da quando sono nati.
+
+**Il secondo e' nell'elenco dei permessi (AR-846).** Riparando il primo ho guardato il perimetro con la lente della sicurezza, ed eseguendo la funzione — non rileggendola — ho visto che il controllo che scarta i percorsi fuori dal repo guardava solo l'inizio della stringa. Fermava «../fuori.mjs» e lasciava passare «cervello/a/../../../etc/passwd.mjs». E' il file che dice quali script si possono lanciare.
+
+**Una correzione contro di me.** Il commento che spiegava perche' si taglia dalla PRIMA occorrenza diceva una cosa falsa: portava un esempio che non distingue i due casi. Misurato sui lanci veri: zero contengono due volte quella parola. Ho corretto il commento e aggiunto il caso costruito che distingue davvero, dicendo che e' costruito.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).

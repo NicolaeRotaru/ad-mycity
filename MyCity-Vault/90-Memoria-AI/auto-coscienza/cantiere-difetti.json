@@ -18095,6 +18095,73 @@
         "nota": "7 casi su ingressi finti — l'unico modo di verificare che il freno sappia dire sia si' sia no. C'e' il caso che l'ha fatto nascere (una scheda `riparato` nel cantiere della macchina e' un rosso), i quattro stati di casa che devono passare, il tetto che governa nei due versi, e il «non ho potuto contare» che vale ⚪ e non verde — la stessa regola che questo freno esiste per far rispettare agli altri, applicata a se' stesso. Piu' il caso che il freno sia MONTATO nel cancello (scartando le righe commentate prima di cercare) e il caso sul cantiere VERO. 4 mutazioni verificate rosse."
       },
       "chiuso_il": "2026-08-27 10:55"
+    },
+    {
+      "id": "AR-845",
+      "titolo": "Lo strumento di una prova leggeva «non ho potuto misurare» come «zero punti difficili»",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 11:20",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: una mutazione di AR-835 non mordeva, e invece di dare per buona la mia spiegazione ho eseguito il pezzo che misura",
+      "causa_radice": "`lo-strumento-che-alleggerisce-appesantiva.test.mjs` misura la leggibilita' di una riga chiamando `si-capisce.mjs` come processo separato e leggendo la sua uscita. Passava il testo su `/dev/stdin` con l'`input:` di `spawnSync`: Node usa una PIPE, e `/dev/stdin` non si puo' riaprire. Il misuratore rispondeva «⚪ non ho potuto leggere il testo: ENXIO» e usciva 2 — cioe' la risposta GIUSTA, il terzo stato fatto bene. Ma l'aiutante cercava solo `❌ N punti` e su nessuna corrispondenza tornava **0**: un ⚪ letto come un ✅, dentro lo strumento di una prova. I due casi che lo usano misuravano il vuoto da quando sono nati. E' la stessa malattia che questo file esiste per sorvegliare, commessa dentro il suo misuratore.",
+      "dove": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs (l'aiutante `puntiDifficili`)",
+      "fix_fatto": "🟡 Due pezzi. (a) Il testo passa da un FILE vero, che e' il modo in cui `si-capisce.mjs` e' fatto per lavorare. (b) La lettura della risposta esce in `leggiPunti(uscita, status)`, con TRE risposte e non due: un numero · zero · **non l'ho potuto misurare, e allora LANCIA**. Una misura che non si e' potuta fare non e' uno zero — la stessa regola che la macchina applica ai suoi guardiani, applicata allo strumento di una prova.",
+      "impatto": "Due casi che dicevano verde senza guardare niente, su una riga che la pulizia della coda riscrive a ogni passata: un punto difficile li' e' un punto per sempre, e nessuno se ne sarebbe accorto. Trovato solo perche' una mutazione non mordeva e ho misurato invece di spiegarmelo.",
+      "origine": "lotto 68",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+        "nota": "Il caso «una misura che non si e' potuta fare NON e' uno zero» esegue `leggiPunti` sulle risposte vere del misuratore: il numero, il verde, il ⚪ con ENXIO, il silenzio e il nulla. Le ultime tre devono LANCIARE. Due mutazioni verificate rosse — una rimette lo zero al posto del lancio, l'altra rimette `/dev/stdin`, cioe' il difetto originale."
+      },
+      "chiuso_il": "2026-08-27 11:25"
+    },
+    {
+      "id": "AR-846",
+      "titolo": "Nell'elenco dei permessi un percorso col «..» in mezzo usciva dal repo: il controllo guardava solo l'inizio",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 11:35",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: la lente della sicurezza sul perimetro toccato, eseguendo la funzione invece di rileggerla",
+      "causa_radice": "`dentroIlCervello` in `permessi-elenco.mjs` normalizza il percorso di ogni script lanciato e scarta quelli che escono dalla cartella. Il controllo era `s.startsWith(\"..\") || s.startsWith(\"/\") || s.includes(\"$\")`: guarda l'INIZIO della stringa. Fermava `../fuori.mjs`, e lasciava passare `cervello/a/../../../etc/passwd.mjs` — che dopo il taglio del prefisso diventa `a/../../../etc/passwd.mjs`, cioe' un nome che esce dal repo dentro l'ELENCO DEI PERMESSI, che e' il file che dice quali script si possono lanciare. Il controllo aveva l'intenzione giusta e la portata sbagliata: bloccava la forma piu' ovvia e lasciava aperta quella che uno costruirebbe apposta.",
+      "dove": "cervello/permessi-elenco.mjs (dentroIlCervello)",
+      "fix_fatto": "🟡 Si guarda OGNI segmento invece del solo inizio: `s.split(\"/\").some((pezzo) => pezzo === \"..\")`. Un `..` in mezzo esce come uno in testa. Il caso opposto e' provato insieme, o sarebbe un controllo che blocca tutto: i percorsi annidati onesti (`cervello/test/x.mjs`, `cervello/vps/setup.sh`) devono restare.",
+      "impatto": "Basso oggi: per sfruttarlo serve poter scrivere testo dentro il repo, e chi ci riesce ha gia' altre strade. Ma questo e' il file che costruisce un elenco di PERMESSI, e un elenco di permessi che accetta un percorso fuori dal repo e' esattamente la cosa che non deve capitare. Nessun caso reale trovato: i lanci veri sono tutti dentro.",
+      "origine": "lotto 68, lente rischio-sicurezza-se sul perimetro",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs",
+        "nota": "Il caso «un «..» in MEZZO al percorso esce come uno in testa» prova sei forme che devono essere scartate — fra cui quella che passava — e due percorsi annidati onesti che devono restare. Una mutazione che rimette il controllo sul solo inizio lo rende rosso, verificata."
+      },
+      "chiuso_il": "2026-08-27 11:40"
+    },
+    {
+      "id": "AR-847",
+      "titolo": "STATO.md supera il campo visivo ogni pochi giorni, e ad accorgersene e' sempre il cancello a lavoro finito",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-27 11:50",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: il cancello mi ha bocciato la consegna perche' STATO.md era passato da 200.000 caratteri con le voci che ci avevo scritto io oggi",
+      "causa_radice": "Il campo visivo del controllo di leggibilita' e' 200.000 caratteri: sopra quella soglia il file non viene letto intero, e su quel file il controllo smette di proteggere. `STATO.md` cresce di una voce a ogni lotto, e l'unico modo in cui qualcuno se ne accorge e' il cancello che diventa rosso — cioe' a lavoro finito, quando la voce e' gia' scritta. La CADENZA e' misurata, non stimata: il primo spostamento e' del 22/8 (il file era a 345.000 caratteri), il secondo del 27/8 (200.864). Cinque giorni. E ogni volta lo spostamento e' a mano: si sceglie il taglio, si controlla che non si perda niente, si aggiorna il rimando in fondo. Fra un rosso e l'altro il file passa del tempo OLTRE la soglia — cioe' consegnato a Nicola e non letto da nessun controllo — e nessuno sa per quanto.",
+      "dove": "MyCity-Vault/90-Memoria-AI/STATO.md · cervello/campo-visivo-memoria.mjs (misura, non previene)",
+      "fix_proposto": "🟡 Due strade, e la seconda e' meglio. (a) Un avviso a soglia: il guardiano dice «mancano N caratteri» sopra l'80% del campo, cosi' lo spostamento si fa PRIMA e non dopo il rosso. (b) Lo spostamento automatico, sul modello di `housekeeping-azioni.mjs` che gia' fa la stessa cosa per la coda: quando il file supera una soglia, le voci piu' vecchie scendono nell'archivio da sole, senza riscrivere niente e aggiornando il rimando. La (b) toglie il lavoro a mano, che e' dove si sbaglia. Prova che vuole: un file finto sopra soglia, lo strumento gira, e dopo **nessuna voce e' persa** (si contano prima e dopo) e il file sta sotto.",
+      "impatto": "Nessun dato perso: le voci si spostano, non si cancellano. Il costo e' che per un periodo sconosciuto — fra il superamento e il primo cancello rosso — quello che Nicola legge non lo controlla nessuno. E ogni spostamento e' un lavoro a mano su un file di memoria, che e' il posto in cui sbagliare costa di piu'.",
+      "origine": "lotto 68, bocciato dal cancello",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "La prova nasce col fix, come per ogni scheda aperta: oggi non c'e' niente da provare verde. Il conto di adesso, misurato: STATO.md a 168.224 caratteri dopo lo spostamento di oggi (era 200.864), archivio a 221.321. Due spostamenti a mano in cinque giorni."
+      }
     }
   ],
   "meta": {
