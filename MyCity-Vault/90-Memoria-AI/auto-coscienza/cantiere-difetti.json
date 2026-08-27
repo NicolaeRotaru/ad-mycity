@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 14:10",
+  "aggiornato": "2026-08-27 13:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18385,6 +18385,52 @@
         "nota": "Quattro casi nuovi piu' uno riparato. Due sulla funzione pura (cieco non accusa e lo segna; col glossario in mano il controllo torna a mordere, o la cura sarebbe «non accusare mai»). Due che LANCIANO il comando con una radice finta — uno senza glossario, uno con — perche' la riga che stampa la cecita' non la provava nessuno: verificato spegnendola, restava tutto verde. Due mutazioni verificate rosse a mano; la prima puntava al `?.` e non mordeva, ed e' stata ri-puntata sulla riga che decide davvero."
       },
       "chiuso_il": "2026-08-27 14:10"
+    },
+    {
+      "id": "AR-855",
+      "titolo": "La difesa sul blocco che sparisce contava le occorrenze in tutto il file: gli ESEMPI soddisfacevano il conto, e la regola poteva uscire dal prompt",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 13:05",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: sbloccando 25 mutazioni cieche di AR-840, due non mordevano — questa e' la prima",
+      "causa_radice": "Il caso di prova pretendeva `volte >= 2` per ogni blocco DENTRO TUTTO worker.sh: «serve sia nel prompt della CHAT sia in quello dei LAVORI». Ma «Cosa non ho verificato» in quel file compare SEI volte — due nelle istruzioni ai prompt e quattro dentro messaggi di esempio gia' scritti. Togliendola dal prompt ne restavano cinque, e il caso restava verde. E' la parola che la rottura si porta dietro, in forma di CONTEGGIO: la soglia e' soddisfatta dagli esempi, quindi la regola puo' sparire senza che il conto se ne accorga. La prima cura ha sbagliato due volte, e tutt'e due misurate: ① tagliava fino al prompt SUCCESSIVO, portandosi dentro il codice in mezzo, dove la frase ricompare in un commento; ② pretendeva i quattro blocchi da OGNI prompt, mentre quelli stretti (esegui-azione, bottega) consegnano una riga d'esito — e su una risposta corta i blocchi non ci vanno, che e' la regola opposta scritta nello stesso manuale.",
+      "dove": "cervello/test/regola-scrittura-nei-senior.test.mjs (promptiDelWorker)",
+      "fix_fatto": "🟡 Il caso non conta piu' le occorrenze nel file: RITAGLIA i due prompt generali — quello della chat e quello dei lavori — e pretende i quattro blocchi dentro ciascuno. Il taglio finisce alla prima riga che chiude la stringa, non al prompt successivo. E se un ancoraggio non c'e' piu', la funzione GRIDA col nome del prompt mancante invece di tornare una lista vuota: una lista vuota renderebbe il caso verde per il motivo peggiore, «non ho trovato niente da controllare».",
+      "impatto": "«Cosa non ho verificato» e' il blocco che sparisce piu' spesso: misurato l'11/8, mancava nel 100% dei 26 messaggi usciti dal server mentre gli altri tre c'erano sempre. E' il blocco che dice a Nicola di quanto fidarsi. La difesa che doveva impedirne la sparizione dai due prompt del worker — cioe' proprio da chi scrive quei messaggi — non poteva diventare rossa.",
+      "origine": "lotto 68, scoperto sbloccando le mutazioni cieche",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs",
+        "nota": "Due casi. Il primo ritaglia i due prompt generali e pretende i quattro blocchi dentro ciascuno; il secondo pretende che il ritaglio GRIDI quando l'ancoraggio sparisce, col nome del prompt che manca — anche quando ne resta uno solo dei due. Provato togliendo a mano tre frasi diverse dal worker: tutte e tre rendono rosso il caso, mentre col conto sul file intero restavano verdi. Due mutazioni nuove, piu' le due di AR-574 che adesso mordono."
+      },
+      "chiuso_il": "2026-08-27 13:25"
+    },
+    {
+      "id": "AR-856",
+      "titolo": "La difesa sul volume della coda girava solo se la coda di oggi era in un certo stato — e in quello stato non ci entra mai",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 13:35",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: sbloccando 25 mutazioni cieche di AR-840, due non mordevano — questa e' la seconda",
+      "causa_radice": "Il caso che difende la seconda meta' di AR-569 («il verdetto guarda anche QUANTE sono, non solo l'eta' della piu' vecchia») era scritto come `if (c.totale_in_attesa > 20 && (c.piu_vecchia_gg ?? 0) <= soglia) { …asserzioni… }` sul referto REALE del guardiano. La coda di oggi ha la piu' vecchia a 44 giorni contro una soglia di 7: quel ramo non ci entra mai, le asserzioni non girano, e la mutazione che toglie il volume dal verdetto lascia tutto verde. E' la forma ① del catalogo — il ramo che l'ambiente non prende mai — e il motivo era strutturale: la decisione viveva dentro il corpo dello script, fra una lettura di file e una stampa, quindi l'unico modo di raggiungerla era sperare che il mondo si mettesse nello stato giusto.",
+      "dove": "cervello/guardiano-tempo.mjs (verdettoCoda) + cervello/test/coda-vista-come-la-vede-nicola.test.mjs",
+      "fix_fatto": "🟡 La decisione esce in `verdettoCoda({etaPiuVecchiaGg, inAttesa, ritmoSettimanale})`, pura, che riceve da fuori le tre risposte del mondo. Quattro casi nuovi la percorrono tutta: la coda piena di card fresche (lo stato dell'11/8, costruito invece che aspettato), il verso opposto (coda corta col ritmo giusto → verde, o la cura sarebbe un guardiano sempre rosso), l'eta' che da sola basta a bocciare, e il ritmo zero — dove l'arretrato non e' calcolabile e quel «non lo so» non deve diventare ne' un'accusa ne' un via libera. ⑵ TROVATO ESTRAENDO: il corpo dello script RICALCOLAVA `ok: !stallo && !troppeInCoda` invece di usare il verdetto appena chiesto — due lettori della stessa regola, che divergono al primo che cambia. Adesso ce n'e' uno.",
+      "impatto": "E' il guardiano che risponde alla domanda «sono io il collo di bottiglia?». La meta' del difetto che riguarda il VOLUME — 57 firme fresche non sono «sotto controllo» — era senza difesa: si poteva togliere e nessun cancello se ne accorgeva. Oggi la coda ha 88 firme in attesa e la piu' vecchia a 44 giorni, quindi il rosso arriva per l'eta'; il giorno che le vecchie si smaltiscono e restano solo le fresche, il guardiano tornava a dire «sotto controllo» su una coda di ottantotto.",
+      "origine": "lotto 68, scoperto sbloccando le mutazioni cieche",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/coda-vista-come-la-vede-nicola.test.mjs",
+        "nota": "Quattro casi nuovi su mondo finto, piu' la mutazione di AR-569 ri-puntata dentro la funzione pura: adesso morde, prima no. Un caso di prova ha corretto me — 57 diviso 4 fa 14,25, che arrotondato e' 14,3 e non 14,2."
+      },
+      "chiuso_il": "2026-08-27 13:45"
     }
   ],
   "meta": {

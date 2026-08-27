@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-27 14:05",
+ "aggiornato": "2026-08-27 13:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -1632,7 +1632,7 @@
    "file": "cervello/cancello-senior.mjs",
    "cerca": "  return { righe, blocca: sostanza && !condiviso && !giaBloccato };",
    "sostituisci": "  return { righe, blocca: sostanza && !giaBloccato };",
-   "test": "node --test cervello/test/cancello-senior.test.mjs"
+   "test": "cervello/test/cancello-senior.test.mjs"
   },
   {
    "difetto": "AR-527",
@@ -1640,7 +1640,7 @@
    "file": "cervello/cancello-senior.mjs",
    "cerca": "  if (aperti <= 1) return { ancora: null, ultimo: true, condiviso: aperti > 1 };",
    "sostituisci": "  if (aperti <= 1) return { ancora: precedente, ultimo: true, condiviso: aperti > 1 };",
-   "test": "node --test cervello/test/cancello-senior.test.mjs"
+   "test": "cervello/test/cancello-senior.test.mjs"
   },
   {
    "difetto": "AR-528",
@@ -1656,7 +1656,7 @@
    "file": "cervello/intento-turno.mjs",
    "cerca": "  if (ancora && ancoraUsabile) return false;",
    "sostituisci": "  if (false) return false;",
-   "test": "node --test cervello/test/intento-turno.test.mjs"
+   "test": "cervello/test/intento-turno.test.mjs"
   },
   {
    "difetto": "AR-526",
@@ -1688,7 +1688,7 @@
    "file": "cervello/intento-turno.mjs",
    "cerca": "  for (const g of guasti) righe.push(",
    "sostituisci": "  for (const g of []) righe.push(",
-   "test": "node --test cervello/test/intento-turno.test.mjs"
+   "test": "cervello/test/intento-turno.test.mjs"
   },
   {
    "difetto": "AR-524",
@@ -2025,7 +2025,7 @@
    "file": "cervello/retry-policy.mjs",
    "cerca": "const settimanale = /weekly limit|limite settimanale",
    "sostituisci": "const settimanale = /mai-nessuna-corrispondenza-qui",
-   "test": "node cervello/test/limite-settimanale-riparte.test.mjs"
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
   },
   {
    "difetto": "limite-settimanale-macchina-ferma",
@@ -2034,7 +2034,7 @@
    "file": "cervello/monitora.sh",
    "cerca": "cadenza_recupero monitora",
    "sostituisci": "true # niente recupero",
-   "test": "node cervello/test/limite-settimanale-riparte.test.mjs"
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
   },
   {
    "difetto": "intelligence-vecchia-mostrata-come-fresca",
@@ -2173,16 +2173,17 @@
    "file": "cervello/guardiano-tempo.mjs",
    "cerca": "  const righe = letta.azioni.map((a) => ({",
    "sostituisci": "  const righe = [].map((a) => ({",
-   "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+   "test": "cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   },
   {
    "difetto": "AR-569 verdetto-cieco-sul-volume",
    "lezione": "L-2026-0811-02",
    "nome": "il verdetto torna a guardare solo l'eta della card piu vecchia: 57 firme fresche tornano «sotto controllo»",
    "file": "cervello/guardiano-tempo.mjs",
-   "cerca": "    ok: !stallo && !troppeInCoda,",
-   "sostituisci": "    ok: !stallo,",
-   "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+   "cerca": "  return { stallo, settimaneArretrato, troppeInCoda, ok: !stallo && !troppeInCoda };",
+   "sostituisci": "  return { stallo, settimaneArretrato, troppeInCoda, ok: !stallo };",
+   "test": "cervello/test/coda-vista-come-la-vede-nicola.test.mjs",
+   "nota_riancoraggio": "27/8 · AR-856: la decisione e' uscita dal corpo dello script ed e' diventata la funzione pura `verdettoCoda`, proprio perche' questa mutazione non mordeva — il caso che la difendeva era racchiuso in un `if` sullo stato reale della coda, e quel ramo l'ambiente non lo prende mai. Ri-puntata dentro la funzione."
   },
   {
    "lotto": "prove-2",
@@ -2236,7 +2237,7 @@
    "file": "cervello/verifica-sensori.mjs",
    "cerca": "const dipendentiDaEnv = checks.filter((c) => c.dipende_da_env !== false);\n  const ambienteConfigurato = dipendentiDaEnv.some((c) => c.configurato !== false);",
    "sostituisci": "const ambienteConfigurato = checks.some((c) => c.configurato !== false);",
-   "test": "node cervello/test/sensori-non-calpestati.test.mjs"
+   "test": "cervello/test/sensori-non-calpestati.test.mjs"
   },
   {
    "lotto": "radiografia-totale",
@@ -2245,7 +2246,7 @@
    "file": "cervello/verifica-sensori.mjs",
    "cerca": "      cecita.sensori[c.nome] = { ...prima, non_misurato_qui: `${quando}: ${c.dettaglio}` };",
    "sostituisci": "      void prima;",
-   "test": "node cervello/test/sensori-non-calpestati.test.mjs"
+   "test": "cervello/test/sensori-non-calpestati.test.mjs"
   },
   {
    "lotto": 34,
@@ -2254,7 +2255,7 @@
    "file": "cervello/esito-cadenza.mjs",
    "cerca": "  } else if (motore && !cambi) codice = 4;",
    "sostituisci": "  } else if (false) codice = 4;",
-   "test": "node cervello/test/esito-cadenza.test.mjs"
+   "test": "cervello/test/esito-cadenza.test.mjs"
   },
   {
    "lotto": 34,
@@ -2263,7 +2264,7 @@
    "file": "cervello/esito-cadenza.mjs",
    "cerca": "    : !push\n      ? \"non-pubblicato\"",
    "sostituisci": "    : gate > 0\n      ? \"vincoli-attivi\"",
-   "test": "node cervello/test/esito-cadenza.test.mjs"
+   "test": "cervello/test/esito-cadenza.test.mjs"
   },
   {
    "lotto": 34,
@@ -2296,7 +2297,7 @@
    "file": "CLAUDE.md",
    "cerca": "i **quattro blocchi**",
    "sostituisci": "i **tre blocchi**",
-   "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+   "test": "cervello/test/regola-scrittura-nei-senior.test.mjs"
   },
   {
    "difetto": "AR-574",
@@ -2304,7 +2305,7 @@
    "file": "cervello/worker.sh",
    "cerca": "«Cosa non ho verificato» (dichiara cosa NON hai potuto controllare da qui",
    "sostituisci": "",
-   "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+   "test": "cervello/test/regola-scrittura-nei-senior.test.mjs"
   },
   {
    "lotto": 37,
@@ -2655,7 +2656,7 @@
    "file": "cervello/sentinella-dati.mjs",
    "cerca": "  if (s.sensori_stantii && s.sensori_eta_min !== null) {",
    "sostituisci": "  if (false && s.sensori_stantii && s.sensori_eta_min !== null) {",
-   "test": "node cervello/test/misura-che-non-scade-mai.test.mjs"
+   "test": "cervello/test/misura-che-non-scade-mai.test.mjs"
   },
   {
    "lotto": 38,
@@ -2664,7 +2665,7 @@
    "file": "cervello/lib-sensori-verdetto.mjs",
    "cerca": "  if (!s.stantia) return { voce, decaduto: false };",
    "sostituisci": "  if (true) return { voce, decaduto: false };",
-   "test": "node cervello/test/misura-che-non-scade-mai.test.mjs"
+   "test": "cervello/test/misura-che-non-scade-mai.test.mjs"
   },
   {
    "lotto": 38,
@@ -2673,7 +2674,7 @@
    "file": "cervello/guardiani-check.mjs",
    "cerca": "    const esito = aggiornaBacheca(readFileSync(BACHECA, \"utf8\"), bloccoBacheca(cens, nowPiacenza()));",
    "sostituisci": "    const esito = rc === 0 ? aggiornaBacheca(readFileSync(BACHECA, \"utf8\"), bloccoBacheca(cens, nowPiacenza())) : { cambiato: false, testo: \"\" };",
-   "test": "node cervello/test/bacheca-congelata.test.mjs"
+   "test": "cervello/test/bacheca-congelata.test.mjs"
   },
   {
    "lotto": 38,
@@ -2682,7 +2683,7 @@
    "file": "cervello/censimento-guardiani.mjs",
    "cerca": "  if (incompleta.length) {",
    "sostituisci": "  if (false) {",
-   "test": "node cervello/test/bacheca-congelata.test.mjs"
+   "test": "cervello/test/bacheca-congelata.test.mjs"
   },
   {
    "lotto": 38,
@@ -2718,7 +2719,7 @@
    "file": "cervello/esito-cadenza.mjs",
    "cerca": "    const t = msDaTimbro(voce.quando);",
    "sostituisci": "    const t = Date.parse(String(voce.quando).replace(\" \", \"T\"));",
-   "test": "node cervello/test/ora-di-piacenza.test.mjs"
+   "test": "cervello/test/ora-di-piacenza.test.mjs"
   },
   {
    "lotto": 40,
@@ -2727,7 +2728,7 @@
    "file": "cervello/sensori-spenti-check.mjs",
    "cerca": "    quando: timbroOra(),",
    "sostituisci": "    quando: new Date().toISOString().slice(0, 16).replace(\"T\", \" \"),",
-   "test": "node cervello/test/registri-ora-di-piacenza.test.mjs"
+   "test": "cervello/test/registri-ora-di-piacenza.test.mjs"
   },
   {
    "lotto": 40,
@@ -2736,7 +2737,7 @@
    "file": "cervello/costo-ai.mjs",
    "cerca": "  const dentro = finestraContinua(tutte, oraMs, minuti);",
    "sostituisci": "  const g = new Intl.DateTimeFormat(\"sv-SE\", { timeZone: \"Europe/Rome\" }).format(new Date(oraMs));\n  const dentro = tutte.filter((v) => String(v?.quando).slice(0, 10) === g);",
-   "test": "node cervello/test/ora-di-piacenza.test.mjs"
+   "test": "cervello/test/ora-di-piacenza.test.mjs"
   },
   {
    "lotto": 40,
@@ -2781,7 +2782,7 @@
    "file": "pannello/src/lib/badge-coerenza.ts",
    "cerca": "return { esito: \"sconosciuto\", incoerenze: 0, cacce_aperte: 0, data: \"\", motivo: l?.motivo ?? null };",
    "sostituisci": "return null;",
-   "test": "node cervello/test/lettore-che-dice-mai-fatto.test.mjs"
+   "test": "cervello/test/lettore-che-dice-mai-fatto.test.mjs"
   },
   {
    "lotto": 40,
@@ -2790,7 +2791,7 @@
    "file": "pannello/src/lib/esito-lettura.ts",
    "cerca": "return con(`non so perché la lettura non è riuscita (stato «${stato || \"vuoto\"}»)`);",
    "sostituisci": "return null;",
-   "test": "node cervello/test/lettore-che-dice-mai-fatto.test.mjs"
+   "test": "cervello/test/lettore-che-dice-mai-fatto.test.mjs"
   },
   {
    "lotto": 40,
@@ -2826,7 +2827,7 @@
    "file": "pannello/src/lib/strati.ts",
    "cerca": "return st?.strato === nome;",
    "sostituisci": "return false;",
-   "test": "node cervello/test/indietro-dopo-chiusura-col-dito.test.mjs"
+   "test": "cervello/test/indietro-dopo-chiusura-col-dito.test.mjs"
   },
   {
    "lotto": 40,
@@ -2835,7 +2836,7 @@
    "file": "pannello/src/lib/strati.ts",
    "cerca": "for (const m of MARCATORI_DI_STRATO) delete st[m];",
    "sostituisci": "void MARCATORI_DI_STRATO;",
-   "test": "node cervello/test/indietro-dopo-chiusura-col-dito.test.mjs"
+   "test": "cervello/test/indietro-dopo-chiusura-col-dito.test.mjs"
   },
   {
    "lotto": 40,
@@ -8053,6 +8054,30 @@
    "cerca": "  if (m.glossarioCieco) {",
    "sostituisci": "  if (false && m.glossarioCieco) {",
    "test": "cervello/test/si-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-855",
+   "nome": "il prompt dei LAVORI perde «Cosa non ho verificato»: il conto sul file intero resta soddisfatto dagli esempi",
+   "file": "cervello/worker.sh",
+   "cerca": "«Cosa non ho verificato» (cosa NON hai potuto controllare da qui",
+   "sostituisci": "",
+   "test": "cervello/test/regola-scrittura-nei-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-855",
+   "nome": "i primi tre blocchi escono dal prompt della chat: restano nominati altrove nel file",
+   "file": "cervello/worker.sh",
+   "cerca": "«In parole semplici», «Cosa cambia per te», «Cosa devi fare»,",
+   "sostituisci": "",
+   "test": "cervello/test/regola-scrittura-nei-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-856",
+   "nome": "il corpo dello script torna a ricalcolare il verdetto invece di usare quello della funzione pura",
+   "file": "cervello/guardiano-tempo.mjs",
+   "cerca": "    ok,\n    quando: quandoStr,",
+   "sostituisci": "    ok: !stallo,\n    quando: quandoStr,",
+   "test": "cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."
