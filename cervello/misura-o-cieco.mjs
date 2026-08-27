@@ -302,3 +302,51 @@ export function origineMisura(env = process.env) {
   if (env.CLAUDE_CODE_REMOTE || env.CODESPACES || env.CI) return "cloud";
   return "locale";
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-859 — IL LATO PRODUTTORE: chi non ha nemmeno un 2 da perdere.
+//
+// `vincoli-senza-cieco.mjs` (AR-843) guarda il lato CONSUMATORE: i blocchi di `giro.sh` che si
+// compongono un vincolo a mano senza trattare il cieco. Ma la sua condizione ② pretende che il
+// guardiano dichiari un'uscita 2 nel proprio sorgente — quindi gli attrezzi che il 2 non ce l'hanno
+// affatto gli sono INVISIBILI per costruzione. Sono proprio quelli messi peggio: il loro ramo del
+// cieco esce 1, cioe' la stessa cosa che dicono quando hanno guardato e trovato un problema vero.
+//
+// Da fuori i due stati non si distinguono. Chi legge va a riparare il problema sbagliato: cerca la
+// violazione che il guardiano avrebbe trovato, e invece il guardiano non ha guardato niente.
+//
+// Il contratto e' scritto qui sopra e ha tre anni di casa dietro (AR-322): 0 passato · 1 violazione
+// · 2 NON HO POTUTO MISURARE. Questi lo violano.
+
+/** Le parole con cui un ramo dichiara di non aver potuto guardare. */
+// Le frasi vere variano: «STATO.md non trovato», ma anche «il registro non e' stato trovato». Un
+// metro che pretende le due parole attaccate perde la seconda — ed e' la stessa forma di difetto che
+// AR-375 racconta, quindi qui si tollerano fino a tre parole in mezzo.
+export const PAROLE_DEL_CIECO = /non\s+(?:\S+\s+){0,3}trovat|assente|CIECO|cieco|non esiste|vuoto|non c'e/i;
+
+/**
+ * Un sorgente confonde ⚪ e ❌? Funzione PURA: entra il testo di un programma, esce il giudizio.
+ *
+ * Confonde quando tutt'e due sono vere:
+ *   · ha un ramo che dichiara di non aver misurato e da li' esce **1**;
+ *   · usa **1** anche per dire «ho guardato e ho trovato un problema».
+ *
+ * Non conta il ramo di `catch`: un programma che crepa esce 1 ed e' giusto cosi', non e' un cieco.
+ */
+export function confondeCiecoEdErrore(sorgente = "") {
+  const righe = String(sorgente).split("\n");
+  let ciecoEsceUno = null;
+  let unoEAncheVerdetto = false;
+  righe.forEach((riga, i) => {
+    const m = riga.match(/process\.exit\(([^)]*)\)/);
+    if (!m) return;
+    const arg = m[1].trim();
+    const contesto = righe.slice(Math.max(0, i - 6), i + 1).join(" ");
+    const cieco = PAROLE_DEL_CIECO.test(contesto);
+    const dentroUnCatch = /catch\s*\(|\.catch\(/.test(contesto);
+    if (cieco && arg === "1") ciecoEsceUno = i + 1;
+    if (/\?/.test(arg) && /\b1\b/.test(arg)) unoEAncheVerdetto = true;
+    else if (arg === "1" && !cieco && !dentroUnCatch) unoEAncheVerdetto = true;
+  });
+  return { confonde: Boolean(ciecoEsceUno && unoEAncheVerdetto), riga: ciecoEsceUno };
+}

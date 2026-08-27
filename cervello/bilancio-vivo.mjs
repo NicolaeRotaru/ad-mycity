@@ -35,7 +35,8 @@ function main() {
   if (!existsSync(STATO)) {
     const out = { ok: false, quando, errore: "STATO.md non trovato" };
     console.log(JSON_MODE ? JSON.stringify(out) : "❌ STATO.md non trovato");
-    process.exit(1);
+    process.exit(2); // AR-859 — 2 = NON HO POTUTO MISURARE. Uscire 1 qui direbbe «ho guardato
+    // e ho trovato un problema», che e' falso: senza STATO.md non ho guardato niente.
   }
   const testo = readFileSync(STATO, "utf8");
   const creati = numeroDaRiga(testo, "Ordini creati");

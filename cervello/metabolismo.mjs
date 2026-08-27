@@ -61,7 +61,8 @@ function main() {
   if (!existsSync(FILE)) {
     const out = { ok: false, quando, errore: "costo-ai.json non trovato" };
     console.log(JSON_MODE ? JSON.stringify(out) : "❌ costo-ai.json non trovato");
-    process.exit(1);
+    process.exit(2); // AR-859 — 2 = NON HO POTUTO MISURARE. Uscire 1 qui direbbe «ho guardato
+    // e ho trovato un problema», che e' falso: senza costo-ai.json non ho guardato niente.
   }
   const j = JSON.parse(readFileSync(FILE, "utf8"));
   const oggi = j.oggi || { voci: [], runs: 0, token_totali: 0, durata_sec_totale: 0 };
