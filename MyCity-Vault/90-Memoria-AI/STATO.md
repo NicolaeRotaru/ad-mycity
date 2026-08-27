@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 06:40
+aggiornato: 2026-08-27 07:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🧭 **27/8 07:35 — Un controllo che non aveva potuto guardare diceva lo stesso cosa aveva visto.**
+>
+> **In parole semplici.** Prima di svegliare l'AI, il giro fa girare dei controlli. Uno di questi guarda se lo sforzo sta andando su un negozio vero o su un'ipotesi. Ha tre risposte possibili: va bene, non va bene, non ho potuto guardare. Il giro ne leggeva solo due.
+>
+> **Per esempio.** Quando quel controllo non riusciva a misurare, all'AI arrivava lo stesso una frase. Diceva: «stai mettendo lo sforzo su un negozio che non e' confermato». Arrivava come regola non negoziabile, e nessuno l'aveva verificato. Un ordine sbagliato non viene ignorato: viene eseguito.
+>
+> **Cosa cambia per te.** Adesso quando quel controllo non ci vede lo dice con parole sue: ripara lo strumento, non fidarti di un verde che non c'e'. E la prova di tutto il pezzo non cerca piu' una parola in un file: prende il blocco vero e lo fa girare con tre risposte finte, guardando cosa arriva all'AI.
+>
+> **Cosa devi fare.** Niente. Le scelte in coda restano la #177, la #178 e la #175.
+>
+> **Cosa non ho verificato.** Nello stesso file ci sono 27 altri controlli che si scrivono il testo a mano come faceva questo. Per sapere se hanno lo stesso difetto bisogna leggerli uno per uno, e non l'ho fatto: non dico che siano sani e non dico che siano malati. Il conto e' scritto in una scheda aperta.
+>
+> **Dettagli tecnici.** AR-842 chiusa, AR-843 aperta. Le prove vacue di AR-079 e AR-081 sostituite da `cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs`: 15 casi che ritagliano da `giro.sh` i tratti veri e li eseguono con un `allocazione-check.mjs` finto a 0/1/2. Il blocco usa `guardiano` e `vincolo_da_rc` di `giro-esito.sh`. 4 mutazioni verificate rosse. Difetti aperti 116.
 
 > 🏪 **27/8 06:40 — La macchina sa fare il primo lavoro che appartiene a un negozio.**
 >

@@ -4384,3 +4384,15 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **Cosa NON copre.** La separazione la fa il codice, sopra quello che il database ha gia' consegnato: se una query sbaglia, le righe altrui arrivano fino al filtro, vengono scartate e contate ad alta voce, ma sono uscite. Il muro dentro il database resta aperto (AR-802) ed e' rosso: non lo posso provare da qui.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 07:35 — 🟡 Il guardiano dell'allocazione dello sforzo passa dal contratto di casa (AR-081, AR-842)
+
+**Cosa.** Il blocco che interroga il guardiano dell'allocazione dentro il giro adesso usa le due funzioni che esistevano gia': quella che non perde l'esito e quella che traduce l'esito in un vincolo.
+
+**Perche'.** La prova di quel pezzo cercava una parola dentro `giro.sh`, dove compare cinque volte, e la mutazione che rimette il difetto ne rinomina una in modo che contiene ancora la parola cercata. Non poteva diventare rossa nemmeno col vincolo spento. Adesso i due tratti veri vengono ritagliati ed ESEGUITI con un guardiano finto: si guarda il testo che arriva al motore.
+
+**Il difetto vero trovato riparando (AR-842).** Quel blocco si scriveva il vincolo da solo e trattava ogni esito diverso da zero come una bocciatura di merito. Ma quel guardiano esce **2** quando non ha potuto misurare. Il motore riceveva come regola non negoziabile la frase «una entita' non confermata sta accumulando asset pesanti» — una diagnosi sul contenuto, mentre nessuno aveva guardato il contenuto. Un vincolo sbagliato non viene ignorato: viene seguito.
+
+**Cosa NON ho fatto, e perche' (AR-843).** Ho contato i fratelli invece di curare il caso singolo e andarmene: in `giro.sh` ci sono 96 assegnazioni di vincolo, 25 passano dal contratto, 2 scrivono a mano il caso «non ho misurato». Restano 27 da controllare una per una. NON le ho toccate: sapere se ognuna e' viva vuol dire leggere il guardiano corrispondente, ed e' un lavoro suo. Scheda aperta col conto dentro.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).

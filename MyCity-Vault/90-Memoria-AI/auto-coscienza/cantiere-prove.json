@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-27 06:51",
+  "aggiornato": "2026-08-27 07:40",
   "giorni_sospetto": 3,
-  "difetti_aperti": 144,
-  "difetti_da_fare": 144,
+  "difetti_aperti": 145,
+  "difetti_da_fare": 145,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 832,
-    "chiusi": 688,
-    "aperti": 115,
+    "totale": 834,
+    "chiusi": 689,
+    "aperti": 116,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 18,
-    "da_fare": 144,
+    "da_fare": 145,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 688,
-      "aperto": 115,
+      "chiuso": 689,
+      "aperto": 116,
       "da-riverificare": 10,
       "in-corso": 1,
       "riparato": 18
@@ -44,15 +44,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 144,
-    "viste": 144,
+    "attese": 145,
+    "viste": 145,
     "fuori": 0,
-    "motivo": "bilancio a posto: 688 chiuse + 144 classificate = 832 schede, e ogni stato vivo è dentro (115 aperto · 1 in-corso · 10 da-riverificare · 18 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 689 chiuse + 145 classificate = 834 schede, e ogni stato vivo è dentro (116 aperto · 1 in-corso · 10 da-riverificare · 18 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 20,
     "auto-sospetta": 10,
-    "umana": 79,
+    "umana": 80,
     "auto-comando": 35
   },
   "difetti_senza_controllo": 0,
@@ -601,7 +601,7 @@
       "perche": "prova eseguibile: node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
     }
   ],
-  "non_auto_chiudibili": 109,
+  "non_auto_chiudibili": 110,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3894,6 +3894,19 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-843",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "In giro.sh 27 vincoli su 96 si scrivono il testo a mano, e nessuno ha controllato uno per uno se sanno dire «n",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

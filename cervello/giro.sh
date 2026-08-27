@@ -486,15 +486,20 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | esito_righe 4 || true
 
   echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."
-  # AR-081: NON scartiamo più l'exit-code con "|| true". Cattura rc del guardiano e trattalo come
-  # VINCOLO: se fallisce (una 'scelta_ragionata' accumula asset pesanti mentre un negozio 'confermato'
-  # payout-ready è a 0) passiamo un vincolo hard al motore, invece di ingoiare l'errore in silenzio.
-  _alloc_out="$(node "$SCRIPT_DIR/allocazione-check.mjs" 2>&1)"; _alloc_rc=$?
-  printf '%s\n' "$_alloc_out" | tail -6
-  if [ "$_alloc_rc" -ne 0 ]; then
-    ALLOC_VINCOLO="⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$_alloc_rc): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili."
-    echo "[$(ts)] ⚠️  AR-081: allocazione-check FALLITO (rc=$_alloc_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-081: NON scartiamo l'exit-code con "|| true". Il verdetto del guardiano diventa un VINCOLO
+  # HARD per il motore, non una riga di log ingoiata — un pre-mortem che si può saltare viene
+  # saltato proprio nel giorno in cui servirebbe.
+  #
+  # 27/8 — QUESTO BLOCCO SI SCRIVEVA DA SOLO IL VINCOLO, E SUL CIECO DICEVA UNA COSA FALSA.
+  # `allocazione-check.mjs` esce 2 quando la quota di sforzo NON è misurabile (storia git troncata):
+  # è il contratto AR-322, «non ho potuto misurare». Trattando ogni rc≠0 come una bocciatura di
+  # dominio, il motore si sentiva dire «una entità non confermata sta accumulando asset pesanti» —
+  # una frase sul CONTENUTO, mentre il guardiano non aveva guardato niente. Adesso passa dalle due
+  # funzioni di casa: `guardiano` (che non perde l'esito) e `vincolo_da_rc` (che sul cieco dice
+  # «ripara lo strumento», non una bugia sul contenuto).
+  guardiano "allocazione-check.mjs" || true
+  ALLOC_VINCOLO="$(vincolo_da_rc "allocazione-check.mjs" "$GUARDIANO_RC" "⛔ ALLOCAZIONE SFORZO SBILANCIATA (allocazione-check.mjs rc=$GUARDIANO_RC): una entità 'scelta_ragionata' (prospect non firmato, non nel DB) sta accumulando asset pesanti mentre un negozio 'confermato' payout-ready resta a 0. NON produrre altri asset pesanti intestati a entità non confermate: sposta lo sforzo sul negozio che può già incassare, o fermati a bozze-template neutre e riusabili.")"
+  [ -n "$ALLOC_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-081: allocazione-check non è passato (rc=$GUARDIANO_RC) → passo un vincolo hard al motore." >&2
   echo "[$(ts)] Guardiano registro scelte ragionate (AR-103: dossier vendite ↔ registro-realta)..."
   _rs_out="$(node "$SCRIPT_DIR/registro-scelte-check.mjs" 2>&1)"; _rs_rc=$?
   printf '%s\n' "$_rs_out" | tail -8

@@ -10421,7 +10421,8 @@
       "fix_proposto": "In giro.sh catturare l'exit code di allocazione-check senza pipe che lo maschera (come per il delta-gate) e, se =1, iniettare un vincolo hard nel giro: «prima di accodare nuovi asset pesanti, ripunta la produzione sui negozi confermato e riduci il silo»; opzionalmente generare un task che declassa/sposta gli asset dal prospect non firmato. Resta 🟡 da firmare.",
       "verifica": {
         "tipo": "comando",
-        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+        "comando": "node cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs",
+        "nota": "La prova cercava l'idioma `_alloc_rc=$?` dentro `giro.sh`: guardava la FORMA, non l'effetto. Cambiare idioma la rompeva anche migliorando il codice, e togliere il vincolo la lasciava verde. Sostituita il 27/8 con una che ritaglia da `giro.sh` il tratto vero e lo ESEGUE con un guardiano finto: si guarda se il verdetto viene raccolto e cosa arriva al motore. 15 casi, 3 mutazioni verificate rosse."
       },
       "colore": "🟡",
       "stato": "chiuso",
@@ -10477,7 +10478,8 @@
       "fix_proposto": "Aggiungere alla coda AZIONI-IN-ATTESA una colonna «Impatto-sistema» (margine / carico operations / spillover a 2-3 mosse), obbligatoria per le azioni 🟡/🔴 a rischio spillover, con un check leggero che segnali le righe che ne sono prive. Resta 🟡 da firmare.",
       "verifica": {
         "tipo": "comando",
-        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+        "comando": "node cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs",
+        "nota": "La prova cercava la parola `ALLOC_VINCOLO` dentro `giro.sh`, dove compare cinque volte — e la mutazione registrata ne rinominava una in `ALLOC_VINCOLO_SPENTO`, che contiene ancora la parola cercata: non poteva diventare rossa nemmeno col vincolo spento. Sostituita il 27/8. Adesso i due tratti veri di `giro.sh` — quello che interroga il guardiano e quello che infila il vincolo nel prompt — vengono ESEGUITI con un guardiano finto a 0, 1 e 2, e si guarda il PROMPT che arriva al motore: a rc=0 esce identico, a rc=1 porta il vincolo marcato HARD. 15 casi, 3 mutazioni verificate rosse."
       },
       "colore": "🟡",
       "stato": "chiuso",
@@ -18001,6 +18003,50 @@
         "nota": "Il caso «AR-841 — se il sistema non da' un file temporaneo, il lavoro parte lo stesso» mette un `mktemp` finto che esce 1 davanti al PATH ed ESEGUE il ramo vero di worker.sh: il testo deve uscire lo stesso e restare separato. Una mutazione che rimette `err=\"$(mktemp)\"` lo fa diventare rosso, verificata."
       },
       "chiuso_il": "2026-08-27 06:45"
+    },
+    {
+      "id": "AR-842",
+      "titolo": "Un guardiano che non ha potuto misurare raccontava al motore una bugia sul contenuto",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 07:20",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 62: riparando la prova vacua di AR-081 ho eseguito il blocco vero invece di leggerlo, e il caso rc=2 e' saltato fuori da solo",
+      "causa_radice": "Il blocco dell'allocazione in `giro.sh` si componeva il vincolo da solo, con `if [ $rc -ne 0 ]`. Ma `allocazione-check.mjs` esce **2** quando la quota di sforzo NON e' misurabile (storia git troncata): e' il contratto AR-322, «non ho potuto misurare», e in casa esiste gia' la funzione che lo rispetta (`vincolo_da_rc` in `giro-esito.sh`). Trattando ogni rc≠0 come una bocciatura di dominio, il motore si sentiva dire «una entita' 'scelta_ragionata' sta accumulando asset pesanti mentre un negozio confermato resta a 0» — una frase sul CONTENUTO, mentre nessuno aveva guardato il contenuto. E' la malattia che AR-322 esiste per curare, sopravvissuta dentro un blocco scritto prima della cura e mai migrato: la funzione giusta c'era e questo blocco non la chiamava.",
+      "dove": "cervello/giro.sh (blocco del guardiano allocazione sforzo)",
+      "fix_fatto": "🟡 Il blocco passa dalle due funzioni di casa: `guardiano` (che non perde l'esito e marca l'uso della lezione sul rosso) e `vincolo_da_rc` (che sul cieco dice «ripara lo strumento, non fidarti del verde che non c'e'»). Nessun testo nuovo inventato: quello del cieco esisteva gia'.",
+      "impatto": "Il motore riceveva come regola HARD una diagnosi falsa, e avrebbe spostato lo sforzo su un problema che nessuno aveva misurato. Peggio del silenzio: un vincolo sbagliato si segue.",
+      "origine": "lotto 62, eseguendo un blocco invece di leggerlo",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs",
+        "nota": "Il caso «il guardiano e' CIECO» esegue il tratto vero di `giro.sh` con un `allocazione-check.mjs` finto che esce 2, e pretende tre cose insieme: un vincolo c'e' (un cieco non e' un verde), NON e' la frase di dominio, ed E' la frase che dice di riparare lo strumento. Una mutazione che fa cadere il ramo `2)` sul testo di dominio lo rende rosso, verificata."
+      },
+      "chiuso_il": "2026-08-27 07:25"
+    },
+    {
+      "id": "AR-843",
+      "titolo": "In giro.sh 27 vincoli su 96 si scrivono il testo a mano, e nessuno ha controllato uno per uno se sanno dire «non ho potuto misurare»",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-27 07:30",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 62: chiudendo AR-842 ho guardato se il difetto avesse dei fratelli nello stesso file, invece di curare il caso singolo e andarmene",
+      "causa_radice": "Il contratto dei guardiani (0 passato · 1 bocciato · 2 cieco) ha la sua funzione, `vincolo_da_rc` in `giro-esito.sh`, che sul 2 dice «ripara lo strumento» invece del testo di dominio. CONTATO il 27/8 su `cervello/giro.sh`: 96 assegnazioni di vincolo in tutto, 25 passano da `vincolo_da_rc`, e **2 sole** scrivono a mano un ramo per il cieco (`prove-oneste`, `gate-veri`). Restano **27** assegnazioni che compongono il testo di dominio a mano — e per ognuna la domanda e' la stessa: quel guardiano puo' uscire 2? Se puo', il motore riceve come regola HARD una diagnosi che nessuno ha misurato. AR-842 era uno di questi 27, ed era vero: `allocazione-check.mjs` esce 2 sulla storia git troncata. Gli altri 26 NON li ho controllati uno per uno, e non li dichiaro ne' sani ne' malati.",
+      "dove": "cervello/giro.sh (27 assegnazioni `*_VINCOLO=\"⛔ …\"` fuori da `vincolo_da_rc`)",
+      "fix_proposto": "🟡 Un guardiano che conta: per ogni assegnazione di vincolo fatta a mano, verificare se il guardiano corrispondente ha un'uscita 2 dichiarata; se ce l'ha, farla passare da `vincolo_da_rc`. Il numero di quelle rimaste diventa un tetto che scende e non risale, come `mutazioni_senza_esecutore`. NON e' un lavoro meccanico: ogni guardiano va letto per sapere se il 2 lo usa, e il conto va fatto sul codice, non sul nome.",
+      "impatto": "Ogni caso vivo e' un vincolo HARD falso: il motore non lo ignora, lo segue — sposta lo sforzo su un problema che nessuno ha misurato. Peggio del silenzio. Quanti siano dei 26 non lo so: e' esattamente il numero che il fix deve produrre.",
+      "origine": "lotto 62, cercando i fratelli di AR-842 nello stesso file",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "La prova nasce col fix, come per ogni scheda aperta: oggi non c'e' niente da provare verde. Sara' il guardiano stesso — conta le assegnazioni a mano il cui guardiano dichiara un'uscita 2, e fallisce sopra il tetto. Il conto di adesso, misurato: 96 assegnazioni totali, 25 via `vincolo_da_rc`, 2 col cieco scritto a mano, 27 da controllare."
+      }
     }
   ],
   "meta": {

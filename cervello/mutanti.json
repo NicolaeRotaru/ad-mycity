@@ -5888,17 +5888,9 @@
    "difetto": "AR-079",
    "nome": "il verdetto dell allocazione torna a essere buttato invece che raccolto",
    "file": "cervello/giro.sh",
-   "cerca": "_alloc_rc=$?",
-   "sostituisci": "_alloc_rc=0",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
-  },
-  {
-   "difetto": "AR-081",
-   "nome": "il pre-mortem torna un rituale: il verdetto non diventa piu un vincolo per il motore",
-   "file": "cervello/giro.sh",
-   "cerca": "ALLOC_VINCOLO=\"\"",
-   "sostituisci": "ALLOC_VINCOLO_SPENTO=\"\"",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "cerca": "  guardiano \"allocazione-check.mjs\" || true",
+   "sostituisci": "  node \"$SCRIPT_DIR/allocazione-check.mjs\" 2>&1 | tail -6 || true; GUARDIANO_RC=$?",
+   "test": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs"
   },
   {
    "difetto": "AR-046",
@@ -7803,6 +7795,30 @@
    "cerca": "  err=\"$(mktemp 2>/dev/null)\" || err=\"\"\n  [ -n \"$err\" ] || err=\"${TMPDIR:-/tmp}/bottega-prompt-$$.err\"",
    "sostituisci": "  err=\"$(mktemp)\"",
    "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-081",
+   "nome": "il verdetto del guardiano non diventa piu un vincolo: il pre-mortem torna un rituale",
+   "file": "cervello/giro.sh",
+   "cerca": "  ALLOC_VINCOLO=\"$(vincolo_da_rc \"allocazione-check.mjs\" \"$GUARDIANO_RC\" \"⛔ ALLOCAZIONE SFORZO SBILANCIATA",
+   "sostituisci": "  ALLOC_VINCOLO=\"\"; : \"$(printf %s \"⛔ ALLOCAZIONE SFORZO SBILANCIATA",
+   "test": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs"
+  },
+  {
+   "difetto": "AR-081",
+   "nome": "il vincolo si compone e non arriva mai al motore",
+   "file": "cervello/giro.sh",
+   "cerca": "## Vincolo allocazione sforzo (HARD — dal guardiano allocazione-check prima di te)\n$ALLOC_VINCOLO\"",
+   "sostituisci": "## Vincolo allocazione sforzo (informativo)\"",
+   "test": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs"
+  },
+  {
+   "difetto": "AR-842",
+   "nome": "un guardiano cieco racconta al motore una bugia sul contenuto",
+   "file": "cervello/giro-esito.sh",
+   "cerca": "    2) printf '⚠️ GUARDIANO CIECO (%s rc=2, AR-322): non è riuscito a misurare — NON è un verde. Ripara lo strumento prima di fidarti di questo giro; non trattare questo messaggio come una regola di contenuto.\\n' \"$nome\" ;;",
+   "sostituisci": "    2) printf '%s\\n' \"$testo\" ;;",
+   "test": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs"
   }
  ]
 }

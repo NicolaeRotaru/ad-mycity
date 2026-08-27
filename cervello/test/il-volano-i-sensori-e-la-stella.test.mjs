@@ -257,13 +257,15 @@ test("AR-080 · la North Star è un motore che gira e dà un numero, non prosa i
   assert.match(out, /Fonte del numero/, "…e con la sua fonte, o è un numero orfano");
 });
 
-test("AR-079 · il silo di allocazione è misurato a ogni giro, non solo constatato", () => {
-  const giro = leggi("cervello/giro.sh");
-  assert.match(giro, /allocazione-check\.mjs/, "era conclamato e mai corretto: adesso è un guardiano");
-  assert.match(giro, /_alloc_rc=\$\?/, "e il suo verdetto viene RACCOLTO, non buttato in una pipe");
-});
-
-test("AR-081 · il verdetto dell'allocazione diventa un vincolo per il motore, non un avviso", () => {
-  const giro = leggi("cervello/giro.sh");
-  assert.match(giro, /ALLOC_VINCOLO/, "senza vincolo il pre-mortem resta un rituale che si può saltare");
-});
+// AR-079 e AR-081 — il silo di allocazione misurato a ogni giro, e il suo verdetto che diventa un
+// vincolo per il motore — stavano qui come due ricerche di parole dentro `giro.sh`, e nessuna delle
+// due poteva diventare rossa:
+//   · AR-079 cercava `_alloc_rc=$?`, cioè un idioma. Cambiare idioma la rompeva anche MIGLIORANDO il
+//     codice, e togliere il vincolo la lasciava verde: guardava la forma, non l'effetto.
+//   · AR-081 cercava `ALLOC_VINCOLO`, che in `giro.sh` compare cinque volte. La mutazione registrata
+//     per rimettere il difetto ne rinominava una in `ALLOC_VINCOLO_SPENTO` — che contiene ancora,
+//     lettera per lettera, la parola cercata.
+// Le due prove sono state SOSTITUITE, non tolte: adesso vivono in
+// `cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs`, che ritaglia da `giro.sh` i tratti
+// veri, li esegue con un guardiano finto a 0/1/2 e guarda il prompt che arriva al motore. Da 2 casi
+// che non potevano fallire a 15 che si eseguono (27/8, AR-840).
