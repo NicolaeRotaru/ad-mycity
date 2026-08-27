@@ -2845,7 +2845,7 @@
    "file": "pannello/src/lib/nav.ts",
    "cerca": "if (LEGACY[area] && !resto.length) return LEGACY[area];",
    "sostituisci": "if (false) return null;",
-   "test": "node cervello/test/link-che-atterra.test.mjs"
+   "test": "cervello/test/link-che-atterra.test.mjs"
   },
   {
    "lotto": 40,
@@ -2854,7 +2854,7 @@
    "file": "pannello/src/lib/nav.ts",
    "cerca": "vie.push({ testo: \"Torna alla Cabina\", href: \"/\" });",
    "sostituisci": "void vie;",
-   "test": "node cervello/test/link-che-atterra.test.mjs"
+   "test": "cervello/test/link-che-atterra.test.mjs"
   },
   {
    "lotto": 40,
@@ -3249,7 +3249,7 @@
    "file": "pannello/src/lib/serratura.ts",
    "cerca": "  if (!segreto) {\n    return {\n      ammessa: false,\n      status: 503,",
    "sostituisci": "  if (!segreto) {\n    return {\n      ammessa: true as any,\n      status: 503,",
-   "test": "node cervello/test/c1-porta-aperta-per-default.test.mjs"
+   "test": "cervello/test/c1-porta-aperta-per-default.test.mjs"
   },
   {
    "lotto": 41,
@@ -3276,7 +3276,7 @@
    "file": "pannello/src/lib/serratura.ts",
    "cerca": "  if (esente(r.percorso)) return { ammessa: true };",
    "sostituisci": "  if (true || esente(r.percorso)) return { ammessa: true };",
-   "test": "node cervello/test/c1-porta-aperta-per-default.test.mjs"
+   "test": "cervello/test/c1-porta-aperta-per-default.test.mjs"
   },
   {
    "lotto": 41,
@@ -3294,7 +3294,7 @@
    "file": "pannello/src/lib/pagina-stato.ts",
    "cerca": "if (!args?.aperto) return [];",
    "sostituisci": "if (false) return [];",
-   "test": "node cervello/test/c2-cassetto.test.mjs"
+   "test": "cervello/test/c2-cassetto.test.mjs"
   },
   {
    "lotto": 41,
@@ -3303,7 +3303,7 @@
    "file": "pannello/src/lib/pagina-stato.ts",
    "cerca": "(indice && indice.get(id)) ??",
    "sostituisci": "(false && indice?.get(id)) ??",
-   "test": "node cervello/test/c2-cassetto.test.mjs"
+   "test": "cervello/test/c2-cassetto.test.mjs"
   },
   {
    "lotto": 41,
@@ -3321,7 +3321,7 @@
    "file": "pannello/src/app/page.tsx",
    "cerca": "<div className=\"sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
    "sostituisci": "<div className=\"hidden sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
-   "test": "node cervello/test/c2-schermo.test.mjs"
+   "test": "cervello/test/c2-schermo.test.mjs"
   },
   {
    "lotto": 41,
@@ -3330,7 +3330,7 @@
    "file": "pannello/src/lib/pagina-stato.ts",
    "cerca": "  viewportFit: \"cover\" as const,\n",
    "sostituisci": "",
-   "test": "node cervello/test/c2-schermo.test.mjs"
+   "test": "cervello/test/c2-schermo.test.mjs"
   },
   {
    "lotto": 41,
@@ -3393,7 +3393,7 @@
    "file": "pannello/src/lib/casella-conversazione.ts",
    "cerca": "  return fondiConservandoVivi<T>(correnti || [], dallEvento || [], (a, b) => mergeThreadMsgs<T>(a, b));",
    "sostituisci": "  return dallEvento || [];",
-   "test": "node cervello/test/c3-casella-conversazione.test.mjs"
+   "test": "cervello/test/c3-casella-conversazione.test.mjs"
   },
   {
    "lotto": 41,
@@ -3402,7 +3402,7 @@
    "file": "pannello/src/lib/casella-conversazione.ts",
    "cerca": "  return `${PREFISSO_CASELLA}${testo} ${APRE}${id}${CHIUDE}`;",
    "sostituisci": "  return `${PREFISSO_CASELLA}${testo}`;",
-   "test": "node cervello/test/c3-casella-conversazione.test.mjs"
+   "test": "cervello/test/c3-casella-conversazione.test.mjs"
   },
   {
    "lotto": 41,
@@ -3501,7 +3501,7 @@
    "file": "cervello/c4-segreti.sh",
    "cerca": "  printf 'https://github.com/%s.git' \"${GIT_REPO:-}\"",
    "sostituisci": "  printf 'https://x-access-token:%s@github.com/%s.git' \"${GIT_PUSH_TOKEN:-}\" \"${GIT_REPO:-}\"",
-   "test": "node cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs"
+   "test": "cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs"
   },
   {
    "lotto": 41,
@@ -3510,7 +3510,7 @@
    "file": "cervello/c4-segreti.sh",
    "cerca": "  C4_CURL_AUTH=(--config \"$C4_CURL_CFG\")",
    "sostituisci": "  C4_CURL_AUTH=(-H \"apikey: $SUPABASE_SERVICE_KEY\" -H \"Authorization: Bearer $SUPABASE_SERVICE_KEY\")",
-   "test": "node cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs"
+   "test": "cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs"
   },
   {
    "lotto": 41,
@@ -3519,7 +3519,7 @@
    "file": "cervello/fonte-numero.mjs",
    "cerca": "if (dataDiOggi && finestra.esito === FINESTRA.ASSENTE) {",
    "sostituisci": "if (false) {",
-   "test": "node cervello/test/c5-finestra-del-numero.test.mjs"
+   "test": "cervello/test/c5-finestra-del-numero.test.mjs"
   },
   {
    "lotto": 41,
@@ -3528,7 +3528,7 @@
    "file": "cervello/letargo.mjs",
    "cerca": "  if (stato.esito !== FINESTRA.VIVA)",
    "sostituisci": "  if (false)",
-   "test": "node cervello/test/c5-finestra-del-numero.test.mjs"
+   "test": "cervello/test/c5-finestra-del-numero.test.mjs"
   },
   {
    "lotto": 41,
@@ -3537,7 +3537,7 @@
    "file": "cervello/peso-contesto.mjs",
    "cerca": "  const tutti = [...new Set([...perimetro, ...daTetti])].sort();",
    "sostituisci": "  const tutti = [...daTetti].sort();",
-   "test": "node cervello/test/c5-perimetro-e-ritmo.test.mjs"
+   "test": "cervello/test/c5-perimetro-e-ritmo.test.mjs"
   },
   {
    "lotto": 41,
@@ -3546,7 +3546,7 @@
    "file": "cervello/finestra-misura.mjs",
    "cerca": "  if (rec === 0)",
    "sostituisci": "  if (false)",
-   "test": "node cervello/test/c5-perimetro-e-ritmo.test.mjs"
+   "test": "cervello/test/c5-perimetro-e-ritmo.test.mjs"
   },
   {
    "lotto": 41,
@@ -3555,7 +3555,7 @@
    "file": "cervello/north-star-check.mjs",
    "cerca": "    .filter(([, v]) => v.valore === null)",
    "sostituisci": "    .filter(([k, v]) => v.valore === null && k !== \"margine\")",
-   "test": "node cervello/test/c5-metro-che-boccia-tutto.test.mjs"
+   "test": "cervello/test/c5-metro-che-boccia-tutto.test.mjs"
   },
   {
    "lotto": 41,
@@ -3564,7 +3564,7 @@
    "file": "cervello/onesta-check.mjs",
    "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : \"\";",
    "sostituisci": "  const testoNumeri = \"\";",
-   "test": "node cervello/test/c5-metro-che-boccia-tutto.test.mjs",
+   "test": "cervello/test/c5-metro-che-boccia-tutto.test.mjs",
    "nota_riaggancio": "Riagganciata il 2026-08-22 (lotto 49): il metro ora giudica `daGiudicare` (la parte VIVA del file) invece del testo intero — AR-394 ha portato qui l'ambito ristretto. Il comportamento difeso e lo stesso, il puntatore era rimasto sul nome vecchio della variabile."
   },
   {
@@ -3574,7 +3574,7 @@
    "file": "cervello/retry-policy.mjs",
    "cerca": "limite di quota|limite quota|quota esaurita",
    "sostituisci": "quota",
-   "test": "node cervello/test/c5-canale-dichiarato.test.mjs"
+   "test": "cervello/test/c5-canale-dichiarato.test.mjs"
   },
   {
    "lotto": 41,
@@ -3583,7 +3583,7 @@
    "file": "cervello/git-github.mjs",
    "cerca": "  if (o) {",
    "sostituisci": "  if (false) {",
-   "test": "node cervello/test/c5-canale-di-pubblicazione.test.mjs"
+   "test": "cervello/test/c5-canale-di-pubblicazione.test.mjs"
   },
   {
    "lotto": 41,
@@ -3592,7 +3592,7 @@
    "file": "cervello/finestra-misura.mjs",
    "cerca": "  const trovato = lista.find((r) => chiaveNormalizzata(r) === norm);",
    "sostituisci": "  const trovato = lista.find((r) => r === chiesto);",
-   "test": "node cervello/test/c5-canale-dichiarato.test.mjs"
+   "test": "cervello/test/c5-canale-dichiarato.test.mjs"
   },
   {
    "lotto": 41,
@@ -3610,7 +3610,7 @@
    "file": "pannello/src/lib/battito.ts",
    "cerca": "  return verdettoUltimoGiro(oreDaQuando(segnali.ultimoGiro?.quando), segnali.esitoGiro ?? null).verde;",
    "sostituisci": "  const o = oreDaQuando(segnali.ultimoGiro?.quando);\n  return o != null && o <= 26;",
-   "test": "node cervello/test/c6-giro-andato-male.test.mjs"
+   "test": "cervello/test/c6-giro-andato-male.test.mjs"
   },
   {
    "lotto": 41,
@@ -3673,7 +3673,7 @@
    "file": "cervello/git-github.mjs",
    "cerca": "export const MAX_BUFFER_GIT = 64 * 1024 * 1024;",
    "sostituisci": "export const MAX_BUFFER_GIT = 1024;",
-   "test": "node cervello/test/c5-canale-di-pubblicazione.test.mjs"
+   "test": "cervello/test/c5-canale-di-pubblicazione.test.mjs"
   },
   {
    "lotto": 41,
@@ -5114,7 +5114,7 @@
    "file": "cervello/freno-scattato.mjs",
    "cerca": "  if (Number(rc) === 0) return { marcate: [], motivo: \"il freno è verde: non ha fermato niente\" };",
    "sostituisci": "",
-   "test": "node --test cervello/test/il-freno-che-scatta.test.mjs",
+   "test": "cervello/test/il-freno-che-scatta.test.mjs",
    "lezione": "L-2026-0818-02"
   },
   {
@@ -5123,7 +5123,7 @@
    "file": "cervello/freno-scattato.mjs",
    "cerca": "  const nome = m[2].replace(/\\.test$/, \"\").trim();",
    "sostituisci": "  const nome = \"\";",
-   "test": "node --test cervello/test/il-freno-che-scatta.test.mjs",
+   "test": "cervello/test/il-freno-che-scatta.test.mjs",
    "lezione": "L-2026-0818-02"
   },
   {
@@ -5158,7 +5158,7 @@
    "file": "pannello/src/lib/memoria-ferma.ts",
    "cerca": "  const lavoraAdesso = oreCorsiaLavori != null && oreCorsiaLavori <= adessoOre;",
    "sostituisci": "  const lavoraAdesso = oreQualsiasiCorsia != null && oreQualsiasiCorsia <= adessoOre;",
-   "test": "node cervello/test/c6-giro-andato-male.test.mjs"
+   "test": "cervello/test/c6-giro-andato-male.test.mjs"
   },
   {
    "difetto": "AR-774 sensore-disco",
@@ -5323,7 +5323,7 @@
    "file": "cervello/mappa-copertura.mjs",
    "cerca": "  return String(oggi).slice(0, 10) <= scade;",
    "sostituisci": "  return true;",
-   "test": "node --test cervello/test/mappa-copertura.test.mjs"
+   "test": "cervello/test/mappa-copertura.test.mjs"
   },
   {
    "lezione": "L-2026-0821-02",
@@ -5332,7 +5332,7 @@
    "file": "cervello/mappa-copertura.mjs",
    "cerca": "    problema: stato === \"scoperto\" && !esente && !inAttesa,",
    "sostituisci": "    problema: stato === \"scoperto\" && !esente,",
-   "test": "node --test cervello/test/mappa-copertura.test.mjs"
+   "test": "cervello/test/mappa-copertura.test.mjs"
   },
   {
    "lezione": "L-2026-0821-02",
@@ -5341,7 +5341,7 @@
    "file": "cervello/mappa-copertura.mjs",
    "cerca": "    return new RegExp(`^(?:${matcher})$`).test(strumento);",
    "sostituisci": "    return new RegExp(`^(?:${matcher.split(\"|\")[0]})$`).test(strumento);",
-   "test": "node cervello/test/attesa-con-una-data.test.mjs"
+   "test": "cervello/test/attesa-con-una-data.test.mjs"
   },
   {
    "lezione": "L-2026-0821-02",
@@ -5350,7 +5350,7 @@
    "file": "cervello/mappa-copertura.mjs",
    "cerca": "  const prima = [...new Set(guardieSu(\"PreToolUse\"))];",
    "sostituisci": "  const prima = [];",
-   "test": "node cervello/test/attesa-con-una-data.test.mjs",
+   "test": "cervello/test/attesa-con-una-data.test.mjs",
    "nota_riaggancio": "Uccide il caso ASYNC, quindi prova due cose insieme: che la copertura è misurata davvero, e che l'`await` nel runner regge — senza await questo mutante resterebbe verde."
   },
   {
@@ -5360,7 +5360,7 @@
    "file": "cervello/riconcilia-perimetro.mjs",
    "cerca": "    (ammessi.includes(nome) ? miei : altrui).push(p);",
    "sostituisci": "    miei.push(p);",
-   "test": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
+   "test": "cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
    "nota_riaggancio": "È il bug del 21/8 rimesso identico: 4 casi rossi su 9, compreso quello che gira su un repo git vero."
   },
   {
@@ -5370,7 +5370,7 @@
    "file": "cervello/riconcilia-perimetro.mjs",
    "cerca": "    if (altrui.length) {",
    "sostituisci": "    if (false) {",
-   "test": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
+   "test": "cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
   },
   {
    "lezione": "L-2026-0821-04",
