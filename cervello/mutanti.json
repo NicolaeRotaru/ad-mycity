@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-27 18:47",
+ "aggiornato": "2026-08-27 17:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -8174,6 +8174,15 @@
    "sostituisci": "    if (arg === \"1\") ciecoEsceUno = i + 1;",
    "test": "cervello/test/cieco-che-esce-come-un-errore.test.mjs",
    "nota": "Un metro che conta anche i crash conta una malattia diversa insieme alla sua, e allora il numero non si puo portare a zero: e la ragione per cui i tetti si imparano a ignorare."
+  },
+  {
+   "difetto": "AR-859",
+   "nome": "il giro torna a comporre a mano il vincolo del duplicato: con lo strumento cieco racconta al motore una diagnosi che nessuno ha fatto",
+   "file": "cervello/giro.sh",
+   "cerca": "  KEYWORD_VINCOLO=\"$(vincolo_da_rc \"keyword-owner-check.mjs\" \"$_keyword_rc\"",
+   "sostituisci": "  KEYWORD_VINCOLO=\"$(true \"keyword-owner-check.mjs\" \"$_keyword_rc\"",
+   "test": "cervello/vincoli-senza-cieco.mjs",
+   "nota": "Meta della cura sta nello strumento (esce 2) e meta nel giro (vincolo_da_rc, che sul 2 dice «cieco» invece del testo di dominio). Senza la seconda meta la prima non serve a niente: il testo del duplicato uscirebbe lo stesso. [27/8: la prima volta avevo puntato la mutazione su cancelli-ciechi-coerenza.test.mjs e NON mordeva — quel file non copre questo blocco. Misurato: il guardiano che diventa rosso e vincoli-senza-cieco.mjs, che e proprio quello nato per il lato consumatore (AR-843).]"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

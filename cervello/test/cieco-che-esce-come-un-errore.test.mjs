@@ -77,7 +77,7 @@ prova("un sorgente vuoto non e' malato, ed e' il ⚪ che non deve diventare un �
   assert.equal(confondeCiecoEdErrore().confonde, false);
 });
 
-prova("SUL SERIO: i tre curati, senza il vault sotto, escono 2 e non 1", () => {
+prova("SUL SERIO: i cinque curati, senza il loro file sotto, escono 2 e non 1", () => {
   // Questa e' la prova che GIRA, e serve proprio qui. La cura tocca un ramo che in casa non si
   // apre mai — il vault c'e' sempre — cioe' la forma di prova vuota numero ①: scritta bene, sul
   // ramo giusto, e quella riga qui non la esegue nessuno.
@@ -89,7 +89,7 @@ prova("SUL SERIO: i tre curati, senza il vault sotto, escono 2 e non 1", () => {
   const dir = mkdtempSync(join(tmpdir(), "cieco-"));
   try {
     cpSync(CERVELLO, join(dir, "cervello"), { recursive: true });
-    for (const t of ["bilancio-vivo", "metabolismo", "midollo-spinale"]) {
+    for (const t of ["bilancio-vivo", "metabolismo", "midollo-spinale", "keyword-owner-check", "freschezza-okr"]) {
       const r = spawnSync(process.execPath, [join(dir, "cervello", `${t}.mjs`), "--json"], { encoding: "utf8" });
       assert.equal(r.status, 2, `${t} senza il suo file deve uscire 2 (non ho potuto misurare), non ${r.status}`);
     }
@@ -100,9 +100,11 @@ prova("SUL SERIO: i tre curati, senza il vault sotto, escono 2 e non 1", () => {
 
 prova("IL TETTO: quanti programmi confondono ancora «non ho misurato» con «ho trovato un problema»", () => {
   // Misurato il 2026-08-27 sul codice vero: erano 21, tre curati in questo lotto (bilancio-vivo,
-  // metabolismo, midollo-spinale) e il tetto scende con loro. Scende quando qualcuno converte il ramo
+  // metabolismo, midollo-spinale) piu' due che il giro LEGGE davvero (keyword-owner-check,
+  // freschezza-okr): li' il cieco non restava zitto, si travestiva da diagnosi e il giro la girava al
+  // motore come se qualcuno l'avesse fatta. Il tetto scende con loro. Scende quando qualcuno converte il ramo
   // a `process.exit(2)`, e non risale. Se diventa rosso in su, qualcuno ne ha aggiunto uno nuovo.
-  const TETTO = 18;
+  const TETTO = 16;
   const malati = readdirSync(CERVELLO)
     .filter((f) => f.endsWith(".mjs"))
     .filter((f) => confondeCiecoEdErrore(readFileSync(join(CERVELLO, f), "utf8")).confonde);

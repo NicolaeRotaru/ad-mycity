@@ -653,10 +653,10 @@ $_cad_out")"
   echo "[$(ts)] Freschezza OKR-Squadra (AR-115)..."
   _okr_out="$(node "$SCRIPT_DIR/freschezza-okr.mjs" 2>&1)"; _okr_rc=$?
   printf '%s\n' "$_okr_out" | tail -3
-  if [ "$_okr_rc" -ne 0 ]; then
-    OKR_VINCOLO="$(printf '%s\n' "$_okr_out" | head -1)"
-    echo "[$(ts)] ⚠️  AR-115: OKR stantio/scaduto → vincolo hard al motore." >&2
-  fi
+  # AR-859: idem. Con rc=2 il file degli OKR non c'e' proprio, e la prima riga dell'uscita non e' una
+  # diagnosi di stantio: e' un ⚪. `vincolo_da_rc` lo dice per quello che e'.
+  OKR_VINCOLO="$(vincolo_da_rc "freschezza-okr.mjs" "$_okr_rc" "$(printf '%s\n' "$_okr_out" | head -1)")"
+  [ -n "$OKR_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-115: freschezza-okr non è passato (rc=$_okr_rc) → vincolo hard al motore." >&2
   # PZ-012 (era AR-077, mai cablato): sentinella BUDGET per reparto — se un reparto sfora il suo
   # budget (OKR) accoda lo STOP 🔴; se non c'è spesa collegata lo dice onestamente (sensore non attivo).
   echo "[$(ts)] Sentinella budget per reparto (AR-077)..."
@@ -837,10 +837,12 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   echo "[$(ts)] Guardiano owner-keyword (AR-009/AR-027 — ora gate hard)..."
   _keyword_out="$(node "$SCRIPT_DIR/keyword-owner-check.mjs" 2>&1)"; _keyword_rc=$?
   printf '%s\n' "$_keyword_out" | tail -4
-  if [ "$_keyword_rc" -ne 0 ]; then
-    KEYWORD_VINCOLO="⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare."
-    echo "[$(ts)] ⚠️  AR-109: keyword-owner-check FALLITO (rc=$_keyword_rc) → vincolo hard al motore." >&2
-  fi
+  # AR-859: il vincolo lo compone `vincolo_da_rc`, non un `if rc -ne 0` scritto a mano. La differenza
+  # e' il caso 2: adesso lo strumento sa dire «non ho potuto guardare» — senza .claude/agents/ non ha
+  # confrontato niente — e comporre lo stesso il testo del duplicato sarebbe raccontare al motore una
+  # diagnosi che nessuno ha fatto. E' la malattia di AR-843, un piano piu' su.
+  KEYWORD_VINCOLO="$(vincolo_da_rc "keyword-owner-check.mjs" "$_keyword_rc" "⛔ KEYWORD OWNER DUPLICATO (keyword-owner-check.mjs rc=$_keyword_rc, AR-009/AR-027): due agenti si dichiarano owner della stessa keyword → routing ambiguo. Correggi il mansionario prima di delegare.")"
+  [ -n "$KEYWORD_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-109: keyword-owner-check non è passato (rc=$_keyword_rc) → vincolo hard al motore." >&2
   # ── 10/8 — Guardiano freschezza Intelligence: la Cabina non deve mostrare analisi scadute. ──
   # Nasce dalla domanda di Nicola «ogni quanto si aggiorna?»: la risposta vera era «da undici giorni
   # non si aggiorna», e nessuno se n'era accorto perché la vecchiaia di un'analisi non era misurata

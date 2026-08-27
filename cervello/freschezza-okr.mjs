@@ -85,7 +85,8 @@ async function main() {
     const msg = vincolo(["file assente"]);
     console.log(msg);
     await stampSegnale("freschezza-okr", "errore", `OKR assente · ${quando}`);
-    process.exit(1);
+    // AR-859 — 2 = NON HO POTUTO MISURARE: senza il file non so se gli OKR siano stantii o freschi.
+    process.exit(2);
   }
 
   const contenuto = readFileSync(OKR, "utf8");
