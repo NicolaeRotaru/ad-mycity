@@ -1831,14 +1831,34 @@ function indiceImportatori(fileRel = []) {
  * guardia diventa lenta, e una guardia lenta viene staccata come una rumorosa.
  */
 export function statoFusione() {
+  return statoFusioneDa(
+    () => execFileSync("git", ["rev-parse", "--absolute-git-dir"], { cwd: REPO, encoding: "utf8" }).trim(),
+    (percorso) => existsSync(percorso),
+  );
+}
+
+/**
+ * La stessa decisione, ma con le due domande al mondo passate da fuori — come `fusioneInCorso`, che
+ * riceve `esiste` per lo stesso motivo.
+ *
+ * 27/8, AR-840. Il caso che doveva provare il terzo stato chiamava `statoFusione()` sul repo VERO,
+ * dove git risponde sempre: prendeva solo la strada felice, e l'assert `s.leggibile || s.errore` era
+ * soddisfatto dal `leggibile: true`. Cioè la mutazione che fa tornare al `catch` un `leggibile: true`
+ * — che è ESATTAMENTE il difetto di AR-552, «una domanda senza risposta diventa un no» — lasciava il
+ * caso verde. Settima forma in due giorni di un verde vero per la ragione sbagliata, e la prima di
+ * questa specie: **la prova percorreva solo la strada che l'ambiente le faceva prendere.**
+ *
+ * Una funzione pura non ha una strada preferita: gliele si fanno prendere tutte e tre.
+ */
+export function statoFusioneDa(chiediCartellaGit, esiste) {
   let dir;
   try {
-    dir = execFileSync("git", ["rev-parse", "--absolute-git-dir"], { cwd: REPO, encoding: "utf8" }).trim();
+    dir = chiediCartellaGit();
   } catch (e) {
-    return { fusione: null, leggibile: false, errore: e.message.split("\n")[0] };
+    return { fusione: null, leggibile: false, errore: String(e?.message ?? e).split("\n")[0] };
   }
   if (!dir) return { fusione: null, leggibile: false, errore: "git non dice dove tiene la sua cartella" };
-  return { fusione: fusioneInCorso((nome) => existsSync(join(dir, nome))), leggibile: true };
+  return { fusione: fusioneInCorso((nome) => esiste(join(dir, nome))), leggibile: true };
 }
 
 /**

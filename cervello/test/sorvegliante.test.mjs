@@ -11,6 +11,9 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   sorveglia,
   gravi,
@@ -42,6 +45,7 @@ import {
   motiviSalti,
   motiviMarketplace,
   fusioneInCorso,
+  statoFusioneDa,
   esenzioniDichiarate,
   filtraEsentate,
   STATI_FUSIONE,
@@ -49,6 +53,8 @@ import {
   leggeMarcatori,
   eReferto,
 } from "../sorvegliante.mjs";
+
+const QUI = dirname(fileURLToPath(import.meta.url));
 
 const MALATTIE = [
   {
@@ -1079,9 +1085,52 @@ test("Ⓒ «git non risponde» è un terzo stato, non «nessuna fusione» (spazz
   // La prima stesura faceva `catch { return false }`: una domanda senza risposta diventava un «no».
   // L'ha bocciata la spazzata come istanza nuova di `fonte-troncata-letta-per-intera`, ed era nel
   // giusto — è la stessa malattia che queste cinque riparazioni esistono per togliere.
+  //
+  // 27/8 — QUESTO CASO NON PROVAVA NIENTE, e la forma è nuova. Chiamava `statoFusione()` sul repo
+  // VERO, dove git risponde sempre: percorreva solo la strada felice, e `s.leggibile || s.errore`
+  // era soddisfatto dal `leggibile: true`. La mutazione che rimette il difetto — un `catch` che
+  // torna `leggibile: true` — lo lasciava verde. **La prova percorreva solo la strada che
+  // l'ambiente le faceva prendere.** Adesso le si fanno prendere tutte e tre, perché le due domande
+  // al mondo arrivano da fuori (`statoFusioneDa`), come già faceva `fusioneInCorso` con `esiste`.
+  const rotto = statoFusioneDa(() => {
+    throw new Error("fatal: not a git repository\nseconda riga da buttare");
+  }, () => false);
+  assert.equal(rotto.leggibile, false, "una domanda senza risposta è tornata a valere «no»");
+  assert.equal(rotto.fusione, null);
+  assert.match(rotto.errore, /not a git repository/, "e se non è leggibile deve dire PERCHÉ, o non è diagnosticabile");
+  assert.ok(!rotto.errore.includes("\n"), "il motivo è la prima riga, non tutta la traccia");
+
+  const muto = statoFusioneDa(() => "", () => false);
+  assert.equal(muto.leggibile, false, "git che non dice dove tiene la sua cartella non è un albero pulito");
+  assert.ok(muto.errore, "e lo dice");
+
+  const conFusione = statoFusioneDa(() => "/finto/.git", (percorso) => percorso.endsWith("MERGE_HEAD"));
+  assert.equal(conFusione.leggibile, true);
+  assert.match(conFusione.fusione, /merge|fusione/i, "una fusione in corso deve essere dichiarata");
+
+  const pulito = statoFusioneDa(() => "/finto/.git", () => false);
+  assert.deepEqual(pulito, { fusione: null, leggibile: true }, "ad albero fermo non si dice niente");
+
+  // E la funzione vera, sul repo vero, resta del tipo giusto: l'estrazione non ha cambiato il
+  // contratto di chi la chiama.
   const s = statoFusione();
   assert.ok("leggibile" in s, "l'ignoranza deve avere un valore suo, o sparisce dentro un `false`");
   assert.ok(s.leggibile || s.errore, "e se non è leggibile deve dire PERCHÉ, o non è diagnosticabile");
+});
+
+test("Ⓐ il cancello del lotto dice al sorvegliante CON COSA confrontarsi", () => {
+  // AR-550 — il perimetro vuoto con una base esplicita è il verde della CI, e la funzione che lo
+  // riconosce è provata (la mutazione che la spegne è rossa). Ciò che non era provato è il
+  // COLLEGAMENTO: il cancello poteva tornare a lanciare il sorvegliante senza `--base`, e allora la
+  // funzione giusta non riceveva più la domanda giusta. È la malattia di casa — un cancello
+  // costruito bene su una porta che nessuno usa — vista dal lato dell'argomento invece che della
+  // chiamata.
+  const gate = readFileSync(join(QUI, "..", "cancello-lotto.mjs"), "utf8");
+  assert.match(
+    gate,
+    /"cervello\/sorvegliante\.mjs"\s*,\s*"--base"/,
+    "il cancello lancia il sorvegliante senza dirgli con cosa confrontarsi: il perimetro lo calcola su niente",
+  );
 });
 
 test("Ⓒ e ad albero fermo non dico niente", () => {

@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-27 06:55",
+ "aggiornato": "2026-08-27 09:10",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -13001,6 +13001,27 @@
    "usi": 0,
    "gate": "node cervello/test/il-muro-arriva-prima-della-porta.test.mjs",
    "data": "2026-08-27 06:55"
+  },
+  {
+   "id": "L-2026-0827-02",
+   "testo": "**Una prova può essere vuota non perché è debole, ma perché l'ambiente non le fa mai prendere il ramo che difende (27/8, due volte in un'ora).** Forma nuova, e la più difficile da vedere: la prova è scritta bene, l'assert è giusto, il ramo è il più importante del file — e la mutazione che ci rimette il difetto lascia tutto verde, perché **quella riga qui non la esegue nessuno**. I due casi: `statoFusione()` chiedeva a git e il caso «git non risponde» era irraggiungibile in un repo sano (AR-552); il rilevatore di AR-365 arrivava al ramo «non ho potuto misurare» solo senza le chiavi della memoria, e la sonda trovava il difetto tre righe sopra ed usciva. In tutti e due il ramo protetto era esattamente quello del ⚪ — «non ho misurato» — cioè il posto in cui un ⚪ può diventare un ✅ senza che nessuno lo veda. **Il segno per riconoscerla: la mutazione non morde e il ramo mutato parla di un guasto dell'ambiente** (rete assente, chiavi mancanti, comando che non risponde). **La cura è sempre la stessa e funziona: si tira fuori la decisione in una funzione pura che riceve da fuori la risposta del mondo** — `statoFusioneDa(chiediCartellaGit, esiste)`, `verdettoAllerta(testoDellaSonda)` — e allora tutte le strade si possono percorrere, non solo quella che la macchina di oggi prende. Nota di metodo che vale da sola: la prima volta ho creduto che la prova fosse debole. L'ho scoperto misurando che il rilevatore usciva 1 e non 2.",
+   "tag": [
+    "prove-vacue",
+    "rami-irraggiungibili",
+    "funzioni-pure",
+    "cieco-non-e-verde"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "evidenze": 2,
+   "fonte": "AR-840, 27/8: due mutazioni su 57 sbloccate non mordevano, e la ragione era la stessa in tutte e due.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-27",
+   "ultima_conferma": "2026-08-27 09:10",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/test/sorvegliante.test.mjs",
+   "data": "2026-08-27 09:10"
   }
  ],
  "principi": [

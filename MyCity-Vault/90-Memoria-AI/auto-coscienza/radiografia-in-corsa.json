@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-27 07:56",
+  "aggiornato": "2026-08-27 08:43",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -689,6 +689,34 @@
         "cervello/worker-coda.sh": "3a9caa4b54a9",
         "cervello/worker-router.sh": "96ee06ba9005",
         "cervello/worker.sh": "1695b73c09ec"
+      }
+    },
+    {
+      "quando": "2026-08-27 08:43",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/bottega/guardia-esecuzione.mjs": "8c62ea73c934",
+        "cervello/bottega/scelta-worker.mjs": "6d90444eadbe",
+        "cervello/bottega/testo-lavoro.mjs": "1f66c1b2498c",
+        "cervello/c4-cancelli.mjs": "299ad678f271",
+        "cervello/cancello-lotto.mjs": "a8d1e97f144a",
+        "cervello/consenso-azione.mjs": "f94cfabeb520",
+        "cervello/costo-ai.mjs": "6c9b6b375cc0",
+        "cervello/housekeeping-azioni.mjs": "5a9d8c2c2e3a",
+        "cervello/mutazioni-senza-esecutore.mjs": "932199cb3e2f",
+        "cervello/ordini-in-ritardo.mjs": "b10571f16793",
+        "cervello/prove-difetti.mjs": "72043249d62a",
+        "cervello/sentinella-dati.mjs": "9e84f5094709",
+        "cervello/sorvegliante.mjs": "e7b0e63ffa68",
+        "cervello/tasso-lezioni.mjs": "594643c191c3",
+        "cervello/vincoli-senza-cieco.mjs": "1d996103a596"
       }
     }
   ]

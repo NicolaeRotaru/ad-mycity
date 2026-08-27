@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 08:15
+aggiornato: 2026-08-27 09:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🧪 **27/8 09:10 — Tre prove non guardavano niente, e non perche' fossero scritte male.**
+>
+> **In parole semplici.** Ho sbloccato altre 57 prove che risultavano verificate senza esserlo. Ne mordono 54. Le tre che restano sono la cosa interessante della giornata.
+>
+> **Per esempio.** Una di quelle tre difende questa regola: se la macchina non riesce a chiedere una cosa, deve dire «non lo so» invece di dire «va bene». La prova era scritta bene. Ma per arrivare a quel punto del codice serve che la domanda fallisca davvero — e qui la domanda funziona sempre. Quella riga non la eseguiva nessuno, quindi rompendola non cambiava niente.
+>
+> **Cosa cambia per te.** Il numero delle prove finte scende da 393 a 340, e scende soltanto. Ma soprattutto adesso so riconoscere una forma che prima mi sfuggiva: quando una prova non morde, la seconda domanda e' se quel pezzo di codice qui ci passa mai qualcuno.
+>
+> **Cosa devi fare.** Puoi leggere questa voce come un promemoria e basta: e' lavoro sulla macchina, non tocca ne' il sito ne' i negozi.
+>
+> **Cosa non ho verificato.** Restano 340 prove da controllare, e il ritmo di oggi non si puo' proiettare su quelle: i grappoli che ho preso puntavano a file di prova recenti e ben tenuti, e quelli sono i piu' facili. Quante delle 340 non guardino niente, non lo so.
+>
+> **Dettagli tecnici.** Quattro grappoli (`sorvegliante`, `prove-a-due-versi`, `cancello-stop`, `una-corsia-piena`), 57 mutazioni, 3 non mordevano. AR-550 era il collegamento nel cancello, non la funzione. AR-552 e AR-365 erano rami che l'ambiente non percorre, curati estraendo `statoFusioneDa` e `verdettoAllerta`. Tetto `mutazioni_senza_esecutore` 393 → 340. Lezione L-2026-0827-02, agganciata al gate del sorvegliante.
 
 > 🚦 **27/8 08:15 — Erano sei, non ventisette. Contati bene, si chiudevano tutti oggi.**
 >

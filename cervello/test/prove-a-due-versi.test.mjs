@@ -22,6 +22,7 @@ import { dirname, join } from "node:path";
 import { mkdtempSync, mkdirSync, cpSync, readFileSync, writeFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
+import { verdettoAllerta } from "../prove-difetti.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -286,9 +287,27 @@ test("AR-206 — la prova delega al guardiano dei permessi, che ha già i suoi c
 test("AR-365 — senza le chiavi della memoria la prova esce ⚪, e ⚪ non è né un sì né un no", () => {
   // È il caso che va difeso di più: da una sessione senza `.env` il modulo dell'allerta si spegne
   // prima di rispondere. La prova NON deve inventarsi un verdetto — deve dire che non ha misurato.
+  //
+  // 27/8 — QUESTO CASO NON POTEVA DIVENTARE ROSSO, e la ragione è che il ramo che difende **in
+  // questa sessione non lo prende nessuno**: la sonda trova il difetto tre righe sopra ed esce 1,
+  // quindi la mutazione che trasforma il ⚪ in un ✅ colpiva una riga mai eseguita. Non era una
+  // prova debole: era una prova che l'ambiente non portava mai dove serviva.
+  // Adesso il verdetto è una funzione (`verdettoAllerta`) e le si danno tutte e sei le uscite.
+  assert.equal(verdettoAllerta("sentinella-dati: no-op (manca SUPABASE_URL)").riparato, undefined, "un ⚪ non deve avere un verdetto");
+  assert.match(
+    verdettoAllerta("sentinella-dati: no-op (manca SUPABASE_URL)").cieco,
+    /non posso esercitarla/,
+    "un ⚪ deve dire PERCHÉ non ha misurato",
+  );
+  assert.match(verdettoAllerta("").cieco, /non ha detto niente di leggibile/, "una sonda muta è un ⚪, non un verde");
+  assert.equal(verdettoAllerta("ASSENTE").riparato, false, "il difetto c'è e va detto");
+  assert.equal(verdettoAllerta("ESPLODE: boom").riparato, false);
+  assert.equal(verdettoAllerta("SENZA-ELENCO").riparato, false);
+  assert.equal(verdettoAllerta("ELENCO:3").riparato, true, "il rilevatore deve saper dire anche di SÌ, o è inchiodato su un verso solo");
+
+  // E il rilevatore VERO, sul repo vero, continua a rispondere una delle due cose ammesse.
   const r = eseguiProva("--ar-365", REPO);
   assert.ok([1, 2].includes(r.codice), `atteso 1 (difetto c'è) o 2 (non misurabile), avuto ${r.codice}: ${r.detto}`);
-  if (r.codice === 2) assert.match(r.detto, /non posso esercitarla|non ho potuto/, "un ⚪ deve dire PERCHÉ non ha misurato");
 });
 
 // ── I QUATTRO GRAVI NATI NEL LOTTO 44 ────────────────────────────────────────

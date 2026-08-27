@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-27 08:43 · AR-840: sbloccate 57 mutazioni cieche in quattro grappoli, tetto 393→340 · V5 C5 A4 K4 I3 M5 E5 (media 4.43) · atteso un terzo non mordera', come nel primo lotto → reale solo 3 su 57 — e tutte e tre per la STESSA ragione nuova: il ramo difeso l'ambiente non lo prende mai · #prove-vacue #rami-irraggiungibili
 - 2026-08-27 08:17 · AR-843: i sei vincoli del giro che non sapevano dire «non ho potuto misurare», contati e riparati · V5 C5 A5 K4 I4 M5 E4 (media 4.57) · atteso contarli e lasciare un tetto da smaltire → reale erano sei, non ventisette: contati bene si potevano chiudere tutti oggi, e il tetto nasce a zero · #guardrail #contratto-guardiani
 - 2026-08-27 07:38 · AR-081: la prova del vincolo di allocazione da ricerca di parole a esecuzione del tratto vero di giro.sh · V5 C5 A5 K4 I3 M4 E4 (media 4.29) · atteso riparo una prova vacua → reale riparandola ho trovato un difetto vero: sul guardiano cieco il motore riceveva una diagnosi falsa come regola hard (AR-842) · #prove-vacue #guardrail
 - 2026-08-27 06:49 · AR-839: la porta di bottega nel worker e il muro fail-closed all'esecuzione · V5 C5 A5 K4 I3 M5 E4 (media 4.43) · atteso il muro bastava metterlo nella presa dei lavori → reale no: li' rendeva cieche 5 mutazioni del turno — va all'esecuzione, sul lavoro gia' preso · #bottega #muro-dati

@@ -4408,3 +4408,17 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **Una conseguenza dichiarata, non scoperta dopo.** Adesso un guardiano cieco conta come vincolo attivo: il giro non puo' piu' saltare il motore quando uno strumento e' rotto. E' voluto, ed e' gia' il comportamento dei due guardiani che il ramo del cieco ce l'avevano.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 09:10 — 🟡 Cinquantasette prove finte sbloccate, e tre non guardavano niente per una ragione nuova (AR-840)
+
+**Cosa.** Quattro grappoli di mutazioni cieche sbloccati e fatti girare per davvero: **54 su 57 mordono**, 3 no. Il tetto scende da 393 a 340.
+
+**Il tasso e' cambiato, e conta.** Nel primo lotto (il 26/8) non mordeva un terzo. Qui uno su venti. La differenza non e' fortuna: i grappoli di oggi puntano a file di prova recenti e ben tenuti, quelli di ieri erano pescati a caso.
+
+**Le tre non erano prove deboli, ed e' la scoperta.** Sono prove scritte bene, con l'assert giusto, sul ramo piu' importante del loro file — e la mutazione le lasciava verdi perche' **quella riga qui non la esegue nessuno**. Il controllo della fusione chiedeva a git, e «git non risponde» in un repo sano non capita mai. Il rilevatore dell'allerta arrivava al ramo «non ho potuto misurare» solo senza le chiavi, e la sonda trovava il difetto tre righe prima. In tutti e due il ramo protetto era quello del ⚪ — cioe' l'unico posto dove un «non ho misurato» puo' diventare un «va bene» senza che se ne accorga niente.
+
+**La cura, la stessa due volte.** Si tira fuori la decisione in una funzione che riceve da fuori la risposta del mondo, e allora tutte le strade si possono percorrere — non solo quella che la macchina di oggi prende.
+
+**Una nota di metodo, perche' e' la terza volta oggi.** La prima spiegazione che mi ero data era «la prova e' debole». L'ho scoperta falsa misurando: il rilevatore usciva 1, non 2.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
