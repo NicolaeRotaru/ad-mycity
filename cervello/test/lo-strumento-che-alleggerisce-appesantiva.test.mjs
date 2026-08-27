@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 AR-835 — lo strumento che alleggerisce la coda la appesantiva di un punto a ogni passata.
+// 🧪 AR-850 — lo strumento che alleggerisce la coda la appesantiva di un punto a ogni passata.
 //
 // `housekeeping-azioni.mjs` sposta le card chiuse in archivio: serve a rendere più corta e più
 // leggibile la coda che legge Nicola. In fondo al file però ci scriveva la sua riga di riepilogo,
@@ -165,7 +165,7 @@ test("sul file VERO c'è un rimando solo, non tre", () => {
   assert.equal(rimandi.length, 1, `la coda deve dire UN numero solo, invece dice:\n${rimandi.join("\n")}`);
 });
 
-// ── AR-836 — il buco che la prima cura apriva, e che la riguardata ha visto ─
+// ── AR-851 — il buco che la prima cura apriva, e che la riguardata ha visto ─
 //
 // Il primo fix faceva del rimando un CONFINE di blocco. Funzionava sul caso vero e apriva un buco
 // peggiore del difetto: quella riga sarebbe diventata un confine anche dentro il corpo di una card,
@@ -220,7 +220,7 @@ test("senzaRimandoFinale tocca solo la fine, mai il mezzo", async () => {
   assert.equal(senzaRimandoFinale("### 🟡 #1 — senza rimando"), "### 🟡 #1 — senza rimando", "senza rimando è un no-op");
 });
 
-test("AR-836 — senza rimando il separatore finale NON si tocca", async () => {
+test("AR-851 — senza rimando il separatore finale NON si tocca", async () => {
   const { senzaRimandoFinale } = await import("../housekeeping-azioni.mjs");
   const conRigaOrizzontale = "### 🟡 #1 — card\ntesto del corpo\n\n---\n";
   assert.match(

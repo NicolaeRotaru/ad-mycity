@@ -69,7 +69,7 @@ export function senzaRimandoFinale(testo = "") {
   // Il `---` non si tocca quando il rimando manca, e non è pignoleria: senza questa condizione un
   // file che finisce con una card il cui corpo si chiude con una riga orizzontale se la vedrebbe
   // mangiare a ogni passata. Visto riguardando questa funzione con la lente «cosa succede se»,
-  // dopo che le prove erano già verdi — la stessa lente che poche righe fa ha trovato AR-836.
+  // dopo che le prove erano già verdi — la stessa lente che poche righe fa ha trovato AR-851.
   if (trovato) {
     while (righe.length && (vuota(righe[righe.length - 1]) || righe[righe.length - 1].trim() === "---")) righe.pop();
   }
@@ -177,7 +177,7 @@ function main() {
     // (Tenere la vecchia era il meccanismo con cui le copie si accumulavano.)
     if (firstLine.startsWith('## 🗄️ Archivio')) continue;
 
-    // 26/8 (AR-835) — E NEMMENO IL RIMANDO IN FONDO, per la stessa identica ragione.
+    // 26/8 (AR-850) — E NEMMENO IL RIMANDO IN FONDO, per la stessa identica ragione.
     //
     // Questa cura era già scritta due righe più su, ma solo per l'intestazione: il rimando finale
     // era rimasto fuori. Sta DOPO l'ultimo separatore, quindi al giro successivo veniva raccolto

@@ -29,7 +29,7 @@
 //   1 = almeno una mutazione lascia il test VERDE → quella prova non dimostra il suo fix
 //   2 = non ho potuto misurare (file/mutanti assenti, pattern non trovato)
 
-import { existsSync, readFileSync, writeFileSync, rmSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
@@ -107,12 +107,49 @@ export function ripristina(stato, scrivi) {
 // da una corsa morta non deve poter finire in un commit insieme al file che stava proteggendo.
 // ─────────────────────────────────────────────────────────────────────────────
 
-export const FOGLIETTO = process.env.NON_VACUITA_FOGLIETTO || join(AD_ROOT, "_tmp_non-vacuita-in-corso.json");
+// ⚠️ UN FOGLIETTO PER CORSA, NON UNO PER REPO — AR-837, misurato il 26/8/2026.
+//
+// Il foglietto era UNO SOLO, a nome fisso, e da lì nasceva un guasto che ha fatto accusare una
+// prova innocente. `cervello/test/mutazioni-provate-dal-cancello.test.mjs` lancia QUESTO strumento
+// come sottoprocesso per provarlo su un banco finto. Il figlio parte, legge il foglietto che il
+// padre ha appena lasciato — «cancello-lotto.mjs era così» — crede che sia il resto di una corsa
+// morta a metà, e RIMETTE A POSTO il file mentre il padre lo sta tenendo rotto apposta. Il padre
+// misura un fix che in quel momento non è più rotto, vede il test verde e scrive «⛔ la prova non
+// dimostra il suo fix». Falso, e a carico di una prova che funziona benissimo: provata a mano,
+// col fix rotto diventa rossa. Cronometrato: il file cambiava di mano in 124 millisecondi in
+// mezzo alla corsa.
+//
+// La cura è in due pezzi che servono tutt'e due:
+//   ① il nome del foglietto porta il pid di chi l'ha scritto, così due corse non si sovrascrivono;
+//   ② all'avvio si guarda ogni foglietto trovato, e quello di un processo ANCORA VIVO non si tocca:
+//      non è il resto di una corsa morta, è il lavoro di qualcuno che sta ancora misurando.
+// Senza ②, il ① non basta: si troverebbe comunque il foglietto del padre e lo si «riprenderebbe».
+export const PREFISSO_FOGLIETTO = "_tmp_non-vacuita-in-corso";
+export const FOGLIETTO = process.env.NON_VACUITA_FOGLIETTO || join(AD_ROOT, `${PREFISSO_FOGLIETTO}-${process.pid}.json`);
+
+/**
+ * Quel processo è ancora vivo? `kill(pid, 0)` non ammazza niente: chiede soltanto.
+ * `EPERM` vuol dire «esiste, ma non è mio»: esiste, ed è l'unica cosa che qui conta.
+ */
+export function processoVivo(pid, uccidi = (p, s) => process.kill(p, s)) {
+  if (!Number.isInteger(pid) || pid <= 0) return false;
+  try {
+    uccidi(pid, 0);
+    return true;
+  } catch (e) {
+    return e?.code === "EPERM";
+  }
+}
+
+/** I foglietti presenti in una cartella, in ordine: quelli di tutte le corse, non solo la mia. */
+export function foglietti(nomi = [], cartella = AD_ROOT) {
+  return nomi.filter((n) => String(n).startsWith(PREFISSO_FOGLIETTO) && String(n).endsWith(".json")).sort().map((n) => join(cartella, n));
+}
 
 /** Lascia la traccia PRIMA di rompere. `scrivi` iniettato: il test la esercita senza toccare il repo. */
 export function lasciaTraccia(stato, scrivi, via = FOGLIETTO) {
   if (!stato || !stato.file) return null;
-  scrivi(via, `${JSON.stringify({ file: stato.file, originale: stato.originale, quando: new Date().toISOString() }, null, 1)}\n`);
+  scrivi(via, `${JSON.stringify({ file: stato.file, originale: stato.originale, quando: new Date().toISOString(), pid: process.pid }, null, 1)}\n`);
   return via;
 }
 
@@ -158,7 +195,7 @@ function togliTracciaDicendolo(cancella, via = FOGLIETTO) {
  *   · `illeggibile`/`fallito` → il foglietto c'è ma non posso usarlo: lo dico e lo LASCIO lì, perché
  *     cancellarlo qui sarebbe far sparire l'unica traccia del file che è rimasto rotto.
  */
-export function riprendiDaTraccia({ ceE, leggi, scrivi, cancella }, via = FOGLIETTO) {
+export function riprendiDaTraccia({ ceE, leggi, scrivi, cancella, vivo = processoVivo }, via = FOGLIETTO) {
   if (!ceE(via)) return null;
   let nota;
   try {
@@ -168,6 +205,16 @@ export function riprendiDaTraccia({ ceE, leggi, scrivi, cancella }, via = FOGLIE
   }
   if (!nota || typeof nota.file !== "string" || typeof nota.originale !== "string") {
     return { esito: "illeggibile", file: null, motivo: "foglietto di ripristino senza `file`/`originale`: non so quale file rimettere a posto" };
+  }
+  // AR-837 — il foglietto di una corsa ANCORA VIVA non è il resto di un incidente: è il segnalibro
+  // di chi sta misurando adesso. Rimettere «a posto» quel file gli toglie di sotto la mutazione a
+  // metà misura, e il suo referto accusa una prova sana. Si lascia stare, e lo si dice.
+  if (nota.pid !== process.pid && vivo(nota.pid)) {
+    return {
+      esito: "in-corso-altrove",
+      file: nota.file,
+      motivo: `${nota.file} è in mano alla corsa ${nota.pid}, che è ancora viva: non lo tocco (AR-837)`,
+    };
   }
   let adesso = null;
   try {
@@ -305,9 +352,18 @@ function main() {
   // PRIMA di tutto: la corsa precedente è arrivata in fondo? (AR-708) — e prima anche del controllo
   // sui mutanti, perché un file lasciato rotto va rimesso a posto anche quando questa corsa non ha
   // niente da misurare: il debito di ieri non aspetta che oggi ci sia lavoro.
-  const ripresa = riprendiDaTraccia(IO_VERO);
-  if (ripresa) {
-    const segno = ripresa.esito === "rimesso" ? "⚠️ " : ripresa.esito === "gia-a-posto" ? "ℹ️ " : "⛔";
+  // AR-837 — si guardano TUTTI i foglietti, non solo quello col mio nome: il resto di una corsa
+  // morta porta il pid di QUELLA corsa, non il mio, e cercandone uno solo non lo si troverebbe mai.
+  let vie = [FOGLIETTO];
+  try {
+    vie = [...new Set([...foglietti(readdirSync(AD_ROOT)), FOGLIETTO])];
+  } catch {
+    // La cartella non si legge: resta il mio, che è meglio di niente e non finge di essere tutto.
+  }
+  for (const via of vie) {
+    const ripresa = riprendiDaTraccia(IO_VERO, via);
+    if (!ripresa) continue;
+    const segno = ripresa.esito === "rimesso" ? "⚠️ " : ripresa.esito === "gia-a-posto" || ripresa.esito === "in-corso-altrove" ? "ℹ️ " : "⛔";
     console.error(`${segno} ${ripresa.motivo}`);
   }
 

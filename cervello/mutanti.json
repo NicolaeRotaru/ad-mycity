@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-27 11:40",
+ "aggiornato": "2026-08-27 12:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -1403,7 +1403,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  if (!righe.length) return { blocca: false, cieco: ciechi.length > 0, righe: noteCieche };",
    "sostituisci": "  if (!righe.length) return { blocca: false, cieco: noteCieche.length > 0, righe: noteCieche };",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
    "difetto": "AR-507",
@@ -1411,7 +1411,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "    if (attribuita && !attribuzione.certa) {",
    "sostituisci": "    if (false) {",
-   "test": "cervello/test/cancello-stop.test.mjs",
+   "test": "node --test cervello/test/cancello-stop.test.mjs",
    "lezione": "L-2026-0803-546"
   },
   {
@@ -1420,7 +1420,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  return [da, \"origin/main\", \"main\"].filter(Boolean);",
    "sostituisci": "  return [\"origin/main\", \"main\"];",
-   "test": "cervello/test/cancello-stop.test.mjs",
+   "test": "node --test cervello/test/cancello-stop.test.mjs",
    "lezione": "L-2026-0803-546"
   },
   {
@@ -1429,7 +1429,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "    const indiretti = [...new Set([...secondo.values()].flat())].filter((x) => x !== f && !diretti.includes(x)).sort();",
    "sostituisci": "    const indiretti = [];",
-   "test": "cervello/test/sorvegliante.test.mjs",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
    "lezione": "L-2026-0803-547"
   },
   {
@@ -1438,7 +1438,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "export const eCodice = (rel = \"\") => !rel.includes(\"/\") || CARTELLE_CODICE.some((c) => rel.startsWith(`${c}/`));",
    "sostituisci": "export const eCodice = () => true;",
-   "test": "cervello/test/sorvegliante.test.mjs",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
    "lezione": "L-2026-0803-547"
   },
   {
@@ -1447,7 +1447,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "    const curata = rimosse.some((r) => re.test(senzaCommenti(r.testo, file)));",
    "sostituisci": "    const curata = true;",
-   "test": "cervello/test/sorvegliante.test.mjs",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
    "lezione": "L-2026-0803-548"
   },
   {
@@ -1456,7 +1456,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  if (toccati.includes(difeso)) return null;",
    "sostituisci": "",
-   "test": "cervello/test/sorvegliante.test.mjs",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
    "lezione": "L-2026-0803-548"
   },
   {
@@ -1465,7 +1465,7 @@
    "file": ".githooks/pre-commit",
    "cerca": "    exit 1\n  elif [ \"$_sv_code\" = \"2\" ]; then",
    "sostituisci": "    :\n  elif [ \"$_sv_code\" = \"2\" ]; then",
-   "test": "cervello/test/campo-commit-e-turno.test.mjs",
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs",
    "lezione": "L-2026-0803-549"
   },
   {
@@ -1474,7 +1474,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "    process.exit(hook ? 2 : 1);",
    "sostituisci": "    process.exit(hook ? 0 : 1);",
-   "test": "cervello/test/campo-commit-e-turno.test.mjs",
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs",
    "lezione": "L-2026-0803-549"
   },
   {
@@ -1484,7 +1484,7 @@
    "file": "cervello/forma-json.mjs",
    "cerca": "  if (STAGED) return { base: \"HEAD\", ramo: [\"diff\", \"--cached\", \"--name-only\"], workingTree: false, fuori: [] };",
    "sostituisci": "  if (false) return { base: \"HEAD\", ramo: [\"diff\", \"--cached\", \"--name-only\"], workingTree: false, fuori: [] };",
-   "test": "cervello/test/campo-commit-e-turno.test.mjs"
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   },
   {
    "difetto": "AR-511",
@@ -1493,7 +1493,7 @@
    "file": ".githooks/pre-commit",
    "cerca": "  if [ \"$_fj_code\" = \"1\" ]; then",
    "sostituisci": "  if [ \"$_fj_code\" = \"99\" ]; then",
-   "test": "cervello/test/campo-commit-e-turno.test.mjs"
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   },
   {
    "difetto": "AR-512",
@@ -1672,7 +1672,7 @@
    "file": "cervello/guardia-viva.mjs",
    "cerca": "    if (oggi && scade < oggi) {",
    "sostituisci": "    if (false) {",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "difetto": "AR-526",
@@ -1680,7 +1680,7 @@
    "file": "cervello/guardia-viva.mjs",
    "cerca": "    if (!scade) {",
    "sostituisci": "    if (false) {",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "difetto": "AR-523",
@@ -1720,7 +1720,7 @@
    "file": "cervello/guardia-viva.mjs",
    "cerca": "for (const m of String(c?.comando || \"\").matchAll(/\\bcervello\\/([a-z0-9._-]+)\\.mjs/g)) fuori.add(`${m[1]}.mjs`);",
    "sostituisci": "for (const m of []) fuori.add(`${m[1]}.mjs`);",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "difetto": "AR-550",
@@ -1728,7 +1728,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  if (!base || nToccati || nRimossi) return [];",
    "sostituisci": "  return [];",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-550",
@@ -1736,7 +1736,7 @@
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "[\"cervello/sorvegliante.mjs\", \"--base\", base.spec]",
    "sostituisci": "[\"cervello/sorvegliante.mjs\"]",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-551",
@@ -1744,7 +1744,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  if (grossi.length) fuori.push(",
    "sostituisci": "  if (false) fuori.push(",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-552",
@@ -1752,16 +1752,16 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  const trovato = STATI_FUSIONE.find(([nome]) => esiste(nome));",
    "sostituisci": "  const trovato = null;",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-552",
    "nome": "«git non risponde» torna a valere come «nessuna fusione»",
    "file": "cervello/sorvegliante.mjs",
    "cerca": "    return { fusione: null, leggibile: false, errore: String(e?.message ?? e).split(\"\\n\")[0] };",
-   "sostituisci": "    return { fusione: null, leggibile: true };",
-   "test": "cervello/test/sorvegliante.test.mjs",
-   "lezione": "L-2026-0827-02"
+   "sostituisci": "    return { fusione: null, leggibile: true, errore: null };",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
+   "nota_riancoraggio": "27/8, fusione con main: la riga era stata irrobustita (`String(e?.message ?? e)`), e l'ancoraggio vecchio non la trovava piu'. Una difesa che non trova il suo pezzo non e' rotta: e' cieca, e il test resta verde."
   },
   {
    "difetto": "AR-553",
@@ -1769,7 +1769,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  if (!sporchi) return [];",
    "sostituisci": "  return [];",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-554",
@@ -1777,7 +1777,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "export const ESENZIONE_BUONA = /sorvegliante:\\s*ok\\s+([\\w*-]+)\\s+fino al\\s+(\\d{4}-\\d{2}-\\d{2})\\s*[—–-]\\s*(\\S.*?)\\s*$/;",
    "sostituisci": "export const ESENZIONE_BUONA = /sorvegliante:\\s*ok\\s+([\\w*-]+)\\s*(\\d{0,4}-?\\d{0,2}-?\\d{0,2})\\s*[—–-]?\\s*(.*?)\\s*$/;",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-554",
@@ -1785,7 +1785,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "    const viva = valide.find((e) => copre(e, v) && e.scadenza >= oggi);",
    "sostituisci": "    const viva = valide.find((e) => copre(e, v));",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-554",
@@ -1793,7 +1793,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "      esentate.push({ ...v, esenzione: viva });",
    "sostituisci": "      continue;",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-555",
@@ -1801,7 +1801,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  for (const m of motivi.slice(0, 2)) righe.push(`⚪ non ho guardato: ${m}`);",
    "sostituisci": "",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-530",
@@ -1868,7 +1868,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  const saldo = tolte - messe;",
    "sostituisci": "  const saldo = tolte;",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-530",
@@ -1877,7 +1877,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  return righe.filter((r) => REGGE_UNA_PROVA.test(senzaCommenti(r.testo, file))).length;",
    "sostituisci": "  return righe.filter((r) => REGGE_UNA_PROVA.test(r.testo)).length;",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-530",
@@ -1886,7 +1886,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "        if (nomi.has(b) || (nomeDistintivo(b) && nomi.has(basenameSemplice(b)))) {",
    "sostituisci": "        if (nomi.has(b) || nomi.has(basenameSemplice(b))) {",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-531",
@@ -1895,7 +1895,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "        if (rotta && [].concat(rotta).some((x) => nomi.has(x))) {",
    "sostituisci": "        if (false) {",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-542",
@@ -1922,7 +1922,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "          if (difesaAncoraChiamata(perNome.get(file)?.contenuto ?? null, p, file)) continue;",
    "sostituisci": "",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-538",
@@ -1940,7 +1940,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  return [...(daHead || []), ...(daAltroGenitore || [])];",
    "sostituisci": "  return [...(daHead || [])];",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
    "difetto": "AR-505",
@@ -1949,7 +1949,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "\"-G\", CERCA_ESITO_IN_GIT, \"--diff-merges=first-parent\"",
    "sostituisci": "\"-G\", CERCA_ESITO_IN_GIT",
-   "test": "cervello/test/campo-commit-e-turno.test.mjs"
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   },
   {
    "difetto": "AR-457",
@@ -1973,7 +1973,7 @@
    "file": "cervello/ci-lettura.mjs",
    "cerca": "  if (stato === STATO.ROSSO) {\n    return { ok: false, misurato: true, motivo: `controlli rossi:",
    "sostituisci": "  if (false) {\n    return { ok: false, misurato: true, motivo: `controlli rossi:",
-   "test": "cervello/test/ci-rossa-di-chi.test.mjs"
+   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
   },
   {
    "difetto": "CI-lettura",
@@ -1981,7 +1981,7 @@
    "file": "cervello/ci-lettura.mjs",
    "cerca": "      .replace(/\\b\\d+\\b/g, \"#\")",
    "sostituisci": "      .replace(/(?!)/g, \"#\")",
-   "test": "cervello/test/ci-rossa-di-chi.test.mjs"
+   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
   },
   {
    "difetto": "CI-lettura",
@@ -1989,7 +1989,7 @@
    "file": "cervello/ci-lettura.mjs",
    "cerca": "  if (/non sono scattati|non so leggere/.test(String(v?.motivo || \"\"))) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/ci-rossa-di-chi.test.mjs"
+   "test": "node --test cervello/test/ci-rossa-di-chi.test.mjs"
   },
   {
    "difetto": "conta-verdetti-muti · lavoro di Nicola contato come debito mio",
@@ -2005,7 +2005,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  [\"MERGE_HEAD\", \"una fusione (merge)\"],",
    "sostituisci": "  [\"MERGE_HEAD\", \"una fusione (merge)\"],\n  [\"REBASE_HEAD\", \"un rebase\"],",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "pota-apprendimento · la copia che non era una copia",
@@ -2013,7 +2013,7 @@
    "file": "cervello/pota-apprendimento.mjs",
    "cerca": "    if (!lezione || lezione.testo !== p.testo) return p;",
    "sostituisci": "    if (!lezione) return p;",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs"
+   "test": "node --test cervello/test/archivi-senza-tetto.test.mjs"
   },
   {
    "difetto": "contratto salute · due elenchi che divergono",
@@ -2128,7 +2128,7 @@
    "cerca": "      if (r.code === 0) return { ...RIPARATO, detto: \"permessi-check non trova più permessi troppo larghi\" };",
    "sostituisci": "      return { ...RIPARATO, detto: \"MUTANTE: la prova non guarda piu niente\" };",
    "file": "cervello/prove-difetti.mjs",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "difetto": "AR-365 prova-cieca",
@@ -2144,7 +2144,7 @@
    "cerca": "        return { ...APERTO, detto: \"non esiste nessuna `battito_lavoro_riuscito` da eseguire: il worker batte in cima al ciclo, quando non sa ancora se il lavoro andrà a buon fine\" };",
    "sostituisci": "        return { ...RIPARATO, detto: \"MUTANTE: la prova non guarda piu niente\" };",
    "file": "cervello/prove-difetti.mjs",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "difetto": "AR-388 prova-cieca",
@@ -2152,7 +2152,7 @@
    "cerca": "      if (ancoraScoperta && !messaDaParte) {",
    "sostituisci": "      if (false) {",
    "file": "cervello/prove-difetti.mjs",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "difetto": "AR-412 prova-cieca",
@@ -2160,7 +2160,7 @@
    "cerca": "        return { ...APERTO, detto: \"non esiste nessuna `prenotaAzione` da esercitare: l'azione parte prima che qualcuno abbia preso il posto, quindi due clic mandano due volte\" };",
    "sostituisci": "        return { ...RIPARATO, detto: \"MUTANTE: dice che la prenotazione c'è senza averla cercata\" };",
    "file": "cervello/prove-difetti.mjs",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "difetto": "AR-570 due-versi-spento",
@@ -2169,7 +2169,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "      return { ...RIPARATO, detto: \"il timbro compare solo dopo un lavoro chiuso bene, e non dopo uno fallito\" };",
    "sostituisci": "      return { ...APERTO, detto: \"MUTANTE: non sa dire di sì nemmeno col fix davanti\" };",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "difetto": "AR-569 coda-cieca",
@@ -2196,7 +2196,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "        variabile: \"BUDGET_VINCOLO\",",
    "sostituisci": "        variabile: \"MUTANTE_MAI_ESISTITA\",",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "lotto": "prove-2",
@@ -2205,7 +2205,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "        variabile: \"LETARGO_VINCOLO\",",
    "sostituisci": "        variabile: \"MUTANTE_MAI_ESISTITA\",",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "lotto": "prove-2",
@@ -2214,7 +2214,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "  if (vA === vB) return { ...APERTO, detto: quandoFisso(vA) };",
    "sostituisci": "  if (vA === vB) return { ...RIPARATO, detto: quandoFisso(vA) };",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "lotto": "prove-2",
@@ -2223,7 +2223,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "        seconda: { stampa: \"⛔ STALLO VERO: 0 ordini pagati da 9 giorni e nessuna fase tecnica dichiarata\", spia: \"STALLO VERO\" },",
    "sostituisci": "        seconda: { stampa: \"⛔ FASE TECNICA DICHIARATA fino al 2026-08-20: ammesso lavoro macchina, ma almeno 1 azione business per giro\", spia: \"FASE TECNICA DICHIARATA\" },",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "lotto": "prove-2",
@@ -2232,7 +2232,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "      if (staged.length === 0) {",
    "sostituisci": "      if (false) {",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "lotto": "radiografia-totale",
@@ -2285,7 +2285,7 @@
    "file": "cervello/giro.sh",
    "cerca": "  node \"$SCRIPT_DIR/pota-apprendimento.mjs\" --se-serve 2>&1 | esito_righe 3 || true",
    "sostituisci": "  : # potatore mai lanciato",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs"
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs"
   },
   {
    "difetto": "AR-416",
@@ -2293,7 +2293,7 @@
    "file": "cervello/pota-apprendimento.mjs",
    "cerca": "  return Number(prima) > tetto * 0.95;",
    "sostituisci": "  return false;",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs"
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs"
   },
   {
    "difetto": "AR-574",
@@ -2474,7 +2474,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  if (contenuto === suMain) return null;",
    "sostituisci": "  if (false) return null;",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node cervello/test/cancello-stop.test.mjs"
   },
   {
    "lotto": 38,
@@ -2617,7 +2617,7 @@
    "file": "cervello/forma-json.mjs",
    "cerca": "    const sporchi = rif.workingTree",
    "sostituisci": "    const sporchi = false && rif.workingTree",
-   "test": "cervello/test/cancello-verde-senza-misurare.test.mjs"
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2626,7 +2626,7 @@
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "    if (muto) ciechiProve.push(muto);",
    "sostituisci": "    if (false) ciechiProve.push(muto);",
-   "test": "cervello/test/cancello-verde-senza-misurare.test.mjs"
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2635,7 +2635,7 @@
    "file": "cervello/forma-json.mjs",
    "cerca": "    fuori: [\"origin/main non raggiungibile (clone superficiale): i JSON già committati sul ramo non li ho confrontati con nessuno\"],",
    "sostituisci": "    fuori: [],",
-   "test": "cervello/test/cancello-verde-senza-misurare.test.mjs"
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2716,7 +2716,7 @@
    "file": "pannello/src/lib/freschezza-intelligence.ts",
    "cerca": "  const a = Date.parse(vaultToIso(`${isoVecchia} 12:00`));",
    "sostituisci": "  const a = Date.parse(`${isoVecchia}T12:00:00+02:00`);",
-   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   },
   {
    "lotto": 40,
@@ -2725,7 +2725,7 @@
    "file": "pannello/src/lib/verdetto-dato.ts",
    "cerca": "    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));",
    "sostituisci": "    const t = Date.parse(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`);",
-   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   },
   {
    "lotto": 40,
@@ -2815,7 +2815,7 @@
    "file": "pannello/src/lib/format.ts",
    "cerca": "iso = vaultToIso(`${y}-${mo}-${d} ${hh ?? hDef}:${mi ?? miDef}`);",
    "sostituisci": "iso = `${y}-${mo}-${d}T${hh ?? hDef}:${mi ?? miDef}:00+02:00`;",
-   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   },
   {
    "lotto": 40,
@@ -2923,7 +2923,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "const mandato = (iDomande >= 0 ? resto.slice(0, iDomande) : resto)",
    "sostituisci": "const mandato = (iDomande >= 0 ? resto.slice(iDomande) : resto)",
-   "test": "cervello/test/mandato-senza-padrone.test.mjs"
+   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
   },
   {
    "lotto": 40,
@@ -2932,7 +2932,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (!condivise.some(specifica)) continue;",
    "sostituisci": "if (true) continue;",
-   "test": "cervello/test/mandato-senza-padrone.test.mjs"
+   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
   },
   {
    "lotto": 40,
@@ -2941,7 +2941,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (fb.radici.length - condivise.length > MAX_RADICI_ESTRANEE) continue;",
    "sostituisci": "if (true) continue;",
-   "test": "cervello/test/mandato-senza-padrone.test.mjs"
+   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
   },
   {
    "lotto": 40,
@@ -2950,7 +2950,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "return nomi.filter((n) => rimanda.get(n).size === 0 && ricevuti.get(n) >= soglia);",
    "sostituisci": "return nomi.filter((n) => false && ricevuti.get(n) >= soglia);",
-   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2959,7 +2959,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "for (const p of percorsiCitati(testo)) if (!risolvi(p)) out.push({ agente: nome, percorso: p });",
    "sostituisci": "for (const p of percorsiCitati(testo)) if (false) out.push({ agente: nome, percorso: p });",
-   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2968,7 +2968,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (!/client|negozian/.test(aCosaServe)) continue;",
    "sostituisci": "if (true) continue;",
-   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2977,7 +2977,7 @@
    "file": "cervello/mandato-owner.mjs",
    "cerca": "if (owner.length === 0) out.push({ canale: c.mano, chiave: c.chiave });",
    "sostituisci": "if (false) out.push({ canale: c.mano, chiave: c.chiave });",
-   "test": "cervello/test/mansionario-percorsi-e-canali.test.mjs"
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
   },
   {
    "lotto": 40,
@@ -2995,7 +2995,7 @@
    "file": "cervello/prepara-giro.mjs",
    "cerca": "export function bagaglioDelGiro({ radice = radiceRepo() } = {}) {",
    "sostituisci": "export function bagaglioDelGiro({ radice = '/home/user/ad-mycity' } = {}) {",
-   "test": "cervello/test/i-workflow-che-non-partono.test.mjs",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs",
    "nota_riaggancio": "23/8, lotto 52 (AR-780): il pezzo cercato non esiste piu' in giro-operativo.js. Il motore dei workflow non accetta import, quindi il calcolo che questa mutazione sorvegliava e' stato SPOSTATO — non tolto — in cervello/prepara-giro.mjs, che gira dove il disco si legge e passa il risultato al workflow come `args`. La mutazione segue la protezione nella sua casa nuova: spegne sempre la stessa cosa, cioe' il valore preso dal vero invece che scritto a mano."
   },
   {
@@ -3005,7 +3005,7 @@
    "file": "cervello/prepara-giro.mjs",
    "cerca": "    fatti = fattiVivi(FATTI_DEL_GIRO, radice);",
    "sostituisci": "    fatti = [{ id: 'negozio.faro', valore: 'Casa Linda payout-ready' }];",
-   "test": "cervello/test/i-workflow-che-non-partono.test.mjs",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs",
    "nota_riaggancio": "23/8, lotto 52 (AR-780): il pezzo cercato non esiste piu' in giro-operativo.js. Il motore dei workflow non accetta import, quindi il calcolo che questa mutazione sorvegliava e' stato SPOSTATO — non tolto — in cervello/prepara-giro.mjs, che gira dove il disco si legge e passa il risultato al workflow come `args`. La mutazione segue la protezione nella sua casa nuova: spegne sempre la stessa cosa, cioe' il valore preso dal vero invece che scritto a mano."
   },
   {
@@ -3015,7 +3015,7 @@
    "file": "cervello/turno-senior.mjs",
    "cerca": "    return !voci.some((v) => v.autore === h.a && v.data >= h.data);",
    "sostituisci": "    return false;",
-   "test": "cervello/test/chi-va-in-turno.test.mjs"
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "lotto": 40,
@@ -3024,7 +3024,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "    if (d?.[alias] === undefined) continue;",
    "sostituisci": "    if (true) continue;",
-   "test": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
   },
   {
    "lotto": 40,
@@ -3033,7 +3033,7 @@
    "file": "cervello/allinea-scan-cantiere.mjs",
    "cerca": "  timbraChiusura(f, { quando: timbroValido(f?.chiuso_il) ? f.chiuso_il : ereditata || ora });",
    "sostituisci": "  f.stato = \"chiuso\"; f.chiuso_il = f.chiuso_il || d?.chiuso_il || \"\";",
-   "test": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
   },
   {
    "lotto": 40,
@@ -3042,7 +3042,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "    if (!FORMA_COMANDO_PROVA.test(c)) {\n      return {\n        codice: NON_MISURABILE,",
    "sostituisci": "    if (!FORMA_COMANDO_PROVA.test(c)) {\n      return {\n        codice: PASSATO,",
-   "test": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
   },
   {
    "lotto": 40,
@@ -3051,7 +3051,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "return { codice: VIOLAZIONE, causa: \"senza-verifica\", forma, eseguibile: false, debole: false, motivo: \"nessun campo `verifica`",
    "sostituisci": "return { codice: PASSATO, causa: \"senza-verifica\", forma, eseguibile: false, debole: false, motivo: \"nessun campo `verifica`",
-   "test": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
   },
   {
    "lotto": 40,
@@ -3060,7 +3060,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "      (nellaSuite(file) ? g.suite : g.fuori_suite).push(voce);",
    "sostituisci": "      g.suite.push(voce);",
-   "test": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
   },
   {
    "lotto": 40,
@@ -3069,7 +3069,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "    return { codice: VIOLAZIONE, genera: null, normalizzato: \"solo-report\", motivo: \"`genera` mancante",
    "sostituisci": "    return { codice: PASSATO, genera: null, normalizzato: \"solo-report\", motivo: \"`genera` mancante",
-   "test": "cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
   },
   {
    "lotto": 40,
@@ -3159,7 +3159,7 @@
    "file": "cervello/prompt-senior.mjs",
    "cerca": "  const dir = join(radice, \".claude\", \"agents\");",
    "sostituisci": "  const dir = join(radice, \".claude\", \"agents-che-non-esistono\");",
-   "test": "cervello/test/chi-va-in-turno.test.mjs"
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "lotto": 40,
@@ -3185,7 +3185,7 @@
    "file": "cervello/lib-cadenza.sh",
    "cerca": "2>&1 8>&- 9>&- &",
    "sostituisci": "2>&1 &",
-   "test": "cervello/test/lucchetto-che-non-si-libera.test.mjs"
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
    "difetto": "AR-691 eta-del-lucchetto-persa",
@@ -3193,7 +3193,7 @@
    "file": "cervello/lib-cadenza.sh",
    "cerca": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge \"$CADENZA_ORFANO_MIN\" ]",
    "sostituisci": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 999999 ]",
-   "test": "cervello/test/lucchetto-che-non-si-libera.test.mjs"
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
    "difetto": "AR-575",
@@ -3263,7 +3263,7 @@
    "file": "pannello/src/lib/cancello-atto.ts",
    "cerca": "  const posto = await p.prenota();",
    "sostituisci": "  const posto: Prenotazione = \"mia\"; await p.prenota();",
-   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
+   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
   },
   {
    "lotto": 41,
@@ -3281,7 +3281,7 @@
    "file": "pannello/src/lib/cancello-atto.ts",
    "cerca": "if (res.status === 409) return \"gia-presa\";",
    "sostituisci": "if (res.status === 409) return \"mia\";",
-   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
+   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
   },
   {
    "lotto": 41,
@@ -3290,7 +3290,7 @@
    "file": "pannello/src/lib/cancello-atto.ts",
    "cerca": "  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: true });",
    "sostituisci": "  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: false });",
-   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
+   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
   },
   {
    "lotto": 41,
@@ -3362,7 +3362,7 @@
    "file": "pannello/src/lib/tocco-bersaglio.ts",
    "cerca": "export const CAMPO_MIN_PX = 16;",
    "sostituisci": "export const CAMPO_MIN_PX = 0;",
-   "test": "cervello/test/c3-tocco-bersaglio.test.mjs"
+   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
   },
   {
    "lotto": 41,
@@ -3371,7 +3371,7 @@
    "file": "pannello/src/lib/tocco-bersaglio.ts",
    "cerca": "export const BERSAGLIO_MIN_PX = 44;",
    "sostituisci": "export const BERSAGLIO_MIN_PX = 1;",
-   "test": "cervello/test/c3-tocco-bersaglio.test.mjs"
+   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
   },
   {
    "lotto": 41,
@@ -3380,7 +3380,7 @@
    "file": "pannello/src/lib/tocco-bersaglio.ts",
    "cerca": "      fuori.push(TETTO_RESPONSIVO[t] || \"max-h-none\");",
    "sostituisci": "      fuori.push(t);",
-   "test": "cervello/test/c3-tocco-bersaglio.test.mjs"
+   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
   },
   {
    "lotto": 41,
@@ -3389,7 +3389,7 @@
    "file": "pannello/src/components/Bacheca.tsx",
    "cerca": "usePanelRefresh([\"memoria\", \"all\"], carica, intervalloRipasso());",
    "sostituisci": "usePanelSync([\"memoria\", \"all\"], carica);",
-   "test": "cervello/test/c3-casella-ricarica.test.mjs"
+   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
   },
   {
    "lotto": 41,
@@ -3398,7 +3398,7 @@
    "file": "pannello/src/lib/casella-ricarica.ts",
    "cerca": "      messaggio: motivo\n        ? `⚠️ Non sono riuscito a leggere: ${motivo}. Riprova fra un momento.`\n        : \"⚠️ Non sono riuscito a leggere questo dato. Riprova fra un momento.\",",
    "sostituisci": "      messaggio: p.testoVuoto || \"Non c'è ancora niente qui.\",",
-   "test": "cervello/test/c3-casella-ricarica.test.mjs"
+   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
   },
   {
    "lotto": 41,
@@ -3434,7 +3434,7 @@
    "file": "pannello/src/lib/casella-ricarica.ts",
    "cerca": "  if (!p.controllerPrima) {\n    return { azione: \"niente\", motivo: \"primo controllo del service worker: non è un aggiornamento\" };\n  }",
    "sostituisci": "",
-   "test": "cervello/test/c3-casella-ricarica.test.mjs"
+   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
   },
   {
    "lotto": 41,
@@ -3479,7 +3479,7 @@
    "file": "cervello/worker.sh",
    "cerca": "if [ \"$_freno_rc\" = 1 ]; then",
    "sostituisci": "if [ \"$_freno_rc\" = 99 ]; then",
-   "test": "cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
   },
   {
    "lotto": 41,
@@ -3488,7 +3488,7 @@
    "file": "cervello/motore-ai.sh",
    "cerca": "  out=\"$(node \"$dir/freno-costi.mjs\" 2>/dev/null)\"; rc=$?",
    "sostituisci": "  out=\"lascia\\tfinto\"; rc=0",
-   "test": "cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
   },
   {
    "lotto": 41,
@@ -3497,7 +3497,7 @@
    "file": "cervello/worker.sh",
    "cerca": "    ai_registra_costo \"worker-$tipo\"",
    "sostituisci": "    : # ai_registra_costo \"worker-$tipo\"",
-   "test": "cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
   },
   {
    "lotto": 41,
@@ -3705,7 +3705,7 @@
    "file": "cervello/giro.sh",
    "cerca": "_rischi_out=\"$(node \"$SCRIPT_DIR/freschezza-rischi.mjs\" 2>&1)\"; _rischi_rc=$?",
    "sostituisci": "_rischi_out=\"\"; _rischi_rc=0",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "difetto": "AR-697",
@@ -3732,7 +3732,7 @@
    "file": "cervello/guardia-viva-check.mjs",
    "cerca": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", \"worktrees\",",
    "sostituisci": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", // MUTANTE: worktrees tolto dalle escluse",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "lotto": 30,
@@ -3771,7 +3771,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  if (REFERTI.includes(nome)) return true;",
    "sostituisci": "  if (false) return true;",
-   "test": "cervello/test/sorvegliante.test.mjs",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
    "nota_riaggancio": "AR-556 ha riscritto eReferto da elenco a riconoscimento: il comportamento vive qui (lotto 42)."
   },
   {
@@ -4900,7 +4900,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "        return rifa && !importa;",
    "sostituisci": "        return false;",
-   "test": "cervello/test/un-freno-con-piu-copie.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "lotto": 44,
@@ -4909,7 +4909,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "      const bugiardi = esperimentiSmentiti(lista);",
    "sostituisci": "      const bugiardi = [];",
-   "test": "cervello/test/esperimento-smentito-si-corregge.test.mjs"
+   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 44,
@@ -5062,7 +5062,7 @@
    "file": "cervello/lib-cadenza.sh",
    "cerca": "if cadenza_lock_rompi \"$tipo\" \"$file\" \"$pid_preso\" \"$eta_min\"; then",
    "sostituisci": "if false; then",
-   "test": "cervello/test/lucchetto-che-non-si-libera.test.mjs"
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
    "difetto": "AR-759 lucchetto-git-che-tace",
@@ -5070,7 +5070,7 @@
    "file": "cervello/lib-cadenza.sh",
    "cerca": "  flock -w \"$secondi\" 9 && return 0",
    "sostituisci": "  flock -w \"$secondi\" 9; return 0",
-   "test": "cervello/test/lucchetto-che-non-si-libera.test.mjs"
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
    "difetto": "AR-760 pausa-cieca-che-non-esce",
@@ -5086,7 +5086,7 @@
    "file": "cervello/test/lucchetto-che-non-si-libera.test.mjs",
    "cerca": "REPO=\"${dir}\"; SCRIPT_DIR=\"${dir}\"",
    "sostituisci": "REPO=\"${dir}\"; SCRIPT_DIR=\"${join(REPO, \"cervello\")}\"",
-   "test": "cervello/test/lucchetto-che-non-si-libera.test.mjs"
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
    "difetto": "AR-763 il-freno-che-non-arriva-al-lavoro",
@@ -5175,7 +5175,7 @@
    "file": "cervello/tetti-archivio.mjs",
    "cerca": "  if (frenoVivo) return { decade: false, motivo: \"ha un freno che monta ancora la guardia: finché quel guardiano esiste, la regola è in vigore\" };",
    "sostituisci": "",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs",
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs",
    "lezione": "L-2026-0818-03"
   },
   {
@@ -5184,7 +5184,7 @@
    "file": "cervello/tetti-archivio.mjs",
    "cerca": "  const quandoConta = [ultimaConferma, ultimoUso].map((d) => istante(d)).filter((t) => t != null);",
    "sostituisci": "  const quandoConta = [ultimaConferma].map((d) => istante(d)).filter((t) => t != null);",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs",
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs",
    "lezione": "L-2026-0818-03"
   },
   {
@@ -5233,7 +5233,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "      sconosciute.push({ nome, ...pesaCompleto(join(dir, nome), tetto) });",
    "sostituisci": "      // mutante: salto in silenzio, come prima",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-775 peso-vero-non-voce-di-cartella",
@@ -5241,7 +5241,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "    byte += suo.byte;",
    "sostituisci": "    byte += st.size || 0; // mutante: la voce di cartella al posto del contenuto",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-775 troncamento-dichiarato",
@@ -5249,7 +5249,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "    if (stato.file <= 0) {\n      stato.troncata = true;\n      break;\n    }",
    "sostituisci": "    if (stato.file <= 0) break; // mutante: smetto di contare e non lo dico",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-775 troncamento-che-arriva-al-referto",
@@ -5257,7 +5257,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "  if (sconosciute.some((v) => v.troncata)) troncato = true;",
    "sostituisci": "  // mutante: il referto non sa che ho smesso di contare",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-776 stesso-metro-per-tutti",
@@ -5265,7 +5265,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  const suMain = alTetto(pubblicato());",
    "sostituisci": "  const suMain = pubblicato();",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node cervello/test/cancello-stop.test.mjs"
   },
   {
    "difetto": "AR-776 taglio-dichiarato",
@@ -5273,7 +5273,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "    troncato: typeof contenuto === \"string\" && contenuto.length >= TETTO_TESTO,",
    "sostituisci": "    troncato: false,",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node cervello/test/cancello-stop.test.mjs"
   },
   {
    "difetto": "AR-777 elenco-letto-dal-codice",
@@ -5281,7 +5281,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "  return [...new Set([...PREFISSI, ...prefissiDalCodice(radice)])];",
    "sostituisci": "  return [...PREFISSI];",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-777 scanner-cieco-sugli-sh",
@@ -5289,7 +5289,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "      if (!/\\.(mjs|js|sh)$/.test(v.name)) continue;",
    "sostituisci": "      if (!/\\.(mjs|js)$/.test(v.name)) continue;",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-777 prefisso-troppo-corto",
@@ -5297,7 +5297,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "          if (nome.length >= MINIMO) trovati.add(nome);",
    "sostituisci": "          trovati.add(nome);",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-777 roba-viva-protetta-per-prima",
@@ -5305,7 +5305,7 @@
    "file": "cervello/spazza-temporanei.mjs",
    "cerca": "    if (MAI_TOCCARE.some((p) => nome.startsWith(p))) continue; // roba viva: prima di tutto il resto",
    "sostituisci": "    // mutante: nessuna protezione per la roba viva",
-   "test": "cervello/test/spazza-temporanei.test.mjs"
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   },
   {
    "difetto": "AR-778 tetto-ai-passaggi",
@@ -5313,7 +5313,7 @@
    "file": "cervello/turno-senior.mjs",
    "cerca": "  const quotaPassaggi = Math.max(1, Math.floor(quanti / 2));",
    "sostituisci": "  const quotaPassaggi = quanti;",
-   "test": "cervello/test/chi-va-in-turno.test.mjs"
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "difetto": "AR-778 passaggi-che-ruotano",
@@ -5321,7 +5321,7 @@
    "file": "cervello/turno-senior.mjs",
    "cerca": "  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
    "sostituisci": "  for (const h of pendenti) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
-   "test": "cervello/test/chi-va-in-turno.test.mjs"
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
   },
   {
    "difetto": "AR-779 un-numero-solo-per-la-coda",
@@ -5348,7 +5348,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "    if (cmd) trovati.push(cmd);",
    "sostituisci": "    if (false) trovati.push(cmd);",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
    "lezione": "L-2026-0821-02",
@@ -5357,7 +5357,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  return trovati.length ? { quanti: trovati.length, primi: trovati.slice(0, 3) } : null;",
    "sostituisci": "  return null;",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
    "lezione": "L-2026-0821-02",
@@ -5422,7 +5422,7 @@
    "file": "cervello/memoria-senza-perdite.mjs",
    "cerca": "  if (!perse.length) return { dati: nuovo, riaggiunte: [] };",
    "sostituisci": "  return { dati: nuovo, riaggiunte: [] };",
-   "test": "cervello/test/il-lavoro-dell-altro-cancellato.test.mjs",
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs",
    "nota_riaggancio": "È il difetto identico rimesso: 3 casi rossi su 11, compreso quello che passa dal vero scriviJsonAtomico."
   },
   {
@@ -5432,7 +5432,7 @@
    "file": "cervello/scrivi-json.mjs",
    "cerca": "  dati = primaDiScrivere(percorso, dati, { dichiaraRimozioni });",
    "sostituisci": "  // staccato",
-   "test": "cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   },
   {
    "lezione": "L-2026-0821-04",
@@ -5441,7 +5441,7 @@
    "file": "cervello/memoria-senza-perdite.mjs",
    "cerca": "  const tornano = voci(vecchio, spec).filter((v) => persi.has(v?.[spec.chiave]));",
    "sostituisci": "  const tornano = [...persi].map((id) => ({ [spec.chiave]: id }));",
-   "test": "cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   },
   {
    "lezione": "L-2026-0821-04",
@@ -5450,7 +5450,7 @@
    "file": "cervello/memoria-senza-perdite.mjs",
    "cerca": "  if (!spec || dichiaraRimozioni) return dati;",
    "sostituisci": "  if (!spec) return dati;",
-   "test": "cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   },
   {
    "lezione": "L-2026-0821-04",
@@ -5459,7 +5459,7 @@
    "file": "cervello/memoria-senza-perdite.mjs",
    "cerca": "  if (riaggiunte.length) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   },
   {
    "difetto": "AR-437",
@@ -5467,7 +5467,7 @@
    "file": "cervello/test-cervello.mjs",
    "cerca": "  const cecita = cecitaDaAmbiente(testo);",
    "sostituisci": "  const cecita = { cieco: false };",
-   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-781",
@@ -5475,7 +5475,7 @@
    "file": "cervello/ambiente-prova.mjs",
    "cerca": "  const m = /^\\s*(?:#\\s+)?1\\.\\.0(?:\\s+\\\\?#\\s*SKIP\\b(.*))?\\s*$/im.exec(String(uscita || \"\"));",
    "sostituisci": "  const m = /^\\s*1\\.\\.0(?:\\s+#\\s*SKIP\\b(.*))?\\s*$/im.exec(String(uscita || \"\"));",
-   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-437",
@@ -5483,7 +5483,7 @@
    "file": "cervello/test/aiuto-pannello.mjs",
    "cerca": "  if (!amb.pronto) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-781",
@@ -5491,7 +5491,7 @@
    "file": "cervello/non-vacuita.mjs",
    "cerca": "  if (leggiSalto(uscita).salto) return true;",
    "sostituisci": "  if (/^\\s*1\\.\\.0\\b[^\\n]*#\\s*skip/im.test(String(uscita))) return true;",
-   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
   },
   {
    "difetto": "AR-065",
@@ -5499,7 +5499,7 @@
    "file": "cervello/calibrazione.mjs",
    "cerca": "  return Math.max(0, (centro - margine) / denom);",
    "sostituisci": "  return p;",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-065",
@@ -5507,7 +5507,7 @@
    "file": "cervello/calibrazione.mjs",
    "cerca": "export const MIN_CAMPIONE_ALTA = 8;",
    "sostituisci": "export const MIN_CAMPIONE_ALTA = 3;",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-061",
@@ -5515,7 +5515,7 @@
    "file": "cervello/previsione-verificabile.mjs",
    "cerca": "  if (voce.sensore_stato !== \"ok\" && voce.sensore_stato !== \"n/d\") motivi.push(ESCLUSA.SENSORE_CIECO);",
    "sostituisci": "  if (voce.sensore_stato === \"cieco\") motivi.push(ESCLUSA.SENSORE_CIECO);",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-066",
@@ -5523,7 +5523,7 @@
    "file": "cervello/calibrazione.mjs",
    "cerca": "  if (entry.atteso === 0 && reale === 0) return true;",
    "sostituisci": "  if (false) return true;",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-096",
@@ -5539,7 +5539,7 @@
    "file": "cervello/volano-regole.mjs",
    "cerca": "  if (e.stato !== \"azzeccata\" && e.stato !== \"mancata\") return false;",
    "sostituisci": "  if (false) return false;",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-064",
@@ -5547,15 +5547,15 @@
    "file": "cervello/calibrazione.mjs",
    "cerca": "  const scadute = registro.filter((e) => e.stato === \"scaduta\" && e.reale == null);",
    "sostituisci": "  const scadute = [];",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-062",
    "nome": "un esito senza fonte torna a coniare autonomia: chi produce il numero e chi ne beneficia coincidono",
    "file": "cervello/previsione-verificabile.mjs",
-   "cerca": "  if (voce.sensore_stato !== \"ok\" && voce.sensore_stato !== \"n/d\") motivi.push(ESCLUSA.SENSORE_CIECO);",
-   "sostituisci": "",
-   "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+   "cerca": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE);",
+   "sostituisci": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE); // fonte non piu richiesta",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
    "difetto": "AR-131",
@@ -5563,7 +5563,7 @@
    "file": "pannello/src/lib/confidenza-calibrazione.ts",
    "cerca": "    valore: conf,",
    "sostituisci": "    valore: grezzo,",
-   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-131",
@@ -5571,7 +5571,7 @@
    "file": "pannello/src/lib/confidenza-calibrazione.ts",
    "cerca": "  if (!Number.isFinite(conf)) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-131",
@@ -5579,7 +5579,7 @@
    "file": "pannello/src/components/AutoCoscienza.tsx",
    "cerca": "{barra(barraConfidenza(r).valore ?? undefined)}",
    "sostituisci": "{barra(r.punteggio)}",
-   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-175",
@@ -5587,7 +5587,7 @@
    "file": "cervello/pagella-intelligenza.mjs",
    "cerca": "  const misurato = grezzo !== null && grezzo !== undefined && Number.isFinite(Number(grezzo));",
    "sostituisci": "  const misurato = true;",
-   "test": "cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   },
   {
    "difetto": "AR-072",
@@ -5595,7 +5595,7 @@
    "file": "cervello/autopilot.mjs",
    "cerca": "    if (LIVE && effettivo !== \"🟢\") {",
    "sostituisci": "    if (LIVE && effettivo === \"🔴\") {",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-072",
@@ -5603,7 +5603,7 @@
    "file": "cervello/autopilot.mjs",
    "cerca": "  return PAROLA_A_EMOJI[s] || \"🔴\";",
    "sostituisci": "  return PAROLA_A_EMOJI[s] || \"🟢\";",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-074",
@@ -5611,7 +5611,7 @@
    "file": "cervello/autopilot.mjs",
    "cerca": "  return coloreMax(coloreMinimoPer(voce.canale, voce), voce.colore);",
    "sostituisci": "  return normalizzaColore(voce.colore);",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-076",
@@ -5619,7 +5619,7 @@
    "file": "cervello/autopilot.mjs",
    "cerca": "      const ok = accoda(voce);",
    "sostituisci": "      const ok = true;",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-073",
@@ -5627,7 +5627,7 @@
    "file": "cervello/autopilot.mjs",
    "cerca": "  if (SCALA[s] !== undefined) return s;",
    "sostituisci": "  if (SCALA[s] !== undefined) return s;\n  if (s) return \"🟢\";",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-075",
@@ -5635,7 +5635,7 @@
    "file": "cervello/onesta-check.mjs",
    "cerca": "const RE_FONTE = /(fonte\\s*:|\\(fonte|\\[dati\\]|\\[fonte|supabase|stripe|posthog|registro-fatti|registro-realt|\\{fonte:)/i;",
    "sostituisci": "const RE_FONTE = /[\\s\\S]/i;",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-077",
@@ -5643,15 +5643,15 @@
    "file": "cervello/sentinella-budget.mjs",
    "cerca": "  const soglia = cfg && typeof cfg.soglia_stop === \"number\" ? cfg.soglia_stop : 1.0;",
    "sostituisci": "  const soglia = 1.0; // soglia_stop non piu letta",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-078",
-   "nome": "il cancello del consenso diventa fail-open: un invio senza azione firmata risulta agganciato",
+   "nome": "un invio senza azione firmata torna a passare: il cancello del consenso diventa fail-open",
    "file": "cervello/consenso-azione.mjs",
-   "cerca": "export function azioneIdUsabile(azioneId) {\n  const id = String(azioneId || \"\").trim();\n  if (!id) return false;",
-   "sostituisci": "export function azioneIdUsabile(azioneId) {\n  const id = String(azioneId || \"\").trim();\n  if (!id) return true;",
-   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+   "cerca": "    return { live: false, motivo: \"nessun AZIONE_ID: l'invio non è agganciato a una casella firmata (AZIONE_ID mancante)\" };",
+   "sostituisci": "    return { live: true, motivo: \"\" };",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   },
   {
    "difetto": "AR-082",
@@ -5667,7 +5667,7 @@
    "file": "cervello/retry-policy.mjs",
    "cerca": "export const MAX_TENTATIVI_QUOTA = 6;",
    "sostituisci": "export const MAX_TENTATIVI_QUOTA = 3;",
-   "test": "cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
   },
   {
    "difetto": "AR-083",
@@ -5675,7 +5675,7 @@
    "file": "cervello/giro.sh",
    "cerca": "${GIRO_TOKEN:+--token=\"$GIRO_TOKEN\"}",
    "sostituisci": "",
-   "test": "cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
   },
   {
    "difetto": "AR-086",
@@ -5683,7 +5683,7 @@
    "file": "cervello/ritmo.sh",
    "cerca": "delta-gate.mjs",
    "sostituisci": "delta-gate-spento.mjs",
-   "test": "cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
   },
   {
    "difetto": "AR-088",
@@ -5699,7 +5699,7 @@
    "file": "cervello/worker.sh",
    "cerca": "una chat in attesa passa SEMPRE davanti a giro/ritmo/metabolizza",
    "sostituisci": "nota rimossa",
-   "test": "cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
   },
   {
    "difetto": "AR-087",
@@ -5707,7 +5707,7 @@
    "file": "cervello/giro.sh",
    "cerca": "# GATE-BUDGET non bypassa GIRO_FORCE",
    "sostituisci": "# nota rimossa",
-   "test": "cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
   },
   {
    "difetto": "AR-056",
@@ -5715,7 +5715,7 @@
    "file": "cervello/verifica-automazione.mjs",
    "cerca": "  \"mycity-giro.timer\",",
    "sostituisci": "",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-057",
@@ -5723,7 +5723,7 @@
    "file": "cervello/vps/install-ritmo-timers.sh",
    "cerca": "  mycity-watch-main.service mycity-watch-main.timer",
    "sostituisci": "",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-058",
@@ -5731,7 +5731,7 @@
    "file": "cervello/giro.sh",
    "cerca": "GIRO_AI_TIMEOUT=\"${GIRO_AI_TIMEOUT:-800}\"",
    "sostituisci": "GIRO_AI_TIMEOUT=\"${GIRO_AI_TIMEOUT:-1500}\"",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-059",
@@ -5739,7 +5739,7 @@
    "file": "cervello/vps/aggiorna-cervello.sh",
    "cerca": "    systemctl daemon-reload",
    "sostituisci": "    true # daemon-reload rimosso",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-060",
@@ -5747,7 +5747,7 @@
    "file": "cervello/giro.sh",
    "cerca": "# AR-060: il battito è ATTIVO.",
    "sostituisci": "# AR-060: il timer automatico (mycity-giro.timer) è DISATTIVATO.",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-089",
@@ -5755,7 +5755,7 @@
    "file": "cervello/segreti-pattern.mjs",
    "cerca": "{ nome: \"Supabase management token (sbp_)\", re: /sbp_[A-Za-z0-9]{20,}/g, sostituto: \"sbp_…[REDATTO]\" },",
    "sostituisci": "",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-092",
@@ -5763,7 +5763,7 @@
    "file": "cervello/worker.sh",
    "cerca": "MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)",
    "sostituisci": "MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra) # git checkout --theirs",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-093",
@@ -5771,7 +5771,7 @@
    "file": "cervello/kill-switch.sh",
    "cerca": "       pausa_segnala_cieco \"$etichetta\" \"$rc\"\n       return 1 ;;",
    "sostituisci": "       return 0 ;;",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-090",
@@ -5779,7 +5779,7 @@
    "file": ".mcp.json",
    "cerca": "\"--project-ref=xjljcsorpbqwttrejqte\"",
    "sostituisci": "\"--project-ref=clmpyfvpvfjgeviworth\"",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-091",
@@ -5787,7 +5787,7 @@
    "file": ".mcp.json",
    "cerca": "        \"--read-only\",\n        \"--project-ref=xjljcsorpbqwttrejqte\"",
    "sostituisci": "        \"--project-ref=xjljcsorpbqwttrejqte\"",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-094",
@@ -5795,7 +5795,7 @@
    "file": "cervello/vps/.env.example",
    "cerca": "GIT_BRANCH",
    "sostituisci": "GIT_BRANCH # pubblica con git push --force",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-095",
@@ -5803,7 +5803,7 @@
    "file": ".claude/settings.json",
    "cerca": "\"permissions\"",
    "sostituisci": "\"_vecchio\": \"C:\\\\InfinitaPossibilita\", \"permissions\"",
-   "test": "cervello/test/cadenze-e-chiavi.test.mjs"
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
   },
   {
    "difetto": "AR-148",
@@ -5825,17 +5825,17 @@
    "difetto": "AR-050",
    "nome": "«attive» e «vive» tornano a essere lo stesso numero: un campo con due significati",
    "file": "cervello/misura-parziale.mjs",
-   "cerca": "  const viveLista = tutte.filter((l) => [\"attiva\", \"principio\", \"senza-stato\"].includes(stato(l)));",
-   "sostituisci": "  const viveLista = tutte.filter((l) => [\"attiva\"].includes(stato(l)));",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "cerca": "export function lezioniVive(dati) {",
+   "sostituisci": "export function lezioniVive(dati) {\n  if (globalThis.__mut050) return { vive: 0, totale: 0, per_stato: {}, quadra: false };",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-051",
-   "nome": "il tasso di applicazione perde l'istante in cui e' stato calcolato: torna un'opinione",
+   "nome": "il tasso di applicazione perde l istante in cui e stato calcolato: torna un opinione",
    "file": "cervello/tasso-lezioni.mjs",
-   "cerca": "    tasso_calcolato_il: nowPiacenza(),",
-   "sostituisci": "",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "cerca": "tasso_applicazione",
+   "sostituisci": "tasso_applicazione_disattivato",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-052",
@@ -5843,7 +5843,7 @@
    "file": "cervello/sonda-volano.mjs",
    "cerca": "oreFa(d.chiuso_il) <= oreFinestra",
    "sostituisci": "true",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-053",
@@ -5851,7 +5851,7 @@
    "file": "cervello/giro.sh",
    "cerca": "calibrazione.mjs scadute",
    "sostituisci": "calibrazione.mjs report",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-054",
@@ -5859,7 +5859,7 @@
    "file": "cervello/auto-coscienza.md",
    "cerca": "\"data_misura\":\"AAAA-MM-GG\"",
    "sostituisci": "\"nota\":\"…\"",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-055",
@@ -5867,7 +5867,7 @@
    "file": "cervello/auto-coscienza.md",
    "cerca": "\"stato\":\"proposta|firmata|implementata|rifiutata\"",
    "sostituisci": "\"nota\":\"…\"",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-067",
@@ -5875,15 +5875,15 @@
    "file": "cervello/verifica-sensori.mjs",
    "cerca": "  sito_uptime: \"uptime\",",
    "sostituisci": "",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-071",
-   "nome": "sparisce la puntualita delle consegne: il sensore smette di chiedere se la consegna e' avvenuta",
-   "file": "cervello/ordini-in-ritardo.mjs",
-   "cerca": "  return `orders?expected_delivery=lt.${istante}&delivered_at=is.null`;",
-   "sostituisci": "  return `orders?expected_delivery=lt.${istante}`;",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "nome": "sparisce la puntualita delle consegne: la promessa del modello torna senza sensore",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "ordini_slot_scaduto",
+   "sostituisci": "ordini_slot_scaduto_spento",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-079",
@@ -5894,12 +5894,20 @@
    "test": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs"
   },
   {
+   "difetto": "AR-081",
+   "nome": "il pre-mortem torna un rituale: il verdetto non diventa piu un vincolo per il motore",
+   "file": "cervello/giro.sh",
+   "cerca": "ALLOC_VINCOLO=\"\"",
+   "sostituisci": "ALLOC_VINCOLO_SPENTO=\"\"",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
    "difetto": "AR-046",
    "nome": "lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere",
    "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
    "cerca": "\"difetti_chiusi\": 608",
    "sostituisci": "\"difetti_chiusi\": 3",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-068",
@@ -5907,7 +5915,7 @@
    "file": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json",
    "cerca": "\"owner\": \"@finanza + @legale-privacy\"",
    "sostituisci": "\"owner\": \"\"",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-069",
@@ -5915,7 +5923,7 @@
    "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-pezzi.json",
    "cerca": "\"stato\"",
    "sostituisci": "\"stato_disattivato\"",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-070",
@@ -5923,7 +5931,7 @@
    "file": "cervello/verifica-sensori.mjs",
    "cerca": "  posthog_api: \"optional\",",
    "sostituisci": "  posthog_api: \"required\",",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-080",
@@ -5931,7 +5939,7 @@
    "file": "cervello/north-star-check.mjs",
    "cerca": "Fonte del numero",
    "sostituisci": "Nota",
-   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-761",
@@ -5979,7 +5987,7 @@
    "file": "cervello/prove-regole.mjs",
    "cerca": "  return patternOvunque(pattern, senzaCommenti(testo));",
    "sostituisci": "  return patternOvunque(pattern, testo);",
-   "test": "cervello/test/un-freno-con-piu-copie.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "difetto": "AR-743",
@@ -5987,7 +5995,7 @@
    "file": "cervello/prove-regole.mjs",
    "cerca": "  return (re ? re.test(t) : false) || t.includes(p);",
    "sostituisci": "  return re ? re.test(t) : false;",
-   "test": "cervello/test/un-freno-con-piu-copie.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "difetto": "AR-743",
@@ -5995,7 +6003,7 @@
    "file": "cervello/chiusure-audit.mjs",
    "cerca": "  return provaSoddisfatta(v, txt) ? \"ok\" : \"regredito\";",
    "sostituisci": "  const trovato = new RegExp(v.pattern).test(txt);\n  return ((v.presente !== false) ? trovato : !trovato) ? \"ok\" : \"regredito\";",
-   "test": "cervello/test/un-freno-con-piu-copie.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "difetto": "AR-743",
@@ -6003,7 +6011,7 @@
    "file": "cervello/prove-regole.mjs",
    "cerca": "  const trovato = patternTrovato(v.pattern, testo);",
    "sostituisci": "  const trovato = patternOvunque(v.pattern, testo);",
-   "test": "cervello/test/un-freno-con-piu-copie.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "difetto": "AR-784",
@@ -6020,7 +6028,7 @@
    "file": "cervello/mutazione-vagante.mjs",
    "cerca": "  return rotto === albero;",
    "sostituisci": "  return false;",
-   "test": "cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
   },
   {
    "lotto": 47,
@@ -6029,7 +6037,7 @@
    "file": "cervello/mutazione-vagante.mjs",
    "cerca": "  if (archivio === albero) return false;",
    "sostituisci": "",
-   "test": "cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
   },
   {
    "lotto": 47,
@@ -6038,7 +6046,7 @@
    "file": "cervello/mutazione-vagante.mjs",
    "cerca": "    if (archivio === NUOVO) { nuovi.push(file); continue; }",
    "sostituisci": "",
-   "test": "cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
   },
   {
    "lotto": 47,
@@ -6047,7 +6055,7 @@
    "file": "cervello/mutazione-vagante.mjs",
    "cerca": "      ciechi.push(`${file}: non ho potuto leggerne le due versioni, quindi non so se porta una mutazione`);",
    "sostituisci": "",
-   "test": "cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
   },
   {
    "lotto": 47,
@@ -6056,7 +6064,7 @@
    "file": ".githooks/pre-commit",
    "cerca": "  if ! node \"$ROOT/cervello/mutazione-vagante.mjs\" >&2; then",
    "sostituisci": "  if false; then",
-   "test": "cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
   },
   {
    "lotto": 47,
@@ -6065,7 +6073,7 @@
    "file": "cervello/guardia-viva-check.mjs",
    "cerca": " || SENZA_ESTENSIONE_MA_ESEGUITI.has(v.name)",
    "sostituisci": "",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "lotto": 47,
@@ -6074,7 +6082,7 @@
    "file": "cervello/guardia-viva.mjs",
    "cerca": "|CERVELLO|ROOT)",
    "sostituisci": "|CERVELLO)",
-   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
    "lotto": 48,
@@ -6083,7 +6091,7 @@
    "file": "cervello/consegna-allerta.mjs",
    "cerca": "  return { consegnata: riusciti.length > 0, riusciti, falliti };",
    "sostituisci": "  return { consegnata: true, riusciti, falliti };",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6092,7 +6100,7 @@
    "file": "cervello/sentinella-dati.mjs",
    "cerca": "        if (vaSegnataComeData(esito)) {",
    "sostituisci": "        if (true) {",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6101,7 +6109,7 @@
    "file": "cervello/consegna-allerta.mjs",
    "cerca": "      risultati.push({ canale: c.nome, riuscito: true });",
    "sostituisci": "      risultati.push({ canale: c.nome, riuscito: true });\n      break;",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6110,7 +6118,7 @@
    "file": "cervello/sentinella-dati.mjs",
    "cerca": "      nome: \"card in AZIONI-IN-ATTESA\",",
    "sostituisci": "      nome: \"zzz card in coda\",",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6119,7 +6127,7 @@
    "file": "cervello/consegna-allerta.mjs",
    "cerca": "  if (!inAttesa) return { allerta: false, perche: \"non c'e' niente in coda: non produrre non e' un guasto\" };",
    "sostituisci": "",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6128,7 +6136,7 @@
    "file": "cervello/consegna-allerta.mjs",
    "cerca": "  if (battitoMin > sogliaMin) return { allerta: false, perche: \"il battito e' vecchio: e' l'altro allarme, non questo\" };",
    "sostituisci": "",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6137,7 +6145,7 @@
    "file": "cervello/worker.sh",
    "cerca": "    [ \"$stato\" = \"fatto\" ] && lavoro_riuscito",
    "sostituisci": "    lavoro_riuscito",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 48,
@@ -6146,7 +6154,7 @@
    "file": "cervello/sentinella-dati.mjs",
    "cerca": "    const v = vivoMaNonProduce({",
    "sostituisci": "    const v = { allerta: false, perche: \"\" } || vivoMaNonProduce({",
-   "test": "cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+   "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
   },
   {
    "lotto": 49,
@@ -6155,7 +6163,7 @@
    "file": "cervello/esperimenti-regole.mjs",
    "cerca": "    return { ...e, stato: effettivo, stato_dichiarato: dichiarato };",
    "sostituisci": "    return e;",
-   "test": "cervello/test/esperimento-smentito-si-corregge.test.mjs"
+   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 49,
@@ -6164,7 +6172,7 @@
    "file": "cervello/esperimenti-check.mjs",
    "cerca": "  const corretta = correggiStati(esperimenti);",
    "sostituisci": "  const corretta = { esperimenti, corretti: [] };",
-   "test": "cervello/test/esperimento-smentito-si-corregge.test.mjs"
+   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 49,
@@ -6245,7 +6253,7 @@
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  if (sostanza.every((r) => String(r).startsWith(\"⚪\"))) return 2;",
    "sostituisci": "  if (cieco && sostanza.every((r) => String(r).startsWith(\"⚪\"))) return 2;",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
    "lotto": 50,
@@ -6353,7 +6361,7 @@
    "file": "cervello/chiusura-dichiarata.mjs",
    "cerca": "  const amm = ammissibilitaProva(dif, { fileEsiste });\n  if (!amm.ammessa) {",
    "sostituisci": "  const amm = ammissibilitaProva(dif, { fileEsiste });\n  if (false) {",
-   "test": "cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
    "lezione": "L-2026-0823-01"
   },
   {
@@ -6373,7 +6381,7 @@
    "file": "cervello/auto-fix.mjs",
    "cerca": "    d.chiusa_su_prova_non_ammessa = amm.motivo;",
    "sostituisci": "    void amm;",
-   "test": "cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
    "lezione": "L-2026-0823-01"
   },
   {
@@ -6383,7 +6391,7 @@
    "file": "cervello/allinea-scan-cantiere.mjs",
    "cerca": "        if (r.esito === \"risolto\" && !amm.ammessa) {",
    "sostituisci": "        if (false) {",
-   "test": "cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
    "lezione": "L-2026-0823-01"
   },
   {
@@ -6393,7 +6401,7 @@
    "file": "cervello/cantiere-prove.mjs",
    "cerca": "  chiuse_su_prova_non_ammessa: chiuseForzate.length,",
    "sostituisci": "  chiuse_su_prova_non_ammessa: 0,",
-   "test": "cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
    "lezione": "L-2026-0823-01"
   },
   {
@@ -6529,7 +6537,7 @@
    "file": "cervello/allinea-scan-cantiere.mjs",
    "cerca": "${risolto ? \"combacia\" : \"non combacia\"}`,",
    "sostituisci": "${trovato ? \"trovato\" : \"assente\"}`,",
-   "test": "cervello/test/il-freno-non-era-sulla-strada.test.mjs"
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs"
   },
   {
    "lotto": 52,
@@ -6538,7 +6546,7 @@
    "file": ".claude/workflows/radiografia.js",
    "cerca": "export const meta = {\n  name: 'radiografia',",
    "sostituisci": "import { existsSync } from 'node:fs'\n\nexport const meta = {\n  name: 'radiografia',",
-   "test": "cervello/test/i-workflow-che-non-partono.test.mjs"
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
   },
   {
    "lotto": 52,
@@ -6547,7 +6555,7 @@
    "file": "cervello/workflow-partono.mjs",
    "cerca": "    for (const { nome, perche } of nomiAssenti(testo)) motivi.push(`usa \\`${nome}\\` — ${perche}`);",
    "sostituisci": "    void nomiAssenti;",
-   "test": "cervello/test/i-workflow-che-non-partono.test.mjs"
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
   },
   {
    "lotto": 52,
@@ -6556,7 +6564,7 @@
    "file": ".claude/workflows/giro-operativo.js",
    "cerca": "if (!turno.length) {",
    "sostituisci": "if (false) {",
-   "test": "cervello/test/i-workflow-che-non-partono.test.mjs"
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
   },
   {
    "lotto": 53,
@@ -6565,7 +6573,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": ".filter((d) => d && d.stato === \"chiuso\" && !timbroValido(d.chiuso_il ?? d.chiuso))",
    "sostituisci": ".filter((d) => d && d.stato === \"chiuso\" && d.chiuso_il !== undefined && !timbroValido(d.chiuso_il ?? d.chiuso))",
-   "test": "cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
   },
   {
    "lotto": 53,
@@ -6574,7 +6582,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "    const righe = senzaCommenti(txt).split(\"\\n\");",
    "sostituisci": "    const righe = String(txt).split(\"\\n\");",
-   "test": "cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
   },
   {
    "lotto": 53,
@@ -6583,7 +6591,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "      if (suQuesta || sopra) return;",
    "sostituisci": "      void suQuesta; void sopra;",
-   "test": "cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
   },
   {
    "lotto": 53,
@@ -6592,7 +6600,7 @@
    "file": "cervello/cantiere-integrita.mjs",
    "cerca": "  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length || senzaData?.length || seccheOltre || attiFuori?.length);",
    "sostituisci": "  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length);",
-   "test": "cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
   },
   {
    "lotto": 53,
@@ -6601,7 +6609,7 @@
    "file": "cervello/cantiere-integrita.mjs",
    "cerca": "  if (dataSecca?.length && tettoSecco === null) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
   },
   {
    "lotto": 54,
@@ -6610,7 +6618,7 @@
    "file": "cervello/bottega/lavoro.mjs",
    "cerca": "  if (!idUsabile(negozioId)) {\n    throw new Error(\"nuovoLavoro: senza `negozioId` non si costruisce un lavoro — un lavoro appartiene a un negozio, sempre\");\n  }",
    "sostituisci": "  if (false) {\n    throw new Error(\"mutante\");\n  }\n  negozioId = idUsabile(negozioId) ? negozioId : \"qualsiasi\";",
-   "test": "cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   },
   {
    "lotto": 54,
@@ -6619,7 +6627,7 @@
    "file": "cervello/bottega/lavoro.mjs",
    "cerca": "    if (suo === mio) tenute.push(r);",
    "sostituisci": "    if (true) tenute.push(r);",
-   "test": "cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   },
   {
    "lotto": 54,
@@ -6628,7 +6636,7 @@
    "file": "cervello/bottega/lavoro.mjs",
    "cerca": "    else scartate.push({ riga: r, negozio: suo, perche: suo === null ? \"la riga non dice a chi appartiene\" : \"è di un altro negozio\" });",
    "sostituisci": "    else if (suo === null) tenute.push(r);\n    else scartate.push({ riga: r, negozio: suo, perche: \"è di un altro negozio\" });",
-   "test": "cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   },
   {
    "lotto": 54,
@@ -6637,7 +6645,7 @@
    "file": "cervello/bottega/lavoro.mjs",
    "cerca": "  if (!scheda || scheda.negozioId !== negozioId) {",
    "sostituisci": "  if (!scheda) {",
-   "test": "cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   },
   {
    "lotto": 54,
@@ -6646,7 +6654,7 @@
    "file": "cervello/bottega/lavoro.mjs",
    "cerca": "  Object.defineProperty(lavoro, MARCHIO, { value: true, enumerable: false });",
    "sostituisci": "  Object.defineProperty(lavoro, MARCHIO, { value: true, enumerable: true });",
-   "test": "cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   },
   {
    "lotto": 54,
@@ -6655,7 +6663,7 @@
    "file": "cervello/bottega/lavoro.mjs",
    "cerca": "    parti.push(\"\", APERTURA_MATERIALE, ...lavoro.materiale, CHIUSURA_MATERIALE);",
    "sostituisci": "    parti.push(\"\", ...lavoro.materiale);",
-   "test": "cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   },
   {
    "lotto": 55,
@@ -6664,7 +6672,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);",
    "sostituisci": "  const ordine = corsie.map((c) => c.negozioId).filter(Boolean);",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6673,7 +6681,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "    return { stato: \"stop\", puoLavorare: false, motivo: \"questo negozio non ha un tetto di spesa dichiarato\", frazione: null };",
    "sostituisci": "    return { stato: \"ok\", puoLavorare: true, motivo: \"\", frazione: null };",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6682,7 +6690,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "    return { stato: \"avviso\", puoLavorare: true, motivo: `oltre metà del tetto: ${s} su ${tetto}`, frazione };",
    "sostituisci": "    return { stato: \"avviso\", puoLavorare: false, motivo: `oltre metà del tetto: ${s} su ${tetto}`, frazione };",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6691,7 +6699,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  if (inCorso >= quota) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6700,7 +6708,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  if (spentoAMano) return { spegni: true, motivo: \"interruttore spento\" };",
    "sostituisci": "  if (false) return { spegni: true, motivo: \"interruttore spento\" };",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6709,7 +6717,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "    const lavoro = coda.find((l) => negozioDiLavoro(l) === id);",
    "sostituisci": "    const lavoro = coda.find((l) => negozioDiLavoro(l) === id || negozioDiLavoro(l) === null);",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6718,7 +6726,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  return { lavoro: null, negozioId: null, fermi, motivo: motivoDelNulla(coda, corsie, fermi) };",
    "sostituisci": "  return { lavoro: null, negozioId: null, fermi, motivo: \"\" };",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6727,7 +6735,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  if (scaduti > 0) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6736,7 +6744,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  if (falliti >= FALLITI_DI_FILA_PER_SPEGNERE) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 55,
@@ -6745,7 +6753,7 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  if (guasto.spegni) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
    "sostituisci": "  if (guasto.spegni && false) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
-   "test": "cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
    "lotto": 56,
@@ -6754,7 +6762,7 @@
    "file": "cervello/stato-sensori.mjs",
    "cerca": "  const scritto = scriviJsonAtomico(path, timbrato, env);",
    "sostituisci": "  const scritto = (await import(\"node:fs\")).writeFileSync(path, JSON.stringify(timbrato, null, 2) + \"\\n\", \"utf8\") ?? path;",
-   "test": "cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
   },
   {
    "lotto": 56,
@@ -6763,7 +6771,7 @@
    "file": "cervello/stato-sensori.mjs",
    "cerca": "  const timbrato = timbraSeSiPuo(doc, { env, copertura, scrittoDa });",
    "sostituisci": "  const timbrato = doc;",
-   "test": "cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
   },
   {
    "lotto": 56,
@@ -6772,7 +6780,7 @@
    "file": "cervello/stato-sensori.mjs",
    "cerca": "  if (scritto === null) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
   },
   {
    "lotto": 56,
@@ -6781,7 +6789,7 @@
    "file": "cervello/memoria-guardia.mjs",
    "cerca": "    if (!basename(abs).startsWith(\"_tmp_\")) {",
    "sostituisci": "    if (false) {",
-   "test": "cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
   },
   {
    "lotto": 56,
@@ -6790,7 +6798,7 @@
    "file": "cervello/memoria-guardia.mjs",
    "cerca": "      const frenato = guasto.startsWith(\"FRENO::\");",
    "sostituisci": "      const frenato = false;",
-   "test": "cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
   },
   {
    "lotto": 57,
@@ -6817,7 +6825,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s) && esiste(`cervello/${s}`)).sort();",
    "sostituisci": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s)).sort();",
-   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 58,
@@ -6826,7 +6834,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "    } catch {\n      continue; // una fonte illeggibile non allarga l'elenco: al massimo lo lascia più stretto\n    }",
    "sostituisci": "    } catch {\n      txt = readFileSync(join(AD_ROOT, 'cervello/giro.sh'), 'utf8');\n    }",
-   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 58,
@@ -6835,7 +6843,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "  const i = s.indexOf(\"cervello/\");",
    "sostituisci": "  const i = s.lastIndexOf(\"cervello/\");",
-   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 58,
@@ -6844,7 +6852,7 @@
    "file": "cervello/permessi-elenco.mjs",
    "cerca": "export function mancantiNellaConsegna(elenco, testoConsegna) {",
    "sostituisci": "export function mancantiNellaConsegna(elenco, testoConsegna) {\n  if (!testoConsegna) return [];",
-   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   },
   {
    "lotto": 59,
@@ -6853,7 +6861,7 @@
    "file": "cervello/campo-visivo-memoria.mjs",
    "cerca": "    fuoriCampo += eccesso;",
    "sostituisci": "    fuoriCampo += 1;",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6862,7 +6870,7 @@
    "file": "cervello/campo-visivo-memoria.mjs",
    "cerca": "      esentati.push({ nome, caratteri, eccesso });",
    "sostituisci": "      // esentati.push({ nome, caratteri, eccesso });",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6871,7 +6879,7 @@
    "file": "cervello/campo-visivo-memoria.mjs",
    "cerca": "  if (fuoriCampo > tetto) {",
    "sostituisci": "  if (false && fuoriCampo > tetto) {",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6880,7 +6888,7 @@
    "file": "cervello/campo-visivo-memoria.mjs",
    "cerca": "    return null; // «non ho potuto guardare» non diventa «non c'è niente»",
    "sostituisci": "    return [];",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6889,7 +6897,7 @@
    "file": "cervello/campo-visivo-memoria.mjs",
    "cerca": "import { TETTO_TESTO } from \"./cancello-stop.mjs\";",
    "sostituisci": "const TETTO_TESTO = 200000;",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6898,7 +6906,7 @@
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "    passi.push(esegui(\"memoria fuori dal campo visivo (tetto)\", \"node\", [\"cervello/campo-visivo-memoria.mjs\"]));",
    "sostituisci": "    // passi.push(esegui(\"memoria fuori dal campo visivo (tetto)\", \"node\", [\"cervello/campo-visivo-memoria.mjs\"]));",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6907,7 +6915,7 @@
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "      memoria_fuori_campo: Math.min(fuoriCampoOra, tetti.memoria_fuori_campo ?? fuoriCampoOra),",
    "sostituisci": "      // memoria_fuori_campo: tolta",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 59,
@@ -6916,16 +6924,17 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "writeFileSync(ARCHIVIO, archivedSection, 'utf8');",
    "sostituisci": "// niente scrittura dell'archivio",
-   "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
   },
   {
    "lotto": 59,
    "difetto": "AR-807",
    "nome": "la coda smette di dire dove sono finite le carte chiuse",
    "file": "cervello/housekeeping-azioni.mjs",
-   "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,\n    \"> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.\",\n",
-   "sostituisci": "    '',\n",
-   "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+   "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,",
+   "sostituisci": "    \"\",",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs",
+   "nota_riancoraggio": "27/8: il rimando era stato spezzato in due righe (il numero da una parte, il percorso dall'altra) e l'ancoraggio vecchio cercava la riga unica. Ri-puntato alla riga che porta il conto."
   },
   {
    "lotto": 59,
@@ -6934,7 +6943,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "l.startsWith('> 🧹 **Housekeeping') ? newBanner : l",
    "sostituisci": "l",
-   "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
   },
   {
    "lotto": 59,
@@ -6943,7 +6952,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "  const archivedAlready = blocchiArchiviati.length;",
    "sostituisci": "  const archivedAlready = 0;",
-   "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
   },
   {
    "lotto": 59,
@@ -6952,7 +6961,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "  if (testoArchivio && archivedAlready === 0) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
   },
   {
    "lotto": 59,
@@ -6961,7 +6970,7 @@
    "file": "cervello/housekeeping-azioni.mjs",
    "cerca": "    console.error('⛔ housekeeping-azioni: NON scrivo.');",
    "sostituisci": "    console.log('proseguo lo stesso');",
-   "test": "cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
   },
   {
    "lotto": 59,
@@ -6970,7 +6979,7 @@
    "file": "cervello/campo-visivo-memoria.mjs",
    "cerca": "  if (ZERO_MODE) process.exit(c.fuoriCampo === 0 ? 0 : 1);",
    "sostituisci": "  if (ZERO_MODE) process.exit(v.esito === \"violazione\" ? 1 : 0);",
-   "test": "cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   },
   {
    "lotto": 51,
@@ -7327,7 +7336,7 @@
    "file": "cervello/entrate-senza-cancello.mjs",
    "cerca": "    console.error(\"   Non è un guasto — è uno strumento non collegato qui. Sul VPS e in CI la chiave c'è.\");\n    process.exit(2);",
    "sostituisci": "    console.error(\"   Non è un guasto — è uno strumento non collegato qui. Sul VPS e in CI la chiave c'è.\");\n    process.exit(0);",
-   "test": "cervello/test/entrate-senza-cancello.test.mjs"
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
   },
   {
    "difetto": "AR-825",
@@ -7336,7 +7345,7 @@
    "file": "cervello/entrate-senza-cancello.mjs",
    "cerca": "come: \"mai_misurata\"",
    "sostituisci": "come: \"rossa\"",
-   "test": "cervello/test/entrate-senza-cancello.test.mjs"
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
   },
   {
    "difetto": "AR-825",
@@ -7345,7 +7354,7 @@
    "file": "cervello/entrate-senza-cancello.mjs",
    "cerca": "    if (da && p.merged_at < da) continue;",
    "sostituisci": "",
-   "test": "cervello/test/entrate-senza-cancello.test.mjs"
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
   },
   {
    "difetto": "AR-826",
@@ -7354,7 +7363,7 @@
    "file": "cervello/entrate-senza-cancello.mjs",
    "cerca": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-K\", \"-\", url];",
    "sostituisci": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-H\", `Authorization: Bearer ${CHIAVE}`, url];",
-   "test": "cervello/test/entrate-senza-cancello.test.mjs"
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7363,7 +7372,7 @@
    "file": "cervello/pota-apprendimento.mjs",
    "cerca": "  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));\n  const decadute = [...spente];",
    "sostituisci": "  const spente = new Set(lezioni.filter((l) => l.stato === \"decaduta\"));\n  const decadute = [...spente];",
-   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7372,7 +7381,7 @@
    "file": "cervello/misura-parziale.mjs",
    "cerca": "export const STATI_LEZIONE = [\"attiva\", \"principio\", \"in-prova\", \"decaduta\", \"ritirata\", \"senza-stato\"];",
    "sostituisci": "export const STATI_LEZIONE = [\"attiva\", \"principio\", \"in-prova\", \"decaduta\", \"senza-stato\"];",
-   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7381,7 +7390,7 @@
    "file": "cervello/misura-parziale.mjs",
    "cerca": "  return tutte.filter((l) => [\"decaduta\", \"ritirata\"].includes(String(l?.stato ?? \"\").trim()));",
    "sostituisci": "  return tutte.filter((l) => ![\"attiva\", \"principio\"].includes(String(l?.stato ?? \"\").trim()));",
-   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-827",
@@ -7390,7 +7399,7 @@
    "file": "cervello/pota-apprendimento.mjs",
    "cerca": "  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));",
    "sostituisci": "  const spente = new Set(lezioniSpente(j));",
-   "test": "cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
   },
   {
    "difetto": "AR-829",
@@ -7399,7 +7408,7 @@
    "file": "cervello/sorvegliante.mjs",
    "cerca": "  \"nato_da\", \"lezione_appresa\", \"_cosa_e\", \"_come_si_aggiunge\",",
    "sostituisci": "  \"nato_da\", \"lezione_appresa\", \"_cosa_e\", \"_come_si_aggiunge\", \"gate\", \"comando\",",
-   "test": "cervello/test/sorvegliante.test.mjs"
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
   },
   {
    "difetto": "AR-828",
@@ -7408,7 +7417,7 @@
    "file": "cervello/entrate-senza-cancello.mjs",
    "cerca": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-K\", \"-\", url];",
    "sostituisci": "  return [\"-sS\", \"--fail-with-body\", \"-K\", \"-\", url];",
-   "test": "cervello/test/entrate-senza-cancello.test.mjs"
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
   },
   {
    "lotto": 63,
@@ -7537,7 +7546,121 @@
    "test": "cervello/test/cecita-curabile.test.mjs"
   },
   {
+   "lotto": 64,
    "difetto": "AR-835",
+   "nome": "il perimetro torna a seguire le schede invece del codice",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "    if (suoFile || suaProva) {",
+   "sostituisci": "    if (true) {",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "al buio il perimetro STRINGE invece di allargarsi: la cura diventa un'asticella abbassata",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "  if (fileCambiati === null) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "il taglio non si dichiara più: le saltate spariscono in silenzio",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "  if (!saltate.length) return null;",
+   "sostituisci": "  if (saltate.length >= 0) return null;",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "la prova riscritta non porta più dentro la sua mutazione",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "    const suaProva = ids.some((id) => proveSue.has(id));",
+   "sostituisci": "    const suaProva = false;",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "una lista di file PARZIALE viene creduta completa: si restringe al buio",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "  const fileCambiati = daGit && !daGit.ciechi?.length ? daGit.file : null;",
+   "sostituisci": "  const fileCambiati = daGit ? daGit.file : null;",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-836",
+   "nome": "il referto misurato viene falsato: la prova non se ne accorge",
+   "file": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs",
+   "cerca": "  const referto = JSON.parse(dry.stdout);",
+   "sostituisci": "  const referto = { ...JSON.parse(dry.stdout), schede_campi_illeggibili: 0 };",
+   "test": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "il segnalibro di una corsa viva torna a essere trattato come il resto di un incidente",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (nota.pid !== process.pid && vivo(nota.pid)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "il foglietto torna a un nome solo per tutto il repo: due corse si sovrascrivono",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "join(AD_ROOT, `${PREFISSO_FOGLIETTO}-${process.pid}.json`)",
+   "sostituisci": "join(AD_ROOT, `${PREFISSO_FOGLIETTO}.json`)",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "«permesso negato» torna a valere «non c'è»: un processo vivo passa per morto",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    return e?.code === \"EPERM\";",
+   "sostituisci": "    return false;",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "la guardia torna a cercare un nome intero: non trova piu' nessun file sotto misura",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (!String(nome).startsWith(FOGLIETTO_MISURA) || !String(nome).endsWith(\".json\")) continue;",
+   "sostituisci": "    if (String(nome) !== `${FOGLIETTO_MISURA}.json`) continue;",
+   "test": "cervello/test/prova-accecata-sul-file.test.mjs"
+  },
+  {
+   "difetto": "AR-078",
+   "nome": "il cancello del consenso diventa fail-open: un invio senza azione firmata risulta agganciato",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "export function azioneIdUsabile(azioneId) {\n  const id = String(azioneId || \"\").trim();\n  if (!id) return false;",
+   "sostituisci": "export function azioneIdUsabile(azioneId) {\n  const id = String(azioneId || \"\").trim();\n  if (!id) return true;",
+   "test": "cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-051",
+   "nome": "il tasso di applicazione perde l'istante in cui e' stato calcolato: torna un'opinione",
+   "file": "cervello/tasso-lezioni.mjs",
+   "cerca": "    tasso_calcolato_il: nowPiacenza(),",
+   "sostituisci": "",
+   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-071",
+   "nome": "sparisce la puntualita delle consegne: il sensore smette di chiedere se la consegna e' avvenuta",
+   "file": "cervello/ordini-in-ritardo.mjs",
+   "cerca": "  return `orders?expected_delivery=lt.${istante}&delivered_at=is.null`;",
+   "sostituisci": "  return `orders?expected_delivery=lt.${istante}`;",
+   "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-850",
    "lezione": "L-2026-0826-01",
    "nome": "lo strumento torna a scrivere numero-fra-parentesi PIU' percorso-dopo-trattino: un punto difficile a ogni passata",
    "file": "cervello/housekeeping-azioni.mjs",
@@ -7546,7 +7669,7 @@
    "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
-   "difetto": "AR-835",
+   "difetto": "AR-850",
    "lezione": "L-2026-0826-01",
    "nome": "la riga di riepilogo nella coda torna alla forma con due incisi",
    "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
@@ -7555,7 +7678,7 @@
    "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
-   "difetto": "AR-836",
+   "difetto": "AR-851",
    "lezione": "L-2026-0826-01",
    "nome": "il rimando torna a essere un confine di blocco: mangia il corpo delle card che lo citano",
    "file": "cervello/housekeeping-azioni.mjs",
@@ -7564,7 +7687,7 @@
    "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   },
   {
-   "difetto": "AR-836",
+   "difetto": "AR-851",
    "lezione": "L-2026-0826-01",
    "nome": "il separatore finale si mangia anche quando il rimando non c'e': erosione silenziosa dell'ultima card",
    "file": "cervello/housekeeping-azioni.mjs",

@@ -34,7 +34,7 @@
 //
 // Prova: node cervello/test/il-muro-arriva-prima-della-porta.test.mjs
 
-/** Il negozio della macchina stessa. Seconda casa dichiarata: vedi AR-837. */
+/** Il negozio della macchina stessa. Seconda casa dichiarata: vedi AR-852. */
 export const CENTRO = "centro";
 
 /**
