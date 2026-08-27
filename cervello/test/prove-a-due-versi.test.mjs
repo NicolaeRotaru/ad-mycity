@@ -239,8 +239,12 @@ test("AR-158 — la North Star: rossa oggi, verde se il vincolo riporta la misur
   siRibalta({
     flag: "--ar-158",
     file: "cervello/giro.sh",
-    cerca: '    NORTH_STAR_VINCOLO="⛔ NORTH STAR IN STALLO',
-    sostituisci: "    NORTH_STAR_VINCOLO=\"$(printf '%s\\n' \"$_north_out\" | head -1)\" # era: ⛔ NORTH STAR IN STALLO",
+    // 27/8 — RI-ANCORATA. Il blocco è passato da `if rc -ne 0` a `vincolo_da_rc` (AR-843), perché
+    // trattava un guardiano CIECO come una bocciatura: il giro intero veniva dirottato sul north
+    // star per un sensore rotto. La rottura fedele di AR-158 non cambia: il vincolo torna a
+    // riportare la misura invece di dare l'ordine fisso. Cambia solo dove si aggancia.
+    cerca: '  NORTH_STAR_VINCOLO="$(vincolo_da_rc "north-star-check.mjs" "$_north_rc" "⛔ NORTH STAR IN STALLO',
+    sostituisci: "  NORTH_STAR_VINCOLO=\"$(printf '%s\\n' \"$_north_out\" | head -1)\" # era: $(vincolo_da_rc … \"⛔ NORTH STAR IN STALLO",
   });
 });
 

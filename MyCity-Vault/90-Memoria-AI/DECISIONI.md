@@ -4396,3 +4396,15 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **Cosa NON ho fatto, e perche' (AR-843).** Ho contato i fratelli invece di curare il caso singolo e andarmene: in `giro.sh` ci sono 96 assegnazioni di vincolo, 25 passano dal contratto, 2 scrivono a mano il caso «non ho misurato». Restano 27 da controllare una per una. NON le ho toccate: sapere se ognuna e' viva vuol dire leggere il guardiano corrispondente, ed e' un lavoro suo. Scheda aperta col conto dentro.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 08:15 — 🟡 I sei vincoli del giro che non sapevano dire «non ho potuto misurare» (AR-843)
+
+**Cosa.** Sei blocchi di `giro.sh` passano dal contratto dei guardiani invece di scriversi il testo da soli. Nasce anche il contatore che impedisce alla classe di riaprirsi, col tetto a zero.
+
+**Il conto vero, e perche' e' diverso da quello di stamattina.** Avevo scritto «27 da controllare», contando le RIGHE. Contando i GUARDIANI il numero e' un altro: 19 vincoli scritti a mano, 3 gia' col ramo del cieco, 10 su guardiani che possono accecarsi, **6 vivi**. Contare per righe accusava chi ha due righe giuste — una per il bocciato e una per il cieco — che e' la forma corretta.
+
+**I sei erano vivi in due versi opposti, e fanno danno tutti e due.** Due erano legati a «uguale a 1»: su un guardiano cieco non dicevano niente, e un cieco travestito da verde non lo va a cercare nessuno. Quattro erano legati a «diverso da zero»: al motore arrivava la diagnosi di merito. Il piu' caro e' quello della stella polare, perche' riscrive il giro intero — e lo avrebbe riscritto per un sensore rotto.
+
+**Una conseguenza dichiarata, non scoperta dopo.** Adesso un guardiano cieco conta come vincolo attivo: il giro non puo' piu' saltare il motore quando uno strumento e' rotto. E' voluto, ed e' gia' il comportamento dei due guardiani che il ramo del cieco ce l'avevano.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).

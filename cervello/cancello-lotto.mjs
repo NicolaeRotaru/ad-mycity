@@ -995,6 +995,9 @@ function main() {
     // `non-vacuita` legge l'uscita ≠ 0 di `node "node x.mjs"` come «la prova e' diventata rossa».
     // E' il metro della copertura che si da' buono da solo: va contato, e non deve crescere.
     passi.push(esegui("mutazioni che nessuno puo' eseguire (tetto)", "node", ["cervello/mutazioni-senza-esecutore.mjs"]));
+    // AR-843 — il tetto e' ZERO: la classe e' chiusa oggi, e questo passo esiste per impedire che
+    // si riapra. Un vincolo nuovo scritto a mano su un guardiano che puo' accecarsi fa rosso subito.
+    passi.push(esegui("vincoli che non sanno dire «non lo so» (tetto)", "node", ["cervello/vincoli-senza-cieco.mjs"]));
     // AR-706 — e la stessa domanda sulle prove che guidano una superficie VIVA: quante non è mai
     // stata rotta apposta? Una prova a runtime non provata col fix disfatto può misurare il tema
     // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando

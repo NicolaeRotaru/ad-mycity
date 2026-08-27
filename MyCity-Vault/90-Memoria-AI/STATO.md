@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 07:35
+aggiornato: 2026-08-27 08:15
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🚦 **27/8 08:15 — Erano sei, non ventisette. Contati bene, si chiudevano tutti oggi.**
+>
+> **In parole semplici.** Stamattina avevo scritto che nel giro c'erano 27 controlli da verificare. Li avevo contati per riga. Contandoli per controllo il numero e' sei, e sei si riparano in un pomeriggio invece di diventare un debito.
+>
+> **Per esempio.** Contando le righe accusavo anche chi fa la cosa giusta. Un controllo scritto bene ha due righe: una per «ti boccio» e una per «non ho potuto guardare». La prima riga, da sola, sembrava scoperta.
+>
+> **Cosa cambia per te.** Sei controlli del giro sapevano dire solo due cose su tre. Due tacevano quando non riuscivano a misurare, e il silenzio sembrava un via libera. Quattro dicevano la diagnosi come se l'avessero fatta. Il piu' caro era quello della stella polare: quando scatta riscrive il giro intero, e lo avrebbe riscritto per un sensore rotto. Adesso dicono tutti e tre le cose.
+>
+> **Cosa devi fare.** Niente di nuovo: la coda delle scelte non e' cambiata da stanotte.
+>
+> **Cosa non ho verificato.** Non ho fatto girare un giro vero: ho eseguito i blocchi da soli, con controlli finti che rispondono come voglio io. E c'e' una conseguenza che dichiaro invece di lasciartela scoprire: da adesso, se uno strumento e' rotto, il giro non puo' piu' saltare il lavoro dell'AI. Costa, ed e' voluto — dormire con uno strumento rotto costa di piu'.
+>
+> **Dettagli tecnici.** AR-843 chiusa. Il conto: 19 vincoli a mano, 3 col ramo del cieco, 10 su guardiani con uscita 2, 6 vivi — `senior-sola-lettura` e `ci-stato` legati a `-eq 1`, `test-cervello`, `chiusura-loop`, `calibrazione debito` e `north-star-check` legati a `-ne 0`. Tutti su `vincolo_da_rc`. Contatore `cervello/vincoli-senza-cieco.mjs`, tetto `vincoli_senza_cieco` a 0, montato in `cancello-lotto.mjs`. 12 casi, 4 mutazioni rosse. Ri-ancorata la prova a due versi di AR-158, terza ancora rotta oggi da uno spostamento di codice. Difetti aperti 115.
 
 > 🧭 **27/8 07:35 — Un controllo che non aveva potuto guardare diceva lo stesso cosa aveva visto.**
 >

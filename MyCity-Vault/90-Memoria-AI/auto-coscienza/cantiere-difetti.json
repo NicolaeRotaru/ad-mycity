@@ -18034,7 +18034,7 @@
       "gravita": "grave",
       "impatto_crescita": "medio",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-27 07:30",
       "nato_come": "scoperta",
       "nato_da": "lotto 62: chiudendo AR-842 ho guardato se il difetto avesse dei fratelli nello stesso file, invece di curare il caso singolo e andarmene",
@@ -18044,9 +18044,12 @@
       "impatto": "Ogni caso vivo e' un vincolo HARD falso: il motore non lo ignora, lo segue — sposta lo sforzo su un problema che nessuno ha misurato. Peggio del silenzio. Quanti siano dei 26 non lo so: e' esattamente il numero che il fix deve produrre.",
       "origine": "lotto 62, cercando i fratelli di AR-842 nello stesso file",
       "verifica": {
-        "tipo": "umano",
-        "nota": "La prova nasce col fix, come per ogni scheda aperta: oggi non c'e' niente da provare verde. Sara' il guardiano stesso — conta le assegnazioni a mano il cui guardiano dichiara un'uscita 2, e fallisce sopra il tetto. Il conto di adesso, misurato: 96 assegnazioni totali, 25 via `vincolo_da_rc`, 2 col cieco scritto a mano, 27 da controllare."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs",
+        "nota": "12 casi su ingressi finti — un `giro.sh` scritto dentro la prova — perche' e' l'unico modo di verificare che il contatore sappia dire SIA si SIA no: un contatore che non puo' dire di no non e' un contatore. Ci sono anche i due modi in cui il contatore sbagliava mentre lo costruivo, tenuti come casi: un'inizializzazione con un commento accanto contata come vincolo (il conto saliva da 8 a 46) e un vincolo governato da un CONTEGGIO invece che da un rc, accusato di non saper dire «non lo so» quando per lui non vuol dire niente. Piu' il caso che il contatore sia MONTATO nel cancello. 4 mutazioni verificate rosse. Il tetto a 0 e' cio' che tiene i sei blocchi riparati."
+      },
+      "chiuso_il": "2026-08-27 08:15",
+      "fix_fatto": "🟡 Contato e chiuso nello stesso lotto, non solo contenuto. Il conto vero, misurato guardiano per guardiano invece che riga per riga (una riga scoperta e una coperta possono appartenere allo stesso guardiano — e' la forma giusta, la usano `prove-oneste` e `gate-veri`): **19 vincoli scritti a mano · 3 gia' col ramo del cieco · 10 su guardiani che dichiarano un'uscita 2 · 6 VIVI**. I sei erano vivi in due versi opposti, e tutti e due fanno danno: `senior-sola-lettura` e `ci-stato` erano legati a `-eq 1`, quindi su un guardiano cieco NON dicevano niente — un cieco travestito da verde, che non va a cercare nessuno; `test-cervello`, `chiusura-loop`, `calibrazione debito` e `north-star-check` erano legati a `-ne 0`, quindi raccontavano al motore la diagnosi di dominio. Il piu' caro era il north star: riscrive il giro intero, e lo avrebbe riscritto per un sensore rotto. Tutti e sei passano ora da `vincolo_da_rc`. Contatore nuovo `cervello/vincoli-senza-cieco.mjs`, tetto `vincoli_senza_cieco` a **0** (la classe e' chiusa: non c'e' debito da smaltire, c'e' una porta da tenere chiusa), montato in `cancello-lotto.mjs`."
     }
   ],
   "meta": {

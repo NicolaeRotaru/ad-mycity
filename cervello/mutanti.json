@@ -7819,6 +7819,38 @@
    "cerca": "    2) printf '⚠️ GUARDIANO CIECO (%s rc=2, AR-322): non è riuscito a misurare — NON è un verde. Ripara lo strumento prima di fidarti di questo giro; non trattare questo messaggio come una regola di contenuto.\\n' \"$nome\" ;;",
    "sostituisci": "    2) printf '%s\\n' \"$testo\" ;;",
    "test": "cervello/test/il-verdetto-che-non-arriva-al-motore.test.mjs"
+  },
+  {
+   "difetto": "AR-843",
+   "nome": "il contatore non vede piu' il caso che l'ha fatto nascere: un vincolo a mano su un guardiano che puo' accecarsi",
+   "file": "cervello/vincoli-senza-cieco.mjs",
+   "cerca": "    if (!dichiaraUscita2(src)) { senzaUscita2.push({ guardiano: g, ...v }); continue; }",
+   "sostituisci": "    if (true) { senzaUscita2.push({ guardiano: g, ...v }); continue; }",
+   "test": "cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs"
+  },
+  {
+   "difetto": "AR-843",
+   "nome": "il contatore accusa anche chi passa dal contratto",
+   "file": "cervello/vincoli-senza-cieco.mjs",
+   "cerca": "    if (riga.includes(\"vincolo_da_rc\")) return;   // passa dal contratto: a posto",
+   "sostituisci": "    // il contratto non conta piu' come cura",
+   "test": "cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs"
+  },
+  {
+   "difetto": "AR-843",
+   "nome": "senza tetto il contatore dice verde invece di dire che e' cieco",
+   "file": "cervello/vincoli-senza-cieco.mjs",
+   "cerca": "  if (tetto === null || tetto === undefined || Number.isNaN(Number(tetto))) {\n    return { rc: 2,",
+   "sostituisci": "  if (false) {\n    return { rc: 2,",
+   "test": "cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs"
+  },
+  {
+   "difetto": "AR-843",
+   "nome": "il contatore esce dal cancello del lotto: conta e non ferma nessuno",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    passi.push(esegui(\"vincoli che non sanno dire «non lo so» (tetto)\", \"node\", [\"cervello/vincoli-senza-cieco.mjs\"]));",
+   "sostituisci": "",
+   "test": "cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs"
   }
  ]
 }
