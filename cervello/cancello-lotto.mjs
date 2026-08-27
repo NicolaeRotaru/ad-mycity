@@ -998,6 +998,9 @@ function main() {
     // AR-843 — il tetto e' ZERO: la classe e' chiusa oggi, e questo passo esiste per impedire che
     // si riapra. Un vincolo nuovo scritto a mano su un guardiano che puo' accecarsi fa rosso subito.
     passi.push(esegui("vincoli che non sanno dire «non lo so» (tetto)", "node", ["cervello/vincoli-senza-cieco.mjs"]));
+    // AR-844 — il tetto e' ZERO. Una scheda in uno stato che i misuratori non capiscono resta contata
+    // aperta per sempre, riparata o no: 18 trovate cosi' il 27/8, tutte col fix e la prova a posto.
+    passi.push(esegui("stati che nessun misuratore capisce (tetto)", "node", ["cervello/stati-che-nessuno-capisce.mjs"]));
     // AR-706 — e la stessa domanda sulle prove che guidano una superficie VIVA: quante non è mai
     // stata rotta apposta? Una prova a runtime non provata col fix disfatto può misurare il tema
     // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando

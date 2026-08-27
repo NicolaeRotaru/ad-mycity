@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 10:15
+aggiornato: 2026-08-27 10:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🏷️ **27/8 10:55 — Venti lavori finiti, contati come da fare.**
+>
+> **In parole semplici.** Ho trovato venti lavori finiti per davvero, con la prova che gira. Ogni contatore li leggeva come da fare. Diciotto perche' erano scritti con la parola di un altro elenco.
+>
+> **Per esempio.** In casa ci sono due elenchi di problemi: quello della macchina e quello del sito. Nel primo «finito» si dice in un modo solo. Nel secondo si puo' dire in tre. Chi ha lavorato su tutti e due nello stesso giorno ha usato la parola del secondo dentro il primo, e per la macchina quelle schede non erano finite.
+>
+> **Cosa cambia per te.** I problemi aperti scendono da 133 a 113. Ma conta di piu' un'altra cosa. Quelle schede stavano in una lista che qualcuno un giorno avrebbe riaperto, per finire un lavoro gia' finito.
+>
+> **Cosa devi fare.** Niente: e' lavoro sulla macchina.
+>
+> **Cosa non ho verificato.** Prima di cambiare uno stato ho rifatto girare tutte le prove: undici comandi per diciotto schede, tutti verdi. Quindi so che i fix ci sono. Quello che non so e' se la parola sbagliata sia finita anche in registri che non ho guardato. Nel cantiere della macchina, almeno, adesso non puo' piu' succedere.
+>
+> **Dettagli tecnici.** AR-844 aperta e chiusa. Chiuse anche AR-780 (bloccante) e AR-796, riparate il 23/8 e mai girate di stato, dopo aver tappato i buchi di prova che restavano. Le 18 in stato `riparato` portate a `chiuso` con la data del commit che le ha introdotte, presa da git. Freno nuovo `cervello/stati-che-nessuno-capisce.mjs`, tetto `stati_ignoti` a 0, montato nel cancello. 7 casi, 4 mutazioni rosse. Tasso di chiusura di agosto da 1,25 a 1,3.
 
 > 🧵 **27/8 10:15 — Un controllo con tre regole ne applicava due.**
 >

@@ -4446,3 +4446,17 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **E una era la mia macchina che si dà ragione da sola.** Una radice scritta a mano — `/home/user/ad-mycity` — su questa macchina È quella giusta. Da qui nessun comportamento le distingue. L'ho dichiarato invece di fingere: metà del caso guarda il comportamento (il bagaglio segue la radice che gli si dà), metà guarda il sorgente, e il perché è scritto lì.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 10:55 — 🟡 Diciotto schede riparate che ogni misuratore contava aperte (AR-844, AR-780, AR-796)
+
+**Cosa.** Venti schede tornano al loro stato vero: due riparate il 23/8 e mai chiuse, e diciotto scritte con la parola dell'altro registro. Nasce il freno che impedisce alla cosa di ripetersi.
+
+**La causa.** In casa ci sono due registri di difetti e due vocabolari, a due cartelle di distanza. Nel cantiere della macchina l'unico stato chiuso e' «chiuso», e lo usano tutti i misuratori. Nel registro dei difetti del sito valgono anche «riparato» e «gia riparato prima». Chi ha lavorato sui due nella stessa giornata ha usato la seconda parola nel primo registro.
+
+**Perche' conta piu' del numero.** Una scheda riparata resta in una lista che qualcuno un giorno riaprira' per finire un lavoro gia' finito. E il tasso di chiusura — il voto che la macchina si da' — restava piu' basso del vero: la macchina si frenava da sola.
+
+**Il rilevatore c'era gia', e non fermava niente.** Il guardiano delle prove le vedeva («18 schede in uno stato che non so nominare») e usciva zero lo stesso. Non mancava l'occhio: mancava la porta.
+
+**Prima di toccare uno stato ho rifatto girare tutte le prove.** Undici comandi per diciotto schede, tutti verdi. E le date sono quelle vere, prese dai commit: si corregge lo stato di un fix che c'e', non si dichiara chiuso un fix che non c'e', e non si racconta che sia successo stamattina.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).

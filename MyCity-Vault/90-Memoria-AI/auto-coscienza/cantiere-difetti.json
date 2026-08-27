@@ -16705,7 +16705,7 @@
     },
     {
       "id": "AR-780",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "capacita-che-non-partono",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -16719,12 +16719,14 @@
       "nato_da": "Nicola: «fai una radiografia completa e profonda del marketplace, con la parte di design compresa» — le due radiografie non sono partite, e il motivo era lo stesso per tutti e sei i workflow",
       "origine": "Provato ad avviare .claude/workflows/radiografia.js e audit-design.js: rifiutati entrambi dal motore prima di eseguire una riga. Poi provato import statico e dinamico dentro uno workflow di prova: rifiutati anche quelli.",
       "verifica": {
+        "tipo": "comando",
         "comando": "node cervello/test/i-workflow-che-non-partono.test.mjs",
-        "nota": "La prova esegue le due regole del motore su casi costruiti E sui sei file veri. Il caso che morde di piu' e' il secondo: uno script SENZA import che pero' chiama ancora quello che l'import portava — e' lo stato in cui li avevo lasciati a meta' riparazione, col guardiano verde. Tre mutazioni in mutanti.json (lotto 52) la rendono rossa."
+        "nota": "17 casi verdi. La scheda era stata RIPARATA il 23/8 (lotto 52) — tutti e sei gli script autonomi, `export const meta` in prima riga, mansionari caricati con `agentType` invece che incollati — e lo stato non e' mai stato girato: e' il caso AR-144/AR-117 che `cantiere-prove.mjs` esiste per smascherare, un fix fatto e provato che il cantiere continua a contare aperto. Chiusa il 27/8 dopo aver tappato il buco che restava: il guardiano applica TRE regole e la terza — «questo script parte e poi muore alla prima riga utile» — era collegata dentro `guarda()` e non la provava nessuno. Si poteva togliere e restava tutto verde, col guardiano che tornava a dire «partono» di script che non partono. Adesso `guarda(cartella)` prende la cartella da fuori e la prova gliene da' una finta: uno script che muore viene accusato, uno sano no. 6 mutazioni rosse."
       },
       "nota_prova": "La prova applica al testo vero dei sei script la stessa condizione che il motore verifica prima di lanciare, saltando commenti e righe vuote come fa lui. Oggi è rossa su 6 file su 6; diventa verde solo quando quegli script partono davvero. NON è agganciata a nessun cancello: agganciarla è parte del fix, perché oggi renderebbe rossa la CI su un difetto ancora aperto. Debito dichiarato, non dimenticato.",
       "nota": "Le due radiografie del 21/8 sono girate lo stesso, da copie generate al volo con gli stessi mansionari veri passando da cervello/prompt-senior.mjs. Il generatore usato è in scratchpad, non nel repo: farlo diventare stabile È il fix. Nato come AR-777 in una sessione con la storia git tagliata, dove quel numero sembrava libero: su main era già di un altro difetto.",
-      "nota_fix": "\n\n22/8 — NON riparato, ma il DISEGNO della cura e' cambiato dopo tre misure. Chi riprende non deve\nripartire dalla strada scritta sopra: e' quella sbagliata, e sotto c'e' il perche'.\n\nMISURA ①: il guardiano esce 1 e nomina la causa esatta — «c'e' un import sopra `export const\nmeta`» su tutti e sei. Confermato sul codice: radiografia.js ne ha tre (node:fs, node:path,\nprompt-senior.mjs), auto-radiografia uno.\n\nMISURA ②: dentro il motore dei workflow NON ESISTE il filesystem — niente node:fs, niente\nnode:path. Quindi `resolveMarketplaceRepo()`, che chiama existsSync, non funzionerebbe comunque\na runtime nemmeno togliendo l'import. Non e' un problema di forma: quel codice va tolto dallo\nscript e spostato dove il filesystem c'e', cioe' dentro l'agente.\n\nMISURA ③, ed e' quella che cambia tutto: un mansionario pesa 21.000 caratteri, e radiografia.js\nha 13 dimensioni. GENERARE lo script con i prompt gia' dentro — la strada scritta sopra —\nprodurrebbe file da oltre 270 KB, che al primo cambio di un mansionario sarebbero vecchi senza\nche nessuno se ne accorga: un artefatto di compilazione da tenere allineato, cioe' una seconda\ncasa dello stesso testo. E' la malattia che il lotto 46 ha curato, reintrodotta per comodita'.\n\nLA CURA GIUSTA E' PIU' PICCOLA: non si incolla niente. `agent()` accetta `agentType`, e il motore\ncarica il mansionario da `.claude/agents/` — lo STESSO registro della delega normale. Quindi:\n  · via i tre import;\n  · `promptSenior(d.senior, {focus, compito})` diventa il solo testo di focus+compito, piu'\n    `agentType: d.senior` fra le opzioni;\n  · il percorso del marketplace non si calcola nello script: lo si dice all'agente a parole\n    («sta in $MARKETPLACE_REPO oppure nella cartella marketplace/; se non c'e', dillo e fermati»),\n    perche' l'agente il filesystem ce l'ha e lo script no.\nNessun generatore, nessun artefatto, niente da tenere allineato: il mansionario resta uno solo.\n\nPERCHE' NON L'HO FATTO ADESSO: sono sei file, e riscriverli a colpi di sostituzione automatica\nrompe i template con gli apici inversi — provato, ripristinato. Vanno riscritti a mano uno per\nuno e riprovati con `node cervello/workflow-partono.mjs`, che e' gia' il metro giusto ed e' gia'\nrosso: la riparazione si verifica da sola. E' un lotto intero, non una coda di questo. — RIPARATO il 2026-08-23 (lotto 52). Tutti e sei gli script sono autonomi: `export const meta` in prima riga, zero import, e i mansionari NON incollati nel prompt ma caricati dal motore con `agentType`, che risolve dallo stesso registro del comando di delega. HO FATTO DIVERSAMENTE DA QUELLO CHE PROPONEVA LA SCHEDA, e il conto lo spiega: chiedeva uno script di build che generasse i workflow coi prompt dei senior gia' dentro. Un solo prompt di senior e' 21 KB, e auto-radiografia ne usa quattro: avrebbe voluto dire file da centinaia di kilobyte, piu' una disciplina nuova sui file generati (non toccarli a mano) e un guardiano per farla rispettare. Con `agentType` il motore fa la stessa cosa meglio — il senior riceve il mansionario come identita', non come testo dentro un messaggio d'utente — e non nasce nessun file generato. PER `giro-operativo` NON BASTAVA: aveva bisogno di CHI e' in turno e dei FATTI vivi, che si ricavano leggendo il repo, e dentro il motore il disco non si legge. Adesso li calcola `node cervello/prepara-giro.mjs` e arrivano come `args`; senza bagaglio lo script si FERMA invece di proporre le mosse dei senior sbagliati. E IL GUARDIANO E' STATO RINFORZATO, perche' a meta' riparazione mi ha detto verde su quattro script che chiamavano ancora `promptSenior` e sarebbero morti a runtime: era la stessa malattia che il difetto denuncia — certificare l'installazione invece dell'esecuzione — rifatta un piano sotto nella stessa ora. Adesso guarda tre cose: la prima istruzione, gli import ovunque nel file, e i nomi che il motore non fornisce (con il perche' di ciascuno)."
+      "nota_fix": "\n\n22/8 — NON riparato, ma il DISEGNO della cura e' cambiato dopo tre misure. Chi riprende non deve\nripartire dalla strada scritta sopra: e' quella sbagliata, e sotto c'e' il perche'.\n\nMISURA ①: il guardiano esce 1 e nomina la causa esatta — «c'e' un import sopra `export const\nmeta`» su tutti e sei. Confermato sul codice: radiografia.js ne ha tre (node:fs, node:path,\nprompt-senior.mjs), auto-radiografia uno.\n\nMISURA ②: dentro il motore dei workflow NON ESISTE il filesystem — niente node:fs, niente\nnode:path. Quindi `resolveMarketplaceRepo()`, che chiama existsSync, non funzionerebbe comunque\na runtime nemmeno togliendo l'import. Non e' un problema di forma: quel codice va tolto dallo\nscript e spostato dove il filesystem c'e', cioe' dentro l'agente.\n\nMISURA ③, ed e' quella che cambia tutto: un mansionario pesa 21.000 caratteri, e radiografia.js\nha 13 dimensioni. GENERARE lo script con i prompt gia' dentro — la strada scritta sopra —\nprodurrebbe file da oltre 270 KB, che al primo cambio di un mansionario sarebbero vecchi senza\nche nessuno se ne accorga: un artefatto di compilazione da tenere allineato, cioe' una seconda\ncasa dello stesso testo. E' la malattia che il lotto 46 ha curato, reintrodotta per comodita'.\n\nLA CURA GIUSTA E' PIU' PICCOLA: non si incolla niente. `agent()` accetta `agentType`, e il motore\ncarica il mansionario da `.claude/agents/` — lo STESSO registro della delega normale. Quindi:\n  · via i tre import;\n  · `promptSenior(d.senior, {focus, compito})` diventa il solo testo di focus+compito, piu'\n    `agentType: d.senior` fra le opzioni;\n  · il percorso del marketplace non si calcola nello script: lo si dice all'agente a parole\n    («sta in $MARKETPLACE_REPO oppure nella cartella marketplace/; se non c'e', dillo e fermati»),\n    perche' l'agente il filesystem ce l'ha e lo script no.\nNessun generatore, nessun artefatto, niente da tenere allineato: il mansionario resta uno solo.\n\nPERCHE' NON L'HO FATTO ADESSO: sono sei file, e riscriverli a colpi di sostituzione automatica\nrompe i template con gli apici inversi — provato, ripristinato. Vanno riscritti a mano uno per\nuno e riprovati con `node cervello/workflow-partono.mjs`, che e' gia' il metro giusto ed e' gia'\nrosso: la riparazione si verifica da sola. E' un lotto intero, non una coda di questo. — RIPARATO il 2026-08-23 (lotto 52). Tutti e sei gli script sono autonomi: `export const meta` in prima riga, zero import, e i mansionari NON incollati nel prompt ma caricati dal motore con `agentType`, che risolve dallo stesso registro del comando di delega. HO FATTO DIVERSAMENTE DA QUELLO CHE PROPONEVA LA SCHEDA, e il conto lo spiega: chiedeva uno script di build che generasse i workflow coi prompt dei senior gia' dentro. Un solo prompt di senior e' 21 KB, e auto-radiografia ne usa quattro: avrebbe voluto dire file da centinaia di kilobyte, piu' una disciplina nuova sui file generati (non toccarli a mano) e un guardiano per farla rispettare. Con `agentType` il motore fa la stessa cosa meglio — il senior riceve il mansionario come identita', non come testo dentro un messaggio d'utente — e non nasce nessun file generato. PER `giro-operativo` NON BASTAVA: aveva bisogno di CHI e' in turno e dei FATTI vivi, che si ricavano leggendo il repo, e dentro il motore il disco non si legge. Adesso li calcola `node cervello/prepara-giro.mjs` e arrivano come `args`; senza bagaglio lo script si FERMA invece di proporre le mosse dei senior sbagliati. E IL GUARDIANO E' STATO RINFORZATO, perche' a meta' riparazione mi ha detto verde su quattro script che chiamavano ancora `promptSenior` e sarebbero morti a runtime: era la stessa malattia che il difetto denuncia — certificare l'installazione invece dell'esecuzione — rifatta un piano sotto nella stessa ora. Adesso guarda tre cose: la prima istruzione, gli import ovunque nel file, e i nomi che il motore non fornisce (con il perche' di ciascuno).",
+      "chiuso_il": "2026-08-27 10:40"
     },
     {
       "id": "AR-781",
@@ -17045,7 +17047,7 @@
     },
     {
       "id": "AR-796",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "alto",
@@ -17058,10 +17060,12 @@
       "nato_da": "lotto 50, secondo giro: la domanda «ogni strada che arriva all'atto passa dal freno?» ha trovato che l'atto (la chiusura) non ci passa affatto. Segnalato dalla corsia A nel lotto 49 e non registrato allora.",
       "dove": "cervello/auto-fix.mjs (chiude senza consultare cervello/prova-ammissibile.mjs)",
       "verifica": {
+        "tipo": "comando",
         "comando": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
-        "nota": "La prova che il freno FRENA, come la scheda chiedeva. Fa girare auto-fix.mjs per davvero su un registro finto (CANTIERE_FILE) con due schede identiche in tutto tranne la gravita: la bloccante deve uscire ⛔ e non chiudersi, la minore deve chiudersi. Se il freno non e sulla strada si chiudono tutt'e due; se e troppo largo non si chiude nessuna. Due mutazioni registrate in mutanti.json lo rendono rosso."
+        "nota": "12 casi verdi. RIPARATA il 23/8 (lotto 51) — il freno montato dentro `verdettoChiusura`, cioe' sull'unica funzione che auto-fix gia' chiamava — e lo stato non e' mai stato girato. Chiusa il 27/8 dopo aver tappato il buco che restava: la catena che INSTRADA una scheda viveva dentro un ciclo dentro un comando, e nessuno poteva interrogarla — la mutazione che rimette il verdetto ricalcolato a mano (`r.esito === \"risolto\"` al posto di `vc.chiude`) lasciava la prova verde. Estratta in `dovePuntaLaScheda`, col caso che li distingue: il grezzo dice «risolto» e il verdetto dice di no. E' ESATTAMENTE il difetto della scheda — un verdetto che il chiamante ricalcola non decide niente — che era riparato nel codice e non era provato da nessuna parte."
       },
-      "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo. — RIPARATO il 2026-08-23 (lotto 51). Il freno e' montato dentro `verdettoChiusura` (cervello/chiusura-dichiarata.mjs), cioe' sull'unica funzione che auto-fix gia' chiamava per decidere: prima ne usava solo `bloccata` e `debole` e il campo `chiude` veniva calcolato e buttato via, con la decisione rifatta a mano dal chiamante. Un verdetto che il chiamante ricalcola non decide niente — ed e' il motivo per cui i cancelli aggiunti nei lotti 49 e 50 non sono mai arrivati all'atto. SUL PUNTO (b) DELLA SCHEDA HO FATTO DIVERSAMENTE, e il conto lo spiega: la scheda temeva di bloccare 20 chiusure in un colpo e chiedeva un elenco di debito dichiarato per nome. Misurato il 23/8 sul cantiere vero: le schede pesanti con prova debole sono 19, e di quelle **zero** avevano la prova soddisfatta in questo momento. Accendere il freno oggi non toglie nemmeno una chiusura, quindi l'esenzione per nome non serve — e un elenco di esenzioni sarebbe stato proprio il modo di far chiudere su un grep i 19 difetti piu' pesanti del registro. Il loro numero e' gia' contato da `tetti-lotto.json` (`prova_debole`) sotto un tetto che scende: un secondo registro sarebbe una seconda casa per lo stesso numero. SPAZZATA DEI FRATELLI: cercati gli altri cancelli puri che nessun attore chiama (19 moduli-verdetto in cervello/, incrociati con chi li importa). Due candidati, tutt'e due falsi allarmi: `ci-lettura.mjs` lo chiama `git-merge.mjs` alla riga 159 prima di unire, e `ramo-pulito.mjs` lo lancia `git-pr.mjs` come processo separato (riga 771) — cioe' un arco che il grafo degli import non vede. Nessun fratello vero. La spazzata pero' e' stata fatta a mano e vede solo gli import: il buco e' registrato come difetto a se'."
+      "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo. — RIPARATO il 2026-08-23 (lotto 51). Il freno e' montato dentro `verdettoChiusura` (cervello/chiusura-dichiarata.mjs), cioe' sull'unica funzione che auto-fix gia' chiamava per decidere: prima ne usava solo `bloccata` e `debole` e il campo `chiude` veniva calcolato e buttato via, con la decisione rifatta a mano dal chiamante. Un verdetto che il chiamante ricalcola non decide niente — ed e' il motivo per cui i cancelli aggiunti nei lotti 49 e 50 non sono mai arrivati all'atto. SUL PUNTO (b) DELLA SCHEDA HO FATTO DIVERSAMENTE, e il conto lo spiega: la scheda temeva di bloccare 20 chiusure in un colpo e chiedeva un elenco di debito dichiarato per nome. Misurato il 23/8 sul cantiere vero: le schede pesanti con prova debole sono 19, e di quelle **zero** avevano la prova soddisfatta in questo momento. Accendere il freno oggi non toglie nemmeno una chiusura, quindi l'esenzione per nome non serve — e un elenco di esenzioni sarebbe stato proprio il modo di far chiudere su un grep i 19 difetti piu' pesanti del registro. Il loro numero e' gia' contato da `tetti-lotto.json` (`prova_debole`) sotto un tetto che scende: un secondo registro sarebbe una seconda casa per lo stesso numero. SPAZZATA DEI FRATELLI: cercati gli altri cancelli puri che nessun attore chiama (19 moduli-verdetto in cervello/, incrociati con chi li importa). Due candidati, tutt'e due falsi allarmi: `ci-lettura.mjs` lo chiama `git-merge.mjs` alla riga 159 prima di unire, e `ramo-pulito.mjs` lo lancia `git-pr.mjs` come processo separato (riga 771) — cioe' un arco che il grafo degli import non vede. Nessun fratello vero. La spazzata pero' e' stata fatta a mano e vede solo gli import: il buco e' registrato come difetto a se'.",
+      "chiuso_il": "2026-08-27 10:40"
     },
     {
       "id": "AR-797",
@@ -17382,7 +17386,7 @@
     },
     {
       "id": "AR-812",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "diretto sul Pannello, che e' la faccia con cui Nicola governa: i 13 file di prova di pannello/src/lib girano solo nel giro, non nel cancello che autorizza la consegna. Il 24/8 il cancello ha detto «SI PUO' CONSEGNARE» mentre una prova del Pannello era rossa E una seconda, che passava da mesi, l'avevo appena rotta io. Due difetti spediti con il verde in mano.",
@@ -17396,13 +17400,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
-        "nota": "Tre casi. Due sul MONTAGGIO — il cancello deve eseguire test-pannello.mjs, e non con un `|| true` che non puo' fallire — perche' il difetto non e' «le prove sono rosse» ma «il cancello non le guarda»: una prova che guardasse solo i 13 file resterebbe verde il giorno che qualcuno togliesse la riga, cioe' il difetto tornerebbe con la sua stessa prova che dice di no. Il terzo caso e' comportamentale: lancia davvero il guardiano e pretende che l'uscita segua i rossi (uno rotto ⇒ exit diverso da zero), perche' montarlo serve solo se puo' bocciare. Due mutazioni verificate rosse."
+        "nota": "Tre casi. Due sul MONTAGGIO — il cancello deve eseguire test-pannello.mjs, e non con un `|| true` che non puo' fallire — perche' il difetto non e' «le prove sono rosse» ma «il cancello non le guarda»: una prova che guardasse solo i 13 file resterebbe verde il giorno che qualcuno togliesse la riga, cioe' il difetto tornerebbe con la sua stessa prova che dice di no. Il terzo caso e' comportamentale: lancia davvero il guardiano e pretende che l'uscita segua i rossi (uno rotto ⇒ exit diverso da zero), perche' montarlo serve solo se puo' bocciare. Due mutazioni verificate rosse. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "COME L'HO TROVATO, e la ragione per cui sono andato a guardare era SBAGLIATA. Credevo che una corsa della CI fosse ferma: la vedevo «in corso» e mi ero calcolato 21 minuti su un passo che ne prende 6. Il conto era mio ed era falso — non avevo un orologio affidabile e ho preso per «adesso» un'ora piu' tarda di quella vera. Quella corsa (run 32755825129, passo «Cancello di uscita») ha girato dalle 17:18:59 alle 17:24:42 UTC: 5 minuti e 43 secondi, cioe' normale. NESSUN RALLENTAMENTO. Il difetto qui sotto pero' e' vero lo stesso, ed e' stato verificato per conto suo, non per via del sospetto sbagliato: ho lanciato a mano `node cervello/test-pannello.mjs`, che e' il modo in cui quelle prove girano davvero, e sono usciti DUE rossi. ① La prova che avevo appena scritto, `lavoro-negozio.test.mts`, leggeva `store.ts` partendo da `process.cwd()`. Il guardiano lancia i test con la cartella di lavoro sulla RADICE del repo, non su `pannello/`: da dentro `pannello/` passava, lanciata come la lancia chi la lancia davvero era rossa. Verde per me, rossa per tutti gli altri — la stessa malattia del lotto, un piano piu' in basso. ② Peggio: `store.sanitize.test.mts` passava da mesi e l'avevo rotta io. Avevo importato il modulo nuovo in `store.ts` scrivendo `@/lib/lavoro-negozio`, che e' un alias del bundler: Node ESM non lo risolve, quindi il file non si carica piu' e la prova che lo importa non parte. La riga SOPRA la mia, nello stesso file, importa `./atto-unico` — relativa. Avevo rotto la convenzione e con lei una prova, e il cancello mi aveva detto verde. TUTT'E DUE RIPARATE nello stesso lavoro: il percorso adesso parte da `import.meta.url` invece che dalla cartella di lavoro, e l'import e' relativo come quello sopra. 13 file su 13 girano e passano. MA IL DIFETTO E' L'ALTRO, ed e' questo: se non fossi andato a guardare una CI lenta, quei due rossi sarebbero stati consegnati col verde in mano. Il cancello non li vede. ═══ RIPARATO nello stesso lotto: `cancello-lotto.mjs` adesso monta «prove del Pannello» accanto al typecheck, e le 13 prove girano a ogni consegna. Le due che avevo rotto sono riparate: il percorso parte da `import.meta.url` invece che dalla cartella di lavoro, e l'import in store.ts e' relativo come la riga sopra. NOTA SUL METODO, ed e' la lezione vera: sono andato a guardare per un motivo inventato da un mio errore di calcolo, e ho trovato due prove rosse davvero. Il sospetto era falso, la scoperta no. Ma il conto sbagliato l'avevo gia' scritto qui dentro come fatto, e in un messaggio a Nicola: un numero che non ho misurato non e' un numero, e il posto dove diventa pericoloso e' proprio la memoria, dove qualcuno lo rileggera' come vero."
+      "descrizione": "COME L'HO TROVATO, e la ragione per cui sono andato a guardare era SBAGLIATA. Credevo che una corsa della CI fosse ferma: la vedevo «in corso» e mi ero calcolato 21 minuti su un passo che ne prende 6. Il conto era mio ed era falso — non avevo un orologio affidabile e ho preso per «adesso» un'ora piu' tarda di quella vera. Quella corsa (run 32755825129, passo «Cancello di uscita») ha girato dalle 17:18:59 alle 17:24:42 UTC: 5 minuti e 43 secondi, cioe' normale. NESSUN RALLENTAMENTO. Il difetto qui sotto pero' e' vero lo stesso, ed e' stato verificato per conto suo, non per via del sospetto sbagliato: ho lanciato a mano `node cervello/test-pannello.mjs`, che e' il modo in cui quelle prove girano davvero, e sono usciti DUE rossi. ① La prova che avevo appena scritto, `lavoro-negozio.test.mts`, leggeva `store.ts` partendo da `process.cwd()`. Il guardiano lancia i test con la cartella di lavoro sulla RADICE del repo, non su `pannello/`: da dentro `pannello/` passava, lanciata come la lancia chi la lancia davvero era rossa. Verde per me, rossa per tutti gli altri — la stessa malattia del lotto, un piano piu' in basso. ② Peggio: `store.sanitize.test.mts` passava da mesi e l'avevo rotta io. Avevo importato il modulo nuovo in `store.ts` scrivendo `@/lib/lavoro-negozio`, che e' un alias del bundler: Node ESM non lo risolve, quindi il file non si carica piu' e la prova che lo importa non parte. La riga SOPRA la mia, nello stesso file, importa `./atto-unico` — relativa. Avevo rotto la convenzione e con lei una prova, e il cancello mi aveva detto verde. TUTT'E DUE RIPARATE nello stesso lavoro: il percorso adesso parte da `import.meta.url` invece che dalla cartella di lavoro, e l'import e' relativo come quello sopra. 13 file su 13 girano e passano. MA IL DIFETTO E' L'ALTRO, ed e' questo: se non fossi andato a guardare una CI lenta, quei due rossi sarebbero stati consegnati col verde in mano. Il cancello non li vede. ═══ RIPARATO nello stesso lotto: `cancello-lotto.mjs` adesso monta «prove del Pannello» accanto al typecheck, e le 13 prove girano a ogni consegna. Le due che avevo rotto sono riparate: il percorso parte da `import.meta.url` invece che dalla cartella di lavoro, e l'import in store.ts e' relativo come la riga sopra. NOTA SUL METODO, ed e' la lezione vera: sono andato a guardare per un motivo inventato da un mio errore di calcolo, e ho trovato due prove rosse davvero. Il sospetto era falso, la scoperta no. Ma il conto sbagliato l'avevo gia' scritto qui dentro come fatto, e in un messaggio a Nicola: un numero che non ho misurato non e' un numero, e il posto dove diventa pericoloso e' proprio la memoria, dove qualcuno lo rileggera' come vero.",
+      "chiuso_il": "2026-08-25 16:09"
     },
     {
       "id": "AR-813",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla capacita' di Nicola di valutare il lavoro. Il 24/8 la PR #835 gli e' arrivata con +22.008 e -15.245, di cui ~12.900 cancellazioni che non cancellavano niente: il lavoro vero era sepolto sotto il rumore e non era valutabile. L'ha visto lui, non la macchina, e la macchina aveva un guardiano apposta per questo.",
@@ -17416,14 +17421,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-        "nota": "Dieci casi su un repo finto con origin/main risolvibile (radice sostituibile con FORMA_JSON_ROOT, come CODA_FILE per la pulizia della coda): il freno si vede SCATTARE, non si crede sulla parola. Quattro casi sono falsi allarmi che renderebbero il freno inservibile — aggiungere voci in coda, aggiungere un campo, una voce cambiata davvero, voci senza identita'. Un caso e' nato da un buco della prova stessa: in --json il codice d'uscita arriva dal verdetto di copertura e il ramo del verde stampato non viene percorso, quindi si poteva togliere il rimescolamento dal messaggio umano e la prova restava verde. Sei mutazioni verificate rosse."
+        "nota": "Dieci casi su un repo finto con origin/main risolvibile (radice sostituibile con FORMA_JSON_ROOT, come CODA_FILE per la pulizia della coda): il freno si vede SCATTARE, non si crede sulla parola. Quattro casi sono falsi allarmi che renderebbero il freno inservibile — aggiungere voci in coda, aggiungere un campo, una voce cambiata davvero, voci senza identita'. Un caso e' nato da un buco della prova stessa: in --json il codice d'uscita arriva dal verdetto di copertura e il ramo del verde stampato non viene percorso, quindi si poteva togliere il rimescolamento dal messaggio umano e la prova restava verde. Sei mutazioni verificate rosse. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Nicola, 24/8/2026: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000». Aveva ragione. Il raddrizzamento ha portato il ramo da +21.002/-14.266 a +8.129/-1.393, con zero voci perse (803 difetti, 535 lezioni, 805 mutazioni prima e dopo). Questa scheda e' il freno che impedisce che ricapiti: la correzione si chiude con un guardiano che puo' fallire, non con una frase.",
-      "nato_da": "Nicola guardando il diff della PR #835: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000»"
+      "nato_da": "Nicola guardando il diff della PR #835: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000»",
+      "chiuso_il": "2026-08-25 19:14"
     },
     {
       "id": "AR-818",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla data del 29 agosto. Nicola chiede macchina e sito «senza nessun difetto» entro il 29/8: senza questo, «zero aperti» è vero sulla lista e falso sul codice, perché una radiografia rifatta il 30 troverebbe i difetti nati durante le riparazioni del 25-29. La macchina lo dichiarava da sé in radiografia-marketplace.json (sync_scan.nota): «per trovare difetti NUOVI serve un nuovo audit; i fix sul codice non riaprono da soli la lista».",
@@ -17437,13 +17443,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
-        "nota": "Undici casi. R1 è il difetto vero (file toccato e mai riguardato → il cancello si ferma). N1 è il cuore: guardato PRIMA e ritoccato DOPO non conta, e con l'impronta di adesso torna verde — senza il secondo ramo il freno sarebbe rosso sempre, cioè il cancello che si impara ad aggirare. N2: registrare sotto la lente sbagliata non compra il verde. N3: perimetro vuoto è ⚪ dichiarato, mai una spunta. N4/N5/N10: la mappa che diverge dai workflow, il workflow illeggibile, la lente senza file e senza motivo. N8 è il MONTAGGIO — il cancello deve eseguirlo davvero, non nominarlo in un commento — ed è la mutazione registrata in mutanti.json."
+        "nota": "Undici casi. R1 è il difetto vero (file toccato e mai riguardato → il cancello si ferma). N1 è il cuore: guardato PRIMA e ritoccato DOPO non conta, e con l'impronta di adesso torna verde — senza il secondo ramo il freno sarebbe rosso sempre, cioè il cancello che si impara ad aggirare. N2: registrare sotto la lente sbagliata non compra il verde. N3: perimetro vuoto è ⚪ dichiarato, mai una spunta. N4/N5/N10: la mappa che diverge dai workflow, il workflow illeggibile, la lente senza file e senza motivo. N8 è il MONTAGGIO — il cancello deve eseguirlo davvero, non nominarlo in un commento — ed è la mutazione registrata in mutanti.json. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "Nato da Nicola il 25/8/2026: «entro il 29 agosto la macchina ed il marketplace devono essere pronti… aggiungi anche l'opzione di fare la radiografia mentre risolve i problemi, per assicurarsi che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata». COSA IL FRENO NON PROVA, e va detto: prova che hai riguardato DOPO aver toccato, non che hai guardato bene — quello è il collaudo (⑦bis del cantiere, skill `collaudo`, mani diverse e mandato opposto). Un controllo che promettesse la qualità dello sguardo mentirebbe; qui si misura solo ciò che si può misurare, la freschezza della copertura. BUCO DICHIARATO: sul repo del sito il guardiano si lancia a mano (`--repo ../mycity`) perché il cancello del lotto gira nel repo dell'AD e la CI del sito non ha questa casa in mano; il referto va nella PR del sito. NUMERO CAMBIATO NELL'UNIONE: nasceva AR-818, ma il ramo entrato nel tronco prima di questo aveva già dato quel numero a un altro difetto (il guardiano dei file riscritti). Chi unisce per secondo rinumera — è la regola scritta il 24/8 dopo AR-811, la volta che due numeri uguali stavano per far sparire due schede in silenzio."
+      "descrizione": "Nato da Nicola il 25/8/2026: «entro il 29 agosto la macchina ed il marketplace devono essere pronti… aggiungi anche l'opzione di fare la radiografia mentre risolve i problemi, per assicurarsi che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata». COSA IL FRENO NON PROVA, e va detto: prova che hai riguardato DOPO aver toccato, non che hai guardato bene — quello è il collaudo (⑦bis del cantiere, skill `collaudo`, mani diverse e mandato opposto). Un controllo che promettesse la qualità dello sguardo mentirebbe; qui si misura solo ciò che si può misurare, la freschezza della copertura. BUCO DICHIARATO: sul repo del sito il guardiano si lancia a mano (`--repo ../mycity`) perché il cancello del lotto gira nel repo dell'AD e la CI del sito non ha questa casa in mano; il referto va nella PR del sito. NUMERO CAMBIATO NELL'UNIONE: nasceva AR-818, ma il ramo entrato nel tronco prima di questo aveva già dato quel numero a un altro difetto (il guardiano dei file riscritti). Chi unisce per secondo rinumera — è la regola scritta il 24/8 dopo AR-811, la volta che due numeri uguali stavano per far sparire due schede in silenzio.",
+      "chiuso_il": "2026-08-25 20:22"
     },
     {
       "id": "AR-814",
-      "stato": "riparato",
+      "stato": "chiuso",
       "nato_da": "AR-818",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -17458,13 +17465,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
-        "nota": "Caso N11: `--json registra` senza `--dimensione` deve rispondere «serve --dimensione» (cioè il ramo registrazione è stato riconosciuto), non il verdetto del controllo."
+        "nota": "Caso N11: `--json registra` senza `--dimensione` deve rispondere «serve --dimensione» (cioè il ramo registrazione è stato riconosciuto), non il verdetto del controllo. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "TROVATO DALLA RADIOGRAFIA IN CORSA DI QUESTO STESSO LOTTO, alla sua prima esecuzione vera: riguardando `cervello/radiografia-in-corsa.mjs` con la lente `rischio-sicurezza-se` prima di consegnare. È il difetto che il freno nuovo esiste per trovare, trovato dentro il freno nuovo."
+      "descrizione": "TROVATO DALLA RADIOGRAFIA IN CORSA DI QUESTO STESSO LOTTO, alla sua prima esecuzione vera: riguardando `cervello/radiografia-in-corsa.mjs` con la lente `rischio-sicurezza-se` prima di consegnare. È il difetto che il freno nuovo esiste per trovare, trovato dentro il freno nuovo.",
+      "chiuso_il": "2026-08-25 20:22"
     },
     {
       "id": "AR-815",
-      "stato": "riparato",
+      "stato": "chiuso",
       "nato_da": "AR-818",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "minore",
@@ -17479,13 +17487,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
-        "nota": "Caso N12: `--file cervello/../../etc/hosts` esce 1 con «percorsi non ammessi»."
+        "nota": "Caso N12: `--file cervello/../../etc/hosts` esce 1 con «percorsi non ammessi». — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "Trovato insieme ad AR-814, dalla stessa rilettura del perimetro con la lente `rischio-sicurezza-se`."
+      "descrizione": "Trovato insieme ad AR-814, dalla stessa rilettura del perimetro con la lente `rischio-sicurezza-se`.",
+      "chiuso_il": "2026-08-25 20:22"
     },
     {
       "id": "AR-816",
-      "stato": "riparato",
+      "stato": "chiuso",
       "nato_da": "AR-818",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -17500,9 +17509,10 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
-        "nota": "Caso N15: un file la cui impronta è null finisce fra gli spariti, non fra i richiesti. Mutazione registrata: se `dividiSpariti` smette di dividere, il caso diventa rosso."
+        "nota": "Caso N15: un file la cui impronta è null finisce fra gli spariti, non fra i richiesti. Mutazione registrata: se `dividiSpariti` smette di dividere, il caso diventa rosso. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "Terzo difetto trovato dalla radiografia in corsa applicata a sé stessa, dopo AR-814 e AR-815, riguardando `cervello/radiografia-in-corsa.mjs` con la lente `rischio-sicurezza-se` prima di consegnare."
+      "descrizione": "Terzo difetto trovato dalla radiografia in corsa applicata a sé stessa, dopo AR-814 e AR-815, riguardando `cervello/radiografia-in-corsa.mjs` con la lente `rischio-sicurezza-se` prima di consegnare.",
+      "chiuso_il": "2026-08-25 20:22"
     },
     {
       "id": "AR-817",
@@ -17525,7 +17535,7 @@
     },
     {
       "id": "AR-819",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "il cancello di fine turno chiedeva di ricontrollare lavoro già pubblicato, all'infinito: 46 conferme in memoria dal 10 al 16 agosto, sempre con `git status --short` che mostrava zero o quasi. Un freno che accusa sempre è un freno che si impara a scavalcare, e questo sta sulla porta da cui esce ogni turno.",
@@ -17539,13 +17549,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/cancello-stop.test.mjs",
-        "nota": "Il comando ne lancia uno solo perché la porta che riapre i difetti accetta un file per volta; l'altra metà delle prove sta in `cervello/test/collaudo.test.mjs` e la gira la suite a ogni consegna. Sei casi nuovi, tre per lato. Due ricostruiscono il ciclo (ancora usabile ma HEAD pubblicato → il perimetro riparte dalla base; registro «chiesto» vecchio → niente da ricollaudare). Due sono i loro opposti — HEAD NON pubblicato → l'ancora buona resta, il collaudo resta dovuto — senza i quali un fix che spegne il freno sempre passerebbe lo stesso. Uno controlla che l'ancora si ripianti anche con dei ❌ aperti, che è il gesto che rompe davvero il ciclo. Due mutazioni verificate rosse, una per lato."
+        "nota": "Il comando ne lancia uno solo perché la porta che riapre i difetti accetta un file per volta; l'altra metà delle prove sta in `cervello/test/collaudo.test.mjs` e la gira la suite a ogni consegna. Sei casi nuovi, tre per lato. Due ricostruiscono il ciclo (ancora usabile ma HEAD pubblicato → il perimetro riparte dalla base; registro «chiesto» vecchio → niente da ricollaudare). Due sono i loro opposti — HEAD NON pubblicato → l'ancora buona resta, il collaudo resta dovuto — senza i quali un fix che spegne il freno sempre passerebbe lo stesso. Uno controlla che l'ancora si ripianti anche con dei ❌ aperti, che è il gesto che rompe davvero il ciclo. Due mutazioni verificate rosse, una per lato. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "Riparazione portata avanti dalla PR #749, aperta il 16/8 e mai unita: il ramo era vecchio di nove giorni e la richiesta precedeva le regole di oggi (scheda nel cantiere, mutazione, radiografia del perimetro). Riscritta sul tronco di oggi il 25/8 su richiesta di Nicola («fai la 749»), con le prove opposte in più e la #749 chiusa come superata."
+      "descrizione": "Riparazione portata avanti dalla PR #749, aperta il 16/8 e mai unita: il ramo era vecchio di nove giorni e la richiesta precedeva le regole di oggi (scheda nel cantiere, mutazione, radiografia del perimetro). Riscritta sul tronco di oggi il 25/8 su richiesta di Nicola («fai la 749»), con le prove opposte in più e la #749 chiusa come superata.",
+      "chiuso_il": "2026-08-26 08:32"
     },
     {
       "id": "AR-820",
-      "stato": "riparato",
+      "stato": "chiuso",
       "nato_da": "AR-819",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -17560,13 +17571,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/collaudo.test.mjs",
-        "nota": "Due casi: HEAD pubblicato + lavoro sul disco → «chiedi» al giro 1 (non «niente»); HEAD pubblicato + disco pulito → «niente». La mutazione rimette il registro vecchio in gioco e il primo caso diventa rosso."
+        "nota": "Due casi: HEAD pubblicato + lavoro sul disco → «chiedi» al giro 1 (non «niente»); HEAD pubblicato + disco pulito → «niente». La mutazione rimette il registro vecchio in gioco e il primo caso diventa rosso. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "TROVATO DALLA RADIOGRAFIA IN CORSA (AR-818) su questo stesso lotto: riguardando `cervello/collaudo.mjs` con la lente `rischio-sicurezza-se` prima di consegnare, cercando i modi in cui la macchina può farsi male da sola. Il difetto stava dentro una riparazione, non nel codice vecchio — che è il caso per cui quel passo esiste."
+      "descrizione": "TROVATO DALLA RADIOGRAFIA IN CORSA (AR-818) su questo stesso lotto: riguardando `cervello/collaudo.mjs` con la lente `rischio-sicurezza-se` prima di consegnare, cercando i modi in cui la macchina può farsi male da sola. Il difetto stava dentro una riparazione, non nel codice vecchio — che è il caso per cui quel passo esiste.",
+      "chiuso_il": "2026-08-26 08:32"
     },
     {
       "id": "AR-821",
-      "stato": "riparato",
+      "stato": "chiuso",
       "nato_da": "AR-819",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -17581,13 +17593,14 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/cancello-stop.test.mjs",
-        "nota": "Quattro rami in due casi: uguali, diversi (risposta, non cecità), git che esplode (cecità dichiarata col perché), base inesistente (due stringhe vuote non sono «uguali»). La mutazione rimette il `catch` che ingoia e il caso della cecità diventa rosso."
+        "nota": "Quattro rami in due casi: uguali, diversi (risposta, non cecità), git che esplode (cecità dichiarata col perché), base inesistente (due stringhe vuote non sono «uguali»). La mutazione rimette il `catch` che ingoia e il caso della cecità diventa rosso. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
-      "descrizione": "Trovato dalla spazzata dei fratelli mentre consegnavo AR-819: `❌ 1 FRATELLO/I NUOVO/I, mai curato né dichiarato: cervello/cancello-stop.mjs`. Tre prove della suite erano rosse per questa sola riga. Non l'ho dichiarata esente: curarla costava dieci righe e ha reso la decisione eseguibile da una prova, che prima non lo era."
+      "descrizione": "Trovato dalla spazzata dei fratelli mentre consegnavo AR-819: `❌ 1 FRATELLO/I NUOVO/I, mai curato né dichiarato: cervello/cancello-stop.mjs`. Tre prove della suite erano rosse per questa sola riga. Non l'ho dichiarata esente: curarla costava dieci righe e ha reso la decisione eseguibile da una prova, che prima non lo era.",
+      "chiuso_il": "2026-08-26 08:32"
     },
     {
       "id": "AR-822",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "bloccante",
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo.",
@@ -17601,14 +17614,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
-        "nota": "Dieci casi. Due girano sul repo VERO (il guardiano esce 0; il perimetro contiene davvero i tre file, non e' una lista vuota). Due girano su un repo finto con radice sostituibile LAVORI_CORSIA_ROOT e servono a vedere il guardiano DIVENTARE ROSSO e ⚪: senza di loro una mutazione non mordeva, perche' sul repo vero la corsia c'e' su ogni corpo e il caso rosso non capita mai — un guardiano che non si e' mai visto bocciare nessuno e' indistinguibile da uno che non guarda. Sette mutazioni verificate rosse."
+        "nota": "Dieci casi. Due girano sul repo VERO (il guardiano esce 0; il perimetro contiene davvero i tre file, non e' una lista vuota). Due girano su un repo finto con radice sostituibile LAVORI_CORSIA_ROOT e servono a vedere il guardiano DIVENTARE ROSSO e ⚪: senza di loro una mutazione non mordeva, perche' sul repo vero la corsia c'e' su ogni corpo e il caso rosso non capita mai — un guardiano che non si e' mai visto bocciare nessuno e' indistinguibile da uno che non guarda. Sette mutazioni verificate rosse. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Nicola, 25/8/2026: «fai la card 174». Passo 1 eseguito sul database della memoria: colonna aggiunta, 3.276 righe su 3.276 messe nella corsia «centro», indice creato. Passo 2 NON eseguito: la sua precondizione era incompleta e questa scheda e' il motivo. Diventa eseguibile quando questa riparazione e' su main e il VPS l'ha presa.",
-      "nato_da": "Nicola ha detto «fai la card 174»; eseguendo il passo 1 e controllando la precondizione del passo 2 ho cercato TUTTI gli scrittori della coda, non solo quello nominato nella card"
+      "nato_da": "Nicola ha detto «fai la card 174»; eseguendo il passo 1 e controllando la precondizione del passo 2 ho cercato TUTTI gli scrittori della coda, non solo quello nominato nella card",
+      "chiuso_il": "2026-08-26 07:29"
     },
     {
       "id": "AR-823",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "minore",
       "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",
@@ -17622,10 +17636,11 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
-        "nota": "Il caso «con la radice sostituita il costruttore JS non finge»: repo finto con cervello/sentinella-motore.mjs diverso da quello di casa, il guardiano deve uscire 2 e nominarlo fra i non misurati. Trovato riguardando il perimetro con la lente rischio-sicurezza-se, non per caso."
+        "nota": "Il caso «con la radice sostituita il costruttore JS non finge»: repo finto con cervello/sentinella-motore.mjs diverso da quello di casa, il guardiano deve uscire 2 e nominarlo fra i non misurati. Trovato riguardando il perimetro con la lente rischio-sicurezza-se, non per caso. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Nato dalla riguardata che il cancello impone da oggi sul perimetro toccato. Senza quel passo non l'avrei visto: avevo appena finito di scrivere quel guardiano e lo consideravo a posto.",
-      "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, che il passo nuovo del cancello (#845) impone prima di consegnare"
+      "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, che il passo nuovo del cancello (#845) impone prima di consegnare",
+      "chiuso_il": "2026-08-26 07:29"
     },
     {
       "id": "AR-824",
@@ -17670,7 +17685,7 @@
     },
     {
       "id": "AR-826",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando.",
@@ -17684,14 +17699,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/entrate-senza-cancello.test.mjs",
-        "nota": "Il caso «la chiave NON compare fra gli argomenti del processo». Mutazione provata: rimettere la chiave come `-H Authorization: Bearer` fra gli argomenti — la prova diventa rossa."
+        "nota": "Il caso «la chiave NON compare fra gli argomenti del processo». Mutazione provata: rimettere la chiave come `-H Authorization: Bearer` fra gli argomenti — la prova diventa rossa. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Nato dalla riguardata che il cancello impone sul perimetro toccato, con la lente rischio-sicurezza-se. Il file l'avevo appena scritto e lo consideravo finito: le prove erano verdi, lo strumento dava il numero giusto. Stessa forma di AR-823 — quello che manca a un lavoro appena finito non lo trova chi l'ha fatto, a meno che non si obblighi a riguardarlo con una lente diversa da quella con cui l'ha scritto.",
-      "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, imposta dal cancello prima della consegna"
+      "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, imposta dal cancello prima della consegna",
+      "chiuso_il": "2026-08-26 11:12"
     },
     {
       "id": "AR-827",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "integrita-memoria",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore.",
@@ -17705,14 +17721,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs",
-        "nota": "Tre casi nuovi: una ritirata non e' viva ed e' contata col suo nome; spenta = decaduta+ritirata e NON in-prova ne' risolta; e il metro che gira sul repo VERO e deve trovare zero. Prima del fix: 15 ritirate contate vive, archivio a 1.053.706 byte contro un tetto di 1.048.576, e il potatore che diceva «0 decadute, non posso fare niente»."
+        "nota": "Tre casi nuovi: una ritirata non e' viva ed e' contata col suo nome; spenta = decaduta+ritirata e NON in-prova ne' risolta; e il metro che gira sul repo VERO e deve trovare zero. Prima del fix: 15 ritirate contate vive, archivio a 1.053.706 byte contro un tetto di 1.048.576, e il potatore che diceva «0 decadute, non posso fare niente». — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Trovato perche' mi ha bloccato: le due lezioni di questo lotto hanno spinto l'archivio oltre il tetto, il potatore ha detto che non poteva fare niente, e sono andato a vedere perche'. L'archivio su main stava a 702 byte dal muro.",
-      "nato_da": "il cancello del lotto: `archivi-senza-tetto` e' diventato rosso quando ho aggiunto le due lezioni di questo lotto"
+      "nato_da": "il cancello del lotto: `archivi-senza-tetto` e' diventato rosso quando ho aggiunto le due lezioni di questo lotto",
+      "chiuso_il": "2026-08-26 11:12"
     },
     {
       "id": "AR-828",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore.",
@@ -17726,14 +17743,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/entrate-senza-cancello.test.mjs",
-        "nota": "Il caso «la chiave NON compare fra gli argomenti del processo» controlla la lista completa degli argomenti di curl, e quella lista adesso porta i due tetti. DICHIARATO: NON ho ricreato il caso con GitHub lento — questo l'ho trovato riguardando il perimetro, non provandolo. La prova protegge la forma degli argomenti, non il comportamento sotto rete lenta."
+        "nota": "Il caso «la chiave NON compare fra gli argomenti del processo» controlla la lista completa degli argomenti di curl, e quella lista adesso porta i due tetti. DICHIARATO: NON ho ricreato il caso con GitHub lento — questo l'ho trovato riguardando il perimetro, non provandolo. La prova protegge la forma degli argomenti, non il comportamento sotto rete lenta. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Trovato dalla riguardata del perimetro con la lente cadenza-esecuzione, sul file che avevo appena modificato io. Secondo difetto di questo lotto nato dal riguardare il mio stesso lavoro, dopo AR-826.",
-      "nato_da": "la riguardata del perimetro toccato con la lente cadenza-esecuzione, imposta dal cancello prima della consegna"
+      "nato_da": "la riguardata del perimetro toccato con la lente cadenza-esecuzione, imposta dal cancello prima della consegna",
+      "chiuso_il": "2026-08-26 11:12"
     },
     {
       "id": "AR-829",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione.",
@@ -17747,14 +17765,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/sorvegliante.test.mjs",
-        "nota": "Quattro casi: prosa riconosciuta, campi di dichiarazione ancora guardati, chiave sconosciuta guardata (non esentata), e la regola che non esce dai .json. Mutazione: esentare anche `gate` — la prova diventa rossa."
+        "nota": "Quattro casi: prosa riconosciuta, campi di dichiarazione ancora guardati, chiave sconosciuta guardata (non esentata), e la regola che non esce dai .json. Mutazione: esentare anche `gate` — la prova diventa rossa. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Trovato perche' mi ha bloccato la consegna: il cancello e' diventato rosso sul sorvegliante dopo che il potatore aveva fatto esattamente il suo mestiere.",
-      "nato_da": "il cancello del lotto, dopo la potatura resa possibile da AR-827"
+      "nato_da": "il cancello del lotto, dopo la potatura resa possibile da AR-827",
+      "chiuso_il": "2026-08-26 11:12"
     },
     {
       "id": "AR-830",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo.",
@@ -17768,10 +17787,11 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs",
-        "nota": "Repository finti con un origin vero, radice sostituita da PROSSIMO_AR_ROOT. Il caso che ricrea il difetto: main a AR-100/101 e un ramo aperto a AR-102/103 — il comando deve dire AR-104. Tre mutazioni provate: togliere i rami dal calcolo (3 prove rosse), contare anche i rami gia' fusi (1), ingoiare un cantiere illeggibile (1)."
+        "nota": "Repository finti con un origin vero, radice sostituita da PROSSIMO_AR_ROOT. Il caso che ricrea il difetto: main a AR-100/101 e un ramo aperto a AR-102/103 — il comando deve dire AR-104. Tre mutazioni provate: togliere i rami dal calcolo (3 prove rosse), contare anche i rami gia' fusi (1), ingoiare un cantiere illeggibile (1). — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Due collisioni il 25/8. La prima scoperta contando male una fusione: 536+1+1 doveva fare 538 e faceva 537, e la scheda mancante era la mia AR-814 perche' main ne aveva gia' una con quel numero. La seconda evitata per fortuna, leggendo il lavoro di un'altra sessione prima di scrivere: teneva AR-819, AR-820 e AR-821 su un ramo aperto e io stavo per dare gli stessi numeri. Rinumerata da AR-824 a AR-830 il 26/8 alle 09:55: mentre riparavo questo difetto, un'altra sessione ha preso lo stesso numero e l'ha unito su main prima di me. La riparazione impedisce di PRENDERE un numero gia' preso; non impedisce a un'altra sessione di prendere il mio subito dopo. Il difetto che resta e' registrato a parte.",
-      "nato_da": "le due collisioni del 25/8, andando a cercare perche' un comando nato apposta per evitarle non le avesse evitate"
+      "nato_da": "le due collisioni del 25/8, andando a cercare perche' un comando nato apposta per evitarle non le avesse evitate",
+      "chiuso_il": "2026-08-26 11:12"
     },
     {
       "id": "AR-831",
@@ -17850,7 +17870,7 @@
     },
     {
       "id": "AR-835",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "integrita-memoria",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla fiducia nella Cabina: la coda che serve a far sapere a Nicola lo stato gli diceva TRE numeri diversi sulla stessa cosa (23, 24, 25), e solo l'ultimo era vero. Un file di stato che contiene tre stati non e' un file di stato.",
@@ -17864,14 +17884,15 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
-        "nota": "Il caso che conta gira su una coda finta e fa DUE passate di seguito: dopo la seconda il rimando dev'essere uno solo. Prima del fix ne restavano due. Piu' il controllo sul file vero, che ne pretende uno."
+        "nota": "Il caso che conta gira su una coda finta e fa DUE passate di seguito: dopo la seconda il rimando dev'essere uno solo. Prima del fix ne restavano due. Piu' il controllo sul file vero, che ne pretende uno. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Trovato perche' mi ha bloccato la consegna, e solo dopo aver refutato la mia prima spiegazione. Il cancello diceva che la coda aveva guadagnato un punto difficile; credevo fosse perche' archiviare una card avvicina testi prima lontani. Misurato: falso, togliere la card e basta lascia il conto identico. Era la riga che lo strumento stesso scriveva.",
-      "nato_da": "il cancello del lotto, sulla chiusura della card 174: «verdetti senza lettore» ha visto la coda peggiorare di un punto"
+      "nato_da": "il cancello del lotto, sulla chiusura della card 174: «verdetti senza lettore» ha visto la coda peggiorare di un punto",
+      "chiuso_il": "2026-08-26 16:43"
     },
     {
       "id": "AR-836",
-      "stato": "riparato",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "impatto_crescita": "diretto: avrebbe cancellato in silenzio la coda di qualunque card che cita la riga del rimando — e la prima che la cita e' proprio quella che racconta questa riparazione. Perdita di dati nella coda che Nicola legge, senza nessun segnale.",
@@ -17885,10 +17906,11 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
-        "nota": "Il caso «una card che CITA il rimando non viene tagliata a meta'». Mutazione provata: tornare al confine di blocco — la prova diventa rossa."
+        "nota": "Il caso «una card che CITA il rimando non viene tagliata a meta'». Mutazione provata: tornare al confine di blocco — la prova diventa rossa. — STATO CORRETTO il 2026-08-27 (AR-844): questa scheda era rimasta in stato «riparato», che nel cantiere della MACCHINA non lo capisce nessuno. Il vocabolario e' del registro dei difetti del SITO (`radiografia-marketplace-conti.mjs`, dove `STATI_CHIUSI` contiene anche «riparato» e «gia_riparato_prima»), e nel cantiere della macchina ogni misuratore usa `stato === \"chiuso\"` e basta: tasso di chiusura, cancello del lotto, auto-fix, guardiano delle prove. Il risultato e' che una scheda riparata E PROVATA restava contata aperta per sempre. La data e' quella del commit che l'ha introdotta, presa da git: queste schede sono nate gia' riparate — trovate mentre si riparava altro — e non avevano nessuna data di chiusura. La prova e' stata rifatta girare il 27/8 prima di toccare lo stato: verde."
       },
       "descrizione": "Trovato dalla riguardata del perimetro con la lente rischio-sicurezza-se, dopo che avevo gia' dichiarato finito il fix e con tutte le prove verdi. Non e' mai arrivato a Nicola: e' vissuto dentro questo lotto.",
-      "nato_da": "la riguardata del perimetro toccato, imposta dal cancello prima della consegna"
+      "nato_da": "la riguardata del perimetro toccato, imposta dal cancello prima della consegna",
+      "chiuso_il": "2026-08-26 16:43"
     },
     {
       "id": "AR-837",
@@ -18050,6 +18072,29 @@
       },
       "chiuso_il": "2026-08-27 08:15",
       "fix_fatto": "🟡 Contato e chiuso nello stesso lotto, non solo contenuto. Il conto vero, misurato guardiano per guardiano invece che riga per riga (una riga scoperta e una coperta possono appartenere allo stesso guardiano — e' la forma giusta, la usano `prove-oneste` e `gate-veri`): **19 vincoli scritti a mano · 3 gia' col ramo del cieco · 10 su guardiani che dichiarano un'uscita 2 · 6 VIVI**. I sei erano vivi in due versi opposti, e tutti e due fanno danno: `senior-sola-lettura` e `ci-stato` erano legati a `-eq 1`, quindi su un guardiano cieco NON dicevano niente — un cieco travestito da verde, che non va a cercare nessuno; `test-cervello`, `chiusura-loop`, `calibrazione debito` e `north-star-check` erano legati a `-ne 0`, quindi raccontavano al motore la diagnosi di dominio. Il piu' caro era il north star: riscrive il giro intero, e lo avrebbe riscritto per un sensore rotto. Tutti e sei passano ora da `vincolo_da_rc`. Contatore nuovo `cervello/vincoli-senza-cieco.mjs`, tetto `vincoli_senza_cieco` a **0** (la classe e' chiusa: non c'e' debito da smaltire, c'e' una porta da tenere chiusa), montato in `cancello-lotto.mjs`."
+    },
+    {
+      "id": "AR-844",
+      "titolo": "Diciotto schede riparate e provate restavano contate aperte: il loro stato era scritto nel vocabolario dell'altro registro",
+      "dimensione": "guardrail-semaforo",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 10:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 67: cercando le schede riparate e mai chiuse, dopo averne trovate due (AR-780 e AR-796) che dicevano «RIPARATO» nelle note e restavano aperte",
+      "causa_radice": "In casa ci sono DUE registri di difetti e DUE vocabolari, a due cartelle di distanza. Nel cantiere della MACCHINA l'unico stato chiuso e' `chiuso`, e lo usano TUTTI i misuratori — `tasso-chiusura.mjs`, `cancello-lotto.mjs`, `auto-fix.mjs`, `cantiere-prove.mjs` — ognuno con il suo `stato === \"chiuso\"` scritto a mano. Nel registro dei difetti del SITO, invece, `radiografia-marketplace-conti.mjs` dichiara `STATI_CHIUSI = [\"chiuso\", \"riparato\", \"gia_riparato_prima\"]`. Le due parole si somigliano, e chi ha lavorato sui due registri nella stessa giornata ha usato la seconda nel primo: **18 schede** in stato `riparato`, nate gia' riparate (trovate mentre si riparava altro, come AR-841 e AR-842 oggi), tutte con la prova a comando che gira e passa — e contate APERTE da ogni misuratore, per sempre. Nessuna aveva una data di chiusura. Il guardiano delle prove le VEDEVA («18 schede in uno stato che non so nominare») e usciva 0 lo stesso: non mancava l'occhio, mancava la porta.",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (18 schede) · cervello/cantiere-prove.mjs (vedeva e non fermava)",
+      "fix_fatto": "🟡 Due pezzi. (a) Le 18 schede corrette a `chiuso`, ognuna con la data VERA del commit che l'ha introdotta, presa da git — non la data di oggi, che avrebbe raccontato una riparazione fatta stamattina. Prima di toccare uno stato ho rifatto girare TUTTE e 11 le prove a comando delle 18 schede: verdi. Si corregge lo stato di un fix che c'e', non si dichiara chiuso un fix che non c'e'. (b) Il freno che mancava: `cervello/stati-che-nessuno-capisce.mjs`, tetto `stati_ignoti` a **0**, montato in `cancello-lotto.mjs`. Non conta niente per conto suo — chiede a `stati-cantiere.mjs`, che e' gia' la casa unica del conteggio: un secondo contatore sarebbe stata la stessa malattia curata dentro la cura.",
+      "impatto": "Il conto: 692 chiuse diventano 710, i non-chiusi da 142 a 124. Ma il danno vero non e' il numero — e' che una scheda riparata resta in una lista che qualcuno un giorno riaprira' per «finire il lavoro», su un lavoro gia' finito. E dall'altro lato il tasso di chiusura, il voto che la macchina si da', restava piu' basso del vero: la macchina si frenava da sola.",
+      "origine": "lotto 67",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/uno-stato-che-nessuno-capisce.test.mjs",
+        "nota": "7 casi su ingressi finti — l'unico modo di verificare che il freno sappia dire sia si' sia no. C'e' il caso che l'ha fatto nascere (una scheda `riparato` nel cantiere della macchina e' un rosso), i quattro stati di casa che devono passare, il tetto che governa nei due versi, e il «non ho potuto contare» che vale ⚪ e non verde — la stessa regola che questo freno esiste per far rispettare agli altri, applicata a se' stesso. Piu' il caso che il freno sia MONTATO nel cancello (scartando le righe commentate prima di cercare) e il caso sul cantiere VERO. 4 mutazioni verificate rosse."
+      },
+      "chiuso_il": "2026-08-27 10:55"
     }
   ],
   "meta": {

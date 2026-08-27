@@ -7852,6 +7852,38 @@
    "cerca": "    passi.push(esegui(\"vincoli che non sanno dire «non lo so» (tetto)\", \"node\", [\"cervello/vincoli-senza-cieco.mjs\"]));",
    "sostituisci": "",
    "test": "cervello/test/un-vincolo-che-non-sa-dire-non-lo-so.test.mjs"
+  },
+  {
+   "difetto": "AR-844",
+   "nome": "il freno smette di vedere il caso che l'ha fatto nascere: una scheda «riparato» passa",
+   "file": "cervello/stati-che-nessuno-capisce.mjs",
+   "cerca": "  if (quanti > Number(tetto)) {",
+   "sostituisci": "  if (false && quanti > Number(tetto)) {",
+   "test": "cervello/test/uno-stato-che-nessuno-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-844",
+   "nome": "senza tetto il freno dice verde invece di dire che e' cieco",
+   "file": "cervello/stati-che-nessuno-capisce.mjs",
+   "cerca": "  if (tetto === null || tetto === undefined || Number.isNaN(Number(tetto))) {\n    return { rc: 2, quanti,",
+   "sostituisci": "  if (false) {\n    return { rc: 2, quanti,",
+   "test": "cervello/test/uno-stato-che-nessuno-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-844",
+   "nome": "un conteggio che non si e' potuto fare torna a valere zero",
+   "file": "cervello/stati-che-nessuno-capisce.mjs",
+   "cerca": "  if (!conto || conto.letto === false || !Array.isArray(conto.stati_ignoti)) {\n    return { rc: 2,",
+   "sostituisci": "  if (false) {\n    return { rc: 2,",
+   "test": "cervello/test/uno-stato-che-nessuno-capisce.test.mjs"
+  },
+  {
+   "difetto": "AR-844",
+   "nome": "il freno esce dal cancello del lotto: vede e non ferma nessuno, come il rilevatore di prima",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    passi.push(esegui(\"stati che nessun misuratore capisce (tetto)\", \"node\", [\"cervello/stati-che-nessuno-capisce.mjs\"]));",
+   "sostituisci": "",
+   "test": "cervello/test/uno-stato-che-nessuno-capisce.test.mjs"
   }
  ]
 }
