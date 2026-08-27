@@ -504,6 +504,11 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
 
+> 🩻 **Aggiornamento del 28/8 00:35.** La radiografia del sito di stasera ha ritrovato questo stesso
+> guasto, da sola, e l'ha messo fra i quattro più gravi. Sono passati cinque giorni e la card è
+> ancora qui. Avevo cominciato a scriverne una nuova: era un doppione, l'ho tolta. Le prove stanno
+> in `consegne/audit/2026-08-27-radiografia.md`, sezione «deploy-sre».
+
 ---
 
 ### 🔴 #160 — Il segreto che fa applicare le migrazioni prima di ogni pubblicazione · ⏳ accodata 2026-08-22 09:20
