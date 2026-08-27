@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-08-27 21:54",
+  "quando": "2026-08-28 00:15",
   "fonti_dovute": 4,
   "fonti_totali": 18,
   "agenda": [
@@ -66,7 +66,7 @@
       "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
       "url_websearch": "https://www.google.com/search?q=comune+piacenza+bandi+imprese+commercio+2026",
       "skip_check": true,
-      "motivo": "settimanale_stale_17g"
+      "motivo": "settimanale_stale_18g"
     }
   ],
   "stale": [
@@ -74,31 +74,31 @@
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
       "ultimo": "2026-08-24",
-      "giorni": 3
+      "giorni": 4
     },
     {
       "file": "eventi-picchi",
       "path": "eventi-picchi.md",
       "ultimo": "2026-08-24",
-      "giorni": 3
+      "giorni": 4
     },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
       "ultimo": "2026-08-10",
-      "giorni": 17
+      "giorni": 18
     },
     {
       "file": "leve-uscita",
       "path": "leve-uscita.md",
       "ultimo": "2026-08-10",
-      "giorni": 17
+      "giorni": 18
     },
     {
       "file": "reputazione",
       "path": "reputazione.md",
       "ultimo": "2026-08-18",
-      "giorni": 9
+      "giorni": 10
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"
