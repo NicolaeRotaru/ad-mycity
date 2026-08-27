@@ -20,7 +20,8 @@
 //   node cervello/housekeeping-stato.mjs --json     → l'esito in JSON, per il giro e il Pannello
 //
 // 🟢 Riversibile: le voci si SPOSTANO, non si cancellano. Niente si riscrive.
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync } from "node:fs";
+import { scriviTestoAtomico } from "./scrivi-json.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { TETTO_TESTO } from "./cancello-stop.mjs";
@@ -170,8 +171,18 @@ function main() {
   const testa = existsSync(ARCHIVIO)
     ? readFileSync(ARCHIVIO, "utf8").replace(/\s*$/, "")
     : "# STATO — voci archiviate\n\n> Le voci uscite da STATO.md quando il file superava il campo visivo del\n> controllo di leggibilità. Spostate senza riscrivere niente.";
-  writeFileSync(ARCHIVIO, `${testa}\n\n${vecchie.map((v) => v.join("\n").replace(/\s*$/, "")).join("\n\n")}\n`);
-  writeFileSync(VIVO, `${nuovo.replace(/\s*$/, "")}\n`);
+  // La penna condivisa, non un writeFileSync crudo: scrive su un temporaneo e poi rinomina, cosi
+  // una morte a meta' non lascia uno STATO.md tagliato in due. E fa passare le due scritture dal
+  // freno di AR-668, che e' quello che decide se e dove si scrive davvero (in sola lettura: da
+  // nessuna parte). Torna null quando il freno dice di no, e allora non abbiamo spostato niente.
+  const scrittoArchivio = scriviTestoAtomico(
+    ARCHIVIO,
+    `${testa}\n\n${vecchie.map((v) => v.join("\n").replace(/\s*$/, "")).join("\n\n")}\n`,
+  );
+  if (!scrittoArchivio) {
+    return dillo({ ok: true, secco: true, spostate: 0, dimensione: prima, messaggio: "⚪ il freno di scrittura dice di no (sola lettura o memoria deviata): non ho spostato niente", codice: 0 });
+  }
+  scriviTestoAtomico(VIVO, `${nuovo.replace(/\s*$/, "")}\n`);
   dillo({ ok: true, spostate: d.quante, dimensione: d.dimensione, prima, messaggio: `🗄️ spostate ${d.quante} voci in archivio: STATO.md da ${prima} a ${d.dimensione} caratteri`, codice: 0 });
 }
 

@@ -168,8 +168,11 @@ prova("AR-847: l'archivio si scrive PRIMA del vivo — se muore in mezzo, duplic
     .split("\n")
     .filter((r) => !r.trimStart().startsWith("//"))
     .join("\n");
-  const iA = src.indexOf("writeFileSync(ARCHIVIO");
-  const iV = src.indexOf("writeFileSync(VIVO");
+  // 27/8: le due scritture sono passate alla penna condivisa (scriviTestoAtomico) per rientrare sotto
+  // il tetto degli scrittori crudi del vault. L'ancora si sposta col codice — e questo caso ha fatto
+  // il suo mestiere: invece di passare, ha detto CIECO. Un ⚪ non e' mai un verde.
+  const iA = src.indexOf("scriviTestoAtomico(\n    ARCHIVIO");
+  const iV = src.indexOf("scriviTestoAtomico(VIVO");
   assert.ok(iA > 0 && iV > 0, "CIECO: non trovo le due scritture, questo caso non controlla niente");
   assert.ok(iA < iV, "il file vivo si scrive prima dell'archivio: una morte in mezzo perde le voci invece di duplicarle");
 });

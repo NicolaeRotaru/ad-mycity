@@ -164,6 +164,7 @@ export const DESCRIZIONI = {
   "scadenzario-check": { famiglia: "tempo", cosa: "Nessuna scadenza esterna arriva a sorpresa, e nessun conto alla rovescia trascritto resta a mentire." },
   "pausa-check": { famiglia: "tempo", cosa: "Una card messa in pausa deve avere una sveglia: senza, dorme per sempre e nessuno se ne accorge." },
   "housekeeping-azioni": { famiglia: "tempo", cosa: "Sposta in archivio le azioni già fatte o rifiutate, così la coda da firmare resta corta e vera." },
+  "housekeeping-stato": { famiglia: "tempo", cosa: "Sposta in archivio le voci vecchie del quaderno di stato quando il file cresce oltre il campo visivo, così quello che si legge resta la situazione di adesso." },
   "guardiano-tempo": { famiglia: "tempo", cosa: "Misura quanto lavoro sta aspettando la firma di Nicola e da quanti giorni: la coda è un costo." },
   letargo: { famiglia: "tempo", cosa: "Se quota, cassa o sensori calano, spegne il superfluo in ordine e tiene vivo solo il nucleo." },
   "freschezza-rischi": { famiglia: "tempo", cosa: "Controlla che i rischi gravi dell'azienda siano stati riguardati di recente, invece di restare fermi per mesi." },

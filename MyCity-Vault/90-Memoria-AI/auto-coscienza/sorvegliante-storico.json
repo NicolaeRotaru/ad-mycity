@@ -2,60 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-14T09:59:44.017Z",
-      "scatti": 6930,
-      "voci": 29,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 24,
-        "prova-accecata": 2
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «.claude/workflows/giro-operativo.js», che è il codice su cui poggia la mutazione di AR-435",
-          "ripetuta": 24
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/valida-contratti.mjs», che è il codice su cui poggia la mutazione di AR-579",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/verifica-sensori.mjs», che è il codice su cui poggia la mutazione di AR-573 sensori-calpestati",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/verifica-automazione.mjs», che è il codice su cui poggia la mutazione di AR-370",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/censimento-guardiani.mjs», che è il codice su cui poggia la mutazione di AR-387",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/ritmo.sh», che è il codice su cui poggia la mutazione di AR-628",
-          "ripetuta": 6
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/gate-pubblicazione.sh», che è il codice su cui poggia la mutazione di AR-633",
-          "ripetuta": 6
-        }
-      ]
-    },
-    {
       "quando": "2026-08-14T10:01:13.201Z",
       "scatti": 6939,
       "voci": 29,
@@ -2356,7 +2302,20 @@
         "difesa-rimossa": 3
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T15:18:37.382Z",
+      "scatti": 383,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-27T15:02:40.617Z"
+  "aggiornato": "2026-08-27T15:18:37.383Z"
 }
