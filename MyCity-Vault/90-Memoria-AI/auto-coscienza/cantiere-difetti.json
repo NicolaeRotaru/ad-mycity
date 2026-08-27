@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-26 21:05",
+  "aggiornato": "2026-08-27 12:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18162,6 +18162,52 @@
         "tipo": "umano",
         "nota": "La prova nasce col fix, come per ogni scheda aperta: oggi non c'e' niente da provare verde. Il conto di adesso, misurato: STATO.md a 168.224 caratteri dopo lo spostamento di oggi (era 200.864), archivio a 221.321. Due spostamenti a mano in cinque giorni."
       }
+    },
+    {
+      "id": "AR-848",
+      "titolo": "Una scheda grave non poteva ENTRARE con una parola cercata in un file, ma poteva CHIUDERSI con quella stessa parola",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 11:38",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: chiudendo i nove difetti del sito, l'allineatore ha chiuso da solo un reperto GRAVE perche' una parola compariva in un file",
+      "causa_radice": "L'asticella («un difetto grave o bloccante nasce con una prova che gira») e' montata su DUE porte, e le due porte avevano due altezze. L'INGRESSO — `proveDeboliNate` in cancello-lotto.mjs — legge `[\"grave\",\"bloccante\",…]` e rifiuta una grave nata adesso con una prova a pattern: giusto. L'USCITA — `ammissibilitaProva` in prova-ammissibile.mjs, che e' il cancello consultato da chi CHIUDE — leggeva `GRAVITA_CHE_OBBLIGANO = [\"bloccante\"]` piu' l'impatto di crescita `alto`. Una grave a impatto medio passava. Ed e' la porta che pesa di piu': un difetto che entra resta in un elenco che qualcuno guarda, un difetto che si chiude sparisce e non lo guarda piu' nessuno. La riga di codice aveva il suo perche' scritto sopra — «vietarla ovunque congelerebbe l'84% del cantiere (AR-444)» — ma quel conto e' del 30/7 e vale per il divieto TOTALE, non per la sola riga di mezzo: da allora il tetto `prova_debole` e' sceso da 127 a 17, e il costo vero misurato oggi e' 42 schede.",
+      "dove": "cervello/prova-ammissibile.mjs (GRAVITA_CHE_OBBLIGANO, ammissibilitaProva, umanaDichiarata)",
+      "fix_fatto": "🟡 `grave` entra fra le gravita' che obbligano alla prova comportamentale, cosi' le due porte tornano alla stessa altezza. Insieme, la TERZA uscita onesta che qui mancava e che il manuale concede: `verifica: {tipo:\"umano\"}` soddisfa l'obbligo (nuova `umanaDichiarata`, che legge dal contratto e quindi conosce sia «umano» sia «umana»). Senza quel pezzo la cura chiedeva un test a chi ha appena dichiarato che un test non esiste, e `prova_debole_su_grave` — «il numero che deve scendere scrivendo test» — passava da 20 a 53 riempiendosi di 27 schede su cui non c'e' niente da scrivere. Col pezzo giusto: 20 -> 26. E il motivo del rifiuto adesso nomina la gravita' vera, invece di chiamare BLOCCANTE una scheda grave.",
+      "impatto": "La misura che decide, eseguita e non stimata: AR-128 — la scheda che CLAUDE.md cita per NOME come storia fondativa dell'asticella, «non esiste nessun sensore per le contestazioni carta», la cui prova e' che la parola «chargeback» compaia in un documento — usciva `ammessa: true` dal cancello d'uscita. Sedici giorni dopo che la regola era stata scritta a partire da lei. E il difetto era attivo: lo stesso giorno l'allineatore ha chiuso il reperto GRAVE «Il banco delle prove non sa cosa sia un test saltato: non lo conta e dichiara verde» perche' `cervello/test-cervello.mjs` contiene la parola «saltati» — che non dice niente su quanti test saltati il banco conti. Costo del fix, misurato prima di cambiare: 6 schede aperte del cantiere e 36 reperti della radiografia della macchina passano da «chiudibile su una parola» a «da alzare»; zero sul referto del sito.",
+      "origine": "lotto 68, scoperto riparando",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/due-porte-due-altezze.test.mjs",
+        "nota": "Sedici casi. Il primo e' la forma esatta di AR-128; uno mette le due porte a confronto sulla stessa scheda; uno pretende che la MINORE resti ammessa (o la cura sarebbe il difetto opposto: un muro); uno che la porta della verifica umana sia STRETTA — undici forme storte rifiutate una per una, o l'esenzione onesta diventa la strada comoda; uno guarda il cantiere vero e uno che il cancello sia MONTATO sulle tre bocche che scrivono `stato: \"chiuso\"`, scartando le righe commentate. Quattro mutazioni in mutanti.json su questo difetto, verificate rosse a mano prima di dichiararle."
+      },
+      "chiuso_il": "2026-08-27 11:58"
+    },
+    {
+      "id": "AR-849",
+      "titolo": "Una scheda che dichiara «questo lo puo' chiudere solo un umano» veniva chiusa da una macchina, col motivo «chiusa da una prova che si esegue»",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 11:52",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: la lente della sicurezza sul perimetro di AR-848, eseguendo `verdettoChiusura` su schede finte invece di rileggerlo",
+      "causa_radice": "`verdettoChiusura` (chiusura-dichiarata.mjs) conosceva DUE freni — la dichiarazione «aperto da un umano» (un campo a parte) e il cancello delle prove — e nessuno dei due guarda la FORMA della prova. Una scheda con `verifica: {tipo:\"umano\"}` ed esito «risolto» cadeva quindi nel ramo finale e usciva `chiude: true` col motivo «chiusa da una prova che si esegue»: falso due volte, perche' una verifica umana non esegue niente ed e' la dichiarazione che dice l'opposto. In produzione oggi non ci arriva nessuno — `verificaFix` da' esito «manuale» a tutto cio' che non e' un pattern, e il ramo sopra lo ferma — ma il freno stava nel CHIAMANTE, non nella regola, e un secondo chiamante che calcolasse l'esito in un altro modo chiuderebbe.",
+      "dove": "cervello/chiusura-dichiarata.mjs (verdettoChiusura)",
+      "fix_fatto": "🟡 Una verifica dichiarata umana non la chiude nessuna macchina, e il motivo lo dice: «la verifica e' dichiarata umana: nessun guardiano la chiude — serve che qualcuno la guardi». Il controllo sta nella regola pura, dove un test lo puo' eseguire, non nel chiamante.",
+      "impatto": "Oggi teorico su un solo chiamante, e per questo va scritto adesso: il freno di AR-848 nello stesso lotto ha ALLARGATO la porta dai gravi ai bloccanti (una dichiarazione umana ora soddisfa l'obbligo — ed e' giusto che lo soddisfi: quello che non deve fare e' aprire una chiusura automatica). Chiudere a macchina una scheda che ha dichiarato di aver bisogno di un umano e' il modo piu' silenzioso di perdere un difetto: sparisce dall'elenco con un motivo che suona come una prova.",
+      "origine": "lotto 68, lente rischio-sicurezza-se sul perimetro",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/due-porte-due-altezze.test.mjs",
+        "nota": "Due casi: «NESSUNA macchina la chiude al posto dell'umano» prova le tre gravita' e pretende che il motivo dica perche'; «una prova che ESEGUE chiude ancora» e' il verso opposto, o il freno sarebbe un muro. Mutazione `if (false && umanaDichiarata(...))` verificata rossa."
+      },
+      "chiuso_il": "2026-08-27 12:05"
     }
   ],
   "meta": {

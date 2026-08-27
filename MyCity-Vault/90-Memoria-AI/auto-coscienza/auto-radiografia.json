@@ -620,7 +620,8 @@
             "pattern": "bats",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "chiusura_rifiutata": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una parola cercata dentro un file (.github/workflows/test-cervello.yml ~ /bats/). Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
         },
         {
           "titolo": "Sette asserzioni girano dentro un banco sincrono che non le aspetta: non possono fallire, mai",
@@ -688,7 +689,8 @@
             "pattern": "saltati",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "chiusura_rifiutata": "questo difetto è un GRAVE, e la sua prova è una parola cercata dentro un file (cervello/test-cervello.mjs ~ /saltati/). Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
         },
         {
           "titolo": "La CI salta i push di memoria «perché non proverebbero niente», ma 15 prove leggono proprio la memoria viva",
@@ -833,7 +835,8 @@
             "pattern": "Ricavi ~387K€",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "chiusura_rifiutata": "questo difetto è un GRAVE e ha impatto di crescita ALTO, e la sua prova è una parola cercata dentro un file (consegne/strategia/PIANO-CRESCITA-12-MESI.md ~ /Ricavi ~387K€/). Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
         },
         {
           "titolo": "Ventitré migrazioni SQL pronte dal 4 luglio non sono mai state applicate, e la radiografia del 29 ha ri-scoperto lo stesso bloccante riscrivendone il fix a parole",
@@ -905,7 +908,11 @@
             "pattern": "Supervisione negozi & prodotti — 2026-07-28",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-27 11:11",
+          "chiuso_come": "consegne/supervisione/2026-07-28-supervisione.md NON contiene /Supervisione negozi & prodotti — 2026-07-28/ → combacia",
+          "chiuso_da": "verifica-codice"
         }
       ],
       "giro": "2026-07-30 05:09"
@@ -1133,7 +1140,11 @@
             "pattern": "Tutti i 40 senior",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-27 11:11",
+          "chiuso_come": "MyCity-Vault/07-Agenti/WEB-APPRENDIMENTO-SENIOR.md NON contiene /Tutti i 40 senior/ → combacia",
+          "chiuso_da": "verifica-codice"
         }
       ],
       "giro": "2026-07-30 05:09"
@@ -4908,8 +4919,8 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-21 20:26",
-    "findings_aperti": 258,
+    "aggiornato": "2026-08-27 11:11",
+    "findings_aperti": 256,
     "findings_non_instradabili": 163,
     "findings_non_instradabili_ids": [
       "Cinquantasei schede del cantiere hanno una gravità scritta in una lingua che i contatori n",
@@ -4954,19 +4965,20 @@
       "Il ripasso automatico quando torni sulla scheda è stato costruito per dieci caselle e ne s"
     ],
     "findings_in_corso": 0,
-    "findings_chiusi": 28,
+    "findings_chiusi": 30,
     "findings_tot": 286,
-    "cantiere_totale": 771,
-    "cantiere_aperti": 107,
-    "cantiere_in_corso": 0,
-    "cantiere_da_riverificare": 56,
+    "cantiere_totale": 839,
+    "cantiere_aperti": 114,
+    "cantiere_in_corso": 1,
+    "cantiere_da_riverificare": 10,
     "cantiere_altri": 0,
-    "cantiere_chiusi": 608,
-    "cantiere_da_fare": 163,
+    "cantiere_chiusi": 714,
+    "cantiere_da_fare": 125,
     "cantiere_somma_torna": true,
     "cantiere_stati_ignoti": [],
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "match_aggiornati": 2,
+    "chiusi_verifica": 2,
+    "chiusure_rifiutate_dal_cancello": 3,
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {

@@ -52,9 +52,17 @@ prova("AR-789: un campo che non c'è dà «non lo so», non «no»", () => {
 });
 
 prova("AR-789: una prosa senza categoria in testa NON viene indovinata", () => {
-  const v = P.provaComportamentaleObbligatoria({ gravita: "grave", impatto_crescita: "blocca ogni cadenza insieme, e il Pannello continua a dire che va bene" });
+  // 27/8 · AR-848 — la gravità di prova era `grave`, e da oggi la grave obbliga da sola: il caso
+  // usciva «decidibile» e non misurava più la prosa. Si prova su una gravità che NON decide da
+  // sola, che è l'unico modo di far dipendere la risposta dall'impatto — cioè dal campo in esame.
+  const v = P.provaComportamentaleObbligatoria({ gravita: "minore", impatto_crescita: "blocca ogni cadenza insieme, e il Pannello continua a dire che va bene" });
   assert.equal(v.indecidibile, true, "descrivere l'impatto a parole non è dichiararlo");
   assert.match(v.perche, /non si deduce/);
+  // E il verso opposto, o sarebbe un caso che passa per il motivo sbagliato: con la gravità che
+  // obbliga, la stessa prosa non rende più indecidibile niente. La gravità basta.
+  const pesante = P.provaComportamentaleObbligatoria({ gravita: "grave", impatto_crescita: "blocca ogni cadenza insieme" });
+  assert.equal(pesante.obbligatoria, true);
+  assert.equal(pesante.indecidibile, false);
 });
 
 prova("AR-789: una scheda dichiarata per intero resta decidibile, in tutti e due i versi", () => {
@@ -135,7 +143,14 @@ prova("AR-789: «il cancello non sa decidere» e «il campo non si legge» sono 
     "ogni scheda nella differenza dev'essere una che il cancello decide sulla sola gravità",
   );
   for (const d of spiegate) {
-    assert.equal(C.gravitaNormalizzata(d).valore, "bloccante", `${d.id}: sta nella differenza ma non è un bloccante — allora il conto non torna per un altro motivo`);
+    // 27/8 · AR-848 — qui c'era scritto «bloccante» a mano, cioè una SECONDA copia della lista
+    // delle gravità che decidono da sole. Quando la lista vera ha imparato la parola «grave»,
+    // questa copia è rimasta indietro e il caso è diventato rosso su un cantiere sano. Adesso la
+    // legge dalla casa unica: quando la lista cambia, il caso la segue invece di accusarla.
+    assert.ok(
+      P.GRAVITA_CHE_OBBLIGANO.includes(C.gravitaNormalizzata(d).valore),
+      `${d.id}: sta nella differenza ma la sua gravità «${C.gravitaNormalizzata(d).valore}» non decide da sola — allora il conto non torna per un altro motivo`,
+    );
   }
 });
 

@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-27 09:10",
+ "aggiornato": "2026-08-27 11:45",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -13022,6 +13022,28 @@
    "usi": 0,
    "gate": "node cervello/test/sorvegliante.test.mjs",
    "data": "2026-08-27 09:10"
+  },
+  {
+   "id": "L-2026-0827-03",
+   "testo": "**Quando una regola vale su due porte, va misurata su tutt'e due — perché quella che conta di più è quasi sempre la seconda (27/8).** L'asticella («un difetto grave o bloccante nasce con una prova che gira») era montata bene sul cancello d'INGRESSO e leggeva solo `bloccante` su quello d'USCITA. Cioè: una scheda grave non poteva entrare con una parola cercata in un file, ma poteva **chiudersi** con quella stessa parola. **La porta d'uscita pesa di più, e per un motivo strutturale: un difetto che entra resta in un elenco che qualcuno guarda, un difetto che si chiude sparisce — e per definizione non lo guarda più nessuno.** La misura che l'ha inchiodato: AR-128, la scheda che il manuale cita **per nome** come storia fondativa di quella regola, usciva `ammessa: true` dal cancello d'uscita sedici giorni dopo che la regola era stata scritta a partire da lei. **Il segno per riconoscerlo: una regola scritta al singolare («il cancello dell'asticella») quando le funzioni che la applicano sono due o più.** Il modo di trovarlo in cinque minuti: prendere il caso-simbolo citato nel manuale e passarlo a ogni funzione che decide, non solo a quella che si sta guardando. Due trappole nella cura, tutt'e due pagate qui: ① il commento che spiega perché la porta è larga può essere **vero ma vecchio** — «vietarla ovunque congelerebbe l'84%» era misurato il 30/7 e valeva per il divieto totale, mentre il costo vero della sola riga di mezzo era 42 schede; rimisurare prima di credere alla motivazione scritta. ② allineare la porta bassa a quella alta va fatto **con tutte** le uscite oneste che la porta alta concede, non solo la prima: dimenticando `verifica: {tipo:\"umano\"}` il conto delle prove da alzare passava da 20 a 53, riempiendosi di 27 schede su cui non c'è alcun test da scrivere — e un numero che non si può portare a zero si impara a ignorarlo.",
+   "tag": [
+    "due-porte-due-altezze",
+    "cancelli",
+    "asticella",
+    "commenti-veri-ma-vecchi",
+    "numeri-che-non-scendono"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "evidenze": 2,
+   "fonte": "AR-848, 27/8: l'allineatore ha chiuso da solo un reperto GRAVE su una parola in un file, e la stessa porta ammetteva AR-128.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-27",
+   "ultima_conferma": "2026-08-27 11:45",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/test/due-porte-due-altezze.test.mjs",
+   "data": "2026-08-27 11:45"
   }
  ],
  "principi": [

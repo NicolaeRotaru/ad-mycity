@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
   "_cosa_NON_prova": "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
-  "aggiornato": "2026-08-27 10:46",
+  "aggiornato": "2026-08-27 11:51",
   "soglia_giorni": 7,
   "totale": 122,
   "mancanti": 0,
   "vuoti": 71,
-  "fermi": 98,
-  "vivi": 24,
+  "fermi": 99,
+  "vivi": 23,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -83,6 +83,7 @@
     "private-label",
     "procurement",
     "product-manager",
+    "prompt-engineer",
     "public-policy",
     "q-commerce-ops",
     "qa-designer",
@@ -144,14 +145,13 @@
       "mobile-app",
       "people-talent",
       "pr-stampa",
-      "prompt-engineer",
       "qa",
       "relazioni-istituzionali",
       "tech",
       "trust-safety",
       "ux-designer"
     ],
-    "reparti_muti_conteggio": 21,
+    "reparti_muti_conteggio": 20,
     "peer_review": {
       "richieste": 1,
       "con_risposta": 0,
@@ -1162,7 +1162,7 @@
       "ultimo_esito": "2026-08-20 11:02",
       "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "public-policy",
@@ -1444,8 +1444,8 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 200,
-      "ultimo_esito": "2026-08-27 10:33",
+      "righe_esito": 201,
+      "ultimo_esito": "2026-08-27 11:41",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -1501,7 +1501,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-19 23:23",
-      "giorni_fa": 38,
+      "giorni_fa": 39,
       "vuoto": false,
       "fermo": true
     }
