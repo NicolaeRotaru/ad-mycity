@@ -4621,3 +4621,63 @@ ancora aperti: so quanti ne vedo oggi, non quali sono gli stessi.
 **Dove.** `consegne/audit/2026-08-27-radiografia.md` (referto) ·
 `consegne/audit/2026-08-27-radiografia-marketplace-raw.json` (dati grezzi, scheda intera di ogni
 problema).
+
+## 2026-08-28 17:05 — 🟡 I quattro bloccanti del marketplace riparati in un lotto solo (PR mycity #244)
+
+**Chi ha chiesto.** Nicola: «riesci a risolvere tutti i problemi del marketplace in un solo colpo?»
+
+**Cosa ho risposto.** No a tutti e 194, sì ai quattro bloccanti. Tutti insieme vorrebbe dire una
+modifica che nessuno può rileggere, e l'asticella dice che un bloccante si chiude con una prova che
+gira — non con una parola. Quattro prove nuove si scrivono e si collaudano in un giro; centonovantaquattro
+no. I 190 restanti restano a lotti.
+
+**Cosa ho fatto** (ramo `claude/marketplace-issues-q9v8c5` del marketplace, PR #244, base `main`).
+
+① **Il catalogo invisibile.** Migrazione `129_il_catalogo_si_vede_senza_account.sql`: la domanda «il
+negozio è approvato?» esce dalla regola di lettura ed entra in due funzioni a permessi di definizione
+(`negozio_approvato`, `prodotto_in_vetrina`) che rispondono sì/no senza restituire righe, con
+`REVOKE ... FROM PUBLIC` e GRANT espliciti. Riscritte le regole di `products`, `reviews`,
+`store_reviews`. `trending_product_ids_24h` passa a SECURITY DEFINER (restituisce solo id e
+conteggio); `search_products_smart` e `active_promo_products` leggono la vista pubblica dei negozi
+invece della tabella dei profili, in LEFT JOIN per non far sparire un negozio approvato senza
+insegna. Le tre funzioni nuove sono aggiunte alla lista bianca del controllo 10 col motivo accanto.
+
+② **Il rifiuto senza rimborso.** Nuova rotta server `POST /api/seller/orders/[id]/reject` che riusa
+`annullaERimborsa`, con le stesse regole di `seller_reject_order` (è il mio negozio, stato NEW o
+ACCEPTED). Il pulsante del negoziante adesso chiama quella. Se il rimborso non riesce, l'ordine non
+risulta rifiutato. Scoperto strada facendo e chiuso: sul ramo carta il credito MyCity speso non
+tornava a nessuno — la funzione del database lo restituiva, quindi senza quella riga il passaggio
+alla rotta sarebbe stato un passo indietro per chi compra.
+
+③ **La campanella che poteva non suonare.** Nuovo `lib/api/dopo-la-risposta.ts`: la campanella del
+venditore si scrive PRIMA della risposta a Stripe; email e misure restano indietro ma dentro
+`after()` di Next 15, che tiene viva la funzione. Stesso trattamento alla rotta contanti, che aveva
+lo stesso difetto sulle email.
+
+④ **Il cancello del rilascio.** Le tre chiavi Vercel restano 🔴 di Nicola: sono segreti sul suo
+GitHub. Quello che ho chiuso è il difetto che avrebbe fatto fallire l'accensione (il grave 69): il
+passo delle migrazioni riapplicava tutti i file e sarebbe morto sul primo, perché la 001 e la 002
+creano tabelle senza `IF NOT EXISTS` — provato qui, muore davvero. Nuovo
+`scripts/applica-migrazioni-mancanti.sh` che applica e registra solo quello che manca, e un passo di
+CI che lo fa girare due volte di fila. E lo stato «cancello spento» adesso è scritto in cima al
+riepilogo del lavoro, non in un avviso dentro il log.
+
+**Le prove, e cosa succede senza la riparazione.** Prova nuova sui permessi del database: 8 controlli
+su 10 rossi prima, verdi dopo. Due prove unitarie nuove sui soldi e sugli avvisi, provate al
+contrario davvero — rimesso dentro il codice vecchio diventano rosse (5 su 8 e 2 su 2), ripristinata
+la riparazione tornano verdi. Prova del doppio giro sulle migrazioni.
+
+**Verificato in sessione.** 1538 prove unitarie verdi, 19 file di controlli sul database verdi su
+uno schema ricostruito da zero (130 migrazioni), l'ultima migrazione applicata su un database che ha
+dentro degli ordini, typecheck pulito, lint senza errori, build di produzione riuscita.
+
+**Cosa NON ho verificato.** Il sito pubblicato, in nessun punto. Nessun ordine vero, nessuna carta
+addebitata, nessun rimborso chiesto a Stripe: le prove sui soldi girano con uno Stripe finto. Le
+email non le ho viste arrivare. Il quarto bloccante non è chiuso, è dichiarato: finché mancano le
+chiavi, il rilascio resta quello automatico di Vercel.
+
+**Cosa serve da Nicola.** ① La prova in finestra anonima (card #181): decide se il primo bloccante
+era un incendio o una bomba già disinnescata in produzione. ② Le tre chiavi Vercel (card #161, ferma
+dal 22 agosto). ③ La firma sull'unione della PR #244.
+
+**Dove.** PR `NicolaeRotaru/mycity#244` · `consegne/tech/2026-08-28-quattro-bloccanti-marketplace.md`.
