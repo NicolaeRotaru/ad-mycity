@@ -1005,28 +1005,43 @@ function main() {
     // potuto misurare (cantiere assente o illeggibile, tetto illeggibile, file di prova sparito —
     // provate una per una). Non chiama git: il clone superficiale non lo tocca, qui esce 0 in 0,2 s.
     passi.push(esegui("prove che non nominano il difetto che dimostrano (tetto)", "node", ["cervello/puntatori-scollegati.mjs"]));
-    // AR-797 — `cervello/due-case.mjs` NON È AGGANCIATO QUI, ED È UNA DECISIONE MISURATA, non una
-    // dimenticanza. Chiede una cosa giusta («un controllo nuovo di questo cancello nasce già rotto
-    // sul runner?») e il suo motore regge: le tre bocciature del collaudo del 23/8 sono curate e
-    // rimisurate il 28/8 (censimento che dichiara ⚪ invece di sotto-contare · `--aggiorna-tetto`
-    // che rifiuta di scrivere senza tetto leggibile · la casa spoglia che adesso ha `origin/main`).
+    // AR-797 — IL PASSO NUOVO DI QUESTO CANCELLO NASCE GIÀ ROTTO SULLA MACCHINA DELLA CI?
     //
-    // QUELLO CHE MANCA È IL VERDE, e senza verde un passo non entra: montato qui esce **2 (⚪) in
-    // ogni ambiente raggiungibile**, perché nel cancello c'è un passo scritto in una forma che il
-    // suo censimento non sa leggere («prove del Pannello», che si lancia con `process.execPath` e un
-    // percorso calcolato) e lui, giustamente, non chiama verde un cancello che non ha letto tutto.
-    // E chiudendo quel buco — misurato il 28/8 su una copia: `process.execPath` → `"node"` — esce
-    // **1**, perché quel passo diventa il quinto «mai provabile» contro un tetto di 4.
-    // Quindi oggi le sue uscite possibili sono 2 o 1, mai 0: un cancello che non può diventare
-    // verde si impara a saltarlo, ed è la malattia peggiore di tutte.
+    // La malattia che chiude è questa: un controllo entra qui dentro senza che nessuno l'abbia mai
+    // visto girare nella casa in cui girerà davvero. `cervello/test-cervello.mjs` fa girare funzioni
+    // pure su casi finti, verdi qui e verdi sul runner per costruzione; questo cancello invece LANCIA
+    // lo script sul repo vero. La casa è la differenza, e la casa non la misurava nessuno: AR-506 e
+    // AR-514 sono nate così — un file che sul runner non esiste mai, uscita 2 a ogni corsa, e il ⚪ di
+    // un passo solo che fa uscire 2 tutto il cancello.
     //
-    // COSA SERVE PER AGGANCIARLO, in quest'ordine e sono due gesti: ① riscrivere il passo «prove del
-    // Pannello» in forma leggibile (`"node", ["cervello/test-pannello.mjs"]` — `esegui` gli dà già
-    // `cwd: AD_ROOT`, quindi il percorso relativo basta); ② alzare A MANO `tetto_mai_provabili` da 4
-    // a 5 in `cervello/due-case.json`, perché quel passo il cancello lo paga 600 s e resta non
-    // rilanciabile. Fatti quei due, `node cervello/due-case.mjs` esce 0 e la riga entra qui.
-    // Finché non lo sono, è uno strumento da lanciare a mano — e la sua voce sta in
-    // `cervello/guardiani-motivi.json`, che è il posto dove questa casa dichiara i freni non cablati.
+    // ERA COSTRUITO E NON AGGANCIATO DAL 23/8, e la ragione era MISURATA, non una dimenticanza:
+    // montato qui usciva **2 in ogni ambiente raggiungibile**, perché il passo «prove del Pannello»
+    // era scritto con `process.execPath` e un percorso calcolato — una forma che il suo censimento
+    // non sa leggere — e lui, giustamente, non chiama verde un cancello che non ha letto tutto; e
+    // chiudendo quel buco usciva **1**, perché quel passo diventava il quinto «mai provabile» contro
+    // un tetto di 4. Uscite possibili: 2 o 1, mai 0. **Un cancello che non può diventare verde si
+    // impara a saltarlo**, ed è la malattia peggiore di tutte — perciò non entrava.
+    //
+    // I DUE GESTI CHE L'HANNO SBLOCCATO, fatti il 28/8 e misurati in quest'ordine:
+    //   ① il passo «prove del Pannello» riscritto in forma leggibile (`"node",
+    //      ["cervello/test-pannello.mjs"]` — stesso comportamento, `esegui` dà già `cwd: AD_ROOT`):
+    //      il censimento passa da «34 chiamate, 33 lette» a 34 su 34, e `node cervello/due-case.mjs`
+    //      da exit 2 a exit 1;
+    //   ② `tetto_mai_provabili` alzato A MANO da 4 a 5 in `cervello/due-case.json`, col perché
+    //      scritto accanto: quel passo il cancello lo paga 600 s e resta non rilanciabile. Non è
+    //      debito nuovo — è debito che prima non si vedeva perché il censimento non sapeva leggerlo.
+    //      Dopo il gesto ②: exit 0.
+    //
+    // Che questa riga possa uscire 0 su un albero sano lo pretende, come caso che gira,
+    // `cervello/test/due-case-agganciato.test.mjs` (e il caso ⑥ di
+    // `cervello/test/il-guardiano-agganciato-ferma-il-cancello.test.mjs`): togliere la riga, o
+    // riportare «prove del Pannello» alla forma calcolata, o rimettere il tetto a 4, fa rosso lì.
+    //
+    // ⚪ DOVE NON MISURA, E VA LETTO PRIMA DEL VERDE: su un clone superficiale il perimetro del lotto
+    // collassa su HEAD e lui esce 2 (cieco, non fallito: non blocca la consegna e si vede nella PR).
+    // In CI la storia c'è (`fetch-depth: 0`) e quel ⚪ non compare. E resta scoperto il «verde che ha
+    // guardato zero» (AR-511): il perché sta in testa a cervello/due-case.mjs, dichiarato.
+    passi.push(esegui("passi nuovi che nascono rotti sul runner", "node", ["cervello/due-case.mjs"]));
     // AR-693 ② — «29 prove in bash che nessuno fa girare» detto come NUMERO con un tetto, e non come
     // un ⚪ in fondo a un elenco di duecentoquaranta righe. Il tetto scende quando qualcuno installa
     // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue
@@ -1272,8 +1287,18 @@ function main() {
         // consegna non le vedeva: il 24/8 ha detto «SI PUÒ CONSEGNARE» con una prova rossa e una
         // seconda che passava da mesi e avevo appena rotto io. Il guardiano esisteva già ed era
         // montato su una porta che nessuno usa per uscire — la malattia di casa, su sé stessa.
+        // ⚠️ SCRITTO IN FORMA LEGGIBILE — `"node"` e un percorso RELATIVO, non `process.execPath` e
+        // un percorso calcolato con `join(AD_ROOT, …)`. Non è uno stile: è la condizione perché il
+        // censimento di `cervello/due-case.mjs` sappia leggere questo passo. Con la forma di prima
+        // quel freno contava 34 chiamate a `esegui(` e ne sapeva leggere 33, quindi si dichiarava
+        // ⚪ sull'INTERO cancello — misurato il 28/8: `node cervello/due-case.mjs` → exit 2, riga
+        // «1 passo/i è scritto in una forma che non riconosco». È lo stesso comportamento del passo:
+        // `esegui` dà già `cwd: AD_ROOT` (riga 571), quindi il percorso relativo parte dalla stessa
+        // cartella, e `node` è quello con cui gira il cancello stesso (setup-node@v4, node 22, nel
+        // workflow). Chi riscrive questa riga con un comando calcolato riaccende quel ⚪: il caso
+        // che lo dimostra è cervello/test/due-case-agganciato.test.mjs.
         passi.push(
-          esegui("prove del Pannello", process.execPath, [join(AD_ROOT, "cervello/test-pannello.mjs")], {
+          esegui("prove del Pannello", "node", ["cervello/test-pannello.mjs"], {
             timeout: 600_000,
           }),
         );

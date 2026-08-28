@@ -492,13 +492,52 @@ async function gate() {
   const quando = nowPiacenza();
   const oggi = quando.slice(0, 10);
   const salaPath = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md");
-  if (!existsSync(salaPath)) {
-    console.log("🔁 gate: SALA-OPERATIVA.md assente — niente da verificare.");
-    process.exit(0);
+  // AR-861 — UN CIECO CHE USCIVA VERDE, ED È LA VESTE PEGGIORE DELLA MALATTIA DI AR-859.
+  //
+  // Qui c'era `console.log("SALA-OPERATIVA.md assente — niente da verificare"); process.exit(0)`.
+  // AR-859 era un ⚪ travestito da ❌: un falso allarme, fastidioso ma rumoroso. Questo era un ⚪
+  // travestito da ✅: silenzioso, e chi lo legge conclude che è tutto a posto. Lo legge `giro.sh`
+  // (riga ~518) sul serio, con `vincolo_da_rc`: con lo 0 il giro non riceveva NIENTE da un controllo
+  // che non aveva aperto un solo file.
+  //
+  // PERCHÉ 2 E NON 1 — la clausola che salta sempre, decisa guardando CHI LEGGE e non a naso.
+  // A rc=1 `giro.sh` dà al motore questo testo: «reparti con FATTO in SALA-OPERATIVA oggi ma SENZA
+  // riga ESITO nel loro quaderno → registra l'ESITO per ognuno». Senza la Sala quei reparti non
+  // esistono: sarebbe un ordine impossibile da eseguire e una bugia sul contenuto (è esattamente il
+  // difetto AR-862, un file più in là). La domanda di questo gate è «chi ha detto FATTO ha
+  // registrato l'ESITO?»: senza la Sala non ho l'elenco, quindi non ho incrociato niente → ⚪ 2.
+  //
+  // E IL ROVESCIO, perché curare un falso allarme col silenzio sarebbe peggio: «la Sala c'è e
+  // nessuno ha scritto FATTO oggi» resta ✅ 0 — ho guardato e non deve l'ESITO nessuno. Il reperto
+  // «la squadra non si parla» ha un altro padrone, ed è già al suo posto: `repartiMuti` /
+  // `righeFresche` di `sala-regole.mjs`, dentro la sonda (B).
+  //
+  // La decisione non la prende un `if` scritto a mano ma `verdettoPostoVuoto`, dove una prova la può
+  // eseguire senza far partire tutto il programma.
+  const postoCe = existsSync(salaPath);
+  let testoSala = null;
+  if (postoCe) {
+    // Il posto c'è ma non riesco a leggerlo (permessi, è una cartella, I/O): sono cieca lo stesso.
+    // Prima questa riga era nuda: `readFileSync` sarebbe esploso e il processo sarebbe uscito 1 —
+    // di nuovo il codice del reperto per una cosa che non ho misurato.
+    try { testoSala = readFileSync(salaPath, "utf8"); } catch { testoSala = null; }
+  }
+  const vSala = verdettoPostoVuoto({
+    postoCe,
+    // `null` = non ho potuto leggere → ⚪. Con la lettura riuscita il conto è sempre ≥ 1 (`split`
+    // restituisce almeno una riga anche su un file vuoto), quindi il ramo «zero è il reperto» della
+    // funzione non si apre qui: per questo gate lo zero-di-FATTO non è un reperto, vedi sopra.
+    trovati: testoSala === null ? null : testoSala.split("\n").length,
+    dove: "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
+    cerco: "le righe della Sala Operativa da incrociare coi quaderni",
+  });
+  if (vSala.codice !== 0) {
+    console.error(rigaReferto(vSala));
+    process.exit(vSala.codice);
   }
   // Righe canoniche di oggi con FATTO: `- AAAA-MM-GG HH:MM · @reparto · FATTO · msg`
   const attiviOggi = new Set();
-  for (const riga of readFileSync(salaPath, "utf8").split("\n")) {
+  for (const riga of testoSala.split("\n")) {
     const m = riga.match(/^-\s*(\d{4}-\d{2}-\d{2})[^·]*·\s*@([a-z0-9-]+)\s*·\s*FATTO\b/i);
     if (m && m[1] === oggi) attiviOggi.add(m[2].toLowerCase());
   }

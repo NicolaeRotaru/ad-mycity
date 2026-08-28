@@ -34,6 +34,7 @@ const REPO = join(QUI, "..", "..");
 
 const cervello = await import(join(REPO, "cervello", "onesta-check.mjs"));
 const pannello = await import(join(REPO, "pannello", "src", "lib", "onesta-check.ts"));
+const cervelloAmbito = await import(join(REPO, "cervello", "onesta-ambito.mjs"));
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ① LE REGOLE: stesse stringhe, stesso ordine, stessi flag
@@ -104,22 +105,21 @@ const BANCO = [
 
 // 🚧 IL DEBITO MISURATO — quanti casi del banco i due metri giudicano ANCORA in modo diverso.
 //
-// Perché un tetto e non zero, ed è la scoperta più importante di questo lotto. La prima stesura di
-// questa prova pretendeva zero e passava: ma passava perché il profilo di allora («solo-claim»)
+// STORIA DI QUESTO NUMERO, perché è il pezzo che racconta come si chiude un difetto per davvero.
+// La prima stesura pretendeva zero e passava: ma passava perché il profilo di allora («solo-claim»)
 // spegneva la regola sui numeri da tutte e due le parti, e due metri spenti non possono divergere.
-// Rimesso il metro severo che Nicola ha scelto il 28/8, la divergenza è saltata fuori: il Pannello
-// boccia gli orari («dalle 8:00 alle 13:00») e le date ISO, il cervello no, perché le esenzioni
-// vivono in `cervello/onesta-ambito.mjs` e nel Pannello non ci sono.
+// Rimesso il metro severo che Nicola ha scelto il 28/8, la divergenza è saltata fuori e il tetto è
+// stato messo a 3: il Pannello bocciava gli orari («dalle 8:00 alle 13:00») e le date ISO, il
+// cervello no, perché le esenzioni dichiarate vivevano solo in `cervello/onesta-ambito.mjs`.
 //
-// Quindi AR-791 NON è curato: è MISURATO. Il numero qui sotto scende e non risale mai. Il verso
-// della divergenza è quello meno pericoloso — il Pannello è più severo, non più permissivo: nessuna
-// bugia passa, ma una mail onesta con un orario dentro verrebbe fermata.
-// I tre casi, misurati il 28/8 sul banco intero (non su un campione — un campione più piccolo ne
-// aveva contati 2, e il tetto sbagliato era già scritto prima che la prova lo smentisse):
-//   · «orari di apertura»  — il Pannello boccia «8:00», il cervello lo esenta
-//   · «data ISO e ora»     — idem sulla data
-//   · «mail lunga e onesta» — bocciano tutti e due, ma su ESEMPI diversi
-const TETTO_DIVERGENZE = 3;
+// Il 28/8 quella strada — «portare le esenzioni anche nel Pannello» — è stata percorsa: le funzioni
+// che DECIDONO (data, orario, snippet di shell) sono ora anche in `pannello/src/lib/onesta-check.ts`,
+// con gli stessi id, e il test qui sotto le esegue una accanto all'altra su una griglia di rilievi.
+// I motivi per esteso restano di là: quello è il registro, e non si sdoppia.
+//
+// Misurato dopo: 0 divergenze sul banco qui sotto E 0 sulle 41 mail vere di
+// `banco-mail-onesta.test.mjs`. Il tetto scende e non risale mai — da 3 a 0.
+const TETTO_DIVERGENZE = 0;
 
 test("AR-791 (il perno): la divergenza fra i due metri è misurata e non cresce", () => {
   const diversi = [];
@@ -136,12 +136,36 @@ test("AR-791 (il perno): la divergenza fra i due metri è misurata e non cresce"
     diversi.length <= TETTO_DIVERGENZE,
     `i due metri divergono su ${diversi.length} casi, il tetto è ${TETTO_DIVERGENZE} — il tetto scende e non risale:\n  ${diversi.join("\n  ")}`,
   );
-  // E il tetto non può restare in piedi da solo quando il debito è finito: se un giorno le due case
-  // concordano su tutto, questa riga diventa rossa e obbliga ad abbassare il tetto a zero.
-  assert.ok(
-    diversi.length === TETTO_DIVERGENZE,
-    `la divergenza è scesa a ${diversi.length}: abbassa TETTO_DIVERGENZE a ${diversi.length} (scende e non risale mai)`,
-  );
+  // Il debito è finito: adesso il tetto è zero e la riga di sopra è già la guardia. Questa resta a
+  // dire che zero è zero — se un giorno qualcuno rialzasse il tetto «per far passare il lotto»,
+  // questa diventerebbe rossa lo stesso, perché il numero non è più una misura ma una promessa.
+  assert.equal(TETTO_DIVERGENZE, 0, "il tetto delle divergenze è sceso a zero il 28/8: non si rialza per far passare un lotto");
+});
+
+test("AR-791: le ESENZIONI decidono uguale nei due mondi, rilievo per rilievo", () => {
+  // È la strada da cui il difetto era nato: le esenzioni dichiarate stavano solo nel cervello, e il
+  // Pannello bocciava orari e date che di là passavano. Adesso ci sono da tutte e due le parti, e
+  // questa prova le ESEGUE su una griglia — non controlla che il file le contenga.
+  const griglia = [
+    // [regola, raw, prima, dopo, deve essere esente, che cos'è]
+    ["numero-senza-fonte", "21", "sabato ", " agosto siamo aperti", true, "il giorno col mese scritto accanto"],
+    ["numero-senza-fonte", "8", "dalle ", ":00 alle 13:00", true, "l'ora coi minuti dopo"],
+    ["numero-senza-fonte", "30", "alle 18:", " di sera", true, "i minuti con l'ora davanti"],
+    ["numero-senza-fonte", "08", "2026-", "-28 alle 18:30", true, "il mese di una data ISO"],
+    ["numero-senza-fonte", "28", "2026-08-", " alle 18:30", true, "il giorno di una data ISO"],
+    ["numero-senza-fonte", "24", "il ", "/8 arriva", true, "il giorno seguito dal mese in cifre"],
+    ["numero-senza-fonte", "3.000", "scelti da ", " clienti a Piacenza", false, "un claim di business: NON è esente"],
+    ["numero-senza-fonte", "780", "pesa ", " grammi", false, "un peso: non è né una data né un orario"],
+    ["segnaposto", '[ -f "$1" ]', "", "", true, "uno snippet di shell citato"],
+    ["segnaposto", "[NOME]", "Ciao ", ", il tuo ordine", false, "un segnaposto vero"],
+  ];
+  for (const [regola, raw, prima, dopo, atteso, cosa] of griglia) {
+    const a = cervelloAmbito.esenzioneDelRilievo({ regola, raw, prima, dopo });
+    const b = pannello.esenzioneDelRilievo({ regola, raw, prima, dopo });
+    assert.equal(a.esente, atteso, `cervello, ${cosa}: «${raw}»`);
+    assert.equal(b.esente, atteso, `Pannello, ${cosa}: «${raw}»`);
+    assert.equal(b.id ?? null, a.id ?? null, `${cosa}: i due mondi devono anche chiamarla con lo stesso nome`);
+  }
 });
 
 test("AR-791: la porta che usa mani.ts passa DAVVERO dal giudizio, non da una logica sua", () => {

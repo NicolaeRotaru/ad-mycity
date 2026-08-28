@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-29 00:20",
+  "aggiornato": "2026-08-29 01:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18852,6 +18852,24 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Riprodotto dal collaudo cancellando un file di prova vero: il passo passa a 2 con i ⚪ elencati."
+      }
+    },
+    {
+      "id": "AR-879",
+      "titolo": "La prova che difende il passo del Pannello cerca le parole «|| true», non l atto di spegnere il verdetto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① AR-812 ha due clausole: il passo delle prove del Pannello deve esserci, e deve poter BOCCIARE. ② La seconda la difende una riga che fa assert.doesNotMatch(riga, /||s*true/) — cioe cerca la STRINGA «|| true» nel sorgente. ③ Ma «|| true» e solo UNA delle forme dell atto. Spegnere il verdetto scrivendo { ...esegui(...), fallito: false } ottiene esattamente lo stesso effetto — il passo gira, stampa, e non puo bloccare la consegna — e la prova resta VERDE. Misurato il 28/8 costruendo quella mutazione: il test non se ne accorge. ④ Perche e grave: e la malattia che questo lotto intero sta curando, comparsa DENTRO la prova che dovrebbe difendere da lei. Una prova che controlla come il codice e SCRITTO invece di cosa FA e verde finche nessuno cambia le parole, e si aggira cambiando le parole. ⑤ Perche non se n era accorto nessuno: la mutazione che la accompagnava scriveva proprio «|| true», cioe metteva in scena la variante che alla prova conveniva. E la scorciatoia numero uno del catalogo.",
+      "fix_proposto": "🟡 La prova deve guardare l ATTO, non la forma: montare il cancello su un albero finto dove test-pannello.mjs fallisce, e pretendere che il verdetto del cancello sia non-ok. Il modo e gia in casa: cervello/test/il-guardiano-agganciato-ferma-il-cancello.test.mjs lo fa per un altro passo, lanciando il cancello vero su alberi costruiti. Costa piu di una riga di grep, ed e il punto: la riga di grep non costava niente e non difendeva niente. Quando la prova guardera l atto, la mutazione va riportata alla forma generale (fallito: false), che oggi non morde.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 01:10",
+      "nato_come": "scoperta",
+      "nato_da": "ri-agganciando le ancore di AR-812 dopo che la corsia D ha riscritto il passo del Pannello: la mutazione nella forma generale non mordeva, e il perche era nella prova, non nella mutazione",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Riprodotto: sostituendo il passo con { ...esegui(...), fallito: false } il test il-cancello-non-guardava-il-pannello.test.mjs resta verde. Nessuna prova a comando finche il fix non e scritto — e il fix E scrivere quella prova."
       }
     }
   ],

@@ -33,11 +33,31 @@
 // e `node cervello/guardia-viva-check.mjs` è passato a EXIT=1 («voci del registro che parlano di
 // strumenti che non esistono più»). Chi allunga queste righe rilanci quel comando.
 //   0 = puntatori scollegati sotto o pari al tetto: debito dichiarato, non allargato
-//   1 = il debito si è allargato: una prova ha smesso di nominare il difetto che dimostra
+//   1 = il debito si è allargato, e adesso il debito è DUE numeri: gli scollegati sopra il loro
+//       tetto, oppure i ⚪ della sorveglianza sopra il loro (`puntatori_ciechi`, AR-878)
 //   2 = non ho potuto misurare. Cioè: registro assente/illeggibile/vuoto · un file di prova che non
 //       si legge · un file di prova che NON ESISTE · un comando che non nomina nessun file · il
 //       tetto illeggibile · zero file controllati in tutto. Nessuno di questi è «zero scollegati»:
-//       ⚪ non è verde.
+//       ⚪ non è verde. Da AR-878 i ⚪ della sorveglianza hanno anche un TETTO: restano ⚪ finché
+//       stanno sotto, e diventano 1 quando salgono. Il ⚪ del tetto illeggibile no — un tetto che
+//       non ho potuto leggere non può giudicare se stesso.
+//
+// ⚠️ AR-878 — I ⚪ AVEVANO UN NUMERO E NON AVEVANO UN LIMITE, E GLI SCOLLEGATI SÌ.
+// Il buco è nella forma del verdetto, non in un caso particolare: un file di prova rinominato o
+// cancellato — cioè PROPRIO l'evento che questo guardiano sorveglia — sposta una scheda dalla
+// colonna «so dire di no» alla colonna «non ho potuto misurare», e da lì in poi quel numero
+// poteva salire quanto voleva senza che niente diventasse rosso: uscita 2 con uno, uscita 2 con
+// cinquanta. È la stessa malattia che questo file cura sugli scollegati (il `git mv` che faceva
+// scendere il conto da 52 a 42), rifatta sull'altra colonna. Adesso i ⚪ hanno il loro tetto in
+// `cervello/tetti-lotto.json` → "puntatori_ciechi", e la decisione sta in una funzione pura che
+// un test esegue: `tettoDeiCiechi`.
+//
+// LA PORTA CHIUSA, ED È LA RAGIONE DEL DEFAULT: se la chiave NON c'è, il tetto vale **0**, non
+// «nessun tetto». Toglierla — o scriverci dentro qualcosa che non è un intero ≥ 0 — rende il
+// freno più severo, mai più mite. È la voce 9 del catalogo delle scorciatoie («il tetto che
+// risale», variante: togli la chiave e il minimo riparte da zero) presa dal verso giusto: qui
+// toglierla costa un rosso, non lo compra. Misurato il 28/8: con la chiave assente e 0 ⚪ il
+// verdetto resta 0; con la chiave assente e un solo file di prova cancellato diventa 1.
 //
 // ════════════════════════════════════════════════════════════════════════════════════════════════
 // LE TRE RIPARAZIONI DOPO LA BOCCIATURA (verifica avversariale del 23/8/2026, due lenti, entrambe
@@ -592,6 +612,51 @@ export function scollegati(difetti = [], leggi = () => null, esiste = () => fals
 }
 
 /**
+ * AR-878 — IL TETTO DEI ⚪. Pura, senza dipendenze, e un test la ESEGUE: è la sola cosa che decide.
+ *
+ * La domanda che risponde è una sola: **il numero delle cose che non ho potuto misurare è salito?**
+ * Fino al 28/8 questo freno sapeva dire di no sugli scollegati (`quanti > tetto` → rosso) e non
+ * sapeva dirlo sui ⚪: uno o cinquanta, l'uscita era 2 uguale. E i ⚪ non arrivano dal caso — li
+ * genera l'evento esatto che questo guardiano sorveglia, cioè un file di prova rinominato o
+ * cancellato. Bastava quello per spostare una scheda dalla colonna «so dire di no» a quella «non ho
+ * potuto misurare», e da lì in poi il numero cresceva senza che niente diventasse rosso.
+ *
+ * ⚠️ IL TETTO CHE NON C'È VALE ZERO, E NON «NESSUN TETTO». È la porta che questa funzione chiude:
+ * togliere la riga `"puntatori_ciechi"` da `cervello/tetti-lotto.json` non spegne il controllo, lo
+ * porta al massimo della severità. Chi cerca di comprare un verde con un `rm` di una riga compra un
+ * rosso. Vale anche per un valore storto (una stringa, un negativo, una virgola): non è un intero
+ * ≥ 0 → vale 0. L'unico `null` ammesso è «il file dei tetti non l'ho proprio potuto leggere», e lì
+ * non si giudica: un tetto che non ho letto non può giudicare se stesso.
+ *
+ * @param ciechi quanti ⚪ ha prodotto la SORVEGLIANZA (i file di prova che non ho potuto guardare).
+ *   NON ci va il ⚪ del tetto illeggibile: quello è ignoranza sull'infrastruttura, non sull'evento.
+ * @param tetto il numero dichiarato, oppure `null` se il file dei tetti non si è potuto leggere
+ * @returns {{esito:"salito"|"sceso"|"pari"|"non-giudicabile", motivo:string}}
+ */
+export function tettoDeiCiechi({ ciechi = 0, tetto = 0 } = {}) {
+  if (tetto === null || tetto === undefined) {
+    return { esito: "non-giudicabile", motivo: "il file dei tetti non si legge: non ho un numero con cui confrontare i ⚪, e non me lo invento" };
+  }
+  const n = Number(ciechi);
+  const quanti = Number.isInteger(n) && n >= 0 ? n : 0;
+  const t = Number(tetto);
+  const limite = Number.isInteger(t) && t >= 0 ? t : 0;
+  if (quanti > limite) {
+    return {
+      esito: "salito",
+      motivo:
+        `${quanti} cose non misurate contro un tetto di ${limite}: il ⚪ di questo freno si è allargato. ` +
+        "Un file di prova che sparisce o cambia nome è l'evento che sorveglio, non un incidente dell'ambiente: " +
+        'riaggancia il puntatore, oppure — se il ⚪ è vero e resta — alza a mano "puntatori_ciechi" in cervello/tetti-lotto.json e scrivi il perché (AR-878)',
+    };
+  }
+  if (quanti < limite) {
+    return { esito: "sceso", motivo: `cose non misurate scese da ${limite} a ${quanti}: abbassa "puntatori_ciechi" a ${quanti} in cervello/tetti-lotto.json` };
+  }
+  return { esito: "pari", motivo: `${quanti} cose non misurate, esattamente il tetto` };
+}
+
+/**
  * Il verdetto col tetto — la stessa grammatica dei fratelli: il debito ereditato si CONTA, la
  * regressione si BLOCCA. Pura, così il caso «il debito si è allargato» si prova senza dover
  * scollegare un puntatore vero nel repo.
@@ -607,6 +672,12 @@ export function verdettoPuntatori({
   quanti = 0,
   tetto = null,
   ciechi = 0,
+  // AR-878 — i ⚪ della SORVEGLIANZA, separati dal totale `ciechi` (che comprende anche il tetto
+  // illeggibile). Solo questi hanno un limite: il ⚪ dell'infrastruttura non può giudicare se stesso.
+  // Il default 0 su tutti e due sta dalla parte severa, come `controllati`: chi si dimentica di
+  // passarli non compra un permesso, ottiene il metro più stretto.
+  ciechiSorvegliati = 0,
+  tettoCiechi = 0,
   controllati = 0,
   popolazione = null,
   popolazioneDichiarata = null,
@@ -632,6 +703,16 @@ export function verdettoPuntatori({
         "non ho letto nemmeno un file di prova (0 controllati): qualunque numero qui sarebbe comprato non guardando, " +
         "e un tetto abbassato su questo conto butterebbe via i puntatori rotti veri (AR-660)",
     };
+  }
+  // ⛔ AR-878 — IL ⚪ CHE SI È ALLARGATO È UN ROSSO, NON UN ALTRO ⚪.
+  //
+  // Sta QUI, e l'ordine è la decisione: dopo `0 controllati` (che è l'ignoranza totale, e va detta
+  // per prima) e PRIMA del cieco generico — altrimenti il ramo sotto se lo mangia e il tetto non
+  // giudica mai niente. Un ⚪ che cresce è una regressione misurata come quella degli scollegati:
+  // il guardiano ha smesso di poter dire di no su un pezzo in più di quello che sorvegliava.
+  const ciechiVsTetto = tettoDeiCiechi({ ciechi: ciechiSorvegliati, tetto: tettoCiechi });
+  if (ciechiVsTetto.esito === "salito") {
+    return { esito: "violazione", motivo: ciechiVsTetto.motivo };
   }
   if (ciechi) {
     // Il conto tiene dentro anche il tetto illeggibile, quindi il motivo NON dice «puntatori»:
@@ -713,6 +794,12 @@ export function verdettoPuntatori({
         `cervello/tetti-lotto.json a ${quanti} — ma misuralo sull'albero col lotto MONTATO (le schede che il lotto sta per creare ` +
         `contano), non su quello di adesso, e aggiorna "puntatori_popolazione" a ${popolazione} nello stesso gesto`,
     };
+  }
+  // AR-878 — il tetto dei ⚪ SCENDE: se oggi ne ho zero e il tetto dice due, il tetto va abbassato,
+  // o fra un mese due ⚪ nuovi passeranno inosservati. Esce 0 (è lavoro fatto, non una violazione)
+  // ma lo dice, come fa il fratello sopra per gli scollegati.
+  if (ciechiVsTetto.esito === "sceso") {
+    return { esito: "debito", motivo: ciechiVsTetto.motivo };
   }
   // LA FRASE CHE LA VERIFICA HA COLTO IN FALLO. La seconda consegna stampava «✅ ogni prova a
   // comando nomina ancora il difetto che dimostra» sopra il difetto IN FUNZIONE: due schede, il caso
@@ -830,11 +917,16 @@ function main() {
   const r = scollegati(difetti, leggi, esiste, mutazioni);
   let tetto = null;
   let popolazioneDichiarata = null;
+  // AR-878 — `null` vuol dire UNA cosa sola: il file dei tetti non l'ho potuto leggere. La chiave
+  // assente NON è `null`: è 0, cioè il metro più stretto. Vedi `tettoDeiCiechi` per il perché.
+  let tettoCiechi = null;
   const ciechiTetto = [];
   try {
     const t = JSON.parse(readFileSync(TETTI, "utf8"));
     tetto = Object.hasOwn(t, "puntatori_scollegati") ? Number(t.puntatori_scollegati) : null;
     popolazioneDichiarata = Object.hasOwn(t, "puntatori_popolazione") ? Number(t.puntatori_popolazione) : null;
+    const c = Number(t.puntatori_ciechi);
+    tettoCiechi = Object.hasOwn(t, "puntatori_ciechi") && Number.isInteger(c) && c >= 0 ? c : 0;
   } catch {
     ciechiTetto.push("tetti-lotto.json illeggibile: il numero c'è, il confronto col tetto no");
   }
@@ -848,6 +940,11 @@ function main() {
     quanti: r.scollegati.length,
     tetto,
     ciechi: r.ciechi.length + ciechiTetto.length,
+    // I ⚪ CHE HANNO UN TETTO sono solo quelli della sorveglianza. `ciechiTetto` resta fuori apposta:
+    // quando il file dei tetti non si legge non esiste nemmeno il numero con cui giudicarlo, e un
+    // rosso lì sarebbe un freno che accusa l'ambiente invece dell'evento (AR-878).
+    ciechiSorvegliati: r.ciechi.length,
+    tettoCiechi,
     controllati: r.controllati,
     popolazione: r.popolazione,
     popolazioneDichiarata,
@@ -879,6 +976,10 @@ function main() {
           // quanti dei ⚪ sono «il file puntato non c'è / il comando non nomina un file».
           saltati: r.saltati,
           tetto,
+          // AR-878 — i due numeri dei ⚪, in chiaro come quelli degli scollegati: senza il tetto
+          // accanto al conto non si vede se il ⚪ è sotto controllo o si sta allargando.
+          ciechi_sorvegliati: r.ciechi.length,
+          tetto_ciechi: tettoCiechi,
           // ═══ COSA COPRE IL VERDE, in chiaro accanto al verde ═══
           // I TRE NUMERI CHE CONTANO (⑦): rispondono a «l'estrazione porta via questo ancoraggio?».
           // `viste` è quello che il freno vede davvero, `cieche` quello su cui resta verde per
@@ -910,7 +1011,8 @@ function main() {
     const tuttiCiechi = [...ciechiTetto, ...r.ciechi];
     console.log(
       `🧭 PUNTATORI DI PROVA SCOLLEGATI — ${r.scollegati.length} su ${r.controllati} controllati (tetto ${tetto ?? "—"})` +
-        `${tuttiCiechi.length ? ` · ${tuttiCiechi.length} NON misurati` : ""}\n`,
+        `${tuttiCiechi.length ? ` · ${tuttiCiechi.length} NON misurati` : ""}` +
+        ` · ⚪ sorvegliati ${r.ciechi.length}/${tettoCiechi ?? "—"}\n`,
     );
     for (const c of tuttiCiechi.slice(0, 10)) console.log(`  ⚪ ${c}`);
     if (tuttiCiechi.length > 10) console.log(`  ⚪ …e altri ${tuttiCiechi.length - 10} che non ho potuto misurare`);

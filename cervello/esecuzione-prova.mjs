@@ -127,6 +127,16 @@ function percorsiDi(argomenti) {
   return argomenti.filter((a) => !a.startsWith("-") && a.includes("/"));
 }
 
+/** I caratteri che un percorso di questa casa usa davvero — lista BIANCA, misurata: tutte e 939 le
+ *  voci di `mutanti.json` ci stanno dentro (28/8). Serve al ramo «è un percorso», che è l'unico che
+ *  NON passa dal filtro dei metacaratteri: `spezzaComando` lo applica solo alle righe con uno spazio,
+ *  quindi una stringa senza spazi come `cervello/x.mjs;curl` entrava intatta. */
+const PERCORSO_PULITO = /^[A-Za-z0-9._/-]+$/;
+
+/** Le estensioni che `node` da solo non sa eseguire allo stesso modo su ogni versione. Vedi il
+ *  blocco «L'ESECUTORE VA DICHIARATO» sotto. */
+const TIPI_TYPESCRIPT = [".ts", ".mts", ".cts", ".tsx"];
+
 /**
  * Spezza una riga di comando in passi (`&&`) e argomenti, SENZA shell.
  *
@@ -218,11 +228,41 @@ export function comeSiEsegue(test, { soloDentroIlRepo = true, radiciAmmesse = []
   if (fuoriDalRepo(t) && !radiceAmmessa(t, radiciAmmesse)) {
     return { ok: false, forma: "percorso", passi: [], percorsi: [], perche: `esce dal repo e non è sotto una radice ammessa: «${t}»` };
   }
+  // …e dev'essere un percorso e basta. Questo ramo non passa da `spezzaComando`, quindi il filtro dei
+  // metacaratteri non lo vede mai: `cervello/x.mjs;curl` non ha spazi, arrivava qui intatto e usciva
+  // «eseguibile». Non è una falla di esecuzione (si lancia senza shell) ma è una stringa che nessuno
+  // ha guardato scritta in un registro di dati — cioè il primo passo di AR-877.
+  if (!PERCORSO_PULITO.test(t)) {
+    return { ok: false, forma: "percorso", passi: [], percorsi: [], perche: `non è un percorso: «${t}» contiene caratteri che un file di casa non ha` };
+  }
   // …e va lanciato col programma GIUSTO PER LA SUA SPECIE. `node file.bats` è uno script bash dato
   // in pasto al parser JavaScript: SyntaxError, uscita 1, e non-vacuita legge «prova diventata
   // rossa». Due voci vere (AR-390, AR-396) risultavano verificate proprio così.
   if (t.endsWith(".bats")) {
     return { ok: true, forma: "percorso-bats", passi: [{ comando: "npx", argomenti: ["bats", t], percorsi: [t] }], percorsi: [t], perche: "" };
+  }
+  // ─────────────────────────────────────────────────────────────────────────
+  // L'ESECUTORE VA DICHIARATO, NON DEDOTTO DALLA VERSIONE DI CHI PASSA (AR-865)
+  // ─────────────────────────────────────────────────────────────────────────
+  // Sette voci di `mutanti.json` puntano a prove `.mts`. Con `node file.mts` reggono soltanto perché
+  // QUESTO node è il 22.22, che i tipi li toglie da solo. MISURATO qui il 28/8, spegnendo proprio
+  // quella capacità — cioè mettendosi nei panni di un node più vecchio:
+  //     node --no-experimental-strip-types pannello/src/lib/lavoro-negozio.test.mts
+  //     → ERR_UNKNOWN_FILE_EXTENSION, uscita 1
+  // Uscita 1 è ESATTAMENTE il segnale con cui il banco riconosce «la prova è diventata rossa»: su una
+  // macchina con un node più vecchio quelle sette voci comprerebbero il verde qualunque cosa faccia
+  // la mutazione. È AR-840 in un'altra veste, sulla stessa strada.
+  // La cura è la stessa dei `.bats`: il programma lo decide la SPECIE del file, non la fortuna della
+  // versione. `--no-install` perché un esecutore che manca dev'essere un ⚪ subito (lo riconosce
+  // `avvioFallito`), non un pacchetto scaricato dalla rete ed eseguito.
+  if (TIPI_TYPESCRIPT.some((e) => t.endsWith(e))) {
+    return {
+      ok: true,
+      forma: "percorso-typescript",
+      passi: [{ comando: "npx", argomenti: ["--no-install", "tsx", "--test", t], percorsi: [t] }],
+      percorsi: [t],
+      perche: "",
+    };
   }
   return { ok: true, forma: "percorso-node", passi: [{ comando: "node", argomenti: [t], percorsi: [t] }], percorsi: [t], perche: "" };
 }
@@ -258,6 +298,17 @@ export function avvioFallito({ errore = null, uscita = "", entrata = "" } = {}) 
     if (mancante[1] === chiesto || mancante[1].endsWith(`/${chiesto}`)) {
       return `il file della prova non esiste: «${chiesto}» — non è partito niente, non è una prova diventata rossa`;
     }
+  }
+  // ⚪ AR-865, seconda difesa. `node prova.mts` su un interprete che non toglie i tipi non fallisce
+  // per colpa della mutazione: fallisce perché non sa nemmeno aprire il file — ERR_UNKNOWN_FILE_EXTENSION,
+  // uscita 1, cioè un avvio mai avvenuto travestito da «prova diventata rossa». MISURATO il 28/8 su
+  // questa macchina spegnendo la levatura dei tipi (`--no-experimental-strip-types`): prima di questa
+  // riga `avvioFallito` tornava null, cioè il banco ci credeva.
+  // Stretta come quella dei moduli: vale solo se l'estensione ignota è quella del file CHE ABBIAMO
+  // CHIESTO DI ESEGUIRE. Una mutazione che rompe un import verso un file di altra specie deve restare
+  // una prova diventata rossa, non diventare un ⚪ regalato.
+  if (/ERR_UNKNOWN_FILE_EXTENSION/.test(testo) && entrata && testo.includes(String(entrata))) {
+    return `questo interprete non sa eseguire «${entrata}» (estensione non riconosciuta): serve l'esecutore giusto, non è una prova diventata rossa`;
   }
   for (const { re, dillo } of IMPRONTE_DI_AVVIO) {
     if (re.test(testo)) return `${dillo}: la prova non è partita`;

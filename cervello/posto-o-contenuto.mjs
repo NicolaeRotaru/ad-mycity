@@ -29,7 +29,7 @@
 // 🟢 Nessun I/O, nessuna rete, nessun programma che parte all'import: si esegue in un test senza
 // preparare niente.
 
-import { CIECO, OK, ROTTO, codiceUscita } from "./misura-o-cieco.mjs";
+import { CIECO, OK, PAROLE_DEL_CIECO, ROTTO, codiceUscita } from "./misura-o-cieco.mjs";
 
 /**
  * Che verdetto dare quando quello che cercavo non c'è: mancava il POSTO o mancava il CONTENUTO?
@@ -94,4 +94,288 @@ export function rigaReferto(v) {
   const segno = v.codice === 2 ? "⚪" : v.codice === 1 ? "❌" : "✅";
   const targa = v.codice === 2 ? " (AR-859: 2 = non ho potuto misurare, NON è un verde e NON è un rosso)" : "";
   return `${segno} ${v.perche}${targa}`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-866 — IL METRO CHE CERCAVA LA MALATTIA NELLA VESTE IN CUI L'ABBIAMO VISTA LA PRIMA VOLTA
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// `confondeCiecoEdErrore` (in `misura-o-cieco.mjs`) è nato da un caso: dodici strumenti il cui ramo
+// del cieco usciva col letterale **1**. Un guardiano nato da un caso misura il caso, non il
+// problema — e infatti NON vede due vesti:
+//
+//   · il cieco che esce **0** (AR-861), che è la veste peggiore: silenziosa, chi legge conclude
+//     che va tutto bene;
+//   · il ramo in cui l'uscita non è un numero scritto ma una variabile — `process.exit(v.codice)` —
+//     che è proprio la forma in cui la cura di questo giro è stata scritta.
+//
+// E il suo tetto è appena sceso a zero. Uno zero letto senza sapere cosa il metro NON guarda si
+// legge come «finito», ed è per questo che qui il verdetto non è un numero nudo: porta con sé
+// `non_copre`, l'elenco esplicito di ciò che questo metro non sa vedere. Un numero senza la sua
+// copertura è un verde più largo di quello che ha guardato.
+//
+// 🟢 Pura: entra il testo di un programma, esce il giudizio. Nessun I/O.
+
+/**
+ * Le espressioni con cui, in questa casa, un'uscita CALCOLATA porta il contratto 0/1/2.
+ *
+ * Non è indovinare: `codiceUscita`, `codiceUscitaSensori` e il `.codice` di `verdettoPostoVuoto` /
+ * `verdettoCopertura` restituiscono per costruzione uno dei tre codici, e `.exit` è la forma che
+ * usa `verdettoRegistroAssente`. Un'uscita che passa di lì SA uscire 2. Tutto il resto resta
+ * ignoto e finisce in `non_copre`, dichiarato — non dato per innocuo.
+ */
+export const USCITE_DAL_CONTRATTO = /\bcodiceUscita\b|\bcodiceUscitaSensori\b|\.codice\b|\.exit\b/;
+
+/**
+ * Il sorgente con i COMMENTI spenti, righe e colonne intatte.
+ *
+ * Perché serve, e l'ho misurato addosso a me stessa: il commento che ho scritto sopra la cura di
+ * AR-861 CITA il codice malato («qui c'era `process.exit(0)`»). Senza questo passaggio il metro
+ * accusava la spiegazione della cura come se fosse la malattia — la scorciatoia numero 12 del
+ * catalogo, «la parola invece della chiamata», commessa dal metro nato per non commetterla.
+ *
+ * Sostituisce il testo dei commenti con spazi, così i numeri di riga restano quelli veri.
+ */
+export function codiceSenzaCommenti(sorgente = "") {
+  const t = String(sorgente);
+  let out = "";
+  let stato = "codice"; // codice | riga | blocco | "  | '  | `
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    const d = t[i + 1];
+    if (stato === "codice") {
+      if (c === "/" && d === "/") { stato = "riga"; out += "  "; i++; continue; }
+      if (c === "/" && d === "*") { stato = "blocco"; out += "  "; i++; continue; }
+      if (c === '"' || c === "'" || c === "`") stato = c;
+      out += c;
+      continue;
+    }
+    if (stato === "riga") {
+      if (c === "\n") { stato = "codice"; out += c; } else out += " ";
+      continue;
+    }
+    if (stato === "blocco") {
+      if (c === "*" && d === "/") { stato = "codice"; out += "  "; i++; } else out += c === "\n" ? c : " ";
+      continue;
+    }
+    // dentro una stringa: la lascio com'è, ma non mi faccio ingannare dalle fughe
+    out += c;
+    if (c === "\\") { out += t[i + 1] ?? ""; i++; continue; }
+    if (c === stato) stato = "codice";
+  }
+  return out;
+}
+
+/** Il primo `process.exit(` di una riga, con l'argomento preso bilanciando le parentesi. */
+function argomentoDiExit(riga) {
+  const i = riga.indexOf("process.exit(");
+  if (i === -1) return null;
+  let livello = 0;
+  let inizio = i + "process.exit(".length;
+  for (let k = inizio - 1; k < riga.length; k++) {
+    if (riga[k] === "(") livello++;
+    else if (riga[k] === ")") {
+      livello--;
+      if (livello === 0) return riga.slice(inizio, k).trim();
+    }
+  }
+  return null; // parentesi non chiuse su questa riga: non so leggerla → lo dirò in `non_copre`
+}
+
+/**
+ * Che codici d'uscita sa produrre un programma, e da quali rami.
+ *
+ * @param {string} sorgente il testo del programma.
+ * @returns {{uscite: object[], puo_uscire_2: boolean, ciechi_travestiti: object[], non_copre: string[]}}
+ *   · `uscite` — una voce per `process.exit(...)`: riga, forma, codici (o `null` se ignoti), se il
+ *     ramo dichiara di non aver potuto guardare;
+ *   · `puo_uscire_2` — il programma sa dire «non ho potuto misurare»;
+ *   · `ciechi_travestiti` — rami che dichiarano di non aver guardato e NON escono 2 (0 = AR-861,
+ *     1 = AR-859);
+ *   · `non_copre` — cosa questo metro non sa vedere. Non è mai vuoto: è la clausola di AR-866.
+ */
+export function usciteDelProgramma(sorgente = "") {
+  // I commenti si spengono PRIMA di guardare: vedi `codiceSenzaCommenti`.
+  const righe = codiceSenzaCommenti(sorgente).split("\n");
+  const uscite = [];
+  let ignote = 0;
+  let illeggibili = 0;
+  righe.forEach((riga, i) => {
+    if (!riga.includes("process.exit(")) return;
+    const arg = argomentoDiExit(riga);
+    if (arg === null) {
+      illeggibili++;
+      return;
+    }
+    const contesto = contestoDelRamo(righe, i);
+    const cieco = PAROLE_DEL_CIECO.test(contesto);
+    // Un programma che crepa esce 1 ed è giusto così: un `catch` non è un cieco.
+    const dentroUnCatch = /catch\s*\(|\.catch\(/.test(contesto);
+    let forma = "ignota";
+    let codici = null;
+    if (/^\d+$/.test(arg)) {
+      forma = "letterale";
+      codici = [Number(arg)];
+    } else if (soloNumeri(arg)) {
+      // `problemi.length ? 1 : 0` — i codici sono scritti, decide solo QUALE dei due.
+      forma = "scelta-fra-letterali";
+      codici = numeriDi(arg);
+    } else if (USCITE_DAL_CONTRATTO.test(arg)) {
+      forma = "contratto";
+      codici = [0, 1, 2];
+    } else {
+      ignote++;
+    }
+    uscite.push({ riga: i + 1, forma, codici, cieco: cieco && !dentroUnCatch, testo: arg.slice(0, 60) });
+  });
+
+  const puo2 = uscite.some((u) => (u.codici || []).includes(2));
+  const ciechi = uscite.filter((u) => u.cieco && u.codici && !u.codici.includes(2));
+
+  const nonCopre = [
+    "i rami che finiscono senza `process.exit` — `throw`, `process.exitCode = …`, un `return` dal main",
+    "l'uscita decisa dentro un altro file: guardo solo questo sorgente, non le funzioni che importa",
+    "i programmi di shell: qui leggo solo JavaScript",
+    "il RAMO in cui l'uscita si apre davvero: leggo il testo, non lo eseguo",
+  ];
+  if (ignote) nonCopre.push(`${ignote} uscite calcolate fuori dal contratto di casa: non so quali codici producano`);
+  if (illeggibili) nonCopre.push(`${illeggibili} \`process.exit(\` con le parentesi aperte su più righe: non le so leggere`);
+  const conExitCode = (righe.join("\n").match(/process\.exitCode\s*=/g) || []).length;
+  if (conExitCode) nonCopre.push(`${conExitCode} \`process.exitCode = …\`: escono dal fondo del programma, e da qui non li seguo`);
+
+  return { uscite, puo_uscire_2: puo2, ciechi_travestiti: ciechi, non_copre: nonCopre };
+}
+
+/**
+ * Le righe che appartengono AL RAMO di questa uscita, per capire se dichiara di non aver guardato.
+ *
+ * Sei righe all'indietro come fa `confondeCiecoEdErrore`, ma fermandosi alla graffa che chiude:
+ * quello che sta prima è di un altro ramo. Senza questo, in
+ *
+ *   if (!existsSync(SALA)) { console.log("assente"); process.exit(0); }
+ *   process.exit(inadempienti.length ? 1 : 0);
+ *
+ * anche la SECONDA uscita risultava «cieca», perché la parola «assente» era ancora nella finestra —
+ * e un metro che accusa il ramo sano accanto a quello malato non si può portare a zero.
+ */
+function contestoDelRamo(righe, i) {
+  const pezzi = [righe[i]];
+  for (let k = i - 1; k >= 0 && k >= i - 6; k--) {
+    const t = righe[k].trim();
+    if (t.startsWith("}")) break;
+    pezzi.unshift(righe[k]);
+  }
+  return pezzi.join(" ");
+}
+
+/** Tutti i numeri scritti in un'espressione. */
+function numeriDi(espressione) {
+  return [...new Set((String(espressione).match(/\b\d+\b/g) || []).map(Number))].sort();
+}
+
+/** L'espressione decide solo FRA numeri scritti (`x ? 1 : 0`)? Allora i codici li conosco. */
+function soloNumeri(espressione) {
+  return /[?:]/.test(espressione) && numeriDi(espressione).length > 0;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-862 — CHI LEGGE IL VERDETTO, E COME
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// Uno strumento può emettere il 2 perfettamente e non servire a niente, se chi lo legge lo confronta
+// a mano. In `giro.sh` il verdetto di `valida-contratti` era letto con `if [ rc -ne 0 ]` invece che
+// con la funzione di casa `vincolo_da_rc`: col 2 il giro un vincolo lo dava comunque — quindi niente
+// silenzio — ma col TESTO DI DOMINIO di un reperto («CONTRATTI JSON FUORI-CONTRATTO… Rinomina ai
+// nomi canonici»), che con la cartella mancante è una bugia sul contenuto e manda a cercare un campo
+// rinominato che non esiste.
+//
+// Un confronto a mano su un guardiano che sa uscire 2 è la FORMA GENERALE, non il caso singolo:
+// questa funzione la trova, e come sopra dichiara cosa non sa vedere.
+//
+// 🟢 Pura: entra il testo di uno script di shell, esce l'elenco dei lettori.
+
+/**
+ * Lo script di shell con i COMMENTI spenti, righe e colonne intatte.
+ *
+ * Trovato rompendo il fix apposta, ed è la scorciatoia numero 12 del catalogo — «la parola invece
+ * della chiamata» — commessa dal metro nato per non commetterla: rimesso il confronto a mano in
+ * `giro.sh` MA lasciato il commento che spiega la cura, il metro leggeva `vincolo_da_rc` dentro il
+ * commento e dichiarava il blocco curato. Un metro che si accontenta della parola scritta lì vicino
+ * assolve proprio il caso peggiore: cura rimossa, spiegazione rimasta.
+ *
+ * Un `#` apre un commento solo FUORI dalle virgolette e a inizio parola (così `${VAR#pattern}` e i
+ * cancelletti dentro le stringhe restano dove sono).
+ */
+export function shellSenzaCommenti(testo = "") {
+  const t = String(testo);
+  let out = "";
+  let virgolette = null; // null | '"' | "'"
+  let inCommento = false;
+  for (let i = 0; i < t.length; i++) {
+    const c = t[i];
+    if (c === "\n") { inCommento = false; out += c; continue; }
+    if (inCommento) { out += " "; continue; }
+    if (virgolette) {
+      out += c;
+      if (c === "\\" && virgolette === '"') { out += t[i + 1] ?? ""; i++; continue; }
+      if (c === virgolette) virgolette = null;
+      continue;
+    }
+    if (c === '"' || c === "'") { virgolette = c; out += c; continue; }
+    if (c === "#" && (i === 0 || /\s/.test(t[i - 1]))) { inCommento = true; out += " "; continue; }
+    out += c;
+  }
+  return out;
+}
+
+/** La riga con cui `giro.sh` cattura il verdetto di un guardiano. */
+const CATTURA_RC = /(_[a-z0-9_]+)_out="\$\(node "\$SCRIPT_DIR\/([a-z0-9._-]+\.mjs)"[^\n]*\)";\s*\1_rc=\$\?/i;
+
+/**
+ * Chi legge il codice d'uscita di un guardiano dentro uno script di shell, e in che modo.
+ *
+ * @param {string} testoShell
+ * @param {{finestra?: number}} opzioni quante righe sotto la cattura si considerano «il lettore».
+ * @returns {{lettori: object[], non_copre: string[]}} per ogni lettore: `script`, `riga`, `come`
+ *   (`vincolo_da_rc` | `ramo-2` | `uno-poi-il-resto` | `a-mano`), `tratta_il_cieco`, `compone_vincolo`.
+ */
+export function letturaDeiVerdetti(testoShell = "", { finestra = 20 } = {}) {
+  // I commenti si spengono PRIMA di guardare: vedi `shellSenzaCommenti`.
+  const righe = shellSenzaCommenti(testoShell).split("\n");
+  const lettori = [];
+  righe.forEach((riga, i) => {
+    const m = riga.match(CATTURA_RC);
+    if (!m) return;
+    const prefisso = m[1];
+    const blocco = righe.slice(i + 1, i + 1 + finestra).join("\n");
+    const rc = `${prefisso}_rc`;
+    // La chiamata dev'essere legata A QUESTO rc: `vincolo_da_rc "nome" "$_contr_rc" "…"`. Il
+    // semplice «da qualche parte qui sotto c'è scritto vincolo_da_rc» assolveva il blocco accanto.
+    const viaCasa = new RegExp(`vincolo_da_rc[^\\n]*\\$${rc}\\b`).test(blocco);
+    // Un ramo che nomina il 2 per nome: `-eq 2`, `= 2`, oppure l'etichetta `2)` di un `case`.
+    const ramoDue = new RegExp(`\\$${rc}" -eq 2|\\$${rc}" = 2|\\$${rc}" = "2"`).test(blocco) || /^\s*2\)\s*$/m.test(blocco);
+    // `if rc -eq 1 … elif rc -ne 0` separa il reperto da tutto il resto: il cieco ha un ramo suo.
+    const unoPoiIlResto =
+      new RegExp(`\\$${rc}" -eq 1`).test(blocco) && new RegExp(`elif[^\\n]*\\$${rc}" -ne 0`).test(blocco);
+    const componeVincolo = /[A-Z][A-Z0-9_]*_VINCOLO=|_gate_motivi=|MEMORIA_INCOERENTE=1/.test(blocco);
+    const come = viaCasa ? "vincolo_da_rc" : ramoDue ? "ramo-2" : unoPoiIlResto ? "uno-poi-il-resto" : "a-mano";
+    lettori.push({
+      script: m[2],
+      prefisso,
+      riga: i + 1,
+      come,
+      tratta_il_cieco: come !== "a-mano",
+      compone_vincolo: componeVincolo,
+    });
+  });
+
+  return {
+    lettori,
+    non_copre: [
+      'vedo solo la forma `_x_out="$(node "$SCRIPT_DIR/nome.mjs" …)"; _x_rc=$?`: chi lancia un guardiano dentro una pipe, con la funzione `guardiano`, o con un comando messo in una variabile, non lo vedo',
+      `guardo ${finestra} righe sotto la cattura: un lettore più lontano mi sfugge`,
+      "non apro il file del guardiano: se sappia uscire 2 lo decide chi mi chiama",
+      "i blocchi che con quell'rc scrivono solo una riga di log non li giudico: non arrivano al motore",
+    ],
+  };
 }

@@ -78,16 +78,18 @@ const BLOCCO_TEST = `
   echo "[$(ts)] Test del cervello (la rete c'è o non c'è)..."
   _testc_out="$(node "$SCRIPT_DIR/test-cervello.mjs" 2>&1)"; _testc_rc=$?
   printf '%s\\n' "$_testc_out" | tail -6
-  if [ "$_testc_rc" -ne 0 ]; then
-    TEST_VINCOLO="⛔ TEST DEL CERVELLO ROSSI (test-cervello.mjs rc=$_testc_rc): uno o più file di test non passano o non partono. NON dichiarare 'fatto' e non aprire PR finché non tornano verdi: rimettili a posto PRIMA di ogni altro lavoro, poi rilancia 'node cervello/test-cervello.mjs'. Un test rosso ignorato è il difetto che ha generato tutti gli altri."
-    echo "[$(ts)] ⚠️  Test del cervello ROSSI (rc=$_testc_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-843 — «rossi» e «non sono riuscito a lanciarli» sono due notizie diverse, e la seconda manda
+  # a cercare nel posto sbagliato: si va a leggere i test invece di riparare lo strumento.
+  # AR-863 — questo stampo È la cura, non la versione da cui la cura è partita: se resta indietro,
+  # il giorno che questo generatore riscrive giro.sh la cura si disfa in silenzio.
+  TEST_VINCOLO="$(vincolo_da_rc "test-cervello.mjs" "$_testc_rc" "⛔ TEST DEL CERVELLO ROSSI (test-cervello.mjs rc=$_testc_rc): uno o più file di test non passano o non partono. NON dichiarare 'fatto' e non aprire PR finché non tornano verdi: rimettili a posto PRIMA di ogni altro lavoro, poi rilancia 'node cervello/test-cervello.mjs'. Un test rosso ignorato è il difetto che ha generato tutti gli altri.")"
+  [ -n "$TEST_VINCOLO" ] && echo "[$(ts)] ⚠️  Test del cervello: rc=$_testc_rc → passo un vincolo hard al motore." >&2
   # PANNELLO = INFORMATIVO, e il motivo è onesto: girano solo col type-stripping di Node (≥22.18),
   # e da qui non posso verificare quale Node esegue davvero il giro sul VPS. Consegnare un vincolo
   # hard che non ho potuto provare sulla macchina bersaglio è l'errore che ho già fatto. Si promuove
   # a cancello il giorno che lo si vede verde nel log del VPS.
   echo "[$(ts)] Test del Pannello (informativo finché non provato sul VPS)..."
-  node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | tail -4 || true
+  node "$SCRIPT_DIR/test-pannello.mjs" 2>&1 | esito_righe 4 || true
 `;
 
 const BLOCCO_PROMPT = `if [ -n "\${TEST_VINCOLO:-}" ]; then
@@ -109,10 +111,10 @@ const BLOCCO_DEBITO = `
   echo "[$(ts)] Debito di misura (previsioni mai confrontate col reale)..."
   _deb_out="$(node "$SCRIPT_DIR/calibrazione.mjs" debito --gate 2>&1)"; _deb_rc=$?
   printf '%s\\n' "$_deb_out" | tail -12
-  if [ "$_deb_rc" -ne 0 ]; then
-    DEBITO_VINCOLO="⛔ DEBITO DI MISURA APERTO (calibrazione.mjs debito rc=$_deb_rc): ci sono previsioni fatte e mai confrontate col reale. PRIMA di chiudere questo giro chiudine almeno UNA con 'node cervello/calibrazione.mjs esito --id=<id> --reale=<n> --fonte=<fonte>' — il numero va LETTO da una fonte ammessa, mai stimato. Se una previsione non è più misurabile, chiudila lo stesso dicendo perché nella nota: una rinuncia motivata insegna, una scadenza silenziosa no."
-    echo "[$(ts)] ⚠️  Debito di misura aperto (rc=$_deb_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-843 — un registro delle previsioni illeggibile diventava «hai un debito di misura aperto».
+  # AR-863 — anche qui lo stampo porta la cura: è la stessa forma, nello stesso file.
+  DEBITO_VINCOLO="$(vincolo_da_rc "calibrazione.mjs debito" "$_deb_rc" "⛔ DEBITO DI MISURA APERTO (calibrazione.mjs debito rc=$_deb_rc): ci sono previsioni fatte e mai confrontate col reale. PRIMA di chiudere questo giro chiudine almeno UNA con 'node cervello/calibrazione.mjs esito --id=<id> --reale=<n> --fonte=<fonte>' — il numero va LETTO da una fonte ammessa, mai stimato. Se una previsione non è più misurabile, chiudila lo stesso dicendo perché nella nota: una rinuncia motivata insegna, una scadenza silenziosa no.")"
+  [ -n "$DEBITO_VINCOLO" ] && echo "[$(ts)] ⚠️  Debito di misura: rc=$_deb_rc → passo un vincolo hard al motore." >&2
 `;
 
 const BLOCCO_DEBITO_PROMPT = `if [ -n "\${DEBITO_VINCOLO:-}" ]; then

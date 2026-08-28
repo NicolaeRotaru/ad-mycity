@@ -679,10 +679,13 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   echo "[$(ts)] Gate coerenza-fatti (fonte unica della verità, AR-102)..."
   _fatti_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _fatti_rc=$?
   printf '%s\n' "$_fatti_out" | tail -8
-  if [ "$_fatti_rc" -ne 0 ]; then
-    FATTI_VINCOLO="⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente."
-    echo "[$(ts)] ⚠️  AR-102: coerenza-fatti FALLITO (rc=$_fatti_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-862 — stessa forma del blocco valida-contratti, trovata cercando gli altri: `coerenza-fatti`
+  # sa uscire 2 (registro-fatti.json ASSENTE — AR-597), e col 2 questo testo manderebbe a bonificare
+  # copie vecchie in un registro che non c'è. `vincolo_da_rc` sul 2 dice «ripara lo strumento».
+  # Gli altri codici restano al testo di dominio: 3 = copie vecchie in file vivi · 1 = registro
+  # illeggibile — il numero è stampato, così chi legge sa quale dei due.
+  FATTI_VINCOLO="$(vincolo_da_rc "coerenza-fatti.mjs" "$_fatti_rc" "⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente.")"
+  [ -n "$FATTI_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-102: coerenza-fatti rc=$_fatti_rc → passo un vincolo hard al motore." >&2
   echo "[$(ts)] Gate coerenza-rischi (registro canonico 05-Soldi-Rischi)..."
   node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | esito_righe 4 || true
   # AR-449: il peso dei file che la Cabina rilegge ogni 30 secondi. Il 30/7 alle 02:03
@@ -905,10 +908,16 @@ $_chius_out"
   echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043 — ora gate)..."
   _contr_out="$(node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1)"; _contr_rc=$?
   printf '%s\n' "$_contr_out" | tail -4
-  if [ "$_contr_rc" -ne 0 ]; then
-    VERIFICA_VINCOLO="$VERIFICA_VINCOLO
-⛔ CONTRATTI JSON FUORI-CONTRATTO (valida-contratti.mjs rc=$_contr_rc): un file auto-coscienza usa nomi-campo fuori dal contratto → il Pannello legge campi vuoti e mostra a Nicola una salute cieca. Rinomina ai nomi canonici PRIMA di chiudere il giro."
-    echo "[$(ts)] ⚠️  Lever 2: contratti JSON fuori-contratto → vincolo hard al motore." >&2
+  # AR-862 — IL VERDETTO SI LEGGE CON LA FUNZIONE DI CASA, NON CON UN CONFRONTO SCRITTO A MANO.
+  # Qui c'era `if [ "$_contr_rc" -ne 0 ]` col testo di dominio attaccato. Col 2 — la cartella
+  # auto-coscienza non c'è, quindi valida-contratti non ha aperto un solo file — il giro un vincolo
+  # lo dava comunque (niente silenzio), ma diceva «Rinomina ai nomi canonici»: una bugia sul
+  # contenuto, che manda a cercare un campo rinominato che non esiste. `vincolo_da_rc` i tre esiti
+  # li sa distinguere. AR-308: si ACCUMULA sul vincolo del verificatore, non lo si sovrascrive.
+  _contr_vincolo="$(vincolo_da_rc "valida-contratti.mjs" "$_contr_rc" "⛔ CONTRATTI JSON FUORI-CONTRATTO (valida-contratti.mjs rc=$_contr_rc): un file auto-coscienza usa nomi-campo fuori dal contratto → il Pannello legge campi vuoti e mostra a Nicola una salute cieca. Rinomina ai nomi canonici PRIMA di chiudere il giro.")"
+  if [ -n "$_contr_vincolo" ]; then
+    VERIFICA_VINCOLO="$(aggiungi_vincolo "$VERIFICA_VINCOLO" "$_contr_vincolo")"
+    echo "[$(ts)] ⚠️  Lever 2: valida-contratti rc=$_contr_rc → vincolo hard al motore." >&2
   fi
   # Le 7 capacità costruite (visione 53) — sola lettura sui dati reali della macchina:
   # INFORMATIVO — NON si promuove, e la ragione è definitiva: misura il carico di firme di NICOLA, e
@@ -1639,8 +1648,17 @@ if command -v node >/dev/null 2>&1; then
   _cf_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _cf_rc=$?
   if [ "$_cf_rc" -ne 0 ]; then
     MEMORIA_INCOERENTE=1
-    _gate_motivi="${_gate_motivi}coerenza-fatti rc=$_cf_rc (una copia vecchia di un fatto è rimasta in un file vivo); "
-    echo "[$(ts)] ⛔ COERENZA-FATTI (pre-push): memoria incoerente (rc=$_cf_rc) — sync BLOCCATA." >&2
+    # AR-862 — il BLOCCO resta anche col 2, ed è giusto (fail-closed: memoria che non ho potuto
+    # verificare non si pubblica). A mentire era il MOTIVO: «una copia vecchia è rimasta in un file
+    # vivo» con il registro assente è una bugia sul contenuto — e questo motivo non resta nel log,
+    # finisce nell'avviso Telegram che legge Nicola.
+    if [ "$_cf_rc" = 2 ]; then
+      _gate_motivi="${_gate_motivi}coerenza-fatti rc=2 (CIECO: il registro dei fatti non c'è, non ho verificato niente — e un non-verificato non si pubblica); "
+      echo "[$(ts)] ⚪ COERENZA-FATTI (pre-push): CIECO (rc=2) — non è un verde: sync BLOCCATA lo stesso." >&2
+    else
+      _gate_motivi="${_gate_motivi}coerenza-fatti rc=$_cf_rc (una copia vecchia di un fatto è rimasta in un file vivo); "
+      echo "[$(ts)] ⛔ COERENZA-FATTI (pre-push): memoria incoerente (rc=$_cf_rc) — sync BLOCCATA." >&2
+    fi
     printf '%s\n' "$_cf_out" | tail -8 >&2
   fi
   # (2) sanità del vault (l'INTERA 90-Memoria-AI: robusto e semplice — copre anche i file non ancora staged).

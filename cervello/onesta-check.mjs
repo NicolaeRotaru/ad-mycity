@@ -21,7 +21,9 @@
 //   ... e --audit / --contenuto / --lettera per dire CHE COSA stai misurando (AR-433, AR-791):
 //       un audit interno, un contenuto in uscita, o una lettera a un cliente.
 //
-// Exit: 0 = testo onesto/pubblicabile · 1 = violazioni (blocca) · 2 = errore d'uso.
+// Exit: 0 = ho guardato ed è a posto · 1 = ho guardato e ho TROVATO (blocca)
+//       2 = NON HO POTUTO GUARDARE (errore d'uso, oppure testo oltre il tetto di AR-870). Il 2 non
+//           è mai un verde: chi chiama non deve trattarlo come «onesto».
 
 import { existsSync, readFileSync } from "node:fs";
 import process from "node:process";
@@ -47,21 +49,91 @@ const RE_SEGNAPOSTO = [
 ];
 
 // Parole-spia di claim gonfiati.
+//
+// 🚧 AR-873 — I NUMERI SCRITTI A PAROLE ERANO INVISIBILI. Le due regole qui sopra guardano cifre
+// («già 500») o tre parole sole seguite da «di» («centinaia di»). Misurato il 28/8 sul banco delle
+// 41 mail: «siamo già duemila famiglie», «un migliaio di noi», «qualche centinaio di persone»
+// passavano tutte e tre — «già duemila» scavalca la prima perché dopo «già» non c'è una cifra, e
+// «migliaio/centinaio» al singolare scavalcano la seconda perché l'elenco era chiuso a tre parole.
+// Una comunità inventata scritta in lettere costa esattamente quanto una scritta in cifre.
 const RE_SPIA = [
   { nome: "claim 'già N'", re: /\bgià\s+\d[\d.\s]*/gi },
   { nome: "claim vago 'centinaia/migliaia di'", re: /\b(centinaia|migliaia|decine)\s+di\b/gi },
+  {
+    nome: "claim scritto a parole ('duemila famiglie', 'un migliaio di')",
+    re: /\b(?:(?:due|tre|quattro|cinque|sei|sette|otto|nove|dieci|undici|dodici|venti|trenta|quaranta|cinquanta|sessanta|settanta|ottanta|novanta)?(?:mila|mille|cento)|centinai[oa]|migliai[oa])\b/gi,
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-875 — LA SCARSITÀ FABBRICATA: non è un numero sbagliato, è una regola di POLITICA
+// ─────────────────────────────────────────────────────────────────────────────
+// «Restano 9 posti nel giro di consegna, poi passiamo a sabato» non contiene nessun numero falso:
+// contiene una pressione inventata. Il metro guardava solo le cifre e non aveva niente da dire.
+//
+// La regola non me la invento io: sta già scritta in CONTESTO_BUSINESS.md §7, nella lista delle
+// cose da NON costruire in nessuna fase — «dynamic pricing aggressivo» (i prezzi che ballano) e
+// «notifiche beacon di prossimità» (la spinta a chi passa davanti al negozio). Sono la stessa
+// famiglia: urgenza fabbricata per far comprare adesso. Qui quella lista smette di essere una
+// pagina da ricordare e diventa un rilievo che ferma la mail.
+//
+// ⚠️ COME SONO SCRITTE, e perché non bastava una parola sola. Sul banco delle 41 mail «restano»,
+// «ultimi», «adesso», «prima che» e «scade» compaiono in 15 mail ONESTE («gli ordini restano
+// spenti fino a mercoledì», «il buono scade il 30 novembre»). Una regola su quelle parole avrebbe
+// fermato mezzo banco: cancello che suona su tutto = cancello spento (AR-433). Servono le forme
+// COMPOSTE — il posto che si esaurisce, il numero chiuso, chi resta fuori — che una bottega onesta
+// non ha motivo di scrivere.
+//
+// E due forme sono state TOLTE dopo averle misurate sulla memoria della macchina, non sul banco:
+//   · «a esaurimento» — in RITMO.md descrive un bando vero della Camera di Commercio («sportello a
+//     esaurimento posti»): è la formula standard di un fatto pubblico, non una pressione inventata;
+//   · «decine/dozzine» senza «di» — «si ripeteva decine di volte» è un conto di lavori, e la regola
+//     vecchia («centinaia|migliaia|decine di») lo copriva già: il ramo nuovo aggiungeva solo rumore.
+// Restano le forme singolari che la regola vecchia non vedeva («un migliaio di», «qualche centinaio
+// di») e i numeri composti a parole («duemila»), che sono il difetto di AR-873.
+const RE_POLITICA = [
+  {
+    nome: "scarsità fabbricata: posti che si esauriscono",
+    re: /\b(?:restano|rimangono|ne\s+restano|sono\s+rimasti|ultimi|ancora)\s+(?:sol[oi]\s+|soltanto\s+|pochi\s+|poche\s+)?(?:\d+|due|tre|quattro|cinque|pochi|poche)\s+(?:post[oi]|slot|pezz[oi]|consegne|carrell[oi]|copert[oi]|abbonament[oi])\b/gi,
+  },
+  { nome: "scarsità fabbricata: numero chiuso / chi resta fuori", re: /\b(?:numero\s+chiuso|chi\s+resta\s+fuori)\b/gi },
+  { nome: "scarsità fabbricata: si sono esauriti", re: /\bsi\s+(?:sono\s+)?esaurit\w+\b/gi },
+  {
+    nome: "urgenza fabbricata: affrettati / ultima chiamata",
+    re: /\b(?:affrettati|sbrigati|ultima\s+chiamata|non\s+perdere\s+l['’]occasione|prima\s+che\s+finiscano|finché\s+ci\s+sono\s+post[oi])\b/gi,
+  },
 ];
 
 // Un numero significativo (≥2 cifre, o cifra + unità/soggetto). Consideriamo "numero da fondare"
 // una cifra ≥ 2 come "500", "3.000", "12 negozi", percentuali, euro.
-const RE_NUMERO = /\b\d{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?\s?(?:€|euro|%|negozi|famiglie|clienti|ordini|utenti|iscritti|follower)?\b/gi;
+// 🚧 AR-869 — «3000 famiglie» ERA INVISIBILE, «3.000 famiglie» no. La testa dell'espressione era
+// `\d{1,3}`: su «3000» prendeva «300», poi pretendeva il confine di parola e trovava un altro «0»,
+// quindi rinunciava — e su tutta la mail nessun rilievo. Cioè il metro chiedeva al bugiardo di
+// scrivere il punto delle migliaia per essere fermato. Con `\d+` la testa non ha più quel limite.
+// Misurato sul banco delle 41 mail: la mail «3000 famiglie / 1200 / 1400 botteghe» passa a essere
+// fermata, e le mail oneste fermate NON aumentano (l'unico numero a 4 cifre nelle oneste è l'anno
+// «2026», che la clausola degli anni salta come prima).
+const RE_NUMERO = /\b\d+(?:[.,]\d{3})*(?:[.,]\d+)?\s?(?:€|euro|%|negozi|famiglie|clienti|ordini|utenti|iscritti|follower)?\b/gi;
 
 // Marcatori di fonte strutturati (no parole generiche da sole — AR-075 guardrail).
 const RE_FONTE = /(fonte\s*:|\(fonte|\[dati\]|\[fonte|supabase|stripe|posthog|registro-fatti|registro-realt|\{fonte:)/i;
 
 // Il soggetto che trasforma una cifra in un CLAIM DI BUSINESS: «3.000 clienti» è una promessa da
 // fondare, «3,50 €» e «dalle 9 alle 13» no. Serve al profilo «lettera al cliente» (vedi regolePer).
-const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
+// 🚧 AR-876 — LA LISTA AVEVA DUE BUCHI, e ci passavano le sole due mail che il metro severo ferma
+// e quello dei claim no. ① «nuclei familiari» è «famiglie» detto con un sinonimo: «480 nuclei
+// familiari a Piacenza» è la stessa bugia di «480 famiglie», e usciva dalla lista cambiando parola.
+// ② la percentuale che promette un RISULTATO — «tagli il 30% della spesa», «butti il 40% in meno
+// di roba scaduta», «risparmi il 90% del tempo» — non tocca nessun soggetto di business, quindi
+// nessuna di quelle tre percentuali chiedeva una prova. Ed è la forma con cui si promette di più.
+// Chiudere i due buchi toglie il costo di allentare il metro un giorno: per questo si fa adesso,
+// anche col metro severo acceso, quando ancora non cambia nessun verdetto.
+const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|nucle[oi]\s+familiar[ei]|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
+
+// Le parole che trasformano una PERCENTUALE in un risultato promesso al cliente. «20% di sconto
+// sulla focaccia» resta fuori — è il prezzo che il carrello mantiene fra due clic, e se è falso se
+// ne accorge chi paga. «30% della spesa» invece è una misura che nessuno ha fatto.
+const RE_RISULTATO_PROMESSO = /\b(spesa|spese|tempo|sprec\w+|scadut\w+|risparmi\w+|fatica|attesa|cod[ae]|bolletta|costi)\b/i;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AR-791 — LE REGOLE SCRITTE UNA VOLTA SOLA PER MONDO, IN UNA TABELLA CONFRONTABILE
@@ -97,9 +169,11 @@ const voce = (classe, nome, re) => ({ classe, nome, sorgente: re.source, flag: r
 export const SORGENTI_REGOLE = Object.freeze([
   ...RE_SEGNAPOSTO.map((r) => voce("segnaposto", r.nome, r.re)),
   ...RE_SPIA.map((r) => voce("claim", r.nome, r.re)),
+  ...RE_POLITICA.map((r) => voce("politica", r.nome, r.re)),
   voce("numero", "numero significativo", RE_NUMERO),
   voce("fonte", "marcatore di fonte", RE_FONTE),
   voce("soggetto", "numero attaccato a un soggetto di business", RE_SOGGETTO),
+  voce("risultato", "percentuale che promette un risultato", RE_RISULTATO_PROMESSO),
 ]);
 
 
@@ -115,7 +189,14 @@ export const SORGENTI_REGOLE = Object.freeze([
 // Due mosse, come da scheda: ① i pattern che SONO una fonte escono dal conto dei numeri;
 // ② il verdetto cambia per TIPO di documento — un audit non è un contenuto che esce verso i
 // clienti, e va misurato con le regole dei claim, non con quella dei numeri di business.
-export const RE_RIFERIMENTO_CODICE = /[\w./-]+\.(?:mjs|sh|ts|tsx|js|jsx|json|md|ps1|bats|py):\d+(?:-\d+)?/g;
+// 🚧 AR-870 — QUESTA RIGA COSTAVA 4,7 SECONDI SU 80.000 CARATTERI SENZA SPAZI, e il verso del
+// danno non è «il cancello si apre»: è «il canale si pianta». `[\w./-]+` senza ancora poteva
+// PARTIRE da ogni carattere di un blocco lungo e, per ognuno, risalire all'indietro un carattere
+// alla volta cercando il punto dell'estensione: n partenze × n passi = tempo al quadrato. Misurato
+// prima del fix: 10k → 81 ms · 20k → 281 ms · 40k → 1.160 ms · 80k → 4.319 ms.
+// Il lookbehind toglie le partenze finte: dentro una parola di quel tipo non si comincia più, si
+// comincia solo dove la parola comincia davvero. Il costo torna lineare, stesso risultato.
+export const RE_RIFERIMENTO_CODICE = /(?<![\w./-])[\w./-]+\.(?:mjs|sh|ts|tsx|js|jsx|json|md|ps1|bats|py):\d+(?:-\d+)?/g;
 export const RE_SIGLA_DIFETTO = /\bAR-\d+\b/g;
 export const RE_SIGLA_LEZIONE = /\bL-\d{4}-\d+(?:-\d+)?\b/g;
 export const RE_CODICE_INLINE = /`[^`\n]*`/g;
@@ -142,6 +223,43 @@ export function mascheraRiferimenti(testo, { codice = true } = {}) {
     t = t.replace(re, (m) => " ".repeat(m.length));
   }
   return t;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-870 — IL TETTO: oltre il quale il metro DICHIARA di non aver guardato (⚪)
+// ─────────────────────────────────────────────────────────────────────────────
+// Ancorare l'espressione toglie il costo al quadrato, ma non toglie il fatto che un testo enorme
+// costi comunque tempo, e che una mail vera non sia mai enorme (la più lunga del banco: 1.400
+// caratteri). Oltre il tetto il metro non macina: DICHIARA di non aver potuto giudicare.
+//
+// ⚪ non è verde e non è rosso — è la terza risposta della casa. Qui viaggia come un rilievo
+// esplicito, non come un silenzio, e proprio per questo blocca lo stesso: sul canale clienti chi
+// legge il verdetto vede «violazioni: 1» e la mail non parte (AR-871), mentre il comando esce 2
+// invece di 0. Un metro che non ha guardato non ha il diritto di dire «onesto». Il 2 è già la
+// parola che il resto della casa capisce: `istante-cancello.mjs onesta --rc=2` risponde «NON
+// misurabile — cieco non è verde», e in modo `blocca` non pubblica.
+//
+// ⚠️ DUE TETTI, NON UNO, e il secondo è una lezione pagata subito. Con un tetto solo a 100.000 il
+// primo file vero che ci è finito sotto è STATO.md — 103.604 caratteri il 28/8 — cioè il cancello
+// del giro avrebbe cominciato a dire ⚪ sulla memoria di tutti i giorni. È la scorciatoia n.15 del
+// catalogo, «nasce rosso»: un limite calibrato su un albero che non contiene i file veri.
+// Una mail di 100.000 caratteri non è una mail; un file di memoria di 100.000 caratteri è martedì.
+export const LIMITE_TESTO = 100000; // canale clienti: oltre, non è più una lettera a una persona
+export const LIMITE_TESTO_MEMORIA = 2000000; // memoria e audit: DECISIONI.md da solo pesa 856 KB
+export const TIPO_NON_GIUDICABILE = "non-giudicabile";
+
+/** Il tetto che vale per questo canale. Il Pannello serve solo la lettera, e porta solo quello. */
+export function limitePer(tipo) {
+  return tipo === "lettera" ? LIMITE_TESTO : LIMITE_TESTO_MEMORIA;
+}
+
+/** Il rilievo ⚪: uguale nei due mondi, così i due metri non divergono proprio sul caso limite. */
+export function rilievoTroppoLungo(lunghezza, limite = LIMITE_TESTO) {
+  return {
+    tipo: TIPO_NON_GIUDICABILE,
+    regola: `testo troppo lungo per essere giudicato (${lunghezza} caratteri, il tetto è ${limite}): ⚪ non l'ho guardato, e ⚪ non è verde`,
+    esempi: [],
+  };
 }
 
 /**
@@ -192,6 +310,10 @@ export function regolePer(tipo) {
       // Per accendere la proposta basta rimettere "solo-claim" qui e nel gemello del Pannello —
       // e `due-metri-una-regola.test.mjs` obbliga a farlo in tutte e due lo stesso giorno.
       numeri: true,
+      // 🚧 AR-875 — la lista «NON COSTRUIRE» di CONTESTO_BUSINESS.md §7 vale anche per quello che
+      // SCRIVIAMO, non solo per quello che costruiamo: la scarsità inventata è la stessa spinta dei
+      // prezzi che ballano e delle notifiche a chi passa davanti al negozio, detta a parole.
+      politica: true,
       perche_numeri:
         "lettera a un cliente vero: ogni numero porta la sua fonte (metro severo, confermato da Nicola il 2026-08-28 — la proposta di fondare solo i claim aspetta che veda le otto mail di prova)",
     };
@@ -200,6 +322,9 @@ export function regolePer(tipo) {
     segnaposto: true,
     claim: true,
     numeri: tipo !== "audit",
+    // Su un audit no: un documento di diagnosi CITA le frasi disoneste per farle vedere, e punirlo
+    // perché nomina la bugia che ha appena trovato è il modo più veloce per spegnere il cancello.
+    politica: tipo !== "audit",
     perche_numeri:
       tipo === "audit"
         ? "documento di diagnosi interna: i numeri sono riferimenti a codice e sigle di difetto, non claim di business"
@@ -218,8 +343,14 @@ export function regolePer(tipo) {
 export function numeroDaFondare(raw, dopo, modo) {
   if (modo === false) return false;
   if (modo !== "solo-claim") return true;
+  const contorno = `${raw} ${String(dopo ?? "").slice(0, 30)}`;
+  // 🚧 AR-876 — la percentuale che promette un risultato è un claim anche senza soggetto: «taglia
+  // il 30% della spesa» non nomina né clienti né negozi, ma promette al lettore un numero che
+  // nessuno ha misurato. Lo sconto no: «20% di sconto sulla focaccia» lo verifica il carrello alla
+  // cassa fra due clic.
+  if (/%/.test(raw) && RE_RISULTATO_PROMESSO.test(contorno)) return true;
   RE_SOGGETTO.lastIndex = 0;
-  return RE_SOGGETTO.test(`${raw} ${String(dopo ?? "").slice(0, 30)}`);
+  return RE_SOGGETTO.test(contorno);
 }
 
 /**
@@ -257,6 +388,23 @@ function esamina(nome, testo, tipoForzato = null) {
   }
   const daGiudicare = ambito.vivo;
 
+  // 🚧 AR-870 — il tetto, PRIMA di ogni regola ma DOPO l'ambito: si misura su quello che si sta per
+  // giudicare davvero, non sul file intero. La differenza non è teorica: la parte viva di STATO.md
+  // è 2.435 caratteri su 103.604, e col tetto messo sul file intero il cancello del giro avrebbe
+  // dichiarato ⚪ su una memoria che invece si può leggere benissimo.
+  const limite = limitePer(tipo);
+  if (daGiudicare.length > limite) {
+    return {
+      file: nome,
+      tipo,
+      natura: "non-giudicabile",
+      ambito: `${daGiudicare.length} caratteri da giudicare: oltre il tetto di ${limite}, il metro non li macina`,
+      regole_applicate: regole,
+      violazioni: [rilievoTroppoLungo(daGiudicare.length, limite)],
+      esentati: [],
+    };
+  }
+
   // Rimuovi i wikilink [[...]] dal controllo segnaposto (sono link interni legittimi, non placeholder).
   const senzaWikilink = daGiudicare.replace(/\[\[[^\]]+\]\]/g, "");
 
@@ -277,6 +425,14 @@ function esamina(nome, testo, tipoForzato = null) {
     const m = daGiudicare.match(re);
     const veri = (m || []).filter((s) => !scarta("claim-non-verificato", { raw: s }));
     if (veri.length) violazioni.push({ tipo: "claim-non-verificato", regola: rn, esempi: [...new Set(veri)].slice(0, 3) });
+  }
+  // 🚧 AR-875 — la regola di POLITICA (scarsità e urgenza fabbricate). Non guarda se il numero è
+  // vero: guarda se la frase mette fretta con una scarsità che non esiste.
+  for (const { nome: rn, re } of regole.politica ? RE_POLITICA : []) {
+    re.lastIndex = 0;
+    const m = daGiudicare.match(re);
+    const veri = (m || []).filter((s) => !scarta("scarsita-fabbricata", { raw: s }));
+    if (veri.length) violazioni.push({ tipo: "scarsita-fabbricata", regola: rn, esempi: [...new Set(veri)].slice(0, 3) });
   }
 
   // Numeri senza fonte: per ogni numero significativo, controlla se c'è un marcatore di fonte vicino.
@@ -357,6 +513,9 @@ async function main() {
   const totali = risultati.reduce((n, r) => n + r.violazioni.length, 0);
   const esentatiTotali = risultati.reduce((n, r) => n + (r.esentati ? r.esentati.length : 0), 0);
   const ok = totali === 0;
+  // 🚧 AR-870 — il terzo esito. Un testo oltre il tetto non è «onesto» e non è «disonesto»: è
+  // roba che non ho guardato, e il codice d'uscita lo deve dire con un numero suo.
+  const nonGiudicato = risultati.some((r) => (r.violazioni || []).some((v) => v.tipo === TIPO_NON_GIUDICABILE));
 
   // 🚧 AR-394 — un'esenzione si DICE. Il difetto di partenza non era esentare: era esentare in
   // silenzio, lasciando in piedi la forma del controllo. Qui ogni rilievo messo da parte esce col
@@ -402,10 +561,11 @@ async function main() {
       }
       dilloAncheSeVerde();
     }
-    console.log(ok ? "\n🟢 Testo pubblicabile." : `\n🔴 ${totali} problema/i: NON pubblicare finché non risolvi (segnaposto/[ESEMPIO]/numeri senza fonte).`);
+    if (nonGiudicato) console.log("\n⚪ Non l'ho potuto guardare (testo oltre il tetto): non è un verde, e non pubblicare come se lo fosse.");
+    else console.log(ok ? "\n🟢 Testo pubblicabile." : `\n🔴 ${totali} problema/i: NON pubblicare finché non risolvi (segnaposto/[ESEMPIO]/numeri senza fonte).`);
   }
 
-  process.exit(ok ? 0 : 1);
+  process.exit(nonGiudicato ? 2 : ok ? 0 : 1);
 }
 
 // Main-guard: eseguito come comando parte; IMPORTATO da un test no. Senza questa riga il solo
