@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-28 22:17",
+  "aggiornato": "2026-08-28 22:51",
   "giorni_sospetto": 3,
-  "difetti_aperti": 121,
-  "difetti_da_fare": 121,
+  "difetti_aperti": 132,
+  "difetti_da_fare": 132,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 851,
+    "totale": 862,
     "chiusi": 730,
-    "aperti": 110,
+    "aperti": 121,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 121,
+    "da_fare": 132,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 730,
-      "aperto": 110,
+      "aperto": 121,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 121,
-    "viste": 121,
+    "attese": 132,
+    "viste": 132,
     "fuori": 0,
-    "motivo": "bilancio a posto: 730 chiuse + 121 classificate = 851 schede, e ogni stato vivo è dentro (110 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 730 chiuse + 132 classificate = 862 schede, e ogni stato vivo è dentro (121 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 79,
+    "umana": 89,
     "prova-debole-su-grave": 26,
-    "auto-comando": 12,
+    "auto-comando": 13,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -338,7 +338,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 109,
+  "non_auto_chiudibili": 119,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3101,13 +3101,13 @@
       "gravita": "grave",
       "eta_giorni": 5,
       "impatto_crescita": "alto",
-      "prova_esegue": true,
+      "prova_esegue": false,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Un controllo nuovo del cancello puo nascere gia rotto: verde sul computer di chi lo scrive, rosso per sempre s",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/due-case.test.mjs",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-798",
@@ -3119,7 +3119,7 @@
       "non_giudicabile": false,
       "titolo": "Il codice si sposta e la prova continua a puntare al file vecchio: gira, e verde, e non guarda piu niente",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/puntatori-scollegati.test.mjs",
+      "perche": "prova eseguibile: node cervello/test/il-guardiano-agganciato-ferma-il-cancello.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -3327,7 +3327,7 @@
       "non_giudicabile": false,
       "titolo": "Meta' delle mutazioni risultano verificate senza esserlo: il metro della copertura si da' buono da solo",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+      "perche": "prova eseguibile: node cervello/test/una-prova-lanciata-nel-modo-sbagliato.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -3342,6 +3342,149 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/cieco-che-esce-come-un-errore.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-861",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Un guardiano che il giro legge sul serio dice «passato» senza aver aperto niente",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-862",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il giro legge un verdetto con un confronto scritto a mano, e sul «non lo so» racconta la cosa sbagliata",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-863",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Un generatore porta ancora la forma vecchia: se riscrive il giro, disfa una cura già pagata",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-864",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il debito vero delle mutazioni non ha nessun sensore: si misura se si possono lanciare, non se mordono",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-865",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Sette prove del Pannello girano solo perché questo computer ha la versione giusta, e nessuno lo dichiara",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-866",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il rilevatore dei ciechi cerca la malattia nella veste in cui l'abbiamo vista la prima volta",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-867",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Curando il metro delle mutazioni si è aperta una porta per eseguire altro, e la prova che doveva vederla guard",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-868",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Bastava mettere il numero fra apici per farlo sparire dagli occhi del cancello sulle mail ai clienti",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/due-metri-una-regola.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-869",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Un numero a quattro cifre scritto senza punto è invisibile al cancello dell'onestà",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-870",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il cancello sulle mail può metterci secondi su un testo lungo, e chi lo chiama non ha un tempo massimo",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-871",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Se il cancello sulle mail lancia un'eccezione, non la prende nessuno",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

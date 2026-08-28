@@ -18649,7 +18649,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
         "nota": "Le sette righe che passavano sono i casi della prova, e girano nella MODALITÀ VERA (quella con cui eseguiProva chiama davvero), non in quella stretta. Quattro rotture volontarie, una per difesa, tutte rosse — e due di quelle rotture all'inizio NON facevano rosso, perché due difese si coprivano a vicenda sullo stesso caso: sono stati aggiunti due casi che le separano. ⚪ NON MISURATO: non ho eseguito npx per davvero, e da qui non vedo cosa contenga l'ambiente del server."
-      }
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma generale e: UNA PROVA METTE IN SCENA UNA MODALITA CHE IL CODICE VERO NON USA. Qui il blocco intitolato SICUREZZA chiamava comeSiEsegue in modo stretto, mentre eseguiProva la chiama in modo largo. Nessuna espressione puo vederla, e il motivo e strutturale: le due modalita sono API legittime della stessa funzione, chiamate con la stessa sintassi: la differenza non e nella FORMA del codice ma nella corrispondenza fra due punti lontani del repo (il test e il chiamante di produzione). Un pattern che accusasse ogni chiamata con opzioni sarebbe rumore puro. CHI LA COPRE, e sono due cose diverse: (1) la costante COME_ESEGUE_DAVVERO in cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs, che scrive la modalita vera UNA VOLTA e la usa in tutti i casi, col commento che dice di aggiornarla se eseguiProva cambia riga; (2) la domanda 0a del collaudo (ricrea il difetto nella variante SCOMODA, non in quella che conviene al fix), che e proprio la domanda che lo ha trovato. Se questa forma torna una seconda volta, allora smette di essere una domanda e va promossa a guardiano: la regola di casa e che una domanda che trova qualcosa due volte diventa un freno."
     },
     {
       "id": "AR-868",
@@ -18668,7 +18670,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/due-metri-una-regola.test.mjs",
         "nota": "Il caso è dentro la prova che confronta le due case: il numero fra apici deve essere fermato sulla lettera, e le due case devono dire la stessa cosa."
-      }
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma generale e: UN COMPORTAMENTO PENSATO PER UN CANALE VIENE APPLICATO A UN ALTRO CANALE, dove significa il contrario. Mascherare il codice fra apici su un documento interno e giusto (li un riferimento a codice E una fonte, AR-433); sulla lettera a un cliente e un modo per nascondere un numero. Non e vedibile da un pattern perche la chiamata e identica nei due casi: cambia solo CHI la chiama e per quale profilo, e quello non sta nella riga. CHI LA COPRE: cervello/test/due-metri-una-regola.test.mjs, che esegue i due giudizi sugli stessi testi e ha il caso dedicato (il numero fra apici deve essere fermato sulla lettera, e non fermato su un audit) piu la mutazione in cervello/mutanti.json che riaccende la mascheratura e fa diventare rossa quella prova. La difesa strutturale e piu forte del pattern: le due case sono PINZATE, quindi una modifica che tocca una sola delle due fa rosso lo stesso giorno."
     },
     {
       "id": "AR-869",

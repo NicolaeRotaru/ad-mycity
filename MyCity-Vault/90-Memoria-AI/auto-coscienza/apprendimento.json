@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-28 22:04",
+ "aggiornato": "2026-08-28 22:42",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11621,6 +11621,10 @@
     },
     {
      "quando": "2026-08-20 18:24",
+     "ref": "freno rosso nel cancello: le malattie che mancano"
+    },
+    {
+     "quando": "2026-08-28 22:42",
      "ref": "freno rosso nel cancello: le malattie che mancano"
     }
    ]
