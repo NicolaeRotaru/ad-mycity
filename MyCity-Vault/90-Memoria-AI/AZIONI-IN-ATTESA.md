@@ -22,8 +22,58 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- rilascio-ordinato-migrazioni -->
+### 🔴 #184 — Il database di produzione è indietro di quattro migrazioni, e va allineato in ordine · ⏳ accodata 2026-08-29 00:45
+
+**In parole semplici.** Il codice del sito e il database dei clienti non dicono la stessa cosa. Il
+registro delle migrazioni in produzione è fermo a `125c`: mancano la 126, la 127, la 128 e la 129.
+Il catalogo l'ho già rimesso in vetrina con un ponte, quindi non c'è niente che brucia. Ma la
+distanza resta, e cresce a ogni modifica.
+
+**Per esempio.** La 128 aggiunge due informazioni alla vetrina degli sconti: se un prodotto è finito
+e se ha varianti. Senza di lei, quando tornerà una promozione attiva, il cartellino «Esaurito» non
+comparirà e il «+» sarà premibile su una cosa che non c'è più. Il cliente lo scopre alla cassa.
+
+**Cosa cambia per te.** Oggi nessuno se ne accorge, perché le promozioni attive sono zero. Il giorno
+in cui Pane Quotidiano ne accende una, quel difetto è davanti a un cliente.
+
+**Cosa devi fare.** Scegliere fra due strade.
+
+**(a) Accendi il cancello del rilascio.** Sono le tre chiavi Vercel che ti chiedo dalla card #161. Da
+lì in poi le migrazioni le applica il rilascio da solo, in ordine, e questa distanza non si riforma.
+È la strada che chiude il problema invece del sintomo.
+
+**(b) Dammi il via e le applico io a mano.** In ordine: 126, poi 127, poi 128, poi 129. Una
+transazione per file, con la misura prima e dopo di ognuna, come ho fatto stanotte.
+
+**Io farei tutte e due.** La (a) chiude il problema. La (b) tappa intanto: sono quattro file, e da
+soli non tornano.
+
+**Cosa non ho verificato.** Non ho letto le tre migrazioni mancanti riga per riga contro lo schema
+vero della produzione. Stanotte l'ho fatto solo per la 129, ed è lì che è saltato fuori che la 128
+cambia la firma di una funzione. Le altre due possono avere sorprese dello stesso tipo: le guardo
+prima di eseguire, non mentre.
+
+**Cosa cambia:** il codice pubblicato si aspetta un database che oggi non esiste, e la prima
+promozione accesa lo mostra a un cliente.
+
+**Se va bene:** con la (a) controllo che il primo rilascio applichi da solo le quattro mancanti. Con
+la (b) te le applico in ordine, e ti porto la misura di ognuna.
+
+---
+
 <!-- unione-pr-244-bloccanti -->
-### 🔴 #183 — Unisci la riparazione dei quattro bloccanti, e applica la migrazione al database vero · ⏳ accodata 2026-08-28 17:25
+### ✅ #183 — Unisci la riparazione dei quattro bloccanti, e applica la migrazione al database vero · FATTA 2026-08-29 00:40
+
+**Stato: fatta tutta e due le parti.** La (a) l'hai unita tu. La (b) l'ho eseguita io col tuo via, in
+una transazione sola sul database di produzione. Misura prima: un visitatore senza account vedeva 0
+prodotti su 5. Misura dopo: ne vede 5, e la ricerca «pane» risponde. Quello che era chiuso resta
+chiuso: profili 0, visite 0, ordini 0.
+
+**Applicata come ponte, non come 129.** La produzione era indietro di quattro migrazioni e la 128
+cambia la firma di una funzione: il file del repo sarebbe fallito a metà. Registrata col nome
+`129p_ponte_produzione_catalogo_visibile`, così il rilascio ordinato 126→127→128→129 resta intatto.
+Dettagli in [[DECISIONI]].
 
 **In parole semplici.** I quattro problemi bloccanti trovati dalla radiografia del 27 agosto sono
 riparati. Il lavoro sta in una richiesta di unione sul sito, la numero 244. Finché non la unisci tu,
@@ -117,7 +167,11 @@ entro lo stesso lotto.
 ---
 
 <!-- catalogo-invisibile-anon -->
-### 🔴 #181 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
+### ✅ #181 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · RISPOSTA TROVATA 2026-08-29 00:30
+
+**Non serve più che lo apri tu.** Applicando la migrazione ho potuto leggere il database di produzione
+con gli occhi di un visitatore, ed è la stessa domanda: vedeva **0 prodotti su 5**. Il difetto era vivo,
+non era una bomba già disinnescata. Adesso ne vede 5.
 
 **In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
 sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
