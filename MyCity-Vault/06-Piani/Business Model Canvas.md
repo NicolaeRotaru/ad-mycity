@@ -9,7 +9,7 @@
 > ⛔ **Attenzione: 2 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
 > · **Il Bando Commercio ER è dato per aperto** (riga 128) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
 > · **La commissione al negozio è scritta 12%** (riga 84) — il registro dice: 10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero… *(Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare …)*
-> *Misurato il 2026-08-24 13:08. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-08-28 12:38. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > **Cos'è:** il modello di business di MyCity compilato col metodo Osterwalder/Strategyzer, trattato per ciò che è — una **piattaforma multi-sided** a 3 lati. Generato dal prompt [[Prompt - Business Model Canvas]] sui dati della vault.

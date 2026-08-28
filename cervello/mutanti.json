@@ -5839,8 +5839,8 @@
    "difetto": "AR-046",
    "nome": "lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere",
    "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
-   "cerca": "\"difetti_chiusi\": 608",
-   "sostituisci": "\"difetti_chiusi\": 3",
+   "cerca": "\"difetti_chiusi\": 663,",
+   "sostituisci": "\"difetti_chiusi\": 3,",
    "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {

@@ -32,13 +32,7 @@
     "minori": 339,
     "agenti": 26
   },
-  "confronto_precedente": {
-    "data": "2026-08-22",
-    "findings": 421,
-    "bloccanti": 14,
-    "gravi": 184,
-    "minori": 223
-  },
+  "confronto_precedente": null,
   "dimensioni": [
     {
       "chiave": "architettura",

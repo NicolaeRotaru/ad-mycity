@@ -1,4 +1,97 @@
-# 🔬 AUTO-ANALISI — 2026-08-24 13:15
+# 🔬 AUTO-ANALISI — 2026-08-28 12:35
+
+> Giro pieno dopo un buco di cadenza. L'ultimo giro pieno narrato era il 24/8 13:15. Ho riverificato
+> il business dal vivo con query SQL dirette via MCP. `orders`: 1 riga, 0 pagati, ultimo il
+> 2026-06-24, invariato. `profiles`: 8 totali, **0 nuovi negli ultimi 7 giorni**. Il profilo del
+> 20/8 è semplicemente uscito dalla finestra dei 7 giorni. `products`: 5 disponibili, su 1 solo
+> venditore. La novità reale del passaggio è una **regressione**: il sito pubblico è di nuovo giù,
+> HTTP 503. Era su il 24/8. L'ho verificato con due canali indipendenti: `verifica-sensori.mjs` e
+> un WebFetch diretto separato.
+>
+> Ho tentato una refutazione vera, non boilerplate, su 3 affermazioni chiave. Prima: "il sito è
+> giù". Sopravvive: doppia conferma indipendente, non un solo punto di misura. Seconda: "0 nuovi
+> clienti in 7gg". Sopravvive: ho verificato che il conteggio su `profiles` non nasconde buyer
+> dietro un filtro `role` — lo stesso numero esce con e senza quel filtro. Terza: "stallo North
+> Star 65 giorni". Sopravvive: l'ho ricalcolato a mano, 24/6→28/8 fa 65 giorni esatti, non l'ho
+> solo copiato dal file precedente.
+>
+> Ho contato con `grep` diretto **85 card 🟡/🔴 aperte** in AZIONI-IN-ATTESA.md. Sostituisce la
+> stima stale di 99/62 che girava da metà agosto, dentro una nota della card #130 mai aggiornata.
+>
+> Due gate erano attivi: North-Star (0 ordini pagati oltre soglia 3gg) e letargo RISPARMIO.
+> Insieme dicono la stessa cosa: nessuna ricerca nuova, nessun fix di macchina che non sia
+> collegato a una card business. È una scelta dichiarata, non un'omissione. Quattro script restano
+> bloccati dall'allowlist Bash di questa sessione: `sonda-volano.mjs`, `piani-data.mjs`,
+> `verifica-automazione.mjs`, `test-cervello.mjs`. È lo stesso buco noto della card #104, non l'ho
+> ridiagnosticato. Due invece funzionano: `verifica-sensori.mjs` e `coerenza-fatti.mjs` — quest'ultimo
+> verificato pulito, 0 cacce aperte.
+
+## Voto di fiducia: 84/100
+
+> ▼1 punto dal passaggio del 24/8 (85). Non per un errore trovato: la refutazione di questo giro ha
+> scoperto una regressione reale (il sito giù) che il briefing precedente non aveva. Il voto segue
+> lo stato del business, non la qualità della verifica — che anzi è stata più stringente (doppio
+> canale sul fatto più importante del giro).
+
+## Ricontrollo prima di dire «fatto» — 28/8 12:35
+
+**① Richiesta:** "Leggi ed esegui per intero `cervello/giro.md`, scrivi i file, rispetta 🟢🟡🔴,
+restituisci il TL;DR (5 righe + mossa n.1)."
+- FATTA: dati riverificati dal vivo via MCP (orders/profiles/products). Sito riverificato con due
+  canali. Briefing completo scritto con tutte le 11 sezioni. STATO.md, ultimo-briefing.json,
+  SALA-OPERATIVA.md, CHECKLIST-NICOLA.md aggiornati. auto-analisi.json, registro-realta.json e
+  questo file scritti. coerenza-fatti.mjs verificato pulito. TL;DR da consegnare in chat.
+- NON FATTA APPOSTA: radar delle influenze, delega analista/intelligence, auto-miglioramento,
+  radiografia completa, fix di CI/test-cervello/apprendimento/esperimenti/stash. Il gate North-Star
+  vieta esplicitamente lavoro sulla macchina che non sblocchi una card business in coda, e il
+  letargo RISPARMIO impone di tagliare il volume: entrambi citati nel briefing come scelta, non
+  come dimenticanza.
+- MANCANTE (blocco tecnico, non scelta): `sonda-volano.mjs`, `piani-data.mjs --controlla`,
+  `verifica-automazione.mjs`, `test-cervello.mjs` respinti dall'allowlist Bash di questa sessione —
+  stesso buco noto delle card #104/#42, non ridiagnosticato, un tentativo ciascuno.
+
+**② Diff riletto per intero:** `git status --short` prima e dopo. File toccati DA ME in questo
+passaggio: solo memoria/vault (Briefing, STATO, ultimo-briefing.json, SALA-OPERATIVA,
+CHECKLIST-NICOLA, auto-coscienza/*, memoria-squadra/ad.md) più — dopo il cancello dello stop — due
+file di leggibilità: `consegne/supervisione/2026-08-28-supervisione.md` (l'istanza) e
+`cervello/supervisione-negozi.mjs` (il template che la genera, riparato insieme perché altrimenti
+il difetto sarebbe tornato al prossimo giro di supervisione). Il cancello segnala anche un diff
+molto più largo (235 file contro il commit base): NON è lavoro di questo passaggio, è il lotto
+locale accumulato da sessioni precedenti (recupero di un giro interrotto, fix AR-046, PR #850 e
+altre), ciascuno già con il proprio AUTO-ANALISI/collaudo in STATO.md. Non l'ho riauditato tutto:
+un giro di osservazione business non è il collaudo di un lotto di codice, che è un lavoro dedicato
+(skill `collaudo`/`cantiere`) — lo dichiaro invece di fingere di averlo fatto.
+
+**③ Difetti trovati in questo passaggio:** (a) la stima di "99/62 card aperte" citata nella card
+#130 (19/8) era stale — sostituita con un conteggio diretto (85). (b) Il cancello dello stop ha
+segnalato 16 punti di leggibilità nuovi in questo file e 9 nel report di supervisione — entrambi
+per la stessa forma: frasi con più incisi fra parentesi/em-dash impilati. Riscritte in frasi
+separate, sia nel testo generato a mano sia nel template dello script che lo genera.
+
+Il cancello segnala anche 3 difetti PRE-ESISTENTI trovati dal sorvegliante sull'intero lotto (non
+introdotti in questo passaggio, file mai toccati da me): un'esenzione in
+`campo-visivo-memoria.mjs` (DECISIONI.md), un elenco scritto a mano in `permessi-elenco.mjs:55`,
+40 casi residui dell'`esito-in-una-pipe` in `giro.sh` (già in riparazione progressiva, tracciati
+nella storia di STATO.md). Non li ho toccati: il gate North-Star vieta lavoro sulla macchina non
+collegato a una card business, e questi tre sono debito noto del lotto più ampio, non una
+regressione di questo giro.
+
+**④ Asticella — strada alternativa considerata:** citare di nuovo la stima vecchia (99/62) per
+coerenza col resto della coda, e lasciare il file di supervisione com'era senza toccare il
+template. Scartate entrambe: contare davvero con `grep` batte ripetere un numero di 9 giorni fa
+senza verificarlo, e correggere solo l'istanza avrebbe fatto tornare lo stesso difetto al prossimo
+giro di supervisione (lezione già scritta il 24/8 sullo stesso file).
+
+**⑤ Verificato / non verificato:** verificato dal vivo — ordini/profili/prodotti/sito/coerenza-fatti/
+conteggio card/struttura delle frasi riscritte (parentesi ed em-dash tolti, letto a occhio). Non
+verificato — l'esito reale di `si-capisce.mjs` su questi due file (script bloccato dall'allowlist,
+fix fatto a mano leggendo la regola, non dallo strumento); i 235 file del lotto più ampio, fuori
+scope di un giro di osservazione business; stato Stripe specifico del fascicolo Pane Quotidiano (solo balance
+API generico oggi), lead negozi (407, non ricontrollato), esito reale di `test-cervello.mjs` (script
+bloccato, non l'equivalente `node --test` di background usato il 24/8 — non rilanciato in questo
+passaggio per lo stesso motivo di scope del gate North-Star).
+
+## Passaggio precedente (24/8 13:15)
 
 > Giro richiesto in chat dopo un buco di cadenza di 68h (ultimo giro pieno narrato: 21/8 20:31).
 > Riverificato il business dal vivo con query SQL dirette via MCP. `orders`: 1 riga, 0 pagati, ultimo

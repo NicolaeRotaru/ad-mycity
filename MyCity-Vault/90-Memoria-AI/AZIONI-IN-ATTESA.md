@@ -57,6 +57,82 @@ stasera.
 
 <!-- parte-venditore-strada -->
 
+### 🔴 #179 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
+
+**In parole semplici.** Ho controllato adesso, non a memoria: Pane Quotidiano — l'unico negozio vero
+su MyCity — non può ancora incassare con la carta. Tre interruttori sono ancora spenti (dati inviati,
+pagamenti attivi, versamenti attivi). Lo stesso quadro c'era già il 10 agosto: sono passati 18 giorni
+e non è cambiato niente.
+
+**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti (quelli di luglio, più quello
+di agosto sui fornelli spenti) che dicono «ordina da casa, te lo portiamo» con un link diretto al
+checkout. Se uno partisse oggi e un cliente pagasse con carta, il pagamento fallirebbe sotto i suoi
+occhi. L'unico ordine mai arrivato su questo negozio (24 giugno, pagamento alla consegna) è stato
+annullato, quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
+
+**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora — inclusi quelli fermi da
+settimane in attesa solo del tuo ok — promette una consegna che oggi il sito non sa mantenere. Se ne
+pubblichi anche solo uno con quella promessa, il primo cliente che prova a pagare con carta trova un
+errore, non un ordine. Per il post di oggi (merenda pudding, card #180 qui sotto) ho tolto la
+promessa di consegna proprio per questo; gli altri già in coda ce l'hanno ancora.
+
+**Cosa devi fare.** Scegliere fra due strade.
+
+**(a) Attiva i pagamenti prima di pubblicare qualunque post con «ordina/consegna».** Serve completare
+l'onboarding Stripe di Pane Quotidiano (il fascicolo ha dati mai inviati). Con il tuo via, preparo con
+backend-dev i passi esatti — probabilmente serve un'azione del titolare stesso su un link Stripe, non
+solo mia.
+
+**(b) Pubblica comunque, ma prima fammi riscrivere la CTA di ogni post già pronto in coda** — tolgo
+«ordina, ti portiamo», metto «scopri il catalogo» o «vieni in negozio», così nessuno promette una
+consegna che non parte.
+
+**Io farei la (a)**: è il negozio vero, l'unico che può davvero incassare oggi, e il blocco è
+probabilmente un solo passaggio del titolare su un link Stripe.
+
+Rispondi «ok 179 a» o «ok 179 b».
+
+**Cosa non ho verificato.** Se il pagamento in contrassegno (senza carta) riesca comunque a chiudersi
+oggi senza Stripe attivo — l'unico test è stato annullato e non so per quale motivo. Non ho letto il
+codice del checkout per confermare se anche il contrassegno dipende dall'onboarding Stripe del
+negozio.
+
+**Cosa cambia:** i post pronti di Pane Quotidiano promettono una consegna che il checkout oggi non
+mantiene con pagamento a carta.
+
+**Se va bene:** con la (a) preparo la checklist Stripe per il titolare e avviso appena i tre
+interruttori sono verdi; con la (b) riscrivo le CTA di tutti i post di Pane Quotidiano già in coda
+entro lo stesso lotto.
+
+---
+
+### 🟡 #180 — Un post pronto per Pane Quotidiano: il pudding vaniglia come merenda, senza promettere la consegna · ⏳ accodata 2026-08-28 12:55
+
+**In parole semplici.** Ho scritto il post del giorno per Pane Quotidiano: il pudding alla vaniglia
+bio come merenda pronta di fine pomeriggio, un momento della giornata mai usato finora (finora solo
+colazione e pranzo/cena). Testo, versione gruppi Facebook e idea grafica sono pronti in
+`consegne/content/2026-08-28-post-del-giorno-merenda-pudding-PQ.md`.
+
+**Cosa cambia per te.** A differenza dei post precedenti, la CTA qui NON promette «ti portiamo a
+casa» — dice solo «scopri il catalogo su MyCity» — proprio per il blocco pagamenti spiegato nella
+card #179 qui sopra. Puoi pubblicarlo anche prima di risolvere #179, senza rischio che un cliente
+trovi un pagamento fallito.
+
+**Cosa devi fare.** Scegli il visual (tipografico, pronto subito, o aspetta una foto reale del
+prodotto — serve l'ok del titolare) e dammi il via.
+
+Rispondi «ok 180» per pubblicare (IG feed + storia + pagina FB + gruppi FB, fascia consigliata
+16:00–18:00).
+
+**Cosa non ho verificato.** Non ho generato la grafica vera (serve la Content Factory/chiavi AI
+attive); il layout è descritto ma non renderizzato.
+
+**Cosa cambia:** un post pronto in più per Pane Quotidiano, con un angolo (merenda) mai usato prima.
+
+**Se va bene:** pubblico secondo la checklist nel file, con UTM `merenda-2808`.
+
+---
+
 ### 🟡 #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40
 
 **In parole semplici.** Il negoziante, per lavorare, apre un pannello con quattordici voci di menù.
@@ -2714,8 +2790,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-24 12:46)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-24-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-28 12:25)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-28-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -2726,3 +2802,4 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 > 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+| 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |

@@ -1,5 +1,5 @@
 {
-  "quando": "2026-08-16 07:32",
+  "quando": "2026-08-28 12:26",
   "aree": [
     "analisi-report",
     "assistente",
@@ -58,6 +58,7 @@
   ],
   "skill": [
     "cantiere",
+    "collaudo",
     "salute",
     "senior",
     "verify",
