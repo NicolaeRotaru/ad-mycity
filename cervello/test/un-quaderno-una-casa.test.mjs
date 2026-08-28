@@ -107,10 +107,25 @@ function parcoFinto({ casaAlt = [] } = {}) {
     "## 🧬 Carta del Dipendente", "✅ RITUALE DI FINE — auto-verifica.",
   ].join("\n");
   const kitTesto = `# Kit\n\n## E. Roba\n${"x".repeat(9000)}\n`;
+  // L'ora dell'esito finto e' RELATIVA a oggi, e non puo' tornare a essere una data scritta a mano.
+  //
+  // Il 28/8/2026 questa prova e' diventata rossa da sola, di notte, senza che nessuno toccasse
+  // niente: dentro c'era `2026-07-28 10:00`, e `stampo-metro.mjs` dichiara che `quaderno_fermo`
+  // «matura col CALENDARIO: a 30 giorni dall'ultimo esito un quaderno intatto cambia stato da solo».
+  // Il trentunesimo giorno il parco finto e' diventato «malato d'altro», il guardiano e' uscito 1
+  // invece che 0, e i due casi che pretendono il verde sono caduti. Il tetto dei rossi in Node e'
+  // zero: da quel momento il cancello ha bloccato OGNI richiesta di unione del repo, per una data
+  // ferma in un file di prova.
+  //
+  // E' la stessa malattia gia' scritta qui sopra per AR-436 — la finzione che non regge il metro
+  // nuovo — su un altro asse: li' si era mosso il metro, qui si e' mosso il calendario. Una prova
+  // che dipende dal giorno in cui gira non e' una rete: e' una bomba a orologeria con la miccia
+  // lunga, e scoppia lontano da chi l'ha innescata.
+  const esitoRecente = new Date(Date.now() - 864e5).toISOString().slice(0, 16).replace("T", " ");
   for (const n of ["tech", "vendite"]) {
     writeFileSync(join(agenti, `${n}.md`), mansionario);
     writeFileSync(join(kit, `${n}-KIT.md`), kitTesto);
-    writeFileSync(join(casa, `${n}.md`), "## Esiti\n- 2026-07-28 10:00 · roba · x · atteso 1 → reale 1 · #t\n");
+    writeFileSync(join(casa, `${n}.md`), `## Esiti\n- ${esitoRecente} · roba · x · atteso 1 → reale 1 · #t\n`);
   }
   for (const n of casaAlt) writeFileSync(join(alt, `${n}.md`), "# copia vecchia\n");
 
