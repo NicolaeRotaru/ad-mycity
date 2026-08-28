@@ -381,7 +381,25 @@ test("un cieco non diventa verde nemmeno sotto il tetto, e una violazione misura
   assert.equal(verdettoPuntatori({ quanti: 53, tetto: 52, ciechi: 1, controllati: 10 }).esito, "violazione", "un rosso misurato batte un cieco");
   assert.equal(verdettoPuntatori({ quanti: 52, tetto: 52, ciechi: 0, controllati: 592 }).esito, "ok");
   assert.equal(verdettoPuntatori({ quanti: 51, tetto: 52, ciechi: 0, controllati: 592 }).esito, "debito", "sceso: si abbassa il tetto");
-  assert.equal(verdettoPuntatori({ quanti: 7, tetto: null, ciechi: 0, controllati: 592 }).esito, "debito", "senza tetto il numero si dichiara, non si tace");
+  // ⛔ CAMBIATA IL 28/8/2026, ED È PIÙ SEVERA DI PRIMA — si legga il perché, perché è un'asserzione
+  // che prima diceva «debito» (EXIT 0) e adesso dice «violazione» (EXIT 1).
+  //
+  // Fin qui la regola era «senza tetto il numero si dichiara, non si tace», e con il freno lanciato
+  // A MANO era giusta: chi lo lanciava leggeva il numero stampato. Dal 28/8 questo freno è un passo
+  // di `cervello/cancello-lotto.mjs`, e lì nessuno legge la stampa: si legge il codice d'uscita.
+  // Misurato prima di cambiarlo, sul cantiere VERO: tolta la sola riga `"puntatori_scollegati"` da
+  // `cervello/tetti-lotto.json`, il freno usciva 0 avendo contato 46 puntatori scollegati veri —
+  // una riga di JSON in meno e il passo del cancello diventa verde senza aver misurato niente. È la
+  // voce 9 del catalogo delle scorciatoie, e finché nessuno eseguiva questo freno era teoria.
+  //
+  // La risposta nuova è quella che il fratello `cervello/due-case.mjs` dà già alla stessa domanda
+  // (`verdettoTetto` → `senza-tetto`, che lì blocca): due guardiani della stessa casa non possono
+  // rispondere in due modi a «non ho un numero con cui confrontare».
+  assert.equal(
+    verdettoPuntatori({ quanti: 7, tetto: null, ciechi: 0, controllati: 592 }).esito,
+    "violazione",
+    "senza un tetto con cui confrontare non si sta misurando: un verde qui si comprerebbe togliendo una riga di JSON",
+  );
 });
 
 test("il DENOMINATORE entra nel verdetto, e il default cade dalla parte del «non so»", () => {

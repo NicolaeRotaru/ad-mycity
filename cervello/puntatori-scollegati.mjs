@@ -643,8 +643,29 @@ export function verdettoPuntatori({
         `o il tetto stesso: sono elencate una per una, e non chiamo verde ciò che non ho guardato`,
     };
   }
+  // ⛔ UN TETTO CHE NON C'È NON È UN DEBITO ZERO: È UN METRO SENZA ZERO — AR-798, 28/8/2026.
+  //
+  // Fino a oggi qui usciva `debito`, cioè EXIT 0, con l'invito a dichiarare il tetto. Misurato prima
+  // di cambiarlo: tolta la sola riga `"puntatori_scollegati"` da `cervello/tetti-lotto.json`, questo
+  // freno usciva 0 avendo contato 46 scollegati veri. Una riga di JSON in meno e il controllo si
+  // spegne restando verde — è la voce 9 del catalogo delle scorciatoie («il tetto che risale»,
+  // variante peggiore: togli la chiave e il minimo riparte da zero) e finché nessuno lo eseguiva
+  // era teoria. Dal momento in cui questo passo entra nel cancello è la porta più economica che
+  // esista per comprare un verde: costa una riga, non tocca nessun codice, e il diff mostra solo un
+  // tetto «ripulito».
+  //
+  // Adesso è VIOLAZIONE, ed è la stessa regola che il fratello `cervello/due-case.mjs` applica alla
+  // stessa identica domanda (`verdettoTetto` → `senza-tetto`, che lì blocca): due guardiani della
+  // stessa casa non possono dare due risposte diverse a «non ho un numero con cui confrontare».
+  // Non è un rosso-per-sempre e non è un cieco: il file è leggibile, la chiave è stata tolta da
+  // qualcuno, e si rimette con una riga — il motivo dice quale.
   if (tetto === null || tetto === undefined) {
-    return { esito: "debito", motivo: `${quanti} puntatori scollegati (nessun tetto ancora fissato): dichiaralo in cervello/tetti-lotto.json → "puntatori_scollegati"` };
+    return {
+      esito: "violazione",
+      motivo:
+        `${quanti} puntatori scollegati e NESSUN TETTO con cui confrontarli: senza un numero di partenza non sto misurando ` +
+        `un bel niente, e un verde qui sarebbe comprato togliendo una riga. Dichiaralo in cervello/tetti-lotto.json → "puntatori_scollegati"`,
+    };
   }
   if (quanti < tetto) {
     // ═══ LA PORTA DEL «NIENTE COMANDO», detta DOVE SI LEGGE IL NUMERO ═══════════════════════════

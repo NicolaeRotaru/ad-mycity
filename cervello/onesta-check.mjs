@@ -18,6 +18,8 @@
 //   echo "testo…" | node cervello/onesta-check.mjs --stdin
 //   node cervello/onesta-check.mjs --testo "già 500 famiglie su MyCity"
 //   ... aggiungi --json per output machine-readable
+//   ... e --audit / --contenuto / --lettera per dire CHE COSA stai misurando (AR-433, AR-791):
+//       un audit interno, un contenuto in uscita, o una lettera a un cliente.
 //
 // Exit: 0 = testo onesto/pubblicabile · 1 = violazioni (blocca) · 2 = errore d'uso.
 
@@ -56,6 +58,50 @@ const RE_NUMERO = /\b\d{1,3}(?:[.,]\d{3})*(?:[.,]\d+)?\s?(?:€|euro|%|negozi|fa
 
 // Marcatori di fonte strutturati (no parole generiche da sole — AR-075 guardrail).
 const RE_FONTE = /(fonte\s*:|\(fonte|\[dati\]|\[fonte|supabase|stripe|posthog|registro-fatti|registro-realt|\{fonte:)/i;
+
+// Il soggetto che trasforma una cifra in un CLAIM DI BUSINESS: «3.000 clienti» è una promessa da
+// fondare, «3,50 €» e «dalle 9 alle 13» no. Serve al profilo «lettera al cliente» (vedi regolePer).
+const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-791 — LE REGOLE SCRITTE UNA VOLTA SOLA PER MONDO, IN UNA TABELLA CONFRONTABILE
+// ─────────────────────────────────────────────────────────────────────────────
+// Il metro dell'onestà ha due esecutori che vivono in due mondi diversi: questo (Node, sul VPS,
+// giudica la memoria che il giro sta per pubblicare) e `pannello/src/lib/onesta-check.ts` (dentro
+// il Pannello su Vercel, giudica il testo di una mail che sta per partire verso un cliente vero).
+// Le regole erano COPIATE riga per riga fra i due file, e in un lotto precedente l'ambito ristretto
+// e le esenzioni dichiarate sono atterrati solo qui: da allora le due copie divergevano in silenzio.
+//
+// PERCHÉ NON C'È UNA CASA SOLA, e non è pigrizia — sono due muri misurati, scritti qui perché il
+// prossimo non ci sbatta di nuovo:
+//   ① il Pannello si costruisce su Vercel con Root Directory = `pannello` (pannello/README.md:54),
+//      quindi al suo build `cervello/` NON ESISTE: un import da qui romperebbe il deploy. È la stessa
+//      ragione già scritta in `pannello/src/lib/cantiere-snello.ts` e `radiografia-marketplace-conti.ts`.
+//   ② al contrario, questo metro deve saper girare in un clone PARZIALE — solo `onesta-check.mjs` +
+//      `onesta-ambito.mjs` — ed è una proprietà provata da `cervello/test/quarto-controllo-promesso.mjs`
+//      (caso `metroVero`), che copia esattamente quei due file in una cartella temporanea. Un import
+//      da `pannello/` lì dentro non si risolve, e il cancello morirebbe invece di dare un verdetto.
+//
+// COSA SI FA ALLORA. Le regole smettono di essere espressioni sparse nel codice e diventano UNA
+// TABELLA di sorgenti (stringhe), uguale nei due mondi, che una prova CONFRONTA campo per campo ed
+// ESEGUE sugli stessi testi: `cervello/test/due-metri-una-regola.test.mjs`. Il giorno che una delle
+// due cambia senza l'altra, la prova diventa rossa lo stesso giorno — non mesi dopo, per caso.
+/**
+ * La stessa tabella, ricavata dalle espressioni qui sopra: `sorgente` è il TESTO della regola e
+ * `flag` le sue opzioni. Non è una seconda copia — è la prima letta in un modo che si può
+ * confrontare: il gemello nel Pannello espone la stessa tabella, e la prova le mette una accanto
+ * all'altra. Una regola cambiata da un lato e non dall'altro si vede come una differenza di stringa.
+ */
+const voce = (classe, nome, re) => ({ classe, nome, sorgente: re.source, flag: re.flags });
+
+export const SORGENTI_REGOLE = Object.freeze([
+  ...RE_SEGNAPOSTO.map((r) => voce("segnaposto", r.nome, r.re)),
+  ...RE_SPIA.map((r) => voce("claim", r.nome, r.re)),
+  voce("numero", "numero significativo", RE_NUMERO),
+  voce("fonte", "marcatore di fonte", RE_FONTE),
+  voce("soggetto", "numero attaccato a un soggetto di business", RE_SOGGETTO),
+]);
+
 
 // ─────────────────────────────────────────────────────────────────────────────
 // AR-433 — UN CANCELLO CHE SUONA SU TUTTO È UN CANCELLO SPENTO
@@ -101,8 +147,45 @@ export function tipoDocumento(nome) {
   return "contenuto";
 }
 
-/** Quali regole valgono per quel tipo. Una sola casa, così il verdetto non si sdoppia. */
+/**
+ * Quali regole valgono per quel tipo. Una sola casa, così il verdetto non si sdoppia.
+ *
+ * `numeri` ha TRE valori, non due:
+ *   true          → ogni numero deve portare la sua fonte (memoria e contenuti che escono da qui)
+ *   false         → la regola non si applica (audit: i numeri sono riferimenti a codice)
+ *   "solo-claim"  → solo i numeri attaccati a un soggetto di business (AR-791, canale clienti)
+ *
+ * 🚧 AR-791 — PERCHÉ ESISTE IL TERZO VALORE. Il gemello nel Pannello giudica il testo di una mail
+ * che parte verso un cliente vero, e lì la regola «ogni numero porta la sua fonte» sbaglia bersaglio:
+ * i marcatori che cerca (fonte:, supabase, stripe, registro-fatti) sono vocabolario INTERNO della
+ * macchina, e in una lettera a un cliente non ci possono stare. Misurato il 28/8 su otto mail
+ * realistiche: sette bocciate, e sei per ragioni che non sono disonestà — gli orari di apertura, il
+ * prezzo del pane, lo sconto del 10%, i minuti di consegna. È esattamente AR-433 un piano più in là:
+ * un cancello che suona su tutto è un cancello spento, con l'aggravante che sembra acceso.
+ *
+ * Sulla lettera il numero che va fondato è il CLAIM: «3.000 clienti», «500 famiglie», «12 negozi».
+ * Un prezzo, una percentuale di sconto, un orario e una data non promettono niente sul mondo, e
+ * pretendere una fonte accanto vuol dire solo insegnare a scavalcare il controllo.
+ */
 export function regolePer(tipo) {
+  if (tipo === "lettera") {
+    return {
+      segnaposto: true,
+      claim: true,
+      // ⚖️ DECISO DA NICOLA il 2026-08-28: il metro sulle mail ai clienti resta SEVERO.
+      // La corsia di AR-791 aveva proposto "solo-claim" con la misura qui sopra (otto mail, sette
+      // bocciate, sei per ragioni che non sono disonestà). La proposta è buona e resta in piedi:
+      // il macchinario che la esegue — `numeroDaFondare` e il valore "solo-claim" — è costruito,
+      // provato e pronto. Ma allentare il cancello che guarda cosa esce verso una persona vera non
+      // è una decisione che si prende dentro un lotto che parlava d'altro. Nicola vuole prima
+      // vedere le otto mail coi due verdetti accanto. Finché non le ha viste: `true`.
+      // Per accendere la proposta basta rimettere "solo-claim" qui e nel gemello del Pannello —
+      // e `due-metri-una-regola.test.mjs` obbliga a farlo in tutte e due lo stesso giorno.
+      numeri: true,
+      perche_numeri:
+        "lettera a un cliente vero: ogni numero porta la sua fonte (metro severo, confermato da Nicola il 2026-08-28 — la proposta di fondare solo i claim aspetta che veda le otto mail di prova)",
+    };
+  }
   return {
     segnaposto: true,
     claim: true,
@@ -112,6 +195,30 @@ export function regolePer(tipo) {
         ? "documento di diagnosi interna: i numeri sono riferimenti a codice e sigle di difetto, non claim di business"
         : "testo che può uscire verso l'esterno: ogni numero deve portare la sua fonte",
   };
+}
+
+/**
+ * Questo numero va fondato, dato il profilo? Funzione PURA e senza I/O: è la decisione, e una prova
+ * la ESEGUE (`cervello/test/due-metri-una-regola.test.mjs`) invece di cercarla con un grep.
+ *
+ *   raw  → il numero come l'ha trovato la regola («3.000 clienti», «10%», «45»)
+ *   dopo → i caratteri subito dopo (bastano una trentina): è lì che vive il soggetto, quando il
+ *          numero e la parola non finiscono nello stesso pezzo («12 negozi convenzionati»)
+ */
+export function numeroDaFondare(raw, dopo, modo) {
+  if (modo === false) return false;
+  if (modo !== "solo-claim") return true;
+  RE_SOGGETTO.lastIndex = 0;
+  return RE_SOGGETTO.test(`${raw} ${String(dopo ?? "").slice(0, 30)}`);
+}
+
+/**
+ * IL GIUDIZIO — funzione pura: entra un nome e un testo, esce il verdetto. Nessun I/O, nessun
+ * process.exit: quelli stanno nel comando qui sotto. Esportata (AR-791) perché la prova che
+ * confronta i due metri debba ESEGUIRLA, non descriverla.
+ */
+export function giudica(nome, testo, tipoForzato = null) {
+  return esamina(nome, testo, tipoForzato);
 }
 
 function esamina(nome, testo, tipoForzato = null) {
@@ -178,6 +285,10 @@ function esamina(nome, testo, tipoForzato = null) {
     if (soloNum.length < 2 && !/[€%]/.test(raw)) continue;
     const ctx = daGiudicare.slice(Math.max(0, mm.index - 60), mm.index + raw.length + 60);
     if (RE_FONTE.test(ctx)) continue;
+    // 🚧 AR-791 — quali numeri vanno fondati lo decide il PROFILO del canale, non il caso. Su una
+    // lettera al cliente («solo-claim») restano dentro «3.000 clienti» e «12 negozi», escono il
+    // prezzo, lo sconto, i minuti di consegna e l'orario: fondare quelli non è onestà, è rumore.
+    if (!numeroDaFondare(raw, daGiudicare.slice(mm.index + raw.length, mm.index + raw.length + 30), regole.numeri)) continue;
     // 🚧 AR-394 — QUI il metro smetteva di poter essere acceso. Sulla parte VIVA di STATO.md (misura
     // del 22/8) 33 dei 35 «numeri senza fonte» erano pezzi di data o di orario: con quel rumore il
     // quarto controllo non poteva bloccare senza fermare per sempre la pubblicazione della memoria.
@@ -208,7 +319,15 @@ async function main() {
   const risultati = [];
 
   // AR-433: da stdin il nome non c'è, quindi il tipo lo si dichiara con --audit (o --contenuto).
-  const tipoForzato = args.includes("--audit") ? "audit" : args.includes("--contenuto") ? "contenuto" : null;
+  // AR-791: `--lettera` è il profilo del canale clienti, quello che il Pannello applica alle mail.
+  // Serve anche da qui, perché il metro della lettera si possa provare a mano con lo stesso comando.
+  const tipoForzato = args.includes("--audit")
+    ? "audit"
+    : args.includes("--lettera")
+      ? "lettera"
+      : args.includes("--contenuto")
+        ? "contenuto"
+        : null;
   if (testoFlag != null) risultati.push(esamina("(--testo)", testoFlag, tipoForzato));
   if (STDIN) risultati.push(esamina("(stdin)", await leggiStdin(), tipoForzato));
   for (const f of files) {

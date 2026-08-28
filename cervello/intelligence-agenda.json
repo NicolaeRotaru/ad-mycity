@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "quando": "2026-08-28 11:35",
-  "fonti_dovute": 12,
+  "quando": "2026-08-28 17:49",
+  "fonti_dovute": 13,
   "fonti_totali": 18,
   "agenda": [
     {
@@ -195,12 +195,34 @@
       "url_websearch": null,
       "skip_check": false,
       "motivo": "settimanale_stale_18g"
+    },
+    {
+      "id": "reputazione-mycity",
+      "nome": "Reputazione MyCity & negozi (ricerca aperta)",
+      "peso": 3,
+      "cadenza": "settimanale",
+      "scrive_in": "reputazione",
+      "senior": [
+        "supporto",
+        "pr-stampa"
+      ],
+      "cosa_cercare": "menzioni di MyCity e dei nostri negozi, recensioni Google/social, sentiment, lamentele ricorrenti",
+      "url": "https://www.google.com/search?q=MyCity+Piacenza",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_10g"
     }
   ],
   "stale": [
     {
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
+      "ultimo": "2026-08-24",
+      "giorni": 4
+    },
+    {
+      "file": "eventi-picchi",
+      "path": "eventi-picchi.md",
       "ultimo": "2026-08-24",
       "giorni": 4
     },
@@ -215,6 +237,12 @@
       "path": "leve-uscita.md",
       "ultimo": "2026-08-10",
       "giorni": 18
+    },
+    {
+      "file": "reputazione",
+      "path": "reputazione.md",
+      "ultimo": "2026-08-18",
+      "giorni": 10
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"

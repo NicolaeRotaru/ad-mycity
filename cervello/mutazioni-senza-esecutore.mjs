@@ -7,30 +7,35 @@
 // `non-vacuita.mjs` rompe apposta un fix e pretende che la sua prova diventi rossa. È il guardiano
 // che tiene in piedi tutti gli altri: senza, «difetto chiuso» vuol dire solo «qualcuno l'ha scritto».
 //
-// Lancia la prova così: `spawnSync("node", [m.test])`. Cioè `m.test` dev'essere un PERCORSO.
-// Metà delle voci ci mettono una riga di comando — `"node cervello/test/x.test.mjs"` — e allora
-// gira `node "node cervello/test/x.test.mjs"`, che non trova nessun file ed esce ≠ 0.
+// Lanciava la prova così: `spawnSync("node", [m.test])`. Cioè dava per scontato che `m.test` fosse
+// sempre un percorso .mjs. Dove c'era una riga di comando — `"node cervello/permessi-check.mjs"` —
+// girava `node "node cervello/permessi-check.mjs"`: nessun file, MODULE_NOT_FOUND, uscita 1. Dove
+// c'era un `.bats`, girava `node <script bash>`: SyntaxError, uscita 1.
 //
 // **Un'uscita ≠ 0 è come `non-vacuita` riconosce «la prova è diventata rossa».** Quindi quelle voci
-// risultano SEMPRE verificate, qualunque cosa faccia la mutazione — anche se il fix non è coperto
-// da niente. Misurato il 26/8: 435 voci su 872.
+// risultavano SEMPRE verificate, qualunque cosa facesse la mutazione — anche se il fix non era
+// coperto da niente. Non era una svista di forma: era il metro della copertura che si dava buono
+// da solo.
 //
-// Non è una svista di forma: è il metro della copertura che si misura da solo e si dà buono. Le
-// prove di questo lotto ne hanno beccate cinque, mie, che non mordevano affatto — e risultavano
-// verificate.
+// LA CURA (28/8) sta a monte, in `esecuzione-prova.mjs`: la decisione di COME si esegue un `test`
+// è diventata una funzione pura che sa leggere anche una riga di comando e sa lanciare un `.bats`
+// col programma giusto. `non-vacuita.mjs` la usa per eseguire; questo file la usa per contare. Un
+// metro solo per le due domande, altrimenti il debito misurato non è quello che il banco patisce.
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // IL VERSO DEL FRENO
 // ─────────────────────────────────────────────────────────────────────────────
 // Il debito ereditato si CONTA, quello nuovo si BLOCCA: stesso patto di `debito-prove-bash.mjs`.
-// Il tetto scende e non risale. Chi aggiunge una mutazione con un `test` che nessuno può eseguire
-// non sta aggiungendo copertura: sta aggiungendo un verde.
+// Il tetto scende e non risale. Chi aggiunge una mutazione con un `test` che il banco non sa
+// lanciare — un programma fuori dalla lista bianca, una riga che vuole una shell, un file che non
+// c'è — non sta aggiungendo copertura: sta aggiungendo un verde.
 //
 // Uscite (AR-322): 0 sotto il tetto · 1 cresciuto · 2 non ho potuto misurare.
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
+import { comeSiEsegue } from "./esecuzione-prova.mjs";
 
 const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
 const TETTI = join(AD_ROOT, "cervello/tetti-lotto.json");
@@ -39,33 +44,25 @@ const JSON_MODE = process.argv.includes("--json");
 /**
  * Un `test` è eseguibile così com'è?
  *
- * `esiste` è iniettato perché il giudizio si possa provare senza toccare il disco: la domanda vera
- * è «`spawnSync("node", [test])` troverebbe un file?», e la risposta dipende solo da quello.
+ * ⚠️ IL METRO È UNO SOLO (AR-840). La domanda vera non è «assomiglia a un percorso?»: è **«il banco
+ * delle mutazioni riuscirebbe davvero a lanciarlo?»**. Quella decisione vive in
+ * `esecuzione-prova.mjs` ed è la STESSA che `non-vacuita.mjs` usa per lanciare. Qui si aggiunge solo
+ * ciò che la funzione pura non può sapere: i file esistono su questo disco?
+ *
+ * Finché le due regole erano separate — qui «uno spazio = non eseguibile», là `spawnSync("node",
+ * [test])` — il contatore misurava un debito diverso da quello che il banco pativa. Due elenchi e
+ * due metri: è il modo più sicuro di avere un numero che non descrive niente.
+ *
+ * `esiste` è iniettato perché il giudizio si possa provare senza toccare il disco.
  */
 export function testEseguibile(test, esiste = () => false) {
   if (typeof test !== "string" || !test.trim()) {
     return { ok: false, perche: "nessun test dichiarato" };
   }
-  const t = test.trim();
-  // Uno spazio vuol dire che è una riga di comando, non un percorso: `node "node x.mjs"` non trova
-  // niente ed esce ≠ 0, cioè esattamente il segnale che `non-vacuita` legge come «rossa».
-  if (/\s/.test(t)) {
-    return { ok: false, perche: `è una riga di comando, non un percorso: «${t}»` };
-  }
-  // Il percorso deve restare DENTRO il repo. Senza questo, un `test` come `../../qualcosa` verrebbe
-  // unito alla radice e — se quel file esiste — conterebbe come eseguibile: il metro direbbe
-  // «coperta» per una prova che non e' di questo repo. Non e' un buco di sicurezza (mutanti.json e'
-  // contenuto del repo, non ingresso di qualcuno): e' il metro che si lascia ingannare, ed e'
-  // esattamente il difetto che questo file esiste per togliere.
-  //
-  // La regola NON dice «solo cervello/test/»: l'ho provata cosi' ed era troppo stretta. Tre voci
-  // vere puntano a un guardiano lanciabile (`spazzata-fratelli.mjs`, `prove-difetti.mjs`) o a una
-  // prova del Pannello, e sono prove legittime. Il metro deve contare i percorsi che NON si possono
-  // eseguire, non quelli che stanno fuori da una cartella che ho scelto io.
-  if (t.includes("..") || t.startsWith("/")) {
-    return { ok: false, perche: `esce dal repo: «${t}»` };
-  }
-  if (!esiste(t)) return { ok: false, perche: `il file non esiste: «${t}»` };
+  const piano = comeSiEsegue(test);
+  if (!piano.ok) return { ok: false, perche: piano.perche };
+  const mancante = piano.percorsi.find((p) => !esiste(p));
+  if (mancante) return { ok: false, perche: `il file non esiste: «${mancante}»` };
   return { ok: true, perche: "" };
 }
 
@@ -89,8 +86,9 @@ export function verdettoMutazioniCieche({ quante = 0, totale = 0, tetto = null }
     return {
       esito: "violazione",
       motivo:
-        `mutazioni non eseguibili salite da ${t} a ${quante}: una mutazione col test sbagliato non è copertura, ` +
-        `è un verde comprato. Il campo «test» vuole un PERCORSO (cervello/test/x.test.mjs), non una riga di comando.`,
+        `mutazioni non eseguibili salite da ${t} a ${quante}: una mutazione che il banco non sa lanciare non è ` +
+        `copertura, è un verde comprato. Il campo «test» vuole qualcosa che «comeSiEsegue» sappia avviare: un ` +
+        `PERCORSO dentro il repo (cervello/test/x.test.mjs, x.bats) o una riga di node/npx senza shell.`,
     };
   }
   if (quante < t) {

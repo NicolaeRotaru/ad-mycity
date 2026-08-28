@@ -37,6 +37,8 @@ import { comeSiScrive, leggiScorecard } from "./scorecard-rubrica.mjs";
 // AR-621 · AR-622 — il canale di squadra non aveva nessun sensore addosso: chi lavora senza scrivere
 // lì resta invisibile, e una richiesta di revisione senza risposta non la contava nessuno.
 import { concentrazioneVoci, repartiMuti, revisioniTraPari, righeFresche, righeSala } from "./sala-regole.mjs";
+// AR-859 — «l'elenco dei reparti non c'è» (⚪ 2) non è «l'elenco è vuoto» (❌ 1).
+import { rigaReferto, verdettoPostoVuoto } from "./posto-o-contenuto.mjs";
 
 const SQUADRA_DIR = join(AD_ROOT, "memoria-squadra");
 const AGENTS_DIR = join(AD_ROOT, ".claude/agents");
@@ -306,10 +308,31 @@ ${riga}
 async function sonda() {
   const quando = nowPiacenza();
   mkdirSync(SQUADRA_DIR, { recursive: true });
+  // AR-859 — «NON HO L'ELENCO DEI REPARTI» E «NON C'È NESSUN REPARTO» SONO DUE NOTIZIE DIVERSE.
+  //
+  // Qui si usciva 1 in tutt'e due i casi, cioè con lo stesso codice con cui il gate (in fondo a
+  // questo file) dice «ho incrociato Sala e quaderni e questi reparti non hanno chiuso il loop».
+  // La riga diceva addirittura «impossibile sondare» — la parola del cieco — e usciva col numero
+  // del reperto. Adesso i due casi si separano, e la decisione la prende una funzione pura:
+  //   · `.claude/agents/` non c'è  → ⚪ 2: non ho aperto niente, non ho nessun reperto;
+  //   · c'è ed è vuota             → ❌ 1: ho contato, zero reparti, e QUELLO è il reperto.
+  //
+  // Chi legge il codice d'uscita della sonda: `cervello/giro.sh` riga ~513, che la lancia con
+  // `| esito_righe 4 || true` — informativa, l'esito non lo guarda nessuno. Il gate (--gate), che
+  // invece è letto sul serio, passa da `vincolo_da_rc` in giro-esito.sh, che il 2 lo traduce già
+  // in ⚪ «guardiano cieco»: il lettore era pronto, mancava lo strumento.
+  const postoRoster = existsSync(AGENTS_DIR);
   const reparti = rosterReparti();
-  if (!reparti.length) {
-    console.error("Roster agenti vuoto — impossibile sondare i quaderni.");
-    process.exit(1);
+  const vRoster = verdettoPostoVuoto({
+    postoCe: postoRoster,
+    trovati: postoRoster ? reparti.length : null,
+    dove: ".claude/agents",
+    cerco: "i reparti da sondare",
+    reperto: "Roster agenti vuoto: la cartella .claude/agents c'è ma non contiene nessun reparto — i quaderni non si possono sondare.",
+  });
+  if (vRoster.codice !== 0) {
+    console.error(rigaReferto(vRoster));
+    process.exit(vRoster.codice);
   }
 
   // AR-623 — IL CONTATORE DEI QUADERNI VIVI NON CONTAVA IL QUADERNO DEL DIRETTORE.

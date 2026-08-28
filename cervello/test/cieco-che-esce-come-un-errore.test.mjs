@@ -139,12 +139,18 @@ prova("IL TETTO: quanti programmi confondono ancora «non ho misurato» con «ho
       "«nessun test .test.mts: il Pannello non ha rete» E' il reperto, ed e' grave: non che non abbia potuto contarli, ma che non ce ne siano.",
   };
 
-  // Misurato il 2026-08-27 sul codice vero: 21 lordi. Nove curati in questo lotto, nove dichiarati
-  // esenti qui sopra col perche'. Restano 3 di debito, e sono i tre in cui il codice d'uscita lo
-  // legge il cancello o il giro: li' la cura e' doppia e va fatta con la mano ferma, non a fine giornata. Scende quando qualcuno converte il ramo del
-  // cieco a process.exit(2) — e se lo strumento e' letto dal giro, anche il blocco di giro.sh deve
-  // passare da vincolo_da_rc. Non risale mai.
-  const TETTO = 3;
+  // Misurato il 2026-08-27 sul codice vero: 21 lordi. Nove curati nel lotto precedente, nove
+  // dichiarati esenti qui sopra col perche'. Gli ultimi TRE — test-cervello, valida-contratti,
+  // chiusura-loop --sonda — erano i piu' delicati perche' il loro codice d'uscita lo legge il giro
+  // o il cancello: curati il 2026-08-28 (AR-859), e il debito e' ZERO.
+  //
+  // Lo zero e' un tetto che scende e non risale: da qui in poi ogni ramo di cecita' nuovo che esca 1
+  // fa rosso questo caso il giorno stesso in cui nasce. La cura si vede in cervello/posto-o-contenuto.mjs
+  // (la decisione ⚪-o-❌, pura) e si prova comportamentalmente in
+  // cervello/test/il-posto-che-non-ce-non-e-un-reperto.test.mjs, che esegue i tre strumenti in una
+  // copia dell'albero spoglia e pretende 2 — e col posto presente e vuoto pretende 1, cosi' che
+  // «curare» facendo uscire 2 tutto quanto (falso allarme → silenzio) non passi.
+  const TETTO = 0;
   const malati = readdirSync(CERVELLO)
     .filter((f) => f.endsWith(".mjs"))
     .filter((f) => confondeCiecoEdErrore(readFileSync(join(CERVELLO, f), "utf8")).confonde);

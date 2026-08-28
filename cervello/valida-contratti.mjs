@@ -25,6 +25,8 @@ import { GENERA_AMMESSI, verdettoFinding } from "./contratto-scheda.mjs";
 // AR-356 · AR-567 — dove una prova non può puntare, e la differenza fra «non ancora soddisfatta» e
 // «punta a un file che non esiste».
 import { classificaProva, provaSuFileVolatile } from "./prove-regole.mjs";
+// AR-859 — «la cartella non c'è» è un ⚪ (non ho misurato), non un ❌ (ho misurato e ho trovato).
+import { rigaReferto, verdettoPostoVuoto } from "./posto-o-contenuto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 // AR-212 — `--correggi` rinomina gli alias vietati nel campo canonico, sul posto.
@@ -341,10 +343,23 @@ function valida(nomeFile, dati, regola) {
 
 function main() {
   const quando = nowPiacenza();
+  // AR-859 — SENZA LA CARTELLA NON HO CONTROLLATO NESSUN CONTRATTO.
+  //
+  // Qui si usciva 1, cioè con lo stesso codice che questo validatore usa in fondo per dire «ho
+  // letto i file e almeno uno è fuori contratto». Da fuori i due stati erano identici: chi legge
+  // andava a cercare un campo rinominato che non esisteva, mentre il guasto era che non avevo
+  // aperto niente. Il posto dove dovevo guardare non c'è → ⚪ 2, e il verdetto non lo decide un `if`
+  // scritto a mano ma `verdettoPostoVuoto`, dove una prova lo può eseguire.
+  //
+  // Chi legge questo codice d'uscita: `cervello/giro.sh` (blocco «Lever 2», gate hard). Oggi lì c'è
+  // un `if [ rc -ne 0 ]` scritto a mano invece della funzione di casa `vincolo_da_rc`: col 2 il
+  // giro riceve comunque un vincolo — nessun silenzio — ma col testo di dominio sbagliato. È
+  // dichiarato nel referto come difetto NUOVO, fuori dal territorio di questa corsia.
   if (!existsSync(DIR)) {
-    const out = { ok: false, quando, errore: "cartella auto-coscienza mancante" };
-    console.log(JSON_MODE ? JSON.stringify(out) : "❌ auto-coscienza/ non trovata");
-    process.exit(1);
+    const v = verdettoPostoVuoto({ postoCe: false, dove: "MyCity-Vault/90-Memoria-AI/auto-coscienza", cerco: "i file di memoria da validare" });
+    const out = { ok: false, esito: v.esito, quando, errore: "cartella auto-coscienza mancante", perche: v.perche };
+    console.log(JSON_MODE ? JSON.stringify(out) : rigaReferto(v));
+    process.exit(v.codice);
   }
 
   const files = readdirSync(DIR).filter((f) => f.endsWith(".json"));

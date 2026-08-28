@@ -988,6 +988,45 @@ function main() {
     // importati (AR-445), e quante prove esistono senza che nessuno le faccia girare (AR-660).
     passi.push(esegui("nessun modulo parte da solo se lo importi", "node", ["cervello/import-che-esegue.mjs"]));
     passi.push(esegui("nessuna prova scritta e mai eseguita", "node", ["cervello/prove-non-eseguite.mjs"]));
+    // AR-798 — la terza superficie della stessa domanda, e la più silenziosa: una prova che gira,
+    // esce 0, e non guarda più il difetto che dimostra. Il caso emigra in un file nuovo, il
+    // puntatore della scheda resta indietro, e da quel momento la scheda è coperta da un comando
+    // che esegue altro. Sta nel cancello perché il momento in cui il codice si sposta è la
+    // consegna: è lì che l'estrazione sembra gratis.
+    //
+    // ⚠️ È UNA SENTINELLA DI SPOSTAMENTO, NON UN METRO DELLA QUALITÀ DELLA PROVA, e la differenza è
+    // scritta nel suo stesso verdetto col numero: l'estrazione la vede con certezza su 10 schede di
+    // 600, al massimo su 133. Sulle altre 467 il nome resta nell'intestazione o nel comando, che
+    // l'estrazione non muove, e lui resta verde. Quel buco è DICHIARATO sotto il verde a ogni corsa
+    // (il collaudo del 23/8 lo aveva trovato scritto al 40% quando era all'80%: adesso il numero è
+    // quello vero). Vale come tetto che non si allarga, non come copertura.
+    //
+    // TRE ESITI: 0 il conto è pari al tetto o sotto · 1 il debito si è allargato di uno · 2 non ha
+    // potuto misurare (cantiere assente o illeggibile, tetto illeggibile, file di prova sparito —
+    // provate una per una). Non chiama git: il clone superficiale non lo tocca, qui esce 0 in 0,2 s.
+    passi.push(esegui("prove che non nominano il difetto che dimostrano (tetto)", "node", ["cervello/puntatori-scollegati.mjs"]));
+    // AR-797 — `cervello/due-case.mjs` NON È AGGANCIATO QUI, ED È UNA DECISIONE MISURATA, non una
+    // dimenticanza. Chiede una cosa giusta («un controllo nuovo di questo cancello nasce già rotto
+    // sul runner?») e il suo motore regge: le tre bocciature del collaudo del 23/8 sono curate e
+    // rimisurate il 28/8 (censimento che dichiara ⚪ invece di sotto-contare · `--aggiorna-tetto`
+    // che rifiuta di scrivere senza tetto leggibile · la casa spoglia che adesso ha `origin/main`).
+    //
+    // QUELLO CHE MANCA È IL VERDE, e senza verde un passo non entra: montato qui esce **2 (⚪) in
+    // ogni ambiente raggiungibile**, perché nel cancello c'è un passo scritto in una forma che il
+    // suo censimento non sa leggere («prove del Pannello», che si lancia con `process.execPath` e un
+    // percorso calcolato) e lui, giustamente, non chiama verde un cancello che non ha letto tutto.
+    // E chiudendo quel buco — misurato il 28/8 su una copia: `process.execPath` → `"node"` — esce
+    // **1**, perché quel passo diventa il quinto «mai provabile» contro un tetto di 4.
+    // Quindi oggi le sue uscite possibili sono 2 o 1, mai 0: un cancello che non può diventare
+    // verde si impara a saltarlo, ed è la malattia peggiore di tutte.
+    //
+    // COSA SERVE PER AGGANCIARLO, in quest'ordine e sono due gesti: ① riscrivere il passo «prove del
+    // Pannello» in forma leggibile (`"node", ["cervello/test-pannello.mjs"]` — `esegui` gli dà già
+    // `cwd: AD_ROOT`, quindi il percorso relativo basta); ② alzare A MANO `tetto_mai_provabili` da 4
+    // a 5 in `cervello/due-case.json`, perché quel passo il cancello lo paga 600 s e resta non
+    // rilanciabile. Fatti quei due, `node cervello/due-case.mjs` esce 0 e la riga entra qui.
+    // Finché non lo sono, è uno strumento da lanciare a mano — e la sua voce sta in
+    // `cervello/guardiani-motivi.json`, che è il posto dove questa casa dichiara i freni non cablati.
     // AR-693 ② — «29 prove in bash che nessuno fa girare» detto come NUMERO con un tetto, e non come
     // un ⚪ in fondo a un elenco di duecentoquaranta righe. Il tetto scende quando qualcuno installa
     // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue

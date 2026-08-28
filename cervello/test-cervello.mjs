@@ -84,6 +84,9 @@ import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto
 import { fileDelComando } from "./cancello-lotto.mjs";
 import { spazza } from "./spazza-temporanei.mjs";
 import { cecitaDaAmbiente, leggiSalto } from "./ambiente-prova.mjs";
+// AR-859 — «il posto non c'è» (⚪ 2) vs «il posto c'è ed è vuoto» (❌ 1): una decisione sola,
+// pura, che un test può eseguire senza far partire il banco.
+import { rigaReferto, verdettoPostoVuoto } from "./posto-o-contenuto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SERIALE = process.argv.includes("--seriale");
@@ -813,9 +816,19 @@ async function main() {
   // `resolve` e non `join`: con TEST_CERVELLO_DIR assoluto, `join` incollerebbe il percorso in coda
   // alla radice e la cartella non esisterebbe — un banco che non trova le prove dice «0 passati».
   const dir = resolve(AD_ROOT, CARTELLA);
+  // AR-859 — LA CARTELLA CHE NON C'È NON È UNA PROVA ROSSA.
+  //
+  // Qui si usciva 1, cioè con lo stesso codice che questo banco usa per dire «i test sono rossi».
+  // Chi legge è `giro.sh`, e a rc=1 risponde «TEST DEL CERVELLO ROSSI: uno o più file di test non
+  // passano o non partono» — cioè manda a leggere i test quando il guasto è che la cartella non
+  // esiste. Il commento di AR-843 sopra quel blocco dice esattamente questo, e la sua metà mancante
+  // era proprio qui: il lettore era già pronto al 2 (`vincolo_da_rc` lo traduce in ⚪), lo strumento
+  // non lo emetteva mai. La decisione «posto assente = cieco» sta in posto-o-contenuto.mjs, dove un
+  // test la può eseguire da sola.
   if (!existsSync(dir)) {
-    console.error(`❌ cartella non trovata: ${CARTELLA}`);
-    process.exit(1);
+    const v = verdettoPostoVuoto({ postoCe: false, dove: CARTELLA, cerco: "le prove del cervello" });
+    console.error(rigaReferto(v));
+    process.exit(v.codice);
   }
   const nella = readdirSync(dir);
   let file = trovaTest(nella);
@@ -827,13 +840,26 @@ async function main() {
     file = file.filter((f) => f.includes(SOLO));
     bats = bats.filter((f) => f.includes(SOLO));
   }
-  if (!file.length && !bats.length) {
-    console.error(
-      SOLO
-        ? `❌ nessuna prova contiene «${SOLO}» (né .test.mjs né .bats): il filtro non ha misurato niente.`
-        : `❌ nessuna prova in ${CARTELLA}: il cervello non ha rete.`,
-    );
-    process.exit(1);
+  // AR-859 — E QUI INVECE L'1 RESTA, apposta. La cartella c'è, l'ho aperta e l'ho contata: il conto
+  // è zero. Lo zero È il reperto — «il cervello non ha rete» è la notizia grave che questo strumento
+  // esiste per dare — e travestirlo da ⚪ sarebbe la malattia opposta: un guardiano che fa sparire
+  // un'accusa vera dicendo «non ho potuto guardare». Stessa regola già dichiarata per test-pannello.
+  // Lo stesso vale col filtro: `--solo pippo` che non pesca niente è la risposta alla domanda fatta
+  // (come `rivedi-lezione` con una lezione che non esiste), non l'impossibilità di rispondere.
+  // La decisione non è scritta a mano qui: la prende `verdettoPostoVuoto`, con il posto presente e
+  // il conto a zero.
+  const vProve = verdettoPostoVuoto({
+    postoCe: true,
+    trovati: file.length + bats.length,
+    dove: CARTELLA,
+    cerco: SOLO ? `prove che contengono «${SOLO}»` : "prove",
+    reperto: SOLO
+      ? `nessuna prova contiene «${SOLO}» (né .test.mjs né .bats): il filtro non ha misurato niente.`
+      : `nessuna prova in ${CARTELLA}: il cervello non ha rete.`,
+  });
+  if (vProve.codice !== 0) {
+    console.error(rigaReferto(vProve));
+    process.exit(vProve.codice);
   }
 
   // A CORSIE, non uno alla volta. Ogni file gira già nel suo processo separato: farne partire N

@@ -7754,9 +7754,9 @@
   {
    "difetto": "AR-840",
    "nome": "una riga di comando torna a contare come percorso: il metro smette di vedere il difetto",
-   "file": "cervello/mutazioni-senza-esecutore.mjs",
-   "cerca": "  if (/\\s/.test(t)) {\n    return { ok: false, perche: `è una riga di comando, non un percorso: «${t}»` };\n  }",
-   "sostituisci": "",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "  if (/\\s/.test(t)) {\n    const s = spezzaComando(t, { soloDentroIlRepo });",
+   "sostituisci": "  if (false) {\n    const s = spezzaComando(t, { soloDentroIlRepo });",
    "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
   },
   {

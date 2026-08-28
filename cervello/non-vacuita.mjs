@@ -35,6 +35,7 @@ import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
 import { muta } from "./mutazione-vagante.mjs";
+import { comeSiEsegue, avvioFallito } from "./esecuzione-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iLotto = process.argv.indexOf("--lotto");
@@ -331,7 +332,12 @@ export function haDichiaratoDiNonGuardare(uscita = "") {
  * La radice è una sola e vale oltre questo file: **il codice d'uscita descrive una corsa avvenuta.
  * Prima di leggerlo bisogna sapere se la corsa c'è stata.**
  */
-export function verdettoCorsa({ status, signal = null, uscita = "" } = {}) {
+export function verdettoCorsa({ status, signal = null, uscita = "", avvio = null } = {}) {
+  // AR-840 — PRIMA di leggere il numero d'uscita: la corsa è mai partita? Un file di prova che non
+  // esiste, un programma non installato, un pacchetto mancante escono ≠ 0 — cioè esattamente il
+  // segnale con cui qui si riconosce «la prova è diventata rossa». Erano indistinguibili, e per
+  // questo metà delle mutazioni risultavano verificate senza esserlo. Un avvio fallito è ⚪.
+  if (avvio) return { verdetto: "cieco", perche: avvio };
   if (status === null || status === undefined) {
     return {
       verdetto: "cieco",
@@ -346,6 +352,41 @@ export function verdettoCorsa({ status, signal = null, uscita = "" } = {}) {
   }
   if (status !== 0) return { verdetto: "ok", perche: "" };
   return { verdetto: "vacua", perche: "il test resta VERDE col fix rotto" };
+}
+
+/**
+ * 🏃 ESEGUI LA PROVA DI UNA MUTAZIONE — AR-840.
+ *
+ * Prima era una riga sola, `spawnSync("node", [m.test])`, che dava per scontato che ogni `test`
+ * fosse un percorso .mjs. Adesso il COME lo decide `comeSiEsegue` (funzione pura, provabile), e qui
+ * resta solo il mestiere di lanciare: nessuna shell, i passi di un `&&` in ordine, ci si ferma al
+ * primo che fallisce.
+ *
+ * `lancia` è iniettato perché questa funzione si possa provare senza far partire processi veri: la
+ * domanda da verificare è «con quali argomenti parte il comando?», e la risposta non ha bisogno del
+ * disco. Torna la stessa forma che `verdettoCorsa` si aspetta, più `avvio`: il motivo per cui la
+ * corsa non è mai partita, oppure null.
+ */
+export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX } = {}) {
+  // `soloDentroIlRepo: false` — qui si ESEGUE, non si conta: le prove di questo stesso banco si
+  // costruiscono una fixture in /tmp e le passano un percorso assoluto. La regola «solo dentro il
+  // repo» resta viva dove serve, nel contatore che tiene pulito mutanti.json.
+  const piano = comeSiEsegue(test, { soloDentroIlRepo: false });
+  if (!piano.ok) {
+    // Non è «la prova è diventata rossa»: è che non so nemmeno come lanciarla. ⚪, mai ✅.
+    return { status: 1, signal: null, uscita: "", avvio: `non so come eseguire questo test: ${piano.perche}` };
+  }
+  let ultimo = { status: 0, signal: null, uscita: "" };
+  for (const passo of piano.passi) {
+    const r = lancia(passo.comando, passo.argomenti, { cwd, encoding: "utf8", timeout });
+    const uscita = `${r.stdout || ""}${r.stderr || ""}`;
+    ultimo = { status: r.status, signal: r.signal ?? null, uscita };
+    const avvio = avvioFallito({ errore: r.error || null, uscita, entrata: passo.percorsi[0] || passo.argomenti[0] || "" });
+    if (avvio) return { ...ultimo, avvio: `${avvio} [${passo.comando} ${passo.argomenti.join(" ")}]` };
+    // `&&`: il primo passo che fallisce è il verdetto, gli altri non si eseguono.
+    if (r.status !== 0) return { ...ultimo, avvio: null };
+  }
+  return { ...ultimo, avvio: null };
 }
 
 function main() {
@@ -415,11 +456,8 @@ function main() {
       // porzione di tempo che questa difesa esiste per coprire.
       lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);
       writeFileSync(file, rotto);
-      const r = spawnSync("node", [m.test], { cwd: AD_ROOT, encoding: "utf8", timeout: TEMPO_MAX });
-      esiti.push({
-        ...m,
-        ...verdettoCorsa({ status: r.status, signal: r.signal, uscita: `${r.stdout || ""}${r.stderr || ""}` }),
-      });
+      const r = eseguiProva(m.test);
+      esiti.push({ ...m, ...verdettoCorsa(r) });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
       togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più
