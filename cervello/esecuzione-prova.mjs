@@ -134,7 +134,16 @@ function percorsiDi(argomenti) {
 const PERCORSO_PULITO = /^[A-Za-z0-9._/-]+$/;
 
 /** Le estensioni che `node` da solo non sa eseguire allo stesso modo su ogni versione. Vedi il
- *  blocco «L'ESECUTORE VA DICHIARATO» sotto. */
+ *  blocco «L'ESECUTORE VA DICHIARATO» sotto.
+ *
+ *  sorvegliante: ok perimetro-letterale fino al 2026-11-30 — un elenco scritto a mano dentro un
+ *  guardiano di solito è un perimetro DEDOTTO DAGLI ESEMPI, e allora è giusto accusarlo: domani
+ *  arriva il caso che nessuno aveva in mente e il guardiano è cieco proprio lì. Qui no, ed è la
+ *  differenza che vale la dichiarazione: queste quattro NON sono le estensioni che abbiamo
+ *  incontrato, sono TUTTE le estensioni che TypeScript definisce — l'insieme è chiuso e lo chiude
+ *  qualcun altro, non i nostri esempi. Non esiste un registro da cui derivarle: derivarle dai file
+ *  presenti sarebbe il perimetro dedotto vero, ed è il contrario di quello che serve. La data non è
+ *  un debito: è il promemoria per ricontrollare se TypeScript ne ha aggiunta una. */
 const TIPI_TYPESCRIPT = [".ts", ".mts", ".cts", ".tsx"];
 
 /**
