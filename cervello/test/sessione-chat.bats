@@ -99,8 +99,17 @@ EOF
 }
 
 # ── 11. Il contesto macchina arriva anche ai LAVORI (esegui-azione + generico), non solo chat ───
+# 28/8/2026 — LA GREP CHIEDEVA UNA CHIAMATA SENZA ARGOMENTI, E LA FUNZIONE UN ARGOMENTO L'HA PRESO.
+#
+# Cercava `contesto_macchina_chat 2>/dev/null`. La funzione adesso riceve la richiesta
+# (`contesto_macchina_chat "$richiesta" 2>/dev/null`) per poter tagliare il contesto su quello che
+# serve davvero: la prova è diventata rossa per un miglioramento. L'invariante non è come si scrive
+# la chiamata — è che il contesto della macchina arrivi a TUTTE E TRE le strade (la chat e le due
+# corsie di lavoro), perché una corsia che ne resta senza risponde a Nicola senza sapere in che stato
+# è la macchina.
 @test "worker: contesto_macchina_chat iniettato nelle corsie di lavoro" {
-  [ "$(grep -c 'contesto_macchina_chat 2>/dev/null' "$WORKER")" -ge 3 ]
+  n="$(grep -cE '\$\(contesto_macchina_chat' "$WORKER")"
+  [ "$n" -ge 3 ] || { echo "il contesto macchina arriva solo a $n strade su 3: una corsia risponde al buio"; false; }
 }
 
 # ── 12. diagnosi_errore: quota → silenzio (ci pensa la retry-policy); errore vero → spiegazione ─

@@ -41,6 +41,14 @@ const prova = (nome, fn) => {
 };
 
 const T = await import(join(REPO, "cervello/tetti-archivio.mjs"));
+const V = await import(join(REPO, "cervello/lezione-viva.mjs"));
+
+// La soglia vera del decadimento, la stessa che usa il cristallizzatore.
+const SOGLIA_GIORNI = 28;
+const etaGiorni = (date) => {
+  const t = date.map((d) => (d ? Date.parse(String(d).replace(" ", "T")) : NaN)).filter((x) => !Number.isNaN(x));
+  return t.length ? (Date.now() - Math.max(...t)) / 86400000 : Infinity;
+};
 const P = await import(join(REPO, "cervello/pota-apprendimento.mjs"));
 const E = await import(join(REPO, "pannello/src/lib/esito-lettura.ts"));
 
@@ -149,25 +157,79 @@ prova("il cablaggio: senza `decaduto_step_il` il passo tornerebbe a essere per e
   assert.doesNotMatch(src, /if \(giorniDa\(l\.ultima_conferma \|\| l\.nato\) > DECAY_DAYS\) \{\n\s*l\.confidenza/, "la logica vecchia, per esecuzione");
 });
 
-prova("sul file VERO: nessuna lezione morirebbe oggi", () => {
-  // È la misura che conta: il 28/7 due lezioni avevano superato i 28 giorni e sarebbero morte in
-  // mezza giornata. Con la regola nuova, in nove esecuzioni ne muore zero.
+// AR-861 — 28/8/2026. QUI SI MISURAVA LA POPOLAZIONE DI IERI, NON LA REGOLA.
+//
+// La prova diceva: «in nove esecuzioni non muore nessuna lezione». Era vero il 28/7, sul file di quel
+// giorno. Un mese dopo è rossa con 26 lezioni — e nessuna delle 26 ha un freno, nessuna è stata
+// riconfermata o usata da luglio: stanno morendo perché è esattamente il loro mestiere. Una prova che
+// vieta al decadimento di decadere non difende la memoria, la congela.
+//
+// Peggio: la simulazione non passava `frenoVivo` né `ultimoUso`, cioè le DUE cose che AR-771 ha
+// aggiunto proprio per non buttare via le lezioni che contano. Misurava una regola più debole di
+// quella vera, e nel punto in cui il difetto era già stato curato.
+//
+// Adesso la prova chiama la regola VERA con gli stessi argomenti del cristallizzatore, e difende
+// l'invariante invece del conteggio: una lezione con un freno che monta ancora la guardia, o usata di
+// recente, non muore MAI. Quante ne decadono è una misura che si stampa, non un verdetto.
+prova("sul file VERO: nessuna lezione con un freno vivo o usata di recente muore", () => {
   const j = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
   const attive = (j.lezioni || []).filter((l) => l && l.stato === "attiva");
   assert.ok(attive.length > 100, "il file vero deve avere lezioni, altrimenti non provo niente");
-  let morte = 0;
+
+  const protette = [];
+  let decadute = 0;
   for (const l of attive) {
+    const frenoVivo = V.frenoVivoDi(l, REPO);
+    const ultimoUso = V.ultimoUsoDi(l);
     let passi = 0;
     let ultimo = l.decaduto_step_il || null;
     for (let i = 0; i < 9; i++) {
-      if (T.passoDovuto({ ultimaConferma: l.ultima_conferma || l.nato, ultimoPasso: ultimo }).decade) {
+      if (T.passoDovuto({
+        ultimaConferma: l.ultima_conferma || l.nato,
+        ultimoPasso: ultimo,
+        frenoVivo,
+        ultimoUso,
+      }).decade) {
         passi++;
         ultimo = new Date().toISOString();
       }
     }
-    if ((Number(l.confidenza) || 0) - 0.15 * passi < 0.3) morte++;
+    if (passi === 0) continue;
+    decadute++;
+    // Chi è protetto non deve aver fatto NEMMENO un passo: se ne fa uno, l'immortalità è finta.
+    //
+    // Protetto vuol dire due cose diverse, e vanno tenute diverse. Il FRENO VIVO protegge sempre,
+    // senza scadenza: finché quel guardiano esiste la regola è in vigore. L'USO invece vale quanto
+    // una riconferma, quindi protegge solo dentro la soglia — una lezione usata l'ultima volta a
+    // luglio è vecchia come una mai riconfermata, ed è giusto che invecchi.
+    const giorniDaAllora = etaGiorni([l.ultima_conferma || l.nato, ultimoUso]);
+    const protetta = frenoVivo || giorniDaAllora <= SOGLIA_GIORNI;
+    if (protetta) protette.push(`${l.id} (freno=${frenoVivo} · ultima traccia ${giorniDaAllora.toFixed(0)}gg fa)`);
   }
-  assert.equal(morte, 0, `${morte} lezioni morirebbero comunque in una giornata`);
+
+  assert.deepEqual(
+    protette,
+    [],
+    `lezioni protette che invece decadrebbero: ${protette.join(", ")} — è il difetto che AR-771 ha curato, tornato`,
+  );
+  console.log(`      · in nove giri ${decadute} lezioni su ${attive.length} farebbero almeno un passo di decadimento: nessuna di loro ha un freno vivo o una traccia recente`);
+});
+
+// La controprova, senza la quale quella di sopra passa anche con un decadimento spento del tutto:
+// una lezione vecchia, senza freno e mai usata, DEVE decadere. Altrimenti l'archivio può solo crescere.
+prova("sul file VERO: il decadimento non è fermo — una lezione vecchia e senza freno decade", () => {
+  const j = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
+  const attive = (j.lezioni || []).filter((l) => l && l.stato === "attiva");
+  const decadibili = attive.filter(
+    (l) =>
+      !V.frenoVivoDi(l, REPO) &&
+      !V.ultimoUsoDi(l) &&
+      T.passoDovuto({ ultimaConferma: l.ultima_conferma || l.nato, ultimoPasso: l.decaduto_step_il }).decade,
+  );
+  assert.ok(
+    decadibili.length > 0,
+    "nessuna lezione decadrebbe mai: il decadimento è fermo e l'archivio può solo crescere",
+  );
 });
 
 // ── AR-254: un file strutturato non si tronca MAI ────────────────────────────

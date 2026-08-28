@@ -22,6 +22,51 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- unione-pr-244-bloccanti -->
+### 🔴 #183 — Unisci la riparazione dei quattro bloccanti, e applica la migrazione al database vero · ⏳ accodata 2026-08-28 17:25
+
+**In parole semplici.** I quattro problemi bloccanti trovati dalla radiografia del 27 agosto sono
+riparati. Il lavoro sta in una richiesta di unione sul sito, la numero 244. Finché non la unisci tu,
+non tocca niente: il sito pubblicato è ancora quello di prima, col catalogo invisibile a chi non ha
+l'account.
+
+**Per esempio.** Oggi una cliente che apre il sito dal telefono senza account clicca sulla focaccia
+di Pane Quotidiano e legge «Prodotto non trovato». Dopo l'unione, e dopo il passo del database qui
+sotto, quella cliente la focaccia la vede e la può comprare.
+
+**Cosa cambia per te.** Finché la 244 resta aperta, il sito pubblicato è quello di prima. Chi arriva
+senza account continua a leggere «Prodotto non trovato». Dopo l'unione, e dopo il passo (b), quella
+persona vede il catalogo e può ordinare. Cambia anche l'avviso al negoziante: gli arriva a ogni
+ordine, pure quando la macchina si spegne subito dopo il pagamento.
+
+**Cosa devi fare.** Due cose, in quest'ordine.
+
+**(a) Unisci la richiesta 244** su GitHub. Tutti e sei i controlli sono verdi. Non ci sono
+conflitti. Attenzione: unire su `main` fa partire da solo la pubblicazione in produzione. Succede
+perché il cancello del rilascio è ancora spento. Quindi qui unire vuol dire pubblicare: fallo quando
+puoi guardare il sito nei minuti dopo.
+
+**(b) Applica la migrazione al database vero.** Il file si chiama
+`migrations/129_il_catalogo_si_vede_senza_account.sql`. Va eseguito nella finestra dei comandi del database
+(l'editor SQL di Supabase), sul progetto di produzione. Senza quel passo il catalogo resta invisibile. La riparazione del primo
+bloccante vive lì dentro, non nel codice. Le altre tre funzionano già con la sola unione.
+
+Se preferisci, il passo (b) te lo preparo io con backend-dev. Ti do il testo da incollare.
+L'esecuzione sul database dei clienti resta tua.
+
+**Cosa non ho verificato.** La migrazione del passo (b) non ha mai girato sul database dei clienti:
+l'ho provata solo su una copia ricostruita qui dentro, dove ha retto anche con degli ordini dentro.
+Non ho visto nessuna pubblicazione partire, quindi non so quanto ci mette. Restano aperte le
+domande della card #181.
+
+**Cosa cambia:** oggi un negozio che rifiuta un ordine pagato con la carta tiene i soldi di chi ha
+comprato, e il cliente legge «niente addebiti». Dopo l'unione il rimborso parte da solo.
+
+**Se va bene:** dopo l'unione controllo che la pubblicazione sia andata a buon fine. Poi ti dico se
+il catalogo risponde a un visitatore.
+
+---
+
 ### 🔴 #182 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
 
 **In parole semplici.** Ho controllato adesso, non a memoria: Pane Quotidiano — l'unico negozio vero

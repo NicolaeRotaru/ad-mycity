@@ -23,7 +23,8 @@
  * Niente caricatori (`--import`, `--require`), niente interprete diverso da node, niente shell:
  * ognuna di quelle strade farebbe eseguire codice scelto da chi scrive il difetto.
  */
-export const FORMA_COMANDO_PROVA = /^node\s+(--test\s+)?(cervello\/[\w./-]+\.mjs)((?:\s+--[\w-]+)*)$/;
+export const FORMA_COMANDO_PROVA =
+  /^node\s+(--test\s+)?(cervello\/[\w./-]+\.mjs)((?:\s+--(?!import|require|experimental-loader|loader)[\w-]+(?:=[\w,./:-]+)?)*)$/;
 
 /**
  * ⚠️ `--test` È AMMESSO, ed è la clausola che mancava ad AR-559.
@@ -42,6 +43,25 @@ export const FORMA_COMANDO_PROVA = /^node\s+(--test\s+)?(cervello\/[\w./-]+\.mjs
  * E il flag viene ESEGUITO, non tolto di mezzo: chi lancia la prova lancia esattamente il comando
  * che sta scritto sulla scheda. Un motore che silenziosamente esegue qualcosa di diverso da quello
  * che è scritto è la stessa bugia in un'altra stanza.
+ *
+ * ⚠️ 28/8/2026 — UN FLAG PUÒ PORTARSI DIETRO IL SUO VALORE, ATTACCATO (`--solo=x`).
+ *
+ * È la stessa clausola di AR-559, che nasceva da cinque caratteri: una scheda con una prova vera e
+ * funzionante restava «non eseguibile» per la forma, e una prova che il motore non lancia è una
+ * chiusura che nessuno ha mai visto girare. Qui il caso è AR-834, la cui prova sono SEI file di bats
+ * con nomi senza niente in comune: senza un valore nel flag non esiste nessun comando che li misuri
+ * tutti e sei, e la scheda resterebbe senza prova.
+ *
+ * Il buco che questa forma difende NON si allarga: restano vietati i caricatori (`--import`,
+ * `--require`) e gli interpreti diversi, cioè le strade con cui si farebbe eseguire codice scelto da
+ * chi scrive la scheda. Un valore attaccato è una stringa che finisce dentro uno script già ammesso,
+ * sotto `cervello/`; il valore separato da uno spazio resta fuori, perché lì la coda del comando
+ * smette di essere leggibile a colpo d'occhio.
+ *
+ * E i nomi dei caricatori restano vietati ANCHE dopo il percorso, dove Node li passerebbe allo script
+ * come semplici argomenti e non caricherebbero niente. Non serve a Node: serve a chi legge la scheda,
+ * che non deve doversi chiedere se quel `--import=` fa qualcosa. Un divieto che si capisce a colpo
+ * d'occhio vale più di uno che va ragionato.
  */
 
 /** Il prefisso da mettere PRIMA del percorso quando si esegue (oggi: solo `--test`, o niente). */
