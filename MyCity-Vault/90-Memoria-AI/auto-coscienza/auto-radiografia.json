@@ -621,7 +621,7 @@
             "presente": true
           },
           "confermato": true,
-          "chiusura_rifiutata": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una parola cercata dentro un file (.github/workflows/test-cervello.yml ~ /bats/). Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+          "chiusura_rifiutata": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una parola cercata dentro un file (.github/workflows/test-cervello.yml ~ /bats/). Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
         },
         {
           "titolo": "Sette asserzioni girano dentro un banco sincrono che non le aspetta: non possono fallire, mai",
@@ -690,7 +690,7 @@
             "presente": true
           },
           "confermato": true,
-          "chiusura_rifiutata": "questo difetto è un GRAVE, e la sua prova è una parola cercata dentro un file (cervello/test-cervello.mjs ~ /saltati/). Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+          "chiusura_rifiutata": "questo difetto è un GRAVE, e la sua prova è una parola cercata dentro un file (cervello/test-cervello.mjs ~ /saltati/). Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
         },
         {
           "titolo": "La CI salta i push di memoria «perché non proverebbero niente», ma 15 prove leggono proprio la memoria viva",
@@ -836,7 +836,7 @@
             "presente": false
           },
           "confermato": true,
-          "chiusura_rifiutata": "questo difetto è un GRAVE e ha impatto di crescita ALTO, e la sua prova è una parola cercata dentro un file (consegne/strategia/PIANO-CRESCITA-12-MESI.md ~ /Ricavi ~387K€/). Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+          "chiusura_rifiutata": "questo difetto è un GRAVE e ha impatto di crescita ALTO, e la sua prova è una parola cercata dentro un file (consegne/strategia/PIANO-CRESCITA-12-MESI.md ~ /Ricavi ~387K€/). Un difetto così si chiude solo con `{comando: \"node cervello/test/<nome>.test.mjs\"}` — una prova che diventa rossa se il difetto torna — oppure con `{tipo:\"umano\"}` dichiarato, se nessun guardiano potrà mai chiuderlo."
         },
         {
           "titolo": "Ventitré migrazioni SQL pronte dal 4 luglio non sono mai state applicate, e la radiografia del 29 ha ri-scoperto lo stesso bloccante riscrivendone il fix a parole",
@@ -4822,15 +4822,15 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-24 13:15",
+    "data": "2026-08-28 12:49",
     "loop_chiude": false,
     "tasso_applicazione": 0.14,
     "soglia_applicazione": 0.3,
     "tasso_sopra_soglia": false,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 674,
-    "difetti_chiusi_recenti": 330,
+    "difetti_chiusi": 706,
+    "difetti_chiusi_recenti": 304,
     "calibrazione_piena": false,
     "loop_vivo": true,
     "intenzioni_aperte": 0,
@@ -4853,20 +4853,20 @@
     ],
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 312,
+    "ore_da_ultima_completa": 407,
     "ore_da_ultimo_briefing": 0,
-    "max_giri_ciechi_sensori": 205,
-    "giri_tasso_basso": 172,
+    "max_giri_ciechi_sensori": 207,
+    "giri_tasso_basso": 174,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
     "pending_merge": 0,
-    "aperti_davvero": 76,
-    "bloccanti_umani": 39,
-    "salute_firma": "AR-045,AR-047,AR-048,AR-100,AR-102,AR-103,AR-104,AR-128,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-386,AR-396,AR-398,AR-411,AR-518,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-693,AR-726,AR-727,AR-728,AR-729,AR-730,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-745,AR-746,AR-747,AR-748,AR-780,AR-789,AR-790,AR-793,AR-794,AR-795,AR-797,AR-798",
+    "aperti_davvero": 72,
+    "bloccanti_umani": 49,
+    "salute_firma": "AR-045,AR-047,AR-048,AR-100,AR-102,AR-103,AR-104,AR-128,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-386,AR-396,AR-398,AR-411,AR-518,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-726,AR-727,AR-728,AR-729,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-745,AR-746,AR-747,AR-748,AR-797,AR-798,AR-808,AR-832,AR-840,AR-859",
     "verdetto": "serve-completa",
-    "nota": "le lezioni non si usano: tasso 14% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 0h fa · cecità sensori 205 giri · salute pending-merge 0/100 (floor 0): 76 aperti-davvero · 0 in attesa merge · 39 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
+    "nota": "le lezioni non si usano: tasso 14% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 0h fa · cecità sensori 207 giri · salute pending-merge 0/100 (floor 0): 72 aperti-davvero · 0 in attesa merge · 49 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
     "voto_salute": 4,
     "voto_salute_copertura": "radiografia",
     "voto_salute_parziale": false,
@@ -4919,7 +4919,7 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-27 11:11",
+    "aggiornato": "2026-08-28 12:26",
     "findings_aperti": 256,
     "findings_non_instradabili": 163,
     "findings_non_instradabili_ids": [
@@ -4967,23 +4967,23 @@
     "findings_in_corso": 0,
     "findings_chiusi": 30,
     "findings_tot": 286,
-    "cantiere_totale": 839,
-    "cantiere_aperti": 114,
+    "cantiere_totale": 851,
+    "cantiere_aperti": 110,
     "cantiere_in_corso": 1,
     "cantiere_da_riverificare": 10,
     "cantiere_altri": 0,
-    "cantiere_chiusi": 714,
-    "cantiere_da_fare": 125,
+    "cantiere_chiusi": 730,
+    "cantiere_da_fare": 121,
     "cantiere_somma_torna": true,
     "cantiere_stati_ignoti": [],
-    "match_aggiornati": 2,
-    "chiusi_verifica": 2,
+    "match_aggiornati": 0,
+    "chiusi_verifica": 0,
     "chiusure_rifiutate_dal_cancello": 3,
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 172,
-    "aggiornato": "2026-08-24 13:15"
+    "giri_tasso_basso": 174,
+    "aggiornato": "2026-08-28 12:49"
   },
   "zone_non_viste": [
     "Il worker e il VPS: da questa sessione non si vedono. Non ho potuto verificare se lo script che scrive AZIONI-IN-ATTESA sul server si comporti come la copia locale che ho letto, né se là il file sia più grande o più piccolo.",

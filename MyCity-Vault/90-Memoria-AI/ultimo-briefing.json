@@ -1,12 +1,12 @@
 {
-  "data": "2026-08-24 13:15",
-  "situazione": "Business fermo dal 24/6, identico bit-per-bit al giro del 21/8 sera: 1 ordine (mai pagato), 0 incassi, 1 negozio vero (Pane Quotidiano), 5 prodotti. Il sito pubblico è di nuovo verificato giù (HTTP 503) in diretta. Restano ferme, senza firma, le quattro carte che bloccano tutto il resto: il server (#168), le chiavi Vercel (#154), il dominio (#155) e la pratica pagamenti di Pane Quotidiano (#62). Mancano 5 giorni alla data zero del 29 agosto fissata da Nicola il 23/8.",
+  "data": "2026-08-28 12:35",
+  "situazione": "Business fermo bit-per-bit dal 24/6: 1 ordine mai pagato, 0 incassi, 1 negozio vero (Pane Quotidiano), 5 prodotti, 0 nuovi clienti nei 7 giorni — verificato ora con query dirette sul database. Novità: il sito pubblico è di nuovo giù (HTTP 503), stesso guasto già visto il 24/8, causato dalle stesse quattro carte mai firmate. North Star fermo da 65 giorni, macchina in modalità risparmio: questo giro produce solo verifica dei fatti, niente lavoro nuovo sulla macchina.",
   "opportunita": [
-    {"titolo": "Controllare a campione le card vecchie contro lo stato reale prima di richiedere ancora una firma", "motivo": "il 21/8 due card su tre date per aperte da settimane erano già risolte da un lotto successivo e nessuno l'aveva segnato", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Fai una sessione unica per firmare o scartare le carte ferme in coda", "motivo": "85 card 🟡/🔴 aperte, molte da metà agosto, e il tasso di chiusura del mese è sotto 1: la coda cresce più di quanto si chiuda", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Firma le carte che riaccendono il server, le chiavi Vercel e il dominio", "motivo": "senza queste tre firme la macchina non riparte da sola e il sito resta giù: sono il moltiplicatore dei 5 giorni rimasti alla data zero del 29 agosto", "livello": "rosso"},
-    {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
-    {"titolo": "Tieni la macchina in modalità risparmio fino alla ripresa concordata", "motivo": "salute macchina 4/100: questo giro si è tenuto volutamente snello, niente ricerche nuove né contenuti pesanti", "livello": "giallo"}
+    {"titolo": "Firma le tre carte che tengono il sito giù: il server, le chiavi Vercel, il dominio", "motivo": "il sito è di nuovo in errore (503) per la stessa causa del 24/8, mai risolta: senza queste firme torna giù da solo", "livello": "rosso"},
+    {"titolo": "Scegli come blindare il controllo che protegge il codice (carta #177)", "motivo": "oggi avvisa ma non ferma nessuno: nove modifiche col controllo rosso sono entrate lo stesso in tre settimane", "livello": "rosso"},
+    {"titolo": "Tieni la macchina in modalità risparmio", "motivo": "salute macchina 4/100, cassa Stripe disponibile €0: questo giro resta volutamente snello, solo verifica dei fatti", "livello": "giallo"}
   ]
 }

@@ -12,28 +12,27 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-24 13:15",
+      "quando": "2026-08-28 12:49",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
       "passi_ok": false,
-      "vincoli_attivi": 15,
+      "vincoli_attivi": 14,
       "vincoli": [
-        "ALLOC",
         "APPRENDIMENTO",
         "CADENZE",
-        "CHIUSURA",
         "CORREZIONE_NICOLA",
         "ESP",
         "FRESCHEZZA",
-        "MAPPA",
+        "OKR",
         "TASSO",
         "TEST",
         "VOLANO",
         "CI",
         "LETARGO",
         "NORTH_STAR",
+        "SERRATURA",
         "STASH"
       ]
     },
@@ -78,5 +77,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-24 13:15"
+  "aggiornato": "2026-08-28 12:49"
 }
