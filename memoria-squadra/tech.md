@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-28 23:29 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-28 23:08 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-28 22:53 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-28 22:17 · prova · 9/10 · atteso 1 → reale 1
