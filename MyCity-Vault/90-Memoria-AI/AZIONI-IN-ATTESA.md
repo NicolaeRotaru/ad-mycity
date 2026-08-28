@@ -2688,3 +2688,4 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 > 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+| 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
