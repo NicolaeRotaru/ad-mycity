@@ -4681,3 +4681,60 @@ era un incendio o una bomba già disinnescata in produzione. ② Le tre chiavi V
 dal 22 agosto). ③ La firma sull'unione della PR #244.
 
 **Dove.** PR `NicolaeRotaru/mycity#244` · `consegne/tech/2026-08-28-quattro-bloccanti-marketplace.md`.
+
+## 2026-08-28 23:45 — 🟡 Il lotto sui rossi del cervello: da otto a uno, e quello che resta lo firmi tu
+
+**Chi ha chiesto.** Nicola: «apri il lotto per i difetti del cervello».
+
+**La malattia, non il conteggio.** Otto prove rosse, e non erano otto guasti: sette su otto
+controllavano che il codice fosse **scritto** come ieri, non che **facesse** quello che deve. Due
+esempi misurati: una cercava `timeout "$_gt" git fetch` dentro il worker ed è diventata rossa perché
+fra `git` e `fetch` si è infilato l'array delle opzioni comuni — il timeout non è mai stato tolto;
+un'altra pretendeva `if (scriviStato)` mentre il codice si era irrigidito in
+`if (scriviStato && !SOLA_LETTURA)`, cioè era rossa perché la protezione era **migliorata**. Il caso
+peggiore era invece **verde**: la prova delle sonde del database descriveva la regola vecchia
+(risposta che comincia con una parentesi quadra) mentre il worker da luglio decide su un HTTP 200
+esplicito. Passava raccontando una macchina che non esiste più.
+
+**Cosa ho fatto** (ramo `claude/marketplace-issues-q9v8c5`, PR ad-mycity #854).
+
+① **AR-834 — nove casi su sei file.** Mai ripuntato un grep alla stringa nuova. Tre decisioni erano
+già emigrate in moduli eseguibili e adesso le prove interrogano quelli invece del testo degli script:
+`pausa_verdetto` (kill-switch.sh), `esito_giro_rc` (giro-esito.sh), `esitoSync`
+(esito-scrittura.mjs). Su `sensori-non-clobber` la guardia anti-drift è stata **tolta** e sostituita
+dal comportamento che nessuno copriva: in sola lettura il file dei sensori non si tocca, più la
+controprova che senza quel flag invece si scrive. Dove la decisione è ancora dentro lo script, la
+ricerca è diventata un **invariante tollerante alla forma** — «esiste almeno un git fetch sotto
+timeout», «le sonde si accendono solo su un 200», «tre strade ricevono il contesto» — che copre più
+di prima, non meno.
+
+② **AR-861 — nato riparando, e curato perché bloccava tutti.** Era l'unico rosso in Node, e il tetto
+dei rossi in Node è zero: finché restava, nessun lotto poteva consegnare col cancello verde. La prova
+del decadimento diceva «oggi non muore nessuna lezione» — vero il 28 luglio, sul file di quel giorno.
+Ed era peggio di così: la simulazione non passava nemmeno `frenoVivo` e `ultimoUso`, cioè le due
+protezioni che AR-771 aveva aggiunto proprio per non buttare via le lezioni che contano. Adesso le due
+domande vivono in `cervello/lezione-viva.mjs` (prima erano sepolte in uno script che al momento
+dell'import fa il lavoro, quindi nessuna prova poteva chiamarle) e la prova difende l'invariante:
+una lezione con un freno vivo, o con una traccia dentro i 28 giorni, non decade mai. Quante ne
+decadono è una misura che si stampa — 153 su 416 — non un verdetto.
+
+**Le prove, e la controprova.** Nove mutazioni registrate in `mutanti.json`: rompo il codice vero,
+la prova diventa rossa. Nove su nove. In più una mutazione ferma da dieci giri (AR-676) adesso
+misura, perché un `--solo` senza valore leggibile non fa più girare la suite intera in silenzio.
+
+**Il conto.** Rossi del banco da 8 a 1. Tetto `test_bash` da 7 a 1, e non risale.
+
+**Cosa NON ho fatto, e va detto.** Resta **AR-833**: il divieto di spingere codice a mano è uscito
+dal file dei permessi il 27 luglio con una modifica a mano, e la prova ha ragione. Quel file è in
+sola lettura per me ed è giusto così: la forma del divieto la sceglie Nicola. Resta **AR-824**
+(l'archivio delle lezioni è pieno): altra malattia, altro lotto. E ho registrato **AR-862**, trovato
+riguardando il perimetro con la lente della sicurezza: il campo `gate` di una lezione può indicare un
+file fuori dal repo e nessuno lo rifiuta — è una verifica di esistenza, non una lettura, e il difetto
+è precedente allo spostamento.
+
+**Il cancello.** 🟡 exit 2: tutto ciò che ha potuto misurare è verde (29 controlli), il buco è il
+typecheck del Pannello, che in questa sessione non gira senza `npm ci --prefix pannello`.
+
+**Collaudo indipendente: non c'è.** In questa sessione non potevo affidare il collaudo a un secondo
+agente, quindi ho costruito e provato io. Il sostituto sono le nove mutazioni sul codice vero. È
+debito dichiarato, non lavoro finito.

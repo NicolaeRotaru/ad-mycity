@@ -17909,11 +17909,13 @@
       "stato": "aperto",
       "nato": "2026-08-26 09:35",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Il numero si legge dal tetto: `node cervello/cancello-lotto.mjs` → riga test-in-bash, oppure `for f in cervello/test/*.bats; do bats --tap $f; done`. Il tetto test_bash scende e non risale: finché è sopra zero questa scheda è viva. Nessun comando adesso, perché il fix non è scritto — una prova scritta oggi non avrebbe niente da rompere."
+        "tipo": "comando",
+        "comando": "node cervello/test-cervello.mjs --solo=gate-coerenza,irrobustimenti,sensori-non-clobber,sessione-chat,worker-claim-pausa,worker-doppio-invio",
+        "nota": "I sei file, 68 asserzioni, exit 0. Sette mutazioni in mutanti.json, tutte e sette rendono rosso il loro file (node cervello/non-vacuita.mjs --difetti AR-834). Il comando ha dovuto essere reso capace di fallire: sotto --solo il tetto test_bash NON si applica piu', perche' un tetto assolve il debito ereditato mentre con --solo si guardano file scelti apposta. Senza quella riga questo comando usciva ZERO anche col fix rotto a mano — misurato."
       },
       "origine": "lotto 63 · trovato installando bats (AR-693)",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "[lotto 28/8/2026] Nove casi su sei file, curati seguendo il fix_proposto: mai ripuntato un grep alla stringa nuova. Tre decisioni erano gia' emigrate in moduli che si possono ESEGUIRE e adesso le prove interrogano quelli invece del testo di worker.sh/giro.sh: pausa_verdetto (kill-switch.sh), esito_giro_rc (giro-esito.sh), esitoSync (esito-scrittura.mjs). Su sensori-non-clobber la guardia anti-drift e' stata TOLTA e sostituita dal comportamento che nessuno copriva: in --sola-lettura il file dei sensori non si tocca, piu' la controprova che senza quel flag invece si scrive (altrimenti la prima passerebbe anche con un programma che non scrive mai). Dove la decisione e' ancora inline (timeout di rete, sonde delle colonne, PATCH finale, contesto macchina) la grep e' diventata un INVARIANTE tollerante alla forma — «esiste almeno un git fetch sotto timeout», «le sonde si accendono solo su un 200», «tre strade ricevono il contesto» — che copre piu' di prima, non meno. Il caso della sonda era il peggiore: la copia della logica descriveva la regola VECCHIA (risposta che comincia con [) ed era VERDE, cioe' una prova che raccontava una macchina che non esiste piu'. TROVATO RIPARANDO e curato qui perche' senza non esisteva la prova di questa scheda: sotto --solo il banco applicava il tetto del debito ereditato e usciva 0 anche col fix rotto. Restano fuori dal lotto AR-833 (il divieto di push, difetto vero) e AR-824 (l'archivio delle lezioni, altra malattia). NON coperto e dichiarato: il freno !SOLA_LETTURA sul segnale (stampSegnale) non ha una prova sua — rompendolo nessun caso diventa rosso; e' coperto solo per la scrittura del file."
     },
     {
       "id": "AR-832",
@@ -18520,6 +18522,45 @@
         "esito": "8 casi su 8. Sei sulla regola con uno stato costruito, fra cui quello che inchioda il difetto (cieco e sano non devono piu dare lo stesso elenco di eventi). Due lanciano il COLLEGAMENTO per davvero, scrivendo il referto in una copia dell albero e chiamando leggiStatoReale: uno col referto cieco (il campo deve accendersi e l evento partire), uno col referto di un sensore che ha contato 12 fonti e ne ha trovata una morta (il ⚪ deve restare spento e M8 suonare). Le due meta della cura hanno una mutazione ciascuna, provate rosse separatamente."
       },
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-861",
+      "titolo": "La prova del decadimento misurava quante lezioni c'erano ieri, non la regola che le tiene vive",
+      "dimensione": "memoria-e-apprendimento",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto ma costoso: e' l'unico rosso in Node del banco, e il tetto dei rossi in Node e' ZERO. Finche' resta rossa NESSUN lotto puo' consegnare col cancello verde — quindi o si aspetta, o si impara ad aggirare il cancello, che e' il modo in cui un freno smette di frenare.",
+      "causa_radice": "`archivi-senza-tetto.test.mjs` chiudeva con «sul file VERO: nessuna lezione morirebbe oggi». Era vero il 28/7, sul file di quel giorno: e' una misura della POPOLAZIONE, non della regola. Un mese dopo e' rossa con 26 lezioni — nessuna delle quali ha un freno, nessuna riconfermata o usata da luglio: stanno invecchiando perche' e' il loro mestiere. E la simulazione non passava nemmeno `frenoVivo` e `ultimoUso`, cioe' le due protezioni che AR-771 aveva aggiunto proprio per non buttare via le lezioni che contano: misurava una regola piu' debole di quella vera. E' la malattia di AR-834 (il metro scritto sulla sintassi o sulla popolazione invece che sull'invariante) vista in Node invece che in bash.",
+      "fix_proposto": "Fatto in questo lotto. ① Le due domande che tengono viva una lezione — `frenoVivoDi` e `ultimoUsoDi` — escono da `cristallizza-apprendimento.mjs`, che al momento dell'import FA il lavoro (legge l'archivio, decade, riscrive) e quindi non era interrogabile da una prova, ed entrano in `cervello/lezione-viva.mjs`, con la radice del repo come argomento. ② La prova adesso chiama la regola vera con gli stessi argomenti del cristallizzatore e difende l'INVARIANTE: una lezione con un freno che monta ancora la guardia, o con una traccia dentro la soglia dei 28 giorni, non decade mai. Quante ne decadono e' una misura che si stampa, non un verdetto. ③ La controprova: almeno una lezione vecchia e senza freno DEVE decadere, o l'invariante passerebbe anche con il decadimento spento — che e' esattamente il modo in cui l'archivio si riempie (AR-824).",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 20:35",
+      "nato_come": "scoperta",
+      "origine": "lotto 28/8/2026 · trovato curando AR-834: era l'unico rosso rimasto che bloccava il cancello",
+      "dove": "cervello/test/archivi-senza-tetto.test.mjs · cervello/lezione-viva.mjs · cervello/cristallizza-apprendimento.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/archivi-senza-tetto.test.mjs",
+        "nota": "Due mutazioni sul codice vero, entrambe rendono rossa la prova: il freno vivo che smette di proteggere (e' AR-771 che torna) e il decadimento che si ferma del tutto. La prova gira sul file VERO dell'archivio, 416 lezioni attive: in nove giri 153 farebbero almeno un passo, nessuna di loro protetta. La forma `node --test <prova>` e' quella ammessa dal motore (AR-559) e il file puntato nomina AR-861, quindi il conto dei puntatori scollegati resta 46, pari al tetto. La mutazione si rilancia a parte con `node cervello/non-vacuita.mjs --difetti AR-861`."
+      }
+    },
+    {
+      "id": "AR-862",
+      "titolo": "Il campo `gate` di una lezione può indicare un file fuori dal repo, e nessuno lo rifiuta",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "minore",
+      "impatto_crescita": "nessun impatto diretto oggi: si tratta di una verifica di ESISTENZA, non di una lettura né di un'esecuzione, e l'archivio delle lezioni lo scrive la macchina stessa. Vale la pena chiuderlo perché e' il campo da cui dipende l'immortalita' di una lezione: chi riuscisse a scriverci potrebbe tenere viva per sempre una regola sbagliata puntando a un file che esiste di sicuro.",
+      "causa_radice": "`frenoVivoDi` (adesso in cervello/lezione-viva.mjs, prima sepolta in cristallizza-apprendimento.mjs) ricava il percorso del guardiano con /([\\w./-]*\\/)?([\\w.-]+\\.(?:m?js|cjs|sh))\\b/ e fa existsSync(join(radice, rel)). La classe [\\w./-] ammette `..`, quindi un `gate` come `../../qualcosa.sh` esce dal repo. Trovato riguardando il perimetro del lotto del 28/8 con la lente rischio-sicurezza-se, dopo aver SPOSTATO la funzione: il difetto e' precedente allo spostamento e non e' stato introdotto qui.",
+      "fix_proposto": "Rifiutare il percorso che esce dal repo: dopo il join, `resolve(percorso).startsWith(resolve(radice) + sep)`; se non ci sta, il freno non e' vivo. Una riga, e la prova e' immediata (un gate con `../` non tiene viva la lezione). Da fare con la sua mutazione in mutanti.json.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 21:10",
+      "nato_come": "scoperta",
+      "origine": "lotto 28/8/2026 · radiografia del perimetro toccato, lente rischio-sicurezza-se",
+      "dove": "cervello/lezione-viva.mjs",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non le do un comando adesso, perche' il fix non e' scritto: una prova scritta oggi non avrebbe niente da rompere. Si guarda a mano cosi': una lezione con gate '../../x.sh' e un file con quel nome fuori dal repo tiene viva la lezione per sempre."
+      }
     }
   ],
   "meta": {

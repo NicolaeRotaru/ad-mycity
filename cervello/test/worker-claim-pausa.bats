@@ -61,9 +61,37 @@ pausa_decision() {
   [ "$output" = "procedi" ]
 }
 
-@test "B4 guardia anti-drift: worker.sh ha il guard PAUSA_FAIL_CLOSED con cattura dell'rc" {
-  run grep -F 'PAUSA_FAIL_CLOSED' "$WORKER"
-  [ "$status" -eq 0 ]
-  run grep -F '_pausa_rc=$?' "$WORKER"
-  [ "$status" -eq 0 ]
+# 28/8/2026 — QUI C'ERA UNA GREP SU DUE PAROLE, E LA DECISIONE NEL FRATTEMPO SI ERA TRASFERITA.
+#
+# La prova cercava le stringhe `PAUSA_FAIL_CLOSED` e `_pausa_rc=$?` dentro worker.sh. Il verdetto
+# della pausa nel frattempo è stato estratto in `cervello/kill-switch.sh` — che è esattamente il
+# rimedio giusto, perché lì la si può ESEGUIRE invece di leggerla. La prova è diventata rossa per un
+# lavoro fatto bene, e per giunta continuava a non provare niente: la parola c'era anche quando la
+# logica sotto era sbagliata.
+#
+# Adesso si interroga la funzione VERA, quella che il worker chiama davvero.
+verdetto() {  # stampa il codice di uscita di pausa_verdetto senza far cadere la prova
+  . "$BATS_TEST_DIRNAME/../kill-switch.sh"
+  local rc=0
+  pausa_verdetto "$1" "${2:-}" || rc=$?
+  echo "$rc"
+}
+
+@test "B4 il verdetto della pausa è fail-closed: rc illeggibile → 2 (fermati)" {
+  [ "$(verdetto 7 '')" = 2 ]     || { echo "un rc di errore non ferma il worker"; false; }
+  [ "$(verdetto boh '')" = 2 ]   || { echo "un rc che non è un numero non ferma il worker"; false; }
+}
+
+@test "B4bis lo stesso verdetto distingue pausa attiva (1) da via libera (0)" {
+  [ "$(verdetto 0 '[{"valore":"on"}]')" = 1 ]  || { echo "pausa attiva non riconosciuta"; false; }
+  [ "$(verdetto 0 '[{"valore":"off"}]')" = 0 ] || { echo "pausa spenta non riconosciuta"; false; }
+}
+
+# L'unico pezzo che resta a grep è il CABLAGGIO, e per scelta: si guarda il NOME della funzione, che
+# è il contratto fra worker e kill-switch, non una riga della sua implementazione. Se qualcuno stacca
+# il worker dal verdetto, questa riga diventa rossa; se lo rifattorizza dentro, no. È la differenza
+# che mancava prima.
+@test "B4ter il worker chiede il verdetto a kill-switch, non se lo ricalcola in casa" {
+  run grep -F 'pausa_verdetto' "$WORKER"
+  [ "$status" -eq 0 ] || { echo "worker.sh non chiama più pausa_verdetto: il kill-switch è staccato"; false; }
 }

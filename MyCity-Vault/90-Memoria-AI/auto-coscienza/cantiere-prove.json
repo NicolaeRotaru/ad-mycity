@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-28 16:48",
+  "aggiornato": "2026-08-28 23:43",
   "giorni_sospetto": 3,
-  "difetti_aperti": 121,
-  "difetti_da_fare": 121,
+  "difetti_aperti": 123,
+  "difetti_da_fare": 123,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 851,
+    "totale": 853,
     "chiusi": 730,
-    "aperti": 110,
+    "aperti": 112,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 121,
+    "da_fare": 123,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 730,
-      "aperto": 110,
+      "aperto": 112,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 121,
-    "viste": 121,
+    "attese": 123,
+    "viste": 123,
     "fuori": 0,
-    "motivo": "bilancio a posto: 730 chiuse + 121 classificate = 851 schede, e ogni stato vivo è dentro (110 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 730 chiuse + 123 classificate = 853 schede, e ogni stato vivo è dentro (112 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 79,
     "prova-debole-su-grave": 26,
-    "auto-comando": 12,
+    "auto-comando": 14,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -198,8 +198,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 6,
-  "schede_campi_illeggibili": 19,
+  "schede_non_giudicabili": 8,
+  "schede_campi_illeggibili": 21,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -295,6 +295,16 @@
       "id": "AR-825",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce."
+    },
+    {
+      "id": "AR-861",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto ma costoso: e' l'unico rosso in Node del banco, e il tetto dei rossi in Node e' ZERO. Finche' resta rossa NESSUN lotto puo' consegnare col cancello verde — quindi o si aspetta, o si impara ad aggirare il cancello, che e' il modo in cui un freno smette di frenare."
+    },
+    {
+      "id": "AR-862",
+      "gravita": "minore",
+      "impatto_crescita": "nessun impatto diretto oggi: si tratta di una verifica di ESISTENZA, non di una lettura né di un'esecuzione, e l'archivio delle lezioni lo scrive la macchina stessa. Vale la pena chiuderlo perché e' il campo da cui dipende l'immortalita' di una lezione: chi riuscisse a scriverci potrebbe tenere viva per sempre una regola sbagliata puntando a un file che esiste di sicuro."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -335,6 +345,18 @@
       "id": "AR-782",
       "gravita": "medio",
       "impatto_crescita": "Indiretto ma reale: il cancello che decide se un lotto si consegna puo' uscire rosso per un motivo che non c'entra, e manda a cercare il guasto nel posto sbagliato. Rallenta ogni consegna futura.",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-861",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto ma costoso: e' l'unico rosso in Node del banco, e il tetto dei rossi in Node e' ZERO. Finche' resta rossa NESSUN lotto puo' consegnare col cancello verde — quindi o si aspetta, o si impara ad aggirare il cancello, che e' il modo in cui un freno smette di frenare.",
+      "perche": "prova eseguibile: node --test cervello/test/archivi-senza-tetto.test.mjs"
+    },
+    {
+      "id": "AR-862",
+      "gravita": "minore",
+      "impatto_crescita": "nessun impatto diretto oggi: si tratta di una verifica di ESISTENZA, non di una lettura né di un'esecuzione, e l'archivio delle lezioni lo scrive la macchina stessa. Vale la pena chiuderlo perché e' il campo da cui dipende l'immortalita' di una lezione: chi riuscisse a scriverci potrebbe tenere viva per sempre una regola sbagliata puntando a un file che esiste di sicuro.",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
@@ -3283,13 +3305,13 @@
       "gravita": "medio",
       "eta_giorni": 2,
       "impatto_crescita": "indiretto: sono dieci accuse false in un elenco che la CI e Nicola leggono. Un rosso che non appartiene a chi lo vede insegna a scorrere l'elenco senza leggerlo, ed è allora che il rosso vero non lo vede più nessuno.",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Dieci prove in bash controllano che il codice sia scritto com'era ieri, non che faccia quello che deve",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test-cervello.mjs --solo=gate-coerenza,irrobustimenti,sensori-non-clobber,sessione-chat,worker-claim-pausa,worker-doppio-invio",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-832",
@@ -3342,6 +3364,32 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/cieco-che-esce-come-un-errore.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-861",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto ma costoso: e' l'unico rosso in Node del banco, e il tetto dei rossi in Node e' ZERO. Finche' resta rossa NESSUN lotto puo' consegnare col cancello verde — quindi o si aspetta, o si impara ad aggirare il cancello, che e' il modo in cui un freno smette di frenare.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "La prova del decadimento misurava quante lezioni c'erano ieri, non la regola che le tiene vive",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/archivi-senza-tetto.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-862",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "impatto_crescita": "nessun impatto diretto oggi: si tratta di una verifica di ESISTENZA, non di una lettura né di un'esecuzione, e l'archivio delle lezioni lo scrive la macchina stessa. Vale la pena chiuderlo perché e' il campo da cui dipende l'immortalita' di una lezione: chi riuscisse a scriverci potrebbe tenere viva per sempre una regola sbagliata puntando a un file che esiste di sicuro.",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il campo `gate` di una lezione può indicare un file fuori dal repo, e nessuno lo rifiuta",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

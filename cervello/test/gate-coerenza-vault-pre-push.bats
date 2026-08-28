@@ -128,11 +128,32 @@ decisione_gate() { # $1 = rc coerenza, $2 = rc sanità → echo "BLOCCA:motivo" 
   [ "$status" -eq 0 ]
 }
 
-@test "giro.sh: il blocco del gate NON è un successo silenzioso (exit 2)" {
-  run grep -F 'if [ "${MEMORIA_INCOERENTE:-0}" = 1 ]; then' "$GIRO"
-  [ "$status" -eq 0 ]
-  run grep -A2 'GATE MEMORIA (AR-104): pubblicazione bloccata' "$GIRO"
-  echo "$output" | grep -q "exit 2"
+# 28/8/2026 — LA GREP CERCAVA UNA RIGA CHE IL RIFATTORIZZO AVEVA GIUSTAMENTE TOLTO.
+#
+# Si cercava `if [ "${MEMORIA_INCOERENTE:-0}" = 1 ]; then` dentro giro.sh, più un `exit 2` due righe
+# sotto un commento. La decisione «che esito ha questo giro» è stata estratta in
+# `cervello/giro-esito.sh` — e quel file esiste proprio perché prima la regola era sparsa in fondo a
+# giro.sh e nessuno poteva provarla senza far girare tutto il giro. La prova puniva la cura.
+#
+# Adesso si chiede alla funzione vera, che è ciò che il giro chiama.
+@test "giro.sh: il blocco del gate NON è un successo silenzioso (esito 2)" {
+  . "$BATS_TEST_DIRNAME/../giro-esito.sh"
+  [ "$(esito_giro_rc 1 0 1 0 0 0)" = 2 ] || { echo "memoria incoerente non blocca più: il gate è muto"; false; }
+  [ "$(esito_giro_rc 1 1 1 0 0 0)" = 2 ] || { echo "memoria incoerente con modifiche non blocca più"; false; }
+}
+
+# La controprova, senza la quale la riga di sopra passerebbe anche con una funzione che risponde
+# sempre 2: un giro pulito deve uscire 0, e una memoria scritta ma non pubblicata deve uscire 2.
+@test "giro.sh: lo stesso esito distingue il giro pulito dal push fallito" {
+  . "$BATS_TEST_DIRNAME/../giro-esito.sh"
+  [ "$(esito_giro_rc 0 1 1 0 0 0)" = 0 ] || { echo "un giro pulito non esce più 0"; false; }
+  [ "$(esito_giro_rc 0 1 0 0 0 0)" = 2 ] || { echo "un push fallito non esce più 2"; false; }
+}
+
+# Cablaggio, sul nome: se il giro smette di passare dalla funzione, si vede.
+@test "giro.sh: l'esito lo decide giro-esito.sh, non una riga in fondo al giro" {
+  run grep -F 'esito_giro_rc' "$GIRO"
+  [ "$status" -eq 0 ] || { echo "giro.sh non chiama più esito_giro_rc"; false; }
 }
 
 @test "giro.sh: fail-closed se node manca (impossibile verificare → non pubblicare)" {

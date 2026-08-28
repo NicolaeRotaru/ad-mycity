@@ -33,7 +33,28 @@ run_sensori() {
   echo "$output" | grep -q '"stato_persistito": true' || { echo "atteso stato_persistito true con --mcp: $output" | tail -3; false; }
 }
 
-@test "guardia anti-drift: la scrittura del file è dietro il guard scriviStato" {
-  run grep -n 'if (scriviStato)' cervello/verifica-sensori.mjs
-  [ "$status" -eq 0 ]
+# 28/8/2026 — QUI C'ERA UNA GREP, ED È DIVENTATA ROSSA PERCHÉ IL CODICE È MIGLIORATO.
+#
+# La prova cercava la riga `if (scriviStato)` dentro verifica-sensori.mjs. Il guard nel frattempo si
+# è irrigidito in `if (scriviStato && !SOLA_LETTURA)`: la scrittura è protetta MEGLIO di prima, e la
+# prova è diventata rossa lo stesso. Una prova che non sa distinguere un rinforzo da una
+# regressione non protegge niente: dice solo che il testo è cambiato.
+#
+# Adesso si guarda il comportamento vero: in sola lettura il file NON si tocca. Misurato prima di
+# scriverla — senza `--sola-lettura` l'impronta del file cambia, con `--sola-lettura` resta identica.
+@test "in sola lettura il file dei sensori non si tocca, nemmeno con un aggiornamento MCP esplicito" {
+  before="$(md5sum "$CECITA" | cut -d' ' -f1)"
+  run_sensori --mcp-supabase=cieco --sola-lettura >/dev/null 2>&1 || true
+  after="$(md5sum "$CECITA" | cut -d' ' -f1)"
+  [ "$before" = "$after" ] || { echo "il file è stato scritto in sola lettura: il freno !SOLA_LETTURA non c'è più"; false; }
+}
+
+# E la controprova, che è ciò che rende la prova qui sopra non vacua: senza `--sola-lettura` lo
+# stesso comando il file lo scrive davvero. Senza questa riga, un verifica-sensori che non scrive
+# MAI passerebbe il controllo di sopra a pieni voti.
+@test "senza sola lettura lo stesso comando il file lo scrive (altrimenti la prova di sopra è vuota)" {
+  before="$(md5sum "$CECITA" | cut -d' ' -f1)"
+  run_sensori --mcp-supabase=cieco >/dev/null 2>&1 || true
+  after="$(md5sum "$CECITA" | cut -d' ' -f1)"
+  [ "$before" != "$after" ] || { echo "il file non è cambiato nemmeno scrivendo: la prova del freno non prova niente"; false; }
 }

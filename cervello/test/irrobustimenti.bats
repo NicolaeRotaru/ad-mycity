@@ -31,29 +31,52 @@ need_node() { command -v node >/dev/null 2>&1 || skip "node non disponibile"; }
 @test "watch-main: git fetch sotto timeout" {
   grep -q 'timeout "\${WATCH_FETCH_TIMEOUT:-60}" git fetch' "$WATCH"
 }
-@test "worker: sync_vault fetch e push sotto timeout" {
-  grep -q 'timeout "\$_gt" git fetch' "$WORKER"
-  grep -q 'timeout "\$_gt" git push' "$WORKER"
-}
-@test "worker: ls-remote di avvio sotto timeout" {
-  grep -q 'timeout "\${GIT_NET_TIMEOUT:-60}" git ls-remote' "$WORKER"
+# 28/8/2026 — LE TRE GREP CHIEDEVANO LA RIGA ESATTA, E LA RIGA È CAMBIATA PER UN MOTIVO BUONO.
+#
+# Cercavano `timeout "$_gt" git fetch` e simili. Nel frattempo fra `git` e il verbo si è infilato
+# `"${C4_GIT_OPZ[@]}"` — le opzioni comuni, raccolte in un array invece di essere ricopiate ovunque.
+# Il timeout non è mai stato tolto: le prove sono diventate rosse per un riordino.
+#
+# Adesso si chiede l'invariante e non l'impaginazione: ogni verbo di rete di git deve comparire
+# almeno una volta avvolto in `timeout`, con quello che vuole in mezzo. Una riga che toglie il
+# timeout fa ancora diventare rossa la prova; una che aggiunge un'opzione no.
+timeout_su() {  # $1 = verbo di rete di git
+  grep -cE "timeout [^|]*git [^|]*$1" "$WORKER"
 }
 
-# ── Probe fail-closed: HAS_RETRY_COLS e HAS_OWNER_COL richiedono un array REST valido ─────────────
-@test "worker: le probe colonne sono fail-closed (richiedono un array '[')" {
-  # entrambe le probe (retry + owner) devono avere il requisito positivo dell'array REST
-  [ "$(grep -cF '^[[:space:]]*\[' "$WORKER")" -ge 2 ]
+@test "worker: sync_vault fetch e push sotto timeout" {
+  [ "$(timeout_su fetch)" -ge 1 ] || { echo "nessun git fetch sotto timeout: una rete che non risponde blocca il worker"; false; }
+  [ "$(timeout_su push)" -ge 1 ]  || { echo "nessun git push sotto timeout: la pubblicazione può restare appesa"; false; }
 }
-@test "comportamento probe fail-closed: vuoto o errore → OFF, array valido → ON" {
-  decidi() { # $1 = risposta grezza → echo ON|OFF
-    if printf '%s' "$1" | grep -qE '^[[:space:]]*\[' \
-       && ! printf '%s' "$1" | grep -qiE 'does not exist|PGRST|could not find|column'; then echo ON; else echo OFF; fi
+@test "worker: ls-remote di avvio sotto timeout" {
+  [ "$(timeout_su ls-remote)" -ge 1 ] || { echo "il controllo di avvio non ha timeout: il worker può non partire mai"; false; }
+}
+
+# ── Probe fail-closed: le due sonde si accendono SOLO su un HTTP 200 esplicito ────────────────────
+#
+# 28/8/2026 — QUI LA PROVA ERA VERDE MENTRE DESCRIVEVA UNA REGOLA CHE IL CODICE NON USA PIÙ.
+#
+# La copia della logica qui sotto decideva «risposta che comincia con [ → accendi». È la regola
+# vecchia. Il worker, dopo il guasto dell'11/7 sera, decide sull'HTTP: si accende SOLO su un 200
+# esplicito, perché con `curl -f` un 400 di PostgREST non stampa nessun corpo — e la vecchia regola,
+# che cercava il messaggio d'errore, dichiarava la colonna PRESENTE quando mancava. Da lì ogni claim
+# finiva in 400 e la coda restava ferma con il worker vivo.
+#
+# La copia però continuava a passare, perché nessuno l'aveva aggiornata: una prova verde che
+# raccontava una macchina che non esiste più. Adesso la copia dice la regola vera, e accanto c'è
+# l'invariante sul sorgente: entrambe le sonde devono confrontarsi con 200.
+@test "worker: le due sonde si accendono solo su un 200 esplicito (mai dall'assenza di errore)" {
+  [ "$(grep -cE '= 200' "$WORKER")" -ge 2 ] || { echo "una sonda non decide più su un 200 esplicito: può accendersi al buio"; false; }
+}
+@test "comportamento probe fail-closed: solo un 200 accende, tutto il resto spegne" {
+  decidi() { # $1 = codice HTTP restituito da curl → echo ON|OFF
+    if [ "$1" = 200 ]; then echo ON; else echo OFF; fi
   }
-  run decidi ""; [ "$output" = OFF ]                                   # rete morta → OFF
-  run decidi "curl: (7) Failed to connect"; [ "$output" = OFF ]        # errore rete → OFF
-  run decidi '{"code":"42703","message":"column does not exist"}'; [ "$output" = OFF ]  # colonna assente → OFF
-  run decidi '[{"riprova_dopo":null}]'; [ "$output" = ON ]             # array valido → ON
-  run decidi '[]'; [ "$output" = ON ]                                  # array vuoto valido → ON
+  run decidi "000"; [ "$output" = OFF ]   # rete morta → OFF
+  run decidi "400"; [ "$output" = OFF ]   # colonna assente (e nessun corpo, con curl -f) → OFF
+  run decidi "500"; [ "$output" = OFF ]   # server in difficoltà → OFF
+  run decidi "";    [ "$output" = OFF ]   # niente risposta → OFF
+  run decidi "200"; [ "$output" = ON ]    # unica strada per accendersi
 }
 
 # ── Path traversal: '..' negli allegati viene scartato ──────────────────────────────────────────
