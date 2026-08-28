@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-28 23:10",
+  "aggiornato": "2026-08-29 00:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18726,6 +18726,132 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Verificato leggendo il chiamante. ⚪ non eseguito: in pannello/ non c'è node_modules in questa sessione, quindi niente typecheck e niente build."
+      }
+    },
+    {
+      "id": "AR-872",
+      "titolo": "Il cancello dell'onestà si apre scrivendogli accanto la parola «fonte»",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "① Come decide il metro se un numero è fondato? Cerca un MARCATORE DI FONTE nell'intorno: le parole «fonte:», «(fonte», «[dati]», «supabase», «stripe», «posthog», «registro-fatti». ② Cosa NON verifica? Che quella fonte esista, che il numero venga da lì, che qualcuno l'abbia contato. ③ Quindi «Chi fa il primo ordine rifà la spesa entro il mese nel 92% dei casi (fonte: Supabase, dati di agosto)» PASSA il cancello, col 92% inventato di sana pianta e due sistemi veri citati a copertura. Misurato sul codice vero. ④ Perché è il buco più grave dei cinque? Perché gli altri quattro sono cose che il metro non VEDE; questo è una cosa che il metro vede e APPROVA. Un cancello che si apre scrivendogli accanto la parola giusta non è severo: ha imparato a farsi aprire. ⑤ Perché nessuno se n'era accorto? Perché la prova che sorvegliava il metro non aveva mai provato a MENTIRGLI: metteva in scena numeri senza fonte, mai numeri con una fonte falsa.",
+      "fix_proposto": "🔴 La cura vera non è un'espressione più furba: è che i numeri di business in un testo che esce non li scriva chi compone il testo, ma vengano PRESI da un registro (registro-fatti, o una query vera) e sostituiti al momento dell'invio. Un numero senza una riga nel registro non parte. Finché non c'è: 🟡 (a) far riconoscere al metro la forma «marcatore di fonte generico accanto a un numero di business» e chiedere che la fonte sia una FONTE STRUTTURATA verificabile (un id, una data, una query), non una parola; (b) come minimo, che una mail con un numero di business non possa partire senza passare da una firma umana, che è il freno che questa casa usa già per le cose 🔴.",
+      "colore": "🔴",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Il caso è misurato ed è riproducibile: il testo con «(fonte: Supabase, dati di agosto)» accanto a un numero inventato esce dal metro con zero violazioni. Nessuna prova a comando finché il fix non è deciso: la forma del fix cambia completamente cosa c'è da provare."
+      }
+    },
+    {
+      "id": "AR-873",
+      "titolo": "I numeri scritti a parole sono invisibili al cancello dell'onestà",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① L'espressione che riconosce un numero cerca CIFRE. ② «duemila famiglie», «un migliaio di noi», «qualche centinaio di persone» non contengono cifre. ③ Quindi passano, e sono esattamente il modo in cui una persona scrive un numero gonfiato quando vuole che suoni naturale. Misurato: una mail che inventa duemila famiglie e quasi tutte le botteghe del centro esce dal cancello con zero violazioni. ④ Esiste già una regola per «centinaia/migliaia/decine di», ma copre solo quelle tre parole senza numero davanti: «duemila» e «un migliaio» le scavalca.",
+      "fix_proposto": "🟡 Allargare la regola dei claim vaghi ai numerali scritti a parole (mille, duemila, un migliaio, centinaio, dozzina, decine, e le forme composte) quando sono attaccati a un soggetto di business. Va fatto in tutte e due le case, o la prova che le tiene pinzate diventa rossa — che è il suo mestiere.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato eseguendo il giudizio vero sul testo. Nessuna prova a comando finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere."
+      }
+    },
+    {
+      "id": "AR-874",
+      "titolo": "Una promessa senza cifre non la ferma nessuno, e la promessa vera è un'altra",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "① Il metro guarda i NUMERI. ② «la spesa arriva a casa tua in mezz'ora. Sempre. A qualunque ora tu ordini» non contiene nessun numero da fondare — e promette una cosa che contraddice il fatto registrato (consegna.promessa = 30-60 minuti, deciso da Nicola il 21/8). ③ Nella stessa mail il metro non vede nemmeno una garanzia di rimborso mai decisa da nessuno, né dei rider in tutti i quartieri mentre le consegne le fa MyCity in proprio. ④ Perché conta più delle altre? Perché è l'unica forma in cui la bugia riguarda una PROMESSA OPERATIVA — cioè una cosa che il cliente si aspetta e che poi non succede, e la prossima volta non ordina.",
+      "fix_proposto": "🟡 Un controllo che confronti le promesse scritte a parole con i fatti del registro (registro-fatti.json): i tempi di consegna, le garanzie, la copertura. La forma è quella già usata da coerenza-fatti.mjs sulla memoria, portata sul canale clienti. È un lavoro diverso dal contare i numeri, e va detto: il metro dell'onestà oggi guarda le CIFRE, non le PROMESSE.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato sul testo vero. La prova va scritta col fix, perché la forma del fix (confronto col registro dei fatti) decide cosa c'è da provare."
+      }
+    },
+    {
+      "id": "AR-875",
+      "titolo": "La scarsità inventata passa il cancello, ed è nella lista delle cose da non costruire mai",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "causa_radice": "① «restano 9 posti nel giro di consegna del tuo quartiere» passa: il 9 è una cifra sola, e la regola dei numeri parte da forme più grosse o attaccate a un soggetto di business. ② Ma il difetto vero non è la cifra: è che non esiste nessun giro a numero chiuso. È pressione fabbricata. ③ Nel documento di contesto, paragrafo 7, la lista delle cose da NON costruire mai contiene già i prezzi che ballano e le notifiche a chi passa davanti al negozio: la scarsità finta è la stessa famiglia, e il cancello non la conosce.",
+      "fix_proposto": "🟡 Portare la lista delle cose vietate dal contesto dentro il metro come regola: scarsità dichiarata, conto alla rovescia, «ne restano N», «solo per oggi» quando non c'è una scadenza vera in un registro. È una regola di POLITICA, non di forma, e va scritta dove Nicola la può leggere.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato sul testo vero."
+      }
+    },
+    {
+      "id": "AR-876",
+      "titolo": "La lista dei soggetti di business ha dei buchi, e da lì scappano due claim veri",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Il profilo dei claim chiede la fonte ai numeri attaccati a un soggetto: negozi, botteghe, famiglie, clienti, utenti, iscritti, follower, recensioni, ordini, consegne. ② «480 nuclei familiari» non c'è: «nuclei familiari» è sinonimo di famiglie e non è in lista. ③ «tagli il 30% della spesa settimanale» nemmeno: è una percentuale che promette un risultato, e non è attaccata a nessun soggetto. ④ Sono le DUE sole mail che il metro severo prende e quello dei claim no — cioè tutto quello che si perde allentando sta in questi due buchi, ed è per questo che è un minore e non un grave: chiuderli fa sparire il costo di allentare.",
+      "fix_proposto": "🟡 Aggiungere i sinonimi (nuclei familiari, persone, piacentini, abitanti, nuclei) e trattare come claim la percentuale che promette un risultato («tagli il N%», «risparmi il N%», «il N% in meno»). Misurare i falsi allarmi che introduce prima di consegnare.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Misurato: sono esattamente le 2 mail su 41 che il severo prende e il metro dei claim no."
+      }
+    },
+    {
+      "id": "AR-877",
+      "titolo": "Chi ricuce le corsie scrive nel registro delle mutazioni senza far passare la stringa dal parser",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① `cervello/ricuci-corsie.mjs` compone il campo `test` di una mutazione a partire da `verifica_comando`, cioè da un frammento consegnato da una corsia — che è un modello, non una persona. ② Lo scrive nel registro senza farlo passare da `comeSiEsegue`, il parser che decide se quella riga si può eseguire. ③ Quindi il controllo esiste (l'ho costruito curando AR-867) ma sta a VALLE: al momento di eseguire. Il cancello più a monte — rifiutare la SCRITTURA di una voce che il parser non accetta — non c'è. ④ È il punto in cui una riga ostile entrerebbe nel registro senza che nessuno la guardi, e da lì in poi vive come dato.",
+      "fix_proposto": "🟡 In ricuci-corsie, far passare `testDaComando(...)` da `comeSiEsegue(t, {soloDentroIlRepo:true})` e RIFIUTARE la scrittura se il parser dice di no, con la voce scartata a referto — esattamente come già si fa con le malattie a contratto incompleto poco più sotto nello stesso file. È il rimedio ⑥ della radiografia di sicurezza del 28/8, l'unico dei sei che è rimasto da fare.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "radiografia di sicurezza del perimetro toccato, 28/8: sei rimedi proposti, cinque fatti in AR-867, questo no",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "La catena è verificata sul codice: ricuci-corsie riga ~210 compone il campo, riga ~248 scrive il registro, e in mezzo non c'è nessun controllo. La prova va scritta col fix."
+      }
+    },
+    {
+      "id": "AR-878",
+      "titolo": "Il ⚪ del guardiano dei puntatori non ha un tetto che scende, e un file rinominato lo fa salire in silenzio",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "① `puntatori-scollegati.mjs` ha un tetto che scende per gli ancoraggi SCOLLEGATI, ed è giusto. ② Non ce l'ha per i ⚪, cioè per gli ancoraggi che non ha potuto guardare perché il file di prova non esiste più. ③ Un solo file di prova rinominato o cancellato — che è ESATTAMENTE l'evento che questo guardiano sorveglia — porta il passo da capace-di-dire-no a «non ho potuto misurare». ④ Il cancello resta comunque non verde (esce 2) e i ⚪ li elenca uno per uno, quindi non passa niente di nascosto: per questo è un minore. Ma il numero dei ⚪ può salire senza che nessuno se ne accorga.",
+      "fix_proposto": "🟡 Dare ai ⚪ lo stesso trattamento degli scollegati: un tetto in tetti-lotto.json che scende e non risale.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 00:20",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo indipendente di AR-798 del 28/8, punto ⑤ del referto",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Riprodotto dal collaudo cancellando un file di prova vero: il passo passa a 2 con i ⚪ elencati."
       }
     }
   ],
