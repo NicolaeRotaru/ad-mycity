@@ -122,9 +122,16 @@ export function regolePer(tipo: string): RegoleApplicate {
  * Toglie dal testo i pezzi che SONO una fonte, sostituendoli con spazi della stessa lunghezza: così
  * gli indici restano quelli del testo originale e il contesto dei numeri veri non si sposta.
  */
-export function mascheraRiferimenti(testo: string): string {
+// ⚠️ `codice: false` SUL CANALE CLIENTI — il gemello di cervello/onesta-check.mjs. Mascherare il
+// codice fra apici serve su un documento interno; in una mail a un cliente apre il cancello, perché
+// basta scrivere «siamo scelti da `3.000 clienti`» e il numero sparisce dagli occhi del metro.
+// Questo modulo serve UN canale solo, la lettera: qui il codice non si maschera mai.
+export function mascheraRiferimenti(testo: string, { codice = true }: { codice?: boolean } = {}): string {
   let t = String(testo ?? "");
-  for (const re of [RE_BLOCCO_CODICE, RE_CODICE_INLINE, RE_RIFERIMENTO_CODICE, RE_SIGLA_DIFETTO, RE_SIGLA_LEZIONE]) {
+  const regole = codice
+    ? [RE_BLOCCO_CODICE, RE_CODICE_INLINE, RE_RIFERIMENTO_CODICE, RE_SIGLA_DIFETTO, RE_SIGLA_LEZIONE]
+    : [RE_RIFERIMENTO_CODICE, RE_SIGLA_DIFETTO, RE_SIGLA_LEZIONE];
+  for (const re of regole) {
     t = t.replace(re, (m) => " ".repeat(m.length));
   }
   return t;
@@ -181,7 +188,7 @@ export function giudicaLettera(nome: string, testo: string): EsitoOnesta {
     if (m) violazioni.push({ tipo: "claim-non-verificato", regola: rn, esempi: [...new Set(m)].slice(0, 3) });
   }
 
-  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : "";
+  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: false }) : "";
   RE_NUMERO.lastIndex = 0;
   let mm: RegExpExecArray | null;
   const orfani = new Set<string>();

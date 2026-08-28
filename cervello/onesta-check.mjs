@@ -126,9 +126,19 @@ export const RE_BLOCCO_CODICE = /```[\s\S]*?```/g;
  * così gli indici restano quelli del testo originale e il contesto dei numeri veri non si sposta.
  * (Cancellarli e basta incollerebbe due frasi lontane, creando falsi «numero senza fonte».)
  */
-export function mascheraRiferimenti(testo) {
+export function mascheraRiferimenti(testo, { codice = true } = {}) {
   let t = String(testo ?? "");
-  for (const re of [RE_BLOCCO_CODICE, RE_CODICE_INLINE, RE_RIFERIMENTO_CODICE, RE_SIGLA_DIFETTO, RE_SIGLA_LEZIONE]) {
+  // ⚠️ `codice: false` SUL CANALE CLIENTI — regressione trovata dalla radiografia del 28/8, e
+  // introdotta da questo stesso lotto. Mascherare il codice fra apici serve su un documento
+  // interno, dove `file.mjs:12` è una fonte e non un numero orfano. In una MAIL A UN CLIENTE non
+  // serve a niente e apre il cancello: basta scrivere «siamo scelti da `3.000 clienti`» e il numero
+  // sparisce dagli occhi del metro. Misurato: con gli apici passa, senza apici viene fermato.
+  // In una lettera a una persona vera non c'è codice da proteggere — c'è solo un modo in più di
+  // nascondere un numero, ed è esattamente ciò da cui questo cancello dovrebbe difendere.
+  const regole = codice
+    ? [RE_BLOCCO_CODICE, RE_CODICE_INLINE, RE_RIFERIMENTO_CODICE, RE_SIGLA_DIFETTO, RE_SIGLA_LEZIONE]
+    : [RE_RIFERIMENTO_CODICE, RE_SIGLA_DIFETTO, RE_SIGLA_LEZIONE];
+  for (const re of regole) {
     t = t.replace(re, (m) => " ".repeat(m.length));
   }
   return t;
@@ -272,7 +282,7 @@ function esamina(nome, testo, tipoForzato = null) {
   // Numeri senza fonte: per ogni numero significativo, controlla se c'è un marcatore di fonte vicino.
   // AR-433: si guarda il testo MASCHERATO — i riferimenti a codice, le sigle e il codice fra apici
   // non sono numeri orfani, sono la fonte. E su un documento di audit la regola non si applica.
-  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : "";
+  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: tipo !== "lettera" }) : "";
   RE_NUMERO.lastIndex = 0;
   let mm;
   const orfani = new Set();

@@ -41,7 +41,7 @@ const git = (dir, ...a) => spawnSync("git", a, { cwd: dir, encoding: "utf8", tim
  * addomesticata. Il cantiere ha UNA scheda sola e il tetto è ZERO, così il conto è leggibile a
  * occhio: `ancorata` decide da sola se quella scheda è un puntatore scollegato o no.
  */
-function repoFinto({ ancorata = true, tetto = 0, conTetto = true, cantiereRotto = false } = {}) {
+function repoFinto({ ancorata = true, tetto = 0, conTetto = true, cantiereRotto = false, provaMancante = false } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "ferma-cancello-"));
   cpSync(join(REPO, "cervello"), join(dir, "cervello"), {
     recursive: true,
@@ -69,7 +69,9 @@ function repoFinto({ ancorata = true, tetto = 0, conTetto = true, cantiereRotto 
         stato: "chiuso",
         gravita: "grave",
         titolo: "una scheda con una prova a comando",
-        verifica: { tipo: "comando", comando: "node cervello/test/prova-finta.test.mjs" },
+        // `provaMancante`: la scheda punta a un file di prova che NON esiste. Il guardiano non può
+        // guardare quell'ancoraggio, quindi deve dire ⚪ — che è il caso in prova qui sotto.
+        verifica: { tipo: "comando", comando: provaMancante ? "node cervello/test/prova-sparita.test.mjs" : "node cervello/test/prova-finta.test.mjs" },
       },
     ],
   };
@@ -140,12 +142,21 @@ test("② su un albero sano il passo esce 0: un cancello che non può diventare 
 
 // ── ③ IL CIECO NON SI TRAVESTE DA ROSSO ─────────────────────────────────────────────────────────
 
-test("③ col cantiere illeggibile il passo esce 2 e NON è `fallito`: ⚪ non si traveste da ❌", () => {
-  conRepo({ cantiereRotto: true }, (dir) => {
+test("③ quando il guardiano non può guardare, il passo esce 2 e NON è `fallito`: ⚪ non si traveste da ❌", () => {
+  // ⚠️ RISCRITTO DOPO IL COLLAUDO DEL 28/8, e la ragione è la malattia che questo lotto cura.
+  // Prima il caso rompeva il CANTIERE (`cantiereRotto: true`) e poi faceva `if (!passo) return`.
+  // Misurato dal collaudo: col cantiere illeggibile il cancello esce alla prima lettura, PRIMA di
+  // eseguire qualunque passo — quindi `passo` era SEMPRE undefined e il caso non asseriva mai
+  // niente. Verde, veloce (540 ms contro 3900), e completamente vuoto: il verde muto, dentro il
+  // banco che dovrebbe curarlo.
+  // La cura è accecare il PASSO, non il cancello: il cantiere resta leggibile e una scheda punta a
+  // un file di prova che non esiste. Così il cancello ci arriva davvero.
+  conRepo({ provaMancante: true }, (dir) => {
     const { passo } = cancello(dir);
-    if (!passo) return; // col cantiere rotto il cancello esce prima: non è questo il caso in prova
-    assert.equal(passo.codice, 2, `cantiere illeggibile deve dare 2 (non ho potuto misurare), dato ${passo.codice}`);
+    assert.ok(passo, `${STRUMENTO} deve essere fra i passi del cancello: se non c'è, questo caso non sta misurando niente (ed è com'era scritto prima)`);
+    assert.equal(passo.codice, 2, `un ancoraggio che non si può guardare deve dare 2 (non ho potuto misurare), dato ${passo.codice}. Uscita:\n${(passo.uscita || "").slice(0, 600)}`);
     assert.equal(passo.fallito, false, "il 2 non deve contare come violazione: «non ho misurato» non è «il tuo lavoro è rotto»");
+    assert.equal(passo.cieco, true, "e deve essere riconosciuto come ⚪, non come un verde");
   });
 });
 

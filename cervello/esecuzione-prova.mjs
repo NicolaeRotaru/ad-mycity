@@ -44,6 +44,53 @@
  *  che tiene fuori l'esecuzione arbitraria adesso che le righe di comando si eseguono davvero. */
 export const COMANDI_AMMESSI = ["node", "npx"];
 
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔒 LE TRE FALLE TROVATE DALLA RADIOGRAFIA DI SICUREZZA DEL 28/8 — e perché la
+//    difesa di prima parava un colpo che nessuno tirava
+// ─────────────────────────────────────────────────────────────────────────────
+// Il filtro dei metacaratteri qui sotto è fatto bene, ma difende dalla SHELL — e la shell non viene
+// mai usata. Chi esegue è `node`, e di `node` non filtrava nessuno gli argomenti. Misurato: queste
+// righe passavano tutte, e le prime due passavano perfino col controllo severo.
+//   node --require=/tmp/pwn.cjs cervello/x.mjs   ← esegue un file qualunque, zero metacaratteri
+//   node --import=file:///tmp/pwn.mjs …          ← idem
+//   node -e <codice>                             ← codice arbitrario
+//   npx --yes @chiunque/pacchetto                ← scarica ed esegue dalla rete
+// «@scope/pacchetto» passava perché ha una barra dentro, cioè ha la stessa FORMA di un percorso
+// relativo del repo: la regola «devi nominare un file di casa» non sa distinguere le due cose.
+//
+// La cura è girare il verso della lista: non elencare ciò che è vietato (le opzioni di node che
+// eseguono codice cambiano a ogni rilascio, una lista nera nasce già vecchia) ma ciò che è ammesso.
+
+/** Le sole opzioni che una prova di questa casa usa davvero. Tutto il resto non si esegue.
+ *  Lista BIANCA di proposito: `--require`, `--import`, `-e`, `--eval` e i loro fratelli futuri non
+ *  vanno elencati uno per uno — non essendo qui dentro, sono già fuori. */
+export const OPZIONI_AMMESSE = [
+  /^--test$/,
+  /^--tap$/,
+  /^--test-reporter(=.+)?$/,
+  /^--test-name-pattern=.+$/,
+  /^--test-concurrency=\d+$/,
+  /^--experimental-[a-z-]+$/,
+  /^--no-warnings$/,
+  /^--json$/,
+  /^--no-install$/,
+  /^--yes$/,
+  /^--ar-\d+$/,
+  /^--difetti$/,
+  /^--lotto$/,
+  /^--solo$/,
+  /^--veloce$/,
+];
+
+/** I soli pacchetti che `npx` può lanciare. Senza questa lista, `npx` È esecuzione di codice preso
+ *  da internet, e la lista bianca dei programmi diventa nominale: dice due nomi e ne ammette tutti. */
+export const PACCHETTI_NPX_AMMESSI = ["bats", "tsx", "vitest", "playwright"];
+
+/** Un nome di pacchetto con scope (`@qualcosa/pacchetto`) NON è un percorso, anche se gli somiglia. */
+function sembraPacchettoConScope(t) {
+  return t.startsWith("@");
+}
+
 /** Caratteri che hanno un significato SOLO dentro una shell. Se ce n'è uno, la riga non si esegue:
  *  non perché sia per forza cattiva, ma perché eseguirla senza shell darebbe un risultato diverso
  *  da quello che chi l'ha scritta si aspetta — e con la shell aprirebbe un'iniezione. */
@@ -62,6 +109,19 @@ function fuoriDalRepo(t) {
   return t.includes("..") || t.startsWith("/");
 }
 
+/** 🔒 Un percorso assoluto è ammesso solo se sta sotto una radice DICHIARATA dal chiamante.
+ *
+ * Sostituisce il vecchio `soloDentroIlRepo: false`, che era un interruttore unico e spegneva TRE
+ * controlli insieme — non solo «puoi uscire dal repo» ma anche «devi nominare un file di casa», ed è
+ * da lì che passavano `node -e <codice>` e `npx --yes <pacchetto>`. Il motivo dichiarato (le prove
+ * del banco si costruiscono una fixture in /tmp) giustificava il primo controllo, non gli altri due.
+ * Con le radici, la fixture in /tmp continua a funzionare e il resto resta chiuso.
+ * `..` non è mai ammesso: una radice si dichiara, non si raggiunge risalendo. */
+function radiceAmmessa(t, radici) {
+  if (t.includes("..")) return false;
+  return radici.some((r) => r && t.startsWith(r.endsWith("/") ? r : `${r}/`));
+}
+
 /** I token di un passo che sono percorsi di file (non opzioni, non il programma). */
 function percorsiDi(argomenti) {
   return argomenti.filter((a) => !a.startsWith("-") && a.includes("/"));
@@ -73,7 +133,7 @@ function percorsiDi(argomenti) {
  * `&&` è l'unico operatore riconosciuto, e non viene passato a nessuno: diventa «esegui in ordine,
  * fermati al primo che fallisce», che è la sua semantica, eseguita dal chiamante in JavaScript.
  */
-export function spezzaComando(riga, { soloDentroIlRepo = true } = {}) {
+export function spezzaComando(riga, { soloDentroIlRepo = true, radiciAmmesse = [] } = {}) {
   const testo = String(riga ?? "").trim();
   if (!testo) return { ok: false, passi: [], perche: "riga di comando vuota" };
 
@@ -93,15 +153,34 @@ export function spezzaComando(riga, { soloDentroIlRepo = true } = {}) {
     if (!COMANDI_AMMESSI.includes(comando)) {
       return { ok: false, passi: [], perche: `programma non ammesso: «${comando}» (ammessi: ${COMANDI_AMMESSI.join(", ")})` };
     }
-    const fuori = soloDentroIlRepo && argomenti.find((a) => !a.startsWith("-") && fuoriDalRepo(a));
-    if (fuori) return { ok: false, passi: [], perche: `esce dal repo: «${fuori}»` };
+    // 🔒 Le opzioni passano dalla lista BIANCA, sempre — anche quando si esegue. Prima ogni token
+    // che cominciava con «-» era esente dai controlli, e `--require=/tmp/pwn.js` entrava da lì.
+    const opzioneVietata = argomenti.find((a) => a.startsWith("-") && !OPZIONI_AMMESSE.some((re) => re.test(a)));
+    if (opzioneVietata) {
+      return { ok: false, passi: [], perche: `opzione non ammessa: «${opzioneVietata}» (la lista è bianca: ciò che non è ammesso è vietato)` };
+    }
+    // 🔒 `npx` senza questa riga è «esegui un pacchetto qualunque preso da internet».
+    if (comando === "npx") {
+      const pacchetto = argomenti.find((a) => !a.startsWith("-"));
+      if (!pacchetto || !PACCHETTI_NPX_AMMESSI.includes(pacchetto)) {
+        return { ok: false, passi: [], perche: `npx può lanciare solo ${PACCHETTI_NPX_AMMESSI.join(", ")}, non «${pacchetto ?? "(niente)"}»` };
+      }
+    }
+    // 🔒 Un nome con scope (@a/b) somiglia a un percorso ma non lo è: non deve poter soddisfare
+    // «nomina un file del repo», o la regola qui sotto si compra da sola.
+    const conScope = argomenti.find((a) => sembraPacchettoConScope(a));
+    if (conScope) return { ok: false, passi: [], perche: `sembra un pacchetto, non un file di casa: «${conScope}»` };
+    const fuori = argomenti.find((a) => !a.startsWith("-") && fuoriDalRepo(a) && !radiceAmmessa(a, radiciAmmesse));
+    if (fuori) return { ok: false, passi: [], perche: `esce dal repo e non è sotto una radice ammessa: «${fuori}»` };
     const percorsi = percorsiDi(argomenti);
     // Un passo che non nomina NESSUN file di questo repo non si può controllare: chi lo conta come
     // eseguibile sta comprando un verde con un controllo vuoto — «npx vitest run x» passerebbe
     // qualunque cosa ci sia (o non ci sia) su questo disco. È la stessa malattia di AR-840, in
     // piccolo: un metro che non ha niente da misurare non deve dire «a posto».
-    if (soloDentroIlRepo && !percorsi.length) {
-      return { ok: false, passi: [], perche: `«${pezzo}» non nomina nessun file del repo: non c'è niente da controllare` };
+    // 🔒 Vale SEMPRE, non solo quando si conta: un passo che non nomina nessun file e' un passo
+    // di cui non si puo' controllare niente, ed e' la porta da cui entrava `node -e <codice>`.
+    if (!percorsi.length) {
+      return { ok: false, passi: [], perche: `«${pezzo}» non nomina nessun file: non c'è niente da controllare` };
     }
     passi.push({ comando, argomenti, percorsi });
   }
@@ -116,7 +195,7 @@ export function spezzaComando(riga, { soloDentroIlRepo = true } = {}) {
  * `percorsi` sono i file che devono esistere perché la corsa abbia senso: chi ha il disco li
  * controlla, questa funzione no (resta pura, e così si può provare senza preparare niente).
  */
-export function comeSiEsegue(test, { soloDentroIlRepo = true } = {}) {
+export function comeSiEsegue(test, { soloDentroIlRepo = true, radiciAmmesse = [] } = {}) {
   if (typeof test !== "string" || !test.trim()) {
     return { ok: false, forma: "assente", passi: [], percorsi: [], perche: "nessun test dichiarato" };
   }
@@ -124,7 +203,7 @@ export function comeSiEsegue(test, { soloDentroIlRepo = true } = {}) {
 
   // ① UNA RIGA DI COMANDO — c'è uno spazio. Prima si spezzava male e usciva ≠ 0 sempre.
   if (/\s/.test(t)) {
-    const s = spezzaComando(t, { soloDentroIlRepo });
+    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });
     if (!s.ok) return { ok: false, forma: "riga-di-comando", passi: [], percorsi: [], perche: s.perche };
     return {
       ok: true,
@@ -136,8 +215,8 @@ export function comeSiEsegue(test, { soloDentroIlRepo = true } = {}) {
   }
 
   // ② UN PERCORSO. Deve restare in casa…
-  if (soloDentroIlRepo && fuoriDalRepo(t)) {
-    return { ok: false, forma: "percorso", passi: [], percorsi: [], perche: `esce dal repo: «${t}»` };
+  if (fuoriDalRepo(t) && !radiceAmmessa(t, radiciAmmesse)) {
+    return { ok: false, forma: "percorso", passi: [], percorsi: [], perche: `esce dal repo e non è sotto una radice ammessa: «${t}»` };
   }
   // …e va lanciato col programma GIUSTO PER LA SUA SPECIE. `node file.bats` è uno script bash dato
   // in pasto al parser JavaScript: SyntaxError, uscita 1, e non-vacuita legge «prova diventata

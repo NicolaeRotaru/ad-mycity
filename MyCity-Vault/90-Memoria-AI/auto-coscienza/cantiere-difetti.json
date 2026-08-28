@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 15:40",
+  "aggiornato": "2026-08-28 23:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16962,9 +16962,9 @@
       "lotto_scoperta": 49,
       "verifica": {
         "tipo": "umano",
-        "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
+        "nota": "⚠️ RESTA APERTO, e la ragione è la scoperta più utile del lotto. La prima cura era verde, ma era verde perché aveva anche ALLENTATO il metro sulle mail ai clienti — e due metri spenti non possono divergere. Rimesso il metro severo (deciso da Nicola il 2026-08-28), la divergenza è saltata fuori: 3 casi su cui le due case non dicono la stessa cosa. Il verso è quello meno pericoloso — il Pannello è più SEVERO, non più permissivo — ma resta una divergenza. Adesso è misurata sotto TETTO_DIVERGENZE in cervello/test/due-metri-una-regola.test.mjs, che scende e non risale. Chiuderla vuol dire portare le esenzioni di cervello/onesta-ambito.mjs anche nel Pannello, che è la strada da cui il difetto è nato e nessuno ha ancora percorso."
       },
-      "nota_fix": "MISURATO nel lotto 50 (22/8) senza ripararlo, e la misura cambia il fix_proposto. La clausola (c) chiedeva di allargare il pattern della malattia perche trovi «una costante o una regexp con lo stesso nome definita in due file». Provata su 581 file di cervello/ e pannello/src: trova 137 costanti, e le prime sono rumore puro — JSON_MODE in 133 file, poi STATO, META, REPO, CANTIERE, ROOT, VAULT. Sono nomi locali normali, non decisioni duplicate. Un pattern cosi verrebbe esentato in massa, cioe produrrebbe esattamente il silenzio che questa malattia cura: NON si allarga cosi.\n\nIL SEGNALE GIUSTO E UN ALTRO, e la seconda misura lo mostra: non «lo stesso NOME», ma «la stessa DECISIONE scritta due volte». Cercando le regex-decisione identiche (>=12 caratteri, con alternative o classi) presenti in due o piu file: 59 riscontri, di cui la maggioranza ancora falsi (il rilevatore grezzo scambia le classi CSS dei .tsx per regex, e prende utilita banali come l'escape). Ma sotto ci sono i casi VERI, e sono questi:\n  · /^(\\d{4})-(\\d{2})-(\\d{2})(?:[ T](\\d{2}):(\\d{2}))?/ in SEI file, a cavallo fra cervello e Pannello (delta-gate, presa-in-carico, sonda-volano, tick-auto-coscienza-leggero, format.ts, verdetto-dato.ts): la lettura di una data e duplicata fra le due meta della macchina.\n  · /@([a-z0-9-]+)/ in TRE file (consenso-azione, notifica-approvazioni, azioni-attesa.ts): chi riconosce la menzione di un senior.\n  · /\\([^)]*→[^)]*\\)/ in TRE file (agent-registry-check, deferral-agenti, mandato-owner): chi legge un deferral.\n\nCOSA SERVE, ed e un lotto suo: un rilevatore che escluda i literal dentro JSX/className e le utilita banali, poi il triage a mano dei ~20 riscontri veri (per ognuno: e la stessa decisione o due decisioni che si somigliano?), e solo dopo il pattern nella malattia con il tetto. Fatto di fretta produce 137 esenzioni."
+      "nota_fix": "Fatto: le due case sono PINZATE. SORGENTI_REGOLE espone le regole in una forma confrontabile e cervello/test/due-metri-una-regola.test.mjs le mette una accanto all'altra ed ESEGUE i due giudizi sugli stessi testi — il giorno che una cambia senza l'altra la prova diventa rossa lo stesso giorno, non mesi dopo e per caso. Una casa sola non è possibile e i due muri sono misurati: il Pannello si costruisce su Vercel con Root Directory = pannello e lì cervello/ non esiste; il metro del cervello deve girare in un clone parziale. NON fatto: le esenzioni restano da una parte sola (3 divergenze misurate). Il macchinario per fondare solo i claim è costruito, provato e SPENTO: si accende il giorno che Nicola vede le otto mail di prova."
     },
     {
       "id": "AR-792",
@@ -17089,12 +17089,12 @@
       "fix_proposto": "🟡 Un guardiano che, per ogni passo del cancello nato o riscritto nel lotto, lo esegue anche in una copia che imita il runner vero (storia intera e origin/main presente, come actions/checkout con fetch-depth: 0) e confronta i due verdetti. Verde in casa e rosso-per-sempre nella casa del runner = il passo nasce rotto, si ferma la consegna. Se la casa del runner non e imitabile per quel passo, ⚪ dichiarato sotto un tetto che scende e non risale, mai un verde. Lavoro in corso in cervello/due-case.mjs: bocciato tre volte dal collaudo (referti in consegne/audit/2026-08-23-collaudo-tre-freni/), NON agganciato al cancello.",
       "dove": "cervello/cancello-lotto.mjs (i passi nuovi non vengono provati nelle condizioni del runner)",
       "verifica": {
-        "tipo": "comando",
-        "comando": "node cervello/test/due-case.test.mjs",
-        "nota": "Il banco del guardiano in costruzione. Finche il guardiano non e agganciato al cancello la prova copre il motore, non il comportamento del cancello: e dichiarato."
+        "tipo": "umano",
+        "nota": "⚠️ NON CHIUDIBILE DA UN GUARDIANO, e la verifica di prima era pericolosa: puntava a due-case.test.mjs, che PASSA perché il motore funziona — dopo il merge auto-fix avrebbe chiuso questa scheda mentre il guardiano non frena ancora niente. Misurato il 28/8: montato nel cancello, due-case esce 2 (cieco) in ogni ambiente raggiungibile, perché il passo «prove del Pannello» è scritto in una forma che il suo censimento non sa leggere; e chiudendo quel buco esce 1, perché quel passo diventa il quinto «mai provabile» contro un tetto di 4. Uscite possibili oggi: 2 o 1, mai 0 — e un cancello che non può diventare verde si impara a saltarlo. Per chiuderla servono due gesti dichiarati: riscrivere quel passo in forma leggibile, e alzare a mano il tetto in cervello/due-case.json da 4 a 5. Fino ad allora resta APERTA."
       },
       "chiusura": "bloccata",
-      "chiusura_motivo": "La prova passa perché misura il MOTORE del guardiano, e la sua stessa nota lo dichiara: «finché il guardiano non è agganciato al cancello la prova copre il motore, non il comportamento del cancello». Verificato il 26/8 dopo il merge del lotto 63: `due-case` compare in cancello-lotto.mjs soltanto dentro un commento, non come passo eseguito. Finché nessuno lo lancia, un controllo nuovo del cancello può ancora nascere rotto sul runner senza che se ne accorga nessuno."
+      "chiusura_motivo": "La prova passa perché misura il MOTORE del guardiano, e la sua stessa nota lo dichiara: «finché il guardiano non è agganciato al cancello la prova copre il motore, non il comportamento del cancello». Verificato il 26/8 dopo il merge del lotto 63: `due-case` compare in cancello-lotto.mjs soltanto dentro un commento, non come passo eseguito. Finché nessuno lo lancia, un controllo nuovo del cancello può ancora nascere rotto sul runner senza che se ne accorga nessuno.",
+      "nota_fix": "Regola di arresto del collaudo applicata: al terzo rosso il guardiano NON si aggancia e resta strumento da lanciare a mano, dichiarato. Il motivo per esteso, con la misura, sta in cervello/guardiani-motivi.json. Il suo verdetto sul repo vero è comunque uno dei casi di cervello/test/due-case.test.mjs, che gira a ogni push e a ogni giro."
     },
     {
       "id": "AR-798",
@@ -17111,11 +17111,12 @@
       "dove": "cervello/puntatori-scollegati.mjs (in costruzione) — la famiglia e AR-669, AR-680, AR-689",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/test/puntatori-scollegati.test.mjs",
-        "nota": "Il banco del guardiano in costruzione. Copre il motore, non ancora il comportamento del cancello: dichiarato."
+        "comando": "node cervello/test/il-guardiano-agganciato-ferma-il-cancello.test.mjs",
+        "nota": "Il collaudo indipendente del 28/8 ha chiesto questo cambio, e aveva ragione: la verifica puntava al banco del MOTORE (puntatori-scollegati.test.mjs, 34 casi) e la nota diceva ancora «copre il motore, non ancora il comportamento del cancello» — falsa dal momento in cui il guardiano e stato agganciato. Adesso punta al banco che prova l ATTO: il cancello VERO lanciato su alberi finti, che deve fermarsi quando un puntatore si stacca (uscita 1), restare verde su un albero sano (uscita 0) e dire ⚪ quando non puo guardare (uscita 2). Il banco del motore continua a girare nella suite. ⚠️ COPERTURA DICHIARATA, ricalcolata dal collaudo in modo indipendente: 466 ancoraggi su 598 poggiano solo su una riga di intestazione, e su quelli lo spostamento del codice resta invisibile — il 78%, che e il numero che il guardiano stampa di se sotto ogni verde. Non e copertura: e una sentinella con un tetto che non si allarga."
       },
       "chiusura": "bloccata",
-      "chiusura_motivo": "La prova passa perché misura il MOTORE, e il fix_proposto della scheda lo dice a chiare lettere: «Lavoro in corso in cervello/puntatori-scollegati.mjs: bocciato dal collaudo, NON agganciato al cancello». Verificato il 26/8: zero occorrenze in cancello-lotto.mjs. Un guardiano che nessuno esegue non impedisce a una prova di smettere di guardare."
+      "chiusura_motivo": "La prova passa perché misura il MOTORE, e il fix_proposto della scheda lo dice a chiare lettere: «Lavoro in corso in cervello/puntatori-scollegati.mjs: bocciato dal collaudo, NON agganciato al cancello». Verificato il 26/8: zero occorrenze in cancello-lotto.mjs. Un guardiano che nessuno esegue non impedisce a una prova di smettere di guardare.",
+      "nota_fix": "Il guardiano c'era ma non era collegato a niente, e un guardiano scollegato è indistinguibile da un guardiano assente: stampa verde uguale. Adesso è un passo del cancello. Il verde dichiara cosa copre invece di prometterlo tutto: 221 ancoraggi su 546 poggiano solo su una riga di commento, e su quelli lo spostamento del codice resta invisibile — è un buco contato, non sperato."
     },
     {
       "id": "AR-799",
@@ -18130,9 +18131,10 @@
       "origine": "lotto 60, misurando invece di fidarmi di un ✅",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
-        "nota": "11 casi. Il primo ESEGUE il comando che `non-vacuita` costruisce e guarda che esca ≠ 0 con MODULE_NOT_FOUND: se un giorno node imparasse a spezzare quell'argomento, il caso diventerebbe rosso ed e' giusto, perche' il difetto non ci sarebbe piu'. Il tetto copre solo la clausola «non peggiora»: la scheda resta APERTA finche' i 435 ereditati non sono bonificati."
-      }
+        "comando": "node cervello/test/una-prova-lanciata-nel-modo-sbagliato.test.mjs",
+        "nota": "La cura è alla radice: il conto è sceso da 5 a 0 su 934 (la scheda diceva 435, era vecchia, e il codice comanda). Sei rotture volontarie, tutte diventano rosse. Accanto a questa girano nella suite altre due prove dello stesso fix — una-mutazione-che-nessuno-puo-eseguire.test.mjs (15 casi, il contatore) e mutazioni-senza-esecutore.mjs (il tetto, che il cancello esegue) — ma la verifica ne nomina una sola perché auto-fix una catena non la sa lanciare."
+      },
+      "nota_fix": "Come si esegue una prova esce da non-vacuita.mjs e diventa la funzione pura cervello/esecuzione-prova.mjs, usata dal banco per ESEGUIRE e dal contatore per CONTARE (prima erano due decisioni scritte a mano che divergevano). Sa leggere anche una riga di comando, spezzata in argomenti SENZA shell: lista bianca node/npx, metacaratteri rifiutati, && inteso come passi in sequenza. Lancia i .bats con bats e non con node — due voci uscivano rosse per SyntaxError e nessun sensore l'aveva mai visto. E introduce il terzo esito: un avvio fallito è CIECO, non «la prova è diventata rossa», che era tutto il difetto. Le 5 voci rotte si sbloccano e mordono tutte e 5. ⚪ NON MISURATO: il banco è stato eseguito su 12 mutazioni su 934, quindi non so se il terzo esito trasforma qualche verde in ⚪ sulle altre 922."
     },
     {
       "id": "AR-841",
@@ -18496,9 +18498,10 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node cervello/test/cieco-che-esce-come-un-errore.test.mjs",
-        "esito": "7 casi su 7. Cinque puri sul riconoscitore. Uno LANCIA i nove curati in una copia dell albero senza il loro file e pretende uscita 2 — e questo caso mi ha corretto due volte, perche due attrezzi uscivano 0: il file che leggono non stava nel vault ma dentro cervello/, e la copia se lo portava dietro. L ultimo e il tetto: 12 lordi meno 9 esenti dichiarati = 3, e rifiuta un esenzione che non copre piu niente."
+        "nota": "7 casi su 7, tetto sceso da 3 a 0. La prova gemella il-posto-che-non-ce-non-e-un-reperto.test.mjs (11 casi) gira nella suite e copre la funzione pura nuova: esegue i tre strumenti in una copia dell'albero e ASSERISCE che la copia sia spoglia prima di lanciare, invece di sperarlo. Due trappole trovate scrivendola, e tutte e due facevano passare la prova senza provare niente: la cartella delle prove che la copia si portava dietro, e il freno anti-ricorsione che faceva uscire 2 da solo."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "La decisione «il posto non c'è (⚪ 2) oppure il posto c'è ed è vuoto (❌ 1)» esce dai tre if scritti a mano e diventa la funzione pura cervello/posto-o-contenuto.mjs, che i tre CHIAMANO. Il ramo «cartella presente e senza prove» resta a 1 APPOSTA: lo zero è il reperto, spesso il più grave. Verificato chi legge ogni codice d'uscita prima di convertirlo, perché convertire senza sistemare chi legge trasforma un falso allarme in un silenzio. Tetto sceso da 3 a 0. ⚠️ RESTA UN BUCO DICHIARATO: in giro.sh il verdetto di valida-contratti è letto da un if scritto a mano invece che dalla funzione di casa, quindi col 2 il giro dà comunque un vincolo ma col testo di dominio sbagliato. Fuori dal territorio del lotto, registrato come difetto nuovo."
     },
     {
       "id": "AR-860",
@@ -18520,6 +18523,206 @@
         "esito": "8 casi su 8. Sei sulla regola con uno stato costruito, fra cui quello che inchioda il difetto (cieco e sano non devono piu dare lo stesso elenco di eventi). Due lanciano il COLLEGAMENTO per davvero, scrivendo il referto in una copia dell albero e chiamando leggiStatoReale: uno col referto cieco (il campo deve accendersi e l evento partire), uno col referto di un sensore che ha contato 12 fonti e ne ha trovata una morta (il ⚪ deve restare spento e M8 suonare). Le due meta della cura hanno una mutazione ciascuna, provate rosse separatamente."
       },
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-861",
+      "titolo": "Un guardiano che il giro legge sul serio dice «passato» senza aver aperto niente",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perché un cieco esce VERDE? Perché in cervello/chiusura-loop.mjs, dentro gate(), il ramo «il file della Sala Operativa non c'è» fa `console.log(\"SALA-OPERATIVA.md assente — niente da verificare\")` e poi `process.exit(0)`. ② Perché è peggio di AR-859? Perché AR-859 era un ⚪ travestito da ❌ — un falso allarme, fastidioso ma rumoroso. Questo è un ⚪ travestito da ✅: silenzioso, e chi lo legge conclude che è tutto a posto. ③ Chi lo legge? giro.sh lancia `--gate` e ne guarda il codice d'uscita sul serio. Quindi il giro riceve «passato» da un controllo che non ha aperto un solo file. ④ Perché nessun sensore lo vede? Perché il rilevatore confondeCiecoEdErrore cerca i rami che escono 1, cioè cerca la malattia nella veste in cui l'abbiamo conosciuta la prima volta. Un guardiano nato da un caso misura il caso, non il problema.",
+      "fix_proposto": "🟡 Far uscire 2 quel ramo, come i dodici già curati, e usare la funzione pura cervello/posto-o-contenuto.mjs che questo lotto ha costruito apposta: il posto non c'è → ⚪ 2. ATTENZIONE alla clausola che salta sempre: il file assente potrebbe essere un REPERTO legittimo (nessuna Sala Operativa = la squadra non si parla), e in quel caso è 1 e non 2. Va deciso guardando chi legge, non a naso. E va allargato il rilevatore perché veda anche i ciechi che escono 0, altrimenti questa forma resta invisibile e ne nasceranno altre.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, nello stesso file",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova automatica finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere. Il difetto è verificato sul codice vero — cervello/chiusura-loop.mjs, ramo `if (!existsSync(salaPath))` dentro gate(), che fa exit(0) — e il lettore è giro.sh, che quel codice d'uscita lo guarda."
+      }
+    },
+    {
+      "id": "AR-862",
+      "titolo": "Il giro legge un verdetto con un confronto scritto a mano, e sul «non lo so» racconta la cosa sbagliata",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Perché il giro dà il messaggio sbagliato? Perché in cervello/giro.sh il verdetto di valida-contratti è letto con un `if [ rc -ne 0 ]` scritto a mano invece che con la funzione di casa vincolo_da_rc, che i tre esiti li sa distinguere. ② Cosa succede col 2? Il giro un vincolo lo dà comunque — quindi non c'è silenzio — ma col testo di dominio di un reperto: «CONTRATTI JSON FUORI-CONTRATTO… Rinomina ai nomi canonici». Con la cartella mancante quella frase è una bugia sul contenuto, e manda a cercare un campo rinominato che non esiste. ③ Perché è scritto a mano? Perché il blocco è più vecchio della funzione condivisa, e nessuno rilegge un blocco che funziona.",
+      "fix_proposto": "🟡 Sostituire il confronto a mano con vincolo_da_rc, che è la casa unica dei tre esiti. E cercare gli altri: un `if [ rc -ne 0 ]` su un guardiano che sa uscire 2 è la forma generale, non il caso singolo.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, verificando CHI legge i codici d'uscita convertiti",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato leggendo cervello/giro.sh intorno a riga 906 e cervello/giro-esito.sh riga 108. Non eseguito: da una sessione in cloud il giro tocca vault, rete e sensori."
+      }
+    },
+    {
+      "id": "AR-863",
+      "titolo": "Un generatore porta ancora la forma vecchia: se riscrive il giro, disfa una cura già pagata",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Perché una cura può tornare indietro da sola? Perché cervello/round6-applica.mjs porta dentro di sé il blocco che scrive giro.sh, e quel blocco è la versione PRE-cura: `if rc -ne 0` col testo «TEST DEL CERVELLO ROSSI». ② Quindi? Il giorno che quel generatore rigenera giro.sh, la cura di AR-843 si disfa in silenzio e nessuna prova se ne accorge. ③ Perché è invisibile? Perché il codice che GENERA non lo guarda nessuna prova: si provano gli effetti, non gli stampi.",
+      "fix_proposto": "🟡 Allineare lo stampo alla cura, e — la parte che conta — chiedersi quali altri generatori portano dentro copie di codice curato altrove. È la malattia `una-parola-con-due-padroni` applicata al codice generato, e la spazzata oggi non la vede.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato sul codice: cervello/round6-applica.mjs righe ~79-82. Non eseguito, perché eseguirlo vorrebbe dire lasciargli riscrivere giro.sh."
+      }
+    },
+    {
+      "id": "AR-864",
+      "titolo": "Il debito vero delle mutazioni non ha nessun sensore: si misura se si possono lanciare, non se mordono",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Cosa conta oggi il guardiano? cervello/mutazioni-senza-esecutore.mjs conta le voci che NON SI POSSONO LANCIARE, e adesso sono zero su 934. ② Cosa NON conta? Se una mutazione che parte poi MORDE davvero, cioè se rompendo quel pezzo la prova diventa rossa. Una voce può essere perfettamente eseguibile e difendere niente. ③ Perché il buco resta? Perché l'unico modo di saperlo è eseguirle tutte e 934, e il cancello esegue solo quelle del lotto in corso. ④ Perché conta? Perché «difetto chiuso» in questa casa vuol dire «la prova diventa rossa se il fix si rompe»: se metà delle mutazioni non mordono, metà delle chiusure sono una promessa non verificata. Il numero zero di adesso è vero e dice meno di quanto sembra.",
+      "fix_proposto": "🟡 Un conteggio che esegua le mutazioni a lotti fuori dal cancello (troppo lento per stare dentro) e tenga il numero di quelle che non mordono sotto un tetto che scende. Il lotto che ha curato la radice ne ha sbloccate 5 e mordevano tutte e 5: è un campione buono ma è un campione, e va detto.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-840: sbloccando le voci si è visto che nessuno chiede loro di mordere",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova automatica: dimostrarlo vuol dire costruire il sensore che manca, ed è il fix stesso. Il conto di partenza (5 sbloccate, 5 che mordono) è misurato; le altre 929 no."
+      }
+    },
+    {
+      "id": "AR-865",
+      "titolo": "Sette prove del Pannello girano solo perché questo computer ha la versione giusta, e nessuno lo dichiara",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Perché sette voci di cervello/mutanti.json reggono? Perché puntano a prove .mts (TypeScript) e questo node è 22.22, che i tipi li toglie da solo. ② Su un node più vecchio? SyntaxError, uscita ≠ 0 — che è esattamente il segnale con cui il banco riconosce «la prova è diventata rossa». Cioè AR-840 in un'altra veste, sulla stessa strada appena curata. ③ Perché nessuno lo vede? Perché il campo che dichiara la prova non dice CON COSA va lanciata: la versione dell'interprete è un pezzo di contratto che non è scritto da nessuna parte.",
+      "fix_proposto": "🟡 Dichiarare l'esecutore accanto alla prova, invece di lasciarlo dedurre dall'estensione, e far uscire ⚪ (non rosso) quando l'esecutore dichiarato non c'è. La casa la funzione ce l'ha già: cervello/esecuzione-prova.mjs.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-840",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "⚪ NON PROVATO da qui: c'è un solo node su questa macchina, quindi il comportamento su una versione più vecchia è dedotto leggendo, non misurato. Va detto così com'è invece di darlo per certo."
+      }
+    },
+    {
+      "id": "AR-866",
+      "titolo": "Il rilevatore dei ciechi cerca la malattia nella veste in cui l'abbiamo vista la prima volta",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Cosa cerca confondeCiecoEdErrore? I rami ciechi che escono con il letterale 1. ② Cosa NON vede? I ciechi che escono 0 (AR-861, ed è la veste peggiore) e i rami in cui l'uscita non è un letterale ma una variabile — `process.exit(v.codice)`, che è proprio la forma in cui questo lotto ha scritto la cura. ③ Perché è nato così? Perché è nato da un caso: dodici strumenti che uscivano 1. Un guardiano nato da un caso misura il caso, non il problema. ④ Perché conta adesso? Perché il suo tetto è appena sceso a zero, e uno zero letto senza sapere cosa il metro NON guarda si legge come «finito».",
+      "fix_proposto": "🟡 Allargare il rilevatore alle due vesti mancanti, e — la clausola che conta — far sì che il verdetto DICHIARI cosa non copre, invece di stampare un numero nudo. Un tetto a zero senza la copertura scritta accanto è un verde più largo di quello che ha guardato.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, guardando perché il tetto era sceso a zero",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato sul codice del rilevatore. Nessuna prova automatica finché il fix non è scritto."
+      }
+    },
+    {
+      "id": "AR-867",
+      "titolo": "Curando il metro delle mutazioni si è aperta una porta per eseguire altro, e la prova che doveva vederla guardava dall'altra parte",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Curando AR-840 la macchina ha imparato a eseguire una PROVA descritta da una stringa. ② Quella stringa vive in cervello/mutanti.json, e il campo `test` non lo scrive una persona: lo compone cervello/ricuci-corsie.mjs a partire da ciò che una corsia (cioè un modello) consegna — da lì a chi esegue non c'è nessun umano in mezzo. ③ La difesa scritta era un filtro dei metacaratteri di SHELL, ed è fatta bene, ma para un colpo che nessuno tira: la shell non viene mai usata. Chi esegue è node, e di node non filtrava nessuno gli argomenti. Passavano: `node --require=/tmp/x.js`, `node --import=…`, `node -e <codice>`, `npx --yes @chiunque/pacchetto` — zero metacaratteri, e le prime due passavano perfino col controllo severo. ④ Perché nessuno l'ha vista? Perché il blocco intitolato «SICUREZZA» chiamava il parser in modalità STRETTA, che non è quella con cui l'esecutore gira. Un test intitolato sicurezza che verifica una modalità mai usata non è un test mancante: è la ragione per cui nessuno andrà a cercare il problema. ⑤ Il moltiplicatore: il processo figlio ereditava l'ambiente intero, cioè sul server anche Stripe, Supabase in scrittura, Resend e il token di git.",
+      "fix_proposto": "🟡 FATTO in questo lotto, quattro pezzi. (a) Lista BIANCA delle opzioni ammesse invece di una lista nera: le opzioni di node che eseguono codice cambiano a ogni rilascio, e una lista nera nasce già vecchia. (b) npx può lanciare solo i runner veri (bats, tsx, vitest, playwright), altrimenti npx È esecuzione di codice preso da internet e la lista bianca dei programmi diventa nominale. (c) Un nome con scope (@a/b) non è un percorso, anche se gli somiglia: passava perché ha una barra dentro. (d) L'ambiente si dà ripulito di tutto ciò che somiglia a una chiave — una prova non ha bisogno di Stripe. In più l'interruttore unico `soloDentroIlRepo:false`, che spegneva tre controlli insieme, è diventato un elenco di radici dichiarate: la fixture in /tmp continua a funzionare e le altre due strade restano chiuse. RESTA DA FARE, dichiarato: il cancello a monte in ricuci-corsie.mjs, che dovrebbe rifiutare la scrittura di una voce che il parser non accetta.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 23:10",
+      "nato_come": "regressione",
+      "nato_da": "AR-840, curato in questo stesso lotto: la cura ha introdotto l'esecuzione di righe di comando e con essa la porta",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+        "nota": "Le sette righe che passavano sono i casi della prova, e girano nella MODALITÀ VERA (quella con cui eseguiProva chiama davvero), non in quella stretta. Quattro rotture volontarie, una per difesa, tutte rosse — e due di quelle rotture all'inizio NON facevano rosso, perché due difese si coprivano a vicenda sullo stesso caso: sono stati aggiunti due casi che le separano. ⚪ NON MISURATO: non ho eseguito npx per davvero, e da qui non vedo cosa contenga l'ambiente del server."
+      }
+    },
+    {
+      "id": "AR-868",
+      "titolo": "Bastava mettere il numero fra apici per farlo sparire dagli occhi del cancello sulle mail ai clienti",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Il metro dell'onestà maschera i pezzi che SONO una fonte prima di cercare i numeri orfani: un riferimento a codice o una sigla di difetto non sono numeri senza fonte. ② Fra i pezzi mascherati c'era anche il codice fra apici. ③ Su un documento interno è giusto; su una MAIL A UN CLIENTE no, perché in una lettera non c'è codice da proteggere — c'è solo un modo in più di nascondere un numero. Misurato: «siamo scelti da `3.000 clienti`» passava, la stessa frase senza apici veniva fermata. ④ È una regressione di questo lotto: la mascheratura è nata qui.",
+      "fix_proposto": "🟡 FATTO: la mascheratura diventa dipendente dal profilo. Sul canale clienti il codice fra apici non si maschera; sulla memoria e sugli audit sì, come prima. Applicato in tutte e due le case (cervello e Pannello), che la prova di AR-791 tiene pinzate.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 23:10",
+      "nato_come": "regressione",
+      "nato_da": "la mascheratura introdotta in questo lotto curando AR-791/AR-433",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/due-metri-una-regola.test.mjs",
+        "nota": "Il caso è dentro la prova che confronta le due case: il numero fra apici deve essere fermato sulla lettera, e le due case devono dire la stessa cosa."
+      }
+    },
+    {
+      "id": "AR-869",
+      "titolo": "Un numero a quattro cifre scritto senza punto è invisibile al cancello dell'onestà",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① L'espressione che riconosce un numero significativo pretende il separatore delle migliaia: \\d{1,3}(?:[.,]\\d{3})*. ② Quindi «3.000 clienti» lo vede e «3000 clienti» no. ③ Misurato sul codice vero: «Abbiamo 3000 clienti a Piacenza» passa il cancello e parte verso il cliente; la stessa frase col punto viene fermata. ④ È la forma più naturale in cui una persona scrive un numero in una mail, cioè il caso che capita da solo — non un caso costruito. ⑤ Non è una regressione di questo lotto: c'era già, ed è uscito solo perché la radiografia del perimetro ha guardato il file con la lente giusta.",
+      "fix_proposto": "🟡 Allargare l'espressione ai numeri senza separatore da 4 cifre in su, e misurare i falsi allarmi che questo introduce (anni, codici postali, numeri civici) prima di consegnare: un cancello che suona su tutto è un cancello spento, ed è il difetto opposto. Va fatto in tutte e due le case insieme, o la prova di AR-791 diventa rossa — che è il suo mestiere.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 23:10",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato eseguendo il giudizio vero sui due testi. Nessuna prova automatica finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere."
+      }
+    },
+    {
+      "id": "AR-870",
+      "titolo": "Il cancello sulle mail può metterci secondi su un testo lungo, e chi lo chiama non ha un tempo massimo",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① L'espressione che riconosce i riferimenti a codice è quadratica sui blocchi senza spazi. ② Misurato: 80.000 caratteri = 4,7 secondi. ③ Il verso del danno è «canale bloccato», non «cancello aperto»: la mail non parte invece di partire senza controllo, che è il verso meno grave dei due. ④ Nessuno mette un tetto al tempo, quindi il rallentamento diventa un blocco silenzioso.",
+      "fix_proposto": "🟡 Ancorare l'espressione per togliere il backtracking, e mettere un tetto alla lunghezza del testo che si giudica — oltre il tetto si dichiara ⚪ invece di macinare.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 23:10",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Misurato dalla radiografia con un testo costruito. Non c'è ancora una prova a comando: il tetto va scelto insieme al fix."
+      }
+    },
+    {
+      "id": "AR-871",
+      "titolo": "Se il cancello sulle mail lancia un'eccezione, non la prende nessuno",
+      "dimensione": "pannello-robustezza-sicurezza",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Il metro del canale clienti lancia apposta se lo si chiama con un canale che non è la lettera: è una difesa, e va bene. ② Ma chi lo chiama — pannello/src/lib/cancello-atto.ts, alla chiamata dell'atto — non ha nessun try/catch. ③ Quindi un'eccezione lì dentro non diventa «mail bloccata con un motivo», diventa un errore che risale e nessuno sa dire cosa sia successo.",
+      "fix_proposto": "🟡 Racchiudere la chiamata e trasformare l'eccezione in un verdetto esplicito di blocco col motivo — mai in un passaggio silenzioso: se il metro non ha potuto giudicare, la mail non parte.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 23:10",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato leggendo il chiamante. ⚪ non eseguito: in pannello/ non c'è node_modules in questa sessione, quindi niente typecheck e niente build."
+      }
     }
   ],
   "meta": {

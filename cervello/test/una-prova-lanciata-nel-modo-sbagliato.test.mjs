@@ -24,6 +24,7 @@
 //   ⑤ la sicurezza: nessuna riga arriva mai a una shell
 
 import assert from "node:assert/strict";
+import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -276,9 +277,17 @@ prova("CONTARE ≠ ESEGUIRE: il banco esegue una fixture assoluta, il contatore 
   // assoluto. Se la regola «solo dentro il repo» vivesse dentro il parser, il banco non si potrebbe
   // più provare (misurato il 28/8: tre prove vicine diventate rosse). Ma il contatore quella regola
   // la vuole eccome: un `test` fuori dal repo non è copertura di casa.
-  const fixture = "/tmp/non-vacuita-esempio/prova.mjs";
-  assert.equal(comeSiEsegue(fixture, { soloDentroIlRepo: false }).ok, true, "il banco deve poterla eseguire");
+  // ⚠️ AGGIORNATO IL 28/8 DOPO LA RADIOGRAFIA DI SICUREZZA (AR-867). Prima qui bastava
+  // `soloDentroIlRepo: false`, che era un interruttore unico e spegneva tre controlli insieme: da
+  // quella porta passavano `node -e <codice>` e `npx --yes <pacchetto qualunque>`. Adesso il banco
+  // dichiara le RADICI in cui ha diritto di entrare, e questo caso deve dichiararle come le
+  // dichiara l'esecutore vero — se un domani `eseguiProva` cambia riga e questa no, il caso torna a
+  // misurare un percorso che nessuno percorre, ed è esattamente com'è nato il buco.
+  const fixture = `${tmpdir()}/non-vacuita-esempio/prova.mjs`;
+  assert.equal(comeSiEsegue(fixture, { soloDentroIlRepo: false, radiciAmmesse: [tmpdir()] }).ok, true, "il banco deve poterla eseguire");
   assert.equal(comeSiEsegue(fixture).ok, false, "il contatore, di suo, non deve contarla");
+  // E fuori dalle radici dichiarate non si entra nemmeno col banco: «assoluto» non vuol dire «ovunque».
+  assert.equal(comeSiEsegue("/etc/passwd", { soloDentroIlRepo: false, radiciAmmesse: [tmpdir()] }).ok, false, "una radice non dichiarata resta chiusa anche per il banco");
   const s = spia();
   eseguiProva(fixture, { lancia: s.lancia });
   assert.deepEqual(s.chiamate[0]?.argomenti, [fixture], "il banco non ha nemmeno provato a lanciarla");

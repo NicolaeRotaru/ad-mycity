@@ -195,6 +195,27 @@ test("AR-791: e il metro resta capace di dire di NO — se passasse tutto sarebb
   }
 });
 
+test("AR-868: mettere il numero fra apici non lo fa sparire dal cancello sulle mail", () => {
+  // Regressione di questo stesso lotto, trovata dalla radiografia del perimetro. La mascheratura
+  // del codice fra apici serve su un documento interno, dove `file.mjs:12` è una fonte e non un
+  // numero orfano. In una lettera a un cliente non c'è codice da proteggere: c'è solo un modo in
+  // più di nascondere un numero. Misurato prima del fix: con gli apici passava, senza veniva
+  // fermata — cioè bastava scrivere il numero fra apici per scavalcare il cancello.
+  const conApici = "Siamo scelti da `3.000 clienti` a Piacenza.";
+  const senzaApici = "Siamo scelti da 3.000 clienti a Piacenza.";
+  for (const [come, testo] of [["fra apici", conApici], ["in chiaro", senzaApici]]) {
+    assert.ok(cervello.giudica("email", testo, "lettera").violazioni.length > 0, `il cervello deve fermare il numero ${come}`);
+    assert.ok(pannello.giudicaLettera("email", testo).violazioni.length > 0, `il Pannello deve fermare il numero ${come}`);
+  }
+  // E sulla memoria la mascheratura resta accesa: lì un riferimento a codice È una fonte (AR-433),
+  // e toglierla farebbe suonare il cancello su ogni riga di diagnosi.
+  assert.equal(
+    cervello.giudica("consegne/audit/x.md", "Vedi `cervello/onesta-check.mjs:275` per il dettaglio.", "audit").violazioni.length,
+    0,
+    "su un audit un riferimento a codice non è un numero orfano: la mascheratura lì serve",
+  );
+});
+
 test("AR-791: niente è stato allentato — memoria E lettera restano col metro severo", () => {
   // Nicola, 28/8: «tienilo severo, per ora». Lo stesso numero senza fonte cade da tutte e due le
   // parti. Il giorno che qualcuno accende la proposta senza la firma di Nicola, questa diventa rossa.

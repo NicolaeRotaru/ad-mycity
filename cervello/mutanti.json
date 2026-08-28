@@ -3563,10 +3563,10 @@
    "difetto": "AR-433",
    "nome": "i riferimenti a codice tornano a contare come numeri senza fonte",
    "file": "cervello/onesta-check.mjs",
-   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : \"\";",
+   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: tipo !== \"lettera\" }) : \"\";",
    "sostituisci": "  const testoNumeri = \"\";",
    "test": "cervello/test/c5-metro-che-boccia-tutto.test.mjs",
-   "nota_riaggancio": "Riagganciata il 2026-08-22 (lotto 49): il metro ora giudica `daGiudicare` (la parte VIVA del file) invece del testo intero — AR-394 ha portato qui l'ambito ristretto. Il comportamento difeso e lo stesso, il puntatore era rimasto sul nome vecchio della variabile."
+   "nota_riaggancio": "28/8: la riga ha preso un argomento (il codice fra apici non si maschera sulla lettera al cliente — AR-868). Il pezzo difeso è lo stesso: togliendo la mascheratura i riferimenti a codice tornano a contare come numeri orfani."
   },
   {
    "lotto": 41,
@@ -7755,9 +7755,10 @@
    "difetto": "AR-840",
    "nome": "una riga di comando torna a contare come percorso: il metro smette di vedere il difetto",
    "file": "cervello/esecuzione-prova.mjs",
-   "cerca": "  if (/\\s/.test(t)) {\n    const s = spezzaComando(t, { soloDentroIlRepo });",
-   "sostituisci": "  if (false) {\n    const s = spezzaComando(t, { soloDentroIlRepo });",
-   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+   "cerca": "  if (/\\s/.test(t)) {\n    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });",
+   "sostituisci": "  if (false) {\n    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+   "nota_riaggancio": "28/8: la chiamata ora propaga anche le radici ammesse (fix di sicurezza AR-867). Il pezzo difeso è identico: togliendo il ramo, una riga di comando torna a contare come percorso."
   },
   {
    "difetto": "AR-840",
@@ -8228,6 +8229,46 @@
    "sostituisci": "  printf '%s\\n' \"$_out\" | tail -\"$_righe\"",
    "test": "cervello/test/sensore-cieco-non-resta-zitto.test.mjs",
    "nota": "E il difetto che mi sono fatto dentro la cura e che ha trovato il riguardo del perimetro: avevo scritto tail, cioe la versione che AR-307 aveva gia curato."
+  },
+  {
+   "difetto": "AR-867",
+   "nome": "le opzioni di node tornano a passare senza lista bianca: --require esegue un file qualunque",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "    const opzioneVietata = argomenti.find((a) => a.startsWith(\"-\") && !OPZIONI_AMMESSE.some((re) => re.test(a)));",
+   "sostituisci": "    const opzioneVietata = null;",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-867",
+   "nome": "npx torna a poter lanciare qualunque pacchetto: esecuzione di codice preso dalla rete",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "      if (!pacchetto || !PACCHETTI_NPX_AMMESSI.includes(pacchetto)) {",
+   "sostituisci": "      if (false) {",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-867",
+   "nome": "un nome di pacchetto con scope torna a passare per un percorso di casa",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "    const conScope = argomenti.find((a) => sembraPacchettoConScope(a));",
+   "sostituisci": "    const conScope = null;",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-867",
+   "nome": "la prova torna a ricevere l ambiente intero: Stripe e Supabase nelle mani di un comando che arriva da un file di dati",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    if (/SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH/i.test(k)) continue;",
+   "sostituisci": "",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-868",
+   "nome": "la mascheratura del codice torna accesa sulla lettera: basta mettere il numero fra apici per farlo sparire",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: tipo !== \"lettera\" }) : \"\";",
+   "sostituisci": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: true }) : \"\";",
+   "test": "cervello/test/due-metri-una-regola.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

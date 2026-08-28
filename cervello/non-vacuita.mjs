@@ -31,6 +31,7 @@
 
 import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
+import { tmpdir } from "node:os";
 import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
@@ -367,18 +368,39 @@ export function verdettoCorsa({ status, signal = null, uscita = "", avvio = null
  * disco. Torna la stessa forma che `verdettoCorsa` si aspetta, più `avvio`: il motivo per cui la
  * corsa non è mai partita, oppure null.
  */
-export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX } = {}) {
-  // `soloDentroIlRepo: false` — qui si ESEGUE, non si conta: le prove di questo stesso banco si
-  // costruiscono una fixture in /tmp e le passano un percorso assoluto. La regola «solo dentro il
-  // repo» resta viva dove serve, nel contatore che tiene pulito mutanti.json.
-  const piano = comeSiEsegue(test, { soloDentroIlRepo: false });
+/**
+ * 🔒 L'ambiente che si dà a una prova: quello di adesso MENO tutto ciò che somiglia a una chiave.
+ *
+ * Trovato dalla radiografia di sicurezza del 28/8, ed è il moltiplicatore di ogni altra falla: qui
+ * si esegue un comando che arriva da un FILE DI DATI (`cervello/mutanti.json`, 934 voci che nessuno
+ * rilegge riga per riga, e il campo `test` lo compone un programma, non una persona). Finché il
+ * figlio ereditava `process.env` intero, sul VPS ereditava anche Stripe, Supabase in scrittura,
+ * Resend, Telegram e il token di git. Una prova non ha bisogno di nessuna di quelle chiavi: se un
+ * giorno un comando ostile arriva fin qui, deve trovare le tasche vuote.
+ */
+export function ambientePulito(env = process.env) {
+  const pulito = {};
+  for (const [k, v] of Object.entries(env)) {
+    if (/SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH/i.test(k)) continue;
+    pulito[k] = v;
+  }
+  return pulito;
+}
+
+export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX, env = ambientePulito() } = {}) {
+  // 🔒 RADICI DICHIARATE, non un interruttore che spegne tutto. Prima qui c'era
+  // `soloDentroIlRepo: false`, che serviva per una ragione buona — le prove di questo stesso banco
+  // si costruiscono una fixture in /tmp — ma spegneva anche «devi nominare un file di casa», ed è
+  // da quella porta che passavano `node -e <codice>` e `npx --yes <pacchetto qualunque>`.
+  // Con le radici la fixture continua a funzionare e le altre due strade restano chiuse.
+  const piano = comeSiEsegue(test, { soloDentroIlRepo: false, radiciAmmesse: [AD_ROOT, tmpdir()] });
   if (!piano.ok) {
     // Non è «la prova è diventata rossa»: è che non so nemmeno come lanciarla. ⚪, mai ✅.
     return { status: 1, signal: null, uscita: "", avvio: `non so come eseguire questo test: ${piano.perche}` };
   }
   let ultimo = { status: 0, signal: null, uscita: "" };
   for (const passo of piano.passi) {
-    const r = lancia(passo.comando, passo.argomenti, { cwd, encoding: "utf8", timeout });
+    const r = lancia(passo.comando, passo.argomenti, { cwd, encoding: "utf8", timeout, env });
     const uscita = `${r.stdout || ""}${r.stderr || ""}`;
     ultimo = { status: r.status, signal: r.signal ?? null, uscita };
     const avvio = avvioFallito({ errore: r.error || null, uscita, entrata: passo.percorsi[0] || passo.argomenti[0] || "" });
