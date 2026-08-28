@@ -22,42 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-<!-- catalogo-invisibile-anon -->
-### 🔴 #180 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
-
-**In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
-sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
-prodotto. Non vede recensioni. La ricerca gli torna vuota. I negozi in home invece si vedono, e
-questo è l'inganno: la prima pagina si riempie, e sembra che il sito funzioni.
-
-Il collega che l'ha trovato non l'ha dedotto. Ha ricostruito il database da zero, con tutte e 129
-le istruzioni salvate nel progetto. Ci ha messo dentro un negozio approvato e un prodotto
-disponibile. Poi ha letto le stesse cose che legge il sito, con gli occhi di un visitatore. Ha
-contato zero ovunque. Le stesse righe, lette da proprietario, ci sono tutte.
-
-**Cosa cambia per te.** Facciamo un caso vero. Pane Quotidiano mette in vetrina la focaccia. Una
-cliente vede il post, apre il sito dal telefono, non ha un account perché è la prima volta. Vede il
-negozio, clicca sulla focaccia, legge «Prodotto non trovato» e chiude. Per lei MyCity è un sito
-rotto, e non torna. Se il difetto è vivo in produzione, oggi il sito non può incassare un euro.
-
-**Cosa devi fare.** Un minuto, e lo puoi fare adesso dal telefono. Apri il sito in una finestra
-anonima del browser, senza fare l'accesso. Clicca un prodotto qualunque. Dimmi cosa vedi.
-
-**Se va bene:** se il prodotto lo vedi, l'incendio non c'è. Resta però una cosa da riparare: vuol
-dire che il sito pubblicato e il codice non dicono la stessa cosa. La prossima pubblicazione può
-spegnerlo davvero. Se invece leggi «Prodotto non trovato», ti preparo la riparazione stanotte con
-il collaudo vero. La firmi tu prima che tocchi il sito.
-
-**Cosa non ho verificato.** Il sito pubblicato, in nessun punto. Da qui non lo raggiungo: tutto
-quello che so è misurato sul codice e sul database ricostruito dalle istruzioni del progetto. È
-esattamente per questo che la prova la devi fare tu, e vale più di qualsiasi altra cosa scritta
-stasera.
-
----
-
-<!-- parte-venditore-strada -->
-
-### 🔴 #179 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
+### 🔴 #182 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
 
 **In parole semplici.** Ho controllato adesso, non a memoria: Pane Quotidiano — l'unico negozio vero
 su MyCity — non può ancora incassare con la carta. Tre interruttori sono ancora spenti (dati inviati,
@@ -105,6 +70,41 @@ interruttori sono verdi; con la (b) riscrivo le CTA di tutti i post di Pane Quot
 entro lo stesso lotto.
 
 ---
+
+<!-- catalogo-invisibile-anon -->
+### 🔴 #181 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
+
+**In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
+sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
+prodotto. Non vede recensioni. La ricerca gli torna vuota. I negozi in home invece si vedono, e
+questo è l'inganno: la prima pagina si riempie, e sembra che il sito funzioni.
+
+Il collega che l'ha trovato non l'ha dedotto. Ha ricostruito il database da zero, con tutte e 129
+le istruzioni salvate nel progetto. Ci ha messo dentro un negozio approvato e un prodotto
+disponibile. Poi ha letto le stesse cose che legge il sito, con gli occhi di un visitatore. Ha
+contato zero ovunque. Le stesse righe, lette da proprietario, ci sono tutte.
+
+**Cosa cambia per te.** Facciamo un caso vero. Pane Quotidiano mette in vetrina la focaccia. Una
+cliente vede il post, apre il sito dal telefono, non ha un account perché è la prima volta. Vede il
+negozio, clicca sulla focaccia, legge «Prodotto non trovato» e chiude. Per lei MyCity è un sito
+rotto, e non torna. Se il difetto è vivo in produzione, oggi il sito non può incassare un euro.
+
+**Cosa devi fare.** Un minuto, e lo puoi fare adesso dal telefono. Apri il sito in una finestra
+anonima del browser, senza fare l'accesso. Clicca un prodotto qualunque. Dimmi cosa vedi.
+
+**Se va bene:** se il prodotto lo vedi, l'incendio non c'è. Resta però una cosa da riparare: vuol
+dire che il sito pubblicato e il codice non dicono la stessa cosa. La prossima pubblicazione può
+spegnerlo davvero. Se invece leggi «Prodotto non trovato», ti preparo la riparazione stanotte con
+il collaudo vero. La firmi tu prima che tocchi il sito.
+
+**Cosa non ho verificato.** Il sito pubblicato, in nessun punto. Da qui non lo raggiungo: tutto
+quello che so è misurato sul codice e sul database ricostruito dalle istruzioni del progetto. È
+esattamente per questo che la prova la devi fare tu, e vale più di qualsiasi altra cosa scritta
+stasera.
+
+---
+
+<!-- parte-venditore-strada -->
 
 ### 🟡 #180 — Un post pronto per Pane Quotidiano: il pudding vaniglia come merenda, senza promettere la consegna · ⏳ accodata 2026-08-28 12:55
 

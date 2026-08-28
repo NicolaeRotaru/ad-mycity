@@ -42,7 +42,7 @@ tre controlli usano per capire se l'attivita' e' ferma.
 >
 > **Gli altri tre toccano i soldi.** ① Il negozio rifiuta un ordine pagato con carta e il rimborso non parte mai. Al cliente intanto scriviamo «Niente addebiti». ② Su un ordine pagato con carta l'avviso al negozio può non partire: email e campanella partono dopo la risposta a Stripe. Sul contrassegno lo stesso codice è scritto nell'ordine giusto. ③ Ogni unione pubblica il sito senza aspettare i controlli. Il cancello esiste ma è spento: gli mancano tre chiavi, e si dichiara «non pronto» restando verde.
 >
-> **Cosa devi fare.** Card #180: apri il sito in finestra anonima, clicca un prodotto, dimmi cosa vedi. È la prova che decide se il primo bloccante è vivo in produzione. Per il bloccante della pubblicazione non ho accodato niente di nuovo: le tre chiavi Vercel te le chiede già la card #161, ferma dal 22 agosto.
+> **Cosa devi fare.** Card #181: apri il sito in finestra anonima, clicca un prodotto, dimmi cosa vedi. È la prova che decide se il primo bloccante è vivo in produzione. Per il bloccante della pubblicazione non ho accodato niente di nuovo: le tre chiavi Vercel te le chiede già la card #161, ferma dal 22 agosto.
 >
 > **Cosa NON ho verificato.** Il sito pubblicato, in nessun punto. Tutto è misurato sul codice al commit `637de93`, e sul database ricostruito dalle migrazioni. Nessun ordine vero, nessuna carta addebitata, nessun rimborso chiesto. I 116 minori li ho contati, non pesati uno per uno.
 >
