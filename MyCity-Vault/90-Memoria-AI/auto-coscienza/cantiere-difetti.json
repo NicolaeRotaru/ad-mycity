@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 15:40",
+  "aggiornato": "2026-08-29 00:04",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17906,7 +17906,7 @@
       "causa_radice": "Installato bats (AR-693), dieci casi in sei file escono rossi. Verificati tutti e dieci sul codice vero il 26/8: in NESSUNO la protezione manca — cercano la sintassi di ieri. `timeout \"$_gt\" git fetch` è diventato `timeout \"$_gt\" git \"${C4_GIT_OPZ[@]}\" fetch`; le due sonde colonne non si accendono più su un array REST ma su un HTTP 200 esplicito, cioè in modo PIÙ severo; il marcatore PAUSA_FAIL_CLOSED è diventato la testa condivisa pausa_verdetto di AR-390 (e `_pausa_rc=$?` c'è ancora); il ramo «solo rc=1 converte un esegui-azione in errore» è emigrato nel modulo puro esitoSync di AR-399 — provato qui: rc=1 dà stato «errore», rc=2 e rc=3 no; `contesto_macchina_chat 2>/dev/null` adesso passa un argomento; `if (scriviStato)` è diventato `if (scriviStato && …)`; le tre PATCH con &stato=eq.in_corso vanno a capo. In tutti i casi il codice è uguale o migliore di quello che la prova pretende. È la malattia di AR-375 vista in bash: il metro scritto sulla sintassi invece che sull'invariante. (Il decimo caso, permessi-guardrail, è l'eccezione ed è un difetto vero: AR-833.)",
       "fix_proposto": "🟡 Un file per volta, e la cura NON è ripuntare il grep alla stringa nuova: quello è cambiare nome al tubo e non al vizio, e fra un mese si ripete. Per ognuno: se un caso comportamentale nello stesso file copre già l'invariante, la «guardia anti-drift» si TOGLIE — è successo in worker-titolo-commit, dove il grep su `head -c 60` era già coperto dal caso della lettera accentata a cavallo del limite. Se non lo copre, si porta la decisione in una funzione che la prova ESEGUE, come cervello/titolo-commit.sh. I sei file che restano: gate-coerenza-vault-pre-push (1 caso), irrobustimenti (3), sensori-non-clobber (1), sessione-chat (1), worker-claim-pausa (1), worker-doppio-invio (2).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-26 09:35",
       "verifica": {
         "tipo": "comando",
@@ -17915,7 +17915,9 @@
       },
       "origine": "lotto 63 · trovato installando bats (AR-693)",
       "nato_come": "scoperta",
-      "nota_fix": "[lotto 28/8/2026] Nove casi su sei file, curati seguendo il fix_proposto: mai ripuntato un grep alla stringa nuova. Tre decisioni erano gia' emigrate in moduli che si possono ESEGUIRE e adesso le prove interrogano quelli invece del testo di worker.sh/giro.sh: pausa_verdetto (kill-switch.sh), esito_giro_rc (giro-esito.sh), esitoSync (esito-scrittura.mjs). Su sensori-non-clobber la guardia anti-drift e' stata TOLTA e sostituita dal comportamento che nessuno copriva: in --sola-lettura il file dei sensori non si tocca, piu' la controprova che senza quel flag invece si scrive (altrimenti la prima passerebbe anche con un programma che non scrive mai). Dove la decisione e' ancora inline (timeout di rete, sonde delle colonne, PATCH finale, contesto macchina) la grep e' diventata un INVARIANTE tollerante alla forma — «esiste almeno un git fetch sotto timeout», «le sonde si accendono solo su un 200», «tre strade ricevono il contesto» — che copre piu' di prima, non meno. Il caso della sonda era il peggiore: la copia della logica descriveva la regola VECCHIA (risposta che comincia con [) ed era VERDE, cioe' una prova che raccontava una macchina che non esiste piu'. TROVATO RIPARANDO e curato qui perche' senza non esisteva la prova di questa scheda: sotto --solo il banco applicava il tetto del debito ereditato e usciva 0 anche col fix rotto. Restano fuori dal lotto AR-833 (il divieto di push, difetto vero) e AR-824 (l'archivio delle lezioni, altra malattia). NON coperto e dichiarato: il freno !SOLA_LETTURA sul segnale (stampSegnale) non ha una prova sua — rompendolo nessun caso diventa rosso; e' coperto solo per la scrittura del file."
+      "nota_fix": "[lotto 28/8/2026] Nove casi su sei file, curati seguendo il fix_proposto: mai ripuntato un grep alla stringa nuova. Tre decisioni erano gia' emigrate in moduli che si possono ESEGUIRE e adesso le prove interrogano quelli invece del testo di worker.sh/giro.sh: pausa_verdetto (kill-switch.sh), esito_giro_rc (giro-esito.sh), esitoSync (esito-scrittura.mjs). Su sensori-non-clobber la guardia anti-drift e' stata TOLTA e sostituita dal comportamento che nessuno copriva: in --sola-lettura il file dei sensori non si tocca, piu' la controprova che senza quel flag invece si scrive (altrimenti la prima passerebbe anche con un programma che non scrive mai). Dove la decisione e' ancora inline (timeout di rete, sonde delle colonne, PATCH finale, contesto macchina) la grep e' diventata un INVARIANTE tollerante alla forma — «esiste almeno un git fetch sotto timeout», «le sonde si accendono solo su un 200», «tre strade ricevono il contesto» — che copre piu' di prima, non meno. Il caso della sonda era il peggiore: la copia della logica descriveva la regola VECCHIA (risposta che comincia con [) ed era VERDE, cioe' una prova che raccontava una macchina che non esiste piu'. TROVATO RIPARANDO e curato qui perche' senza non esisteva la prova di questa scheda: sotto --solo il banco applicava il tetto del debito ereditato e usciva 0 anche col fix rotto. Restano fuori dal lotto AR-833 (il divieto di push, difetto vero) e AR-824 (l'archivio delle lezioni, altra malattia). NON coperto e dichiarato: il freno !SOLA_LETTURA sul segnale (stampSegnale) non ha una prova sua — rompendolo nessun caso diventa rosso; e' coperto solo per la scrittura del file.",
+      "chiuso_il": "2026-08-29 00:04",
+      "chiuso_come": "node cervello/test-cervello.mjs --solo=gate-coerenza,irrobustimenti,sensori-non-clobber,sessione-chat,worker-claim-pausa,worker-doppio-invio → 6 file su 6, 68 asserzioni, exit 0; sette mutazioni in mutanti.json tutte rosse (node cervello/non-vacuita.mjs --difetti AR-834). Tetto test_bash da 7 a 1."
     },
     {
       "id": "AR-832",
@@ -18532,7 +18534,7 @@
       "causa_radice": "`archivi-senza-tetto.test.mjs` chiudeva con «sul file VERO: nessuna lezione morirebbe oggi». Era vero il 28/7, sul file di quel giorno: e' una misura della POPOLAZIONE, non della regola. Un mese dopo e' rossa con 26 lezioni — nessuna delle quali ha un freno, nessuna riconfermata o usata da luglio: stanno invecchiando perche' e' il loro mestiere. E la simulazione non passava nemmeno `frenoVivo` e `ultimoUso`, cioe' le due protezioni che AR-771 aveva aggiunto proprio per non buttare via le lezioni che contano: misurava una regola piu' debole di quella vera. E' la malattia di AR-834 (il metro scritto sulla sintassi o sulla popolazione invece che sull'invariante) vista in Node invece che in bash.",
       "fix_proposto": "Fatto in questo lotto. ① Le due domande che tengono viva una lezione — `frenoVivoDi` e `ultimoUsoDi` — escono da `cristallizza-apprendimento.mjs`, che al momento dell'import FA il lavoro (legge l'archivio, decade, riscrive) e quindi non era interrogabile da una prova, ed entrano in `cervello/lezione-viva.mjs`, con la radice del repo come argomento. ② La prova adesso chiama la regola vera con gli stessi argomenti del cristallizzatore e difende l'INVARIANTE: una lezione con un freno che monta ancora la guardia, o con una traccia dentro la soglia dei 28 giorni, non decade mai. Quante ne decadono e' una misura che si stampa, non un verdetto. ③ La controprova: almeno una lezione vecchia e senza freno DEVE decadere, o l'invariante passerebbe anche con il decadimento spento — che e' esattamente il modo in cui l'archivio si riempie (AR-824).",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-28 20:35",
       "nato_come": "scoperta",
       "origine": "lotto 28/8/2026 · trovato curando AR-834: era l'unico rosso rimasto che bloccava il cancello",
@@ -18541,7 +18543,9 @@
         "tipo": "comando",
         "comando": "node --test cervello/test/archivi-senza-tetto.test.mjs",
         "nota": "Due mutazioni sul codice vero, entrambe rendono rossa la prova: il freno vivo che smette di proteggere (e' AR-771 che torna) e il decadimento che si ferma del tutto. La prova gira sul file VERO dell'archivio, 416 lezioni attive: in nove giri 153 farebbero almeno un passo, nessuna di loro protetta. La forma `node --test <prova>` e' quella ammessa dal motore (AR-559) e il file puntato nomina AR-861, quindi il conto dei puntatori scollegati resta 46, pari al tetto. La mutazione si rilancia a parte con `node cervello/non-vacuita.mjs --difetti AR-861`."
-      }
+      },
+      "chiuso_il": "2026-08-29 00:04",
+      "chiuso_come": "node --test cervello/test/archivi-senza-tetto.test.mjs → verde sul file vero (416 lezioni attive); due mutazioni in mutanti.json entrambe rosse (node cervello/non-vacuita.mjs --difetti AR-861). Era l'unico rosso in Node e teneva bloccato il cancello per chiunque."
     },
     {
       "id": "AR-862",
@@ -18561,27 +18565,46 @@
         "tipo": "umano",
         "nota": "Non le do un comando adesso, perche' il fix non e' scritto: una prova scritta oggi non avrebbe niente da rompere. Si guarda a mano cosi': una lezione con gate '../../x.sh' e un file con quel nome fuori dal repo tiene viva la lezione per sempre."
       }
+    },
+    {
+      "id": "AR-863",
+      "titolo": "Una scheda la cui prova copre meno di quello che dichiara si richiude da sola dopo il merge",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla fiducia nel cantiere: un difetto vivo che risulta chiuso sparisce da ogni conto, da ogni coda e da ogni radiografia. Nessuno lo cerca piu', e il numero dei difetti aperti — che e' il numero su cui questa casa decide cosa fare — diventa piu' basso della verita'.",
+      "causa_radice": "`auto-fix.mjs verifica --applica` chiude ogni scheda aperta il cui `verifica.comando` esce 0. Ma su alcune schede il comando prova UNA CLAUSOLA e la scheda ne dichiara di piu', e quel «di piu'» sta scritto in prosa dentro `verifica.nota`, dove nessuna macchina lo legge. Misurato il 28/8 dopo il merge della PR #854: il giro a vuoto dichiarava «✅ risolto» per AR-840 e AR-859, due schede APERTE. AR-840 nella sua stessa nota dice testualmente «Il tetto copre solo la clausola non peggiora: la scheda resta APERTA finche' i 435 ereditati non sono bonificati». Il chiuditore l'avrebbe chiusa lo stesso. Non l'ho lanciato: ho chiuso a mano, una per una, solo le due schede del mio lotto (AR-834, AR-861).",
+      "fix_proposto": "🟡 Un campo leggibile dalla macchina invece di una frase: `verifica.chiude` con tre valori — `scheda` (il comando verde chiude la scheda: e' il caso normale), `clausola` (il comando prova solo un pezzo: il chiuditore NON chiude e lo dice), `mai` (verifica di sola sorveglianza). Chi scrive una scheda deve sceglierlo, e il cancello del lotto fallisce se una scheda aperta con un comando verde non ha il campo: e' la stessa forma del contratto della scheda gia' in uso. Prova comportamentale: un cantiere finto con una scheda `clausola` a comando verde deve restare aperta dopo `verifica --applica`, e una `scheda` deve chiudersi.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 23:20",
+      "nato_come": "scoperta",
+      "origine": "lotto 28/8/2026 · trovato applicando le chiusure dopo il merge della PR #854",
+      "dove": "cervello/auto-fix.mjs · MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si guarda cosi', ed e' come l'ho trovato: `node cervello/auto-fix.mjs verifica` (senza --applica) e si cercano le righe «✅ risolto» su schede che nella loro nota dichiarano di dover restare aperte. Il 28/8 erano due, AR-840 e AR-859. Nessun comando adesso, perche' il campo non esiste ancora: una prova scritta oggi non avrebbe niente da rompere."
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 825,
-    "aperti": 108,
+    "totale": 853,
+    "aperti": 110,
     "in_corso": 1,
     "da_riverificare": 10,
-    "chiusi": 706,
+    "chiusi": 732,
     "altri": 0,
-    "da_fare": 119,
+    "da_fare": 121,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 706,
-      "aperto": 108,
+      "chiuso": 732,
+      "aperto": 110,
       "da-riverificare": 10,
       "in-corso": 1
     },
     "stati_ignoti": [],
-    "senza_owner": 119,
-    "senza_scadenza": 119,
+    "senza_owner": 121,
+    "senza_scadenza": 121,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true
