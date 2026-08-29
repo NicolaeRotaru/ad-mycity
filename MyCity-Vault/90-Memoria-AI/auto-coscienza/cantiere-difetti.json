@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-29 02:30",
+  "aggiornato": "2026-08-29 09:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18877,6 +18877,24 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Riprodotto: sostituendo il passo con { ...esegui(...), fallito: false } il test il-cancello-non-guardava-il-pannello.test.mjs resta verde. Nessuna prova a comando finche il fix non e scritto — e il fix E scrivere quella prova."
+      }
+    },
+    {
+      "id": "AR-884",
+      "titolo": "Undici sensori del giro possono dire «sono cieco» dentro una pipe, e la pipe se lo mangia",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Una pipe restituisce il codice d'uscita dell'ULTIMO comando, mai di quello prima. Uno strumento lanciato come «node x.mjs | esito_righe 3» può uscire 2 (⚪, non ho potuto misurare) e la shell vede 0. ② In cervello/giro.sh ci sono 38 righe che lanciano uno script del cervello dentro una pipe. MISURATE il 29/8, una per una: in 11 lo script SA uscire 2, quindi c'è un ⚪ che si può perdere; nelle altre 27 lo strumento non ha nessun ramo cieco e non c'è niente da perdere. Le 11, con la riga: guardiano-capacita (399), housekeeping-azioni (497), chiusura-loop --sonda (513), calibrazione (527, 549, 558, 577, 652), peso-file-cabina (697), auto-fix (704), scan-segreti --prova (1579). ③ Perché non sono un grave come i quattro curati lo stesso giorno: quelli cambiavano un VERDETTO o bloccavano la pubblicazione — la riverifica accusava il motore di non aver fatto il lavoro, lo scanner mandava a ruotare una chiave mai esposta. Questi sono stampe informative: perderne il ⚪ vuol dire che la macchina non sa che quello strumento è andato cieco, non che dice una bugia a Nicola. ④ La cura esiste già ed è la funzione sensore() in cervello/giro-esito.sh, costruita apposta per AR-859: cattura l'esito PRIMA di stampare, e sul 2 grida. È già usata in cinque punti.",
+      "fix_proposto": "🟡 Convertire le 11 righe alla forma «sensore \"<script>.mjs\" <righe> [argomenti] || true». NON in un colpo solo e NON dentro un lotto che parla d'altro: misurato il 29/8, ogni modifica a giro.sh fa scattare altri guardiani — i tetti delle malattie, il rilevatore dei guardiani informativi, la spazzata dei fratelli — e ognuno va rimesso a posto. Curarne quattro ne ha fatti diventare rossi tre, e sono serviti due giri per riportare il conto dov'era. Un file per volta, col conto della malattia esito-in-una-pipe che scende a ogni passo e non risale. ⚠️ La riga 513 (chiusura-loop --sonda) è già DEBITO DICHIARATO nel commento di chiusura-loop.mjs, righe 320-323: quella si lascia com'è oppure si toglie l'esenzione con il perché scritto — non la si cura di nascosto, o la dichiarazione diventa una bugia.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 09:40",
+      "nato_come": "scoperta",
+      "nato_da": "radiografia del perimetro toccato, dimensione macchina/cadenza-esecuzione, dopo aver curato i quattro punti consequenziali: il sorvegliante ha chiesto conto delle istanze rimaste nello stesso file e il numero e stato misurato invece che stimato",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Il numero si rimisura con lo stesso conto: per ogni riga di giro.sh che lancia uno script del cervello dentro una pipe, guardare se quello script ha un ramo che esce 2. Nessuna prova a comando finche il fix non e scritto: una prova scritta oggi non avrebbe niente da rompere."
       }
     }
   ],
