@@ -18584,6 +18584,25 @@
         "tipo": "umano",
         "nota": "Si guarda cosi', ed e' come l'ho trovato: `node cervello/auto-fix.mjs verifica` (senza --applica) e si cercano le righe «✅ risolto» su schede che nella loro nota dichiarano di dover restare aperte. Il 28/8 erano due, AR-840 e AR-859. Nessun comando adesso, perche' il campo non esiste ancora: una prova scritta oggi non avrebbe niente da rompere."
       }
+    },
+    {
+      "id": "AR-864",
+      "titolo": "La pulizia della coda lascia in piedi il cartello vecchio se qualcuno ha scritto una card dopo di lui",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "minore",
+      "impatto_crescita": "indiretto ma su un file che Nicola legge per decidere: restano due cartelli dell'archivio nello stesso file, e quello vecchio porta un numero sbagliato. Il 29/8 diceva «Adesso sono 25» mentre le carte chiuse erano 27. Chi legge non sa quale dei due credere, e il piu' in alto e' quello falso.",
+      "causa_radice": "`senzaRimandoFinale` in `cervello/housekeeping-azioni.mjs` stacca il cartello SOLO dalla coda del file, e la ragione e' giusta: cercarlo ovunque ne farebbe un confine di blocco anche dentro il corpo di una card, buttando via tutto quello che segue (sta scritto nel commento della funzione). Ma se una passata precedente ha aggiunto una card-riga DOPO il cartello — com'era per la card 179, gia' cosi' su main — il cartello non e' piu' l'ultima riga, non viene staccato, e la passata dopo ne appende un secondo in fondo. Da li' in avanti sono due, e il primo invecchia. Trovato il 29/8 lanciando la pulizia per archiviare le carte #181 e #183.",
+      "fix_proposto": "🟡 Non allargare la ricerca a tutto il file (riaprirebbe il buco che il commento descrive), ma marcare il cartello come si fa gia' per la supervisione negozi: due commenti HTML di confine (`<!-- ARCHIVIO-RIMANDO:INIZIO -->` / `:FINE -->`) che la pulizia sostituisce dovunque si trovi. Il corpo di una card che cita la frase non porta i marcatori, quindi non e' toccabile per costruzione. Prova comportamentale: una coda finta col cartello a meta' file seguito da una card-riga; dopo la pulizia il cartello dev'essere UNO solo e col conteggio nuovo. Oggi quel caso non e' coperto — la prova che esiste, «il cartello vecchio si TOGLIE», mette il cartello in fondo, cioe' proprio nel caso che gia' funziona.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-29 01:35",
+      "nato_come": "scoperta",
+      "origine": "lotto 29/8/2026 · trovato archiviando le carte chiuse mentre riparavo il cancello rosso della PR #857",
+      "dove": "cervello/housekeeping-azioni.mjs · cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si ricrea cosi': una coda con «> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono N.» seguito da una riga-tabella di card, poi `node cervello/housekeeping-azioni.mjs`; alla fine `grep -c 'Le card chiuse stanno'` deve dare 1 e da' 2. Nessun comando registrato adesso perche' la prova va scritta insieme al fix, sulla coda finta e non sul file vero: il 29/8 il sintomo l'ho tolto a mano dalla coda, la causa e' ancora in piedi."
+      }
     }
   ],
   "meta": {

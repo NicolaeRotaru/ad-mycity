@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-08-26 17:51
+aggiornato: 2026-08-29 01:22
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-08-29 01:22 · 27 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -822,3 +829,95 @@ pezzo: quello che fa rifiutare al database le righe di un altro negozio.
 e questa è una firma tua. Quindi non ho visto la colonna comparire né l'obbligo mordere. Quello che
 ho provato è il lato codice: 9 controlli, e ho rotto il fix in 6 modi diversi per vedere se il
 controllo diventava rosso ogni volta. Diventa rosso ogni volta.
+
+---
+
+<!-- unione-pr-244-bloccanti -->
+### ✅ #183 — Unisci la riparazione dei quattro bloccanti, e applica la migrazione al database vero · FATTA 2026-08-29 00:40
+
+**Stato: fatta tutta e due le parti.** La (a) l'hai unita tu. La (b) l'ho eseguita io col tuo via, in
+una transazione sola sul database di produzione. Misura prima: un visitatore senza account vedeva 0
+prodotti su 5. Misura dopo: ne vede 5, e la ricerca «pane» risponde. Quello che era chiuso resta
+chiuso: profili 0, visite 0, ordini 0.
+
+**Applicata come ponte, non come 129.** La produzione era indietro di quattro migrazioni e la 128
+cambia la firma di una funzione: il file del repo sarebbe fallito a metà. Registrata col nome
+`129p_ponte_produzione_catalogo_visibile`, così il rilascio ordinato 126→127→128→129 resta intatto.
+Dettagli in [[DECISIONI]].
+
+**In parole semplici.** I quattro problemi bloccanti trovati dalla radiografia del 27 agosto sono
+riparati. Il lavoro sta in una richiesta di unione sul sito, la numero 244. Finché non la unisci tu,
+non tocca niente: il sito pubblicato è ancora quello di prima, col catalogo invisibile a chi non ha
+l'account.
+
+**Per esempio.** Oggi una cliente che apre il sito dal telefono senza account clicca sulla focaccia
+di Pane Quotidiano e legge «Prodotto non trovato». Dopo l'unione, e dopo il passo del database qui
+sotto, quella cliente la focaccia la vede e la può comprare.
+
+**Cosa cambia per te.** Finché la 244 resta aperta, il sito pubblicato è quello di prima. Chi arriva
+senza account continua a leggere «Prodotto non trovato». Dopo l'unione, e dopo il passo (b), quella
+persona vede il catalogo e può ordinare. Cambia anche l'avviso al negoziante: gli arriva a ogni
+ordine, pure quando la macchina si spegne subito dopo il pagamento.
+
+**Cosa devi fare.** Due cose, in quest'ordine.
+
+**(a) Unisci la richiesta 244** su GitHub. Tutti e sei i controlli sono verdi. Non ci sono
+conflitti. Attenzione: unire su `main` fa partire da solo la pubblicazione in produzione. Succede
+perché il cancello del rilascio è ancora spento. Quindi qui unire vuol dire pubblicare: fallo quando
+puoi guardare il sito nei minuti dopo.
+
+**(b) Applica la migrazione al database vero.** Il file si chiama
+`migrations/129_il_catalogo_si_vede_senza_account.sql`. Va eseguito nella finestra dei comandi del database
+(l'editor SQL di Supabase), sul progetto di produzione. Senza quel passo il catalogo resta invisibile. La riparazione del primo
+bloccante vive lì dentro, non nel codice. Le altre tre funzionano già con la sola unione.
+
+Se preferisci, il passo (b) te lo preparo io con backend-dev. Ti do il testo da incollare.
+L'esecuzione sul database dei clienti resta tua.
+
+**Cosa non ho verificato.** La migrazione del passo (b) non ha mai girato sul database dei clienti:
+l'ho provata solo su una copia ricostruita qui dentro, dove ha retto anche con degli ordini dentro.
+Non ho visto nessuna pubblicazione partire, quindi non so quanto ci mette. Restano aperte le
+domande della card #181.
+
+**Cosa cambia:** oggi un negozio che rifiuta un ordine pagato con la carta tiene i soldi di chi ha
+comprato, e il cliente legge «niente addebiti». Dopo l'unione il rimborso parte da solo.
+
+**Se va bene:** dopo l'unione controllo che la pubblicazione sia andata a buon fine. Poi ti dico se
+il catalogo risponde a un visitatore.
+
+---
+
+<!-- catalogo-invisibile-anon -->
+### ✅ #181 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · RISPOSTA TROVATA 2026-08-29 00:30
+
+**Non serve più che lo apri tu.** Applicando la migrazione ho potuto leggere il database di produzione
+con gli occhi di un visitatore, ed è la stessa domanda: vedeva **0 prodotti su 5**. Il difetto era vivo,
+non era una bomba già disinnescata. Adesso ne vede 5.
+
+**In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
+sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
+prodotto. Non vede recensioni. La ricerca gli torna vuota. I negozi in home invece si vedono, e
+questo è l'inganno: la prima pagina si riempie, e sembra che il sito funzioni.
+
+Il collega che l'ha trovato non l'ha dedotto. Ha ricostruito il database da zero, con tutte e 129
+le istruzioni salvate nel progetto. Ci ha messo dentro un negozio approvato e un prodotto
+disponibile. Poi ha letto le stesse cose che legge il sito, con gli occhi di un visitatore. Ha
+contato zero ovunque. Le stesse righe, lette da proprietario, ci sono tutte.
+
+**Cosa cambia per te.** Facciamo un caso vero. Pane Quotidiano mette in vetrina la focaccia. Una
+cliente vede il post, apre il sito dal telefono, non ha un account perché è la prima volta. Vede il
+negozio, clicca sulla focaccia, legge «Prodotto non trovato» e chiude. Per lei MyCity è un sito
+rotto, e non torna. Se il difetto è vivo in produzione, oggi il sito non può incassare un euro.
+
+**Cosa devi fare.** Un minuto, e lo puoi fare adesso dal telefono. Apri il sito in una finestra
+anonima del browser, senza fare l'accesso. Clicca un prodotto qualunque. Dimmi cosa vedi.
+
+**Se va bene:** se il prodotto lo vedi, l'incendio non c'è. Resta però una cosa da riparare: vuol
+dire che il sito pubblicato e il codice non dicono la stessa cosa. La prossima pubblicazione può
+spegnerlo davvero. Se invece leggi «Prodotto non trovato», ti preparo la riparazione stanotte con
+il collaudo vero. La firmi tu prima che tocchi il sito.
+
+**Cosa non ho verificato.** Il sito pubblicato, in nessun punto. Da qui non lo raggiungo: tutto
+quello che so è misurato sul codice e sul database ricostruito dalle istruzioni del progetto. È
+esattamente per questo che la prova la devi fare tu, e vale più di qualsiasi altra cosa scritta
+stasera.
