@@ -18525,7 +18525,7 @@
       "nato_come": "scoperta"
     },
     {
-      "id": "AR-861",
+      "id": "AR-880",
       "titolo": "Un guardiano che il giro legge sul serio dice «passato» senza aver aperto niente",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -18543,7 +18543,7 @@
       }
     },
     {
-      "id": "AR-862",
+      "id": "AR-881",
       "titolo": "Il giro legge un verdetto con un confronto scritto a mano, e sul «non lo so» racconta la cosa sbagliata",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "medio",
@@ -18561,7 +18561,7 @@
       }
     },
     {
-      "id": "AR-863",
+      "id": "AR-882",
       "titolo": "Un generatore porta ancora la forma vecchia: se riscrive il giro, disfa una cura già pagata",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "medio",
@@ -18579,7 +18579,7 @@
       }
     },
     {
-      "id": "AR-864",
+      "id": "AR-883",
       "titolo": "Il debito vero delle mutazioni non ha nessun sensore: si misura se si possono lanciare, non se mordono",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -18620,7 +18620,7 @@
       "dimensione": "guardiani-e-guardrail",
       "gravita": "medio",
       "impatto_crescita": "basso",
-      "causa_radice": "① Cosa cerca confondeCiecoEdErrore? I rami ciechi che escono con il letterale 1. ② Cosa NON vede? I ciechi che escono 0 (AR-861, ed è la veste peggiore) e i rami in cui l'uscita non è un letterale ma una variabile — `process.exit(v.codice)`, che è proprio la forma in cui questo lotto ha scritto la cura. ③ Perché è nato così? Perché è nato da un caso: dodici strumenti che uscivano 1. Un guardiano nato da un caso misura il caso, non il problema. ④ Perché conta adesso? Perché il suo tetto è appena sceso a zero, e uno zero letto senza sapere cosa il metro NON guarda si legge come «finito».",
+      "causa_radice": "① Cosa cerca confondeCiecoEdErrore? I rami ciechi che escono con il letterale 1. ② Cosa NON vede? I ciechi che escono 0 (AR-880, ed è la veste peggiore) e i rami in cui l'uscita non è un letterale ma una variabile — `process.exit(v.codice)`, che è proprio la forma in cui questo lotto ha scritto la cura. ③ Perché è nato così? Perché è nato da un caso: dodici strumenti che uscivano 1. Un guardiano nato da un caso misura il caso, non il problema. ④ Perché conta adesso? Perché il suo tetto è appena sceso a zero, e uno zero letto senza sapere cosa il metro NON guarda si legge come «finito».",
       "fix_proposto": "🟡 Allargare il rilevatore alle due vesti mancanti, e — la clausola che conta — far sì che il verdetto DICHIARI cosa non copre, invece di stampare un numero nudo. Un tetto a zero senza la copertura scritta accanto è un verde più largo di quello che ha guardato.",
       "colore": "🟡",
       "stato": "aperto",

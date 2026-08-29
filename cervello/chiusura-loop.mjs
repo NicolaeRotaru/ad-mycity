@@ -492,7 +492,7 @@ async function gate() {
   const quando = nowPiacenza();
   const oggi = quando.slice(0, 10);
   const salaPath = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md");
-  // AR-861 — UN CIECO CHE USCIVA VERDE, ED È LA VESTE PEGGIORE DELLA MALATTIA DI AR-859.
+  // AR-880 — UN CIECO CHE USCIVA VERDE, ED È LA VESTE PEGGIORE DELLA MALATTIA DI AR-859.
   //
   // Qui c'era `console.log("SALA-OPERATIVA.md assente — niente da verificare"); process.exit(0)`.
   // AR-859 era un ⚪ travestito da ❌: un falso allarme, fastidioso ma rumoroso. Questo era un ⚪
@@ -504,7 +504,7 @@ async function gate() {
   // A rc=1 `giro.sh` dà al motore questo testo: «reparti con FATTO in SALA-OPERATIVA oggi ma SENZA
   // riga ESITO nel loro quaderno → registra l'ESITO per ognuno». Senza la Sala quei reparti non
   // esistono: sarebbe un ordine impossibile da eseguire e una bugia sul contenuto (è esattamente il
-  // difetto AR-862, un file più in là). La domanda di questo gate è «chi ha detto FATTO ha
+  // difetto AR-881, un file più in là). La domanda di questo gate è «chi ha detto FATTO ha
   // registrato l'ESITO?»: senza la Sala non ho l'elenco, quindi non ho incrociato niente → ⚪ 2.
   //
   // E IL ROVESCIO, perché curare un falso allarme col silenzio sarebbe peggio: «la Sala c'è e

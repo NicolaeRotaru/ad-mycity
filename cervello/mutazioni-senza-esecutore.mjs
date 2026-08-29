@@ -103,7 +103,7 @@ export function verdettoMutazioniCieche({ quante = 0, totale = 0, tetto = null }
 }
 
 // ═════════════════════════════════════════════════════════════════════════════════════════════
-// 🦷 IL SECONDO METRO: NON «SI PUO' LANCIARE» MA «MORDE» — AR-864
+// 🦷 IL SECONDO METRO: NON «SI PUO' LANCIARE» MA «MORDE» — AR-883
 // ═════════════════════════════════════════════════════════════════════════════════════════════
 // Il conto qui sopra dice 0 su 939, ed e' vero. Dice anche molto meno di quanto sembra: una voce puo'
 // essere perfettamente lanciabile e difendere NIENTE — la mutazione gira, il fix e' rotto, e la prova
@@ -187,7 +187,7 @@ export function verdettoMorso({ provate = 0, nonMordono = 0, nonMisurate = 0, sa
     return { esito: "debito", motivo: `mutazioni che non mordono scese da ${t} a ${nonMordono}: abbassa il tetto in cervello/tetti-lotto.json` };
   }
   if (nonMordono > 0) {
-    return { esito: "debito", motivo: `${nonMordono} mutazioni su ${totale} girano senza difendere niente (tetto ${t}) — AR-864` };
+    return { esito: "debito", motivo: `${nonMordono} mutazioni su ${totale} girano senza difendere niente (tetto ${t}) — AR-883` };
   }
   return { esito: "pulito", motivo: `censimento completo: tutte e ${provate} le mutazioni mordono` };
 }
@@ -370,7 +370,7 @@ function main() {
 }
 
 if (process.argv[1] && process.argv[1].endsWith("mutazioni-senza-esecutore.mjs")) {
-  // `--mordono` e' il secondo metro (AR-864) e sta FUORI dal cancello: costa minuti. Senza il flag
+  // `--mordono` e' il secondo metro (AR-883) e sta FUORI dal cancello: costa minuti. Senza il flag
   // resta il conto veloce di sempre, quello che il cancello del lotto esegue a ogni giro.
   if (process.argv.includes("--mordono")) mainMordono();
   else main();

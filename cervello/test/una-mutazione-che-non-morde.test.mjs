@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🦷 IL SECONDO METRO: NON «SI PUO' LANCIARE» MA «MORDE» — AR-864.
+// 🦷 IL SECONDO METRO: NON «SI PUO' LANCIARE» MA «MORDE» — AR-883.
 //
 // IL DIFETTO. `cervello/mutazioni-senza-esecutore.mjs` conta le voci che il banco non saprebbe
 // LANCIARE, e sono 0 su 939. Ma una voce puo' essere perfettamente lanciabile e difendere NIENTE: la
@@ -84,7 +84,7 @@ prova("⑧ MONTATO: su due voci — una che morde e una che no — lo strumento 
     ["export function somma() {", "  return 2;", "}", "export const NON_GUARDATO = 1;", ""].join("\n"),
   );
   // La prova guarda `somma()` e NON guarda `NON_GUARDATO`. E' la differenza fra una difesa e una
-  // promessa, ed e' tutta la domanda di AR-864.
+  // promessa, ed e' tutta la domanda di AR-883.
   writeFileSync(
     provaFile,
     [

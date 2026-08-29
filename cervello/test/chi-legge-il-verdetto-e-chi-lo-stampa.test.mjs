@@ -1,20 +1,20 @@
 #!/usr/bin/env node
-// 🧪 AR-862 · AR-863 · AR-866 — LA STESSA MALATTIA IN TRE POSTI: uno strumento dice «non ho potuto
+// 🧪 AR-881 · AR-882 · AR-866 — LA STESSA MALATTIA IN TRE POSTI: uno strumento dice «non ho potuto
 // guardare», e la voce si perde per strada.
 //
 // Uno strumento può emettere il 2 perfettamente e non servire a niente. Tre modi di sprecarlo:
 //
-//   · AR-862 — CHI LEGGE lo confronta a mano. In `giro.sh` il verdetto di `valida-contratti` era
+//   · AR-881 — CHI LEGGE lo confronta a mano. In `giro.sh` il verdetto di `valida-contratti` era
 //     letto con `if [ rc -ne 0 ]` invece che con `vincolo_da_rc`: col 2 il giro un vincolo lo dava
 //     comunque (nessun silenzio) ma col TESTO DI UN REPERTO — «Rinomina ai nomi canonici» — che con
 //     la cartella mancante è una bugia sul contenuto, e manda a cercare un campo che non esiste.
-//   · AR-863 — CHI STAMPA il codice porta ancora la forma vecchia. `round6-applica.mjs` genera
+//   · AR-882 — CHI STAMPA il codice porta ancora la forma vecchia. `round6-applica.mjs` genera
 //     dentro `giro.sh` il blocco dei test del cervello, e se lo stampo resta indietro il giorno che
 //     rigenera disfa la cura di AR-843 in silenzio. Il codice che GENERA non lo guarda nessuna
 //     prova: si provano gli effetti, non gli stampi.
 //   · AR-866 — CHI MISURA la malattia la cerca nella veste in cui l'abbiamo vista la prima volta.
 //     `confondeCiecoEdErrore` guarda i rami ciechi che escono col letterale **1**: non vede quelli
-//     che escono **0** (AR-861, la veste peggiore) né quelli in cui l'uscita è calcolata —
+//     che escono **0** (AR-880, la veste peggiore) né quelli in cui l'uscita è calcolata —
 //     `process.exit(v.codice)`, che è proprio la forma in cui questo lotto ha scritto la cura.
 //
 // COSA PROVA QUESTO FILE, e con quali mani:
@@ -107,7 +107,7 @@ test("AR-866 · il verdetto DICHIARA cosa non copre: un numero nudo è un verde 
 
 test("AR-866 · il metro non accusa i COMMENTI: la spiegazione di una cura cita il codice malato", () => {
   // È la scorciatoia numero 12 del catalogo, «la parola invece della chiamata», e il metro l'ha
-  // commessa addosso a me: il commento sopra la cura di AR-861 contiene `process.exit(0)`.
+  // commessa addosso a me: il commento sopra la cura di AR-880 contiene `process.exit(0)`.
   const soloCommento = ['// qui c\'era: if (!esiste) { console.log("non trovato"); process.exit(0); }', 'process.exit(0);'].join("\n");
   assert.equal(usciteDelProgramma(soloCommento).ciechi_travestiti.length, 0, "sta leggendo un commento come se fosse codice");
   assert.match(codiceSenzaCommenti('const a = 1; // process.exit(0)\n'), /const a = 1;/);
@@ -116,7 +116,7 @@ test("AR-866 · il metro non accusa i COMMENTI: la spiegazione di una cura cita 
   assert.match(codiceSenzaCommenti('const u = "https://x/y"; process.exit(2);'), /process\.exit\(2\)/);
 });
 
-test("AR-861 · sul codice VERO: `chiusura-loop.mjs` non ha più rami ciechi che escono col codice sbagliato", () => {
+test("AR-880 · sul codice VERO: `chiusura-loop.mjs` non ha più rami ciechi che escono col codice sbagliato", () => {
   const v = usciteDelProgramma(leggi("chiusura-loop.mjs"));
   assert.deepEqual(
     v.ciechi_travestiti.map((c) => `riga ${c.riga} esce ${c.codici}`),
@@ -127,7 +127,7 @@ test("AR-861 · sul codice VERO: `chiusura-loop.mjs` non ha più rami ciechi che
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ② AR-862 — CHI LEGGE, DENTRO IL `giro.sh` VERO
+// ② AR-881 — CHI LEGGE, DENTRO IL `giro.sh` VERO
 // ─────────────────────────────────────────────────────────────────────────────
 
 // ESENTI — guardati uno per uno. Il confronto a mano c'è, ma convertirlo peggiorerebbe le cose:
@@ -154,7 +154,7 @@ function lettoriAMano() {
   });
 }
 
-test("AR-862 · nessun vincolo del giro nasce da un confronto a mano su un guardiano che sa uscire 2", () => {
+test("AR-881 · nessun vincolo del giro nasce da un confronto a mano su un guardiano che sa uscire 2", () => {
   const aMano = lettoriAMano();
   const debito = aMano.filter((l) => !ESENTI[l.script]);
   assert.deepEqual(
@@ -172,7 +172,7 @@ test("AR-862 · nessun vincolo del giro nasce da un confronto a mano su un guard
   assert.deepEqual(orfane, [], `esenzioni che non corrispondono più a niente: toglile — ${orfane.join(", ")}`);
 });
 
-test("AR-862 · un blocco che NOMINA `vincolo_da_rc` in un commento non è un blocco curato", () => {
+test("AR-881 · un blocco che NOMINA `vincolo_da_rc` in un commento non è un blocco curato", () => {
   // TROVATO ROMPENDO IL FIX APPOSTA, e non è un caso di scuola: rimesso il confronto a mano in
   // giro.sh ma lasciato il commento che spiega la cura, il metro leggeva la parola nel commento e
   // dichiarava curato proprio il caso peggiore — cura rimossa, spiegazione rimasta. Scorciatoia
@@ -239,7 +239,7 @@ function vincoloDelGiro({ cattura, variabile, rc }) {
   return (testo.split("---VINCOLO---")[1] || "").trim();
 }
 
-test("AR-862 · SUL SERIO: col 2 il giro NON ordina di rinominare i campi — quel testo è una bugia sul contenuto", () => {
+test("AR-881 · SUL SERIO: col 2 il giro NON ordina di rinominare i campi — quel testo è una bugia sul contenuto", () => {
   const cattura = '_contr_out="$(node "$SCRIPT_DIR/valida-contratti.mjs"';
   const cieco = vincoloDelGiro({ cattura, variabile: "_contr", rc: 2 });
   assert.ok(cieco.length > 40, `col 2 il motore non riceve niente: silenzio al posto della bugia, che è peggio. Ricevuto: «${cieco}»`);
@@ -254,7 +254,7 @@ test("AR-862 · SUL SERIO: col 2 il giro NON ordina di rinominare i campi — qu
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ③ AR-863 — LO STAMPO CHE RIGENERA `giro.sh`
+// ③ AR-882 — LO STAMPO CHE RIGENERA `giro.sh`
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Il testo che il generatore SCRIVEREBBE dentro giro.sh per una delle sue modifiche. */
@@ -266,7 +266,7 @@ function stampo(pezzoDelNome) {
   return m.dopo(m.ancora);
 }
 
-test("AR-863 · lo stampo genera la forma CURATA, non quella da cui la cura è partita", () => {
+test("AR-882 · lo stampo genera la forma CURATA, non quella da cui la cura è partita", () => {
   const generato = `${stampo("esecuzione dei due guardiani")}\n${stampo("debito di misura non si condona")}`;
   assert.doesNotMatch(generato, /if \[ "\$_testc_rc" -ne 0 \]/, "lo stampo riscriverebbe il confronto a mano sui test del cervello (la cura di AR-843 si disfa)");
   assert.doesNotMatch(generato, /if \[ "\$_deb_rc" -ne 0 \]/, "lo stampo riscriverebbe il confronto a mano sul debito di misura");
@@ -278,7 +278,7 @@ test("AR-863 · lo stampo genera la forma CURATA, non quella da cui la cura è p
   }
 });
 
-test("AR-863 · lo stampo NON è rimasto indietro rispetto a quello che c'è davvero in giro.sh", () => {
+test("AR-882 · lo stampo NON è rimasto indietro rispetto a quello che c'è davvero in giro.sh", () => {
   // La forma generale del difetto: due copie della stessa riga, e quella che nessuno rilegge
   // invecchia. Qui si confrontano carattere per carattere.
   const giro = readFileSync(GIRO, "utf8").split("\n");

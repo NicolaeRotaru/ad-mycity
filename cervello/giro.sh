@@ -679,7 +679,7 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   echo "[$(ts)] Gate coerenza-fatti (fonte unica della verità, AR-102)..."
   _fatti_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _fatti_rc=$?
   printf '%s\n' "$_fatti_out" | tail -8
-  # AR-862 — stessa forma del blocco valida-contratti, trovata cercando gli altri: `coerenza-fatti`
+  # AR-881 — stessa forma del blocco valida-contratti, trovata cercando gli altri: `coerenza-fatti`
   # sa uscire 2 (registro-fatti.json ASSENTE — AR-597), e col 2 questo testo manderebbe a bonificare
   # copie vecchie in un registro che non c'è. `vincolo_da_rc` sul 2 dice «ripara lo strumento».
   # Gli altri codici restano al testo di dominio: 3 = copie vecchie in file vivi · 1 = registro
@@ -908,7 +908,7 @@ $_chius_out"
   echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043 — ora gate)..."
   _contr_out="$(node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1)"; _contr_rc=$?
   printf '%s\n' "$_contr_out" | tail -4
-  # AR-862 — IL VERDETTO SI LEGGE CON LA FUNZIONE DI CASA, NON CON UN CONFRONTO SCRITTO A MANO.
+  # AR-881 — IL VERDETTO SI LEGGE CON LA FUNZIONE DI CASA, NON CON UN CONFRONTO SCRITTO A MANO.
   # Qui c'era `if [ "$_contr_rc" -ne 0 ]` col testo di dominio attaccato. Col 2 — la cartella
   # auto-coscienza non c'è, quindi valida-contratti non ha aperto un solo file — il giro un vincolo
   # lo dava comunque (niente silenzio), ma diceva «Rinomina ai nomi canonici»: una bugia sul
@@ -1648,7 +1648,7 @@ if command -v node >/dev/null 2>&1; then
   _cf_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _cf_rc=$?
   if [ "$_cf_rc" -ne 0 ]; then
     MEMORIA_INCOERENTE=1
-    # AR-862 — il BLOCCO resta anche col 2, ed è giusto (fail-closed: memoria che non ho potuto
+    # AR-881 — il BLOCCO resta anche col 2, ed è giusto (fail-closed: memoria che non ho potuto
     # verificare non si pubblica). A mentire era il MOTIVO: «una copia vecchia è rimasta in un file
     # vivo» con il registro assente è una bugia sul contenuto — e questo motivo non resta nel log,
     # finisce nell'avviso Telegram che legge Nicola.

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 AR-861 — UN CIECO CHE USCIVA VERDE, cioè la veste peggiore della malattia di AR-859.
+// 🧪 AR-880 — UN CIECO CHE USCIVA VERDE, cioè la veste peggiore della malattia di AR-859.
 //
 // LA MALATTIA. `cervello/chiusura-loop.mjs --gate` incrocia la SALA-OPERATIVA di oggi con i
 // quaderni: chi ha scritto FATTO deve avere una riga ESITO. Quando il file della Sala non c'era,
@@ -13,7 +13,7 @@
 // essere un reperto legittimo («nessuna Sala Operativa = la squadra non si parla») e allora
 // l'uscita giusta sarebbe 1, non 2. Deciso guardando CHI LEGGE: a rc=1 `giro.sh` ordina al motore
 // «registra l'ESITO per ognuno dei reparti con FATTO in Sala oggi» — senza la Sala quei reparti non
-// esistono, quindi sarebbe un ordine impossibile e una bugia sul contenuto (è il difetto AR-862).
+// esistono, quindi sarebbe un ordine impossibile e una bugia sul contenuto (è il difetto AR-881).
 // Il reperto «la squadra non si parla» ha già un altro padrone: `repartiMuti` / `righeFresche` di
 // `sala-regole.mjs`, dentro la sonda.
 //

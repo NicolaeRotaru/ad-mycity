@@ -104,7 +104,7 @@ export function rigaReferto(v) {
 // del cieco usciva col letterale **1**. Un guardiano nato da un caso misura il caso, non il
 // problema — e infatti NON vede due vesti:
 //
-//   · il cieco che esce **0** (AR-861), che è la veste peggiore: silenziosa, chi legge conclude
+//   · il cieco che esce **0** (AR-880), che è la veste peggiore: silenziosa, chi legge conclude
 //     che va tutto bene;
 //   · il ramo in cui l'uscita non è un numero scritto ma una variabile — `process.exit(v.codice)` —
 //     che è proprio la forma in cui la cura di questo giro è stata scritta.
@@ -130,7 +130,7 @@ export const USCITE_DAL_CONTRATTO = /\bcodiceUscita\b|\bcodiceUscitaSensori\b|\.
  * Il sorgente con i COMMENTI spenti, righe e colonne intatte.
  *
  * Perché serve, e l'ho misurato addosso a me stessa: il commento che ho scritto sopra la cura di
- * AR-861 CITA il codice malato («qui c'era `process.exit(0)`»). Senza questo passaggio il metro
+ * AR-880 CITA il codice malato («qui c'era `process.exit(0)`»). Senza questo passaggio il metro
  * accusava la spiegazione della cura come se fosse la malattia — la scorciatoia numero 12 del
  * catalogo, «la parola invece della chiamata», commessa dal metro nato per non commetterla.
  *
@@ -190,7 +190,7 @@ function argomentoDiExit(riga) {
  *   · `uscite` — una voce per `process.exit(...)`: riga, forma, codici (o `null` se ignoti), se il
  *     ramo dichiara di non aver potuto guardare;
  *   · `puo_uscire_2` — il programma sa dire «non ho potuto misurare»;
- *   · `ciechi_travestiti` — rami che dichiarano di non aver guardato e NON escono 2 (0 = AR-861,
+ *   · `ciechi_travestiti` — rami che dichiarano di non aver guardato e NON escono 2 (0 = AR-880,
  *     1 = AR-859);
  *   · `non_copre` — cosa questo metro non sa vedere. Non è mai vuoto: è la clausola di AR-866.
  */
@@ -279,7 +279,7 @@ function soloNumeri(espressione) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// AR-862 — CHI LEGGE IL VERDETTO, E COME
+// AR-881 — CHI LEGGE IL VERDETTO, E COME
 // ─────────────────────────────────────────────────────────────────────────────
 //
 // Uno strumento può emettere il 2 perfettamente e non servire a niente, se chi lo legge lo confronta

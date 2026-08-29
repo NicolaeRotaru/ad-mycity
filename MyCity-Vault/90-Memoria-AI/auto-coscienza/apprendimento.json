@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-28 22:42",
+ "aggiornato": "2026-08-29 10:08",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12556,7 +12556,13 @@
     "4 schede del worker sovrascritte dalla mia fusione, poi ripristinate"
    ],
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": [
+    {
+     "quando": "2026-08-29 10:08",
+     "ref": "freno rosso nel cancello: nessun numero di scheda usato due volte"
+    }
+   ]
   },
   {
    "id": "L-2026-0804-554",
@@ -13140,7 +13146,12 @@
    "nato": "2026-08-26",
    "ultima_conferma": "2026-08-26 07:55",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [
+    {
+     "quando": "2026-08-29 10:08",
+     "ref": "freno rosso nel cancello: nessun numero di scheda usato due volte"
+    }
+   ],
    "gate": "node cervello/prossimo-ar.mjs",
    "data": "2026-08-26 07:55"
   },
@@ -13238,7 +13249,12 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 13:45",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [
+    {
+     "quando": "2026-08-29 10:08",
+     "ref": "freno rosso nel cancello: nessun numero di scheda usato due volte"
+    }
+   ],
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
    "data": "2026-08-27 13:45"
   }
