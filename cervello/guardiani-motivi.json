@@ -82,6 +82,10 @@
    "motivo": "cablato",
    "dove": "cervello/test/puntatori-scollegati.test.mjs",
    "perche": "AR-798: chiede se ogni prova a comando NOMINA ancora, dentro il file che esegue (o dentro il comando stesso), il difetto che dimostra — 46 su 592 oggi non lo fanno piu, e il cancello non ne prende nessuna (proveCondiviseCieche gira solo sugli APERTI e solo sui comandi condivisi da due o piu difetti; 45 delle 46 sono su schede CHIUSE). Il suo verdetto sul repo VERO sono gli ultimi casi della prova — IL TETTO NON PUO NASCERE GIA SUPERATO (monta la sola scheda del proprio lotto e pretende quanti <= tetto), la CALIBRAZIONE (che rimisura l albero e pretende uscita 1 con il tetto abbassato di uno, cosi il numero non e mai una cifra scelta per far passare il cancello) e il caso SUL CAMPO su AR-689 — e quella prova gira a ogni push in CI, a ogni richiesta di unione col cancello e a ogni giro. Il verde dichiara cosa copre: 221 dei 546 ancoraggi poggiano SOLO su una riga di commento, e su quelli l estrazione e invisibile — e un buco contato, non sperato. Non poteva nascere gia cablato nel cancello: cervello/cancello-lotto.mjs non lo tocca chi costruisce il freno, e la riga per metterlo anche li e nella consegna per l AD."
+  },
+  "pacchetti-lotto.mjs": {
+   "motivo": "decisione",
+   "perche": "Non emette un giudizio sulla salute della macchina: divide i difetti gia' trovati in pacchetti di lavoro, e si lancia a mano quando si apre un lotto (COMANDI.md, «chiudi i gravi del sito»). L'uscita 2 non e' un verdetto rosso: e' «non ho potuto misurare», e serve a non consegnare mai un piano vuoto spacciato per verde (collaudo del 28/8/2026: --max abc produceva 163 pacchetti da zero difetti con uscita 0). Metterlo in un processo ricorrente vorrebbe dire aprire lotti da solo, che e' una decisione di Nicola, non un controllo."
   }
  },
  "verdetti_morti_dichiarati": {},

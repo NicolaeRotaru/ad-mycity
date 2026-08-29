@@ -22,6 +22,43 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- cancello-del-sito-e-campo-prova -->
+### 🟡 #184 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
+
+**In parole semplici.** Oggi ho scritto il metodo per chiudere tanti difetti del sito in una volta
+sola. Scrivendolo ho trovato due buchi veri, e non li ho tappati: te li porto perché la decisione
+costa lavoro e la firma è tua.
+
+**Il primo buco: sul sito non c'è un comando unico che dica «si consegna».** Sulla macchina c'è, e
+un mansionario di casa spiega perché: cinque comandi da ricordare erano cinque occasioni di
+dimenticarne uno. Sul sito oggi sono due comandi separati, da lanciare a mano.
+
+**Il secondo buco: le schede dei difetti del sito non hanno il campo della prova.** Ce l'hanno 4
+schede su 615, e nessun controllo lo legge. Vuol dire che per un difetto grave su una pagina non
+posso dichiarare «questa la verifica un umano», come faccio sulla macchina.
+
+**Per esempio.** Un difetto grave sulla pagina della cassa: le pagine non hanno test che le
+importano come modulo. Oggi o riesco a scrivere una prova che gira, oppure quel difetto resta
+aperto. Non c'è la terza strada.
+
+**Cosa cambia per te.** Se dici di sì, i lotti del sito si chiudono con un comando solo. E i
+difetti delle pagine si possono chiudere dichiarando chi li ha guardati. Se dici di no, il metodo
+funziona lo stesso. Ma resta il debito: due comandi a mano, e nessuna prova dichiarabile sulle
+pagine.
+
+**Cosa devi fare.** Rispondi «ok 184» se vuoi che lo costruisca, oppure dimmi di lasciarlo lì. Non
+è urgente per il 1° settembre: i lotti si possono fare anche così.
+
+**Il terzo buco: dopo l'unione, segnare i difetti come riparati è lavoro a mano.** Vuol dire aprire
+un file da ottomila righe e scriverci dentro riga per riga. Se quel passo salta, il lotto successivo
+rimette in lista roba già sistemata.
+
+**Se va bene:** costruisco tre cose. Il comando unico del cancello del sito. Il campo della prova
+nello schema delle schede, col controllo che lo legge. Il comando che scrive le chiusure dopo
+l'unione. Resta tutto in una richiesta di unione, e la firma resta tua.
+
+---
+
 <!-- unione-pr-244-bloccanti -->
 ### 🔴 #183 — Unisci la riparazione dei quattro bloccanti, e applica la migrazione al database vero · ⏳ accodata 2026-08-28 17:25
 

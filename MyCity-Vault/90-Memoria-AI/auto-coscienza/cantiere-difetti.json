@@ -18584,6 +18584,24 @@
         "tipo": "umano",
         "nota": "Si guarda cosi', ed e' come l'ho trovato: `node cervello/auto-fix.mjs verifica` (senza --applica) e si cercano le righe «✅ risolto» su schede che nella loro nota dichiarano di dover restare aperte. Il 28/8 erano due, AR-840 e AR-859. Nessun comando adesso, perche' il campo non esiste ancora: una prova scritta oggi non avrebbe niente da rompere."
       }
+    },
+    {
+      "id": "AR-864",
+      "titolo": "Il banco delle prove cancella cartelle di altri dentro /tmp, e in cima dichiara «sola lettura, non tocca niente»",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "basso",
+      "causa_radice": "cervello/test-cervello.mjs riga 2 dichiara «Sola lettura: esegue test, non tocca niente», ma la prima cosa che fa main() e' spazza() (cervello/spazza-temporanei.mjs), che cancella in modo ricorsivo dentro os.tmpdir() usando 228 prefissi DEDOTTI dal testo dei sorgenti — fra cui prefissi corti e comuni come «reg-», «bag-», «hook-», «coda-», «porta-», «quota-», «banco-». Nessuna lunghezza minima, nessun elenco deciso da qualcuno: il raggio si allarga da solo ogni volta che una prova nuova chiama la sua cartella «x-».",
+      "fix_proposto": "Cancellare solo cartelle con un marchio nostro nel nome (un prefisso lungo e dichiarato, per esempio «mycity-») invece dei prefissi dedotti; oppure scrivere i temporanei in una sola cartella nostra dentro os.tmpdir() e spazzare quella. In piu' togliere da cervello/test-cervello.mjs la riga «non tocca niente», che oggi e' falsa. La prova da scrivere insieme al fix: due cartelle esca con un prefisso non nostro in os.tmpdir(), e la spazzata non deve toccarle.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:10",
+      "nato_come": "scoperta",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Oggi non ha una prova che gira: il fix non e' in questo lotto. Chi lo ripara scrive insieme il test delle cartelle esca descritto nel fix, e allora la verifica diventa un comando."
+      },
+      "nota": "Trovato il 2026-08-28 dalla lente rischio-sicurezza-se sul perimetro del lotto dei pacchetti. Prova eseguita dal collaudatore: create /tmp/hook-vittima-di-un-altro e /tmp/reg-backup-importante con mtime a 3 giorni, `node cervello/spazza-temporanei.mjs --prova --json` le dichiara entrambe da togliere. Su un VPS /tmp e' condiviso."
     }
   ],
   "meta": {
