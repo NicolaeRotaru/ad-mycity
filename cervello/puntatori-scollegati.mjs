@@ -633,7 +633,13 @@ export function scollegati(difetti = [], leggi = () => null, esiste = () => fals
  * @param tetto il numero dichiarato, oppure `null` se il file dei tetti non si è potuto leggere
  * @returns {{esito:"salito"|"sceso"|"pari"|"non-giudicabile", motivo:string}}
  */
-export function tettoDeiCiechi({ ciechi = 0, tetto = 0 } = {}) {
+// ⚠️ `tetto = null` E NON `0`, ed è una riga che una prova ha corretto il 29/8. Col default a 0 la
+// guardia qui sotto — che riconosce «non ho un numero con cui confrontare» — non poteva MAI vedere
+// un `undefined`: il valore di default lo sostituiva prima. Quindi `tettoDeiCiechi({ ciechi: 7 })`,
+// cioè il caso di chi dimentica il campo o lo legge da un oggetto senza quella chiave, usciva
+// «salito» — un'accusa costruita contro uno zero che nessuno aveva dichiarato. È lo stesso difetto
+// che questa scheda cura, nascosto in un valore di default invece che in un ramo.
+export function tettoDeiCiechi({ ciechi = 0, tetto = null } = {}) {
   if (tetto === null || tetto === undefined) {
     return { esito: "non-giudicabile", motivo: "il file dei tetti non si legge: non ho un numero con cui confrontare i ⚪, e non me lo invento" };
   }

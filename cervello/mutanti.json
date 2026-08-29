@@ -8271,6 +8271,78 @@
    "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: tipo !== \"lettera\" }) : \"\";",
    "sostituisci": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: true }) : \"\";",
    "test": "cervello/test/due-metri-una-regola.test.mjs"
+  },
+  {
+   "difetto": "AR-878",
+   "nome": "il valore di default torna a 0: la guardia del «nessun riferimento» non vede piu un campo assente",
+   "file": "cervello/puntatori-scollegati.mjs",
+   "cerca": "export function tettoDeiCiechi({ ciechi = 0, tetto = null } = {}) {",
+   "sostituisci": "export function tettoDeiCiechi({ ciechi = 0, tetto = 0 } = {}) {",
+   "test": "cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs"
+  },
+  {
+   "difetto": "AR-878",
+   "nome": "sparisce la guardia del «non ho un numero con cui confrontare»: si accusa contro un riferimento inventato",
+   "file": "cervello/puntatori-scollegati.mjs",
+   "cerca": "  if (tetto === null || tetto === undefined) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs"
+  },
+  {
+   "difetto": "AR-869",
+   "nome": "il numero torna a pretendere il separatore delle migliaia: «3000 famiglie» ridiventa invisibile",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "const RE_NUMERO = /\\b\\d+(?:[.,]\\d{3})*",
+   "sostituisci": "const RE_NUMERO = /\\b\\d{1,3}(?:[.,]\\d{3})*",
+   "test": "cervello/test/banco-mail-onesta.test.mjs"
+  },
+  {
+   "difetto": "AR-873",
+   "nome": "la regola dei numerali scritti a parole si spegne: «duemila famiglie» ripassa",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "    nome: \"claim scritto a parole ('duemila famiglie', 'un migliaio di')\",",
+   "sostituisci": "    nome: \"DISATTIVATA\", spenta: true, _re_originale: undefined,",
+   "test": "cervello/test/banco-mail-onesta.test.mjs"
+  },
+  {
+   "difetto": "AR-875",
+   "nome": "la scarsita fabbricata smette di essere vista: «restano 9 posti» ripassa",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "    nome: \"scarsità fabbricata: posti che si esauriscono\",",
+   "sostituisci": "    nome: \"DISATTIVATA-scarsita\", spenta: true,",
+   "test": "cervello/test/banco-mail-onesta.test.mjs"
+  },
+  {
+   "difetto": "AR-876",
+   "nome": "«nuclei familiari» esce dalla lista dei soggetti: il claim ci scappa di nuovo",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "nucle[oi]\\s+familiar[ei]|",
+   "sostituisci": "",
+   "test": "cervello/test/banco-mail-onesta.test.mjs"
+  },
+  {
+   "difetto": "AR-870",
+   "nome": "torna il backtracking: l espressione riparte da ogni carattere e il canale si pianta",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "export const RE_RIFERIMENTO_CODICE = /(?<![\\w./-])",
+   "sostituisci": "export const RE_RIFERIMENTO_CODICE = /(?:)",
+   "test": "cervello/test/metro-che-non-giudica.test.mjs"
+  },
+  {
+   "difetto": "AR-871",
+   "nome": "l atto che esplode torna a volare via: l eccezione esce invece di diventare un verdetto",
+   "file": "pannello/src/lib/cancello-atto.ts",
+   "cerca": "  let risultato: T;\n  try {\n    risultato = await p.atto();\n  } catch (e) {",
+   "sostituisci": "  let risultato: T;\n  if (true) {\n    risultato = await p.atto();\n  } else { const e = new Error();",
+   "test": "cervello/test/metro-che-non-giudica.test.mjs"
+  },
+  {
+   "difetto": "AR-791",
+   "nome": "le esenzioni tornano a vivere in una casa sola: il Pannello ridiventa piu severo del cervello",
+   "file": "pannello/src/lib/onesta-check.ts",
+   "cerca": "    if (eUnaData(v)) return { esente: true, id: \"data-di-calendario\" };\n    if (eUnOrario(v)) return { esente: true, id: \"orario\" };",
+   "sostituisci": "",
+   "test": "cervello/test/due-metri-una-regola.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

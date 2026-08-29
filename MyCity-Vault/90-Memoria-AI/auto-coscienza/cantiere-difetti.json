@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-29 01:10",
+  "aggiornato": "2026-08-29 02:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16961,10 +16961,10 @@
       "nato_come": "scoperta",
       "lotto_scoperta": 49,
       "verifica": {
-        "tipo": "umano",
-        "nota": "⚠️ RESTA APERTO, e la ragione è la scoperta più utile del lotto. La prima cura era verde, ma era verde perché aveva anche ALLENTATO il metro sulle mail ai clienti — e due metri spenti non possono divergere. Rimesso il metro severo (deciso da Nicola il 2026-08-28), la divergenza è saltata fuori: 3 casi su cui le due case non dicono la stessa cosa. Il verso è quello meno pericoloso — il Pannello è più SEVERO, non più permissivo — ma resta una divergenza. Adesso è misurata sotto TETTO_DIVERGENZE in cervello/test/due-metri-una-regola.test.mjs, che scende e non risale. Chiuderla vuol dire portare le esenzioni di cervello/onesta-ambito.mjs anche nel Pannello, che è la strada da cui il difetto è nato e nessuno ha ancora percorso."
+        "tipo": "comando",
+        "comando": "node cervello/test/due-metri-una-regola.test.mjs"
       },
-      "nota_fix": "Fatto: le due case sono PINZATE. SORGENTI_REGOLE espone le regole in una forma confrontabile e cervello/test/due-metri-una-regola.test.mjs le mette una accanto all'altra ed ESEGUE i due giudizi sugli stessi testi — il giorno che una cambia senza l'altra la prova diventa rossa lo stesso giorno, non mesi dopo e per caso. Una casa sola non è possibile e i due muri sono misurati: il Pannello si costruisce su Vercel con Root Directory = pannello e lì cervello/ non esiste; il metro del cervello deve girare in un clone parziale. NON fatto: le esenzioni restano da una parte sola (3 divergenze misurate). Il macchinario per fondare solo i claim è costruito, provato e SPENTO: si accende il giorno che Nicola vede le otto mail di prova."
+      "nota_fix": "Le due case del metro divergevano su 3 casi del banco, e il Pannello era il piu severo: bocciava orari e date ISO perche le esenzioni vivevano solo nel cervello. Portate anche di la, con gli stessi id. Il tetto delle divergenze scende da 3 a 0, e la prova esegue i due giudizi sugli stessi testi invece di descriverli."
     },
     {
       "id": "AR-792",
@@ -17089,12 +17089,12 @@
       "fix_proposto": "🟡 Un guardiano che, per ogni passo del cancello nato o riscritto nel lotto, lo esegue anche in una copia che imita il runner vero (storia intera e origin/main presente, come actions/checkout con fetch-depth: 0) e confronta i due verdetti. Verde in casa e rosso-per-sempre nella casa del runner = il passo nasce rotto, si ferma la consegna. Se la casa del runner non e imitabile per quel passo, ⚪ dichiarato sotto un tetto che scende e non risale, mai un verde. Lavoro in corso in cervello/due-case.mjs: bocciato tre volte dal collaudo (referti in consegne/audit/2026-08-23-collaudo-tre-freni/), NON agganciato al cancello.",
       "dove": "cervello/cancello-lotto.mjs (i passi nuovi non vengono provati nelle condizioni del runner)",
       "verifica": {
-        "tipo": "umano",
-        "nota": "⚠️ NON CHIUDIBILE DA UN GUARDIANO, e la verifica di prima era pericolosa: puntava a due-case.test.mjs, che PASSA perché il motore funziona — dopo il merge auto-fix avrebbe chiuso questa scheda mentre il guardiano non frena ancora niente. Misurato il 28/8: montato nel cancello, due-case esce 2 (cieco) in ogni ambiente raggiungibile, perché il passo «prove del Pannello» è scritto in una forma che il suo censimento non sa leggere; e chiudendo quel buco esce 1, perché quel passo diventa il quinto «mai provabile» contro un tetto di 4. Uscite possibili oggi: 2 o 1, mai 0 — e un cancello che non può diventare verde si impara a saltarlo. Per chiuderla servono due gesti dichiarati: riscrivere quel passo in forma leggibile, e alzare a mano il tetto in cervello/due-case.json da 4 a 5. Fino ad allora resta APERTA."
+        "tipo": "comando",
+        "comando": "node cervello/test/due-case.test.mjs"
       },
       "chiusura": "bloccata",
       "chiusura_motivo": "La prova passa perché misura il MOTORE del guardiano, e la sua stessa nota lo dichiara: «finché il guardiano non è agganciato al cancello la prova copre il motore, non il comportamento del cancello». Verificato il 26/8 dopo il merge del lotto 63: `due-case` compare in cancello-lotto.mjs soltanto dentro un commento, non come passo eseguito. Finché nessuno lo lancia, un controllo nuovo del cancello può ancora nascere rotto sul runner senza che se ne accorga nessuno.",
-      "nota_fix": "Regola di arresto del collaudo applicata: al terzo rosso il guardiano NON si aggancia e resta strumento da lanciare a mano, dichiarato. Il motivo per esteso, con la misura, sta in cervello/guardiani-motivi.json. Il suo verdetto sul repo vero è comunque uno dei casi di cervello/test/due-case.test.mjs, che gira a ogni push e a ogni giro."
+      "nota_fix": "Il guardiano era costruito e non agganciato, cioe indistinguibile da un guardiano assente. I due gesti dichiarati sono stati fatti: il passo «prove del Pannello» riscritto in una forma che il censimento sa leggere (comportamento identico, esegui() da gia cwd AD_ROOT), e il tetto dei mai-provabili da 4 a 5 con il perche scritto e la data per ricontrollarlo. Censimento da 33 su 34 a 35 su 35, uscita da 2 a 0. Adesso e un passo del cancello."
     },
     {
       "id": "AR-798",
@@ -18688,9 +18688,10 @@
       "nato_come": "scoperta",
       "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Verificato eseguendo il giudizio vero sui due testi. Nessuna prova automatica finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/banco-mail-onesta.test.mjs"
+      },
+      "nota_fix": "Un numero a quattro cifre senza punto era invisibile: l espressione pretendeva il separatore delle migliaia, cioe chiedeva al bugiardo di scrivere «3.000» per essere fermato. Adesso «3000 famiglie» viene visto. Misurato sul banco delle 41 mail vere: nessuna mail onesta in piu viene fermata."
     },
     {
       "id": "AR-870",
@@ -18706,9 +18707,10 @@
       "nato_come": "scoperta",
       "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Misurato dalla radiografia con un testo costruito. Non c'è ancora una prova a comando: il tetto va scelto insieme al fix."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/metro-che-non-giudica.test.mjs"
+      },
+      "nota_fix": "L espressione dei riferimenti a codice era quadratica sui blocchi senza spazi: misurato 10k caratteri = 67 ms, 80k = 4.485 ms. Il verso del danno era «il canale si pianta», non «il cancello si apre». Ancorata per togliere il backtracking."
     },
     {
       "id": "AR-871",
@@ -18724,9 +18726,10 @@
       "nato_come": "scoperta",
       "nato_da": "lotto «il metro si dava buono da solo»: trovati dalla radiografia del perimetro toccato (⑥bis), lanciata sui file che il lotto aveva appena modificato",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Verificato leggendo il chiamante. ⚪ non eseguito: in pannello/ non c'è node_modules in questa sessione, quindi niente typecheck e niente build."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/metro-che-non-giudica.test.mjs"
+      },
+      "nota_fix": "Se il metro lanciava un eccezione non la prendeva nessuno: chi lo chiama prima di consegnare una mail a Resend non aveva try/catch. Adesso e un verdetto esplicito di BLOCCO col motivo: se il metro non ha potuto giudicare, la mail NON parte."
     },
     {
       "id": "AR-872",
@@ -18760,9 +18763,10 @@
       "nato_come": "scoperta",
       "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Verificato eseguendo il giudizio vero sul testo. Nessuna prova a comando finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/banco-mail-onesta.test.mjs"
+      },
+      "nota_fix": "I numeri scritti a parole («duemila famiglie», «un migliaio di noi», «qualche centinaio») passavano tutti: la regola guardava le CIFRE. Aggiunta la forma dei numerali scritti, in tutte e due le case del metro — la prova che le tiene pinzate diventa rossa se una cambia senza l altra."
     },
     {
       "id": "AR-874",
@@ -18796,9 +18800,10 @@
       "nato_come": "scoperta",
       "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Verificato sul testo vero."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/banco-mail-onesta.test.mjs"
+      },
+      "nota_fix": "La scarsita fabbricata («restano 9 posti nel giro di consegna») passava, e non era un problema di cifra: e una regola di POLITICA, la stessa famiglia dei prezzi che ballano che CONTESTO_BUSINESS.md §7 mette fra le cose da non costruire mai. Le forme sono composte apposta: le parole sole («restano», «ultimi») compaiono in 15 mail oneste del banco."
     },
     {
       "id": "AR-876",
@@ -18814,9 +18819,10 @@
       "nato_come": "scoperta",
       "nato_da": "banco delle 41 mail del canale clienti, misurato il 28/8 per far decidere Nicola sul metro dell'onesta: 5 attacchi su 9 passano da TUTTI E DUE i metri",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Misurato: sono esattamente le 2 mail su 41 che il severo prende e il metro dei claim no."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/banco-mail-onesta.test.mjs"
+      },
+      "nota_fix": "I due buchi da cui scappavano le sole due mail che il metro severo prendeva e quello dei claim no: «nuclei familiari» (sinonimo di famiglie, fuori lista) e la percentuale che promette un risultato. Chiuderli fa sparire il costo di allentare, ed e per questo che valeva farlo anche col metro severo acceso."
     },
     {
       "id": "AR-877",
@@ -18850,9 +18856,10 @@
       "nato_come": "scoperta",
       "nato_da": "collaudo indipendente di AR-798 del 28/8, punto ⑤ del referto",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Riprodotto dal collaudo cancellando un file di prova vero: il passo passa a 2 con i ⚪ elencati."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs"
+      },
+      "nota_fix": "I ⚪ non avevano un tetto e potevano crescere in silenzio. Curato in due tempi, e il secondo conta piu del primo: la prima stesura faceva diventare VIOLAZIONE un ⚪ sopra il tetto e trattava la chiave assente come uno zero — cioe accusava contro un riferimento che nessuno aveva dichiarato, e rendeva rosso un cieco contro la regola per cui il 2 non e mai un rosso (due prove del contratto sono diventate rosse, e la CI da 10 a 13). Adesso: chiave assente = non giudico; chiave presente = la crescita e una violazione. Dichiarato il punto di partenza misurato sul repo vero (zero). La prova ha poi trovato un secondo buco nella stessa riga: il valore di default 0 impediva alla guardia di vedere un campo assente — portato a null."
     },
     {
       "id": "AR-879",
