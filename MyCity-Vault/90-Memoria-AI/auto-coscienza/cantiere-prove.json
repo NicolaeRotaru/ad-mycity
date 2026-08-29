@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-29 09:51",
+  "aggiornato": "2026-08-29 10:05",
   "giorni_sospetto": 3,
   "difetti_aperti": 140,
   "difetti_da_fare": 140,
@@ -32,9 +32,9 @@
     "motivo": "bilancio a posto: 730 chiuse + 140 classificate = 870 schede, e ogni stato vivo è dentro (129 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 97,
+    "umana": 88,
     "prova-debole-su-grave": 26,
-    "auto-comando": 13,
+    "auto-comando": 22,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -338,7 +338,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 127,
+  "non_auto_chiudibili": 118,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3075,13 +3075,13 @@
       "gravita": "grave",
       "eta_giorni": 7,
       "impatto_crescita": "indiretto: il metro che decide se la memoria puo' essere pubblicata, e una delle due copie giudica cio' che vedono i clienti",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Il metro dell'onesta ha due case che non si parlano, e le cure sono atterrate solo in una",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/due-metri-una-regola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-792",
@@ -3101,13 +3101,13 @@
       "gravita": "grave",
       "eta_giorni": 6,
       "impatto_crescita": "alto",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Un controllo nuovo del cancello puo nascere gia rotto: verde sul computer di chi lo scrive, rosso per sempre s",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/due-case.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-798",
@@ -3452,39 +3452,39 @@
       "gravita": "grave",
       "eta_giorni": 1,
       "impatto_crescita": "medio",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Un numero a quattro cifre scritto senza punto è invisibile al cancello dell'onestà",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/banco-mail-onesta.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-870",
       "gravita": "medio",
       "eta_giorni": 1,
       "impatto_crescita": "basso",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Il cancello sulle mail può metterci secondi su un testo lungo, e chi lo chiama non ha un tempo massimo",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/metro-che-non-giudica.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-871",
       "gravita": "medio",
       "eta_giorni": 1,
       "impatto_crescita": "basso",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Se il cancello sulle mail lancia un'eccezione, non la prende nessuno",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/metro-che-non-giudica.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-872",
@@ -3504,13 +3504,13 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "impatto_crescita": "medio",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "I numeri scritti a parole sono invisibili al cancello dell'onestà",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/banco-mail-onesta.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-874",
@@ -3530,26 +3530,26 @@
       "gravita": "medio",
       "eta_giorni": 0,
       "impatto_crescita": "medio",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "La scarsità inventata passa il cancello, ed è nella lista delle cose da non costruire mai",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/banco-mail-onesta.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-876",
       "gravita": "minore",
       "eta_giorni": 0,
       "impatto_crescita": "basso",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "La lista dei soggetti di business ha dei buchi, e da lì scappano due claim veri",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/banco-mail-onesta.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-877",
@@ -3569,13 +3569,13 @@
       "gravita": "minore",
       "eta_giorni": 0,
       "impatto_crescita": "basso",
-      "prova_esegue": false,
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Il ⚪ del guardiano dei puntatori non ha un tetto che scende, e un file rinominato lo fa salire in silenzio",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/il-tetto-dei-ciechi-non-e-un-accusa.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-879",

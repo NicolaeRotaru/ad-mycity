@@ -281,6 +281,19 @@ const IMPRONTE_DI_AVVIO = [
   { re: /could not determine executable to run/i, dillo: "il programma da lanciare non è installato (npx non l'ha trovato)" },
   { re: /^(?:.*: )?(\S+): command not found/m, dillo: "il programma da lanciare non esiste su questa macchina" },
   { re: /Cannot find package '([^']+)'/, dillo: "manca un pacchetto: la prova non è partita" },
+  // ⚪ TROVATO IL 29/8 SUL RUNNER, e non da un ragionamento: dalla verifica automatica, che contava
+  // un rosso in più di questa macchina. In un ambiente pulito — HOME vuota, niente pacchetti in
+  // cache, nessuna risposta possibile a una domanda — `npx` non scarica e stampa «canceled due to
+  // missing packages and no YES option», uscendo ≠ 0. Nessuna delle impronte qui sopra la
+  // riconosceva, quindi il banco leggeva quell'uscita come «la prova è diventata rossa»: cioè
+  // AR-840 di nuovo, in un ambiente dove nessuno lo stava guardando.
+  //
+  // Perché è proprio la forma peggiore: succede SOLO sul runner e MAI sulla macchina di chi scrive
+  // (qui i pacchetti sono in cache), che è la definizione di AR-797 — «verde sul computer di chi lo
+  // scrive, rosso per sempre sul server». Un difetto così non lo trova chi costruisce: lo trova la
+  // prima macchina pulita, ed è la ragione per cui la casa spoglia esiste.
+  { re: /npx canceled due to missing packages/i, dillo: "npx non ha potuto procurarsi il programma (nessun pacchetto in cache e nessuna conferma possibile)" },
+  { re: /npm error .*(?:ENOTFOUND|ETIMEDOUT|ECONNREFUSED|network)/i, dillo: "il programma andava scaricato e la rete non c'è" },
 ];
 
 /**
