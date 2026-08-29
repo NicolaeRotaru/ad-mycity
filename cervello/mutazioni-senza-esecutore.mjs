@@ -263,7 +263,15 @@ function mainMordono() {
   let esiti = [];
   if (campione.length) {
     const cartella = mkdtempSync(join(tmpdir(), "morde-"));
-    const via = join(cartella, "mutanti.json");
+    // ⚠️ NON si chiama «mutanti.json», e il perché non è estetico. Il guardiano delle porte
+    // automatiche (`porta-automatica-indentazione`) riconosce i file di memoria dal NOME, non dal
+    // percorso: un file di passaggio chiamato come il registro vero gli risulta indistinguibile dal
+    // registro vero, e accusava questa riga di «riscrivere il file intero e bloccare la
+    // pubblicazione». Era un falso rosso — qui si scrive in una cartella temporanea — ma il nome
+    // costava un'accusa a ogni giro, e un metro che accusa chi il lavoro l'ha fatto si impara a
+    // scorrerlo. Il nome non serviva comunque a niente: il banco riceve il percorso dalla variabile
+    // MUTANTI_FILE qui sotto, non cercandolo per nome.
+    const via = join(cartella, "campione-da-mordere.json");
     writeFileSync(via, JSON.stringify({ mutanti: campione }, null, 2));
     const tempo = String(argomento("--tempo", "120000"));
     const r = spawnSync(process.execPath, [join(AD_ROOT, "cervello/non-vacuita.mjs"), "--json"], {

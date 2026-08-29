@@ -29,5 +29,7 @@
  "mutazioni_senza_esecutore": 5,
  "vincoli_senza_cieco": 0,
  "stati_ignoti": 0,
- "_perche_mutazioni_senza_esecutore": ""
+ "_perche_mutazioni_senza_esecutore": "",
+ "puntatori_ciechi": 0,
+ "_puntatori_ciechi_perche": "AR-878 · 29/8/2026 — quanti puntatori di prova il guardiano NON ha potuto guardare (file sparito, rinominato, illeggibile). MISURATO sul repo vero il 29/8: zero. Il confronto senza questa chiave non giudicava niente: la corsia aveva costruito il metro e non aveva mai dichiarato il punto di partenza, e il freno restava muto proprio sul repo che deve sorvegliare. Scende e non risale, come tutti i tetti di questa casa. Se sale: un file di prova e sparito o ha cambiato nome, ed e ESATTAMENTE l evento che questo guardiano esiste per vedere — si riaggancia il puntatore, non si alza il numero. Alzarlo si puo, ma va scritto qui accanto col perche."
 }

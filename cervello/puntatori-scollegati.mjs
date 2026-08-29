@@ -917,8 +917,22 @@ function main() {
   const r = scollegati(difetti, leggi, esiste, mutazioni);
   let tetto = null;
   let popolazioneDichiarata = null;
-  // AR-878 — `null` vuol dire UNA cosa sola: il file dei tetti non l'ho potuto leggere. La chiave
-  // assente NON è `null`: è 0, cioè il metro più stretto. Vedi `tettoDeiCiechi` per il perché.
+  // AR-878 — `null` vuol dire «non ho un numero con cui confrontare», e sono DUE i modi di non
+  // averlo: il file dei tetti non si legge, oppure la chiave non c'è.
+  //
+  // ⚠️ CORRETTO IL 29/8, e la prima stesura diceva il contrario: «la chiave assente NON è null: è 0,
+  // cioè il metro più stretto». Sembra la scelta prudente ed è un'accusa senza riferimento. Superare
+  // un tetto che nessuno ha mai dichiarato non è una regressione MISURATA: è il freno che inventa un
+  // punto di partenza e poi accusa chi non l'ha rispettato. Questa casa la lezione ce l'ha già
+  // scritta, ed è una delle mutazioni di AR-840: «senza tetto il verdetto diventa verde invece di ⚪»
+  // — cioè in mancanza di un riferimento si dichiara di non aver misurato, non si emette un verdetto.
+  // Qui valeva nell'altro verso, ed era peggio: rendeva ROSSO un ⚪, contro la regola di casa per cui
+  // il 2 non è mai un verde e non è mai un rosso. Il conto: due prove che difendevano proprio quel
+  // contratto sono diventate rosse (il rinomino e il file illeggibile), e la verifica automatica è
+  // passata da 10 rossi a 13.
+  //
+  // Cosa NON cambia: sul repo vero la chiave c'è, quindi il ⚪ che cresce resta una violazione ed è
+  // l'intenzione di AR-878. Cambia solo dove un riferimento non è mai stato dichiarato.
   let tettoCiechi = null;
   const ciechiTetto = [];
   try {
@@ -926,7 +940,7 @@ function main() {
     tetto = Object.hasOwn(t, "puntatori_scollegati") ? Number(t.puntatori_scollegati) : null;
     popolazioneDichiarata = Object.hasOwn(t, "puntatori_popolazione") ? Number(t.puntatori_popolazione) : null;
     const c = Number(t.puntatori_ciechi);
-    tettoCiechi = Object.hasOwn(t, "puntatori_ciechi") && Number.isInteger(c) && c >= 0 ? c : 0;
+    tettoCiechi = Object.hasOwn(t, "puntatori_ciechi") && Number.isInteger(c) && c >= 0 ? c : null;
   } catch {
     ciechiTetto.push("tetti-lotto.json illeggibile: il numero c'è, il confronto col tetto no");
   }

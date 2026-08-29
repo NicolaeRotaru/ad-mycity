@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-29 01:07",
+  "aggiornato": "2026-08-29 09:51",
   "giorni_sospetto": 3,
-  "difetti_aperti": 139,
-  "difetti_da_fare": 139,
+  "difetti_aperti": 140,
+  "difetti_da_fare": 140,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 869,
+    "totale": 870,
     "chiusi": 730,
-    "aperti": 128,
+    "aperti": 129,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 139,
+    "da_fare": 140,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 730,
-      "aperto": 128,
+      "aperto": 129,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 139,
-    "viste": 139,
+    "attese": 140,
+    "viste": 140,
     "fuori": 0,
-    "motivo": "bilancio a posto: 730 chiuse + 139 classificate = 869 schede, e ogni stato vivo è dentro (128 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 730 chiuse + 140 classificate = 870 schede, e ogni stato vivo è dentro (129 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 96,
+    "umana": 97,
     "prova-debole-su-grave": 26,
     "auto-comando": 13,
     "auto-sospetta": 4
@@ -338,7 +338,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 126,
+  "non_auto_chiudibili": 127,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3573,6 +3573,19 @@
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Il ⚪ del guardiano dei puntatori non ha un tetto che scende, e un file rinominato lo fa salire in silenzio",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-879",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La prova che difende il passo del Pannello cerca le parole «|| true», non l atto di spegnere il verdetto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
