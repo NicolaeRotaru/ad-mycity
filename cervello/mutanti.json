@@ -2280,9 +2280,10 @@
    "difetto": "AR-416",
    "nome": "il giro smette di lanciare il potatore: l'archivio torna a crescere fino al muro senza che nessuno poti",
    "file": "cervello/giro.sh",
-   "cerca": "  node \"$SCRIPT_DIR/pota-apprendimento.mjs\" --se-serve 2>&1 | esito_righe 3 || true",
-   "sostituisci": "  : # potatore mai lanciato",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs"
+   "cerca": "  sensore \"pota-apprendimento.mjs\" 3 --se-serve || true",
+   "sostituisci": "  true # potatore spento",
+   "test": "cervello/test/archivi-senza-tetto.test.mjs",
+   "nota_riaggancio": "29/8 (AR-880): la riga e passata da una pipe (node ... | esito_righe 3 || true) alla funzione di casa sensore(), perche in pipe il ⚪ del potatore non arrivava a nessuno. Il pezzo difeso e lo stesso: se il giro smette di lanciare il potatore, l archivio cresce fino al muro e la scheda Apprendimento torna illeggibile."
   },
   {
    "difetto": "AR-416",

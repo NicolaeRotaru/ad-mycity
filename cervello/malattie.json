@@ -14,7 +14,7 @@
    "estensioni": [
     ".sh"
    ],
-   "baseline": 34,
+   "baseline": 30,
    "file_noti": [
     "cervello/giro.sh",
     "cervello/ritmo.sh",
@@ -80,7 +80,7 @@
      "perche": "Il rendiconto di spesa dentro il monitoraggio: nessuna uscita non-zero che sia un giudizio, quindi la pipe non seppellisce niente."
     }
    ],
-   "nota_baseline": "34, misurato il 2026-08-27 in serata: 44 istanze lorde meno 10 rapporti informativi dichiarati uno per uno negli esenti. Erano 49 lorde stamattina; cinque sono state CURATE davvero (sentinella-fonti, guardiano-tempo, metabolismo, bilancio-vivo, midollo-spinale), passando dalla funzione `sensore` di giro-esito.sh che cattura l esito prima di stampare e grida sul 2. Quei cinque attrezzi in questo stesso lotto hanno imparato a dire «non ho potuto misurare» (AR-859): lasciarli dentro una pipe voleva dire dargli una voce e poi tapparla. ⚠️ Il calo 49→44 e una CURA, non un cambio di metro — il pattern e lo stesso e la controprova regge. Prima ancora il numero era 0, perche il rilevatore cercava «tail» mentre il codice era passato a esito_righe: la malattia risultava guarita perche avevamo cambiato nome al tubo. Da qui il tetto scende e non risale.",
+   "nota_baseline": "34, misurato il 2026-08-27 in serata: 44 istanze lorde meno 10 rapporti informativi dichiarati uno per uno negli esenti. Erano 49 lorde stamattina; cinque sono state CURATE davvero (sentinella-fonti, guardiano-tempo, metabolismo, bilancio-vivo, midollo-spinale), passando dalla funzione `sensore` di giro-esito.sh che cattura l esito prima di stampare e grida sul 2. Quei cinque attrezzi in questo stesso lotto hanno imparato a dire «non ho potuto misurare» (AR-859): lasciarli dentro una pipe voleva dire dargli una voce e poi tapparla. ⚠️ Il calo 49→44 e una CURA, non un cambio di metro — il pattern e lo stesso e la controprova regge. Prima ancora il numero era 0, perche il rilevatore cercava «tail» mentre il codice era passato a esito_righe: la malattia risultava guarita perche avevamo cambiato nome al tubo. Da qui il tetto scende e non risale. — 29/8 (AR-880): scesa da 34 a 30. Curate quattro istanze vere in cervello/giro.sh, tutte trovate dalla radiografia del perimetro: il potatore dell archivio e la sonda dei verdetti (il loro ⚪ finiva in una pipe e non lo sentiva nessuno), piu lo scanner dei segreti e il metro dell onesta, che giravano DUE volte — una per il verdetto e una per il dettaglio, e la seconda in pipe col || true. Adesso l uscita si cattura una volta sola e si stampa da li: oltre a togliere la pipe, le due corse non possono piu dare risposte diverse.",
    "controprova": "node \"$SCRIPT_DIR/sonda-volano.mjs\" --json | esito_righe 3 || true"
   },
   {

@@ -587,7 +587,8 @@ if command -v node >/dev/null 2>&1; then
   fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
-  node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | esito_righe 2 || true
+  # 🚧 AR-880 — stesso caso della riga sopra, stesso rimedio: il ⚪ di questa sonda finiva in una pipe.
+  sensore "taste-file.mjs" 2 --sonda || true
   # 4/8: la CI delle PR aperte. Questa macchina apre PR da sola a ogni lavoro e non ha mai guardato
   # come finivano i controlli: la sera del 4/8, cinque PR su sei erano rosse e nessuno lo sapeva.
   # Il vincolo scatta SOLO sul rosso di cui la PR è responsabile: i rossi ereditati da `main` sono un
@@ -885,7 +886,13 @@ $_chius_out"
   #    (1.070.609 > 1.048.576) e la scheda Apprendimento della Cabina è tornata illeggibile.
   #    --se-serve pota SOLO sopra il 95% del tetto (mai le lezioni vive), sotto non scrive un byte. ──
   echo "[$(ts)] Potatore archivio apprendimento (AR-416: pota prima del muro)..."
-  node "$SCRIPT_DIR/pota-apprendimento.mjs" --se-serve 2>&1 | esito_righe 3 || true
+  # 🚧 AR-880 — era in pipe, e la pipe restituisce l'uscita dell'ULTIMO comando: il ⚪ del potatore
+  # («apprendimento.json non trovato o non è JSON valido», che capita davvero se un giro viene ucciso
+  # a metà scrittura) non arrivava a nessuno. La potatura non girava e la macchina non lo sapeva.
+  # `sensore` è la funzione di casa costruita apposta (AR-859): cattura l'esito PRIMA di stampare e
+  # sul 2 grida. Il `|| true` resta: un sensore cieco non deve fermare il giro, deve smettere di
+  # essere invisibile.
+  sensore "pota-apprendimento.mjs" 3 --se-serve || true
   # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
   echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
   # AR-309 — due correzioni. (a) `2>&1` mescolava stderr nel testo del vincolo: una traccia d'errore
@@ -1571,10 +1578,22 @@ if command -v node >/dev/null 2>&1; then
     echo "[$(ts)] ⚠️  SCAN SEGRETI: una famiglia di chiavi in uso NON è coperta da nessuna regola:" >&2
     node "$SCRIPT_DIR/scan-segreti.mjs" --prova 2>&1 | esito_righe 8 >&2
   fi
-  if ! node "$SCRIPT_DIR/scan-segreti.mjs" >/dev/null 2>&1; then
+  # 🚧 AR-880 — LO SCANNER CHE NON HA POTUTO SCANSIONARE NON DICE «HO TROVATO UN SEGRETO».
+  # `scan-segreti.mjs` esce 2 quando non riesce nemmeno a costruire l'elenco dei file (git che non
+  # risponde, per esempio). Letto come booleano, quel 2 diventava «possibile segreto nei file
+  # versionabili» e il rimedio stampato mandava a RUOTARE UNA CHIAVE che non era mai stata esposta —
+  # un lavoro vero, urgente e inutile, su una chiave di produzione.
+  # Il blocco resta in tutti e due i casi, ed è giusto: se non so cosa sto pubblicando, non pubblico
+  # (fail-closed). Cambia la FRASE, che è quello che manda una persona a fare la cosa sbagliata.
+  _segreti_out="$(node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1)"; _segreti_rc=$?
+  if [ "$_segreti_rc" -eq 2 ]; then
+    SEGRETO_TROVATO=1
+    echo "[$(ts)] ⚪ SCAN SEGRETI CIECO: non ho potuto guardare i file — sync memoria BLOCCATA per prudenza. NON è stato trovato nessun segreto: non ruotare niente, guarda perché lo scanner non è partito." >&2
+    printf '%s\n' "$_segreti_out" | esito_righe 8 >&2
+  elif [ "$_segreti_rc" -ne 0 ]; then
     SEGRETO_TROVATO=1
     echo "[$(ts)] ⛔ SCAN SEGRETI: possibile segreto nei file versionabili — sync memoria BLOCCATA." >&2
-    node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1 | esito_righe 12 >&2 || true
+    printf '%s\n' "$_segreti_out" | esito_righe 12 >&2
   fi
 fi
 
@@ -1589,14 +1608,37 @@ if command -v node >/dev/null 2>&1; then
   [ -f "MyCity-Vault/90-Memoria-AI/STATO.md" ] && _onesta_files+=("MyCity-Vault/90-Memoria-AI/STATO.md")
   _ultimo_brief="$(ls -t MyCity-Vault/90-Memoria-AI/Briefing/*.md 2>/dev/null | head -1)"
   [ -n "$_ultimo_brief" ] && _onesta_files+=("$_ultimo_brief")
-  if [ "${#_onesta_files[@]}" -gt 0 ] && ! node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" >/dev/null 2>&1; then
-    echo "[$(ts)] ⚠️  ONESTA-CHECK: violazioni onestà (segnaposto non risolti / numeri senza fonte) in STATO.md o ultimo briefing:" >&2
-    node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1 | esito_righe 12 >&2 || true
-    if [ "${ONESTA_BLOCCA:-0}" = 1 ]; then
-      ONESTA_BLOCK=1
-      echo "[$(ts)] ⛔ ONESTA_BLOCCA=1: sync memoria BLOCCATA per violazioni onestà (come i segreti)." >&2
-    else
-      echo "[$(ts)] ⚠️  Giro marcato NON-ONESTO (WARN forte, push non bloccato). Imposta ONESTA_BLOCCA=1 per bloccarlo." >&2
+  # 🚧 AR-880 — LA TRAPPOLA CHE QUESTO STESSO LOTTO AVEVA ARMATO, e va detto perché è la lezione.
+  # Il mandato del lotto diceva, testuale: «convertire uno strumento a 2 senza sistemare chi lo legge
+  # trasforma un falso allarme in un silenzio». Poi `onesta-check.mjs` è stato convertito (esce 2
+  # quando non ha potuto giudicare) e QUESTA riga, che è il suo unico lettore nel giro, è rimasta
+  # booleana: qualunque uscita ≠ 0 diventava «violazioni onestà (segnaposto non risolti / numeri
+  # senza fonte)», e con ONESTA_BLOCCA=1 bloccava il push. Cioè: lo strumento dice «non ho potuto
+  # guardare» e il giro riporta «ho guardato e ho trovato dei segnaposti». Una bugia sul contenuto.
+  # Non era ancora raggiungibile — l'ha misurato la radiografia — ma una trappola armata scatta il
+  # giorno che qualcuno cambia una soglia, non il giorno che la si scrive.
+  # Una chiamata sola: l'uscita si cattura INSIEME al codice e si stampa da lì. Prima lo strumento
+  # girava due volte — una per il verdetto e una per il dettaglio — e la seconda finiva in una pipe
+  # col `|| true`. Girare due volte non è solo spreco: le due corse possono dare risposte diverse
+  # (il file cambia in mezzo), e allora il giro stampa un dettaglio che non appartiene al verdetto
+  # che ha preso.
+  if [ "${#_onesta_files[@]}" -gt 0 ]; then
+    _onesta_out="$(node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1)"; _onesta_rc=$?
+    if [ "$_onesta_rc" -eq 2 ]; then
+      # ⚪ Il metro non ha potuto giudicare. Si dichiara e NON si blocca: un cieco non è una
+      # violazione. Bloccare la pubblicazione per una cosa che nessuno ha guardato è il verso
+      # sbagliato della prudenza — quello che ferma la macchina senza saper dire perché.
+      echo "[$(ts)] ⚪ ONESTA-CHECK CIECO: il metro non ha potuto giudicare STATO.md o l'ultimo briefing. Nessuna violazione trovata, e nessuna esclusa." >&2
+      printf '%s\n' "$_onesta_out" | esito_righe 6 >&2
+    elif [ "$_onesta_rc" -ne 0 ]; then
+      echo "[$(ts)] ⚠️  ONESTA-CHECK: violazioni onestà (segnaposto non risolti / numeri senza fonte) in STATO.md o ultimo briefing:" >&2
+      printf '%s\n' "$_onesta_out" | esito_righe 12 >&2
+      if [ "${ONESTA_BLOCCA:-0}" = 1 ]; then
+        ONESTA_BLOCK=1
+        echo "[$(ts)] ⛔ ONESTA_BLOCCA=1: sync memoria BLOCCATA per violazioni onestà (come i segreti)." >&2
+      else
+        echo "[$(ts)] ⚠️  Giro marcato NON-ONESTO (WARN forte, push non bloccato). Imposta ONESTA_BLOCCA=1 per bloccarlo." >&2
+      fi
     fi
   fi
 fi
@@ -1709,9 +1751,27 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
       echo "[$(ts)]   ⚪ $_rnome — da qui non lo posso rimisurare: $_rcomando" >&2
       continue
     fi
+    # 🚧 AR-880 — QUI SI LEGGEVA UN VERDETTO A TRE ESITI COME SE FOSSE UN SÌ/NO, e il danno non era
+    # un falso allarme qualunque: era un'accusa CON IL NOME SBAGLIATO. Un guardiano che va cieco
+    # mentre lo si rimisura finiva in RIV_RIMASTI, cioè fra quelli che «dicono ANCORA no» — e da lì
+    # nel motivo che dice «vincoli consegnati al motore e NON soddisfatti», che blocca la sync e
+    # parte a Nicola su Telegram. Nicola sarebbe andato a cercare il lavoro non fatto dall'AD mentre
+    # il guasto era uno strumento rotto. È il fratello non curato del blocco di coerenza-fatti
+    # sessanta righe più su, che invece blocca E dichiara «CIECO».
+    #
+    # RIV_NONRIM esisteva già ed era la casella giusta: rientra nel conto dei vincoli attivi (un ⚪
+    # non è mai un verde) ma NON nel motivo che accusa il motore. Mancava solo che il 2 ci arrivasse.
+    #
+    # Il 124 di `timeout` resta un ❌ apposta: un guardiano che non finisce in due minuti non è un
+    # cieco, è un guardiano che non risponde.
     # shellcheck disable=SC2086
-    if timeout 120 node "$SCRIPT_DIR"/$_rcomando >/dev/null 2>&1; then
+    timeout 120 node "$SCRIPT_DIR"/$_rcomando >/dev/null 2>&1
+    _rrc=$?
+    if [ "$_rrc" -eq 0 ]; then
       RIV_RISOLTI+=("$_rnome")
+    elif [ "$_rrc" -eq 2 ]; then
+      RIV_NONRIM+=("$_rnome")
+      echo "[$(ts)]   ⚪ $_rnome — non ho potuto rimisurarlo: il guardiano è cieco, NON è il motore che non ha fatto il lavoro." >&2
     else
       RIV_RIMASTI+=("$_rnome")
       echo "[$(ts)]   ⛔ $_rnome — il vincolo era stato consegnato al motore e il guardiano dice ANCORA no." >&2
