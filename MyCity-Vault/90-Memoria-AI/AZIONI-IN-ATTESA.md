@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-26 17:51** — Automatico: **103 aperte · 25 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-29 01:22** — Automatico: **107 aperte · 27 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -23,11 +23,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- cancello-del-sito-e-campo-prova -->
-### 🟡 #184 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
+### 🟡 #185 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
 
-**In parole semplici.** Oggi ho scritto il metodo per chiudere tanti difetti del sito in una volta
-sola. Scrivendolo ho trovato due buchi veri, e non li ho tappati: te li porto perché la decisione
-costa lavoro e la firma è tua.
+**In parole semplici.** Ho scritto il metodo per chiudere tanti difetti del sito in una volta sola.
+Scrivendolo ho trovato tre buchi veri, e non li ho tappati: te li porto perché la decisione costa
+lavoro e la firma è tua.
 
 **Il primo buco: sul sito non c'è un comando unico che dica «si consegna».** Sulla macchina c'è, e
 un mansionario di casa spiega perché: cinque comandi da ricordare erano cinque occasioni di
@@ -41,17 +41,17 @@ posso dichiarare «questa la verifica un umano», come faccio sulla macchina.
 importano come modulo. Oggi o riesco a scrivere una prova che gira, oppure quel difetto resta
 aperto. Non c'è la terza strada.
 
+**Il terzo buco: dopo l'unione, segnare i difetti come riparati è lavoro a mano.** Vuol dire aprire
+un file da ottomila righe e scriverci dentro riga per riga. Se quel passo salta, il lotto successivo
+rimette in lista roba già sistemata.
+
 **Cosa cambia per te.** Se dici di sì, i lotti del sito si chiudono con un comando solo. E i
 difetti delle pagine si possono chiudere dichiarando chi li ha guardati. Se dici di no, il metodo
 funziona lo stesso. Ma resta il debito: due comandi a mano, e nessuna prova dichiarabile sulle
 pagine.
 
-**Cosa devi fare.** Rispondi «ok 184» se vuoi che lo costruisca, oppure dimmi di lasciarlo lì. Non
+**Cosa devi fare.** Rispondi «ok 185» se vuoi che lo costruisca, oppure dimmi di lasciarlo lì. Non
 è urgente per il 1° settembre: i lotti si possono fare anche così.
-
-**Il terzo buco: dopo l'unione, segnare i difetti come riparati è lavoro a mano.** Vuol dire aprire
-un file da ottomila righe e scriverci dentro riga per riga. Se quel passo salta, il lotto successivo
-rimette in lista roba già sistemata.
 
 **Se va bene:** costruisco tre cose. Il comando unico del cancello del sito. Il campo della prova
 nello schema delle schede, col controllo che lo legge. Il comando che scrive le chiusure dopo
@@ -59,48 +59,44 @@ l'unione. Resta tutto in una richiesta di unione, e la firma resta tua.
 
 ---
 
-<!-- unione-pr-244-bloccanti -->
-### 🔴 #183 — Unisci la riparazione dei quattro bloccanti, e applica la migrazione al database vero · ⏳ accodata 2026-08-28 17:25
+<!-- rilascio-ordinato-migrazioni -->
 
-**In parole semplici.** I quattro problemi bloccanti trovati dalla radiografia del 27 agosto sono
-riparati. Il lavoro sta in una richiesta di unione sul sito, la numero 244. Finché non la unisci tu,
-non tocca niente: il sito pubblicato è ancora quello di prima, col catalogo invisibile a chi non ha
-l'account.
+### 🔴 #184 — Il database di produzione è indietro di quattro migrazioni, e va allineato in ordine · ⏳ accodata 2026-08-29 00:45
 
-**Per esempio.** Oggi una cliente che apre il sito dal telefono senza account clicca sulla focaccia
-di Pane Quotidiano e legge «Prodotto non trovato». Dopo l'unione, e dopo il passo del database qui
-sotto, quella cliente la focaccia la vede e la può comprare.
+**In parole semplici.** Il codice del sito e il database dei clienti non dicono la stessa cosa. Il
+registro delle migrazioni in produzione è fermo a `125c`: mancano la 126, la 127, la 128 e la 129.
+Il catalogo l'ho già rimesso in vetrina con un ponte, quindi non c'è niente che brucia. Ma la
+distanza resta, e cresce a ogni modifica.
 
-**Cosa cambia per te.** Finché la 244 resta aperta, il sito pubblicato è quello di prima. Chi arriva
-senza account continua a leggere «Prodotto non trovato». Dopo l'unione, e dopo il passo (b), quella
-persona vede il catalogo e può ordinare. Cambia anche l'avviso al negoziante: gli arriva a ogni
-ordine, pure quando la macchina si spegne subito dopo il pagamento.
+**Per esempio.** La 128 aggiunge due informazioni alla vetrina degli sconti: se un prodotto è finito
+e se ha varianti. Senza di lei, quando tornerà una promozione attiva, il cartellino «Esaurito» non
+comparirà e il «+» sarà premibile su una cosa che non c'è più. Il cliente lo scopre alla cassa.
 
-**Cosa devi fare.** Due cose, in quest'ordine.
+**Cosa cambia per te.** Oggi nessuno se ne accorge, perché le promozioni attive sono zero. Il giorno
+in cui Pane Quotidiano ne accende una, quel difetto è davanti a un cliente.
 
-**(a) Unisci la richiesta 244** su GitHub. Tutti e sei i controlli sono verdi. Non ci sono
-conflitti. Attenzione: unire su `main` fa partire da solo la pubblicazione in produzione. Succede
-perché il cancello del rilascio è ancora spento. Quindi qui unire vuol dire pubblicare: fallo quando
-puoi guardare il sito nei minuti dopo.
+**Cosa devi fare.** Scegliere fra due strade.
 
-**(b) Applica la migrazione al database vero.** Il file si chiama
-`migrations/129_il_catalogo_si_vede_senza_account.sql`. Va eseguito nella finestra dei comandi del database
-(l'editor SQL di Supabase), sul progetto di produzione. Senza quel passo il catalogo resta invisibile. La riparazione del primo
-bloccante vive lì dentro, non nel codice. Le altre tre funzionano già con la sola unione.
+**(a) Accendi il cancello del rilascio.** Sono le tre chiavi Vercel che ti chiedo dalla card #161. Da
+lì in poi le migrazioni le applica il rilascio da solo, in ordine, e questa distanza non si riforma.
+È la strada che chiude il problema invece del sintomo.
 
-Se preferisci, il passo (b) te lo preparo io con backend-dev. Ti do il testo da incollare.
-L'esecuzione sul database dei clienti resta tua.
+**(b) Dammi il via e le applico io a mano.** In ordine: 126, poi 127, poi 128, poi 129. Una
+transazione per file, con la misura prima e dopo di ognuna, come ho fatto stanotte.
 
-**Cosa non ho verificato.** La migrazione del passo (b) non ha mai girato sul database dei clienti:
-l'ho provata solo su una copia ricostruita qui dentro, dove ha retto anche con degli ordini dentro.
-Non ho visto nessuna pubblicazione partire, quindi non so quanto ci mette. Restano aperte le
-domande della card #181.
+**Io farei tutte e due.** La (a) chiude il problema. La (b) tappa intanto: sono quattro file, e da
+soli non tornano.
 
-**Cosa cambia:** oggi un negozio che rifiuta un ordine pagato con la carta tiene i soldi di chi ha
-comprato, e il cliente legge «niente addebiti». Dopo l'unione il rimborso parte da solo.
+**Cosa non ho verificato.** Non ho letto le tre migrazioni mancanti riga per riga contro lo schema
+vero della produzione. Stanotte l'ho fatto solo per la 129, ed è lì che è saltato fuori che la 128
+cambia la firma di una funzione. Le altre due possono avere sorprese dello stesso tipo: le guardo
+prima di eseguire, non mentre.
 
-**Se va bene:** dopo l'unione controllo che la pubblicazione sia andata a buon fine. Poi ti dico se
-il catalogo risponde a un visitatore.
+**Cosa cambia:** il codice pubblicato si aspetta un database che oggi non esiste, e la prima
+promozione accesa lo mostra a un cliente.
+
+**Se va bene:** con la (a) controllo che il primo rilascio applichi da solo le quattro mancanti. Con
+la (b) te le applico in ordine, e ti porto la misura di ognuna.
 
 ---
 
@@ -150,39 +146,6 @@ mantiene con pagamento a carta.
 **Se va bene:** con la (a) preparo la checklist Stripe per il titolare e avviso appena i tre
 interruttori sono verdi; con la (b) riscrivo le CTA di tutti i post di Pane Quotidiano già in coda
 entro lo stesso lotto.
-
----
-
-<!-- catalogo-invisibile-anon -->
-### 🔴 #181 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
-
-**In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
-sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
-prodotto. Non vede recensioni. La ricerca gli torna vuota. I negozi in home invece si vedono, e
-questo è l'inganno: la prima pagina si riempie, e sembra che il sito funzioni.
-
-Il collega che l'ha trovato non l'ha dedotto. Ha ricostruito il database da zero, con tutte e 129
-le istruzioni salvate nel progetto. Ci ha messo dentro un negozio approvato e un prodotto
-disponibile. Poi ha letto le stesse cose che legge il sito, con gli occhi di un visitatore. Ha
-contato zero ovunque. Le stesse righe, lette da proprietario, ci sono tutte.
-
-**Cosa cambia per te.** Facciamo un caso vero. Pane Quotidiano mette in vetrina la focaccia. Una
-cliente vede il post, apre il sito dal telefono, non ha un account perché è la prima volta. Vede il
-negozio, clicca sulla focaccia, legge «Prodotto non trovato» e chiude. Per lei MyCity è un sito
-rotto, e non torna. Se il difetto è vivo in produzione, oggi il sito non può incassare un euro.
-
-**Cosa devi fare.** Un minuto, e lo puoi fare adesso dal telefono. Apri il sito in una finestra
-anonima del browser, senza fare l'accesso. Clicca un prodotto qualunque. Dimmi cosa vedi.
-
-**Se va bene:** se il prodotto lo vedi, l'incendio non c'è. Resta però una cosa da riparare: vuol
-dire che il sito pubblicato e il codice non dicono la stessa cosa. La prossima pubblicazione può
-spegnerlo davvero. Se invece leggi «Prodotto non trovato», ti preparo la riparazione stanotte con
-il collaudo vero. La firmi tu prima che tocchi il sito.
-
-**Cosa non ho verificato.** Il sito pubblicato, in nessun punto. Da qui non lo raggiungo: tutto
-quello che so è misurato sul codice e sul database ricostruito dalle istruzioni del progetto. È
-esattamente per questo che la prova la devi fare tu, e vale più di qualsiasi altra cosa scritta
-stasera.
 
 ---
 
@@ -2882,6 +2845,9 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.
-> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
 | 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+
+---
+
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 27.
+> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

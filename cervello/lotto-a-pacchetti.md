@@ -129,7 +129,7 @@ Il formato da scrivere è `chiuso_il` come `AAAA-MM-GG HH:MM` più `chiuso_da` c
 
 Sulla macchina gli stati **non si toccano dentro il lotto**: restano `aperto`, e le chiusure le applica `node cervello/auto-fix.mjs verifica --applica` dopo l'unione.
 
-⚠️ **Sul sito quel comando non esiste.** Nessuno script scrive `stato` o `chiuso_il` dentro il registro del sito: oggi è una modifica a mano su un file di ottomila righe, con una chiave che si rompe se una squadra ritocca un titolo. Se il passo salta, il lotto successivo ripianifica gli stessi difetti già riparati e nessun rosso lo segnala. È il terzo pezzo della card 184.
+⚠️ **Sul sito quel comando non esiste.** Nessuno script scrive `stato` o `chiuso_il` dentro il registro del sito: oggi è una modifica a mano su un file di ottomila righe, con una chiave che si rompe se una squadra ritocca un titolo. Se il passo salta, il lotto successivo ripianifica gli stessi difetti già riparati e nessun rosso lo segnala. È il terzo pezzo della card 185.
 
 ### ⑥ Cosa questo lotto non muove
 
