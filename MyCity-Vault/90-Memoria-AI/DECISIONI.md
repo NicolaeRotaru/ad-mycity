@@ -4738,3 +4738,59 @@ typecheck del Pannello, che in questa sessione non gira senza `npm ci --prefix p
 **Collaudo indipendente: non c'è.** In questa sessione non potevo affidare il collaudo a un secondo
 agente, quindi ho costruito e provato io. Il sostituto sono le nove mutazioni sul codice vero. È
 debito dichiarato, non lavoro finito.
+
+## 2026-08-29 00:40 — 🔴 ESEGUITA la migrazione sul database dei clienti: il catalogo è tornato visibile
+
+**Chi ha firmato.** Nicola: «applica tu la migration». È l'unica scrittura sul database di
+produzione che questa macchina abbia mai fatto.
+
+**La misura prima.** Letto il catalogo col ruolo `anon`, cioè con la chiave pubblica che ha ogni
+browser: **0 prodotti su 5**, 0 recensioni, 0 risultati di ricerca — e 1 negozio visibile in vetrina.
+Il difetto era vivo in produzione, esattamente come la radiografia diceva. Questo chiude anche la
+card #181, che aspettava una prova in finestra anonima: non serve più, si legge dal database.
+
+**Cosa ho fatto PRIMA di scrivere.** Sei revisori indipendenti in sola lettura, ognuno con una lente
+diversa (sintassi e firme · permessi e fughe · chi perde accesso · ricorsione e costi · divergenza
+produzione-repo · ritorno indietro), più un settimo che ha rifatto da solo le accuse gravi. Hanno
+trovato un bloccante, tre gravi e cinque minori. **Tre cose mi hanno fermato la mano:**
+
+① **La produzione è indietro di quattro migrazioni** (il registro è fermo a `125c`: mancano 126, 127,
+128, 129). La 128 cambia la firma di `active_promo_products` da sette a nove colonne: la migrazione
+del repo, applicata così com'è, **sarebbe fallita a metà**. E registrarla come «129» avrebbe fatto
+saltare per sempre la 129 vera al prossimo rilascio, facendo arrivare la 128 per ultima — che rimette
+il guasto sulle promozioni, in silenzio e per sempre. Applicata quindi come **ponte**, con nome
+distinto `129p_ponte_produzione_catalogo_visibile`, così il rilascio ordinato 126→127→128→129 resta
+intatto e finisce nello stato giusto.
+
+② **La mia diagnosi sulle recensioni era sbagliata.** Quella regola non interroga `profiles`:
+interroga `products`. Le zero recensioni erano un effetto a catena della regola dei prodotti, e si
+curano da sole riparando quella. Riscriverla avrebbe tolto all'amministratore le recensioni dei
+negozi sospesi, senza curare niente. **Non l'ho toccata.**
+
+③ **La fascia dei più visti l'ho tolta dal lavoro.** Portarla a permessi di definizione avrebbe
+aperto a chiunque il conteggio delle visite prodotto per prodotto — e il beneficio era zero: il sito,
+dopo aver ricevuto le righe, le riaggancia a `profiles` e le butta via, quindi la fascia resta vuota
+comunque. Si pagava una porta aperta per niente.
+
+**Cosa ho eseguito**, in **una transazione sola** con `lock_timeout` a 3 secondi (senza, un'interruzione
+fra la cancellazione della vecchia regola e la scrittura della nuova avrebbe lasciato il catalogo a
+zero **per tutti**, anche per i clienti registrati): la funzione `negozio_approvato` a permessi di
+definizione (`REVOKE` da PUBLIC, `GRANT` ad anon/authenticated/service_role), la regola di lettura di
+`products` e quella di `store_reviews`, e le due funzioni di vetrina `search_products_smart` e
+`active_promo_products` — quest'ultima nella **firma a sette colonne che la produzione ha oggi**, non
+quella a nove del repo.
+
+**La misura dopo.** Visitatore senza account: **5 prodotti su 5**, ricerca «pane» → 1 risultato,
+negozio in vetrina 1. Cliente registrato qualunque: 5. E ciò che era chiuso resta chiuso, verificato:
+`profiles` 0, `product_views` 0, `orders` 0.
+
+**Cosa NON è dimostrato, e va detto.** Delle cinque riparazioni del file originale ne restano tre
+applicate, e **solo due sono misurabili su questi dati**: i prodotti (0→5) e la ricerca. Recensioni
+negozio e vetrina sconti passano da zero a zero, perché quelle tabelle sono vuote: se una di quelle
+due regole fosse sbagliata non lo scoprirebbe nessuno fino al primo cliente. Non le conto come
+chiuse. E non ho aperto il sito pubblicato: ho misurato il database, non la pagina.
+
+**Cosa resta.** Il rilascio ordinato di 126→127→128→129 sulla produzione — finché non parte, la
+vetrina sconti non mostrerà i cartellini «Esaurito» e la produzione resta indietro rispetto al codice.
+È lo stesso buco del quarto bloccante: il cancello che dovrebbe applicare le migrazioni è spento per
+mancanza delle tre chiavi Vercel.
