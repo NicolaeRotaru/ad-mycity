@@ -11474,11 +11474,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 14:56",
+     "quando": "2026-08-22 13:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 13:54",
+     "quando": "2026-08-22 14:56",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
@@ -11554,11 +11554,23 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
+     "quando": "2026-08-28 00:26",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
      "quando": "2026-08-28 21:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
      "quando": "2026-08-28 22:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:16",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:33",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11976,11 +11988,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 14:56",
+     "quando": "2026-08-22 13:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 13:54",
+     "quando": "2026-08-22 14:56",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
@@ -12056,11 +12068,23 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
+     "quando": "2026-08-28 00:26",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
      "quando": "2026-08-28 21:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
      "quando": "2026-08-28 22:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:16",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:33",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12157,11 +12181,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 14:56",
+     "quando": "2026-08-22 13:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 13:54",
+     "quando": "2026-08-22 14:56",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
@@ -12237,11 +12261,23 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
+     "quando": "2026-08-28 00:26",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
      "quando": "2026-08-28 21:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
      "quando": "2026-08-28 22:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:16",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:33",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12906,11 +12942,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 14:56",
+     "quando": "2026-08-22 13:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 13:54",
+     "quando": "2026-08-22 14:56",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
@@ -12986,11 +13022,23 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
+     "quando": "2026-08-28 00:26",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
      "quando": "2026-08-28 21:54",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
      "quando": "2026-08-28 22:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:16",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-28 23:33",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -13066,7 +13114,12 @@
    "nato": "2026-08-25",
    "ultima_conferma": "2026-08-25 16:30",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [
+    {
+     "quando": "2026-08-28 22:20",
+     "ref": "freno rosso nel cancello: forma dei JSON toccati"
+    }
+   ],
    "gate": "node cervello/forma-json.mjs",
    "data": "2026-08-25 16:30"
   },

@@ -32,6 +32,7 @@ import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-558: l'indentazione
 import { giorniDa, passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mjs"; // AR-182: il tempo si misura in tempo
 import { timbroOra } from "./ora-piacenza.mjs"; // AR-666: l'ora di casa da un posto solo
 import { lezioniVive } from "./misura-parziale.mjs"; // AR-362: una sola definizione di «lezione viva»
+import { frenoVivoDi, ultimoUsoDi } from "./lezione-viva.mjs"; // AR-861: eseguibili da una prova, non sepolte qui
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
@@ -135,26 +136,6 @@ dati.principi = tuttiPrincipi.map((l) => ({
 // Ora il passo è legato al TEMPO (al massimo uno ogni DECAY_OGNI_GG giorni) e c'è un tetto per giro:
 // una memoria che si svuota a blocchi non sta invecchiando, sta perdendo pezzi — e va vista mentre
 // succede, non dopo.
-/**
- * Il freno di una lezione monta ancora la guardia? (AR-771)
- * Vero solo se lo script citato nel campo `gate` esiste sul disco. Una stringa non è un guardiano:
- * se il file è stato tolto, la regola non è più in vigore e la lezione riprende a invecchiare.
- */
-function frenoVivoDi(l) {
-  const g = typeof l?.gate === "string" ? l.gate : "";
-  const m = g.match(/([\w./-]*\/)?([\w.-]+\.(?:m?js|cjs|sh))\b/);
-  if (!m) return false;
-  const rel = (m[1] || "") + m[2];
-  return existsSync(join(ROOT, rel));
-}
-
-/** La data dell'uso più recente, o null. È la traccia che lascia `freno-scattato.mjs` (AR-770). */
-function ultimoUsoDi(l) {
-  const usi = Array.isArray(l?.usi) ? l.usi : Array.isArray(l?.applicata_in) ? l.applicata_in : [];
-  const date = usi.map((u) => (typeof u === "string" ? u : u?.quando)).filter(Boolean).sort();
-  return date.length ? date[date.length - 1] : null;
-}
-
 const decadute = [];
 const rimandate = [];
 for (const l of lezioni) {
@@ -167,7 +148,7 @@ for (const l of lezioni) {
     // AR-771 — le due cose che valgono quanto una riconferma. Il freno conta solo se il file del
     // guardiano ESISTE davvero: una stringa scritta in una scheda non monta la guardia, e se qualcuno
     // toglie il guardiano la lezione deve tornare a invecchiare come tutte le altre.
-    frenoVivo: frenoVivoDi(l),
+    frenoVivo: frenoVivoDi(l, ROOT),
     ultimoUso: ultimoUsoDi(l),
   });
   if (!decade) continue;

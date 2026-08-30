@@ -91,8 +91,26 @@ import { rigaReferto, verdettoPostoVuoto } from "./posto-o-contenuto.mjs";
 const JSON_MODE = process.argv.includes("--json");
 const SERIALE = process.argv.includes("--seriale");
 const SOLO = (() => {
+  // Due forme, e la seconda non e' un vezzo: `auto-fix` esegue le prove delle schede solo nella forma
+  // `node cervello/<script>.mjs [--flag]`, cioe' senza un valore staccato. Con la sola forma
+  // `--solo <x>` la scheda AR-834 non poteva avere un comando eseguibile dal motore, e sarebbe
+  // rimasta aperta in silenzio dopo il merge.
+  const attaccato = process.argv.find((a) => a.startsWith("--solo="));
+  if (attaccato) return attaccato.slice("--solo=".length);
   const i = process.argv.indexOf("--solo");
-  return i >= 0 ? process.argv[i + 1] : null;
+  const valore = i >= 0 ? process.argv[i + 1] : null;
+  // 28/8/2026 — `--solo` CHIESTO E NON CAPITO NON PUÒ DIVENTARE «TUTTO».
+  //
+  // Se il filtro c'è ma il valore non si legge (un refuso, un flag senza valore, o il giorno in cui
+  // qualcuno rompe questa lettura), fin qui SOLO restava null e il banco girava la suite INTERA.
+  // Sono due cose diversissime raccontate uguale: «non filtrare» e «il filtro non ha funzionato».
+  // È la stessa forma di AR-676 — chiamare «vuoto» ciò che non si è cercato — e si vedeva solo come
+  // un'attesa lunghissima, cioè nel modo peggiore.
+  if (process.argv.includes("--solo") && !valore) {
+    console.error("❌ --solo senza un valore leggibile: mi fermo invece di misurare tutto e chiamarlo «il filtro».");
+    process.exit(1);
+  }
+  return valore;
 })();
 // La cartella delle prove si può PUNTARE ALTROVE, e non è una comodità: è l'unico modo di provare
 // questo banco senza aggiungere al repo una prova rotta apposta. Un banco che si può misurare solo
@@ -837,8 +855,16 @@ async function main() {
   // «nessun test .test.mjs» significherebbe dire «non c'è niente» avendo guardato una famiglia sola.
   let bats = trovaBats(nella);
   if (SOLO) {
-    file = file.filter((f) => f.includes(SOLO));
-    bats = bats.filter((f) => f.includes(SOLO));
+    // 28/8/2026 — PIÙ DI UN PEZZO DI NOME, SEPARATI DA VIRGOLA.
+    //
+    // Serviva per dare una prova a comando alla scheda AR-834, che vive in SEI file di prova con
+    // nomi senza niente in comune. Con un filtro solo si poteva scegliere fra misurare un file o
+    // misurare l'intera suite — e l'intera suite oggi è rossa per altri due difetti, quindi quella
+    // scheda non avrebbe mai potuto avere un comando che diventa verde.
+    const pezzi = SOLO.split(",").map((x) => x.trim()).filter(Boolean);
+    const scelto = (f) => pezzi.some((p) => f.includes(p));
+    file = file.filter(scelto);
+    bats = bats.filter(scelto);
   }
   // AR-859 — E QUI INVECE L'1 RESTA, apposta. La cartella c'è, l'ho aperta e l'ho contata: il conto
   // è zero. Lo zero È il reperto — «il cervello non ha rete» è la notizia grave che questo strumento
@@ -1112,7 +1138,13 @@ async function main() {
   //   · i rossi in bash ≤ il tetto dichiarato;
   //   · il tetto l'ho LETTO davvero. Un file assente o illeggibile non assolve nessuno: senza il
   //     numero non sto misurando, e «non ho misurato» non è «va bene» (contratto AR-322).
-  const t = tettoBash();
+  // 28/8/2026 — IL TETTO NON VALE QUANDO SI MISURA UN INSIEME SCELTO A MANO.
+  //
+  // Il tetto assolve il DEBITO EREDITATO: i rossi che nessun lotto di oggi ha toccato. Con `--solo`
+  // non si sta guardando l'eredità, si stanno guardando dei file scelti apposta — e un rosso lì
+  // dentro è di chi li ha scelti. Senza questa riga il comando di prova della scheda AR-834 usciva
+  // ZERO anche con il fix rotto a mano: una verifica che non può diventare rossa, misurata.
+  const t = SOLO ? { letto: true, tetto: 0, motivo: "" } : tettoBash();
   if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {
     console.log(
       `\n🐚 I ${rottiBash.length} rossi sono TUTTI in bash, debito ereditato sotto il tetto dichiarato (${t.tetto}, cervello/tetti-lotto.json → test_bash).` +

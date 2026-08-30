@@ -8,7 +8,7 @@ reparto: content-social (sintesi AD)
 negozio: Pane Quotidiano (Via Calzolai 25) — stato `confermato` nel registro-realtà
 categoria: PRODOTTO-EROE (swipe #5 Cortilia "la vera stella") — pudding come merenda pronta di fine agosto
 pilastro: motore "Volti, non algoritmi" → prodotto scelto dal negoziante, non un algoritmo
-colore: 🟢 creare (questo file) · 🔴 pubblicare (accodato AZIONI-IN-ATTESA #179)
+colore: 🟢 creare (questo file) · 🔴 pubblicare (accodato AZIONI-IN-ATTESA #182)
 codice: CD-2026-08-28
 formato: 1 immagine tipografica IG feed (1080×1350) + Storia 9:16 + versione gruppi FB
 fonte-swipe: #5 prodotto come eroe in uso + #7 autenticità grezza (niente foto-stock)
@@ -133,7 +133,7 @@ coda non pubblicati — coincidenza che vale la pena notare).
 ---
 
 ## 📋 Checklist pubblicazione (Nicola 🔴)
-1. **Prima di tutto:** decidi cosa fare del blocco pagamenti (vedi card #179 in coda) — non è un problema di questo post, è di tutti i post con CTA "ordina" fermi in coda da settimane.
+1. **Prima di tutto:** decidi cosa fare del blocco pagamenti (vedi card #182 in coda) — non è un problema di questo post, è di tutti i post con CTA "ordina" fermi in coda da settimane.
 2. Scegli il visual: tipografico (subito) oppure aspetta foto reale del prodotto (chiedere ok al titolare).
 3. Link in bio + 1° commento FB con UTM `merenda-2808`.
 4. Pubblica IG feed + storia + pagina FB + gruppi FB.

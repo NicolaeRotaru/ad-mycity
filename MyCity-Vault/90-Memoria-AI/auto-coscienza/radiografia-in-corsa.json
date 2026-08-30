@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-28 22:42",
+  "aggiornato": "2026-08-28 23:33",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -1556,6 +1556,56 @@
         "cervello/tasso-lezioni.mjs": "594643c191c3",
         "cervello/vincoli-senza-cieco.mjs": "1d996103a596",
         "cervello/workflow-partono.mjs": "721f536b6e30"
+      }
+    },
+    {
+      "quando": "2026-08-28 22:20",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/test-cervello.mjs": "d4bd5e9623e9"
+      }
+    },
+    {
+      "quando": "2026-08-28 23:16",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-862"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/cristallizza-apprendimento.mjs": "b6a3c3a61457",
+        "cervello/forma-prova.mjs": "55a1729d94d3",
+        "cervello/lezione-viva.mjs": "bcf2ca1d6bf4",
+        "cervello/test-cervello.mjs": "255de8f607e0"
+      }
+    },
+    {
+      "quando": "2026-08-28 23:33",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/cristallizza-apprendimento.mjs": "b6a3c3a61457",
+        "cervello/forma-prova.mjs": "55a1729d94d3",
+        "cervello/lezione-viva.mjs": "bcf2ca1d6bf4",
+        "cervello/test-cervello.mjs": "1f3e26ef4d4d"
       }
     },
     {

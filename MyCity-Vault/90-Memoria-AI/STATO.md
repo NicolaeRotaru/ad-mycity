@@ -32,6 +32,22 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 ---
 
+> 🩻 **27/8 23:53 — Quarta radiografia del sito: 194 problemi veri, e il primo spegne il catalogo.** Richiesta tua: «fai la radiografia del marketplace».
+>
+> **In due righe.** Tredici esperti hanno riletto il sito in sola lettura, e un collaudatore diverso ha ricontrollato ogni problema nel codice vero. Restano 194 problemi confermati: 4 bloccanti, 74 gravi, 116 minori.
+>
+> **Il conto delle quattro visite.** I bloccanti erano 21 il 29 luglio, 12 il 18 agosto, 12 il 21 agosto. Oggi sono **4**. Il totale scende da 262 a 245, poi a 199, oggi a **194**. È la prima volta che i bloccanti si muovono davvero. Non ho verificato quali dei dodici siano stati chiusi. So solo quanti ne vedo oggi.
+>
+> **Il primo bloccante è nuovo ed è il più caro.** Chi arriva sul sito senza aver fatto l'accesso legge zero prodotti, zero recensioni, zero risultati di ricerca. I negozi in home si vedono lo stesso, e questo nasconde il guasto. Il database è stato ricostruito dalle 129 istruzioni del progetto e riletto con i permessi di un visitatore. Zero ovunque. Da proprietario le righe ci sono tutte. La causa: la regola che mostra un prodotto chiede «il negozio è approvato?» con i permessi di chi guarda. E a un visitatore la tabella dei negozi è stata chiusa a luglio.
+>
+> **Gli altri tre toccano i soldi.** ① Il negozio rifiuta un ordine pagato con carta e il rimborso non parte mai. Al cliente intanto scriviamo «Niente addebiti». ② Su un ordine pagato con carta l'avviso al negozio può non partire: email e campanella partono dopo la risposta a Stripe. Sul contrassegno lo stesso codice è scritto nell'ordine giusto. ③ Ogni unione pubblica il sito senza aspettare i controlli. Il cancello esiste ma è spento: gli mancano tre chiavi, e si dichiara «non pronto» restando verde.
+>
+> **Cosa devi fare.** Card #181: apri il sito in finestra anonima, clicca un prodotto, dimmi cosa vedi. È la prova che decide se il primo bloccante è vivo in produzione. Per il bloccante della pubblicazione non ho accodato niente di nuovo: le tre chiavi Vercel te le chiede già la card #161, ferma dal 22 agosto.
+>
+> **Cosa NON ho verificato.** Il sito pubblicato, in nessun punto. Tutto è misurato sul codice al commit `637de93`, e sul database ricostruito dalle migrazioni. Nessun ordine vero, nessuna carta addebitata, nessun rimborso chiesto. I 116 minori li ho contati, non pesati uno per uno.
+>
+> Referto: `consegne/audit/2026-08-27-radiografia.md` · dati grezzi: `consegne/audit/2026-08-27-radiografia-marketplace-raw.json`
+
 
 
 
