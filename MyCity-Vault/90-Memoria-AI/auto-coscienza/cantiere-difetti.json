@@ -18605,7 +18605,7 @@
       }
     },
     {
-      "id": "AR-865",
+      "id": "AR-892",
       "titolo": "Il banco delle prove cancella cartelle di altri dentro /tmp, e in cima dichiara «sola lettura, non tocca niente»",
       "dimensione": "rischio-sicurezza-se",
       "gravita": "grave",
