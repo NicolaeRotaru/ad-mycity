@@ -8525,6 +8525,14 @@
    "cerca": "    nome: \"scarsità fabbricata: solo per i primi N\",",
    "sostituisci": "    nome: \"scarsità fabbricata: solo per i primi N\",\n    re: /MAI-NESSUNA-CORRISPONDENZA/gi, _spenta:",
    "test": "cervello/test/banco-mail-onesta.test.mjs"
+  },
+  {
+   "difetto": "AR-891",
+   "nome": "il tetto del flusso torna a trenta minuti: il cancello muore d orologio e «annullato» non si legge come un fallimento",
+   "file": ".github/workflows/cancello-lotto.yml",
+   "cerca": "    timeout-minutes: 75",
+   "sostituisci": "    timeout-minutes: 30",
+   "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

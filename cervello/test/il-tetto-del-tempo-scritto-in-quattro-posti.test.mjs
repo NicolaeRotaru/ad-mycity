@@ -84,3 +84,51 @@ test("AR-888: ...e non è così largo da non distinguere «occupata» da «piant
   assert.ok(TEMPO_MAX_SUITE <= 30 * 60 * 1000,
     `il tetto è ${TEMPO_MAX_SUITE / 60000} minuti: a quel punto non distingue più una macchina occupata da un blocco`);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🚧 AR-891 — LO STESSO DIFETTO UN PIANO PIÙ SOPRA: il tetto del FLUSSO, non del cancello
+// ─────────────────────────────────────────────────────────────────────────────
+// Il 31/8, cercando perché il cancello non si era mai fatto sentire su questo ramo, il conto:
+// TREDICI corse, tredici finite `cancelled`, zero verdetti. Alcune morte esattamente a trenta
+// minuti senza nessuna spinta nel mezzo — l'orologio, non la coda.
+//
+// E la parte che fa di questo un difetto grave e non una lentezza: GitHub segna un lavoro ucciso
+// dall'orologio come «annullato», NON come «fallito». La suite dei controlli diceva «nessun
+// controllo è fallito»: vero alla lettera, falso in sostanza, perché il cancello non aveva
+// controllato niente. Un guardiano che tace, e il cui silenzio si legge come «tutto a posto».
+//
+// ⚠️ E il costo scala col LOTTO, che è la ragione per cui questo tetto non si sceglie una volta e
+// si dimentica: il cancello rompe apposta OGNI mutazione del lotto. Un lotto con cinquanta
+// mutazioni costa il doppio di uno con venticinque.
+
+test("AR-891: il tetto del flusso è almeno il doppio della suite, e porta scritto il suo conto", async () => {
+  const { readFileSync } = await import("node:fs");
+  const yml = readFileSync(join(REPO, ".github/workflows/cancello-lotto.yml"), "utf8");
+
+  const m = yml.match(/^\s*timeout-minutes:\s*(\d+)\s*$/m);
+  assert.ok(m, "il flusso del cancello non dichiara più un tetto di tempo: senza, il lavoro muore quando decide GitHub");
+  const minuti = Number(m[1]);
+
+  // Il legame col numero misurato altrove: la suite da sola sta in TEMPO_MAX_SUITE, e il flusso
+  // deve contenere ALMENO due volte quella — perché oltre alla suite fa npm ci, il browser, bats,
+  // il typecheck e tutte le mutazioni del lotto. Se un giorno la suite si allarga e questo tetto no,
+  // questo caso diventa rosso PRIMA che il flusso ricominci a morire in silenzio.
+  const { TEMPO_MAX_SUITE } = await import(join(REPO, VIA));
+  const minutiSuite = TEMPO_MAX_SUITE / 60000;
+  assert.ok(minuti >= minutiSuite * 2,
+    `il flusso ha ${minuti} minuti contro una suite che da sola ne può prendere ${minutiSuite}: ` +
+    "il cancello torna a morire d'orologio, e «annullato» non si legge come un fallimento");
+
+  // …e il conto dev'essere SCRITTO accanto, o è di nuovo un numero senza fonte — il difetto che
+  // AR-888 ha curato un piano più sotto.
+  assert.match(yml, /tredici|13 (corse|volte)/i,
+    "il tetto non porta più accanto la misura che l'ha deciso: senza, il prossimo lo abbassa a occhio");
+});
+
+test("AR-891: ...e non è così largo da non distinguere «lento» da «piantato»", async () => {
+  const { readFileSync } = await import("node:fs");
+  const yml = readFileSync(join(REPO, ".github/workflows/cancello-lotto.yml"), "utf8");
+  const minuti = Number(yml.match(/^\s*timeout-minutes:\s*(\d+)\s*$/m)[1]);
+  assert.ok(minuti <= 120,
+    `${minuti} minuti: a quel punto un lavoro piantato tiene occupata la coda per due ore prima che qualcuno lo sappia`);
+});
