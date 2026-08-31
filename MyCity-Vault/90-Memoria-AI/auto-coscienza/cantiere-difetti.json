@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-30 17:05",
+  "aggiornato": "2026-08-30 18:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18968,8 +18968,8 @@
       "dimensione": "guardiani-e-guardrail",
       "gravita": "medio",
       "impatto_crescita": "basso",
-      "causa_radice": "① Una pipe restituisce il codice d'uscita dell'ULTIMO comando, mai di quello prima. Uno strumento lanciato come «node x.mjs | esito_righe 3» può uscire 2 (⚪, non ho potuto misurare) e la shell vede 0. ② In cervello/giro.sh ci sono 38 righe che lanciano uno script del cervello dentro una pipe. MISURATE il 29/8, una per una: in 11 lo script SA uscire 2, quindi c'è un ⚪ che si può perdere; nelle altre 27 lo strumento non ha nessun ramo cieco e non c'è niente da perdere. Le 11, con la riga: guardiano-capacita (399), housekeeping-azioni (497), chiusura-loop --sonda (513), calibrazione (527, 549, 558, 577, 652), peso-file-cabina (697), auto-fix (704), scan-segreti --prova (1579). ③ Perché non sono un grave come i quattro curati lo stesso giorno: quelli cambiavano un VERDETTO o bloccavano la pubblicazione — la riverifica accusava il motore di non aver fatto il lavoro, lo scanner mandava a ruotare una chiave mai esposta. Questi sono stampe informative: perderne il ⚪ vuol dire che la macchina non sa che quello strumento è andato cieco, non che dice una bugia a Nicola. ④ La cura esiste già ed è la funzione sensore() in cervello/giro-esito.sh, costruita apposta per AR-859: cattura l'esito PRIMA di stampare, e sul 2 grida. È già usata in cinque punti.",
-      "fix_proposto": "🟡 Convertire le 11 righe alla forma «sensore \"<script>.mjs\" <righe> [argomenti] || true». NON in un colpo solo e NON dentro un lotto che parla d'altro: misurato il 29/8, ogni modifica a giro.sh fa scattare altri guardiani — i tetti delle malattie, il rilevatore dei guardiani informativi, la spazzata dei fratelli — e ognuno va rimesso a posto. Curarne quattro ne ha fatti diventare rossi tre, e sono serviti due giri per riportare il conto dov'era. Un file per volta, col conto della malattia esito-in-una-pipe che scende a ogni passo e non risale. ⚠️ La riga 513 (chiusura-loop --sonda) è già DEBITO DICHIARATO nel commento di chiusura-loop.mjs, righe 320-323: quella si lascia com'è oppure si toglie l'esenzione con il perché scritto — non la si cura di nascosto, o la dichiarazione diventa una bugia.",
+      "causa_radice": "⚠️ CAUSA CORRETTA IL 30/8, e la prima versione era sbagliata in un modo che contava. Diceva: «una pipe restituisce il codice d'uscita dell'ULTIMO comando, mai di quello prima». Non in questo file: `cervello/giro.sh` dichiara `set -uo pipefail` alla riga 7, e con pipefail la pipe PORTA il codice del comando che ha fallito. Misurato, non ragionato — uno script finto che esce 2 dentro una pipe: con pipefail e senza `|| true` la shell vede 2; con `|| true` vede 0; senza pipefail vede 0. Il colpevole vero e `|| true`, non la pipe. ② Il conto giusto su giro.sh, misurato il 30/8: 37 righe lanciano uno script del cervello dentro una pipe; 35 di quelle portano anche `|| true` e sono quelle che perdono l'esito; le altre 2, con pipefail, lo conservano gia. ③ Perche non e un grave come i quattro curati il 29/8: quelli cambiavano un VERDETTO o bloccavano la pubblicazione — la riverifica accusava il motore di non aver fatto il lavoro, lo scanner mandava a ruotare una chiave mai esposta. Questi sono stampe informative: perderne il ⚪ vuol dire che la macchina non sa che quello strumento e andato cieco, non che dice una bugia a Nicola. ④ La cura esiste gia ed e la funzione sensore() in cervello/giro-esito.sh, costruita apposta per AR-859: cattura l'esito PRIMA di stampare, e sul 2 grida con un messaggio che si legge. Sostituisce sia la pipe sia il `|| true`, ed e per questo che resta la cura giusta anche con la causa corretta: togliere solo il `|| true` renderebbe visibile il codice ma non direbbe a nessuno che e un ⚪.",
+      "fix_proposto": "🟡 Convertire alla forma «sensore \"<script>.mjs\" <righe> [argomenti] || true» le righe che oggi perdono l'esito: 35 misurate il 30/8, di cui 4 gia curate il 29/8. NON in un colpo solo e NON dentro un lotto che parla d'altro: misurato il 29/8, ogni modifica a giro.sh fa scattare altri guardiani — i tetti delle malattie, il rilevatore dei guardiani informativi, la spazzata dei fratelli, e la prova archivi-senza-tetto che cercava la riga di comando alla lettera — e ognuno va rimesso a posto. Curarne quattro ne ha fatti diventare rossi tre, e sono serviti due giri per riportare il conto dov'era. Un file per volta, col conto della malattia esito-in-una-pipe che scende a ogni passo e non risale. ⚠️ La riga di chiusura-loop --sonda e gia DEBITO DICHIARATO nel commento di chiusura-loop.mjs, righe 320-323: quella si lascia com'e oppure si toglie l'esenzione con il perche scritto — non la si cura di nascosto, o la dichiarazione diventa una bugia. ⚠️ E la priorita va data alle righe il cui strumento SA uscire 2: su uno strumento senza ramo cieco non c'e nessun ⚪ da perdere, e convertirla e lavoro senza guadagno.",
       "colore": "🟡",
       "stato": "aperto",
       "nato": "2026-08-29 09:40",
@@ -18995,7 +18995,9 @@
         "comando": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
         "nota": "Dieci casi. Le due righe con cui il collaudo ha eseguito codice come root sono due dei casi, e girano nella MODALITA VERA (quella con cui eseguiProva chiama davvero), non in quella stretta. Accanto girano il caso «i reporter interni restano ammessi» e il caso «zero delle 958 voci vere viene respinta»: senza quei due la cura sarebbe un divieto, che e il difetto opposto. Il cancello all ingresso del registro ha il suo caso in il-cancello-all-ingresso-del-registro.test.mjs. Tre mutazioni, tutte rosse."
       },
-      "trovato_da": "collaudo di sicurezza indipendente (chi ha costruito esecuzione-prova.mjs non lo ha collaudato)"
+      "trovato_da": "collaudo di sicurezza indipendente (chi ha costruito esecuzione-prova.mjs non lo ha collaudato)",
+      "nato_come": "regressione",
+      "nato_da": "AR-867"
     },
     {
       "id": "AR-886",
@@ -19012,7 +19014,28 @@
         "comando": "node cervello/test/archivi-senza-tetto.test.mjs",
         "nota": "Cinque casi nuovi su 35. Il piu importante non e quello che prova la compattazione: e «i quattro che leggono usi trovano ancora quello che cercano», perche il modo sbagliato di curare questo difetto — tenere gli ultimi due usi e basta — passerebbe la prova della compattazione e cancellerebbe i riferimenti vecchi che tasso-lezioni cerca. Piu il caso sul file VERO e quello sul cablaggio. Una mutazione, rossa."
       },
-      "trovato_da": "la prova di sei schede chiuse, diventata rossa da sola durante la ricucitura con main"
+      "trovato_da": "la prova di sei schede chiuse, diventata rossa da sola durante la ricucitura con main",
+      "nato_come": "scoperta",
+      "nato_da": "AR-770"
+    },
+    {
+      "id": "AR-887",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-30 18:50",
+      "area": "pannello",
+      "nato_come": "regressione",
+      "nato_da": "AR-871",
+      "titolo": "Un'azione che FORSE e gia partita torna in «da approvare», e la prossima firma la manda due volte a un cliente vero",
+      "sintomo": "Se l'atto esplode a meta — Resend che chiude la connessione dopo aver accettato, la rete che cade — la rotta toglie la firma e la card torna in «da approvare». Nel frattempo il messaggio dice a Nicola «NON riprovare, riprovando rischi di mandarla una seconda volta». Le due cose non stanno insieme: togliere la firma E l'invito a riprovare.",
+      "causa_radice": "Il ramo «non eseguito» della rotta e stato scritto quando i motivi erano TRE — cieco, gia-in-corso, prenotazione-incerta — e tutt'e tre vogliono dire «NON ho toccato il mondo». Il commento sopra la riga lo diceva: «Niente e partito: la firma va tolta». Il 30/8 questo stesso lotto ne ha aggiunto un quarto, atto-esploso, che vuol dire una cosa diversa: «non SO se l'ho toccato». Il ramo non e stato riletto. Il segnale c'era ed era scritto: cancello-atto.ts mette `mondoForseToccato: true` su quel motivo e su nessun altro — un campo che scriveva uno e non leggeva NESSUNO. Una bandiera issata e mai guardata e il modo in cui un difetto si annuncia da solo e non lo sente nessuno. La forma generale, ed e quella che vale oltre questo caso: quando si aggiunge un valore a un tipo somma, ogni posto che fa lo `switch` su quel tipo va riletto — il ramo di default non e neutro, applica al caso nuovo la regola scritta per i vecchi.",
+      "fix_proposto": "🟡 FATTO. La rotta legge `mondoForseToccato`: quando e vero la firma resta APPOSTA, e il messaggio dice perche («cosi nessuno la rimanda per sbaglio: quando hai controllato il canale, segnala a mano»). Aggiunto `firmaTenutaApposta` nella risposta, perche «l'ho tenuta apposta» e «non sono riuscito a toglierla» sono due stati diversi e Nicola deve leggerli diversi. Sugli altri tre motivi la firma si toglie come prima: non toglierla mai ricostruirebbe AR-110, cioe un'azione mai partita che resta firmata e che la CLI puo raccogliere.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/c1-atto-una-volta-sola.test.mjs",
+        "nota": "Due casi su undici, e girano contro la ROTTA VERA con Supabase finto, non contro una copia della logica: la prova guarda la riga `azione:az-1:firma` dentro il finto dopo che l'atto e esploso. Il secondo caso e quello che impedisce la cura sbagliata: su «posto gia preso» la firma deve ancora togliersi, o il fix diventa «non togliere mai la firma» ed e AR-110 di ritorno. Una mutazione, rossa."
+      },
+      "trovato_da": "radiografia del perimetro toccato, lente pannello/robustezza-errori (il cancello del lotto l'ha chiesta)"
     }
   ],
   "meta": {

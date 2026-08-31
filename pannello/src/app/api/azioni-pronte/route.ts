@@ -270,17 +270,32 @@ export async function POST(req: Request) {
   });
 
   if (!svolgimento.eseguito) {
-    // Niente è partito: la firma appena scritta va tolta, altrimenti resta addosso a un'azione che
-    // nessuno ha eseguito e il worker potrebbe raccoglierla. Se nemmeno la revoca passa, Nicola
-    // deve saperlo: è la stessa cosa che AR-384 nascondeva nella rotta di annullamento.
-    const firmaTolta = await revocaFirma(id);
+    // ⚠️ AR-887 — QUI C'ERANO TRE MOTIVI, E DAL 30/8 SONO QUATTRO.
+    //
+    // Il commento di prima diceva «Niente è partito: la firma va tolta», ed era vero per i tre
+    // motivi che c'erano allora — `cieco`, `gia-in-corso`, `prenotazione-incerta` dicono tutti
+    // «NON ho toccato il mondo». Il quarto, `atto-esploso`, dice una cosa diversa: «non SO se
+    // l'ho toccato». Il suo stesso messaggio a Nicola dice «NON riprovare, riprovando rischi di
+    // mandarla una seconda volta» — e togliere la firma è esattamente l'invito a riprovare: la
+    // card torna in «da approvare», Nicola la firma di nuovo e la mail parte due volte, a un
+    // cliente vero.
+    //
+    // Il campo `mondoForseToccato` esisteva già, lo scriveva `cancello-atto.ts` e non lo leggeva
+    // NESSUNO: una bandiera issata e mai guardata. Adesso decide.
+    const forseGiaPartita = svolgimento.mondoForseToccato === true;
+    const firmaTolta = forseGiaPartita ? false : await revocaFirma(id);
     return NextResponse.json(
       {
         ok: false,
-        firmaAncoraViva: !firmaTolta,
-        error: firmaTolta
-          ? svolgimento.messaggio
-          : `${svolgimento.messaggio} In più non sono riuscito a togliere la firma: l'azione resta firmata anche se non è partita. Metti la pausa dal Pannello.`,
+        // Con `mondoForseToccato` la firma resta APPOSTA, e non è «non sono riuscito a toglierla».
+        // Sono due stati diversi e vanno detti diversi, o Nicola legge un guasto dove c'è una scelta.
+        firmaAncoraViva: forseGiaPartita || !firmaTolta,
+        firmaTenutaApposta: forseGiaPartita,
+        error: forseGiaPartita
+          ? `${svolgimento.messaggio} La firma resta sull'azione APPOSTA, così nessuno la rimanda per sbaglio: quando hai controllato il canale, segnala a mano come «fatta» o «da rifare».`
+          : firmaTolta
+            ? svolgimento.messaggio
+            : `${svolgimento.messaggio} In più non sono riuscito a togliere la firma: l'azione resta firmata anche se non è partita. Metti la pausa dal Pannello.`,
         motivo: svolgimento.motivo,
         giaInCorso: svolgimento.motivo === "gia-in-corso",
         salvataggio: false,

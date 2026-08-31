@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "quando": "2026-08-30 17:35",
-  "fonti_dovute": 13,
+  "quando": "2026-08-31 10:12",
+  "fonti_dovute": 18,
   "fonti_totali": 18,
   "agenda": [
     {
@@ -130,7 +130,7 @@
       "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
       "url_websearch": "https://www.google.com/search?q=comune+piacenza+bandi+imprese+commercio+2026",
       "skip_check": true,
-      "motivo": "settimanale_stale_20g"
+      "motivo": "settimanale_stale_21g"
     },
     {
       "id": "unionecommercianti-bandi",
@@ -147,6 +147,54 @@
       "url_websearch": null,
       "skip_check": false,
       "motivo": "giornaliera"
+    },
+    {
+      "id": "cna-piacenza",
+      "nome": "CNA Piacenza / CompraPiacenza",
+      "peso": 4,
+      "cadenza": "settimanale",
+      "scrive_in": "radar-concorrenti",
+      "senior": [
+        "relazioni-istituzionali",
+        "intelligence"
+      ],
+      "cosa_cercare": "CompraPiacenza novità, artigiani, bandi, posizionamento (postura complementare)",
+      "url": "https://piacenza.cna.it/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_7g"
+    },
+    {
+      "id": "glovo-piacenza",
+      "nome": "Glovo — Piacenza",
+      "peso": 4,
+      "cadenza": "settimanale",
+      "scrive_in": "radar-concorrenti",
+      "senior": [
+        "intelligence",
+        "growth-monetizzazione"
+      ],
+      "cosa_cercare": "nuovi negozi, categorie, promo, fee, zone coperte (contro-argomento '30% Glovo')",
+      "url": "https://glovoapp.com/it/it/piacenza/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_7g"
+    },
+    {
+      "id": "conad-consegna",
+      "nome": "Conad — Spesa online Piacenza",
+      "peso": 4,
+      "cadenza": "settimanale",
+      "scrive_in": "radar-concorrenti",
+      "senior": [
+        "intelligence",
+        "analista"
+      ],
+      "cosa_cercare": "zone consegna, slot, soglie spedizione gratis (il vero concorrente di abitudine)",
+      "url": "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_7g"
     },
     {
       "id": "meteo-piacenza",
@@ -178,7 +226,7 @@
       "url": "https://www.vitaincentroapiacenza.com/category/news/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_20g"
+      "motivo": "settimanale_stale_21g"
     },
     {
       "id": "unionecommercianti",
@@ -194,7 +242,39 @@
       "url": "https://www.unionecommerciantipc.it/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_20g"
+      "motivo": "settimanale_stale_21g"
+    },
+    {
+      "id": "cortilia",
+      "nome": "Cortilia / q-commerce filiera corta",
+      "peso": 3,
+      "cadenza": "settimanale",
+      "scrive_in": "radar-concorrenti",
+      "senior": [
+        "intelligence",
+        "growth-monetizzazione"
+      ],
+      "cosa_cercare": "modello, prezzi, espansione zone, cosa imitare o evitare",
+      "url": "https://www.cortilia.it/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_7g"
+    },
+    {
+      "id": "sagre-provincia",
+      "nome": "Sagre & mercatini Piacenza e provincia",
+      "peso": 3,
+      "cadenza": "settimanale",
+      "scrive_in": "eventi-picchi",
+      "senior": [
+        "intelligence",
+        "content-social"
+      ],
+      "cosa_cercare": "sagre DOP, mercatini, fiere → domanda stagionale e picchi delivery",
+      "url": "https://www.quatarobpavia.it/eventi-mercatini-sagre-piacenza-provincia/",
+      "url_websearch": null,
+      "skip_check": false,
+      "motivo": "settimanale_stale_7g"
     },
     {
       "id": "reputazione-mycity",
@@ -210,7 +290,7 @@
       "url": "https://www.google.com/search?q=MyCity+Piacenza",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_12g"
+      "motivo": "settimanale_stale_13g"
     }
   ],
   "stale": [
@@ -218,31 +298,31 @@
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
       "ultimo": "2026-08-24",
-      "giorni": 6
+      "giorni": 7
     },
     {
       "file": "eventi-picchi",
       "path": "eventi-picchi.md",
       "ultimo": "2026-08-24",
-      "giorni": 6
+      "giorni": 7
     },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
       "ultimo": "2026-08-10",
-      "giorni": 20
+      "giorni": 21
     },
     {
       "file": "leve-uscita",
       "path": "leve-uscita.md",
       "ultimo": "2026-08-10",
-      "giorni": 20
+      "giorni": 21
     },
     {
       "file": "reputazione",
       "path": "reputazione.md",
       "ultimo": "2026-08-18",
-      "giorni": 12
+      "giorni": 13
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"

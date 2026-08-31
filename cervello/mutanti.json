@@ -8466,6 +8466,14 @@
    "cerca": "      l.usi = compattaUsi(l.usi);",
    "sostituisci": "",
    "test": "cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "difetto": "AR-887",
+   "nome": "la firma si toglie anche quando il mondo potrebbe essere gia stato toccato: Nicola rimanda la mail",
+   "file": "pannello/src/app/api/azioni-pronte/route.ts",
+   "cerca": "    const firmaTolta = forseGiaPartita ? false : await revocaFirma(id);",
+   "sostituisci": "    const firmaTolta = await revocaFirma(id);",
+   "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

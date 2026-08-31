@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-31 10:14 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-29 10:21 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-28 23:51 · Lotto 28/8: le prove del cervello guardavano la sintassi di ieri (AR-834, nove casi) e la popolazione di ieri (AR-861) · V5 C5 A5 K5 I4 M5 E4 (media 4.71) · atteso chiudere i nove casi di AR-834 e lasciare il resto dov e → reale chiusi i nove di AR-834 piu AR-861, che era l unico rosso in Node e teneva bloccato il cancello per chiunque: rossi del banco da 8 a 1. Trovati riparando: AR-862 (il percorso del gate di una lezione puo uscire dal repo) e una mutazione ferma da dieci giri (AR-676) che adesso misura. Resta AR-833, difetto vero che vuole la firma di Nicola sul file dei permessi · #cantiere #prove #cervello
 - 2026-08-28 23:29 · prova · 9/10 · atteso 1 → reale 1

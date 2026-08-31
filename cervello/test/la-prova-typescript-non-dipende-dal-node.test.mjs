@@ -67,6 +67,35 @@ prova("③ MISURATO: senza la levatura dei tipi, `node prova.mts` esce ≠ 0 —
   assert.match(motivo, /estensione non riconosciuta|non e' una prova diventata rossa/);
 });
 
+prova("③bis npx che non riesce a procurarsi il programma e' un ⚪, non una prova diventata rossa", () => {
+  // ⚠️ QUESTO CASO MANCAVA, e il cancello l'ha scoperto: togliendo l'impronta di npx dal codice, la
+  // prova restava VERDE. Cioe' la difesa piu' importante di questo file — quella che sul runner
+  // distingue «l'esecutore non c'e'» da «il fix e' rotto» — non era coperta da nessuno.
+  //
+  // Il caso e' vero, misurato sul runner il 29/8: senza rete e senza cache, `npx` non scarica e
+  // stampa «canceled due to missing packages and no YES option», uscendo ≠ 0. Il banco leggeva
+  // quell'uscita come «la mutazione ha morso», e contava coperta una difesa che nessuno aveva
+  // provato: e' AR-840 di nuovo, per un'altra porta.
+  const uscita = "npm error canceled due to missing packages and no YES option: bats\nnpx canceled due to missing packages and no YES option";
+  const motivo = avvioFallito({ uscita, entrata: "cervello/test/una-prova.bats" });
+  assert.ok(motivo, "npx che non trova il programma conta ancora come prova diventata rossa: e' un verde comprato");
+  assert.match(motivo, /npx non ha potuto procurarsi|non e' una prova diventata rossa/);
+});
+
+prova("③ter e la rete che manca e' anch'essa un ⚪, per la stessa ragione", () => {
+  const uscita = "npm error code ENOTFOUND\nnpm error network request to https://registry.npmjs.org/bats failed";
+  const motivo = avvioFallito({ uscita, entrata: "cervello/test/una-prova.bats" });
+  assert.ok(motivo, "la rete che manca conta ancora come prova diventata rossa");
+});
+
+prova("③quater ...ma un vero fallimento di npx resta un ROSSO: la difesa dev'essere stretta", () => {
+  // Il difetto opposto, e senza questo caso la cura sarebbe peggio del male: se bastasse la parola
+  // «npx» per regalare un ⚪, ogni prova lanciata con npx smetterebbe di poter fallire.
+  const uscita = "not ok 3 il carrello somma male\n# 1 test, 1 failure";
+  assert.equal(avvioFallito({ uscita, entrata: "cervello/test/una-prova.bats" }), null,
+    "una prova che fallisce davvero non deve diventare un ⚪");
+});
+
 prova("④ una mutazione che rompe un import verso un file di altra specie resta un ROSSO, non un ⚪", () => {
   // La difesa di ③ dev'essere stretta: se bastasse la parola ERR_UNKNOWN_FILE_EXTENSION ovunque,
   // ogni mutazione che sporca un import diventerebbe un ⚪ regalato — cioe' la copertura sparirebbe
