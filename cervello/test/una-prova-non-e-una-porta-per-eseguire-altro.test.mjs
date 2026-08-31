@@ -37,13 +37,18 @@ import assert from "node:assert/strict";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { comeSiEsegue } from "../esecuzione-prova.mjs";
-import { ambientePulito } from "../non-vacuita.mjs";
+import { ambientePulito, eseguiProva } from "../non-vacuita.mjs";
 import { AD_ROOT } from "../git-github.mjs";
 
 /** ⚠️ LA MODALITÀ VERA: identica alla riga di `eseguiProva` in non-vacuita.mjs. Se un giorno quella
  *  riga cambia e questa no, i casi qui sotto tornano a misurare un percorso che nessuno percorre —
  *  ed è esattamente com'è nato il buco. */
-const COME_ESEGUE_DAVVERO = { soloDentroIlRepo: false, radiciAmmesse: [AD_ROOT, tmpdir()] };
+// ⚠️ Questa costante deve rispecchiare il DEFAULT VERO di `eseguiProva`, non una sua versione
+// comoda: se qui si dichiara una radice che là non c'è, ogni caso di questo file misura un
+// programma che non esiste. È il difetto che ha reso possibile la RCE del 31/8 — la riga portava
+// `tmpdir()` perché `eseguiProva` ce l'aveva, e nessuno si è chiesto perché ce l'avesse.
+// Se un giorno le due divergono, il caso «la fixture in /tmp» qui sotto diventa rosso e lo dice.
+const COME_ESEGUE_DAVVERO = { soloDentroIlRepo: false, radiciAmmesse: [AD_ROOT] };
 const piano = (t) => comeSiEsegue(t, COME_ESEGUE_DAVVERO);
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -101,12 +106,28 @@ test("AR-867: le prove vere di questa casa continuano a essere eseguibili", () =
   }
 });
 
-test("AR-867: la fixture in /tmp resta eseguibile — è la ragione per cui le radici esistono", () => {
-  // Le prove del banco stesso si costruiscono una fixture in una cartella temporanea e le passano un
-  // percorso assoluto. Se questo caso diventa rosso, il banco non si può più provare — ed è il
-  // motivo per cui la cura NON poteva essere «vietare i percorsi assoluti».
+test("AR-889: la fixture in /tmp gira solo se il chiamante DICHIARA quella radice, mai per eredità", () => {
+  // ⚠️ QUESTO CASO ASSERIVA IL CONTRARIO, ed è la correzione più cara di questo lotto.
+  //
+  // Com'era scritto — «la fixture in /tmp resta eseguibile» con `piano(dentroTmp).ok === true` —
+  // questa riga non difendeva niente: PINZAVA IL BUCO. Un collaudo indipendente ha eseguito codice
+  // suo COME ROOT con la riga più corta che esista, `eseguiProva("/tmp/pwn.mjs")`, e questa prova
+  // era verde mentre succedeva — anzi, pretendeva che restasse possibile.
+  //
+  // Il ragionamento sbagliato è tutto nel commento di prima: «la cura non poteva essere vietare i
+  // percorsi assoluti, o il banco non si può più provare». Vero a metà. Il banco può continuare a
+  // provarsi DICHIARANDO la radice che gli serve — `radiciAmmesse` è un parametro, esiste apposta.
+  // Quello che non deve succedere è che la radice arrivi per EREDITÀ a chi non sapeva di averla.
+  //
+  // MISURATO prima di stringere: delle 962 voci di `mutanti.json`, ZERO usano un percorso assoluto.
+  // La radice ereditata non difendeva nessun uso vero.
   const dentroTmp = join(tmpdir(), "banco-finto", "prova.test.mjs");
-  assert.equal(piano(dentroTmp).ok, true, "una fixture sotto la cartella temporanea deve poter girare");
+  assert.equal(piano(dentroTmp).ok, false,
+    "una fixture in /tmp passa ancora SENZA che nessuno l'abbia dichiarata: è la strada da cui si è eseguito codice come root");
+  // …e con la radice dichiarata dal chiamante gira, altrimenti il banco non si può più provare
+  // e la cura sarebbe un divieto.
+  assert.equal(comeSiEsegue(dentroTmp, { soloDentroIlRepo: false, radiciAmmesse: [tmpdir()] }).ok, true,
+    "chi DICHIARA la radice deve poterla usare: senza, il banco non riesce più a provarsi");
   // Ma solo /tmp e il repo, non tutto il disco.
   assert.equal(piano("/etc/passwd").ok, false, "un percorso fuori dalle radici dichiarate non si esegue");
   assert.equal(piano("/usr/bin/qualcosa.mjs").ok, false, "idem");
@@ -247,4 +268,50 @@ test("AR-885: una credenziale dentro un URL non si vede dal nome, e non deve arr
   assert.equal(pulito.MARKETPLACE_SUPABASE_URL, "https://xyz.supabase.co",
     "un URL senza credenziali dentro non è un segreto: toglierlo è rompere le prove per niente");
   assert.equal(pulito.PATH, "/usr/bin");
+});
+
+test("AR-889: uno schema non è un percorso relativo, ed è per questo che passava", () => {
+  // La seconda strada dello stesso collaudo. `file:///etc/passwd` non ha «..» e non comincia per
+  // «/», quindi il controllo «esce dal repo?» non lo vedeva e quello sulle radici non scattava mai.
+  // Avevo pensato ai percorsi e non agli SCHEMI, che sono percorsi travestiti.
+  for (const ostile of ["node file:///etc/passwd", "node http://qualcuno/pwn.mjs", "node file://./pwn.mjs"]) {
+    assert.equal(piano(ostile).ok, false, `«${ostile}» passa ancora`);
+  }
+  // Node oggi non esegue un file-URL come programma: usciva 1 con `avvio: null`, cioè il banco lo
+  // leggeva come «la prova è diventata rossa». Vale come difetto anche senza l'esecuzione — è
+  // AR-840 per un'altra porta.
+  assert.equal(piano("cervello/test/allarme-cronico.test.mjs").ok, true,
+    "un percorso di casa non deve essere confuso con uno schema");
+});
+
+test("AR-889: e la difesa si prova sul PROGRAMMA VERO, non su una costante che lo rispecchia", () => {
+  // ⚠️ QUESTO CASO NASCE DA UNA MUTAZIONE CHE NON MORDEVA, ed è la lezione del giro.
+  //
+  // Tutti i casi qui sopra passano da `piano()`, che usa la costante `COME_ESEGUE_DAVVERO`: una
+  // COPIA del default di `eseguiProva`, scritta a mano in questo file. Finché sono uguali va bene.
+  // Ma rimettendo `tmpdir()` nel default VERO — cioè riaprendo la falla — questo file restava
+  // tutto verde, perché guardava la copia. Una prova che misura una copia del programma non
+  // difende il programma: è la stessa forma di AR-787, con la copia al posto della politica.
+  //
+  // Qui si chiama `eseguiProva` per davvero, con una spia al posto di chi lancia i processi: se la
+  // radice /tmp torna nel default, la spia viene chiamata e questo caso diventa rosso.
+  const chiamate = [];
+  const spia = (comando, argomenti) => {
+    chiamate.push({ comando, argomenti });
+    return { status: 0, stdout: "", stderr: "", error: null, signal: null };
+  };
+  const r = eseguiProva(join(tmpdir(), "pwn.mjs"), { lancia: spia });
+  assert.equal(chiamate.length, 0,
+    `il banco ha LANCIATO un percorso in /tmp senza che nessuno abbia dichiarato quella radice: ${JSON.stringify(chiamate[0])}`);
+  assert.match(String(r.avvio || ""), /non so come eseguire/,
+    "deve dire che non sa come eseguirlo, non fingere una prova diventata rossa");
+
+  // …e con la radice DICHIARATA lancia, altrimenti il banco non si può più provare.
+  const chiamate2 = [];
+  const spia2 = (comando, argomenti) => {
+    chiamate2.push({ comando, argomenti });
+    return { status: 0, stdout: "", stderr: "", error: null, signal: null };
+  };
+  eseguiProva(join(tmpdir(), "banco-finto", "prova.test.mjs"), { lancia: spia2, radiciAmmesse: [tmpdir()] });
+  assert.equal(chiamate2.length, 1, "chi dichiara la radice deve poter lanciare: senza, la cura è un divieto");
 });

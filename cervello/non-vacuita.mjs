@@ -402,13 +402,27 @@ export function ambientePulito(env = process.env) {
   return pulito;
 }
 
-export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX, env = ambientePulito() } = {}) {
+export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX, env = ambientePulito(), radiciAmmesse = [AD_ROOT] } = {}) {
   // 🔒 RADICI DICHIARATE, non un interruttore che spegne tutto. Prima qui c'era
   // `soloDentroIlRepo: false`, che serviva per una ragione buona — le prove di questo stesso banco
   // si costruiscono una fixture in /tmp — ma spegneva anche «devi nominare un file di casa», ed è
   // da quella porta che passavano `node -e <codice>` e `npx --yes <pacchetto qualunque>`.
   // Con le radici la fixture continua a funzionare e le altre due strade restano chiuse.
-  const piano = comeSiEsegue(test, { soloDentroIlRepo: false, radiciAmmesse: [AD_ROOT, tmpdir()] });
+  // ⚠️ 31/8 — LA RADICE `/tmp` NON STA PIÙ QUI DENTRO, e il perché è la cosa da leggere.
+  //
+  // Un collaudo indipendente ha eseguito codice suo COME ROOT con questa riga, che è la più corta
+  // che esista — niente opzioni, niente trucchi:
+  //     eseguiProva("/tmp/pwn.mjs")
+  // Bastava che `tmpdir()` fosse fra le radici ammesse. Il 30/8 avevo chiuso otto strade e scritto
+  // «otto su otto»: le otto erano quelle a cui avevo pensato io, e la più corta non era fra quelle.
+  // È la forma di errore per cui il collaudo esiste — chi costruisce prova le strade che conosce.
+  //
+  // MISURATO prima di togliere: delle 962 voci di `mutanti.json`, **zero** usano un percorso
+  // assoluto. Quella radice non difendeva nessun uso vero; c'era perché le prove del banco STESSO
+  // si costruiscono una fixture in una cartella temporanea. Quelle continuano a funzionare: il
+  // parametro `radiciAmmesse` esiste apposta, e adesso chi ne ha bisogno la DICHIARA invece di
+  // ereditarla. Una radice ereditata la usa anche chi non sapeva di averla.
+  const piano = comeSiEsegue(test, { soloDentroIlRepo: false, radiciAmmesse });
   if (!piano.ok) {
     // Non è «la prova è diventata rossa»: è che non so nemmeno come lanciarla. ⚪, mai ✅.
     return { status: 1, signal: null, uscita: "", avvio: `non so come eseguire questo test: ${piano.perche}` };

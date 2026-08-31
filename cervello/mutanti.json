@@ -8490,6 +8490,22 @@
    "cerca": "export const TEMPO_MAX_SUITE = 1_200_000;",
    "sostituisci": "export const TEMPO_MAX_SUITE = 600_000;",
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
+  },
+  {
+   "difetto": "AR-889",
+   "nome": "la radice /tmp torna nel default: eseguiProva(\"/tmp/pwn.mjs\") esegue codice come root",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "env = ambientePulito(), radiciAmmesse = [AD_ROOT] } = {}) {",
+   "sostituisci": "env = ambientePulito(), radiciAmmesse = [AD_ROOT, tmpdir()] } = {}) {",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-889",
+   "nome": "uno schema torna a passare per un percorso relativo: file:///etc/passwd esce dalle radici",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "  if (/^[a-z][a-z0-9+.-]*:/i.test(t)) return true;",
+   "sostituisci": "",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

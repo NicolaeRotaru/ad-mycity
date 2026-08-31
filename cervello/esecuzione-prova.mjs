@@ -132,6 +132,14 @@ const METACARATTERI_SHELL = /[|;<>`$()\\'"*?~\n\r&{}[\]!#]/;
  *     banco non riesce più a essere provato — misurato il 28/8: tre prove vicine diventate rosse.
  * Perciò è un interruttore dichiarato (`soloDentroIlRepo`), non una regola nascosta nel parser. */
 function fuoriDalRepo(t) {
+  // ⚠️ 31/8 — `file:///etc/passwd` passava. Non ha «..» e non comincia per «/», quindi questo
+  // controllo non lo vedeva e il controllo delle radici non scattava mai. Trovato dallo stesso
+  // collaudo che ha eseguito codice come root dalla radice /tmp: due buchi, una sola svista —
+  // avevo pensato ai percorsi e non agli SCHEMI, che sono percorsi travestiti.
+  // Node oggi non apre un file-URL come programma da eseguire, quindi non era esecuzione: usciva
+  // 1 con `avvio: null`, cioè il banco lo leggeva come «la prova è diventata rossa». È AR-840 di
+  // ritorno per un'altra porta, e vale come difetto anche senza l'esecuzione.
+  if (/^[a-z][a-z0-9+.-]*:/i.test(t)) return true;
   return t.includes("..") || t.startsWith("/");
 }
 

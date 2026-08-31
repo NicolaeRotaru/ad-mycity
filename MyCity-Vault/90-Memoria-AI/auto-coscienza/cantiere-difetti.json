@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-31 09:40",
+  "aggiornato": "2026-08-31 12:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18997,7 +18997,9 @@
       },
       "trovato_da": "collaudo di sicurezza indipendente (chi ha costruito esecuzione-prova.mjs non lo ha collaudato)",
       "nato_come": "regressione",
-      "nato_da": "AR-867"
+      "nato_da": "AR-867",
+      "malattia": "riparazione-parziale",
+      "malattia_perche": "AR-867 ha chiuso quattro strade per eseguire codice (--require, --import, -e, npx <chiunque>) e ne ha lasciate aperte due dello STESSO tipo, ammettendole nella lista bianca che stava scrivendo per chiuderle: --test-reporter=<percorso> e --experimental-loader caricano ed eseguono un modulo esattamente come --import, vietato dodici righe piu sopra. Non e una difesa mancata: e una difesa costruita a meta, con dentro la cosa da cui difendeva. ⚠️ Ho provato a scrivere una forma piu stretta — «una lista bianca che ammette una FAMIGLIA (--experimental-*) invece di nomi» — e l'ho MISURATA su tutto il repo prima di proporla: le istanze vere sono UNA, ed e legittima (--test-name-pattern accetta testo libero per progetto, e il suo valore passa comunque dal controllo sui percorsi). Una malattia con una popolazione di uno non e una malattia: e una regola inventata per avere una risposta da dare. Quindi la forma che dichiaro e quella vera e gia in catalogo."
     },
     {
       "id": "AR-886",
@@ -19035,7 +19037,9 @@
         "comando": "node cervello/test/c1-atto-una-volta-sola.test.mjs",
         "nota": "Due casi su undici, e girano contro la ROTTA VERA con Supabase finto, non contro una copia della logica: la prova guarda la riga `azione:az-1:firma` dentro il finto dopo che l'atto e esploso. Il secondo caso e quello che impedisce la cura sbagliata: su «posto gia preso» la firma deve ancora togliersi, o il fix diventa «non togliere mai la firma» ed e AR-110 di ritorno. Una mutazione, rossa."
       },
-      "trovato_da": "radiografia del perimetro toccato, lente pannello/robustezza-errori (il cancello del lotto l'ha chiesta)"
+      "trovato_da": "radiografia del perimetro toccato, lente pannello/robustezza-errori (il cancello del lotto l'ha chiesta)",
+      "malattia": "riparazione-parziale",
+      "malattia_perche": "AR-871 ha aggiunto un QUARTO motivo di stop (`atto-esploso`) e ha riletto solo chi lo produce, non chi lo legge. La rotta delle azioni decide cosa fare guardando quel campo, e il suo ramo era scritto quando i motivi erano tre — tutt'e tre «NON ho toccato il mondo». Il quarto dice «non SO se l'ho toccato», e prendendo la strada dei vecchi faceva tornare in «da approvare» una mail che forse era gia partita. La riparazione ha toccato il produttore e non il lettore: e la stessa forma per cui il sorvegliante emette questa classe. La regola generale che ne esce, e vale oltre questo caso: quando un tipo somma guadagna un valore, ogni posto che ci fa sopra uno switch va riletto — il ramo di default non e neutro, applica al caso nuovo la regola scritta per i vecchi."
     },
     {
       "id": "AR-888",
@@ -19054,6 +19058,27 @@
         "nota": "Tre casi, e NESSUNO misura quanto ci mette la suite: un numero cosi cambia col computer e con quante cose girano insieme, e una prova che lo fissa diventa rossa per il motivo sbagliato — sarebbe AR-787. Guardano due invarianti che non scadono: il tetto e UNA costante (nessun `timeout:` scritto a mano nei passi della suite), e lascia almeno il doppio della misura dichiarata nel suo stesso commento — cosi chi lo abbassa senza rimisurare lo scopre subito. Il terzo caso e il difetto opposto: non deve essere cosi largo da non distinguere una macchina occupata da un blocco. La prima stesura del primo caso era troppo larga e pescava i tetti di git e di non-vacuita, che sono decisioni diverse: se n'e accorta lei stessa al primo giro. Due mutazioni, tutt'e due rosse."
       },
       "trovato_da": "il cancello del lotto, uscendo rosso in un modo che non si poteva assolvere"
+    },
+    {
+      "id": "AR-889",
+      "gravita": "bloccante",
+      "stato": "aperto",
+      "nato": "2026-08-31 12:20",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-885",
+      "malattia": "riparazione-parziale",
+      "malattia_perche": "AR-885 ha chiuso otto strade per eseguire codice e il messaggio di commit diceva «otto strade su otto chiuse». Le otto erano quelle a cui aveva pensato chi costruiva. La piu corta che esista — un percorso assoluto nudo sotto /tmp — non era fra quelle, e restava aperta. E la stessa forma di AR-885 su AR-867, un giro dopo: una difesa costruita a meta che dichiara di essere intera. E il motivo per cui il collaudo esiste: chi costruisce prova le strade che conosce, e le strade che conosce sono quelle da cui non passera nessuno.",
+      "titolo": "La falla dichiarata chiusa non era chiusa: si esegue codice come root con la riga piu corta che esista",
+      "sintomo": "Un collaudo indipendente ha eseguito codice suo come root con `eseguiProva(\"/tmp/pwn.mjs\")` — niente opzioni, niente trucchi. Riprodotto: il file spia viene scritto, uid=0. Seconda strada: `node file:///etc/passwd` era ammesso. E la prova scritta il 30/8 non solo restava verde: ASSERIVA che la prima strada dovesse restare percorribile.",
+      "causa_radice": "① `eseguiProva` passava `radiciAmmesse: [AD_ROOT, tmpdir()]` come default. La radice /tmp c'era perche le prove del banco STESSO si costruiscono una fixture in una cartella temporanea — un motivo vero — ma essendo un DEFAULT arrivava per eredita a ogni chiamante, compreso quello che esegue una stringa presa da un file di dati. Misurato: delle 962 voci di mutanti.json, ZERO usano un percorso assoluto. La radice non difendeva nessun uso reale. ② `fuoriDalRepo` guardava solo `..` e la barra iniziale: uno SCHEMA (file:, http:, data:) non e ne l'uno ne l'altro, quindi il controllo delle radici non scattava mai. Chi ha scritto la regola aveva in mente i percorsi e non gli schemi, che sono percorsi travestiti. Node oggi non esegue un file-URL come programma, quindi non era esecuzione: usciva 1 con `avvio: null`, cioe il banco lo leggeva come «la prova e diventata rossa». E AR-840 per un'altra porta. ③ La prova pinzava il buco invece di difenderlo, e il ragionamento sbagliato era scritto nel suo commento: «la cura non poteva essere vietare i percorsi assoluti, o il banco non si puo piu provare». Vero a meta: il banco puo provarsi DICHIARANDO la radice che gli serve. Quello che non deve succedere e che la radice arrivi per eredita a chi non sapeva di averla.",
+      "fix_proposto": "🟡 FATTO. (a) `radiciAmmesse` diventa un'opzione di `eseguiProva` col default stretto [AD_ROOT]: chi ha bisogno di /tmp la dichiara. (b) `fuoriDalRepo` tratta ogni schema come «fuori». (c) La prova asserisce il contrario di prima, e accanto tiene il caso «chi DICHIARA la radice deve poterla usare», senza il quale la cura sarebbe un divieto e il banco non si proverebbe piu. (d) La costante del banco `COME_ESEGUE_DAVVERO` era allineata al vecchio default e va tenuta allineata a quello vero: se divergono, ogni caso di quel file misura un programma che non esiste.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+        "nota": "Undici casi. Il piu importante e quello che prima asseriva il contrario. Riprodotto l'attacco esatto del collaudo prima e dopo: prima il file spia nasce con uid=0, dopo `avvio` dice «non so come eseguire questo test: esce dal repo e non e sotto una radice ammessa». Due mutazioni."
+      },
+      "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?» — chi ha costruito non collauda"
     }
   ],
   "meta": {

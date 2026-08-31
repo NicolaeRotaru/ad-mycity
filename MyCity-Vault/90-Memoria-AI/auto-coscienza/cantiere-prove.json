@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-31 10:52",
+  "aggiornato": "2026-08-31 13:15",
   "giorni_sospetto": 3,
-  "difetti_aperti": 146,
-  "difetti_da_fare": 146,
+  "difetti_aperti": 147,
+  "difetti_da_fare": 147,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 878,
+    "totale": 879,
     "chiusi": 732,
-    "aperti": 135,
+    "aperti": 136,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 146,
+    "da_fare": 147,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 732,
-      "aperto": 135,
+      "aperto": 136,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 146,
-    "viste": 146,
+    "attese": 147,
+    "viste": 147,
     "fuori": 0,
-    "motivo": "bilancio a posto: 732 chiuse + 146 classificate = 878 schede, e ogni stato vivo è dentro (135 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 732 chiuse + 147 classificate = 879 schede, e ogni stato vivo è dentro (136 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 91,
     "prova-debole-su-grave": 26,
-    "auto-comando": 25,
+    "auto-comando": 26,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -199,7 +199,7 @@
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 8,
-  "schede_campi_illeggibili": 25,
+  "schede_campi_illeggibili": 26,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -323,6 +323,11 @@
     },
     {
       "id": "AR-887",
+      "gravita": "grave",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-888",
       "gravita": "grave",
       "impatto_crescita": null
     }
@@ -468,6 +473,13 @@
     },
     {
       "id": "AR-887",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-888",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -3729,6 +3741,19 @@
       "titolo": "Un'azione che FORSE e gia partita torna in «da approvare», e la prossima firma la manda due volte a un cliente",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/c1-atto-una-volta-sola.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-888",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il cancello del lotto diventa inservibile proprio quando qualcuno sta lavorando",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
       "auto_chiudibile": true
     }
   ]

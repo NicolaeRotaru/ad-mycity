@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-08-29 10:20",
+  "aggiornato": "2026-08-31 13:26",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
@@ -10,11 +10,11 @@
       "ultimo_ok": "2026-08-28 12:27",
       "ultimo_errore": "",
       "ultimo_conteggio": 1,
-      "non_misurato_qui": "2026-08-29 10:20: MARKETPLACE_SUPABASE_URL/KEY assenti nel .env (ambiente non configurato)"
+      "non_misurato_qui": "2026-08-31 13:26: MARKETPLACE_SUPABASE_URL/KEY assenti nel .env (ambiente non configurato)"
     },
     "mcp_supabase": {
       "stato": "cieco",
-      "giri_ciechi": 2,
+      "giri_ciechi": 4,
       "canale": "MCP Cursor/Claude",
       "dettaglio": "MCP Supabase cieco (permission stream closed / needsAuth)",
       "ultimo_errore": "MCP Supabase cieco (permission stream closed / needsAuth)",
@@ -27,7 +27,7 @@
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
       "ultimo_ok": "2026-08-28 12:27",
-      "non_misurato_qui": "2026-08-29 10:20: STRIPE_SECRET_KEY assente — Stripe non collegato (non è una cecità, è un sensore spento)"
+      "non_misurato_qui": "2026-08-31 13:26: STRIPE_SECRET_KEY assente — Stripe non collegato (non è una cecità, è un sensore spento)"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -45,7 +45,7 @@
       "dettaglio": "domains API ok",
       "ultimo_ok": "2026-08-28 12:27",
       "ultimo_errore": "",
-      "non_misurato_qui": "2026-08-29 10:20: RESEND_API_KEY assente — invio email non monitorato"
+      "non_misurato_qui": "2026-08-31 13:26: RESEND_API_KEY assente — invio email non monitorato"
     },
     "sito_uptime": {
       "giri_ciechi": 207,
@@ -54,7 +54,7 @@
       "dettaglio": "HTTP 503 su https://mycity-marketplace.com (dopo 3 tentativi)",
       "ultimo_ok": "2026-07-30 08:20",
       "ultimo_errore": "HTTP 503 su https://mycity-marketplace.com (dopo 3 tentativi)",
-      "non_misurato_qui": "2026-08-29 10:20: MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
+      "non_misurato_qui": "2026-08-31 13:26: MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
     },
     "supabase_memoria": {
       "giri_ciechi": 0,
@@ -63,7 +63,7 @@
       "ultimo_errore": "",
       "canale": "REST memoria",
       "dettaglio": "impostazioni leggibili via REST (DB memoria)",
-      "non_misurato_qui": "2026-08-29 10:20: SUPABASE_URL/SERVICE_KEY assenti — DB memoria non monitorato"
+      "non_misurato_qui": "2026-08-31 13:26: SUPABASE_URL/SERVICE_KEY assenti — DB memoria non monitorato"
     },
     "pannello_uptime": {
       "giri_ciechi": 0,
@@ -72,14 +72,14 @@
       "dettaglio": "Pannello raggiungibile (HTTP 200)",
       "ultimo_ok": "2026-08-28 12:27",
       "ultimo_errore": "",
-      "non_misurato_qui": "2026-08-29 10:20: PANNELLO_URL/CABINA_URL assente — uptime Cabina non monitorato"
+      "non_misurato_qui": "2026-08-31 13:26: PANNELLO_URL/CABINA_URL assente — uptime Cabina non monitorato"
     },
     "telegram_bot": {
       "giri_ciechi": 0,
       "stato": "non_configurato",
       "canale": "Telegram getMe",
       "dettaglio": "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate",
-      "non_misurato_qui": "2026-08-29 10:20: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
+      "non_misurato_qui": "2026-08-31 13:26: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
     },
     "n8n_health": {
       "giri_ciechi": 0,
@@ -88,7 +88,7 @@
       "canale": "n8n healthz",
       "dettaglio": "n8n health ok",
       "ultimo_ok": "2026-08-28 12:27",
-      "non_misurato_qui": "2026-08-29 10:20: N8N_WEBHOOK_URL/HEALTH_URL assente — hub mani non monitorato"
+      "non_misurato_qui": "2026-08-31 13:26: N8N_WEBHOOK_URL/HEALTH_URL assente — hub mani non monitorato"
     },
     "mcp_stripe": {
       "giri_ciechi": 3,
@@ -101,7 +101,7 @@
     "watchdog_esterno": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-08-29 10:20",
+      "ultimo_ok": "2026-08-31 13:26",
       "ultimo_errore": "",
       "canale": "battito-esterno.yml",
       "dettaglio": "guardiano esterno presente e schedulato (GitHub Actions, indipendente dal VPS)"
@@ -109,9 +109,9 @@
   },
   "istruzioni_giro": "Tutti i sensori REST ciechi: NON inventare numeri. Usa baseline STATO + sezione Gap. Passaggio minimo se nulla è cambiato fuori.",
   "meta": {
-    "giri_totali": 639,
+    "giri_totali": 641,
     "sensori_ok": 1,
-    "max_giri_ciechi": 3,
+    "max_giri_ciechi": 4,
     "sensori_totali": 2,
     "almeno_un_dato": false,
     "sensori_non_configurati": 9,
