@@ -4794,3 +4794,40 @@ chiuse. E non ho aperto il sito pubblicato: ho misurato il database, non la pagi
 vetrina sconti non mostrerà i cartellini «Esaurito» e la produzione resta indietro rispetto al codice.
 È lo stesso buco del quarto bloccante: il cancello che dovrebbe applicare le migrazioni è spento per
 mancanza delle tre chiavi Vercel.
+
+---
+
+## 2026-08-31 02:03 — 🟡 Riparati 181 dei 194 problemi della radiografia del 27/8
+
+**Cosa.** Preso l'elenco della radiografia del marketplace del 27 agosto (194 schede) e
+riparato in blocco, sul ramo `claude/marketplace-issues-iih4bg` del repo del sito. 181
+chiuse, 5 erano già a posto, 8 restano aperte. Niente in produzione: 26 commit su un ramo,
+nessuna PR aperta (non richiesta), nessuna migrazione applicata al database vero.
+
+**Perché così.** Non una radiografia nuova: quella c'era già, e il tasso di chiusura dice che
+finché è sotto 1 il giro non apre ricerche nuove ma spende il turno a chiudere. Questo giro
+chiude 181 e apre zero.
+
+**Il metodo, che vale come lezione.** Proprietà esclusiva dei file: ogni file assegnato a un
+solo riparatore. Le schede toccano 136 file che si incrociano tutti fra loro, quindi
+partizionare per scheda era impossibile; partizionare per file sì. I 32 difetti saltati
+perché «il file è di un altro» sono stati ripresi in tre giri di recupero, e quattro schede
+mai assegnate a nessuno sono state chiuse alla fine — quelle non le aveva saltate nessuno:
+erano semplicemente cadute dall'elenco.
+
+**La cosa da ricordare.** `npm run typecheck` era verde mentre `npm run build` falliva, e
+nessuno dei riparatori poteva accorgersene: Next genera i tipi delle rotte solo mentre
+costruisce l'app, quindi il controllo dei tipi da solo non li vede. Due difetti veri sono
+usciti solo costruendo. **Il cancello di consegna deve includere `npm run build`, non solo
+typecheck+lint+test**, altrimenti la CI trova quello che noi non abbiamo guardato.
+
+**Cosa aspetta la firma di Nicola** (5 decisioni, non lavoro):
+① come si pubblica il sito (R176 — servono tre chiavi Vercel su GitHub); ② quali metodi di
+pagamento in cassa (R047); ③ dove copiare le foto dei negozi (R180 — ~1-2 €/mese + chiavi);
+④ progetto Supabase di prova + chiavi Stripe di prova per le prove end-to-end (R123);
+⑤ cosa può fare il cliente fra «accettato» e «consegnato» (R129 — buco nel disegno).
+
+**Dichiarati aperti col motivo**, non nascosti: R083 (200 recensioni all'apertura: riscrivere
+una pagina da 1206 righe), R077 e R078.
+
+**Rapporto completo:** `consegne/audit/2026-08-31-riparazione-radiografia.md`.
