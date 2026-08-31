@@ -416,6 +416,23 @@ export function ambientePulito(env = process.env) {
  *
  * Chi potrebbe abusarne dovrebbe poter scrivere `MUTANTI_FILE` nell'ambiente del processo — cioè
  * avere già i permessi che vorrebbe rubare.
+ *
+ * LE DUE ALTRE STRADE, considerate e scartate — perché una scelta senza le alternative accanto non
+ * si può giudicare, e queste due sembravano più semplici:
+ *
+ *   ① «ogni prova che ha bisogno di /tmp lo DICHIARI, una per una». È stata la prima cura, ed è
+ *      durata mezza giornata: ha rotto quattro prove del banco e me l'ha detto il server, non io.
+ *      Il motivo per cui non regge è strutturale, non una svista: `mutazioni-senza-esecutore` COPIA
+ *      il registro in un'altra cartella prima di passarlo al banco, quindi la prova che dovrebbe
+ *      dichiarare la radice non sa nemmeno quale sarà. Una regola che chiede a ciascuno di
+ *      dichiarare una cosa che nessuno di loro conosce non è una regola, è un rimando.
+ *
+ *   ② «la radice è `cwd`». Elegante — chi lancia ha già scelto dove — ma sbagliata proprio nel caso
+ *      che conta: quelle quattro prove passano `cwd: AD_ROOT` e tengono le finte altrove. Avrebbe
+ *      lasciato il buco chiuso e le prove rotte, cioè la peggiore delle tre.
+ *
+ * Questa strada le batte tutt'e due perché lega la radice a un FATTO che il banco ha già in mano —
+ * dove vive il registro che sta leggendo — invece che a una dichiarazione o a una convenzione.
  */
 function radiceDelRegistro(viaRegistro) {
   const fuori = [];
