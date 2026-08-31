@@ -86,9 +86,30 @@ const RE_SPIA = [
 // fra le cose da non costruire mai. Le forme sono COMPOSTE apposta: sul banco delle 41 mail le
 // parole sole («restano», «ultimi», «adesso») compaiono in 15 mail oneste.
 const RE_POLITICA = [
+  // ⚠️ ALLARGATE IL 31/8 dopo un collaudo indipendente. La regola di prima voleva un NUMERO e un
+  // sostantivo dalla lista: la scarsità come la scrive davvero chi vende non ha né l'uno né l'altro.
+  // MISURATO: su dieci frasi di scarsità normalissime, NOVE passavano senza una violazione —
+  // «ultimi posti», «posti limitati», «fino a esaurimento posti», «ne restano pochissimi», «solo per
+  // i primi venti», «offerta valida solo oggi», «le adesioni chiudono venerdì», «posti quasi
+  // esauriti», e perfino «restano nove posti», che la regola voleva prendere e non prendeva perché
+  // «nove» non era nella lista dei numeri scritti a parole.
+  // La scarsità inventata è nella lista delle cose da non costruire mai: qui non è una questione di
+  // forma, è una regola di politica, ed è per questo che vive fra le regole e non fra le espressioni.
   {
     nome: "scarsità fabbricata: posti che si esauriscono",
-    re: /\b(?:restano|rimangono|ne\s+restano|sono\s+rimasti|ultimi|ancora)\s+(?:sol[oi]\s+|soltanto\s+|pochi\s+|poche\s+)?(?:\d+|due|tre|quattro|cinque|pochi|poche)\s+(?:post[oi]|slot|pezz[oi]|consegne|carrell[oi]|copert[oi]|abbonament[oi])\b/gi,
+    re: /\b(?:restano|rimangono|ne\s+restano|sono\s+rimasti|ultimi|ultime|ancora)\s+(?:sol[oi]\s+|soltanto\s+|pochi\s+|poche\s+|pochissim\w+\s+)?(?:\d+|due|tre|quattro|cinque|sei|sette|otto|nove|dieci|venti|pochi|poche|pochissim\w+)?\s*(?:post[oi]|slot|pezz[oi]|consegne|carrell[oi]|copert[oi]|abbonament[oi]|adesion[ie])\b/gi,
+  },
+  {
+    nome: "scarsità fabbricata: quantità dichiarata scarsa senza un registro che lo dica",
+    re: /\b(?:post[oi]|slot|pezz[oi]|consegne|copert[oi]|abbonament[oi]|adesion[ie])\s+(?:sono\s+|erano\s+|restano\s+|rimangono\s+)?(?:limitat\w+|contat\w+|quasi\s+esaurit\w+|in\s+esaurimento)\b|\bfino\s+a\s+esaurimento\b|\bne\s+restano\s+pochissim\w+\b/gi,
+  },
+  {
+    nome: "scarsità fabbricata: solo per i primi N",
+    re: /\bsol(?:o|tanto)\s+(?:per\s+)?(?:i|le)\s+prim[ie]\s+(?:\d+|due|tre|quattro|cinque|sei|sette|otto|nove|dieci|venti|trenta|cinquanta|cento)\b/gi,
+  },
+  {
+    nome: "scadenza inventata: vale solo oggi, o le adesioni chiudono",
+    re: /\b(?:offerta|promozione|sconto|prezzo)\s+valid[oa]\s+(?:solo|soltanto)\s+(?:oggi|stasera|fino\s+a\s+stasera)\b|\b(?:le\s+)?(?:adesioni|iscrizioni|prenotazioni)\s+(?:si\s+)?chiudon[oa]\b/gi,
   },
   { nome: "scarsità fabbricata: numero chiuso / chi resta fuori", re: /\b(?:numero\s+chiuso|chi\s+resta\s+fuori)\b/gi },
   { nome: "scarsità fabbricata: si sono esauriti", re: /\bsi\s+(?:sono\s+)?esaurit\w+\b/gi },

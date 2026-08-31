@@ -208,3 +208,62 @@ test("AR-791 sul banco vero: i due metri danno lo STESSO verdetto su tutte e 41 
   }
   assert.deepEqual(diversi, [], `i due metri divergono su ${diversi.length} mail vere: una delle due case è cambiata da sola`);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🕯️ AR-890 — UNA REGOLA PER CASO, O LE DIFESE SI COPRONO A VICENDA
+// ─────────────────────────────────────────────────────────────────────────────
+// Trovato da un collaudo indipendente il 31/8. Sull'unica mail di scarsità del banco scattavano
+// TUTTE E TRE le regole insieme, quindi l'assert «almeno una violazione» passava anche spegnendone
+// una: il banco restava verde con una difesa in meno. È la stessa forma che il commento di AR-867
+// descrive — «due difese senza un caso che le separi sono una difesa sola più una decorazione» —
+// ricomparsa dentro la prova che doveva difendere dalla scarsità.
+//
+// E allargando le regole è saltato fuori quanto era aperta la classe: MISURATO, nove frasi di
+// scarsità normalissime su dieci passavano il metro senza una violazione. Compresa «restano nove
+// posti», che la regola voleva prendere e non prendeva, perché «nove» non era nella lista dei
+// numeri scritti a parole.
+//
+// Ogni caso qui sotto usa una frase che SOLO quella regola può prendere: spegnendo una regola,
+// diventa rosso esattamente il caso che la difende, e si sa quale.
+const CORPO = (frase) =>
+  "Buongiorno Maria,\n\nle scrivo dal forno Pane Quotidiano di via Calzolai a Piacenza. " +
+  "Domenica portiamo il pane a casa nella sua zona.\n\n" + frase +
+  "\n\nSe le interessa mi risponda a questa mail.\n\nUn saluto,\nNicola";
+
+const SEPARATI = [
+  ["posti che si esauriscono", "Restano nove posti nel giro di domenica.", /posti che si esauriscono/],
+  ["quantità dichiarata scarsa", "I posti sono limitati.", /quantità dichiarata scarsa/],
+  ["solo per i primi N", "Solo per i primi venti che rispondono.", /solo per i primi/],
+  ["scadenza inventata", "Le adesioni chiudono venerdì.", /scadenza inventata/],
+  ["numero chiuso", "È a numero chiuso.", /numero chiuso/],
+  ["si sono esauriti", "I posti si sono esauriti in due ore.", /si sono esauriti/],
+  ["urgenza fabbricata", "Affrettati.", /urgenza fabbricata/],
+];
+
+test("AR-890: ogni regola di scarsità ha il SUO caso — spegnerne una fa diventare rosso il suo, non nessuno", () => {
+  for (const [etichetta, frase, quale] of SEPARATI) {
+    const v = cervello.giudica("email", CORPO(frase), "lettera");
+    const suoi = v.violazioni.filter((x) => quale.test(x.regola || ""));
+    assert.ok(suoi.length > 0,
+      `«${frase}» non fa scattare la regola «${etichetta}»: ` +
+      `le violazioni trovate sono [${v.violazioni.map((x) => x.regola).join(" | ") || "nessuna"}]`);
+    // …e SOLO quella: se ne scattano due, il caso non separa niente e la copertura torna a gonfiarsi.
+    assert.equal(v.violazioni.length, 1,
+      `«${frase}» fa scattare ${v.violazioni.length} regole insieme: questo caso non separa nulla ` +
+      `[${v.violazioni.map((x) => x.regola).join(" | ")}]`);
+  }
+});
+
+test("AR-890: e le due case danno lo stesso verdetto su ognuna delle sette", () => {
+  // Una cura atterrata in una casa sola è mezza cura, e su questo canale la casa che conta è quella
+  // del Pannello: è lei che parla a un cliente vero.
+  for (const [etichetta, frase] of SEPARATI) {
+    const a = cervello.giudica("email", CORPO(frase), "lettera").violazioni.map((x) => x.regola).sort();
+    // ⚠️ la casa del Pannello espone `giudicaLettera`, non `giudica`: i due nomi non sono un
+    // dettaglio, sono il motivo per cui questo file tiene già `dalCervello`/`dalPannello` in cima.
+    // La prima stesura chiamava `pannello.giudica` e falliva con «is not a function» — cioè non
+    // misurava niente e lo diceva, che è il modo giusto di sbagliare.
+    const b = pannello.giudicaLettera("email", CORPO(frase)).violazioni.map((x) => x.regola).sort();
+    assert.deepEqual(a, b, `le due case divergono su «${etichetta}»`);
+  }
+});

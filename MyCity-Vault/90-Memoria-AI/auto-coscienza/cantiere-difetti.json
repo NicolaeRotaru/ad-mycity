@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-31 12:20",
+  "aggiornato": "2026-08-31 13:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19079,6 +19079,27 @@
         "nota": "Undici casi. Il piu importante e quello che prima asseriva il contrario. Riprodotto l'attacco esatto del collaudo prima e dopo: prima il file spia nasce con uid=0, dopo `avvio` dice «non so come eseguire questo test: esce dal repo e non e sotto una radice ammessa». Due mutazioni."
       },
       "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?» — chi ha costruito non collauda"
+    },
+    {
+      "id": "AR-890",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 13:10",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-875",
+      "malattia": "riparazione-parziale",
+      "malattia_perche": "AR-875 doveva portare la scarsita inventata dentro il metro come regola di politica. Ne ha portata dentro una forma sola — quella con un numero E un sostantivo dalla lista — e la scarsita come la scrive chi vende non ha ne l'uno ne l'altro. La cura c'era e prendeva un caso su dieci: e una riparazione a meta che dichiarava la classe chiusa.",
+      "titolo": "Nove frasi di scarsita su dieci passavano il cancello, e il banco restava verde spegnendo una difesa",
+      "sintomo": "MISURATO su un corpo di mail realistico: «ultimi posti», «posti limitati», «fino a esaurimento posti», «ne restano pochissimi», «solo per i primi venti», «offerta valida solo oggi», «le adesioni chiudono venerdi», «posti quasi esauriti» e perfino «restano nove posti» passavano il metro con ZERO violazioni. Nove su dieci. E spegnendo una delle tre regole di scarsita il banco restava completamente verde.",
+      "causa_radice": "① La regola voleva un numero (cifra, o una parola fra due-tre-quattro-cinque) E un sostantivo dalla lista. «Restano nove posti» sfuggiva perche «nove» non era fra i numeri scritti a parole: una lista chiusa di numeri e una lista che qualcuno finira di scrivere il giorno dopo. ② Il banco non se ne accorgeva perche sull'unica mail di scarsita del corpus scattavano tutte e tre le regole insieme: l'assert «almeno una violazione» passava anche con una difesa in meno. E la forma che il commento di AR-867 descrive — «due difese senza un caso che le separi sono una difesa sola piu una decorazione» — ricomparsa dentro la prova che difendeva dalla scarsita. ③ E le mutazioni dichiarate per AR-873 e AR-875 erano FINTE: sostituivano il NOME della regola («DISATTIVATA») e ci aggiungevano un campo `spenta: true` che nessuno legge, lasciando viva l'espressione. Diventavano rosse solo perche le due case non si chiamavano piu uguale — cioe misuravano la divergenza dei nomi, non la sparizione della difesa. Una mutazione che gonfia la copertura e peggio di una mutazione mancante: la seconda si vede nel conto.",
+      "fix_proposto": "🟡 FATTO. (a) Le regole di scarsita passano da una a quattro e prendono la forma senza numero («ultimi/pochi/limitati + posti», «fino a esaurimento», «solo per i primi N», «offerta valida solo oggi», «le adesioni chiudono»), in TUTTE E DUE le case. (b) Sette casi nuovi, uno per regola, con una frase che SOLO quella regola puo prendere, e l'assert pretende UNA violazione sola: spegnendone una diventa rosso il suo caso, e si sa quale. (c) Le due mutazioni finte rifatte: adesso tolgono l'ESPRESSIONE. MISURATO PRIMA DI CONSEGNARE, sulle 41 mail vere: falsi allarmi introdotti dalle regole nuove ZERO, mail oneste fermate ancora 30 su 32 (invariato), bugie che passano ancora 2 — le due che aspettano una decisione di Nicola.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/banco-mail-onesta.test.mjs",
+        "nota": "Nove casi. I due nuovi sono quelli che contano: uno pretende che ogni regola abbia il SUO caso e che ne scatti UNA SOLA (senza quel «una sola» il caso non separa niente e la copertura torna a gonfiarsi), l'altro che le due case diano lo stesso verdetto su tutte e sette. La prima stesura del secondo chiamava `pannello.giudica` e falliva con «is not a function»: la casa del Pannello espone `giudicaLettera`. Non misurava niente e lo diceva. Due mutazioni, tutt'e due rosse."
+      },
+      "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?»"
     }
   ],
   "meta": {

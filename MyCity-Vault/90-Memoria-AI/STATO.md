@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-28 12:35
+aggiornato: 2026-08-31 12:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -31,6 +31,18 @@ tre controlli usano per capire se l'attivita' e' ferma.
 | **Sito pubblico** | **HTTP 503** | ▼ **peggiorato** | 200 | riverificato in diretta con `verifica-sensori.mjs` il 28/8 12:27: era su il 24/8, oggi di nuovo giù — stessa causa mai risolta (server #168, chiavi Vercel #154, dominio #155) |
 
 ---
+
+> 🔒 **31/8 12:40 — Un collaudo indipendente ha eseguito codice come amministratore passando dalla porta che avevo dichiarato chiusa.** Richiesta tua, ancora aperta: «risolvi tutti i problemi che hai trovato».
+>
+> **In due righe.** Il 30/8 avevo chiuso una falla e scritto «otto strade d'attacco su otto chiuse». Le otto erano quelle a cui avevo pensato io. Un collaudatore che non aveva costruito niente è passato dalla più corta — un percorso in una cartella temporanea, senza opzioni e senza trucchi — e ha scritto un file sul disco con i permessi di amministratore. Riprodotto da me prima di toccare qualsiasi cosa.
+>
+> **La parte che fa più male.** La prova che avevo scritto non era distratta: **teneva aperto il buco apposta**. Diceva «questa fixture deve restare eseguibile» e lo asseriva. Era verde mentre l'attacco funzionava. E il ragionamento sbagliato stava scritto nel suo commento, e sembrava sensato — «la cura non poteva essere vietare i percorsi assoluti, o il banco non si può più provare». Vero a metà: il banco può provarsi *dichiarando* la radice che gli serve. Quello che non deve succedere è che quella radice arrivi per eredità a chi non sapeva di averla.
+>
+> **Il numero che ha deciso la cura.** Delle 962 righe del registro delle mutazioni, **zero** usano un percorso assoluto. La radice ereditata non difendeva nessun uso vero: c'era solo perché le prove del banco stesso ci mettono le loro finte.
+>
+> **E una quarta cosa, vista solo perché la mutazione non mordeva.** Il caso nuovo che avevo appena scritto guardava una *copia* del programma — una costante scritta a mano nel file di prova — invece del programma. Rimettendo il buco nel programma vero, la prova restava verde. Adesso chiama la funzione vera con una spia al posto di chi lancia i processi.
+>
+> **Cosa è cambiato per il marketplace: niente.** Questo è tutto lavoro sulla macchina. I numeri del business qui sopra restano quelli del 28/8 e non li ho rimisurati: il sito è ancora a 503 e gli ordini pagati sono ancora zero.
 
 > 🩻 **27/8 23:53 — Quarta radiografia del sito: 194 problemi veri, e il primo spegne il catalogo.** Richiesta tua: «fai la radiografia del marketplace».
 >

@@ -8381,19 +8381,21 @@
   },
   {
    "difetto": "AR-873",
-   "nome": "la regola dei numerali scritti a parole si spegne: «duemila famiglie» ripassa",
+   "nome": "l espressione dei numeri scritti a parole sparisce: «duemila famiglie» torna invisibile",
    "file": "cervello/onesta-check.mjs",
-   "cerca": "    nome: \"claim scritto a parole ('duemila famiglie', 'un migliaio di')\",",
-   "sostituisci": "    nome: \"DISATTIVATA\", spenta: true, _re_originale: undefined,",
-   "test": "cervello/test/banco-mail-onesta.test.mjs"
+   "cerca": "    re: /\\b(?:(?:due|tre|quattro|cinque|sei|sette|otto|nove|dieci|undici|dodici|venti|trenta|quaranta|cinquanta|sessanta|settanta|ottanta|novanta)?(?:mila|mille|cento)|centinai[oa]|migliai[oa])\\b/gi,",
+   "sostituisci": "    re: /MAI-NESSUNA-CORRISPONDENZA-QUI/gi,",
+   "test": "cervello/test/banco-mail-onesta.test.mjs",
+   "nota_riaggancio": "Rifatta il 31/8 dopo un collaudo indipendente. La mutazione di prima sostituiva il NOME della regola («DISATTIVATA») e ci aggiungeva un campo `spenta: true` che nessuno legge: l'espressione restava viva e continuava a fermare tutto. Diventava rossa solo perche le due case non si chiamavano piu uguale — cioe misurava la divergenza dei nomi, non la sparizione della difesa. E una mutazione che gonfia la copertura: dice «coperto» su una difesa che nessuno ha tolto. Adesso toglie l'ESPRESSIONE, che e la difesa vera."
   },
   {
    "difetto": "AR-875",
-   "nome": "la scarsita fabbricata smette di essere vista: «restano 9 posti» ripassa",
+   "nome": "l espressione della scarsita sparisce: «ultimi posti» torna a passare verso un cliente vero",
    "file": "cervello/onesta-check.mjs",
-   "cerca": "    nome: \"scarsità fabbricata: posti che si esauriscono\",",
-   "sostituisci": "    nome: \"DISATTIVATA-scarsita\", spenta: true,",
-   "test": "cervello/test/banco-mail-onesta.test.mjs"
+   "cerca": "    re: /\\b(?:restano|rimangono|ne\\s+restano|sono\\s+rimasti|ultimi|ultime|ancora)\\s+(?:sol[oi]\\s+|soltanto\\s+|pochi\\s+|poche\\s+|pochissim\\w+\\s+)?(?:\\d+|due|tre|quattro|cinque|sei|sette|otto|nove|dieci|venti|pochi|poche|pochissim\\w+)?\\s*(?:post[oi]|slot|pezz[oi]|consegne|carrell[oi]|copert[oi]|abbonament[oi]|adesion[ie])\\b/gi,",
+   "sostituisci": "    re: /MAI-NESSUNA-CORRISPONDENZA-QUI/gi,",
+   "test": "cervello/test/banco-mail-onesta.test.mjs",
+   "nota_riaggancio": "Rifatta il 31/8 dopo un collaudo indipendente. La mutazione di prima sostituiva il NOME della regola («DISATTIVATA») e ci aggiungeva un campo `spenta: true` che nessuno legge: l'espressione restava viva e continuava a fermare tutto. Diventava rossa solo perche le due case non si chiamavano piu uguale — cioe misurava la divergenza dei nomi, non la sparizione della difesa. E una mutazione che gonfia la copertura: dice «coperto» su una difesa che nessuno ha tolto. Adesso toglie l'ESPRESSIONE, che e la difesa vera."
   },
   {
    "difetto": "AR-876",
@@ -8506,6 +8508,22 @@
    "cerca": "  if (/^[a-z][a-z0-9+.-]*:/i.test(t)) return true;",
    "sostituisci": "",
    "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-890",
+   "nome": "una delle regole di scarsita sparisce: il banco torna verde perche le altre la coprono",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "    nome: \"scarsità fabbricata: quantità dichiarata scarsa senza un registro che lo dica\",",
+   "sostituisci": "    nome: \"scarsità fabbricata: quantità dichiarata scarsa senza un registro che lo dica\",\n    re: /MAI-NESSUNA-CORRISPONDENZA/gi, _spenta:",
+   "test": "cervello/test/banco-mail-onesta.test.mjs"
+  },
+  {
+   "difetto": "AR-890",
+   "nome": "una SECONDA regola di scarsita sparisce: «solo per i primi venti» torna a passare",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "    nome: \"scarsità fabbricata: solo per i primi N\",",
+   "sostituisci": "    nome: \"scarsità fabbricata: solo per i primi N\",\n    re: /MAI-NESSUNA-CORRISPONDENZA/gi, _spenta:",
+   "test": "cervello/test/banco-mail-onesta.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."
