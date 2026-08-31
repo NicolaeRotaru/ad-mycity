@@ -7031,10 +7031,10 @@
    "difetto": "AR-812",
    "nome": "le prove del Pannello girano con un «|| true»: il guardiano stampa e non puo' bocciare, come in giro.sh",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "          esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {\n            timeout: 600_000,\n          }),",
-   "sostituisci": "          (esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], { timeout: 600_000 }) || true),",
+   "cerca": "          esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {\n            timeout: TEMPO_MAX_SUITE,\n          }),",
+   "sostituisci": "          (esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], { timeout: TEMPO_MAX_SUITE }) || true),",
    "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
-   "nota_riaggancio": "28/8 (AR-797): ri-agganciata dopo la riscrittura del passo. ⚠️ LA MUTAZIONE E ONESTA CON QUELLO CHE LA PROVA DIFENDE DAVVERO, e non di piu: la prova (riga 49) cerca la stringa || true nel sorgente, quindi la mutazione la scrive. NON copre la forma generale dell atto — spegnere il verdetto in un altro modo (per esempio fallito: false) ottiene lo stesso effetto e lascia il test VERDE: misurato il 28/8. Quel buco e registrato come AR-879, non nascosto qui dentro."
+   "nota_riaggancio": "Riagganciata il 2026-08-30: il numero 600_000 era scritto quattro volte e adesso e la costante TEMPO_MAX_SUITE (misurata: la suite ci mette 535s pulita, 576s sotto carico, e il tetto vecchio ne lasciava 65 di margine). Il comportamento difeso NON e cambiato: la mutazione mette ancora un `|| true` sul passo delle prove del Pannello, cioe lo rende incapace di bocciare."
   },
   {
    "lotto": 61,
@@ -8474,6 +8474,22 @@
    "cerca": "    const firmaTolta = forseGiaPartita ? false : await revocaFirma(id);",
    "sostituisci": "    const firmaTolta = await revocaFirma(id);",
    "test": "cervello/test/c1-atto-una-volta-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-888",
+   "nome": "il tetto del tempo torna scritto a mano dentro la chiamata: quattro copie che possono divergere",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "const pTest = esegui(\"test del cervello\", \"node\", [\"cervello/test-cervello.mjs\", \"--json\"], { timeout: TEMPO_MAX_SUITE });",
+   "sostituisci": "const pTest = esegui(\"test del cervello\", \"node\", [\"cervello/test-cervello.mjs\", \"--json\"], { timeout: 600_000 });",
+   "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
+  },
+  {
+   "difetto": "AR-888",
+   "nome": "il tetto torna stretto: la suite ci mette 535s pulita e il tetto torna a 600s, cioe l 11% di margine",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "export const TEMPO_MAX_SUITE = 1_200_000;",
+   "sostituisci": "export const TEMPO_MAX_SUITE = 600_000;",
+   "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

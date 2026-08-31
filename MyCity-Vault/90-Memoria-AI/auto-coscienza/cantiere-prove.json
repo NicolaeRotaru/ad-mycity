@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-31 10:42",
+  "aggiornato": "2026-08-31 10:52",
   "giorni_sospetto": 3,
-  "difetti_aperti": 145,
-  "difetti_da_fare": 145,
+  "difetti_aperti": 146,
+  "difetti_da_fare": 146,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 877,
+    "totale": 878,
     "chiusi": 732,
-    "aperti": 134,
+    "aperti": 135,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 145,
+    "da_fare": 146,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 732,
-      "aperto": 134,
+      "aperto": 135,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 145,
-    "viste": 145,
+    "attese": 146,
+    "viste": 146,
     "fuori": 0,
-    "motivo": "bilancio a posto: 732 chiuse + 145 classificate = 877 schede, e ogni stato vivo è dentro (134 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 732 chiuse + 146 classificate = 878 schede, e ogni stato vivo è dentro (135 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 91,
     "prova-debole-su-grave": 26,
-    "auto-comando": 24,
+    "auto-comando": 25,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -199,7 +199,7 @@
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 8,
-  "schede_campi_illeggibili": 24,
+  "schede_campi_illeggibili": 25,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -318,6 +318,11 @@
     },
     {
       "id": "AR-886",
+      "gravita": "grave",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-887",
       "gravita": "grave",
       "impatto_crescita": null
     }
@@ -456,6 +461,13 @@
     },
     {
       "id": "AR-886",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-887",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -3704,6 +3716,19 @@
       "titolo": "Dentro un file che il tetto ce l ha, un diario cresceva senza tetto — e la prova di sei schede chiuse e divent",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/archivi-senza-tetto.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-887",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": null,
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Un'azione che FORSE e gia partita torna in «da approvare», e la prossima firma la manda due volte a un cliente",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/c1-atto-una-volta-sola.test.mjs",
       "auto_chiudibile": true
     }
   ]

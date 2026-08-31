@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-30 18:50",
+  "aggiornato": "2026-08-31 09:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19036,6 +19036,24 @@
         "nota": "Due casi su undici, e girano contro la ROTTA VERA con Supabase finto, non contro una copia della logica: la prova guarda la riga `azione:az-1:firma` dentro il finto dopo che l'atto e esploso. Il secondo caso e quello che impedisce la cura sbagliata: su «posto gia preso» la firma deve ancora togliersi, o il fix diventa «non togliere mai la firma» ed e AR-110 di ritorno. Una mutazione, rossa."
       },
       "trovato_da": "radiografia del perimetro toccato, lente pannello/robustezza-errori (il cancello del lotto l'ha chiesta)"
+    },
+    {
+      "id": "AR-888",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 09:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il cancello del lotto diventa inservibile proprio quando qualcuno sta lavorando",
+      "sintomo": "Il cancello esce «test del cervello: rosso, e non ho saputo contare quanto» — un verdetto che per come e scritto il tetto NON si puo assolvere. Succede quando la macchina e occupata, cioe quando si sta lavorando. Il 30/8 e successo, e la reazione e stata saltare il cancello con --no-verify: esattamente cio che il commento dentro esegui() avverte di non fare («un cancello sempre rosso viene aggirato al secondo giro»).",
+      "causa_radice": "Il tetto di tempo dato alla suite era 600 secondi. MISURATO il 30/8: la suite ci mette 535 secondi a macchina libera e 576 con un'altra suite in parallelo. Sessantacinque secondi di margine, l'11%. Non e un difetto del cancello, che fa la cosa giusta: un guardiano ucciso resta rosso apposta, col perche scritto, «altrimenti il controllo piu lento diventerebbe quello che si puo saltare senza dirlo». E il NUMERO a non stare in piedi contro la realta. ② E il numero era scritto QUATTRO VOLTE nello stesso file: quattro copie della stessa decisione, cioe la malattia una-parola-con-due-padroni in attesa che qualcuno ne alzasse una sola.",
+      "fix_proposto": "🟡 FATTO. Una costante sola, TEMPO_MAX_SUITE, esportata, con le due misure scritte nel commento accanto — un tetto senza la misura accanto e un numero senza fonte. Alzata a 1.200.000 ms (20 minuti), che e 2,2 volte la misura pulita. Non di piu apposta: un timeout troppo generoso smette di distinguere «la macchina e occupata» da «si e piantato», e mezz'ora buttata su un blocco vero e peggio di un rosso in piu.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+        "nota": "Tre casi, e NESSUNO misura quanto ci mette la suite: un numero cosi cambia col computer e con quante cose girano insieme, e una prova che lo fissa diventa rossa per il motivo sbagliato — sarebbe AR-787. Guardano due invarianti che non scadono: il tetto e UNA costante (nessun `timeout:` scritto a mano nei passi della suite), e lascia almeno il doppio della misura dichiarata nel suo stesso commento — cosi chi lo abbassa senza rimisurare lo scopre subito. Il terzo caso e il difetto opposto: non deve essere cosi largo da non distinguere una macchina occupata da un blocco. La prima stesura del primo caso era troppo larga e pescava i tetti di git e di non-vacuita, che sono decisioni diverse: se n'e accorta lei stessa al primo giro. Due mutazioni, tutt'e due rosse."
+      },
+      "trovato_da": "il cancello del lotto, uscendo rosso in un modo che non si poteva assolvere"
     }
   ],
   "meta": {

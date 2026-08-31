@@ -566,6 +566,29 @@ function segnaFrenoRosso(comando, codice, nome) {
   if (r.status !== 0) console.error(`⚠️  marcatura uso non riuscita per «${nome}» (rc=${r.status}): ${(r.stderr || "").trim().split("\n")[0] || "senza messaggio"}`);
 }
 
+/**
+ * ⏱️ Quanto tempo si dà alla suite del cervello prima di dichiararla «non ha finito».
+ *
+ * MISURATO il 30/8/2026, non scelto a occhio:
+ *   · 535 secondi a macchina libera;
+ *   · 576 secondi con un'altra suite che girava in parallelo (una copia del repo per un collaudo).
+ * Il tetto era 600_000 ms, cioè 65 secondi di margine sul caso pulito — l'11%. Sotto carico la
+ * suite lo sforava, il cancello non riusciva a leggerne il numero e usciva «rosso e non so contare
+ * quanto», che per come è scritto il tetto NON si può assolvere. Cioè: il cancello diventava
+ * inservibile esattamente quando qualcuno stava lavorando davvero. Ed è successo: il 30/8 ho
+ * saltato il cancello con `--no-verify` invece di aspettarlo, che è la cosa che il commento qui
+ * sotto avverte di non fare («un cancello sempre rosso viene aggirato al secondo giro»).
+ *
+ * 1.200.000 ms = 20 minuti, cioè 2,2 volte la misura pulita. Non di più apposta: un timeout troppo
+ * generoso smette di distinguere «la macchina è occupata» da «si è piantato», e mezz'ora buttata
+ * per un blocco vero è peggio di un rosso in più.
+ *
+ * ⚠️ È UNA COSTANTE, non un numero ripetuto. Prima stava scritta quattro volte: quattro copie della
+ * stessa decisione, cioè la malattia `una-parola-con-due-padroni` in attesa che qualcuno ne alzasse
+ * una sola e non se ne accorgesse nessuno.
+ */
+export const TEMPO_MAX_SUITE = 1_200_000;
+
 function esegui(nome, cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
@@ -717,7 +740,7 @@ function main() {
     // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
     // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
     const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
-    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 }).uscita;
+    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: TEMPO_MAX_SUITE }).uscita;
     const rossiOra = testRossi(uscitaSuite);
     // AR-693 — il debito ereditato in bash ha il suo numero, misurato dalla stessa corsa.
     const rossiBashOra = testRossiBash(uscitaSuite);
@@ -1162,7 +1185,7 @@ function main() {
     // bisogno di un NUMERO e dei NOMI, e sei righe di coda non li danno: senza i nomi, «tre test
     // rossi da prima» e «hai appena rotto tre test» sono lo stesso rosso, e chi legge non sa se il
     // lavoro è suo. Il perimetro del blocco duro sono i test che questo lotto ha scritto o toccato.
-    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 });
+    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: TEMPO_MAX_SUITE });
     const rossi = testRossi(pTest.uscita);
     const miei = testDelLotto(
       // AR-339 — ENTRAMBI gli elenchi passano dalla porta, che mette il `-z`: senza, un nome con
@@ -1278,7 +1301,7 @@ function main() {
         passi.push(
           esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
             cwd: join(AD_ROOT, "pannello"),
-            timeout: 600_000,
+            timeout: TEMPO_MAX_SUITE,
           }),
         );
         // AR-812 — il typecheck dice che i tipi tornano, non che il Pannello FUNZIONA. Le sue 13
@@ -1299,7 +1322,7 @@ function main() {
         // che lo dimostra è cervello/test/due-case-agganciato.test.mjs.
         passi.push(
           esegui("prove del Pannello", "node", ["cervello/test-pannello.mjs"], {
-            timeout: 600_000,
+            timeout: TEMPO_MAX_SUITE,
           }),
         );
       } else {

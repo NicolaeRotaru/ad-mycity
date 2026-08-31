@@ -157,7 +157,7 @@ prova("⑨ ricuci-corsie SCARTA la voce ostile e lo dice, invece di scriverla", 
 // «Oggi va bene» non è una difesa: il giorno che si volesse scrivere il comando intero (serve per
 // le prove a più passi con `&&`), l'iniezione entrerebbe nel registro senza che nessuno se ne
 // accorga. Adesso il cancello la respinge in faccia, e questa prova lo pretende.
-test("AR-885: un comando che carica un modulo viene RESPINTO dal cancello, non ripulito a valle", () => {
+prova("AR-885: un comando che carica un modulo viene RESPINTO dal cancello, non ripulito a valle", () => {
   const mutante = { file: "cervello/esecuzione-prova.mjs", cerca: "const x = 1;", sostituisci: "" };
   for (const ostile of [
     "node --test --test-reporter=/tmp/evil.mjs cervello/test/allarme-cronico.test.mjs",
