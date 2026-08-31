@@ -52,6 +52,29 @@ trap 'c4_curl_chiudi' EXIT
 # 🔌 Parity skill: specchio .cursor/skills → .claude/skills prima di lanciare la CLI (best-effort).
 node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
+# ─────────────────────────────────────────────────────────────────────────────
+# sorvegliante: ok esito-in-una-pipe fino al 2026-11-30 — il debito che resta qui e DICHIARATO,
+# non dimenticato: sta nella scheda AR-884 col conto misurato e sta sotto il tetto della malattia
+# in cervello/malattie.json (30 istanze contro una base di 30, verificata a ogni giro da
+# spazzata-fratelli.mjs, che scende e non risale).
+#
+# Perche non si curano tutte in una volta, ed e la parte che vale la pena leggere: misurato il
+# 29/8, ogni modifica a questo file fa scattare altri guardiani — i tetti delle malattie, il
+# rilevatore dei guardiani informativi, la spazzata dei fratelli, e la prova archivi-senza-tetto,
+# che cercava la riga di comando ALLA LETTERA ed e diventata rossa per una riscrittura giusta.
+# Curarne quattro ne ha fatti diventare rossi tre, e sono serviti due giri per riportare il conto
+# dov'era. Un lotto che ne curasse trentacinque insieme nessuno lo rileggerebbe, e una richiesta
+# di unione che nessuno rilegge si approva per fiducia — che non e una prova.
+#
+# Si convertono un po' per volta alla forma `sensore "<script>.mjs" <righe> [argomenti]`, dando la
+# precedenza alle righe il cui strumento SA uscire 2: dove non c'e un ramo cieco non c'e nessun ⚪
+# da perdere, e convertirla e lavoro senza guadagno.
+#
+# ⚠️ E la causa scritta nella scheda fino al 30/8 era SBAGLIATA: diceva «una pipe restituisce il
+# codice dell'ultimo comando». Non qui — questo file dichiara `set -uo pipefail` (riga 7), e con
+# pipefail la pipe il codice lo porta. Il colpevole vero e `|| true`. Misurato, non ragionato.
+# ─────────────────────────────────────────────────────────────────────────────
+
 ts() { date '+%Y-%m-%d %H:%M'; }
 
 # AR-204 — il cronometro del PROCESSO, non quello del motore AI. `GIRO_START` (più sotto) parte dopo
