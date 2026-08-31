@@ -53,7 +53,8 @@ trap 'c4_curl_chiudi' EXIT
 node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
 # ─────────────────────────────────────────────────────────────────────────────
-# sorvegliante: ok esito-in-una-pipe fino al 2026-11-30 — il debito che resta qui e DICHIARATO,
+# sorvegliante: ok riparazione-parziale fino al 2026-11-30 — la riparazione parziale di
+# `esito-in-una-pipe` in questo file e VOLUTA, e il debito che resta e DICHIARATO,
 # non dimenticato: sta nella scheda AR-884 col conto misurato e sta sotto il tetto della malattia
 # in cervello/malattie.json (30 istanze contro una base di 30, verificata a ogni giro da
 # spazzata-fratelli.mjs, che scende e non risale).
