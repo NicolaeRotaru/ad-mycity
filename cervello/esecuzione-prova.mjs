@@ -84,6 +84,16 @@ export const OPZIONI_AMMESSE = [
   /^--tap$/,
   // Solo i reporter INTERNI di node, per nome. Un valore con «/», «.mjs», «.cjs» o «file:» è un
   // modulo da caricare, cioè esecuzione di codice, e qui non entra.
+  //
+  // L'ALTRA STRADA, considerata e scartata: togliere `--test-reporter` del tutto. Sarebbe più
+  // stretta, e misurando si vede che nessuna delle 958 voci vere la usa — quindi oggi non
+  // romperebbe niente. Scartata perché i cinque nomi qui sotto sono nomi INTERNI di node, non
+  // percorsi: non possono caricare un modulo, quindi non aggiungono superficie d'attacco, e il
+  // giorno che una prova vuole leggersi l'uscita in TAP non deve tornare qui a litigare col
+  // parser. La differenza fra le due strade è zero sul rischio e non-zero sull'attrito: è così che
+  // ho scelto. Se domani node desse un significato di percorso a uno di questi cinque nomi, questa
+  // riga va rivista — ed è il motivo per cui la lista è chiusa e scritta a mano invece che una
+  // famiglia con l'asterisco.
   /^--test-reporter=(tap|spec|dot|junit|lcov)$/,
   /^--test-name-pattern=.+$/,
   /^--test-concurrency=\d+$/,
