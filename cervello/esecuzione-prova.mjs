@@ -64,13 +64,29 @@ export const COMANDI_AMMESSI = ["node", "npx"];
 /** Le sole opzioni che una prova di questa casa usa davvero. Tutto il resto non si esegue.
  *  Lista BIANCA di proposito: `--require`, `--import`, `-e`, `--eval` e i loro fratelli futuri non
  *  vanno elencati uno per uno — non essendo qui dentro, sono già fuori. */
+//
+// 🔒 SECONDO GIRO, 30/8 — la lista bianca aveva due voci che eseguono codice.
+// Il collaudo di sicurezza (indipendente, non chi ha scritto questo file) ha fatto girare codice
+// suo come root passando da qui, con questa riga:
+//     node --test --test-reporter=/tmp/fuori-dal-repo/mio.mjs cervello/test/qualunque.test.mjs
+// `--test-reporter=` accetta uno SPECIFICATORE DI MODULO, non solo i nomi interni di node: gli si
+// dà un percorso e node lo importa ed esegue. `--experimental-[a-z-]+` catturava `--experimental-
+// loader`, che fa la stessa cosa. E siccome cominciano per «-», il loro valore saltava TUTTI i
+// controlli sui percorsi: poteva stare ovunque sul disco, fuori dal repo e fuori dalle radici.
+// La lezione: una lista bianca elenca FORME di stringa, ma il pericolo sta negli EFFETTI. Due voci
+// ammesse avevano lo stesso effetto di `--import`, che era vietato tre righe più sopra.
+// Misurato prima di stringere, sulle 958 voci vere di `mutanti.json`: le opzioni usate davvero sono
+// DUE in tutto — `--test` (1 voce) e `--ar-395` (1 voce). Nessuna voce usa `--test-reporter`,
+// nessuna usa `--experimental-*`. Toglierle non rompe niente: era superficie d'attacco che nessuno
+// usava. Se un giorno servisse un flag sperimentale, si aggiunge PER NOME, mai per famiglia.
 export const OPZIONI_AMMESSE = [
   /^--test$/,
   /^--tap$/,
-  /^--test-reporter(=.+)?$/,
+  // Solo i reporter INTERNI di node, per nome. Un valore con «/», «.mjs», «.cjs» o «file:» è un
+  // modulo da caricare, cioè esecuzione di codice, e qui non entra.
+  /^--test-reporter=(tap|spec|dot|junit|lcov)$/,
   /^--test-name-pattern=.+$/,
   /^--test-concurrency=\d+$/,
-  /^--experimental-[a-z-]+$/,
   /^--no-warnings$/,
   /^--json$/,
   /^--no-install$/,
@@ -177,6 +193,20 @@ export function spezzaComando(riga, { soloDentroIlRepo = true, radiciAmmesse = [
     const opzioneVietata = argomenti.find((a) => a.startsWith("-") && !OPZIONI_AMMESSE.some((re) => re.test(a)));
     if (opzioneVietata) {
       return { ok: false, passi: [], perche: `opzione non ammessa: «${opzioneVietata}» (la lista è bianca: ciò che non è ammesso è vietato)` };
+    }
+    // 🔒 Difesa in profondità (30/8). Il valore attaccato a un'opzione con «=» non passava da
+    // nessun controllo sui percorsi, perché il token comincia per «-» e tutti i filtri più sotto
+    // saltano i token che cominciano per «-». Se domani una voce della lista bianca tornasse ad
+    // ammettere un valore libero, questo secondo strato tiene: un valore che SOMIGLIA a un percorso
+    // (ha una barra, o finisce in .mjs/.cjs/.js, o è un file: URL) deve stare in casa ed essere
+    // pulito, esattamente come un percorso scritto da solo.
+    const valoreOstile = argomenti
+      .filter((a) => a.startsWith("-") && a.includes("="))
+      .map((a) => a.slice(a.indexOf("=") + 1))
+      .find((v) => (v.includes("/") || /\.(mjs|cjs|js)$/.test(v) || v.startsWith("file:"))
+        && (v.startsWith("file:") || fuoriDalRepo(v) || !PERCORSO_PULITO.test(v)));
+    if (valoreOstile !== undefined) {
+      return { ok: false, passi: [], perche: `un'opzione porta un modulo da caricare: «${valoreOstile}» (un valore che nomina un file esce dal repo o non è pulito)` };
     }
     // 🔒 `npx` senza questa riga è «esegui un pacchetto qualunque preso da internet».
     if (comando === "npx") {

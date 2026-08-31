@@ -8342,9 +8342,10 @@
    "difetto": "AR-867",
    "nome": "la prova torna a ricevere l ambiente intero: Stripe e Supabase nelle mani di un comando che arriva da un file di dati",
    "file": "cervello/non-vacuita.mjs",
-   "cerca": "    if (/SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH/i.test(k)) continue;",
+   "cerca": "    if (NOME_DI_CHIAVE.test(k)) continue;",
    "sostituisci": "",
-   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+   "nota_riaggancio": "Riagganciata il 2026-08-30: la riga e la stessa difesa, ma la condizione e stata estratta nella costante NOME_DI_CHIAVE quando e arrivato il controllo per VALORE (la credenziale dentro un URL). Il comportamento difeso non e cambiato: togliendo questa riga il figlio torna a ereditare tutto cio che si dichiara chiave dal nome."
   },
   {
    "difetto": "AR-868",
@@ -8433,6 +8434,38 @@
    "cerca": "  { re: /npx canceled due to missing packages/i,",
    "sostituisci": "  { re: /MAI-NESSUNA-CORRISPONDENZA-QUI/i,",
    "test": "cervello/test/la-prova-typescript-non-dipende-dal-node.test.mjs"
+  },
+  {
+   "difetto": "AR-885",
+   "nome": "la credenziale dentro un URL torna a passare al processo figlio: DATABASE_URL e REDIS_URI con la password dentro",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    if (typeof v === \"string\" && CHIAVE_DENTRO_UN_URL.test(v)) continue;",
+   "sostituisci": "",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-885",
+   "nome": "la lista bianca torna ad ammettere un reporter che e un percorso: --test-reporter=/tmp/mio.mjs esegue codice",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "  /^--test-reporter=(tap|spec|dot|junit|lcov)$/,",
+   "sostituisci": "  /^--test-reporter(=.+)?$/,",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-885",
+   "nome": "il valore attaccato a un opzione torna a saltare i controlli sui percorsi",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "    if (valoreOstile !== undefined) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+  },
+  {
+   "difetto": "AR-886",
+   "nome": "il diario degli usi torna a crescere senza tetto dentro un file che il tetto ce l ha",
+   "file": "cervello/freno-scattato.mjs",
+   "cerca": "      l.usi = compattaUsi(l.usi);",
+   "sostituisci": "",
+   "test": "cervello/test/archivi-senza-tetto.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

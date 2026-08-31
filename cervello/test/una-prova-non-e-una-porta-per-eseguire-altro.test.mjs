@@ -154,3 +154,97 @@ test("AR-867: e il filtro dell'ambiente non è spento — se passasse tutto sare
   const dopo = ambientePulito(prima);
   assert.ok(Object.keys(dopo).length < Object.keys(prima).length, "il filtro non ha tolto niente: è spento");
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔒 SECONDO GIRO — 30/8/2026, dal collaudo di sicurezza indipendente
+// ─────────────────────────────────────────────────────────────────────────────
+// La difesa qui sopra ha chiuso `--require`, `--import`, `-e` e `npx <chiunque>`. Il collaudatore
+// — che non aveva scritto una riga di questo file — ha fatto girare codice suo COME ROOT passando
+// da due opzioni che la lista bianca ammetteva:
+//
+//   node --test --test-reporter=/tmp/fuori/mio.mjs cervello/test/x.test.mjs
+//   node --experimental-loader /tmp/mio.mjs cervello/test/x.test.mjs
+//
+// Tutt'e due prendono uno SPECIFICATORE DI MODULO e lo eseguono, esattamente come `--import` che
+// era vietato dodici righe più sopra. E siccome cominciano per «-», il loro valore saltava tutti i
+// controlli sui percorsi: poteva stare ovunque sul disco.
+//
+// LA LEZIONE, ed è quella che vale oltre questo file: una lista bianca elenca FORME di stringa, ma
+// il pericolo sta negli EFFETTI. Quando si scrive «ammetto --experimental-*» si sta ammettendo una
+// FAMIGLIA di cui non si conoscono i membri futuri — che è la stessa malattia della lista nera, con
+// il segno cambiato. Un flag si ammette per nome, mai per famiglia.
+//
+// Perché la prova di prima era verde: guardava solo le quattro righe già note. Nessun caso provava
+// un'opzione che carica un modulo, quindi la difesa nuova non aveva niente da dimostrare.
+
+test("AR-885: un reporter che è un percorso non è un reporter, è un modulo da eseguire", () => {
+  // La riga esatta con cui il collaudo ha eseguito codice come root.
+  const rce = piano("node --test --test-reporter=/tmp/pwn/mio.mjs cervello/test/allarme-cronico.test.mjs");
+  assert.equal(rce.ok, false, "la riga con cui il collaudo ha eseguito codice come root passa ancora");
+  // Anche relativo, anche dentro il repo: un modulo caricato è un modulo caricato.
+  assert.equal(piano("node --test --test-reporter=./pwn.mjs cervello/test/allarme-cronico.test.mjs").ok, false);
+  assert.equal(piano("node --test --test-reporter=file:///tmp/pwn.mjs cervello/test/allarme-cronico.test.mjs").ok, false);
+  // …ma i reporter VERI di node restano ammessi: una difesa che vieta tutto è una difesa spenta,
+  // e questo è il caso che distingue «ho chiuso il buco» da «ho chiuso l'opzione».
+  assert.equal(piano("node --test-reporter=tap --test cervello/test/allarme-cronico.test.mjs").ok, true,
+    "i reporter interni di node devono restare ammessi, o la cura è un divieto");
+});
+
+test("AR-885: --experimental-* era una famiglia, e delle famiglie non si conoscono i membri futuri", () => {
+  assert.equal(piano("node --experimental-loader /tmp/pwn.mjs cervello/test/allarme-cronico.test.mjs").ok, false);
+  assert.equal(piano("node --experimental-loader=file:///tmp/pwn.mjs cervello/test/allarme-cronico.test.mjs").ok, false);
+  // Il nome inventato è il punto: se domani node aggiunge --experimental-qualunque-cosa che esegue
+  // codice, la lista bianca di prima l'avrebbe ammesso il giorno stesso, senza che nessuno lo sapesse.
+  assert.equal(piano("node --experimental-non-esiste-ancora cervello/test/allarme-cronico.test.mjs").ok, false,
+    "un flag sperimentale che nessuno ha mai visto non può essere ammesso in anticipo");
+});
+
+test("AR-885: il valore attaccato a un'opzione passa dagli stessi controlli di un percorso scritto da solo", () => {
+  // Difesa in profondità: anche se un giorno la lista bianca tornasse ad ammettere un valore libero,
+  // un valore che NOMINA UN FILE deve stare in casa ed essere pulito. Il test usa un'opzione che è
+  // ammessa apposta (--test-name-pattern accetta testo libero) per provare lo strato di sotto.
+  assert.equal(piano("node --test-name-pattern=/etc/passwd cervello/test/allarme-cronico.test.mjs").ok, false,
+    "un valore che esce dal repo passa ancora");
+  assert.equal(piano("node --test-name-pattern=../../fuori/x.mjs cervello/test/allarme-cronico.test.mjs").ok, false,
+    "un valore che risale con .. passa ancora");
+  assert.equal(piano("node --test-name-pattern=file:///tmp/x.mjs cervello/test/allarme-cronico.test.mjs").ok, false,
+    "un file: URL passa ancora");
+  // …e un testo che NON nomina nessun file resta ammesso: il controllo guarda i valori che
+  // somigliano a un modulo, non tutti i valori.
+  assert.equal(piano("node --test-name-pattern=AR-885 cervello/test/allarme-cronico.test.mjs").ok, true,
+    "un testo normale non deve essere bloccato: il filtro guarda i moduli, non le parole");
+});
+
+test("AR-885: e nessuna delle 958 voci vere di mutanti.json viene respinta dalla stretta", async () => {
+  // La legge del collaudatore che ha trovato più difetti: una difesa nuova va misurata sul lavoro
+  // NORMALE, non solo sull'attacco. Una lista bianca troppo stretta è un cancello che suona su
+  // tutto, cioè un cancello spento — il difetto opposto, e più difficile da vedere.
+  const { readFileSync } = await import("node:fs");
+  const registro = JSON.parse(readFileSync(join(AD_ROOT, "cervello/mutanti.json"), "utf8"));
+  const conTest = registro.mutanti.filter((v) => v.test);
+  assert.ok(conTest.length > 100, `il registro è troppo magro per dire qualcosa: ${conTest.length} voci`);
+  const respinte = conTest.filter((v) => !piano(String(v.test)).ok);
+  assert.deepEqual(respinte.map((v) => `${v.difetto}: ${v.test}`), [],
+    "la stretta ha respinto voci vere: il cancello suona sul lavoro normale");
+});
+
+test("AR-885: una credenziale dentro un URL non si vede dal nome, e non deve arrivare alla prova", () => {
+  // Il secondo reperto del collaudo. `ambientePulito` toglieva per NOME, e sul VPS passavano al
+  // figlio DATABASE_URL, SUPABASE_DB_URL e REDIS_URI — che la password ce l'hanno nel VALORE.
+  const finto = {
+    DATABASE_URL: "postgres://utente:NONDEVEPASSARE@host/db",
+    SUPABASE_DB_URL: "postgresql://postgres:NONDEVEPASSARE@db.x.supabase.co:5432/postgres",
+    REDIS_URI: "redis://:NONDEVEPASSARE@127.0.0.1:6379",
+    SENTRY_DSN: "https://NONDEVEPASSARE@o1.ingest.sentry.io/1",
+    MARKETPLACE_SUPABASE_URL: "https://xyz.supabase.co",
+    PATH: "/usr/bin",
+  };
+  const pulito = ambientePulito(finto);
+  assert.ok(!Object.values(pulito).join(" ").includes("NONDEVEPASSARE"),
+    `una credenziale è arrivata alla prova: ${JSON.stringify(pulito)}`);
+  // …e un URL PUBBLICO resta: se il filtro togliesse ogni URL sarebbe di nuovo un divieto, non una
+  // cura, e le prove che hanno bisogno dell'indirizzo del marketplace smetterebbero di girare.
+  assert.equal(pulito.MARKETPLACE_SUPABASE_URL, "https://xyz.supabase.co",
+    "un URL senza credenziali dentro non è un segreto: toglierlo è rompere le prove per niente");
+  assert.equal(pulito.PATH, "/usr/bin");
+});

@@ -71,6 +71,48 @@ export function lezioniDelFreno(lezioni = [], comando = "") {
   });
 }
 
+/** Quante volte serve vedere lo STESSO riferimento su una lezione perché il diario dica qualcosa:
+ *  la prima volta (quando ha cominciato a fermarci) e l'ultima (se ci ferma ancora). Le trecento
+ *  in mezzo non aggiungono niente che qualcuno legga, e pesano. */
+const USI_PER_RIFERIMENTO = 2;
+
+/**
+ * Il diario `usi` di una lezione, ridotto a ciò che qualcuno legge davvero.
+ *
+ * ⚠️ Perché esiste. Questo diario cresceva SENZA TETTO dentro un file che il tetto ce l'ha
+ * (`apprendimento.json`, un mega). Ogni giro in cui un freno diventa rosso ci scrive una riga, e
+ * la difesa contro i doppioni guarda (riferimento, minuto): due rossi dello stesso guardiano a due
+ * minuti di distanza sono due righe. Misurato il 30/8: tre lezioni ne portavano 42 a testa, quasi
+ * tutte con lo stesso `ref`, e il file ha sforato il tetto di 279 byte — a quel punto il potatore
+ * esce 1 e la prova che difende sei schede chiuse diventa rossa. Compattando: 1.048.855 → 1.015.857.
+ *
+ * Di ogni riferimento restano il PRIMO uso e l'ULTIMO, e l'ultimo porta `volte` col conto vero.
+ * Così i quattro che leggono questo campo trovano ancora quello che cercano:
+ *   · `lezione-viva.ultimoUsoDi` vuole la data più recente → l'ultimo c'è;
+ *   · `tasso-lezioni` chiede «c'è un uso con questo ref?» → il ref c'è;
+ *   · `volano-numeri` guarda `usi.length` → non va mai a zero;
+ *   · qui dentro, la difesa contro i doppioni confronta (ref, quando) → l'ultimo è quello di adesso.
+ * Quello che si perde sono le ripetizioni in mezzo, e il conto `volte` le dichiara invece di
+ * fingere che non ci siano mai state.
+ */
+export function compattaUsi(usi) {
+  if (!Array.isArray(usi)) return [];
+  const perRiferimento = new Map();
+  for (const u of usi) {
+    const ref = u && typeof u === "object" ? String(u.ref ?? "") : String(u ?? "");
+    if (!perRiferimento.has(ref)) perRiferimento.set(ref, []);
+    perRiferimento.get(ref).push(u);
+  }
+  const tenuti = [];
+  for (const lista of perRiferimento.values()) {
+    lista.sort((a, b) => String(a?.quando ?? a).localeCompare(String(b?.quando ?? b)));
+    if (lista.length <= USI_PER_RIFERIMENTO) { tenuti.push(...lista); continue; }
+    const volte = lista.reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);
+    tenuti.push(lista[0], { ...lista[lista.length - 1], volte });
+  }
+  return tenuti.sort((a, b) => String(a?.quando ?? a).localeCompare(String(b?.quando ?? b)));
+}
+
 /**
  * Puro: torna quante lezioni marcherebbe e quali, senza toccare il disco.
  * Su rc 0 torna sempre lista vuota — un freno verde non è un inciampo evitato.
@@ -89,6 +131,10 @@ export function marcatura(dati, comando, { rc = 1, ref = "", quando = "" } = {})
     const gia = l.usi.some((u) => u && typeof u === "object" && u.ref === riferimento && u.quando === quando);
     if (!gia) {
       l.usi.push({ quando, ref: riferimento });
+      // 🔒 Il tetto si applica QUI, nello stesso gesto della scrittura: un diario potato
+      // «ogni tanto» torna a sforare fra una potatura e l'altra, e lo scopre il potatore
+      // quando non può più farci niente.
+      l.usi = compattaUsi(l.usi);
       marcate.push(l.id);
     }
   }

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-29 09:40",
+  "aggiornato": "2026-08-30 17:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18979,6 +18979,40 @@
         "tipo": "umano",
         "nota": "Il numero si rimisura con lo stesso conto: per ogni riga di giro.sh che lancia uno script del cervello dentro una pipe, guardare se quello script ha un ramo che esce 2. Nessuna prova a comando finche il fix non e scritto: una prova scritta oggi non avrebbe niente da rompere."
       }
+    },
+    {
+      "id": "AR-885",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-30 17:05",
+      "area": "macchina",
+      "titolo": "La porta chiusa il 28/8 aveva ancora due maniglie: si esegue codice come root passando dal lettore dei risultati",
+      "sintomo": "Il collaudo di sicurezza indipendente del 30/8 ha fatto girare codice suo COME ROOT con questa riga: node --test --test-reporter=/tmp/fuori/mio.mjs cervello/test/x.test.mjs. La stessa cosa con --experimental-loader. Tutt e due erano nella lista bianca delle opzioni ammesse.",
+      "causa_radice": "① --test-reporter= accetta uno SPECIFICATORE DI MODULO, non solo i nomi interni di node: gli si da un percorso e node lo importa ed esegue. --experimental-[a-z-]+ catturava --experimental-loader, che fa la stessa cosa. Due voci ammesse avevano lo stesso effetto di --import, che era vietato dodici righe piu sopra. ② Siccome cominciano per «-», il loro valore saltava TUTTI i controlli sui percorsi (fuoriDalRepo, PERCORSO_PULITO, radiceAmmessa): poteva stare ovunque sul disco. ③ LA LEZIONE, che vale oltre questo file: una lista bianca elenca FORME di stringa, ma il pericolo sta negli EFFETTI. «Ammetto --experimental-*» ammette una FAMIGLIA di cui non si conoscono i membri futuri — la stessa malattia della lista nera, col segno cambiato. ④ Due reperti minori dallo stesso collaudo, curati insieme: ambientePulito toglieva le credenziali per NOME, e una password dentro un URL (DATABASE_URL, SUPABASE_DB_URL, REDIS_URI) quel nome non ce l ha; e vagliaMutante accettava l iniezione, col danno evitato solo da un effetto collaterale a valle.",
+      "fix_proposto": "🟡 FATTO in questo lotto. (a) --test-reporter ammesso solo per i reporter interni di node (tap|spec|dot|junit|lcov): un valore con barra, .mjs, .cjs o file: e un modulo da caricare. (b) --experimental-* tolto: un flag si ammette per nome, mai per famiglia. (c) Difesa in profondita: il valore attaccato a un opzione con «=» passa dagli stessi controlli di un percorso scritto da solo. (d) ambientePulito guarda anche il VALORE: via ogni variabile che porti una credenziale dentro un URL, e restano gli URL pubblici. MISURATO PRIMA DI STRINGERE, sulle 958 voci vere: le opzioni usate davvero sono due, --test (1 voce) e --ar-395 (1 voce); nessuna usa --test-reporter, nessuna --experimental-*. Dopo la stretta: zero voci vere respinte su 958.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+        "nota": "Dieci casi. Le due righe con cui il collaudo ha eseguito codice come root sono due dei casi, e girano nella MODALITA VERA (quella con cui eseguiProva chiama davvero), non in quella stretta. Accanto girano il caso «i reporter interni restano ammessi» e il caso «zero delle 958 voci vere viene respinta»: senza quei due la cura sarebbe un divieto, che e il difetto opposto. Il cancello all ingresso del registro ha il suo caso in il-cancello-all-ingresso-del-registro.test.mjs. Tre mutazioni, tutte rosse."
+      },
+      "trovato_da": "collaudo di sicurezza indipendente (chi ha costruito esecuzione-prova.mjs non lo ha collaudato)"
+    },
+    {
+      "id": "AR-886",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-30 17:05",
+      "area": "macchina",
+      "titolo": "Dentro un file che il tetto ce l ha, un diario cresceva senza tetto — e la prova di sei schede chiuse e diventata rossa da sola",
+      "sintomo": "Il 30/8 apprendimento.json ha sforato il tetto di un mega di 279 byte. A quel punto il potatore esce 1, e archivi-senza-tetto.test.mjs — che e la prova di SEI schede gia chiuse (AR-182, 254, 416, 471, 771, 861) — e diventata rossa senza che nessuno avesse toccato il potatore.",
+      "causa_radice": "Il campo «usi» di ogni lezione e un diario che freno-scattato.mjs allunga ogni volta che un guardiano diventa rosso, e la difesa contro i doppioni guarda (riferimento, minuto): due rossi dello stesso guardiano a due minuti di distanza sono due righe. Nessun tetto. Misurato: tre lezioni ne portavano 42 a testa, quasi tutte con lo stesso riferimento, 300 righe in tutto che nessuno legge. E il potatore non poteva farci niente, perche pota LEZIONI e qui il peso stava dentro una lezione viva. E la stessa malattia del file — un archivio che cresce senza tetto — un piano piu in basso: dentro una voce invece che dentro il file. L altro scrittore (tasso-lezioni.mjs) non ha il difetto: distingue gli usi per solo riferimento, quindi ne tiene uno per riferimento.",
+      "fix_proposto": "🟡 FATTO in questo lotto. compattaUsi() in freno-scattato.mjs: di ogni riferimento restano il PRIMO uso e l ULTIMO, e l ultimo porta il campo «volte» col conto vero. Applicata NELLO STESSO gesto della scrittura, non «ogni tanto»: un diario potato ogni tanto torna a sforare fra una potatura e l altra, ed e cosi che e andata. Compattazione una-tantum del file: 1.048.855 → 1.015.857 byte (margine 32.719), 300 usi compattati, il massimo per lezione da 42 a 2. I quattro che leggono il diario continuano a trovare quello che cercano — la data piu recente (lezione-viva), il riferimento (tasso-lezioni), che ce ne sia almeno uno (volano-numeri), il confronto (riferimento, quando) contro i doppioni.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs",
+        "nota": "Cinque casi nuovi su 35. Il piu importante non e quello che prova la compattazione: e «i quattro che leggono usi trovano ancora quello che cercano», perche il modo sbagliato di curare questo difetto — tenere gli ultimi due usi e basta — passerebbe la prova della compattazione e cancellerebbe i riferimenti vecchi che tasso-lezioni cerca. Piu il caso sul file VERO e quello sul cablaggio. Una mutazione, rossa."
+      },
+      "trovato_da": "la prova di sei schede chiuse, diventata rossa da sola durante la ricucitura con main"
     }
   ],
   "meta": {

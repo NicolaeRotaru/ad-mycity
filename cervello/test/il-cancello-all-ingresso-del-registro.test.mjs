@@ -146,3 +146,29 @@ prova("⑨ ricuci-corsie SCARTA la voce ostile e lo dice, invece di scriverla", 
   assert.match(uscita, /1 mutazioni SCARTATE/, `il referto non conta lo scarto:\n${uscita}`);
   assert.doesNotMatch(uscita, /· 1 mutazioni ·/, "risulta anche scritta");
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔒 AR-885 — il cancello accettava l'iniezione, e il danno lo evitava per caso
+// ─────────────────────────────────────────────────────────────────────────────
+// Il collaudo di sicurezza del 30/8 ha misurato che `vagliaMutante` tornava `ok:true` su
+//     node --test --test-reporter=/tmp/evil.mjs cervello/test/x.test.mjs
+// e che nel registro finiva comunque il percorso nudo, perché `testDaComando` buttava via la coda.
+// Cioè: il danno era evitato da un effetto collaterale a valle, non da questo cancello.
+// «Oggi va bene» non è una difesa: il giorno che si volesse scrivere il comando intero (serve per
+// le prove a più passi con `&&`), l'iniezione entrerebbe nel registro senza che nessuno se ne
+// accorga. Adesso il cancello la respinge in faccia, e questa prova lo pretende.
+test("AR-885: un comando che carica un modulo viene RESPINTO dal cancello, non ripulito a valle", () => {
+  const mutante = { file: "cervello/esecuzione-prova.mjs", cerca: "const x = 1;", sostituisci: "" };
+  for (const ostile of [
+    "node --test --test-reporter=/tmp/evil.mjs cervello/test/allarme-cronico.test.mjs",
+    "node --experimental-loader /tmp/evil.mjs cervello/test/allarme-cronico.test.mjs",
+  ]) {
+    const v = vagliaMutante(mutante, ostile);
+    assert.equal(v.ok, false, `il cancello ha accettato «${ostile}»: il registro si fida di ciò che è entrato`);
+    assert.match(v.perche, /non e' eseguibile/, "va respinto per il comando, non per un dettaglio a valle");
+  }
+  // …e il comando vero continua a passare: un cancello che respinge tutto è un cancello spento.
+  const buono = vagliaMutante(mutante, "node cervello/test/allarme-cronico.test.mjs");
+  assert.equal(buono.ok, true, `il cancello respinge il lavoro normale: ${buono.perche}`);
+  assert.equal(buono.test, "cervello/test/allarme-cronico.test.mjs");
+});

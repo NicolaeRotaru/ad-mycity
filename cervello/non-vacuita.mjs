@@ -378,10 +378,25 @@ export function verdettoCorsa({ status, signal = null, uscita = "", avvio = null
  * Resend, Telegram e il token di git. Una prova non ha bisogno di nessuna di quelle chiavi: se un
  * giorno un comando ostile arriva fin qui, deve trovare le tasche vuote.
  */
+/** Un nome che dichiara di contenere una credenziale. */
+const NOME_DI_CHIAVE = /SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH|DSN/i;
+
+/** Una credenziale scritta DENTRO un valore: `postgres://utente:password@host/db`, `redis://:pw@…`.
+ *  Non si vede dal nome — `DATABASE_URL` non contiene nessuna delle parole qui sopra. */
+const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\/\/[^/@\s]*:[^/@\s]+@/i;
+
 export function ambientePulito(env = process.env) {
   const pulito = {};
   for (const [k, v] of Object.entries(env)) {
-    if (/SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH/i.test(k)) continue;
+    // ① per NOME — la difesa del 28/8.
+    if (NOME_DI_CHIAVE.test(k)) continue;
+    // ② per VALORE — il buco che il collaudo di sicurezza ha misurato il 30/8: la difesa ① è una
+    // lista nera di NOMI, e una lista nera di nomi non vede il segreto che sta nel valore. Sul VPS
+    // passavano al figlio `DATABASE_URL`, `SUPABASE_DB_URL` e `REDIS_URI`, che portano la password
+    // dentro l'URL. Questo secondo controllo guarda la FORMA del valore, quindi lascia passare gli
+    // URL pubblici (`MARKETPLACE_SUPABASE_URL` non ha nessuna credenziale dentro) e toglie solo
+    // quelli che una credenziale ce l'hanno davvero. Una prova non ha bisogno di nessuna delle due.
+    if (typeof v === "string" && CHIAVE_DENTRO_UN_URL.test(v)) continue;
     pulito[k] = v;
   }
   return pulito;
