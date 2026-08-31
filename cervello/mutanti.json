@@ -8342,10 +8342,10 @@
    "difetto": "AR-867",
    "nome": "la prova torna a ricevere l ambiente intero: Stripe e Supabase nelle mani di un comando che arriva da un file di dati",
    "file": "cervello/non-vacuita.mjs",
-   "cerca": "    if (NOME_DI_CHIAVE.test(k)) continue;",
-   "sostituisci": "",
+   "cerca": "    if (NOME_DI_CHIAVE.test(k)) { caduti.push(k); continue; }",
+   "sostituisci": "    if (false) { caduti.push(k); continue; }",
    "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
-   "nota_riaggancio": "Riagganciata il 2026-08-30: la riga e la stessa difesa, ma la condizione e stata estratta nella costante NOME_DI_CHIAVE quando e arrivato il controllo per VALORE (la credenziale dentro un URL). Il comportamento difeso non e cambiato: togliendo questa riga il figlio torna a ereditare tutto cio che si dichiara chiave dal nome."
+   "nota_riaggancio": "Riagganciata il 2026-08-30: la riga e la stessa difesa, ma la condizione e stata estratta nella costante NOME_DI_CHIAVE quando e arrivato il controllo per VALORE (la credenziale dentro un URL). Il comportamento difeso non e cambiato: togliendo questa riga il figlio torna a ereditare tutto cio che si dichiara chiave dal nome. Riagganciata il 2026-08-31: la riga ora annota il nome caduto (serve al controllo per GRUPPO), ma la difesa e la stessa. La mutazione non cancella piu la riga: la svuota della condizione, cosi il gruppo continua a funzionare e resta rotta SOLO la difesa che AR-867 cura."
   },
   {
    "difetto": "AR-868",
@@ -8441,9 +8441,10 @@
    "difetto": "AR-885",
    "nome": "la credenziale dentro un URL torna a passare al processo figlio: DATABASE_URL e REDIS_URI con la password dentro",
    "file": "cervello/non-vacuita.mjs",
-   "cerca": "    if (typeof v === \"string\" && CHIAVE_DENTRO_UN_URL.test(v)) continue;",
-   "sostituisci": "",
-   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+   "cerca": "    if (typeof v === \"string\" && CHIAVE_DENTRO_UN_URL.test(v)) { caduti.push(k); continue; }",
+   "sostituisci": "    if (false) { caduti.push(k); continue; }",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+   "nota_riaggancio": "Riagganciata il 2026-08-31 per lo stesso motivo di AR-867 qui sopra: la riga annota il nome caduto per il controllo per gruppo."
   },
   {
    "difetto": "AR-885",
@@ -8533,6 +8534,51 @@
    "cerca": "    timeout-minutes: 75",
    "sostituisci": "    timeout-minutes: 30",
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
+  },
+  {
+   "difetto": "AR-892",
+   "nome": "il gruppo di variabili torna a restare mutilato: git muore nel figlio e il suo cadavere conta come prova verificata",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  for (const k of trascinatiDalGruppo(caduti, nomi)) delete pulito[k];",
+   "sostituisci": "",
+   "test": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "lezione": "Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde."
+  },
+  {
+   "difetto": "AR-892",
+   "nome": "un git che non parte torna a essere letto come una prova diventata rossa",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "  { re: /fatal: unable to parse (?:command-line config|.*config file)|error: missing config (?:key|value)/i, dillo: \"git non è partito: la configurazione che gli è arrivata è incoerente\" },",
+   "sostituisci": "",
+   "test": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "lezione": "Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito."
+  },
+  {
+   "difetto": "AR-893",
+   "nome": "una prova viva torna a essere scambiata per morta: il rosso di chi difende il terzo esito viene letto come non ho misurato",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "  if (unaProvaHaGirato(uscita)) return null;",
+   "sostituisci": "",
+   "test": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "lezione": "Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita."
+  },
+  {
+   "difetto": "AR-894",
+   "nome": "il budget di due-case torna a partire a meta corsa: il tempo della casa spoglia ridiventa gratis",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  const partenza = AVVIATO;",
+   "sostituisci": "  const partenza = Date.now();",
+   "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+   "lezione": "Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce."
+  },
+  {
+   "difetto": "AR-894",
+   "nome": "il tetto di un passo torna a essere un numero nudo dentro spawnSync, ricopiato a mano dal guardiano che ci vive sotto",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    timeout: opts.timeout || TEMPO_MAX_PASSO,",
+   "sostituisci": "    timeout: opts.timeout || 300_000,",
+   "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+   "lezione": "Due copie della stessa decisione: alzarne una e lasciare l altra indietro non se ne accorge nessuno, e il guardiano torna a farsi sparare invece di dichiarare il suo ⚪."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

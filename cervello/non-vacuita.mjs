@@ -385,20 +385,58 @@ const NOME_DI_CHIAVE = /SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH|DS
  *  Non si vede dal nome — `DATABASE_URL` non contiene nessuna delle parole qui sopra. */
 const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\/\/[^/@\s]*:[^/@\s]+@/i;
 
+/**
+ * Le variabili che arrivano in GRUPPO, dove togliere un pezzo rompe tutto il resto.
+ *
+ * ⚠️ TROVATA IL 31/8 DAL COLLAUDO DI SICUREZZA, e riprodotta a mano prima di toccare niente.
+ * `GIT_CONFIG_KEY_0` contiene la parola «KEY», quindi la lista nera qui sotto lo toglieva — e
+ * lasciava `GIT_CONFIG_COUNT=3` e i tre `GIT_CONFIG_VALUE_n`. Git riceve una terna incoerente e
+ * MUORE prima di fare qualsiasi cosa: `error: missing config key GIT_CONFIG_KEY_0`, uscita 128.
+ *
+ * Perché non è un fastidio ma la malattia peggiore della casa: `verdettoCorsa` legge ogni uscita
+ * diversa da zero come «la prova è diventata rossa per colpa della mutazione», cioè ✅ verificata.
+ * Una prova che non è mai partita comprava un verde. È AR-840 rinato DENTRO la cura di AR-840, e
+ * 395 delle 970 mutazioni hanno una prova che tocca git: quasi due su cinque.
+ *
+ * La lezione, che vale oltre a git: una lista nera di NOMI sa cosa un nome dichiara, non sa che
+ * certe variabili si tengono per mano. Il rimedio non è un'eccezione per git — sarebbe la stessa
+ * distrazione al prossimo gruppo — ma la regola: se cade un membro, cade tutto il gruppo. Il figlio
+ * parte senza quella configurazione, che è pulito; non parte a metà, che è una bugia.
+ *
+ * NON tengo i membri superstiti: `GIT_CONFIG_VALUE_n` può portare una credenziale nel valore (qui
+ * no — sono riscritture di URL — ma sul VPS non l'ho guardato, e questa funzione esiste proprio
+ * perché il figlio trovi le tasche vuote).
+ */
+const GRUPPI_INSCINDIBILI = [/^GIT_CONFIG_(KEY|VALUE)_\d+$|^GIT_CONFIG_COUNT$/];
+
+/** I nomi che cadono insieme a `caduti`, perché stanno nello stesso gruppo inscindibile. */
+export function trascinatiDalGruppo(caduti, tutti) {
+  const trascinati = new Set();
+  for (const gruppo of GRUPPI_INSCINDIBILI) {
+    if (!caduti.some((k) => gruppo.test(k))) continue;
+    for (const k of tutti) if (gruppo.test(k)) trascinati.add(k);
+  }
+  return trascinati;
+}
+
 export function ambientePulito(env = process.env) {
   const pulito = {};
+  const caduti = [];
+  const nomi = Object.keys(env);
   for (const [k, v] of Object.entries(env)) {
     // ① per NOME — la difesa del 28/8.
-    if (NOME_DI_CHIAVE.test(k)) continue;
+    if (NOME_DI_CHIAVE.test(k)) { caduti.push(k); continue; }
     // ② per VALORE — il buco che il collaudo di sicurezza ha misurato il 30/8: la difesa ① è una
     // lista nera di NOMI, e una lista nera di nomi non vede il segreto che sta nel valore. Sul VPS
     // passavano al figlio `DATABASE_URL`, `SUPABASE_DB_URL` e `REDIS_URI`, che portano la password
     // dentro l'URL. Questo secondo controllo guarda la FORMA del valore, quindi lascia passare gli
     // URL pubblici (`MARKETPLACE_SUPABASE_URL` non ha nessuna credenziale dentro) e toglie solo
     // quelli che una credenziale ce l'hanno davvero. Una prova non ha bisogno di nessuna delle due.
-    if (typeof v === "string" && CHIAVE_DENTRO_UN_URL.test(v)) continue;
+    if (typeof v === "string" && CHIAVE_DENTRO_UN_URL.test(v)) { caduti.push(k); continue; }
     pulito[k] = v;
   }
+  // ③ per GRUPPO — vedi sopra: chi resta di un gruppo mutilato se ne va con gli altri.
+  for (const k of trascinatiDalGruppo(caduti, nomi)) delete pulito[k];
   return pulito;
 }
 

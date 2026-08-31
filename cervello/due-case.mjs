@@ -274,6 +274,20 @@ const BUDGET_TOTALE = Number(process.env.DUE_CASE_BUDGET || (TUTTI ? 3_600_000 :
 /** Sotto questo tempo non vale la pena partire: la sola copia del repo costa un paio di secondi. */
 const MINIMO_PER_PROVARE = 20_000;
 
+/**
+ * L'ISTANTE IN CUI SONO NATO — e non «l'istante in cui comincio a rilanciare». AR-894.
+ *
+ * ⚠️ IL BUDGET QUI SOPRA DICHIARA «sta sotto quello che il cancello dà a me», e per un mese non è
+ * stato vero. L'orologio partiva dopo il piano, il censimento, il perimetro e la costruzione della
+ * casa spoglia: tutto quel tempo era gratis, e i 240 secondi si contavano sopra un tempo già speso.
+ * Sul runner del 31/8 il cancello mi ha ucciso a 300 secondi netti — `exit 124`, cioè rosso per
+ * tutti, che è esattamente il difetto che quel budget doveva impedire.
+ *
+ * Un budget che comincia a contare a metà del lavoro non è un budget: è una promessa che si tiene
+ * solo quando la prima metà è veloce. Da qui in giù conta tutto, dalla prima riga.
+ */
+const AVVIATO = Date.now();
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ① LE DECISIONI, PURE — una prova le ESEGUE invece di cercarle in un file.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -995,7 +1009,13 @@ function main() {
   // in tutto; se li spendessi tutti in rilanci mi ucciderebbe l'orologio, e un processo ucciso lì
   // vale 124 — cioè rosso senza spiegazione, per tutti. Meglio fermarsi da soli e dire quali passi
   // sono rimasti fuori: un ⚪ dichiarato si legge, un 124 no.
-  const partenza = Date.now();
+  //
+  // ⚠️ E il conto parte da quando sono NATO, non da qui: vedi `AVVIATO`. È la differenza fra un
+  // budget e una promessa.
+  // AR-894: `AVVIATO`, non `Date.now()`. Il tempo speso PRIMA di arrivare qui — il piano, il
+  // censimento, il perimetro, la costruzione della casa spoglia — è tempo che il cancello mi ha già
+  // contato, e ignorarlo è come fermarsi al semaforo dopo l'incidente.
+  const partenza = AVVIATO;
   const misure = [];
   for (const v of daProvare) {
     const rimasto = BUDGET_TOTALE - (Date.now() - partenza);

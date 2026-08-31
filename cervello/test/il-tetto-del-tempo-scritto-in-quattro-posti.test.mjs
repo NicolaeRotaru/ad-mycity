@@ -132,3 +132,51 @@ test("AR-891: ...e non è così largo da non distinguere «lento» da «piantato
   assert.ok(minuti <= 120,
     `${minuti} minuti: a quel punto un lavoro piantato tiene occupata la coda per due ore prima che qualcuno lo sappia`);
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ⏱️ AR-894 — LO STESSO DIFETTO, UN PIANO PIÙ SOTTO: il tetto di un PASSO.
+//
+// Il 31/8 il cancello ha ucciso `cervello/due-case.mjs` con `exit 124` sul runner. Quel guardiano
+// ha un budget suo, 240 secondi, dichiarato nel suo stesso codice come «più stretto di quello che
+// mi dà il cancello»: esiste apposta perché un ⚪ con nome e cognome si legge e un 124 no.
+//
+// Due cose lo rendevano una promessa invece che un budget:
+//   ① l'orologio partiva DOPO il piano, il censimento e la costruzione della casa spoglia — cioè
+//      contava 240 secondi sopra un tempo già speso (curato: `AVVIATO`);
+//   ② il tetto del cancello era un `300_000` nudo dentro `spawnSync`, e `due-case` se lo
+//      ricopiava a mano. Due copie della stessa decisione: alzarne una e lasciare l'altra indietro
+//      non se ne accorgeva nessuno, e il guardiano tornava a farsi sparare.
+//
+// Come sopra: qui non si misura quanto ci mette: si tiene l'ORDINE fra i due numeri.
+// ─────────────────────────────────────────────────────────────────────────────
+
+const srcDue = readFileSync(join(REPO, "cervello/due-case.mjs"), "utf8");
+const numero = (testo, nome) => {
+  const m = testo.match(new RegExp("const " + nome + " = ([0-9_]+)"));
+  return m ? Number(m[1].replace(/_/g, "")) : null;
+};
+
+test("AR-894 · il tetto di un passo ha UN nome nel cancello, non copie nude", () => {
+  assert.ok(/export const TEMPO_MAX_PASSO = /.test(src), "TEMPO_MAX_PASSO non è più una costante esportata");
+  // Si contano solo le righe di CODICE: il numero puo comparire quanto vuole nei commenti che
+  // spiegano da dove viene, ed e giusto che ci compaia.
+  const codice = src.split("\n").filter((r) => !/^\s*(\/\/|\*|\/\*)/.test(r));
+  const nudi = codice.filter((r) => /300_000/.test(r) && !/export const TEMPO_MAX_PASSO/.test(r)).length;
+  assert.equal(nudi, 0, `il numero 300_000 sta ancora nudo in ${nudi} riga/e di codice: deve stare solo accanto al suo nome`);
+});
+
+test("AR-894 · due-case si ferma da solo PRIMA che il cancello lo ammazzi", () => {
+  const tettoPasso = numero(src, "TEMPO_MAX_PASSO");
+  const budgetDue = numero(srcDue, "BUDGET_TOTALE") ?? 240_000;
+  const dichiarato = numero(srcDue, "BUDGET_DI_CASA");
+  assert.equal(dichiarato, tettoPasso, "due-case si è ricopiato un tetto diverso da quello del cancello");
+  const suo = Number(srcDue.match(/TUTTI \? [\d_]+ : ([\d_]+)/)?.[1].replace(/_/g, "") ?? budgetDue);
+  assert.ok(suo < tettoPasso, `il budget di due-case (${suo}) non sta sotto il tetto del cancello (${tettoPasso})`);
+  const minimo = numero(srcDue, "MINIMO_PER_PROVARE") ?? 0;
+  assert.ok(suo + minimo < tettoPasso, "nel caso peggiore due-case sfora comunque: il ⚪ dichiarato non arriverebbe mai");
+});
+
+test("AR-894 · il suo orologio parte da quando è nato, non da metà lavoro", () => {
+  assert.ok(/const AVVIATO = Date\.now\(\)/.test(srcDue), "AVVIATO non esiste più");
+  assert.ok(/const partenza = AVVIATO;/.test(srcDue), "il budget è tornato a partire a metà corsa");
+});

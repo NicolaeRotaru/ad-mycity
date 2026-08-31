@@ -342,6 +342,14 @@ const IMPRONTE_DI_AVVIO = [
   // prima macchina pulita, ed è la ragione per cui la casa spoglia esiste.
   { re: /npx canceled due to missing packages/i, dillo: "npx non ha potuto procurarsi il programma (nessun pacchetto in cache e nessuna conferma possibile)" },
   { re: /npm error .*(?:ENOTFOUND|ETIMEDOUT|ECONNREFUSED|network)/i, dillo: "il programma andava scaricato e la rete non c'è" },
+  // ⚪ TROVATO IL 31/8 DAL COLLAUDO DI SICUREZZA, e riprodotto a mano prima di scrivere questa riga.
+  // Git non parte quando la configurazione che gli arriva dall'ambiente è incoerente — succedeva
+  // perché il filtro dei segreti toglieva `GIT_CONFIG_KEY_0` (contiene «KEY») e lasciava in piedi
+  // `GIT_CONFIG_COUNT`. La causa l'ho curata di là, in `ambientePulito`; questa riga è la SECONDA
+  // difesa, e serve lo stesso: la prima protegge dal gruppo che conosco, questa dal prossimo modo
+  // di far morire git prima che misuri qualcosa. Senza, l'uscita 128 di un git mai partito veniva
+  // letta come «la prova è diventata rossa»: 395 mutazioni su 970 hanno una prova che tocca git.
+  { re: /fatal: unable to parse (?:command-line config|.*config file)|error: missing config (?:key|value)/i, dillo: "git non è partito: la configurazione che gli è arrivata è incoerente" },
 ];
 
 /**
@@ -353,10 +361,47 @@ const IMPRONTE_DI_AVVIO = [
  * (la prova è diventata rossa per colpa della mutazione, ✅). Senza quel confronto si finirebbe per
  * dichiarare cieco ogni fix che tocca un import — cioè per non misurare più niente.
  */
+/**
+ * UNA PROVA HA GIRATO DAVVERO? — la prova positiva, che batte ogni impronta. AR-893.
+ *
+ * ⚠️ TROVATO IL 31/8, e non da un ragionamento: dal banco delle mutazioni che si rifiutava di
+ * misurare una difesa appena scritta. Il meccanismo è questo, e vale ben oltre il caso che l'ha
+ * scoperto: **node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l'ha fatto
+ * fallire.** Una prova che parla di un avvio fallito porta la frase di quell'avvio scritta dentro —
+ * ed è proprio il suo mestiere portarla. Quando quella prova diventa rossa, la frase finisce nella
+ * sua uscita, `avvioFallito` la riconosce, e il rosso viene letto come ⚪: non ho misurato.
+ *
+ * Cioè: **le prove che difendono il terzo esito sono le uniche che il banco non può misurare.**
+ * Dieci file su 436 portano un'impronta nel sorgente, e sono tutti e dieci lì per quel motivo.
+ *
+ * La cura non è togliere le frasi dai sorgenti — sarebbe una regola da ricordarsi a mano, e ci si
+ * dimentica. È che una prova POSITIVA batte un indizio: se almeno un test è passato, il processo è
+ * partito, ha caricato il file e ha misurato qualcosa. Da lì in poi ogni frase nell'uscita è roba
+ * che il test ha STAMPATO, non un avvio mancato. Un indizio nel testo è una supposizione; «# pass 6»
+ * è un fatto.
+ *
+ * ⚠️ QUEL CHE QUESTA CURA NON COPRE, detto invece che nascosto: un file con UN SOLO test, che
+ * fallisce, non ha nessun test passato da mostrare — resta trappolabile. Vale per 2 dei 436 file.
+ * Per quelli l'unica difesa resta comporre la frase a pezzi, come fa
+ * `una-prova-morta-non-e-una-prova-passata.test.mjs`.
+ */
+export function unaProvaHaGirato(uscita = "") {
+  const testo = String(uscita || "");
+  const conto = testo.match(/^#\s*pass\s+(\d+)/m);
+  if (conto) return Number(conto[1]) > 0;
+  // Senza il riepilogo (uscita troncata, o un altro esecutore): basta una riga «ok N» che non sia
+  // «not ok N». È la forma TAP, che bats e node scrivono tutti e due.
+  return /^ok\s+\d+/m.test(testo);
+}
+
 export function avvioFallito({ errore = null, uscita = "", entrata = "" } = {}) {
+  // `errore` viene da chi ha lanciato il processo, non dal testo: è autorevole e va guardato per
+  // primo. Se il programma non esiste, non c'è nessuna uscita da interpretare.
   if (errore && (errore.code === "ENOENT" || /ENOENT/.test(String(errore.message || "")))) {
     return `il programma non esiste su questa macchina (${errore.code || "ENOENT"}): la prova non è partita`;
   }
+  // Da qui in giù si legge del TESTO, cioè si fanno supposizioni. Una prova passata le batte tutte.
+  if (unaProvaHaGirato(uscita)) return null;
   const testo = String(uscita || "");
   const mancante = testo.match(/Cannot find module '([^']+)'/);
   if (mancante && entrata) {

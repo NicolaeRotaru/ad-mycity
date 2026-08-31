@@ -19119,6 +19119,60 @@
         "nota": "Due casi nuovi su cinque, e NESSUNO misura quanto ci mette il flusso: sarebbe un numero che cambia col runner. Guardano due invarianti — il tetto del flusso e almeno il doppio di quello della suite (cosi se la suite si allarga e il flusso no, diventa rosso PRIMA che il cancello ricominci a morire in silenzio), e il conto che l'ha deciso e scritto accanto al numero. Piu il difetto opposto: non cosi largo da tenere occupata la coda due ore su un lavoro piantato. Una mutazione: rimettere trenta."
       },
       "trovato_da": "il fatto che il cancello non si fosse mai fatto sentire — cercato il perche invece di darlo per buono"
+    },
+    {
+      "id": "AR-892",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 18:05",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde",
+      "sintomo": "Con l ambiente ripulito dal banco delle mutazioni, `git status` esce 128 e stampa «error: missing config key GIT_CONFIG_KEY_0 / fatal: unable to parse command-line config». Riprodotto a mano su questa macchina prima di toccare qualsiasi cosa: con l ambiente intero esce 0, con `ambientePulito()` esce 128. E `verdettoCorsa` legge ogni uscita diversa da zero come «la prova e diventata rossa per colpa della mutazione», cioe VERIFICATA. 395 delle 970 mutazioni hanno una prova che tocca git: due su cinque.",
+      "causa_radice": "`NOME_DI_CHIAVE` e una lista nera di NOMI e contiene «KEY»: prendeva `GIT_CONFIG_KEY_0`, `_1`, `_2` e lasciava in piedi `GIT_CONFIG_COUNT=3` e i tre `GIT_CONFIG_VALUE_n`. Git riceve una terna incoerente e muore prima di fare qualunque cosa. La radice vera, che vale oltre a git: una lista nera di nomi sa cosa un nome DICHIARA, non sa che certe variabili si tengono per mano — toglierne una rompe il gruppo intero. Ed e AR-840 rinato dentro la cura di AR-840: la difesa nuova (le tasche vuote) ha ricreato la malattia vecchia (un uscita != 0 che non e una misura).",
+      "fix_proposto": "🟡 FATTO, due meta separate apposta. ① LA CAUSA — `ambientePulito` ha ora un terzo passaggio, per GRUPPO: se cade un membro di un gruppo inscindibile, cadono tutti (`trascinatiDalGruppo`). Il figlio parte senza quella configurazione, che e pulito; non parte a meta, che e una bugia. Non tengo i superstiti: `GIT_CONFIG_VALUE_n` puo portare una credenziale, e sul VPS non l ho guardato. ② LA RETE — `avvioFallito` riconosce ora un git morto per configurazione incoerente come ⚪. Serve lo stesso che la ①: la prima protegge dal gruppo che conosco, la seconda dal prossimo modo di far morire git.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+        "nota": "Otto casi per AR-892, e le due meta si provano SEPARATE: provare solo la ① lascerebbe verde il giorno che il gruppo cambia forma, provare solo la ② lascerebbe la macchina a rompere git a ogni corsa. Uno dei casi fa partire git DAVVERO con l ambiente ripulito invece di ragionarci sopra (e si dichiara ⚪ se git non c e). Due mutazioni, una per meta, tutte e due mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file"
+    },
+    {
+      "id": "AR-893",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 18:20",
+      "area": "macchina",
+      "nato_come": "riparare",
+      "titolo": "Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato»",
+      "sintomo": "La mutazione appena scritta per AR-892 non si lasciava provare: il banco la dava ⚪ invece che ✅, dicendo «git non e partito». Ma git era partito benissimo — la frase veniva dalla prova stessa. Node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l ha fatto fallire; quella riga conteneva l impronta, perche il mestiere di quella prova e parlare di quell impronta. Misurato: 10 file di prova su 436 portano un impronta d avvio nel proprio sorgente, e 24 mutazioni ci puntano contro. Sono tutti e dieci li per lo stesso motivo — difendere il terzo esito.",
+      "causa_radice": "`avvioFallito` cercava le impronte in TUTTA l uscita del processo, senza distinguere cio che ha stampato chi lanciava da cio che ha stampato la prova. Un indizio nel testo veniva trattato come un fatto. La forma del difetto e la stessa di AR-892 vista dall altra parte: li un cadavere comprava un verde, qui una prova viva veniva sepolta.",
+      "fix_proposto": "🟡 FATTO: `unaProvaHaGirato(uscita)` — se almeno un test e PASSATO, il processo e partito, ha caricato il file e ha misurato; da li in poi ogni frase nell uscita e roba stampata. Una prova positiva batte un indizio. La cura non e «togliete le frasi dai sorgenti»: sarebbe una regola da ricordarsi a mano, e ci si dimentica. ⚠️ QUEL CHE NON COPRE, dichiarato: un file con UN SOLO test che fallisce non ha nessun test passato da mostrare e resta trappolabile — vale per 2 file su 436, e li l unica difesa resta comporre la frase a pezzi a runtime, come fa il file di prova di AR-892.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+        "nota": "Cinque casi (sezione ③), compresi i due modi di sbagliare in senso opposto: un file che non si carica resta ⚪ anche se node scrive «not ok 1» (conta «# pass 0»), e l errore di chi lancia (ENOENT) non si smentisce con l uscita. Una mutazione: togliere il veto."
+      },
+      "trovato_da": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava"
+    },
+    {
+      "id": "AR-894",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 18:55",
+      "area": "macchina",
+      "nato_come": "riparare",
+      "titolo": "Il guardiano che si ferma da solo per non farsi sparare, si faceva sparare lo stesso: il suo budget partiva a meta corsa",
+      "sintomo": "Il cancello del 31/8 ha bocciato con «passi nuovi che nascono rotti sul runner (exit 124)». 124 vuol dire ucciso dall orologio — cioe rosso per tutti, senza una riga che spieghi perche. Ed e ESATTAMENTE il difetto che il budget interno di `cervello/due-case.mjs` esiste per impedire: il suo commento dichiara «sta sotto quello che il cancello da a me» proprio perche «un ⚪ dichiarato si legge, un 124 no».",
+      "causa_radice": "DUE, e nessuna delle due era il numero. ① L orologio partiva alla riga 998, DOPO il piano, il censimento, il perimetro e la costruzione della casa spoglia — tutto quel tempo era gratis, e i 240 secondi si contavano sopra un tempo gia speso. Sul runner la copia del repo e la parte lenta. Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce. ② Il tetto del cancello era un `300_000` NUDO dentro `spawnSync`, e due-case se lo ricopiava a mano in `BUDGET_DI_CASA`: due copie della stessa decisione, la malattia `una-parola-con-due-padroni` in attesa. Alzarne una sola e il guardiano torna a farsi sparare senza che nessuno se ne accorga.",
+      "fix_proposto": "🟡 FATTO: ① `AVVIATO` — l orologio parte da quando il processo nasce, cosi il tempo della casa spoglia conta contro il budget e il ⚪ dichiarato arriva prima della pallottola. ② `TEMPO_MAX_PASSO` esportata dal cancello: il numero ha un nome e un posto solo, e la prova tiene insieme le due case. ⚠️ NON ho misurato quanto ci mette davvero due-case: la misura da 30 minuti che avevo lanciato e stata uccisa dal contenitore per memoria (exit 137, OOM del cgroup, non l orologio) — quindi il numero resta ⚪ e la cura NON poggia su di lui. Poggia sull aritmetica: 240 s di budget + 20 s di soglia minima = 260 s, sotto i 300 del cancello in ogni caso.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+        "nota": "Tre casi nuovi (8 in tutto nel file). Come i cinque di prima, NON misurano quanto ci mette niente — un numero cosi cambia col runner: tengono l ORDINE fra i due tetti e il fatto che l orologio parta dalla nascita. Il caso peggiore e nell asserzione: budget + soglia minima deve restare sotto il tetto del cancello. Due mutazioni, una per meta, tutte e due mordono."
+      },
+      "trovato_da": "il verdetto del cancello, letto invece di riprovato — e la misura che avrebbe dato il numero e morta di memoria, il che ha reso obbligatorio curare la struttura invece del numero"
     }
   ],
   "meta": {

@@ -589,11 +589,24 @@ function segnaFrenoRosso(comando, codice, nome) {
  */
 export const TEMPO_MAX_SUITE = 1_200_000;
 
+/**
+ * Quanto tempo do a un passo normale del cancello, prima di ammazzarlo.
+ *
+ * Era un `300_000` nudo dentro il `spawnSync` qui sotto, e `cervello/due-case.mjs` se lo
+ * ricopiava a mano nel suo `BUDGET_DI_CASA` — due copie della stessa decisione, cioè la malattia
+ * `una-parola-con-due-padroni` in attesa. Adesso ha un nome, e una prova tiene insieme le due:
+ * `cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs`.
+ *
+ * ⚠️ Chi lo alza deve sapere che c'è un guardiano che ci vive sotto: `due-case.mjs` si ferma da
+ * solo PRIMA di questo numero apposta, perché un ⚪ dichiarato si legge e un `exit 124` no.
+ */
+export const TEMPO_MAX_PASSO = 300_000;
+
 function esegui(nome, cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
     encoding: "utf8",
-    timeout: opts.timeout || 300_000,
+    timeout: opts.timeout || TEMPO_MAX_PASSO,
     maxBuffer: 32 * 1024 * 1024,
   });
   const uscita = `${r.stdout || ""}${r.stderr || ""}`;
@@ -628,7 +641,7 @@ function esegui(nome, cmd, args, opts = {}) {
     codice,
     // La prima riga di solito è il verdetto, l'ultima l'errore: si tengono entrambe le code.
     testa: righe.slice(0, 3),
-    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righeMotivo(righe),
+    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || TEMPO_MAX_PASSO} ms): rosso, non cieco`] : righeMotivo(righe),
     fallito: codice !== 0 && codice !== 2,
     cieco: codice === 2,
     // AR-437 — l'uscita INTERA, per chi deve contare le violazioni e non solo vederle. `righeMotivo`
