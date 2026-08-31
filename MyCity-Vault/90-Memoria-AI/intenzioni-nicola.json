@@ -1,39 +1,30 @@
 {
-  "data": "2026-08-24 13:15",
-  "sintesi": "DATA ZERO: 29 AGOSTO 2026, restano 5 giorni da oggi. Riconfermato in questo giro (24/8): business bit-per-bit invariato dal 21/8 sera (1 negozio reale Pane Quotidiano, 0 ordini pagati, stallo 61 giorni), sito pubblico riverificato giù in diretta (HTTP 503). Le tre firme che moltiplicano tutto il resto restano ferme, senza movimento da 2 giorni: #168 (server), #154 (chiavi Vercel — senza una di quelle un pagamento riuscito non diventa un ordine), #155 (il dominio punta ancora al server vecchio). A queste si aggiunge #62 (pratica pagamenti Pane Quotidiano), il vero blocco al primo incasso. Piano dei giorni residui: MyCity-Vault/90-Memoria-AI/PIANO-29-AGOSTO.md. La pausa concordata sui negozi arriva al 24/8-1/9: scade oggi/domani.",
+  "data": "2026-08-31 21:05",
+  "sintesi": "La pausa concordata sui negozi (24/8-1/9) è agli ultimi giorni. La scadenza che Nicola stesso aveva fissato per il cantiere — 29 agosto — è già passata di due giorni: le quattro cose (difetti macchina, difetti design marketplace, worker-negozi da costruire, design venditore) non sono state riverificate punto per punto in questo giro. Business bit-per-bit fermo dal 28/8: 1 negozio reale (Pane Quotidiano), 0 ordini pagati, stallo North Star 68 giorni. Le tre firme che moltiplicano tutto il resto restano ferme: #168 (server, causa diretta del sito giù da 9 giorni), #184 (database indietro di 4 migrazioni), #182 (pagamenti Pane Quotidiano fermi da 18 giorni).",
   "prossime_mosse": [
     {
-      "titolo": "Firma le tre cose che sbloccano il ritmo: server, chiavi Vercel, dominio",
-      "quando": "Oggi. Sono il moltiplicatore dei sei giorni che restano fino al 29 agosto",
-      "come": "Card #168 (riaccendere il server), #154 (mettere le chiavi mancanti su Vercel), #155 (spostare il dominio da Render a Vercel)",
+      "titolo": "Firma le tre carte che sbloccano sito, database e pagamenti",
+      "quando": "appena possibile — sono ferme da 9, 2 e 3 giorni",
+      "come": "Card #168 (riaccendere il server), #184 (applicare le migrazioni 126-129 o accendere il cancello del rilascio), #182 (completare l'onboarding Stripe di Pane Quotidiano o riscrivere le CTA dei post in coda)",
       "priorita": "alta",
-      "ad_prepara": "Diagnosi e comandi gia' scritti nelle tre card. Appena sono fatte parte il primo lotto sui bloccanti",
+      "ad_prepara": "Diagnosi e comandi già scritti in ciascuna card, pronti a partire appena firmate",
       "senior": "@devops-sre",
       "colore": "🔴"
     },
     {
-      "titolo": "Sblocca la pratica pagamenti di Pane Quotidiano",
-      "quando": "Card #62, il vero blocco al primo incasso — aperta da settimane",
-      "come": "Verificare col fornaio il fascicolo Stripe (dati mai inviati, incassi e versamenti disattivati) e completare i passaggi mancanti",
+      "titolo": "Decidi come trattare la scadenza del 29 agosto ormai passata",
+      "quando": "appena rientri dal lavoro operativo",
+      "come": "dire se vuoi una riverifica puntuale delle quattro cose (cantiere.scadenza-zero) o hai già un piano diverso",
       "priorita": "alta",
-      "ad_prepara": "Diagnosi già scritta nella card, pronta a partire appena il fascicolo Stripe è completo",
-      "senior": "@operations",
+      "ad_prepara": "posso riaprire il cantiere e contare lo stato reale di ciascuna delle quattro non appena lo chiedi",
+      "senior": "@ad",
       "colore": "🔴"
     },
     {
-      "titolo": "Decidi se riparare ora o congelare le tre PR rosse croniche",
-      "quando": "Card #109, ferma da tre giorni: PR #749/#741/#735 tutte rosse per colpa del proprio ramo",
-      "come": "Scegliere fra ① una sessione dedicata a chiudere i 3 rossi sullo stesso ramo di ciascuna PR, ② congelarle fino a dopo la pausa negozi del 24/8-1/9",
-      "priorita": "media",
-      "ad_prepara": "Diagnosi precisa di ogni rosso già scritta nella card, pronta a eseguire dopo la scelta",
-      "senior": "@tech",
-      "colore": "🟡"
-    },
-    {
       "titolo": "Ordine di prova su Pane Quotidiano",
-      "quando": "Resta dentro la pausa concordata finché Nicola non dice diversamente (fino al 24/8-1/9)",
+      "quando": "appena i pagamenti sono attivi (dipende da #182) e la pausa concordata finisce (24/8-1/9)",
       "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
-      "priorita": "bassa",
+      "priorita": "media",
       "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico appena Nicola dà il via",
       "senior": "@operations",
       "colore": "🟡"
@@ -43,29 +34,29 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio reale, faro di MyCity",
-      "stato": "in attesa concordata fino al 24/8-1/9, non è churn"
+      "stato": "pausa concordata fino al 24/8-1/9 in scadenza; pagamenti ancora spenti da 18 giorni (card #182)"
     }
   ],
   "rischi": [
-    "La data zero e' il 29 agosto: 311 difetti aperti + due costruzioni in sei giorni valgono 44 chiusure al giorno, cinque volte il ritmo mai raggiunto (8,4). Detto a Nicola in chat il 23/8 con i numeri.",
-    "3 punti residui della card #38 (doppia vendita dopo checkout scaduto, rider mai pagato su spedizione gratis, reclamo che blocca il negozio per sempre) non verificabili dal solo database — restano da controllare nel codice del sito.",
-    "7 PR di manutenzione sul repo ad-mycity restano rosse sullo stesso controllo: debito che si accumula, ma non tocca il marketplace live (non deployate)."
+    "La scadenza del 29 agosto (cantiere.scadenza-zero) è passata senza una riverifica puntuale delle quattro cose in questo giro.",
+    "Il sito pubblico è giù da 9 giorni: nessun cliente reale può navigare il catalogo, anche se il bug che lo azzerava per i visitatori senza accesso è già riparato nel codice (#857).",
+    "7 PR di manutenzione sul repo ad-mycity restano in gran parte rosse (5 su 7): debito che si accumula, ma non tocca il marketplace live (non deployate)."
   ],
   "serve_da_nicola": [
     {
       "ambito": "priorita",
-      "cosa_manca": "L'ordine fra le quattro cose, se il 29 agosto arriva e non c'e' tutto",
-      "domanda_per_nicola": "In che ordine vuoi vederle finite? Senza risposta seguo questo: prima i bloccanti di macchina e sito, poi le due costruzioni col worker davanti, poi i gravi, i minori per ultimi."
+      "cosa_manca": "Ordine fra le tre firme urgenti (#168 sito, #184 database, #182 pagamenti) se non riesci a farle tutte insieme",
+      "domanda_per_nicola": "Se devi scegliere per prima, farei #168 (sblocca il sito, che è ciò che tutti vedono per primi) — sei d'accordo o ne priorizzi un'altra?"
     },
     {
-      "ambito": "codice",
-      "cosa_manca": "Scelta su come procedere con le 3 PR croniche rosse",
-      "domanda_per_nicola": "Preferisci una sessione dedicata a ripararle ora, o le congeliamo fino a dopo la pausa negozi del 24/8-1/9? (card #109)"
+      "ambito": "cantiere",
+      "cosa_manca": "Stato reale delle quattro cose della scadenza 29/8, mai riverificato punto per punto in questo giro",
+      "domanda_per_nicola": "Vuoi che riapra il cantiere e ti porti il conto esatto di quanto manca su ciascuna delle quattro?"
     },
     {
       "ambito": "macchina",
       "cosa_manca": "Conferma sul livello RISPARMIO",
-      "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime prima? (card #113)"
+      "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime ora che la pausa negozi sta per finire?"
     }
   ]
 }

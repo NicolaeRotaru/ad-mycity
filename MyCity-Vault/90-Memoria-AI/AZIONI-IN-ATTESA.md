@@ -22,6 +22,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- scadenza-29-agosto-passata -->
+
+### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
+
+**In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
+aperti della macchina, i difetti aperti del design del marketplace, il worker per le botteghe da
+costruire, il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
+che punto sta ciascuna delle quattro — questo giro ha verificato solo il business (fermo) e il
+sito (giù), non il cantiere.
+
+**Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
+ancora avuto da me con numeri veri.
+
+**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere e ti porti il conto esatto — quanti
+difetti restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni (worker,
+design venditore) — oppure se nel frattempo hai già deciso diversamente e questa card va chiusa.
+
+**Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
+data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
+
+**Cosa cambia:** senza risposta, il prossimo giro tratta questa scadenza come ancora aperta e
+continua a non riverificarla nel merito.
+
+**Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
+per ciascuna delle quattro nel prossimo giro.
+
+---
+
 <!-- rilascio-ordinato-migrazioni -->
 
 ### 🔴 #184 — Il database di produzione è indietro di quattro migrazioni, e va allineato in ordine · ⏳ accodata 2026-08-29 00:45

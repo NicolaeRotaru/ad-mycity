@@ -151,7 +151,7 @@
     },
     {
       "id": "cantiere.scadenza-zero",
-      "nome": "Data zero del cantiere: 29 settembre 2026",
+      "nome": "Data zero del cantiere: 29 agosto 2026 (SCADUTA — oggi è il 31/8)",
       "valore": "Quattro cose entro il 29 AGOSTO 2026, corretto da Nicola il 23/8: la data detta il 22/8 era sbagliata di un mese, e «va finito tutto quello che ho detto» — nessuna delle quattro cade. Le quattro: (1) i difetti aperti della macchina (103 aperti + 10 da riverificare, letti dal cantiere il 23/8 09:05: 6 bloccanti, 45 gravi); (2) i 208 difetti aperti del design del marketplace (radiografia 22/8: 2 bloccanti, 86 gravi, 120 minori — nessun lotto ancora aperto su questi); (3) COSTRUIRE il worker per le botteghe, che non esiste (linea di ricavo #2, la macchina BOTTEGA di architettura.tre-macchine); (4) il design della parte venditore del marketplace, mai lavorato. Il conto: 311 difetti aperti + due costruzioni da zero in 7 giorni contando oggi = ~44 difetti chiusi al giorno, festivi inclusi, senza contare le due costruzioni. Il ritmo storico misurato e' 8,4/giorno.",
       "fonte": "Nicola (chat 2026-08-23) — correzione della data detta il 22/8, piu' «va finito tutto quello che ho detto»",
       "aggiornato": "2026-08-23 11:45",

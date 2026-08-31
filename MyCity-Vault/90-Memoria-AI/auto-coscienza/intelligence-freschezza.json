@@ -1,7 +1,7 @@
 {
   "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
-  "aggiornato": "2026-08-28 12:38",
-  "oggi": "2026-08-28",
+  "aggiornato": "2026-08-31 21:09",
+  "oggi": "2026-08-31",
   "scadute": [
     "eventi",
     "buchi",
@@ -17,10 +17,10 @@
       "soglia": 8,
       "fonti": 4,
       "stato": "fresca",
-      "giorni": 4,
+      "giorni": 7,
       "data": "2026-08-24",
       "scaduta": false,
-      "frase": "aggiornata 4 giorni fa"
+      "frase": "aggiornata 7 giorni fa"
     },
     {
       "id": "eventi",
@@ -29,10 +29,10 @@
       "soglia": 2,
       "fonti": 6,
       "stato": "scaduta",
-      "giorni": 4,
+      "giorni": 7,
       "data": "2026-08-24",
       "scaduta": true,
-      "frase": "aggiornata 4 giorni fa"
+      "frase": "aggiornata 7 giorni fa"
     },
     {
       "id": "buchi",
@@ -41,10 +41,10 @@
       "soglia": 2,
       "fonti": 1,
       "stato": "scaduta",
-      "giorni": 18,
+      "giorni": 21,
       "data": "2026-08-10",
       "scaduta": true,
-      "frase": "aggiornata 18 giorni fa"
+      "frase": "aggiornata 21 giorni fa"
     },
     {
       "id": "leve",
@@ -53,10 +53,10 @@
       "soglia": 2,
       "fonti": 5,
       "stato": "scaduta",
-      "giorni": 18,
+      "giorni": 21,
       "data": "2026-08-10",
       "scaduta": true,
-      "frase": "aggiornata 18 giorni fa"
+      "frase": "aggiornata 21 giorni fa"
     },
     {
       "id": "reputazione",
@@ -65,10 +65,10 @@
       "soglia": 2,
       "fonti": 2,
       "stato": "scaduta",
-      "giorni": 10,
+      "giorni": 13,
       "data": "2026-08-18",
       "scaduta": true,
-      "frase": "aggiornata 10 giorni fa"
+      "frase": "aggiornata 13 giorni fa"
     }
   ]
 }
