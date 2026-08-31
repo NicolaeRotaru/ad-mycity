@@ -288,9 +288,23 @@ prova("CONTARE ≠ ESEGUIRE: il banco esegue una fixture assoluta, il contatore 
   assert.equal(comeSiEsegue(fixture).ok, false, "il contatore, di suo, non deve contarla");
   // E fuori dalle radici dichiarate non si entra nemmeno col banco: «assoluto» non vuol dire «ovunque».
   assert.equal(comeSiEsegue("/etc/passwd", { soloDentroIlRepo: false, radiciAmmesse: [tmpdir()] }).ok, false, "una radice non dichiarata resta chiusa anche per il banco");
+  // ⚠️ CORRETTO IL 31/8, ed è la seconda riga di questo repo che PINZAVA la falla invece di
+  // difenderne la chiusura. Diceva: «il banco deve lanciare una fixture assoluta», senza che
+  // nessuno avesse dichiarato quella radice. Da lì un collaudo indipendente ha eseguito codice come
+  // root con `eseguiProva("/tmp/pwn.mjs")`.
+  // La distinzione «contare ≠ eseguire» che questo caso difende resta vera e importante: il
+  // CONTATORE non deve contare una fixture fuori casa, il BANCO deve poterla eseguire. Ma il banco
+  // la esegue solo se chi lo chiama DICHIARA la radice — che è il parametro qui sotto, e non è una
+  // formalità: è la differenza fra una radice scelta e una ereditata da chi non sapeva di averla.
   const s = spia();
-  eseguiProva(fixture, { lancia: s.lancia });
-  assert.deepEqual(s.chiamate[0]?.argomenti, [fixture], "il banco non ha nemmeno provato a lanciarla");
+  eseguiProva(fixture, { lancia: s.lancia, radiciAmmesse: [tmpdir()] });
+  assert.deepEqual(s.chiamate[0]?.argomenti, [fixture], "il banco non lancia la fixture nemmeno con la radice DICHIARATA: la cura è diventata un divieto");
+
+  // …e senza dichiararla non la lancia: è il buco chiuso, e senza questa riga la correzione non
+  // difenderebbe niente.
+  const s2 = spia();
+  eseguiProva(fixture, { lancia: s2.lancia });
+  assert.equal(s2.chiamate.length, 0, "il banco ha lanciato una fixture in /tmp senza che nessuno l'avesse dichiarata");
 });
 
 prova("SICUREZZA: un && monco non diventa un comando vuoto", () => {

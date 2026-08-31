@@ -8495,11 +8495,12 @@
   },
   {
    "difetto": "AR-889",
-   "nome": "la radice /tmp torna nel default: eseguiProva(\"/tmp/pwn.mjs\") esegue codice come root",
+   "nome": "tutta /tmp torna fra le radici: eseguiProva(\"/tmp/pwn.mjs\") esegue codice come root",
    "file": "cervello/non-vacuita.mjs",
-   "cerca": "env = ambientePulito(), radiciAmmesse = [AD_ROOT] } = {}) {",
-   "sostituisci": "env = ambientePulito(), radiciAmmesse = [AD_ROOT, tmpdir()] } = {}) {",
-   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs"
+   "cerca": "  return fuori;\n}",
+   "sostituisci": "  return [...fuori, tmpdir()];\n}",
+   "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
+   "nota_riaggancio": "Rifatta due volte il 31/8. La prima puntava alla firma di eseguiProva, la seconda alla riga che scarta le radici gia in casa: NESSUNA DELLE DUE riapriva il buco, quindi la prova restava verde e la mutazione diceva «coperto» su una difesa che non aveva tolto. Il banco me l'ha detto tutt'e due le volte. Questa rimette tutta /tmp fra le radici, che e esattamente il difetto di partenza."
   },
   {
    "difetto": "AR-889",

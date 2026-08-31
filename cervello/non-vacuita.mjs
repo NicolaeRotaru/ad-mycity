@@ -32,7 +32,7 @@
 import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
-import { isAbsolute, join } from "node:path";
+import { dirname, isAbsolute, join, resolve } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
 import { muta } from "./mutazione-vagante.mjs";
@@ -402,7 +402,34 @@ export function ambientePulito(env = process.env) {
   return pulito;
 }
 
-export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX, env = ambientePulito(), radiciAmmesse = [AD_ROOT] } = {}) {
+/**
+ * La radice in piu che il banco puo ammettere, e da dove viene.
+ *
+ * ⚠️ NON è «/tmp». È **la cartella del registro che dichiara quella prova**, e la differenza è
+ * tutta la sicurezza di questo file. Col registro vero (`cervello/mutanti.json`) la radice è il
+ * repo e basta: un percorso in /tmp non si esegue, ed è la falla del 31/8 che resta chiusa. Con un
+ * registro FINTO — le prove di questo banco se ne costruiscono uno in una cartella temporanea e ci
+ * mettono accanto le finte — la radice è quella cartella lì, e solo quella.
+ *
+ * La regola in una riga: una prova può vivere accanto al registro che la nomina. Non «ovunque sotto
+ * /tmp», che era il difetto: bastava saper scrivere UN file in /tmp per farlo eseguire come root.
+ *
+ * Chi potrebbe abusarne dovrebbe poter scrivere `MUTANTI_FILE` nell'ambiente del processo — cioè
+ * avere già i permessi che vorrebbe rubare.
+ */
+function radiceDelRegistro(viaRegistro) {
+  const fuori = [];
+  for (const c of [viaRegistro, process.env.NON_VACUITA_RADICE].filter(Boolean)) {
+    // `NON_VACUITA_RADICE` è una cartella, il registro è un file: `dirname` su una cartella
+    // risalirebbe di un livello, quindi la si prende com'è.
+    const cartella = c === process.env.NON_VACUITA_RADICE ? resolve(c) : dirname(resolve(c));
+    if (cartella === AD_ROOT || cartella.startsWith(`${AD_ROOT}/`)) continue;
+    if (!fuori.includes(cartella)) fuori.push(cartella);
+  }
+  return fuori;
+}
+
+export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX, env = ambientePulito(), radiciAmmesse = [AD_ROOT, ...radiceDelRegistro(MUTANTI)] } = {}) {
   // 🔒 RADICI DICHIARATE, non un interruttore che spegne tutto. Prima qui c'era
   // `soloDentroIlRepo: false`, che serviva per una ragione buona — le prove di questo stesso banco
   // si costruiscono una fixture in /tmp — ma spegneva anche «devi nominare un file di casa», ed è

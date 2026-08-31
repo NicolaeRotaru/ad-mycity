@@ -33,7 +33,7 @@
 // Uscite (AR-322): 0 sotto il tetto · 1 cresciuto · 2 non ho potuto misurare.
 
 import { existsSync, readFileSync, writeFileSync, mkdtempSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
@@ -279,7 +279,13 @@ function mainMordono() {
       encoding: "utf8",
       // Nessun tetto di tempo sul BANCO: ammazzarlo a meta' lascerebbe un file rotto sul disco.
       // Il tetto sta sulla singola prova, dove il banco sa rimettere a posto.
-      env: { ...process.env, MUTANTI_FILE: via, NON_VACUITA_TIMEOUT_MS: tempo },
+      // ⚠️ La riga qui sotto copia il registro in UN'ALTRA cartella temporanea, e da lì il banco
+      // non sa più dove viveva l'originale. Conta perché il banco ammette una prova che sta accanto
+      // al registro che la nomina: spostato il registro, quelle prove diventano irraggiungibili e
+      // il banco le dichiara ⚪ — successo il 31/8, e l'ha detto la verifica automatica.
+      // Quindi la cartella di partenza gliela si DICHIARA. In produzione il registro sta nel repo e
+      // questa riga non aggiunge niente: `radiceDelRegistro` scarta tutto ciò che è già in casa.
+      env: { ...process.env, MUTANTI_FILE: via, NON_VACUITA_RADICE: dirname(MUTANTI), NON_VACUITA_TIMEOUT_MS: tempo },
       maxBuffer: 64 * 1024 * 1024,
     });
     const testo = String(r.stdout || "");
