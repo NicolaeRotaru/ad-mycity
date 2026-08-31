@@ -64,9 +64,9 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > oggi lo faceva scattare: non era la rinumerazione. La riparazione è questa voce, con la data di
 > adesso in cima al file.
 >
-> **Cosa non ho verificato.** Non ho letto il database in questo giro. I numeri della tabella qui
-> sopra restano quelli misurati il 28 agosto alle 12:29: sono la base di partenza, non una misura di
-> adesso. E non ho aperto il sito pubblico da nessuna parte.
+> **Cosa non ho verificato.** Al database non ho fatto nessuna domanda, quindi la tabella qui sopra
+> è la fotografia del 28 agosto alle 12:29 e non la situazione di stasera. Il sito pubblico non l'ho
+> aperto. E ventinove prove scritte in bash qui non partono: manca lo strumento che le esegue.
 >
 > Dettagli tecnici: scheda spostata da AR-865 ad AR-892 (la richiesta #855 rivendica 865-891) ·
 > guardiano `cervello/conta-verdetti-muti.mjs`, prova `cervello/test/due-case.test.mjs` 32 su 32.
