@@ -131,7 +131,7 @@ const RE_FONTE = /(fonte\s*:|\(fonte|\[dati\]|\[fonte|supabase|stripe|posthog|re
 // fondare, «3,50 €» e «dalle 9 alle 13» no.
 // 🚧 AR-876 — due buchi chiusi: «nuclei familiari» (che è «famiglie» detto con un sinonimo) e la
 // percentuale che promette un risultato. Il perché per esteso sta nel gemello.
-const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|nucle[oi]\s+familiar[ei]|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
+const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|nucle[oi]\s+famigliar[ei]|nucle[oi]\s+familiar[ei]|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
 
 // Le parole che trasformano una PERCENTUALE in un risultato promesso. Lo sconto resta fuori: quello
 // lo verifica il carrello alla cassa.

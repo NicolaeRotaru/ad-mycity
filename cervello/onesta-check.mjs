@@ -149,7 +149,7 @@ const RE_FONTE = /(fonte\s*:|\(fonte|\[dati\]|\[fonte|supabase|stripe|posthog|re
 // nessuna di quelle tre percentuali chiedeva una prova. Ed è la forma con cui si promette di più.
 // Chiudere i due buchi toglie il costo di allentare il metro un giorno: per questo si fa adesso,
 // anche col metro severo acceso, quando ancora non cambia nessun verdetto.
-const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|nucle[oi]\s+familiar[ei]|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
+const RE_SOGGETTO = /\b(negozi|botteghe|famiglie|nucle[oi]\s+famigliar[ei]|nucle[oi]\s+familiar[ei]|clienti|utenti|iscritti|follower|recensioni|ordini|consegne)\b/i;
 
 // Le parole che trasformano una PERCENTUALE in un risultato promesso al cliente. «20% di sconto
 // sulla focaccia» resta fuori — è il prezzo che il carrello mantiene fra due clic, e se è falso se
