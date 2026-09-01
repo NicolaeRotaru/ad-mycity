@@ -2,7 +2,7 @@
 
 > **Aggiornato: 1 settembre 2026 06:50** · @intelligence. Giro rimasto fermo **8 giorni** (ultimo controllo 24/8) per la pausa concordata con Nicola. Tutte le fonti concorrenti sono dovute oggi. Contesto attuale invariato rispetto al 24/8: il sito pubblico è giù (HTTP 503, dal 9° giorno), 3 azioni 🔴 attendono ancora la firma di Nicola (sito online, pagamenti Pane Quotidiano, migrazioni DB), e **0 negozi possono incassare**. Quindi, come nei giri precedenti, nessuna opportunità qui sotto diventa 🟡/🔴: resta preparazione a costo zero.
 >
-> **Esito di oggi: nessun movimento locale nuovo su nessuno dei concorrenti monitorati.** Novità: oggi, a differenza delle ultime settimane, il fetch diretto su Glovo, Libertà e PiacenzaSera **ha funzionato senza 403** — non serve più il ripiego WebSearch per queste tre fonti (resta necessario per comune.piacenza.it/imprese-e-commercio, che non elenca comunque bandi, e per CNA/piacenza.cna.it).
+> **Esito di oggi: nessun movimento locale nuovo su nessuno dei concorrenti monitorati.** Novità di oggi: il fetch diretto su Glovo, Libertà e PiacenzaSera **ha funzionato senza 403**, a differenza delle ultime settimane. Non serve più il ripiego WebSearch per queste tre fonti. Resta necessario per comune.piacenza.it/imprese-e-commercio, che non elenca comunque bandi, e per CNA/piacenza.cna.it.
 >
 > | Competitor | Stato oggi (1/9) | Fonte |
 > |---|---|---|

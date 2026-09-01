@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-01 08:28",
+      "byte_prima": 1134042,
+      "byte_dopo": 1019141,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0706-53",
+            "testo": "**Caso-studio Nicola — inattività ≠ churn quando la relazione è gestita a mano (casella Pa"
+          },
+          {
+            "id": "L-2026-0702-50",
+            "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18"
+          },
+          {
+            "id": "L-2026-0702-49",
+            "testo": "**Un 🔴 bloccato ha due cause diverse — non confonderle (caso SQL 107, chat 2/7):** Nicola"
+          },
+          {
+            "id": "L-2026-0702-46",
+            "testo": "**Consolidare config = cambiare VALORE, non togliere VARIABILI (chat 2/7 12:35):** Nicola "
+          },
+          {
+            "id": "L-2026-0702-41",
+            "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter c"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-09-01 06:30",
       "byte_prima": 1144342,
       "byte_dopo": 1026626,

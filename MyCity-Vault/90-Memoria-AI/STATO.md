@@ -1,8 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 06:55
+aggiornato: 2026-09-01 08:30
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 08:30 — Giro di perlustrazione: quarta foto identica, e un buco di apprendimento chiuso.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho riverificato tutto dal vivo di nuovo. Query SQL dirette su ordini,
+> clienti e prodotti. Novità di questo passaggio: ho controllato anche il fascicolo Stripe di Pane
+> Quotidiano riga per riga, non solo il balance generico. Il quadro è identico a quello delle
+> 06:55: 1 negozio vero, 1 ordine mai pagato, 0 clienti nuovi, 5 prodotti, sito ancora HTTP 503.
+> Stallo North Star fermo a **69 giorni**.
+>
+> **L'unica cosa nuova.** C'è un cancello che controlla se ogni reparto chiude il ciclo
+> osserva→impara. Ha trovato un buco: `@intelligence` aveva fatto un lavoro vero stamattina, alle
+> 07:15, un monitoraggio radar. Ma il suo quaderno non aveva la riga ESITO. Era fermo da 11 giorni.
+> L'ho registrata con `node cervello/chiusura-loop.mjs registra intelligence …`. Il gate ora è
+> pulito: 0 inadempienti.
+>
+> **Cosa ho fatto io in questo passaggio.** Solo verifica, più questa singola riscrittura. Nessuna
+> carta nuova: valgono ancora il gate North-Star e il letargo RISPARMIO. In coda restano quattro
+> carte, esattamente come le ho lasciate alle 06:55: #154/#155 (dominio e chiavi Vercel), #182
+> (pagamenti Pane Quotidiano), #184 (migrazioni database), #185 (scadenza del 29/8).
+>
+> **Cosa non ho verificato.** Le stesse cose non verificate alle 06:55: le quattro cose della
+> scadenza del 29/8 punto per punto, il sito aperto in un browser vero (solo HTTP status), le
+> consegne/carrelli/recensioni con query dirette (nessun segnale che siano cambiati, ma non è
+> una misura fresca di questo passaggio).
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 

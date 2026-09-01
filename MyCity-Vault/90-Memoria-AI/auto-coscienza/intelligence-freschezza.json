@@ -1,10 +1,8 @@
 {
   "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
-  "aggiornato": "2026-09-01 06:41",
+  "aggiornato": "2026-09-01 08:28",
   "oggi": "2026-09-01",
-  "scadute": [
-    "buchi"
-  ],
+  "scadute": [],
   "non_misurabili": [],
   "schede": [
     {
@@ -37,11 +35,11 @@
       "etichetta": "Buchi di mercato",
       "soglia": 2,
       "fonti": 1,
-      "stato": "scaduta",
-      "giorni": 22,
-      "data": "2026-08-10",
-      "scaduta": true,
-      "frase": "aggiornata 22 giorni fa"
+      "stato": "fresca",
+      "giorni": 0,
+      "data": "2026-09-01",
+      "scaduta": false,
+      "frase": "aggiornata oggi"
     },
     {
       "id": "leve",

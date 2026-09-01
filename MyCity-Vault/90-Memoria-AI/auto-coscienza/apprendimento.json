@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 06:41",
+ "aggiornato": "2026-09-01 08:36",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -9204,28 +9204,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0706-53",
-   "testo": "**Caso-studio Nicola — inattività ≠ churn quando la relazione è gestita a mano (casella Pannello 6/7 15:52):** il sensore ha letto Pane Quotidiano — unico negozio reale, 0 incassi da ~12 giorni + ordine annullato il 3/7 — come 'rischio abbandono MASSIMO' e ha generato un'azione anti-churn (chiama il fornaio). Nicola corregge: **«non c'è bisogno con PQ, li conosco e aspettano finché tutto non è pronto»**. 5 perché: (1) il sensore modella l'abbandono solo su segnali-dati (giorni-senza-incasso, ordine annullato); (2) non conosce l'accordo umano fuori dal DB (il titolare aspetta di proposito); (3) il registro-realtà marca PQ 'confermato' ma non porta il campo 'relazione gestita da Nicola / in attesa concordata'; (4) così ogni negozio reale-ma-fermo diventa un falso positivo di churn; (5) **fix:** prima di generare anti-churn/retention su un negozio, verifica se è una attesa concordata gestita direttamente da Nicola — se sì, l'inattività NON è abbandono e non si accoda alcuna telefonata. Applicato: chiuse #25 (A6 check-in) e #29 (A9 tocco post-annullamento); resta solo A7 (upsell 🟢) come crescita DOPO la 1ª consegna, non come retention. Vedi memoria [[pane-quotidiano-non-e-churn]].",
-   "tag": [
-    "churn",
-    "falso-positivo",
-    "sensori",
-    "pane-quotidiano",
-    "retention",
-    "relazione-umana",
-    "account-negozi"
-   ],
-   "reparto": "@account-negozi",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-06",
-   "ultima_conferma": "2026-07-06 15:52",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
    "id": "L-2026-0703-52",
    "testo": "**Il delta-gate scatta 'pieno' sul rumore di un sensore cieco-ma-opzionale (giro mattino 3/7 06:20):** la firma dello stato reale include `max_giri_ciechi`; PostHog è cieco (401) e opzionale (0 ordini pagati) ma il suo contatore cresce di 1 a OGNI giro → la firma differisce sempre dall'ultimo_pieno → il gate decide 'cambiato: stato sensori' e fa girare il motore AI pesante anche quando business, incassi e sentinelle azionabili sono identici. È lo stesso spreco che AR-019 doveva chiudere, rientrato da una porta laterale (AR-024 lo tocca lato sonda/alert, non lato firma). **Regola/fix proposto:** nella firma del delta-gate, per i sensori marcati OPZIONALI/non-critici, usa lo STATO booleano (cieco sì/no) e non il contatore incrementale; così un sensore già-noto-cieco non forza giri pieni. Finché non è implementato: quando l'unica differenza di firma è l'incremento del contatore di un sensore opzionale, tratta il giro come minimale (timestamp + delta), non pesante.",
    "tag": [
@@ -9269,48 +9247,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0702-50",
-   "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18:21):** nei passaggi pomeridiani i 7 numeri erano 'gated' (node non eseguibile in sessione) e portati avanti dalla baseline; nel giro serale il runner (giro.sh) ha scritto delta-gate.json e sensori-cecita.json con dati REST freschi (ordini=1, ultimo 24/6, profili=23), permettendo di MISURARE i numeri invece di inferirli — pur restando invariati. **Regola:** anche quando l'agente non può lanciare `node`, se giro.sh ha appena scritto delta-gate/sensori (< ~1h), USA quei campi come dato live confermato e alza la fiducia; distingui sempre 'ri-misurato' da 'portato avanti' nel briefing. Corollario di AR-019: il delta-gate non serve solo a saltare i giri vuoti, è anche la fonte-di-verità dei numeri quando l'agente è gated.",
-   "tag": [
-    "delta-gate",
-    "AR-019",
-    "sensori",
-    "REST-live",
-    "giro",
-    "fiducia-dati"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.35,
-   "evidenze": 1,
-   "fonte": "esiti",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 18:21",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0702-49",
-   "testo": "**Un 🔴 bloccato ha due cause diverse — non confonderle (caso SQL 107, chat 2/7):** Nicola aveva già dato la firma («eseguilo tu io lo approvo»), ma l'esecuzione era ferma per un motivo TECNICO diverso — il permesso di sessione dello strumento `apply_migration` non era concesso. Continuare a spiegare/chiedere la firma quando manca solo il permesso strumento fa perdere tempo a Nicola. **Regola:** quando un'azione 🔴 è bloccata, diagnostica QUALE dei due manca — (a) firma di Nicola, oppure (b) permesso di sessione dello strumento — e proponi lo sblocco GIUSTO (concedi permesso strumento vs firma), più sempre un piano B manuale (es. incollare la SQL nel SQL Editor). Non delegare a Nicola una firma che ha già dato.",
-   "_evidenza_2": "Ripetuta col caso tabella `conversazioni` (chat 9/7 01:20): Nicola aveva già detto «procedi con la tabella e la verifica nel browser» (firma 🟡 data), ma l'esecuzione era ferma per il permesso di sessione su `supabase-memoria` (create table negato) e su `npm` (Playwright). L'AD ha diagnosticato bene il blocco come PERMESSO-strumento — non ha ri-chiesto la firma — e ha offerto il piano B manuale (incollare lo SQL idempotente nel SQL Editor del progetto memoria). La regola ha retto.",
-   "tag": [
-    "semaforo-rosso",
-    "permessi-strumento",
-    "firma-nicola",
-    "diagnosi-blocco",
-    "efficienza"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-09 01:20",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
   },
   {
    "id": "L-2026-0702-48",
@@ -9389,35 +9325,14 @@
     "azione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.58,
+   "confidenza": 0.42999999999999994,
    "evidenze": 2,
    "fonte": "auto-radiografia",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-13 21:01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0702-46",
-   "testo": "**Consolidare config = cambiare VALORE, non togliere VARIABILI (chat 2/7 12:35):** Nicola crea `github_push_token` (mycity+ad-mycity, Contents+PR R/W) e chiede cosa togliere da VPS/Vercel. **Regola:** prima di dire cosa rimuovere, LEGGI il codice reale — le catene di fallback dicono quali nomi-variabile servono (`git-github.mjs:78` `MARKETPLACE_GIT_TOKEN||GIT_TOKEN||GIT_PUSH_TOKEN`; `obsidian.ts:7` `OBSIDIAN_TOKEN||GITHUB_TOKEN`). Con un token unico basta impostare UN valore (`GIT_PUSH_TOKEN` su VPS, `GITHUB_TOKEN` su Vercel); le altre variabili diventano ridondanti ma NON vanno cancellate se il codice le legge per nome. **Distingui token da config di destinazione** (`OBSIDIAN_REPO_OWNER/REPO/BRANCH`, `GITHUB_OWNER/REPO` NON sono token: dicono DOVE guardare — toglierli rompe la lettura). Da cancellare solo i 2 vecchi PAT single-repo su GitHub. Nota least-privilege: Vercel passa da read-only a write → accettato per semplicità, riproponibile un token RO separato se serve rigore.",
-   "tag": [
-    "devops",
-    "security",
-    "token",
-    "config",
-    "fallback",
-    "nicola"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 12:35",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
+   "decaduto_step_il": "2026-09-01 08:28"
   },
   {
    "id": "L-2026-0702-45",
@@ -9474,29 +9389,6 @@
      "prova": "DECISIONI.md, voce del 19/8 21:20 — il danno dei conteggi pubblici"
     }
    ]
-  },
-  {
-   "id": "L-2026-0702-41",
-   "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter comprare» + «i retailer devono poter comprare in modo diverso — pulsante marketplace, per nessun altro motivo/errore il venditore deve accedere al catalogo». **5 perché gap:** (1) UI admin nascondeva carrello ma `addToCart` + API checkout/COD **aperte** → carrello test €7,95 (#2 dei «4 operativi»); (2) seller navigava `/` e prodotti come buyer → carrelli demo #3–#4; (3) briefing «4 carrelli reali operativi» = **record DB con items**, non buyer reali — **solo 1** (samir) per CRM; (4) recovery cron oggi = 0 righe (flag già settati) ma carrelli test inquinavano analisi; (5) fix obbligatorio **triplo:** UI blocco + **403 server** su checkout/COD per `role=admin` + middleware seller redirect `/seller/dashboard` senza cookie modalità acquisto (`/?shop=1`, 8h, banner «Torna al negozio»). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` · deploy 🔴 #19. **Pattern:** separazione ruoli acquisto = regola product non negoziabile; implementare sempre UI **e** server; seller buyer-mode solo opt-in esplicito.",
-   "tag": [
-    "ruoli",
-    "admin",
-    "seller",
-    "checkout",
-    "middleware",
-    "nicola",
-    "crm",
-    "carrelli"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.30999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 07:35",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
   },
   {
    "id": "L-2026-0701-38",
@@ -12885,6 +12777,10 @@
     {
      "quando": "2026-09-01 06:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 08:28",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14672,19 +14568,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 513,
+  "lezioni_attive": 508,
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 06:41",
+  "tasso_calcolato_il": "2026-09-01 08:36",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 06:30",
-  "lezioni_totali": 519,
+  "cristallizzazione_ultima": "2026-09-01 08:28",
+  "lezioni_totali": 514,
   "lezioni_per_stato": {
-   "attiva": 406,
+   "attiva": 401,
    "principio": 91,
    "in-prova": 5,
    "decaduta": 0,

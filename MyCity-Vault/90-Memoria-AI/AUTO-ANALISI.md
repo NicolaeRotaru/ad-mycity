@@ -18,15 +18,15 @@ Ho aggiornato anche `OKR-Squadra.md`. Lo stallo North Star è salito da 68 a 69 
 anche la data della pausa concordata, il 24/8-1/9. Quella pausa si conclude proprio oggi. Se
 l'avessi lasciata scritta, al prossimo giro sarebbe sembrata un "target scaduto" senza motivo.
 
-Nessuna azione nuova aperta: il gate North-Star (stallo ≥3gg) e il letargo RISPARMIO (salute
-macchina 4/100) tengono il giro deliberatamente stretto. Le carte in coda restano `#154`/`#155`
+Nessuna azione nuova aperta. Due gate tengono il giro deliberatamente stretto: il gate North-Star
+(stallo ≥3gg) e il letargo RISPARMIO (salute macchina 4/100). Le carte in coda restano `#154`/`#155`
 (dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
 (scadenza del 29/8 sul cantiere, ancora senza risposta).
 
-`node cervello/north-star-check.mjs` e `sonda-volano.mjs` non eseguibili in Bash in questa
-sessione (richiedono approvazione non disponibile qui) — non ritentati dopo il primo rifiuto, per
-non ripetere una chiamata già negata. I loro verdetti erano già freschi nel system-reminder
-(misurati alle 06:29-06:30 di oggi dal pre-step di giro.sh).
+`node cervello/north-star-check.mjs` e `sonda-volano.mjs` non erano eseguibili in Bash in questa
+sessione: richiedevano un'approvazione non disponibile qui. Non li ho ritentati dopo il primo
+rifiuto, per non ripetere una chiamata già negata. I loro verdetti erano comunque già freschi nel
+system-reminder, misurati alle 06:29-06:30 di oggi dal pre-step di giro.sh.
 
 ## Voto di fiducia: 83/100 (invariato)
 
