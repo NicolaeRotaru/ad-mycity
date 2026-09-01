@@ -7,8 +7,11 @@
 //
 // Le proprietà che contano davvero sono le due di sicurezza: se non riconosce il file, NON scrive.
 
-import { test } from "node:test";
+import { test, after } from "node:test";
 import assert from "node:assert/strict";
+import { writeFileSync, rmSync } from "node:fs";
+import { join, dirname } from "node:path";
+import { spawnSync } from "node:child_process";
 import { applica } from "../round6-applica.mjs";
 
 const modFinte = [
@@ -108,17 +111,54 @@ test("giro.sh ha un controllo di sintassi prima di essere scritto, il Pannello n
 import { fuoriRepo } from "../round6-applica.mjs";
 import { AD_ROOT } from "../git-github.mjs";
 
-test("il file di lavoro nasce FUORI dal repo: dentro entra solo ciò che modifichiamo", () => {
-  // È la proprietà che impedisce a `git add -A` di raccoglierlo. Vale per qualunque file del piano.
-  for (const v of PIANO) {
-    const p = fuoriRepo(v.file, "prova");
-    assert.ok(!p.startsWith(AD_ROOT), `${v.file}: il file di prova finirebbe nel repo (${p})`);
+// ⚠️ 31/8 — QUESTA PROVA CHIEDEVA UN PROXY, NON LA PROPRIETÀ. Diceva «il file nasce FUORI dal
+// repo», e il suo stesso commento spiegava perché: «è la proprietà che impedisce a `git add -A` di
+// raccoglierlo». Cioè il fuori-dal-repo non era il punto: era UN MODO di ottenere il punto.
+//
+// Il collaudo di sicurezza ha mostrato che quel modo ne apriva un altro (AR-899): `/tmp` è una
+// cartella dove scrive chiunque, con un nome che si indovina, e per giunta non garantisce lo stesso
+// disco — che serve perché un `rename` sia atomico. Adesso il temporaneo nasce in
+// `cervello/_tmp_round6-XXXXXX`: dentro il repo, ma invisibile a git.
+//
+// Quindi la prova chiede quello che conta davvero — git non lo vede — invece della strada per
+// arrivarci. Una prova che fissa la strada impedisce di cambiarla anche quando la strada è
+// sbagliata.
+
+/** Le cartelle nate dalle chiamate di questa prova, per toglierle senza derivare percorsi dal
+ *  codice sotto esame (la regola di AR-900: sotto mutazione quel percorso è ostile). */
+const nate = [];
+const chiedi = (file) => {
+  const via = fuoriRepo(file, "prova");
+  nate.push(dirname(via));
+  return via;
+};
+after(() => {
+  for (const d of nate) {
+    if (d.startsWith(join(AD_ROOT, "cervello", "_tmp_round6-"))) rmSync(d, { recursive: true, force: true });
   }
 });
 
+test("il file di lavoro è invisibile a git: `git add -A` non può raccoglierlo", () => {
+  for (const v of PIANO) {
+    const p = chiedi(v.file);
+    writeFileSync(p, "prova\n");
+    const r = spawnSync("git", ["status", "--porcelain", "--untracked-files=all", p], { cwd: AD_ROOT, encoding: "utf8" });
+    if (r.error || r.status !== 0) continue; // ⚪ git non risponde: non ho misurato
+    assert.equal(`${r.stdout}`.trim(), "",
+      `${v.file}: git vede il file di prova (${p}) — lo spazzino del ritmo se lo porterebbe dentro`);
+  }
+});
+
+test("…e sta sullo stesso disco del bersaglio, o il rename non sarebbe atomico", () => {
+  // La seconda ragione per cui `/tmp` era il posto sbagliato, e non si vede guardando il nome.
+  const p = chiedi("cervello/giro.sh");
+  assert.ok(p.startsWith(AD_ROOT),
+    "il temporaneo è tornato fuori dal repo: `renameSync` è atomico solo sullo stesso disco");
+});
+
 test("il nome del file di lavoro resta riconoscibile, e non collide fra i due file", () => {
-  const a = fuoriRepo("cervello/giro.sh", "prova");
-  const b = fuoriRepo("pannello/src/components/AutoCoscienza.tsx", "prova");
+  const a = chiedi("cervello/giro.sh");
+  const b = chiedi("pannello/src/components/AutoCoscienza.tsx");
   assert.notEqual(a, b, "due file diversi non devono scriversi sopra a vicenda");
   assert.match(a, /giro\.sh$/);
   assert.match(b, /AutoCoscienza\.tsx$/);

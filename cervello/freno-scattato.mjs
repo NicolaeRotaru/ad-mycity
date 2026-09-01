@@ -45,6 +45,7 @@ import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 export const APPR_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
 
@@ -124,7 +125,13 @@ const USI_PER_RIFERIMENTO = 2;
 /** Quando è successo, in millisecondi. Ciò che non è una data vale «prima di tutto»: una riga
  *  illeggibile non deve poter diventare «l'ultima volta» e potare tutto quello che viene dopo. */
 function quandoInNumeri(u) {
-  const t = Date.parse(String((u && typeof u === "object" ? u.quando : u) ?? "").replace(" ", "T"));
+  // ⚠️ `msDaTimbro`, non `Date.parse`. I timbri di questa casa sono ore di PIACENZA scritte senza
+  // fuso, e `Date.parse` le leggerebbe col fuso del server: d'estate un'ora di scarto, e a cavallo
+  // del cambio d'ora due usi dello stesso minuto finirebbero in ordine diverso a seconda di dove
+  // gira la macchina. Il cancello «nessuna ora scritta a mano nel cervello» me l'ha preso alla
+  // prima corsa della suite intera — e aveva ragione: il fuso si chiede per la data che si sta
+  // leggendo, scriverlo funziona solo nella stagione in cui lo scrivi.
+  const t = msDaTimbro((u && typeof u === "object" ? u.quando : u) ?? "");
   return Number.isFinite(t) ? t : -Infinity;
 }
 

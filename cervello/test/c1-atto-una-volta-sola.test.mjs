@@ -59,7 +59,20 @@ const CODA_FINTA = `data:text/javascript,${encodeURIComponent(`
   }
 `)}`;
 
-const FINTI = { "@/lib/mani": MANI_FINTE, "@/lib/azioni-pronte": CODA_FINTA };
+// AR-901 — la PR risulta GIÀ mergiata: è il ramo che chiude l'azione senza toccare il mondo, ed è
+// lì che il registro veniva scritto prima di guardare se lo stato era stato salvato.
+const GITHUB_FINTO = `data:text/javascript,${encodeURIComponent(`
+  export function isCanaleGithub(c) { return c === "github"; }
+  export function estraiMergePr() { return { pr: 999, owner: "x", repo: "y" }; }
+  export async function prGiaMergiata() { return globalThis.__c1_prMergiata === true; }
+  export async function chiudiAzioniMergeCompletate(a) { return a; }
+`)}`;
+
+const FINTI = {
+  "@/lib/mani": MANI_FINTE,
+  "@/lib/azioni-pronte": CODA_FINTA,
+  "@/lib/github-pr-merge": GITHUB_FINTO,
+};
 
 registerHooks({
   resolve(spec, ctx, next) {
@@ -400,6 +413,33 @@ await prova("AR-887: ...ma sugli altri tre motivi la firma si toglie ancora — 
     "su «posto gia preso» la firma non va tenuta: quel tentativo non ha toccato niente");
 });
 
+
+await prova("AR-901: la PR era già mergiata ma lo stato non si salva → il registro NON deve dire «fatta»", async () => {
+  // Il ramo «PR già mergiata» chiude l'azione senza toccare il mondo. Se le due scritture di stato
+  // falliscono, l'azione NON è chiusa da nessuna parte — ma il registro veniva scritto lo stesso,
+  // PRIMA di guardare l'esito. Nicola avrebbe letto «fatta» nella cronologia mentre la card gli
+  // tornava in «da decidere»: due verità diverse sullo stesso fatto, e quella scritta è la sbagliata.
+  // Il ramo del RIFIUTO ha già l'ordine giusto da AR-230; questo era rimasto indietro.
+  const sb = finoSupabase();
+  globalThis.fetch = sb.handler;
+  globalThis.__c1_mani = [];
+  globalThis.__c1_prMergiata = true;
+  globalThis.__c1_coda = [{ ...AZIONE_VERDE, id: "az-gh", canale: "github" }];
+  sb.stato.scrittureRotte.add("azione:az-gh");
+
+  const r = await rotta.POST(richiestaApprova("az-gh"));
+  const corpo = await r.json();
+  assert.equal(corpo.ok, false, "le scritture erano rotte: la rotta non può dichiarare che è andata");
+
+  const registro = sb.righe.get("azioni_log");
+  const voci = registro ? JSON.parse(registro) : [];
+  assert.equal(
+    voci.some((v) => v.id === "az-gh"),
+    false,
+    "il registro dice «fatta» per un'azione il cui stato non è stato salvato: la cronologia mente a Nicola",
+  );
+  globalThis.__c1_prMergiata = false;
+});
 
 const rossi = casi.filter((c) => !c.ok);
 console.log(`TAP version 13\n1..${casi.length}`);

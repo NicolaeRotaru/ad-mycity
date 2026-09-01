@@ -1786,13 +1786,23 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
   # quindi la regola può essere più forte di «vuoto = male»: si CONTANO le righe, e ogni vincolo che
   # non è tornato indietro è ⚪, mai verde. Prende anche il caso in cui la tabella ne dimentica uno.
   # ─────────────────────────────────────────────────────────────────────────────
-  _riv_elenco="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>&1)"
+  # ⚠️ I DUE FLUSSI SI TENGONO SEPARATI, e non è pignoleria. La prima stesura di questa cura
+  # catturava `2>&1` in un colpo solo: bastava un `(node:123) Warning: …` su stderr — cioè un
+  # qualunque avviso di node — perché quella riga finisse nell'elenco come un vincolo con nome
+  # lunghissimo, classe vuota e comando VUOTO. Il ciclo qui sotto avrebbe lanciato
+  # `timeout 120 node "$SCRIPT_DIR"/` senza script, sarebbe uscito ≠ 0, e il vincolo fantasma
+  # sarebbe finito fra quelli «che dicono ANCORA no»: un'accusa col nome sbagliato mandata a Nicola
+  # su Telegram. È esattamente AR-880, cioè il difetto che questo blocco era già stato curato per
+  # non fare. Riprodotto prima di separarli.
+  _riv_err="$(mktemp)"
+  _riv_elenco="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>"$_riv_err")"
   _riv_el_rc=$?
   if [ "$_riv_el_rc" -ne 0 ]; then
     echo "[$(ts)]   ⚪ non ho potuto sapere CHI rimisura cosa: \`c4-cancelli riverifica-elenco\` è uscito ${_riv_el_rc}." >&2
-    echo "[$(ts)]      ${_riv_elenco}" >&2
+    sed 's/^/[ERR] /' "$_riv_err" >&2
     _riv_elenco=""
   fi
+  rm -f "$_riv_err"
   # I nomi che sono tornati indietro davvero. Quelli che mancano li rimetto in ⚪ più sotto: un
   # vincolo che era rosso e di cui non so più niente non è un vincolo risolto.
   _riv_tornati=""

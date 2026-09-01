@@ -521,7 +521,15 @@ prova("AR-886: di uno stesso riferimento restano il primo uso e l'ultimo, non tu
   assert.equal(dopo.length, 2, "quarantadue usi dello stesso riferimento devono restare due");
   assert.equal(dopo[0].quando, "2026-08-20 10:00", "il primo uso dice da quando ci ferma");
   assert.equal(dopo[1].quando, "2026-08-20 10:41", "l'ultimo uso dice se ci ferma ancora");
-  assert.equal(dopo[1].volte, 42, "il conto vero va dichiarato, non fatto sparire");
+  // ⚠️ 31/8 — QUESTA RIGA CHIEDEVA IL NUMERO SBAGLIATO, e per un mese l'ha protetto.
+  // Chiedeva `volte === 42` su quarantadue usi. Ma `lista[0]` resta IN LISTA: contarlo anche dentro
+  // `volte` vuol dire dichiararlo due volte, e siccome si ricompatta a ogni scrittura l'errore si
+  // sommava — misurato: ventuno usi veri dichiarati trentadue (AR-898).
+  // Il conto vero è la SOMMA di ciò che il diario dichiara: uno per il primo, `volte` per l'ultimo.
+  // Chiedere la somma invece del campo è anche più difficile da sbagliare la prossima volta: è la
+  // cosa che qualcuno legge, non il modo in cui è ripartita fra due righe.
+  const dichiarate = dopo.reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);
+  assert.equal(dichiarate, 42, "il conto vero va dichiarato, non fatto sparire — e nemmeno gonfiato");
 });
 
 prova("AR-886: riferimenti DIVERSI non si schiacciano fra loro", () => {

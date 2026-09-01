@@ -19281,6 +19281,42 @@
         "nota": "Sette casi, e cancellano DAVVERO: ogni caso costruisce un repo git vero e piccolo in una cartella temporanea e ci porta via dei file, invece di simulare l uscita di git. Tre casi tengono i falsi allarmi (una modifica non e una cancellazione, un file nuovo neanche) perche un guardiano che grida al lupo a ogni corsa si impara a spegnere; uno tiene il ⚪ (git che non risponde non vale «non manca niente»); l ultimo guarda il repo VERO adesso. Due mutazioni, tutte e due mordono."
       },
       "trovato_da": "me stessa, cancellando il repo con una prova che avevo appena scritto"
+    },
+    {
+      "id": "AR-901",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-09-01 15:20",
+      "area": "pannello",
+      "nato_come": "scoperta",
+      "titolo": "Il registro diceva «fatta» prima di sapere se lo stato era stato salvato: due verita diverse sullo stesso fatto",
+      "sintomo": "Nel ramo «la PR era gia mergiata» di `azioni-pronte/route.ts`, `logAzione` girava PRIMA di guardare `chiusura.ok`. Con la memoria che non risponde le due scritture di stato falliscono, ma nel registro resta scritto «fatta»: Nicola lo legge nella cronologia mentre la card gli torna in «da decidere» al primo aggiornamento. Riprodotto col finto Supabase del banco: scritture rotte apposta, e la voce compariva lo stesso in `azioni_log`.",
+      "causa_radice": "Il ramo del RIFIUTO, sessanta righe piu su, ha gia l ordine giusto da AR-230 — prima si controlla che le scritture siano andate, poi si scrive nel registro. Questo ramo era rimasto indietro: la cura era stata messa DOVE IL DIFETTO SI ERA VISTO e non dove poteva ripetersi. E la forma di difetto che le radiografie chiamano «rami gemelli»: due strade che fanno la stessa cosa e una sola e stata curata.",
+      "fix_proposto": "🟡 FATTO: il `return` sull errore di scrittura viene PRIMA di `logAzione`, esattamente come nel ramo del rifiuto.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/c1-atto-una-volta-sola.test.mjs",
+        "nota": "Dodicesimo caso del file, e gira la ROTTA VERA contro un finto Supabase che rispetta il vincolo di chiave unica: si rompono le scritture di quell azione e si guarda `azioni_log`. Una mutazione: rimettere logAzione prima del controllo."
+      },
+      "trovato_da": "la radiografia del perimetro toccato, dimensione pannello/coerenza-azioni — cioe riguardando un file che avevo modificato ieri per un altro motivo"
+    },
+    {
+      "id": "AR-902",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-09-01 16:00",
+      "area": "macchina",
+      "nato_come": "riparare",
+      "titolo": "La cura di AR-895 aveva riaperto AR-880 dalla porta di servizio: un avviso su stderr diventava un vincolo fantasma",
+      "sintomo": "La prima stesura della cura catturava stdout e stderr in un colpo solo (`2>&1`). Riprodotto: basta un `(node:123) Warning: …` — cioe un qualunque avviso di node — perche quella riga finisca nell elenco come un vincolo con nome lunghissimo, classe vuota e comando VUOTO. Il ciclo avrebbe lanciato `timeout 120 node \"$SCRIPT_DIR\"/` senza script, uscita ≠ 0, e il fantasma sarebbe finito fra quelli «che dicono ANCORA no»: un accusa col nome sbagliato mandata a Nicola su Telegram.",
+      "causa_radice": "Volevo che l errore del produttore non si perdesse piu (era in /dev/null) e l ho preso mescolandolo all esito. Ma l esito e DATI e l errore e RUMORE: mescolarli mette il rumore dentro i dati. E lo stesso difetto che quel blocco era gia stato curato per non fare — AR-880, «un accusa col nome sbagliato» — rientrato dalla porta della sua cura.",
+      "fix_proposto": "🟡 FATTO: i due flussi si tengono separati (stderr in un file suo, letto solo se il comando fallisce). L errore continua a comparire nel log, prefissato [ERR], senza toccare l elenco.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
+        "nota": "Sesto caso del file: il produttore FUNZIONA ma scrive un avviso su stderr, e in uscita devono restare esattamente i cinque vincoli di partenza — ne uno in piu (il fantasma) ne un ⚪ inventato. Come gli altri, ritaglia le righe VERE da giro.sh. Una mutazione: rimettere 2>&1."
+      },
+      "trovato_da": "la radiografia del perimetro toccato, dimensione macchina/rischio-sicurezza-se — riguardando con la lente giusta le righe che avevo aggiunto due ore prima"
     }
   ],
   "meta": {

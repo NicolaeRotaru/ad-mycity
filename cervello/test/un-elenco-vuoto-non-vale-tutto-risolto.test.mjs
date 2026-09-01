@@ -35,7 +35,10 @@ const giro = readFileSync(join(REPO, "cervello/giro.sh"), "utf8");
 /** Le righe vere del blocco, dal produttore dell'elenco fino alla fine del recupero dei mancanti. */
 function ritagliaIlBlocco() {
   const righe = giro.split("\n");
-  const inizio = righe.findIndex((r) => r.includes('_riv_elenco="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco'));
+  // Il blocco comincia dove nasce il file per stderr, non dalla riga del produttore: i due flussi
+  // si tengono separati apposta (vedi il commento in giro.sh), e ritagliare più in basso lascerebbe
+  // fuori la riga che li separa — cioè proverebbe una versione che non esiste.
+  const inizio = righe.findIndex((r) => r.includes('_riv_err="$(mktemp)"'));
   if (inizio < 0) return null;
   const fine = righe.findIndex((r, i) => i > inizio && r.includes('_riv_out="$(node'));
   if (fine < 0) return null;
@@ -94,3 +97,26 @@ test("AR-895 · l'elenco completo si comporta come prima: nessun ⚪ inventato",
   assert.equal(e.ciechi, 0, "cinque vincoli tornati indietro e cinque ⚪: la prudenza è diventata rumore");
   assert.equal(e.risolti, 5, "i guardiani rispondevano 0: quei vincoli sono risolti davvero");
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ⚠️ AR-902 — LA PRIMA CURA DI AR-895 AVEVA RIAPERTO AR-880 DA UN'ALTRA PARTE
+//
+// Catturava stdout e stderr in un colpo solo (`2>&1`). Bastava un `(node:123) Warning: …` — cioè
+// un qualunque avviso di node — perché quella riga finisse nell'elenco come un vincolo con nome
+// lunghissimo, classe vuota e comando VUOTO. Il ciclo avrebbe lanciato `timeout 120 node
+// "$SCRIPT_DIR"/` senza script, uscita ≠ 0, e il fantasma sarebbe finito fra quelli «che dicono
+// ANCORA no»: un'accusa col nome sbagliato, mandata a Nicola su Telegram.
+//
+// È lo stesso difetto che questo blocco era già stato curato per non fare (AR-880), rientrato dalla
+// porta di servizio della sua cura. Trovato riguardando le righe aggiunte con la lente della
+// sicurezza, prima di consegnare — non dopo.
+// ─────────────────────────────────────────────────────────────────────────────
+
+test("AR-902 · un avviso su stderr non diventa un vincolo fantasma", () => {
+  const e = corri('echo "(node:123) Warning: qualcosa" >&2; printf "FATTI\\tguardiano\\tvero.mjs\\nTEST\\tguardiano\\tvero.mjs\\nGATE\\tguardiano\\tvero.mjs\\nPROVE\\tguardiano\\tvero.mjs\\nOKR\\tguardiano\\tvero.mjs\\n"; exit 0');
+  assert.equal(e.rotto, undefined, e.tutto);
+  assert.equal(e.risolti + e.rimasti + e.ciechi, 5,
+    `cinque vincoli in ingresso, ${e.risolti + e.rimasti + e.ciechi} in uscita: l'avviso su stderr è diventato una riga dell'elenco`);
+  assert.equal(e.ciechi, 0, "un avviso non deve nemmeno diventare un ⚪ inventato");
+});
+

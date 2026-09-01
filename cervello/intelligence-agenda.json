@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-08-31 13:25",
+  "quando": "2026-09-01 15:55",
   "fonti_dovute": 18,
   "fonti_totali": 18,
   "agenda": [
@@ -130,7 +130,7 @@
       "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
       "url_websearch": "https://www.google.com/search?q=comune+piacenza+bandi+imprese+commercio+2026",
       "skip_check": true,
-      "motivo": "settimanale_stale_21g"
+      "motivo": "settimanale_stale_22g"
     },
     {
       "id": "unionecommercianti-bandi",
@@ -162,7 +162,7 @@
       "url": "https://piacenza.cna.it/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_7g"
+      "motivo": "settimanale_stale_8g"
     },
     {
       "id": "glovo-piacenza",
@@ -178,7 +178,7 @@
       "url": "https://glovoapp.com/it/it/piacenza/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_7g"
+      "motivo": "settimanale_stale_8g"
     },
     {
       "id": "conad-consegna",
@@ -194,7 +194,7 @@
       "url": "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_7g"
+      "motivo": "settimanale_stale_8g"
     },
     {
       "id": "meteo-piacenza",
@@ -226,7 +226,7 @@
       "url": "https://www.vitaincentroapiacenza.com/category/news/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_21g"
+      "motivo": "settimanale_stale_22g"
     },
     {
       "id": "unionecommercianti",
@@ -242,7 +242,7 @@
       "url": "https://www.unionecommerciantipc.it/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_21g"
+      "motivo": "settimanale_stale_22g"
     },
     {
       "id": "cortilia",
@@ -258,7 +258,7 @@
       "url": "https://www.cortilia.it/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_7g"
+      "motivo": "settimanale_stale_8g"
     },
     {
       "id": "sagre-provincia",
@@ -274,7 +274,7 @@
       "url": "https://www.quatarobpavia.it/eventi-mercatini-sagre-piacenza-provincia/",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_7g"
+      "motivo": "settimanale_stale_8g"
     },
     {
       "id": "reputazione-mycity",
@@ -290,7 +290,7 @@
       "url": "https://www.google.com/search?q=MyCity+Piacenza",
       "url_websearch": null,
       "skip_check": false,
-      "motivo": "settimanale_stale_13g"
+      "motivo": "settimanale_stale_14g"
     }
   ],
   "stale": [
@@ -298,31 +298,31 @@
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
       "ultimo": "2026-08-24",
-      "giorni": 7
+      "giorni": 8
     },
     {
       "file": "eventi-picchi",
       "path": "eventi-picchi.md",
       "ultimo": "2026-08-24",
-      "giorni": 7
+      "giorni": 8
     },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
       "ultimo": "2026-08-10",
-      "giorni": 21
+      "giorni": 22
     },
     {
       "file": "leve-uscita",
       "path": "leve-uscita.md",
       "ultimo": "2026-08-10",
-      "giorni": 21
+      "giorni": 22
     },
     {
       "file": "reputazione",
       "path": "reputazione.md",
       "ultimo": "2026-08-18",
-      "giorni": 13
+      "giorni": 14
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"

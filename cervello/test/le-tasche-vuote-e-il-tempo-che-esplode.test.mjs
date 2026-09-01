@@ -70,41 +70,38 @@ test("AR-897 · …e gli URL puliti passano ancora: la cura non è diventata un 
   }
 });
 
-test("AR-897 · il tempo non quadruplica quando il valore raddoppia", () => {
-  const quanto = (n) => {
-    const v = `postgres://${"a:".repeat(n)}`;
-    const t = process.hrtime.bigint();
-    ambientePulito({ X: v });
-    return Number(process.hrtime.bigint() - t) / 1e6;
-  };
-  quanto(1000); // un giro a vuoto: la prima chiamata paga la compilazione
-  const piccolo = Math.max(quanto(20_000), 0.05);
-  const grande = quanto(40_000);
-  // Quadratico = ×4. Lineare = ×2. Il tetto a 3 lascia respiro al rumore di misura e boccia lo
-  // stesso la forma quadratica, che a 80 KB valeva 4,2 secondi per UNA variabile.
-  assert.ok(grande / piccolo < 3,
-    `raddoppiando l'ingresso il tempo è cresciuto ×${(grande / piccolo).toFixed(1)} (${piccolo.toFixed(2)}ms → ${grande.toFixed(2)}ms): è tornato quadratico`);
-});
+// ⚠️ COME MISURO IL TEMPO, e perché NON con un rapporto. La prima stesura confrontava la crescita
+// — «raddoppiando l'ingresso il tempo non deve quadruplicare» — ed è diventata rossa alla prima
+// corsa dentro la suite intera: ×14,5 su un'espressione che è lineare, solo perché la macchina era
+// occupata. Un rapporto fra due misure da frazioni di millisecondo è rumore, non un invariante:
+// esattamente la malattia AR-787 che il commento in cima a questo file dice di evitare, scritta da
+// me dieci righe più sotto.
+//
+// La misura vera dice che un rapporto non serve. Su un valore da 100 KB (MISURATO su questa
+// macchina): espressione curata 0,40 ms · espressione rotta 2847 ms. Sono settemila volte. Un
+// tetto ASSOLUTO a mezzo secondo sta milleduecento volte sopra il costo vero — nessun carico lo
+// raggiunge — e cinque volte sotto quello rotto: la mutazione lo sfonda comunque.
+//
+// Un invariante robusto non è quello più stretto: è quello con il margine più largo da tutt'e due
+// le parti.
 
-test("AR-897 · un valore enorme non decide quanto dura una corsa", () => {
+const CENTOMILA = `postgres://${"a:".repeat(50_000)}`;
+const TETTO_MS = 500;
+
+test("AR-897 · un valore da 100 KB non blocca il banco: tetto assoluto, non un rapporto fra rumori", () => {
   const t = process.hrtime.bigint();
-  ambientePulito({ X: `postgres://${"a:".repeat(200_000)}` });
+  CHIAVE_DENTRO_UN_URL.test(CENTOMILA);
   const ms = Number(process.hrtime.bigint() - t) / 1e6;
-  assert.ok(ms < 500, `un valore da 400 KB ha preso ${ms.toFixed(0)} ms, e questo giro si ripete una volta per mutazione`);
+  assert.ok(ms < TETTO_MS,
+    `l'espressione ha preso ${ms.toFixed(0)} ms su 100 KB (curata: meno di un millesimo del tetto). ` +
+    "I due pezzi si sovrappongono di nuovo: il motore prova ogni punto di taglio.");
 });
 
-test("AR-897 · i due pezzi non si sovrappongono più: nessun punto di taglio da provare", () => {
-  // Il caso sul tempo qui sopra passa dall'ambiente intero, e lì il rumore di misura è alto.
-  // Questo guarda l'espressione da sola, dove la crescita si legge pulita.
-  const quanto = (n) => {
-    const v = `postgres://${"a:".repeat(n)}`;
-    const t = process.hrtime.bigint();
-    CHIAVE_DENTRO_UN_URL.test(v);
-    return Number(process.hrtime.bigint() - t) / 1e6;
-  };
-  quanto(2000);
-  const piccolo = Math.max(quanto(20_000), 0.02);
-  const grande = quanto(40_000);
-  assert.ok(grande / piccolo < 3,
-    `raddoppiando l'ingresso l'espressione è cresciuta ×${(grande / piccolo).toFixed(1)}: i due pezzi si sovrappongono di nuovo`);
+test("AR-897 · e lo stesso vale passando dall'ambiente, che è come ci si arriva davvero", () => {
+  // `ambientePulito()` è un parametro di DEFAULT di `eseguiProva`: si rivaluta a ogni mutazione,
+  // 970 volte per corsa. Un valore lento qui non costa un secondo, costa ore.
+  const t = process.hrtime.bigint();
+  ambientePulito({ PATH: "/usr/bin", X: CENTOMILA });
+  const ms = Number(process.hrtime.bigint() - t) / 1e6;
+  assert.ok(ms < TETTO_MS, `il filtro dei segreti ha preso ${ms.toFixed(0)} ms su una sola variabile`);
 });

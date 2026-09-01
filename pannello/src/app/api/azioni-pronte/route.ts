@@ -225,6 +225,21 @@ export async function POST(req: Request) {
         ],
         attoEseguito: false,
       });
+      // AR-901 — IL DIARIO SI SCRIVE DOPO, non prima. Qui `logAzione` girava PRIMA di guardare
+      // `chiusura.ok`: con la memoria che non risponde, le due scritture di stato fallivano e nel
+      // registro restava comunque scritto «fatta». Nicola lo legge nella cronologia, mentre la card
+      // gli torna in «da decidere» al primo aggiornamento — due verità diverse sullo stesso fatto,
+      // e quella scritta è la sbagliata.
+      //
+      // Il ramo del RIFIUTO, sessanta righe più su, ha già l'ordine giusto (AR-230): prima si
+      // controlla che le scritture siano andate, poi si scrive nel registro. Questo ramo era rimasto
+      // indietro — la cura era stata messa dove il difetto si era visto, non dove poteva ripetersi.
+      if (!chiusura.ok) {
+        return NextResponse.json(
+          { ok: false, stato: "fatta", esito: nota, salvataggio: false, error: chiusura.messaggio },
+          { status: chiusura.status }
+        );
+      }
       await logAzione({
         id,
         titolo: azione.titolo,
@@ -234,12 +249,6 @@ export async function POST(req: Request) {
         esito: nota,
         auto: true,
       });
-      if (!chiusura.ok) {
-        return NextResponse.json(
-          { ok: false, stato: "fatta", esito: nota, salvataggio: false, error: chiusura.messaggio },
-          { status: chiusura.status }
-        );
-      }
       return NextResponse.json({ ok: true, stato: "fatta", esito: nota, salvataggio: true });
     }
   }

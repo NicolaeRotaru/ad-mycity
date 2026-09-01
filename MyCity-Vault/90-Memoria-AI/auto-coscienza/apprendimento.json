@@ -12126,6 +12126,248 @@
    ],
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
    "data": "2026-08-27 13:45"
+  },
+  {
+   "id": "L-2026-0901-10",
+   "testo": "**Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde (AR-892).** Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde. Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Con l ambiente ripulito dal banco delle mutazioni, `git status` esce 128 e stampa «error: missing config key GIT_CONFIG_KEY_0 / fatal: unable to parse command-line config». Riprodotto a mano su questa macchina prima di toccare qualsiasi cosa: con l ambiente intero esce 0, con `ambientePulito()` esce 128. E `verdettoCorsa` legge ogni uscita diversa da zero come «la prova e diventata rossa per colpa"
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-11",
+   "testo": "**Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato» (AR-893).** Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "La mutazione appena scritta per AR-892 non si lasciava provare: il banco la dava ⚪ invece che ✅, dicendo «git non e partito». Ma git era partito benissimo — la frase veniva dalla prova stessa. Node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l ha fatto fallire; quella riga conteneva l impronta, perche il mestiere di quella prova e parlare di quell impronta. Misurato: 10 file di "
+   ],
+   "fonte": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-12",
+   "testo": "**Il guardiano che si ferma da solo per non farsi sparare, si faceva sparare lo stesso: il suo budget partiva a meta corsa (AR-894).** Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce. Due copie della stessa decisione: alzarne una e lasciare l altra indietro non se ne accorge nessuno, e il guardiano torna a farsi sparare invece di dichiarare il suo ⚪.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Il cancello del 31/8 ha bocciato con «passi nuovi che nascono rotti sul runner (exit 124)». 124 vuol dire ucciso dall orologio — cioe rosso per tutti, senza una riga che spieghi perche. Ed e ESATTAMENTE il difetto che il budget interno di `cervello/due-case.mjs` esiste per impedire: il suo commento dichiara «sta sotto quello che il cancello da a me» proprio perche «un ⚪ dichiarato si legge, un 124"
+   ],
+   "fonte": "il verdetto del cancello, letto invece di riprovato — e la misura che avrebbe dato il numero e morta di memoria, il che ha reso obbligatorio curare la struttura invece del numero",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-13",
+   "testo": "**Un elenco che taceva valeva «tutti i vincoli risolti», e il giro pubblicava con tredici cancelli rossi (AR-895).** Un guardiano che tace lo si sente; un elenco che tace sembra una buona notizia. La cura va su CHI PRODUCE l elenco, non solo sul singolo guardiano. Buttare stderr e poi concludere qualcosa dal fallimento vuol dire trasformare un errore qualsiasi in una risposta.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Riprodotto il 31/8 con la stessa forma di shell di `cervello/giro.sh`: parto con tredici vincoli rossi, il produttore dell elenco esce 2 con stdout vuoto, e finisco con GATE_ROSSI=0 e il messaggio «tutti i vincoli sono stati risolti». Il giro si dichiara pulito e PUBBLICA. Il `2>/dev/null` cancellava anche la traccia dell errore, quindi nel log non restava niente da cui accorgersene."
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — e riprodotto a mano prima di toccare niente",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-14",
+   "testo": "**Avevo chiuso la porta che ESEGUE e dichiarato chiuso il cortile: quella che SCRIVE era aperta di fianco (AR-896).** Quando si mette una guardia su un modo di raggiungere una risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile: ne avevo chiusa una sola e avevo dichiarato chiuso il cortile. Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Riprodotto a mano con un testimone che legge il file bersaglio MENTRE il banco lo tiene rotto. Senza la guardia il testimone leggeva «SCRITTA DAL BANCO COME ROOT» da un file fuori dal repo e fuori dalla cartella del registro; col repo che restava pulito, cioe senza nessuna traccia in git. Con la guardia il banco non lo apre nemmeno."
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — e il banco delle mutazioni, che ha bocciato la mia prima prova perche difendeva la serratura invece della porta",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-15",
+   "testo": "**Le «tasche vuote» avevano dentro due cose: una che comanda il figlio e una che fa esplodere il tempo (AR-897).** Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave. Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "① `NODE_OPTIONS` sopravvive ad `ambientePulito()` — misurato sul mio ambiente vero. Node legge le opzioni ANCHE dall ambiente, quindi `NODE_OPTIONS=--require /tmp/mio.cjs` esegue quel file PRIMA della prova ammessa, scavalcando in un colpo tutta la lista bianca di `esecuzione-prova.mjs`. Sopravviveva anche NODE_EXTRA_CA_CERTS. ② Il controllo per VALORE cresceva col quadrato: MISURATO 4,9 ms a 2 KB"
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto; la misura del tempo l ho rifatta io perche la prima riproduzione, con la forma di ingresso sbagliata, diceva che il difetto non c era",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-16",
+   "testo": "**Il conto delle volte diceva trentadue dove gli usi veri erano ventuno, in una casa dove nessun numero sta senza fonte (AR-898).** Un numero scritto in memoria con accanto la parola «vero» va verificato contro la realta che dichiara, non contro l intenzione di chi l ha scritto. Ordinare delle date confrontando testo funziona finche sono tutte date. La prima che non lo e non sbaglia posto: si pianta in fondo e pota tutto quello che viene dopo. Lo spread di una primitiva non e un no-op: la sparge indice per indice.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Misurato prima di curare: dieci usi veri → undici dichiarate; ventuno usi veri compattando a ogni giro → TRENTADUE dichiarate. E il commento accanto al campo prometteva «il conto vero». Nel file vivo c erano gia sedici numeri di quel tipo, e la loro somma era cresciuta da 332 a 336 in due giri senza che nessun uso nuovo lo giustificasse. Altri due difetti nello stesso pezzo: un `quando` che non e "
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-17",
+   "testo": "**Il temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare, in una cartella dove scrive chiunque (AR-899).** Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root. renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "`round6-applica.mjs` riscrive `cervello/giro.sh` e prima ne prova la sintassi su una copia chiamata `/tmp/round6-prova-giro.sh`. Il collaudo di sicurezza ci ha messo prima un collegamento simbolico e si e fatto riscrivere un file suo col contenuto di un giro.sh, da un processo che gira come root — `writeFileSync` segue il collegamento. E la scrittura finale su giro.sh non era atomica: un processo "
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-18",
+   "testo": "**Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace (AR-900).** Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale. «Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Una corsa del banco delle mutazioni ha portato via tutta la cartella `cervello/` — 956 file tracciati. Sullo schermo e comparso un ENOENT con lo stack: nessuna riga diceva che mancavano novecentocinquantasei file, l ho scoperto guardando `ls`. I file sono tornati da git, ma e stato un ripristino, non un fastidio — e ha richiesto un permesso esplicito di Nicola perche il comando di recupero era blo"
+   ],
+   "fonte": "me stessa, cancellando il repo con una prova che avevo appena scritto",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-19",
+   "testo": "**AR-901 (AR-901).** Una cura messa dove il difetto si e visto, e non dove puo ripetersi, lascia indietro i rami gemelli: il ramo del rifiuto aveva l ordine giusto da un mese, quello della PR gia mergiata no.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-20",
+   "testo": "**AR-902 (AR-902).** Una cura puo riaprire da un altra parte il difetto che stava chiudendo: qui separare l esito dal rumore ha rimesso il rumore DENTRO l elenco. Le righe aggiunte vanno riguardate con la lente della loro dimensione PRIMA di consegnare, non dopo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "",
+   "data": "2026-09-01"
   }
  ],
  "principi": [
