@@ -455,8 +455,7 @@
   },
   {
    "id": "L-2026-0723-445",
-   "testo": "**Un giro interrotto prima del passo 'salva briefing' è invisibile finché nessuno lo cerca (3 giorni di buio, 21-23/7).** Per 3 giorni consecutivi `giro.sh` ha lanciato il motore AI ma solo le sentinelle deterministiche (bookkeeping JSON) hanno completato — nessun briefing, nessuna checklist rigenerata, nessun OKR aggiornato — finché i vincoli hard (AR-030 checklist stantia, AR-115 OKR scaduto, AR-041/106 esperimento in scadenza) non si sono accumulati abbastanza da bloccare esplicitamente il giro successivo. 5 perché: (1) i commit automatici 'giro AD: aggiorna memoria' esistevano e sembravano normali — solo confrontando il **contenuto** (STATO.md fermo al 21/7 00:57, nessun file in Briefing/ tra il 20 e il 23) si vedeva il buco, non guardando solo la lista dei commit; (2) le sentinelle misurano *i sintomi* (checklist stantia, OKR scaduto) ma nessun sensore misura *il giro pieno stesso* — manca un contatore \"giri pieni completati/attesi\" distinto da \"sentinelle girate\"; (3) senza quel contatore, il gap si scopre solo quando un vincolo hard lo rende bloccante — reattivo, non proattivo; (4) la card 🟡 #218 chiede a devops-sre di leggere i log VPS per capire SE è un timeout/context-limit del motore o un problema del processo — non inventare la causa senza prova; (5) lezione riusabile: quando un giro tocca solo bookkeeping/JSON e MAI STATO.md/Briefing/, è un giro parziale anche se il commit dice 'giro AD' — un sensore dedicato (\"ultimo Briefing/*.md vs ultimo commit giro\") lo intercetterebbe prima che serva un vincolo hard. Vedi #218 in [[AZIONI-IN-ATTESA]], auto-analisi 23/7 11:35 (voto sceso 92→88 per onestà, non per un errore del giro odierno).",
-   "usi": []
+   "testo": "**Un giro interrotto prima del passo 'salva briefing' è invisibile finché nessuno lo cerca (3 giorni di buio, 21-23/7).** Per 3 giorni consecutivi `giro.sh` ha lanciato il motore AI ma solo le sentinelle deterministiche (bookkeeping JSON) hanno completato — nessun briefing, nessuna checklist rigenerata, nessun OKR aggiornato — finché i vincoli hard (AR-030 checklist stantia, AR-115 OKR scaduto, AR-041/106 esperimento in scadenza) non si sono accumulati abbastanza da bloccare esplicitamente il giro successivo. 5 perché: (1) i commit automatici 'giro AD: aggiorna memoria' esistevano e sembravano normali — solo confrontando il **contenuto** (STATO.md fermo al 21/7 00:57, nessun file in Briefing/ tra il 20 e il 23) si vedeva il buco, non guardando solo la lista dei commit; (2) le sentinelle misurano *i sintomi* (checklist stantia, OKR scaduto) ma nessun sensore misura *il giro pieno stesso* — manca un contatore \"giri pieni completati/attesi\" distinto da \"sentinelle girate\"; (3) senza quel contatore, il gap si scopre solo quando un vincolo hard lo rende bloccante — reattivo, non proattivo; (4) la card 🟡 #218 chiede a devops-sre di leggere i log VPS per capire SE è un timeout/context-limit del motore o un problema del processo — non inventare la causa senza prova; (5) lezione riusabile: quando un giro tocca solo bookkeeping/JSON e MAI STATO.md/Briefing/, è un giro parziale anche se il commit dice 'giro AD' — un sensore dedicato (\"ultimo Briefing/*.md vs ultimo commit giro\") lo intercetterebbe prima che serva un vincolo hard. Vedi #218 in [[AZIONI-IN-ATTESA]], auto-analisi 23/7 11:35 (voto sceso 92→88 per onestà, non per un errore del giro odierno)."
   },
   {
    "id": "L-2026-0721-444",
@@ -4584,8 +4583,7 @@
    "ultima_conferma": "2026-07-18",
    "stato": "attiva",
    "uis": [],
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0718-264",
@@ -4680,8 +4678,7 @@
    "stato": "attiva",
    "nota_evidenza": "Nicola ha dovuto ripetere la correzione due volte con lo stesso screenshot nella stessa chat (18/7) — la regola non era ancora assorbita alla prima risposta dell'AD.",
    "uis": [],
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0718-260",
@@ -5149,8 +5146,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-17 00:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-241",
@@ -5172,8 +5168,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 23:55",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-240",
@@ -5195,8 +5190,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 23:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-239",
@@ -5218,8 +5212,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 23:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-238",
@@ -5243,8 +5236,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 21:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-236",
@@ -5265,8 +5257,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 17:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-237",
@@ -5288,8 +5279,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 21:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-235",
@@ -5311,8 +5301,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 17:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-234",
@@ -5335,8 +5324,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 19:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-233",
@@ -5358,8 +5346,7 @@
    "ultima_conferma": "2026-07-20 02:13",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0716-232",
@@ -5379,8 +5366,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 12:57",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0716-231",
@@ -5400,8 +5386,7 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 11:31",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-230",
@@ -5426,8 +5411,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:11",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-229",
@@ -5452,8 +5436,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:09",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-228",
@@ -5478,8 +5461,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:08",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-227",
@@ -5501,8 +5483,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 12:44",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-226",
@@ -5526,8 +5507,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:37",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-225",
@@ -5549,8 +5529,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:36",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-224",
@@ -5574,8 +5553,7 @@
    "ultima_conferma": "2026-07-14 03:37",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0714-223",
@@ -5599,8 +5577,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:37",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-222",
@@ -5624,8 +5601,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:32",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-221",
@@ -5649,8 +5625,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-220",
@@ -5674,8 +5649,7 @@
    "ultima_conferma": "2026-07-14 03:09",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0714-219",
@@ -5698,8 +5672,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:02",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-218",
@@ -5722,8 +5695,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-216",
@@ -5749,8 +5721,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-19 18:40",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-217",
@@ -5773,8 +5744,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:56",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-215",
@@ -5797,8 +5767,7 @@
    "ultima_conferma": "2026-07-14 02:55",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0714-214",
@@ -5822,8 +5791,7 @@
    "ultima_conferma": "2026-07-14 03:33",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0714-213",
@@ -5845,8 +5813,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:52",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-211",
@@ -5870,8 +5837,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-210",
@@ -5893,8 +5859,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:49",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-209",
@@ -5917,8 +5882,7 @@
    "ultima_conferma": "2026-07-19 13:54",
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0714-208",
@@ -5941,8 +5905,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:34",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-207",
@@ -5963,8 +5926,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:32",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-206",
@@ -5985,8 +5947,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:29",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-205",
@@ -6009,8 +5970,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-204",
@@ -6032,8 +5992,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-203",
@@ -6053,8 +6012,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-202",
@@ -6080,8 +6038,7 @@
    "ultima_conferma": "2026-07-14 03:02",
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0714-201",
@@ -6103,8 +6060,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-199",
@@ -6126,8 +6082,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 01:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-198",
@@ -6148,8 +6103,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 01:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-197",
@@ -6173,8 +6127,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 00:58",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0714-196",
@@ -6198,8 +6151,7 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-195",
@@ -6221,8 +6173,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:44",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-194",
@@ -6245,8 +6196,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-193",
@@ -6268,8 +6218,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:32",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-190",
@@ -6293,8 +6242,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-189",
@@ -6316,8 +6264,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-188",
@@ -6341,8 +6288,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:34",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-187",
@@ -6363,8 +6309,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-186",
@@ -6388,8 +6333,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:28",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-185",
@@ -6413,8 +6357,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:21",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-184",
@@ -6438,8 +6381,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:16",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-183",
@@ -6461,8 +6403,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:11",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-182",
@@ -6486,8 +6427,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-181",
@@ -6510,8 +6450,7 @@
    "ultima_conferma": "2026-07-13 22:04",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-180",
@@ -6534,8 +6473,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-179",
@@ -6562,8 +6500,7 @@
    "ultima_conferma": "2026-07-13 21:58",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-178",
@@ -6586,8 +6523,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-177",
@@ -6608,8 +6544,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:47",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-176",
@@ -6631,8 +6566,7 @@
    "ultima_conferma": "2026-07-13 21:43",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-175",
@@ -6655,8 +6589,7 @@
    "ultima_conferma": "2026-07-14 02:41",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-174",
@@ -6678,8 +6611,7 @@
    "ultima_conferma": "2026-07-13 21:42",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-173",
@@ -6701,8 +6633,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-172",
@@ -6724,8 +6655,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:13",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-171",
@@ -6748,8 +6678,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-170",
@@ -6772,8 +6701,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-169",
@@ -6796,8 +6724,7 @@
    "ultima_conferma": "2026-07-13 21:43",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-168",
@@ -6821,8 +6748,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:07",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-167",
@@ -6846,8 +6772,7 @@
    "ultima_conferma": "2026-07-14 01:04",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-166",
@@ -6870,8 +6795,7 @@
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-165",
@@ -6895,8 +6819,7 @@
    "ultima_conferma": "2026-07-13 20:13",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-164",
@@ -6919,8 +6842,7 @@
    "ultima_conferma": "2026-07-13 20:11",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-163",
@@ -6944,8 +6866,7 @@
    "ultima_conferma": "2026-07-13 20:10",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-162",
@@ -6969,8 +6890,7 @@
    "ultima_conferma": "2026-07-13 20:10",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-161",
@@ -6993,8 +6913,7 @@
    "ultima_conferma": "2026-07-13 19:52",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-160",
@@ -7018,8 +6937,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-159",
@@ -7041,8 +6959,7 @@
    "ultima_conferma": "2026-07-13 19:54",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-158",
@@ -7065,8 +6982,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-157",
@@ -7088,8 +7004,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:48",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-156",
@@ -7111,8 +7026,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:46",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-155",
@@ -7134,8 +7048,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:44",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-154",
@@ -7157,8 +7070,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:43",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-153",
@@ -7181,8 +7093,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-152",
@@ -7205,8 +7116,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-151",
@@ -7227,8 +7137,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-150",
@@ -7249,8 +7158,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-149",
@@ -7272,8 +7180,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-148",
@@ -7294,8 +7201,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:13",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-147",
@@ -7316,8 +7222,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-146",
@@ -7338,8 +7243,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:15",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-145",
@@ -7360,8 +7264,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:56",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-144",
@@ -7382,8 +7285,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:54",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-143",
@@ -7406,8 +7308,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-142",
@@ -7430,8 +7331,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:27",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-141",
@@ -7452,8 +7352,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:27",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-140",
@@ -7475,8 +7374,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:15",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-139",
@@ -7500,8 +7398,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:15",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-138",
@@ -7524,8 +7421,7 @@
    "ultima_conferma": "2026-07-13 21:47",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-137",
@@ -7547,8 +7443,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-136",
@@ -7572,8 +7467,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:53",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-135",
@@ -7596,8 +7490,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-134",
@@ -7619,8 +7512,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:47",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-133",
@@ -7646,8 +7538,7 @@
    "ultima_conferma": "2026-07-13 18:14",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-132",
@@ -7670,8 +7561,7 @@
    "ultima_conferma": "2026-07-14 13:08",
    "stato": "principio",
    "promosso_il": "2026-07-25 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-131",
@@ -7694,8 +7584,7 @@
    "ultima_conferma": "2026-07-13 18:19",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-130",
@@ -7720,8 +7609,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-129",
@@ -7749,8 +7637,7 @@
    "ultima_conferma": "2026-07-13 19:52",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-128",
@@ -7774,8 +7661,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-127",
@@ -7800,8 +7686,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-126",
@@ -7826,8 +7711,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:21",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-125",
@@ -7852,8 +7736,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:16",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-124",
@@ -7876,8 +7759,7 @@
    "ultima_conferma": "2026-07-13 17:53",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-123",
@@ -7900,8 +7782,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:21",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-122",
@@ -7925,8 +7806,7 @@
    "ultima_conferma": "2026-07-13 16:20",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-121",
@@ -7950,8 +7830,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:18",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-120",
@@ -7976,8 +7855,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-119",
@@ -8000,8 +7878,7 @@
    "ultima_conferma": "2026-07-13 17:32",
    "stato": "principio",
    "promosso_il": "2026-07-25 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-118",
@@ -8024,8 +7901,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:12",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-117",
@@ -8047,8 +7923,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-116",
@@ -8072,8 +7947,7 @@
    "ultima_conferma": "2026-07-13 14:30",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22",
-   "usi": []
+   "decaduto_step_il": "2026-08-12 22:22"
   },
   {
    "id": "L-2026-0713-115",
@@ -8097,8 +7971,7 @@
    "ultima_conferma": "2026-07-13 12:42",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-17 14:26",
-   "usi": []
+   "decaduto_step_il": "2026-08-17 14:26"
   },
   {
    "id": "L-2026-0713-114",
@@ -8122,8 +7995,7 @@
    "ultima_conferma": "2026-07-13 12:42",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-17 14:26",
-   "usi": []
+   "decaduto_step_il": "2026-08-17 14:26"
   },
   {
    "id": "L-2026-0713-113",
@@ -8145,8 +8017,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-28 12:26",
-   "usi": []
+   "decaduto_step_il": "2026-08-28 12:26"
   },
   {
    "id": "L-2026-0713-112",
@@ -8170,8 +8041,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-111",
@@ -8195,8 +8065,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:38",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-28 12:26",
-   "usi": []
+   "decaduto_step_il": "2026-08-28 12:26"
   },
   {
    "id": "L-2026-0713-110",
@@ -8220,8 +8089,7 @@
    "ultima_conferma": "2026-07-13 12:39",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-17 14:26",
-   "usi": []
+   "decaduto_step_il": "2026-08-17 14:26"
   },
   {
    "id": "L-2026-0713-109",
@@ -8243,8 +8111,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-108",
@@ -8268,8 +8135,7 @@
    "ultima_conferma": "2026-07-20 00:29",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-107",
@@ -8292,8 +8158,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:42",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-106",
@@ -8316,8 +8181,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-105",
@@ -8341,8 +8205,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:43",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-104",
@@ -8366,8 +8229,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-28 12:26",
-   "usi": []
+   "decaduto_step_il": "2026-08-28 12:26"
   },
   {
    "id": "L-2026-0713-103",
@@ -8392,8 +8254,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:38",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-102",
@@ -8417,8 +8278,7 @@
    "ultima_conferma": "2026-07-13 22:34",
    "stato": "attiva",
    "nota": "ADDENDUM 22:34 — Nicola esclude anche trattorie e chiude eccezione «tattici»; regola definitiva in L-188",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-101",
@@ -8442,8 +8302,7 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0713-100",
@@ -8468,8 +8327,7 @@
    "ultima_conferma": "2026-07-13 19:32",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0713-99",
@@ -8496,8 +8354,7 @@
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
    "cristallizzato_in": "memoria-persistente",
-   "gate": "node cervello/ramo-pulito.mjs",
-   "usi": []
+   "gate": "node cervello/ramo-pulito.mjs"
   },
   {
    "id": "L-2026-0712-98",
@@ -8520,8 +8377,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:53",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-97",
@@ -8545,8 +8401,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-96",
@@ -8569,8 +8424,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-13 11:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-95",
@@ -8592,8 +8446,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-94",
@@ -8614,8 +8467,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:35",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-93",
@@ -8638,8 +8490,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-19 12:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-92",
@@ -8662,8 +8513,7 @@
    "ultima_conferma": "2026-07-14 03:10",
    "stato": "principio",
    "promosso_il": "2026-07-25 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0712-91",
@@ -8685,8 +8535,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-90",
@@ -8708,8 +8557,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-89",
@@ -8731,8 +8579,7 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 00:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0711-88",
@@ -8755,8 +8602,7 @@
    "nato": "2026-07-11",
    "ultima_conferma": "2026-07-11 00:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0711-87",
@@ -8779,8 +8625,7 @@
    "nato": "2026-07-11",
    "ultima_conferma": "2026-07-11 00:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-86",
@@ -8804,8 +8649,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 20:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-85",
@@ -8827,8 +8671,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:55",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-84",
@@ -8851,8 +8694,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 19:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-83",
@@ -8875,8 +8717,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-82",
@@ -8898,8 +8739,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 20:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-81",
@@ -8921,8 +8761,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-80",
@@ -8945,8 +8784,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-79",
@@ -8969,8 +8807,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 23:59",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-78",
@@ -8993,8 +8830,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-77",
@@ -9023,8 +8859,7 @@
    "_conferma_screenshot": "Nicola ha allegato uno screenshot (chat-allegati/bd0f6a49/...Screenshot__928_.png) che mostra i chip visibili sopra la textarea ma nessun testo dentro — confermato visivamente. L'AD non è riuscito ad aprirlo (mancava il permesso), ma la descrizione a parole di Nicola è sufficiente: il bug è reale e inequivocabile.",
    "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati su origin (verificato chat 10/7: il branch NON esiste su origin). Il branch correlato presente su origin è `fix/rimuovi-autoscroll-chat` — PR da creare manualmente da Nicola via GitHub compare URL. Serve ancora 'Bash(git push origin fix/*:*)' in settings.local.json per pushare i commit dei chip.",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0710-76",
@@ -9046,8 +8881,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 23:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-73",
@@ -9072,8 +8906,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 20:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-70",
@@ -9095,8 +8928,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 17:03",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-71",
@@ -9120,8 +8952,7 @@
    "ultima_conferma": "2026-07-10 22:30",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0710-75",
@@ -9144,8 +8975,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 22:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-72",
@@ -9168,8 +8998,7 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0709-69",
@@ -9194,8 +9023,7 @@
    "ultima_conferma": "2026-07-09 14:30",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0709-68",
@@ -9220,8 +9048,7 @@
    "ultima_conferma": "2026-07-09 12:12",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0709-67",
@@ -9246,8 +9073,7 @@
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-14 03:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31",
-   "usi": []
+   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0709-66",
@@ -9275,8 +9101,7 @@
    "_evidenza_2": "RICORRENZA lato utente (chat 9/7, dopo reset limiti 11am): Nicola ha incollato il PAT vero in chat e poi chiede «non ho capito dove devo mettere il vero token, quale segnaposto?». Segnale: anche dopo l'analogia lettera/cassetto, il concetto di 'token segnaposto in un file di config del VPS' resta astratto per lui → assume di dover METTERE il token da qualche parte. Fix applicato nel turno (forma giusta): «non devi metterlo da nessuna parte, me l'hai già dato incollandolo — il segnaposto `il_nuovo_token` sta in un file di sistema del VPS che TU non vedi e non tocchi, lo sostituisco IO con un comando; a te resta solo premere approva sui 2 box di conferma; non tocchi Vercel». Rinforza il fix ③ (Nicola non deve toccare Vercel) e [[nicola-spiegazioni-piu-chiare]]: spiegare DOVE vive la cosa e COSA deve fare LUI (una cosa sola), non solo cos'è. NB sicurezza: token incollato in chiaro in chat → dopo il push va rigenerato su GitHub (già segnalato a Nicola nel turno).",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0709-65",
@@ -9304,8 +9129,7 @@
    "_evidenza_3": "CONFERMA + applicazione RIUSCITA al primo colpo (chat 9/7 ~01:34, verifica push su origin/main per R2/#35-#54): dopo che l'AD aveva ammesso onestamente di non poter confermare il push dal VPS in sessione e aveva preso il fatto «sulla parola» di Nicola, Nicola apre lui la porta giusta: «se mi chiedi il permesso, puoi andare sul vps e confermarlo?». Stavolta l'AD risponde NELLA FORMA CORRETTA senza farsi rimproverare: lancia `git fetch origin main` (🟢 sola lettura), spiega in linguaggio umano cosa fa/perché è sicuro/cosa controllerà dopo (data ultimo commit + presenza dei 20 fix e memoria #54), e chiede solo l'OK a video — l'azione la esegue lui, non la rimbalza. Conferma il gusto: Nicola vuole PROATTIVAMENTE l'offerta «chiedo il permesso e lo faccio io», e la verifica reale dal VPS batte il 'sulla tua parola'. La lezione comincia ad attecchire nel comportamento del turno.",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0709-60",
@@ -9331,8 +9155,7 @@
    "_evidenza_3": "Applicata sulla chat-veloce (chat 9/7 ~21:00): `npx bats` + il cronometro Opus-vs-Sonnet gated dal dead-lock della chat-Pannello → l'AD ha verificato il classificatore `chat_e_complesso` LEGGENDO il codice reale (8/8 casi giusti) ma ha dichiarato onestamente «non ho i secondi prima/dopo, e non li invento», e ha chiesto lo sblocco minimo (2 righe `Bash(npx bats cervello/test/:*)` + `Bash(node --test:*)` in `.claude/settings.local.json`) invece di spacciare per cronometrato un dato letto. La regola ha retto: verifica-da-codice ≠ verifica-a-runtime, e l'AD non ha confuso le due. Vedi [[chat-pannello-non-mostra-box-permessi]].",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0706-57",
@@ -9355,8 +9178,7 @@
    "ultima_conferma": "2026-07-09 00:45",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0706-55",
@@ -9379,8 +9201,7 @@
    "ultima_conferma": "2026-07-06 16:08",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0703-52",
@@ -9403,8 +9224,7 @@
    "ultima_conferma": "2026-07-03 21:21",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0702-51",
@@ -9426,8 +9246,7 @@
    "ultima_conferma": "2026-07-02 22:20",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0702-48",
@@ -9449,8 +9268,7 @@
    "ultima_conferma": "2026-07-02 18:21",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0702-03",
@@ -9476,8 +9294,7 @@
      "perche": "Un elenco tenuto a mano diverge sempre: stanotte l'ho pagata due volte, con due carte che hanno preso lo stesso numero 130 e con il conteggio della coda che da' 62, 77 e 81 secondo quale strumento lo chiedi",
      "prova": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md — collisione del numero 130 il 19/8 e referto della PR 773"
     }
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0702-02",
@@ -9497,8 +9314,7 @@
    "ultima_conferma": "2026-07-02",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0702-01",
@@ -9516,8 +9332,7 @@
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-13 21:01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 08:28",
-   "usi": []
+   "decaduto_step_il": "2026-09-01 08:28"
   },
   {
    "id": "L-2026-0702-45",
@@ -9545,8 +9360,7 @@
      "perche": "Firma non vuol dire fatto: e' la distinzione che ho usato tutta la notte fra aprire una richiesta di unione e unirla, e fra scrivere una migrazione e applicarla al database",
      "prova": "CLAUDE.md — «aprire la PR non e' unirla. La firma sul merge e' sua»"
     }
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0702-44",
@@ -9574,8 +9388,7 @@
      "perche": "Tutti i controlli verdi non vuol dire che la cosa funziona: stanotte il database ha passato trentotto controlli mentre due pagine pubbliche del sito mostravano zero",
      "prova": "DECISIONI.md, voce del 19/8 21:20 — il danno dei conteggi pubblici"
     }
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0701-36",
@@ -9596,8 +9409,7 @@
    "ultima_conferma": "2026-07-01 18:18",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-33",
@@ -9618,8 +9430,7 @@
    "ultima_conferma": "2026-07-01 11:00",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-31",
@@ -9645,8 +9456,7 @@
    "_evidenza_6": "RESTRIZIONE (chat 20/7 ~17:58, L-402): merge-on-approval resta per **proposte autonome AD** (giro, sentinella, deploy non richiesto in chat) — card «Merge PR #N» sì. **Eccezione esplicita Nicola:** se **lui chiede in chat** «fai il fix» / «crea la PR» → consegnare **solo link PR in chat**, **NON** accodare card merge (ordine in chat = ok implicito; card ridondante). Errore: #499 accodata dopo «Fai il fix». 🔴 mondo reale senza ordine chat → card resta.",
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-27",
@@ -9672,8 +9482,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-04 10:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:08",
-   "usi": []
+   "decaduto_step_il": "2026-09-01 11:08"
   },
   {
    "id": "L-2026-0701-25",
@@ -9695,8 +9504,7 @@
    "ultima_conferma": "2026-07-01 11:10",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-24",
@@ -9724,8 +9532,7 @@
      "perche": "Una carta deve bastare a se stessa: chi la legge non deve ricordarsi il contesto di un briefing di ieri. E' diventata la regola dei quattro blocchi",
      "prova": "cervello/scrittura-umana.md"
     }
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0701-23",
@@ -9747,8 +9554,7 @@
    "ultima_conferma": "2026-07-01 07:36",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-12",
@@ -9770,8 +9576,7 @@
    "ultima_conferma": "2026-07-01 10:22",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-10",
@@ -9796,8 +9601,7 @@
    "ultima_conferma": "2026-07-04 09:57",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-08",
@@ -9817,8 +9621,7 @@
    "ultima_conferma": "2026-07-01 01:34",
    "stato": "principio",
    "promosso_il": "2026-07-24 22:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-07",
@@ -9842,8 +9645,7 @@
    "ultima_conferma": "2026-07-01 11:26",
    "stato": "principio",
    "promosso_il": "2026-07-26 11:00",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0701-04",
@@ -9863,8 +9665,7 @@
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "principio",
-   "usi": []
+   "stato": "principio"
   },
   {
    "id": "L-2026-0701-03",
@@ -9884,8 +9685,7 @@
    "ultima_conferma": "2026-07-01",
    "stato": "principio",
    "promosso_il": "2026-07-24 16:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0630-06",
@@ -9908,8 +9708,7 @@
    "ultima_conferma": "2026-07-19 19:43",
    "stato": "principio",
    "promosso_il": "2026-07-26 11:00",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0630-05",
@@ -9929,8 +9728,7 @@
    "ultima_conferma": "2026-07-01 10:51",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0630-03",
@@ -9949,8 +9747,7 @@
    "ultima_conferma": "2026-07-01 01:57",
    "stato": "principio",
    "promosso_il": "2026-07-25 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0630-01",
@@ -9977,8 +9774,7 @@
      "perche": "I sensori possono essere ciechi da una sessione all'altra, e in quel caso i numeri vecchi vanno dichiarati come baseline con la data, non spacciati per freschi",
      "prova": "CLAUDE.md — «se entrambi ciechi: baseline STATO + Gap, MAI numeri inventati»"
     }
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0629-03",
@@ -9998,8 +9794,7 @@
    "ultima_conferma": "2026-06-30",
    "stato": "principio",
    "promosso_il": "2026-07-25 10:20",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0629-04",
@@ -10016,8 +9811,7 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-29",
    "ultima_conferma": "2026-06-29",
-   "stato": "in-prova",
-   "usi": []
+   "stato": "in-prova"
   },
   {
    "id": "L-2026-0628-01",
@@ -10034,8 +9828,7 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-07-01",
-   "stato": "principio",
-   "usi": []
+   "stato": "principio"
   },
   {
    "id": "L-2026-0628-04",
@@ -10052,8 +9845,7 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-06-29",
-   "stato": "principio",
-   "usi": []
+   "stato": "principio"
   },
   {
    "id": "L-2026-0628-02",
@@ -10069,8 +9861,7 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-06-29",
-   "stato": "principio",
-   "usi": []
+   "stato": "principio"
   },
   {
    "id": "L-2026-0628-03",
@@ -10096,8 +9887,7 @@
     }
    ],
    "promosso_il": "2026-08-21 14:28",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0629-01",
@@ -10114,8 +9904,7 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-29",
    "ultima_conferma": "2026-06-29",
-   "stato": "in-prova",
-   "usi": []
+   "stato": "in-prova"
   },
   {
    "id": "L-2026-0630-04",
@@ -10132,8 +9921,7 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-30",
    "ultima_conferma": "2026-06-30",
-   "stato": "in-prova",
-   "usi": []
+   "stato": "in-prova"
   },
   {
    "id": "L-2026-0629-02",
@@ -10160,8 +9948,7 @@
      "perche": "Le scadenze esterne vanno accodate con la data visibile: e' il motivo per cui il registro dei fatti tiene le date dei bandi, e per cui non abbiamo promesso fondi su un bando gia' chiuso",
      "prova": "MyCity-Vault/90-Memoria-AI/registro-fatti.json — voci bando.*.scadenza"
     }
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0701-41",
@@ -10181,8 +9968,7 @@
    "ultima_conferma": "2026-07-01",
    "stato": "in-prova",
    "id_precedente": "L-2026-0701-27",
-   "nota_rinumero": "rinumerata da L-2026-0701-27 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)",
-   "usi": []
+   "nota_rinumero": "rinumerata da L-2026-0701-27 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
   {
    "id": "L-2026-0707-01",
@@ -10192,8 +9978,7 @@
     "quota",
     "infrastruttura",
     "causa-radice"
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0707-02",
@@ -10203,8 +9988,7 @@
     "coerenza",
     "memoria",
     "fonte-unica"
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0707-03",
@@ -10214,8 +9998,7 @@
     "pr",
     "automazione",
     "memoria"
-   ],
-   "usi": []
+   ]
   },
   {
    "id": "L-2026-0710-87",
@@ -10238,8 +10021,7 @@
    "stato": "attiva",
    "decaduto_step_il": "2026-09-01 11:32",
    "id_precedente": "L-2026-0710-71",
-   "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)",
-   "usi": []
+   "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
   {
    "id": "L-2026-0723-456",
@@ -10259,8 +10041,7 @@
    "nato": "2026-07-23",
    "ultima_conferma": "2026-07-23 23:40",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32",
-   "usi": []
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0724-01",
@@ -10280,8 +10061,7 @@
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:22",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32",
-   "usi": []
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0724-02",
@@ -10301,8 +10081,7 @@
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32",
-   "usi": []
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0724-527",
@@ -10346,8 +10125,7 @@
    "nato": "2026-07-26",
    "ultima_conferma": "2026-07-26 06:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32",
-   "usi": []
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0730-528",
@@ -10374,8 +10152,7 @@
    "stato": "principio",
    "gate": "node cervello/test/rebase-che-non-parte.test.mjs",
    "promosso_il": "2026-07-30 06:21",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0730-529",
@@ -10398,8 +10175,7 @@
    "nato": "2026-07-30",
    "ultima_conferma": "2026-07-30 03:30",
    "stato": "attiva",
-   "gate": "node cervello/test/rebase-che-non-parte.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
   },
   {
    "id": "L-2026-0730-530",
@@ -10423,8 +10199,7 @@
    "stato": "attiva",
    "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
    "gate_attivo": false,
-   "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda",
-   "usi": []
+   "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda"
   },
   {
    "id": "L-2026-0730-531",
@@ -10460,9 +10235,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -10499,9 +10274,9 @@
      "ref": "freno rosso nel cancello: nascita dei difetti"
     },
     {
-     "quando": "2026-08-31 10:02",
+     "quando": "2026-08-27 18:43",
      "ref": "freno rosso nel cancello: nascita dei difetti",
-     "volte": 15
+     "volte": 7
     }
    ]
   },
@@ -10530,8 +10305,7 @@
    "stato": "attiva",
    "gate": "node cervello/test/misura-cieca.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "Freno suo: cervello/misura-cieca.mjs riconosce le cinque forme sui comandi VERI che le hanno generate (12 prove, 3 mutazioni non vacue). Il CABLAGGIO come hook su Bash serve una riga di Nicola in .claude/settings.json: AR-463, debito dichiarato. Finche non e cablato il riconoscitore esiste e si puo lanciare a mano, ma non guarda da solo.",
-   "usi": []
+   "gate_nota": "Freno suo: cervello/misura-cieca.mjs riconosce le cinque forme sui comandi VERI che le hanno generate (12 prove, 3 mutazioni non vacue). Il CABLAGGIO come hook su Bash serve una riga di Nicola in .claude/settings.json: AR-463, debito dichiarato. Finche non e cablato il riconoscitore esiste e si puo lanciare a mano, ma non guarda da solo."
   },
   {
    "id": "L-2026-0730-534",
@@ -10564,9 +10338,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -10595,8 +10369,7 @@
    "stato": "attiva",
    "gate": "node cervello/test/allineamento-esito.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "5 mutazioni su AR-467/468/469/470 in mutanti.json; le due di AR-470 puntano a cervello/test/salute.test.mjs.",
-   "usi": []
+   "gate_nota": "5 mutazioni su AR-467/468/469/470 in mutanti.json; le due di AR-470 puntano a cervello/test/salute.test.mjs."
   },
   {
    "id": "L-2026-0731-01",
@@ -10642,8 +10415,7 @@
    "stato": "principio",
    "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json). 3ª manifestazione 19:52: stesso cancello, stessa base stantia (3bda15ad5) — verificato con `git log -1 -- <file>` su ognuno dei 7 file segnalati (pr-ad-mycity-675/678/679/680/681.md, AZIONI-IN-ATTESA.md, RITMO.md, STATO.md): TUTTI ultimo commit tra le 17:14 e le 18:46, nessuno toccato in questo turno (`git status --short` mostra solo i 3 file di memoria davvero modificati ora). Fix già pronto e in attesa di firma: PR #677 (branch `fix/cancello-stop-coda-toccata-v2`). Non riaprire la diagnosi una 4ª volta: verificare con `git log -1 -- <file>` è la prova sufficiente, il resto è mergiare #677.",
    "promosso_il": "2026-08-04 20:21",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "tag": [
@@ -10676,9 +10448,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -10713,9 +10485,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -10750,9 +10522,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-28 23:33",
+     "quando": "2026-09-01 18:10",
      "ref": "freno rosso nel cancello: verdetti senza lettore",
-     "volte": 80
+     "volte": 40
     }
    ]
   },
@@ -10780,8 +10552,7 @@
     "1 mutazione verificata rossa"
    ],
    "gate": "node cervello/test/salute.test.mjs",
-   "gate_nota": "1 mutazione su AR-498 in mutanti.json: il giudizio del battito che torna sempre verde.",
-   "usi": []
+   "gate_nota": "1 mutazione su AR-498 in mutanti.json: il giudizio del battito che torna sempre verde."
   },
   {
    "tag": [
@@ -10814,9 +10585,8 @@
      "ref": "freno rosso nel cancello: le malattie che mancano"
     },
     {
-     "quando": "2026-08-31 13:12",
-     "ref": "freno rosso nel cancello: le malattie che mancano",
-     "volte": 4
+     "quando": "2026-08-20 18:24",
+     "ref": "freno rosso nel cancello: le malattie che mancano"
     }
    ]
   },
@@ -10844,8 +10614,7 @@
     "3 mutazioni verificate rosse"
    ],
    "gate": "node --test cervello/test/registro-due-lettori.test.mjs",
-   "gate_nota": "3 mutazioni su AR-500: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata.",
-   "usi": []
+   "gate_nota": "3 mutazioni su AR-500: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata."
   },
   {
    "tag": [
@@ -10878,9 +10647,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -10909,8 +10678,7 @@
     "collaudo end-to-end: il verdetto e comparso dopo un comando"
    ],
    "gate": "node --test cervello/test/misura-cieca.test.mjs",
-   "gate_nota": "1 mutazione su AR-502: il verdetto del sorvegliante che non entra piu nella busta del comando.",
-   "usi": []
+   "gate_nota": "1 mutazione su AR-502: il verdetto del sorvegliante che non entra piu nella busta del comando."
   },
   {
    "id": "L-2026-0803-544",
@@ -10942,9 +10710,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -10979,9 +10747,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-28 23:33",
+     "quando": "2026-09-01 18:10",
      "ref": "freno rosso nel cancello: verdetti senza lettore",
-     "volte": 80
+     "volte": 40
     }
    ]
   },
@@ -11013,9 +10781,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-28 23:33",
+     "quando": "2026-09-01 18:10",
      "ref": "freno rosso nel cancello: verdetti senza lettore",
-     "volte": 80
+     "volte": 40
     }
    ]
   },
@@ -11047,9 +10815,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -11081,9 +10849,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -11108,8 +10876,7 @@
     "2 mutazioni verificate rosse su .githooks/pre-commit e cancello-stop.mjs"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
-   "gate_attivo": true,
-   "usi": []
+   "gate_attivo": true
   },
   {
    "id": "L-2026-0803-550",
@@ -11132,8 +10899,7 @@
     "stessa forma il 30/7: +12.147/-12.124 su apprendimento.json"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
-   "gate_attivo": true,
-   "usi": []
+   "gate_attivo": true
   },
   {
    "id": "L-2026-0804-551",
@@ -11158,8 +10924,7 @@
     "5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs"
    ],
    "gate": "node cervello/test/si-capisce.test.mjs",
-   "gate_attivo": true,
-   "usi": []
+   "gate_attivo": true
   },
   {
    "id": "L-2026-0804-552",
@@ -11183,8 +10948,7 @@
     "2 mutazioni in mutanti.json (decisione «chiedi» e aggancio allo Stop) verificate rosse"
    ],
    "gate": "node --test cervello/test/collaudo.test.mjs",
-   "gate_attivo": true,
-   "usi": []
+   "gate_attivo": true
   },
   {
    "id": "L-2026-0804-553",
@@ -11207,13 +10971,7 @@
     "4 schede del worker sovrascritte dalla mia fusione, poi ripristinate"
    ],
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
-   "gate_attivo": true,
-   "usi": [
-    {
-     "quando": "2026-08-29 10:08",
-     "ref": "freno rosso nel cancello: nessun numero di scheda usato due volte"
-    }
-   ]
+   "gate_attivo": true
   },
   {
    "id": "L-2026-0804-554",
@@ -11243,9 +11001,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
+     "quando": "2026-08-27 19:37",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 34
+     "volte": 16
     }
    ]
   },
@@ -11280,8 +11038,7 @@
    "fonte": "domanda di Nicola",
    "testo": "**Quando una protezione è tarata su una scala di tempo, va chiesto se esistono ALTRE scale della stessa cosa (Nicola 10/8 ~11:40: «sicuramente il server si è fermato perché Claude ha raggiunto il limite settimanale»).** La retry-policy conosceva UNA quota — la finestra rolling di ~5h — e il commento diceva a lettere chiare «il reset è SEMPRE entro poche ore, MAI a 24h». Vero per la sessione, falso per il limite settimanale: stessa parola, scala cento volte più lunga. Il tetto delle 6h schiacciava il muro di giorni in un backoff di minuti, sei tentativi si bruciavano in poche ore e poi nessuno ripartiva più. Undici giorni di Intelligence ferma (30/7 → 10/8). Aggravante: il recupero della cadenza esisteva dal giorno di AR-024 ma SOLO in ritmo.sh — giro e monitora non l'hanno mai avuto, cioè la cura era stata applicata alla copia dove il sintomo era stato visto.",
    "regola": "davanti a una soglia/tetto/timeout, chiedersi «di quale scala sto parlando, e ne esistono altre della stessa cosa?» prima di dare per assoluta la frase «SEMPRE entro X». E quando si aggiunge una protezione a una cadenza, applicarla subito a tutte e tre (giro · ritmo · monitora) o dichiarare perché no.",
-   "gate": "node cervello/test/limite-settimanale-riparte.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/limite-settimanale-riparte.test.mjs"
   },
   {
    "id": "L-2026-0810-02",
@@ -11289,8 +11046,7 @@
    "fonte": "correzione di Nicola",
    "testo": "**Un dato mostrato senza la sua data è un dato che mente per omissione (Nicola 10/8: «aggiungi la data per ogni card e con il segnale che è scaduta»).** La card Intelligence mostrava un'analisi del 20 luglio identica a una di stamattina: la data viveva solo DENTRO il markdown, e solo se chi l'aveva scritta se l'era ricordata. Nessuno se n'è accorto per 11 giorni perché la vecchiaia non era misurata da nessuna parte. Seconda metà della correzione, altrettanto importante: «la dovrà leggere un sentinello per segnalarlo alla macchina o a me» — una data VISIBILE serve solo a chi sta guardando quella scheda in quel momento; perché protegga, qualcuno deve leggerla al posto suo.",
    "regola": "ogni superficie che mostra un dato rigenerato periodicamente deve mostrare anche la sua età e gridare quando supera la cadenza attesa; e la soglia va DERIVATA dalla configurazione della cadenza (radar-fonti.json), mai scritta a mano in due posti. La visibilità non basta: serve un guardiano che legga l'età anche quando nessuno guarda.",
-   "gate": "node cervello/test/freschezza-intelligence.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/freschezza-intelligence.test.mjs"
   },
   {
    "id": "L-2026-0810-03",
@@ -11320,8 +11076,7 @@
    "fonte": "decisione di Nicola",
    "testo": "**«Fatto» vuol dire che un comportamento è cambiato, non che una parola compare in un file (Nicola 10/8: «ok asticella»).** Il conto: 193 difetti su 552 avevano per prova un file+pattern. AR-128 diceva «non esiste nessun sensore per le contestazioni carta» e la sua prova era che la parola «chargeback» comparisse in un documento: scriverla chiudeva il difetto, e il sensore non c'era. Una ricerca di parole non può fallire nel modo in cui fallisce la realtà — per questo gli errori li trovava Nicola e non la macchina.",
    "regola": "un difetto grave o bloccante nasce con una prova che GIRA (un comando che diventa rosso se il difetto c'è) oppure con `verifica: {tipo:\"umano\"}` dichiarato; mai con un pattern da cercare. Il debito ereditato non si vieta di colpo — congelare il cantiere fa aggirare il cancello al secondo giro — ma scende sotto un tetto che non risale. Vale ovunque, non solo sui difetti: chiedersi sempre «questa prova può diventare rossa nel modo in cui il mondo mi smentirebbe?».",
-   "gate": "node cervello/test/asticella-prova-che-gira.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/asticella-prova-che-gira.test.mjs"
   },
   {
    "id": "L-2026-0810-05",
@@ -11329,8 +11084,7 @@
    "fonte": "decisione di Nicola",
    "testo": "**Chi trova più in fretta di quanto ripara peggiora anche lavorando bene (Nicola 10/8: «ok tasso di chiusura»).** Luglio: 455 difetti nati, 244 chiusi (0,54). Agosto in dieci giorni: 90 nati, 14 chiusi (0,16). Nicola lo aveva previsto prima di me — «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori» — e la causa non è la bravura di chi cerca: è il rapporto. La dimensione con più difetti aperti è «guardiani-e-guardrail»: i controlli sono la prima fonte di lavoro dei controlli.",
    "regola": "il voto della macchina su sé stessa è UNO: chiusi ÷ aperti nel mese, obiettivo ≥ 1. Sotto 1 non si aprono ricerche nuove — si chiude. Corollario generale: prima di aggiungere un rilevatore, chiedersi chi convertirà quello che rileva; percezione e conversione hanno due velocità diverse e solo la prima è automatica. Corollario sul misurare: sotto un campione minimo il verdetto è ⚪, perché un rapporto su pochi casi è rumore — e un freno che scatta sul rumore viene disattivato.",
-   "gate": "node cervello/test/tasso-di-chiusura.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/tasso-di-chiusura.test.mjs"
   },
   {
    "id": "L-2026-0811-01",
@@ -11338,8 +11092,7 @@
    "fonte": "lavoro proprio",
    "testo": "**Una prova che sa dire solo di no è inutile quanto un grep che sa dire solo di sì (primo lotto di conversione, 11/8).** Convertendo 5 prove da «cerca una parola» a «esegui qualcosa» ho sbattuto contro due verdi falsi MIEI, uno dietro l'altro. ① Il primo: ritagliavo un pezzo di script partendo da dentro un if/else, bash moriva su `else` alla decima riga, il file sporco sopravviveva — non perché il codice lo protegga, ma perché non ci era mai arrivato. ② Il secondo: ho messo un sigillo per provare l'arrivo, ma il `git` finto intercettava il checkout senza eseguirlo, quindi il file sopravviveva per costruzione. Il sigillo provava l'arrivo, non la salvezza. Poi, verificando i mutanti a mano, 2 su 5 erano vuoti: colpivano righe che l'esecuzione non raggiunge. Al terzo giro zero. Scoperta a monte: NESSUN difetto aperto aveva mai avuto una prova a comando — zero su 220 — quindi tutta la macchina delle mutazioni era nata per prove che confermano un fix, non per prove che dimostrano un guasto.",
    "regola": "una prova comportamentale vale solo se si ribalta: rossa quando il difetto c'è, verde quando il fix c'è. Va provata in ENTRAMBI i versi, simulando il fix, prima di fidarsene. E deve dimostrare di aver raggiunto il punto pericoloso e di aver osservato lo stato in QUEL momento: arrivare non è misurare, e intercettare l'operazione distruttiva rende il verde automatico. Corollario sui mutanti: scriverne uno non basta, bisogna guardare che rompa qualcosa — una mutazione su una riga che l'esecuzione non raggiunge sembra una difesa e non lo è.",
-   "gate": "node cervello/test/prove-a-due-versi.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/prove-a-due-versi.test.mjs"
   },
   {
    "id": "L-2026-0810-06",
@@ -11347,8 +11100,7 @@
    "fonte": "correzione di Nicola",
    "testo": "**Un campo scritto per dire «cosa mi aspetto» non si legge mai come «cosa ho misurato» (radiografia della catena di lavoro, 10/8).** Nicola: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». Ha ragione, e la ragione è misurabile: la macchina si accreditava 84 difetti su 220 come «già risolti, aspettano solo il merge» leggendo `verifica.presente === true` — un campo che in auto-fix.mjs dice soltanto CON CHE VERSO leggere la prova, scritto quando il difetto nasce. Rieseguite a mano tutte e 84 le prove: 84 su 84 false (76 pattern assenti, 8 file inesistenti). Stessa malattia in piccolo su metabolismo.mjs (percentuale da un campo, numeratore da un altro) e in grande su AR-568, dove una misura cieca ha sovrascritto una misura vedente e il voto è MIGLIORATO perché la finestra si era ristretta da 26 messaggi a 2.",
    "regola": "chi emette un verdetto deve averlo MISURATO adesso: mai dedurlo da un campo scritto per un altro scopo, mai riportarlo da una misura precedente senza dichiararlo, mai sostituire una misura con una a copertura minore. Corollario: una prova di difetto è un comando che gira, non una parola in un file — una ricerca di parole non può fallire nel modo in cui fallisce la realtà, ed è per questo che gli errori li trova Nicola e non la macchina. Secondo corollario, pagato nello stesso lavoro: si scrive un file di memoria con scrivi-json.mjs, che CONSERVA l'indentazione del file; JSON.stringify(…, 2) su un file a un solo spazio lo riscrive tutto e lo spinge oltre il tetto di lettura di GitHub.",
-   "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
   },
   {
    "id": "L-2026-0811-02",
@@ -11356,8 +11108,7 @@
    "fonte": "correzione di Nicola",
    "testo": "**Quando due pezzi leggono la stessa cosa, non si scrivono due lettori: si carica quello che c'è già (AR-569, Nicola 11/8: «sistema il difetto della coda, 5 invece di 49»).** Il guardiano del tempo di Nicola aveva un parser suo che riconosceva solo il formato vecchio della coda: contava 5 firme in attesa mentre nel Pannello ce n'erano 57, e concludeva «coda sotto controllo». La tentazione era riscrivere il parser dei blocchi dentro il guardiano — cioè fare la seconda copia, che è la malattia stessa. Invece si carica il lettore vero della Cabina (331 righe di regole su cosa è un'azione e cosa è documentazione) attraverso l'hook che toglie i tipi. Seconda metà, altrettanto importante: riparato il conteggio, il verdetto restava verde perché guardava solo l'ETÀ della card più vecchia. Un numero giusto dentro una soglia che non lo guarda non serve a niente.",
    "regola": "prima di scrivere un lettore, cercare chi legge già quella cosa e caricarlo — anche attraverso un confine di linguaggio, se il confine si può attraversare (Node 22 esegue i .ts, e l'hook per gli import senza estensione esiste già). Se non si può caricare, si esce ⚪ e non si tira a indovinare. E ogni volta che si ripara un CONTEGGIO, si controlla anche la SOGLIA che lo giudica: un numero giusto letto da un verdetto che non lo guarda resta invisibile. Le soglie si derivano dal comportamento reale della persona (quante firme dà a settimana), non si inventano.",
-   "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
   },
   {
    "id": "L-2026-0816-01",
@@ -11365,8 +11116,7 @@
    "fonte": "correzione di Nicola 2026-08-16: «ripara il problema che la macchina non impara le lezioni»",
    "testo": "La memoria arrivava al lavoro senza la parte che cambia il comportamento. La scheda che parte a ogni richiesta leggeva un campo (gate_attivo) che la porta ufficiale di scrittura non scrive mai: 44 lezioni su 69 con un freno vero non lo hanno mai mostrato, e su 8 richieste tipiche i freni serviti erano 1 su 11. Le lezioni si leggevano come prosa e si dimenticavano.",
    "regola": "Quando la macchina porta una lezione dentro un lavoro, deve portarci il COMANDO che la fa rispettare, non solo il testo: chi legge un dato scritto da un altro pezzo legge il campo che quel pezzo scrive davvero, e a parita di tema vince la lezione che si puo eseguire.",
-   "gate": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs"
   },
   {
    "id": "L-2026-0817-01",
@@ -11374,8 +11124,7 @@
    "fonte": "domanda di Nicola 2026-08-17: «come mai la macchina non ha ancora imparato le 500 lezioni?»",
    "testo": "Promuovere una lezione a principio non bastava: dei 88 principi cristallizzati ne arrivavano 8 al lavoro, scelti per posizione nel file. Le regole promosse dopo il 26 luglio non le vedeva nessuno, e dei quattro principi con un freno ne arrivavano due.",
    "regola": "Ogni elenco di memoria che viene TAGLIATO prima di entrare in un lavoro deve ordinare per forza (prima cio che si puo eseguire, poi cio che parla del lavoro di adesso) e deve DICHIARARE il taglio: un taglio silenzioso si legge come «ci sono tutti».",
-   "gate": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
   },
   {
    "id": "L-2026-0817-02",
@@ -11383,8 +11132,7 @@
    "fonte": "richiesta di Nicola 2026-08-17: «continua con il terzo anello» (le 452 lezioni che non sono ne freno ne principio)",
    "testo": "Il guardiano dell apprendimento diceva «0 decadute, il decadimento non gira» mentre il motore stava lavorando: 323 lezioni avevano un passo timbrato negli ultimi giorni e la confidenza minima era scesa da 0,8 a 0,33. La regola guardava il conto dei morti e mai i passi, che pure erano scritti in archivio.",
    "regola": "Un motore lento non si giudica dal risultato che deve ancora arrivare: si misura il LAVORO che sta facendo. Se un verdetto dice «X non gira» perche il suo effetto e ancora zero, deve prima guardare se X sta facendo passi — e al buio (nessuna traccia leggibile) dire fermo, non gira.",
-   "gate": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
   },
   {
    "id": "L-2026-0817-03",
@@ -11392,8 +11140,7 @@
    "fonte": "richiesta di Nicola 2026-08-17: «fai la chat per prima» (terzo anello dell apprendimento)",
    "testo": "La chat riceveva le lezioni con un grep sulle prime otto righe di un file di prosa: nessun freno e nessun legame col messaggio. Le sessioni e il giro passavano gia dall archivio strutturato. La porta piu frequentata era l unica rimasta cieca, e per questo Nicola non vedeva cambiare niente dopo due lotti di lavoro sull apprendimento.",
    "regola": "Quando si ripara il modo in cui la memoria arriva al lavoro, la prima porta da riparare e quella che la persona USA di piu, non quella piu facile da raggiungere dal codice: un miglioramento su una porta che Nicola non attraversa mai e invisibile, e quindi per lui non e successo.",
-   "gate": "node cervello/test/la-chat-senza-freni.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/la-chat-senza-freni.test.mjs"
   },
   {
    "id": "L-2026-0817-04",
@@ -11401,8 +11148,7 @@
    "fonte": "errore mio, 17/8: ho detto a Nicola che la cura della chat non era su main contando grep -c su una frase lunga uscita 0 — la riga c'era, la frase cercata no (una virgoletta di chiusura nel mezzo)",
    "testo": "Uno zero da grep -c su una frase lunga non distingue «la cosa non c'e» da «ho scritto la frase sbagliata»: piu lunga e la frase, piu punti ha per non combaciare (virgolette, spazi, variabili espanse), e tutti finiscono nello stesso identico 0. Il rimedio e cercare prima un pezzo corto e inconfondibile, e allungare solo dopo.",
    "regola": "Prima di concludere che una cosa NON c'e da un conteggio a zero, ripeti la ricerca con una parola sola: se anche quella e zero, allora manca davvero.",
-   "gate": "node --test cervello/test/misura-cieca.test.mjs",
-   "usi": []
+   "gate": "node --test cervello/test/misura-cieca.test.mjs"
   },
   {
    "id": "L-2026-0818-01",
@@ -11415,8 +11161,7 @@
    "fonte": "Nicola, 18/8: ha mandato lo screenshot della Cabina dicendo «non e cambiato niente» — aveva ragione sulla card, e la card era rotta",
    "testo": "**Una memoria scritta in una forma che nessuno sa leggere e memoria che non arriva.** La Cabina diceva «0 lezioni negli ultimi 7 giorni» mentre in archivio ce n'erano nove: le lezioni scritte dalla macchina uscivano col solo campo 'data', e ogni lettore cercava 'nato'/'ultima_conferma'. Due forme nello stesso archivio, e il contatore era muto proprio sulle lezioni nuove. Quando Nicola dice che non e cambiato niente, la prima cosa da controllare non e se il lavoro e stato fatto, ma se il numero che lui guarda sa vedere quel lavoro.",
    "regola": "Chi scrive in un archivio condiviso usa la forma che i lettori cercano, e chi legge dichiara quali campi accetta. Prima di dire «e fatto», guarda il numero come lo vede Nicola, non come lo vedi tu.",
-   "gate": "node cervello/test/porta-delle-lezioni.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/porta-delle-lezioni.test.mjs"
   },
   {
    "id": "L-2026-0818-02",
@@ -11429,8 +11174,7 @@
    "fonte": "Nicola, 18/8: «perche c'e' solo il 12% delle lezioni citate?» — misurando la risposta e' venuto fuori che il metro contava un'altra cosa",
    "testo": "**Un numero che misura le citazioni non puo' dire se una regola funziona.** Il tasso contava le lezioni il cui codice compariva scritto da qualche parte: 61 su 521, e di quelle solo 6 con una traccia vera. Un volano fermo e un volano che nessuno annota davano lo stesso numero. Il segnale onesto era gia' li' e non lo leggeva nessuno: il freno che diventa rosso. Quando il freno di una lezione fallisce, quella lezione ha appena fermato la macchina — e' un fatto, non un'opinione. La scorciatoia da rifiutare e' marcare l'uso alla CONSEGNA: porterebbe il numero a quasi 100% misurando «te l'ho mostrata» invece di «mi ha fermata».",
    "regola": "Prima di credere a una metrica, chiedi quale evento la fa salire. Se puo' salire senza che nessun comportamento cambi, non e' una misura: e' arredamento. E marca l'uso sull'inciampo evitato, mai sulla consegna.",
-   "gate": "node --test cervello/test/il-freno-che-scatta.test.mjs",
-   "usi": []
+   "gate": "node --test cervello/test/il-freno-che-scatta.test.mjs"
   },
   {
    "id": "L-2026-0818-03",
@@ -11443,8 +11187,7 @@
    "fonte": "Nicola, 18/8: «fai l'analisi a» sulla potatura dell'archivio — misurando e' venuto fuori che la potatura arrivava gia' da sola, e che avrebbe tolto le cose sbagliate",
    "testo": "**Due meccanismi sullo stesso dato, che non si parlano, fanno il danno di uno rotto.** Un pezzo registrava che una lezione aveva fermato un errore; un altro, sullo stesso archivio, la buttava via un mese dopo perche' guardava solo la data dell'ultima conferma. Nessuno dei due era sbagliato da solo. Quando si aggiunge un segnale nuovo (l'uso), bisogna chiedersi CHI ALTRO decide su quel dato e non lo sta guardando — altrimenti si costruiscono due forze che tirano in direzioni opposte. E l'eccezione va messa dove la decisione si prende, non in un bypass a monte.",
    "regola": "Quando aggiungi un segnale a un dato condiviso, cerca tutti quelli che decidono su quel dato e chiediti se il segnale nuovo li riguarda. E ogni privilegio va legato a una condizione verificabile che puo' decadere: qui il freno vale finche' il suo FILE esiste, non finche' la stringa e' scritta.",
-   "gate": "node cervello/test/archivi-senza-tetto.test.mjs",
-   "usi": []
+   "gate": "node cervello/test/archivi-senza-tetto.test.mjs"
   },
   {
    "id": "L-2026-0821-01",
@@ -11465,8 +11208,7 @@
     "coda-azioni",
     "contatore-parziale"
    ],
-   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: la mutazione `AR-779 un-numero-solo-per-la-coda` la citava e la lezione non era mai stata scritta. Il freno esisteva, la ragione no.",
-   "usi": []
+   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: la mutazione `AR-779 un-numero-solo-per-la-coda` la citava e la lezione non era mai stata scritta. Il freno esisteva, la ragione no."
   },
   {
    "id": "L-2026-0821-02",
@@ -11494,9 +11236,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-28 23:33",
+     "quando": "2026-09-01 18:10",
      "ref": "freno rosso nel cancello: verdetti senza lettore",
-     "volte": 56
+     "volte": 28
     }
    ]
   },
@@ -11511,8 +11253,7 @@
    "fonte": "richiesta di Nicola dopo la perdita di memoria del 21/8",
    "testo": "**`git add <cartella>` non mette in staging quello che hai fatto: mette quello che è sporco (21/8 20:07).** Il commit automatico del server, intitolato «riconcilia: chiude difetti risolti nel codice», conteneva QUATTRO file. Uno era il cantiere — l'unica cosa che quel lavoro scrive. Gli altri tre erano saliti a bordo perché la riga in staging prendeva l'intera cartella `auto-coscienza`. Fra loro `apprendimento.json`, passato da 531 lezioni a 529: due lezioni arrivate su main da altrettante PR firmate, cancellate da un commit che parlava d'altro (confronto id per id: aggiunte 0, modificate 0, perse 2). Non conta chi avesse sporcato il file — conta che sporcarlo bastasse a pubblicarlo. Su una macchina che gira in continuo, qualcos'altro scrive sempre in quella cartella. Il sintomo era una CI rossa a intermittenza, e l'avevo chiamata traffico: era il freno che segnalava una memoria persa.",
    "regola": "in un processo automatico si mette in staging l'elenco dei file che quel lavoro SCRIVE, mai una cartella; e ciò che è sporco fuori da quell'elenco si dichiara invece di portarselo dietro, perché un commit deve contenere solo ciò che il suo messaggio dichiara",
-   "gate": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
-   "usi": []
+   "gate": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
   },
   {
    "id": "L-2026-0821-04",
@@ -11525,8 +11266,7 @@
    "fonte": "richiesta di Nicola: «scava anche a monte» (21/8)",
    "testo": "**Chi risalva un archivio intero cancella quello che un altro ci ha messo mentre lui lavorava (AR-296 metà ②).** `scrivi-json.mjs` lo dichiarava aperto in cima a sé stesso da luglio, come seconda metà di un difetto di cui era stata chiusa solo la prima. Misurato il 21/8 su TUTTE le 1.489 revisioni di `apprendimento.json` da fine giugno: il conto delle lezioni è sceso **sei volte, per undici lezioni** — 4/7 cutover (−2), 6/7 riconcilia (−1), 13/7 chore (−2), 16/7 una risposta del worker (−1), 13/8 giro (−3), 21/8 riconcilia (−2). Nessuno di quei sei lavori era il potatore, e nessuno voleva togliere niente: ognuno aveva in mano una copia vecchia e l'ha risalvata intera. Cercare CHI scrive era la domanda sbagliata — sono sei processi diversi, e domani un settimo.",
    "regola": "un archivio tenuto a id non si difende cercando il colpevole ma al punto unico di scrittura: prima di salvare si confronta con ciò che c'è sul disco ADESSO, e le voci che sparirebbero senza essere dichiarate si rimettono e si gridano — rimettere invece di rifiutare, perché un rifiuto fermerebbe il server per un difetto che non è suo e verrebbe aggirato",
-   "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs",
-   "usi": []
+   "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   },
   {
    "id": "L-2026-0823-01",
@@ -11539,8 +11279,7 @@
    "fonte": "lotto 51, AR-796: il secondo giro del lotto 50 ha chiesto «ogni strada che arriva all'atto passa dal freno?» e la risposta era no",
    "testo": "**Un cancello si giudica da chi lo attraversa, non da come e' scritto (AR-796).** I due cancelli sulle prove — prova orfana, prova debole su difetto pesante — sono nati nel lotto 49 e si sono raffinati nel lotto 50: funzioni pure, ben provate, con i tre esiti. Per due lotti li ha chiamati una cosa sola, `cantiere-prove.mjs`, che e' il REFERTO: guarda e racconta. Chi CHIUDE davvero e' `auto-fix.mjs`, e non li nominava affatto — zero occorrenze col grep. Il referto pubblicava perfino il conto `chiuderebbe_lo_stesso`, cioe' misurava la propria impotenza, e nessuno leggeva quel numero come un difetto. Peggio: `auto-fix` chiamava gia' `verdettoChiusura`, la funzione pura giusta, ma ne usava solo due campi su tre e la decisione la rifaceva a mano — quindi ogni cancello aggiunto alla funzione pura moriva dentro un `chiude` calcolato e buttato via. Due lotti di lavoro corretto, montati sulla porta che non si apre.",
    "regola": "quando aggiungi un freno, la prova non e' che il freno sappia giudicare — e' che CHI AGISCE ci passi: si scrive facendo girare l'attore vero (auto-fix, il worker, il publisher) su un caso costruito, e pretendendo che l'atto NON avvenga. E un verdetto che il chiamante ricalcola non decide niente: se una funzione pura torna `chiude`, chi la chiama deve dispacciare su quel campo, non su una condizione riscritta accanto",
-   "gate": "node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs",
-   "usi": []
+   "gate": "node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs"
   },
   {
    "id": "L-2026-0823-02",
@@ -11556,8 +11295,7 @@
    "gate": "",
    "nota_gate": "Freno non scrivibile come prova automatica: e' una regola sul RITMO del lavoro, non sul codice. La cosa piu' vicina a un guardiano sarebbe «il ramo ha commit che non stanno in nessuna richiesta aperta», che si puo' misurare ma non da dentro la suite. Dichiarato come debito, non spacciato per fatto.",
    "promosso_il": "2026-08-28 12:26",
-   "cristallizzato_in": "memoria-persistente",
-   "usi": []
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0825-01",
@@ -11595,8 +11333,7 @@
    "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-818",
    "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Il conto: `nascita-difetti.mjs` dice che 99 schede su 787 sono nate dal riparare. Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'impronta del file com'è adesso — una lettura fatta prima dell'ultima modifica scade da sola.",
    "regola": "Prima del cancello, riguarda i file che il lotto ha toccato con la lente della loro dimensione di radiografia e registra cosa hai visto (anche «zero»): `node cervello/radiografia-in-corsa.mjs` → `registra --dimensione <chiave> --toccati --trovati <n>`. Sul sito, `--repo ../mycity`.",
-   "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
-   "usi": []
+   "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs"
   },
   {
    "id": "L-2026-0825-03",
@@ -11614,7 +11351,7 @@
    "nato": "2026-08-25",
    "ultima_conferma": "2026-08-25 17:35",
    "stato": "principio",
-   "usi": [],
+   "usi": 0,
    "gate": "node cervello/lavori-hanno-la-corsia.mjs",
    "data": "2026-08-25 17:35",
    "promosso_il": "2026-08-28 12:26",
@@ -11666,12 +11403,7 @@
    "nato": "2026-08-26",
    "ultima_conferma": "2026-08-26 07:55",
    "stato": "attiva",
-   "usi": [
-    {
-     "quando": "2026-08-29 10:08",
-     "ref": "freno rosso nel cancello: nessun numero di scheda usato due volte"
-    }
-   ],
+   "usi": 0,
    "gate": "node cervello/prossimo-ar.mjs",
    "data": "2026-08-26 07:55"
   },
@@ -11692,7 +11424,7 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 06:55",
    "stato": "attiva",
-   "usi": [],
+   "usi": 0,
    "gate": "node cervello/test/il-muro-arriva-prima-della-porta.test.mjs",
    "data": "2026-08-27 06:55"
   },
@@ -11719,9 +11451,8 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-28 22:04",
-     "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 4
+     "quando": "2026-08-27 19:37",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ],
    "gate": "node cervello/test/sorvegliante.test.mjs",
@@ -11745,7 +11476,7 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 11:45",
    "stato": "attiva",
-   "usi": [],
+   "usi": 0,
    "gate": "node cervello/test/due-porte-due-altezze.test.mjs",
    "data": "2026-08-27 11:45"
   },
@@ -11766,627 +11497,9 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 13:45",
    "stato": "attiva",
-   "usi": [
-    {
-     "quando": "2026-08-29 10:08",
-     "ref": "freno rosso nel cancello: nessun numero di scheda usato due volte"
-    }
-   ],
+   "usi": 0,
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
    "data": "2026-08-27 13:45"
-  },
-  {
-   "id": "L-2026-0723-453",
-   "testo": "**Prima di trattare un bug UI del Pannello come 'nuovo', controllare se esiste già un branch/PR chiuso sullo stesso tema — può essere una regressione, non un caso vergine (AD 23/7 ~19:45, sui 3 bug segnalati da Nicola: contatore token, doppia chat, worker sovrapposto).** Cercando nel repo per diagnosticare il bug 'Nuova chat apre 2 chat' e 'worker si apre sovrapposto', l'AD ha trovato diversi branch GIÀ CHIUSI in passato esattamente sugli stessi temi (fix-chat-dedup, fix-worker-nav-sopra-chat, fix-chat-nuova-chat-e-sync) — segno che il problema è ricorrente, non nuovo. Non ancora verificato se il fix precedente è stato rimosso/mai mergiato o se questo è un caso diverso per scope. Regola riusabile: davanti a un bug UI che 'sembra nuovo', fare `git log --all --grep` / `git branch -a` sul tema PRIMA di scrivere una diagnosi da zero — se emerge un fix già chiuso, la domanda giusta diventa 'perché è tornato?' (mai mergiato? mergiato e poi rotto da un altro commit? nuovo scope diverso?), non 'come lo sistemo'.",
-   "tag": [
-    "chat",
-    "pannello",
-    "regressione",
-    "frontend-dev",
-    "processo",
-    "git"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-23",
-   "ultima_conferma": "2026-07-23 19:45",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0710-74",
-   "testo": "**Allowlist `\"Write\"` vs `\"Write(/tmp/*)\"` — la sintassi con percorso NON abilita le scritture come atteso (chat 10/7):** nel tentativo di abilitare la scrittura di script temporanei in `/tmp`, è stata aggiunta la riga `\"Write(/tmp/*)\"` al `.claude/settings.local.json`. Non ha funzionato. La sintassi corretta è `\"Write\"` senza alcun percorso. Analogamente, `\"Bash(node /tmp/*.mjs:*)\"` non fa glob-matching sui `/` all'interno del path — per abilitare l'esecuzione di uno script specifico usare il path esatto o `node:*`. **Regola riusabile:** usare sempre `\"Write\"` senza restrizioni di percorso; le restrizioni path-based nella allowlist hanno semantica non ovvia e tendono a non funzionare come ci si aspetta.",
-   "tag": [
-    "allowlist",
-    "settings-local",
-    "Write",
-    "bash-glob",
-    "permessi",
-    "claude-code"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 20:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-24 12:47"
-  },
-  {
-   "id": "L-2026-0709-64",
-   "testo": "**Caso-studio Nicola — la coda «Da approvare» NON è dove si applicano le modifiche al codice (chat 9/7):** dopo che l'AD aveva committato 3 difese in codice (backup versionati + undo, no «ok a tutte», etichetta «valore DEDOTTO»), Nicola chiede: «cosa devo fare adesso per applicare queste modifiche? le hai messe dentro Da approvare ed io le devo solo approvare e tu creerai la PR?». Modello mentale sbagliato: Nicola pensa che OGNI lavoro dell'AD passi da una card in «Da approvare» e generi una PR da firmare. Verità: la coda «Da approvare» è SOLO per le AZIONI SUL MONDO REALE (email Resend, scritture DB, spesa budget); il CODICE è 🟡 = l'AD lo fa e avvisa, è GIÀ committato, non passa da nessuna card e sul VPS a ramo-unico non nasce nessuna PR — l'unica scelta residua è «pubblica» (push su main). 5 perché: (1) Nicola non ha il modello a due binari (codice-cervello 🟡 auto-applicato vs azione-mondo-reale in coda a firma); (2) l'AD nei turni precedenti aveva usato «da approvare»/«PR»/«committato» senza mai dire ESPLICITAMENTE che il codice non passa dalla coda; (3) la card e la coda sono la superficie che Nicola vede di più → assume che TUTTO passi da lì; (4) così resta bloccato ad aspettare un'approvazione che non esiste, e il lavoro fatto sembra 'in sospeso' mentre è già vivo; (5) **regola/fix riusabile:** quando consegno un lavoro di CODICE dirò sempre, senza aspettare la domanda: «è già committato, non c'è card da approvare e non c'è PR — l'unica cosa che puoi scegliere è se pubblicarlo ora (push su main)». Separare esplicitamente i due binari a ogni consegna. È il gemello concettuale di [[ramo-unico-main-applicato]] (push-non-merge, L-2026-0709-61) e applicazione operativa di [[nicola-spiegazioni-piu-chiare]]: lì il verbo (mergiare→push), qui il PROCESSO (dove/come si applica il lavoro). Vedi [[consenso-per-azione-ar-103]] (la coda gated è per le mani reali, non per il codice).",
-   "tag": [
-    "spiegazioni-semplici",
-    "coda-approvazione",
-    "codice-vs-azione-reale",
-    "ramo-unico",
-    "push-non-pr",
-    "due-binari",
-    "nicola",
-    "devops-sre"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-09",
-   "ultima_conferma": "2026-07-09 01:40",
-   "_evidenza_2": "ESTENSIONE stessa notte (chat 9/7 ~01:40, tabella `conversazioni`): dopo che l'AD aveva detto «ti compare un permesso da approvare», Nicola chiede «vado io dentro azioni approvo, è questo che vuoi dirmi con il fare un click?» — pensa che il «click» sia entrare nella scheda **Azioni** del Pannello e approvare una card lì. Verità: il permesso `supabase-memoria` è un **prompt di sessione IN CHAT** (terza superficie), NON una card della coda «Azioni»/«Da approvare» del Pannello. Conferma il ROOT di questa lezione: Nicola assume che OGNI approvazione passi dalla coda del Pannello, mentre le superfici sono TRE distinte — ① card «Da approvare» = azioni sul mondo reale (email/DB/spesa); ② prompt permesso in-chat = autorizzare l'AD a eseguire un tool in questa sessione (MCP/Bash); ③ push su main = pubblicare il codice già committato. **Regola/fix riusabile generalizzato:** quando chiedo un OK dico SEMPRE, senza aspettare, DOVE appare — «non è nel Pannello: qui in chat ti esce una finestrella `<nome-permesso>` da approvare» vs «è una card in Azioni» vs «è solo il push». Non dire mai «approva» senza dire su quale delle tre superfici.",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0709-63",
-   "testo": "**Un dato che ESISTE ed è collegato ma nessuna superficie lo consuma = INVISIBILE, quindi come inesistente per chi guarda (chat 9/7, punto 3 di Nicola su #59):** Nicola: «i 2 sensori devono diventare il costo dei token, non lo vedo mai citato, missa che non è collegata questa funzione». Diagnosi: il sensore token era già completo e collegato — `costo-ai.mjs` scrive `costo-ai.json` a fine giro e `pannello/src/app/api/costo/route.ts` lo espone — MA NESSUN componente del Pannello faceva fetch di `/api/costo`; al suo posto sulla Plancia (Cuore della macchina) c'era la casella MORTA «Budget AI €/mese» (sempre €0 senza API a pagamento). Nicola vedeva euro fasulli, non i token veri. 5 perché: (1) la pipeline era completa fino all'API ma si fermava prima dell'UI; (2) una casella vecchia occupava il posto e mostrava un dato morto plausibile → nessuno notava il buco; (3) 'collegato' era stato dato per 'visibile' senza verificare che una superficie leggesse davvero l'endpoint; (4) così una funzione utile (misura dello sforzo) restava di fatto spenta agli occhi di Nicola; (5) **regola/fix riusabile:** un sensore/metrica è 'attivo' solo se una SUPERFICIE (card Pannello, avviso, report) lo CONSUMA e Nicola lo può vedere — la catena va verificata fino all'ultimo miglio (dato→file→API→**componente reso**), non solo fino all'API; e una casella che mostra un dato ormai morto va sostituita, non lasciata lì a mentire. È il gemello-UI di P2 (un controllo/dato vale solo se persiste E raggiunge chi lo deve usare) e parente di L-2026-0706-55 (caselle che citano artefatti che non esistono). Fix fatto (🟢, `CuoreMacchina.tsx` → «🪙 Sforzo oggi (token) X/soglia · −N% giri risparmiati»), da provare in browser prima del push. Vedi [[niente-api-ai]].",
-   "tag": [
-    "sensori",
-    "ultimo-miglio",
-    "pannello",
-    "casella-morta",
-    "costo-token",
-    "visibilita",
-    "frontend-dev"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-09",
-   "ultima_conferma": "2026-07-09 01:05",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0709-62",
-   "testo": "**Caso-studio Nicola — prima di consigliare di RIMUOVERE/revocare qualcosa, verifica A COSA SERVE nella nostra architettura (chat 9/7, correzione su Cursor):** nella risposta precedente (23:40) l'AD aveva consigliato di revocare `CURSOR_API_KEY` insieme alle vere API AI generative, classificandola come 'unica chiave AI a pagamento viva da togliere'. Nicola corregge: «tieni le API di Cursor, mi servono quando raggiungo i limiti di Claude Max». 5 perché: (1) l'AD ha messo Cursor nello stesso mucchio dei connettori generativi (Gemini/Canva/video) solo perché è 'una chiave AI a pagamento', senza distinguerne la FUNZIONE; (2) Cursor NON è un connettore a consumo dentro un loop — è un MOTORE di riserva (fallback quando il piano Claude Max è saturo), quindi serve lo scopo di Nicola (continuità operativa), non lo tradisce; (3) l'AD ha applicato la regola giusta ('togli le API AI a consumo') a un oggetto sbagliato perché ha guardato la categoria-etichetta, non l'uso reale; (4) così ha rischiato di far revocare una risorsa che gli serve, peggiorando invece di aiutare; (5) **regola/fix riusabile:** quando propongo di rimuovere/revocare/spegnere qualcosa, prima verifico A COSA SERVE e SE È IN USO (o previsto in uso) — un motore-di-fallback, una config di destinazione, una variabile letta per nome NON si tolgono anche se cadono nella stessa etichetta generica di ciò che va tolto. Stessa forma di L-2026-0702-46 (consolidare config = cambiare valore, non togliere variabili che il codice legge): distinguere sempre 'stessa categoria' da 'stessa funzione'. Vedi [[niente-api-ai]].",
-   "tag": [
-    "rimozione",
-    "verifica-uso",
-    "cursor",
-    "fallback-motore",
-    "categoria-vs-funzione",
-    "nicola",
-    "builder-automazioni"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-09",
-   "ultima_conferma": "2026-07-09 01:05",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0709-61",
-   "testo": "**Caso-studio Nicola — «mergiare» è gergo E sbagliato nel nostro ramo-unico (chat 9/7):** rispondendo sulla mini-chat l'AD aveva detto «è fatta, manca solo mergiarla» e Nicola non ha capito: «perché non hai creato la PR se manca solo mergiarla? non sto capendo» + «cosa intendi con far partire il pannello / giro sul VPS / come ti apro il bash?». 5 perché: (1) l'AD ha usato un verbo-gergo (mergiare) dando per scontato un modello mentale che Nicola non ha; (2) peggio, il termine era ANCHE inesatto per la nostra architettura — siamo a RAMO UNICO `main`, quindi NON esiste PR/merge: l'equivalente è il **push** (mandare online ciò che è già committato); (3) l'AD ha ammesso e corretto solo DOPO la domanda, non prima; (4) stessa frizione su «far partire il pannello», «giro sul VPS», «aprirti il bash» — tutti termini-macchina serviti senza glossa; (5) **regola/fix riusabile:** ogni verbo operativo (mergiare→push, avviare il pannello, giro, bash) va detto con la parola-immagine accanto E dev'essere ESATTO rispetto alla nostra architettura — mai dire «merge» quando siamo single-branch (è push), mai un termine che userebbe un terminale senza tradurlo. È l'applicazione operativa di [[nicola-spiegazioni-piu-chiare]] estesa dai NUMERI/perché ai VERBI-azione. Vedi [[ramo-unico-main-applicato]], [[deploy-vps-main-vs-memoria-ad]].",
-   "tag": [
-    "gergo",
-    "spiegazioni-semplici",
-    "ramo-unico",
-    "push-non-merge",
-    "nicola",
-    "devops-sre",
-    "frontend-dev"
-   ],
-   "_evidenza_2": "RICORRENZA (chat 9/7 ~22:45): alla richiesta di Nicola «aggiungi la possibilità di mandarti foto e file dentro la chat» l'AD ha risposto «Procedo a costruirlo nel branch con Supabase Storage?» e Nicola: «in che senso procedi nel branch con supabase storage?». Stesso difetto: due termini-macchina (branch, Supabase Storage) serviti senza glossa in chat → domanda di chiarimento. Peggio: nel turno dopo l'AD NON ha spiegato i due termini con l'analogia, ha solo chiesto lo scope (solo foto / anche PDF). Fix da applicare sempre: quando propongo un lavoro tecnico dico subito COSA vuol dire in parole-immagine (branch = «una copia di prova a parte, il sito vero non si tocca finché non dici ok»; Supabase Storage = «il magazzino dove il sito tiene i file caricati»), non il gergo secco. Rinforza [[nicola-spiegazioni-piu-chiare]] e la regola-metodo (analogia prima, codici in fondo).",
-   "reparto": "@AD",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-09",
-   "ultima_conferma": "2026-07-09 22:45",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0708-59",
-   "testo": "**Un cancello di sicurezza espresso come CONVENZIONE non è imposto finché il CODICE non lo verifica fail-closed (giro 8/7, fix AR-103 firmato):** il cancello 🟢🟡🔴 (accoda→firma) era solo una convenzione — `esegui-azione.mjs`/`marketplace.mjs` decidevano DRY-RUN vs invio reale SOLO dall'env `AZIONE_LIVE`, e l'esecutore si fidava dell'`AZIONE_ID` come stringa libera senza verificare la firma. Con LIVE=1 OGNI chiamata (anche generata dall'AI in un giro/worker) partiva davvero. 5 perché: (1) la disciplina 'prima mostri, poi esegui' viveva nel prompt/processo, non nel codice; (2) l'esecutore non ri-leggeva AZIONI-IN-ATTESA per confermare che la card fosse APPROVATA; (3) un singolo switch globale è un interruttore, non un consenso per-azione; (4) così un destinatario/testo sbagliato partiva senza rete al primo LIVE=1; (5) **regola/fix riusabile:** quando implemento un gate di sicurezza rendilo APPLICATO dal codice e fail-closed (default = blocca/DRY-RUN), verificando l'artefatto reale (card APPROVATA + allowlist destinatari) prima di agire — non affidarti alla disciplina di chi lancia. E ri-controlla il kill-switch DENTRO l'esecutore, non solo a monte (come AR-100). Questo è il corollario 'mani reali' di P2 (un controllo vale solo se persiste un artefatto e FA DA GATE). Stessa forma nei due pre-mortem firmati la stessa sera (backup versionato anti-undo-perso, niente 'ok a tutte' sulle scritture DB). Vedi [[consenso-per-azione-ar-103]].",
-   "tag": [
-    "sicurezza",
-    "fail-closed",
-    "gate-in-codice",
-    "consenso-per-azione",
-    "auto-modifica",
-    "AR-103",
-    "backend-dev",
-    "security"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-08",
-   "ultima_conferma": "2026-07-08 23:17",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0707-58",
-   "testo": "**Caso-studio Nicola — una card che aspetta un'azione MANUALE tua (che la macchina non può osservare) va chiusa al tuo «l'ho fatto», e la chiusura deve arrivare al ramo servito, o la card riappare e ti irrita (chat 7/7 01:00):** card #53 «Sposta la lettura del Pannello su main» aveva un passo ③ in attesa che Nicola cambiasse due impostazioni fuori dal DB (Vercel `OBSIDIAN_BRANCH=main`, VPS `GIT_BRANCH=main`); Nicola: «te l'ho già detto che l'ho già fatto, perché non hai tolto questa casella?». 5 perché: (1) l'esito di un'azione manuale su Vercel/VPS/GitHub NON è leggibile dai sensori (nessun canale la misura) → la macchina resta cieca finché Nicola non lo dice; (2) al suo «fatto» la chiusura era scritta nel file MA il commit git era bloccato in sessione → la card resta viva nel Pannello finché il file committato non raggiunge il ramo servito (`main`); (3) manca il patto esplicito sulla card «quando l'hai fatto scrivimi X e la chiudo» + un modo di far sparire subito la card senza aspettare il prossimo giro/worker; (4) così Nicola vede una card che dà per morta e perde fiducia; (5) **regola/fix:** per ogni card che dipende da un'azione manuale esterna di Nicola, ① dille chiaro cosa scrivere quando ha finito; ② al suo «fatto» VERIFICA ciò che è verificabile dalla sessione (qui: `cervello/vps/.env` GIT_BRANCH=main ✅) e fidati della parola sul resto; ③ chiudi la card E assicurati che il commit raggiunga il ramo servito subito (chiedi l'ok a committare o handoff al giro/worker VPS), non lasciarla «chiusa solo nel file»; ④ spiega in una riga perché era rimasta lì (passo in attesa di conferma umana), senza farlo sembrare un dubbio sulla sua parola. Residuo passo ③ = niente da riportare: `memoria-ad` fermo al 30/6, prima dello switch. Parente di P1 (FIRMA≠ESECUZIONE) e P2 (un controllo/una chiusura vale solo se PERSISTE e raggiunge il ramo servito). Vedi [[ramo-unico-main-applicato]], [[deploy-vps-main-vs-memoria-ad]].",
-   "tag": [
-    "caselle-pannello",
-    "azione-manuale-nicola",
-    "commit-non-committato",
-    "ramo-servito",
-    "fiducia",
-    "candore",
-    "nicola",
-    "devops-sre"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-07",
-   "ultima_conferma": "2026-07-07 01:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0706-56",
-   "testo": "**Correzione Nicola — non ridurre la VISIONE agli esempi che dà, ragiona all'intero spazio (chat 6/7 18:34):** l'AD aveva incorniciato la città-online in **3 strati** (retail→servizi→C2C) prendendo per esaustivi i 3 esempi che Nicola aveva citato; Nicola corregge «**ci sono altri strati, ragionaci bene, crea una strategia ben studiata**». Rivisto: ~11 verticali su uno **Strato 0 trasversale** (identità+reputazione+wallet+consegna+dato). 5 perché: (1) ho letto gli esempi di Nicola come la lista completa, non come semi illustrativi; (2) un numero tondo (3) sembrava una cornice pulita e mi ci sono ancorato; (3) non ho aperto lo spazio ('quali altri verticali vive una città?') prima di consegnare; (4) così ho dato una versione sottodimensionata di una richiesta di visione; (5) **regola/fix:** su una richiesta di VISIONE/strategia tratta gli esempi come seed, poi mappa l'intero spazio (verticali + fondamenta trasversali) PRIMA di proporre la sequenza; quando Nicola dice 'ragionaci bene' vuole la versione esaustiva e ben studiata, non la sintesi comoda del primo taglio. Vedi [[visione-mycity-citta-online]].",
-   "tag": [
-    "visione",
-    "strategia",
-    "esaustivita",
-    "ancoraggio",
-    "citta-online",
-    "corporate-strategy",
-    "nicola"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-06",
-   "ultima_conferma": "2026-07-06 18:34",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0706-54",
-   "testo": "**Una correzione approvata dal Pannello va propagata a TUTTI gli snapshot nello stesso passaggio, non solo a STATO (giro 6/7 16:45):** l'allineamento «#16 annullato» del 16:15 aveva corretto STATO.md e la coda, ma gli snapshot NON auto-fondibili (registro-realta.json, intenzioni-nicola.json, auto-analisi.json) erano rimasti fermi al 4/7 con #16 ancora «IN CONSEGNA». Risultato: la Cabina leggeva due verità in contraddizione (STATO=annullato vs registro=in consegna). 5 perché: (1) il doer del 16:15 ha toccato STATO+coda ma non i .json di auto-coscienza; (2) questi file sono snapshot che NON hanno merge=union, quindi non si allineano da soli; (3) manca un check che verifichi la coerenza dello stato di un'entità-chiave tra STATO e registro-realta; (4) così una correzione parziale lascia deriva silenziosa fino al giro dopo; (5) **regola/fix:** ogni correzione di stato di un'entità (specie #16/PQ) deve toccare STATO + registro-realta + intenzioni + ultimo-briefing + auto-analisi nello STESSO giro; candidato guardiano: un check che confronta lo stato di #16 in STATO vs registro-realta e FALLISCE se divergono. Corollario di P4 (una scoperta che cambia il faro riscrive tutto nello stesso giro).",
-   "tag": [
-    "coerenza-snapshot",
-    "deriva-silenziosa",
-    "registro-realta",
-    "#16",
-    "cabina",
-    "guardiano"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 1,
-   "fonte": "auto-analisi",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-06",
-   "ultima_conferma": "2026-07-06 16:45",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0706-53",
-   "testo": "**Caso-studio Nicola — inattività ≠ churn quando la relazione è gestita a mano (casella Pannello 6/7 15:52):** il sensore ha letto Pane Quotidiano — unico negozio reale, 0 incassi da ~12 giorni + ordine annullato il 3/7 — come 'rischio abbandono MASSIMO' e ha generato un'azione anti-churn (chiama il fornaio). Nicola corregge: **«non c'è bisogno con PQ, li conosco e aspettano finché tutto non è pronto»**. 5 perché: (1) il sensore modella l'abbandono solo su segnali-dati (giorni-senza-incasso, ordine annullato); (2) non conosce l'accordo umano fuori dal DB (il titolare aspetta di proposito); (3) il registro-realtà marca PQ 'confermato' ma non porta il campo 'relazione gestita da Nicola / in attesa concordata'; (4) così ogni negozio reale-ma-fermo diventa un falso positivo di churn; (5) **fix:** prima di generare anti-churn/retention su un negozio, verifica se è una attesa concordata gestita direttamente da Nicola — se sì, l'inattività NON è abbandono e non si accoda alcuna telefonata. Applicato: chiuse #25 (A6 check-in) e #29 (A9 tocco post-annullamento); resta solo A7 (upsell 🟢) come crescita DOPO la 1ª consegna, non come retention. Vedi memoria [[pane-quotidiano-non-e-churn]].",
-   "tag": [
-    "churn",
-    "falso-positivo",
-    "sensori",
-    "pane-quotidiano",
-    "retention",
-    "relazione-umana",
-    "account-negozi"
-   ],
-   "reparto": "@account-negozi",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-06",
-   "ultima_conferma": "2026-07-06 15:52",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0702-50",
-   "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18:21):** nei passaggi pomeridiani i 7 numeri erano 'gated' (node non eseguibile in sessione) e portati avanti dalla baseline; nel giro serale il runner (giro.sh) ha scritto delta-gate.json e sensori-cecita.json con dati REST freschi (ordini=1, ultimo 24/6, profili=23), permettendo di MISURARE i numeri invece di inferirli — pur restando invariati. **Regola:** anche quando l'agente non può lanciare `node`, se giro.sh ha appena scritto delta-gate/sensori (< ~1h), USA quei campi come dato live confermato e alza la fiducia; distingui sempre 'ri-misurato' da 'portato avanti' nel briefing. Corollario di AR-019: il delta-gate non serve solo a saltare i giri vuoti, è anche la fonte-di-verità dei numeri quando l'agente è gated.",
-   "tag": [
-    "delta-gate",
-    "AR-019",
-    "sensori",
-    "REST-live",
-    "giro",
-    "fiducia-dati"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.35,
-   "evidenze": 1,
-   "fonte": "esiti",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 18:21",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0702-49",
-   "testo": "**Un 🔴 bloccato ha due cause diverse — non confonderle (caso SQL 107, chat 2/7):** Nicola aveva già dato la firma («eseguilo tu io lo approvo»), ma l'esecuzione era ferma per un motivo TECNICO diverso — il permesso di sessione dello strumento `apply_migration` non era concesso. Continuare a spiegare/chiedere la firma quando manca solo il permesso strumento fa perdere tempo a Nicola. **Regola:** quando un'azione 🔴 è bloccata, diagnostica QUALE dei due manca — (a) firma di Nicola, oppure (b) permesso di sessione dello strumento — e proponi lo sblocco GIUSTO (concedi permesso strumento vs firma), più sempre un piano B manuale (es. incollare la SQL nel SQL Editor). Non delegare a Nicola una firma che ha già dato.",
-   "_evidenza_2": "Ripetuta col caso tabella `conversazioni` (chat 9/7 01:20): Nicola aveva già detto «procedi con la tabella e la verifica nel browser» (firma 🟡 data), ma l'esecuzione era ferma per il permesso di sessione su `supabase-memoria` (create table negato) e su `npm` (Playwright). L'AD ha diagnosticato bene il blocco come PERMESSO-strumento — non ha ri-chiesto la firma — e ha offerto il piano B manuale (incollare lo SQL idempotente nel SQL Editor del progetto memoria). La regola ha retto.",
-   "tag": [
-    "semaforo-rosso",
-    "permessi-strumento",
-    "firma-nicola",
-    "diagnosi-blocco",
-    "efficienza"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-09 01:20",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0702-46",
-   "testo": "**Consolidare config = cambiare VALORE, non togliere VARIABILI (chat 2/7 12:35):** Nicola crea `github_push_token` (mycity+ad-mycity, Contents+PR R/W) e chiede cosa togliere da VPS/Vercel. **Regola:** prima di dire cosa rimuovere, LEGGI il codice reale — le catene di fallback dicono quali nomi-variabile servono (`git-github.mjs:78` `MARKETPLACE_GIT_TOKEN||GIT_TOKEN||GIT_PUSH_TOKEN`; `obsidian.ts:7` `OBSIDIAN_TOKEN||GITHUB_TOKEN`). Con un token unico basta impostare UN valore (`GIT_PUSH_TOKEN` su VPS, `GITHUB_TOKEN` su Vercel); le altre variabili diventano ridondanti ma NON vanno cancellate se il codice le legge per nome. **Distingui token da config di destinazione** (`OBSIDIAN_REPO_OWNER/REPO/BRANCH`, `GITHUB_OWNER/REPO` NON sono token: dicono DOVE guardare — toglierli rompe la lettura). Da cancellare solo i 2 vecchi PAT single-repo su GitHub. Nota least-privilege: Vercel passa da read-only a write → accettato per semplicità, riproponibile un token RO separato se serve rigore.",
-   "tag": [
-    "devops",
-    "security",
-    "token",
-    "config",
-    "fallback",
-    "nicola"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 12:35",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0702-41",
-   "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter comprare» + «i retailer devono poter comprare in modo diverso — pulsante marketplace, per nessun altro motivo/errore il venditore deve accedere al catalogo». **5 perché gap:** (1) UI admin nascondeva carrello ma `addToCart` + API checkout/COD **aperte** → carrello test €7,95 (#2 dei «4 operativi»); (2) seller navigava `/` e prodotti come buyer → carrelli demo #3–#4; (3) briefing «4 carrelli reali operativi» = **record DB con items**, non buyer reali — **solo 1** (samir) per CRM; (4) recovery cron oggi = 0 righe (flag già settati) ma carrelli test inquinavano analisi; (5) fix obbligatorio **triplo:** UI blocco + **403 server** su checkout/COD per `role=admin` + middleware seller redirect `/seller/dashboard` senza cookie modalità acquisto (`/?shop=1`, 8h, banner «Torna al negozio»). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` · deploy 🔴 #19. **Pattern:** separazione ruoli acquisto = regola product non negoziabile; implementare sempre UI **e** server; seller buyer-mode solo opt-in esplicito.",
-   "tag": [
-    "ruoli",
-    "admin",
-    "seller",
-    "checkout",
-    "middleware",
-    "nicola",
-    "crm",
-    "carrelli"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.30999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 07:35",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-38",
-   "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge (**ESEGUITO in repo** 20:02 dopo «ok configura sync VPS» → #17 install 1× root). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
-   "tag": [
-    "devops",
-    "nicola",
-    "automazione",
-    "vps",
-    "merge",
-    "target",
-    "consenso"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 20:05",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-35",
-   "testo": "**Caso-studio Nicola (1/7 11:29 — card SQL 107):** «L'ho approvato, perché mi chiede di nuovo di approvarlo?» — dopo «ok deploy Sprint 1» (11:10) la card «DROP policy RLS» ricompare in **Proposte** con Approva. **5 perché:** (1) firma deploy 🔴 autorizza **entrambi** i tubi (Render + migrazione SQL) ma il passo Supabase resta **manuale** — non è una seconda approvazione; (2) card diceva già «Nicola ok deploy · policy ancora attiva» = promemoria ops mal classificato come Proposta; (3) pulsante Approva **non esegue** SQL (AD senza `MARKETPLACE_SUPABASE_WRITE_KEY`); (4) confuso «firma» vs «esecuzione manuale a mani di Nicola»; (5) fix: passi manuali **post-firma** (SQL Supabase, script shell) → **opportunità/checklist 🟢** con tabella «codice ✅ / SQL ⏳», **mai** Proposte 🔴 ripetute; se chiede «perché di nuovo» → ignorare Approva + istruzioni SQL Editor. Collegato a L-34 (2 tubi) e L-07 (impegni ≠ Proposte).",
-   "tag": [
-    "pannello",
-    "classificazione",
-    "nicola",
-    "supabase",
-    "deploy",
-    "rls",
-    "sprint",
-    "post-firma"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:29",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-34",
-   "testo": "**«Ok deploy Sprint 1» — verifica prod prima di ridistribuire (Nicola 1/7 11:10):** dopo merge #209+#210 Render **auto-deploy ~10:31** — «ok deploy» ≠ rifare deploy manuale. **Pattern obbligatorio:** (1) tabella verifica: health API, bundle prod (`Consegna MyCity`, `seller_public_profiles`), test anon REST su `profiles.stripe_account_id`; (2) dichiarare **codice ✅ / SQL ⏳** se migrazione non applicata; (3) **2 tubi deploy marketplace:** Render (auto post-merge) vs Supabase SQL (`107_seller_public_profiles.sql` DROP policy) — AD **senza** `MARKETPLACE_SUPABASE_WRITE_KEY` → Nicola incolla SQL in Supabase SQL Editor (~30s), poi `fatto sql 107` per verifica; (4) **separare #13 da #16** in risposta — «ok deploy sprint 1» è deploy fix, non ordine zombie (Scelta A già 11:05). Smoke test post-SQL: COD/carta test + anon 403 su profiles diretto.",
-   "tag": [
-    "deploy",
-    "render",
-    "supabase",
-    "migrazione",
-    "sprint",
-    "marketplace",
-    "nicola",
-    "verifica"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:29",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-32",
-   "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 + 11:00 — due merge consecutivi):** dopo «ok merge bottoni A/B» → **`main` `c50148d`**; dopo «ok merge scelta-ab universale» → **`main` `853c33a`** — entrambi Vercel redeploy — ma **decisione ordine A/B resta 🔴** (click A o B / messaggio buyer). **5 perché confusione:** (1) Nicola percepisce «merge» come chiusura totale; (2) deploy codice UX e accetta/annulla ordine sono binari separati; (3) card ordine zombie chiede ancora A/B post-deploy; (4) risposta AD deve tabellare «deploy ✅ / decisione ⏳» sempre; (5) soglia 168h superata ~10:30 — urgenza resta sul click A/B, non sul merge. **Variante push senza PR:** codice era **solo su VPS locale**, non su GitHub — nessuna PR da mergiare; «ok merge X» = **`git push origin main`** con `GIT_PUSH_TOKEN` esistente, non `gh pr merge`. Dichiarare commit hash + «Vercel ~2 min» + comando VPS sync separato.",
-   "tag": [
-    "merge",
-    "deploy",
-    "nicola",
-    "ordine",
-    "pannello",
-    "distinzione",
-    "vps"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-30",
-   "testo": "**Nicola 1/7 10:13 — ordine zombie €19,05:** «aggiungimi A o B, anzi che approva o ignora» — dopo spiegazione «perché torna» (L-29) non basta chiarire: vuole **fix Pannello immediato** 🟡. Implementato: card `decisione_ordine_ab` con **A — Accetta e consegna** / **B — Annulla**; API `/api/decisione-ordine` → memoria + job cervello (DECISIONI + accoda esecuzione 🔴). **Deploy ESEGUITO** 10:36 (`main` `c50148d`, Nicola «ok merge bottoni A/B»). **Decisione ordine A/B ancora 🔴** — deploy UX ≠ click A/B. Pattern: scelta binaria di dominio = etichette A/B sul bottone, mai Approva/Ignora generico.",
-   "tag": [
-    "pannello",
-    "ux",
-    "nicola",
-    "ordine",
-    "frontend",
-    "approvazioni"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 10:36",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-29",
-   "testo": "**Caso-studio Nicola (1/7 10:09 — ordine zombie €19,05):** «Ormai è la 3ª volta che lo approvo, perché torna?» — percepisce di aver già deciso ma la card ricompare ogni giro (~2h). **5 perché:** (1) non ha MAI risposto «A» o «B» — le firme erano batch 30/6 (~20 azioni), foglio-firma 01:02, ok Sprint 1 07:30 (cose diverse); (2) pulsante «Approva» su Proposta Pannello **non registra** la decisione di dominio (A accetta / B annulla) — nasconde solo in sessione; (3) nessuna riga in DECISIONI/AZIONI per accetta/annulla ordine; (4) il giro rigenera la card finché ordine resta PENDING in DB; (5) fix: card 🔴 decisione ordine = bottoni **A/B espliciti** (o parsing «A»/«B» in chat → DECISIONI + accoda esecuzione 🔴); mai far credere che «Approva» generico chiuda il loop. **Pattern Nicola:** quando la stessa card torna, chiede causa radice + tabella firme passate vs decisione mancante — non vuole ri-cliccare a vuoto.",
-   "tag": [
-    "pannello",
-    "approvazioni",
-    "nicola",
-    "operations",
-    "ux",
-    "ordine",
-    "zombie"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 10:13",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-26",
-   "testo": "**Push marketplace 403 + PR mancante (Nicola 1/7 07:41):** il token GitHub del worker pusha su `ad-mycity` ma **non** su `NicolaeRotaru/mycity` (403) — repo marketplace = clone locale `marketplace/` in scrittura locale. Dopo «ok Sprint 1»: (1) branch+commit in locale ✅; (2) **tentare subito** `git push` + `gh pr create` — se 403, dichiarare esplicitamente «PR NON creata» in testa alla risposta, **non** «Sprint 1 eseguito» senza PR; (3) Nicola corregge «crea la pr, non l'hai creata» — approvazione sprint = si aspetta PR, non solo patch/comandi manuali; (4) accodare **#14** token `MARKETPLACE_GIT_TOKEN` e offrire compare link + `git am` come fallback. **5 perché:** PAT fine-grained limitato ad-mycity; AD ha chiuso su «codice pronto» senza verificare push; messaggio ambiguo ha fatto credere PR esistente; Nicola delega PR come su ad-mycity (L-0701-12); fix strutturale = token write su mycity. Pattern diverso da ad-mycity: lì push OK, manca solo `gh pr create`.",
-   "tag": [
-    "marketplace",
-    "git",
-    "push",
-    "403",
-    "vps",
-    "nicola",
-    "devops",
-    "pr"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 07:41",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-22",
-   "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo, assicurati che non accada mai con nient'altro — non possiamo fare figura di merda». Pre-mortem: `esegui-azione.mjs` LIVE su coda mal filtrata → messaggio/payout 🔴 senza firma. Fix 🟡 in repo: `cervello/guardrail-semaforo.mjs` (modulo unico) + doppio cancello in `esegui-azione.mjs` (ingresso + pre-invio) + `NICOLA_FIRMA=1`/`--firma-nicola` solo post-Approva Pannello in `worker.sh`/`worker.ps1` + autopilot **solo 🟢** + stesso gate in `pannello/lib/mani.ts` e `azioni.ts` (n8n). Heuristiche contenuto → 🔴 anche se mal etichettato 🟢 (email domini esterni, payout, stripe, whatsapp, deploy). Self-test: `node cervello/esegui-azione.mjs verifica` → 7/7. **Deploy main+VPS ancora 🟡** — con `AZIONI_LIVE=0` resta sicuro. Pattern: ogni nuovo esecutore (worker, autopilot, n8n, mani) deve chiamare guardrail-semaforo, non reimplementare filtri locali.",
-   "tag": [
-    "guardrail",
-    "semaforo",
-    "esegui-azione",
-    "nicola",
-    "pre-mortem",
-    "security",
-    "worker"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-16",
-   "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + `sudo bash cervello/vps/aggiorna-cervello.sh` → VPS con `\"WebFetch\"` globale (no whitelist), worker/giro automatico navigano in sola lettura. Pattern Nicola confermato: (1) link compare GitHub + merge browser; (2) **stesso** script sync (non git manuale memoria-ad); (3) messaggio combinato «ho fatto merge ed eseguito i comandi» + richiesta prossimo passo («apri la pr quaderni»). 5 perché chiusura: L-0701-10/12 tracciavano gap; Nicola ha eseguito entrambi i passi; verifica = grep senza `domain:`; giro web 42 senior ora replicabile anche su worker; quaderni = PR separata su main (L-0701-15). **Mai** dire «web attivo sul worker» prima di merge+sync confermati da Nicola.",
-   "tag": [
-    "webfetch",
-    "main",
-    "vps",
-    "nicola",
-    "devops",
-    "chiusura"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.30999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-15",
-   "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08. **Rinforzo 4/7:** ho dichiarato «vista Quaderni pronta nel Pannello» ma il branch `fix/quaderni-senior` **non era mai stato pushato né mergiato su `main`** → Nicola «dentro memoria non ci sono i quaderni». Stessa trappola di L-2026-0701-10: `npm run dev` locale la mostrava, Vercel no. **Mai dire «è nel Pannello» finché il branch non è su GitHub E mergiato su `main`** (verifica `git ls-remote` / link compare), non basta averlo committato in locale.",
-   "tag": [
-    "pannello",
-    "quaderni",
-    "memoria-squadra",
-    "nicola",
-    "osservabilita",
-    "deploy"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-04 09:57",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-09",
-   "testo": "**Caso-studio Nicola:** «Non posso fare pull su memoria-ad — va a creare conflitti.» Correzione dopo consiglio sbagliato di `git pull memoria-ad` sul VPS per aggiornare WebFetch. 5 perché: (1) ho confuso binario **memoria** (`memoria-ad`, overlay automatico worker) con binario **codice** (`main`, es. `.claude/settings.json`); (2) Nicola non deve toccare git — pull manuale su memoria-ad confligge col giro; (3) L-2026-0701-03 e L-2026-0701-08 ripetevano l'errore; (4) ogni giro fa già fetch memoria-ad + overlay codice da main; (5) fix: **mai** dire a Nicola pull/checkout su `memoria-ad`. Aggiornamento codice VPS = `cervello/vps/aggiorna-cervello.sh` o «fai un giro» Pannello; verifica = `grep WebFetch settings.json`. WebFetch globale ancora solo locale finché PR non mergiata su **main**.",
-   "tag": [
-    "vps",
-    "git",
-    "memoria-ad",
-    "main",
-    "nicola",
-    "guardrail",
-    "devops"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.33999999999999986,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0710-88",
-   "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7):** aggiungendo `\"Bash(git push origin feature/*:*)\"` alle allowlist, ci si aspettava che coprisse `git push origin feature/skill-rapide-chat`. Non funziona: il glob `*` nelle allowlist di Claude Code non matcha il carattere `/` nei path — quindi `feature/*` non copre branch con slash aggiuntivi nel nome. Il push continuava a chiedere permesso nonostante la regola. **Fix riusabile:** per coprire qualsiasi push di branch, usare la forma generica `\"Bash(git push origin:*)\"` (senza pattern branch) oppure aggiungere il path esatto del branch. **Regola per le allowlist:** trattare i glob delle allowlist Bash come glob POSIX dove `*` non matcha `/`; se il pattern contiene slash, testare sempre con un branch reale prima di affidarsi all'allowlist.",
-   "tag": [
-    "allowlist-bash",
-    "glob-pattern",
-    "git-push",
-    "branch-naming",
-    "settings-local-json",
-    "devops-sre"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 20:26",
-   "id_precedente": "L-2026-0710-72",
-   "nota_rinumero": "rinumerata da L-2026-0710-72 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
-  },
-  {
-   "id": "L-2026-0726-01",
-   "testo": "Una proiezione finanziaria salvata solo come RISULTATO NETTO non basta a rispondere a una domanda futura su una sola componente (solo ricavi, o solo costi) — serve rilanciare l'agente da zero per isolarla. Lo scenario del 23/7 (finanza.soglia-costi-extra, DECISIONI 17:25) aveva salvato solo il totale (~-2.000€), senza i ricavi lordi separati dai costi; il 26/7 Nicola ha chiesto «parlami solo dei guadagni e non dei costi» e non c'era nulla da riusare, serviva una nuova run di finanza (risultato: scenari 166/308/523€ primo mese, 1 negozio). Regola: quando si salva una proiezione economica in memoria/vault, salvare SEMPRE la scomposizione ricavi vs costi (non solo il netto), così le domande parziali future non richiedono un nuovo giro dell'agente.",
-   "tag": [
-    "finanza",
-    "proiezione",
-    "scomposizione-ricavi-costi",
-    "memoria-riusabile"
-   ],
-   "reparto": "@finanza",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-26",
-   "ultima_conferma": "2026-07-26 00:44",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-24 12:47"
   },
   {
    "id": "L-2026-0901-01",

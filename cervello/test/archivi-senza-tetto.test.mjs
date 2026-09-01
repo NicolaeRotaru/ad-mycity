@@ -60,6 +60,12 @@ const SOGLIA_GIORNI = 28;
 //
 // Il difetto non era da nessuna delle due parti del confronto: era avere due orologi. Adesso ce n'è
 // uno, `istante()` di tetti-archivio, lo stesso che usa `passoDovuto` per decidere.
+//
+// Su `main` la stessa riga e stata corretta in parallelo, con le stesse due ore misurate a un minuto
+// diverso (27,95 contro 28,03). Le due cure coincidono; questo lato porta in piu il caso
+// deterministico qui sotto e la scheda AR-907, che li non c erano. E non e la prima volta in questa
+// casa: AR-647 e lo stesso sbaglio sulle cadenze — «su un server UTC ogni cadenza sembra piu fresca
+// di 1-2 ore». Due orologi diversi sullo stesso numero si allontanano sempre.
 const etaGiorni = (date) => {
   const t = date.map((d) => T.istante(d)).filter((x) => x != null);
   return t.length ? (Date.now() - Math.max(...t)) / 86400000 : Infinity;
