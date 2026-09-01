@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-01 15:48",
+  "aggiornato": "2026-09-01 16:13",
   "giorni_sospetto": 3,
-  "difetti_aperti": 159,
-  "difetti_da_fare": 159,
+  "difetti_aperti": 162,
+  "difetti_da_fare": 162,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 891,
+    "totale": 894,
     "chiusi": 732,
-    "aperti": 148,
+    "aperti": 151,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 159,
+    "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 732,
-      "aperto": 148,
+      "aperto": 151,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 159,
-    "viste": 159,
+    "attese": 162,
+    "viste": 162,
     "fuori": 0,
-    "motivo": "bilancio a posto: 732 chiuse + 159 classificate = 891 schede, e ogni stato vivo è dentro (148 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 732 chiuse + 162 classificate = 894 schede, e ogni stato vivo è dentro (151 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 91,
     "prova-debole-su-grave": 26,
-    "auto-comando": 38,
+    "auto-comando": 41,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -199,7 +199,7 @@
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 8,
-  "schede_campi_illeggibili": 38,
+  "schede_campi_illeggibili": 41,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -388,6 +388,21 @@
     },
     {
       "id": "AR-900",
+      "gravita": "grave",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-901",
+      "gravita": "grave",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-902",
+      "gravita": "grave",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-903",
       "gravita": "grave",
       "impatto_crescita": null
     }
@@ -624,6 +639,27 @@
     },
     {
       "id": "AR-900",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-901",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-902",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-903",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -4054,6 +4090,45 @@
       "titolo": "Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-901",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il registro diceva «fatta» prima di sapere se lo stato era stato salvato: due verita diverse sullo stesso fatt",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/c1-atto-una-volta-sola.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-902",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La cura di AR-895 aveva riaperto AR-880 dalla porta di servizio: un avviso su stderr diventava un vincolo fant",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-903",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Un guardiano dava la colpa alla macchina per una scelta di Nicola, e lo faceva da piu di un mese",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/su-main-va-solo-la-memoria.test.mjs",
       "auto_chiudibile": true
     }
   ]

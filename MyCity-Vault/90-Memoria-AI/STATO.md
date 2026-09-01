@@ -554,7 +554,7 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 ## Passaggi precedenti
 
-> 🔧 **1/9 16:30 — Undici difetti chiusi, e sei li ha trovati chi non aveva costruito.**
+> 🔧 **1/9 16:30 — Dodici difetti chiusi. Sei li ha trovati chi non aveva costruito.**
 >
 > **In parole semplici.** Il banco con cui la macchina controlla che i suoi controlli servano a
 > qualcosa aveva un buco: rompeva git nel processo che stava misurando, e un controllo morto veniva
@@ -563,17 +563,23 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > **Cosa cambia per te.** Niente sul sito e niente in cassa: è tutto dentro la macchina. Cambia che
 > i controlli che ti dicono «va bene» adesso possono davvero dire di no.
 >
-> Le undici cose chiuse, in una riga ciascuna: il filtro dei segreti uccideva git e il cadavere
-> comprava un verde · le uniche prove che il banco non sapeva misurare erano proprio quelle che
-> difendono il «non ho misurato» · il guardiano che si ferma da solo per non farsi sparare si
-> faceva sparare lo stesso · un elenco che taceva valeva «tutti i controlli superati» e la memoria
-> si pubblicava con tredici problemi aperti · avevo chiuso la porta che esegue e dichiarato chiuso
-> il cortile, mentre quella che scrive era aperta di fianco · nelle «tasche vuote» c'erano due cose
-> che comandavano il processo figlio · un conto in memoria diceva trentadue dove le volte vere erano
-> ventuno · il file temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva
-> indovinare · una mia prova ha cancellato 956 file e quello che ho visto è stato un errore tecnico
-> senza una riga che lo dicesse · il registro diceva «fatta» prima di sapere se lo stato era stato
-> salvato · e una mia cura aveva riaperto dall'altra parte il problema che stava chiudendo.
+> Le dodici cose chiuse, una per riga:
+>
+> - Il filtro dei segreti uccideva git. Un controllo morto contava come superato.
+> - Le uniche prove che il banco non sapeva misurare erano quelle sul «non ho misurato».
+> - Il guardiano che si ferma da solo per non farsi sparare si faceva sparare lo stesso.
+> - Un elenco che taceva valeva «tutti i controlli superati». La memoria si pubblicava con
+>   tredici problemi aperti.
+> - Avevo chiuso la porta che esegue e dichiarato chiuso il cortile. Quella che scrive era
+>   aperta di fianco.
+> - Nelle «tasche vuote» c'erano due cose che comandavano il processo figlio.
+> - Un conto in memoria diceva trentadue dove le volte vere erano ventuno.
+> - Il file con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare.
+> - Una mia prova ha cancellato 956 file. Quello che ho visto è stato un errore tecnico, senza
+>   una riga che lo dicesse.
+> - Il registro diceva «fatta» prima di sapere se lo stato era stato salvato.
+> - Una mia cura aveva riaperto dall'altra parte il problema che stava chiudendo.
+> - Un guardiano dava la colpa alla macchina per una tua scelta del 27 luglio.
 >
 > **Cosa devi fare.** Guardare la richiesta di unione e dirmi se va bene. Non tocca il sito, non
 > muove un euro, non scrive a nessuno.
