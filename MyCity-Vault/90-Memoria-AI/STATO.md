@@ -852,8 +852,8 @@ stanno in `consegne/audit/2026-08-31-riparazione-radiografia.md`.
 **⚠️ IL FATTO CHE CONTA ADESSO, misurato alle 15:20 sul database vero (MCP Supabase, sola
 lettura).** Unire su `main` manda il codice in produzione da solo, perché `vercel.json` ha
 `deploymentEnabled.main: true`. Le migrazioni invece le applica un lavoro che ha bisogno del
-segreto `SUPABASE_DB_URL`, che non c'è. Quindi in produzione gira **codice nuovo su schema
-vecchio**. Cosa manca, verificato una per una:
+segreto `SUPABASE_DB_URL`, che non c'è. Il sito perciò **chiede al database colonne e trigger che
+lì dentro non sono mai stati creati**. Cosa manca, verificato una per una:
 
 | Serve al codice unito | C'è in produzione? |
 |---|---|
@@ -870,9 +870,12 @@ comunque, perché il trigger che le accoda non c'è.
 **Non ho toccato niente:** applicare migrazioni alla produzione è 🔴 e aspetta la firma di Nicola.
 Le tre strade sono nel rapporto.
 
-**Due domande aperte, e sono fatti che solo Nicola ha:** ① in produzione c'è Cloudflare davanti al
-sito? (senza, il freno anti-abuso non si può riparare senza indovinare, ed è già stato indovinato
-male due volte) ② i tre segreti Vercel, senza i quali il rilascio col cancello non gira.
+**Due domande aperte. Sono fatti che solo Nicola ha, non lavoro da fare.**
+
+① In produzione c'è Cloudflare davanti al sito? Senza quella risposta, il freno anti-abuso si può
+solo indovinare. L'ho già indovinato male due volte.
+
+② Mancano i tre segreti Vercel. Senza quelli il rilascio col cancello non parte affatto.
 
 ## Passaggi precedenti
 
