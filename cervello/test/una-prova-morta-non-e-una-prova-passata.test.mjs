@@ -1,4 +1,4 @@
-// 🧪 UNA PROVA CHE NON PARTE NON È UNA PROVA CHE PASSA — AR-892.
+// 🧪 UNA PROVA CHE NON PARTE NON È UNA PROVA CHE PASSA — AR-906.
 //
 // PERCHÉ ESISTE. Il collaudo di sicurezza del 31/8 ha misurato che `ambientePulito()` uccideva git
 // nel processo figlio: il filtro dei segreti toglie ogni nome che contiene «KEY», e fra questi

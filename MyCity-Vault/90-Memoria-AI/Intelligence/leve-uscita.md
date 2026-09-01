@@ -1,15 +1,17 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
-> **2026-08-10 13:35** · @AD. Riscritta da zero su `cervello/radar.json`: 11 leve OUT + 7 catene indirette, incrociate con lo stato reale del business. La versione precedente (18-30/7) parlava di bandi CCIAA ormai tutti chiusi (PI26/BT26/BE26) — archiviata, non più vera.
+> **Aggiornato 2026-09-01 07:05** (giro leggero `cervello/monitora.md`). Sono 8 giorni di buco dal 24/8. Bandi CCIAA/Unione Commercianti ricontrollati: tutto invariato, tutto chiuso. Sono BI26, PI26, BE26 e il Bando Commercio ER — dettaglio in `eventi-picchi.md`. **Novità reale trovata oggi, diversa dai soliti bandi commercio.** Il Comune di Piacenza ha aperto ieri (31/8) un bando da 400.000€. Serve a incentivare la raccolta differenziata delle piccole attività, sotto 250 mq. **Pane Quotidiano rientra nei requisiti.** Non è un prospect per un nuovo negozio: è un beneficio diretto per il negozio faro già in relazione con noi. Aggiunta come leva #5 sotto. Restano invariate le altre 3 catene indirette: universitaria, caro-energia, reti di comunità. Nessun fatto nuovo su nessuna delle tre oggi.
+>
+> **2026-08-10 13:35** · @AD. Riscritta da zero su `cervello/radar.json`: 11 leve OUT + 7 catene indirette, incrociate con lo stato reale del business. La versione precedente (18-30/7) parlava di bandi CCIAA. Sono ormai tutti chiusi (PI26/BT26/BE26): quella versione è archiviata, non più vera.
 > Le azioni reali (stampa, istituzioni, sponsor) si accodano in [[AZIONI-IN-ATTESA]] per la firma di Nicola.
 >
 > **Confermato 2026-08-13 09:30** (recupero del giro delle 08:41, fallito per limite motore). Ricontrollate le due fonti bandi dovute oggi: Camera Commercio Emilia e Unione Commercianti PC. Check fatto stamattina alle 06:30, dettaglio completo in `eventi-picchi.md`. **Nessuna riapertura, nessun bando nuovo.** BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi. Zero cambiamenti alla strategia sotto: resta valida così com'è.
 >
-> **Confermato 2026-08-14 06:31** (giro leggero `cervello/monitora.md`). Stessi due bandi ricontrollati, stesso esito: tutto chiuso, nessuna apertura. Trovato un dato nuovo per la **catena #2 sotto (caro-energia)** — vedi la voce aggiornata.
+> **Confermato 2026-08-14 06:31** (giro leggero `cervello/monitora.md`). Stessi due bandi ricontrollati, stesso esito: tutto chiuso, nessuna apertura. Trovato un dato nuovo per la **catena #2 sotto**, quella del caro-energia. Vedi la voce aggiornata.
 >
 > **Confermato 2026-08-15 06:45** (giro leggero `cervello/monitora.md`). CCIAA Emilia e Unione Commercianti PC ricontrollati di nuovo via WebSearch, il fetch diretto resta in errore 403. Stesso esito: BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi, nessuna riapertura, nessun bando nuovo per il commercio. Nessun dato nuovo per le 3 catene indirette sotto. Zero cambiamenti alla strategia.
 >
-> **Confermato 2026-08-17 06:33** (giro leggero `cervello/monitora.md`). Ricontrollate anche oggi CCIAA Emilia, Unione Commercianti PC (via RSS `unionecommerciantipc.it/feed/`, più diretta del solo WebSearch) e Comune — pagina imprese/commercio (WebSearch, il fetch diretto resta 403). Stesso identico esito: BI26/PI26/BE26/Bando Commercio ER tutti chiusi, nessuna riapertura. L'unico bando ancora aperto sul territorio è quello del fotovoltaico su parcheggi aziendali (domande dal 30/9/2026), irrilevante per le botteghe MyCity — vedi `eventi-picchi.md`. Nessun dato nuovo per le catene indirette sotto (nessuna news su caro-energia oltre quella già registrata il 14/8). Zero cambiamenti alla strategia sotto.
+> **Confermato 2026-08-17 06:33** (giro leggero `cervello/monitora.md`). Ricontrollate anche oggi tre fonti. CCIAA Emilia. Unione Commercianti PC, via RSS `unionecommerciantipc.it/feed/` (più diretta del solo WebSearch). E il Comune, pagina imprese/commercio (WebSearch, il fetch diretto resta 403). Stesso identico esito: BI26/PI26/BE26/Bando Commercio ER tutti chiusi, nessuna riapertura. L'unico bando ancora aperto sul territorio è quello del fotovoltaico su parcheggi aziendali (domande dal 30/9/2026), irrilevante per le botteghe MyCity — vedi `eventi-picchi.md`. Nessun dato nuovo per le catene indirette sotto (nessuna news su caro-energia oltre quella già registrata il 14/8). Zero cambiamenti alla strategia sotto.
 >
 > **Confermato 2026-08-18** (giro leggero `cervello/monitora.md`). CCIAA Emilia e Unione Commercianti PC ricontrollati di nuovo. Stesso esito: BI26, PI26, BE26 e il Bando Commercio ER restano tutti chiusi, nessuna riapertura, nessun bando nuovo per il commercio. Unico dettaglio nuovo: il bando fotovoltaico ora ha anche la data di chiusura, il 16/11/2026 — resta irrilevante per le botteghe, dettaglio in `eventi-picchi.md`. Nessun dato nuovo per le catene indirette sotto. Zero cambiamenti alla strategia sotto.
 
@@ -29,8 +31,9 @@ Playbook già tentati e finiti a vuoto (non riaprirli senza un fatto nuovo): sta
 | 2 | **catena universitaria** (calendario Cattolica/Politecnico) | Mappare le date di inizio semestre (settembre) e preparare — senza pubblicare — la lista canali per reclutare studenti come rider/ambassador. Il timing coincide quasi esattamente con la ripresa di Nicola (24/8-1/9): pronto per il giorno in cui riparte, non prima | rider-fleet + marketing | 🟢 (ricerca) → 🟡 (quando si contatta) |
 | 3 | **catena bollette-energia** (botteghe a rischio) | Costruire/aggiornare la lista di botteghe del centro in difficoltà per i costi energetici (fonti stampa pubbliche), pronta per `vendite` da usare appena il batch riparte — nessun contatto oggi | intelligence | 🟢 (ricerca) → 🟡 (primo contatto) |
 | 4 | **uscita-09** — economia locale (impatto) | Preparare lo *strumento* di calcolo "€ che restano in città" (formula, non il numero) — si riempie con dati veri al primo ordine pagato, non prima | finanza + analista | 🟢 (strumento) |
+| 5 | 🆕 **Bando rifiuti Comune di Piacenza** (400k€, aperto 31/8-23/10/2026) | Pane Quotidiano rientra nei requisiti (sotto 250 mq, sede Piacenza, TCP non domestica). Spese ammissibili: compostiere, eliminazione monouso, riduzione sprechi alimentari — pertinenti a un panificio/gastronomia bio. Preparare — non mandare — un messaggio pronto con link e scadenza, da girare al fornaio alla prossima interazione utile | account-negozi + relazioni-istituzionali | 🟢 (preparazione) → 🟡 solo se si contatta prima della ripresa concordata |
 
-Queste quattro non aspettano nessuna firma: sono ricerca/preparazione, zero pubblicazione, zero contatto con terzi (tranne il primo contatto studenti quando scatta, che diventa 🟡).
+Queste cinque non aspettano nessuna firma: sono ricerca/preparazione, zero pubblicazione, zero contatto con terzi (tranne il primo contatto studenti quando scatta, e l'eventuale messaggio a Pane Quotidiano sul bando rifiuti, che diventano 🟡 solo al momento dell'invio).
 
 ---
 
@@ -61,4 +64,8 @@ Queste quattro non aspettano nessuna firma: sono ricerca/preparazione, zero pubb
 
 ## Nessuna nuova card in coda
 
-Questa analisi non genera nuove azioni 🟡/🔴: le quattro mosse "spingi ora" sono ricerca/preparazione pura (🟢, le faccio senza chiedere), e tutto il resto resta agganciato ai gate già noti — in cima a tutti, la vera priorità zero resta la card `#16` (pagamenti Pane Quotidiano), già in coda, in attesa dei dati del fornaio.
+Questa analisi non genera nuove azioni 🟡/🔴: le cinque mosse "spingi ora" sono ricerca/preparazione pura (🟢, le faccio senza chiedere), e tutto il resto resta agganciato ai gate già noti — in cima a tutti, la vera priorità zero restano le 3 azioni 🔴 già in coda (sito online, pagamenti Pane Quotidiano, migrazioni DB), in attesa della firma di Nicola.
+
+---
+
+**🔧 Fonti consultate oggi (1/9/2026):** [comune.piacenza.it/it/news/incentivi-rifiuti](https://www.comune.piacenza.it/it/news/incentivi-rifiuti) · [piacenzasera.it — Raccolta rifiuti, online il bando](https://www.piacenzasera.it/2026/08/raccolta-rifiuti-on-line-il-bando-per-gli-incentivi-alle-attivita-commerciali/659295) · [ilpiacenza.it — Bonus rifiuti alle attività](https://www.ilpiacenza.it/attualita/bonus-rifiuti-alle-attivita-pronto-il-bando-per-gli-incentivi.html) · WebSearch CCIAA/Unione Commercianti (dettaglio completo bandi in `eventi-picchi.md`).

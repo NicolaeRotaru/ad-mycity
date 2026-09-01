@@ -1,8 +1,17 @@
-# 🕳️ Buchi di Mercato — 2026-08-10
+# 🕳️ Buchi di Mercato — 2026-09-01
 
+> **Ricontrollato 2026-09-01 07:00** (giro leggero `cervello/monitora.md`). Sono 8 giorni di buco: l'ultimo controllo risale al 18/8. Fonte: IlPiacenza-Economia. Il fetch diretto resta in errore HTTP 403, stesso blocco delle settimane scorse. Oggi invece liberta.it e piacenzasera.it hanno risposto senza blocco. Ho ripiegato su WebSearch mirata ("ilpiacenza.it economia negozio chiude apre agosto settembre 2026"). **Nessuna chiusura o apertura di bottega specifica trovata con nome.** L'unico risultato pertinente: l'apertura di un **maxistore Maury's da 3.300 mq in via R. Goitre**,
+dal 27/8 al 19/9/2026, con promozioni di apertura. È una grande superficie non-food. Vende
+abbigliamento e casa. Non è una bottega di quartiere, quindi non cambia il quadro delle categorie
+scoperte sotto. Fonte: [anteprimavolantino.it — Volantino Maury's Nuova Apertura Piacenza](https://www.anteprimavolantino.it/134193/volantino-maurys-nuova-apertura-piacenza-dal-27-agosto-2026/),
+pubblicato il 1/9. Nessun altro dato nuovo oggi. Catalogo, contatti e stato pagamenti (dati DB)
+non sono ricontrollati: la fonte è Supabase, non giornaliera, quindi non era dovuta oggi. Restano
+quelli letti il 10/8, e sono coerenti con `registro-fatti.json`, verificato oggi stesso: negozio
+faro Pane Quotidiano, Stripe ancora non attivo al 22/8, nessun aggiornamento più recente noto.
+>
 > Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json`.
 > Il contesto macro in fondo alla pagina è stato rinfrescato il 13/8 alle 09:30. È il recupero del giro delle 08:41, fallito per limite motore. La fonte è IlPiacenza-Economia. Il fetch diretto ha dato HTTP 403, quindi l'ho recuperata via WebSearch. Il resto del file non è stato ricontrollato oggi. Catalogo e lista contatti restano quelli letti dal database il 10/8.
-> **Ricontrollato 15/8 06:45** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia via WebSearch, il fetch diretto resta in errore 403. Nessuna apertura o chiusura nuova di negozi trovata. Confermano lo stesso quadro già noto dal 13/8. Le imprese attive a Piacenza restano in calo del 3,3% nel primo semestre 2026, 840 in meno di un anno fa ([ilpiacenza.it](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html)). Via Taverna resta sotto i 40 negozi, contro i 51 di prima. Catalogo e contatti restano quelli letti dal database il 10/8: non ricontrollati oggi perché non dovuti.
+> **Ricontrollato 15/8 06:45** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia via WebSearch, il fetch diretto resta in errore 403. Nessuna apertura o chiusura nuova di negozi trovata. Confermano lo stesso quadro già noto dal 13/8. Le imprese attive a Piacenza restano in calo. Nel primo semestre 2026 sono scese del 3,3%. Sono 840 in meno rispetto a un anno fa ([ilpiacenza.it](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html)). Via Taverna resta sotto i 40 negozi, contro i 51 di prima. Catalogo e contatti restano quelli letti dal database il 10/8: non ricontrollati oggi perché non dovuti.
 > **Ricontrollato 17/8 06:33** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia, fetch diretto ancora in errore 403, ripiegato su WebSearch mirata ("ilpiacenza.it economia negozio apre chiude agosto 2026"). Nessuna apertura o chiusura nuova trovata: la ricerca restituisce solo notizie generiche di Ferragosto (orari supermercati) senza nomi di negozi specifici. Nessun cambiamento al quadro del 13-15/8. Catalogo e contatti non ricontrollati oggi perché non dovuti (fonte Supabase, non giornaliera).
 > **Ricontrollato 18/8** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia. Il fetch diretto resta in errore 403. Ho usato una WebSearch mirata ("ilpiacenza.it economia negozio chiude apre agosto 2026"). Non ha trovato nessuna apertura o chiusura nuova con il nome di un negozio. Solo risultati generici fuori tema: H&M a livello nazionale, orari supermercati per Ferragosto, un vecchio articolo su Coin non riferito a Piacenza. Nessun cambiamento al quadro del 13-17/8. Catalogo e contatti non ricontrollati oggi perché non dovuti (fonte Supabase, non giornaliera).
 > Precedente versione: 20 luglio 2026 (in git history).
@@ -43,7 +52,13 @@ Il file di luglio elencava enoteca/pescheria/erboristeria/formaggi come "categor
 
 ## 🟡 Correzione importante rispetto alla versione precedente di questo file
 
-I nomi **Garetti, Peretti, Amendolara** (gastronomia/salumi, 3 anchor) e **La Ragazzetta** (caffè storico) citati come "prospect" nella versione del 20/7 **non sono nella tabella `merchants_leads`** — non vengono dallo scarico del 24/5, vengono da ricerca web mirata di `@intelligence` a luglio. Sono legittimi come **scelta ragionata con fonti pubbliche** (AR-006: base news/articoli citati, non inventati), ma vanno tenuti distinti dai 407 lead strutturati nel DB: se serve un pitch, per questi 4 serve prima una verifica telefono/indirizzo aggiornata (fonte web, non DB).
+Quattro nomi erano citati come "prospect" nella versione del 20/7: **Garetti**, **Peretti** e
+**Amendolara** (gastronomia/salumi, 3 anchor), più **La Ragazzetta** (caffè storico). Non sono
+nella tabella `merchants_leads`. Non vengono dallo scarico del 24/5: vengono da una ricerca web
+mirata di `@intelligence` a luglio. Sono legittimi come **scelta ragionata con fonti pubbliche**
+(AR-006: base news/articoli citati, non inventati). Vanno però tenuti distinti dai 407 lead
+strutturati nel DB. Se serve un pitch, per questi 4 serve prima una verifica telefono/indirizzo
+aggiornata da fonte web, perché il DB non ce l'ha.
 
 ---
 

@@ -1,23 +1,22 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-08-31 13:26",
+  "aggiornato": "2026-09-01 11:55",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders CONTATI via REST: 1 righe visibili con questa chiave",
-      "ultimo_ok": "2026-08-28 12:27",
+      "ultimo_ok": "2026-09-01 11:55",
       "ultimo_errore": "",
-      "ultimo_conteggio": 1,
-      "non_misurato_qui": "2026-08-31 13:26: MARKETPLACE_SUPABASE_URL/KEY assenti nel .env (ambiente non configurato)"
+      "ultimo_conteggio": 1
     },
     "mcp_supabase": {
-      "stato": "cieco",
-      "giri_ciechi": 4,
+      "stato": "non_verificato",
+      "giri_ciechi": 0,
       "canale": "MCP Cursor/Claude",
-      "dettaglio": "MCP Supabase cieco (permission stream closed / needsAuth)",
-      "ultimo_errore": "MCP Supabase cieco (permission stream closed / needsAuth)",
+      "dettaglio": "dichiarato ok ma misurata 3 giorni fa, il limite è 12h00: nessuno l'ha più provato — ridichiaralo con --mcp-supabase=ok|cieco",
+      "ultimo_errore": "",
       "ultimo_ok": "2026-08-18 06:27"
     },
     "stripe_api": {
@@ -26,8 +25,7 @@
       "ultimo_errore": "",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-08-28 12:27",
-      "non_misurato_qui": "2026-08-31 13:26: STRIPE_SECRET_KEY assente — Stripe non collegato (non è una cecità, è un sensore spento)"
+      "ultimo_ok": "2026-09-01 11:55"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -43,43 +41,39 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-08-28 12:27",
-      "ultimo_errore": "",
-      "non_misurato_qui": "2026-08-31 13:26: RESEND_API_KEY assente — invio email non monitorato"
+      "ultimo_ok": "2026-09-01 11:55",
+      "ultimo_errore": ""
     },
     "sito_uptime": {
-      "giri_ciechi": 207,
+      "giri_ciechi": 219,
       "stato": "cieco",
       "canale": "storefront GET",
       "dettaglio": "HTTP 503 su https://mycity-marketplace.com (dopo 3 tentativi)",
       "ultimo_ok": "2026-07-30 08:20",
-      "ultimo_errore": "HTTP 503 su https://mycity-marketplace.com (dopo 3 tentativi)",
-      "non_misurato_qui": "2026-08-31 13:26: MARKETPLACE_SITE_URL assente — uptime storefront non monitorato"
+      "ultimo_errore": "HTTP 503 su https://mycity-marketplace.com (dopo 3 tentativi)"
     },
     "supabase_memoria": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-08-28 12:27",
+      "ultimo_ok": "2026-09-01 11:55",
       "ultimo_errore": "",
       "canale": "REST memoria",
-      "dettaglio": "impostazioni leggibili via REST (DB memoria)",
-      "non_misurato_qui": "2026-08-31 13:26: SUPABASE_URL/SERVICE_KEY assenti — DB memoria non monitorato"
+      "dettaglio": "impostazioni leggibili via REST (DB memoria)"
     },
     "pannello_uptime": {
       "giri_ciechi": 0,
       "stato": "ok",
       "canale": "Cabina GET",
       "dettaglio": "Pannello raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-08-28 12:27",
-      "ultimo_errore": "",
-      "non_misurato_qui": "2026-08-31 13:26: PANNELLO_URL/CABINA_URL assente — uptime Cabina non monitorato"
+      "ultimo_ok": "2026-09-01 11:55",
+      "ultimo_errore": ""
     },
     "telegram_bot": {
       "giri_ciechi": 0,
       "stato": "non_configurato",
       "canale": "Telegram getMe",
       "dettaglio": "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate",
-      "non_misurato_qui": "2026-08-31 13:26: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
+      "non_misurato_qui": "2026-09-01 11:55: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
     },
     "n8n_health": {
       "giri_ciechi": 0,
@@ -87,8 +81,7 @@
       "ultimo_errore": "",
       "canale": "n8n healthz",
       "dettaglio": "n8n health ok",
-      "ultimo_ok": "2026-08-28 12:27",
-      "non_misurato_qui": "2026-08-31 13:26: N8N_WEBHOOK_URL/HEALTH_URL assente — hub mani non monitorato"
+      "ultimo_ok": "2026-09-01 11:55"
     },
     "mcp_stripe": {
       "giri_ciechi": 3,
@@ -101,26 +94,26 @@
     "watchdog_esterno": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-08-31 13:26",
+      "ultimo_ok": "2026-09-01 11:55",
       "ultimo_errore": "",
       "canale": "battito-esterno.yml",
       "dettaglio": "guardiano esterno presente e schedulato (GitHub Actions, indipendente dal VPS)"
     }
   },
-  "istruzioni_giro": "Tutti i sensori REST ciechi: NON inventare numeri. Usa baseline STATO + sezione Gap. Passaggio minimo se nulla è cambiato fuori.",
+  "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 641,
-    "sensori_ok": 1,
-    "max_giri_ciechi": 4,
-    "sensori_totali": 2,
-    "almeno_un_dato": false,
-    "sensori_non_configurati": 9,
-    "dati_ordini_ciechi": true,
+    "giri_totali": 649,
+    "sensori_ok": 7,
+    "max_giri_ciechi": 219,
+    "sensori_totali": 8,
+    "almeno_un_dato": true,
+    "sensori_non_configurati": 2,
+    "dati_ordini_ciechi": false,
     "max_giri_ciechi_dati": 0,
-    "sensori_ambiente_misurati": 1
+    "sensori_ambiente_misurati": 7
   },
   "origine": "cloud",
-  "copertura": 1,
+  "copertura": 7,
   "scritto_da": "verifica-sensori.mjs",
   "misure_affiancate": {
     "locale": {

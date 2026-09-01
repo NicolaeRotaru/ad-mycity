@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-08-28 12:19",
+  "aggiornato": "2026-09-01 11:46",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 0,
-  "peggiorate": 3,
+  "migliorate": 1,
+  "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
     "calibrazione_reparti_min": 5,
@@ -24,25 +24,25 @@
       "soglia": "70%",
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
-      "tasso_citazioni": 0.14,
-      "valore": 0.03,
-      "etichetta": "3% (1/29 correzioni)",
+      "tasso_citazioni": 0.13,
+      "valore": 0.05,
+      "etichetta": "5% (1/22 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 29,
-        "su_tema_cronico": 17,
+        "correzioni": 22,
+        "su_tema_cronico": 13,
         "quota": 0.59,
-        "temi_cronici": 8,
-        "temi_totali": 63
+        "temi_cronici": 5,
+        "temi_totali": 48
       },
       "gate": {
-        "correzioni": 29,
-        "con_gate": 27,
-        "quota": 0.93
+        "correzioni": 22,
+        "con_gate": 20,
+        "quota": 0.91
       },
-      "precedente": 0.04,
-      "movimento": "peggiorata"
+      "precedente": 0.05,
+      "movimento": "ferma"
     },
     {
       "id": "calibrazione",
@@ -78,21 +78,21 @@
       ],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "precedente": 6,
-      "movimento": "peggiorata"
+      "precedente": 7,
+      "movimento": "ferma"
     },
     {
       "id": "quaderni",
       "titolo": "Quaderni vivi (i senior imparano)",
-      "valore": 0.1885245901639344,
-      "etichetta": "23 su 122 (19%)",
+      "valore": 0.05737704918032787,
+      "etichetta": "7 su 122 (6%)",
       "soglia": "60% (74 su 122)",
       "ok": false,
       "cieco": false,
       "fonte": "auto-coscienza/chiusura-loop.json",
       "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
-      "precedente": 0.19672131147540983,
-      "movimento": "peggiorata"
+      "precedente": 0.04918032786885246,
+      "movimento": "migliorata"
     },
     {
       "id": "salute",
@@ -101,7 +101,7 @@
       "fonte": "auto-coscienza/storico-salute.json",
       "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
       "valore": 4,
-      "etichetta": "4/100 (misurato 2026-08-28)",
+      "etichetta": "4/100 (misurato 2026-09-01)",
       "ok": false,
       "cieco": false,
       "precedente": 4,
@@ -109,90 +109,6 @@
     }
   ],
   "serie": [
-    {
-      "data": "2026-07-25 00:57",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 8,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
-    {
-      "data": "2026-07-25 01:43",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 6,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
-    {
-      "data": "2026-07-25 02:39",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 6,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
-    {
-      "data": "2026-07-25 03:02",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 4,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
-    {
-      "data": "2026-07-25 04:51",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 2,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
-    {
-      "data": "2026-07-25 05:09",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 1,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
-    {
-      "data": "2026-07-25 05:10",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 1,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
     {
       "data": "2026-07-25 06:20",
       "voci_superate": 0,
@@ -2506,6 +2422,90 @@
         "calibrazione": null,
         "freni": 7,
         "quaderni": 0.1885245901639344,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-08-31 22:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.040983606557377046,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 06:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.040983606557377046,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 08:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.040983606557377046,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 10:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.040983606557377046,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 11:01",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.04918032786885246,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 11:25",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.04918032786885246,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 11:46",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.05737704918032787,
         "salute": 4
       }
     }

@@ -1609,6 +1609,22 @@
       }
     },
     {
+      "quando": "2026-08-29 01:10",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-864"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/pacchetti-lotto.mjs": "ee274eac9f9e"
+      }
+    },
+    {
       "quando": "2026-08-28 22:42",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",

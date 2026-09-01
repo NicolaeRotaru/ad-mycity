@@ -2280,10 +2280,9 @@
    "difetto": "AR-416",
    "nome": "il giro smette di lanciare il potatore: l'archivio torna a crescere fino al muro senza che nessuno poti",
    "file": "cervello/giro.sh",
-   "cerca": "  sensore \"pota-apprendimento.mjs\" 3 --se-serve || true",
-   "sostituisci": "  true # potatore spento",
-   "test": "cervello/test/archivi-senza-tetto.test.mjs",
-   "nota_riaggancio": "29/8 (AR-880): la riga e passata da una pipe (node ... | esito_righe 3 || true) alla funzione di casa sensore(), perche in pipe il ⚪ del potatore non arrivava a nessuno. Il pezzo difeso e lo stesso: se il giro smette di lanciare il potatore, l archivio cresce fino al muro e la scheda Apprendimento torna illeggibile."
+   "cerca": "  node \"$SCRIPT_DIR/pota-apprendimento.mjs\" --se-serve 2>&1 | esito_righe 3 || true",
+   "sostituisci": "  : # potatore mai lanciato",
+   "test": "cervello/test/archivi-senza-tetto.test.mjs"
   },
   {
    "difetto": "AR-416",
@@ -3564,10 +3563,10 @@
    "difetto": "AR-433",
    "nome": "i riferimenti a codice tornano a contare come numeri senza fonte",
    "file": "cervello/onesta-check.mjs",
-   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: tipo !== \"lettera\" }) : \"\";",
+   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : \"\";",
    "sostituisci": "  const testoNumeri = \"\";",
    "test": "cervello/test/c5-metro-che-boccia-tutto.test.mjs",
-   "nota_riaggancio": "28/8: la riga ha preso un argomento (il codice fra apici non si maschera sulla lettera al cliente — AR-868). Il pezzo difeso è lo stesso: togliendo la mascheratura i riferimenti a codice tornano a contare come numeri orfani."
+   "nota_riaggancio": "Riagganciata il 2026-08-22 (lotto 49): il metro ora giudica `daGiudicare` (la parte VIVA del file) invece del testo intero — AR-394 ha portato qui l'ambito ristretto. Il comportamento difeso e lo stesso, il puntatore era rimasto sul nome vecchio della variabile."
   },
   {
    "lotto": 41,
@@ -7021,20 +7020,18 @@
    "difetto": "AR-812",
    "nome": "il cancello smette di montare le prove del Pannello: si torna a consegnare col Pannello rotto e il verde in mano",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "          esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {",
-   "sostituisci": "          esegui(\"NON-ESISTE-prove-del-Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {",
-   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
-   "nota_riaggancio": "28/8 (AR-797): il passo e stato riscritto da process.execPath + join(AD_ROOT,...) a \"node\" + percorso relativo, perche il censimento di due-case.mjs non sapeva leggere la forma calcolata e si dichiarava cieco sull intero cancello. Comportamento IDENTICO: esegui() da gia cwd: opts.cwd || AD_ROOT (cancello-lotto.mjs:571), verificato. Il pezzo difeso e lo stesso: se il passo sparisce, il Pannello si consegna rotto col verde in mano."
+   "cerca": "          esegui(\"prove del Pannello\", process.execPath, [join(AD_ROOT, \"cervello/test-pannello.mjs\")], {",
+   "sostituisci": "          esegui(\"typecheck del Pannello\", \"npx\", [\"tsc\", \"--noEmit\"], {",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
   },
   {
    "lotto": 60,
    "difetto": "AR-812",
    "nome": "le prove del Pannello girano con un «|| true»: il guardiano stampa e non puo' bocciare, come in giro.sh",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "          esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {\n            timeout: TEMPO_MAX_SUITE,\n          }),",
-   "sostituisci": "          (esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], { timeout: TEMPO_MAX_SUITE }) || true),",
-   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
-   "nota_riaggancio": "Riagganciata il 2026-08-30: il numero 600_000 era scritto quattro volte e adesso e la costante TEMPO_MAX_SUITE (misurata: la suite ci mette 535s pulita, 576s sotto carico, e il tetto vecchio ne lasciava 65 di margine). Il comportamento difeso NON e cambiato: la mutazione mette ancora un `|| true` sul passo delle prove del Pannello, cioe lo rende incapace di bocciare."
+   "cerca": "          esegui(\"prove del Pannello\", process.execPath,",
+   "sostituisci": "          esegui(\"prove del Pannello\", process.execPath, // || true\n            ",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
   },
   {
    "lotto": 61,
@@ -7442,37 +7439,10 @@
   {
    "lotto": 63,
    "difetto": "AR-832",
-   "nome": "la casa nata ieri torna ad accusare chi chiede del mese scorso",
-   "file": "cervello/due-case.mjs",
-   "cerca": "  if (spoglia === 2 && chiedeIlPassato === true) {",
-   "sostituisci": "  if (false) {",
-   "test": "cervello/test/cecita-curabile.test.mjs"
-  },
-  {
-   "lotto": 63,
-   "difetto": "AR-832",
    "nome": "la porta si allarga: anche un ROSSO nella casa spoglia diventa un ⚪",
    "file": "cervello/due-case.mjs",
    "cerca": "  if (spoglia === 2 && chiedeIlPassato === true) {",
    "sostituisci": "  if (spoglia !== 0 && chiedeIlPassato === true) {",
-   "test": "cervello/test/cecita-curabile.test.mjs"
-  },
-  {
-   "lotto": 63,
-   "difetto": "AR-693",
-   "nome": "il debito ereditato in bash torna a rendere rosso chi passa di qui: il workflow di main e il giro non possono più diventare verdi",
-   "file": "cervello/test-cervello.mjs",
-   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
-   "sostituisci": "  if (false) {",
-   "test": "cervello/test/cecita-curabile.test.mjs"
-  },
-  {
-   "lotto": 63,
-   "difetto": "AR-693",
-   "nome": "il tetto assolve anche quando non l'ho letto: un file illeggibile diventa un via libera",
-   "file": "cervello/test-cervello.mjs",
-   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
-   "sostituisci": "  if (!rottiNode.length && rottiBash.length && (!t.letto || rottiBash.length <= t.tetto)) {",
    "test": "cervello/test/cecita-curabile.test.mjs"
   },
   {
@@ -7757,11 +7727,10 @@
   {
    "difetto": "AR-840",
    "nome": "una riga di comando torna a contare come percorso: il metro smette di vedere il difetto",
-   "file": "cervello/esecuzione-prova.mjs",
-   "cerca": "  if (/\\s/.test(t)) {\n    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });",
-   "sostituisci": "  if (false) {\n    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });",
-   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
-   "nota_riaggancio": "28/8: la chiamata ora propaga anche le radici ammesse (fix di sicurezza AR-867). Il pezzo difeso è identico: togliendo il ramo, una riga di comando torna a contare come percorso."
+   "file": "cervello/mutazioni-senza-esecutore.mjs",
+   "cerca": "  if (/\\s/.test(t)) {\n    return { ok: false, perche: `è una riga di comando, non un percorso: «${t}»` };\n  }",
+   "sostituisci": "",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
   },
   {
    "difetto": "AR-840",
@@ -8315,6 +8284,99 @@
    "nota": "La controprova: senza di lei l invariante di sopra passerebbe anche con un decadimento spento, che e' esattamente il modo in cui l archivio si riempie (AR-824)."
   },
   {
+   "difetto": "pacchetti-lotto",
+   "nome": "la validazione dei numeri sparisce e un refuso diventa un piano vuoto",
+   "file": "cervello/pacchetti-lotto.mjs",
+   "cerca": "  if (!Number.isInteger(n) || n < 1) cieco(`${nome} vuole un numero intero da 1 in su, non «${ARG[i + 1]}»`);",
+   "sostituisci": "",
+   "test": "cervello/test/pacchetti-che-si-pestano.test.mjs",
+   "nota": "Bocciatura del collaudo 28/8: --max abc dava 163 pacchetti da ZERO difetti con uscita 0, --max 0 un ciclo infinito. Spenta la validazione, la prova torna rossa in 4 punti."
+  },
+  {
+   "difetto": "pacchetti-lotto",
+   "nome": "un registro che cambia forma viene ingoiato e diventa Aperti 0",
+   "file": "cervello/pacchetti-lotto.mjs",
+   "cerca": "if (!Array.isArray(j[chiave])) cieco",
+   "sostituisci": "if (false) cieco",
+   "test": "cervello/test/pacchetti-che-si-pestano.test.mjs",
+   "nota": "Registro pieno e registro illeggibile erano indistinguibili: entrambi 'Aperti: 0' con uscita 0. E' la malattia del verde che e' il default."
+  },
+  {
+   "difetto": "pacchetti-lotto",
+   "nome": "le ondate smettono di guardare i file in comune e due squadre riscrivono lo stesso file",
+   "file": "cervello/pacchetti-lotto.mjs",
+   "cerca": "    if (o.some((q) => [...q.file].some((f) => p.file.has(f)))) continue;",
+   "sostituisci": "",
+   "test": "cervello/test/pacchetti-che-si-pestano.test.mjs",
+   "nota": "Prima del 28/8 lo stesso file spezzato in 'parte 1/2/3' andava a tre squadre insieme, e il controllo lo scartava apposta."
+  },
+  {
+   "difetto": "pacchetti-lotto",
+   "nome": "lo zero cieco torna a essere un verde",
+   "file": "cervello/pacchetti-lotto.mjs",
+   "cerca": "if (!tutti.length) cieco(",
+   "sostituisci": "if (false) cieco(",
+   "test": "cervello/test/pacchetti-che-si-pestano.test.mjs",
+   "nota": "Lente sicurezza del 28/8: con l'elenco vuoto, con gli stati rinominati in «open» o con voci che non sono schede, il comando diceva «Aperti: 0» e usciva 0. Zero aperti non e' una notizia da dare in silenzio."
+  },
+  {
+   "difetto": "pacchetti-lotto",
+   "nome": "i pacchetti che non nominano nessun file tornano a valere come territori disgiunti",
+   "file": "cervello/pacchetti-lotto.mjs",
+   "cerca": "    if (ignoto && o.some((q) => q.file.size === 0)) continue;",
+   "sostituisci": "",
+   "test": "cervello/test/pacchetti-che-si-pestano.test.mjs",
+   "nota": "Sulla macchina il «dove» e' prosa: 10 pacchetti su 17 non nominano un file. Un insieme vuoto non interseca mai niente, quindi passava ogni controllo dicendo il falso e due squadre potevano riscrivere lo stesso file."
+  },
+  {
+   "difetto": "AR-416",
+   "nome": "il giro smette di lanciare il potatore: l'archivio torna a crescere fino al muro senza che nessuno poti",
+   "file": "cervello/giro.sh",
+   "cerca": "  sensore \"pota-apprendimento.mjs\" 3 --se-serve || true",
+   "sostituisci": "  true # potatore spento",
+   "test": "cervello/test/archivi-senza-tetto.test.mjs",
+   "nota_riaggancio": "29/8 (AR-880): la riga e passata da una pipe (node ... | esito_righe 3 || true) alla funzione di casa sensore(), perche in pipe il ⚪ del potatore non arrivava a nessuno. Il pezzo difeso e lo stesso: se il giro smette di lanciare il potatore, l archivio cresce fino al muro e la scheda Apprendimento torna illeggibile."
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-433",
+   "nome": "i riferimenti a codice tornano a contare come numeri senza fonte",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare, { codice: tipo !== \"lettera\" }) : \"\";",
+   "sostituisci": "  const testoNumeri = \"\";",
+   "test": "cervello/test/c5-metro-che-boccia-tutto.test.mjs",
+   "nota_riaggancio": "28/8: la riga ha preso un argomento (il codice fra apici non si maschera sulla lettera al cliente — AR-868). Il pezzo difeso è lo stesso: togliendo la mascheratura i riferimenti a codice tornano a contare come numeri orfani."
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-812",
+   "nome": "il cancello smette di montare le prove del Pannello: si torna a consegnare col Pannello rotto e il verde in mano",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "          esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {",
+   "sostituisci": "          esegui(\"NON-ESISTE-prove-del-Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
+   "nota_riaggancio": "28/8 (AR-797): il passo e stato riscritto da process.execPath + join(AD_ROOT,...) a \"node\" + percorso relativo, perche il censimento di due-case.mjs non sapeva leggere la forma calcolata e si dichiarava cieco sull intero cancello. Comportamento IDENTICO: esegui() da gia cwd: opts.cwd || AD_ROOT (cancello-lotto.mjs:571), verificato. Il pezzo difeso e lo stesso: se il passo sparisce, il Pannello si consegna rotto col verde in mano."
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-812",
+   "nome": "le prove del Pannello girano con un «|| true»: il guardiano stampa e non puo' bocciare, come in giro.sh",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "          esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], {\n            timeout: TEMPO_MAX_SUITE,\n          }),",
+   "sostituisci": "          (esegui(\"prove del Pannello\", \"node\", [\"cervello/test-pannello.mjs\"], { timeout: TEMPO_MAX_SUITE }) || true),",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs",
+   "nota_riaggancio": "Riagganciata il 2026-08-30: il numero 600_000 era scritto quattro volte e adesso e la costante TEMPO_MAX_SUITE (misurata: la suite ci mette 535s pulita, 576s sotto carico, e il tetto vecchio ne lasciava 65 di margine). Il comportamento difeso NON e cambiato: la mutazione mette ancora un `|| true` sul passo delle prove del Pannello, cioe lo rende incapace di bocciare."
+  },
+  {
+   "difetto": "AR-840",
+   "nome": "una riga di comando torna a contare come percorso: il metro smette di vedere il difetto",
+   "file": "cervello/esecuzione-prova.mjs",
+   "cerca": "  if (/\\s/.test(t)) {\n    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });",
+   "sostituisci": "  if (false) {\n    const s = spezzaComando(t, { soloDentroIlRepo, radiciAmmesse });",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+   "nota_riaggancio": "28/8: la chiamata ora propaga anche le radici ammesse (fix di sicurezza AR-867). Il pezzo difeso è identico: togliendo il ramo, una riga di comando torna a contare come percorso."
+  },
+  {
    "difetto": "AR-867",
    "nome": "le opzioni di node tornano a passare senza lista bianca: --require esegue un file qualunque",
    "file": "cervello/esecuzione-prova.mjs",
@@ -8536,7 +8598,7 @@
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
   },
   {
-   "difetto": "AR-892",
+   "difetto": "AR-906",
    "nome": "il gruppo di variabili torna a restare mutilato: git muore nel figlio e il suo cadavere conta come prova verificata",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "  for (const k of trascinatiDalGruppo(caduti, nomi)) delete pulito[k];",
@@ -8546,7 +8608,7 @@
    "perche_conta": "Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde."
   },
   {
-   "difetto": "AR-892",
+   "difetto": "AR-906",
    "nome": "un git che non parte torna a essere letto come una prova diventata rossa",
    "file": "cervello/esecuzione-prova.mjs",
    "cerca": "  { re: /fatal: unable to parse (?:command-line config|.*config file)|error: missing config (?:key|value)/i, dillo: \"git non è partito: la configurazione che gli è arrivata è incoerente\" },",

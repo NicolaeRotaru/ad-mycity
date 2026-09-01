@@ -18608,76 +18608,22 @@
       }
     },
     {
-      "id": "AR-880",
-      "titolo": "Un guardiano che il giro legge sul serio dice «passato» senza aver aperto niente",
-      "dimensione": "guardiani-e-guardrail",
+      "id": "AR-892",
+      "titolo": "Il banco delle prove cancella cartelle di altri dentro /tmp, e in cima dichiara «sola lettura, non tocca niente»",
+      "dimensione": "rischio-sicurezza-se",
       "gravita": "grave",
-      "impatto_crescita": "medio",
-      "causa_radice": "① Perché un cieco esce VERDE? Perché in cervello/chiusura-loop.mjs, dentro gate(), il ramo «il file della Sala Operativa non c'è» fa `console.log(\"SALA-OPERATIVA.md assente — niente da verificare\")` e poi `process.exit(0)`. ② Perché è peggio di AR-859? Perché AR-859 era un ⚪ travestito da ❌ — un falso allarme, fastidioso ma rumoroso. Questo è un ⚪ travestito da ✅: silenzioso, e chi lo legge conclude che è tutto a posto. ③ Chi lo legge? giro.sh lancia `--gate` e ne guarda il codice d'uscita sul serio. Quindi il giro riceve «passato» da un controllo che non ha aperto un solo file. ④ Perché nessun sensore lo vede? Perché il rilevatore confondeCiecoEdErrore cerca i rami che escono 1, cioè cerca la malattia nella veste in cui l'abbiamo conosciuta la prima volta. Un guardiano nato da un caso misura il caso, non il problema.",
-      "fix_proposto": "🟡 Far uscire 2 quel ramo, come i dodici già curati, e usare la funzione pura cervello/posto-o-contenuto.mjs che questo lotto ha costruito apposta: il posto non c'è → ⚪ 2. ATTENZIONE alla clausola che salta sempre: il file assente potrebbe essere un REPERTO legittimo (nessuna Sala Operativa = la squadra non si parla), e in quel caso è 1 e non 2. Va deciso guardando chi legge, non a naso. E va allargato il rilevatore perché veda anche i ciechi che escono 0, altrimenti questa forma resta invisibile e ne nasceranno altre.",
-      "colore": "🟡",
-      "stato": "aperto",
-      "nato": "2026-08-28 22:40",
-      "nato_come": "scoperta",
-      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, nello stesso file",
-      "verifica": {
-        "tipo": "umano",
-        "nota": "Nessuna prova automatica finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere. Il difetto è verificato sul codice vero — cervello/chiusura-loop.mjs, ramo `if (!existsSync(salaPath))` dentro gate(), che fa exit(0) — e il lettore è giro.sh, che quel codice d'uscita lo guarda."
-      }
-    },
-    {
-      "id": "AR-881",
-      "titolo": "Il giro legge un verdetto con un confronto scritto a mano, e sul «non lo so» racconta la cosa sbagliata",
-      "dimensione": "guardiani-e-guardrail",
-      "gravita": "medio",
       "impatto_crescita": "basso",
-      "causa_radice": "① Perché il giro dà il messaggio sbagliato? Perché in cervello/giro.sh il verdetto di valida-contratti è letto con un `if [ rc -ne 0 ]` scritto a mano invece che con la funzione di casa vincolo_da_rc, che i tre esiti li sa distinguere. ② Cosa succede col 2? Il giro un vincolo lo dà comunque — quindi non c'è silenzio — ma col testo di dominio di un reperto: «CONTRATTI JSON FUORI-CONTRATTO… Rinomina ai nomi canonici». Con la cartella mancante quella frase è una bugia sul contenuto, e manda a cercare un campo rinominato che non esiste. ③ Perché è scritto a mano? Perché il blocco è più vecchio della funzione condivisa, e nessuno rilegge un blocco che funziona.",
-      "fix_proposto": "🟡 Sostituire il confronto a mano con vincolo_da_rc, che è la casa unica dei tre esiti. E cercare gli altri: un `if [ rc -ne 0 ]` su un guardiano che sa uscire 2 è la forma generale, non il caso singolo.",
+      "causa_radice": "cervello/test-cervello.mjs riga 2 dichiara «Sola lettura: esegue test, non tocca niente», ma la prima cosa che fa main() e' spazza() (cervello/spazza-temporanei.mjs), che cancella in modo ricorsivo dentro os.tmpdir() usando 228 prefissi DEDOTTI dal testo dei sorgenti — fra cui prefissi corti e comuni come «reg-», «bag-», «hook-», «coda-», «porta-», «quota-», «banco-». Nessuna lunghezza minima, nessun elenco deciso da qualcuno: il raggio si allarga da solo ogni volta che una prova nuova chiama la sua cartella «x-».",
+      "fix_proposto": "Cancellare solo cartelle con un marchio nostro nel nome (un prefisso lungo e dichiarato, per esempio «mycity-») invece dei prefissi dedotti; oppure scrivere i temporanei in una sola cartella nostra dentro os.tmpdir() e spazzare quella. In piu' togliere da cervello/test-cervello.mjs la riga «non tocca niente», che oggi e' falsa. La prova da scrivere insieme al fix: due cartelle esca con un prefisso non nostro in os.tmpdir(), e la spazzata non deve toccarle.",
       "colore": "🟡",
       "stato": "aperto",
-      "nato": "2026-08-28 22:40",
+      "nato": "2026-08-28 22:10",
       "nato_come": "scoperta",
-      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, verificando CHI legge i codici d'uscita convertiti",
       "verifica": {
         "tipo": "umano",
-        "nota": "Verificato leggendo cervello/giro.sh intorno a riga 906 e cervello/giro-esito.sh riga 108. Non eseguito: da una sessione in cloud il giro tocca vault, rete e sensori."
-      }
-    },
-    {
-      "id": "AR-882",
-      "titolo": "Un generatore porta ancora la forma vecchia: se riscrive il giro, disfa una cura già pagata",
-      "dimensione": "guardiani-e-guardrail",
-      "gravita": "medio",
-      "impatto_crescita": "basso",
-      "causa_radice": "① Perché una cura può tornare indietro da sola? Perché cervello/round6-applica.mjs porta dentro di sé il blocco che scrive giro.sh, e quel blocco è la versione PRE-cura: `if rc -ne 0` col testo «TEST DEL CERVELLO ROSSI». ② Quindi? Il giorno che quel generatore rigenera giro.sh, la cura di AR-843 si disfa in silenzio e nessuna prova se ne accorge. ③ Perché è invisibile? Perché il codice che GENERA non lo guarda nessuna prova: si provano gli effetti, non gli stampi.",
-      "fix_proposto": "🟡 Allineare lo stampo alla cura, e — la parte che conta — chiedersi quali altri generatori portano dentro copie di codice curato altrove. È la malattia `una-parola-con-due-padroni` applicata al codice generato, e la spazzata oggi non la vede.",
-      "colore": "🟡",
-      "stato": "aperto",
-      "nato": "2026-08-28 22:40",
-      "nato_come": "scoperta",
-      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859",
-      "verifica": {
-        "tipo": "umano",
-        "nota": "Verificato sul codice: cervello/round6-applica.mjs righe ~79-82. Non eseguito, perché eseguirlo vorrebbe dire lasciargli riscrivere giro.sh."
-      }
-    },
-    {
-      "id": "AR-883",
-      "titolo": "Il debito vero delle mutazioni non ha nessun sensore: si misura se si possono lanciare, non se mordono",
-      "dimensione": "guardiani-e-guardrail",
-      "gravita": "grave",
-      "impatto_crescita": "medio",
-      "causa_radice": "① Cosa conta oggi il guardiano? cervello/mutazioni-senza-esecutore.mjs conta le voci che NON SI POSSONO LANCIARE, e adesso sono zero su 934. ② Cosa NON conta? Se una mutazione che parte poi MORDE davvero, cioè se rompendo quel pezzo la prova diventa rossa. Una voce può essere perfettamente eseguibile e difendere niente. ③ Perché il buco resta? Perché l'unico modo di saperlo è eseguirle tutte e 934, e il cancello esegue solo quelle del lotto in corso. ④ Perché conta? Perché «difetto chiuso» in questa casa vuol dire «la prova diventa rossa se il fix si rompe»: se metà delle mutazioni non mordono, metà delle chiusure sono una promessa non verificata. Il numero zero di adesso è vero e dice meno di quanto sembra.",
-      "fix_proposto": "🟡 Un conteggio che esegua le mutazioni a lotti fuori dal cancello (troppo lento per stare dentro) e tenga il numero di quelle che non mordono sotto un tetto che scende. Il lotto che ha curato la radice ne ha sbloccate 5 e mordevano tutte e 5: è un campione buono ma è un campione, e va detto.",
-      "colore": "🟡",
-      "stato": "aperto",
-      "nato": "2026-08-28 22:40",
-      "nato_come": "scoperta",
-      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-840: sbloccando le voci si è visto che nessuno chiede loro di mordere",
-      "verifica": {
-        "tipo": "umano",
-        "nota": "Nessuna prova automatica: dimostrarlo vuol dire costruire il sensore che manca, ed è il fix stesso. Il conto di partenza (5 sbloccate, 5 che mordono) è misurato; le altre 929 no."
-      }
+        "nota": "Oggi non ha una prova che gira: il fix non e' in questo lotto. Chi lo ripara scrive insieme il test delle cartelle esca descritto nel fix, e allora la verifica diventa un comando."
+      },
+      "nota": "Trovato il 2026-08-28 dalla lente rischio-sicurezza-se sul perimetro del lotto dei pacchetti. Prova eseguita dal collaudatore: create /tmp/hook-vittima-di-un-altro e /tmp/reg-backup-importante con mtime a 3 giorni, `node cervello/spazza-temporanei.mjs --prova --json` le dichiara entrambe da togliere. Su un VPS /tmp e' condiviso. Nasceva come AR-864: quel numero se l'e' preso un lavoro unito su main mentre questo ramo era aperto."
     },
     {
       "id": "AR-865",
@@ -18963,6 +18909,78 @@
       }
     },
     {
+      "id": "AR-880",
+      "titolo": "Un guardiano che il giro legge sul serio dice «passato» senza aver aperto niente",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perché un cieco esce VERDE? Perché in cervello/chiusura-loop.mjs, dentro gate(), il ramo «il file della Sala Operativa non c'è» fa `console.log(\"SALA-OPERATIVA.md assente — niente da verificare\")` e poi `process.exit(0)`. ② Perché è peggio di AR-859? Perché AR-859 era un ⚪ travestito da ❌ — un falso allarme, fastidioso ma rumoroso. Questo è un ⚪ travestito da ✅: silenzioso, e chi lo legge conclude che è tutto a posto. ③ Chi lo legge? giro.sh lancia `--gate` e ne guarda il codice d'uscita sul serio. Quindi il giro riceve «passato» da un controllo che non ha aperto un solo file. ④ Perché nessun sensore lo vede? Perché il rilevatore confondeCiecoEdErrore cerca i rami che escono 1, cioè cerca la malattia nella veste in cui l'abbiamo conosciuta la prima volta. Un guardiano nato da un caso misura il caso, non il problema.",
+      "fix_proposto": "🟡 Far uscire 2 quel ramo, come i dodici già curati, e usare la funzione pura cervello/posto-o-contenuto.mjs che questo lotto ha costruito apposta: il posto non c'è → ⚪ 2. ATTENZIONE alla clausola che salta sempre: il file assente potrebbe essere un REPERTO legittimo (nessuna Sala Operativa = la squadra non si parla), e in quel caso è 1 e non 2. Va deciso guardando chi legge, non a naso. E va allargato il rilevatore perché veda anche i ciechi che escono 0, altrimenti questa forma resta invisibile e ne nasceranno altre.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, nello stesso file",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova automatica finché il fix non è scritto: una prova scritta oggi non avrebbe niente da rompere. Il difetto è verificato sul codice vero — cervello/chiusura-loop.mjs, ramo `if (!existsSync(salaPath))` dentro gate(), che fa exit(0) — e il lettore è giro.sh, che quel codice d'uscita lo guarda."
+      }
+    },
+    {
+      "id": "AR-881",
+      "titolo": "Il giro legge un verdetto con un confronto scritto a mano, e sul «non lo so» racconta la cosa sbagliata",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Perché il giro dà il messaggio sbagliato? Perché in cervello/giro.sh il verdetto di valida-contratti è letto con un `if [ rc -ne 0 ]` scritto a mano invece che con la funzione di casa vincolo_da_rc, che i tre esiti li sa distinguere. ② Cosa succede col 2? Il giro un vincolo lo dà comunque — quindi non c'è silenzio — ma col testo di dominio di un reperto: «CONTRATTI JSON FUORI-CONTRATTO… Rinomina ai nomi canonici». Con la cartella mancante quella frase è una bugia sul contenuto, e manda a cercare un campo rinominato che non esiste. ③ Perché è scritto a mano? Perché il blocco è più vecchio della funzione condivisa, e nessuno rilegge un blocco che funziona.",
+      "fix_proposto": "🟡 Sostituire il confronto a mano con vincolo_da_rc, che è la casa unica dei tre esiti. E cercare gli altri: un `if [ rc -ne 0 ]` su un guardiano che sa uscire 2 è la forma generale, non il caso singolo.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859, verificando CHI legge i codici d'uscita convertiti",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato leggendo cervello/giro.sh intorno a riga 906 e cervello/giro-esito.sh riga 108. Non eseguito: da una sessione in cloud il giro tocca vault, rete e sensori."
+      }
+    },
+    {
+      "id": "AR-882",
+      "titolo": "Un generatore porta ancora la forma vecchia: se riscrive il giro, disfa una cura già pagata",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "① Perché una cura può tornare indietro da sola? Perché cervello/round6-applica.mjs porta dentro di sé il blocco che scrive giro.sh, e quel blocco è la versione PRE-cura: `if rc -ne 0` col testo «TEST DEL CERVELLO ROSSI». ② Quindi? Il giorno che quel generatore rigenera giro.sh, la cura di AR-843 si disfa in silenzio e nessuna prova se ne accorge. ③ Perché è invisibile? Perché il codice che GENERA non lo guarda nessuna prova: si provano gli effetti, non gli stampi.",
+      "fix_proposto": "🟡 Allineare lo stampo alla cura, e — la parte che conta — chiedersi quali altri generatori portano dentro copie di codice curato altrove. È la malattia `una-parola-con-due-padroni` applicata al codice generato, e la spazzata oggi non la vede.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-859",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Verificato sul codice: cervello/round6-applica.mjs righe ~79-82. Non eseguito, perché eseguirlo vorrebbe dire lasciargli riscrivere giro.sh."
+      }
+    },
+    {
+      "id": "AR-883",
+      "titolo": "Il debito vero delle mutazioni non ha nessun sensore: si misura se si possono lanciare, non se mordono",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Cosa conta oggi il guardiano? cervello/mutazioni-senza-esecutore.mjs conta le voci che NON SI POSSONO LANCIARE, e adesso sono zero su 934. ② Cosa NON conta? Se una mutazione che parte poi MORDE davvero, cioè se rompendo quel pezzo la prova diventa rossa. Una voce può essere perfettamente eseguibile e difendere niente. ③ Perché il buco resta? Perché l'unico modo di saperlo è eseguirle tutte e 934, e il cancello esegue solo quelle del lotto in corso. ④ Perché conta? Perché «difetto chiuso» in questa casa vuol dire «la prova diventa rossa se il fix si rompe»: se metà delle mutazioni non mordono, metà delle chiusure sono una promessa non verificata. Il numero zero di adesso è vero e dice meno di quanto sembra.",
+      "fix_proposto": "🟡 Un conteggio che esegua le mutazioni a lotti fuori dal cancello (troppo lento per stare dentro) e tenga il numero di quelle che non mordono sotto un tetto che scende. Il lotto che ha curato la radice ne ha sbloccate 5 e mordevano tutte e 5: è un campione buono ma è un campione, e va detto.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-28 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto «il metro si dava buono da solo» (AR-840/859/798/797/791): trovati mentre si riparava lì accanto — trovato curando AR-840: sbloccando le voci si è visto che nessuno chiede loro di mordere",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova automatica: dimostrarlo vuol dire costruire il sensore che manca, ed è il fix stesso. Il conto di partenza (5 sbloccate, 5 che mordono) è misurato; le altre 929 no."
+      }
+    },
+    {
       "id": "AR-884",
       "titolo": "Undici sensori del giro possono dire «sono cieco» dentro una pipe, e la pipe se lo mangia",
       "dimensione": "guardiani-e-guardrail",
@@ -19125,26 +19143,6 @@
         "nota": "Due casi nuovi su cinque, e NESSUNO misura quanto ci mette il flusso: sarebbe un numero che cambia col runner. Guardano due invarianti — il tetto del flusso e almeno il doppio di quello della suite (cosi se la suite si allarga e il flusso no, diventa rosso PRIMA che il cancello ricominci a morire in silenzio), e il conto che l'ha deciso e scritto accanto al numero. Piu il difetto opposto: non cosi largo da tenere occupata la coda due ore su un lavoro piantato. Una mutazione: rimettere trenta."
       },
       "trovato_da": "il fatto che il cancello non si fosse mai fatto sentire — cercato il perche invece di darlo per buono"
-    },
-    {
-      "id": "AR-892",
-      "gravita": "grave",
-      "stato": "chiuso",
-      "nato": "2026-08-31 18:05",
-      "area": "macchina",
-      "nato_come": "scoperta",
-      "titolo": "Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde",
-      "sintomo": "Con l ambiente ripulito dal banco delle mutazioni, `git status` esce 128 e stampa «error: missing config key GIT_CONFIG_KEY_0 / fatal: unable to parse command-line config». Riprodotto a mano su questa macchina prima di toccare qualsiasi cosa: con l ambiente intero esce 0, con `ambientePulito()` esce 128. E `verdettoCorsa` legge ogni uscita diversa da zero come «la prova e diventata rossa per colpa della mutazione», cioe VERIFICATA. 395 delle 970 mutazioni hanno una prova che tocca git: due su cinque.",
-      "causa_radice": "`NOME_DI_CHIAVE` e una lista nera di NOMI e contiene «KEY»: prendeva `GIT_CONFIG_KEY_0`, `_1`, `_2` e lasciava in piedi `GIT_CONFIG_COUNT=3` e i tre `GIT_CONFIG_VALUE_n`. Git riceve una terna incoerente e muore prima di fare qualunque cosa. La radice vera, che vale oltre a git: una lista nera di nomi sa cosa un nome DICHIARA, non sa che certe variabili si tengono per mano — toglierne una rompe il gruppo intero. Ed e AR-840 rinato dentro la cura di AR-840: la difesa nuova (le tasche vuote) ha ricreato la malattia vecchia (un uscita != 0 che non e una misura).",
-      "fix_proposto": "🟡 FATTO, due meta separate apposta. ① LA CAUSA — `ambientePulito` ha ora un terzo passaggio, per GRUPPO: se cade un membro di un gruppo inscindibile, cadono tutti (`trascinatiDalGruppo`). Il figlio parte senza quella configurazione, che e pulito; non parte a meta, che e una bugia. Non tengo i superstiti: `GIT_CONFIG_VALUE_n` puo portare una credenziale, e sul VPS non l ho guardato. ② LA RETE — `avvioFallito` riconosce ora un git morto per configurazione incoerente come ⚪. Serve lo stesso che la ①: la prima protegge dal gruppo che conosco, la seconda dal prossimo modo di far morire git.",
-      "verifica": {
-        "tipo": "comando",
-        "comando": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
-        "nota": "Otto casi per AR-892, e le due meta si provano SEPARATE: provare solo la ① lascerebbe verde il giorno che il gruppo cambia forma, provare solo la ② lascerebbe la macchina a rompere git a ogni corsa. Uno dei casi fa partire git DAVVERO con l ambiente ripulito invece di ragionarci sopra (e si dichiara ⚪ se git non c e). Due mutazioni, una per meta, tutte e due mordono."
-      },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file",
-      "chiuso_il": "2026-09-01 16:25",
-      "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-892): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-893",
@@ -19400,27 +19398,47 @@
       },
       "chiuso_come": "node --test cervello/test/due-famiglie-un-nome-solo.test.mjs → 5 casi, exit 0. Due mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-905). Per provarlo ho dovuto esportare `applicaTetto`, che prima era privata: una funzione che decide se il cancello blocca e non si puo chiamare da una prova e una decisione che nessuno puo controllare.",
       "trovato_da": "il referto del cancello, letto fino a capire perche si contraddiceva invece di scegliere quale delle due righe credere"
+    },
+    {
+      "id": "AR-906",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-08-31 18:05",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde",
+      "sintomo": "Con l ambiente ripulito dal banco delle mutazioni, `git status` esce 128 e stampa «error: missing config key GIT_CONFIG_KEY_0 / fatal: unable to parse command-line config». Riprodotto a mano su questa macchina prima di toccare qualsiasi cosa: con l ambiente intero esce 0, con `ambientePulito()` esce 128. E `verdettoCorsa` legge ogni uscita diversa da zero come «la prova e diventata rossa per colpa della mutazione», cioe VERIFICATA. 395 delle 970 mutazioni hanno una prova che tocca git: due su cinque.",
+      "causa_radice": "`NOME_DI_CHIAVE` e una lista nera di NOMI e contiene «KEY»: prendeva `GIT_CONFIG_KEY_0`, `_1`, `_2` e lasciava in piedi `GIT_CONFIG_COUNT=3` e i tre `GIT_CONFIG_VALUE_n`. Git riceve una terna incoerente e muore prima di fare qualunque cosa. La radice vera, che vale oltre a git: una lista nera di nomi sa cosa un nome DICHIARA, non sa che certe variabili si tengono per mano — toglierne una rompe il gruppo intero. Ed e AR-840 rinato dentro la cura di AR-840: la difesa nuova (le tasche vuote) ha ricreato la malattia vecchia (un uscita != 0 che non e una misura).",
+      "fix_proposto": "🟡 FATTO, due meta separate apposta. ① LA CAUSA — `ambientePulito` ha ora un terzo passaggio, per GRUPPO: se cade un membro di un gruppo inscindibile, cadono tutti (`trascinatiDalGruppo`). Il figlio parte senza quella configurazione, che e pulito; non parte a meta, che e una bugia. Non tengo i superstiti: `GIT_CONFIG_VALUE_n` puo portare una credenziale, e sul VPS non l ho guardato. ② LA RETE — `avvioFallito` riconosce ora un git morto per configurazione incoerente come ⚪. Serve lo stesso che la ①: la prima protegge dal gruppo che conosco, la seconda dal prossimo modo di far morire git.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+        "nota": "Otto casi per AR-892, e le due meta si provano SEPARATE: provare solo la ① lascerebbe verde il giorno che il gruppo cambia forma, provare solo la ② lascerebbe la macchina a rompere git a ogni corsa. Uno dei casi fa partire git DAVVERO con l ambiente ripulito invece di ragionarci sopra (e si dichiara ⚪ se git non c e). Due mutazioni, una per meta, tutte e due mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-892): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 825,
-    "aperti": 108,
+    "totale": 853,
+    "aperti": 110,
     "in_corso": 1,
     "da_riverificare": 10,
-    "chiusi": 706,
+    "chiusi": 732,
     "altri": 0,
-    "da_fare": 119,
+    "da_fare": 121,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 706,
-      "aperto": 108,
+      "chiuso": 732,
+      "aperto": 110,
       "da-riverificare": 10,
       "in-corso": 1
     },
     "stati_ignoti": [],
-    "senza_owner": 119,
-    "senza_scadenza": 119,
+    "senza_owner": 121,
+    "senza_scadenza": 121,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true

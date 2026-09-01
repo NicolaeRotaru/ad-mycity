@@ -1,6 +1,194 @@
 {
   "potature": [
     {
+      "quando": "2026-09-01 11:54",
+      "byte_prima": 1109469,
+      "byte_dopo": 1002395,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-09-01 11:32",
+      "byte_prima": 1113368,
+      "byte_dopo": 1002284,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-09",
+            "testo": "**Caso-studio Nicola:** «Non posso fare pull su memoria-ad — va a creare conflitti.» Corre"
+          },
+          {
+            "id": "L-2026-0710-88",
+            "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7)"
+          },
+          {
+            "id": "L-2026-0726-01",
+            "testo": "Una proiezione finanziaria salvata solo come RISULTATO NETTO non basta a rispondere a una "
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-09-01 11:08",
+      "byte_prima": 1120179,
+      "byte_dopo": 1006003,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-29",
+            "testo": "**Caso-studio Nicola (1/7 10:09 — ordine zombie €19,05):** «Ormai è la 3ª volta che lo app"
+          },
+          {
+            "id": "L-2026-0701-26",
+            "testo": "**Push marketplace 403 + PR mancante (Nicola 1/7 07:41):** il token GitHub del worker push"
+          },
+          {
+            "id": "L-2026-0701-22",
+            "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo,"
+          },
+          {
+            "id": "L-2026-0701-16",
+            "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + "
+          },
+          {
+            "id": "L-2026-0701-15",
+            "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `me"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-09-01 10:27",
+      "byte_prima": 1126526,
+      "byte_dopo": 1012794,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-38",
+            "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + mark"
+          },
+          {
+            "id": "L-2026-0701-35",
+            "testo": "**Caso-studio Nicola (1/7 11:29 — card SQL 107):** «L'ho approvato, perché mi chiede di nu"
+          },
+          {
+            "id": "L-2026-0701-34",
+            "testo": "**«Ok deploy Sprint 1» — verifica prod prima di ridistribuire (Nicola 1/7 11:10):** dopo m"
+          },
+          {
+            "id": "L-2026-0701-32",
+            "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 + 11:00 — due merge consecutivi):** dopo «o"
+          },
+          {
+            "id": "L-2026-0701-30",
+            "testo": "**Nicola 1/7 10:13 — ordine zombie €19,05:** «aggiungimi A o B, anzi che approva o ignora»"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-09-01 08:28",
+      "byte_prima": 1134042,
+      "byte_dopo": 1019141,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0706-53",
+            "testo": "**Caso-studio Nicola — inattività ≠ churn quando la relazione è gestita a mano (casella Pa"
+          },
+          {
+            "id": "L-2026-0702-50",
+            "testo": "**REST-live batte 'baseline portata avanti' quando il runner lo scrive (giro serale 2/7 18"
+          },
+          {
+            "id": "L-2026-0702-49",
+            "testo": "**Un 🔴 bloccato ha due cause diverse — non confonderle (caso SQL 107, chat 2/7):** Nicola"
+          },
+          {
+            "id": "L-2026-0702-46",
+            "testo": "**Consolidare config = cambiare VALORE, non togliere VARIABILI (chat 2/7 12:35):** Nicola "
+          },
+          {
+            "id": "L-2026-0702-41",
+            "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter c"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-09-01 06:30",
+      "byte_prima": 1144342,
+      "byte_dopo": 1026626,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0709-61",
+            "testo": "**Caso-studio Nicola — «mergiare» è gergo E sbagliato nel nostro ramo-unico (chat 9/7):** "
+          },
+          {
+            "id": "L-2026-0708-59",
+            "testo": "**Un cancello di sicurezza espresso come CONVENZIONE non è imposto finché il CODICE non lo"
+          },
+          {
+            "id": "L-2026-0707-58",
+            "testo": "**Caso-studio Nicola — una card che aspetta un'azione MANUALE tua (che la macchina non può"
+          },
+          {
+            "id": "L-2026-0706-56",
+            "testo": "**Correzione Nicola — non ridurre la VISIONE agli esempi che dà, ragiona all'intero spazio"
+          },
+          {
+            "id": "L-2026-0706-54",
+            "testo": "**Una correzione approvata dal Pannello va propagata a TUTTI gli snapshot nello stesso pas"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-08-31 22:31",
+      "byte_prima": 1154873,
+      "byte_dopo": 1036957,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0723-453",
+            "testo": "**Prima di trattare un bug UI del Pannello come 'nuovo', controllare se esiste già un bran"
+          },
+          {
+            "id": "L-2026-0710-74",
+            "testo": "**Allowlist `\"Write\"` vs `\"Write(/tmp/*)\"` — la sintassi con percorso NON abilita le scrit"
+          },
+          {
+            "id": "L-2026-0709-64",
+            "testo": "**Caso-studio Nicola — la coda «Da approvare» NON è dove si applicano le modifiche al codi"
+          },
+          {
+            "id": "L-2026-0709-63",
+            "testo": "**Un dato che ESISTE ed è collegato ma nessuna superficie lo consuma = INVISIBILE, quindi "
+          },
+          {
+            "id": "L-2026-0709-62",
+            "testo": "**Caso-studio Nicola — prima di consigliare di RIMUOVERE/revocare qualcosa, verifica A COS"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-08-28 12:26",
       "byte_prima": 1151962,
       "byte_dopo": 1044888,
