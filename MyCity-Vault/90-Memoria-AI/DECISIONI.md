@@ -4794,3 +4794,40 @@ chiuse. E non ho aperto il sito pubblicato: ho misurato il database, non la pagi
 vetrina sconti non mostrerà i cartellini «Esaurito» e la produzione resta indietro rispetto al codice.
 È lo stesso buco del quarto bloccante: il cancello che dovrebbe applicare le migrazioni è spento per
 mancanza delle tre chiavi Vercel.
+
+## 2026-09-01 17:00 — 🟡 Tredici difetti chiusi: il banco delle mutazioni comprava verdi, e sei buchi li ha trovati chi non aveva costruito
+
+**Cosa ho fatto.** Chiusi tredici difetti del cantiere, con la stessa regola per tutti: una prova che
+gira, e una mutazione che rompe apposta il fix e pretende che la prova diventi rossa. Ventiquattro
+mutazioni nuove, tutte mordono. Tutto dentro la macchina: non tocca il sito, non muove un euro, non
+scrive a nessuno.
+
+**Perché conta.** Il difetto peggiore è AR-892 e va detto per intero. Il filtro che toglie i segreti
+prima di lanciare una prova toglieva ogni nome che contiene «KEY» — e fra questi c'era
+`GIT_CONFIG_KEY_0`, mentre `GIT_CONFIG_COUNT` restava. Git riceveva una configurazione incoerente e
+moriva prima di fare qualunque cosa. E chi legge il risultato conta ogni uscita diversa da zero come
+«la prova si è accorta del difetto»: un processo morto comprava un verde. **Trecentonovantacinque
+mutazioni su novecentosettanta hanno una prova che tocca git** — due su cinque.
+
+La radice non è git: una lista nera di NOMI sa cosa un nome dichiara, non sa che certe variabili si
+tengono per mano.
+
+**Da dove sono venuti.** Sei dei tredici li ha trovati un collaudo di sicurezza che non aveva
+costruito niente di quel codice — inclusa una falla che io avevo dichiarato chiusa in un commit
+(«otto strade d'attacco su otto»: erano le otto a cui avevo pensato io, e lui è passato dalla nona).
+Tre sono nati mentre riparavo: una mia prova ha cancellato 956 file, una mia cura ha riaperto
+dall'altra parte il difetto che stava chiudendo, e uno l'ha trovato la radiografia del perimetro
+guardando righe che avevo scritto due ore prima.
+
+**Cosa non ho verificato, e va detto.** Non ho letto il database in questo giro: i numeri del
+business in [[STATO]] restano quelli del 28 agosto. La misura che avrebbe detto quanto tempo serve
+davvero al guardiano che il cancello uccideva è morta per memoria del contenitore, quindi quel numero
+resta ⚪ e la cura poggia sull'aritmetica, non su di lui. E il cancello del lotto non ha ancora dato
+un verdetto su questo lavoro: la suite gira in locale, il cancello vero è quello che conta.
+
+**Cosa serve da te (una cosa sola).** Il 27 luglio hai tolto `Bash(git push:*)` dai divieti di
+`settings.json`. Devo sapere se era di proposito. Se sì, va bene così e il guardiano che se ne
+lamentava adesso guarda la cosa giusta. Se era uno sbaglio, la riga va rimessa — ma allora va
+cambiato anche il manuale, perché oggi ti chiede di farmi spingere sul ramo e quel divieto me lo
+impedisce. Non posso obbedire a tutti e due, e non tocco `settings.json` da sola: chi si riscrive i
+propri permessi non ha permessi.
