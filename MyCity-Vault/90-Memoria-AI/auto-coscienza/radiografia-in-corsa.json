@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-31 10:47",
+  "aggiornato": "2026-09-01 16:04",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -1683,6 +1683,81 @@
       "nota": "",
       "file": {
         "cervello/giro.sh": "1bbf614c3121"
+      }
+    },
+    {
+      "quando": "2026-09-01 16:04",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-902"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/cancello-lotto.mjs": "c9135c6e8226",
+        "cervello/chiusura-loop.mjs": "65dd8beb6440",
+        "cervello/due-case.mjs": "b2290f66475f",
+        "cervello/esecuzione-prova.mjs": "8b24b1b04af0",
+        "cervello/freno-scattato.mjs": "7453f460ba96",
+        "cervello/mappa-copertura.mjs": "ed33b9f7f205",
+        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
+        "cervello/non-vacuita.mjs": "27b312a5c8b2",
+        "cervello/onesta-check.mjs": "fa9184fd7581",
+        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
+        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
+        "cervello/ricuci-corsie.mjs": "73c27658bb52",
+        "cervello/round6-applica.mjs": "d56f0a6d7cf2",
+        "cervello/test-cervello.mjs": "91e9eb7886e4",
+        "cervello/valida-contratti.mjs": "b5e2810d2112"
+      }
+    },
+    {
+      "quando": "2026-09-01 16:04",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-901"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/azioni-pronte/route.ts": "1eb3a2765d69"
+      }
+    },
+    {
+      "quando": "2026-09-01 16:04",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/giro.sh": "e9e5bc06a978"
+      }
+    },
+    {
+      "quando": "2026-09-01 16:04",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/lib/cancello-atto.ts": "98e0f9c7f5aa",
+        "pannello/src/lib/onesta-check.ts": "8b06a3f49c11"
       }
     }
   ]

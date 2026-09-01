@@ -22,10 +22,30 @@ allow_has() {
 }
 
 # ── DENY: i buchi chiusi dalla radiografia ──────────────────────────────────────────────────────
-@test "deny: push grezzo bloccato (niente codice non revisionato su main via modello)" {
-  need_node
-  run deny_has "git push:*"
-  [ "$status" -eq 0 ]
+# ⚠️ 1/9 — QUESTO CASO ACCUSAVA LA MACCHINA DI UNA SCELTA DI NICOLA, da più di un mese.
+#
+# Chiedeva che `.claude/settings.json` contenesse `Bash(git push:*)` fra i divieti. Quella riga
+# NICOLA L'HA TOLTA LUI il 27/7 (commit 1b5d0d1c8, «Update settings.json»), e si vede perché: il
+# manuale di questa casa PRETENDE che io spinga sul ramo di lavoro — «PUSH to the specified branch»
+# — e un divieto secco su ogni push rende impossibile il lavoro che lo stesso manuale ordina. Il
+# caso è rimasto rosso da allora: un guardiano che dà la colpa alla macchina per una decisione del
+# proprietario, e un cancello sempre rosso si impara ad aggirare.
+#
+# Ma la PROPRIETÀ che il titolo nomina — «niente codice non revisionato su main» — è vera e va
+# difesa. Solo che non è quella riga a difenderla: è il guardiano-integrità di `giro.sh` (AR-044),
+# che al momento di pubblicare mette in stage SOLO le quattro cartelle di memoria e poi toglie di
+# lì qualunque file di codice ci sia finito lo stesso. È il meccanismo che agisce davvero, e questo
+# caso adesso guarda quello.
+#
+# 🙋 DA CONFERMARE CON NICOLA: se il 27/7 la riga è stata tolta per sbaglio invece che di proposito,
+# va rimessa — ma allora va cambiato anche il manuale, perché oggi i due si contraddicono.
+@test "il giro pubblica SOLO memoria: il codice non arriva su main da qui" {
+  local GIRO="${BATS_TEST_DIRNAME}/../giro.sh"
+  # ① mette in stage solo il perimetro della memoria, non tutto
+  grep -q 'git add -A "${MEM_DIRS\[@\]}"' "$GIRO"
+  # ② e se un file di codice ci finisce lo stesso, lo toglie invece di pubblicarlo
+  grep -q 'GUARDIANO-INTEGRITÀ' "$GIRO"
+  grep -q 'git reset HEAD -- .' "$GIRO"
 }
 
 @test "deny: gh vietato (le PR passano solo da git-pr.mjs)" {

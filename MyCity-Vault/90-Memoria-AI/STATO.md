@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-31 12:40
+aggiornato: 2026-09-01 16:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -553,6 +553,37 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > intercetta, non ho trovato la mano che l'ha fatto.
 
 ## Passaggi precedenti
+
+> 🔧 **1/9 16:30 — Undici difetti chiusi, e sei li ha trovati chi non aveva costruito.**
+>
+> **In parole semplici.** Il banco con cui la macchina controlla che i suoi controlli servano a
+> qualcosa aveva un buco: rompeva git nel processo che stava misurando, e un controllo morto veniva
+> contato come «superato». Due prove su cinque passavano da lì. Adesso non più.
+>
+> **Cosa cambia per te.** Niente sul sito e niente in cassa: è tutto dentro la macchina. Cambia che
+> i controlli che ti dicono «va bene» adesso possono davvero dire di no.
+>
+> Le undici cose chiuse, in una riga ciascuna: il filtro dei segreti uccideva git e il cadavere
+> comprava un verde · le uniche prove che il banco non sapeva misurare erano proprio quelle che
+> difendono il «non ho misurato» · il guardiano che si ferma da solo per non farsi sparare si
+> faceva sparare lo stesso · un elenco che taceva valeva «tutti i controlli superati» e la memoria
+> si pubblicava con tredici problemi aperti · avevo chiuso la porta che esegue e dichiarato chiuso
+> il cortile, mentre quella che scrive era aperta di fianco · nelle «tasche vuote» c'erano due cose
+> che comandavano il processo figlio · un conto in memoria diceva trentadue dove le volte vere erano
+> ventuno · il file temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva
+> indovinare · una mia prova ha cancellato 956 file e quello che ho visto è stato un errore tecnico
+> senza una riga che lo dicesse · il registro diceva «fatta» prima di sapere se lo stato era stato
+> salvato · e una mia cura aveva riaperto dall'altra parte il problema che stava chiudendo.
+>
+> **Cosa devi fare.** Guardare la richiesta di unione e dirmi se va bene. Non tocca il sito, non
+> muove un euro, non scrive a nessuno.
+>
+> **Cosa non ho verificato.** Non ho letto il database in questo giro: i numeri in cima restano
+> quelli del 28 agosto e non sono una misura di adesso. Non ho potuto misurare quanto tempo serve
+> davvero al guardiano che il cancello uccideva — la misura è morta per memoria del contenitore, e
+> la cura poggia sull'aritmetica invece che su quel numero. E i quattro senior che hanno fatto da
+> collaudatori hanno guardato il perimetro di questo lavoro, non tutta la macchina.
+
 
 > 🔧 **22/8 20:25 — Lotto 49. Il metro sotto-contava di un terzo, e la macchina lo sapeva.**
 >
