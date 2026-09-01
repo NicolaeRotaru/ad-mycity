@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-01 16:39",
+  "aggiornato": "2026-09-01 16:53",
   "giorni_sospetto": 3,
-  "difetti_aperti": 152,
-  "difetti_da_fare": 152,
+  "difetti_aperti": 149,
+  "difetti_da_fare": 149,
   "conto": {
     "letto": true,
     "motivo": null,
     "totale": 896,
-    "chiusi": 744,
-    "aperti": 141,
+    "chiusi": 747,
+    "aperti": 138,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 152,
+    "da_fare": 149,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 744,
-      "aperto": 141,
+      "chiuso": 747,
+      "aperto": 138,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,15 +26,15 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 152,
-    "viste": 152,
+    "attese": 149,
+    "viste": 149,
     "fuori": 0,
-    "motivo": "bilancio a posto: 744 chiuse + 152 classificate = 896 schede, e ogni stato vivo è dentro (141 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 747 chiuse + 149 classificate = 896 schede, e ogni stato vivo è dentro (138 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 92,
     "prova-debole-su-grave": 26,
-    "auto-comando": 30,
+    "auto-comando": 27,
     "auto-sospetta": 4
   },
   "difetti_senza_controllo": 0,
@@ -199,7 +199,7 @@
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 9,
-  "schede_campi_illeggibili": 31,
+  "schede_campi_illeggibili": 28,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -323,21 +323,6 @@
     },
     {
       "id": "AR-887",
-      "gravita": "grave",
-      "impatto_crescita": null
-    },
-    {
-      "id": "AR-888",
-      "gravita": "grave",
-      "impatto_crescita": null
-    },
-    {
-      "id": "AR-889",
-      "gravita": "bloccante",
-      "impatto_crescita": null
-    },
-    {
-      "id": "AR-890",
       "gravita": "grave",
       "impatto_crescita": null
     },
@@ -504,27 +489,6 @@
     },
     {
       "id": "AR-887",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-888",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-889",
-      "gravita": "bloccante",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-890",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -3800,45 +3764,6 @@
       "titolo": "Un'azione che FORSE e gia partita torna in «da approvare», e la prossima firma la manda due volte a un cliente",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/c1-atto-una-volta-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-888",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "impatto_crescita": null,
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "non_giudicabile": false,
-      "titolo": "Il cancello del lotto diventa inservibile proprio quando qualcuno sta lavorando",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-889",
-      "gravita": "bloccante",
-      "eta_giorni": 1,
-      "impatto_crescita": null,
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "non_giudicabile": false,
-      "titolo": "La falla dichiarata chiusa non era chiusa: si esegue codice come root con la riga piu corta che esista",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-890",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "impatto_crescita": null,
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "non_giudicabile": false,
-      "titolo": "Nove frasi di scarsita su dieci passavano il cancello, e il banco restava verde spegnendo una difesa",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/banco-mail-onesta.test.mjs",
       "auto_chiudibile": true
     },
     {

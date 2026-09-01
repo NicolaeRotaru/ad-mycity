@@ -1819,6 +1819,20 @@
         "cervello/test-cervello.mjs": "91e9eb7886e4",
         "cervello/valida-contratti.mjs": "b5e2810d2112"
       }
+    },
+    {
+      "quando": "2026-09-01 16:52",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/giro.sh": "2db248a519c8"
+      }
     }
   ]
 }
