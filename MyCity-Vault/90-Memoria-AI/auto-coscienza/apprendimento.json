@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 16:33",
+ "aggiornato": "2026-09-01 18:37",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12025,7 +12025,7 @@
     "lettura-richiesta"
    ],
    "reparto": "@ad",
-   "confidenza": 0.85,
+   "confidenza": 0.7,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -12037,7 +12037,8 @@
    "gate_attivo": false,
    "gate_nota": "Debito dichiarato: è un errore di lettura/giudizio in una risposta di chat, non un pattern di codice — nessun test automatico può verificare 'ha letto bene il messaggio corto'. Il freno più vicino che esiste già è `cervello/contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit): ri-espone questa lezione all'inizio di ogni turno il cui prompt tocca temi affini (casella/Pannello/Sala Operativa), verificato attivo l'8/4 17:xx (vedi L-2026-0804-01). Non è un cancello che blocca un commit, solo un promemoria a monte.",
    "id_precedente": "L-2026-0804-02",
-   "nota_rinumero": "rinumerata da L-2026-0804-02 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
+   "nota_rinumero": "rinumerata da L-2026-0804-02 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)",
+   "decaduto_step_il": "2026-09-01 18:28"
   },
   {
    "id": "L-2026-0810-01",
@@ -12526,6 +12527,10 @@
     },
     {
      "quando": "2026-09-01 16:28",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 18:28",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
@@ -14318,12 +14323,12 @@
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 16:33",
+  "tasso_calcolato_il": "2026-09-01 18:37",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 16:28",
+  "cristallizzazione_ultima": "2026-09-01 18:28",
   "lezioni_totali": 501,
   "lezioni_per_stato": {
    "attiva": 388,

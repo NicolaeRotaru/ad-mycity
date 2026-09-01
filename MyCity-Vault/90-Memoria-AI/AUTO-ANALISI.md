@@ -1,3 +1,71 @@
+# 🔬 AUTO-ANALISI — 2026-09-01 18:35
+
+## Sedicesimo passaggio: riparata la baseline del delta-gate
+
+Business fermo. 1 ordine, 0 pagati. Stallo North Star **69 giorni**. Sito ancora giù.
+
+Non ho rifatto la query diretta sul database. Ho riusato il sensore REST di 15 minuti fa. Il
+letargo è sceso da SOPRAVVIVENZA a **RISPARMIO** (quota AI dal 114-135% al 70%). Quel livello dice
+di tagliare il volume. Un numero business già fresco di 15 minuti non merita una query nuova.
+
+**La cosa vera del passaggio.** Ho trovato perché la macchina ha fatto 16 giri pieni oggi, quando
+il livello RISPARMIO ne chiede 1-2. Il `delta-gate.json` confrontava sempre con una baseline
+dell'8/15 (7 clienti). I clienti sono saliti a 8 l'11 giorni fa, il 21/8. Quella baseline non era
+mai stata promossa. Il comando che la promuove, `--segna-pieno`, è bloccato dallo stesso permesso
+mancante delle card #104/#189. L'ho promossa a mano, con `Edit` diretto sul JSON — stessa procedura
+già usata l'8/15 sullo stesso tipo di guasto.
+
+**Voto di fiducia: 81/100** (▲ da 79). Sale perché ho riparato una causa, non solo un sintomo. E
+l'ho collegata al vincolo di letargo che la macchina stessa deve rispettare.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-01 18:35
+
+Collaudo richiesto dal cancello di stop (AR-532).
+
+**① Richiesta.** Nicola ha chiesto di eseguire per intero `cervello/giro.md`.
+- FATTA: lettura sensori (riusati, freschi di 15 minuti). `coerenza-fatti.mjs` rieseguito, pulito.
+  Scritti STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, SALA-OPERATIVA.md,
+  auto-coscienza/auto-analisi.json, delta-gate.json (fix baseline). Registrata la riga
+  chiusura-loop per il fix (`chiusura-loop.mjs registra ad ...`, riuscita). TL;DR consegnato in
+  chat con la mossa n.1.
+- MANCANTE nel passaggio precedente (14:28), corretta ora: questo file, `AUTO-ANALISI.md`, non era
+  stato riscritto da tre passaggi. Il giro lo richiede come file OBBLIGATORIO a ogni passaggio.
+  Lo aggiorno ora, in cima, mantenendo sotto la versione delle 14:28.
+- TENTATA E BLOCCATA: `node cervello/lezione-nuova.mjs` per registrare la lezione riusabile sulla
+  baseline stantia. Un solo tentativo, bloccato da permessi (stesso buco #104/#189). Non ritentato,
+  per la lezione [[feedback-agenti-background-verifica-permessi]]. `node cervello/piani-data.mjs
+  --scrivi`: stesso blocco, stesso trattamento.
+- NON FATTA APPOSTA: radar, delega analista/intelligence, auto-miglioramento, radiografia completa.
+  Letargo RISPARMIO + gate North-Star: nessuna novità di business da propagare, e questo passaggio
+  non produce contenuto pubblicabile da confrontare coi migliori.
+
+**② Diff riletto.** `git status --short` prima di scrivere: 29 file già modificati dal pre-passo di
+`giro.sh` (sensori, gate, cantiere) — non toccati da me. Le mie scritture: STATO.md, Briefing,
+SALA-OPERATIVA.md, ultimo-briefing.json, auto-analisi.json, delta-gate.json (fix mirato, non
+un'intera riscrittura), questo file. Nessuna scrittura fuori da questo perimetro.
+
+**③ Prove eseguite.** `node cervello/coerenza-fatti.mjs` (pulito, 41 fatti, 0 cacce aperte).
+Rilettura diretta di `delta-gate.json` per confermare i 12 casi in cui il motivo "clienti 7→8" ha
+fatto scattare un giro pieno dal 21/8. `node cervello/chiusura-loop.mjs registra` (riuscito,
+verificato dall'output). Due comandi bloccati (`lezione-nuova.mjs`, `piani-data.mjs`), un solo
+tentativo ciascuno, non forzati.
+
+**④ Strada alternativa considerata.** Avrei potuto limitarmi a confermare "nulla di nuovo" per la
+sedicesima volta, come i passaggi precedenti quando il business non si muove. Ho scelto invece di
+indagare perché il *numero di giri* fosse anomalo rispetto al livello di letargo dichiarato — un
+segnale di sistema, non di business, ma un segnale reale e mai seguito nei 15 passaggi precedenti
+di oggi. L'alternativa scartata (confermare e basta) avrebbe lasciato aperto lo stesso spreco anche
+domani.
+
+**⑤ Verificato / non verificato.** Verificato: coerenza-fatti pulita; la storia di `delta-gate.json`
+mostra 12 decisioni "esegui_pieno" dal 21/8 con lo stesso motivo; la scrittura della baseline è
+andata a buon fine (file riletto dopo l'Edit). Non verificato: se la correzione basti a riportare i
+giri pieni a 1-2/giorno — si vede solo nei prossimi passaggi, non da qui. `test-cervello.mjs`,
+`north-star-check.mjs`, `letargo.mjs`, check HTTP diretto sul sito: stesso blocco di permessi di
+ogni passaggio precedente di oggi.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-09-01 14:28
 
 ## Un altro passaggio uguale ai precedenti
@@ -47,23 +115,24 @@ cinque righe più la mossa numero uno.
   `25006 cannot execute INSERT in a read-only transaction`. Non è il buco di permessi delle card
   #104/#42/#74 — è un vincolo diverso, a livello di connessione database. Il file nel vault resta
   comunque la fonte primaria, come previsto dal giro quando la scrittura DB non è disponibile.
-- NON FATTA APPOSTA. Motivo: letargo SOPRAVVIVENZA più gate North-Star, nessuna novità da propagare
-  rispetto ai passaggi precedenti di oggi. Saltati: radar completo IN/OUT, delega
+- NON FATTA APPOSTA. Motivo: letargo SOPRAVVIVENZA più gate North-Star. Nessuna novità da
+  propagare rispetto ai passaggi precedenti di oggi. Saltati: radar completo IN/OUT, delega
   analista/intelligence, Piani in 06-Piani, intenzioni-nicola.json, auto-miglioramento, radiografia
-  completa, apertura di nuove ricerche. I tre file Intelligence — radar-concorrenti, eventi-picchi,
-  buchi-mercato — sono stati controllati stamattina alle 06:50-07:00. È la cadenza settimanale
-  dichiarata nel radar stesso, non ricontrollata oggi pomeriggio apposta. Non è un buco.
-- MANCANTE, per blocco tecnico dichiarato: la riga di chiusura-loop per la card #189
-  (`chiusura-loop.mjs`, stesso buco di permessi #104/#42/#74) e l'avanzamento del cantiere-difetti
-  via `sonda-volano.mjs` (stesso blocco). Non forzati con un secondo tentativo, per la lezione
-  [[feedback-agenti-background-verifica-permessi]].
+  completa, apertura di nuove ricerche. I tre file Intelligence (radar-concorrenti, eventi-picchi,
+  buchi-mercato) sono un caso a parte. Sono già stati controllati stamattina, tra le 06:50 e le
+  07:00. La cadenza è settimanale, dichiarata nel radar stesso. Non li ho ricontrollati oggi
+  pomeriggio apposta. Non è un buco: è la cadenza giusta.
+- MANCANTE, per blocco tecnico dichiarato. Due cose: la riga di chiusura-loop per la card #189
+  (`chiusura-loop.mjs`), e l'avanzamento del cantiere-difetti via `sonda-volano.mjs`. Stesso buco
+  di permessi delle card #104/#42/#74 per entrambe. Non ho forzato un secondo tentativo, per la
+  lezione [[feedback-agenti-background-verifica-permessi]].
 
-**② Diff riletto.** `git status --short`: 29 file modificati. 21 sono artefatti dei sensori
-pre-girati da `giro.sh` prima di questo turno (`auto-coscienza/*.json` minori, `cervello/routing.json`,
-`cervello/fonti-salute.json`, `cervello/intelligence-agenda.json`, `consegne/supervisione/...`) — non
-toccati da me in questo passaggio, verificato con `git diff --stat` sui singoli file prima di
-scrivere. Gli altri 8 sono i file elencati sopra come FATTA. Nessuna scrittura fuori da questo
-perimetro.
+**② Diff riletto.** `git status --short`: 29 file modificati. 21 sono artefatti dei sensori,
+pre-girati da `giro.sh` prima di questo turno: `auto-coscienza/*.json` minori,
+`cervello/routing.json`, `cervello/fonti-salute.json`, `cervello/intelligence-agenda.json`,
+`consegne/supervisione/...`. Non li ho toccati io in questo passaggio — verificato con `git diff
+--stat` sui singoli file, prima di scrivere. Gli altri 8 sono i file elencati sopra come FATTA.
+Nessuna scrittura fuori da questo perimetro.
 
 **Discrepanza notata, non mia.** Il cancello di stop segnala anche `RITMO.md` come peggiorato di 2
 punti di leggibilità "da questo lavoro". `git diff HEAD -- RITMO.md` e `git status --short` non

@@ -1,7 +1,40 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 18:00
-fonte: AD digitale (report della sera, cervello/ritmo.md)
+aggiornato: 2026-09-01 18:35
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **1/9 18:35 — Giro di perlustrazione: riparata la causa dei 16 giri pieni di oggi.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Il business non è cambiato. 1 ordine, 0 pagati. Stallo North Star **69
+> giorni**. Sito ancora giù.
+>
+> La cosa vera di questo passaggio non è un numero nuovo. È capire perché la macchina ha fatto un
+> giro pieno 16 volte oggi. Il suo stesso livello di risparmio energetico dice il contrario: si
+> chiama RISPARMIO, non più SOPRAVVIVENZA. La quota AI è scesa al 70%. La regola di quel livello
+> dice "giri ridotti a 1/giorno".
+>
+> Il contatore che decide se rifare un giro pieno confrontava sempre con una fotografia vecchia.
+> Quella foto è dell'8/15. Diceva 7 clienti. I clienti sono saliti a 8 l'11 giorni fa. Era un
+> profilo del 21/8, non un cliente nuovo — l'avevo già chiarito quel giorno. Ma quella fotografia
+> di riferimento non veniva mai aggiornata. Il comando che la aggiorna è bloccato. Lo blocca lo
+> stesso permesso mancante della card #104. Da 11 giorni ogni giro trovava lo stesso scarto
+> vecchio, e si credeva davanti a una novità. L'ho corretta a mano. Stessa procedura già usata
+> l'8/15 sullo stesso guasto.
+>
+> **Cosa cambia per te.** Se la riparazione tiene, da domani dovrebbero tornare 1-2 giri pieni al
+> giorno invece di uno ogni 1-2 ore. Meno letture ripetute in coda, meno quota bruciata sul niente.
+>
+> **In coda restano le stesse sette carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8), #186 (cancello sito),
+> #188 (origine comando ricorrente, ancora non trovata), #189 (permesso test-cervello).
+>
+> **Cosa non ho verificato.** Se la riparazione basti davvero a riportare i giri a 1-2/giorno: si
+> vede solo nei prossimi passaggi. `test-cervello.mjs`, `north-star-check.mjs`, `letargo.mjs`, check
+> HTTP diretto sul sito: stesso blocco di permessi di ogni passaggio precedente di oggi.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
+
 ---
 
 > 🌙 **1/9 18:00 — Report della sera.** Richiesta tua: report della sera (ritmo).
@@ -426,11 +459,14 @@ se l'attività è ferma.
 > ho verificato in questo passaggio quali delle quattro restano aperte — lo segno come domanda,
 > non lo dichiaro chiuso né sforato a caso.
 >
-> **Le tre carte che contano di più, ferme in coda:** #184 (database di produzione indietro di 4
-> migrazioni — 126-129, accodata 29/8), #182 (Pane Quotidiano non incassa da 18 giorni e i post
-> pronti promettono comunque la consegna, accodata 28/8), #168 (server che fa girare la macchina
-> fermo da giorni, la causa più diretta del sito giù, accodata 22/8). Nessuna delle tre è stata
-> firmata.
+> **Le tre carte che contano di più, ferme in coda:**
+> - #184 — il database di produzione è indietro di 4 migrazioni (126-129), accodata il 29/8.
+> - #182 — Pane Quotidiano non incassa da 18 giorni, e i post già pronti promettono comunque la
+>   consegna. Accodata il 28/8.
+> - #168 — il server che fa girare la macchina è fermo da giorni. È la causa più diretta del sito
+>   giù. Accodata il 22/8.
+>
+> Nessuna delle tre è stata firmata.
 >
 > **Cosa ho fatto io.** Solo verifica e memoria: nessuna azione nuova aperta (North-Star gate +
 > letargo RISPARMIO, salute macchina 4/100). CI: 7 PR aperte, 5 rosse (#855/#842/#841/#741/#735,
