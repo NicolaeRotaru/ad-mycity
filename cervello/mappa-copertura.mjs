@@ -110,7 +110,15 @@ export const ESENZIONI = {
   // l'esito di un lavoro che gira in questa sessione: legge un file di uscita e lo riporta. Non
   // lancia niente e non scrive nel repo — è il gemello in sola lettura di TaskStop, che invece agisce.
   TaskOutput: "legge l'esito di un lavoro di questa sessione: non lancia niente, non scrive nel repo e non tocca il mondo",
-  TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano, la misura che salta la ripretende il cancello, che resta rosso finché non gira intero",
+  // ⚠️ LA MOTIVAZIONE È STATA STRETTA IL 31/8, perché mezza era falsa e nessuno l'aveva provata.
+  // Diceva «la misura che salta la ripretende il cancello» come se valesse ovunque. Nel CANCELLO
+  // vale davvero: un passo ucciso esce `status === null`, e lì è rosso apposta — «un guardiano che
+  // non ha finito» non è «un guardiano che ha detto ok». Nel GIRO non valeva: fino ad AR-895 un
+  // guardiano fermato produceva stdout vuoto, e l'elenco vuoto si leggeva come «tutti i vincoli
+  // risolti». Cioè l'esenzione poggiava per metà su una proprietà che era stata data per buona
+  // senza misurarla. Adesso reggono tutte e due le case, e la motivazione dice quale meccanismo
+  // la tiene su invece di dire «tanto se ne accorge qualcuno».
+  TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano la misura non si perde in nessuna delle due case: nel cancello un passo ucciso esce status null ed è rosso, nel giro (da AR-895) un vincolo che non torna indietro nominato resta ⚪ e non fra i risolti",
   // Trovati dal cancello dello Stop il 28/8, preparando le otto mail del metro dell'onestà.
   // `ListAgents` elenca i colleghi vivi di questa sessione e basta: è il gemello in sola lettura di
   // `SendMessage`, che invece li fa muovere ed è per questo in attesa di aggancio qui sotto.

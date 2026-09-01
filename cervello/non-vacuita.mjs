@@ -29,10 +29,10 @@
 //   1 = almeno una mutazione lascia il test VERDE → quella prova non dimostra il suo fix
 //   2 = non ho potuto misurare (file/mutanti assenti, pattern non trovato)
 
-import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync, realpathSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
-import { dirname, isAbsolute, join, resolve } from "node:path";
+import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
 import { muta } from "./mutazione-vagante.mjs";
@@ -278,6 +278,55 @@ const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
 
 /** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
 const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
+
+/**
+ * 🔒 IL FILE DA ROMPERE STA DENTRO UNA RADICE AMMESSA? — AR-896.
+ *
+ * ⚠️ TROVATO DAL COLLAUDO DI SICUREZZA DEL 31/8, ed è la stessa porta di AR-889 un metro più in là.
+ * Lì la difesa era stata messa sul campo `test`, quello che il banco ESEGUE. Ma il banco apre e
+ * RISCRIVE anche il campo `file` — `writeFileSync(file, rotto)`, da root — e su quello non c'era
+ * nessun controllo di radice: `viaDi` accettava qualunque percorso assoluto. Il collaudo ha lasciato
+ * un testimone in un file fuori dal repo, di proprietà di qualcun altro, senza toccare il repo.
+ *
+ * La lezione, e vale oltre a questo file: quando si mette una guardia su un modo di raggiungere una
+ * risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile, e ne
+ * avevo chiusa una sola dichiarando chiuso il cortile.
+ *
+ * La regola è la stessa di `eseguiProva`, di proposito: le radici ammesse sono il repo più la
+ * cartella del registro che dichiara la mutazione — col registro vero è il repo e basta. Il
+ * percorso si risolve con `realpathSync` perché un collegamento simbolico dentro il repo farebbe
+ * lo stesso lavoro di un percorso assoluto; se non esiste ancora, si guarda la cartella che lo
+ * conterrà, che è il posto dove il collegamento vivrebbe.
+ *
+ * Chi resta fuori NON è un errore da lanciare: è un ⚪. Non ho misurato quella mutazione, e ⚪ non è
+ * mai un verde (AR-322).
+ */
+export function dentroLeRadici(via, radici, vero = realpathSync) {
+  let reale;
+  try {
+    reale = vero(via);
+  } catch {
+    // Il file non c'è ancora: la domanda diventa «dove finirebbe?», cioè la sua cartella.
+    try {
+      reale = join(vero(dirname(via)), basename(via));
+    } catch {
+      return { dentro: false, perche: `non riesco a risolvere il percorso «${via}»: non lo tocco` };
+    }
+  }
+  for (const r of radici) {
+    let radiceReale = r;
+    try {
+      radiceReale = vero(r);
+    } catch {
+      /* una radice che non esiste non ammette niente */
+    }
+    if (reale === radiceReale || reale.startsWith(`${radiceReale}/`)) return { dentro: true, perche: "" };
+  }
+  return {
+    dentro: false,
+    perche: `il file da rompere sta fuori da ogni radice ammessa (${reale}): il banco non scrive fuori dal repo e fuori dalla cartella del registro`,
+  };
+}
 
 // `muta` vive in ./mutazione-vagante.mjs (AR-757): il gancio del commit deve poterla usare senza
 // importare QUESTO file, che all'import accende i gestori di segnale. Qui si ri-esporta, cosi' chi
@@ -563,6 +612,12 @@ function main() {
   const esiti = [];
   for (const m of elenco) {
     const file = viaDi(m.file);
+    // AR-896 — prima di aprire e riscrivere: sta dentro una radice ammessa? Fuori è ⚪, mai ✅.
+    const radice = dentroLeRadici(file, [AD_ROOT, ...radiceDelRegistro(MUTANTI)]);
+    if (!radice.dentro) {
+      esiti.push({ ...m, verdetto: "cieco", perche: radice.perche });
+      continue;
+    }
     if (!existsSync(file)) {
       esiti.push({ ...m, verdetto: "cieco", perche: `file assente: ${m.file}` });
       continue;

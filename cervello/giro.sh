@@ -1768,6 +1768,38 @@ fi
 if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/dev/null 2>&1; then
   echo "[$(ts)] 🔁 RIVERIFICA VINCOLI (AR-321): rimisuro i ${GATE_ROSSI} cancelli che erano rossi prima del motore..."
   RIV_RIMASTI=(); RIV_RISOLTI=(); RIV_NONRIM=()
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🚧 AR-895 — L'ELENCO VUOTO VALEVA «TUTTI I VINCOLI RISOLTI», E IL GIRO PUBBLICAVA
+  #
+  # Prima l'elenco si leggeva così: `done < <(node … riverifica-elenco … 2>/dev/null)`. Se quel
+  # comando non partiva — uscita ≠ 0, stdout vuoto — il `while` non girava NEMMENO UNA VOLTA. I tre
+  # array restavano vuoti, `VINCOLI_ATTIVI` diventava vuoto, `GATE_ROSSI` diventava 0, e
+  # `riverifica-esito` con tutto vuoto usciva 0: «tutti i vincoli sono stati risolti». Il giro si
+  # dichiarava pulito e PUBBLICAVA. Riprodotto il 31/8 con la stessa forma di shell: tredici cancelli
+  # rossi spariti in silenzio. E il `2>/dev/null` cancellava anche la traccia dell'errore.
+  #
+  # È lo stesso difetto che questo blocco stava curando dieci righe più sotto (`_rrc -eq 2` →
+  # RIV_NONRIM): la cura era stata messa sul singolo guardiano e non su CHI PRODUCE L'ELENCO. Un
+  # guardiano che tace lo si sente; un elenco che tace sembra una buona notizia.
+  #
+  # Il contratto di `riverifica-elenco` è preciso — esce sempre 0 e stampa UNA RIGA PER VINCOLO —
+  # quindi la regola può essere più forte di «vuoto = male»: si CONTANO le righe, e ogni vincolo che
+  # non è tornato indietro è ⚪, mai verde. Prende anche il caso in cui la tabella ne dimentica uno.
+  # ─────────────────────────────────────────────────────────────────────────────
+  _riv_elenco="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>&1)"
+  _riv_el_rc=$?
+  if [ "$_riv_el_rc" -ne 0 ]; then
+    echo "[$(ts)]   ⚪ non ho potuto sapere CHI rimisura cosa: \`c4-cancelli riverifica-elenco\` è uscito ${_riv_el_rc}." >&2
+    echo "[$(ts)]      ${_riv_elenco}" >&2
+    _riv_elenco=""
+  fi
+  # I nomi che sono tornati indietro davvero. Quelli che mancano li rimetto in ⚪ più sotto: un
+  # vincolo che era rosso e di cui non so più niente non è un vincolo risolto.
+  _riv_tornati=""
+  while IFS="$(printf '\t')" read -r _rnome _rclasse _rcomando; do
+    [ -z "${_rnome:-}" ] && continue
+    _riv_tornati="${_riv_tornati} ${_rnome}"
+  done <<< "$_riv_elenco"
   while IFS="$(printf '\t')" read -r _rnome _rclasse _rcomando; do
     [ -z "${_rnome:-}" ] && continue
     if [ "$_rclasse" = "non-rimisurabile" ]; then
@@ -1800,7 +1832,18 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
       RIV_RIMASTI+=("$_rnome")
       echo "[$(ts)]   ⛔ $_rnome — il vincolo era stato consegnato al motore e il guardiano dice ANCORA no." >&2
     fi
-  done < <(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>/dev/null)
+  done <<< "$_riv_elenco"
+  # AR-895: i vincoli che erano rossi e che l'elenco non ha nominato. Prudenza, non pignoleria:
+  # sono precisamente quelli che sparivano.
+  for _rv in "${VINCOLI_ATTIVI[@]}"; do
+    case " ${_riv_tornati} " in
+      *" ${_rv} "*) ;;
+      *)
+        RIV_NONRIM+=("$_rv")
+        echo "[$(ts)]   ⚪ $_rv — era rosso e l'elenco non me l'ha nemmeno nominato: NON lo do per risolto." >&2
+        ;;
+    esac
+  done
   _riv_out="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-esito \
     --rimasti="${RIV_RIMASTI[*]:-}" --risolti="${RIV_RISOLTI[*]:-}" --non-rimisurabili="${RIV_NONRIM[*]:-}" 2>/dev/null)"
   _riv_rc=$?

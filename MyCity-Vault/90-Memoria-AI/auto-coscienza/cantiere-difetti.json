@@ -19173,6 +19173,42 @@
         "nota": "Tre casi nuovi (8 in tutto nel file). Come i cinque di prima, NON misurano quanto ci mette niente — un numero cosi cambia col runner: tengono l ORDINE fra i due tetti e il fatto che l orologio parta dalla nascita. Il caso peggiore e nell asserzione: budget + soglia minima deve restare sotto il tetto del cancello. Due mutazioni, una per meta, tutte e due mordono."
       },
       "trovato_da": "il verdetto del cancello, letto invece di riprovato — e la misura che avrebbe dato il numero e morta di memoria, il che ha reso obbligatorio curare la struttura invece del numero"
+    },
+    {
+      "id": "AR-895",
+      "gravita": "bloccante",
+      "stato": "aperto",
+      "nato": "2026-08-31 19:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Un elenco che taceva valeva «tutti i vincoli risolti», e il giro pubblicava con tredici cancelli rossi",
+      "sintomo": "Riprodotto il 31/8 con la stessa forma di shell di `cervello/giro.sh`: parto con tredici vincoli rossi, il produttore dell elenco esce 2 con stdout vuoto, e finisco con GATE_ROSSI=0 e il messaggio «tutti i vincoli sono stati risolti». Il giro si dichiara pulito e PUBBLICA. Il `2>/dev/null` cancellava anche la traccia dell errore, quindi nel log non restava niente da cui accorgersene.",
+      "causa_radice": "L elenco si leggeva con una sostituzione di processo — `done < <(node … 2>/dev/null)`. Se il comando non parte, il `while` non gira NEMMENO UNA VOLTA: i tre array restano vuoti, `VINCOLI_ATTIVI` diventa vuoto, e `riverifica-esito` con tutto vuoto esce 0. La radice non e la shell: e che la cura del terzo esito era stata messa sul SINGOLO GUARDIANO (dieci righe sotto, `_rrc -eq 2` → ⚪) e non su CHI PRODUCE L ELENCO. Un guardiano che tace lo si sente, perche c e una casella che lo aspetta; un elenco che tace sembra una buona notizia.",
+      "fix_proposto": "🟡 FATTO. Il contratto di `riverifica-elenco` e preciso — esce sempre 0 e stampa UNA RIGA PER VINCOLO — quindi la regola e piu forte di «vuoto = male»: si cattura l uscita CON stderr e il codice, e ogni vincolo che non torna indietro nominato finisce in ⚪, mai fra i risolti. Prende anche il caso in cui la tabella ne dimentica uno, che prima spariva uguale. L errore del produttore adesso si legge nel log invece di finire in /dev/null.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
+        "nota": "Cinque casi, e la forma conta: la prova RITAGLIA LE RIGHE VERE da giro.sh e le esegue con un produttore finto, invece di riscriverne una copia — una prova che difende una copia non difende il file. Copre i tre modi: produttore morto, elenco a meta, elenco completo (dove non deve inventare ⚪). Se le righe non si trovano piu, la prova lo dichiara invece di passare a vuoto. Due mutazioni, tutte e due mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e riprodotto a mano prima di toccare niente"
+    },
+    {
+      "id": "AR-896",
+      "gravita": "bloccante",
+      "stato": "aperto",
+      "nato": "2026-08-31 20:15",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Avevo chiuso la porta che ESEGUE e dichiarato chiuso il cortile: quella che SCRIVE era aperta di fianco",
+      "sintomo": "Riprodotto a mano con un testimone che legge il file bersaglio MENTRE il banco lo tiene rotto. Senza la guardia il testimone leggeva «SCRITTA DAL BANCO COME ROOT» da un file fuori dal repo e fuori dalla cartella del registro; col repo che restava pulito, cioe senza nessuna traccia in git. Con la guardia il banco non lo apre nemmeno.",
+      "causa_radice": "`non-vacuita.mjs` fa DUE cose con quello che legge da `mutanti.json`: esegue il campo `test` e riscrive il campo `file` (`writeFileSync`, da root). Ad AR-889 la guardia delle radici era stata messa solo sul primo, e il commit diceva «otto strade d attacco su otto chiuse» — le otto a cui avevo pensato io. `viaDi()` accettava qualunque percorso assoluto senza controllo. La radice non e la svista: e che quando si mette una guardia su un modo di raggiungere una risorsa bisogna cercare TUTTI i modi, e io ne avevo censito uno solo dichiarando chiuso il resto.",
+      "fix_proposto": "🟡 FATTO: `dentroLeRadici(via, radici)` — la stessa regola di `eseguiProva`, di proposito: repo + la cartella del registro che dichiara la mutazione. NON e «vietato l assoluto»: gli assoluti servono, e cosi che le prove di questo stesso banco si costruiscono una fixture, e vietarli sarebbe la cura che rompe quattro prove (gia successo ad AR-889). Il percorso si risolve con `realpathSync` perche un collegamento simbolico dentro la radice farebbe lo stesso lavoro di un assoluto. Chi resta fuori e ⚪ col motivo scritto, non un errore lanciato.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
+        "nota": "Nove casi. Otto provano la funzione (repo, fuori, cartella del registro, collegamento simbolico, file non ancora nato, percorso irrisolvibile, radice inesistente, «..»); il NONO fa girare il BANCO VERO su un registro finto che punta fuori e guarda il bersaglio con un testimone. Il nono e stato aggiunto perche il banco delle mutazioni ha bocciato la prima stesura: togliendo la CHIAMATA dal ciclo e lasciando la funzione intatta, gli otto casi restavano verdi — difendevano una funzione giusta che nessuno chiamava piu. Cioe lo stesso difetto in miniatura. Due mutazioni, tutte e due mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e il banco delle mutazioni, che ha bocciato la mia prima prova perche difendeva la serratura invece della porta"
     }
   ],
   "meta": {
