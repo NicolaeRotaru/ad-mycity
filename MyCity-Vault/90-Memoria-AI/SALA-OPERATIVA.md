@@ -800,3 +800,8 @@ Esempi:
 - 2026-09-01 16:32 · @ad · FATTO · Tredicesimo passaggio identico di oggi: query diretta MCP `supabase-marketplace` — ordini pagati=0/1, ultimo ordine 24/6, 0 nuovi acquirenti in 7gg (5 acquirenti totali). Nessun commit nuovo dal recupero delle 16:20. `test-cervello.mjs` non ritentato: stesso blocco di permessi già registrato nella card #189, non ridiagnosticato.
 - 2026-09-01 16:32 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-09-01.md, ultimo-briefing.json.
 - 2026-09-01 16:32 · @ad · PASSO-A · @Nicola — nessuna carta nuova. Stesse in attesa: #154/#155, #182, #184, #185, #186, #188, #189. Mossa n.1 invariata: firma #154+#155.
+
+### 2026-09-01 — 🌙 REPORT DELLA SERA (AD · 18:00)
+- 2026-09-01 18:00 · @ad · FATTO · Letta SALA-OPERATIVA di oggi (14 passaggi, tutti business invariato) e consegne/ create oggi (supervisione negozi, salute VPS 06:51). Riconfermato dal vivo via `execute_sql` MCP: ordini=1, pagati=0, prodotti=5, profili=8, recensioni=0, carrelli abbandonati=3 — identico a tutti i passaggi di oggi e a ieri sera. Stallo North Star 69 giorni.
+- 2026-09-01 18:00 · @ad · FATTO · Aggiornati STATO.md (nuovo blocco in cima + riconferma tabella "I numeri chiave" alle 18:00) e RITMO.md (blocco `## Report della sera · 2026-09-01 18:00`, struttura scrittura-umana in 6 sezioni).
+- 2026-09-01 18:00 · @ad · PASSO-A · @Nicola — stesse 7 carte aperte, nessuna firmata oggi: #154/#155 (dominio+chiavi Vercel, mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8), #186 (cancello sito), #188 (origine comando ricorrente, non trovata), #189 (permesso test-cervello, nuova oggi 14:28).

@@ -40,8 +40,8 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 
 ## Piano del mattino · 2026-07-02 07:51
 - **Priorità n°1:** **Eseguire #16 Scelta A.** Ordine zombie €19,05 di Pane Quotidiano, firmato 1/7 alle 11:05. Piano per **2/7 mattina**: WhatsApp al buyer 348 642 1766, poi accetta da dashboard, poi consegna COD entro pranzo. Risultato: **North Star, 1° ordine consegnato**.
-- **Priorità n°2:** **Deploy #19 fix ruoli acquisto** — admin bloccato + seller solo via «Vai al marketplace» (branch `fix/ruoli-acquisto-admin-seller-2026-07-02` pronto) → CRM pulito (1 solo carrello buyer reale).
-- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) + **presidio onboarding 6/7** — piattaforma sicura e pronta per batch negozi dopo la prima transazione.
+- **Priorità n°2:** **Deploy #19 fix ruoli acquisto.** Admin bloccato. Seller solo via «Vai al marketplace». Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` pronto. Risultato: CRM pulito, 1 solo carrello buyer reale.
+- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) più presidio onboarding 6/7. Risultato: piattaforma sicura e pronta per il batch negozi dopo la prima transazione.
 - **Sentinelle:** ordine in ritardo · 1 carrello buyer reale (samir €10, 3 interni SKIP) · negozio LIVE 0 pagati · stallo **>177h** (+9,8h oltre 168h) · loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
 - **Assegnazioni:** @operations+#16 🔴 · @tech deploy #19 🔴 · @qa smoke post-deploy 🟢 · @customer-success feedback post-consegna 🟢 · @crm-lifecycle samir post-#19 🟢 · @onboarding-negozi checklist 6/7 🟢 · @devops-sre root sync #17 🟡 · @finanza payout-test **03/7 mattina** 🔴 · @analista snapshot fine giornata 🟢.
 - **Cosa serve da Nicola:** 🔴 **`ok 16`** (consegna mattina/pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× `install-sync-vps.sh`, già ok 17) · 🟢 inserimento negozi 6/7 (nessuna approvazione).
@@ -1392,3 +1392,27 @@ Una cosa in più, non una nuova priorità. Ho cercato la fonte del comando ricor
 - 🟡 Dimmi dove vive il comando ricorrente `#188`. Ho escluso due posti. Non ne ho altri da controllare da qui.
 
 **Dettagli tecnici** (opzionale) — dati riusati dal giro delle 11:56, quattro minuti prima di questo passaggio. `coerenza-fatti.mjs` pulito: 41 fatti, 0 copie vecchie. Business bit-per-bit identico dal 24/6. Sito HTTP 503, 219 giri ciechi. Nessuna nuova query pesante sul business in questo passaggio: la macchina è in letargo SOPRAVVIVENZA (quota AI oltre soglia), si taglia il volume non la verità. La ricerca su `#188` è stata l'unica indagine nuova: `CronList` (vuoto) + grep di «PLAYBOOK» su `cervello/vps/*.sh` e `cervello/worker.sh` (nessun risultato).
+
+## Report della sera · 2026-09-01 18:00
+
+**Com'è andata oggi**
+- Giornata di sola verifica. Dieci controlli diretti sul database, zero cambiamenti reali. Il sito pubblico resta giù da agosto, stessa causa nota.
+- Ho chiarito un falso allarme delle 11:15. Un contatore era salito da 7 a 8. Quel profilo risale al 21 agosto, non a oggi. Non era un cliente nuovo.
+- Chiuso un buco nel controllo che verifica se ogni reparto lascia una nota a fine lavoro. Mancava quella di intelligence. Aperta anche una card nuova per un permesso mancante sui test della macchina.
+
+**I numeri**
+- 1 ordine totale, lo stesso del 24/6, annullato. 0 pagati. 5 prodotti. 8 profili. 0 recensioni. Tutto invariato da ieri sera.
+- Stallo a 69 giorni dal primo e unico ordine.
+
+**Da approvare**
+- Sposta il dominio su Vercel e aggiungi le due chiavi mancanti. Rimette online il sito pubblico (`#154`/`#155`).
+- Un sì per sbloccare i pagamenti con carta di Pane Quotidiano (`#182`).
+- Un sì per applicare le quattro migrazioni ferme sul database (`#184`).
+
+**Lezione di oggi**
+- Quando un numero sale, prima di dare l'allarme bisogna controllare quando è successo davvero. Un totale più alto non vuol dire un evento di oggi.
+
+**Domani**
+- La prima cosa utile resta la tua firma su dominio e chiavi Vercel. Tutto il resto aspetta quel passo.
+
+**Dettagli tecnici** (opzionale) — `coerenza-fatti.mjs` exit 0 in ogni passaggio (41 fatti, 0 copie vecchie). 29 commit oggi. `chiusura-loop.mjs --gate` pulito dopo la registrazione mancante di @intelligence. Card nuova `#189` (permesso `test-cervello.mjs`, stesso buco di `#104`/`#42`/`#74`). Coda: 7 carte aperte (`#154`+`#155` insieme, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`).

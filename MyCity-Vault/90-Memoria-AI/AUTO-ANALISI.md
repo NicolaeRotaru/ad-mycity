@@ -38,21 +38,21 @@ cinque righe più la mossa numero uno.
   pulito. Scritti STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, AZIONI-IN-ATTESA.md
   (card #189), SALA-OPERATIVA.md, auto-coscienza/auto-analisi.json, questo file. TL;DR consegnato
   in chat.
-- FATTA, oltre il minimo: letto il vincolo di sistema AR-687, trovata la voce TEST appena diventata
-  cronica e senza card, accodata la card #189 — non era un passo esplicito del giro, ma un vincolo
-  HARD del prompt di oggi ("prima di chiudere questo giro accoda... una card").
+- FATTA, oltre il minimo. Ho letto il vincolo di sistema AR-687. Ho trovato la voce TEST appena
+  diventata cronica e senza card. Ho accodato la card #189. Non era un passo esplicito del giro. Era
+  un vincolo HARD del prompt di oggi: "prima di chiudere questo giro accoda... una card".
 - TENTATA E BLOCCATA (non "non fatta apposta"): scrivere il digest anche nella tabella `briefings`
   di Supabase (passo 6 del giro, condizionato a "se la memoria è collegata"). La connessione
   `supabase-memoria` è in sola lettura da questa sessione: `INSERT` rifiutato con errore
   `25006 cannot execute INSERT in a read-only transaction`. Non è il buco di permessi delle card
   #104/#42/#74 — è un vincolo diverso, a livello di connessione database. Il file nel vault resta
   comunque la fonte primaria, come previsto dal giro quando la scrittura DB non è disponibile.
-- NON FATTA APPOSTA (letargo SOPRAVVIVENZA + gate North-Star, nessuna novità da propagare rispetto
-  ai passaggi precedenti di oggi): radar completo IN/OUT, delega analista/intelligence, Piani in
-  06-Piani, intenzioni-nicola.json, auto-miglioramento, radiografia completa, apertura di nuove
-  ricerche. I tre file Intelligence (radar-concorrenti, eventi-picchi, buchi-mercato) sono stati
-  controllati stamattina alle 06:50-07:00 (cadenza settimanale rispettata, non ricontrollati oggi
-  pomeriggio): non è un buco, è la cadenza dichiarata nel radar stesso.
+- NON FATTA APPOSTA. Motivo: letargo SOPRAVVIVENZA più gate North-Star, nessuna novità da propagare
+  rispetto ai passaggi precedenti di oggi. Saltati: radar completo IN/OUT, delega
+  analista/intelligence, Piani in 06-Piani, intenzioni-nicola.json, auto-miglioramento, radiografia
+  completa, apertura di nuove ricerche. I tre file Intelligence — radar-concorrenti, eventi-picchi,
+  buchi-mercato — sono stati controllati stamattina alle 06:50-07:00. È la cadenza settimanale
+  dichiarata nel radar stesso, non ricontrollata oggi pomeriggio apposta. Non è un buco.
 - MANCANTE, per blocco tecnico dichiarato: la riga di chiusura-loop per la card #189
   (`chiusura-loop.mjs`, stesso buco di permessi #104/#42/#74) e l'avanzamento del cantiere-difetti
   via `sonda-volano.mjs` (stesso blocco). Non forzati con un secondo tentativo, per la lezione

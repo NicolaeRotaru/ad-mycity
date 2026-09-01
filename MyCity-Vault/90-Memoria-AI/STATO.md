@@ -1,7 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 16:32
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-01 18:00
+fonte: AD digitale (report della sera, cervello/ritmo.md)
+---
+
+> 🌙 **1/9 18:00 — Report della sera.** Richiesta tua: report della sera (ritmo).
+>
+> **In parole semplici.** Oggi ho solo verificato, non ho cambiato nulla. Ho riletto il database
+> con query dirette dieci volte. Il numero che conta è gli ordini pagati. È rimasto a zero tutto il
+> giorno. Sono 69 giorni così. Il sito pubblico è ancora giù, errore 503. La causa è nota da agosto:
+> mancano il dominio e due chiavi su Vercel. Nessun ordine vero oggi. Nessun negozio nuovo. Nessuna
+> carta approvata da te.
+>
+> **Cosa è cambiato nel merito.** Una sola cosa vera. Alle 11:15 ho chiarito un allarme falso. Il
+> conteggio "clienti" era salito da 7 a 8. Quel profilo in più risale al 21 agosto, non a oggi. Non
+> era un cliente nuovo. Era un contatore rimasto indietro. Per il resto solo manutenzione della
+> coda. Un controllo verifica che ogni reparto lasci una nota a fine lavoro. Mancava quella di
+> intelligence. L'ho aggiunta. Ho aperto anche una card nuova, la #189. Anche il controllo dei test
+> del cervello è bloccato. Lo blocca lo stesso permesso mancante che blocca altre tre card vecchie.
+>
+> **I numeri, confermati ora via query diretta.** 1 ordine totale, lo stesso del 24/6, annullato.
+> **0 pagati.** 5 prodotti. 8 profili: 5 clienti, 1 negozio, 1 rider, 1 admin. 0 recensioni. 3
+> carrelli abbandonati. Tutto invariato rispetto a ieri sera.
+>
+> **In coda restano 7 carte, nessuna firmata.** Le prime tre restano le stesse di stamattina.
+> Prima: dominio e chiavi Vercel per riportare online il sito pubblico, card #154 e #155. Senza
+> questo nessun pagamento riuscito diventa un ordine. Seconda: sblocco dei pagamenti carta di Pane
+> Quotidiano, card #182. Terza: le migrazioni mancanti sul database di produzione, card #184. Le
+> altre quattro restano ferme in attesa della stessa firma: la scadenza del 29/8, il cancello del
+> sito, l'origine del comando ricorrente "negozi in calo", il permesso per i test.
+>
+> **Lezione di oggi.** Quando un contatore sale, prima di dare l'allarme bisogna controllare quando
+> è successo davvero. Un numero più alto non vuol dire un evento di oggi.
+>
+> **Domani.** La prima cosa utile resta identica. La tua firma su dominio e chiavi Vercel. Tutto il
+> resto aspetta quel passo.
+>
+> **Dettagli tecnici.** `coerenza-fatti.mjs` → exit 0 (41 fatti, 0 copie vecchie) in ogni passaggio
+> di oggi. 29 commit oggi (perlustrazioni + manutenzione memoria). `chiusura-loop.mjs --gate`
+> pulito dopo la registrazione mancante di @intelligence. Card nuova: #189 (permesso
+> `test-cervello.mjs`, stesso buco delle #104/#42/#74).
+>
+> Briefing completo: [[Briefing/2026-09-01]].
+
 ---
 
 ---
@@ -332,9 +373,9 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database. L'ho fatta l'1 settembre alle 11:12, con query
-dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
-leggono questa tabella invece di inventare un numero.
+vengono dall'ultima lettura vera del database. L'ho fatta l'1 settembre alle 11:12, riconfermata
+identica alle 18:00 (report della sera), con query dirette a Supabase via MCP. Quando i sensori
+sono ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
 
 **Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto. Archiviando le voci
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
