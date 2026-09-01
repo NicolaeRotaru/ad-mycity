@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 11:20",
+ "aggiornato": "2026-09-01 11:40",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -9604,28 +9604,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0701-09",
-   "testo": "**Caso-studio Nicola:** «Non posso fare pull su memoria-ad — va a creare conflitti.» Correzione dopo consiglio sbagliato di `git pull memoria-ad` sul VPS per aggiornare WebFetch. 5 perché: (1) ho confuso binario **memoria** (`memoria-ad`, overlay automatico worker) con binario **codice** (`main`, es. `.claude/settings.json`); (2) Nicola non deve toccare git — pull manuale su memoria-ad confligge col giro; (3) L-2026-0701-03 e L-2026-0701-08 ripetevano l'errore; (4) ogni giro fa già fetch memoria-ad + overlay codice da main; (5) fix: **mai** dire a Nicola pull/checkout su `memoria-ad`. Aggiornamento codice VPS = `cervello/vps/aggiorna-cervello.sh` o «fai un giro» Pannello; verifica = `grep WebFetch settings.json`. WebFetch globale ancora solo locale finché PR non mergiata su **main**.",
-   "tag": [
-    "vps",
-    "git",
-    "memoria-ad",
-    "main",
-    "nicola",
-    "guardrail",
-    "devops"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.33999999999999986,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
    "id": "L-2026-0701-08",
    "testo": "Quando Nicola chiede «come verifico?» / «come vedo i dati?» dopo un cambio infrastruttura (es. WebFetch globale), rispondere in **due binari**: (A) **verifica** — prima `git show origin/main:.claude/settings.json` (mai assumere merge fatto, L-2026-0701-10); grep VPS post-`aggiorna-cervello.sh` o giro (**main**, mai pull manuale `memoria-ad` — L-2026-0701-09); test funzionale **sul worker** con `@seo` su dominio ex-whitelist → URL+data; **Cursor IDE ≠ worker** (test in chat non prova config repo); (B) **osservabilità** — output distillato in chat, `memoria-squadra/`, `consegne/`, `SALA-OPERATIVA.md`, briefing — no log HTTP. **Pannello:** tab «Quaderni senior» legge `memoria-squadra/` da memoria-ad (L-2026-0701-15) — locale già ok, deploy PR su `main`.",
    "tag": [
@@ -10034,39 +10012,16 @@
     "devops-sre"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.5199999999999999,
+   "confidenza": 0.3699999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 20:26",
+   "decaduto_step_il": "2026-09-01 11:32",
    "id_precedente": "L-2026-0710-71",
    "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
-  },
-  {
-   "id": "L-2026-0710-88",
-   "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7):** aggiungendo `\"Bash(git push origin feature/*:*)\"` alle allowlist, ci si aspettava che coprisse `git push origin feature/skill-rapide-chat`. Non funziona: il glob `*` nelle allowlist di Claude Code non matcha il carattere `/` nei path — quindi `feature/*` non copre branch con slash aggiuntivi nel nome. Il push continuava a chiedere permesso nonostante la regola. **Fix riusabile:** per coprire qualsiasi push di branch, usare la forma generica `\"Bash(git push origin:*)\"` (senza pattern branch) oppure aggiungere il path esatto del branch. **Regola per le allowlist:** trattare i glob delle allowlist Bash come glob POSIX dove `*` non matcha `/`; se il pattern contiene slash, testare sempre con un branch reale prima di affidarsi all'allowlist.",
-   "tag": [
-    "allowlist-bash",
-    "glob-pattern",
-    "git-push",
-    "branch-naming",
-    "settings-local-json",
-    "devops-sre"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 20:26",
-   "id_precedente": "L-2026-0710-72",
-   "nota_rinumero": "rinumerata da L-2026-0710-72 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
   {
    "id": "L-2026-0723-456",
@@ -10079,14 +10034,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-23",
    "ultima_conferma": "2026-07-23 23:40",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0724-01",
@@ -10099,14 +10054,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:22",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0724-02",
@@ -10119,14 +10074,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0724-527",
@@ -10152,25 +10107,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0726-01",
-   "testo": "Una proiezione finanziaria salvata solo come RISULTATO NETTO non basta a rispondere a una domanda futura su una sola componente (solo ricavi, o solo costi) — serve rilanciare l'agente da zero per isolarla. Lo scenario del 23/7 (finanza.soglia-costi-extra, DECISIONI 17:25) aveva salvato solo il totale (~-2.000€), senza i ricavi lordi separati dai costi; il 26/7 Nicola ha chiesto «parlami solo dei guadagni e non dei costi» e non c'era nulla da riusare, serviva una nuova run di finanza (risultato: scenari 166/308/523€ primo mese, 1 negozio). Regola: quando si salva una proiezione economica in memoria/vault, salvare SEMPRE la scomposizione ricavi vs costi (non solo il netto), così le domande parziali future non richiedono un nuovo giro dell'agente.",
-   "tag": [
-    "finanza",
-    "proiezione",
-    "scomposizione-ricavi-costi",
-    "memoria-riusabile"
-   ],
-   "reparto": "@finanza",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-26",
-   "ultima_conferma": "2026-07-26 00:44",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-24 12:47"
-  },
-  {
    "id": "L-2026-0726-03",
    "testo": "**«workflow» e «correzione-nicola» sono etichette-contenitore, non firme di un tipo di errore — stesso difetto già trovato su «marketplace» il 25/7 (verificato a mano su un campione delle lezioni taggate, giro 26/7 06:23).** Il guardiano `apprendimento-guardiano.mjs` segnala questi 2 tag come «errori ricorrenti mai cristallizzati» (18 e 13 lezioni), ma leggendo i testi: (1) «workflow» mescola DUE temi opposti — il tool `Workflow` bloccato in sessione headless (1 vero errore ricorrente, già promosso a principio in L-2026-0723-455) E conversazioni su cataloghi di automazioni n8n con Nicola (L-333/L-335/L-336/L-337, non sono errori, sono note di prodotto); (2) «correzione-nicola» è ridondante con i tag già in `TAG_GENERICI` («correzione» + «nicola» separati) — chi lo usa aggiunge la stessa etichetta generica sotto un'altra grafia, e il filtro anti-rumore non la intercetta perché cerca la stringa esatta. Causa radice: `TAG_GENERICI` è una whitelist statica di stringhe esatte, non riconosce varianti/combinazioni dello stesso concetto. Regola: prima di cristallizzare un cluster di tag in un principio unico, leggere un campione dei testi (non fidarsi del conteggio) — se il tag mischia temi scollegati è rumore di tassonomia (→ proponi il fix a TAG_GENERICI), non un principio. Vedi L-2026-0725 (marketplace, stesso pattern), card #240 in AZIONI-IN-ATTESA (estesa in questo giro a workflow+correzione-nicola).",
    "tag": [
@@ -10182,14 +10118,14 @@
     "meta"
    ],
    "reparto": "@ad",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 1,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-26",
    "ultima_conferma": "2026-07-26 06:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-24 12:47"
+   "decaduto_step_il": "2026-09-01 11:32"
   },
   {
    "id": "L-2026-0730-528",
@@ -12571,6 +12507,10 @@
     {
      "quando": "2026-09-01 11:08",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 11:32",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14358,19 +14298,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 498,
+  "lezioni_attive": 495,
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 11:20",
+  "tasso_calcolato_il": "2026-09-01 11:40",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 11:08",
-  "lezioni_totali": 504,
+  "cristallizzazione_ultima": "2026-09-01 11:32",
+  "lezioni_totali": 501,
   "lezioni_per_stato": {
-   "attiva": 391,
+   "attiva": 388,
    "principio": 91,
    "in-prova": 5,
    "decaduta": 0,

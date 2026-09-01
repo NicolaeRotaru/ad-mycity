@@ -2,24 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-15T04:28:31.137Z",
-      "scatti": 8147,
-      "voci": 48,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 43,
-        "prova-accecata": 2
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «node cervello/test/c2-schermo.test.mjs», che è la prova che deve diventare rossa per AR-225",
-          "ripetuta": 16
-        }
-      ]
-    },
-    {
       "quando": "2026-08-15T04:40:34.855Z",
       "scatti": 8194,
       "voci": 49,
@@ -2267,7 +2249,18 @@
         "prova-accecata": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-01T09:40:17.859Z",
+      "scatti": 5791,
+      "voci": 9,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-09-01T09:24:43.134Z"
+  "aggiornato": "2026-09-01T09:40:17.860Z"
 }

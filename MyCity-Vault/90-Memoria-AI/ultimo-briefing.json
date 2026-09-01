@@ -1,8 +1,8 @@
 {
-  "data": "2026-09-01 11:15",
-  "situazione": "Sesto passaggio in ~17 ore, stesso quadro: business fermo dal 24/6, stallo North Star 69 giorni (1 negozio vero, 1 ordine mai pagato, 0 acquirenti nuovi, 5 prodotti, sito pubblico HTTP 503, 216 giri ciechi). Novità di questo passaggio: query SQL dirette rifatte da me (non solo il sensore pre-girato), che confermano zero cambi e chiariscono che il 'clienti 7→8' di ieri era il totale di tutti i profili (5 acquirenti+1 rider+1 negozio+1 admin), non un cliente nuovo. CI invariata: 6 PR aperte, tutte e 6 rosse, nessuna sblocca il primo ordine pagato. Nessuna carta nuova (gate North-Star + letargo RISPARMIO): le quattro già in coda restano la priorità.",
+  "data": "2026-09-01 11:36",
+  "situazione": "Settimo passaggio in ~17 ore, 21 minuti dopo il sesto: stesso quadro immobile. Business fermo dal 24/6, stallo North Star 69 giorni (1 negozio vero, 1 ordine mai pagato, 0 acquirenti nuovi, 5 prodotti, sito pubblico HTTP 503, ora 217 giri ciechi). CI riconfermata: 6 PR aperte, tutte e 6 rosse, nessuna sblocca il primo ordine pagato. coerenza-fatti pulita. Nessuna carta nuova (gate North-Star + letargo RISPARMIO, quota AI 85%): le quattro già in coda restano la priorità, invariate.",
   "opportunita": [
-    {"titolo": "Nuovo bando del Comune da girare a Pane Quotidiano: 400.000€ per la raccolta differenziata", "motivo": "aperto dal 31/8 al 23/10, copre spese che un panificio come Pane Quotidiano già sostiene (compostiere, riduzione sprechi) — trovato dal radar, verificato su 4 fonti", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Nuovo bando del Comune da girare a Pane Quotidiano: 400.000€ per la raccolta differenziata", "motivo": "aperto dal 31/8 al 23/10, copre spese che un panificio come Pane Quotidiano già sostiene — trovato dal radar in un passaggio precedente, non ricontrollato oggi (cadenza settimanale)", "impatto": "medio", "sforzo": "basso"},
     {"titolo": "Verificare dal vivo il catalogo appena il sito torna su", "motivo": "il fix che mostrava 0 prodotti su 5 ai visitatori senza accesso è già mergiato (#857): appena il sito risponde basta un giro in incognito per chiudere la card #181", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [

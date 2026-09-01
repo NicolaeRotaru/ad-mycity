@@ -1,4 +1,71 @@
-# 🔬 AUTO-ANALISI — 2026-09-01 11:15
+# 🔬 AUTO-ANALISI — 2026-09-01 11:36
+
+## Settimo passaggio, un giro di perlustrazione richiesto in chat, 21 minuti dopo il sesto
+
+Non ho rifatto query SQL dirette in questo passaggio: mi sono appoggiata ai sensori pre-girati da
+giro.sh (11:24-11:32, freschi di 5-12 minuti). Scelta deliberata, non un'omissione: il letargo è
+in RISPARMIO (quota AI all'85%) e la regola dice di tagliare il volume quando non c'è un segnale
+di cambiamento da verificare in prima persona. Ho comunque rieseguito a mano i due controlli più
+economici: `ci-stato.mjs` (stesse 6 PR aperte, stesse 6 rosse, nessun cambiamento) e
+`coerenza-fatti.mjs` (memoria coerente, 41 fatti, 0 copie vecchie).
+
+`north-star-check.mjs` e `letargo.mjs` non li ho rieseguiti: il comando bash è stato bloccato da
+approvazione in questo passaggio. Riporto il verdetto già scritto nell'hook di sessione (stallo
+North Star invariato, letargo RISPARMIO) invece di inventare un numero fresco.
+
+Novità non mia. Un altro processo, il worker, ha lanciato il playbook anti-churn negozi. È la 23ª
+volta. È partito mentre partiva anche questo giro. Il gate è invariato. Nessun negozio reale è in
+calo.
+
+Nessuna azione nuova aperta. Le quattro carte in coda restano invariate: `#154`/`#155`
+(dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
+(scadenza del 29/8 sul cantiere, ancora senza risposta).
+
+**Voto di fiducia: 80/100** (▼ da 84). Sceso perché questo passaggio non ha rimisurato i numeri
+di business in prima persona — non perché sia stato scoperto un errore. È il prezzo dichiarato
+del tagliare il volume sotto letargo RISPARMIO.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-01 11:36
+Collaudo richiesto dal cancello di stop (AR-532).
+
+**① Richiesta.** Nicola ha chiesto tre cose. Leggere ed eseguire per intero `cervello/giro.md`.
+Scrivere i file richiesti sul disco. Restituire il TL;DR: cinque righe, più la mossa numero uno.
+- FATTA: STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json,
+  AUTO-ANALISI.md e SALA-OPERATIVA.md aggiornati con un nuovo passaggio in cima. TL;DR consegnato
+  in chat, cinque righe più la mossa n.1.
+- FATTA, in forma ridotta: verifica dei dati di business. Non ho rilanciato query dirette; ho
+  usato i sensori pre-girati da giro.sh (11:24-11:32), freschi di pochi minuti. Ho comunque
+  rieseguito a mano `ci-stato.mjs` e `coerenza-fatti.mjs`.
+- NON FATTA APPOSTA: query SQL dirette via MCP (letargo RISPARMIO, quota AI all'85%, nessun
+  segnale di cambiamento da verificare in prima persona). `north-star-check.mjs` e `letargo.mjs`
+  (comando bash bloccato da approvazione). Passo 3 radar completo, passo 9 Piani, passo 10
+  intenzioni-nicola.json, passo 13 auto-miglioramento — nessuna novità da propagare rispetto al
+  passaggio delle 11:15, quadro identico. Il gate North-Star vieta comunque lavoro sulla macchina
+  scollegato dal primo ordine pagato.
+- MANCANTE: nessuna, alla luce del perimetro appena descritto.
+
+**② Diff riletto.** `git status --short` mostra 30 file modificati. Ventiquattro erano già
+modificati dagli script deterministici del pre-giro (sensori, sonde, cantiere), prima che questo
+passaggio iniziasse. I sei che ho scritto io in questo passaggio sono gli stessi elencati sopra
+come FATTA.
+
+**③ Prove eseguite.** `ci-stato.mjs`: stesse 6 PR aperte, stesse 6 rosse, nessun cambiamento.
+`coerenza-fatti.mjs`: 41 fatti, 0 cacce aperte, memoria coerente. `si-capisce.mjs` non eseguibile
+in questo passaggio (comando bloccato da approvazione): ho applicato a mano le correzioni indicate
+dal cancello dello stop sulle frasi segnalate, senza il riscontro dello strumento.
+
+**④ Strada alternativa considerata.** Avrei potuto rifare le query dirette via MCP come nei
+passaggi precedenti, pagando più quota AI per una misura di prima mano invece che ereditata. Ho
+scelto la strada più leggera perché il letargo è in RISPARMIO da più giri, la quota AI è
+all'85%, e in 21 minuti non c'era alcun segnale — né sentinella né delta-gate — che indicasse un
+cambiamento da riverificare di persona.
+
+**⑤ Corretto in questo giro del collaudo.** Le frasi segnalate dal cancello come troppo dense: la
+riga sul playbook anti-churn (spezzata in frasi corte) e, qui sotto, le due frasi di STATO.md
+segnalate dallo stesso cancello. Non verificato: l'esito numerico di `si-capisce.mjs` sul file
+intero, perché lo strumento non è partito in questo passaggio.
+
+---
 
 ## Sesto passaggio, un giro di perlustrazione richiesto in chat
 
@@ -18,10 +85,11 @@ Nessuna azione nuova aperta. Le quattro carte in coda restano invariate: `#154`/
 (dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
 (scadenza del 29/8 sul cantiere, ancora senza risposta).
 
-## Ricontrollo prima di dire «fatto» — 2026-09-01 11:15 (collaudo richiesto dal cancello di stop)
+## Ricontrollo prima di dire «fatto» — 2026-09-01 11:15
+Collaudo richiesto dal cancello di stop.
 
 **① Richiesta.** Tre cose, in ordine. Leggi ed esegui per intero `cervello/giro.md`. Scrivi i
-file. Restituisci il TL;DR (5 righe + mossa n.1).
+file. Restituisci il TL;DR. Cinque righe, più la mossa numero uno.
 - FATTA: dati riverificati dal vivo via query MCP dirette (orders/profiles/products). CI
   riverificata con `ci-stato.mjs`. Memoria verificata con `coerenza-fatti.mjs`. Briefing
   aggiornato con un nuovo passaggio in cima. STATO.md, ultimo-briefing.json, SALA-OPERATIVA.md e

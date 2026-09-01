@@ -1,8 +1,35 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 11:15
+aggiornato: 2026-09-01 11:36
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 11:36 — Giro di perlustrazione: settima foto identica, 21 minuti dopo la sesta.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Business fermo: 1 ordine totale, 0 pagati, sito ancora giù (217 giri
+> ciechi, +1 dal passaggio delle 11:15). Stallo North Star **69 giorni**, invariato. `ci-stato.mjs`
+> riconferma le stesse 6 PR aperte, tutte e 6 rosse, nessuna sblocca il primo ordine pagato.
+> `coerenza-fatti.mjs` pulito. In questo passaggio mi sono appoggiata ai sensori pre-girati da
+> giro.sh (11:24-11:32, freschi di 5-12 minuti) invece di rifare query dirette via MCP: letargo
+> RISPARMIO, quota AI all'85%, e nessun segnale di cambiamento da verificare in prima persona.
+>
+> **L'unica novità del passaggio.** Un processo separato (worker) ha invocato per la 23ª volta il
+> playbook anti-churn negozi mentre questo giro partiva: gate invariato, nessun negozio reale in
+> calo (Pane Quotidiano non è churn, è attesa concordata).
+>
+> **Cosa ho fatto io in questo passaggio.** Solo verifica: `ci-stato.mjs` e `coerenza-fatti.mjs`
+> rieseguiti a mano, nessuna carta nuova (gate North-Star + letargo RISPARMIO). Le quattro carte
+> in coda restano le stesse, nessuna firmata.
+>
+> **Cosa non ho verificato.** Non ho rifatto query SQL dirette (mi appoggio al sensore delle
+> 11:24-11:32). North-star-check.mjs e letargo.mjs non rieseguiti a mano in questo passaggio
+> (comando bloccato da approvazione): riporto il verdetto già scritto dall'hook di sessione. Il
+> sito in un browser vero, lo stato Stripe specifico di PQ (baseline 24/8), le quattro voci della
+> scadenza del 29/8 punto per punto.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 
@@ -168,9 +195,9 @@ se l'attività è ferma.
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 11:12, query MCP diretta) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Chiarito anche un equivoco: il totale "8 profili" (5 acquirenti+1 rider+1 negozio+1 admin) che aveva fatto scattare un giro pieno ieri non è un cliente nuovo — è il conteggio di TUTTI i profili, non dei soli clienti |
+| Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Un equivoco chiarito: ieri il totale "8 profili" aveva fatto scattare un giro pieno. Non era un cliente nuovo. Erano 5 acquirenti, 1 rider, 1 negozio, 1 admin. Il conteggio è di TUTTI i profili, non dei soli clienti |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | = (invariato, ora 216 giri ciechi dal 30/7) | 200 | dato dal sensore `verifica-sensori.mjs` girato da giro.sh l'1/9 alle 11:00 (3 tentativi); non riverificato con un check diretto in questo passaggio (comando bloccato da approvazione). Causa nota: dominio+chiavi Vercel (#155, #154) |
+| **Sito pubblico** | **HTTP 503** | = (invariato, ora 217 giri ciechi dal 30/7) | 200 | Dato dal sensore `verifica-sensori.mjs`. Girato da giro.sh l'1/9, ultima volta alle 11:32, tre tentativi. Non riverificato con un check diretto in questo passaggio: il comando era bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
 
 ---
 

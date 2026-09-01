@@ -1,6 +1,29 @@
 {
   "potature": [
     {
+      "quando": "2026-09-01 11:32",
+      "byte_prima": 1113368,
+      "byte_dopo": 1002284,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-09",
+            "testo": "**Caso-studio Nicola:** «Non posso fare pull su memoria-ad — va a creare conflitti.» Corre"
+          },
+          {
+            "id": "L-2026-0710-88",
+            "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7)"
+          },
+          {
+            "id": "L-2026-0726-01",
+            "testo": "Una proiezione finanziaria salvata solo come RISULTATO NETTO non basta a rispondere a una "
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-09-01 11:08",
       "byte_prima": 1120179,
       "byte_dopo": 1006003,
