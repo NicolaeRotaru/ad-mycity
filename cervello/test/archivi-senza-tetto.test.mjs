@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// AR-182 · AR-254 — gli archivi senza tetto, e i tetti nell'unità sbagliata.
+// AR-182 · AR-254 · AR-907 — gli archivi senza tetto, i tetti nell'unità sbagliata, e l'orologio
+// di troppo che questa stessa prova si era scritta.
 //
 // Una malattia sola: **nessun archivio della macchina ha un tetto, e dove un tetto c'è, è nell'unità
 // sbagliata.** O l'archivio si rompe (AR-254), o butta via la cosa sbagliata (AR-182).
@@ -45,7 +46,7 @@ const V = await import(join(REPO, "cervello/lezione-viva.mjs"));
 
 // La soglia vera del decadimento, la stessa che usa il cristallizzatore.
 const SOGLIA_GIORNI = 28;
-// ⏰ IL METRO DEL TEMPO È QUELLO DEL CODICE, NON UN SECONDO METRO SCRITTO QUI.
+// ⏰ AR-907 — IL METRO DEL TEMPO È QUELLO DEL CODICE, NON UN SECONDO METRO SCRITTO QUI.
 //
 // Questa riga usava `Date.parse`, e per questo il file è diventato rosso l'1/9 alle 17:40 senza che
 // nessuno lo toccasse. Le due letture dello stesso timbro non coincidono:
@@ -185,7 +186,7 @@ prova("il cablaggio: senza `decaduto_step_il` il passo tornerebbe a essere per e
 // Adesso la prova chiama la regola VERA con gli stessi argomenti del cristallizzatore, e difende
 // l'invariante invece del conteggio: una lezione con un freno che monta ancora la guardia, o usata di
 // recente, non muore MAI. Quante ne decadono è una misura che si stampa, non un verdetto.
-prova("i due orologi sono uno solo: il metro di questa prova coincide con quello del codice", () => {
+prova("AR-907: i due orologi sono uno solo — il metro di questa prova coincide con quello del codice", () => {
   // 🔒 IL FRENO DEL DIFETTO QUI SOPRA, e non guarda il sorgente: esegue i due metri e li confronta.
   //
   // Serve un caso DETERMINISTICO, perché il difetto vero non lo era: si vedeva solo nelle due ore in
