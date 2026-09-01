@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-09-01 10:20",
+  "aggiornato": "2026-09-01 11:01",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 0,
+  "migliorate": 1,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -84,15 +84,15 @@
     {
       "id": "quaderni",
       "titolo": "Quaderni vivi (i senior imparano)",
-      "valore": 0.040983606557377046,
-      "etichetta": "5 su 122 (4%)",
+      "valore": 0.04918032786885246,
+      "etichetta": "6 su 122 (5%)",
       "soglia": "60% (74 su 122)",
       "ok": false,
       "cieco": false,
       "fonte": "auto-coscienza/chiusura-loop.json",
       "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
       "precedente": 0.040983606557377046,
-      "movimento": "ferma"
+      "movimento": "migliorata"
     },
     {
       "id": "salute",
@@ -109,18 +109,6 @@
     }
   ],
   "serie": [
-    {
-      "data": "2026-07-25 04:51",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.18,
-        "calibrazione": 0,
-        "freni": 2,
-        "quaderni": 0.25833333333333336,
-        "salute": 43
-      }
-    },
     {
       "data": "2026-07-25 05:09",
       "voci_superate": 0,
@@ -2506,6 +2494,18 @@
         "calibrazione": null,
         "freni": 7,
         "quaderni": 0.040983606557377046,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-01 11:01",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.04918032786885246,
         "salute": 4
       }
     }

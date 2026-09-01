@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 10:39",
+ "aggiornato": "2026-09-01 11:20",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -9459,28 +9459,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0701-29",
-   "testo": "**Caso-studio Nicola (1/7 10:09 — ordine zombie €19,05):** «Ormai è la 3ª volta che lo approvo, perché torna?» — percepisce di aver già deciso ma la card ricompare ogni giro (~2h). **5 perché:** (1) non ha MAI risposto «A» o «B» — le firme erano batch 30/6 (~20 azioni), foglio-firma 01:02, ok Sprint 1 07:30 (cose diverse); (2) pulsante «Approva» su Proposta Pannello **non registra** la decisione di dominio (A accetta / B annulla) — nasconde solo in sessione; (3) nessuna riga in DECISIONI/AZIONI per accetta/annulla ordine; (4) il giro rigenera la card finché ordine resta PENDING in DB; (5) fix: card 🔴 decisione ordine = bottoni **A/B espliciti** (o parsing «A»/«B» in chat → DECISIONI + accoda esecuzione 🔴); mai far credere che «Approva» generico chiuda il loop. **Pattern Nicola:** quando la stessa card torna, chiede causa radice + tabella firme passate vs decisione mancante — non vuole ri-cliccare a vuoto.",
-   "tag": [
-    "pannello",
-    "approvazioni",
-    "nicola",
-    "operations",
-    "ux",
-    "ordine",
-    "zombie"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 10:13",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
    "id": "L-2026-0701-27",
    "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra niente, toglila ovunque». Il finding `radiografia.js`/path Windows marketplace era **classificato nella dimensione sbagliata** — `cadenza-esecuzione` = schedulazione ritmo AD (mattino/sera/settimana), NON audit del sito. **5 perché:** (1) prima auto-radiografia ha mescolato path repo marketplace con tema cadenze; (2) `radiografia.js`/`MARKETPLACE_REPO` = dimensione `copertura-cieca` (audit marketplace); (3) il vero gap cadenza = `ritmo.md` documenta solo Windows (`schtasks`/`.ps1`) mentre il battito gira su VPS Linux; (4) Pannello = una casella per dimensione — contenuto misto confonde; (5) fix: AR-002 spostato → `copertura-cieca`; riscritto finding cadenza; `ritmo.md` + sezione VPS; AR-005 (timer systemd opzionale). **Pattern:** separare audit codice marketplace da ritmo operativo AD; quando Nicola dice «non c'entra» → ripulire **tutti** i file collegati (auto-radiografia.json, cantiere-difetti, RADIOGRAFIA-MACCHINA), non solo la casella Pannello. **RICADUTA + ESCALATION (4/7):** lo stesso path Windows era ancora cablato (`marketplace-repo.mjs` come fallback + `radiografia.js:46`/`audit-design.js:46`) → Nicola rialza il tono: «togli il cablato su windows **una volta per sempre**, **impedisci che riaccada** questo errore». **Lezione-radice (5° perché finale):** pulire i file a mano NON basta — l'errore rientra da una porta laterale. La chiusura vera di un anti-pattern ricorrente = **parametrizzare la fonte-di-verità** (resolver cross-platform in `marketplace-repo.mjs`: `MARKETPLACE_REPO` env o `<ad-repo>/marketplace`, mai una cartella di un PC) **+ un guardiano generativo** (`no-path-cablati-check.mjs` agganciato a `giro.sh`) che a ogni giro FALLISCE se un path di macchina (`C:\\…`, `/Users/<nome>`) rientra nel codice. Regola: quando Nicola dice «impedisci che riaccada» → non basta il fix, serve la **forcing-function** che rende l'errore impossibile in silenzio.",
    "tag": [
@@ -9497,37 +9475,14 @@
     "forcing-function"
    ],
    "reparto": "@AD",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-04 10:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-26",
-   "testo": "**Push marketplace 403 + PR mancante (Nicola 1/7 07:41):** il token GitHub del worker pusha su `ad-mycity` ma **non** su `NicolaeRotaru/mycity` (403) — repo marketplace = clone locale `marketplace/` in scrittura locale. Dopo «ok Sprint 1»: (1) branch+commit in locale ✅; (2) **tentare subito** `git push` + `gh pr create` — se 403, dichiarare esplicitamente «PR NON creata» in testa alla risposta, **non** «Sprint 1 eseguito» senza PR; (3) Nicola corregge «crea la pr, non l'hai creata» — approvazione sprint = si aspetta PR, non solo patch/comandi manuali; (4) accodare **#14** token `MARKETPLACE_GIT_TOKEN` e offrire compare link + `git am` come fallback. **5 perché:** PAT fine-grained limitato ad-mycity; AD ha chiuso su «codice pronto» senza verificare push; messaggio ambiguo ha fatto credere PR esistente; Nicola delega PR come su ad-mycity (L-0701-12); fix strutturale = token write su mycity. Pattern diverso da ad-mycity: lì push OK, manca solo `gh pr create`.",
-   "tag": [
-    "marketplace",
-    "git",
-    "push",
-    "403",
-    "vps",
-    "nicola",
-    "devops",
-    "pr"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 07:41",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
+   "decaduto_step_il": "2026-09-01 11:08"
   },
   {
    "id": "L-2026-0701-25",
@@ -9600,68 +9555,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-22",
-   "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo, assicurati che non accada mai con nient'altro — non possiamo fare figura di merda». Pre-mortem: `esegui-azione.mjs` LIVE su coda mal filtrata → messaggio/payout 🔴 senza firma. Fix 🟡 in repo: `cervello/guardrail-semaforo.mjs` (modulo unico) + doppio cancello in `esegui-azione.mjs` (ingresso + pre-invio) + `NICOLA_FIRMA=1`/`--firma-nicola` solo post-Approva Pannello in `worker.sh`/`worker.ps1` + autopilot **solo 🟢** + stesso gate in `pannello/lib/mani.ts` e `azioni.ts` (n8n). Heuristiche contenuto → 🔴 anche se mal etichettato 🟢 (email domini esterni, payout, stripe, whatsapp, deploy). Self-test: `node cervello/esegui-azione.mjs verifica` → 7/7. **Deploy main+VPS ancora 🟡** — con `AZIONI_LIVE=0` resta sicuro. Pattern: ogni nuovo esecutore (worker, autopilot, n8n, mani) deve chiamare guardrail-semaforo, non reimplementare filtri locali.",
-   "tag": [
-    "guardrail",
-    "semaforo",
-    "esegui-azione",
-    "nicola",
-    "pre-mortem",
-    "security",
-    "worker"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-16",
-   "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + `sudo bash cervello/vps/aggiorna-cervello.sh` → VPS con `\"WebFetch\"` globale (no whitelist), worker/giro automatico navigano in sola lettura. Pattern Nicola confermato: (1) link compare GitHub + merge browser; (2) **stesso** script sync (non git manuale memoria-ad); (3) messaggio combinato «ho fatto merge ed eseguito i comandi» + richiesta prossimo passo («apri la pr quaderni»). 5 perché chiusura: L-0701-10/12 tracciavano gap; Nicola ha eseguito entrambi i passi; verifica = grep senza `domain:`; giro web 42 senior ora replicabile anche su worker; quaderni = PR separata su main (L-0701-15). **Mai** dire «web attivo sul worker» prima di merge+sync confermati da Nicola.",
-   "tag": [
-    "webfetch",
-    "main",
-    "vps",
-    "nicola",
-    "devops",
-    "chiusura"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.30999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-15",
-   "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `memoria-squadra/`), implementare subito 🟡: tab in **Memoria** + API `/api/memoria/quaderni` che legge `memoria-squadra/` dal ramo **memoria-ad** (stesse env `OBSIDIAN_*` del vault). UI: lista 42 senior con ultimo ESITO + ricerca + espansione markdown. **Binario deploy:** codice Pannello → PR su **`main`** (Vercel); dati quaderni già su memoria-ad — **non** mischiare. Fix tipico: `listRepoDir` in `vault.ts` se manca. Locale (`npm run dev`) legge da disco; produzione post-merge. Chiude gap osservabilità segnalato in L-2026-0701-08. **Rinforzo 4/7:** ho dichiarato «vista Quaderni pronta nel Pannello» ma il branch `fix/quaderni-senior` **non era mai stato pushato né mergiato su `main`** → Nicola «dentro memoria non ci sono i quaderni». Stessa trappola di L-2026-0701-10: `npm run dev` locale la mostrava, Vercel no. **Mai dire «è nel Pannello» finché il branch non è su GitHub E mergiato su `main`** (verifica `git ls-remote` / link compare), non basta averlo committato in locale.",
-   "tag": [
-    "pannello",
-    "quaderni",
-    "memoria-squadra",
-    "nicola",
-    "osservabilita",
-    "deploy"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-04 09:57",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
   },
   {
    "id": "L-2026-0701-12",
@@ -12674,6 +12567,10 @@
     {
      "quando": "2026-09-01 10:27",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 11:08",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14461,19 +14358,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 503,
+  "lezioni_attive": 498,
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 10:39",
+  "tasso_calcolato_il": "2026-09-01 11:20",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 10:27",
-  "lezioni_totali": 509,
+  "cristallizzazione_ultima": "2026-09-01 11:08",
+  "lezioni_totali": 504,
   "lezioni_per_stato": {
-   "attiva": 396,
+   "attiva": 391,
    "principio": 91,
    "in-prova": 5,
    "decaduta": 0,

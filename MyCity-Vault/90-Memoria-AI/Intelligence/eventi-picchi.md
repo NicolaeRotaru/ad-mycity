@@ -10,13 +10,27 @@
 
 Meteo stabile e caldo. Tre eventi nuovi in calendario. Un cantiere aggiuntivo. Nessuna azione.
 
-**① Meteo 1-8/9: settimana stabile, calda, senza pioggia — l'estate non è finita.** Confermato da due fonti indipendenti. ilmeteo.it, fetch diretto, dà 21-32° oggi e domani. Sale fino a **35°** lunedì 7/9. Cielo sereno o poco nuvoloso tutta la settimana, nessuna allerta. Coerente con il titolo IlPiacenza trovato via WebSearch: "Piena estate anche a inizio settembre: a Piacenza ancora massime fino a 35 gradi". **Impatto:** nessun rischio pioggia questa settimana, diversamente da fine agosto. Il caldo prolungato tiene alta la domanda di freschi e bevande. Oggi resta però un dato preparatorio: 0 consegne attive.
+**① Meteo 1-8/9: settimana stabile, calda, senza pioggia — l'estate non è finita.** Confermato da
+due fonti indipendenti. ilmeteo.it, fetch diretto, dà 21-32° oggi e domani, con salita fino a
+**35°** lunedì 7/9. Cielo sereno o poco nuvoloso tutta la settimana, nessuna allerta. È coerente
+con un titolo di IlPiacenza trovato via WebSearch: "Piena estate anche a inizio settembre: a
+Piacenza ancora massime fino a 35 gradi". **Impatto:** nessun rischio pioggia questa settimana,
+diversamente da fine agosto. Il caldo prolungato tiene alta la domanda di freschi e bevande. Oggi
+resta però un dato preparatorio, perché le consegne attive sono 0.
 Fonti: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 1/9). Più [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) (titolo, via WebSearch 1/9).
 
 **② Tre eventi nuovi in calendario, il più rilevante è uno Sbaracco il 6/9.** Dalla pagina eventi del Comune (fetch diretto riuscito oggi):
-- **Domenica 6/9 — "La domenica dello Sbaracco"**: i negozi del centro svuotano il magazzino con sconti. Lo stesso giorno c'è anche il consueto **mercatino "Via Roma Street Market"**: hobbistica, libri, oggettistica, prima domenica del mese. Sono due eventi di piazza sovrapposti nello stesso weekend. È il tipo di picco di afflusso in centro storico che genera domanda di cibo e bevande da asporto nelle vie limitrofe, esattamente come il Radio Sound Party del 28-30/8. Ma più piccolo e ricorrente, mensile o stagionale, non un unicum.
-- **10-13/9 — "Femme Fest"**: 4 giorni di musica/cultura/incontri in centro. Rilevanza media: più pubblico di nicchia che affollamento di piazza, ma comunque persone in più in centro per 4 giorni.
-- **11/10 — "Manufatto"** (mercati artigianali): fuori dalla finestra 7-14gg, solo nota di calendario.
+- **Domenica 6/9 — "La domenica dello Sbaracco"**: i negozi del centro svuotano il magazzino con
+  sconti. Lo stesso giorno c'è anche il consueto **mercatino "Via Roma Street Market"**:
+  hobbistica, libri, oggettistica, prima domenica del mese. Sono due eventi di piazza sovrapposti
+  nello stesso weekend. È il tipo di picco di afflusso in centro storico che genera domanda di
+  cibo e bevande da asporto nelle vie limitrofe — lo stesso effetto del Radio Sound Party del
+  28-30/8, ma più piccolo. È anche ricorrente (mensile o stagionale), non un evento isolato.
+- **10-13/9 — "Femme Fest"**: 4 giorni di musica/cultura/incontri in centro. Rilevanza media: più
+  pubblico di nicchia che affollamento di piazza, ma comunque persone in più in centro per 4
+  giorni.
+- **11/10 — "Manufatto"** (mercati artigianali). È fuori dalla finestra dei 7-14 giorni: resta
+  solo una nota di calendario.
 Fonte: [comune.piacenza.it — pagina eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806) (WebFetch diretto, 1/9 — oggi ha funzionato, diversamente dal solito 403 registrato nelle settimane scorse).
 **Nessuna azione oggi** (0 negozi possono incassare, 0 consegne attive): la nota resta preparatoria, coerente col Radio Sound Party del 24/8 già segnato come "solo bozza-template" in Opportunità sotto.
 

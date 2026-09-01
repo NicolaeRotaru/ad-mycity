@@ -1,25 +1,35 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-01 10:35",
-  "voto_fiducia": 82,
-  "sintesi_giro_corrente": "Quinto passaggio in ~16 ore (dopo 06:25, 06:55, 08:30). Il sensore automatico (verifica-sensori.mjs, pre-step di giro.sh) ha riletto orders/sensori alle 10:20-10:27, bit-per-bit identico ai passaggi precedenti: orders=1 (invariato), sito_uptime cieco (HTTP 503, ora 215 giri ciechi vs 219 riportati alle 08:30 — il contatore usa una base diversa, non un miglioramento verificato). Non ho fatto nuove query dirette via MCP in questo passaggio (non riprovato dopo il primo rifiuto di approvazione in Bash): mi appoggio al sensore REST già fresco. L'unica novità reale: PR #860 (ieri 'in corso') ora è rossa anche lei — 6 PR aperte, 6 rosse, 0 ereditate. Nessuna carta nuova aperta (gate North-Star + letargo RISPARMIO): le quattro in coda (#154/#155, #182, #184, #185) restano invariate. Lavoro di questo passaggio: STATO.md (nuova voce in cima), Briefing/2026-09-01.md (nuovo passaggio in cima, precedenti conservati sotto), ultimo-briefing.json, questo file.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato in questo passaggio. La CI è leggermente peggiorata (PR #860 passata da 'in corso' a rossa): non è stata toccata perché nessuna delle 6 PR rosse sblocca il primo ordine pagato, e il gate North-Star vieta esplicitamente lavoro sulla macchina scollegato da una card business.",
-  "trend_fiducia": "▼ 83→82: leggero calo, non per il business (invariato) ma perché questo passaggio ha verificato MENO in prima persona dei precedenti (niente nuove query MCP dirette, solo il sensore REST già girato da giro.sh) — dichiarato come limite, non nascosto.",
+  "data": "2026-09-01 11:15",
+  "voto_fiducia": 84,
+  "sintesi_giro_corrente": "Sesto passaggio in ~17 ore (dopo 06:25, 06:55, 08:30, 10:35). A differenza del passaggio delle 10:35 (che si era appoggiato solo al sensore REST pre-girato), in questo passaggio ho eseguito io stessa query SQL dirette via MCP `supabase-marketplace`: orders=1 (0 pagati), profiles per ruolo (buyer=5, rider=1, seller=1, admin=1), acquirenti nuovi 7gg=0, prodotti disponibili=5. Tutto identico al quadro precedente. Ho anche chiarito un piccolo equivoco: il segnale 'clienti 7→8' che ieri aveva fatto scattare un giro pieno non era un cliente nuovo, ma il totale di tutti i profili (inclusi rider/seller/admin) — non un difetto bloccante, solo un'etichetta fuorviante nel contatore del delta-gate. Rieseguito anche ci-stato.mjs: stesse 6 PR rosse, nessun cambiamento. Nessuna carta nuova aperta (gate North-Star + letargo RISPARMIO): le quattro in coda (#154/#155, #182, #184, #185) restano invariate.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato. Verifica più solida di quella delle 10:35 perché rifatta in prima persona via MCP, non solo ereditata dal sensore.",
+  "trend_fiducia": "▲ 82→84: risalito perché questo passaggio ha rimisurato in prima persona (query MCP dirette) invece di appoggiarsi solo al sensore pre-girato, e ha chiarito una causa di rumore nel delta-gate invece di lasciarla come mistero.",
   "entita_verificate": [
     {
       "nome": "1 ordine totale / 0 pagati — invariato",
       "stato": "confermato",
-      "fonte": "sensore REST (verifica-sensori.mjs, pre-step giro.sh, 2026-09-01 10:20): orders CONTATI via REST, 1 riga visibile"
+      "fonte": "query SQL diretta (mcp__supabase-marketplace__execute_sql), eseguita da me in questo passaggio, 2026-09-01 ~11:12"
     },
     {
-      "nome": "Sito pubblico mycity-marketplace.com — HTTP 503, 215 giri ciechi consecutivi dal 30/7",
+      "nome": "8 profili totali (5 buyer, 1 rider, 1 seller, 1 admin) — il '7→8' del delta-gate è il totale profili, non un cliente nuovo",
       "stato": "confermato",
-      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 10:20"
+      "fonte": "query SQL diretta, group by role, eseguita in questo passaggio"
     },
     {
-      "nome": "6 PR aperte, 6 rosse (0 ereditate) — PR #860 nuova nel gruppo rosso rispetto al passaggio delle 21:05/31-8",
-      "stato": "confermato (ereditato dal system-reminder del giro, non ri-derivato da me con ci-stato.mjs in questa sessione)",
-      "fonte": "system-reminder di questo turno, sezione Vincolo CI"
+      "nome": "0 acquirenti nuovi negli ultimi 7 giorni",
+      "stato": "confermato",
+      "fonte": "query SQL diretta (profiles role='buyer' created_at > now()-7d), eseguita in questo passaggio"
+    },
+    {
+      "nome": "5 prodotti disponibili, 1 negozio (seller) reale",
+      "stato": "confermato",
+      "fonte": "query SQL diretta, eseguita in questo passaggio"
+    },
+    {
+      "nome": "6 PR aperte, 6 rosse (0 ereditate) — invariato dal passaggio delle 10:35",
+      "stato": "confermato",
+      "fonte": "node cervello/ci-stato.mjs, rieseguito in questo passaggio"
     },
     {
       "nome": "Memoria coerente (coerenza-fatti.mjs): 41 fatti, 0 cacce aperte, 0 copie vecchie",
@@ -27,22 +37,22 @@
       "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio (nessuna riscrittura necessaria)"
     },
     {
-      "nome": "Chiusura-loop: 6/122 quaderni vivi, 116 fermi >7gg — nessun reparto ha lavorato in questo passaggio oltre @AD (solo verifica), quindi nessuna riga ESITO nuova dovuta",
-      "stato": "confermato",
-      "fonte": "node cervello/chiusura-loop.mjs --sonda, eseguito in questo passaggio"
+      "nome": "Sito pubblico HTTP 503, 216 giri ciechi",
+      "stato": "confermato (ereditato dal sensore pre-girato, non ri-derivato con un check HTTP diretto in questo passaggio: comando bloccato da approvazione)",
+      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 11:00 da giro.sh"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo RISPARMIO + gate North-Star). Livello applicato: non riaprire ricerche nuove su un quadro identico da 5 passaggi — coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1) e con l'istruzione esplicita del letargo di tagliare il volume, non i controlli.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo RISPARMIO + gate North-Star). Coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1) e con l'istruzione del letargo di tagliare il volume, non i controlli — questo passaggio ha infatti AUMENTATO il rigore della verifica (query dirette invece di solo sensore) senza aprire nessun lavoro nuovo.",
   "salute_macchina": {
-    "supabase": "REST ok (pre-step giro.sh, 10:20); MCP non_verificato da 3gg, oltre il limite 12h — non ritentato in questa sessione (comandi node non approvati in Bash oltre a coerenza-fatti/chiusura-loop)",
+    "supabase": "REST ok + MCP marketplace raggiungibile in sessione (query dirette eseguite con successo alle 11:12) — contraddice parzialmente lo stato 'non_verificato da 3gg' scritto nel sensore: da questa sessione l'MCP Supabase FUNZIONA. Da segnalare a chi tocca verifica-sensori.mjs: la dichiarazione andrebbe rialimentata con --mcp-supabase=ok",
     "stripe": "balance API ok (pre-step); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503) — invariato, 215 giri ciechi"
+    "sito_uptime": "giù (HTTP 503) — invariato, 216 giri ciechi"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 236 senza gate su 304 (soglia 20), letto dal system-reminder di oggi. Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
-  "livello_verifica": "L1 (verifica di conferma, non nuova misura in prima persona): sensore REST già fresco da giro.sh (10:20-10:27), coerenza-fatti e chiusura-loop-sonda eseguiti da me in sessione; north-star-check.mjs e sonda-volano.mjs richiesti ma bloccati da approvazione Bash non disponibile qui — non ritentati dopo il primo rifiuto (lezione: agenti/bash a due blocchi = verifica permessi, non insistere alla cieca), verdetti letti dal system-reminder del turno.",
-  "refutazione": "Tentata la demolizione dell'affermazione centrale del giro — 'nulla è cambiato dal passaggio delle 08:30': sopravvive sul lato business (orders, clienti, prodotti, sito — tutti identici nel sensore REST fresco). NON sopravvive integralmente sul lato macchina: la CI È peggiorata (PR #860 rossa). Dichiarato esplicitamente nella sintesi invece di appiattire tutto su 'niente di nuovo'.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 232 senza gate su 300 (soglia 20), letto dal system-reminder di oggi — attivo da 162 giri di fila (AR-687). Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa. Segnalato a Nicola nel briefing come debito cronico che richiede una decisione esplicita (AR-687: se non si può riparare in un giro sotto vincolo North-Star, va detto, non ripetuto).",
+  "livello_verifica": "L2 (nuova misura in prima persona): query SQL dirette via MCP eseguite da me in questo passaggio (non ereditate dal sensore), ci-stato.mjs e coerenza-fatti.mjs rieseguiti da me. Non rieseguiti in questo passaggio: check HTTP diretto sul sito (comando bash bloccato da approvazione), north-star-check.mjs e sonda-volano.mjs (letti dal system-reminder del turno, non rilanciati).",
+  "refutazione": "Tentata la demolizione di 'nulla è cambiato dal passaggio delle 10:35': sopravvive su tutti i numeri di business e sulla CI, verificati con query dirette indipendenti (non solo ripetendo l'affermazione del passaggio precedente). L'unico elemento che NON sopravvive alla verifica è la dichiarazione 'mcp_supabase non_verificato da 3gg' nel sensore: da questa sessione l'MCP funziona, quindi quel campo è una sottostima della realtà, non un rischio reale.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",

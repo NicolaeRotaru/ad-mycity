@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-01 11:08",
+      "byte_prima": 1120179,
+      "byte_dopo": 1006003,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-29",
+            "testo": "**Caso-studio Nicola (1/7 10:09 — ordine zombie €19,05):** «Ormai è la 3ª volta che lo app"
+          },
+          {
+            "id": "L-2026-0701-26",
+            "testo": "**Push marketplace 403 + PR mancante (Nicola 1/7 07:41):** il token GitHub del worker push"
+          },
+          {
+            "id": "L-2026-0701-22",
+            "testo": "**Guardrail 🔴 universale (Nicola 1/7 pre-mortem Pannello):** «esegui il doppio controllo,"
+          },
+          {
+            "id": "L-2026-0701-16",
+            "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + "
+          },
+          {
+            "id": "L-2026-0701-15",
+            "testo": "Quando Nicola chiede «aggiungi quaderni senior» (o accetta proposta vista Pannello per `me"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-09-01 10:27",
       "byte_prima": 1126526,
       "byte_dopo": 1012794,

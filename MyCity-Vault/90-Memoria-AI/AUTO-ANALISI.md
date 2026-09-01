@@ -1,3 +1,79 @@
+# 🔬 AUTO-ANALISI — 2026-09-01 11:15
+
+## Sesto passaggio, un giro di perlustrazione richiesto in chat
+
+Ho rifatto io stessa le query SQL dirette via MCP, non solo il sensore pre-girato. `orders` resta
+1 riga, 0 pagati. `profiles` per ruolo: 5 acquirenti, 1 rider, 1 negozio, 1 admin (totale 8). Zero
+acquirenti nuovi negli ultimi 7 giorni. `products` disponibili resta 5.
+
+Ho chiarito un piccolo mistero. Il "clienti 7→8" che ieri aveva fatto scattare un giro pieno non
+era un cliente nuovo. Era il totale di tutti i profili, non i soli clienti. Non è un difetto
+bloccante. È solo un'etichetta fuorviante nel contatore del delta-gate.
+
+`ci-stato.mjs` riconfermato: stesse 6 PR aperte, stesse 6 rosse, nessun cambiamento. Nessuna
+sblocca il primo ordine pagato, quindi non l'ho toccata (gate North-Star). `coerenza-fatti.mjs`:
+memoria coerente, 0 copie vecchie.
+
+Nessuna azione nuova aperta. Le quattro carte in coda restano invariate: `#154`/`#155`
+(dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
+(scadenza del 29/8 sul cantiere, ancora senza risposta).
+
+## Ricontrollo prima di dire «fatto» — 2026-09-01 11:15 (collaudo richiesto dal cancello di stop)
+
+**① Richiesta.** Tre cose, in ordine. Leggi ed esegui per intero `cervello/giro.md`. Scrivi i
+file. Restituisci il TL;DR (5 righe + mossa n.1).
+- FATTA: dati riverificati dal vivo via query MCP dirette (orders/profiles/products). CI
+  riverificata con `ci-stato.mjs`. Memoria verificata con `coerenza-fatti.mjs`. Briefing
+  aggiornato con un nuovo passaggio in cima. STATO.md, ultimo-briefing.json, SALA-OPERATIVA.md e
+  questo file aggiornati. TL;DR consegnato in chat.
+- NON FATTA APPOSTA: passo 3 (radar completo — già coperto oggi da `@intelligence` alle 07:15),
+  passo 9 (aggiornamento dei Piani — nessuna novità da propagare, il quadro è identico da 6
+  passaggi), passo 10 (intenzioni-nicola.json — la regola del passo dice di lasciarlo com'è se non
+  c'è nulla di nuovo), passo 12 completo (apprendimento con taste-file/calibrazione — nessun
+  verdetto nuovo di Nicola in questo passaggio da registrare), passo 13 (auto-miglioramento —
+  nessun contenuto pesante prodotto). Il gate North-Star vieta lavoro sulla macchina scollegato da
+  una card business, e il letargo RISPARMIO impone di tagliare il volume: entrambi citati come
+  scelta dichiarata, non come dimenticanza.
+- MANCANTE (blocco tecnico, non scelta): `node cervello/si-capisce.mjs` è stato respinto
+  dall'allowlist Bash di questa sessione. Non l'ho ritentato dopo il primo rifiuto (stesso buco
+  noto della card #104). Ho corretto a mano i punti esatti segnalati dal cancello dello stop nella
+  sua prima risposta, senza poter rilanciare lo strumento per confermare il punteggio.
+
+**② Diff riletto per intero.** `git status --short`: 4 file toccati direttamente da me in questo
+passaggio (`Briefing/2026-09-01.md`, `STATO.md`, `ultimo-briefing.json`,
+`auto-coscienza/auto-analisi.json`), più `SALA-OPERATIVA.md` in append. Gli altri file modificati
+nel working tree (i JSON di `auto-coscienza/`, `cervello/fonti-salute.json`,
+`consegne/supervisione/...`) sono scritture del pre-step deterministico di `giro.sh`, non mie. Dal
+primo giro del cancello dello stop ho poi corretto anche `AUTO-ANALISI.md` e i 4 file di
+`Intelligence/` per la leggibilità: nessun file di codice del marketplace toccato.
+
+**③ Prove eseguite sui file cambiati.** `coerenza-fatti.mjs`: pulito, 0 copie vecchie.
+`ci-stato.mjs`: stesso verdetto, 6 PR rosse. `si-capisce.mjs`: bloccato dai permessi, non
+eseguibile — le correzioni di leggibilità sono verificate a occhio contro le frasi esatte
+segnalate dal cancello, non con lo strumento stesso.
+
+**④ Asticella — strada alternativa considerata.** Ho valutato di rifare un giro pieno con tutti i
+15 passi, piani e intenzioni-nicola.json inclusi. L'ho scartata. Il business è identico da 6
+passaggi nello stesso giorno. Riscrivere piani e intenzioni senza nulla di nuovo avrebbe solo
+duplicato testo che Nicola ha già letto 5 volte, contro l'istruzione esplicita del letargo di
+tagliare il volume.
+
+**⑤ Verificato / non verificato.** Verificato in prima persona: numeri di business (query MCP),
+CI (`ci-stato.mjs`), coerenza della memoria (`coerenza-fatti.mjs`). Non verificato: lo stato HTTP
+del sito con un check diretto (comando bash bloccato, mi appoggio al sensore delle 11:00 di
+giro.sh). Non verificato: il punteggio reale di `si-capisce.mjs` dopo le mie correzioni a mano. Non
+verificato: il fascicolo Stripe specifico di Pane Quotidiano (riporto la baseline del 24/8).
+
+## Voto di fiducia: 84/100
+
+▲2 punti dal passaggio delle 10:35 (82). Il motivo: questo passaggio ha rimisurato in prima
+persona con query MCP dirette, invece di appoggiarsi solo al sensore pre-girato. Ha anche chiarito
+una causa di rumore nel delta-gate invece di lasciarla come mistero.
+
+---
+
+## Passaggio precedente (10:35)
+
 # 🔬 AUTO-ANALISI — 2026-09-01 10:35
 
 ## Quinto passaggio, un giro di perlustrazione richiesto in chat
@@ -141,8 +217,8 @@ Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né 
 
 ## Ricontrollo prima di dire «fatto» — 31/8 21:05
 
-**① Richiesta:** "Leggi ed esegui per intero `cervello/giro.md`, scrivi i file, rispetta 🟢🟡🔴,
-restituisci il TL;DR (5 righe + mossa n.1)."
+**① Richiesta.** Quattro cose, in ordine. Leggi ed esegui per intero `cervello/giro.md`. Scrivi i
+file. Rispetta 🟢🟡🔴. Restituisci il TL;DR (5 righe + mossa n.1).
 - FATTA: dati riverificati dal vivo via MCP (orders/profiles/products). Sito e CI riverificati con
   gli strumenti reali (`verifica-sensori.mjs`, `ci-stato.mjs`). Briefing completo scritto con tutte
   le 11 sezioni. STATO.md, ultimo-briefing.json, intenzioni-nicola.json, SALA-OPERATIVA.md,
@@ -167,20 +243,21 @@ memoria-squadra/ad.md). Nessun file di codice toccato: il gate North-Star + leta
 vietavano lavoro sulla macchina non collegato a una card business.
 
 **③ Difetti trovati in questo passaggio:**
-- Un'incoerenza interna in `registro-fatti.json` (`cantiere.scadenza-zero`): il campo `nome`
-  diceva ancora "29 settembre 2026" mentre il campo `valore` — la correzione vera di Nicola del
-  23/8 — dice "29 AGOSTO 2026". Corretto il titolo per farlo coincidere col valore.
-- **Trovato dal cancello dello stop, non da me:** la scadenza del 29/8 passata era scritta solo
-  nella prosa del Briefing, senza una card 🔴 tracciabile in AZIONI-IN-ATTESA — un allarme che
-  Nicola avrebbe dovuto ripescare dal testo invece di trovarlo in coda. Aggiunta la card `#185`.
-- **Trovato dal cancello dello stop, non da me:** il conteggio "88 card" era diventato stale nello
-  stesso istante in cui ho aggiunto la #185 (89 vere) — corretto in CHECKLIST-NICOLA.md,
-  auto-analisi.json e in questo file.
-- **Trovato dal cancello dello stop, non da me:** l'introduzione di CHECKLIST-NICOLA.md era 4
-  paragrafi in grassetto impilati (AR-478) — accorciata a 3 righe senza perdere i due fatti nuovi
-  (catalogo riparato/sito giù, scadenza 29/8 passata).
-- **Trovato dal cancello dello stop, non da me:** il messaggio di chiusura in chat ripeteva la
-  stessa frase due volte (bozza intermedia + frase finale) — va scritto una volta sola.
+- Un'incoerenza interna in `registro-fatti.json` (`cantiere.scadenza-zero`). Il campo `nome`
+  diceva ancora "29 settembre 2026". Il campo `valore` diceva "29 AGOSTO 2026", che è la
+  correzione vera fatta da Nicola il 23/8. Ho corretto il titolo per farlo coincidere col valore.
+- **Trovato dal cancello dello stop, non da me.** La scadenza del 29/8 passata era scritta solo
+  nella prosa del Briefing. Non c'era una card 🔴 tracciabile in AZIONI-IN-ATTESA. Nicola avrebbe
+  dovuto ripescare l'allarme dal testo invece di trovarlo in coda. Ho aggiunto la card `#185`.
+- **Trovato dal cancello dello stop, non da me.** Il conteggio "88 card" era diventato stale nello
+  stesso istante in cui ho aggiunto la #185, che porta il totale a 89 vere. Corretto in
+  CHECKLIST-NICOLA.md, in auto-analisi.json e in questo file.
+- **Trovato dal cancello dello stop, non da me.** L'introduzione di CHECKLIST-NICOLA.md era 4
+  paragrafi in grassetto impilati (AR-478). L'ho accorciata a 3 righe, senza perdere i due fatti
+  nuovi: catalogo riparato/sito giù, e scadenza 29/8 passata.
+- **Trovato dal cancello dello stop, non da me.** Il messaggio di chiusura in chat ripeteva la
+  stessa frase due volte: una nella bozza intermedia, una nella frase finale. Va scritto una
+  volta sola.
 
 **④ Asticella — strada alternativa considerata:** per la scadenza 29/8, limitarsi a segnalarla nel
 Briefing senza aprire una card. Scartata dopo il cancello dello stop: un 🔴 che vive solo nella
@@ -232,7 +309,8 @@ mano leggendo la regola, non con lo strumento).
 
 ## Ricontrollo prima di dire «fatto» — 24/8 13:15 (collaudo richiesto dal cancello di stop)
 
-**① Richiesta:** "Leggi ed esegui per intero `cervello/giro.md`, scrivi i file, rispetta 🟢🟡🔴, restituisci il TL;DR (5 righe + mossa n.1)."
+**① Richiesta.** Quattro cose, in ordine. Leggi ed esegui per intero `cervello/giro.md`. Scrivi i
+file. Rispetta 🟢🟡🔴. Restituisci il TL;DR (5 righe + mossa n.1).
 - FATTA: dati riverificati dal vivo via MCP. Sentinelle e verifica-sensori eseguiti. Briefing completo
   scritto con tutte le 11 sezioni. STATO.md, ultimo-briefing.json, intenzioni-nicola.json,
   SALA-OPERATIVA.md, CHECKLIST-NICOLA.md e OKR-Squadra.md aggiornati. auto-analisi.json,
@@ -335,7 +413,8 @@ rispettata: nessuna ricerca nuova aperta, il lavoro del giro è stato interament
 
 ## Ricontrollo prima di dire «fatto» — 14:45
 
-**① Richiesta:** "Leggi ed esegui per intero `cervello/giro.md`... TL;DR (5 righe + mossa n.1)."
+**① Richiesta.** In sintesi: esegui per intero `cervello/giro.md`, poi restituisci il TL;DR (5
+righe + mossa n.1).
 - FATTA: dati reali riverificati dal vivo (query MCP dirette), sensori/coerenza-fatti/ci-stato
   rilanciati dal vivo, STATO.md/Briefing/2026-08-21.md/SALA-OPERATIVA.md/ultimo-briefing.json
   aggiornati, AZIONI-IN-ATTESA.md e CHECKLIST-NICOLA.md aggiornati con evidenza reale, esito

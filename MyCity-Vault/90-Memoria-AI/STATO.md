@@ -1,8 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 10:35
+aggiornato: 2026-09-01 11:15
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 11:15 — Giro di perlustrazione: sesta foto identica, e il mistero del "7→8" risolto.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho rifatto io stessa le query dirette sul database (non solo il sensore
+> pre-girato): 1 ordine totale, 0 pagati, 5 prodotti, 1 negozio vero. Stallo North Star ancora a
+> **69 giorni**.
+>
+> **La cosa utile di questo passaggio.** Il "clienti passati da 7 a 8" che ieri aveva fatto scattare
+> un giro pieno non era un cliente nuovo: è il totale di TUTTI i profili (5 acquirenti + 1 rider +
+> 1 negozio + 1 admin = 8), non i soli clienti. Gli acquirenti nuovi negli ultimi 7 giorni sono
+> **zero**, confermato riga per riga. Non è un difetto bloccante — solo un'etichetta fuorviante nel
+> contatore che decide quando fare un giro pieno.
+>
+> **CI invariata.** Rifatto `ci-stato.mjs`: stesse 6 PR aperte, stesse 6 rosse, stesso verdetto.
+> Nessuna sblocca il primo ordine pagato, quindi non toccata (gate North-Star).
+>
+> **Cosa ho fatto io in questo passaggio.** Query dirette + verifica coerenza-fatti (pulita, 0 copie
+> vecchie). Nessuna carta nuova in coda: le quattro restano invariate e senza risposta.
+>
+> **Cosa non ho verificato.** Il sito in un check HTTP diretto (comando bloccato da approvazione):
+> mi appoggio al sensore delle 11:00, HTTP 503, 216 giri ciechi. Lo stato Stripe specifico di Pane
+> Quotidiano (riporto ancora la baseline del 24/8). Le quattro voci della scadenza del 29/8.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 
@@ -54,13 +80,14 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 >
 > **Cosa ho fatto io in questo passaggio.** Solo verifica, più questa singola riscrittura. Nessuna
 > carta nuova: valgono ancora il gate North-Star e il letargo RISPARMIO. In coda restano quattro
-> carte, esattamente come le ho lasciate alle 06:55: #154/#155 (dominio e chiavi Vercel), #182
-> (pagamenti Pane Quotidiano), #184 (migrazioni database), #185 (scadenza del 29/8).
+> carte, esattamente come le ho lasciate alle 06:55. #154 e #155 sono dominio e chiavi Vercel.
+> #182 è il pagamento di Pane Quotidiano. #184 sono le migrazioni del database. #185 è la
+> scadenza del 29/8.
 >
-> **Cosa non ho verificato.** Le stesse cose non verificate alle 06:55: le quattro cose della
-> scadenza del 29/8 punto per punto, il sito aperto in un browser vero (solo HTTP status), le
-> consegne/carrelli/recensioni con query dirette (nessun segnale che siano cambiati, ma non è
-> una misura fresca di questo passaggio).
+> **Cosa non ho verificato.** Le stesse cose non verificate alle 06:55. Non ho controllato punto
+> per punto le quattro cose della scadenza del 29/8. Non ho aperto il sito in un browser vero:
+> ho solo lo stato HTTP. Non ho rifatto query dirette su consegne, carrelli e recensioni — nessun
+> segnale che siano cambiati, ma non è una misura fresca di questo passaggio.
 >
 > Briefing completo: [[Briefing/2026-09-01]].
 
@@ -124,7 +151,7 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database. L'ho fatta il 31 agosto verso le 20:58, con query
+vengono dall'ultima lettura vera del database. L'ho fatta l'1 settembre alle 11:12, con query
 dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
 leggono questa tabella invece di inventare un numero.
 
@@ -132,18 +159,18 @@ leggono questa tabella invece di inventare un numero.
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
 se l'attività è ferma.
 
-| Numero | Oggi (31/8 20:58) | Δ vs 28/8 12:29 | "Riuscito" | Note |
+| Numero | Oggi (1/9 11:12) | Δ vs 31/8 20:58 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 31/8 20:58 |
-| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18 giorni fermo su questo stesso quadro |
-| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 31/8 20:58. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 1/9 11:12 |
+| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18+ giorni fermo su questo stesso quadro |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 1/9 11:12. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 06:20, query MCP) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 11:12, query MCP diretta) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0** | = (invariato dal 28/8) | crescita | Verificato con una query diretta sul database. Zero clienti nuovi. Zero negozi nuovi |
+| Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Chiarito anche un equivoco: il totale "8 profili" (5 acquirenti+1 rider+1 negozio+1 admin) che aveva fatto scattare un giro pieno ieri non è un cliente nuovo — è il conteggio di TUTTI i profili, non dei soli clienti |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | = (invariato, ora 10 giorni giù dal 22/8) | 200 | riverificato in diretta con `verifica-sensori.mjs` l'1/9 06:01 (3 tentativi): il server che fa girare la macchina è ripartito (#168 superata), la causa del 503 resta dominio+chiavi Vercel (#155, #154) |
+| **Sito pubblico** | **HTTP 503** | = (invariato, ora 216 giri ciechi dal 30/7) | 200 | dato dal sensore `verifica-sensori.mjs` girato da giro.sh l'1/9 alle 11:00 (3 tentativi); non riverificato con un check diretto in questo passaggio (comando bloccato da approvazione). Causa nota: dominio+chiavi Vercel (#155, #154) |
 
 ---
 
