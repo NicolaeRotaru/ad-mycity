@@ -1,8 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 06:25
-fonte: AD digitale (piano del mattino, cervello/ritmo.md)
+aggiornato: 2026-09-01 06:55
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 06:55 — Giro di perlustrazione: terza foto identica, nessun numero cambiato.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho riverificato tutto dal vivo con query dirette sul database: stessa
+> foto esatta del passaggio delle 22:50 di ieri sera. 1 negozio vero, 1 ordine mai pagato, 0 clienti
+> nuovi, 5 prodotti, sito pubblico ancora giù. Stallo North Star: **69 giorni**.
+>
+> **La cosa buona di oggi arriva dal piano del mattino, non da questo passaggio.** Alle 06:25 la
+> macchina ha trovato la causa precisa del sito giù. Il dominio `mycity-marketplace.com` punta
+> ancora ai vecchi server Render. Render non è più pagato. Su Vercel mancano anche almeno due
+> variabili. Una è `SUPABASE_SERVICE_ROLE_KEY`: senza questa chiave, un pagamento Stripe riuscito
+> non diventa mai un ordine. L'altra è `NEXT_PUBLIC_APP_URL`. Il sito su Vercel, preso da solo,
+> funziona.
+>
+> **Cosa ho fatto io in questo passaggio.** Solo verifica e consolidamento memoria. Il letargo è in
+> RISPARMIO e il gate North-Star è attivo: nessuna carta nuova, nessuna ricerca esterna. Ho
+> aggiornato `OKR-Squadra.md`: lo stallo è salito da 68 a 69 giorni. Ho anche tolto la data della
+> pausa concordata, perché si conclude proprio oggi. Ho verificato la coerenza dei fatti: memoria
+> coerente, 0 copie vecchie.
+>
+> **Una scoperta utile, non mia.** Un processo concorrente ha aggiornato il radar stamattina. Ha
+> trovato un bando nuovo del Comune: 400.000€ per la raccolta differenziata, aperto dal 31/8 al
+> 23/10. Le spese ammesse toccano proprio quello che fa un panificio come Pane Quotidiano. Resta
+> 🟢, solo una nota da girare al fornaio: non avvicina il primo ordine pagato, quindi non l'ho
+> accodata come azione.
+>
+> **Cosa non ho verificato.** Lo stato Stripe specifico di Pane Quotidiano (riporto ancora la
+> baseline del 24/8). Le quattro cose della scadenza del 29/8 (card #185), punto per punto. Il
+> radar l'ho solo riletto, non condotto io in prima persona in questo passaggio.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 
@@ -48,7 +81,7 @@ se l'attività è ferma.
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 06:20, query MCP) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0** | = (invariato dal 28/8) | crescita | confermato `select count(*) from profiles where created_at>=now()-7d` = 0. Nessun negozio nuovo |
+| Nuovi clienti reali (7gg) | **0** | = (invariato dal 28/8) | crescita | Verificato con una query diretta sul database. Zero clienti nuovi. Zero negozi nuovi |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
 | **Sito pubblico** | **HTTP 503** | = (invariato, ora 10 giorni giù dal 22/8) | 200 | riverificato in diretta con `verifica-sensori.mjs` l'1/9 06:01 (3 tentativi): il server che fa girare la macchina è ripartito (#168 superata), la causa del 503 resta dominio+chiavi Vercel (#155, #154) |
 

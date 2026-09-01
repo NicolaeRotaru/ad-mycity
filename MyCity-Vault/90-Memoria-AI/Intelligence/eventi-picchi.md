@@ -1,8 +1,35 @@
-# 📅 Eventi & Picchi di Domanda — 2026-08-24
+# 📅 Eventi & Picchi di Domanda — 2026-09-01
 
-> Aggiornato: 24 agosto 2026 · @intelligence · playbook settimanale Intelligence. **6 giorni fermo** (ultimo controllo 18/8, pausa Nicola 19-23/8). Controllate oggi: meteo settimana 24-31/8, calendario eventi 7-14gg, bandi (CCIAA + Unione Commercianti), procedimento Glovo/Deliveroo (in `radar-concorrenti.md`). Novità di rilievo: **un evento grande in città** questo weekend (Radio Sound Party, 28-30/8, Arena Daturi, ingresso gratis, Baby K sabato) — il primo evento di massa dentro Piacenza città da settimane, a differenza di Cotechino/Grazzano che erano fuori città. Nessuna azione oggi: vedi nota deadline 29/8 sotto. Precedente: 18/8.
+> **Aggiornato: 1 settembre 2026 06:55** · @intelligence · giro leggero, **8 giorni fermo** (ultimo controllo 24/8). Controllate oggi: meteo 1-8/9, calendario eventi Comune (7-14gg), viabilità/cantieri centro, bandi (CCIAA + Unione Commercianti + **un bando nuovo del Comune**, vedi sotto), Libertà/PiacenzaSera (oggi il fetch diretto ha funzionato, niente 403). Precedente: 24/8.
 >
-> ⚠️ **Nota di contesto obbligatoria (23/8):** Nicola ha corretto la priorità reale per i prossimi 5 giorni — scadenza-zero al **29/8/2026** su un fronte tecnico interno (311 difetti macchina + worker Bottega + design lato-venditore). Nessuna opportunità qui sotto va spinta come azione commerciale questa settimana: resta 🟢 preparazione/nota, zero costo, reversibile. Coerente anche col fatto che **0 negozi MyCity possono oggi incassare** (Stripe disattivato anche per Pane Quotidiano — vedi `buchi-mercato.md`), quindi nessun picco di domanda ha oggi un canale reale su cui convertire.
+> ⚠️ **Contesto invariato rispetto al 24/8:** il sito pubblico resta giù (HTTP 503, 9° giorno), 3 azioni 🔴 attendono la firma di Nicola (rimettere online il sito, sbloccare i pagamenti di Pane Quotidiano, migrazioni DB), e **0 negozi possono oggi incassare**. Nessuna opportunità qui sotto diventa un'azione commerciale ora: resta preparazione 🟢, zero costo, reversibile.
+
+---
+
+## 🆕 Novità di oggi (1/9) — meteo stabile e caldo, tre eventi nuovi in calendario, un cantiere aggiuntivo, nessuna azione
+
+**① Meteo 1-8/9: settimana stabile, calda, senza pioggia — l'estate non è finita.** Confermato da due fonti indipendenti: ilmeteo.it (fetch diretto) dà 21-32° oggi e domani, salendo fino a **35°** lunedì 7/9, cielo sereno/poco nuvoloso tutta la settimana, nessuna allerta. Coerente con il titolo IlPiacenza trovato via WebSearch, "Piena estate anche a inizio settembre: a Piacenza ancora massime fino a 35 gradi". **Impatto:** nessun rischio pioggia questa settimana (diversamente da fine agosto); il caldo prolungato tiene alta la domanda di freschi/bevande, ma oggi resta un dato preparatorio (0 consegne attive). Fonti: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 1/9) + [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) (titolo, via WebSearch 1/9).
+
+**② Tre eventi nuovi in calendario, il più rilevante è uno Sbaracco il 6/9.** Dalla pagina eventi del Comune (fetch diretto riuscito oggi):
+- **Domenica 6/9 — "La domenica dello Sbaracco"**: i negozi del centro svuotano il magazzino con sconti. In contemporanea, lo stesso giorno, il consueto **mercatino "Via Roma Street Market"** (hobbistica, libri, oggettistica — prima domenica del mese). Due eventi di piazza sovrapposti nello stesso weekend: è il tipo di picco di afflusso in centro storico che genera domanda di cibo/bevande da asporto nelle vie limitrofe — esattamente come il Radio Sound Party del 28-30/8, ma più piccolo e ricorrente (mensile/stagionale), non un unicum.
+- **10-13/9 — "Femme Fest"**: 4 giorni di musica/cultura/incontri in centro. Rilevanza media: più pubblico di nicchia che affollamento di piazza, ma comunque persone in più in centro per 4 giorni.
+- **11/10 — "Manufatto"** (mercati artigianali): fuori dalla finestra 7-14gg, solo nota di calendario.
+Fonte: [comune.piacenza.it — pagina eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806) (WebFetch diretto, 1/9 — oggi ha funzionato, diversamente dal solito 403 registrato nelle settimane scorse).
+**Nessuna azione oggi** (0 negozi possono incassare, 0 consegne attive): la nota resta preparatoria, coerente col Radio Sound Party del 24/8 già segnato come "solo bozza-template" in Opportunità sotto.
+
+**③ 🆕 Nuovo bando del Comune, aperto DA IERI (31/8): incentivi alla raccolta differenziata per le piccole attività — rilevante per Pane Quotidiano** — dettaglio completo nella sezione Opportunità sotto e in `leve-uscita.md` (è una leva diretta per il negozio faro, non solo un prospect). Verificato con 4 fonti indipendenti oggi: pagina ufficiale del Comune, PiacenzaSera (2 articoli, 27/8 e 31/8), IlPiacenza, Piacenza24.
+
+**④ Cantieri: un'altra via si aggiunge alla lista già nota.** Oltre a via Farnesiana/via Veneto/via Borghetto/via San Bartolomeo (segnalati il 15/8) e via Benedettine (già senza 70 stalli), trovati con verifica mirata sulla viabilità del centro:
+- **Corso Garibaldi e vie limitrofe** (Sant'Ilario, Piazzetta Sant'Ilario, Manzini, Lampugnani, Calzolai — **quest'ultima è la via del negozio faro Pane Quotidiano**): divieto di sosta permanente con rimozione forzata dal 27/7 al **10/9/2026** per rifacimento della linea interrata.
+- **Via Maddalena**: divieto totale di circolazione (tratto verso via Castello) e divieto di sosta con rimozione (tratto verso San Giacomino) dal **7 al 19/9/2026**.
+- **Via Morigi**: senso unico e spazio pedonale ampliato dal 24/8, sperimentale, senza data di fine indicata.
+**Impatto:** via Calzolai (dove ha sede Pane Quotidiano) è tra le vie con divieto di sosta con rimozione forzata fino al 10/9 — irrilevante per un cliente a piedi, ma da tenere a mente per un eventuale approvvigionamento/consegna su ruote quando la logistica sarà operativa. Fonte: [comune.piacenza.it — modifiche alla viabilità, aggiornamento](https://www.comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento) (WebFetch, 1/9).
+
+**⑤ Nessuna novità da Libertà — Attualità/Città oltre quanto già coperto**: oggi il fetch diretto ha funzionato (niente 403). Notizie del giorno: agroalimentare/ricerca Cattolica, cronaca (incidente Perino, grandinata Castello), cassa integrazione Lpr — nessuna riguarda botteghe/commercio/ZTL. Un solo titolo di rilievo indiretto: "Raccolta differenziata, dal Comune 400mila euro di incentivi alle attività" (17 ore fa) — è lo stesso bando del punto ③. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) (WebFetch, 1/9).
+
+**⑥ PiacenzaSera: nessuna novità di rilievo oltre il bando rifiuti.** Titoli del giorno: sagra gastronomica DOP+focaccia di Recco, prezzi ingrosso Grana Padano in salita, evento vivaisti/artigiani a Verde Grazzano (fuori Piacenza città), Festa di Fine Estate Emporio Solidale, voucher baby sitter (bando sociale, non commerciale), chiusura stazione Complanare Sud (viabilità periferica, non centro). Nessuna azione. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (WebFetch, 1/9).
+
+Nessuna delle sei richiede un'azione commerciale oggi. L'unica con un valore concreto per il negozio faro è il bando rifiuti (③), che resta comunque 🟢 nota/preparazione — vedi Opportunità.
 
 ---
 
@@ -149,7 +176,19 @@ Nessuna di queste cinque richiede un'azione commerciale oggi. Le uniche azioni s
 
 ---
 
-## 💰 Bandi — riconfermato tutto chiuso, più una scoperta tardiva (BT26, già chiusa)
+## 💰 Bandi — 1/9: un bando nuovo e aperto ORA (rifiuti, Comune), un secondo nuovo ma di bassa rilevanza (BC26 ESG, CCIAA)
+
+**🆕 Incentivi raccolta differenziata (Comune di Piacenza) — APERTO dal 31/8 al 23/10/2026, rilevante per Pane Quotidiano.** 400.000€ stanziati per piccole/medie attività (sotto 250 mq) con sede a Piacenza, registrate come utenze non domestiche TCP. Spese ammissibili: contenitori per la differenziata, formazione personale, **compostiere, eliminazione prodotti monouso, riduzione sprechi alimentari** — tutte voci pertinenti a un panificio/gastronomia come Pane Quotidiano. Importo variabile per superficie/categoria (non un tetto fisso unico). Domande online, valutate in ordine cronologico fino a esaurimento fondi. **Confidenza alta, 90%**: 4 fonti indipendenti concordi (pagina ufficiale del Comune, PiacenzaSera×2, IlPiacenza, Piacenza24). Dettaglio prima mossa in Opportunità sotto.
+
+**🆕 BC26 "Certificazioni ESG" (CCIAA Emilia) — bando nuovo, mai tracciato prima, ma bassa rilevanza per le botteghe MyCity.** Fondo perduto 50% fino a 14.000€ (investimento minimo 5.000€) per ottenere certificazioni ambientali/etiche/sociali (ISO 14001, SA8000, carbon footprint, parità di genere, ecc.). Beneficiari: MPMI di Parma/Piacenza/Reggio Emilia. Finestra domande: **17-29/9/2026**. **Bassa priorità**: le certificazioni ESG sono tipicamente fuori portata/interesse per una singola bottega di quartiere (investimento minimo 5.000€ e percorso di certificazione complesso). Lo segno per completezza del monitoraggio bandi, non come leva da spingere. Confidenza alta, 85% (2 fonti indipendenti: studiobrancaleone.it, con dettagli confermati anche da qrsrl.it/phormamentis.it nella ricerca aggregata).
+
+**Verificato di nuovo, invariato: PI26 chiuso il 30/7, non riaperto.** Una fonte di bassa qualità (aggregatore) suggeriva erroneamente una scadenza "30 settembre" per l'Innovazione Digitale — verificato con 2 fonti dirette (emilia.camcom.it, puntoimpresadigitale.camcom.it): la finestra reale era 20-30/7/2026, già chiusa. **Candore:** ho scartato il primo risultato perché contraddiceva 6 settimane di verifiche precedenti, e la doppia verifica lo conferma sbagliato — nessuna riapertura di PI26.
+
+Ricontrollati anche oggi (invariati, nessuna riapertura): BI26 (chiuso 11/6), BE26 (chiuso 30/7), Bando Commercio Emilia-Romagna (chiuso, limite 350 domande), bando fotovoltaico parcheggi aziendali (domande dal 30/9 al 16/11, bassa rilevanza per le botteghe senza parcheggio). Il "Trame urbane" — hub urbano di Piacenza (1.077.000€, di cui 560.000€ regionali, progetto comunale di rigenerazione centro storico) è un fatto di marzo/agosto 2026 mai tracciato in questo file: è già stato assegnato al Comune, non è una leva diretta per i singoli negozi, ma segnala che l'Amministrazione sta investendo sul centro storico — contesto utile per @relazioni-istituzionali quando riprenderà i contatti.
+
+---
+
+## 💰 Bandi (storico) — riconfermato tutto chiuso, più una scoperta tardiva (BT26, già chiusa)
 
 Ricontrollati il 14/8, il 15/8, il 17/8, il 18/8 e di nuovo oggi (24/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC (via WebSearch). Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
 
@@ -170,7 +209,19 @@ Bando **non commercio** già segnalato l'11/8: "Fotovoltaico su parcheggi aziend
 
 ---
 
-## Opportunità 24/8 — la finestra "pausa" scade oggi sulla carta, ma resta tutto 🟢 (scadenza 29/8 su altro fronte, vedi nota in testa)
+## Opportunità 1/9 — un'opportunità concreta per il negozio faro, il resto resta preparazione
+
+**① 🆕 Bando rifiuti del Comune (400k€, aperto 31/8-23/10) — 🟢 nota da girare a Pane Quotidiano quando si riprende il contatto col fornaio, NON un'azione da accodare ora**
+A differenza delle altre voci di questo file, questa non è un prospect futuro: **è un beneficio diretto per il nostro unico negozio reale**, Pane Quotidiano (panificio/gastronomia, sotto 250 mq, sede in via Calzolai). Le spese ammissibili — compostiere, eliminazione monouso, riduzione sprechi alimentari — sono esattamente il tipo di costo che un panificio bio sostiene già o dovrebbe sostenere. **Prima mossa (a costo zero):** @account-negozi/@relazioni-istituzionali preparano un messaggio pronto (non lo mandano) da girare al fornaio alla prossima interazione utile, con link al bando e scadenza 23/10. Coerente con la regola "banale e a costo zero": è un'informazione utile al negozio già in relazione con noi, non un nuovo contatto commerciale. **Impatto stimato:** non quantificabile in €, ma riduce un costo operativo reale del negozio faro nella finestra in cui più conta rafforzare il rapporto. Fonti: [comune.piacenza.it/it/news/incentivi-rifiuti](https://www.comune.piacenza.it/it/news/incentivi-rifiuti) (ufficiale), [piacenzasera.it — Raccolta rifiuti, online il bando](https://www.piacenzasera.it/2026/08/raccolta-rifiuti-on-line-il-bando-per-gli-incentivi-alle-attivita-commerciali/659295), [ilpiacenza.it — Bonus rifiuti alle attività](https://www.ilpiacenza.it/attualita/bonus-rifiuti-alle-attivita-pronto-il-bando-per-gli-incentivi.html) (tutte consultate 1/9/2026).
+
+**② Sbaracco + Via Roma Street Market, 6/9 — 🟢 solo nota, stesso vincolo del Radio Sound Party**
+Due eventi di piazza lo stesso giorno in centro storico. Stesso ragionamento del 24/8 per il Radio Sound Party: nessun canale di conversione reale oggi (0 negozi payout-ready). Nota utile per @content-social quando preparerà il template "picco evento di piazza" — questo è un secondo caso reale da usare come esempio, oltre al Radio Sound Party.
+
+**③ Femme Fest, 10-13/9 — 🟢 nota di calendario**, rilevanza minore del punto ②, stesso vincolo.
+
+---
+
+## Opportunità 24/8 (storico) — la finestra "pausa" scade oggi sulla carta, ma resta tutto 🟢 (scadenza 29/8 su altro fronte, vedi nota in testa)
 
 **① Picco Radio Sound Party (28-30/8, Arena Daturi, Baby K sabato) — 🟢 solo bozza-template, NON pubblicare/attivare ora**
 Primo evento di massa dentro Piacenza città da settimane: ingresso gratis, headliner Baby K, migliaia di persone attese in zona centro/Palazzo Farnese nel weekend. È esattamente il tipo di picco di domanda (cibo/bevande da asporto in centro) che un marketplace di consegna dovrebbe sfruttare. **Ma oggi 0 negozi MyCity possono incassare** (Stripe disattivato anche per Pane Quotidiano) e 0 consegne sono operative: non c'è alcun canale su cui convertire il picco. **Prima mossa (a costo zero):** @content-social prepara — non pubblica — un template "menu/bundle serata evento" riutilizzabile per la prima bottega gastronomica che sarà payout-ready, da adattare al prossimo evento di piazza simile. **Impatto stimato:** non quantificabile onestamente oggi — nessun dato storico di conversione su un evento di piazza a Piacenza per MyCity, and 0 canale attivo. Dichiaro l'assenza di stima invece di inventare un numero.
@@ -231,5 +282,15 @@ Report 27/7 → 30/7 → 10/8 → 13/8-18/8 (accumulo giornaliero) → 24/8: ver
 - **24/8:** unionecommerciantipc.it (WebSearch) — PI26/BE26/BI26/Bando Commercio ER/fotovoltaico riconfermati, nessuna apertura nuova
 - **24/8:** WebSearch "liberta.it Piacenza commercio negozi centro storico 24 agosto 2026" — nessuna notizia datata questa settimana, solo articoli più vecchi già noti
 - **24/8:** vedi anche `radar-concorrenti.md` per le fonti sul procedimento Glovo/Deliveroo (milanofinanza.it, agcm.it) e sui concorrenti food-delivery, ricontrollate oggi
+- **1/9:** [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) — previsioni 1-8/9, WebFetch diretto
+- **1/9:** [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) — titolo via WebSearch, conferma indipendente del meteo
+- **1/9:** [comune.piacenza.it/it/categorie-eventi/76806](https://www.comune.piacenza.it/it/categorie-eventi/76806) — WebFetch diretto (oggi senza 403): Sbaracco 6/9, Via Roma Street Market 6/9, Femme Fest 10-13/9, Manufatto 11/10
+- **1/9:** [comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento](https://www.comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento) — WebFetch diretto: Corso Garibaldi/Calzolai fino al 10/9, via Maddalena 7-19/9, via Morigi dal 24/8
+- **1/9:** [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) — WebFetch diretto (oggi senza 403), nessuna novità commercio
+- **1/9:** [piacenzasera.it](https://www.piacenzasera.it/) — WebFetch diretto, nessuna novità di rilievo oltre bando rifiuti
+- **1/9:** [comune.piacenza.it/it/news/incentivi-rifiuti](https://www.comune.piacenza.it/it/news/incentivi-rifiuti) — WebFetch diretto, bando rifiuti ufficiale, 400k€, 31/8-23/10
+- **1/9:** [piacenzasera.it — Raccolta rifiuti, online il bando](https://www.piacenzasera.it/2026/08/raccolta-rifiuti-on-line-il-bando-per-gli-incentivi-alle-attivita-commerciali/659295), [ilpiacenza.it — Bonus rifiuti alle attività](https://www.ilpiacenza.it/attualita/bonus-rifiuti-alle-attivita-pronto-il-bando-per-gli-incentivi.html) — triangolazione bando rifiuti
+- **1/9:** [studiobrancaleone.it — BC26 Certificazioni ESG](https://www.studiobrancaleone.it/news/cciaa-emilia-bando-certificazioni-esg-2026/) — dettaglio bando nuovo, bassa rilevanza
+- **1/9:** [emilia.camcom.it — PI26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26), [puntoimpresadigitale.camcom.it — PI26](https://www.puntoimpresadigitale.camcom.it/voucher/bando-innovazione-digitale-2026-pi26) — verifica incrociata, PI26 confermato chiuso 30/7 (scarta una fonte aggregata errata)
 
-*Senior: @intelligence · nessuna azione da eseguire ora — deadline reale è il 29/8 su un fronte tecnico interno (311 difetti + worker Bottega + design venditore), non su queste opportunità. Monitoraggio bandi/meteo/eventi resta comunque sempre attivo.*
+*Senior: @intelligence · nessuna azione commerciale da eseguire ora — il vincolo resta lo stesso (sito giù, PQ non incassa, 3 azioni 🔴 in attesa di firma). L'unica nota con valore diretto è il bando rifiuti per Pane Quotidiano (③ sopra), comunque 🟢. Monitoraggio bandi/meteo/eventi resta sempre attivo.*

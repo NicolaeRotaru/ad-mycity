@@ -1,7 +1,7 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-08-31 22:45
+aggiornato: 2026-09-01 06:55
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
@@ -9,11 +9,11 @@ aggiornato: 2026-08-31 22:45
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
 > Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
-> ⚠️ **North Star in stallo 68 giorni** (0 ordini pagati dal 24/6, riverificato dal vivo al 2026-08-31 ~22:40, query diretta MCP: `ordini_pagati=0` su 1 ordine totale, annullato). La pausa che Nicola aveva fissato fino al **24/8-1/9** (`ripresa.lavoro-operativo`) è scaduta senza collaudo: la scadenza del 29/8 sulle quattro cose da chiudere (card `#185`) è passata da due giorni e resta senza risposta. Le carte 🔴 che moltiplicano tutto restano `#168` (server fermo), `#182` (pagamenti Pane Quotidiano ancora spenti, 18gg fermo), `#184` (database indietro di 4 migrazioni), `#161`/`#160` (cancello di pubblicazione). **Gate corrente (AR-113, HARD):** finché lo stallo resta ≥3gg, il giro produce solo azioni che avvicinano il 1° ordine pagato — nessun nuovo lavoro sulla macchina che non sblocchi direttamente una di queste carte.
+> ⚠️ **North Star in stallo 69 giorni** (0 ordini pagati dal 24/6, riverificato dal vivo al 2026-09-01 ~06:50, query diretta MCP: `ordini_pagati=0` su 1 ordine totale, annullato). La pausa che Nicola aveva fissato fino al **24/8-1/9** (`ripresa.lavoro-operativo`) si conclude oggi stesso: la scadenza del 29/8 sulle quattro cose da chiudere (card `#185`) resta senza risposta. Le carte 🔴 che moltiplicano tutto restano `#154`/`#155` (dominio+chiavi Vercel, causa precisa del sito giù trovata stamattina), `#182` (pagamenti Pane Quotidiano ancora spenti, 18gg fermo), `#184` (database indietro di 4 migrazioni). **Gate corrente (AR-113, HARD):** finché lo stallo resta ≥3gg, il giro produce solo azioni che avvicinano il 1° ordine pagato — nessun nuovo lavoro sulla macchina che non sblocchi direttamente una di queste carte.
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
-| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: sbloccare `#182` (pagamenti Pane Quotidiano) è la precondizione**; nessuna data fissa, ma la pausa concordata (24/8-1/9) è già scaduta | — |
+| 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: sbloccare `#154`/`#155` (dominio+chiavi Vercel) poi `#182` (pagamenti Pane Quotidiano)** è la precondizione; nessuna data fissa | — |
 | 🧠 AD (su sé stessa) | **Tasso di chiusura**: difetti chiusi ÷ difetti aperti nel mese | **Guardrail permanente ≥ 1** (non una scadenza — sotto soglia il giro chiude invece di cercare). Misura viva: `node cervello/tasso-chiusura.mjs`. Storia: giu 0 · lug 0,54 · ago **1,29** al 2026-08-31 22:28 (487 chiusi ÷ 378 aperti) — sopra soglia: il giro può ancora aprire lavoro nuovo quando il North-Star gate lo consente | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |

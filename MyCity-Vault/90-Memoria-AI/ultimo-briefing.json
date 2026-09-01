@@ -1,12 +1,13 @@
 {
-  "data": "2026-08-31 22:50",
-  "situazione": "Secondo passaggio nello stesso giorno: riconfermato tutto invariato rispetto alle 21:05 (1 ordine mai pagato, 0 incassi, 1 negozio vero, 5 prodotti, 0 nuovi clienti). Il trigger 'clienti 7→8' che ha fatto scattare il giro pieno risale al 21/8, non a oggi. Sito ancora giù (HTTP 503). North Star fermo da 68 giorni, macchina in modalità risparmio: nessuna carta nuova, le tre già in coda (#168 server, #184 migrazioni, #182 pagamenti Pane Quotidiano) restano la priorità. Aggiornato anche l'OKR-Squadra, fermo da una settimana con date scadute.",
+  "data": "2026-09-01 06:55",
+  "situazione": "Terzo passaggio identico in 10 ore: business fermo dal 24/6, stallo North Star 69 giorni (1 negozio vero, 1 ordine mai pagato, 0 clienti nuovi, 5 prodotti, sito pubblico HTTP 503). Novità reale arrivata dal piano del mattino: la causa del sito giù è ora precisa — dominio su Render (non pagato) + 2 variabili Vercel mancanti (SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_APP_URL). Macchina in modalità risparmio: nessuna carta nuova, le tre già in coda (dominio+chiavi, pagamenti Pane Quotidiano, migrazioni database) restano la priorità.",
   "opportunita": [
-    {"titolo": "Verificare dal vivo il catalogo appena il sito torna su", "motivo": "il fix che mostrava 0 prodotti su 5 ai visitatori senza accesso è già mergiato (#857): appena il sito è di nuovo raggiungibile basta un browser anonimo per chiudere la card #181", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Nuovo bando del Comune da girare a Pane Quotidiano: 400.000€ per la raccolta differenziata", "motivo": "aperto dal 31/8 al 23/10, copre spese che un panificio come Pane Quotidiano già sostiene (compostiere, riduzione sprechi) — trovato oggi dal radar, verificato su 4 fonti", "impatto": "medio", "sforzo": "basso"},
+    {"titolo": "Verificare dal vivo il catalogo appena il sito torna su", "motivo": "il fix che mostrava 0 prodotti su 5 ai visitatori senza accesso è già mergiato (#857): appena il sito risponde basta un giro in incognito per chiudere la card #181", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Firma le tre carte che tengono il sito giù, il database indietro e i pagamenti fermi", "motivo": "server (#168), migrazioni database (#184) e pagamenti Pane Quotidiano (#182) sono ferme rispettivamente da 9, 2 e 3 giorni e sono la causa diretta per cui il sito non risponde e il negozio vero non può incassare", "livello": "rosso"},
-    {"titolo": "Di' se vuoi che riverifichi le quattro cose della scadenza del 29 agosto", "motivo": "la data che avevi fissato tu stesso è passata da due giorni: non ho ancora ricontrollato punto per punto a che punto sono", "livello": "rosso"},
-    {"titolo": "Tieni la macchina in modalità risparmio", "motivo": "salute macchina 4/100: questo giro resta volutamente snello, solo verifica dei fatti", "livello": "giallo"}
+    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "18 giorni fermo: attivare i pagamenti prima o riscrivere intanto le CTA dei post che promettono consegna", "livello": "rosso"},
+    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni: cancello automatico o applicazione a mano", "livello": "rosso"}
   ]
 }
