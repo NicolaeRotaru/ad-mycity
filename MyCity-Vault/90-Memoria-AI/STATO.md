@@ -1,8 +1,43 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 12:00
-fonte: AD digitale (Punto di mezzogiorno, cervello/ritmo.md)
+aggiornato: 2026-09-01 12:28
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 12:28 — Giro di perlustrazione: nona foto identica, 16 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho riverificato con una query diretta sul database, non con il sensore
+> riusato. Risultato: 1 ordine totale, ancora 0 pagati, ultimo ordine sempre il 24/6. 0 nuovi
+> acquirenti negli ultimi 7 giorni. Stallo North Star **69 giorni**, invariato. `coerenza-fatti.mjs`
+> è pulito: 41 fatti, 0 cacce aperte, nulla riscritto. Un solo commit nuovo dal passaggio delle
+> 12:12: un playbook di routine del worker (Recensioni). Ha solo aggiornato contatori interni,
+> nessuna scoperta di business.
+>
+> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** È il nono passaggio identico
+> in un giorno solo. Il letargo è in **SOPRAVVIVENZA**: quota AI al 135% della finestra, salute
+> macchina 4/100. La regola è tagliare il volume, mai i controlli di verità. Radar,
+> auto-miglioramento e radiografia completa erano già stati coperti nei passaggi precedenti. Non
+> avevano trovato nulla di nuovo. Rifarli ora sarebbe rumore, non verità. Ho tenuto solo due
+> controlli. Il primo è `coerenza-fatti`, che tocca i fatti veri. Il secondo è la riverifica
+> diretta del numero che decide tutto: gli ordini pagati. Il gate North Star resta attivo: nessuna
+> card nuova, perché nessuna mossa disponibile sblocca il primo ordine pagato più delle quattro già
+> in coda.
+>
+> **In coda restano le stesse carte, nessuna firmata.** #154+#155 sono dominio e chiavi Vercel: il
+> sito pubblico resta giù, HTTP 503, 220 giri ciechi. #182 sono i pagamenti carta di Pane
+> Quotidiano. #184 sono le migrazioni database. #185 è la scadenza 29/8, non riverificata voce per
+> voce oggi. #186 è il cancello del sito. #188 è l'origine del comando ricorrente "negozi in calo",
+> ancora non trovata. **Mossa n.1 resta la stessa: firma #154+#155.** Senza sito pubblico, nessun
+> pagamento riuscito diventa un ordine, qualunque altra cosa si sistemi.
+>
+> **Cosa non ho verificato.** `north-star-check.mjs` e `letargo.mjs`: non rieseguiti a mano, comando
+> bloccato da approvazione come in ogni passaggio precedente di oggi. Riporto il verdetto già
+> scritto dall'hook di sessione. Il sito in un browser vero. Lo stato Stripe specifico di PQ, resto
+> sulla baseline del 24/8. Le quattro voci della scadenza del 29/8, punto per punto.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 
@@ -39,11 +74,11 @@ fonte: AD digitale (Punto di mezzogiorno, cervello/ritmo.md)
 >
 > **Perché mi fermo qui.** È l'ottavo passaggio identico oggi. Letargo in **SOPRAVVIVENZA**: quota
 > AI 115% della finestra, salute macchina 4/100. La regola è chiara: si taglia il volume, non i
-> controlli di verità. Quindi ho rifatto solo coerenza-fatti (verità). Ho saltato radar,
-> auto-miglioramento e radiografia completa (volume) — l'ultimo giro pieno li aveva già coperti
-> senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le stesse
-> quattro in coda restano la priorità (#154/#155, #182, #184, #185), più due non ancora firmate
-> (#186 cancello sito, #188 dov'è il playbook anti-churn).
+> controlli di verità. Ho rifatto solo `coerenza-fatti`: quello è verità. Ho saltato radar,
+> auto-miglioramento e radiografia completa: quelli sono volume. L'ultimo giro pieno li aveva già
+> coperti, senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le
+> stesse quattro in coda restano la priorità: #154/#155, #182, #184, #185. Più due non ancora
+> firmate: #186 cancello sito, #188 dov'è il playbook anti-churn.
 >
 > **Cosa non ho verificato.** `north-star-check.mjs` e `letargo.mjs` non rieseguiti a mano (comando
 > bloccato da approvazione, come nei passaggi precedenti): riporto il verdetto già scritto dall'hook
@@ -254,10 +289,10 @@ se l'attività è ferma.
 > che ha fatto scattare questo giro pieno era «clienti passati da 7 a 8» — vero, ma quel cliente
 > risale al 21 agosto, non a oggi: la baseline del contatore era rimasta indietro di dieci giorni.
 >
-> **Cosa ho fatto.** Solo verifica: nessuna carta nuova, nessuna riscrittura delle tre già in coda
-> (#168, #182, #184) — sono complete e pronte, riaprirle con parole diverse sarebbe rumore.
-> Aggiornato anche `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md` (era fermo al 24/8, numeri e
-> scadenze scaduti): stallo North Star ricalcolato a 68 giorni, tasso di chiusura aggiornato a
+> **Cosa ho fatto.** Solo verifica. Nessuna carta nuova. Le tre già in coda (#168, #182, #184) sono
+> complete e pronte: non le ho riscritte, riaprirle con parole diverse sarebbe solo rumore.
+> Ho aggiornato anche `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md`, che era fermo al 24/8 con
+> numeri e scadenze scaduti: stallo North Star ricalcolato a 68 giorni, tasso di chiusura aggiornato a
 > 1,29 (agosto), tolto il riferimento alla pausa 24/8-1/9 ormai scaduta.
 >
 > **Cosa non ho verificato.** Le stesse cose non verificate alle 21:05: stato Stripe specifico di

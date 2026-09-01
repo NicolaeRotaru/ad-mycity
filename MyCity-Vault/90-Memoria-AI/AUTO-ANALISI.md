@@ -36,9 +36,9 @@ mossa numero uno.
 - FATTA: STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json,
   AUTO-ANALISI.md e SALA-OPERATIVA.md aggiornati con un nuovo passaggio in cima. TL;DR da
   consegnare in chat, cinque righe più la mossa n.1.
-- FATTA, in forma ridotta: verifica dei dati di business. Non ho rilanciato query dirette né
-  `ci-stato.mjs`; ho usato i sensori pre-girati da giro.sh (11:46-11:55) e rieseguito solo
-  `coerenza-fatti.mjs`, il controllo di verità più economico.
+- FATTA, in forma ridotta: verifica dei dati di business. Non ho rilanciato query dirette. Non ho
+  rilanciato `ci-stato.mjs`. Ho usato i sensori pre-girati da giro.sh (11:46-11:55) e ho rieseguito
+  solo `coerenza-fatti.mjs`, il controllo di verità più economico.
 - NON FATTA APPOSTA (letargo SOPRAVVIVENZA + gate North-Star): query SQL dirette, `ci-stato.mjs`,
   `north-star-check.mjs`, `letargo.mjs` (comando bloccato da approvazione), radar completo, Piani,
   intenzioni-nicola.json, auto-miglioramento, radiografia completa — nessuna novità da propagare
@@ -53,8 +53,8 @@ riscritto. `git log --since` + `git show --stat`: confermato che gli unici commi
 sono due playbook worker di routine.
 
 **④ Strada alternativa considerata.** Avrei potuto rifare `ci-stato.mjs` come nei passaggi
-precedenti. Ho scelto di tagliarlo perché il letargo è salito a SOPRAVVIVENZA proprio in questo
-passaggio e la CI non ha ragioni per essere cambiata in 20 minuti senza commit nuovi sul ramo.
+precedenti. Ho scelto di tagliarlo. Il letargo è salito a SOPRAVVIVENZA proprio in questo
+passaggio. E la CI non ha ragioni per essere cambiata in 20 minuti, senza commit nuovi sul ramo.
 
 ---
 
@@ -93,7 +93,7 @@ Scrivere i file richiesti sul disco. Restituire il TL;DR: cinque righe, più la 
 - FATTA: STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json,
   AUTO-ANALISI.md e SALA-OPERATIVA.md aggiornati con un nuovo passaggio in cima. TL;DR consegnato
   in chat, cinque righe più la mossa n.1.
-- FATTA, in forma ridotta: verifica dei dati di business. Non ho rilanciato query dirette; ho
+- FATTA, in forma ridotta: verifica dei dati di business. Non ho rilanciato query dirette. Ho
   usato i sensori pre-girati da giro.sh (11:24-11:32), freschi di pochi minuti. Ho comunque
   rieseguito a mano `ci-stato.mjs` e `coerenza-fatti.mjs`.
 - NON FATTA APPOSTA: query SQL dirette via MCP (letargo RISPARMIO, quota AI all'85%, nessun

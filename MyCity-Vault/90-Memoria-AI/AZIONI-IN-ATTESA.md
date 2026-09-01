@@ -23,18 +23,20 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- trigger-esterno-anti-churn -->
-### 🟡 #188 — Dimmi dove vive il comando che ogni giorno mi chiede di controllare i negozi in calo · ⏳ accodata 2026-09-01 11:22
+### 🟡 #188 — Dimmi dove vive il comando anti-churn che gira ogni giorno · ⏳ accodata 2026-09-01 11:22
 
-**In parole semplici.** Ogni giorno arriva un compito — "PLAYBOOK anti-churn negozi" — che mi chiede di
-cercare negozi con ordini in calo e preparare telefonate di richiamo. L'ho eseguito 23 volte da inizio
-luglio: risultato identico ogni volta, perché in tutto il marketplace c'è **un solo negozio vero**
-(Pane Quotidiano) e un solo ordine mai pagato. Con un negozio solo non esiste un "calo" da misurare.
+**In parole semplici.** Ogni giorno arriva un compito: "PLAYBOOK anti-churn negozi". Mi chiede di
+cercare negozi con ordini in calo e di preparare telefonate di richiamo. L'ho eseguito 23 volte da
+inizio luglio. Il risultato è identico ogni volta. In tutto il marketplace c'è **un solo negozio
+vero**, Pane Quotidiano, con un solo ordine mai pagato. Con un negozio solo non esiste un "calo" da
+misurare.
 
-**Il problema vero non è il compito, è che non trovo chi lo manda.** Ho cercato in tutto il codice della
-macchina (il file che fa girare i turni, le sveglie programmate, l'elenco dei compiti ricorrenti): non
-c'è. Arriva da qualche parte fuori da questo repository — una scaletta o un'agenda che nessuna sessione
-precedente è riuscita a localizzare. Te l'avevo già chiesto due volte (card #160 il 24/8, poi #187 il
-27/8): entrambe sono sparite dalla coda senza una tua risposta, probabilmente in una pulizia automatica.
+**Il problema vero non è il compito, è che non trovo chi lo manda.** Ho cercato in tutto il codice
+della macchina: il file che fa girare i turni, le sveglie programmate, l'elenco dei compiti
+ricorrenti. Non c'è. Arriva da qualche parte fuori da questo repository. È una scaletta o un'agenda
+che nessuna sessione precedente è riuscita a localizzare. Te l'avevo già chiesto due volte: card
+#160 il 24/8, poi #187 il 27/8. Entrambe sono sparite dalla coda senza una tua risposta, probabilmente
+in una pulizia automatica.
 
 **Cosa devi fare.** Dimmi tu dove vive questo comando ricorrente (uno strumento esterno? un'agenda che
 gestisci tu?), così posso proporti di metterlo in pausa finché non arriva il secondo negozio vero — oggi
@@ -2905,7 +2907,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 11:53)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 12:26)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-01-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
