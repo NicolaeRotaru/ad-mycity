@@ -4,11 +4,15 @@ data: 2026-08-31 02:03
 
 # Ho riparato la maggior parte dei 194 problemi trovati il 27 agosto
 
+**In due righe.** Dei 194 problemi trovati il 27 agosto ne restano aperti pochi, e niente e'
+andato in produzione da questo lavoro. Due cose che ti avevo detto erano false, le trovi corrette
+qui sotto: il numero era gonfiato, e il semaforo del server era rosso mentre io dicevo verde.
+
 > ⚠️ **CORREZIONE DEL 31/8/2026, ore 22:10.** La prima versione di questo rapporto diceva
 > «181 chiuse su 194». **Quel numero era gonfiato, e l'avevo contato io sul mio stesso lavoro.**
-> Un collaudo indipendente l'ha ricontato: le schede che sul ramo NON sono aperte sono **185**,
-> ma quelle chiuse **da questa campagna** stanno **fra 172 e 180** — la forbice è larga perché il
-> rapporto stesso si contraddiceva di otto unità. Tre dei quattro bloccanti li aveva chiusi una
+> Un collaudo indipendente l'ha ricontato. Le schede che sul ramo non sono aperte sono **185**.
+> Ma quelle chiuse **da questa campagna** stanno **fra 172 e 180**. La forbice è larga per un
+> motivo semplice: il rapporto si contraddiceva da solo di otto unità. Tre dei quattro bloccanti li aveva chiusi una
 > richiesta di unione del 28 agosto, due giorni prima, in un'altra sessione: me li ero contati
 > addosso. Ed era falsa anche la frase «ogni riparazione porta una prova vista rossa prima del
 > fix»: su 15 controllate, 3 non diventavano rosse rimettendo il difetto.
@@ -32,14 +36,17 @@ Le riparazioni che contano di più sono quelle dove si perdevano **soldi veri**:
 - Il fattorino consegnava e non incassava un euro quando il credito copriva tutto l'ordine:
   il sistema scriveva comunque «pagato in contanti», da lì non partiva nessun bonifico, e la
   quadratura non se ne accorgeva (atteso 0, incassato 0, differenza 0).
+  **Facciamo un caso vero, coi numeri:** cliente con 50 euro di credito, ordine da 22 in contrassegno,
+  compenso del fattorino 3 euro. L'ordine nasce a zero. Il fattorino consegna, non incassa
+  niente, e quei 3 euro non li vede mai nessuno.
 - Dopo un reclamo o un reso, i soldi restavano fermi per strada.
 - Un buono sconto poteva essere bruciato due volte.
-- In un carrello da due o tre negozi, se la mail al primo negoziante non partiva, il secondo
-  e il terzo non ricevevano niente — mentre il cliente aveva già pagato.
+- In un carrello da due o tre negozi bastava che la mail al primo negoziante non partisse.
+  Il secondo e il terzo non ricevevano niente. E il cliente aveva già pagato.
 
-Poi c'è il gruppo delle cose che non fanno perdere soldi oggi, ma li fanno perdere il giorno
-in cui qualcosa si rompe: il semaforo della salute guardava 5 segreti su 13, e bastava
-dimenticarne uno perché non partisse più nessuna email senza che nessuno lo sapesse.
+Poi c'è il gruppo delle cose che non fanno perdere soldi oggi. Li fanno perdere il giorno in cui
+qualcosa si rompe. Il semaforo della salute guardava 5 segreti su 13. Bastava dimenticarne uno e
+non partiva più nessuna email, senza che nessuno lo sapesse.
 
 E una che vale la pena raccontare per intero: **il controllo dell'accessibilità era spento e
 diceva verde lo stesso.** Se mancavano due chiavi del database, saltava tutti i suoi passi e
@@ -50,6 +57,10 @@ senza chiavi e senza condizioni — e appena acceso ha trovato subito una cosa v
 la vista perfetta. Riparata.
 
 ## Cosa devi fare
+
+> Prima di leggere l'elenco: la parte di cui fidarsi di meno sta subito dopo, sotto
+> «Cosa non ho verificato». Se leggi solo due sezioni, leggi questa e quella.
+
 Otto problemi restano aperti. **Cinque aspettano una tua decisione**, non altro lavoro:
 
 1. **Come si pubblica il sito.** Oggi ogni unione su `main` va in produzione senza aspettare
@@ -59,9 +70,9 @@ Otto problemi restano aperti. **Cinque aspettano una tua decisione**, non altro 
    riga di codice, ma cambia cosa vede il cliente al momento di pagare: è una scelta
    commerciale, non tecnica.
 3. **Le foto dei negozi non sono in nessuna copia di sicurezza.** Adesso almeno si sa *cosa*
-   c'era (l'elenco è nella copia notturna) e lo script che copia i file è scritto e si accende
-   da solo. Manca un posto dove copiarle, fuori da Supabase: circa 1-2 € al mese, più le sue
-   chiavi.
+   c'era: l'elenco è nella copia notturna. Lo script che copia i file è scritto e si accende da
+   solo quando trova le chiavi. Manca solo un posto dove copiarle, fuori da Supabase: circa
+   1-2 € al mese.
 4. **Le prove che attraversano la cassa da cima a fondo.** Servono un progetto Supabase di
    prova con dei dati finti e le chiavi Stripe in modalità prova. Senza, il collaudo della
    cassa resta sulla carta.
