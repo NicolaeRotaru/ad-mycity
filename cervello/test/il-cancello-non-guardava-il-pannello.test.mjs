@@ -49,6 +49,25 @@ test("e le esegue DAVVERO, non con un `|| true` che non può fallire", () => {
   assert.doesNotMatch(riga, /\|\|\s*true/, "un guardiano che non può fallire non è un guardiano");
 });
 
+test("…e non con un passo fatto a mano che nasce già «non fallito»", () => {
+  // ⚠️ QUESTO CASO È NATO PERCHÉ LA SUA MUTAZIONE NON MORDEVA, il 1/9, dopo che una fusione con
+  // main l'aveva riagganciata. Il caso qui sopra cerca la GRAFIA `|| true`; la proprietà però è
+  // un'altra — «il passo deve poter BLOCCARE» — e ci sono altri modi di toglierla. Il più naturale
+  // sta dieci righe più giù nel cancello stesso, nel ramo che gestisce l'ambiente incompleto:
+  // un oggetto scritto a mano con `fallito: false`, che stampa e non boccia mai.
+  //
+  // Una prova che difende una grafia lascia passare la stessa bugia scritta in un altro modo.
+  const blocco = cancello.slice(
+    Math.max(0, cancello.indexOf('esegui("prove del Pannello"') - 200),
+    cancello.indexOf('esegui("prove del Pannello"') + 300,
+  );
+  assert.ok(blocco.includes('esegui("prove del Pannello"'), "il passo non passa più da `esegui`");
+  assert.doesNotMatch(blocco, /passi\.push\(\{[^}]*"prove del Pannello"/s,
+    "il passo delle prove del Pannello è diventato un oggetto scritto a mano: quello nasce col `fallito` che gli si dà, e chi lo scrive può dargli `false`");
+  assert.doesNotMatch(blocco, /"prove del Pannello"[\s\S]{0,300}?fallito:\s*false/,
+    "al passo delle prove del Pannello è stato attaccato `fallito: false`: stampa e non boccia mai");
+});
+
 test("il guardiano dice NO quando una prova del Pannello non gira: exit diverso da zero", () => {
   // La metà comportamentale: che il cancello lo chiami serve solo se chiamarlo può bocciare.
   // Qui si esegue davvero, e si pretende che l'uscita sia un numero (0 = tutte passano).
