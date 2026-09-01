@@ -85,6 +85,24 @@ export function fuoriRepo(file, suffisso) {
   return join(casa, `${suffisso}-${basename(file)}`);
 }
 
+/**
+ * È una cartella di lavoro NOSTRA, quella che possiamo cancellare ricorsivamente? — AR-899/AR-900.
+ *
+ * ⚠️ Esiste come funzione, e non come una riga dentro `applica()`, per un motivo preciso: una
+ * condizione che decide una cancellazione ricorsiva deve poter essere ESEGUITA da una prova, non
+ * cercata nel sorgente. La prima stesura di questa difesa era una `if` inline e la sua prova era un
+ * `grep` — cioè diceva che la riga è scritta, non che funziona.
+ *
+ * La regola che difende: non si cancella ricorsivamente una cartella il cui nome viene da una
+ * funzione che può sbagliare. Il 31/8 la stessa forma ha portato via 956 file quando il banco delle
+ * mutazioni ha rotto apposta `fuoriRepo`. Lì era una prova e c'era il banco a fare da rete; qui è il
+ * codice vero, e di rete non ce n'è nessuna.
+ */
+export function miaCartellaDiLavoro(via, radice = AD_ROOT) {
+  const atteso = join(radice, "cervello", "_tmp_round6-");
+  return String(via || "").startsWith(atteso) && String(via) !== atteso;
+}
+
 /** Scrive senza poter lasciare un file a metà: prima accanto, poi uno spostamento atomico. */
 export function scriviInteroONiente(via, testo) {
   const provvisorio = join(dirname(via), `_tmp_${basename(via)}.${process.pid}`);
@@ -296,7 +314,14 @@ function lavora(voce) {
     const tmp = fuoriRepo(voce.file, "prova");
     writeFileSync(tmp, out, "utf8");
     const check = spawnSync(voce.verifica[0], [...voce.verifica.slice(1), tmp], { encoding: "utf8" });
-    rmSync(dirname(tmp), { recursive: true, force: true });
+    // ⚠️ IL GUINZAGLIO, ed è la lezione di AR-900 applicata al codice invece che a una prova:
+    // `dirname(tmp)` viene da `fuoriRepo()`, cioè da una funzione che può SBAGLIARE. Stamattina la
+    // stessa forma — cancellare ricorsivamente una cartella il cui nome viene dal codice — ha
+    // portato via 956 file quando il banco delle mutazioni ha rotto apposta quella funzione. Qui
+    // non è una prova, è il codice vero, e non c'è nessun banco a proteggerlo: si cancella solo se
+    // il percorso è quello che ci aspettiamo, altrimenti si lascia lì (è `_tmp_*`, quindi git non
+    // lo vede e al peggio resta una cartella vuota).
+    if (miaCartellaDiLavoro(dirname(tmp))) rmSync(dirname(tmp), { recursive: true, force: true });
     if (check.status !== 0) {
       console.error(`   ❌ il risultato non passa \`${voce.verifica.join(" ")}\` — non lo scrivo.`);
       console.error(check.stderr || "");

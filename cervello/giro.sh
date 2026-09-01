@@ -1831,6 +1831,16 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
     # Il 124 di `timeout` resta un ❌ apposta: un guardiano che non finisce in due minuti non è un
     # cieco, è un guardiano che non risponde.
     # shellcheck disable=SC2086
+    # ⚠️ LA VARIABILE È SENZA VIRGOLETTE APPOSTA, e non è una svista da sistemare: `_rcomando` può
+    # portare più parole — «freschezza-checklist.mjs --check» — e le virgolette le renderebbero un
+    # nome di file solo, che non esiste. La divisione in parole è il MECCANISMO, non un effetto
+    # collaterale.
+    #
+    # La radiografia di sicurezza del 31/8 l'ha segnalata come «protezione mancante, e la tabella è
+    # modificabile». Guardata fino in fondo non regge: `_rcomando` esce dalla tabella RIVERIFICA di
+    # `cervello/c4-cancelli.mjs`, che è CODICE con dentro array scritti a mano — non un file di dati.
+    # Chi può modificarla ha già l'esecuzione di codice, quindi non c'è niente da guadagnare
+    # passando da qui. Scritto qui perché la prossima radiografia non la rialzi una terza volta.
     timeout 120 node "$SCRIPT_DIR"/$_rcomando >/dev/null 2>&1
     _rrc=$?
     if [ "$_rrc" -eq 0 ]; then

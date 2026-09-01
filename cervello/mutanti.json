@@ -8771,6 +8771,17 @@
    "sostituisci": "    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} — ${v.motivo}` });",
    "test": "cervello/test/due-famiglie-un-nome-solo.test.mjs",
    "perche_conta": "Il verdetto era giusto tutt'e due le volte; era il NOME a mentire. Un referto che sembra contraddirsi si smette di leggere."
+  },
+  {
+   "difetto": "AR-899",
+   "nome": "il guinzaglio sulla cancellazione ricorsiva si apre: qualunque cartella diventa «una delle nostre»",
+   "file": "cervello/round6-applica.mjs",
+   "cerca": "  return String(via || \"\").startsWith(atteso) && String(via) !== atteso;",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+   "lezione": "L-2026-0901-08",
+   "perche_conta": "La regola di AR-900 vale per il CODICE VERO prima che per le prove: li c e il banco a fare da rete, qui non c e niente.",
+   "nota_riaggancio": "Riagganciata il 2026-09-01 sulla FUNZIONE invece che sul punto di chiamata: la prova esegue la funzione, quindi e li che la mutazione deve mordere. Il punto di chiamata lo tiene il caso strutturale, dichiarato come tale."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

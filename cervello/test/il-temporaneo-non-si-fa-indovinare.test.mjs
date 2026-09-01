@@ -44,7 +44,7 @@ import { spawnSync } from "node:child_process";
 import { join, dirname, basename } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { fuoriRepo, scriviInteroONiente } from "../round6-applica.mjs";
+import { fuoriRepo, scriviInteroONiente, miaCartellaDiLavoro } from "../round6-applica.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -130,4 +130,50 @@ test("AR-899 · il guinzaglio della pulizia rifiuta una cartella che non ha crea
   // Se la pulizia si fidasse di quel percorso, cancellerebbe `cervello/`. È già successo.
   assert.match(soloMia(join(REPO, "cervello")) || "", /non è una mia cartella/);
   assert.equal(existsSync(join(REPO, "cervello")), true, "cervello/ è ancora al suo posto");
+});
+
+test("AR-899 · la pulizia riconosce le cartelle sue, e SOLO quelle", () => {
+  // ⚠️ Questo caso è nato leggendo il MIO diff, non da un guasto. `applica()` faceva
+  // `rmSync(dirname(fuoriRepo(...)), { recursive: true })` — la stessa forma che stamattina ha
+  // portato via 956 file quando il banco ha rotto apposta quella funzione. Lì era una prova e c'era
+  // il banco a fare da rete; qui è il codice vero e non c'è nessuna rete.
+  //
+  // La prima stesura di QUESTO caso cercava la riga nel sorgente con una regex: diceva che la
+  // difesa è scritta, non che funziona. Adesso la esegue.
+  const R = "/finto/repo";
+  assert.equal(miaCartellaDiLavoro(join(R, "cervello", "_tmp_round6-Ab3xZ9"), R), true, "una cartella nostra si cancella");
+  for (const no of [
+    join(R, "cervello"),                       // la cartella che è stata cancellata davvero
+    join(R, "cervello", "test"),
+    R,
+    join(R, "pannello", "src"),
+    "/",
+    "",
+  ]) {
+    assert.equal(miaCartellaDiLavoro(no, R), false, `verrebbe cancellata ricorsivamente: ${no || "(vuoto)"}`);
+  }
+  // il prefisso NUDO non basta: sarebbe la cartella che le contiene tutte
+  assert.equal(miaCartellaDiLavoro(join(R, "cervello", "_tmp_round6-"), R), false);
+});
+
+test("AR-899 · e nella vita vera la cartella che `fuoriRepo` crea è riconosciuta come sua", () => {
+  const via = chiediUnTemporaneo();
+  assert.equal(miaCartellaDiLavoro(dirname(via), REPO), true,
+    "il guinzaglio è così stretto che non riconosce nemmeno la cartella che abbiamo appena creato: la pulizia non pulirebbe più niente");
+});
+
+test("AR-899 · …e la pulizia passa DAVVERO dal guinzaglio, non lo tiene in un cassetto", () => {
+  // ⚠️ DICHIARATO PER QUELLO CHE È: questo caso guarda il SORGENTE, non lo esegue. È la forma
+  // debole che questa casa scoraggia, e sta qui lo stesso per una ragione precisa.
+  //
+  // I casi qui sopra provano la FUNZIONE eseguendola, ed è lì che morde la mutazione. Ma restava
+  // scoperto il modo più banale di perdere la difesa: lasciare la funzione giusta e smettere di
+  // chiamarla. Provarlo eseguendo vorrebbe dire far girare `applica()` sul repo VERO — `path` si
+  // compone con `join(AD_ROOT, voce.file)`, che non si lascia dirottare in una cartella usa-e-getta
+  // — cioè rischiare di riscrivere `giro.sh` per provare una pulizia. Non vale il prezzo.
+  //
+  // Quindi: la funzione si esegue, il suo uso si guarda. E si dice quale metà è quale.
+  const src = readFileSync(join(REPO, "cervello/round6-applica.mjs"), "utf8");
+  assert.equal(/rmSync\(dirname\(tmp\),/.test(src) && !/miaCartellaDiLavoro\(dirname\(tmp\)\)/.test(src), false,
+    "la cancellazione ricorsiva è tornata a fidarsi di `dirname(tmp)` senza passare dal guinzaglio");
 });
