@@ -8444,7 +8444,7 @@
    "cerca": "    if (typeof v === \"string\" && CHIAVE_DENTRO_UN_URL.test(v)) { caduti.push(k); continue; }",
    "sostituisci": "    if (false) { caduti.push(k); continue; }",
    "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
-   "nota_riaggancio": "Riagganciata il 2026-08-31 per lo stesso motivo di AR-867 qui sopra: la riga annota il nome caduto per il controllo per gruppo."
+   "nota_riaggancio": "Riagganciata il 2026-08-31: tolto il tetto sulla lunghezza (vedi AR-897, era una difesa che non si poteva provare e comprava un buco). La difesa e la stessa."
   },
   {
    "difetto": "AR-885",
@@ -8615,6 +8615,24 @@
    "sostituisci": "    reale = via;",
    "test": "cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
    "lezione": "Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori."
+  },
+  {
+   "difetto": "AR-897",
+   "nome": "NODE_OPTIONS torna a passare al figlio: --require esegue un file PRIMA della prova ammessa, scavalcando la lista bianca",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    if (COMANDA_IL_FIGLIO.test(k)) { caduti.push(k); continue; }",
+   "sostituisci": "    if (false) { caduti.push(k); continue; }",
+   "test": "cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
+   "lezione": "Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave."
+  },
+  {
+   "difetto": "AR-897",
+   "nome": "il controllo per valore torna quadratico: una variabile lunga blocca il banco per ore",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\\/\\/[^/@\\s:]*:[^/@\\s]+@/i;",
+   "sostituisci": "export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\\/\\/[^/@\\s]*:[^/@\\s]+@/i;",
+   "test": "cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
+   "lezione": "Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

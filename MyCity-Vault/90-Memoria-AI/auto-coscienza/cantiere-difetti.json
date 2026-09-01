@@ -19209,6 +19209,24 @@
         "nota": "Nove casi. Otto provano la funzione (repo, fuori, cartella del registro, collegamento simbolico, file non ancora nato, percorso irrisolvibile, radice inesistente, «..»); il NONO fa girare il BANCO VERO su un registro finto che punta fuori e guarda il bersaglio con un testimone. Il nono e stato aggiunto perche il banco delle mutazioni ha bocciato la prima stesura: togliendo la CHIAMATA dal ciclo e lasciando la funzione intatta, gli otto casi restavano verdi — difendevano una funzione giusta che nessuno chiamava piu. Cioe lo stesso difetto in miniatura. Due mutazioni, tutte e due mordono."
       },
       "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e il banco delle mutazioni, che ha bocciato la mia prima prova perche difendeva la serratura invece della porta"
+    },
+    {
+      "id": "AR-897",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 20:50",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Le «tasche vuote» avevano dentro due cose: una che comanda il figlio e una che fa esplodere il tempo",
+      "sintomo": "① `NODE_OPTIONS` sopravvive ad `ambientePulito()` — misurato sul mio ambiente vero. Node legge le opzioni ANCHE dall ambiente, quindi `NODE_OPTIONS=--require /tmp/mio.cjs` esegue quel file PRIMA della prova ammessa, scavalcando in un colpo tutta la lista bianca di `esecuzione-prova.mjs`. Sopravviveva anche NODE_EXTRA_CA_CERTS. ② Il controllo per VALORE cresceva col quadrato: MISURATO 4,9 ms a 2 KB · 257 ms a 20 KB · 1,0 s a 40 KB · 4,2 s a 80 KB — raddoppiando l ingresso il tempo quadruplica.",
+      "causa_radice": "① La lista nera `NOME_DI_CHIAVE` vede i nomi che DICHIARANO un segreto («KEY», «TOKEN», «AUTH»). `NODE_OPTIONS` non ne contiene nessuno, e vale piu di qualunque chiave: comanda il processo che riceve. Mancava la categoria — non «cosa contiene» ma «cosa puo fare a chi lo riceve». ② `[^/@\\s]*:` e `[^/@\\s]+@` si sovrapponevano: i due punti li puo mangiare tutti e due, quindi su un valore pieno di due punti senza chiocciola il motore prova ogni punto di taglio. E l amplificatore: `ambientePulito()` e un parametro di DEFAULT di `eseguiProva`, quindi si rivaluta a ogni mutazione — 970 volte per corsa.",
+      "fix_proposto": "🟡 FATTO. ① `COMANDA_IL_FIGLIO` — una lista per POTERE accanto a quella per nome: NODE_OPTIONS, NODE_EXTRA_CA_CERTS, BASH_ENV, LD_PRELOAD, npm_config_registry, BASH_FUNC_*. ② I due punti escono dalla prima classe: niente sovrapposizione, niente ritorni indietro. Da 4162 ms a 0,28 ms su 80 KB, e le quattro forme di credenziale si riconoscono ancora tutte mentre i quattro URL puliti passano ancora tutti — verificato in tutte e due le direzioni. ⚠️ HO SCARTATO UNA SECONDA CURA che avevo gia scritto (un tetto di 4 KB sulla lunghezza guardata): col tetto in piedi, rimettere l espressione sbagliata non produce nessun rallentamento misurabile, cioe le due difese si mutano a vicenda in cose che nessuna prova distingue. E non era gratis: un tetto vuol dire che una credenziale scritta oltre il quattromilanovantaseiesimo carattere passa al figlio — un rischio teorico di lentezza comprato al prezzo di un buco vero e silenzioso. Una difesa che si puo provare batte due di cui una e indistinguibile.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
+        "nota": "Sette casi. Quello sul tempo NON fissa un numero di millisecondi — cambia col computer, e una prova cosi diventa rossa per il motivo sbagliato: guarda la FORMA della crescita (raddoppiando l ingresso il tempo non deve quadruplicare). Due casi in direzioni opposte tengono la correttezza: le quattro forme di credenziale restano prese, i quattro URL puliti restano passati — senza il secondo, la cura piu facile sarebbe togliere tutto. Due mutazioni, tutte e due mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto; la misura del tempo l ho rifatta io perche la prima riproduzione, con la forma di ingresso sbagliata, diceva che il difetto non c era"
     }
   ],
   "meta": {

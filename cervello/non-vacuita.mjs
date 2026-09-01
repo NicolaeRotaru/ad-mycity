@@ -431,8 +431,52 @@ export function verdettoCorsa({ status, signal = null, uscita = "", avvio = null
 const NOME_DI_CHIAVE = /SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH|DSN/i;
 
 /** Una credenziale scritta DENTRO un valore: `postgres://utente:password@host/db`, `redis://:pw@…`.
- *  Non si vede dal nome — `DATABASE_URL` non contiene nessuna delle parole qui sopra. */
-const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\/\/[^/@\s]*:[^/@\s]+@/i;
+ *  Non si vede dal nome — `DATABASE_URL` non contiene nessuna delle parole qui sopra.
+ *
+ * ⚠️ LA PRIMA STESURA CI METTEVA QUATTRO SECONDI SU UN VALORE DA 80 KB, e il tempo QUADRUPLICAVA
+ * ogni volta che l'ingresso raddoppiava. MISURATO il 31/8, non ragionato: 4,9 ms a 2 KB · 257 ms a
+ * 20 KB · 1,0 s a 40 KB · 4,2 s a 80 KB.
+ *
+ * Il motivo: `[^/@\s]*:` e `[^/@\s]+@` si SOVRAPPONGONO — i due punti li può mangiare tutti e due,
+ * quindi su un valore pieno di due punti e senza chiocciola il motore prova ogni punto di taglio.
+ * Ed è la peggiore delle amplificazioni: `ambientePulito()` è un parametro di default di
+ * `eseguiProva`, quindi si rivaluta a OGNI mutazione — 970 volte per corsa. Il banco non finirebbe
+ * più, e un banco che non finisce lascia il cancello cieco.
+ *
+ * Due cure, tutte e due necessarie:
+ *   ① i due punti escono dalla prima classe (`[^/@\s:]`): niente sovrapposizione, niente
+ *      backtracking. Resta corretta — nella parte «utente» di un URL i due punti SONO il
+ *      separatore, quindi non ce ne possono stare; `redis://:pw@…` ha l'utente vuoto, ed è per
+ *      questo che è `*` e non `+`;
+ * LA SECONDA CURA CHE HO SCARTATO, e perché — un tetto alla lunghezza guardata (i primi 4 KB).
+ * L'avevo scritta, poi il banco delle mutazioni mi ha fatto notare che non si poteva provare: col
+ * tetto in piedi, rimettere l'espressione sbagliata non produce nessun rallentamento misurabile,
+ * perché nessun valore arriva mai abbastanza lungo. Due difese di cui una copre l'altra si
+ * mutano a vicenda in cose che nessuna prova può distinguere.
+ *
+ * E guardandola meglio non era gratis: un tetto vuol dire che una credenziale scritta OLTRE il
+ * quattromilanovantaseiesimo carattere passerebbe al figlio. Cioè comprava un rischio teorico di
+ * lentezza al prezzo di un buco vero, per giunta silenzioso. Con l'espressione sistemata un valore
+ * da 400 KB costa un millisecondo e mezzo: il tetto non serviva a niente.
+ *
+ * Una difesa che si può provare batte due di cui una è indistinguibile.
+ */
+export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\/\/[^/@\s:]*:[^/@\s]+@/i;
+
+
+/**
+ * Nomi che nessuna parola-chiave prende, e che comandano comunque il processo figlio. AR-897.
+ *
+ * `NODE_OPTIONS` non contiene nessuna delle parole di `NOME_DI_CHIAVE`, e node le opzioni le legge
+ * ANCHE dall'ambiente: `NODE_OPTIONS=--require /tmp/mio.cjs` esegue quel file PRIMA della prova
+ * ammessa, scavalcando in un colpo tutta la lista bianca di `esecuzione-prova.mjs`. Misurato.
+ *
+ * Onestà sul peso, perché conta per capire quanto è grave: chi può scrivere `NODE_OPTIONS` nel
+ * processo PADRE ha già l'esecuzione, quindi non è un varco nuovo. È difesa in profondità che
+ * mancava — e il commento qui sopra promette «se un comando ostile arriva fin qui, deve trovare le
+ * tasche vuote». Le tasche non lo erano.
+ */
+const COMANDA_IL_FIGLIO = /^(NODE_OPTIONS|NODE_REPL_EXTERNAL_MODULE|NODE_EXTRA_CA_CERTS|BASH_ENV|ENV|LD_PRELOAD|LD_LIBRARY_PATH|PYTHONSTARTUP|npm_config_registry|npm_config_.*script.*|BASH_FUNC_.*)$/i;
 
 /**
  * Le variabili che arrivano in GRUPPO, dove togliere un pezzo rompe tutto il resto.
@@ -482,6 +526,8 @@ export function ambientePulito(env = process.env) {
     // URL pubblici (`MARKETPLACE_SUPABASE_URL` non ha nessuna credenziale dentro) e toglie solo
     // quelli che una credenziale ce l'hanno davvero. Una prova non ha bisogno di nessuna delle due.
     if (typeof v === "string" && CHIAVE_DENTRO_UN_URL.test(v)) { caduti.push(k); continue; }
+    // ③ per POTERE — vedi COMANDA_IL_FIGLIO: non è una chiave, ma comanda chi la riceve.
+    if (COMANDA_IL_FIGLIO.test(k)) { caduti.push(k); continue; }
     pulito[k] = v;
   }
   // ③ per GRUPPO — vedi sopra: chi resta di un gruppo mutilato se ne va con gli altri.
