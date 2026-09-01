@@ -35,9 +35,8 @@
 //   node cervello/round6-applica.mjs            -> mostra cosa cambierebbe, NON scrive
 //   node cervello/round6-applica.mjs --applica  -> scrive (dopo aver verificato la sintassi)
 
-import { existsSync, readFileSync, writeFileSync, unlinkSync } from "node:fs";
-import { join, basename } from "node:path";
-import { tmpdir } from "node:os";
+import { existsSync, readFileSync, writeFileSync, unlinkSync, mkdtempSync, renameSync, rmSync } from "node:fs";
+import { join, basename, dirname } from "node:path";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
 
@@ -57,11 +56,40 @@ const APPLICA = process.argv.includes("--applica");
  * l'originale in un secondo, senza lasciare niente in giro. Una rete di sicurezza che duplica una
  * rete già esistente e in più sporca il repo non è prudenza, è disordine.
  *
- * Quindi: la copia non si scrive più, e il file di prova nasce in /tmp. Dentro il repo entra solo
- * il file che stiamo davvero modificando.
+ * Quindi: la copia non si scrive più, e il file di prova non nasce accanto all'originale.
+ *
+ * ─────────────────────────────────────────────────────────────────────────────
+ * 🔒 SECONDO GIRO, 31/8 — /tmp ERA LA CURA SBAGLIATA, e per due motivi diversi
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Il nome era PREVEDIBILE — `/tmp/round6-prova-giro.sh` — in una cartella dove scrive chiunque.
+ * Chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, col contenuto che vuole,
+ * da un processo che gira come root: `writeFileSync` segue il collegamento. Misurato dal collaudo
+ * di sicurezza, che si è fatto riscrivere un file suo con dentro un `giro.sh`.
+ *
+ * E la scrittura finale su `giro.sh` non era ATOMICA. Se il processo muore in mezzo, il ciclo
+ * principale della macchina resta troncato. È vero che il repo è git e `git checkout --` lo
+ * rimette — è l'argomento con cui questo stesso file ha tolto la copia di sicurezza — ma sul VPS
+ * il giro successivo parte da un file che non c'è più, e chi lo rimette deve prima accorgersene.
+ *
+ * La cura vale per tutt'e due: si lavora in una cartella PRIVATA e IGNORATA da git.
+ * `cervello/_tmp_*` è già in `.gitignore` (righe 41 e 44, verificato: `git status` non lo vede),
+ * quindi lo spazzino del ritmo non lo raccoglie — che era il difetto del 25/7 — e insieme si può
+ * fare `renameSync`, che è atomico solo se il temporaneo sta sullo STESSO disco del bersaglio.
+ * `/tmp` non lo garantisce; una cartella del repo sì. La prima cura aveva scelto il posto giusto
+ * per il problema di allora e sbagliato per questi due.
  */
 export function fuoriRepo(file, suffisso) {
-  return join(tmpdir(), `round6-${suffisso}-${basename(file)}`);
+  // `mkdtempSync` mette sei caratteri casuali nel nome: un collegamento non si può piazzare prima,
+  // perché il nome non esiste finché non lo crea questo processo, con i permessi di solo-noi.
+  const casa = mkdtempSync(join(AD_ROOT, "cervello", "_tmp_round6-"));
+  return join(casa, `${suffisso}-${basename(file)}`);
+}
+
+/** Scrive senza poter lasciare un file a metà: prima accanto, poi uno spostamento atomico. */
+export function scriviInteroONiente(via, testo) {
+  const provvisorio = join(dirname(via), `_tmp_${basename(via)}.${process.pid}`);
+  writeFileSync(provvisorio, testo, "utf8");
+  renameSync(provvisorio, via);
 }
 
 const BLOCCO_TEST = `
@@ -268,14 +296,14 @@ function lavora(voce) {
     const tmp = fuoriRepo(voce.file, "prova");
     writeFileSync(tmp, out, "utf8");
     const check = spawnSync(voce.verifica[0], [...voce.verifica.slice(1), tmp], { encoding: "utf8" });
-    unlinkSync(tmp);
+    rmSync(dirname(tmp), { recursive: true, force: true });
     if (check.status !== 0) {
       console.error(`   ❌ il risultato non passa \`${voce.verifica.join(" ")}\` — non lo scrivo.`);
       console.error(check.stderr || "");
       return false;
     }
   }
-  writeFileSync(path, out, "utf8");
+  scriviInteroONiente(path, out);
   // Niente copia di sicurezza accanto all'originale: il repo È git. Per tornare indietro basta
   // `git checkout -- <file>`, e lo diciamo qui invece di lasciare un file in giro.
   console.log(`   ✅ scritto  (per annullare: git checkout -- ${voce.file})`);

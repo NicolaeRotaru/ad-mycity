@@ -617,6 +617,37 @@ export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout =
   return { ...ultimo, avvio: null };
 }
 
+/**
+ * 🩹 QUANTI FILE TRACCIATI MANCANO DALL'ALBERO DI LAVORO, adesso. AR-900.
+ *
+ * ⚠️ PERCHÉ ESISTE, e non è un'ipotesi: il 31/8 una corsa di questo banco ha cancellato 956 file —
+ * tutta la cartella `cervello/`. Non per un difetto del banco: per una PROVA. La prova di AR-899
+ * faceva pulizia con `rmSync(dirname(fuoriRepo(...)), { recursive: true })`, cioè cancellava una
+ * cartella il cui nome veniva dalla funzione sotto esame. È esattamente ciò che il banco fa di
+ * mestiere: ROMPE quella funzione. Rotta, tornava un percorso dentro il repo, e la pulizia ha
+ * portato via il repo.
+ *
+ * Quello che ho visto io in quel momento è stato un `ENOENT` con lo stack: nessuna riga diceva che
+ * mancavano novecentocinquantasei file. Questo censimento esiste perché la prossima volta la
+ * PRIMA riga lo dica.
+ *
+ * LA REGOLA CHE NE ESCE, e vale per ogni prova di questa casa: **non si cancella mai una cartella
+ * il cui nome viene dal codice che si sta provando.** Sotto un banco che rompe apposta, un percorso
+ * calcolato dal codice sotto esame è un percorso ostile. Misurato sulle 441 prove di oggi: nessuna
+ * lo fa più. Questo guardiano non cerca quel pezzo di codice — cerca il DANNO, che è la sola cosa
+ * che si vede anche quando la forma è nuova.
+ *
+ * Torna `null` se non ho potuto contare (niente git, niente repo): ⚪, non un via libera.
+ */
+export function fileCancellati(lancia = spawnSync, cwd = AD_ROOT) {
+  const r = lancia("git", ["status", "--porcelain", "--"], { cwd, encoding: "utf8", timeout: 30_000 });
+  if (r.error || r.status !== 0) return null;
+  return `${r.stdout || ""}`
+    .split("\n")
+    .filter((riga) => /^ ?D /.test(riga))
+    .map((riga) => riga.slice(3).trim());
+}
+
 function main() {
   // PRIMA di tutto: la corsa precedente è arrivata in fondo? (AR-708) — e prima anche del controllo
   // sui mutanti, perché un file lasciato rotto va rimesso a posto anche quando questa corsa non ha
@@ -654,6 +685,10 @@ function main() {
     console.error(`non-vacuita: nessuna mutazione${quale} → non posso misurare`);
     process.exit(2);
   }
+
+  // AR-900: com'era l'albero PRIMA. Se dopo mancano dei file che prima c'erano, l'ha fatto una
+  // prova mentre girava — e va detto in chiaro, non lasciato scoprire da uno stack trace.
+  const cancellatiPrima = fileCancellati();
 
   const esiti = [];
   for (const m of elenco) {
@@ -697,6 +732,24 @@ function main() {
       togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più
       IN_CORSO.stato = null;
     }
+  }
+
+  // AR-900 — il danno collaterale, prima di qualunque verdetto: un banco che ha portato via dei
+  // file non ha «misurato con qualche effetto collaterale», ha rotto la casa in cui misurava.
+  const cancellatiDopo = fileCancellati();
+  const nuoviCancellati =
+    cancellatiPrima === null || cancellatiDopo === null
+      ? null
+      : cancellatiDopo.filter((f) => !cancellatiPrima.includes(f));
+  if (nuoviCancellati === null) {
+    console.error("⚪ non ho potuto contare i file dell'albero di lavoro (git non risponde): se una prova ne ha cancellati, questa corsa non se n'è accorta.");
+  } else if (nuoviCancellati.length) {
+    console.error(`\n⛔ QUESTA CORSA HA CANCELLATO ${nuoviCancellati.length} FILE CHE PRIMA C'ERANO.`);
+    console.error("   Non è stato il banco: è stata una PROVA, mentre girava col fix rotto. Una prova non");
+    console.error("   deve mai cancellare una cartella il cui nome viene dal codice che sta provando.");
+    for (const f of nuoviCancellati.slice(0, 10)) console.error(`   · ${f}`);
+    if (nuoviCancellati.length > 10) console.error(`   · …e altri ${nuoviCancellati.length - 10}`);
+    console.error(`\n   Per rimetterli: git restore ${[...new Set(nuoviCancellati.map((f) => f.split("/")[0]))].join(" ")}\n`);
   }
 
   const vacue = esiti.filter((e) => e.verdetto === "vacua");

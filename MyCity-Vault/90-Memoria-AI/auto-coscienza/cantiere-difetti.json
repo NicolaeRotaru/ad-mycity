@@ -19245,6 +19245,42 @@
         "nota": "Nove casi. Quello che conta di piu e il secondo: non guarda una compattazione ma UNDICI di fila, perche il difetto non era «sbaglia di uno» ma «l errore si somma» — con una compattazione sola sarebbe passato quasi inosservato. Piu il caso all incontrario: dopo l avvelenamento, l uso di oggi deve arrivare DAVVERO nel diario, non solo essere dichiarato. E l ultimo tiene i quattro contratti che gli altri strumenti si aspettano da questo campo. Tre mutazioni, tutte e tre mordono."
       },
       "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito"
+    },
+    {
+      "id": "AR-899",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 22:10",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare, in una cartella dove scrive chiunque",
+      "sintomo": "`round6-applica.mjs` riscrive `cervello/giro.sh` e prima ne prova la sintassi su una copia chiamata `/tmp/round6-prova-giro.sh`. Il collaudo di sicurezza ci ha messo prima un collegamento simbolico e si e fatto riscrivere un file suo col contenuto di un giro.sh, da un processo che gira come root — `writeFileSync` segue il collegamento. E la scrittura finale su giro.sh non era atomica: un processo che muore in mezzo lascia il ciclo principale troncato.",
+      "causa_radice": "La cura del 25/7 aveva spostato il temporaneo in /tmp per una ragione giusta — lo spazzino del ritmo fa `git add -A` e si sarebbe portato dentro il file per sempre — ma /tmp non e «fuori dai piedi»: e una cartella pubblica con un nome che si indovina. E il posto sbagliato anche per la seconda meta: `renameSync` e atomico solo se il provvisorio sta sullo STESSO disco del bersaglio, e /tmp non lo garantisce. La prima cura aveva scelto il posto giusto per il problema di allora e sbagliato per questi due.",
+      "fix_proposto": "🟡 FATTO: `mkdtempSync` in `cervello/_tmp_round6-XXXXXX` — sei caratteri casuali, cartella creata solo da questo processo, quindi un collegamento non si puo piazzare prima; e `cervello/_tmp_*` e gia in .gitignore (righe 41 e 44, verificato: `git status` non lo vede), quindi lo spazzino non lo raccoglie. Stesso disco del bersaglio, quindi `scriviInteroONiente` puo fare rename atomico su giro.sh.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+        "nota": "Sei casi, e uno tiene la PREMESSA invece del fix: che `writeFileSync` segua davvero i collegamenti simbolici. Se node cambia comportamento quel caso diventa verde e tutto il ragionamento va rivisto — meglio scoprirlo da una prova che da un ricordo. Piu il caso sul guinzaglio della pulizia (vedi AR-900). Due mutazioni, tutte e due mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto"
+    },
+    {
+      "id": "AR-900",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 22:30",
+      "area": "macchina",
+      "nato_come": "riparare",
+      "titolo": "Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace",
+      "sintomo": "Una corsa del banco delle mutazioni ha portato via tutta la cartella `cervello/` — 956 file tracciati. Sullo schermo e comparso un ENOENT con lo stack: nessuna riga diceva che mancavano novecentocinquantasei file, l ho scoperto guardando `ls`. I file sono tornati da git, ma e stato un ripristino, non un fastidio — e ha richiesto un permesso esplicito di Nicola perche il comando di recupero era bloccato.",
+      "causa_radice": "Non e stato il banco: e stata una PROVA, la mia, scritta dieci minuti prima per AR-899. Faceva pulizia con `rmSync(dirname(fuoriRepo(...)), { recursive: true })`, cioe cancellava una cartella il cui nome veniva dalla funzione SOTTO ESAME. Ed e esattamente cio che il banco fa di mestiere: rompe quella funzione. Rotta, tornava un percorso dentro il repo, e la pulizia ha portato via il repo. La regola che ne esce vale per ogni prova di questa casa: sotto un banco che rompe apposta, un percorso calcolato dal codice sotto esame e un percorso OSTILE — si cancella solo cio che la prova ha creato da se, con un percorso che conosce indipendentemente.",
+      "fix_proposto": "🟡 FATTO, due cose. ① La prova di AR-899 ha un guinzaglio: `mieCartelle` raccoglie solo quelle create da lei, e `soloMia()` rifiuta qualunque percorso che non sia nell elenco — lo stesso guinzaglio vale per la scrittura. ② Il banco fa un censimento dell albero PRIMA e DOPO il ciclo delle mutazioni, e se dei file tracciati sono spariti lo dice in chiaro, con l elenco e il comando per rimetterli. ⚠️ NON ho scritto uno scanner che cerca il pezzo di codice, ed e una scelta misurata: ho contato le 441 prove di oggi e quante cancellano ricorsivamente un percorso calcolato dal codice sotto esame sono ZERO (l unica segnalata era il commento che descrive la forma vecchia). Un guardiano su una popolazione di zero difende dalla forma che conosco e non dalla prossima; il danno invece si vede comunque.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+        "nota": "Sette casi, e cancellano DAVVERO: ogni caso costruisce un repo git vero e piccolo in una cartella temporanea e ci porta via dei file, invece di simulare l uscita di git. Tre casi tengono i falsi allarmi (una modifica non e una cancellazione, un file nuovo neanche) perche un guardiano che grida al lupo a ogni corsa si impara a spegnere; uno tiene il ⚪ (git che non risponde non vale «non manca niente»); l ultimo guarda il repo VERO adesso. Due mutazioni, tutte e due mordono."
+      },
+      "trovato_da": "me stessa, cancellando il repo con una prova che avevo appena scritto"
     }
   ],
   "meta": {

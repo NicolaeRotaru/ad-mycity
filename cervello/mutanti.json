@@ -8660,6 +8660,42 @@
    "sostituisci": "  if (false) return { ...u, volte };",
    "test": "cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
    "lezione": "Lo spread di una primitiva non e un no-op: la sparge indice per indice."
+  },
+  {
+   "difetto": "AR-899",
+   "nome": "il temporaneo torna ad avere un nome prevedibile in una cartella dove scrive chiunque",
+   "file": "cervello/round6-applica.mjs",
+   "cerca": "  const casa = mkdtempSync(join(AD_ROOT, \"cervello\", \"_tmp_round6-\"));",
+   "sostituisci": "  const casa = join(AD_ROOT, \"cervello\", \"_tmp_round6-fisso\");",
+   "test": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+   "lezione": "Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root."
+  },
+  {
+   "difetto": "AR-899",
+   "nome": "la scrittura del ciclo principale torna a poter lasciare un file a meta",
+   "file": "cervello/round6-applica.mjs",
+   "cerca": "  renameSync(provvisorio, via);",
+   "sostituisci": "  writeFileSync(via, testo, \"utf8\");",
+   "test": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+   "lezione": "renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp."
+  },
+  {
+   "difetto": "AR-900",
+   "nome": "il censimento torna a non vedere i file spariti: una prova puo portare via il repo in silenzio",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    .filter((riga) => /^ ?D /.test(riga))",
+   "sostituisci": "    .filter(() => false)",
+   "test": "cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+   "lezione": "Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale."
+  },
+  {
+   "difetto": "AR-900",
+   "nome": "git che non risponde torna a valere «non manca niente» invece di «non ho potuto contare»",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (r.error || r.status !== 0) return null;",
+   "sostituisci": "  if (r.error || r.status !== 0) return [];",
+   "test": "cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+   "lezione": "«Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."
