@@ -19360,23 +19360,20 @@
     },
     {
       "id": "AR-904",
-      "gravita": "grave",
-      "stato": "chiuso",
+      "gravita": "minore",
+      "stato": "aperto",
       "nato": "2026-09-01 16:45",
-      "chiuso_il": "2026-09-01 16:55",
       "area": "macchina",
       "nato_come": "scoperta",
-      "titolo": "La prova diceva a parole «non posso guardare» e poi tornava rossa lo stesso",
+      "titolo": "La prova dice a parole «non posso guardare» e torna rossa lo stesso — e la cura ovvia costa piu di quello che rende",
       "sintomo": "Due prove dello schermo — c2-schermo e c4-schermo-coda — sono diventate ROSSE nella suite. Il motivo: `Error: listen EADDRINUSE: address already in use 0.0.0.0:3939`. Tre `next dev` erano rimasti orfani sulla porta dopo il riavvio del contenitore, e non rispondevano nemmeno. Il messaggio della prova diceva gia «non posso guardare, quindi non posso dire che e a posto» — e poi tornava rosso.",
       "causa_radice": "`aiuto-pannello.mjs` lega il server a chi l ha acceso e dichiara nel suo commento l unico caso che quel guinzaglio non copre: SIGKILL sul processo padre. Quel caso e successo. Ma un indirizzo occupato non e MAI un difetto della pagina che si stava provando: e «qualcun altro ha la porta, non sono nemmeno arrivata a guardare». Mancava la voce nella lista delle cecita d ambiente — quella che gia conosce «next non installato», «bats non installato», «il browser non e scaricato».",
-      "fix_proposto": "🟡 FATTO: una voce in `IMPRONTE_CECITA` (cervello/ambiente-prova.mjs), che e la casa unica letta sia dalla suite sia dal banco delle mutazioni — quindi la regola non nasce gia in due copie. ⚠️ IL RISCHIO DELL ALTRO VERSO, dichiarato: se un server morto resta li per sempre, quelle prove restano ⚪ per sempre. Non sparisce pero — il banco conta i ⚪ e scrive «N non misurati: non danno garanzie», che e esattamente il punto di avere un terzo esito invece di due.",
+      "fix_proposto": "🔴 CURA TENTATA, MISURATA E RITIRATA — e vale la pena scrivere perche. Avevo aggiunto una voce in `IMPRONTE_CECITA` per far valere ⚪ una porta occupata. Funzionava, con prova e mutazione. Poi il guardiano `prove-costose-in-fila` e diventato rosso, e il suo caso di CONTROLLO diceva esattamente il problema: fa girare apposta due prove che si contendono la porta SENZA il segno del costo, e pretende che il banco ne dichiari una «instabile». Con la mia voce diventavano ⚪, cioe il difetto spariva. MISURATO in tutt e due i versi: senza la voce il controllo passa, con la voce fallisce. Due situazioni diverse che il testo non distingue — «un orfano di una corsa precedente tiene la porta» (⚪ giusto) e «due prove di QUESTA corsa se la contendono» (difetto vero, ed e il motivo per cui esiste la serializzazione di AR-725). Ho ritirato tutto: la voce, i tre casi di prova, le due mutazioni. Un rimedio che zittisce un guardiano costa piu del falso rosso che evita — e quel falso rosso me l ero procurato da sola lasciando in giro tre `next dev` orfani. LA CURA STRETTA, per chi la vorra: la decisione deve stare in `test-cervello.mjs`, che SA se ha lanciato lui qualcosa in parallelo; `cecitaDaAmbiente` e una funzione pura sul testo e quel contesto non ce l ha. Non l ho fatta perche vuol dire passare contesto in un punto caldo condiviso con `non-vacuita.mjs`, e non la volevo infilare a fine giornata dentro un lotto che parla d altro.",
       "verifica": {
-        "tipo": "comando",
-        "comando": "node cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
-        "nota": "Tre casi nuovi (16 in tutto, exit 0), e il secondo tiene il verso opposto: un fallimento VERO della pagina deve restare rosso, altrimenti la cura piu comoda sarebbe dichiarare cieco tutto cio che non passa. Il terzo controlla che le tre cecita che c erano prima non siano state toccate. Una mutazione, morde."
+        "tipo": "umano",
+        "nota": "NESSUN comando, ed e giusto cosi: non c e un fix da provare. La cura l ho scritta, provata e RITIRATA (vedi fix_proposto), quindi non esiste una prova che diventi rossa se il difetto non e riparato — perche il difetto non e riparato. ⚠️ Chi riprovera questa strada deve sapere DOVE si rompe: `node --test cervello/test/prove-costose-in-fila.test.mjs`, il caso «le stesse due prove SENZA il segno del costo si pestano davvero». Quel caso e verde solo finche una porta occupata resta un difetto invece di diventare un ⚪. Misurato in tutt e due i versi il 1/9: senza la voce nelle impronte passa, con la voce fallisce. La cura stretta va provata li dentro, non altrove."
       },
-      "chiuso_come": "node cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs → 16 casi, exit 0. Una mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-904). E le due prove che erano rosse, rilanciate a porta libera: c2-schermo 6 casi verdi, c4-schermo-coda 5 casi verdi — cioe il difetto era davvero l ambiente e non la pagina.",
-      "trovato_da": "due prove rosse nella suite, seguite fino alla causa invece di essere rilanciate finche passavano"
+      "trovato_da": "due prove rosse nella suite; la cura l ha bocciata il guardiano delle prove costose, con un caso di controllo scritto apposta per questo"
     },
     {
       "id": "AR-905",

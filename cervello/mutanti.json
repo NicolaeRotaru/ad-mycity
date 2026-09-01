@@ -8755,15 +8755,6 @@
    "perche_conta": "Un guardiano che chiede una riga di configurazione invece della proprieta che nomina puo restare rosso per un mese senza difendere niente. La proprieta si prova ESEGUENDOLA."
   },
   {
-   "difetto": "AR-904",
-   "nome": "una porta occupata torna a valere «la pagina e rotta»: due prove rosse per un server orfano",
-   "file": "cervello/ambiente-prova.mjs",
-   "cerca": "  { re: /EADDRINUSE[^\\n]*(:39\\d\\d|address already in use)/i, motivo: \"la porta del Pannello è tenuta da un altro processo (di solito un server rimasto orfano da una corsa uccisa): non sono arrivata ad accendere il Pannello\", comando: \"ps aux | grep '[n]ext dev'  →  kill dei pid trovati, poi rilancia\" },",
-   "sostituisci": "",
-   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
-   "perche_conta": "Il messaggio diceva gia a parole «non posso guardare» e poi tornava rosso lo stesso: la parola e il verdetto devono dire la stessa cosa."
-  },
-  {
    "difetto": "AR-905",
    "nome": "l avviso del debito torna a non dire di quale famiglia parla: due misure diverse con lo stesso nome",
    "file": "cervello/cancello-lotto.mjs",
