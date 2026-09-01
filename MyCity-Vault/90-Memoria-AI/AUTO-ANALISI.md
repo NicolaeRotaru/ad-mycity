@@ -1,3 +1,35 @@
+# 🔬 AUTO-ANALISI — 2026-09-01 10:35
+
+## Quinto passaggio, un giro di perlustrazione richiesto in chat
+
+Il sensore automatico ha riletto i dati poco prima di questo passaggio (10:20-10:27). Il risultato
+è identico al passaggio delle 08:30. `orders` resta 1 riga, 0 pagati. Il sito resta HTTP 503, 215
+giri ciechi. Non ho rifatto nuove query dirette via MCP in questo passaggio: i comandi `node`
+richiesti oltre a `coerenza-fatti.mjs` e `chiusura-loop.mjs` non sono stati approvati in Bash. Mi
+sono appoggiato al sensore REST, già fresco.
+
+L'unica novità reale: la PR #860 è passata da "in corso" a rossa. Ora sono 6 PR aperte, tutte e 6
+rosse, 0 ereditate. Non l'ho toccata. Nessuna delle sei sblocca il primo ordine pagato. Il gate
+North-Star vieta lavoro sulla macchina che non sblocchi una card business.
+
+Nessuna azione nuova aperta. Le quattro carte in coda restano invariate: `#154`/`#155`
+(dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
+(scadenza del 29/8 sul cantiere, ancora senza risposta).
+
+Ho anche fatto un collaudo del lavoro di oggi, non solo di questo passaggio. Un cancello mi ha
+segnalato 7 file con troppe frasi lunghe: `STATO.md`, questo file, e 5 file di `Intelligence/`.
+Le ho rilette e spezzate in frasi più corte, una idea per frase, senza togliere numeri o fonti.
+
+## Voto di fiducia: 82/100
+
+▼1 punto dal passaggio delle 06:55 (83). Non per un errore di business: il calo riflette che in
+questo passaggio ho verificato meno in prima persona (solo il sensore REST già pronto, non nuove
+query mie). Dichiarato come limite, non nascosto.
+
+---
+
+## Passaggio precedente (06:55)
+
 # 🔬 AUTO-ANALISI — 2026-09-01 06:55
 
 ## Terzo passaggio, un giro di perlustrazione richiesto in chat
@@ -18,8 +50,8 @@ Ho aggiornato anche `OKR-Squadra.md`. Lo stallo North Star è salito da 68 a 69 
 anche la data della pausa concordata, il 24/8-1/9. Quella pausa si conclude proprio oggi. Se
 l'avessi lasciata scritta, al prossimo giro sarebbe sembrata un "target scaduto" senza motivo.
 
-Nessuna azione nuova aperta. Due gate tengono il giro deliberatamente stretto: il gate North-Star
-(stallo ≥3gg) e il letargo RISPARMIO (salute macchina 4/100). Le carte in coda restano `#154`/`#155`
+Nessuna azione nuova aperta. Due gate tengono il giro deliberatamente stretto. Il primo è il gate
+North-Star: stallo ≥3gg. Il secondo è il letargo RISPARMIO: salute macchina 4/100. Le carte in coda restano `#154`/`#155`
 (dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
 (scadenza del 29/8 sul cantiere, ancora senza risposta).
 
@@ -93,9 +125,9 @@ Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né 
 >
 > Trovata e corretta un'incoerenza interna in `registro-fatti.json`: il campo titolo di
 > `cantiere.scadenza-zero` diceva ancora "29 settembre 2026", un refuso mai allineato dopo che
-> Nicola aveva corretto la data in "29 agosto" il 23/8. Non è una nuova entità, è un fix di
-> metadato — ma un titolo sbagliato in un registro che si chiama "fonte unica della verità" è
-> esattamente il tipo di incoerenza che AR-102 vuole evitare.
+> Nicola aveva corretto la data in "29 agosto" il 23/8. Non è una nuova entità: è un fix di
+> metadato. Ma un titolo sbagliato in un registro che si chiama "fonte unica della verità" conta.
+> È esattamente il tipo di incoerenza che AR-102 vuole evitare.
 >
 > Due gate erano attivi: North-Star (0 ordini pagati oltre soglia 3gg) e letargo RISPARMIO.
 > Insieme dicono la stessa cosa: nessuna ricerca nuova, nessun fix di macchina che non sia
@@ -103,9 +135,9 @@ Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né 
 
 ## Voto di fiducia: 83/100
 
-> ▼1 punto dal passaggio del 28/8 (84). Non per un errore trovato nella verifica: il calo riflette
-> che una scadenza fissata da Nicola stesso (29/8) è passata senza che questo giro l'abbia
-> riverificata punto per punto — un gap di copertura dichiarato, non un fatto sbagliato.
+> ▼1 punto dal passaggio del 28/8 (84). Non per un errore trovato nella verifica. Il calo riflette
+> un'altra cosa: Nicola stesso aveva fissato una scadenza, il 29/8. È passata. Questo giro non
+> l'ha riverificata punto per punto. È un gap di copertura dichiarato, non un fatto sbagliato.
 
 ## Ricontrollo prima di dire «fatto» — 31/8 21:05
 

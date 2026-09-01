@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-01 10:27",
+      "byte_prima": 1126526,
+      "byte_dopo": 1012794,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-38",
+            "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + mark"
+          },
+          {
+            "id": "L-2026-0701-35",
+            "testo": "**Caso-studio Nicola (1/7 11:29 — card SQL 107):** «L'ho approvato, perché mi chiede di nu"
+          },
+          {
+            "id": "L-2026-0701-34",
+            "testo": "**«Ok deploy Sprint 1» — verifica prod prima di ridistribuire (Nicola 1/7 11:10):** dopo m"
+          },
+          {
+            "id": "L-2026-0701-32",
+            "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 + 11:00 — due merge consecutivi):** dopo «o"
+          },
+          {
+            "id": "L-2026-0701-30",
+            "testo": "**Nicola 1/7 10:13 — ordine zombie €19,05:** «aggiungimi A o B, anzi che approva o ignora»"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-09-01 08:28",
       "byte_prima": 1134042,
       "byte_dopo": 1019141,

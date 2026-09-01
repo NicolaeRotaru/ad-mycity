@@ -1,8 +1,40 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 08:30
+aggiornato: 2026-09-01 10:35
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 10:35 — Giro di perlustrazione: quinta foto identica, un buco in più nella CI.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Il sensore automatico ha rifatto la lettura diretta poco prima di questo
+> passaggio (10:20-10:27): stesso quadro esatto delle 08:30. 1 negozio vero, 1 ordine mai pagato,
+> 0 clienti nuovi, 5 prodotti, sito ancora HTTP 503 (215 giri ciechi consecutivi). Stallo North
+> Star fermo a **69 giorni**. Il "clienti 7→8" che ha fatto scattare il giro pieno è lo stesso
+> cliente del 21/8 già spiegato nei passaggi precedenti — baseline indietro, non crescita vera.
+>
+> **L'unica cosa nuova.** La PR #860 (ieri "in corso") ora risulta rossa anche lei: sono **6 PR
+> aperte, tutte e 6 rosse**, tutte "colpa loro" (il guasto è nato sullo stesso ramo, non ereditato
+> da main). Nessuna delle sei sblocca il primo ordine pagato, quindi il gate North-Star vieta di
+> aprirle in questo passaggio: lo segno come rischio, non come azione nuova.
+>
+> **Cosa ho fatto io in questo passaggio.** Solo verifica. `coerenza-fatti.mjs` è pulito, 0 copie
+> vecchie. Nessuna carta nuova in coda.
+>
+> **In coda restano le stesse quattro carte.** #154 e #155: dominio e chiavi Vercel. #182:
+> pagamenti di Pane Quotidiano. #184: migrazioni del database. #185: scadenza del 29/8.
+>
+> **Il letargo resta in RISPARMIO** (quota AI al 51%, salute macchina 4 su 100). Niente contenuti
+> pesanti. Niente esperimenti nuovi. Niente radiografia completa. Solo il nucleo vitale.
+>
+> **Cosa non ho verificato.** Quattro cose, punto per punto.
+> - Le quattro voci della scadenza del 29/8.
+> - Il sito aperto in un browser vero (ho solo lo stato HTTP dal sensore).
+> - Lo stato Stripe specifico di Pane Quotidiano (riporto la baseline del 24/8).
+> - Consegne, carrelli e recensioni con query dirette: non le ho rifatte in questo passaggio.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 

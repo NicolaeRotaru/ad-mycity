@@ -762,3 +762,8 @@ Esempi:
 - 2026-09-01 08:30 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-09-01.md (TL;DR fresco in cima, passaggio precedente conservato sotto), ultimo-briefing.json.
 - 2026-09-01 08:30 · @ad · FATTO · `coerenza-fatti.mjs`: memoria coerente, 0 copie vecchie.
 - 2026-09-01 08:30 · @ad · PASSO-A · @Nicola — stesse 4 domande aperte, invariate: firma dominio+chiavi Vercel (#154/#155), scegli strada su pagamenti PQ (#182), scegli strada su migrazioni DB (#184), dì se riaprire il cantiere per la scadenza del 29/8 (#185).
+- 2026-09-01 10:35 · @ad · FATTO · Giro di perlustrazione (quinto passaggio in ~16 ore): sensore REST già riletto da giro.sh (10:20-10:27) — ordini/clienti/prodotti/sito bit-per-bit identici alle 08:30. Nessuna nuova query MCP diretta in questo passaggio (comandi node bloccati da approvazione oltre coerenza-fatti/chiusura-loop). Stallo North Star fermo a 69 giorni.
+- 2026-09-01 10:35 · @ad · FATTO · Novità unica: PR #860 passata da "in corso" a rossa — ora 6 PR aperte, tutte e 6 rosse (0 ereditate). Non toccata: nessuna sblocca il primo ordine pagato (vincolo North-Star).
+- 2026-09-01 10:35 · @ad · FATTO · `coerenza-fatti.mjs`: memoria coerente, 0 copie vecchie. `chiusura-loop.mjs --sonda`: 116 quaderni fermi >7gg, nessuno di un reparto attivo in questo passaggio, nessuna riga ESITO dovuta.
+- 2026-09-01 10:35 · @ad · FATTO · Aggiornati STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json.
+- 2026-09-01 10:35 · @ad · PASSO-A · @Nicola — stesse 4 domande aperte, invariate: firma dominio+chiavi Vercel (#154/#155), scegli strada su pagamenti PQ (#182), scegli strada su migrazioni DB (#184), dì se riaprire il cantiere per la scadenza del 29/8 (#185).

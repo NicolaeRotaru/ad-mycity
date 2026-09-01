@@ -1,69 +1,58 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-01 06:55",
-  "voto_fiducia": 83,
-  "sintesi_giro_corrente": "Terzo passaggio in 10 ore, dopo il piano del mattino (06:25) e la doppia riconferma di ieri sera (21:05/22:50). Riverificato dal vivo con query SQL dirette via MCP: orders=1/pagati=0 (invariato), profiles: 0 nuovi in 7g, products=5 disponibili, negozi_seller=1 — bit-per-bit identico al passaggio delle 22:50 di ieri. Nessuna carta nuova aperta: le tre in coda (#154/#155 dominio+chiavi Vercel — riformulazione più precisa di quella che prima era #168 'server fermo', #182 pagamenti PQ, #184 migrazioni) restano complete e invariate. Lavoro reale del passaggio: OKR-Squadra.md (stallo 68→69gg, rimossa la data della pausa concordata 24/8-1/9 che si conclude proprio oggi, per evitare che diventi un 'target scaduto' al prossimo giro), STATO.md (nuova voce in cima), Briefing/2026-09-01.md (primo briefing narrato di oggi, l'unico precedente era il blocco 'piano del mattino' dentro STATO/RITMO), ultimo-briefing.json, SALA-OPERATIVA.md.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. La causa del sito giù (HTTP 503, 10 giorni) è ora precisa grazie al piano del mattino di oggi: dominio mycity-marketplace.com ancora su Render (non pagato) + 2 variabili Vercel mancanti (SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_APP_URL) — non più una diagnosi generica 'server fermo'. La scadenza del 29/8 fissata da Nicola per il cantiere resta senza risposta, 3 giorni dopo. Il gate North-Star e il letargo RISPARMIO hanno tenuto il giro deliberatamente stretto: nessuna ricerca esterna, nessun fix di macchina non collegato a una card business.",
-  "trend_fiducia": "= 83→83: invariato. Terza riconferma di fila senza sorprese sui dati di business; l'unica novità (causa precisa del sito giù) viene dal piano del mattino, non da questo passaggio.",
+  "data": "2026-09-01 10:35",
+  "voto_fiducia": 82,
+  "sintesi_giro_corrente": "Quinto passaggio in ~16 ore (dopo 06:25, 06:55, 08:30). Il sensore automatico (verifica-sensori.mjs, pre-step di giro.sh) ha riletto orders/sensori alle 10:20-10:27, bit-per-bit identico ai passaggi precedenti: orders=1 (invariato), sito_uptime cieco (HTTP 503, ora 215 giri ciechi vs 219 riportati alle 08:30 — il contatore usa una base diversa, non un miglioramento verificato). Non ho fatto nuove query dirette via MCP in questo passaggio (non riprovato dopo il primo rifiuto di approvazione in Bash): mi appoggio al sensore REST già fresco. L'unica novità reale: PR #860 (ieri 'in corso') ora è rossa anche lei — 6 PR aperte, 6 rosse, 0 ereditate. Nessuna carta nuova aperta (gate North-Star + letargo RISPARMIO): le quattro in coda (#154/#155, #182, #184, #185) restano invariate. Lavoro di questo passaggio: STATO.md (nuova voce in cima), Briefing/2026-09-01.md (nuovo passaggio in cima, precedenti conservati sotto), ultimo-briefing.json, questo file.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato in questo passaggio. La CI è leggermente peggiorata (PR #860 passata da 'in corso' a rossa): non è stata toccata perché nessuna delle 6 PR rosse sblocca il primo ordine pagato, e il gate North-Star vieta esplicitamente lavoro sulla macchina scollegato da una card business.",
+  "trend_fiducia": "▼ 83→82: leggero calo, non per il business (invariato) ma perché questo passaggio ha verificato MENO in prima persona dei precedenti (niente nuove query MCP dirette, solo il sensore REST già girato da giro.sh) — dichiarato come limite, non nascosto.",
   "entita_verificate": [
     {
-      "nome": "1 ordine totale / 0 pagati / ultimo ordine 2026-06-24 CANCELED — invariato",
+      "nome": "1 ordine totale / 0 pagati — invariato",
       "stato": "confermato",
-      "fonte": "query SQL diretta mcp__supabase-marketplace execute_sql su orders, 1/9 ~06:35"
+      "fonte": "sensore REST (verifica-sensori.mjs, pre-step giro.sh, 2026-09-01 10:20): orders CONTATI via REST, 1 riga visibile"
     },
     {
-      "nome": "0 nuovi clienti negli ultimi 7 giorni, 1 solo seller (Pane Quotidiano), 5 prodotti disponibili — invariato",
+      "nome": "Sito pubblico mycity-marketplace.com — HTTP 503, 215 giri ciechi consecutivi dal 30/7",
       "stato": "confermato",
-      "fonte": "query SQL diretta su profiles/products, 1/9 ~06:35"
+      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 10:20"
     },
     {
-      "nome": "Causa precisa del sito giù: dominio su Render + 2 env Vercel mancanti (SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_APP_URL)",
-      "stato": "confermato",
-      "fonte": "ereditato dal piano del mattino di oggi (SALA-OPERATIVA.md, 06:25) — non riverificato in prima persona in questo passaggio, ma coerente con le card #154/#155 già in coda dal 22/8"
-    },
-    {
-      "nome": "Sito pubblico mycity-marketplace.com — HTTP 503, 10 giorni giù",
-      "stato": "confermato",
-      "fonte": "verifica-sensori.mjs (pre-step di giro.sh, 06:31), sito_uptime: HTTP 503 dopo 3 tentativi"
+      "nome": "6 PR aperte, 6 rosse (0 ereditate) — PR #860 nuova nel gruppo rosso rispetto al passaggio delle 21:05/31-8",
+      "stato": "confermato (ereditato dal system-reminder del giro, non ri-derivato da me con ci-stato.mjs in questa sessione)",
+      "fonte": "system-reminder di questo turno, sezione Vincolo CI"
     },
     {
       "nome": "Memoria coerente (coerenza-fatti.mjs): 41 fatti, 0 cacce aperte, 0 copie vecchie",
       "stato": "confermato",
-      "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio (exit 0)"
+      "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio (nessuna riscrittura necessaria)"
     },
     {
-      "nome": "Bando Comune 'incentivi raccolta differenziata', 400.000€, aperto 31/8-23/10/2026, rilevante per Pane Quotidiano",
-      "stato": "confermato (ereditato)",
-      "fonte": "Intelligence/eventi-picchi.md, aggiornato oggi da un processo concorrente con 4 fonti indipendenti (comune.piacenza.it, piacenzasera.it x2, ilpiacenza.it) — riletto e incorporato in questo passaggio, non condotto in prima persona"
+      "nome": "Chiusura-loop: 6/122 quaderni vivi, 116 fermi >7gg — nessun reparto ha lavorato in questo passaggio oltre @AD (solo verifica), quindi nessuna riga ESITO nuova dovuta",
+      "stato": "confermato",
+      "fonte": "node cervello/chiusura-loop.mjs --sonda, eseguito in questo passaggio"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo RISPARMIO + gate North-Star). Il livello applicato: non ripetere la diagnosi generica 'server fermo' quando la memoria (SALA-OPERATIVA) ha già una diagnosi più precisa di stamattina — propagarla nel briefing invece di regredire a una versione più vaga.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo RISPARMIO + gate North-Star). Livello applicato: non riaprire ricerche nuove su un quadro identico da 5 passaggi — coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1) e con l'istruzione esplicita del letargo di tagliare il volume, non i controlli.",
   "salute_macchina": {
-    "supabase": "verificato dal vivo (query dirette MCP, ~06:35)",
-    "stripe": "solo balance API generico verificato (verifica-sensori.mjs, pre-step); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
+    "supabase": "REST ok (pre-step giro.sh, 10:20); MCP non_verificato da 3gg, oltre il limite 12h — non ritentato in questa sessione (comandi node non approvati in Bash oltre a coerenza-fatti/chiusura-loop)",
+    "stripe": "balance API ok (pre-step); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503) — invariato dal 22/8, 10 giorni"
+    "sito_uptime": "giù (HTTP 503) — invariato, 215 giri ciechi"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio sopra soglia (242 senza gate su 310, soglia 20, dato letto dal system-reminder di oggi) — invariato, non peggiorato in questo passaggio. Non investito: il gate North-Star vieta esplicitamente lavoro sulla macchina che non sblocchi una card business, ed è una scelta dichiarata (vedi Gap del briefing), non un'omissione silenziosa.",
-  "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP; north-star-check.mjs e sonda-volano.mjs non eseguibili in Bash in questa sessione — richiedono approvazione non disponibile qui, non ritentati dopo il primo rifiuto; i loro verdetti letti dal system-reminder, già freschi al 06:29-06:30 di oggi, non ri-derivati da me).",
-  "refutazione": "Tentata la demolizione delle 2 affermazioni più importanti del giro: (1) 'nessun numero è cambiato dal passaggio delle 22:50' — sopravvive: query dirette rifatte alle 06:35, stesso risultato bit-per-bit (orders=1/pagati=0, products=5, negozi=1, 0 nuovi clienti). (2) 'la causa del sito giù è ora dominio+env Vercel, non più server fermo' — sopravvive come affermazione EREDITATA: non l'ho riverificata in prima persona in questo passaggio (non ho controllato il DNS né la lista env Vercel), l'ho presa dalla nota SALA-OPERATIVA delle 06:25 di oggi. Dichiarato esplicitamente come limite, non presentato come misura fresca mia.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 236 senza gate su 304 (soglia 20), letto dal system-reminder di oggi. Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
+  "livello_verifica": "L1 (verifica di conferma, non nuova misura in prima persona): sensore REST già fresco da giro.sh (10:20-10:27), coerenza-fatti e chiusura-loop-sonda eseguiti da me in sessione; north-star-check.mjs e sonda-volano.mjs richiesti ma bloccati da approvazione Bash non disponibile qui — non ritentati dopo il primo rifiuto (lezione: agenti/bash a due blocchi = verifica permessi, non insistere alla cieca), verdetti letti dal system-reminder del turno.",
+  "refutazione": "Tentata la demolizione dell'affermazione centrale del giro — 'nulla è cambiato dal passaggio delle 08:30': sopravvive sul lato business (orders, clienti, prodotti, sito — tutti identici nel sensore REST fresco). NON sopravvive integralmente sul lato macchina: la CI È peggiorata (PR #860 rossa). Dichiarato esplicitamente nella sintesi invece di appiattire tutto su 'niente di nuovo'.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
-      "domanda": "Il sito è giù da 10 giorni (503). La causa precisa trovata stamattina: dominio su Render (non pagato) + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
+      "domanda": "Il sito è giù da oltre 2 settimane (503). Causa nota da giorni: dominio su Render (non pagato) + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
       "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
       "colore": "🔴"
     },
     {
       "tipo": "decisione",
-      "domanda": "La scadenza del 29/8 che avevi fissato per il cantiere (registro-fatti.json, cantiere.scadenza-zero) è passata di 3 giorni. Vuoi che riapra il cantiere e ti porti il conto esatto delle quattro cose, o hai già deciso diversamente?",
-      "azione": "eseguo appena rispondi",
-      "colore": "🔴"
-    },
-    {
-      "tipo": "decisione",
-      "domanda": "Card #182: Pane Quotidiano non incassa da 18 giorni e alcuni post pronti promettono ancora consegna. Strada (a) attivare i pagamenti prima o (b) riscrivere le CTA nel frattempo?",
+      "domanda": "Card #182: Pane Quotidiano non incassa da oltre 18 giorni e alcuni post pronti promettono ancora consegna. Strada (a) attivare i pagamenti prima o (b) riscrivere le CTA nel frattempo?",
       "azione": "eseguo appena scegli la lettera",
       "colore": "🔴"
     }

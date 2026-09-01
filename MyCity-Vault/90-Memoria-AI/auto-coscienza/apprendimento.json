@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 08:36",
+ "aggiornato": "2026-09-01 10:39",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -9391,28 +9391,6 @@
    ]
   },
   {
-   "id": "L-2026-0701-38",
-   "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge (**ESEGUITO in repo** 20:02 dopo «ok configura sync VPS» → #17 install 1× root). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
-   "tag": [
-    "devops",
-    "nicola",
-    "automazione",
-    "vps",
-    "merge",
-    "target",
-    "consenso"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 20:05",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
    "id": "L-2026-0701-36",
    "testo": "**Slot consegna vs orologio reale (giro 1/7 14:19):** alle 12:18 la mossa #1 era «pranzo ORA (12-14)»; alle 14:19 quella finestra è **chiusa** — ripetere «pranzo ORA» sarebbe disonesto e inutile. **Regola:** ogni briefing che propone slot consegna deve leggere l'**ora del giro** (frontmatter `data:`) e aggiornare: (1) se >14:00 → solo **sera post-18**; (2) se temporali 15-17 attivi → evitare quella fascia; (3) aggiornare TL;DR + intenzioni-nicola + escalation in sync. Collegato a meteo-01 (peso 4, ogni-giro).",
    "tag": [
@@ -9434,52 +9412,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0701-35",
-   "testo": "**Caso-studio Nicola (1/7 11:29 — card SQL 107):** «L'ho approvato, perché mi chiede di nuovo di approvarlo?» — dopo «ok deploy Sprint 1» (11:10) la card «DROP policy RLS» ricompare in **Proposte** con Approva. **5 perché:** (1) firma deploy 🔴 autorizza **entrambi** i tubi (Render + migrazione SQL) ma il passo Supabase resta **manuale** — non è una seconda approvazione; (2) card diceva già «Nicola ok deploy · policy ancora attiva» = promemoria ops mal classificato come Proposta; (3) pulsante Approva **non esegue** SQL (AD senza `MARKETPLACE_SUPABASE_WRITE_KEY`); (4) confuso «firma» vs «esecuzione manuale a mani di Nicola»; (5) fix: passi manuali **post-firma** (SQL Supabase, script shell) → **opportunità/checklist 🟢** con tabella «codice ✅ / SQL ⏳», **mai** Proposte 🔴 ripetute; se chiede «perché di nuovo» → ignorare Approva + istruzioni SQL Editor. Collegato a L-34 (2 tubi) e L-07 (impegni ≠ Proposte).",
-   "tag": [
-    "pannello",
-    "classificazione",
-    "nicola",
-    "supabase",
-    "deploy",
-    "rls",
-    "sprint",
-    "post-firma"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:29",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-34",
-   "testo": "**«Ok deploy Sprint 1» — verifica prod prima di ridistribuire (Nicola 1/7 11:10):** dopo merge #209+#210 Render **auto-deploy ~10:31** — «ok deploy» ≠ rifare deploy manuale. **Pattern obbligatorio:** (1) tabella verifica: health API, bundle prod (`Consegna MyCity`, `seller_public_profiles`), test anon REST su `profiles.stripe_account_id`; (2) dichiarare **codice ✅ / SQL ⏳** se migrazione non applicata; (3) **2 tubi deploy marketplace:** Render (auto post-merge) vs Supabase SQL (`107_seller_public_profiles.sql` DROP policy) — AD **senza** `MARKETPLACE_SUPABASE_WRITE_KEY` → Nicola incolla SQL in Supabase SQL Editor (~30s), poi `fatto sql 107` per verifica; (4) **separare #13 da #16** in risposta — «ok deploy sprint 1» è deploy fix, non ordine zombie (Scelta A già 11:05). Smoke test post-SQL: COD/carta test + anon 403 su profiles diretto.",
-   "tag": [
-    "deploy",
-    "render",
-    "supabase",
-    "migrazione",
-    "sprint",
-    "marketplace",
-    "nicola",
-    "verifica"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:29",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
    "id": "L-2026-0701-33",
    "testo": "**Scelta A/B universale (Nicola 1/7 10:50, deploy 11:00):** «Applica A o B ogni volta che devo scegliere, non solo ordine zombie» — generalizzare subito, non caso-per-caso. **Pattern:** proposta con `tipo: scelta_ab` + `scelta_id` (stabile) + `opzione_a`/`opzione_b` (+ opz. `contesto`, `istruzioni`) → Pannello mostra bottoni **A — …** / **B — …** (mai Approva/Ignora); API `/api/scelta-ab` persiste + job cervello; card non torna. L'AD scrive così in `ultimo-briefing.json` a ogni giro quando chiede binario. Legacy `decisione_ordine_ab` resta compatibile. **Deploy ESEGUITO:** Nicola «ok merge scelta-ab universale» → **`main` `853c33a`** (4 file Pannello) · Vercel redeploy · decisione ordine €19,05 ancora 🔴 (click A/B).",
    "tag": [
@@ -9499,28 +9431,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-32",
-   "testo": "**Deploy ≠ decisione dominio (Nicola 1/7 10:36 + 11:00 — due merge consecutivi):** dopo «ok merge bottoni A/B» → **`main` `c50148d`**; dopo «ok merge scelta-ab universale» → **`main` `853c33a`** — entrambi Vercel redeploy — ma **decisione ordine A/B resta 🔴** (click A o B / messaggio buyer). **5 perché confusione:** (1) Nicola percepisce «merge» come chiusura totale; (2) deploy codice UX e accetta/annulla ordine sono binari separati; (3) card ordine zombie chiede ancora A/B post-deploy; (4) risposta AD deve tabellare «deploy ✅ / decisione ⏳» sempre; (5) soglia 168h superata ~10:30 — urgenza resta sul click A/B, non sul merge. **Variante push senza PR:** codice era **solo su VPS locale**, non su GitHub — nessuna PR da mergiare; «ok merge X» = **`git push origin main`** con `GIT_PUSH_TOKEN` esistente, non `gh pr merge`. Dichiarare commit hash + «Vercel ~2 min» + comando VPS sync separato.",
-   "tag": [
-    "merge",
-    "deploy",
-    "nicola",
-    "ordine",
-    "pannello",
-    "distinzione",
-    "vps"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
   },
   {
    "id": "L-2026-0701-31",
@@ -9547,27 +9457,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-30",
-   "testo": "**Nicola 1/7 10:13 — ordine zombie €19,05:** «aggiungimi A o B, anzi che approva o ignora» — dopo spiegazione «perché torna» (L-29) non basta chiarire: vuole **fix Pannello immediato** 🟡. Implementato: card `decisione_ordine_ab` con **A — Accetta e consegna** / **B — Annulla**; API `/api/decisione-ordine` → memoria + job cervello (DECISIONI + accoda esecuzione 🔴). **Deploy ESEGUITO** 10:36 (`main` `c50148d`, Nicola «ok merge bottoni A/B»). **Decisione ordine A/B ancora 🔴** — deploy UX ≠ click A/B. Pattern: scelta binaria di dominio = etichette A/B sul bottone, mai Approva/Ignora generico.",
-   "tag": [
-    "pannello",
-    "ux",
-    "nicola",
-    "ordine",
-    "frontend",
-    "approvazioni"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.32999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 10:36",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-21 14:28"
   },
   {
    "id": "L-2026-0701-29",
@@ -12781,6 +12670,10 @@
     {
      "quando": "2026-09-01 08:28",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 10:27",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14568,19 +14461,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 508,
+  "lezioni_attive": 503,
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 08:36",
+  "tasso_calcolato_il": "2026-09-01 10:39",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 08:28",
-  "lezioni_totali": 514,
+  "cristallizzazione_ultima": "2026-09-01 10:27",
+  "lezioni_totali": 509,
   "lezioni_per_stato": {
-   "attiva": 401,
+   "attiva": 396,
    "principio": 91,
    "in-prova": 5,
    "decaduta": 0,
