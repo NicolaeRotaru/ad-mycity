@@ -39,9 +39,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Perché mi fermo qui.** È l'ottavo passaggio identico oggi. Letargo in **SOPRAVVIVENZA**: quota
 > AI 115% della finestra, salute macchina 4/100. La regola è chiara: si taglia il volume, non i
-> controlli di verità. Quindi ho rifatto solo coerenza-fatti (verità). Ho saltato radar,
-> auto-miglioramento e radiografia completa (volume) — l'ultimo giro pieno li aveva già coperti
-> senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le stesse
+> controlli di verità. Quindi ho rifatto solo coerenza-fatti, che è un controllo di verità.
+> Ho saltato radar, auto-miglioramento e radiografia completa: quelli sono volume.
+> L'ultimo giro pieno li aveva già coperti, senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le stesse
 > quattro in coda restano la priorità (#154/#155, #182, #184, #185), più due non ancora firmate
 > (#186 cancello sito, #188 dov'è il playbook anti-churn).
 >
@@ -254,8 +254,9 @@ se l'attività è ferma.
 > che ha fatto scattare questo giro pieno era «clienti passati da 7 a 8» — vero, ma quel cliente
 > risale al 21 agosto, non a oggi: la baseline del contatore era rimasta indietro di dieci giorni.
 >
-> **Cosa ho fatto.** Solo verifica: nessuna carta nuova, nessuna riscrittura delle tre già in coda
-> (#168, #182, #184) — sono complete e pronte, riaprirle con parole diverse sarebbe rumore.
+> **Cosa ho fatto.** Solo verifica. Nessuna carta nuova.
+> Nessuna riscrittura delle tre già in coda (#168, #182, #184): sono complete e pronte.
+> Riaprirle con parole diverse sarebbe solo rumore.
 > Aggiornato anche `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md` (era fermo al 24/8, numeri e
 > scadenze scaduti): stallo North Star ricalcolato a 68 giorni, tasso di chiusura aggiornato a
 > 1,29 (agosto), tolto il riferimento alla pausa 24/8-1/9 ormai scaduta.
@@ -277,11 +278,14 @@ se l'attività è ferma.
 > ho verificato in questo passaggio quali delle quattro restano aperte — lo segno come domanda,
 > non lo dichiaro chiuso né sforato a caso.
 >
-> **Le tre carte che contano di più, ferme in coda:** #184 (database di produzione indietro di 4
-> migrazioni — 126-129, accodata 29/8), #182 (Pane Quotidiano non incassa da 18 giorni e i post
-> pronti promettono comunque la consegna, accodata 28/8), #168 (server che fa girare la macchina
-> fermo da giorni, la causa più diretta del sito giù, accodata 22/8). Nessuna delle tre è stata
-> firmata.
+> **Le tre carte che contano di più sono ferme in coda.** Nessuna delle tre è stata firmata.
+>
+> - **#184**, accodata il 29 agosto. Il database di produzione è indietro di 4 migrazioni, le
+>   126-129.
+> - **#182**, accodata il 28 agosto. Pane Quotidiano non incassa da 18 giorni. E i post già pronti
+>   promettono comunque la consegna.
+> - **#168**, accodata il 22 agosto. Il server che fa girare la macchina è fermo da giorni. È la
+>   causa più diretta del sito giù.
 >
 > **Cosa ho fatto io.** Solo verifica e memoria: nessuna azione nuova aperta (North-Star gate +
 > letargo RISPARMIO, salute macchina 4/100). CI: 7 PR aperte, 5 rosse (#855/#842/#841/#741/#735,
