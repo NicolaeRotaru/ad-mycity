@@ -123,6 +123,21 @@ const IMPRONTE_CECITA = [
   { re: /\bbats:\s*not found\b/i, motivo: "bats non è installato su questa macchina", comando: "npm i -g bats" },
   { re: /\bplaywright\b[^\n]*\bnot found\b/i, motivo: "Playwright non è installato su questa macchina", comando: "npx playwright install chromium" },
   { re: /Executable doesn'?t exist at .*(chromium|firefox|webkit)/i, motivo: "il browser di Playwright non è scaricato su questa macchina", comando: "npx playwright install chromium" },
+  // ⚪ AGGIUNTA IL 1/9, dopo averci sbattuto la testa. `cervello/test/aiuto-pannello.mjs` lega il
+  // server del Pannello a chi l'ha acceso, così muore col suo padrone — e dichiara nel suo stesso
+  // commento l'unico caso che quel guinzaglio non può coprire: «SIGKILL sul processo padre». È
+  // successo davvero: il contenitore è stato riavviato, tre `next dev` sono rimasti orfani sulla
+  // porta 3939 senza rispondere, e due prove dello schermo sono diventate ROSSE.
+  //
+  // Ma un indirizzo occupato non è mai un difetto della pagina che si stava provando: è
+  // «qualcun altro ha la porta, io non sono nemmeno arrivato a guardare». Il messaggio che la prova
+  // stampava lo diceva già a parole — «non posso guardare, quindi non posso dire che è a posto» — e
+  // poi tornava rosso lo stesso. Qui la parola diventa il verdetto giusto: ⚪.
+  //
+  // Il rischio dell'altro verso, dichiarato: se un server morto resta lì per sempre, quelle prove
+  // restano ⚪ per sempre. Non sparisce però — il banco conta i ⚪ e scrive «N non misurati: non
+  // danno garanzie», che è esattamente il punto di avere un terzo esito invece di due.
+  { re: /EADDRINUSE[^\n]*(:39\d\d|address already in use)/i, motivo: "la porta del Pannello è tenuta da un altro processo (di solito un server rimasto orfano da una corsa uccisa): non sono arrivata ad accendere il Pannello", comando: "ps aux | grep '[n]ext dev'  →  kill dei pid trovati, poi rilancia" },
 ];
 
 export function cecitaDaAmbiente(testo = "") {

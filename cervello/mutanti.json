@@ -8542,7 +8542,7 @@
    "cerca": "  for (const k of trascinatiDalGruppo(caduti, nomi)) delete pulito[k];",
    "sostituisci": "",
    "test": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
-   "lezione": "L-2026-0901-10",
+   "lezione": "L-2026-0901-01",
    "perche_conta": "Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde."
   },
   {
@@ -8552,7 +8552,7 @@
    "cerca": "  { re: /fatal: unable to parse (?:command-line config|.*config file)|error: missing config (?:key|value)/i, dillo: \"git non è partito: la configurazione che gli è arrivata è incoerente\" },",
    "sostituisci": "",
    "test": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
-   "lezione": "L-2026-0901-10",
+   "lezione": "L-2026-0901-01",
    "perche_conta": "Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito."
   },
   {
@@ -8562,7 +8562,7 @@
    "cerca": "  if (unaProvaHaGirato(uscita)) return null;",
    "sostituisci": "",
    "test": "cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
-   "lezione": "L-2026-0901-11",
+   "lezione": "L-2026-0901-02",
    "perche_conta": "Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita."
   },
   {
@@ -8572,7 +8572,7 @@
    "cerca": "  const partenza = AVVIATO;",
    "sostituisci": "  const partenza = Date.now();",
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
-   "lezione": "L-2026-0901-12",
+   "lezione": "L-2026-0901-03",
    "perche_conta": "Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce."
   },
   {
@@ -8582,7 +8582,7 @@
    "cerca": "    timeout: opts.timeout || TEMPO_MAX_PASSO,",
    "sostituisci": "    timeout: opts.timeout || 300_000,",
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
-   "lezione": "L-2026-0901-12",
+   "lezione": "L-2026-0901-03",
    "perche_conta": "Due copie della stessa decisione: alzarne una e lasciare l altra indietro non se ne accorge nessuno, e il guardiano torna a farsi sparare invece di dichiarare il suo ⚪."
   },
   {
@@ -8592,7 +8592,7 @@
    "cerca": "        RIV_NONRIM+=(\"$_rv\")",
    "sostituisci": "        :",
    "test": "cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
-   "lezione": "L-2026-0901-13",
+   "lezione": "L-2026-0901-04",
    "perche_conta": "Un guardiano che tace lo si sente; un elenco che tace sembra una buona notizia. La cura va su CHI PRODUCE l elenco, non solo sul singolo guardiano."
   },
   {
@@ -8602,7 +8602,7 @@
    "cerca": "    sed 's/^/[ERR] /' \"$_riv_err\" >&2",
    "sostituisci": "    :",
    "test": "cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
-   "lezione": "L-2026-0901-13",
+   "lezione": "L-2026-0901-04",
    "nota_riaggancio": "Riagganciata il 2026-09-01: i due flussi si tengono separati (AR-902), quindi l errore non si legge piu da `2>&1` ma dal file di stderr.",
    "perche_conta": "Buttare stderr e poi concludere qualcosa dal fallimento vuol dire trasformare un errore qualsiasi in una risposta."
   },
@@ -8613,7 +8613,7 @@
    "cerca": "    if (!radice.dentro) {",
    "sostituisci": "    if (false) {",
    "test": "cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
-   "lezione": "L-2026-0901-14",
+   "lezione": "L-2026-0901-05",
    "perche_conta": "Quando si mette una guardia su un modo di raggiungere una risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile: ne avevo chiusa una sola e avevo dichiarato chiuso il cortile."
   },
   {
@@ -8623,7 +8623,7 @@
    "cerca": "    reale = vero(via);",
    "sostituisci": "    reale = via;",
    "test": "cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
-   "lezione": "L-2026-0901-14",
+   "lezione": "L-2026-0901-05",
    "perche_conta": "Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori."
   },
   {
@@ -8633,7 +8633,7 @@
    "cerca": "    if (COMANDA_IL_FIGLIO.test(k)) { caduti.push(k); continue; }",
    "sostituisci": "    if (false) { caduti.push(k); continue; }",
    "test": "cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
-   "lezione": "L-2026-0901-15",
+   "lezione": "L-2026-0901-06",
    "perche_conta": "Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave."
   },
   {
@@ -8643,7 +8643,7 @@
    "cerca": "export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\\/\\/[^/@\\s:]*:[^/@\\s]+@/i;",
    "sostituisci": "export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\\/\\/[^/@\\s]*:[^/@\\s]+@/i;",
    "test": "cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
-   "lezione": "L-2026-0901-15",
+   "lezione": "L-2026-0901-06",
    "perche_conta": "Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni."
   },
   {
@@ -8653,7 +8653,7 @@
    "cerca": "    const volte = lista.slice(1).reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);",
    "sostituisci": "    const volte = lista.reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);",
    "test": "cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
-   "lezione": "L-2026-0901-16",
+   "lezione": "L-2026-0901-07",
    "perche_conta": "Un numero scritto in memoria con accanto la parola «vero» va verificato contro la realta che dichiara, non contro l intenzione di chi l ha scritto."
   },
   {
@@ -8663,7 +8663,7 @@
    "cerca": "    lista.sort((a, b) => quandoInNumeri(a) - quandoInNumeri(b));",
    "sostituisci": "    lista.sort((a, b) => String(a?.quando ?? a).localeCompare(String(b?.quando ?? b)));",
    "test": "cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
-   "lezione": "L-2026-0901-16",
+   "lezione": "L-2026-0901-07",
    "perche_conta": "Ordinare delle date confrontando testo funziona finche sono tutte date. La prima che non lo e non sbaglia posto: si pianta in fondo e pota tutto quello che viene dopo."
   },
   {
@@ -8673,7 +8673,7 @@
    "cerca": "  if (u && typeof u === \"object\") return { ...u, volte };",
    "sostituisci": "  if (false) return { ...u, volte };",
    "test": "cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
-   "lezione": "L-2026-0901-16",
+   "lezione": "L-2026-0901-07",
    "perche_conta": "Lo spread di una primitiva non e un no-op: la sparge indice per indice."
   },
   {
@@ -8683,7 +8683,7 @@
    "cerca": "  const casa = mkdtempSync(join(AD_ROOT, \"cervello\", \"_tmp_round6-\"));",
    "sostituisci": "  const casa = join(AD_ROOT, \"cervello\", \"_tmp_round6-fisso\");",
    "test": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
-   "lezione": "L-2026-0901-17",
+   "lezione": "L-2026-0901-08",
    "perche_conta": "Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root."
   },
   {
@@ -8693,7 +8693,7 @@
    "cerca": "  renameSync(provvisorio, via);",
    "sostituisci": "  writeFileSync(via, testo, \"utf8\");",
    "test": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
-   "lezione": "L-2026-0901-17",
+   "lezione": "L-2026-0901-08",
    "perche_conta": "renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp."
   },
   {
@@ -8703,7 +8703,7 @@
    "cerca": "    .filter((riga) => /^ ?D /.test(riga))",
    "sostituisci": "    .filter(() => false)",
    "test": "cervello/test/una-prova-che-cancella-la-casa.test.mjs",
-   "lezione": "L-2026-0901-18",
+   "lezione": "L-2026-0901-09",
    "perche_conta": "Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale."
   },
   {
@@ -8713,7 +8713,7 @@
    "cerca": "  if (r.error || r.status !== 0) return null;",
    "sostituisci": "  if (r.error || r.status !== 0) return [];",
    "test": "cervello/test/una-prova-che-cancella-la-casa.test.mjs",
-   "lezione": "L-2026-0901-18",
+   "lezione": "L-2026-0901-09",
    "perche_conta": "«Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa."
   },
   {
@@ -8723,7 +8723,7 @@
    "cerca": "      if (!chiusura.ok) {\n        return NextResponse.json(\n          { ok: false, stato: \"fatta\", esito: nota, salvataggio: false, error: chiusura.messaggio },\n          { status: chiusura.status }\n        );\n      }\n      await logAzione({",
    "sostituisci": "      await logAzione({",
    "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs",
-   "lezione": "L-2026-0901-19",
+   "lezione": "L-2026-0901-10",
    "perche_conta": "Una cura messa dove il difetto si e visto, e non dove puo ripetersi, lascia indietro i rami gemelli: il ramo del rifiuto aveva l ordine giusto da un mese, quello della PR gia mergiata no."
   },
   {
@@ -8733,7 +8733,7 @@
    "cerca": "  _riv_elenco=\"$(node \"$SCRIPT_DIR/c4-cancelli.mjs\" riverifica-elenco \"${VINCOLI_ATTIVI[@]}\" 2>\"$_riv_err\")\"",
    "sostituisci": "  _riv_elenco=\"$(node \"$SCRIPT_DIR/c4-cancelli.mjs\" riverifica-elenco \"${VINCOLI_ATTIVI[@]}\" 2>&1)\"",
    "test": "cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
-   "lezione": "L-2026-0901-20",
+   "lezione": "L-2026-0901-11",
    "perche_conta": "Una cura puo riaprire da un altra parte il difetto che stava chiudendo: qui separare l esito dal rumore ha rimesso il rumore DENTRO l elenco. Le righe aggiunte vanno riguardate con la lente della loro dimensione PRIMA di consegnare, non dopo."
   },
   {
@@ -8753,6 +8753,15 @@
    "sostituisci": "    :",
    "test": "cervello/test/su-main-va-solo-la-memoria.test.mjs",
    "perche_conta": "Un guardiano che chiede una riga di configurazione invece della proprieta che nomina puo restare rosso per un mese senza difendere niente. La proprieta si prova ESEGUENDOLA."
+  },
+  {
+   "difetto": "AR-904",
+   "nome": "una porta occupata torna a valere «la pagina e rotta»: due prove rosse per un server orfano",
+   "file": "cervello/ambiente-prova.mjs",
+   "cerca": "  { re: /EADDRINUSE[^\\n]*(:39\\d\\d|address already in use)/i, motivo: \"la porta del Pannello è tenuta da un altro processo (di solito un server rimasto orfano da una corsa uccisa): non sono arrivata ad accendere il Pannello\", comando: \"ps aux | grep '[n]ext dev'  →  kill dei pid trovati, poi rilancia\" },",
+   "sostituisci": "",
+   "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
+   "perche_conta": "Il messaggio diceva gia a parole «non posso guardare» e poi tornava rosso lo stesso: la parola e il verdetto devono dire la stessa cosa."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

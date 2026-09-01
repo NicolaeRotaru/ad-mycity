@@ -19123,7 +19123,7 @@
     {
       "id": "AR-892",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 18:05",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19136,12 +19136,14 @@
         "comando": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
         "nota": "Otto casi per AR-892, e le due meta si provano SEPARATE: provare solo la ① lascerebbe verde il giorno che il gruppo cambia forma, provare solo la ② lascerebbe la macchina a rompere git a ogni corsa. Uno dei casi fa partire git DAVVERO con l ambiente ripulito invece di ragionarci sopra (e si dichiara ⚪ se git non c e). Due mutazioni, una per meta, tutte e due mordono."
       },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file"
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-892): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-893",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 18:20",
       "area": "macchina",
       "nato_come": "riparare",
@@ -19154,12 +19156,14 @@
         "comando": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
         "nota": "Cinque casi (sezione ③), compresi i due modi di sbagliare in senso opposto: un file che non si carica resta ⚪ anche se node scrive «not ok 1» (conta «# pass 0»), e l errore di chi lancia (ENOENT) non si smentisce con l uscita. Una mutazione: togliere il veto."
       },
-      "trovato_da": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava"
+      "trovato_da": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-893): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-894",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 18:55",
       "area": "macchina",
       "nato_come": "riparare",
@@ -19172,12 +19176,14 @@
         "comando": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
         "nota": "Tre casi nuovi (8 in tutto nel file). Come i cinque di prima, NON misurano quanto ci mette niente — un numero cosi cambia col runner: tengono l ORDINE fra i due tetti e il fatto che l orologio parta dalla nascita. Il caso peggiore e nell asserzione: budget + soglia minima deve restare sotto il tetto del cancello. Due mutazioni, una per meta, tutte e due mordono."
       },
-      "trovato_da": "il verdetto del cancello, letto invece di riprovato — e la misura che avrebbe dato il numero e morta di memoria, il che ha reso obbligatorio curare la struttura invece del numero"
+      "trovato_da": "il verdetto del cancello, letto invece di riprovato — e la misura che avrebbe dato il numero e morta di memoria, il che ha reso obbligatorio curare la struttura invece del numero",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs → 8 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-894): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-895",
       "gravita": "bloccante",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 19:40",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19190,12 +19196,14 @@
         "comando": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
         "nota": "Cinque casi, e la forma conta: la prova RITAGLIA LE RIGHE VERE da giro.sh e le esegue con un produttore finto, invece di riscriverne una copia — una prova che difende una copia non difende il file. Copre i tre modi: produttore morto, elenco a meta, elenco completo (dove non deve inventare ⚪). Se le righe non si trovano piu, la prova lo dichiara invece di passare a vuoto. Due mutazioni, tutte e due mordono."
       },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e riprodotto a mano prima di toccare niente"
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e riprodotto a mano prima di toccare niente",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-895): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-896",
       "gravita": "bloccante",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 20:15",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19208,12 +19216,14 @@
         "comando": "node cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
         "nota": "Nove casi. Otto provano la funzione (repo, fuori, cartella del registro, collegamento simbolico, file non ancora nato, percorso irrisolvibile, radice inesistente, «..»); il NONO fa girare il BANCO VERO su un registro finto che punta fuori e guarda il bersaglio con un testimone. Il nono e stato aggiunto perche il banco delle mutazioni ha bocciato la prima stesura: togliendo la CHIAMATA dal ciclo e lasciando la funzione intatta, gli otto casi restavano verdi — difendevano una funzione giusta che nessuno chiamava piu. Cioe lo stesso difetto in miniatura. Due mutazioni, tutte e due mordono."
       },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e il banco delle mutazioni, che ha bocciato la mia prima prova perche difendeva la serratura invece della porta"
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — e il banco delle mutazioni, che ha bocciato la mia prima prova perche difendeva la serratura invece della porta",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs → 9 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-896): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-897",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 20:50",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19226,12 +19236,14 @@
         "comando": "node cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
         "nota": "Sette casi. Quello sul tempo NON fissa un numero di millisecondi — cambia col computer, e una prova cosi diventa rossa per il motivo sbagliato: guarda la FORMA della crescita (raddoppiando l ingresso il tempo non deve quadruplicare). Due casi in direzioni opposte tengono la correttezza: le quattro forme di credenziale restano prese, i quattro URL puliti restano passati — senza il secondo, la cura piu facile sarebbe togliere tutto. Due mutazioni, tutte e due mordono."
       },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto; la misura del tempo l ho rifatta io perche la prima riproduzione, con la forma di ingresso sbagliata, diceva che il difetto non c era"
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto; la misura del tempo l ho rifatta io perche la prima riproduzione, con la forma di ingresso sbagliata, diceva che il difetto non c era",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-897): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-898",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 21:30",
       "area": "macchina",
       "nato_come": "riparare",
@@ -19244,12 +19256,14 @@
         "comando": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
         "nota": "Nove casi. Quello che conta di piu e il secondo: non guarda una compattazione ma UNDICI di fila, perche il difetto non era «sbaglia di uno» ma «l errore si somma» — con una compattazione sola sarebbe passato quasi inosservato. Piu il caso all incontrario: dopo l avvelenamento, l uso di oggi deve arrivare DAVVERO nel diario, non solo essere dichiarato. E l ultimo tiene i quattro contratti che gli altri strumenti si aspettano da questo campo. Tre mutazioni, tutte e tre mordono."
       },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito"
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs → 9 casi, exit 0, rilanciato adesso e non dato per buono da prima. 3 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-898): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-899",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 22:10",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19262,12 +19276,14 @@
         "comando": "node cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
         "nota": "Sei casi, e uno tiene la PREMESSA invece del fix: che `writeFileSync` segua davvero i collegamenti simbolici. Se node cambia comportamento quel caso diventa verde e tutto il ragionamento va rivisto — meglio scoprirlo da una prova che da un ricordo. Piu il caso sul guinzaglio della pulizia (vedi AR-900). Due mutazioni, tutte e due mordono."
       },
-      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto"
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-899): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-900",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 22:30",
       "area": "macchina",
       "nato_come": "riparare",
@@ -19280,12 +19296,14 @@
         "comando": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs",
         "nota": "Sette casi, e cancellano DAVVERO: ogni caso costruisce un repo git vero e piccolo in una cartella temporanea e ci porta via dei file, invece di simulare l uscita di git. Tre casi tengono i falsi allarmi (una modifica non e una cancellazione, un file nuovo neanche) perche un guardiano che grida al lupo a ogni corsa si impara a spegnere; uno tiene il ⚪ (git che non risponde non vale «non manca niente»); l ultimo guarda il repo VERO adesso. Due mutazioni, tutte e due mordono."
       },
-      "trovato_da": "me stessa, cancellando il repo con una prova che avevo appena scritto"
+      "trovato_da": "me stessa, cancellando il repo con una prova che avevo appena scritto",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs → 7 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-900): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-901",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-09-01 15:20",
       "area": "pannello",
       "nato_come": "scoperta",
@@ -19298,12 +19316,14 @@
         "comando": "node cervello/test/c1-atto-una-volta-sola.test.mjs",
         "nota": "Dodicesimo caso del file, e gira la ROTTA VERA contro un finto Supabase che rispetta il vincolo di chiave unica: si rompono le scritture di quell azione e si guarda `azioni_log`. Una mutazione: rimettere logAzione prima del controllo."
       },
-      "trovato_da": "la radiografia del perimetro toccato, dimensione pannello/coerenza-azioni — cioe riguardando un file che avevo modificato ieri per un altro motivo"
+      "trovato_da": "la radiografia del perimetro toccato, dimensione pannello/coerenza-azioni — cioe riguardando un file che avevo modificato ieri per un altro motivo",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/c1-atto-una-volta-sola.test.mjs → 12 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-901): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-902",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-09-01 16:00",
       "area": "macchina",
       "nato_come": "riparare",
@@ -19316,7 +19336,9 @@
         "comando": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
         "nota": "Sesto caso del file: il produttore FUNZIONA ma scrive un avviso su stderr, e in uscita devono restare esattamente i cinque vincoli di partenza — ne uno in piu (il fantasma) ne un ⚪ inventato. Come gli altri, ritaglia le righe VERE da giro.sh. Una mutazione: rimettere 2>&1."
       },
-      "trovato_da": "la radiografia del perimetro toccato, dimensione macchina/rischio-sicurezza-se — riguardando con la lente giusta le righe che avevo aggiunto due ore prima"
+      "trovato_da": "la radiografia del perimetro toccato, dimensione macchina/rischio-sicurezza-se — riguardando con la lente giusta le righe che avevo aggiunto due ore prima",
+      "chiuso_il": "2026-09-01 16:25",
+      "chiuso_come": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-902): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
     },
     {
       "id": "AR-903",
@@ -19328,13 +19350,33 @@
       "titolo": "Un guardiano dava la colpa alla macchina per una scelta di Nicola, e lo faceva da piu di un mese",
       "sintomo": "`cervello/test/permessi-guardrail.bats` pretendeva che `.claude/settings.json` contenesse `Bash(git push:*)` fra i divieti, ed era rosso a ogni corsa della suite. Ma quella riga l ha tolta NICOLA il 27/7 (commit 1b5d0d1c8, «Update settings.json»): un divieto secco su ogni push, e non solo su main. Il caso e rimasto rosso da allora accusando la macchina di una decisione del proprietario.",
       "causa_radice": "Il divieto secco e in contraddizione col manuale di questa casa, che PRETENDE la spinta sul ramo di lavoro («PUSH to the specified branch»): non si puo obbedire a tutti e due. E il guardiano chiedeva una RIGA DI CONFIGURAZIONE invece della PROPRIETA che il suo stesso titolo nomina — «niente codice non revisionato su main». Quella proprieta non la difende quella riga: la difende il guardiano-integrita di giro.sh (AR-044), che al momento di pubblicare mette in stage solo le quattro cartelle di memoria e poi toglie di li qualunque file di codice ci sia finito lo stesso.",
-      "fix_proposto": "🟡 FATTO per la meta che posso fare da sola: il caso adesso guarda il MECCANISMO che agisce davvero (stage limitato a MEM_DIRS + il reset del codice finito in stage) invece della riga di configurazione. Cosi smette di fare un accusa falsa e comincia a difendere la cosa vera. ⚠️ NON HO TOCCATO `.claude/settings.json` — e fra i file che i miei stessi permessi mi vietano di scrivere, ed e giusto cosi: chi si riscrive i propri permessi non ha permessi. 🙋 SERVE DA NICOLA: confermare che il 27/7 la riga e stata tolta di proposito. Se era uno sbaglio va rimessa — ma allora va cambiato anche il manuale, perche oggi i due si contraddicono e io non posso obbedire a entrambi.",
+      "fix_proposto": "🟡 FATTO per la meta che posso fare da sola: il caso adesso guarda il MECCANISMO che agisce davvero (stage limitato a MEM_DIRS + il reset del codice finito in stage) invece della riga di configurazione. Cosi smette di fare un accusa falsa e comincia a difendere la cosa vera. ⚠️ NON HO TOCCATO `.claude/settings.json` — e fra i file che i miei stessi permessi mi vietano di scrivere, ed e giusto cosi: chi si riscrive i propri permessi non ha permessi. 🙋 SERVE DA NICOLA: confermare che il 27/7 la riga e stata tolta di proposito. Se era uno sbaglio va rimessa — ma allora va cambiato anche il manuale, perche oggi i due si contraddicono e io non posso obbedire a entrambi. ⏳ LA SCHEDA RESTA APERTA APPOSTA: la meta tecnica e fatta e provata (5 casi verdi, 2 mutazioni rosse), ma la domanda sulla riga tolta il 27/7 e di Nicola. Chiuderla vorrebbe dire firmare al posto suo.",
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/su-main-va-solo-la-memoria.test.mjs",
         "nota": "Cinque casi, e NON sono grep: ritagliano le righe vere del guardiano-integrita da giro.sh e le ESEGUONO in un repo git usa-e-getta con un file di codice sporco. Coprono le due direzioni — il codice non deve passare, la memoria deve passare (togliere tutto sarebbe la cura che spegne il giro) — piu il caso della seconda rete, un file di codice gia messo in stage da qualcun altro. Due mutazioni, tutte e due mordono. Il caso bats resta come specchio lato shell."
       },
       "trovato_da": "il rosso della suite, seguito fino al commit che l aveva causato invece di essere aggirato"
+    },
+    {
+      "id": "AR-904",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-01 16:45",
+      "chiuso_il": "2026-09-01 16:55",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "La prova diceva a parole «non posso guardare» e poi tornava rossa lo stesso",
+      "sintomo": "Due prove dello schermo — c2-schermo e c4-schermo-coda — sono diventate ROSSE nella suite. Il motivo: `Error: listen EADDRINUSE: address already in use 0.0.0.0:3939`. Tre `next dev` erano rimasti orfani sulla porta dopo il riavvio del contenitore, e non rispondevano nemmeno. Il messaggio della prova diceva gia «non posso guardare, quindi non posso dire che e a posto» — e poi tornava rosso.",
+      "causa_radice": "`aiuto-pannello.mjs` lega il server a chi l ha acceso e dichiara nel suo commento l unico caso che quel guinzaglio non copre: SIGKILL sul processo padre. Quel caso e successo. Ma un indirizzo occupato non e MAI un difetto della pagina che si stava provando: e «qualcun altro ha la porta, non sono nemmeno arrivata a guardare». Mancava la voce nella lista delle cecita d ambiente — quella che gia conosce «next non installato», «bats non installato», «il browser non e scaricato».",
+      "fix_proposto": "🟡 FATTO: una voce in `IMPRONTE_CECITA` (cervello/ambiente-prova.mjs), che e la casa unica letta sia dalla suite sia dal banco delle mutazioni — quindi la regola non nasce gia in due copie. ⚠️ IL RISCHIO DELL ALTRO VERSO, dichiarato: se un server morto resta li per sempre, quelle prove restano ⚪ per sempre. Non sparisce pero — il banco conta i ⚪ e scrive «N non misurati: non danno garanzie», che e esattamente il punto di avere un terzo esito invece di due.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
+        "nota": "Tre casi nuovi (16 in tutto, exit 0), e il secondo tiene il verso opposto: un fallimento VERO della pagina deve restare rosso, altrimenti la cura piu comoda sarebbe dichiarare cieco tutto cio che non passa. Il terzo controlla che le tre cecita che c erano prima non siano state toccate. Una mutazione, morde."
+      },
+      "chiuso_come": "node cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs → 16 casi, exit 0. Una mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-904). E le due prove che erano rosse, rilanciate a porta libera: c2-schermo 6 casi verdi, c4-schermo-coda 5 casi verdi — cioe il difetto era davvero l ambiente e non la pagina.",
+      "trovato_da": "due prove rosse nella suite, seguite fino alla causa invece di essere rilanciate finche passavano"
     }
   ],
   "meta": {

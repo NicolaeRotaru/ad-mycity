@@ -164,11 +164,27 @@ prova("⑥ due lezioni scritte di fila prendono due numeri diversi, e nessuno è
   const dir = tempo();
   const file = join(dir, "apprendimento.json");
   copyFileSync(VERO, file);
-  // Semino il buco che il gesto a mano sbagliava sempre: oggi esiste già la settima lezione del
-  // giorno. Chi conta invece di guardare il massimo riparte da uno e riusa un numero già scritto.
+  // Semino il buco che il gesto a mano sbagliava sempre: oggi esiste già una lezione con un numero
+  // ALTO e un buco sotto. Chi conta invece di guardare il massimo riparte da uno e riusa un numero
+  // già scritto.
+  //
+  // ⚠️ IL NUMERO DA SEMINARE SI CALCOLA, non si scrive a mano. La prima stesura seminava «la
+  // settima» e si aspettava l'ottava — cioè dava per scontato che nel file vero oggi ci fossero
+  // meno di sette lezioni. Il 1/9 ne ho scritte undici in un giorno solo e questo caso è diventato
+  // rosso: non perché la porta sbagliasse, ma perché la prova guardava il calendario invece
+  // dell'invariante. Una prova che copia il file VERO non può poi fare ipotesi su cosa c'è dentro.
   const dentro = JSON.parse(readFileSync(file, "utf8"));
   const oggi = giornoPiacenza();
-  dentro.lezioni.push({ ...L(formaId(oggi, 7)), data: `${oggi} 09:00` });
+  // Il prefisso di oggi è quello che `formaId` compone: si chiede a lei invece di riscriverlo.
+  const prefissoDiOggi = formaId(oggi, 0).slice(0, -2);
+  const massimoDiOggi = dentro.lezioni
+    .map((l) => String(l.id || ""))
+    .filter((id) => id.startsWith(prefissoDiOggi))
+    .map((id) => Number(id.slice(prefissoDiOggi.length)))
+    .filter(Number.isFinite)
+    .reduce((max, n) => Math.max(max, n), 0);
+  const seminato = Math.max(massimoDiOggi, 6) + 1;
+  dentro.lezioni.push({ ...L(formaId(oggi, seminato)), data: `${oggi} 09:00` });
   writeFileSync(file, JSON.stringify(dentro, null, 1) + "\n");
   const quante = dentro.lezioni.length;
 
@@ -177,8 +193,8 @@ prova("⑥ due lezioni scritte di fila prendono due numeri diversi, e nessuno è
   assert.equal(a.rc, 0, a.err);
   assert.equal(b.rc, 0, b.err);
   assert.notEqual(a.out, b.out, "due lezioni scritte di fila hanno ricevuto lo STESSO numero: è il doppione di AR-580");
-  assert.equal(a.out, formaId(oggi, 8), "dopo la settima del giorno viene l'ottava, non la prima");
-  assert.equal(b.out, formaId(oggi, 9));
+  assert.equal(a.out, formaId(oggi, seminato + 1), `dopo la ${seminato}ª del giorno viene la ${seminato + 1}ª, non la prima`);
+  assert.equal(b.out, formaId(oggi, seminato + 2), "e la seconda di fila prende il numero dopo ancora");
 
   const dopo = JSON.parse(readFileSync(file, "utf8")).lezioni;
   assert.equal(dopo.length, quante + 2, "le lezioni di prima devono esserci ancora tutte");
