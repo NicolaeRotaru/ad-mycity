@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-01 16:28",
+  "aggiornato": "2026-09-01 16:39",
   "giorni_sospetto": 3,
-  "difetti_aperti": 151,
-  "difetti_da_fare": 151,
+  "difetti_aperti": 152,
+  "difetti_da_fare": 152,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 895,
+    "totale": 896,
     "chiusi": 744,
-    "aperti": 140,
+    "aperti": 141,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 151,
+    "da_fare": 152,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 744,
-      "aperto": 140,
+      "aperto": 141,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 151,
-    "viste": 151,
+    "attese": 152,
+    "viste": 152,
     "fuori": 0,
-    "motivo": "bilancio a posto: 744 chiuse + 151 classificate = 895 schede, e ogni stato vivo è dentro (140 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 744 chiuse + 152 classificate = 896 schede, e ogni stato vivo è dentro (141 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 91,
+    "umana": 92,
     "prova-debole-su-grave": 26,
     "auto-comando": 30,
     "auto-sospetta": 4
@@ -198,8 +198,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 8,
-  "schede_campi_illeggibili": 30,
+  "schede_non_giudicabili": 9,
+  "schede_campi_illeggibili": 31,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -350,6 +350,11 @@
       "id": "AR-903",
       "gravita": "grave",
       "impatto_crescita": null
+    },
+    {
+      "id": "AR-904",
+      "gravita": "minore",
+      "impatto_crescita": null
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -403,9 +408,15 @@
       "gravita": "minore",
       "impatto_crescita": "indiretto ma su un file che Nicola legge per decidere: restano due cartelli dell'archivio nello stesso file, e quello vecchio porta un numero sbagliato. Il 29/8 diceva «Adesso sono 25» mentre le carte chiuse erano 27. Chi legge non sa quale dei due credere, e il piu' in alto e' quello falso.",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-904",
+      "gravita": "minore",
+      "impatto_crescita": null,
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 121,
+  "non_auto_chiudibili": 122,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3855,6 +3866,19 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node --test cervello/test/su-main-va-solo-la-memoria.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-904",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "impatto_crescita": null,
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "La prova dice a parole «non posso guardare» e torna rossa lo stesso — e la cura ovvia costa piu di quello che ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

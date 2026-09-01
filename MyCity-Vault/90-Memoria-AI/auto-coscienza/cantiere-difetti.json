@@ -19044,7 +19044,7 @@
     {
       "id": "AR-888",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 09:40",
       "area": "macchina",
       "nato_come": "scoperta",
@@ -19058,12 +19058,14 @@
         "nota": "Tre casi, e NESSUNO misura quanto ci mette la suite: un numero cosi cambia col computer e con quante cose girano insieme, e una prova che lo fissa diventa rossa per il motivo sbagliato — sarebbe AR-787. Guardano due invarianti che non scadono: il tetto e UNA costante (nessun `timeout:` scritto a mano nei passi della suite), e lascia almeno il doppio della misura dichiarata nel suo stesso commento — cosi chi lo abbassa senza rimisurare lo scopre subito. Il terzo caso e il difetto opposto: non deve essere cosi largo da non distinguere una macchina occupata da un blocco. La prima stesura del primo caso era troppo larga e pescava i tetti di git e di non-vacuita, che sono decisioni diverse: se n'e accorta lei stessa al primo giro. Due mutazioni, tutt'e due rosse."
       },
       "trovato_da": "il cancello del lotto, uscendo rosso in un modo che non si poteva assolvere",
-      "istanze_non_curate": "SECONDA ISTANZA, misurata il 31/8 e NON curata in questo lotto: `cervello/test/due-case.test.mjs` ha due tetti interni da 300 secondi (il caso ① sul repo vero, e il caso ⑮ che rilancia il file intero). Su questa macchina, con tre agenti che giravano insieme, tutt'e due sono usciti in TIMEOUT — 300.116 e 314.684 millisecondi — e la prova li ha giustamente rifiutati come ⚪ invece di chiamarli verdi. Sul runner la stessa prova passa: al commit 99988c056 non compare fra i rossi. Quindi non e un difetto che blocca, ed e la ragione per cui NON l'ho curata qui: e la stessa malattia (un tetto di tempo che non regge una macchina occupata) in un altro file, e allargare ancora questo lotto per una cosa che sul server e verde vorrebbe dire consegnare una richiesta che nessuno rilegge. Va presa col resto del debito dei tetti, misurando prima quanto ci mette davvero quella prova a macchina libera."
+      "istanze_non_curate": "SECONDA ISTANZA, misurata il 31/8 e NON curata in questo lotto: `cervello/test/due-case.test.mjs` ha due tetti interni da 300 secondi (il caso ① sul repo vero, e il caso ⑮ che rilancia il file intero). Su questa macchina, con tre agenti che giravano insieme, tutt'e due sono usciti in TIMEOUT — 300.116 e 314.684 millisecondi — e la prova li ha giustamente rifiutati come ⚪ invece di chiamarli verdi. Sul runner la stessa prova passa: al commit 99988c056 non compare fra i rossi. Quindi non e un difetto che blocca, ed e la ragione per cui NON l'ho curata qui: e la stessa malattia (un tetto di tempo che non regge una macchina occupata) in un altro file, e allargare ancora questo lotto per una cosa che sul server e verde vorrebbe dire consegnare una richiesta che nessuno rilegge. Va presa col resto del debito dei tetti, misurando prima quanto ci mette davvero quella prova a macchina libera.",
+      "chiuso_il": "2026-09-01 17:50",
+      "chiuso_come": "node --test cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs → 8 casi, exit 0, rilanciato adesso e non dato per buono da ieri. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-888)."
     },
     {
       "id": "AR-889",
       "gravita": "bloccante",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 12:20",
       "area": "macchina",
       "nato_come": "regressione",
@@ -19079,12 +19081,14 @@
         "comando": "node cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
         "nota": "Undici casi. Il piu importante e quello che prima asseriva il contrario. Riprodotto l'attacco esatto del collaudo prima e dopo: prima il file spia nasce con uid=0, dopo `avvio` dice «non so come eseguire questo test: esce dal repo e non e sotto una radice ammessa». Due mutazioni."
       },
-      "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?» — chi ha costruito non collauda"
+      "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?» — chi ha costruito non collauda",
+      "chiuso_il": "2026-09-01 17:50",
+      "chiuso_come": "node --test cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs → 12 casi, exit 0, rilanciato adesso e non dato per buono da ieri. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-889). ⚠️ E la porta GEMELLA — il campo che il banco SCRIVE invece di eseguire — non era chiusa: l ha trovata il collaudo di sicurezza il giorno dopo ed e AR-896, registrata e chiusa a parte. Questa scheda copre la porta che ESEGUE, che e quella che diceva di coprire."
     },
     {
       "id": "AR-890",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-31 13:10",
       "area": "macchina",
       "nato_come": "regressione",
@@ -19100,7 +19104,9 @@
         "comando": "node cervello/test/banco-mail-onesta.test.mjs",
         "nota": "Nove casi. I due nuovi sono quelli che contano: uno pretende che ogni regola abbia il SUO caso e che ne scatti UNA SOLA (senza quel «una sola» il caso non separa niente e la copertura torna a gonfiarsi), l'altro che le due case diano lo stesso verdetto su tutte e sette. La prima stesura del secondo chiamava `pannello.giudica` e falliva con «is not a function»: la casa del Pannello espone `giudicaLettera`. Non misurava niente e lo diceva. Due mutazioni, tutt'e due rosse."
       },
-      "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?»"
+      "trovato_da": "collaudo indipendente, lente «sa diventare rosso davvero?»",
+      "chiuso_il": "2026-09-01 17:50",
+      "chiuso_come": "node --test cervello/test/banco-mail-onesta.test.mjs → 9 casi, exit 0, rilanciato adesso e non dato per buono da ieri. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-890)."
     },
     {
       "id": "AR-891",
@@ -19112,7 +19118,7 @@
       "titolo": "Il cancello che protegge le richieste di unione non ha MAI dato un verdetto su questo ramo, e il suo silenzio si leggeva come «tutto a posto»",
       "sintomo": "Tredici corse del flusso «Cancello del lotto» su questo ramo, TREDICI finite `cancelled`, zero verdetti. Alcune morte esattamente a trenta minuti senza nessuna spinta nel mezzo: era l'orologio, non la coda delle spinte. E la suite dei controlli riportava «nessun controllo e fallito» — vero alla lettera, falso in sostanza: il cancello non aveva controllato niente.",
       "causa_radice": "① `timeout-minutes: 30` nel flusso, contro un bisogno misurato di circa cinquanta. Il costo del cancello SCALA COL LOTTO e non e una costante: rompe apposta ogni mutazione del lotto e pretende il rosso. Questo lotto ne porta 52, e SETTE di quelle rilanciano due-case.test.mjs, che da sola prende minuti — solo le mutazioni valgono mezz'ora, piu la suite (535 secondi misurati), piu npm ci, il browser e bats. Il tetto era stato alzato da 20 a 30 quando il cancello ne prendeva sei e mezzo: giusto allora, superato adesso. ② E la meta che rende il difetto GRAVE invece che lento: GitHub segna un lavoro ucciso dall'orologio come «annullato», non come «fallito». Nessun evento di fallimento, nessuna notifica, e la suite dei controlli che dichiara che non e fallito niente. E la malattia di questo lotto — un guardiano che tace e il cui silenzio si legge come assenza di problema — applicata al guardiano DI questo lotto, per un giorno intero, senza che me ne accorgessi.",
-      "fix_proposto": "🟡 FATTO: `timeout-minutes` 30 → 75, che e una volta e mezza il bisogno misurato. Non di piu, e vale la stessa ragione scritta accanto a TEMPO_MAX_SUITE: un tetto troppo generoso smette di distinguere «la macchina e lenta» da «si e piantato». Il conto che l'ha deciso sta scritto nel file, accanto al numero. ⚠️ RESTA APERTO il pezzo strutturale, e va detto invece di farlo sparire dietro un numero piu grande: finche il cancello rompe OGNI mutazione del lotto, un lotto grande lo rende impraticabile — settantacinque minuti bastano per 52 mutazioni, non per centocinquanta. La strada e far girare solo le mutazioni dei file che il lotto TOCCA (il perimetro esiste gia in cancello-lotto.mjs), ma e un cambio al motore del cancello e non si infila in un lotto che parla d'altro.",
+      "fix_proposto": "🟡 FATTO: `timeout-minutes` 30 → 75, che e una volta e mezza il bisogno misurato. Non di piu, e vale la stessa ragione scritta accanto a TEMPO_MAX_SUITE: un tetto troppo generoso smette di distinguere «la macchina e lenta» da «si e piantato». Il conto che l'ha deciso sta scritto nel file, accanto al numero. ⚠️ RESTA APERTO il pezzo strutturale, e va detto invece di farlo sparire dietro un numero piu grande: finche il cancello rompe OGNI mutazione del lotto, un lotto grande lo rende impraticabile — settantacinque minuti bastano per 52 mutazioni, non per centocinquanta. La strada e far girare solo le mutazioni dei file che il lotto TOCCA (il perimetro esiste gia in cancello-lotto.mjs), ma e un cambio al motore del cancello e non si infila in un lotto che parla d'altro. ⏳ 1/9: la meta del tetto e provata e verde (8 casi, 1 mutazione rossa), ma la scheda RESTA APERTA per il pezzo strutturale dichiarato qui sopra — far girare solo le mutazioni dei file che il lotto tocca. Chiuderla adesso vorrebbe dire cancellare l unica traccia di quel lavoro.",
       "verifica": {
         "tipo": "comando",
         "comando": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
