@@ -19227,6 +19227,24 @@
         "nota": "Sette casi. Quello sul tempo NON fissa un numero di millisecondi — cambia col computer, e una prova cosi diventa rossa per il motivo sbagliato: guarda la FORMA della crescita (raddoppiando l ingresso il tempo non deve quadruplicare). Due casi in direzioni opposte tengono la correttezza: le quattro forme di credenziale restano prese, i quattro URL puliti restano passati — senza il secondo, la cura piu facile sarebbe togliere tutto. Due mutazioni, tutte e due mordono."
       },
       "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto; la misura del tempo l ho rifatta io perche la prima riproduzione, con la forma di ingresso sbagliata, diceva che il difetto non c era"
+    },
+    {
+      "id": "AR-898",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-31 21:30",
+      "area": "macchina",
+      "nato_come": "riparare",
+      "titolo": "Il conto delle volte diceva trentadue dove gli usi veri erano ventuno, in una casa dove nessun numero sta senza fonte",
+      "sintomo": "Misurato prima di curare: dieci usi veri → undici dichiarate; ventuno usi veri compattando a ogni giro → TRENTADUE dichiarate. E il commento accanto al campo prometteva «il conto vero». Nel file vivo c erano gia sedici numeri di quel tipo, e la loro somma era cresciuta da 332 a 336 in due giri senza che nessun uso nuovo lo giustificasse. Altri due difetti nello stesso pezzo: un `quando` che non e una data finiva per sempre in fondo all ordine — cioe diventava «l ultimo uso» per sempre, e da li ogni uso nuovo veniva potato appena scritto mentre il comando continuava a dire «marcata»; e un uso-stringa si sbriciolava in un dizionario di lettere (`{...unaStringa}`).",
+      "causa_radice": "① `lista[0]` veniva TENUTO in lista E contato dentro il `volte` dell ultimo: dichiarato due volte. E siccome si ricompatta a ogni scrittura, l errore si sommava invece di restare costante. ② L ordine si faceva con `localeCompare` su testo: funziona finche sono tutte date, e la prima che non lo e non sbaglia posto — si pianta in fondo. ③ Lo spread di una primitiva non e un no-op: la sparge indice per indice. Tutti e tre sono miei, di AR-886, scritti sei giorni fa.",
+      "fix_proposto": "🟡 FATTO: `volte` conta da `lista[1]` in poi (`lista[0]` sta li e si conta da se); l ordine passa da `quandoInNumeri`, dove cio che non e una data vale «vecchissimo» — in fondo alla coda, non in testa al futuro; e una primitiva viene ricostruita come voce onesta invece di essere sparsa. ⚠️ I SEDICI NUMERI GIA SCRITTI non li ho indovinati: li ho CONTATI dal file pre-compattazione nella storia di git (commit 7124c5677). Quattordici erano gia giusti, DUE erano gonfi di due (L-2026-0730-532: 10→8 · L-2026-0803-540: 5→3), e la somma corretta — 332 — coincide con quella che il file aveva subito dopo la prima compattazione. Una correzione a occhio, «meno uno a tutti», ne avrebbe sbagliati quattordici su sedici: e la ragione per cui la storia si conta e non si stima.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
+        "nota": "Nove casi. Quello che conta di piu e il secondo: non guarda una compattazione ma UNDICI di fila, perche il difetto non era «sbaglia di uno» ma «l errore si somma» — con una compattazione sola sarebbe passato quasi inosservato. Piu il caso all incontrario: dopo l avvelenamento, l uso di oggi deve arrivare DAVVERO nel diario, non solo essere dichiarato. E l ultimo tiene i quattro contratti che gli altri strumenti si aspettano da questo campo. Tre mutazioni, tutte e tre mordono."
+      },
+      "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito"
     }
   ],
   "meta": {
