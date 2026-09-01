@@ -1,34 +1,137 @@
 ---
 tipo: stato
-aggiornato: 2026-08-31 20:35
-fonte: AD digitale (giro, cervello/giro.md)
+aggiornato: 2026-09-01 06:55
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 06:55 — Giro di perlustrazione: terza foto identica, nessun numero cambiato.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho riverificato tutto dal vivo con query dirette sul database: stessa
+> foto esatta del passaggio delle 22:50 di ieri sera. 1 negozio vero, 1 ordine mai pagato, 0 clienti
+> nuovi, 5 prodotti, sito pubblico ancora giù. Stallo North Star: **69 giorni**.
+>
+> **La cosa buona di oggi arriva dal piano del mattino, non da questo passaggio.** Alle 06:25 la
+> macchina ha trovato la causa precisa del sito giù. Il dominio `mycity-marketplace.com` punta
+> ancora ai vecchi server Render. Render non è più pagato. Su Vercel mancano anche almeno due
+> variabili. Una è `SUPABASE_SERVICE_ROLE_KEY`: senza questa chiave, un pagamento Stripe riuscito
+> non diventa mai un ordine. L'altra è `NEXT_PUBLIC_APP_URL`. Il sito su Vercel, preso da solo,
+> funziona.
+>
+> **Cosa ho fatto io in questo passaggio.** Solo verifica e consolidamento memoria. Il letargo è in
+> RISPARMIO e il gate North-Star è attivo: nessuna carta nuova, nessuna ricerca esterna. Ho
+> aggiornato `OKR-Squadra.md`: lo stallo è salito da 68 a 69 giorni. Ho anche tolto la data della
+> pausa concordata, perché si conclude proprio oggi. Ho verificato la coerenza dei fatti: memoria
+> coerente, 0 copie vecchie.
+>
+> **Una scoperta utile, non mia.** Un processo concorrente ha aggiornato il radar stamattina. Ha
+> trovato un bando nuovo del Comune: 400.000€ per la raccolta differenziata, aperto dal 31/8 al
+> 23/10. Le spese ammesse toccano proprio quello che fa un panificio come Pane Quotidiano. Resta
+> 🟢, solo una nota da girare al fornaio: non avvicina il primo ordine pagato, quindi non l'ho
+> accodata come azione.
+>
+> **Cosa non ho verificato.** Lo stato Stripe specifico di Pane Quotidiano (riporto ancora la
+> baseline del 24/8). Le quattro cose della scadenza del 29/8 (card #185), punto per punto. Il
+> radar l'ho solo riletto, non condotto io in prima persona in questo passaggio.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
+
+---
+
+> ☀️ **1/9 06:25 — Piano del mattino: il fermo del server è finito, resta il dominio sbagliato.** Richiesta tua implicita: cadenza fissa del mattino.
+>
+> **In parole semplici.** Ho riverificato il business sul database vero. Ancora 0 ordini pagati su 1
+> totale. Lo stallo oggi tocca **69 giorni**. Una cosa buona: i commit automatici di stanotte e di
+> ieri sera dimostrano che il server è tornato a lavorare da solo. Il fermo era stato segnalato il 22
+> agosto, card #168. Il sito pubblico resta comunque HTTP 503, per una causa diversa e già nota da 10
+> giorni. Il dominio vero punta ancora ai vecchi server, Render, non più pagato. E mancano due chiavi
+> su Vercel.
+>
+> **Le 3 priorità di oggi**, tutte già pronte in coda e in attesa solo della tua firma:
+> 1. Rimettere online il sito vero: dominio su Vercel + chiavi mancanti (#154+#155). Senza questo un
+>    pagamento riuscito non diventerebbe mai un ordine, anche con tutto il resto a posto.
+> 2. Sbloccare i pagamenti con carta di Pane Quotidiano (#182).
+> 3. Applicare le quattro migrazioni ferme sul database di produzione (#184), perché non si rompa il
+>    checkout al primo cliente vero.
+>
+> **Cosa non ho verificato.** Da quando esattamente sia ripartito il server. Ho visto solo le tracce
+> nel repository, non una connessione diretta. E non ho riverificato lo stato reale delle quattro cose
+> della scadenza del 29 agosto (card #185), ancora senza risposta.
 
 ---
 
 ## I numeri chiave, come li ho misurati l'ultima volta
 
-**Questa e' la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database, fatta il 28 agosto verso le 12:29
-(query dirette MCP Supabase). Quando i sensori sono ciechi, i controlli automatici
+**Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
+vengono dall'ultima lettura vera del database. L'ho fatta il 31 agosto verso le 20:58, con query
+dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
 leggono questa tabella invece di inventare un numero.
 
-**Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto, e
-archiviando le voci vecchie sarebbe sparita — portandosi dietro il numero che
-tre controlli usano per capire se l'attivita' e' ferma.
+**Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto. Archiviando le voci
+vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
+se l'attività è ferma.
 
-| Numero | Oggi (28/8 12:29) | Δ vs 24/8 13:05 | "Riuscito" | Note |
+| Numero | Oggi (31/8 20:58) | Δ vs 28/8 12:29 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 28/8 12:28 |
-| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe (solo balance API ok generico) — riporto il dato del 24/8 (charges/payouts/details_submitted tutti `false`) come baseline, non come misura fresca |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 28/8 12:29 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 31/8 20:58 |
+| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18 giorni fermo su questo stesso quadro |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 31/8 20:58. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **65 giorni** dal 24/6 (misurato 28/8 12:29, query MCP) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 06:20, query MCP) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0** | ▼ (era 1 al 24/8) | crescita | confermato `select count(*) from profiles where created_at>=now()-7d` = 0: anche il profilo test del 20/8 è uscito dalla finestra. Nessun negozio nuovo |
+| Nuovi clienti reali (7gg) | **0** | = (invariato dal 28/8) | crescita | Verificato con una query diretta sul database. Zero clienti nuovi. Zero negozi nuovi |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | ▼ **peggiorato** | 200 | riverificato in diretta con `verifica-sensori.mjs` il 28/8 12:27: era su il 24/8, oggi di nuovo giù — stessa causa mai risolta (server #168, chiavi Vercel #154, dominio #155) |
+| **Sito pubblico** | **HTTP 503** | = (invariato, ora 10 giorni giù dal 22/8) | 200 | riverificato in diretta con `verifica-sensori.mjs` l'1/9 06:01 (3 tentativi): il server che fa girare la macchina è ripartito (#168 superata), la causa del 503 resta dominio+chiavi Vercel (#155, #154) |
+
+---
+
+> 🔁 **31/8 22:50 — Secondo passaggio nello stesso giorno: riconferma, zero cambi.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho rifatto le stesse query dirette sul database (ordini, clienti,
+> prodotti) meno di due ore dopo il passaggio delle 21:05: nessun numero è cambiato. Il segnale
+> che ha fatto scattare questo giro pieno era «clienti passati da 7 a 8» — vero, ma quel cliente
+> risale al 21 agosto, non a oggi: la baseline del contatore era rimasta indietro di dieci giorni.
+>
+> **Cosa ho fatto.** Solo verifica: nessuna carta nuova, nessuna riscrittura delle tre già in coda
+> (#168, #182, #184) — sono complete e pronte, riaprirle con parole diverse sarebbe rumore.
+> Aggiornato anche `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md` (era fermo al 24/8, numeri e
+> scadenze scaduti): stallo North Star ricalcolato a 68 giorni, tasso di chiusura aggiornato a
+> 1,29 (agosto), tolto il riferimento alla pausa 24/8-1/9 ormai scaduta.
+>
+> **Cosa non ho verificato.** Le stesse cose non verificate alle 21:05: stato Stripe specifico di
+> Pane Quotidiano (baseline 24/8), le quattro cose della scadenza del 29/8 punto per punto, il
+> sito aperto in un browser vero.
+
+> 🧭 **31/8 21:05 — Giro di perlustrazione: il catalogo è riparato nel codice, il sito resta giù, e la scadenza del 29/8 è passata.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho riverificato tutto dal vivo (query dirette sul database, non a
+> memoria): il business è fermo esattamente come il 28/8 — 1 negozio vero, 1 ordine mai pagato,
+> 0 clienti nuovi. La sola novità reale è di codice, non di cassa: il difetto che mostrava 0
+> prodotti su 5 ai visitatori senza accesso è stato riparato e mergiato (#857). Non posso
+> verificarlo dal vivo perché il sito pubblico è ancora giù, HTTP 503, da 9 giorni.
+>
+> **La cosa da dirti chiaro.** `registro-fatti.json` (`cantiere.scadenza-zero`) segnava quattro
+> cose da chiudere entro il **29 agosto**. Oggi è il 31: la scadenza è passata da due giorni. Non
+> ho verificato in questo passaggio quali delle quattro restano aperte — lo segno come domanda,
+> non lo dichiaro chiuso né sforato a caso.
+>
+> **Le tre carte che contano di più, ferme in coda:** #184 (database di produzione indietro di 4
+> migrazioni — 126-129, accodata 29/8), #182 (Pane Quotidiano non incassa da 18 giorni e i post
+> pronti promettono comunque la consegna, accodata 28/8), #168 (server che fa girare la macchina
+> fermo da giorni, la causa più diretta del sito giù, accodata 22/8). Nessuna delle tre è stata
+> firmata.
+>
+> **Cosa ho fatto io.** Solo verifica e memoria: nessuna azione nuova aperta (North-Star gate +
+> letargo RISPARMIO, salute macchina 4/100). CI: 7 PR aperte, 5 rosse (#855/#842/#841/#741/#735,
+> tutte "colpa loro" — il guasto è nato sullo stesso ramo), 1 verde pronta a firma (#858), 1 in
+> corso (#860). Non toccate: non sbloccano una card business, e il gate lo vieta esplicitamente.
+>
+> **Cosa non ho verificato.** Lo stato reale delle quattro cose della scadenza del 29/8 (le ho
+> solo notate come scadute). Lo stato Stripe specifico di Pane Quotidiano (riporto il dato del
+> 24/8, non una misura di oggi). Il sito pubblicato — l'ho misurato solo con HTTP status, non
+> aprendolo nel browser.
 
 ---
 

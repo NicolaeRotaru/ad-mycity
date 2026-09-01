@@ -2,62 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-14T21:38:33.403Z",
-      "scatti": 7881,
-      "voci": 47,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 42,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T21:40:03.990Z",
-      "scatti": 655,
-      "voci": 12,
-      "per_classe": {
-        "prova-accecata": 8,
-        "gate-orfano": 1,
-        "riparazione-parziale": 1,
-        "difesa-rimossa": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T21:58:35.820Z",
-      "scatti": 7927,
-      "voci": 47,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 42,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T21:59:49.019Z",
-      "scatti": 7932,
-      "voci": 47,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 42,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T22:29:24.351Z",
-      "scatti": 8000,
-      "voci": 47,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 42,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-14T22:44:18.437Z",
       "scatti": 8058,
       "voci": 47,
@@ -2268,7 +2212,62 @@
         "prova-accecata": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-31T18:55:58.817Z",
+      "scatti": 5398,
+      "voci": 9,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-31T19:09:13.015Z",
+      "scatti": 5459,
+      "voci": 9,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-31T20:39:35.757Z",
+      "scatti": 5486,
+      "voci": 9,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-01T04:07:21.293Z",
+      "scatti": 5522,
+      "voci": 9,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-01T04:41:06.677Z",
+      "scatti": 5587,
+      "voci": 9,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-28T11:02:22.829Z"
+  "aggiornato": "2026-09-01T04:41:06.678Z"
 }

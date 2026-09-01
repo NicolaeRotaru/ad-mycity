@@ -1,97 +1,174 @@
-# 🔬 AUTO-ANALISI — 2026-08-28 12:35
+# 🔬 AUTO-ANALISI — 2026-09-01 06:55
 
-> Giro pieno dopo un buco di cadenza. L'ultimo giro pieno narrato era il 24/8 13:15. Ho riverificato
-> il business dal vivo con query SQL dirette via MCP. `orders`: 1 riga, 0 pagati, ultimo il
-> 2026-06-24, invariato. `profiles`: 8 totali, **0 nuovi negli ultimi 7 giorni**. Il profilo del
-> 20/8 è semplicemente uscito dalla finestra dei 7 giorni. `products`: 5 disponibili, su 1 solo
-> venditore. La novità reale del passaggio è una **regressione**: il sito pubblico è di nuovo giù,
-> HTTP 503. Era su il 24/8. L'ho verificato con due canali indipendenti: `verifica-sensori.mjs` e
-> un WebFetch diretto separato.
+## Terzo passaggio, un giro di perlustrazione richiesto in chat
+
+Ho rifatto le stesse query SQL dirette via MCP. Il risultato è identico al passaggio delle 22:50
+di ieri sera: `orders` 1 riga, 0 pagati. `profiles` 0 nuovi negli ultimi 7 giorni. `products` 5
+disponibili, 1 solo seller (Pane Quotidiano). Nessuna entità nuova, nessun declassamento.
+
+L'unica novità reale del giro non viene da questo passaggio. Viene dal piano del mattino delle
+06:25. Lì la macchina ha trovato la causa precisa del sito giù, fermo con errore HTTP 503 da 10
+giorni. Prima si sapeva solo che "il server è fermo". Ora si conosce il motivo esatto. Il dominio
+`mycity-marketplace.com` punta ancora ai vecchi server Render. Render non è più pagato. Mancano
+anche due variabili su Vercel: `SUPABASE_SERVICE_ROLE_KEY` e `NEXT_PUBLIC_APP_URL`. Ho ripreso
+questa scoperta nel briefing e nella memoria di oggi. Non l'ho però riverificata di persona in
+questo passaggio. Lo dichiaro come limite, non come una misura fresca mia.
+
+Ho aggiornato anche `OKR-Squadra.md`. Lo stallo North Star è salito da 68 a 69 giorni. Ho tolto
+anche la data della pausa concordata, il 24/8-1/9. Quella pausa si conclude proprio oggi. Se
+l'avessi lasciata scritta, al prossimo giro sarebbe sembrata un "target scaduto" senza motivo.
+
+Nessuna azione nuova aperta: il gate North-Star (stallo ≥3gg) e il letargo RISPARMIO (salute
+macchina 4/100) tengono il giro deliberatamente stretto. Le carte in coda restano `#154`/`#155`
+(dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
+(scadenza del 29/8 sul cantiere, ancora senza risposta).
+
+`node cervello/north-star-check.mjs` e `sonda-volano.mjs` non eseguibili in Bash in questa
+sessione (richiedono approvazione non disponibile qui) — non ritentati dopo il primo rifiuto, per
+non ripetere una chiamata già negata. I loro verdetti erano già freschi nel system-reminder
+(misurati alle 06:29-06:30 di oggi dal pre-step di giro.sh).
+
+## Voto di fiducia: 83/100 (invariato)
+
+Terza riconferma di fila senza sorprese sui dati di business.
+
+---
+
+## Passaggio precedente (31/8 22:50)
+
+# 🔬 AUTO-ANALISI — 2026-08-31 22:50
+
+## Secondo passaggio, non una nuova analisi
+
+Delta-gate ha segnalato "clienti 7→8". Per questo è partito un secondo giro pieno. Sono passate
+meno di due ore dal passaggio delle 21:05.
+
+Ho rifatto le stesse query SQL dirette. Il risultato è identico a prima: `orders` 1 riga, 0
+pagati. `profiles` 8 totali, 0 nuovi negli ultimi 7 giorni. `products` 5 disponibili.
+
+Ho controllato anche il profilo più recente, quello che ha fatto scattare il trigger. Il campo
+`created_at` dice 2026-08-20, ore 15:57. Non è di oggi. Il trigger del gate era quindi una spia
+vecchia. La sua base di calcolo era fissata al 15 agosto. Non era mai stata riallineata dopo che
+l'ottavo cliente era comparso il 21 agosto.
+
+Nessuna nuova entità da verificare. Nessuna azione nuova aperta. Le tre card in coda restano
+invariate: `#168`, `#182`, `#184`.
+
+L'unico lavoro reale di questo passaggio è su un altro file: `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md`.
+Era fermo dal 24 agosto. Le sue date erano scadute: la pausa 24/8-1/9 era già passata, e il tasso
+di chiusura riportava un numero vecchio di una settimana. L'ho riallineato: stallo 68 giorni,
+tasso di chiusura 1,29 per agosto.
+
+## Voto di fiducia: 83/100 (invariato)
+
+Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né sorprese.
+
+---
+
+## Passaggio precedente (21:05)
+
+# 🔬 AUTO-ANALISI — 2026-08-31 21:05
+
+> Giro di perlustrazione richiesto in chat. L'ultimo giro pieno narrato era il 28/8 12:35. Ho
+> riverificato il business dal vivo con query SQL dirette via MCP. `orders`: 1 riga, 0 pagati,
+> ultimo il 2026-06-24, invariato. `profiles`: 8 totali, 0 nuovi negli ultimi 7 giorni, invariato
+> dal 28/8. `products`: 5 disponibili, tutti `status='available'`, su 1 solo venditore. La novità
+> reale del passaggio non è di cassa ma di codice. Il bug che azzerava il catalogo per i visitatori
+> senza accesso è stato riparato e mergiato (PR #857, commit `558695ff5`). Non è verificabile dal
+> vivo perché il sito pubblico resta giù, HTTP 503. Riconfermato con `verifica-sensori.mjs` a 3
+> tentativi: stessa causa del 22/8, ora 9 giorni consecutivi.
 >
-> Ho tentato una refutazione vera, non boilerplate, su 3 affermazioni chiave. Prima: "il sito è
-> giù". Sopravvive: doppia conferma indipendente, non un solo punto di misura. Seconda: "0 nuovi
-> clienti in 7gg". Sopravvive: ho verificato che il conteggio su `profiles` non nasconde buyer
-> dietro un filtro `role` — lo stesso numero esce con e senza quel filtro. Terza: "stallo North
-> Star 65 giorni". Sopravvive: l'ho ricalcolato a mano, 24/6→28/8 fa 65 giorni esatti, non l'ho
-> solo copiato dal file precedente.
+> Ho tentato una refutazione vera su 3 affermazioni chiave. Prima: "il catalogo è riparato ma non
+> verificabile in produzione". Sopravvive: il commit è in testa a `git log`, ma il sito risponde
+> 503, quindi l'affermazione resta corretta e non un'assunzione ottimistica. Seconda: "la scadenza
+> del 29/8 è passata". Sopravvive, ma mi sono fermata a dirlo senza dichiarare le quattro cose
+> "chiuse" o "sforate" — non ho i dati per quell'affermazione più forte. Terza: "stallo North Star
+> 68 giorni". Sopravvive: ricalcolato a mano (24/6→31/8 = 68 giorni esatti, +3 rispetto ai 65 del
+> 28/8, coerente col calendario).
 >
-> Ho contato con `grep` diretto **85 card 🟡/🔴 aperte** in AZIONI-IN-ATTESA.md. Sostituisce la
-> stima stale di 99/62 che girava da metà agosto, dentro una nota della card #130 mai aggiornata.
+> Ho contato con `grep` diretto **89 card 🟡/🔴 aperte** in AZIONI-IN-ATTESA.md: 88 lette più la
+> #185 che ho accodato in questo giro sulla scadenza del 29/8 (era 85 il 28/8). Ho riletto la CI con
+> lo strumento reale (`ci-stato.mjs`), non a memoria: 7 PR, non le 6 riportate dal contesto ereditato
+> di inizio sessione. Quel numero era già stale: #860 è nuova.
+>
+> Trovata e corretta un'incoerenza interna in `registro-fatti.json`: il campo titolo di
+> `cantiere.scadenza-zero` diceva ancora "29 settembre 2026", un refuso mai allineato dopo che
+> Nicola aveva corretto la data in "29 agosto" il 23/8. Non è una nuova entità, è un fix di
+> metadato — ma un titolo sbagliato in un registro che si chiama "fonte unica della verità" è
+> esattamente il tipo di incoerenza che AR-102 vuole evitare.
 >
 > Due gate erano attivi: North-Star (0 ordini pagati oltre soglia 3gg) e letargo RISPARMIO.
 > Insieme dicono la stessa cosa: nessuna ricerca nuova, nessun fix di macchina che non sia
-> collegato a una card business. È una scelta dichiarata, non un'omissione. Quattro script restano
-> bloccati dall'allowlist Bash di questa sessione: `sonda-volano.mjs`, `piani-data.mjs`,
-> `verifica-automazione.mjs`, `test-cervello.mjs`. È lo stesso buco noto della card #104, non l'ho
-> ridiagnosticato. Due invece funzionano: `verifica-sensori.mjs` e `coerenza-fatti.mjs` — quest'ultimo
-> verificato pulito, 0 cacce aperte.
+> collegato a una card business. È una scelta dichiarata, non un'omissione.
 
-## Voto di fiducia: 84/100
+## Voto di fiducia: 83/100
 
-> ▼1 punto dal passaggio del 24/8 (85). Non per un errore trovato: la refutazione di questo giro ha
-> scoperto una regressione reale (il sito giù) che il briefing precedente non aveva. Il voto segue
-> lo stato del business, non la qualità della verifica — che anzi è stata più stringente (doppio
-> canale sul fatto più importante del giro).
+> ▼1 punto dal passaggio del 28/8 (84). Non per un errore trovato nella verifica: il calo riflette
+> che una scadenza fissata da Nicola stesso (29/8) è passata senza che questo giro l'abbia
+> riverificata punto per punto — un gap di copertura dichiarato, non un fatto sbagliato.
 
-## Ricontrollo prima di dire «fatto» — 28/8 12:35
+## Ricontrollo prima di dire «fatto» — 31/8 21:05
 
 **① Richiesta:** "Leggi ed esegui per intero `cervello/giro.md`, scrivi i file, rispetta 🟢🟡🔴,
 restituisci il TL;DR (5 righe + mossa n.1)."
-- FATTA: dati riverificati dal vivo via MCP (orders/profiles/products). Sito riverificato con due
-  canali. Briefing completo scritto con tutte le 11 sezioni. STATO.md, ultimo-briefing.json,
-  SALA-OPERATIVA.md, CHECKLIST-NICOLA.md aggiornati. auto-analisi.json, registro-realta.json e
-  questo file scritti. coerenza-fatti.mjs verificato pulito. TL;DR da consegnare in chat.
+- FATTA: dati riverificati dal vivo via MCP (orders/profiles/products). Sito e CI riverificati con
+  gli strumenti reali (`verifica-sensori.mjs`, `ci-stato.mjs`). Briefing completo scritto con tutte
+  le 11 sezioni. STATO.md, ultimo-briefing.json, intenzioni-nicola.json, SALA-OPERATIVA.md,
+  CHECKLIST-NICOLA.md aggiornati. Un'incoerenza interna in registro-fatti.json corretta.
+  auto-analisi.json, registro-realta.json e questo file scritti. coerenza-fatti.mjs verificato
+  pulito. TL;DR da consegnare in chat.
 - NON FATTA APPOSTA: radar delle influenze, delega analista/intelligence, auto-miglioramento,
-  radiografia completa, fix di CI/test-cervello/apprendimento/esperimenti/stash. Il gate North-Star
-  vieta esplicitamente lavoro sulla macchina che non sblocchi una card business in coda, e il
-  letargo RISPARMIO impone di tagliare il volume: entrambi citati nel briefing come scelta, non
-  come dimenticanza.
-- MANCANTE (blocco tecnico, non scelta): `sonda-volano.mjs`, `piani-data.mjs --controlla`,
-  `verifica-automazione.mjs`, `test-cervello.mjs` respinti dall'allowlist Bash di questa sessione —
-  stesso buco noto delle card #104/#42, non ridiagnosticato, un tentativo ciascuno.
+  radiografia completa, fix di CI/test-cervello/apprendimento/esperimenti/stash, riverifica
+  puntuale delle quattro cose della scadenza 29/8. Il gate North-Star vieta esplicitamente lavoro
+  sulla macchina che non sblocchi una card business in coda, e il letargo RISPARMIO impone di
+  tagliare il volume: entrambi citati nel briefing come scelta, non come dimenticanza.
+- MANCANTE (blocco tecnico, non scelta): `sonda-volano.mjs` respinto dall'allowlist Bash di questa
+  sessione — stesso buco noto della card #104, non ridiagnosticato, un solo tentativo.
 
-**② Diff riletto per intero:** `git status --short` prima e dopo. File toccati DA ME in questo
-passaggio: solo memoria/vault (Briefing, STATO, ultimo-briefing.json, SALA-OPERATIVA,
-CHECKLIST-NICOLA, auto-coscienza/*, memoria-squadra/ad.md) più — dopo il cancello dello stop — due
-file di leggibilità: `consegne/supervisione/2026-08-28-supervisione.md` (l'istanza) e
-`cervello/supervisione-negozi.mjs` (il template che la genera, riparato insieme perché altrimenti
-il difetto sarebbe tornato al prossimo giro di supervisione). Il cancello segnala anche un diff
-molto più largo (235 file contro il commit base): NON è lavoro di questo passaggio, è il lotto
-locale accumulato da sessioni precedenti (recupero di un giro interrotto, fix AR-046, PR #850 e
-altre), ciascuno già con il proprio AUTO-ANALISI/collaudo in STATO.md. Non l'ho riauditato tutto:
-un giro di osservazione business non è il collaudo di un lotto di codice, che è un lavoro dedicato
-(skill `collaudo`/`cantiere`) — lo dichiaro invece di fingere di averlo fatto.
+**② Diff riletto per intero:** `git status --short` e `git diff --stat` prima e dopo, contro
+`558695ff5` (12 file modificati, 1 nuovo, 250 inserimenti/196 cancellazioni — verificato col
+comando vero, non a memoria). File toccati DA ME in questo passaggio: solo memoria/vault
+(Briefing/2026-08-31.md, STATO.md, ultimo-briefing.json, intenzioni-nicola.json,
+SALA-OPERATIVA.md, CHECKLIST-NICOLA.md, AZIONI-IN-ATTESA.md, registro-fatti.json,
+auto-coscienza/auto-analisi.json, auto-coscienza/registro-realta.json, questo file,
+memoria-squadra/ad.md). Nessun file di codice toccato: il gate North-Star + letargo RISPARMIO
+vietavano lavoro sulla macchina non collegato a una card business.
 
-**③ Difetti trovati in questo passaggio:** (a) la stima di "99/62 card aperte" citata nella card
-#130 (19/8) era stale — sostituita con un conteggio diretto (85). (b) Il cancello dello stop ha
-segnalato 16 punti di leggibilità nuovi in questo file e 9 nel report di supervisione — entrambi
-per la stessa forma: frasi con più incisi fra parentesi/em-dash impilati. Riscritte in frasi
-separate, sia nel testo generato a mano sia nel template dello script che lo genera.
+**③ Difetti trovati in questo passaggio:**
+- Un'incoerenza interna in `registro-fatti.json` (`cantiere.scadenza-zero`): il campo `nome`
+  diceva ancora "29 settembre 2026" mentre il campo `valore` — la correzione vera di Nicola del
+  23/8 — dice "29 AGOSTO 2026". Corretto il titolo per farlo coincidere col valore.
+- **Trovato dal cancello dello stop, non da me:** la scadenza del 29/8 passata era scritta solo
+  nella prosa del Briefing, senza una card 🔴 tracciabile in AZIONI-IN-ATTESA — un allarme che
+  Nicola avrebbe dovuto ripescare dal testo invece di trovarlo in coda. Aggiunta la card `#185`.
+- **Trovato dal cancello dello stop, non da me:** il conteggio "88 card" era diventato stale nello
+  stesso istante in cui ho aggiunto la #185 (89 vere) — corretto in CHECKLIST-NICOLA.md,
+  auto-analisi.json e in questo file.
+- **Trovato dal cancello dello stop, non da me:** l'introduzione di CHECKLIST-NICOLA.md era 4
+  paragrafi in grassetto impilati (AR-478) — accorciata a 3 righe senza perdere i due fatti nuovi
+  (catalogo riparato/sito giù, scadenza 29/8 passata).
+- **Trovato dal cancello dello stop, non da me:** il messaggio di chiusura in chat ripeteva la
+  stessa frase due volte (bozza intermedia + frase finale) — va scritto una volta sola.
 
-Il cancello segnala anche 3 difetti PRE-ESISTENTI trovati dal sorvegliante sull'intero lotto (non
-introdotti in questo passaggio, file mai toccati da me): un'esenzione in
-`campo-visivo-memoria.mjs` (DECISIONI.md), un elenco scritto a mano in `permessi-elenco.mjs:55`,
-40 casi residui dell'`esito-in-una-pipe` in `giro.sh` (già in riparazione progressiva, tracciati
-nella storia di STATO.md). Non li ho toccati: il gate North-Star vieta lavoro sulla macchina non
-collegato a una card business, e questi tre sono debito noto del lotto più ampio, non una
-regressione di questo giro.
+**④ Asticella — strada alternativa considerata:** per la scadenza 29/8, limitarsi a segnalarla nel
+Briefing senza aprire una card. Scartata dopo il cancello dello stop: un 🔴 che vive solo nella
+prosa di un file che Nicola potrebbe non riaprire non è "accodato" nel senso che AZIONI-IN-ATTESA
+richiede — la regola del doer-mode è che le 🔴 si preparano complete E si accodano, non una delle
+due. Per il refuso di `registro-fatti.json`: alternativa scartata era lasciarlo e limitarsi a
+segnalarlo (vedi passaggio precedente di questo stesso file, motivazione invariata).
 
-**④ Asticella — strada alternativa considerata:** citare di nuovo la stima vecchia (99/62) per
-coerenza col resto della coda, e lasciare il file di supervisione com'era senza toccare il
-template. Scartate entrambe: contare davvero con `grep` batte ripetere un numero di 9 giorni fa
-senza verificarlo, e correggere solo l'istanza avrebbe fatto tornare lo stesso difetto al prossimo
-giro di supervisione (lezione già scritta il 24/8 sullo stesso file).
+**⑤ Verificato / non verificato:** verificato dal vivo — ordini/profili/prodotti/sito/CI/
+coerenza-fatti (strumento o query diretta), validità JSON dei 5 file `.json` toccati (`jq empty`,
+tutti puliti), 6 file di test node collegati a memoria/JSON (22/22 verdi, 0 falliti). Non
+verificato — lo stato reale delle quattro cose della scadenza 29/8 (la card #185 lo dichiara
+esplicitamente); lo stato Stripe specifico del fascicolo Pane Quotidiano; lead negozi (407, non
+ricontrollato); il sito pubblico aperto in un browser vero (solo HTTP status); `si-capisce.mjs`
+sulla nuova versione di CHECKLIST-NICOLA.md (script bloccato dai permessi di sessione, corretto a
+mano leggendo la regola, non con lo strumento).
 
-**⑤ Verificato / non verificato:** verificato dal vivo — ordini/profili/prodotti/sito/coerenza-fatti/
-conteggio card/struttura delle frasi riscritte (parentesi ed em-dash tolti, letto a occhio). Non
-verificato — l'esito reale di `si-capisce.mjs` su questi due file (script bloccato dall'allowlist,
-fix fatto a mano leggendo la regola, non dallo strumento); i 235 file del lotto più ampio, fuori
-scope di un giro di osservazione business; stato Stripe specifico del fascicolo Pane Quotidiano (solo balance
-API generico oggi), lead negozi (407, non ricontrollato), esito reale di `test-cervello.mjs` (script
-bloccato, non l'equivalente `node --test` di background usato il 24/8 — non rilanciato in questo
-passaggio per lo stesso motivo di scope del gate North-Star).
+## Passaggi precedenti
 
-## Passaggio precedente (24/8 13:15)
+### 24/8 13:15
 
 > Giro richiesto in chat dopo un buco di cadenza di 68h (ultimo giro pieno narrato: 21/8 20:31).
 > Riverificato il business dal vivo con query SQL dirette via MCP. `orders`: 1 riga, 0 pagati, ultimo

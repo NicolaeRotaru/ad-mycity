@@ -22,8 +22,37 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- scadenza-29-agosto-passata -->
+
+### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
+
+**In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
+aperti della macchina. I difetti aperti del design del marketplace. Il worker per le botteghe da
+costruire. Il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
+che punto sta ciascuna delle quattro. Questo giro ha verificato solo il business, che resta fermo,
+e il sito, che resta giù. Non ha toccato il cantiere.
+
+**Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
+ancora avuto da me con numeri veri.
+
+**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere. Ti porto il conto esatto: quanti difetti
+restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni, cioè il worker e
+il design venditore. Oppure dimmi se nel frattempo hai già deciso diversamente: allora questa card
+va chiusa.
+
+**Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
+data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
+
+**Cosa cambia:** senza risposta, il prossimo giro tratta questa scadenza come ancora aperta e
+continua a non riverificarla nel merito.
+
+**Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
+per ciascuna delle quattro nel prossimo giro.
+
+---
+
 <!-- cancello-del-sito-e-campo-prova -->
-### 🟡 #185 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
+### 🟡 #186 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
 
 **In parole semplici.** Ho scritto il metodo per chiudere tanti difetti del sito in una volta sola.
 Scrivendolo ho trovato tre buchi veri, e non li ho tappati: te li porto perché la decisione costa
@@ -102,22 +131,22 @@ la (b) te le applico in ordine, e ti porto la misura di ognuna.
 
 ### 🔴 #182 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
 
-**In parole semplici.** Ho controllato adesso, non a memoria: Pane Quotidiano — l'unico negozio vero
-su MyCity — non può ancora incassare con la carta. Tre interruttori sono ancora spenti (dati inviati,
-pagamenti attivi, versamenti attivi). Lo stesso quadro c'era già il 10 agosto: sono passati 18 giorni
+**In parole semplici.** Ho controllato adesso, non a memoria. Pane Quotidiano è l'unico negozio vero
+su MyCity. Non può ancora incassare con la carta. Tre interruttori sono ancora spenti: dati inviati,
+pagamenti attivi, versamenti attivi. Lo stesso quadro c'era già il 10 agosto. Sono passati 18 giorni
 e non è cambiato niente.
 
-**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti (quelli di luglio, più quello
-di agosto sui fornelli spenti) che dicono «ordina da casa, te lo portiamo» con un link diretto al
+**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti. Sono quelli di luglio, più
+quello di agosto sui fornelli spenti. Dicono «ordina da casa, te lo portiamo» con un link diretto al
 checkout. Se uno partisse oggi e un cliente pagasse con carta, il pagamento fallirebbe sotto i suoi
-occhi. L'unico ordine mai arrivato su questo negozio (24 giugno, pagamento alla consegna) è stato
-annullato, quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
+occhi. L'unico ordine mai arrivato su questo negozio è del 24 giugno, pagamento alla consegna, ed è
+stato annullato. Quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
 
-**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora — inclusi quelli fermi da
-settimane in attesa solo del tuo ok — promette una consegna che oggi il sito non sa mantenere. Se ne
+**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora promette una consegna che oggi il
+sito non sa mantenere. Vale anche per quelli fermi da settimane in attesa solo del tuo ok. Se ne
 pubblichi anche solo uno con quella promessa, il primo cliente che prova a pagare con carta trova un
 errore, non un ordine. Per il post di oggi (merenda pudding, card #180 qui sotto) ho tolto la
-promessa di consegna proprio per questo; gli altri già in coda ce l'hanno ancora.
+promessa di consegna proprio per questo. Gli altri già in coda ce l'hanno ancora.
 
 **Cosa devi fare.** Scegliere fra due strade.
 
@@ -450,6 +479,14 @@ Misurato da questa sessione il 2026-08-22 alle 19:40 con `node cervello/salute.m
 ritmo-mattino 110h, ritmo-mezzogiorno 128h, monitora 109h, ritmo-settimana 364h. Difetto di sistema
 chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira sul server, e il server
 è questo.
+
+> ✅ **Aggiornamento 2026-09-01 06:20 — Il server è tornato a lavorare da solo.** Il registro delle
+> modifiche mostra scritture automatiche del worker la sera del 31/8 (22:20) e stamattina all'1/9
+> (06:00). Sono entrambe commit di "recupero scritture pendenti". È il segno che le cadenze
+> schedulate girano di nuovo, senza bisogno che io intervenga da qui. Non ho aperto una connessione
+> diretta al server per controllare da quando esattamente sia ripartito. Quello che ho misurato è
+> la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
+> l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
 
 ---
 
@@ -2835,8 +2872,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-28 12:25)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-28-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 06:29)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-01-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

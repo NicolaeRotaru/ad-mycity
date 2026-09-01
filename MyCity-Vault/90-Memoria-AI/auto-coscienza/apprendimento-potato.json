@@ -1,6 +1,68 @@
 {
   "potature": [
     {
+      "quando": "2026-09-01 06:30",
+      "byte_prima": 1144342,
+      "byte_dopo": 1026626,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0709-61",
+            "testo": "**Caso-studio Nicola — «mergiare» è gergo E sbagliato nel nostro ramo-unico (chat 9/7):** "
+          },
+          {
+            "id": "L-2026-0708-59",
+            "testo": "**Un cancello di sicurezza espresso come CONVENZIONE non è imposto finché il CODICE non lo"
+          },
+          {
+            "id": "L-2026-0707-58",
+            "testo": "**Caso-studio Nicola — una card che aspetta un'azione MANUALE tua (che la macchina non può"
+          },
+          {
+            "id": "L-2026-0706-56",
+            "testo": "**Correzione Nicola — non ridurre la VISIONE agli esempi che dà, ragiona all'intero spazio"
+          },
+          {
+            "id": "L-2026-0706-54",
+            "testo": "**Una correzione approvata dal Pannello va propagata a TUTTI gli snapshot nello stesso pas"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-08-31 22:31",
+      "byte_prima": 1154873,
+      "byte_dopo": 1036957,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0723-453",
+            "testo": "**Prima di trattare un bug UI del Pannello come 'nuovo', controllare se esiste già un bran"
+          },
+          {
+            "id": "L-2026-0710-74",
+            "testo": "**Allowlist `\"Write\"` vs `\"Write(/tmp/*)\"` — la sintassi con percorso NON abilita le scrit"
+          },
+          {
+            "id": "L-2026-0709-64",
+            "testo": "**Caso-studio Nicola — la coda «Da approvare» NON è dove si applicano le modifiche al codi"
+          },
+          {
+            "id": "L-2026-0709-63",
+            "testo": "**Un dato che ESISTE ed è collegato ma nessuna superficie lo consuma = INVISIBILE, quindi "
+          },
+          {
+            "id": "L-2026-0709-62",
+            "testo": "**Caso-studio Nicola — prima di consigliare di RIMUOVERE/revocare qualcosa, verifica A COS"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-08-28 12:26",
       "byte_prima": 1151962,
       "byte_dopo": 1044888,
