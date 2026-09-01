@@ -8839,6 +8839,16 @@
    "lezione": "L-2026-0901-08",
    "perche_conta": "La regola di AR-900 vale per il CODICE VERO prima che per le prove: li c e il banco a fare da rete, qui non c e niente.",
    "nota_riaggancio": "Riagganciata il 2026-09-01 sulla FUNZIONE invece che sul punto di chiamata: la prova esegue la funzione, quindi e li che la mutazione deve mordere. Il punto di chiamata lo tiene il caso strutturale, dichiarato come tale."
+  },
+  {
+   "difetto": "AR-907",
+   "nome": "la prova si riscrive un orologio suo: torna Date.parse al posto del metro del codice",
+   "file": "cervello/test/archivi-senza-tetto.test.mjs",
+   "cerca": "  const t = date.map((d) => T.istante(d)).filter((x) => x != null);",
+   "sostituisci": "  const t = date.map((d) => (d ? Date.parse(String(d).replace(\" \", \"T\")) : NaN)).filter((x) => !Number.isNaN(x));",
+   "test": "cervello/test/archivi-senza-tetto.test.mjs",
+   "lezione": "L-2026-0901-12",
+   "perche_conta": "E la riga esatta che ha fatto rosso il cancello. Il caso deterministico la prende su un giorno nudo, dove lo scarto e di dodici ore: il rosso non dipende dal fuso della macchina, altrimenti il freno sarebbe verde proprio sul portatile di casa."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

@@ -19418,6 +19418,26 @@
       "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file",
       "chiuso_il": "2026-09-01 16:25",
       "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-892): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
+    },
+    {
+      "id": "AR-907",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-01 18:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "La prova degli archivi misurava il tempo con un orologio diverso da quello che stava provando, e diventava rossa a ore",
+      "sintomo": "Il cancello della richiesta 855 e uscito rosso su un solo file: `archivi-senza-tetto.test.mjs`, che copre SEI schede gia chiuse (AR-182, 254, 416, 471, 771, 861). Il caso caduto e «sul file VERO: nessuna lezione con un freno vivo o usata di recente muore», e l accusa era: «lezioni protette che invece decadrebbero: L-2026-0804-555 (freno=false, ultima traccia 28gg fa)». La stessa suite era uscita VERDE sulla stessa macchina poche ore prima, senza che nessuno toccasse ne la prova ne il codice.",
+      "causa_radice": "Due orologi sullo stesso numero. Il codice sotto esame (`passoDovuto` in tetti-archivio.mjs) legge i timbri con `istante()`, cioe `msDaTimbro`: l ora e quella di PIACENZA e un giorno senza ora vale mezzogiorno. La prova si era scritta un secondo metro con `Date.parse`, che legge l ora del PROCESSO — su questo container e sul runner e UTC — e un giorno nudo come mezzanotte di Greenwich. Misurato su L-2026-0804-555 (`ultima_conferma: 2026-08-04 17:40`): 27,97 giorni col metro della prova, 28,06 col metro del codice, esattamente due ore di scarto, cioe l offset estivo. Con la soglia dei 28 giorni in mezzo, la prova la dichiarava protetta e il codice la faceva decadere. Il difetto quindi non era permanente: si apriva per DUE ORE per ogni lezione che attraversava la soglia, e si richiudeva da solo. E la regola di casa esisteva gia — i timbri si leggono con `msDaTimbro`, mai con `Date.parse` — solo che valeva per il codice e non per le prove.",
+      "fix_proposto": "🟡 FATTO. ① `etaGiorni` nella prova adesso chiama `T.istante`, lo stesso metro di `passoDovuto`: un orologio solo. ② Un caso nuovo e DETERMINISTICO che pinza i due metri fra loro su tre timbri, fra cui un giorno nudo — su quello i due differiscono di dodici ore su QUALUNQUE macchina, anche una regolata su Piacenza, quindi il freno non dipende dal fuso del runner. Rimettendo `Date.parse` il caso esce rosso con il numero: «28.7096 contro 28.2930: sono due orologi diversi».",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/archivi-senza-tetto.test.mjs",
+        "nota": "36 casi (erano 35): il conto che sale e la prova che il caso nuovo gira davvero. Rotto apposta rimettendo Date.parse in etaGiorni: exit 1 con lo scarto stampato. Ripristinato: exit 0."
+      },
+      "trovato_da": "il cancello del lotto sulla richiesta 855, corsa 33527478062",
+      "chiuso_il": "2026-09-01 18:40",
+      "chiuso_come": "riparato"
     }
   ],
   "meta": {

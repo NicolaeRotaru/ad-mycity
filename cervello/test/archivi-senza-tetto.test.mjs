@@ -45,8 +45,22 @@ const V = await import(join(REPO, "cervello/lezione-viva.mjs"));
 
 // La soglia vera del decadimento, la stessa che usa il cristallizzatore.
 const SOGLIA_GIORNI = 28;
+// ⏰ IL METRO DEL TEMPO È QUELLO DEL CODICE, NON UN SECONDO METRO SCRITTO QUI.
+//
+// Questa riga usava `Date.parse`, e per questo il file è diventato rosso l'1/9 alle 17:40 senza che
+// nessuno lo toccasse. Le due letture dello stesso timbro non coincidono:
+//   · `Date.parse("2026-08-04T17:40")` legge l'ora del PROCESSO — su un runner in UTC sono le 17:40
+//     di Greenwich, cioè due ore più tardi delle 17:40 di Piacenza che quel timbro significa;
+//   · un giorno nudo, `Date.parse("2026-08-04")`, vale mezzanotte UTC, mentre in questa casa un
+//     giorno senza ora vale MEZZOGIORNO.
+// Misurato su L-2026-0804-555: 27,97 giorni col metro della prova, 28,06 col metro del codice.
+// Con la soglia a 28 in mezzo, la prova la dichiarava protetta e il codice la faceva decadere —
+// e si accusavano a vicenda per le due ore in cui le due misure stanno a cavallo della soglia.
+//
+// Il difetto non era da nessuna delle due parti del confronto: era avere due orologi. Adesso ce n'è
+// uno, `istante()` di tetti-archivio, lo stesso che usa `passoDovuto` per decidere.
 const etaGiorni = (date) => {
-  const t = date.map((d) => (d ? Date.parse(String(d).replace(" ", "T")) : NaN)).filter((x) => !Number.isNaN(x));
+  const t = date.map((d) => T.istante(d)).filter((x) => x != null);
   return t.length ? (Date.now() - Math.max(...t)) / 86400000 : Infinity;
 };
 const P = await import(join(REPO, "cervello/pota-apprendimento.mjs"));
@@ -171,6 +185,31 @@ prova("il cablaggio: senza `decaduto_step_il` il passo tornerebbe a essere per e
 // Adesso la prova chiama la regola VERA con gli stessi argomenti del cristallizzatore, e difende
 // l'invariante invece del conteggio: una lezione con un freno che monta ancora la guardia, o usata di
 // recente, non muore MAI. Quante ne decadono è una misura che si stampa, non un verdetto.
+prova("i due orologi sono uno solo: il metro di questa prova coincide con quello del codice", () => {
+  // 🔒 IL FRENO DEL DIFETTO QUI SOPRA, e non guarda il sorgente: esegue i due metri e li confronta.
+  //
+  // Serve un caso DETERMINISTICO, perché il difetto vero non lo era: si vedeva solo nelle due ore in
+  // cui una lezione qualunque stava a cavallo dei 28 giorni. Un difetto che compare a ore e sparisce
+  // da solo non lo trova nessuno guardando il rosso: lo si trova solo pinzando le due misure.
+  //
+  // Il giorno NUDO è il caso che nessun fuso può salvare: `Date.parse("2026-08-04")` vale mezzanotte
+  // di Greenwich per lo standard, mentre in questa casa un giorno senza ora vale MEZZOGIORNO. Fra i
+  // due ci sono dodici ore su qualunque macchina, anche una regolata su Piacenza — quindi se
+  // qualcuno rimette `Date.parse` in `etaGiorni`, questo caso diventa rosso ovunque, non solo in UTC.
+  for (const timbro of ["2026-08-04", "2026-08-04 17:40", "2026-01-15 09:00"]) {
+    const miaEta = etaGiorni([timbro]);
+    const suaEta = T.giorniDa(timbro);
+    assert.ok(
+      Math.abs(miaEta - suaEta) < 1 / 1440,
+      `sul timbro «${timbro}» questa prova misura ${miaEta.toFixed(4)} giorni e il codice ne misura ` +
+      `${suaEta.toFixed(4)}: sono due orologi diversi, e la soglia dei 28 giorni sta in mezzo`,
+    );
+  }
+  // E la data illeggibile deve valere «vecchissima» per entrambi, non «adesso» per uno dei due.
+  assert.equal(etaGiorni(["non-una-data"]), Infinity);
+  assert.equal(T.giorniDa("non-una-data"), Infinity);
+});
+
 prova("sul file VERO: nessuna lezione con un freno vivo o usata di recente muore", () => {
   const j = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
   const attive = (j.lezioni || []).filter((l) => l && l.stato === "attiva");

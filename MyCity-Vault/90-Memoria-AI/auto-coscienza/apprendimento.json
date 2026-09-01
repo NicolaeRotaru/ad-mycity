@@ -12629,6 +12629,28 @@
    "usi": [],
    "gate": "",
    "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-12",
+   "testo": "**AR-907.** Una prova che si scrive un proprio metro del tempo non prova il codice: prova se stessa. Qui `Date.parse` contro `istante()` facevano due ore di scarto sulla soglia dei 28 giorni, e il file diventava rosso a ore senza che nessuno lo toccasse. Il metro lo si IMPORTA da chi si sta provando, e chi non puo importarlo lo pinza con un caso deterministico.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 18:40",
+   "ultima_conferma": "2026-09-01 18:40",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/archivi-senza-tetto.test.mjs",
+   "data": "2026-09-01"
   }
  ],
  "principi": [
