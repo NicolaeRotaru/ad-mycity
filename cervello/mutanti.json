@@ -8762,6 +8762,24 @@
    "sostituisci": "",
    "test": "cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
    "perche_conta": "Il messaggio diceva gia a parole «non posso guardare» e poi tornava rosso lo stesso: la parola e il verdetto devono dire la stessa cosa."
+  },
+  {
+   "difetto": "AR-905",
+   "nome": "l avviso del debito torna a non dire di quale famiglia parla: due misure diverse con lo stesso nome",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  avvisi.push(`${passo.nome} · ${regola} — ${v.motivo}`);",
+   "sostituisci": "  avvisi.push(`${passo.nome} — ${v.motivo}`);",
+   "test": "cervello/test/due-famiglie-un-nome-solo.test.mjs",
+   "perche_conta": "Il verdetto era giusto tutt'e due le volte; era il NOME a mentire. Un referto che sembra contraddirsi si smette di leggere."
+  },
+  {
+   "difetto": "AR-905",
+   "nome": "la riga che BLOCCA torna a non dire quale tetto e stato sfondato",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} · ${regola} — ${v.motivo}` });",
+   "sostituisci": "    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} — ${v.motivo}` });",
+   "test": "cervello/test/due-famiglie-un-nome-solo.test.mjs",
+   "perche_conta": "Il verdetto era giusto tutt'e due le volte; era il NOME a mentire. Un referto che sembra contraddirsi si smette di leggere."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

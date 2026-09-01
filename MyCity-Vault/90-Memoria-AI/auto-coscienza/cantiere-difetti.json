@@ -19377,6 +19377,26 @@
       },
       "chiuso_come": "node cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs → 16 casi, exit 0. Una mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-904). E le due prove che erano rosse, rilanciate a porta libera: c2-schermo 6 casi verdi, c4-schermo-coda 5 casi verdi — cioe il difetto era davvero l ambiente e non la pagina.",
       "trovato_da": "due prove rosse nella suite, seguite fino alla causa invece di essere rilanciate finche passavano"
+    },
+    {
+      "id": "AR-905",
+      "gravita": "minore",
+      "stato": "chiuso",
+      "nato": "2026-09-01 17:20",
+      "chiuso_il": "2026-09-01 17:30",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il referto del cancello sembrava contraddirsi, e invece erano due famiglie con lo stesso nome addosso",
+      "sintomo": "Il cancello del 31/8 ha scritto, a due righe di distanza: «❌ test-del-cervello: 2 rossi contro un tetto di 0» e «⚠️ test del cervello — 1 rosso/i ereditati, nessuno di questo lotto (sotto il tetto)». Sembrano due affermazioni contraddittorie sulla stessa misura. Ci ho perso mezz ora a cercare la contraddizione prima di capire che erano due cose diverse.",
+      "causa_radice": "`applicaTetto` viene chiamata DUE VOLTE sullo stesso oggetto passo: una per i rossi in Node e una per quelli in bash, che hanno tetti diversi apposta (il debito ereditato in bash ha un numero suo, e metterlo nel tetto dei test Node — che e zero — renderebbe il cancello rosso per sempre proprio quando si e smesso di essere ciechi). Ma l avviso portava solo `passo.nome`, che e «test del cervello» per tutt e due. E la malattia AR-880 — un accusa col nome sbagliato — dentro il REFERTO invece che nel verdetto: il verdetto era giusto tutt e due le volte, era il nome a mentire.",
+      "fix_proposto": "🟡 FATTO: l avviso e la violazione portano `${passo.nome} · ${regola}`. Il nome del passo resta — serve a sapere quale guardiano ha parlato — e accanto c e la famiglia, che e quella che distingue le due righe.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/due-famiglie-un-nome-solo.test.mjs",
+        "nota": "Cinque casi. Il terzo e quello vero: due chiamate di fila sullo STESSO oggetto passo, com e nel cancello, e le due righe devono restare distinguibili. Piu due che tengono i versi opposti — il nome del passo non deve sparire (sarebbe l errore speculare), e il debito sotto il tetto deve continuare a non bloccare pur restando dichiarato. Due mutazioni, tutte e due mordono."
+      },
+      "chiuso_come": "node --test cervello/test/due-famiglie-un-nome-solo.test.mjs → 5 casi, exit 0. Due mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-905). Per provarlo ho dovuto esportare `applicaTetto`, che prima era privata: una funzione che decide se il cancello blocca e non si puo chiamare da una prova e una decisione che nessuno puo controllare.",
+      "trovato_da": "il referto del cancello, letto fino a capire perche si contraddiceva invece di scegliere quale delle due righe credere"
     }
   ],
   "meta": {

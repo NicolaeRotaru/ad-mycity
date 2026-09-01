@@ -657,14 +657,14 @@ function esegui(nome, cmd, args, opts = {}) {
  * stampa leggono `fallito`/`cieco`/`coda`, e una seconda forma di passo che le stesse righe devono
  * saper leggere è il modo in cui due strade divergono al primo cambiamento.
  */
-function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, regola }) {
+export function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, regola }) {
   const v = verdettoConTetto({ codice: passo.codice, quanti, tetto, delLotto });
   if (v.esito === "ok" || v.esito === "cieco") return v;
   if (v.esito === "violazione") {
     // Resta rosso, ma adesso il motivo dice DI CHI è: «tuo» o «il debito si è allargato», che sono
     // due mosse diverse per chi legge. Prima erano la stessa riga.
     passo.coda = [`❌ ${regola}: ${v.motivo}`, ...passo.coda];
-    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} — ${v.motivo}` });
+    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} · ${regola} — ${v.motivo}` });
     return v;
   }
   // DEBITO: il guardiano è rosso su roba di altri e sotto il tetto. Il passo NON blocca più, e il
@@ -673,7 +673,21 @@ function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, rego
   passo.fallito = false;
   passo.debito = true;
   passo.coda = [`⚠️ ${regola}: ${v.motivo}`, ...passo.coda];
-  avvisi.push(`${passo.nome} — ${v.motivo}`);
+  // ⚠️ IL NOME DELLA REGOLA, NON SOLO QUELLO DEL PASSO — AR-905.
+  //
+  // Questa funzione viene chiamata DUE VOLTE sullo stesso passo: una per i rossi in Node
+  // (`test-del-cervello`) e una per quelli in bash (`test-in-bash`), che hanno tetti diversi
+  // apposta. Ma l'avviso portava solo `passo.nome`, che è «test del cervello» per tutt'e due.
+  //
+  // Il referto del cancello del 31/8 diceva, a due righe di distanza:
+  //   ❌ test-del-cervello: 2 rossi contro un tetto di 0
+  //   ⚠️ test del cervello — 1 rosso/i ereditati, nessuno di questo lotto (sotto il tetto)
+  // e chi legge le prende per due affermazioni contraddittorie sulla stessa misura. Non lo sono:
+  // sono due famiglie diverse con lo stesso nome addosso. Ho perso mezz'ora a cercare la
+  // contraddizione prima di capire che erano due cose.
+  //
+  // È la malattia AR-880 — un'accusa col nome sbagliato — dentro il referto invece che nel verdetto.
+  avvisi.push(`${passo.nome} · ${regola} — ${v.motivo}`);
   return v;
 }
 
