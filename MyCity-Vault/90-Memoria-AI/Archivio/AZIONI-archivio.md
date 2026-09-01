@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-08-29 01:22
+aggiornato: 2026-09-01 20:40
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-09-01 20:40 · 28 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -921,3 +928,32 @@ il collaudo vero. La firmi tu prima che tocchi il sito.
 quello che so è misurato sul codice e sul database ricostruito dalle istruzioni del progetto. È
 esattamente per questo che la prova la devi fare tu, e vale più di qualsiasi altra cosa scritta
 stasera.
+
+---
+
+### ✅ Manda in produzione i tre fix del sito · ⏳ accodata 2026-09-01 14:45 · ✅ approvata da Nicola 2026-09-01 18:10
+
+Nicola ha unito la richiesta di modifica 245 sul sito. Le tre riparazioni sono su `main`.
+
+**Cosa conteneva.** Il pulsante spento adesso si legge: prima il testo era quattro volte meno
+visibile del minimo, e su un prodotto esaurito quel testo dice «Non disponibile». Il titolo delle
+finestre non viene più tagliato. Sei falle di sicurezza nelle librerie sono chiuse, cinque delle
+quali gravi.
+
+**Com'è finita.** Unita alle 18:10 del 1/9 (commit di unione `2185736`). Prima dell'unione tutti i
+controlli erano verdi. Il giro di prove rosso delle 14:21 era lentezza del computer che le esegue,
+non un difetto: rilanciato sullo stesso commit, è passato.
+
+**Cosa NON è dimostrato.** Che le tre riparazioni si vedano sul sito pubblicato. Da qui non l'ho
+aperto: so che il codice è su `main`, non che sia già online. Il sito esce da una strada che nessuno
+controlla prima — vedi la richiesta 247, aperta per questo.
+
+- **Colore:** 🟡 (componenti grafici e versioni di librerie)
+- **Reparto:** frontend-dev
+
+---
+
+---
+
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 27.
+> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
