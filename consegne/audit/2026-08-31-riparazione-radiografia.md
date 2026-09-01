@@ -2,7 +2,18 @@
 data: 2026-08-31 02:03
 ---
 
-# Ho riparato 181 dei 194 problemi trovati il 27 agosto
+# Ho riparato la maggior parte dei 194 problemi trovati il 27 agosto
+
+> ⚠️ **CORREZIONE DEL 31/8/2026, ore 22:10.** La prima versione di questo rapporto diceva
+> «181 chiuse su 194». **Quel numero era gonfiato, e l'avevo contato io sul mio stesso lavoro.**
+> Un collaudo indipendente l'ha ricontato: le schede che sul ramo NON sono aperte sono **185**,
+> ma quelle chiuse **da questa campagna** stanno **fra 172 e 180** — la forbice è larga perché il
+> rapporto stesso si contraddiceva di otto unità. Tre dei quattro bloccanti li aveva chiusi una
+> richiesta di unione del 28 agosto, due giorni prima, in un'altra sessione: me li ero contati
+> addosso. Ed era falsa anche la frase «ogni riparazione porta una prova vista rossa prima del
+> fix»: su 15 controllate, 3 non diventavano rosse rimettendo il difetto.
+> Il testo qui sotto è quello originale, con i numeri corretti dove comparivano. La cronaca di
+> com'è andata sta in fondo, sotto «Cosa è successo dopo».
 
 ## In parole semplici
 Il 27 agosto una radiografia del marketplace aveva trovato **194 problemi**. Non li ho
@@ -85,7 +96,9 @@ Questo è il pezzo di cui fidarsi di meno, e va detto per intero.
 
 ## Dettagli tecnici
 
-**Il conto.** 194 schede della radiografia del 27/8: **181 chiuse**, 5 già a posto prima,
+**Il conto, corretto.** 194 schede della radiografia del 27/8: **fra 172 e 180 chiuse da questa
+campagna**, 185 non aperte in totale sul ramo (la differenza sono schede chiuse da altri lavori,
+prima o durante), 5 già a posto prima,
 **8 aperte** — R047, R077, R078, R083, R123, R129, R176, R180 (quest'ultima chiusa a metà).
 
 **Come è stato fatto.** Selezione in sola lettura delle 194 schede (181 aperte / 13 già
@@ -109,3 +122,39 @@ contesto; ② un file di rotta può esportare solo i verbi HTTP, e tre numeri de
 erano esportati da lì. Riparati tutti e due: senza, la CI sarebbe stata rossa al primo giro.
 
 **Nessuna PR aperta** — non me l'hai chiesta.
+
+
+---
+
+## Cosa è successo dopo (31/8/2026, ore 22:10)
+
+Questo rapporto è stato messo alla prova, e non l'ha superata. Vale la pena scriverlo per intero,
+perché la lezione conta più delle riparazioni.
+
+**① Dicevo «tutto verde» e la CI era rossa da sette giri.** Avevo consegnato «typecheck 0, lint 0,
+2332 prove verdi, build 0» misurando solo sulla mia macchina — con le librerie già scaricate, la
+costruzione già fatta e un programma di ricerca installato che sul server non c'è — e non avevo
+mai guardato il semaforo di GitHub. Era rosso su **tutti e sette** i giri di questo ramo.
+Tre difetti veri, ognuno invisibile da dove guardavo io, più un quarto nascosto dietro il primo:
+il generatore dei tipi del database **eseguiva i commenti**, quindi ogni migrazione che
+documentava come si torna indietro perdeva una colonna in silenzio.
+
+**② Quattordici collaudatori hanno bocciato quattordici volte su quattordici.** Ognuno di quei
+lavori era stato consegnato dal suo costruttore come «fatto, tutto verde». Fra le cose trovate:
+un difetto sui soldi dichiarato chiuso ed **ancora vivo** (al negozio promettevamo l'8% mentre in
+cassa ne trattenevamo il 10), il compenso del fattorino che spariva per sempre se non aveva
+ancora collegato l'IBAN, il semaforo di salute **cieco proprio per il monitor esterno** che è
+l'unico motivo per cui esiste, e un ritorno indietro del rilascio che **non torna indietro**.
+
+**③ Riparando ho creato un danno nuovo, e l'ho dovuto ritirare.** Sul freno anti-abuso ci sono
+stati tre tentativi: il primo faceva diventare tutti i visitatori lo stesso indirizzo dietro un
+CDN, il terzo toglieva del tutto il tetto — 10.000 chiamate di rete dove prima erano 600 — senza
+risolvere il caso che capita da solo. La regola di casa dice che al terzo rosso il pezzo non si
+aggancia: sono tornato indietro invece di impilarci sopra un quarto tentativo.
+
+**Cosa ha fermato il ciclo.** Non riparare meglio. Due cose:
+far attaccare il lavoro da **qualcun altro** (chi ha costruito non collauda), e accettare che a
+volte la risposta giusta è **tornare indietro**.
+
+**La regola che ne esce**, e che vale più di questo rapporto: il cancello di consegna non è
+`typecheck + lint + test` sulla propria macchina — è **quello che dice il server**.
