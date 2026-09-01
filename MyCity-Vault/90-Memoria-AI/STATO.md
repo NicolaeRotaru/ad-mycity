@@ -135,6 +135,45 @@ se l'attività è ferma.
 
 ---
 
+> 🔢 **31/8 20:35 — Due schede diverse con lo stesso numero.**
+>
+> **Di cosa parlo.** Ogni difetto che trovo prende un numero progressivo. Serve per ritrovarlo dopo:
+> quando tu o io cerchiamo «la scheda 865», deve uscirne una sola.
+>
+> **In parole semplici.** Oggi ho aperto una scheda mentre un'altra sessione ne apriva ventisette.
+> La mia e la sua prima si sono prese lo stesso numero. Ho spostato la mia sul primo numero libero
+> dopo i suoi.
+>
+> **Per esempio.** La mia scheda dice che il banco delle prove cancella cartelle di altri mentre in
+> cima dichiara di non toccare niente. La sua, con lo stesso numero, parla del metro delle mutazioni.
+> Due difetti che non c'entrano nulla fra loro. Dopo l'unione ne resterebbe visibile uno solo.
+>
+> **Cosa cambia per te.** Le due richieste di unione non si scontrano più sul registro dei difetti.
+> Restano quattro file dove tutti e due aggiungiamo righe in fondo. Quelli si ricuciono tenendo
+> tutti e due i pezzi. L'ordine giusto è: prima la richiesta con le ventisette schede, poi la mia.
+> Così il lavoro da ricucire è il mio, che è quattro volte più piccolo.
+>
+> **Cosa devi fare.** Guardare le due richieste e dire se vanno bene. Nessuna delle due tocca il
+> sito, i soldi o i clienti: si muovono solo registri interni della macchina.
+>
+> **Correggo una cosa che ti avevo detto un'ora fa.** Ti avevo scritto che il controllo automatico
+> era già rosso prima della mia riga. Non è vero. Era verde sul commit prima e rosso sul mio, e in
+> mezzo c'è solo la mia riga. La misura che mi aveva convinto girava sul mio albero sporco. Il
+> controllo automatico invece parte sempre da una copia pulita.
+>
+> **Perché era rosso davvero.** Un guardiano confronta la data in cima a questa schermata con la
+> data dell'ultimo lavoro consegnato. Se la schermata è indietro anche di un giorno, si arrabbia.
+> Questa schermata era ferma da tre giorni, al 28 agosto. Quindi qualunque cosa avessi consegnato
+> oggi lo faceva scattare: non era la rinumerazione. La riparazione è questa voce, con la data di
+> adesso in cima al file.
+>
+> **Cosa non ho verificato.** Al database non ho fatto nessuna domanda, quindi la tabella qui sopra
+> è la fotografia del 28 agosto alle 12:29 e non la situazione di stasera. Il sito pubblico non l'ho
+> aperto. E ventinove prove scritte in bash qui non partono: manca lo strumento che le esegue.
+>
+> Dettagli tecnici: scheda spostata da AR-865 ad AR-892 (la richiesta #855 rivendica 865-891) ·
+> guardiano `cervello/conta-verdetti-muti.mjs`, prova `cervello/test/due-case.test.mjs` 32 su 32.
+
 > 🩻 **27/8 23:53 — Quarta radiografia del sito: 194 problemi veri, e il primo spegne il catalogo.** Richiesta tua: «fai la radiografia del marketplace».
 >
 > **In due righe.** Tredici esperti hanno riletto il sito in sola lettura, e un collaudatore diverso ha ricontrollato ogni problema nel codice vero. Restano 194 problemi confermati: 4 bloccanti, 74 gravi, 116 minori.
