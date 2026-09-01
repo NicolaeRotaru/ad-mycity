@@ -4794,3 +4794,48 @@ chiuse. E non ho aperto il sito pubblicato: ho misurato il database, non la pagi
 vetrina sconti non mostrerà i cartellini «Esaurito» e la produzione resta indietro rispetto al codice.
 È lo stesso buco del quarto bloccante: il cancello che dovrebbe applicare le migrazioni è spento per
 mancanza delle tre chiavi Vercel.
+
+## 2026-09-01 18:35 — 🟡 Nicola ha unito i tre fix del sito, e il referto del rilascio è saltato fuori muto
+
+**Cosa è successo.** Nicola ha unito la richiesta 245 su `mycity` alle 18:10 (commit di unione
+`2185736`): contrasto del pulsante disabilitato, titolo delle finestre tagliato, sei vulnerabilità
+nelle dipendenze di produzione. Prima dell'unione i controlli erano tutti verdi. Il giro rosso delle
+14:21 era contesa di CPU sul computer che esegue le prove, non il codice: rilanciato sullo stesso
+commit, passato.
+
+**Cosa è venuto fuori dopo.** Guardando se il rilascio fosse davvero uscito, il lavoro «Rilascio
+dopo CI verde» risultava **rosso sull'unione precedente** (la 246, esecuzione 33523989477). Il rosso
+in sé è voluto — dal 31/8 quel lavoro finisce rosso finché mancano i tre segreti Vercel, per non
+mostrare una spunta verde su un rilascio che nessuno ha controllato. Il difetto era un altro: usciva
+**muto**.
+
+**La causa radice.** Il passo `Checkout` era guardato da `if: steps.chiavi.outputs.pronto == 'true'`.
+Senza i segreti il checkout salta, il workspace resta vuoto, e il passo finale — che è `always()` e
+serve proprio a dire cosa NON è stato controllato — lancia `node scripts/prova-di-fumo.mjs
+--verdetto` su un file che non c'è. Node muore con MODULE_NOT_FOUND, lo stdout è vuoto, e nel
+riepilogo di Nicola non finisce niente: solo una traccia di stack nel log. Cioè: l'unico passo
+scritto per dire sempre la verità era anche l'unico che non poteva parlare, proprio nel caso per cui
+era stato scritto.
+
+**Perché le prove non l'avevano preso.** Gli otto casi di
+`il-rilascio-che-non-ha-provato-niente-non-esce-verde.test.ts` passavano anche mentre la CI era
+rossa: l'helper `esegui()` lancia lo script con `cwd` sulla radice del repository, dove
+`scripts/prova-di-fumo.mjs` c'è sempre. Il mondo della prova aveva il file, il mondo del runner no —
+e la differenza fra i due mondi era esattamente il difetto. È la scorciatoia di sempre: una prova
+che non può fallire nel modo in cui fallisce la realtà.
+
+**Cosa ho fatto.** Tolta la guardia dal `Checkout` (richiesta 247, ramo
+`claude/amazing-lovelace-nqa9o1`). Prova nuova che guarda il **workspace** invece dello script, e
+che ricava dal passo stesso quale file gli serve invece di scriverlo a mano. Contiene il caso di
+mutazione, e l'ho vista diventare rossa rimettendo la guardia nel file vero. Cancello del sito
+verde: typecheck 0, lint 0, 2411 prove su 2411 in 326 file.
+
+**Cosa NON è dimostrato.** Che il lavoro giri correttamente su GitHub dopo la correzione: si vedrà
+alla prossima unione su `main`. E soprattutto: **non ho toccato il problema vero.** Il sito esce in
+produzione da solo a ogni unione, senza aspettare i controlli — questa modifica rende leggibile un
+referto, non mette un cancello. Per chiudere quella porta servono i tre segreti Vercel, che solo
+Nicola può prendere.
+
+**In attesa di Nicola:** ① unire la 247; ② i tre segreti Vercel (`VERCEL_TOKEN`, `VERCEL_ORG_ID`,
+`VERCEL_PROJECT_ID`); ③ se archiviare la parte chiusa di `RADIOGRAFIA-MACCHINA.md`, che tiene rosso
+il cancello di OGNI richiesta su `ad-mycity`. · Nicola (chat 1/9)

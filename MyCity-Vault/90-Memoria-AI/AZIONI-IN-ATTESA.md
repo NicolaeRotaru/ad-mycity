@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-29 01:22** — Automatico: **107 aperte · 27 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-09-01 20:40** — Automatico: **110 aperte · 28 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -23,6 +23,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- trigger-esterno-anti-churn -->
+
 ### 🟡 #188 — Dimmi dove vive il comando che ogni giorno mi chiede di controllare i negozi in calo · ⏳ accodata 2026-09-01 11:22
 
 **In parole semplici.** Ogni giorno arriva un compito — "PLAYBOOK anti-churn negozi" — che mi chiede di
@@ -119,6 +120,7 @@ continua a non riverificarla nel merito.
 
 **Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
 per ciascuna delle quattro nel prossimo giro.
+
 ---
 
 <!-- rilascio-ordinato-migrazioni -->
@@ -2919,31 +2921,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 27.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 28.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
-
----
-
-## Decidi se mandare in produzione i tre fix del sito — 2026-09-01 14:45
-
-Guarda la richiesta di modifica numero 245 sul sito e dimmi se la unisco.
-
-**Cosa cambia:** contiene tre riparazioni.
-
-Il pulsante spento adesso si legge. Prima il testo era quattro volte meno visibile del
-minimo. Su un prodotto esaurito quel testo dice «Non disponibile». Il cliente non
-capiva perché non poteva comprare.
-
-Il titolo delle finestre non viene più tagliato. «Condividi la lista della spesa» prima
-spariva a metà.
-
-Sei falle di sicurezza nelle librerie del sito sono chiuse. Cinque erano gravi. Una
-permetteva di far fare al nostro server richieste verso indirizzi scelti da un estraneo.
-Il nostro codice non cambia: cambiano solo le versioni delle librerie.
-
-**Se va bene:** unendola, il sito riparte con quelle tre cose sistemate. Tutte le prove
-automatiche sono verdi: 1538 su 1538, più la costruzione delle 177 pagine. Se preferisci
-guardarla prima con calma, non c'è fretta: nessuna delle tre è un'emergenza.
-
-- **Colore:** 🟡 (tocca il sito, ma solo componenti grafici e versioni di librerie)
-- **Reparto:** frontend-dev
