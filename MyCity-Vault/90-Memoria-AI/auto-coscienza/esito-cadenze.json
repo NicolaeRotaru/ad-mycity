@@ -12,19 +12,20 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-01 11:40",
+      "quando": "2026-09-01 12:12",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
       "passi_ok": false,
-      "vincoli_attivi": 10,
+      "vincoli_attivi": 11,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CORREZIONE_NICOLA",
         "ESP",
         "TASSO",
+        "TEST",
         "VOLANO",
         "LETARGO",
         "NORTH_STAR",
@@ -73,5 +74,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-01 12:07"
+  "aggiornato": "2026-09-01 12:12"
 }
