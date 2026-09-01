@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-08-31 21:05
+aggiornato: 2026-09-01 06:30
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -10,36 +10,41 @@ aggiornato: 2026-08-31 21:05
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
 > Rigenerata perché era ferma al 28/8 (oltre i 2 giorni della regola AR-030).
 >
-> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **68 giorni**.
+> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **69 giorni**.
 >
-> Due cose nuove. Il bug del catalogo vuoto è riparato (#857), ma il sito resta giù da 9 giorni:
-> le tre carte qui sotto restano senza firma. E la scadenza che avevi fissato tu, il 29 agosto,
-> è passata da due giorni — dimmi se vuoi che ti porti il conto puntuale delle quattro cose.
+> Il server è ripartito da solo stanotte (card #168 aggiornata). Il sito resta comunque giù da 10
+> giorni: la causa adesso è solo il dominio e due chiavi su Vercel, le due carte qui sotto. E la
+> scadenza che avevi fissato tu, il 29 agosto, è passata da tre giorni. Dimmi se vuoi che ti porti
+> il conto puntuale delle quattro cose.
 
 ---
 
-## 🔴 IL SITO È GIÙ DA 9 GIORNI — stessa causa, mai risolta
+## 🔴 IL SITO È GIÙ DA 10 GIORNI — dominio e chiavi Vercel
 
-- [ ] 🔴 **Il server che fa lavorare la macchina è fermo.** Sono 9 giorni.
-  → Card `#168`
-- [ ] 🔴 **Metti le tre chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
+- [ ] 🔴 **Metti le due chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
   ordine registrato).
   → Card `#154`
+
 - [ ] 🔴 **Sposta il dominio `mycity-marketplace.com` su Vercel** (punta ancora a Render).
   → Card `#155`
+
+> ℹ️ **Il server che fa girare la macchina è ripartito da solo** stanotte, dopo il fermo segnalato
+> il 22 agosto. Non serve più una tua azione su questo punto. → Card `#168` (aggiornata)
 
 ---
 
 ## 🔴 NOVITÀ — database, pagamenti e la scadenza del 29 agosto
 
-- [ ] 🔴 **La scadenza che avevi fissato tu è passata da 2 giorni.** Era il 29 agosto. Dimmi se
+- [ ] 🔴 **La scadenza che avevi fissato tu è passata da tre giorni.** Era il 29 agosto. Dimmi se
   vuoi il conto puntuale delle quattro cose, o se hai già deciso diversamente.
   → Card `#185`
-- [ ] 🔴 **Il database di produzione è indietro di 4 migrazioni** (126-129) — scegli fra
-  accendere il cancello del rilascio o farle applicare a mano.
+
+- [ ] 🔴 **Il database di produzione è indietro di 4 migrazioni** (126-129). Scegli fra accendere
+  il cancello del rilascio o farle applicare a mano.
   → Card `#184`
-- [ ] 🔴 **Pane Quotidiano non incassa da 18 giorni**, e alcuni post pronti in coda promettono
-  ancora "ordina, ti portiamo" — un pagamento con carta fallirebbe davanti al primo cliente.
+
+- [ ] 🔴 **Pane Quotidiano non incassa da 18 giorni.** Alcuni post pronti in coda promettono ancora
+  "ordina, ti portiamo". Un pagamento con carta fallirebbe davanti al primo cliente.
   → Card `#182`
 
 ---
@@ -59,9 +64,9 @@ aggiornato: 2026-08-31 21:05
 
 ## 🔴 DECISIONI CHE SOLO TU PUOI PRENDERE
 
-- [ ] 🔴 **Il controllo che protegge il codice avvisa ma non ferma nessuno** — scegli fra tre strade
-  (A: lascia com'è e conta i casi; B: obbligatorio ma tu puoi scavalcarlo — consigliata; C: obbligatorio
-  e basta).
+- [ ] 🔴 **Il controllo che protegge il codice avvisa ma non ferma nessuno.** Scegli fra tre strade:
+  A, lascia com'è e conta i casi; B, obbligatorio ma tu puoi scavalcarlo, consigliata; C,
+  obbligatorio e basta.
   → Card `#177`
 - [ ] 🔴 **Otto richieste di unione ferme in coda**: dimmi quali mergiare e quali chiudere.
   → Card `#166`

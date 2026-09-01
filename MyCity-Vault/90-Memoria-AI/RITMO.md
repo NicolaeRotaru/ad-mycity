@@ -1355,3 +1355,21 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Card chiuse oggi: `#36`, `#37` (sicurezza), `#140` (migrazione 124 applicata — la vetrina dei negozi era sparita, ora torna a mostrarli), `#139` (test di sicurezza accesi gratis in CI).
 - Referto completo: `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
 - Dati riconfermati con `execute_sql` (MCP Supabase) alle 18:02.
+
+## Piano del mattino · 2026-09-01 06:25
+
+**In una riga:** il server è ripartito da solo, ma il sito vero resta spento per il dominio sbagliato — è questo il tappo da togliere oggi.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito vero. Il dominio `mycity-marketplace.com` punta ancora ai vecchi server, spenti da un mese. Senza questo, anche un pagamento riuscito non diventerebbe mai un ordine: manca una chiave che il sito usa proprio in quel momento.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero, e da tre settimane non può ancora incassare.
+3. Applica le quattro migrazioni ferme sul database. Sono pronte, mancano solo in produzione: senza di loro il checkout può rompersi al primo cliente vero.
+
+**Serve da te**
+- Sposta il dominio su Vercel e aggiungi le due chiavi mancanti (i passi esatti sono nella card in "Da approvare").
+- Un sì per far partire i pagamenti di Pane Quotidiano.
+- Un sì per applicare le quattro migrazioni al database.
+
+**Dettagli tecnici**
+- Card `#154`, `#155`, `#182`, `#184` in AZIONI-IN-ATTESA. Card `#168` corretta oggi: il fermo del server risulta superato dalle tracce dei commit automatici del 31/8 e dell'1/9.
+- Business riverificato con query diretta: 0 ordini pagati su 1, stallo 69 giorni. Sito pubblico HTTP 503 (verifica-sensori.mjs, 1/9 06:01).

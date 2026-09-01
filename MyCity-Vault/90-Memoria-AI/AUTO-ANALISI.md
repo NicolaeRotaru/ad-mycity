@@ -35,9 +35,9 @@ Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né 
 > riverificato il business dal vivo con query SQL dirette via MCP. `orders`: 1 riga, 0 pagati,
 > ultimo il 2026-06-24, invariato. `profiles`: 8 totali, 0 nuovi negli ultimi 7 giorni, invariato
 > dal 28/8. `products`: 5 disponibili, tutti `status='available'`, su 1 solo venditore. La novità
-> reale del passaggio non è di cassa ma di codice: il bug che azzerava il catalogo per i visitatori
-> senza accesso è stato riparato e mergiato (PR #857, commit `558695ff5`) — non verificabile dal
-> vivo perché il sito pubblico resta giù, HTTP 503, riconfermato con `verifica-sensori.mjs` a 3
+> reale del passaggio non è di cassa ma di codice. Il bug che azzerava il catalogo per i visitatori
+> senza accesso è stato riparato e mergiato (PR #857, commit `558695ff5`). Non è verificabile dal
+> vivo perché il sito pubblico resta giù, HTTP 503. Riconfermato con `verifica-sensori.mjs` a 3
 > tentativi: stessa causa del 22/8, ora 9 giorni consecutivi.
 >
 > Ho tentato una refutazione vera su 3 affermazioni chiave. Prima: "il catalogo è riparato ma non
@@ -48,10 +48,10 @@ Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né 
 > 68 giorni". Sopravvive: ricalcolato a mano (24/6→31/8 = 68 giorni esatti, +3 rispetto ai 65 del
 > 28/8, coerente col calendario).
 >
-> Ho contato con `grep` diretto **89 card 🟡/🔴 aperte** in AZIONI-IN-ATTESA.md (88 lette + la #185
-> che ho accodato in questo giro sulla scadenza del 29/8, era 85 il 28/8) e
-> riletto la CI con lo strumento reale (`ci-stato.mjs`), non a memoria: 7 PR, non le 6 riportate
-> dal contesto ereditato di inizio sessione — quel numero era già stale, #860 è nuova.
+> Ho contato con `grep` diretto **89 card 🟡/🔴 aperte** in AZIONI-IN-ATTESA.md: 88 lette più la
+> #185 che ho accodato in questo giro sulla scadenza del 29/8 (era 85 il 28/8). Ho riletto la CI con
+> lo strumento reale (`ci-stato.mjs`), non a memoria: 7 PR, non le 6 riportate dal contesto ereditato
+> di inizio sessione. Quel numero era già stale: #860 è nuova.
 >
 > Trovata e corretta un'incoerenza interna in `registro-fatti.json`: il campo titolo di
 > `cantiere.scadenza-zero` diceva ancora "29 settembre 2026", un refuso mai allineato dopo che

@@ -94,22 +94,22 @@ la (b) te le applico in ordine, e ti porto la misura di ognuna.
 
 ### 🔴 #182 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
 
-**In parole semplici.** Ho controllato adesso, non a memoria: Pane Quotidiano — l'unico negozio vero
-su MyCity — non può ancora incassare con la carta. Tre interruttori sono ancora spenti (dati inviati,
-pagamenti attivi, versamenti attivi). Lo stesso quadro c'era già il 10 agosto: sono passati 18 giorni
+**In parole semplici.** Ho controllato adesso, non a memoria. Pane Quotidiano è l'unico negozio vero
+su MyCity. Non può ancora incassare con la carta. Tre interruttori sono ancora spenti: dati inviati,
+pagamenti attivi, versamenti attivi. Lo stesso quadro c'era già il 10 agosto. Sono passati 18 giorni
 e non è cambiato niente.
 
-**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti (quelli di luglio, più quello
-di agosto sui fornelli spenti) che dicono «ordina da casa, te lo portiamo» con un link diretto al
+**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti. Sono quelli di luglio, più
+quello di agosto sui fornelli spenti. Dicono «ordina da casa, te lo portiamo» con un link diretto al
 checkout. Se uno partisse oggi e un cliente pagasse con carta, il pagamento fallirebbe sotto i suoi
-occhi. L'unico ordine mai arrivato su questo negozio (24 giugno, pagamento alla consegna) è stato
-annullato, quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
+occhi. L'unico ordine mai arrivato su questo negozio è del 24 giugno, pagamento alla consegna, ed è
+stato annullato. Quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
 
-**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora — inclusi quelli fermi da
-settimane in attesa solo del tuo ok — promette una consegna che oggi il sito non sa mantenere. Se ne
+**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora promette una consegna che oggi il
+sito non sa mantenere. Vale anche per quelli fermi da settimane in attesa solo del tuo ok. Se ne
 pubblichi anche solo uno con quella promessa, il primo cliente che prova a pagare con carta trova un
 errore, non un ordine. Per il post di oggi (merenda pudding, card #180 qui sotto) ho tolto la
-promessa di consegna proprio per questo; gli altri già in coda ce l'hanno ancora.
+promessa di consegna proprio per questo. Gli altri già in coda ce l'hanno ancora.
 
 **Cosa devi fare.** Scegliere fra due strade.
 
@@ -442,6 +442,14 @@ Misurato da questa sessione il 2026-08-22 alle 19:40 con `node cervello/salute.m
 ritmo-mattino 110h, ritmo-mezzogiorno 128h, monitora 109h, ritmo-settimana 364h. Difetto di sistema
 chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira sul server, e il server
 è questo.
+
+> ✅ **Aggiornamento 2026-09-01 06:20 — Il server è tornato a lavorare da solo.** Il registro delle
+> modifiche mostra scritture automatiche del worker la sera del 31/8 (22:20) e stamattina all'1/9
+> (06:00). Sono entrambe commit di "recupero scritture pendenti". È il segno che le cadenze
+> schedulate girano di nuovo, senza bisogno che io intervenga da qui. Non ho aperto una connessione
+> diretta al server per controllare da quando esattamente sia ripartito. Quello che ho misurato è
+> la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
+> l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
 
 ---
 

@@ -1,8 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-08-31 22:50
-fonte: AD digitale (giro, cervello/giro.md)
+aggiornato: 2026-09-01 06:25
+fonte: AD digitale (piano del mattino, cervello/ritmo.md)
 ---
+
+---
+
+> ☀️ **1/9 06:25 — Piano del mattino: il fermo del server è finito, resta il dominio sbagliato.** Richiesta tua implicita: cadenza fissa del mattino.
+>
+> **In parole semplici.** Ho riverificato il business sul database vero. Ancora 0 ordini pagati su 1
+> totale. Lo stallo oggi tocca **69 giorni**. Una cosa buona: i commit automatici di stanotte e di
+> ieri sera dimostrano che il server è tornato a lavorare da solo. Il fermo era stato segnalato il 22
+> agosto, card #168. Il sito pubblico resta comunque HTTP 503, per una causa diversa e già nota da 10
+> giorni. Il dominio vero punta ancora ai vecchi server, Render, non più pagato. E mancano due chiavi
+> su Vercel.
+>
+> **Le 3 priorità di oggi**, tutte già pronte in coda e in attesa solo della tua firma:
+> 1. Rimettere online il sito vero: dominio su Vercel + chiavi mancanti (#154+#155). Senza questo un
+>    pagamento riuscito non diventerebbe mai un ordine, anche con tutto il resto a posto.
+> 2. Sbloccare i pagamenti con carta di Pane Quotidiano (#182).
+> 3. Applicare le quattro migrazioni ferme sul database di produzione (#184), perché non si rompa il
+>    checkout al primo cliente vero.
+>
+> **Cosa non ho verificato.** Da quando esattamente sia ripartito il server. Ho visto solo le tracce
+> nel repository, non una connessione diretta. E non ho riverificato lo stato reale delle quattro cose
+> della scadenza del 29 agosto (card #185), ancora senza risposta.
 
 ---
 
@@ -21,14 +43,14 @@ se l'attività è ferma.
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 31/8 20:58 |
 | Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18 giorni fermo su questo stesso quadro |
-| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 31/8 20:58 — PR #857 (mergiata) ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati; non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 31/8 20:58. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **68 giorni** dal 24/6 (misurato 31/8 20:58, query MCP) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 06:20, query MCP) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
 | Nuovi clienti reali (7gg) | **0** | = (invariato dal 28/8) | crescita | confermato `select count(*) from profiles where created_at>=now()-7d` = 0. Nessun negozio nuovo |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | = (invariato, ora 9 giorni giù dal 22/8) | 200 | riverificato in diretta con `verifica-sensori.mjs` il 31/8 20:57 (3 tentativi): stessa causa mai risolta (server #168, chiavi Vercel #154, dominio #155) |
+| **Sito pubblico** | **HTTP 503** | = (invariato, ora 10 giorni giù dal 22/8) | 200 | riverificato in diretta con `verifica-sensori.mjs` l'1/9 06:01 (3 tentativi): il server che fa girare la macchina è ripartito (#168 superata), la causa del 503 resta dominio+chiavi Vercel (#155, #154) |
 
 ---
 
