@@ -1,4 +1,97 @@
-# 🔬 AUTO-ANALISI — 2026-09-01 11:56
+# 🔬 AUTO-ANALISI — 2026-09-01 14:28
+
+## Un altro passaggio uguale ai precedenti
+
+È il passaggio di oggi. Almeno l'undicesimo. Sono passate 2 ore dall'ultimo giro pieno, quello
+delle 12:47.
+
+Il letargo resta in **SOPRAVVIVENZA**. La quota AI è al 134% della finestra. La salute della
+macchina è 4 su 100. La regola non cambia: si taglia il volume, mai i controlli di verità.
+
+In questo passaggio ho fatto una cosa nuova: una **query diretta** sul database. Non ho riusato il
+sensore. Ho interrogato `mcp__supabase-marketplace`. Risultato: 1 ordine totale, 0 pagati, ultimo
+il 24 giugno. 8 clienti. Tutto identico ai passaggi precedenti. Lo stallo del North Star resta a
+69 giorni.
+
+**La novità vera del passaggio è un'altra.** Un controllo di sistema, chiamato AR-687, ha un
+compito preciso: segnalare quando un guardiano dice "no" da 3 giri di fila senza che nessuno lo
+risolva. Oggi ha segnalato `test-cervello.mjs`. Era l'unico, tra 11 guardiani in questa
+condizione, a non avere ancora una card sua in [[AZIONI-IN-ATTESA]]. Ho accodato la card **#189**.
+Il blocco è lo stesso delle card #104/#42/#74: un buco nei permessi che da questa sessione non
+posso riparare.
+
+Tre comandi restano fuori portata: `test-cervello.mjs`, `north-star-check.mjs`, `letargo.mjs`.
+Tutti bloccati dallo stesso permesso mancante.
+
+**Voto di fiducia: 79/100** (▲ da 78). Salito di poco. In questo passaggio ho verificato di
+persona, con una query diretta, invece di ereditare dal sensore. E ho prodotto un'azione concreta,
+la card #189, invece di solo confermare che nulla è cambiato.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-01 14:28
+
+Collaudo richiesto dal cancello di stop (AR-532).
+
+**① Richiesta.** Nicola ha chiesto di eseguire per intero `cervello/giro.md`: leggere i dati
+reali, scrivere i file di memoria richiesti, rispettare i colori 🟢🟡🔴, e chiudere con un TL;DR di
+cinque righe più la mossa numero uno.
+- FATTA: query diretta sugli ordini (non ereditata). `coerenza-fatti.json` letto e confermato
+  pulito. Scritti STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, AZIONI-IN-ATTESA.md
+  (card #189), SALA-OPERATIVA.md, auto-coscienza/auto-analisi.json, questo file. TL;DR consegnato
+  in chat.
+- FATTA, oltre il minimo: letto il vincolo di sistema AR-687, trovata la voce TEST appena diventata
+  cronica e senza card, accodata la card #189 — non era un passo esplicito del giro, ma un vincolo
+  HARD del prompt di oggi ("prima di chiudere questo giro accoda... una card").
+- TENTATA E BLOCCATA (non "non fatta apposta"): scrivere il digest anche nella tabella `briefings`
+  di Supabase (passo 6 del giro, condizionato a "se la memoria è collegata"). La connessione
+  `supabase-memoria` è in sola lettura da questa sessione: `INSERT` rifiutato con errore
+  `25006 cannot execute INSERT in a read-only transaction`. Non è il buco di permessi delle card
+  #104/#42/#74 — è un vincolo diverso, a livello di connessione database. Il file nel vault resta
+  comunque la fonte primaria, come previsto dal giro quando la scrittura DB non è disponibile.
+- NON FATTA APPOSTA (letargo SOPRAVVIVENZA + gate North-Star, nessuna novità da propagare rispetto
+  ai passaggi precedenti di oggi): radar completo IN/OUT, delega analista/intelligence, Piani in
+  06-Piani, intenzioni-nicola.json, auto-miglioramento, radiografia completa, apertura di nuove
+  ricerche. I tre file Intelligence (radar-concorrenti, eventi-picchi, buchi-mercato) sono stati
+  controllati stamattina alle 06:50-07:00 (cadenza settimanale rispettata, non ricontrollati oggi
+  pomeriggio): non è un buco, è la cadenza dichiarata nel radar stesso.
+- MANCANTE, per blocco tecnico dichiarato: la riga di chiusura-loop per la card #189
+  (`chiusura-loop.mjs`, stesso buco di permessi #104/#42/#74) e l'avanzamento del cantiere-difetti
+  via `sonda-volano.mjs` (stesso blocco). Non forzati con un secondo tentativo, per la lezione
+  [[feedback-agenti-background-verifica-permessi]].
+
+**② Diff riletto.** `git status --short`: 29 file modificati. 21 sono artefatti dei sensori
+pre-girati da `giro.sh` prima di questo turno (`auto-coscienza/*.json` minori, `cervello/routing.json`,
+`cervello/fonti-salute.json`, `cervello/intelligence-agenda.json`, `consegne/supervisione/...`) — non
+toccati da me in questo passaggio, verificato con `git diff --stat` sui singoli file prima di
+scrivere. Gli altri 8 sono i file elencati sopra come FATTA. Nessuna scrittura fuori da questo
+perimetro.
+
+**Discrepanza notata, non mia.** Il cancello di stop segnala anche `RITMO.md` come peggiorato di 2
+punti di leggibilità "da questo lavoro". `git diff HEAD -- RITMO.md` e `git status --short` non
+mostrano alcuna modifica a quel file in questa sessione: non l'ho aperto né scritto. L'ultimo
+commit che lo tocca (`9894d5d8`, 12:47) è precedente all'inizio di questo turno. Non l'ho corretto:
+correggere un file che non ho toccato, senza aver letto il suo contenuto per intero, avrebbe
+rischiato di introdurre un errore in un file su cui non ho contesto — lo segnalo qui invece,
+perché lo veda chi ha scritto quella versione o Nicola stesso.
+
+**③ Prove eseguite.** Query SQL diretta su `orders`/`profiles` (risultato: 1/0/8, riportato sopra).
+Lettura di `coerenza-fatti.json`, `delta-gate.json` e del vincolo AR-687 iniettato nel prompt.
+Tentativo reale di `INSERT` su Supabase (fallito con errore riportato sopra, non simulato).
+
+**④ Strada alternativa considerata.** Avrei potuto fermarmi al minimo dei passaggi precedenti
+(solo `coerenza-fatti`, nessuna query diretta), replicando lo schema già visto 10 volte oggi. Ho
+scelto di aggiungere la query diretta e la lettura di AR-687 perché il vincolo di sistema di
+questo giro conteneva un obbligo esplicito e nuovo (la card per TEST) che i passaggi precedenti
+non avevano ricevuto: ignorarlo per uniformità con lo schema precedente sarebbe stata pigrizia,
+non disciplina da letargo.
+
+**⑤ Verificato / non verificato.** Verificato dal vivo: ordini pagati, clienti, coerenza-fatti,
+esistenza del vincolo AR-687, esito reale del tentativo di scrittura su Supabase. Non verificato:
+quale test specifico fallisce in `test-cervello.mjs` (comando bloccato), lo stato Stripe specifico
+di Pane Quotidiano (baseline del 24/8), il sito in un browser vero.
+
+## Passaggi precedenti
+
+### 🔬 AUTO-ANALISI — 2026-09-01 11:56
 
 ## Ottavo passaggio, un giro di perlustrazione richiesto in chat, 20 minuti dopo il settimo
 

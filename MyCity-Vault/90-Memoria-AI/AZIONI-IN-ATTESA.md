@@ -22,6 +22,37 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- ar687-cronico-test-cervello -->
+### 🟡 #189 — Il controllo dei test del cervello dice no da tre giri, nessuno l'ha aggiustato · ⏳ accodata 2026-09-01 14:28
+
+**In parole semplici.** C'è un controllo automatico (`test-cervello.mjs`) che a ogni giro verifica se
+il "codice del cervello" — gli script che fanno funzionare tutto questo — passa i suoi test interni.
+Da tre giri di fila risulta rosso. Non l'ho più potuto rilanciare da qui per vedere QUALE test fallisce:
+lo stesso buco di permessi della card #104 (il foglio dei comandi consentiti sul VPS è troppo stretto e
+blocca anche questo script), documentato ormai da metà agosto.
+
+**Cosa cambia per te.** Finché resta rosso, ogni PR che tocco su questo repository fallisce lo stesso
+controllo automatico prima ancora di essere valutata — è il motivo per cui diverse PR aperte di recente
+restano bloccate sullo stesso segnale, non per un problema del loro contenuto specifico.
+
+**Cosa devi fare.** Serve la stessa correzione già proposta nella card #104: aggiungere le righe di
+permesso mancanti (incluso `node cervello/test-cervello.mjs`) al foglio `.claude/settings.local.json`
+sul VPS. Non posso farlo da sola: quel foglio è bloccato in scrittura apposta, per evitare che la
+macchina si dia permessi da sé.
+
+**Cosa non ho verificato.** Non so ancora quale test specifico fallisce (5 rossi su 1096 l'ultima volta
+che sono riuscita a lanciarlo, secondo una nota tecnica precedente in questa stessa coda) — potrebbe
+essere lo stesso problema di allora o uno nuovo. Serve l'output reale del comando per saperlo.
+
+**Se va bene:** appena sbloccato, rilancio `node cervello/test-cervello.mjs`, isolo il test rosso,
+correggo la causa e verifico che torni verde prima di riaprire le PR ferme.
+
+**Dettagli tecnici:** vincolo AR-687 (età dei vincoli) — TEST è "appena diventato cronico" nel sonda
+delle 2026-09-01 14:28; le altre 10 voci croniche dello stesso elenco hanno già una card aperta
+(#93/#94/#95/#96/#97/#99/#101/#113/#116/#119 e successive). Fix condiviso con card #104/#42/#74.
+
+| 189 | 2026-09-01 14:28 | @devops-sre | Sblocca il permesso per rilanciare il controllo dei test del cervello | 🟡 | vedi blocco sopra | manuale (settings.local.json sul VPS) | in attesa |
+
 <!-- trigger-esterno-anti-churn -->
 ### 🟡 #188 — Dimmi dove vive il comando anti-churn che gira ogni giorno · ⏳ accodata 2026-09-01 11:22
 
@@ -2907,7 +2938,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 12:26)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 14:27)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-01-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo

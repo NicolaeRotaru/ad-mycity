@@ -1,54 +1,54 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-01 11:56",
-  "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Ottavo passaggio oggi, 20 minuti dopo il settimo (11:36). Letargo è passato da RISPARMIO a SOPRAVVIVENZA (quota AI 115% della finestra, salute macchina 4/100): la regola è tagliare il volume, mai i controlli di verità. Ho rieseguito a mano solo `coerenza-fatti.mjs` (pulito, 41 fatti, 0 copie vecchie) e controllato i sensori pre-girati (11:46-11:55, freschi) e i commit dopo le 11:46 (due playbook worker di routine, nessuna carta nuova). Non rieseguiti: `ci-stato.mjs`, `north-star-check.mjs`, `letargo.mjs` (comando bash bloccato da approvazione, come nei passaggi precedenti) — riporto il verdetto già scritto nell'hook di sessione. Nessuna carta nuova aperta (gate North-Star): le carte in coda restano invariate, nessuna firmata.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato dal passaggio precedente (20 minuti prima). Verifica ridotta al minimo dichiarato: letargo SOPRAVVIVENZA impone nucleo vitale (ordini+consegne+coda firme+sicurezza+allerta Nicola), non un giro pieno.",
-  "trend_fiducia": "▼ 80→78: sceso perché il letargo è salito a SOPRAVVIVENZA (peggiorato da RISPARMIO) e questo passaggio ha verificato ancora meno in prima persona (solo coerenza-fatti + sensori ereditati, niente ci-stato.mjs) — scelta coerente con la regola, ma meno solida in assoluto.",
+  "data": "2026-09-01 14:28",
+  "voto_fiducia": 79,
+  "sintesi_giro_corrente": "L'ennesimo passaggio identico di oggi (almeno l'undicesimo), 2 ore dopo l'ultimo giro pieno (12:47). Letargo confermato SOPRAVVIVENZA (quota AI 134%, salute macchina 4/100): volume tagliato, controlli di verità tenuti. A differenza dei 2-3 passaggi precedenti, in questo ho rieseguito una query diretta MCP sul database (non ereditata dal sensore) e riletto il vincolo di sistema AR-687: TEST (test-cervello.mjs) è passato da 'attivo' ad 'appena diventato cronico' (3 giri rosso di fila), unica delle 11 voci croniche senza card già aperta. Accodata la card #189 in AZIONI-IN-ATTESA. Nessuna altra novità di business.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato dal passaggio delle 12:28. Verifica ridotta al minimo dichiarato: letargo SOPRAVVIVENZA impone nucleo vitale (ordini+consegne+coda firme+sicurezza+allerta Nicola), non un giro pieno.",
+  "trend_fiducia": "▲ 78→79: salito di poco perché questo passaggio ha rieseguito una query diretta invece di ereditare dal sensore, e ha prodotto un'azione concreta e verificabile (card #189) invece di solo confermare l'immobilità.",
   "entita_verificate": [
     {
-      "nome": "Memoria coerente (coerenza-fatti.mjs): 41 fatti, 0 cacce aperte, 0 copie vecchie",
+      "nome": "orders: 1 totale, 0 pagati, ultimo 2026-06-24 08:28:40; profiles: 8",
       "stato": "confermato",
-      "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio (nessuna riscrittura necessaria)"
+      "fonte": "mcp__supabase-marketplace__execute_sql, query diretta eseguita in questo passaggio (non ereditata)"
     },
     {
-      "nome": "Nessun commit nuovo dopo le 11:46 salvo 2 playbook worker di routine (contenuto del giorno, recupero carrelli)",
+      "nome": "Memoria coerente (coerenza-fatti.json): 41 fatti, 0 cacce aperte",
       "stato": "confermato",
-      "fonte": "git log --since='2026-09-01 11:40' + git show --stat sui 3 commit più recenti"
+      "fonte": "MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, letto in questo passaggio (esito 'non_verificato' perché nessuna caccia è aperta da riscontrare — non un rosso)"
     },
     {
-      "nome": "1 ordine totale / 0 pagati — invariato",
-      "stato": "confermato (ereditato dal sensore pre-girato, non riquery-ato direttamente in questo passaggio: scelta deliberata sotto letargo SOPRAVVIVENZA)",
-      "fonte": "sensori-cecita.json, campo supabase_rest, aggiornato 2026-09-01 11:46 da giro.sh"
+      "nome": "TEST (test-cervello.mjs) rosso da 3 giri di fila, appena diventato cronico (AR-687)",
+      "stato": "confermato",
+      "fonte": "vincolo di sistema iniettato nel prompt di questo giro; verifica diretta del comando non eseguibile (stesso blocco di permessi delle card #104/#42/#74)"
     },
     {
-      "nome": "Sito pubblico HTTP 503, 219 giri ciechi",
-      "stato": "confermato (ereditato dal sensore pre-girato, non ri-derivato con un check HTTP diretto in questo passaggio: comando bloccato da approvazione)",
-      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 11:55 da giro.sh"
+      "nome": "delta-gate: firma corrente identica alla precedente salvo lo scarto clienti 7→8 già noto (baseline mai promossa per lo stesso blocco di permessi)",
+      "stato": "confermato",
+      "fonte": "MyCity-Vault/90-Memoria-AI/auto-coscienza/delta-gate.json, letto in questo passaggio"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo SOPRAVVIVENZA + gate North-Star). Coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1): questo passaggio ha ULTERIORMENTE ridotto il volume rispetto all'11:36 (solo coerenza-fatti, niente ci-stato.mjs) mantenendo il controllo di verità più economico e diagnostico.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo SOPRAVVIVENZA + gate North-Star). Coerente con la regola del tasso di chiusura: nessuna radiografia/ricerca nuova aperta, solo la card #189 che chiude un gap segnalato dal sistema stesso.",
   "salute_macchina": {
-    "supabase": "REST ok (sensore 11:46); MCP marketplace non riquery-ato in questo passaggio",
-    "stripe": "balance API ok (sensore 11:46); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
+    "supabase": "REST/MCP marketplace ok, riquery-ato in questo passaggio con successo",
+    "stripe": "non riverificato in questo passaggio, riporto la baseline del 24/8",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503) — invariato, 219 giri ciechi (+2 dal passaggio delle 11:36)"
+    "sito_uptime": "giù (HTTP 503) — invariato, non ri-derivato con un check HTTP diretto in questo passaggio (comando bloccato da approvazione)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), letto dal system-reminder di oggi — attivo da 164 giri di fila (AR-687). Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
-  "livello_verifica": "L0-L1 (misura quasi interamente ereditata + un controllo proprio): numeri di business ereditati dal sensore pre-girato (11:46-11:55), NON riquery-ati direttamente in questo passaggio — scelta deliberata sotto letargo SOPRAVVIVENZA. coerenza-fatti.mjs rieseguito da me a mano. Non rieseguiti: ci-stato.mjs, check HTTP diretto sul sito, north-star-check.mjs, letargo.mjs (comando bash bloccato da approvazione).",
-  "refutazione": "Tentata la demolizione di 'nulla è cambiato dal passaggio delle 11:36': sopravvive sulla coerenza dei fatti (verificata con coerenza-fatti.mjs rieseguito) e sul git log (nessun commit rilevante nuovo, verificato con git show --stat). Sui numeri di business puri (ordini/clienti/prodotti) e sulla CI la refutazione NON è stata tentata con una nuova query in questo passaggio: mi appoggio al sensore di 1-10 minuti fa e al verdetto CI del passaggio precedente, dichiarati come tali, non spacciati per misura diretta.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), letto dal system-reminder di oggi — attivo da 166 giri di fila (AR-687). Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
+  "livello_verifica": "L1-L2: numeri di business riquery-ati direttamente con MCP in questo passaggio (non ereditati). coerenza-fatti letto dal file scritto dal passaggio precedente (non rieseguito lo script, bloccato da permessi). Non rieseguiti: ci-stato.mjs, test-cervello.mjs, check HTTP diretto sul sito, north-star-check.mjs, letargo.mjs (comando bash bloccato da approvazione).",
+  "refutazione": "Tentata la demolizione di 'nulla è cambiato dal passaggio delle 12:28': non sopravvive del tutto — TEST è effettivamente diventato cronico nel frattempo (dato di sistema, non dedotto), quindi qualcosa È cambiato, solo non sul lato business/ordini. Sui numeri di business la refutazione è stata tentata con una query diretta nuova (non ereditata): confermano l'immobilità.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
-      "domanda": "Il sito è giù da oltre 2 settimane (503). Causa nota da giorni: dominio su Render (non pagato) + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
+      "domanda": "Il sito è giù da oltre 2 settimane (503). Causa nota: dominio su Render (non pagato) + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
       "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
       "colore": "🔴"
     },
     {
       "tipo": "decisione",
-      "domanda": "Card #188: da 23 giri il worker rilancia lo stesso playbook anti-churn negozi che non trova mai nulla (un solo negozio vero). Sai dove vive questo comando ricorrente, così possiamo metterlo in pausa?",
-      "azione": "rispondimi dove disattivarlo, o confermi di lasciarlo così finché non c'è un secondo negozio",
+      "domanda": "Card #189 nuova: il controllo dei test del cervello (test-cervello.mjs) dice no da 3 giri e blocca le PR sullo stesso segnale — stesso buco di permessi della card #104. Applichi la correzione del foglio permessi sul VPS?",
+      "azione": "aggiungi le righe di permesso mancanti a .claude/settings.local.json (elenco nella card #104), poi il fix arriva da solo",
       "colore": "🟡"
     }
   ]

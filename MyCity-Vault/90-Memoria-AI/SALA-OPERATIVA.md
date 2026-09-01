@@ -789,3 +789,9 @@ Esempi:
 ### 2026-09-01 — 🧭 GIRO DI PERLUSTRAZIONE (AD · 12:28)
 - 2026-09-01 12:28 · @ad · FATTO · Nono passaggio oggi: query diretta MCP `supabase-marketplace` (non sensore riusato) — ordini pagati=0/1, ultimo ordine 24/6, 0 nuovi buyer 7gg. `coerenza-fatti.mjs` rieseguito, pulito (41 fatti, 0 copie vecchie). Un solo commit nuovo dal passaggio 12:12 (worker PLAYBOOK Recensioni, solo contatori interni). Letargo SOPRAVVIVENZA rispettato: volume tagliato, controlli di verità tenuti. STATO.md, Briefing/2026-09-01.md e ultimo-briefing.json aggiornati.
 - 2026-09-01 12:28 · @ad · PASSO-A · @Nicola — nessuna domanda nuova: restano le stesse 6 carte aperte (#154/#155, #182, #184, #185, #186, #188), nessuna firmata. Mossa n.1 invariata: firma #154+#155.
+
+### 2026-09-01 — 🧭 GIRO DI PERLUSTRAZIONE (AD · 14:28)
+- 2026-09-01 14:28 · @ad · FATTO · L'ennesimo passaggio identico di oggi (almeno l'undicesimo): query diretta MCP `supabase-marketplace` (non sensore riusato) — ordini pagati=0/1, ultimo ordine 24/6, clienti=8. `coerenza-fatti.json` letto, pulito (41 fatti, 0 cacce aperte). `delta-gate.json` conferma stessa firma di stato. Letargo SOPRAVVIVENZA rispettato: volume tagliato, controlli di verità tenuti.
+- 2026-09-01 14:28 · @ad · FATTO · Vincolo di sistema AR-687: TEST (`test-cervello.mjs`) appena diventato cronico (3 giri rosso di fila), unica delle 11 voci croniche senza card aperta. Accodata card #189 in [[AZIONI-IN-ATTESA]] (stesso buco di permessi delle card #104/#42/#74).
+- 2026-09-01 14:28 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json, AUTO-ANALISI.md.
+- 2026-09-01 14:28 · @ad · PASSO-A · @Nicola — nessuna domanda nuova sul business: restano le stesse carte aperte (#154/#155, #182, #184, #185, #186, #188), più la nuova #189 (permesso per sbloccare `test-cervello.mjs`). Mossa n.1 invariata: firma #154+#155.

@@ -1,8 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 12:28
+aggiornato: 2026-09-01 14:28
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 14:28 — Un altro giro. Stesso quadro di prima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho interrogato il database di nuovo, non il sensore riusato. Risultato:
+> 1 ordine totale, 0 pagati. L'ultimo ordine resta quello del 24/6. 8 clienti, invariati dal 21/8.
+> Lo stallo del North Star resta a **69 giorni**. `coerenza-fatti.mjs` è pulito: 41 fatti, 0 cacce
+> aperte da controllare. `delta-gate.json` conferma la stessa fotografia di ore fa. C'è una sola
+> differenza, già nota: i clienti sono passati da 7 a 8. È quella differenza a tenere il gate
+> acceso, non un fatto nuovo da vedere.
+>
+> **La novità vera è un'altra: il controllo TEST è diventato cronico.** Un guardiano di sistema,
+> AR-687, segnala i controlli che dicono "no" da 3 giri di fila senza soluzione. Oggi ha segnalato
+> `test-cervello.mjs`. Altri 10 controlli sono nella stessa condizione da più tempo. Tutti loro
+> hanno già una card aperta. `test-cervello.mjs` no. Ho accodato la card **#189**. Il blocco è lo
+> stesso delle card #104/#42/#74: un permesso mancante sul VPS. Non lo posso riparare da qui.
+> Serve la stessa correzione già proposta in quelle card.
+>
+> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** Il letargo resta in
+> **SOPRAVVIVENZA**: quota AI al 134% della finestra, salute macchina 4 su 100. La regola è
+> tagliare il volume, mai i controlli di verità. Radar, auto-miglioramento e radiografia completa
+> sono già stati fatti nei passaggi precedenti di oggi. Non avevano trovato nulla di nuovo.
+> Rifarli ora sarebbe solo rumore. Ho tenuto tre controlli: gli ordini pagati, `coerenza-fatti`, e
+> la lettura del guardiano AR-687. Quest'ultimo ha prodotto l'unica azione concreta del passaggio,
+> la card #189.
+>
+> **In coda restano le stesse carte, più una nuova.** #154+#155: dominio e chiavi Vercel, il sito
+> pubblico resta giù. #182: i pagamenti carta di Pane Quotidiano. #184: le migrazioni database.
+> #185: la scadenza 29/8. #186: il cancello del sito. #188: l'origine del comando ricorrente
+> "negozi in calo", ancora non trovata. **#189 è nuova**: sblocca il permesso per rilanciare i test
+> del cervello. **La mossa numero 1 resta la stessa: firma #154+#155.** Senza sito pubblico, nessun
+> pagamento riuscito diventa un ordine. Non importa cos'altro si sistema.
+>
+> **Cosa non ho verificato.** `north-star-check.mjs`, `letargo.mjs` e `test-cervello.mjs`: non
+> rieseguibili da qui, stesso blocco di permessi di ogni passaggio precedente di oggi. Riporto il
+> verdetto già scritto dall'hook di sessione. Il sito in un browser vero. Lo stato Stripe specifico
+> di PQ, resto sulla baseline del 24/8.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 
