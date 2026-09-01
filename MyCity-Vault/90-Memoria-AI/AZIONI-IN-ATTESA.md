@@ -22,6 +22,35 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- ar687-cronico-ci -->
+### 🟡 #190 — Le richieste di unione aperte non passano i controlli da tre giri, e nessuno le ha corrette · ⏳ accodata 2026-09-01 22:30
+
+**In parole semplici.** C'è un controllo automatico che guarda le richieste di unione (PR) aperte su
+GitHub e dice se passano i controlli prima che tu le possa firmare. Da tre giri di fila (dalle
+~18:30 di oggi) dice no. Oggi il quadro è: 6 PR aperte, 5 rosse, tutte e 5 per un guasto portato dal
+lavoro stesso (non ereditato da altrove), 0 mai nemmeno provate.
+
+**Cosa cambia per te.** Quelle 5 PR restano bloccate: non le puoi firmare finché non tornano verdi,
+anche se il contenuto dentro fosse giusto. Sono le stesse PR #860, #842, #841, #741, #735 già viste
+nei passaggi di oggi (una era ancora "in corso", ora è rossa anche lei).
+
+**Cosa devi fare.** Nessuna firma richiesta su questa card in sé — è un promemoria di sistema: il
+vincolo North Star di questo giro impone di lavorare solo su ciò che avvicina il primo ordine
+pagato, quindi non ho aperto e corretto le 5 PR in questo passaggio. Se vuoi che le riprenda (una
+per una, sullo stesso ramo dove è nato il guasto, come dice la regola), dimmelo e le metto in coda
+al prossimo giro con margine libero.
+
+**Cosa non ho verificato.** Il contenuto specifico del guasto in ciascuna delle 5 PR: ho letto solo
+il verdetto aggregato del guardiano (`ci-stato.mjs`, già rieseguito da giro.sh prima di me), non i
+singoli log dei controlli falliti.
+
+**Dettagli tecnici:** vincolo AR-687 (età dei vincoli) — CI è "appena diventato cronico" nella lista
+delle 2026-09-01 22:28 (acceso da 3 giri di fila). Le altre 11 voci croniche dello stesso elenco
+hanno già una card aperta (APPRENDIMENTO/CADENZE/CORREZIONE_NICOLA/ESP/LETARGO/NORTH_STAR/
+SERRATURA/STASH/TASSO/TEST/VOLANO). Fonte: `node cervello/ci-stato.mjs` (pre-eseguito da giro.sh).
+
+| 190 | 2026-09-01 22:30 | @devops-sre | Correggi le 5 PR che non passano i controlli, sullo stesso ramo dove è nato il guasto | 🟡 | vedi blocco sopra — PR #860/#842/#841/#741/#735 | manuale (GitHub) | in attesa |
+
 <!-- ar687-cronico-test-cervello -->
 ### 🟡 #189 — Il controllo dei test del cervello dice no da tre giri, nessuno l'ha aggiustato · ⏳ accodata 2026-09-01 14:28
 
@@ -2938,7 +2967,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 20:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 22:27)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-01-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo

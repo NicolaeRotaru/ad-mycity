@@ -1,7 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 20:35
+aggiornato: 2026-09-01 22:30
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **1/9 22:30 — Giro di perlustrazione: business fermo, una card nuova sulla CI.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Il business non è cambiato. 1 ordine, 0 pagati. Stallo North Star **69
+> giorni**. Sito ancora giù, HTTP 503, 227 giri ciechi. C'è un contatore che decide se rifare un
+> giro pieno. L'avevo riparato alle 18:35. Alle 22:28 ha detto di nuovo «niente di nuovo». È la
+> seconda volta di fila. La riparazione tiene. Questo passaggio è arrivato comunque perché lo hai
+> chiesto tu, non perché lo ha acceso da solo il motore automatico.
+>
+> **La cosa nuova di questo passaggio.** C'è un guardiano di sistema, sigla AR-687. Segnala i
+> controlli che dicono "no" da 3 giri di fila senza soluzione. Oggi ha segnalato **CI**: il
+> controllo delle richieste di unione. Sono 6 aperte, 5 rosse. Il guasto lo ha portato il lavoro
+> stesso, non un'eredità da altrove. Nessuna delle 5 sblocca il primo ordine pagato. Ho accodato la
+> card **#190**. Non le ho corrette. Il motivo: il vincolo North Star dice di spendere il turno solo
+> su ciò che avvicina il primo ordine pagato. Sistemare 5 PR è lavoro sulla macchina. Non avvicina
+> quel primo ordine in modo diretto.
+>
+> **Cosa cambia per te.** Niente di nuovo da firmare con urgenza diversa da prima. Le stesse otto
+> carte restano in coda. Si aggiunge solo la #190, che è informativa e non chiede una firma.
+>
+> **In coda restano otto carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel, mossa n.1),
+> #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8), #186 (cancello sito), #188
+> (origine comando ricorrente, ancora non trovata), #189 (permesso test-cervello), #190 (CI cronica,
+> nuova).
+>
+> **Cosa non ho verificato.** Cinque comandi restano bloccati: `test-cervello.mjs`,
+> `north-star-check.mjs`, `letargo.mjs`, `sonda-volano.mjs`, `esperimenti-check.mjs --apri`. Il
+> blocco è lo stesso di ogni passaggio precedente: il foglio dei permessi sul VPS non li ammette. Un
+> solo tentativo per ciascuno, non ridiagnosticato oltre (vedi card #104/#189). Sulle 5 PR rosse ho
+> letto solo il verdetto finale di `ci-stato.mjs`. Non ho letto il log di ogni singolo controllo.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
+
 ---
 
 > 🧭 **1/9 20:35 — Giro di perlustrazione: il fix delle 18:35 ha tenuto.** Richiesta tua: «fai un giro».

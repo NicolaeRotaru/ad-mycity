@@ -810,3 +810,6 @@ Esempi:
 - 2026-09-01 18:35 · @ad · PASSO-A · @Nicola — stesse 7 carte in coda, nessuna firmata: #154/#155 (mossa n.1), #182, #184, #185, #186, #188, #189.
 
 - 2026-09-01 20:35 · @ad · FATTO · giro (richiesto): confermata tenuta del fix delta-gate (18:35) — alle 20:28 il gate ha deciso esegui_pieno:false per la prima volta oggi; business invariato (ordini=1, pagati=0, sito 503), nessuna card nuova
+- 2026-09-01 22:30 · @ad · FATTO · giro (richiesto): confermata seconda volta esegui_pieno:false alle 22:28 (fix delta-gate tiene); business invariato (ordini=1, pagati=0, sito 503, 227 giri ciechi)
+- 2026-09-01 22:30 · @ad · FATTO · guardiano AR-687: CI appena diventata cronica (3 giri, 6 PR aperte/5 rosse) — accodata card #190 in AZIONI-IN-ATTESA.md, non corretta (gate North-Star)
+- 2026-09-01 22:30 · @ad · PASSO-A · @Nicola — otto carte in coda, nessuna firmata: #154/#155 (mossa n.1), #182, #184, #185, #186, #188, #189, #190 (nuova, informativa)
