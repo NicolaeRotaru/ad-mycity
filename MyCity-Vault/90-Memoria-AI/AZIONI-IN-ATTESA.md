@@ -22,6 +22,105 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- trigger-esterno-anti-churn -->
+### 🟡 #188 — Dimmi dove vive il comando che ogni giorno mi chiede di controllare i negozi in calo · ⏳ accodata 2026-09-01 11:22
+
+**In parole semplici.** Ogni giorno arriva un compito — "PLAYBOOK anti-churn negozi" — che mi chiede di
+cercare negozi con ordini in calo e preparare telefonate di richiamo. L'ho eseguito 23 volte da inizio
+luglio: risultato identico ogni volta, perché in tutto il marketplace c'è **un solo negozio vero**
+(Pane Quotidiano) e un solo ordine mai pagato. Con un negozio solo non esiste un "calo" da misurare.
+
+**Il problema vero non è il compito, è che non trovo chi lo manda.** Ho cercato in tutto il codice della
+macchina (il file che fa girare i turni, le sveglie programmate, l'elenco dei compiti ricorrenti): non
+c'è. Arriva da qualche parte fuori da questo repository — una scaletta o un'agenda che nessuna sessione
+precedente è riuscita a localizzare. Te l'avevo già chiesto due volte (card #160 il 24/8, poi #187 il
+27/8): entrambe sono sparite dalla coda senza una tua risposta, probabilmente in una pulizia automatica.
+
+**Cosa devi fare.** Dimmi tu dove vive questo comando ricorrente (uno strumento esterno? un'agenda che
+gestisci tu?), così posso proporti di metterlo in pausa finché non arriva il secondo negozio vero — oggi
+mi limito a rifare la stessa verifica e scriverla in memoria, senza produrre nulla di nuovo.
+
+**Se va bene:** o mi dici dove disattivarlo, o confermi di lasciarlo così finché non c'è un secondo
+negozio — in entrambi i casi smetto di riproporti la stessa domanda ogni giorno.
+
+- **Colore:** 🟡 (decisione operativa, nessun soldo/dato in gioco)
+- **Reparto:** account-negozi / AD
+
+> ✅ **Aggiornamento 2026-09-01 12:00.** Ho cercato in due posti nuovi, non controllati il 24/8.
+> Primo: l'elenco delle sveglie programmate da questa sessione (`CronList`) — vuoto, nessuna sveglia
+> registrata qui. Secondo: ho cercato la parola «PLAYBOOK» in tutti gli script del server
+> (`cervello/vps/*.sh`, `cervello/worker.sh` e i suoi collaboratori) — non compare da nessuna parte.
+> Il comando non nasce in questo repository e non nasce in questa sessione. Deve vivere fuori da
+> entrambi: un'agenda o una routine che gestisci tu fuori da qui, oppure un pezzo del server che non
+> scrive la sua fonte nel codice. Non riesco a guardare oltre da dove sono seduta ora.
+
+---
+
+<!-- cancello-del-sito-e-campo-prova -->
+### 🟡 #186 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
+
+**In parole semplici.** Ho scritto il metodo per chiudere tanti difetti del sito in una volta sola.
+Scrivendolo ho trovato tre buchi veri, e non li ho tappati: te li porto perché la decisione costa
+lavoro e la firma è tua.
+
+**Il primo buco: sul sito non c'è un comando unico che dica «si consegna».** Sulla macchina c'è, e
+un mansionario di casa spiega perché: cinque comandi da ricordare erano cinque occasioni di
+dimenticarne uno. Sul sito oggi sono due comandi separati, da lanciare a mano.
+
+**Il secondo buco: le schede dei difetti del sito non hanno il campo della prova.** Ce l'hanno 4
+schede su 615, e nessun controllo lo legge. Vuol dire che per un difetto grave su una pagina non
+posso dichiarare «questa la verifica un umano», come faccio sulla macchina.
+
+**Per esempio.** Un difetto grave sulla pagina della cassa: le pagine non hanno test che le
+importano come modulo. Oggi o riesco a scrivere una prova che gira, oppure quel difetto resta
+aperto. Non c'è la terza strada.
+
+**Il terzo buco: dopo l'unione, segnare i difetti come riparati è lavoro a mano.** Vuol dire aprire
+un file da ottomila righe e scriverci dentro riga per riga. Se quel passo salta, il lotto successivo
+rimette in lista roba già sistemata.
+
+**Cosa cambia per te.** Se dici di sì, i lotti del sito si chiudono con un comando solo. E i
+difetti delle pagine si possono chiudere dichiarando chi li ha guardati. Se dici di no, il metodo
+funziona lo stesso. Ma resta il debito: due comandi a mano, e nessuna prova dichiarabile sulle
+pagine.
+
+**Cosa devi fare.** Rispondi «ok 185» se vuoi che lo costruisca, oppure dimmi di lasciarlo lì. Non
+è urgente per il 1° settembre: i lotti si possono fare anche così.
+
+**Se va bene:** costruisco tre cose. Il comando unico del cancello del sito. Il campo della prova
+nello schema delle schede, col controllo che lo legge. Il comando che scrive le chiusure dopo
+l'unione. Resta tutto in una richiesta di unione, e la firma resta tua.
+
+---
+
+<!-- scadenza-29-agosto-passata -->
+
+### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
+
+**In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
+aperti della macchina. I difetti aperti del design del marketplace. Il worker per le botteghe da
+costruire. Il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
+che punto sta ciascuna delle quattro. Questo giro ha verificato solo il business, che resta fermo,
+e il sito, che resta giù. Non ha toccato il cantiere.
+
+**Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
+ancora avuto da me con numeri veri.
+
+**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere. Ti porto il conto esatto: quanti difetti
+restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni, cioè il worker e
+il design venditore. Oppure dimmi se nel frattempo hai già deciso diversamente: allora questa card
+va chiusa.
+
+**Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
+data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
+
+**Cosa cambia:** senza risposta, il prossimo giro tratta questa scadenza come ancora aperta e
+continua a non riverificarla nel merito.
+
+**Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
+per ciascuna delle quattro nel prossimo giro.
+---
+
 <!-- rilascio-ordinato-migrazioni -->
 
 ### 🔴 #184 — Il database di produzione è indietro di quattro migrazioni, e va allineato in ordine · ⏳ accodata 2026-08-29 00:45
@@ -65,22 +164,22 @@ la (b) te le applico in ordine, e ti porto la misura di ognuna.
 
 ### 🔴 #182 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
 
-**In parole semplici.** Ho controllato adesso, non a memoria: Pane Quotidiano — l'unico negozio vero
-su MyCity — non può ancora incassare con la carta. Tre interruttori sono ancora spenti (dati inviati,
-pagamenti attivi, versamenti attivi). Lo stesso quadro c'era già il 10 agosto: sono passati 18 giorni
+**In parole semplici.** Ho controllato adesso, non a memoria. Pane Quotidiano è l'unico negozio vero
+su MyCity. Non può ancora incassare con la carta. Tre interruttori sono ancora spenti: dati inviati,
+pagamenti attivi, versamenti attivi. Lo stesso quadro c'era già il 10 agosto. Sono passati 18 giorni
 e non è cambiato niente.
 
-**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti (quelli di luglio, più quello
-di agosto sui fornelli spenti) che dicono «ordina da casa, te lo portiamo» con un link diretto al
+**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti. Sono quelli di luglio, più
+quello di agosto sui fornelli spenti. Dicono «ordina da casa, te lo portiamo» con un link diretto al
 checkout. Se uno partisse oggi e un cliente pagasse con carta, il pagamento fallirebbe sotto i suoi
-occhi. L'unico ordine mai arrivato su questo negozio (24 giugno, pagamento alla consegna) è stato
-annullato, quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
+occhi. L'unico ordine mai arrivato su questo negozio è del 24 giugno, pagamento alla consegna, ed è
+stato annullato. Quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
 
-**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora — inclusi quelli fermi da
-settimane in attesa solo del tuo ok — promette una consegna che oggi il sito non sa mantenere. Se ne
+**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora promette una consegna che oggi il
+sito non sa mantenere. Vale anche per quelli fermi da settimane in attesa solo del tuo ok. Se ne
 pubblichi anche solo uno con quella promessa, il primo cliente che prova a pagare con carta trova un
 errore, non un ordine. Per il post di oggi (merenda pudding, card #180 qui sotto) ho tolto la
-promessa di consegna proprio per questo; gli altri già in coda ce l'hanno ancora.
+promessa di consegna proprio per questo. Gli altri già in coda ce l'hanno ancora.
 
 **Cosa devi fare.** Scegliere fra due strade.
 
@@ -413,6 +512,14 @@ Misurato da questa sessione il 2026-08-22 alle 19:40 con `node cervello/salute.m
 ritmo-mattino 110h, ritmo-mezzogiorno 128h, monitora 109h, ritmo-settimana 364h. Difetto di sistema
 chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira sul server, e il server
 è questo.
+
+> ✅ **Aggiornamento 2026-09-01 06:20 — Il server è tornato a lavorare da solo.** Il registro delle
+> modifiche mostra scritture automatiche del worker la sera del 31/8 (22:20) e stamattina all'1/9
+> (06:00). Sono entrambe commit di "recupero scritture pendenti". È il segno che le cadenze
+> schedulate girano di nuovo, senza bisogno che io intervenga da qui. Non ho aperto una connessione
+> diretta al server per controllare da quando esattamente sia ripartito. Quello che ho misurato è
+> la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
+> l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
 
 ---
 
@@ -2798,8 +2905,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-28 12:25)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-28-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-01 11:53)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-01-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

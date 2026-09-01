@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-01 17:35",
+  "aggiornato": "2026-09-01 12:02",
   "giorni_sospetto": 3,
-  "difetti_aperti": 123,
-  "difetti_da_fare": 123,
+  "difetti_aperti": 124,
+  "difetti_da_fare": 124,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 855,
+    "totale": 856,
     "chiusi": 732,
-    "aperti": 112,
+    "aperti": 113,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 123,
+    "da_fare": 124,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 732,
-      "aperto": 112,
+      "aperto": 113,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 123,
-    "viste": 123,
+    "attese": 124,
+    "viste": 124,
     "fuori": 0,
-    "motivo": "bilancio a posto: 732 chiuse + 123 classificate = 855 schede, e ogni stato vivo è dentro (112 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 732 chiuse + 124 classificate = 856 schede, e ogni stato vivo è dentro (113 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 81,
+    "umana": 82,
     "prova-debole-su-grave": 26,
     "auto-comando": 12,
     "auto-sospetta": 4
@@ -365,7 +365,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 111,
+  "non_auto_chiudibili": 112,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3392,6 +3392,19 @@
       "prova_obbligatoria": false,
       "non_giudicabile": true,
       "titolo": "La pulizia della coda lascia in piedi il cartello vecchio se qualcuno ha scritto una card dopo di lui",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-892",
+      "gravita": "grave",
+      "eta_giorni": 4,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il banco delle prove cancella cartelle di altri dentro /tmp, e in cima dichiara «sola lettura, non tocca nient",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

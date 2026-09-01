@@ -973,9 +973,9 @@ Questa sezione non è scritta a mano: i numeri li conta `cervello/mappa-macchina
 | --- | --- | --- | --- |
 | 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 244 file · 38.192 righe · 15 aree · 77 rotte |
 | 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 2003 righe · 14 servizi · 12 timer |
-| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 494 righe · giro di 1927 righe · 20 manuali |
+| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 495 righe · giro di 1927 righe · 21 manuali |
 | 4 | 👥 **I senior — la squadra** | Gli specialisti a cui l'AD passa il lavoro invece di farlo tutto lei. | 120 senior · 125 quaderni di memoria |
-| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 385 script (85 nelle sottocartelle) · 11 sensori · 409 test + 29 prove bash |
+| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 387 script (85 nelle sottocartelle) · 11 sensori · 410 test + 29 prove bash |
 | 6 | 📚 **La memoria — quello che ricorda** | Dove vive tutto ciò che la macchina sa e ha deciso. | 9 cartelle · 41 fatti-chiave · 45 file di auto-coscienza |
 | 7 | ✋ **Mani e sensi — come tocca il mondo** | Come legge la realtà e come, quando glielo permetti, la cambia. | 5 mani · 13 modelli grafici |
 | 8 | 🔄 **I flussi — come le parti si parlano** | I cicli veri: qui non ci sono file nuovi, c'è il «come funziona». | 5 cicli |
@@ -1061,7 +1061,7 @@ L'AD non è un programma: è un **mansionario** che l'intelligenza artificiale r
 - **3.5 L'auto-coscienza** — Quattro manuali: verificare il proprio lavoro, analizzare sé stessa, confrontarsi coi migliori, estrarre le lezioni.
 - **3.6 I cancelli di qualità** — Nessun numero senza fonte · nessuna entità inventata · il titolo di un'azione deve suonare come lo diresti a voce, senza sigle.
 
-> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 494 righe · giro di 1927 righe · 20 manuali
+> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 495 righe · giro di 1927 righe · 21 manuali
 
 ### 4. 👥 I senior — la squadra
 
@@ -1086,7 +1086,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 - **5.2 I sensori (11)** — Gli occhi sul mondo. Un occhio cieco blocca i numeri nuovi: l'elenco è qui sotto.
 - **5.3 La visita di salute** — Tre risposte possibili per ogni controllo: ✅ provato, ❌ rotto, ⚪ non l'ho potuto vedere da qui. Il ⚪ non è mai un verde.
 - **5.4 Il cantiere dei difetti** — I difetti trovati sulla macchina stessa, con la loro causa radice e una prova che diventa rossa se il difetto torna.
-- **5.5 I test e la CI (409 + 29 + 4)** — I test girano a ogni giro, non solo quando qualcuno se li ricorda: un test che nessuno esegue è un file, non una rete.
+- **5.5 I test e la CI (410 + 29 + 4)** — I test girano a ogni giro, non solo quando qualcuno se li ricorda: un test che nessuno esegue è un file, non una rete.
 
 **I sensori, uno per uno:**
 
@@ -1104,7 +1104,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 | `n8n_health` | Lo stato del motore delle automazioni: è lo strumento con cui i senior collegherebbero le mani ai servizi esterni. |
 | `mcp_supabase` | Il secondo canale verso i dati (comodità di sessione): utile quando c'è, mai la fonte di verità — quella resta il REST. |
 
-> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 385 script (85 nelle sottocartelle) · 11 sensori · 409 test + 29 prove bash
+> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 387 script (85 nelle sottocartelle) · 11 sensori · 410 test + 29 prove bash
 
 ### 6. 📚 La memoria — quello che ricorda
 

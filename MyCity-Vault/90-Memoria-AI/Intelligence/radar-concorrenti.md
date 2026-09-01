@@ -1,4 +1,23 @@
-# 🔍 Radar Concorrenti — 2026-08-24
+# 🔍 Radar Concorrenti — 2026-09-01
+
+> **Aggiornato: 1 settembre 2026 06:50** · @intelligence. Giro rimasto fermo **8 giorni** (ultimo controllo 24/8) per la pausa concordata con Nicola. Tutte le fonti concorrenti sono dovute oggi. Contesto attuale invariato rispetto al 24/8: il sito pubblico è giù (HTTP 503, dal 9° giorno), 3 azioni 🔴 attendono ancora la firma di Nicola (sito online, pagamenti Pane Quotidiano, migrazioni DB), e **0 negozi possono incassare**. Quindi, come nei giri precedenti, nessuna opportunità qui sotto diventa 🟡/🔴: resta preparazione a costo zero.
+>
+> **Esito di oggi: nessun movimento locale nuovo su nessuno dei concorrenti monitorati.** Novità di oggi: il fetch diretto su Glovo, Libertà e PiacenzaSera **ha funzionato senza 403**, a differenza delle ultime settimane. Non serve più il ripiego WebSearch per queste tre fonti. Resta necessario per comune.piacenza.it/imprese-e-commercio, che non elenca comunque bandi, e per CNA/piacenza.cna.it.
+>
+> | Competitor | Stato oggi (1/9) | Fonte |
+> |---|---|---|
+> | **Glovo** | Fetch diretto riuscito (raro, di solito 403). Categorie confermate identiche al 24/8: Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni. Nessuna categoria nuova. Nessuna promo specifica per Piacenza. | [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) (WebFetch diretto, 1/9) |
+> | **Conad — Spesa online** | Copertura invariata: 3 Superstore Piacenza (via Atleti Azzurri d'Italia, via Grazia Deledda, via Don G. Morisi), più Sapori & Dintorni e Podenzano/Rivergaro/Castell'Arquato/San Giorgio Piacentino. I due modelli "Spesa a Casa" e "Ordina e Ritira" sono confermati. Nessuna soglia o promo nuova trovata. | [spesaonline.conad.it/aree-coperte-dal-servizio/piacenza](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) (WebFetch, 1/9) |
+> | **Cortilia** | Homepage generica invariata. Nessuna menzione di Piacenza nel contenuto. Nessuna novità di prezzo o servizio. | [cortilia.it](https://www.cortilia.it/) (WebFetch, 1/9) |
+> | **CompraPiacenza.it / CNA** | piacenza.cna.it resta non raggiungibile in fetch diretto. WebSearch mirata: "CNA Piacenza CompraPiacenza novità agosto settembre 2026". Nessun risultato pertinente: solo pagine generiche su Piacenza (Wikipedia, turismo). **Settimo controllo consecutivo a vuoto**, dal 17/8 in poi. | WebSearch (1/9) |
+>
+> **Procedimenti giudiziari Glovo/Deliveroo (controllo giudiziario Procura Milano + istruttoria Antitrust) — ricontrollato oggi, ancora nessun esito.** Nuova ricerca mirata "Glovo Deliveroo Foodinho controllo giudiziario caporalato esito settembre 2026": i risultati restituiscono solo gli stessi articoli di febbraio 2026 (L'Espresso, Il Post, Sky TG24, Il Fatto Quotidiano, AGI su Foodinho 9/2 e Deliveroo 25/2). **Nessuna fonte più recente di maggio 2026** riporta un esito. Confidenza sul fatto "nessun esito ancora": alta, 85% (stessa fonte-pattern di 24/8, terza verifica indipendente con lo stesso risultato). L'argomento di pitch "botteghe vs caporalato algoritmico" resta quindi valido e invariato — parcheggiato, non usarlo finché non c'è un canale di conversione reale (vedi `buchi-mercato.md`).
+>
+> **Candore:** zero novità sostanziali trovate oggi su tutti i concorrenti monitorati. Non è un dato debole per pigrizia: sono 5 fonti ricontrollate con metodo (2 dirette + 1 WebSearch bandi + 1 procedimento giudiziario + CNA), tutte con lo stesso esito "invariato". In un mercato dove i grandi (Glovo/Deliveroo/JustEat) sono distratti dal consolidamento Uber-Delivery Hero e dai procedimenti giudiziari, l'assenza di mosse è essa stessa un'informazione: la finestra di distrazione dei competitor resta aperta.
+
+---
+
+## Versione precedente (24 agosto 2026, invariata sotto)
 
 > Aggiornato: 24 agosto 2026 · @intelligence. Playbook settimanale Intelligence, dovuto oggi: l'ultimo controllo risale al 17/8, **7 giorni fa** — il giro dell'11-23/8 era rimasto fermo (pausa Nicola). Precedente: 17/8 06:33.
 > ⚠️ **Nota di contesto obbligatoria (23/8):** Nicola ha corretto la priorità reale per i prossimi 5 giorni — c'è una scadenza-zero al **29/8/2026**: chiudere ~311 difetti aperti della macchina + costruire da zero worker Bottega e design lato-venditore. **Nessuna delle opportunità qui sotto va spinta in avanti come azione commerciale questa settimana.** Tutto resta 🟢 (solo preparazione, zero costo, reversibile), anche dove il vincolo "pausa fino al 24/8" formalmente scade oggi.
@@ -87,3 +106,12 @@ Cercando conferma sui bandi (vedi sotto "novità bandi"), ho trovato **BT26 — 
 - **24/8:** gcerti.it/piccole-imprese-grande-valore-per-il-territorio-1-milione-di-euro-a-fondo-perduto-dalla-camera-di-commercio-dellemilia — dettagli BT26 (importi, target)
 
 Precedente: versione 17/8 (in git history), versione 10/8 (in git history).
+
+---
+
+**🔧 Fonti consultate oggi (1/9/2026):**
+- [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) — WebFetch diretto riuscito, categorie invariate
+- [spesaonline.conad.it/aree-coperte-dal-servizio/piacenza](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) — WebFetch diretto, copertura invariata
+- [cortilia.it](https://www.cortilia.it/) — WebFetch diretto, nessuna menzione Piacenza
+- WebSearch "CNA Piacenza CompraPiacenza novità agosto settembre 2026" — nessun risultato pertinente, 7° controllo a vuoto
+- WebSearch "Glovo Deliveroo Foodinho controllo giudiziario caporalato esito settembre 2026" — nessun esito nuovo, stesso quadro di maggio

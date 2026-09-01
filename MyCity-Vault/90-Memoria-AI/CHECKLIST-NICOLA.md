@@ -2,33 +2,50 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-08-28 12:35
+aggiornato: 2026-09-01 06:30
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma al 24/8 13:15 (oltre i 2 giorni della regola AR-030).
+> Rigenerata perché era ferma al 28/8 (oltre i 2 giorni della regola AR-030).
 >
-> Business ancora **fermo**. 1 ordine totale, mai pagato, del 24/6. 0 ordini pagati. Stallo **65
-> giorni**. Verificato ora con query dirette sul database, non da memoria.
+> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **69 giorni**.
 >
-> 🔴 **La cosa più urgente, e nuova rispetto al 24/8.** Il sito pubblico è di nuovo **giù (HTTP
-> 503)** — l'ho verificato in diretta io stessa, 3 tentativi. Era su il 24/8, oggi no. La causa è
-> sempre la stessa: le carte qui sotto restano senza firma da 6 giorni.
+> Il server è ripartito da solo stanotte (card #168 aggiornata). Il sito resta comunque giù da 10
+> giorni: la causa adesso è solo il dominio e due chiavi su Vercel, le due carte qui sotto. E la
+> scadenza che avevi fissato tu, il 29 agosto, è passata da tre giorni. Dimmi se vuoi che ti porti
+> il conto puntuale delle quattro cose.
 
 ---
 
-## 🔴 IL SITO È DI NUOVO GIÙ — stessa causa del 24/8, mai risolta
+## 🔴 IL SITO È GIÙ DA 10 GIORNI — dominio e chiavi Vercel
 
-- [ ] 🔴 **Metti le tre chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
+- [ ] 🔴 **Metti le due chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
   ordine registrato).
-  → Card `#154` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **Sposta il dominio `mycity-marketplace.com` su Vercel** (punta ancora a Render, non più
-  pagato dal 30/7).
-  → Card `#155` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **Il server che fa lavorare la macchina è fermo** — senza, niente giro può girare da solo.
-  → Card `#168` in [[AZIONI-IN-ATTESA]]
+  → Card `#154`
+
+- [ ] 🔴 **Sposta il dominio `mycity-marketplace.com` su Vercel** (punta ancora a Render).
+  → Card `#155`
+
+> ℹ️ **Il server che fa girare la macchina è ripartito da solo** stanotte, dopo il fermo segnalato
+> il 22 agosto. Non serve più una tua azione su questo punto. → Card `#168` (aggiornata)
+
+---
+
+## 🔴 NOVITÀ — database, pagamenti e la scadenza del 29 agosto
+
+- [ ] 🔴 **La scadenza che avevi fissato tu è passata da tre giorni.** Era il 29 agosto. Dimmi se
+  vuoi il conto puntuale delle quattro cose, o se hai già deciso diversamente.
+  → Card `#185`
+
+- [ ] 🔴 **Il database di produzione è indietro di 4 migrazioni** (126-129). Scegli fra accendere
+  il cancello del rilascio o farle applicare a mano.
+  → Card `#184`
+
+- [ ] 🔴 **Pane Quotidiano non incassa da 18 giorni.** Alcuni post pronti in coda promettono ancora
+  "ordina, ti portiamo". Un pagamento con carta fallirebbe davanti al primo cliente.
+  → Card `#182`
 
 ---
 
@@ -47,9 +64,9 @@ aggiornato: 2026-08-28 12:35
 
 ## 🔴 DECISIONI CHE SOLO TU PUOI PRENDERE
 
-- [ ] 🔴 **Il controllo che protegge il codice avvisa ma non ferma nessuno** — scegli fra tre strade
-  (A: lascia com'è e conta i casi; B: obbligatorio ma tu puoi scavalcarlo — consigliata; C: obbligatorio
-  e basta). Nove modifiche col controllo rosso sono entrate lo stesso in tre settimane.
+- [ ] 🔴 **Il controllo che protegge il codice avvisa ma non ferma nessuno.** Scegli fra tre strade:
+  A, lascia com'è e conta i casi; B, obbligatorio ma tu puoi scavalcarlo, consigliata; C,
+  obbligatorio e basta.
   → Card `#177`
 - [ ] 🔴 **Otto richieste di unione ferme in coda**: dimmi quali mergiare e quali chiudere.
   → Card `#166`
@@ -64,6 +81,9 @@ aggiornato: 2026-08-28 12:35
 
 ## 🟡 Decisioni rapide (una parola/un click bastano)
 
+- [ ] 🟡 **Il pannello del negoziante ha 14 voci di menù**, e il tuo paletto dice «nessuna app
+  nuova»: scegli quale delle due vale.
+  → Card `#178`
 - [ ] 🟡 **Ho tolto un permesso speciale rimasto in giro, morto** — solo da confermare.
   → Card `#176`
 - [ ] 🟡 **Il sito scrive "spedizione gratis" e poi fa pagare 3 €** — decisione di prezzo, tua.
@@ -71,14 +91,17 @@ aggiornato: 2026-08-28 12:35
 - [ ] 🟡 **148 difetti sono chiusi con una prova che non può diventare rossa** — servirebbe una
   sessione dedicata a ridarle un morso vero.
   → Card `#172`
+- [ ] 🟡 **Un post pronto per Pane Quotidiano** (pudding vaniglia, senza promessa di consegna) —
+  aspetta solo il tuo via.
+  → Card `#180`
 
 ---
 
 ## 🟡 CI rossa sul repo memoria/cervello (ad-mycity)
 
-6 PR aperte, **tutte rosse per colpa propria** (nessuna ereditata da main): `#853`, `#852`, `#842`,
-`#841`, `#741`, `#735`. Non riparabili da questa sessione: `test-cervello.mjs` resta bloccato
-dall'allowlist Bash (stesso buco noto delle card #104/#42).
+7 PR aperte: 5 rosse per colpa propria (`#855`, `#842`, `#841`, `#741`, `#735`), 1 verde pronta a
+firma (`#858`), 1 ancora in corso (`#860`). Non riparabili da questa sessione: `test-cervello.mjs`
+resta bloccato dall'allowlist Bash (stesso buco noto delle card #104/#42).
 
 ---
 
@@ -95,5 +118,5 @@ dall'allowlist Bash (stesso buco noto delle card #104/#42).
   → Card `#107`
 
 > ⚠️ **Restano altre righe tecniche in coda** (fix di codice interno, PR da aprire/mergiare lato AD,
-> cure alla memoria) che non richiedono una TUA decisione — in tutto **85 card 🟡/🔴 aperte** (contate
+> cure alla memoria) che non richiedono una TUA decisione — in tutto **89 card 🟡/🔴 aperte** (contate
 > ora con grep, non stimate). Elenco completo, sempre aggiornato: [[AZIONI-IN-ATTESA]].
