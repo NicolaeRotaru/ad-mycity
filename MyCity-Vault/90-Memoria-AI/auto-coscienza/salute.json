@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-09-01 06:51",
+  "aggiornato": "2026-09-01 20:52",
   "timbro": {
-    "quando": "2026-09-01 06:51",
+    "quando": "2026-09-01 20:52",
     "scade_dopo_ore": 26,
     "ambiente": "locale",
     "scritto_da": "cervello/salute.mjs",
@@ -315,12 +315,12 @@
       }
     },
     "vps": {
-      "quando": "2026-09-01 06:51",
-      "iso": "2026-09-01T04:51:50.563Z",
+      "quando": "2026-09-01 20:52",
+      "iso": "2026-09-01T18:52:32.157Z",
       "casa": "vps",
       "modo": "vps",
-      "ok": 19,
-      "rotti": 8,
+      "ok": 18,
+      "rotti": 9,
       "guasti": 0,
       "nonvisti": 1,
       "copertura": 0.96,
@@ -343,10 +343,10 @@
           "titolo": "Le cadenze si alzano davvero",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "il ritmo della macchina si è fermato. Non si alzano più 4 cadenze su 6: ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora. Altre 2 sono uscite saltando dei passi: giro, ritmo-settimana.",
+          "detto": "il ritmo della macchina si è fermato. Non si alza più 1 cadenza su 6: ritmo-settimana. Altre 2 sono uscite saltando dei passi: giro, ritmo-settimana.",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 3,
+          "rosso_da": 4,
           "cronico": true
         },
         {
@@ -355,10 +355,10 @@
           "titolo": "I file che la Cabina mostra sono ancora validi",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "2 file che la Cabina mostra sono più vecchi della loro scadenza: Il referto del checkup (227h), Il quaderno dei pezzi nuovi (1394h)",
+          "detto": "1 file che la Cabina mostra sono più vecchi della loro scadenza: Il quaderno dei pezzi nuovi (1408h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 3,
+          "rosso_da": 4,
           "cronico": true
         },
         {
@@ -367,10 +367,10 @@
           "titolo": "La review del venerdì lascia i suoi compiti",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (39 giorni), La peer review fra senior (39 giorni), La calibrazione previsto-vs-reale (38 giorni), La lettera a Nicola (33 giorni)",
+          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (39 giorni), La peer review fra senior (39 giorni), La calibrazione previsto-vs-reale (38 giorni), La lettera a Nicola (34 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 3,
+          "rosso_da": 4,
           "cronico": true
         },
         {
@@ -391,7 +391,7 @@
           "titolo": "La macchina ha scritto di recente",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima scrittura 0 ore fa (worker:ultimo)",
+          "detto": "ultima scrittura 0 ore fa (worker:ultimo:chat)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -403,7 +403,7 @@
           "titolo": "Il disco temporaneo ha ancora posto per lavorare",
           "impatto": 1,
           "esito": "ok",
-          "detto": "su /tmp restano 1149 MB su 1907 (60%)",
+          "detto": "su /tmp restano 1859 MB su 1907 (97%)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -418,8 +418,8 @@
           "detto": "riparte in continuazione: mycity-worker (160 riavvii), mycity-worker-chat (1159 riavvii)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 3,
+          "cronico": true
         },
         {
           "id": "worker.pubblicazione",
@@ -430,8 +430,8 @@
           "detto": "l'allineamento rimanda da 726 giri di fila: il server scrive e non pubblica più",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 3,
+          "cronico": true
         },
         {
           "id": "worker.automazione",
@@ -439,10 +439,10 @@
           "titolo": "Token, push e allineamento git",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "l'automazione ha un controllo fallito — 14 FALLITI: timer watch-main, timer mycity-sentinella-dati, timer mycity-sentinella, battito occhi (sentinella-dati:ultimo), segnale sync-giro, segnale watch-main, segnale memoria-non-pubblicata, segnale ritmo-mattino, segnale ritmo-mezzogi",
+          "detto": "l'automazione ha un controllo fallito — 14 FALLITI: timer watch-main, timer mycity-sentinella-dati, timer mycity-sentinella, battito occhi (sentinella-dati:ultimo), segnale sync-giro, segnale watch-main, segnale freschezza-okr, segnale memoria-non-pubblicata, segnale ritmo-mezzog",
           "prova": "node cervello/verifica-automazione.mjs --json",
           "regressione": false,
-          "rosso_da": 3,
+          "rosso_da": 4,
           "cronico": true
         },
         {
@@ -474,11 +474,11 @@
           "organo": "cervello",
           "titolo": "I test del cervello passano",
           "impatto": 3,
-          "esito": "ok",
-          "detto": "tutti i test del cervello girano e passano",
+          "esito": "rotto",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-09-01 20:45  (2 corsie · 62 in fila da sole: 55 scrive sul dato vivo · 4 lancia il compilatore · 3 avvia un browser vero) · ✅ cervello/test/allarme-cronico.test.mjs  (10 passati)",
           "prova": "node cervello/test-cervello.mjs",
-          "regressione": false,
-          "rosso_da": 0,
+          "regressione": true,
+          "rosso_da": 1,
           "cronico": false
         },
         {
@@ -499,7 +499,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 6 min fa (2026-09-01T04:45:49.125Z) — 8 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 6 min fa (2026-09-01T18:46:00.977Z) — 42 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false,
           "rosso_da": 0,
@@ -523,7 +523,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "1 consegne su 112 degli ultimi 30 giorni senza una riga di esito (1%) · Cabina 0 giorni indietro (STATO al 2026-09-01 06:55)",
+          "detto": "1 consegne su 112 degli ultimi 30 giorni senza una riga di esito (1%) · Cabina 0 giorni indietro (STATO al 2026-09-01 20:35)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -535,10 +535,10 @@
           "titolo": "Il cantiere dei difetti sta calando",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 10 difetti aperti in più rispetto a una settimana fa (113 allora, 123 adesso). Si aprono più difetti di quanti se ne chiudono.",
+          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 11 difetti aperti in più rispetto a una settimana fa (113 allora, 124 adesso). Si aprono più difetti di quanti se ne chiudono.",
           "prova": "node cervello/salute-onesta.mjs --gate",
           "regressione": false,
-          "rosso_da": 1,
+          "rosso_da": 2,
           "cronico": false
         },
         {
@@ -547,10 +547,10 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "«In parole semplici» mancato nel 100% dei 28 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "detto": "«In parole semplici» mancato nel 100% dei 29 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false,
-          "rosso_da": 3,
+          "rosso_da": 4,
           "cronico": true
         },
         {
@@ -595,7 +595,7 @@
           "titolo": "La Cabina è collegata alla memoria",
           "impatto": 2,
           "esito": "ok",
-          "detto": "collegata, ultimo battito 2026-09-01 06:55",
+          "detto": "collegata, ultimo battito 2026-09-01T12:15:02+02:00",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -631,7 +631,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "5 senior con almeno un esito registrato",
+          "detto": "8 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -663,14 +663,15 @@
         }
       ],
       "cronicita": {
-        "worker.cadenze": 3,
-        "cervello.freschezza": 3,
-        "cervello.riti": 3,
-        "worker.servizi": 2,
-        "worker.pubblicazione": 2,
-        "worker.automazione": 3,
-        "cervello.burndown": 1,
-        "cervello.scrittura": 3
+        "worker.cadenze": 4,
+        "cervello.freschezza": 4,
+        "cervello.riti": 4,
+        "worker.servizi": 3,
+        "worker.pubblicazione": 3,
+        "worker.automazione": 4,
+        "cervello.test": 1,
+        "cervello.burndown": 2,
+        "cervello.scrittura": 4
       }
     }
   },
@@ -1309,6 +1310,17 @@
       "modo": "vps",
       "ok": 19,
       "rotti": 8,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
+    },
+    {
+      "quando": "2026-09-01 20:52",
+      "iso": "2026-09-01T18:52:32.157Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 18,
+      "rotti": 9,
       "guasti": 0,
       "nonvisti": 1,
       "copertura": 0.96
