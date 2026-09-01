@@ -1,84 +1,125 @@
 ---
-data: 2026-09-01 14:20
-tipo: verifica del marketplace + nota di metodo
-repo: NicolaeRotaru/mycity @ 51ab3e3 (dopo PR #244)
+data: 2026-09-01 14:45
+tipo: verifica del marketplace
+repo: mycity, stato del 1 settembre
 ---
 
 # Verifica del marketplace — 1 settembre 2026
 
-## Cosa è successo, prima di tutto il resto
+**In due righe.** Ho controllato il sito e sta bene: tutte le 1538 prove passano.
+Il referto di stanotte non vale, perché l'ho scritto su una copia vecchia di un mese:
+quasi tutto quello che avevo elencato era già riparato. Tre difetti veri restavano, e
+li ho sistemati.
 
-Ho passato questa sessione a fare una radiografia profonda del marketplace **su una
-copia di lavoro ferma al 30 luglio**, senza saperlo. Il repository vero era avanti di
-un mese e di almeno quattro PR di riparazioni (#241–#244).
+## In parole semplici
 
-Risultato: ho annunciato tre bloccanti — scheda prodotto invisibile, ordini che non
-avanzano, build rotto — che erano **già stati risolti**. Rifatte le verifiche sul
-codice reale, i punti più pesanti del referto risultano chiusi, e in un caso meglio di
-come li avrei chiusi io.
+Stanotte ho fatto una radiografia del sito. L'ho fatta su una fotografia vecchia di un
+mese, senza accorgermene. Il sito vero era molto più avanti.
 
-Il referto del 30 luglio e le azioni 🔴 che avevo accodato **non valgono** e sono
-state rimosse: quelle migrazioni, applicate al database di oggi, lo farebbero
-regredire.
+I tre problemi gravi che ti avevo annunciato erano **già risolti**. Ho rifatto le
+verifiche sul sito di oggi. Sono rimasti tre difetti veri, e li ho riparati.
 
-## Lo stato reale, misurato oggi
+## Cosa cambia per te
 
-| Gate | Esito |
+Il sito sta bene. Tutte le prove automatiche passano: sono 1538 e passano tutte.
+A luglio erano 718. Il lavoro fatto in agosto ha più che raddoppiato i controlli.
+
+Anche i punti che ti avevo segnalato come pesanti risultano chiusi. La commissione, per
+dire, è chiusa meglio di come l'avrei chiusa io. Prima il numero scritto nelle condizioni
+di vendita e il numero davvero trattenuto erano due cose separate. Adesso le condizioni
+leggono il valore vero dal codice. Quei due numeri non possono più diventare diversi.
+
+Tre difetti invece erano veri, e li ho riparati:
+
+**Il pulsante spento non si leggeva.** Quando un pulsante è disattivato diventava così
+chiaro da sparire. L'ho misurato in un browser: il testo era quattro volte meno visibile
+del minimo consentito. Non è un dettaglio di bellezza. Su un prodotto esaurito quel
+pulsante dice «Non disponibile», e il cliente deve poterlo leggere. Adesso si legge, e
+resta comunque chiaramente spento.
+
+**Il titolo delle finestre veniva tagliato.** Il titolo era scritto troppo grande, e le
+parole in eccesso sparivano con i puntini. «Condividi la lista della spesa» non ci
+stava. Nemmeno «Scansiona il codice a barre». Adesso ci stanno.
+
+**Sei falle di sicurezza nelle librerie del sito.** Cinque erano gravi. Il sito usa
+componenti scritti da altri, e sei di questi avevano problemi noti. Adesso sono zero.
+Non ho cambiato niente del nostro codice: ho solo aggiornato quei componenti alle
+versioni corrette.
+
+## Cosa devi fare
+
+Una cosa sola: decidere se unire la richiesta di modifica numero 245 sul sito.
+Contiene i tre fix qui sopra. Tutte le prove sono verdi.
+
+Poi, se vuoi, dimmi se rifare la radiografia. Quella di stanotte descrive luglio e non
+serve più. Una nuova, sul sito di oggi, va rifatta da capo.
+
+## Cosa non ho verificato
+
+Non ho provato le due correzioni visive sulle pagine vere del sito. Le ho provate sul
+banco di prova dei componenti. Se una pagina ha uno stile suo che sovrascrive quello
+standard, lì va guardata a occhio.
+
+I titoli che ho provato sono quelli che ho trovato nell'applicazione. Non li ho provati
+tutti. Un titolo più lungo di quelli potrebbe ancora non entrare.
+
+Non ho potuto guardare i pagamenti dal vivo. Il collegamento a Stripe non è attivo in
+questa sessione. Restano fuori dalla mia vista i tempi reali di accredito ai negozi.
+
+## Come ho controllato
+
+Ogni riga qui sotto è un comando che ho lanciato, non un'impressione.
+
+| Controllo | Esito |
 |---|---|
-| `tsc --noEmit` | ✅ **0 errori** |
-| `next lint` | ✅ 0 errori |
-| `next build` | ✅ **177 pagine** |
-| `vitest run` | ✅ **1538 test su 1538** (178 file) |
-| Ricostruzione schema da zero (130 migrazioni, Postgres 16 locale) | ✅ **130 applicate, 0 fallite** |
-| `npm audit` (produzione) | ✅ **0 vulnerabilità** (erano 6, di cui 5 alte) |
+| Il codice non ha errori di tipo | verde |
+| Lo stile del codice è pulito | verde |
+| Il sito si costruisce | verde, 177 pagine |
+| Le prove automatiche | verdi, 1538 su 1538 |
+| Il database si ricostruisce da zero | verde, 130 passaggi su 130 |
+| Falle nelle librerie | zero, erano sei |
 
-A luglio i test erano 718 su 83 file. Sono più che raddoppiati.
+## La lezione, e il freno che ci metto
 
-## Verifiche puntuali sui punti che avevo dato per gravi
+Non ho controllato quanto fosse vecchia la copia su cui stavo lavorando.
 
-| Punto | Stato reale |
-|---|---|
-| Commissione dichiarata 8% vs incassata 10% | ✅ **Chiuso, e meglio**: i Termini ora scrivono `{MARKETPLACE_FEE_BPS / 100}%`, cioè leggono la costante. Il numero pubblicato **non può più divergere** da quello incassato. |
-| P.IVA e PEC segnaposto nel footer | ✅ Non più presenti |
-| `getClientIp` prendeva il primo XFF (rate limit aggirabili) | ✅ Chiuso: la catena si legge dalla coda, con il commento che spiega perché |
-| `rider_fee_cents` mai scritto | ✅ Chiuso: ora scritto alla creazione dell'ordine |
-| Scheda prodotto invisibile senza account | ✅ Chiuso (PR #244, migrazione 129) |
-| Trigger ordini che citava `invoice_number` | ✅ Chiuso — provato sullo schema ricostruito |
+È lo stesso errore che stavo documentando: fidarsi di uno stato senza una prova che sia
+quello vero. Mi è costato un referto intero da buttare. E ti ho accodato quattro azioni
+che, se le avessi eseguite, avrebbero fatto tornare indietro il database.
 
-## I tre difetti che sono sopravvissuti — riparati oggi
+Il freno costa trenta secondi. Prima di aprire una radiografia si confronta la copia
+locale con quella su GitHub. Se è indietro di più di un giorno, o la si aggiorna, o lo
+si scrive in cima al referto.
 
-Commit `2ab20bd` sul ramo `claude/amazing-lovelace-nqa9o1`.
+Un esempio di cosa mi è costato non averlo fatto. Stanotte ti ho scritto che nessun
+cliente poteva comprare, perché la scheda prodotto diceva «Prodotto non disponibile».
+Era vero il 30 luglio. Il 28 agosto qualcuno l'ha riparato, e io non l'ho visto.
+Ti ho fatto passare un'ora a leggere un allarme su un problema che non c'era più.
 
-1. **`components/ui/Button.tsx`** — `disabled:opacity-50` compone l'intero pulsante
-   sulla pagina: testo e fondo si schiariscono insieme. **Misurato in un browser vero**
-   (Storybook, storia «Disabled»): **1,62:1** contro i 4,5:1 richiesti — la scritta è
-   di fatto invisibile, e su `StickyAddToCart` quella scritta è «Non disponibile»,
-   cioè un'informazione. Ora **8,80:1**, e resta visibilmente spento.
+---
 
-2. **`components/ui/Modal.tsx`** — l'`h2` del titolo non aveva nessuna classe `text-*`,
-   quindi ereditava il default di `globals.css` (30px, serif) e con `truncate` i titoli
-   veri si tagliavano. **Misurato**: su un modale `sm` restano 332px utili, «Condividi
-   la lista della spesa» ne occupa 363 e «Scansiona il codice a barre» 341. Allineato a
-   `ConfirmDialog`, la finestra gemella.
+### Dettagli tecnici
 
-3. **`package-lock.json`** — 6 vulnerabilità in produzione (5 alte: Next.js SSRF nei
-   rewrites, DoS sull'ottimizzazione immagini via SVG, esposizione non autenticata
-   degli endpoint delle Server Function; postcss; sharp/libvips; fast-uri) → **zero**.
-   Si muove solo il lockfile: Next da 15.5.18 a 15.5.25, dentro il range già dichiarato.
+Stato del repo `mycity` al commit `51ab3e3`, dopo la PR #244.
 
-## La lezione, che vale più dei tre fix
+I fix stanno nel commit `2ab20bd`, ramo `claude/amazing-lovelace-nqa9o1`, PR #245:
 
-**Non ho verificato l'età della copia su cui stavo lavorando.** È lo stesso errore che
-stavo documentando: fidarsi di uno stato senza una prova che sia quello vero. Il costo
-è stato un referto intero da buttare e quattro azioni pericolose accodate a Nicola.
+- `components/ui/Button.tsx` — sostituito `disabled:opacity-50` con uno stato
+  disabilitato esplicito. L'opacità compone l'intero elemento sulla pagina, quindi
+  schiarisce testo e fondo insieme. Contrasto misurato su Storybook: 1,62:1 prima,
+  8,80:1 dopo. La soglia WCAG AA è 4,5:1.
+- `components/ui/Modal.tsx` — aggiunta la classe `text-lg sm:text-xl` all'`h2` del
+  titolo. Senza classe di dimensione ereditava il default di `globals.css`, cioè 30px
+  in Fraunces. Con `truncate` i titoli si tagliavano: su un modale `sm` restano 332px
+  utili, «Condividi la lista della spesa» ne occupa 363 e «Scansiona il codice a barre»
+  341. Allineato a `ConfirmDialog`.
+- `package-lock.json` — sei vulnerabilità risolte: Next.js con SSRF nei rewrites, DoS
+  sulle immagini SVG ed esposizione non autenticata degli endpoint delle Server
+  Function; postcss con path traversal; sharp con le CVE di libvips; fast-uri. Solo il
+  lockfile si muove: Next passa da 15.5.18 a 15.5.25, dentro il range già in
+  `package.json`.
 
-Il freno, se lo vogliamo: **prima di aprire una radiografia, confrontare `HEAD` locale
-con il ramo remoto e con la data dell'ultimo commit.** Trenta secondi. Se la copia è
-indietro di più di un giorno, aggiornarla o dichiararlo in cima al referto.
-
-## Cosa NON è stato fatto, e resta da fare
-
-Una radiografia vera **del codice di oggi** non esiste ancora: quella di questa
-sessione descrive luglio. Se serve, va rifatta da capo sul repository aggiornato —
-il metodo (revisori paralleli, prove a runtime nel browser, ricostruzione dello schema
-su Postgres locale) ha funzionato ed è riusabile così com'è.
+Punti del vecchio referto ricontrollati e risultati già chiusi: commissione dichiarata
+contro incassata, dati camerali segnaposto nel footer, `getClientIp` che leggeva il
+primo elemento di `x-forwarded-for`, `rider_fee_cents` mai scritto, scheda prodotto non
+visibile senza account, trigger degli ordini che citava `invoice_number`.

@@ -2921,3 +2921,29 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 > 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 27.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+
+---
+
+## Decidi se mandare in produzione i tre fix del sito — 2026-09-01 14:45
+
+Guarda la richiesta di modifica numero 245 sul sito e dimmi se la unisco.
+
+**Cosa cambia:** contiene tre riparazioni.
+
+Il pulsante spento adesso si legge. Prima il testo era quattro volte meno visibile del
+minimo. Su un prodotto esaurito quel testo dice «Non disponibile». Il cliente non
+capiva perché non poteva comprare.
+
+Il titolo delle finestre non viene più tagliato. «Condividi la lista della spesa» prima
+spariva a metà.
+
+Sei falle di sicurezza nelle librerie del sito sono chiuse. Cinque erano gravi. Una
+permetteva di far fare al nostro server richieste verso indirizzi scelti da un estraneo.
+Il nostro codice non cambia: cambiano solo le versioni delle librerie.
+
+**Se va bene:** unendola, il sito riparte con quelle tre cose sistemate. Tutte le prove
+automatiche sono verdi: 1538 su 1538, più la costruzione delle 177 pagine. Se preferisci
+guardarla prima con calma, non c'è fretta: nessuna delle tre è un'emergenza.
+
+- **Colore:** 🟡 (tocca il sito, ma solo componenti grafici e versioni di librerie)
+- **Reparto:** frontend-dev
