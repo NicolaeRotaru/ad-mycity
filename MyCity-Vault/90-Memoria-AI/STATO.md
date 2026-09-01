@@ -1,7 +1,7 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 12:00
-fonte: AD digitale (Punto di mezzogiorno, cervello/ritmo.md)
+aggiornato: 2026-09-01 15:25
+fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
@@ -841,6 +841,41 @@ se l'attività è ferma.
 > quelli misurati il 24 agosto alle 13:05 e non sono una misura di adesso. E non so ancora **cosa**
 > abbia rimescolato quelle voci durante la fusione: ho tolto il sintomo e messo il freno che lo
 > intercetta, non ho trovato la mano che l'ha fatto.
+
+
+## Ultima mossa — 2026-09-01 15:25
+
+**Il lavoro sulla radiografia del 27/8 è unito.** La richiesta NicolaeRotaru/mycity#246 è stata
+unita su `main`. Dei 194 problemi trovati, ne restano aperti pochi. Il conto esatto e la cronaca
+stanno in `consegne/audit/2026-08-31-riparazione-radiografia.md`.
+
+**⚠️ IL FATTO CHE CONTA ADESSO, misurato alle 15:20 sul database vero (MCP Supabase, sola
+lettura).** Unire su `main` manda il codice in produzione da solo, perché `vercel.json` ha
+`deploymentEnabled.main: true`. Le migrazioni invece le applica un lavoro che ha bisogno del
+segreto `SUPABASE_DB_URL`, che non c'è. Il sito perciò **chiede al database colonne e trigger che
+lì dentro non sono mai stati creati**. Cosa manca, verificato una per una:
+
+| Serve al codice unito | C'è in produzione? |
+|---|---|
+| `abandoned_carts.recovered_at` (migrazione 148) | **NO** |
+| trigger `trg_enqueue_order_status_email` (migrazione 150) | **NO** |
+| vincolo `products_name_lunghezza` (migrazione 149) | **NO** |
+| funzione `claim_pending_emails` | sì |
+| `orders.internal_dispute_status` | sì |
+
+Conseguenza concreta: `lib/cart-sync.ts` e `lib/carrelli-abbandonati.ts` leggono e scrivono una
+colonna che in produzione non esiste. Le email «ordine pronto» e «consegnato» non partiranno
+comunque, perché il trigger che le accoda non c'è.
+
+**Non ho toccato niente:** applicare migrazioni alla produzione è 🔴 e aspetta la firma di Nicola.
+Le tre strade sono nel rapporto.
+
+**Due domande aperte. Sono fatti che solo Nicola ha, non lavoro da fare.**
+
+① In produzione c'è Cloudflare davanti al sito? Senza quella risposta, il freno anti-abuso si può
+solo indovinare. L'ho già indovinato male due volte.
+
+② Mancano i tre segreti Vercel. Senza quelli il rilascio col cancello non parte affatto.
 
 ## Passaggi precedenti
 
