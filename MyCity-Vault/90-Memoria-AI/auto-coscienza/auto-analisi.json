@@ -1,58 +1,43 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-01 11:36",
-  "voto_fiducia": 80,
-  "sintesi_giro_corrente": "Settimo passaggio in ~17 ore, 21 minuti dopo il sesto (11:15). A differenza dei passaggi delle 08:30-11:15 (query SQL dirette via MCP), in questo ho scelto di appoggiarmi ai sensori pre-girati da giro.sh (11:24-11:32, freschi di 5-12 minuti) invece di riquery-are il database, per rispettare l'istruzione del letargo RISPARMIO di tagliare il volume quando la quota AI è all'85% e non c'è alcun segnale che qualcosa sia cambiato in 21 minuti. Ho comunque rieseguito a mano `ci-stato.mjs` (stesse 6 PR, stesse 6 rosse, invariato) e `coerenza-fatti.mjs` (pulito, nulla riscritto) — i due controlli più economici e più diagnostici. Non rieseguiti: north-star-check.mjs e letargo.mjs (comando bash bloccato da approvazione; riporto il verdetto già scritto nell'hook di sessione). Nessuna carta nuova aperta (gate North-Star + letargo RISPARMIO): le quattro in coda (#154/#155, #182, #184, #185) restano invariate, nessuna firmata.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato dal passaggio precedente (21 minuti prima). Verifica più leggera di quella delle 11:15: appoggiata ai sensori freschi invece di riquery dirette, scelta deliberata sotto letargo RISPARMIO — non un'omissione.",
-  "trend_fiducia": "▼ 84→80: sceso perché questo passaggio NON ha rimisurato i numeri di business in prima persona (si è appoggiato al sensore pre-girato) e non ha potuto rieseguire north-star-check/letargo per un blocco di approvazione — meno solido del passaggio precedente, anche se la scelta di tagliare volume è coerente con la regola del letargo.",
+  "data": "2026-09-01 11:56",
+  "voto_fiducia": 78,
+  "sintesi_giro_corrente": "Ottavo passaggio oggi, 20 minuti dopo il settimo (11:36). Letargo è passato da RISPARMIO a SOPRAVVIVENZA (quota AI 115% della finestra, salute macchina 4/100): la regola è tagliare il volume, mai i controlli di verità. Ho rieseguito a mano solo `coerenza-fatti.mjs` (pulito, 41 fatti, 0 copie vecchie) e controllato i sensori pre-girati (11:46-11:55, freschi) e i commit dopo le 11:46 (due playbook worker di routine, nessuna carta nuova). Non rieseguiti: `ci-stato.mjs`, `north-star-check.mjs`, `letargo.mjs` (comando bash bloccato da approvazione, come nei passaggi precedenti) — riporto il verdetto già scritto nell'hook di sessione. Nessuna carta nuova aperta (gate North-Star): le carte in coda restano invariate, nessuna firmata.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato dal passaggio precedente (20 minuti prima). Verifica ridotta al minimo dichiarato: letargo SOPRAVVIVENZA impone nucleo vitale (ordini+consegne+coda firme+sicurezza+allerta Nicola), non un giro pieno.",
+  "trend_fiducia": "▼ 80→78: sceso perché il letargo è salito a SOPRAVVIVENZA (peggiorato da RISPARMIO) e questo passaggio ha verificato ancora meno in prima persona (solo coerenza-fatti + sensori ereditati, niente ci-stato.mjs) — scelta coerente con la regola, ma meno solida in assoluto.",
   "entita_verificate": [
-    {
-      "nome": "8 profili totali (5 buyer, 1 rider, 1 seller, 1 admin) — il '7→8' del delta-gate è il totale profili, non un cliente nuovo",
-      "stato": "confermato",
-      "fonte": "query SQL diretta, group by role, eseguita in questo passaggio"
-    },
-    {
-      "nome": "0 acquirenti nuovi negli ultimi 7 giorni",
-      "stato": "confermato",
-      "fonte": "query SQL diretta (profiles role='buyer' created_at > now()-7d), eseguita in questo passaggio"
-    },
-    {
-      "nome": "5 prodotti disponibili, 1 negozio (seller) reale",
-      "stato": "confermato",
-      "fonte": "query SQL diretta, eseguita in questo passaggio"
-    },
-    {
-      "nome": "6 PR aperte, 6 rosse (0 ereditate) — invariato dal passaggio delle 11:15",
-      "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs, rieseguito in questo passaggio alle 11:35"
-    },
     {
       "nome": "Memoria coerente (coerenza-fatti.mjs): 41 fatti, 0 cacce aperte, 0 copie vecchie",
       "stato": "confermato",
       "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio (nessuna riscrittura necessaria)"
     },
     {
-      "nome": "1 ordine totale / 0 pagati — invariato",
-      "stato": "confermato (ereditato dal sensore pre-girato, non riquery-ato direttamente in questo passaggio: scelta deliberata sotto letargo RISPARMIO)",
-      "fonte": "sensori-cecita.json, campo supabase_rest, aggiornato 2026-09-01 11:24 da giro.sh"
+      "nome": "Nessun commit nuovo dopo le 11:46 salvo 2 playbook worker di routine (contenuto del giorno, recupero carrelli)",
+      "stato": "confermato",
+      "fonte": "git log --since='2026-09-01 11:40' + git show --stat sui 3 commit più recenti"
     },
     {
-      "nome": "Sito pubblico HTTP 503, 217 giri ciechi",
+      "nome": "1 ordine totale / 0 pagati — invariato",
+      "stato": "confermato (ereditato dal sensore pre-girato, non riquery-ato direttamente in questo passaggio: scelta deliberata sotto letargo SOPRAVVIVENZA)",
+      "fonte": "sensori-cecita.json, campo supabase_rest, aggiornato 2026-09-01 11:46 da giro.sh"
+    },
+    {
+      "nome": "Sito pubblico HTTP 503, 219 giri ciechi",
       "stato": "confermato (ereditato dal sensore pre-girato, non ri-derivato con un check HTTP diretto in questo passaggio: comando bloccato da approvazione)",
-      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 11:00-11:32 da giro.sh"
+      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 11:55 da giro.sh"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo RISPARMIO + gate North-Star). Coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1) e con l'istruzione del letargo di tagliare il volume: questo passaggio ha infatti RIDOTTO il volume di verifica rispetto all'11:15 (sensori invece di query dirette) mantenendo comunque i due controlli più economici (ci-stato, coerenza-fatti) — taglio dichiarato, non un buco silenzioso.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo SOPRAVVIVENZA + gate North-Star). Coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1): questo passaggio ha ULTERIORMENTE ridotto il volume rispetto all'11:36 (solo coerenza-fatti, niente ci-stato.mjs) mantenendo il controllo di verità più economico e diagnostico.",
   "salute_macchina": {
-    "supabase": "REST ok (sensore 11:24); MCP marketplace non riquery-ato in questo passaggio (era stato verificato funzionante alle 11:12 nel passaggio precedente)",
-    "stripe": "balance API ok (sensore 11:24); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
+    "supabase": "REST ok (sensore 11:46); MCP marketplace non riquery-ato in questo passaggio",
+    "stripe": "balance API ok (sensore 11:46); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503) — invariato, 217 giri ciechi (+1 dal passaggio delle 11:15)"
+    "sito_uptime": "giù (HTTP 503) — invariato, 219 giri ciechi (+2 dal passaggio delle 11:36)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 230 senza gate su 297 (soglia 20), letto dal system-reminder di oggi — attivo da 163 giri di fila (AR-687). Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
-  "livello_verifica": "L1 (misura ereditata + due controlli propri): numeri di business ereditati dal sensore pre-girato (11:24-11:32), NON riquery-ati direttamente in questo passaggio — scelta deliberata sotto letargo RISPARMIO. ci-stato.mjs e coerenza-fatti.mjs rieseguiti da me a mano. Non rieseguiti: check HTTP diretto sul sito, north-star-check.mjs, letargo.mjs (comando bash bloccato da approvazione).",
-  "refutazione": "Tentata la demolizione di 'nulla è cambiato dal passaggio delle 11:15': sopravvive sulla CI (verificata con ci-stato.mjs rieseguito) e sulla coerenza dei fatti (verificata con coerenza-fatti.mjs rieseguito) — due controlli indipendenti, non solo la ripetizione dell'affermazione precedente. Sui numeri di business puri (ordini/clienti/prodotti) la refutazione NON è stata tentata con una nuova query: mi appoggio al sensore di 5-12 minuti fa, dichiarato come tale, non spacciato per misura diretta.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), letto dal system-reminder di oggi — attivo da 164 giri di fila (AR-687). Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
+  "livello_verifica": "L0-L1 (misura quasi interamente ereditata + un controllo proprio): numeri di business ereditati dal sensore pre-girato (11:46-11:55), NON riquery-ati direttamente in questo passaggio — scelta deliberata sotto letargo SOPRAVVIVENZA. coerenza-fatti.mjs rieseguito da me a mano. Non rieseguiti: ci-stato.mjs, check HTTP diretto sul sito, north-star-check.mjs, letargo.mjs (comando bash bloccato da approvazione).",
+  "refutazione": "Tentata la demolizione di 'nulla è cambiato dal passaggio delle 11:36': sopravvive sulla coerenza dei fatti (verificata con coerenza-fatti.mjs rieseguito) e sul git log (nessun commit rilevante nuovo, verificato con git show --stat). Sui numeri di business puri (ordini/clienti/prodotti) e sulla CI la refutazione NON è stata tentata con una nuova query in questo passaggio: mi appoggio al sensore di 1-10 minuti fa e al verdetto CI del passaggio precedente, dichiarati come tali, non spacciati per misura diretta.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
@@ -62,9 +47,9 @@
     },
     {
       "tipo": "decisione",
-      "domanda": "Card #182: Pane Quotidiano non incassa da oltre 18 giorni e alcuni post pronti promettono ancora consegna. Strada (a) attivare i pagamenti prima o (b) riscrivere le CTA nel frattempo?",
-      "azione": "eseguo appena scegli la lettera",
-      "colore": "🔴"
+      "domanda": "Card #188: da 23 giri il worker rilancia lo stesso playbook anti-churn negozi che non trova mai nulla (un solo negozio vero). Sai dove vive questo comando ricorrente, così possiamo metterlo in pausa?",
+      "azione": "rispondimi dove disattivarlo, o confermi di lasciarlo così finché non c'è un secondo negozio",
+      "colore": "🟡"
     }
   ]
 }

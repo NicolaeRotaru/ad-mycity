@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 11:40",
+ "aggiornato": "2026-09-01 11:54",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12511,6 +12511,10 @@
     {
      "quando": "2026-09-01 11:32",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 11:54",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14302,12 +14306,12 @@
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 11:40",
+  "tasso_calcolato_il": "2026-09-01 11:46",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 11:32",
+  "cristallizzazione_ultima": "2026-09-01 11:54",
   "lezioni_totali": 501,
   "lezioni_per_stato": {
    "attiva": 388,

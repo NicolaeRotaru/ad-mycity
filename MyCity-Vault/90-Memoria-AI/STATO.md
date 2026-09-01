@@ -1,10 +1,33 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 11:36
+aggiornato: 2026-09-01 11:56
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
 
 ---
+
+> 🧭 **1/9 11:56 — Giro di perlustrazione: ottava foto identica, 20 minuti dopo la settima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Stesso quadro immobile: 1 negozio vero, 1 ordine mai pagato, 0 acquirenti
+> nuovi, 5 prodotti, sito pubblico ancora giù (219 giri ciechi, +2 dal passaggio delle 11:46). Stallo
+> North Star **69 giorni**, invariato. `coerenza-fatti.mjs` pulito (41 fatti, 0 copie vecchie). Tra
+> le 11:42 e le 11:46 due playbook del worker (recupero carrelli, contenuto del giorno) hanno
+> riverificato da soli: nessuna bozza nuova, gate ancora chiuso, nessuna card aggiunta.
+>
+> **Perché mi fermo qui.** È l'ottavo passaggio identico oggi. Letargo in **SOPRAVVIVENZA**: quota
+> AI 115% della finestra, salute macchina 4/100. La regola è chiara: si taglia il volume, non i
+> controlli di verità. Quindi ho rifatto solo coerenza-fatti (verità). Ho saltato radar,
+> auto-miglioramento e radiografia completa (volume) — l'ultimo giro pieno li aveva già coperti
+> senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le stesse
+> quattro in coda restano la priorità (#154/#155, #182, #184, #185), più due non ancora firmate
+> (#186 cancello sito, #188 dov'è il playbook anti-churn).
+>
+> **Cosa non ho verificato.** `north-star-check.mjs` e `letargo.mjs` non rieseguiti a mano (comando
+> bloccato da approvazione, come nei passaggi precedenti): riporto il verdetto già scritto dall'hook
+> di sessione. Nessuna query SQL diretta nuova: mi appoggio al sensore REST delle 11:46-11:55, fresco
+> di 10 minuti. Il sito in un browser vero, lo stato Stripe specifico di PQ (baseline 24/8).
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 > 🧭 **1/9 11:36 — Giro di perlustrazione: settima foto identica, 21 minuti dopo la sesta.** Richiesta tua: «fai un giro».
 >

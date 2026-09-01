@@ -777,3 +777,5 @@ Esempi:
 - 2026-09-01 11:36 · @ad · FATTO · `ci-stato.mjs` e `coerenza-fatti.mjs` rieseguiti a mano: stesse 6 PR rosse, memoria coerente, nulla riscritto.
 - 2026-09-01 11:36 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json, AUTO-ANALISI.md.
 - 2026-09-01 11:36 · @ad · PASSO-A · @Nicola — stesse 4 domande aperte, invariate: firma dominio+chiavi Vercel (#154/#155), scegli strada su pagamenti PQ (#182), scegli strada su migrazioni DB (#184), dì se riaprire il cantiere per la scadenza del 29/8 (#185).
+- 2026-09-01 11:56 · @ad · FATTO · Ottavo passaggio oggi: `coerenza-fatti.mjs` rieseguito a mano (pulito), quadro invariato. Letargo SOPRAVVIVENZA rispettato: volume tagliato (niente radar/auto-miglioramento), controlli di verità tenuti. STATO.md e Briefing/2026-09-01.md aggiornati con nuova voce in cima.
+- 2026-09-01 11:56 · @ad · PASSO-A · @Nicola — nessuna domanda nuova: restano le stesse 6 carte aperte (#154/#155, #182, #184, #185, #186, #188), nessuna firmata.

@@ -1,3 +1,63 @@
+# 🔬 AUTO-ANALISI — 2026-09-01 11:56
+
+## Ottavo passaggio, un giro di perlustrazione richiesto in chat, 20 minuti dopo il settimo
+
+Il letargo è passato da RISPARMIO a **SOPRAVVIVENZA**. Quota AI al 115% della finestra, salute
+macchina 4/100. La regola dice di tagliare il volume. Mai i controlli di verità e sicurezza.
+
+In questo passaggio ho rieseguito a mano un solo controllo: `coerenza-fatti.mjs`. Risultato:
+memoria coerente, 41 fatti, 0 copie vecchie. Non ho rieseguito `ci-stato.mjs`, per tagliare
+ulteriormente il volume rispetto all'11:36.
+
+Ho anche controllato il git log dopo le 11:46. Due playbook del worker hanno girato da soli
+(contenuto del giorno, recupero carrelli). Nessuna carta nuova. Gate invariati.
+
+`north-star-check.mjs` e `letargo.mjs` non li ho rieseguiti: il comando bash è bloccato da
+approvazione, come in tutti i passaggi precedenti di oggi. Riporto il verdetto già scritto
+nell'hook di sessione (stallo North Star 69 giorni, letargo SOPRAVVIVENZA) invece di inventare
+un numero fresco.
+
+Nessuna azione nuova aperta. Le carte in coda restano invariate: `#154`/`#155`
+(dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano), `#184` (migrazioni database), `#185`
+(scadenza del 29/8), `#186` (cancello del sito, senza risposta), `#188` (dove vive il playbook
+anti-churn, senza risposta).
+
+**Voto di fiducia: 78/100** (▼ da 80). Sceso perché il letargo è peggiorato a SOPRAVVIVENZA e
+questo passaggio ha verificato ancora meno in prima persona — coerente con la regola, non un
+errore scoperto.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-01 11:56
+
+Collaudo richiesto dal cancello di stop (AR-532).
+
+**① Richiesta.** Nicola, via giro automatico, ha chiesto tre cose. Leggere ed eseguire per intero
+`cervello/giro.md`. Scrivere i file richiesti sul disco. Restituire il TL;DR: cinque righe più la
+mossa numero uno.
+- FATTA: STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json,
+  AUTO-ANALISI.md e SALA-OPERATIVA.md aggiornati con un nuovo passaggio in cima. TL;DR da
+  consegnare in chat, cinque righe più la mossa n.1.
+- FATTA, in forma ridotta: verifica dei dati di business. Non ho rilanciato query dirette né
+  `ci-stato.mjs`; ho usato i sensori pre-girati da giro.sh (11:46-11:55) e rieseguito solo
+  `coerenza-fatti.mjs`, il controllo di verità più economico.
+- NON FATTA APPOSTA (letargo SOPRAVVIVENZA + gate North-Star): query SQL dirette, `ci-stato.mjs`,
+  `north-star-check.mjs`, `letargo.mjs` (comando bloccato da approvazione), radar completo, Piani,
+  intenzioni-nicola.json, auto-miglioramento, radiografia completa — nessuna novità da propagare
+  rispetto al passaggio delle 11:36, quadro identico.
+- MANCANTE: nessuna, alla luce del perimetro appena descritto.
+
+**② Diff riletto.** I file scritti in questo passaggio sono gli stessi elencati sopra come FATTA;
+nessun'altra scrittura al di fuori di questo perimetro.
+
+**③ Prove eseguite.** `coerenza-fatti.mjs`: 41 fatti, 0 cacce aperte, memoria coerente, nulla
+riscritto. `git log --since` + `git show --stat`: confermato che gli unici commit dopo le 11:46
+sono due playbook worker di routine.
+
+**④ Strada alternativa considerata.** Avrei potuto rifare `ci-stato.mjs` come nei passaggi
+precedenti. Ho scelto di tagliarlo perché il letargo è salito a SOPRAVVIVENZA proprio in questo
+passaggio e la CI non ha ragioni per essere cambiata in 20 minuti senza commit nuovi sul ramo.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-09-01 11:36
 
 ## Settimo passaggio, un giro di perlustrazione richiesto in chat, 21 minuti dopo il sesto
