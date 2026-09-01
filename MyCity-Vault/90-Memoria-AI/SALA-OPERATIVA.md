@@ -795,3 +795,8 @@ Esempi:
 - 2026-09-01 14:28 · @ad · FATTO · Vincolo di sistema AR-687: TEST (`test-cervello.mjs`) appena diventato cronico (3 giri rosso di fila), unica delle 11 voci croniche senza card aperta. Accodata card #189 in [[AZIONI-IN-ATTESA]] (stesso buco di permessi delle card #104/#42/#74).
 - 2026-09-01 14:28 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-09-01.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json, AUTO-ANALISI.md.
 - 2026-09-01 14:28 · @ad · PASSO-A · @Nicola — nessuna domanda nuova sul business: restano le stesse carte aperte (#154/#155, #182, #184, #185, #186, #188), più la nuova #189 (permesso per sbloccare `test-cervello.mjs`). Mossa n.1 invariata: firma #154+#155.
+
+### 2026-09-01 — 🧭 GIRO DI PERLUSTRAZIONE (AD · 16:32)
+- 2026-09-01 16:32 · @ad · FATTO · Tredicesimo passaggio identico di oggi: query diretta MCP `supabase-marketplace` — ordini pagati=0/1, ultimo ordine 24/6, 0 nuovi acquirenti in 7gg (5 acquirenti totali). Nessun commit nuovo dal recupero delle 16:20. `test-cervello.mjs` non ritentato: stesso blocco di permessi già registrato nella card #189, non ridiagnosticato.
+- 2026-09-01 16:32 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-09-01.md, ultimo-briefing.json.
+- 2026-09-01 16:32 · @ad · PASSO-A · @Nicola — nessuna carta nuova. Stesse in attesa: #154/#155, #182, #184, #185, #186, #188, #189. Mossa n.1 invariata: firma #154+#155.

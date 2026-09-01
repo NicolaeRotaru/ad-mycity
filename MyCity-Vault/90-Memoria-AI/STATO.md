@@ -1,8 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 14:28
+aggiornato: 2026-09-01 16:32
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
+
+---
+
+> 🧭 **1/9 16:32 — Giro di perlustrazione: tredicesima foto identica di oggi.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho rifatto la query diretta sul database, non il sensore riusato. Il
+> risultato è lo stesso di sempre. 1 ordine totale. 0 pagati. L'ultimo ordine resta quello del
+> 24/6. 0 nuovi acquirenti negli ultimi 7 giorni, su 5 acquirenti totali. Nessun commit nuovo dal
+> passaggio delle 16:20. Quello era un recupero di scritture pendenti. Il North Star resta fermo a
+> **69 giorni**.
+>
+> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** Il letargo è ancora in
+> **SOPRAVVIVENZA**. La quota AI è al 114% della finestra. La salute della macchina è 4 su 100. La
+> regola resta la stessa dei 12 passaggi precedenti di oggi: si taglia il volume, mai i controlli
+> di verità. Il volume, oggi, sono i giri pesanti: radar, auto-miglioramento, radiografia completa.
+> Sono già stati coperti oggi. Non c'è nulla di nuovo da allora. Ho tenuto solo la verifica diretta
+> di ordini e clienti. Quella è verità, non volume. `test-cervello.mjs` resta bloccato. La causa è
+> lo stesso permesso mancante sul VPS della card #189, già aperta alle 14:28. Non l'ho ritentato
+> alla cieca: è un blocco già noto, non uno nuovo da ridiagnosticare.
+>
+> **In coda restano le stesse carte, nessuna firmata.** Sono sette. #154 e #155 sono dominio e
+> chiavi Vercel: il sito pubblico resta giù. #182 sono i pagamenti carta di Pane Quotidiano. #184
+> sono le migrazioni del database. #185 è la scadenza del 29/8. #186 è il cancello del sito. #188
+> è l'origine del comando ricorrente "negozi in calo", ancora non trovata. #189 è il permesso per
+> sbloccare i test del cervello. **La mossa numero 1 resta la stessa: firma #154 e #155.** Senza
+> sito pubblico, nessun pagamento riuscito diventa un ordine.
+>
+> **Cosa non ho verificato.** `north-star-check.mjs` e `letargo.mjs`: il comando resta bloccato da
+> approvazione, come in ogni passaggio di oggi. Riporto il verdetto già scritto dall'hook di
+> sessione. Non ho aperto il sito in un browser vero. Lo stato Stripe specifico di PQ resta sulla
+> baseline del 24/8.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
 
 ---
 
