@@ -1373,3 +1373,22 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 **Dettagli tecnici**
 - Card `#154`, `#155`, `#182`, `#184` in AZIONI-IN-ATTESA. Card `#168` corretta oggi: il fermo del server risulta superato dalle tracce dei commit automatici del 31/8 e dell'1/9.
 - Business riverificato con query diretta: 0 ordini pagati su 1, stallo 69 giorni. Sito pubblico HTTP 503 (verifica-sensori.mjs, 1/9 06:01).
+
+## Punto di mezzogiorno · 2026-09-01 12:00
+
+**Le 3 priorità del mattino:**
+1. ❌ **Rimetti online il sito vero** (`#154`/`#155`). È ancora giù, HTTP 503. Dominio e chiavi Vercel aspettano la tua firma.
+2. ❌ **Sblocca i pagamenti carta di Pane Quotidiano** (`#182`). Invariato. I tre interruttori Stripe restano spenti.
+3. ❌ **Applica le quattro migrazioni al database** (`#184`). Invariato. Non hai ancora scelto quale delle due strade preferisci.
+
+**Correzioni di rotta:** nessuna urgenza nuova. Il quadro è identico da stamattina. È il nono controllo di oggi con lo stesso risultato. L'unico negozio vero resta a zero ordini pagati da 69 giorni.
+
+Una cosa in più, non una nuova priorità. Ho cercato la fonte del comando ricorrente della card `#188` (il controllo "negozi in calo" che si ripete ogni giorno a vuoto). Ho guardato l'elenco delle sveglie programmate in questa sessione: vuoto. Ho cercato la parola «PLAYBOOK» in tutti gli script del server: non compare da nessuna parte. Il comando non nasce in questo repository né in questa sessione. Deve vivere fuori da entrambi. Questo è nuovo rispetto alle due richieste precedenti (`#160` il 24/8, `#187` il 27/8): prima nessuno aveva controllato questi due posti.
+
+**Serve da te entro sera:**
+- 🔴 Dominio + chiavi Vercel (`#154`/`#155`) — rimette online il sito.
+- 🔴 Una parola su come sbloccare i pagamenti di Pane Quotidiano (`#182`).
+- 🔴 Una parola su come applicare le quattro migrazioni (`#184`).
+- 🟡 Dimmi dove vive il comando ricorrente `#188`. Ho escluso due posti. Non ne ho altri da controllare da qui.
+
+**Dettagli tecnici** (opzionale) — dati riusati dal giro delle 11:56, quattro minuti prima di questo passaggio. `coerenza-fatti.mjs` pulito: 41 fatti, 0 copie vecchie. Business bit-per-bit identico dal 24/6. Sito HTTP 503, 219 giri ciechi. Nessuna nuova query pesante sul business in questo passaggio: la macchina è in letargo SOPRAVVIVENZA (quota AI oltre soglia), si taglia il volume non la verità. La ricerca su `#188` è stata l'unica indagine nuova: `CronList` (vuoto) + grep di «PLAYBOOK» su `cervello/vps/*.sh` e `cervello/worker.sh` (nessun risultato).

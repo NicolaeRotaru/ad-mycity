@@ -46,6 +46,14 @@ negozio — in entrambi i casi smetto di riproporti la stessa domanda ogni giorn
 - **Colore:** 🟡 (decisione operativa, nessun soldo/dato in gioco)
 - **Reparto:** account-negozi / AD
 
+> ✅ **Aggiornamento 2026-09-01 12:00.** Ho cercato in due posti nuovi, non controllati il 24/8.
+> Primo: l'elenco delle sveglie programmate da questa sessione (`CronList`) — vuoto, nessuna sveglia
+> registrata qui. Secondo: ho cercato la parola «PLAYBOOK» in tutti gli script del server
+> (`cervello/vps/*.sh`, `cervello/worker.sh` e i suoi collaboratori) — non compare da nessuna parte.
+> Il comando non nasce in questo repository e non nasce in questa sessione. Deve vivere fuori da
+> entrambi: un'agenda o una routine che gestisci tu fuori da qui, oppure un pezzo del server che non
+> scrive la sua fonte nel codice. Non riesco a guardare oltre da dove sono seduta ora.
+
 ---
 
 <!-- cancello-del-sito-e-campo-prova -->

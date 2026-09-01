@@ -1,8 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 11:56
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-01 12:00
+fonte: AD digitale (Punto di mezzogiorno, cervello/ritmo.md)
 ---
+
+---
+
+> 🕛 **1/9 12:00 — Punto di mezzogiorno: le 3 priorità del mattino restano tutte ferme.** Richiesta tua implicita: cadenza fissa di mezzogiorno.
+>
+> **In parole semplici.** Ho ripreso il piano scritto stamattina alle 06:25. Le tre mosse di oggi sono
+> ferme. Primo: rimettere online il sito (`#154`/`#155`). Secondo: sbloccare i pagamenti di Pane
+> Quotidiano (`#182`). Terzo: applicare le quattro migrazioni al database (`#184`). Nessuna ha ancora
+> una risposta. Il business è lo stesso da 69 giorni. L'ho riverificato quattro minuti prima, nel
+> giro delle 11:56.
+>
+> **Nessuna correzione di rotta.** Non è emersa nessuna urgenza nuova. La macchina è in letargo
+> SOPRAVVIVENZA. Questo è il nono controllo di oggi con lo stesso quadro esatto. Ho riusato i dati
+> appena verificati invece di rifare le stesse query per la nona volta.
+>
+> **Una cosa in più, non una nuova priorità.** Ho cercato la fonte del comando ricorrente della card
+> `#188` (il controllo "negozi in calo" che si ripete ogni giorno a vuoto). L'elenco delle sveglie
+> programmate in questa sessione è vuoto. La parola «PLAYBOOK» non compare in nessuno script del
+> server. Il comando non nasce in questo repository né in questa sessione: deve vivere altrove. È un
+> passo avanti rispetto alle due richieste precedenti (`#160`, `#187`): prima nessuno aveva
+> controllato questi due posti.
+>
+> Dettagli in [[RITMO]], blocco «Punto di mezzogiorno · 2026-09-01 12:00».
 
 ---
 
