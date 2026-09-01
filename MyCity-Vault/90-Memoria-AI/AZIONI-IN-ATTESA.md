@@ -22,35 +22,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-<!-- scadenza-29-agosto-passata -->
-
-### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
-
-**In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
-aperti della macchina. I difetti aperti del design del marketplace. Il worker per le botteghe da
-costruire. Il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
-che punto sta ciascuna delle quattro. Questo giro ha verificato solo il business, che resta fermo,
-e il sito, che resta giù. Non ha toccato il cantiere.
-
-**Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
-ancora avuto da me con numeri veri.
-
-**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere. Ti porto il conto esatto: quanti difetti
-restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni, cioè il worker e
-il design venditore. Oppure dimmi se nel frattempo hai già deciso diversamente: allora questa card
-va chiusa.
-
-**Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
-data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
-
-**Cosa cambia:** senza risposta, il prossimo giro tratta questa scadenza come ancora aperta e
-continua a non riverificarla nel merito.
-
-**Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
-per ciascuna delle quattro nel prossimo giro.
-
----
-
 <!-- cancello-del-sito-e-campo-prova -->
 ### 🟡 #186 — Decidi se costruire il cancello unico del sito, che oggi non esiste · ⏳ accodata 2026-08-28 21:40
 
@@ -86,6 +57,34 @@ pagine.
 nello schema delle schede, col controllo che lo legge. Il comando che scrive le chiusure dopo
 l'unione. Resta tutto in una richiesta di unione, e la firma resta tua.
 
+---
+
+<!-- scadenza-29-agosto-passata -->
+
+### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
+
+**In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
+aperti della macchina. I difetti aperti del design del marketplace. Il worker per le botteghe da
+costruire. Il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
+che punto sta ciascuna delle quattro. Questo giro ha verificato solo il business, che resta fermo,
+e il sito, che resta giù. Non ha toccato il cantiere.
+
+**Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
+ancora avuto da me con numeri veri.
+
+**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere. Ti porto il conto esatto: quanti difetti
+restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni, cioè il worker e
+il design venditore. Oppure dimmi se nel frattempo hai già deciso diversamente: allora questa card
+va chiusa.
+
+**Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
+data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
+
+**Cosa cambia:** senza risposta, il prossimo giro tratta questa scadenza come ancora aperta e
+continua a non riverificarla nel merito.
+
+**Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
+per ciascuna delle quattro nel prossimo giro.
 ---
 
 <!-- rilascio-ordinato-migrazioni -->
