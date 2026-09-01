@@ -808,3 +808,5 @@ Esempi:
 - 2026-09-01 18:35 · @ad · FATTO · Business invariato (1 ordine, 0 pagati, stallo 69 giorni). Trovata e riparata la causa dei 16 giri pieni di oggi: `delta-gate.json` confrontava sempre con la baseline vecchia dell'8/15 (clienti=7), mai aggiornata dopo il 21/8 (clienti=8). Baseline promossa a mano (stessa procedura dell'8/15); dettaglio in `_nota_segna_pieno_manuale` dello stesso file.
 - 2026-09-01 18:35 · @ad · FATTO · Aggiornati STATO.md, Briefing/2026-09-01.md, ultimo-briefing.json, auto-analisi.json con questo passaggio.
 - 2026-09-01 18:35 · @ad · PASSO-A · @Nicola — stesse 7 carte in coda, nessuna firmata: #154/#155 (mossa n.1), #182, #184, #185, #186, #188, #189.
+
+- 2026-09-01 20:35 · @ad · FATTO · giro (richiesto): confermata tenuta del fix delta-gate (18:35) — alle 20:28 il gate ha deciso esegui_pieno:false per la prima volta oggi; business invariato (ordini=1, pagati=0, sito 503), nessuna card nuova

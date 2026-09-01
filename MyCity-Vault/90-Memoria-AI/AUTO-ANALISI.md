@@ -1,4 +1,80 @@
-# 🔬 AUTO-ANALISI — 2026-09-01 18:35
+# 🔬 AUTO-ANALISI — 2026-09-01 20:35
+
+## Diciassettesimo passaggio: il fix delle 18:35 ha tenuto
+
+Business fermo. 1 ordine, 0 pagati. Stallo North Star **69 giorni**. Sito ancora giù (HTTP 503,
+riverificato ora in diretta con `verifica-sensori.mjs`, non ereditato).
+
+Richiesto esplicitamente da Nicola («fai un giro»), mentre il delta-gate alle 20:28 aveva già
+deciso da solo di saltare il motore pieno perché nulla è cambiato.
+
+**La cosa verificabile del passaggio.** La riparazione della baseline fatta alle 18:35 ha tenuto
+alla prima prova reale: la decisione delle 20:28 è `esegui_pieno:false`, la prima onesta della
+giornata dopo 9 decisioni sbagliate identiche (stesso motivo «clienti 7→8») prima del fix.
+
+**Voto di fiducia: 80/100** (▼ da 81, di un punto). Non è un errore. È onestà su un buco lasciato
+aperto apposta. Il gate `correzione-nicola-gate` resta scoperto (HARD da 168 giri). Il vincolo
+North-Star impone una regola precisa: questo turno lavora solo su ciò che avvicina il primo ordine
+pagato. Qui non c'era un modo per farlo senza rompere quella regola.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-01 20:35
+
+**① Richiesta.** Nicola ha chiesto di eseguire per intero `cervello/giro.md`.
+- FATTA: `verifica-sensori.mjs` e `coerenza-fatti.mjs` rilanciati dal vivo (non ereditati, entrambi
+  puliti). Letto `delta-gate.json` per confermare la tenuta del fix. Scritti STATO.md,
+  Briefing/2026-09-01.md, ultimo-briefing.json, SALA-OPERATIVA.md, auto-coscienza/auto-analisi.json,
+  registro-realta.json. Registrata la riga chiusura-loop per la verifica del fix
+  (`chiusura-loop.mjs registra ad ...`, riuscita).
+- NON FATTA (dichiarato, non nascosto): `test-cervello.mjs`, `north-star-check.mjs --gate`,
+  `letargo.mjs`, `tasso-lezioni.mjs` — bloccati dallo stesso permesso mancante delle card #104/#189,
+  un solo tentativo ciascuno, non ripetuto (lezione sui blocchi ripetuti). Gate
+  `correzione-nicola-gate` non lavorato: gate North-Star.
+
+**② Rischio del passaggio.** Nessuna scrittura tocca soldi, dati di clienti o codice pubblicato: solo
+memoria del vault. Rischio più alto: dichiarare una riparazione "tenuta" con una sola osservazione.
+Mitigato scrivendolo esplicitamente nei Gap (serve più di un ciclo per essere certi).
+
+## Collaudo dopo il primo stop (AR-532) — 2026-09-01 20:4x
+
+Il cancello dello stop ha bloccato la prima chiusura del turno. Ecco il conto.
+
+**① Elenco della richiesta.** Nicola ha chiesto: esegui per intero `cervello/giro.md`.
+- FATTA: dati verificati dal vivo, memoria scritta (STATO, Briefing, ultimo-briefing.json,
+  SALA-OPERATIVA, auto-analisi.json, registro-realta.json), coerenza-fatti pulita, riga
+  chiusura-loop registrata. Vedi sopra, punto ①.
+- MANCANTE, corretta ora: due file (`AUTO-ANALISI.md`, `STATO.md`) avevano frasi troppo dense per
+  Nicola. Il cancello li ha misurati e me li ha rimandati indietro. Li ho riscritti in frasi corte:
+  un'idea per frase, come chiede `cervello/scrittura-umana.md`.
+- NON FATTA APPOSTA: non ho toccato tutta la storia densa già presente in `STATO.md` (centinaia di
+  righe di passaggi precedenti). Ho corretto solo le frasi che il cancello ha indicato per nome.
+  Riscrivere tutta la storia vecchia del file non era la richiesta di questo turno.
+
+**② Diff vero riletto.** `git diff a7c21a2e9aa03738669e7c507e628fba2f6a0fa1` e `git status --short`:
+ho scoperto che il commit-base del cancello (11:42) precede di 9 ore l'inizio di questo turno. Il
+confronto include quindi anche i passaggi delle 12:00-20:20, già scritti da giri precedenti, non da
+me. È lo stesso guasto già noto e registrato in memoria come
+[[project-cancello-stop-base-commit-vecchio]]: la base è vecchia, non il mio lavoro a essere più
+denso di quanto sembri. Non l'ho usato come scusa: ho comunque riscritto le frasi indicate, mie e
+non mie, perché chi legge non distingue chi ha scritto cosa.
+
+**③ Prove eseguite.** `node cervello/si-capisce.mjs` sui due file: bloccato da approvazione (stesso
+buco di permessi delle card #104/#189), un tentativo per file, non ripetuto. Non ho quindi un
+punteggio numerico post-fix da mostrare: ho corretto a mano le frasi esatte che il cancello aveva
+citato, senza poter rilanciare lo stesso righello che le ha trovate.
+
+**④ Strada alternativa considerata.** Avrei potuto rispondere al cancello spiegando solo il guasto
+del commit-base (③ sopra) e lasciare le frasi come stavano, visto che gran parte del punteggio non
+è mia. Ho scartato questa strada: anche se la causa tecnica è quella, il testo denso lo avrebbe letto
+Nicola lo stesso. Ho scelto di correggere le frasi indicate, non di discolparmi soltanto.
+
+**⑤ Verificato / non verificato.** Verificato: le tre frasi in `AUTO-ANALISI.md` e le tre in
+`STATO.md` citate dal cancello sono state riscritte in frasi più corte, stesso contenuto. Non
+verificato: se il punteggio numerico di `si-capisce.mjs` sia sceso sotto la soglia — lo strumento
+che lo misura è bloccato da qui, quindi questo è dichiarato come gap, non nascosto.
+
+## Passaggi precedenti
+
+## 🔬 AUTO-ANALISI — 2026-09-01 18:35
 
 ## Sedicesimo passaggio: riparata la baseline del delta-gate
 
@@ -39,10 +115,11 @@ Collaudo richiesto dal cancello di stop (AR-532).
   Letargo RISPARMIO + gate North-Star: nessuna novità di business da propagare, e questo passaggio
   non produce contenuto pubblicabile da confrontare coi migliori.
 
-**② Diff riletto.** `git status --short` prima di scrivere: 29 file già modificati dal pre-passo di
-`giro.sh` (sensori, gate, cantiere) — non toccati da me. Le mie scritture: STATO.md, Briefing,
-SALA-OPERATIVA.md, ultimo-briefing.json, auto-analisi.json, delta-gate.json (fix mirato, non
-un'intera riscrittura), questo file. Nessuna scrittura fuori da questo perimetro.
+**② Diff riletto.** Ho guardato `git status --short` prima di scrivere. 29 file erano già modificati
+dal pre-passo di `giro.sh`: sensori, gate, cantiere. Non li ho toccati io. Le mie scritture sono
+altre: STATO.md, Briefing, SALA-OPERATIVA.md, ultimo-briefing.json, auto-analisi.json, questo file,
+e un fix mirato su delta-gate.json (non un'intera riscrittura). Nessuna scrittura fuori da questo
+elenco.
 
 **③ Prove eseguite.** `node cervello/coerenza-fatti.mjs` (pulito, 41 fatti, 0 cacce aperte).
 Rilettura diretta di `delta-gate.json` per confermare i 12 casi in cui il motivo "clienti 7→8" ha
@@ -50,12 +127,12 @@ fatto scattare un giro pieno dal 21/8. `node cervello/chiusura-loop.mjs registra
 verificato dall'output). Due comandi bloccati (`lezione-nuova.mjs`, `piani-data.mjs`), un solo
 tentativo ciascuno, non forzati.
 
-**④ Strada alternativa considerata.** Avrei potuto limitarmi a confermare "nulla di nuovo" per la
-sedicesima volta, come i passaggi precedenti quando il business non si muove. Ho scelto invece di
-indagare perché il *numero di giri* fosse anomalo rispetto al livello di letargo dichiarato — un
-segnale di sistema, non di business, ma un segnale reale e mai seguito nei 15 passaggi precedenti
-di oggi. L'alternativa scartata (confermare e basta) avrebbe lasciato aperto lo stesso spreco anche
-domani.
+**④ Strada alternativa considerata.** Una strada era limitarmi a confermare "nulla di nuovo", per la
+sedicesima volta. È quello che hanno fatto i passaggi precedenti, quando il business non si muove.
+Ho scelto un'altra strada. Ho indagato perché il *numero di giri* fosse anomalo rispetto al livello
+di letargo dichiarato. Non è un segnale di business. È un segnale di sistema, reale, mai seguito nei
+15 passaggi precedenti di oggi. La strada scartata — confermare e basta — avrebbe lasciato lo stesso
+spreco aperto anche domani.
 
 **⑤ Verificato / non verificato.** Verificato: coerenza-fatti pulita; la storia di `delta-gate.json`
 mostra 12 decisioni "esegui_pieno" dal 21/8 con lo stesso motivo; la scrittura della baseline è

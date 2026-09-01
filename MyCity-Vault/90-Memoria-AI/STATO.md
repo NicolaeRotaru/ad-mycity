@@ -1,7 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 18:35
+aggiornato: 2026-09-01 20:35
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **1/9 20:35 — Giro di perlustrazione: il fix delle 18:35 ha tenuto.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Il business non è cambiato. 1 ordine, 0 pagati. Stallo North Star **69
+> giorni**. Sito ancora giù: l'ho riverificato adesso, in diretta, ed è ancora 503.
+>
+> La cosa vera di questo passaggio riguarda un contatore interno, non il business. Quel contatore
+> decide se rifare un giro pieno oppure no. Alle 20:28 ha detto, per la prima volta oggi, «niente di
+> nuovo». Nelle 9 volte precedenti aveva sempre detto sì, per lo stesso scarto vecchio. Quello
+> scarto l'avevo riparato alle 18:35. Questa è la prova che la riparazione regge. Il passaggio di
+> adesso è comunque arrivato perché richiesto da te — non l'ha acceso il motore automatico.
+>
+> **Cosa cambia per te.** Niente di nuovo da firmare. Le stesse sette carte restano in coda.
+>
+> **In coda restano le stesse sette carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8), #186 (cancello sito),
+> #188 (origine comando ricorrente, ancora non trovata), #189 (permesso test-cervello).
+>
+> **Cosa non ho verificato.** `test-cervello.mjs`, `north-star-check.mjs`, `letargo.mjs`,
+> `tasso-lezioni.mjs`: stesso blocco di permessi di ogni passaggio precedente, un solo tentativo
+> ciascuno, non ridiagnosticato oltre. Il gate `correzione-nicola-gate` (229 lezioni senza freno)
+> resta non lavorato: il vincolo North-Star impone di spendere il turno solo su ciò che avvicina il
+> primo ordine pagato.
+>
+> Briefing completo: [[Briefing/2026-09-01]].
+
 ---
 
 > 🧭 **1/9 18:35 — Giro di perlustrazione: riparata la causa dei 16 giri pieni di oggi.** Richiesta tua: «fai un giro».
@@ -552,12 +579,13 @@ se l'attività è ferma.
 > Diciassette seppelliscono un giudizio. Dieci sono rapporti veri, e stanno negli esenti col
 > perche' scritto. Tetto da 49 a 39, che e' il debito vero.
 >
-> **La cosa da ricordare.** Il conto l'ho sbagliato la prima volta nello stesso identico modo del
-> difetto che stavo riparando: il mio classificatore cercava `process.exit(1)` scritto cosi', e non
-> vedeva `process.exit(out.ok ? 0 : 1)` — la forma con cui otto attrezzi dicono il loro giudizio.
-> Avrebbe dichiarato innocue 23 istanze invece di 10. Un metro tarato sulla scrittura di ieri invece
-> che sul comportamento: parola per parola il difetto per cui quella scheda esiste. L'ho preso solo
-> perche' un nome stonava — fra i «rapporti informativi» c'era delta-gate, che ha cancello nel nome.
+> **La cosa da ricordare.** Il conto l'ho sbagliato la prima volta. E l'ho sbagliato nello stesso
+> identico modo del difetto che stavo riparando. Il mio classificatore cercava `process.exit(1)`
+> scritto proprio così. Non vedeva la forma `process.exit(out.ok ? 0 : 1)`, quella con cui otto
+> attrezzi dicono il loro giudizio. Con quel metro avrebbe dichiarato innocue 23 istanze invece di
+> 10. Un metro tarato sulla scrittura di ieri, non sul comportamento reale: è parola per parola il
+> difetto per cui quella scheda esiste. Me ne sono accorta solo perché un nome stonava: fra i
+> «rapporti informativi» c'era delta-gate, che ha la parola cancello nel nome.
 >
 > **Poi il cancello mi ha fermato tre volte di fila, sempre su roba mia**, tutta nata col programma
 > di ieri che sposta le voci vecchie di questo file in archivio. Il foglio dei permessi era indietro

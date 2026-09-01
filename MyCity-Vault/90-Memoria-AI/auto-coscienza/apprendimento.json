@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 18:37",
+ "aggiornato": "2026-09-01 20:37",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -166,7 +166,7 @@
     "processo"
    ],
    "reparto": "@tech",
-   "confidenza": 0.85,
+   "confidenza": 0.7,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -174,7 +174,8 @@
    "ultima_conferma": "2026-08-04 20:16",
    "addendum_20_16": "Nicola ha richiesto esplicitamente 'metti nei difetti il problema della ch[a]t' — la risposta dell'AD cita 'Difetto AR-560 in cantiere-difetti.json' come se fosse già scritto, ma alle 20:16 il file NON contiene AR-560 né riferimenti a `_estrai_stream`/risposte incollate (verificato con grep). È il pattern già noto 'azione-narrata senza output' ([[L-2026-0709-XX]] 'commit narrato ma non fatto'): il gate/debito CLAUDE.md §6 non è ancora armato, resta debito dichiarato non lavoro finito. Fatto separato e VERO invece: PR #683 (branch fix/troncamento-casella-riga-separata) apre il fix del bug gemello — l'avviso '(troncato...)' incollato al testo in `pannello/src/lib/vault.ts` (`codaTesto`) — già in coda AZIONI-IN-ATTESA riga 13, in attesa di merge Nicola. Prossimo turno: verificare/registrare davvero AR-560 in cantiere-difetti.json prima di darlo per fatto una seconda volta.",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-09-01 20:28"
   },
   {
    "id": "L-2026-0804-01",
@@ -12532,6 +12533,10 @@
     {
      "quando": "2026-09-01 18:28",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-01 20:28",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14323,12 +14328,12 @@
   "promosse_a_principio": 91,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-01 18:37",
+  "tasso_calcolato_il": "2026-09-01 20:37",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-01 18:28",
+  "cristallizzazione_ultima": "2026-09-01 20:28",
   "lezioni_totali": 501,
   "lezioni_per_stato": {
    "attiva": 388,
