@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-31 21:05",
-  "situazione": "Business fermo bit-per-bit dal 28/8: 1 ordine mai pagato, 0 incassi, 1 negozio vero (Pane Quotidiano), 5 prodotti, 0 nuovi clienti nei 7 giorni — verificato ora con query dirette sul database. Novità: il bug che azzerava il catalogo per i visitatori senza accesso è riparato e mergiato (#857), ma il sito resta giù (HTTP 503, 9 giorni) e quindi non verificabile dal vivo. North Star fermo da 68 giorni, macchina in modalità risparmio: questo giro produce solo verifica dei fatti, niente lavoro nuovo sulla macchina. La scadenza che Nicola aveva fissato al 29 agosto per il cantiere è passata da due giorni.",
+  "data": "2026-08-31 22:50",
+  "situazione": "Secondo passaggio nello stesso giorno: riconfermato tutto invariato rispetto alle 21:05 (1 ordine mai pagato, 0 incassi, 1 negozio vero, 5 prodotti, 0 nuovi clienti). Il trigger 'clienti 7→8' che ha fatto scattare il giro pieno risale al 21/8, non a oggi. Sito ancora giù (HTTP 503). North Star fermo da 68 giorni, macchina in modalità risparmio: nessuna carta nuova, le tre già in coda (#168 server, #184 migrazioni, #182 pagamenti Pane Quotidiano) restano la priorità. Aggiornato anche l'OKR-Squadra, fermo da una settimana con date scadute.",
   "opportunita": [
     {"titolo": "Verificare dal vivo il catalogo appena il sito torna su", "motivo": "il fix che mostrava 0 prodotti su 5 ai visitatori senza accesso è già mergiato (#857): appena il sito è di nuovo raggiungibile basta un browser anonimo per chiudere la card #181", "impatto": "medio", "sforzo": "basso"}
   ],

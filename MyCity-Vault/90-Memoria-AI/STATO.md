@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-31 21:05
+aggiornato: 2026-08-31 22:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -8,19 +8,19 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 ## I numeri chiave, come li ho misurati l'ultima volta
 
-**Questa e' la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database, fatta il 31 agosto verso le 20:58
-(query dirette MCP Supabase). Quando i sensori sono ciechi, i controlli automatici
+**Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
+vengono dall'ultima lettura vera del database. L'ho fatta il 31 agosto verso le 20:58, con query
+dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
 leggono questa tabella invece di inventare un numero.
 
-**Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto, e
-archiviando le voci vecchie sarebbe sparita — portandosi dietro il numero che
-tre controlli usano per capire se l'attivita' e' ferma.
+**Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto. Archiviando le voci
+vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
+se l'attività è ferma.
 
 | Numero | Oggi (31/8 20:58) | Δ vs 28/8 12:29 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 31/8 20:58 |
-| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe (solo balance API ok generico) — riporto il dato del 24/8 (charges/payouts/details_submitted tutti `false`) come baseline, non come misura fresca. Card #182: 18 giorni fermo su questo stesso quadro |
+| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18 giorni fermo su questo stesso quadro |
 | Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 31/8 20:58 — PR #857 (mergiata) ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati; non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
 | Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **68 giorni** dal 24/6 (misurato 31/8 20:58, query MCP) |
@@ -31,6 +31,23 @@ tre controlli usano per capire se l'attivita' e' ferma.
 | **Sito pubblico** | **HTTP 503** | = (invariato, ora 9 giorni giù dal 22/8) | 200 | riverificato in diretta con `verifica-sensori.mjs` il 31/8 20:57 (3 tentativi): stessa causa mai risolta (server #168, chiavi Vercel #154, dominio #155) |
 
 ---
+
+> 🔁 **31/8 22:50 — Secondo passaggio nello stesso giorno: riconferma, zero cambi.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho rifatto le stesse query dirette sul database (ordini, clienti,
+> prodotti) meno di due ore dopo il passaggio delle 21:05: nessun numero è cambiato. Il segnale
+> che ha fatto scattare questo giro pieno era «clienti passati da 7 a 8» — vero, ma quel cliente
+> risale al 21 agosto, non a oggi: la baseline del contatore era rimasta indietro di dieci giorni.
+>
+> **Cosa ho fatto.** Solo verifica: nessuna carta nuova, nessuna riscrittura delle tre già in coda
+> (#168, #182, #184) — sono complete e pronte, riaprirle con parole diverse sarebbe rumore.
+> Aggiornato anche `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md` (era fermo al 24/8, numeri e
+> scadenze scaduti): stallo North Star ricalcolato a 68 giorni, tasso di chiusura aggiornato a
+> 1,29 (agosto), tolto il riferimento alla pausa 24/8-1/9 ormai scaduta.
+>
+> **Cosa non ho verificato.** Le stesse cose non verificate alle 21:05: stato Stripe specifico di
+> Pane Quotidiano (baseline 24/8), le quattro cose della scadenza del 29/8 punto per punto, il
+> sito aperto in un browser vero.
 
 > 🧭 **31/8 21:05 — Giro di perlustrazione: il catalogo è riparato nel codice, il sito resta giù, e la scadenza del 29/8 è passata.** Richiesta tua: «fai un giro».
 >

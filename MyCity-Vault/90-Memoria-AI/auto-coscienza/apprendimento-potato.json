@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-08-31 22:31",
+      "byte_prima": 1154873,
+      "byte_dopo": 1036957,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0723-453",
+            "testo": "**Prima di trattare un bug UI del Pannello come 'nuovo', controllare se esiste già un bran"
+          },
+          {
+            "id": "L-2026-0710-74",
+            "testo": "**Allowlist `\"Write\"` vs `\"Write(/tmp/*)\"` — la sintassi con percorso NON abilita le scrit"
+          },
+          {
+            "id": "L-2026-0709-64",
+            "testo": "**Caso-studio Nicola — la coda «Da approvare» NON è dove si applicano le modifiche al codi"
+          },
+          {
+            "id": "L-2026-0709-63",
+            "testo": "**Un dato che ESISTE ed è collegato ma nessuna superficie lo consuma = INVISIBILE, quindi "
+          },
+          {
+            "id": "L-2026-0709-62",
+            "testo": "**Caso-studio Nicola — prima di consigliare di RIMUOVERE/revocare qualcosa, verifica A COS"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-08-28 12:26",
       "byte_prima": 1151962,
       "byte_dopo": 1044888,

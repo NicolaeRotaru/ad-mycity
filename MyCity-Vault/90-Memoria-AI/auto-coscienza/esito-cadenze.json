@@ -12,13 +12,13 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-28 12:49",
+      "quando": "2026-08-31 22:39",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
       "passi_ok": false,
-      "vincoli_attivi": 14,
+      "vincoli_attivi": 13,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
@@ -27,7 +27,6 @@
         "FRESCHEZZA",
         "OKR",
         "TASSO",
-        "TEST",
         "VOLANO",
         "CI",
         "LETARGO",
@@ -77,5 +76,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-28 12:49"
+  "aggiornato": "2026-08-31 22:39"
 }

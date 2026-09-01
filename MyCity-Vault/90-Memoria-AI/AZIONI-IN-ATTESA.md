@@ -27,17 +27,18 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
 
 **In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
-aperti della macchina, i difetti aperti del design del marketplace, il worker per le botteghe da
-costruire, il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
-che punto sta ciascuna delle quattro — questo giro ha verificato solo il business (fermo) e il
-sito (giù), non il cantiere.
+aperti della macchina. I difetti aperti del design del marketplace. Il worker per le botteghe da
+costruire. Il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
+che punto sta ciascuna delle quattro. Questo giro ha verificato solo il business, che resta fermo,
+e il sito, che resta giù. Non ha toccato il cantiere.
 
 **Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
 ancora avuto da me con numeri veri.
 
-**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere e ti porti il conto esatto — quanti
-difetti restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni (worker,
-design venditore) — oppure se nel frattempo hai già deciso diversamente e questa card va chiusa.
+**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere. Ti porto il conto esatto: quanti difetti
+restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni, cioè il worker e
+il design venditore. Oppure dimmi se nel frattempo hai già deciso diversamente: allora questa card
+va chiusa.
 
 **Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
 data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
@@ -2826,8 +2827,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-28 12:25)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-28-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-31 22:30)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-31-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

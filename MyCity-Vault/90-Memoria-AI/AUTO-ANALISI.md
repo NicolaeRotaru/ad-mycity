@@ -1,3 +1,34 @@
+# 🔬 AUTO-ANALISI — 2026-08-31 22:50
+
+## Secondo passaggio, non una nuova analisi
+
+Delta-gate ha segnalato "clienti 7→8". Per questo è partito un secondo giro pieno. Sono passate
+meno di due ore dal passaggio delle 21:05.
+
+Ho rifatto le stesse query SQL dirette. Il risultato è identico a prima: `orders` 1 riga, 0
+pagati. `profiles` 8 totali, 0 nuovi negli ultimi 7 giorni. `products` 5 disponibili.
+
+Ho controllato anche il profilo più recente, quello che ha fatto scattare il trigger. Il campo
+`created_at` dice 2026-08-20, ore 15:57. Non è di oggi. Il trigger del gate era quindi una spia
+vecchia. La sua base di calcolo era fissata al 15 agosto. Non era mai stata riallineata dopo che
+l'ottavo cliente era comparso il 21 agosto.
+
+Nessuna nuova entità da verificare. Nessuna azione nuova aperta. Le tre card in coda restano
+invariate: `#168`, `#182`, `#184`.
+
+L'unico lavoro reale di questo passaggio è su un altro file: `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md`.
+Era fermo dal 24 agosto. Le sue date erano scadute: la pausa 24/8-1/9 era già passata, e il tasso
+di chiusura riportava un numero vecchio di una settimana. L'ho riallineato: stallo 68 giorni,
+tasso di chiusura 1,29 per agosto.
+
+## Voto di fiducia: 83/100 (invariato)
+
+Nessun elemento nuovo per muoverlo. La riconferma non ha trovato né errori né sorprese.
+
+---
+
+## Passaggio precedente (21:05)
+
 # 🔬 AUTO-ANALISI — 2026-08-31 21:05
 
 > Giro di perlustrazione richiesto in chat. L'ultimo giro pieno narrato era il 28/8 12:35. Ho

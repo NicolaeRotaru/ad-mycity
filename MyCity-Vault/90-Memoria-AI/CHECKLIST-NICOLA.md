@@ -20,8 +20,8 @@ aggiornato: 2026-08-31 21:05
 
 ## 🔴 IL SITO È GIÙ DA 9 GIORNI — stessa causa, mai risolta
 
-- [ ] 🔴 **Il server che fa lavorare la macchina è fermo.**
-  → Card `#168` (9 giorni fermo)
+- [ ] 🔴 **Il server che fa lavorare la macchina è fermo.** Sono 9 giorni.
+  → Card `#168`
 - [ ] 🔴 **Metti le tre chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
   ordine registrato).
   → Card `#154`
@@ -32,8 +32,8 @@ aggiornato: 2026-08-31 21:05
 
 ## 🔴 NOVITÀ — database, pagamenti e la scadenza del 29 agosto
 
-- [ ] 🔴 **La scadenza che avevi fissato tu (29 agosto) è passata da 2 giorni** — dimmi se vuoi
-  il conto puntuale delle quattro cose o se hai già deciso diversamente.
+- [ ] 🔴 **La scadenza che avevi fissato tu è passata da 2 giorni.** Era il 29 agosto. Dimmi se
+  vuoi il conto puntuale delle quattro cose, o se hai già deciso diversamente.
   → Card `#185`
 - [ ] 🔴 **Il database di produzione è indietro di 4 migrazioni** (126-129) — scegli fra
   accendere il cancello del rilascio o farle applicare a mano.
