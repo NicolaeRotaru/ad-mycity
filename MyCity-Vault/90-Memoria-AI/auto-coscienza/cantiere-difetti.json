@@ -19484,6 +19484,25 @@
       "trovato_da": "sei ipotesi misurate una per una mentre verificavo la riparazione di AR-908: cinque smentite dai numeri, la sesta confermata",
       "chiuso_il": "2026-09-02 03:05",
       "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-910",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-09-02 03:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-909",
+      "titolo": "Il sorvegliante accusa «prova indebolita» quando i casi sono stati SPOSTATI, e l unica uscita e forzare il cancello",
+      "sintomo": "Spostando sette casi da `due-case.test.mjs` a un file nuovo — nato nello STESSO commit — il sorvegliante ha accusato `prova-indebolita` («24 casi in meno») trenta volte di fila. L accusa e giusta sulla forma e falsa nella sostanza: 39 casi prima, 32 li, 7 di la, nessuno tolto. E non c e modo di rispondergli: nei file di PROVA le dichiarazioni di esenzione non si leggono apposta (verificato eseguendo `leggeMarcatori(\"cervello/test/due-case.test.mjs\")` → false), e l esenzione comunque vale solo per il controllo ① dei pattern, non per questo. Restavano due strade: rimettere i casi dove il banco non li puo far girare, o forzare il cancello. Ho forzato, ed e il 2° --no-verify contato in questo repo.",
+      "causa_radice": "Il controllo confronta il conteggio dei casi PRIMA e DOPO dentro lo STESSO file, e chiama la differenza «indebolimento». Non guarda se nello stesso delta e nato un file di prova nuovo che quei casi li contiene. L informazione per distinguere le due cose ce l ha gia davanti: il file nuovo e dentro il delta che sta esaminando. La forma generale: un guardiano che misura un file alla volta non puo vedere uno spostamento, e uno spostamento e la cosa piu comune che capita a una prova che cresce.",
+      "fix_proposto": "🟡 DA FARE, e la strada e dichiarata: quando il delta contiene un file di prova NUOVO, il controllo deve sommare i casi nati li prima di gridare all indebolimento — e restare rosso se la somma non torna. Zero casi in piu nel delta = accusa vera; casi che ricompaiono altrove = spostamento. La prova sara un caso che costruisce due delta finti (uno con i casi spariti nel nulla, uno con i casi ricomparsi in un file nuovo) e pretende verdetti OPPOSTI: senza il secondo, la cura sarebbe un condono.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/sorvegliante.mjs --base origin/main",
+        "nota": "⚠️ DICHIARATO: oggi questo comando NON dimostra il fix, lo riproduce — accusa `prova-indebolita` su due-case.test.mjs mentre i sette casi sono vivi nel file nuovo. Diventera la verifica il giorno del fix, con accanto il caso che pretende i due verdetti opposti sui due delta finti."
+      },
+      "trovato_da": "il sorvegliante stesso, ripetendo trenta volte la stessa accusa mentre spostavo le prove di AR-908 e AR-909"
     }
   ],
   "meta": {
