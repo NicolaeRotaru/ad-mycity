@@ -7609,9 +7609,10 @@
    "lezione": "L-2026-0826-01",
    "nome": "la riga di riepilogo nella coda torna alla forma con due incisi",
    "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
-   "cerca": "> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 28.\n> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
-   "sostituisci": "> 🗄️ Le card chiuse (28) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
-   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+   "cerca": "> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 27.\n> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
+   "sostituisci": "> 🗄️ Le card chiuse (27) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
+   "test": "cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+   "nota_riancoraggio": "2/9 11:58: l'ancoraggio aveva ancora il numero 28 (housekeeping-azioni.mjs l'ha già archiviata più volte da allora, ora sono 27) — l'ho verificato contro il codice sorgente (righe 294-298, commento 'Due frasi, non una') prima di correggere: la forma a due frasi è quella giusta, non una regressione. Il numero fra 'cerca' e 'sostituisci' va risincronizzato ogni volta che il conteggio archiviate cambia (housekeeping-azioni.mjs gira spesso): un segnaposto invece di un numero fisso in sorvegliante.mjs risolverebbe alla radice, non ancora fatto — fuori scope da questo passaggio (nessuna mossa business)."
   },
   {
    "difetto": "AR-851",
