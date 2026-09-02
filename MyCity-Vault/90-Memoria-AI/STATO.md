@@ -4,20 +4,22 @@ aggiornato: 2026-09-02 22:35
 fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
 ---
 
-> 🧭 **2/9 22:35 — Giro di perlustrazione: nessun cambio, ventottesima foto identica.** Partito
-> dall'heartbeat di `delta-gate.mjs` (28h dall'ultimo giro pieno vero) e da un piccolo cambio di
-> sensore (`mcp_supabase` passato da "non verificato" a "ok" — non un dato di business), non da un
-> segnale nuovo. Richiesta tua di poco fa: «esegui `cervello/giro.md` per intero».
+> 🧭 **2/9 22:35 — Giro di perlustrazione: nessun cambio.** Ventottesima foto identica di oggi.
+> Non è partito da un segnale di business nuovo. È partito da un heartbeat tecnico: sono passate 28
+> ore dall'ultimo giro pieno vero. In più un sensore è cambiato di stato, `mcp_supabase`, da "non
+> verificato" a "ok" — non è un dato di business, è solo la macchina che si riverifica da sola.
+> Richiesta tua di poco fa: «esegui `cervello/giro.md` per intero».
 >
-> **In parole semplici.** Ho riverificato ora con una query diretta al database vero (MCP Supabase,
-> non a memoria): 1 ordine totale, sempre lo stesso del 24/6, annullato, **0 pagati**. 8 profili (0
-> nuovi in 7 giorni), 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Tutto identico al giro pieno
-> delle 20:29. Stallo North Star: **70 giorni**.
+> **In parole semplici.** Ho riverificato ora con una query diretta al database vero. Uso MCP
+> Supabase, non la memoria di prima. Risultato: 1 ordine totale, sempre lo stesso del 24/6,
+> annullato. **0 pagati.** 8 profili, 0 nuovi in 7 giorni. 5 prodotti, 0 recensioni, 3 carrelli
+> abbandonati. Tutto identico al giro pieno delle 20:29. Stallo North Star: **70 giorni**.
 >
-> **Una cosa sistemata in questo passaggio.** Il guardiano `chiusura-loop` segnalava due reparti
-> (@ad e @intelligence) con lavoro fatto oggi ma senza la riga ESITO nel loro quaderno. L'ho scritta
-> a mano in `memoria-squadra/ad.md` e `memoria-squadra/intelligence.md` (lo script che lo fa da solo,
-> `chiusura-loop.mjs`, resta bloccato dallo stesso buco di permessi delle card #104/#189).
+> **Una cosa sistemata in questo passaggio.** Il guardiano `chiusura-loop` segnalava due reparti,
+> @ad e @intelligence. Avevano lavoro fatto oggi ma senza la riga ESITO nel loro quaderno. Ho
+> scritto io quella riga a mano, in `memoria-squadra/ad.md` e `memoria-squadra/intelligence.md`. Lo
+> script che lo farebbe da solo, `chiusura-loop.mjs`, resta bloccato: stesso buco di permessi delle
+> card #104/#189.
 >
 > **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100):
 > a questo livello si taglia il volume — radiografia completa, auto-miglioramento, esperimenti nuovi.
