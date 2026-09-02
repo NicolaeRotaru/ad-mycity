@@ -1,7 +1,29 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 13:03
+aggiornato: 2026-09-02 14:30
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 14:30 — Giro di perlustrazione: ventiduesima foto identica, 1h27 dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Riverificato dal vivo via query diretta. Risultato: 1 ordine totale, 0
+> pagati, 0 attivi. È lo stesso ordine annullato del 24/6 di tutti i passaggi precedenti. Nessun
+> numero di business è cambiato dal passaggio delle 13:03. Anche la coda in [[AZIONI-IN-ATTESA]]
+> è ferma: stesse 9 carte di prima (#154+155, #182, #184, #185, #186, #188, #189, #190, #191).
+>
+> **Perché non ho rifatto il giro pieno.** Restiamo in letargo **SOPRAVVIVENZA**. Il motivo: quota
+> AI oltre soglia, salute macchina a 4/100. A questo livello resta acceso solo il nucleo vitale:
+> ordini, consegne, coda firme, sicurezza, allerta a te. Ho controllato tutti e cinque, e nessuno
+> segnala niente di nuovo. Riscrivere i 15 passi del giro pieno su un quadro invariato sarebbe
+> rumore, non nuova verità — è il tipo di ripetizione che la macchina ha già imparato a evitare
+> (vedi lezione "loop-a-vuoto").
+>
+> **La mossa n.1 resta la stessa: firma dominio e chiavi Vercel (#154+#155).** Quella firma sblocca
+> il sito, che oggi è giù con errore HTTP 503. E con il sito sbloccato si apre la strada verso un
+> primo ordine pagato vero.
+>
+> Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 13:03 — Giro di perlustrazione: letargo salito a SOPRAVVIVENZA.**

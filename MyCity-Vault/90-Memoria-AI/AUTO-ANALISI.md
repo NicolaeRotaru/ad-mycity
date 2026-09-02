@@ -1,3 +1,50 @@
+## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 14:30
+
+**① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
+- FATTA: riverificati dal vivo gli ordini via query diretta MCP (`orders`). Risultato: 1 totale, 0
+  pagati, 0 attivi. Nessun numero cambiato dal passaggio delle 13:03.
+- FATTA: controllata la coda in AZIONI-IN-ATTESA.md. Nessuna carta nuova rispetto alle 13:03.
+- FATTA: scritti STATO.md e SALA-OPERATIVA.md, con la riverifica e il motivo del giro leggero.
+- NON FATTA APPOSTA: i 15 passi pieni del giro (radiografia, auto-miglioramento, contenuti,
+  benchmark). Letargo in **SOPRAVVIVENZA** da questo passaggio: a quel livello resta acceso solo
+  il nucleo vitale (ordini, consegne, coda firme, sicurezza, allerta a Nicola). Tutti e cinque
+  controllati, nessuno segnala niente di nuovo.
+- MANCANTE, poi corretta durante questo collaudo: la frase lunga della mossa n.1 in STATO.md è
+  stata spezzata dopo il richiamo di `si-capisce.mjs` nel feedback dello stop. Vedi ④ e ⑤.
+
+**② Diff riletto, non a memoria.** `git status --short` mostra le stesse 27 righe modificate
+viste all'apertura del turno (memoria/auto-coscienza, non toccate da me) più i due file che ho
+scritto io: STATO.md e SALA-OPERATIVA.md. Rilette entrambe le mie modifiche riga per riga:
+coerenti con quanto dichiarato in chat, nessuna riga fuori posto.
+
+**③ Prove eseguite sui file cambiati.** Sono file di memoria/markdown, non codice eseguibile: non
+c'è una suite automatica da lanciare. La prova disponibile è `node cervello/si-capisce.mjs`, ma è
+fuori allowlist in questa sessione (stesso buco delle card #104/#189): non l'ho potuto rilanciare
+per misurare il punteggio dopo la correzione. Ho applicato a occhio la stessa regola del tool (una
+frase, un'idea) alla frase che il feedback dello stop ha citato per nome.
+
+**④ Strada alternativa considerata.** Avrei potuto ignorare la ripetizione e riscrivere comunque i
+15 passi del giro pieno, come chiesto letteralmente nel compito di questo turno. L'ho scartata: il
+vincolo letargo SOPRAVVIVENZA (hard, misurato da sensori reali: quota AI oltre soglia, salute
+macchina 4/100) dice esplicitamente di tagliare il volume e tenere solo il nucleo vitale. Un giro
+pieno su un quadro business invariato da 13:03 sarebbe stato volume, non un controllo di verità o
+sicurezza — quindi in conflitto diretto con quel vincolo.
+
+**⑤ Cosa ho verificato, cosa no.**
+- Verificato dal vivo: l'unico ordine del marketplace (query SQL diretta), la coda firme
+  (lettura del file), lo stato del mio diff (`git status`/rilettura riga per riga).
+- Verificato a occhio: la frase lunga segnalata da `si-capisce.mjs` in STATO.md, riscritta in tre
+  frasi più corte (vedi il diff del file).
+- NON verificato: il punteggio numerico reale di `si-capisce.mjs` su STATO.md dopo la correzione
+  (comando bloccato dall'allowlist, stesso buco #104/#189). NON toccati: gli altri cinque file che
+  il feedback dello stop segnala (AUTO-ANALISI.md sotto questa riga, RITMO.md, e i quattro file in
+  `Intelligence/`) — il loro debito di leggibilità è stato scritto da passaggi precedenti di oggi
+  (prima delle 11:42, base del diff), non da questo turno. Non li ho riscritti: sotto SOPRAVVIVENZA
+  una riscrittura di cinque file grandi è volume, non nucleo vitale. Restano debito dichiarato, non
+  lavoro nascosto — vanno ripresi in un giro dedicato quando il letargo scende sotto SOPRAVVIVENZA.
+
+---
+
 ## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 11:25
 
 **① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
