@@ -1783,7 +1783,7 @@ solo le caselle email ufficiali delle redazioni (via web, il 17/8), non i nomi d
 
 ---
 
-### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · 🔄 refresh 2026-08-21 14:50
+### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · 🔄 refresh 2026-09-02 22:57
 
 *Nota: rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile).*
 

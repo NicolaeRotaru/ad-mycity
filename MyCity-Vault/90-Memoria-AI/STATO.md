@@ -1,7 +1,45 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 22:35
+aggiornato: 2026-09-02 22:57
 fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 22:57 — Giro di perlustrazione: nessun cambio nei dati, un debito chiuso.** Richiesta tua
+> di poco fa: «esegui `cervello/giro.md` per intero».
+>
+> **In parole semplici.** Ho riverificato ora con una query diretta al database vero (MCP Supabase,
+> non memoria). Risultato: 1 ordine totale, sempre lo stesso del 24/6, annullato, **0 pagati**. 8
+> profili, 0 nuovi in 7 giorni. 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Identico a tutti i
+> 29 passaggi di oggi. Stallo North Star: **70 giorni**.
+>
+> **Una cosa chiusa in questo passaggio.** Da tre passaggi (dalle 22:40) i 4 file tecnici dei sensori
+> (`fonti-salute.json`, `intelligence-agenda.json`, `mutanti.json`, `routing.json`) restavano nel
+> mio working tree, esclusi dal cancello che vieta commit diretti di codice su `main` (AR-332), senza
+> mai diventare una PR vera. L'ho fatto ora: **PR #864**, https://github.com/NicolaeRotaru/ad-mycity/pull/864,
+> verificata mergeable senza conflitti — costruita da `origin/main` (non dal mio `main` locale) per
+> non trascinarci dentro i 65 commit di memoria non ancora pubblicati.
+>
+> **La divergenza git resta aperta (card #104).** Ho riprovato il rebase del ramo locale su
+> `origin/main`: stessi 5 conflitti reali di 17 minuti fa (`AZIONI-IN-ATTESA.md`, `STATO.md`,
+> `apprendimento.json`, `cantiere-prove.json`, `chiusura-loop.json`) — annullato subito, zero
+> rischio dati. Il ramo locale resta **65 commit avanti / 2 indietro** rispetto a GitHub: finché
+> qualcuno non risolve i conflitti a mano (io o tu sul VPS), il Pannello ospitato online non vede le
+> scritture di oggi.
+>
+> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100):
+> a questo livello si taglia il volume — radiografia completa, auto-miglioramento, esperimenti nuovi.
+> I controlli di verità restano sempre accesi. Il gate North Star resta HARD: nessuna mossa
+> disponibile avvicina il primo ordine pagato più delle 10 carte già in coda.
+>
+> **La mossa n.1 resta la stessa: firma dominio e chiavi Vercel, card #154 e #155.** Sblocca il
+> sito. Il passo pronto subito dopo è dentro la card #191: il test d'incasso su Pane Quotidiano,
+> `#ordine-test-pq`.
+>
+> **In coda restano dieci carte, nessuna firmata**: #154+#155 (mossa n.1), #182, #184, #185, #186,
+> #188, #189, #190, #191, #192.
+>
+> Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 22:35 — Giro di perlustrazione: nessun cambio.** Ventottesima foto identica di oggi.

@@ -1,3 +1,52 @@
+## Giro di perlustrazione 2026-09-02 22:57
+
+**① La richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»
+- FATTA. Riletti i dati di business dal vivo via `execute_sql` MCP: 1 ordine, 0 pagati, 8 profili,
+  0 nuovi in 7gg, 5 prodotti, 0 recensioni, 3 carrelli. Identico al giro pieno delle 22:35.
+- FATTA. Chiuso un debito lasciato aperto dal passaggio delle 22:40: i 4 file tecnici dei sensori
+  (`fonti-salute.json`, `intelligence-agenda.json`, `mutanti.json`, `routing.json`) erano bloccati
+  dal cancello `AR-332` (codice non committabile a mano su `main`) e restavano solo nel working
+  tree. Ho costruito un branch pulito partendo da `origin/main` (non dal `main` locale, per non
+  trascinarci dentro i 65 commit di memoria non ancora pubblicati), committato lì i 4 file, e aperto
+  la **PR #864** con `git-pr.mjs` — verificata mergeable senza conflitti.
+- FATTA. Riprovato il rebase del `main` locale su `origin/main`, per verificare se la divergenza
+  (card #104) fosse ancora reale o si fosse risolta da sola. Stessi 5 conflitti del tentativo delle
+  22:40 (`AZIONI-IN-ATTESA.md`, `STATO.md`, `apprendimento.json`, `cantiere-prove.json`,
+  `chiusura-loop.json`): annullato con `git rebase --abort`, zero rischio dati. Confermato: il ramo
+  locale è ora 65 commit avanti / 2 indietro rispetto a GitHub.
+- FATTA. Aggiunta riga ESITO in `memoria-squadra/ad.md` per questo passaggio. Scritti STATO.md,
+  Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json, questo file.
+- NON FATTA APPOSTA: sentinelle/autocontrollo automazione, radar IN/OUT (già coperto), apprendimento
+  formale, auto-miglioramento, sonda auto-radiografia, aggiornamento dei Piani — stessi due motivi di
+  ogni passaggio di oggi: gate North Star (solo lavoro che avvicina il primo ordine pagato) e
+  letargo RISPARMIO (taglia il volume).
+- MANCANTE, bloccato e non per scelta: `test-cervello.mjs`, `gh pr list`, `coerenza-fatti.mjs`,
+  `ci-stato.mjs`, `sonda-volano.mjs`, `north-star-check.mjs` e gli altri `node cervello/*.mjs` fuori
+  allowlist. `git-pr.mjs` invece È nell'allowlist (path relativo, senza redirect) ed è quello che ha
+  reso possibile la PR #864 in questo passaggio.
+
+**② Diff riletto, non a memoria.** `git log --oneline` confermato: il commit `1fc4d6a4d` (sensori
+pre-giro) resta locale; il branch `fix/sensori-2026-09-02-clean` (da `origin/main`) è quello
+effettivamente pubblicato come PR #864. Nessuna sovrascrittura: i due contenuti sono identici, solo
+la base di partenza è diversa.
+
+**③ Prove eseguite.** `git-pr.mjs` ha risposto con `"pr": 864` e "PR #864 mergeable (nessun conflitto
+con main)" — verifica diretta dello strumento, non una mia deduzione. Il rebase fallito è stato
+osservato con l'output reale di `git rebase` (5 righe `CONFLICT`), non ipotizzato.
+
+**④ Alternativa considerata.** Potevo lasciare la PR per un giro successivo, come nei tre passaggi
+precedenti. Scartata: era un debito piccolo, a basso rischio, verificabile con uno strumento già
+allowlisted (`git-pr.mjs`), e chiuderlo ora impedisce che continui a essere rimandato all'infinito
+come la divergenza più grande (card #104), che invece resta correttamente irrisolta perché il
+rischio di forzarla supera il beneficio di un giro di sola verifica.
+
+**⑤ Cosa ho sistemato e cosa resta aperto.** Sistemato: PR #864 aperta e mergeable. Non aperte carte
+nuove (la divergenza #104 è già coperta dalla card esistente). Restano aperte le stesse 10 carte,
+nessuna firmata. Restano aperti (non per scelta, per permesso mancante): CI cronica (#190),
+test-cervello (#189), divergenza git (#104, ora 65/2), `git stash` mai ripresi.
+
+---
+
 ## Giro di perlustrazione 2026-09-02 22:35
 
 **① La richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»

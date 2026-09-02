@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-02 22:35",
-  "situazione": "Giro di perlustrazione (heartbeat delta-gate, 28h dall'ultimo pieno + piccolo cambio di sensore mcp_supabase). Riverificato dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni, 3 carrelli abbandonati — identico al giro pieno delle 20:29. Sistemato in questo passaggio: chiuso a mano il loop di apprendimento (chiusura-loop) per @ad e @intelligence, ESITO mancante nei loro quaderni. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata.",
+  "data": "2026-09-02 22:57",
+  "situazione": "Giro di perlustrazione (richiesta esplicita di Nicola: «esegui cervello/giro.md per intero»). Riverificato dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni, 3 carrelli abbandonati — identico al giro pieno delle 22:35. Sistemato in questo passaggio: aperta la PR #864 (mergeable) coi 4 file tecnici dei sensori rimasti solo in locale da tre passaggi. Riprovato il rebase su origin/main: stessi 5 conflitti reali già visti, annullato senza forzare — divergenza git (card #104) ora 65 avanti/2 indietro. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
