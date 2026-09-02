@@ -45,8 +45,15 @@ const V = await import(join(REPO, "cervello/lezione-viva.mjs"));
 
 // La soglia vera del decadimento, la stessa che usa il cristallizzatore.
 const SOGLIA_GIORNI = 28;
+// L'età si CHIEDE al motore, non si ricalcola qui. Riscritta a mano era `Date.parse` nudo, cioè
+// l'ora locale del processo: sul server in UTC un timbro di Piacenza tornava indietro di due ore.
+// Due ore su una soglia di 28 giorni non si vedono quasi mai — finché una lezione non ci finisce
+// sopra. Il 1° settembre L-2026-0804-555 (timbro "2026-08-04 17:40") stava a 27,95 giorni per la
+// prova e a 28,03 per il motore: la prova la dichiarava protetta, il motore la faceva decadere, e
+// il rosso raccontava un difetto che non c'era. È lo stesso sbaglio che `istante()` cura in
+// `tetti-archivio.mjs` — due orologi diversi sullo stesso numero si allontanano sempre.
 const etaGiorni = (date) => {
-  const t = date.map((d) => (d ? Date.parse(String(d).replace(" ", "T")) : NaN)).filter((x) => !Number.isNaN(x));
+  const t = date.map((d) => T.istante(d)).filter((x) => x != null);
   return t.length ? (Date.now() - Math.max(...t)) / 86400000 : Infinity;
 };
 const P = await import(join(REPO, "cervello/pota-apprendimento.mjs"));
