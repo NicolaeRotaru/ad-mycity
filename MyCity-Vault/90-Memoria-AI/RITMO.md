@@ -1420,3 +1420,20 @@ Una cosa in più, non una nuova priorità. Ho cercato la fonte del comando ricor
 - La prima cosa utile resta la tua firma su dominio e chiavi Vercel. Tutto il resto aspetta quel passo.
 
 **Dettagli tecnici** (opzionale) — `coerenza-fatti.mjs` exit 0 in ogni passaggio (41 fatti, 0 copie vecchie). 29 commit oggi. `chiusura-loop.mjs --gate` pulito dopo la registrazione mancante di @intelligence. Card nuova `#189` (permesso `test-cervello.mjs`, stesso buco di `#104`/`#42`/`#74`). Coda: 7 carte aperte (`#154`+`#155` insieme, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`).
+
+## Piano del mattino · 2026-09-02 06:05
+
+**In una riga:** stesso tappo di ieri. Il sito resta spento. Servono le tue firme per il primo ordine pagato.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito vero. Il dominio punta ancora ai vecchi server spenti. Mancano anche due chiavi su Vercel. Senza questo, un pagamento riuscito non diventerebbe mai un ordine.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero. Non può ancora incassare.
+3. Applica le quattro migrazioni ferme sul database. Sono pronte. Mancano solo in produzione.
+
+**Serve da te**
+- Sposta il dominio su Vercel. Aggiungi le due chiavi mancanti.
+- Un sì per far partire i pagamenti di Pane Quotidiano.
+- Un sì per applicare le quattro migrazioni al database.
+- Ferma da 4 giorni: la scadenza che avevi fissato tu per il 29 agosto. Riapro il conto delle quattro cose, o hai già deciso diversamente?
+
+**Dettagli tecnici** (opzionale) — Card `#154`/`#155`, `#182`, `#184`, `#185` in AZIONI-IN-ATTESA, nessuna firmata. Business riverificato con query diretta MCP: 0 pagati su 1 ordine, stallo 70 giorni. Card informativa `#190` (5-6 PR rosse in CI): non lavorata, nessuna sblocca il primo ordine pagato (gate North-Star AR-113).

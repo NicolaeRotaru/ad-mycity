@@ -1,12 +1,12 @@
 {
-  "data": "2026-09-01 22:30",
-  "situazione": "Business ancora fermo: 1 ordine, 0 pagati, stallo North Star 69 giorni, sito ancora giù (503, 227 giri ciechi). Il contatore dei giri pieni ha confermato per la seconda volta di fila 'niente di nuovo'. Novità del passaggio: il controllo CI dice no da 3 giri di fila (6 PR aperte, 5 rosse) — accodata la card #190, informativa, non corretta perché il vincolo North Star impone di lavorare solo su ciò che avvicina il primo ordine pagato.",
+  "data": "2026-09-02 06:05",
+  "situazione": "Piano del mattino: stesso tappo di ieri, un giorno in più. Business ancora fermo: 1 ordine, 0 pagati, stallo North Star 70 giorni, sito ancora giù (causa nota: dominio + chiavi Vercel). Nessuna novità di business: confermato con query dirette MCP. Le 3 priorità di oggi restano invariate (gate North-Star AR-113 HARD): sito online, pagamenti Pane Quotidiano, migrazioni database.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "18+ giorni fermo (charges/payouts/details ancora tutti spenti): attivare i pagamenti prima o riscrivere intanto le CTA dei post che promettono consegna", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "fermo da settimane (charges/payouts/details ancora tutti spenti): attivare i pagamenti prima o riscrivere intanto le CTA dei post che promettono consegna", "livello": "rosso"},
     {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni: cancello automatico o applicazione a mano", "livello": "rosso"},
-    {"titolo": "Sblocca il permesso per rilanciare il controllo dei test del cervello", "motivo": "test-cervello.mjs dice no da giri di fila (AR-687) e blocca ogni PR aperta sullo stesso segnale, stesso buco di permessi delle card #104/#42/#74", "livello": "giallo"},
-    {"titolo": "Correggi le 5 richieste di unione che non passano i controlli da tre giri", "motivo": "guardiano AR-687: CI appena diventata cronica, 5 PR rosse per guasto proprio, nessuna sblocca il primo ordine pagato quindi non toccate in questo giro", "livello": "giallo"}
+    {"titolo": "Una parola sulla scadenza del 29 agosto, passata da 4 giorni", "motivo": "le quattro cose che avevi fissato per il 29/8 non hanno ancora un conto verificato: riapro il cantiere o hai già deciso diversamente", "livello": "rosso"},
+    {"titolo": "Dimmi dove vive il comando ricorrente PLAYBOOK anti-churn", "motivo": "23+ esecuzioni dello stesso compito, nessuna traccia trovata in due ricerche nel repository: deve vivere in un'agenda esterna", "livello": "giallo"}
   ]
 }

@@ -1,7 +1,7 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-09-01 06:55
+aggiornato: 2026-09-02 06:05
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
@@ -9,7 +9,7 @@ aggiornato: 2026-09-01 06:55
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
 > Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
-> ⚠️ **North Star in stallo 69 giorni** (0 ordini pagati dal 24/6, riverificato dal vivo al 2026-09-01 ~06:50, query diretta MCP: `ordini_pagati=0` su 1 ordine totale, annullato). La pausa che Nicola aveva fissato fino al **24/8-1/9** (`ripresa.lavoro-operativo`) si conclude oggi stesso: la scadenza del 29/8 sulle quattro cose da chiudere (card `#185`) resta senza risposta. Le carte 🔴 che moltiplicano tutto restano `#154`/`#155` (dominio+chiavi Vercel, causa precisa del sito giù trovata stamattina), `#182` (pagamenti Pane Quotidiano ancora spenti, 18gg fermo), `#184` (database indietro di 4 migrazioni). **Gate corrente (AR-113, HARD):** finché lo stallo resta ≥3gg, il giro produce solo azioni che avvicinano il 1° ordine pagato — nessun nuovo lavoro sulla macchina che non sblocchi direttamente una di queste carte.
+> ⚠️ **North Star in stallo 70 giorni** (0 ordini pagati dal 24/6, riverificato dal vivo al 2026-09-02 ~06:01, query diretta MCP: `ordini_pagati=0` su 1 ordine totale, annullato). La pausa che Nicola aveva fissato fino al **24/8-1/9** (`ripresa.lavoro-operativo`) si è conclusa ieri: la scadenza del 29/8 sulle quattro cose da chiudere (card `#185`) resta senza risposta, ormai da 4 giorni. Le carte 🔴 che moltiplicano tutto restano `#154`/`#155` (dominio+chiavi Vercel), `#182` (pagamenti Pane Quotidiano ancora spenti), `#184` (database indietro di 4 migrazioni). **Gate corrente (AR-113, HARD):** finché lo stallo resta ≥3gg, il giro produce solo azioni che avvicinano il 1° ordine pagato — nessun nuovo lavoro sulla macchina che non sblocchi direttamente una di queste carte.
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|

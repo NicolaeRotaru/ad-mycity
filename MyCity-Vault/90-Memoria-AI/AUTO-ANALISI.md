@@ -1,4 +1,44 @@
-# 🔬 AUTO-ANALISI — 2026-09-01 22:30
+# 🔬 AUTO-ANALISI — 2026-09-02 06:05
+
+## Piano del mattino: stesso tappo di ieri, un giorno in più
+
+Business fermo. 1 ordine, 0 pagati. Stallo North Star **70 giorni**. Sito ancora giù, causa nota da
+dieci giorni (dominio + due chiavi Vercel).
+
+Richiesta di Nicola: eseguire per intero il Piano del mattino di `cervello/ritmo.md`.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-02 06:05
+
+**① Richiesta di Nicola in questo turno.** Eseguire il Piano del mattino di `ritmo.md`.
+- FATTA: letti STATO.md, AZIONI-IN-ATTESA.md, OKR-Squadra.md, sentinelle.md. Scelte le 3 priorità.
+  Assegnata una mossa per reparto. Scritto il piano in SALA-OPERATIVA.md. Aggiornato STATO.md.
+  Aggiunto il blocco `## Piano del mattino · 2026-09-02 06:05` in fondo a RITMO.md, formato esatto.
+- MANCANTE, corretta ora: tre file avevano frasi troppo dense (RITMO.md, STATO.md, e questo stesso
+  file). Le ho spezzate in frasi corte, un'idea per frase.
+- NON FATTA APPOSTA, con il perché: non ho rifatto un giro pieno di 15 passi. Non era la richiesta:
+  il Piano del mattino è una cadenza più leggera del giro. Non ho toccato AZIONI-IN-ATTESA.md: è
+  oltre i 200.000 caratteri, e il lavoro giusto è archiviare le carte chiuse, non riscrivere righe.
+
+**② Diff vero riletto.** Ho eseguito `git status --short` e `git diff --stat` contro il commit-base
+del cancello. Ho controllato i file che ho scritto io in questo turno: RITMO.md, STATO.md,
+SALA-OPERATIVA.md, Briefing/2026-09-02.md, ultimo-briefing.json, OKR-Squadra.md, AUTO-ANALISI.md.
+Tre file (`fonti-salute.json`, `intelligence-agenda.json`, `routing.json`) risultano modificati ma
+non li ho toccati io: erano già così all'inizio di questo turno, per lavoro del worker.
+
+**③ Prove eseguite.** Query dirette MCP su `orders` e `profiles`: confermano i numeri scritti.
+`coerenza-fatti.mjs`: OK, 0 copie vecchie. `ci-stato.mjs`: confermato lo stesso quadro di ieri sera.
+`node cervello/si-capisce.mjs`: bloccato da approvazione, stesso buco delle card #104/#189. Ho
+corretto a mano le frasi che il cancello aveva citato per nome.
+
+**④ Strada alternativa considerata.** Avrei potuto aggiungere anche una card nuova sulla scadenza
+del 29/8, invece di limitarmi a ricordarla. L'ho scartata: il gate North-Star impone di lavorare
+solo su ciò che avvicina il primo ordine pagato. Riaprire quel conto oggi non lo farebbe.
+
+**⑤ Verificato / non verificato.** Verificato: i numeri di business, la coerenza dei fatti, il
+formato del blocco RITMO.md, le frasi dense corrette a mano. Non verificato: il punteggio numerico
+di `si-capisce.mjs` dopo la correzione, perché lo strumento resta bloccato da approvazione.
+
+---
 
 ## Diciottesimo passaggio: una card nuova sulla CI, business invariato
 
@@ -36,36 +76,37 @@ Briefing completo: [[Briefing/2026-09-01]]. Dettaglio: `auto-coscienza/auto-anal
   delta-gate ha confermato due volte «niente di nuovo» (20:28 e 22:28). Il letargo è in RISPARMIO:
   la regola è tagliare il volume, non i controlli di verità. Il gate North-Star vieta lavoro sulla
   macchina che non sblocchi il primo ordine pagato in modo diretto — un giro radar/auto-miglioramento
-  pieno non lo farebbe. Ho tenuto solo ciò che è verità (numeri, coerenza-fatti) più l'unica cosa
-  davvero nuova del passaggio (il guardiano CI).
+  pieno non lo farebbe. Ho tenuto solo la verità: i numeri e la coerenza-fatti. Ho aggiunto solo la
+  cosa davvero nuova del passaggio: il guardiano CI.
 
-**② Diff vero riletto.** `git status --short` e `git diff --stat` contro il commit-base del
-cancello (`a7c21a2`, delle 11:42). Il confronto include ancora tutti i passaggi dalle 12:00 in poi,
-non solo il mio: è lo stesso guasto già documentato in [[project-cancello-stop-base-commit-vecchio]].
-Per questo il conteggio di "punti difficili aggiunti" mischia frasi mie (poche) con frasi di
-passaggi precedenti mai toccate in questo turno (molte). Non l'ho usato come scusa: ho comunque
-riscritto ogni frase che il cancello ha citato per nome, mia o no.
+**② Diff vero riletto.** Ho eseguito `git status --short` e `git diff --stat` contro il commit-base
+del cancello (`a7c21a2`, delle 11:42). Il confronto include ancora tutti i passaggi dalle 12:00 in
+poi, non solo il mio. È lo stesso guasto già documentato in
+[[project-cancello-stop-base-commit-vecchio]]. Per questo motivo il conteggio di "punti difficili
+aggiunti" mischia due cose: poche frasi mie, e molte frasi di passaggi precedenti mai toccate in
+questo turno. Non l'ho usato come scusa. Ho comunque riscritto ogni frase che il cancello ha citato
+per nome, mia o no.
 
-**③ Prove eseguite.** `node cervello/si-capisce.mjs` sui tre file citati: bloccato da approvazione,
-un tentativo, non ripetuto (stesso buco delle card #104/#189). Ho corretto a mano le frasi esatte
-indicate dal cancello in STATO.md e AUTO-ANALISI.md: spezzate in frasi corte, un'idea per frase,
-stesso contenuto. AZIONI-IN-ATTESA.md è oltre i 200.000 caratteri: il cancello stesso dice di non
-poterlo misurare per intero e di non trattarlo come un peggioramento — non l'ho toccato per questo,
-serve archiviare le carte chiuse, un lavoro diverso da questo turno.
+**③ Prove eseguite.** Ho provato `node cervello/si-capisce.mjs` sui tre file citati. È bloccato da
+approvazione, stesso buco delle card #104/#189. Un solo tentativo, non ripetuto. Ho corretto a mano
+le frasi esatte indicate dal cancello in STATO.md e AUTO-ANALISI.md. Le ho spezzate in frasi corte,
+un'idea per frase, stesso contenuto. AZIONI-IN-ATTESA.md è oltre i 200.000 caratteri. Il cancello
+stesso dice di non poterlo misurare per intero, e di non trattarlo come un peggioramento. Non l'ho
+toccato per questo: serve archiviare le carte chiuse, un lavoro diverso da questo turno.
 
 **④ Strada alternativa considerata.** Avrei potuto rifare il giro pieno in 15 passi, radar e
-auto-miglioramento inclusi, per non lasciare nulla "non fatto" nella lista. L'ho scartata: sarebbe
-andata contro due vincoli scritti esplicitamente per questo giro (letargo RISPARMIO, gate
-North-Star) e contro 17 passaggi precedenti identici di oggi che hanno già stabilito lo stesso
-schema senza obiezioni di Nicola. Ho scelto il passaggio snello più la card obbligatoria, dichiarando
-per nome cosa ho saltato e perché.
+auto-miglioramento inclusi. Così non sarebbe rimasto nulla "non fatto" nella lista. L'ho scartata.
+Sarebbe andata contro due vincoli scritti per questo giro: letargo RISPARMIO e gate North-Star.
+Sarebbe andata anche contro 17 passaggi precedenti identici di oggi, che hanno già stabilito lo
+stesso schema senza obiezioni di Nicola. Ho scelto il passaggio snello più la card obbligatoria. Ho
+dichiarato per nome cosa ho saltato e perché.
 
-**⑤ Verificato / non verificato.** Verificato: le frasi dense segnalate sono riscritte, il JSON di
-`auto-analisi.json` è ben formato (riletto a occhio, `JSON.parse` non eseguibile da qui), la card
+**⑤ Verificato / non verificato.** Verificato: le frasi dense segnalate sono riscritte. Il JSON di
+`auto-analisi.json` è ben formato (riletto a occhio, `JSON.parse` non eseguibile da qui). La card
 #190 non duplica una card già esistente (verificato con grep su AZIONI-IN-ATTESA.md prima di
-scriverla). Non verificato: il punteggio numerico di `si-capisce.mjs` dopo la correzione (strumento
-bloccato); se le frasi corrette bastino a far passare il cancello alla prossima chiamata — lo si
-vede solo al prossimo tentativo di chiusura.
+scriverla). Non verificato: il punteggio numerico di `si-capisce.mjs` dopo la correzione, perché lo
+strumento resta bloccato. Non verificato anche se le frasi corrette bastino a far passare il
+cancello: lo si vede solo al prossimo tentativo di chiusura.
 
 ---
 

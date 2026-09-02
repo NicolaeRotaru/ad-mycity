@@ -1,7 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 22:30
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-02 06:05
+fonte: AD digitale (piano del mattino, cervello/ritmo.md)
+---
+
+> ☀️ **2/9 06:05 — Piano del mattino: stesso tappo di ieri, un giorno in più.** Richiesta tua implicita: cadenza fissa del mattino.
+>
+> **In parole semplici.** Ho riverificato il business con query dirette sul database vero, non a
+> memoria. Ancora 0 ordini pagati su 1 totale. È lo stesso ordine annullato del 24 giugno. Lo stallo
+> oggi tocca **70 giorni**. Il sito pubblico resta giù. La causa è nota da dieci giorni: il dominio
+> punta ancora ai vecchi server, non più pagati. Mancano anche due chiavi su Vercel. Nessuna delle
+> tre carte rosse che contano davvero ha ricevuto una risposta da ieri.
+>
+> **Le 3 priorità di oggi**, tutte già pronte in coda e in attesa solo della tua firma:
+> 1. Rimettere online il sito vero: dominio su Vercel + chiavi mancanti (#154+#155). Senza questo un
+>    pagamento riuscito non diventerebbe mai un ordine.
+> 2. Sbloccare i pagamenti con carta di Pane Quotidiano (#182). È l'unico negozio vero. Non incassa
+>    da settimane.
+> 3. Applicare le quattro migrazioni ferme sul database di produzione (#184). Serve perché non si
+>    rompa il checkout al primo cliente vero.
+>
+> **Una cosa in più, non una nuova priorità.** La scadenza che avevi fissato tu per il 29 agosto (le
+> quattro cose da chiudere, card #185) è passata da 4 giorni senza una tua parola. Resta lì. Non
+> l'ho riaperta da sola. Il vincolo North Star impone di lavorare solo su ciò che avvicina il primo
+> ordine pagato. Riaprire quel conto non lo farebbe.
+>
+> **Cosa non ho verificato.** Il sito in un browser vero (solo lo stato HTTP dal sensore). Lo stato
+> Stripe specifico di Pane Quotidiano riga per riga (baseline del 24/8). Il contenuto delle 5 PR
+> rosse in CI segnalate ieri sera (card #190). Per il vincolo North Star non le ho toccate: nessuna
+> sblocca il primo ordine pagato.
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **1/9 22:30 — Giro di perlustrazione: business fermo, una card nuova sulla CI.** Richiesta tua: «fai un giro».
@@ -467,26 +497,26 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database. L'ho fatta l'1 settembre alle 11:12, riconfermata
-identica alle 18:00 (report della sera), con query dirette a Supabase via MCP. Quando i sensori
-sono ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
+vengono dall'ultima lettura vera del database. L'ho fatta il 2 settembre alle 06:01, con query
+dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici leggono questa
+tabella invece di inventare un numero.
 
 **Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto. Archiviando le voci
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
 se l'attività è ferma.
 
-| Numero | Oggi (1/9 11:12) | Δ vs 31/8 20:58 | "Riuscito" | Note |
+| Numero | Oggi (2/9 06:01) | Δ vs 1/9 22:30 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 1/9 11:12 |
-| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18+ giorni fermo su questo stesso quadro |
-| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 1/9 11:12. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 2/9 06:01 |
+| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: fermo da settimane su questo stesso quadro |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | non riverificato con query diretta in questo passaggio; riporto il dato confermato l'1/9. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 11:12, query MCP diretta) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **70 giorni** dal 24/6 (misurato 2/9 06:01, query MCP diretta) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Un equivoco chiarito: ieri il totale "8 profili" aveva fatto scattare un giro pieno. Non era un cliente nuovo. Erano 5 acquirenti, 1 rider, 1 negozio, 1 admin. Il conteggio è di TUTTI i profili, non dei soli clienti |
+| Profili totali | **8** (5 clienti, 1 negozio, 1 rider, 1 admin) | = | crescita | confermato query diretta 2/9 06:01: `profiles`=8, `role in ('customer','buyer')`=5 |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | = (invariato, ora 217 giri ciechi dal 30/7) | 200 | Dato dal sensore `verifica-sensori.mjs`. Girato da giro.sh l'1/9, ultima volta alle 11:32, tre tentativi. Non riverificato con un check diretto in questo passaggio: il comando era bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
+| **Sito pubblico** | **HTTP 503** (baseline 1/9) | = | 200 | Non riverificato con un check diretto in questo passaggio: il comando resta bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
 
 ---
 
