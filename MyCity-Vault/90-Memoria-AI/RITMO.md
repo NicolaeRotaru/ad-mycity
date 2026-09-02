@@ -1456,3 +1456,29 @@ Nessuna delle tre si è mossa in 21 controlli di oggi. È lo stesso quadro dalle
 - Il permesso più ampio per allineare Git (`#104`). Blocca i comandi. Ed è la causa dello scollegamento che cresce.
 
 **Dettagli tecnici** (opzionale) — dati riverificati alle 12:00 con query diretta MCP (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=8, prodotti=5, recensioni=0, carrelli=3 — identico a tutti i passaggi di oggi. Stallo North Star 70 giorni. Divergenza git: `main...origin/main` = 37 avanti / 2 indietro (era 26/0 alle 11:14, poi 28/2, 32/2). Coda: 9 carte aperte (`#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`), nessuna firmata oggi.
+
+## Report della sera · 2026-09-02 18:00
+
+**Com'è andata oggi**
+- Il business non si è mosso: stesso ordine annullato del 24/6, zero incassi, 70° giorno di fila.
+- Il sito pubblico resta giù (errore 503). Causa nota da settimane: dominio e chiavi Vercel mancanti.
+- Nessuna delle nove carte in coda ha ricevuto una firma. Sono più di 24 controlli fatti oggi, sempre con lo stesso risultato.
+
+**I numeri**
+- Ordini: 1 totale, 0 pagati (invariato dal 24/6)
+- Negozi con vetrina: 1 (Pane Quotidiano) · Prodotti: 5 · Profili: 8 (0 nuovi in 7 giorni)
+- Recensioni: 0 · Carrelli abbandonati: 3
+- Stallo North Star: 70 giorni
+
+**Da approvare**
+- Metti online il sito: sposta il dominio su Vercel e aggiungi le due chiavi mancanti
+- Sblocca i pagamenti con carta di Pane Quotidiano
+- Applica le quattro migrazioni ferme sul database di produzione
+
+**Lezione di oggi**
+- Un canale di pubblicazione rotto peggiora da solo se il lavoro automatico continua a scrivere senza fermarsi. Prova concreta: oggi la distanza tra questa macchina e il sito vero è raddoppiata in poche ore.
+
+**Domani**
+- Stessa prima mossa di oggi: la tua firma su dominio e chiavi Vercel. Tutto il resto aspetta quel passo.
+
+**Dettagli tecnici** — Divergenza `main...origin/main`: da 26 a 54 commit avanti nell'arco della giornata (sempre 2 indietro). Causa nota: card #104. Letargo salito a SOPRAVVIVENZA alle 13:03 (quota AI oltre soglia, salute macchina 4/100). 8 commit oggi tra giri e recuperi di scritture pendenti. Coda invariata: `#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`.

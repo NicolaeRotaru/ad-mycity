@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-09-02 18:06 · report-della-sera-2026-09-02-18-00 · V5 C5 A5 K5 I3 M4 E4 (media 4.43) · atteso chiudere il report entro 18:30 senza rumore → reale fatto, con 1 correzione post-collaudo sulla leggibilità · #report-sera
 - 2026-09-02 10:34 · diciottesimo passaggio 2026-09-02 10:31 · V4 C4 A5 K4 I3 M3 E4 (media 3.86) · atteso nessuna novita business, ma AR-687 spiegato a Nicola → reale confermato: 0 novita, 3 controlli HARD rieseguiti dal vivo (ci-stato/coerenza-fatti/sensori) · #AR-687
 - 2026-09-02 06:42 · giro 06:31 (16° passaggio identico di oggi) + collaudo AR-532 · V4 C4 A3 K4 I3 M4 E4 (media 3.71) · atteso conferma business invariato + risolvere AR-850 se trovato → reale confermato invariato (1 ordine/0 pagati); AR-850 risolto (conteggio card archiviate 28->27 in mutanti.json) · #giro #collaudo #AR-850
 - 2026-09-01 22:32 · giro 22:30: card CI cronica accodata · V4 C4 A4 K4 I3 M4 E3 (media 3.71) · atteso card #190 accodata, no PR corrette (gate North-Star) → reale fatto · #AR-687

@@ -1,7 +1,52 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 16:32
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-02 18:00
+fonte: AD digitale (Report della sera, cervello/ritmo.md)
+---
+
+> 🌙 **2/9 18:00 — Report della sera.** Richiesta tua: report della sera (ritmo).
+>
+> **In parole semplici.** Oggi ho solo verificato, non ho cambiato nulla nel business. Riletto il
+> database con query dirette più volte nella giornata. Il numero che conta è gli ordini pagati.
+> È rimasto a zero tutto il giorno. Sono **70 giorni** così. Il sito pubblico resta giù, errore 503.
+> La causa è nota da settimane: mancano il dominio e due chiavi su Vercel. Nessun ordine vero oggi.
+> Nessun negozio nuovo. Nessuna carta approvata da te, su nove in coda da tutta la giornata.
+>
+> **Cosa è cambiato nel merito.** Una cosa vera, non di business. Il collegamento tra questa
+> macchina e il sito vero su GitHub si è allargato molto oggi: da 26 a 54 commit di distanza.
+> Il motivo: il lavoro automatico continua a scrivere qui, mentre l'invio verso GitHub resta
+> bloccato dallo stesso permesso mancante di sempre (card #104). Zero rischio per i tuoi dati:
+> nessun tentativo forzato. Per il resto, solo manutenzione. Un contatore interno disallineato
+> (AR-850) è stato corretto. E una pausa su 10 azioni-negozio è scaduta: sono tornate in coda
+> (card #191).
+>
+> **I numeri, confermati ora via query diretta.** 1 ordine totale, lo stesso del 24/6, annullato.
+> **0 pagati.** 5 prodotti. 8 profili: 5 clienti, 1 negozio, 1 rider, 1 admin, 0 nuovi in 7 giorni.
+> 0 recensioni. 3 carrelli abbandonati. Tutto invariato rispetto a stamattina.
+>
+> **In coda restano 9 carte, nessuna firmata.** Prima: dominio e chiavi Vercel per riportare online
+> il sito pubblico, card #154 e #155. Senza questo nessun pagamento riuscito diventa un ordine.
+> Seconda: sblocco dei pagamenti carta di Pane Quotidiano, card #182. Terza: le migrazioni mancanti
+> sul database di produzione, card #184. Restano ferme in attesa della stessa firma anche:
+> - la scadenza del 29/8, passata da 4 giorni
+> - il cancello del sito
+> - l'origine del comando ricorrente "negozi in calo"
+> - il permesso per i test
+> - la CI cronica
+> - le 10 azioni-negozio tornate visibili
+>
+> **Lezione di oggi.** Un canale di pubblicazione rotto peggiora da solo se il lavoro automatico
+> continua a scrivere senza fermarsi. Non basta segnalarlo una volta: va tenuto d'occhio ogni giro.
+>
+> **Domani.** La prima cosa utile resta identica: la tua firma su dominio e chiavi Vercel.
+>
+> **Dettagli tecnici.** `coerenza-fatti.mjs` non rieseguibile in questo passaggio (0 scansionati,
+> segnalato non dichiarato verde). Divergenza `main...origin/main`: 54 avanti / 2 indietro (card
+> #104). Letargo salito a SOPRAVVIVENZA (13:03, quota AI oltre soglia, salute macchina 4/100).
+> 8 commit oggi (giri + recuperi di scritture pendenti). Card nuova di oggi: #191.
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 16:32 — Giro di perlustrazione: nessun cambio.** Il giro è partito da solo, per l'orologio
@@ -775,7 +820,7 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database. L'ho fatta il 2 settembre alle 06:01, con query
+vengono dall'ultima lettura vera del database. L'ho fatta il 2 settembre alle 18:00, con query
 dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici leggono questa
 tabella invece di inventare un numero.
 
@@ -783,16 +828,16 @@ tabella invece di inventare un numero.
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
 se l'attività è ferma.
 
-| Numero | Oggi (2/9 06:01) | Δ vs 1/9 22:30 | "Riuscito" | Note |
+| Numero | Oggi (2/9 18:00) | Δ vs 2/9 06:01 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 2/9 06:01 |
-| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: fermo da settimane su questo stesso quadro |
-| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | non riverificato con query diretta in questo passaggio; riporto il dato confermato l'1/9. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **70 giorni** dal 24/6 (misurato 2/9 06:01, query MCP diretta) |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | invariato, non ricontrollato lato profilo `role='seller'` in questo passaggio (fuori dal perimetro di verità serale) |
+| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe. Riporto il dato del 24/8 come base: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: fermo da settimane su questo stesso quadro |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 2/9 18:00 (`select count(*) from products`). Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello, riconfermato query diretta 2/9 18:00 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **70 giorni** dal 24/6 (misurato 2/9 18:00, query MCP diretta) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Profili totali | **8** (5 clienti, 1 negozio, 1 rider, 1 admin) | = | crescita | confermato query diretta 2/9 06:01: `profiles`=8, `role in ('customer','buyer')`=5 |
+| Profili totali | **8** (5 clienti, 1 negozio, 1 rider, 1 admin) | = | crescita | confermato query diretta 2/9 18:00: `profiles`=8, 0 nuovi negli ultimi 7 giorni |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
 | **Sito pubblico** | **HTTP 503** (baseline 1/9) | = | 200 | Non riverificato con un check diretto in questo passaggio: il comando resta bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
 
