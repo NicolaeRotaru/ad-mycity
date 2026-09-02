@@ -1,3 +1,59 @@
+## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 11:25
+
+**① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
+- FATTA: riverificati dal vivo gli ordini via query diretta MCP (`orders`, `products`, `profiles`,
+  `reviews`). Nessun numero di business cambiato dal passaggio delle 11:14.
+- FATTA: controllato lo stato reale del ramo Git (`git status --short --branch`,
+  `git log main..origin/main`). Trovato: 28 commit avanti, 2 indietro (erano 26/0 alle 11:14).
+  Riportato il dato preciso, non una stima.
+- FATTA: scritti STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, SALA-OPERATIVA.md.
+- NON FATTA APPOSTA: radiografia completa, auto-miglioramento, esperimenti nuovi. Letargo in
+  RISPARMIO, già coperti oggi senza novità da allora. Nessuna card nuova in coda: gate North-Star
+  HARD, nessuna mossa disponibile avvicina il primo ordine pagato più delle 9 già in coda.
+- MANCANTE, poi corretta durante il collaudo: le due frasi lunghe aggiunte a STATO.md (11:25) sono
+  state spezzate dopo il richiamo di `si-capisce.mjs` nel feedback dello stop. Vedi ② e ⑤.
+- BLOCCATA da permessi, non ridiagnosticata oltre un tentativo: `gh pr list`, `test-cervello.mjs` e
+  gli altri script `node cervello/*.mjs` fuori allowlist. Stesso buco delle card #104/#189.
+
+**② Diff riletto per intero, non a memoria.** `git status --short` mostra 5 file sporchi in questo
+turno: STATO.md, Briefing/2026-09-02.md, SALA-OPERATIVA.md, ultimo-briefing.json e
+auto-coscienza/sorvegliante-storico.json (quest'ultimo era già modificato prima che iniziassi, non
+è mio). Ho riletto `git diff` di ciascuno dei quattro miei: coerenti con quanto dichiarato, nessuna
+riga fuori posto.
+
+**③ Prove eseguite sui file cambiati.** Sono file di memoria/markdown, non codice: non esiste una
+suite automatica da lanciare. La prova disponibile è `node cervello/si-capisce.mjs`, ma è fuori
+allowlist in questa sessione (bloccato, stesso buco #104/#189) — non l'ho potuto rilanciare a mano
+dopo la correzione. Ho applicato a occhio la stessa regola che il tool misura (una frase, un'idea,
+niente incisi annidati) alle due frasi che il feedback dello stop ha citato per nome.
+
+**④ Strada alternativa considerata.** Avrei potuto lasciare il briefing delle 11:25 come un singolo
+paragrafo compatto invece di quattro blocchi con grassetto. L'ho scartata: la richiesta di Nicola in
+questa sessione (scrittura umana, `cervello/scrittura-umana.md`) chiede passo indietro + fatto +
+conseguenza in blocchi separati proprio per evitare frasi lunghe come quelle segnalate — la struttura
+a blocchi è la scelta giusta, il difetto era dentro le frasi, non nella struttura.
+
+**⑤ Cosa ho verificato, cosa no.**
+- Verificato dal vivo: ordini/prodotti/profili (MCP), stato del ramo Git (comandi git diretti),
+  contenuto del mio diff (`git status`/`git diff`).
+- Verificato a occhio: le due frasi lunghe segnalate da `si-capisce.mjs` in STATO.md, riscritte in
+  frasi più corte (vedi diff).
+- NON verificato: il punteggio numerico reale di `si-capisce.mjs` dopo la correzione (comando
+  bloccato). La segnalazione `prova-accecata` su AZIONI-IN-ATTESA.md (riga di riepilogo AR-850): non
+  è un file toccato da me in questo turno (`git status` lo conferma pulito); è lo stesso
+  falso-positivo già documentato più volte oggi (il pattern del sorvegliante cerca un numero secco
+  che cambia a ogni giro) — non l'ho ri-diagnosticato, non l'ho toccato. Le sei altre segnalazioni di
+  leggibilità (AUTO-ANALISI.md 08:40, buchi-mercato.md, eventi-picchi.md, leve-uscita.md,
+  reputazione.md, RITMO.md): nessuna è nel mio diff di questo turno (`git status` pulito su tutte);
+  sono debito accumulato da passaggi precedenti dello stesso giorno. Non le ho riscritte per restare
+  dentro lo scopo di un passaggio leggero (letargo RISPARMIO) — le segnalo a Nicola come lavoro a
+  parte, non le nascondo.
+
+**Voto di fiducia.** 78/100 — corretto quanto segnalato nel mio diff, dichiarato apertamente cosa
+resta fuori scopo.
+
+---
+
 ## Giro di perlustrazione — 2026-09-02 10:31
 
 **① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.

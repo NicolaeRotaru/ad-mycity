@@ -1,7 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 11:14
+aggiornato: 2026-09-02 11:25
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 11:25 — Giro di perlustrazione: ventesima foto identica, 11 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Riverificato dal vivo via query diretta al database: 1 ordine totale, 0
+> pagati, sempre lo stesso del 24/6 annullato. Nessun numero di business cambiato.
+>
+> **L'unica cosa che si muove è il contatore del guasto Git già noto (card #104).** Il ramo locale
+> è ora **28 commit avanti e 2 indietro** rispetto a `origin/main`. Alle 11:14 erano 26 avanti e 0
+> indietro. I 2 "indietro" sono due PR di memoria già mergiate su GitHub: #861 (audit marketplace) e
+> #862 (lezioni radiografia). Questa macchina non le ha ancora scaricate. Non ho ritentato il
+> `git rebase`. Il tentativo delle 11:14 si è fermato su un conflitto vero, sul primo commit del 1/9
+> alle 12:47. Serve la tua indicazione. Non ha senso un nuovo tentativo alla cieca sullo stesso stato.
+>
+> **Comandi node bloccati anche in questo passaggio.** `gh pr list`, `test-cervello.mjs` e gli altri
+> script `node cervello/*.mjs` fuori dall'allowlist restano negati in questa sessione (stesso buco
+> di `settings.local.json`, card #104/#189) — un solo tentativo, non ridiagnosticato oltre.
+>
+> **In coda restano le stesse nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186
+> (cancello sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI
+> cronica), #191 (10 azioni-negozio in attesa del tuo sì).
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 11:14 — Giro di perlustrazione: diciannovesima foto identica, 43 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
