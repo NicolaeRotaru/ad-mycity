@@ -1,7 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 14:30
+aggiornato: 2026-09-02 16:32
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 16:32 — Giro di perlustrazione: nessun cambio.** Il giro è partito da solo, per l'orologio
+> di sicurezza (22 ore dall'ultimo giro pieno). Non è partito per un dato nuovo. Richiesta tua: «fai
+> un giro».
+>
+> **In parole semplici.** Il cancello che decide se serve un giro pieno si chiama `delta-gate.mjs`.
+> Dice che lo stato è identico da giri: 1 ordine totale, 0 pagati, 8 clienti. È lo stesso ordine
+> annullato del 24/6. Ha fatto scattare il giro solo perché sono passate più di 12 ore dall'ultimo
+> giro pieno vero. È una regola di sicurezza, non un segnale di business. Ho riverificato il nucleo
+> vitale: ordini fermi, nessuna consegna in corso. La coda firme resta invariata, stessa priorità
+> #154+#155. Nessun allarme di sicurezza nuovo.
+>
+> **Perché resto leggera.** Siamo ancora in letargo **SOPRAVVIVENZA**. La quota AI è al 134% della
+> finestra. La salute macchina è a 4/100. A questo livello resta acceso solo il nucleo vitale.
+> Riscrivere i 15 passi del giro pieno su un quadro invariato sarebbe rumore. Non sarebbe nuova
+> verità.
+>
+> **La mossa n.1 resta la stessa: firma dominio e chiavi Vercel (#154+#155).** Sblocca il sito. Il
+> sito è giù da 241 giri di fila, errore HTTP 503. Sbloccarlo apre la strada al primo ordine pagato
+> vero. C'è già un passo pronto subito dopo, dentro la card più recente in coda (#191): il test
+> d'incasso su Pane Quotidiano, `#ordine-test-pq`.
+>
+> Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 14:30 — Giro di perlustrazione: ventiduesima foto identica, 1h27 dopo l'ultima.** Richiesta tua: «fai un giro».

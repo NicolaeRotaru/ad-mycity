@@ -1,47 +1,47 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 13:03",
+  "data": "2026-09-02 16:32",
   "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Ventiduesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»). Novità reale del passaggio: il letargo è salito da RISPARMIO a SOPRAVVIVENZA (quota AI 127% della finestra, salute macchina 4/100) — a questo livello resta acceso solo il nucleo vitale (ordini, consegne, coda firme, sicurezza, allerta a Nicola). Per questo il giro pieno a 15 passi (radiografia, auto-miglioramento, produzione contenuti) NON è stato eseguito: solo riverifica diretta di orders (sensore REST), CI (ci-stato.mjs, 6/6 rosse invariato), coerenza-fatti (OK) + aggiornamento della memoria con nota breve, seguendo lo stesso pattern già adottato dai passaggi precedenti di oggi davanti a fotografie identiche.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Novità del giro: letargo salito a SOPRAVVIVENZA — giro tenuto volutamente leggero per rispettare il taglio di volume, mantenuti i controlli di verità (sensori, CI, coerenza-fatti).",
-  "trend_fiducia": "→ 78→78: stabile, nessun errore né scoperta nuova in questo passaggio oltre il cambio di livello letargo, già coerente col quadro noto (salute 4/100 era già nota, solo il livello scala ora).",
+  "sintesi_giro_corrente": "Passaggio innescato dall'heartbeat di delta-gate.mjs (22h dall'ultimo giro pieno vero), non da un dato nuovo: la firma di stato (ordini=1, clienti=8, sensori) è identica a quella dell'ultimo giro pieno registrato. Verificato il nucleo vitale (ordini, consegne, coda firme, sicurezza): nessuna novità. Restiamo in letargo SOPRAVVIVENZA (quota AI 134%, salute macchina 4/100), quindi il giro pieno a 15 passi non è stato rifatto — sarebbe la stessa foto già scritta 22+ volte oggi. Scritti/aggiornati: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, questo file.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessuna novità reale in questo passaggio oltre la conferma che nulla è cambiato; letargo confermato a SOPRAVVIVENZA.",
+  "trend_fiducia": "→ 78→78: stabile, nessun errore né scoperta nuova in questo passaggio.",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
       "stato": "confermato",
-      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (08:29)"
+      "fonte": "sensori-cecita.json (supabase_rest, ultimo_ok 16:20 — 12' prima di questo passaggio, prodotto dal pre-step deterministico di giro.sh, non da una query mia diretta in questo turno)"
     },
     {
-      "nome": "products=5, profiles=8, reviews=0, profili_nuovi_7g=0",
+      "nome": "clienti=8 (invariato)",
       "stato": "confermato",
-      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (08:29)"
+      "fonte": "delta-gate.json (firma corrente = firma dell'ultimo giro pieno, 2026-09-01 18:35)"
     },
     {
       "nome": "Sito pubblico giù: HTTP 503",
       "stato": "confermato",
-      "fonte": "sensori-cecita.json, aggiornato da verifica-sensori.mjs eseguito in questo passaggio (08:28)"
+      "fonte": "sensori-cecita.json, sito_uptime cieco da 241 giri, ultimo_ok 2026-07-30"
     },
     {
-      "nome": "Pane Quotidiano (negozio faro, unico reale): pagamenti ancora spenti",
+      "nome": "Coda firme (AZIONI-IN-ATTESA.md): nessuna card nuova firmata, top card resta #191 (accodata 06:30, contiene #ordine-test-pq)",
       "stato": "confermato",
-      "fonte": "registro-fatti.json (negozio.faro), baseline 24/8 non riverificata riga per riga in questo passaggio"
+      "fonte": "grep diretto su AZIONI-IN-ATTESA.md in questo passaggio"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (gate North-Star + niente di importante da confrontare coi migliori).",
   "salute_macchina": {
-    "supabase": "REST + MCP ok, riverificati dal vivo in questo passaggio",
-    "stripe": "API ok (verifica-sensori.mjs), ma non riverificato lo specifico fascicolo PQ: riporto la baseline del 24/8",
+    "supabase": "REST ok (sensori-cecita.json, 16:20); MCP supabase 'non_verificato' da 3 giorni, non ricontrollato in sessione — non dichiaro ok senza averlo provato",
+    "stripe": "API ok (sensori-cecita.json, 16:20), ma non riverificato lo specifico fascicolo PQ in questo passaggio",
     "dati_freschi": true,
     "sensori_attivi": 7,
     "sito_uptime": "giù (HTTP 503)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L1: verifica-sensori.mjs (REST orders=1, sito 503), ci-stato.mjs (6 PR/6 rosse), coerenza-fatti.mjs (OK, 41 fatti) rieseguiti dal vivo in questo passaggio — tutti confermano il quadro noto. NON rieseguiti (giro tenuto leggero per SOPRAVVIVENZA, non per blocco permessi questa volta): test-cervello.mjs, north-star-check.mjs --gate, tasso-chiusura.mjs, radiografia completa, auto-miglioramento. Riporto per questi i verdetti già forniti dall'hook di sessione.",
-  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati i numeri chiave col passaggio delle 12:00, uno per uno — nessuna differenza tranne il livello di letargo (RISPARMIO→SOPRAVVIVENZA). Non regge l'ipotesi che serva un giro pieno: la regola di letargo impone il contrario. Corretto trattarlo come passaggio di sola verifica + segnalazione del cambio di livello.",
+  "livello_verifica": "L1 parziale: rilette a fresco (16:20-16:21, prodotte dal pre-step deterministico di giro.sh) sensori-cecita.json e coerenza-fatti.json (quest'ultimo 'non_verificato', 0 file scansionati — segnalato onestamente, non dichiarato verde). Verificato dal vivo in questo passaggio: coda AZIONI-IN-ATTESA.md via grep. NON rieseguiti in questo passaggio: verifica-sensori.mjs, ci-stato.mjs, test-cervello.mjs (tentato in background, nessun output raccolto entro la fine del giro), north-star-check.mjs --gate, tasso-chiusura.mjs. Per questi riporto lo stato già noto dall'hook di sessione (CI: 6 PR/6 rosse) invece di ridichiararlo come rieseguito ora.",
+  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontata la firma di delta-gate.json (corrente vs ultimo_pieno) — identica su ordini/clienti/sensori. Il giro è scattato solo per l'heartbeat (22h), non per un cambio di stato. Non regge l'ipotesi che serva un giro pieno: la regola di letargo impone il contrario. Corretto trattarlo come passaggio di sola verifica + nota breve.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
-      "domanda": "Il ramo locale di questa macchina e main su GitHub sono scollegati da 26 commit (peggio dei 5-6 noti in card #104): push rifiutato, rebase automatico fermato su conflitti veri e annullato senza forzare. Vuoi che provi a risolvere i conflitti a mano (rischio: 26 commit, non tutti miei), o preferisci intervenire tu direttamente sul VPS per capire quale ramo tenere?",
+      "domanda": "Il ramo locale di questa macchina e main su GitHub restano scollegati (card #104): ora 54 commit avanti / 2 indietro rispetto a origin/main (era 37 alle 14:30, cresce da sola perché il lavoro automatico continua a scrivere). Vuoi che provi a risolvere i conflitti a mano (rischio: 54 commit, non tutti miei), o preferisci intervenire tu direttamente sul VPS per capire quale ramo tenere?",
       "azione": "in attesa: le scritture di questa sessione restano solo in locale finché non decidi",
       "colore": "🔴"
     },

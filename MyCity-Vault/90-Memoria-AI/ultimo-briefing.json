@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-02 13:03",
-  "situazione": "Giro di perlustrazione: ventiduesimo passaggio identico di oggi. Business invariato: 1 ordine (24/6, annullato), 0 pagati — riconfermato ora via sensore REST diretto. Sito ancora HTTP 503. CI invariata: 6 PR aperte, tutte e 6 rosse (verificato dal vivo). Coerenza-fatti OK (41 fatti, 0 copie vecchie). Novità reale del passaggio: il letargo è salito da RISPARMIO a SOPRAVVIVENZA (quota AI 127%, salute macchina 4/100) — a questo livello resta acceso solo il nucleo vitale (ordini, consegne, coda firme, sicurezza, allerta a Nicola), tutto il resto spento. Per questo il giro pieno a 15 passi non è stato rifatto: solo riverifica diretta + nota.",
+  "data": "2026-09-02 16:32",
+  "situazione": "Giro di perlustrazione innescato dall'heartbeat (22h dall'ultimo giro pieno vero, non da un dato nuovo). Business invariato: 1 ordine (24/6, annullato), 0 pagati, 8 clienti. Sito ancora HTTP 503 (241 giri ciechi). Coda firme invariata, nessuna card firmata. Letargo ancora SOPRAVVIVENZA (quota AI 134%, salute macchina 4/100): solo nucleo vitale acceso, verificato senza novità. Giro tenuto leggero apposta: i 15 passi pieni ripeterebbero la stessa foto già scritta 22+ volte oggi.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
