@@ -1,7 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 11:25
+aggiornato: 2026-09-02 11:50
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 11:50 — Giro di perlustrazione: ventunesima foto identica, 25 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Riverificato dal vivo via query diretta al database: 1 ordine totale, 0
+> pagati, sempre lo stesso del 24/6 annullato. 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni.
+> Nessun numero di business cambiato dal passaggio delle 11:25.
+>
+> **L'unica cosa che si muove resta il contatore del guasto Git (card #104).** Il ramo locale è ora
+> **32 commit avanti e 2 indietro** rispetto a `origin/main`. Alle 11:25 erano 28 avanti e 2 indietro.
+> Sono 4 commit in più nel frattempo. Sono tutti del worker automatico: un playbook anti-churn negozi
+> e due "lavoro" senza contenuto di business. Non ho ritentato il rebase. Resta lo stesso conflitto
+> vero già descritto alle 11:14. Serve la tua indicazione.
+>
+> **Comandi node bloccati anche in questo passaggio.** `test-cervello.mjs` resta negato in questa
+> sessione. Lo stesso vale per gli altri script `node cervello/*.mjs` fuori dall'allowlist. È lo
+> stesso buco di `settings.local.json`, card #104/#189. Un solo tentativo, non ridiagnosticato oltre.
+>
+> **Non riscrivo un briefing pieno da 15 passi:** è il ventunesimo passaggio identico di oggi sullo
+> stesso quadro (0 ordini pagati da 70 giorni, sito giù, stessa coda). Rifare l'intero giro ora
+> sarebbe rumore, non nuova verità — vedi i playbook "loop-a-vuoto" già in memoria. Ho tenuto solo la
+> riverifica diretta dei numeri che contano.
+>
+> **In coda restano le stesse nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186
+> (cancello sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI
+> cronica), #191 (10 azioni-negozio in attesa del tuo sì).
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 11:25 — Giro di perlustrazione: ventesima foto identica, 11 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
