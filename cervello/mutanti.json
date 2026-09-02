@@ -8849,6 +8849,63 @@
    "test": "cervello/test/archivi-senza-tetto.test.mjs",
    "lezione": "L-2026-0901-12",
    "perche_conta": "E la riga esatta che ha fatto rosso il cancello. Il caso deterministico la prende su un giorno nudo, dove lo scarto e di dodici ore: il rosso non dipende dal fuso della macchina, altrimenti il freno sarebbe verde proprio sul portatile di casa."
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-832",
+   "nome": "la casa nata ieri torna ad accusare chi chiede del mese scorso",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  if (spoglia === 2 && chiedeIlPassato === true) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "il debito ereditato in bash torna a rendere rosso chi passa di qui: il workflow di main e il giro non possono più diventare verdi",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "il tetto assolve anche quando non l'ho letto: un file illeggibile diventa un via libera",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
+   "sostituisci": "  if (!rottiNode.length && rottiBash.length && (!t.letto || rottiBash.length <= t.tetto)) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "difetto": "AR-908",
+   "nome": "il budget torna a non sapere dire «sono scaduto»: un tempo negativo al posto dello zero",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  if (!Number.isFinite(resta) || resta < minimo) return 0;",
+   "sostituisci": "  if (false) return 0;",
+   "test": "cervello/test/due-case.test.mjs",
+   "lezione": "L-2026-0902-01",
+   "perche_conta": "Un numero negativo dato a spawnSync come timeout non ferma niente: e cosi che un freno diventa decorativo senza che nessuno tocchi la riga che lo dichiara."
+  },
+  {
+   "difetto": "AR-908",
+   "nome": "il controllo torna DIETRO la copia del repo: si paga la parte lenta e poi si guarda l orologio",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  if (!quantoPosso(scadenza)) return fermo(\"il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato\");",
+   "sostituisci": "",
+   "test": "cervello/test/due-case.test.mjs",
+   "lezione": "L-2026-0902-01",
+   "perche_conta": "E la meta che nessuna funzione pura puo difendere: che il controllo stia DAVANTI alla spesa. Togliendolo il caso da 2000 ms diventa rosso perche la copia del repo prende secondi."
+  },
+  {
+   "difetto": "AR-909",
+   "nome": "chi rilancia i passi torna al segnale educato, che il figlio puo ignorare",
+   "file": "cervello/due-case.mjs",
+   "cerca": "const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: \"utf8\", timeout, killSignal: \"SIGKILL\", maxBuffer: 32 * 1024 * 1024, env });",
+   "sostituisci": "const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: \"utf8\", timeout, maxBuffer: 32 * 1024 * 1024, env });",
+   "test": "cervello/test/due-case.test.mjs",
+   "lezione": "L-2026-0902-02",
+   "perche_conta": "E la riga esatta che faceva uscire il cancello con 124. La prende il caso strutturale, dichiarato come tale: il comportamento e provato su un figlio finto che ignora SIGTERM, il cablaggio si guarda, e le due meta sono scritte separate invece che confuse."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

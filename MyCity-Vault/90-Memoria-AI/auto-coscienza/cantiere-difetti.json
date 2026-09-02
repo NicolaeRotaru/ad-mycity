@@ -19150,7 +19150,7 @@
       "stato": "chiuso",
       "nato": "2026-08-31 18:20",
       "area": "macchina",
-      "nato_come": "riparare",
+      "nato_come": "regressione",
       "titolo": "Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato»",
       "sintomo": "La mutazione appena scritta per AR-892 non si lasciava provare: il banco la dava ⚪ invece che ✅, dicendo «git non e partito». Ma git era partito benissimo — la frase veniva dalla prova stessa. Node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l ha fatto fallire; quella riga conteneva l impronta, perche il mestiere di quella prova e parlare di quell impronta. Misurato: 10 file di prova su 436 portano un impronta d avvio nel proprio sorgente, e 24 mutazioni ci puntano contro. Sono tutti e dieci li per lo stesso motivo — difendere il terzo esito.",
       "causa_radice": "`avvioFallito` cercava le impronte in TUTTA l uscita del processo, senza distinguere cio che ha stampato chi lanciava da cio che ha stampato la prova. Un indizio nel testo veniva trattato come un fatto. La forma del difetto e la stessa di AR-892 vista dall altra parte: li un cadavere comprava un verde, qui una prova viva veniva sepolta.",
@@ -19162,7 +19162,8 @@
       },
       "trovato_da": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava",
       "chiuso_il": "2026-09-01 16:25",
-      "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-893): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
+      "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-893): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
+      "nato_da": "AR-840"
     },
     {
       "id": "AR-894",
@@ -19170,7 +19171,7 @@
       "stato": "chiuso",
       "nato": "2026-08-31 18:55",
       "area": "macchina",
-      "nato_come": "riparare",
+      "nato_come": "scoperta",
       "titolo": "Il guardiano che si ferma da solo per non farsi sparare, si faceva sparare lo stesso: il suo budget partiva a meta corsa",
       "sintomo": "Il cancello del 31/8 ha bocciato con «passi nuovi che nascono rotti sul runner (exit 124)». 124 vuol dire ucciso dall orologio — cioe rosso per tutti, senza una riga che spieghi perche. Ed e ESATTAMENTE il difetto che il budget interno di `cervello/due-case.mjs` esiste per impedire: il suo commento dichiara «sta sotto quello che il cancello da a me» proprio perche «un ⚪ dichiarato si legge, un 124 no».",
       "causa_radice": "DUE, e nessuna delle due era il numero. ① L orologio partiva alla riga 998, DOPO il piano, il censimento, il perimetro e la costruzione della casa spoglia — tutto quel tempo era gratis, e i 240 secondi si contavano sopra un tempo gia speso. Sul runner la copia del repo e la parte lenta. Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce. ② Il tetto del cancello era un `300_000` NUDO dentro `spawnSync`, e due-case se lo ricopiava a mano in `BUDGET_DI_CASA`: due copie della stessa decisione, la malattia `una-parola-con-due-padroni` in attesa. Alzarne una sola e il guardiano torna a farsi sparare senza che nessuno se ne accorga.",
@@ -19250,7 +19251,7 @@
       "stato": "chiuso",
       "nato": "2026-08-31 21:30",
       "area": "macchina",
-      "nato_come": "riparare",
+      "nato_come": "regressione",
       "titolo": "Il conto delle volte diceva trentadue dove gli usi veri erano ventuno, in una casa dove nessun numero sta senza fonte",
       "sintomo": "Misurato prima di curare: dieci usi veri → undici dichiarate; ventuno usi veri compattando a ogni giro → TRENTADUE dichiarate. E il commento accanto al campo prometteva «il conto vero». Nel file vivo c erano gia sedici numeri di quel tipo, e la loro somma era cresciuta da 332 a 336 in due giri senza che nessun uso nuovo lo giustificasse. Altri due difetti nello stesso pezzo: un `quando` che non e una data finiva per sempre in fondo all ordine — cioe diventava «l ultimo uso» per sempre, e da li ogni uso nuovo veniva potato appena scritto mentre il comando continuava a dire «marcata»; e un uso-stringa si sbriciolava in un dizionario di lettere (`{...unaStringa}`).",
       "causa_radice": "① `lista[0]` veniva TENUTO in lista E contato dentro il `volte` dell ultimo: dichiarato due volte. E siccome si ricompatta a ogni scrittura, l errore si sommava invece di restare costante. ② L ordine si faceva con `localeCompare` su testo: funziona finche sono tutte date, e la prima che non lo e non sbaglia posto — si pianta in fondo. ③ Lo spread di una primitiva non e un no-op: la sparge indice per indice. Tutti e tre sono miei, di AR-886, scritti sei giorni fa.",
@@ -19262,7 +19263,8 @@
       },
       "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito",
       "chiuso_il": "2026-09-01 16:25",
-      "chiuso_come": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs → 9 casi, exit 0, rilanciato adesso e non dato per buono da prima. 3 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-898): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
+      "chiuso_come": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs → 9 casi, exit 0, rilanciato adesso e non dato per buono da prima. 3 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-898): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
+      "nato_da": "AR-886"
     },
     {
       "id": "AR-899",
@@ -19290,7 +19292,7 @@
       "stato": "chiuso",
       "nato": "2026-08-31 22:30",
       "area": "macchina",
-      "nato_come": "riparare",
+      "nato_come": "regressione",
       "titolo": "Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace",
       "sintomo": "Una corsa del banco delle mutazioni ha portato via tutta la cartella `cervello/` — 956 file tracciati. Sullo schermo e comparso un ENOENT con lo stack: nessuna riga diceva che mancavano novecentocinquantasei file, l ho scoperto guardando `ls`. I file sono tornati da git, ma e stato un ripristino, non un fastidio — e ha richiesto un permesso esplicito di Nicola perche il comando di recupero era bloccato.",
       "causa_radice": "Non e stato il banco: e stata una PROVA, la mia, scritta dieci minuti prima per AR-899. Faceva pulizia con `rmSync(dirname(fuoriRepo(...)), { recursive: true })`, cioe cancellava una cartella il cui nome veniva dalla funzione SOTTO ESAME. Ed e esattamente cio che il banco fa di mestiere: rompe quella funzione. Rotta, tornava un percorso dentro il repo, e la pulizia ha portato via il repo. La regola che ne esce vale per ogni prova di questa casa: sotto un banco che rompe apposta, un percorso calcolato dal codice sotto esame e un percorso OSTILE — si cancella solo cio che la prova ha creato da se, con un percorso che conosce indipendentemente.",
@@ -19302,7 +19304,8 @@
       },
       "trovato_da": "me stessa, cancellando il repo con una prova che avevo appena scritto",
       "chiuso_il": "2026-09-01 16:25",
-      "chiuso_come": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs → 7 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-900): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
+      "chiuso_come": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs → 7 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-900): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
+      "nato_da": "AR-899"
     },
     {
       "id": "AR-901",
@@ -19330,7 +19333,7 @@
       "stato": "chiuso",
       "nato": "2026-09-01 16:00",
       "area": "macchina",
-      "nato_come": "riparare",
+      "nato_come": "regressione",
       "titolo": "La cura di AR-895 aveva riaperto AR-880 dalla porta di servizio: un avviso su stderr diventava un vincolo fantasma",
       "sintomo": "La prima stesura della cura catturava stdout e stderr in un colpo solo (`2>&1`). Riprodotto: basta un `(node:123) Warning: …` — cioe un qualunque avviso di node — perche quella riga finisca nell elenco come un vincolo con nome lunghissimo, classe vuota e comando VUOTO. Il ciclo avrebbe lanciato `timeout 120 node \"$SCRIPT_DIR\"/` senza script, uscita ≠ 0, e il fantasma sarebbe finito fra quelli «che dicono ANCORA no»: un accusa col nome sbagliato mandata a Nicola su Telegram.",
       "causa_radice": "Volevo che l errore del produttore non si perdesse piu (era in /dev/null) e l ho preso mescolandolo all esito. Ma l esito e DATI e l errore e RUMORE: mescolarli mette il rumore dentro i dati. E lo stesso difetto che quel blocco era gia stato curato per non fare — AR-880, «un accusa col nome sbagliato» — rientrato dalla porta della sua cura.",
@@ -19342,7 +19345,8 @@
       },
       "trovato_da": "la radiografia del perimetro toccato, dimensione macchina/rischio-sicurezza-se — riguardando con la lente giusta le righe che avevo aggiunto due ore prima",
       "chiuso_il": "2026-09-01 16:25",
-      "chiuso_come": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-902): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione."
+      "chiuso_come": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-902): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
+      "nato_da": "AR-895"
     },
     {
       "id": "AR-903",
@@ -19437,6 +19441,48 @@
       },
       "trovato_da": "il cancello del lotto sulla richiesta 855, corsa 33527478062",
       "chiuso_il": "2026-09-01 18:40",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-908",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-02 01:35",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-894",
+      "titolo": "Il budget di due-case si spendeva DUE volte per passo — vero, riparato, e NON era la causa del 124",
+      "sintomo": "Il cancello del lotto (corsa 33562950568) ha bocciato il passo «passi nuovi che nascono rotti sul runner» con exit 124, cioe ucciso dall orologio a 300 secondi. Un 124 non e ne verde ne rosso: e un rosso per tutti senza una riga che dica perche. Riprodotto qui: `node cervello/due-case.mjs` ucciso a 400 secondi. E la controprova che dice dove il difetto NON era: con `DUE_CASE_BUDGET=1` esce in ZERO secondi con quattro ⚪ dichiarati — quindi il freno DAVANTI al ciclo funzionava, e il tempo si spendeva dentro.",
+      "causa_radice": "`misuraIlPasso` riceveva una DURATA (`quantoTempo`) e la passava INTERA a tutt e due le sue corse: la casa spoglia, e — se quella non usciva zero — il repo vero. Due corse da `quantoTempo` ciascuna. Piu `costruisciCasaSpoglia`, la copia del repo, che e la parte lenta e non era cronometrata affatto. Con 240 secondi di budget un passo solo poteva spenderne 480 piu la copia, contro i 300 che il cancello concede. La forma generale: una durata non si puo dividere fra due chiamate, perche ognuna la legge per intera; un ISTANTE si, perche la seconda vede quello che la prima ha gia consumato. AR-894 aveva spostato l inizio dell orologio (giusto) e questo lo lasciava intatto: il conto era diventato onesto, la protezione no.",
+      "fix_proposto": "🟡 FATTO, e DICHIARATO PARZIALE. Il doppio conteggio era reale e la cura regge: `misuraIlPasso` prende una SCADENZA assoluta invece di una durata, e `quantoPosso(scadenza)` dice quanto resta con 0 quando non basta piu. MA RIMISURANDO DOPO LA CURA il programma moriva ancora: 420 secondi contro i 400 di prima. La causa vera e AR-909 — il segnale educato che il figlio poteva ignorare — e con quella riparata due-case finisce nei suoi 240 secondi. Questa scheda resta chiusa perche il difetto che descrive e chiuso; non e chiuso il sintomo che mi aveva portato qui, e sta scritto qui perche il prossimo non ci ricaschi.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/due-case.test.mjs",
+        "nota": "Cinque casi. Quattro sono aritmetica pura e istantanea. Il quinto chiama `misuraIlPasso` VERA con la scadenza gia passata e pretende risposta sotto i 2000 ms — se il controllo tornasse dietro la copia del repo ci metterebbe i secondi della copia. ⚠️ Nessuno dei cinque copre il 124: quello lo copre AR-909."
+      },
+      "trovato_da": "il primo verdetto vero del cancello del lotto in tre giorni, corsa 33562950568 del 2026-09-01",
+      "chiuso_il": "2026-09-02 01:35",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-909",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-02 03:05",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-908",
+      "titolo": "Il tempo massimo era una richiesta cortese: il figlio poteva rifiutarla, e nessuno insisteva",
+      "sintomo": "Il cancello del lotto bocciava `due-case` con exit 124 — ucciso dall orologio, cioe un rosso per tutti senza una riga che spieghi. Riprodotto qui: il programma moriva a 400 e poi a 420 secondi contro un budget dichiarato di 240, e il budget NON lo fermava.",
+      "causa_radice": "`spawnSync` allo scadere del `timeout` manda il segnale di `killSignal`, che per difetto e SIGTERM. SIGTERM si puo intercettare e ignorare, e la suite del cervello lo ignora. Node non insiste e non passa a SIGKILL: resta ad aspettare che il figlio finisca per conto suo. Il campo si chiama `timeout` e non ferma niente. La forma generale, che vale oltre questo file: un freno che CHIEDE di fermarsi non e un freno, e la differenza si vede solo su chi rifiuta.",
+      "fix_proposto": "🟡 FATTO su `due-case.mjs`: chi rilancia i passi passa `killSignal: \"SIGKILL\"`. Scelta consapevole e LIMITATA: SIGKILL non lascia riordinare, quindi va bene qui — figlio in sola lettura dentro una copia usa-e-getta, dove non c e niente da riordinare e un guardiano che non si puo fermare e peggio di uno ucciso male — e NON e ovvia dove il figlio e `git` o `npm`. ⚠️ DEBITO MISURATO E DICHIARATO: 17 file del cervello passano un `timeout` per 42 volte in tutto, e ZERO dichiarano `killSignal`. Ogni tempo massimo della macchina e oggi una richiesta che si puo rifiutare. Non li ho cambiati tutti in una notte apposta.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/due-case.test.mjs",
+        "nota": "Due casi. Il primo ESEGUE: costruisce un figlio che ignora SIGTERM apposta, gli da 2 secondi, e pretende che torni fermato col segnale che non si rifiuta — senza la cura resterebbe appeso. Il secondo e dichiarato debole: guarda il sorgente per pinzare che la scelta sia scritta dove serve, perche provarlo eseguendo vorrebbe dire far rilanciare a due-case la suite intera, quattro minuti per una riga."
+      },
+      "trovato_da": "sei ipotesi misurate una per una mentre verificavo la riparazione di AR-908: cinque smentite dai numeri, la sesta confermata",
+      "chiuso_il": "2026-09-02 03:05",
       "chiuso_come": "riparato"
     }
   ],

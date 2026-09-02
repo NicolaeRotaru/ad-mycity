@@ -793,8 +793,55 @@ export function ambienteSpoglio(base, home) {
 }
 
 /** Lancia un passo dentro una cartella, con un ambiente dato. Non lancia mai: torna i fatti. */
+/**
+ * ⏳ AR-908 — QUANTO POSSO ANCORA SPENDERE, dato l ISTANTE in cui il mio budget scade.
+ *
+ * PERCHE ESISTE. Fino al 2/9 `misuraIlPasso` riceveva una DURATA e la passava, intera, a ognuna
+ * delle sue due corse: la casa spoglia e — se quella non usciva zero — il repo vero. Due corse da
+ * `quantoTempo` ciascuna, piu la copia del repo che non era contata affatto. Con 240 secondi di
+ * budget un passo solo poteva spenderne 480 piu la copia, e il cancello, che a due-case ne concede
+ * 300, lo uccideva a meta: exit 124, cioe rosso per tutti senza una riga che dica perche.
+ *
+ * MISURATO il 2/9 su questa macchina: `node cervello/due-case.mjs` ucciso a 400 secondi. E la
+ * controprova che dice dove NON era il difetto: con `DUE_CASE_BUDGET=1` esce in ZERO secondi con
+ * quattro ⚪ dichiarati. Il budget quindi funzionava — davanti al ciclo. Dentro al ciclo no.
+ *
+ * Una durata non si puo dividere fra due chiamate: un ISTANTE si. Da qui in avanti gira la
+ * scadenza, e ogni operazione chiede al proprio orologio quanto le resta — anche quella che viene
+ * dopo la copia, che prima nessuno cronometrava.
+ *
+ * Torna 0 quando non resta abbastanza per misurare qualcosa di sensato: e la differenza fra
+ * fermarsi da soli, che si legge, e farsi sparare, che non si legge.
+ */
+export function quantoPosso(scadenza, adesso = Date.now(), tettoPasso = TEMPO_MASSIMO, minimo = MINIMO_PER_PROVARE) {
+  const resta = Number(scadenza) - Number(adesso);
+  if (!Number.isFinite(resta) || resta < minimo) return 0;
+  return Math.min(tettoPasso, resta);
+}
+
+/**
+ * ⏱️ AR-909 — IL TEMPO MASSIMO ERA UNA RICHIESTA CORTESE, E IL FIGLIO POTEVA RIFIUTARLA.
+ *
+ * `spawnSync` allo scadere del `timeout` manda il segnale di `killSignal`, che per difetto e
+ * SIGTERM. SIGTERM si puo intercettare e ignorare. Se il figlio non muore, node NON insiste e NON
+ * passa a SIGKILL: resta ad aspettare che finisca per conto suo. Il campo si chiama `timeout` e non
+ * ferma niente.
+ *
+ * MISURATO il 2/9 sul passo piu grosso che questo file rilancia, la suite del cervello:
+ *   · senza killSignal ......... chiesti 30.000 ms → dopo 500.000 non era ancora tornato
+ *   · con killSignal SIGKILL ... chiesti 30.000 ms → tornato dopo 30.041
+ * E la controprova che dice dove NON era: senza le pipe (`stdio: "ignore"`) NON si ferma lo stesso,
+ * quindi non era l attesa dell EOF; e con UN nipote solo il timeout funzionava (2000 chiesti, 2008
+ * tornato), quindi non e il numero di processi: e che quel figlio li SIGTERM non lo uccide.
+ *
+ * PERCHE SIGKILL QUI E NON DAPPERTUTTO. Un SIGKILL non lascia riordinare: chi muore cosi puo
+ * lasciare file a meta o un lock. Qui il figlio e un GUARDIANO in sola lettura dentro una copia
+ * usa-e-getta del repo, quindi non c e niente da riordinare — e un guardiano che non si puo
+ * fermare e peggio di uno ucciso male. Altrove (git, npm) la stessa riga NON e ovvia, e infatti
+ * non l ho scritta: il conto di quanti altri punti hanno la stessa forma sta in AR-909.
+ */
 function esegui(dir, passo, env, timeout = TEMPO_MASSIMO) {
-  const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: "utf8", timeout, maxBuffer: 32 * 1024 * 1024, env });
+  const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: "utf8", timeout, killSignal: "SIGKILL", maxBuffer: 32 * 1024 * 1024, env });
   const ucciso = r.status === null;
   return {
     codice: ucciso ? null : r.status,
@@ -882,8 +929,12 @@ export function passaDallaPortaDellaStoria(root, script, leggi = null) {
  * La copia è per passo e non per corsa: un passo che scrive lascerebbe la casa sporca per il
  * successivo, e la seconda misura sarebbe fatta in una casa che non è più quella dichiarata.
  */
-function misuraIlPasso(root, voce, spec = "HEAD", quantoTempo = TEMPO_MASSIMO) {
+export function misuraIlPasso(root, voce, spec = "HEAD", scadenza = Date.now() + TEMPO_MASSIMO) {
   const { passo, stato } = voce;
+  const fermo = (motivo) => ({ passo: passo.nome, script: passo.script, stato, esito: "non-misurato", motivo });
+  // AR-908 — la copia del repo e la parte lenta, e prima non la contava nessuno: se il budget e
+  // gia finito qui, non la comincio nemmeno.
+  if (!quantoPosso(scadenza)) return fermo("il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato");
   const base = mkdtempSync(join(tmpdir(), "due-case-"));
   const casa = join(base, "casa-spoglia");
   const home = join(base, "home");
@@ -891,11 +942,13 @@ function misuraIlPasso(root, voce, spec = "HEAD", quantoTempo = TEMPO_MASSIMO) {
     mkdirSync(casa, { recursive: true });
     mkdirSync(home, { recursive: true });
     const costruita = costruisciCasaSpoglia(root, casa, { base: spec });
-    if (!costruita.ok) return { passo: passo.nome, script: passo.script, stato, esito: "non-misurato", motivo: costruita.motivo };
+    if (!costruita.ok) return fermo(costruita.motivo);
 
     const env = ambienteSpoglio(process.env, home);
-    const intatto = esegui(casa, passo, env, quantoTempo);
-    if (intatto.ucciso) return { passo: passo.nome, script: passo.script, stato, esito: "non-misurato", motivo: `nella casa spoglia non ha finito in ${quantoTempo} ms: ucciso dall'orologio non è né verde né rosso` };
+    const perLaPrima = quantoPosso(scadenza);
+    if (!perLaPrima) return fermo("costruire la casa spoglia ha consumato tutto il budget: non ho rilanciato niente dentro");
+    const intatto = esegui(casa, passo, env, perLaPrima);
+    if (intatto.ucciso) return fermo(`nella casa spoglia non ha finito in ${perLaPrima} ms: ucciso dall'orologio non è né verde né rosso`);
 
     // ⓐ — le due case danno lo stesso verdetto?
     let inCasa = null;
@@ -903,8 +956,13 @@ function misuraIlPasso(root, voce, spec = "HEAD", quantoTempo = TEMPO_MASSIMO) {
     if (intatto.codice !== 0) {
       // ⚠️ QUESTA È UNA CORSA VERA, NEL REPO DI QUI: se il passo scrive, scrive. Si segna, e il
       // verdetto lo dice — «sola lettura» era una bugia comoda (buco ⑭).
+      // AR-908 — QUI stava la meta nascosta del difetto: questa corsa riceveva `quantoTempo`
+      // INTERO, cioe lo stesso budget gia speso una volta sopra. Adesso chiede all'orologio quanto
+      // resta davvero, e se non resta niente lo dichiara invece di partire lo stesso.
+      const perLaSeconda = quantoPosso(scadenza);
+      if (!perLaSeconda) return fermo(`nella casa spoglia è uscito ${intatto.codice}, ma il budget è finito prima della seconda corsa: il confronto fra le due case non l'ho fatto`);
       rilanciatoQui = true;
-      const qui = esegui(root, passo, process.env, quantoTempo);
+      const qui = esegui(root, passo, process.env, perLaSeconda);
       inCasa = qui.ucciso ? null : qui.codice;
     }
     // Il riconoscimento è DERIVATO dal codice, mai da un elenco di nomi: si guarda se lo script passa
@@ -1029,7 +1087,8 @@ function main() {
       });
       continue;
     }
-    misure.push(misuraIlPasso(REPO, v, base.spec, Math.min(TEMPO_MASSIMO, rimasto)));
+    // AR-908 — la SCADENZA, non la durata: una durata si spende due volte, un istante no.
+    misure.push(misuraIlPasso(REPO, v, base.spec, partenza + BUDGET_TOTALE));
   }
   const rossi = misure.filter((m) => m.esito === "nasce-rotto");
   const nonMisurati = misure.filter((m) => m.esito === "non-misurato");

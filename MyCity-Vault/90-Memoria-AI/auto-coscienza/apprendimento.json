@@ -11764,6 +11764,72 @@
    "usi": [],
    "gate": "cervello/test/archivi-senza-tetto.test.mjs",
    "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0902-01",
+   "testo": "**AR-908.** Un budget passato come DURATA si spende una volta per ogni chiamata che lo riceve: due corse da 240 secondi sono 480. Un budget e un ISTANTE in cui scadere, non una quantita da distribuire — e ogni operazione, compresa quella lenta che nessuno cronometra, deve chiedere all orologio quanto le resta. La spia che l ha rivelato: col budget messo a 1 il programma usciva subito, quindi il freno c era e stava nel posto sbagliato.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-02 01:35",
+   "ultima_conferma": "2026-09-02 01:35",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/due-case.test.mjs",
+   "data": "2026-09-02"
+  },
+  {
+   "id": "L-2026-0902-02",
+   "testo": "**AR-909.** Un tempo massimo che manda un segnale rifiutabile non e un freno: e una richiesta. `spawnSync` di serie manda SIGTERM e NON insiste, quindi un figlio che lo ignora resta vivo oltre il timeout. Misurato: 30 secondi chiesti, oltre 500 senza risposta; con SIGKILL, 30,041. Ogni freno va provato su chi RIFIUTA di obbedire, non su chi obbedisce.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-02 03:05",
+   "ultima_conferma": "2026-09-02 03:05",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/due-case.test.mjs",
+   "data": "2026-09-02"
+  },
+  {
+   "id": "L-2026-0902-03",
+   "testo": "**AR-908 → AR-909.** Trovare un difetto vero mentre se ne cerca un altro non vuol dire aver trovato la causa. Il doppio conteggio del budget era reale e riparato, e il sintomo non si e mosso di un secondo. La cosa che l ha smascherato e una sola: RIMISURARE dopo la cura invece di fidarsi del ragionamento. Sei ipotesi, cinque smentite da un numero.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "metodo"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-02 03:05",
+   "ultima_conferma": "2026-09-02 03:05",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/due-case.test.mjs",
+   "data": "2026-09-02"
   }
  ],
  "principi": [
