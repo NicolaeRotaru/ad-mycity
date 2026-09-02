@@ -26,14 +26,24 @@ import { dateNelTesto, leggiCard, ricopiaDelFatto, risolviRipresa, statoPausa } 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const GUARDIANO = join(REPO, "cervello/pausa-check.mjs");
+/** La riga che `--risveglia` lascia come storia al posto di «⏸ Pausa:» (AR-911). */
+const RIGA_PAUSA_FINITA = /^- \*\*▶\uFE0F? Pausa finita:\*\*.*$/m;
 
 const casi = [];
+// AR-911 — un caso può dire «qui non ho materia»: è ⚪ (`ok … # skip`, che la suite conta a parte),
+// non un verde e non un rosso. Prima l'unica uscita era il rosso, e la suite diventava rossa il
+// giorno in cui la macchina faceva la cosa giusta: svegliare le pause finite.
+class Salto extends Error {}
+const salta = (motivo) => {
+  throw new Salto(motivo);
+};
 const prova = (nome, fn) => {
   try {
     fn();
     casi.push({ nome, ok: true });
   } catch (e) {
-    casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
+    if (e instanceof Salto) casi.push({ nome, ok: true, saltato: e.message });
+    else casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
   }
 };
 
@@ -147,6 +157,11 @@ prova("il caso che ha rotto: passata la data, la card viene svegliata DAVVERO", 
     assert.doesNotMatch(dopo.split("\n").find((l) => l.includes("#prova-sveglia — Fai la cosa")), /⏸/,
       "il ⏸ dev'essere sparito dal titolo: è quello che Nicola vede");
     assert.match(dopo, /▶️ Pausa finita/, "la riga resta come storia, ma dice che è finita");
+    // AR-911: e la storia resta LEGGIBILE — classe e fatto ci sono ancora. È quello che la prova sulla
+    // coda vera guarda dopo una sveglia: se la sveglia li cancellasse, là non resterebbe niente.
+    const rigaFinita = dopo.split("\n").find((l) => /▶\uFE0F? Pausa finita/.test(l)) || "";
+    assert.match(rigaFinita, /classe \*\*business\*\*/, "la pausa è finita, ma la riga dice ancora di che classe era");
+    assert.match(rigaFinita, /riprende con `fatto\.finto`/, "e da quale fatto dipendeva");
     assert.match(dopo, /<!-- pausa-scaduta-risveglio -->/, "e deve esserci UNA card che glielo dice, non N card mute");
     assert.match(dopo, /`#prova-sveglia`/, "la card nuova deve elencare quali sono tornate vive");
     assert.ok(sveglia.out.length > 0);
@@ -202,17 +217,31 @@ prova("fatto ambiguo → CIECO (2), non verde e non rosso", () => {
 
 prova("nella coda vera ogni card in pausa ha un momento in cui finisce", () => {
   const testo = readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), "utf8");
-  const inPausa = leggiCard(testo).filter((c) => c.inPausa);
+  const card = leggiCard(testo);
+  const inPausa = card.filter((c) => c.inPausa);
   // Qui c'era `>= 11`: il numero di card in pausa il giorno in cui la prova è stata scritta.
   // Quel numero scende ogni volta che la macchina LAVORA — una card in pausa che riprende è un
   // successo — quindi la soglia diventava rossa per il motivo sbagliato (il 30/7: 10 invece di 11,
   // suite rossa su main). L'invariante che questa prova difende è nel ciclo qui sotto: OGNI card in
-  // pausa dice da quale fatto dipende e di che classe è. La soglia serve solo a garantire che il
-  // ciclo non giri a vuoto — e per questo basta che ce ne sia almeno una.
-  assert.ok(inPausa.length >= 1, "nessuna card in pausa nella coda: il ciclo qui sotto non proverebbe nulla");
+  // pausa dice da quale fatto dipende e di che classe è.
+  //
+  // AR-911 — poi c'era `>= 1`, e anche quello era una foto della coda: il 3/9, svegliate le dieci
+  // pause finite il 1/9, le card in pausa erano ZERO e questa riga faceva rossa la suite — mentre
+  // senza svegliarle era rosso il guardiano. Nessuno stato verde, il giorno che la macchina faceva
+  // la cosa giusta. Una pausa finita non sparisce: resta come storia sulla riga «▶️ Pausa finita»,
+  // e quella riga deve restare leggibile — classe e fatto ancora scritti. Quindi la materia di questa
+  // prova sono le pause vive PIÙ quelle finite; senza né le une né le altre, non c'è niente da
+  // guardare, e «niente da guardare» è ⚪, non rosso.
+  const finite = card.filter((c) => !c.inPausa && RIGA_PAUSA_FINITA.test(c.corpo));
+  if (!inPausa.length && !finite.length) salta("nessuna pausa nella coda, né viva né finita: il ciclo non ha materia, e senza materia non si dà un verdetto");
   for (const c of inPausa) {
     assert.ok(c.pausa?.fatto, `#${c.id} (riga ${c.riga}) è in pausa e non dice da quale fatto dipende`);
     assert.ok(["business", "validazione"].includes(c.pausa.classe), `#${c.id} non dichiara la classe`);
+  }
+  for (const c of finite) {
+    const riga = RIGA_PAUSA_FINITA.exec(c.corpo)[0];
+    assert.match(riga, /classe \*\*(business|validazione)\*\*/, `#${c.id} (riga ${c.riga}): la pausa è finita, ma la riga non dice più di che classe era`);
+    assert.match(riga, /riprende con `[^`]+`/, `#${c.id} (riga ${c.riga}): la pausa è finita, ma la riga non dice più da quale fatto dipendeva`);
   }
 });
 
@@ -229,9 +258,15 @@ prova("e nessuna ricopia la data invece di citarla — il guardiano vero, esegui
 });
 
 let falliti = 0;
+let saltati = 0;
 for (const c of casi) {
+  if (c.saltato) {
+    saltati++;
+    console.log(`  ok - ${c.nome} # skip ${c.saltato}`);
+    continue;
+  }
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
   if (!c.ok) falliti++;
 }
-console.log(`# pass ${casi.length - falliti}\n# fail ${falliti}`);
+console.log(`# pass ${casi.length - falliti - saltati}\n# fail ${falliti}\n# skip ${saltati}`);
 process.exit(falliti ? 1 : 0);

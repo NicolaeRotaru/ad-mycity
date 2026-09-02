@@ -39,12 +39,20 @@ const codaEArchivio = () =>
   [CODA, ARCHIVIO].map((f) => (existsSync(f) ? readFileSync(f, "utf8") : "")).join("\n\n---\n\n");
 
 const casi = [];
+// AR-911 — un caso può dire «qui non ho materia»: è ⚪ (`ok … # skip`, che la suite conta a parte),
+// non un verde e non un rosso. Prima l'unica uscita era il rosso, e la suite diventava rossa il
+// giorno in cui la macchina faceva la cosa giusta: svegliare le pause finite.
+class Salto extends Error {}
+const salta = (motivo) => {
+  throw new Salto(motivo);
+};
 const prova = (nome, fn) => {
   try {
     fn();
     casi.push({ nome, ok: true });
   } catch (e) {
-    casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
+    if (e instanceof Salto) casi.push({ nome, ok: true, saltato: e.message });
+    else casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
   }
 };
 
@@ -130,7 +138,16 @@ prova("il guardiano resta ROSSO finché a Nicola non è stato chiesto — provat
 prova("nella coda vera l'ordine di prova è dichiarato «validazione», non «business»", () => {
   const c = leggiCard(readFileSync(CODA, "utf8")).find((x) => x.id === "ordine-test-pq");
   assert.ok(c, "la card #ordine-test-pq dev'esserci: è l'unica mossa verso il primo ordine pagato");
-  assert.equal(c.pausa?.classe, CLASSI.VALIDAZIONE, "è il collaudo della macchina, non una spinta commerciale");
+  if (c.pausa) {
+    assert.equal(c.pausa.classe, CLASSI.VALIDAZIONE, "è il collaudo della macchina, non una spinta commerciale");
+    return;
+  }
+  // AR-911 — la pausa può essere FINITA: il 3/9 la sveglia l'ha tolta, e questa riga faceva rossa
+  // la suite per una cosa giusta. La classe non sparisce con la pausa: resta scritta sulla riga
+  // «▶️ Pausa finita», ed è lì che si legge. Una card mai stata in pausa non ha niente da difendere.
+  const finita = /^- \*\*▶\uFE0F? Pausa finita:\*\*.*classe \*\*([a-z-]+)\*\*/m.exec(c.corpo);
+  if (!finita) salta("la card non è in pausa e non lo è mai stata: la classe della pausa non ha niente da difendere");
+  assert.equal(finita[1], CLASSI.VALIDAZIONE, "la pausa è finita, ma la classe che aveva resta quella del collaudo: la storia non si riscrive");
 });
 
 prova("e la domanda a Nicola è in coda o nel suo archivio, con la decisione lasciata a lui", () => {
@@ -148,9 +165,15 @@ prova("il guardiano vero, eseguito adesso, è verde", () => {
 });
 
 let falliti = 0;
+let saltati = 0;
 for (const c of casi) {
+  if (c.saltato) {
+    saltati++;
+    console.log(`  ok - ${c.nome} # skip ${c.saltato}`);
+    continue;
+  }
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
   if (!c.ok) falliti++;
 }
-console.log(`# pass ${casi.length - falliti}\n# fail ${falliti}`);
+console.log(`# pass ${casi.length - falliti - saltati}\n# fail ${falliti}\n# skip ${saltati}`);
 process.exit(falliti ? 1 : 0);

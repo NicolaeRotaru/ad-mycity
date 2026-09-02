@@ -1,8 +1,25 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 16:30
+aggiornato: 2026-09-03 00:33
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+---
+
+> 🔧 **3/9 00:33 — Il lotto dei guardiani è spinto, e ho svegliato dieci azioni che il server aveva lasciato dormire.** Richiesta tua, dal 28 agosto: chiudere tutto quello che il lotto ha trovato.
+>
+> **In parole semplici.** Qui parlo del lotto di riparazioni della macchina aperto il 28 agosto, e di cosa ho trovato stanotte leggendo il suo cancello. Stanotte ho chiuso gli ultimi difetti del lotto. Il freno delle due case chiedeva al figlio di fermarsi per cortesia: adesso lo ferma davvero, e i suoi due orologi sono uno solo. Tutto è spinto sul ramo, e la richiesta di unione aspetta i tuoi occhi. Il cancello del lotto la sta rimisurando sul server: dura fino a settantacinque minuti.
+>
+> **Cosa cambia per te.** Il server non scrive più su main dal primo settembre a mezzogiorno. Lo dice la storia di git, non un ricordo. Per questo dieci azioni in coda erano ancora in pausa dopo il giorno di ripresa, e nessuno le aveva svegliate. Le ho svegliate io col comando fatto apposta: sono tornate in lista, non sono partite. Un esempio: la card che ti chiede di fare un ordine di prova su Pane Quotidiano era ferma dal 23 luglio, e adesso è di nuovo in lista. Una card in coda te lo racconta. Per la stessa ragione questa Cabina era ferma da trentadue ore mentre il lavoro andava avanti, e un guardiano lo ha visto prima di me.
+>
+> **Cosa devi fare.** Leggere la richiesta di unione e firmarla, se ti convince. Guardare le dieci azioni tornate vive e dire quali far partire davvero. Controllare il server: da qui vedo che tace, non vedo perché.
+>
+> **Cosa non ho verificato.** Il server non lo vedo da qui: so che non scrive da un giorno e mezzo, non so se è spento, fermo per la quota o bloccato. Il verdetto del cancello sull'ultima spinta arriva dopo, e lo leggo io. I numeri del negozio qui sotto sono quelli del primo settembre: stanotte non li ho rimisurati.
+>
+> Dettagli tecnici. La richiesta di unione è la #855. La card della sveglia è la #189.
+> A settembre: 19 schede chiuse contro 10 schede nate, quasi due chiuse per una nata. Nel cantiere: 140 schede aperte e 902 schede in tutto.
+> Chiusi stanotte: AR-907, AR-908, AR-909, AR-911. Aperta: AR-910. Le due prove che pinzavano la coda sono AR-911.
+> Le pause citavano il fatto `ripresa.lavoro-operativo`. Ultimo commit del server su main: 2026-09-01 12:14.
 
 ---
 
@@ -859,7 +876,19 @@ se l'attività è ferma.
 > intercetta, non ho trovato la mano che l'ha fatto.
 
 
-## Ultima mossa — 2026-09-01 15:25
+## Ultima mossa — 2026-09-03 00:33
+
+**Il lotto dei guardiani è spinto e il cancello lo sta rimisurando.** Gli ultimi difetti sono chiusi
+stanotte e la richiesta di unione aspetta la tua firma. Il racconto intero sta nel blocco in cima a
+questo file.
+
+**Dieci azioni in pausa sono tornate in lista.** Il giorno di ripresa era passato e il server non le
+aveva svegliate. Le ho svegliate io: non sono partite. La card in coda te lo dice.
+
+**Il server tace dal primo settembre a mezzogiorno.** Nessun commit suo su `main` da allora, e questa
+Cabina era ferma da trentadue ore. Da qui vedo che tace, non vedo perché.
+
+## Mossa precedente — 2026-09-01 15:25
 
 **Il lavoro sulla radiografia del 27/8 è unito.** La richiesta NicolaeRotaru/mycity#246 è stata
 unita su `main`. Dei 194 problemi trovati, ne restano aperti pochi. Il conto esatto e la cronaca

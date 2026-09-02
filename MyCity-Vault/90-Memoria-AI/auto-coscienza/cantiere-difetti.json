@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-31 16:05",
+  "aggiornato": "2026-09-03 00:33",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19502,6 +19502,27 @@
         "nota": "DEBITO DICHIARATO: la prova e scrivibile — due delta finti, uno con i casi spariti e uno con i casi ricomparsi in un file nuovo, verdetti opposti — ma oggi sarebbe ROSSA, perche riproduce il buco invece di dimostrarne la cura, e una prova rossa nella suite e un rosso per tutti. Riproduzione a mano: `node cervello/sorvegliante.mjs --base origin/main` accusa prova-indebolita su due-case.test.mjs mentre i sette casi vivono in cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs. Diventa comando il giorno del fix."
       },
       "trovato_da": "il sorvegliante stesso, ripetendo trenta volte la stessa accusa mentre spostavo le prove di AR-908 e AR-909"
+    },
+    {
+      "id": "AR-911",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-03 00:33",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-159",
+      "titolo": "Le due prove «sulla coda vera» pinzavano una foto della coda: il giorno che le pause finiscono, la suite e rossa in tutti e due gli stati",
+      "sintomo": "Il 1/9 e passato il giorno di ripresa scritto nel registro dei fatti (`ripresa.lavoro-operativo`) e il server, che sveglia le pause a ogni giro, non gira dal 1/9 12:14. Risultato misurato il 3/9: con le dieci card ancora in pausa, `pausa-check.mjs` e rosso e le prove `pausa-senza-risveglio` e `validazione-congelata` sono rosse su main e su ogni ramo. Svegliate le dieci card col comando fatto apposta (`--risveglia`), il guardiano torna verde MA le stesse due prove restano rosse: una pretendeva «almeno una card in pausa nella coda vera», l altra che `#ordine-test-pq` avesse ANCORA una pausa di classe validazione. Nessuno stato della coda era verde.",
+      "causa_radice": "Le due prove leggevano la coda VERA e pretendevano uno stato transitorio come se fosse un invariante: «c e almeno una pausa», «quella card e in pausa». La coda cambia ogni volta che la macchina fa la cosa giusta — una pausa che finisce e un successo — e una prova che fotografa la coda diventa rossa proprio allora. E la stessa malattia di AR-787 (una prova che difende una misura invece di un invariante), applicata alla memoria invece che al tempo. L unica uscita del mini-runner era il rosso: non sapeva dire «qui non ho materia».",
+      "fix_proposto": "🟡 FATTO. ① I due mini-runner sanno dire ⚪: `salta(motivo)` stampa `ok … # skip motivo`, che la suite conta a parte (AR-652), e non un verde. ② La prova di AR-159 guarda le pause vive PIU quelle finite (la riga «▶️ Pausa finita» che la sveglia lascia come storia) e pretende che una pausa finita resti leggibile: classe e fatto ancora scritti. Senza ne le une ne le altre dice ⚪. ③ La prova di AR-157 legge la classe dalla riga «Pausa finita» quando la pausa e passata, e dice ⚪ solo se la card non e mai stata in pausa. ④ Il caso su fixture che esegue la sveglia pretende che la riga lasciata come storia conservi classe e fatto: e li che morde la mutazione. Le dieci card sono state svegliate nello stesso lavoro, e la card #189 lo dice a Nicola.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/pausa-senza-risveglio.test.mjs && node cervello/test/validazione-congelata.test.mjs",
+        "nota": "Eseguite sulla coda vera con ZERO card in pausa e dieci finite: prima della cura uscivano 1 tutte e due (misurato il 3/9 dopo la sveglia), dopo escono 0 con i due casi che hanno materia — le dieci righe «Pausa finita» — e senza nessun caso saltato. La mutazione in mutanti.json toglie classe e fatto dalla riga che la sveglia lascia: il caso su fixture diventa rosso."
+      },
+      "trovato_da": "il rosso della suite sulla PR #855 (run 33688755062), riprodotto sull albero di main prima di toccare qualsiasi cosa: exit 1 tutte e due anche la",
+      "chiuso_il": "2026-09-03 00:33",
+      "chiuso_come": "riparato"
     }
   ],
   "meta": {

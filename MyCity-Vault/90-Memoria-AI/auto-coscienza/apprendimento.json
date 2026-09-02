@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 12:00",
+ "aggiornato": "2026-09-03 00:31",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11830,6 +11830,28 @@
    "usi": [],
    "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "data": "2026-09-02"
+  },
+  {
+   "id": "L-2026-0903-01",
+   "testo": "**AR-911.** Una prova che legge la coda VERA e pretende uno stato («c e almeno una pausa», «quella card e in pausa») fotografa un momento, non difende un invariante: diventa rossa il giorno che la macchina fa la cosa giusta. Sulla memoria viva la prova deve reggere TUTTI gli stati, compreso «niente da guardare», che e ⚪ e non rosso; e la storia che un azione lascia — la riga «Pausa finita» — deve restare leggibile, perche e l unica materia che resta dopo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "3/9 00:20: pausa-senza-risveglio e validazione-congelata rosse su main e sul ramo sia con le dieci pause dormienti (guardiano rosso) sia dopo la sveglia (prove rosse): exit 1 in tutti e due gli stati, nessuno verde"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03 00:31",
+   "ultima_conferma": "2026-09-03 00:31",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/pausa-senza-risveglio.test.mjs",
+   "data": "2026-09-03"
   }
  ],
  "principi": [

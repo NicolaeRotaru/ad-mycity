@@ -4954,3 +4954,22 @@ quel fatto nessuna riga di codice sul freno può essere giusta, e ho già indovi
 
 **Stato del ramo alla chiusura:** CI verde sul server su quattro giri di fila (bd14438, 5ab48d6,
 55e21ec, 9e89909), 2407 prove verdi, costruzione a zero. PR aperte: mycity#246 e ad-mycity#862.
+
+## 2026-09-03 00:31 — 🟡 Svegliate dieci azioni in pausa scaduta, e le due prove che le pinzavano adesso sanno dire ⚪
+
+**Cosa ho deciso.** Il giorno di ripresa scritto nel registro dei fatti è passato. Il server, che
+sveglia le pause a ogni giro, non scrive su `main` dal primo settembre a mezzogiorno. Ho lanciato io
+il comando del guardiano che le sveglia. Le dieci azioni sono tornate in lista da approvare, nessuna
+è partita, e la card #189 in coda lo dice a Nicola.
+
+**Perché.** Il guardiano delle pause era rosso da un giorno e mezzo su `main`, e la stessa suite era
+rossa sulla richiesta di unione #855 per un motivo che non era suo. Lasciarle dormire avrebbe tenuto
+rosso tutto finché qualcuno riaccendeva il server.
+
+**Cosa ho scoperto facendolo.** Due prove della suite guardavano la coda vera e pretendevano che ci
+fosse sempre almeno una card in pausa. Il giorno che le pause finiscono, la suite era rossa in tutti
+e due gli stati: sveglie o no. Adesso, quando non c'è materia, dicono ⚪ invece di rosso, e
+controllano che una pausa finita resti leggibile. È la scheda AR-911, chiusa con prova e mutazione.
+
+**Cosa resta a Nicola.** Guardare le dieci azioni e dire quali far partire. Controllare il server:
+da qui vedo che tace, non vedo perché.
