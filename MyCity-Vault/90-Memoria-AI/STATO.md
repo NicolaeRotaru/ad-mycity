@@ -1,7 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 10:31
+aggiornato: 2026-09-02 11:14
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 11:14 — Giro di perlustrazione: diciannovesima foto identica, 43 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Riverificato dal vivo via query diretta al database: 1 ordine totale, 0
+> pagati, sempre lo stesso del 24/6 annullato. Nessun numero di business cambiato.
+>
+> **Cosa ho trovato di NUOVO in questo passaggio — un guasto più grave di quanto pensassi.** Ho
+> provato a salvare in modo pulito 17 file di sensori/memoria rimasti indietro da un giro
+> interrotto: fatto (commit `36c1651ae`), ma **il ramo locale di questa macchina e il ramo `main` su
+> GitHub sono scollegati da 26 commit**, non più da 5-6 come sapevamo dalla card #104. Ho provato a
+> riallinearli (`git rebase`) e il tentativo si è fermato su conflitti reali già al primo commit
+> vecchio (quello dell'1/9 12:47) — l'ho annullato subito senza forzare nulla, **zero rischio per i
+> tuoi dati**, ma finché resta così **il Pannello che vedi tu (ospitato online) non riceve più
+> niente di quello che scrivo qui**: lo vede solo la macchina in locale. È lo stesso buco di sempre
+> (permessi Git sul VPS), ma ora è arrivato al punto che push e rebase falliscono, non solo "in
+> ritardo". Vedi i dettagli in [[Briefing/2026-09-02]].
+>
+> **Su AR-687 (i blocchi fermi da molti giri).** Invariato: `test-cervello.mjs`,
+> `north-star-check.mjs --gate`, `tasso-chiusura.mjs` restano bloccati da permesso non concesso in
+> questa sessione (stesso buco, card #104/#189).
+>
+> **In coda restano le stesse nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186
+> (cancello sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI
+> cronica), #191 (10 azioni-negozio in attesa del tuo sì).
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 10:31 — Giro di perlustrazione: diciottesima foto identica, due ore dopo l'ultima.** Richiesta tua: «fai un giro».

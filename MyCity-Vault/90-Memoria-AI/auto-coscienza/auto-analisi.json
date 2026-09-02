@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 10:31",
-  "voto_fiducia": 79,
-  "sintesi_giro_corrente": "Diciottesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»), due ore dopo il passaggio delle 08:30 (nel mezzo un recupero automatico di scritture pendenti alle 10:20, non un giro mio). Nessuna scoperta nuova: rieseguiti dal vivo verifica-sensori.mjs, ci-stato.mjs e coerenza-fatti.mjs (bloccati nel passaggio precedente, questa volta passati) — confermano lo stesso quadro, zero righe nuove. Aggiunta esplicita per AR-687: le 6 PR rosse e i comandi HARD bloccati non sono ignorati, sono fermi per il gate North-Star + un permesso mancante dal 21/8 — spiegato a Nicola nel briefing invece di ripeterlo senza spiegazione.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessun numero di business cambiato rispetto al passaggio delle 08:30. Verificato dal vivo: sensori, CI (6/6 rosse), coerenza-fatti (OK).",
-  "trend_fiducia": "→ 79→79: stabile. Questo passaggio ha rieseguito dal vivo 2 controlli HARD che il precedente aveva solo riportato per eredità (ci-stato, coerenza-fatti) — leggero miglioramento di rigore, non di sostanza (nessun numero business cambiato). correzione-nicola-gate resta non lavorato per lo stesso vincolo North-Star.",
+  "data": "2026-09-02 11:14",
+  "voto_fiducia": 78,
+  "sintesi_giro_corrente": "Diciannovesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»), 43 minuti dopo il passaggio delle 10:31. Novità reale del passaggio: recuperati 17 file di sensori/memoria da un giro interrotto (committati in locale, 36c1651ae), ma il push su origin/main è stato rifiutato (non-fast-forward, 26 commit di distanza) e il tentativo di rebase si è fermato su conflitti veri, annullato subito senza forzare — nessun dato perso, ma il Pannello ospitato online resta scollegato dalle scritture di questa sessione finché qualcuno non risincronizza i due rami a mano. Segnalato a Nicola come priorità nuova, non come ripetizione di AR-687.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nuovo problema tecnico scoperto: ramo locale e main GitHub scollegati da 26 commit (aggrava card #104), rebase automatico fallito e annullato in sicurezza.",
+  "trend_fiducia": "↓ 79→78: leggero calo, non per un errore ma perché il quadro tecnico reale è peggiore di quanto registrato ieri (26 commit di scarto, non più 5-6) — abbasso il voto per riflettere un rischio nuovo scoperto, non per aver sbagliato qualcosa in questo passaggio.",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
@@ -39,6 +39,12 @@
   "livello_verifica": "L1: verifica-sensori.mjs, ci-stato.mjs, coerenza-fatti.mjs rieseguiti dal vivo (non ereditati) in questo passaggio — tutti passano/confermano. NON rieseguiti (bloccati da approvazione non concessa, un solo tentativo ciascuno): test-cervello.mjs, north-star-check.mjs --gate, tasso-chiusura.mjs, gh pr list. Riporto per questi i verdetti dell'hook di sessione (letargo RISPARMIO, north-star stallo, esperimenti-check, correzione-nicola-gate, freschezza-cadenze).",
   "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati i numeri chiave col passaggio delle 06:31, uno per uno — nessuna differenza. Non regge l'ipotesi che ci sia lavoro utile oltre la conferma: corretto trattarlo come passaggio di sola verifica.",
   "domande_per_nicola": [
+    {
+      "tipo": "urgenza",
+      "domanda": "Il ramo locale di questa macchina e main su GitHub sono scollegati da 26 commit (peggio dei 5-6 noti in card #104): push rifiutato, rebase automatico fermato su conflitti veri e annullato senza forzare. Vuoi che provi a risolvere i conflitti a mano (rischio: 26 commit, non tutti miei), o preferisci intervenire tu direttamente sul VPS per capire quale ramo tenere?",
+      "azione": "in attesa: le scritture di questa sessione restano solo in locale finché non decidi",
+      "colore": "🔴"
+    },
     {
       "tipo": "urgenza",
       "domanda": "Il sito è giù da oltre 2 settimane (503), riconfermato ora. Causa nota: dominio su Render + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
