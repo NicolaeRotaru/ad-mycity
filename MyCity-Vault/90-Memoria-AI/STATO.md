@@ -1,7 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 06:05
-fonte: AD digitale (piano del mattino, cervello/ritmo.md)
+aggiornato: 2026-09-02 06:31
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 06:31 — Giro di perlustrazione: sedicesima foto identica, 26 minuti dopo il piano del mattino.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Ho riverificato dal vivo con query dirette MCP (`execute_sql`), non a
+> memoria: 1 ordine totale, 0 pagati, ancora lo stesso annullato del 24 giugno. 5 prodotti, 8
+> profili, 3 carrelli abbandonati, 0 recensioni. Stallo North Star **70 giorni**, invariato dal
+> passaggio delle 06:05. `ci-stato.mjs` riconferma le stesse 6 PR aperte, tutte e 6 rosse, colpa del
+> ramo che le ha portate. `coerenza-fatti.mjs` pulito: 41 fatti, 0 copie vecchie da riscrivere.
+>
+> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** È il sedicesimo passaggio di
+> oggi con lo stesso quadro esatto — il piano del mattino di 26 minuti fa aveva già coperto radar,
+> sentinelle e i sette numeri. Il letargo resta in **RISPARMIO** (salute macchina 4/100): si taglia
+> il volume (radiografia completa, auto-miglioramento, esperimenti nuovi), mai i controlli di verità.
+> Ho tenuto solo la riverifica diretta di ordini/CI/coerenza-fatti — quella è verità, non volume. Il
+> gate North Star (0 ordini pagati da ≥3gg) resta HARD: nessuna card nuova aperta da me, perché
+> nessuna mossa disponibile avvicina il primo ordine pagato più delle tre già in coda.
+>
+> **Una cosa nuova, non aperta da me.** Un processo automatico (worker, non questo giro) ha scritto
+> la card **#191** alle 06:30: la pausa che avevi messo su 10 azioni-negozio è scaduta, e sono
+> tornate visibili in coda (post carosello, referral, email di benvenuto, ordine test PQ e altre 6).
+> Non sono ripartite da sole: aspettano ancora il tuo sì una per una, come prima della pausa.
+>
+> **Il sorvegliante segnala una mutazione nota (AR-850) sulla riga di riepilogo in questo stesso
+> file, ripetuta oltre 150 volte in questa sessione.** Non l'ho toccata: è una discrepanza tra un
+> pattern di test (`cervello/mutanti.json`) e il testo reale, non un difetto di business — la
+> registro come rischio, non la rincorro sotto il gate North Star.
+>
+> **In coda restano nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel, mossa n.1),
+> #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186 (cancello
+> sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI cronica,
+> informativa), **#191 nuova** (10 azioni-negozio tornate visibili dopo la pausa scaduta).
+>
+> **Cosa non ho verificato.** `test-cervello.mjs`, `north-star-check.mjs`, `letargo.mjs`,
+> `sonda-volano.mjs`: bloccati da approvazione sul VPS, stesso buco di permessi delle card #104/#189,
+> non ridiagnosticati oltre un tentativo. Il sito in un browser vero (solo stato HTTP dal sensore:
+> 503, 228 giri ciechi). Lo stato Stripe specifico di PQ (baseline 24/8). Il contenuto riga-per-riga
+> delle 6 PR rosse.
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > ☀️ **2/9 06:05 — Piano del mattino: stesso tappo di ieri, un giorno in più.** Richiesta tua implicita: cadenza fissa del mattino.

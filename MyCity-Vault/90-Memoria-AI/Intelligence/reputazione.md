@@ -1,5 +1,14 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato: 2026-09-02 06:50.** Giro leggero (`cervello/monitora.md`). Fonte giornaliera
+> controllata oggi: liberta.it/territorio/citta/piacenza (WebFetch). **Nessuna menzione nuova di
+> MyCity o dei nostri negozi. Nessuna recensione.** Le due notizie del giorno da Libertà — Città
+> non riguardano negozi o marketplace. Una è il bando rifiuti del Comune, 400 mila euro, già noto,
+> dettaglio in `leve-uscita.md`. L'altra è un finanziamento regionale da 2 milioni per la stazione
+> di Piacenza: infrastruttura, non pertinente. La settimanale "Reputazione MyCity" non è dovuta
+> oggi: ricontrollata ieri 1/9, prossima scadenza l'8/9. Stesso quadro di stallo di ieri: nulla da
+> "reputare" finché non c'è un primo incasso vero.
+>
 > **Aggiornato: 2026-09-01 07:10.** Giro leggero (`cervello/monitora.md`). **8 giorni fermo**:
 > ultimo controllo 18/8, pausa Nicola 19/8-1/9. Due fonti controllate oggi. La prima è WebFetch su
 > liberta.it/territorio/citta/piacenza, la fonte giornaliera: oggi riuscito senza 403. La seconda

@@ -1,15 +1,20 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-01 22:30",
+  "data": "2026-09-02 06:31",
   "voto_fiducia": 79,
-  "sintesi_giro_corrente": "Diciottesimo passaggio identico sul business (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro») mentre il delta-gate alle 22:28 aveva già confermato per la seconda volta 'niente di nuovo'. La cosa verificabile di questo passaggio: il guardiano AR-687 ha segnalato CI come 'appena diventata cronica' (3 giri di fila, 6 PR aperte/5 rosse) — accodata la card #190, non corretta (gate North-Star vieta lavoro sulla macchina che non sblocca direttamente il primo ordine pagato).",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business cambiato. Verificato con coerenza-fatti.mjs rieseguito dal vivo (exit pulito) e sensori pre-girati da giro.sh alle 22:20-22:28 (orders=1, sito HTTP 503).",
-  "trend_fiducia": "▼ 80→79: scende leggermente, per lo stesso motivo onesto del passaggio precedente — nessuna riparazione nuova prodotta (solo una card informativa accodata), correzione-nicola-gate resta non lavorato da 169 giri.",
+  "sintesi_giro_corrente": "Sedicesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro») 26 minuti dopo il piano del mattino delle 06:05 che aveva già coperto radar/sentinelle/sette numeri. Nessuna scoperta nuova: la riverifica dal vivo (execute_sql MCP + ci-stato.mjs + coerenza-fatti.mjs) conferma lo stesso quadro. Rispettato il letargo RISPARMIO tagliando il volume (niente radiografia completa/auto-miglioramento/esperimenti nuovi) e il gate North-Star (nessuna card nuova, nessun lavoro sulla CI cronica).",
+  "sintesi": "Business fermo dal 24/6, stallo North Star 70 giorni. Nessun numero di business cambiato rispetto al passaggio delle 06:05. Verificato dal vivo (non ereditato): orders/products/profiles/abandoned_carts/reviews via MCP, ci-stato.mjs, coerenza-fatti.mjs.",
+  "trend_fiducia": "→ 79→79: stabile, stesso motivo onesto dei passaggi precedenti — nessuna riparazione nuova prodotta in questo passaggio (solo verifica), correzione-nicola-gate resta non lavorato da 171 giri per lo stesso vincolo North-Star.",
   "entita_verificate": [
     {
-      "nome": "orders: 1 totale, 0 pagati, sito HTTP 503 (227 giri ciechi)",
+      "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
       "stato": "confermato",
-      "fonte": "sensori-cecita.json pre-girato da giro.sh (2026-09-01 22:20), riletto in questo passaggio"
+      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (06:31)"
+    },
+    {
+      "nome": "products=5, profiles=8, abandoned_carts=3, reviews+store_reviews=0",
+      "stato": "confermato",
+      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (06:31)"
     },
     {
       "nome": "Memoria coerente (coerenza-fatti.json): 41 fatti, 0 cacce aperte",
@@ -17,27 +22,27 @@
       "fonte": "node cervello/coerenza-fatti.mjs, rieseguito dal vivo in questo passaggio, exit pulito"
     },
     {
-      "nome": "delta-gate: seconda decisione esegui_pieno:false di fila (20:28 e 22:28), il fix delle 18:35 tiene",
+      "nome": "CI: 6 PR aperte, 6 rosse (6 colpa loro, 0 ereditate), 0 mai provate — cronica da 4+ giri (AR-687)",
       "stato": "confermato",
-      "fonte": "lettura diretta di delta-gate.json, campo storia"
+      "fonte": "node cervello/ci-stato.mjs, rieseguito dal vivo in questo passaggio"
     },
     {
-      "nome": "CI: 6 PR aperte, 5 rosse (5 colpa loro, 0 ereditate), 0 mai provate — appena diventata cronica (AR-687, 3 giri)",
+      "nome": "Sito pubblico giù: HTTP 503, 228 giri ciechi",
       "stato": "confermato",
-      "fonte": "ci-stato.mjs pre-eseguito da giro.sh (22:28), riletto in questo passaggio; card #190 accodata di conseguenza"
+      "fonte": "sensori-cecita.json, aggiornato da verifica-sensori.mjs eseguito in questo passaggio"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (gate North-Star + niente di importante da confrontare coi migliori).",
   "salute_macchina": {
-    "supabase": "REST ok (pre-girato da giro.sh, non riverificato in prima persona in questo passaggio)",
-    "stripe": "non riverificato in questo passaggio, riporto la baseline del 24/8 su PQ",
+    "supabase": "REST + MCP ok, riverificati dal vivo in questo passaggio",
+    "stripe": "API ok (verifica-sensori.mjs), ma non riverificato lo specifico fascicolo PQ: riporto la baseline del 24/8",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503), 227 giri ciechi (pre-girato da giro.sh)"
+    "sito_uptime": "giù (HTTP 503), 228 giri ciechi"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), attiva da 169-170 giri di fila (AR-687). Non lavorata in questo passaggio: stesso motivo del passaggio precedente — il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L2: coerenza-fatti.mjs e chiusura-loop.mjs rieseguiti dal vivo (non ereditati) in questo passaggio. Sensori/delta-gate/ci-stato letti da quanto pre-girato da giro.sh (22:20-22:28), non ri-eseguiti in prima persona. Tentati e bloccati (un solo colpo ciascuno): test-cervello.mjs, north-star-check.mjs --gate, sonda-volano.mjs --json.",
-  "refutazione": "Tentata la demolizione di 'la card #190 è la mossa giusta e non solo rumore': verificato che CI fosse davvero 'appena diventata cronica' (non già segnalata) grep-ando AZIONI-IN-ATTESA.md per riferimenti a ci-stato/cronico prima di scrivere — nessuna card precedente copriva questo guardiano specifico, a differenza delle altre 11 voci croniche che ne avevano già una. Regge. Non testato se la card verrà letta/agita da Nicola: è la prima volta che compare.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), attiva da 171 giri di fila (AR-687). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
+  "livello_verifica": "L2: execute_sql MCP, ci-stato.mjs e coerenza-fatti.mjs rieseguiti dal vivo (non ereditati) in questo passaggio. Tentati e bloccati (un solo colpo ciascuno, come nei passaggi precedenti di oggi): north-star-check.mjs --gate, letargo.mjs (comando richiede approvazione non concessa in questa sessione).",
+  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati tutti e 5 i numeri chiave + CI + coerenza-fatti col passaggio delle 06:05, riga per riga — nessuna differenza reale, solo +1 giro cieco sul sito (228 vs presumibile 227). Non regge l'ipotesi che ci sia lavoro utile oltre la conferma: corretto trattarlo come passaggio di sola verifica, non come giro pieno con nuove scoperte.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
@@ -47,8 +52,8 @@
     },
     {
       "tipo": "informativa",
-      "domanda": "Card #190 (CI cronica, 5 PR rosse): vuoi che le riprenda in un prossimo giro con margine libero, o restano ferme finché non c'è altro lavoro urgente sul codice?",
-      "azione": "se sì, le metto in coda al prossimo giro non vincolato dal gate North-Star",
+      "domanda": "Le 6 PR rosse (card #190) restano ferme perché nessuna sblocca il primo ordine pagato. Vuoi che le riprenda in un giro senza vincolo North-Star, o restano così finché il business non si sblocca?",
+      "azione": "se sì, le metto in coda al prossimo giro non vincolato",
       "colore": "🟡"
     }
   ]

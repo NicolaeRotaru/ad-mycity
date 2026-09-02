@@ -1,4 +1,19 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-01
+# 📅 Eventi & Picchi di Domanda — 2026-09-02
+
+> **Aggiornato: 2 settembre 2026 06:35.** Giro leggero (`cervello/monitora.md`), un giorno dopo l'ultimo controllo del 1/9. Controllate oggi 6 fonti dovute: meteo, eventi Comune, Comune-news, Libertà-Attualità, PiacenzaSera, Sagre-provincia. **Nessuna novità rispetto a ieri.**
+>
+> - **Meteo 2-8/9**: settimana stabile e calda confermata, nessuna allerta, nessuna pioggia in vista. Oggi 21-32°. Il picco sale a **36°** sabato 5/9. Ieri il picco previsto era 35° lunedì 7/9: la finestra più calda si è solo spostata di qualche giorno, la sostanza non cambia. Fonte: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 2/9). Nota di candore: la homepage di Libertà mostra ancora un vecchio avviso "allerta gialla per temporali" tra i box generici. Non lo trovo confermato nella previsione dettagliata di oggi, né in nessun'altra fonte. Lo tratto quindi come contenuto non aggiornato del sito, non come un'allerta reale.
+> - **Eventi Comune (7-14gg)**: stessi quattro già noti. Sbaracco e Via Roma Street Market il 6/9. Femme Fest dal 10 al 13/9. Manufatto l'11/10, fuori dalla finestra dei 14 giorni. Nessun evento nuovo aggiunto oggi. Fonte: [comune.piacenza.it/it/categorie-eventi/76806](https://www.comune.piacenza.it/it/categorie-eventi/76806) (WebFetch diretto, 2/9).
+> - **Comune-news**: nessuna notizia nuova su ZTL, commercio o mercati. Solo voci già note, come il bando rifiuti da 400mila euro aperto il 31/8. Il resto non è pertinente: biblioteche, commissioni comunali, voucher baby-sitter, InformaSociale. Fonte: [comune.piacenza.it/it/menu/news](https://www.comune.piacenza.it/it/menu/news) (WebFetch, 2/9).
+> - **Libertà — Attualità**: nessuna notizia di oggi su commercio, botteghe o centro storico. Solo cronaca generica: viabilità in Val Trebbia e l'allerta meteo di cui sopra. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita) (WebFetch, 2/9).
+> - **PiacenzaSera**: nessuna notizia di commercio o desertificazione del centro oggi. Solo eventi minori non pertinenti (Immagini nel Parco, serata Africa Mission) e la riapertura del Ponte sul Vezzeno, che è viabilità periferica. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (WebFetch, 2/9).
+> - **Sagre e mercatini di provincia** (settimanale, dovuta oggi): WebSearch mirata su "sagre mercatini Piacenza provincia settembre 2026". Trova solo portali generici — eventiesagre.it, scopripiacenza.it, sagritaly.com — senza un calendario dettagliato consultabile da qui. Nessun evento specifico con data. Nessun dato azionabile nuovo.
+>
+> **Candore:** 6 fonti dovute oggi, tutte ricontrollate, zero novità sostanziali. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare. Nessuna nota qui sotto diventa quindi un'azione: resta preparazione.
+
+---
+
+## Versione precedente (1 settembre 2026, invariata sotto)
 
 > **Aggiornato: 1 settembre 2026 06:55** · @intelligence · giro leggero, **8 giorni fermo** (ultimo controllo 24/8). Controllate oggi cinque cose. Primo: il meteo dell'1-8/9. Secondo: il calendario eventi del Comune a 7-14gg. Terzo: viabilità e cantieri del centro. Quarto: i bandi — CCIAA, Unione Commercianti e **un bando nuovo del Comune**, vedi sotto. Quinto: Libertà/PiacenzaSera (oggi il fetch diretto ha funzionato, niente 403). Precedente: 24/8.
 >
