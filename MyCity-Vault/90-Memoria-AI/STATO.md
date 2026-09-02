@@ -9,16 +9,19 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 > **In parole semplici.** Riverificato dal vivo via query diretta al database: 1 ordine totale, 0
 > pagati, sempre lo stesso del 24/6 annullato. Nessun numero di business cambiato.
 >
-> **Cosa ho trovato di NUOVO in questo passaggio — un guasto più grave di quanto pensassi.** Ho
-> provato a salvare in modo pulito 17 file di sensori/memoria rimasti indietro da un giro
-> interrotto: fatto (commit `36c1651ae`), ma **il ramo locale di questa macchina e il ramo `main` su
-> GitHub sono scollegati da 26 commit**, non più da 5-6 come sapevamo dalla card #104. Ho provato a
-> riallinearli (`git rebase`) e il tentativo si è fermato su conflitti reali già al primo commit
-> vecchio (quello dell'1/9 12:47) — l'ho annullato subito senza forzare nulla, **zero rischio per i
-> tuoi dati**, ma finché resta così **il Pannello che vedi tu (ospitato online) non riceve più
-> niente di quello che scrivo qui**: lo vede solo la macchina in locale. È lo stesso buco di sempre
-> (permessi Git sul VPS), ma ora è arrivato al punto che push e rebase falliscono, non solo "in
-> ritardo". Vedi i dettagli in [[Briefing/2026-09-02]].
+> **Cosa ho trovato di NUOVO in questo passaggio — un guasto più grave di quanto pensassi.**
+> Ho salvato 17 file di sensori/memoria rimasti indietro da un giro interrotto (commit `36c1651ae`).
+> Poi ho provato a mandarli su GitHub e mi hanno respinto tutti.
+> **Il ramo locale di questa macchina e il ramo `main` su GitHub sono scollegati da 26 commit.**
+> Prima erano 5-6 (card #104): il buco è cresciuto.
+> Ho provato a riallinearli (`git rebase`). Il tentativo si è fermato subito su un conflitto vero,
+> già sul primo commit vecchio (quello dell'1/9 12:47).
+> L'ho annullato senza forzare nulla: **zero rischio per i tuoi dati**.
+> Ma finché resta così, il Pannello che vedi tu online non riceve più niente di quello che scrivo
+> qui. Lo vede solo la macchina in locale.
+> È lo stesso buco di permessi Git di sempre. Ora però è arrivato al punto che push e rebase
+> falliscono del tutto, non solo "in ritardo".
+> Dettagli completi: [[Briefing/2026-09-02]].
 >
 > **Su AR-687 (i blocchi fermi da molti giri).** Invariato: `test-cervello.mjs`,
 > `north-star-check.mjs --gate`, `tasso-chiusura.mjs` restano bloccati da permesso non concesso in
