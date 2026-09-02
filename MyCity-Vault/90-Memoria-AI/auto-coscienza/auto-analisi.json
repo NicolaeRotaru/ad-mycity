@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 16:32",
+  "data": "2026-09-02 18:28",
   "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Passaggio innescato dall'heartbeat di delta-gate.mjs (22h dall'ultimo giro pieno vero), non da un dato nuovo: la firma di stato (ordini=1, clienti=8, sensori) è identica a quella dell'ultimo giro pieno registrato. Verificato il nucleo vitale (ordini, consegne, coda firme, sicurezza): nessuna novità. Restiamo in letargo SOPRAVVIVENZA (quota AI 134%, salute macchina 4/100), quindi il giro pieno a 15 passi non è stato rifatto — sarebbe la stessa foto già scritta 22+ volte oggi. Scritti/aggiornati: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, questo file.",
+  "sintesi_giro_corrente": "Passaggio innescato dall'heartbeat di delta-gate.mjs (24h dall'ultimo giro pieno vero), non da un dato nuovo: firma di stato (ordini=1, clienti=8, sensori) identica. Riverificato dal vivo via execute_sql MCP (non riletto da file): ordini=1 (0 pagati), profili=8 (0 nuovi 7gg), prodotti=5, recensioni=0 — invariato dal report della sera (18:00). Letargo RISPARMIO: volume tagliato (niente radiografia/apprendimento/auto-miglioramento pesanti), controlli di verità tenuti. Bash bloccato su tutti i node cervello/*.mjs fuori allowlist (card #104/#189, stesso buco noto, non ridiagnosticato oltre un tentativo): usati MCP Supabase + Read/Edit come previsto dalla lezione 'agenti background: 2 blocchi = fallo da solo'. Scritti/aggiornati: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, questo file, SALA-OPERATIVA.md.",
   "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessuna novità reale in questo passaggio oltre la conferma che nulla è cambiato; letargo confermato a SOPRAVVIVENZA.",
   "trend_fiducia": "→ 78→78: stabile, nessun errore né scoperta nuova in questo passaggio.",
   "entita_verificate": [

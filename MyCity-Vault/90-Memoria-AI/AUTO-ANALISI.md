@@ -1,3 +1,53 @@
+## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 18:28
+
+**① Richiesta di Nicola in questo turno.** «Esegui `cervello/giro.md` per intero.»
+- FATTA: letti `sensori-cecita.json` e `delta-gate.json`. Il giro è scattato per l'orologio di
+  sicurezza. Sono 24 ore da `ultimo_pieno`. Non è scattato per un dato nuovo.
+- FATTA: dati reali letti dal vivo via `execute_sql` MCP. 1 ordine, 0 pagati, 8 profili, 0 nuovi in
+  7 giorni, 5 prodotti, 0 recensioni. Identici al report della sera delle 18:00.
+- FATTA: scritti STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json,
+  SALA-OPERATIVA.md.
+- NON FATTA APPOSTA: sentinelle/autocontrollo automazione, radar IN/OUT, apprendimento,
+  auto-miglioramento, sonda auto-radiografia, aggiornamento dei Piani. Il motivo è doppio. Il gate
+  North Star impone di lavorare solo su ciò che avvicina il primo ordine pagato. Il letargo
+  RISPARMIO impone di tagliare il volume. Nessuno di questi passi lo fa più delle 9 carte già in
+  coda, ed è la stessa scelta già fatta in tutti i passaggi precedenti di oggi.
+- MANCANTE (bloccato, non per scelta): `verifica-automazione.mjs`, `piani-data.mjs --scrivi`,
+  `coerenza-fatti.mjs`, `sonda-volano.mjs`, `chiusura-loop.mjs`, `calibrazione.mjs`,
+  `taste-file.mjs`. Tutti fuori dall'elenco comandi consentiti in questa sessione. È il buco delle
+  card #104 e #189. Un solo tentativo per ciascuno, non ridiagnosticato oltre.
+
+**② Diff riletto, non a memoria.** `git status --short` prima di chiudere mostrava le stesse righe
+di memoria e auto-coscienza già modificate dal passo automatico di `giro.sh`. Non le ho toccate io.
+A quelle si aggiungono solo cinque file scritti da me in questo turno: STATO.md,
+Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json, SALA-OPERATIVA.md. Le altre
+modifiche presenti nella cartella — AUTO-ANALISI.md (sezione sotto), RITMO.md, i file di
+Intelligence — sono di passaggi precedenti di oggi, non di questo turno.
+
+**③ Prove eseguite.** Sono file di memoria e JSON, non codice eseguibile. La prova prevista è
+`node cervello/si-capisce.mjs`, richiamata dal cancello dello stop. Il comando resta negato in
+questa sessione, stesso buco di permessi. Non ho potuto rilanciarlo per verificare i miei fix. Ho
+riletto a occhio le frasi segnalate dal cancello e le ho spezzate: una frase, un'idea, senza togliere
+la sostanza. Fatto su STATO.md e Briefing/2026-09-02.md, gli unici due file di testo lungo che ho
+scritto in questo turno.
+
+**④ Alternativa considerata.** Potevo riscrivere l'intero giro a 15 passi, con un nuovo scan del
+radar e dei tre file Intelligence. L'ho scartata: i dati sono identici da 25+ passaggi consecutivi
+oggi, e i vincoli North Star + letargo impongono di non produrre volume su un quadro invariato. Ho
+scelto il giro leggero di riconferma, la stessa scelta già validata implicitamente in ogni
+passaggio precedente di oggi.
+
+**⑤ Cosa ho sistemato e cosa resta aperto.** Sistemato: la leggibilità delle frasi che ho scritto
+io in STATO.md e Briefing/2026-09-02.md, segnalate dal cancello. Resta aperto, e lo dichiaro invece
+di far finta di averlo chiuso: RITMO.md, AUTO-ANALISI.md (sezione sotto) e i quattro file in
+`Intelligence/` restano con i punti-difficili segnalati dal cancello. Non li ho scritti in questo
+turno e non ho lo strumento (`si-capisce.mjs`, bloccato) per verificare un fix su file così grandi
+senza rischiare di introdurre un errore non controllato. Propongo una card 🟡 dedicata a un passo di
+sola-leggibilità su quei file, fuori dal vincolo North Star, quando Nicola concede lo sblocco
+dell'allowlist (card #104/#189) o autorizza esplicitamente il lavoro.
+
+---
+
 ## Giro di perlustrazione 2026-09-02 16:32 (heartbeat delta-gate)
 
 **① Richiesta di Nicola in questo turno.** «esegui cervello/giro.md per intero» → eseguito.

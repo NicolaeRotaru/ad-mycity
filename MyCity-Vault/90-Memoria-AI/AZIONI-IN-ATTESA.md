@@ -26,6 +26,23 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- collaudo-leggibilita-debito -->
+### 🟡 #192 — Sei file di memoria sono difficili da leggere, il cancello lo segnala da un giro · ⏳ accodata 2026-09-02 18:28
+
+**Cosa cambia:** il cancello di fine turno (`si-capisce.mjs`) segnala punti-difficili in RITMO.md,
+AUTO-ANALISI.md e nei quattro file di `Intelligence/`. Sono frasi lunghe scritte in passaggi
+precedenti, non in questo. Non li ho corretti: sono file grandi e senza il comando che verifica il
+fix (bloccato dal buco delle card #104/#189) un tentativo alla cieca rischia di rompere qualcosa
+senza saperlo.
+
+**Se va bene:** quando sblocchi l'allowlist (card #104/#189), o mi dici esplicitamente di procedere
+comunque, dedico un passo a sola leggibilità su quei sei file, verificato con lo stesso comando che
+li ha segnalati.
+
+| 192 | 2026-09-02 18:28 | @ad | Ripulisci la leggibilità di RITMO.md, AUTO-ANALISI.md e i 4 file Intelligence, verificato con si-capisce.mjs | 🟡 | vedi blocco sopra | manuale | in attesa |
+
+---
+
 ### 🟡 #191 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-02 06:30
 
 **Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: `#post-carosello-bio-2307`, `#referral-porta-un-amico`, `#post-lunedi-turno-mattina-2007`, `#post-domenica-settimana-1907`, `#post-siamo-in-23`, `#zona-orario-consegna`, `#post-meteo-pioggia-20lug`, `#welcome-email-23`, `#ordine-test-pq`, `#inserisci-tazzina-pq`. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.
@@ -2978,7 +2995,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-02 16:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-02 18:27)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-02-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
