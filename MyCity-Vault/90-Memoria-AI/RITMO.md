@@ -1437,3 +1437,22 @@ Una cosa in più, non una nuova priorità. Ho cercato la fonte del comando ricor
 - Ferma da 4 giorni: la scadenza che avevi fissato tu per il 29 agosto. Riapro il conto delle quattro cose, o hai già deciso diversamente?
 
 **Dettagli tecnici** (opzionale) — Card `#154`/`#155`, `#182`, `#184`, `#185` in AZIONI-IN-ATTESA, nessuna firmata. Business riverificato con query diretta MCP: 0 pagati su 1 ordine, stallo 70 giorni. Card informativa `#190` (5-6 PR rosse in CI): non lavorata, nessuna sblocca il primo ordine pagato (gate North-Star AR-113).
+
+## Punto di mezzogiorno · 2026-09-02 12:00
+
+**Le 3 priorità del mattino:**
+1. ❌ **Rimetti online il sito** (`#154`/`#155`). Ancora giù. Dominio e chiavi Vercel aspettano la tua firma.
+2. ❌ **Sblocca i pagamenti carta di Pane Quotidiano** (`#182`). Invariato.
+3. ❌ **Applica le quattro migrazioni al database** (`#184`). Invariato — non hai ancora scelto la strada.
+
+Nessuna delle tre si è mossa in 21 controlli di oggi. È lo stesso quadro dalle 06:05.
+
+**Correzioni di rotta:** le priorità restano quelle giuste. Stamattina è emersa una cosa nuova. Sta peggiorando da sola, ora dopo ora. Il ramo di questa macchina e il sito vero su GitHub si sono scollegati. Erano 26 commit di differenza alle 11:14. Sono 37 adesso. La causa è nota: il lavoro automatico continua a scrivere qui. L'invio verso GitHub resta bloccato dallo stesso permesso mancante di sempre (card `#104`). Non ho tentato un secondo riallineamento da sola. Il primo si era fermato su un conflitto vero. L'ho annullato senza forzare nulla: zero rischio per i tuoi dati. Resta un problema pratico: il pannello che vedi tu online non riceve più quello che scrivo qui. Lo vede solo la macchina in locale.
+
+**Serve da te entro sera:**
+- Sposta il dominio su Vercel. Aggiungi le due chiavi mancanti (`#154`/`#155`). Rimette online il sito.
+- Un sì per sbloccare i pagamenti di Pane Quotidiano (`#182`).
+- Un sì per applicare le quattro migrazioni al database (`#184`).
+- Il permesso più ampio per allineare Git (`#104`). Blocca i comandi. Ed è la causa dello scollegamento che cresce.
+
+**Dettagli tecnici** (opzionale) — dati riverificati alle 12:00 con query diretta MCP (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=8, prodotti=5, recensioni=0, carrelli=3 — identico a tutti i passaggi di oggi. Stallo North Star 70 giorni. Divergenza git: `main...origin/main` = 37 avanti / 2 indietro (era 26/0 alle 11:14, poi 28/2, 32/2). Coda: 9 carte aperte (`#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`), nessuna firmata oggi.

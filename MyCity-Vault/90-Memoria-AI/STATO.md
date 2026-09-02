@@ -1,7 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 11:50
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-02 12:00
+fonte: AD digitale (Punto di mezzogiorno, cervello/ritmo.md)
+---
+
+> 🕛 **2/9 12:00 — Punto di mezzogiorno.** Ripreso il piano delle 06:05.
+>
+> **In parole semplici.** Le 3 priorità di stamattina sono ferme, identiche da 21 controlli: il
+> sito è ancora giù, Pane Quotidiano non incassa, le 4 migrazioni non sono applicate. Riverificato
+> ora via query diretta: 1 ordine (0 pagati, 0 consegnati), 8 profili, 5 prodotti, 0 recensioni, 3
+> carrelli — identico a tutto il resto della giornata. Stallo 70 giorni.
+>
+> **La cosa che cambia da sola, e peggiora.** Il ramo di questa macchina e il sito vero su GitHub
+> sono scollegati. La distanza cresce a ogni passaggio: 26 commit alle 11:14, 37 ora. Cresce perché
+> il lavoro automatico continua a scrivere qui. L'invio verso GitHub resta bloccato dallo stesso
+> permesso mancante di sempre (card `#104`). Non ho tentato un altro riallineamento da sola. Il
+> tentativo di stamattina si era fermato su un conflitto vero. L'ho annullato senza forzare nulla:
+> zero rischio per i tuoi dati. Resta un problema pratico: il pannello che vedi tu online non
+> riceve più quello che scrivo qui.
+>
+> **In coda restano le stesse nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186
+> (cancello sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI
+> cronica), #191 (10 azioni-negozio in attesa del tuo sì).
+>
+> Blocco completo: [[RITMO]] · Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 11:50 — Giro di perlustrazione: ventunesima foto identica, 25 minuti dopo l'ultima.** Richiesta tua: «fai un giro».
