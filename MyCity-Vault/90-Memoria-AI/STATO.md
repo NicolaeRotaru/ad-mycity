@@ -12,19 +12,20 @@ fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
 > profili, 0 nuovi in 7 giorni. 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Identico a tutti i
 > 29 passaggi di oggi. Stallo North Star: **70 giorni**.
 >
-> **Una cosa chiusa in questo passaggio.** Da tre passaggi (dalle 22:40) i 4 file tecnici dei sensori
-> (`fonti-salute.json`, `intelligence-agenda.json`, `mutanti.json`, `routing.json`) restavano nel
-> mio working tree, esclusi dal cancello che vieta commit diretti di codice su `main` (AR-332), senza
-> mai diventare una PR vera. L'ho fatto ora: **PR #864**, https://github.com/NicolaeRotaru/ad-mycity/pull/864,
-> verificata mergeable senza conflitti — costruita da `origin/main` (non dal mio `main` locale) per
-> non trascinarci dentro i 65 commit di memoria non ancora pubblicati.
+> **Una cosa chiusa in questo passaggio.** Da tre passaggi (dalle 22:40) 4 file tecnici dei sensori
+> restavano nel mio working tree. Sono `fonti-salute.json`, `intelligence-agenda.json`,
+> `mutanti.json`, `routing.json`. Il cancello AR-332 vieta i commit diretti di codice su `main`.
+> Per questo non erano mai diventati una PR vera. L'ho fatto ora: **PR #864**,
+> https://github.com/NicolaeRotaru/ad-mycity/pull/864. Verificata mergeable, senza conflitti.
+> L'ho costruita da `origin/main`, non dal mio `main` locale. Motivo: non trascinarci dentro i 65
+> commit di memoria non ancora pubblicati.
 >
 > **La divergenza git resta aperta (card #104).** Ho riprovato il rebase del ramo locale su
-> `origin/main`: stessi 5 conflitti reali di 17 minuti fa (`AZIONI-IN-ATTESA.md`, `STATO.md`,
-> `apprendimento.json`, `cantiere-prove.json`, `chiusura-loop.json`) — annullato subito, zero
-> rischio dati. Il ramo locale resta **65 commit avanti / 2 indietro** rispetto a GitHub: finché
-> qualcuno non risolve i conflitti a mano (io o tu sul VPS), il Pannello ospitato online non vede le
-> scritture di oggi.
+> `origin/main`. Stessi 5 conflitti reali di 17 minuti fa: `AZIONI-IN-ATTESA.md`, `STATO.md`,
+> `apprendimento.json`, `cantiere-prove.json`, `chiusura-loop.json`. Annullato subito, zero
+> rischio dati. Il ramo locale resta **65 commit avanti / 2 indietro** rispetto a GitHub. Finché
+> qualcuno non risolve i conflitti a mano — io o tu sul VPS — il Pannello ospitato online non vede
+> le scritture di oggi.
 >
 > **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100):
 > a questo livello si taglia il volume — radiografia completa, auto-miglioramento, esperimenti nuovi.
@@ -44,8 +45,8 @@ fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
 
 > 🧭 **2/9 22:35 — Giro di perlustrazione: nessun cambio.** Ventottesima foto identica di oggi.
 > Non è partito da un segnale di business nuovo. È partito da un heartbeat tecnico: sono passate 28
-> ore dall'ultimo giro pieno vero. In più un sensore è cambiato di stato, `mcp_supabase`, da "non
-> verificato" a "ok" — non è un dato di business, è solo la macchina che si riverifica da sola.
+> ore dall'ultimo giro pieno vero. In più un sensore è cambiato di stato: `mcp_supabase`, da "non
+> verificato" a "ok". Non è un dato di business: è solo la macchina che si riverifica da sola.
 > Richiesta tua di poco fa: «esegui `cervello/giro.md` per intero».
 >
 > **In parole semplici.** Ho riverificato ora con una query diretta al database vero. Uso MCP

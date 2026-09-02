@@ -3,12 +3,12 @@
 **① La richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»
 - FATTA. Riletti i dati di business dal vivo via `execute_sql` MCP: 1 ordine, 0 pagati, 8 profili,
   0 nuovi in 7gg, 5 prodotti, 0 recensioni, 3 carrelli. Identico al giro pieno delle 22:35.
-- FATTA. Chiuso un debito lasciato aperto dal passaggio delle 22:40: i 4 file tecnici dei sensori
-  (`fonti-salute.json`, `intelligence-agenda.json`, `mutanti.json`, `routing.json`) erano bloccati
-  dal cancello `AR-332` (codice non committabile a mano su `main`) e restavano solo nel working
-  tree. Ho costruito un branch pulito partendo da `origin/main` (non dal `main` locale, per non
-  trascinarci dentro i 65 commit di memoria non ancora pubblicati), committato lì i 4 file, e aperto
-  la **PR #864** con `git-pr.mjs` — verificata mergeable senza conflitti.
+- FATTA. Chiuso un debito lasciato aperto dal passaggio delle 22:40. I 4 file tecnici dei sensori
+  sono `fonti-salute.json`, `intelligence-agenda.json`, `mutanti.json` e `routing.json`. Erano
+  bloccati dal cancello `AR-332`: il codice non si committa a mano su `main`. Restavano solo nel
+  working tree. Ho costruito un branch pulito partendo da `origin/main`, non dal `main` locale.
+  Motivo: non trascinarci dentro i 65 commit di memoria non ancora pubblicati. Ho committato lì i 4
+  file e aperto la **PR #864** con `git-pr.mjs` — verificata mergeable, senza conflitti.
 - FATTA. Riprovato il rebase del `main` locale su `origin/main`, per verificare se la divergenza
   (card #104) fosse ancora reale o si fosse risolta da sola. Stessi 5 conflitti del tentativo delle
   22:40 (`AZIONI-IN-ATTESA.md`, `STATO.md`, `apprendimento.json`, `cantiere-prove.json`,
@@ -44,6 +44,52 @@ rischio di forzarla supera il beneficio di un giro di sola verifica.
 nuove (la divergenza #104 è già coperta dalla card esistente). Restano aperte le stesse 10 carte,
 nessuna firmata. Restano aperti (non per scelta, per permesso mancante): CI cronica (#190),
 test-cervello (#189), divergenza git (#104, ora 65/2), `git stash` mai ripresi.
+
+## Ricontrollo prima di dire «fatto» — 2026-09-02 22:57
+
+Collaudo richiesto dal cancello di stop (AR-532), su tutto il lavoro non ancora pubblicato (69 file
+dalla base `a7c21a2e9`), non solo sull'ultimo commit.
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»
+- FATTA: dati di business riverificati dal vivo (invariati). FATTA: PR #864 (file tecnici sensori).
+- FATTA: PR #865, aperta in questo ricontrollo (vedi punto ⑤ sotto — non era ancora chiusa quando
+  ho scritto la prima versione di questo giro).
+- FATTA: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json,
+  memoria-squadra/ad.md, SALA-OPERATIVA.md, AZIONI-IN-ATTESA.md (refresh card #104).
+- NON FATTA APPOSTA: gate North Star + letargo RISPARMIO, stessa nota di sopra.
+
+**② Diff intero riletto, non a memoria.** `git diff a7c21a2e9aa03738669e7c507e628fba2f6a0fa1 --stat`:
+69 file, 6.323 inserimenti/3.047 cancellazioni. La grande maggioranza (Piani, Intelligence, JSON
+`auto-coscienza/*`, `consegne/salute/*`) è debito accumulato da sessioni precedenti mai pubblicate
+(divergenza card #104), non scritto da me in questo passaggio — verificato guardando i timestamp
+dentro ogni file, non assumendo. Il mio perimetro reale di oggi resta quello elencato al punto ①.
+
+**③ Prove eseguite sui file cambiati.**
+- Il sorvegliante ha segnalato `prova-accecata` su AZIONI-IN-ATTESA.md (mutazione AR-850, ancora
+  "28" vs numero reale "27"). Diagnosi confermata con `grep` diretto: il file dice "27" (corretto,
+  verificato contro `wc -l`/count reale dell'archivio), l'ancora in `cervello/mutanti.json` diceva
+  "28" (stale). **Corretto** `cervello/mutanti.json` (28→27) — ma quel file è codice (AR-332): non
+  committabile a mano su `main`. Aperto branch pulito da `origin/main`, PR **#865**, verificata
+  mergeable. Finché non è mergiata, il sorvegliante continuerà a segnalarla su `main` locale: è un
+  falso positivo noto (ancora stale, non un difetto reale nel contenuto), non un secondo tentativo
+  di forzare il cancello.
+- Le 2 PR (#864, #865) sono state verificate dallo strumento stesso (`git-pr.mjs` risponde
+  `"mergeable": true` per entrambe), non per deduzione.
+- `node --test`/`test-cervello.mjs` restano bloccati dall'allowlist Bash di questa sessione (stesso
+  buco #104/#189, un tentativo, non riprovato oltre): non posso eseguire la suite reale da qui.
+
+**④ Alternativa considerata.** Per il prova-accecata: potevo forzare il cancello (`--force`,
+segnalato come possibile ma "contato nel referto"). Scartata: il fix vero (PR #865) costava lo
+stesso sforzo di una forzatura ed è la strada corretta, non un cerotto.
+
+**⑤ Corretto in questo ricontrollo.** Spezzate le frasi lunghe segnalate da `si-capisce.mjs` in
+AUTO-ANALISI.md e STATO.md (i 2 blocchi scritti da me in questo turno). Non toccato `RITMO.md`: il
+testo segnalato lì (`## Report della sera · 2026-07-02 18:00`) è un blocco storico di due mesi fa,
+non scritto in questo turno — trattato come i log append-only (DECISIONI/Briefing/SALA-OPERATIVA),
+che la regola esplicitamente non riscrive. Aperta PR #865 per il fix vero di AR-850 (non forzabile
+da qui). **Non verificato:** l'esito numerico di `si-capisce.mjs` sui 2 file corretti (comando
+bloccato da allowlist) — correzione fatta a occhio sulle frasi indicate dall'hook, non riconfermata
+dallo strumento.
 
 ---
 
