@@ -1,7 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 12:00
-fonte: AD digitale (Punto di mezzogiorno, cervello/ritmo.md)
+aggiornato: 2026-09-02 13:03
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 13:03 — Giro di perlustrazione: letargo salito a SOPRAVVIVENZA.**
+>
+> **Il business non è cambiato.** Riverificato dal vivo: 1 ordine (24/6, annullato), 0 pagati. Sito
+> ancora giù, HTTP 503. Le 6 PR aperte restano tutte rosse. La memoria dei fatti è pulita: 41 fatti,
+> nessuna copia vecchia.
+>
+> **La novità vera è il livello di letargo.** È salito da RISPARMIO a **SOPRAVVIVENZA**. Il motivo:
+> quota AI al 127% e salute macchina a 4/100. A questo livello resta acceso solo il nucleo vitale —
+> ordini, consegne, coda firme, sicurezza, allerta a te. Tutto il resto si spegne: radiografia,
+> auto-miglioramento, contenuti.
+>
+> **Per questo il giro di oggi è rimasto leggero.** Solo riverifica diretta e questa nota, non i 15
+> passi pieni. La coda non cambia: stesse 9 carte, nessuna firmata. La mossa n.1 resta la stessa:
+> firma dominio e chiavi Vercel (#154+#155).
+>
+> Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🕛 **2/9 12:00 — Punto di mezzogiorno.** Ripreso il piano delle 06:05.

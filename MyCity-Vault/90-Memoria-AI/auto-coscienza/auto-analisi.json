@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 11:14",
+  "data": "2026-09-02 13:03",
   "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Diciannovesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»), 43 minuti dopo il passaggio delle 10:31. Novità reale del passaggio: recuperati 17 file di sensori/memoria da un giro interrotto (committati in locale, 36c1651ae), ma il push su origin/main è stato rifiutato (non-fast-forward, 26 commit di distanza) e il tentativo di rebase si è fermato su conflitti veri, annullato subito senza forzare — nessun dato perso, ma il Pannello ospitato online resta scollegato dalle scritture di questa sessione finché qualcuno non risincronizza i due rami a mano. Segnalato a Nicola come priorità nuova, non come ripetizione di AR-687.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nuovo problema tecnico scoperto: ramo locale e main GitHub scollegati da 26 commit (aggrava card #104), rebase automatico fallito e annullato in sicurezza.",
-  "trend_fiducia": "↓ 79→78: leggero calo, non per un errore ma perché il quadro tecnico reale è peggiore di quanto registrato ieri (26 commit di scarto, non più 5-6) — abbasso il voto per riflettere un rischio nuovo scoperto, non per aver sbagliato qualcosa in questo passaggio.",
+  "sintesi_giro_corrente": "Ventiduesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»). Novità reale del passaggio: il letargo è salito da RISPARMIO a SOPRAVVIVENZA (quota AI 127% della finestra, salute macchina 4/100) — a questo livello resta acceso solo il nucleo vitale (ordini, consegne, coda firme, sicurezza, allerta a Nicola). Per questo il giro pieno a 15 passi (radiografia, auto-miglioramento, produzione contenuti) NON è stato eseguito: solo riverifica diretta di orders (sensore REST), CI (ci-stato.mjs, 6/6 rosse invariato), coerenza-fatti (OK) + aggiornamento della memoria con nota breve, seguendo lo stesso pattern già adottato dai passaggi precedenti di oggi davanti a fotografie identiche.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Novità del giro: letargo salito a SOPRAVVIVENZA — giro tenuto volutamente leggero per rispettare il taglio di volume, mantenuti i controlli di verità (sensori, CI, coerenza-fatti).",
+  "trend_fiducia": "→ 78→78: stabile, nessun errore né scoperta nuova in questo passaggio oltre il cambio di livello letargo, già coerente col quadro noto (salute 4/100 era già nota, solo il livello scala ora).",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
@@ -36,8 +36,8 @@
     "sito_uptime": "giù (HTTP 503)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L1: verifica-sensori.mjs, ci-stato.mjs, coerenza-fatti.mjs rieseguiti dal vivo (non ereditati) in questo passaggio — tutti passano/confermano. NON rieseguiti (bloccati da approvazione non concessa, un solo tentativo ciascuno): test-cervello.mjs, north-star-check.mjs --gate, tasso-chiusura.mjs, gh pr list. Riporto per questi i verdetti dell'hook di sessione (letargo RISPARMIO, north-star stallo, esperimenti-check, correzione-nicola-gate, freschezza-cadenze).",
-  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati i numeri chiave col passaggio delle 06:31, uno per uno — nessuna differenza. Non regge l'ipotesi che ci sia lavoro utile oltre la conferma: corretto trattarlo come passaggio di sola verifica.",
+  "livello_verifica": "L1: verifica-sensori.mjs (REST orders=1, sito 503), ci-stato.mjs (6 PR/6 rosse), coerenza-fatti.mjs (OK, 41 fatti) rieseguiti dal vivo in questo passaggio — tutti confermano il quadro noto. NON rieseguiti (giro tenuto leggero per SOPRAVVIVENZA, non per blocco permessi questa volta): test-cervello.mjs, north-star-check.mjs --gate, tasso-chiusura.mjs, radiografia completa, auto-miglioramento. Riporto per questi i verdetti già forniti dall'hook di sessione.",
+  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati i numeri chiave col passaggio delle 12:00, uno per uno — nessuna differenza tranne il livello di letargo (RISPARMIO→SOPRAVVIVENZA). Non regge l'ipotesi che serva un giro pieno: la regola di letargo impone il contrario. Corretto trattarlo come passaggio di sola verifica + segnalazione del cambio di livello.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
