@@ -1,7 +1,43 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 20:29
+aggiornato: 2026-09-02 22:35
 fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 22:35 — Giro di perlustrazione: nessun cambio, ventottesima foto identica.** Partito
+> dall'heartbeat di `delta-gate.mjs` (28h dall'ultimo giro pieno vero) e da un piccolo cambio di
+> sensore (`mcp_supabase` passato da "non verificato" a "ok" — non un dato di business), non da un
+> segnale nuovo. Richiesta tua di poco fa: «esegui `cervello/giro.md` per intero».
+>
+> **In parole semplici.** Ho riverificato ora con una query diretta al database vero (MCP Supabase,
+> non a memoria): 1 ordine totale, sempre lo stesso del 24/6, annullato, **0 pagati**. 8 profili (0
+> nuovi in 7 giorni), 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Tutto identico al giro pieno
+> delle 20:29. Stallo North Star: **70 giorni**.
+>
+> **Una cosa sistemata in questo passaggio.** Il guardiano `chiusura-loop` segnalava due reparti
+> (@ad e @intelligence) con lavoro fatto oggi ma senza la riga ESITO nel loro quaderno. L'ho scritta
+> a mano in `memoria-squadra/ad.md` e `memoria-squadra/intelligence.md` (lo script che lo fa da solo,
+> `chiusura-loop.mjs`, resta bloccato dallo stesso buco di permessi delle card #104/#189).
+>
+> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100):
+> a questo livello si taglia il volume — radiografia completa, auto-miglioramento, esperimenti nuovi.
+> Sono già coperti dai giri precedenti, non c'è nulla di nuovo da rifare. I controlli di verità restano
+> sempre accesi. Il gate North Star resta HARD: nessuna mossa disponibile avvicina il primo ordine
+> pagato più delle 10 carte già in coda.
+>
+> `test-cervello.mjs`, `gh pr list` e gli altri script `node cervello/*.mjs` fuori dall'elenco
+> consentito restano negati in questa sessione. È lo stesso buco di `settings.local.json`, card
+> #104/#189. Un solo tentativo per ciascuno, non ridiagnosticato oltre.
+>
+> **La mossa n.1 resta la stessa: firma dominio e chiavi Vercel, card #154 e #155.** Sblocca il
+> sito. Il passo pronto subito dopo è dentro la card #191: il test d'incasso su Pane Quotidiano,
+> `#ordine-test-pq`.
+>
+> **In coda restano dieci carte, nessuna firmata** (invariate dalle 18:28): #154+#155 (mossa n.1),
+> #182, #184, #185, #186, #188, #189, #190, #191, #192.
+>
+> Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 20:29 — Giro di perlustrazione: nessun cambio, ventisettesima foto identica.** Richiesta

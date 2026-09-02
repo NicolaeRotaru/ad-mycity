@@ -1,3 +1,47 @@
+## Giro di perlustrazione 2026-09-02 22:35
+
+**① La richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»
+- FATTA. Riletti i dati di business dal vivo via `execute_sql` MCP: orders, profiles, products,
+  reviews, abandoned_carts. 1 ordine, 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni,
+  3 carrelli. Identico al giro pieno delle 20:29.
+- FATTA. Il gate HARD `chiusura-loop` segnalava @ad e @intelligence con lavoro FATTO oggi in
+  SALA-OPERATIVA ma senza riga ESITO nel loro quaderno da 4-6 ore. Scritte a mano le due righe ESITO
+  in `memoria-squadra/ad.md` e `memoria-squadra/intelligence.md` (`chiusura-loop.mjs` bloccato da
+  permessi, stesso buco delle card #104/#189 — un tentativo, non ripetuto).
+- FATTA. Scritti STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json, questo
+  file, SALA-OPERATIVA.md.
+- NON FATTA APPOSTA: sentinelle/autocontrollo automazione, radar IN/OUT (già coperto alle 06:50),
+  apprendimento formale, auto-miglioramento, sonda auto-radiografia, aggiornamento dei Piani. Stessi
+  due motivi di ogni passaggio di oggi: il gate North Star impone di lavorare solo su ciò che
+  avvicina il primo ordine pagato, e il letargo RISPARMIO impone di tagliare il volume.
+- MANCANTE, bloccato e non per scelta: `test-cervello.mjs`, `gh pr list`, `coerenza-fatti.mjs`,
+  `ci-stato.mjs`, `sonda-volano.mjs`, `north-star-check.mjs`, `esperimenti-check.mjs --apri`,
+  `calibrazione.mjs`, `lezione-nuova.mjs` e gli altri `node cervello/*.mjs` fuori allowlist. Stesso
+  buco delle card #104/#189, un tentativo per ciascuno.
+
+**② Diff riletto, non a memoria.** `git status --short` mostra i file già toccati dal passo
+automatico di `giro.sh` prima del mio turno (invariato) più i file scritti da me in questo passaggio:
+STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json, questo file,
+`memoria-squadra/ad.md`, `memoria-squadra/intelligence.md`, SALA-OPERATIVA.md.
+
+**③ Prove eseguite.** File di memoria e JSON, non codice eseguibile. Ogni JSON toccato in questo
+turno è stato riletto per intero dopo la modifica per verificare parentesi/virgole bilanciate
+(`node --check` resta bloccato, stesso buco #104/#189).
+
+**④ Alternativa considerata.** Rifare l'intero giro a 15 passi con nuovo scan radar/Intelligence e
+tentativo di apertura di un esperimento (richiesto dal gate `esperimenti-check`). Scartata: il gate
+North Star vieta lavoro sulla macchina che non sblocchi direttamente una card business, e aprire un
+esperimento ora sarebbe proprio questo — lavoro di processo, non una mossa verso il primo ordine
+pagato. Ho scelto invece di chiudere un debito HARD già misurato (chiusura-loop) che era concreto e
+a basso rischio.
+
+**⑤ Cosa ho sistemato e cosa resta aperto.** Sistemato: il loop di apprendimento per @ad e
+@intelligence. Non aperte carte nuove. Restano aperte le stesse 10 carte, nessuna firmata. Restano
+aperti (non per scelta, per permesso mancante): CI cronica (#190), test-cervello (#189), divergenza
+git (#104), 8.011 `git stash` mai ripresi (cresciuti da ~7.849, stesso guasto strutturale noto).
+
+---
+
 ## Collaudo dopo lo stop: giro di perlustrazione 2026-09-02 20:29
 
 **① La richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»

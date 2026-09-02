@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-02 20:29",
-  "situazione": "Giro di perlustrazione su richiesta esplicita di Nicola. Riverificato dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg. Controllato di persona sia mycity-marketplace.com (503, DNS ancora su Render) sia il vero indirizzo Vercel mycity-phi.vercel.app: la home carica, ma /api/health resta 503 unhealthy — conferma diretta che mancano le chiavi della card #154. Novità minore: i cron job del sito (scadenza ordini, payout, carrelli, email) risultano fermi dal 30/7 nella tabella cron_heartbeats, stessa causa nota. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata.",
+  "data": "2026-09-02 22:35",
+  "situazione": "Giro di perlustrazione (heartbeat delta-gate, 28h dall'ultimo pieno + piccolo cambio di sensore mcp_supabase). Riverificato dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni, 3 carrelli abbandonati — identico al giro pieno delle 20:29. Sistemato in questo passaggio: chiuso a mano il loop di apprendimento (chiusura-loop) per @ad e @intelligence, ESITO mancante nei loro quaderni. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
