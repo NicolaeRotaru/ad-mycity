@@ -8883,9 +8883,10 @@
    "file": "cervello/due-case.mjs",
    "cerca": "  if (!Number.isFinite(resta) || resta < minimo) return 0;",
    "sostituisci": "  if (false) return 0;",
-   "test": "cervello/test/due-case.test.mjs",
+   "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "lezione": "L-2026-0902-01",
-   "perche_conta": "Un numero negativo dato a spawnSync come timeout non ferma niente: e cosi che un freno diventa decorativo senza che nessuno tocchi la riga che lo dichiara."
+   "perche_conta": "Un numero negativo dato a spawnSync come timeout non ferma niente: e cosi che un freno diventa decorativo senza che nessuno tocchi la riga che lo dichiara.",
+   "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   },
   {
    "difetto": "AR-908",
@@ -8893,9 +8894,10 @@
    "file": "cervello/due-case.mjs",
    "cerca": "  if (!quantoPosso(scadenza)) return fermo(\"il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato\");",
    "sostituisci": "",
-   "test": "cervello/test/due-case.test.mjs",
+   "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "lezione": "L-2026-0902-01",
-   "perche_conta": "E la meta che nessuna funzione pura puo difendere: che il controllo stia DAVANTI alla spesa. Togliendolo il caso da 2000 ms diventa rosso perche la copia del repo prende secondi."
+   "perche_conta": "E la meta che nessuna funzione pura puo difendere: che il controllo stia DAVANTI alla spesa. Togliendolo il caso da 2000 ms diventa rosso perche la copia del repo prende secondi.",
+   "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   },
   {
    "difetto": "AR-909",
@@ -8903,9 +8905,10 @@
    "file": "cervello/due-case.mjs",
    "cerca": "const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: \"utf8\", timeout, killSignal: \"SIGKILL\", maxBuffer: 32 * 1024 * 1024, env });",
    "sostituisci": "const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: \"utf8\", timeout, maxBuffer: 32 * 1024 * 1024, env });",
-   "test": "cervello/test/due-case.test.mjs",
+   "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "lezione": "L-2026-0902-02",
-   "perche_conta": "E la riga esatta che faceva uscire il cancello con 124. La prende il caso strutturale, dichiarato come tale: il comportamento e provato su un figlio finto che ignora SIGTERM, il cablaggio si guarda, e le due meta sono scritte separate invece che confuse."
+   "perche_conta": "E la riga esatta che faceva uscire il cancello con 124. La prende il caso strutturale, dichiarato come tale: il comportamento e provato su un figlio finto che ignora SIGTERM, il cablaggio si guarda, e le due meta sono scritte separate invece che confuse.",
+   "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

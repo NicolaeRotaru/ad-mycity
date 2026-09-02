@@ -2,28 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-15T17:26:52.773Z",
-      "scatti": 671,
-      "voci": 7,
-      "per_classe": {
-        "prova-accecata": 5,
-        "difesa-rimossa": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-16T05:09:26.841Z",
-      "scatti": 9435,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-16T05:11:27.691Z",
       "scatti": 9439,
       "voci": 52,
@@ -2249,7 +2227,43 @@
         "difesa-rimossa": 6
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-02T19:16:23.654Z",
+      "scatti": 646,
+      "voci": 20,
+      "per_classe": {
+        "prova-accecata": 13,
+        "difesa-rimossa": 6,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-indebolita",
+          "file": "cervello/test/due-case.test.mjs",
+          "cosa": "questo file adesso prova 24 caso/i in meno (24 tolti, 0 messi) e non ho toccato cervello/due-case.mjs",
+          "ripetuta": 8
+        }
+      ]
+    },
+    {
+      "quando": "2026-09-02T19:55:01.923Z",
+      "scatti": 668,
+      "voci": 20,
+      "per_classe": {
+        "prova-accecata": 13,
+        "difesa-rimossa": 6,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-indebolita",
+          "file": "cervello/test/due-case.test.mjs",
+          "cosa": "questo file adesso prova 24 caso/i in meno (24 tolti, 0 messi) e non ho toccato cervello/due-case.mjs",
+          "ripetuta": 30
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-09-01T23:01:14.734Z"
+  "aggiornato": "2026-09-02T19:55:01.924Z"
 }
