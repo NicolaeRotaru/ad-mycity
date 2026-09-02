@@ -11784,7 +11784,7 @@
    "ultima_conferma": "2026-09-02 01:35",
    "stato": "viva",
    "usi": [],
-   "gate": "cervello/test/due-case.test.mjs",
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "data": "2026-09-02"
   },
   {
@@ -11806,7 +11806,7 @@
    "ultima_conferma": "2026-09-02 03:05",
    "stato": "viva",
    "usi": [],
-   "gate": "cervello/test/due-case.test.mjs",
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "data": "2026-09-02"
   },
   {
@@ -11828,7 +11828,7 @@
    "ultima_conferma": "2026-09-02 03:05",
    "stato": "viva",
    "usi": [],
-   "gate": "cervello/test/due-case.test.mjs",
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "data": "2026-09-02"
   }
  ],

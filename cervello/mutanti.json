@@ -8895,8 +8895,8 @@
    "cerca": "  if (!quantoPosso(scadenza)) return fermo(\"il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato\");",
    "sostituisci": "",
    "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
-   "lezione": "L-2026-0902-01",
-   "perche_conta": "E la meta che nessuna funzione pura puo difendere: che il controllo stia DAVANTI alla spesa. Togliendolo il caso da 2000 ms diventa rosso perche la copia del repo prende secondi.",
+   "lezione": "L-2026-0902-03",
+   "perche_conta": "E la meta che nessuna funzione pura puo difendere: che il controllo stia DAVANTI alla spesa. Togliendolo il caso da 2000 ms diventa rosso perche la copia del repo prende secondi. Agganciata alla lezione di metodo: e il difetto che si vede SOLO rimisurando dopo la cura — la prima riparazione era giusta e non lo toccava.",
    "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   },
   {
