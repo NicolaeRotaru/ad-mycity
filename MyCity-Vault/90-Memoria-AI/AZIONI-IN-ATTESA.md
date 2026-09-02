@@ -523,6 +523,34 @@ chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira su
 > la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
 > l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
 
+> 🔄 **Aggiornamento 2026-09-03 01:01 — Il server è vivo, ma dal 1/9 a mezzogiorno non riesce più a
+> pubblicare quello che fa.** Ho letto la sua coda e il suo battito direttamente nel database della
+> memoria, non dalle tracce in git. Il battito è delle 00:58 di stanotte. Ieri alle 11:00 ha lanciato i
+> cinque lavori del mattino: i quattro playbook sono finiti bene fra le 11:36 e le 12:34, il giro è
+> morto alle 12:49 dopo tre tentativi. Il motivo è scritto nel suo referto: quando prova ad allinearsi
+> a GitHub trova un conflitto su 8 file (la coda delle carte, lo stato, l'apprendimento e cinque
+> registri dell'auto-coscienza). È successo anche il 22, 24, 26, 27 e 28 agosto: 6 giri falliti su 9.
+> L'ultimo push della memoria riuscito è del 1/9 alle 12:15. Da allora ogni controllo che legge git,
+> il Pannello e l'allarme esterno (issue #863) vedono una macchina ferma che ferma non è.
+>
+> C'è un secondo segnale: dal 28/8 alle 06:30 il worker rifiuta di ricaricare il proprio programma
+> perché il file sul disco è diverso da quello nel repo («manomesso su disco»), e continua a girare
+> con la versione precedente.
+>
+> **Cosa devi fare.** Tre comandi sul server, poi dimmi cosa stampano. Il conflitto lo risolvo io da
+> qui in una richiesta di unione: sul server non va toccato niente a mano.
+>
+> ```bash
+> cd "$(systemctl show -p WorkingDirectory --value mycity-worker)"
+> git log --oneline origin/main..HEAD | wc -l                 # quanti commit locali non sono mai arrivati su GitHub
+> git push origin HEAD:refs/heads/memoria/vps-2026-09-03      # li mette al sicuro su un ramo, senza toccare main
+> git diff --stat HEAD -- cervello/worker.sh                   # cosa è diverso nel worker.sh «manomesso»
+> ```
+>
+> **Se va bene.** I lavori fermi dal 1/9 finiscono su GitHub, io unisco il ramo a `main` risolvendo il
+> conflitto, e al giro successivo il server si riallinea e torna a pubblicare da solo. Il Pannello smette
+> di mostrare dati di due giorni fa.
+
 ---
 
 ### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
