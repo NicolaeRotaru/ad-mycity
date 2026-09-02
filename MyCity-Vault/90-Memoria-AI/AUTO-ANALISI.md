@@ -1,3 +1,28 @@
+## Giro di perlustrazione — 2026-09-02 10:31
+
+**① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
+- FATTA: rieseguiti dal vivo `verifica-sensori.mjs`, `ci-stato.mjs`, `coerenza-fatti.mjs` — tutti e
+  tre bloccati/non riverificati nel passaggio delle 08:30, questa volta passati (nessuna riga nuova,
+  6/6 PR ancora rosse, memoria coerente). Scritti STATO.md, Briefing/2026-09-02.md,
+  ultimo-briefing.json, auto-coscienza/auto-analisi.json, SALA-OPERATIVA.md.
+- FATTA (AR-687): scritta a Nicola una spiegazione esplicita. I blocchi cronici (CI, test-cervello,
+  north-star-check, tasso-chiusura) restano fermi per due motivi, non per disattenzione: il gate
+  North-Star e un permesso mancante dal 21/8. Ho chiesto una deroga esplicita, per il caso in cui
+  Nicola voglia che le 6 PR vengano riprese comunque.
+- NON FATTA APPOSTA. Niente radiografia completa, niente auto-miglioramento, niente esperimenti
+  nuovi: letargo RISPARMIO, già coperti oggi senza novità. Nessuna card nuova: gate North-Star HARD.
+- BLOCCATA da permessi, non ridiagnosticata oltre un tentativo: `test-cervello.mjs`,
+  `north-star-check.mjs --gate`, `tasso-chiusura.mjs`, `gh pr list` — stesso buco della card
+  #104/#189, già segnalato più volte oggi.
+
+**② Refutazione.** Confrontati i numeri chiave col passaggio delle 08:30, uno per uno: nessuna
+differenza. Corretto trattarlo come passaggio di sola verifica, con un solo miglioramento reale (3
+controlli HARD rieseguiti dal vivo invece che ereditati).
+
+**③ Voto di fiducia.** 79/100 — stabile, stesso motivo dei passaggi precedenti.
+
+---
+
 ## Giro di perlustrazione — 2026-09-02 08:30
 
 **① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.

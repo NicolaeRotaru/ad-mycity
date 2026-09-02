@@ -1,7 +1,29 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 08:30
+aggiornato: 2026-09-02 10:31
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 10:31 — Giro di perlustrazione: diciottesima foto identica, due ore dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Riverificato dal vivo (`verifica-sensori.mjs`, `ci-stato.mjs`,
+> `coerenza-fatti.mjs`): 1 ordine totale, 0 pagati, stesso ordine del 24/6 annullato. Sito pubblico
+> ancora giù, HTTP 503 (234 giri ciechi). 6 PR aperte, ancora tutte e 6 rosse. Zero numeri di
+> business cambiati dalle 08:30.
+>
+> **Su AR-687 (i blocchi fermi da molti giri).** Non li ripari perché li ignoro: `test-cervello.mjs`,
+> `north-star-check.mjs --gate`, `tasso-chiusura.mjs` sono bloccati da un permesso non concesso in
+> questa sessione (buco noto di `settings.local.json`, card #104/#189, dal 21/8). Le 6 PR rosse non
+> le tocco per il gate North Star: nessuna sblocca il primo ordine pagato. Se vuoi una deroga
+> esplicita per riprenderle comunque, dimmelo — altrimenti resta così.
+>
+> **In coda restano le stesse nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186
+> (cancello sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI
+> cronica), #191 (10 azioni-negozio in attesa del tuo sì).
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 08:30 — Giro di perlustrazione: diciassettesima foto identica, quasi due ore dopo l'ultima.** Richiesta tua: «fai un giro».

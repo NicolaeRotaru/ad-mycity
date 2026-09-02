@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-02 08:30",
-  "situazione": "Giro di perlustrazione: diciassettesimo passaggio identico di oggi, quasi due ore dopo l'ultimo. Business ancora fermo: 1 ordine, 0 pagati, ultimo ordine 24/6 (annullato), 5 prodotti, 8 profili, 0 recensioni, 0 profili nuovi negli ultimi 7 giorni — riconfermato con query diretta al database. Sito ancora giù (HTTP 503). Nessuna novità di business dal passaggio delle 06:31. Le priorità restano invariate (gate North-Star AR-113 HARD): sito online, pagamenti Pane Quotidiano, migrazioni database.",
+  "data": "2026-09-02 10:31",
+  "situazione": "Giro di perlustrazione: diciottesimo passaggio identico di oggi, due ore dopo l'ultimo. Business ancora fermo: 1 ordine, 0 pagati, ultimo ordine 24/6 (annullato) — riconfermato dal vivo con verifica-sensori/ci-stato/coerenza-fatti. Sito ancora giù (HTTP 503, 234 giri ciechi). 6 PR aperte, ancora tutte e 6 rosse. Nessuna novità di business dal passaggio delle 08:30. Le priorità restano invariate (gate North-Star AR-113 HARD): sito online, pagamenti Pane Quotidiano, migrazioni database. I blocchi cronici AR-687 (CI, test-cervello, north-star-check, tasso-chiusura) restano fermi per un permesso mancante in sessione (dal 21/8) e per il gate North Star stesso, non per mancata verifica.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},

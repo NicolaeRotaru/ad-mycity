@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 08:30",
+  "data": "2026-09-02 10:31",
   "voto_fiducia": 79,
-  "sintesi_giro_corrente": "Diciassettesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»), quasi due ore dopo il passaggio delle 06:31 (nel mezzo un recupero automatico di scritture pendenti alle 08:20, non un giro mio). Nessuna scoperta nuova: la riverifica dal vivo (execute_sql MCP diretto sugli ordini) conferma lo stesso quadro. Rispettato il letargo RISPARMIO tagliando il volume (niente radiografia completa/auto-miglioramento/esperimenti nuovi) e il gate North-Star (nessuna card nuova).",
-  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessun numero di business cambiato rispetto al passaggio delle 06:31. Verificato dal vivo: orders/products/profiles/reviews via MCP execute_sql.",
-  "trend_fiducia": "→ 79→79: stabile, stesso motivo onesto dei passaggi precedenti — nessuna riparazione nuova prodotta in questo passaggio (solo verifica), correzione-nicola-gate resta non lavorato per lo stesso vincolo North-Star.",
+  "sintesi_giro_corrente": "Diciottesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»), due ore dopo il passaggio delle 08:30 (nel mezzo un recupero automatico di scritture pendenti alle 10:20, non un giro mio). Nessuna scoperta nuova: rieseguiti dal vivo verifica-sensori.mjs, ci-stato.mjs e coerenza-fatti.mjs (bloccati nel passaggio precedente, questa volta passati) — confermano lo stesso quadro, zero righe nuove. Aggiunta esplicita per AR-687: le 6 PR rosse e i comandi HARD bloccati non sono ignorati, sono fermi per il gate North-Star + un permesso mancante dal 21/8 — spiegato a Nicola nel briefing invece di ripeterlo senza spiegazione.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessun numero di business cambiato rispetto al passaggio delle 08:30. Verificato dal vivo: sensori, CI (6/6 rosse), coerenza-fatti (OK).",
+  "trend_fiducia": "→ 79→79: stabile. Questo passaggio ha rieseguito dal vivo 2 controlli HARD che il precedente aveva solo riportato per eredità (ci-stato, coerenza-fatti) — leggero miglioramento di rigore, non di sostanza (nessun numero business cambiato). correzione-nicola-gate resta non lavorato per lo stesso vincolo North-Star.",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
@@ -36,7 +36,7 @@
     "sito_uptime": "giù (HTTP 503)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L1: execute_sql MCP rieseguito dal vivo (non ereditato) in questo passaggio; verifica-sensori.mjs rieseguito. NON rieseguiti (bloccati da approvazione non concessa, un solo tentativo ciascuno): test-cervello.mjs, north-star-check.mjs, ci-stato.mjs, coerenza-fatti.mjs, gh pr list. Riporto per questi i verdetti del passaggio delle 06:31 (coerenza-fatti pulito, CI 6/6 rosse) e dell'hook di sessione (letargo RISPARMIO, north-star stallo, esperimenti-check, correzione-nicola-gate, freschezza-cadenze).",
+  "livello_verifica": "L1: verifica-sensori.mjs, ci-stato.mjs, coerenza-fatti.mjs rieseguiti dal vivo (non ereditati) in questo passaggio — tutti passano/confermano. NON rieseguiti (bloccati da approvazione non concessa, un solo tentativo ciascuno): test-cervello.mjs, north-star-check.mjs --gate, tasso-chiusura.mjs, gh pr list. Riporto per questi i verdetti dell'hook di sessione (letargo RISPARMIO, north-star stallo, esperimenti-check, correzione-nicola-gate, freschezza-cadenze).",
   "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati i numeri chiave col passaggio delle 06:31, uno per uno — nessuna differenza. Non regge l'ipotesi che ci sia lavoro utile oltre la conferma: corretto trattarlo come passaggio di sola verifica.",
   "domande_per_nicola": [
     {
@@ -47,8 +47,14 @@
     },
     {
       "tipo": "informativa",
-      "domanda": "Il permesso di Bash sul VPS resta troppo stretto: test-cervello.mjs, north-star-check.mjs, ci-stato.mjs e coerenza-fatti.mjs restano bloccati da approvazione da giorni (card #104/#189). Vuoi che aggiunga le righe mancanti a .claude/settings.local.json, o preferisci farlo tu direttamente?",
+      "domanda": "Il permesso di Bash sul VPS resta troppo stretto: test-cervello.mjs, north-star-check.mjs --gate e tasso-chiusura.mjs restano bloccati da approvazione da giorni (card #104/#189). Vuoi che aggiunga le righe mancanti a .claude/settings.local.json, o preferisci farlo tu direttamente?",
       "azione": "se dai l'ok, propongo il blocco JSON completo da incollare (mai frammenti, per la lezione già registrata)",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "informativa",
+      "domanda": "AR-687 segnala 6 PR rosse ferme da 4+ giri (#190). Non le tocco perché il gate North-Star vieta lavoro macchina che non sblocchi il primo ordine pagato, e nessuna delle sei lo fa. Vuoi una deroga esplicita per riprenderle in un giro dedicato, o restano ferme finché il North Star non si sblocca?",
+      "azione": "se dai l'ok esplicito, apro un giro/agente dedicato a ripararle sullo stesso ramo di ciascuna PR",
       "colore": "🟡"
     }
   ]
