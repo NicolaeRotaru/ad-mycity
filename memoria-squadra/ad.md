@@ -1,4 +1,5 @@
 ## Esiti
+- 2026-09-02 06:42 · giro 06:31 (16° passaggio identico di oggi) + collaudo AR-532 · V4 C4 A3 K4 I3 M4 E4 (media 3.71) · atteso conferma business invariato + risolvere AR-850 se trovato → reale confermato invariato (1 ordine/0 pagati); AR-850 risolto (conteggio card archiviate 28->27 in mutanti.json) · #giro #collaudo #AR-850
 - 2026-09-01 22:32 · giro 22:30: card CI cronica accodata · V4 C4 A4 K4 I3 M4 E3 (media 3.71) · atteso card #190 accodata, no PR corrette (gate North-Star) → reale fatto · #AR-687
 - 2026-09-01 20:32 · giro 2026-09-01 20:35: verificata la tenuta del fix delta-gate (18:35) · V4 C5 A4 K3 I4 M4 E4 (media 4) · atteso il gate deve tornare a decidere esegui_pieno:false quando nulla cambia → reale alle 20:28 ha deciso false per la prima volta della giornata, fix confermato · #delta-gate #letargo
 - 2026-09-01 18:33 · riparazione baseline delta-gate (16 giri pieni sprecati dal 21/8 su uno scarto clienti 7 vs 8 mai promosso) · V4 C5 A5 K4 I5 M4 E5 (media 4.57) · atteso riportare i giri pieni a 1-2/giorno come da livello letargo RISPARMIO → reale da verificare nei prossimi passaggi · #delta-gate #AR-019

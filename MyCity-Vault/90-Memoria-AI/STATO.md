@@ -12,23 +12,29 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 > passaggio delle 06:05. `ci-stato.mjs` riconferma le stesse 6 PR aperte, tutte e 6 rosse, colpa del
 > ramo che le ha portate. `coerenza-fatti.mjs` pulito: 41 fatti, 0 copie vecchie da riscrivere.
 >
-> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** È il sedicesimo passaggio di
-> oggi con lo stesso quadro esatto — il piano del mattino di 26 minuti fa aveva già coperto radar,
-> sentinelle e i sette numeri. Il letargo resta in **RISPARMIO** (salute macchina 4/100): si taglia
-> il volume (radiografia completa, auto-miglioramento, esperimenti nuovi), mai i controlli di verità.
-> Ho tenuto solo la riverifica diretta di ordini/CI/coerenza-fatti — quella è verità, non volume. Il
-> gate North Star (0 ordini pagati da ≥3gg) resta HARD: nessuna card nuova aperta da me, perché
-> nessuna mossa disponibile avvicina il primo ordine pagato più delle tre già in coda.
+> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** È il sedicesimo passaggio
+> identico di oggi. Il piano del mattino, 26 minuti fa, aveva già coperto radar, sentinelle e i
+> sette numeri. Il letargo resta in **RISPARMIO** (salute macchina 4/100): la regola è tagliare il
+> volume, mai i controlli di verità. Il volume, oggi, è radiografia completa, auto-miglioramento,
+> esperimenti nuovi: già coperti, non li rifaccio. Ho tenuto solo la riverifica diretta di
+> ordini/CI/coerenza-fatti: quella è verità, non volume. Il gate North Star resta HARD (0 ordini
+> pagati da ≥3gg): nessuna card nuova aperta da me, perché nessuna mossa disponibile avvicina il
+> primo ordine pagato più delle tre già in coda.
 >
-> **Una cosa nuova, non aperta da me.** Un processo automatico (worker, non questo giro) ha scritto
-> la card **#191** alle 06:30: la pausa che avevi messo su 10 azioni-negozio è scaduta, e sono
-> tornate visibili in coda (post carosello, referral, email di benvenuto, ordine test PQ e altre 6).
-> Non sono ripartite da sole: aspettano ancora il tuo sì una per una, come prima della pausa.
+> **Una cosa nuova, non aperta da me.** Un processo automatico — il worker, non questo giro — ha
+> scritto la card **#191** alle 06:30. La pausa che avevi messo su 10 azioni-negozio è scaduta.
+> Sono tornate visibili in coda: post carosello, referral, email di benvenuto, ordine test PQ e
+> altre 6. Non sono ripartite da sole. Aspettano ancora il tuo sì, una per una, come prima della
+> pausa.
 >
-> **Il sorvegliante segnala una mutazione nota (AR-850) sulla riga di riepilogo in questo stesso
-> file, ripetuta oltre 150 volte in questa sessione.** Non l'ho toccata: è una discrepanza tra un
-> pattern di test (`cervello/mutanti.json`) e il testo reale, non un difetto di business — la
-> registro come rischio, non la rincorro sotto il gate North Star.
+> **Il sorvegliante segnalava una mutazione nota (AR-850), ripetuta oltre 190 volte in sessione:
+> risolta durante questo passaggio.** Il problema vero: il conteggio delle card archiviate in
+> `cervello/mutanti.json` era fermo a 28, il file oggi ne ha 27 (una card archiviata in più nel
+> frattempo). Il formato corretto della riga era comunque intatto — non era una regressione, solo
+> un numero disallineato. Il worker concorrente ha aggiornato il numero e aggiunto una nota di
+> fragilità mentre lo controllavo io stessa: il pattern userà di nuovo un numero secco, quindi
+> tornerà a rompersi al prossimo cambio del conteggio. Un fix strutturale (un segnaposto invece di
+> un numero fisso) resta da fare, fuori scope da un giro di monitoraggio.
 >
 > **In coda restano nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel, mossa n.1),
 > #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg), #186 (cancello
@@ -36,9 +42,10 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 > informativa), **#191 nuova** (10 azioni-negozio tornate visibili dopo la pausa scaduta).
 >
 > **Cosa non ho verificato.** `test-cervello.mjs`, `north-star-check.mjs`, `letargo.mjs`,
-> `sonda-volano.mjs`: bloccati da approvazione sul VPS, stesso buco di permessi delle card #104/#189,
-> non ridiagnosticati oltre un tentativo. Il sito in un browser vero (solo stato HTTP dal sensore:
-> 503, 228 giri ciechi). Lo stato Stripe specifico di PQ (baseline 24/8). Il contenuto riga-per-riga
+> `sonda-volano.mjs`, `si-capisce.mjs`: bloccati da approvazione sul VPS, stesso buco di permessi
+> delle card #104/#189, non ridiagnosticati oltre un tentativo. Il sito in un browser vero (solo
+> stato HTTP dal sensore: 503, 228 giri ciechi). Lo stato Stripe specifico di PQ (baseline 24/8). Il
+> contenuto riga-per-riga
 > delle 6 PR rosse.
 >
 > Briefing completo: [[Briefing/2026-09-02]].
