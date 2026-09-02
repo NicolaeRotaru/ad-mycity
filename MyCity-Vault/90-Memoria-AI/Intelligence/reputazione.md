@@ -48,7 +48,7 @@
 
 Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva né negativa. È coerente con lo stallo: 47+ giorni senza un ordine pagato. Il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati. Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
 
-**Novità 17/8 — ricontrollo settimanale "Reputazione MyCity" (dovuto oggi, 7 giorni dal 10/8):** WebSearch generica su "MyCity Piacenza marketplace" e ricerca mirata su "Pane Quotidiano Via Calzolai recensioni". Stesso esito del 10/8: nessuna recensione, nessun articolo, solo schede da directory (PagineGialle, PagineBianche, VitaInCentro/listing, Terra Nuova, VeganHome) che confermano l'esistenza fisica del negozio dal 1976 ma non aggiungono nulla di reputazionale. Nessuna azione.
+**Novità 17/8: ricontrollo settimanale "Reputazione MyCity", dovuto oggi, 7 giorni dal 10/8.** WebSearch generica su "MyCity Piacenza marketplace" e ricerca mirata su "Pane Quotidiano Via Calzolai recensioni". Stesso esito del 10/8: nessuna recensione, nessun articolo, solo schede da directory, PagineGialle, PagineBianche, VitaInCentro/listing, Terra Nuova, VeganHome, che confermano l'esistenza fisica del negozio dal 1976 ma non aggiungono nulla di reputazionale. Nessuna azione.
 
 **Novità 15/8 da Libertà — Città di Piacenza:** nessuna menzione di MyCity o Pane Quotidiano. Le notizie del giorno sono cantieri/viabilità (via Benedettine, via Veneto/Borghetto/San Bartolomeo/Farnesiana), senza legame diretto col marketplace. Le riporto invece in `eventi-picchi.md`, dove sono operativamente rilevanti per orari e zone. Nessuna azione per questo file.
 
@@ -59,9 +59,9 @@ Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva
 | Google "MyCity Piacenza marketplace" | Sito [mycity-marketplace.com](https://mycity-marketplace.com/) indicizzato e raggiungibile. 0 articoli di stampa locale che lo citino. |
 | Trustpilot | Nessuna scheda per mycity-marketplace.com (cercata anche con `site:trustpilot.com`, 0 risultati pertinenti). |
 | Stampa locale (Libertà, TelLibertà, PiacenzaSera) | 0 articoli che citino il marketplace MyCity, anche cercando i tre nomi insieme al dominio. |
-| Facebook / social | "MyCity TV Piacenza" (web TV locale, entità diversa, nota da prima) + trovata ORA anche una pagina "MyCity | Bologna" su Facebook (altra azienda, altro nome simile) — nessuna delle due è il nostro marketplace. Nessuna pagina/gruppo con post 2026 sul marketplace di Piacenza. |
+| Facebook / social | "MyCity TV Piacenza": web TV locale, entità diversa, nota da prima. Trovata ORA anche una pagina "MyCity, Bologna" su Facebook: altra azienda, altro nome simile. Nessuna delle due è il nostro marketplace. Nessuna pagina/gruppo con post 2026 sul marketplace di Piacenza. |
 | Pane Quotidiano (il negozio faro) | Presente su PagineGialle/PagineBianche/VitainCentro come negozio fisico storico (dal 1976). Nessuna recensione Google Maps intercettata via ricerca. Nessuna menzione di consegna online/MyCity in fonti esterne. |
-| Gruppi Facebook quartiere Piacenza | Trovati gruppi generici locali ("Spesa Online Piacenza", "Mercanti di Qualità Piacenza", Marketplace Facebook di Piacenza) — nessuno cita MyCity. |
+| Gruppi Facebook quartiere Piacenza | Trovati gruppi generici locali: "Spesa Online Piacenza", "Mercanti di Qualità Piacenza", Marketplace Facebook di Piacenza. Nessuno cita MyCity. |
 
 ---
 

@@ -47,13 +47,13 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
 - **Cosa serve da Nicola:** 🔴 **`ok 16`** (consegna mattina/pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× `install-sync-vps.sh`, già ok 17) · 🟢 inserimento negozi 6/7 (nessuna approvazione).
 
 ## Piano del mattino · 2026-07-02 08:36
-- **Priorità n°1:** **Eseguire #16 Scelta A** — ordine zombie €19,05 Pane Quotidiano (firmato 1/7
-  11:05). WhatsApp buyer 348 642 1766. Poi accetta da dashboard. Poi consegna COD **oggi pranzo**
-  (meteo sereno 20–31°C, escalation v12). Obiettivo: **North Star, 1° ordine consegnato**.
+- **Priorità n°1:** **Eseguire #16 Scelta A.** Ordine zombie €19,05 Pane Quotidiano, firmato 1/7
+  11:05. WhatsApp buyer 348 642 1766. Poi accetta da dashboard. Poi consegna COD **oggi pranzo**,
+  meteo sereno 20–31°C, escalation v12. Obiettivo: **North Star, 1° ordine consegnato**.
 - **Priorità n°2:** **Deploy #19 fix ruoli acquisto.** Admin bloccato. Seller solo via «Vai al
   marketplace». Merge `mycity/main` → Render automatico. Serve il token Render: #14+#15 PAT, oppure
   in chat **`ok merge fix ruoli-acquisto`**.
-- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) + **presidio onboarding 6/7** — RLS pulita e checklist pronta dopo la prima transazione.
+- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) più **presidio onboarding 6/7.** RLS pulita e checklist pronta dopo la prima transazione.
 - **Sentinelle scattate:** ordine in ritardo **189,9h** · carrello >4h (1 buyer reale samir €10 — CRM post-#19) · negozio LIVE 0 consegnati · stallo **+21,9h oltre 168h** · loop business 🔴 (0 consegnati).
 - **Assegnazioni:** @operations+#16 🔴 · @tech merge #19 🔴 · @qa smoke post-deploy 🟢 · @customer-success feedback post-consegna 🟢 · @crm-lifecycle samir post-#19 🟢 · @onboarding-negozi checklist 6/7 🟢 · @devops-sre root sync #17 🟡 · @finanza payout-test **03/7 mattina** 🔴 · @analista snapshot fine giornata 🟢.
 - **Cosa serve da Nicola:** 🔴 **`ok 16`** (pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× install sync, ok 17) · 🟢 batch negozi 6/7 (dopo #16+#19+SQL).
@@ -1390,12 +1390,12 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 Una cosa in più, non una nuova priorità. Ho cercato la fonte del comando ricorrente della card `#188` (il controllo "negozi in calo" che si ripete ogni giorno a vuoto). Ho guardato l'elenco delle sveglie programmate in questa sessione: vuoto. Ho cercato la parola «PLAYBOOK» in tutti gli script del server: non compare da nessuna parte. Il comando non nasce in questo repository né in questa sessione. Deve vivere fuori da entrambi. Questo è nuovo rispetto alle due richieste precedenti (`#160` il 24/8, `#187` il 27/8): prima nessuno aveva controllato questi due posti.
 
 **Serve da te entro sera:**
-- 🔴 Dominio + chiavi Vercel (`#154`/`#155`) — rimette online il sito.
+- 🔴 Dominio + chiavi Vercel (`#154`/`#155`): rimette online il sito.
 - 🔴 Una parola su come sbloccare i pagamenti di Pane Quotidiano (`#182`).
 - 🔴 Una parola su come applicare le quattro migrazioni (`#184`).
 - 🟡 Dimmi dove vive il comando ricorrente `#188`. Ho escluso due posti. Non ne ho altri da controllare da qui.
 
-**Dettagli tecnici** (opzionale) — dati riusati dal giro delle 11:56, quattro minuti prima di questo passaggio. `coerenza-fatti.mjs` pulito: 41 fatti, 0 copie vecchie. Business bit-per-bit identico dal 24/6. Sito HTTP 503, 219 giri ciechi. Nessuna nuova query pesante sul business in questo passaggio: la macchina è in letargo SOPRAVVIVENZA (quota AI oltre soglia), si taglia il volume non la verità. La ricerca su `#188` è stata l'unica indagine nuova: `CronList` (vuoto) + grep di «PLAYBOOK» su `cervello/vps/*.sh` e `cervello/worker.sh` (nessun risultato).
+**Dettagli tecnici** (opzionale). Dati riusati dal giro delle 11:56, quattro minuti prima di questo passaggio. `coerenza-fatti.mjs` pulito: 41 fatti, 0 copie vecchie. Business bit-per-bit identico dal 24/6. Sito HTTP 503, 219 giri ciechi. Nessuna nuova query pesante sul business in questo passaggio: la macchina è in letargo SOPRAVVIVENZA, quota AI oltre soglia, si taglia il volume non la verità. La ricerca su `#188` è stata l'unica indagine nuova: `CronList` vuoto, più grep di «PLAYBOOK» su `cervello/vps/*.sh` e `cervello/worker.sh`, nessun risultato.
 
 ## Report della sera · 2026-09-01 18:00
 

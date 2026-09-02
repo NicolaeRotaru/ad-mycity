@@ -2,11 +2,11 @@
 
 > **Aggiornato: 2 settembre 2026 06:35.** Giro leggero (`cervello/monitora.md`), un giorno dopo l'ultimo controllo del 1/9. Controllate oggi 6 fonti dovute: meteo, eventi Comune, Comune-news, Libertà-Attualità, PiacenzaSera, Sagre-provincia. **Nessuna novità rispetto a ieri.**
 >
-> - **Meteo 2-8/9**: settimana stabile e calda confermata, nessuna allerta, nessuna pioggia in vista. Oggi 21-32°. Il picco sale a **36°** sabato 5/9. Ieri il picco previsto era 35° lunedì 7/9: la finestra più calda si è solo spostata di qualche giorno, la sostanza non cambia. Fonte: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 2/9). Nota di candore: la homepage di Libertà mostra ancora un vecchio avviso "allerta gialla per temporali" tra i box generici. Non lo trovo confermato nella previsione dettagliata di oggi, né in nessun'altra fonte. Lo tratto quindi come contenuto non aggiornato del sito, non come un'allerta reale.
-> - **Eventi Comune (7-14gg)**: stessi quattro già noti. Sbaracco e Via Roma Street Market il 6/9. Femme Fest dal 10 al 13/9. Manufatto l'11/10, fuori dalla finestra dei 14 giorni. Nessun evento nuovo aggiunto oggi. Fonte: [comune.piacenza.it/it/categorie-eventi/76806](https://www.comune.piacenza.it/it/categorie-eventi/76806) (WebFetch diretto, 2/9).
-> - **Comune-news**: nessuna notizia nuova su ZTL, commercio o mercati. Solo voci già note, come il bando rifiuti da 400mila euro aperto il 31/8. Il resto non è pertinente: biblioteche, commissioni comunali, voucher baby-sitter, InformaSociale. Fonte: [comune.piacenza.it/it/menu/news](https://www.comune.piacenza.it/it/menu/news) (WebFetch, 2/9).
-> - **Libertà — Attualità**: nessuna notizia di oggi su commercio, botteghe o centro storico. Solo cronaca generica: viabilità in Val Trebbia e l'allerta meteo di cui sopra. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita) (WebFetch, 2/9).
-> - **PiacenzaSera**: nessuna notizia di commercio o desertificazione del centro oggi. Solo eventi minori non pertinenti (Immagini nel Parco, serata Africa Mission) e la riapertura del Ponte sul Vezzeno, che è viabilità periferica. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (WebFetch, 2/9).
+> - **Meteo 2-8/9**: settimana stabile e calda confermata, nessuna allerta, nessuna pioggia in vista. Oggi 21-32°. Il picco sale a **36°** sabato 5/9. Ieri il picco previsto era 35° lunedì 7/9. La finestra più calda si è solo spostata di qualche giorno, la sostanza non cambia. Fonte: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza), verificata via WebFetch il 2/9. Nota di candore: la homepage di Libertà mostra ancora un vecchio avviso "allerta gialla per temporali" tra i box generici. Non lo trovo confermato nella previsione dettagliata di oggi, né in nessun'altra fonte. Lo tratto quindi come contenuto non aggiornato del sito, non come un'allerta reale.
+> - **Eventi Comune (7-14gg)**: stessi quattro già noti. Sbaracco e Via Roma Street Market il 6/9. Femme Fest dal 10 al 13/9. Manufatto l'11/10, fuori dalla finestra dei 14 giorni. Nessun evento nuovo aggiunto oggi. Fonte: [comune.piacenza.it/it/categorie-eventi/76806](https://www.comune.piacenza.it/it/categorie-eventi/76806), verificata via WebFetch diretto il 2/9.
+> - **Comune-news**: nessuna notizia nuova su ZTL, commercio o mercati. Solo voci già note, come il bando rifiuti da 400mila euro aperto il 31/8. Il resto non è pertinente: biblioteche, commissioni comunali, voucher baby-sitter, InformaSociale. Fonte: [comune.piacenza.it/it/menu/news](https://www.comune.piacenza.it/it/menu/news), verificata via WebFetch il 2/9.
+> - **Libertà — Attualità**: nessuna notizia di oggi su commercio, botteghe o centro storico. Solo cronaca generica: viabilità in Val Trebbia e l'allerta meteo di cui sopra. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita), verificata via WebFetch il 2/9.
+> - **PiacenzaSera**: nessuna notizia di commercio o desertificazione del centro oggi. Solo eventi minori non pertinenti, Immagini nel Parco e serata Africa Mission, più la riapertura del Ponte sul Vezzeno, che è viabilità periferica. Fonte: [piacenzasera.it](https://www.piacenzasera.it/), verificata via WebFetch il 2/9.
 > - **Sagre e mercatini di provincia** (settimanale, dovuta oggi): WebSearch mirata su "sagre mercatini Piacenza provincia settembre 2026". Trova solo portali generici: eventiesagre.it, scopripiacenza.it, sagritaly.com. Nessun calendario dettagliato è consultabile da qui. Nessun evento specifico con data. Nessun dato azionabile nuovo.
 >
 > **Candore:** 6 fonti dovute oggi, tutte ricontrollate, zero novità sostanziali. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare. Nessuna nota qui sotto diventa quindi un'azione: resta preparazione.
@@ -32,21 +32,25 @@ con un titolo di IlPiacenza trovato via WebSearch: "Piena estate anche a inizio 
 Piacenza ancora massime fino a 35 gradi". **Impatto:** nessun rischio pioggia questa settimana,
 diversamente da fine agosto. Il caldo prolungato tiene alta la domanda di freschi e bevande. Oggi
 resta però un dato preparatorio, perché le consegne attive sono 0.
-Fonti: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 1/9). Conferma anche [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) (titolo, via WebSearch 1/9).
+Fonti: ilmeteo.it, via WebFetch il 1/9[^meteo1]. Conferma indipendente: il titolo di IlPiacenza
+sullo stesso tema, via WebSearch il 1/9[^meteo2].
+
+[^meteo1]: https://www.ilmeteo.it/meteo/piacenza
+[^meteo2]: https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html
 
 **② Tre eventi nuovi in calendario, il più rilevante è uno Sbaracco il 6/9.** Dalla pagina eventi del Comune (fetch diretto riuscito oggi):
 - **Domenica 6/9 — "La domenica dello Sbaracco"**: i negozi del centro svuotano il magazzino con
   sconti. Lo stesso giorno c'è anche il consueto **mercatino "Via Roma Street Market"**:
   hobbistica, libri, oggettistica, prima domenica del mese. Sono due eventi di piazza sovrapposti
   nello stesso weekend. È il tipo di picco di afflusso in centro storico che genera domanda di
-  cibo e bevande da asporto nelle vie limitrofe — lo stesso effetto del Radio Sound Party del
-  28-30/8, ma più piccolo. È anche ricorrente (mensile o stagionale), non un evento isolato.
+  cibo e bevande da asporto nelle vie limitrofe. L'effetto è lo stesso del Radio Sound Party del
+  28-30/8, ma più piccolo. È anche un evento ricorrente, mensile o stagionale, non isolato.
 - **10-13/9 — "Femme Fest"**: 4 giorni di musica/cultura/incontri in centro. Rilevanza media: più
   pubblico di nicchia che affollamento di piazza, ma comunque persone in più in centro per 4
   giorni.
-- **11/10 — "Manufatto"** (mercati artigianali). È fuori dalla finestra dei 7-14 giorni: resta
+- **11/10 — "Manufatto"**, mercati artigianali. È fuori dalla finestra dei 7-14 giorni: resta
   solo una nota di calendario.
-Fonte: [comune.piacenza.it — pagina eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806) (WebFetch diretto, 1/9 — oggi ha funzionato, diversamente dal solito 403 registrato nelle settimane scorse).
+Fonte: [comune.piacenza.it — pagina eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806), verificata via WebFetch diretto l'1/9. Oggi ha funzionato, diversamente dal solito 403 registrato nelle settimane scorse.
 **Nessuna azione oggi** (0 negozi possono incassare, 0 consegne attive): la nota resta preparatoria, coerente col Radio Sound Party del 24/8 già segnato come "solo bozza-template" in Opportunità sotto.
 
 **③ 🆕 Nuovo bando del Comune, aperto DA IERI (31/8): incentivi alla raccolta differenziata per le piccole attività — rilevante per Pane Quotidiano.** Dettaglio completo nella sezione Opportunità sotto e in `leve-uscita.md`: è una leva diretta per il negozio faro, non solo un prospect. Verificato con 4 fonti indipendenti oggi: pagina ufficiale del Comune, PiacenzaSera (2 articoli, 27/8 e 31/8), IlPiacenza, Piacenza24.

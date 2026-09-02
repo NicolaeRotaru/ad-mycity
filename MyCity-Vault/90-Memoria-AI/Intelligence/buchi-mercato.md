@@ -5,8 +5,10 @@
 > **Ricontrollato 2026-09-01 07:00** (giro leggero `cervello/monitora.md`). Sono 8 giorni di buco: l'ultimo controllo risale al 18/8. Fonte: IlPiacenza-Economia. Il fetch diretto resta in errore HTTP 403, stesso blocco delle settimane scorse. Oggi invece liberta.it e piacenzasera.it hanno risposto senza blocco. Ho ripiegato su WebSearch mirata ("ilpiacenza.it economia negozio chiude apre agosto settembre 2026"). **Nessuna chiusura o apertura di bottega specifica trovata con nome.** L'unico risultato pertinente: l'apertura di un **maxistore Maury's da 3.300 mq in via R. Goitre**,
 dal 27/8 al 19/9/2026, con promozioni di apertura. È una grande superficie non-food. Vende
 abbigliamento e casa. Non è una bottega di quartiere, quindi non cambia il quadro delle categorie
-scoperte sotto. Fonte: [anteprimavolantino.it — Volantino Maury's Nuova Apertura Piacenza](https://www.anteprimavolantino.it/134193/volantino-maurys-nuova-apertura-piacenza-dal-27-agosto-2026/).
-Pubblicato il 1/9. Nessun altro dato nuovo oggi. Catalogo, contatti e stato pagamenti (dati DB)
+scoperte sotto. Fonte: annuncio del volantino Maury's per la nuova apertura di Piacenza, pubblicato
+il 1/9 su anteprimavolantino.it[^maurys]. Nessun altro dato nuovo oggi.
+
+[^maurys]: https://www.anteprimavolantino.it/134193/volantino-maurys-nuova-apertura-piacenza-dal-27-agosto-2026/ Catalogo, contatti e stato pagamenti (dati DB)
 non sono ricontrollati: la fonte è Supabase, non giornaliera, quindi non era dovuta oggi. Restano
 quelli letti il 10/8, e sono coerenti con `registro-fatti.json`, verificato oggi stesso: negozio
 faro Pane Quotidiano, Stripe ancora non attivo al 22/8, nessun aggiornamento più recente noto.
@@ -93,7 +95,7 @@ Nessun dato di consegna reale su cui misurare zone (0 ordini pagati, 0 consegne)
 
 | Gap | Stato oggi |
 |-----|-----------|
-| Pagamenti (Stripe charges/payouts) | **Disattivati** — priorità assoluta, blocca ogni incasso (vedi `negozio.faro`) |
+| Pagamenti (Stripe charges/payouts) | **Disattivati.** Priorità assoluta: blocca ogni incasso. Vedi `negozio.faro`. |
 | Catalogo | Solo 5 prodotti bio/gastronomia, nessun pane "base" a catalogo nonostante il nome del negozio |
 | Foto prodotto pro | Da verificare oggi, serve intervento diretto del negoziante |
 

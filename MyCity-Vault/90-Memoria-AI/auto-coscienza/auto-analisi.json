@@ -1,28 +1,38 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 18:28",
-  "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Passaggio innescato dall'heartbeat di delta-gate.mjs (24h dall'ultimo giro pieno vero), non da un dato nuovo: firma di stato (ordini=1, clienti=8, sensori) identica. Riverificato dal vivo via execute_sql MCP (non riletto da file): ordini=1 (0 pagati), profili=8 (0 nuovi 7gg), prodotti=5, recensioni=0 — invariato dal report della sera (18:00). Letargo RISPARMIO: volume tagliato (niente radiografia/apprendimento/auto-miglioramento pesanti), controlli di verità tenuti. Bash bloccato su tutti i node cervello/*.mjs fuori allowlist (card #104/#189, stesso buco noto, non ridiagnosticato oltre un tentativo): usati MCP Supabase + Read/Edit come previsto dalla lezione 'agenti background: 2 blocchi = fallo da solo'. Scritti/aggiornati: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, questo file, SALA-OPERATIVA.md.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessuna novità reale in questo passaggio oltre la conferma che nulla è cambiato; letargo confermato a SOPRAVVIVENZA.",
-  "trend_fiducia": "→ 78→78: stabile, nessun errore né scoperta nuova in questo passaggio.",
+  "data": "2026-09-02 20:29",
+  "voto_fiducia": 80,
+  "sintesi_giro_corrente": "Giro su richiesta esplicita di Nicola ('esegui cervello/giro.md per intero'). Riverificato dal vivo via execute_sql MCP diretto (non da sensori-cecita.json cache): ordini=1 (0 pagati, 24/6 annullato), profili=8 (rider=1,buyer=5,seller=1,admin=1; 0 nuovi 7gg), abandoned_carts=3. Invariato dal giro pieno delle 18:51. Verifica in più rispetto al passaggio precedente: controllati DAL VIVO con WebFetch sia mycity-marketplace.com (503) sia il vero dominio Vercel mycity-phi.vercel.app (home 200 completa, /api/health 503 'unhealthy') — prima diagnosi diretta, non solo dedotta dal registro-fatti. Letta anche cron_heartbeats: 8 job del sito fermi dal 30/7 (oltre un mese), coerente con la stessa causa nota (env Vercel), annotato come nota aggiuntiva alla card #154 senza aprire una carta nuova. Bash bloccato su test-cervello.mjs, gh pr list, node cervello/*.mjs fuori allowlist, python3, curl (card #104/#189, un solo tentativo ciascuno): usati MCP Supabase + WebFetch + Read/Edit/Write. Aggiornati: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, AZIONI-IN-ATTESA.md (nota su #154), SALA-OPERATIVA.md, questo file.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star a 70 giorni. Verifica più diretta del solito (WebFetch dal vivo su due domini + query cron_heartbeats), ma nessun fatto nuovo che cambi la mossa n.1. Letargo confermato RISPARMIO.",
+  "trend_fiducia": "↗ 78→80: sale leggermente perché questo passaggio ha verificato dal vivo due cose che il passaggio precedente aveva solo dedotto (stato reale dei due domini, staleness dei cron) — stessa conclusione, prova più diretta.",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
       "stato": "confermato",
-      "fonte": "sensori-cecita.json (supabase_rest, ultimo_ok 16:20 — 12' prima di questo passaggio, prodotto dal pre-step deterministico di giro.sh, non da una query mia diretta in questo turno)"
+      "fonte": "query diretta execute_sql MCP su public.orders in questo passaggio (non cache)"
     },
     {
-      "nome": "clienti=8 (invariato)",
+      "nome": "profiles: 8 totali (rider=1, buyer=5, seller=1, admin=1)",
       "stato": "confermato",
-      "fonte": "delta-gate.json (firma corrente = firma dell'ultimo giro pieno, 2026-09-01 18:35)"
+      "fonte": "query diretta execute_sql MCP su public.profiles group by role in questo passaggio"
     },
     {
-      "nome": "Sito pubblico giù: HTTP 503",
+      "nome": "mycity-marketplace.com (dominio pubblico): HTTP 503",
       "stato": "confermato",
-      "fonte": "sensori-cecita.json, sito_uptime cieco da 241 giri, ultimo_ok 2026-07-30"
+      "fonte": "WebFetch diretto in questo passaggio (2 chiamate separate, stesso esito)"
     },
     {
-      "nome": "Coda firme (AZIONI-IN-ATTESA.md): nessuna card nuova firmata, top card resta #191 (accodata 06:30, contiene #ordine-test-pq)",
+      "nome": "mycity-phi.vercel.app (dominio Vercel reale): home HTTP 200 completa, /api/health HTTP 503 'unhealthy'",
+      "stato": "confermato",
+      "fonte": "WebFetch diretto in questo passaggio — prima conferma diretta della diagnosi della card #154, finora solo dedotta dai log"
+    },
+    {
+      "nome": "cron_heartbeats: 8 job (expire-stale-orders, release-payouts, abandoned-carts, operational-alerts, expire-checkouts, send-emails, send-push, process-deletions) fermi dal 30/7",
+      "stato": "confermato",
+      "fonte": "query diretta execute_sql MCP su public.cron_heartbeats in questo passaggio — fatto nuovo, non citato prima nella memoria"
+    },
+    {
+      "nome": "Coda firme (AZIONI-IN-ATTESA.md): nessuna card nuova firmata, 10 carte aperte (154+155,182,184,185,186,188,189,190,191,192), top card resta #191",
       "stato": "confermato",
       "fonte": "grep diretto su AZIONI-IN-ATTESA.md in questo passaggio"
     }
@@ -36,8 +46,8 @@
     "sito_uptime": "giù (HTTP 503)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L1 parziale: rilette a fresco (16:20-16:21, prodotte dal pre-step deterministico di giro.sh) sensori-cecita.json e coerenza-fatti.json (quest'ultimo 'non_verificato', 0 file scansionati — segnalato onestamente, non dichiarato verde). Verificato dal vivo in questo passaggio: coda AZIONI-IN-ATTESA.md via grep. NON rieseguiti in questo passaggio: verifica-sensori.mjs, ci-stato.mjs, test-cervello.mjs (tentato in background, nessun output raccolto entro la fine del giro), north-star-check.mjs --gate, tasso-chiusura.mjs. Per questi riporto lo stato già noto dall'hook di sessione (CI: 6 PR/6 rosse) invece di ridichiararlo come rieseguito ora.",
-  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontata la firma di delta-gate.json (corrente vs ultimo_pieno) — identica su ordini/clienti/sensori. Il giro è scattato solo per l'heartbeat (22h), non per un cambio di stato. Non regge l'ipotesi che serva un giro pieno: la regola di letargo impone il contrario. Corretto trattarlo come passaggio di sola verifica + nota breve.",
+  "livello_verifica": "L2 diretto sui dati di business: orders/profiles/cron_heartbeats interrogati dal vivo via MCP in questo passaggio (non da cache), e sito verificato dal vivo con WebFetch su entrambi i domini. NON rieseguiti in questo passaggio (Bash negato: test-cervello.mjs, gh pr list, delta-gate.mjs, node cervello/*.mjs fuori allowlist, git rev-list, python3, curl) — per CI/letargo/north-star/esperimenti riporto i verdetti già scritti dagli hook di sessione senza ridichiararli come rieseguiti ora. Non riverificata la divergenza main/origin-main (card #104): resta il numero dell'ultimo passaggio noto, non un dato di questo turno.",
+  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo che cambia la mossa': la nuova prova (cron_heartbeats fermi dal 30/7, health check unhealthy confermato dal vivo) rafforza la diagnosi già in coda (#154) ma non ne cambia la richiesta né apre una via alternativa — non regge l'ipotesi che serva una carta nuova o una mossa diversa dalla #154/#155.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",

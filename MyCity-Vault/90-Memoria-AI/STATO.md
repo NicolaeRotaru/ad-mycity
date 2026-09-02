@@ -1,7 +1,58 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 18:28
+aggiornato: 2026-09-02 20:29
 fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 20:29 — Giro di perlustrazione: nessun cambio, ventisettesima foto identica.** Richiesta
+> tua: «fai un giro» (esegui `cervello/giro.md` per intero).
+>
+> **In parole semplici.** Ho riverificato dal vivo con query dirette al database (MCP Supabase), non
+> a memoria. Risultato: 1 ordine totale, ancora lo stesso del 24/6, annullato, **0 pagati**. 8
+> profili (5 clienti, 1 negozio, 1 rider, 1 admin), 0 nuovi in 7 giorni. 5 prodotti, 0 recensioni, 3
+> carrelli abbandonati. Tutto identico all'ultimo giro pieno delle 18:51.
+>
+> Il sito pubblico resta giù. Ho controllato io stessa due indirizzi. Il primo,
+> `mycity-marketplace.com`, resta 503. Il secondo è l'indirizzo Vercel vero,
+> `mycity-phi.vercel.app`: lì la home carica bene, ma `/api/health` risponde ancora 503
+> "unhealthy". Stallo North Star: **70 giorni**.
+>
+> **Una cosa nuova, minore.** Ho letto la tabella `cron_heartbeats` del database vero. I lavori
+> automatici del sito risultano fermi dal 30/7, oltre un mese: scadenza ordini, payout ai negozi,
+> carrelli abbandonati, email e push. È un sintomo della stessa causa nota, chiavi e dominio
+> Vercel. Non è un guasto separato. L'ho annotato in coda alla card #154. Non ho aperto una carta
+> nuova: non cambia la mossa da fare. Aggiunge solo un motivo in più per controllare i Cron Job
+> quando si sistema Vercel.
+>
+> **Perché resto leggera.** Il letargo resta in **RISPARMIO**: quota AI 52%, salute macchina 4/100.
+> A questo livello si taglia il volume: radiografia completa, auto-miglioramento, esperimenti nuovi.
+> Sono già coperti dal giro delle 18:51, non c'è nulla di nuovo da rifare. I controlli di verità
+> restano invece sempre accesi. Il gate North Star resta HARD: nessuna mossa disponibile avvicina il
+> primo ordine pagato più delle 10 carte già in coda.
+>
+> `test-cervello.mjs`, `gh pr list` e gli altri script `node cervello/*.mjs` fuori dall'elenco
+> consentito restano negati in questa sessione. È lo stesso buco di `settings.local.json`, card
+> #104/#189. Un solo tentativo per ciascuno.
+>
+> **La mossa n.1 resta la stessa: firma dominio e chiavi Vercel, card #154 e #155.** Sblocca il
+> sito. Il passo pronto subito dopo è dentro la card #191: il test d'incasso su Pane Quotidiano,
+> `#ordine-test-pq`.
+>
+> **In coda restano dieci carte, nessuna firmata.** Una in più delle 9 già note: #192, aperta alle
+> 18:28 dal cancello di leggibilità, non da questo passaggio.
+> - **#154+#155:** dominio e chiavi Vercel, mossa n.1.
+> - **#182:** pagamenti Pane Quotidiano.
+> - **#184:** migrazioni database.
+> - **#185:** scadenza 29/8, passata da 4 giorni.
+> - **#186:** cancello del sito.
+> - **#188:** origine del comando ricorrente.
+> - **#189:** permesso per `test-cervello.mjs`.
+> - **#190:** CI cronica.
+> - **#191:** 10 azioni-negozio in attesa del tuo sì.
+> - **#192:** leggibilità di 6 file di memoria.
+>
+> Briefing: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 18:28 — Giro di perlustrazione: nessun cambio, ventiseiesima foto identica.**

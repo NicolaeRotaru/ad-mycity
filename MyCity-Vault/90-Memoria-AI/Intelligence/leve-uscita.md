@@ -23,7 +23,7 @@
 
 ## Il filtro che decide tutto, oggi
 
-Un solo negozio reale, **Pane Quotidiano**. **0 ordini pagati in 47 giorni** di stallo. Scoperta del 10/8: anche questo unico negozio confermato **non può ancora incassare** — dati pagamento mai inviati al fornitore, incassi e versamenti disattivati (card `#16`, 🔴 firma Nicola, dati che deve dare il fornaio). Pausa concordata con Nicola fino al **24/8-1/9**. Regola d'oro AR-006: **lo sforzo pesante va dove c'è un negozio che può incassare**. Oggi, in senso stretto, non c'è nessuno. Quindi: **niente asset pesanti né pubblicazioni nuove**, solo mosse leggere — ricerca, preparazione, mappe pronte — che non aspettano la firma e che accorciano la strada quando lo stallo si rompe.
+Un solo negozio reale, **Pane Quotidiano**. **0 ordini pagati in 47 giorni** di stallo. Scoperta del 10/8: anche questo unico negozio confermato **non può ancora incassare**. Mancano dati pagamento mai inviati al fornitore, incassi e versamenti disattivati: card `#16`, 🔴 firma Nicola, dati che deve dare il fornaio. Pausa concordata con Nicola fino al **24/8-1/9**. Regola d'oro AR-006: **lo sforzo pesante va dove c'è un negozio che può incassare**. Oggi, in senso stretto, non c'è nessuno. Quindi: **niente asset pesanti né pubblicazioni nuove**, solo mosse leggere. Ricerca, preparazione, mappe pronte: non aspettano la firma e accorciano la strada quando lo stallo si rompe.
 
 Playbook già tentati e finiti a vuoto (non riaprirli senza un fatto nuovo): stampa (4×, comunicato ritirato 30/7), istituzioni (7×, bandi PI26/BT26/BE26 tutti chiusi), capillarità (3×), fedeltà di rete (4×), recupero carrelli (4×), scout negozi (4×, in pausa fino 24/8-1/9).
 

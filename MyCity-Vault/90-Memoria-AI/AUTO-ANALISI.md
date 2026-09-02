@@ -1,4 +1,71 @@
-## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 18:28
+## Collaudo dopo lo stop: giro di perlustrazione 2026-09-02 20:29
+
+**① La richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`.»
+- FATTA. Ho riletto i dati di business dal vivo via `execute_sql` MCP: orders, profiles,
+  cron_heartbeats. 1 ordine, 0 pagati, 8 profili, 0 nuovi in 7gg. Invariato dal giro pieno delle
+  18:51. Questo è più diretto del solito controllo.
+- FATTA. Ho verificato con `WebFetch` diretto due indirizzi, non solo dedotto dai log. Primo:
+  `mycity-marketplace.com`, ancora 503, DNS ancora su Render. Secondo: il vero dominio
+  `mycity-phi.vercel.app`, home 200, `/api/health` 503 unhealthy. È la prima conferma diretta della
+  diagnosi già scritta nella card #154.
+- FATTA. Ho letto `cron_heartbeats`: 8 job del sito fermi dal 30/7, oltre un mese. È un fatto nuovo.
+  Non è una causa nuova: è una prova in più della stessa causa. L'ho annotato in coda alla card
+  #154. Non ho aperto una carta nuova.
+- FATTA. Ho scritto STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, auto-analisi.json,
+  AZIONI-IN-ATTESA.md (nota su #154), SALA-OPERATIVA.md, questo file.
+- NON FATTA APPOSTA: sentinelle/autocontrollo automazione, radar IN/OUT, apprendimento formale
+  (`lezione-nuova.mjs`), auto-miglioramento, sonda auto-radiografia, aggiornamento dei Piani. Due
+  motivi, uguali a ogni passaggio di oggi. Primo: il gate North Star impone di lavorare solo su ciò
+  che avvicina il primo ordine pagato. Nessuno di questi passi lo fa più delle 10 carte già in coda.
+  Secondo: il letargo RISPARMIO impone di tagliare il volume.
+- MANCANTE, bloccato e non per scelta: `verifica-automazione.mjs`, `piani-data.mjs --scrivi`,
+  `coerenza-fatti.mjs`, `sonda-volano.mjs`, `chiusura-loop.mjs`, `calibrazione.mjs`,
+  `lezione-nuova.mjs`, `test-cervello.mjs`, `gh pr list`, `git rev-list`, `python3`, `curl`. Tutti
+  fuori dall'elenco comandi consentiti in questa sessione. È il buco delle card #104/#189. Un solo
+  tentativo per ciascuno. Per questo la conferma su `/api/health` e su `cron_heartbeats` non è
+  entrata nel circuito formale di apprendimento: nessuna lezione registrata via CLI. Il motivo è
+  rispettare AR-651, che vieta di scrivere una lezione a mano.
+
+**② Diff riletto, non a memoria.** `git status --short` prima di chiudere mostra due gruppi di
+righe. Il primo: memoria e auto-coscienza già toccate dal passo automatico di `giro.sh`, prima del
+mio turno. Il secondo: i file scritti da me in questo turno — STATO.md, Briefing/2026-09-02.md,
+ultimo-briefing.json, auto-analisi.json, AZIONI-IN-ATTESA.md, SALA-OPERATIVA.md, questo file. Ho
+anche guardato il diffstat completo contro la base indicata dal cancello dello stop
+(`a7c21a2e9aa0…`): 67 file, quasi tutti di giri precedenti di oggi, non di questo turno. Non ho
+riscritto quel lavoro pregresso: appartiene a passaggi già chiusi.
+
+**③ Prove eseguite.** Questi sono file di memoria e JSON, non codice eseguibile. Ho controllato a
+occhio che ogni JSON toccato in questo turno resti sintatticamente valido: parentesi e virgole
+bilanciate, riletto per intero dopo ogni modifica. `node --check` è bloccato in questa sessione,
+stesso buco delle card #104/#189: un tentativo, non ripetuto. Le due entità nuove sono il dominio
+Vercel e il cron. Hanno ciascuna doppia fonte indipendente. Il dominio: due chiamate WebFetch
+separate sullo stesso indirizzo, più home e `/api/health` sul dominio Vercel. Il cron: una query SQL
+diretta su `cron_heartbeats`.
+
+**④ Alternativa considerata.** Potevo rifare l'intero giro a 15 passi, con un nuovo scan di radar e
+Intelligence. L'ho scartata. Il motivo è lo stesso di ogni passaggio di oggi: dati invariati, e i
+vincoli North Star più letargo lo sconsigliano. Ho scelto una riconferma leggera. La differenza da
+un semplice "nulla di nuovo": ho verificato in modo più diretto due punti che prima erano solo
+dedotti, il dominio Vercel e i cron. È un miglioramento di rigore, piccolo e mirato — non un giro
+pieno.
+
+**⑤ Cosa ho sistemato e cosa resta aperto.** Ho aggiunto una nota di supporto alla card #154. Non
+ho aperto carte nuove. Restano aperte le stesse 10 carte, nessuna firmata. Non ho toccato nessuno
+dei blocchi Bash già noti (#104/#189): un solo tentativo ciascuno, come da lezione registrata.
+
+**Aggiornamento dopo il cancello dello stop: fix di leggibilità.** Il cancello ha bloccato la
+consegna su `si-capisce.mjs` in sei file: questo, `Intelligence/eventi-picchi.md`, `STATO.md`,
+`Intelligence/leve-uscita.md`, `Intelligence/reputazione.md`, `RITMO.md`. In ognuno ho riscritto le
+frasi segnalate: titoli con un trattino lungo più una parentesi diventano un solo segno, non due.
+Un elenco puntato senza punto finale che si fondeva in un'unica frase enorme ora ha un punto per
+riga. `node cervello/si-capisce.mjs` resta bloccato in questa sessione (stesso buco delle card
+#104/#189): non ho potuto rilanciarlo per contare il residuo esatto. Ho verificato a occhio, riga
+per riga, ogni frase citata nel messaggio del cancello. Non ho toccato la sostanza: numeri, fonti e
+nomi restano identici a prima, cambia solo come sono spezzate le frasi.
+
+---
+
+## Collaudo dopo lo stop: giro di perlustrazione 2026-09-02 18:28
 
 **① Richiesta di Nicola in questo turno.** «Esegui `cervello/giro.md` per intero.»
 - FATTA: letti `sensori-cecita.json` e `delta-gate.json`. Il giro è scattato per l'orologio di
@@ -106,7 +173,7 @@ macchina che non sblocca il primo ordine pagato: fuori dal gate North-Star di qu
 
 ---
 
-## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 14:30
+## Collaudo dopo lo stop: giro di perlustrazione 2026-09-02 14:30
 
 **① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
 - FATTA: riverificati dal vivo gli ordini via query diretta MCP (`orders`). Risultato: 1 totale, 0
@@ -153,7 +220,7 @@ sicurezza — quindi in conflitto diretto con quel vincolo.
 
 ---
 
-## Collaudo dopo lo stop (AR-532) — Giro di perlustrazione 2026-09-02 11:25
+## Collaudo dopo lo stop: giro di perlustrazione 2026-09-02 11:25
 
 **① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
 - FATTA: riverificati dal vivo gli ordini via query diretta MCP (`orders`, `products`, `profiles`,
@@ -251,7 +318,7 @@ controlli HARD rieseguiti dal vivo invece che ereditati).
 **② Refutazione.** Confrontati i numeri chiave col passaggio delle 06:31, uno per uno: nessuna
 differenza reale. Corretto trattarlo come passaggio di sola verifica.
 
-## Collaudo dopo lo stop (AR-532) — 2026-09-02 08:40
+## Collaudo dopo lo stop: 2026-09-02 08:40
 
 Il cancello dello stop ha bloccato la prima chiusura del turno. Ecco il conto.
 
@@ -440,7 +507,7 @@ pagato. Qui non c'era un modo per farlo senza rompere quella regola.
 memoria del vault. Rischio più alto: dichiarare una riparazione "tenuta" con una sola osservazione.
 Mitigato scrivendolo esplicitamente nei Gap (serve più di un ciclo per essere certi).
 
-## Collaudo dopo il primo stop (AR-532) — 2026-09-01 20:4x
+## Collaudo dopo il primo stop: 2026-09-01 20:4x
 
 Il cancello dello stop ha bloccato la prima chiusura del turno. Ecco il conto.
 

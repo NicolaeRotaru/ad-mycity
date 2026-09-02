@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-02 18:28",
-  "situazione": "Giro di perlustrazione innescato dall'heartbeat (24h dall'ultimo giro pieno vero, non da un dato nuovo). Business invariato: 1 ordine (24/6, annullato), 0 pagati, 8 profili. Sito ancora HTTP 503 (242 giri ciechi). Coda firme invariata, nessuna card firmata. Letargo RISPARMIO: solo nucleo vitale + controlli di verità, volume tagliato. Giro tenuto leggero apposta: i 15 passi pieni ripeterebbero la stessa foto già scritta 25+ volte oggi.",
+  "data": "2026-09-02 20:29",
+  "situazione": "Giro di perlustrazione su richiesta esplicita di Nicola. Riverificato dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg. Controllato di persona sia mycity-marketplace.com (503, DNS ancora su Render) sia il vero indirizzo Vercel mycity-phi.vercel.app: la home carica, ma /api/health resta 503 unhealthy — conferma diretta che mancano le chiavi della card #154. Novità minore: i cron job del sito (scadenza ordini, payout, carrelli, email) risultano fermi dal 30/7 nella tabella cron_heartbeats, stessa causa nota. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},

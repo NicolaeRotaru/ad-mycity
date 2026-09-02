@@ -943,6 +943,15 @@ ci sono tutte deve rispondere `"status":"ok"`.
 qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se mancassero, non
 perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
 
+> **Nota aggiunta 2026-09-02 20:29:** dalla tabella `cron_heartbeats` del database vero, i lavori
+> automatici del sito (`expire-stale-orders`, `release-payouts`, `abandoned-carts`,
+> `operational-alerts`, `expire-checkouts`, `send-emails`, `send-push`) risultano fermi dal
+> **30/7, oltre un mese fa** — prima ancora del trasloco su Vercel del 22/8. Non è un problema nuovo,
+> è un indizio in più per la stessa causa: quei lavori girano solo se `CRON_SECRET` è impostato e i
+> Cron Job sono configurati sul progetto Vercel giusto. Quando risolvi #154, controlla anche questo:
+> senza `release-payouts` attivo, anche un primo ordine pagato non genererebbe il payout al negozio
+> in automatico.
+
 ---
 
 ### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
@@ -2995,7 +3004,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-02 18:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-02 20:26)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-02-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
