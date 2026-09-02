@@ -1,35 +1,30 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 06:31",
+  "data": "2026-09-02 08:30",
   "voto_fiducia": 79,
-  "sintesi_giro_corrente": "Sedicesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro») 26 minuti dopo il piano del mattino delle 06:05 che aveva già coperto radar/sentinelle/sette numeri. Nessuna scoperta nuova: la riverifica dal vivo (execute_sql MCP + ci-stato.mjs + coerenza-fatti.mjs) conferma lo stesso quadro. Rispettato il letargo RISPARMIO tagliando il volume (niente radiografia completa/auto-miglioramento/esperimenti nuovi) e il gate North-Star (nessuna card nuova, nessun lavoro sulla CI cronica).",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 70 giorni. Nessun numero di business cambiato rispetto al passaggio delle 06:05. Verificato dal vivo (non ereditato): orders/products/profiles/abandoned_carts/reviews via MCP, ci-stato.mjs, coerenza-fatti.mjs.",
-  "trend_fiducia": "→ 79→79: stabile, stesso motivo onesto dei passaggi precedenti — nessuna riparazione nuova prodotta in questo passaggio (solo verifica), correzione-nicola-gate resta non lavorato da 171 giri per lo stesso vincolo North-Star.",
+  "sintesi_giro_corrente": "Diciassettesimo passaggio identico sul business di oggi (0 ordini pagati, invariato dal 24/6), richiesto esplicitamente da Nicola («fai un giro»), quasi due ore dopo il passaggio delle 06:31 (nel mezzo un recupero automatico di scritture pendenti alle 08:20, non un giro mio). Nessuna scoperta nuova: la riverifica dal vivo (execute_sql MCP diretto sugli ordini) conferma lo stesso quadro. Rispettato il letargo RISPARMIO tagliando il volume (niente radiografia completa/auto-miglioramento/esperimenti nuovi) e il gate North-Star (nessuna card nuova).",
+  "sintesi": "Business fermo dal 24/6, stallo North Star invariato. Nessun numero di business cambiato rispetto al passaggio delle 06:31. Verificato dal vivo: orders/products/profiles/reviews via MCP execute_sql.",
+  "trend_fiducia": "→ 79→79: stabile, stesso motivo onesto dei passaggi precedenti — nessuna riparazione nuova prodotta in questo passaggio (solo verifica), correzione-nicola-gate resta non lavorato per lo stesso vincolo North-Star.",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
       "stato": "confermato",
-      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (06:31)"
+      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (08:29)"
     },
     {
-      "nome": "products=5, profiles=8, abandoned_carts=3, reviews+store_reviews=0",
+      "nome": "products=5, profiles=8, reviews=0, profili_nuovi_7g=0",
       "stato": "confermato",
-      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (06:31)"
+      "fonte": "execute_sql MCP supabase-marketplace, eseguito dal vivo in questo passaggio (08:29)"
     },
     {
-      "nome": "Memoria coerente (coerenza-fatti.json): 41 fatti, 0 cacce aperte",
+      "nome": "Sito pubblico giù: HTTP 503",
       "stato": "confermato",
-      "fonte": "node cervello/coerenza-fatti.mjs, rieseguito dal vivo in questo passaggio, exit pulito"
+      "fonte": "sensori-cecita.json, aggiornato da verifica-sensori.mjs eseguito in questo passaggio (08:28)"
     },
     {
-      "nome": "CI: 6 PR aperte, 6 rosse (6 colpa loro, 0 ereditate), 0 mai provate — cronica da 4+ giri (AR-687)",
+      "nome": "Pane Quotidiano (negozio faro, unico reale): pagamenti ancora spenti",
       "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs, rieseguito dal vivo in questo passaggio"
-    },
-    {
-      "nome": "Sito pubblico giù: HTTP 503, 228 giri ciechi",
-      "stato": "confermato",
-      "fonte": "sensori-cecita.json, aggiornato da verifica-sensori.mjs eseguito in questo passaggio"
+      "fonte": "registro-fatti.json (negozio.faro), baseline 24/8 non riverificata riga per riga in questo passaggio"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (gate North-Star + niente di importante da confrontare coi migliori).",
@@ -38,11 +33,11 @@
     "stripe": "API ok (verifica-sensori.mjs), ma non riverificato lo specifico fascicolo PQ: riporto la baseline del 24/8",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503), 228 giri ciechi"
+    "sito_uptime": "giù (HTTP 503)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), attiva da 171 giri di fila (AR-687). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L2: execute_sql MCP, ci-stato.mjs e coerenza-fatti.mjs rieseguiti dal vivo (non ereditati) in questo passaggio. Tentati e bloccati (un solo colpo ciascuno, come nei passaggi precedenti di oggi): north-star-check.mjs --gate, letargo.mjs (comando richiede approvazione non concessa in questa sessione).",
-  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati tutti e 5 i numeri chiave + CI + coerenza-fatti col passaggio delle 06:05, riga per riga — nessuna differenza reale, solo +1 giro cieco sul sito (228 vs presumibile 227). Non regge l'ipotesi che ci sia lavoro utile oltre la conferma: corretto trattarlo come passaggio di sola verifica, non come giro pieno con nuove scoperte.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
+  "livello_verifica": "L1: execute_sql MCP rieseguito dal vivo (non ereditato) in questo passaggio; verifica-sensori.mjs rieseguito. NON rieseguiti (bloccati da approvazione non concessa, un solo tentativo ciascuno): test-cervello.mjs, north-star-check.mjs, ci-stato.mjs, coerenza-fatti.mjs, gh pr list. Riporto per questi i verdetti del passaggio delle 06:31 (coerenza-fatti pulito, CI 6/6 rosse) e dell'hook di sessione (letargo RISPARMIO, north-star stallo, esperimenti-check, correzione-nicola-gate, freschezza-cadenze).",
+  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo': confrontati i numeri chiave col passaggio delle 06:31, uno per uno — nessuna differenza. Non regge l'ipotesi che ci sia lavoro utile oltre la conferma: corretto trattarlo come passaggio di sola verifica.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
@@ -52,8 +47,8 @@
     },
     {
       "tipo": "informativa",
-      "domanda": "Le 6 PR rosse (card #190) restano ferme perché nessuna sblocca il primo ordine pagato. Vuoi che le riprenda in un giro senza vincolo North-Star, o restano così finché il business non si sblocca?",
-      "azione": "se sì, le metto in coda al prossimo giro non vincolato",
+      "domanda": "Il permesso di Bash sul VPS resta troppo stretto: test-cervello.mjs, north-star-check.mjs, ci-stato.mjs e coerenza-fatti.mjs restano bloccati da approvazione da giorni (card #104/#189). Vuoi che aggiunga le righe mancanti a .claude/settings.local.json, o preferisci farlo tu direttamente?",
+      "azione": "se dai l'ok, propongo il blocco JSON completo da incollare (mai frammenti, per la lezione già registrata)",
       "colore": "🟡"
     }
   ]

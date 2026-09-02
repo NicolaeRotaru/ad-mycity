@@ -17,29 +17,29 @@
 > giorni. **Esito identico a tutti i controlli precedenti: nessuna menzione nuova di MyCity o di
 > Pane Quotidiano, nessuna recensione, nessun articolo di stampa.** La ricerca settimanale
 > restituisce solo risultati fuori tema: mercati generici di Piacenza e Crema su TripAdvisor,
-> pagine Wikipedia. Le notizie del giorno da Libertà — Città non riguardano negozi, botteghe o
-> marketplace: parlano di agroalimentare Cattolica, di cronaca e di cassa integrazione Lpr
+> pagine Wikipedia. Le notizie del giorno da Libertà-Città non riguardano negozi, botteghe o
+> marketplace. Parlano di agroalimentare Cattolica, di cronaca e di cassa integrazione Lpr
 > (dettaglio completo in `eventi-picchi.md`). È coerente con lo stallo: il sito resta giù, HTTP
 > 503, e Pane Quotidiano non ha ancora fatto un incasso vero. Non c'è ancora nulla da "reputare".
 > Nessuna azione oggi.
 >
 > **Aggiornato: 2026-08-18.** Giro leggero (`cervello/monitora.md`). Fonte giornaliera controllata
 > oggi: WebFetch su liberta.it/territorio/citta/piacenza. Nessuna menzione nuova di MyCity o dei
-> nostri negozi. Nessuna recensione trovata. Le notizie del giorno da Libertà — Città sono cronaca
-> non pertinente: un'ordinanza anti-rumore su un autolavaggio, lavori stradali già noti (dettaglio
+> nostri negozi. Nessuna recensione trovata. Le notizie del giorno da Libertà-Città sono cronaca
+> non pertinente. Un'ordinanza anti-rumore su un autolavaggio, lavori stradali già noti (dettaglio
 > in `eventi-picchi.md`). Niente che riguardi negozi, botteghe o il marketplace. La settimanale
 > "Reputazione MyCity" (Google/social) non è dovuta oggi: ricontrollata il 17/8, prossima scadenza
 > il 24/8. Stesso quadro del 10-17/8.
 >
 > **Aggiornato: 2026-08-17 06:33.** Giro leggero (`cervello/monitora.md`). Fonti controllate oggi:
-> WebFetch su liberta.it/territorio/citta/piacenza (giornaliera), più WebSearch "MyCity Piacenza
-> marketplace consegne negozi" e una ricerca mirata su "Pane Quotidiano" Via Calzolai — è la
+> WebFetch su liberta.it/territorio/citta/piacenza (giornaliera). Più WebSearch "MyCity Piacenza
+> marketplace consegne negozi" e una ricerca mirata su "Pane Quotidiano" Via Calzolai. È la
 > settimanale "Reputazione MyCity", dovuta oggi perché l'ultimo controllo era il 10/8, esattamente
 > 7 giorni fa. **Nessuna menzione nuova, nessuna recensione trovata.** Stesso quadro del 10-15/8:
 > solo schede da directory (PagineGialle, PagineBianche, VitaInCentro, Terra Nuova, VeganHome),
-> nessuna recensione Google/social, nessun articolo di stampa. Le notizie del giorno da Libertà —
-> Città restano di viabilità/urbanistica (Piazza Cittadella, cantieri già noti, riportate in
-> `eventi-picchi.md`). L'ultimo controllo precedente di questo file risale al 15/8/2026 alle
+> nessuna recensione Google/social, nessun articolo di stampa. Le notizie del giorno da Libertà-Città
+> restano di viabilità/urbanistica: Piazza Cittadella, cantieri già noti. Riportate in
+> `eventi-picchi.md`. L'ultimo controllo precedente di questo file risale al 15/8/2026 alle
 > 06:45; le fonti sono elencate sotto.
 
 ---

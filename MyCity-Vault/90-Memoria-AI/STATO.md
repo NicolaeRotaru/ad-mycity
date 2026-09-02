@@ -1,7 +1,38 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 06:31
+aggiornato: 2026-09-02 08:30
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **2/9 08:30 — Giro di perlustrazione: diciassettesima foto identica, quasi due ore dopo l'ultima.** Richiesta tua: «fai un giro».
+>
+> **In parole semplici.** Query diretta al database, non a memoria: 1 ordine totale, 0 pagati,
+> ancora il 24 giugno annullato, 5 prodotti, 8 profili, 0 recensioni, 0 profili nuovi negli ultimi
+> 7 giorni. Sito pubblico ancora giù, HTTP 503, riconfermato ora. Nessun numero di business
+> cambiato dal passaggio delle 06:31. Nel mezzo c'è stato un recupero automatico di scritture
+> pendenti alle 08:20 (non un giro mio).
+>
+> **Perché mi fermo qui invece di rifare tutti i 15 passi del giro.** Letargo ancora in
+> **RISPARMIO** (salute macchina 4/100): si taglia il volume (radiografia completa,
+> auto-miglioramento, esperimenti nuovi — già coperti oggi, nulla di nuovo da allora), mai i
+> controlli di verità. Ho tenuto solo la riverifica diretta degli ordini. Il gate North Star resta
+> HARD (0 pagati da giorni): nessuna card nuova, nessuna mossa disponibile avvicina il primo
+> ordine pagato più delle carte già in coda.
+>
+> **In coda restano le stesse nove carte, nessuna firmata.** #154+#155 (dominio+chiavi Vercel,
+> mossa n.1), #182 (pagamenti PQ), #184 (migrazioni DB), #185 (scadenza 29/8, scaduta da 4gg),
+> #186 (cancello sito), #188 (origine comando ricorrente), #189 (permesso test-cervello), #190 (CI
+> cronica), #191 (10 azioni-negozio tornate visibili dopo la pausa scaduta).
+>
+> **Cosa non ho verificato.** `test-cervello.mjs`, `north-star-check.mjs`, `ci-stato.mjs`,
+> `coerenza-fatti.mjs`, `gh pr list`: bloccati da approvazione non concessa in questa sessione,
+> stesso buco di permessi delle card #104/#189, un solo tentativo ciascuno. Riporto i verdetti già
+> scritti dall'hook di sessione (letargo, north-star, esperimenti, correzione-nicola-gate,
+> freschezza-cadenze, CI) e i dati di CI/coerenza-fatti del passaggio delle 06:31, non ricontrollati
+> a mano ora.
+>
+> Briefing completo: [[Briefing/2026-09-02]].
+
 ---
 
 > 🧭 **2/9 06:31 — Giro di perlustrazione: sedicesima foto identica, 26 minuti dopo il piano del mattino.** Richiesta tua: «fai un giro».
@@ -21,11 +52,11 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 > pagati da ≥3gg): nessuna card nuova aperta da me, perché nessuna mossa disponibile avvicina il
 > primo ordine pagato più delle tre già in coda.
 >
-> **Una cosa nuova, non aperta da me.** Un processo automatico — il worker, non questo giro — ha
-> scritto la card **#191** alle 06:30. La pausa che avevi messo su 10 azioni-negozio è scaduta.
-> Sono tornate visibili in coda: post carosello, referral, email di benvenuto, ordine test PQ e
-> altre 6. Non sono ripartite da sole. Aspettano ancora il tuo sì, una per una, come prima della
-> pausa.
+> **Una cosa nuova, non aperta da me.** Un processo automatico ha scritto la card **#191** alle
+> 06:30. Non è stato questo giro: è stato il worker. La pausa che avevi messo su 10 azioni-negozio
+> è scaduta. Sono tornate visibili in coda: post carosello, referral, email di benvenuto, ordine
+> test PQ e altre 6. Non sono ripartite da sole. Aspettano ancora il tuo sì, una per una, come
+> prima della pausa.
 >
 > **Il sorvegliante segnalava una mutazione nota (AR-850), ripetuta oltre 190 volte in sessione:
 > risolta durante questo passaggio.** Il problema vero: il conteggio delle card archiviate in
@@ -68,10 +99,10 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 > 3. Applicare le quattro migrazioni ferme sul database di produzione (#184). Serve perché non si
 >    rompa il checkout al primo cliente vero.
 >
-> **Una cosa in più, non una nuova priorità.** La scadenza che avevi fissato tu per il 29 agosto (le
-> quattro cose da chiudere, card #185) è passata da 4 giorni senza una tua parola. Resta lì. Non
-> l'ho riaperta da sola. Il vincolo North Star impone di lavorare solo su ciò che avvicina il primo
-> ordine pagato. Riaprire quel conto non lo farebbe.
+> **Una cosa in più, non una nuova priorità.** La scadenza del 29 agosto è passata da 4 giorni.
+> L'avevi fissata tu: sono le quattro cose da chiudere, card #185. Non hai ancora risposto, e resta
+> lì. Non l'ho riaperta da sola. Il vincolo North Star impone di lavorare solo su ciò che avvicina
+> il primo ordine pagato. Riaprire quel conto non lo farebbe.
 >
 > **Cosa non ho verificato.** Il sito in un browser vero (solo lo stato HTTP dal sensore). Lo stato
 > Stripe specifico di Pane Quotidiano riga per riga (baseline del 24/8). Il contenuto delle 5 PR

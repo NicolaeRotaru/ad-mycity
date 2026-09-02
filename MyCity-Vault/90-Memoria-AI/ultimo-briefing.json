@@ -1,13 +1,13 @@
 {
-  "data": "2026-09-02 06:31",
-  "situazione": "Giro di perlustrazione: sedicesimo passaggio identico di oggi, 26 minuti dopo il piano del mattino. Business ancora fermo: 1 ordine, 0 pagati, stallo North Star 70 giorni, sito ancora giù (HTTP 503, 228 giri ciechi). Un processo automatico separato ha risvegliato la card #191 alle 06:30 (10 azioni-negozio tornate visibili dopo una pausa scaduta, non ripartite da sole). Per il resto nessuna novità di business: confermato con query dirette MCP + ci-stato.mjs + coerenza-fatti.mjs. Le priorità restano invariate (gate North-Star AR-113 HARD): sito online, pagamenti Pane Quotidiano, migrazioni database.",
+  "data": "2026-09-02 08:30",
+  "situazione": "Giro di perlustrazione: diciassettesimo passaggio identico di oggi, quasi due ore dopo l'ultimo. Business ancora fermo: 1 ordine, 0 pagati, ultimo ordine 24/6 (annullato), 5 prodotti, 8 profili, 0 recensioni, 0 profili nuovi negli ultimi 7 giorni — riconfermato con query diretta al database. Sito ancora giù (HTTP 503). Nessuna novità di business dal passaggio delle 06:31. Le priorità restano invariate (gate North-Star AR-113 HARD): sito online, pagamenti Pane Quotidiano, migrazioni database.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
     {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "fermo da settimane (charges/payouts/details ancora tutti spenti): attivare i pagamenti prima o riscrivere intanto le CTA dei post che promettono consegna", "livello": "rosso"},
     {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni: cancello automatico o applicazione a mano", "livello": "rosso"},
     {"titolo": "Una parola sulla scadenza del 29 agosto, passata da 4 giorni", "motivo": "le quattro cose che avevi fissato per il 29/8 non hanno ancora un conto verificato: riapro il cantiere o hai già deciso diversamente", "livello": "rosso"},
-    {"titolo": "Dimmi dove vive il comando ricorrente PLAYBOOK anti-churn", "motivo": "23+ esecuzioni dello stesso compito, nessuna traccia trovata in due ricerche nel repository: deve vivere in un'agenda esterna", "livello": "giallo"},
+    {"titolo": "Le dieci azioni-negozio tornate in coda dopo la pausa scaduta", "motivo": "post carosello, referral, ordine test PQ e altre: sono di nuovo visibili, aspettano il tuo sì una per una", "livello": "giallo"},
     {"titolo": "Dimmi se riprendere le 6 PR rosse in un giro senza vincolo North Star", "motivo": "6 PR aperte, tutte rosse, colpa propria del ramo — non toccate perché nessuna sblocca il primo ordine pagato, ma restano ferme finché qualcuno non le riprende", "livello": "giallo"}
   ]
 }

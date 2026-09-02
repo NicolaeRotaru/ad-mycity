@@ -7,7 +7,7 @@
 > - **Comune-news**: nessuna notizia nuova su ZTL, commercio o mercati. Solo voci già note, come il bando rifiuti da 400mila euro aperto il 31/8. Il resto non è pertinente: biblioteche, commissioni comunali, voucher baby-sitter, InformaSociale. Fonte: [comune.piacenza.it/it/menu/news](https://www.comune.piacenza.it/it/menu/news) (WebFetch, 2/9).
 > - **Libertà — Attualità**: nessuna notizia di oggi su commercio, botteghe o centro storico. Solo cronaca generica: viabilità in Val Trebbia e l'allerta meteo di cui sopra. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita) (WebFetch, 2/9).
 > - **PiacenzaSera**: nessuna notizia di commercio o desertificazione del centro oggi. Solo eventi minori non pertinenti (Immagini nel Parco, serata Africa Mission) e la riapertura del Ponte sul Vezzeno, che è viabilità periferica. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (WebFetch, 2/9).
-> - **Sagre e mercatini di provincia** (settimanale, dovuta oggi): WebSearch mirata su "sagre mercatini Piacenza provincia settembre 2026". Trova solo portali generici — eventiesagre.it, scopripiacenza.it, sagritaly.com — senza un calendario dettagliato consultabile da qui. Nessun evento specifico con data. Nessun dato azionabile nuovo.
+> - **Sagre e mercatini di provincia** (settimanale, dovuta oggi): WebSearch mirata su "sagre mercatini Piacenza provincia settembre 2026". Trova solo portali generici: eventiesagre.it, scopripiacenza.it, sagritaly.com. Nessun calendario dettagliato è consultabile da qui. Nessun evento specifico con data. Nessun dato azionabile nuovo.
 >
 > **Candore:** 6 fonti dovute oggi, tutte ricontrollate, zero novità sostanziali. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare. Nessuna nota qui sotto diventa quindi un'azione: resta preparazione.
 
@@ -32,7 +32,7 @@ con un titolo di IlPiacenza trovato via WebSearch: "Piena estate anche a inizio 
 Piacenza ancora massime fino a 35 gradi". **Impatto:** nessun rischio pioggia questa settimana,
 diversamente da fine agosto. Il caldo prolungato tiene alta la domanda di freschi e bevande. Oggi
 resta però un dato preparatorio, perché le consegne attive sono 0.
-Fonti: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 1/9). Più [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) (titolo, via WebSearch 1/9).
+Fonti: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 1/9). Conferma anche [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) (titolo, via WebSearch 1/9).
 
 **② Tre eventi nuovi in calendario, il più rilevante è uno Sbaracco il 6/9.** Dalla pagina eventi del Comune (fetch diretto riuscito oggi):
 - **Domenica 6/9 — "La domenica dello Sbaracco"**: i negozi del centro svuotano il magazzino con

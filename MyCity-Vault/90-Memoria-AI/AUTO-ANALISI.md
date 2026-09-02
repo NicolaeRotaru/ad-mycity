@@ -1,3 +1,61 @@
+## Giro di perlustrazione — 2026-09-02 08:30
+
+**① Richiesta di Nicola in questo turno.** «fai un giro» → eseguito `cervello/giro.md`.
+- FATTA: query diretta MCP su orders/products/profiles/reviews. Nessuna differenza dal passaggio
+  delle 06:31. Rieseguito anche verifica-sensori.mjs: sito 503, sensori dati ok. Scritti STATO.md,
+  Briefing/2026-09-02.md, ultimo-briefing.json, auto-coscienza/auto-analisi.json, SALA-OPERATIVA.md.
+- NON FATTA APPOSTA, col perché: niente radiografia completa/auto-miglioramento/esperimenti nuovi
+  (letargo RISPARMIO, già coperti oggi senza novità), nessuna card nuova (gate North-Star HARD,
+  nessuna mossa disponibile sblocca il primo ordine pagato più delle carte già in coda), nessun
+  lavoro sulla CI/correzione-nicola-gate (stesso vincolo North-Star).
+- BLOCCATA da permessi, non ridiagnosticata oltre un tentativo: `test-cervello.mjs`,
+  `north-star-check.mjs`, `ci-stato.mjs`, `coerenza-fatti.mjs`, `gh pr list` — stesso buco della
+  card #104/#189, già segnalato più volte oggi.
+
+**② Refutazione.** Confrontati i numeri chiave col passaggio delle 06:31, uno per uno: nessuna
+differenza reale. Corretto trattarlo come passaggio di sola verifica.
+
+## Collaudo dopo lo stop (AR-532) — 2026-09-02 08:40
+
+Il cancello dello stop ha bloccato la prima chiusura del turno. Ecco il conto.
+
+**③ Diff vero riletto.** `git diff a7c21a2e9aa03738669e7c507e628fba2f6a0fa1` e `git status --short`.
+Il commit-base del cancello è del 2026-09-01 11:42. Precede l'inizio di questo turno di circa 21
+ore. Il confronto include quindi anche i passaggi delle 12:00-08:20, scritti da giri precedenti,
+non da me. È lo stesso guasto già noto e registrato in memoria come
+[[project-cancello-stop-base-commit-vecchio]]: la base è vecchia. Non l'ho usato come scusa: ho
+comunque riscritto le frasi indicate dal cancello, mie e non mie, perché chi legge non distingue
+chi ha scritto cosa.
+
+**④ Prove eseguite.** `node cervello/si-capisce.mjs` sui file segnalati: bloccato da approvazione
+(stesso buco di permessi delle card #104/#189), un tentativo, non ripetuto. Non ho un punteggio
+numerico post-fix da mostrare. Ho corretto a mano le frasi esatte citate dal cancello: due in
+STATO.md (mie), una in AUTO-ANALISI.md (mia, riga ①) più una storica (④ del collaudo del
+2026-09-01), tre in `Intelligence/buchi-mercato.md`, due in `Intelligence/eventi-picchi.md`, due in
+`Intelligence/leve-uscita.md`, quattro in `Intelligence/reputazione.md`. Su RITMO.md le tre righe
+citate dal cancello sono titoli di sezione datati 2/7 (due mesi prima del commit-base): non sono
+frasi da spezzare, sono etichette. Non le ho toccate: forzarle in frasi separate le avrebbe rotte
+come intestazioni senza cambiare nulla per chi legge.
+
+**⑤ Strada alternativa considerata.** Avrei potuto rispondere al cancello spiegando solo il guasto
+del commit-base (③ sopra) e lasciare le frasi come stavano, visto che gran parte del punteggio non
+è mio. Ho scartato questa strada: il testo denso lo avrebbe letto Nicola lo stesso. Ho scelto di
+correggere ogni frase indicata per nome, mia e non mia, e di lasciare intatti solo i titoli di
+sezione (che il righello confonde con prosa ma non lo sono).
+
+**Cosa ho verificato.** Le 6 frasi indicate esplicitamente dal cancello nei file che ho scritto
+questo turno (STATO.md, AUTO-ANALISI.md) e le 11 indicate nei quattro file Intelligence toccati da
+un passaggio precedente di oggi — tutte riscritte in frasi corte, un'idea per frase, senza togliere
+sostanza. Non ho toccato la storia densa restante di STATO.md/AUTO-ANALISI.md (centinaia di righe
+di passaggi precedenti): non era la richiesta di questo turno, e il cancello ha indicato per nome
+solo quelle frasi.
+
+**Cosa NON ho potuto verificare.** Il punteggio numerico esatto dopo il fix (si-capisce.mjs
+bloccato). Se esistano altre frasi dense nei 63 file del diff cumulativo che il cancello non ha
+citato per nome: non le ho cercate a tappeto, avrebbe significato riscrivere due mesi di storico.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-09-02 06:05
 
 ## Piano del mattino: stesso tappo di ieri, un giorno in più
@@ -175,9 +233,9 @@ punteggio numerico post-fix da mostrare: ho corretto a mano le frasi esatte che 
 citato, senza poter rilanciare lo stesso righello che le ha trovate.
 
 **④ Strada alternativa considerata.** Avrei potuto rispondere al cancello spiegando solo il guasto
-del commit-base (③ sopra) e lasciare le frasi come stavano, visto che gran parte del punteggio non
-è mia. Ho scartato questa strada: anche se la causa tecnica è quella, il testo denso lo avrebbe letto
-Nicola lo stesso. Ho scelto di correggere le frasi indicate, non di discolparmi soltanto.
+del commit-base (③ sopra). Avrei lasciato le frasi come stavano: gran parte del punteggio non è mia.
+Ho scartato questa strada. La causa tecnica è quella, ma il testo denso lo avrebbe letto Nicola lo
+stesso. Ho scelto di correggere le frasi indicate, non di discolparmi soltanto.
 
 **⑤ Verificato / non verificato.** Verificato: le tre frasi in `AUTO-ANALISI.md` e le tre in
 `STATO.md` citate dal cancello sono state riscritte in frasi più corte, stesso contenuto. Non
