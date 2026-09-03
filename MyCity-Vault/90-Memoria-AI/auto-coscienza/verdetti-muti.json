@@ -1,10 +1,10 @@
 {
   "_cosa_e": "📮 Quante volte ho consegnato un lavoro il cui esito non è arrivato dove Nicola legge (AR-474). Il tetto SCENDE e non risale: aggiungerne uno è un errore, portarne via è il lavoro.",
-  "misurato": "2026-09-03 06:52",
+  "misurato": "2026-09-03 20:51",
   "finestra_giorni": 30,
-  "commit_esaminati": 116,
-  "esclusi_worker": 16,
-  "consegne": 100,
+  "commit_esaminati": 113,
+  "esclusi_worker": 15,
+  "consegne": 98,
   "mute": 1,
   "tasso": 1,
   "ultime_mute": [
@@ -14,15 +14,15 @@
       "titolo": "Il metodo di collaudo adesso è scritto: chi ha costruito non collauda "
     }
   ],
-  "esclusi_non_scrivibili": 5,
+  "esclusi_non_scrivibili": 2,
   "file_non_scrivibili": [
     ".claude/settings.json",
     ".claude/settings.local.json",
     "cervello/vps/.env"
   ],
   "cabina": {
-    "stato_aggiornato": "2026-09-02 22:57",
-    "ultima_consegna": "2026-09-01 22:12",
+    "stato_aggiornato": "2026-09-03 20:30",
+    "ultima_consegna": "2026-09-03 03:48",
     "giorni_indietro": 0
   },
   "tetti": {
