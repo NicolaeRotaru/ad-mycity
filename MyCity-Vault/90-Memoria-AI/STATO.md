@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 08:51
-fonte: AD digitale (giro di perlustrazione, quarta chiamata identica in 68 minuti)
+aggiornato: 2026-09-03 09:11
+fonte: AD digitale (Piano del mattino, terza chiamata di oggi)
 ---
+
+> ☀️ **3/9 09:11 — Piano del mattino, il terzo di oggi.** Il giro delle 08:51 ha già confermato i
+> dati con una query diretta MCP: 1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti, 0
+> recensioni. Non ho riquerato: un marketplace senza traffico non cambia in 20 minuti.
+>
+> Le tre priorità restano invariate. Dominio e chiavi Vercel, card #154 e #155. Pagamenti carta di
+> Pane Quotidiano, card #182. Le quattro migrazioni ferme, card #184. Nessuna card nuova.
+> Blocco completo: [[RITMO]].
 
 > 🧭 **3/9 08:51 — Giro richiamato una quarta volta: dati identici a 07:43, 08:10 e 08:36.**
 > Riverificato ora via query diretta a Supabase (MCP `execute_sql`): 1 ordine (24/6, annullato),

@@ -917,3 +917,8 @@ Esempi:
 - 2026-09-03 08:51 · @ad · FATTO · `test-cervello.mjs` bloccato da approvazione non concessa (stesso buco allowlist, card #104/#189) — un solo tentativo, non ridiagnosticato oltre.
 - 2026-09-03 08:51 · @ad · FATTO · Nessuna card nuova, nessun reparto chiamato: aprire lavoro sugli stessi dati invariati sarebbe rumore. Aggiornati Briefing/2026-09-03.md, STATO.md, ultimo-briefing.json, auto-analisi.json.
 - 2026-09-03 08:51 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata. Segnalato il rischio di un ciclo di richiami automatici (4 chiamate identiche in poco più di un'ora): vale la pena controllare la cadenza che le genera.
+
+### 2026-09-03 09:11 — ☀️ PIANO DEL MATTINO (terza volta oggi, dopo 07:43 e 08:21)
+- 2026-09-03 09:11 · @ad · FATTO · Non riquerato il DB: dati confermati 20 minuti fa dal giro delle 08:51 (1 ordine/0 pagati, 8 profili, 5 prodotti, 0 recensioni). Scritto il blocco in RITMO.md con lo stesso piano, aggiornato STATO.md.
+- 2026-09-03 09:11 · @ad · FATTO · Nessuna card nuova, nessun reparto chiamato: le tre priorità restano #154/#155, #182, #184.
+- 2026-09-03 09:11 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda. Ribadito (terza volta) il sospetto sulla cadenza che richiama piano/giro a distanza di 15-25 minuti l'uno dall'altro: card #188 lo chiede da giorni senza risposta.

@@ -1522,3 +1522,20 @@ Nessuna delle tre si è mossa in 21 controlli di oggi. È lo stesso quadro dalle
 - Se hai un minuto, rispondi anche alla scadenza del 29 agosto. È passata da 5 giorni.
 
 **Dettagli tecnici** — Questo passaggio è arrivato 38 minuti dopo il vero Piano del Mattino delle 07:43. È arrivato anche 11 minuti dopo un Giro completo delle 08:10. Il quadro di business è lo stesso: 1 ordine, 0 pagati, 8 profili, 5 prodotti. La coda resta la stessa: dieci carte, nessuna firmata. Non ho aperto una card nuova né chiamato reparti: nessun dato nuovo giustifica un altro passo. Riporto qui lo stesso piano invece di un blocco vuoto, perché resta l'unico piano valido di oggi.
+
+## Piano del mattino · 2026-09-03 09:11
+
+**In una riga:** Terza volta che scrivo il piano del mattino di oggi. Il quadro non è cambiato: restano le stesse tre firme.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito: dominio più chiavi Vercel. Senza questo un pagamento riuscito non diventa mai un ordine.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero, fermo da oltre 18 giorni.
+3. Applica le quattro migrazioni ferme sul database di produzione. Evita un checkout rotto al primo cliente vero.
+
+**Serve da te**
+- Firma dominio e chiavi Vercel
+- Decidi come sbloccare i pagamenti di Pane Quotidiano
+- Dai il via alle quattro migrazioni
+- Se hai un minuto, rispondi anche alla scadenza del 29 agosto: è passata da 5 giorni
+
+**Dettagli tecnici** — Due giri hanno già riverificato i dati dal vivo nei 50 minuti prima di questo passaggio: alle 08:36 e alle 08:51, con query dirette MCP. Risultato identico: 1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Non ho riquerato una quinta volta: un marketplace senza traffico non genera eventi nuovi in 20 minuti. Coda invariata: `#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`, `#192`. Oggi ho scritto tre Piani del Mattino: alle 07:43, alle 08:21 e ora alle 09:11. Prima di questi sono girati anche quattro Giri identici. La cadenza che li richiama così vicini resta da capire. La card #188 lo chiede da giorni, senza risposta.

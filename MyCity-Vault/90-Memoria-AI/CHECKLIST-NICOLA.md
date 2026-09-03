@@ -15,9 +15,10 @@ aggiornato: 2026-09-03 08:51
 > Riverificato ora (query diretta a Supabase + `ci-stato.mjs`): le carte sotto sono confermate
 > ancora aperte nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, migrazioni ferme,
 > Pane Quotidiano senza incassi). Un solo numero corretto rispetto all'ultima versione: le PR
-> rosse sul repo memoria/cervello sono **8**, non più 7 (vedi sezione CI più sotto). Il resto
-> dell'elenco (le singole card 🟡 "da valutare") non è stato riverificato voce per voce in questo
-> passaggio — se una di queste risulta già chiusa, dimmelo e la tolgo.
+> rosse sul repo memoria/cervello sono **8**, non più 7. Lo vedi nella sezione CI più sotto.
+>
+> Il resto dell'elenco non è stato riverificato voce per voce in questo passaggio. Sono le singole
+> card 🟡 «da valutare». Se una di queste risulta già chiusa, dimmelo e la tolgo.
 
 ---
 
@@ -93,8 +94,8 @@ aggiornato: 2026-09-03 08:51
 - [ ] 🟡 **148 difetti sono chiusi con una prova che non può diventare rossa** — servirebbe una
   sessione dedicata a ridarle un morso vero.
   → Card `#172`
-- [ ] 🟡 **Un post pronto per Pane Quotidiano** (pudding vaniglia, senza promessa di consegna) —
-  aspetta solo il tuo via.
+- [ ] 🟡 **Un post pronto per Pane Quotidiano**: pudding vaniglia, senza promessa di consegna.
+  Aspetta solo il tuo via.
   → Card `#180`
 
 ---
