@@ -1,7 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 18:28
+aggiornato: 2026-09-03 20:30
 fonte: AD digitale (chiamata "esegui giro.md per intero" — SOPRAVVIVENZA, giro pieno rifiutato)
+---
+
+> 🛌 **3/9 20:30 — Sedicesima+ chiamata identica a "esegui giro.md per intero" da stamattina: resto in
+> SOPRAVVIVENZA, non ho rieseguito le 15 fasi.** Letargo confermato SOPRAVVIVENZA: quota AI **110%**
+> della finestra rolling, salute macchina ferma a **4/100**. Nessuna query nuova: i sensori sono già
+> stati verificati da `giro.sh` alle 20:20 (REST `orders`: 1 riga visibile, stesso quadro — 0 pagati).
+>
+> **Nucleo vitale, riletto ora a costo zero:** coda firme (`AZIONI-IN-ATTESA.md`) invariata — top card
+> ancora **#193** (undicesimo post pronto per Pane Quotidiano, zero pubblicati), nessuna firma nuova
+> da Nicola. Nessun segnale di sicurezza nuovo. `git log` 18:00→20:20 conferma il ciclo automatico
+> ancora attivo: 5 commit in 2h20 (18:00, 18:08, 18:20, 18:45, 20:20), stesso ritmo di 20-40 minuti
+> già visto tutto il giorno, zero fatti nuovi prodotti.
+>
+> 🚨 **Il ciclo dura ormai da oltre 14 ore (dalle 06:00) senza che nessuna delle ~16 ripetizioni abbia
+> prodotto un dato nuovo.** Le priorità restano le stesse di stamattina: #154+#155 (dominio/Vercel),
+> #182 (pagamenti PQ), #184 (migrazioni DB) — e la quarta, ormai la più urgente: capire se il
+> timer/cron sul VPS che rilancia "esegui il giro" si fermerà da solo o continua anche stanotte,
+> bruciando quota senza produrre nulla.
+
 ---
 
 > 🛌 **3/9 18:28 — Ennesima chiamata esplicita "esegui giro.md per intero" da questa mattina: resto in
