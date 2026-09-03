@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-03 15:55",
+ "aggiornato": "2026-09-03 19:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -8919,6 +8919,26 @@
    "test": "cervello/test/pausa-senza-risveglio.test.mjs",
    "lezione": "L-2026-0903-02",
    "perche_conta": "La riga «Pausa finita» e la storia che la sveglia lascia al posto del ⏸, ed e la sola materia che la prova sulla coda vera ha dopo una sveglia. Se la sveglia cancella classe e fatto, la coda dice «e finita» senza dire cosa, e la prova che difende AR-159 resta senza niente da guardare proprio il giorno in cui serve."
+  },
+  {
+   "difetto": "AR-915",
+   "nome": "il cancello torna a tacere: il passo finisce e non lo dice a nessuno",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  process.stderr.write(`${rigaAvanzamento({ nome, codice, ucciso, ms: Date.now() - iniziato })}\\n`);",
+   "sostituisci": "",
+   "test": "cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
+   "lezione": "L-2026-0903-03",
+   "perche_conta": "E la riga esatta che trasforma il silenzio in una traccia. Toglierla riporta il cancello a com era il 3/9: settantaquattro minuti muti e un kill che non dice niente."
+  },
+  {
+   "difetto": "AR-915",
+   "nome": "i quattro esiti diventano un segno solo: il rosso non si distingue piu dal verde",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const segno = ucciso ? \"⏱️\" : codice === 0 ? \"✅\" : codice === 2 ? \"⚪\" : \"❌\";",
+   "sostituisci": "  const segno = \"✅\";",
+   "test": "cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
+   "lezione": "L-2026-0903-03",
+   "perche_conta": "Una riga di avanzamento che dice sempre verde e peggio del silenzio: si legge come «va tutto bene» mentre un passo sta fallendo."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

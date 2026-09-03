@@ -602,7 +602,26 @@ export const TEMPO_MAX_SUITE = 1_200_000;
  */
 export const TEMPO_MAX_PASSO = 300_000;
 
-function esegui(nome, cmd, args, opts = {}) {
+/**
+ * LA RIGA CHE IL CANCELLO DICE MENTRE LAVORA — AR-915.
+ *
+ * Il 3/9 l orologio ha ucciso il cancello a 75 minuti: partito alle 15:36:20, PRIMA RIGA alle
+ * 16:50:46, che e l errore del kill. In settantaquattro minuti non aveva detto una parola, perche
+ * stampa il referto intero alla fine, tutti e trentatre i passi insieme. Il costo non e quello:
+ * il costo e che dopo un kill NESSUNO sa quale passo stava girando, quindi la cura successiva si
+ * sceglie a indovinare. E la malattia del lotto che questo cancello sorveglia — un guardiano che
+ * tace, e il silenzio che si legge come «niente da dire» — applicata al cancello stesso.
+ *
+ * Va su STDERR e non su stdout apposta: con `--json` lo stdout porta SOLO il JSON, e una riga di
+ * avanzamento in mezzo lo renderebbe illeggibile a chi lo analizza. Lo pretende un caso della prova.
+ */
+export function rigaAvanzamento({ nome, codice, ucciso = false, ms = 0 }) {
+  const segno = ucciso ? "⏱️" : codice === 0 ? "✅" : codice === 2 ? "⚪" : "❌";
+  return `${segno} ${nome} — ${(Number(ms) / 1000).toFixed(1)} s`;
+}
+
+export function esegui(nome, cmd, args, opts = {}) {
+  const iniziato = Date.now();
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
     encoding: "utf8",
@@ -635,6 +654,9 @@ function esegui(nome, cmd, args, opts = {}) {
   // come inciampo evitato sarebbe gonfiare il numero con l'ignoranza. E mai sul verde, che è la
   // scorciatoia disonesta («te l'ho mostrata» invece di «mi ha fermata»).
   if (codice !== 0 && codice !== 2) segnaFrenoRosso(`${cmd} ${args.join(" ")}`.trim(), codice, nome);
+  // AR-915 — il passo dice di sé appena finisce. Anche quando fallisce: tacere sul rosso e lasciare
+  // che lo racconti il referto in fondo vuol dire che un kill si porta via anche quel rosso.
+  process.stderr.write(`${rigaAvanzamento({ nome, codice, ucciso, ms: Date.now() - iniziato })}\n`);
   return {
     nome,
     comando: `${cmd} ${args.join(" ")}`.trim(),

@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-03 15:55",
+ "aggiornato": "2026-09-03 19:30",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11872,6 +11872,28 @@
    "stato": "viva",
    "usi": [],
    "gate": "cervello/test/pausa-senza-risveglio.test.mjs",
+   "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0903-03",
+   "testo": "**AR-915.** Un processo che puo essere ucciso dall orologio deve dire cosa fa MENTRE lo fa: l unica cosa certa e che il suo riassunto finale non arrivera. Il cancello del lotto raccoglieva tutto e stampava in fondo — comodo finche finisce, e quando non finisce cancella anche il lavoro gia fatto. Il costo non e il tempo perso: e che dopo un kill la cura successiva si sceglie a indovinare, perche il numero che serve (quale passo costa) non e mai stato scritto.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33773513617 del 3/9: avvio 15:36:20, prima riga 16:50:46 (l errore del kill), 74m26s di silenzio su 33 passi"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": true,
+   "nato": "2026-09-03 19:30",
+   "ultima_conferma": "2026-09-03 19:30",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
    "data": "2026-09-03"
   }
  ],

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 15:55",
+  "aggiornato": "2026-09-03 19:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19596,6 +19596,27 @@
       },
       "trovato_da": "il rosso della suite sulla PR #855 (run 33688755062), riprodotto sull albero di main prima di toccare qualsiasi cosa: exit 1 tutte e due anche la",
       "chiuso_il": "2026-09-03 00:33",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-915",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-03 19:30",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-888",
+      "titolo": "Il cancello del lotto taceva per settantacinque minuti, e quando l orologio lo uccideva nessuno sapeva quale passo stesse spendendo il tempo",
+      "sintomo": "Corsa 33773513617 del 3/9 sulla richiesta 855: il cancello parte alle 15:36:20 e la sua PRIMA riga di uscita e alle 16:50:46 — l errore con cui GitHub lo uccide al tetto di 75 minuti. Settantaquattro minuti e ventisei secondi di silenzio totale. Il verdetto non c e, e non c e nemmeno un indizio: dei trentatre passi non si sa quale fosse in corso, ne quanto sia costato ciascuno di quelli finiti.",
+      "causa_radice": "Il cancello raccoglie gli esiti di tutti i passi in memoria e stampa il referto INTERO alla fine (riga 1374 in poi). Finche finisce, la forma e comoda: un referto ordinato invece di un fiume. Quando NON finisce, la stessa forma cancella tutto il lavoro gia fatto — l uscita non e mai stata scritta da nessuna parte. La forma generale, che vale oltre questo file: un processo che puo essere ucciso dall orologio deve dire cosa sta facendo MENTRE lo fa, perche l unica cosa certa e che il suo riassunto finale non arrivera. Ed e la malattia che questo cancello sorveglia negli altri — un guardiano che tace, e il silenzio letto come «niente da dire» — fatta da lui.",
+      "fix_proposto": "🟡 FATTO, e scelto da Nicola fra quattro strade il 3/9: ogni passo scrive una riga appena finisce — segno dell esito (verde, rosso, cieco, ucciso), nome del passo, secondi che e costato. Va su STDERR e non su stdout perche con `--json` lo stdout porta solo il JSON e una riga in mezzo lo renderebbe illeggibile. NON rende il cancello piu veloce, e non pretende di farlo: rende MISURABILE dove va il tempo, che e il numero che oggi manca e senza il quale ogni altra cura si sceglie a indovinare. Le altre tre strade — rompere solo le mutazioni dei file toccati, unire con la suite verde come prova, spezzare la richiesta in due — restano aperte e adesso si possono decidere su un numero.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
+        "nota": "Sei casi, e ESEGUONO: lanciano processi figli veri e ascoltano i due canali. Il caso che ha rotto pretende UNA riga appena il passo finisce; uno pretende che parli anche sul ROSSO (tacere sul rosso lo consegna al referto, che il kill si porta via); il difetto opposto pretende che stdout resti VUOTO, o il JSON diventa illeggibile; e uno pretende che i secondi siano misurati davvero — un figlio che dorme 350 ms deve risultare ≥ 0,3 s, non zero fisso."
+      },
+      "trovato_da": "Nicola, dallo schermo del telefono: «cancello lotto ha dei problemi». Il referto della corsa l ho letto dopo, ed e li che il silenzio si vede",
+      "chiuso_il": "2026-09-03 19:30",
       "chiuso_come": "riparato"
     }
   ],
