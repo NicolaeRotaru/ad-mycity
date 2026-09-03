@@ -12,16 +12,17 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-03 06:41",
-      "esito": "motore-fallito",
+      "quando": "2026-09-03 08:20",
+      "esito": "non-pubblicato",
       "codice": 2,
-      "ai_rc": 1,
+      "ai_rc": 0,
       "push_ok": false,
-      "passi_ok": true,
-      "vincoli_attivi": 12,
+      "passi_ok": false,
+      "vincoli_attivi": 13,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
+        "CHECKLIST",
         "CORREZIONE_NICOLA",
         "ESP",
         "TASSO",
@@ -75,5 +76,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-03 07:50"
+  "aggiornato": "2026-09-03 08:20"
 }

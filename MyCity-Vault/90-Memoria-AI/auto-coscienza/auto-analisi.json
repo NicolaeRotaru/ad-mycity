@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-02 22:57",
+  "data": "2026-09-03 08:10",
   "voto_fiducia": 80,
-  "sintesi_giro_corrente": "Giro richiesto esplicitamente da Nicola («esegui cervello/giro.md per intero»). Riverificato dal vivo via execute_sql MCP diretto: ordini=1 (0 pagati, 24/6 annullato), profili=8 (0 nuovi 7gg), prodotti=5, recensioni=0, carrelli=3 — identico al giro pieno delle 22:35. Lavoro nuovo di questo passaggio: (1) separato il commit di memoria (solo file MyCity-Vault/) dai 4 file tecnici dei sensori, bloccati sul cancello AR-332 (codice non committabile a mano su main); (2) costruito un branch pulito da origin/main (non dal main locale divergente) coi soli 4 file tecnici, aperta e verificata mergeable la PR #864; (3) riprovato il rebase del main locale su origin/main: stessi 5 conflitti reali del passaggio delle 22:40 (AZIONI-IN-ATTESA.md, STATO.md, apprendimento.json, cantiere-prove.json, chiusura-loop.json), abortito subito senza forzare — divergenza card #104 confermata a 65 commit avanti / 2 indietro. Bash bloccato su test-cervello.mjs, node cervello/*.mjs fuori allowlist (card #104/#189): usati MCP Supabase + git-pr.mjs (allowlisted) + Read/Edit/Write. Aggiornati: STATO.md, Briefing/2026-09-02.md, ultimo-briefing.json, memoria-squadra/ad.md, questo file.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star a 70 giorni. Unico lavoro reale di questo passaggio: chiudere un debito di processo lasciato aperto da tre giri (PR #864 per i file tecnici dei sensori) e riconfermare con un secondo tentativo la causa nota della divergenza git. Nessun fatto nuovo che cambi la mossa n.1. Letargo confermato RISPARMIO.",
-  "trend_fiducia": "▬ 80→80: invariato, nessuna verifica nuova sui dati di business rispetto al passaggio delle 22:35 (stessa fonte, stesso esito); il lavoro di questo giro è stato di processo (PR #864, verifica divergenza git), non nuove prove sul business.",
+  "sintesi_giro_corrente": "Giro richiesto esplicitamente da Nicola («esegui cervello/giro.md per intero»), 27 minuti dopo il Piano del mattino (07:43). Riverificato dal vivo via execute_sql MCP diretto: ordini=1 (0 pagati, 24/6 annullato), profili=8 (0 nuovi 7gg), prodotti=5, recensioni=0 — identico al Piano del mattino. Lavoro nuovo di questo passaggio: (1) node cervello/ci-stato.mjs rieseguito, confermate 8 PR aperte / 8 rosse, tutte colpa del ramo che le ha portate (nessuna ereditata); (2) node cervello/coerenza-fatti.mjs rieseguito, confermato verde, 41 fatti, 0 copie vecchie. Bash bloccato su curl (health check sito) e test-cervello.mjs, node cervello/*.mjs fuori allowlist (stesso buco card #104/#189): usati MCP Supabase + gli script già in allowlist + Read/Edit/Write. Aggiornati: STATO.md, Briefing/2026-09-03.md, ultimo-briefing.json, SALA-OPERATIVA.md, questo file.",
+  "sintesi": "Business fermo dal 24/6, stallo North Star a 71 giorni. Unico lavoro reale di questo passaggio: riconferma diretta di CI (8 PR rosse invariate) e coerenza-fatti (pulita). Nessun fatto nuovo che cambi la mossa n.1. Letargo confermato RISPARMIO.",
+  "trend_fiducia": "▬ 80→80: invariato, nessuna verifica nuova sui dati di business rispetto al Piano del mattino delle 07:43 (stessa fonte, stesso esito); il lavoro di questo giro è stato di riconferma (CI, coerenza-fatti), non nuove prove sul business.",
   "entita_verificate": [
     {
       "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
@@ -38,6 +38,7 @@
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (gate North-Star + niente di importante da confrontare coi migliori).",
+  "nota_dati_non_riverificati_questo_passaggio": "mycity-marketplace.com/mycity-phi.vercel.app (curl caduto sotto approvazione non concessa), cron_heartbeats, divergenza main/origin-main (card #104, resta il numero del passaggio delle 22:57: 65 avanti/2 indietro) — nessun segnale ha suggerito un cambio, ripeterli ora senza motivo sarebbe rumore.",
   "salute_macchina": {
     "supabase": "REST ok (sensori-cecita.json, 16:20); MCP supabase 'non_verificato' da 3 giorni, non ricontrollato in sessione — non dichiaro ok senza averlo provato",
     "stripe": "API ok (sensori-cecita.json, 16:20), ma non riverificato lo specifico fascicolo PQ in questo passaggio",

@@ -893,3 +893,9 @@ Esempi:
 - 2026-09-03 07:43 · @ad · FATTO · 3 priorità confermate, invariate nel merito da giorni: ① 🔴 **Nicola** — dominio+chiavi Vercel (#154/#155), sblocca il sito (giù, HTTP 503); ② 🔴 **Nicola** — pagamenti carta Pane Quotidiano (#182), unico negozio vero, fermo da 18+ giorni; ③ 🔴 **Nicola** — le quattro migrazioni ferme sul database di produzione (#184), evita un checkout rotto al primo cliente vero.
 - 2026-09-03 07:43 · @ad · FATTO · Aggiornati STATO.md (nuova voce in cima) e `MyCity-Vault/90-Memoria-AI/RITMO.md` (blocco `## Piano del mattino · 2026-09-03 07:43`).
 - 2026-09-03 07:43 · @ad · PASSO-A · @Nicola — dieci carte in coda, nessuna firmata: #154/#155 (mossa n.1), #182, #184, #185, #186, #188, #189, #190, #191, #192. Divergenza `main`↔`origin/main` (card #104) ancora aperta, invariata da ieri sera.
+
+### 2026-09-03 08:10 — 🔁 GIRO (richiesta esplicita "esegui cervello/giro.md per intero")
+- 2026-09-03 08:10 · @ad · FATTO · Riverificato dal vivo via `execute_sql` MCP: ordini=1/0 pagati, profili=8/0 nuovi, prodotti=5, recensioni=0 — identico al Piano del mattino delle 07:43. Nessun cambio di business. Stallo North Star 71 giorni.
+- 2026-09-03 08:10 · @ad · FATTO · `node cervello/ci-stato.mjs`: confermate 8 PR aperte, 8 rosse, tutte colpa del ramo che le ha portate. `node cervello/coerenza-fatti.mjs`: confermato verde, 41 fatti, 0 copie vecchie.
+- 2026-09-03 08:10 · @ad · FATTO · Scritto Briefing/2026-09-03.md, aggiornati STATO.md (nuova voce in cima), ultimo-briefing.json, auto-coscienza/auto-analisi.json.
+- 2026-09-03 08:10 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata: #154/#155 (mossa n.1: dominio+chiavi Vercel), #182, #184, #185, #186, #188, #189, #190, #191, #192.

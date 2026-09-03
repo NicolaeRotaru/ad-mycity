@@ -1,7 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 07:43
-fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
+aggiornato: 2026-09-03 08:10
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **3/9 08:10 — Giro di perlustrazione: nessun cambio, 27 minuti dopo il Piano del mattino.**
+> Richiesta tua esplicita: «esegui `cervello/giro.md` per intero».
+>
+> **In parole semplici.** Riverificato ora con query diretta al database vero (MCP Supabase, non a
+> memoria): 1 ordine totale, ancora lo stesso del 24/6, annullato, **0 pagati**. 8 profili, 0 nuovi
+> in 7 giorni. 5 prodotti, 0 recensioni. Tutto identico al Piano del mattino di 27 minuti fa. Lo
+> stallo North Star tocca oggi **71 giorni**.
+>
+> **Due controlli riconfermati dal vivo, invariati.** `ci-stato.mjs`: ancora 8 PR aperte, 8 rosse,
+> tutte colpa del ramo che le ha portate (nessuna ereditata). `coerenza-fatti.mjs`: pulito, 41
+> fatti, 0 copie vecchie da riscrivere.
+>
+> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (salute macchina 4/100). A questo
+> livello taglio il volume: radiografia completa, auto-miglioramento, esperimenti nuovi. I
+> controlli di verità restano tutti accesi, sempre. Il gate North Star resta HARD: 0 ordini pagati
+> da 71 giorni. Nessuna mossa disponibile avvicina il primo ordine pagato più delle dieci carte già
+> in coda. Per questo non ne apro di nuove.
+>
+> **La mossa n.1 resta la stessa: firma dominio e chiavi Vercel, card #154 e #155.** Sblocca il
+> sito. Il passo pronto subito dopo è dentro la card #191: il test d'incasso su Pane Quotidiano,
+> `#ordine-test-pq`.
+>
+> **Cosa non ho verificato.** Il sito in un browser vero: il comando `curl` è caduto sotto
+> approvazione non concessa in questa sessione, un solo tentativo. `test-cervello.mjs`: stesso
+> buco di permessi (card #104/#189). Il contenuto riga-per-riga delle 8 PR rosse. Lo stato Stripe
+> specifico di PQ (baseline 24/8).
+>
+> **In coda restano le stesse dieci carte, nessuna firmata.** #154+#155 (mossa n.1), #182, #184,
+> #185 (scadenza 29/8, passata da 5 giorni), #186, #188, #189, #190, #191, #192.
+>
+> Briefing: [[Briefing/2026-09-03]].
+
 ---
 
 > ☀️ **3/9 07:43 — Piano del mattino: 71° giorno di stallo, stesse tre firme.** Cadenza fissa del
@@ -53,12 +87,12 @@ fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
 > **La divergenza git resta aperta (card #104).** Ho riprovato il rebase del ramo locale su
 > `origin/main`. Stessi 5 conflitti reali di 17 minuti fa: `AZIONI-IN-ATTESA.md`, `STATO.md`,
 > `apprendimento.json`, `cantiere-prove.json`, `chiusura-loop.json`. Annullato subito, zero
-> rischio dati. Il ramo locale resta **65 commit avanti / 2 indietro** rispetto a GitHub. Finché
-> qualcuno non risolve i conflitti a mano — io o tu sul VPS — il Pannello ospitato online non vede
-> le scritture di oggi.
+> rischio dati. Il ramo locale resta **65 commit avanti / 2 indietro** rispetto a GitHub. Il
+> Pannello ospitato online non vede le scritture di oggi. Resterà così finché qualcuno non risolve
+> i conflitti a mano: io, oppure tu direttamente sul VPS.
 >
-> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100):
-> a questo livello si taglia il volume — radiografia completa, auto-miglioramento, esperimenti nuovi.
+> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100).
+> A questo livello taglio il volume: radiografia completa, auto-miglioramento, esperimenti nuovi.
 > I controlli di verità restano sempre accesi. Il gate North Star resta HARD: nessuna mossa
 > disponibile avvicina il primo ordine pagato più delle 10 carte già in coda.
 >
@@ -90,8 +124,8 @@ fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
 > script che lo farebbe da solo, `chiusura-loop.mjs`, resta bloccato: stesso buco di permessi delle
 > card #104/#189.
 >
-> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100):
-> a questo livello si taglia il volume — radiografia completa, auto-miglioramento, esperimenti nuovi.
+> **Perché resto leggera.** Il letargo resta in **RISPARMIO** (quota AI 56%, salute macchina 4/100).
+> A questo livello taglio il volume: radiografia completa, auto-miglioramento, esperimenti nuovi.
 > Sono già coperti dai giri precedenti, non c'è nulla di nuovo da rifare. I controlli di verità restano
 > sempre accesi. Il gate North Star resta HARD: nessuna mossa disponibile avvicina il primo ordine
 > pagato più delle 10 carte già in coda.
