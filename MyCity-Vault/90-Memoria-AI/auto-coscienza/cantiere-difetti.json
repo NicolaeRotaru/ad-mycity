@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 21:33",
+  "aggiornato": "2026-09-03 23:54",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19638,6 +19638,27 @@
       },
       "trovato_da": "le righe di avanzamento di AR-915, alla loro prima corsa: senza, il silenzio non diceva quale passo",
       "chiuso_il": "2026-09-03 21:33",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-917",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-03 23:54",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-916",
+      "titolo": "Il banco delle mutazioni usciva ROSSO quando gli finiva il tempo, e un rosso li diceva una cosa che non era vera",
+      "sintomo": "Corsa 33807469256 del 3/9, la prima in cui il cancello e arrivato in fondo grazie ad AR-916: trenta passi, 1520 secondi in tutto, ventotto verdi. L unico rosso e «prove non vacue (mutazioni del lotto)» a 900,4 secondi — il suo tetto esatto. Ucciso dall orologio vale 124, cioe ROSSO, e un rosso li si legge «una difesa non regge». La verita era «non ho fatto in tempo a provarle tutte»: due cose diverse, lette come una sola. E nella corsa prima, senza un orologio che mordesse, lo stesso passo aveva girato 64 minuti senza finire: dargli piu tempo non e la cura, perche 64 piu i 10 degli altri passi sfondano comunque il tetto di 75 minuti della macchina.",
+      "causa_radice": "Il banco non aveva un budget suo: aveva solo il tetto di chi lo lancia. Un tetto e un accetta — arriva e taglia, e quello che stava facendo si perde. La differenza con un budget e che il budget si guarda PRIMA di spendere, quindi lascia il tempo di dire cosa resta fuori. Senza, l informazione «quali difese non ho provato» non esisteva da nessuna parte, e il cancello doveva scegliere fra due bugie: chiamare rosso un lavoro non fatto, o chiamarlo verde.",
+      "fix_proposto": "🟡 FATTO, scelto da Nicola: `--budget <ms>` (o NON_VACUITA_BUDGET_MS), zero di default perche chi lancia a mano non ha orologi esterni. Il cancello passa 840 s dentro un tetto di 900: il minuto di scarto serve al banco per scrivere l elenco. Le mutazioni che restano fuori diventano ⚪ (uscita 2) DICHIARATE una per una, col comando per rilanciarle da sole. La regola del «quanto tempo mi resta» NON e riscritta: e importata da due-case.mjs, dove e nata (AR-908) e dove una prova la interroga gia — riscriverla qui sarebbe la malattia delle due case dentro il file che esiste per scoprirla.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-banco-che-non-diceva-chi-restava-fuori.test.mjs",
+        "nota": "Quattro casi. Due sulla funzione pura: chi resta fuori e un ELENCO con una voce per mutazione (un ⚪ che dice «alcune» e il silenzio con una parola davanti), e senza budget non si dichiara niente. Due che ESEGUONO il banco vero: con un budget di 1 s esce 2 e NOMINA le mutazioni saltate; col tempo che basta esce 0 e il verde resta un verde — il difetto opposto, perche un ⚪ inventato e la stessa bugia col segno cambiato."
+      },
+      "trovato_da": "il primo verdetto completo del cancello, reso possibile da AR-915 (parla mentre lavora) e AR-916 (il tetto morde)",
+      "chiuso_il": "2026-09-03 23:54",
       "chiuso_come": "riparato"
     }
   ],

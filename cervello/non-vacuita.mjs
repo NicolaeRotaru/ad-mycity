@@ -37,6 +37,10 @@ import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
 import { muta } from "./mutazione-vagante.mjs";
 import { comeSiEsegue, avvioFallito } from "./esecuzione-prova.mjs";
+// La regola del «quanto tempo mi resta» ha UNA casa sola: quella dove è nata (AR-908) e dove una
+// prova la interroga. Riscriverla qui sarebbe la malattia delle due case, dentro il file che
+// esiste per scoprirla.
+import { quantoPosso } from "./due-case.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iLotto = process.argv.indexOf("--lotto");
@@ -275,6 +279,45 @@ const MUTANTI = process.env.MUTANTI_FILE || join(AD_ROOT, "cervello/mutanti.json
 // a metà attesa — e da oggi un ammazzato è un ⚪, cioè un cancello rosso per un motivo che col fix
 // non c'entra niente. Il tetto deve stare sopra l'attesa più lunga che una prova di casa dichiara.
 const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
+
+/**
+ * IL BUDGET DI TUTTA LA CORSA — AR-917, e lo schema è quello che regge già in `due-case.mjs`.
+ *
+ * IL CASO CHE HA ROTTO, corsa 33807469256 del 3/9: il cancello dà a questo banco 900 secondi e il
+ * banco li ha spesi tutti senza finire — 900,4 s, ucciso dall'orologio, `exit 124`, cioè rosso.
+ * Nella corsa prima, senza un orologio che mordesse, aveva girato 64 minuti e non era finito
+ * comunque. Un rosso così non dice «una difesa non regge»: dice «non ho fatto in tempo», e sono
+ * due cose diverse che il cancello leggeva come una sola.
+ *
+ * Col budget il banco si ferma DA SOLO un attimo prima e dichiara, una per una, le mutazioni che
+ * non ha fatto in tempo a provare: diventano ⚪ (uscita 2, «non ho misurato»), che il cancello
+ * distingue dal rosso. Il debito si legge invece di uccidere la corsa.
+ *
+ * Zero di default: chi lo lancia a mano non ha nessun orologio esterno da cui difendersi, solo la
+ * propria pazienza. Lo passa il cancello, che il suo orologio ce l'ha.
+ */
+/** Sotto questo tempo non vale la pena cominciarne un'altra: applicare e rilanciare costa. */
+const MINIMO_PER_UNA = 20_000;
+
+const iBudget = process.argv.indexOf("--budget");
+const BUDGET = Number(iBudget !== -1 ? process.argv[iBudget + 1] : process.env.NON_VACUITA_BUDGET_MS || 0);
+const AVVIATO = Date.now();
+
+/**
+ * Le mutazioni che il budget non mi lascia provare, dichiarate una per una.
+ *
+ * Pura, così la prova la interroga da sola invece di dedurla da una corsa vera. `restanti` è ciò
+ * che resta da fare quando il tempo è finito: non un numero, l'elenco — un ⚪ che dice «alcune» è
+ * lo stesso silenzio con una parola davanti.
+ */
+export function fuoriDalBudget(restanti = [], { budget = 0, speso = 0 } = {}) {
+  if (!budget || !restanti.length) return [];
+  return restanti.map((m) => ({
+    ...m,
+    verdetto: "cieco",
+    perche: `il budget di ${Math.round(budget / 1000)} s è finito dopo ${Math.round(speso / 1000)} s: questa mutazione non l'ho provata. Rilanciala da sola con \`node cervello/non-vacuita.mjs --difetti ${(m.difetto || "AR-?")}\`, o dammi più tempo con --budget.`,
+  }));
+}
 
 /** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
 const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
@@ -691,7 +734,13 @@ function main() {
   const cancellatiPrima = fileCancellati();
 
   const esiti = [];
-  for (const m of elenco) {
+  for (const [i, m] of elenco.entries()) {
+    // AR-917 — il tempo si guarda PRIMA di spendere, non dopo: un controllo dietro la spesa
+    // arriva quando la spesa è già fatta. Chi resta fuori viene dichiarato, non lasciato al buio.
+    if (BUDGET && !quantoPosso(AVVIATO + BUDGET, Date.now(), TEMPO_MAX, MINIMO_PER_UNA)) {
+      esiti.push(...fuoriDalBudget(elenco.slice(i), { budget: BUDGET, speso: Date.now() - AVVIATO }));
+      break;
+    }
     const file = viaDi(m.file);
     // AR-896 — prima di aprire e riscrivere: sta dentro una radice ammessa? Fuori è ⚪, mai ✅.
     const radice = dentroLeRadici(file, [AD_ROOT, ...radiceDelRegistro(MUTANTI)]);

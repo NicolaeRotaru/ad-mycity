@@ -1327,7 +1327,13 @@ function main() {
     const mieMutazioni = perimetro.girare;
     if (mieMutazioni.length) {
       passi.push(
-        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", perimetro.difetti.join(",")], {
+        // AR-917 — IL BUDGET STA DENTRO IL TETTO, e i due numeri non sono lo stesso numero.
+        // Il tetto (900 s) è l'accetta: scaduto, il passo muore e vale 124, cioè ROSSO — e un rosso
+        // qui direbbe «una difesa non regge» quando la verità è «non ho fatto in tempo». Il budget
+        // (840 s) è un minuto prima: il banco si ferma da solo, dichiara una per una le mutazioni
+        // che restano fuori, ed esce 2 → ⚪. Misurato il 3/9: senza budget spendeva i 900 s esatti
+        // e usciva 124. I sessanta secondi di scarto servono a lui per scrivere quell'elenco.
+        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", perimetro.difetti.join(","), "--budget", "840000"], {
           timeout: 900_000,
         }),
       );
