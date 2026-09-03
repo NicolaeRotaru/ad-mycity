@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-03 11:34",
+ "aggiornato": "2026-09-03 11:42",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12613,6 +12613,10 @@
     {
      "quando": "2026-09-03 11:12",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-03 11:42",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14409,7 +14413,7 @@
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-03 11:13",
+  "cristallizzazione_ultima": "2026-09-03 11:42",
   "lezioni_totali": 501,
   "lezioni_per_stato": {
    "attiva": 388,
