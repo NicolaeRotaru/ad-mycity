@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 13:35
-fonte: AD digitale (Punto di mezzogiorno — cadenza ritmo, SOPRAVVIVENZA)
+aggiornato: 2026-09-03 14:30
+fonte: AD digitale (chiamata "esegui giro.md" — SOPRAVVIVENZA, giro pieno NON eseguito)
 ---
+
+> 🛌 **3/9 14:30 — Chiamata esplicita "esegui giro.md per intero": letargo dice SOPRAVVIVENZA, giro pieno rifiutato.**
+> Quota AI **239%** della finestra rolling (era 179% alle 12:51, +60 punti in poco più di un'ora),
+> salute macchina ferma a **4/100**. Il mansionario impone "solo NUCLEO VITALE: ordini + consegne +
+> coda firme + sicurezza + allerta a Nicola. Tutto il resto spento" — le 15 fasi di `cervello/giro.md`
+> (briefing, radar, auto-analisi, apprendimento, auto-miglioramento, radiografia) sono esattamente il
+> "giro pesante" che questo livello vieta, quindi NON le ho eseguite anche se la richiesta lo chiedeva
+> per intero.
+>
+> **Nucleo vitale, controllato ora:** 1 query SQL diretta (sola lettura, costo minimo) su `orders`:
+> 0 ordini pagati, 0 ordini nelle ultime 48h, 0 consegne in corso, ultimo ordine ancora quello del
+> 24/6 (annullato). Coda firme (`AZIONI-IN-ATTESA.md`) letta in cima: invariata, top card ancora #193
+> (undicesimo post pronto per Pane Quotidiano, zero pubblicati), nessuna firma nuova da Nicola.
+> Nessun segnale di sicurezza nuovo. `node cervello/test-cervello.mjs` bloccato dallo stesso buco di
+> permessi della card #189 (non ho potuto rilanciarlo).
+>
+> 🚨 **Il ciclo automatico segnalato dalle 11:14 in poi non si è fermato**: quota salita di altri 60
+> punti sugli stessi dati fermi dal 24/6, senza un solo fatto nuovo prodotto. Priorità invariate per
+> Nicola: #154+#155 (dominio/Vercel), #182 (pagamenti PQ), #184 (migrazioni DB), e il timer/cron sul
+> VPS che continua a rilanciare "esegui il giro" da stamattina.
 
 > 🕛 **3/9 13:35 — Punto di mezzogiorno (cadenza vera, non una ripetizione di "esegui il giro").**
 > Scritto il blocco in [[RITMO]]. Le tre firme di stamattina restano ferme: Vercel (#154/#155),
