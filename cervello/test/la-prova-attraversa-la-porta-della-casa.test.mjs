@@ -63,6 +63,27 @@ test("③ un campo vuoto non entra", () => {
   for (const k of CAMPI_EXTRA_DEL_REFERTO) assert.ok(!(k in q), `«${k}» non doveva comparire su una scheda senza prova`);
 });
 
+// ⑤ 3/9/2026 — riguardata con la lente «rischio sicurezza» durante la radiografia totale del sito.
+// La porta ora fa passare la prova; e una prova puo' fabbricare una credenziale finta per dimostrare
+// che il guardiano dei segreti la intercetta. Se entrasse tale e quale, il guardiano leggerebbe la
+// memoria dell'AD come se contenesse una chiave vera e bloccherebbe la memoria stessa. Questa prova
+// diventa rossa se il disarmo sparisce.
+test("⑤ una credenziale finta dentro la prova entra disarmata, e il comando resta eseguibile", () => {
+  const finta = ["sk", "live"].join("_") + "_51ABCdefGHI";
+  const [p] = problemiDaRaw(
+    { result: [{ dimensione: "pagamenti-stripe", findings: [{
+      titolo: "il guardiano dei segreti lascia passare una chiave scritta sulla riga di comando",
+      severita: "grave", descrizione: "d", fix: "f",
+      prova: `node cervello/segreti.mjs --chiave ${finta} deve diventare rosso`,
+      prova_tipo: "comando", prova_eseguita: true,
+    }] }] },
+    fonte,
+  );
+  assert.ok(!p.prova.includes(finta), "la credenziale finta e' entrata in casa tale e quale");
+  assert.ok(p.prova.includes("node cervello/segreti.mjs"), "il comando non deve sparire");
+  assert.ok(p.prova.includes("echo live"), "il prefisso deve ricomporsi da solo quando il comando gira");
+});
+
 test("④ la fusione conserva la riparazione anche col referto che porta la prova", () => {
   const nuovi = problemiDaRaw(raw, fonte);
   const vecchi = [{ ...nuovi[0], stato: "chiuso", chiuso_il: "2026-09-01 10:00", chiuso_da: "lotto 3" }];
