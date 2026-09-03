@@ -1,4 +1,22 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-02
+# 📅 Eventi & Picchi di Domanda — 2026-09-03
+
+> **Aggiornato: 3 settembre 2026 09:40.** Giro leggero (`cervello/monitora.md`), recuperato a mano (motore AI del worker in quota ieri). Controllate le 9 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, Libertà-Città, IlPiacenza-Economia, PiacenzaSera, CCIAA bandi, Unione Commercianti bandi. **Due novità reali: due festival musicali/culturali nuovi in calendario nei prossimi 7-14 giorni, mai tracciati prima in questo file. Il resto è invariato.**
+>
+> - **🆕 Tendenze Festival, 4-6/9, Ex Caserma Cantore (Stradone Farnese 35/39) — DENTRO Piacenza città.** Tre giorni di musica indipendente, oltre 30 band, ingresso gratuito, stand gastronomici. Fonti: [piacenza24.eu](https://www.piacenza24.eu/tendenze-festival-torna-dal-4-al-6-settembre-allex-caserma-cantore/), [piacenzasera.it](https://www.piacenzasera.it/2026/08/tendenze-festival-alla-caserma-cantone-tre-giorni-di-live-laboratori-expo/658890/) (WebSearch, 3/9).
+> - **🆕 Bleech Festival, 7-13/9, "diffuso" nel centro storico, cuore a Palazzo Farnese l'11 e il 12/9 — DENTRO Piacenza città, il più rilevante dei due per un picco di domanda.** Decimo anniversario, per la prima volta in formato "diffuso": concerti, mercati, street food, degustazioni vino nei luoghi storici del centro, gran parte gratuito. È persone in centro storico per una settimana intera, con cibo/bevande già parte del programma — il potenziale di picco più alto tracciato in questo file da fine agosto (Radio Sound Party). Fonti: [piacenzasera.it — Bleech Festival compie 10 anni](https://www.piacenzasera.it/2026/08/bleech-festival-compie-10-anni-e-diventa-diffuso-dal-7-al-13-settembre/658179/), [ilpiacenza.it](https://www.ilpiacenza.it/eventi/i-10-anni-di-bleech-festival-trasformano-piacenza-in-una-citta-incantata.html) (WebSearch, 3/9).
+> - Confermati invariati, già in calendario: Sbaracco + Via Roma Street Market (6/9), Femme Fest (10-13/9). Trovati oggi ma fuori/al bordo della finestra 7-14gg: Lultimaprovincia Festival (12/9, teatro/circo, fuori Piacenza città/bassa rilevanza), dAS Festival (17-20/9, danza nei palazzi/giardini del centro — proprio al bordo dei 14 giorni da oggi, da ricontrollare tra pochi giorni), Festival del Pensare Contemporaneo (24-27/9, fuori finestra, solo nota di calendario). Fonti: WebSearch "eventi Piacenza comune settembre 2026 calendario" + [comune.piacenza.it/it/categorie-eventi/76806](https://www.comune.piacenza.it/it/categorie-eventi/76806) (3/9).
+> - **Meteo 3-9/9**: settimana stabile e calda confermata, nessuna allerta. Oggi 20-33°, salita a **35°** venerdì 4/9 e sabato 5/9, poi primo calo della settimana mercoledì 9/9 (22-28°). Coerente nella sostanza con la previsione di ieri (picco 36° sabato): la differenza di un grado è rumore normale tra fonti meteo. Fonte: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza), WebFetch il 3/9.
+> - **Comune-news**: nessuna notizia nuova su ZTL o commercio oltre il bando rifiuti già noto (invariato, 400k€, 31/8-23/10). Fonte: WebSearch `site:comune.piacenza.it news commercio settembre 2026` (3/9) — il fetch diretto resta bloccato per questa fonte.
+> - **Libertà — Attualità/Città**: nessuna notizia su botteghe o ZTL. Un cantiere già noto riparte: **"Via Farnesiana fa il bis, tornano i lavori in corso"**, senza preavviso ai residenti secondo l'articolo — gli stessi lavori segnalati il 15/8. Non è nelle rotte di consegna previste oggi, nessuna azione. Fonte: [liberta.it — Via Farnesiana fa il bis, tornano i lavori in corso](https://liberta.it/news/territorio/citta/piacenza/via-farnesiana-fa-il-bis-tornano-i-lavori-in-corso-potevano-avvertirci/109602), WebFetch il 3/9.
+> - **IlPiacenza — Economia**: fetch diretto di nuovo in errore HTTP 403 (blocco noto). WebSearch di ripiego: nessuna apertura/chiusura di bottega con nome trovata oggi. Dettaglio in `buchi-mercato.md`.
+> - **PiacenzaSera**: oltre ai due festival sopra, un controllo di commercio a **Fiorenzuola** (cinque sanzioni, un'attività sospesa) — fuori Piacenza città, bassa rilevanza diretta, solo nota di contesto. Fonte: [piacenzasera.it](https://www.piacenzasera.it/2026/09/controlli-sul-commercio-a-fiorenzuola-cinque-sanzioni-e-unattivita-sospesa/659609/) (3/9).
+> - **Bandi CCIAA/Unione Commercianti**: ricontrollati, invariati. BE26/PI26/BI26 tutti chiusi (finestra 20-30/7 passata), nessuna riapertura, nessun bando nuovo. Fonti: WebSearch `site:emilia.camcom.it bando 2026 piacenza`, RSS `unionecommerciantipc.it/feed/` (3/9). Dettaglio completo in `leve-uscita.md`.
+>
+> **Candore:** 9 fonti dovute oggi, tutte ricontrollate. La sola novità sostanziale sono i due festival musicali (Tendenze e Bleech), entrambi dentro Piacenza città. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare, quindi **nessuna nota qui sotto diventa un'azione**: stesso trattamento già dato al Radio Sound Party e allo Sbaracco — solo preparazione 🟢.
+
+---
+
+## Versione precedente (2 settembre 2026, invariata sotto)
 
 > **Aggiornato: 2 settembre 2026 06:35.** Giro leggero (`cervello/monitora.md`), un giorno dopo l'ultimo controllo del 1/9. Controllate oggi 6 fonti dovute: meteo, eventi Comune, Comune-news, Libertà-Attualità, PiacenzaSera, Sagre-provincia. **Nessuna novità rispetto a ieri.**
 >
@@ -106,7 +124,9 @@ Fonte: [meteo.it — Allerta meteo gialla per il 18 agosto 2026 in Italia: ecco 
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| 🆕🔥 **Radio Sound Party — 50° anniversario Radio Sound** — Arena Daturi (Viale Risorgimento 4, ingresso centro lato Milano, sotto Palazzo Farnese) | Ven-Dom 28-30/8, ingresso gratuito | **Alta per MyCity — primo evento di massa dentro Piacenza città da settimane.** Ven 28: DJ set + Mighty Ninety (revival anni '90-2000). Sab 29: **Baby K live** (headliner, forte richiamo). Dom 30: "Family Village" tutto il giorno, chiusura tribute Max Pezzali. Zona centro/adiacente Palazzo Farnese: picco di persone in centro nel weekend, potenziale domanda di cibo/bevande da asporto nelle vie limitrofe. **Nessuna azione ora**: 0 negozi MyCity possono incassare oggi, nessuna logistica attiva. Vedi Opportunità sotto. |
+| 🆕 **Bleech Festival — 10° anniversario, formato "diffuso"** — vari luoghi del centro storico, cuore a Palazzo Farnese | 7-13/9, molto gratuito, concerti principali 11-12/9 | **Alta per MyCity.** Una settimana intera di concerti/mercati/street food/degustazioni nel centro storico. Persone in centro tutti i giorni, non solo un weekend. Nessuna azione ora (0 negozi payout-ready), vedi Opportunità 3/9 sotto. |
+| 🆕 **Tendenze Festival** — Ex Caserma Cantore, Stradone Farnese 35/39 | 4-6/9, ingresso gratuito | Media — dentro Piacenza città, ma zona ex caserma più periferica rispetto al centro puro. Stand gastronomici già nel programma. Nessuna azione ora. |
+| 🔥 **Radio Sound Party — 50° anniversario Radio Sound** (storico, già avvenuto) — Arena Daturi (Viale Risorgimento 4, ingresso centro lato Milano, sotto Palazzo Farnese) | Ven-Dom 28-30/8, ingresso gratuito | **Già avvenuto**, esce dalla finestra 7-14gg. Resta come caso di riferimento per il template "picco evento di piazza" (vedi Opportunità storiche sotto). |
 | Restrizioni Piazzetta Barozzieri (alcolici, contenitori in vetro, orari esercizi) | Dal 11/8 | Bassa/operativa — zona specifica, nessun impatto su consegne cargo-bike se non si passa da lì la sera. |
 | Sportelli "Digitale Facile" del Comune — riaperti | dal 24/8 | Nessuna — non tocca il marketplace. |
 | ❌ ~~PI26/BE26/BI26 CCIAA~~ — CHIUSI | non applicabile | Invariato, confermato di nuovo oggi (24/8): nessun bando nuovo aperto (vedi sotto) |
@@ -236,12 +256,22 @@ Bando **non commercio** già segnalato l'11/8: "Fotovoltaico su parcheggi aziend
 
 ## 🚦 Operativo
 
+- 🆕 **Via Farnesiana: i lavori ripartono** ("fa il bis"), senza preavviso ai residenti secondo l'articolo — stesso cantiere segnalato il 15/8. Fonte: [liberta.it, 3/9](https://liberta.it/news/territorio/citta/piacenza/via-farnesiana-fa-il-bis-tornano-i-lavori-in-corso-potevano-avvertirci/109602). Nessun impatto operativo oggi (0 consegne attive).
 - ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato da 5 settimane (19/7→15/8) — il dato più vecchio del file.
 - ZTL centro 8:00–19:00 invariata.
 - Nuova restrizione Piazzetta Barozzieri (alcol/vetro/orari) dall'11/8 — zona ristretta, non tocca le rotte di consegna previste.
 - 🆕 Cantieri fine agosto/inizio settembre: via Farnesiana, via Veneto, via Borghetto, via San Bartolomeo. Via Benedettine già senza 70 stalli fino a dicembre. Tenerne conto quando riparte la logistica.
 - Bici consegna: non operativa (invariato).
 - 🆕 Caldo estremo finito: oggi 17/8 instabilità/temporali, poi migliora, poi nuovo peggioramento da giovedì 21/8. Se si riattiva la logistica bici, tenerne conto per la pianificazione settimanale (non solo mattina presto per il caldo, ma anche rischio pioggia lunedì e da giovedì).
+
+---
+
+## Opportunità 3/9 — Bleech Festival, il picco più lungo tracciato finora, ma stesso vincolo di sempre
+
+**① 🆕 Bleech Festival (7-13/9, centro storico diffuso) — 🟢 solo nota, NON pubblicare/attivare ora**
+A differenza del Radio Sound Party (un weekend) e dello Sbaracco (un giorno), qui il picco dura **una settimana intera** nel cuore del centro storico, con street food e degustazioni già parte ufficiale del programma. È il tipo di evento in cui un servizio di consegna locale avrebbe più margine di conversione — persone in centro per 7 giorni, non solo poche ore. **Ma vale lo stesso vincolo di tutto il resto di questo file: 0 negozi MyCity possono incassare oggi.** **Prima mossa (a costo zero):** @content-social aggiunge questo caso al template "picco evento di piazza" già in preparazione (Radio Sound Party, Sbaracco) — Bleech diventa l'esempio di riferimento per un evento pluri-giorno, quando ci sarà un canale attivo su cui convertirlo. **Impatto stimato:** non quantificabile onestamente oggi, stesso motivo delle altre voci — nessun dato storico di conversione locale e 0 canale attivo.
+
+**② Tendenze Festival (4-6/9, Ex Caserma Cantore) — 🟢 nota minore**, stesso vincolo, rilevanza più bassa perché la zona è più periferica rispetto al centro puro.
 
 ---
 

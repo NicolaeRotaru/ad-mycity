@@ -1,5 +1,15 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato: 2026-09-03 09:40.** Giro leggero (`cervello/monitora.md`, recuperato a mano — motore
+> AI del worker in quota ieri). Fonti giornaliere controllate oggi: liberta.it/attualita e
+> liberta.it/territorio/citta/piacenza (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri
+> negozi. Nessuna recensione.** Le notizie del giorno da Libertà — Città sono: multe/decoro (109612),
+> la disputa politica sulla concessione "La Ragazzetta"/IAT (109622, dettaglio in `buchi-mercato.md`
+> con nota di candore da verificare), un investimento pedonale (109621), la ripartenza dei lavori in
+> via Farnesiana (109602, dettaglio in `eventi-picchi.md`). Nessuna riguarda negozi, botteghe o il
+> marketplace. La settimanale "Reputazione MyCity" non è dovuta oggi: ricontrollata l'1/9, prossima
+> scadenza l'8/9. Stesso quadro di stallo: nulla da "reputare" finché non c'è un primo incasso vero.
+>
 > **Aggiornato: 2026-09-02 06:50.** Giro leggero (`cervello/monitora.md`). Fonte giornaliera
 > controllata oggi: liberta.it/territorio/citta/piacenza (WebFetch). **Nessuna menzione nuova di
 > MyCity o dei nostri negozi. Nessuna recensione.** Le due notizie del giorno da Libertà — Città
