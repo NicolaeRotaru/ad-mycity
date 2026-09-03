@@ -1,8 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 11:44
-fonte: AD digitale (giro di perlustrazione, decima+ chiamata di oggi — SOPRAVVIVENZA)
+aggiornato: 2026-09-03 12:51
+fonte: AD digitale (giro di perlustrazione, undicesima+ chiamata di oggi — SOPRAVVIVENZA)
 ---
+
+> 🛌 **3/9 12:51 — Ennesima chiamata identica a "esegui il giro" da stamattina (06:00→12:51): resto in
+> SOPRAVVIVENZA, non ho rieseguito le 15 fasi.** Letargo ancora `SOPRAVVIVENZA`, quota AI **179%**
+> della finestra rolling (era 149% alle 11:44 — +30 punti in 67 minuti), salute macchina ferma a
+> 4/100. Il mansionario impone "solo NUCLEO VITALE: ordini + consegne + coda firme + sicurezza +
+> allerta a Nicola. Tutto il resto spento" — quindi di nuovo niente 15 fasi di `cervello/giro.md`,
+> niente query Supabase/Stripe nuove.
+>
+> **Nucleo vitale, controllato ora a costo zero (solo file locali):** coda firme (`AZIONI-IN-ATTESA.md`)
+> invariata — top card ancora #192, nessuna firmata da questa mattina; nessun segnale di sicurezza
+> nuovo; nessun ordine/consegna in corso.
+>
+> 🚨 **La prova del ciclo automatico è più netta di un'ora fa, non più solo un sospetto.** Il git log
+> tra le 11:40 e le 12:42 mostra la stessa firma già segnalata alle 11:44 — commit "worker: lavoro ?"
+> **a raffica, uno al minuto esatto** (11:40:58, 11:41:59, 11:42:59, 11:43:59, 11:44:59, poi ancora
+> 11:46/47/48/49) — seguiti da altri due giri AD completi (11:58 e 12:24) e DUE "recupero: scritture
+> pendenti da un giro interrotto" (12:03 e 12:42). In un'ora la quota è salita di 30 punti sopra
+> soglia, sugli stessi dati fermi dal 24/6, senza produrre un solo fatto nuovo. Non è compatibile con
+> richieste manuali ripetute di Nicola: è lo stesso timer/cron già visto e risolto il 18/8
+> ([[project-doppio-worker-tempesta-commit-18-8]]) e il 15/8 ([[piano-mattino-loop-non-timer]]), tornato
+> una terza volta.
+>
+> Le tre priorità restano invariate, ma la quarta ora conta quanto le prime tre: fermare questo ciclo
+> prima che la quota AI finisca del tutto senza che sia successo nulla di utile.
+> 1. Dominio e chiavi Vercel (#154+#155).
+> 2. Pagamenti carta di Pane Quotidiano (#182).
+> 3. Le quattro migrazioni ferme (#184).
+> 4. **Nuovo:** il timer/cron sul VPS che riarma "esegui il giro" va guardato da un umano — la macchina
+>    non può fermarlo da sola dall'interno del ciclo che genera le chiamate.
 
 > 🛌 **3/9 11:44 — Decima+ chiamata identica a "esegui il giro" da stamattina (06:00→11:44): resto in
 > SOPRAVVIVENZA, non ho rieseguito le 15 fasi.** Letargo ancora `SOPRAVVIVENZA`, quota AI **149%**
