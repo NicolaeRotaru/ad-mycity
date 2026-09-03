@@ -115,6 +115,46 @@ async function selectRows(table: string, qs: string): Promise<any[]> {
   return (await selectRowsEsito(table, qs)).rows;
 }
 
+/**
+ * 3/9/2026 — LA CABINA CHIEDEVA UNA COLONNA CHE NEL SITO NON ESISTE.
+ *
+ * Qui si leggeva `abandoned_carts` chiedendo `created_at`. Quella colonna non
+ * c'e' mai stata: la tabella nasce (migrazione 027 del sito) con `user_id`,
+ * `cart_data`, `cart_total`, `last_activity`, `recovery_email_sent_at`,
+ * `recovered`. PostgREST rifiuta la richiesta INTERA quando una colonna non
+ * esiste — non ne toglie una: rifiuta tutto — quindi la lettura tornava vuota.
+ * Nei registri di produzione: 1.792 errori «column abandoned_carts.created_at
+ * does not exist» in ventiquattro ore.
+ *
+ * E il pezzo grave e' cosa vedeva Nicola: la lista vuota diventava «0 carrelli
+ * abbandonati», un numero, in una Cabina dove i numeri si guardano per
+ * decidere. «Nessuno lascia il carrello» e «non l'ho misurato» sono due notizie
+ * opposte, e la Cabina mostrava la prima avendo in mano la seconda.
+ *
+ * La causa radice: le domande erano scritte su nomi di colonna SUPPOSTI. Le
+ * migrazioni del sito sono leggibili, e nessuno le aveva aperte.
+ *
+ * `recovered_at` — il quando del recupero — arriva con la migrazione 148, che
+ * si applica a mano: puo' esserci o no. Il sito stesso, quando scrive, si e'
+ * gia' attrezzato a farne a meno (`lib/carrelli-abbandonati.ts`). Qui si fa lo
+ * stesso in lettura: si chiede la colonna precisa, e se il database la rifiuta
+ * si ripiega su quelle che ci sono da sempre — perdendo il conto dei recuperi,
+ * che diventa «non lo so», non «zero».
+ */
+const CARRELLI_COLONNE_SEMPRE = "recovered,last_activity";
+const CARRELLI_COLONNE_CON_RECUPERO = `${CARRELLI_COLONNE_SEMPRE},recovered_at`;
+
+async function leggiCarrelli(): Promise<{ rows: any[]; ok: boolean; conRecupero: boolean }> {
+  const preciso = await selectRowsEsito(
+    "abandoned_carts",
+    `select=${CARRELLI_COLONNE_CON_RECUPERO}&limit=10000`
+  );
+  if (preciso.ok) return { ...preciso, conRecupero: true };
+  // La migrazione 148 non e' applicata la': si rinuncia al QUANDO, non al FATTO.
+  const base = await selectRowsEsito("abandoned_carts", `select=${CARRELLI_COLONNE_SEMPRE}&limit=10000`);
+  return { ...base, conRecupero: false };
+}
+
 export type Metriche = {
   connected: boolean;
   error?: string;
@@ -133,7 +173,7 @@ export async function getMetriche(): Promise<Metriche> {
     const [ordersR, profilesR, cartsR, reviewsR] = await Promise.all([
       selectRowsEsito("orders", "select=total_price,payment_status,delivery_status,created_at,delivered_at,user_id&limit=10000"),
       selectRowsEsito("profiles", "select=role,created_at&limit=10000"),
-      selectRowsEsito("abandoned_carts", "select=recovered,created_at&limit=10000"),
+      leggiCarrelli(),
       selectRowsEsito("store_reviews", "select=rating&limit=10000"),
     ]);
     const orders = ordersR.rows;
@@ -167,6 +207,16 @@ export async function getMetriche(): Promise<Metriche> {
     const paid30 = orders.filter((o) => paid(o) && t(o.created_at) >= d30);
     const delivered = orders.filter((o) => o.delivered_at);
     const ratings = reviews.map((r) => num(r.rating)).filter((n) => n > 0);
+
+    // I carrelli: chi non e' tornato, chi e' tornato, e le due domande che si
+    // fanno su di loro. `seLetto`/`seRecupero` sono il cancello della verita':
+    // quando la lettura non e' riuscita non esce uno zero, non esce niente.
+    const abbandonati = carts.filter((c) => c.recovered !== true);
+    const recuperati = carts.filter((c) => c.recovered === true);
+    const quanti = (righe: any[], campo: string, dentro: (iso: string) => boolean) =>
+      righe.filter((c) => c[campo] && dentro(c[campo])).length;
+    const seLetto = (n: number) => (cartsR.ok ? n : undefined);
+    const seRecupero = (n: number) => (cartsR.ok && cartsR.conRecupero ? n : undefined);
 
     const ultimoOrdine: Record<string, number> = {};
     for (const o of orders) {
@@ -203,14 +253,20 @@ export async function getMetriche(): Promise<Metriche> {
       clienti_attivi_7g: attiviIn((iso) => t(iso) >= d7),
       clienti_attivi_30g: attiviIn((iso) => t(iso) >= d30),
       clienti_dormienti: ultimi.filter((tt) => tt < d30).length,
-      // --- Carrelli (richiede created_at su abandoned_carts) ---
-      carrelli: carts.filter((c) => c.recovered !== true).length,
-      carrelli_oggi: carts.filter((c) => c.recovered !== true && c.created_at && isOggi(c.created_at)).length,
-      carrelli_7g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d7).length,
-      carrelli_30g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d30).length,
-      carrelli_recuperati_oggi: carts.filter((c) => c.recovered === true && c.created_at && isOggi(c.created_at)).length,
-      carrelli_recuperati_7g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d7).length,
-      carrelli_recuperati_30g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d30).length,
+      // --- Carrelli --- il tempo di un carrello e' `last_activity`, non `created_at`
+      // (vedi la nota sopra `leggiCarrelli`). Se la lettura non e' riuscita il
+      // numero non esiste: la Cabina mostra "—" e Nicola sa che non e' misurato.
+      carrelli: seLetto(abbandonati.length),
+      carrelli_oggi: seLetto(quanti(abbandonati, "last_activity", isOggi)),
+      carrelli_7g: seLetto(quanti(abbandonati, "last_activity", (iso) => t(iso) >= d7)),
+      carrelli_30g: seLetto(quanti(abbandonati, "last_activity", (iso) => t(iso) >= d30)),
+      // Il QUANDO di un recupero sta in `recovered_at`. Senza quella colonna il
+      // dato non si approssima con `last_activity`: quello e' l'ultimo tocco del
+      // carrello, che puo' essere di giorni prima dell'ordine. Un numero
+      // sbagliato in Cabina e' peggio di una casella vuota.
+      carrelli_recuperati_oggi: seRecupero(quanti(recuperati, "recovered_at", isOggi)),
+      carrelli_recuperati_7g: seRecupero(quanti(recuperati, "recovered_at", (iso) => t(iso) >= d7)),
+      carrelli_recuperati_30g: seRecupero(quanti(recuperati, "recovered_at", (iso) => t(iso) >= d30)),
       // --- Negozi ---
       negozi: profiles.filter((p) => p.role === "seller").length,
       nuovi_negozi_oggi: profiles.filter((p) => p.role === "seller" && isOggi(p.created_at)).length,

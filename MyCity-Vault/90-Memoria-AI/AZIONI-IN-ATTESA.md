@@ -35,6 +35,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia:** il marketplace torna ad avere un indirizzo che funziona. Il sensore che lo controlla legge «errore» da 219 giri di fila: l'ultima risposta buona è del 30 luglio, cioè 35 giorni fa. Finché resta così, nessuna campagna e nessun volantino porta un cliente da nessuna parte.
 
+> 🔍 **Verificato dall'AD 2026-09-03 16:45, con le chiavi di Vercel e il DNS di questa macchina.** Il nome `mycity-marketplace.com` risponde ancora `216.24.57.1`, cioè il vecchio Render. Sul progetto Vercel `mycity` i domini sono solo tre indirizzi `.vercel.app`: **nessun dominio personalizzato**. E la protezione «Vercel Authentication» è **accesa** su tutto tranne i domini personalizzati — quindi anche chi conoscesse l'indirizzo vero trova la schermata di accesso di Vercel. Non è un sospetto: sono i due dati letti oggi dalla fonte, uno dopo l'altro. Finché resta così, le novantasette riparazioni fatte oggi sul sito non le vede nessun cliente.
+
 **Cosa devi fare tu.** Su Vercel, progetto `mycity`, sezione Domains: aggiungi `mycity-marketplace.com` e imposta i record che Vercel ti mostra. Poi apri il sito in una finestra anonima e dimmi cosa vedi: se compare la schermata di accesso di Vercel invece del marketplace, la protezione va tolta dal dominio.
 
 **Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato.
@@ -46,6 +48,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **In parole semplici.** Il codice pubblicato è del 2 settembre. Il database vero si è fermato al 28 agosto. Al registro delle migrazioni mancano ventuno righe, e le cose che davvero non ci sono le ho contate una per una: sedici, più quattro indici.
 
 **Cosa cambia:** oggi in produzione l'email «ordine pronto» non parte mai, la pagina Analisi del venditore va in errore, e il carrello non viene mai segnato come recuperato — quindi chi ha appena comprato può ricevere il messaggio del carrello abbandonato. Il motivo è uno solo: il passo del rilascio che applica le migrazioni non può girare, perché i quattro segreti che gli servono non sono mai stati configurati. È la card #161, ferma dal 22 agosto.
+
+> 🔍 **Verificato dall'AD 2026-09-03 19:05, guardando il database vero e non la scheda.** L'ultima migrazione applicata in produzione è `20260828230000 129p_ponte_produzione_catalogo_visibile`. Nel repo, dopo quella, ce ne sono diciannove che in produzione non risultano: 126, 127, 128, 130, 131, 134, 135 e tutte da 140 a 150. Oggi ne sono arrivate altre quattro nuove dal lotto di riparazione (151, 152, 153, 154), che aspettano anche loro la tua firma: la 153 è quella del reso della card #190.
 
 **Cosa devi fare tu.** Configura i quattro segreti su GitHub (li elenca la card #161), poi il comando del rilascio applica le migrazioni da solo: è idempotente e già provato in CI. Dopo, il controllo notturno diventa rosso da solo alla prossima deriva.
 
@@ -62,6 +66,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Cosa devi fare tu.** Questa è una riparazione nel codice del sito, quindi non parte da sola: dimmi se la faccio io in un ramo a parte, con la sua prova che diventa rossa se il buco torna. Il fix è stretto: la riga del reso la può scrivere solo il server, e i controlli che oggi vivono in una sola porta devono valere per tutte.
 
 **Se va bene:** apro il ramo, ti porto la riparazione con la prova, e resta a te firmarne l'unione.
+
+> 🔧 **Aggiornamento AD 2026-09-03 19:05 — il codice è fatto, resta la tua firma sulla migrazione.** Il ramo esiste (`claude/marketplace-issues-52cttv`) e dentro c'è la riparazione su tutte e due le gambe. Le rotte malate erano **due**, non una: sia quella che fa avanzare il reso sia quella che lo decide stabilivano chi fosse «il negozio» leggendo un campo che il cliente si scriveva da solo. Ora il negozio arriva dall'ordine, letto dal server. Le due prove girano: quella del codice, col difetto rimesso, dice «expected 200 to be 403»; quella del database dice «PASSATO: quarantadue euro pronti a uscire senza che il fornaio sappia niente». La seconda gamba è la migrazione `153_il_reso_lo_apre_il_server_non_il_cliente.sql`: **non l'ho applicata, e finché non la applichi tu il permesso nel database resta largo com'è oggi.**
 
 ---
 
