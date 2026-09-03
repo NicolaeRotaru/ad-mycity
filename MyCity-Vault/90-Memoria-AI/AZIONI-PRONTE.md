@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-08-24 13:29
+aggiornato: 2026-09-03 13:25
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -47,6 +47,18 @@ livello: ⛔ non inviare
 motivo del ritiro: La verifica web del 6/7/2026 (`consegne/relazioni-istituzionali/2026-07-06-playbook-bandi-mail-istituzioni.md`) ha accertato che **non esiste alcun bando/contributo comunale "Vita in Centro" che rimborsi il 50% dei materiali**. "Vita in Centro" è un'**associazione di commercianti** partner dell'Hub Urbano, NON un ente che eroga rimborsi. Inviare questa mail avrebbe fatto chiedere al Comune un bando inesistente (danno di credibilità).
 sostituita da: **riga 39 di [[AZIONI-IN-ATTESA]]** (mail verificate all'Ufficio Commercio del Comune + Unione Commercianti, agganciate al **vero** bando: Bando Commercio ER fondo perduto fino a €50.000, sportello aperto fino al 21/7/2026). Il rimborso materiali per i negozi, semmai, passa da quel bando (spesa ammissibile) o dagli interventi dell'Hub — non da un rimborso comunale a sportello.
 nota per #33 (kit capillarità): rimuovere/riscrivere l'aggancio «bando Vita in Centro dimezza i materiali» — stessa fonte inesistente.
+
+## A42 · 📣 Post del giorno 3/9 — "I turni ricominciano anche a settembre" (Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia 9:16 + pagina FB + gruppi FB
+perche: PLAYBOOK Contenuto del giorno (worker 3/9). Angolo **rientro di settembre** (swipe #2 cavalcare il momento, fatto di calendario reale) — mai usato dalla rubrica finora. Non duplica: kefir-colazione 14/7 · hummus+pesto 16/8 · pudding-merenda 28/8 · carosello 23/7 · turno-mattina 20/7.
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato: catalogo/prezzi riletti dal DB live 3/9 (invariati dal 28/8), 0 numeri MyCity inventati, 0 testimonianze
+contenuto pronto: consegne/content/2026-09-03-post-del-giorno-rientro-settembre-PQ.md
+cosa cambia: esce l'undicesimo post pronto per Pane Quotidiano — ma i dieci precedenti (A8, A15, A16, A26, A28, A29, A36, A40, A41, #180) sono TUTTI ancora fermi, mai pubblicati. Il collo di bottiglia non è la produzione di contenuti: è che nessuno viene scelto e firmato.
+se va bene: Nicola sceglie uno tra gli undici (consiglio: questo o #180, entrambi senza promessa di consegna) e lo pubblica; gli altri scaduti di stagione si possono ritirare per pulire la coda.
+pre-condizioni: (1) link marketplace in bio/1° commento UTM `rientro-0309` · (2) foto reale catalogo = ok titolare se boost, altrimenti versione tipografica pubblicabile subito · (3) timing 09:00–11:00. Coda canonica = **#193** in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA — vedi nota backlog sopra prima di produrne altri.
 
 ## A2 · 🤝 Proposta di onboarding alla bottega Garetti
 reparto: vendite

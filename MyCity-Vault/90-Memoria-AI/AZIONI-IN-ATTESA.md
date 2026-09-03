@@ -26,6 +26,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- post-rientro-settembre-pq -->
+### 🔴 #193 — Un altro post è pronto per Pane Quotidiano, ma sono già undici fermi da luglio · ⏳ accodata 2026-09-03 13:25
+
+**Cosa cambia:** come richiesto ho scritto il post del giorno di oggi — il rientro di settembre,
+angolo mai usato, "il turno del bottegaio non si è fermato neanche ad agosto". Testo pronto in
+`consegne/content/2026-09-03-post-del-giorno-rientro-settembre-PQ.md`, senza promessa di consegna
+(ho ricontrollato ora: Pane Quotidiano non incassa ancora con la carta, stesso blocco della card
+#182, invariato da 24 giorni). Ma prima di leggerlo: è l'**undicesimo** post pronto per Pane
+Quotidiano dal 3 luglio — i dieci precedenti (A8, A15, A16, A26, A28, A29, A36, A40, A41, #180 in
+[[AZIONI-PRONTE]]) sono ancora tutti fermi, mai pubblicati uno.
+
+**Se va bene:** dimmi «ok pubblica il post di oggi» per farlo partire, oppure dimmi quale dei dieci
+vecchi vuoi che ritiri (alcuni sono scaduti di stagione, es. Sant'Antonino di luglio) per pulire la
+coda. Non serve che io ne scriva un dodicesimo finché uno non parte davvero.
+
+| 193 | 2026-09-03 13:25 | @ad | Scegli un post da pubblicare per Pane Quotidiano (11 pronti, 0 pubblicati) o dimmi quali ritirare dalla coda | 🔴 | pubblicazione social IG/FB | manuale/Pannello | in attesa |
+
+---
+
 <!-- collaudo-leggibilita-debito -->
 ### 🟡 #192 — Sei file di memoria sono difficili da leggere, il cancello lo segnala da un giro · ⏳ accodata 2026-09-02 18:28
 
