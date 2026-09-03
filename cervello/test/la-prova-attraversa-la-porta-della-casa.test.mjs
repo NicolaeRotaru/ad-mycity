@@ -9,7 +9,9 @@
 //
 // COSA PROVA: ① i campi dichiarati in CAMPI_EXTRA_DEL_REFERTO attraversano la porta; ② un campo non
 // dichiarato resta fuori (la porta non si allarga a caso); ③ i campi vuoti non sporcano la scheda;
-// ④ la fusione con la casa conserva lo stato di una riparazione anche quando il referto porta la prova.
+// ④ la fusione con la casa conserva lo stato di una riparazione anche quando il referto porta la prova;
+// ⑤ una credenziale finta dentro la prova entra DISARMATA — è la scheda AR-894, nata dal riguardare
+//    questo stesso file con la lente della sua dimensione prima di consegnare, e chiusa nello stesso lotto.
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { problemiDaRaw, fondiConLaCasa, CAMPI_EXTRA_DEL_REFERTO, FONTI_SITO } from "../referti-sito.mjs";
