@@ -8364,6 +8364,56 @@
    "test": "cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
    "nota": "Da quando la prova di un referto del sito attraversa la porta della casa, una prova che fabbrica apposta una credenziale finta la porterebbe in un file versionato della memoria, dove il guardiano dei segreti la legge come chiave vera e blocca la memoria stessa. Provata a mano il 3/9/2026: senza il disarmo la quinta prova diventa rossa.",
    "lezione": "L-2026-0903-01"
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-896",
+   "nome": "la spazzata torna a dire verde su un posto che non ha guardato",
+   "file": "cervello/spazzata-frase.mjs",
+   "cerca": "    console.error(`⛔ Non trovo il repo del sito in «${repo}». Passa --repo o imposta MARKETPLACE_REPO.`);\n    process.exit(3);",
+   "sostituisci": "    console.error(`⛔ Non trovo il repo del sito in «${repo}». Passa --repo o imposta MARKETPLACE_REPO.`);\n    process.exit(0);",
+   "test": "cervello/test/spazzata-frase.test.mjs",
+   "nota": "Il contratto del comando dice che «non ho potuto guardare» ha un'uscita sua, diversa dal verde. Il revisore aveva rotto tre pezzi di quel contratto restando 7 verdi su 7: ora la prova esegue il comando su un repo che non esiste e pretende 3. Eseguito il 3/9/2026: rosso su «un repo che non esiste non e' zero posti»."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-903",
+   "nome": "il funnel rimette lo zero bugiardo sul numero dei soldi",
+   "file": "pannello/src/app/api/metriche/funnel/route.ts",
+   "cerca": "const ordiniPagati = ordersR.ok ? orders.filter((o) => o.payment_status === \"PAID\").length : null;",
+   "sostituisci": "const ordiniPagati = ordersR.ok ? orders.filter((o) => o.payment_status === \"PAID\").length : 0;",
+   "test": "cervello/test/il-funnel-non-scrive-zero-carrelli-che-non-ha-contato.test.mjs",
+   "nota": "E' la mutazione con cui un revisore ha dimostrato che la prima versione di quella prova era vacua: cambiava una riga sola e la prova restava 8 verdi su 8. Riscritta eseguendo la rotta vera contro un finto database, ora e' rossa. Eseguito il 3/9/2026."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-897",
+   "nome": "una data illeggibile torna a spegnere tutta la Cabina",
+   "file": "pannello/src/lib/marketplace-db.ts",
+   "cerca": "      if (Number.isNaN(q.getTime())) return false;",
+   "sostituisci": "      // riga tolta apposta",
+   "test": "cervello/test/una-data-storta-non-spegne-la-cabina.test.mjs",
+   "nota": "Senza il controllo, Intl.format lancia dentro l unico try/catch del cruscotto e la Cabina risponde «database non collegato». Eseguito il 3/9/2026: due prove rosse su due."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-896",
+   "nome": "la spazzata torna a seguire i collegamenti e legge file fuori dal repo",
+   "file": "cervello/spazzata-frase.mjs",
+   "cerca": "try { st = lstatSync(p); } catch { continue; }",
+   "sostituisci": "try { st = statSync(p); } catch { continue; }",
+   "test": "cervello/test/spazzata-frase.test.mjs",
+   "nota": "Con statSync il collegamento viene seguito: un link dentro components/ fa leggere file fuori dal repo con un percorso che sembra interno, e fa contare piu volte lo stesso posto. Eseguito il 3/9/2026: rossa la prova «un collegamento non fa contare due volte lo stesso posto»."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-897",
+   "nome": "una riga con la data storta torna a tirare a zero il tempo medio di consegna",
+   "file": "pannello/src/lib/marketplace-db.ts",
+   "cerca": "const delivered = orders.filter((o) => leggibile(o.delivered_at) && leggibile(o.created_at));",
+   "sostituisci": "const delivered = orders.filter((o) => o.delivered_at);",
+   "test": "cervello/test/una-data-storta-non-spegne-la-cabina.test.mjs",
+   "nota": "Una data illeggibile fa NaN, e Math.max(0, NaN) fa 0: una consegna «istantanea» che abbassa la media che Nicola legge. Eseguito il 3/9/2026: rossa."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario."

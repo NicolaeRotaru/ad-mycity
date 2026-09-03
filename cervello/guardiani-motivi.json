@@ -86,6 +86,10 @@
   "pacchetti-lotto.mjs": {
    "motivo": "decisione",
    "perche": "Non emette un giudizio sulla salute della macchina: divide i difetti gia' trovati in pacchetti di lavoro, e si lancia a mano quando si apre un lotto (COMANDI.md, «chiudi i gravi del sito»). L'uscita 2 non e' un verdetto rosso: e' «non ho potuto misurare», e serve a non consegnare mai un piano vuoto spacciato per verde (collaudo del 28/8/2026: --max abc produceva 163 pacchetti da zero difetti con uscita 0). Metterlo in un processo ricorrente vorrebbe dire aprire lotti da solo, che e' una decisione di Nicola, non un controllo."
+  },
+  "spazzata-frase.mjs": {
+   "motivo": "decisione",
+   "perche": "Si lancia a mano, e il perche' e' che gli serve una FRASE come argomento. Nato il 3/9/2026 per un difetto misurato: le schede nominano circa un terzo dei posti in cui una frase promessa e' scritta, e chi ripara fidandosi della scheda ripara un terzo. Oggi lo lancia chi ripara un testo, prima di dichiarare chiuso — tre squadre del lotto di quel giorno l'hanno usato, e sulla promessa dell'invito ha trovato un sesto posto che nessuna scheda nominava. Per metterlo di guardia da solo servirebbe un elenco di frasi da sorvegliare con il loro numero atteso, che oggi non esiste: e' registrato come AR-906, ed e' debito dichiarato, non lavoro finito. Il suo contratto (le tre uscite, i collegamenti simbolici, le quattro cartelle) e' comunque sorvegliato dal banco: cervello/test/spazzata-frase.test.mjs lo esegue davvero."
   }
  },
  "verdetti_morti_dichiarati": {},

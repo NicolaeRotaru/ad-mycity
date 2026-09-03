@@ -91,7 +91,7 @@ export async function marketplaceSelect(table: string, qs: string): Promise<any[
  * affidabili, non sono "0 reale"); `ok:true` con `rows:[]` = zero vero (query riuscita, nessuna riga).
  * Sola lettura: solo GET. Logghiamo comunque l'errore (visibile nei log Vercel).
  */
-async function selectRowsEsito(table: string, qs: string): Promise<{ rows: any[]; ok: boolean }> {
+export async function selectRowsEsito(table: string, qs: string): Promise<{ rows: any[]; ok: boolean }> {
   try {
     const res = await fetch(`${URL}/rest/v1/${table}?${qs}`, { headers: headers(), cache: "no-store" });
     if (!res.ok) {
@@ -144,7 +144,7 @@ async function selectRows(table: string, qs: string): Promise<any[]> {
 const CARRELLI_COLONNE_SEMPRE = "recovered,last_activity";
 const CARRELLI_COLONNE_CON_RECUPERO = `${CARRELLI_COLONNE_SEMPRE},recovered_at`;
 
-async function leggiCarrelli(): Promise<{ rows: any[]; ok: boolean; conRecupero: boolean }> {
+export async function leggiCarrelli(): Promise<{ rows: any[]; ok: boolean; conRecupero: boolean }> {
   const preciso = await selectRowsEsito(
     "abandoned_carts",
     `select=${CARRELLI_COLONNE_CON_RECUPERO}&limit=10000`
@@ -191,7 +191,18 @@ export async function getMetriche(): Promise<Metriche> {
     const romeFmt = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" });
     const oggi = romeFmt.format(new Date());
     const t = (iso: string) => new Date(iso).getTime();
-    const isOggi = (iso: string) => romeFmt.format(new Date(iso)) === oggi;
+    // UNA RIGA STORTA NON SPEGNE LA CABINA (AR-897, 3/9/2026).
+    //
+    // `Intl.DateTimeFormat.format` LANCIA su una data che non si legge. Questa funzione gira
+    // dentro l'unico try/catch del cruscotto, quindi un solo `created_at` illeggibile — o `null` —
+    // faceva uscire `connected: false, error: "Invalid time value"`: a Nicola la Cabina diceva
+    // «database non collegato», che e' la causa sbagliata, e lui andava a cercare il guasto dove
+    // non era. Una data che non si legge e' una riga che non conta, non un database spento.
+    const isOggi = (iso: string) => {
+      const q = new Date(iso);
+      if (Number.isNaN(q.getTime())) return false;
+      return romeFmt.format(q) === oggi;
+    };
     const notFailed = (o: any) => o.payment_status !== "FAILED";
     const paid = (o: any) => o.payment_status === "PAID";
     const num = (v: any) => Number(v) || 0;
@@ -205,7 +216,11 @@ export async function getMetriche(): Promise<Metriche> {
     const paidOggi = orders.filter((o) => paid(o) && isOggi(o.created_at));
     const paid7 = orders.filter((o) => paid(o) && t(o.created_at) >= d7);
     const paid30 = orders.filter((o) => paid(o) && t(o.created_at) >= d30);
-    const delivered = orders.filter((o) => o.delivered_at);
+    // Una riga con la data storta non deve tirare giu' la media: `t()` su una data illeggibile
+    // torna NaN, e `Math.max(0, NaN)` fa 0 — cioe' una consegna «istantanea» che abbassa il numero
+    // che Nicola legge. Qui entrano solo le righe che hanno tutt'e due le date leggibili.
+    const leggibile = (iso: unknown) => typeof iso === "string" && !Number.isNaN(new Date(iso).getTime());
+    const delivered = orders.filter((o) => leggibile(o.delivered_at) && leggibile(o.created_at));
     const ratings = reviews.map((r) => num(r.rating)).filter((n) => n > 0);
 
     // I carrelli: chi non e' tornato, chi e' tornato, e le due domande che si
@@ -310,7 +325,9 @@ export async function getRetention(): Promise<{ connected: boolean; [k: string]:
     for (const o of paid) {
       const k = String(o.user_id);
       (perCliente[k] ||= { t: [], spesa: 0 });
-      perCliente[k].t.push(new Date(o.created_at).getTime());
+      const quando = new Date(o.created_at).getTime();
+      if (Number.isNaN(quando)) continue; // riga senza data leggibile: non conta, non spegne
+      perCliente[k].t.push(quando);
       perCliente[k].spesa += Number(o.total_price) || 0;
     }
     const clienti = Object.values(perCliente);
@@ -336,7 +353,11 @@ export async function getRetention(): Promise<{ connected: boolean; [k: string]:
     const fmtMese = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit" });
     const coorti: Record<string, { clienti: number; riacquisto: number }> = {};
     for (const c of clienti) {
-      const mese = fmtMese.format(new Date(Math.min(...c.t))).slice(0, 7); // YYYY-MM
+      // Una data storta qui faceva lanciare `format` e spegneva l'intera schermata con
+      // «database non collegato», che e' la causa sbagliata: e' lo stesso difetto di `isOggi`.
+      const primo = Math.min(...c.t.filter((x: number) => Number.isFinite(x)));
+      if (!Number.isFinite(primo)) continue;
+      const mese = fmtMese.format(new Date(primo)).slice(0, 7); // YYYY-MM
       (coorti[mese] ||= { clienti: 0, riacquisto: 0 });
       coorti[mese].clienti++;
       if (c.t.length >= 2) coorti[mese].riacquisto++;
@@ -380,6 +401,7 @@ export async function getPatternOrari(): Promise<{ connected: boolean; [k: strin
     const perGiorno = new Array(7).fill(0) as number[];
     for (const o of validi) {
       const d = new Date(o.created_at);
+      if (Number.isNaN(d.getTime())) continue; // una data storta toglie la riga, non la schermata
       perOra[parseInt(fmtH.format(d), 10) % 24]++;
       const w = wmap[fmtW.format(d)];
       if (w != null) perGiorno[w]++;

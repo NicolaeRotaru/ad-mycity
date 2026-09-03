@@ -29,13 +29,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- radiografia-totale-sito-3-9 -->
 
+<!-- chiave-anti-robot-prima-di-unire -->
+
+### 🔴 #193 — Controlla che su Vercel ci sia la chiave del controllo anti-robot, prima di unire · ⏳ accodata 2026-09-03 20:30
+
+**In parole semplici.** Sul sito c'è un controllo che distingue una persona da un programma automatico, e serve una chiave per farlo funzionare. Prima, se quella chiave mancava, il controllo lasciava passare tutti in silenzio. Da oggi, se manca, rifiuta.
+
+**Cosa cambia:** è la scelta giusta — una difesa spenta che si comporta come una difesa accesa è peggio di nessuna difesa. Ma ha un rovescio pesante. Se quella chiave in produzione non c'è, dopo l'unione si spengono insieme quattro cose: l'accesso, la registrazione, il modulo contatti e l'iscrizione alla newsletter. Cioè la porta d'ingresso del marketplace.
+
+**Cosa devi fare tu.** Trenta secondi su Vercel: progetto `mycity`, Settings, Environment Variables, cerca `TURNSTILE_SECRET_KEY` in Production. Se c'è, dimmelo e uniamo. Se non c'è, mettila prima (la trovi nel pannello Cloudflare Turnstile) — io da qui le variabili di Vercel non le posso leggere, e non voglio indovinare su una cosa che chiude la porta d'ingresso.
+
+**Se va bene:** unisco la richiesta di unione del sito.
+
+Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è il semaforo della salute del sito. Non il primo cliente che non riesce a entrare.
+
+---
+
+
 ### 🔴 #192 — Rimetti il dominio del marketplace su Vercel: oggi porta a un server spento · ⏳ accodata 2026-09-03 09:35
 
 **In parole semplici.** Il nome che sta sui QR e sui post, mycity-marketplace.com, punta ancora all'indirizzo del vecchio server Render, che abbiamo spento ad agosto. Il sito vero gira su Vercel, ma lì il dominio non è mai stato collegato. Chi lo digita trova un errore.
 
 **Cosa cambia:** il marketplace torna ad avere un indirizzo che funziona. Il sensore che lo controlla legge «errore» da 219 giri di fila: l'ultima risposta buona è del 30 luglio, cioè 35 giorni fa. Finché resta così, nessuna campagna e nessun volantino porta un cliente da nessuna parte.
 
-> 🔍 **Verificato dall'AD 2026-09-03 16:45, con le chiavi di Vercel e il DNS di questa macchina.** Il nome `mycity-marketplace.com` risponde ancora `216.24.57.1`, cioè il vecchio Render. Sul progetto Vercel `mycity` i domini sono solo tre indirizzi `.vercel.app`: **nessun dominio personalizzato**. E la protezione «Vercel Authentication» è **accesa** su tutto tranne i domini personalizzati — quindi anche chi conoscesse l'indirizzo vero trova la schermata di accesso di Vercel. Non è un sospetto: sono i due dati letti oggi dalla fonte, uno dopo l'altro. Finché resta così, le novantasette riparazioni fatte oggi sul sito non le vede nessun cliente.
+> 🔍 **Ricontrollato dall'AD alle 16:45 di oggi, con le chiavi di Vercel.** Quello che c'è scritto qui sopra è ancora vero, e in più adesso so anche il resto.
+>
+> Sul progetto Vercel del sito i domini sono solo tre indirizzi tecnici. Nessun dominio personalizzato. La protezione di Vercel è accesa su tutti gli indirizzi tecnici: anche chi conoscesse quello vero trova la schermata di accesso di Vercel.
+>
+> Quindi non c'è nessuna porta di servizio da dare a un cliente mentre aspettiamo. Finché resta così, le riparazioni fatte oggi sul sito non le vede nessuno.
 
 **Cosa devi fare tu.** Su Vercel, progetto `mycity`, sezione Domains: aggiungi `mycity-marketplace.com` e imposta i record che Vercel ti mostra. Poi apri il sito in una finestra anonima e dimmi cosa vedi: se compare la schermata di accesso di Vercel invece del marketplace, la protezione va tolta dal dominio.
 
@@ -49,7 +70,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia:** oggi in produzione l'email «ordine pronto» non parte mai, la pagina Analisi del venditore va in errore, e il carrello non viene mai segnato come recuperato — quindi chi ha appena comprato può ricevere il messaggio del carrello abbandonato. Il motivo è uno solo: il passo del rilascio che applica le migrazioni non può girare, perché i quattro segreti che gli servono non sono mai stati configurati. È la card #161, ferma dal 22 agosto.
 
-> 🔍 **Verificato dall'AD 2026-09-03 19:05, guardando il database vero e non la scheda.** L'ultima migrazione applicata in produzione è `20260828230000 129p_ponte_produzione_catalogo_visibile`. Nel repo, dopo quella, ce ne sono diciannove che in produzione non risultano: 126, 127, 128, 130, 131, 134, 135 e tutte da 140 a 150. Oggi ne sono arrivate altre quattro nuove dal lotto di riparazione (151, 152, 153, 154), che aspettano anche loro la tua firma: la 153 è quella del reso della card #190.
+> 🔍 **Verificato dall'AD 2026-09-03 19:05, guardando il database vero.** Non è la scheda di ieri: sono i nomi letti oggi nel registro delle migrazioni di produzione.
+>
+> L'ultima applicata è quella del 28 agosto, il ponte del catalogo visibile. Dopo quella, nel repo ce ne sono diciannove che in produzione non risultano.
+>
+> Oggi ne sono arrivate altre quattro dal lotto di riparazione. Aspettano anche loro la tua firma. Una delle quattro è quella del reso della card #190.
 
 **Cosa devi fare tu.** Configura i quattro segreti su GitHub (li elenca la card #161), poi il comando del rilascio applica le migrazioni da solo: è idempotente e già provato in CI. Dopo, il controllo notturno diventa rosso da solo alla prossima deriva.
 
@@ -67,7 +92,13 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Se va bene:** apro il ramo, ti porto la riparazione con la prova, e resta a te firmarne l'unione.
 
-> 🔧 **Aggiornamento AD 2026-09-03 19:05 — il codice è fatto, resta la tua firma sulla migrazione.** Il ramo esiste (`claude/marketplace-issues-52cttv`) e dentro c'è la riparazione su tutte e due le gambe. Le rotte malate erano **due**, non una: sia quella che fa avanzare il reso sia quella che lo decide stabilivano chi fosse «il negozio» leggendo un campo che il cliente si scriveva da solo. Ora il negozio arriva dall'ordine, letto dal server. Le due prove girano: quella del codice, col difetto rimesso, dice «expected 200 to be 403»; quella del database dice «PASSATO: quarantadue euro pronti a uscire senza che il fornaio sappia niente». La seconda gamba è la migrazione `153_il_reso_lo_apre_il_server_non_il_cliente.sql`: **non l'ho applicata, e finché non la applichi tu il permesso nel database resta largo com'è oggi.**
+> 🔧 **Aggiornamento AD 2026-09-03 19:05 — il codice è fatto. Resta la tua firma sulla migrazione.** Il ramo esiste: `claude/marketplace-issues-52cttv`. Dentro c'è la riparazione su tutte e due le gambe.
+>
+> Le rotte malate erano due, non una. Sia quella che fa avanzare il reso sia quella che lo decide stabilivano chi fosse «il negozio» leggendo un campo scritto dal cliente. Ora il negozio arriva dall'ordine, letto dal server.
+>
+> Le due prove girano. Rimettendo il difetto, quella del codice dice che la porta si apre invece di chiudersi. Quella del database dice: «quarantadue euro pronti a uscire senza che il fornaio sappia niente».
+>
+> La seconda gamba è la migrazione `153_il_reso_lo_apre_il_server_non_il_cliente.sql`. **Non l'ho applicata.** Finché non la applichi tu, il permesso nel database resta largo com'è oggi.
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-09-03 21:11",
+  "aggiornato": "2026-09-04 00:09",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -1939,6 +1939,96 @@
         "lib/store-customization.ts": "403655823b54",
         "lib/store-hours.ts": "06f440bcc4b9",
         "lib/ui/barra-in-fondo.ts": "05590f057419"
+      }
+    },
+    {
+      "quando": "2026-09-03 22:35",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-896"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/spazzata-frase.mjs": "a314e0ead823"
+      }
+    },
+    {
+      "quando": "2026-09-03 22:35",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "AR-897",
+        "AR-898",
+        "AR-899",
+        "AR-900",
+        "AR-904",
+        "AR-905"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/components/NumeriReport.tsx": "1df36c296ffa",
+        "pannello/src/lib/marketplace-db.ts": "b78f71788f6f"
+      }
+    },
+    {
+      "quando": "2026-09-03 22:35",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "AR-901",
+        "AR-902",
+        "AR-903"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/metriche/funnel/route.ts": "31488103f780"
+      }
+    },
+    {
+      "quando": "2026-09-04 00:08",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "AR-908",
+        "AR-909"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/lib/marketplace-db.ts": "b3897694df74"
+      }
+    },
+    {
+      "quando": "2026-09-04 00:09",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "AR-907",
+        "AR-912"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/spazzata-frase.mjs": "12c8b6557b6f"
       }
     }
   ]
