@@ -1,8 +1,29 @@
 ---
 tipo: stato
-aggiornato: 2026-09-01 15:25
+aggiornato: 2026-09-03 01:01
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+---
+
+> 🩺 **3/9 01:01 — Visita su tua richiesta: il sito è pubblicato ma non vende, la macchina è viva ma muta.** Richiesta tua: «come siamo messi? il marketplace e la macchina dovrebbero già essere pronte».
+>
+> **In parole semplici.** Il codice del sito è a posto: CI verde su `main` e pubblicazione Vercel del 2/9
+> alle 21:35 riuscita. In produzione però manca ancora la chiave di servizio del database. Il dominio non
+> è collegato a Vercel. Il database è indietro di **20 aggiornamenti su 145**: erano 4 il 31/8, i blocchi
+> 130-150 sono entrati in `main` l'1/9. Il fornaio ha il conto Stripe ma incassi e versamenti sono spenti.
+> Business invariato: 1 ordine mai pagato, stallo North Star **71 giorni**.
+> La macchina è un'altra storia. Il worker del VPS è **vivo**: battito alle 00:58, e ieri ha fatto i 4
+> playbook. Ma dal 1/9 alle 12:15 **non pubblica più la memoria**. Il giro muore ogni giorno sul conflitto
+> di 8 file con `origin/main`: 6 giri falliti su 9 dal 22/8. Per questo git, il Pannello e la visita lo
+> vedono fermo da 37 ore, e l'allarme esterno ha aperto la issue #863. La diagnosi giusta è nella card
+> #168 aggiornata.
+>
+> **Cosa devi fare.** Le stesse carte: #154 chiavi Vercel, sblocca gli ordini · #155 dominio · #184 le 20
+> migrazioni · #168 tre comandi sul server, poi il conflitto lo risolvo io in PR.
+>
+> **Cosa non ho verificato.** Il sito in un browser, perché la rete è bloccata da qui. Le variabili Vercel
+> una per una. Stripe lato Stripe. La quota AI del server. Dettagli e prove in [[Briefing/2026-09-03]].
 
 ---
 

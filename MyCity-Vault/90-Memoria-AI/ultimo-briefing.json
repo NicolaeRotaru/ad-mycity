@@ -1,13 +1,34 @@
 {
-  "data": "2026-09-01 11:56",
-  "situazione": "Ottavo passaggio oggi, 20 minuti dopo il settimo: stesso quadro immobile. Business fermo dal 24/6, stallo North Star 69 giorni (1 negozio vero, 1 ordine mai pagato, 0 acquirenti nuovi, 5 prodotti, sito pubblico HTTP 503, ora 219 giri ciechi). coerenza-fatti pulita, 0 copie vecchie. Letargo in SOPRAVVIVENZA (quota AI 115%, salute macchina 4/100): volume tagliato, controlli di verità tenuti. Nessuna carta nuova (gate North-Star): le carte già in coda restano la priorità, invariate.",
+  "data": "2026-09-03 01:01",
+  "situazione": "Visita su richiesta di Nicola («come siamo messi?»). Marketplace: CI verde su main e pubblicazione Vercel del 2/9 21:35 riuscita, ma in produzione manca ancora la chiave di servizio del database (errore su /api/track alle 21:00 del 2/9), il dominio non è collegato a Vercel e il database è indietro di 20 migrazioni su 145 (era 4 il 31/8). Il fornaio ha il conto Stripe ma incassi e versamenti sono spenti. Business invariato: 1 ordine mai pagato, stallo North Star 71 giorni. Macchina: il worker del VPS è vivo (battito 00:58) e il 2/9 ha fatto i 4 playbook, ma dal 1/9 12:15 non pubblica più la memoria: il giro muore sul conflitto di 8 file con origin/main (6 giri falliti su 9 dal 22/8). Per questo git, il Pannello e l'allarme esterno (issue #863) lo vedono fermo da 37 ore.",
   "opportunita": [
-    {"titolo": "Nuovo bando del Comune da girare a Pane Quotidiano: 400.000€ per la raccolta differenziata", "motivo": "aperto dal 31/8 al 23/10, copre spese che un panificio come Pane Quotidiano già sostiene — trovato dal radar in un passaggio precedente, non ricontrollato oggi (cadenza settimanale)", "impatto": "medio", "sforzo": "basso"},
-    {"titolo": "Verificare dal vivo il catalogo appena il sito torna su", "motivo": "il fix che mostrava 0 prodotti su 5 ai visitatori senza accesso è già mergiato (#857): appena il sito risponde basta un giro in incognito per chiudere la card #181", "impatto": "medio", "sforzo": "basso"}
+    {
+      "titolo": "Il sito è servito da Vercel: appena entrano le chiavi si può fare la prova del catalogo in incognito",
+      "motivo": "tre persone lo hanno usato il 2/9 alle 21:00; il fix del catalogo invisibile (#244) è in produzione dal 28/8 ma nessuno l'ha ancora verificato dal vivo",
+      "impatto": "medio",
+      "sforzo": "basso"
+    }
   ],
   "azioni": [
-    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server Render e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "18+ giorni fermo (charges/payouts/details ancora tutti spenti): attivare i pagamenti prima o riscrivere intanto le CTA dei post che promettono consegna", "livello": "rosso"},
-    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni: cancello automatico o applicazione a mano", "livello": "rosso"}
+    {
+      "titolo": "Metti le chiavi mancanti su Vercel: senza, un pagamento riuscito non diventa un ordine",
+      "motivo": "card #154 — l'errore «Service role Supabase non configurato» è ancora nei log del 2/9 21:00",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Sposta il dominio del sito su Vercel",
+      "motivo": "card #155 — il progetto Vercel ha solo i domini vercel.app; il dominio pubblico punta ancora al vecchio server",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Applica al database le 20 migrazioni mancanti",
+      "motivo": "card #184 — erano 4 il 31/8; i blocchi 130-150 sono entrati in main l'1/9 e il controllo di deriva non gira perché manca il segreto SUPABASE_DB_URL",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Sul server, pubblica i lavori fermi dal 1/9 con i tre comandi della card #168",
+      "motivo": "il worker è vivo ma il giro muore sul conflitto con origin/main: il ramo lo unisco io in PR",
+      "livello": "rosso"
+    }
   ]
 }

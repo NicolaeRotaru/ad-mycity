@@ -24,6 +24,17 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- trigger-esterno-anti-churn -->
 
+
+<!-- pausa-scaduta-risveglio -->
+
+### 🟡 #189 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-03 03:12
+
+**Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: `#post-carosello-bio-2307`, `#referral-porta-un-amico`, `#post-lunedi-turno-mattina-2007`, `#post-domenica-settimana-1907`, `#post-siamo-in-23`, `#zona-orario-consegna`, `#post-meteo-pioggia-20lug`, `#welcome-email-23`, `#ordine-test-pq`, `#inserisci-tazzina-pq`. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.
+
+**Se va bene:** le guardi una per una e dici quali far partire davvero. Se nel frattempo hai cambiato idea sulla data, basta che me lo dici: la sposto nel registro e tutte le pause si spostano insieme.
+
+---
+
 ### 🟡 #188 — Dimmi dove vive il comando che ogni giorno mi chiede di controllare i negozi in calo · ⏳ accodata 2026-09-01 11:22
 
 **In parole semplici.** Ogni giorno arriva un compito — "PLAYBOOK anti-churn negozi" — che mi chiede di
@@ -522,6 +533,19 @@ chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira su
 > diretta al server per controllare da quando esattamente sia ripartito. Quello che ho misurato è
 > la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
 > l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
+
+> 🔄 **Aggiornamento 2026-09-03 01:01 — Il server è vivo, ma non pubblica più.** Il suo battito nel
+> database della memoria è delle 00:58, e ieri ha fatto i quattro playbook del mattino. Il giro invece
+> muore ogni giorno quando prova ad allinearsi a GitHub: conflitto su 8 file, 6 giri falliti su 9 dal
+> 22/8. L'ultimo push riuscito della memoria è del 1/9 alle 12:15: da allora git, il Pannello e l'allarme
+> esterno vedono ferma una macchina che lavora.
+>
+> **Cosa devi fare.** Quattro comandi sul server, poi dimmi cosa stampano: il conflitto lo risolvo io in PR.
+>
+> 1. `cd "$(systemctl show -p WorkingDirectory --value mycity-worker)"`.
+> 2. `git log --oneline origin/main..HEAD | wc -l`.
+> 3. `git push origin HEAD:refs/heads/memoria/vps-2026-09-03`.
+> 4. `git diff --stat HEAD -- cervello/worker.sh`.
 
 ---
 
@@ -2268,9 +2292,9 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-### 🔴 #25 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23 · ⏸ in pausa (rinvio negozi)
+### 🔴 #25 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contenuto completo:** `consegne/content/2026-07-23-post-del-giorno-carosello-bio-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A40**
 
@@ -2319,9 +2343,9 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-### 🔴 #23 — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36 · ⏸ in pausa (rinvio negozi)
+### 🔴 #23 — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contenuto completo:** `consegne/crm/2026-07-20-playbook-referral-refresh.md` · playbook base `consegne/crm/2026-07-06-playbook-referral.md` · anteprima [[AZIONI-PRONTE]] **A17**
 
@@ -2356,9 +2380,9 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-### 🔴 #22 — Pubblica "Lunedì mattina: il turno è già iniziato" su Instagram e Facebook · ⏳ accodata 2026-07-20 11:28 · ⏸ in pausa (rinvio negozi)
+### 🔴 #22 — Pubblica "Lunedì mattina: il turno è già iniziato" su Instagram e Facebook · ⏳ accodata 2026-07-20 11:28
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contenuto completo:** `consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md` · anteprima [[AZIONI-PRONTE]] **A36**
 
@@ -2396,9 +2420,9 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-### 🔴 #21 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58 · ⏸ in pausa (rinvio negozi)
+### 🔴 #21 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contenuto completo:** `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A29**
 
@@ -2531,9 +2555,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🔴 #16 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30 · ⏸ in pausa (rinvio negozi)
+### 🔴 #16 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). ⚠️ **Correzione Nicola 19/7: iscritti = 4, non 23** — aggiornare il testo del post prima di pubblicare. Neutro, nessun consenso bottega richiesto. Bozza originale in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
 
@@ -2549,9 +2573,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #15 — Definisci zona, orario e ordine minimo per la prima consegna · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi)
+### 🟡 #15 — Definisci zona, orario e ordine minimo per la prima consegna · ⏳ accodata 2026-07-18 06:30
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contesto:** Bici presto operativa (settimana 21-25/7). Prima di accettare ordini dal pubblico serve definire: raggio max (es. 3 km dal centro), fasce orarie (es. 12-14 / 18-20), ordine minimo (es. €10).
 
@@ -2579,9 +2603,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #14 — Pubblica post nei gruppi Facebook il 20/7 (piogge + delivery) · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi — la sua data, il 20/7, è già passata)
+### 🟡 #14 — Pubblica post nei gruppi Facebook il 20/7 (piogge + delivery) · ⏳ accodata 2026-07-18 06:30
 
-- **⏸ Pausa:** rinvio negozi — la sua data, il 20/7, è già passata · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi — la sua data, il 20/7, è già passata · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contesto:** Piogge previste dal 20/7 su Piacenza. Delivery domestico ha il massimo valore percepito quando piove.
 
@@ -2597,9 +2621,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #13 — Invia la welcome email ai 4 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi — gate su PQ operativo)
+### 🟡 #13 — Invia la welcome email ai 4 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30
 
-- **⏸ Pausa:** rinvio negozi — gate su PQ operativo · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi — gate su PQ operativo · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Contesto:** **4 clienti iscritti** (correzione Nicola 19/7 — non 23) non hanno mai ricevuto un messaggio da MyCity. Nessuna welcome email. Rischio: si dimenticano di noi.
 
@@ -2617,9 +2641,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #12 — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi, PQ compreso)
+### 🟡 #12 — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30
 
-- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo` · congelamento confermato da Nicola (28/7 15:56, [[DECISIONI]])
+- **▶️ Pausa finita:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo` · congelamento confermato da Nicola (28/7 15:56, [[DECISIONI]])
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
 
@@ -2729,9 +2753,9 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 
 ---
 
-### 🟡 #8 — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52 · ⏸ in pausa (rinvio negozi)
+### 🟡 #8 — Inserisci tazzina espresso decorata su Pane Quotidiano · ⏳ accodata 2026-07-17 10:10 · aggiornata 2026-07-17 12:52
 
-- **⏸ Pausa:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
+- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
 
 **Prodotto:** tazzina da espresso bianca con decorazioni colorate (blu/rosso, stile decorativo italiano) — PQ vende la tazzina stessa (oggetto fisico), non il caffè.
 
