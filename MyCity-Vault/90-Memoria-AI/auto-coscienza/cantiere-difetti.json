@@ -18663,7 +18663,9 @@
         "nota": "La quinta prova del file passa un referto la cui prova contiene una credenziale finta e pretende tre cose: che la stringa NON entri in casa tale e quale, che il comando resti leggibile, che il prefisso si ricomponga da solo. Mutazione dichiarata in mutanti.json e provata a mano il 3/9/2026 alle 07:50: rimesso il campo grezzo al posto del disarmo, la prova diventa rossa (fail 1); rimesso il disarmo, 5 su 5 verdi."
       },
       "fonte": "radiografia totale del sito 3/9/2026",
-      "nato_da": "il commit c4a627ba4 di questo stesso lotto («Le schede del sito portano la prova, non solo il titolo»): allargando la porta della casa alla prova, il campo ha iniziato ad attraversare un confine dove prima non arrivava, e le difese di quel confine non sono venute con lui."
+      "nato_da": "il commit c4a627ba4 di questo stesso lotto («Le schede del sito portano la prova, non solo il titolo»): allargando la porta della casa alla prova, il campo ha iniziato ad attraversare un confine dove prima non arrivava, e le difese di quel confine non sono venute con lui.",
+      "malattia": "porta-laterale-senza-i-freni-della-principale",
+      "malattia_perche": "Ho aperto alla prova una porta nuova verso la memoria (referti-sito.mjs) senza portarci i freni che la porta accanto (foto-radiografia.mjs) aveva gia: il disarmo della credenziale finta. Stessa forma: una via laterale che salta le difese della via principale."
     },
     {
       "id": "AR-895",
