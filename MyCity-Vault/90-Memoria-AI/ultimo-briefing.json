@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-03 08:10",
-  "situazione": "Giro di perlustrazione (richiesta esplicita di Nicola: «esegui cervello/giro.md per intero»), 27 minuti dopo il Piano del mattino. Riverificato dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni. Stallo North Star 71 giorni. CI confermata: 8 PR aperte, 8 rosse, tutte colpa del ramo che le ha portate. Coerenza-fatti pulita: 41 fatti, 0 copie vecchie. Letargo RISPARMIO: solo nucleo vitale + controlli di verità, mai i controlli. Dieci carte in coda, nessuna firmata.",
+  "data": "2026-09-03 08:51",
+  "situazione": "Quarta chiamata identica a cervello/giro.md in 68 minuti (07:43, 08:10, 08:36, 08:51). Riverificato di nuovo dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni. Stallo North Star 72 giorni. CI riconfermata: 8 PR aperte, 8 rosse, stesso elenco. Coerenza-fatti pulita: 41 fatti, 0 copie vecchie. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata. Nessun dato nuovo rispetto ai tre passaggi precedenti di stamattina — segnalato il rischio di un possibile ciclo di richiami automatici.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},

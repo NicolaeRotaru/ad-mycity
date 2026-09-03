@@ -1,6 +1,6 @@
 ---
 tipo: stato-archivio
-archiviato: 2026-08-22 16:45 · secondo spostamento 2026-08-27 11:50
+archiviato: 2026-08-22 16:45 · secondo spostamento 2026-08-27 11:50 · terzo spostamento 2026-09-03 08:50
 proviene_da: MyCity-Vault/90-Memoria-AI/STATO.md
 ---
 
@@ -12,6 +12,16 @@ piu' a leggere il file intero, e su quel file smette di proteggerlo.
 
 **Niente e' stato riscritto.** Le voci sono spostate cosi' com'erano, nello
 stesso ordine. Lo stato vivo continua in `STATO.md`.
+
+**Terzo spostamento (3/9/2026 08:50) — nota diversa dai primi due.** `STATO.md` era arrivato a
+1.741 righe: quasi tutte "giro identico, nessun cambio" dal 21/8 al 2/9, decine di paragrafi che
+raccontavano la stessa cosa con parole leggermente diverse. Il testo di quelle voci NON è stato
+ricopiato qui parola per parola (a differenza dei primi due spostamenti): esiste già per intero,
+lo stesso giorno per giorno, nei file `MyCity-Vault/90-Memoria-AI/Briefing/AAAA-MM-GG.md` (es.
+[[Briefing/2026-09-02]], [[Briefing/2026-09-01]]) — quella è la fonte completa per quel periodo.
+Il testo esatto resta comunque recuperabile dalla cronologia Git di `STATO.md` (`git log -p --
+MyCity-Vault/90-Memoria-AI/STATO.md`) fino al commit precedente a questo spostamento. `STATO.md`
+oggi contiene solo la foto di adesso (3/9) + i numeri chiave + la coda delle priorità.
 
 ---
 

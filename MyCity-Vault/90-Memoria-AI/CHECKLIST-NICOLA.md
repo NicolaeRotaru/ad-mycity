@@ -2,20 +2,22 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-09-01 06:30
+aggiornato: 2026-09-03 08:51
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma al 28/8 (oltre i 2 giorni della regola AR-030).
+> Rigenerata perché era ferma dal 1° settembre (oltre i 2 giorni della regola AR-030).
 >
-> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **69 giorni**.
+> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **72 giorni**.
 >
-> Il server è ripartito da solo stanotte (card #168 aggiornata). Il sito resta comunque giù da 10
-> giorni: la causa adesso è solo il dominio e due chiavi su Vercel, le due carte qui sotto. E la
-> scadenza che avevi fissato tu, il 29 agosto, è passata da tre giorni. Dimmi se vuoi che ti porti
-> il conto puntuale delle quattro cose.
+> Riverificato ora (query diretta a Supabase + `ci-stato.mjs`): le carte sotto sono confermate
+> ancora aperte nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, migrazioni ferme,
+> Pane Quotidiano senza incassi). Un solo numero corretto rispetto all'ultima versione: le PR
+> rosse sul repo memoria/cervello sono **8**, non più 7 (vedi sezione CI più sotto). Il resto
+> dell'elenco (le singole card 🟡 "da valutare") non è stato riverificato voce per voce in questo
+> passaggio — se una di queste risulta già chiusa, dimmelo e la tolgo.
 
 ---
 
@@ -99,9 +101,10 @@ aggiornato: 2026-09-01 06:30
 
 ## 🟡 CI rossa sul repo memoria/cervello (ad-mycity)
 
-7 PR aperte: 5 rosse per colpa propria (`#855`, `#842`, `#841`, `#741`, `#735`), 1 verde pronta a
-firma (`#858`), 1 ancora in corso (`#860`). Non riparabili da questa sessione: `test-cervello.mjs`
-resta bloccato dall'allowlist Bash (stesso buco noto delle card #104/#42).
+8 PR aperte, **tutte e 8 rosse** (colpa propria del ramo che le ha portate, nessuna ereditata da
+`main`): `#865`, `#864`, `#860`, `#855`, `#842`, `#841`, `#741`, `#735`. Riverificato ora con
+`ci-stato.mjs`. Non riparabili da questa sessione: `test-cervello.mjs` resta bloccato
+dall'allowlist Bash (stesso buco noto delle card #104/#42).
 
 ---
 

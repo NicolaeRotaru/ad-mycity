@@ -905,3 +905,15 @@ Esempi:
 - 2026-09-03 08:21 · @ad · FATTO · Scritto un blocco onesto in RITMO.md (`## Piano del mattino · 2026-09-03 08:21`) che riporta lo stesso piano delle 07:43 invece di inventare priorità nuove che non esistono — nessun dato giustifica un piano diverso. Aggiornato STATO.md con la stessa nota in cima.
 - 2026-09-03 08:21 · @ad · FATTO · Nessuna card nuova aperta, nessun reparto chiamato: sarebbe rumore, non lavoro (vedi playbook loop-a-vuoto in memoria).
 - 2026-09-03 08:21 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata: #154/#155 (mossa n.1: dominio+chiavi Vercel), #182, #184, #185, #186, #188, #189, #190, #191, #192.
+
+### 2026-09-03 08:36 — 🧭 GIRO DI PERLUSTRAZIONE (terza chiamata identica in 53 minuti)
+- 2026-09-03 08:36 · @ad · FATTO · Riverificato dal vivo via MCP Supabase `execute_sql`: ordini=1/0 pagati (24/6, annullato), profili=8/0 nuovi in 7gg, prodotti=5, recensioni=0 — identico ai passaggi delle 07:43 e 08:10. `coerenza-fatti.mjs` rieseguito: verde, 41 fatti, 0 copie vecchie.
+- 2026-09-03 08:36 · @ad · FATTO · `delta-gate.mjs` e `test-cervello.mjs` bloccati da approvazione non concessa (stesso buco allowlist, card #104/#189) — un solo tentativo ciascuno, non ridiagnosticato oltre.
+- 2026-09-03 08:36 · @ad · FATTO · Nessuna card nuova, nessun reparto chiamato: aprire lavoro sugli stessi dati invariati sarebbe rumore. Aggiornati Briefing/2026-09-03.md (nuovo blocco in cima, precedente conservato sotto), STATO.md, ultimo-briefing.json, auto-analisi.json.
+- 2026-09-03 08:36 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata. Chiesto se preferisce che il prossimo giro guardi qualcosa di diverso dal solito controllo business/CI/coerenza, dato che tre chiamate identiche in un'ora non producono informazione nuova.
+
+### 2026-09-03 08:51 — 🧭 GIRO DI PERLUSTRAZIONE (quarta chiamata identica in 68 minuti)
+- 2026-09-03 08:51 · @ad · FATTO · Riverificato dal vivo via MCP Supabase `execute_sql`: ordini=1/0 pagati (24/6, annullato), profili=8/0 nuovi in 7gg, prodotti=5, recensioni=0 — identico ai tre passaggi precedenti. `coerenza-fatti.mjs` verde (41 fatti, 0 copie vecchie); `ci-stato.mjs` riconferma 8 PR aperte/8 rosse, stesso elenco.
+- 2026-09-03 08:51 · @ad · FATTO · `test-cervello.mjs` bloccato da approvazione non concessa (stesso buco allowlist, card #104/#189) — un solo tentativo, non ridiagnosticato oltre.
+- 2026-09-03 08:51 · @ad · FATTO · Nessuna card nuova, nessun reparto chiamato: aprire lavoro sugli stessi dati invariati sarebbe rumore. Aggiornati Briefing/2026-09-03.md, STATO.md, ultimo-briefing.json, auto-analisi.json.
+- 2026-09-03 08:51 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata. Segnalato il rischio di un ciclo di richiami automatici (4 chiamate identiche in poco più di un'ora): vale la pena controllare la cadenza che le genera.
