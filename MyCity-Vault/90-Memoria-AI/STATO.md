@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 14:30
+aggiornato: 2026-09-03 16:29
 fonte: AD digitale (chiamata "esegui giro.md" — SOPRAVVIVENZA, giro pieno NON eseguito)
 ---
+
+> 🛌 **3/9 16:29 — Ennesima chiamata esplicita "esegui giro.md per intero" da 14:30 in poi (2h dopo): resto in SOPRAVVIVENZA.**
+> Quota AI **227%** della finestra rolling (era 239% alle 14:30 — scesa ma ancora ben sopra soglia),
+> salute macchina ferma a **4/100**. Stesso mansionario, stessa regola: "solo NUCLEO VITALE: ordini +
+> consegne + coda firme + sicurezza + allerta a Nicola. Tutto il resto spento" — non ho rieseguito le
+> 15 fasi di `cervello/giro.md`.
+>
+> **Nucleo vitale, controllato ora (solo file locali + sensore REST già fresco delle 16:20, non
+> riquerato):** `orders` via REST conferma 1 riga visibile, coerente col "0 ordini pagati" già noto.
+> Coda firme (`AZIONI-IN-ATTESA.md`) invariata: top card ancora **#193** (undicesimo post pronto per
+> Pane Quotidiano, zero pubblicati), nessuna firma nuova da Nicola. Nessun segnale di sicurezza nuovo.
+>
+> 🚨 **Il git log conferma di nuovo il ciclo automatico**: tra le 13:18 e le 16:20 si susseguono commit
+> "worker: lavoro ?" a raffica (uno al minuto, es. 13:22-13:26), più giri AD ripetuti (13:29, 13:38,
+> 13:53, 13:58, 14:20, 14:44, 16:20) e "recupero: scritture pendenti da un giro interrotto" più volte.
+> Da stamattina la richiesta "esegui il giro/giro.md" è arrivata a raffica sugli stessi dati fermi dal
+> 24/6, senza un fatto nuovo. È lo stesso pattern già visto e risolto il 18/8 e il 15/8
+> ([[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]]) — tornato una
+> quarta volta oggi. Priorità invariate per Nicola: #154+#155 (dominio/Vercel), #182 (pagamenti PQ),
+> #184 (migrazioni DB), e fermare il timer/cron sul VPS che rilancia il giro da solo.
 
 > 🛌 **3/9 14:30 — Chiamata esplicita "esegui giro.md per intero": letargo dice SOPRAVVIVENZA, giro pieno rifiutato.**
 > Quota AI **239%** della finestra rolling (era 179% alle 12:51, +60 punti in poco più di un'ora),
