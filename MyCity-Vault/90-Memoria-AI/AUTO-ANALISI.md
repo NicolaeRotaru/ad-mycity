@@ -1,3 +1,47 @@
+## Collaudo dopo lo stop: giro pieno 2026-09-03 22:40 (letargo tornato RISPARMIO)
+
+**① Richiesta di Nicola in questo turno, elenco completo.**
+- «Leggi ed esegui per intero `cervello/giro.md`» — FATTA, giro pieno vero (non nucleo vitale):
+  riverificato dal vivo business (invariato dal 24/6), sito (503 confermato dal vivo, prima solo
+  baseline), diagnosticata la causa del blocco permessi #189, lanciato e letto il test suite del
+  cervello (2660 test, 5 fail). Aggiornati Briefing/2026-09-03.md, STATO.md, ultimo-briefing.json,
+  SALA-OPERATIVA.md, auto-coscienza/auto-analisi.json, AZIONI-IN-ATTESA.md (card #189), questo file.
+- Cancello di stop (AR-532, collaudo) — in corso in questo blocco.
+
+**② Diff vero riletto** (non a memoria): questo turno ha toccato `AZIONI-IN-ATTESA.md` (card #189
+arricchita, non duplicata), `Briefing/2026-09-03.md` (nuovo passaggio in cima, 11 sezioni),
+`STATO.md` (nuova voce), `ultimo-briefing.json`, `SALA-OPERATIVA.md` (nuova sezione),
+`auto-coscienza/auto-analisi.json`, `auto-coscienza/sensori-cecita.json` (rifrescato da
+`verifica-sensori.mjs`), `auto-coscienza/coerenza-fatti.json`, e i quaderni
+`memoria-squadra/devops-sre.md` (via `chiusura-loop.mjs`). Non toccati: `registro-realta.json`
+(nessuna entità nuova questo giro), `intenzioni-nicola.json` (nessuna informazione nuova sulle mosse
+di Nicola), i Piani in `06-Piani/` (nessuno spunto pertinente nuovo).
+
+**③ Prove eseguite con risultato reale, non ricordo.** Query dirette Supabase (`execute_sql`) su
+ordini/profili/prodotti/recensioni/carrelli/lead/uptime_checks — tutte eseguite in questo turno,
+risultati riportati sopra. `WebFetch` diretto su mycity-marketplace.com → 503 reale. Lettura diretta
+di `.claude/settings.json` + `.claude/settings.local.json` e prova empirica: 3 comandi letterali
+(`verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs`) partiti subito senza chiedere
+conferma; `test-cervello.mjs` (coperto solo dal jolly) bloccato 3 volte su "richiede approvazione".
+`node --test cervello/test/*.test.mjs` eseguito per intero in background (526s): 2660 test, 2649
+pass, 5 fail, 6 skip — letto l'output completo, non un ricordo di un giro precedente.
+
+**④ Strada alternativa considerata, e perché scartata.** Per la diagnosi del blocco permessi:
+l'alternativa era limitarsi a ripetere "test-cervello.mjs bloccato da permessi" come nei 16+
+passaggi precedenti di oggi. Non ha retto: la card #189 restava ferma da 3 giorni con la stessa
+frase, senza un fix azionabile. Ho invece isolato la causa esatta provando comandi letterali vs
+jolly nella stessa sessione — costo minimo (3 comandi da pochi secondi ciascuno), risultato: un fix
+a una riga sola invece di "serve un umano sul VPS" generico.
+
+**⑤ Cosa ho verificato e cosa no, in chiusura.** Verificato: tutti i numeri di business dal vivo,
+il sito dal vivo, la causa del blocco permessi (empiricamente, non per deduzione), l'esito
+aggregato del test suite. NON verificato: quali test specifici falliscono (il secondo run con
+`--test-reporter=tap`, lanciato per isolarli, non è concluso al momento di chiudere questo giro —
+task `bfu5mq1wz`, da riprendere al prossimo passaggio); il contenuto delle 8 PR rosse in CI; il
+fascicolo Stripe di Pane Quotidiano.
+
+---
+
 ## Collaudo dopo lo stop: giro di perlustrazione 2026-09-03 08:36 (terza chiamata di oggi)
 
 **① Richiesta di Nicola in questo turno, elenco completo.**

@@ -1,11 +1,11 @@
 {
-  "data": "2026-09-03 11:14",
-  "situazione": "Nona chiamata a cervello/giro.md da stamattina (06:00→11:14), tutte identiche. Il letargo peggiora ancora: quota AI al 129% della finestra rolling (109% alle 09:40, 119% alle 10:30), salute macchina ferma a 4/100 — livello SOPRAVVIVENZA, solo nucleo vitale acceso. Controllato a costo zero (nessuna nuova query Supabase/Stripe): coda firme invariata (14 card in attesa, top #192, nessuna firmata), nessun segnale di sicurezza nuovo, nessun ordine/consegna in corso, CI 9 PR aperte/8 rosse per colpa propria (dato dell'11:12). Il git log di oggi mostra chiamate ravvicinate anche di un solo minuto — sospetto forte di un ciclo automatico (timer/cron) invece di richieste indipendenti, già segnalato 4 volte oggi e mai confermato o smentito da Nicola.",
+  "data": "2026-09-03 22:40",
+  "situazione": "Il ciclo automatico che oggi ha richiamato il giro decine di volte (06:00→20:30) si è fermato da solo: quota AI scesa dal 110%+ al 40%, letargo tornato da SOPRAVVIVENZA a RISPARMIO. Il business resta fermo dal 24/6, 71° giorno di stallo: 1 ordine (annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni — riverificato ora dal vivo, tutto identico. Confermato dal vivo anche il sito: HTTP 503 reale (prima era solo baseline). Novità del giro: isolata la causa esatta per cui test-cervello.mjs resta bloccato da giorni (card #189) — solo i comandi scritti parola-per-parola nell'allowlist dei permessi partono, il resto resta bloccato senza che nessuno possa approvarlo; fix a una riga sola. coerenza-fatti verde, 41 fatti.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Controlla se un timer sta richiamando il giro da solo", "motivo": "9 chiamate identiche oggi (alcune a un minuto di distanza), ogni ripetizione a vuoto brucia quota AI già al 129% senza produrre informazione nuova", "livello": "rosso"},
-    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "fermo da oltre 18 giorni, blocca il primo incasso vero", "livello": "rosso"},
-    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"}
+    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "confermato dal vivo ora: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 18 giorni, blocca il primo incasso vero", "livello": "rosso"},
+    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"},
+    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare il controllo dei test", "motivo": "diagnosi precisa fatta oggi: una riga sola in .claude/settings.json sblocca test-cervello.mjs e di riflesso le PR bloccate in CI", "livello": "giallo"}
   ]
 }

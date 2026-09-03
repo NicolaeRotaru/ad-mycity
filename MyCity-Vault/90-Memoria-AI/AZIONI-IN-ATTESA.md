@@ -116,16 +116,29 @@ permesso mancanti (incluso `node cervello/test-cervello.mjs`) al foglio `.claude
 sul VPS. Non posso farlo da sola: quel foglio è bloccato in scrittura apposta, per evitare che la
 macchina si dia permessi da sé.
 
+**Aggiornamento 3/9 22:35 — capito ESATTAMENTE dove sta il buco.** Oggi sono riuscita a isolarlo:
+in `.claude/settings.json` (quello di progetto, non locale) c'è già la riga jolly
+`Bash(node cervello/*.mjs:*)`, che DOVREBBE coprire ogni script — ma non funziona: ho provato
+`node cervello/test-cervello.mjs` tre volte, sempre bloccato su "richiede approvazione" senza che
+nessuno fosse lì a rispondere. Poi ho provato comandi elencati per ESTESO nello stesso file (es.
+`node cervello/verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs`): questi sono partiti
+subito, senza chiedere nulla. Conclusione verificata: **il jolly non basta, contano solo le righe
+scritte parola per parola.** Il fix non è "aprire di più i permessi" (rischioso) ma aggiungere UNA
+riga letterale: `"Bash(node cervello/test-cervello.mjs:*)"` nell'elenco `allow` di
+`.claude/settings.json` (o del `.claude/settings.local.json` sul VPS, dove vive la copia più stretta).
+Stessa causa dietro la card #104 e #192: ogni script non elencato per esteso resta bloccato uguale.
+
 **Cosa non ho verificato.** Non so ancora quale test specifico fallisce (5 rossi su 1096 l'ultima volta
 che sono riuscita a lanciarlo, secondo una nota tecnica precedente in questa stessa coda) — potrebbe
 essere lo stesso problema di allora o uno nuovo. Serve l'output reale del comando per saperlo.
 
-**Se va bene:** appena sbloccato, rilancio `node cervello/test-cervello.mjs`, isolo il test rosso,
-correggo la causa e verifico che torni verde prima di riaprire le PR ferme.
+**Se va bene:** appena aggiunta la riga letterale, rilancio `node cervello/test-cervello.mjs`, isolo
+il test rosso, correggo la causa e verifico che torni verde prima di riaprire le PR ferme.
 
 **Dettagli tecnici:** vincolo AR-687 (età dei vincoli) — TEST è "appena diventato cronico" nel sonda
 delle 2026-09-01 14:28; le altre 10 voci croniche dello stesso elenco hanno già una card aperta
 (#93/#94/#95/#96/#97/#99/#101/#113/#116/#119 e successive). Fix condiviso con card #104/#42/#74.
+Diagnosi confermata e registrata: `memoria-squadra/devops-sre.md` (esito 3/9 22:35).
 
 | 189 | 2026-09-01 14:28 | @devops-sre | Sblocca il permesso per rilanciare il controllo dei test del cervello | 🟡 | vedi blocco sopra | manuale (settings.local.json sul VPS) | in attesa |
 
@@ -3023,7 +3036,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-03 20:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-03 22:27)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-03-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo

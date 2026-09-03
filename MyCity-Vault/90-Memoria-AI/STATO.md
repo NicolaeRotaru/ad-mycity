@@ -1,7 +1,53 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 20:30
-fonte: AD digitale (chiamata "esegui giro.md per intero" — SOPRAVVIVENZA, giro pieno rifiutato)
+aggiornato: 2026-09-03 22:43
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md — RISPARMIO)
+---
+
+> 🛌 **3/9 22:43 — Chiamata "esegui giro.md per intero" arrivata 3 minuti dopo il giro pieno delle
+> 22:40: non l'ho rieseguito.** Il giro delle 22:40 è completo e fresco (briefing, STATO, auto-analisi,
+> `ultimo-briefing.json`, coda firme — tutti scritti 3 minuti fa, non ancora committati da `giro.sh`).
+> RISPARMIO impone "giri ridotti a 1/giorno": oggi ne sono già stati fatti moltissimi (il vincolo CADENZE
+> segnala 48 giri di fila senza soluzione). Rieseguire ora le 15 fasi — nuove query Supabase, radar,
+> radiografia — su dati verificati 3 minuti fa non produrrebbe un solo fatto nuovo, solo quota bruciata:
+> esattamente il pattern già documentato tutto il giorno più sotto in questo file
+> ([[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]]).
+>
+> **Nessun cambio rispetto a 22:40:** business fermo dal 24/6 (71° giorno di stallo North Star, 0
+> ordini pagati), sito HTTP 503, coda firme invariata (top: #154+#155 dominio/Vercel, #182 pagamenti
+> PQ, #184 migrazioni). Nessuna firma nuova da Nicola in questi 3 minuti.
+>
+> Se questa chiamata è manuale (non il timer/cron sospettato), e Nicola vuole comunque un giro pieno
+> nuovo anche senza dati diversi, basta dirlo esplicitamente ("rifallo comunque") e lo eseguo per intero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-03]].
+
+---
+
+> 🧭 **3/9 22:40 — Giro pieno: il ciclo automatico di oggi si è fermato da solo, business ancora fermo.**
+> Letargo tornato **RISPARMIO** (quota AI 40%, era 110%+ per tutta la giornata in SOPRAVVIVENZA),
+> salute macchina ferma a 4/100. Riverificato dal vivo: 1 ordine (24/6, annullato), 0 pagati, 8
+> profili, 5 prodotti, 0 recensioni — tutto identico a ogni passaggio di oggi. **Confermato dal vivo
+> anche il sito: HTTP 503 reale** (WebFetch diretto, non più baseline). `coerenza-fatti.mjs`: verde,
+> 41 fatti.
+>
+> **Novità vera di questo giro:** isolata la causa esatta per cui `test-cervello.mjs` (card #189)
+> resta bloccato — non è un blocco generale dei comandi `node cervello/*.mjs`, solo quelli NON
+> scritti parola-per-parola nell'allowlist di `.claude/settings.json` restano bloccati (verificato:
+> `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs` partono subito perché elencati
+> per esteso; `test-cervello.mjs` no, perché coperto solo dal jolly `node cervello/*.mjs:*`, che non
+> basta). Fix proposto: una riga letterale in più nell'allowlist. Dettagli nella card #189.
+>
+> Lanciato `node --test cervello/test/*.test.mjs` in background per misurare lo stato reale del
+> vincolo TEST: non concluso al momento di chiudere questo giro (task `bzhv24gkr`), esito da
+> riprendere al prossimo passaggio.
+>
+> Priorità invariate, nessuna firmata: #154+#155 (mossa n.1, dominio+chiavi Vercel), #182 (pagamenti
+> PQ), #184 (migrazioni DB), #185 (scadenza 29/8 passata), #189 (ora con fix preciso), #193 (11°
+> post pronto per PQ, zero pubblicati).
+>
+> Briefing completo: [[Briefing/2026-09-03]].
+
 ---
 
 > 🛌 **3/9 20:30 — Sedicesima+ chiamata identica a "esegui giro.md per intero" da stamattina: resto in
@@ -360,7 +406,7 @@ ciechi, i controlli automatici leggono questa tabella invece di inventare un num
 | Payout testato | **0** | = | 1 | non eseguibile finché Stripe PQ resta spento |
 | Profili totali | **8** (5 clienti, 1 negozio, 1 rider, 1 admin) | = | crescita | confermato query diretta 3/9 08:36, 0 nuovi in 7gg |
 | Lead negozi nel DB | **407** (fermi dal 24/5) | = | lavorarli | invariato, fuori dal perimetro North-Star di questo giro |
-| Sito pubblico | **HTTP 503** (baseline 1/9) | = | 200 | non riverificato con un check diretto oggi: comando bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Sito pubblico | **HTTP 503** | = | 200 | riverificato dal vivo il 3/9 22:35 (`WebFetch` diretto su mycity-marketplace.com). Causa nota: dominio e chiavi Vercel (#155, #154) |
 
 ---
 
