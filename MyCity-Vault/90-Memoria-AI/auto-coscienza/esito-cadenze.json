@@ -45,12 +45,12 @@
       "vincoli": []
     },
     "ritmo-mezzogiorno": {
-      "quando": "2026-09-02 12:04",
-      "esito": "non-pubblicato",
+      "quando": "2026-09-03 12:00",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 1,
       "push_ok": false,
-      "passi_ok": true,
+      "passi_ok": false,
       "vincoli_attivi": 0,
       "vincoli": []
     },
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-03 11:58"
+  "aggiornato": "2026-09-03 12:00"
 }
