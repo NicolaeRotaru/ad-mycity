@@ -128,9 +128,22 @@ prova("il guardiano resta ROSSO finché a Nicola non è stato chiesto — provat
 // ── La coda vera ─────────────────────────────────────────────────────────────
 
 prova("nella coda vera l'ordine di prova è dichiarato «validazione», non «business»", () => {
-  const c = leggiCard(readFileSync(CODA, "utf8")).find((x) => x.id === "ordine-test-pq");
+  const testoCoda = readFileSync(CODA, "utf8");
+  const c = leggiCard(testoCoda).find((x) => x.id === "ordine-test-pq");
   assert.ok(c, "la card #ordine-test-pq dev'esserci: è l'unica mossa verso il primo ordine pagato");
-  assert.equal(c.pausa?.classe, CLASSI.VALIDAZIONE, "è il collaudo della macchina, non una spinta commerciale");
+  if (c.pausa) {
+    assert.equal(c.pausa.classe, CLASSI.VALIDAZIONE, "è il collaudo della macchina, non una spinta commerciale");
+    return;
+  }
+  // 3/9: la pausa è finita l'1/9 e il risveglio (`pausa-check.mjs --risveglia`) ha trasformato la riga
+  // «⏸ Pausa:» in «▶️ Pausa finita:», che il lettore delle pause non considera più una pausa. La
+  // dichiarazione però resta scritta lì, ed è quella che questo caso difende: l'ordine di prova è un
+  // collaudo, non una spinta commerciale, anche da sveglio.
+  const marcatore = testoCoda.indexOf("<!-- ordine-test-pq -->");
+  const titolo = testoCoda.indexOf("\n### ", marcatore);
+  const fine = testoCoda.indexOf("\n---", titolo);
+  const card = testoCoda.slice(titolo, fine === -1 ? undefined : fine);
+  assert.match(card, /Pausa finita:\*\*[^\n]*classe \*\*validazione\*\*/, "a pausa finita la card deve dire ancora «classe validazione»");
 });
 
 prova("e la domanda a Nicola è in coda o nel suo archivio, con la decisione lasciata a lui", () => {
