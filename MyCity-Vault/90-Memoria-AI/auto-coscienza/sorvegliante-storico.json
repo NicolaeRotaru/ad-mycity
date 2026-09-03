@@ -2,42 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-16T05:20:55.730Z",
-      "scatti": 9467,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-16T05:28:45.737Z",
-      "scatti": 9497,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-16T05:44:34.599Z",
-      "scatti": 9550,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-16T05:48:38.820Z",
       "scatti": 9553,
       "voci": 52,
@@ -2261,7 +2225,40 @@
         "prova-indebolita": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-02T22:58:55.950Z",
+      "scatti": 776,
+      "voci": 20,
+      "per_classe": {
+        "prova-accecata": 13,
+        "difesa-rimossa": 6,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-02T23:13:51.534Z",
+      "scatti": 776,
+      "voci": 20,
+      "per_classe": {
+        "prova-accecata": 13,
+        "difesa-rimossa": 6,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-02T23:23:54.479Z",
+      "scatti": 776,
+      "voci": 20,
+      "per_classe": {
+        "prova-accecata": 13,
+        "difesa-rimossa": 6,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-09-02T22:51:29.722Z"
+  "aggiornato": "2026-09-02T23:23:54.480Z"
 }

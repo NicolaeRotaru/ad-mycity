@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 00:33",
+  "aggiornato": "2026-09-03 15:42",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19163,7 +19163,9 @@
       "trovato_da": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava",
       "chiuso_il": "2026-09-01 16:25",
       "chiuso_come": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs → 13 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-893): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
-      "nato_da": "AR-840"
+      "nato_da": "AR-840",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «l'esito lo riconosco da una frase invece che dal canale»: qui l'impronta cercata viveva nell'uscita mescolata di chi lancia e di chi è lanciato. Non è una forma di TESTO che una regex possa contare — la stessa riga è giusta in chi produce l'impronta e sbagliata in chi la legge, e la differenza sta in quale processo l'ha stampata, non in come è scritta. La copre a comando `node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs`, sezione ③, con i due errori opposti: l'indizio nel testo della prova NON deve seppellirla, e l'errore vero di chi lancia deve restare ⚪."
     },
     {
       "id": "AR-894",
@@ -19264,7 +19266,9 @@
       "trovato_da": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito",
       "chiuso_il": "2026-09-01 16:25",
       "chiuso_come": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs → 9 casi, exit 0, rilanciato adesso e non dato per buono da prima. 3 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-898): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
-      "nato_da": "AR-886"
+      "nato_da": "AR-886",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «un conto dichiarato che non è il conto vero, e l'errore si somma a ogni giro». Un pattern non la vede: la riga che sbaglia è aritmetica corretta su un insieme sbagliato (l'elemento tenuto in lista E contato nel totale), e nessuna scrittura del sorgente la distingue da quella giusta. La copre a comando `node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs`, e il caso che morde è il secondo: undici compattazioni di fila, perché con una sola il difetto non si vede."
     },
     {
       "id": "AR-899",
@@ -19305,7 +19309,9 @@
       "trovato_da": "me stessa, cancellando il repo con una prova che avevo appena scritto",
       "chiuso_il": "2026-09-01 16:25",
       "chiuso_come": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs → 7 casi, exit 0, rilanciato adesso e non dato per buono da prima. 2 mutazioni rosse (node cervello/non-vacuita.mjs --difetti AR-900): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
-      "nato_da": "AR-899"
+      "nato_da": "AR-899",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «una prova fa pulizia su un percorso che arriva dalla funzione sotto esame»: quando il banco rompe quella funzione, la pulizia cancella la casa. Un pattern sul testo non la può prendere — `rmSync(dirname(f(x)), {recursive:true})` è la riga giusta quando `f` è fidata e la peggiore quando `f` è ciò che si sta rompendo, e la differenza non è scritta lì. La copre a comando `node cervello/test/una-prova-che-cancella-la-casa.test.mjs`: sette casi che cancellano davvero, dentro repo git veri e usa-e-getta, tre dei quali tengono fuori i falsi allarmi."
     },
     {
       "id": "AR-901",
@@ -19346,7 +19352,9 @@
       "trovato_da": "la radiografia del perimetro toccato, dimensione macchina/rischio-sicurezza-se — riguardando con la lente giusta le righe che avevo aggiunto due ore prima",
       "chiuso_il": "2026-09-01 16:25",
       "chiuso_come": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs → 6 casi, exit 0, rilanciato adesso e non dato per buono da prima. 1 mutazione rossa (node cervello/non-vacuita.mjs --difetti AR-902): rompendo il fix la prova diventa rossa, quindi difende un comportamento e non la compilazione.",
-      "nato_da": "AR-895"
+      "nato_da": "AR-895",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «rumore mescolato ai dati»: l'errore del produttore preso con `2>&1` e letto dal ciclo come se fosse un vincolo. Misurato: `2>&1` compare in 50 file del cervello, quasi tutti per la ragione giusta (non perdere l'errore in un log) — un pattern su quella scrittura darebbe una baseline enorme e zero potere, e la malattia non è il redirect ma il fatto che a valle quel flusso venga letto come dati. La copre a comando `node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs`, sesto caso: il produttore funziona e scrive un avviso, e in uscita devono restare esattamente i cinque vincoli — né il fantasma in più né un ⚪ inventato."
     },
     {
       "id": "AR-903",
