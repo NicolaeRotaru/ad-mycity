@@ -944,3 +944,8 @@ Esempi:
 - 2026-09-03 12:51 · @ad · FATTO · Letargo ancora SOPRAVVIVENZA, quota AI salita a 179% (+30 punti dalle 11:44). Controllato solo nucleo vitale a costo zero: coda firme invariata (top card #192), nessun segnale sicurezza nuovo, nessun ordine/consegna in corso. Aggiornato solo STATO.md.
 - 2026-09-03 12:51 · @ad · FATTO · Git log 11:40→12:42: raffica "worker: lavoro ?" un commit al minuto (11:40:58→11:49:00) + due giri AD completi (11:58, 12:24) + due "recupero scritture pendenti" (12:03, 12:42). Il ciclo automatico è confermato, non più solo sospetto.
 - 2026-09-03 12:51 · @ad · PASSO-A · @Nicola — il timer/cron sul VPS che riarma "esegui il giro" è ora la priorità #4, alla pari delle prime tre: sta bruciando quota senza produrre nulla, e la macchina non può fermarlo dall'interno del loop stesso.
+
+### 2026-09-03 13:35 — 🕛 PUNTO DI MEZZOGIORNO (cadenza vera, non un richiamo del ciclo)
+- 2026-09-03 13:35 · @ad · FATTO · Ripreso il piano del mattino (07:43): le tre priorità (#154/#155 Vercel, #182 pagamenti PQ, #184 migrazioni) restano tutte ❌, nessuna firmata. Non riquerato Supabase/Stripe: baseline REST 08:36 portata avanti, letargo ancora SOPRAVVIVENZA (quota AI 179%, salute 4/100) — resta acceso solo il nucleo vitale.
+- 2026-09-03 13:35 · @ad · FATTO · Scritto il blocco `## Punto di mezzogiorno · 2026-09-03 13:35` in RITMO.md e la nota corrispondente in STATO.md. Nessun reparto chiamato, nessuna query nuova: la coda è ferma sugli stessi dati, aprire lavoro nuovo sarebbe rumore.
+- 2026-09-03 13:35 · @ad · PASSO-A · @Nicola — correzione di rotta vera oggi: il timer/cron sospetto resta la priorità #4. In coda anche `#193` (undicesimo post pronto per Pane Quotidiano, zero pubblicati) — dimmi se pubblicarne uno o ritirarne dei vecchi.

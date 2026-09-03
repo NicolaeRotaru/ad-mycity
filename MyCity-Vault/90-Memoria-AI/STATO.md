@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 12:51
-fonte: AD digitale (giro di perlustrazione, undicesima+ chiamata di oggi — SOPRAVVIVENZA)
+aggiornato: 2026-09-03 13:35
+fonte: AD digitale (Punto di mezzogiorno — cadenza ritmo, SOPRAVVIVENZA)
 ---
+
+> 🕛 **3/9 13:35 — Punto di mezzogiorno (cadenza vera, non una ripetizione di "esegui il giro").**
+> Scritto il blocco in [[RITMO]]. Le tre firme di stamattina restano ferme (Vercel #154/#155,
+> pagamenti Pane Quotidiano #182, migrazioni #184). Non ho riquerato Supabase/Stripe: baseline
+> REST 08:36 portata avanti, letargo ancora `SOPRAVVIVENZA` (quota AI 179%, salute macchina 4/100)
+> — a questo livello resta acceso solo il nucleo vitale. La correzione di rotta vera oggi non è sul
+> business ma sul ciclo: dalle 06:00 il giro/piano è stato richiamato più di dieci volte, anche a un
+> minuto di distanza, sempre sugli stessi dati. Sembra un timer/cron sul VPS che si riarma da solo
+> (stesso pattern di [[project-doppio-worker-tempesta-commit-18-8]] e [[piano-mattino-loop-non-timer]]),
+> non richieste una per una — dall'interno del ciclo non posso fermarlo da sola. Nuova in coda:
+> `#193`, l'undicesimo post pronto per Pane Quotidiano, ancora zero pubblicati.
 
 > 🛌 **3/9 12:51 — Ennesima chiamata identica a "esegui il giro" da stamattina (06:00→12:51): resto in
 > SOPRAVVIVENZA, non ho rieseguito le 15 fasi.** Letargo ancora `SOPRAVVIVENZA`, quota AI **179%**
