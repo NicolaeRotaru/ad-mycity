@@ -1,8 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 09:40
-fonte: AD digitale (giro di perlustrazione, sesta chiamata di oggi — SOPRAVVIVENZA)
+aggiornato: 2026-09-03 10:30
+fonte: AD digitale (giro di perlustrazione, settima chiamata di oggi — SOPRAVVIVENZA)
 ---
+
+> 🛌 **3/9 10:30 — Settima chiamata identica a "esegui il giro" in circa tre ore: resto in
+> SOPRAVVIVENZA, non ho riquerato nulla.** Letargo ancora `SOPRAVVIVENZA` (quota AI **119%** della
+> finestra rolling, salute macchina 4/100) — peggiorato dal 109% delle 09:40. Il mansionario dice
+> "solo NUCLEO VITALE: ordini + consegne + coda firme + sicurezza + allerta a Nicola. Tutto il
+> resto spento", quindi NON ho eseguito le 15 fasi di `cervello/giro.md` (niente nuova query
+> Supabase/Stripe, niente radiografia, niente delega a intelligence/analista/growth).
+>
+> **Nucleo vitale, controllato ora a costo zero (file locali, nessuna query nuova):** coda firme
+> invariata (nessuna riga nuova oltre alle card già note, ultima è #179 del 28/8); nessun segnale
+> di sicurezza nuovo; nessun ordine/consegna in corso (l'ultimo resta quello annullato del 24/6);
+> CI ancora 8 PR aperte/8 rosse per colpa propria (nessuna nuova, verificato alle 10:27).
+>
+> ⚠️ **Il vincolo CADENZE (39 giri di fila) e il pattern di questa mattina dicono la stessa cosa:**
+> sette chiamate identiche a "esegui il giro" tra le ~07:43 e le 10:30, sempre sugli stessi dati
+> fermi dal 24/6, ognuna delle quali brucia quota AI già sopra soglia. Vale la pena controllare se
+> è un timer/cadenza automatica che si riavvia da sola (vedi [[project-doppio-worker-tempesta-commit-18-8]]
+> e [[piano-mattino-loop-non-timer]] per due precedenti simili già risolti alla radice) invece di
+> continuare a rispondere manualmente ogni volta.
+>
+> Le tre priorità restano invariate:
+> 1. Dominio e chiavi Vercel (#154+#155).
+> 2. Pagamenti carta di Pane Quotidiano (#182).
+> 3. Le quattro migrazioni ferme (#184).
 
 > 🛌 **3/9 09:40 — Giro richiamato una sesta volta oggi: sono passata a SOPRAVVIVENZA, non ho
 > riquerato il database.** Il letargo (`node cervello/letargo.mjs`) è peggiorato da RISPARMIO
