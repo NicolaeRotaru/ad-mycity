@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 09:30",
+  "aggiornato": "2026-09-03 09:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18664,6 +18664,27 @@
       },
       "fonte": "radiografia totale del sito 3/9/2026",
       "nato_da": "il commit c4a627ba4 di questo stesso lotto («Le schede del sito portano la prova, non solo il titolo»): allargando la porta della casa alla prova, il campo ha iniziato ad attraversare un confine dove prima non arrivava, e le difese di quel confine non sono venute con lui."
+    },
+    {
+      "id": "AR-895",
+      "titolo": "Lo strumento che alleggerisce la coda non riconosce le carte chiuse scritte col formato vecchio, e la coda si e riempita fino al tetto",
+      "dimensione": "memoria-e-apprendimento",
+      "dove": "cervello/housekeeping-azioni.mjs · MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "housekeeping-azioni.mjs cerca le carte chiuse con l intestazione «### ✅» / «### ❌». Diciassette carte di luglio erano state chiuse con un formato piu vecchio, «✅ #slug» a inizio riga, e lo strumento non le ha mai viste: diceva «nessuna card chiusa fuori archivio, skip» ed era sincero. Quelle diciassette pesavano 12.576 caratteri e sono rimaste due mesi nella coda. Cosi il 3/9/2026 la coda era a 199.892 caratteri contro un campo visivo di 200.000: centootto caratteri di margine, cioe nessuno. La prima carta accodata da un senior — le mie tre della radiografia — ha sfondato il tetto e fatto diventare rosse due prove. Il difetto vero non e il tetto: e che chi doveva tenere la coda corta guardava una forma sola, e nessuno misurava quanto margine restasse.",
+      "fix_proposto": "🟡 Due cose. ① housekeeping-azioni.mjs deve riconoscere anche il formato vecchio (una carta chiusa e una riga che comincia con ✅ o ❌ seguita da un identificativo, a qualunque livello di intestazione), e la sua prova deve avere un caso per ogni formato visto nella coda vera. ② Il margine sotto il campo visivo va detto come numero prima che sparisca: campo-visivo-memoria.mjs oggi dice quanto sfonda, non quanto manca — un avviso a meno di cinquemila caratteri dal tetto avrebbe fatto vedere il muro un mese prima.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-09-03 09:55",
+      "nato_come": "scoperta",
+      "nato_da": "trovato mentre accodavo i tre bloccanti della radiografia totale del sito: la coda non accettava piu nessuna carta",
+      "origine": "radiografia totale del sito 3/9/2026, consegna bloccata dal cancello del lotto",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Da guardare cosi: apri MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md alla sezione del 3/9/2026 e vedi le diciassette carte chiuse a luglio che erano rimaste nella coda; poi lancia `node cervello/housekeeping-azioni.mjs` su una coda che ne contiene una scritta «✅ #slug» e guarda se dice «nessuna card chiusa, skip». Se lo dice, il difetto e vivo. Il comando riusabile per il lotto di riparazione, da mettere in un test con la sua mutazione: dare a housekeeping-azioni una coda finta con una carta chiusa nel formato vecchio e pretendere che la sposti nell archivio; oggi quel test nascerebbe rosso, ed e per questo che non lo aggiungo qui — un rosso in Node blocca il cancello per tutti. Nasce insieme alla riparazione."
+      },
+      "fonte": "radiografia totale del sito 3/9/2026"
     }
   ],
   "meta": {
