@@ -1,14 +1,11 @@
 {
-  "data": "2026-09-03 09:40",
-  "situazione": "Sesta chiamata a cervello/giro.md in circa due ore (07:43, 08:10, 08:36, 08:51, 09:11, ora 09:40). Il letargo è peggiorato da RISPARMIO a SOPRAVVIVENZA: quota AI al 109% della finestra rolling, salute macchina 4/100. A questo livello ho controllato solo il nucleo vitale (coda firme, sicurezza, ordini) SENZA riquerare Supabase: i dati restano quelli confermati identici nei cinque passaggi precedenti — 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Stallo North Star 72 giorni. Dieci carte in coda, nessuna firmata, nessuna nuova. Il rischio segnalato alle 08:51 (un possibile ciclo di richiami automatici, vincolo CADENZE) resta aperto e ora costa di più: ogni ripetizione a vuoto brucia quota AI già sopra soglia.",
+  "data": "2026-09-03 11:14",
+  "situazione": "Nona chiamata a cervello/giro.md da stamattina (06:00→11:14), tutte identiche. Il letargo peggiora ancora: quota AI al 129% della finestra rolling (109% alle 09:40, 119% alle 10:30), salute macchina ferma a 4/100 — livello SOPRAVVIVENZA, solo nucleo vitale acceso. Controllato a costo zero (nessuna nuova query Supabase/Stripe): coda firme invariata (14 card in attesa, top #192, nessuna firmata), nessun segnale di sicurezza nuovo, nessun ordine/consegna in corso, CI 9 PR aperte/8 rosse per colpa propria (dato dell'11:12). Il git log di oggi mostra chiamate ravvicinate anche di un solo minuto — sospetto forte di un ciclo automatico (timer/cron) invece di richieste indipendenti, già segnalato 4 volte oggi e mai confermato o smentito da Nicola.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "fermo da oltre 18 giorni (charges/payouts/details ancora tutti spenti): attivare i pagamenti prima o riscrivere intanto le CTA dei post che promettono consegna", "livello": "rosso"},
-    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni: cancello automatico o applicazione a mano", "livello": "rosso"},
-    {"titolo": "Una parola sulla scadenza del 29 agosto, passata da 5 giorni", "motivo": "le quattro cose che avevi fissato per il 29/8 non hanno ancora un conto verificato: riapro il cantiere o hai già deciso diversamente", "livello": "rosso"},
-    {"titolo": "Rimetti in comunicazione questa macchina con GitHub", "motivo": "il ramo locale e main su GitHub sono scollegati e un riallineamento automatico ha trovato conflitti veri: senza un tuo intervento il Pannello online resta indietro rispetto a quello che scrivo qui", "livello": "rosso"},
-    {"titolo": "Le dieci azioni-negozio tornate in coda dopo la pausa scaduta", "motivo": "post carosello, referral, ordine test PQ e altre: sono di nuovo visibili, aspettano il tuo sì una per una", "livello": "giallo"},
-    {"titolo": "Dimmi se riprendere le 8 PR rosse in un giro senza vincolo North Star", "motivo": "8 PR aperte, tutte rosse, colpa propria del ramo — non toccate perché nessuna sblocca il primo ordine pagato, ma restano ferme finché qualcuno non le riprende", "livello": "giallo"}
+    {"titolo": "Controlla se un timer sta richiamando il giro da solo", "motivo": "9 chiamate identiche oggi (alcune a un minuto di distanza), ogni ripetizione a vuoto brucia quota AI già al 129% senza produrre informazione nuova", "livello": "rosso"},
+    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti di Pane Quotidiano", "motivo": "fermo da oltre 18 giorni, blocca il primo incasso vero", "livello": "rosso"},
+    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"}
   ]
 }

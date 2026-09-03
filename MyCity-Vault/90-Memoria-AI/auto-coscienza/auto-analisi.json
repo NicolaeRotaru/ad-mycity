@@ -1,78 +1,56 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-03 08:51",
-  "voto_fiducia": 80,
-  "sintesi_giro_corrente": "Quarta chiamata identica a «esegui cervello/giro.md per intero» in 68 minuti (07:43, 08:10, 08:36, 08:51). Riverificato dal vivo via execute_sql MCP diretto: ordini=1 (0 pagati, 24/6 annullato), profili=8 (0 nuovi 7gg), prodotti=5, recensioni=0 — identico ai tre passaggi precedenti. Rieseguiti node cervello/coerenza-fatti.mjs (verde, 41 fatti, 0 copie vecchie) e node cervello/ci-stato.mjs (8 PR aperte, 8 rosse, stesso elenco). node cervello/test-cervello.mjs bloccato da approvazione non concessa (stesso buco allowlist, card #104/#189), un solo tentativo, non ridiagnosticato oltre. Nessuna azione nuova aperta: sugli stessi dati sarebbe rumore. Segnalato a Nicola il rischio di un ciclo di richiami automatici (4 chiamate identiche in un'ora). Aggiornati: STATO.md, Briefing/2026-09-03.md (nuovo blocco in cima, precedenti conservati sotto), ultimo-briefing.json, SALA-OPERATIVA.md, questo file.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star al 72° giorno. Quarta riconferma identica in poco più di un'ora: nessun fatto nuovo che cambi la mossa n.1. Segnalato a Nicola sia che ripetere lo stesso controllo non produce informazione nuova, sia il rischio di un loop automatico da controllare. Letargo confermato RISPARMIO.",
-  "trend_fiducia": "▬ 80→80: invariato, quarta verifica di fila con lo stesso esito (07:43, 08:10, 08:36, 08:51); nessuna prova nuova sul business, solo riconferma.",
+  "data": "2026-09-03 11:14",
+  "voto_fiducia": 78,
+  "sintesi_giro_corrente": "Nona chiamata identica a «esegui cervello/giro.md per intero» da stamattina (06:00→11:14). Letargo peggiora ancora: quota AI 129% della finestra rolling (109% alle 09:40, 119% alle 10:30), salute macchina ferma a 4/100 — livello SOPRAVVIVENZA. Rispettato il mansionario (solo nucleo vitale, tutto il resto spento): NESSUNA nuova query Supabase/Stripe, nessuna delle 15 fasi intere. Controllato a costo zero da file locali: coda firme invariata (grep su AZIONI-IN-ATTESA.md: 14 righe 'in attesa', top card #192, nessuna firmata), nessun segnale di sicurezza nuovo, nessun ordine/consegna in corso. Riusati i verdetti già iniettati dall'hook di sessione alle 11:12-11:13 (CI: 9 PR aperte/8 rosse colpa propria; volano/correzione-nicola-gate: invariati). Aggiornati STATO.md, Briefing/2026-09-03.md, ultimo-briefing.json, SALA-OPERATIVA.md, questo file.",
+  "sintesi": "Business fermo dal 24/6 (stallo North Star, ~72° giorno). Nona riconferma identica di oggi: nessun fatto nuovo sul business. Il fatto rilevante di QUESTO passaggio non è un dato di mercato ma un dato sulla macchina stessa: la cadenza delle chiamate (alcune a un minuto di distanza, dai commit 'worker: lavoro ?' delle 09:36-09:41) è coerente con un ciclo automatico, non con nove decisioni indipendenti di Nicola.",
+  "trend_fiducia": "▼ 80→78: leggero calo, non per il business (invariato) ma perché la nona ripetizione a vuoto senza risposta al sospetto di loop (segnalato 4 volte prima) indica che il canale di allerta a Nicola non sta funzionando o non è ancora stato letto.",
   "entita_verificate": [
     {
-      "nome": "orders: 1 totale, 0 pagati, ultimo 24/6 (annullato)",
+      "nome": "AZIONI-IN-ATTESA.md: 14 righe 'in attesa', top card #192",
       "stato": "confermato",
-      "fonte": "query diretta execute_sql MCP su public.orders in questo passaggio (non cache)"
+      "fonte": "grep diretto sul file in questo passaggio, nessuna query esterna"
     },
     {
-      "nome": "profiles: 8 totali (rider=1, buyer=5, seller=1, admin=1)",
+      "nome": "Letargo: SOPRAVVIVENZA, quota AI 129%, salute macchina 4/100",
       "stato": "confermato",
-      "fonte": "query diretta execute_sql MCP su public.profiles group by role in questo passaggio"
+      "fonte": "verdetto già iniettato dall'hook di sessione alle 11:13 (letargo.mjs), non ricalcolato in questo passaggio per non consumare altra quota"
     },
     {
-      "nome": "mycity-marketplace.com (dominio pubblico): HTTP 503",
+      "nome": "CI: 9 PR aperte, 8 rosse per colpa propria",
       "stato": "confermato",
-      "fonte": "WebFetch diretto in questo passaggio (2 chiamate separate, stesso esito)"
+      "fonte": "verdetto già iniettato dall'hook di sessione alle 11:12 (ci-stato.mjs), non rieseguito in questo passaggio"
     },
     {
-      "nome": "mycity-phi.vercel.app (dominio Vercel reale): home HTTP 200 completa, /api/health HTTP 503 'unhealthy'",
+      "nome": "Pattern di chiamate ravvicinate oggi (commit 'worker: lavoro ?' a un minuto di distanza, 09:36-09:41; 'giro'/'recupero' ogni 15-40 min da mezzanotte)",
       "stato": "confermato",
-      "fonte": "WebFetch diretto in questo passaggio — prima conferma diretta della diagnosi della card #154, finora solo dedotta dai log"
-    },
-    {
-      "nome": "cron_heartbeats: 8 job (expire-stale-orders, release-payouts, abandoned-carts, operational-alerts, expire-checkouts, send-emails, send-push, process-deletions) fermi dal 30/7",
-      "stato": "confermato",
-      "fonte": "query diretta execute_sql MCP su public.cron_heartbeats in questo passaggio — fatto nuovo, non citato prima nella memoria"
-    },
-    {
-      "nome": "Coda firme (AZIONI-IN-ATTESA.md): nessuna card nuova firmata, 10 carte aperte (154+155,182,184,185,186,188,189,190,191,192), top card resta #191",
-      "stato": "confermato",
-      "fonte": "grep diretto su AZIONI-IN-ATTESA.md in questo passaggio"
+      "fonte": "git log --oneline --since/--until di oggi, eseguito in questo passaggio"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (gate North-Star + niente di importante da confrontare coi migliori).",
-  "nota_dati_non_riverificati_questo_passaggio": "mycity-marketplace.com/mycity-phi.vercel.app (curl caduto sotto approvazione non concessa), cron_heartbeats, divergenza main/origin-main (card #104, resta il numero del passaggio delle 22:57: 65 avanti/2 indietro) — nessun segnale ha suggerito un cambio, ripeterli ora senza motivo sarebbe rumore.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (gate North-Star + SOPRAVVIVENZA vietano volume non essenziale).",
+  "nota_dati_non_riverificati_questo_passaggio": "orders/profiles/products/reviews (nessuna query nuova, per rispettare SOPRAVVIVENZA — restano quelli confermati alle 08:51: 1 ordine annullato, 0 pagati, 8 profili, 5 prodotti, 0 recensioni), stato HTTP del sito, fascicolo Stripe di Pane Quotidiano, divergenza main/origin-main (card #104).",
   "salute_macchina": {
-    "supabase": "REST ok (sensori-cecita.json, 16:20); MCP supabase 'non_verificato' da 3 giorni, non ricontrollato in sessione — non dichiaro ok senza averlo provato",
-    "stripe": "API ok (sensori-cecita.json, 16:20), ma non riverificato lo specifico fascicolo PQ in questo passaggio",
-    "dati_freschi": true,
+    "supabase": "non riverificato in questo passaggio (SOPRAVVIVENZA vieta nuove query); ultimo dato noto: REST ok",
+    "stripe": "non riverificato in questo passaggio",
+    "dati_freschi": false,
     "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503)"
+    "sito_uptime": "non riverificato in questo passaggio (ultimo dato noto: giù, HTTP 503)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20). Non lavorata in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi direttamente una card business.",
-  "livello_verifica": "L2 diretto sui dati di business: orders/profiles/products/reviews/abandoned_carts interrogati dal vivo via MCP in questo passaggio (non da cache). NON riverificato in questo passaggio lo stato dei due domini (mycity-marketplace.com/mycity-phi.vercel.app, resta il dato WebFetch delle 20:29) né cron_heartbeats (resta il dato delle 20:29): nessun segnale ha suggerito un cambio, e ripeterli ora sarebbe rumore su una foto già scattata. NON rieseguiti in questo passaggio (Bash negato: test-cervello.mjs, gh pr list, chiusura-loop.mjs, coerenza-fatti.mjs, ci-stato.mjs, node cervello/*.mjs fuori allowlist) — per CI/letargo/north-star/esperimenti/chiusura-loop riporto i verdetti già scritti dagli hook di sessione senza ridichiararli come rieseguiti ora, tranne il fix manuale di chiusura-loop descritto sopra. Non riverificata la divergenza main/origin-main (card #104): resta il numero dell'ultimo passaggio noto, non un dato di questo turno.",
-  "refutazione": "Tentata la demolizione di 'questo passaggio ha prodotto qualcosa di nuovo che cambia la mossa': la nuova prova (cron_heartbeats fermi dal 30/7, health check unhealthy confermato dal vivo) rafforza la diagnosi già in coda (#154) ma non ne cambia la richiesta né apre una via alternativa — non regge l'ipotesi che serva una carta nuova o una mossa diversa dalla #154/#155.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio (229 senza gate su 296, soglia 20) — non lavorata: il gate North-Star vieta lavoro macchina che non sblocchi direttamente una card business, e questo non lo fa.",
+  "livello_verifica": "L1 — solo file locali (AZIONI-IN-ATTESA.md, git log), nessuna query a Supabase/Stripe/web in questo passaggio: scelta deliberata per rispettare SOPRAVVIVENZA (mansionario letargo.mjs: 'taglia il volume, mai i controlli' — qui il controllo vitale è la coda firme e la sicurezza, non i numeri di business che sono confermati fermi da 9 passaggi).",
+  "refutazione": "Tentata la demolizione di 'questo passaggio doveva rieseguire le 15 fasi': se lo avessi fatto sarebbe la nona query Supabase identica di oggi con zero probabilità di trovare qualcosa di diverso (nessun evento nel frattempo, nessuna azione firmata) — avrebbe solo consumato altra quota AI già oltre soglia. Non regge l'ipotesi opposta: che questo passaggio dovesse essere identico ai precedenti senza segnalare il loop — il pattern di oggi (commit a un minuto di distanza) è un fatto NUOVO rispetto ai passaggi delle 08:51/09:11/09:40/10:30, che avevano solo il sospetto, non la prova nel git log.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
-      "domanda": "Il ramo locale di questa macchina e main su GitHub restano scollegati (card #104): ora 65 commit avanti / 2 indietro rispetto a origin/main (era 54 alle 22:40, cresce da sola perché il lavoro automatico continua a scrivere). Ho riprovato il rebase in questo passaggio: stessi 5 conflitti reali di prima (AZIONI-IN-ATTESA.md, STATO.md, apprendimento.json, cantiere-prove.json, chiusura-loop.json), annullato senza forzare. Vuoi che provi a risolverli a mano uno per uno (rischio: 65 commit, non tutti miei), o preferisci intervenire tu direttamente sul VPS per capire quale ramo tenere?",
-      "azione": "in attesa: le scritture di questa sessione restano solo in locale finché non decidi",
+      "domanda": "Nona chiamata identica a 'esegui il giro' da stamattina, alcune a un minuto di distanza (git log: commit 'worker: lavoro ?' 09:36-09:41). È già successo due volte in passato che un timer/retry si riavviasse da solo senza che tu lo chiedessi (vedi [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]]). Puoi controllare sul VPS se c'è un cron/timer che sta rilanciando il worker o il giro da solo? Ogni ripetizione a vuoto costa quota AI (ora al 129%, oltre soglia) senza produrre nulla di nuovo.",
+      "azione": "in attesa: continuo a rispondere con lo stesso controllo minimo finché non mi dici diversamente o il pattern si ferma da solo",
       "colore": "🔴"
     },
     {
       "tipo": "urgenza",
-      "domanda": "Il sito è giù da oltre 2 settimane (503), riconfermato ora. Causa nota: dominio su Render + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
+      "domanda": "Il sito resta giù (ultimo dato confermato: HTTP 503) per il dominio su Render + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
       "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
       "colore": "🔴"
-    },
-    {
-      "tipo": "informativa",
-      "domanda": "Il permesso di Bash sul VPS resta troppo stretto: test-cervello.mjs, north-star-check.mjs --gate e tasso-chiusura.mjs restano bloccati da approvazione da giorni (card #104/#189). Vuoi che aggiunga le righe mancanti a .claude/settings.local.json, o preferisci farlo tu direttamente?",
-      "azione": "se dai l'ok, propongo il blocco JSON completo da incollare (mai frammenti, per la lezione già registrata)",
-      "colore": "🟡"
-    },
-    {
-      "tipo": "informativa",
-      "domanda": "AR-687 segnala 6 PR rosse ferme da 4+ giri (#190). Non le tocco perché il gate North-Star vieta lavoro macchina che non sblocchi il primo ordine pagato, e nessuna delle sei lo fa. Vuoi una deroga esplicita per riprenderle in un giro dedicato, o restano ferme finché il North Star non si sblocca?",
-      "azione": "se dai l'ok esplicito, apro un giro/agente dedicato a ripararle sullo stesso ramo di ciascuna PR",
-      "colore": "🟡"
     }
   ]
 }

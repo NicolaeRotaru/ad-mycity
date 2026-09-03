@@ -1,8 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 10:30
-fonte: AD digitale (giro di perlustrazione, settima chiamata di oggi — SOPRAVVIVENZA)
+aggiornato: 2026-09-03 11:14
+fonte: AD digitale (giro di perlustrazione, nona chiamata di oggi — SOPRAVVIVENZA)
 ---
+
+> 🛌 **3/9 11:14 — Nona chiamata identica a "esegui il giro" da stamattina (06:00→11:14): resto in
+> SOPRAVVIVENZA, non ho riquerato nulla.** Letargo ancora `SOPRAVVIVENZA` e peggiora ancora: quota AI
+> **129%** della finestra rolling (era 119% alle 10:30, 109% alle 09:40), salute macchina ferma a
+> 4/100. Il mansionario impone "solo NUCLEO VITALE: ordini + consegne + coda firme + sicurezza +
+> allerta a Nicola. Tutto il resto spento" — quindi niente 15 fasi, niente nuova query
+> Supabase/Stripe (sarebbe la nona identica sugli stessi dati fermi dal 24/6).
+>
+> **Nucleo vitale, controllato ora a costo zero (solo file locali):** coda firme (`AZIONI-IN-ATTESA.md`)
+> invariata — 14 righe "in attesa", top card ancora #192, nessuna firmata; nessun segnale di
+> sicurezza nuovo; nessun ordine/consegna in corso. CI: 9 PR aperte, 8 rosse per colpa propria
+> (dato dell'11:12, iniettato dall'hook di sessione — non ricontrollato di nuovo per non sprecare quota).
+>
+> 🚨 **Il sospetto di un ciclo automatico, segnalato 4 volte oggi (08:51, 09:11, 09:40, 10:30), va
+> preso sul serio adesso: il git log di oggi mostra chiamate ravvicinate anche di UN MINUTO l'una
+> dall'altra** (commit "worker: lavoro ?" alle 09:36, 09:37, 09:38, 09:39, 09:40, 09:41) oltre a
+> "giro AD"/"recupero" ogni 15-40 minuti da mezzanotte in poi. Questo pattern è già successo e
+> risolto altre due volte ([[project-doppio-worker-tempesta-commit-18-8]],
+> [[piano-mattino-loop-non-timer]]): un timer o un retry automatico che si riavvia da solo, non
+> nove decisioni indipendenti di Nicola. **Ogni ripetizione a vuoto brucia quota AI già oltre soglia
+> e non produce nessuna informazione nuova** (stessi dati dal 24/6). Prima di rispondere alla
+> decima chiamata identica, vale la pena che Nicola guardi il timer/cron sul VPS che genera questi
+> richiami, non che la macchina continui a rispondere uguale.
+>
+> Le tre priorità restano invariate:
+> 1. Dominio e chiavi Vercel (#154+#155).
+> 2. Pagamenti carta di Pane Quotidiano (#182).
+> 3. Le quattro migrazioni ferme (#184).
 
 > 🛌 **3/9 10:30 — Settima chiamata identica a "esegui il giro" in circa tre ore: resto in
 > SOPRAVVIVENZA, non ho riquerato nulla.** Letargo ancora `SOPRAVVIVENZA` (quota AI **119%** della
