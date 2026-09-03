@@ -52,12 +52,12 @@ nota per #33 (kit capillarità): rimuovere/riscrivere l'aggancio «bando Vita in
 reparto: content-social
 livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
 canale: IG feed @mycity.piacenza + storia 9:16 + pagina FB + gruppi FB
-perche: PLAYBOOK Contenuto del giorno (worker 3/9). Angolo **rientro di settembre** (swipe #2 cavalcare il momento, fatto di calendario reale) — mai usato dalla rubrica finora. Non duplica: kefir-colazione 14/7 · hummus+pesto 16/8 · pudding-merenda 28/8 · carosello 23/7 · turno-mattina 20/7.
-preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato: catalogo/prezzi riletti dal DB live 3/9 (invariati dal 28/8), 0 numeri MyCity inventati, 0 testimonianze
+perche: PLAYBOOK Contenuto del giorno (worker 3/9). Angolo "rientro di settembre": mai usato dalla rubrica finora. È il principio swipe #2, cavalcare il momento — qui un fatto di calendario reale, non inventato. Non duplica: kefir-colazione 14/7 · hummus+pesto 16/8 · pudding-merenda 28/8 · carosello 23/7 · turno-mattina 20/7.
+preparato: ✍️ content-social (sintesi AD). Gate ONESTA passato: catalogo e prezzi riletti dal DB live il 3/9, invariati dal 28/8. Zero numeri MyCity inventati, zero testimonianze.
 contenuto pronto: consegne/content/2026-09-03-post-del-giorno-rientro-settembre-PQ.md
-cosa cambia: esce l'undicesimo post pronto per Pane Quotidiano — ma i dieci precedenti (A8, A15, A16, A26, A28, A29, A36, A40, A41, #180) sono TUTTI ancora fermi, mai pubblicati. Il collo di bottiglia non è la produzione di contenuti: è che nessuno viene scelto e firmato.
-se va bene: Nicola sceglie uno tra gli undici (consiglio: questo o #180, entrambi senza promessa di consegna) e lo pubblica; gli altri scaduti di stagione si possono ritirare per pulire la coda.
-pre-condizioni: (1) link marketplace in bio/1° commento UTM `rientro-0309` · (2) foto reale catalogo = ok titolare se boost, altrimenti versione tipografica pubblicabile subito · (3) timing 09:00–11:00. Coda canonica = **#193** in [[AZIONI-IN-ATTESA]].
+cosa cambia: esce l'undicesimo post pronto per Pane Quotidiano. I dieci precedenti (A8, A15, A16, A26, A28, A29, A36, A40, A41, #180) sono tutti ancora fermi, mai pubblicati. Il collo di bottiglia non è la produzione di contenuti: è che nessuno viene scelto e firmato.
+se va bene: Nicola sceglie uno tra gli undici e lo pubblica. Consiglio questo o #180: entrambi senza promessa di consegna. Gli altri scaduti di stagione si possono ritirare per pulire la coda.
+pre-condizioni: link marketplace in bio/1° commento con UTM `rientro-0309`. Foto reale del catalogo solo con ok del titolare; altrimenti la versione tipografica è pubblicabile subito. Timing consigliato 09:00–11:00. Coda canonica = **#193** in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA — vedi nota backlog sopra prima di produrne altri.
 
 ## A2 · 🤝 Proposta di onboarding alla bottega Garetti
