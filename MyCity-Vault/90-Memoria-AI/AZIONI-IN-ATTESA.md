@@ -27,6 +27,45 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- radiografia-totale-sito-3-9 -->
+
+### 🔴 #192 — Rimetti il dominio del marketplace su Vercel: oggi porta a un server spento · ⏳ accodata 2026-09-03 09:35
+
+**In parole semplici.** Il nome che sta sui QR e sui post, mycity-marketplace.com, punta ancora all'indirizzo del vecchio server Render, che abbiamo spento ad agosto. Il sito vero gira su Vercel, ma lì il dominio non è mai stato collegato. Chi lo digita trova un errore.
+
+**Cosa cambia:** il marketplace torna ad avere un indirizzo che funziona. Il sensore che lo controlla legge «errore» da 219 giri di fila: l'ultima risposta buona è del 30 luglio, cioè 35 giorni fa. Finché resta così, nessuna campagna e nessun volantino porta un cliente da nessuna parte.
+
+**Cosa devi fare tu.** Su Vercel, progetto `mycity`, sezione Domains: aggiungi `mycity-marketplace.com` e imposta i record che Vercel ti mostra. Poi apri il sito in una finestra anonima e dimmi cosa vedi: se compare la schermata di accesso di Vercel invece del marketplace, la protezione va tolta dal dominio.
+
+**Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato.
+
+---
+
+### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35
+
+**In parole semplici.** Il codice pubblicato è del 2 settembre. Il database vero si è fermato al 28 agosto. Al registro delle migrazioni mancano ventuno righe, e le cose che davvero non ci sono le ho contate una per una: sedici, più quattro indici.
+
+**Cosa cambia:** oggi in produzione l'email «ordine pronto» non parte mai, la pagina Analisi del venditore va in errore, e il carrello non viene mai segnato come recuperato — quindi chi ha appena comprato può ricevere il messaggio del carrello abbandonato. Il motivo è uno solo: il passo del rilascio che applica le migrazioni non può girare, perché i quattro segreti che gli servono non sono mai stati configurati. È la card #161, ferma dal 22 agosto.
+
+**Cosa devi fare tu.** Configura i quattro segreti su GitHub (li elenca la card #161), poi il comando del rilascio applica le migrazioni da solo: è idempotente e già provato in CI. Dopo, il controllo notturno diventa rosso da solo alla prossima deriva.
+
+**Se va bene:** dimmelo e ricontrollo oggetto per oggetto che in produzione ci siano tutti.
+
+---
+
+### 🔴 #190 — Un cliente può approvare da solo il proprio reso e farsi rimborsare un ordine consegnato · ⏳ accodata 2026-09-03 09:35
+
+**In parole semplici.** Nel database c'è una regola che lascia al cliente scrivere la riga del reso, e in quella riga c'è anche il campo che dice «il negozio ha ricevuto la merce». Chi sa farlo può scriverlo da sé e far partire il rimborso di un ordine che ha già in casa.
+
+**Cosa cambia:** è l'unico problema trovato oggi in cui i soldi escono davvero, e a deciderlo è chi li incassa. Oggi il rischio è teorico perché di ordini veri ce n'è uno solo, mai pagato. Diventa concreto il giorno in cui il marketplace vende.
+
+**Cosa devi fare tu.** Questa è una riparazione nel codice del sito, quindi non parte da sola: dimmi se la faccio io in un ramo a parte, con la sua prova che diventa rossa se il buco torna. Il fix è stretto: la riga del reso la può scrivere solo il server, e i controlli che oggi vivono in una sola porta devono valere per tutte.
+
+**Se va bene:** apro il ramo, ti porto la riparazione con la prova, e resta a te firmarne l'unione.
+
+---
+
+
 ### 🟡 #189 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-03 03:12
 
 **Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: `#post-carosello-bio-2307`, `#referral-porta-un-amico`, `#post-lunedi-turno-mattina-2007`, `#post-domenica-settimana-1907`, `#post-siamo-in-23`, `#zona-orario-consegna`, `#post-meteo-pioggia-20lug`, `#welcome-email-23`, `#ordine-test-pq`, `#inserisci-tazzina-pq`. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.

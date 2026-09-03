@@ -10,11 +10,15 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **In due righe.** 24 lenti su 24 lette con prove eseguite in un banco di prova vero, i 361 noti riverificati per 361, e la produzione guardata in sola lettura. Nuovi: 3 bloccanti, 50 gravi, 129 minori. Poi ho fatto criticare il mio stesso lavoro da un revisore che non c'era: ha trovato che «24 lenti coperte» non vuol dire «sito coperto», e le sue correzioni sono dentro il referto.
 >
-> **I due bloccanti.** ① Il dominio pubblico punta da 35 giorni a Render, che è spento; su Vercel non c'è nessun dominio e gli indirizzi tecnici sono dietro il login di Vercel. ② Il database di produzione è fermo al 28 agosto mentre il codice è del 2 settembre: mancano 21 migrazioni, verificate oggetto per oggetto. Le email «ordine pronto», i conti del venditore, il tetto AI e il carrello recuperato non funzionano in produzione.
+> **Il primo bloccante: il dominio.** Punta da 35 giorni a Render, che è spento. Su Vercel non è mai stato collegato, e gli indirizzi tecnici sono chiusi dietro il login di Vercel.
 >
-> **Cosa devi fare.** Aprire https://mycity-phi.vercel.app in finestra anonima e dirmi cosa vedi · collegare il dominio su Vercel · configurare i quattro segreti (card #161) e applicare le migrazioni · impostare le tre variabili mancanti su Vercel · firmare la PR di questo referto.
+> **Il secondo: il database vero.** È fermo al 28 agosto mentre il codice è del 2 settembre. Al registro delle migrazioni mancano 21 righe; le cose che davvero non ci sono le ho contate una per una. In produzione non funzionano le email «ordine pronto», i conti del venditore, il tetto di spesa AI e il carrello recuperato.
 >
-> **Cosa NON ho verificato.** Il sito pubblicato da un browser esterno e Stripe. Tutte e 24 le lenti hanno avuto il loro cercatore, ma «lente coperta» non vuol dire «sito coperto»: 29 delle 93 porte del sito, 11 delle 20 rotte dell'intelligenza artificiale, 8 delle 8 porte di amministrazione e 102 delle 145 migrazioni non le nomina nessun referto. Non sono state guardate, e finora nessuno lo diceva. Il giro con l'angolo avversario ha coperto 12 lenti su 24; il giro del residuo non e' partito (limite delle 5 ore e tre riavvii del contenitore).
+> **Cosa devi fare.** Sono in coda tre card: #192 il dominio, #191 le migrazioni, #190 il reso che si approva da solo. Poi restano da impostare le tre variabili mancanti su Vercel, e da firmare la richiesta di unione di questo referto.
+>
+> **Cosa NON ho verificato.** Il sito pubblicato da un browser esterno, e Stripe. Tutte e 24 le lenti hanno avuto il loro cercatore, ma «lente coperta» non vuol dire «sito coperto»: 29 delle 93 porte del sito, 11 delle 20 rotte dell'intelligenza artificiale, 8 delle 8 porte di amministrazione e 102 delle 145 migrazioni non le nomina nessun referto. Non sono state guardate, e finora nessuno lo diceva.
+>
+> Il giro con l'angolo avversario ha coperto 12 lenti su 24. Il giro del residuo non è partito: il limite delle cinque ore e tre riavvii del contenitore hanno mangiato il tempo.
 >
 > Referto: `consegne/audit/2026-09-03-radiografia-totale-sito.md` · grezzi: `consegne/audit/2026-09-03-radiografia-marketplace-raw.json`, `consegne/design/2026-09-03-radiografia-design-raw.json`
 

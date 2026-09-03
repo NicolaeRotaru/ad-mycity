@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 08:05",
+  "aggiornato": "2026-09-03 09:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18653,7 +18653,7 @@
       "colore": "🟡",
       "stato": "chiuso",
       "nato": "2026-09-03 07:45",
-      "nato_come": "riparare",
+      "nato_come": "regressione",
       "chiuso_il": "2026-09-03 08:05",
       "chiuso_come": "riparato nello stesso lotto che lo ha creato",
       "origine": "radiografia in corsa della radiografia totale del sito, lente rischio-sicurezza-se su cervello/referti-sito.mjs",
@@ -18662,7 +18662,8 @@
         "comando": "node --test cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
         "nota": "La quinta prova del file passa un referto la cui prova contiene una credenziale finta e pretende tre cose: che la stringa NON entri in casa tale e quale, che il comando resti leggibile, che il prefisso si ricomponga da solo. Mutazione dichiarata in mutanti.json e provata a mano il 3/9/2026 alle 07:50: rimesso il campo grezzo al posto del disarmo, la prova diventa rossa (fail 1); rimesso il disarmo, 5 su 5 verdi."
       },
-      "fonte": "radiografia totale del sito 3/9/2026"
+      "fonte": "radiografia totale del sito 3/9/2026",
+      "nato_da": "il commit c4a627ba4 di questo stesso lotto («Le schede del sito portano la prova, non solo il titolo»): allargando la porta della casa alla prova, il campo ha iniziato ad attraversare un confine dove prima non arrivava, e le difese di quel confine non sono venute con lui."
     }
   ],
   "meta": {

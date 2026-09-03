@@ -1,5 +1,25 @@
 # Chi ha ragione sui sette problemi in contrasto
 
+## In parole semplici
+
+Otto problemi vecchi del sito avevano oggi due verdetti opposti. Chi li ha ricontrollati diceva «riparato», portando una prova. Un altro, che cercava difetti nuovi, li aveva segnati «c'è ancora», senza portare niente. Uno lo aveva già deciso un revisore. Gli altri sette li ho decisi io, andando a leggere il codice e facendo girare le prove.
+
+## Cosa cambia per te
+
+**Sei volte su sette aveva ragione chi aveva ricontrollato.** Quei sei si chiudono. La settima è riparata a metà: la protezione c'è sul lavoro massivo del catalogo, ma non sulle quindici rotte che chiamano l'intelligenza artificiale una volta sola. Quella resta aperta, riscritta per quello che è davvero.
+
+Sotto trovi i sette casi uno per uno, con quello che ho letto e i comandi che ho eseguito.
+
+## Cosa devi fare
+
+Niente, se il conto ti torna. La settima è già riscritta nel registro e aspetta una riparazione, che è un lavoro a parte.
+
+## Cosa non ho verificato
+
+Ho giudicato leggendo il codice e facendo girare le prove che esistono. Dove serviva un occhio a schermo l'ho scritto nel caso stesso.
+
+---
+
 **Riparati 6, ancora presenti 0, a metà 1, non decidibili 0.**
 
 Data del controllo: 3/9/2026. Codice guardato: /home/user/mycity (commit 4f446aa).
@@ -7,11 +27,9 @@ Ho letto io i file citati e ho eseguito io i comandi qui sotto. Non ho toccato n
 
 ---
 
-## #1 · L'indirizzo di rete nel registro dei consensi — **RIPARATO**
+## #1 · Il consenso firmato con un indirizzo che si poteva inventare — **RIPARATO**
 
-**Cosa dicevo di controllare.** L'indirizzo salvato nel registro dei consensi veniva dal
-primo pezzo dell'intestazione `x-forwarded-for`. Quel pezzo lo scrive chi chiama: lo può
-inventare. Un consenso firmato con un indirizzo falso non prova niente.
+**Il difetto, com'era scritto.** L'indirizzo nel registro dei consensi veniva dal primo pezzo dell'intestazione `x-forwarded-for`, che lo scrive chi chiama. Un consenso firmato con un indirizzo falso non prova niente.
 
 **Cosa ho visto.** I tre punti citati oggi chiamano tutti la stessa funzione:
 `app/api/account/accetta-condizioni/route.ts:55`, `app/auth/callback/route.ts:109`,
@@ -104,9 +122,7 @@ senza chiedersi se è finito. Due esempi che ho letto adesso:
 * `app/api/ai/description/route.ts:128-135` — chiede al massimo 300 gettoni, prende `text`
   e risponde `{ description: text }`. Se la descrizione si tronca a metà frase, il
   venditore se la ritrova nel form come se fosse completa.
-* `app/api/ai/translate/route.ts:95-117` — prende i pezzi della traduzione con
-  l'interrogativo (`toolInput?.patch?.name`), quindi un pezzo mancante non fa rumore: passa
-  come «non c'era».
+* `app/api/ai/translate/route.ts:95-117` prende i pezzi della traduzione con l'interrogativo. Un pezzo mancante non fa rumore: passa come «non c'era».
 
 Stessa strada in seo:88, variants:128, voice-product:135, reviews-summary:115, diagnose:126,
 copilot:220, answer-qa:77, barcode-lookup:107, improve-product:317, product-chat:292,
@@ -145,9 +161,7 @@ reviews-summary:31.
 Le prove non si limitano a cercare la regola: una mette dentro la descrizione un finto tag
 di chiusura e controlla che il recinto non si apra.
 
-**Cosa non ho verificato.** Le rotte che nascono da una foto e non da una scheda —
-`app/api/ai/catalog-create/route.ts` e `app/api/vision/photo-order/route.ts` — hanno un
-prompt loro che non ho letto riga per riga. Sono fuori dal difetto scritto (lì la scheda
+**Cosa non ho verificato.** Due rotte nascono da una foto e non da una scheda: `app/api/ai/catalog-create/route.ts` e `app/api/vision/photo-order/route.ts`. Hanno un prompt loro, e non l'ho letto riga per riga. Sono fuori dal difetto scritto (lì la scheda
 prodotto non c'è ancora), ma se qualcuno vuole chiudere il tema per intero, quello è
 l'angolo rimasto al buio.
 
@@ -187,9 +201,7 @@ non esiste, e il fuoco funzionava solo quando dentro c'era un link — cioè qua
 chi ha vertigini da movimento o disturbi dell'attenzione è la prima cosa che vede.
 
 **Cosa ho visto.** In `components/PromoTicker.tsx:105-117` c'è un pulsante vero, non un
-effetto del passaggio del mouse. Ha il suo nome parlato («Metti in pausa la striscia degli
-annunci» / «Riprendi la striscia degli annunci»), dice se è premuto (`aria-pressed`), e
-cambia l'icona fra pausa e riprendi.
+effetto del passaggio del mouse. Ha il suo nome parlato: «Metti in pausa la striscia degli annunci», e «Riprendi la striscia degli annunci». Dice anche se è premuto, e cambia l'icona fra pausa e riprendi.
 
 Il pulsante ferma davvero il movimento: mette `animationPlayState: 'paused'` sul contenitore
 che ha l'animazione (`components/PromoTicker.tsx:100-104`). È lo stesso elemento che scorre,
@@ -209,7 +221,7 @@ scritta come stile in linea sull'elemento animato: non dipende da nessun foglio 
 
 | # | Tema | Verdetto | Chi aveva ragione |
 |---|------|----------|-------------------|
-| 1 | Indirizzo nel registro dei consensi | riparato | la riverifica |
+| 1 | Il consenso e l'indirizzo che si poteva inventare | riparato | la riverifica |
 | 2 | Permessi di scrittura sulle tabelle | riparato (0 scoperti contati adesso) | la riverifica |
 | 3 | Menu di ordinamento e filtri senza nome | riparato | la riverifica |
 | 5 | Risposta del modello tagliata a metà | **riparato a metà** | in parte tutti e due |
