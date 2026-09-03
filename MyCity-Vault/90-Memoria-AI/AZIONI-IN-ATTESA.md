@@ -37,7 +37,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia:** è la scelta giusta — una difesa spenta che si comporta come una difesa accesa è peggio di nessuna difesa. Ma ha un rovescio pesante. Se quella chiave in produzione non c'è, dopo l'unione si spengono insieme quattro cose: l'accesso, la registrazione, il modulo contatti e l'iscrizione alla newsletter. Cioè la porta d'ingresso del marketplace.
 
-**Cosa devi fare tu.** Trenta secondi su Vercel: progetto `mycity`, Settings, Environment Variables, cerca `TURNSTILE_SECRET_KEY` in Production. Se c'è, dimmelo e uniamo. Se non c'è, mettila prima (la trovi nel pannello Cloudflare Turnstile) — io da qui le variabili di Vercel non le posso leggere, e non voglio indovinare su una cosa che chiude la porta d'ingresso.
+**Cosa devi fare tu.** Sono trenta secondi su Vercel. Apri il progetto `mycity`, poi Settings, poi Environment Variables. Cerca `TURNSTILE_SECRET_KEY` fra quelle di Production.
+
+Se c'è, dimmelo e uniamo. Se non c'è, mettila prima: la trovi nel pannello di Cloudflare Turnstile.
+
+Te lo chiedo perché da qui le variabili di Vercel non le posso leggere. Su una cosa che chiude la porta d'ingresso non voglio indovinare.
 
 **Se va bene:** unisco la richiesta di unione del sito.
 
