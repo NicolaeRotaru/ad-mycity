@@ -1,7 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 18:02
-fonte: AD digitale (Report della sera — SOPRAVVIVENZA, cadenza vera non un richiamo del ciclo)
+aggiornato: 2026-09-03 18:28
+fonte: AD digitale (chiamata "esegui giro.md per intero" — SOPRAVVIVENZA, giro pieno rifiutato)
+---
+
+> 🛌 **3/9 18:28 — Ennesima chiamata esplicita "esegui giro.md per intero" da questa mattina: resto in
+> SOPRAVVIVENZA, non ho eseguito le 15 fasi.** Quota AI **110%** della finestra rolling (scesa dal
+> picco 239% delle 14:30, ma ancora sopra soglia), salute macchina ferma a **4/100**. Il mansionario
+> impone "solo NUCLEO VITALE: ordini + consegne + coda firme + sicurezza + allerta a Nicola. Tutto il
+> resto spento" — niente radar, niente radiografia, niente delega a intelligence/analista/growth.
+>
+> **Nucleo vitale, controllato ora a costo quasi zero:** sensore REST (`supabase_rest`) fresco delle
+> 18:20, conferma 1 ordine visibile — stesso quadro di sempre (0 pagati). Coda firme
+> (`AZIONI-IN-ATTESA.md`) invariata: top card ancora **#193** (undicesimo post pronto per Pane
+> Quotidiano, zero pubblicati), nessuna firma nuova da Nicola. Nessun segnale di sicurezza nuovo.
+>
+> 🚨 **Il ciclo automatico segnalato da stamattina (06:00) continua, ma rallentato**: git log mostra
+> ancora "giro AD: aggiorna memoria" (16:44) e due "recupero: scritture pendenti" (16:20, 18:20) più
+> il ritmo della sera delle 18:08 — non più la raffica di un commit al minuto vista nella tarda
+> mattinata, ma comunque una chiamata ogni 20-40 minuti sugli stessi dati fermi dal 24/6. Stesso
+> pattern già risolto il 15/8 e il 18/8
+> ([[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]]), tornato una
+> quarta volta oggi. Priorità invariate per Nicola: #154+#155 (dominio/Vercel), #182 (pagamenti PQ),
+> #184 (migrazioni DB), e capire se il timer/cron sul VPS che rilancia il giro si è fermato da solo o
+> continua un quinto giorno.
+
 ---
 
 > 🌙 **3/9 18:02 — Report della sera: giornata ferma sul business, quasi tutta passata in SOPRAVVIVENZA.**
