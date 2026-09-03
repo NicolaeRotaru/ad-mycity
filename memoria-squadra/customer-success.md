@@ -8,6 +8,7 @@ reparto: customer-success
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-09-03 13:18 · playbook recensioni post-consegna, RIPROVA 37ª (3/9 13:18) — verificato via query SQL diretta prima di rigenerare, come da lezione memoria · V5 C5 A1 K5 I2 M5 E5 (media 4) · atteso 0 consegne DELIVERED, gate ancora chiuso come le 36 volte precedenti dal 1/7 → reale confermato: orders.delivery_status = CANCELED:1 soltanto, 0 DELIVERED, invariato da 2/9 · #recensioni-loop-a-vuoto
 - 2026-09-02 12:34 · Playbook recensioni post-consegna (RIPROVA giro 2/9 12:34), gate ricontrollato prima di rigenerare · V5 C5 A1 K5 I2 M5 E5 (media 4) · atteso 0 consegne DELIVERED, gate invariato da 35+ esecuzioni (1/7-1/9) → reale confermato via query diretta: orders group by delivery_status = solo CANCELED:1, zero DELIVERED (2/9 12:xx) · #playbook-recensioni-loop-a-vuoto
 - 2026-09-01 12:13 · Playbook Recensioni post-consegna, riverifica 1/9 12:12 (35esima esecuzione, gate invariato dal 28/8) · V5 C5 A1 K5 I3 M5 E5 (media 4.14) · atteso consegne DELIVERED senza recensione da messaggiare → reale 0 DELIVERED (query diretta: CANCELED=1, nessun'altra riga) — stesso esito da 34 esecuzioni · #playbook-recensioni-loop-a-vuoto
 - 2026-08-28 13:00 · Playbook recensioni post-consegna: query orders.delivery_status il 28/8 12:59, gate riverificato · V5 C5 A1 K5 I3 M5 E5 (media 4.14) · atteso 0 DELIVERED, nessuna recensione da chiedere → reale 0 DELIVERED (invariato dal 27/8), 1 CANCELED zombie · #playbook-recensioni-loop-a-vuoto
