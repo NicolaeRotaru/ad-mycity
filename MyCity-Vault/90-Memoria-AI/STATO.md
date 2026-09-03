@@ -1,15 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 09:11
-fonte: AD digitale (Piano del mattino, terza chiamata di oggi)
+aggiornato: 2026-09-03 09:40
+fonte: AD digitale (giro di perlustrazione, sesta chiamata di oggi — SOPRAVVIVENZA)
 ---
 
-> ☀️ **3/9 09:11 — Piano del mattino, il terzo di oggi.** Il giro delle 08:51 ha già confermato i
-> dati con una query diretta MCP: 1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti, 0
-> recensioni. Non ho riquerato: un marketplace senza traffico non cambia in 20 minuti.
+> 🛌 **3/9 09:40 — Giro richiamato una sesta volta oggi: sono passata a SOPRAVVIVENZA, non ho
+> riquerato il database.** Il letargo (`node cervello/letargo.mjs`) è peggiorato da RISPARMIO
+> (salute 4) a **SOPRAVVIVENZA**: quota AI al **109% della finestra rolling** (oltre budget) e
+> salute macchina ancora 4/100. A questo livello il mansionario dice "solo NUCLEO VITALE: ordini +
+> consegne + coda firme + sicurezza + allerta a Nicola. Tutto il resto spento" — quindi NON ho
+> eseguito le 15 fasi intere di `cervello/giro.md` (niente radiografia, niente auto-miglioramento,
+> niente nuova query a Supabase): l'avrei già fatto 4 volte nell'ultima ora e mezza con lo stesso
+> risultato, sui dati confermati identici alle 07:43/08:10/08:36/08:51.
 >
-> Le tre priorità restano invariate. Dominio e chiavi Vercel, card #154 e #155. Pagamenti carta di
-> Pane Quotidiano, card #182. Le quattro migrazioni ferme, card #184. Nessuna card nuova.
+> **Nucleo vitale controllato ora, a costo zero (letto da file, non riquerato):** coda firme
+> (`AZIONI-IN-ATTESA.md`) — 10 card 🟡/🔴 ferme, nessuna nuova; nessun segnale di sicurezza nuovo;
+> nessun ordine/consegna in corso (l'ultimo ordine resta quello annullato del 24/6). Le tre
+> priorità restano invariate: dominio e chiavi Vercel (#154+#155), pagamenti carta di Pane
+> Quotidiano (#182), le quattro migrazioni ferme (#184).
+>
+> ⚠️ **Da guardare tu:** è la sesta chiamata identica a "esegui il giro" in circa due ore, sugli
+> stessi dati fermi dal 24/6. Il vincolo CADENZE segnala questo pattern da 38 giri di fila senza
+> soluzione — vale la pena controllare se è un ciclo automatico che si riavvia da solo invece di
+> una tua scelta, perché ogni ripetizione a vuoto brucia quota AI che ora è già sopra soglia.
 > Blocco completo: [[RITMO]].
 
 > 🧭 **3/9 08:51 — Giro richiamato una quarta volta: dati identici a 07:43, 08:10 e 08:36.**

@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-03 08:51",
-  "situazione": "Quarta chiamata identica a cervello/giro.md in 68 minuti (07:43, 08:10, 08:36, 08:51). Riverificato di nuovo dal vivo via MCP Supabase: business invariato, 1 ordine (24/6, annullato), 0 pagati, 8 profili, 0 nuovi in 7gg, 5 prodotti, 0 recensioni. Stallo North Star 72 giorni. CI riconfermata: 8 PR aperte, 8 rosse, stesso elenco. Coerenza-fatti pulita: 41 fatti, 0 copie vecchie. Letargo RISPARMIO: solo nucleo vitale + controlli di verità. Dieci carte in coda, nessuna firmata. Nessun dato nuovo rispetto ai tre passaggi precedenti di stamattina — segnalato il rischio di un possibile ciclo di richiami automatici.",
+  "data": "2026-09-03 09:40",
+  "situazione": "Sesta chiamata a cervello/giro.md in circa due ore (07:43, 08:10, 08:36, 08:51, 09:11, ora 09:40). Il letargo è peggiorato da RISPARMIO a SOPRAVVIVENZA: quota AI al 109% della finestra rolling, salute macchina 4/100. A questo livello ho controllato solo il nucleo vitale (coda firme, sicurezza, ordini) SENZA riquerare Supabase: i dati restano quelli confermati identici nei cinque passaggi precedenti — 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Stallo North Star 72 giorni. Dieci carte in coda, nessuna firmata, nessuna nuova. Il rischio segnalato alle 08:51 (un possibile ciclo di richiami automatici, vincolo CADENZE) resta aperto e ora costa di più: ogni ripetizione a vuoto brucia quota AI già sopra soglia.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "il dominio punta ancora ai vecchi server e mancano due variabili: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
