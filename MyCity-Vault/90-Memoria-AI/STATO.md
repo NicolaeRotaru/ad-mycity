@@ -1,7 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 16:29
-fonte: AD digitale (chiamata "esegui giro.md" — SOPRAVVIVENZA, giro pieno NON eseguito)
+aggiornato: 2026-09-03 18:02
+fonte: AD digitale (Report della sera — SOPRAVVIVENZA, cadenza vera non un richiamo del ciclo)
+---
+
+> 🌙 **3/9 18:02 — Report della sera: giornata ferma sul business, quasi tutta passata in SOPRAVVIVENZA.**
+> Cadenza fissa delle 18:00 (`cervello/ritmo.md`), non un'altra chiamata del ciclo automatico.
+>
+> **Com'è andata oggi.** Il business non si è mosso: stesso 1 ordine annullato del 24/6, 0 pagati,
+> 8 profili (0 nuovi in 7gg), 5 prodotti, 0 recensioni, 3 carrelli abbandonati — identico a ieri
+> sera. Stallo North Star **71 giorni**. La giornata vera non è stata sul negozio ma sulla macchina:
+> dalle 09:40 il letargo è sceso a SOPRAVVIVENZA (quota AI sopra soglia) e da lì un timer/cron sul
+> VPS ha rilanciato "esegui il giro" decine di volte da solo — quarta ricomparsa dello stesso
+> pattern già visto e risolto il 15/8 e il 18/8. Quota AI ora ≈170% della finestra a 6 ore (era
+> 227% alle 16:29, 239% al picco delle 14:30): scende perché le voci vecchie escono dalla finestra
+> scorrevole, non perché il ciclo si sia fermato da solo.
+>
+> **I numeri.** Verificati ora con 1 query diretta e minima (nucleo vitale, non le 15 fasi intere).
+> Identici a tutti i passaggi di oggi. Ordini 1 (0 pagati, 0 consegnati) · negozi reali attivi 1
+> (Pane Quotidiano) · prodotti 5 · profili 8 · recensioni 0 · carrelli abbandonati 3 · sito HTTP 503
+> (baseline 1/9, non riverificato ora).
+>
+> **Da approvare, invariate da giorni.** #154+#155 (dominio+chiavi Vercel, mossa n.1) · #182
+> (pagamenti carta Pane Quotidiano, fermi da settimane) · #184 (quattro migrazioni ferme sul
+> database di produzione). In coda anche #193, l'undicesimo post pronto per Pane Quotidiano — zero
+> pubblicati.
+>
+> **Lezione di oggi.** Quando il consumo AI sale sopra soglia, la domanda giusta non è "cosa ha
+> fatto il negozio oggi" ma "perché il consumo sta salendo": il timer/cron di oggi ha bruciato la
+> maggior parte della quota della giornata senza produrre un solo dato nuovo, sugli stessi numeri
+> fermi dal 24 giugno.
+>
+> **Domani.** La prima cosa utile è verificare se il timer/cron che ha girato a vuoto oggi si è
+> fermato da solo o se riparte un quinto giorno di fila.
+>
+> Blocco completo: [[RITMO]].
+
 ---
 
 > 🛌 **3/9 16:29 — Ennesima chiamata esplicita "esegui giro.md per intero" da 14:30 in poi (2h dopo): resto in SOPRAVVIVENZA.**

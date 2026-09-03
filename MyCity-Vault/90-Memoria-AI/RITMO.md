@@ -1578,3 +1578,29 @@ Non ho riquerato Supabase né Stripe. L'ho già fatto 19 minuti fa. In 19 minuti
 - **Resta il più urgente:** un'occhiata diretta sul VPS al timer che rilancia il ritmo più volte a pochi minuti di distanza. Da dentro il ciclo non posso fermarlo da sola.
 
 **Dettagli tecnici** — Nessuna nuova query MCP/REST in questo passaggio. Dati riusati dalla verifica delle 08:36: ordini=1, pagati=0, profili=8, prodotti=5. Coda invariata, stessa lista del blocco delle 13:35. Ultima carta `#193`. Distanza dal blocco precedente: 20 minuti. Precedenti dello stesso pattern: [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]].
+
+## Report della sera · 2026-09-03 18:02
+
+**Com'è andata oggi**
+- Il business non si è mosso. Stesso ordine annullato del 24 giugno, zero incassi, nessun cliente nuovo. È il 71° giorno di fila fermo.
+- Dalle 9:40 la macchina è entrata in modalità di sopravvivenza per consumo AI troppo alto. Da lì ha tenuto acceso solo l'essenziale: ordini, coda delle firme, sicurezza.
+- La causa vera del consumo alto è un timer sul server. Ha rilanciato da solo "esegui il giro" decine di volte oggi. Era già successo e già risolto due volte, il 15 e il 18 agosto: oggi è tornato una quarta volta.
+
+**I numeri**
+- Ordini pagati: 0. Invariato da 71 giorni.
+- Negozio attivo: 1 (Pane Quotidiano). Prodotti pubblicati: 5.
+- Clienti registrati: 8. Nessuno nuovo in 7 giorni.
+- Consumo AI: sopra soglia per gran parte della giornata. Sceso al momento del report, ma non per un rallentamento vero: solo perché i consumi più vecchi sono usciti dal conteggio.
+
+**Da approvare**
+- Attiva dominio e chiavi su Vercel. Rimette online il sito, fermo da giorni.
+- Sblocca i pagamenti con carta di Pane Quotidiano. Fermi da settimane.
+- Applica le quattro migrazioni ferme sul database di produzione.
+
+**Lezione di oggi**
+- Quando il consumo sale sopra soglia, la domanda giusta è "perché sta salendo", non "cosa è cambiato nel negozio". Oggi il ciclo automatico ha bruciato quasi tutta la giornata senza produrre un solo dato nuovo.
+
+**Domani**
+- Controllare per primo se il timer che ha girato a vuoto oggi si è fermato. O se riparte un quinto giorno.
+
+**Dettagli tecnici** — Verificato ora con 1 query diretta minima via MCP (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=8, prodotti=5, recensioni=0, carrelli=3, ultimo ordine 24/6. Identico a tutti i passaggi di oggi. Letargo SOPRAVVIVENZA: quota sessione rolling ≈170%, 850.000/500.000 token nella finestra di 6h (`costo-ai.json`). Gate `LETARGO` tra i vincoli attivi di `esito-giro.json`, insieme a CI/NORTH_STAR/CADENZE. Commit di oggi con raffiche "worker: lavoro ?" a un minuto l'una dall'altra (es. 13:22-13:26). Card in coda: #154/#155/#182/#184/#185/#186/#188/#189/#190/#192/#193.
