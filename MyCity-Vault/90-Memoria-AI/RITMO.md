@@ -1542,20 +1542,20 @@ Nessuna delle tre si è mossa in 21 controlli di oggi. È lo stesso quadro dalle
 
 ## Punto di mezzogiorno · 2026-09-03 13:35
 
-**In una riga:** Le tre firme di stamattina sono ancora ferme. La cosa più urgente adesso non è il business, è fermare il ciclo che si richiama da solo e sta consumando la quota a vuoto.
+**In una riga:** Le tre firme di stamattina sono ancora ferme. La priorità vera adesso è un'altra: fermare il ciclo che si richiama da solo e sta consumando la quota a vuoto.
 
 **Le 3 priorità di stamattina, a che punto sono:**
 1. ❌ **Rimetti online il sito** (dominio + chiavi Vercel, `#154`/`#155`). Nessuna firma.
 2. ❌ **Sblocca i pagamenti con carta di Pane Quotidiano** (`#182`). Invariato da oltre 18 giorni.
 3. ❌ **Applica le quattro migrazioni ferme** (`#184`). Invariato.
 
-Non ho riquerato Supabase né Stripe: sono già stati controllati dal vivo più volte stamattina (ultima alle 08:36), sempre uguali. Un marketplace senza traffico non produce eventi nuovi in poche ore, e ogni controllo in più oggi ha un costo reale.
+Non ho riquerato Supabase né Stripe. Sono già stati controllati dal vivo più volte stamattina, l'ultima alle 08:36. Sempre uguali. Un marketplace senza traffico non produce eventi nuovi in poche ore. E ogni controllo in più, oggi, ha un costo reale.
 
-**Correzione di rotta:** dalle 06:00 il piano/giro è stato richiamato più di dieci volte, in alcuni tratti a un minuto di distanza l'una dall'altra, sempre sugli stessi dati fermi. La quota AI è salita fino al 179% della soglia e la salute della macchina è a 4/100: siamo passati da RISPARMIO a SOPRAVVIVENZA. A questo livello il mansionario impone di tenere acceso solo l'indispensabile — ordini, consegne, coda firme, sicurezza — e spegnere il resto: per questo da mezzogiorno non ho più rilanciato query né chiamato reparti. Il pattern è lo stesso già visto e risolto due volte in passato (18/8 e 15/8): sembra un timer sul VPS che si riarma da solo, non richieste tue una per una.
+**Correzione di rotta:** dalle 06:00 il piano e il giro sono stati richiamati più di dieci volte. In alcuni tratti, a un minuto di distanza l'uno dall'altro. Sempre sugli stessi dati, fermi da giorni. La quota AI è salita fino al 179% della soglia. La salute della macchina è a 4/100. Siamo passati da RISPARMIO a SOPRAVVIVENZA. A questo livello resta acceso solo l'indispensabile: ordini, consegne, coda firme, sicurezza. Il resto si spegne. Per questo, da mezzogiorno, non ho più lanciato nuove query né chiamato reparti. Il pattern è lo stesso già visto due volte in passato, il 18/8 e il 15/8, e già risolto allora. Sembra un timer sul VPS che si riarma da solo. Non richieste tue una per una.
 
 **Cosa serve da te entro sera:**
 - Le stesse tre firme di stamattina: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), le quattro migrazioni (`#184`).
-- **Nuovo e più urgente:** dai un'occhiata al timer/cron sul VPS che rilancia "esegui il giro" in continuazione. È lui che sta bruciando la quota, non un lavoro utile — dall'interno del ciclo non posso fermarlo da sola.
-- Se hai un minuto: è arrivato l'undicesimo post pronto per Pane Quotidiano (`#193`), i dieci precedenti sono ancora tutti fermi in coda. Dimmi se pubblicarne uno o quali ritirare.
+- **Nuovo e più urgente:** dai un'occhiata al timer/cron sul VPS che rilancia "esegui il giro" in continuazione. È lui che brucia la quota. Non un lavoro utile. Dall'interno del ciclo non posso fermarlo da sola.
+- Se hai un minuto: è arrivato l'undicesimo post pronto per Pane Quotidiano (`#193`). I dieci precedenti sono ancora tutti fermi in coda. Dimmi se pubblicarne uno o quali ritirare.
 
-**Dettagli tecnici** — Letargo `SOPRAVVIVENZA` (quota AI 179% finestra rolling alle 12:51, salute macchina 4/100). Coda invariata più una carta nuova: `#154`/`#155`, `#182`, `#184`, `#185` (scaduta da 5 giorni), `#186`, `#188`, `#189`, `#190`, `#191`, `#192`, `#193` (nuova, 13:25). Baseline business REST 08:36, portata avanti senza nuova query: 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Riferimento precedenti simili: [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]].
+**Dettagli tecnici** — Letargo `SOPRAVVIVENZA`. Quota AI 179% (finestra rolling, 12:51). Salute macchina 4/100. Coda invariata più una carta nuova: `#154`/`#155`, `#182`, `#184`, `#185` (scaduta da 5 giorni), `#186`, `#188`, `#189`, `#190`, `#191`, `#192`, `#193` (nuova, 13:25). Baseline business REST delle 08:36, portata avanti senza nuova query: 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Precedenti simili: [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]].
