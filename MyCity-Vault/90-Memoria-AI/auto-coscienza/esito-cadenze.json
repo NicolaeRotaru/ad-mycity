@@ -12,12 +12,12 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-03 11:58",
-      "esito": "non-pubblicato",
+      "quando": "2026-09-03 12:25",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 1,
       "push_ok": false,
-      "passi_ok": false,
+      "passi_ok": true,
       "vincoli_attivi": 12,
       "vincoli": [
         "APPRENDIMENTO",
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-03 12:00"
+  "aggiornato": "2026-09-03 12:25"
 }
