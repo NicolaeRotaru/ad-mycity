@@ -1,9 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 01:01
+aggiornato: 2026-09-03 21:00
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
+---
+
+> 🔧 **2026-09-03 21:00 — Lotto di riparazione del sito: 97 problemi seri chiusi su 110, e uno che nessuno aveva mai visto era il peggiore.** Richiesta tua: «risolvi il maggior numero di problemi del marketplace».
+>
+> **In due righe.** Il registro del sito passa da 369 difetti aperti a 304: i gravi da 106 a 26, i bloccanti da 4 a 3. Le prove unitarie passano da 2411 a 3200. Una richiesta di unione sola, sul ramo `claude/marketplace-issues-52cttv`, aspetta la tua firma.
+>
+> **La scoperta più grossa non stava in nessuna radiografia.** Accendendo per la prima volta il sito in un browser vero, 95 pagine su 95 arrivavano al cliente senza il loro JavaScript: accesso, carrello e cassa erano gusci morti in produzione. La regola di sicurezza vale solo per le pagine costruite al momento della richiesta, e quelle preparate in anticipo rifiutavano ogni script. Chiusa con una riga, tenendo la sicurezza dov'era.
+>
+> **Poi due cose che il codice diceva e non faceva.** La cancellazione dell'account non cancellava niente: scriveva una colonna che nel database non esiste, e il database rifiutava tutta la riga. E un cliente poteva approvarsi da solo il rimborso di un ordine già consegnato: adesso il negozio si legge dall'ordine, dal server.
+>
+> **Come è andata.** Quattordici squadre di riparazione a territori disgiunti, poi cinque revisori con lenti diverse sui 146 file toccati (chi costruisce non collauda), poi cinque squadre di riparazione sul referto dei revisori. I revisori hanno trovato 41 cose, quattro delle quali nate quella mattina insieme alle riparazioni: le più care sono chiuse nello stesso giorno.
+>
+> **Cosa devi fare.** Firma la richiesta di unione. Poi le quattro migrazioni nuove — 151, 152, 153, 154 — che NON ho applicato. E restano le tre card di sempre: #192 il dominio, #191 le migrazioni in produzione, #190 il reso (il lato codice è chiuso, manca il lato database).
+>
+> **Cosa NON ho verificato.** Nessuno ha comprato niente da un browser vero: le prove provano il codice, non l'esperienza. Le migrazioni sono provate su una copia locale, non in produzione. Le impaginazioni sono calcolate, non guardate.
+>
+> Referto: `consegne/audit/2026-09-03-lotto-riparazione-sito.md`
 ---
 
 > 🩻 **2026-09-03 11:10 — Radiografia totale del sito: 182 problemi nuovi, 174 noti chiusi, 8 da arbitrare, e le due cose più gravi stanno fuori dal codice.** Richiesta tua: «fai la radiografia totale del sito».

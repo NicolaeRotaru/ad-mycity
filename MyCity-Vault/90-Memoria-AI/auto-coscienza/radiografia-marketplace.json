@@ -26,8 +26,8 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 838,
-    "bloccanti": 25,
+    "findings": 839,
+    "bloccanti": 26,
     "gravi": 329,
     "minori": 484,
     "agenti": null
@@ -14280,7 +14280,7 @@
       "impatto": "Un permesso che protegge il negoziante viene deciso da un dato che manda la controparte: e' la stessa malattia che oggi e' stata curata sui resi (`app/api/returns/chi-comanda-il-reso.ts`, «il negozio lo dice l'ordine, non il reso») e che qui e' stata introdotta sulla cassa, cioe' sui soldi. Conseguenza reale: alle 3 di notte nasce un ordine in contanti su un fornaio chiuso; il fattorino trova la saracinesca abbassata, il cliente aspetta, e nessuno dei due sa perche'. Il campo non e' nemmeno un vincolo: `delivery_slot` viene solo salvato come etichetta (riga 650), non schedula niente, quindi la consegna resta «adesso» mentre il controllo ha valutato «domani». Aggravante: l'elenco delle fasce lecite ESISTE GIA' in casa (`FASCE_DI_DOMANI` in lib/quando-arriva.ts, con `FASCE_DI_DOMANI.includes(...)` usato lato pagina) e le due rotte non lo usano.",
       "fix": "Prova nuova `tests/unit/la-fascia-di-consegna-non-la-decide-il-cliente.test.ts`: `expect(negozioPuoServire({mon:[['07:00','13:00']],...}, 'domani', new Date('2026-09-08T03:00:00'))).toBe(false)` — oggi restituisce true, quindi la prova nasce rossa. Piu' il livello rotta: POST /api/orders/cod con `deliverySlot:'domani'` su negozio chiuso deve dare 409. Il fix: `FASCE_DI_DOMANI.includes(body.deliverySlot)` prima di usarla, altrimenti trattarla come assente.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (api-dati)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Prova nuova `tests/unit/la-fascia-di-consegna-non-la-decide-il-cliente.test.ts`: `expect(negozioPuoServire({mon:[['07:00','13:00']],...}, 'domani', new Date('2026-09-08T03:00:00'))).toBe(false)` — oggi restituisce true, quindi la prova nasce rossa. Piu' il livello rotta: POST /api/orders/cod con `deliverySlot:'domani'` su negozio chiuso deve dare 409. Il fix: `FASCE_DI_DOMANI.includes(body.deliverySlot)` prima di usarla, altrimenti trattarla come assente.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14288,7 +14288,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "dati-analytics",
@@ -14300,7 +14303,7 @@
       "impatto": "Il commento nel file dice «da qui esce l'impronta, non il testo» e la prova `quello-che-si-cerca-non-esce-da-nessuna-porta.test.ts:192` verifica solo che la stringa «pane» non compaia dentro la chiave. Non e' la stessa cosa: nascondere non e' cifrare. Il file stesso elenca cosa la gente scrive nella casella («il proprio indirizzo email, il numero d'ordine, il telefono, il nome di un'altra persona») e sono tutte categorie a bassa entropia, cioe' proprio quelle che un dizionario ribalta. Sotto GDPR un hash non salato di un dato personale resta un dato personale (parere EDPB 28/2024 sulla pseudonimizzazione): il trasferimento verso gli Stati Uniti che si voleva chiudere non e' chiuso, e' solo diventato piu' difficile da vedere. In piu' l'impronta e' stabile, quindi Google puo' legare fra loro tutte le persone che hanno cercato la stessa cosa, per sempre.",
       "fix": "Prova nuova `l-impronta-della-ricerca-non-si-rovescia.test.ts`: costruisci un dizionario di 1000 email plausibili, calcola `chiaveDellaPaginaVista('/search', new URLSearchParams('q='+email))` per una di esse, e pretendi che nessun candidato del dizionario produca la stessa chiave. Oggi la prova nasce ROSSA (il candidato giusto la produce). Il fix minimo: sale segreto per installazione + troncamento (`q=***` e basta verso Google, con il contatore distinto solo lato client).",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (api-dati)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Prova nuova `l-impronta-della-ricerca-non-si-rovescia.test.ts`: costruisci un dizionario di 1000 email plausibili, calcola `chiaveDellaPaginaVista('/search', new URLSearchParams('q='+email))` per una di esse, e pretendi che nessun candidato del dizionario produca la stessa chiave. Oggi la prova nasce ROSSA (il candidato giusto la produce). Il fix minimo: sale segreto per installazione + troncamento (`q=***` e basta verso Google, con il contatore distinto solo lato client).",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14308,7 +14311,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "api-backend",
@@ -14483,7 +14489,7 @@
       "impatto": "E' lo stesso difetto che il registro delle corsie e' nato per chiudere - il tocco che apre l'assistenza invece di comprare - spostato dal telefono al tablet e sulla pagina che conta di piu': quella dove si paga. La fascia 768-1023 non e' un caso di bordo, e' ogni iPad in verticale (768, 820, 834) e ogni finestra affiancata su un portatile. La prova che sorveglia il pavimento, tests/unit/i-pulsanti-che-galleggiano-non-coprono-chi-compra.test.ts, resta verde perche' legge --fondo-minimo con String.match e un'espressione senza flag globale: prende la PRIMA occorrenza, cioe' i 6rem del telefono, e non simula mai il valore che vale sopra i 768.",
       "fix": "Aggiungere a tests/unit/i-pulsanti-che-galleggiano-non-coprono-chi-compra.test.ts il caso della fascia tablet - variabili { '--fondo-minimo': 24, '--tabbar-height': 0, '--altezza-banner-cookie': 0, '--altezza-barra-acquisto': 0, '--altezza-banner-installa': 0 } - e pretendere che il bottom del pulsante tondo sia >= all'altezza della barra «Conferma ordine» (~73px). Oggi vale 24: npx vitest run tests/unit/i-pulsanti-che-galleggiano-non-coprono-chi-compra.test.ts diventa rosso.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (architettura)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Aggiungere a tests/unit/i-pulsanti-che-galleggiano-non-coprono-chi-compra.test.ts il caso della fascia tablet - variabili { '--fondo-minimo': 24, '--tabbar-height': 0, '--altezza-banner-cookie': 0, '--altezza-barra-acquisto': 0, '--altezza-banner-installa': 0 } - e pretendere che il bottom del pulsante tondo sia >= all'altezza della barra «Conferma ordine» (~73px). Oggi vale 24: npx vitest run tests/unit/i-pulsanti-che-galleggiano-non-coprono-chi-compra.test.ts diventa rosso.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14491,7 +14497,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Il pavimento delle barre in fondo ora vale fino a 1023 pixel, cioe' finche' la barra «Conferma ordine» resta a video. Una prova fallisce se le due misure divergono."
     },
     {
       "dimensione": "architettura",
@@ -14543,7 +14552,7 @@
       "impatto": "Il negozio a cui l'ordine e' destinato e' chiuso: nessuno puo' accettarlo prima di domani mattina. Alle 00:15 il lavoro periodico lo annulla. Il cliente che alle 21:15 ha ordinato il pane per domani alle 9 si sveglia con l'ordine annullato (e, se ha pagato con carta, con un addebito e un rimborso a stessa notte). Prima della modifica di oggi quel cliente riceveva un rifiuto immediato e onesto («e' chiuso, riprova negli orari»); adesso riceve una conferma che muore in silenzio dopo tre ore. La porta e' stata aperta da un lato e lasciata chiusa dall'altro: la sera e' proprio l'ora in cui si compra per il giorno dopo, cioe' il caso che il fix diceva di voler salvare.",
       "fix": "npx vitest run tests/unit/l-ordine-della-sera-per-domani-arriva-a-domani.test.ts — con un finto database che restituisce un ordine NEW creato 3 ore e mezzo fa e delivery_slot 'Domani · 9:00-12:00', si esegue il giro di app/api/cron/expire-stale-orders e si pretende che quell'ordine NON venga portato a CANCELED. Oggi diventa rosso: la rotta non legge nemmeno delivery_slot.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (flussi-privacy)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "npx vitest run tests/unit/l-ordine-della-sera-per-domani-arriva-a-domani.test.ts — con un finto database che restituisce un ordine NEW creato 3 ore e mezzo fa e delivery_slot 'Domani · 9:00-12:00', si esegue il giro di app/api/cron/expire-stale-orders e si pretende che quell'ordine NON venga portato a CANCELED. Oggi diventa rosso: la rotta non legge nemmeno delivery_slot.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14551,7 +14560,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "qa-flussi",
@@ -14563,7 +14575,7 @@
       "impatto": "La riserva dura due ore (pending_checkouts.expires_at; il cron expire-checkouts gira ogni 30 minuti ma guarda solo le righe gia' scadute) e la sessione Stripe scade insieme a lei. Per due ore quel cliente non puo' comprare la cosa che aveva scelto, e nessun altro puo' comprarla: il pezzo e' invisibile a tutto il marketplace. L'unica via d'uscita che il sito gli offre e' il pulsante «Togli dal carrello» dentro l'avviso rosso, cioe' rinunciare. E' esattamente lo scenario che il file nuovo dichiara di risolvere («Stock insufficiente per Torta (0 disponibili)»): quel messaggio pero' e' del server, e il browser non lascia mai arrivare la richiesta fino a li'. Il fix e' irraggiungibile proprio nel caso di scarsita' che lo ha motivato — sul negozio di quartiere, dove le giacenze da 1 o 2 pezzi sono la norma.",
       "fix": "npx vitest run tests/unit/chi-annulla-il-pagamento-puo-ricomprare-il-suo-pezzo.test.ts — con products.stock=0 e una riga pending_checkouts PENDING dello stesso utente che impegna quel prodotto: si monta /cart?stripe=canceled e poi la cassa, e si pretende che (a) il rientro annullato chieda il rilascio della propria riserva e (b) il pulsante d'ordine non risulti aria-disabled. Oggi entrambe le pretese sono rosse.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (flussi-privacy)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "npx vitest run tests/unit/chi-annulla-il-pagamento-puo-ricomprare-il-suo-pezzo.test.ts — con products.stock=0 e una riga pending_checkouts PENDING dello stesso utente che impegna quel prodotto: si monta /cart?stripe=canceled e poi la cassa, e si pretende che (a) il rientro annullato chieda il rilascio della propria riserva e (b) il pulsante d'ordine non risulti aria-disabled. Oggi entrambe le pretese sono rosse.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14571,7 +14583,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "qa-flussi",
@@ -14583,7 +14598,7 @@
       "impatto": "E' la stessa bugia che il lavoro di oggi dichiara chiusa («La vetrina non promette piu' una spedizione che la cassa fa pagare»), ma nel punto peggiore: l'ultimo schermo prima di pagare, dove la sorpresa costa l'abbandono. Il file lib/promesse-pubbliche.ts scrive nero su bianco che «la soglia vale per ciascun negozio, non sul totale del carrello», e il carrello porta gia' il commento del difetto gemello riparato il 22/8 («con 20 € dal fornaio e 15 € dal macellaio la riga diceva Gratis e nel totale c'erano 9,80 €»). Su un marketplace multi-negozio il carrello con due negozi non e' un caso limite: e' il prodotto.",
       "fix": "npx vitest run tests/unit/la-cassa-non-promette-una-spedizione-che-poi-addebita.test.ts — due gruppi da 18 euro, si confronta la frase mostrata dal riepilogo con la spedizione che prezziDelCarrello addebita davvero: expect(barra.titolo).not.toContain('gratis') quando spedizione > 0. Oggi rosso, la frase dice «Spedizione gratis · €3.00 di consegna».",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (flussi-privacy)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "npx vitest run tests/unit/la-cassa-non-promette-una-spedizione-che-poi-addebita.test.ts — due gruppi da 18 euro, si confronta la frase mostrata dal riepilogo con la spedizione che prezziDelCarrello addebita davvero: expect(barra.titolo).not.toContain('gratis') quando spedizione > 0. Oggi rosso, la frase dice «Spedizione gratis · €3.00 di consegna».",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14591,7 +14606,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "api-backend",
@@ -14643,7 +14661,7 @@
       "impatto": "Il dato piu' identificante che abbiamo — nome, cellulare, via e numero civico, coordinate GPS della porta di casa e le note tipo «citofono Rossi, secondo piano» — sopravvive alla cancellazione, e sopravvive nella forma peggiore: slegato dalla persona, quindi irrintracciabile per una richiesta successiva e non cancellabile senza ricostruirlo a mano. Gli obblighi fiscali (art. 2220 c.c.) chiedono i dati della fattura, non il numero di telefono e la geolocalizzazione dell'abitazione: conservare tutto e' eccedente rispetto alla finalita' dichiarata (art. 5.1.c GDPR) e la parola «anonimizzati» mostrata al cliente e' falsa (art. 5.1.a, 12, 13). Lo stesso file avverte del meccanismo con cui si e' rotto: «Le righe che sopravvivono vanno ripulite PRIMA della cancellazione: dopo, la colonna che le legava alla persona vale NULL e non le ritrova piu' nessuno». orders e' proprio una di quelle.",
       "fix": "npx vitest run tests/unit/la-cancellazione-non-lascia-l-indirizzo-di-casa.test.ts — finto database con un ordine consegnato che porta delivery_full_name/phone/address/notes/lat/lng, si esegue cancellaAccount(admin, utente) e si pretende che quelle sei colonne siano nulle (o sostituite) mentre importi e date restano. Oggi rosso: nessuna scrittura tocca orders tranne le foto della consegna.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (flussi-privacy)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "npx vitest run tests/unit/la-cancellazione-non-lascia-l-indirizzo-di-casa.test.ts — finto database con un ordine consegnato che porta delivery_full_name/phone/address/notes/lat/lng, si esegue cancellaAccount(admin, utente) e si pretende che quelle sei colonne siano nulle (o sostituite) mentre importi e date restano. Oggi rosso: nessuna scrittura tocca orders tranne le foto della consegna.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14651,7 +14669,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "orders entra nell'elenco unico delle cancellazioni con sette campi da azzerare; la frase delle impostazioni non dice piu' «anonimizzati» ma cosa resta. La migrazione 155, per il passato, resta da firmare."
     },
     {
       "dimensione": "architettura",
@@ -14763,7 +14784,7 @@
       "impatto": "Su iPhone SE/6/7/8 e sui tanti Android da 360 punti — cioè i telefoni della fascia d'età che stiamo servendo — sulla barra che fa comprare si legge «Paghi alla conse…». È l'unica riga di rassicurazione visibile nel momento della decisione, ed è proprio la promessa che il file lib/promesse-pubbliche.ts esiste per proteggere: chi non vuole anticipare i soldi è il cliente tipo di Piacenza. Una frase mozzata su un pulsante di pagamento non rassicura: insospettisce. Il prezzo e lo stepper restano interi, quindi il difetto non si vede in laboratorio guardando «funziona»: si vede solo leggendo la frase.",
       "fix": "cd /home/user/mycity && node -e \"const B=require('fs').readFileSync('components/StickyAddToCart.tsx','utf8');const PER=0.58,sp=n=>n*4,rem=n=>n*16,w=(t,c)=>t.length*c*PER;const card=360-2*sp(+B.match(/container mx-auto px-(\\d+)/)[1])-2*sp(+B.match(/shadow-warm-lg p-(\\d+)/)[1]);const step=2*sp(+B.match(/className=\\\"w-(\\d+) h-\\d+ inline-flex/)[1])+rem(+B.match(/min-w-\\[([\\d.]+)rem\\]/)[1])+2;const btn=2*sp(+B.match(/className=\\\"ml-auto inline-flex[^\\\"]*?\\spx-(\\d+)/)[1])+w(B.match(/ETICHETTA_CORTA = '([^']+)'/)[1],14);const blocco=card-step-btn-2*sp(+B.match(/p-\\d+ flex items-center gap-(\\d+)/)[1]);const nota=w('Paghi alla consegna',11);if(nota>blocco){console.error('ROSSO: nota tagliata di '+(nota-blocco).toFixed(0)+'px a 360');process.exit(1)}\" — oggi esce ROSSO con 28px di taglio. Va aggiunto come quarto caso dentro tests/unit/da-ogni-larghezza-si-riesce-a-comprare.test.ts, che oggi resta verde proprio perché la nota non la guarda.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (frontend-ux)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "cd /home/user/mycity && node -e \"const B=require('fs').readFileSync('components/StickyAddToCart.tsx','utf8');const PER=0.58,sp=n=>n*4,rem=n=>n*16,w=(t,c)=>t.length*c*PER;const card=360-2*sp(+B.match(/container mx-auto px-(\\d+)/)[1])-2*sp(+B.match(/shadow-warm-lg p-(\\d+)/)[1]);const step=2*sp(+B.match(/className=\\\"w-(\\d+) h-\\d+ inline-flex/)[1])+rem(+B.match(/min-w-\\[([\\d.]+)rem\\]/)[1])+2;const btn=2*sp(+B.match(/className=\\\"ml-auto inline-flex[^\\\"]*?\\spx-(\\d+)/)[1])+w(B.match(/ETICHETTA_CORTA = '([^']+)'/)[1],14);const blocco=card-step-btn-2*sp(+B.match(/p-\\d+ flex items-center gap-(\\d+)/)[1]);const nota=w('Paghi alla consegna',11);if(nota>blocco){console.error('ROSSO: nota tagliata di '+(nota-blocco).toFixed(0)+'px a 360');process.exit(1)}\" — oggi esce ROSSO con 28px di taglio. Va aggiunto come quarto caso dentro tests/unit/da-ogni-larghezza-si-riesce-a-comprare.test.ts, che oggi resta verde proprio perché la nota non la guarda.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14771,7 +14792,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "frontend-ux",
@@ -14783,7 +14807,7 @@
       "impatto": "È la stessa bugia che oggi si è costruita una macchina intera per estirpare — lib/promesse-pubbliche.ts nasce esattamente per questo, e app/shipping/page.tsx:102 la usa correttamente (`{riquadroRitiroInNegozio() && ...}`). Sono rimasti fuori i due posti dove la promessa arriva PRIMA: l'anteprima del link, che è il primo contatto di chi arriva dal QR in vetrina o da WhatsApp, e la prima risposta delle FAQ. Il cliente sceglie MyCity perché crede di poter passare a ritirare, riempie il carrello e alla cassa scopre che l'unica strada è farsi consegnare a casa pagando 3 € di consegna. Nicola l'ha spento apposta («non ne ho ancora parlato con i negozi»): qui lo stiamo promettendo lo stesso, in vetrina.",
       "fix": "Una prova che ESEGUE `generateMetadata` invece di cercare parole: mockare `@/lib/supabase/lettura-per-metadati` con un negozio approvato e `store_description: null`, chiamare `generateMetadata({params: Promise.resolve({id:'x'})})` e pretendere che, con `RITIRO_IN_NEGOZIO_ATTIVO === false`, la `description` NON nomini un'opzione spenta — la stessa forma di `tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts`. Comando: `cd /home/user/mycity && npx vitest run tests/unit/ritiro-in-negozio-messo-da-parte.test.ts` una volta esteso con quel caso (e con il gemello che monta app/faq/page.tsx in jsdom e legge le risposte). Oggi il file passa e non misura niente di tutto questo.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (frontend-ux)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Una prova che ESEGUE `generateMetadata` invece di cercare parole: mockare `@/lib/supabase/lettura-per-metadati` con un negozio approvato e `store_description: null`, chiamare `generateMetadata({params: Promise.resolve({id:'x'})})` e pretendere che, con `RITIRO_IN_NEGOZIO_ATTIVO === false`, la `description` NON nomini un'opzione spenta — la stessa forma di `tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts`. Comando: `cd /home/user/mycity && npx vitest run tests/unit/ritiro-in-negozio-messo-da-parte.test.ts` una volta esteso con quel caso (e con il gemello che monta app/faq/page.tsx in jsdom e legge le risposte). Oggi il file passa e non misura niente di tutto questo.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14791,7 +14815,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "frontend-ux",
@@ -14883,7 +14910,7 @@
       "impatto": "`script-src 'unsafe-inline'` senza nonce vuol dire che ogni `<script>` inserito nel documento viene eseguito dal browser. Su un marketplace con carrello e cassa questo e' il tappeto su cui si monta un furto di carta (form-jacking sulla pagina di pagamento) o un dirottamento di sessione: la protezione che rendeva quell'attacco inutile e' stata tolta. E' una difesa che riguarda direttamente soldi e dati di persone, non un dettaglio di stile.",
       "fix": "cd /home/user/mycity && git show HEAD:middleware.ts | sed -n '245p' | grep -q \"unsafe-inline\" && echo 'ROSSO: in produzione script-src ammette gli script in linea'   # e, sul commit: npx vitest run tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (sicurezza-soldi)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "cd /home/user/mycity && git show HEAD:middleware.ts | sed -n '245p' | grep -q \"unsafe-inline\" && echo 'ROSSO: in produzione script-src ammette gli script in linea'   # e, sul commit: npx vitest run tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14891,7 +14918,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:10",
+      "chiuso_da": "AD — commit e8c0f27",
+      "nota_riparazione": "Il revisore aveva ragione: il commit intermedio aveva catturato lo stato sperimentale della squadra, con l inline permesso in produzione. Verificato da me con git show sul commit vero, non sulla parola del revisore. Sul disco la versione giusta c era gia: parola d ordine piu strict-dynamic. Committata in e8c0f27."
     },
     {
       "dimensione": "rls-database",
@@ -14903,7 +14933,7 @@
       "impatto": "La migrazione dichiara per iscritto che il trigger e' la difesa che regge 'qualunque permesso abbia' chi scrive, e che serve proprio perche' il ciclo della 145 puo' riconcedere l'UPDATE sull'intera tabella. Quella seconda gamba non esiste. Oggi il buco resta chiuso solo dal permesso di colonna (`GRANT UPDATE (buyer_unread_count, seller_unread_count)`); il giorno in cui quel permesso torna largo, chiunque abbia un account e una chat aperta puo' far leggere a un terzo indirizzo di casa, telefono e assenze da casa di un'altra persona. E' un controllo di sicurezza che si presenta verde ed e' spento.",
       "fix": "bash tests/sql/harness/apply.sh mycity_test && psql -d mycity_test -c \"ALTER FUNCTION public.conversazione_non_si_reintesta() OWNER TO postgres; GRANT UPDATE ON public.conversations TO authenticated;\" && psql -d mycity_test -f /tmp/claude-0/-home-user/5924f4af-b3ca-520e-b2d3-37738ac845f2/scratchpad/prove/154-trigger-morto.sql   # oggi stampa: ROSSO - la chat e stata reintestata",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (sicurezza-soldi)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "bash tests/sql/harness/apply.sh mycity_test && psql -d mycity_test -c \"ALTER FUNCTION public.conversazione_non_si_reintesta() OWNER TO postgres; GRANT UPDATE ON public.conversations TO authenticated;\" && psql -d mycity_test -f /tmp/claude-0/-home-user/5924f4af-b3ca-520e-b2d3-37738ac845f2/scratchpad/prove/154-trigger-morto.sql   # oggi stampa: ROSSO - la chat e stata reintestata",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14911,7 +14941,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -14923,7 +14956,7 @@
       "impatto": "Il commit di oggi si intitola 'La cassa non promette piu' una consegna che il negozio rifiuta', e su input costruito fa il contrario: il cliente decide da solo se il cancello si apre. Alle tre di notte entra un ordine PAGATO che il fornaio non ha accettato di servire — e sulla rotta in contanti non c'e' nemmeno una carta di mezzo, l'ordine arriva direttamente al negozio. Il seguito e' rimborso, fattorino mandato a vuoto o contestazione carta, piu' il negoziante che si fida un po' meno. Il fatto che oggi nessuna schermata mandi quella stringa non conta: la rotta e' pubblica e il corpo della richiesta lo scrive chi vuole.",
       "fix": "cd /home/user/mycity && npx tsx -e \"import {negozioPuoServire} from './lib/store-hours'; const o:any={mon:[['07:00','13:00']],tue:[['07:00','13:00']],wed:[['07:00','13:00']],thu:[['07:00','13:00']],fri:[['07:00','13:00']],sat:[['07:00','13:00']],sun:[]}; const notte=new Date('2026-09-08T03:00:00+02:00'); if (negozioPuoServire(o,'domani',notte)) { console.error('ROSSO: la parola domani apre la cassa a negozio chiuso'); process.exit(1);} \"",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (sicurezza-soldi)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "cd /home/user/mycity && npx tsx -e \"import {negozioPuoServire} from './lib/store-hours'; const o:any={mon:[['07:00','13:00']],tue:[['07:00','13:00']],wed:[['07:00','13:00']],thu:[['07:00','13:00']],fri:[['07:00','13:00']],sat:[['07:00','13:00']],sun:[]}; const notte=new Date('2026-09-08T03:00:00+02:00'); if (negozioPuoServire(o,'domani',notte)) { console.error('ROSSO: la parola domani apre la cassa a negozio chiuso'); process.exit(1);} \"",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -14931,7 +14964,10 @@
       "impatto_crescita": "",
       "giro": "2026-09-03",
       "verificato": true,
-      "fonte_radiografia": "radiografia-in-corsa"
+      "fonte_radiografia": "radiografia-in-corsa",
+      "chiuso_il": "2026-09-03 20:40",
+      "chiuso_da": "lotto 3/9/2026 — giro di riparazione dopo la revisione",
+      "nota_riparazione": "Chiusa nel giro di riparazione che ha seguito la revisione del perimetro: prova che gira e mutante eseguito, vedi il commit 34d4692."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -15092,6 +15128,29 @@
       "giro": "2026-09-03",
       "verificato": true,
       "fonte_radiografia": "radiografia-in-corsa"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "sicurezza-auth",
+      "titolo": "Tutte e novantacinque le pagine preparate in anticipo arrivavano al browser senza il loro JavaScript",
+      "severita": "bloccante",
+      "file": "middleware.ts (buildCsp) · app/layout.tsx · tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts",
+      "descrizione": "La regola di sicurezza impone che uno script giri solo se porta la parola d ordine della richiesta (nonce + strict-dynamic). Next sa scriverla solo nelle pagine costruite al momento della richiesta: le 95 pagine preparate in anticipo arrivavano al cliente con tutti gli script rifiutati. Accesso, registrazione, ricerca, elenco negozi, carrello, cassa, la 404, e tutte le aree di amministrazione, venditore, fattorino e profilo. In sviluppo non succede, ed e per questo che non se n era accorto nessuno.",
+      "impatto": "Il carrello e la cassa non funzionavano per nessun cliente vero. Nessun ordine poteva nascere dal sito pubblicato.",
+      "fix": "Tolta la preparazione in anticipo con una riga in app/layout.tsx, tenendo la regola di sicurezza dov era. L altra strada (ammorbidire la regola) e stata misurata e scartata: avrebbe richiesto unsafe-inline anche sulle pagine che funzionavano.",
+      "fonte": "trovata dalla squadra delle prove nel browser il 2026-09-03, accendendo per la prima volta una build di produzione",
+      "stato": "chiuso",
+      "chiuso_il": "2026-09-03 20:10",
+      "chiuso_da": "lotto 3/9/2026 — commit e8c0f27",
+      "nota_riparazione": "Misurata in due modi indipendenti: i file .next/server/app/*.html e le risposte HTTP vere. Le prove nel browser che si auto-escludevano scendono da 19 a 6. Freno a due direzioni: diventa rossa sia se tornano le pagine preparate in anticipo, sia se qualcuno ammorbidisce la regola per far tornare il verde.",
+      "prova": "npx vitest run tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts",
+      "prova_tipo": "comando",
+      "prova_eseguita": true,
+      "causa_radice": "La regola di sicurezza e il modo di costruire le pagine erano decisi in due file diversi che non si parlavano.",
+      "impatto_crescita": "",
+      "giro": "2026-09-03",
+      "verificato": true,
+      "fonte_radiografia": "prove nel browser"
     }
   ],
   "sync_scan": {
@@ -15099,16 +15158,16 @@
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 316,
-    "findings_chiusi": 522,
-    "findings_tot": 838,
+    "findings_aperti": 304,
+    "findings_chiusi": 535,
+    "findings_tot": 839,
     "aperti_per_severita": {
-      "bloccante": 7,
-      "grave": 34,
+      "bloccante": 3,
+      "grave": 26,
       "minore": 275,
       "altre": 0
     },
-    "dichiarati_dal_referto": 838,
+    "dichiarati_dal_referto": 839,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-09-03",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
