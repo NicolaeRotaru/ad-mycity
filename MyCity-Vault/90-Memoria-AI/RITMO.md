@@ -1559,3 +1559,22 @@ Non ho riquerato Supabase né Stripe. Sono già stati controllati dal vivo più 
 - Se hai un minuto: è arrivato l'undicesimo post pronto per Pane Quotidiano (`#193`). I dieci precedenti sono ancora tutti fermi in coda. Dimmi se pubblicarne uno o quali ritirare.
 
 **Dettagli tecnici** — Letargo `SOPRAVVIVENZA`. Quota AI 179% (finestra rolling, 12:51). Salute macchina 4/100. Coda invariata più una carta nuova: `#154`/`#155`, `#182`, `#184`, `#185` (scaduta da 5 giorni), `#186`, `#188`, `#189`, `#190`, `#191`, `#192`, `#193` (nuova, 13:25). Baseline business REST delle 08:36, portata avanti senza nuova query: 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Precedenti simili: [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]].
+
+## Punto di mezzogiorno · 2026-09-03 13:55
+
+**In una riga:** Il blocco sopra è di 19 minuti fa. Questo è un secondo richiamo. Nessun dato nuovo. È la prova in diretta del problema che stavo già segnalando.
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. ❌ **Rimetti online il sito** (dominio + chiavi Vercel, `#154`/`#155`). Nessuna firma.
+2. ❌ **Sblocca i pagamenti con carta di Pane Quotidiano** (`#182`). Invariato da oltre 18 giorni.
+3. ❌ **Applica le quattro migrazioni ferme** (`#184`). Invariato.
+
+Non ho riquerato Supabase né Stripe. L'ho già fatto 19 minuti fa. In 19 minuti un marketplace fermo non cambia. Riquerare adesso sarebbe lo stesso spreco che sto segnalando.
+
+**Correzione di rotta:** il ciclo si richiama da solo. Sempre a pochi minuti di distanza. Sempre sugli stessi dati, fermi da giorni. La quota è già oltre soglia: 179%. La salute della macchina è a 4/100. Per non peggiorare, non ho lanciato nuove query. Non ho chiamato nessun reparto. Ho solo riletto la coda azioni sul file locale: invariata. L'ultima carta resta la `#193`, delle 13:25.
+
+**Cosa serve da te entro sera:**
+- Le stesse tre firme di sempre: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), le quattro migrazioni (`#184`).
+- **Resta il più urgente:** un'occhiata diretta sul VPS al timer che rilancia il ritmo più volte a pochi minuti di distanza. Da dentro il ciclo non posso fermarlo da sola.
+
+**Dettagli tecnici** — Nessuna nuova query MCP/REST in questo passaggio. Dati riusati dalla verifica delle 08:36: ordini=1, pagati=0, profili=8, prodotti=5. Coda invariata, stessa lista del blocco delle 13:35. Ultima carta `#193`. Distanza dal blocco precedente: 20 minuti. Precedenti dello stesso pattern: [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]].
