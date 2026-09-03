@@ -2,42 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-16T05:48:38.820Z",
-      "scatti": 9553,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-16T05:50:53.847Z",
-      "scatti": 9563,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-16T05:51:53.568Z",
-      "scatti": 9565,
-      "voci": 52,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 44,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-16T05:56:03.924Z",
       "scatti": 9578,
       "voci": 52,
@@ -2258,7 +2222,101 @@
         "prova-indebolita": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-03T14:04:50.016Z",
+      "scatti": 817,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 14,
+        "difesa-rimossa": 10,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/valida-contratti.mjs», che è il codice su cui poggia la mutazione di AR-579",
+          "ripetuta": 14
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «pannello/src/lib/onesta-check.ts», che è il codice su cui poggia la mutazione di AR-791",
+          "ripetuta": 9
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «pannello/src/lib/cancello-atto.ts», che è il codice su cui poggia la mutazione di AR-384",
+          "ripetuta": 6
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/freno-scattato.mjs», che è il codice su cui poggia la mutazione di AR-770 marca-sul-verde",
+          "ripetuta": 11
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/mappa-copertura.mjs», che è il codice su cui poggia la mutazione di attesa-di-aggancio-senza-scadenza",
+          "ripetuta": 11
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/ricuci-corsie.mjs», che è il codice su cui poggia la mutazione di ricuci-corsie · chiusura bloccata (AR-444)",
+          "ripetuta": 11
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/chiusura-loop.mjs», che è il codice su cui poggia la mutazione di AR-288",
+          "ripetuta": 10
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/esecuzione-prova.mjs», che è il codice su cui poggia la mutazione di AR-840",
+          "ripetuta": 10
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/puntatori-scollegati.mjs», che è il codice su cui poggia la mutazione di AR-798",
+          "ripetuta": 10
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-in-corsa.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/round6-applica.mjs», che è il codice su cui poggia la mutazione di AR-899",
+          "ripetuta": 8
+        }
+      ]
+    },
+    {
+      "quando": "2026-09-03T14:26:51.406Z",
+      "scatti": 818,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 14,
+        "difesa-rimossa": 10,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-03T15:23:50.762Z",
+      "scatti": 839,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 14,
+        "difesa-rimossa": 10,
+        "prova-indebolita": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-09-02T23:23:54.480Z"
+  "aggiornato": "2026-09-03T15:23:50.763Z"
 }

@@ -275,7 +275,7 @@ const BUDGET_TOTALE = Number(process.env.DUE_CASE_BUDGET || (TUTTI ? 3_600_000 :
 const MINIMO_PER_PROVARE = 20_000;
 
 /**
- * L'ISTANTE IN CUI SONO NATO — e non «l'istante in cui comincio a rilanciare». AR-894.
+ * L'ISTANTE IN CUI SONO NATO — e non «l'istante in cui comincio a rilanciare». AR-913.
  *
  * ⚠️ IL BUDGET QUI SOPRA DICHIARA «sta sotto quello che il cancello dà a me», e per un mese non è
  * stato vero. L'orologio partiva dopo il piano, il censimento, il perimetro e la costruzione della
@@ -1070,7 +1070,7 @@ function main() {
   //
   // ⚠️ E il conto parte da quando sono NATO, non da qui: vedi `AVVIATO`. È la differenza fra un
   // budget e una promessa.
-  // AR-894: `AVVIATO`, non `Date.now()`. Il tempo speso PRIMA di arrivare qui — il piano, il
+  // AR-913: `AVVIATO`, non `Date.now()`. Il tempo speso PRIMA di arrivare qui — il piano, il
   // censimento, il perimetro, la costruzione della casa spoglia — è tempo che il cancello mi ha già
   // contato, e ignorarlo è come fermarsi al semaforo dopo l'incidente.
   const partenza = AVVIATO;

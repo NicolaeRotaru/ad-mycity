@@ -1769,7 +1769,7 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
   echo "[$(ts)] 🔁 RIVERIFICA VINCOLI (AR-321): rimisuro i ${GATE_ROSSI} cancelli che erano rossi prima del motore..."
   RIV_RIMASTI=(); RIV_RISOLTI=(); RIV_NONRIM=()
   # ─────────────────────────────────────────────────────────────────────────────
-  # 🚧 AR-895 — L'ELENCO VUOTO VALEVA «TUTTI I VINCOLI RISOLTI», E IL GIRO PUBBLICAVA
+  # 🚧 AR-914 — L'ELENCO VUOTO VALEVA «TUTTI I VINCOLI RISOLTI», E IL GIRO PUBBLICAVA
   #
   # Prima l'elenco si leggeva così: `done < <(node … riverifica-elenco … 2>/dev/null)`. Se quel
   # comando non partiva — uscita ≠ 0, stdout vuoto — il `while` non girava NEMMENO UNA VOLTA. I tre
@@ -1853,7 +1853,7 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
       echo "[$(ts)]   ⛔ $_rnome — il vincolo era stato consegnato al motore e il guardiano dice ANCORA no." >&2
     fi
   done <<< "$_riv_elenco"
-  # AR-895: i vincoli che erano rossi e che l'elenco non ha nominato. Prudenza, non pignoleria:
+  # AR-914: i vincoli che erano rossi e che l'elenco non ha nominato. Prudenza, non pignoleria:
   # sono precisamente quelli che sparivano.
   for _rv in "${VINCOLI_ATTIVI[@]}"; do
     case " ${_riv_tornati} " in

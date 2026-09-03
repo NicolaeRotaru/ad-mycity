@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🚧 AR-895 — UN ELENCO CHE TACE NON VUOL DIRE «TUTTO RISOLTO»
+// 🚧 AR-914 — UN ELENCO CHE TACE NON VUOL DIRE «TUTTO RISOLTO»
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -68,30 +68,30 @@ function corri(produttore) {
     : { tutto: `${r.stdout}${r.stderr}`, rotto: true };
 }
 
-test("AR-895 · le righe vere si lasciano ritagliare da giro.sh", () => {
+test("AR-914 · le righe vere si lasciano ritagliare da giro.sh", () => {
   assert.ok(BLOCCO, "il blocco della riverifica non si trova più: questa prova gira a vuoto (⚪, non verde)");
 });
 
-test("AR-895 · il produttore che non parte NON fa sparire i vincoli rossi", () => {
+test("AR-914 · il produttore che non parte NON fa sparire i vincoli rossi", () => {
   const e = corri('echo "esplodo" >&2; exit 2');
   assert.equal(e.rotto, undefined, `le righe non sono arrivate in fondo:\n${e.tutto}`);
   assert.equal(e.risolti, 0, "un elenco che non è mai arrivato ha «risolto» dei vincoli");
   assert.equal(e.ciechi, 5, `cinque vincoli erano rossi, ne restano ${e.ciechi} da rimisurare: gli altri sono spariti`);
 });
 
-test("AR-895 · e l'errore non si perde: era nascosto da 2>/dev/null", () => {
+test("AR-914 · e l'errore non si perde: era nascosto da 2>/dev/null", () => {
   const e = corri('echo "esplodo" >&2; exit 2');
   assert.match(e.tutto, /esplodo/, "l'uscita d'errore del produttore è di nuovo buttata via");
 });
 
-test("AR-895 · un elenco a metà: chi non è tornato indietro resta ⚪", () => {
+test("AR-914 · un elenco a metà: chi non è tornato indietro resta ⚪", () => {
   // Tre righe su cinque vincoli. Le due che mancano non sono risolte: sono non misurate.
   const e = corri('printf "FATTI\\tguardiano\\tfatti.mjs\\nTEST\\tguardiano\\ttest.mjs\\nGATE\\tnon-rimisurabile\\tda qui no\\n"; exit 0');
   assert.equal(e.rotto, undefined, e.tutto);
   assert.ok(e.ciechi >= 2, `PROVE e OKR non sono tornati indietro e vanno contati ⚪: ciechi=${e.ciechi}`);
 });
 
-test("AR-895 · l'elenco completo si comporta come prima: nessun ⚪ inventato", () => {
+test("AR-914 · l'elenco completo si comporta come prima: nessun ⚪ inventato", () => {
   const e = corri('case "$*" in *riverifica-elenco*) printf "FATTI\\tguardiano\\tvero.mjs\\nTEST\\tguardiano\\tvero.mjs\\nGATE\\tguardiano\\tvero.mjs\\nPROVE\\tguardiano\\tvero.mjs\\nOKR\\tguardiano\\tvero.mjs\\n"; exit 0;; *) exit 0;; esac');
   assert.equal(e.rotto, undefined, e.tutto);
   assert.equal(e.ciechi, 0, "cinque vincoli tornati indietro e cinque ⚪: la prudenza è diventata rumore");
@@ -99,7 +99,7 @@ test("AR-895 · l'elenco completo si comporta come prima: nessun ⚪ inventato",
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ⚠️ AR-902 — LA PRIMA CURA DI AR-895 AVEVA RIAPERTO AR-880 DA UN'ALTRA PARTE
+// ⚠️ AR-902 — LA PRIMA CURA DI AR-914 AVEVA RIAPERTO AR-880 DA UN'ALTRA PARTE
 //
 // Catturava stdout e stderr in un colpo solo (`2>&1`). Bastava un `(node:123) Warning: …` — cioè
 // un qualunque avviso di node — perché quella riga finisse nell'elenco come un vincolo con nome

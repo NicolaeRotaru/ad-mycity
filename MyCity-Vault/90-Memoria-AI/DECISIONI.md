@@ -4973,3 +4973,44 @@ controllano che una pausa finita resti leggibile. È la scheda AR-911, chiusa co
 
 **Cosa resta a Nicola.** Guardare le dieci azioni e dire quali far partire. Controllare il server:
 da qui vedo che tace, non vedo perché.
+---
+
+## 2026-09-03 11:10 — 🟢 Radiografia totale del sito: 182 problemi nuovi (3 bloccanti, 50 gravi), 174 noti chiusi dalla riverifica, 8 contestati e lasciati aperti
+
+**Cosa.** Su richiesta di Nicola («fai la radiografia totale del sito») ho eseguito la radiografia più grande
+che la macchina sa fare sul codice di `NicolaeRotaru/mycity` al commit `4f446aa` (allineato a `main`):
+24 lenti su 24 lette da un senior ciascuna con prove eseguite in un banco di prova vero
+(sito installato, database ricostruito dalle 145 migrazioni, 2.411 prove unitarie verdi, 26 controlli
+RLS verdi, browser senza schermo), una riverifica dei 361 problemi noti sul codice di oggi, e un livello
+di produzione in sola lettura (Supabase advisor e log, Vercel errori runtime e configurazione, DNS).
+Workflow `radiografia-sito-giro` + `riverifica-registro-sito`; referti grezzi in
+`consegne/audit/2026-09-03-radiografia-marketplace-raw.json` e
+`consegne/design/2026-09-03-radiografia-design-raw.json`; lettera in
+`consegne/audit/2026-09-03-radiografia-totale-sito.md`.
+
+**Perché ora.** Il freno del tasso di chiusura era verde: agosto 1,28 (487 chiusi su 379 aperti),
+settembre ⚪ (0 nati). Il registro del sito diceva 361 aperti al 27/8 su una copia vecchia di un mese:
+prima di cercare il nuovo andava riverificato il vecchio.
+
+**Cosa ho trovato di più grave.** ① Il dominio mycity-marketplace.com punta ancora a Render (dismesso),
+503 da 219 controlli; il progetto Vercel non ha domini personalizzati e chiude gli indirizzi tecnici
+dietro il login di Vercel. ② La produzione è indietro di 21 migrazioni (130-150): verificato oggetto per
+oggetto in sola lettura; i segreti del rilascio (card #161) non sono mai stati configurati. ③ In
+produzione mancano SUPABASE_SERVICE_ROLE_KEY, TURNSTILE_SECRET_KEY, NEXT_PUBLIC_APP_URL. ④ La Cabina
+interroga colonne inesistenti: 1.792 + 109 + 109 errori al giorno nei log Postgres (AR-893).
+
+**Cosa NON ho verificato.** Il sito pubblicato da un browser esterno (la rete della sessione rifiuta i
+domini); Stripe (nessuna chiave collegata); il giro 3 (residuo), che non e' partito su nessuna lente.
+Il giro 2 (angolo avversario) ha coperto 12 lenti su 24: le altre 12 hanno avuto un passaggio solo.
+Tutte e 24 le lenti hanno avuto il loro cercatore, ma «lente coperta» non vuol dire «sito coperto»: 29 delle 93 porte del sito, 11 delle 20 rotte dell'intelligenza artificiale, 8 delle 8 porte di amministrazione e 102 delle 145 migrazioni non le nomina nessun referto. Non sono state guardate, e finora nessuno lo diceva. Il limite di sessione delle 5 ore ha fermato 45 agenti su 56 al primo giro;
+ripartenza alle 2:40 come chiesto da Nicola; il contenitore si e' riavviato tre volte uccidendo le
+flotte in corso (AR-640, nota aggiunta); dalle 07:20, col modello cambiato, il lavoro e' ripreso e le
+ultime quattro flotte sono arrivate in fondo senza perdere un agente.
+
+**Critica indipendente prima della consegna.** Ho fatto smontare il mio stesso lavoro da `internal-audit`, che non aveva partecipato (referto in `consegne/audit/2026-09-03-critica-di-completezza.md`). Ha trovato tre cose vere, tutte corrette prima della consegna: ① «24 lenti coperte» non e copertura del sito — 29 porte su 93, 11 rotte AI su 20, 8 porte admin su 8 e 102 migrazioni su 145 non le nomina nessun referto (ricontato da me, i numeri tornano); ② 8 «riparato» della riverifica sono contraddetti da un cercatore dello stesso giro, e il riepilogo li contava zero — ora `sintesi.mjs` incrocia i due canali e quei noti NON si chiudono; ③ tre frasi del referto affermavano piu delle loro prove (le prove verdi senza dire delle 16 rosse nel browser, «ventuno migrazioni» che era il conto delle righe di registro e non delle cose mancanti, la schermata di accesso di Vercel dedotta e non vista).
+
+**Modifiche alla macchina (🟡).** `cervello/referti-sito.mjs`: i campi della prova attraversano la porta
+della casa (`CAMPI_EXTRA_DEL_REFERTO`), con prova `cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs`.
+Riguardando quel file con la lente della sua dimensione e' nato AR-894 (una prova che fabbrica una
+credenziale finta entrava in memoria tale e quale e avrebbe fatto scattare il guardiano dei segreti):
+riparato nello stesso lotto, mutazione dichiarata in `cervello/mutanti.json`.

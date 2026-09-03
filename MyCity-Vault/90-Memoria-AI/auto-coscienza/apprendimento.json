@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-03 00:31",
+ "aggiornato": "2026-09-03 15:55",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11502,6 +11502,27 @@
    "data": "2026-08-27 13:45"
   },
   {
+   "id": "L-2026-0903-01",
+   "testo": "**Quando allarghi una porta, portati dietro le cure che le porte gia aperte avevano imparato (3/9).** Il 2/9 ho fatto attraversare alla prova di un difetto del sito la porta della casa dei difetti: prima si fermava al referto grezzo, adesso entra nella memoria versionata dell AD. Il giorno dopo, riguardando quel file con la lente della sua dimensione PRIMA di consegnare, e saltato fuori il buco: alcune prove del sito fabbricano apposta una credenziale finta, perche il loro mestiere e dimostrare che il guardiano dei segreti la intercetta. Entrata tale e quale in un file versionato, quella stringa fa scattare il guardiano sulla memoria stessa. **La cura esisteva gia da un mese, in foto-radiografia.mjs, per la porta accanto: spezzare il prefisso e farlo ricomporre alla riga di comando.** Nessuno l aveva portata sulla porta nuova, perche chi allarga guarda cosa deve passare, non cosa passava gia altrove. **La regola operativa: quando fai attraversare un dato nuovo a un confine, cerca chi attraversa quel confine gia oggi e copiane le difese, prima di scrivere le tue.** Il modo per accorgersene e quello che ha funzionato qui: riguardare il file toccato con la lente della sua dimensione prima della consegna, non dopo.",
+   "tag": [
+    "confini",
+    "segreti",
+    "riuso-delle-difese",
+    "radiografia-in-corsa"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.85,
+   "evidenze": 1,
+   "fonte": "AR-894, 3/9/2026: trovato dalla radiografia in corsa sul perimetro del lotto, non da un incidente; la stessa malattia era gia stata curata in foto-radiografia.mjs il mese prima.",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03",
+   "ultima_conferma": "2026-09-03 11:20",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node --test cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
+   "data": "2026-09-03 11:20"
+  },
+  {
    "id": "L-2026-0901-01",
    "testo": "**Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde (AR-906).** Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde. Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito.",
    "tag": [
@@ -11525,7 +11546,7 @@
   },
   {
    "id": "L-2026-0901-02",
-   "testo": "**Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato» (AR-893).** Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita.",
+   "testo": "**Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato» (AR-912).** Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11547,7 +11568,7 @@
   },
   {
    "id": "L-2026-0901-03",
-   "testo": "**Il guardiano che si ferma da solo per non farsi sparare, si faceva sparare lo stesso: il suo budget partiva a meta corsa (AR-894).** Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce. Due copie della stessa decisione: alzarne una e lasciare l altra indietro non se ne accorge nessuno, e il guardiano torna a farsi sparare invece di dichiarare il suo ⚪.",
+   "testo": "**Il guardiano che si ferma da solo per non farsi sparare, si faceva sparare lo stesso: il suo budget partiva a meta corsa (AR-913).** Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce. Due copie della stessa decisione: alzarne una e lasciare l altra indietro non se ne accorge nessuno, e il guardiano torna a farsi sparare invece di dichiarare il suo ⚪.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11569,7 +11590,7 @@
   },
   {
    "id": "L-2026-0901-04",
-   "testo": "**Un elenco che taceva valeva «tutti i vincoli risolti», e il giro pubblicava con tredici cancelli rossi (AR-895).** Un guardiano che tace lo si sente; un elenco che tace sembra una buona notizia. La cura va su CHI PRODUCE l elenco, non solo sul singolo guardiano. Buttare stderr e poi concludere qualcosa dal fallimento vuol dire trasformare un errore qualsiasi in una risposta.",
+   "testo": "**Un elenco che taceva valeva «tutti i vincoli risolti», e il giro pubblicava con tredici cancelli rossi (AR-914).** Un guardiano che tace lo si sente; un elenco che tace sembra una buona notizia. La cura va su CHI PRODUCE l elenco, non solo sul singolo guardiano. Buttare stderr e poi concludere qualcosa dal fallimento vuol dire trasformare un errore qualsiasi in una risposta.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11832,7 +11853,7 @@
    "data": "2026-09-02"
   },
   {
-   "id": "L-2026-0903-01",
+   "id": "L-2026-0903-02",
    "testo": "**AR-911.** Una prova che legge la coda VERA e pretende uno stato («c e almeno una pausa», «quella card e in pausa») fotografa un momento, non difende un invariante: diventa rossa il giorno che la macchina fa la cosa giusta. Sulla memoria viva la prova deve reggere TUTTI gli stati, compreso «niente da guardare», che e ⚪ e non rosso; e la storia che un azione lascia — la riga «Pausa finita» — deve restare leggibile, perche e l unica materia che resta dopo.",
    "tag": [
     "macchina",

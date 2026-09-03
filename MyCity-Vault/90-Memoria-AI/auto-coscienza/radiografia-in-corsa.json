@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-09-03 00:35",
+  "aggiornato": "2026-09-03 17:09",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -1625,7 +1625,7 @@
       }
     },
     {
-      "quando": "2026-08-28 22:42",
+      "quando": "2026-09-03 09:42",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
       "repo": "ad",
@@ -1633,124 +1633,17 @@
       "chi": "AD",
       "trovati": 1,
       "schede": [
-        "AR-867"
+        "AR-894"
       ],
       "nota": "",
       "file": {
-        "cervello/cancello-lotto.mjs": "7d0e3290d1ff",
-        "cervello/chiusura-loop.mjs": "982f8b5dbbca",
-        "cervello/esecuzione-prova.mjs": "ac740760797a",
-        "cervello/mutazioni-senza-esecutore.mjs": "ae69fe6f7b89",
-        "cervello/non-vacuita.mjs": "d454405e4dfa",
-        "cervello/onesta-check.mjs": "fd6b6b4317c8",
-        "cervello/posto-o-contenuto.mjs": "ffd707f25b5d",
-        "cervello/puntatori-scollegati.mjs": "dd54730ded01",
-        "cervello/test-cervello.mjs": "919bbb2fff10",
-        "cervello/valida-contratti.mjs": "b5e2810d2112"
+        "cervello/referti-sito.mjs": "d6e90fe282c4"
       }
     },
     {
-      "quando": "2026-08-28 22:42",
-      "casa": "pannello",
-      "dimensione": "robustezza-errori",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 4,
-      "schede": [
-        "AR-868",
-        "AR-869",
-        "AR-870",
-        "AR-871"
-      ],
-      "nota": "",
-      "file": {
-        "pannello/src/lib/onesta-check.ts": "03b133ea4f59"
-      }
-    },
-    {
-      "quando": "2026-08-31 10:46",
-      "casa": "pannello",
-      "dimensione": "robustezza-errori",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-887"
-      ],
-      "nota": "",
-      "file": {
-        "pannello/src/lib/cancello-atto.ts": "98e0f9c7f5aa",
-        "pannello/src/lib/onesta-check.ts": "25018818f21d"
-      }
-    },
-    {
-      "quando": "2026-08-31 10:47",
-      "casa": "macchina",
-      "dimensione": "cadenza-esecuzione",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-884"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/giro.sh": "1bbf614c3121"
-      }
-    },
-    {
-      "quando": "2026-09-01 16:04",
+      "quando": "2026-09-03 17:09",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-902"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "c9135c6e8226",
-        "cervello/chiusura-loop.mjs": "65dd8beb6440",
-        "cervello/due-case.mjs": "b2290f66475f",
-        "cervello/esecuzione-prova.mjs": "8b24b1b04af0",
-        "cervello/freno-scattato.mjs": "7453f460ba96",
-        "cervello/mappa-copertura.mjs": "ed33b9f7f205",
-        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
-        "cervello/non-vacuita.mjs": "27b312a5c8b2",
-        "cervello/onesta-check.mjs": "fa9184fd7581",
-        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
-        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
-        "cervello/ricuci-corsie.mjs": "73c27658bb52",
-        "cervello/round6-applica.mjs": "d56f0a6d7cf2",
-        "cervello/test-cervello.mjs": "91e9eb7886e4",
-        "cervello/valida-contratti.mjs": "b5e2810d2112"
-      }
-    },
-    {
-      "quando": "2026-09-01 16:04",
-      "casa": "pannello",
-      "dimensione": "coerenza-azioni",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-901"
-      ],
-      "nota": "",
-      "file": {
-        "pannello/src/app/api/azioni-pronte/route.ts": "1eb3a2765d69"
-      }
-    },
-    {
-      "quando": "2026-09-01 16:04",
-      "casa": "macchina",
-      "dimensione": "cadenza-esecuzione",
       "repo": "ad",
       "modo": "ad",
       "chi": "AD",
@@ -1758,11 +1651,40 @@
       "schede": [],
       "nota": "",
       "file": {
-        "cervello/giro.sh": "e9e5bc06a978"
+        "cervello/cancello-lotto.mjs": "f3c7a73b4462",
+        "cervello/chiusura-loop.mjs": "65dd8beb6440",
+        "cervello/due-case.mjs": "10b41939be29",
+        "cervello/esecuzione-prova.mjs": "43af9c1627c4",
+        "cervello/freno-scattato.mjs": "7453f460ba96",
+        "cervello/mappa-copertura.mjs": "563535bd038a",
+        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
+        "cervello/non-vacuita.mjs": "27b312a5c8b2",
+        "cervello/onesta-check.mjs": "fa9184fd7581",
+        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
+        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
+        "cervello/referti-sito.mjs": "d6e90fe282c4",
+        "cervello/ricuci-corsie.mjs": "73c27658bb52",
+        "cervello/round6-applica.mjs": "daa88dd4f75a",
+        "cervello/test-cervello.mjs": "91e9eb7886e4",
+        "cervello/valida-contratti.mjs": "b5e2810d2112"
       }
     },
     {
-      "quando": "2026-09-01 16:04",
+      "quando": "2026-09-03 17:09",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/azioni-pronte/route.ts": "1eb3a2765d69"
+      }
+    },
+    {
+      "quando": "2026-09-03 17:09",
       "casa": "pannello",
       "dimensione": "robustezza-errori",
       "repo": "ad",
@@ -1777,67 +1699,7 @@
       }
     },
     {
-      "quando": "2026-09-01 16:38",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-904"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "f3c7a73b4462",
-        "cervello/chiusura-loop.mjs": "65dd8beb6440",
-        "cervello/due-case.mjs": "b2290f66475f",
-        "cervello/esecuzione-prova.mjs": "8b24b1b04af0",
-        "cervello/freno-scattato.mjs": "7453f460ba96",
-        "cervello/mappa-copertura.mjs": "ed33b9f7f205",
-        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
-        "cervello/non-vacuita.mjs": "27b312a5c8b2",
-        "cervello/onesta-check.mjs": "fa9184fd7581",
-        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
-        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
-        "cervello/ricuci-corsie.mjs": "73c27658bb52",
-        "cervello/round6-applica.mjs": "d56f0a6d7cf2",
-        "cervello/test-cervello.mjs": "91e9eb7886e4",
-        "cervello/valida-contratti.mjs": "b5e2810d2112"
-      }
-    },
-    {
-      "quando": "2026-09-01 16:52",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-899"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "f3c7a73b4462",
-        "cervello/chiusura-loop.mjs": "65dd8beb6440",
-        "cervello/due-case.mjs": "b2290f66475f",
-        "cervello/esecuzione-prova.mjs": "8b24b1b04af0",
-        "cervello/freno-scattato.mjs": "7453f460ba96",
-        "cervello/mappa-copertura.mjs": "ed33b9f7f205",
-        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
-        "cervello/non-vacuita.mjs": "27b312a5c8b2",
-        "cervello/onesta-check.mjs": "fa9184fd7581",
-        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
-        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
-        "cervello/ricuci-corsie.mjs": "73c27658bb52",
-        "cervello/round6-applica.mjs": "daa88dd4f75a",
-        "cervello/test-cervello.mjs": "91e9eb7886e4",
-        "cervello/valida-contratti.mjs": "b5e2810d2112"
-      }
-    },
-    {
-      "quando": "2026-09-01 16:52",
+      "quando": "2026-09-03 17:09",
       "casa": "macchina",
       "dimensione": "cadenza-esecuzione",
       "repo": "ad",
@@ -1847,35 +1709,7 @@
       "schede": [],
       "nota": "",
       "file": {
-        "cervello/giro.sh": "2db248a519c8"
-      }
-    },
-    {
-      "quando": "2026-09-03 00:35",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 0,
-      "schede": [],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "f3c7a73b4462",
-        "cervello/chiusura-loop.mjs": "65dd8beb6440",
-        "cervello/due-case.mjs": "184e4c0be672",
-        "cervello/esecuzione-prova.mjs": "8b24b1b04af0",
-        "cervello/freno-scattato.mjs": "7453f460ba96",
-        "cervello/mappa-copertura.mjs": "ed33b9f7f205",
-        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
-        "cervello/non-vacuita.mjs": "27b312a5c8b2",
-        "cervello/onesta-check.mjs": "fa9184fd7581",
-        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
-        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
-        "cervello/ricuci-corsie.mjs": "73c27658bb52",
-        "cervello/round6-applica.mjs": "daa88dd4f75a",
-        "cervello/test-cervello.mjs": "91e9eb7886e4",
-        "cervello/valida-contratti.mjs": "b5e2810d2112"
+        "cervello/giro.sh": "112c6db22a1a"
       }
     }
   ]

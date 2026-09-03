@@ -134,7 +134,7 @@ test("AR-891: ...e non è così largo da non distinguere «lento» da «piantato
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ⏱️ AR-894 — LO STESSO DIFETTO, UN PIANO PIÙ SOTTO: il tetto di un PASSO.
+// ⏱️ AR-913 — LO STESSO DIFETTO, UN PIANO PIÙ SOTTO: il tetto di un PASSO.
 //
 // Il 31/8 il cancello ha ucciso `cervello/due-case.mjs` con `exit 124` sul runner. Quel guardiano
 // ha un budget suo, 240 secondi, dichiarato nel suo stesso codice come «più stretto di quello che
@@ -156,7 +156,7 @@ const numero = (testo, nome) => {
   return m ? Number(m[1].replace(/_/g, "")) : null;
 };
 
-test("AR-894 · il tetto di un passo ha UN nome nel cancello, non copie nude", () => {
+test("AR-913 · il tetto di un passo ha UN nome nel cancello, non copie nude", () => {
   assert.ok(/export const TEMPO_MAX_PASSO = /.test(src), "TEMPO_MAX_PASSO non è più una costante esportata");
   // Si contano solo le righe di CODICE: il numero puo comparire quanto vuole nei commenti che
   // spiegano da dove viene, ed e giusto che ci compaia.
@@ -165,7 +165,7 @@ test("AR-894 · il tetto di un passo ha UN nome nel cancello, non copie nude", (
   assert.equal(nudi, 0, `il numero 300_000 sta ancora nudo in ${nudi} riga/e di codice: deve stare solo accanto al suo nome`);
 });
 
-test("AR-894 · due-case si ferma da solo PRIMA che il cancello lo ammazzi", () => {
+test("AR-913 · due-case si ferma da solo PRIMA che il cancello lo ammazzi", () => {
   const tettoPasso = numero(src, "TEMPO_MAX_PASSO");
   const budgetDue = numero(srcDue, "BUDGET_TOTALE") ?? 240_000;
   const dichiarato = numero(srcDue, "BUDGET_DI_CASA");
@@ -176,7 +176,7 @@ test("AR-894 · due-case si ferma da solo PRIMA che il cancello lo ammazzi", () 
   assert.ok(suo + minimo < tettoPasso, "nel caso peggiore due-case sfora comunque: il ⚪ dichiarato non arriverebbe mai");
 });
 
-test("AR-894 · il suo orologio parte da quando è nato, non da metà lavoro", () => {
+test("AR-913 · il suo orologio parte da quando è nato, non da metà lavoro", () => {
   assert.ok(/const AVVIATO = Date\.now\(\)/.test(srcDue), "AVVIATO non esiste più");
   assert.ok(/const partenza = AVVIATO;/.test(srcDue), "il budget è tornato a partire a metà corsa");
 });

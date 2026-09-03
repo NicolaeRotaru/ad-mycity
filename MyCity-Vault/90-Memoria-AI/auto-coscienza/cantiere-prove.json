@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-03 00:36",
+  "aggiornato": "2026-09-03 17:09",
   "giorni_sospetto": 3,
-  "difetti_aperti": 151,
-  "difetti_da_fare": 151,
+  "difetti_aperti": 153,
+  "difetti_da_fare": 153,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 902,
-    "chiusi": 751,
-    "aperti": 140,
+    "totale": 905,
+    "chiusi": 752,
+    "aperti": 142,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 151,
+    "da_fare": 153,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 751,
-      "aperto": 140,
+      "chiuso": 752,
+      "aperto": 142,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 151,
-    "viste": 151,
+    "attese": 153,
+    "viste": 153,
     "fuori": 0,
-    "motivo": "bilancio a posto: 751 chiuse + 151 classificate = 902 schede, e ogni stato vivo è dentro (140 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 752 chiuse + 153 classificate = 905 schede, e ogni stato vivo è dentro (142 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 94,
+    "umana": 96,
     "prova-debole-su-grave": 26,
     "auto-comando": 27,
     "auto-sospetta": 4
@@ -406,7 +406,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 124,
+  "non_auto_chiudibili": 126,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3496,6 +3496,32 @@
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Il banco delle prove cancella cartelle di altri dentro /tmp, e in cima dichiara «sola lettura, non tocca nient",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-893",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La Cabina chiede al sito due colonne che non esistono, e in produzione muoiono duemila letture al giorno",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-895",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Lo strumento che alleggerisce la coda non riconosce le carte chiuse scritte col formato vecchio, e la coda si ",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

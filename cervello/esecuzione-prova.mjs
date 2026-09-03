@@ -362,7 +362,7 @@ const IMPRONTE_DI_AVVIO = [
  * dichiarare cieco ogni fix che tocca un import — cioè per non misurare più niente.
  */
 /**
- * UNA PROVA HA GIRATO DAVVERO? — la prova positiva, che batte ogni impronta. AR-893.
+ * UNA PROVA HA GIRATO DAVVERO? — la prova positiva, che batte ogni impronta. AR-912.
  *
  * ⚠️ TROVATO IL 31/8, e non da un ragionamento: dal banco delle mutazioni che si rifiutava di
  * misurare una difesa appena scritta. Il meccanismo è questo, e vale ben oltre il caso che l'ha

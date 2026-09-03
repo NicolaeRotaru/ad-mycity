@@ -1,8 +1,45 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 00:33
+aggiornato: 2026-09-03 15:59
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+---
+
+> 🩻 **2026-09-03 11:10 — Radiografia totale del sito: 182 problemi nuovi, 174 noti chiusi, 8 da arbitrare, e le due cose più gravi stanno fuori dal codice.** Richiesta tua: «fai la radiografia totale del sito».
+>
+> **In due righe.** 24 lenti su 24 lette con prove eseguite in un banco di prova vero, i 361 noti riverificati per 361, e la produzione guardata in sola lettura. Nuovi: 3 bloccanti, 50 gravi, 129 minori. Poi ho fatto criticare il mio stesso lavoro da un revisore che non c'era: ha trovato che «24 lenti coperte» non vuol dire «sito coperto», e le sue correzioni sono dentro il referto.
+>
+> **Il primo bloccante: il dominio.** Punta da 35 giorni a Render, che è spento. Su Vercel non è mai stato collegato, e gli indirizzi tecnici sono chiusi dietro il login di Vercel.
+>
+> **Il secondo: il database vero.** È fermo al 28 agosto mentre il codice è del 2 settembre. Al registro delle migrazioni mancano 21 righe; le cose che davvero non ci sono le ho contate una per una. In produzione non funzionano le email «ordine pronto», i conti del venditore, il tetto di spesa AI e il carrello recuperato.
+>
+> **Cosa devi fare.** Sono in coda tre card: #192 il dominio, #191 le migrazioni, #190 il reso che si approva da solo. Poi restano da impostare le tre variabili mancanti su Vercel, e da firmare la richiesta di unione di questo referto.
+>
+> **Cosa NON ho verificato.** Il sito pubblicato da un browser esterno, e Stripe. Tutte e 24 le lenti hanno avuto il loro cercatore, ma «lente coperta» non vuol dire «sito coperto»: 29 delle 93 porte del sito, 11 delle 20 rotte dell'intelligenza artificiale, 8 delle 8 porte di amministrazione e 102 delle 145 migrazioni non le nomina nessun referto. Non sono state guardate, e finora nessuno lo diceva.
+>
+> Il giro con l'angolo avversario ha coperto 12 lenti su 24. Il giro del residuo non è partito: il limite delle cinque ore e tre riavvii del contenitore hanno mangiato il tempo.
+>
+> Referto: `consegne/audit/2026-09-03-radiografia-totale-sito.md` · grezzi: `consegne/audit/2026-09-03-radiografia-marketplace-raw.json`, `consegne/design/2026-09-03-radiografia-design-raw.json`
+
+> 🩺 **3/9 01:01 — Visita su tua richiesta: il sito è pubblicato ma non vende, la macchina è viva ma muta.** Richiesta tua: «come siamo messi? il marketplace e la macchina dovrebbero già essere pronte».
+>
+> **In parole semplici.** Il codice del sito è a posto: CI verde su `main` e pubblicazione Vercel del 2/9
+> alle 21:35 riuscita. In produzione però manca ancora la chiave di servizio del database. Il dominio non
+> è collegato a Vercel. Il database è indietro di **20 aggiornamenti su 145**: erano 4 il 31/8, i blocchi
+> 130-150 sono entrati in `main` l'1/9. Il fornaio ha il conto Stripe ma incassi e versamenti sono spenti.
+> Business invariato: 1 ordine mai pagato, stallo North Star **71 giorni**.
+> La macchina è un'altra storia. Il worker del VPS è **vivo**: battito alle 00:58, e ieri ha fatto i 4
+> playbook. Ma dal 1/9 alle 12:15 **non pubblica più la memoria**. Il giro muore ogni giorno sul conflitto
+> di 8 file con `origin/main`: 6 giri falliti su 9 dal 22/8. Per questo git, il Pannello e la visita lo
+> vedono fermo da 37 ore, e l'allarme esterno ha aperto la issue #863. La diagnosi giusta è nella card
+> #168 aggiornata.
+>
+> **Cosa devi fare.** Le stesse carte: #154 chiavi Vercel, sblocca gli ordini · #155 dominio · #184 le 20
+> migrazioni · #168 tre comandi sul server, poi il conflitto lo risolvo io in PR.
+>
+> **Cosa non ho verificato.** Il sito in un browser, perché la rete è bloccata da qui. Le variabili Vercel
+> una per una. Stripe lato Stripe. La quota AI del server. Dettagli e prove in [[Briefing/2026-09-03]].
 
 ---
 
@@ -10,7 +47,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **In parole semplici.** Qui parlo del lotto di riparazioni della macchina aperto il 28 agosto, e di cosa ho trovato stanotte leggendo il suo cancello. Stanotte ho chiuso gli ultimi difetti del lotto. Il freno delle due case chiedeva al figlio di fermarsi per cortesia: adesso lo ferma davvero, e i suoi due orologi sono uno solo. Tutto è spinto sul ramo, e la richiesta di unione aspetta i tuoi occhi. Il cancello del lotto la sta rimisurando sul server: dura fino a settantacinque minuti.
 >
-> **Cosa cambia per te.** Il server non scrive più su main dal primo settembre a mezzogiorno. Lo dice la storia di git, non un ricordo. Per questo dieci azioni in coda erano ancora in pausa dopo il giorno di ripresa, e nessuno le aveva svegliate. Le ho svegliate io col comando fatto apposta: sono tornate in lista, non sono partite. Un esempio: la card che ti chiede di fare un ordine di prova su Pane Quotidiano era ferma dal 23 luglio, e adesso è di nuovo in lista. Una card in coda te lo racconta. Per la stessa ragione questa Cabina era ferma da trentadue ore mentre il lavoro andava avanti, e un guardiano lo ha visto prima di me.
+> **Cosa cambia per te.** Il server non scrive più su main dal primo settembre a mezzogiorno. Lo dice la storia di git, non un ricordo. Per questo dieci azioni in coda erano ancora in pausa dopo il giorno di ripresa, e nessuno le aveva svegliate. Le ho svegliate io col comando fatto apposta: sono tornate in lista, non sono partite. Un altra sessione ha fatto la stessa cosa su main poche ore dopo, con lo stesso comando e la stessa card: la coda che vedi e la sua. Un esempio: la card che ti chiede di fare un ordine di prova su Pane Quotidiano era ferma dal 23 luglio, e adesso è di nuovo in lista. Una card in coda te lo racconta. Per la stessa ragione questa Cabina era ferma da trentadue ore mentre il lavoro andava avanti, e un guardiano lo ha visto prima di me.
 >
 > **Cosa devi fare.** Leggere la richiesta di unione e firmarla, se ti convince. Guardare le dieci azioni tornate vive e dire quali far partire davvero. Controllare il server: da qui vedo che tace, non vedo perché.
 >
@@ -18,7 +55,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Dettagli tecnici. La richiesta di unione è la #855. La card della sveglia è la #189.
 > A settembre: 19 schede chiuse contro 10 schede nate, quasi due chiuse per una nata. Nel cantiere: 140 schede aperte e 902 schede in tutto.
-> Chiusi stanotte: AR-907, AR-908, AR-909, AR-911. Aperta: AR-910. Le due prove che pinzavano la coda sono AR-911.
+> Chiusi stanotte: AR-907, AR-908, AR-909, AR-911. Aperta: AR-910. Tre schede mie hanno cambiato numero nella ricucitura: AR-893, AR-894 e AR-895 sono diventate AR-912, AR-913 e AR-914, perche su main quei tre numeri sono di altri difetti. Le due prove che pinzavano la coda sono AR-911.
 > Le pause citavano il fatto `ripresa.lavoro-operativo`. Ultimo commit del server su main: 2026-09-01 12:14.
 
 ---
@@ -56,9 +93,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Perché mi fermo qui.** È l'ottavo passaggio identico oggi. Letargo in **SOPRAVVIVENZA**: quota
 > AI 115% della finestra, salute macchina 4/100. La regola è chiara: si taglia il volume, non i
-> controlli di verità. Quindi ho rifatto solo coerenza-fatti, che è un controllo di verità.
-> Ho saltato radar, auto-miglioramento e radiografia completa: quelli sono volume.
-> L'ultimo giro pieno li aveva già coperti, senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le stesse
+> controlli di verità. Quindi ho rifatto solo coerenza-fatti (verità). Ho saltato radar,
+> auto-miglioramento e radiografia completa (volume) — l'ultimo giro pieno li aveva già coperti
+> senza trovare nulla di nuovo. Il gate North-Star resta attivo: nessuna card nuova. Le stesse
 > quattro in coda restano la priorità (#154/#155, #182, #184, #185), più due non ancora firmate
 > (#186 cancello sito, #188 dov'è il playbook anti-churn).
 >
@@ -271,9 +308,8 @@ se l'attività è ferma.
 > che ha fatto scattare questo giro pieno era «clienti passati da 7 a 8» — vero, ma quel cliente
 > risale al 21 agosto, non a oggi: la baseline del contatore era rimasta indietro di dieci giorni.
 >
-> **Cosa ho fatto.** Solo verifica. Nessuna carta nuova.
-> Nessuna riscrittura delle tre già in coda (#168, #182, #184): sono complete e pronte.
-> Riaprirle con parole diverse sarebbe solo rumore.
+> **Cosa ho fatto.** Solo verifica: nessuna carta nuova, nessuna riscrittura delle tre già in coda
+> (#168, #182, #184) — sono complete e pronte, riaprirle con parole diverse sarebbe rumore.
 > Aggiornato anche `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md` (era fermo al 24/8, numeri e
 > scadenze scaduti): stallo North Star ricalcolato a 68 giorni, tasso di chiusura aggiornato a
 > 1,29 (agosto), tolto il riferimento alla pausa 24/8-1/9 ormai scaduta.
@@ -295,14 +331,11 @@ se l'attività è ferma.
 > ho verificato in questo passaggio quali delle quattro restano aperte — lo segno come domanda,
 > non lo dichiaro chiuso né sforato a caso.
 >
-> **Le tre carte che contano di più sono ferme in coda.** Nessuna delle tre è stata firmata.
->
-> - **#184**, accodata il 29 agosto. Il database di produzione è indietro di 4 migrazioni, le
->   126-129.
-> - **#182**, accodata il 28 agosto. Pane Quotidiano non incassa da 18 giorni. E i post già pronti
->   promettono comunque la consegna.
-> - **#168**, accodata il 22 agosto. Il server che fa girare la macchina è fermo da giorni. È la
->   causa più diretta del sito giù.
+> **Le tre carte che contano di più, ferme in coda:** #184 (database di produzione indietro di 4
+> migrazioni — 126-129, accodata 29/8), #182 (Pane Quotidiano non incassa da 18 giorni e i post
+> pronti promettono comunque la consegna, accodata 28/8), #168 (server che fa girare la macchina
+> fermo da giorni, la causa più diretta del sito giù, accodata 22/8). Nessuna delle tre è stata
+> firmata.
 >
 > **Cosa ho fatto io.** Solo verifica e memoria: nessuna azione nuova aperta (North-Star gate +
 > letargo RISPARMIO, salute macchina 4/100). CI: 7 PR aperte, 5 rosse (#855/#842/#841/#741/#735,
@@ -354,18 +387,6 @@ se l'attività è ferma.
 >
 > Dettagli tecnici: scheda spostata da AR-865 ad AR-892 (la richiesta #855 rivendica 865-891) ·
 > guardiano `cervello/conta-verdetti-muti.mjs`, prova `cervello/test/due-case.test.mjs` 32 su 32.
-
-> 🔒 **31/8 12:40 — Un collaudo indipendente ha eseguito codice come amministratore passando dalla porta che avevo dichiarato chiusa.** Richiesta tua, ancora aperta: «risolvi tutti i problemi che hai trovato».
->
-> **In due righe.** Il 30/8 avevo chiuso una falla e scritto «otto strade d'attacco su otto chiuse». Le otto erano quelle a cui avevo pensato io. Un collaudatore che non aveva costruito niente è passato dalla più corta. Un percorso in una cartella temporanea, senza opzioni e senza trucchi. Ha scritto un file sul disco con i permessi di amministratore. L'ho riprodotto io prima di toccare qualsiasi cosa.
->
-> **La parte che fa più male.** La prova che avevo scritto non era distratta: **teneva aperto il buco apposta**. Diceva «questa fixture deve restare eseguibile» e lo asseriva. Era verde mentre l'attacco funzionava. E il ragionamento sbagliato stava scritto nel suo commento, e sembrava sensato — «la cura non poteva essere vietare i percorsi assoluti, o il banco non si può più provare». Vero a metà: il banco può provarsi *dichiarando* la radice che gli serve. Quello che non deve succedere è che quella radice arrivi per eredità a chi non sapeva di averla.
->
-> **Il numero che ha deciso la cura.** Delle 962 righe del registro delle mutazioni, **zero** usano un percorso assoluto. La radice ereditata non difendeva nessun uso vero: c'era solo perché le prove del banco stesso ci mettono le loro finte.
->
-> **E una quarta cosa, che ho visto solo perché la mutazione non mordeva.** Il caso nuovo che avevo appena scritto guardava una *copia* del programma. La copia era una costante scritta a mano nel file di prova. Rimettendo il buco nel programma vero, la prova restava verde. Adesso chiama la funzione vera, con una spia al posto di chi lancia i processi.
->
-> **Cosa è cambiato per il marketplace: niente.** Questo è tutto lavoro sulla macchina. I numeri del business qui sopra restano quelli del 28/8 e non li ho rimisurati: il sito è ancora a 503 e gli ordini pagati sono ancora zero.
 
 > 🩻 **27/8 23:53 — Quarta radiografia del sito: 194 problemi veri, e il primo spegne il catalogo.** Richiesta tua: «fai la radiografia del marketplace».
 >
@@ -876,19 +897,7 @@ se l'attività è ferma.
 > intercetta, non ho trovato la mano che l'ha fatto.
 
 
-## Ultima mossa — 2026-09-03 00:33
-
-**Il lotto dei guardiani è spinto e il cancello lo sta rimisurando.** Gli ultimi difetti sono chiusi
-stanotte e la richiesta di unione aspetta la tua firma. Il racconto intero sta nel blocco in cima a
-questo file.
-
-**Dieci azioni in pausa sono tornate in lista.** Il giorno di ripresa era passato e il server non le
-aveva svegliate. Le ho svegliate io: non sono partite. La card in coda te lo dice.
-
-**Il server tace dal primo settembre a mezzogiorno.** Nessun commit suo su `main` da allora, e questa
-Cabina era ferma da trentadue ore. Da qui vedo che tace, non vedo perché.
-
-## Mossa precedente — 2026-09-01 15:25
+## Ultima mossa — 2026-09-01 15:25
 
 **Il lavoro sulla radiografia del 27/8 è unito.** La richiesta NicolaeRotaru/mycity#246 è stata
 unita su `main`. Dei 194 problemi trovati, ne restano aperti pochi. Il conto esatto e la cronaca
@@ -923,43 +932,6 @@ solo indovinare. L'ho già indovinato male due volte.
 ② Mancano i tre segreti Vercel. Senza quelli il rilascio col cancello non parte affatto.
 
 ## Passaggi precedenti
-
-> 🔧 **1/9 16:30 — Dodici difetti chiusi. Sei li ha trovati chi non aveva costruito.**
->
-> **In parole semplici.** Il banco con cui la macchina controlla che i suoi controlli servano a
-> qualcosa aveva un buco: rompeva git nel processo che stava misurando, e un controllo morto veniva
-> contato come «superato». Due prove su cinque passavano da lì. Adesso non più.
->
-> **Cosa cambia per te.** Niente sul sito e niente in cassa: è tutto dentro la macchina. Cambia che
-> i controlli che ti dicono «va bene» adesso possono davvero dire di no.
->
-> Le dodici cose chiuse, una per riga:
->
-> - Il filtro dei segreti uccideva git. Un controllo morto contava come superato.
-> - Le uniche prove che il banco non sapeva misurare erano quelle sul «non ho misurato».
-> - Il guardiano che si ferma da solo per non farsi sparare si faceva sparare lo stesso.
-> - Un elenco che taceva valeva «tutti i controlli superati». La memoria si pubblicava con
->   tredici problemi aperti.
-> - Avevo chiuso la porta che esegue e dichiarato chiuso il cortile. Quella che scrive era
->   aperta di fianco.
-> - Nelle «tasche vuote» c'erano due cose che comandavano il processo figlio.
-> - Un conto in memoria diceva trentadue dove le volte vere erano ventuno.
-> - Il file con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare.
-> - Una mia prova ha cancellato 956 file. Quello che ho visto è stato un errore tecnico, senza
->   una riga che lo dicesse.
-> - Il registro diceva «fatta» prima di sapere se lo stato era stato salvato.
-> - Una mia cura aveva riaperto dall'altra parte il problema che stava chiudendo.
-> - Un guardiano dava la colpa alla macchina per una tua scelta del 27 luglio.
->
-> **Cosa devi fare.** Guardare la richiesta di unione e dirmi se va bene. Non tocca il sito, non
-> muove un euro, non scrive a nessuno.
->
-> **Cosa non ho verificato.** Non ho letto il database in questo giro: i numeri in cima restano
-> quelli del 28 agosto e non sono una misura di adesso. Non ho potuto misurare quanto tempo serve
-> davvero al guardiano che il cancello uccideva — la misura è morta per memoria del contenitore, e
-> la cura poggia sull'aritmetica invece che su quel numero. E i quattro senior che hanno fatto da
-> collaudatori hanno guardato il perimetro di questo lavoro, non tutta la macchina.
-
 
 > 🔧 **22/8 20:25 — Lotto 49. Il metro sotto-contava di un terzo, e la macchina lo sapeva.**
 >

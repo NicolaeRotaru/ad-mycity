@@ -27,7 +27,46 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
-### 🟡 #189 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-03 00:23
+<!-- radiografia-totale-sito-3-9 -->
+
+### 🔴 #192 — Rimetti il dominio del marketplace su Vercel: oggi porta a un server spento · ⏳ accodata 2026-09-03 09:35
+
+**In parole semplici.** Il nome che sta sui QR e sui post, mycity-marketplace.com, punta ancora all'indirizzo del vecchio server Render, che abbiamo spento ad agosto. Il sito vero gira su Vercel, ma lì il dominio non è mai stato collegato. Chi lo digita trova un errore.
+
+**Cosa cambia:** il marketplace torna ad avere un indirizzo che funziona. Il sensore che lo controlla legge «errore» da 219 giri di fila: l'ultima risposta buona è del 30 luglio, cioè 35 giorni fa. Finché resta così, nessuna campagna e nessun volantino porta un cliente da nessuna parte.
+
+**Cosa devi fare tu.** Su Vercel, progetto `mycity`, sezione Domains: aggiungi `mycity-marketplace.com` e imposta i record che Vercel ti mostra. Poi apri il sito in una finestra anonima e dimmi cosa vedi: se compare la schermata di accesso di Vercel invece del marketplace, la protezione va tolta dal dominio.
+
+**Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato.
+
+---
+
+### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35
+
+**In parole semplici.** Il codice pubblicato è del 2 settembre. Il database vero si è fermato al 28 agosto. Al registro delle migrazioni mancano ventuno righe, e le cose che davvero non ci sono le ho contate una per una: sedici, più quattro indici.
+
+**Cosa cambia:** oggi in produzione l'email «ordine pronto» non parte mai, la pagina Analisi del venditore va in errore, e il carrello non viene mai segnato come recuperato — quindi chi ha appena comprato può ricevere il messaggio del carrello abbandonato. Il motivo è uno solo: il passo del rilascio che applica le migrazioni non può girare, perché i quattro segreti che gli servono non sono mai stati configurati. È la card #161, ferma dal 22 agosto.
+
+**Cosa devi fare tu.** Configura i quattro segreti su GitHub (li elenca la card #161), poi il comando del rilascio applica le migrazioni da solo: è idempotente e già provato in CI. Dopo, il controllo notturno diventa rosso da solo alla prossima deriva.
+
+**Se va bene:** dimmelo e ricontrollo oggetto per oggetto che in produzione ci siano tutti.
+
+---
+
+### 🔴 #190 — Un cliente può approvare da solo il proprio reso e farsi rimborsare un ordine consegnato · ⏳ accodata 2026-09-03 09:35
+
+**In parole semplici.** Nel database c'è una regola che lascia al cliente scrivere la riga del reso, e in quella riga c'è anche il campo che dice «il negozio ha ricevuto la merce». Chi sa farlo può scriverlo da sé e far partire il rimborso di un ordine che ha già in casa.
+
+**Cosa cambia:** è l'unico problema trovato oggi in cui i soldi escono davvero, e a deciderlo è chi li incassa. Oggi il rischio è teorico perché di ordini veri ce n'è uno solo, mai pagato. Diventa concreto il giorno in cui il marketplace vende.
+
+**Cosa devi fare tu.** Questa è una riparazione nel codice del sito, quindi non parte da sola: dimmi se la faccio io in un ramo a parte, con la sua prova che diventa rossa se il buco torna. Il fix è stretto: la riga del reso la può scrivere solo il server, e i controlli che oggi vivono in una sola porta devono valere per tutte.
+
+**Se va bene:** apro il ramo, ti porto la riparazione con la prova, e resta a te firmarne l'unione.
+
+---
+
+
+### 🟡 #189 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-03 03:12
 
 **Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: `#post-carosello-bio-2307`, `#referral-porta-un-amico`, `#post-lunedi-turno-mattina-2007`, `#post-domenica-settimana-1907`, `#post-siamo-in-23`, `#zona-orario-consegna`, `#post-meteo-pioggia-20lug`, `#welcome-email-23`, `#ordine-test-pq`, `#inserisci-tazzina-pq`. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.
 
@@ -533,6 +572,19 @@ chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira su
 > diretta al server per controllare da quando esattamente sia ripartito. Quello che ho misurato è
 > la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
 > l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
+
+> 🔄 **Aggiornamento 2026-09-03 01:01 — Il server è vivo, ma non pubblica più.** Il suo battito nel
+> database della memoria è delle 00:58, e ieri ha fatto i quattro playbook del mattino. Il giro invece
+> muore ogni giorno quando prova ad allinearsi a GitHub: conflitto su 8 file, 6 giri falliti su 9 dal
+> 22/8. L'ultimo push riuscito della memoria è del 1/9 alle 12:15: da allora git, il Pannello e l'allarme
+> esterno vedono ferma una macchina che lavora.
+>
+> **Cosa devi fare.** Quattro comandi sul server, poi dimmi cosa stampano: il conflitto lo risolvo io in PR.
+>
+> 1. `cd "$(systemctl show -p WorkingDirectory --value mycity-worker)"`.
+> 2. `git log --oneline origin/main..HEAD | wc -l`.
+> 3. `git push origin HEAD:refs/heads/memoria/vps-2026-09-03`.
+> 4. `git diff --stat HEAD -- cervello/worker.sh`.
 
 ---
 
@@ -2079,20 +2131,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-❌ #vps-giro-fermo — ~~Fai ripartire il giro sul VPS: è fermo da due giorni~~ → RISOLTA DA SOLA, chiusa 2026-07-30 06:30. `git log` mostra commit del worker/giro con continuità dalle 04:43 alle 06:26 di stamattina (`ritmo AD (mattino)` 06:11, `Sentinella macchina` 06:20, più i "recupero: scritture pendenti" tipici di un giro che pubblica). Non serve nessun comando manuale sul VPS: il sintomo che la card descriveva non c'è più.
-| 43 | 2026-07-30 03:44 | @tech | Merge PR #630 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/630 | github | FATTO 2026-07-30 03:59 (mergiata da Nicola, confermato: Stato/OKR/Piani già dentro main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 44 | 2026-07-30 03:59 | @tech | Merge PR #631 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/631 | github | FATTO 2026-07-30 04:06 (mergiata da Nicola, confermato: commit 80d4fc819 in main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 45 | 2026-07-30 04:05 | @tech | Merge PR #632 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/632 | github | SUPERATA 2026-07-30 04:21 — non mergiare: il branch si è rotto sul solito bug del rebase (AR-449/L-10463), tutto il suo contenuto (+ il lavoro nuovo di stanotte) è confluito pulito nella PR #633. Chiudi questa senza merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Ignora questa riga: mergia solo la #633 sotto. |
-| 46 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | PROBABILE SUPERATA 2026-07-30 06:37 — verificato via `git`: il commit del contenuto #633 (9012675a9) NON è antenato di `main`, lo stesso contenuto è invece dentro #634 (82dd0525a, quello sì antenato di main). Sembra lo stesso bug di rebase di #632→#633 (AR-451, ora corretto). Non confermato con `gh` (comando negato in questa sessione): controlla tu su GitHub prima di chiudere del tutto. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Se confermi che è superata: chiudila senza merge su GitHub. |
-| 47 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | FATTO 2026-07-30 (verificato: commit 82dd0525a è antenato di HEAD su main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già online: nessuna azione, riga tenuta solo per storico. |
-| 48 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 | github | FATTO. Verificato ora (2026-08-04 12:00) con `git merge-base --is-ancestor 595cf3cf0 HEAD`: il comando esce vero. Il commit `595cf3cf0` (il fix del lease dopo un rebase ripetuto) è su `main` dal 30/7 alle 13:26. Il suo test `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` è lì con lui. La nota delle 11:09 del 30/7 diceva "vive solo sul branch, mai mergiato". Era vera in quel momento. Nessuno l'ha ricontrollata da allora. La card è rimasta aperta 5 giorni per un fatto già chiuso. | Il codice è già online. | Nessuna: chiudi la riga. Il gate della lezione L-2026-0730-530 torna vero. |
-| 49 | 2026-08-03 22:45 | @tech | Fai pulizia dei rami vecchi su GitHub: sono 447 e il loro lavoro è già dentro | 🔴 | Su GitHub ci sono 447 rami oltre a `main`. Quasi tutti hanno già la loro PR mergiata. Il lavoro è dentro `main`. Il ramo è solo il guscio rimasto lì. Sono questi rami a dare l'impressione di lavoro mai pubblicato. Il motivo è semplice. Quando una PR si chiude in squash, il commit cambia impronta. Da quel momento gli strumenti lo contano come «non pubblicato», anche se il lavoro c'è. Due rami però vanno tenuti, perché portano roba vera. Il primo è `fix/lotto-28-esenzione-che-non-conta`: la sua PR #598 è stata chiusa senza merge. Il suo file `cervello/test/esenzione-che-non-conta.test.mjs` su `main` non c'è. Il secondo gruppo sono i rami citati nella riga 8 qui sotto. | github | in attesa | GitHub torna leggibile. Si vede a colpo d'occhio cosa è davvero in lavorazione, invece di 447 nomi. E il lavoro della #598, oggi perso, torna dentro. | Dopo il tuo ok faccio due cose, in quest'ordine. Prima recupero la #598 in una PR nuova. Poi cancello solo i rami la cui PR risulta mergiata. Niente cancellazioni alla cieca. |
-| 50 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
-| 63 | 2026-08-10 11:20 | @tech | La memoria delle lezioni è ricresciuta sopra il limite che blocca le PR — lo stesso problema di 6 giorni fa | 🟡 | Il 4/8 la memoria delle lezioni (`apprendimento.json`) era stata alleggerita da 1.049.294 a 947.517 byte perché sforava il tetto di lettura di GitHub (1 MiB) e rendeva rossa ogni PR aperta. Oggi è di nuovo a **1.052.950 byte**, sopra il tetto — ricresciuta in 6 giorni. Lo strumento che l'ha già sistemata una volta (`cervello/pota-apprendimento.mjs`) esiste e ha già funzionato: toglie le copie duplicate del principio dentro la lezione, non la memoria stessa. Non l'ho rilanciato da questa sessione: i comandi `node cervello/*.mjs` non sono nell'elenco dei permessi consentiti qui, quindi lo segnalo invece di provarci alla cieca su un file da un megabyte. | github | in attesa | Finché resta sopra il tetto, la prossima PR che tocca questo file (anche una innocua) rischia di uscire rossa su GitHub senza un motivo visibile nel diff. | Lancia `node cervello/pota-apprendimento.mjs` (o dammi il via a farlo in una sessione con i permessi giusti), poi apri/aggiorna la PR: lo stesso movimento del 4/8, questa volta vale la pena chiedersi perché è ricresciuto in 6 giorni invece di limitarsi a ripulirlo di nuovo. |
-| 64 | 2026-08-10 11:20 | @AD | La radiografia di te stessa è scaduta: sono passati 11 giorni, non 10 | 🟡 | La sonda che gira a ogni giro (`auto-radiografia.json`) misura da quanto tempo non faccio l'analisi profonda di me stessa — agenti, prompt, processi, sensori, memoria. Oggi dice **269 ore**, cioè più di 11 giorni: sopra la soglia di 10 che il mio stesso manuale mi impone. Non è un guasto: è solo che nessuno l'ha richiesta da un po', e i giri di questi giorni sono stati leggeri per via della pausa concordata sul business. | manuale | in attesa | Senza una radiografia fresca, il cantiere dei difetti (161 aperti/332 chiusi) invecchia: continua a chiudere quello che il codice risolve da solo, ma non trova più difetti nuovi. | Se dici «radiografia di te stessa» (o «analizzati da cima a fondo»), parte il workflow completo (12 dimensioni + benchmark) e torno con un report nuovo. Nessuna urgenza: il business è comunque in pausa fino al 24/8-1/9. |
-
-<!-- radiografia-2026-07-29-anteprime-coi-segreti -->
-
 ---
 
 ### 🟡 #40 — Togli le chiavi vere di Stripe e del database dalle anteprime delle modifiche · ⏳ accodata 2026-07-29 13:30
@@ -2172,17 +2210,11 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-❌ #conferma-piano-squadra-ripresa-negozi — ~~Conferma se il piano squadra sostituisce la pausa negozi~~ → RIMOSSA 2026-07-30 06:05 · Nicola ha già risposto: resta il 24 agosto-1 settembre, il piano squadra non la anticipa (chat 29/7 ~00:15, DECISIONI.md). `ripresa.lavoro-operativo` era già corretto, nessuna riscrittura necessaria.
-
 ---
 
 <!-- pi26-conferma-ammissibilita -->
 
 ---
-
-❌ #pi26-conferma-ammissibilita — ~~Conferma 3 cose prima di inviare la domanda PI26~~ → RIMOSSA 2026-07-30 06:05 · Nicola ha già risposto: MyCity non è idonea al bando (chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15). Nessuna domanda da inviare. La card era rimasta in coda per errore: DECISIONI diceva "chiusa" ma il testo non era mai stato tolto da qui.
-
-<!-- radiografia-giro-legge-i-suoi-controlli -->
 
 ---
 
@@ -2301,10 +2333,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-❌ #fix-parla-casella-pgrst102 — ~~Mergia PR #499~~ → RIMOSSA 2026-07-20 18:00 · L-402: ordine chat «fai il fix» — link PR in chat, niente card merge. PR #499 resta su GitHub.
-
-<!-- accendi-intelligence-sveglia -->
-
 ---
 
 ### 🔴 #24 — Accendi la sveglia intelligence (bandi alle 7 + Telegram) · ⏳ accodata 2026-07-20 12:02
@@ -2323,10 +2351,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 - **Reparto:** builder-automazioni / intelligence
 
 ---
-
-❌ #mergia-pr-480 — ~~Mergia PR #480~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #480 resta su GitHub.
-
-<!-- referral-porta-un-amico -->
 
 ---
 
@@ -2400,10 +2424,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 - **Reparto:** content-social
 
 ---
-
-❌ #invio-comunicato-stampa-pi26-2007 — ~~Invia il comunicato stampa su PI26~~ → RIMOSSA 2026-07-30 06:05 · L'angolo del comunicato era il bando PI26; MyCity non è idonea (Nicola, chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15). Il comunicato sulle botteghe del centro va bene, ma va riscritto senza l'angolo PI26 prima di riproporlo — non è un semplice "riprendi da qui".
-
-<!-- post-domenica-settimana-1907 -->
 
 ---
 
@@ -2493,10 +2513,6 @@ node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
 
 ---
 
-❌ #arsenale-tab — ~~Mergia PR #464~~ → RIMOSSA 2026-07-20 18:00 · L-402: richiesta in chat — mergia da GitHub quando vuoi, niente card.
-
-<!-- apri-pr-nuova-chat-auto-apri -->
-
 ---
 
 ### 🟡 #17 — Apri la PR che blocca l'auto-ricarica della vecchia chat · ⏳ accodata 2026-07-18 17:30
@@ -2520,25 +2536,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-✅ #risolvi-conflitto-archivio-sezioni — PR #458 aperta 2026-07-18 18:35 · FATTO
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/458 · branch `fix/archivio-sezioni-chiuse-default-v2`
-**Fix:** sezioni Archivio chiuse di default nella vista ricerca (`Documenti.tsx`) — accordion aggiunto anche nella ricerca, compatibile con le viste nuove di main.
-**Da fare:** mergia la PR dal Pannello quando vuoi.
-
 ---
 
-❌ #apri-pr-mcp-cieco — NESSUNA PR NECESSARIA: `fix/mcp-cieco-no-casella-errore` già dentro main (verificato 2026-07-18 16:28 con rebase). Fix già applicato.
-
 ---
-
-✅ #apri-pr-timer-chat — PR #453 aperta 2026-07-18 17:05 · FATTO
-
-**PR:** https://github.com/NicolaeRotaru/ad-mycity/pull/453 · branch `fix/timer-ultimo-messaggio` (commit `8d898470`)
-**Fix:** `tsConvAggiornato()` usa `created_at` dei messaggi invece di `updated_at` della conversazione — il timer non si aggiorna più all'apertura.
-**Da fare:** mergia la PR dal Pannello quando vuoi.
-
-<!-- post-siamo-in-23 -->
 
 ---
 
@@ -2576,17 +2576,9 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-❌ #apri-pr-chat-4bug-ux — NESSUNA PR NECESSARIA: `fix/chat-4bug-ux` già dentro main (verificato 2026-07-18 16:28 con rebase). Scroll, sticky, triplicazione: fix già applicati.
-
 ---
 
-❌ #mergia-pr-446 — ~~Mergia PR #446~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #446 resta su GitHub.
-
 ---
-
-❌ #mergia-pr-443 — ~~Mergia PR #443~~ → RIMOSSA 2026-07-20 18:00 · L-402: card merge obsoleta. PR #443 resta su GitHub.
-
-<!-- post-meteo-pioggia-20lug -->
 
 ---
 
@@ -2641,10 +2633,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 **Canale:** manuale (Nicola apre mycity-marketplace.com e ordina)
 
 ---
-
-❌ #whatsapp-3-anchor-pi26 — ~~Manda 3 WhatsApp a Garetti, Peretti e Amendolara~~ → RIMOSSA 2026-07-30 06:05 · La leva del testo era il bando PI26 (urgenza "apre domani"); MyCity non è idonea (Nicola, chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15) e il bando è comunque chiuso a sportello dal 30/7. Il contatto con le 3 botteghe resta un'idea valida, ma serve un testo nuovo senza la leva PI26 — è comunque in pausa rinvio negozi fino a `ripresa.lavoro-operativo`.
-
-<!-- auto-segna-pr-mergiata -->
 
 ---
 
@@ -2762,17 +2750,9 @@ _(302 = Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2 — fonte uni
 
 ---
 
-❌ #bandi-cciaa-2007 — ~~Manda la domanda PI26 sul portale CCIAA~~ → RIMOSSA 2026-07-30 06:05 · Nicola ha risposto alle 3 domande di ammissibilità: MyCity non è idonea (chat 29/7 ~00:10, DECISIONI.md 2026-07-29 00:15). Nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity.
-
 ---
 
-❌ #push-volano-fix — ~~Pusha memoria (volano) e apri PR per il fix tasso-lezioni~~ → RISOLTA, chiusa 2026-07-30 06:30. Verificato: PR #454 (`fix/volano-tasso-lezioni`) risulta già mergiata nella storia di `main` (`44161bf99`); il commit del fix (`e282435f8`) è su `main`. Nulla da pushare.
-
 ---
-
-❌ #push-main-memoria — ~~Pusha main su GitHub (memoria non pubblicata)~~ → RISOLTA, chiusa 2026-07-30 06:30. Verificato ora (`git fetch` + confronto): `origin/main` e `HEAD` locale coincidono esattamente (`0d777ae6d`). Il ritardo di 71 commit descritto il 17-23/7 è stato assorbito da tempo; il push funziona regolarmente (ultimo commit VPS: 06:20:46 di stamattina).
-
-<!-- ruota-pat-github -->
 
 ---
 
