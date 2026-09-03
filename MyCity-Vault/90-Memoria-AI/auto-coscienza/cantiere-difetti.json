@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-29 00:04",
+  "aggiornato": "2026-09-03 09:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -13839,7 +13839,8 @@
         "tipo": "umano",
         "umano": "Guardare i tempi di stanotte: lancio 00:20, ultima scrittura del giornale 00:23, ultime squadre vive 01:12, primo accorgersi 08:35 (domanda di Nicola in chat). Freno da costruire: ogni lancio di flotta da sessione cloud si accompagna a un check-in programmato (send_later ~45 min) che controlla il giornale e rianima o salva."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota": "3/9/2026 00:45 — Ricaduta misurata durante la radiografia totale del sito: il contenitore cloud si è riavviato tre volte (23:2x, 00:41, 00:45 UTC) e ogni volta ha ucciso le flotte in corso (5 workflow, 27 agenti avviati e mai finiti nel secondo riavvio). Il lavoro finito è sopravvissuto solo perché i giornali di bordo (journal.jsonl) e i referti scritti dai cercatori in scratchpad stanno su disco, e resumeFromRunId rilegge i finiti. Il promemoria di sopravvivenza (send_later a 45 minuti) ha funzionato: la sessione si è svegliata e ha ripreso. Lezione da montare: mai più di una flotta per volta dal cloud, e ogni cercatore scrive il suo referto su disco prima di tornare."
     },
     {
       "id": "AR-641",
@@ -18621,6 +18622,71 @@
         "nota": "Oggi non ha una prova che gira: il fix non e' in questo lotto. Chi lo ripara scrive insieme il test delle cartelle esca descritto nel fix, e allora la verifica diventa un comando."
       },
       "nota": "Trovato il 2026-08-28 dalla lente rischio-sicurezza-se sul perimetro del lotto dei pacchetti. Prova eseguita dal collaudatore: create /tmp/hook-vittima-di-un-altro e /tmp/reg-backup-importante con mtime a 3 giorni, `node cervello/spazza-temporanei.mjs --prova --json` le dichiara entrambe da togliere. Su un VPS /tmp e' condiviso. Nasceva come AR-864: quel numero se l'e' preso un lavoro unito su main mentre questo ramo era aperto."
+    },
+    {
+      "id": "AR-893",
+      "titolo": "La Cabina chiede al sito due colonne che non esistono, e in produzione muoiono duemila letture al giorno",
+      "dimensione": "freschezza-dati",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "pannello/src/lib/marketplace-db.ts:136 e pannello/src/app/api/metriche/funnel/route.ts:23 leggono `abandoned_carts` con `select=recovered,created_at`, ma la tabella del sito ha `last_activity` e non ha mai avuto `created_at` (migrazioni del repo mycity, `lib/database.types.ts`). cervello/ordini-in-ritardo.mjs e cervello/sentinella-dati.mjs leggono `orders.expected_delivery`, che non esiste. Le query sono state scritte su nomi supposti, mai provate contro lo schema. Misurato il 3/9/2026 nei log Postgres di produzione (24 ore): 1.792 errori «column abandoned_carts.created_at does not exist», 109 «orders.expected_delivery does not exist», 109 «abandoned_carts.id does not exist». La Cabina mostra zeri o «cieco» dove crede di misurare carrelli e ritardi.",
+      "fix_proposto": "🟡 Nella Cabina e nei sensori usare le colonne vere (`last_activity` per i carrelli; per i ritardi `created_at` + `delivery_status`/slot dell'ordine) e aggiungere una prova che confronta ogni `select=` del Pannello e dei sensori con le colonne dichiarate in `marketplace/lib/database.types.ts`, così una colonna inventata diventa rossa prima di arrivare in produzione.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-09-03 01:25",
+      "nato_come": "scoperta",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Da guardare in Supabase → Logs → Postgres del progetto Mycity, ultime 24 ore, filtro «does not exist»: se compaiono «column abandoned_carts.created_at does not exist» e «column orders.expected_delivery does not exist» il difetto è vivo (il 3/9/2026 erano 1.792 e 109 righe). Il comando riusabile per il lotto di riparazione, da mettere in un test con la sua mutazione: confrontare ogni select= del Pannello e dei sensori con le colonne dichiarate in marketplace/lib/database.types.ts (abandoned_carts non ha created_at, orders non ha expected_delivery)."
+      },
+      "fonte": "radiografia totale del sito 3/9/2026, livello runtime/produzione (log Postgres via Supabase MCP)"
+    },
+    {
+      "id": "AR-894",
+      "titolo": "La prova di un referto del sito poteva portare in memoria una chiave finta e far scattare il guardiano dei segreti",
+      "dimensione": "rischio-sicurezza-se",
+      "dove": "cervello/referti-sito.mjs (campiExtra) — confronto: cervello/foto-radiografia.mjs:43-47",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "Il 3/9/2026 ho allargato la porta della casa perche la prova di un difetto del sito la attraversasse (era il difetto «le schede del sito non portano il campo della prova»). Il campo passava tale e quale. Alcune prove del sito FABBRICANO una credenziale finta apposta, per dimostrare che il guardiano dei segreti la intercetta: da quando la prova entra nella memoria dell AD, quella stringa finisce in un file versionato e il guardiano dei segreti la legge come una chiave vera, bloccando la memoria stessa. foto-radiografia.mjs aveva gia incontrato e curato la stessa malattia il mese scorso; io non avevo riportato la cura sulla porta nuova. Trovato riguardando il file con la lente della sua dimensione durante la radiografia totale del sito, prima della consegna — non da un incidente.",
+      "fix_proposto": "Fatto nello stesso lotto: campiExtra passa ogni campo da disarma(), che spezza il prefisso della credenziale e lo fa ricomporre alla riga di comando, cosi il comando della prova resta eseguibile e nessun guardiano si allarma.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-09-03 07:45",
+      "nato_come": "regressione",
+      "chiuso_il": "2026-09-03 08:05",
+      "chiuso_come": "riparato nello stesso lotto che lo ha creato",
+      "origine": "radiografia in corsa della radiografia totale del sito, lente rischio-sicurezza-se su cervello/referti-sito.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
+        "nota": "La quinta prova del file passa un referto la cui prova contiene una credenziale finta e pretende tre cose: che la stringa NON entri in casa tale e quale, che il comando resti leggibile, che il prefisso si ricomponga da solo. Mutazione dichiarata in mutanti.json e provata a mano il 3/9/2026 alle 07:50: rimesso il campo grezzo al posto del disarmo, la prova diventa rossa (fail 1); rimesso il disarmo, 5 su 5 verdi."
+      },
+      "fonte": "radiografia totale del sito 3/9/2026",
+      "nato_da": "il commit c4a627ba4 di questo stesso lotto («Le schede del sito portano la prova, non solo il titolo»): allargando la porta della casa alla prova, il campo ha iniziato ad attraversare un confine dove prima non arrivava, e le difese di quel confine non sono venute con lui.",
+      "malattia": "porta-laterale-senza-i-freni-della-principale",
+      "malattia_perche": "Ho aperto alla prova una porta nuova verso la memoria (referti-sito.mjs) senza portarci i freni che la porta accanto (foto-radiografia.mjs) aveva gia: il disarmo della credenziale finta. Stessa forma: una via laterale che salta le difese della via principale."
+    },
+    {
+      "id": "AR-895",
+      "titolo": "Lo strumento che alleggerisce la coda non riconosce le carte chiuse scritte col formato vecchio, e la coda si e riempita fino al tetto",
+      "dimensione": "memoria-e-apprendimento",
+      "dove": "cervello/housekeeping-azioni.mjs · MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "housekeeping-azioni.mjs cerca le carte chiuse con l intestazione «### ✅» / «### ❌». Diciassette carte di luglio erano state chiuse con un formato piu vecchio, «✅ #slug» a inizio riga, e lo strumento non le ha mai viste: diceva «nessuna card chiusa fuori archivio, skip» ed era sincero. Quelle diciassette pesavano 12.576 caratteri e sono rimaste due mesi nella coda. Cosi il 3/9/2026 la coda era a 199.892 caratteri contro un campo visivo di 200.000: centootto caratteri di margine, cioe nessuno. La prima carta accodata da un senior — le mie tre della radiografia — ha sfondato il tetto e fatto diventare rosse due prove. Il difetto vero non e il tetto: e che chi doveva tenere la coda corta guardava una forma sola, e nessuno misurava quanto margine restasse.",
+      "fix_proposto": "🟡 Due cose. ① housekeeping-azioni.mjs deve riconoscere anche il formato vecchio (una carta chiusa e una riga che comincia con ✅ o ❌ seguita da un identificativo, a qualunque livello di intestazione), e la sua prova deve avere un caso per ogni formato visto nella coda vera. ② Il margine sotto il campo visivo va detto come numero prima che sparisca: campo-visivo-memoria.mjs oggi dice quanto sfonda, non quanto manca — un avviso a meno di cinquemila caratteri dal tetto avrebbe fatto vedere il muro un mese prima.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-09-03 09:55",
+      "nato_come": "scoperta",
+      "nato_da": "trovato mentre accodavo i tre bloccanti della radiografia totale del sito: la coda non accettava piu nessuna carta",
+      "origine": "radiografia totale del sito 3/9/2026, consegna bloccata dal cancello del lotto",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Da guardare cosi: apri MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md alla sezione del 3/9/2026 e vedi le diciassette carte chiuse a luglio che erano rimaste nella coda; poi lancia `node cervello/housekeeping-azioni.mjs` su una coda che ne contiene una scritta «✅ #slug» e guarda se dice «nessuna card chiusa, skip». Se lo dice, il difetto e vivo. Il comando riusabile per il lotto di riparazione, da mettere in un test con la sua mutazione: dare a housekeeping-azioni una coda finta con una carta chiusa nel formato vecchio e pretendere che la sposti nell archivio; oggi quel test nascerebbe rosso, ed e per questo che non lo aggiungo qui — un rosso in Node blocca il cancello per tutti. Nasce insieme alla riparazione."
+      },
+      "fonte": "radiografia totale del sito 3/9/2026"
     }
   ],
   "meta": {

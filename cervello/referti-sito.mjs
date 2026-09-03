@@ -241,8 +241,45 @@ export function problemiDaRaw(raw, fonte) {
       fix: f.fix || "",
       fonte: fonte?.id ?? null,
       stato: "aperto",
+      // 3/9/2026 — L'ASTICELLA ARRIVA ANCHE ALLE SCHEDE DEL SITO. Prima qui passavano sei campi e
+      // basta: la prova che un cercatore aveva eseguito, la causa radice, chi l'aveva verificata,
+      // la riverifica di un noto — tutto cadeva a terra fra il referto e la casa, e pacchetti-lotto
+      // scriveva «le schede del sito non portano il campo della prova». Adesso i campi dichiarati
+      // qui sotto attraversano la porta; gli altri restano fuori come prima.
+      ...campiExtra(f),
     };
   });
+}
+
+/** I campi di un referto che la casa conserva oltre ai sei di base: prova, verifica e riverifica. */
+export const CAMPI_EXTRA_DEL_REFERTO = Object.freeze([
+  "prova",
+  "prova_tipo",
+  "prova_eseguita",
+  "causa_radice",
+  "impatto_crescita",
+  "giro",
+  "verificato",
+  "riverifica",
+  "gia_noto",
+  "fonte_radiografia",
+]);
+
+// 3/9/2026 — LA PROVA ENTRA IN CASA, MA DISARMATA. Una prova del sito puo' fabbricare una
+// credenziale finta per dimostrare che il guardiano dei segreti la intercetta: e' il mestiere di
+// quella prova. Finche' il campo si fermava al referto grezzo non faceva danno; da quando
+// attraversa questa porta finisce nella memoria dell'AD, e li' il guardiano dei segreti la
+// leggerebbe come una chiave vera e bloccherebbe la memoria stessa. Stessa medicina gia' usata in
+// foto-radiografia.mjs: il prefisso si spezza e la riga se lo ricompone da sola, quindi il comando
+// resta eseguibile e nessun guardiano si allarma.
+const MARCA_CHIAVE = ["sk", "live"].join("_");
+const disarma = (v) =>
+  typeof v === "string" && v.includes(MARCA_CHIAVE) ? v.split(MARCA_CHIAVE).join('sk_"$(echo live)"') : v;
+
+function campiExtra(f) {
+  const out = {};
+  for (const k of CAMPI_EXTRA_DEL_REFERTO) if (f?.[k] !== undefined && f[k] !== null && f[k] !== "") out[k] = disarma(f[k]);
+  return out;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════

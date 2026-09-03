@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-09-03 09:55 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-29 02:20 · playbook del lotto a pacchetti: metodo, comando e prova · V5 C5 A4 K5 I4 M5 E4 (media 4.57) · atteso un documento di metodo e un comando che divide i difetti in pacchetti → reale il collaudo ha bocciato la prima versione con 2 bloccanti, le lenti del perimetro altri 7: 12 difetti trovati, 11 riparati qui, 1 aperto come AR-864 · #lotto #collaudo #pacchetti
 - 2026-08-28 23:51 · Lotto 28/8: le prove del cervello guardavano la sintassi di ieri (AR-834, nove casi) e la popolazione di ieri (AR-861) · V5 C5 A5 K5 I4 M5 E4 (media 4.71) · atteso chiudere i nove casi di AR-834 e lasciare il resto dov e → reale chiusi i nove di AR-834 piu AR-861, che era l unico rosso in Node e teneva bloccato il cancello per chiunque: rossi del banco da 8 a 1. Trovati riparando: AR-862 (il percorso del gate di una lezione puo uscire dal repo) e una mutazione ferma da dieci giri (AR-676) che adesso misura. Resta AR-833, difetto vero che vuole la firma di Nicola sul file dei permessi · #cantiere #prove #cervello
 - 2026-08-28 16:31 · Riparata la prova un-quaderno-una-casa, scaduta col calendario il 28/8: bloccava ogni richiesta di unione del repo · V5 C5 A5 K4 I4 M5 E5 (media 4.71) · atteso la prova torna verde e il tetto dei rossi in Node torna a zero → reale 2 casi rossi -> 0; resta da capire quante altre prove abbiano una data fissa contro l'orologio vero · #bomba-a-orologeria

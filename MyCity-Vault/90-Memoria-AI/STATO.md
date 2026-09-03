@@ -6,6 +6,22 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 ---
 
+> 🩻 **2026-09-03 11:10 — Radiografia totale del sito: 182 problemi nuovi, 174 noti chiusi, 8 da arbitrare, e le due cose più gravi stanno fuori dal codice.** Richiesta tua: «fai la radiografia totale del sito».
+>
+> **In due righe.** 24 lenti su 24 lette con prove eseguite in un banco di prova vero, i 361 noti riverificati per 361, e la produzione guardata in sola lettura. Nuovi: 3 bloccanti, 50 gravi, 129 minori. Poi ho fatto criticare il mio stesso lavoro da un revisore che non c'era: ha trovato che «24 lenti coperte» non vuol dire «sito coperto», e le sue correzioni sono dentro il referto.
+>
+> **Il primo bloccante: il dominio.** Punta da 35 giorni a Render, che è spento. Su Vercel non è mai stato collegato, e gli indirizzi tecnici sono chiusi dietro il login di Vercel.
+>
+> **Il secondo: il database vero.** È fermo al 28 agosto mentre il codice è del 2 settembre. Al registro delle migrazioni mancano 21 righe; le cose che davvero non ci sono le ho contate una per una. In produzione non funzionano le email «ordine pronto», i conti del venditore, il tetto di spesa AI e il carrello recuperato.
+>
+> **Cosa devi fare.** Sono in coda tre card: #192 il dominio, #191 le migrazioni, #190 il reso che si approva da solo. Poi restano da impostare le tre variabili mancanti su Vercel, e da firmare la richiesta di unione di questo referto.
+>
+> **Cosa NON ho verificato.** Il sito pubblicato da un browser esterno, e Stripe. Tutte e 24 le lenti hanno avuto il loro cercatore, ma «lente coperta» non vuol dire «sito coperto»: 29 delle 93 porte del sito, 11 delle 20 rotte dell'intelligenza artificiale, 8 delle 8 porte di amministrazione e 102 delle 145 migrazioni non le nomina nessun referto. Non sono state guardate, e finora nessuno lo diceva.
+>
+> Il giro con l'angolo avversario ha coperto 12 lenti su 24. Il giro del residuo non è partito: il limite delle cinque ore e tre riavvii del contenitore hanno mangiato il tempo.
+>
+> Referto: `consegne/audit/2026-09-03-radiografia-totale-sito.md` · grezzi: `consegne/audit/2026-09-03-radiografia-marketplace-raw.json`, `consegne/design/2026-09-03-radiografia-design-raw.json`
+
 > 🩺 **3/9 01:01 — Visita su tua richiesta: il sito è pubblicato ma non vende, la macchina è viva ma muta.** Richiesta tua: «come siamo messi? il marketplace e la macchina dovrebbero già essere pronte».
 >
 > **In parole semplici.** Il codice del sito è a posto: CI verde su `main` e pubblicazione Vercel del 2/9

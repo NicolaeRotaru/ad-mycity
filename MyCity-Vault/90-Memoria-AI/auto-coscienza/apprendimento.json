@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-01 18:10",
+ "aggiornato": "2026-09-03 11:20",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12649,6 +12649,27 @@
    "usi": 0,
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
    "data": "2026-08-27 13:45"
+  },
+  {
+   "id": "L-2026-0903-01",
+   "testo": "**Quando allarghi una porta, portati dietro le cure che le porte gia aperte avevano imparato (3/9).** Il 2/9 ho fatto attraversare alla prova di un difetto del sito la porta della casa dei difetti: prima si fermava al referto grezzo, adesso entra nella memoria versionata dell AD. Il giorno dopo, riguardando quel file con la lente della sua dimensione PRIMA di consegnare, e saltato fuori il buco: alcune prove del sito fabbricano apposta una credenziale finta, perche il loro mestiere e dimostrare che il guardiano dei segreti la intercetta. Entrata tale e quale in un file versionato, quella stringa fa scattare il guardiano sulla memoria stessa. **La cura esisteva gia da un mese, in foto-radiografia.mjs, per la porta accanto: spezzare il prefisso e farlo ricomporre alla riga di comando.** Nessuno l aveva portata sulla porta nuova, perche chi allarga guarda cosa deve passare, non cosa passava gia altrove. **La regola operativa: quando fai attraversare un dato nuovo a un confine, cerca chi attraversa quel confine gia oggi e copiane le difese, prima di scrivere le tue.** Il modo per accorgersene e quello che ha funzionato qui: riguardare il file toccato con la lente della sua dimensione prima della consegna, non dopo.",
+   "tag": [
+    "confini",
+    "segreti",
+    "riuso-delle-difese",
+    "radiografia-in-corsa"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.85,
+   "evidenze": 1,
+   "fonte": "AR-894, 3/9/2026: trovato dalla radiografia in corsa sul perimetro del lotto, non da un incidente; la stessa malattia era gia stata curata in foto-radiografia.mjs il mese prima.",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03",
+   "ultima_conferma": "2026-09-03 11:20",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node --test cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
+   "data": "2026-09-03 11:20"
   }
  ],
  "principi": [
