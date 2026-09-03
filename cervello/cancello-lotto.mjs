@@ -626,6 +626,19 @@ export function esegui(nome, cmd, args, opts = {}) {
     cwd: opts.cwd || AD_ROOT,
     encoding: "utf8",
     timeout: opts.timeout || TEMPO_MAX_PASSO,
+    // AR-916 — IL SEGNALE CHE NON SI PUÒ RIFIUTARE, ed è il debito che AR-909 aveva dichiarato.
+    //
+    // `spawnSync` allo scadere del `timeout` manda `killSignal`, che per difetto è SIGTERM. SIGTERM
+    // si intercetta e si ignora, e node non insiste: resta ad aspettare che il figlio finisca per
+    // conto suo. Misurato il 3/9 sulla corsa 33787462384: il banco delle mutazioni ha un tetto di
+    // 900 s dichiarato qui sotto e ha girato SESSANTAQUATTRO MINUTI, finché l'orologio di GitHub non
+    // ha ucciso l'intero cancello a 75. Un tetto che il figlio può rifiutare non è un tetto: è una
+    // richiesta cortese, e la differenza si vede solo su chi la rifiuta.
+    //
+    // SIGKILL non lascia riordinare, e qui va bene: i passi del cancello sono guardiani in sola
+    // lettura sul repo, non c'è niente da chiudere. Con questo, un passo che sfora esce `ucciso` →
+    // 124 → rosso dichiarato, e il cancello arriva in fondo a dare un verdetto invece di sparire.
+    killSignal: "SIGKILL",
     maxBuffer: 32 * 1024 * 1024,
   });
   const uscita = `${r.stdout || ""}${r.stderr || ""}`;

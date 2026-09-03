@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 19:30",
+  "aggiornato": "2026-09-03 21:33",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19617,6 +19617,27 @@
       },
       "trovato_da": "Nicola, dallo schermo del telefono: «cancello lotto ha dei problemi». Il referto della corsa l ho letto dopo, ed e li che il silenzio si vede",
       "chiuso_il": "2026-09-03 19:30",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-916",
+      "gravita": "bloccante",
+      "stato": "chiuso",
+      "nato": "2026-09-03 21:33",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-909",
+      "titolo": "Il tetto di quindici minuti sul passo piu costoso del cancello era una richiesta cortese, e il figlio la rifiutava",
+      "sintomo": "Corsa 33787462384 del 3/9, letta grazie alle righe di avanzamento di AR-915: ventinove passi finiti in 609 secondi in tutto, poi il passo «prove non vacue (mutazioni del lotto)» comincia alle 18:06:49 e non finisce piu. L orologio di GitHub uccide il cancello intero a 75 minuti, senza verdetto. Quel passo ha un tetto DICHIARATO di 900 secondi accanto alla sua chiamata: ha girato 64 minuti, cioe quattro volte il suo tetto.",
+      "causa_radice": "`esegui()` del cancello passa `timeout` a `spawnSync` e NON passa `killSignal`. Allo scadere node manda SIGTERM, che si intercetta e si ignora; node non insiste e non passa a SIGKILL, resta ad aspettare. Il banco delle mutazioni lancia a sua volta processi figli, e l albero sopravvive al segnale educato. E la seconda istanza della forma che AR-909 aveva curato su due-case.mjs e DICHIARATO come debito misurato: «17 file del cervello passano un timeout per 42 volte, e ZERO dichiarano killSignal». Il debito e venuto a scadere sul file peggiore — quello che decide se il lavoro passa.",
+      "fix_proposto": "🟡 FATTO: `esegui()` passa `killSignal: \"SIGKILL\"`. Scelta limitata e motivata come su AR-909: i passi del cancello sono guardiani in sola lettura sul repo, non c e niente da riordinare, e un passo che non si puo fermare e peggio di uno ucciso male. Effetto atteso alla prossima corsa: il banco sfora il suo tetto, esce ucciso (124, rosso dichiarato) e il cancello ARRIVA IN FONDO con un verdetto, invece di sparire a 75 minuti. ⚠️ NON riduce il lavoro del banco: quello resta da decidere, e adesso si decide su un numero.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-tetto-del-cancello-che-si-poteva-rifiutare.test.mjs",
+        "nota": "Tre casi che ESEGUONO. Il primo costruisce un figlio che ignora SIGTERM apposta e pretende che il tetto lo fermi comunque in meno di 30 s con esito 124 — senza la cura quel caso non finirebbe mai. Il secondo pretende che il passo ucciso lo DICA. Il terzo e il difetto opposto: un passo che finisce da solo con 2 deve restare CIECO, non diventare rosso — il tetto non deve trasformare un esito in un altro."
+      },
+      "trovato_da": "le righe di avanzamento di AR-915, alla loro prima corsa: senza, il silenzio non diceva quale passo",
+      "chiuso_il": "2026-09-03 21:33",
       "chiuso_come": "riparato"
     }
   ],

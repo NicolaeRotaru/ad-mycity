@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-03 19:30",
+ "aggiornato": "2026-09-03 21:33",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11894,6 +11894,28 @@
    "stato": "viva",
    "usi": [],
    "gate": "cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
+   "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0903-04",
+   "testo": "**AR-916, e prima AR-909.** Un debito dichiarato non e curato: e un appuntamento. Il 2/9 avevo scritto, con il numero misurato, che 17 file passano un `timeout` per 42 volte senza `killSignal` — cioe che ogni tempo massimo della macchina e una richiesta che si puo rifiutare. Il 3/9 quel debito e venuto a scadere sul file peggiore, il cancello che decide se il lavoro passa: tetto di 900 s, girato 64 minuti, corsa morta senza verdetto. Quando si dichiara un debito misurato, si dichiara anche DOVE fara male per primo — e quello e il posto da curare subito, non «uno dei diciassette».",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "debito-dichiarato"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33787462384: 29 passi in 609 s, poi il banco delle mutazioni dalle 18:06:49 senza fine, cancello ucciso a 75 min"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03 21:33",
+   "ultima_conferma": "2026-09-03 21:33",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-tetto-del-cancello-che-si-poteva-rifiutare.test.mjs",
    "data": "2026-09-03"
   }
  ],
