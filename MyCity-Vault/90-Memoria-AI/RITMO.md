@@ -1539,3 +1539,23 @@ Nessuna delle tre si è mossa in 21 controlli di oggi. È lo stesso quadro dalle
 - Se hai un minuto, rispondi anche alla scadenza del 29 agosto: è passata da 5 giorni
 
 **Dettagli tecnici** — Due giri hanno già riverificato i dati dal vivo nei 50 minuti prima di questo passaggio: alle 08:36 e alle 08:51, con query dirette MCP. Risultato identico: 1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Non ho riquerato una quinta volta: un marketplace senza traffico non genera eventi nuovi in 20 minuti. Coda invariata: `#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`, `#192`. Oggi ho scritto tre Piani del Mattino: alle 07:43, alle 08:21 e ora alle 09:11. Prima di questi sono girati anche quattro Giri identici. La cadenza che li richiama così vicini resta da capire. La card #188 lo chiede da giorni, senza risposta.
+
+## Punto di mezzogiorno · 2026-09-03 13:35
+
+**In una riga:** Le tre firme di stamattina sono ancora ferme. La cosa più urgente adesso non è il business, è fermare il ciclo che si richiama da solo e sta consumando la quota a vuoto.
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. ❌ **Rimetti online il sito** (dominio + chiavi Vercel, `#154`/`#155`). Nessuna firma.
+2. ❌ **Sblocca i pagamenti con carta di Pane Quotidiano** (`#182`). Invariato da oltre 18 giorni.
+3. ❌ **Applica le quattro migrazioni ferme** (`#184`). Invariato.
+
+Non ho riquerato Supabase né Stripe: sono già stati controllati dal vivo più volte stamattina (ultima alle 08:36), sempre uguali. Un marketplace senza traffico non produce eventi nuovi in poche ore, e ogni controllo in più oggi ha un costo reale.
+
+**Correzione di rotta:** dalle 06:00 il piano/giro è stato richiamato più di dieci volte, in alcuni tratti a un minuto di distanza l'una dall'altra, sempre sugli stessi dati fermi. La quota AI è salita fino al 179% della soglia e la salute della macchina è a 4/100: siamo passati da RISPARMIO a SOPRAVVIVENZA. A questo livello il mansionario impone di tenere acceso solo l'indispensabile — ordini, consegne, coda firme, sicurezza — e spegnere il resto: per questo da mezzogiorno non ho più rilanciato query né chiamato reparti. Il pattern è lo stesso già visto e risolto due volte in passato (18/8 e 15/8): sembra un timer sul VPS che si riarma da solo, non richieste tue una per una.
+
+**Cosa serve da te entro sera:**
+- Le stesse tre firme di stamattina: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), le quattro migrazioni (`#184`).
+- **Nuovo e più urgente:** dai un'occhiata al timer/cron sul VPS che rilancia "esegui il giro" in continuazione. È lui che sta bruciando la quota, non un lavoro utile — dall'interno del ciclo non posso fermarlo da sola.
+- Se hai un minuto: è arrivato l'undicesimo post pronto per Pane Quotidiano (`#193`), i dieci precedenti sono ancora tutti fermi in coda. Dimmi se pubblicarne uno o quali ritirare.
+
+**Dettagli tecnici** — Letargo `SOPRAVVIVENZA` (quota AI 179% finestra rolling alle 12:51, salute macchina 4/100). Coda invariata più una carta nuova: `#154`/`#155`, `#182`, `#184`, `#185` (scaduta da 5 giorni), `#186`, `#188`, `#189`, `#190`, `#191`, `#192`, `#193` (nuova, 13:25). Baseline business REST 08:36, portata avanti senza nuova query: 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni. Riferimento precedenti simili: [[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]].
