@@ -1,9 +1,10 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> **Aggiornato: 2026-09-03 09:40.** Giro leggero (`cervello/monitora.md`, recuperato a mano — motore
-> AI del worker in quota ieri). Fonti giornaliere controllate oggi: liberta.it/attualita e
-> liberta.it/territorio/citta/piacenza (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri
-> negozi. Nessuna recensione.** Le notizie del giorno da Libertà — Città sono: multe/decoro (109612),
+> **Aggiornato oggi, 2026-09-03, alle 09:40.** Giro leggero, script `cervello/monitora.md`.
+> Recuperato a mano: il motore AI del worker era in quota ieri. Fonti giornaliere controllate oggi:
+> liberta.it/attualita e liberta.it/territorio/citta/piacenza (WebFetch). **Nessuna menzione nuova
+> di MyCity o dei nostri negozi. Nessuna recensione.** Le notizie del giorno da Libertà — Città
+> sono: multe/decoro (109612),
 > la disputa politica sulla concessione "La Ragazzetta"/IAT (109622, dettaglio in `buchi-mercato.md`
 > con nota di candore da verificare), un investimento pedonale (109621), la ripartenza dei lavori in
 > via Farnesiana (109602, dettaglio in `eventi-picchi.md`). Nessuna riguarda negozi, botteghe o il
@@ -77,8 +78,8 @@ Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva
 
 ## ⚠️ Cosa ho notato in più (non era nel giro del 18/7)
 
-1. **Il testo del sito che Google restituisce è incoerente sui tempi di consegna**: una ricerca lo riassume come "consegna entro 24-48 ore", un'altra come "ordini a casa in 30-60 minuti, pagamento alla consegna". Sono due promesse diverse fatte allo stesso cliente. Prima che arrivi il primo cliente vero su Pane Quotidiano vale la pena controllare a video quale delle due frasi è davvero sulla home — un tempo sbagliato letto da un cliente reale è la prima causa di recensione negativa, non un dettaglio.
-2. **Rischio di nome condiviso è raddoppiato**: oltre a "MyCity TV Piacenza" (già noto), esiste anche una pagina Facebook "MyCity | Bologna" con lo stesso nome. Nessun problema oggi (zero traffico), ma quando parte la prima PR/stampa locale vale la pena mettere sempre "Piacenza" o il dominio nel testo, per non farsi confondere in una ricerca veloce.
+1. **Il testo del sito che Google restituisce è incoerente sui tempi di consegna**: una ricerca lo riassume come "consegna entro 24-48 ore", un'altra come "ordini a casa in 30-60 minuti, pagamento alla consegna". Sono due promesse diverse fatte allo stesso cliente. Vale la pena controllare a video quale delle due frasi è davvero sulla home, prima che arrivi il primo cliente vero su Pane Quotidiano. Un tempo sbagliato letto da un cliente reale è la prima causa di recensione negativa, non un dettaglio.
+2. **Rischio di nome condiviso è raddoppiato**: oltre a "MyCity TV Piacenza" (già noto), esiste anche una pagina Facebook "MyCity | Bologna" con lo stesso nome. Nessun problema oggi, perché il traffico è zero. Ma quando parte la prima PR o stampa locale, vale la pena mettere sempre "Piacenza" o il dominio nel testo, per non farsi confondere in una ricerca veloce.
 
 ---
 
