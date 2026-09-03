@@ -899,3 +899,9 @@ Esempi:
 - 2026-09-03 08:10 · @ad · FATTO · `node cervello/ci-stato.mjs`: confermate 8 PR aperte, 8 rosse, tutte colpa del ramo che le ha portate. `node cervello/coerenza-fatti.mjs`: confermato verde, 41 fatti, 0 copie vecchie.
 - 2026-09-03 08:10 · @ad · FATTO · Scritto Briefing/2026-09-03.md, aggiornati STATO.md (nuova voce in cima), ultimo-briefing.json, auto-coscienza/auto-analisi.json.
 - 2026-09-03 08:10 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata: #154/#155 (mossa n.1: dominio+chiavi Vercel), #182, #184, #185, #186, #188, #189, #190, #191, #192.
+
+### 2026-09-03 08:21 — ☀️ PIANO DEL MATTINO (richiamato una seconda volta)
+- 2026-09-03 08:21 · @ad · FATTO · Il compito "esegui il Piano del Mattino" è arrivato di nuovo, 38 minuti dopo quello reale delle 07:43 e 11 minuti dopo il Giro delle 08:10. Riverificato dal vivo: ordini=1/0 pagati, profili=8/0 nuovi, prodotti=5, recensioni=0 — identico. OKR-Squadra invariati (fase 0→1, faro Pane Quotidiano).
+- 2026-09-03 08:21 · @ad · FATTO · Scritto un blocco onesto in RITMO.md (`## Piano del mattino · 2026-09-03 08:21`) che riporta lo stesso piano delle 07:43 invece di inventare priorità nuove che non esistono — nessun dato giustifica un piano diverso. Aggiornato STATO.md con la stessa nota in cima.
+- 2026-09-03 08:21 · @ad · FATTO · Nessuna card nuova aperta, nessun reparto chiamato: sarebbe rumore, non lavoro (vedi playbook loop-a-vuoto in memoria).
+- 2026-09-03 08:21 · @ad · PASSO-A · @Nicola — stesse dieci carte in coda, nessuna firmata: #154/#155 (mossa n.1: dominio+chiavi Vercel), #182, #184, #185, #186, #188, #189, #190, #191, #192.

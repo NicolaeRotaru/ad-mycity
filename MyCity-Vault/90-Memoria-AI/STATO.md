@@ -1,7 +1,21 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 08:10
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-03 08:21
+fonte: AD digitale (piano del mattino, richiamato una seconda volta)
+---
+
+> ☀️ **3/9 08:21 — Piano del mattino richiamato di nuovo: stesso piano di 38 minuti fa, nessun cambio.**
+> Il vero Piano del Mattino di oggi è già stato scritto alle 07:43. È seguito un Giro completo alle
+> 08:10. Business riverificato ora: 1 ordine (24/6, annullato), 0 pagati. 8 profili, 5 prodotti, 0
+> recensioni. Tutto identico.
+>
+> Le tre priorità restano le stesse:
+> 1. Dominio e chiavi Vercel (#154/#155).
+> 2. Pagamenti carta di Pane Quotidiano (#182).
+> 3. Le quattro migrazioni ferme (#184).
+>
+> Non ho aperto nessuna card nuova: nessun dato è cambiato da 08:10. Blocco completo: [[RITMO]].
+
 ---
 
 > 🧭 **3/9 08:10 — Giro di perlustrazione: nessun cambio, 27 minuti dopo il Piano del mattino.**
