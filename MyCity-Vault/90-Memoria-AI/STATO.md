@@ -6,6 +6,18 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 ---
 
+> 🩻 **2026-09-03 11:10 — Radiografia totale del sito: 182 problemi nuovi, 174 noti chiusi, 8 da arbitrare, e le due cose più gravi stanno fuori dal codice.** Richiesta tua: «fai la radiografia totale del sito».
+>
+> **In due righe.** 24 lenti su 24 lette con prove eseguite in un banco di prova vero, i 361 noti riverificati per 361, e la produzione guardata in sola lettura. Nuovi: 3 bloccanti, 50 gravi, 129 minori. Poi ho fatto criticare il mio stesso lavoro da un revisore che non c'era: ha trovato che «24 lenti coperte» non vuol dire «sito coperto», e le sue correzioni sono dentro il referto.
+>
+> **I due bloccanti.** ① Il dominio pubblico punta da 35 giorni a Render, che è spento; su Vercel non c'è nessun dominio e gli indirizzi tecnici sono dietro il login di Vercel. ② Il database di produzione è fermo al 28 agosto mentre il codice è del 2 settembre: mancano 21 migrazioni, verificate oggetto per oggetto. Le email «ordine pronto», i conti del venditore, il tetto AI e il carrello recuperato non funzionano in produzione.
+>
+> **Cosa devi fare.** Aprire https://mycity-phi.vercel.app in finestra anonima e dirmi cosa vedi · collegare il dominio su Vercel · configurare i quattro segreti (card #161) e applicare le migrazioni · impostare le tre variabili mancanti su Vercel · firmare la PR di questo referto.
+>
+> **Cosa NON ho verificato.** Il sito pubblicato da un browser esterno e Stripe. Tutte e 24 le lenti hanno avuto il loro cercatore, ma «lente coperta» non vuol dire «sito coperto»: 29 delle 93 porte del sito, 11 delle 20 rotte dell'intelligenza artificiale, 8 delle 8 porte di amministrazione e 102 delle 145 migrazioni non le nomina nessun referto. Non sono state guardate, e finora nessuno lo diceva. Il giro con l'angolo avversario ha coperto 12 lenti su 24; il giro del residuo non e' partito (limite delle 5 ore e tre riavvii del contenitore).
+>
+> Referto: `consegne/audit/2026-09-03-radiografia-totale-sito.md` · grezzi: `consegne/audit/2026-09-03-radiografia-marketplace-raw.json`, `consegne/design/2026-09-03-radiografia-design-raw.json`
+
 > 🕛 **1/9 12:00 — Punto di mezzogiorno: le 3 priorità del mattino restano tutte ferme.** Richiesta tua implicita: cadenza fissa di mezzogiorno.
 >
 > **In parole semplici.** Ho ripreso il piano scritto stamattina alle 06:25. Le tre mosse di oggi sono
