@@ -1482,3 +1482,20 @@ Nessuna delle tre si è mossa in 21 controlli di oggi. È lo stesso quadro dalle
 - Stessa prima mossa di oggi: la tua firma su dominio e chiavi Vercel. Tutto il resto aspetta quel passo.
 
 **Dettagli tecnici** — Divergenza `main...origin/main`: da 26 a 54 commit avanti nell'arco della giornata (sempre 2 indietro). Causa nota: card #104. Letargo salito a SOPRAVVIVENZA alle 13:03 (quota AI oltre soglia, salute macchina 4/100). 8 commit oggi tra giri e recuperi di scritture pendenti. Coda invariata: `#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`.
+
+## Piano del mattino · 2026-09-03 07:43
+
+**In una riga:** Ancora zero ordini pagati, 71° giorno. Le stesse tre firme restano la via più veloce per sbloccare tutto.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito: dominio più chiavi Vercel. Senza questo un pagamento riuscito non diventa mai un ordine.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero, fermo da oltre 18 giorni.
+3. Applica le quattro migrazioni ferme sul database di produzione. Evita un checkout rotto al primo cliente vero.
+
+**Serve da te**
+- Firma dominio e chiavi Vercel
+- Decidi come sbloccare i pagamenti di Pane Quotidiano
+- Dai il via alle quattro migrazioni
+- Se hai un minuto, rispondi anche alla scadenza del 29 agosto. È passata da 5 giorni.
+
+**Dettagli tecnici** — Business riverificato dal vivo con query diretta MCP: 1 ordine (24/6, annullato), 0 pagati, 8 profili (0 nuovi in 7gg), 5 prodotti, 0 recensioni, 3 carrelli. Identico a ieri. Il tentativo automatico delle 06:00 non ha scritto un piano vero: ha toccato solo `motore-errori.json` e `sorvegliante-storico.json`. Coda invariata a dieci carte: `#154`/`#155`, `#182`, `#184`, `#185`, `#186`, `#188`, `#189`, `#190`, `#191`, `#192`. Divergenza `main`↔`origin/main` ancora aperta, card #104, 65 avanti e 2 indietro all'ultima misura.

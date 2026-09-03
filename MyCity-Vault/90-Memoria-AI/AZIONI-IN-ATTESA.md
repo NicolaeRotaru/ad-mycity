@@ -3004,8 +3004,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-02 22:26)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-02-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-03 06:27)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-03-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

@@ -1,7 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-02 22:57
-fonte: AD digitale (Giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-03 07:43
+fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
+---
+
+> ☀️ **3/9 07:43 — Piano del mattino: 71° giorno di stallo, stesse tre firme.** Cadenza fissa del
+> mattino.
+>
+> **In parole semplici.** Riverificato ora con query diretta al database vero (MCP Supabase), non a
+> memoria: 1 ordine totale, ancora lo stesso del 24 giugno, annullato, **0 pagati**. 8 profili, 0
+> nuovi in 7 giorni. 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Tutto identico a ieri sera.
+> Lo stallo North Star tocca oggi **71 giorni**.
+>
+> **Il tentativo automatico delle 6 del mattino non ha funzionato.** Ha scritto solo due file
+> tecnici di monitoraggio, non un piano vero. Questo è il primo Piano del Mattino reale di oggi.
+>
+> **Le 3 cose di oggi**, tutte già pronte in coda e in attesa solo della tua firma:
+> 1. Rimettere online il sito vero: dominio + chiavi Vercel (#154+#155). Senza questo un pagamento
+>    riuscito non diventerebbe mai un ordine.
+> 2. Sbloccare i pagamenti con carta di Pane Quotidiano (#182). È l'unico negozio vero, fermo da
+>    oltre 18 giorni.
+> 3. Applicare le quattro migrazioni ferme sul database di produzione (#184). Evita che il primo
+>    cliente vero trovi un checkout rotto.
+>
+> **In coda restano le stesse dieci carte, nessuna firmata.** #154+#155 (mossa n.1), #182, #184,
+> #185 (scadenza 29/8, passata da 5 giorni), #186, #188, #189, #190, #191, #192.
+>
+> **Cosa non ho verificato.** Il sito in un browser vero: solo lo stato HTTP dai giri precedenti.
+> Le 5 PR rosse in CI, card #190. La divergenza Git tra `main` e `origin/main`, card #104. Nessuna
+> delle due sblocca il primo ordine pagato. Per il vincolo North Star non le ho toccate.
+>
+> Blocco completo: [[RITMO]].
+
 ---
 
 > 🧭 **2/9 22:57 — Giro di perlustrazione: nessun cambio nei dati, un debito chiuso.** Richiesta tua

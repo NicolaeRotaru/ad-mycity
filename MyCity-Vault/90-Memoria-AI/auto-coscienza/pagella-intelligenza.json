@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-09-02 22:20",
+  "aggiornato": "2026-09-03 06:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 0,
+  "migliorate": 1,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -25,24 +25,24 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.13,
-      "valore": 0.05,
-      "etichetta": "5% (1/22 correzioni)",
+      "valore": 0.11,
+      "etichetta": "11% (1/9 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 22,
-        "su_tema_cronico": 13,
-        "quota": 0.59,
-        "temi_cronici": 5,
-        "temi_totali": 48
+        "correzioni": 9,
+        "su_tema_cronico": 0,
+        "quota": 0,
+        "temi_cronici": 1,
+        "temi_totali": 36
       },
       "gate": {
-        "correzioni": 22,
-        "con_gate": 20,
-        "quota": 0.91
+        "correzioni": 9,
+        "con_gate": 7,
+        "quota": 0.78
       },
       "precedente": 0.05,
-      "movimento": "ferma"
+      "movimento": "migliorata"
     },
     {
       "id": "calibrazione",
@@ -101,7 +101,7 @@
       "fonte": "auto-coscienza/storico-salute.json",
       "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
       "valore": 4,
-      "etichetta": "4/100 (misurato 2026-09-02)",
+      "etichetta": "4/100 (misurato 2026-09-03)",
       "ok": false,
       "cieco": false,
       "precedente": 4,
@@ -109,18 +109,6 @@
     }
   ],
   "serie": [
-    {
-      "data": "2026-07-27 06:20",
-      "voci_superate": 1,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.17,
-        "calibrazione": 0,
-        "freni": 0,
-        "quaderni": 0.23333333333333334,
-        "salute": 43
-      }
-    },
     {
       "data": "2026-07-27 08:20",
       "voci_superate": 1,
@@ -2503,6 +2491,18 @@
       "pronta": false,
       "valori": {
         "lezioni": 0.05,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.07377049180327869,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-03 06:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.11,
         "calibrazione": null,
         "freni": 7,
         "quaderni": 0.07377049180327869,

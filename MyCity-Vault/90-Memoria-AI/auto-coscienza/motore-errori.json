@@ -1,7 +1,55 @@
 {
   "_cosa_e": "Ultimi guasti del motore AI, con le righe vere ripulite dai segreti. Esiste perché il journal di systemd vive solo sul VPS: senza questo file, da fuori si vede CHE una cadenza è fallita ma mai PERCHÉ.",
-  "aggiornato": "2026-09-03 06:00",
+  "aggiornato": "2026-09-03 06:30",
   "voci": [
+    {
+      "quando": "2026-09-03 06:30",
+      "cadenza": "monitora",
+      "rc": 1,
+      "classe": "quota",
+      "reset_dichiarato": "7:40am",
+      "reset_data": null,
+      "ritento_previsto": "2026-09-03T05:42:00.000Z",
+      "riparte_da_sola": true,
+      "spiegazione": "Claude ha finito il pacchetto di questa sessione. Si libera verso le 03/09/26, 07:42 e la macchina riparte da sola.",
+      "righe": [
+        "Permission allow rule (.claude/settings.local.json): Write(MyCity-Vault/90-Memoria-AI/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(MyCity-Vault/90-Memoria-AI/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(consegne/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(consegne/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(creativi/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(creativi/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(cervello/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(cervello/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(pannello/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(pannello/**) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./cervello/vps/.env) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./cervello/vps/.env) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(**/.env) is not matched by file permission checks — only Edit(path) rules are. Use Edit(**/.env) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(**/.env.*) is not matched by file permission checks — only Edit(path) rules are. Use Edit(**/.env.*) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./.claude/settings.json) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./.claude/settings.json) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./.claude/settings.local.json) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./.claude/settings.local.json) instead (Edit rules cover all file-editing tools).",
+        "You've hit your session limit · resets 7:40am (Europe/Rome)"
+      ]
+    },
+    {
+      "quando": "2026-09-03 06:29",
+      "cadenza": "giro",
+      "rc": 1,
+      "classe": "quota",
+      "reset_dichiarato": "7:40am",
+      "reset_data": null,
+      "ritento_previsto": "2026-09-03T05:42:00.000Z",
+      "riparte_da_sola": true,
+      "spiegazione": "Claude ha finito il pacchetto di questa sessione. Si libera verso le 03/09/26, 07:42 e la macchina riparte da sola.",
+      "righe": [
+        "Permission allow rule (.claude/settings.local.json): Write(MyCity-Vault/90-Memoria-AI/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(MyCity-Vault/90-Memoria-AI/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(consegne/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(consegne/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(creativi/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(creativi/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(cervello/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(cervello/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(pannello/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(pannello/**) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./cervello/vps/.env) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./cervello/vps/.env) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(**/.env) is not matched by file permission checks — only Edit(path) rules are. Use Edit(**/.env) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(**/.env.*) is not matched by file permission checks — only Edit(path) rules are. Use Edit(**/.env.*) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./.claude/settings.json) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./.claude/settings.json) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./.claude/settings.local.json) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./.claude/settings.local.json) instead (Edit rules cover all file-editing tools).",
+        "You've hit your session limit · resets 7:40am (Europe/Rome)"
+      ]
+    },
     {
       "quando": "2026-09-03 06:00",
       "cadenza": "ritmo-mattino",

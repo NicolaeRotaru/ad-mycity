@@ -12,10 +12,10 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-02 23:07",
-      "esito": "non-pubblicato",
+      "quando": "2026-09-03 06:41",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 1,
       "push_ok": false,
       "passi_ok": true,
       "vincoli_attivi": 12,
@@ -35,10 +35,10 @@
       ]
     },
     "monitora": {
-      "quando": "2026-09-02 06:38",
-      "esito": "non-pubblicato",
+      "quando": "2026-09-03 06:30",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 1,
       "push_ok": false,
       "passi_ok": true,
       "vincoli_attivi": 0,
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-03 06:00"
+  "aggiornato": "2026-09-03 06:41"
 }
