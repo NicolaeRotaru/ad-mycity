@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 839,
+    "findings": 840,
     "bloccanti": 26,
     "gravi": 329,
-    "minori": 484,
+    "minori": 485,
     "agenti": null
   },
   "confronto_precedente": {
@@ -15151,23 +15151,42 @@
       "giro": "2026-09-03",
       "verificato": true,
       "fonte_radiografia": "prove nel browser"
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e affidabilita'",
+      "titolo": "Il controllo che prova i permessi da fuori ha dieci minuti per installare i pacchetti E accendere un database intero: quando la macchina e lenta si spegne da solo",
+      "severita": "minore",
+      "file": ".github/workflows/ci.yml:112-114 (lavoro «Integration tests (DB)», timeout-minutes: 10) · tests/supabase-locale/avvia.sh:34 (npx supabase@2 start)",
+      "descrizione": "Il lavoro «Integration tests (DB)» deve fare due cose lente dentro una macchina vuota: installare i pacchetti con npm ci, e poi accendere uno stack Supabase intero via Docker. Ha dieci minuti in tutto. Quando la cache dei pacchetti di GitHub e lenta, l installazione da sola ne mangia cinque, e al Supabase ne restano meno di cinque: non ce la fa, il lavoro viene ucciso dal tetto e il controllo esce «cancelled». Non e una bocciatura: il registro si ferma alla riga «avvio Supabase locale» e non arriva mai a «applico le migrazioni», quindi nessuna riga di codice o di SQL del ramo viene guardata. Visto due volte di fila il 3/9/2026 sulla PR #249, su due tentativi indipendenti. Nella stessa finestra l installazione ci ha messo dai tre ai sette minuti su ogni lavoro e anche sul deposito ad-mycity, che non c entra: era la macchina, non il ramo.\n\nCausa radice: un tetto di tempo tarato sul caso buono (sul ramo principale l installazione dura 19 secondi e il Supabase si accende in 71) su un lavoro che, a differenza dei fratelli, deve pagare due costi lenti in fila. I lavori fratelli che fanno cose paragonabili hanno 15, 20 e 30 minuti; questo e l unico a 10 che debba anche accendere Docker.",
+      "impatto": "Un rosso che non vuol dire niente su una PR sana. Il danno vero non e il rosso in se: e che chi lo vede due volte impara a ignorarlo, e il giorno in cui quel controllo si spegne per un motivo VERO nessuno lo guarda. In piu, quando salta, lo strato che non viene provato e proprio quello dei permessi visti da fuori (attraverso PostgREST, come li vede un cliente). I permessi a livello SQL restano coperti dal lavoro gemello «Controlli database», che applica tutte le migrazioni su un Postgres vero: quello non salta.",
+      "fix": "Una riga: .github/workflows/ci.yml riga 114, timeout-minutes da 10 a 20 — allineandolo ai fratelli che fanno lavori paragonabili. Meglio ancora, in un secondo momento: separare l installazione dei pacchetti dall accensione del database, cosi il tetto copre un costo solo per volta, e dare al passo «Avvia un Supabase locale» un suo timeout esplicito con un messaggio che dica «il database di prova non si e acceso» invece di lasciare un «cancelled» muto.",
+      "fonte": "lotto 3/9/2026 — trovata portando al verde la CI della PR NicolaeRotaru/mycity#249",
+      "stato": "aperto",
+      "prova": "Osservata due volte sullo stesso commit (ee43888), su due tentativi indipendenti del lavoro «Integration tests (DB)». Tentativo 1 (run 33814013760, attempt 1): npm ci 22:38:27→22:43:42 (5m15s), passo «Avvia un Supabase locale» ucciso alle 22:48:40 senza mai stampare «applico le migrazioni». Tentativo 2 (stesso run, attempt 2, rilanciato a mano): npm ci 22:55:38→23:00:47 (5m09s), stesso passo ucciso alle 23:05:42. Confronto sul ramo principale (4f446aa, run 33674257355): npm ci 19s, «Avvia un Supabase locale» 71s, lavoro chiuso verde in 1m40s. Il file package-lock.json non e toccato dal ramo, quindi la chiave della cache e la stessa del ramo principale.",
+      "prova_tipo": "umano",
+      "prova_eseguita": true,
+      "causa_radice": "Un tetto di tempo (timeout-minutes: 10) tarato sul caso buono, su un lavoro che deve pagare in fila due costi lenti e variabili: npm ci e l accensione di uno stack Docker. Quando la cache dei pacchetti di GitHub rallenta, il primo costo mangia il budget del secondo e il lavoro muore prima di provare qualsiasi cosa.",
+      "impatto_crescita": "basso",
+      "verificato": "autore",
+      "fonte_radiografia": "lotto 2026-09-03"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-09-04 00:39",
+    "aggiornato": "2026-09-04 01:28",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 304,
+    "findings_aperti": 305,
     "findings_chiusi": 535,
-    "findings_tot": 839,
+    "findings_tot": 840,
     "aperti_per_severita": {
       "bloccante": 3,
       "grave": 26,
-      "minore": 275,
+      "minore": 276,
       "altre": 0
     },
-    "dichiarati_dal_referto": 839,
+    "dichiarati_dal_referto": 840,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-09-03",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
