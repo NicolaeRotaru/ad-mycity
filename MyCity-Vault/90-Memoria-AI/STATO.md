@@ -1,7 +1,51 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 10:31
+aggiornato: 2026-09-04 11:26
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **4/9 11:26 — Sesto passaggio pieno di oggi, 11 minuti dopo il precedente.** Nessuna novità.
+> Nessun numero cambiato.
+>
+> Riverificato dal vivo con query SQL diretta (MCP `execute_sql` su `orders`/`profiles`/`products`,
+> non a memoria): 1 ordine (24/6, annullato), **0 pagati**, 8 profili, 5 prodotti. Identico
+> bit-per-bit al passaggio delle 11:15. `git log --since="11:15"` è vuoto: zero commit
+> nell'intervallo. `AZIONI-IN-ATTESA.md` è invariato, a parte un timestamp automatico del banner
+> Supervisione negozi (10:27→11:08, nessuna proposta nuova). `DECISIONI.md` è invariato: nessuna
+> firma nuova di Nicola, top card ancora #193.
+>
+> Gate `chiusura-loop --gate` verde (2/2 reparti attivi oggi con ESITO). `ci-stato.mjs`
+> riverificato dal vivo: **7 PR rosse**, non più 8. La #855 ora risulta pronta per la firma. Le 7
+> restanti sono guasti vecchi (8/15→8/28), non nati da questo passaggio. Il gate NORTH_STAR le
+> lascia intoccate perché nessuna sblocca una card business. `north-star-check.mjs` e
+> `stash-dimenticate.mjs` sono di nuovo bloccati dallo stesso buco di permessi (card #104/#189), un
+> tentativo ciascuno.
+>
+> Con zero delta reale dall'ultimo giro pieno, questo passaggio non riscrive
+> auto-analisi/apprendimento/piani: sono già freschi, scritti 11 minuti fa. Riscriverli sarebbe
+> rumore su dati già verificati. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
+---
+
+> 🧭 **4/9 11:15 — Giro (quinto passaggio pieno di oggi): due gate di processo richiusi, nessun
+> numero di business cambiato.** Riverificato dal vivo con query SQL diretta (MCP `execute_sql`,
+> non a memoria): 1 ordine (24/6, annullato), **0 pagati**, 8 profili, 5 prodotti — invariato, 72°
+> giorno di stallo North Star (ricalcolato da zero: 2026-06-24→2026-09-04 = 72 giorni; i passaggi
+> precedenti di oggi avevano un conteggio che saliva per ogni passaggio invece che per giorno di
+> calendario, corretto qui). Due riparazioni vere: ① la mutazione-prova AR-046 (segnalata 69 volte
+> in apertura sessione) puntava a un valore di coda che invecchia a ogni giro perché
+> `storico-salute.json` cresce append-only — riancorata alla prima riga della serie (stabile per
+> costruzione); ② gate `chiusura-loop` era rosso (@intelligence senza ESITO di oggi) — registrato,
+> ora verde. `ci-stato.mjs` confermato dal vivo: 8/9 PR ancora rosse, tutte vecchie, non toccate
+> (NORTH_STAR vincola il lavoro macchina a ciò che sblocca una card business — nessuna lo fa qui).
+> `test-cervello.mjs`/`north-star-check.mjs`/`stash-dimenticate.mjs` restano bloccati dallo stesso
+> buco di permessi (card #104/#189), un tentativo ciascuno. Nessuna firma nuova di Nicola: top card
+> ancora #193. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🧭 **4/9 10:31 — Giro (quarto passaggio pieno di oggi): richiude un gate di processo, nessun
