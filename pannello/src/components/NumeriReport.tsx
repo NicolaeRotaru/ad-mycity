@@ -388,7 +388,7 @@ export default function NumeriReport() {
                   );
                 })}
               </div>
-              <div className="text-[12px] text-black/60">🛒 Carrelli abbandonati (7g): <b>{funnel.carrelli_abbandonati_7g}</b> — ordini quasi persi da recuperare.</div>
+              <div className="text-[12px] text-black/60">🛒 Carrelli abbandonati (7g): <b>{funnel.carrelli_abbandonati_7g ?? "—"}</b>{funnel.carrelli_abbandonati_7g == null ? " (non l'ho potuto misurare)" : " — ordini quasi persi da recuperare."}</div>
               {funnel.nota && <p className="text-[11px] text-amber-700 bg-amber-50 rounded-lg px-2.5 py-1.5">{funnel.nota}</p>}
             </>
           )}

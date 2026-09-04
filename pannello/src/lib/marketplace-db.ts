@@ -91,7 +91,7 @@ export async function marketplaceSelect(table: string, qs: string): Promise<any[
  * affidabili, non sono "0 reale"); `ok:true` con `rows:[]` = zero vero (query riuscita, nessuna riga).
  * Sola lettura: solo GET. Logghiamo comunque l'errore (visibile nei log Vercel).
  */
-async function selectRowsEsito(table: string, qs: string): Promise<{ rows: any[]; ok: boolean }> {
+export async function selectRowsEsito(table: string, qs: string): Promise<{ rows: any[]; ok: boolean }> {
   try {
     const res = await fetch(`${URL}/rest/v1/${table}?${qs}`, { headers: headers(), cache: "no-store" });
     if (!res.ok) {
@@ -115,6 +115,46 @@ async function selectRows(table: string, qs: string): Promise<any[]> {
   return (await selectRowsEsito(table, qs)).rows;
 }
 
+/**
+ * 3/9/2026 — LA CABINA CHIEDEVA UNA COLONNA CHE NEL SITO NON ESISTE.
+ *
+ * Qui si leggeva `abandoned_carts` chiedendo `created_at`. Quella colonna non
+ * c'e' mai stata: la tabella nasce (migrazione 027 del sito) con `user_id`,
+ * `cart_data`, `cart_total`, `last_activity`, `recovery_email_sent_at`,
+ * `recovered`. PostgREST rifiuta la richiesta INTERA quando una colonna non
+ * esiste — non ne toglie una: rifiuta tutto — quindi la lettura tornava vuota.
+ * Nei registri di produzione: 1.792 errori «column abandoned_carts.created_at
+ * does not exist» in ventiquattro ore.
+ *
+ * E il pezzo grave e' cosa vedeva Nicola: la lista vuota diventava «0 carrelli
+ * abbandonati», un numero, in una Cabina dove i numeri si guardano per
+ * decidere. «Nessuno lascia il carrello» e «non l'ho misurato» sono due notizie
+ * opposte, e la Cabina mostrava la prima avendo in mano la seconda.
+ *
+ * La causa radice: le domande erano scritte su nomi di colonna SUPPOSTI. Le
+ * migrazioni del sito sono leggibili, e nessuno le aveva aperte.
+ *
+ * `recovered_at` — il quando del recupero — arriva con la migrazione 148, che
+ * si applica a mano: puo' esserci o no. Il sito stesso, quando scrive, si e'
+ * gia' attrezzato a farne a meno (`lib/carrelli-abbandonati.ts`). Qui si fa lo
+ * stesso in lettura: si chiede la colonna precisa, e se il database la rifiuta
+ * si ripiega su quelle che ci sono da sempre — perdendo il conto dei recuperi,
+ * che diventa «non lo so», non «zero».
+ */
+const CARRELLI_COLONNE_SEMPRE = "recovered,last_activity";
+const CARRELLI_COLONNE_CON_RECUPERO = `${CARRELLI_COLONNE_SEMPRE},recovered_at`;
+
+export async function leggiCarrelli(): Promise<{ rows: any[]; ok: boolean; conRecupero: boolean }> {
+  const preciso = await selectRowsEsito(
+    "abandoned_carts",
+    `select=${CARRELLI_COLONNE_CON_RECUPERO}&limit=10000`
+  );
+  if (preciso.ok) return { ...preciso, conRecupero: true };
+  // La migrazione 148 non e' applicata la': si rinuncia al QUANDO, non al FATTO.
+  const base = await selectRowsEsito("abandoned_carts", `select=${CARRELLI_COLONNE_SEMPRE}&limit=10000`);
+  return { ...base, conRecupero: false };
+}
+
 export type Metriche = {
   connected: boolean;
   error?: string;
@@ -133,7 +173,7 @@ export async function getMetriche(): Promise<Metriche> {
     const [ordersR, profilesR, cartsR, reviewsR] = await Promise.all([
       selectRowsEsito("orders", "select=total_price,payment_status,delivery_status,created_at,delivered_at,user_id&limit=10000"),
       selectRowsEsito("profiles", "select=role,created_at&limit=10000"),
-      selectRowsEsito("abandoned_carts", "select=recovered,created_at&limit=10000"),
+      leggiCarrelli(),
       selectRowsEsito("store_reviews", "select=rating&limit=10000"),
     ]);
     const orders = ordersR.rows;
@@ -151,7 +191,18 @@ export async function getMetriche(): Promise<Metriche> {
     const romeFmt = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome" });
     const oggi = romeFmt.format(new Date());
     const t = (iso: string) => new Date(iso).getTime();
-    const isOggi = (iso: string) => romeFmt.format(new Date(iso)) === oggi;
+    // UNA RIGA STORTA NON SPEGNE LA CABINA (AR-897, 3/9/2026).
+    //
+    // `Intl.DateTimeFormat.format` LANCIA su una data che non si legge. Questa funzione gira
+    // dentro l'unico try/catch del cruscotto, quindi un solo `created_at` illeggibile — o `null` —
+    // faceva uscire `connected: false, error: "Invalid time value"`: a Nicola la Cabina diceva
+    // «database non collegato», che e' la causa sbagliata, e lui andava a cercare il guasto dove
+    // non era. Una data che non si legge e' una riga che non conta, non un database spento.
+    const isOggi = (iso: string) => {
+      const q = new Date(iso);
+      if (Number.isNaN(q.getTime())) return false;
+      return romeFmt.format(q) === oggi;
+    };
     const notFailed = (o: any) => o.payment_status !== "FAILED";
     const paid = (o: any) => o.payment_status === "PAID";
     const num = (v: any) => Number(v) || 0;
@@ -165,8 +216,22 @@ export async function getMetriche(): Promise<Metriche> {
     const paidOggi = orders.filter((o) => paid(o) && isOggi(o.created_at));
     const paid7 = orders.filter((o) => paid(o) && t(o.created_at) >= d7);
     const paid30 = orders.filter((o) => paid(o) && t(o.created_at) >= d30);
-    const delivered = orders.filter((o) => o.delivered_at);
+    // Una riga con la data storta non deve tirare giu' la media: `t()` su una data illeggibile
+    // torna NaN, e `Math.max(0, NaN)` fa 0 — cioe' una consegna «istantanea» che abbassa il numero
+    // che Nicola legge. Qui entrano solo le righe che hanno tutt'e due le date leggibili.
+    const leggibile = (iso: unknown) => typeof iso === "string" && !Number.isNaN(new Date(iso).getTime());
+    const delivered = orders.filter((o) => leggibile(o.delivered_at) && leggibile(o.created_at));
     const ratings = reviews.map((r) => num(r.rating)).filter((n) => n > 0);
+
+    // I carrelli: chi non e' tornato, chi e' tornato, e le due domande che si
+    // fanno su di loro. `seLetto`/`seRecupero` sono il cancello della verita':
+    // quando la lettura non e' riuscita non esce uno zero, non esce niente.
+    const abbandonati = carts.filter((c) => c.recovered !== true);
+    const recuperati = carts.filter((c) => c.recovered === true);
+    const quanti = (righe: any[], campo: string, dentro: (iso: string) => boolean) =>
+      righe.filter((c) => c[campo] && dentro(c[campo])).length;
+    const seLetto = (n: number) => (cartsR.ok ? n : undefined);
+    const seRecupero = (n: number) => (cartsR.ok && cartsR.conRecupero ? n : undefined);
 
     const ultimoOrdine: Record<string, number> = {};
     for (const o of orders) {
@@ -203,14 +268,20 @@ export async function getMetriche(): Promise<Metriche> {
       clienti_attivi_7g: attiviIn((iso) => t(iso) >= d7),
       clienti_attivi_30g: attiviIn((iso) => t(iso) >= d30),
       clienti_dormienti: ultimi.filter((tt) => tt < d30).length,
-      // --- Carrelli (richiede created_at su abandoned_carts) ---
-      carrelli: carts.filter((c) => c.recovered !== true).length,
-      carrelli_oggi: carts.filter((c) => c.recovered !== true && c.created_at && isOggi(c.created_at)).length,
-      carrelli_7g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d7).length,
-      carrelli_30g: carts.filter((c) => c.recovered !== true && c.created_at && t(c.created_at) >= d30).length,
-      carrelli_recuperati_oggi: carts.filter((c) => c.recovered === true && c.created_at && isOggi(c.created_at)).length,
-      carrelli_recuperati_7g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d7).length,
-      carrelli_recuperati_30g: carts.filter((c) => c.recovered === true && c.created_at && t(c.created_at) >= d30).length,
+      // --- Carrelli --- il tempo di un carrello e' `last_activity`, non `created_at`
+      // (vedi la nota sopra `leggiCarrelli`). Se la lettura non e' riuscita il
+      // numero non esiste: la Cabina mostra "—" e Nicola sa che non e' misurato.
+      carrelli: seLetto(abbandonati.length),
+      carrelli_oggi: seLetto(quanti(abbandonati, "last_activity", isOggi)),
+      carrelli_7g: seLetto(quanti(abbandonati, "last_activity", (iso) => t(iso) >= d7)),
+      carrelli_30g: seLetto(quanti(abbandonati, "last_activity", (iso) => t(iso) >= d30)),
+      // Il QUANDO di un recupero sta in `recovered_at`. Senza quella colonna il
+      // dato non si approssima con `last_activity`: quello e' l'ultimo tocco del
+      // carrello, che puo' essere di giorni prima dell'ordine. Un numero
+      // sbagliato in Cabina e' peggio di una casella vuota.
+      carrelli_recuperati_oggi: seRecupero(quanti(recuperati, "recovered_at", isOggi)),
+      carrelli_recuperati_7g: seRecupero(quanti(recuperati, "recovered_at", (iso) => t(iso) >= d7)),
+      carrelli_recuperati_30g: seRecupero(quanti(recuperati, "recovered_at", (iso) => t(iso) >= d30)),
       // --- Negozi ---
       negozi: profiles.filter((p) => p.role === "seller").length,
       nuovi_negozi_oggi: profiles.filter((p) => p.role === "seller" && isOggi(p.created_at)).length,
@@ -254,7 +325,9 @@ export async function getRetention(): Promise<{ connected: boolean; [k: string]:
     for (const o of paid) {
       const k = String(o.user_id);
       (perCliente[k] ||= { t: [], spesa: 0 });
-      perCliente[k].t.push(new Date(o.created_at).getTime());
+      const quando = new Date(o.created_at).getTime();
+      if (Number.isNaN(quando)) continue; // riga senza data leggibile: non conta, non spegne
+      perCliente[k].t.push(quando);
       perCliente[k].spesa += Number(o.total_price) || 0;
     }
     const clienti = Object.values(perCliente);
@@ -280,7 +353,11 @@ export async function getRetention(): Promise<{ connected: boolean; [k: string]:
     const fmtMese = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Rome", year: "numeric", month: "2-digit" });
     const coorti: Record<string, { clienti: number; riacquisto: number }> = {};
     for (const c of clienti) {
-      const mese = fmtMese.format(new Date(Math.min(...c.t))).slice(0, 7); // YYYY-MM
+      // Una data storta qui faceva lanciare `format` e spegneva l'intera schermata con
+      // «database non collegato», che e' la causa sbagliata: e' lo stesso difetto di `isOggi`.
+      const primo = Math.min(...c.t.filter((x: number) => Number.isFinite(x)));
+      if (!Number.isFinite(primo)) continue;
+      const mese = fmtMese.format(new Date(primo)).slice(0, 7); // YYYY-MM
       (coorti[mese] ||= { clienti: 0, riacquisto: 0 });
       coorti[mese].clienti++;
       if (c.t.length >= 2) coorti[mese].riacquisto++;
@@ -324,6 +401,7 @@ export async function getPatternOrari(): Promise<{ connected: boolean; [k: strin
     const perGiorno = new Array(7).fill(0) as number[];
     for (const o of validi) {
       const d = new Date(o.created_at);
+      if (Number.isNaN(d.getTime())) continue; // una data storta toglie la riga, non la schermata
       perOra[parseInt(fmtH.format(d), 10) % 24]++;
       const w = wmap[fmtW.format(d)];
       if (w != null) perGiorno[w]++;

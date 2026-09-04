@@ -1,10 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 01:01
+aggiornato: 2026-09-03 21:00
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🔧 **2026-09-03 21:00 — Lotto di riparazione del sito: 97 problemi seri chiusi su 110, e uno che nessuno aveva mai visto era il peggiore.** Richiesta tua: «risolvi il maggior numero di problemi del marketplace».
+>
+> **In parole semplici.** Il marketplace aveva 110 problemi fra bloccanti e gravi. Ne abbiamo chiusi 97 su 110. Il registro dei difetti del sito passa da 369 aperti a 304: i gravi scendono da 106 a 26, i bloccanti da 4 a 3. Le prove che girano da sole passano da 2411 a 3200.
+>
+> **Cosa cambia per te.** Il sito adesso fa quello che scrive. Un esempio vero: 18 euro di pane dal fornaio e 18 di carne dal macellaio. La barra diceva «Spedizione gratis», perché sommava i due negozi. Poi il totale addebitava due spedizioni, perché la soglia vale per negozio. Adesso le due cose dicono la stessa cosa.
+>
+> **La scoperta più grossa non stava in nessuna radiografia.** Abbiamo acceso il sito in un browser vero, per la prima volta. Le pagine preparate in anticipo arrivavano al cliente senza il loro JavaScript: erano 95 su 95. Accesso, carrello e cassa erano gusci morti in produzione. Chiusa con una riga, tenendo la sicurezza dov'era.
+>
+> **Poi due cose che il codice diceva e non faceva.** La cancellazione dell'account non cancellava niente: scriveva una colonna che nel database non esiste, e il database rifiutava tutta la riga. E un cliente poteva approvarsi da solo il rimborso di un ordine già consegnato.
+>
+> **Come è andata.** Quattordici squadre hanno riparato, ognuna sui suoi file. Poi cinque revisori hanno riguardato i 146 file toccati, perché chi costruisce non collauda. Hanno trovato 41 cose su un lavoro dichiarato finito, e 4 di quelle 41 erano nate quella stessa mattina insieme alle riparazioni. Le più care sono chiuse.
+>
+> **Cosa devi fare.** Firma la richiesta di unione (una sola, NicolaeRotaru/mycity#249). Poi le quattro migrazioni nuove del database, che non ho applicato. E restano le tre card di sempre: #192 il dominio, #191 le migrazioni in produzione, #190 il reso.
+>
+> **Cosa non ho verificato.** Nessuno ha comprato niente da un browser vero: le prove provano il codice, non l'esperienza. Le migrazioni sono provate su una copia locale, non in produzione. Le impaginazioni sono calcolate, non guardate.
+>
+> Referto: `consegne/audit/2026-09-03-lotto-riparazione-sito.md`
 
 > 🩻 **2026-09-03 11:10 — Radiografia totale del sito: 182 problemi nuovi, 174 noti chiusi, 8 da arbitrare, e le due cose più gravi stanno fuori dal codice.** Richiesta tua: «fai la radiografia totale del sito».
 >
