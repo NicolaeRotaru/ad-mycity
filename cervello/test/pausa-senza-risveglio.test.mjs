@@ -209,7 +209,14 @@ prova("nella coda vera ogni card in pausa ha un momento in cui finisce", () => {
   // suite rossa su main). L'invariante che questa prova difende è nel ciclo qui sotto: OGNI card in
   // pausa dice da quale fatto dipende e di che classe è. La soglia serve solo a garantire che il
   // ciclo non giri a vuoto — e per questo basta che ce ne sia almeno una.
-  assert.ok(inPausa.length >= 1, "nessuna card in pausa nella coda: il ciclo qui sotto non proverebbe nulla");
+  // 3/9: la pausa «rinvio negozi» è finita l'1/9 e `pausa-check.mjs --risveglia` ha svegliato le dieci
+  // card che ci stavano dentro. Con zero card in pausa il ciclo non ha nulla da provare: si dice, non si
+  // finge un rosso. L'invariante resta difeso dai casi con orologio finto qui sopra, e torna a mordere
+  // sulla coda vera alla prossima pausa.
+  if (inPausa.length === 0) {
+    console.log("   ⚪ nessuna card in pausa nella coda vera adesso: il ciclo non ha nulla da provare (i casi con orologio finto coprono l'invariante)");
+    return;
+  }
   for (const c of inPausa) {
     assert.ok(c.pausa?.fatto, `#${c.id} (riga ${c.riga}) è in pausa e non dice da quale fatto dipende`);
     assert.ok(["business", "validazione"].includes(c.pausa.classe), `#${c.id} non dichiara la classe`);

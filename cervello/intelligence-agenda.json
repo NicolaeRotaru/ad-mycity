@@ -1,7 +1,7 @@
 {
   "ok": true,
-  "quando": "2026-08-28 16:52",
-  "fonti_dovute": 13,
+  "quando": "2026-09-03 11:01",
+  "fonti_dovute": 9,
   "fonti_totali": 18,
   "agenda": [
     {
@@ -117,22 +117,6 @@
       "motivo": "giornaliera"
     },
     {
-      "id": "comune-imprese",
-      "nome": "Comune — Imprese e commercio / bandi",
-      "peso": 4,
-      "cadenza": "settimanale",
-      "scrive_in": "leve-uscita",
-      "senior": [
-        "relazioni-istituzionali",
-        "legale-privacy"
-      ],
-      "cosa_cercare": "bandi commercio, voucher, scadenze, agevolazioni per le botteghe",
-      "url": "https://www.comune.piacenza.it/it/page/imprese-e-commercio-139",
-      "url_websearch": "https://www.google.com/search?q=comune+piacenza+bandi+imprese+commercio+2026",
-      "skip_check": true,
-      "motivo": "settimanale_stale_18g"
-    },
-    {
       "id": "unionecommercianti-bandi",
       "nome": "Unione Commercianti PC — Bandi e agevolazioni",
       "peso": 4,
@@ -163,86 +147,38 @@
       "url_websearch": null,
       "skip_check": false,
       "motivo": "giornaliera"
-    },
-    {
-      "id": "vitaincentro",
-      "nome": "Vita in Centro a Piacenza",
-      "peso": 3,
-      "cadenza": "settimanale",
-      "scrive_in": "leve-uscita",
-      "senior": [
-        "relazioni-istituzionali",
-        "marketing"
-      ],
-      "cosa_cercare": "Sbaracco, saldi, iniziative del centro, partnership possibili",
-      "url": "https://www.vitaincentroapiacenza.com/category/news/",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_18g"
-    },
-    {
-      "id": "unionecommercianti",
-      "nome": "Unione Commercianti Piacenza",
-      "peso": 3,
-      "cadenza": "settimanale",
-      "scrive_in": "leve-uscita",
-      "senior": [
-        "relazioni-istituzionali",
-        "vendite"
-      ],
-      "cosa_cercare": "iniziative associazione, eventi commercio, aperture, possibili alleanze",
-      "url": "https://www.unionecommerciantipc.it/",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_18g"
-    },
-    {
-      "id": "reputazione-mycity",
-      "nome": "Reputazione MyCity & negozi (ricerca aperta)",
-      "peso": 3,
-      "cadenza": "settimanale",
-      "scrive_in": "reputazione",
-      "senior": [
-        "supporto",
-        "pr-stampa"
-      ],
-      "cosa_cercare": "menzioni di MyCity e dei nostri negozi, recensioni Google/social, sentiment, lamentele ricorrenti",
-      "url": "https://www.google.com/search?q=MyCity+Piacenza",
-      "url_websearch": null,
-      "skip_check": false,
-      "motivo": "settimanale_stale_10g"
     }
   ],
   "stale": [
     {
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
-      "ultimo": "2026-08-24",
-      "giorni": 4
+      "ultimo": "2026-09-01",
+      "giorni": 2
     },
     {
       "file": "eventi-picchi",
       "path": "eventi-picchi.md",
-      "ultimo": "2026-08-24",
-      "giorni": 4
+      "ultimo": "2026-09-01",
+      "giorni": 2
     },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
-      "ultimo": "2026-08-10",
-      "giorni": 18
+      "ultimo": "2026-09-01",
+      "giorni": 2
     },
     {
       "file": "leve-uscita",
       "path": "leve-uscita.md",
-      "ultimo": "2026-08-10",
-      "giorni": 18
+      "ultimo": "2026-09-01",
+      "giorni": 2
     },
     {
       "file": "reputazione",
       "path": "reputazione.md",
-      "ultimo": "2026-08-18",
-      "giorni": 10
+      "ultimo": "2026-09-01",
+      "giorni": 2
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"
