@@ -21,7 +21,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { eGuardiano, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
+import { eGuardiano, fantasmi, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
 import { elenca } from "../guardia-viva-check.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -260,4 +260,26 @@ test("una copia di lavoro sotto .claude/worktrees non viene scandita come repo",
   } finally {
     rmSync(base, { recursive: true, force: true });
   }
+});
+
+test("AR-937: una scusa rimasta addosso a un guardiano che ORA e' agganciato e' una voce fantasma", () => {
+  // IL CASO CHE HA ROTTO, 4/9. Fondendo main dentro questo ramo, `cervello/guardiani-motivi.json`
+  // e' tornato a contenere la scusa «due-case.mjs e puntatori-scollegati.mjs non li esegue nessuno»
+  // — scusa che questo ramo aveva TOLTO, perche' AR-797 e AR-798 li hanno agganciati al cancello per
+  // davvero. Il codice li lanciava e il registro diceva il contrario: due verita' opposte sullo
+  // stesso fatto, e tre prove diventate rosse sul runner.
+  //
+  // La causa non e' git: e' che unire due registri PER CHIAVE esprime le aggiunte e non esprime le
+  // RIMOZIONI. Una cancellazione e' un fatto, e l'unione la perde in silenzio. Questa e' la prova
+  // che quel fatto ha un guardiano: chi e' invocato davvero NON puo' tenersi anche la scusa.
+  const registro = { "x.mjs": { motivo: "decisione", perche: "nessuno lo esegue, e va bene cosi" } };
+
+  // ① finche' nessuno lo invoca, la scusa e' legittima: nessun fantasma.
+  assert.deepEqual(fantasmi(["x.mjs"], registro, new Set()), [], "una scusa su uno strumento davvero non invocato non e' un fantasma");
+
+  // ② appena qualcuno lo invoca DAVVERO, la scusa diventa una bugia e va nominata.
+  assert.deepEqual(fantasmi(["x.mjs"], registro, new Set(["x.mjs"])), ["x.mjs"], "chi e' agganciato non puo' tenersi anche la scusa di non esserlo");
+
+  // ③ e una scusa su uno strumento che non esiste piu' resta un fantasma, come sempre.
+  assert.deepEqual(fantasmi([], registro, new Set()), ["x.mjs"], "una scusa su uno strumento sparito e' un fantasma");
 });

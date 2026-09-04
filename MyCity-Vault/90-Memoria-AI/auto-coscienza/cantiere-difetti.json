@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-04 12:35",
+  "aggiornato": "2026-09-04 12:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20012,6 +20012,27 @@
       },
       "trovato_da": "il collaudo del lavoro di AR-918: le prove dei file toccati, lanciate insieme, davano un rosso che da sole non davano",
       "chiuso_il": "2026-09-04 11:35",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-937",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-04 12:05",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-919",
+      "titolo": "Fondere i registri per chiave sa AGGIUNGERE ma non sa TOGLIERE: due difetti chiusi sono tornati aperti in silenzio",
+      "sintomo": "Dopo la fusione con main, tre prove rosse sul runner che qui erano verdi prima: archivi-senza-tetto, guardiano-mai-messo-di-guardia, il-guardiano-agganciato-ferma-il-cancello. La causa delle ultime due: `cervello/guardiani-motivi.json` conteneva di nuovo la scusa «due-case.mjs e puntatori-scollegati.mjs non sono agganciati a nessuno» — scusa che questo ramo aveva TOLTO apposta, perche' AR-797 e AR-798 li hanno agganciati al cancello per davvero. Il codice li lanciava (righe 1092 e 1129 di cancello-lotto.mjs) e il registro diceva che non li lanciava nessuno: due verita opposte sullo stesso fatto, e il guardiano della guardia le ha viste come voci fantasma.",
+      "causa_radice": "La regola con cui fondo i registri — unione per chiave, con setdefault — esprime le AGGIUNTE e non esprime le RIMOZIONI. Se questo ramo ha tolto una voce e main ce l ha ancora, l unione la rimette: la cancellazione era un fatto e sparisce senza lasciare traccia. Non e un difetto di git, e del mio metodo, e non e teorico: ha riaperto due difetti chiusi. Il conto controllato dopo: mutazioni tolte 5, tornate 0; schede tolte 0; lezioni tolte 0 — il registro dei motivi era l unico che stavolta ne aveva.",
+      "fix_proposto": "🟡 FATTO su questo caso (le due scuse rimosse, `spazzata-frase.mjs` di main tenuta) e, quel che conta, la REGOLA: dopo aver fuso un registro non basta contare le voci — va rilanciato il guardiano CHE POSSIEDE quel registro, perche' l unico che sa se il contenuto e coerente e lui. La differenza fra le voci non e una misura di coerenza. Concretamente: dopo ogni fusione si esegue la lista dei guardiani del cancello, non un sottoinsieme scelto a mano — la volta scorsa ne avevo lanciati sedici, e `guardia-viva-check.mjs` non era fra quelli.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
+        "nota": "Tre casi sulla funzione pura `fantasmi()`: una scusa su uno strumento davvero non invocato e' legittima; appena quello strumento viene invocato DAVVERO la scusa diventa una bugia e va nominata (e' il caso che ha rotto); una scusa su uno strumento sparito resta un fantasma. Rimuovendo il filtro degli invocati la prova diventa rossa — misurato. In esercizio il freno e' `node cervello/guardia-viva-check.mjs`, che ha nominato le due voci fantasma vere prima della cura ed e' tornato a zero dopo."
+      },
+      "trovato_da": "la suite del cervello sul runner dopo la fusione (corsa 33858701337): tre rossi che in locale non c erano perche' avevo controllato solo sedici guardiani su ventotto",
+      "chiuso_il": "2026-09-04 12:05",
       "chiuso_come": "riparato"
     }
   ],
