@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-04 00:00",
+  "aggiornato": "2026-09-04 11:28",
   "giorni_sospetto": 3,
-  "difetti_aperti": 153,
-  "difetti_da_fare": 153,
+  "difetti_aperti": 167,
+  "difetti_da_fare": 167,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 908,
-    "chiusi": 755,
-    "aperti": 142,
+    "totale": 927,
+    "chiusi": 760,
+    "aperti": 156,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 153,
+    "da_fare": 167,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 755,
-      "aperto": 142,
+      "chiuso": 760,
+      "aperto": 156,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 153,
-    "viste": 153,
+    "attese": 167,
+    "viste": 167,
     "fuori": 0,
-    "motivo": "bilancio a posto: 755 chiuse + 153 classificate = 908 schede, e ogni stato vivo è dentro (142 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 760 chiuse + 167 classificate = 927 schede, e ogni stato vivo è dentro (156 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 96,
+    "umana": 110,
     "prova-debole-su-grave": 26,
     "auto-comando": 27,
     "auto-sospetta": 4
@@ -406,7 +406,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 126,
+  "non_auto_chiudibili": 140,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -649,6 +649,71 @@
     },
     {
       "id": "AR-748",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-898",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-899",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-900",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-901",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-902",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-904",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-905",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-907",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-908",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-909",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-910",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-911",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-912",
       "gravita": "minore",
       "stato": "aperto"
     }
@@ -3522,6 +3587,188 @@
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Lo strumento che alleggerisce la coda non riconosce le carte chiuse scritte col formato vecchio, e la coda si ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-898",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Se la migrazione 148 non e' applicata, ogni apertura della Cabina fa due domande e lascia un errore nei regist",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-899",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il conto dei carrelli si ferma a diecimila righe e non lo dice",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-900",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il tempo non esplode piu' ma cresce ancora col quadrato: la ricerca della parola dopo scandisce fino a fine fi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-901",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "La ricerca nuova prende la prima occorrenza della parola di mezzo e non torna indietro: una frase spezzata con",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-902",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "L'intestazione dichiara cartelle che non ha letto e posti che non si distinguono l'uno dall'altro",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-904",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Una data che non si legge fa cadere TUTTA la Cabina in «database non collegato», che e' la causa sbagliata",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-905",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "I carrelli si leggono tutti e si tagliano a diecimila righe senza dirlo, e il filtro dei sette giorni si fa a ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-906",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La spazzata delle frasi non ha un elenco da sorvegliare: la lancia chi ripara, e chi non ci pensa non la lanci",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-907",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Delle due difese sui collegamenti simbolici il banco ne tiene UNA: tolta quella sulla cartella di partenza, 18",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-908",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il caso sulle altre due schermate sorveglia una FRASE, non la schermata: le uccido tutte e due e il banco rest",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-909",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Una riga storta toglie ancora piu' della sua riga: un cliente dormiente sparisce dal conto per colpa di un suo",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-910",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "In «Retention» resta un cliente fantasma: conta fra i paganti, non compare nella distribuzione e dimezza l'LTV",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-911",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "In «Pattern orari» il totale conta le righe che il grafico ha saltato: dice 3 ordini e ne disegna 2",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-912",
+      "gravita": "minore",
+      "eta_giorni": 1,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il collegamento su una SOTTOcartella si salta in silenzio: verde e uscita 0 sopra codice mai aperto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

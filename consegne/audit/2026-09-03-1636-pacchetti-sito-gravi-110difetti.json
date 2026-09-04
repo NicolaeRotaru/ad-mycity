@@ -1,0 +1,1506 @@
+{
+  "_cosa_e": "I pacchetti di un lotto: una squadra per pacchetto, cinque squadre per ondata. Lo scrive cervello/pacchetti-lotto.mjs.",
+  "generato": "2026-09-03 16:36",
+  "registro": "sito",
+  "aperti": 369,
+  "prova_umana": null,
+  "_prova_umana": "non misurata: le schede del sito non hanno il campo verifica",
+  "solo_gravi": true,
+  "quota": 110,
+  "coperti": 110,
+  "fuori": 0,
+  "coppie_che_si_toccano": [
+    [
+      "app/product/[id]/page.tsx",
+      "app/checkout/page.tsx",
+      [
+        "app/product/[id]/page.tsx",
+        "app/checkout/page.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "app/globals.css",
+      [
+        "components/home-sections/HomeSectionRenderer.tsx",
+        "components/StickyAddToCart.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "app/orders/[id]/page.tsx",
+      [
+        "lib/image-url.ts"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/home-sections/HomeSectionRenderer.tsx",
+      [
+        "components/home-sections/HomeSectionRenderer.tsx",
+        "components/ProductGrid.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "app/layout.tsx",
+      [
+        "app/page.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/ProductCard.tsx",
+      [
+        "components/ProductCard.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/store-sections/HeroSection.tsx",
+      [
+        "app/store/[id]/page.tsx"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "components/Navbar.tsx",
+      [
+        "app/profile/referral/page.tsx"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/cart/page.tsx",
+      [
+        "app/cart/page.tsx"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/api/orders/cod/route.ts",
+      [
+        "app/api/orders/cod/route.ts",
+        "lib/stripe/payout.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "lib/captcha.ts",
+      [
+        "lib/captcha.ts",
+        "app/api/auth/signin/route.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/auth/callback/route.ts",
+      [
+        "app/sign-in/page.tsx"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "migrations/024_blockers_money_kyc_returns_cash.sql",
+      [
+        "app/api/returns/create/route.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/api/stripe/checkout/route.ts",
+      [
+        "app/api/stripe/checkout/route.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "lib/stripe/payout.ts",
+      [
+        "lib/stripe/payout.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/rider/onboarding/page.tsx",
+      [
+        "app/rider/onboarding/page.tsx",
+        "migrations/119_radiografia_18_agosto.sql"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/api/health/route.ts",
+      [
+        "app/api/health/route.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "lib/email/templates.ts",
+      [
+        "lib/email/templates.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "components/MobileTabBar.tsx",
+      [
+        "lib/account-menu.ts"
+      ]
+    ],
+    [
+      "app/checkout/page.tsx",
+      "app/faq/page.tsx",
+      [
+        "app/faq/page.tsx"
+      ]
+    ],
+    [
+      "components/Navbar.tsx",
+      "app/globals.css",
+      [
+        "app/seller/dashboard/page.tsx",
+        "app/globals.css"
+      ]
+    ],
+    [
+      "components/Navbar.tsx",
+      "app/seller/dashboard/page.tsx",
+      [
+        "app/seller/dashboard/page.tsx"
+      ]
+    ],
+    [
+      "components/Navbar.tsx",
+      "components/store-sections/HeroSection.tsx",
+      [
+        "components/store-sections/HeroSection.tsx"
+      ]
+    ],
+    [
+      "components/Navbar.tsx",
+      "lib/supabase/client.ts",
+      [
+        "lib/supabase/client.ts"
+      ]
+    ],
+    [
+      "components/Navbar.tsx",
+      "components/MobileTabBar.tsx",
+      [
+        "components/MobileAccountSheet.tsx",
+        "components/MobileTabBar.tsx"
+      ]
+    ],
+    [
+      "lib/ordini/annulla.ts",
+      "app/api/orders/cod/route.ts",
+      [
+        "migrations/127_minori_22_agosto.sql"
+      ]
+    ],
+    [
+      "lib/ordini/annulla.ts",
+      "app/rider/onboarding/page.tsx",
+      [
+        "app/terms/page.tsx"
+      ]
+    ],
+    [
+      "app/globals.css",
+      "app/orders/[id]/page.tsx",
+      [
+        "components/home/ShopOfMonthHero.tsx"
+      ]
+    ],
+    [
+      "app/globals.css",
+      "app/seller/dashboard/page.tsx",
+      [
+        "app/seller/dashboard/page.tsx"
+      ]
+    ],
+    [
+      "app/globals.css",
+      "components/home-sections/HomeSectionRenderer.tsx",
+      [
+        "components/home-sections/HomeSectionRenderer.tsx"
+      ]
+    ],
+    [
+      "app/globals.css",
+      "app/layout.tsx",
+      [
+        "app/layout.tsx"
+      ]
+    ],
+    [
+      "app/globals.css",
+      "app/search/page.tsx",
+      [
+        "app/search/page.tsx",
+        "app/category/[slug]/page.tsx"
+      ]
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      "components/home-sections/HomeSectionRenderer.tsx",
+      [
+        "components/home-sections/ReorderRail.tsx"
+      ]
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      "app/search/page.tsx",
+      [
+        "components/ui/Button.tsx"
+      ]
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      "app/events/page.tsx",
+      [
+        "app/shop-of-month/page.tsx"
+      ]
+    ],
+    [
+      "lib/account/cancellazione.ts",
+      "migrations/024_blockers_money_kyc_returns_cash.sql",
+      [
+        "migrations/024_blockers_money_kyc_returns_cash.sql"
+      ]
+    ],
+    [
+      "lib/account/cancellazione.ts",
+      "app/api/cron/process-deletions/route.ts",
+      [
+        "app/api/cron/process-deletions/route.ts"
+      ]
+    ],
+    [
+      "app/api/track/route.ts",
+      "app/auth/callback/route.ts",
+      [
+        "app/auth/callback/route.ts"
+      ]
+    ],
+    [
+      "app/seller/dashboard/page.tsx",
+      "app/seller/analytics/page.tsx",
+      [
+        "app/seller/analytics/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "migrations/024_blockers_money_kyc_returns_cash.sql",
+      [
+        "app/api/returns/[id]/avanza/route.ts"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/api/stripe/checkout/route.ts",
+      [
+        "lib/stripe/webhook/ordini.ts"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "lib/stripe/payout.ts",
+      [
+        "lib/stripe/payout.ts"
+      ]
+    ],
+    [
+      "app/seller/analytics/page.tsx",
+      "app/seller/products/page.tsx",
+      [
+        "app/seller/products/page.tsx"
+      ]
+    ],
+    [
+      "app/events/page.tsx",
+      "components/home/HomeEvents.tsx",
+      [
+        "app/events/page.tsx",
+        "components/home/HomeEvents.tsx"
+      ]
+    ]
+  ],
+  "ondate": [
+    [
+      {
+        "chiave": "app/product/[id]/page.tsx",
+        "difetti": [
+          {
+            "chiave": "performance|home e scheda prodotto arrivano vuote nell'html: tutto il contenuto lo va a prendere il browser, in una quindicina di viaggi al database",
+            "titolo": "Home e scheda prodotto arrivano vuote nell'HTML: tutto il contenuto lo va a prendere il browser, in una quindicina di viaggi al database",
+            "gravita": "grave",
+            "gruppo": "performance",
+            "dove": "app/page.tsx · components/home-sections/HomeSectionRenderer.tsx:185-308 · app/product/[id]/page.tsx:1 · components/ProductGrid.tsx:187",
+            "umano": null
+          },
+          {
+            "chiave": "layout-responsive|sul tablet il riquadro «aggiungi al carrello» finisce sotto la foto, con mezza pagina vuota accanto",
+            "titolo": "Sul tablet il riquadro «Aggiungi al carrello» finisce sotto la foto, con mezza pagina vuota accanto",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "app/product/[id]/page.tsx:485 (griglia) e :851 (terzo figlio)",
+            "umano": null
+          },
+          {
+            "chiave": "layout-responsive|la barra d'acquisto in fondo alla scheda prodotto e' troppo stretta: la scritta del pulsante va a capo e il prezzo tocca lo stepper",
+            "titolo": "La barra d'acquisto in fondo alla scheda prodotto e' troppo stretta: la scritta del pulsante va a capo e il prezzo tocca lo stepper",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "components/StickyAddToCart.tsx:60-106, montata sempre con lo stepper da app/product/[id]/page.tsx:1160-1170",
+            "umano": null
+          },
+          {
+            "chiave": "mobile-pwa|sulla scheda prodotto, da telefono, nome e prezzo arrivano dopo negozio, «segnala» e partita iva",
+            "titolo": "Sulla scheda prodotto, da telefono, nome e prezzo arrivano dopo negozio, «Segnala» e partita IVA",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "app/product/[id]/page.tsx:485 (griglia `grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_320px]`), 634-660 (colonna INFO), 662 (h1), 712 (prezzo)",
+            "umano": null
+          },
+          {
+            "chiave": "mobile-pwa|tra 768 e 1023px il riquadro d'acquisto scivola da solo su una seconda riga, e la barra fissa è già sparita",
+            "titolo": "Tra 768 e 1023px il riquadro d'acquisto scivola da solo su una seconda riga, e la barra fissa è già sparita",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "app/product/[id]/page.tsx:485 (griglia) e 850-851 (terzo figlio, «CTA STICKY»); components/StickyAddToCart.tsx:53 (`md:hidden`)",
+            "umano": null
+          },
+          {
+            "chiave": "flussi-conversione|«spedizione gratuita» in vetrina, ma 3 € di «consegna mycity» si pagano su ogni ordine a domicilio",
+            "titolo": "«Spedizione gratuita» in vetrina, ma 3 € di «Consegna MyCity» si pagano su ogni ordine a domicilio",
+            "gravita": "grave",
+            "gruppo": "flussi-conversione",
+            "dove": "lib/constants.ts:64 (PLATFORM_DELIVERY_FEE_CENTS=300); components/ProductCard.tsx:119 e 200-204; app/product/[id]/page.tsx:363 e 854-856; components/ui/FreeShippingProgress.tsx:34-38; app/checkout/page.tsx:470; components/checkout/OrderSummary.tsx:60-65 e 146",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|sulla scheda prodotto «segnala questo contenuto» e il riquadro «venduto da» stanno sopra il nome e il prezzo",
+            "titolo": "Sulla scheda prodotto «Segnala questo contenuto» e il riquadro «Venduto da» stanno sopra il nome e il prezzo",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "app/product/[id]/page.tsx:635 (colonna INFO) → SellerCard :639 → Segnala :651 → VendutoDa :655 → <h1> :662; components/products/VendutoDa.tsx:56 (<h2> «Venduto da»)",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|tra 768 e 1023 px la scheda d'acquisto finisce sotto la galleria e non c'è nessuna barra fissa",
+            "titolo": "Tra 768 e 1023 px la scheda d'acquisto finisce sotto la galleria e non c'è nessuna barra fissa",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "app/product/[id]/page.tsx:485 (grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_320px]) con i 3 figli a :487, :635, :851 (lg:sticky) · components/StickyAddToCart.tsx:53 (md:hidden)",
+            "umano": null
+          },
+          {
+            "chiave": "performance-percepita|la foto grande della scheda prodotto viene scaricata due volte: il preload chiede 800 pixel, una misura che next non chiederà mai",
+            "titolo": "La foto grande della scheda prodotto viene scaricata due volte: il preload chiede 800 pixel, una misura che Next non chiederà mai",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "app/product/[id]/layout.tsx:138-147 (preload) contro app/product/[id]/page.tsx:500-508 (immagine con `loader`) e lib/image-loader.ts:47-63, lib/image-url.ts:18",
+            "umano": null
+          },
+          {
+            "chiave": "performance-percepita|scheda prodotto, negozio e checkout sono pagine client: l'html che parte è vuoto, i dati arrivano dopo il javascript",
+            "titolo": "Scheda prodotto, negozio e checkout sono pagine client: l'HTML che parte è vuoto, i dati arrivano dopo il JavaScript",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "app/product/[id]/page.tsx:1 e :128, app/store/[id]/page.tsx:1 e :35-41, app/checkout/page.tsx:1 e :69",
+            "umano": null
+          },
+          {
+            "chiave": "performance-percepita|sulla scheda prodotto partono subito dieci richieste, quattro delle quali servono solo a fondo pagina",
+            "titolo": "Sulla scheda prodotto partono subito dieci richieste, quattro delle quali servono solo a fondo pagina",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "app/product/[id]/page.tsx:128, :166, :186 (3 query) più SimilarProducts.tsx:36, RecentlyViewed.tsx:39, ProductQA.tsx:59, products/FrequentlyBoughtTogether.tsx:48, products/SellerCard.tsx:57, products/VendutoDa.tsx:20, ActivePromoBadge.tsx:29",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/Navbar.tsx",
+        "difetti": [
+          {
+            "chiave": "layout-responsive|la tendina «dove consegniamo» esce dallo schermo e fa scorrere la pagina di lato",
+            "titolo": "La tendina «dove consegniamo» esce dallo schermo e fa scorrere la pagina di lato",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "components/LocationPill.tsx:105 (pannello) e :81 (suggerimento) + components/Navbar.tsx:176-178",
+            "umano": null
+          },
+          {
+            "chiave": "tipografia|scritte bianche sul verde oliva chiaro: 3,69 contro il 4,5 richiesto",
+            "titolo": "Scritte bianche sul verde oliva chiaro: 3,69 contro il 4,5 richiesto",
+            "gravita": "grave",
+            "gruppo": "tipografia",
+            "dove": "components/store-sections/HeroSection.tsx:130 · components/checkout/PaymentMethodSelector.tsx:153 · components/checkout/StepIndicator.tsx:24 · app/stores/page.tsx:254 · app/profile/referral/page.tsx:115 · components/OrderTimeline.tsx:67 · components/Navbar.tsx:331 e :357 · components/MobileAccountSheet.tsx:71 · app/seller/dashboard/page.tsx:211",
+            "umano": null
+          },
+          {
+            "chiave": "accessibilita-visiva|l'anello di fuoco della tastiera è invisibile su tutta la barra in alto (1,34:1)",
+            "titolo": "L'anello di fuoco della tastiera è invisibile su tutta la barra in alto (1,34:1)",
+            "gravita": "grave",
+            "gruppo": "accessibilita-visiva",
+            "dove": "app/globals.css:160-163 (`:focus-visible { outline: 2px solid #C0492C; outline-offset: 2px }`) + components/Navbar.tsx:98 (logo), :180 e :193 (carrello mobile), :230 (IconButton Preferiti/Messaggi/Notifiche), :248 (CartButton desktop), :319 (pulsante Menu account)",
+            "umano": null
+          },
+          {
+            "chiave": "mobile-pwa|dopo l'uscita dall'account le notifiche push restano legate al telefono: chi entra dopo riceve gli avvisi degli ordini del primo e non può prendersele",
+            "titolo": "Dopo l'uscita dall'account le notifiche push restano legate al telefono: chi entra dopo riceve gli avvisi degli ordini del primo e non può prendersele",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "components/PushNotificationOptIn.tsx:47-50 (stato «Notifiche attive» deciso solo dal browser), :85-93 (upsert onConflict endpoint), :107-115 (disattiva: delete che la RLS riduce a zero righe); components/MobileTabBar.tsx:102-106, components/Navbar.tsx:56, components/account/AccountSidebar.tsx:104, lib/supabase/client.ts:47-48 (uscita senza cancellare l'iscrizione); lib/push/send.ts:94-100 (invio a ogni riga dell'endpoint); DB: policy push_own_rw (ALL, auth.uid() = user_id) + UNIQUE(endpoint) su public.push_subscriptions",
+            "umano": null
+          },
+          {
+            "chiave": "mobile-pwa|il pannello per cambiare il cap esce dal bordo destro dello schermo",
+            "titolo": "Il pannello per cambiare il CAP esce dal bordo destro dello schermo",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "components/LocationPill.tsx:105 (`absolute left-0 top-full mt-2 w-72`) e 82 (riquadro suggerimento `w-64`); components/Navbar.tsx:176 (la pillola è centrata su mobile)",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|la tendina dell'indirizzo di consegna esce dallo schermo sul telefono",
+            "titolo": "La tendina dell'indirizzo di consegna esce dallo schermo sul telefono",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "components/LocationPill.tsx:105 (absolute left-0 top-full mt-2 w-72) · components/Navbar.tsx:176-178 (<div className=\"min-w-0 flex-1 flex justify-center\"><LocationPill compact /></div>)",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|sulla barra categorie mobile si vede solo la prima voce e niente dice che la riga scorre",
+            "titolo": "Sulla barra categorie mobile si vede solo la prima voce e niente dice che la riga scorre",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "components/CategoryBar.tsx:90 (flex items-center gap-1 overflow-x-auto scrollbar-hide) e :21-29 (sette DESTINATIONS) · components/Navbar.tsx:86 e :213-216 (barra mostrata su tutti i formati)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ordini/annulla.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|quando il negozio rifiuta un ordine con codice sconto, il coupon torna utilizzabile due volte",
+            "titolo": "Quando il negozio rifiuta un ordine con codice sconto, il coupon torna utilizzabile due volte",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "app/api/seller/orders/[id]/reject/route.ts:62-66 (chiama annullaERimborsa) e :89-91 (richiama release_coupon per conto suo) · lib/ordini/annulla.ts:115-120 (restituisciCoupon), :156 e :197 (già chiamata su entrambi i rami) · funzione SQL release_coupon: uses_count = greatest(0, uses_count - 1), quindi il doppio scalo passa finché il contatore è ≥ 2",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|chi annulla il primo ordine perde il buono di benvenuto: il controllo «solo primo ordine» conta anche gli ordini annullati",
+            "titolo": "Chi annulla il primo ordine perde il buono di benvenuto: il controllo «solo primo ordine» conta anche gli ordini annullati",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/coupons.ts:83-92 · funzione SQL public.check_coupon (stessa logica, usata dal browser) · lib/ordini/annulla.ts:101-124",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+            "titolo": "Manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "lib/order-status.ts:1-9 e 111-116 · app/terms/page.tsx:162-170 · lib/ordini/annulla.ts:68-157 · app/api/rider/ (nessuna rotta) · database: 0 funzioni in pg_proc con nome assente/fallita/tentativo",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|il codice di benvenuto muore se il primo ordine viene rifiutato o annullato",
+            "titolo": "Il codice di benvenuto muore se il primo ordine viene rifiutato o annullato",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "lib/coupons.ts:83-91 (conta TUTTI gli ordini dell'utente, anche CANCELED) · funzione DB public.check_coupon(text,numeric), blocco first_order_only: SELECT count(*) FROM public.orders WHERE user_id = uid · la promessa contraddetta: migrations/127_minori_22_agosto.sql:928-968 (seller_reject_order avvisa «Il codice sconto X torna utilizzabile») e lib/ordini/annulla.ts:101-124 (release_coupon) · buco di copertura: tests/unit/coupons.test.ts:196-212 (first_order_only provato solo con 0 o 1 ordini qualsiasi, mai con un ordine annullato)",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|il rifiuto del negozio restituisce il codice sconto due volte: il buono guadagna usi oltre il tetto",
+            "titolo": "Il rifiuto del negozio restituisce il codice sconto due volte: il buono guadagna usi oltre il tetto",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/seller/orders/[id]/reject/route.ts:89-92 · lib/ordini/annulla.ts:115-121, 156, 197 · migrations/116_soldi_radiografia.sql (release_coupon: uses_count-1 a ogni chiamata) · migrations/108_atomic_coupon_claim.sql (claim_coupon)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "(nessun file citato)",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|quattordici funzioni con permessi elevati sono chiamabili da chi non ha fatto l'accesso, e due di queste scrivono",
+            "titolo": "Quattordici funzioni con permessi elevati sono chiamabili da chi non ha fatto l'accesso, e due di queste scrivono",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "produzione (advisor anon_security_definer_function_executable) e schema locale: track_sponsored_click, track_sponsored_impression, negozio_approvato, is_admin, is_rider_approvato, get_referral_leaderboard, referral_reward_fisso, event_rsvp_count(s), product_active_discounts, store_cards, trending_product_ids_24h, categorie_per_negozio, negozi_aperti_adesso…",
+            "umano": null
+          },
+          {
+            "chiave": "rls-database|sei viste del database girano con i permessi di chi le ha create, non di chi le legge",
+            "titolo": "Sei viste del database girano con i permessi di chi le ha create, non di chi le legge",
+            "gravita": "grave",
+            "gruppo": "rls-database",
+            "dove": "produzione e migrazioni: viste shop_of_month_leaderboard, sponsored_active_public, live_activity_public, rider_reviews_ricevute, ordini_disponibili_rider, seller_public_profiles (Supabase advisor security_definer_view, livello ERROR)",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|il dominio pubblico del marketplace punta da più di un mese a un server spento, e l'indirizzo vero su vercel è chiuso dietro il login di vercel",
+            "titolo": "Il dominio pubblico del marketplace punta da più di un mese a un server spento, e l'indirizzo vero su Vercel è chiuso dietro il login di Vercel",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "DNS: mycity-marketplace.com → 216.24.57.1 (Render, dismesso ad agosto), www → test-my-city-con-claude.onrender.com; Vercel progetto mycity: nessun dominio personalizzato, Deployment Protection = Vercel Authentication su tutto tranne i domini personalizzati; sensore sito_uptime: HTTP 503 su https://mycity-marketplace.com da 219 giri, ultimo ok 30/7 08:20",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|un intoppo di supabase butta fuori gli utenti già entrati, in silenzio e senza tetto di tempo",
+            "titolo": "Un intoppo di Supabase butta fuori gli utenti già entrati, in silenzio e senza tetto di tempo",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/middleware.ts:339 e :368-384",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|le schede trovavano un terzo dei posti in cui una frase falsa e' scritta",
+            "titolo": "Le schede trovavano un terzo dei posti in cui una frase falsa e' scritta",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "il metodo della radiografia, non un file",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/account/cancellazione.ts",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|il buono regalo tiene per sempre l'email di chi non è nostro cliente",
+            "titolo": "Il buono regalo tiene per sempre l'email di chi non è nostro cliente",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "lib/stripe/webhook/giftcard.ts:65-113, app/api/gift-cards/checkout/route.ts:28-33,73-80, app/privacy/page.tsx:95-132, lib/account/cancellazione.ts:262-300",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|chi chiede di cancellare l'account resta col profilo svuotato e l'account ancora vivo",
+            "titolo": "Chi chiede di cancellare l'account resta col profilo svuotato e l'account ancora vivo",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "lib/account/cancellazione.ts:265-301 (anonimizza prima, cancella dopo) · lib/account/cancellazione.ts:20-35 (i campi azzerati) · app/api/cron/process-deletions/route.ts:270-286 · migrations/114_hardening_radiografia.sql:91-93 (il guardiano che blocca la cascata) · migrations/040_account_deletion_cooldown.sql:38-58",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|cancellare l'account di un fattorino cancella anche la sua cassa contanti: i soldi da versare spariscono dal registro",
+            "titolo": "Cancellare l'account di un fattorino cancella anche la sua cassa contanti: i soldi da versare spariscono dal registro",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "migrations/024_blockers_money_kyc_returns_cash.sql:122 (cod_reconciliations.rider_id → auth.users ON DELETE CASCADE, vincolo cod_reconciliations_rider_id_fkey) · lib/account/cancellazione.ts:265-290 (cancellaAccount → auth.admin.deleteUser alla riga 286, nessun controllo sulla cassa) · app/api/cron/process-deletions/route.ts:276 · app/api/admin/users/[id]/delete/route.ts:53 · migrations/027_growth_engagement_foundations.sql:332 (disputes.opener_id ON DELETE CASCADE, stesso difetto)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/checkout/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|in cassa, quando il server risponde con una pagina di errore, il cliente legge «la sessione è scaduta, accedi di nuovo»",
+            "titolo": "In cassa, quando il server risponde con una pagina di errore, il cliente legge «la sessione è scaduta, accedi di nuovo»",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "lib/errors.ts:133-136 (ramo /jwt|token|expired|unauthor/) · app/checkout/page.tsx:864 (await res.json() senza guardia) e :894 (toast con friendlyError) · stessa lettura senza guardia in altri 38 punti, fra cui app/orders/[id]/return/page.tsx:83-88 (messaggio inglese grezzo), app/rider/onboarding/page.tsx:91, app/profile/addresses/page.tsx:73, app/profile/gift-cards/page.tsx:116, app/seller/promote/page.tsx:112",
+            "umano": null
+          },
+          {
+            "chiave": "dati-analytics|l'acquisto pagato alla consegna non arriva mai a google analytics: il checkout cerca gli ordini nel posto sbagliato della risposta",
+            "titolo": "L'acquisto pagato alla consegna non arriva mai a Google Analytics: il checkout cerca gli ordini nel posto sbagliato della risposta",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "app/checkout/page.tsx:759 · app/checkout/page.tsx:753-758 · app/api/orders/cod/route.ts:938 · app/api/orders/cod/route.ts:182-183 · lib/api/responses.ts:17-19 · lib/analytics/events.ts:212-252",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|il semaforo resta verde mentre nessuno riesce più ad accedere o a pagare con la carta",
+            "titolo": "Il semaforo resta verde mentre nessuno riesce più ad accedere o a pagare con la carta",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "app/api/health/route.ts:84-107 · lib/captcha.ts:17-28 · app/sign-in/page.tsx:18 · app/sign-up/page.tsx:33,93 · app/checkout/page.tsx:497-499 · app/api/auth/signin/route.ts:47 · app/api/auth/signup/route.ts:40",
+            "umano": null
+          },
+          {
+            "chiave": "coerenza-brand|checkout: tre sistemi di colore diversi per gli avvisi, nella stessa colonna",
+            "titolo": "Checkout: tre sistemi di colore diversi per gli avvisi, nella stessa colonna",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "app/checkout/page.tsx:945, 954, 980, 991, 1002, 1012",
+            "umano": null
+          },
+          {
+            "chiave": "coerenza-brand|checkout: le card di sinistra e il riepilogo di destra hanno raggio e bordo diversi, affiancati",
+            "titolo": "Checkout: le card di sinistra e il riepilogo di destra hanno raggio e bordo diversi, affiancati",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "components/checkout/StepCard.tsx:22 + components/ui/Card.tsx:17,43 vs app/checkout/page.tsx:1021",
+            "umano": null
+          },
+          {
+            "chiave": "flussi-conversione|dopo le 20 il checkout propone «domani», ma l'ordine viene rifiutato perché il negozio è chiuso adesso",
+            "titolo": "Dopo le 20 il checkout propone «Domani», ma l'ordine viene rifiutato perché il negozio è chiuso adesso",
+            "gravita": "grave",
+            "gruppo": "flussi-conversione",
+            "dove": "app/api/stripe/checkout/route.ts:285-289; app/api/orders/cod/route.ts:336-337; lib/store-hours.ts:47-56 (isStoreClosedForOrder guarda solo l'orologio); lib/quando-arriva.ts:47-50 e 88-90 (dalle 20 il giorno di partenza è 'tomorrow'); app/checkout/page.tsx:473-477 e 1060-1067 (il selettore offre Oggi/Domani); app/checkout/page.tsx:737 e 858 (deliverySlot inviato ma ignorato per questa decisione); app/product/[id]/page.tsx:365 (canAdd non guarda gli orari)",
+            "umano": null
+          },
+          {
+            "chiave": "flussi-conversione|chi torna indietro dalla pagina di pagamento trova l'ultimo pezzo «esaurito» per due ore, e lo aveva riservato lui",
+            "titolo": "Chi torna indietro dalla pagina di pagamento trova l'ultimo pezzo «esaurito» per due ore, e lo aveva riservato lui",
+            "gravita": "grave",
+            "gruppo": "flussi-conversione",
+            "dove": "app/api/stripe/checkout/route.ts:521-543 (reserve_stock prima di aprire la sessione), 174-189 (l'impronta del carrello include fascia, indirizzo e ritiro), 601 (cancel_url = /cart?stripe=canceled, nessun rilascio), 615 (la sessione scade con la riserva: 2 ore); app/api/cron/expire-checkouts/route.ts:45-46 e 160 (unico rilascio, dopo expires_at); app/api/stripe/webhook/route.ts:202-203 (rilascio solo su checkout.session.expired, che Stripe manda allo scadere, non al «torna indietro»); app/cart/page.tsx:119-122 (il rientro mostra solo un avviso); app/api/orders/cod/route.ts:377-378 e app/checkout/page.tsx:286-288, 1169-1173 (contrassegno e checkout leggono lo stock già scalato)",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|promettiamo 5 euro anche all'amico invitato, ma il credito va solo a chi invita",
+            "titolo": "Promettiamo 5 euro anche all'amico invitato, ma il credito va solo a chi invita",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "app/profile/referral/page.tsx:56,73-74,149 · lib/email/templates.ts:295 · lib/account-menu.ts:33 · migrations/089_referral_reward_on_delivery.sql:24-33 · migrations/119_radiografia_18_agosto.sql:186-196 · app/sign-up/page.tsx:145-149 · app/checkout/page.tsx:587-590",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|la pagina resi promette un bonifico sull'iban per chi ha pagato in contanti, ma nessuno chiede l'iban e il rimborso arriva come credito",
+            "titolo": "La pagina Resi promette un bonifico sull'IBAN per chi ha pagato in contanti, ma nessuno chiede l'IBAN e il rimborso arriva come credito",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "app/returns/page.tsx:78 · app/faq/page.tsx:78 · app/api/returns/create/route.ts:14-25 · lib/stripe/payout.ts:746-793 · app/checkout/page.tsx:587-590",
+            "umano": null
+          },
+          {
+            "chiave": "performance-percepita|nel checkout, mentre arrivano i gruppi del carrello, la pagina diventa un cerchietto in mezzo al bianco",
+            "titolo": "Nel checkout, mentre arrivano i gruppi del carrello, la pagina diventa un cerchietto in mezzo al bianco",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "app/checkout/page.tsx:818-820 (`if (loadingGroups) return <LoadingState />;`) con components/ui/LoadingState.tsx:29 e :43-49",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/globals.css",
+        "difetti": [
+          {
+            "chiave": "layout-responsive|sulla scheda prodotto, per chi ha fatto l'accesso, il pulsante rotondo dell'assistenza copre il lato destro di «aggiungi al carrello»",
+            "titolo": "Sulla scheda prodotto, per chi ha fatto l'accesso, il pulsante rotondo dell'assistenza copre il lato destro di «Aggiungi al carrello»",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "components/SupportChatButton.tsx:39 (fixed bottom-24 right-4 z-40 w-14 h-14) · components/StickyAddToCart.tsx:60-64 (fixed z-30, bottom = var(--tabbar-height) = 72px) e :121-127 (pulsante «Aggiungi al carrello», ml-auto) · lib/assistenza/porta.ts:56-61 (visibile a ogni utente loggato non admin, anche su /product/…) · app/layout.tsx:130 (montato su tutte le pagine) · app/globals.css:116 (--tabbar-height: 72px)",
+            "umano": null
+          },
+          {
+            "chiave": "tipografia|i titoli senza dimensione dichiarata escono a 30px, anche dove serve una scritta piccola",
+            "titolo": "I titoli senza dimensione dichiarata escono a 30px, anche dove serve una scritta piccola",
+            "gravita": "grave",
+            "gruppo": "tipografia",
+            "dove": "app/globals.css:156-157 (regola di partenza) · effetti verificati: components/ui/Modal.tsx:143, app/search/page.tsx:305 e :362, app/category/[slug]/page.tsx:339 e :387, components/store-sections/PromotionsSection.tsx:14",
+            "umano": null
+          },
+          {
+            "chiave": "accessibilita-visiva|i bordi dei campi da compilare non si vedono: staccano una volta e un quarto dalla pagina",
+            "titolo": "I bordi dei campi da compilare non si vedono: staccano una volta e un quarto dalla pagina",
+            "gravita": "grave",
+            "gruppo": "accessibilita-visiva",
+            "dove": "components/ui/Field.tsx:30, components/ui/Field.tsx:32, app/globals.css:73",
+            "umano": null
+          },
+          {
+            "chiave": "accessibilita-visiva|i titoli sui riquadri scuri restano color inchiostro invece di diventare bianchi",
+            "titolo": "I titoli sui riquadri scuri restano color inchiostro invece di diventare bianchi",
+            "gravita": "grave",
+            "gruppo": "accessibilita-visiva",
+            "dove": "app/globals.css:148-152, app/about/page.tsx:89 e :94, components/home-sections/HomeSectionRenderer.tsx:414-415, components/store-sections/BannerSection.tsx:32-33, app/seller/dashboard/page.tsx:227, components/home/DropOfDay.tsx:108, components/home/ShopOfMonthHero.tsx:71",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|il banner «installa mycity» copre la barra «aggiungi al carrello» sul telefono",
+            "titolo": "Il banner «Installa MyCity» copre la barra «Aggiungi al carrello» sul telefono",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "components/PWAInstallBanner.tsx:92 (fixed bottom-20 … z-30) · components/StickyAddToCart.tsx:53-57 (z-30, bottom = safe-area + var(--tabbar-height) + banner cookie) · app/globals.css:116 (--tabbar-height: 72px) · tailwind.config.ts:129 ('banner': '35' con commento «PWAInstallBanner») · app/layout.tsx:127 <main> e :134 <PWAInstallBanner />",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/track/route.ts",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|l'accesso con google non lascia nessuna riga nel registro degli accessi",
+            "titolo": "L'accesso con Google non lascia nessuna riga nel registro degli accessi",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "components/ActivityTracker.tsx:121-133 · app/auth/callback/route.ts:16 · app/api/track/route.ts:41-45 · app/api/track/route.ts:183 · lib/activity.ts",
+            "umano": null
+          },
+          {
+            "chiave": "dati-analytics|nel testo cercato ci sono dati personali: viene ripulito su un canale e esce in chiaro sugli altri tre",
+            "titolo": "Nel testo cercato ci sono dati personali: viene ripulito su un canale e esce in chiaro sugli altri tre",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "lib/analytics/posthog.tsx:158-178 · components/GoogleAnalytics.tsx:43-49 · app/api/track/route.ts:46-50,134,169-171 · lib/analytics/sentry-config.ts:39-53",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|in produzione manca la chiave di servizio supabase: la registrazione dell'attività fallisce dieci volte su dieci",
+            "titolo": "In produzione manca la chiave di servizio Supabase: la registrazione dell'attività fallisce dieci volte su dieci",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "app/api/track/route.ts (lib activity: «Service role Supabase non configurato»); Vercel → errori runtime 7 giorni",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/deploy-dopo-ci.yml",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|la produzione è indietro di ventuno migrazioni: il codice pubblicato chiama tabelle, colonne e funzioni che nel database vero non esistono",
+            "titolo": "La produzione è indietro di ventuno migrazioni: il codice pubblicato chiama tabelle, colonne e funzioni che nel database vero non esistono",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "produzione Supabase (progetto Mycity) vs migrations/130-150; .github/workflows/deploy-dopo-ci.yml:166-205 (segreti SUPABASE_DB_URL, VERCEL_* mai configurati)",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci",
+            "titolo": "Ogni unione su main pubblica in produzione senza aspettare la CI",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/vercel.json:6-10 + /home/user/ad-mycity/marketplace/.github/workflows/deploy-dopo-ci.yml:58-70",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|si pubblica e non si guarda: nessuna verifica dopo il rilascio, nessun ritorno automatico",
+            "titolo": "Si pubblica e non si guarda: nessuna verifica dopo il rilascio, nessun ritorno automatico",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/.github/workflows/deploy-dopo-ci.yml:136-145 · docs/runbook.md:192",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/ci.yml",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|le prove nel browser non girano mai in ci e, quando girano, otto su ventinove sono rosse per testi cambiati",
+            "titolo": "Le prove nel browser non girano mai in CI e, quando girano, otto su ventinove sono rosse per testi cambiati",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": ".github/workflows/ci.yml (job e2e-tests: salta senza SUPABASE_TEST_URL/ANON); tests/e2e/01-home-renders.spec.ts:9-35, 06-seo-and-a11y.spec.ts:17-28, 07-static-pages.spec.ts:35-38, 10-security-and-i18n.spec.ts:65-83",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|nessuna prova end-to-end attraversa il checkout, e in ci le e2e non girano mai",
+            "titolo": "Nessuna prova end-to-end attraversa il checkout, e in CI le e2e non girano mai",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "marketplace/tests/e2e/08-checkout-and-flows.spec.ts:1-27 · tutti e 11 i file in marketplace/tests/e2e/ · marketplace/.github/workflows/ci.yml:310-330 (il cancello sui segreti)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/orders/[id]/page.tsx",
+        "difetti": [
+          {
+            "chiave": "coerenza-brand|tre rossi diversi per lo stesso ruolo «pericolo» in tutto il sito",
+            "titolo": "Tre rossi diversi per lo stesso ruolo «pericolo» in tutto il sito",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "components/ui/Button.tsx:29 · app/orders/[id]/page.tsx:392,420 · components/ConfirmDialog.tsx:107,172",
+            "umano": null
+          },
+          {
+            "chiave": "stati-ui|due tocchi su «ripeti ordine» mettono nel carrello il doppio della roba",
+            "titolo": "Due tocchi su «Ripeti ordine» mettono nel carrello il doppio della roba",
+            "gravita": "grave",
+            "gruppo": "stati-ui",
+            "dove": "lib/riordino.ts:58-100 · app/orders/[id]/page.tsx:338-351, :405, :692 · components/home-sections/ReorderRail.tsx:120, :134",
+            "umano": null
+          },
+          {
+            "chiave": "immagini-media|il logo del negozio viene ritagliato a quadrato: i marchi con la scritta diventano illeggibili",
+            "titolo": "Il logo del negozio viene ritagliato a quadrato: i marchi con la scritta diventano illeggibili",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "lib/image-url.ts:44-51 e :63-67 (ritaglio quadrato per thumb/card con height=width e resize=cover) + i punti che lo usano: components/products/SellerCard.tsx:144, components/home/StoriesCarousel.tsx:73, components/StoryViewer.tsx:203, components/home/ShopOfMonthHero.tsx:117, app/shop-of-month/page.tsx:208, app/orders/page.tsx:301, app/orders/[id]/page.tsx:612",
+            "umano": null
+          },
+          {
+            "chiave": "mobile-pwa|il cliente legge «arriva tra ~3 min» calcolato su una posizione del fattorino ferma anche da mezz'ora",
+            "titolo": "Il cliente legge «arriva tra ~3 min» calcolato su una posizione del fattorino ferma anche da mezz'ora",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "app/orders/[id]/page.tsx:268-279 (riderEtaMin da rider_lat/lng senza guardare rider_position_updated_at), :248-249 (pin «Rider» sulla mappa senza età), :544-546 (solo «● agg. HH:MM», nessun avviso di posizione vecchia); app/rider/orders/[id]/page.tsx:199-224 (watchPosition scrive ogni 30 s solo con schermo acceso e pagina in primo piano; errori dell'update ignorati; nessun wakeLock)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/dashboard/page.tsx",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|il rimborso al cliente non toglie un euro dai guadagni che il negozio vede",
+            "titolo": "Il rimborso al cliente non toglie un euro dai guadagni che il negozio vede",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "lib/metriche-venditore.ts:26-34,37-41,73-90 · app/seller/dashboard/page.tsx:132 · app/seller/analytics/page.tsx:123,187 · app/seller/earnings/page.tsx:155",
+            "umano": null
+          },
+          {
+            "chiave": "tipografia|nella dashboard del negozio le righe sotto i numeri sono bianco trasparente e non si leggono",
+            "titolo": "Nella dashboard del negozio le righe sotto i numeri sono bianco trasparente e non si leggono",
+            "gravita": "grave",
+            "gruppo": "tipografia",
+            "dove": "app/seller/dashboard/page.tsx:327 e :329 (funzione HeroStat) · stessa pagina riga 209",
+            "umano": null
+          },
+          {
+            "chiave": "stati-ui|il negozio torna da stripe e legge «pagamenti aggiornati» anche quando stripe non ha attivato niente",
+            "titolo": "Il negozio torna da Stripe e legge «pagamenti aggiornati» anche quando Stripe non ha attivato niente",
+            "gravita": "grave",
+            "gruppo": "stati-ui",
+            "dove": "app/seller/dashboard/page.tsx:11-36 · app/api/stripe/connect/refresh-status/route.ts:43-53 · confronto con components/rider/RiderConnectButton.tsx:55-60",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/layout.tsx",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|il sito pubblicato si presenta ai motori di ricerca come se stesse su localhost",
+            "titolo": "Il sito pubblicato si presenta ai motori di ricerca come se stesse su localhost",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "app/layout.tsx (metadataBase/canonical/og:url da NEXT_PUBLIC_APP_URL); produzione: NEXT_PUBLIC_APP_URL assente → canonical e og:url = http://localhost:3000 nell'HTML servito da mycity-phi.vercel.app il 3/9 alle 01:04",
+            "umano": null
+          },
+          {
+            "chiave": "tipografia|il corsivo del sito è finto: nessun font in corsivo viene caricato",
+            "titolo": "Il corsivo del sito è finto: nessun font in corsivo viene caricato",
+            "gravita": "grave",
+            "gruppo": "tipografia",
+            "dove": "app/layout.tsx:28-34 (caricamento Inter e Fraunces) · usato in app/page.tsx:21 e :39, components/ui/AuthShell.tsx:82, app/come-funziona/page.tsx:47 — 17 punti in tutto",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/ProductCard.tsx",
+        "difetti": [
+          {
+            "chiave": "layout-responsive|sui prodotti scontati il pulsante «+» della card viene tagliato sul telefono",
+            "titolo": "Sui prodotti scontati il pulsante «+» della card viene tagliato sul telefono",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "components/ProductCard.tsx:125 (overflow-hidden), :179 (p-2.5) e :207-227 (riga prezzo)",
+            "umano": null
+          },
+          {
+            "chiave": "performance-percepita|il cuore dei preferiti non si riempie subito: tre giri di rete prima che l'utente veda un effetto",
+            "titolo": "Il cuore dei preferiti non si riempie subito: tre giri di rete prima che l'utente veda un effetto",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "components/hooks/useFavorites.ts:28-40, usato da components/ProductCard.tsx:64, :68 e :96-108",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/store-sections/HeroSection.tsx",
+        "difetti": [
+          {
+            "chiave": "tipografia|nella copertina della vetrina il nome del negozio viene tagliato invece di andare a capo",
+            "titolo": "Nella copertina della vetrina il nome del negozio viene tagliato invece di andare a capo",
+            "gravita": "grave",
+            "gruppo": "tipografia",
+            "dove": "components/store-sections/HeroSection.tsx:163-165",
+            "umano": null
+          },
+          {
+            "chiave": "performance-percepita|pagina negozio: prima uno scheletro a schede, poi un cerchietto che gira, poi il negozio — tre impaginazioni in fila",
+            "titolo": "Pagina negozio: prima uno scheletro a schede, poi un cerchietto che gira, poi il negozio — tre impaginazioni in fila",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "app/store/[id]/loading.tsx:4-10 contro app/store/[id]/page.tsx:35-41 (`<LoadingState />`, variante predefinita 'spinner') e components/store-sections/HeroSection.tsx:89 (`h-60`)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "components/home-sections/HomeSectionRenderer.tsx",
+        "difetti": [
+          {
+            "chiave": "layout-responsive|in home la fila dei prodotti popolari carica come griglia e poi diventa una riga: la pagina salta di oltre un metro",
+            "titolo": "In home la fila dei prodotti popolari carica come griglia e poi diventa una riga: la pagina salta di oltre un metro",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "components/ProductGrid.tsx:357 e 380-396 + components/home-sections/HomeSectionRenderer.tsx:219",
+            "umano": null
+          },
+          {
+            "chiave": "immagini-media|il banner della home chiede un'immagine 16:9 e poi la mostra in una fascia da 3,5:1",
+            "titolo": "Il banner della home chiede un'immagine 16:9 e poi la mostra in una fascia da 3,5:1",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/admin/home/HomeSectionConfigForm.tsx:246 («Consigliato 16:9») contro components/home-sections/HomeSectionRenderer.tsx:409-410 e components/cms/CmsBlockRenderer.tsx:38-39 (riquadro `h-56 sm:h-72`)",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|sulla home il primo prodotto acquistabile arriva dopo tre sezioni intere",
+            "titolo": "Sulla home il primo prodotto acquistabile arriva dopo tre sezioni intere",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "lib/home-site.ts:238-241 (DEFAULT_ORDER) · components/home-sections/ReorderRail.tsx:61 (ospite → self-hide) · components/home-sections/HomeSectionRenderer.tsx:88-165 (hero), :174-188 (categorie), :192-197 (dropOfDay)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/search/page.tsx",
+        "difetti": [
+          {
+            "chiave": "coerenza-brand|due terracotte diverse per lo stesso pulsante principale",
+            "titolo": "Due terracotte diverse per lo stesso pulsante principale",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "components/ui/Button.tsx:24 vs app/search/page.tsx:387 e app/category/[slug]/page.tsx:412",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|nella ricerca, scegliere una categoria madre nasconde i prodotti delle sue sottocategorie",
+            "titolo": "Nella ricerca, scegliere una categoria madre nasconde i prodotti delle sue sottocategorie",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "lib/queries/griglia-prodotti.ts:139-140 · app/search/page.tsx:96-106, 191-200, 503 · app/category/[slug]/page.tsx:328, 503",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/cart/page.tsx",
+        "difetti": [
+          {
+            "chiave": "mobile-pwa|nel carrello, da telefono, «procedi al checkout» sta in fondo a tutto e non c'è nessuna barra fissa",
+            "titolo": "Nel carrello, da telefono, «Procedi al checkout» sta in fondo a tutto e non c'è nessuna barra fissa",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "app/cart/page.tsx:194 (`grid-cols-1 lg:grid-cols-3`), 357 (colonna riepilogo, secondo figlio), 411-419 (link al checkout)",
+            "umano": null
+          },
+          {
+            "chiave": "navigazione-gerarchia|nel carrello «procedi al checkout» arriva dopo gli articoli, l'upsell e «continua lo shopping»",
+            "titolo": "Nel carrello «Procedi al checkout» arriva dopo gli articoli, l'upsell e «Continua lo shopping»",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "app/cart/page.tsx:194 (grid-cols-1 lg:grid-cols-3), :347 CartUpsell, :353 «← Continua lo shopping», :358 (lg:sticky riepilogo), :418 «Procedi al checkout»; grep di 'fixed' su tutto il file: zero occorrenze",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/orders/cod/route.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|il ripiego scritto per la migrazione 124 inghiotte i paletti sui soldi: un compenso al negozio più alto dell'incasso entra lo stesso, senza il lordo",
+            "titolo": "Il ripiego scritto per la migrazione 124 inghiotte i paletti sui soldi: un compenso al negozio più alto dell'incasso entra lo stesso, senza il lordo",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/db/migrazione-124.ts:50-53 (il codice 23514 nell'insieme SCHEMA_INDIETRO), :71-83 (conRipiegoSchema riprova senza i campi) · app/api/orders/cod/route.ts:649-652 (insert dell'ordine senza gross_total_cents al secondo giro) · lib/stripe/webhook/ordini.ts:231,338 · app/api/rider/cash-confirm/route.ts:185 · lib/stripe/webhook/dispute.ts:183-186,219-222 (scarta dispute_seller_reversed_cents) · lib/stripe/payout.ts:76-82,694-698 · lib/stripe/webhook/rimborsi.ts:253 · app/api/returns/[id]/decide/route.ts:81 · app/api/returns/[id]/avanza/route.ts:87 · migrations/146_paletti_sui_soldi.sql:47 e migrations/127_minori_22_agosto.sql:275,287 (i vincoli CHECK sui soldi, tutti appoggiati su gross_total_cents)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/supabase/client.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|i tipi del database esistono, sono 2.960 righe, e nessun client li usa: `npm run verify` resta verde anche se una colonna sparisce",
+            "titolo": "I tipi del database esistono, sono 2.960 righe, e nessun client li usa: `npm run verify` resta verde anche se una colonna sparisce",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/database.types.ts (0 importatori a runtime) · lib/supabase/server.ts:14,47 · lib/supabase/anonimo.ts:29 · lib/supabase/client.ts:18 · types/ (solo globals.d.ts)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "components/PhotoReviewUpload.tsx",
+        "difetti": [
+          {
+            "chiave": "architettura|gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+            "titolo": "Gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "components/PhotoReviewUpload.tsx:44 · components/rider/CashConfirmDialog.tsx:53 · app/seller/stories/page.tsx:74",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/captcha.ts",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|il captcha si spegne da solo in produzione se manca la chiave segreta: login, registrazione e modulo contatti restano aperti ai bot senza che nessuno se ne accorga",
+            "titolo": "Il captcha si spegne da solo in produzione se manca la chiave segreta: login, registrazione e modulo contatti restano aperti ai bot senza che nessuno se ne accorga",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "lib/captcha.ts:14-26 (il ramo che lascia passare: 21-26) · chiamanti app/api/auth/signin/route.ts:47 · app/api/auth/signup/route.ts:40 · app/api/contact/route.ts:49",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/auth/callback/route.ts",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|un carattere invisibile nel link di accesso porta il cliente su un sito esterno dopo che ha messo la password",
+            "titolo": "Un carattere invisibile nel link di accesso porta il cliente su un sito esterno dopo che ha messo la password",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "lib/safe-redirect.ts:19 · app/auth/callback/route.ts:29,36,145 · app/sign-in/page.tsx:72,158,169",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/024_blockers_money_kyc_returns_cash.sql",
+        "difetti": [
+          {
+            "chiave": "rls-database|un cliente si rimborsa da solo un ordine consegnato: scrive il reso gia' «ricevuto» e lo fa passare per il negozio",
+            "titolo": "Un cliente si rimborsa da solo un ordine consegnato: scrive il reso gia' «ricevuto» e lo fa passare per il negozio",
+            "gravita": "bloccante",
+            "gruppo": "rls-database",
+            "dove": "migrations/024_blockers_money_kyc_returns_cash.sql:108-110 (policy returns_buyer_insert: l'unico controllo e' buyer_id = auth.uid()) · app/api/returns/[id]/avanza/route.ts:64-75 (legge il reso con la sessione dell'utente e decide chi e' «il negozio» da ret.seller_id scritto dal cliente) · app/api/returns/[id]/avanza/route.ts:111 (importo preso dalla riga) · app/api/returns/[id]/avanza/route.ts:150 (refundOrder) · lib/api/middleware.ts:353-368 (withAuthRateLimit: basta essere loggati, nessun controllo di ruolo) · app/api/returns/create/route.ts:78-116 (i controlli veri — 14 giorni, seller_id dell'ordine, stato REQUESTED — vivono solo qui e si saltano)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/026_chat_messaging.sql",
+        "difetti": [
+          {
+            "chiave": "rls-database|chi partecipa a una chat puo' intestarla a un'altra persona, che legge tutto lo storico",
+            "titolo": "Chi partecipa a una chat puo' intestarla a un'altra persona, che legge tutto lo storico",
+            "gravita": "grave",
+            "gruppo": "rls-database",
+            "dove": "migrations/026_chat_messaging.sql:41-44 (policy conversations_update_participants: USING «sono buyer o seller», nessun WITH CHECK e nessun limite sulle colonne) · nessun trigger BEFORE UPDATE su public.conversations nel database ricostruito (confronto: orders ha enforce_order_update_rules, subscription_orders ha subscription_orders_campi_bloccati) · migrations/026_chat_messaging.sql (policy messages_select_participants: la visibilita' dei messaggi si decide dai partecipanti ATTUALI della conversazione)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/stripe/checkout/route.ts",
+        "difetti": [
+          {
+            "chiave": "pagamenti-stripe|correggere il telefono in cassa non serve: il pagamento riparte con la sessione vecchia e l'ordine nasce col numero sbagliato",
+            "titolo": "Correggere il telefono in cassa non serve: il pagamento riparte con la sessione vecchia e l'ordine nasce col numero sbagliato",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "app/api/stripe/checkout/route.ts:174-189 · app/api/stripe/checkout/route.ts:217-244 · lib/stripe/webhook/ordini.ts:328-333",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/stripe/payout.ts",
+        "difetti": [
+          {
+            "chiave": "pagamenti-stripe|il bonifico dei contrassegni esce dal saldo stripe, ma i contanti su stripe non entrano mai",
+            "titolo": "Il bonifico dei contrassegni esce dal saldo Stripe, ma i contanti su Stripe non entrano mai",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/payout.ts:161-179 · app/api/cron/release-payouts/route.ts:209-254",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/rider/onboarding/page.tsx",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+            "titolo": "Un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/rider/onboarding/page.tsx:43, 111-112, 158 · app/api/kyc/start-check/route.ts:92-100 · migrations/021_seller_kyc_and_approval.sql:21 · migrations/119_radiografia_18_agosto.sql:91 · app/admin/users/ (nessun riferimento a legal_birth_date) · app/terms/page.tsx:108",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/analytics/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|la pagina analisi del venditore e la colonna venduti vanno in errore in produzione",
+            "titolo": "La pagina Analisi del venditore e la colonna Venduti vanno in errore in produzione",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/seller/analytics/page.tsx:84-98 (rpc andamento_del_negozio, l'errore risale); app/seller/products/page.tsx:96 (rpc venduti_per_prodotto); produzione: funzioni assenti (migrazione 141)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/profile/settings/page.tsx",
+        "difetti": [
+          {
+            "chiave": "accessibilita|il campo per confermare la cancellazione dell'account non ha nome: si sente solo «campo di testo»",
+            "titolo": "Il campo per confermare la cancellazione dell'account non ha nome: si sente solo «campo di testo»",
+            "gravita": "grave",
+            "gruppo": "accessibilita",
+            "dove": "app/profile/settings/page.tsx:620-628",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/cart-sync.ts",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|dopo l'ordine il carrello non viene segnato come recuperato in produzione, e il cliente rischia la mail del carrello abbandonato",
+            "titolo": "Dopo l'ordine il carrello non viene segnato come recuperato in produzione, e il cliente rischia la mail del carrello abbandonato",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "lib/cart-sync.ts:58-63 e lib/carrelli-abbandonati.ts:44 (scrivono recovered_at); produzione: colonna abandoned_carts.recovered_at assente (migrazione 148 non applicata)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è",
+            "titolo": "Le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql (trigger trg_enqueue_order_status_email); app/api/cron/send-emails/route.ts:88",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/segnalazioni/route.ts",
+        "difetti": [
+          {
+            "chiave": "api-backend|la segnalazione di un prodotto pericoloso non avvisa nessuno",
+            "titolo": "La segnalazione di un prodotto pericoloso non avvisa nessuno",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/segnalazioni/route.ts:83-95 (categoria 'moderation'); vincolo notifications_category_check sulla tabella notifications (letto dal database ricostruito dalle 145 migrazioni)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ai/tettoSpesa.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+            "titolo": "Il tetto giornaliero di spesa AI in produzione non è condiviso: ogni copia del sito conta per sé",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "lib/ai/tettoSpesa.ts:138-165 (ripiego in memoria quando spesa_ai_di_oggi/registra_spesa_ai falliscono); produzione: funzioni e tabella ai_spend_daily assenti (migrazione 131)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/seller/ProductForm.tsx",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|la banda di sicurezza del 30% sul prezzo (e la traccia di chi ha scritto) esistono solo sul percorso che quasi nessuno usa",
+            "titolo": "La banda di sicurezza del 30% sul prezzo (e la traccia di chi ha scritto) esistono solo sul percorso che quasi nessuno usa",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "marketplace/components/seller/ProductForm.tsx:340-353 (applyPatch, nessuna banda) · marketplace/app/seller/products/[id]/edit/page.tsx:75 (salvataggio diretto su Supabase) a fronte di marketplace/lib/products/aiPatch.ts:100-117 (banda presente) e marketplace/app/api/ai/catalog-apply/route.ts:70-84",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/cron/process-deletions/route.ts",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+            "titolo": "Il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "migrations/115_privacy_radiografia.sql:64-69 · migrations/073_activity_tracking.sql:47-110 · app/api/cron/process-deletions/route.ts:182-186",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "pannello/src/lib/marketplace-db.ts",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|il pannello dell'ad interroga colonne che nel sito non esistono: quasi duemila query al giorno falliscono in produzione",
+            "titolo": "Il Pannello dell'AD interroga colonne che nel sito non esistono: quasi duemila query al giorno falliscono in produzione",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "ad-mycity: pannello/src/lib/marketplace-db.ts:136 e pannello/src/app/api/metriche/funnel/route.ts:23 (abandoned_carts.created_at), cervello/ordini-in-ritardo.mjs e sentinella-dati.mjs (orders.expected_delivery)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/health/route.ts",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|il controllo di salute del sito risponde «malato» perché non riesce a leggere i battiti dei lavori periodici",
+            "titolo": "Il controllo di salute del sito risponde «malato» perché non riesce a leggere i battiti dei lavori periodici",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "app/api/health/route.ts + lib/cron-health (legge cron_heartbeats); produzione: GET /api/health → 503 {status: unhealthy, cron: {ok:false, esaminati:0, attesi:10, error: \"battiti non leggibili\"}} il 3/9 01:04",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "scripts/backup-db.sh",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|le foto di prodotti e negozi non sono in nessuna copia di sicurezza",
+            "titolo": "Le foto di prodotti e negozi non sono in nessuna copia di sicurezza",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/scripts/backup-db.sh:46 (`--exclude-schema=storage`) · docs/backup-restore.md:43-56,108-126",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/products/page.tsx",
+        "difetti": [
+          {
+            "chiave": "layout-responsive|nel pannello del negoziante il pulsante «copilot» galleggia sopra «salva modifiche» della modifica in blocco: il tocco apre il copilot e le modifiche si perdono",
+            "titolo": "Nel pannello del negoziante il pulsante «Copilot» galleggia sopra «Salva modifiche» della modifica in blocco: il tocco apre il Copilot e le modifiche si perdono",
+            "gravita": "grave",
+            "gruppo": "layout-responsive",
+            "dove": "components/seller/SellerShell.tsx:419-428 (Link fixed bottom-6 right-6 z-overlay, mostrato su ogni pagina venditore tranne il Copilot) · app/seller/products/page.tsx:527-549 (barra fixed inset-x-0 bottom-0 z-sticky con «Annulla»/«Salva modifiche» allineati a destra) · tailwind.config.ts:127 e :131 (z-sticky = 20, z-overlay = 40)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/email/templates.ts",
+        "difetti": [
+          {
+            "chiave": "coerenza-brand|le email di ordine, rimborso e gift card arrivano al cliente nei colori della vecchia palette indigo, non in terracotta",
+            "titolo": "Le email di ordine, rimborso e gift card arrivano al cliente nei colori della vecchia palette indigo, non in terracotta",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "lib/email/templates.ts:25 (BRAND_COLOR = '#4f46e5') · :39-49 (guscio: sfondo #f8fafc, testo #1e293b, piede #f1f5f9/#64748b) · :62 (pulsante) · :70,89,140,184,201 (titoli #0f172a) · :91 (#dc2626) · :158 (#059669) · :205,224 (codice gift card)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/store-customization.ts",
+        "difetti": [
+          {
+            "chiave": "coerenza-brand|la vetrina del negozio può diventare verde-acqua, blu, prugna o marrone: quattro colori fuori palette",
+            "titolo": "La vetrina del negozio può diventare verde-acqua, blu, prugna o marrone: quattro colori fuori palette",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "lib/store-customization.ts:25-28 (ACCENT_PRESETS)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/opengraph-image.tsx",
+        "difetti": [
+          {
+            "chiave": "coerenza-brand|l'anteprima del link su whatsapp e facebook mostra il logo in un carattere che non è quello del brand",
+            "titolo": "L'anteprima del link su WhatsApp e Facebook mostra il logo in un carattere che non è quello del brand",
+            "gravita": "grave",
+            "gruppo": "coerenza-brand",
+            "dove": "app/opengraph-image.tsx:25 e 29",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/orders/[id]/review/page.tsx",
+        "difetti": [
+          {
+            "chiave": "accessibilita-visiva|il selettore delle stelle nella pagina recensione non dice quale voto è scelto",
+            "titolo": "Il selettore delle stelle nella pagina recensione non dice quale voto è scelto",
+            "gravita": "grave",
+            "gruppo": "accessibilita-visiva",
+            "dove": "app/orders/[id]/review/page.tsx:17-30 (componente `StarRating`)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/sos/page.tsx",
+        "difetti": [
+          {
+            "chiave": "stati-ui|la consolle delle emergenze dice «tutto tranquillo» anche quando non ha letto niente",
+            "titolo": "La consolle delle emergenze dice «tutto tranquillo» anche quando non ha letto niente",
+            "gravita": "grave",
+            "gruppo": "stati-ui",
+            "dove": "app/admin/sos/page.tsx:36-49, :72, :86-89 · sorgente degli eventi: components/rider/SOSButton.tsx:55-66",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "home/user/mycity/components/hooks/useFavorites.ts",
+        "difetti": [
+          {
+            "chiave": "stati-ui|il cuore dei preferiti non ha attesa, non ha errore e non si aggiorna subito",
+            "titolo": "Il cuore dei preferiti non ha attesa, non ha errore e non si aggiorna subito",
+            "gravita": "grave",
+            "gruppo": "stati-ui",
+            "dove": "/home/user/mycity/components/hooks/useFavorites.ts:28-41 · /home/user/mycity/components/ProductCard.tsx:95-107 · /home/user/mycity/app/product/[id]/page.tsx:116",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/events/page.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|se incolli l'indirizzo di un'immagine esterna, la pagina mostra un buco senza dire perché",
+            "titolo": "Se incolli l'indirizzo di un'immagine esterna, la pagina mostra un buco senza dire perché",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/ImageUrlField.tsx:99-106 (campo «oppure incolla un URL https://…»), reso poi da app/events/page.tsx:161-168, app/shop-of-month/page.tsx:165-174, components/home/HomeEvents.tsx:65-67",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/StoreMediaCarousel.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|sulla home le schede negozio scaricano la foto grande e la marcano urgente, sei volte",
+            "titolo": "Sulla home le schede negozio scaricano la foto grande e la marcano urgente, sei volte",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/StoreMediaCarousel.tsx:67-73 (`sizedImage(m.url,'hero')`, `sizes=\"…1024px\"`, `priority={i === 0}`) usato in scheda piccola da components/StorePreviewCard.tsx:58-62 con altezza h-24/h-28, per i 6 negozi di components/StoreShowcase.tsx:20 e :106",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/CategoryShowcase.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+            "titolo": "Le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/CategoryShowcase.tsx:43-58 (undici indirizzi Pexels fissi) e :118 (`onError` che nasconde l'immagine)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/MobileTabBar.tsx",
+        "difetti": [
+          {
+            "chiave": "mobile-pwa|sul telefono un cerchio grigio copre i prodotti e apre un menu con «esci» a chi non ha un account",
+            "titolo": "Sul telefono un cerchio grigio copre i prodotti e apre un menu con «Esci» a chi non ha un account",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "components/MobileTabBar.tsx:195-208 (posizione a :203); lib/ui/schede-in-fondo.ts:97-103 e :111-113; lib/account-menu.ts:20-23 e :82-85; components/MobileAccountSheet.tsx:123-132",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "components/home/HomeEvents.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|le copertine degli eventi in home vengono tagliate e restano una fascia centrale",
+            "titolo": "Le copertine degli eventi in home vengono tagliate e restano una fascia centrale",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/home/HomeEvents.tsx:65-67 (riquadro `aspect-[16/9]` con `sizedImage(e.cover_image_url,'card')`), da confrontare con app/events/page.tsx:161-168 che usa 'detail'",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/faq/page.tsx",
+        "difetti": [
+          {
+            "chiave": "microcopy|il sito dà quasi tutti gli indirizzi email su un dominio che il codice stesso tratta come ripiego",
+            "titolo": "Il sito dà quasi tutti gli indirizzi email su un dominio che il codice stesso tratta come ripiego",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "components/Footer.tsx:237-238 · app/contact/page.tsx:89-92 (info@mycity.it) e 176 (info@mycity-marketplace.com) · app/help/page.tsx:101-105 · app/faq/page.tsx:128 · app/seller/help/page.tsx:25-28 · app/lavora-con-noi/page.tsx:74-95,220 · app/accessibility/page.tsx:154 · lib/legal/titolare.ts:35,109,150 · lib/env.ts:44,70 · app/api/cron/operational-alerts/route.ts:456",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": ".next/static/chunks/8359-fc97602f615bd966.js",
+        "difetti": [
+          {
+            "chiave": "performance-percepita|sentry finisce nel pacchetto di tutte e 245 le pagine anche senza dsn configurato",
+            "titolo": "Sentry finisce nel pacchetto di tutte e 245 le pagine anche senza DSN configurato",
+            "gravita": "grave",
+            "gruppo": "performance-percepita",
+            "dove": "instrumentation-client.ts:13 e :20 — chunk .next/static/chunks/8359-fc97602f615bd966.js, presente in 245/245 voci di .next/app-build-manifest.json (incluso /layout)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ai/run.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|nessuna rotta guarda `stop_reason`: una risposta tagliata a metà viene trattata come completa",
+            "titolo": "Nessuna rotta guarda `stop_reason`: una risposta tagliata a metà viene trattata come completa",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "marketplace/lib/ai/run.ts:50 e :279 (prodotto e mai letto) · marketplace/lib/ai/catalogBatch.ts:150 (translate, maxTokens 768) e :124 (improve, 1024) · marketplace/lib/ai/batch.ts:84-105 (l'entry del lotto non porta nemmeno lo stop_reason) · marketplace/app/api/ai/catalog-batch/apply/route.ts:166-190",
+            "umano": null
+          }
+        ]
+      }
+    ]
+  ]
+}

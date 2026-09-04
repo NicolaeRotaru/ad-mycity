@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-03 23:54",
+ "aggiornato": "2026-09-03 07:55",
  "mutanti": [
   {
    "lotto": 30,
@@ -8322,6 +8322,56 @@
    "lezione": "L-2026-0903-01"
   },
   {
+   "lotto": null,
+   "difetto": "AR-896",
+   "nome": "la spazzata torna a dire verde su un posto che non ha guardato",
+   "file": "cervello/spazzata-frase.mjs",
+   "cerca": "    console.error(`⛔ Non trovo il repo del sito in «${repo}». Passa --repo o imposta MARKETPLACE_REPO.`);\n    process.exit(3);",
+   "sostituisci": "    console.error(`⛔ Non trovo il repo del sito in «${repo}». Passa --repo o imposta MARKETPLACE_REPO.`);\n    process.exit(0);",
+   "test": "cervello/test/spazzata-frase.test.mjs",
+   "nota": "Il contratto del comando dice che «non ho potuto guardare» ha un'uscita sua, diversa dal verde. Il revisore aveva rotto tre pezzi di quel contratto restando 7 verdi su 7: ora la prova esegue il comando su un repo che non esiste e pretende 3. Eseguito il 3/9/2026: rosso su «un repo che non esiste non e' zero posti»."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-903",
+   "nome": "il funnel rimette lo zero bugiardo sul numero dei soldi",
+   "file": "pannello/src/app/api/metriche/funnel/route.ts",
+   "cerca": "const ordiniPagati = ordersR.ok ? orders.filter((o) => o.payment_status === \"PAID\").length : null;",
+   "sostituisci": "const ordiniPagati = ordersR.ok ? orders.filter((o) => o.payment_status === \"PAID\").length : 0;",
+   "test": "cervello/test/il-funnel-non-scrive-zero-carrelli-che-non-ha-contato.test.mjs",
+   "nota": "E' la mutazione con cui un revisore ha dimostrato che la prima versione di quella prova era vacua: cambiava una riga sola e la prova restava 8 verdi su 8. Riscritta eseguendo la rotta vera contro un finto database, ora e' rossa. Eseguito il 3/9/2026."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-897",
+   "nome": "una data illeggibile torna a spegnere tutta la Cabina",
+   "file": "pannello/src/lib/marketplace-db.ts",
+   "cerca": "      if (Number.isNaN(q.getTime())) return false;",
+   "sostituisci": "      // riga tolta apposta",
+   "test": "cervello/test/una-data-storta-non-spegne-la-cabina.test.mjs",
+   "nota": "Senza il controllo, Intl.format lancia dentro l unico try/catch del cruscotto e la Cabina risponde «database non collegato». Eseguito il 3/9/2026: due prove rosse su due."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-896",
+   "nome": "la spazzata torna a seguire i collegamenti e legge file fuori dal repo",
+   "file": "cervello/spazzata-frase.mjs",
+   "cerca": "try { st = lstatSync(p); } catch { continue; }",
+   "sostituisci": "try { st = statSync(p); } catch { continue; }",
+   "test": "cervello/test/spazzata-frase.test.mjs",
+   "nota": "Con statSync il collegamento viene seguito: un link dentro components/ fa leggere file fuori dal repo con un percorso che sembra interno, e fa contare piu volte lo stesso posto. Eseguito il 3/9/2026: rossa la prova «un collegamento non fa contare due volte lo stesso posto»."
+  },
+  {
+   "lotto": null,
+   "difetto": "AR-897",
+   "nome": "una riga con la data storta torna a tirare a zero il tempo medio di consegna",
+   "file": "pannello/src/lib/marketplace-db.ts",
+   "cerca": "const delivered = orders.filter((o) => leggibile(o.delivered_at) && leggibile(o.created_at));",
+   "sostituisci": "const delivered = orders.filter((o) => o.delivered_at);",
+   "test": "cervello/test/una-data-storta-non-spegne-la-cabina.test.mjs",
+   "nota": "Una data illeggibile fa NaN, e Math.max(0, NaN) fa 0: una consegna «istantanea» che abbassa la media che Nicola legge. Eseguito il 3/9/2026: rossa."
+  },
+  {
    "difetto": "AR-416",
    "nome": "il giro smette di lanciare il potatore: l'archivio torna a crescere fino al muro senza che nessuno poti",
    "file": "cervello/giro.sh",
@@ -8982,5 +9032,45 @@
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
- "_tolte_2026_09_03": "Una mutazione arrivata con la fusione di main il 3/9: rompeva la riga vecchia del potatore in giro.sh (`node \"$SCRIPT_DIR/pota-apprendimento.mjs\" ... | esito_righe 3 || true`). Questo ramo ha riscritto quella riga con `sensore()` per AR-884, quindi il suo `cerca` non trova piu niente: una mutazione che non morde conta come difesa e non lo e — AR-840 scritto al contrario, ed e la stessa forma della «mutazione fantasma». Il difetto resta coperto e in due modi: le altre due mutazioni di AR-416 rompono la riga NUOVA (`: # potatore mai lanciato` e `true # potatore spento`) e sono state provate su questo albero. Verificato con il sorvegliante, che l ha detto tre volte prima che la togliessi. Con lo stesso metro, altre quattro voci arrivate da main: AR-433 su onesta-check.mjs, AR-812 due volte su cancello-lotto.mjs, AR-840 su mutazioni-senza-esecutore.mjs. Tutte puntano a righe che questo ramo ha riscritto, e per ognuna esiste gia una sorella che rompe la riga NUOVA (una, quattro, quattro e tre rispettivamente). Il criterio per toglierle ha due gambe e la seconda e comportamentale: la voce manca nel lato riconciliato l 1/9 su questo albero E il suo `cerca` non esiste nell albero fuso. Senza la seconda gamba sarebbe «vince il mio»."
+ "_tolte_2026_09_03": "Una mutazione arrivata con la fusione di main il 3/9: rompeva la riga vecchia del potatore in giro.sh (`node \"$SCRIPT_DIR/pota-apprendimento.mjs\" ... | esito_righe 3 || true`). Questo ramo ha riscritto quella riga con `sensore()` per AR-884, quindi il suo `cerca` non trova piu niente: una mutazione che non morde conta come difesa e non lo e — AR-840 scritto al contrario, ed e la stessa forma della «mutazione fantasma». Il difetto resta coperto e in due modi: le altre due mutazioni di AR-416 rompono la riga NUOVA (`: # potatore mai lanciato` e `true # potatore spento`) e sono state provate su questo albero. Verificato con il sorvegliante, che l ha detto tre volte prima che la togliessi. Con lo stesso metro, altre quattro voci arrivate da main: AR-433 su onesta-check.mjs, AR-812 due volte su cancello-lotto.mjs, AR-840 su mutazioni-senza-esecutore.mjs. Tutte puntano a righe che questo ramo ha riscritto, e per ognuna esiste gia una sorella che rompe la riga NUOVA (una, quattro, quattro e tre rispettivamente). Il criterio per toglierle ha due gambe e la seconda e comportamentale: la voce manca nel lato riconciliato l 1/9 su questo albero E il suo `cerca` non esiste nell albero fuso. Senza la seconda gamba sarebbe «vince il mio».",
+ "_tolte_2026_09_04": {
+  "perche": "Cinque mutazioni arrivate da main che puntavano a righe riscritte da questo ramo: il pezzo da rompere non esiste piu' con quella forma. Non le ho riagganciate perche' non servirebbe a niente — per ognuna esiste gia' nel registro una gemella VIVA che difende lo stesso comportamento nella forma nuova (per AR-840 la difesa e' proprio traslocata da mutazioni-senza-esecutore.mjs a esecuzione-prova.mjs). Tenerle sarebbe contare due difese dove ne esiste una: e' la stessa bugia che il banco esiste per impedire. Criterio applicato: si ritira solo se (a) il `cerca` non esiste piu' nell'albero fuso E (b) resta una gemella viva sullo stesso difetto.",
+  "voci": [
+   {
+    "difetto": "AR-416",
+    "nome": "il giro smette di lanciare il potatore: l'archivio torna a crescere fino al muro senza che nessuno poti",
+    "file": "cervello/giro.sh",
+    "cerca": "  node \"$SCRIPT_DIR/pota-apprendimento.mjs\" --se-serve 2>&1 | esito_righe 3 || true",
+    "test": "cervello/test/archivi-senza-tetto.test.mjs"
+   },
+   {
+    "difetto": "AR-433",
+    "nome": "i riferimenti a codice tornano a contare come numeri senza fonte",
+    "file": "cervello/onesta-check.mjs",
+    "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : \"\";",
+    "test": "cervello/test/c5-metro-che-boccia-tutto.test.mjs"
+   },
+   {
+    "difetto": "AR-812",
+    "nome": "il cancello smette di montare le prove del Pannello: si torna a consegnare col Pannello rotto e il verde in mano",
+    "file": "cervello/cancello-lotto.mjs",
+    "cerca": "          esegui(\"prove del Pannello\", process.execPath, [join(AD_ROOT, \"cervello/test-pannello.mjs\")], {",
+    "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
+   },
+   {
+    "difetto": "AR-812",
+    "nome": "le prove del Pannello girano con un «|| true»: il guardiano stampa e non puo' bocciare, come in giro.sh",
+    "file": "cervello/cancello-lotto.mjs",
+    "cerca": "          esegui(\"prove del Pannello\", process.execPath,",
+    "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
+   },
+   {
+    "difetto": "AR-840",
+    "nome": "una riga di comando torna a contare come percorso: il metro smette di vedere il difetto",
+    "file": "cervello/mutazioni-senza-esecutore.mjs",
+    "cerca": "  if (/\\s/.test(t)) {\n    return { ok: false, perche: `è una riga di comando, non un percorso: «${t}»` };\n  }",
+    "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+   }
+  ]
+ }
 }

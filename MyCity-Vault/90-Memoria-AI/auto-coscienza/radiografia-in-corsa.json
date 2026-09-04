@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-09-04 11:12",
+  "aggiornato": "2026-09-04 12:35",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -404,6 +404,25 @@
       "file": {
         "cervello/worker-coda.sh": "27776c86c9da",
         "cervello/worker.sh": "6242d8e8d8cb"
+      }
+    },
+    {
+      "quando": "2026-08-26 22:20",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-837"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/cancello-lotto.mjs": "6e876dcd26c2",
+        "cervello/non-vacuita.mjs": "f39a813c32ec",
+        "cervello/perimetro-mutazioni.mjs": "f0e5685f1d74",
+        "cervello/sorvegliante.mjs": "d559e7297532"
       }
     },
     {
@@ -914,25 +933,6 @@
         "cervello/tasso-lezioni.mjs": "594643c191c3",
         "cervello/vincoli-senza-cieco.mjs": "1d996103a596",
         "cervello/workflow-partono.mjs": "721f536b6e30"
-      }
-    },
-    {
-      "quando": "2026-08-26 22:20",
-      "casa": "macchina",
-      "dimensione": "rischio-sicurezza-se",
-      "repo": "ad",
-      "modo": "ad",
-      "chi": "AD",
-      "trovati": 1,
-      "schede": [
-        "AR-837"
-      ],
-      "nota": "",
-      "file": {
-        "cervello/cancello-lotto.mjs": "6e876dcd26c2",
-        "cervello/non-vacuita.mjs": "f39a813c32ec",
-        "cervello/perimetro-mutazioni.mjs": "f0e5685f1d74",
-        "cervello/sorvegliante.mjs": "d559e7297532"
       }
     },
     {
@@ -1743,6 +1743,363 @@
       }
     },
     {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 9,
+      "schede": [
+        "La fascia di consegna la scrive il cliente: la parola «domani» nel campo libero spegne il controllo «negozio chiuso» su contanti E carta",
+        "Se la tabella della cassa contanti non si legge — TUTTE le cancellazioni account passano per «rinvio deciso da noi»: verdetto verde — battito scritto — nessuno svegliato",
+        "La notte che fallisce spegne il battito — e il sorvegliante annuncia «process-deletions fermo: scheduler o deploy down?» mentre il lavoro gira ogni notte — e non si spegne piu' da solo",
+        "La cassa in contanti libera la merce ma lascia aperta la pagina di pagamento di Stripe: il cliente puo' pagare una carta che non doveva piu' esistere",
+        "I due allarmi nati oggi si contraddicono: il giro notturno dice «rinvio legittimo — non svegliare» — il sorvegliante scrive «o fallisce — o non gira» — per lo stesso fattorino — ogni giorno",
+        "`retentionFallite` e' un numero che non guarda nessuno — e oggi ci hanno attaccato due potature nuove",
+        "Due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+        "L'ordine della sera per domani viene annullato da solo nel cuore della notte",
+        "Passare ai contanti libera la merce ma lascia viva la pagina di pagamento: si puo' pagare due volte"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/catalogo/categorie/route.ts": "07f9ad37c7f8",
+        "app/api/cron/operational-alerts/route.ts": "9de91e5d0729",
+        "app/api/cron/process-deletions/route.ts": "daf3b3fc801b",
+        "app/api/health/ready/route.ts": "f547e827441f",
+        "app/api/health/route.ts": "addde64673b9",
+        "app/api/orders/cod/route.ts": "f3f151c65f84",
+        "app/api/returns/[id]/avanza/route.ts": "dba7e970f4ea",
+        "app/api/returns/[id]/decide/route.ts": "6857b82176ac",
+        "app/api/returns/chi-comanda-il-reso.ts": "0ef9378c5b81",
+        "app/api/segnalazioni/route.ts": "d9b6b1676ec5",
+        "app/api/seller/orders/[id]/reject/route.ts": "1b863a8ffbad",
+        "app/api/track/route.ts": "335b6c1a6ceb"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "dati-analytics",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "L'impronta della ricerca mandata a Google si rovescia in un millisecondo: ho ricavato «mario.rossi@gmail.com» da 504 tentativi",
+        "Il filmato di sessione di PostHog porta ancora l'indirizzo intero con la ricerca in chiaro: il cancello nuovo copre nove proprieta' nominate — non il filmato"
+      ],
+      "nota": "",
+      "file": {
+        "lib/analytics/events.ts": "2a8a94fa7977",
+        "lib/analytics/posthog.tsx": "56a1acf25c32",
+        "lib/analytics/registro-accessi.ts": "a816eda1e633",
+        "lib/analytics/tracciamento.ts": "ececabbdb532"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Chi annulla il pagamento con la carta non puo' ricomprare per due ore l'ultimo pezzo che aveva in mano",
+        "All'ultimo schermo la cassa scrive «Spedizione gratis» e nel totale addebita due spedizioni",
+        "Il carrello vuoto promette ancora «Spedizione gratis sopra €30» senza i 3 euro di consegna",
+        "Il carrello dice «Consegna in 30-60 min» anche alle undici di sera — quando la cassa offre solo domani"
+      ],
+      "nota": "",
+      "file": {
+        "app/cart/page.tsx": "49f0043e0905",
+        "app/checkout/page.tsx": "0e113ffa38be",
+        "app/orders/[id]/page.tsx": "509e0d1d313d",
+        "app/orders/[id]/review/page.tsx": "89d62b72efe1",
+        "app/orders/page.tsx": "cfa58a4b7dc7"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "Il documento del minorenne e' gia' nel nostro archivio quando il cancello dei diciotto anni si accorge di lui",
+        "Sulla barra d'acquisto del telefono la riga «Paghi alla consegna» viene tagliata a metà",
+        "La descrizione di ogni negozio e la prima risposta delle FAQ promettono ancora il ritiro in negozio — che alla cassa non esiste",
+        "Chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+        "Chi carica la foto di una recensione può ricevere in faccia un errore da programmatore"
+      ],
+      "nota": "",
+      "file": {
+        "app/admin/sos/page.tsx": "1332f79861c4",
+        "app/category/[slug]/page.tsx": "655b01d84d4f",
+        "app/events/page.tsx": "490f7b602615",
+        "app/faq/page.tsx": "31b2b1359040",
+        "app/layout.tsx": "37ca1b74c5be",
+        "app/opengraph-image.tsx": "f2293bd00d2b",
+        "app/page.tsx": "6a250099306c",
+        "app/product/[id]/layout.tsx": "24984c3d9425",
+        "app/product/[id]/page.tsx": "f8f3de647830",
+        "app/profile/page.tsx": "8618199a7b70",
+        "app/profile/referral/page.tsx": "38fae3b3187b",
+        "app/profile/settings/page.tsx": "e856b8ce5ba8",
+        "app/returns/page.tsx": "cf9b4f3b4e6c",
+        "app/rider/onboarding/page.tsx": "e58878d51043",
+        "app/search/page.tsx": "f15b292e2459",
+        "app/seller/analytics/page.tsx": "c13640dce352",
+        "app/seller/dashboard/page.tsx": "6d9b91d07db5",
+        "app/seller/products/page.tsx": "830c29d5939c",
+        "app/shop-of-month/page.tsx": "edbd3878e338",
+        "app/sign-up/page.tsx": "539b22d786ed",
+        "app/store/[id]/[slug]/page.tsx": "dbbce1f0d44f",
+        "app/store/[id]/layout.tsx": "d403af9c38a6",
+        "app/store/[id]/loading.tsx": "676bc6f3eeff",
+        "app/store/[id]/page.tsx": "2136d1c98fbe",
+        "app/store/loading.tsx": "e14389d93a0c",
+        "components/CategoryBar.tsx": "e033d2ca1d77",
+        "components/CategoryShowcase.tsx": "9d9a45957837",
+        "components/ConfirmDialog.tsx": "a8fee0983a30",
+        "components/LocationPill.tsx": "0dc5cc4219ac",
+        "components/MobileTabBar.tsx": "b2db029ea201",
+        "components/Navbar.tsx": "f8aeb5e7ccde",
+        "components/PWAInstallBanner.tsx": "30d14d088128",
+        "components/PhotoReviewUpload.tsx": "f68702754148",
+        "components/ProductCard.tsx": "f48dd2086415",
+        "components/ProductGrid.tsx": "d72db65daaf1",
+        "components/PushNotificationOptIn.tsx": "f9a87328dafc",
+        "components/QuandoSiVede.tsx": "703693539ab9",
+        "components/StickyAddToCart.tsx": "f2c871a300ea",
+        "components/StoryViewer.tsx": "5191dfe27080",
+        "components/SupportChatButton.tsx": "8e657863b1c1",
+        "components/admin/home/HomeSectionConfigForm.tsx": "f2ddcd855c85",
+        "components/checkout/PaymentMethodSelector.tsx": "bd3772f4856b",
+        "components/checkout/ScheletroCassa.tsx": "2328fb5aa8d7",
+        "components/checkout/StepCard.tsx": "97ba9dace463",
+        "components/checkout/StepIndicator.tsx": "5d84ca12c62b",
+        "components/cms/CmsBlockRenderer.tsx": "fefa0f7de8da",
+        "components/home-sections/HomeSectionRenderer.tsx": "e5f3af33814f",
+        "components/home/HomeEvents.tsx": "564e3d0674f9",
+        "components/home/StoriesCarousel.tsx": "ed2108bd128b",
+        "components/hooks/useFavorites.ts": "f07f9c47ba93",
+        "components/products/SellerCard.tsx": "9fd01f48c9d3",
+        "components/seller/ProductForm.tsx": "979ef09c0fa6",
+        "components/store-sections/HeroSection.tsx": "0681a54eb437",
+        "components/store-sections/ScheletroNegozio.tsx": "6d8063fe5c94",
+        "components/store-sections/misure-vetrina.ts": "57431ecd631e",
+        "components/store-sections/useStorePageData.ts": "b691d15e3db4",
+        "components/ui/Card.tsx": "8c257de55ca5",
+        "components/ui/FreeShippingProgress.tsx": "cf990cba1d56"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Nell'informativa privacy il commento dei buoni regalo e' incollato due volte"
+      ],
+      "nota": "",
+      "file": {
+        "app/privacy/page.tsx": "c1cb223a4609"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il commit che si unisce spegne la difesa anti-XSS del sito: in produzione qualunque script iniettato nella pagina gira",
+        "Il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/admin/users/[id]/delete/route.ts": "e2429094148e",
+        "middleware.ts": "2925833ff33b"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il guardiano della chat della migrazione 154 non scatta mai in produzione: si autorizza da solo",
+        "security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato"
+      ],
+      "nota": "",
+      "file": {
+        "migrations/151_revoca_esecuzione_agli_anonimi.sql": "f266fae3df18",
+        "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql": "1716b3610885",
+        "migrations/153_il_reso_lo_apre_il_server_non_il_cliente.sql": "efd5bf865cdd",
+        "migrations/154_la_chat_non_si_intesta_a_un_altro.sql": "bca129e0b19c"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "La fascia di consegna arriva dal browser come testo libero e apre la cassa quando il negozio e chiuso",
+        "La nuova bandiera annullaLOrdine apre la strada alla merce rimessa a scaffale due volte",
+        "Il codice sconto a uso unico resta bruciato: la liberazione della riserva vecchia arriva dopo che il codice e gia stato richiesto"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "950465e4824d",
+        "lib/stripe/payout.ts": "5fbf89550071"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:01",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "La garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un COMMIT",
+        "Il ritorno indietro del rilascio riporta il codice ma non il database",
+        "Il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+        "La prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro"
+      ],
+      "nota": "",
+      "file": {
+        ".github/workflows/ci.yml": "a3a7bd6d7c51",
+        ".github/workflows/deploy-dopo-ci.yml": "0fc2da04ab92",
+        "scripts/backup-db.sh": "93d1526de7fc",
+        "scripts/prova-di-fumo.mjs": "4b10aa175dc1"
+      }
+    },
+    {
+      "quando": "2026-09-03 21:11",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 9,
+      "schede": [
+        "Il portiere del sito esiste in due copie: la riparazione della regola di sicurezza e finita in quella morta",
+        "Il pulsante tondo dell'assistenza torna a coprire «Conferma ordine» fra 768 e 1023 pixel",
+        "Nello stesso file — «il negozio e' aperto» si calcola con due orologi diversi",
+        "Il cancello sui totali del venditore si fida di una colonna come se fosse una promessa sul calcolo",
+        "La pausa pranzo del negozio rifiuta l'ordine per stasera",
+        "Cancellato l'account — indirizzo di casa e telefono restano scritti in chiaro dentro gli ordini",
+        "Una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni",
+        "La fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+        "Sulla card del catalogo la pillola verde dice «Sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome"
+      ],
+      "nota": "",
+      "file": {
+        "app/globals.css": "d6f4b49ba63b",
+        "app/robots.ts": "046bef8af532",
+        "app/sitemap.ts": "4b77c90ac64f",
+        "lib/account/cancellazione.ts": "ab1bb1e23a23",
+        "lib/activity.ts": "7c658c4c6a2d",
+        "lib/auth/decisione-portiere.ts": "dab3e18eda6e",
+        "lib/banner-vetrina.ts": "5b8845f1fb4f",
+        "lib/db/migrazione-148.ts": "e1da49c13728",
+        "lib/email/templates.ts": "e38dfe5d392f",
+        "lib/env.ts": "9c81d8847c92",
+        "lib/griglia-prodotti.ts": "fdda19a48f75",
+        "lib/guadagni/negozio.ts": "1d4645d922e7",
+        "lib/home-site.ts": "a1d94bc23199",
+        "lib/metriche-venditore.ts": "ae16823b35c5",
+        "lib/ordini/riserve-abbandonate.ts": "c9ab2c0102f8",
+        "lib/preload-foto.ts": "518503294c8e",
+        "lib/promesse-pubbliche.ts": "75f2d42e9523",
+        "lib/push/dispositivo.ts": "caf3eb2c05f2",
+        "lib/queries/cache-pubblica.ts": "49dbb3306938",
+        "lib/queries/catalogo.ts": "806c660ba6ce",
+        "lib/queries/categorie-pubbliche.ts": "1dd27b20bb94",
+        "lib/queries/griglia-prodotti.ts": "2e8d5977a08d",
+        "lib/queries/precarico.ts": "2c585165a154",
+        "lib/riordino.ts": "df944fea900a",
+        "lib/safe-redirect.ts": "808fc41e81bd",
+        "lib/store-customization.ts": "403655823b54",
+        "lib/store-hours.ts": "06f440bcc4b9",
+        "lib/ui/barra-in-fondo.ts": "05590f057419"
+      }
+    },
+    {
+      "quando": "2026-09-03 22:35",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-896"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/spazzata-frase.mjs": "a314e0ead823"
+      }
+    },
+    {
+      "quando": "2026-09-03 22:35",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "AR-897",
+        "AR-898",
+        "AR-899",
+        "AR-900",
+        "AR-904",
+        "AR-905"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/components/NumeriReport.tsx": "1df36c296ffa",
+        "pannello/src/lib/marketplace-db.ts": "b78f71788f6f"
+      }
+    },
+    {
+      "quando": "2026-09-03 22:35",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "AR-901",
+        "AR-902",
+        "AR-903"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/app/api/metriche/funnel/route.ts": "31488103f780"
+      }
+    },
+    {
       "quando": "2026-09-03 23:13",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
@@ -1800,6 +2157,40 @@
         "cervello/round6-applica.mjs": "daa88dd4f75a",
         "cervello/test-cervello.mjs": "91e9eb7886e4",
         "cervello/valida-contratti.mjs": "b5e2810d2112"
+      }
+    },
+    {
+      "quando": "2026-09-04 00:08",
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "AR-908",
+        "AR-909"
+      ],
+      "nota": "",
+      "file": {
+        "pannello/src/lib/marketplace-db.ts": "b3897694df74"
+      }
+    },
+    {
+      "quando": "2026-09-04 00:09",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "AR-907",
+        "AR-912"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/spazzata-frase.mjs": "12c8b6557b6f"
       }
     },
     {

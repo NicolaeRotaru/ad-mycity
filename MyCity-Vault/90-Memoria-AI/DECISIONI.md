@@ -5014,3 +5014,37 @@ della casa (`CAMPI_EXTRA_DEL_REFERTO`), con prova `cervello/test/la-prova-attrav
 Riguardando quel file con la lente della sua dimensione e' nato AR-894 (una prova che fabbrica una
 credenziale finta entrava in memoria tale e quale e avrebbe fatto scattare il guardiano dei segreti):
 riparato nello stesso lotto, mutazione dichiarata in `cervello/mutanti.json`.
+
+
+---
+
+## 2026-09-03 21:00 — 🟡 Lotto di riparazione del marketplace: 97 difetti seri chiusi, una richiesta di unione sola
+
+**Cosa.** Su richiesta di Nicola («risolvi il maggior numero di problemi del marketplace») ho fatto girare
+il lotto a pacchetti sul registro del sito, variante «solo bloccanti e gravi»: 110 difetti, 54 pacchetti,
+11 ondate (`node cervello/pacchetti-lotto.mjs --sito --gravi`). Quattordici squadre di riparazione a
+territori disgiunti, poi cinque revisori con lenti diverse sui 146 file toccati, poi cinque squadre di
+riparazione sul referto dei revisori, poi una revisione finale del perimetro rimasto.
+
+**Perché 🟡 e non 🟢.** Il codice del sito cambia in un ramo. L'unione resta di Nicola, e le quattro
+migrazioni nuove (151, 152, 153, 154) NON sono applicate: quella firma è separata e 🔴.
+
+**Il conto.** Registro del sito: 369 aperti → 304 (bloccanti 4 → 3, gravi 106 → 26, minori 259 → 275, che
+salgono perché i revisori ne hanno trovati di nuovi). Prove unitarie: 2411 → 3200 su 419 file. Cancello
+verde: typecheck, lint e prove.
+
+**Le tre cose che contano più del conteggio.**
+① 95 pagine su 95 arrivavano al browser senza JavaScript in produzione — trovata accendendo per la prima
+volta una build vera, non da una radiografia; carrello e cassa compresi. ② La cancellazione dell'account
+non cancellava niente: scriveva `profiles.avatar_url`, colonna inesistente, e il database rifiutava
+l'intera riga. Trovata da un controllo nuovo che legge tutte le scritture del codice. ③ Il bloccante del
+rimborso auto-approvato era in due rotte, non una, e il lato codice è chiuso con due prove che girano.
+
+**La lezione che porto avanti.** I revisori hanno trovato 41 cose su un lavoro che quattordici squadre
+avevano dichiarato finito, e quattro di quelle 41 erano regressioni nate quella mattina. Il collaudo
+separato non è un passo di cortesia: senza, oggi avremmo consegnato una cassa che accetta ordini a
+negozio chiuso e un ordine serale che si annulla da solo nella notte.
+
+**Traccia.** Referto `consegne/audit/2026-09-03-lotto-riparazione-sito.md` · piano dei pacchetti
+`consegne/audit/2026-09-03-1636-pacchetti-sito-gravi-110difetti.json` · ramo
+`claude/marketplace-issues-52cttv` su entrambi i repo.
