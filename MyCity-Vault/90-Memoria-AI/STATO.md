@@ -1,7 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 11:26
+aggiornato: 2026-09-04 11:58
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🛌 **4/9 11:58 — Settimo passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**
+> Letargo confermato SOPRAVVIVENZA: quota AI **109%** della finestra rolling, salute macchina **4/100**.
+> Il mansionario impone "solo NUCLEO VITALE". Ordini, consegne, coda firme, sicurezza, allerta a
+> Nicola. Tutto il resto spento. Le 15 fasi di `cervello/giro.md` sono radar, radiografia,
+> auto-miglioramento, nuove query. Sono esattamente il "giro pesante" che questo livello vieta.
+>
+> **Nucleo vitale, controllato a costo quasi zero:** coda firme (`AZIONI-IN-ATTESA.md`) invariata.
+> Top card ancora **#193** (11° post pronto per Pane Quotidiano, zero pubblicati). Nessuna firma
+> nuova da Nicola in `DECISIONI.md`. `git log` dalle 11:26 mostra solo attività del ciclo automatico
+> già noto: due PLAYBOOK ricorrenti (recupero carrelli abbandonati, anti-churn negozi), girati alle
+> 11:44-11:49. Entrambi già chiusi a vuoto — «gate PQ ancora chiuso, nessuna bozza nuova» (commit
+> `d5e4c63bf`), coerente con [[playbook-recupero-carrelli-gate-invariato]] e
+> [[playbook-anti-churn-loop-a-vuoto]]: non li ho rilanciati. Il sorvegliante segnala di nuovo lo
+> stesso avviso su `storico-salute.json` (AR-046). Non l'ho toccato in questo passaggio: non è un
+> difetto nato qui, e ripararlo è lavoro pesante fuori dal nucleo vitale di oggi.
+>
+> Nessun numero di business cambiato: 1 ordine (24/6, annullato), 0 pagati, 72°/73° giorno di stallo
+> North Star. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🧭 **4/9 11:26 — Sesto passaggio pieno di oggi, 11 minuti dopo il precedente.** Nessuna novità.

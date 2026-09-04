@@ -2,18 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-17T10:48:30.391Z",
-      "scatti": 11637,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-17T11:14:30.303Z",
       "scatti": 11726,
       "voci": 209,
@@ -2239,7 +2227,26 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-04T10:00:37.016Z",
+      "scatti": 7640,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+          "cosa": "la mutazione di AR-046 («lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere») non trova più il suo pezzo in questo file",
+          "ripetuta": 78
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-09-04T09:48:56.603Z"
+  "aggiornato": "2026-09-04T10:00:37.017Z"
 }

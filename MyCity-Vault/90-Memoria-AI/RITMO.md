@@ -1620,3 +1620,22 @@ Non ho riquerato Supabase né Stripe. L'ho già fatto 19 minuti fa. In 19 minuti
 - Dai il via al fix di una riga sul permesso mancante. L'ho isolato ieri sera. Serve a riaccendere il controllo dei test.
 
 **Dettagli tecnici** — Riverificato ora via MCP (`execute_sql`): ordini=1 (24/6, annullato), pagati=0, profili=8, prodotti=5, identico a ieri sera. `WebFetch` diretto sul sito: HTTP 503, confermato. Letargo tornato leggero: quota sessione rolling 12% (240.000/2.000.000), ieri era sopra il 110% per quasi tutto il giorno. Un solo commit stanotte, alle 06:00, un recupero di scritture pendenti. Nessuna raffica come il 3/9. Nessuna firma nuova in `DECISIONI.md` da fine agosto. Card in coda: #154/#155/#182/#184/#185/#189/#190/#192/#193.
+
+## Punto di mezzogiorno · 2026-09-04 12:02
+
+**In una riga:** Mattinata ferma. Le tre firme di stamattina sono ancora ferme. Nessuna correzione di rotta oggi.
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. ❌ **Rimetti online il sito** (dominio + chiavi Vercel, `#154`/`#155`). Nessuna firma.
+2. ❌ **Sblocca i pagamenti con carta di Pane Quotidiano** (`#182`). Fermo da oltre tre settimane.
+3. ❌ **Applica le quattro migrazioni ferme** (`#184`). Nessuna firma.
+
+Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal vivo tre volte stamattina. L'ultima alle 11:58: 1 ordine del 24/6 annullato, 0 pagati, 8 profili, 5 prodotti. Un marketplace fermo non cambia numeri in quattro minuti.
+
+**Correzione di rotta:** nessuna. La coda delle azioni è identica a stamattina. In cima resta la stessa carta, `#193` — l'undicesimo post pronto per Pane Quotidiano, zero pubblicati. Zero commit dalle 11:58. Zero firme nuove in `DECISIONI.md`. Alle 11:44 e alle 11:48 sono girati due lavori automatici (recupero carrelli, anti-churn). Sono già tornati a mani vuote, come sempre. Non li ho ripetuti: avrebbero consumato quota senza cambiare nulla.
+
+**Cosa serve da te entro sera:**
+- Le stesse tre firme di stamattina: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), le quattro migrazioni (`#184`).
+- Scegli un post da pubblicare per Pane Quotidiano, o dimmi quali dei dieci vecchi ritirare (`#193`).
+
+**Dettagli tecnici** — Nessuna nuova query MCP in questo passaggio. Riuso la verifica delle 11:58: `orders`=1, `pagati`=0, `profiles`=8, `products`=5. Vincolo `LETARGO` ancora tra i vincoli attivi di `esito-giro.json` (11:43). `costo-ai.json` alle 11:57: 8 run oggi, quota sessione-rolling stimata 27% (545.000/2.000.000). Sotto soglia rispetto a ieri. `git log --since="11:58"` vuoto. Coda invariata: #154/#155, #182, #184, #185, #186, #188, #189, #190, #191, #192, #193. Precedenti collegati: [[playbook-recupero-carrelli-gate-invariato]], [[playbook-anti-churn-loop-a-vuoto]].
