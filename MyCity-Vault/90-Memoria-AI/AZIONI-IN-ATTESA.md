@@ -62,9 +62,26 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > Quindi non c'è nessuna porta di servizio da dare a un cliente mentre aspettiamo. Finché resta così, le riparazioni fatte oggi sul sito non le vede nessuno.
 
-**Cosa devi fare tu.** Su Vercel, progetto `mycity`, sezione Domains: aggiungi `mycity-marketplace.com` e imposta i record che Vercel ti mostra. Poi apri il sito in una finestra anonima e dimmi cosa vedi: se compare la schermata di accesso di Vercel invece del marketplace, la protezione va tolta dal dominio.
+> 🔍 **Ricontrollato ancora il 2026-09-04 10:20, perché me l'hai chiesto a voce: «come faccio a spostare il dominio su Vercel?».** Due cose cambiano rispetto a quanto è scritto qui sopra.
+>
+> **Primo, una buona notizia: la protezione non ti darà fastidio.** È accesa in modalità «tutto tranne i domini personalizzati». Vuol dire che copre gli indirizzi tecnici, ma salta apposta il nome vero: appena lo colleghi, il sito è pubblico. Il passo «togli la protezione» qui sopra non serve — resta solo come rete, se per caso la vedessi.
+>
+> **Secondo, non ti serve nessun trasferimento.** Il nome resta comprato dov'è: si cambiano due righe soltanto, quella del nome nudo e quella del `www`. Dieci minuti di lavoro tuo, e si torna indietro rimettendo il valore di prima.
+>
+> Confermato oggi dalla risoluzione vera: il nome nudo porta a `216.24.57.1`, che è Render, e il `www` pure. Sul progetto Vercel non c'è nessun nome personalizzato.
 
-**Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato.
+**Cosa non ho verificato.** Chi gestisce il nome: «Netsons» l'ho letto nel manuale del sito, non nel pannello vero. Se apri e trovi un altro gestore, i passi restano identici. Non ho potuto bussare al sito da qui: la rete di questa sessione blocca le chiamate in uscita. E non so quali variabili siano configurate oggi su Vercel — quella casella si guarda da dentro.
+
+**Cosa devi fare tu.** La procedura distesa, con i sei passi in ordine e le trappole, sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`. In breve:
+
+1. **Fotografa** i record che ci sono adesso nel pannello del nome. Due tipi di riga **non si toccano**: le `MX` e le `TXT` che parlano di posta. Se spariscono, il sito smette di mandare le conferme d'ordine. E non se ne accorge nessuno finché un cliente non ti scrive.
+2. **Su Vercel**, progetto `mycity` → Settings → Domains → Add: `mycity-marketplace.com`, con `www` che rimanda al nome nudo. Vercel ti mostra i record esatti da mettere — usa i suoi, non valori presi altrove.
+3. **Nel pannello del nome**, *modifica* le due righe esistenti (non aggiungerne di nuove accanto): `@` di tipo A e `www` di tipo CNAME, coi valori che ti ha dato Vercel.
+4. **Aspetta il verde** su Vercel: il certificato lo emette da solo, di solito in pochi minuti.
+5. **Poi metti la variabile** `NEXT_PUBLIC_APP_URL = https://mycity-marketplace.com` fra quelle di produzione e ripubblica. Senza, il sito funziona ma dice a Google e a Stripe un indirizzo sbagliato — il 22 agosto lì c'era scritto `localhost`.
+6. **Guarda** in finestra anonima che si apra il marketplace, che il `www` salti sul nome nudo, e cosa risponde la pagina di salute.
+
+**Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato. Restano poi tre cose da rimettere a mano, perché vivono in pannelli esterni. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google.
 
 ---
 
