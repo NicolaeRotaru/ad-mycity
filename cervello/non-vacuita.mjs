@@ -37,7 +37,7 @@ import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
 import { muta } from "./mutazione-vagante.mjs";
 import { comeSiEsegue, avvioFallito } from "./esecuzione-prova.mjs";
-// La regola del «quanto tempo mi resta» ha UNA casa sola: quella dove è nata (AR-908) e dove una
+// La regola del «quanto tempo mi resta» ha UNA casa sola: quella dove è nata (AR-932) e dove una
 // prova la interroga. Riscriverla qui sarebbe la malattia delle due case, dentro il file che
 // esiste per scoprirla.
 import { quantoPosso } from "./due-case.mjs";
@@ -367,7 +367,7 @@ export function troncataDalBudget(esito = {}, { status, concesso = 0, tetto = TE
 const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
 
 /**
- * 🔒 IL FILE DA ROMPERE STA DENTRO UNA RADICE AMMESSA? — AR-896.
+ * 🔒 IL FILE DA ROMPERE STA DENTRO UNA RADICE AMMESSA? — AR-920.
  *
  * ⚠️ TROVATO DAL COLLAUDO DI SICUREZZA DEL 31/8, ed è la stessa porta di AR-889 un metro più in là.
  * Lì la difesa era stata messa sul campo `test`, quello che il banco ESEGUE. Ma il banco apre e
@@ -552,7 +552,7 @@ export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\/\/[^/@\s:]*:[^/@\s]+@/
 
 
 /**
- * Nomi che nessuna parola-chiave prende, e che comandano comunque il processo figlio. AR-897.
+ * Nomi che nessuna parola-chiave prende, e che comandano comunque il processo figlio. AR-921.
  *
  * `NODE_OPTIONS` non contiene nessuna delle parole di `NOME_DI_CHIAVE`, e node le opzioni le legge
  * ANCHE dall'ambiente: `NODE_OPTIONS=--require /tmp/mio.cjs` esegue quel file PRIMA della prova
@@ -705,10 +705,10 @@ export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout =
 }
 
 /**
- * 🩹 QUANTI FILE TRACCIATI MANCANO DALL'ALBERO DI LAVORO, adesso. AR-900.
+ * 🩹 QUANTI FILE TRACCIATI MANCANO DALL'ALBERO DI LAVORO, adesso. AR-924.
  *
  * ⚠️ PERCHÉ ESISTE, e non è un'ipotesi: il 31/8 una corsa di questo banco ha cancellato 956 file —
- * tutta la cartella `cervello/`. Non per un difetto del banco: per una PROVA. La prova di AR-899
+ * tutta la cartella `cervello/`. Non per un difetto del banco: per una PROVA. La prova di AR-923
  * faceva pulizia con `rmSync(dirname(fuoriRepo(...)), { recursive: true })`, cioè cancellava una
  * cartella il cui nome veniva dalla funzione sotto esame. È esattamente ciò che il banco fa di
  * mestiere: ROMPE quella funzione. Rotta, tornava un percorso dentro il repo, e la pulizia ha
@@ -773,7 +773,7 @@ function main() {
     process.exit(2);
   }
 
-  // AR-900: com'era l'albero PRIMA. Se dopo mancano dei file che prima c'erano, l'ha fatto una
+  // AR-924: com'era l'albero PRIMA. Se dopo mancano dei file che prima c'erano, l'ha fatto una
   // prova mentre girava — e va detto in chiaro, non lasciato scoprire da uno stack trace.
   const cancellatiPrima = fileCancellati();
 
@@ -789,7 +789,7 @@ function main() {
       break;
     }
     const file = viaDi(m.file);
-    // AR-896 — prima di aprire e riscrivere: sta dentro una radice ammessa? Fuori è ⚪, mai ✅.
+    // AR-920 — prima di aprire e riscrivere: sta dentro una radice ammessa? Fuori è ⚪, mai ✅.
     const radice = dentroLeRadici(file, [AD_ROOT, ...radiceDelRegistro(MUTANTI)]);
     if (!radice.dentro) {
       esiti.push({ ...m, verdetto: "cieco", perche: radice.perche });
@@ -830,7 +830,7 @@ function main() {
     }
   }
 
-  // AR-900 — il danno collaterale, prima di qualunque verdetto: un banco che ha portato via dei
+  // AR-924 — il danno collaterale, prima di qualunque verdetto: un banco che ha portato via dei
   // file non ha «misurato con qualche effetto collaterale», ha rotto la casa in cui misurava.
   const cancellatiDopo = fileCancellati();
   const nuoviCancellati =

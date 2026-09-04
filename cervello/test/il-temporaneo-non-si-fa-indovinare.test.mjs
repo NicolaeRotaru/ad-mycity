@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔒 AR-899 — UN TEMPORANEO CON IL NOME PREVEDIBILE, IN UNA CARTELLA DOVE SCRIVE CHIUNQUE
+// 🔒 AR-923 — UN TEMPORANEO CON IL NOME PREVEDIBILE, IN UNA CARTELLA DOVE SCRIVE CHIUNQUE
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -79,18 +79,18 @@ function chiediUnTemporaneo() {
   return via;
 }
 
-test("AR-899 · il nome del temporaneo non si indovina due volte di fila", () => {
+test("AR-923 · il nome del temporaneo non si indovina due volte di fila", () => {
   assert.notEqual(chiediUnTemporaneo(), chiediUnTemporaneo(),
     "due chiamate danno lo stesso percorso: chi lo indovina ci mette un collegamento prima");
 });
 
-test("AR-899 · e non sta in una cartella dove scrive chiunque", () => {
+test("AR-923 · e non sta in una cartella dove scrive chiunque", () => {
   const via = chiediUnTemporaneo();
   assert.equal(via.startsWith(`${tmpdir()}/`), false, `il temporaneo è tornato in una cartella pubblica: ${via}`);
   assert.match(basename(dirname(via)), /^_tmp_round6-.{6}/, "la parte casuale del nome è sparita");
 });
 
-test("AR-899 · …ma resta invisibile a git, che è il motivo per cui era finito in /tmp", () => {
+test("AR-923 · …ma resta invisibile a git, che è il motivo per cui era finito in /tmp", () => {
   const via = chiediUnTemporaneo();
   // Stesso guinzaglio della pulizia, applicato alla scrittura: sotto mutazione questo percorso può
   // finire dentro il repo, e una prova non lascia file nel repo nemmeno quando il codice sbaglia.
@@ -104,7 +104,7 @@ test("AR-899 · …ma resta invisibile a git, che è il motivo per cui era finit
     "git lo vede: lo spazzino del ritmo fa `git add -A` e se lo porterebbe dentro per sempre");
 });
 
-test("AR-899 · la scrittura è tutto-o-niente, e non lascia il provvisorio in giro", () => {
+test("AR-923 · la scrittura è tutto-o-niente, e non lascia il provvisorio in giro", () => {
   const casa = miaCartella("ar899-a-");
   const bersaglio = join(casa, "giro.sh");
   writeFileSync(bersaglio, "#!/bin/bash\nvecchio\n");
@@ -113,7 +113,7 @@ test("AR-899 · la scrittura è tutto-o-niente, e non lascia il provvisorio in g
   assert.equal(existsSync(join(casa, `_tmp_${basename(bersaglio)}.${process.pid}`)), false);
 });
 
-test("AR-899 · la premessa dell'attacco regge ancora: writeFileSync segue i collegamenti", () => {
+test("AR-923 · la premessa dell'attacco regge ancora: writeFileSync segue i collegamenti", () => {
   // Se questo caso diventa verde, node ha cambiato comportamento e tutto il ragionamento qui sopra
   // va rivisto. È la premessa scritta come prova, invece che come convinzione.
   const casa = miaCartella("ar899-b-");
@@ -125,14 +125,14 @@ test("AR-899 · la premessa dell'attacco regge ancora: writeFileSync segue i col
   assert.notEqual(readFileSync(vittima, "utf8"), "INTATTO");
 });
 
-test("AR-899 · il guinzaglio della pulizia rifiuta una cartella che non ha creato lei", () => {
+test("AR-923 · il guinzaglio della pulizia rifiuta una cartella che non ha creato lei", () => {
   // La prova della lezione: sotto mutazione, `fuoriRepo` può tornare un percorso dentro il repo.
   // Se la pulizia si fidasse di quel percorso, cancellerebbe `cervello/`. È già successo.
   assert.match(soloMia(join(REPO, "cervello")) || "", /non è una mia cartella/);
   assert.equal(existsSync(join(REPO, "cervello")), true, "cervello/ è ancora al suo posto");
 });
 
-test("AR-899 · la pulizia riconosce le cartelle sue, e SOLO quelle", () => {
+test("AR-923 · la pulizia riconosce le cartelle sue, e SOLO quelle", () => {
   // ⚠️ Questo caso è nato leggendo il MIO diff, non da un guasto. `applica()` faceva
   // `rmSync(dirname(fuoriRepo(...)), { recursive: true })` — la stessa forma che stamattina ha
   // portato via 956 file quando il banco ha rotto apposta quella funzione. Lì era una prova e c'era
@@ -156,13 +156,13 @@ test("AR-899 · la pulizia riconosce le cartelle sue, e SOLO quelle", () => {
   assert.equal(miaCartellaDiLavoro(join(R, "cervello", "_tmp_round6-"), R), false);
 });
 
-test("AR-899 · e nella vita vera la cartella che `fuoriRepo` crea è riconosciuta come sua", () => {
+test("AR-923 · e nella vita vera la cartella che `fuoriRepo` crea è riconosciuta come sua", () => {
   const via = chiediUnTemporaneo();
   assert.equal(miaCartellaDiLavoro(dirname(via), REPO), true,
     "il guinzaglio è così stretto che non riconosce nemmeno la cartella che abbiamo appena creato: la pulizia non pulirebbe più niente");
 });
 
-test("AR-899 · …e la pulizia passa DAVVERO dal guinzaglio, non lo tiene in un cassetto", () => {
+test("AR-923 · …e la pulizia passa DAVVERO dal guinzaglio, non lo tiene in un cassetto", () => {
   // ⚠️ DICHIARATO PER QUELLO CHE È: questo caso guarda il SORGENTE, non lo esegue. È la forma
   // debole che questa casa scoraggia, e sta qui lo stesso per una ragione precisa.
   //

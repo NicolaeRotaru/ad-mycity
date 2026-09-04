@@ -59,7 +59,7 @@ const CODA_FINTA = `data:text/javascript,${encodeURIComponent(`
   }
 `)}`;
 
-// AR-901 — la PR risulta GIÀ mergiata: è il ramo che chiude l'azione senza toccare il mondo, ed è
+// AR-925 — la PR risulta GIÀ mergiata: è il ramo che chiude l'azione senza toccare il mondo, ed è
 // lì che il registro veniva scritto prima di guardare se lo stato era stato salvato.
 const GITHUB_FINTO = `data:text/javascript,${encodeURIComponent(`
   export function isCanaleGithub(c) { return c === "github"; }
@@ -414,7 +414,7 @@ await prova("AR-887: ...ma sugli altri tre motivi la firma si toglie ancora — 
 });
 
 
-await prova("AR-901: la PR era già mergiata ma lo stato non si salva → il registro NON deve dire «fatta»", async () => {
+await prova("AR-925: la PR era già mergiata ma lo stato non si salva → il registro NON deve dire «fatta»", async () => {
   // Il ramo «PR già mergiata» chiude l'azione senza toccare il mondo. Se le due scritture di stato
   // falliscono, l'azione NON è chiusa da nessuna parte — ma il registro veniva scritto lo stesso,
   // PRIMA di guardare l'esito. Nicola avrebbe letto «fatta» nella cronologia mentre la card gli

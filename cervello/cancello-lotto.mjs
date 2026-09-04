@@ -626,7 +626,7 @@ export function esegui(nome, cmd, args, opts = {}) {
     cwd: opts.cwd || AD_ROOT,
     encoding: "utf8",
     timeout: opts.timeout || TEMPO_MAX_PASSO,
-    // AR-916 — IL SEGNALE CHE NON SI PUÒ RIFIUTARE, ed è il debito che AR-909 aveva dichiarato.
+    // AR-916 — IL SEGNALE CHE NON SI PUÒ RIFIUTARE, ed è il debito che AR-933 aveva dichiarato.
     //
     // `spawnSync` allo scadere del `timeout` manda `killSignal`, che per difetto è SIGTERM. SIGTERM
     // si intercetta e si ignora, e node non insiste: resta ad aspettare che il figlio finisca per
@@ -708,7 +708,7 @@ export function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazion
   passo.fallito = false;
   passo.debito = true;
   passo.coda = [`⚠️ ${regola}: ${v.motivo}`, ...passo.coda];
-  // ⚠️ IL NOME DELLA REGOLA, NON SOLO QUELLO DEL PASSO — AR-905.
+  // ⚠️ IL NOME DELLA REGOLA, NON SOLO QUELLO DEL PASSO — AR-929.
   //
   // Questa funzione viene chiamata DUE VOLTE sullo stesso passo: una per i rossi in Node
   // (`test-del-cervello`) e una per quelli in bash (`test-in-bash`), che hanno tetti diversi

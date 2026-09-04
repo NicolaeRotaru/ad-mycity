@@ -55,7 +55,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Dettagli tecnici. La richiesta di unione è la #855. La card della sveglia è la #189.
 > A settembre: 19 schede chiuse contro 10 schede nate, quasi due chiuse per una nata. Nel cantiere: 140 schede aperte e 902 schede in tutto.
-> Chiusi stanotte: AR-907, AR-908, AR-909, AR-911. Aperta: AR-910. Tre schede mie hanno cambiato numero nella ricucitura: AR-893, AR-894 e AR-895 sono diventate AR-912, AR-913 e AR-914, perche su main quei tre numeri sono di altri difetti. Le due prove che pinzavano la coda sono AR-911.
+> Chiusi stanotte: AR-931, AR-932, AR-933, AR-935. Aperta: AR-934. Tre schede mie hanno cambiato numero nella ricucitura: AR-893, AR-894 e AR-895 sono diventate AR-936, AR-913 e AR-914, perche su main quei tre numeri sono di altri difetti. Le due prove che pinzavano la coda sono AR-935.
 > Le pause citavano il fatto `ripresa.lavoro-operativo`. Ultimo commit del server su main: 2026-09-01 12:14.
 
 ---

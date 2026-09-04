@@ -225,7 +225,7 @@ export async function POST(req: Request) {
         ],
         attoEseguito: false,
       });
-      // AR-901 — IL DIARIO SI SCRIVE DOPO, non prima. Qui `logAzione` girava PRIMA di guardare
+      // AR-925 — IL DIARIO SI SCRIVE DOPO, non prima. Qui `logAzione` girava PRIMA di guardare
       // `chiusura.ok`: con la memoria che non risponde, le due scritture di stato fallivano e nel
       // registro restava comunque scritto «fatta». Nicola lo legge nella cronologia, mentre la card
       // gli torna in «da decidere» al primo aggiornamento — due verità diverse sullo stesso fatto,

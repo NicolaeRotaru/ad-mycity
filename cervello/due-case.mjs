@@ -794,7 +794,7 @@ export function ambienteSpoglio(base, home) {
 
 /** Lancia un passo dentro una cartella, con un ambiente dato. Non lancia mai: torna i fatti. */
 /**
- * ⏳ AR-908 — QUANTO POSSO ANCORA SPENDERE, dato l ISTANTE in cui il mio budget scade.
+ * ⏳ AR-932 — QUANTO POSSO ANCORA SPENDERE, dato l ISTANTE in cui il mio budget scade.
  *
  * PERCHE ESISTE. Fino al 2/9 `misuraIlPasso` riceveva una DURATA e la passava, intera, a ognuna
  * delle sue due corse: la casa spoglia e — se quella non usciva zero — il repo vero. Due corse da
@@ -820,7 +820,7 @@ export function quantoPosso(scadenza, adesso = Date.now(), tettoPasso = TEMPO_MA
 }
 
 /**
- * ⏱️ AR-909 — IL TEMPO MASSIMO ERA UNA RICHIESTA CORTESE, E IL FIGLIO POTEVA RIFIUTARLA.
+ * ⏱️ AR-933 — IL TEMPO MASSIMO ERA UNA RICHIESTA CORTESE, E IL FIGLIO POTEVA RIFIUTARLA.
  *
  * `spawnSync` allo scadere del `timeout` manda il segnale di `killSignal`, che per difetto e
  * SIGTERM. SIGTERM si puo intercettare e ignorare. Se il figlio non muore, node NON insiste e NON
@@ -838,7 +838,7 @@ export function quantoPosso(scadenza, adesso = Date.now(), tettoPasso = TEMPO_MA
  * lasciare file a meta o un lock. Qui il figlio e un GUARDIANO in sola lettura dentro una copia
  * usa-e-getta del repo, quindi non c e niente da riordinare — e un guardiano che non si puo
  * fermare e peggio di uno ucciso male. Altrove (git, npm) la stessa riga NON e ovvia, e infatti
- * non l ho scritta: il conto di quanti altri punti hanno la stessa forma sta in AR-909.
+ * non l ho scritta: il conto di quanti altri punti hanno la stessa forma sta in AR-933.
  */
 function esegui(dir, passo, env, timeout = TEMPO_MASSIMO) {
   const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: "utf8", timeout, killSignal: "SIGKILL", maxBuffer: 32 * 1024 * 1024, env });
@@ -932,7 +932,7 @@ export function passaDallaPortaDellaStoria(root, script, leggi = null) {
 export function misuraIlPasso(root, voce, spec = "HEAD", scadenza = Date.now() + TEMPO_MASSIMO) {
   const { passo, stato } = voce;
   const fermo = (motivo) => ({ passo: passo.nome, script: passo.script, stato, esito: "non-misurato", motivo });
-  // AR-908 — la copia del repo e la parte lenta, e prima non la contava nessuno: se il budget e
+  // AR-932 — la copia del repo e la parte lenta, e prima non la contava nessuno: se il budget e
   // gia finito qui, non la comincio nemmeno.
   if (!quantoPosso(scadenza)) return fermo("il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato");
   const base = mkdtempSync(join(tmpdir(), "due-case-"));
@@ -956,7 +956,7 @@ export function misuraIlPasso(root, voce, spec = "HEAD", scadenza = Date.now() +
     if (intatto.codice !== 0) {
       // ⚠️ QUESTA È UNA CORSA VERA, NEL REPO DI QUI: se il passo scrive, scrive. Si segna, e il
       // verdetto lo dice — «sola lettura» era una bugia comoda (buco ⑭).
-      // AR-908 — QUI stava la meta nascosta del difetto: questa corsa riceveva `quantoTempo`
+      // AR-932 — QUI stava la meta nascosta del difetto: questa corsa riceveva `quantoTempo`
       // INTERO, cioe lo stesso budget gia speso una volta sopra. Adesso chiede all'orologio quanto
       // resta davvero, e se non resta niente lo dichiara invece di partire lo stesso.
       const perLaSeconda = quantoPosso(scadenza);
@@ -1087,7 +1087,7 @@ function main() {
       });
       continue;
     }
-    // AR-908 — la SCADENZA, non la durata: una durata si spende due volte, un istante no.
+    // AR-932 — la SCADENZA, non la durata: una durata si spende due volte, un istante no.
     misure.push(misuraIlPasso(REPO, v, base.spec, partenza + BUDGET_TOTALE));
   }
   const rossi = misure.filter((m) => m.esito === "nasce-rotto");

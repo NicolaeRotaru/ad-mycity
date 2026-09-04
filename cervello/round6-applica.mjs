@@ -86,7 +86,7 @@ export function fuoriRepo(file, suffisso) {
 }
 
 /**
- * È una cartella di lavoro NOSTRA, quella che possiamo cancellare ricorsivamente? — AR-899/AR-900.
+ * È una cartella di lavoro NOSTRA, quella che possiamo cancellare ricorsivamente? — AR-923/AR-924.
  *
  * ⚠️ Esiste come funzione, e non come una riga dentro `applica()`, per un motivo preciso: una
  * condizione che decide una cancellazione ricorsiva deve poter essere ESEGUITA da una prova, non
@@ -314,7 +314,7 @@ function lavora(voce) {
     const tmp = fuoriRepo(voce.file, "prova");
     writeFileSync(tmp, out, "utf8");
     const check = spawnSync(voce.verifica[0], [...voce.verifica.slice(1), tmp], { encoding: "utf8" });
-    // ⚠️ IL GUINZAGLIO, ed è la lezione di AR-900 applicata al codice invece che a una prova:
+    // ⚠️ IL GUINZAGLIO, ed è la lezione di AR-924 applicata al codice invece che a una prova:
     // `dirname(tmp)` viene da `fuoriRepo()`, cioè da una funzione che può SBAGLIARE. Stamattina la
     // stessa forma — cancellare ricorsivamente una cartella il cui nome viene dal codice — ha
     // portato via 956 file quando il banco delle mutazioni ha rotto apposta quella funzione. Qui

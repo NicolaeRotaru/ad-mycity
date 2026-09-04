@@ -115,7 +115,7 @@ import { AD_ROOT } from "../git-github.mjs";
 // repo», e il suo stesso commento spiegava perché: «è la proprietà che impedisce a `git add -A` di
 // raccoglierlo». Cioè il fuori-dal-repo non era il punto: era UN MODO di ottenere il punto.
 //
-// Il collaudo di sicurezza ha mostrato che quel modo ne apriva un altro (AR-899): `/tmp` è una
+// Il collaudo di sicurezza ha mostrato che quel modo ne apriva un altro (AR-923): `/tmp` è una
 // cartella dove scrive chiunque, con un nome che si indovina, e per giunta non garantisce lo stesso
 // disco — che serve perché un `rename` sia atomico. Adesso il temporaneo nasce in
 // `cervello/_tmp_round6-XXXXXX`: dentro il repo, ma invisibile a git.
@@ -125,7 +125,7 @@ import { AD_ROOT } from "../git-github.mjs";
 // sbagliata.
 
 /** Le cartelle nate dalle chiamate di questa prova, per toglierle senza derivare percorsi dal
- *  codice sotto esame (la regola di AR-900: sotto mutazione quel percorso è ostile). */
+ *  codice sotto esame (la regola di AR-924: sotto mutazione quel percorso è ostile). */
 const nate = [];
 const chiedi = (file) => {
   const via = fuoriRepo(file, "prova");

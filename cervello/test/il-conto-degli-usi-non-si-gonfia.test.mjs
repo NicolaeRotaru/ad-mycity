@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔢 AR-898 — IL CONTO DELLE VOLTE MENTIVA, IN UNA CASA DOVE «NESSUN NUMERO SENZA FONTE»
+// 🔢 AR-922 — IL CONTO DELLE VOLTE MENTIVA, IN UNA CASA DOVE «NESSUN NUMERO SENZA FONTE»
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -29,30 +29,30 @@ const somma = (l) => l.reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.vol
 const usi = (n, ref = "R") =>
   Array.from({ length: n }, (_, i) => ({ ref, quando: `2026-08-${String(i + 1).padStart(2, "0")} 10:00` }));
 
-test("AR-898 · dieci usi veri si dichiarano dieci, non undici", () => {
+test("AR-922 · dieci usi veri si dichiarano dieci, non undici", () => {
   assert.equal(somma(compattaUsi(usi(10))), 10);
 });
 
-test("AR-898 · e l'errore non si somma: ventuno usi restano ventuno dopo undici compattazioni", () => {
+test("AR-922 · e l'errore non si somma: ventuno usi restano ventuno dopo undici compattazioni", () => {
   let stato = compattaUsi(usi(10));
   for (let g = 11; g <= 21; g++) stato = compattaUsi([...stato, { ref: "R", quando: `2026-08-${g} 10:00` }]);
   assert.equal(somma(stato), 21, "il conto si gonfia a ogni compattazione: era 32");
 });
 
-test("AR-898 · sotto la soglia non si compatta e non compare nessun conto", () => {
+test("AR-922 · sotto la soglia non si compatta e non compare nessun conto", () => {
   const due = compattaUsi(usi(2));
   assert.equal(due.length, 2);
   assert.equal(due.some((u) => "volte" in u), false, "un gruppo che non è stato potato non ha niente da dichiarare");
 });
 
-test("AR-898 · riferimenti diversi non si mescolano", () => {
+test("AR-922 · riferimenti diversi non si mescolano", () => {
   const misti = [...usi(5, "A"), ...usi(5, "B")];
   const dopo = compattaUsi(misti);
   assert.equal(somma(dopo.filter((u) => u.ref === "A")), 5);
   assert.equal(somma(dopo.filter((u) => u.ref === "B")), 5);
 });
 
-test("AR-898 · un «quando» che non è una data non diventa l'ultimo uso per sempre", () => {
+test("AR-922 · un «quando» che non è una data non diventa l'ultimo uso per sempre", () => {
   const avvelenato = [
     { ref: "R", quando: "in corso" },
     { ref: "R", quando: "2026-08-01 10:00" },
@@ -63,7 +63,7 @@ test("AR-898 · un «quando» che non è una data non diventa l'ultimo uso per s
     "una riga illeggibile è diventata «l'ultima volta»: da lì in poi ogni uso nuovo viene potato appena scritto");
 });
 
-test("AR-898 · …e l'uso di oggi arriva davvero nel diario, dopo l'avvelenamento", () => {
+test("AR-922 · …e l'uso di oggi arriva davvero nel diario, dopo l'avvelenamento", () => {
   let stato = [
     { ref: "R", quando: "in corso" },
     { ref: "R", quando: "2026-08-01 10:00" },
@@ -74,7 +74,7 @@ test("AR-898 · …e l'uso di oggi arriva davvero nel diario, dopo l'avvelenamen
     "il comando direbbe «marcata» e sul disco non resterebbe niente");
 });
 
-test("AR-898 · un uso-stringa non si sbriciola in un dizionario di lettere", () => {
+test("AR-922 · un uso-stringa non si sbriciola in un dizionario di lettere", () => {
   const dopo = compattaUsi(["ciao", "ciao", "ciao"]);
   for (const u of dopo) {
     if (typeof u === "string") continue;
@@ -84,11 +84,11 @@ test("AR-898 · un uso-stringa non si sbriciola in un dizionario di lettere", ()
   assert.equal(somma(dopo), 3);
 });
 
-test("AR-898 · quello che non è una lista torna una lista vuota, non esplode", () => {
+test("AR-922 · quello che non è una lista torna una lista vuota, non esplode", () => {
   for (const x of [null, undefined, 42, "no", {}]) assert.deepEqual(compattaUsi(x), []);
 });
 
-test("AR-898 · i quattro che leggono questo campo trovano ancora quello che cercano", () => {
+test("AR-922 · i quattro che leggono questo campo trovano ancora quello che cercano", () => {
   const dopo = compattaUsi(usi(30));
   assert.ok(dopo.length > 0, "usi.length non deve mai andare a zero (volano-numeri)");
   assert.ok(dopo.some((u) => u.ref === "R"), "il ref deve restare (tasso-lezioni)");

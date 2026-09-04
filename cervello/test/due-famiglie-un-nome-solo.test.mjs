@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🏷️ AR-905 — DUE FAMIGLIE DI ROSSI, UN NOME SOLO, E UN REFERTO CHE SEMBRA CONTRADDIRSI
+// 🏷️ AR-929 — DUE FAMIGLIE DI ROSSI, UN NOME SOLO, E UN REFERTO CHE SEMBRA CONTRADDIRSI
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -26,7 +26,7 @@ import { applicaTetto } from "../cancello-lotto.mjs";
 /** Un passo finto, nella forma che `esegui()` produce. */
 const passo = () => ({ nome: "test del cervello", codice: 1, fallito: true, coda: [] });
 
-test("AR-905 · l'avviso del debito dice DI QUALE famiglia parla", () => {
+test("AR-929 · l'avviso del debito dice DI QUALE famiglia parla", () => {
   const avvisi = [];
   const p = passo();
   applicaTetto(p, { regola: "test-in-bash", quanti: 1, delLotto: [], tetto: 1, avvisi, violazioni: [] });
@@ -35,7 +35,7 @@ test("AR-905 · l'avviso del debito dice DI QUALE famiglia parla", () => {
     `l'avviso non dice di quale famiglia parla: «${avvisi[0]}» — accanto a un ❌ dell'altra famiglia sembra una contraddizione`);
 });
 
-test("AR-905 · e la violazione anche, che è la riga che blocca", () => {
+test("AR-929 · e la violazione anche, che è la riga che blocca", () => {
   const violazioni = [];
   const p = passo();
   applicaTetto(p, { regola: "test-del-cervello", quanti: 2, delLotto: ["cervello/test/x.test.mjs"], tetto: 0, avvisi: [], violazioni });
@@ -44,7 +44,7 @@ test("AR-905 · e la violazione anche, che è la riga che blocca", () => {
     "chi legge il motivo del blocco deve sapere quale tetto ha sfondato");
 });
 
-test("AR-905 · le due famiglie sullo STESSO passo restano distinguibili", () => {
+test("AR-929 · le due famiglie sullo STESSO passo restano distinguibili", () => {
   // Il caso vero: due chiamate di fila sullo stesso oggetto, com'è nel cancello.
   const avvisi = [];
   const violazioni = [];
@@ -56,13 +56,13 @@ test("AR-905 · le due famiglie sullo STESSO passo restano distinguibili", () =>
   assert.equal(testi.filter((t) => /test-in-bash/.test(t)).length, 1);
 });
 
-test("AR-905 · il nome del passo non sparisce: serve a sapere QUALE guardiano l'ha detto", () => {
+test("AR-929 · il nome del passo non sparisce: serve a sapere QUALE guardiano l'ha detto", () => {
   const avvisi = [];
   applicaTetto(passo(), { regola: "test-in-bash", quanti: 1, delLotto: [], tetto: 1, avvisi, violazioni: [] });
   assert.match(avvisi[0], /test del cervello/, "togliere il nome del passo sarebbe l'errore opposto");
 });
 
-test("AR-905 · sotto il tetto il passo smette di bloccare, e resta dichiarato", () => {
+test("AR-929 · sotto il tetto il passo smette di bloccare, e resta dichiarato", () => {
   // La proprietà che non va persa mentre si sistemano i nomi: il debito ereditato non blocca, ma
   // nemmeno sparisce. Sparire sarebbe barare, bloccare sarebbe il cancello sempre rosso.
   const p = passo();

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔒 AR-903 — SU MAIN CI VA SOLO LA MEMORIA, E ADESSO SI PROVA ESEGUENDOLO
+// 🔒 AR-927 — SU MAIN CI VA SOLO LA MEMORIA, E ADESSO SI PROVA ESEGUENDOLO
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -75,11 +75,11 @@ function cosaVaInStage(casa) {
   return { staged: `${r.stdout}`.trim().split("\n").filter(Boolean), tutto: `${r.stdout}${r.stderr}` };
 }
 
-test("AR-903 · le righe vere si lasciano ritagliare da giro.sh", () => {
+test("AR-927 · le righe vere si lasciano ritagliare da giro.sh", () => {
   assert.ok(BLOCCO, "il guardiano-integrità non si trova più in giro.sh: questa prova girerebbe a vuoto (⚪)");
 });
 
-test("AR-903 · la memoria modificata va in stage: il giro deve poter pubblicare", () => {
+test("AR-927 · la memoria modificata va in stage: il giro deve poter pubblicare", () => {
   const { casa } = repoFinto();
   writeFileSync(join(casa, "MyCity-Vault", "STATO.md"), "aggiornato\n");
   const { staged, tutto } = cosaVaInStage(casa);
@@ -87,7 +87,7 @@ test("AR-903 · la memoria modificata va in stage: il giro deve poter pubblicare
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-903 · un file di CODICE sporco NON arriva in stage, nemmeno se è l'unica modifica", () => {
+test("AR-927 · un file di CODICE sporco NON arriva in stage, nemmeno se è l'unica modifica", () => {
   const { casa } = repoFinto();
   writeFileSync(join(casa, "cervello", "giro.sh"), "# riscritto da qualcuno\n");
   const { staged, tutto } = cosaVaInStage(casa);
@@ -95,7 +95,7 @@ test("AR-903 · un file di CODICE sporco NON arriva in stage, nemmeno se è l'un
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-903 · e nemmeno insieme alla memoria: il codice si toglie, la memoria resta", () => {
+test("AR-927 · e nemmeno insieme alla memoria: il codice si toglie, la memoria resta", () => {
   const { casa } = repoFinto();
   writeFileSync(join(casa, "MyCity-Vault", "STATO.md"), "aggiornato\n");
   writeFileSync(join(casa, "pannello", "route.ts"), "// codice non revisionato\n");
@@ -106,7 +106,7 @@ test("AR-903 · e nemmeno insieme alla memoria: il codice si toglie, la memoria 
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-903 · un file di codice GIÀ messo in stage da qualcun altro viene tolto", () => {
+test("AR-927 · un file di codice GIÀ messo in stage da qualcun altro viene tolto", () => {
   // Il caso che la seconda rete esiste per prendere: qualcuno ha già fatto `git add` prima di qui.
   const { casa, git } = repoFinto();
   writeFileSync(join(casa, "cervello", "intruso.mjs"), "// non revisionato\n");

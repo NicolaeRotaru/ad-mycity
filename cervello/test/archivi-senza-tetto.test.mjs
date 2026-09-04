@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AR-182 · AR-254 · AR-907 — gli archivi senza tetto, i tetti nell'unità sbagliata, e l'orologio
+// AR-182 · AR-254 · AR-931 — gli archivi senza tetto, i tetti nell'unità sbagliata, e l'orologio
 // di troppo che questa stessa prova si era scritta.
 //
 // Una malattia sola: **nessun archivio della macchina ha un tetto, e dove un tetto c'è, è nell'unità
@@ -46,7 +46,7 @@ const V = await import(join(REPO, "cervello/lezione-viva.mjs"));
 
 // La soglia vera del decadimento, la stessa che usa il cristallizzatore.
 const SOGLIA_GIORNI = 28;
-// ⏰ AR-907 — IL METRO DEL TEMPO È QUELLO DEL CODICE, NON UN SECONDO METRO SCRITTO QUI.
+// ⏰ AR-931 — IL METRO DEL TEMPO È QUELLO DEL CODICE, NON UN SECONDO METRO SCRITTO QUI.
 //
 // Questa riga usava `Date.parse`, e per questo il file è diventato rosso l'1/9 alle 17:40 senza che
 // nessuno lo toccasse. Le due letture dello stesso timbro non coincidono:
@@ -63,7 +63,7 @@ const SOGLIA_GIORNI = 28;
 //
 // Su `main` la stessa riga e stata corretta in parallelo, con le stesse due ore misurate a un minuto
 // diverso (27,95 contro 28,03). Le due cure coincidono; questo lato porta in piu il caso
-// deterministico qui sotto e la scheda AR-907, che li non c erano. E non e la prima volta in questa
+// deterministico qui sotto e la scheda AR-931, che li non c erano. E non e la prima volta in questa
 // casa: AR-647 e lo stesso sbaglio sulle cadenze — «su un server UTC ogni cadenza sembra piu fresca
 // di 1-2 ore». Due orologi diversi sullo stesso numero si allontanano sempre.
 const etaGiorni = (date) => {
@@ -192,7 +192,7 @@ prova("il cablaggio: senza `decaduto_step_il` il passo tornerebbe a essere per e
 // Adesso la prova chiama la regola VERA con gli stessi argomenti del cristallizzatore, e difende
 // l'invariante invece del conteggio: una lezione con un freno che monta ancora la guardia, o usata di
 // recente, non muore MAI. Quante ne decadono è una misura che si stampa, non un verdetto.
-prova("AR-907: i due orologi sono uno solo — il metro di questa prova coincide con quello del codice", () => {
+prova("AR-931: i due orologi sono uno solo — il metro di questa prova coincide con quello del codice", () => {
   // 🔒 IL FRENO DEL DIFETTO QUI SOPRA, e non guarda il sorgente: esegue i due metri e li confronta.
   //
   // Serve un caso DETERMINISTICO, perché il difetto vero non lo era: si vedeva solo nelle due ore in
@@ -570,7 +570,7 @@ prova("AR-886: di uno stesso riferimento restano il primo uso e l'ultimo, non tu
   // ⚠️ 31/8 — QUESTA RIGA CHIEDEVA IL NUMERO SBAGLIATO, e per un mese l'ha protetto.
   // Chiedeva `volte === 42` su quarantadue usi. Ma `lista[0]` resta IN LISTA: contarlo anche dentro
   // `volte` vuol dire dichiararlo due volte, e siccome si ricompatta a ogni scrittura l'errore si
-  // sommava — misurato: ventuno usi veri dichiarati trentadue (AR-898).
+  // sommava — misurato: ventuno usi veri dichiarati trentadue (AR-922).
   // Il conto vero è la SOMMA di ciò che il diario dichiara: uno per il primo, `volte` per l'ultimo.
   // Chiedere la somma invece del campo è anche più difficile da sbagliare la prossima volta: è la
   // cosa che qualcuno legge, non il modo in cui è ripartita fra due righe.

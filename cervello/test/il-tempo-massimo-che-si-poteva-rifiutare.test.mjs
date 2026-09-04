@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// ⏱️ AR-908 · AR-909 — IL TEMPO MASSIMO CHE SI POTEVA RIFIUTARE
+// ⏱️ AR-932 · AR-933 — IL TEMPO MASSIMO CHE SI POTEVA RIFIUTARE
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHE QUESTI CASI STANNO IN UN FILE LORO, E NON DENTRO due-case.test.mjs
@@ -38,7 +38,7 @@ const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 // quattro ⚪ dichiarati. Il freno davanti al ciclo funzionava; dentro al ciclo non c era.
 // ─────────────────────────────────────────────────────────────────────────────
 
-test("AR-908: quantoPosso torna ZERO quando la scadenza e passata, e non un numero negativo", () => {
+test("AR-932: quantoPosso torna ZERO quando la scadenza e passata, e non un numero negativo", () => {
   // Un numero negativo passato a spawnSync come timeout non ferma niente: e il modo in cui un
   // freno diventa decorativo senza che nessuno tocchi la riga che lo dichiara.
   assert.equal(quantoPosso(1000, 2000), 0, "scaduto da un secondo");
@@ -48,19 +48,19 @@ test("AR-908: quantoPosso torna ZERO quando la scadenza e passata, e non un nume
   assert.equal(quantoPosso(NaN, 1000), 0);
 });
 
-test("AR-908: sotto il minimo per misurare qualcosa torna ZERO invece di una corsa che non finira", () => {
+test("AR-932: sotto il minimo per misurare qualcosa torna ZERO invece di una corsa che non finira", () => {
   // 19 secondi non bastano a nessuno dei passi del cancello: partire vorrebbe dire spendere 19
   // secondi per farsi uccidere e non sapere niente lo stesso.
   assert.equal(quantoPosso(19_000, 0, 300_000, 20_000), 0);
   assert.equal(quantoPosso(20_000, 0, 300_000, 20_000), 20_000, "esattamente il minimo si puo spendere");
 });
 
-test("AR-908: quello che resta non supera MAI il tetto del singolo passo, ne il tempo che avanza", () => {
+test("AR-932: quello che resta non supera MAI il tetto del singolo passo, ne il tempo che avanza", () => {
   assert.equal(quantoPosso(10_000_000, 0, 300_000, 20_000), 300_000, "col budget largo comanda il tetto del passo");
   assert.equal(quantoPosso(50_000, 0, 300_000, 20_000), 50_000, "col budget stretto comanda il budget");
 });
 
-test("AR-908 · IL CASO CHE HA ROTTO: due corse dello stesso passo non possono spendere il budget due volte", () => {
+test("AR-932 · IL CASO CHE HA ROTTO: due corse dello stesso passo non possono spendere il budget due volte", () => {
   // Il difetto in forma pura, senza far girare niente. Prima: la prima corsa riceveva D, la
   // seconda riceveva D — totale 2D. Adesso tutt e due chiedono all orologio, quindi la seconda
   // vede quello che la prima ha gia consumato e la somma non puo superare il budget.
@@ -74,7 +74,7 @@ test("AR-908 · IL CASO CHE HA ROTTO: due corse dello stesso passo non possono s
   );
 });
 
-test("AR-908 · SUL CODICE VERO: con la scadenza gia passata misuraIlPasso non copia il repo, dichiara e basta", () => {
+test("AR-932 · SUL CODICE VERO: con la scadenza gia passata misuraIlPasso non copia il repo, dichiara e basta", () => {
   // La meta che nessuna funzione pura puo provare: che il controllo stia DAVANTI alla copia.
   // Se ci fosse dietro, questo caso ci metterebbe i secondi della copia invece dei millisecondi.
   const voce = { passo: { nome: "un passo qualunque", script: "cervello/forma-json.mjs", comando: "node", argomenti: ["cervello/forma-json.mjs"] }, stato: "nato" };
@@ -90,7 +90,7 @@ test("AR-908 · SUL CODICE VERO: con la scadenza gia passata misuraIlPasso non c
 });
 
 
-test("AR-909 · IL CASO CHE HA ROTTO: un figlio SORDO al segnale educato viene fermato lo stesso", () => {
+test("AR-933 · IL CASO CHE HA ROTTO: un figlio SORDO al segnale educato viene fermato lo stesso", () => {
   // Il difetto in forma eseguibile. `spawnSync` allo scadere del timeout manda `killSignal`, che
   // per difetto e SIGTERM — e SIGTERM si puo ignorare. Questo finto figlio lo ignora apposta, come
   // fa la suite del cervello: senza `killSignal: "SIGKILL"` la chiamata resta appesa oltre il
@@ -114,7 +114,7 @@ test("AR-909 · IL CASO CHE HA ROTTO: un figlio SORDO al segnale educato viene f
   }
 });
 
-test("AR-909 · e il freno di due-case lo dichiara: chi lancia i passi non usa il segnale educato", () => {
+test("AR-933 · e il freno di due-case lo dichiara: chi lancia i passi non usa il segnale educato", () => {
   // ⚠️ DICHIARATO PER QUELLO CHE E: questo caso guarda il SORGENTE. Il caso qui sopra prova il
   // COMPORTAMENTO su un figlio finto; questo pinza che la stessa scelta sia scritta dove serve.
   // Provarlo eseguendo vorrebbe dire far rilanciare a due-case la suite intera dentro una casa

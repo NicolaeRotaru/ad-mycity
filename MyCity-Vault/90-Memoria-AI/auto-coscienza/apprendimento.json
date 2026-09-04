@@ -11524,7 +11524,7 @@
   },
   {
    "id": "L-2026-0901-01",
-   "testo": "**Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde (AR-906).** Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde. Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito.",
+   "testo": "**Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde (AR-930).** Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde. Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11546,7 +11546,7 @@
   },
   {
    "id": "L-2026-0901-02",
-   "testo": "**Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato» (AR-912).** Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita.",
+   "testo": "**Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato» (AR-936).** Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11555,7 +11555,7 @@
    "reparto": "AD",
    "confidenza": "alta",
    "evidenze": [
-    "La mutazione appena scritta per AR-906 non si lasciava provare: il banco la dava ⚪ invece che ✅, dicendo «git non e partito». Ma git era partito benissimo — la frase veniva dalla prova stessa. Node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l ha fatto fallire; quella riga conteneva l impronta, perche il mestiere di quella prova e parlare di quell impronta. Misurato: 10 file di "
+    "La mutazione appena scritta per AR-930 non si lasciava provare: il banco la dava ⚪ invece che ✅, dicendo «git non e partito». Ma git era partito benissimo — la frase veniva dalla prova stessa. Node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l ha fatto fallire; quella riga conteneva l impronta, perche il mestiere di quella prova e parlare di quell impronta. Misurato: 10 file di "
    ],
    "fonte": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava",
    "caso_studio_nicola": false,
@@ -11612,7 +11612,7 @@
   },
   {
    "id": "L-2026-0901-05",
-   "testo": "**Avevo chiuso la porta che ESEGUE e dichiarato chiuso il cortile: quella che SCRIVE era aperta di fianco (AR-896).** Quando si mette una guardia su un modo di raggiungere una risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile: ne avevo chiusa una sola e avevo dichiarato chiuso il cortile. Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori.",
+   "testo": "**Avevo chiuso la porta che ESEGUE e dichiarato chiuso il cortile: quella che SCRIVE era aperta di fianco (AR-920).** Quando si mette una guardia su un modo di raggiungere una risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile: ne avevo chiusa una sola e avevo dichiarato chiuso il cortile. Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11634,7 +11634,7 @@
   },
   {
    "id": "L-2026-0901-06",
-   "testo": "**Le «tasche vuote» avevano dentro due cose: una che comanda il figlio e una che fa esplodere il tempo (AR-897).** Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave. Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni.",
+   "testo": "**Le «tasche vuote» avevano dentro due cose: una che comanda il figlio e una che fa esplodere il tempo (AR-921).** Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave. Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11656,7 +11656,7 @@
   },
   {
    "id": "L-2026-0901-07",
-   "testo": "**Il conto delle volte diceva trentadue dove gli usi veri erano ventuno, in una casa dove nessun numero sta senza fonte (AR-898).** Un numero scritto in memoria con accanto la parola «vero» va verificato contro la realta che dichiara, non contro l intenzione di chi l ha scritto. Ordinare delle date confrontando testo funziona finche sono tutte date. La prima che non lo e non sbaglia posto: si pianta in fondo e pota tutto quello che viene dopo. Lo spread di una primitiva non e un no-op: la sparge indice per indice.",
+   "testo": "**Il conto delle volte diceva trentadue dove gli usi veri erano ventuno, in una casa dove nessun numero sta senza fonte (AR-922).** Un numero scritto in memoria con accanto la parola «vero» va verificato contro la realta che dichiara, non contro l intenzione di chi l ha scritto. Ordinare delle date confrontando testo funziona finche sono tutte date. La prima che non lo e non sbaglia posto: si pianta in fondo e pota tutto quello che viene dopo. Lo spread di una primitiva non e un no-op: la sparge indice per indice.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11678,7 +11678,7 @@
   },
   {
    "id": "L-2026-0901-08",
-   "testo": "**Il temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare, in una cartella dove scrive chiunque (AR-899).** Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root. renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp.",
+   "testo": "**Il temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare, in una cartella dove scrive chiunque (AR-923).** Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root. renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11700,7 +11700,7 @@
   },
   {
    "id": "L-2026-0901-09",
-   "testo": "**Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace (AR-900).** Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale. «Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa.",
+   "testo": "**Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace (AR-924).** Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale. «Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11722,7 +11722,7 @@
   },
   {
    "id": "L-2026-0901-10",
-   "testo": "**AR-901 (AR-901).** Una cura messa dove il difetto si e visto, e non dove puo ripetersi, lascia indietro i rami gemelli: il ramo del rifiuto aveva l ordine giusto da un mese, quello della PR gia mergiata no.",
+   "testo": "**AR-925 (AR-925).** Una cura messa dove il difetto si e visto, e non dove puo ripetersi, lascia indietro i rami gemelli: il ramo del rifiuto aveva l ordine giusto da un mese, quello della PR gia mergiata no.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11744,7 +11744,7 @@
   },
   {
    "id": "L-2026-0901-11",
-   "testo": "**AR-902 (AR-902).** Una cura puo riaprire da un altra parte il difetto che stava chiudendo: qui separare l esito dal rumore ha rimesso il rumore DENTRO l elenco. Le righe aggiunte vanno riguardate con la lente della loro dimensione PRIMA di consegnare, non dopo.",
+   "testo": "**AR-926 (AR-926).** Una cura puo riaprire da un altra parte il difetto che stava chiudendo: qui separare l esito dal rumore ha rimesso il rumore DENTRO l elenco. Le righe aggiunte vanno riguardate con la lente della loro dimensione PRIMA di consegnare, non dopo.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11766,7 +11766,7 @@
   },
   {
    "id": "L-2026-0901-12",
-   "testo": "**AR-907.** Una prova che si scrive un proprio metro del tempo non prova il codice: prova se stessa. Qui `Date.parse` contro `istante()` facevano due ore di scarto sulla soglia dei 28 giorni, e il file diventava rosso a ore senza che nessuno lo toccasse. Il metro lo si IMPORTA da chi si sta provando, e chi non puo importarlo lo pinza con un caso deterministico.",
+   "testo": "**AR-931.** Una prova che si scrive un proprio metro del tempo non prova il codice: prova se stessa. Qui `Date.parse` contro `istante()` facevano due ore di scarto sulla soglia dei 28 giorni, e il file diventava rosso a ore senza che nessuno lo toccasse. Il metro lo si IMPORTA da chi si sta provando, e chi non puo importarlo lo pinza con un caso deterministico.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11788,7 +11788,7 @@
   },
   {
    "id": "L-2026-0902-01",
-   "testo": "**AR-908.** Un budget passato come DURATA si spende una volta per ogni chiamata che lo riceve: due corse da 240 secondi sono 480. Un budget e un ISTANTE in cui scadere, non una quantita da distribuire — e ogni operazione, compresa quella lenta che nessuno cronometra, deve chiedere all orologio quanto le resta. La spia che l ha rivelato: col budget messo a 1 il programma usciva subito, quindi il freno c era e stava nel posto sbagliato.",
+   "testo": "**AR-932.** Un budget passato come DURATA si spende una volta per ogni chiamata che lo riceve: due corse da 240 secondi sono 480. Un budget e un ISTANTE in cui scadere, non una quantita da distribuire — e ogni operazione, compresa quella lenta che nessuno cronometra, deve chiedere all orologio quanto le resta. La spia che l ha rivelato: col budget messo a 1 il programma usciva subito, quindi il freno c era e stava nel posto sbagliato.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11810,7 +11810,7 @@
   },
   {
    "id": "L-2026-0902-02",
-   "testo": "**AR-909.** Un tempo massimo che manda un segnale rifiutabile non e un freno: e una richiesta. `spawnSync` di serie manda SIGTERM e NON insiste, quindi un figlio che lo ignora resta vivo oltre il timeout. Misurato: 30 secondi chiesti, oltre 500 senza risposta; con SIGKILL, 30,041. Ogni freno va provato su chi RIFIUTA di obbedire, non su chi obbedisce.",
+   "testo": "**AR-933.** Un tempo massimo che manda un segnale rifiutabile non e un freno: e una richiesta. `spawnSync` di serie manda SIGTERM e NON insiste, quindi un figlio che lo ignora resta vivo oltre il timeout. Misurato: 30 secondi chiesti, oltre 500 senza risposta; con SIGKILL, 30,041. Ogni freno va provato su chi RIFIUTA di obbedire, non su chi obbedisce.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11832,7 +11832,7 @@
   },
   {
    "id": "L-2026-0902-03",
-   "testo": "**AR-908 → AR-909.** Trovare un difetto vero mentre se ne cerca un altro non vuol dire aver trovato la causa. Il doppio conteggio del budget era reale e riparato, e il sintomo non si e mosso di un secondo. La cosa che l ha smascherato e una sola: RIMISURARE dopo la cura invece di fidarsi del ragionamento. Sei ipotesi, cinque smentite da un numero.",
+   "testo": "**AR-932 → AR-933.** Trovare un difetto vero mentre se ne cerca un altro non vuol dire aver trovato la causa. Il doppio conteggio del budget era reale e riparato, e il sintomo non si e mosso di un secondo. La cosa che l ha smascherato e una sola: RIMISURARE dopo la cura invece di fidarsi del ragionamento. Sei ipotesi, cinque smentite da un numero.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11854,7 +11854,7 @@
   },
   {
    "id": "L-2026-0903-02",
-   "testo": "**AR-911.** Una prova che legge la coda VERA e pretende uno stato («c e almeno una pausa», «quella card e in pausa») fotografa un momento, non difende un invariante: diventa rossa il giorno che la macchina fa la cosa giusta. Sulla memoria viva la prova deve reggere TUTTI gli stati, compreso «niente da guardare», che e ⚪ e non rosso; e la storia che un azione lascia — la riga «Pausa finita» — deve restare leggibile, perche e l unica materia che resta dopo.",
+   "testo": "**AR-935.** Una prova che legge la coda VERA e pretende uno stato («c e almeno una pausa», «quella card e in pausa») fotografa un momento, non difende un invariante: diventa rossa il giorno che la macchina fa la cosa giusta. Sulla memoria viva la prova deve reggere TUTTI gli stati, compreso «niente da guardare», che e ⚪ e non rosso; e la storia che un azione lascia — la riga «Pausa finita» — deve restare leggibile, perche e l unica materia che resta dopo.",
    "tag": [
     "macchina",
     "auto-coscienza",
@@ -11898,7 +11898,7 @@
   },
   {
    "id": "L-2026-0903-04",
-   "testo": "**AR-916, e prima AR-909.** Un debito dichiarato non e curato: e un appuntamento. Il 2/9 avevo scritto, con il numero misurato, che 17 file passano un `timeout` per 42 volte senza `killSignal` — cioe che ogni tempo massimo della macchina e una richiesta che si puo rifiutare. Il 3/9 quel debito e venuto a scadere sul file peggiore, il cancello che decide se il lavoro passa: tetto di 900 s, girato 64 minuti, corsa morta senza verdetto. Quando si dichiara un debito misurato, si dichiara anche DOVE fara male per primo — e quello e il posto da curare subito, non «uno dei diciassette».",
+   "testo": "**AR-916, e prima AR-933.** Un debito dichiarato non e curato: e un appuntamento. Il 2/9 avevo scritto, con il numero misurato, che 17 file passano un `timeout` per 42 volte senza `killSignal` — cioe che ogni tempo massimo della macchina e una richiesta che si puo rifiutare. Il 3/9 quel debito e venuto a scadere sul file peggiore, il cancello che decide se il lavoro passa: tetto di 900 s, girato 64 minuti, corsa morta senza verdetto. Quando si dichiara un debito misurato, si dichiara anche DOVE fara male per primo — e quello e il posto da curare subito, non «uno dei diciassette».",
    "tag": [
     "macchina",
     "auto-coscienza",

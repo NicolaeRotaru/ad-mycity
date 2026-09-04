@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔒 AR-896 — IL BANCO APRE E RISCRIVE UN FILE, E SU QUELLA PORTA NON C'ERA NESSUNA GUARDIA
+// 🔒 AR-920 — IL BANCO APRE E RISCRIVE UN FILE, E SU QUELLA PORTA NON C'ERA NESSUNA GUARDIA
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -35,12 +35,12 @@ import { dentroLeRadici } from "../non-vacuita.mjs";
 
 const REPO = realpathSync(join(dirname(fileURLToPath(import.meta.url)), "..", ".."));
 
-test("AR-896 · un file del repo passa", () => {
+test("AR-920 · un file del repo passa", () => {
   const e = dentroLeRadici(join(REPO, "cervello/non-vacuita.mjs"), [REPO]);
   assert.equal(e.dentro, true, e.perche);
 });
 
-test("AR-896 · un file fuori dal repo NON passa, e il motivo lo dice", () => {
+test("AR-920 · un file fuori dal repo NON passa, e il motivo lo dice", () => {
   const fuori = mkdtempSync(join(tmpdir(), "ar896-"));
   const bersaglio = join(fuori, "bersaglio.txt");
   writeFileSync(bersaglio, "INTATTO");
@@ -49,7 +49,7 @@ test("AR-896 · un file fuori dal repo NON passa, e il motivo lo dice", () => {
   assert.match(e.perche, /fuori da ogni radice ammessa/);
 });
 
-test("AR-896 · ma la cartella del registro È una radice: le fixture delle prove restano possibili", () => {
+test("AR-920 · ma la cartella del registro È una radice: le fixture delle prove restano possibili", () => {
   const casa = mkdtempSync(join(tmpdir(), "ar896-casa-"));
   const fixture = join(casa, "finta.mjs");
   writeFileSync(fixture, "// una fixture di prova");
@@ -57,7 +57,7 @@ test("AR-896 · ma la cartella del registro È una radice: le fixture delle prov
     "vietare l'assoluto romperebbe le prove di questo stesso banco: la regola è la RADICE, non la forma");
 });
 
-test("AR-896 · un collegamento simbolico dentro il repo non aggira la regola", () => {
+test("AR-920 · un collegamento simbolico dentro il repo non aggira la regola", () => {
   const fuori = mkdtempSync(join(tmpdir(), "ar896-vittima-"));
   const vittima = join(fuori, "vera.txt");
   writeFileSync(vittima, "INTATTO");
@@ -69,26 +69,26 @@ test("AR-896 · un collegamento simbolico dentro il repo non aggira la regola", 
     "un collegamento dentro la radice punta fuori: senza risolverlo, la guardia è una formalità");
 });
 
-test("AR-896 · un file che non esiste ancora si giudica dalla cartella che lo conterrebbe", () => {
+test("AR-920 · un file che non esiste ancora si giudica dalla cartella che lo conterrebbe", () => {
   const casa = mkdtempSync(join(tmpdir(), "ar896-nuovo-"));
   assert.equal(dentroLeRadici(join(casa, "mai-nato.txt"), [casa]).dentro, true);
   const altrove = mkdtempSync(join(tmpdir(), "ar896-altrove-"));
   assert.equal(dentroLeRadici(join(altrove, "mai-nato.txt"), [casa]).dentro, false);
 });
 
-test("AR-896 · un percorso che non si risolve non si tocca: ⚪, non un via libera", () => {
+test("AR-920 · un percorso che non si risolve non si tocca: ⚪, non un via libera", () => {
   const e = dentroLeRadici("/non/esiste/proprio/nulla/file.txt", [REPO]);
   assert.equal(e.dentro, false);
 });
 
-test("AR-896 · una radice che non esiste non ammette niente", () => {
+test("AR-920 · una radice che non esiste non ammette niente", () => {
   const casa = mkdtempSync(join(tmpdir(), "ar896-r-"));
   const f = join(casa, "x.txt");
   writeFileSync(f, "x");
   assert.equal(dentroLeRadici(f, ["/radice/che/non/esiste"]).dentro, false);
 });
 
-test("AR-896 · «..» non porta fuori di nascosto", () => {
+test("AR-920 · «..» non porta fuori di nascosto", () => {
   const casa = mkdtempSync(join(tmpdir(), "ar896-dd-"));
   mkdirSync(join(casa, "sotto"));
   const e = dentroLeRadici(join(casa, "sotto", "..", "..", "scappato.txt"), [casa]);
@@ -98,7 +98,7 @@ test("AR-896 · «..» non porta fuori di nascosto", () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // ⚠️ IL CASO CHE MANCAVA, E CHE ME L'HA DETTO IL BANCO
 //
-// I casi qui sopra provano la FUNZIONE. La prima mutazione di AR-896 — togliere la chiamata dal
+// I casi qui sopra provano la FUNZIONE. La prima mutazione di AR-920 — togliere la chiamata dal
 // ciclo, lasciando la funzione intatta — li lasciava tutti verdi: cioè difendevano una funzione
 // giusta che nessuno chiamava più. È la stessa forma del difetto che sto curando, in miniatura:
 // avevo chiuso una porta e dichiarato chiuso il cortile.
@@ -111,7 +111,7 @@ test("AR-896 · «..» non porta fuori di nascosto", () => {
 import { spawnSync } from "node:child_process";
 import { readFileSync, existsSync, rmSync } from "node:fs";
 
-test("AR-896 · il BANCO VERO non apre il bersaglio fuori dalle radici", () => {
+test("AR-920 · il BANCO VERO non apre il bersaglio fuori dalle radici", () => {
   const casaRegistro = mkdtempSync(join(tmpdir(), "ar896-reg-"));
   const casaVittima = mkdtempSync(join(tmpdir(), "ar896-vit-"));
   const bersaglio = join(casaVittima, "bersaglio.txt");
@@ -129,7 +129,7 @@ test("AR-896 · il BANCO VERO non apre il bersaglio fuori dalle radici", () => {
   const registro = join(casaRegistro, "finto.json");
   writeFileSync(registro, JSON.stringify({
     mutanti: [{
-      lotto: "ar896", difetto: "AR-896", nome: "percorso assoluto fuori da ogni radice",
+      lotto: "ar896", difetto: "AR-920", nome: "percorso assoluto fuori da ogni radice",
       file: bersaglio, cerca: "INTATTO", sostituisci: "SCRITTA DAL BANCO COME ROOT", test: prova,
     }],
   }, null, 1));

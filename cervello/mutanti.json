@@ -8528,7 +8528,7 @@
    "cerca": "    if (typeof v === \"string\" && CHIAVE_DENTRO_UN_URL.test(v)) { caduti.push(k); continue; }",
    "sostituisci": "    if (false) { caduti.push(k); continue; }",
    "test": "cervello/test/una-prova-non-e-una-porta-per-eseguire-altro.test.mjs",
-   "nota_riaggancio": "Riagganciata il 2026-08-31: tolto il tetto sulla lunghezza (vedi AR-897, era una difesa che non si poteva provare e comprava un buco). La difesa e la stessa."
+   "nota_riaggancio": "Riagganciata il 2026-08-31: tolto il tetto sulla lunghezza (vedi AR-921, era una difesa che non si poteva provare e comprava un buco). La difesa e la stessa."
   },
   {
    "difetto": "AR-885",
@@ -8620,7 +8620,7 @@
    "test": "cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs"
   },
   {
-   "difetto": "AR-906",
+   "difetto": "AR-930",
    "nome": "il gruppo di variabili torna a restare mutilato: git muore nel figlio e il suo cadavere conta come prova verificata",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "  for (const k of trascinatiDalGruppo(caduti, nomi)) delete pulito[k];",
@@ -8630,7 +8630,7 @@
    "perche_conta": "Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde."
   },
   {
-   "difetto": "AR-906",
+   "difetto": "AR-930",
    "nome": "un git che non parte torna a essere letto come una prova diventata rossa",
    "file": "cervello/esecuzione-prova.mjs",
    "cerca": "  { re: /fatal: unable to parse (?:command-line config|.*config file)|error: missing config (?:key|value)/i, dillo: \"git non è partito: la configurazione che gli è arrivata è incoerente\" },",
@@ -8640,7 +8640,7 @@
    "perche_conta": "Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito."
   },
   {
-   "difetto": "AR-912",
+   "difetto": "AR-936",
    "nome": "una prova viva torna a essere scambiata per morta: il rosso di chi difende il terzo esito viene letto come non ho misurato",
    "file": "cervello/esecuzione-prova.mjs",
    "cerca": "  if (unaProvaHaGirato(uscita)) return null;",
@@ -8687,11 +8687,11 @@
    "sostituisci": "    :",
    "test": "cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
    "lezione": "L-2026-0901-04",
-   "nota_riaggancio": "Riagganciata il 2026-09-01: i due flussi si tengono separati (AR-902), quindi l errore non si legge piu da `2>&1` ma dal file di stderr.",
+   "nota_riaggancio": "Riagganciata il 2026-09-01: i due flussi si tengono separati (AR-926), quindi l errore non si legge piu da `2>&1` ma dal file di stderr.",
    "perche_conta": "Buttare stderr e poi concludere qualcosa dal fallimento vuol dire trasformare un errore qualsiasi in una risposta."
   },
   {
-   "difetto": "AR-896",
+   "difetto": "AR-920",
    "nome": "il banco torna ad aprire e riscrivere qualunque percorso assoluto: scrittura come root fuori dal repo",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "    if (!radice.dentro) {",
@@ -8701,7 +8701,7 @@
    "perche_conta": "Quando si mette una guardia su un modo di raggiungere una risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile: ne avevo chiusa una sola e avevo dichiarato chiuso il cortile."
   },
   {
-   "difetto": "AR-896",
+   "difetto": "AR-920",
    "nome": "il percorso non si risolve piu: un collegamento simbolico dentro la radice torna ad aggirare la guardia",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "    reale = vero(via);",
@@ -8711,7 +8711,7 @@
    "perche_conta": "Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori."
   },
   {
-   "difetto": "AR-897",
+   "difetto": "AR-921",
    "nome": "NODE_OPTIONS torna a passare al figlio: --require esegue un file PRIMA della prova ammessa, scavalcando la lista bianca",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "    if (COMANDA_IL_FIGLIO.test(k)) { caduti.push(k); continue; }",
@@ -8721,7 +8721,7 @@
    "perche_conta": "Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave."
   },
   {
-   "difetto": "AR-897",
+   "difetto": "AR-921",
    "nome": "il controllo per valore torna quadratico: una variabile lunga blocca il banco per ore",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\\/\\/[^/@\\s:]*:[^/@\\s]+@/i;",
@@ -8731,7 +8731,7 @@
    "perche_conta": "Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni."
   },
   {
-   "difetto": "AR-898",
+   "difetto": "AR-922",
    "nome": "il conto delle volte torna a gonfiarsi: il primo uso viene contato due volte, a ogni compattazione",
    "file": "cervello/freno-scattato.mjs",
    "cerca": "    const volte = lista.slice(1).reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);",
@@ -8741,7 +8741,7 @@
    "perche_conta": "Un numero scritto in memoria con accanto la parola «vero» va verificato contro la realta che dichiara, non contro l intenzione di chi l ha scritto."
   },
   {
-   "difetto": "AR-898",
+   "difetto": "AR-922",
    "nome": "l ordine degli usi torna a farsi confrontando testo: una riga illeggibile diventa l ultima volta per sempre",
    "file": "cervello/freno-scattato.mjs",
    "cerca": "    lista.sort((a, b) => quandoInNumeri(a) - quandoInNumeri(b));",
@@ -8751,7 +8751,7 @@
    "perche_conta": "Ordinare delle date confrontando testo funziona finche sono tutte date. La prima che non lo e non sbaglia posto: si pianta in fondo e pota tutto quello che viene dopo."
   },
   {
-   "difetto": "AR-898",
+   "difetto": "AR-922",
    "nome": "un uso-stringa torna a sbriciolarsi in un dizionario di lettere",
    "file": "cervello/freno-scattato.mjs",
    "cerca": "  if (u && typeof u === \"object\") return { ...u, volte };",
@@ -8761,7 +8761,7 @@
    "perche_conta": "Lo spread di una primitiva non e un no-op: la sparge indice per indice."
   },
   {
-   "difetto": "AR-899",
+   "difetto": "AR-923",
    "nome": "il temporaneo torna ad avere un nome prevedibile in una cartella dove scrive chiunque",
    "file": "cervello/round6-applica.mjs",
    "cerca": "  const casa = mkdtempSync(join(AD_ROOT, \"cervello\", \"_tmp_round6-\"));",
@@ -8771,7 +8771,7 @@
    "perche_conta": "Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root."
   },
   {
-   "difetto": "AR-899",
+   "difetto": "AR-923",
    "nome": "la scrittura del ciclo principale torna a poter lasciare un file a meta",
    "file": "cervello/round6-applica.mjs",
    "cerca": "  renameSync(provvisorio, via);",
@@ -8781,7 +8781,7 @@
    "perche_conta": "renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp."
   },
   {
-   "difetto": "AR-900",
+   "difetto": "AR-924",
    "nome": "il censimento torna a non vedere i file spariti: una prova puo portare via il repo in silenzio",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "    .filter((riga) => /^ ?D /.test(riga))",
@@ -8791,7 +8791,7 @@
    "perche_conta": "Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale."
   },
   {
-   "difetto": "AR-900",
+   "difetto": "AR-924",
    "nome": "git che non risponde torna a valere «non manca niente» invece di «non ho potuto contare»",
    "file": "cervello/non-vacuita.mjs",
    "cerca": "  if (r.error || r.status !== 0) return null;",
@@ -8801,7 +8801,7 @@
    "perche_conta": "«Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa."
   },
   {
-   "difetto": "AR-901",
+   "difetto": "AR-925",
    "nome": "il registro torna a dire «fatta» prima di sapere se lo stato e stato salvato",
    "file": "pannello/src/app/api/azioni-pronte/route.ts",
    "cerca": "      if (!chiusura.ok) {\n        return NextResponse.json(\n          { ok: false, stato: \"fatta\", esito: nota, salvataggio: false, error: chiusura.messaggio },\n          { status: chiusura.status }\n        );\n      }\n      await logAzione({",
@@ -8811,7 +8811,7 @@
    "perche_conta": "Una cura messa dove il difetto si e visto, e non dove puo ripetersi, lascia indietro i rami gemelli: il ramo del rifiuto aveva l ordine giusto da un mese, quello della PR gia mergiata no."
   },
   {
-   "difetto": "AR-902",
+   "difetto": "AR-926",
    "nome": "stdout e stderr tornano a mescolarsi: un avviso di node diventa un vincolo fantasma con comando vuoto",
    "file": "cervello/giro.sh",
    "cerca": "  _riv_elenco=\"$(node \"$SCRIPT_DIR/c4-cancelli.mjs\" riverifica-elenco \"${VINCOLI_ATTIVI[@]}\" 2>\"$_riv_err\")\"",
@@ -8821,7 +8821,7 @@
    "perche_conta": "Una cura puo riaprire da un altra parte il difetto che stava chiudendo: qui separare l esito dal rumore ha rimesso il rumore DENTRO l elenco. Le righe aggiunte vanno riguardate con la lente della loro dimensione PRIMA di consegnare, non dopo."
   },
   {
-   "difetto": "AR-903",
+   "difetto": "AR-927",
    "nome": "il giro torna a mettere in stage tutto: il codice non revisionato arriva su main",
    "file": "cervello/giro.sh",
    "cerca": "    git add -A \"${MEM_DIRS[@]}\" 2>/dev/null || true",
@@ -8830,7 +8830,7 @@
    "perche_conta": "Un guardiano che chiede una riga di configurazione invece della proprieta che nomina puo restare rosso per un mese senza difendere niente. La proprieta si prova ESEGUENDOLA."
   },
   {
-   "difetto": "AR-903",
+   "difetto": "AR-927",
    "nome": "la seconda rete si spegne: un file di codice gia in stage ci resta",
    "file": "cervello/giro.sh",
    "cerca": "    git reset HEAD -- . 2>/dev/null || true",
@@ -8839,7 +8839,7 @@
    "perche_conta": "Un guardiano che chiede una riga di configurazione invece della proprieta che nomina puo restare rosso per un mese senza difendere niente. La proprieta si prova ESEGUENDOLA."
   },
   {
-   "difetto": "AR-905",
+   "difetto": "AR-929",
    "nome": "l avviso del debito torna a non dire di quale famiglia parla: due misure diverse con lo stesso nome",
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "  avvisi.push(`${passo.nome} · ${regola} — ${v.motivo}`);",
@@ -8848,7 +8848,7 @@
    "perche_conta": "Il verdetto era giusto tutt'e due le volte; era il NOME a mentire. Un referto che sembra contraddirsi si smette di leggere."
   },
   {
-   "difetto": "AR-905",
+   "difetto": "AR-929",
    "nome": "la riga che BLOCCA torna a non dire quale tetto e stato sfondato",
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} · ${regola} — ${v.motivo}` });",
@@ -8857,18 +8857,18 @@
    "perche_conta": "Il verdetto era giusto tutt'e due le volte; era il NOME a mentire. Un referto che sembra contraddirsi si smette di leggere."
   },
   {
-   "difetto": "AR-899",
+   "difetto": "AR-923",
    "nome": "il guinzaglio sulla cancellazione ricorsiva si apre: qualunque cartella diventa «una delle nostre»",
    "file": "cervello/round6-applica.mjs",
    "cerca": "  return String(via || \"\").startsWith(atteso) && String(via) !== atteso;",
    "sostituisci": "  return true;",
    "test": "cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
    "lezione": "L-2026-0901-08",
-   "perche_conta": "La regola di AR-900 vale per il CODICE VERO prima che per le prove: li c e il banco a fare da rete, qui non c e niente.",
+   "perche_conta": "La regola di AR-924 vale per il CODICE VERO prima che per le prove: li c e il banco a fare da rete, qui non c e niente.",
    "nota_riaggancio": "Riagganciata il 2026-09-01 sulla FUNZIONE invece che sul punto di chiamata: la prova esegue la funzione, quindi e li che la mutazione deve mordere. Il punto di chiamata lo tiene il caso strutturale, dichiarato come tale."
   },
   {
-   "difetto": "AR-907",
+   "difetto": "AR-931",
    "nome": "la prova si riscrive un orologio suo: torna Date.parse al posto del metro del codice",
    "file": "cervello/test/archivi-senza-tetto.test.mjs",
    "cerca": "  const t = date.map((d) => T.istante(d)).filter((x) => x != null);",
@@ -8878,7 +8878,7 @@
    "perche_conta": "E la riga esatta che ha fatto rosso il cancello. Il caso deterministico la prende su un giorno nudo, dove lo scarto e di dodici ore: il rosso non dipende dal fuso della macchina, altrimenti il freno sarebbe verde proprio sul portatile di casa."
   },
   {
-   "difetto": "AR-908",
+   "difetto": "AR-932",
    "nome": "il budget torna a non sapere dire «sono scaduto»: un tempo negativo al posto dello zero",
    "file": "cervello/due-case.mjs",
    "cerca": "  if (!Number.isFinite(resta) || resta < minimo) return 0;",
@@ -8889,7 +8889,7 @@
    "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   },
   {
-   "difetto": "AR-908",
+   "difetto": "AR-932",
    "nome": "il controllo torna DIETRO la copia del repo: si paga la parte lenta e poi si guarda l orologio",
    "file": "cervello/due-case.mjs",
    "cerca": "  if (!quantoPosso(scadenza)) return fermo(\"il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato\");",
@@ -8900,7 +8900,7 @@
    "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   },
   {
-   "difetto": "AR-909",
+   "difetto": "AR-933",
    "nome": "chi rilancia i passi torna al segnale educato, che il figlio puo ignorare",
    "file": "cervello/due-case.mjs",
    "cerca": "const r = spawnSync(passo.comando, passo.argomenti, { cwd: dir, encoding: \"utf8\", timeout, killSignal: \"SIGKILL\", maxBuffer: 32 * 1024 * 1024, env });",
@@ -8911,7 +8911,7 @@
    "nota_riaggancio": "Riagganciata il 2026-09-02: la prova viveva in due-case.test.mjs, che prende 626 s contro i 420 che il banco concede — quindi il banco non arrivava in fondo e usciva ⚪ su tutte e tre. Stessi casi, file nuovo, 2 secondi."
   },
   {
-   "difetto": "AR-911",
+   "difetto": "AR-935",
    "nome": "la sveglia cancella la storia della pausa: la riga «finita» perde classe e fatto",
    "file": "cervello/pausa-check.mjs",
    "cerca": "        righe[j] = righe[j].replace(/\\*\\*⏸\\s*Pausa:\\*\\*/, \"**▶️ Pausa finita:**\");",

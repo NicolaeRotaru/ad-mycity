@@ -693,12 +693,12 @@ test("un difetto chiuso dall'ALTRO ramo non è una mia chiusura senza prova", ()
 });
 
 test("…ma se lo chiudo IO un difetto aperto su tutt'e due i lati, il cancello parla ancora", () => {
-  const mio = [{ id: "AR-900", stato: "aperto" }];
-  const altroRamo = [{ id: "AR-900", stato: "aperto" }];
-  const suDisco = [{ id: "AR-900", stato: "chiuso", titolo: "chiuso da me senza prova", verifica: { file: "x", pattern: "y" } }];
+  const mio = [{ id: "AR-924", stato: "aperto" }];
+  const altroRamo = [{ id: "AR-924", stato: "aperto" }];
+  const suDisco = [{ id: "AR-924", stato: "chiuso", titolo: "chiuso da me senza prova", verifica: { file: "x", pattern: "y" } }];
   const v = chiusiSenzaProva(statoDiPartenza(mio, altroRamo), suDisco);
   assert.equal(v.length, 1, "l'unione non deve assolvere il mio lavoro, solo distinguerlo");
-  assert.equal(v[0].id, "AR-900");
+  assert.equal(v[0].id, "AR-924");
 });
 
 test("fuori da una fusione non cambia niente: il secondo genitore non c'è", () => {

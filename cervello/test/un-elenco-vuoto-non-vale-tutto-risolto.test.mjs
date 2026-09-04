@@ -99,7 +99,7 @@ test("AR-914 · l'elenco completo si comporta come prima: nessun ⚪ inventato",
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ⚠️ AR-902 — LA PRIMA CURA DI AR-914 AVEVA RIAPERTO AR-880 DA UN'ALTRA PARTE
+// ⚠️ AR-926 — LA PRIMA CURA DI AR-914 AVEVA RIAPERTO AR-880 DA UN'ALTRA PARTE
 //
 // Catturava stdout e stderr in un colpo solo (`2>&1`). Bastava un `(node:123) Warning: …` — cioè
 // un qualunque avviso di node — perché quella riga finisse nell'elenco come un vincolo con nome
@@ -112,7 +112,7 @@ test("AR-914 · l'elenco completo si comporta come prima: nessun ⚪ inventato",
 // sicurezza, prima di consegnare — non dopo.
 // ─────────────────────────────────────────────────────────────────────────────
 
-test("AR-902 · un avviso su stderr non diventa un vincolo fantasma", () => {
+test("AR-926 · un avviso su stderr non diventa un vincolo fantasma", () => {
   const e = corri('echo "(node:123) Warning: qualcosa" >&2; printf "FATTI\\tguardiano\\tvero.mjs\\nTEST\\tguardiano\\tvero.mjs\\nGATE\\tguardiano\\tvero.mjs\\nPROVE\\tguardiano\\tvero.mjs\\nOKR\\tguardiano\\tvero.mjs\\n"; exit 0');
   assert.equal(e.rotto, undefined, e.tutto);
   assert.equal(e.risolti + e.rimasti + e.ciechi, 5,

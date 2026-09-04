@@ -97,7 +97,7 @@ const USI_PER_RIFERIMENTO = 2;
  * fingere che non ci siano mai state.
  *
  * ─────────────────────────────────────────────────────────────────────────────
- * 🔢 TRE COSE SBAGLIATE NELLA PRIMA STESURA — AR-898, trovate dal collaudo di sicurezza il 31/8
+ * 🔢 TRE COSE SBAGLIATE NELLA PRIMA STESURA — AR-922, trovate dal collaudo di sicurezza il 31/8
  * ─────────────────────────────────────────────────────────────────────────────
  * ① `volte` MENTIVA, e per il ~50%. Il primo uso veniva tenuto in lista E contato dentro il
  *    `volte` dell'ultimo, quindi la somma era sempre il vero + 1 — e siccome si ricompatta a ogni
@@ -154,7 +154,7 @@ export function compattaUsi(usi) {
   for (const [ref, lista] of perRiferimento) {
     lista.sort((a, b) => quandoInNumeri(a) - quandoInNumeri(b));
     if (lista.length <= USI_PER_RIFERIMENTO) { tenuti.push(...lista); continue; }
-    // AR-898 ①: da `lista[1]` in poi. `lista[0]` resta in lista e si conta da sé — contarlo anche
+    // AR-922 ①: da `lista[1]` in poi. `lista[0]` resta in lista e si conta da sé — contarlo anche
     // qui vorrebbe dire dichiararlo due volte, a ogni compattazione, per sempre.
     const volte = lista.slice(1).reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);
     tenuti.push(lista[0], ultimoConIlConto(lista[lista.length - 1], ref, volte));

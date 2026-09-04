@@ -332,17 +332,17 @@
       "impatto_crescita": null
     },
     {
-      "id": "AR-903",
+      "id": "AR-927",
       "gravita": "grave",
       "impatto_crescita": null
     },
     {
-      "id": "AR-904",
+      "id": "AR-928",
       "gravita": "minore",
       "impatto_crescita": null
     },
     {
-      "id": "AR-910",
+      "id": "AR-934",
       "gravita": "grave",
       "impatto_crescita": null
     }
@@ -400,7 +400,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     },
     {
-      "id": "AR-904",
+      "id": "AR-928",
       "gravita": "minore",
       "impatto_crescita": null,
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
@@ -507,14 +507,14 @@
       ]
     },
     {
-      "id": "AR-903",
+      "id": "AR-927",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
       ]
     },
     {
-      "id": "AR-910",
+      "id": "AR-934",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -767,7 +767,7 @@
       "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata\" (solo: node cervello/<script>.mjs [--flag])"
     },
     {
-      "id": "AR-911",
+      "id": "AR-935",
       "stato": "chiuso",
       "gravita": "grave",
       "causa": "comando-non-eseguibile",
@@ -3839,7 +3839,7 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-903",
+      "id": "AR-927",
       "gravita": "grave",
       "eta_giorni": 3,
       "impatto_crescita": null,
@@ -3852,7 +3852,7 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-904",
+      "id": "AR-928",
       "gravita": "minore",
       "eta_giorni": 3,
       "impatto_crescita": null,
@@ -3865,7 +3865,7 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-910",
+      "id": "AR-934",
       "gravita": "grave",
       "eta_giorni": 2,
       "impatto_crescita": null,

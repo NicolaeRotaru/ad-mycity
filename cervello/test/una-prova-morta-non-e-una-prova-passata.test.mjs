@@ -1,4 +1,4 @@
-// 🧪 UNA PROVA CHE NON PARTE NON È UNA PROVA CHE PASSA — AR-906.
+// 🧪 UNA PROVA CHE NON PARTE NON È UNA PROVA CHE PASSA — AR-930.
 //
 // PERCHÉ ESISTE. Il collaudo di sicurezza del 31/8 ha misurato che `ambientePulito()` uccideva git
 // nel processo figlio: il filtro dei segreti toglie ogni nome che contiene «KEY», e fra questi
@@ -91,7 +91,7 @@ test("② un git che è partito e ha detto di no resta una prova diventata rossa
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
-// ③ IL ROVESCIO — AR-912: una prova VIVA non deve essere scambiata per morta.
+// ③ IL ROVESCIO — AR-936: una prova VIVA non deve essere scambiata per morta.
 //
 // Le due metà sopra impediscono che un cadavere compri un verde. Questa impedisce l'errore
 // opposto, scoperto lo stesso giorno e dallo stesso banco: una prova che gira, misura e diventa

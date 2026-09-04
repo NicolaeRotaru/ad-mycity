@@ -786,12 +786,12 @@ test("gli argomenti CALCOLATI si riconoscono, e il PREZZO dichiarato dal cancell
 // Il sorvegliante del delta segnala che qui si prova meno di prima. È vero e va detto dove sono
 // andati, perché «un file che prova meno» e «una difesa persa» hanno la stessa faccia.
 //
-// I sette casi di AR-908 e AR-909 sono in `cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs`,
+// I sette casi di AR-932 e AR-933 sono in `cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs`,
 // nato nello stesso commit. Il conto: 39 casi prima, 32 qui adesso, 7 di là. Non ne manca nessuno.
 //
 // PERCHÉ sono stati spostati, e non è una questione di ordine: il banco delle mutazioni concede a
 // ogni prova 420 secondi (`TEMPO_MAX` in non-vacuita.mjs) e QUESTO file ne prende 626. Le tre
-// mutazioni che difendono AR-908 e AR-909 uscivano ⚪ — «non ho misurato» — e nessuno se ne
+// mutazioni che difendono AR-932 e AR-933 uscivano ⚪ — «non ho misurato» — e nessuno se ne
 // accorgeva. Spostate, escono rosse tutte e tre, che è quello che una difesa deve saper fare.
 //
 // ⚠️ Il debito resta ed è di questo file, non di quelli: finché prende 626 secondi, OGNI difetto

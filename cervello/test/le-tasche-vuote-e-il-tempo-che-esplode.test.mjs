@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🔒 AR-897 — DUE BUCHI NELLE «TASCHE VUOTE»: uno che comanda il figlio, uno che fa esplodere il tempo
+// 🔒 AR-921 — DUE BUCHI NELLE «TASCHE VUOTE»: uno che comanda il figlio, uno che fa esplodere il tempo
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
@@ -29,13 +29,13 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { ambientePulito, CHIAVE_DENTRO_UN_URL } from "../non-vacuita.mjs";
 
-test("AR-897 · NODE_OPTIONS non arriva al figlio: comanda node prima che la prova parta", () => {
+test("AR-921 · NODE_OPTIONS non arriva al figlio: comanda node prima che la prova parta", () => {
   const p = ambientePulito({ PATH: "/usr/bin", NODE_OPTIONS: "--require /tmp/mio.cjs" });
   assert.equal("NODE_OPTIONS" in p, false, "il figlio riceve --require e lo esegue prima della prova ammessa");
   assert.equal(p.PATH, "/usr/bin", "il resto dell'ambiente non si tocca");
 });
 
-test("AR-897 · e nemmeno i suoi fratelli che comandano lo stesso", () => {
+test("AR-921 · e nemmeno i suoi fratelli che comandano lo stesso", () => {
   const p = ambientePulito({
     PATH: "/usr/bin",
     NODE_EXTRA_CA_CERTS: "/tmp/finto.pem",
@@ -48,7 +48,7 @@ test("AR-897 · e nemmeno i suoi fratelli che comandano lo stesso", () => {
   }
 });
 
-test("AR-897 · le credenziali dentro un URL si riconoscono ancora, tutte e quattro le forme", () => {
+test("AR-921 · le credenziali dentro un URL si riconoscono ancora, tutte e quattro le forme", () => {
   for (const v of [
     "postgres://utente:password@host/db",
     "redis://:pw@host:6379",
@@ -59,7 +59,7 @@ test("AR-897 · le credenziali dentro un URL si riconoscono ancora, tutte e quat
   }
 });
 
-test("AR-897 · …e gli URL puliti passano ancora: la cura non è diventata un divieto di URL", () => {
+test("AR-921 · …e gli URL puliti passano ancora: la cura non è diventata un divieto di URL", () => {
   for (const v of [
     "https://xyz.supabase.co",
     "postgres://host/db",
@@ -88,7 +88,7 @@ test("AR-897 · …e gli URL puliti passano ancora: la cura non è diventata un 
 const CENTOMILA = `postgres://${"a:".repeat(50_000)}`;
 const TETTO_MS = 500;
 
-test("AR-897 · un valore da 100 KB non blocca il banco: tetto assoluto, non un rapporto fra rumori", () => {
+test("AR-921 · un valore da 100 KB non blocca il banco: tetto assoluto, non un rapporto fra rumori", () => {
   const t = process.hrtime.bigint();
   CHIAVE_DENTRO_UN_URL.test(CENTOMILA);
   const ms = Number(process.hrtime.bigint() - t) / 1e6;
@@ -97,7 +97,7 @@ test("AR-897 · un valore da 100 KB non blocca il banco: tetto assoluto, non un 
     "I due pezzi si sovrappongono di nuovo: il motore prova ogni punto di taglio.");
 });
 
-test("AR-897 · e lo stesso vale passando dall'ambiente, che è come ci si arriva davvero", () => {
+test("AR-921 · e lo stesso vale passando dall'ambiente, che è come ci si arriva davvero", () => {
   // `ambientePulito()` è un parametro di DEFAULT di `eseguiProva`: si rivaluta a ogni mutazione,
   // 970 volte per corsa. Un valore lento qui non costa un secondo, costa ore.
   const t = process.hrtime.bigint();

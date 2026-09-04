@@ -51,10 +51,10 @@ function repoFinto({ ancorata = true, tetto = 0, conTetto = true, cantiereRotto 
   mkdirSync(join(dir, "MyCity-Vault/90-Memoria-AI/auto-coscienza"), { recursive: true });
 
   // Il file di prova: con l'ancoraggio nomina il difetto che dimostra, senza no. È la differenza
-  // fra «la prova guarda ancora AR-901» e «la prova gira, esce 0 e guarda altro».
+  // fra «la prova guarda ancora AR-925» e «la prova gira, esce 0 e guarda altro».
   writeFileSync(
     join(dir, "cervello/test/prova-finta.test.mjs"),
-    ancorata ? "// AR-901 — il caso che dimostra questo difetto vive qui.\n" : "// il caso è emigrato altrove: qui non si nomina piu' nessun difetto.\n",
+    ancorata ? "// AR-925 — il caso che dimostra questo difetto vive qui.\n" : "// il caso è emigrato altrove: qui non si nomina piu' nessun difetto.\n",
     "utf8",
   );
   writeFileSync(join(dir, "cervello/mutanti.json"), `${JSON.stringify({ mutanti: [] }, null, 1)}\n`);
@@ -65,7 +65,7 @@ function repoFinto({ ancorata = true, tetto = 0, conTetto = true, cantiereRotto 
   const cantiere = {
     difetti: [
       {
-        id: "AR-901",
+        id: "AR-925",
         stato: "chiuso",
         gravita: "grave",
         titolo: "una scheda con una prova a comando",

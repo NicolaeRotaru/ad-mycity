@@ -39,7 +39,7 @@ const codaEArchivio = () =>
   [CODA, ARCHIVIO].map((f) => (existsSync(f) ? readFileSync(f, "utf8") : "")).join("\n\n---\n\n");
 
 const casi = [];
-// AR-911 — un caso può dire «qui non ho materia»: è ⚪ (`ok … # skip`, che la suite conta a parte),
+// AR-935 — un caso può dire «qui non ho materia»: è ⚪ (`ok … # skip`, che la suite conta a parte),
 // non un verde e non un rosso. Prima l'unica uscita era il rosso, e la suite diventava rossa il
 // giorno in cui la macchina faceva la cosa giusta: svegliare le pause finite.
 class Salto extends Error {}
@@ -142,7 +142,7 @@ prova("nella coda vera l'ordine di prova è dichiarato «validazione», non «bu
     assert.equal(c.pausa.classe, CLASSI.VALIDAZIONE, "è il collaudo della macchina, non una spinta commerciale");
     return;
   }
-  // AR-911 — la pausa può essere FINITA: il 3/9 la sveglia l'ha tolta, e questa riga faceva rossa
+  // AR-935 — la pausa può essere FINITA: il 3/9 la sveglia l'ha tolta, e questa riga faceva rossa
   // la suite per una cosa giusta. La classe non sparisce con la pausa: resta scritta sulla riga
   // «▶️ Pausa finita», ed è lì che si legge. Una card mai stata in pausa non ha niente da difendere.
   const finita = /^- \*\*▶\uFE0F? Pausa finita:\*\*.*classe \*\*([a-z-]+)\*\*/m.exec(c.corpo);

@@ -1,11 +1,11 @@
 #!/usr/bin/env node
-// ☠️ AR-900 — UNA PROVA HA CANCELLATO 956 FILE, E QUELLO CHE HO VISTO È STATO UNO STACK TRACE
+// ☠️ AR-924 — UNA PROVA HA CANCELLATO 956 FILE, E QUELLO CHE HO VISTO È STATO UNO STACK TRACE
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // PERCHÉ ESISTE
 // ─────────────────────────────────────────────────────────────────────────────
 // Il 31/8 una corsa del banco delle mutazioni ha portato via tutta la cartella `cervello/`. Non per
-// un difetto del banco: per una PROVA. La prova di AR-899 faceva pulizia così —
+// un difetto del banco: per una PROVA. La prova di AR-923 faceva pulizia così —
 //     rmSync(dirname(fuoriRepo(...)), { recursive: true })
 // cioè cancellava una cartella il cui nome veniva dalla funzione sotto esame. Ed è esattamente ciò
 // che il banco fa di mestiere: ROMPE quella funzione. Rotta, tornava un percorso dentro il repo, e
@@ -48,13 +48,13 @@ function repoFinto() {
   return { casa, git };
 }
 
-test("AR-900 · su un albero pulito non conta nessuna cancellazione", () => {
+test("AR-924 · su un albero pulito non conta nessuna cancellazione", () => {
   const { casa } = repoFinto();
   assert.deepEqual(fileCancellati(spawnSync, casa), []);
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-900 · quando un file sparisce DAVVERO, il censimento lo nomina", () => {
+test("AR-924 · quando un file sparisce DAVVERO, il censimento lo nomina", () => {
   const { casa } = repoFinto();
   rmSync(join(casa, "due.txt"));
   const mancanti = fileCancellati(spawnSync, casa);
@@ -62,7 +62,7 @@ test("AR-900 · quando un file sparisce DAVVERO, il censimento lo nomina", () =>
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-900 · una cartella intera portata via si conta file per file", () => {
+test("AR-924 · una cartella intera portata via si conta file per file", () => {
   const { casa, git } = repoFinto();
   const dentro = join(casa, "cartella");
   spawnSync("mkdir", ["-p", dentro]);
@@ -75,7 +75,7 @@ test("AR-900 · una cartella intera portata via si conta file per file", () => {
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-900 · una modifica non è una cancellazione: nessun falso allarme", () => {
+test("AR-924 · una modifica non è una cancellazione: nessun falso allarme", () => {
   const { casa } = repoFinto();
   writeFileSync(join(casa, "uno.txt"), "cambiato\n");
   assert.deepEqual(fileCancellati(spawnSync, casa), [],
@@ -83,21 +83,21 @@ test("AR-900 · una modifica non è una cancellazione: nessun falso allarme", ()
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-900 · un file NUOVO non è una cancellazione", () => {
+test("AR-924 · un file NUOVO non è una cancellazione", () => {
   const { casa } = repoFinto();
   writeFileSync(join(casa, "quattro.txt"), "nuovo\n");
   assert.deepEqual(fileCancellati(spawnSync, casa), []);
   rmSync(casa, { recursive: true, force: true });
 });
 
-test("AR-900 · dove git non risponde il verdetto è ⚪, non «zero cancellati»", () => {
+test("AR-924 · dove git non risponde il verdetto è ⚪, non «zero cancellati»", () => {
   const nonUnRepo = mkdtempSync(join(tmpdir(), "ar900-nonrepo-"));
   assert.equal(fileCancellati(spawnSync, nonUnRepo), null,
     "«non ho potuto contare» tornato come «non manca niente» è la bugia esatta che questo guardiano esiste per impedire");
   rmSync(nonUnRepo, { recursive: true, force: true });
 });
 
-test("AR-900 · e nel repo vero, adesso, non manca niente", () => {
+test("AR-924 · e nel repo vero, adesso, non manca niente", () => {
   const mancanti = fileCancellati(spawnSync, REPO);
   if (mancanti === null) return; // ⚪ git non risponde: non ho misurato
   assert.deepEqual(mancanti, [], `mancano dei file dall'albero di lavoro: ${mancanti.slice(0, 5).join(", ")}`);

@@ -38,28 +38,28 @@ test("il caso che ha rotto: AR-128 nasce grave con «cerca chargeback in un file
 
 test("vale su bloccante come su grave, e sui sinonimi di gravità usati nel cantiere", () => {
   for (const g of ["grave", "bloccante", "critica", "alta", "alto"]) {
-    assert.equal(proveDeboliNate([pattern("AR-900", g)], ["AR-900"]).length, 1, `gravità «${g}» deve passare dal cancello`);
+    assert.equal(proveDeboliNate([pattern("AR-924", g)], ["AR-924"]).length, 1, `gravità «${g}» deve passare dal cancello`);
   }
 });
 
 test("una scheda grave che nasce SENZA nessuna prova è la forma più debole di tutte", () => {
-  assert.equal(proveDeboliNate([{ id: "AR-901", gravita: "grave" }], ["AR-901"]).length, 1);
-  assert.equal(proveDeboliNate([{ id: "AR-902", gravita: "grave", verifica: null }], ["AR-902"]).length, 1);
+  assert.equal(proveDeboliNate([{ id: "AR-925", gravita: "grave" }], ["AR-925"]).length, 1);
+  assert.equal(proveDeboliNate([{ id: "AR-926", gravita: "grave", verifica: null }], ["AR-926"]).length, 1);
 });
 
 // ── Le tre uscite oneste ─────────────────────────────────────────────────────
 test("uscita 1: una prova che GIRA entra", () => {
-  assert.equal(proveDeboliNate([comando("AR-903", "bloccante")], ["AR-903"]).length, 0);
+  assert.equal(proveDeboliNate([comando("AR-927", "bloccante")], ["AR-927"]).length, 0);
 });
 
 test("uscita 2: `tipo: umano` dichiarato entra — è onesto, e si vede", () => {
-  const d = { id: "AR-904", gravita: "grave", verifica: { tipo: "umano", nota: "lo decide Nicola" } };
-  assert.equal(proveDeboliNate([d], ["AR-904"]).length, 0);
+  const d = { id: "AR-928", gravita: "grave", verifica: { tipo: "umano", nota: "lo decide Nicola" } };
+  assert.equal(proveDeboliNate([d], ["AR-928"]).length, 0);
 });
 
 test("uscita 3: sui `minore` la prova a pattern resta ammessa", () => {
-  assert.equal(proveDeboliNate([pattern("AR-905", "minore")], ["AR-905"]).length, 0);
-  assert.equal(proveDeboliNate([pattern("AR-906", "medio")], ["AR-906"]).length, 0);
+  assert.equal(proveDeboliNate([pattern("AR-929", "minore")], ["AR-929"]).length, 0);
+  assert.equal(proveDeboliNate([pattern("AR-930", "medio")], ["AR-930"]).length, 0);
 });
 
 // ── Il debito vecchio non viene toccato ──────────────────────────────────────
@@ -76,8 +76,8 @@ test("una scheda VECCHIA con prova a pattern non viene fermata: quella ha il suo
 
 // ── Cieco non è rosso ────────────────────────────────────────────────────────
 test("se non so chi è nato adesso non accuso nessuno", () => {
-  assert.deepEqual(proveDeboliNate([pattern("AR-907", "grave")], null), [], "senza confronto non c'è imputato");
-  assert.deepEqual(proveDeboliNate([pattern("AR-908", "grave")], undefined), []);
+  assert.deepEqual(proveDeboliNate([pattern("AR-931", "grave")], null), [], "senza confronto non c'è imputato");
+  assert.deepEqual(proveDeboliNate([pattern("AR-932", "grave")], undefined), []);
 });
 
 // ── Chi è «nato» ─────────────────────────────────────────────────────────────

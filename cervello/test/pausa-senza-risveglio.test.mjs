@@ -26,11 +26,11 @@ import { dateNelTesto, leggiCard, ricopiaDelFatto, risolviRipresa, statoPausa } 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const GUARDIANO = join(REPO, "cervello/pausa-check.mjs");
-/** La riga che `--risveglia` lascia come storia al posto di «⏸ Pausa:» (AR-911). */
+/** La riga che `--risveglia` lascia come storia al posto di «⏸ Pausa:» (AR-935). */
 const RIGA_PAUSA_FINITA = /^- \*\*▶\uFE0F? Pausa finita:\*\*.*$/m;
 
 const casi = [];
-// AR-911 — un caso può dire «qui non ho materia»: è ⚪ (`ok … # skip`, che la suite conta a parte),
+// AR-935 — un caso può dire «qui non ho materia»: è ⚪ (`ok … # skip`, che la suite conta a parte),
 // non un verde e non un rosso. Prima l'unica uscita era il rosso, e la suite diventava rossa il
 // giorno in cui la macchina faceva la cosa giusta: svegliare le pause finite.
 class Salto extends Error {}
@@ -157,7 +157,7 @@ prova("il caso che ha rotto: passata la data, la card viene svegliata DAVVERO", 
     assert.doesNotMatch(dopo.split("\n").find((l) => l.includes("#prova-sveglia — Fai la cosa")), /⏸/,
       "il ⏸ dev'essere sparito dal titolo: è quello che Nicola vede");
     assert.match(dopo, /▶️ Pausa finita/, "la riga resta come storia, ma dice che è finita");
-    // AR-911: e la storia resta LEGGIBILE — classe e fatto ci sono ancora. È quello che la prova sulla
+    // AR-935: e la storia resta LEGGIBILE — classe e fatto ci sono ancora. È quello che la prova sulla
     // coda vera guarda dopo una sveglia: se la sveglia li cancellasse, là non resterebbe niente.
     const rigaFinita = dopo.split("\n").find((l) => /▶\uFE0F? Pausa finita/.test(l)) || "";
     assert.match(rigaFinita, /classe \*\*business\*\*/, "la pausa è finita, ma la riga dice ancora di che classe era");
@@ -225,7 +225,7 @@ prova("nella coda vera ogni card in pausa ha un momento in cui finisce", () => {
   // suite rossa su main). L'invariante che questa prova difende è nel ciclo qui sotto: OGNI card in
   // pausa dice da quale fatto dipende e di che classe è.
   //
-  // AR-911 — poi c'era `>= 1`, e anche quello era una foto della coda: il 3/9, svegliate le dieci
+  // AR-935 — poi c'era `>= 1`, e anche quello era una foto della coda: il 3/9, svegliate le dieci
   // pause finite il 1/9, le card in pausa erano ZERO e questa riga faceva rossa la suite — mentre
   // senza svegliarle era rosso il guardiano. Nessuno stato verde, il giorno che la macchina faceva
   // la cosa giusta. Una pausa finita non sparisce: resta come storia sulla riga «▶️ Pausa finita»,
