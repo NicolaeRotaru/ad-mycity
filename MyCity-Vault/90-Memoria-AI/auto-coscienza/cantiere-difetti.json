@@ -18621,27 +18621,45 @@
         "nota": "Oggi non ha una prova che gira: il fix non e' in questo lotto. Chi lo ripara scrive insieme il test delle cartelle esca descritto nel fix, e allora la verifica diventa un comando."
       },
       "nota": "Trovato il 2026-08-28 dalla lente rischio-sicurezza-se sul perimetro del lotto dei pacchetti. Prova eseguita dal collaudatore: create /tmp/hook-vittima-di-un-altro e /tmp/reg-backup-importante con mtime a 3 giorni, `node cervello/spazza-temporanei.mjs --prova --json` le dichiara entrambe da togliere. Su un VPS /tmp e' condiviso. Nasceva come AR-864: quel numero se l'e' preso un lavoro unito su main mentre questo ramo era aperto."
+    },
+    {
+      "id": "AR-893",
+      "titolo": "Il workflow della radiografia di se stessa (auto-radiografia.js) non parte piu': errore di sintassi in tre punti",
+      "dimensione": "chiusura-volano",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "causa_radice": "In .claude/workflows/auto-radiografia.js, alle righe 106, 129 e 146, ogni chiamata `agent(...)` chiude la stringa del prompt con un backtick seguito da un ` }),` estraneo, prima ancora dell'oggetto opzioni vero (`{ label: ..., phase: ..., schema: ... }` sulla riga successiva). E' un token orfano che il parser JS rifiuta subito, prima di eseguire una sola riga: `Workflow(scriptPath: '.claude/workflows/auto-radiografia.js')` fallisce con 'Script parse error: Unexpected token (106:125)'. La review settimanale del 24/7 e quella del 4/9 lo davano per 'fermo dall'11/8' pensando a un mancato rilancio per risparmio quota — invece e' rotto: anche volendolo rilanciare, non sarebbe partito.",
+      "fix_proposto": "In .claude/workflows/auto-radiografia.js sostituire, alle righe 106, 129 e 146, la sequenza `` ` }),`` (fine del template-literal + close-paren estraneo) con semplicemente `` `,`` (il backtick chiude la stringa, la virgola introduce l'oggetto opzioni che segue gia' sulla riga dopo). Nessun'altra riga da toccare. Dopo il fix, verificare che `Workflow({scriptPath: '.claude/workflows/auto-radiografia.js'})` non dia piu' 'Script parse error'.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-09-04",
+      "nato_come": "scoperta",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessun test automatico lancia questo workflow oggi. La prova e' rilanciarlo una volta (`Workflow({scriptPath:'.claude/workflows/auto-radiografia.js'})`) e vedere che superi il parse invece di fallire su 'Unexpected token'."
+      },
+      "nota": "Trovato il 2026-09-04 durante la review settimanale, tentando di eseguire il passo 6 (radiografia completa) come richiesto da cervello/ritmo.md. Non corretto in questa sessione: la modifica a .claude/workflows/ e' fuori dai permessi di scrittura correnti di questa sessione (richiede conferma umana esplicita) — resta proposta 🟡 per Nicola/un builder, col fix gia' scritto riga per riga sopra."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 853,
-    "aperti": 110,
+    "totale": 854,
+    "aperti": 111,
     "in_corso": 1,
     "da_riverificare": 10,
     "chiusi": 732,
     "altri": 0,
-    "da_fare": 121,
+    "da_fare": 122,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 732,
-      "aperto": 110,
+      "aperto": 111,
       "da-riverificare": 10,
       "in-corso": 1
     },
     "stati_ignoti": [],
-    "senza_owner": 121,
-    "senza_scadenza": 121,
+    "senza_owner": 122,
+    "senza_scadenza": 122,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true

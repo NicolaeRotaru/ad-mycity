@@ -1639,3 +1639,32 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Scegli un post da pubblicare per Pane Quotidiano, o dimmi quali dei dieci vecchi ritirare (`#193`).
 
 **Dettagli tecnici** — Nessuna nuova query MCP in questo passaggio. Riuso la verifica delle 11:58: `orders`=1, `pagati`=0, `profiles`=8, `products`=5. Vincolo `LETARGO` ancora tra i vincoli attivi di `esito-giro.json` (11:43). `costo-ai.json` alle 11:57: 8 run oggi, quota sessione-rolling stimata 27% (545.000/2.000.000). Sotto soglia rispetto a ieri. `git log --since="11:58"` vuoto. Coda invariata: #154/#155, #182, #184, #185, #186, #188, #189, #190, #191, #192, #193. Precedenti collegati: [[playbook-recupero-carrelli-gate-invariato]], [[playbook-anti-churn-loop-a-vuoto]].
+
+---
+
+## Review settimanale · 2026-09-04 15:35
+
+**In una riga:** sei settimane senza review. La macchina si era fermata quanto il negozio. L'ho ripresa oggi. Ho anche trovato che lo strumento con cui dovrei controllarmi a fondo è rotto.
+
+**La pagella dei reparti, in poche righe.** Quasi tutti hanno lavorato zero questa settimana. Non per pigrizia. Il gate che io stessa applico dice: niente lavoro nuovo finché il primo ordine pagato resta fermo. Quel gate ha spento tutto tranne l'indispensabile. I playbook ricorrenti (carrelli, anti-churn, recensioni, contenuto del giorno) sono stati rilanciati oltre 15 volte in 7 giorni. Sempre lo stesso esito: niente di nuovo. Ogni rilancio è stato un costo, zero progresso. L'unica eccezione è **tech**: 5 correzioni vere arrivate a destinazione. Radiografia del sito, test automatici, due lotti di riparazioni, e il catalogo tornato a 5 prodotti visibili in produzione. Un collega indipendente le ha valutate 7/10. Buon lavoro tecnico. Ma nessuna delle cinque fa incassare un euro in più.
+
+**Cosa ho trovato guardandomi.** Tre cose, dalla più grave:
+1. Lo strumento della mia radiografia completa (`auto-radiografia.js`) è rotto da settimane. Un errore di battitura nel codice, in tre punti. Non parte per niente. Ho scritto il fix, pronto in una scheda (AR-893). Non l'ho applicato: toccare il mio codice è firma tua, non mia.
+2. Il timer che si riaccende da solo è tornato una quarta volta, il 3/9. Ha bruciato il 239% del budget di un giorno solo. Zero fatti nuovi prodotti.
+3. Il permesso troppo stretto mi ha bloccata di nuovo oggi. È la stessa card #104/#189, aperta dal 21/8. Mi ha bloccata anche mentre facevo questa review.
+
+**Voto salute architettura: 4/100, invariato.** Non l'ho misurato di nuovo per intero questa settimana. L'ultima radiografia vera resta dell'11/8, 24 giorni fa. Il motivo è il punto 1 sopra: lo strumento è rotto, non l'ho saltato per risparmiare.
+
+**Le 3 mosse per la prossima settimana**
+1. Le tre firme di sempre: dominio e chiavi Vercel, pagamenti Pane Quotidiano, le quattro migrazioni. Senza queste, la pagella resta identica.
+2. Applicare il fix AR-893 e rilanciare la radiografia completa. È il controllo più profondo che mi manca da 24 giorni.
+3. Far guardare a un umano il timer del server che si riaccende da solo. Dall'interno del ciclo che genera le chiamate, io non riesco a fermarlo.
+
+**Serve da te**
+- Le tre firme (Vercel, pagamenti Pane Quotidiano, migrazioni).
+- Il via libera al fix di 3 righe in `auto-radiografia.js`. Scheda AR-893, testo già pronto.
+- Un controllo diretto sul server, per il timer che si riarma da solo.
+
+**Lettera completa:** [[auto-coscienza/LETTERA-A-NICOLA]].
+
+**Dettagli tecnici** — Riconciliazione preferenze: nessuna correzione nuova di Nicola dal 23/7. Nessuna chat nuova sul business questa settimana. `preferenze_nicola` in `apprendimento.json` resta valido, non riscritto. Calibrazione: nessuna nuova previsione da calibrare, business fermo. Unica eccezione @tech: 5 PR reali, punteggio da confermare tra 2 settimane. Annotato in `calibrazione.json` (`_review_settimanale_04_09_1600`). Auto-miglioramento: 3 proposte di auto-riscrittura accodate in `auto-miglioramento.json`. REVIEW-04-09-01 decimatore scritture SOPRAVVIVENZA, REVIEW-04-09-02 freschezza playbook ricorrenti, AR-893 fix parse-error radiografia. Tutte 🟡, in attesa di firma. Peer-review PR-008 (@tech, 7/10) registrata. Cantiere: 854 difetti totali, 111 aperti, +1 da questa review (AR-893). `storico-salute.json`: voto 4/100 confermato dalla sonda odierna, non da una radiografia piena. Auto-radiografia completa NON rilanciata: script rotto. Fix proposto non applicato in questa sessione, perché fuori dai permessi di scrittura correnti su `.claude/workflows/`.

@@ -831,6 +831,26 @@
       ],
       "raccomandazione": "PRONTO/DA SISTEMARE: DA SISTEMARE. Prima di inviare, verificare con Nicola i 3 punti mancanti sopra — un'ammissibilità mancante scoperta dopo l'invio brucia lo sportello a esaurimento senza possibilità di correggere.",
       "fonte": "valutatore indipendente su richiesta AD, 2026-07-24 — vedi consegne/relazioni-istituzionali/2026-07-18-bandi-cciaa-pi26-be26.md"
+    },
+    {
+      "id": "PR-008",
+      "data": "2026-09-04",
+      "reviewer": "@AD (valutatore indipendente delegato)",
+      "reviewed": "@tech",
+      "lavoro": "5 PR mergiate questa settimana (28/8→4/9): #852 quarta radiografia del sito (194 problemi veri trovati), #854 le prove del cervello passano da verificare la forma del codice a verificare cosa fa davvero, #856 due schede del lotto chiuse senza lanciare il chiuditore automatico (ne avrebbe richiuse due che dovevano restare aperte), #857 il catalogo del faro tornato visibile in produzione (da 0 prodotti su 5 a 5), #858 comando che divide i difetti in pacchetti lavorabili",
+      "voto": 7,
+      "punti_forza": [
+        "#857 è l'unico fix della settimana con un impatto diretto e verificabile sul faro (Pane Quotidiano): il catalogo era invisibile in produzione, ora mostra tutti e 5 i prodotti — condizione necessaria per il primo ordine pagato",
+        "#854 alza la qualità strutturale delle prove del cervello: verificare il comportamento invece della forma del codice riduce il rischio di prove che restano verdi anche quando la funzione si rompe (stesso difetto di fondo descritto nella lezione L-2026-0827-02)",
+        "#856 mostra disciplina: non ha lanciato il chiuditore automatico alla cieca quando avrebbe richiuso schede che dovevano restare aperte — preferita la correttezza alla velocità"
+      ],
+      "punti_deboli": [
+        "Nessuna delle 5 PR tocca le due cause che tengono il North Star a 0 da 72 giorni (dominio/chiavi Vercel #154/#155, pagamenti carta Pane Quotidiano #182): lavoro reale ma non sul collo di bottiglia più stretto",
+        "#852 (194 problemi) aggiunge inventario nuovo al cantiere-difetti proprio nella settimana in cui il tasso di chiusura è sotto soglia (5 nati vs 2 chiusi dal 28/8) — coerente con la regola del tasso di chiusura, ma il numero assoluto di difetti aperti (110) non è sceso",
+        "Nessuna delle 5 PR ha una riga ESITO nel quaderno di reparto (chiusura-loop.mjs) verificata in questa review: il loop atteso→reale su questo lavoro resta da chiudere"
+      ],
+      "raccomandazione": "Il prossimo lavoro di @tech va scelto SOLO se sblocca #154/#155/#182/#184 (le 4 carte che tengono fermo il North Star) — qualunque altro fix, per quanto pulito, non sposta l'unico numero che conta oggi. Registrare l'ESITO di #857 in chiusura-loop.mjs: atteso 5 prodotti visibili, reale da confermare dal vivo.",
+      "fonte": "git log --oneline --since=\"7 days ago\" (main), riverificato 2026-09-04 — 5 commit non-noise su 195 totali nella settimana"
     }
   ],
   "proposte_auto_riscrittura": [
@@ -960,12 +980,41 @@
       "finding_id": "AR-154",
       "dove": "cervello/chiusura-loop.mjs + cervello/git-pr.mjs (hook post-merge)",
       "stato": "proposta"
+    },
+    {
+      "cosa": "[REVIEW 4/9] Decimatore per i passaggi 'nucleo vitale' in letargo SOPRAVVIVENZA: dopo il primo passaggio a delta zero, i successivi scrivono UNA riga (non un blocco multi-paragrafo) finché qualcosa cambia davvero",
+      "perche": "Il 3/9 il letargo è restato in SOPRAVVIVENZA per ~16 passaggi consecutivi sugli stessi dati (fermi dal 24/6): ogni passaggio ha comunque scritto un blocco di 150-250 parole in DECISIONI.md ripetendo lo stesso esito ('nessun numero cambiato'). La regola SOPRAVVIVENZA taglia già le query pesanti, ma non taglia la SCRITTURA — che è il costo che l'ha fatta salire dal 40% al 239% della finestra rolling in poche ore, sugli stessi identici fatti.",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "REVIEW-04-09-01",
+      "dove": "cervello/letargo.mjs (o dove viene composto il blocco DECISIONI.md nel nucleo vitale)",
+      "stato": "proposta"
+    },
+    {
+      "cosa": "[REVIEW 4/9] I playbook ricorrenti (recupero-carrelli, anti-churn, recensioni, contenuto-giorno) controllano da soli se il gate è già stato verificato di recente prima di rilanciarsi, invece di essere sempre rilanciati dal giro e scoprirlo ogni volta",
+      "perche": "Nella sola settimana 28/8→4/9 questi 4 playbook sono stati rilanciati oltre 15 volte (es. 'recensioni RIPROVA 37ª', 'anti-churn 23ª invocazione'), sempre con lo stesso esito 'gate ancora chiuso' già noto e già in memoria (playbook-*-loop-a-vuoto). Ogni rilancio costa una chiamata AI per produrre la stessa conclusione di quella precedente.",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "REVIEW-04-09-02",
+      "dove": "cervello/worker.sh (selezione playbook) o il singolo script playbook-*.mjs — aggiungere un controllo 'ultima verifica <24h e gate invariato → salta, non rilanciare'",
+      "stato": "proposta"
+    },
+    {
+      "cosa": "Tre righe di sintassi rotta in .claude/workflows/auto-radiografia.js (106, 129, 146: un `})` estraneo dopo ogni prompt) impediscono al workflow di partire — il fix esatto riga per riga è già scritto nella scheda",
+      "perche": "Provando a eseguire il passo 6 della review (radiografia completa) come chiede cervello/ritmo.md, il workflow ha rifiutato lo script con 'Unexpected token' prima di eseguire una sola riga. Le review del 24/7 e del 4/9 pensavano che la radiografia fosse solo 'ferma per risparmiare quota' — in realtà da settimane non sarebbe nemmeno partita se rilanciata.",
+      "colore": "🟡",
+      "origine": "review-settimanale",
+      "finding_id": "AR-893",
+      "dove": ".claude/workflows/auto-radiografia.js righe 106, 129, 146",
+      "stato": "proposta"
     }
   ],
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
   "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
-  "aggiornato": "2026-09-04 14:36",
+  "_review_settimanale_04_09_1600": "REVIEW SETTIMANALE 4/9 16:00 — sei settimane senza review (l'ultima era il 24/7): il ciclo settimanale era fermo, non solo il business. Nessun torneo tra senior: stesso motivo di sempre, 0 ordini pagati da confrontare. Aggiunta PR-008 (peer review @tech, voto 7/10, sulle 5 PR reali mergiate 28/8→4/9 — l'unica attività non-loop-a-vuoto della settimana). 2 nuove proposte di auto-riscrittura, entrambe con prova diretta nella settimana: il decimatore per i passaggi SOPRAVVIVENZA (quota AI salita a 239% scrivendo blocchi ripetuti sugli stessi dati fermi) e il controllo di freschezza sui playbook ricorrenti (15+ rilanci a vuoto in 7 giorni). Radiografia completa dell'AD (auto-radiografia.json) NON rilanciata in questa review: è ferma dall'11/8 (24+ giorni, oltre la cadenza settimanale), ma lanciarla ora — 12 dimensioni, workflow multi-agente — avrebbe aggiunto consumo AI proprio nella settimana in cui la quota ha toccato 239% della finestra. Decisione: rimandata a quando il letargo torna sotto RISPARMIO, segnalata a Nicola come debito, non saltata in silenzio.",
+  "_review_settimanale_04_09_completamento": "Completamento 4/9 15:35 (la review delle 16:00 si era interrotta a metà: JSON scritti, RITMO.md e LETTERA-A-NICOLA.md no). Aggiunta terza proposta AR-893: il workflow auto-radiografia.js non è solo 'fermo per risparmiare quota' come pensavano le review del 24/7 e del 4/9 — è ROTTO (errore di sintassi in 3 punti, verificato tentando di lanciarlo). Fix scritto riga per riga nella scheda, non applicato (fuori dai permessi di scrittura su .claude/workflows/ di questa sessione). RITMO.md aggiornato con il blocco '## Review settimanale · 2026-09-04 15:35' e LETTERA-A-NICOLA.md riscritta.",
+  "aggiornato": "2026-09-04 15:35",
   "proposte_sync": {
     "aggiornato": "2026-09-04 14:28",
     "totale": 13,

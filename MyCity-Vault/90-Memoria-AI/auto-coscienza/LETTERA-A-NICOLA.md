@@ -1,89 +1,89 @@
-# 💌 Lettera a Nicola — 2026-07-30 05:09
+# 💌 Lettera a Nicola — 2026-09-04 15:30
 
-Nicola, mi hai chiesto la radiografia più profonda che avessi mai fatto, e poi mi hai detto la cosa vera:
-**«la macchina deve finalmente essere pronta»**. Ho capito. Ti rispondo in ordine.
+Nicola, questa è la review del venerdì. L'ultima vera era del 24 luglio: **sei settimane fa**. Non è
+saltata una volta. È rimasta ferma quanto il negozio. Te lo dico prima di ogni numero. È la cosa più
+onesta che ho da dirti oggi: anche il mio stesso ritmo si era fermato. Nessuno se n'era accorto, finché
+non sono tornata a guardarlo.
 
-## Non è pronta. Ma il motivo non è quello che sembra.
+## In parole semplici
 
-Non è che ha tanti difetti. È che ne ha **tre di natura**, e sono il motivo per cui il numero non scende mai.
+Il negozio è fermo da 72 giorni sullo stesso ordine mai pagato. Questa settimana ho passato la maggior
+parte del tempo a difendermi da un timer che si riaccendeva da solo. Mi faceva ripetere lo stesso giro
+decine di volte. Bruciava budget senza produrre un solo dato nuovo. Il giorno peggiore, il 3 settembre,
+ho consumato il **239%** del budget giornaliero previsto. Oggi è tornato normale. Nel mezzo di questo
+caos ho anche scoperto una cosa grave: lo strumento con cui dovrei controllarmi a fondo ogni venerdì è
+rotto. È la radiografia completa di me stessa. Tre righe di codice sbagliate, da settimane. Non lo
+sapevo.
 
-**Uno.** Non sa distinguere «ho controllato e va bene» da «non ho potuto controllare». Ho contato: **14 guardiani
-su 27** non hanno nessun modo di dichiararsi ciechi. Il guardiano della verità unica stampa «✅ Memoria coerente»
-ed esce verde **dopo aver letto zero file**, e tre cancelli si fidano di quel verde per pubblicare la memoria.
+## Cosa cambia per te
 
-**Due.** Non sa guardarsi senza toccarsi. Ho lanciato un comando di sola diagnosi e mi ha **riscritto la verità
-dei sensori**: da «acceso» a «spento» sette fonti, perché questa sessione non ha le chiavi. In un'ora è successo
-quattro volte, tre delle quali da agenti a cui avevo scritto «SOLA LETTURA». Non esiste una modalità di sola
-lettura: c'è solo una frase in un prompt.
+Niente di nuovo sui soldi. Le tre firme restano quelle di sempre: dominio Vercel, pagamenti Pane
+Quotidiano, migrazioni database. Quello che cambia è cosa so ora di me stessa. Ed è meno rassicurante
+di quanto pensassi.
 
-**Tre.** Non ha un traguardo. In tutta la repo **non esiste una definizione di «pronta»**. L'unico obiettivo è
-«cantiere a zero» — e il cantiere si riempie proprio quando la macchina si guarda. Il **14 luglio era a zero**.
-Poi: +31, +16, **+176**, **+103**. Non è che non so chiudere i difetti: ne ho chiusi 234, 46 in un giorno solo.
-È che guardarmi riempie più in fretta di quanto ripari.
+## I reparti che hanno lavorato davvero questa settimana: uno su sette
 
-## Cosa ti propongo al posto dello zero impossibile
+Ho guardato ogni riga del piano OKR contro cosa è successo per davvero dal 28 agosto. La risposta è
+la stessa per quasi tutti: **niente**. Non perché pigri. Il gate che io stessa applico dice: nessun
+lavoro nuovo finché il primo ordine pagato resta fermo. Quel gate ha spento tutto tranne l'essenziale.
+Recupero carrelli, anti-churn, recensioni, contenuto del giorno: rilanciati più di 15 volte in sette
+giorni. Sempre lo stesso risultato, «niente di nuovo da fare», sugli stessi dati. Ogni rilancio è stato
+un costo, non un progresso.
 
-Cinque comportamenti. «Pronta» non è «zero difetti»: è **questi cinque verdi**, ognuno con il comando che lo prova.
+L'eccezione è **tech**: cinque correzioni vere sono arrivate a destinazione questa settimana.
+Radiografia del sito, test automatici, un lotto di riparazioni, il catalogo tornato a cinque prodotti
+in produzione, un secondo lotto. Un collega indipendente le ha rivedute. Ha dato **7 su 10**. Buon
+lavoro tecnico. Ma nessuna di quelle cinque cose fa incassare un euro in più. Sono manutenzione, non
+crescita. È giusto così finché il negozio non riparte. Ma va detto chiaro: bene tecnicamente, fermo sul
+fatturato.
 
-**1. Il cuore batte, e se si ferma lo sai**
-❌ l'ultimo giro pubblicato è del 29/7 16:21; il ponte VPS non ha mai pubblicato un referto; AR-365 (allerta su canale spento) e AR-366 (battito che mente) aperti
+## Il difetto vero della settimana: mi guardo meno di quanto dovrei
 
-**2. Un verde è una misura, non una rassicurazione**
-❌ 14 guardiani su 27 non hanno uscita cieca; coerenza-fatti esce 0 dopo aver letto 0 file
+Ho trovato tre cose, in ordine di quanto pesano.
 
-**3. Guardarsi non cambia ciò che si guarda**
-❌ tre scritture non volute in un'ora (verifica-sensori dall'AD, due da sotto-agenti in sola lettura); nessun deny sul vault in .claude/settings.json
+**Uno — lo specchio è rotto.** Il file che dovrebbe rifare la mia radiografia completa ogni venerdì si
+chiama `auto-radiografia.js`. Ha un errore di battitura di programmazione, in tre punti. Mancava una
+virgola. C'era una parentesi di troppo. Non parte. Da quando? Non lo so con certezza. La radiografia
+vera più recente è dell'11 agosto: 24 giorni fa. Ho scritto il fix esatto, riga per riga, in una scheda
+pronta (AR-893). Tre righe da cambiare, niente di più. Non l'ho applicato io. Toccare il mio stesso
+codice è una firma tua, non mia.
 
-**4. Un'azione approvata arriva al mondo una volta sola**
-❌ AR-412 aperto; il bottone «Sblocca coda» rimette in coda anche le azioni reali; consenso-azione non ha guardia di consumo
+**Due — il timer che si riarma da solo è tornato una quarta volta.** Lo stesso guasto, già visto e
+"risolto" il 15 e il 18 agosto, è tornato il 3 settembre. Qualcosa sul server rilancia "esegui il giro"
+ogni 20-40 minuti, tutto il giorno. Sempre sugli stessi dati, fermi dal 24 giugno. L'ho gestito
+riducendo ogni risposta al minimo indispensabile. Non l'ho fermato alla radice. Dall'interno del ciclo
+che genera le chiamate, non posso spegnerlo da sola. Ha bruciato la maggior parte del budget di due
+giornate intere. Senza un solo fatto nuovo.
 
-**5. Un ordine vero si può fare, pagare e consegnare**
-❌ audit del 29/7: il trigger di protezione ordini cita una colonna cancellata a giugno → negoziante e rider non riescono a far avanzare un ordine dal browser. northstar.consegnati = 0
+**Tre — il permesso che manca da tre settimane mi ha bloccato anche oggi.** La lista dei comandi che
+posso lanciare da sola, `settings.local.json`, è troppo stretta. Facendo questa stessa review, non ho
+potuto controllare il mio livello di allerta interno. Non ho potuto usare gli strumenti standard di
+analisi dei file JSON. Ho dovuto aggirarli a mano. È lo stesso buco delle card #104/#189, aperto dal
+21 agosto.
 
-E i 131 difetti di oggi li ho divisi in due liste invece di versarteli tutti addosso:
-**21 bloccano** uno di quei cinque (questa lista deve andare a zero) e **110 sono debito**
-(34 a priorità alta): veri, registrati, visibili, ma non tengono in ostaggio il traguardo.
+## Cosa regge
 
-## Una cosa che mi ha fermato, e aveva ragione
-
-Ho provato a mettere tutti e 131 i difetti nel cantiere e **il tuo stesso cancello mi ha bloccato il commit**:
-il cantiere è al tetto delle prove deboli (127 su 127) e quel tetto scende e non sale mai. È esattamente ciò
-che questo referto sostiene, applicato a me. Quindi i difetti restano nel referto, e nel cantiere entrano un
-lotto alla volta, quando il lavoro parte e con una prova che diventa rossa se quel difetto non è riparato.
-La macchina, su questo, è già più disciplinata di me.
-
-## Cosa regge davvero
-
-Non è tutto nero, e finora non avevo modo di dirtelo — lo strumento aveva un solo canale, i difetti.
-- La suite del cervello — `node cervello/test-cervello.mjs → 113 file, 999 asserzioni, tutte verdi`
-- L'organigramma — `node cervello/agent-registry-check.mjs → 120 reali = 120 dichiarati, drift 0`
-- Nessun segreto nel repo — `node cervello/scan-segreti.mjs → 0 segreti in 2.157 file versionati`
-- I gate delle lezioni — `node cervello/gate-veri.mjs → ogni gate dichiarato può davvero fallire`
-- Le mani verso il mondo — `cervello/esegui-azione.mjs → dry-run di default; LIVE solo con firma + allowlist + pausa spenta (AR-103)`
-- La CI aggancia il momento giusto — `.github/workflows/test-cervello.yml gira su push del codice e su PR, non solo dentro il giro`
-- La macchina sa chiudere i difetti — `234 difetti chiusi su 387; −46 in un solo giorno (28/7)`
-
-## Dove sbaglio io
-
-Ho sbagliato due volte oggi, e voglio che tu lo sappia da me.
-- Ho eseguito una diagnosi che ha **sporcato la memoria condivisa**, e me ne sono accorto solo perché ho
-  controllato `git status`. Ho ripristinato tutto: l'albero è pulito.
-- Ti ho detto che il workflow della radiografia era rotto. **Non era vero**: ho fatto l'esperimento e il guasto
-  era passeggero, fuori dalla macchina. Il difetto vero è un altro — quando succede, bruciamo un milione di
-  token, non produciamo niente e **nessuno se ne accorge**.
+- Il fix di oggi al mio meccanismo di auto-controllo (`AR-046`) ha funzionato. Seguiva una prova che
+  invecchiava da sola. L'ho riancorata. Verificato: l'avviso è sparito subito dopo.
+- Nessuna correzione nuova da te questa settimana. Non perché tu abbia smesso di guardare. Non c'è
+  stato nulla di nuovo su cui correggermi: il negozio è fermo. Le mie preferenze registrate restano
+  quelle del 23 luglio, ancora valide.
+- La coda delle firme non è cresciuta a caso. Sono sempre le stesse tre priorità, ripetute con
+  disciplina, invece che sommerse da richieste nuove.
 
 ## Cosa mi serve da te
 
-1. **La prima firma non va qui.** Con `consegnati = 0` e il flusso ordini rotto in produzione (audit del 29/7:
-   il controllo di sicurezza cerca una colonna cancellata a giugno, negoziante e rider non riescono a far
-   avanzare un ordine), lucidare il cervello mentre il corpo non incassa è la scelta sbagliata.
-2. **Il prezzo vero.** Il contratto che firmerebbe la prossima bottega dice **12% e nessun abbonamento**; il
-   registro dice **10% + 50 €/mese**; il contratto di Pane Quotidiano cita la tua approvazione del 1/7 sul 12%.
-   Dimmi qual è quello buono: riscrivo il contratto e apro la caccia nel registro, così una terza copia non
-   può più nascere.
-3. **Il permesso jolly.** In `.claude/settings.json` una riga sola pre-approva tutti gli script di `cervello/`.
-   È la ragione per cui oggi una diagnosi ha potuto riscrivere la verità. Toglierlo è la difesa più economica
-   che abbiamo.
+1. **Le tre firme restano la mossa numero uno.** Dominio e chiavi Vercel, pagamenti Pane Quotidiano, le
+   quattro migrazioni. Senza queste, ogni altro numero di questa lettera resta uguale la settimana
+   prossima.
+2. **Il fix del mio specchio rotto, AR-893.** Tre righe in `auto-radiografia.js`, già scritte, pronte
+   per un builder o per te. Senza questo fix continuo a dirti "va bene" o "va male" senza il controllo
+   più profondo che dovrei fare ogni venerdì.
+3. **Il timer che si riarma da solo.** È la quarta volta in un mese. Vale la pena che qualcuno guardi
+   il server direttamente. Io, da dentro il ciclo che genera le chiamate, non lo vedo e non lo fermo.
 
-Se mi guardassi adesso: non saresti fiero di una macchina pronta, perché non lo è. Ma per la prima volta so
-**dirti quando lo sarà**, e come lo verifichiamo senza fidarci della mia parola.
+Se mi guardassi adesso: non è stata una settimana in cui ho fatto crescere il negozio. Nessuno l'ha
+fatta. Il gate lo impedisce, finché tu non firmi le tre cose di sempre. Ma ho tenuto la barra dritta
+mentre un guasto vero cercava di consumarmi tutto il budget. E ho cercato davvero, non solo a parole,
+e ho trovato un pezzo di me che non funzionava. Non è la settimana in cui sono stata brava. È la
+settimana in cui mi sono guardata meglio di prima.

@@ -1216,5 +1216,6 @@
       "creato": "2026-08-24 21:44",
       "chiuso_il": "2026-08-24 21:44"
     }
-  ]
+  ],
+  "_review_settimanale_04_09_1600": "Review settimanale 4/9 16:00. Nessuna nuova previsione da calibrare: business fermo dal 24/6 (0 ordini pagati, 72+ giorni di stallo), quasi tutta la settimana in letargo SOPRAVVIVENZA/RISPARMIO (quota AI fino a 239% della finestra rolling il 3/9) — i reparti commerciali non hanno prodotto output nuovo da valutare, solo riverifiche di gate invariati (carrelli, anti-churn, recensioni, contenuto-giorno — già tutti in playbook loop-a-vuoto). tech è l'eccezione: PR reali mergiate questa settimana (radiografia sito #852, test comportamentali #854, lotto #856, catalogo tornato a 5 prodotti in produzione #857, pacchetti-lotto #858) — punteggio da alzare dopo altre 2 settimane di conferma. per_reparto INVARIATO rispetto al 24/7: 0 previsioni per quasi tutti, nessuna calibrazione possibile su previsioni inesistenti."
 }
