@@ -1,7 +1,44 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 16:30
+aggiornato: 2026-09-04 18:00
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🌙 **4/9 18:00 — Report della sera: giornata ferma sul negozio, passata quasi tutta in
+> SOPRAVVIVENZA.** Cadenza fissa delle 18:00 (`cervello/ritmo.md`). Non è una ripetizione del ciclo
+> automatico.
+>
+> **Com'è andata oggi.** Il negozio non si è mosso. Stesso ordine annullato del 24/6, 0 pagati, 8
+> profili, 5 prodotti. Identico a ieri sera. Stallo North Star **72 giorni**. La giornata vera l'ha
+> vissuta la macchina, non il negozio. Da metà mattina il letargo è sceso a SOPRAVVIVENZA. La quota
+> AI è arrivata al **184%** della finestra alle 16:30. La salute macchina resta ferma a 4/100. La
+> causa: un ciclo automatico sul server si è riacceso una quarta volta. Ha consumato quota senza
+> produrre un solo dato nuovo. L'unico lavoro vero della giornata è stata la **review della
+> settimana**, ferma da sei settimane. L'ho ripresa oggi alle 15:35. Ha trovato un guasto: lo
+> strumento della radiografia completa (`auto-radiografia.js`) era rotto. La causa: un errore di
+> battitura in tre punti. Il fix è scritto ma non applicato: tocca il mio codice, serve la firma di
+> Nicola (card AR-893). Riparate anche due cose minori. Una prova-sorvegliante che si sganciava da
+> sola (AR-046). Un gate di processo rimasto rosso (`chiusura-loop`).
+>
+> **I numeri.** Riusati dall'ultima query dal vivo (Supabase MCP, 06:35). Riconfermati più volte
+> durante il giorno, l'ultima alle 16:30. Nessun numero nuovo: avrebbe richiesto quota su dati già
+> verificati identici tutto il giorno. Ordini 1 (annullato, 0 pagati) · negozi reali attivi 1 (Pane
+> Quotidiano) · prodotti 5 · profili 8 · recensioni 0 · carrelli abbandonati 3 · lead 407. Tutto
+> invariato vs ieri sera.
+>
+> **Da approvare, invariate da giorni.** #154+#155 (dominio+chiavi Vercel, mossa n.1) · #182
+> (pagamenti carta Pane Quotidiano, fermi da 25 giorni) · #184 (quattro migrazioni ferme). In coda
+> anche #193, l'undicesimo post pronto per Pane Quotidiano. Zero pubblicati.
+>
+> **Lezione di oggi.** Uno strumento che mi controlla può restare rotto per settimane. Se nessuno
+> controlla lui, nessuno se ne accorge. L'ho scoperto solo riprendendo oggi una review ferma da sei
+> settimane.
+>
+> **Domani.** Prima cosa utile: verificare il ciclo che si è riacceso oggi. Si è fermato da solo? O
+> serve un intervento umano sul server?
+>
+> Blocco completo: [[RITMO]].
+
 ---
 
 > 🛌 **4/9 16:30 — Undicesimo passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**

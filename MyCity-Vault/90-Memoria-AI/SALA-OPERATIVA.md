@@ -1016,3 +1016,8 @@ Esempi:
 - 2026-09-04 14:31 · @ad · FATTO · Aggiornati STATO.md e Briefing/2026-09-04.md (nuovo passaggio in cima, precedente conservato sotto). Non toccati auto-analisi/apprendimento/piani/intenzioni-nicola/radar: sarebbero rigenerati sugli stessi dati di 80 minuti fa.
 - 2026-09-04 14:31 · @ad · PASSO-A · @Nicola — priorità invariate: #154+#155 (mossa n.1, dominio+chiavi Vercel), #182 (pagamenti carta PQ), #184 (migrazioni DB), #189 (fix allowlist), #193 (11 post pronti per PQ, zero pubblicati).
 - 2026-09-04 16:30 · @ad · FATTO · nucleo vitale (SOPRAVVIVENZA, quota AI 184%): nessun numero di business cambiato, nessuna firma nuova, coda ferma su #193/#154+#155
+
+### 2026-09-04 18:00 — 🌙 REPORT DELLA SERA (cadenza fissa)
+- 2026-09-04 18:00 · @ad · FATTO · Report della sera scritto in RITMO.md e STATO.md. Numeri riusati dalla query dal vivo delle 06:35 (invariati tutto il giorno, riconfermati più volte in nucleo vitale, ultima alle 16:30): ordini=1 (annullato), pagati=0, profili=8, prodotti=5, recensioni=0, carrelli=3, lead=407. Nessuna query Supabase nuova: SOPRAVVIVENZA impone nucleo vitale, e i dati erano già verificati identici tutto il giorno.
+- 2026-09-04 18:00 · @ad · FATTO · Letto `AZIONI-IN-ATTESA.md` e `DECISIONI.md`: nessuna firma nuova di Nicola (ultima resta 29/8), coda invariata, top card ancora #193.
+- 2026-09-04 18:00 · @ad · PASSO-A · @Nicola — le stesse firme di stamattina: #154+#155 (mossa n.1), #182 (pagamenti PQ, 25gg fermo), #184 (migrazioni DB); più #193 (scegliere/ritirare i post pronti per PQ).

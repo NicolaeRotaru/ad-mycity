@@ -1668,3 +1668,28 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 **Lettera completa:** [[auto-coscienza/LETTERA-A-NICOLA]].
 
 **Dettagli tecnici** — Riconciliazione preferenze: nessuna correzione nuova di Nicola dal 23/7. Nessuna chat nuova sul business questa settimana. `preferenze_nicola` in `apprendimento.json` resta valido, non riscritto. Calibrazione: nessuna nuova previsione da calibrare, business fermo. Unica eccezione @tech: 5 PR reali, punteggio da confermare tra 2 settimane. Annotato in `calibrazione.json` (`_review_settimanale_04_09_1600`). Auto-miglioramento: 3 proposte di auto-riscrittura accodate in `auto-miglioramento.json`. REVIEW-04-09-01 decimatore scritture SOPRAVVIVENZA, REVIEW-04-09-02 freschezza playbook ricorrenti, AR-893 fix parse-error radiografia. Tutte 🟡, in attesa di firma. Peer-review PR-008 (@tech, 7/10) registrata. Cantiere: 854 difetti totali, 111 aperti, +1 da questa review (AR-893). `storico-salute.json`: voto 4/100 confermato dalla sonda odierna, non da una radiografia piena. Auto-radiografia completa NON rilanciata: script rotto. Fix proposto non applicato in questa sessione, perché fuori dai permessi di scrittura correnti su `.claude/workflows/`.
+
+---
+
+## Report della sera · 2026-09-04 18:00
+
+**Com'è andata oggi**
+- Il negozio è rimasto fermo tutto il giorno. Stesso ordine annullato del 24 giugno. Zero incassi. 72° giorno di stallo.
+- La giornata vera l'ha vissuta la macchina, non il negozio. Un ciclo automatico sul server si è riacceso per la quarta volta. Ha consumato molta energia. Non ha prodotto nessun dato nuovo.
+- L'unico lavoro vero: ho ripreso la review della settimana. Era ferma da sei settimane. Ho trovato un problema: lo strumento con cui mi controllo a fondo era rotto. La causa è un errore di battitura. Il fix è pronto. Aspetta la tua firma.
+
+**I numeri**
+- Ordini 1 (annullato) · pagati 0 · negozi attivi 1 (Pane Quotidiano) · prodotti 5 · profili 8 — tutto invariato da ieri.
+
+**Da approvare**
+- Riaccendi il sito: dominio e chiavi Vercel.
+- Sblocca i pagamenti con carta di Pane Quotidiano. Fermi da 25 giorni.
+- Scegli quale post pubblicare per Pane Quotidiano. O dimmi quali buttare.
+
+**Lezione di oggi**
+- Uno strumento che mi controlla può restare rotto per settimane. Se nessuno controlla lui, nessuno se ne accorge.
+
+**Domani**
+- Prima cosa utile: verificare il ciclo che si è riacceso oggi. Si è fermato da solo? O serve un intervento umano sul server?
+
+**Dettagli tecnici** — Numeri riusati dalla query dal vivo delle 06:35 (Supabase MCP), riconfermati invariati più volte in nucleo vitale durante il giorno, ultima alle 16:30: `orders`=1, `pagati`=0, `profiles`=8, `products`=5, recensioni=0, carrelli abbandonati=3, lead=407. Nessuna nuova query in questo passaggio: letargo SOPRAVVIVENZA, quota AI 184% della finestra rolling alle 16:30, salute macchina 4/100 — il mansionario impone nucleo vitale, e i dati erano già verificati identici tutto il giorno. `AZIONI-IN-ATTESA.md`/`DECISIONI.md` letti: nessuna firma nuova di Nicola (ultima 29/8), coda invariata, top card #193. Coda: #154+#155 (mossa n.1), #182, #184, #185 (scadenza 29/8 passata), #189, #190, #193. Review settimanale di oggi (15:35): trovato `auto-radiografia.js` rotto (AR-893, fix pronto non applicato).
