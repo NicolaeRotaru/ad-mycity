@@ -65,7 +65,7 @@
       "vincoli": []
     },
     "ritmo-settimana": {
-      "quando": "2026-09-04 15:37",
+      "quando": "2026-09-04 15:45",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-04 15:37"
+  "aggiornato": "2026-09-04 15:45"
 }
