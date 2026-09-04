@@ -1333,8 +1333,15 @@ function main() {
         // (840 s) è un minuto prima: il banco si ferma da solo, dichiara una per una le mutazioni
         // che restano fuori, ed esce 2 → ⚪. Misurato il 3/9: senza budget spendeva i 900 s esatti
         // e usciva 124. I sessanta secondi di scarto servono a lui per scrivere quell'elenco.
-        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", perimetro.difetti.join(","), "--budget", "840000"], {
-          timeout: 900_000,
+        // AR-938 — E DA QUI IN AVANTI IN QUATTRO CORSIE, ognuna in una copia separata del progetto.
+        // Il numero che l'ha deciso, corsa 33863510792: con una corsia sola il banco provava 27
+        // difese su 172 e ne dichiarava 145 fuori dal budget — l'84% non misurato. Misurato ~31 s
+        // a difesa, 172 in fila fanno 89 minuti contro un tetto di 75 per l'INTERO cancello: non
+        // era un problema di budget, in fila non ci stavano. Quattro corsie da ~43 fanno ~22
+        // minuti e ci arrivano tutte. Il budget sale di conseguenza (1500 s dentro un tetto di
+        // 1650): le corsie girano insieme, quindi il tempo è quello della più lenta, non la somma.
+        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/banco-a-corsie.mjs", "--difetti", perimetro.difetti.join(","), "--corsie", "4", "--budget", "1500000"], {
+          timeout: 1_650_000,
         }),
       );
     } else if (toccati && toccati.length && !perimetro.saltate.length) {

@@ -12271,6 +12271,55 @@
    "usi": [],
    "gate": "cervello/guardia-viva-check.mjs",
    "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-04",
+   "testo": "**AR-938.** Quando un controllo non ci sta nel tempo, prima di alzare il tetto va fatta l aritmetica: 27 difese in 840 s sono ~31 s l una, quindi 172 sono 89 minuti contro un tetto di 75 — non ci stanno, e nessun numero piu' grande lo cambia. La strada non era piu' tempo ma piu' corsie. E la cosa da ricordare e' che **l isolamento non era il prezzo del parallelo: era quello che lo rendeva possibile**. Il banco rompe file veri, quindi due corsie nella stessa cartella si pesterebbero (AR-919); una copia per corsia toglie il difetto invece di aggirarlo. Corollario misurato: un figlio che eredita una variabile d ambiente puo' scavalcare la fetta di lavoro che gli hai dato — due mutazioni su due corsie davano quattro verdetti finche' non ho cancellato `MUTANTI_FILE` prima di lanciarlo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33863510792: 27 difese provate su 172, 145 dichiarate fuori dal budget (84%)",
+    "misurato ~31 s a mutazione: 172 in fila = 89 minuti contro un tetto di 75 per l intero cancello",
+    "quattro corsie da ~43: ~22 minuti, con tutte e 172 misurate",
+    "col registro ereditato: due mutazioni su due corsie davano quattro verdetti"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 13:10",
+   "ultima_conferma": "2026-09-04 13:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-05",
+   "testo": "**AR-939.** Un `rm -rf` che si fida di una variabile e' un `rm -rf` che aspetta il giorno in cui quella variabile e' sbagliata — e quel giorno arriva da un difetto vero come da una mutazione fatta apposta. Il 4/9 e' arrivato: rompendo a mano l isolamento delle corsie per vedere se la prova se ne accorgeva, la pulizia di fine corsia ha cancellato LA CARTELLA DEL REPO col lavoro non ancora committato. La prova era diventata rossa come doveva; il prezzo era la casa. Tre cose da tenere: **① chi cancella a ricorsione deve VERIFICARE il percorso, non riceverlo** (dentro il temporaneo e col nostro prefisso, altrimenti si rifiuta e lo dice); **② committa prima di rompere apposta** — l ora persa era esattamente il lavoro non committato; **③ quando la prova richiede di rompere qualcosa che tocca il disco, il collaudo va fatto su una copia, non in casa.**",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "4/9: `ls /home/user/ad-mycity` → No such file or directory, dopo una mutazione fatta a mano sull isolamento delle corsie",
+    "recuperato da origin: persa un ora (banco a corsie + prova), non un mese",
+    "333 righe in cervello/ hanno la forma «rmSync ricorsivo su un percorso calcolato»: quasi tutte legittime, per questo il freno e' sul punto e non un pattern"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 13:10",
+   "ultima_conferma": "2026-09-04 13:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-04"
   }
  ],
  "principi": [

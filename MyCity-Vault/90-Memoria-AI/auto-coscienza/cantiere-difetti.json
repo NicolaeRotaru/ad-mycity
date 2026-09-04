@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-04 12:35",
+  "aggiornato": "2026-09-04 13:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20034,6 +20034,50 @@
       "trovato_da": "la suite del cervello sul runner dopo la fusione (corsa 33858701337): tre rossi che in locale non c erano perche' avevo controllato solo sedici guardiani su ventotto",
       "chiuso_il": "2026-09-04 12:05",
       "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-938",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-04 13:10",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-918",
+      "titolo": "Il banco provava una difesa su sei: 27 mutazioni misurate su 172, e le altre 145 solo dichiarate",
+      "sintomo": "Corsa 33863510792 del 4/9, la prima in cui il banco si ferma da solo al budget invece di farsi ammazzare: si ferma, ma dopo aver provato 27 difese su 172. Le altre 145 le NOMINA una per una — che e' molto meglio di un rosso muto — pero' l 84% delle difese di quella consegna non e' stato misurato, e il cancello esce verde lo stesso. Un verde che copre il 16% delle difese non e' una bugia, ma e' facilissimo leggerlo come se lo fosse.",
+      "causa_radice": "Il banco provava le mutazioni IN FILA, una alla volta, in una casa sola. Misurato: 27 mutazioni in 840 s fanno ~31 s l una, quindi le 172 del perimetro sono 89 minuti — contro un tetto di 75 per l INTERO cancello. Non era un problema di budget e nessun numero piu' grande lo avrebbe risolto: in fila non ci stavano. E in fila DOVEVANO stare, perche' il banco per misurare rompe un file vero e lo rimette: due prove insieme nella stessa cartella si sarebbero pestate — e' il difetto AR-919, che arrossa la suite a caso.",
+      "fix_proposto": "🟡 FATTO, scelto da Nicola fra quattro strade: `cervello/banco-a-corsie.mjs`, quattro corsie parallele ognuna in una COPIA separata del progetto (git worktree + il lavoro non committato steso sopra + node_modules collegato). ~43 mutazioni per corsia, ~22 minuti invece di 89, e ci arrivano tutte. Le copie separate non sono un dettaglio di prestazioni: sono la ragione per cui il parallelo e' possibile senza ricreare AR-919 — due corsie non possono pestarsi i file perche' non condividono i file. Il cancello lo lancia con `--corsie 4 --budget 1500000` dentro un tetto di 1.650.000 ms. Contratto invariato: 0 tutte reggono · 1 una difesa non difende · 2 non ho misurato tutto, e chi resta fuori e' nominato.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+        "nota": "Sette casi. Il piu' importante e' l ultimo: due mutazioni puntano allo STESSO file del repo cercando LO STESSO pezzo — in una casa sola la seconda non lo troverebbe piu' (⚪), in due copie lo trovano entrambe (verde), e il verdetto distingue le due cose senza guardare dentro il meccanismo. Piu' la divisione a giro (le prove lente si spargono), il peggiore vince (un rosso in una corsia rende rosso tutto: non e' una media), una corsia che non parte esce ⚪ una per una, e il freno sulla cancellazione nato dal danno del 4/9."
+      },
+      "trovato_da": "il primo verdetto completo col budget di AR-918: la cura funzionava, e proprio per questo si e' potuto leggere quanto poco misurava",
+      "chiuso_il": "2026-09-04 13:10",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-939",
+      "gravita": "bloccante",
+      "stato": "chiuso",
+      "nato": "2026-09-04 13:10",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-938",
+      "malattia": "non-pattern-izzabile",
+      "titolo": "La pulizia di fine corsia ha cancellato la cartella del repo, col lavoro non ancora committato dentro",
+      "sintomo": "4/9, mentre facevo la verifica che pretendo sempre — rimettere il difetto a mano e controllare che la prova diventi rossa — la prova E' diventata rossa come doveva, e insieme e' sparita la cartella del repo. `ls /home/user/ad-mycity` → No such file or directory. Ripreso da origin: perso un ora di lavoro non committato (il banco a corsie e la sua prova), non un mese.",
+      "causa_radice": "`chiudiCopia` faceva `rmSync(copia.casa, {recursive:true, force:true})` fidandosi di una variabile. Il difetto che avevo rimesso a mano faceva credere alla corsia che la sua copia FOSSE il repo, quindi `copia.casa` era la radice del repo, e la pulizia ha fatto esattamente quello che le era stato detto. La forma dell errore non e' «ho scritto male una prova»: e' che un `rm -rf` che si fida di una variabile e' un `rm -rf` che aspetta il giorno in cui quella variabile e' sbagliata — e quel giorno arriva da un difetto vero come da una mutazione. Stessa famiglia di AR-928 (una prova che cancella la casa).",
+      "fix_proposto": "🟡 FATTO: `siPuoButtare(via)` — si cancella SOLO una cartella che sta dentro il temporaneo di sistema E il cui primo livello porta il nostro prefisso `corsia-`. Qualunque altra cosa non si tocca e si DICE (⛔ sul canale degli errori, con il percorso). Il freno sta sia in `chiudiCopia` sia nei due punti di uscita anticipata di `apriCopia`.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+        "nota": "Il caso «IL DANNO DEL 4/9» elenca quello che NON si butta, a partire dalla radice del repo — che e' il percorso cancellato per davvero, non un caso di scuola — piu' `/`, il temporaneo intero, una cartella temporanea di qualcun altro, la stringa vuota e null. E i due che si buttano: la casa di una corsia e quello che ci sta dentro."
+      },
+      "trovato_da": "il danno stesso: l ho fatto io, verificando AR-938",
+      "chiuso_il": "2026-09-04 13:10",
+      "chiuso_come": "riparato",
+      "malattia_perche": "La forma e' «un rm -rf che si fida di una variabile», e cercarla col testo non funziona: in cervello/ ci sono 333 righe con quella forma — misurate — e quasi tutte sono pulizie legittime di cartelle temporanee dentro le prove. Un guardiano che ne segnala 333 per trovarne una insegna a saltarlo, ed e' peggio di non averlo. Chi copre davvero il punto dove il danno e' successo: `siPuoButtare()` in cervello/banco-a-corsie.mjs, che nega la cancellazione fuori dal temporaneo, piu' il caso «IL DANNO DEL 4/9» in cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs, che elenca la radice del repo fra i percorsi da rifiutare. Resta scoperto il caso generale: qualunque ALTRO punto che cancelli a ricorsione un percorso calcolato non ha un freno, ed e' debito dichiarato, non risolto."
     }
   ],
   "meta": {

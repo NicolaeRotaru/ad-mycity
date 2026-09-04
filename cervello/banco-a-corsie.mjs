@@ -125,9 +125,26 @@ export function registroDiCorsia(originale, mutazioni) {
 export function allineaAllAlberoDiLavoro(radice, albero, esegui = spawnSync) {
   const r = esegui("git", ["status", "--porcelain", "-z", "--untracked-files=all"], { cwd: radice, encoding: "utf8" });
   if (r.status !== 0) return `git status non ha risposto (${r.status})`;
-  for (const voce of (r.stdout || "").split("\0").filter(Boolean)) {
+  // ⚠️ UN FILE RINOMINATO OCCUPA DUE CAMPI, non uno. Con `-z` git scrive `R. <nuovo>\0<vecchio>\0`:
+  // il vecchio percorso arriva come campo a se', SENZA i due caratteri di stato davanti. Leggerlo
+  // come un record normale vuol dire tagliargli i primi tre caratteri e copiare un file che non
+  // esiste — e allora la corsia si dichiara cieca per un rename innocuo. Trovato riguardando questo
+  // file con la lente della sicurezza, prima che succedesse.
+  const campi = (r.stdout || "").split("\0").filter(Boolean);
+  for (let i = 0; i < campi.length; i++) {
+    const voce = campi[i];
     const stato = voce.slice(0, 2);
     const via = voce.slice(3);
+    const rinominato = stato.includes("R") || stato.includes("C");
+    if (rinominato && i + 1 < campi.length) {
+      // Il vecchio nome nella copia non deve restare: nell albero di lavoro quel file non c e' piu'.
+      try {
+        rmSync(join(albero, campi[i + 1]), { force: true });
+      } catch {
+        /* non c era: va bene lo stesso */
+      }
+      i += 1;
+    }
     if (!via || via.startsWith(".git/")) continue;
     const dentro = join(albero, via);
     try {

@@ -19,12 +19,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, writeFileSync, rmSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, writeFileSync, rmSync, readFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { corsiaNonPartita, dividiInCorsie, registroDiCorsia, ricuciEsiti, siPuoButtare } from "../banco-a-corsie.mjs";
+import { allineaAllAlberoDiLavoro, corsiaNonPartita, dividiInCorsie, registroDiCorsia, ricuciEsiti, siPuoButtare } from "../banco-a-corsie.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -65,7 +65,7 @@ test("una corsia che NON parte non vale zero: le sue mutazioni escono ⚪ una pe
   assert.match(fuori[0].perche, /AR-1/, "e il comando per rilanciarla da sola");
 });
 
-test("IL DANNO DEL 4/9: si butta SOLO una casa di corsia, mai la casa vera", () => {
+test("AR-939 — IL DANNO DEL 4/9: si butta SOLO una casa di corsia, mai la casa vera", () => {
   const temp = tmpdir();
   assert.equal(siPuoButtare(join(temp, "corsia-0-abc")), true, "una casa di corsia si butta");
   assert.equal(siPuoButtare(join(temp, "corsia-0-abc", "repo", "cervello")), true, "e anche quello che ci sta dentro");
@@ -126,6 +126,28 @@ test("IL CASO VERO: due corsie rompono LO STESSO file del repo e non si pestano,
     );
     assert.equal(r.status, 0, `verdetto verde:\n${testo.slice(-400)}`);
     assert.equal(dopo, prima, "e il repo di casa e' identico a prima: le corsie lavorano nelle LORO copie (AR-919)");
+  } finally {
+    rmSync(casa, { recursive: true, force: true });
+  }
+});
+
+test("un file RINOMINATO occupa due campi: il vecchio nome non va letto come un record a se'", () => {
+  // Con `-z` git scrive `R. <nuovo>\0<vecchio>\0`: il vecchio percorso arriva SENZA i due caratteri
+  // di stato davanti. Letto come un record normale gli si tagliano i primi tre caratteri, si prova
+  // a copiare un file che non esiste, e la corsia si dichiara cieca per un rename innocuo.
+  const casa = mkdtempSync(join(tmpdir(), "corsia-rename-"));
+  try {
+    const radice = join(casa, "da");
+    const albero = join(casa, "a");
+    mkdirSync(radice, { recursive: true });
+    mkdirSync(albero, { recursive: true });
+    writeFileSync(join(radice, "nuovo.txt"), "sono il nuovo");
+    writeFileSync(join(albero, "vecchio.txt"), "sono il vecchio, nella copia");
+
+    const fintoGit = () => ({ status: 0, stdout: "R  nuovo.txt\0vecchio.txt\0" });
+    assert.equal(allineaAllAlberoDiLavoro(radice, albero, fintoGit), null, "un rename non deve far dichiarare cieca la corsia");
+    assert.equal(readFileSync(join(albero, "nuovo.txt"), "utf8"), "sono il nuovo", "il nuovo nome arriva nella copia");
+    assert.equal(existsSync(join(albero, "vecchio.txt")), false, "e il vecchio sparisce: nell'albero di lavoro non c'e' piu'");
   } finally {
     rmSync(casa, { recursive: true, force: true });
   }

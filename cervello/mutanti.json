@@ -541,7 +541,7 @@
    "difetto": "AR-393",
    "nome": "il cancello torna a raccomandare la mutazione invece di eseguirla",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "esegui(\"prove non vacue (mutazioni del lotto)\", \"node\", [\"cervello/non-vacuita.mjs\"",
+   "cerca": "esegui(\"prove non vacue (mutazioni del lotto)\", \"node\", [\"cervello/banco-a-corsie.mjs\"",
    "sostituisci": "esegui(\"prove non vacue (mutazioni del lotto)\", \"node\", [\"cervello/prove-oneste.mjs\"",
    "test": "cervello/test/mutazioni-provate-dal-cancello.test.mjs"
   },
@@ -9039,6 +9039,36 @@
    "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
    "lezione": "L-2026-0904-03",
    "perche_conta": "E' il pezzo che trasforma una scusa vecchia in una voce fantasma appena lo strumento viene agganciato per davvero. Togliendolo il registro puo' dire «non lo esegue nessuno» di un guardiano che il cancello lancia a ogni corsa, ed e' esattamente come la fusione con main ha riaperto AR-797 e AR-798 in silenzio. Misurato: senza il filtro il caso di AR-937 diventa rosso."
+  },
+  {
+   "difetto": "AR-938",
+   "nome": "la corsia torna a ereditare il registro di fuori: ogni corsia rifa' tutte le mutazioni invece della sua fetta",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "    delete ambiente.MUTANTI_FILE;",
+   "sostituisci": "    ambiente.MUTANTI_FILE = ambiente.MUTANTI_FILE;",
+   "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "lezione": "L-2026-0904-04",
+   "perche_conta": "E' la riga che fa leggere a ogni corsia il SUO pezzo di registro invece di quello passato da fuori. Togliendola due mutazioni su due corsie tornano a dare quattro verdetti — misurato, e' il primo difetto che ha avuto questo banco — e il caso finale della prova conta 4 dove ne pretende 2."
+  },
+  {
+   "difetto": "AR-939",
+   "nome": "un percorso FUORI dal temporaneo torna a essere cancellabile: e' esattamente la radice del repo del 4/9",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "  if (p === t || !p.startsWith(t + sep)) return false;",
+   "sostituisci": "  if (p === t || !p.startsWith(t + sep)) return true;",
+   "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "lezione": "L-2026-0904-05",
+   "perche_conta": "E' la gamba del freno che guarda DOVE sta il percorso. Rovesciandola, tutto quello che sta fuori dal temporaneo — la radice del repo per prima, poi `/` — torna a essere buttabile, che e' la condizione esatta in cui il 4/9 e' sparita la cartella. Il caso «IL DANNO DEL 4/9» diventa rosso sulla riga che rifiuta la radice del repo. (La prima versione di questa mutazione toglieva il ramo invece di rovesciarlo, e il freno reggeva lo stesso grazie all altra gamba: misurato, prova verde col fix rotto.)"
+  },
+  {
+   "difetto": "AR-938",
+   "nome": "il vecchio nome di un file rinominato torna a essere letto come un record a se': la corsia si dichiara cieca per un rename innocuo",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "    if (rinominato && i + 1 < campi.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "lezione": "L-2026-0904-04",
+   "perche_conta": "Con `-z` git scrive un rename su DUE campi, e il secondo non ha i caratteri di stato davanti. Senza questo ramo il vecchio percorso viene letto come un record normale, gli si tagliano i primi tre caratteri, si prova a copiare un file inesistente e la corsia esce cieca. Trovato riguardando il file con la lente della sicurezza, prima che succedesse."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
