@@ -1,7 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 06:02
-fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
+aggiornato: 2026-09-04 06:35
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **4/9 06:35 — Giro pieno (delta-gate: sensore MCP Supabase tornato raggiungibile): nessun
+> numero cambiato.** Riverificato dal vivo con query dirette (MCP Supabase, non a memoria): 1
+> ordine (24/6, annullato), **0 pagati**, 8 profili, 5 prodotti, 0 recensioni, 3 carrelli
+> abbandonati, 407 lead — tutto identico al Piano del mattino di 33 minuti fa. Stallo North Star:
+> **72° giorno**. `coerenza-fatti.mjs` verde (41 fatti) · `ci-stato.mjs` invariato (9 PR aperte, 8
+> rosse, tutte colpa propria). Letargo RISPARMIO, quota AI scesa al 10% (era 40% ieri sera). Nessuna
+> card nuova: sugli stessi dati sarebbe rumore. **Mossa n.1 invariata: firma #154+#155**
+> (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > ☀️ **4/9 06:02 — Piano del mattino: 72° giorno di stallo, stesse tre firme.** Cadenza fissa del

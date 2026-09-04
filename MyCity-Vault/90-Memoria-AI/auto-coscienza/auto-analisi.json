@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-03 22:40",
+  "data": "2026-09-04 06:35",
   "voto_fiducia": 80,
-  "sintesi_giro_corrente": "Giro pieno richiesto esplicitamente in chat, dopo una giornata quasi interamente in SOPRAVVIVENZA (16+ passaggi identici, solo nucleo vitale). Il letargo è tornato RISPARMIO (quota AI 40%, era 110%+): il ciclo automatico segnalato per tutto il giorno si è fermato da solo, senza intervento visibile in questa sessione. Riverificato dal vivo (execute_sql): business invariato dal 24/6 (1 ordine annullato, 0 pagati, 8 profili, 5 prodotti, 0 recensioni, 3 carrelli, 407 lead) — 71° giorno di stallo North Star. Novità vera: (1) confermato dal vivo via WebFetch che il sito è genuinamente HTTP 503, non più solo baseline; (2) isolata la causa esatta del blocco permessi che teneva ferma la card #189 da giorni — solo i comandi elencati per esteso nell'allowlist Bash partono, il jolly node cervello/*.mjs:* non basta; (3) lanciato il test suite del cervello in background: 2660 test, 2649 pass, 5 fail, 6 skip — primo dato reale sul vincolo TEST da giorni, anche se non ancora isolati i 5 test rossi specifici (secondo run in corso).",
-  "sintesi": "Business fermo dal 24/6 (71 giorni). Il fatto rilevante di questo giro non è di mercato ma di sistema: il ciclo automatico che ha bruciato quota tutto il giorno si è fermato da solo, e per la prima volta da giorni ho potuto misurare (non solo dedurre) lo stato del vincolo TEST e la causa precisa del blocco permessi.",
-  "trend_fiducia": "▲ 78→80: sale perché due Gap aperti da giorni (stato reale di test-cervello, causa del blocco permessi) sono stati chiusi con dati veri invece che con ipotesi riportate a ogni passaggio.",
+  "sintesi_giro_corrente": "Giro pieno, marcato dal delta-gate deterministico per un motivo tecnico: il sensore MCP Supabase è tornato raggiungibile dopo 3 giri cieco. Riverificato dal vivo (execute_sql, non a memoria): business invariato dal 24/6 (1 ordine annullato, 0 pagati, 8 profili, 5 prodotti, 0 recensioni, 3 carrelli, 407 lead) — 72° giorno di stallo North Star, stesso quadro del Piano del mattino di 33 minuti fa. coerenza-fatti verde (41 fatti, 0 copie vecchie). ci-stato invariato (9 PR aperte, 8 rosse per colpa propria, nessuna nuova). Nessuna novità sul business: il sensore che ha fatto scattare il gate era tecnico, non un fatto nuovo.",
+  "sintesi": "Business fermo dal 24/6 (72 giorni). Nessun fatto nuovo di mercato in questo giro: solo conferma che il quadro resta immutato e che il sensore MCP Supabase (cieco da 3 giri) è tornato leggibile.",
+  "trend_fiducia": "▬ 80→80: stabile, nessuna nuova evidenza né a favore né contro rispetto al giro precedente (22:40 del 3/9); i due Gap chiusi ieri sera (stato test-cervello, causa blocco permessi) restano validi, non riverificati di nuovo per non duplicare lavoro già fatto.",
   "entita_verificate": [
     {
       "nome": "Ordini/profili/prodotti/recensioni/carrelli/lead — tutti invariati dal 24/6",
@@ -12,55 +12,50 @@
       "fonte": "query dirette execute_sql MCP in questo passaggio"
     },
     {
+      "nome": "Pane Quotidiano: unico negozio reale, seller_id dell'ordine annullato corrisponde",
+      "stato": "confermato (invariato dal giro precedente, non riverificato oggi lato Stripe)",
+      "fonte": "query diretta profiles/orders nel giro precedente (3/9 22:40), non ripetuta oggi"
+    },
+    {
+      "nome": "Sensore MCP Supabase tornato 'ok' dopo 3 giri cieco",
+      "stato": "confermato",
+      "fonte": "sensori-cecita.json (scritto da verifica-sensori.mjs prima di questo giro) + query dirette riuscite in questo passaggio"
+    },
+    {
+      "nome": "CI: 9 PR aperte, 8 rosse, tutte colpa del ramo che le ha portate",
+      "stato": "confermato",
+      "fonte": "node cervello/ci-stato.mjs eseguito in questo passaggio"
+    },
+    {
       "nome": "Sito pubblico HTTP 503",
-      "stato": "confermato",
-      "fonte": "WebFetch diretto su mycity-marketplace.com in questo passaggio (non più baseline)"
-    },
-    {
-      "nome": "Pane Quotidiano: unico profilo role='seller', seller_id dell'ordine annullato corrisponde",
-      "stato": "confermato",
-      "fonte": "query diretta profiles/orders in questo passaggio"
-    },
-    {
-      "nome": "Causa precisa del blocco permessi Bash (letterale vs jolly)",
-      "stato": "confermato",
-      "fonte": "lettura diretta di .claude/settings.json + .claude/settings.local.json e prova empirica in sessione (comandi letterali partiti, jolly no)"
-    },
-    {
-      "nome": "test-cervello: 2660 test totali, 2649 pass, 5 fail, 6 skip",
-      "stato": "confermato",
-      "fonte": "node --test cervello/test/*.test.mjs eseguito in background in questo passaggio, output letto per intero"
-    },
-    {
-      "nome": "uptime_checks (tabella DB): monitora ancora l'URL Render dismesso, ultimo check 27/5",
-      "stato": "confermato ma OBSOLETO — non usato per misurare lo stato attuale del sito",
-      "fonte": "query diretta in questo passaggio"
+      "stato": "confermato ma NON riverificato dal vivo in questo passaggio (ultima conferma diretta: WebFetch 3/9 22:35)",
+      "fonte": "sensore letto da file (sensori-cecita.json)"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO taglia il volume non essenziale; North Star vieta lavoro macchina che non sblocchi direttamente una card).",
-  "nota_dati_non_riverificati_questo_passaggio": "Quali dei 5 test falliscono esattamente (secondo run con reporter tap lanciato, esito non ancora letto in questo giro); contenuto riga-per-riga delle 8 PR rosse in CI; stato Stripe di Pane Quotidiano (baseline 24/8); radar esterno (cadenza giornaliera già rispettata stamattina); stato deploy Vercel diretto (tool MCP allowlistati ma non connessi in sessione).",
+  "nota_dati_non_riverificati_questo_passaggio": "Sito in un browser/curl vero (non ripetuto, baseline da ieri sera); test-cervello.mjs (comando caduto sotto approvazione non concessa, un solo tentativo); verifica-automazione.mjs --json (idem); contenuto riga-per-riga delle 8 PR rosse; stato Stripe di Pane Quotidiano (baseline 24/8); radar esterno (cadenza giornaliera già rispettata ieri).",
   "salute_macchina": {
-    "supabase": "REST e MCP entrambi ok, riverificato ora",
-    "stripe": "balance API ok (verifica-sensori.mjs), fascicolo PQ non riverificato",
+    "supabase": "MCP tornato ok dopo 3 giri cieco, riverificato ora con query dirette riuscite",
+    "stripe": "MCP cieco da 3 giri (non riverificato in questo passaggio)",
     "dati_freschi": true,
-    "sensori_attivi": 9,
-    "sito_uptime": "503 confermato dal vivo (WebFetch)"
+    "sensori_attivi": 7,
+    "sito_uptime": "cieco/503 da sensore (non riverificato dal vivo in questo passaggio)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio (229 senza gate su 296, soglia 20) — non lavorata: il gate North-Star vieta lavoro macchina che non sblocchi direttamente una card business, e questo non lo fa in modo diretto.",
-  "livello_verifica": "L2 — query dirette a Supabase, WebFetch diretto sul sito, lettura diretta dei file di permessi, esecuzione reale del test suite. Non L3 perché non ho letto il contenuto riga-per-riga delle 8 PR rosse né il fascicolo Stripe di PQ.",
-  "refutazione": "Tentata la demolizione di 'il ciclo automatico si è fermato da solo, quindi il rischio è chiuso': non regge — non ho trovato la causa root del perché si sia fermato (nessuna azione di Nicola visibile nei log), quindi potrebbe ripartire. Tentata anche la demolizione di 'il fix a #189 è quello giusto': verificata empiricamente in sessione (3 comandi letterali partiti, il jolly no), non è una supposizione.",
+  "livello_verifica": "L2 — query dirette a Supabase, lettura diretta di ci-stato/coerenza-fatti. Non L3: nessun WebFetch nuovo sul sito, nessuna lettura riga-per-riga delle PR rosse, nessuna verifica Stripe.",
+  "refutazione": "Tentata la demolizione di 'nulla è cambiato, quindi il giro pieno di oggi non serviva': non regge del tutto — il delta-gate ha marcato il giro come pieno per un motivo tecnico reale (sensore MCP tornato raggiungibile), ed è stato comunque giusto riverificare i dati dal vivo invece di fidarsi della sola baseline, anche se l'esito conferma lo stallo.",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
-      "domanda": "Il sito resta giù (HTTP 503, confermato dal vivo ora) per dominio+chiavi Vercel mancanti. Firmi #154/#155 ora?",
+      "domanda": "Il sito resta giù (HTTP 503, baseline non riverificata dal vivo oggi) per dominio+chiavi Vercel mancanti. Firmi #154/#155 ora?",
       "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
       "colore": "🔴"
     },
     {
       "tipo": "azione",
-      "domanda": "Ho isolato il fix esatto per la card #189 (test-cervello bloccato da giorni): aggiungere una riga letterale `\"Bash(node cervello/test-cervello.mjs:*)\"` nell'allowlist di `.claude/settings.json` (o del `.claude/settings.local.json` sul VPS). Vuoi che la aggiunga io in un file che posso scrivere, o preferisci farlo tu stesso sul VPS?",
+      "domanda": "Pane Quotidiano è fermo su pagamenti carta da 25 giorni (#182), unico negozio reale: vuoi che prepari il passo successivo o resta in attesa concordata?",
       "azione": "in attesa",
-      "colore": "🟡"
+      "colore": "🔴"
     }
   ]
 }

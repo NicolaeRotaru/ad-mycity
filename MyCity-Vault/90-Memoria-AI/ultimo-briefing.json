@@ -1,11 +1,12 @@
 {
-  "data": "2026-09-03 22:40",
-  "situazione": "Il ciclo automatico che oggi ha richiamato il giro decine di volte (06:00→20:30) si è fermato da solo: quota AI scesa dal 110%+ al 40%, letargo tornato da SOPRAVVIVENZA a RISPARMIO. Il business resta fermo dal 24/6, 71° giorno di stallo: 1 ordine (annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni — riverificato ora dal vivo, tutto identico. Confermato dal vivo anche il sito: HTTP 503 reale (prima era solo baseline). Novità del giro: isolata la causa esatta per cui test-cervello.mjs resta bloccato da giorni (card #189) — solo i comandi scritti parola-per-parola nell'allowlist dei permessi partono, il resto resta bloccato senza che nessuno possa approvarlo; fix a una riga sola. coerenza-fatti verde, 41 fatti.",
+  "data": "2026-09-04 06:35",
+  "situazione": "72° giorno di stallo North Star, nessun numero cambiato: riverificato dal vivo con query dirette (MCP Supabase, tornato raggiungibile dopo 3 giri cieco) 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, 407 lead negozi — identico al Piano del mattino di stamattina. Sito ancora HTTP 503. Letargo RISPARMIO, quota AI scesa al 10% (era 40% ieri sera). coerenza-fatti verde (41 fatti), CI invariata (9 PR aperte, 8 rosse per colpa propria). Nessuna card nuova: sugli stessi dati sarebbe rumore.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "confermato dal vivo ora: senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 18 giorni, blocca il primo incasso vero", "livello": "rosso"},
+    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "senza questo un pagamento riuscito non diventa mai un ordine — mossa n.1", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da 25 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
     {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"},
-    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare il controllo dei test", "motivo": "diagnosi precisa fatta oggi: una riga sola in .claude/settings.json sblocca test-cervello.mjs e di riflesso le PR bloccate in CI", "livello": "giallo"}
+    {"titolo": "Scegli un post da pubblicare per Pane Quotidiano o ritira quelli vecchi", "motivo": "11 post pronti, zero pubblicati", "livello": "rosso"},
+    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare il controllo dei test", "motivo": "fix già isolato: una riga in .claude/settings.json sblocca test-cervello.mjs e di riflesso le PR rosse in CI", "livello": "giallo"}
   ]
 }

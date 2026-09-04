@@ -1,5 +1,20 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato oggi, 2026-09-04, alle 06:32.** Giro leggero, script `cervello/monitora.md`.
+> Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
+> (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.** Le
+> notizie del giorno da Libertà sono cronaca non pertinente: la famiglia "dublinante" a cui la
+> prefettura ha trovato alloggio, la disputa politica sulla concessione Bar/Iat/Palazzo Gotico
+> (dettaglio in `buchi-mercato.md`), un incidente stradale a Gragnano, un bancomat fatto esplodere
+> in centro, disinfestazione (trappole per topi) in via Beverora e via Dante. Nessuna riguarda
+> negozi, botteghe o il marketplace. La settimanale "Reputazione MyCity" non è dovuta oggi:
+> ricontrollata l'1/9, prossima scadenza l'8/9. Stesso quadro di stallo: nulla da "reputare" finché
+> non c'è un primo incasso vero.
+>
+> ---
+>
+> ## Versione precedente (3 settembre 2026, invariata sotto)
+>
 > **Aggiornato oggi, 2026-09-03, alle 09:40.** Giro leggero, script `cervello/monitora.md`.
 > Recuperato a mano: il motore AI del worker era in quota ieri. Fonti giornaliere controllate oggi:
 > liberta.it/attualita e liberta.it/territorio/citta/piacenza (WebFetch). **Nessuna menzione nuova

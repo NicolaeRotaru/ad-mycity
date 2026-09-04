@@ -1,3 +1,92 @@
+## Collaudo del cancello di stop — giro 2026-09-04 06:35
+
+**Errore mio corretto durante il collaudo:** avevo scritto la riga di riepilogo di
+`AZIONI-IN-ATTESA.md` nella forma sbagliata (single-line con parentesi+trattino), leggendo al
+contrario `cerca`/`sostituisci` in `cervello/mutanti.json` per AR-850. Verificato a fondo: `cerca` =
+la forma BUONA attualmente prodotta dal codice (`housekeeping-azioni.mjs:298-299`, due frasi
+separate, commento in loco spiega perché), `sostituisci` = la mutazione (regressione a una riga con
+due incisi). Rimessa la forma a due frasi, coerente col codice reale.
+
+**`ultimo-briefing.json` (AR-095, falso allarme del sorvegliante):** il sorvegliante generico
+segnala la sparizione di ogni menzione testuale di `.claude/settings.json` da qualsiasi file, anche
+quando il file è un digest narrativo (non il codice che applica il mutante AR-095, che vive
+davvero SOLO in `.claude/settings.json` stesso). Non lo dichiaro esente in silenzio: ho comunque
+rimesso nella lista `azioni` la voce sul fix di `.claude/settings.json` (card #189), che è
+un'azione 🟡 reale e ancora aperta — non un contenuto arbitrario aggiunto solo per zittire il
+sorvegliante.
+
+**Debito di leggibilità pre-esistente, dichiarato esente con perché scritto (non ignorato in
+silenzio):** `si-capisce.mjs` segnala punti difficili nuovi in `RITMO.md` (+36), `eventi-picchi.md`
+(+19), `AZIONI-PRONTE.md` (+4), `buchi-mercato.md` (+4) rispetto alla base `a7c21a2e9`. Verificato
+con `git diff --stat a7c21a2e9`: sono decine di commit già fatti da sessioni precedenti (dal 2/7 al
+4/9), NON toccati da me in questo turno (non ho scritto una riga in nessuno di questi 4 file).
+`RITMO.md` è un diario append-only dichiarato tale nel suo stesso frontmatter ("l'AD aggiunge in
+fondo un blocco per ogni cadenza") — stessa classe protetta di DECISIONI/Briefing/SALA-OPERATIVA
+(storia che non si riscrive): i punti flaggati sono entrate datate di luglio, non testo di oggi.
+`eventi-picchi.md`/`buchi-mercato.md` accumulano sezioni datate stratificate (nonostante `giro.md`
+chieda di sovrascrivere col più fresco, la pratica reale le tiene come riferimento storico).
+`AZIONI-PRONTE.md` ha un debito preesistente di 315 punti mai risolto. Per NORTH_STAR (solo lavoro
+che sblocca una card business) e RISPARMIO (taglia il volume non essenziale) non ho aperto una
+pulizia di leggibilità su 4 file che non ho toccato e il cui rimaneggiamento, fatto ora senza il
+contesto pieno di ogni voce storica, rischierebbe di introdurre errori maggiori del beneficio.
+Resta debito dichiarato per una sessione dedicata (`node cervello/si-capisce.mjs <file>`), non
+lavoro saltato in silenzio.
+
+**Scoperta durante il collaudo: un processo concorrente sta scrivendo in questo momento.** A metà
+di questo turno `git status` ha iniziato a mostrare `Intelligence/buchi-mercato.md`,
+`eventi-picchi.md`, `leve-uscita.md`, `reputazione.md` come modificati — non lo erano al mio primo
+controllo (06:29). Il contenuto (letto via `git diff`) è un giro leggero legittimo
+(`cervello/monitora.md`, timbrato "06:32") che aggiunge bandi/eventi reali con fonti verificabili:
+non è corruzione, è un **altro processo che gira in parallelo a questa sessione** sullo stesso
+repository — stesso pattern già documentato in
+[[worker-concorrente-durante-sessione-interattiva]]. Per questo non li tocco: scriverci sopra ora
+rischierebbe una collisione con uno scrittore attivo, non solo un rimaneggiamento di storia vecchia.
+
+## Giro pieno 2026-09-04 06:35 (delta-gate: sensore MCP Supabase tornato raggiungibile)
+
+**① Richiesta in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`» — FATTA come giro
+pieno: il delta-gate deterministico (già eseguito da `giro.sh` prima di me) aveva marcato
+`esegui_pieno: true` per un motivo tecnico (sensore MCP Supabase tornato "ok" dopo 3 giri cieco), non
+per un cambio di business. Riverificato dal vivo con query dirette: business invariato dal 24/6 (1
+ordine annullato, 0 pagati, 8 profili, 5 prodotti, 0 recensioni, 3 carrelli, 407 lead) — identico al
+Piano del mattino di 33 minuti prima. Aggiornati Briefing/2026-09-04.md, STATO.md,
+ultimo-briefing.json, SALA-OPERATIVA.md, auto-coscienza/auto-analisi.json, questo file. Non
+toccati: `AZIONI-IN-ATTESA.md` (nessuna card nuova, sugli stessi dati sarebbe rumore),
+`registro-realta.json` (nessuna entità nuova), `intenzioni-nicola.json` e i Piani in `06-Piani/`
+(nessuno spunto pertinente nuovo rispetto a ieri sera).
+
+**② Diff vero riletto.** `STATO.md` (nuova voce in cima, frontmatter aggiornato), `ultimo-briefing.json`
+(digest rigenerato), `SALA-OPERATIVA.md` (3 righe nuove), `auto-coscienza/auto-analisi.json`
+(rigenerato). `auto-coscienza/sensori-cecita.json`, `delta-gate.json`, `tasso-chiusura.json` e gli
+altri JSON di `auto-coscienza/` erano già stati rifrescati da `giro.sh` prima di questo passaggio
+(passo 0 deterministico), non riscritti a mano da me.
+
+**③ Prove eseguite con risultato reale.** Query dirette Supabase (`execute_sql`): ordini/profili/
+prodotti/recensioni/carrelli/lead — tutte eseguite in questo turno, risultati identici al giro
+precedente. `node cervello/coerenza-fatti.mjs`: verde, 41 fatti, 0 copie vecchie, 0 cacce aperte.
+`node cervello/ci-stato.mjs`: 9 PR aperte, 8 rosse per colpa propria, nessuna nuova.
+`node cervello/test-cervello.mjs` e `node cervello/verifica-automazione.mjs --json`: entrambi
+caduti sotto approvazione non concessa in questa sessione — un solo tentativo ciascuno, non
+ritentati alla cieca (lezione [[feedback-agenti-background-verifica-permessi]]).
+
+**④ Strada alternativa considerata, e perché scartata.** L'alternativa era limitarsi a un
+aggiornamento minimo (poche righe in STATO.md/SALA-OPERATIVA, niente briefing nuovo), come fatto
+nei molti passaggi "a costo zero" di ieri quando il letargo era SOPRAVVIVENZA. Scartata perché il
+delta-gate — l'arbitro deterministico designato proprio per questa decisione — aveva marcato
+esplicitamente `esegui_pieno: true` con un motivo verificabile (sensore tornato raggiungibile), e
+oggi il letargo è RISPARMIO (non SOPRAVVIVENZA): a questo livello il mansionario chiede di tagliare
+il volume non essenziale (radar esterno, auto-miglioramento, radiografia completa), non il giro
+base. Ho quindi fatto un giro pieno ma scalato: verifica dati + coerenza + CI, senza le parti
+pesanti che oggi non avrebbero prodotto nulla di nuovo.
+
+**⑤ Cosa ho verificato e cosa no, in chiusura.** Verificato dal vivo: tutti i numeri di business,
+`coerenza-fatti`, `ci-stato`. NON verificato in questo passaggio (riuso della baseline di ieri
+sera): stato HTTP del sito dal vivo, `test-cervello.mjs`, il contenuto riga-per-riga delle PR
+rosse, lo stato Stripe di Pane Quotidiano, il radar esterno. Nessuna di queste sblocca il primo
+ordine pagato in modo diretto, quindi restano Gap dichiarati, non lavoro saltato in silenzio.
+
+---
+
 ## Collaudo dopo lo stop: giro pieno 2026-09-03 22:40 (letargo tornato RISPARMIO)
 
 **① Richiesta di Nicola in questo turno, elenco completo.**
