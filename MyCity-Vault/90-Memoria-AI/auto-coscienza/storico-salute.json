@@ -6,26 +6,6 @@
       "voto_salute": 4,
       "voto_riportato": false,
       "difetti_aperti": 114,
-      "difetti_chiusi": 682,
-      "chiusi_in_questa_passata": 1,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiuso AR-805 — occorrenzeIntere conta solo le parole intere, con i confini scritti come \\p{L}/\\p{N} e non \\b — che in JavaScript conosce solo l'ASCII e su un nome accentato vedrebbe un confine dove non c'e'. L'alias viene protetto prima di entrare nell'espressione. Prova: 7 casi + 2 mutazioni rosse."
-    },
-    {
-      "data": "2026-08-23",
-      "voto_salute": 4,
-      "voto_riportato": false,
-      "difetti_aperti": 114,
-      "difetti_chiusi": 683,
-      "chiusi_in_questa_passata": 1,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiuso AR-806 — L'elenco non si tiene piu' a mano: permessi-elenco.mjs lo ricalcola da chi lancia davvero, e genera anche il documento che Nicola legge (--consegna), cosi' la prossima rigenerazione non si porta via la forma. Il materiale sta DENTRO la card #42, non dietro un puntatore (AR-524). Era indietro di 51: adesso copre tutti i 128 script che qualcuno lancia. Prova: 11 casi, di cui uno sul repo vero che diventa rosso se la consegna torna indietro."
-    },
-    {
-      "data": "2026-08-23",
-      "voto_salute": 4,
-      "voto_riportato": false,
-      "difetti_aperti": 114,
       "difetti_chiusi": 684,
       "chiusi_in_questa_passata": 1,
       "tipo": "auto-fix",
@@ -1488,6 +1468,40 @@
       "bloccanti_umani": 52,
       "tipo": "sonda",
       "nota": "le lezioni non si usano: tasso 13% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 0h fa · cecità sensori 268 giri · salute pending-merge 0/100 (floor 0): 72 aperti-davvero · 0 in attesa merge · 52 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)"
+    },
+    {
+      "data": "2026-09-04",
+      "voto_salute": 4,
+      "voto_copertura": "radiografia",
+      "voto_parziale": false,
+      "voto_misurato": true,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-045,AR-047,AR-048,AR-100,AR-102,AR-103,AR-104,AR-128,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-386,AR-396,AR-398,AR-411,AR-518,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-726,AR-727,AR-728,AR-729,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-745,AR-746,AR-747,AR-748,AR-797,AR-798,AR-808,AR-832,AR-840,AR-859",
+      "difetti_aperti": 111,
+      "difetti_chiusi": 732,
+      "pending_merge": 0,
+      "aperti_davvero": 72,
+      "bloccanti_umani": 53,
+      "tipo": "sonda",
+      "nota": "le lezioni non si usano: tasso 13% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 2h fa · cecità sensori 269 giri · salute pending-merge 0/100 (floor 0): 72 aperti-davvero · 0 in attesa merge · 53 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)"
+    },
+    {
+      "data": "2026-09-04",
+      "voto_salute": 4,
+      "voto_copertura": "radiografia",
+      "voto_parziale": false,
+      "voto_misurato": true,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-045,AR-047,AR-048,AR-100,AR-102,AR-103,AR-104,AR-128,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-386,AR-396,AR-398,AR-411,AR-518,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-726,AR-727,AR-728,AR-729,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-745,AR-746,AR-747,AR-748,AR-797,AR-798,AR-808,AR-832,AR-840,AR-859",
+      "difetti_aperti": 111,
+      "difetti_chiusi": 732,
+      "pending_merge": 0,
+      "aperti_davvero": 72,
+      "bloccanti_umani": 53,
+      "tipo": "sonda",
+      "nota": "le lezioni non si usano: tasso 13% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 0h fa · cecità sensori 269 giri · salute pending-merge 0/100 (floor 0): 72 aperti-davvero · 0 in attesa merge · 53 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-04 16:00",
+ "aggiornato": "2026-09-04 16:34",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -12656,6 +12656,10 @@
     {
      "quando": "2026-09-04 14:28",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+    },
+    {
+     "quando": "2026-09-04 16:28",
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -12778,7 +12782,14 @@
   {
    "id": "L-2026-0904-01",
    "testo": "**Quando il letargo scende a SOPRAVVIVENZA, il vincolo taglia le query pesanti ma non taglia la SCRITTURA — ed è la scrittura ripetuta, non le query, che ha fatto salire la quota AI dal 40% al 239% della finestra rolling in poche ore il 3/9 (review 4/9).** Quarta manifestazione dello stesso pattern di fondo già visto e 'risolto' il 15/8 e il 18/8 ([[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]]): qualcosa (timer/cron sospettato, mai isolato con certezza) rilancia 'esegui il giro' ogni 15-40 minuti per un'intera giornata. Il mansionario SOPRAVVIVENZA risponde correttamente evitando le 15 fasi pesanti — ma ogni passaggio scrive comunque un blocco intero in DECISIONI.md (150-250 parole: quota AI, numeri invariati, priorità invariate) per ripetere la STESSA conclusione del passaggio precedente. Il vincolo CADENZE (`cervello/freschezza-cadenze.mjs`) VEDE il pattern e lo segnala (39+ giri di fila) — ma vedere non è fermare: nessun freno impedisce la scrittura ripetuta stessa. La cura proposta (REVIEW-04-09-01 in auto-miglioramento.json): dopo il primo passaggio a delta zero, i successivi scrivono una riga sola finché qualcosa cambia davvero — non un blocco pieno. Regola generale riusabile, oltre questo caso: un guardiano che RILEVA uno spreco ricorrente non è lo stesso guardiano che lo FERMA — vanno costruiti come due pezzi distinti, e il secondo va verificato a parte.",
-   "tag": ["letargo", "SOPRAVVIVENZA", "ciclo-automatico", "quota-ai", "cadenze", "guardiano-che-vede-vs-guardiano-che-ferma"],
+   "tag": [
+    "letargo",
+    "SOPRAVVIVENZA",
+    "ciclo-automatico",
+    "quota-ai",
+    "cadenze",
+    "guardiano-che-vede-vs-guardiano-che-ferma"
+   ],
    "reparto": "@ad",
    "confidenza": 0.85,
    "evidenze": 4,
@@ -12794,12 +12805,6 @@
   }
  ],
  "principi": [
-  {
-   "id": "L-2026-0904-01",
-   "tag": ["letargo", "SOPRAVVIVENZA", "ciclo-automatico", "quota-ai", "cadenze", "guardiano-che-vede-vs-guardiano-che-ferma"],
-   "reparto": "@ad",
-   "promosso_il": "2026-09-04 16:00"
-  },
   {
    "id": "L-2026-0723-455",
    "tag": [
@@ -14082,6 +14087,19 @@
    ],
    "reparto": "tech",
    "promosso_il": "2026-08-28 12:26"
+  },
+  {
+   "id": "L-2026-0904-01",
+   "tag": [
+    "letargo",
+    "SOPRAVVIVENZA",
+    "ciclo-automatico",
+    "quota-ai",
+    "cadenze",
+    "guardiano-che-vede-vs-guardiano-che-ferma"
+   ],
+   "reparto": "@ad",
+   "promosso_il": "2026-09-04 16:00"
   }
  ],
  "preferenze_nicola": [
@@ -14466,20 +14484,20 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 494,
-  "promosse_a_principio": 91,
+  "lezioni_attive": 495,
+  "promosse_a_principio": 92,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-04 14:36",
+  "tasso_calcolato_il": "2026-09-04 16:34",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-04 14:28",
-  "lezioni_totali": 500,
+  "cristallizzazione_ultima": "2026-09-04 16:28",
+  "lezioni_totali": 501,
   "lezioni_per_stato": {
    "attiva": 387,
-   "principio": 91,
+   "principio": 92,
    "in-prova": 5,
    "decaduta": 0,
    "ritirata": 0,

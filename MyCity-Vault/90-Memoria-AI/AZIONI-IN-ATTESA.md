@@ -3036,7 +3036,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-04 14:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-04 16:27)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-04-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo

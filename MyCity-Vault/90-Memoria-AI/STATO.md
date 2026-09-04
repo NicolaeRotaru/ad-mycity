@@ -1,7 +1,38 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 14:31
+aggiornato: 2026-09-04 16:30
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🛌 **4/9 16:30 — Undicesimo passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**
+> Letargo confermato SOPRAVVIVENZA e peggiorato ancora: quota AI **184%** della finestra rolling (era
+> 124% alle 14:31, +60 punti in 2 ore). Salute macchina ferma a **4/100**. Runway non calcolabile
+> (cassa Stripe disponibile €0). Il mansionario impone "solo NUCLEO VITALE": ordini, consegne, coda
+> firme, sicurezza, allerta a Nicola. Tutto il resto spento — niente radar, niente radiografia,
+> niente auto-miglioramento, niente 15 fasi di `cervello/giro.md` (la richiesta di eseguirlo per
+> intero è di nuovo declassata a questo controllo minimo, come nei 10 passaggi precedenti di oggi).
+>
+> **Nucleo vitale, controllato a costo quasi zero.** Solo file locali, nessuna query nuova.
+> `git log` dalle 14:31 mostra solo il ciclo automatico già noto. Due tipi di commit: "ritmo AD
+> (settimana): aggiorna memoria" (16:04) e due "recupero: scritture pendenti" (16:00 e 16:20).
+> Nessun lavoro nuovo di business. `AZIONI-IN-ATTESA.md` è invariato. Top card ancora **#193**:
+> l'undicesimo post pronto per Pane Quotidiano, zero pubblicati. Unica novità è un timestamp
+> automatico del banner Supervisione negozi (16:27): «nessuna proposta di riempimento in questo
+> giro». `DECISIONI.md` è invariato: l'ultima firma di Nicola resta quella del 29/8. Nessuna firma
+> nuova. Nessun segnale di sicurezza nuovo.
+>
+> **Cosa resta aperto, non affrontato in questo passaggio per restare nel nucleo vitale.** Le PR
+> rosse su GitHub: guasti vecchi, nessuna sblocca una card business. Il test del cervello: ancora
+> bloccato dal buco di permessi del VPS. La causa è nota (card #104/#189): i comandi
+> `node cervello/*.mjs` non elencati parola-per-parola in `.claude/settings.local.json` restano
+> fuori dall'allowlist. La cadenza `ritmo-settimana`: ferma. Nessuno di questi problemi è nuovo:
+> sono gli stessi guasti già segnalati nei passaggi precedenti di oggi.
+>
+> Nessun numero di business cambiato: 1 ordine (24/6, annullato), 0 pagati. **Mossa n.1 invariata:
+> firma #154+#155** (dominio+chiavi Vercel). È quella che sblocca il resto.
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🛌 **4/9 14:31 — Decimo passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**

@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-04 14:31",
-  "situazione": "Decimo passaggio di oggi: letargo sceso a SOPRAVVIVENZA (quota AI 124%, salute macchina 4/100) — eseguito solo il controllo nucleo vitale, non le 15 fasi di giro.md. git log --since=\"13:10\" mostra un solo commit di recupero scritture (non lavoro nuovo di questo passaggio). Nessuna firma nuova di Nicola: DECISIONI.md e AZIONI-IN-ATTESA.md invariati, top card ancora #193. Sensore ordini fresco (14:20): 1 riga, 0 pagati — 72°+ giorno di stallo North Star. Guasti già noti e non nuovi: 8 PR rosse su GitHub, test-cervello/north-star-check bloccati dal buco di permessi VPS (card #104/#189), cadenza ritmo-settimana ferma da 671h. Nessuno di questi è cambiato da questo passaggio.",
+  "data": "2026-09-04 16:30",
+  "situazione": "Undicesimo passaggio di oggi: letargo peggiorato a SOPRAVVIVENZA (quota AI 184%, era 124% alle 14:31; salute macchina 4/100) — eseguito solo il controllo nucleo vitale, non le 15 fasi di giro.md. git log dalle 14:31 mostra solo commit del ciclo automatico (ritmo settimanale + due recuperi scritture), nessun lavoro nuovo di business. Nessuna firma nuova di Nicola: DECISIONI.md e AZIONI-IN-ATTESA.md invariati, top card ancora #193. Nessun dato di business nuovo da riquerare: 1 ordine (24/6, annullato), 0 pagati, stallo North Star confermato. Guasti già noti e non nuovi: PR rosse su GitHub, test-cervello/north-star-check bloccati dal buco di permessi VPS (card #104/#189), cadenza ritmo-settimana ferma. Nessuno di questi è cambiato da questo passaggio.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "senza questo un pagamento riuscito non diventa mai un ordine — mossa n.1", "livello": "rosso"},
