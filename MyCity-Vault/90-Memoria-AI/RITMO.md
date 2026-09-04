@@ -1604,3 +1604,19 @@ Non ho riquerato Supabase né Stripe. L'ho già fatto 19 minuti fa. In 19 minuti
 - Controllare per primo se il timer che ha girato a vuoto oggi si è fermato. O se riparte un quinto giorno.
 
 **Dettagli tecnici** — Verificato ora con 1 query diretta minima via MCP (`execute_sql`): ordini=1, pagati=0, consegnati=0, profili=8, prodotti=5, recensioni=0, carrelli=3, ultimo ordine 24/6. Identico a tutti i passaggi di oggi. Letargo SOPRAVVIVENZA: quota sessione rolling ≈170%, 850.000/500.000 token nella finestra di 6h (`costo-ai.json`). Gate `LETARGO` tra i vincoli attivi di `esito-giro.json`, insieme a CI/NORTH_STAR/CADENZE. Commit di oggi con raffiche "worker: lavoro ?" a un minuto l'una dall'altra (es. 13:22-13:26). Card in coda: #154/#155/#182/#184/#185/#186/#188/#189/#190/#192/#193.
+
+## Piano del mattino · 2026-09-04 06:02
+
+**In una riga:** Il marketplace è fermo da 72 giorni sullo stesso ordine non pagato. La buona notizia: il ciclo che ha girato a vuoto tutto ieri si è fermato da solo stanotte.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito vero: dominio e chiavi Vercel. Senza questo un pagamento riuscito non diventa mai un ordine.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero. Fermo da oltre tre settimane.
+3. Applica le quattro migrazioni ferme sul database di produzione. Evita che il primo cliente vero trovi un checkout rotto.
+
+**Serve da te**
+- Firma dominio e chiavi Vercel. È la mossa che sblocca tutto il resto.
+- Guarda gli undici post pronti per Pane Quotidiano. Zero pubblicati finora. Scegli quale far partire o quali ritirare.
+- Dai il via al fix di una riga sul permesso mancante. L'ho isolato ieri sera. Serve a riaccendere il controllo dei test.
+
+**Dettagli tecnici** — Riverificato ora via MCP (`execute_sql`): ordini=1 (24/6, annullato), pagati=0, profili=8, prodotti=5, identico a ieri sera. `WebFetch` diretto sul sito: HTTP 503, confermato. Letargo tornato leggero: quota sessione rolling 12% (240.000/2.000.000), ieri era sopra il 110% per quasi tutto il giorno. Un solo commit stanotte, alle 06:00, un recupero di scritture pendenti. Nessuna raffica come il 3/9. Nessuna firma nuova in `DECISIONI.md` da fine agosto. Card in coda: #154/#155/#182/#184/#185/#189/#190/#192/#193.

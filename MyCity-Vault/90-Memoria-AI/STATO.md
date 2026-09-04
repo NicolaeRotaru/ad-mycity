@@ -1,7 +1,46 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 22:43
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md — RISPARMIO)
+aggiornato: 2026-09-04 06:02
+fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
+---
+
+> ☀️ **4/9 06:02 — Piano del mattino: 72° giorno di stallo, stesse tre firme.** Cadenza fissa del
+> mattino, primo blocco del giorno.
+>
+> **In parole semplici.** Riverificato ora con query diretta al database vero (MCP Supabase): 1
+> ordine totale, sempre quello del 24 giugno, annullato, **0 pagati**. 8 profili, 5 prodotti.
+> Identico a ieri sera. Il sito resta giù: HTTP 503, riverificato ora. Lo stallo North Star tocca
+> oggi **72 giorni**.
+>
+> **La buona notizia di stamattina.** Ieri, tra le 06:00 e le 22:40, un ciclo automatico ha rilanciato
+> "esegui il giro" decine di volte da solo. Stanotte non l'ha più fatto. Il registro delle modifiche
+> mostra un solo commit alle 06:00, un semplice recupero di scritture. Non una nuova raffica. La
+> quota AI stamattina è al 12% della finestra scorrevole. Ieri era sopra il 110% per quasi tutto il
+> giorno.
+>
+> **Le 3 cose di oggi**, tutte già pronte in coda e in attesa solo della tua firma:
+> 1. Rimettere online il sito vero: dominio + chiavi Vercel (#154+#155). Senza questo un pagamento
+>    riuscito non diventerebbe mai un ordine.
+> 2. Sbloccare i pagamenti con carta di Pane Quotidiano (#182). È l'unico negozio vero. Ferma dal
+>    10/8: sono 25 giorni.
+> 3. Applicare le quattro migrazioni ferme sul database di produzione (#184). Evita che il primo
+>    cliente vero trovi un checkout rotto.
+>
+> **Serve da te**
+> - Firma #154+#155 (dominio e chiavi Vercel). È la mossa che sblocca tutto il resto.
+> - Guarda la card #193: undici post pronti per Pane Quotidiano, zero pubblicati. Dimmi quale far
+>   partire o quali ritirare.
+> - Guarda la card #189. Ieri sera ho isolato il fix esatto: una riga di permesso. Aspetta solo il
+>   tuo via per applicarlo sul VPS.
+>
+> **In coda restano le stesse carte, nessuna firmata durante la notte.** #154+#155 (mossa n.1),
+> #182, #184, #185 (scadenza 29/8, passata da 6 giorni), #189, #190, #192, #193.
+>
+> **Cosa non ho verificato.** Il contenuto delle PR rosse in CI (card #190). La divergenza Git tra
+> `main` e `origin/main` (card #104). Nessuna delle due sblocca il primo ordine pagato.
+>
+> Blocco completo: [[RITMO]].
+
 ---
 
 > 🛌 **3/9 22:43 — Chiamata "esegui giro.md per intero" arrivata 3 minuti dopo il giro pieno delle
