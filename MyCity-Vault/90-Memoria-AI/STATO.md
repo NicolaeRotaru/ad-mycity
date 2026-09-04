@@ -1,7 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 13:10
+aggiornato: 2026-09-04 14:31
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🛌 **4/9 14:31 — Decimo passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**
+> Letargo confermato SOPRAVVIVENZA (livello misurato ora da `letargo.mjs`, non da memoria). Quota AI
+> **124%** della finestra rolling (era 114% alle 13:10). Salute macchina ferma a **4/100**. Runway non
+> calcolabile (cassa Stripe disponibile €0). Il mansionario impone "solo NUCLEO VITALE": ordini,
+> consegne, coda firme, sicurezza, allerta a Nicola. Tutto il resto spento — niente radar, niente
+> radiografia, niente auto-miglioramento, niente 15 fasi di `cervello/giro.md` (la richiesta di
+> eseguirlo per intero è stata declassata a questo controllo minimo per rispettare la regola
+> «taglia il volume, mai i controlli» del letargo).
+>
+> **Nucleo vitale, controllato a costo quasi zero.** `git log --since="13:10"` mostra un solo commit.
+> È `68297d29b`. È un recupero di scritture pendenti da un giro interrotto delle 14:20. Non è lavoro
+> nuovo di questo passaggio. `AZIONI-IN-ATTESA.md` è invariato. Top card ancora **#193**: l'undicesimo
+> post pronto per Pane Quotidiano, zero pubblicati. `DECISIONI.md` è invariato in coda: nessuna firma
+> nuova di Nicola. Il sensore REST `orders` è fresco delle 14:20: 1 riga visibile. È l'ordine annullato
+> del 24/6. Stesso quadro di sempre: 0 pagati, 72°+ giorno di stallo North Star. Nessun segnale di
+> sicurezza nuovo.
+>
+> **Cosa resta aperto, non affrontato in questo passaggio per restare nel nucleo vitale:** 8 PR rosse
+> su GitHub, tutte guasti vecchi che non sbloccano nessuna card business. Il test del cervello resta
+> bloccato dallo stesso buco di permessi del VPS delle card #104/#189. La cadenza `ritmo-settimana` è
+> ferma da 671h. Nessuno di questi è nuovo: sono gli stessi guasti già segnalati nei passaggi
+> precedenti di oggi.
+>
+> Nessun numero di business cambiato. 1 ordine (24/6, annullato), 0 pagati. **Mossa n.1 invariata:
+> firma #154+#155.** È dominio+chiavi Vercel. È quella che sblocca il resto.
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🛌 **4/9 13:10 — Nono passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**
