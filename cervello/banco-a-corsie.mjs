@@ -217,12 +217,17 @@ async function chiudiCopia(radice, copia) {
  * Fa girare UNA corsia: apre la copia, ci scrive dentro il suo pezzo di registro, lancia il banco e
  * riporta i verdetti. Se qualcosa non parte, le mutazioni escono ⚪ dichiarate — mai perse.
  */
-export async function giraCorsia({ radice = AD_ROOT, indice = 0, mutazioni = [], registro = {}, budget = 0, banco = "cervello/non-vacuita.mjs" } = {}) {
+export async function giraCorsia({ radice = AD_ROOT, indice = 0, mutazioni = [], registro = {}, budget = 0 } = {}) {
   const copia = await apriCopia(radice, indice);
   if (!copia.ok) return { esiti: corsiaNonPartita(mutazioni, copia.perche), corsia: indice };
   try {
     writeFileSync(join(copia.albero, "cervello/mutanti.json"), JSON.stringify(registroDiCorsia(registro, mutazioni), null, 1));
-    const argomenti = [join(copia.albero, banco), "--json"];
+    // ⚠️ IL PERCORSO DEL BANCO E' SCRITTO PER ESTESO, e non e' pignoleria. La macchina riconosce
+    // «chi esegue chi» leggendo il codice, e una delle forme che sa leggere e' proprio una stringa
+    // `"cervello/x.mjs"` dentro un array di argomenti. Passandolo da un parametro il collegamento
+    // spariva dai suoi occhi: `non-vacuita.mjs` risultava eseguito solo dalle prove, cioe' un
+    // cartello e non un freno, ed e' esattamente l'accusa di AR-393. Misurato: due prove rosse.
+    const argomenti = [join(copia.albero, "cervello/non-vacuita.mjs"), "--json"];
     if (budget) argomenti.push("--budget", String(budget));
     // ⚠️ `MUTANTI_FILE` SI CANCELLA. Se il figlio se lo eredita legge QUEL registro invece del suo,
     // e ogni corsia rifa' tutte le mutazioni: misurato, due mutazioni su due corsie davano quattro

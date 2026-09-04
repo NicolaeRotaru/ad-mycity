@@ -65,9 +65,19 @@ test("i due strumenti del difetto sono adesso di guardia davvero", () => {
     const posti = j.dove[strumento] || [];
     assert.ok(posti.length > 0, `${strumento} è tornato orfano: non lo invoca più nessuno`);
   }
+  // ⟲ AGGIORNATO IL 4/9 (AR-938): il cancello non lancia piu' il banco DIRETTAMENTE, lo lancia in
+  // quattro corsie parallele. La catena e' diventata di due anelli, e vanno pretesi tutti e due —
+  // altrimenti si puo' staccare quello in mezzo e nessuno se ne accorge. Il senso di AR-393 non
+  // cambia di una virgola: la prova che le prove provino dev'essere ESEGUITA dal cancello, non
+  // nominata in un messaggio. Cambia solo la strada per arrivarci.
   assert.ok(
-    (j.dove["non-vacuita.mjs"] || []).includes("cervello/cancello-lotto.mjs"),
-    "AR-393: la prova che le prove provino deve essere ESEGUITA dal cancello del lotto, non nominata in un messaggio",
+    (j.dove["non-vacuita.mjs"] || []).includes("cervello/banco-a-corsie.mjs"),
+    "AR-393, primo anello: il banco delle mutazioni dev'essere ESEGUITO dalle corsie",
+  );
+  assert.match(
+    readFileSync(join(REPO, "cervello/cancello-lotto.mjs"), "utf8"),
+    /esegui\(\s*"[^"]*",\s*"node",\s*\[\s*"cervello\/banco-a-corsie\.mjs"/,
+    "AR-393, secondo anello: le corsie devono essere un PASSO del cancello, col loro codice d'uscita dentro il verdetto",
   );
   assert.ok(
     (j.dove["permessi-check.mjs"] || []).includes("cervello/test/permessi-di-guardia.test.mjs"),
