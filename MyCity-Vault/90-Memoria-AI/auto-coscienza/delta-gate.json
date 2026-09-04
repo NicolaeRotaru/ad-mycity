@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚦 DELTA-GATE (AR-019): firma dello stato reale per saltare i giri pesanti quando NULLA è cambiato dall'ultimo giro pieno. Scritto da cervello/delta-gate.mjs.",
-  "aggiornato": "2026-09-03 22:28",
+  "aggiornato": "2026-09-04 06:28",
   "ultimo_pieno": {
     "firma": {
       "ordini": 1,
@@ -20,20 +20,15 @@
     "ultimo_ordine": "2026-06-24T08:28:40.166644+00:00",
     "clienti": 8,
     "sensori": {
-      "stati": "mcp_stripe:cieco,mcp_supabase:non_verificato,n8n_health:ok,pannello_uptime:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:cieco,stripe_api:ok,supabase_memoria:ok,supabase_rest:ok,telegram_bot:non_configurato,watchdog_esterno:ok",
+      "stati": "mcp_stripe:cieco,mcp_supabase:ok,n8n_health:ok,pannello_uptime:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:cieco,stripe_api:ok,supabase_memoria:ok,supabase_rest:ok,telegram_bot:non_configurato,watchdog_esterno:ok",
       "almeno_un_dato": true
     },
     "dati_leggibili": true
   },
   "giri_saltati_consecutivi": 0,
   "_nota_segna_pieno_manuale": "2026-09-01 18:35: `node cervello/delta-gate.mjs --segna-pieno` bloccato da permessi non allowlistati (stesso buco VPS delle card #104/#189) — un solo tentativo, non ritentato alla cieca (lezione L-agenti-background). Promozione manuale via Edit: la baseline dell'8/15 aveva `clienti:7`, ma i profili sono saliti a 8 già il 21/8 (un profilo del 21/8, non un cliente nuovo — chiarito quel giorno stesso) e la baseline non era MAI stata promossa da allora. Risultato: dal 21/8 al 1/9, OGNI giro ha eseguito un giro pieno inutile per lo stesso scarto già spiegato 12 volte (21/8 14:28, 16:26, 20:26; 31/8 22:31; 1/9 06:30, 08:28, 10:27, 12:00, 12:27, 14:28, 16:28, 18:28) — quota AI bruciata su un falso positivo noto e mai corretto. Baseline ora allineata allo stato corrente reale (ordini=1, clienti=8, sensori come misurati ora). Business ancora fermo a ordini=1 dal 24/6.",
-  "giri_valutati": 355,
+  "giri_valutati": 356,
   "storia": [
-    {
-      "quando": "2026-08-14 08:22",
-      "esegui_pieno": true,
-      "motivo": "cambiato: stato sensori/sentinelle"
-    },
     {
       "quando": "2026-08-14 10:22",
       "esegui_pieno": true,
@@ -278,13 +273,18 @@
       "quando": "2026-09-03 22:28",
       "esegui_pieno": true,
       "motivo": "heartbeat: 52h dall'ultimo giro pieno (>12h)"
+    },
+    {
+      "quando": "2026-09-04 06:28",
+      "esegui_pieno": true,
+      "motivo": "cambiato: stato sensori/sentinelle"
     }
   ],
   "ultima_decisione": {
-    "quando": "2026-09-03 22:28",
+    "quando": "2026-09-04 06:28",
     "esegui_pieno": true,
-    "motivo": "heartbeat: 52h dall'ultimo giro pieno (>12h)",
-    "ore_da_pieno": 52
+    "motivo": "cambiato: stato sensori/sentinelle",
+    "ore_da_pieno": 60
   },
   "origine": "locale"
 }
