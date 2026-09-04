@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-03 23:54",
+ "aggiornato": "2026-09-04 11:35",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11939,6 +11939,53 @@
    "usi": [],
    "gate": "cervello/test/il-banco-che-non-diceva-chi-restava-fuori.test.mjs",
    "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0904-01",
+   "testo": "**AR-918.** Quando una funzione ti torna QUANTO e tu la usi come SI/NO, il numero che hai buttato via torna a chiedertelo piu tardi e piu caro. `quantoPosso` dice quanti millisecondi restano; usarla solo per decidere «comincio o no» e poi lanciare il lavoro col suo tetto pieno vuol dire che l ultimo pezzo sfonda il budget di tutti. La cura di ieri e morta esattamente come il difetto che curava — la stessa corsa, lo stesso 124, lo stesso silenzio. Regola: **un budget che non entra nel tetto del singolo passo non e un budget, e una speranza**; e chi viene troncato dal MIO orologio deve dirlo con parole sue, altrimenti il referto da la colpa alla prova invece che a me.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33811579021: col budget addosso il banco muore ancora a 900,3 s su un tetto di 900, exit 124, senza aver scritto l elenco che era tutto il punto",
+    "misurato in locale sulla finta: col difetto rimesso il banco torna dopo 60 s con 2,5 s di budget; con la cura torna in 2,7 s"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 10:55",
+   "ultima_conferma": "2026-09-04 10:55",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-budget-che-non-entrava-nel-tetto.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-02",
+   "testo": "**AR-919.** Una prova che rompe apposta un file vero si comporta come se fosse sola in casa, ma la suite gira su corsie parallele: chi legge quel file nella corsia accanto diventa rosso a caso. Le prove che mutano lavorano su una FINTA, sempre. E il corollario che mi ha quasi fregata due volte oggi: **un osservatore deve dimostrare di aver osservato**. La prima versione di questa prova passava misurando il nulla — `NODE_TEST_CONTEXT` messa a stringa vuota resta SET, e `node --test` allora esce subito con zero senza eseguire un caso. Si cancella, non si svuota; e si controlla il referto del figlio, non il cronometro.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "misurato: le due prove lanciate insieme danno 11/0 al primo giro e 10/1 al secondo, senza modifiche in mezzo; da sole sono verdi",
+    "col difetto rimesso l osservatore vede cervello/cancello-lotto.mjs rotto per oltre 20 secondi",
+    "la prima versione dell osservatore: figlio uscito con 0 in 0 s e zero casi eseguiti, e la prova era verde"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 11:35",
+   "ultima_conferma": "2026-09-04 11:35",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+   "data": "2026-09-04"
   }
  ],
  "principi": [

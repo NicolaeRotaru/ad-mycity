@@ -296,8 +296,12 @@ const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
  * Zero di default: chi lo lancia a mano non ha nessun orologio esterno da cui difendersi, solo la
  * propria pazienza. Lo passa il cancello, che il suo orologio ce l'ha.
  */
-/** Sotto questo tempo non vale la pena cominciarne un'altra: applicare e rilanciare costa. */
-const MINIMO_PER_UNA = 20_000;
+/**
+ * Sotto questo tempo non vale la pena cominciarne un'altra: applicare e rilanciare costa.
+ * Si può abbassare dall'ambiente per una ragione sola: una prova che vuole vedere il troncamento
+ * (AR-918) senza restare ferma venti secondi ad aspettarlo.
+ */
+const MINIMO_PER_UNA = Number(process.env.NON_VACUITA_MINIMO_MS || 20_000);
 
 const iBudget = process.argv.indexOf("--budget");
 const BUDGET = Number(iBudget !== -1 ? process.argv[iBudget + 1] : process.env.NON_VACUITA_BUDGET_MS || 0);
@@ -317,6 +321,46 @@ export function fuoriDalBudget(restanti = [], { budget = 0, speso = 0 } = {}) {
     verdetto: "cieco",
     perche: `il budget di ${Math.round(budget / 1000)} s è finito dopo ${Math.round(speso / 1000)} s: questa mutazione non l'ho provata. Rilanciala da sola con \`node cervello/non-vacuita.mjs --difetti ${(m.difetto || "AR-?")}\`, o dammi più tempo con --budget.`,
   }));
+}
+
+/**
+ * ⏱️ E LA MUTAZIONE CHE STAVA GIRANDO QUANDO IL BUDGET È FINITO — AR-918.
+ *
+ * IL BUCO CHE HA LASCIATO APERTO LA CURA DI IERI, corsa 33811579021: il budget guardava solo se una
+ * mutazione poteva COMINCIARE, mai quanto poteva DURARE. Così l'ultima partiva legittimamente con
+ * 30 secondi di budget residuo e poi si prendeva il suo tetto pieno da 420 — e il cancello, che di
+ * secondi ne aveva 900 in tutto, la ammazzava a metà: `exit 124`, rosso, esattamente il rosso che
+ * il budget esisteva per NON far succedere. Un budget che non entra nel tetto del singolo passo non
+ * è un budget: è una speranza.
+ *
+ * La cura è una riga di aritmetica — a ogni mutazione si concede ciò che RESTA, non il tetto pieno
+ * — più questa funzione, che serve a non barare sul referto. Una prova ammazzata dall'orologio esce
+ * già ⚪ da `verdettoCorsa` (status null), ma con la frase sbagliata: «non è arrivata in fondo»
+ * suona come un guaio della prova, mentre il guaio è stato il mio orologio. Chi legge deve poter
+ * distinguere «questa prova è malata» da «a questa non ho dato abbastanza tempo», perché la prima
+ * si ripara e la seconda si rilancia.
+ *
+ * Pura: prende il verdetto già formato e lo riscrive solo nel caso suo.
+ *
+ * 🔎 GUARDATA COL SUO STESSO SOSPETTO, il 4/9: può questa riga ammorbidire una scoperta? No, e si
+ * legge nella prima condizione — tocca SOLO i `cieco`. Un rosso è `ok` («la mutazione l'hanno
+ * beccata») e una prova vacua è `vacua`: nessuno dei due passa di qui, e comunque cambia solo la
+ * frase, mai il verdetto. E la porta nuova dall'ambiente (`NON_VACUITA_MINIMO_MS`) può al massimo
+ * spingere delle mutazioni nel ⚪, cioè nell'uscita 2, che in questa casa non è mai un verde.
+ *
+ * ⚠️ LA PROPRIETÀ CHE IL BUDGET SI PORTA DIETRO, e va detta invece di lasciarla scoprire: con un
+ * budget addosso, se una mutazione viene misurata dipende anche da DOVE sta nell'elenco. Due corse
+ * uguali possono coprire mutazioni diverse. È accettabile solo perché ciascuna non misurata viene
+ * NOMINATA: un verde qui non vuol dire «tutte reggono», vuol dire «queste reggono e queste non le
+ * ho guardate». Chi legge il referto deve leggere anche l'elenco dei ⚪.
+ */
+export function troncataDalBudget(esito = {}, { status, concesso = 0, tetto = TEMPO_MAX, difetto = "" } = {}) {
+  const ammazzata = status === null || status === undefined;
+  if (esito.verdetto !== "cieco" || !ammazzata || !concesso || concesso >= tetto) return esito;
+  return {
+    ...esito,
+    perche: `il budget della corsa lasciava solo ${Math.round(concesso / 1000)} s a questa mutazione (il suo tetto è ${Math.round(tetto / 1000)} s) e non le sono bastati: NON l'ho misurata, non è la prova a essere rotta. Rilanciala da sola con \`node cervello/non-vacuita.mjs --difetti ${difetto || "AR-?"}\`.`,
+  };
 }
 
 /** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
@@ -737,7 +781,10 @@ function main() {
   for (const [i, m] of elenco.entries()) {
     // AR-917 — il tempo si guarda PRIMA di spendere, non dopo: un controllo dietro la spesa
     // arriva quando la spesa è già fatta. Chi resta fuori viene dichiarato, non lasciato al buio.
-    if (BUDGET && !quantoPosso(AVVIATO + BUDGET, Date.now(), TEMPO_MAX, MINIMO_PER_UNA)) {
+    // AR-918 — e `quantoPosso` non torna un sì/no: torna QUANTO. Quel numero è il tetto di QUESTA
+    // mutazione, altrimenti l'ultima sfonda il budget di tutta la corsa e la fa ammazzare rossa.
+    const concesso = BUDGET ? quantoPosso(AVVIATO + BUDGET, Date.now(), TEMPO_MAX, MINIMO_PER_UNA) : TEMPO_MAX;
+    if (!concesso) {
       esiti.push(...fuoriDalBudget(elenco.slice(i), { budget: BUDGET, speso: Date.now() - AVVIATO }));
       break;
     }
@@ -774,8 +821,8 @@ function main() {
       // porzione di tempo che questa difesa esiste per coprire.
       lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);
       writeFileSync(file, rotto);
-      const r = eseguiProva(m.test);
-      esiti.push({ ...m, ...verdettoCorsa(r) });
+      const r = eseguiProva(m.test, { timeout: concesso });
+      esiti.push({ ...m, ...troncataDalBudget(verdettoCorsa(r), { status: r.status, concesso, difetto: m.difetto }) });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
       togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più

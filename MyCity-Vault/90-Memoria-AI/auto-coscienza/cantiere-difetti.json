@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-03 23:54",
+  "aggiornato": "2026-09-04 11:35",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -19659,6 +19659,48 @@
       },
       "trovato_da": "il primo verdetto completo del cancello, reso possibile da AR-915 (parla mentre lavora) e AR-916 (il tetto morde)",
       "chiuso_il": "2026-09-03 23:54",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-918",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-04 10:52",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-917",
+      "titolo": "Il budget del banco guardava se una mutazione poteva COMINCIARE, mai quanto poteva DURARE — e la corsa moriva rossa lo stesso",
+      "sintomo": "Corsa 33811579021 del 3/9, la prima col budget di AR-917 addosso. Il cancello e finito in 28 minuti invece di 75, 29 passi su 31 verdi, e l unico rosso e lo stesso di prima: «prove non vacue (mutazioni del lotto)» a 900,3 secondi, `exit 124`, ammazzato dall orologio. Cioe: la cura costruita ieri per non farsi ammazzare dall orologio non ha impedito di farsi ammazzare dall orologio. E il banco non ha detto una parola prima di morire — l elenco delle mutazioni non provate, che era tutto il punto, non e mai stato scritto.",
+      "causa_radice": "`quantoPosso` non torna un si/no: torna QUANTO tempo resta. Io quel numero lo usavo come booleano per decidere se cominciare, e poi lanciavo la prova col suo tetto pieno (420 s). Cosi l ultima mutazione partiva legittimamente con 30 secondi di budget residuo e si prendeva comunque 420 secondi: il cancello, che di secondi ne ha 900 in tutto, la ammazzava a meta insieme a tutto il resto. Un budget che non entra nel tetto del singolo passo non e un budget, e una speranza. La forma dell errore e la stessa che il file due-case.mjs esiste per denunciare — avere il numero giusto in mano e buttarlo via.",
+      "fix_proposto": "🟡 FATTO: il tempo concesso a OGNI mutazione e quello che resta del budget (`quantoPosso(...)` usato come numero, non come si/no), mai il tetto pieno. E una mutazione troncata dal budget lo DICE: `troncataDalBudget` riscrive il ⚪ di `verdettoCorsa` — che direbbe «il test non e arrivato in fondo», dando la colpa alla prova — in «il budget lasciava N s a questa mutazione: NON l ho misurata», col comando per rilanciarla da sola. Chi legge deve poter distinguere una prova malata da una a cui non ho dato abbastanza tempo: la prima si ripara, la seconda si rilancia.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-budget-che-non-entrava-nel-tetto.test.mjs",
+        "nota": "Tre casi. Due puri: chi e stata troncata nomina il budget e il difetto, e i tre casi che NON sono un troncamento (⚪ per altro motivo, corsa finita da sola, ammazzata dal tetto normale) restano intatti. Il terzo ESEGUE il banco vero su una finta con una prova che dorme 60 s e un budget di 2,5 s, e guarda l orologio: col difetto rimesso il banco torna dopo 60 secondi — misurato — con la cura torna in 2,7."
+      },
+      "trovato_da": "la corsa 33811579021, cioe il cancello stesso: la cura di ieri e morta nello stesso modo del difetto che curava",
+      "chiuso_il": "2026-09-04 10:52",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-919",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-04 11:35",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "nato_da": "AR-917",
+      "titolo": "Una prova rompeva i file veri del repo mentre le corsie accanto li leggevano: il cancello poteva diventare rosso a caso",
+      "sintomo": "Misurato oggi lanciando insieme `mutazioni-orfane` e la prova di AR-917: un giro 11 passati 0 falliti, il giro dopo 10 e 1, senza toccare una riga in mezzo. Il rosso e sempre lo stesso — «SUL CAMPO: ogni mutazione di questo repo trova il suo pezzo» — e da solo quel file e verde. La suite lancia i file su corsie parallele (`test-cervello.mjs` riga 794), quindi il caso puo arrivare anche sul runner.",
+      "causa_radice": "La prova che ho scritto ieri per AR-917 chiedeva al banco di misurare le mutazioni VERE del repo, e per misurarle il banco fa l unica cosa che puo fare: rompe il file vero, lancia la prova, lo rimette a posto — misurato, resta rotto per oltre venti secondi. Nella corsia accanto un altra prova legge quegli stessi file e lo vede rotto. Non e un difetto del banco: e una prova che si comporta come se fosse sola in casa mentre la casa e condivisa. Un rosso intermittente e peggio di un rosso fermo, perche il primo riflesso di chi lo vede e «sara l infrastruttura», ed e cosi che un difetto vero diventa invisibile.",
+      "fix_proposto": "🟡 FATTO: le prove del banco lavorano su una FINTA (registro e bersaglio in una cartella temporanea, via MUTANTI_FILE e NON_VACUITA_RADICE) — il banco gira davvero e il budget morde davvero, ma nessun file condiviso viene toccato. Cinque giri in parallelo con le due prove che litigavano: cinque verdi, dove prima uno su due era rosso.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+        "nota": "Un osservatore che guarda `git status` quaranta volte al secondo per tutta la durata della prova di AR-917 e pretende che nessun file tracciato del repo risulti mai modificato. Rimettendo il difetto (la prova che punta al registro vero) diventa rossa e NOMINA il file sporcato: cervello/cancello-lotto.mjs. Porta anche il freno contro se stessa: se il figlio non dichiara nemmeno un caso passato, il «pulito» non vale — la prima versione passava proprio cosi, misurando il nulla, perche NODE_TEST_CONTEXT messa a stringa vuota resta SET e node --test esce subito senza eseguire niente."
+      },
+      "trovato_da": "il collaudo del lavoro di AR-918: le prove dei file toccati, lanciate insieme, davano un rosso che da sole non davano",
+      "chiuso_il": "2026-09-04 11:35",
       "chiuso_come": "riparato"
     }
   ],

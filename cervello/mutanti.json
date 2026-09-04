@@ -8954,11 +8954,31 @@
    "difetto": "AR-917",
    "nome": "il banco torna a non guardare l orologio: spende tutto e viene ucciso invece di dichiarare",
    "file": "cervello/non-vacuita.mjs",
-   "cerca": "    if (BUDGET && !quantoPosso(AVVIATO + BUDGET, Date.now(), TEMPO_MAX, MINIMO_PER_UNA)) {",
-   "sostituisci": "    if (false) {",
+   "cerca": "    const concesso = BUDGET ? quantoPosso(AVVIATO + BUDGET, Date.now(), TEMPO_MAX, MINIMO_PER_UNA) : TEMPO_MAX;\n    if (!concesso) {",
+   "sostituisci": "    const concesso = TEMPO_MAX;\n    if (false) {",
    "test": "cervello/test/il-banco-che-non-diceva-chi-restava-fuori.test.mjs",
    "lezione": "L-2026-0903-05",
    "perche_conta": "E la riga che guarda il tempo PRIMA di spendere. Togliendola il banco misura tutto e esce 0 dove doveva uscire 2: il caso col budget da 1 s diventa rosso, ed e il verso giusto — l assenza del freno si vede."
+  },
+  {
+   "difetto": "AR-918",
+   "nome": "il tempo concesso alla singola mutazione torna a essere il tetto pieno invece di cio che resta del budget",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "      const r = eseguiProva(m.test, { timeout: concesso });",
+   "sostituisci": "      const r = eseguiProva(m.test);",
+   "test": "cervello/test/il-budget-che-non-entrava-nel-tetto.test.mjs",
+   "lezione": "L-2026-0904-01",
+   "perche_conta": "E la riga in cui il numero tornato da quantoPosso smette di essere buttato via. Togliendola la prova che dorme si riprende i 60 s del tetto con 2,5 s di budget: misurato, il banco torna dopo un minuto invece che dopo tre secondi, ed e esattamente come e morta la corsa 33811579021."
+  },
+  {
+   "difetto": "AR-919",
+   "nome": "la prova del banco torna a mordere le mutazioni VERE del repo invece della finta",
+   "file": "cervello/test/il-banco-che-non-diceva-chi-restava-fuori.test.mjs",
+   "cerca": "    env: { ...process.env, MUTANTI_FILE: join(casa, \"mutanti.json\"), NON_VACUITA_RADICE: casa },",
+   "sostituisci": "    env: { ...process.env },",
+   "test": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+   "lezione": "L-2026-0904-02",
+   "perche_conta": "E la riga che manda il banco a lavorare in una casa finta. Togliendola il banco torna a rompere i file veri del repo per oltre venti secondi, e l osservatore lo vede: rosso, col nome del file sporcato (cervello/cancello-lotto.mjs). Misurato."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
