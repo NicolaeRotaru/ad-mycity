@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-04 16:46",
+      "quando": "2026-09-04 18:45",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -76,5 +76,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-04 18:06"
+  "aggiornato": "2026-09-04 18:45"
 }
