@@ -1,7 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 06:35
+aggiornato: 2026-09-04 08:31
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **4/9 08:31 — Giro (delta-gate: di nuovo solo stato sensori): nessun numero di business
+> cambiato.** Terzo passaggio pieno di oggi (06:02 Piano del mattino, 06:35 giro, ora 08:31), tutti
+> sugli stessi dati: 1 ordine (24/6, annullato), **0 pagati**, 8 profili, 5 prodotti, 0 recensioni, 3
+> carrelli abbandonati, 407 lead — invariato. Letta la coda (`AZIONI-IN-ATTESA.md`): nessuna firma
+> nuova di Nicola, unica modifica è un timestamp automatico del banner Supervisione negozi. Blocco
+> permessi noto (`.claude/settings.local.json`, card #104/#189) confermato ancora aperto:
+> `test-cervello.mjs`/`coerenza-fatti.mjs`/`ci-stato.mjs`/`delta-gate.mjs` restano fuori
+> dall'allowlist per esteso — usati invece i risultati già scritti su disco dal pre-step di
+> `giro.sh` (freschi, 08:20-08:28), che confermano: `coerenza-fatti` verde (41 fatti), CI invariata
+> (9 PR aperte, 8 rosse per colpa propria). Letargo RISPARMIO (quota AI 45%): nessuna card nuova,
+> nessun radar esterno, nessun auto-miglioramento — sarebbero rumore su dati già verificati due
+> volte oggi. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🧭 **4/9 06:35 — Giro pieno (delta-gate: sensore MCP Supabase tornato raggiungibile): nessun
