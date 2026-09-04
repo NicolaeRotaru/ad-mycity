@@ -2,42 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-17T11:17:24.729Z",
-      "scatti": 11736,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:26:57.699Z",
-      "scatti": 11765,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-17T11:31:01.979Z",
-      "scatti": 11776,
-      "voci": 209,
-      "per_classe": {
-        "soglia-allentata": 4,
-        "difesa-rimossa": 201,
-        "prova-accecata": 3,
-        "riparazione-parziale": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-17T11:33:53.429Z",
       "scatti": 11784,
       "voci": 209,
@@ -2246,7 +2210,64 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-04T10:15:26.030Z",
+      "scatti": 7670,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+          "cosa": "la mutazione di AR-046 («lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere») non trova più il suo pezzo in questo file",
+          "ripetuta": 98
+        }
+      ]
+    },
+    {
+      "quando": "2026-09-04T10:18:37.118Z",
+      "scatti": 7680,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+          "cosa": "la mutazione di AR-046 («lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere») non trova più il suo pezzo in questo file",
+          "ripetuta": 108
+        }
+      ]
+    },
+    {
+      "quando": "2026-09-04T10:33:04.039Z",
+      "scatti": 7685,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+          "cosa": "la mutazione di AR-046 («lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere») non trova più il suo pezzo in questo file",
+          "ripetuta": 113
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-09-04T10:07:20.611Z"
+  "aggiornato": "2026-09-04T10:33:04.040Z"
 }

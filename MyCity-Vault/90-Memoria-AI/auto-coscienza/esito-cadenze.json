@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-04 11:43",
+      "quando": "2026-09-04 12:45",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -45,7 +45,7 @@
       "vincoli": []
     },
     "ritmo-mezzogiorno": {
-      "quando": "2026-09-03 13:58",
+      "quando": "2026-09-04 12:07",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-04 11:43"
+  "aggiornato": "2026-09-04 12:45"
 }

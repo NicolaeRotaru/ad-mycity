@@ -1,6 +1,31 @@
 {
   "potature": [
     {
+      "quando": "2026-09-04 13:09",
+      "byte_prima": 1112248,
+      "byte_dopo": 1005174,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 91
+      }
+    },
+    {
+      "quando": "2026-09-04 12:29",
+      "byte_prima": 1114059,
+      "byte_dopo": 1005063,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0731-01",
+            "testo": "**In sessione headless, l'allowlist statica di `.claude/settings.json` (`Bash(node cervell"
+          }
+        ],
+        "copie_di_principi": 91
+      }
+    },
+    {
       "quando": "2026-09-04 11:57",
       "byte_prima": 1113660,
       "byte_dopo": 1006586,
