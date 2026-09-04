@@ -74,12 +74,12 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 
 **Cosa devi fare tu.** La procedura distesa, con i sei passi in ordine e le trappole, sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`. In breve:
 
-1. **Fotografa** i record che ci sono adesso nel pannello del nome. Due tipi di riga **non si toccano**: le `MX` e le `TXT` che parlano di posta. Se spariscono, il sito smette di mandare le conferme d'ordine. E non se ne accorge nessuno finché un cliente non ti scrive.
-2. **Su Vercel**, progetto `mycity` → Settings → Domains → Add: `mycity-marketplace.com`, con `www` che rimanda al nome nudo. Vercel ti mostra i record esatti da mettere — usa i suoi, non valori presi altrove.
-3. **Nel pannello del nome**, *modifica* le due righe esistenti (non aggiungerne di nuove accanto): `@` di tipo A e `www` di tipo CNAME, coi valori che ti ha dato Vercel.
-4. **Aspetta il verde** su Vercel: il certificato lo emette da solo, di solito in pochi minuti.
-5. **Poi metti la variabile** `NEXT_PUBLIC_APP_URL = https://mycity-marketplace.com` fra quelle di produzione e ripubblica. Senza, il sito funziona ma dice a Google e a Stripe un indirizzo sbagliato — il 22 agosto lì c'era scritto `localhost`.
-6. **Guarda** in finestra anonima che si apra il marketplace, che il `www` salti sul nome nudo, e cosa risponde la pagina di salute.
+- **Passo 1 — fotografa.** Copiati i record che ci sono adesso nel pannello del nome. Due tipi di riga **non si toccano**: le `MX` e le `TXT` che parlano di posta. Se spariscono, il sito smette di mandare le conferme d'ordine. E non se ne accorge nessuno finché un cliente non ti scrive.
+- **Passo 2 — su Vercel.** Progetto `mycity` → Settings → Domains → Add: `mycity-marketplace.com`, col `www` che rimanda al nome nudo. Vercel ti mostra i record esatti da mettere. Usa i suoi, non valori presi altrove.
+- **Passo 3 — nel pannello del nome.** *Modifica* le due righe che ci sono già, non aggiungerne di nuove accanto: `@` di tipo A e `www` di tipo CNAME, coi valori che ti ha dato Vercel.
+- **Passo 4 — aspetta il verde.** Il certificato lo emette Vercel da solo, di solito in pochi minuti.
+- **Passo 5 — la variabile.** Metti `NEXT_PUBLIC_APP_URL = https://mycity-marketplace.com` fra quelle di produzione, e ripubblica. Senza, il sito funziona ma dice a Google e a Stripe un indirizzo sbagliato. Ad agosto lì c'era scritto `localhost`.
+- **Passo 6 — guarda.** In finestra anonima: deve aprirsi il marketplace, il `www` deve saltare sul nome nudo, e la pagina di salute deve dirti come sta il sito.
 
 **Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato. Restano poi tre cose da rimettere a mano, perché vivono in pannelli esterni. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google.
 
