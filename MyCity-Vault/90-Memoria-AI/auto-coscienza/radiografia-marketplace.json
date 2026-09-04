@@ -15162,28 +15162,31 @@
       "impatto": "Un rosso che non vuol dire niente su una PR sana. Il danno vero non e il rosso in se: e che chi lo vede due volte impara a ignorarlo, e il giorno in cui quel controllo si spegne per un motivo VERO nessuno lo guarda. In piu, quando salta, lo strato che non viene provato e proprio quello dei permessi visti da fuori (attraverso PostgREST, come li vede un cliente). I permessi a livello SQL restano coperti dal lavoro gemello «Controlli database», che applica tutte le migrazioni su un Postgres vero: quello non salta.",
       "fix": "Una riga: .github/workflows/ci.yml riga 114, timeout-minutes da 10 a 20 — allineandolo ai fratelli che fanno lavori paragonabili. Meglio ancora, in un secondo momento: separare l installazione dei pacchetti dall accensione del database, cosi il tetto copre un costo solo per volta, e dare al passo «Avvia un Supabase locale» un suo timeout esplicito con un messaggio che dica «il database di prova non si e acceso» invece di lasciare un «cancelled» muto. Vale anche la pena capire perche le stesse due operazioni siano quattro volte piu lente qui che sul ramo principale: il tetto piu alto cura il sintomo, non quello.",
       "fonte": "lotto 3/9/2026 — trovata portando al verde la CI della PR NicolaeRotaru/mycity#249",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Osservata tre volte sullo stesso commit (ee43888), su tre tentativi indipendenti spalmati su due ore e mezza. Tentativo 1 (run 33814013760, attempt 1): npm ci 22:38:27→22:43:42 (5m15s), boot ucciso alle 22:48:40 senza mai stampare «applico le migrazioni». Tentativo 2 (attempt 2): npm ci 22:55:38→23:00:47 (5m09s), boot ucciso alle 23:05:42. Tentativo 3 (attempt 3): npm ci 00:47:35→00:52:42 (5m07s), l’accensione del database 00:52:42→00:57:24 (4m42s, mai finito), lavoro ucciso alle 00:57:27. Confronto sul ramo principale, run 33553945030 del 1/9: npm ci fra 15 e 23 secondi su tutti e sei i lavori, «Avvia un Supabase locale» 20:13:01→20:14:15 (74s), lavoro chiuso verde in 1m50s. Il ramo non tocca package-lock.json, quindi la chiave della cache e la stessa del ramo principale.",
       "prova_tipo": "umano",
       "prova_eseguita": true,
       "causa_radice": "Un tetto di tempo (timeout-minutes: 10) tarato sul caso buono, su un lavoro che deve pagare in fila due costi lenti: npm ci e l accensione di uno stack Docker. Sui giri di questa richiesta entrambi girano circa quattro volte piu lenti che sul ramo principale, e sommati sforano il tetto. Non e transitorio: verificato su tre tentativi in due ore e mezza.",
       "impatto_crescita": "basso",
       "verificato": "autore",
-      "fonte_radiografia": "lotto 2026-09-03"
+      "fonte_radiografia": "lotto 2026-09-03",
+      "chiuso_il": "2026-09-04 11:25",
+      "chiuso_da": "Nicola ha dato il via il 4/9 alle 10:53 — .github/workflows/ci.yml riga 114, commit 2b1fbcb su NicolaeRotaru/mycity#249",
+      "nota_riparazione": "Alzato il tetto del lavoro «Integration tests (DB)» da 10 a 20 minuti in .github/workflows/ci.yml (riga 114). Toccata una riga sola: i test unitari restano a 10 minuti, che a loro bastano. Venti allinea quel lavoro ai fratelli che fanno cose paragonabili (15, 20 e 30). · PROVA CHE IL TETTO ERA TARATO MALE, non che fosse sfortuna: nel primo giro dopo la modifica (run 33856823069, testa 2b1fbcb) il passo «Avvia un Supabase locale» ha impiegato 11 minuti e 8 secondi DA SOLO (09:09:24 → 09:20:32), con l installazione dei pacchetti veloce (1m13s). Col vecchio tetto di 10 minuti quel giro sarebbe morto comunque. Il lavoro ha chiuso verde in 12m31s, e il passo «I permessi visti da fuori, contro il Supabase locale» e girato ed e passato: quello strato, in questa richiesta, prima non era mai stato provato. · Il secondo giro sulla stessa testa (run 33856826385) ha chiuso in 6m54s: la variabilita e enorme, ed e proprio per questo che il tetto stretto falliva a intermittenza. · CORREZIONE MIA, registrata: nel commento del 4/9 alle 01:05 avevo scritto «non passa da solo». Non era esatto. Alle 00:53, sullo stesso commit ee43888, la copia gemella del controllo (job 100870112452, run 33814011329) era arrivata in fondo in 6m34s ed era verde. Quindi non era «non passa mai» ma «ci sta dentro a fortuna»: una volta su cinque tentativi. La conclusione pratica non cambiava, la frase era piu assoluta dei dati. Detto anche sulla richiesta. · RESTA APERTA la causa: perche le stesse due operazioni (scaricare pacchetti, accendere contenitori) siano molto piu lente sui giri di quella richiesta che su quelli del ramo principale, dove l accensione dura 74 secondi. Il tetto piu alto cura il sintomo. Se il fenomeno si ripresenta altrove, si riapre da li."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-09-04 03:01",
+    "aggiornato": "2026-09-04 11:25",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 305,
-    "findings_chiusi": 535,
+    "findings_aperti": 304,
+    "findings_chiusi": 536,
     "findings_tot": 840,
     "aperti_per_severita": {
       "bloccante": 3,
       "grave": 26,
-      "minore": 276,
+      "minore": 275,
       "altre": 0
     },
     "dichiarati_dal_referto": 840,
