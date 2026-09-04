@@ -35,10 +35,10 @@
       ]
     },
     "monitora": {
-      "quando": "2026-09-03 06:30",
-      "esito": "motore-fallito",
+      "quando": "2026-09-04 06:51",
+      "esito": "non-pubblicato",
       "codice": 2,
-      "ai_rc": 1,
+      "ai_rc": 0,
       "push_ok": false,
       "passi_ok": true,
       "vincoli_attivi": 0,
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-04 06:07"
+  "aggiornato": "2026-09-04 06:51"
 }
