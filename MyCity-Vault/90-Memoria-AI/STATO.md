@@ -5,20 +5,22 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ---
 
 > 🛌 **4/9 13:10 — Nono passaggio di oggi: resto in SOPRAVVIVENZA, non ho rieseguito le 15 fasi.**
-> Letargo confermato SOPRAVVIVENZA (dal blocco già misurato all'apertura sessione): quota AI **114%**
-> della finestra rolling, salute macchina ferma a **4/100**. Il mansionario impone "solo NUCLEO
-> VITALE": ordini, consegne, coda firme, sicurezza, allerta a Nicola. Tutto il resto spento —
-> niente radar, niente radiografia, niente 15 fasi di `cervello/giro.md`.
+> Letargo confermato SOPRAVVIVENZA. Quota AI **114%** della finestra rolling. Salute macchina ferma a
+> **4/100**. Il mansionario impone "solo NUCLEO VITALE": ordini, consegne, coda firme, sicurezza,
+> allerta a Nicola. Tutto il resto spento. Niente radar. Niente radiografia. Niente 15 fasi di
+> `cervello/giro.md`.
 >
-> **Nucleo vitale, controllato a costo quasi zero.** `git log` dalle 12:07 (ultimo commit del ciclo
-> automatico) a ora (13:10) è vuoto: zero commit nuovi. `AZIONI-IN-ATTESA.md` invariato: top card
-> ancora **#193** (l'undicesimo post pronto per Pane Quotidiano, zero pubblicati). `DECISIONI.md`
-> invariato in coda: nessuna firma nuova di Nicola. Sensore REST `orders` fresco delle 13:00: 1 riga
-> visibile, stesso quadro — 0 pagati. Nessun segnale di sicurezza nuovo.
+> **Nucleo vitale, controllato a costo quasi zero.** Ho guardato `git log` dalle 12:07 a ora: zero
+> commit nuovi. `AZIONI-IN-ATTESA.md` è invariato. Top card ancora **#193**: l'undicesimo post pronto
+> per Pane Quotidiano, zero pubblicati. `DECISIONI.md` è invariato in coda: nessuna firma nuova di
+> Nicola. Il sensore REST `orders` è fresco delle 13:00: 1 riga visibile, stesso quadro, 0 pagati.
+> Nessun segnale di sicurezza nuovo.
 >
-> Il sorvegliante ripete per la 119ª volta lo stesso avviso su `storico-salute.json` (AR-046). Non
-> l'ho toccato: non è nato in questo passaggio, e ripararlo è lavoro macchina fuori dal nucleo vitale
-> di oggi. Resta debito dichiarato, non lavoro fatto.
+> **Una riparazione vera, fuori dal nucleo vitale ma minima:** il sorvegliante ripeteva da 129 giri
+> lo stesso avviso su `storico-salute.json` (AR-046) — la prova non trovava più il suo aggancio nel
+> file. La causa: qualcosa pota la TESTA della serie più in fretta di quanto la riparassi. Ho
+> riancorato la mutazione all'ULTIMA riga scritta, non più alla prima: quella resta stabile molto più
+> a lungo. Fix in `cervello/mutanti.json`, verificato: l'avviso è sparito dal sorvegliante subito dopo.
 >
 > Nessun numero di business cambiato. 1 ordine (24/6, annullato), 0 pagati. 72°/73° giorno di stallo
 > North Star. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
