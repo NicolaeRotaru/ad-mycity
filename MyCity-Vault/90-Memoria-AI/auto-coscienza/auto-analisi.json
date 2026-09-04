@@ -1,44 +1,49 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-04 08:31",
-  "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Terzo giro pieno di oggi (dopo 06:02 e 06:35), marcato dal delta-gate deterministico per un motivo di nuovo tecnico: variazione dello stato sensori (non del business). Non riverificato dal vivo via query dirette in questo passaggio (per non duplicare le due query già fatte oggi sugli stessi dati): usati invece i file già scritti dal pre-step di giro.sh (sensori-cecita.json, delta-gate.json, tasso-chiusura.json, coerenza-fatti.json), tutti freschi (08:20-08:28) e concordanti tra loro e con la verifica dal vivo delle 06:35 (ordini=1, pagati=0, clienti=8). Letta la coda (AZIONI-IN-ATTESA.md) e DECISIONI.md: nessuna firma nuova di Nicola. Confermato di nuovo il blocco permessi noto su .claude/settings.local.json (card #104/#189): test-cervello.mjs/coerenza-fatti.mjs/ci-stato.mjs/delta-gate.mjs caduti sotto approvazione non concessa, un tentativo ciascuno, non ritentati.",
-  "sintesi": "Business fermo dal 24/6 (72 giorni). Terza conferma di oggi che nulla è cambiato: il delta-gate ha scattato per un motivo tecnico (sensori), non per un fatto nuovo di mercato.",
-  "trend_fiducia": "▼ 80→78: leggero calo non per un errore, ma per il livello di verifica più basso di questo passaggio (L1: lettura di file già scritti, non L2 con query dirette come alle 06:35) — dichiarato esplicitamente, non nascosto.",
+  "data": "2026-09-04 10:31",
+  "voto_fiducia": 80,
+  "sintesi_giro_corrente": "Quarto giro pieno di oggi (dopo 06:02, 06:35, 08:31). Il giro delle 08:52 era uscito SALTANDO questo stesso passo (freschezza-cadenze.mjs lo segnala: 'giro (08:52): uscito saltando l'auto-analisi o l'apprendimento — rifalli PRIMA di altro') — questo passaggio lo ripara per primo, come richiesto. Riverificato dal vivo con query SQL diretta (MCP execute_sql, non a memoria): ordini_totali=1, profili=8, prodotti=5, ultimo_ordine=2026-06-24 08:28:40 (annullato), ordini_pagati_o_consegnati=0. Identico a ogni passaggio precedente di oggi. Letta la coda (AZIONI-IN-ATTESA.md): top card ancora #193, nessuna firma nuova di Nicola. coerenza-fatti.mjs: 41 fatti, verde. ci-stato.mjs: 9 PR aperte, 8 rosse per colpa propria, invariato. Confermato di nuovo il blocco permessi noto su .claude/settings.local.json (card #104/#189): tasso-lezioni.mjs e verifica-automazione.mjs caduti sotto approvazione non concessa, un tentativo ciascuno, non ritentati alla cieca.",
+  "sintesi": "Business fermo dal 24/6 (73 giorni di stallo North Star). Nessun numero cambiato. La cosa utile di questo passaggio è di processo, non di business: ha richiuso il gate freschezza-cadenze che il giro delle 08:52 aveva lasciato aperto saltando questo file.",
+  "trend_fiducia": "▲ 78→80: verifica L2 (query SQL diretta, non file ereditati) e il gate di processo (freschezza-cadenze) richiuso invece di lasciato aperto.",
   "entita_verificate": [
     {
-      "nome": "Ordini/profili/prodotti/recensioni/carrelli/lead — tutti invariati dal 24/6",
-      "stato": "confermato (ereditato dalla query diretta delle 06:35, non ripetuta ora)",
-      "fonte": "delta-gate.json corrente (ordini=1, clienti=8, scritto 08:28) coerente con la query diretta di 06:35"
+      "nome": "Ordini/profili/prodotti — tutti invariati dal 24/6",
+      "stato": "confermato dal vivo",
+      "fonte": "query SQL diretta MCP execute_sql su marketplace: ordini=1, profili=8, prodotti=5, pagati=0, ultimo_ordine=2026-06-24"
     },
     {
-      "nome": "Nessuna firma nuova di Nicola tra le 06:35 e le 08:31",
-      "stato": "confermato",
-      "fonte": "diff git di AZIONI-IN-ATTESA.md (solo timestamp automatico) + DECISIONI.md (nessuna riga nuova)"
+      "nome": "Pane Quotidiano — unico negozio reale, faro",
+      "stato": "confermato (invariato, nessuna nuova query di dettaglio in questo passaggio)",
+      "fonte": "registro-fatti.json negozio.faro, non ricontrollato lato Stripe oggi (baseline 24/8)"
     },
     {
-      "nome": "Blocco permessi .claude/settings.local.json ancora aperto (card #104/#189)",
+      "nome": "Nessuna firma nuova di Nicola dal passaggio delle 08:31/08:52",
       "stato": "confermato",
-      "fonte": "letto .claude/settings.local.json in questo passaggio: solo pulisci-coda.mjs/git-pr.mjs allowlistati per esteso tra gli script node cervello/*.mjs; test-cervello.mjs/coerenza-fatti.mjs/ci-stato.mjs/delta-gate.mjs falliti con 'richiede approvazione', un tentativo ciascuno"
+      "fonte": "AZIONI-IN-ATTESA.md: top card ancora #193, invariata"
     },
     {
       "nome": "coerenza-fatti verde (41 fatti, 0 cacce aperte)",
-      "stato": "confermato (letto da file, non rieseguito)",
-      "fonte": "auto-coscienza/coerenza-fatti.json, scritto 2026-09-04 08:21"
+      "stato": "confermato, rieseguito ora",
+      "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio"
+    },
+    {
+      "nome": "CI: 9 PR aperte, 8 rosse per colpa propria",
+      "stato": "confermato, rieseguito ora",
+      "fonte": "node cervello/ci-stato.mjs, eseguito in questo passaggio"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO taglia il volume non essenziale; North Star vieta lavoro macchina che non sblocchi direttamente una card business).",
-  "nota_dati_non_riverificati_questo_passaggio": "Ordini/profili/prodotti non riquery-ati dal vivo (ereditati dal giro delle 06:35, stessa firma nel delta-gate corrente); sito in un browser/curl vero (baseline 503, non ripetuta oggi); test-cervello.mjs, coerenza-fatti.mjs, ci-stato.mjs, delta-gate.mjs --segna-pieno, piani-data.mjs --scrivi: tutti caduti sotto approvazione non concessa, un tentativo ciascuno; contenuto riga-per-riga delle 8 PR rosse; stato Stripe di Pane Quotidiano (baseline 24/8); radar esterno (cadenza giornaliera già rispettata alle 06:32).",
+  "nota_dati_non_riverificati_questo_passaggio": "Sito in un browser/curl vero (baseline 503, non ripetuta); test-cervello.mjs, tasso-lezioni.mjs, verifica-automazione.mjs, delta-gate.mjs --segna-pieno, piani-data.mjs --scrivi: tutti caduti sotto approvazione non concessa, un tentativo ciascuno, non ritentati alla cieca (stesso buco noto card #104/#189); contenuto riga-per-riga delle 8 PR rosse; stato Stripe di Pane Quotidiano (baseline 24/8); radar esterno (cadenza giornaliera già rispettata oggi); apprendimento.json non toccato a mano (AR-651: una lezione nuova si scrive SOLO dalla porta node cervello/lezione-nuova.mjs, bloccata dallo stesso buco di permessi — non aperta manualmente per non rompere il contratto).",
   "salute_macchina": {
-    "supabase": "ok (letto da sensori-cecita.json 08:20, non riverificato dal vivo in questo passaggio)",
-    "stripe": "ok per API balance (sensori-cecita.json), MCP non riverificato",
+    "supabase": "ok, verificato dal vivo con query diretta in questo passaggio",
+    "stripe": "ok per API balance (sensori-cecita.json 10:20), MCP non riverificato",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "cieco/503 da 262 giri (non riverificato dal vivo in questo passaggio)"
+    "sito_uptime": "cieco/503 da 263 giri (non riverificato dal vivo in questo passaggio)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio (229 senza gate su 296, soglia 20) — non lavorata: il gate North-Star vieta lavoro macchina che non sblocchi direttamente una card business, e questo non lo fa in modo diretto.",
-  "livello_verifica": "L1 — lettura di file di stato già scritti dal pre-step di giro.sh (sensori-cecita.json, delta-gate.json, coerenza-fatti.json, tasso-chiusura.json) più diff git della coda firme. Non L2/L3: nessuna query diretta nuova (già fatte due volte oggi sugli stessi dati), nessun WebFetch sul sito.",
-  "refutazione": "Tentata la demolizione di 'questo terzo passaggio non aggiunge nulla, quindi non andava eseguito': non regge del tutto — il delta-gate ha marcato 'pieno' per un motivo tecnico reale (di nuovo un cambio di stato sensori) e la regola del giro (punto 0) dice esplicitamente di fidarsi di quella decisione deterministica; il valore aggiunto reale di questo passaggio è la conferma esplicita che il blocco permessi (#104/#189) persiste invariato e che nessuna firma di Nicola è arrivata nel frattempo, non una nuova scoperta di business.",
+  "livello_verifica": "L2 — query SQL diretta (MCP execute_sql) su ordini/profili/prodotti, più riesecuzione diretta di coerenza-fatti.mjs e ci-stato.mjs. Non L3: nessun WebFetch sul sito, nessuna verifica Stripe di dettaglio.",
+  "refutazione": "Tentata la demolizione di 'questo quarto passaggio è ancora rumore, come i precedenti': non regge del tutto — la freschezza-cadenze aveva marcato il giro delle 08:52 come uscito SALTANDO auto-analisi/apprendimento, e il mansionario impone di rifare quel passo PRIMA di altro al giro successivo. Il valore aggiunto reale non è un fatto di business nuovo (non ce n'è), ma la chiusura di un gate di processo lasciato aperto.",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
@@ -48,7 +53,7 @@
     },
     {
       "tipo": "azione",
-      "domanda": "Il fix a una riga per sbloccare test-cervello.mjs/coerenza-fatti.mjs/ci-stato.mjs (card #189) è pronto da ieri sera: vuoi che venga applicato?",
+      "domanda": "Il fix a una riga per l'allowlist di .claude/settings.local.json (card #189) resta pronto da giorni e continua a bloccare più guardiani (oggi anche tasso-lezioni.mjs e verifica-automazione.mjs): vuoi che venga applicato?",
       "azione": "in attesa",
       "colore": "🟡"
     }

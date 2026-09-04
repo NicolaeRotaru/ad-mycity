@@ -1,7 +1,23 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 08:31
+aggiornato: 2026-09-04 10:31
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **4/9 10:31 — Giro (quarto passaggio pieno di oggi): richiude un gate di processo, nessun
+> numero di business cambiato.** Riverificato dal vivo con query SQL diretta (MCP `execute_sql`,
+> non a memoria): 1 ordine (24/6, annullato), **0 pagati**, 8 profili, 5 prodotti — invariato, 73°
+> giorno di stallo North Star. Novità vera: il giro delle 08:52 era uscito SALTANDO
+> l'auto-analisi/apprendimento (segnalato da `freschezza-cadenze.mjs`, «rifalli PRIMA di altro») —
+> questo passaggio lo ripara, riscrivendo `auto-analisi.json` con verifica L2 (query dal vivo, non
+> file ereditati). `coerenza-fatti.mjs` (41 fatti, verde) e `ci-stato.mjs` (9 PR aperte, 8 rosse per
+> colpa propria) rieseguiti dal vivo, invariati. Nessuna firma nuova di Nicola: top card ancora
+> #193. Blocco permessi noto (card #104/#189) confermato ancora aperto, oggi anche su
+> `tasso-lezioni.mjs`/`verifica-automazione.mjs`, un tentativo ciascuno, non ritentati alla cieca.
+> **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🧭 **4/9 08:31 — Giro (delta-gate: di nuovo solo stato sensori): nessun numero di business
