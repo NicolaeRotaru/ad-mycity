@@ -26,6 +26,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- codice-dimenticato-senza-pr-funnel -->
+### 🟡 #197 — C'è del codice pronto (o quasi) da luglio che non è mai entrato in una richiesta di unione · ⏳ accodata 2026-09-05 12:34
+
+**Cosa cambia:** guardando lo stato del computer ho trovato modifiche scritte e mai salvate in una
+richiesta di unione. Sono tre file: un conto sui carrelli abbandonati (`funnel/route.ts`), un file
+che li legge (`marketplace-db.ts`), e uno strumento nuovo per ripulire frasi
+(`spazzata-frase.mjs`), con i suoi test. L'ultima volta che qualcuno ha salvato per davvero quei due
+file di conto risale al **4 luglio**. Questo lavoro è più vecchio di due mesi. Nessuno l'ha mai
+messo in una richiesta di unione. Nessuno l'ha mai scritto in questa coda o nel canale della
+squadra. È rimasto sul disco, invisibile. Il motivo: i salvataggi automatici della memoria non
+toccano mai il codice.
+
+**Se va bene:** non l'ho aperto per capire se è finito o a metà — decidere se buttarlo o completarlo
+tocca prima capire cosa fa. Dimmi se vuoi che lo guardi (backend-dev) e ti dica se è pronto per una
+richiesta di unione, oppure se preferisci che aspetti la prossima volta che lavoriamo sui carrelli
+abbandonati.
+
+**Cosa non ho verificato:** se il codice funziona, se è completo, e perché non è mai stato salvato
+in una richiesta di unione — da qui vedo solo che esiste sul disco, non la sua storia.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 197 | 2026-09-05 12:34 | @backend-dev | Guarda il codice non salvato su funnel/carrelli abbandonati e dimmi se è pronto per una richiesta di unione | 🟡 | `pannello/src/app/api/metriche/funnel/route.ts`, `pannello/src/lib/marketplace-db.ts`, `cervello/spazzata-frase.mjs` + test — nessun commit dal 4/7 | manuale | in attesa |
+
 <!-- panificio-demo-comparso-produzione -->
 ### 🟡 #196 — Un negozio finto è comparso nel database vero stamattina alle 6:40 · ⏳ accodata 2026-09-05 12:10
 
@@ -3099,7 +3123,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-05 10:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-05 12:28)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-05-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

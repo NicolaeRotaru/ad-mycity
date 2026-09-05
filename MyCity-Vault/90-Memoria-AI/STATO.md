@@ -1,7 +1,23 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 10:46
+aggiornato: 2026-09-05 12:34
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 12:34 — Nuova chiamata "esegui giro.md per intero": zero delta di business, una scoperta vera di processo.**
+>
+> **I numeri, riverificati dal vivo su MCP Supabase, non a memoria.** 1 ordine: id `58094956…`, del 24/6, PENDING/CANCELED, €19,05, seller Pane Quotidiano. **0 pagati.** 8 profili: 5 buyer, 2 seller, 1 rider, 1 admin. I due seller sono Pane Quotidiano e il "Panificio Demo" della card #196, ancora non spiegato. Nessuno dei due ha Stripe attivo: sia `stripe_charges_enabled` sia `stripe_payouts_enabled` sono falsi su entrambi. Questa è la causa diretta del **77° giorno di stallo North Star** (24/6→5/9). `DECISIONI.md` è invariato dal 29/8: nessuna firma nuova di Nicola. `AZIONI-IN-ATTESA.md` è invariata nel merito. Top card: prima **#196** (Panificio Demo). Poi #195. Poi #194 (entrambi gate cronici).
+>
+> **La scoperta vera di questo passaggio.** C'è codice non committato. È fermo da prima del 4 luglio. Non è mai entrato in una richiesta di unione (PR). `git status` mostra modifiche non salvate in tre punti: `pannello/src/app/api/metriche/funnel/route.ts`, `pannello/src/lib/marketplace-db.ts`, e un nuovo script `cervello/spazzata-frase.mjs` con i suoi test. Tutti e tre riguardano un fix del funnel dei carrelli abbandonati. Nessuno dei tre compariva in `AZIONI-IN-ATTESA.md` né in `SALA-OPERATIVA.md`. L'ultimo commit che ha toccato quei due file di `pannello/` risale al **4 luglio** (verificato con `git log`). Il motivo per cui è rimasto invisibile: i commit automatici di recupero (regola `AR-044`) salvano SOLO le cartelle di memoria — `MyCity-Vault`, `consegne`, `creativi`, `memoria-squadra`. Non toccano mai `cervello/` o `pannello/`. Non ho toccato questo codice. Non so se è lavoro finito e dimenticato, o lavoro a metà. La regola `flusso.pr-sempre` vuole una PR: non un commit diretto su `main` fatto da me senza averlo capito prima. Ho aperto la card #197.
+>
+> **Perché non ho rilanciato le 15 fasi intere del giro.** Due vincoli lo impedivano. Il letargo è in **SOPRAVVIVENZA**: solo nucleo vitale. Il gate **NORTH_STAR** è attivo: lavoro macchina ammesso solo se sblocca un ordine pagato. Nessun numero di business è diverso dal passaggio delle 10:46. `auto-analisi.json` e `apprendimento.json` erano già stati riscritti e verificati in quel passaggio: voto di fiducia 79, motivo del calo già spiegato lì. Riscriverli di nuovo su dati identici sarebbe stato rumore, non un controllo in più — lo stesso pattern già diagnosticato più volte oggi in questo file. Gli script di controllo come `node cervello/test-cervello.mjs` restano bloccati dallo stesso buco di permessi di sempre: `.claude/settings.local.json` non li elenca per esteso (card #104/#189/#194). Non li ho ritentati alla cieca.
+>
+> **La mossa n.1 resta invariata: firma #154+#155** (dominio+chiavi Vercel). È quella che rimette online il sito. È quella che rende possibile un primo ordine pagato vero. Sul north star, il blocco più a monte è chiaro: **né Pane Quotidiano né "Panificio Demo" hanno Stripe attivo**. L'ho verificato ora. È coerente con la card #182.
+>
+> **Cosa non ho verificato in questo passaggio.** Se il codice non committato della card #197 sia finito o a metà: l'ho visto solo dal disco, non l'ho letto riga per riga. La leggibilità dei sei file già segnalati dalla card #192 (RITMO.md, AUTO-ANALISI.md, i quattro file di `Intelligence/`): il verificatore `si-capisce.mjs` resta bloccato dallo stesso buco di permessi, e un tentativo alla cieca su file grandi che non ho scritto oggi rischia di rompere qualcosa senza saperlo.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 10:46 — Nuova chiamata "esegui giro.md per intero": stessa verifica lean, più una

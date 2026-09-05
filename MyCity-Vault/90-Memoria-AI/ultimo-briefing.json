@@ -1,12 +1,13 @@
 {
-  "data": "2026-09-05 10:46",
-  "situazione": "76° giorno di stallo North Star, riverificato dal vivo con query dirette (non a memoria): 1 ordine annullato del 24/6, 0 pagati, 8 profili, 0 nuovi lead in 7gg, 3 carrelli abbandonati invariati — identico ai passaggi delle 06:32/08:32/08:48. Riparazione vera in questo passaggio: l'auto-analisi era stata saltata nel giro delle 08:48 (segnalato da freschezza-cadenze.mjs), riscritta ora con verifica dal vivo; CHECKLIST-NICOLA.md era stantia da 2 giorni, rigenerata. Nessuna firma nuova di Nicola. Blocco permessi confermato di nuovo, oggi anche su esperimenti-check.mjs --apri (card #104/#189/#194/#195).",
+  "data": "2026-09-05 12:34",
+  "situazione": "77° giorno di stallo North Star, riverificato dal vivo con query dirette (non a memoria): 1 ordine annullato del 24/6, 0 pagati, 8 profili (2 seller, nessuno con Stripe attivo), 0 nuovi lead in 7gg, 3 carrelli abbandonati invariati — identico ai passaggi di oggi da 06:32 in poi. Scoperta vera di questo passaggio: codice non committato da prima del 4/7 (fix funnel/carrelli abbandonati) mai entrato in una PR e mai tracciato in coda — aperta card #197. Nessuna firma nuova di Nicola. Blocco permessi confermato di nuovo (card #104/#189/#194/#195).",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
     {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 26 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
     {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"},
     {"titolo": "Scegli un post da pubblicare per Pane Quotidiano o ritira quelli vecchi", "motivo": "11 post pronti, zero pubblicati", "livello": "rosso"},
+    {"titolo": "Guarda il codice dimenticato sui carrelli abbandonati prima che si perda", "motivo": "fermo dal 4/7, mai entrato in una richiesta di unione, scoperto solo ora", "livello": "giallo"},
     {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "una riga in .claude/settings.local.json sblocca test-cervello.mjs, sonda-volano.mjs, north-star-check.mjs, gate-veri.mjs, stash-dimenticate.mjs, esperimenti-check.mjs, lezione-nuova.mjs", "livello": "giallo"}
   ]
 }
