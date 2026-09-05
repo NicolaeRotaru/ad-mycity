@@ -8,15 +8,25 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > 🛣️ **2026-09-05 07:05 — Il banco delle difese misurava una difesa su sei. Adesso le misura tutte, e ne ha subito trovate due che non difendevano.** Richiesta tua: le corsie parallele, firmate ieri.
 >
-> **In parole semplici.** Prima di consegnare, la macchina rompe apposta il proprio codice per vedere se le prove se ne accorgono: una prova che resta verde col codice rotto non sta difendendo niente. Quel controllo faceva in tempo a provarne 27 su 172 — il 16% — e le altre le dichiarava saltate. In fila non ci stavano: 31 secondi l'una fanno 89 minuti, contro un tetto di 75 per l'intero cancello.
+> **In parole semplici.** Prima di consegnare, la macchina rompe apposta il proprio codice. Serve a vedere se le prove se ne accorgono. Una prova che resta verde col codice rotto non sta difendendo niente.
+>
+> Le difese da controllare sono 172. Quel controllo faceva in tempo a provarne 27, cioè il 16%. Le altre 145 le dichiarava saltate.
+>
+> In fila non ci stavano, ed è aritmetica: 31 secondi l'una fanno 89 minuti. Il tetto per l'intero cancello è di 75.
 >
 > **Cosa cambia.** Adesso il controllo lavora su quattro copie separate del progetto in parallelo: **165 difese misurate su 172**, e il passo è sceso da 89 minuti teorici a 18 reali. Le copie separate non sono un dettaglio di velocità: due prove che rompono file nella stessa cartella si pestano a vicenda, e con una casa per ciascuna quel guaio non ha dove succedere.
 >
-> **Le due difese che non difendevano erano mie, di ieri.** La prima concludeva «l'albero è pulito» da un figlio andato in rosso — che non aveva fatto il lavoro da osservare. La seconda distingueva due strade col cronometro («la copia prende secondi»), e dentro una copia veloce la soglia non distingueva più niente. Nessuna delle due poteva diventare rossa: il codice sembrava giusto, e il verde non dimostrava niente.
+> **Le due difese che non difendevano erano mie, di ieri.** La prima concludeva «è tutto pulito» guardando un controllo che era andato in rosso. Ma un controllo rosso non aveva fatto il lavoro che dovevo osservare.
+>
+> La seconda distingueva due strade cronometrandole: «la copia dei file prende secondi». Dentro una copia veloce quella soglia non distingueva più niente.
+>
+> Nessuna delle due poteva diventare rossa. Il codice sembrava giusto, e il verde non dimostrava niente.
 >
 > **La regola che resta:** quando una prova conclude qualcosa dall'ASSENZA di un segnale, la domanda vera non è «il segnale c'era?» ma «il segnale avrebbe potuto esserci?».
 >
-> **Cosa non ho verificato.** Due difese restano cieche su questa macchina perché la loro prova importa il Pannello e qui mancano le sue dipendenze — ho riclonato il repo ieri dopo che un mio esperimento ha cancellato la cartella (un'ora persa, niente di committato). Sul server ci sono.
+> **Cosa non ho verificato.** Due difese restano cieche su questa macchina, e non per colpa loro. La loro prova ha bisogno del Pannello, e qui mancano i pezzi che gli servono per partire.
+>
+> Il motivo: ieri ho riclonato il progetto da capo, dopo che un mio esperimento aveva cancellato la cartella. Ho perso un'ora di lavoro, niente di già consegnato. Sul server quei pezzi ci sono, quindi là le due difese vengono misurate.
 
 ---
 
