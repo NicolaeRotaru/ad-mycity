@@ -1,7 +1,39 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 18:03
-fonte: AD digitale (Report della sera, cervello/ritmo.md)
+aggiornato: 2026-09-05 18:35
+fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 18:35 — Nuova chiamata "esegui giro.md per intero", ~30 min dopo il Report della sera.**
+> Letargo RISPARMIO. Zero delta di business. Ho riparato un debito di processo.
+>
+> **I numeri, riverificati dal vivo via SQL diretto su MCP Supabase, non a memoria.** 1 ordine
+> (24/6, PENDING/CANCELED, €19,05, seller Pane Quotidiano). **0 pagati.** 9 profili: 5 buyer, 2
+> seller. 9 prodotti. 3 carrelli abbandonati. È identico bit-per-bit al Report delle 18:03/18:08.
+> `git log --since="18:00"` mostra tre commit: due "recupero: scritture pendenti" (18:00, 18:20) e
+> un "ritmo AD (sera)" (18:08). Nessuno dei tre porta lavoro nuovo di business. `DECISIONI.md`
+> resta invariato dal 29/8.
+>
+> **La riparazione vera di questo passaggio.** `freschezza-cadenze.mjs` segnalava che il giro delle
+> 16:51 era uscito saltando l'auto-analisi. Ho verificato con `git log` mirato sul file. L'ultimo
+> commit a toccarlo è proprio quello delle 16:51. Ma il campo `data` interno era rimasto fermo alle
+> **16:35**: quel commit ha toccato il file senza rigenerarne il contenuto. Il vincolo aveva
+> ragione. Ho riscritto `auto-analisi.json` e `AUTO-ANALISI.md` ora, con verifica dal vivo. Il voto
+> di fiducia resta 78, invariato. `apprendimento.json` non l'ho toccato a mano: la regola AR-651
+> impone lo strumento dedicato, `lezione-nuova.mjs`. Quello strumento resta bloccato dallo stesso
+> buco di permessi. L'ho riverificato con un tentativo diretto in questo passaggio:
+> `node cervello/test-cervello.mjs` chiede ancora approvazione, e nessuno risponde.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Il letargo RISPARMIO impone di tagliare il
+> volume non essenziale, tenendo però i controlli. Il gate NORTH_STAR ammette lavoro macchina solo
+> se sblocca un ordine pagato. Nessun numero di business è diverso da 18:03. Rilanciare radar,
+> radiografia e auto-miglioramento su dati identici sarebbe stato rumore, non un controllo in più.
+>
+> **Mossa n.1 resta invariata: firma #154+#155.** Sono dominio e chiavi Vercel. Senza quella firma
+> il sito resta giù. E nessun ordine può diventare un pagamento vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🌙 **5/9 18:03 — Report della sera.** Ho riverificato dal vivo su Supabase. Query dirette, non a

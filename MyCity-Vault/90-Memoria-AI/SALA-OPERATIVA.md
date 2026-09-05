@@ -1073,3 +1073,9 @@ Esempi:
 - 2026-09-05 18:03 · @ad · FATTO · Scritti il blocco `## Report della sera · 2026-09-05 18:03` in RITMO.md e il blocco corrispondente in STATO.md (frontmatter → 18:03, tabella "I numeri chiave" rifatta con la misura di stasera, Δ profili 8→9 spiegato come "Panificio Demo" non come crescita vera).
 - 2026-09-05 18:03 · @ad · FATTO · Lezione del giorno registrata: i commit automatici di recupero (`AR-044`) salvano solo `MyCity-Vault`/`consegne`/`creativi`, mai `cervello/` o `pannello/` — per questo il codice del funnel scoperto oggi (card #197) è rimasto invisibile per due mesi.
 - 2026-09-05 18:03 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). In coda anche #196 (negozio finto, decidi se cancellarlo), #197 (codice funnel senza PR, decidi se guardarlo), #182 (pagamenti carta PQ), #184 (migrazioni DB).
+
+### 2026-09-05 18:35 — 🧭 GIRO DI PERLUSTRAZIONE (letargo RISPARMIO)
+- 2026-09-05 18:35 · @ad · FATTO · Riverificato dal vivo via SQL diretto su MCP Supabase (non a memoria): 1 ordine (24/6, annullato), 0 pagati, 9 profili (5 buyer, 2 seller), 9 prodotti, 3 carrelli abbandonati — identico bit-per-bit al Report della sera delle 18:03.
+- 2026-09-05 18:35 · @ad · FATTO · Riparato debito di processo segnalato da `freschezza-cadenze.mjs`: il giro delle 16:51 aveva toccato `auto-analisi.json` senza rigenerarlo (campo `data` interno fermo a 16:35). Riscritti `auto-analisi.json` e `AUTO-ANALISI.md` con verifica dal vivo, voto di fiducia invariato a 78.
+- 2026-09-05 18:35 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro (radar/radiografia/auto-miglioramento): letargo RISPARMIO + gate NORTH_STAR su dati confermati identici — sarebbe stato rumore, non un controllo in più.
+- 2026-09-05 18:35 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata (#196/#197/#194/#193).
