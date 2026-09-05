@@ -26,6 +26,28 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- panificio-demo-comparso-produzione -->
+### 🟡 #196 — Un negozio finto è comparso nel database vero stamattina alle 6:40 · ⏳ accodata 2026-09-05 12:10
+
+**Cosa cambia:** a mezzogiorno ho trovato un negozio che stamattina non c'era. Si chiama "Panificio Demo".
+Ha 4 prodotti finti: miele, focaccia, grissini, pane. È scritto direttamente nel database vero, non nel sito.
+Non c'è un ordine dietro. Nessuno l'ha comprato. Non è Pane Quotidiano, il nostro unico negozio reale. Non
+l'ho creato io né un senior: nessuna traccia nelle modifiche in corso su questo computer, nessuna traccia nel
+registro delle azioni, nessuna traccia nei log del sito per quell'ora. Qualcuno o qualcosa ha scritto nel
+database con le chiavi dirette, saltando il sito.
+
+**Se va bene:** dimmi se sai da dove viene "Panificio Demo": un test tuo, di qualcun altro con accesso, o
+uno sconosciuto. Se non lo riconosci, dimmi cosa preferisci. Posso cancellarlo: nessun ordine è collegato, si
+toglie senza toccare niente di reale. Oppure lo lascio finché non capiamo chi scrive nel database senza
+passare dal sito.
+
+**Cosa non ho verificato:** chi ha le chiavi per scrivere nel database saltando il sito — da qui vedo solo
+l'effetto, non l'origine.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 196 | 2026-09-05 12:10 | @AD | Verifica l'origine di "Panificio Demo" nel database vero e decidi se cancellarlo | 🟡 | vedi blocco sopra — seller_id `44444444-4444-4444-4444-aaaaaaaa0001`, creato 2026-09-05 06:40:48, 0 ordini collegati | manuale | in attesa |
+
 <!-- loop-cronico-3giri -->
 ### 🟡 #195 — Un secondo controllo automatico dice "no" da 3 giri di fila e nessuno lo ripara · ⏳ accodata 2026-09-05 06:32
 

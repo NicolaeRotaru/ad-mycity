@@ -1711,3 +1711,20 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Sblocca il permesso sul VPS che tiene fermi due controlli automatici da giorni (stesso fix per entrambi).
 
 **Dettagli tecnici** (opzionale) — Riverificato ora via Supabase MCP: ordini=1 (24/6, annullato), pagati=0, profili=8, prodotti=5. Zero commit dalle 20:20 di ieri, nessuna firma nuova in DECISIONI.md (ultima 29/8). Coda invariata: #154+#155, #182, #184, #185, #189, #190, #192, #193, #194.
+
+## Punto di mezzogiorno · 2026-09-05 12:12
+
+**In una riga:** le tre firme di stamattina sono ancora ferme. Ho trovato anche una cosa nuova: un negozio finto è comparso nel database vero.
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. ❌ **Rimetti online il sito** (dominio + chiavi Vercel, `#154`/`#155`). Nessuna firma.
+2. ❌ **Sblocca i pagamenti con carta di Pane Quotidiano** (`#182`). Fermo da 26 giorni.
+3. ❌ **Applica le quattro migrazioni ferme** (`#184`). Nessuna firma.
+
+**Correzione di rotta:** ho ricontrollato i numeri veri. Non lo facevo dalle 06:10. Sono cambiati, ma non per una vendita. Alle 6:40 di oggi è comparso un negozio, "Panificio Demo". Ha 4 prodotti finti: miele, focaccia, grissini, pane. È scritto direttamente nel database vero. Non è passato dal sito. Non c'è un ordine dietro. Zero clienti coinvolti. Non è Pane Quotidiano, il nostro unico negozio reale. Non l'ho creato io né un senior: nessuna traccia nelle modifiche in corso su questo computer, nessuna traccia nei log del sito per quell'ora. Qualcuno o qualcosa ha scritto nel database con le chiavi dirette. Non l'ho toccato: sono in sola lettura sul database vero. Ho aperto la scheda `#196` per deciderlo insieme. Nessun impatto in cassa: zero ordini collegati.
+
+**Cosa serve da te entro sera:**
+- Dimmi se riconosci "Panificio Demo" — un tuo test, di qualcun altro con accesso, o davvero uno sconosciuto (`#196`).
+- Le stesse tre firme di stamattina: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), le quattro migrazioni (`#184`).
+
+**Dettagli tecnici** — Supabase MCP ora: `orders`=1 (invariato), `profiles`=9 (+1 da stamattina), `products`=9 (+4). Il nuovo: seller_id `44444444-4444-4444-4444-aaaaaaaa0001`, store_name "Panificio Demo", `approval_status`=approved, creato 2026-09-05 06:40:48. Zero righe in `order_items` collegate ai suoi prodotti. `audit_logs` vuoto per l'intervallo 06:00–12:12: la scrittura non è passata dall'app. Cercato nel repo (incluso il lavoro non committato su funnel/marketplace-db): nessuna traccia. AZIONI-IN-ATTESA/DECISIONI: nessuna firma nuova (ultima 29/8), coda invariata più la nuova `#196`.
