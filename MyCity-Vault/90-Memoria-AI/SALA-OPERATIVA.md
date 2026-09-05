@@ -1079,3 +1079,9 @@ Esempi:
 - 2026-09-05 18:35 · @ad · FATTO · Riparato debito di processo segnalato da `freschezza-cadenze.mjs`: il giro delle 16:51 aveva toccato `auto-analisi.json` senza rigenerarlo (campo `data` interno fermo a 16:35). Riscritti `auto-analisi.json` e `AUTO-ANALISI.md` con verifica dal vivo, voto di fiducia invariato a 78.
 - 2026-09-05 18:35 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro (radar/radiografia/auto-miglioramento): letargo RISPARMIO + gate NORTH_STAR su dati confermati identici — sarebbe stato rumore, non un controllo in più.
 - 2026-09-05 18:35 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata (#196/#197/#194/#193).
+
+### 2026-09-05 20:43 — 🧭 GIRO DI PERLUSTRAZIONE (letargo RISPARMIO)
+- 2026-09-05 20:43 · @ad · FATTO · Verificato zero delta reale a 8 minuti dal passaggio delle 20:35 (git log vuoto, DECISIONI.md e AZIONI-IN-ATTESA.md invariati, sensore REST orders coerente: 1 ordine, 0 pagati, 9 profili, 3 carrelli).
+- 2026-09-05 20:43 · @ad · FATTO · Corretto il conteggio giorni di stallo North Star: 73° giorno (24/6→5/9 ricalcolato da zero), non 80°/81° come nel passaggio precedente — bug di incremento-per-passaggio, non per data di calendario.
+- 2026-09-05 20:43 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro: letargo RISPARMIO + gate NORTH_STAR su dati confermati identici — sarebbe stato rumore, non un controllo in più.
+- 2026-09-05 20:43 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata (#197/#196/#195/#194).
