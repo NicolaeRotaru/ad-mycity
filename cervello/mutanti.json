@@ -9069,6 +9069,16 @@
    "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
    "lezione": "L-2026-0904-04",
    "perche_conta": "Con `-z` git scrive un rename su DUE campi, e il secondo non ha i caratteri di stato davanti. Senza questo ramo il vecchio percorso viene letto come un record normale, gli si tagliano i primi tre caratteri, si prova a copiare un file inesistente e la corsia esce cieca. Trovato riguardando il file con la lente della sicurezza, prima che succedesse."
+  },
+  {
+   "difetto": "AR-940",
+   "nome": "l osservatore torna ad accettare un figlio rosso come prova che l albero e' pulito",
+   "file": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+   "cerca": "  if (falliti) return { ok: false, perche: `il figlio e' andato in rosso (${falliti} casi): non ha fatto il lavoro che dovevo osservare, quindi «l'albero e' pulito» non dimostra niente` };",
+   "sostituisci": "  if (false) return { ok: false, perche: \"\" };",
+   "test": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+   "lezione": "L-2026-0904-04",
+   "perche_conta": "E' la riga che distingue «ho guardato e non c era niente» da «non ho guardato». Togliendola l osservatore torna a firmare come pulito un albero che non ha mai visto sporcarsi, ed e' esattamente il modo in cui la difesa di AR-919 e' rimasta verde per un giorno intero."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

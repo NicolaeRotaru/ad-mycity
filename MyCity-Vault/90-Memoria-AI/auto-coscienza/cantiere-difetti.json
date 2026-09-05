@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-04 13:10",
+  "aggiornato": "2026-09-04 18:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20078,6 +20078,29 @@
       "chiuso_il": "2026-09-04 13:10",
       "chiuso_come": "riparato",
       "malattia_perche": "La forma e' «un rm -rf che si fida di una variabile», e cercarla col testo non funziona: in cervello/ ci sono 333 righe con quella forma — misurate — e quasi tutte sono pulizie legittime di cartelle temporanee dentro le prove. Un guardiano che ne segnala 333 per trovarne una insegna a saltarlo, ed e' peggio di non averlo. Chi copre davvero il punto dove il danno e' successo: `siPuoButtare()` in cervello/banco-a-corsie.mjs, che nega la cancellazione fuori dal temporaneo, piu' il caso «IL DANNO DEL 4/9» in cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs, che elenca la radice del repo fra i percorsi da rifiutare. Resta scoperto il caso generale: qualunque ALTRO punto che cancelli a ricorsione un percorso calcolato non ha un freno, ed e' debito dichiarato, non risolto."
+    },
+    {
+      "id": "AR-940",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-04 18:50",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-938",
+      "malattia": "prova-che-non-puo-fallire",
+      "titolo": "L osservatore concludeva «pulito» da un figlio andato in rosso: la difesa di AR-919 non difendeva",
+      "sintomo": "Prima corsa del banco a corsie (33892879196): 165 mutazioni misurate su 172 invece di 27, e subito UNA prova dichiarata `vacua` — resta VERDE col fix rotto. E' la prova di AR-919, scritta stamattina. Dentro una corsia il registro contiene SOLO la fetta di quella corsia, quindi il figlio che dovrebbe sporcare i file veri non ci arriva nemmeno: i suoi casi falliscono, l albero resta pulito, e l osservatore legge quel pulito come una promessa mantenuta.",
+      "causa_radice": "L osservatore chiedeva al figlio «hai passato almeno un caso?» invece di «sei andato in fondo?». Un figlio ROSSO non ha fatto il lavoro che dovevo osservare, quindi la pulizia dell albero non dimostra niente — e' ⚪, non verde. E' la TERZA versione troppo debole della stessa domanda: la prima guardava il cronometro (e con la finta il figlio finisce in mezzo secondo), la seconda contava i casi passati. Le prime due le ho trovate io per fortuna; questa l ha trovata la macchina.",
+      "fix_proposto": "🟡 FATTO: la regola esce dal corpo della prova e diventa una funzione pura, `haOsservato({passati, falliti})` — zero casi e' «non ho guardato», almeno un rosso e' «non ho osservato», e solo tutto verde vale come osservazione. Con un caso suo che interroga i tre esiti direttamente, invece di dedurli da una corsa.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+        "nota": "Il caso «AR-940» interroga la funzione pura sui tre esiti: quattro passati e zero rossi = ho osservato; zero casi = non ho guardato (la prima versione debole); due passati e due rossi = non ho osservato (la seconda, quella che ha rotto). La controprova vera e' il banco: `node cervello/banco-a-corsie.mjs --difetti AR-919 --corsie 1` usciva 1 (vacua) prima della cura ed esce 0 dopo — misurato, dentro una corsia vera."
+      },
+      "trovato_da": "il banco a corsie stesso, alla sua prima corsa: misurando 165 difese invece di 27 ha trovato quella che non difendeva",
+      "chiuso_il": "2026-09-04 18:50",
+      "chiuso_come": "riparato",
+      "malattia_perche": "Dentro una corsia l'osservatore non POTEVA diventare rosso: il figlio che doveva sporcare l'albero non ci arrivava mai, quindi la condizione che la prova cerca non poteva verificarsi. Non e' una tautologia scritta a mano come `assert.ok(true)` — e' la stessa cosa prodotta dall'ambiente, ed e' la forma piu' difficile da vedere perche' il codice della prova sembra giusto."
     }
   ],
   "meta": {

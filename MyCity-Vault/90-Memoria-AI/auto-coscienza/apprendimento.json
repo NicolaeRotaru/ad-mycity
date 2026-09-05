@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-04 12:05",
+ "aggiornato": "2026-09-04 18:50",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12319,6 +12319,29 @@
    "stato": "viva",
    "usi": [],
    "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-04",
+   "testo": "**AR-940.** Un osservatore che dice «pulito» deve prima poter dire «ho guardato MENTRE succedeva». Un figlio andato in rosso non ha fatto il lavoro che dovevo osservare: la sua pulizia non dimostra niente, e' ⚪ e non verde. E' la terza volta che scrivo troppo debole questa stessa domanda — cronometro, poi «almeno un caso passato», poi finalmente «in fondo, verde». Le prime due le ho trovate io; la terza l'ha trovata il banco a corsie appena ha smesso di misurare il 16% delle difese. **Ogni volta che una prova conclude qualcosa dall'ASSENZA di un segnale, la domanda vera non e' «il segnale c'era?» ma «il segnale avrebbe potuto esserci?».**",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33892879196: 165 mutazioni misurate su 172 (prima 27) e una dichiarata vacua — la prova di AR-919",
+    "misurato dopo la cura: `node cervello/banco-a-corsie.mjs --difetti AR-919 --corsie 1` esce 0, prima usciva 1"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 18:50",
+   "ultima_conferma": "2026-09-04 18:50",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
    "data": "2026-09-04"
   }
  ],

@@ -35,6 +35,34 @@ function sporco() {
     .map((riga) => riga.slice(3));
 }
 
+/**
+ * 🔎 HO DAVVERO OSSERVATO? — AR-940, e questa e' la TERZA versione di questa domanda.
+ *
+ * Un osservatore che dice «pulito» deve prima poter dire «ho guardato mentre succedeva». Le prime
+ * due versioni erano troppo deboli e le ha trovate la macchina, non io:
+ *   · la prima guardava il CRONOMETRO — ma con la finta il figlio finisce in mezzo secondo;
+ *   · la seconda chiedeva «almeno un caso passato» — e dentro una corsia il registro contiene solo
+ *     la fetta di quella corsia, quindi il figlio non arriva mai a toccare il file vero, i suoi
+ *     casi falliscono, e l'albero risulta pulito. Pulito per il motivo sbagliato. Misurato: la
+ *     mutazione di AR-919 usciva `vacua`, cioe' una difesa che non difendeva.
+ *
+ * La regola che regge: un figlio ROSSO non prova niente sulla pulizia. O va in fondo verde, o non
+ * ho osservato — che e' ⚪, e ⚪ non e' mai un verde.
+ */
+export function haOsservato({ passati = 0, falliti = 0 } = {}) {
+  if (!passati) return { ok: false, perche: "il figlio non ha eseguito nessun caso: non ho osservato niente, e allora «pulito» non vuol dire niente" };
+  if (falliti) return { ok: false, perche: `il figlio e' andato in rosso (${falliti} casi): non ha fatto il lavoro che dovevo osservare, quindi «l'albero e' pulito» non dimostra niente` };
+  return { ok: true, perche: "" };
+}
+
+test("AR-940: «pulito» vale solo se il figlio e' andato in fondo VERDE", () => {
+  assert.equal(haOsservato({ passati: 4, falliti: 0 }).ok, true, "quattro casi passati e zero rossi: ho osservato davvero");
+  assert.equal(haOsservato({ passati: 0, falliti: 0 }).ok, false, "zero casi = non ho guardato (era la prima versione debole)");
+  const rosso = haOsservato({ passati: 2, falliti: 2 });
+  assert.equal(rosso.ok, false, "IL CASO CHE HA ROTTO: due passati e due rossi non e' un'osservazione — era la seconda versione debole");
+  assert.match(rosso.perche, /non dimostra niente/, "e va detto perche', non solo negato");
+});
+
 test("le prove del banco non toccano i file veri del repo mentre le altre corsie li leggono", async () => {
   const giaSporchi = new Set(sporco()); // il lavoro in corso non è colpa di nessuno
   // ⚠️ `NODE_TEST_CONTEXT` SI CANCELLA, non si svuota. Messa a stringa vuota resta SET, e allora
@@ -62,8 +90,20 @@ test("le prove del banco non toccano i file veri del repo mentre le altre corsie
   } finally {
     clearInterval(occhio);
   }
-  const passati = Number((referto.match(/^# pass (\d+)/m) || [])[1] || 0);
-  assert.ok(passati > 0, `il figlio non ha eseguito nessun caso: non ho osservato niente, e allora «pulito» non vuol dire niente.\n${referto.slice(0, 400)}`);
+  // ⚠️ IL FIGLIO DEVE ESSERE ANDATO IN FONDO, non solo essere partito — e questa e' la seconda
+  // volta che questa riga e' troppo debole. La prima versione guardava il cronometro; la seconda
+  // chiedeva «almeno un caso passato». Il banco a corsie ha trovato anche quella: dentro una corsia
+  // il registro contiene SOLO la fetta di quella corsia, quindi il figlio non arriva mai a toccare
+  // il file vero, i suoi casi falliscono, e l'albero risulta pulito. Pulito per il motivo sbagliato,
+  // cioe' un verde che ha guardato zero — misurato: la mutazione di AR-919 usciva `vacua`.
+  //
+  // La regola, adesso: un figlio ROSSO non prova niente sulla pulizia. O va in fondo verde, o non
+  // ho osservato.
+  const visto = haOsservato({
+    passati: Number((referto.match(/^# pass (\d+)/m) || [])[1] || 0),
+    falliti: Number((referto.match(/^# fail (\d+)/m) || [])[1] || 0),
+  });
+  assert.ok(visto.ok, `${visto.perche}.\n${referto.slice(-700)}`);
   assert.deepEqual(
     [...visti],
     [],
