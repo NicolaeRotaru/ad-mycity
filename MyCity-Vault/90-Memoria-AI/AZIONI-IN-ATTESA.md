@@ -3077,8 +3077,17 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-05 08:27)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-05-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-05 10:27)
+Report completo con comandi pronti: `consegne/supervisione/2026-09-05-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
+
+### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno
+
+| Colore | Quanti | Cosa cambia | Se va bene |
+|---|---|---|---|
+| 🟡 | 4 | 4 schede oggi incomplete mostrano condizione = «nuovo» (valore dedotto) ai clienti. | Cataloghi più completi = ricerca/filtri migliori e più fiducia; poi passi al gruppo successivo. Undo: annulla-batch. |
+
+Approva **solo questo gruppo**: «ok riempi condizione». Comando e undo nel report.
+
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

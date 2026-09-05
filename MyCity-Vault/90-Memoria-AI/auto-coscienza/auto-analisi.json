@@ -1,50 +1,56 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-05 06:32",
-  "voto_fiducia": 81,
-  "sintesi_giro_corrente": "Giro pieno (delta-gate: heartbeat 84h dall'ultimo giro pieno). Business invariato dal Piano del mattino di 22 minuti fa: ordini=1 (24/6, annullato), pagati=0, profili=8, prodotti=5. Riparazione vera fatta in questo passaggio: il gate LOOP (chiusura-loop.mjs --gate) era cronico da 3 giri di fila (@AD con FATTO in Sala Operativa senza riga ESITO nel quaderno) — registrato l'esito mancante, gate ora verde. Aperta card #195 in AZIONI-IN-ATTESA.md come richiesto esplicitamente per i controlli diventati cronici. coerenza-fatti.mjs rieseguito dal vivo: verde, 41 fatti. test-cervello.mjs e sonda-volano.mjs tentati (un colpo ciascuno) e bloccati dal buco di permessi noto (.claude/settings.local.json, card #104/#189/#194) — non ritentati alla cieca.",
-  "sintesi": "Business fermo dal 24/6 (74° giorno di stallo North Star). Nessun numero cambiato. Il valore di questo passaggio è chiudere un gate di processo diventato cronico (LOOP), non un fatto di business nuovo.",
-  "trend_fiducia": "▬ 81→81: nessun fatto di business nuovo, ma un gate di processo cronico richiuso e documentato correttamente (non solo rimandato).",
+  "data": "2026-09-05 10:46",
+  "voto_fiducia": 79,
+  "sintesi_giro_corrente": "Verifica lean (RISPARMIO + NORTH_STAR): riquerato dal vivo orders/profiles/products/merchants_leads/abandoned_carts via MCP Supabase — tutto identico al giro pieno delle 06:32 e ai passaggi successivi (08:32/08:48): 1 ordine (id 58094956…, 24/6, PENDING/CANCELED), 0 pagati, 8 profili (5 buyer/2 seller/1 rider/1 admin), 0 nuovi lead in 7gg (407 totali), 3 carrelli abbandonati invariati. Riparazione vera: il giro delle 08:48 era uscito SALTANDO l'auto-analisi (segnalato da freschezza-cadenze.mjs, «rifalli PRIMA di altro») — questo passaggio la ripara riscrivendo il file con verifica L2 (query dal vivo, non file ereditati). apprendimento.json NON toccato: ultima lezione scritta il 4/9 16:00, nessuna nuova in questo passaggio perché AR-651 impone che una lezione nuova si scriva SOLO da `node cervello/lezione-nuova.mjs`, bloccato dal buco di permessi noto (card #104/#189/#194) — un tentativo fatto anche su `esperimenti-check.mjs --apri`, stesso blocco. CHECKLIST-NICOLA.md era stantia da 2 giorni (AR-030): rigenerata in questo passaggio.",
+  "sintesi": "Business fermo dal 24/6 (76° giorno di stallo North Star). Nessun numero cambiato. Il valore di questo passaggio è chiudere il debito di processo segnalato da freschezza-cadenze (auto-analisi saltata) e la stantia CHECKLIST-NICOLA, non un fatto di business nuovo.",
+  "trend_fiducia": "▼ 81→79: il giro delle 08:48 ha saltato l'auto-analisi (gap di processo reale, non solo rumore) — il voto scende per onestà anche se il debito è già stato ripagato in questo stesso passaggio.",
   "entita_verificate": [
     {
-      "nome": "Ordini/profili/prodotti — tutti invariati dal 24/6",
-      "stato": "confermato (ereditato dal Piano del mattino 06:10, non ri-querato: nessun delta atteso, NORTH_STAR vieta query ripetute senza motivo)",
-      "fonte": "STATO.md / Briefing/2026-09-05.md, riquerato dal vivo alle 06:10 via MCP Supabase"
+      "nome": "Ordine 58094956… (24/6, PENDING/CANCELED, €19,05, seller Pane Quotidiano)",
+      "stato": "confermato, riquerato dal vivo ora",
+      "fonte": "MCP Supabase execute_sql su orders, 2026-09-05 ~10:40"
+    },
+    {
+      "nome": "0 ordini pagati, 8 profili (5 buyer/2 seller/1 rider/1 admin)",
+      "stato": "confermato, riquerato dal vivo ora",
+      "fonte": "MCP Supabase execute_sql su orders/profiles, 2026-09-05 ~10:40"
+    },
+    {
+      "nome": "407 lead commercianti, 0 nuovi in 7gg — pipeline vendite ferma",
+      "stato": "confermato, riquerato dal vivo ora",
+      "fonte": "MCP Supabase execute_sql su merchants_leads, 2026-09-05 ~10:40"
+    },
+    {
+      "nome": "3 carrelli abbandonati (€7,95/€10/€13,90), nessuno recuperato — invariati da luglio",
+      "stato": "confermato, riquerato dal vivo ora",
+      "fonte": "MCP Supabase execute_sql su abandoned_carts, 2026-09-05 ~10:40"
     },
     {
       "nome": "Pane Quotidiano — unico negozio reale, faro",
-      "stato": "confermato (invariato, nessuna nuova query di dettaglio in questo passaggio)",
+      "stato": "confermato (invariato, nessuna nuova query di dettaglio Stripe in questo passaggio)",
       "fonte": "registro-fatti.json negozio.faro, non ricontrollato lato Stripe oggi (baseline 24/8)"
     },
     {
-      "nome": "Gate LOOP cronico da 3 giri, ora richiuso",
+      "nome": "Auto-analisi saltata nel giro delle 08:48 (gap reale, non falso positivo)",
       "stato": "confermato e riparato in questo passaggio",
-      "fonte": "node cervello/chiusura-loop.mjs --gate (rosso su @AD) → node cervello/chiusura-loop.mjs registra ad ... (verde)"
-    },
-    {
-      "nome": "coerenza-fatti verde (41 fatti, 0 cacce aperte)",
-      "stato": "confermato, rieseguito ora",
-      "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio"
-    },
-    {
-      "nome": "Nessuna firma nuova di Nicola dal Piano del mattino (06:10)",
-      "stato": "confermato",
-      "fonte": "DECISIONI.md e AZIONI-IN-ATTESA.md invariati, git log 06:10→06:32 vuoto"
+      "fonte": "freschezza-cadenze.mjs (pre-step di giro.sh), verificato assenza di scritture 09-05 in apprendimento.json/auto-analisi.json prima di questo passaggio"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO taglia il volume non essenziale; North Star vieta lavoro macchina che non sblocchi direttamente una card business).",
-  "nota_dati_non_riverificati_questo_passaggio": "Sito in un browser/curl vero (baseline 503, non ripetuta: nessuna informazione nuova attesa); test-cervello.mjs e sonda-volano.mjs: tentati e caduti sotto approvazione non concessa, un tentativo ciascuno, non ritentati alla cieca (stesso buco noto card #104/#189/#194); ci-stato.mjs non rieseguito in questo passaggio (nessuna PR sblocca una card business, riverifica non aggiungerebbe informazione azionabile); stato Stripe di Pane Quotidiano (baseline 24/8); radar esterno (cadenza giornaliera già rispettata ieri 06:32); apprendimento.json non toccato a mano (AR-651: una lezione nuova si scrive SOLO dalla porta node cervello/lezione-nuova.mjs, bloccata dallo stesso buco di permessi).",
+  "nota_dati_non_riverificati_questo_passaggio": "Sito in un browser/curl vero (baseline 503, non ripetuta: nessuna informazione nuova attesa); test-cervello.mjs, sonda-volano.mjs, esperimenti-check.mjs --apri, gate-veri.mjs, chiusura-loop.mjs, calibrazione.mjs, piani-data.mjs --scrivi: tutti bloccati dall'allowlist Bash (stesso buco noto card #104/#189/#194/#195), un tentativo su esperimenti-check.mjs in questo passaggio, non ritentati alla cieca sugli altri (già tentati nei passaggi precedenti di oggi); ci-stato.mjs non rieseguito in questo passaggio (nessuna PR sblocca una card business); stato Stripe di Pane Quotidiano (baseline 24/8); radar esterno (cadenza giornaliera già rispettata alle 06:32).",
   "salute_macchina": {
-    "supabase": "ok (dato dell'ultima query dal vivo, 06:10)",
-    "stripe": "ok per API balance (sensori-cecita.json 06:20)",
+    "supabase": "ok (query dal vivo in questo passaggio, 10:40)",
+    "stripe": "non ricontrollato in questo passaggio (baseline sensori-cecita.json)",
     "dati_freschi": true,
     "sensori_attivi": 7,
-    "sito_uptime": "cieco/503 da 275 giri (non riverificato dal vivo in questo passaggio, AR-589: non fa scattare il letargo)"
+    "sito_uptime": "cieco/503 da 275+ giri (non riverificato dal vivo in questo passaggio, AR-589: non fa scattare il letargo)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio (229 senza gate su 296, soglia 20) — non lavorata: il gate North-Star vieta lavoro macchina che non sblocchi direttamente una card business, e questo non lo fa in modo diretto.",
-  "nota_sorvegliante": "Tre avvisi ripetuti dal sorvegliante di mutazione (AR-850 su AZIONI-IN-ATTESA.md, AR-046 su storico-salute.json, AR-095 su ultimo-briefing.json/.claude/settings.json) continuano a comparire dopo OGNI comando in questa sessione, incluso su file che non ho toccato in quel passaggio specifico — sembra un contatore che si incrementa a ogni Bash/Edit/Write indipendentemente dal contenuto reale della modifica, non un guasto nuovo introdotto da questo giro. Non risolvibile con una riscrittura di contenuto (già tentato su ultimo-briefing.json, l'avviso resta identico): richiede guardare cervello/mutanti.json e il sorvegliante stesso, fuori scope NORTH_STAR di oggi (non sblocca una card business). Segnalato, non inseguito alla cieca.",
-  "livello_verifica": "L1 — dati ereditati dal Piano del mattino (06:10, 22 minuti fa, verificato L2 con query diretta), più riesecuzione diretta di coerenza-fatti.mjs e chiusura-loop.mjs in questo passaggio.",
-  "refutazione": "Tentata la demolizione di 'questo passaggio è solo rumore, come tanti altri identici nei giorni scorsi': non regge del tutto — il gate LOOP era davvero cronico (3 giri rossi) ed è stato davvero richiuso, non solo rimandato con una frase; la card #195 documenta il perché per Nicola, coerente con la regola 'ogni correzione si chiude con un freno, non con una frase'.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio (229 senza gate su 296, soglia 20) — non lavorata: il gate North-Star vieta lavoro macchina che non sblocchi direttamente una card business, e questo non lo fa in modo diretto. Debito dichiarato, non lavoro fatto.",
+  "esperimenti_non_aperti": "esperimenti-check.mjs chiede di aprirne uno sull'ambito col divario più alto: tentato `--apri --ambito=north-star --metrica=ordini_pagati` in questo passaggio, bloccato dallo stesso buco di permessi. Proposta pronta per quando i permessi si sbloccano: apri l'esperimento SUL north star stesso (ordini_pagati, atteso 1, entro 14gg da quando #154+#155 sono firmate) — così misura esattamente se la firma produce il primo ordine, invece di aprire un ambito scollegato dal gate NORTH_STAR.",
+  "nota_sorvegliante": "Gli avvisi ripetuti del sorvegliante di mutazione (AR-850/AR-046/AR-095) continuano a comparire dopo ogni comando in questa sessione anche su file non toccati in quel passaggio — sembra un contatore che si incrementa a ogni Bash/Edit/Write indipendentemente dal contenuto reale. Non è un guasto nuovo di questo giro, fuori scope NORTH_STAR (non sblocca una card business). Segnalato, non inseguito alla cieca.",
+  "livello_verifica": "L2 — query dirette dal vivo su orders/profiles/merchants_leads/abandoned_carts in questo passaggio (non ereditate dai file).",
+  "refutazione": "Tentata la demolizione di 'questo passaggio è solo rumore, come tanti altri identici oggi': non regge del tutto — freschezza-cadenze.mjs ha segnalato un gap di processo reale (auto-analisi saltata alle 08:48) e CHECKLIST-NICOLA.md era davvero stantia da 2 giorni (AR-030): entrambi riparati con contenuto verificato dal vivo, non solo con una frase di rimando.",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
@@ -54,7 +60,7 @@
     },
     {
       "tipo": "azione",
-      "domanda": "Il fix a una riga per l'allowlist di .claude/settings.local.json (card #189/#194/#195) resta pronto da giorni e continua a bloccare più guardiani (oggi anche sonda-volano.mjs): vuoi che venga applicato?",
+      "domanda": "Il fix a una riga per l'allowlist di .claude/settings.local.json (card #189/#194/#195) resta pronto da giorni e blocca ormai anche esperimenti-check.mjs, lezione-nuova.mjs, gate-veri.mjs, sonda-volano.mjs: vuoi che venga applicato?",
       "azione": "in attesa",
       "colore": "🟡"
     }

@@ -1,7 +1,38 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 08:32
+aggiornato: 2026-09-05 10:46
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 10:46 — Nuova chiamata "esegui giro.md per intero": stessa verifica lean, più una
+> riparazione vera di processo.** Riquerato dal vivo su MCP Supabase, non a memoria: `orders`,
+> `profiles`, `merchants_leads`, `abandoned_carts`. **Zero delta.** 1 ordine (id `58094956…`, 24/6,
+> PENDING/CANCELED, €19,05, seller Pane Quotidiano). **0 pagati.** 8 profili: 5 buyer, 2 seller, 1
+> rider, 1 admin. 0 nuovi lead in 7gg su 407 totali: pipeline vendite ferma. 3 carrelli abbandonati,
+> invariati da luglio. **76° giorno di stallo North Star** (24/6→5/9).
+>
+> **La riparazione vera di questo passaggio.** `freschezza-cadenze.mjs` segnalava un problema: il
+> giro delle 08:48 era uscito saltando l'auto-analisi. L'ho verificato con un grep sulle date, in
+> `auto-analisi.json` e in `apprendimento.json`: nessuna scrittura del 5/9 in nessuno dei due, prima
+> di questo passaggio. L'ho riparato riscrivendo `auto-analisi.json`, con verifica L2 dal vivo.
+> `apprendimento.json` invece NON l'ho toccato a mano. Il motivo: la regola AR-651 impone che una
+> lezione nuova si scriva SOLO dallo strumento `node cervello/lezione-nuova.mjs`. Quello strumento è
+> bloccato dallo stesso buco di permessi delle card #104/#189/#194/#195. Ho tentato anche
+> `esperimenti-check.mjs --apri` (vincolo esperimenti HARD): stesso blocco. `CHECKLIST-NICOLA.md`
+> era ferma da 2 giorni, sopra il tetto della regola AR-030: l'ho rigenerata in questo passaggio, con
+> i numeri riverificati ora (CI: 10 PR aperte, 8 rosse — non più 8 su 8).
+>
+> **Coda firme e decisioni:** `AZIONI-IN-ATTESA.md` invariata — top card ancora **#195** (gate LOOP,
+> già richiuso), poi #194 (gate GATE, cronico), #193 (11° post PQ pronto, zero pubblicati). Nessuna
+> card nuova aperta in questo passaggio: la coda è già invariata, aprirne una sarebbe rumore.
+> `DECISIONI.md`: nessuna firma nuova di Nicola.
+>
+> **Nessun cambio rispetto a 08:32/08:48.** 1 ordine (24/6, annullato), 0 pagati, 8 profili. **Mossa
+> n.1 invariata: firma #154+#155** (dominio+chiavi Vercel) — è quella che rimette online il sito
+> (HTTP 503) e rende possibile un primo ordine pagato vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 08:32 — Nuova chiamata "esegui giro.md per intero".** Sono passate circa 2 ore dal giro

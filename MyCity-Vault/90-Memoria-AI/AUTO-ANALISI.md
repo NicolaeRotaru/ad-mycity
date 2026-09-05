@@ -1,3 +1,58 @@
+## Collaudo del cancello di stop — giro 2026-09-05 10:46
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`». Sono 15
+passi. Vanno rispettati i colori 🟢🟡🔴. Elenco passo per passo:
+- **FATTE:** passo 1, dati riquerati dal vivo (`orders`/`profiles`/`merchants_leads`/
+  `abandoned_carts` via MCP Supabase). Sono identici a ogni passaggio da 06:32. Passo 5-6:
+  `Briefing/2026-09-05.md` aggiornato in cima, poi `STATO.md` e `ultimo-briefing.json`. Passo 8:
+  `SALA-OPERATIVA.md`. Passo 11: `auto-analisi.json` riscritto con verifica L2, più questo file.
+  Regola AR-030: `CHECKLIST-NICOLA.md` rigenerata. Era ferma da 2 giorni.
+- **RIPARAZIONE VERA di questo passaggio.** `freschezza-cadenze.mjs` segnalava un problema. Il giro
+  delle 08:48 era uscito saltando l'auto-analisi. L'ho verificato con un grep sulle date: nessuna
+  scrittura del 5/9 in `auto-analisi.json` né in `apprendimento.json` prima di questo passaggio.
+  L'ho riparato riscrivendo `auto-analisi.json`. I dati dentro sono riverificati dal vivo, non
+  ereditati da un file vecchio.
+- **NON FATTE APPOSTA, col perché:** passo 3-4, radar e intelligence — cadenza giornaliera già
+  rispettata alle 06:32. Passo 7 — nessuna azione nuova: la coda è invariata, nessuna firma di
+  Nicola. Passo 9-10 — Piani e intenzioni: nessun contenuto nuovo da registrare. Passo 12 —
+  `apprendimento.json` non toccato a mano. Il motivo: la regola AR-651 impone che una lezione nuova
+  si scriva SOLO dallo strumento `node cervello/lezione-nuova.mjs`. Quello strumento è bloccato
+  (vedi sotto). Passo 13 — nessun lavoro creativo importante oggi.
+- **MANCANTI, tentate e bloccate in questo passaggio:** `esperimenti-check.mjs --apri`. È un vincolo
+  HARD. Ho tentato di aprirlo, bloccato dallo stesso buco di permessi delle card #104/#189/#194/#195
+  — non un guasto nuovo. La proposta resta pronta in `auto-analisi.json`, campo
+  `esperimenti_non_aperti`: aprire l'esperimento sul north star stesso, ordini pagati, atteso 1,
+  entro 14 giorni dalla firma di #154/#155.
+
+**② Diff vero riletto.** Questo passaggio ha toccato sette file: `Briefing/2026-09-05.md` (TL;DR
+aggiornato in cima, il passaggio 08:32 spostato sotto "Passaggi precedenti"), `STATO.md`,
+`ultimo-briefing.json`, `SALA-OPERATIVA.md`, `CHECKLIST-NICOLA.md` (rigenerata per AR-030),
+`auto-coscienza/auto-analisi.json` e questo file. Nessuna card nuova in `AZIONI-IN-ATTESA.md`. La
+coda è invariata: verificato con un grep sulle righe "in attesa". Il vertice resta #195/#194/#193.
+
+**③ Sorvegliante — avviso ripetuto, non nuovo.** Stesso pattern dei passaggi precedenti: il
+contatore di mutazione (AR-850/AR-046/AR-095) si incrementa a ogni comando. Lo fa indipendentemente
+dal contenuto reale della modifica. Non è un guasto nato in questo giro. È fuori dallo scope
+NORTH_STAR di oggi.
+
+**④ Un'altra strada era possibile: ripetere il pattern "zero delta → non scrivo nulla" già usato
+nei passaggi 06:44/08:32.** L'ho scartata. Il motivo: `freschezza-cadenze.mjs` non segnalava "zero
+delta", segnalava un passo saltato per davvero (l'auto-analisi delle 08:48). Un pattern di silenzio
+buono per i dati di business diventa un pattern sbagliato per un debito di processo dichiarato: va
+ripagato, non ripetuto in silenzio una seconda volta.
+
+**⑤ Verificato in questo passaggio:** i quattro numeri di business dal vivo su Supabase (ordini,
+profili, lead, carrelli). Non verificato: il sito in un browser vero (uso la baseline nota, HTTP
+503); lo stato reale delle 8 PR rosse riga per riga (uso il verdetto ereditato dal pre-step di
+`giro.sh`); Stripe lato Pane Quotidiano (baseline del 24/8).
+
+**Voto di fiducia: 79/100 (▼ da 81).** Il voto scende, ma non per un fatto di business peggiorato:
+sono 74 giorni che i numeri sono fermi. Scende per onestà su un gap di processo reale — l'auto-analisi
+era stata saltata due passaggi fa. In questo passaggio è stata ripagata con una verifica L2 vera, non
+con una frase di rimando.
+
+---
+
 ## Collaudo del cancello di stop — giro 2026-09-05 06:32
 
 **① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`», i 15

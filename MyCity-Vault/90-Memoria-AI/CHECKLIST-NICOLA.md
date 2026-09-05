@@ -2,20 +2,23 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-09-03 08:51
+aggiornato: 2026-09-05 10:46
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma dal 1° settembre (oltre i 2 giorni della regola AR-030).
+> Rigenerata perché era ferma dal 3 settembre (oltre i 2 giorni della regola AR-030).
 >
-> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **72 giorni**.
+> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **76 giorni**.
 >
-> Riverificato ora (query diretta a Supabase + `ci-stato.mjs`): le carte sotto sono confermate
-> ancora aperte nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, migrazioni ferme,
-> Pane Quotidiano senza incassi). Un solo numero corretto rispetto all'ultima versione: le PR
-> rosse sul repo memoria/cervello sono **8**, non più 7. Lo vedi nella sezione CI più sotto.
+> Riverificato ora (query diretta a Supabase MCP): le carte sotto sono confermate ancora aperte
+> nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, migrazioni ferme, Pane Quotidiano
+> senza incassi). Due numeri corretti rispetto all'ultima versione: le PR aperte sul repo
+> memoria/cervello sono **10**, di cui **8 rosse** per colpa propria (non più 8/8). Lo vedi nella
+> sezione CI più sotto. Nuova voce di processo: il buco di permessi dell'allowlist VPS
+> (card #189/#194) blocca ormai anche `esperimenti-check.mjs` e `node cervello/lezione-nuova.mjs` —
+> ha smesso di essere solo un fastidio sui test, impedisce anche di registrare nuove lezioni.
 >
 > Il resto dell'elenco non è stato riverificato voce per voce in questo passaggio. Sono le singole
 > card 🟡 «da valutare». Se una di queste risulta già chiusa, dimmelo e la tolgo.
@@ -102,10 +105,12 @@ aggiornato: 2026-09-03 08:51
 
 ## 🟡 CI rossa sul repo memoria/cervello (ad-mycity)
 
-8 PR aperte, **tutte e 8 rosse** (colpa propria del ramo che le ha portate, nessuna ereditata da
-`main`): `#865`, `#864`, `#860`, `#855`, `#842`, `#841`, `#741`, `#735`. Riverificato ora con
-`ci-stato.mjs`. Non riparabili da questa sessione: `test-cervello.mjs` resta bloccato
-dall'allowlist Bash (stesso buco noto delle card #104/#42).
+**10 PR aperte, 8 rosse** per colpa propria del ramo che le ha portate (0 ereditate da `main`, 0 mai
+provate): `#865`, `#864`, `#860`, `#855`, `#842`, `#841`, `#741`, `#735`. Verdetto ereditato dal
+pre-step di `giro.sh` (non riquerato con `ci-stato.mjs` in questo passaggio: nessuna PR sblocca una
+card business, il gate NORTH_STAR non ne giustifica la riverifica). Non riparabili da questa
+sessione: `test-cervello.mjs` resta bloccato dall'allowlist Bash (stesso buco noto delle card
+#104/#189).
 
 ---
 

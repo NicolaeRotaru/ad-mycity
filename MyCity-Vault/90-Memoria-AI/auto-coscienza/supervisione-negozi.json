@@ -1,36 +1,44 @@
 {
   "_cosa_e": "🛡️ SUPERVISIONE NEGOZI & PRODOTTI: ultimo esito della veglia dati mancanti. Scritto da cervello/supervisione-negozi.mjs.",
-  "aggiornato": "2026-09-05 08:27",
+  "aggiornato": "2026-09-05 10:27",
   "conteggi": {
-    "negozi": 1,
-    "negozi_approvati": 1,
-    "prodotti": 5,
-    "autofill_proposte": 0,
-    "da_procurare": 2
+    "negozi": 2,
+    "negozi_approvati": 2,
+    "prodotti": 9,
+    "autofill_proposte": 4,
+    "da_procurare": 8
   },
-  "proposte": [],
+  "proposte": [
+    {
+      "tabella": "products",
+      "campo": "condition",
+      "valore": "nuovo",
+      "n": 4,
+      "perche": "proposto \"nuovo\": è il valore prevalente reale (merce di negozio nuova)",
+      "note": [
+        "escludi prima gli articoli di seconda mano (metti \"usato\" a quelli): il default nuovo non vale per l'usato"
+      ]
+    }
+  ],
   "da_procurare": [
+    {
+      "etichetta": "foto prodotto",
+      "motivo": "serve materia prima reale",
+      "n": 4
+    },
     {
       "etichetta": "logo",
       "motivo": "serve materia prima reale",
-      "n": 1
+      "n": 2
     },
     {
       "etichetta": "città",
       "motivo": "serve materia prima reale",
-      "n": 1
+      "n": 2
     }
   ],
   "report": "consegne/supervisione/2026-09-05-supervisione.md",
   "storia": [
-    {
-      "quando": "2026-09-01 10:26",
-      "negozi": 1,
-      "negozi_approvati": 1,
-      "prodotti": 5,
-      "autofill_proposte": 0,
-      "da_procurare": 2
-    },
     {
       "quando": "2026-09-01 11:07",
       "negozi": 1,
@@ -422,6 +430,14 @@
       "prodotti": 5,
       "autofill_proposte": 0,
       "da_procurare": 2
+    },
+    {
+      "quando": "2026-09-05 10:27",
+      "negozi": 2,
+      "negozi_approvati": 2,
+      "prodotti": 9,
+      "autofill_proposte": 4,
+      "da_procurare": 8
     }
   ]
 }
