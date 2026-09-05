@@ -1,7 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 12:34
+aggiornato: 2026-09-05 14:31
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 14:31 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 12:34.**
+> Zero delta reale. Non ho rieseguito le 15 fasi.
+>
+> **Il delta-gate si è riacceso alle 14:28.** Il motivo scritto è "clienti 8→9". Ma è lo stesso
+> non-evento già spiegato a 12:34. Il secondo profilo seller è il "Panificio Demo" della card #196.
+> La sua origine resta ignota. Non è un cliente nuovo.
+>
+> **La coda firme è invariata.** Le card #196 e #197, aperte a 12:10 e 12:34, sono già in coda.
+> Nessuna firma nuova di Nicola in `DECISIONI.md`.
+>
+> **Non ho riscritto `auto-analisi.json` e `apprendimento.json`.** Restano quelli delle 10:46, voto
+> di fiducia 79, riconfermati a 12:34. Riscriverli su dati identici sarebbe rumore, non un controllo
+> in più. Il vincolo CADENZE, appena diventato cronico in questa sessione, ha già una card aperta
+> (riga aggregata #190, nota AR-687): nessuna card nuova da aprire.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Due vincoli lo impediscono. Il letargo è
+> **SOPRAVVIVENZA**: solo nucleo vitale — ordini, consegne, coda firme, sicurezza, allerta a Nicola.
+> Il gate **NORTH_STAR** è attivo: lavoro macchina ammesso solo se sblocca un ordine pagato.
+>
+> **I numeri di business.** Nessuno è diverso da 12:34. 1 ordine, del 24/6, annullato, €19,05.
+> Il venditore è Pane Quotidiano. **0 pagati.** 9 profili: 5 buyer, 2 seller, 1 rider, 1 admin. Né
+> Pane Quotidiano né "Panificio Demo" hanno Stripe attivo.
+>
+> **Cosa non ho verificato in questo passaggio.** Non ho ri-interrogato Supabase dal vivo. Il
+> sensore REST era già fresco delle 14:20 (`orders`: 1 riga). Non ho letto riga per riga il codice
+> non committato della card #197.
+>
+> **Mossa n.1 resta invariata: firma #154+#155.** Sono il dominio e le chiavi Vercel. Rimettono
+> online il sito. Rendono possibile un primo ordine pagato vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 12:34 — Nuova chiamata "esegui giro.md per intero": zero delta di business, una scoperta vera di processo.**

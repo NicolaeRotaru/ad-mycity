@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-05 12:34",
-  "situazione": "77° giorno di stallo North Star, riverificato dal vivo con query dirette (non a memoria): 1 ordine annullato del 24/6, 0 pagati, 8 profili (2 seller, nessuno con Stripe attivo), 0 nuovi lead in 7gg, 3 carrelli abbandonati invariati — identico ai passaggi di oggi da 06:32 in poi. Scoperta vera di questo passaggio: codice non committato da prima del 4/7 (fix funnel/carrelli abbandonati) mai entrato in una PR e mai tracciato in coda — aperta card #197. Nessuna firma nuova di Nicola. Blocco permessi confermato di nuovo (card #104/#189/#194/#195).",
+  "data": "2026-09-05 14:31",
+  "situazione": "Zero delta reale dal passaggio delle 12:34: 1 ordine annullato del 24/6, 0 pagati, 9 profili (2 seller, nessuno con Stripe attivo). Il delta-gate si è riattivato per 'clienti 8→9' ma è lo stesso non-evento già spiegato a 12:34 (il secondo seller è il 'Panificio Demo' della card #196). Coda firme invariata: #196 e #197 già in coda, nessuna firma nuova di Nicola. Letargo SOPRAVVIVENZA + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
