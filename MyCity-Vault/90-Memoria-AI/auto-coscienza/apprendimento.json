@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-03 23:09",
+ "aggiornato": "2026-09-04 18:50",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -455,7 +455,8 @@
   },
   {
    "id": "L-2026-0723-445",
-   "testo": "**Un giro interrotto prima del passo 'salva briefing' è invisibile finché nessuno lo cerca (3 giorni di buio, 21-23/7).** Per 3 giorni consecutivi `giro.sh` ha lanciato il motore AI ma solo le sentinelle deterministiche (bookkeeping JSON) hanno completato — nessun briefing, nessuna checklist rigenerata, nessun OKR aggiornato — finché i vincoli hard (AR-030 checklist stantia, AR-115 OKR scaduto, AR-041/106 esperimento in scadenza) non si sono accumulati abbastanza da bloccare esplicitamente il giro successivo. 5 perché: (1) i commit automatici 'giro AD: aggiorna memoria' esistevano e sembravano normali — solo confrontando il **contenuto** (STATO.md fermo al 21/7 00:57, nessun file in Briefing/ tra il 20 e il 23) si vedeva il buco, non guardando solo la lista dei commit; (2) le sentinelle misurano *i sintomi* (checklist stantia, OKR scaduto) ma nessun sensore misura *il giro pieno stesso* — manca un contatore \"giri pieni completati/attesi\" distinto da \"sentinelle girate\"; (3) senza quel contatore, il gap si scopre solo quando un vincolo hard lo rende bloccante — reattivo, non proattivo; (4) la card 🟡 #218 chiede a devops-sre di leggere i log VPS per capire SE è un timeout/context-limit del motore o un problema del processo — non inventare la causa senza prova; (5) lezione riusabile: quando un giro tocca solo bookkeeping/JSON e MAI STATO.md/Briefing/, è un giro parziale anche se il commit dice 'giro AD' — un sensore dedicato (\"ultimo Briefing/*.md vs ultimo commit giro\") lo intercetterebbe prima che serva un vincolo hard. Vedi #218 in [[AZIONI-IN-ATTESA]], auto-analisi 23/7 11:35 (voto sceso 92→88 per onestà, non per un errore del giro odierno)."
+   "testo": "**Un giro interrotto prima del passo 'salva briefing' è invisibile finché nessuno lo cerca (3 giorni di buio, 21-23/7).** Per 3 giorni consecutivi `giro.sh` ha lanciato il motore AI ma solo le sentinelle deterministiche (bookkeeping JSON) hanno completato — nessun briefing, nessuna checklist rigenerata, nessun OKR aggiornato — finché i vincoli hard (AR-030 checklist stantia, AR-115 OKR scaduto, AR-041/106 esperimento in scadenza) non si sono accumulati abbastanza da bloccare esplicitamente il giro successivo. 5 perché: (1) i commit automatici 'giro AD: aggiorna memoria' esistevano e sembravano normali — solo confrontando il **contenuto** (STATO.md fermo al 21/7 00:57, nessun file in Briefing/ tra il 20 e il 23) si vedeva il buco, non guardando solo la lista dei commit; (2) le sentinelle misurano *i sintomi* (checklist stantia, OKR scaduto) ma nessun sensore misura *il giro pieno stesso* — manca un contatore \"giri pieni completati/attesi\" distinto da \"sentinelle girate\"; (3) senza quel contatore, il gap si scopre solo quando un vincolo hard lo rende bloccante — reattivo, non proattivo; (4) la card 🟡 #218 chiede a devops-sre di leggere i log VPS per capire SE è un timeout/context-limit del motore o un problema del processo — non inventare la causa senza prova; (5) lezione riusabile: quando un giro tocca solo bookkeeping/JSON e MAI STATO.md/Briefing/, è un giro parziale anche se il commit dice 'giro AD' — un sensore dedicato (\"ultimo Briefing/*.md vs ultimo commit giro\") lo intercetterebbe prima che serva un vincolo hard. Vedi #218 in [[AZIONI-IN-ATTESA]], auto-analisi 23/7 11:35 (voto sceso 92→88 per onestà, non per un errore del giro odierno).",
+   "usi": []
   },
   {
    "id": "L-2026-0721-444",
@@ -4583,7 +4584,8 @@
    "ultima_conferma": "2026-07-18",
    "stato": "attiva",
    "uis": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0718-264",
@@ -4678,7 +4680,8 @@
    "stato": "attiva",
    "nota_evidenza": "Nicola ha dovuto ripetere la correzione due volte con lo stesso screenshot nella stessa chat (18/7) — la regola non era ancora assorbita alla prima risposta dell'AD.",
    "uis": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0718-260",
@@ -5146,7 +5149,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-17 00:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-241",
@@ -5168,7 +5172,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 23:55",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-240",
@@ -5190,7 +5195,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 23:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-239",
@@ -5212,7 +5218,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 23:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-238",
@@ -5236,7 +5243,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 21:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-236",
@@ -5257,7 +5265,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 17:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-237",
@@ -5279,7 +5288,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 21:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-235",
@@ -5301,7 +5311,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 17:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-234",
@@ -5324,7 +5335,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 19:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-233",
@@ -5346,7 +5358,8 @@
    "ultima_conferma": "2026-07-20 02:13",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0716-232",
@@ -5366,7 +5379,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 12:57",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0716-231",
@@ -5386,7 +5400,8 @@
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 11:31",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-230",
@@ -5411,7 +5426,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:11",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-229",
@@ -5436,7 +5452,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:09",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-228",
@@ -5461,7 +5478,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:08",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-227",
@@ -5483,7 +5501,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 12:44",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-226",
@@ -5507,7 +5526,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:37",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-225",
@@ -5529,7 +5549,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:36",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-224",
@@ -5553,7 +5574,8 @@
    "ultima_conferma": "2026-07-14 03:37",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0714-223",
@@ -5577,7 +5599,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:37",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-222",
@@ -5601,7 +5624,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:32",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-221",
@@ -5625,7 +5649,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-220",
@@ -5649,7 +5674,8 @@
    "ultima_conferma": "2026-07-14 03:09",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0714-219",
@@ -5672,7 +5698,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:02",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-218",
@@ -5695,7 +5722,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 03:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-216",
@@ -5721,7 +5749,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-19 18:40",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-217",
@@ -5744,7 +5773,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:56",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-215",
@@ -5767,7 +5797,8 @@
    "ultima_conferma": "2026-07-14 02:55",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0714-214",
@@ -5791,7 +5822,8 @@
    "ultima_conferma": "2026-07-14 03:33",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0714-213",
@@ -5813,7 +5845,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:52",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-211",
@@ -5837,7 +5870,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-210",
@@ -5859,7 +5893,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:49",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-209",
@@ -5882,7 +5917,8 @@
    "ultima_conferma": "2026-07-19 13:54",
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0714-208",
@@ -5905,7 +5941,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:34",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-207",
@@ -5926,7 +5963,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:32",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-206",
@@ -5947,7 +5985,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:29",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-205",
@@ -5970,7 +6009,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-204",
@@ -5992,7 +6032,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-203",
@@ -6012,7 +6053,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-202",
@@ -6038,7 +6080,8 @@
    "ultima_conferma": "2026-07-14 03:02",
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0714-201",
@@ -6060,7 +6103,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-199",
@@ -6082,7 +6126,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 01:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-198",
@@ -6103,7 +6148,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 01:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-197",
@@ -6127,7 +6173,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 00:58",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0714-196",
@@ -6151,7 +6198,8 @@
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 02:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-195",
@@ -6173,7 +6221,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:44",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-194",
@@ -6196,7 +6245,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-193",
@@ -6218,7 +6268,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:32",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-190",
@@ -6242,7 +6293,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 23:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-189",
@@ -6264,7 +6316,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-188",
@@ -6288,7 +6341,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:34",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-187",
@@ -6309,7 +6363,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-186",
@@ -6333,7 +6388,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:28",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-185",
@@ -6357,7 +6413,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:21",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-184",
@@ -6381,7 +6438,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:16",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-183",
@@ -6403,7 +6461,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:11",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-182",
@@ -6427,7 +6486,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-181",
@@ -6450,7 +6510,8 @@
    "ultima_conferma": "2026-07-13 22:04",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-180",
@@ -6473,7 +6534,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-179",
@@ -6500,7 +6562,8 @@
    "ultima_conferma": "2026-07-13 21:58",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-178",
@@ -6523,7 +6586,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-177",
@@ -6544,7 +6608,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:47",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-176",
@@ -6566,7 +6631,8 @@
    "ultima_conferma": "2026-07-13 21:43",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-175",
@@ -6589,7 +6655,8 @@
    "ultima_conferma": "2026-07-14 02:41",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-174",
@@ -6611,7 +6678,8 @@
    "ultima_conferma": "2026-07-13 21:42",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-173",
@@ -6633,7 +6701,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-172",
@@ -6655,7 +6724,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:13",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-171",
@@ -6678,7 +6748,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-170",
@@ -6701,7 +6772,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-169",
@@ -6724,7 +6796,8 @@
    "ultima_conferma": "2026-07-13 21:43",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-168",
@@ -6748,7 +6821,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 21:07",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-167",
@@ -6772,7 +6846,8 @@
    "ultima_conferma": "2026-07-14 01:04",
    "stato": "principio",
    "promosso_il": "2026-07-25 22:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-166",
@@ -6795,7 +6870,8 @@
    "ultima_conferma": "2026-07-13 21:14",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-165",
@@ -6819,7 +6895,8 @@
    "ultima_conferma": "2026-07-13 20:13",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-164",
@@ -6842,7 +6919,8 @@
    "ultima_conferma": "2026-07-13 20:11",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-163",
@@ -6866,7 +6944,8 @@
    "ultima_conferma": "2026-07-13 20:10",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-162",
@@ -6890,7 +6969,8 @@
    "ultima_conferma": "2026-07-13 20:10",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-161",
@@ -6913,7 +6993,8 @@
    "ultima_conferma": "2026-07-13 19:52",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-160",
@@ -6937,7 +7018,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-159",
@@ -6959,7 +7041,8 @@
    "ultima_conferma": "2026-07-13 19:54",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-158",
@@ -6982,7 +7065,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-157",
@@ -7004,7 +7088,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:48",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-156",
@@ -7026,7 +7111,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:46",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-155",
@@ -7048,7 +7134,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:44",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-154",
@@ -7070,7 +7157,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:43",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-153",
@@ -7093,7 +7181,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-152",
@@ -7116,7 +7205,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-151",
@@ -7137,7 +7227,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-150",
@@ -7158,7 +7249,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-149",
@@ -7180,7 +7272,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-148",
@@ -7201,7 +7294,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:13",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-147",
@@ -7222,7 +7316,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-146",
@@ -7243,7 +7338,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:15",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-145",
@@ -7264,7 +7360,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:56",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-144",
@@ -7285,7 +7382,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:54",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-143",
@@ -7308,7 +7406,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-142",
@@ -7331,7 +7430,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:27",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-141",
@@ -7352,7 +7452,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:27",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-140",
@@ -7374,7 +7475,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:15",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-139",
@@ -7398,7 +7500,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:15",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-138",
@@ -7421,7 +7524,8 @@
    "ultima_conferma": "2026-07-13 21:47",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-137",
@@ -7443,7 +7547,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 18:01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-136",
@@ -7467,7 +7572,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:53",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-135",
@@ -7490,7 +7596,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-134",
@@ -7512,7 +7619,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:47",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-133",
@@ -7538,7 +7646,8 @@
    "ultima_conferma": "2026-07-13 18:14",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-132",
@@ -7561,7 +7670,8 @@
    "ultima_conferma": "2026-07-14 13:08",
    "stato": "principio",
    "promosso_il": "2026-07-25 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-131",
@@ -7584,7 +7694,8 @@
    "ultima_conferma": "2026-07-13 18:19",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-130",
@@ -7609,7 +7720,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-129",
@@ -7637,7 +7749,8 @@
    "ultima_conferma": "2026-07-13 19:52",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-128",
@@ -7661,7 +7774,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-127",
@@ -7686,7 +7800,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-126",
@@ -7711,7 +7826,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:21",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-125",
@@ -7736,7 +7852,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 19:16",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-124",
@@ -7759,7 +7876,8 @@
    "ultima_conferma": "2026-07-13 17:53",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-123",
@@ -7782,7 +7900,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:21",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-122",
@@ -7806,7 +7925,8 @@
    "ultima_conferma": "2026-07-13 16:20",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-121",
@@ -7830,7 +7950,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:18",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-120",
@@ -7855,7 +7976,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-119",
@@ -7878,7 +8000,8 @@
    "ultima_conferma": "2026-07-13 17:32",
    "stato": "principio",
    "promosso_il": "2026-07-25 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-118",
@@ -7901,7 +8024,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 16:12",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-117",
@@ -7923,7 +8047,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-116",
@@ -7947,7 +8072,8 @@
    "ultima_conferma": "2026-07-13 14:30",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-12 22:22"
+   "decaduto_step_il": "2026-08-12 22:22",
+   "usi": []
   },
   {
    "id": "L-2026-0713-115",
@@ -7971,7 +8097,8 @@
    "ultima_conferma": "2026-07-13 12:42",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-17 14:26"
+   "decaduto_step_il": "2026-08-17 14:26",
+   "usi": []
   },
   {
    "id": "L-2026-0713-114",
@@ -7995,7 +8122,8 @@
    "ultima_conferma": "2026-07-13 12:42",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-17 14:26"
+   "decaduto_step_il": "2026-08-17 14:26",
+   "usi": []
   },
   {
    "id": "L-2026-0713-113",
@@ -8017,7 +8145,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-28 12:26"
+   "decaduto_step_il": "2026-08-28 12:26",
+   "usi": []
   },
   {
    "id": "L-2026-0713-112",
@@ -8041,7 +8170,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 17:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-111",
@@ -8065,7 +8195,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:38",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-28 12:26"
+   "decaduto_step_il": "2026-08-28 12:26",
+   "usi": []
   },
   {
    "id": "L-2026-0713-110",
@@ -8089,7 +8220,8 @@
    "ultima_conferma": "2026-07-13 12:39",
    "stato": "attiva",
    "gate": "node cervello/ramo-pulito.mjs",
-   "decaduto_step_il": "2026-08-17 14:26"
+   "decaduto_step_il": "2026-08-17 14:26",
+   "usi": []
   },
   {
    "id": "L-2026-0713-109",
@@ -8111,7 +8243,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:14",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-108",
@@ -8135,7 +8268,8 @@
    "ultima_conferma": "2026-07-20 00:29",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-107",
@@ -8158,7 +8292,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:42",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-106",
@@ -8181,7 +8316,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-105",
@@ -8205,7 +8341,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:43",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-104",
@@ -8229,7 +8366,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-28 12:26"
+   "decaduto_step_il": "2026-08-28 12:26",
+   "usi": []
   },
   {
    "id": "L-2026-0713-103",
@@ -8254,7 +8392,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:38",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-102",
@@ -8278,7 +8417,8 @@
    "ultima_conferma": "2026-07-13 22:34",
    "stato": "attiva",
    "nota": "ADDENDUM 22:34 — Nicola esclude anche trattorie e chiude eccezione «tattici»; regola definitiva in L-188",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-101",
@@ -8302,7 +8442,8 @@
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 11:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0713-100",
@@ -8327,7 +8468,8 @@
    "ultima_conferma": "2026-07-13 19:32",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0713-99",
@@ -8354,7 +8496,8 @@
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
    "cristallizzato_in": "memoria-persistente",
-   "gate": "node cervello/ramo-pulito.mjs"
+   "gate": "node cervello/ramo-pulito.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0712-98",
@@ -8377,7 +8520,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:53",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-97",
@@ -8401,7 +8545,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:51",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-96",
@@ -8424,7 +8569,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-13 11:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-95",
@@ -8446,7 +8592,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-94",
@@ -8467,7 +8614,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 19:35",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-93",
@@ -8490,7 +8638,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-19 12:50",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-92",
@@ -8513,7 +8662,8 @@
    "ultima_conferma": "2026-07-14 03:10",
    "stato": "principio",
    "promosso_il": "2026-07-25 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0712-91",
@@ -8535,7 +8685,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-90",
@@ -8557,7 +8708,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0712-89",
@@ -8579,7 +8731,8 @@
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-12 00:39",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0711-88",
@@ -8602,7 +8755,8 @@
    "nato": "2026-07-11",
    "ultima_conferma": "2026-07-11 00:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0711-87",
@@ -8625,7 +8779,8 @@
    "nato": "2026-07-11",
    "ultima_conferma": "2026-07-11 00:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-86",
@@ -8649,7 +8804,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 20:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-85",
@@ -8671,7 +8827,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:55",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-84",
@@ -8694,7 +8851,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 19:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-83",
@@ -8717,7 +8875,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-82",
@@ -8739,7 +8898,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 20:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-81",
@@ -8761,7 +8921,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-80",
@@ -8784,7 +8945,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-79",
@@ -8807,7 +8969,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 23:59",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-78",
@@ -8830,7 +8993,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-77",
@@ -8859,7 +9023,8 @@
    "_conferma_screenshot": "Nicola ha allegato uno screenshot (chat-allegati/bd0f6a49/...Screenshot__928_.png) che mostra i chip visibili sopra la textarea ma nessun testo dentro — confermato visivamente. L'AD non è riuscito ad aprirlo (mancava il permesso), ma la descrizione a parole di Nicola è sufficiente: il bug è reale e inequivocabile.",
    "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati su origin (verificato chat 10/7: il branch NON esiste su origin). Il branch correlato presente su origin è `fix/rimuovi-autoscroll-chat` — PR da creare manualmente da Nicola via GitHub compare URL. Serve ancora 'Bash(git push origin fix/*:*)' in settings.local.json per pushare i commit dei chip.",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0710-76",
@@ -8881,7 +9046,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 23:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-73",
@@ -8906,7 +9072,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 20:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-70",
@@ -8928,7 +9095,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 17:03",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-71",
@@ -8952,7 +9120,8 @@
    "ultima_conferma": "2026-07-10 22:30",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0710-75",
@@ -8975,7 +9144,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 22:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0710-72",
@@ -8998,7 +9168,8 @@
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0709-69",
@@ -9023,7 +9194,8 @@
    "ultima_conferma": "2026-07-09 14:30",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0709-68",
@@ -9048,7 +9220,8 @@
    "ultima_conferma": "2026-07-09 12:12",
    "stato": "principio",
    "promosso_il": "2026-07-26 06:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0709-67",
@@ -9073,7 +9246,8 @@
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-14 03:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-08-31 22:31",
+   "usi": []
   },
   {
    "id": "L-2026-0709-66",
@@ -9101,7 +9275,8 @@
    "_evidenza_2": "RICORRENZA lato utente (chat 9/7, dopo reset limiti 11am): Nicola ha incollato il PAT vero in chat e poi chiede «non ho capito dove devo mettere il vero token, quale segnaposto?». Segnale: anche dopo l'analogia lettera/cassetto, il concetto di 'token segnaposto in un file di config del VPS' resta astratto per lui → assume di dover METTERE il token da qualche parte. Fix applicato nel turno (forma giusta): «non devi metterlo da nessuna parte, me l'hai già dato incollandolo — il segnaposto `il_nuovo_token` sta in un file di sistema del VPS che TU non vedi e non tocchi, lo sostituisco IO con un comando; a te resta solo premere approva sui 2 box di conferma; non tocchi Vercel». Rinforza il fix ③ (Nicola non deve toccare Vercel) e [[nicola-spiegazioni-piu-chiare]]: spiegare DOVE vive la cosa e COSA deve fare LUI (una cosa sola), non solo cos'è. NB sicurezza: token incollato in chiaro in chat → dopo il push va rigenerato su GitHub (già segnalato a Nicola nel turno).",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0709-65",
@@ -9129,7 +9304,8 @@
    "_evidenza_3": "CONFERMA + applicazione RIUSCITA al primo colpo (chat 9/7 ~01:34, verifica push su origin/main per R2/#35-#54): dopo che l'AD aveva ammesso onestamente di non poter confermare il push dal VPS in sessione e aveva preso il fatto «sulla parola» di Nicola, Nicola apre lui la porta giusta: «se mi chiedi il permesso, puoi andare sul vps e confermarlo?». Stavolta l'AD risponde NELLA FORMA CORRETTA senza farsi rimproverare: lancia `git fetch origin main` (🟢 sola lettura), spiega in linguaggio umano cosa fa/perché è sicuro/cosa controllerà dopo (data ultimo commit + presenza dei 20 fix e memoria #54), e chiede solo l'OK a video — l'azione la esegue lui, non la rimbalza. Conferma il gusto: Nicola vuole PROATTIVAMENTE l'offerta «chiedo il permesso e lo faccio io», e la verifica reale dal VPS batte il 'sulla tua parola'. La lezione comincia ad attecchire nel comportamento del turno.",
    "stato": "principio",
    "promosso_il": "2026-07-24 20:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0709-60",
@@ -9155,7 +9331,8 @@
    "_evidenza_3": "Applicata sulla chat-veloce (chat 9/7 ~21:00): `npx bats` + il cronometro Opus-vs-Sonnet gated dal dead-lock della chat-Pannello → l'AD ha verificato il classificatore `chat_e_complesso` LEGGENDO il codice reale (8/8 casi giusti) ma ha dichiarato onestamente «non ho i secondi prima/dopo, e non li invento», e ha chiesto lo sblocco minimo (2 righe `Bash(npx bats cervello/test/:*)` + `Bash(node --test:*)` in `.claude/settings.local.json`) invece di spacciare per cronometrato un dato letto. La regola ha retto: verifica-da-codice ≠ verifica-a-runtime, e l'AD non ha confuso le due. Vedi [[chat-pannello-non-mostra-box-permessi]].",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0706-57",
@@ -9178,7 +9355,8 @@
    "ultima_conferma": "2026-07-09 00:45",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0706-55",
@@ -9201,7 +9379,8 @@
    "ultima_conferma": "2026-07-06 16:08",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0703-52",
@@ -9224,7 +9403,8 @@
    "ultima_conferma": "2026-07-03 21:21",
    "stato": "principio",
    "promosso_il": "2026-07-24 14:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0702-51",
@@ -9246,7 +9426,8 @@
    "ultima_conferma": "2026-07-02 22:20",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0702-48",
@@ -9268,7 +9449,8 @@
    "ultima_conferma": "2026-07-02 18:21",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0702-03",
@@ -9294,7 +9476,8 @@
      "perche": "Un elenco tenuto a mano diverge sempre: stanotte l'ho pagata due volte, con due carte che hanno preso lo stesso numero 130 e con il conteggio della coda che da' 62, 77 e 81 secondo quale strumento lo chiedi",
      "prova": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md — collisione del numero 130 il 19/8 e referto della PR 773"
     }
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0702-02",
@@ -9314,7 +9497,8 @@
    "ultima_conferma": "2026-07-02",
    "stato": "principio",
    "promosso_il": "2026-07-26 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0702-01",
@@ -9332,7 +9516,8 @@
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-13 21:01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 08:28"
+   "decaduto_step_il": "2026-09-01 08:28",
+   "usi": []
   },
   {
    "id": "L-2026-0702-45",
@@ -9360,7 +9545,8 @@
      "perche": "Firma non vuol dire fatto: e' la distinzione che ho usato tutta la notte fra aprire una richiesta di unione e unirla, e fra scrivere una migrazione e applicarla al database",
      "prova": "CLAUDE.md — «aprire la PR non e' unirla. La firma sul merge e' sua»"
     }
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0702-44",
@@ -9388,7 +9574,8 @@
      "perche": "Tutti i controlli verdi non vuol dire che la cosa funziona: stanotte il database ha passato trentotto controlli mentre due pagine pubbliche del sito mostravano zero",
      "prova": "DECISIONI.md, voce del 19/8 21:20 — il danno dei conteggi pubblici"
     }
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0701-36",
@@ -9409,7 +9596,8 @@
    "ultima_conferma": "2026-07-01 18:18",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-33",
@@ -9430,7 +9618,8 @@
    "ultima_conferma": "2026-07-01 11:00",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-31",
@@ -9456,7 +9645,8 @@
    "_evidenza_6": "RESTRIZIONE (chat 20/7 ~17:58, L-402): merge-on-approval resta per **proposte autonome AD** (giro, sentinella, deploy non richiesto in chat) — card «Merge PR #N» sì. **Eccezione esplicita Nicola:** se **lui chiede in chat** «fai il fix» / «crea la PR» → consegnare **solo link PR in chat**, **NON** accodare card merge (ordine in chat = ok implicito; card ridondante). Errore: #499 accodata dopo «Fai il fix». 🔴 mondo reale senza ordine chat → card resta.",
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-27",
@@ -9482,7 +9672,8 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-04 10:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:08"
+   "decaduto_step_il": "2026-09-01 11:08",
+   "usi": []
   },
   {
    "id": "L-2026-0701-25",
@@ -9504,7 +9695,8 @@
    "ultima_conferma": "2026-07-01 11:10",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-24",
@@ -9532,7 +9724,8 @@
      "perche": "Una carta deve bastare a se stessa: chi la legge non deve ricordarsi il contesto di un briefing di ieri. E' diventata la regola dei quattro blocchi",
      "prova": "cervello/scrittura-umana.md"
     }
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0701-23",
@@ -9554,7 +9747,8 @@
    "ultima_conferma": "2026-07-01 07:36",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-12",
@@ -9576,7 +9770,8 @@
    "ultima_conferma": "2026-07-01 10:22",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-10",
@@ -9601,7 +9796,8 @@
    "ultima_conferma": "2026-07-04 09:57",
    "stato": "principio",
    "promosso_il": "2026-07-26 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-08",
@@ -9621,7 +9817,8 @@
    "ultima_conferma": "2026-07-01 01:34",
    "stato": "principio",
    "promosso_il": "2026-07-24 22:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-07",
@@ -9645,7 +9842,8 @@
    "ultima_conferma": "2026-07-01 11:26",
    "stato": "principio",
    "promosso_il": "2026-07-26 11:00",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0701-04",
@@ -9665,7 +9863,8 @@
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "principio"
+   "stato": "principio",
+   "usi": []
   },
   {
    "id": "L-2026-0701-03",
@@ -9685,7 +9884,8 @@
    "ultima_conferma": "2026-07-01",
    "stato": "principio",
    "promosso_il": "2026-07-24 16:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0630-06",
@@ -9708,7 +9908,8 @@
    "ultima_conferma": "2026-07-19 19:43",
    "stato": "principio",
    "promosso_il": "2026-07-26 11:00",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0630-05",
@@ -9728,7 +9929,8 @@
    "ultima_conferma": "2026-07-01 10:51",
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0630-03",
@@ -9747,7 +9949,8 @@
    "ultima_conferma": "2026-07-01 01:57",
    "stato": "principio",
    "promosso_il": "2026-07-25 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0630-01",
@@ -9774,7 +9977,8 @@
      "perche": "I sensori possono essere ciechi da una sessione all'altra, e in quel caso i numeri vecchi vanno dichiarati come baseline con la data, non spacciati per freschi",
      "prova": "CLAUDE.md — «se entrambi ciechi: baseline STATO + Gap, MAI numeri inventati»"
     }
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0629-03",
@@ -9794,7 +9998,8 @@
    "ultima_conferma": "2026-06-30",
    "stato": "principio",
    "promosso_il": "2026-07-25 10:20",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0629-04",
@@ -9811,7 +10016,8 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-29",
    "ultima_conferma": "2026-06-29",
-   "stato": "in-prova"
+   "stato": "in-prova",
+   "usi": []
   },
   {
    "id": "L-2026-0628-01",
@@ -9828,7 +10034,8 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-07-01",
-   "stato": "principio"
+   "stato": "principio",
+   "usi": []
   },
   {
    "id": "L-2026-0628-04",
@@ -9845,7 +10052,8 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-06-29",
-   "stato": "principio"
+   "stato": "principio",
+   "usi": []
   },
   {
    "id": "L-2026-0628-02",
@@ -9861,7 +10069,8 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-06-29",
-   "stato": "principio"
+   "stato": "principio",
+   "usi": []
   },
   {
    "id": "L-2026-0628-03",
@@ -9887,7 +10096,8 @@
     }
    ],
    "promosso_il": "2026-08-21 14:28",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0629-01",
@@ -9904,7 +10114,8 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-29",
    "ultima_conferma": "2026-06-29",
-   "stato": "in-prova"
+   "stato": "in-prova",
+   "usi": []
   },
   {
    "id": "L-2026-0630-04",
@@ -9921,7 +10132,8 @@
    "fonte": "auto-analisi",
    "nato": "2026-06-30",
    "ultima_conferma": "2026-06-30",
-   "stato": "in-prova"
+   "stato": "in-prova",
+   "usi": []
   },
   {
    "id": "L-2026-0629-02",
@@ -9948,7 +10160,8 @@
      "perche": "Le scadenze esterne vanno accodate con la data visibile: e' il motivo per cui il registro dei fatti tiene le date dei bandi, e per cui non abbiamo promesso fondi su un bando gia' chiuso",
      "prova": "MyCity-Vault/90-Memoria-AI/registro-fatti.json — voci bando.*.scadenza"
     }
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0701-41",
@@ -9968,7 +10181,8 @@
    "ultima_conferma": "2026-07-01",
    "stato": "in-prova",
    "id_precedente": "L-2026-0701-27",
-   "nota_rinumero": "rinumerata da L-2026-0701-27 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
+   "nota_rinumero": "rinumerata da L-2026-0701-27 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)",
+   "usi": []
   },
   {
    "id": "L-2026-0707-01",
@@ -9978,7 +10192,8 @@
     "quota",
     "infrastruttura",
     "causa-radice"
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0707-02",
@@ -9988,7 +10203,8 @@
     "coerenza",
     "memoria",
     "fonte-unica"
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0707-03",
@@ -9998,7 +10214,8 @@
     "pr",
     "automazione",
     "memoria"
-   ]
+   ],
+   "usi": []
   },
   {
    "id": "L-2026-0710-87",
@@ -10021,7 +10238,8 @@
    "stato": "attiva",
    "decaduto_step_il": "2026-09-01 11:32",
    "id_precedente": "L-2026-0710-71",
-   "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
+   "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)",
+   "usi": []
   },
   {
    "id": "L-2026-0723-456",
@@ -10041,7 +10259,8 @@
    "nato": "2026-07-23",
    "ultima_conferma": "2026-07-23 23:40",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-01 11:32",
+   "usi": []
   },
   {
    "id": "L-2026-0724-01",
@@ -10061,7 +10280,8 @@
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:22",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-01 11:32",
+   "usi": []
   },
   {
    "id": "L-2026-0724-02",
@@ -10081,7 +10301,8 @@
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-01 11:32",
+   "usi": []
   },
   {
    "id": "L-2026-0724-527",
@@ -10125,7 +10346,8 @@
    "nato": "2026-07-26",
    "ultima_conferma": "2026-07-26 06:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-01 11:32",
+   "usi": []
   },
   {
    "id": "L-2026-0730-528",
@@ -10152,7 +10374,8 @@
    "stato": "principio",
    "gate": "node cervello/test/rebase-che-non-parte.test.mjs",
    "promosso_il": "2026-07-30 06:21",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0730-529",
@@ -10175,7 +10398,8 @@
    "nato": "2026-07-30",
    "ultima_conferma": "2026-07-30 03:30",
    "stato": "attiva",
-   "gate": "node cervello/test/rebase-che-non-parte.test.mjs"
+   "gate": "node cervello/test/rebase-che-non-parte.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0730-530",
@@ -10199,7 +10423,8 @@
    "stato": "attiva",
    "gate": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
    "gate_attivo": false,
-   "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda"
+   "gate_nota": "fix su branch fix/lease-rebase-ripetuto-v2 (PR #635), non ancora su main — merge in coda",
+   "usi": []
   },
   {
    "id": "L-2026-0730-531",
@@ -10235,68 +10460,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -10333,36 +10499,9 @@
      "ref": "freno rosso nel cancello: nascita dei difetti"
     },
     {
-     "quando": "2026-08-22 14:05",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
-     "quando": "2026-08-22 14:10",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
-     "quando": "2026-08-23 16:01",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
-     "quando": "2026-08-23 20:02",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
-     "quando": "2026-08-25 16:17",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
-     "quando": "2026-08-26 21:43",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
-     "quando": "2026-08-27 18:43",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
-    },
-    {
      "quando": "2026-09-03 22:36",
-     "ref": "freno rosso nel cancello: nascita dei difetti"
+     "ref": "freno rosso nel cancello: nascita dei difetti",
+     "volte": 8
     }
    ]
   },
@@ -10391,7 +10530,8 @@
    "stato": "attiva",
    "gate": "node cervello/test/misura-cieca.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "Freno suo: cervello/misura-cieca.mjs riconosce le cinque forme sui comandi VERI che le hanno generate (12 prove, 3 mutazioni non vacue). Il CABLAGGIO come hook su Bash serve una riga di Nicola in .claude/settings.json: AR-463, debito dichiarato. Finche non e cablato il riconoscitore esiste e si puo lanciare a mano, ma non guarda da solo."
+   "gate_nota": "Freno suo: cervello/misura-cieca.mjs riconosce le cinque forme sui comandi VERI che le hanno generate (12 prove, 3 mutazioni non vacue). Il CABLAGGIO come hook su Bash serve una riga di Nicola in .claude/settings.json: AR-463, debito dichiarato. Finche non e cablato il riconoscitore esiste e si puo lanciare a mano, ma non guarda da solo.",
+   "usi": []
   },
   {
    "id": "L-2026-0730-534",
@@ -10424,68 +10564,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -10514,7 +10595,8 @@
    "stato": "attiva",
    "gate": "node cervello/test/allineamento-esito.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "5 mutazioni su AR-467/468/469/470 in mutanti.json; le due di AR-470 puntano a cervello/test/salute.test.mjs."
+   "gate_nota": "5 mutazioni su AR-467/468/469/470 in mutanti.json; le due di AR-470 puntano a cervello/test/salute.test.mjs.",
+   "usi": []
   },
   {
    "id": "L-2026-0731-01",
@@ -10560,7 +10642,8 @@
    "stato": "principio",
    "nota_2026-08-04": "2ª manifestazione: cancello-di-stop del giro 8 riacceso a torto — confrontava contro un commit vecchio (3bda15ad5) mentre il worker VPS scriveva in parallelo; entrambi i punti segnalati (collaudo giro-8, card PR #675) erano già chiusi nei commit 9ffb3d89c/364a5c1a3. Stesso meccanismo, superficie diversa (cancello-stop invece di scadenzario.json). 3ª manifestazione 19:52: stesso cancello, stessa base stantia (3bda15ad5) — verificato con `git log -1 -- <file>` su ognuno dei 7 file segnalati (pr-ad-mycity-675/678/679/680/681.md, AZIONI-IN-ATTESA.md, RITMO.md, STATO.md): TUTTI ultimo commit tra le 17:14 e le 18:46, nessuno toccato in questo turno (`git status --short` mostra solo i 3 file di memoria davvero modificati ora). Fix già pronto e in attesa di firma: PR #677 (branch `fix/cancello-stop-coda-toccata-v2`). Non riaprire la diagnosi una 4ª volta: verificare con `git log -1 -- <file>` è la prova sufficiente, il resto è mergiare #677.",
    "promosso_il": "2026-08-04 20:21",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "tag": [
@@ -10593,68 +10676,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -10689,68 +10713,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -10785,164 +10750,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-20 18:24",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:44",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:51",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 03:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:51",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 14:01",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:23",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:29",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:30",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:47",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:53",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 13:54",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-23 20:02",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:09",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:36",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 14:17",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 21:04",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 22:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:32",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:39",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:45",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:55",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 09:19",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:42",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:52",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 18:20",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 00:26",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:16",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:33",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
      "quando": "2026-09-01 18:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
+     "ref": "freno rosso nel cancello: verdetti senza lettore",
+     "volte": 40
     }
    ]
   },
@@ -10970,7 +10780,8 @@
     "1 mutazione verificata rossa"
    ],
    "gate": "node cervello/test/salute.test.mjs",
-   "gate_nota": "1 mutazione su AR-498 in mutanti.json: il giudizio del battito che torna sempre verde."
+   "gate_nota": "1 mutazione su AR-498 in mutanti.json: il giudizio del battito che torna sempre verde.",
+   "usi": []
   },
   {
    "tag": [
@@ -11032,7 +10843,8 @@
     "3 mutazioni verificate rosse"
    ],
    "gate": "node --test cervello/test/registro-due-lettori.test.mjs",
-   "gate_nota": "3 mutazioni su AR-500: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata."
+   "gate_nota": "3 mutazioni su AR-500: flag `m` tolto, `#` di nuovo commento nei .md, `percorsi` ignorato dalla spazzata.",
+   "usi": []
   },
   {
    "tag": [
@@ -11065,68 +10877,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -11155,7 +10908,8 @@
     "collaudo end-to-end: il verdetto e comparso dopo un comando"
    ],
    "gate": "node --test cervello/test/misura-cieca.test.mjs",
-   "gate_nota": "1 mutazione su AR-502: il verdetto del sorvegliante che non entra piu nella busta del comando."
+   "gate_nota": "1 mutazione su AR-502: il verdetto del sorvegliante che non entra piu nella busta del comando.",
+   "usi": []
   },
   {
    "id": "L-2026-0803-544",
@@ -11187,68 +10941,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -11283,164 +10978,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-20 18:24",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:44",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:51",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 03:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:51",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 14:01",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:23",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:29",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:30",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:47",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:53",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 13:54",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-23 20:02",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:09",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:36",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 14:17",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 21:04",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 22:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:32",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:39",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:45",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:55",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 09:19",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:42",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:52",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 18:20",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 00:26",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:16",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:33",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
      "quando": "2026-09-01 18:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
+     "ref": "freno rosso nel cancello: verdetti senza lettore",
+     "volte": 40
     }
    ]
   },
@@ -11472,164 +11012,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-20 18:24",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:44",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-20 20:51",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 03:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 13:51",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-21 14:01",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:23",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:29",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:30",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:47",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:53",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 13:54",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-23 20:02",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:09",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:36",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 14:17",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 21:04",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 22:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:32",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:39",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:45",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:55",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 09:19",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:42",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:52",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 18:20",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 00:26",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:16",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:33",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
      "quando": "2026-09-01 18:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
+     "ref": "freno rosso nel cancello: verdetti senza lettore",
+     "volte": 40
     }
    ]
   },
@@ -11661,68 +11046,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -11754,68 +11080,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -11840,7 +11107,8 @@
     "2 mutazioni verificate rosse su .githooks/pre-commit e cancello-stop.mjs"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": []
   },
   {
    "id": "L-2026-0803-550",
@@ -11863,7 +11131,8 @@
     "stessa forma il 30/7: +12.147/-12.124 su apprendimento.json"
    ],
    "gate": "node --test cervello/test/campo-commit-e-turno.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": []
   },
   {
    "id": "L-2026-0804-551",
@@ -11888,7 +11157,8 @@
     "5 mutazioni verificate rosse su si-capisce.mjs e cancello-stop.mjs"
    ],
    "gate": "node cervello/test/si-capisce.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": []
   },
   {
    "id": "L-2026-0804-552",
@@ -11912,7 +11182,8 @@
     "2 mutazioni in mutanti.json (decisione «chiedi» e aggancio allo Stop) verificate rosse"
    ],
    "gate": "node --test cervello/test/collaudo.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": []
   },
   {
    "id": "L-2026-0804-553",
@@ -11935,7 +11206,8 @@
     "4 schede del worker sovrascritte dalla mia fusione, poi ripristinate"
    ],
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": []
   },
   {
    "id": "L-2026-0804-554",
@@ -11965,68 +11237,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-21 03:26",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-21 03:27",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:13",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 10:21",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 16:30",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 11:53",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 14:42",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-23 19:03",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 13:54",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 18:09",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-27 13:29",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
      "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 16
     }
    ]
   },
@@ -12061,7 +11274,8 @@
    "fonte": "domanda di Nicola",
    "testo": "**Quando una protezione è tarata su una scala di tempo, va chiesto se esistono ALTRE scale della stessa cosa (Nicola 10/8 ~11:40: «sicuramente il server si è fermato perché Claude ha raggiunto il limite settimanale»).** La retry-policy conosceva UNA quota — la finestra rolling di ~5h — e il commento diceva a lettere chiare «il reset è SEMPRE entro poche ore, MAI a 24h». Vero per la sessione, falso per il limite settimanale: stessa parola, scala cento volte più lunga. Il tetto delle 6h schiacciava il muro di giorni in un backoff di minuti, sei tentativi si bruciavano in poche ore e poi nessuno ripartiva più. Undici giorni di Intelligence ferma (30/7 → 10/8). Aggravante: il recupero della cadenza esisteva dal giorno di AR-024 ma SOLO in ritmo.sh — giro e monitora non l'hanno mai avuto, cioè la cura era stata applicata alla copia dove il sintomo era stato visto.",
    "regola": "davanti a una soglia/tetto/timeout, chiedersi «di quale scala sto parlando, e ne esistono altre della stessa cosa?» prima di dare per assoluta la frase «SEMPRE entro X». E quando si aggiunge una protezione a una cadenza, applicarla subito a tutte e tre (giro · ritmo · monitora) o dichiarare perché no.",
-   "gate": "node cervello/test/limite-settimanale-riparte.test.mjs"
+   "gate": "node cervello/test/limite-settimanale-riparte.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0810-02",
@@ -12069,7 +11283,8 @@
    "fonte": "correzione di Nicola",
    "testo": "**Un dato mostrato senza la sua data è un dato che mente per omissione (Nicola 10/8: «aggiungi la data per ogni card e con il segnale che è scaduta»).** La card Intelligence mostrava un'analisi del 20 luglio identica a una di stamattina: la data viveva solo DENTRO il markdown, e solo se chi l'aveva scritta se l'era ricordata. Nessuno se n'è accorto per 11 giorni perché la vecchiaia non era misurata da nessuna parte. Seconda metà della correzione, altrettanto importante: «la dovrà leggere un sentinello per segnalarlo alla macchina o a me» — una data VISIBILE serve solo a chi sta guardando quella scheda in quel momento; perché protegga, qualcuno deve leggerla al posto suo.",
    "regola": "ogni superficie che mostra un dato rigenerato periodicamente deve mostrare anche la sua età e gridare quando supera la cadenza attesa; e la soglia va DERIVATA dalla configurazione della cadenza (radar-fonti.json), mai scritta a mano in due posti. La visibilità non basta: serve un guardiano che legga l'età anche quando nessuno guarda.",
-   "gate": "node cervello/test/freschezza-intelligence.test.mjs"
+   "gate": "node cervello/test/freschezza-intelligence.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0810-03",
@@ -12099,7 +11314,8 @@
    "fonte": "decisione di Nicola",
    "testo": "**«Fatto» vuol dire che un comportamento è cambiato, non che una parola compare in un file (Nicola 10/8: «ok asticella»).** Il conto: 193 difetti su 552 avevano per prova un file+pattern. AR-128 diceva «non esiste nessun sensore per le contestazioni carta» e la sua prova era che la parola «chargeback» comparisse in un documento: scriverla chiudeva il difetto, e il sensore non c'era. Una ricerca di parole non può fallire nel modo in cui fallisce la realtà — per questo gli errori li trovava Nicola e non la macchina.",
    "regola": "un difetto grave o bloccante nasce con una prova che GIRA (un comando che diventa rosso se il difetto c'è) oppure con `verifica: {tipo:\"umano\"}` dichiarato; mai con un pattern da cercare. Il debito ereditato non si vieta di colpo — congelare il cantiere fa aggirare il cancello al secondo giro — ma scende sotto un tetto che non risale. Vale ovunque, non solo sui difetti: chiedersi sempre «questa prova può diventare rossa nel modo in cui il mondo mi smentirebbe?».",
-   "gate": "node cervello/test/asticella-prova-che-gira.test.mjs"
+   "gate": "node cervello/test/asticella-prova-che-gira.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0810-05",
@@ -12107,7 +11323,8 @@
    "fonte": "decisione di Nicola",
    "testo": "**Chi trova più in fretta di quanto ripara peggiora anche lavorando bene (Nicola 10/8: «ok tasso di chiusura»).** Luglio: 455 difetti nati, 244 chiusi (0,54). Agosto in dieci giorni: 90 nati, 14 chiusi (0,16). Nicola lo aveva previsto prima di me — «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori» — e la causa non è la bravura di chi cerca: è il rapporto. La dimensione con più difetti aperti è «guardiani-e-guardrail»: i controlli sono la prima fonte di lavoro dei controlli.",
    "regola": "il voto della macchina su sé stessa è UNO: chiusi ÷ aperti nel mese, obiettivo ≥ 1. Sotto 1 non si aprono ricerche nuove — si chiude. Corollario generale: prima di aggiungere un rilevatore, chiedersi chi convertirà quello che rileva; percezione e conversione hanno due velocità diverse e solo la prima è automatica. Corollario sul misurare: sotto un campione minimo il verdetto è ⚪, perché un rapporto su pochi casi è rumore — e un freno che scatta sul rumore viene disattivato.",
-   "gate": "node cervello/test/tasso-di-chiusura.test.mjs"
+   "gate": "node cervello/test/tasso-di-chiusura.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0811-01",
@@ -12115,7 +11332,8 @@
    "fonte": "lavoro proprio",
    "testo": "**Una prova che sa dire solo di no è inutile quanto un grep che sa dire solo di sì (primo lotto di conversione, 11/8).** Convertendo 5 prove da «cerca una parola» a «esegui qualcosa» ho sbattuto contro due verdi falsi MIEI, uno dietro l'altro. ① Il primo: ritagliavo un pezzo di script partendo da dentro un if/else, bash moriva su `else` alla decima riga, il file sporco sopravviveva — non perché il codice lo protegga, ma perché non ci era mai arrivato. ② Il secondo: ho messo un sigillo per provare l'arrivo, ma il `git` finto intercettava il checkout senza eseguirlo, quindi il file sopravviveva per costruzione. Il sigillo provava l'arrivo, non la salvezza. Poi, verificando i mutanti a mano, 2 su 5 erano vuoti: colpivano righe che l'esecuzione non raggiunge. Al terzo giro zero. Scoperta a monte: NESSUN difetto aperto aveva mai avuto una prova a comando — zero su 220 — quindi tutta la macchina delle mutazioni era nata per prove che confermano un fix, non per prove che dimostrano un guasto.",
    "regola": "una prova comportamentale vale solo se si ribalta: rossa quando il difetto c'è, verde quando il fix c'è. Va provata in ENTRAMBI i versi, simulando il fix, prima di fidarsene. E deve dimostrare di aver raggiunto il punto pericoloso e di aver osservato lo stato in QUEL momento: arrivare non è misurare, e intercettare l'operazione distruttiva rende il verde automatico. Corollario sui mutanti: scriverne uno non basta, bisogna guardare che rompa qualcosa — una mutazione su una riga che l'esecuzione non raggiunge sembra una difesa e non lo è.",
-   "gate": "node cervello/test/prove-a-due-versi.test.mjs"
+   "gate": "node cervello/test/prove-a-due-versi.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0810-06",
@@ -12123,7 +11341,8 @@
    "fonte": "correzione di Nicola",
    "testo": "**Un campo scritto per dire «cosa mi aspetto» non si legge mai come «cosa ho misurato» (radiografia della catena di lavoro, 10/8).** Nicola: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». Ha ragione, e la ragione è misurabile: la macchina si accreditava 84 difetti su 220 come «già risolti, aspettano solo il merge» leggendo `verifica.presente === true` — un campo che in auto-fix.mjs dice soltanto CON CHE VERSO leggere la prova, scritto quando il difetto nasce. Rieseguite a mano tutte e 84 le prove: 84 su 84 false (76 pattern assenti, 8 file inesistenti). Stessa malattia in piccolo su metabolismo.mjs (percentuale da un campo, numeratore da un altro) e in grande su AR-568, dove una misura cieca ha sovrascritto una misura vedente e il voto è MIGLIORATO perché la finestra si era ristretta da 26 messaggi a 2.",
    "regola": "chi emette un verdetto deve averlo MISURATO adesso: mai dedurlo da un campo scritto per un altro scopo, mai riportarlo da una misura precedente senza dichiararlo, mai sostituire una misura con una a copertura minore. Corollario: una prova di difetto è un comando che gira, non una parola in un file — una ricerca di parole non può fallire nel modo in cui fallisce la realtà, ed è per questo che gli errori li trova Nicola e non la macchina. Secondo corollario, pagato nello stesso lavoro: si scrive un file di memoria con scrivi-json.mjs, che CONSERVA l'indentazione del file; JSON.stringify(…, 2) su un file a un solo spazio lo riscrive tutto e lo spinge oltre il tetto di lettura di GitHub.",
-   "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+   "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0811-02",
@@ -12131,7 +11350,8 @@
    "fonte": "correzione di Nicola",
    "testo": "**Quando due pezzi leggono la stessa cosa, non si scrivono due lettori: si carica quello che c'è già (AR-569, Nicola 11/8: «sistema il difetto della coda, 5 invece di 49»).** Il guardiano del tempo di Nicola aveva un parser suo che riconosceva solo il formato vecchio della coda: contava 5 firme in attesa mentre nel Pannello ce n'erano 57, e concludeva «coda sotto controllo». La tentazione era riscrivere il parser dei blocchi dentro il guardiano — cioè fare la seconda copia, che è la malattia stessa. Invece si carica il lettore vero della Cabina (331 righe di regole su cosa è un'azione e cosa è documentazione) attraverso l'hook che toglie i tipi. Seconda metà, altrettanto importante: riparato il conteggio, il verdetto restava verde perché guardava solo l'ETÀ della card più vecchia. Un numero giusto dentro una soglia che non lo guarda non serve a niente.",
    "regola": "prima di scrivere un lettore, cercare chi legge già quella cosa e caricarlo — anche attraverso un confine di linguaggio, se il confine si può attraversare (Node 22 esegue i .ts, e l'hook per gli import senza estensione esiste già). Se non si può caricare, si esce ⚪ e non si tira a indovinare. E ogni volta che si ripara un CONTEGGIO, si controlla anche la SOGLIA che lo giudica: un numero giusto letto da un verdetto che non lo guarda resta invisibile. Le soglie si derivano dal comportamento reale della persona (quante firme dà a settimana), non si inventano.",
-   "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+   "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0816-01",
@@ -12139,7 +11359,8 @@
    "fonte": "correzione di Nicola 2026-08-16: «ripara il problema che la macchina non impara le lezioni»",
    "testo": "La memoria arrivava al lavoro senza la parte che cambia il comportamento. La scheda che parte a ogni richiesta leggeva un campo (gate_attivo) che la porta ufficiale di scrittura non scrive mai: 44 lezioni su 69 con un freno vero non lo hanno mai mostrato, e su 8 richieste tipiche i freni serviti erano 1 su 11. Le lezioni si leggevano come prosa e si dimenticavano.",
    "regola": "Quando la macchina porta una lezione dentro un lavoro, deve portarci il COMANDO che la fa rispettare, non solo il testo: chi legge un dato scritto da un altro pezzo legge il campo che quel pezzo scrive davvero, e a parita di tema vince la lezione che si puo eseguire.",
-   "gate": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs"
+   "gate": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0817-01",
@@ -12147,7 +11368,8 @@
    "fonte": "domanda di Nicola 2026-08-17: «come mai la macchina non ha ancora imparato le 500 lezioni?»",
    "testo": "Promuovere una lezione a principio non bastava: dei 88 principi cristallizzati ne arrivavano 8 al lavoro, scelti per posizione nel file. Le regole promosse dopo il 26 luglio non le vedeva nessuno, e dei quattro principi con un freno ne arrivavano due.",
    "regola": "Ogni elenco di memoria che viene TAGLIATO prima di entrare in un lavoro deve ordinare per forza (prima cio che si puo eseguire, poi cio che parla del lavoro di adesso) e deve DICHIARARE il taglio: un taglio silenzioso si legge come «ci sono tutti».",
-   "gate": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
+   "gate": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0817-02",
@@ -12155,7 +11377,8 @@
    "fonte": "richiesta di Nicola 2026-08-17: «continua con il terzo anello» (le 452 lezioni che non sono ne freno ne principio)",
    "testo": "Il guardiano dell apprendimento diceva «0 decadute, il decadimento non gira» mentre il motore stava lavorando: 323 lezioni avevano un passo timbrato negli ultimi giorni e la confidenza minima era scesa da 0,8 a 0,33. La regola guardava il conto dei morti e mai i passi, che pure erano scritti in archivio.",
    "regola": "Un motore lento non si giudica dal risultato che deve ancora arrivare: si misura il LAVORO che sta facendo. Se un verdetto dice «X non gira» perche il suo effetto e ancora zero, deve prima guardare se X sta facendo passi — e al buio (nessuna traccia leggibile) dire fermo, non gira.",
-   "gate": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
+   "gate": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0817-03",
@@ -12163,7 +11386,8 @@
    "fonte": "richiesta di Nicola 2026-08-17: «fai la chat per prima» (terzo anello dell apprendimento)",
    "testo": "La chat riceveva le lezioni con un grep sulle prime otto righe di un file di prosa: nessun freno e nessun legame col messaggio. Le sessioni e il giro passavano gia dall archivio strutturato. La porta piu frequentata era l unica rimasta cieca, e per questo Nicola non vedeva cambiare niente dopo due lotti di lavoro sull apprendimento.",
    "regola": "Quando si ripara il modo in cui la memoria arriva al lavoro, la prima porta da riparare e quella che la persona USA di piu, non quella piu facile da raggiungere dal codice: un miglioramento su una porta che Nicola non attraversa mai e invisibile, e quindi per lui non e successo.",
-   "gate": "node cervello/test/la-chat-senza-freni.test.mjs"
+   "gate": "node cervello/test/la-chat-senza-freni.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0817-04",
@@ -12171,7 +11395,8 @@
    "fonte": "errore mio, 17/8: ho detto a Nicola che la cura della chat non era su main contando grep -c su una frase lunga uscita 0 — la riga c'era, la frase cercata no (una virgoletta di chiusura nel mezzo)",
    "testo": "Uno zero da grep -c su una frase lunga non distingue «la cosa non c'e» da «ho scritto la frase sbagliata»: piu lunga e la frase, piu punti ha per non combaciare (virgolette, spazi, variabili espanse), e tutti finiscono nello stesso identico 0. Il rimedio e cercare prima un pezzo corto e inconfondibile, e allungare solo dopo.",
    "regola": "Prima di concludere che una cosa NON c'e da un conteggio a zero, ripeti la ricerca con una parola sola: se anche quella e zero, allora manca davvero.",
-   "gate": "node --test cervello/test/misura-cieca.test.mjs"
+   "gate": "node --test cervello/test/misura-cieca.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0818-01",
@@ -12184,7 +11409,8 @@
    "fonte": "Nicola, 18/8: ha mandato lo screenshot della Cabina dicendo «non e cambiato niente» — aveva ragione sulla card, e la card era rotta",
    "testo": "**Una memoria scritta in una forma che nessuno sa leggere e memoria che non arriva.** La Cabina diceva «0 lezioni negli ultimi 7 giorni» mentre in archivio ce n'erano nove: le lezioni scritte dalla macchina uscivano col solo campo 'data', e ogni lettore cercava 'nato'/'ultima_conferma'. Due forme nello stesso archivio, e il contatore era muto proprio sulle lezioni nuove. Quando Nicola dice che non e cambiato niente, la prima cosa da controllare non e se il lavoro e stato fatto, ma se il numero che lui guarda sa vedere quel lavoro.",
    "regola": "Chi scrive in un archivio condiviso usa la forma che i lettori cercano, e chi legge dichiara quali campi accetta. Prima di dire «e fatto», guarda il numero come lo vede Nicola, non come lo vedi tu.",
-   "gate": "node cervello/test/porta-delle-lezioni.test.mjs"
+   "gate": "node cervello/test/porta-delle-lezioni.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0818-02",
@@ -12197,7 +11423,8 @@
    "fonte": "Nicola, 18/8: «perche c'e' solo il 12% delle lezioni citate?» — misurando la risposta e' venuto fuori che il metro contava un'altra cosa",
    "testo": "**Un numero che misura le citazioni non puo' dire se una regola funziona.** Il tasso contava le lezioni il cui codice compariva scritto da qualche parte: 61 su 521, e di quelle solo 6 con una traccia vera. Un volano fermo e un volano che nessuno annota davano lo stesso numero. Il segnale onesto era gia' li' e non lo leggeva nessuno: il freno che diventa rosso. Quando il freno di una lezione fallisce, quella lezione ha appena fermato la macchina — e' un fatto, non un'opinione. La scorciatoia da rifiutare e' marcare l'uso alla CONSEGNA: porterebbe il numero a quasi 100% misurando «te l'ho mostrata» invece di «mi ha fermata».",
    "regola": "Prima di credere a una metrica, chiedi quale evento la fa salire. Se puo' salire senza che nessun comportamento cambi, non e' una misura: e' arredamento. E marca l'uso sull'inciampo evitato, mai sulla consegna.",
-   "gate": "node --test cervello/test/il-freno-che-scatta.test.mjs"
+   "gate": "node --test cervello/test/il-freno-che-scatta.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0818-03",
@@ -12210,7 +11437,8 @@
    "fonte": "Nicola, 18/8: «fai l'analisi a» sulla potatura dell'archivio — misurando e' venuto fuori che la potatura arrivava gia' da sola, e che avrebbe tolto le cose sbagliate",
    "testo": "**Due meccanismi sullo stesso dato, che non si parlano, fanno il danno di uno rotto.** Un pezzo registrava che una lezione aveva fermato un errore; un altro, sullo stesso archivio, la buttava via un mese dopo perche' guardava solo la data dell'ultima conferma. Nessuno dei due era sbagliato da solo. Quando si aggiunge un segnale nuovo (l'uso), bisogna chiedersi CHI ALTRO decide su quel dato e non lo sta guardando — altrimenti si costruiscono due forze che tirano in direzioni opposte. E l'eccezione va messa dove la decisione si prende, non in un bypass a monte.",
    "regola": "Quando aggiungi un segnale a un dato condiviso, cerca tutti quelli che decidono su quel dato e chiediti se il segnale nuovo li riguarda. E ogni privilegio va legato a una condizione verificabile che puo' decadere: qui il freno vale finche' il suo FILE esiste, non finche' la stringa e' scritta.",
-   "gate": "node cervello/test/archivi-senza-tetto.test.mjs"
+   "gate": "node cervello/test/archivi-senza-tetto.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0821-01",
@@ -12231,7 +11459,8 @@
     "coda-azioni",
     "contatore-parziale"
    ],
-   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: la mutazione `AR-779 un-numero-solo-per-la-coda` la citava e la lezione non era mai stata scritta. Il freno esisteva, la ragione no."
+   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: la mutazione `AR-779 un-numero-solo-per-la-coda` la citava e la lezione non era mai stata scritta. Il freno esisteva, la ragione no.",
+   "usi": []
   },
   {
    "id": "L-2026-0821-02",
@@ -12259,116 +11488,9 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-22 10:29",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:30",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:47",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 10:53",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 14:56",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 13:54",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-22 20:15",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-23 20:02",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:07",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:09",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 12:36",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 14:17",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 20:49",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 21:04",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-24 22:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:32",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:39",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 16:45",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:48",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-25 20:55",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 09:19",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:42",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 17:52",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 18:20",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 00:26",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:16",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-28 23:33",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
      "quando": "2026-09-01 18:10",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
+     "ref": "freno rosso nel cancello: verdetti senza lettore",
+     "volte": 28
     }
    ]
   },
@@ -12383,7 +11505,8 @@
    "fonte": "richiesta di Nicola dopo la perdita di memoria del 21/8",
    "testo": "**`git add <cartella>` non mette in staging quello che hai fatto: mette quello che è sporco (21/8 20:07).** Il commit automatico del server, intitolato «riconcilia: chiude difetti risolti nel codice», conteneva QUATTRO file. Uno era il cantiere — l'unica cosa che quel lavoro scrive. Gli altri tre erano saliti a bordo perché la riga in staging prendeva l'intera cartella `auto-coscienza`. Fra loro `apprendimento.json`, passato da 531 lezioni a 529: due lezioni arrivate su main da altrettante PR firmate, cancellate da un commit che parlava d'altro (confronto id per id: aggiunte 0, modificate 0, perse 2). Non conta chi avesse sporcato il file — conta che sporcarlo bastasse a pubblicarlo. Su una macchina che gira in continuo, qualcos'altro scrive sempre in quella cartella. Il sintomo era una CI rossa a intermittenza, e l'avevo chiamata traffico: era il freno che segnalava una memoria persa.",
    "regola": "in un processo automatico si mette in staging l'elenco dei file che quel lavoro SCRIVE, mai una cartella; e ciò che è sporco fuori da quell'elenco si dichiara invece di portarselo dietro, perché un commit deve contenere solo ciò che il suo messaggio dichiara",
-   "gate": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
+   "gate": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0821-04",
@@ -12396,7 +11519,8 @@
    "fonte": "richiesta di Nicola: «scava anche a monte» (21/8)",
    "testo": "**Chi risalva un archivio intero cancella quello che un altro ci ha messo mentre lui lavorava (AR-296 metà ②).** `scrivi-json.mjs` lo dichiarava aperto in cima a sé stesso da luglio, come seconda metà di un difetto di cui era stata chiusa solo la prima. Misurato il 21/8 su TUTTE le 1.489 revisioni di `apprendimento.json` da fine giugno: il conto delle lezioni è sceso **sei volte, per undici lezioni** — 4/7 cutover (−2), 6/7 riconcilia (−1), 13/7 chore (−2), 16/7 una risposta del worker (−1), 13/8 giro (−3), 21/8 riconcilia (−2). Nessuno di quei sei lavori era il potatore, e nessuno voleva togliere niente: ognuno aveva in mano una copia vecchia e l'ha risalvata intera. Cercare CHI scrive era la domanda sbagliata — sono sei processi diversi, e domani un settimo.",
    "regola": "un archivio tenuto a id non si difende cercando il colpevole ma al punto unico di scrittura: prima di salvare si confronta con ciò che c'è sul disco ADESSO, e le voci che sparirebbero senza essere dichiarate si rimettono e si gridano — rimettere invece di rifiutare, perché un rifiuto fermerebbe il server per un difetto che non è suo e verrebbe aggirato",
-   "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+   "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0823-01",
@@ -12409,7 +11533,8 @@
    "fonte": "lotto 51, AR-796: il secondo giro del lotto 50 ha chiesto «ogni strada che arriva all'atto passa dal freno?» e la risposta era no",
    "testo": "**Un cancello si giudica da chi lo attraversa, non da come e' scritto (AR-796).** I due cancelli sulle prove — prova orfana, prova debole su difetto pesante — sono nati nel lotto 49 e si sono raffinati nel lotto 50: funzioni pure, ben provate, con i tre esiti. Per due lotti li ha chiamati una cosa sola, `cantiere-prove.mjs`, che e' il REFERTO: guarda e racconta. Chi CHIUDE davvero e' `auto-fix.mjs`, e non li nominava affatto — zero occorrenze col grep. Il referto pubblicava perfino il conto `chiuderebbe_lo_stesso`, cioe' misurava la propria impotenza, e nessuno leggeva quel numero come un difetto. Peggio: `auto-fix` chiamava gia' `verdettoChiusura`, la funzione pura giusta, ma ne usava solo due campi su tre e la decisione la rifaceva a mano — quindi ogni cancello aggiunto alla funzione pura moriva dentro un `chiude` calcolato e buttato via. Due lotti di lavoro corretto, montati sulla porta che non si apre.",
    "regola": "quando aggiungi un freno, la prova non e' che il freno sappia giudicare — e' che CHI AGISCE ci passi: si scrive facendo girare l'attore vero (auto-fix, il worker, il publisher) su un caso costruito, e pretendendo che l'atto NON avvenga. E un verdetto che il chiamante ricalcola non decide niente: se una funzione pura torna `chiude`, chi la chiama deve dispacciare su quel campo, non su una condizione riscritta accanto",
-   "gate": "node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs"
+   "gate": "node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0823-02",
@@ -12425,7 +11550,8 @@
    "gate": "",
    "nota_gate": "Freno non scrivibile come prova automatica: e' una regola sul RITMO del lavoro, non sul codice. La cosa piu' vicina a un guardiano sarebbe «il ramo ha commit che non stanno in nessuna richiesta aperta», che si puo' misurare ma non da dentro la suite. Dichiarato come debito, non spacciato per fatto.",
    "promosso_il": "2026-08-28 12:26",
-   "cristallizzato_in": "memoria-persistente"
+   "cristallizzato_in": "memoria-persistente",
+   "usi": []
   },
   {
    "id": "L-2026-0825-01",
@@ -12467,7 +11593,8 @@
    "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-818",
    "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Il conto: `nascita-difetti.mjs` dice che 99 schede su 787 sono nate dal riparare. Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'impronta del file com'è adesso — una lettura fatta prima dell'ultima modifica scade da sola.",
    "regola": "Prima del cancello, riguarda i file che il lotto ha toccato con la lente della loro dimensione di radiografia e registra cosa hai visto (anche «zero»): `node cervello/radiografia-in-corsa.mjs` → `registra --dimensione <chiave> --toccati --trovati <n>`. Sul sito, `--repo ../mycity`.",
-   "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+   "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+   "usi": []
   },
   {
    "id": "L-2026-0825-03",
@@ -12485,7 +11612,7 @@
    "nato": "2026-08-25",
    "ultima_conferma": "2026-08-25 17:35",
    "stato": "principio",
-   "usi": 0,
+   "usi": [],
    "gate": "node cervello/lavori-hanno-la-corsia.mjs",
    "data": "2026-08-25 17:35",
    "promosso_il": "2026-08-28 12:26",
@@ -12513,32 +11640,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-08-31 22:31",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
-    },
-    {
-     "quando": "2026-09-01 06:30",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
-    },
-    {
-     "quando": "2026-09-01 08:28",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
-    },
-    {
-     "quando": "2026-09-01 10:27",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
-    },
-    {
-     "quando": "2026-09-01 11:08",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
-    },
-    {
-     "quando": "2026-09-01 11:32",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
-    },
-    {
      "quando": "2026-09-01 11:54",
-     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
+     "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
+     "volte": 7
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -12560,7 +11664,7 @@
    "nato": "2026-08-26",
    "ultima_conferma": "2026-08-26 07:55",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [],
    "gate": "node cervello/prossimo-ar.mjs",
    "data": "2026-08-26 07:55"
   },
@@ -12581,7 +11685,7 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 06:55",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [],
    "gate": "node cervello/test/il-muro-arriva-prima-della-porta.test.mjs",
    "data": "2026-08-27 06:55"
   },
@@ -12633,7 +11737,7 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 11:45",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [],
    "gate": "node cervello/test/due-porte-due-altezze.test.mjs",
    "data": "2026-08-27 11:45"
   },
@@ -12654,7 +11758,7 @@
    "nato": "2026-08-27",
    "ultima_conferma": "2026-08-27 13:45",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [],
    "gate": "node --test cervello/test/prossimo-ar.test.mjs",
    "data": "2026-08-27 13:45"
   },
@@ -12675,9 +11779,576 @@
    "nato": "2026-09-03",
    "ultima_conferma": "2026-09-03 11:20",
    "stato": "attiva",
-   "usi": 0,
+   "usi": [],
    "gate": "node --test cervello/test/la-prova-attraversa-la-porta-della-casa.test.mjs",
    "data": "2026-09-03 11:20"
+  },
+  {
+   "id": "L-2026-0901-01",
+   "testo": "**Il filtro dei segreti uccideva git nel processo figlio, e il cadavere di una prova mai partita comprava un verde (AR-930).** Una lista nera di NOMI non sa che certe variabili si tengono per mano: toglierne una rompe il figlio, e un figlio rotto esce != 0, cioe compra un verde. Il terzo esito va difeso due volte: alla causa e alla lettura. Chi legge un uscita != 0 come prova deve saper riconoscere un processo mai partito.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Con l ambiente ripulito dal banco delle mutazioni, `git status` esce 128 e stampa «error: missing config key GIT_CONFIG_KEY_0 / fatal: unable to parse command-line config». Riprodotto a mano su questa macchina prima di toccare qualsiasi cosa: con l ambiente intero esce 0, con `ambientePulito()` esce 128. E `verdettoCorsa` legge ogni uscita diversa da zero come «la prova e diventata rossa per colpa"
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — un collaudatore che non ha costruito questo file",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-02",
+   "testo": "**Le uniche prove che il banco non sapeva misurare erano proprio quelle che difendono il «non ho misurato» (AR-936).** Un indizio nel testo e una supposizione, un test passato e un fatto: la prova positiva batte l impronta. Senza, le uniche prove che il banco non sa misurare sono proprio quelle che difendono la cecita.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "La mutazione appena scritta per AR-930 non si lasciava provare: il banco la dava ⚪ invece che ✅, dicendo «git non e partito». Ma git era partito benissimo — la frase veniva dalla prova stessa. Node, quando un `assert` fallisce, RISTAMPA LA RIGA DI SORGENTE che l ha fatto fallire; quella riga conteneva l impronta, perche il mestiere di quella prova e parlare di quell impronta. Misurato: 10 file di "
+   ],
+   "fonte": "il banco delle mutazioni che si rifiutava di misurare una difesa appena scritta — chiesto perche invece di riscrivere la prova finche passava",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/una-prova-morta-non-e-una-prova-passata.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-03",
+   "testo": "**Il guardiano che si ferma da solo per non farsi sparare, si faceva sparare lo stesso: il suo budget partiva a meta corsa (AR-913).** Un budget che comincia a contare a meta del lavoro non e un budget: e una promessa che si tiene solo quando la prima meta e veloce. Due copie della stessa decisione: alzarne una e lasciare l altra indietro non se ne accorge nessuno, e il guardiano torna a farsi sparare invece di dichiarare il suo ⚪.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Il cancello del 31/8 ha bocciato con «passi nuovi che nascono rotti sul runner (exit 124)». 124 vuol dire ucciso dall orologio — cioe rosso per tutti, senza una riga che spieghi perche. Ed e ESATTAMENTE il difetto che il budget interno di `cervello/due-case.mjs` esiste per impedire: il suo commento dichiara «sta sotto quello che il cancello da a me» proprio perche «un ⚪ dichiarato si legge, un 124"
+   ],
+   "fonte": "il verdetto del cancello, letto invece di riprovato — e la misura che avrebbe dato il numero e morta di memoria, il che ha reso obbligatorio curare la struttura invece del numero",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-04",
+   "testo": "**Un elenco che taceva valeva «tutti i vincoli risolti», e il giro pubblicava con tredici cancelli rossi (AR-914).** Un guardiano che tace lo si sente; un elenco che tace sembra una buona notizia. La cura va su CHI PRODUCE l elenco, non solo sul singolo guardiano. Buttare stderr e poi concludere qualcosa dal fallimento vuol dire trasformare un errore qualsiasi in una risposta.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Riprodotto il 31/8 con la stessa forma di shell di `cervello/giro.sh`: parto con tredici vincoli rossi, il produttore dell elenco esce 2 con stdout vuoto, e finisco con GATE_ROSSI=0 e il messaggio «tutti i vincoli sono stati risolti». Il giro si dichiara pulito e PUBBLICA. Il `2>/dev/null` cancellava anche la traccia dell errore, quindi nel log non restava niente da cui accorgersene."
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — e riprodotto a mano prima di toccare niente",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/un-elenco-vuoto-non-vale-tutto-risolto.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-05",
+   "testo": "**Avevo chiuso la porta che ESEGUE e dichiarato chiuso il cortile: quella che SCRIVE era aperta di fianco (AR-920).** Quando si mette una guardia su un modo di raggiungere una risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile: ne avevo chiusa una sola e avevo dichiarato chiuso il cortile. Una guardia sulle radici che non risolve i collegamenti simbolici e una formalita: il collegamento sta dentro, il file sta fuori.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Riprodotto a mano con un testimone che legge il file bersaglio MENTRE il banco lo tiene rotto. Senza la guardia il testimone leggeva «SCRITTA DAL BANCO COME ROOT» da un file fuori dal repo e fuori dalla cartella del registro; col repo che restava pulito, cioe senza nessuna traccia in git. Con la guardia il banco non lo apre nemmeno."
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — e il banco delle mutazioni, che ha bocciato la mia prima prova perche difendeva la serratura invece della porta",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-banco-non-scrive-fuori-da-casa.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-06",
+   "testo": "**Le «tasche vuote» avevano dentro due cose: una che comanda il figlio e una che fa esplodere il tempo (AR-921).** Una lista nera di parole-chiave vede i nomi che DICHIARANO un segreto, non quelli che COMANDANO chi li riceve. NODE_OPTIONS non contiene nessuna parola sospetta e vale piu di qualunque chiave. Due pezzi di espressione che si sovrappongono fanno provare al motore ogni punto di taglio. E il default di un parametro rivalutato a ogni chiamata moltiplica il costo per il numero di mutazioni.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "① `NODE_OPTIONS` sopravvive ad `ambientePulito()` — misurato sul mio ambiente vero. Node legge le opzioni ANCHE dall ambiente, quindi `NODE_OPTIONS=--require /tmp/mio.cjs` esegue quel file PRIMA della prova ammessa, scavalcando in un colpo tutta la lista bianca di `esecuzione-prova.mjs`. Sopravviveva anche NODE_EXTRA_CA_CERTS. ② Il controllo per VALORE cresceva col quadrato: MISURATO 4,9 ms a 2 KB"
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto; la misura del tempo l ho rifatta io perche la prima riproduzione, con la forma di ingresso sbagliata, diceva che il difetto non c era",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/le-tasche-vuote-e-il-tempo-che-esplode.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-07",
+   "testo": "**Il conto delle volte diceva trentadue dove gli usi veri erano ventuno, in una casa dove nessun numero sta senza fonte (AR-922).** Un numero scritto in memoria con accanto la parola «vero» va verificato contro la realta che dichiara, non contro l intenzione di chi l ha scritto. Ordinare delle date confrontando testo funziona finche sono tutte date. La prima che non lo e non sbaglia posto: si pianta in fondo e pota tutto quello che viene dopo. Lo spread di una primitiva non e un no-op: la sparge indice per indice.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Misurato prima di curare: dieci usi veri → undici dichiarate; ventuno usi veri compattando a ogni giro → TRENTADUE dichiarate. E il commento accanto al campo prometteva «il conto vero». Nel file vivo c erano gia sedici numeri di quel tipo, e la loro somma era cresciuta da 332 a 336 in due giri senza che nessun uso nuovo lo giustificasse. Altri due difetti nello stesso pezzo: un `quando` che non e "
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto — su codice che avevo scritto io sei giorni prima e dato per finito",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-conto-degli-usi-non-si-gonfia.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-08",
+   "testo": "**Il temporaneo con cui si riscrive il ciclo principale aveva un nome che si poteva indovinare, in una cartella dove scrive chiunque (AR-923).** Un nome che si puo indovinare in una cartella pubblica e un invito: chi ci mette prima un collegamento simbolico si fa scrivere dove vuole, da un processo che gira come root. renameSync e atomico solo se il provvisorio sta sullo stesso disco del bersaglio: e per questo che il posto giusto e una cartella del repo ignorata da git, non /tmp.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "`round6-applica.mjs` riscrive `cervello/giro.sh` e prima ne prova la sintassi su una copia chiamata `/tmp/round6-prova-giro.sh`. Il collaudo di sicurezza ci ha messo prima un collegamento simbolico e si e fatto riscrivere un file suo col contenuto di un giro.sh, da un processo che gira come root — `writeFileSync` segue il collegamento. E la scrittura finale su giro.sh non era atomica: un processo "
+   ],
+   "fonte": "la seconda radiografia di sicurezza sul perimetro del lotto",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/il-temporaneo-non-si-fa-indovinare.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-09",
+   "testo": "**Una prova ha cancellato 956 file, e quello che ho visto e stato uno stack trace (AR-924).** Un guardiano che cerca il PEZZO DI CODICE difende dalla forma che conosce; uno che cerca il DANNO vede anche la prossima. Su una popolazione di zero offensori, il secondo e l unico che vale. «Non ho potuto guardare» tornato come «va tutto bene» e il ⚪ travestito da verde: la malattia di casa.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "Una corsa del banco delle mutazioni ha portato via tutta la cartella `cervello/` — 956 file tracciati. Sullo schermo e comparso un ENOENT con lo stack: nessuna riga diceva che mancavano novecentocinquantasei file, l ho scoperto guardando `ls`. I file sono tornati da git, ma e stato un ripristino, non un fastidio — e ha richiesto un permesso esplicito di Nicola perche il comando di recupero era blo"
+   ],
+   "fonte": "me stessa, cancellando il repo con una prova che avevo appena scritto",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "node cervello/test/una-prova-che-cancella-la-casa.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-10",
+   "testo": "**AR-925 (AR-925).** Una cura messa dove il difetto si e visto, e non dove puo ripetersi, lascia indietro i rami gemelli: il ramo del rifiuto aveva l ordine giusto da un mese, quello della PR gia mergiata no.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-11",
+   "testo": "**AR-926 (AR-926).** Una cura puo riaprire da un altra parte il difetto che stava chiudendo: qui separare l esito dal rumore ha rimesso il rumore DENTRO l elenco. Le righe aggiunte vanno riguardate con la lente della loro dimensione PRIMA di consegnare, non dopo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 16:10",
+   "ultima_conferma": "2026-09-01 16:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0901-12",
+   "testo": "**AR-931.** Una prova che si scrive un proprio metro del tempo non prova il codice: prova se stessa. Qui `Date.parse` contro `istante()` facevano due ore di scarto sulla soglia dei 28 giorni, e il file diventava rosso a ore senza che nessuno lo toccasse. Il metro lo si IMPORTA da chi si sta provando, e chi non puo importarlo lo pinza con un caso deterministico.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-01 18:40",
+   "ultima_conferma": "2026-09-01 18:40",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/archivi-senza-tetto.test.mjs",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "L-2026-0902-01",
+   "testo": "**AR-932.** Un budget passato come DURATA si spende una volta per ogni chiamata che lo riceve: due corse da 240 secondi sono 480. Un budget e un ISTANTE in cui scadere, non una quantita da distribuire — e ogni operazione, compresa quella lenta che nessuno cronometra, deve chiedere all orologio quanto le resta. La spia che l ha rivelato: col budget messo a 1 il programma usciva subito, quindi il freno c era e stava nel posto sbagliato.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-02 01:35",
+   "ultima_conferma": "2026-09-02 01:35",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
+   "data": "2026-09-02"
+  },
+  {
+   "id": "L-2026-0902-02",
+   "testo": "**AR-933.** Un tempo massimo che manda un segnale rifiutabile non e un freno: e una richiesta. `spawnSync` di serie manda SIGTERM e NON insiste, quindi un figlio che lo ignora resta vivo oltre il timeout. Misurato: 30 secondi chiesti, oltre 500 senza risposta; con SIGKILL, 30,041. Ogni freno va provato su chi RIFIUTA di obbedire, non su chi obbedisce.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-02 03:05",
+   "ultima_conferma": "2026-09-02 03:05",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
+   "data": "2026-09-02"
+  },
+  {
+   "id": "L-2026-0902-03",
+   "testo": "**AR-932 → AR-933.** Trovare un difetto vero mentre se ne cerca un altro non vuol dire aver trovato la causa. Il doppio conteggio del budget era reale e riparato, e il sintomo non si e mosso di un secondo. La cosa che l ha smascherato e una sola: RIMISURARE dopo la cura invece di fidarsi del ragionamento. Sei ipotesi, cinque smentite da un numero.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "metodo"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    ""
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-02 03:05",
+   "ultima_conferma": "2026-09-02 03:05",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
+   "data": "2026-09-02"
+  },
+  {
+   "id": "L-2026-0903-02",
+   "testo": "**AR-935.** Una prova che legge la coda VERA e pretende uno stato («c e almeno una pausa», «quella card e in pausa») fotografa un momento, non difende un invariante: diventa rossa il giorno che la macchina fa la cosa giusta. Sulla memoria viva la prova deve reggere TUTTI gli stati, compreso «niente da guardare», che e ⚪ e non rosso; e la storia che un azione lascia — la riga «Pausa finita» — deve restare leggibile, perche e l unica materia che resta dopo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "prove"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "3/9 00:20: pausa-senza-risveglio e validazione-congelata rosse su main e sul ramo sia con le dieci pause dormienti (guardiano rosso) sia dopo la sveglia (prove rosse): exit 1 in tutti e due gli stati, nessuno verde"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03 00:31",
+   "ultima_conferma": "2026-09-03 00:31",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/pausa-senza-risveglio.test.mjs",
+   "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0903-03",
+   "testo": "**AR-915.** Un processo che puo essere ucciso dall orologio deve dire cosa fa MENTRE lo fa: l unica cosa certa e che il suo riassunto finale non arrivera. Il cancello del lotto raccoglieva tutto e stampava in fondo — comodo finche finisce, e quando non finisce cancella anche il lavoro gia fatto. Il costo non e il tempo perso: e che dopo un kill la cura successiva si sceglie a indovinare, perche il numero che serve (quale passo costa) non e mai stato scritto.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33773513617 del 3/9: avvio 15:36:20, prima riga 16:50:46 (l errore del kill), 74m26s di silenzio su 33 passi"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": true,
+   "nato": "2026-09-03 19:30",
+   "ultima_conferma": "2026-09-03 19:30",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-cancello-che-taceva-per-settantacinque-minuti.test.mjs",
+   "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0903-04",
+   "testo": "**AR-916, e prima AR-933.** Un debito dichiarato non e curato: e un appuntamento. Il 2/9 avevo scritto, con il numero misurato, che 17 file passano un `timeout` per 42 volte senza `killSignal` — cioe che ogni tempo massimo della macchina e una richiesta che si puo rifiutare. Il 3/9 quel debito e venuto a scadere sul file peggiore, il cancello che decide se il lavoro passa: tetto di 900 s, girato 64 minuti, corsa morta senza verdetto. Quando si dichiara un debito misurato, si dichiara anche DOVE fara male per primo — e quello e il posto da curare subito, non «uno dei diciassette».",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "debito-dichiarato"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33787462384: 29 passi in 609 s, poi il banco delle mutazioni dalle 18:06:49 senza fine, cancello ucciso a 75 min"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03 21:33",
+   "ultima_conferma": "2026-09-03 21:33",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-tetto-del-cancello-che-si-poteva-rifiutare.test.mjs",
+   "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0903-05",
+   "testo": "**AR-917.** Un tetto e un budget non sono lo stesso numero, e la differenza e chi puo parlare dopo. Il tetto e un accetta: arriva, taglia, e quello che stavi facendo si perde — l esito diventa «ucciso», che il lettore traduce in «rotto». Il budget si guarda PRIMA di spendere, quindi lascia il tempo di scrivere cosa resta fuori. Ogni guardiano lento vuole tutti e due: il budget per dichiarare, il tetto come rete se il budget non basta a fermarlo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33807469256: il banco a 900,4 s su un tetto di 900, exit 124 (rosso) per un lavoro non finito, non per una difesa rotta"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-03 23:54",
+   "ultima_conferma": "2026-09-03 23:54",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-non-diceva-chi-restava-fuori.test.mjs",
+   "data": "2026-09-03"
+  },
+  {
+   "id": "L-2026-0904-01",
+   "testo": "**AR-918.** Quando una funzione ti torna QUANTO e tu la usi come SI/NO, il numero che hai buttato via torna a chiedertelo piu tardi e piu caro. `quantoPosso` dice quanti millisecondi restano; usarla solo per decidere «comincio o no» e poi lanciare il lavoro col suo tetto pieno vuol dire che l ultimo pezzo sfonda il budget di tutti. La cura di ieri e morta esattamente come il difetto che curava — la stessa corsa, lo stesso 124, lo stesso silenzio. Regola: **un budget che non entra nel tetto del singolo passo non e un budget, e una speranza**; e chi viene troncato dal MIO orologio deve dirlo con parole sue, altrimenti il referto da la colpa alla prova invece che a me.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33811579021: col budget addosso il banco muore ancora a 900,3 s su un tetto di 900, exit 124, senza aver scritto l elenco che era tutto il punto",
+    "misurato in locale sulla finta: col difetto rimesso il banco torna dopo 60 s con 2,5 s di budget; con la cura torna in 2,7 s"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 10:55",
+   "ultima_conferma": "2026-09-04 10:55",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-budget-che-non-entrava-nel-tetto.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-02",
+   "testo": "**AR-919.** Una prova che rompe apposta un file vero si comporta come se fosse sola in casa, ma la suite gira su corsie parallele: chi legge quel file nella corsia accanto diventa rosso a caso. Le prove che mutano lavorano su una FINTA, sempre. E il corollario che mi ha quasi fregata due volte oggi: **un osservatore deve dimostrare di aver osservato**. La prima versione di questa prova passava misurando il nulla — `NODE_TEST_CONTEXT` messa a stringa vuota resta SET, e `node --test` allora esce subito con zero senza eseguire un caso. Si cancella, non si svuota; e si controlla il referto del figlio, non il cronometro.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "misurato: le due prove lanciate insieme danno 11/0 al primo giro e 10/1 al secondo, senza modifiche in mezzo; da sole sono verdi",
+    "col difetto rimesso l osservatore vede cervello/cancello-lotto.mjs rotto per oltre 20 secondi",
+    "la prima versione dell osservatore: figlio uscito con 0 in 0 s e zero casi eseguiti, e la prova era verde"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 11:35",
+   "ultima_conferma": "2026-09-04 11:35",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-03",
+   "testo": "**AR-937.** Unire due registri per chiave esprime le aggiunte e NON esprime le rimozioni: se il ramo ha tolto una voce e il tronco ce l ha ancora, l unione la rimette e la cancellazione — che era un fatto — sparisce senza lasciare traccia. Qui ha riaperto due difetti chiusi facendo dire al registro il contrario di quello che faceva il codice. La regola che ne esce: **dopo aver fuso un registro, rilancia il guardiano che lo possiede** — contare le voci non e' misurare la coerenza, e l unico che sa se il contenuto torna e' lui. E dopo una fusione si esegue la lista INTERA dei guardiani del cancello, non un sottoinsieme scelto a mano: sedici su ventotto e' esattamente come si perde questo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33858701337: tre prove rosse sul runner (archivi-senza-tetto, guardiano-mai-messo-di-guardia, il-guardiano-agganciato-ferma-il-cancello) verdi in locale prima della fusione",
+    "guardia-viva-check.mjs prima della cura: 2 voci fantasma; dopo: nessuna, 89/105 eseguiti",
+    "controllo sugli altri registri: 5 mutazioni tolte, 0 tornate; 0 schede e 0 lezioni tolte — il registro dei motivi era l unico esposto stavolta"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 12:05",
+   "ultima_conferma": "2026-09-04 19:40",
+   "stato": "viva",
+   "usi": [
+    {
+     "quando": "2026-09-04 19:40",
+     "dove": "AR-940/AR-941, stesso giorno",
+     "cosa": "Ho scritto due lezioni nuove in apprendimento.json senza rilanciare porta-delle-lezioni.test.mjs, la prova che POSSIEDE quel file: due lezioni diverse hanno preso lo stesso numero e il rosso l'ha trovato il runner, non io. E' esattamente la lezione qui sopra applicata a un altro registro — la lista intera, non il sottoinsieme che sembra collegato."
+    }
+   ],
+   "gate": "cervello/guardia-viva-check.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-04",
+   "testo": "**AR-938.** Quando un controllo non ci sta nel tempo, prima di alzare il tetto va fatta l aritmetica: 27 difese in 840 s sono ~31 s l una, quindi 172 sono 89 minuti contro un tetto di 75 — non ci stanno, e nessun numero piu' grande lo cambia. La strada non era piu' tempo ma piu' corsie. E la cosa da ricordare e' che **l isolamento non era il prezzo del parallelo: era quello che lo rendeva possibile**. Il banco rompe file veri, quindi due corsie nella stessa cartella si pesterebbero (AR-919); una copia per corsia toglie il difetto invece di aggirarlo. Corollario misurato: un figlio che eredita una variabile d ambiente puo' scavalcare la fetta di lavoro che gli hai dato — due mutazioni su due corsie davano quattro verdetti finche' non ho cancellato `MUTANTI_FILE` prima di lanciarlo.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33863510792: 27 difese provate su 172, 145 dichiarate fuori dal budget (84%)",
+    "misurato ~31 s a mutazione: 172 in fila = 89 minuti contro un tetto di 75 per l intero cancello",
+    "quattro corsie da ~43: ~22 minuti, con tutte e 172 misurate",
+    "col registro ereditato: due mutazioni su due corsie davano quattro verdetti"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 13:10",
+   "ultima_conferma": "2026-09-04 13:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-05",
+   "testo": "**AR-939.** Un `rm -rf` che si fida di una variabile e' un `rm -rf` che aspetta il giorno in cui quella variabile e' sbagliata — e quel giorno arriva da un difetto vero come da una mutazione fatta apposta. Il 4/9 e' arrivato: rompendo a mano l isolamento delle corsie per vedere se la prova se ne accorgeva, la pulizia di fine corsia ha cancellato LA CARTELLA DEL REPO col lavoro non ancora committato. La prova era diventata rossa come doveva; il prezzo era la casa. Tre cose da tenere: **① chi cancella a ricorsione deve VERIFICARE il percorso, non riceverlo** (dentro il temporaneo e col nostro prefisso, altrimenti si rifiuta e lo dice); **② committa prima di rompere apposta** — l ora persa era esattamente il lavoro non committato; **③ quando la prova richiede di rompere qualcosa che tocca il disco, il collaudo va fatto su una copia, non in casa.**",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "4/9: `ls /home/user/ad-mycity` → No such file or directory, dopo una mutazione fatta a mano sull isolamento delle corsie",
+    "recuperato da origin: persa un ora (banco a corsie + prova), non un mese",
+    "333 righe in cervello/ hanno la forma «rmSync ricorsivo su un percorso calcolato»: quasi tutte legittime, per questo il freno e' sul punto e non un pattern"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 13:10",
+   "ultima_conferma": "2026-09-04 13:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0904-06",
+   "testo": "**AR-940.** Un osservatore che dice «pulito» deve prima poter dire «ho guardato MENTRE succedeva». Un figlio andato in rosso non ha fatto il lavoro che dovevo osservare: la sua pulizia non dimostra niente, e' ⚪ e non verde. E' la terza volta che scrivo troppo debole questa stessa domanda — cronometro, poi «almeno un caso passato», poi finalmente «in fondo, verde». Le prime due le ho trovate io; la terza l'ha trovata il banco a corsie appena ha smesso di misurare il 16% delle difese. **Ogni volta che una prova conclude qualcosa dall'ASSENZA di un segnale, la domanda vera non e' «il segnale c'era?» ma «il segnale avrebbe potuto esserci?».**",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33892879196: 165 mutazioni misurate su 172 (prima 27) e una dichiarata vacua — la prova di AR-919",
+    "misurato dopo la cura: `node cervello/banco-a-corsie.mjs --difetti AR-919 --corsie 1` esce 0, prima usciva 1"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-04 18:50",
+   "ultima_conferma": "2026-09-04 18:50",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
+   "data": "2026-09-04"
   }
  ],
  "principi": [

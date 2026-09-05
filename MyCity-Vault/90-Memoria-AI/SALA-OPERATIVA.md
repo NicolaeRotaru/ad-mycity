@@ -14,10 +14,6 @@ fonte: i senior dell'AD
 **TIPO** = `FACCIO` · `FATTO` · `SERVE` (chiedo aiuto) · `PASSO-A @reparto` (handoff) · `RIVEDI` (chiedo peer review)
 
 Esempi:
-- 2026-07-11 14:30 · @ad · FATTO · briefing 2026-07-11.md aggiornato (frontmatter 14:30, TL;DR pomeriggio in cima, fix rischio bando ER → CHIUSO 23/6 non 21/7).
-- 2026-07-11 14:30 · @ad · FATTO · auto-analisi.json + AUTO-ANALISI.md + ultimo-briefing.json + STATO.md aggiornati al 14:30.
-- 2026-07-11 14:30 · @ad · FATTO · intenzioni-nicola.json invariato (T-2 al 13/7, mosse già corrette); coerenza-fatti confermata OK (8 cacce chiuse, 0 incoerenze).
-- 2026-07-11 14:30 · @ad · SERVE · Da Nicola (invariato): 🟡 `ok #trigger-build-pannello` (commit su pannello/ → Vercel builda) · 🟡 `ok #worker-restart` · 🟡 `ok #fix-35-gravi` (approva 2 comandi git checkout) · 🔴 PAT NicolaeRotaru/mycity (Contents R/W) per PR #212 · 🔴 via al 1° ordine reale su PQ dal 13/7 (target VEN 17/7).
 
 
 > 🗄️ **Le voci dall'11 al 30 luglio stanno in** `MyCity-Vault/90-Memoria-AI/Archivio/SALA-OPERATIVA-archivio.md`.
@@ -32,15 +28,8 @@ Esempi:
 > e una domanda senza risposta non è chiusa.
 
 ### 2026-07-27 18:20 — 🔁 GIRO PIENO (riconferma dopo Report della sera)
-- 2026-07-27 18:20 · @AD · FATTO · Riverificato con query diretta (`mcp__supabase-marketplace__execute_sql`): business INVARIATO — 1 ordine (CANCELED 24/6), 7 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati. Identico al Report della sera delle 18:00.
-- 2026-07-27 18:20 · @AD · FATTO · Delta-gate: 3° giro-sonda consecutivo "nulla di nuovo" (18:20). Coerenza-fatti verificata (`node cervello/coerenza-fatti.mjs` → exit 0, 0 copie vecchie). Applicata la strategia snella per giri ripetuti a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova query pesante oltre la riverifica, nessun ri-check radar (fatto stamattina), nessuna riscrittura dei JSON auto-coscienza pesanti (già freschi da stamattina).
-- 2026-07-27 18:20 · @AD · FATTO · Aggiornati STATO.md (nuova voce in cima), Briefing/2026-07-27.md (nuovo TL;DR in cima, passaggio 11:01 conservato sotto separatore), `ultimo-briefing.json`.
-- 2026-07-27 18:20 · @AD · PASSO-A · @Nicola — stesse 2 domande: PI26 (~2,5 giorni residui, scade 30/7 ore 16:00) e i 30 secondi su Vercel per Vercel Authentication (chiude il Pannello a chi ha solo il link). Nessuna azione nuova verso il marketplace.
 
 ### 2026-07-27 20:20 — 🔁 GIRO RIPETUTO (richiesto in chat)
-- 2026-07-27 20:20 · @AD · FATTO · Riverificato: business INVARIATO — stessa firma dati di tutti i passaggi di oggi (06:20/11:01/18:00/18:20). Delta-gate: 5° giro-sonda consecutivo "nulla di nuovo" (9h dall'ultimo giro pieno delle 11:04). Le scritture deterministiche dei guardiani (delta-gate/sensori/sonda-volano/cantiere-prove) erano già state prodotte e committate dal worker VPS (`d0274115`) prima di questo passaggio.
-- 2026-07-27 20:20 · @AD · FATTO · Applicata la strategia snella per giri ripetuti a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113): nessuna nuova query pesante, nessun ri-check radar, nessuna riscrittura dei JSON auto-coscienza pesanti. Aggiornati solo STATO.md (nuova voce in cima), Briefing/2026-07-27.md (nuovo TL;DR in cima, passaggio 18:20 conservato sotto separatore), `ultimo-briefing.json`.
-- 2026-07-27 20:20 · @AD · PASSO-A · @Nicola — stesse 2 domande: PI26 (~2,3 giorni residui, scade 30/7 ore 16:00) e i 30 secondi su Vercel per Vercel Authentication. Nessuna azione nuova verso il marketplace.
 
 ### 2026-07-29 01:20 — 💼 LINEA DI RICAVO #2: il Worker in abbonamento ai negozi
 - 2026-07-29 01:20 · @AD · FATTO · Registrata la **seconda fonte di reddito di MyCity**: il Worker dato al negozio in abbonamento — **Vetrina 99 €/m · Autopilot 299 €/m · Direttore Digitale 699-999 €/m** (+ setup una tantum; 3 pilot founder a 149 €/m bloccato). Era nata in una chat claude.ai, superficie che il worker non legge: assente da vault e dalle 135 conversazioni del Pannello (verificato via SQL). Ora in `registro-fatti` (`pricing.worker-negozi`, `pilot.worker-negozi`, `worker-negozi.stato`, `strategia.linee-ricavo`), Bacheca, STATO e `consegne/strategia/2026-07-29-listino-worker-negozi.md`.

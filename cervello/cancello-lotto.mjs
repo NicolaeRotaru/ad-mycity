@@ -566,11 +566,79 @@ function segnaFrenoRosso(comando, codice, nome) {
   if (r.status !== 0) console.error(`⚠️  marcatura uso non riuscita per «${nome}» (rc=${r.status}): ${(r.stderr || "").trim().split("\n")[0] || "senza messaggio"}`);
 }
 
-function esegui(nome, cmd, args, opts = {}) {
+/**
+ * ⏱️ Quanto tempo si dà alla suite del cervello prima di dichiararla «non ha finito».
+ *
+ * MISURATO il 30/8/2026, non scelto a occhio:
+ *   · 535 secondi a macchina libera;
+ *   · 576 secondi con un'altra suite che girava in parallelo (una copia del repo per un collaudo).
+ * Il tetto era 600_000 ms, cioè 65 secondi di margine sul caso pulito — l'11%. Sotto carico la
+ * suite lo sforava, il cancello non riusciva a leggerne il numero e usciva «rosso e non so contare
+ * quanto», che per come è scritto il tetto NON si può assolvere. Cioè: il cancello diventava
+ * inservibile esattamente quando qualcuno stava lavorando davvero. Ed è successo: il 30/8 ho
+ * saltato il cancello con `--no-verify` invece di aspettarlo, che è la cosa che il commento qui
+ * sotto avverte di non fare («un cancello sempre rosso viene aggirato al secondo giro»).
+ *
+ * 1.200.000 ms = 20 minuti, cioè 2,2 volte la misura pulita. Non di più apposta: un timeout troppo
+ * generoso smette di distinguere «la macchina è occupata» da «si è piantato», e mezz'ora buttata
+ * per un blocco vero è peggio di un rosso in più.
+ *
+ * ⚠️ È UNA COSTANTE, non un numero ripetuto. Prima stava scritta quattro volte: quattro copie della
+ * stessa decisione, cioè la malattia `una-parola-con-due-padroni` in attesa che qualcuno ne alzasse
+ * una sola e non se ne accorgesse nessuno.
+ */
+export const TEMPO_MAX_SUITE = 1_200_000;
+
+/**
+ * Quanto tempo do a un passo normale del cancello, prima di ammazzarlo.
+ *
+ * Era un `300_000` nudo dentro il `spawnSync` qui sotto, e `cervello/due-case.mjs` se lo
+ * ricopiava a mano nel suo `BUDGET_DI_CASA` — due copie della stessa decisione, cioè la malattia
+ * `una-parola-con-due-padroni` in attesa. Adesso ha un nome, e una prova tiene insieme le due:
+ * `cervello/test/il-tetto-del-tempo-scritto-in-quattro-posti.test.mjs`.
+ *
+ * ⚠️ Chi lo alza deve sapere che c'è un guardiano che ci vive sotto: `due-case.mjs` si ferma da
+ * solo PRIMA di questo numero apposta, perché un ⚪ dichiarato si legge e un `exit 124` no.
+ */
+export const TEMPO_MAX_PASSO = 300_000;
+
+/**
+ * LA RIGA CHE IL CANCELLO DICE MENTRE LAVORA — AR-915.
+ *
+ * Il 3/9 l orologio ha ucciso il cancello a 75 minuti: partito alle 15:36:20, PRIMA RIGA alle
+ * 16:50:46, che e l errore del kill. In settantaquattro minuti non aveva detto una parola, perche
+ * stampa il referto intero alla fine, tutti e trentatre i passi insieme. Il costo non e quello:
+ * il costo e che dopo un kill NESSUNO sa quale passo stava girando, quindi la cura successiva si
+ * sceglie a indovinare. E la malattia del lotto che questo cancello sorveglia — un guardiano che
+ * tace, e il silenzio che si legge come «niente da dire» — applicata al cancello stesso.
+ *
+ * Va su STDERR e non su stdout apposta: con `--json` lo stdout porta SOLO il JSON, e una riga di
+ * avanzamento in mezzo lo renderebbe illeggibile a chi lo analizza. Lo pretende un caso della prova.
+ */
+export function rigaAvanzamento({ nome, codice, ucciso = false, ms = 0 }) {
+  const segno = ucciso ? "⏱️" : codice === 0 ? "✅" : codice === 2 ? "⚪" : "❌";
+  return `${segno} ${nome} — ${(Number(ms) / 1000).toFixed(1)} s`;
+}
+
+export function esegui(nome, cmd, args, opts = {}) {
+  const iniziato = Date.now();
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
     encoding: "utf8",
-    timeout: opts.timeout || 300_000,
+    timeout: opts.timeout || TEMPO_MAX_PASSO,
+    // AR-916 — IL SEGNALE CHE NON SI PUÒ RIFIUTARE, ed è il debito che AR-933 aveva dichiarato.
+    //
+    // `spawnSync` allo scadere del `timeout` manda `killSignal`, che per difetto è SIGTERM. SIGTERM
+    // si intercetta e si ignora, e node non insiste: resta ad aspettare che il figlio finisca per
+    // conto suo. Misurato il 3/9 sulla corsa 33787462384: il banco delle mutazioni ha un tetto di
+    // 900 s dichiarato qui sotto e ha girato SESSANTAQUATTRO MINUTI, finché l'orologio di GitHub non
+    // ha ucciso l'intero cancello a 75. Un tetto che il figlio può rifiutare non è un tetto: è una
+    // richiesta cortese, e la differenza si vede solo su chi la rifiuta.
+    //
+    // SIGKILL non lascia riordinare, e qui va bene: i passi del cancello sono guardiani in sola
+    // lettura sul repo, non c'è niente da chiudere. Con questo, un passo che sfora esce `ucciso` →
+    // 124 → rosso dichiarato, e il cancello arriva in fondo a dare un verdetto invece di sparire.
+    killSignal: "SIGKILL",
     maxBuffer: 32 * 1024 * 1024,
   });
   const uscita = `${r.stdout || ""}${r.stderr || ""}`;
@@ -599,13 +667,16 @@ function esegui(nome, cmd, args, opts = {}) {
   // come inciampo evitato sarebbe gonfiare il numero con l'ignoranza. E mai sul verde, che è la
   // scorciatoia disonesta («te l'ho mostrata» invece di «mi ha fermata»).
   if (codice !== 0 && codice !== 2) segnaFrenoRosso(`${cmd} ${args.join(" ")}`.trim(), codice, nome);
+  // AR-915 — il passo dice di sé appena finisce. Anche quando fallisce: tacere sul rosso e lasciare
+  // che lo racconti il referto in fondo vuol dire che un kill si porta via anche quel rosso.
+  process.stderr.write(`${rigaAvanzamento({ nome, codice, ucciso, ms: Date.now() - iniziato })}\n`);
   return {
     nome,
     comando: `${cmd} ${args.join(" ")}`.trim(),
     codice,
     // La prima riga di solito è il verdetto, l'ultima l'errore: si tengono entrambe le code.
     testa: righe.slice(0, 3),
-    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righeMotivo(righe),
+    coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || TEMPO_MAX_PASSO} ms): rosso, non cieco`] : righeMotivo(righe),
     fallito: codice !== 0 && codice !== 2,
     cieco: codice === 2,
     // AR-437 — l'uscita INTERA, per chi deve contare le violazioni e non solo vederle. `righeMotivo`
@@ -621,14 +692,14 @@ function esegui(nome, cmd, args, opts = {}) {
  * stampa leggono `fallito`/`cieco`/`coda`, e una seconda forma di passo che le stesse righe devono
  * saper leggere è il modo in cui due strade divergono al primo cambiamento.
  */
-function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, regola }) {
+export function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, regola }) {
   const v = verdettoConTetto({ codice: passo.codice, quanti, tetto, delLotto });
   if (v.esito === "ok" || v.esito === "cieco") return v;
   if (v.esito === "violazione") {
     // Resta rosso, ma adesso il motivo dice DI CHI è: «tuo» o «il debito si è allargato», che sono
     // due mosse diverse per chi legge. Prima erano la stessa riga.
     passo.coda = [`❌ ${regola}: ${v.motivo}`, ...passo.coda];
-    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} — ${v.motivo}` });
+    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} · ${regola} — ${v.motivo}` });
     return v;
   }
   // DEBITO: il guardiano è rosso su roba di altri e sotto il tetto. Il passo NON blocca più, e il
@@ -637,7 +708,21 @@ function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, rego
   passo.fallito = false;
   passo.debito = true;
   passo.coda = [`⚠️ ${regola}: ${v.motivo}`, ...passo.coda];
-  avvisi.push(`${passo.nome} — ${v.motivo}`);
+  // ⚠️ IL NOME DELLA REGOLA, NON SOLO QUELLO DEL PASSO — AR-929.
+  //
+  // Questa funzione viene chiamata DUE VOLTE sullo stesso passo: una per i rossi in Node
+  // (`test-del-cervello`) e una per quelli in bash (`test-in-bash`), che hanno tetti diversi
+  // apposta. Ma l'avviso portava solo `passo.nome`, che è «test del cervello» per tutt'e due.
+  //
+  // Il referto del cancello del 31/8 diceva, a due righe di distanza:
+  //   ❌ test-del-cervello: 2 rossi contro un tetto di 0
+  //   ⚠️ test del cervello — 1 rosso/i ereditati, nessuno di questo lotto (sotto il tetto)
+  // e chi legge le prende per due affermazioni contraddittorie sulla stessa misura. Non lo sono:
+  // sono due famiglie diverse con lo stesso nome addosso. Ho perso mezz'ora a cercare la
+  // contraddizione prima di capire che erano due cose.
+  //
+  // È la malattia AR-880 — un'accusa col nome sbagliato — dentro il referto invece che nel verdetto.
+  avvisi.push(`${passo.nome} · ${regola} — ${v.motivo}`);
   return v;
 }
 
@@ -717,7 +802,7 @@ function main() {
     // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
     // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
     const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
-    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 }).uscita;
+    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: TEMPO_MAX_SUITE }).uscita;
     const rossiOra = testRossi(uscitaSuite);
     // AR-693 — il debito ereditato in bash ha il suo numero, misurato dalla stessa corsa.
     const rossiBashOra = testRossiBash(uscitaSuite);
@@ -988,6 +1073,60 @@ function main() {
     // importati (AR-445), e quante prove esistono senza che nessuno le faccia girare (AR-660).
     passi.push(esegui("nessun modulo parte da solo se lo importi", "node", ["cervello/import-che-esegue.mjs"]));
     passi.push(esegui("nessuna prova scritta e mai eseguita", "node", ["cervello/prove-non-eseguite.mjs"]));
+    // AR-798 — la terza superficie della stessa domanda, e la più silenziosa: una prova che gira,
+    // esce 0, e non guarda più il difetto che dimostra. Il caso emigra in un file nuovo, il
+    // puntatore della scheda resta indietro, e da quel momento la scheda è coperta da un comando
+    // che esegue altro. Sta nel cancello perché il momento in cui il codice si sposta è la
+    // consegna: è lì che l'estrazione sembra gratis.
+    //
+    // ⚠️ È UNA SENTINELLA DI SPOSTAMENTO, NON UN METRO DELLA QUALITÀ DELLA PROVA, e la differenza è
+    // scritta nel suo stesso verdetto col numero: l'estrazione la vede con certezza su 10 schede di
+    // 600, al massimo su 133. Sulle altre 467 il nome resta nell'intestazione o nel comando, che
+    // l'estrazione non muove, e lui resta verde. Quel buco è DICHIARATO sotto il verde a ogni corsa
+    // (il collaudo del 23/8 lo aveva trovato scritto al 40% quando era all'80%: adesso il numero è
+    // quello vero). Vale come tetto che non si allarga, non come copertura.
+    //
+    // TRE ESITI: 0 il conto è pari al tetto o sotto · 1 il debito si è allargato di uno · 2 non ha
+    // potuto misurare (cantiere assente o illeggibile, tetto illeggibile, file di prova sparito —
+    // provate una per una). Non chiama git: il clone superficiale non lo tocca, qui esce 0 in 0,2 s.
+    passi.push(esegui("prove che non nominano il difetto che dimostrano (tetto)", "node", ["cervello/puntatori-scollegati.mjs"]));
+    // AR-797 — IL PASSO NUOVO DI QUESTO CANCELLO NASCE GIÀ ROTTO SULLA MACCHINA DELLA CI?
+    //
+    // La malattia che chiude è questa: un controllo entra qui dentro senza che nessuno l'abbia mai
+    // visto girare nella casa in cui girerà davvero. `cervello/test-cervello.mjs` fa girare funzioni
+    // pure su casi finti, verdi qui e verdi sul runner per costruzione; questo cancello invece LANCIA
+    // lo script sul repo vero. La casa è la differenza, e la casa non la misurava nessuno: AR-506 e
+    // AR-514 sono nate così — un file che sul runner non esiste mai, uscita 2 a ogni corsa, e il ⚪ di
+    // un passo solo che fa uscire 2 tutto il cancello.
+    //
+    // ERA COSTRUITO E NON AGGANCIATO DAL 23/8, e la ragione era MISURATA, non una dimenticanza:
+    // montato qui usciva **2 in ogni ambiente raggiungibile**, perché il passo «prove del Pannello»
+    // era scritto con `process.execPath` e un percorso calcolato — una forma che il suo censimento
+    // non sa leggere — e lui, giustamente, non chiama verde un cancello che non ha letto tutto; e
+    // chiudendo quel buco usciva **1**, perché quel passo diventava il quinto «mai provabile» contro
+    // un tetto di 4. Uscite possibili: 2 o 1, mai 0. **Un cancello che non può diventare verde si
+    // impara a saltarlo**, ed è la malattia peggiore di tutte — perciò non entrava.
+    //
+    // I DUE GESTI CHE L'HANNO SBLOCCATO, fatti il 28/8 e misurati in quest'ordine:
+    //   ① il passo «prove del Pannello» riscritto in forma leggibile (`"node",
+    //      ["cervello/test-pannello.mjs"]` — stesso comportamento, `esegui` dà già `cwd: AD_ROOT`):
+    //      il censimento passa da «34 chiamate, 33 lette» a 34 su 34, e `node cervello/due-case.mjs`
+    //      da exit 2 a exit 1;
+    //   ② `tetto_mai_provabili` alzato A MANO da 4 a 5 in `cervello/due-case.json`, col perché
+    //      scritto accanto: quel passo il cancello lo paga 600 s e resta non rilanciabile. Non è
+    //      debito nuovo — è debito che prima non si vedeva perché il censimento non sapeva leggerlo.
+    //      Dopo il gesto ②: exit 0.
+    //
+    // Che questa riga possa uscire 0 su un albero sano lo pretende, come caso che gira,
+    // `cervello/test/due-case-agganciato.test.mjs` (e il caso ⑥ di
+    // `cervello/test/il-guardiano-agganciato-ferma-il-cancello.test.mjs`): togliere la riga, o
+    // riportare «prove del Pannello» alla forma calcolata, o rimettere il tetto a 4, fa rosso lì.
+    //
+    // ⚪ DOVE NON MISURA, E VA LETTO PRIMA DEL VERDE: su un clone superficiale il perimetro del lotto
+    // collassa su HEAD e lui esce 2 (cieco, non fallito: non blocca la consegna e si vede nella PR).
+    // In CI la storia c'è (`fetch-depth: 0`) e quel ⚪ non compare. E resta scoperto il «verde che ha
+    // guardato zero» (AR-511): il perché sta in testa a cervello/due-case.mjs, dichiarato.
+    passi.push(esegui("passi nuovi che nascono rotti sul runner", "node", ["cervello/due-case.mjs"]));
     // AR-693 ② — «29 prove in bash che nessuno fa girare» detto come NUMERO con un tetto, e non come
     // un ⚪ in fondo a un elenco di duecentoquaranta righe. Il tetto scende quando qualcuno installa
     // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue
@@ -1108,7 +1247,7 @@ function main() {
     // bisogno di un NUMERO e dei NOMI, e sei righe di coda non li danno: senza i nomi, «tre test
     // rossi da prima» e «hai appena rotto tre test» sono lo stesso rosso, e chi legge non sa se il
     // lavoro è suo. Il perimetro del blocco duro sono i test che questo lotto ha scritto o toccato.
-    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 });
+    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: TEMPO_MAX_SUITE });
     const rossi = testRossi(pTest.uscita);
     const miei = testDelLotto(
       // AR-339 — ENTRAMBI gli elenchi passano dalla porta, che mette il `-z`: senza, un nome con
@@ -1188,8 +1327,21 @@ function main() {
     const mieMutazioni = perimetro.girare;
     if (mieMutazioni.length) {
       passi.push(
-        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", perimetro.difetti.join(",")], {
-          timeout: 900_000,
+        // AR-917 — IL BUDGET STA DENTRO IL TETTO, e i due numeri non sono lo stesso numero.
+        // Il tetto (900 s) è l'accetta: scaduto, il passo muore e vale 124, cioè ROSSO — e un rosso
+        // qui direbbe «una difesa non regge» quando la verità è «non ho fatto in tempo». Il budget
+        // (840 s) è un minuto prima: il banco si ferma da solo, dichiara una per una le mutazioni
+        // che restano fuori, ed esce 2 → ⚪. Misurato il 3/9: senza budget spendeva i 900 s esatti
+        // e usciva 124. I sessanta secondi di scarto servono a lui per scrivere quell'elenco.
+        // AR-938 — E DA QUI IN AVANTI IN QUATTRO CORSIE, ognuna in una copia separata del progetto.
+        // Il numero che l'ha deciso, corsa 33863510792: con una corsia sola il banco provava 27
+        // difese su 172 e ne dichiarava 145 fuori dal budget — l'84% non misurato. Misurato ~31 s
+        // a difesa, 172 in fila fanno 89 minuti contro un tetto di 75 per l'INTERO cancello: non
+        // era un problema di budget, in fila non ci stavano. Quattro corsie da ~43 fanno ~22
+        // minuti e ci arrivano tutte. Il budget sale di conseguenza (1500 s dentro un tetto di
+        // 1650): le corsie girano insieme, quindi il tempo è quello della più lenta, non la somma.
+        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/banco-a-corsie.mjs", "--difetti", perimetro.difetti.join(","), "--corsie", "4", "--budget", "1500000"], {
+          timeout: 1_650_000,
         }),
       );
     } else if (toccati && toccati.length && !perimetro.saltate.length) {
@@ -1224,7 +1376,7 @@ function main() {
         passi.push(
           esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
             cwd: join(AD_ROOT, "pannello"),
-            timeout: 600_000,
+            timeout: TEMPO_MAX_SUITE,
           }),
         );
         // AR-812 — il typecheck dice che i tipi tornano, non che il Pannello FUNZIONA. Le sue 13
@@ -1233,9 +1385,19 @@ function main() {
         // consegna non le vedeva: il 24/8 ha detto «SI PUÒ CONSEGNARE» con una prova rossa e una
         // seconda che passava da mesi e avevo appena rotto io. Il guardiano esisteva già ed era
         // montato su una porta che nessuno usa per uscire — la malattia di casa, su sé stessa.
+        // ⚠️ SCRITTO IN FORMA LEGGIBILE — `"node"` e un percorso RELATIVO, non `process.execPath` e
+        // un percorso calcolato con `join(AD_ROOT, …)`. Non è uno stile: è la condizione perché il
+        // censimento di `cervello/due-case.mjs` sappia leggere questo passo. Con la forma di prima
+        // quel freno contava 34 chiamate a `esegui(` e ne sapeva leggere 33, quindi si dichiarava
+        // ⚪ sull'INTERO cancello — misurato il 28/8: `node cervello/due-case.mjs` → exit 2, riga
+        // «1 passo/i è scritto in una forma che non riconosco». È lo stesso comportamento del passo:
+        // `esegui` dà già `cwd: AD_ROOT` (riga 571), quindi il percorso relativo parte dalla stessa
+        // cartella, e `node` è quello con cui gira il cancello stesso (setup-node@v4, node 22, nel
+        // workflow). Chi riscrive questa riga con un comando calcolato riaccende quel ⚪: il caso
+        // che lo dimostra è cervello/test/due-case-agganciato.test.mjs.
         passi.push(
-          esegui("prove del Pannello", process.execPath, [join(AD_ROOT, "cervello/test-pannello.mjs")], {
-            timeout: 600_000,
+          esegui("prove del Pannello", "node", ["cervello/test-pannello.mjs"], {
+            timeout: TEMPO_MAX_SUITE,
           }),
         );
       } else {

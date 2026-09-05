@@ -1,8 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 21:00
+aggiornato: 2026-09-05 07:05
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+---
+
+> 🛣️ **2026-09-05 07:05 — Il banco delle difese misurava una difesa su sei. Adesso le misura tutte, e ne ha subito trovate due che non difendevano.** Richiesta tua: le corsie parallele, firmate ieri.
+>
+> **In parole semplici.** Prima di consegnare, la macchina rompe apposta il proprio codice. Serve a vedere se le prove se ne accorgono. Una prova che resta verde col codice rotto non sta difendendo niente.
+>
+> Le difese da controllare sono 172. Quel controllo faceva in tempo a provarne 27, cioè il 16%. Le altre 145 le dichiarava saltate.
+>
+> In fila non ci stavano, ed è aritmetica: 31 secondi l'una fanno 89 minuti. Il tetto per l'intero cancello è di 75.
+>
+> **Cosa cambia.** Adesso il controllo lavora su quattro copie separate del progetto in parallelo: **165 difese misurate su 172**, e il passo è sceso da 89 minuti teorici a 18 reali. Le copie separate non sono un dettaglio di velocità: due prove che rompono file nella stessa cartella si pestano a vicenda, e con una casa per ciascuna quel guaio non ha dove succedere.
+>
+> **Le due difese che non difendevano erano mie, di ieri.** La prima concludeva «è tutto pulito» guardando un controllo che era andato in rosso. Ma un controllo rosso non aveva fatto il lavoro che dovevo osservare.
+>
+> La seconda distingueva due strade cronometrandole: «la copia dei file prende secondi». Dentro una copia veloce quella soglia non distingueva più niente.
+>
+> Nessuna delle due poteva diventare rossa. Il codice sembrava giusto, e il verde non dimostrava niente.
+>
+> **La regola che resta:** quando una prova conclude qualcosa dall'ASSENZA di un segnale, la domanda vera non è «il segnale c'era?» ma «il segnale avrebbe potuto esserci?».
+>
+> **Cosa non ho verificato.** Due difese restano cieche su questa macchina, e non per colpa loro. La loro prova ha bisogno del Pannello, e qui mancano i pezzi che gli servono per partire.
+>
+> Il motivo: ieri ho riclonato il progetto da capo, dopo che un mio esperimento aveva cancellato la cartella. Ho perso un'ora di lavoro, niente di già consegnato. Sul server quei pezzi ci sono, quindi là le due difese vengono misurate.
 
 ---
 
@@ -58,6 +82,23 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Cosa non ho verificato.** Il sito in un browser, perché la rete è bloccata da qui. Le variabili Vercel
 > una per una. Stripe lato Stripe. La quota AI del server. Dettagli e prove in [[Briefing/2026-09-03]].
+
+---
+
+> 🔧 **3/9 00:33 — Il lotto dei guardiani è spinto, e ho svegliato dieci azioni che il server aveva lasciato dormire.** Richiesta tua, dal 28 agosto: chiudere tutto quello che il lotto ha trovato.
+>
+> **In parole semplici.** Qui parlo del lotto di riparazioni della macchina aperto il 28 agosto, e di cosa ho trovato stanotte leggendo il suo cancello. Stanotte ho chiuso gli ultimi difetti del lotto. Il freno delle due case chiedeva al figlio di fermarsi per cortesia: adesso lo ferma davvero, e i suoi due orologi sono uno solo. Tutto è spinto sul ramo, e la richiesta di unione aspetta i tuoi occhi. Il cancello del lotto la sta rimisurando sul server: dura fino a settantacinque minuti.
+>
+> **Cosa cambia per te.** Il server non scrive più su main dal primo settembre a mezzogiorno. Lo dice la storia di git, non un ricordo. Per questo dieci azioni in coda erano ancora in pausa dopo il giorno di ripresa, e nessuno le aveva svegliate. Le ho svegliate io col comando fatto apposta: sono tornate in lista, non sono partite. Un altra sessione ha fatto la stessa cosa su main poche ore dopo, con lo stesso comando e la stessa card: la coda che vedi e la sua. Un esempio: la card che ti chiede di fare un ordine di prova su Pane Quotidiano era ferma dal 23 luglio, e adesso è di nuovo in lista. Una card in coda te lo racconta. Per la stessa ragione questa Cabina era ferma da trentadue ore mentre il lavoro andava avanti, e un guardiano lo ha visto prima di me.
+>
+> **Cosa devi fare.** Leggere la richiesta di unione e firmarla, se ti convince. Guardare le dieci azioni tornate vive e dire quali far partire davvero. Controllare il server: da qui vedo che tace, non vedo perché.
+>
+> **Cosa non ho verificato.** Il server non lo vedo da qui: so che non scrive da un giorno e mezzo, non so se è spento, fermo per la quota o bloccato. Il verdetto del cancello sull'ultima spinta arriva dopo, e lo leggo io. I numeri del negozio qui sotto sono quelli del primo settembre: stanotte non li ho rimisurati.
+>
+> Dettagli tecnici. La richiesta di unione è la #855. La card della sveglia è la #189.
+> A settembre: 19 schede chiuse contro 10 schede nate, quasi due chiuse per una nata. Nel cantiere: 140 schede aperte e 902 schede in tutto.
+> Chiusi stanotte: AR-931, AR-932, AR-933, AR-935. Aperta: AR-934. Tre schede mie hanno cambiato numero nella ricucitura: AR-893, AR-894 e AR-895 sono diventate AR-936, AR-913 e AR-914, perche su main quei tre numeri sono di altri difetti. Le due prove che pinzavano la coda sono AR-935.
+> Le pause citavano il fatto `ripresa.lavoro-operativo`. Ultimo commit del server su main: 2026-09-01 12:14.
 
 ---
 

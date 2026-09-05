@@ -21,7 +21,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { eGuardiano, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
+import { eGuardiano, fantasmi, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
 import { elenca } from "../guardia-viva-check.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -65,9 +65,19 @@ test("i due strumenti del difetto sono adesso di guardia davvero", () => {
     const posti = j.dove[strumento] || [];
     assert.ok(posti.length > 0, `${strumento} è tornato orfano: non lo invoca più nessuno`);
   }
+  // ⟲ AGGIORNATO IL 4/9 (AR-938): il cancello non lancia piu' il banco DIRETTAMENTE, lo lancia in
+  // quattro corsie parallele. La catena e' diventata di due anelli, e vanno pretesi tutti e due —
+  // altrimenti si puo' staccare quello in mezzo e nessuno se ne accorge. Il senso di AR-393 non
+  // cambia di una virgola: la prova che le prove provino dev'essere ESEGUITA dal cancello, non
+  // nominata in un messaggio. Cambia solo la strada per arrivarci.
   assert.ok(
-    (j.dove["non-vacuita.mjs"] || []).includes("cervello/cancello-lotto.mjs"),
-    "AR-393: la prova che le prove provino deve essere ESEGUITA dal cancello del lotto, non nominata in un messaggio",
+    (j.dove["non-vacuita.mjs"] || []).includes("cervello/banco-a-corsie.mjs"),
+    "AR-393, primo anello: il banco delle mutazioni dev'essere ESEGUITO dalle corsie",
+  );
+  assert.match(
+    readFileSync(join(REPO, "cervello/cancello-lotto.mjs"), "utf8"),
+    /esegui\(\s*"[^"]*",\s*"node",\s*\[\s*"cervello\/banco-a-corsie\.mjs"/,
+    "AR-393, secondo anello: le corsie devono essere un PASSO del cancello, col loro codice d'uscita dentro il verdetto",
   );
   assert.ok(
     (j.dove["permessi-check.mjs"] || []).includes("cervello/test/permessi-di-guardia.test.mjs"),
@@ -260,4 +270,26 @@ test("una copia di lavoro sotto .claude/worktrees non viene scandita come repo",
   } finally {
     rmSync(base, { recursive: true, force: true });
   }
+});
+
+test("AR-937: una scusa rimasta addosso a un guardiano che ORA e' agganciato e' una voce fantasma", () => {
+  // IL CASO CHE HA ROTTO, 4/9. Fondendo main dentro questo ramo, `cervello/guardiani-motivi.json`
+  // e' tornato a contenere la scusa «due-case.mjs e puntatori-scollegati.mjs non li esegue nessuno»
+  // — scusa che questo ramo aveva TOLTO, perche' AR-797 e AR-798 li hanno agganciati al cancello per
+  // davvero. Il codice li lanciava e il registro diceva il contrario: due verita' opposte sullo
+  // stesso fatto, e tre prove diventate rosse sul runner.
+  //
+  // La causa non e' git: e' che unire due registri PER CHIAVE esprime le aggiunte e non esprime le
+  // RIMOZIONI. Una cancellazione e' un fatto, e l'unione la perde in silenzio. Questa e' la prova
+  // che quel fatto ha un guardiano: chi e' invocato davvero NON puo' tenersi anche la scusa.
+  const registro = { "x.mjs": { motivo: "decisione", perche: "nessuno lo esegue, e va bene cosi" } };
+
+  // ① finche' nessuno lo invoca, la scusa e' legittima: nessun fantasma.
+  assert.deepEqual(fantasmi(["x.mjs"], registro, new Set()), [], "una scusa su uno strumento davvero non invocato non e' un fantasma");
+
+  // ② appena qualcuno lo invoca DAVVERO, la scusa diventa una bugia e va nominata.
+  assert.deepEqual(fantasmi(["x.mjs"], registro, new Set(["x.mjs"])), ["x.mjs"], "chi e' agganciato non puo' tenersi anche la scusa di non esserlo");
+
+  // ③ e una scusa su uno strumento che non esiste piu' resta un fantasma, come sempre.
+  assert.deepEqual(fantasmi([], registro, new Set()), ["x.mjs"], "una scusa su uno strumento sparito e' un fantasma");
 });

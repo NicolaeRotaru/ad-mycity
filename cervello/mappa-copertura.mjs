@@ -110,7 +110,25 @@ export const ESENZIONI = {
   // l'esito di un lavoro che gira in questa sessione: legge un file di uscita e lo riporta. Non
   // lancia niente e non scrive nel repo — è il gemello in sola lettura di TaskStop, che invece agisce.
   TaskOutput: "legge l'esito di un lavoro di questa sessione: non lancia niente, non scrive nel repo e non tocca il mondo",
-  TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano, la misura che salta la ripretende il cancello, che resta rosso finché non gira intero",
+  // ⚠️ LA MOTIVAZIONE È STATA STRETTA IL 31/8, perché mezza era falsa e nessuno l'aveva provata.
+  // Diceva «la misura che salta la ripretende il cancello» come se valesse ovunque. Nel CANCELLO
+  // vale davvero: un passo ucciso esce `status === null`, e lì è rosso apposta — «un guardiano che
+  // non ha finito» non è «un guardiano che ha detto ok». Nel GIRO non valeva: fino ad AR-914 un
+  // guardiano fermato produceva stdout vuoto, e l'elenco vuoto si leggeva come «tutti i vincoli
+  // risolti». Cioè l'esenzione poggiava per metà su una proprietà che era stata data per buona
+  // senza misurarla. Adesso reggono tutte e due le case, e la motivazione dice quale meccanismo
+  // la tiene su invece di dire «tanto se ne accorge qualcuno».
+  TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano la misura non si perde in nessuna delle due case: nel cancello un passo ucciso esce status null ed è rosso, nel giro (da AR-914) un vincolo che non torna indietro nominato resta ⚪ e non fra i risolti",
+  // Trovati dal cancello dello Stop il 28/8, preparando le otto mail del metro dell'onestà.
+  // `ListAgents` elenca i colleghi vivi di questa sessione e basta: è il gemello in sola lettura di
+  // `SendMessage`, che invece li fa muovere ed è per questo in attesa di aggancio qui sotto.
+  ListAgents: "elenca i sub-agenti e le sessioni vive: sola lettura, non scrive nel repo e non tocca il mondo. Farli muovere è SendMessage, che è un'altra cosa e sta in attesa di aggancio",
+  // `AskUserQuestion` mette una domanda davanti a Nicola e aspetta. Non scrive niente e non tocca il
+  // mondo — ma non è innocente per il motivo ovvio: la sua RISPOSTA cambia quello che faccio dopo, ed
+  // è il posto dove il giallo diventa firma. L'esenzione copre il gesto di chiedere. Quello che
+  // decido con la risposta in mano passa dalle guardie di sempre, e resta mio l'obbligo di riportare
+  // la risposta com'è — non come mi conviene.
+  AskUserQuestion: "porta una domanda a Nicola e aspetta: non scrive nel repo e non tocca il mondo. La risposta è una firma, e le mosse che ne seguono le guardano le guardie di sempre",
 };
 
 /**
@@ -163,6 +181,21 @@ export const IN_ATTESA = {
   CronList: {
     perche: "legge l'elenco delle sveglie programmate in questa sessione (sola lettura, non scrive nel repo né tocca il mondo fuori): usato il 24/8 per cercare la fonte del trigger ricorrente del playbook anti-churn (card #160); nessuna guardia lo vede perché non è in POTERI né nel matcher del file dei freni",
     scade: "2026-09-07",
+  },
+  // 28/8 — tre voci trovate dal cancello dello Stop nel lotto del metro dell'onestà. Nessuna delle
+  // tre poteva andare in ESENZIONI onestamente: toccano tutte qualcosa fuori da questa sessione, e
+  // chiamarle esenti sarebbe stato mettere un'etichetta su un buco.
+  Artifact: {
+    perche: "PUBBLICA UNA PAGINA SUL WEB, ed è la più esposta delle tre: nasce privata ma ha un indirizzo, e da lì basta un clic per condividerla. È l'unico strumento di questa sessione che mette qualcosa davanti a occhi che non sono di Nicola. Nessuna guardia lo vede finché lui non incolla la riga in .claude/settings.json (file che questa sessione non può scrivere, righe 80-83 lo vietano apposta). Il freno giusto sarebbe sul CONTENUTO, non sul gesto: quello che finisce in pagina passa già dal metro dell'onestà quando è un testo per i clienti, ma una pagina di lavoro come questa oggi non la guarda nessuno",
+    scade: "2026-09-11",
+  },
+  Workflow: {
+    perche: "fa partire una flotta di colleghi che aprono e scrivono file veri e lanciano comandi per conto mio, molti insieme: è Agent moltiplicato, quindi stessa famiglia di Bash e stesso motivo per cui Agent è già qui in attesa. Il rischio in più rispetto ad Agent è il numero: un errore nel copione si moltiplica per quanti agenti partono, e nessuna guardia conta quanti ne sono partiti",
+    scade: "2026-09-11",
+  },
+  SendMessage: {
+    perche: "manda un messaggio a un altro agente o a un'altra sessione, cioè FA AGIRE QUALCUN ALTRO: quello che il destinatario fa dopo non passa dalle mie guardie ma dalle sue, e le due non sono la stessa cosa. Usato il 28/8 per far ri-agganciare a una corsia l'ancora di una mutazione che aveva spostato lei. Nessuna guardia lo vede finché Nicola non incolla la riga",
+    scade: "2026-09-11",
   },
 };
 

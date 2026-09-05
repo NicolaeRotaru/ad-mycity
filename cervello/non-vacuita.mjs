@@ -29,12 +29,18 @@
 //   1 = almeno una mutazione lascia il test VERDE → quella prova non dimostra il suo fix
 //   2 = non ho potuto misurare (file/mutanti assenti, pattern non trovato)
 
-import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, rmSync, readdirSync, realpathSync } from "node:fs";
 import { spawnSync } from "node:child_process";
-import { isAbsolute, join } from "node:path";
+import { tmpdir } from "node:os";
+import { basename, dirname, isAbsolute, join, resolve } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
 import { muta } from "./mutazione-vagante.mjs";
+import { comeSiEsegue, avvioFallito } from "./esecuzione-prova.mjs";
+// La regola del «quanto tempo mi resta» ha UNA casa sola: quella dove è nata (AR-932) e dove una
+// prova la interroga. Riscriverla qui sarebbe la malattia delle due case, dentro il file che
+// esiste per scoprirla.
+import { quantoPosso } from "./due-case.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iLotto = process.argv.indexOf("--lotto");
@@ -274,8 +280,140 @@ const MUTANTI = process.env.MUTANTI_FILE || join(AD_ROOT, "cervello/mutanti.json
 // non c'entra niente. Il tetto deve stare sopra l'attesa più lunga che una prova di casa dichiara.
 const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
 
+/**
+ * IL BUDGET DI TUTTA LA CORSA — AR-917, e lo schema è quello che regge già in `due-case.mjs`.
+ *
+ * IL CASO CHE HA ROTTO, corsa 33807469256 del 3/9: il cancello dà a questo banco 900 secondi e il
+ * banco li ha spesi tutti senza finire — 900,4 s, ucciso dall'orologio, `exit 124`, cioè rosso.
+ * Nella corsa prima, senza un orologio che mordesse, aveva girato 64 minuti e non era finito
+ * comunque. Un rosso così non dice «una difesa non regge»: dice «non ho fatto in tempo», e sono
+ * due cose diverse che il cancello leggeva come una sola.
+ *
+ * Col budget il banco si ferma DA SOLO un attimo prima e dichiara, una per una, le mutazioni che
+ * non ha fatto in tempo a provare: diventano ⚪ (uscita 2, «non ho misurato»), che il cancello
+ * distingue dal rosso. Il debito si legge invece di uccidere la corsa.
+ *
+ * Zero di default: chi lo lancia a mano non ha nessun orologio esterno da cui difendersi, solo la
+ * propria pazienza. Lo passa il cancello, che il suo orologio ce l'ha.
+ */
+/**
+ * Sotto questo tempo non vale la pena cominciarne un'altra: applicare e rilanciare costa.
+ * Si può abbassare dall'ambiente per una ragione sola: una prova che vuole vedere il troncamento
+ * (AR-918) senza restare ferma venti secondi ad aspettarlo.
+ */
+const MINIMO_PER_UNA = Number(process.env.NON_VACUITA_MINIMO_MS || 20_000);
+
+const iBudget = process.argv.indexOf("--budget");
+const BUDGET = Number(iBudget !== -1 ? process.argv[iBudget + 1] : process.env.NON_VACUITA_BUDGET_MS || 0);
+const AVVIATO = Date.now();
+
+/**
+ * Le mutazioni che il budget non mi lascia provare, dichiarate una per una.
+ *
+ * Pura, così la prova la interroga da sola invece di dedurla da una corsa vera. `restanti` è ciò
+ * che resta da fare quando il tempo è finito: non un numero, l'elenco — un ⚪ che dice «alcune» è
+ * lo stesso silenzio con una parola davanti.
+ */
+export function fuoriDalBudget(restanti = [], { budget = 0, speso = 0 } = {}) {
+  if (!budget || !restanti.length) return [];
+  return restanti.map((m) => ({
+    ...m,
+    verdetto: "cieco",
+    perche: `il budget di ${Math.round(budget / 1000)} s è finito dopo ${Math.round(speso / 1000)} s: questa mutazione non l'ho provata. Rilanciala da sola con \`node cervello/non-vacuita.mjs --difetti ${(m.difetto || "AR-?")}\`, o dammi più tempo con --budget.`,
+  }));
+}
+
+/**
+ * ⏱️ E LA MUTAZIONE CHE STAVA GIRANDO QUANDO IL BUDGET È FINITO — AR-918.
+ *
+ * IL BUCO CHE HA LASCIATO APERTO LA CURA DI IERI, corsa 33811579021: il budget guardava solo se una
+ * mutazione poteva COMINCIARE, mai quanto poteva DURARE. Così l'ultima partiva legittimamente con
+ * 30 secondi di budget residuo e poi si prendeva il suo tetto pieno da 420 — e il cancello, che di
+ * secondi ne aveva 900 in tutto, la ammazzava a metà: `exit 124`, rosso, esattamente il rosso che
+ * il budget esisteva per NON far succedere. Un budget che non entra nel tetto del singolo passo non
+ * è un budget: è una speranza.
+ *
+ * La cura è una riga di aritmetica — a ogni mutazione si concede ciò che RESTA, non il tetto pieno
+ * — più questa funzione, che serve a non barare sul referto. Una prova ammazzata dall'orologio esce
+ * già ⚪ da `verdettoCorsa` (status null), ma con la frase sbagliata: «non è arrivata in fondo»
+ * suona come un guaio della prova, mentre il guaio è stato il mio orologio. Chi legge deve poter
+ * distinguere «questa prova è malata» da «a questa non ho dato abbastanza tempo», perché la prima
+ * si ripara e la seconda si rilancia.
+ *
+ * Pura: prende il verdetto già formato e lo riscrive solo nel caso suo.
+ *
+ * 🔎 GUARDATA COL SUO STESSO SOSPETTO, il 4/9: può questa riga ammorbidire una scoperta? No, e si
+ * legge nella prima condizione — tocca SOLO i `cieco`. Un rosso è `ok` («la mutazione l'hanno
+ * beccata») e una prova vacua è `vacua`: nessuno dei due passa di qui, e comunque cambia solo la
+ * frase, mai il verdetto. E la porta nuova dall'ambiente (`NON_VACUITA_MINIMO_MS`) può al massimo
+ * spingere delle mutazioni nel ⚪, cioè nell'uscita 2, che in questa casa non è mai un verde.
+ *
+ * ⚠️ LA PROPRIETÀ CHE IL BUDGET SI PORTA DIETRO, e va detta invece di lasciarla scoprire: con un
+ * budget addosso, se una mutazione viene misurata dipende anche da DOVE sta nell'elenco. Due corse
+ * uguali possono coprire mutazioni diverse. È accettabile solo perché ciascuna non misurata viene
+ * NOMINATA: un verde qui non vuol dire «tutte reggono», vuol dire «queste reggono e queste non le
+ * ho guardate». Chi legge il referto deve leggere anche l'elenco dei ⚪.
+ */
+export function troncataDalBudget(esito = {}, { status, concesso = 0, tetto = TEMPO_MAX, difetto = "" } = {}) {
+  const ammazzata = status === null || status === undefined;
+  if (esito.verdetto !== "cieco" || !ammazzata || !concesso || concesso >= tetto) return esito;
+  return {
+    ...esito,
+    perche: `il budget della corsa lasciava solo ${Math.round(concesso / 1000)} s a questa mutazione (il suo tetto è ${Math.round(tetto / 1000)} s) e non le sono bastati: NON l'ho misurata, non è la prova a essere rotta. Rilanciala da sola con \`node cervello/non-vacuita.mjs --difetti ${difetto || "AR-?"}\`.`,
+  };
+}
+
 /** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
 const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
+
+/**
+ * 🔒 IL FILE DA ROMPERE STA DENTRO UNA RADICE AMMESSA? — AR-920.
+ *
+ * ⚠️ TROVATO DAL COLLAUDO DI SICUREZZA DEL 31/8, ed è la stessa porta di AR-889 un metro più in là.
+ * Lì la difesa era stata messa sul campo `test`, quello che il banco ESEGUE. Ma il banco apre e
+ * RISCRIVE anche il campo `file` — `writeFileSync(file, rotto)`, da root — e su quello non c'era
+ * nessun controllo di radice: `viaDi` accettava qualunque percorso assoluto. Il collaudo ha lasciato
+ * un testimone in un file fuori dal repo, di proprietà di qualcun altro, senza toccare il repo.
+ *
+ * La lezione, e vale oltre a questo file: quando si mette una guardia su un modo di raggiungere una
+ * risorsa, si cercano TUTTI i modi. Eseguire e scrivere sono due porte sullo stesso cortile, e ne
+ * avevo chiusa una sola dichiarando chiuso il cortile.
+ *
+ * La regola è la stessa di `eseguiProva`, di proposito: le radici ammesse sono il repo più la
+ * cartella del registro che dichiara la mutazione — col registro vero è il repo e basta. Il
+ * percorso si risolve con `realpathSync` perché un collegamento simbolico dentro il repo farebbe
+ * lo stesso lavoro di un percorso assoluto; se non esiste ancora, si guarda la cartella che lo
+ * conterrà, che è il posto dove il collegamento vivrebbe.
+ *
+ * Chi resta fuori NON è un errore da lanciare: è un ⚪. Non ho misurato quella mutazione, e ⚪ non è
+ * mai un verde (AR-322).
+ */
+export function dentroLeRadici(via, radici, vero = realpathSync) {
+  let reale;
+  try {
+    reale = vero(via);
+  } catch {
+    // Il file non c'è ancora: la domanda diventa «dove finirebbe?», cioè la sua cartella.
+    try {
+      reale = join(vero(dirname(via)), basename(via));
+    } catch {
+      return { dentro: false, perche: `non riesco a risolvere il percorso «${via}»: non lo tocco` };
+    }
+  }
+  for (const r of radici) {
+    let radiceReale = r;
+    try {
+      radiceReale = vero(r);
+    } catch {
+      /* una radice che non esiste non ammette niente */
+    }
+    if (reale === radiceReale || reale.startsWith(`${radiceReale}/`)) return { dentro: true, perche: "" };
+  }
+  return {
+    dentro: false,
+    perche: `il file da rompere sta fuori da ogni radice ammessa (${reale}): il banco non scrive fuori dal repo e fuori dalla cartella del registro`,
+  };
+}
 
 // `muta` vive in ./mutazione-vagante.mjs (AR-757): il gancio del commit deve poterla usare senza
 // importare QUESTO file, che all'import accende i gestori di segnale. Qui si ri-esporta, cosi' chi
@@ -331,7 +469,12 @@ export function haDichiaratoDiNonGuardare(uscita = "") {
  * La radice è una sola e vale oltre questo file: **il codice d'uscita descrive una corsa avvenuta.
  * Prima di leggerlo bisogna sapere se la corsa c'è stata.**
  */
-export function verdettoCorsa({ status, signal = null, uscita = "" } = {}) {
+export function verdettoCorsa({ status, signal = null, uscita = "", avvio = null } = {}) {
+  // AR-840 — PRIMA di leggere il numero d'uscita: la corsa è mai partita? Un file di prova che non
+  // esiste, un programma non installato, un pacchetto mancante escono ≠ 0 — cioè esattamente il
+  // segnale con cui qui si riconosce «la prova è diventata rossa». Erano indistinguibili, e per
+  // questo metà delle mutazioni risultavano verificate senza esserlo. Un avvio fallito è ⚪.
+  if (avvio) return { verdetto: "cieco", perche: avvio };
   if (status === null || status === undefined) {
     return {
       verdetto: "cieco",
@@ -346,6 +489,250 @@ export function verdettoCorsa({ status, signal = null, uscita = "" } = {}) {
   }
   if (status !== 0) return { verdetto: "ok", perche: "" };
   return { verdetto: "vacua", perche: "il test resta VERDE col fix rotto" };
+}
+
+/**
+ * 🏃 ESEGUI LA PROVA DI UNA MUTAZIONE — AR-840.
+ *
+ * Prima era una riga sola, `spawnSync("node", [m.test])`, che dava per scontato che ogni `test`
+ * fosse un percorso .mjs. Adesso il COME lo decide `comeSiEsegue` (funzione pura, provabile), e qui
+ * resta solo il mestiere di lanciare: nessuna shell, i passi di un `&&` in ordine, ci si ferma al
+ * primo che fallisce.
+ *
+ * `lancia` è iniettato perché questa funzione si possa provare senza far partire processi veri: la
+ * domanda da verificare è «con quali argomenti parte il comando?», e la risposta non ha bisogno del
+ * disco. Torna la stessa forma che `verdettoCorsa` si aspetta, più `avvio`: il motivo per cui la
+ * corsa non è mai partita, oppure null.
+ */
+/**
+ * 🔒 L'ambiente che si dà a una prova: quello di adesso MENO tutto ciò che somiglia a una chiave.
+ *
+ * Trovato dalla radiografia di sicurezza del 28/8, ed è il moltiplicatore di ogni altra falla: qui
+ * si esegue un comando che arriva da un FILE DI DATI (`cervello/mutanti.json`, 934 voci che nessuno
+ * rilegge riga per riga, e il campo `test` lo compone un programma, non una persona). Finché il
+ * figlio ereditava `process.env` intero, sul VPS ereditava anche Stripe, Supabase in scrittura,
+ * Resend, Telegram e il token di git. Una prova non ha bisogno di nessuna di quelle chiavi: se un
+ * giorno un comando ostile arriva fin qui, deve trovare le tasche vuote.
+ */
+/** Un nome che dichiara di contenere una credenziale. */
+const NOME_DI_CHIAVE = /SECRET|KEY|TOKEN|PASSWORD|PASSWD|CREDENTIAL|_PWD|AUTH|DSN/i;
+
+/** Una credenziale scritta DENTRO un valore: `postgres://utente:password@host/db`, `redis://:pw@…`.
+ *  Non si vede dal nome — `DATABASE_URL` non contiene nessuna delle parole qui sopra.
+ *
+ * ⚠️ LA PRIMA STESURA CI METTEVA QUATTRO SECONDI SU UN VALORE DA 80 KB, e il tempo QUADRUPLICAVA
+ * ogni volta che l'ingresso raddoppiava. MISURATO il 31/8, non ragionato: 4,9 ms a 2 KB · 257 ms a
+ * 20 KB · 1,0 s a 40 KB · 4,2 s a 80 KB.
+ *
+ * Il motivo: `[^/@\s]*:` e `[^/@\s]+@` si SOVRAPPONGONO — i due punti li può mangiare tutti e due,
+ * quindi su un valore pieno di due punti e senza chiocciola il motore prova ogni punto di taglio.
+ * Ed è la peggiore delle amplificazioni: `ambientePulito()` è un parametro di default di
+ * `eseguiProva`, quindi si rivaluta a OGNI mutazione — 970 volte per corsa. Il banco non finirebbe
+ * più, e un banco che non finisce lascia il cancello cieco.
+ *
+ * Due cure, tutte e due necessarie:
+ *   ① i due punti escono dalla prima classe (`[^/@\s:]`): niente sovrapposizione, niente
+ *      backtracking. Resta corretta — nella parte «utente» di un URL i due punti SONO il
+ *      separatore, quindi non ce ne possono stare; `redis://:pw@…` ha l'utente vuoto, ed è per
+ *      questo che è `*` e non `+`;
+ * LA SECONDA CURA CHE HO SCARTATO, e perché — un tetto alla lunghezza guardata (i primi 4 KB).
+ * L'avevo scritta, poi il banco delle mutazioni mi ha fatto notare che non si poteva provare: col
+ * tetto in piedi, rimettere l'espressione sbagliata non produce nessun rallentamento misurabile,
+ * perché nessun valore arriva mai abbastanza lungo. Due difese di cui una copre l'altra si
+ * mutano a vicenda in cose che nessuna prova può distinguere.
+ *
+ * E guardandola meglio non era gratis: un tetto vuol dire che una credenziale scritta OLTRE il
+ * quattromilanovantaseiesimo carattere passerebbe al figlio. Cioè comprava un rischio teorico di
+ * lentezza al prezzo di un buco vero, per giunta silenzioso. Con l'espressione sistemata un valore
+ * da 400 KB costa un millisecondo e mezzo: il tetto non serviva a niente.
+ *
+ * Una difesa che si può provare batte due di cui una è indistinguibile.
+ */
+export const CHIAVE_DENTRO_UN_URL = /^[a-z][a-z0-9+.-]*:\/\/[^/@\s:]*:[^/@\s]+@/i;
+
+
+/**
+ * Nomi che nessuna parola-chiave prende, e che comandano comunque il processo figlio. AR-921.
+ *
+ * `NODE_OPTIONS` non contiene nessuna delle parole di `NOME_DI_CHIAVE`, e node le opzioni le legge
+ * ANCHE dall'ambiente: `NODE_OPTIONS=--require /tmp/mio.cjs` esegue quel file PRIMA della prova
+ * ammessa, scavalcando in un colpo tutta la lista bianca di `esecuzione-prova.mjs`. Misurato.
+ *
+ * Onestà sul peso, perché conta per capire quanto è grave: chi può scrivere `NODE_OPTIONS` nel
+ * processo PADRE ha già l'esecuzione, quindi non è un varco nuovo. È difesa in profondità che
+ * mancava — e il commento qui sopra promette «se un comando ostile arriva fin qui, deve trovare le
+ * tasche vuote». Le tasche non lo erano.
+ */
+const COMANDA_IL_FIGLIO = /^(NODE_OPTIONS|NODE_REPL_EXTERNAL_MODULE|NODE_EXTRA_CA_CERTS|BASH_ENV|ENV|LD_PRELOAD|LD_LIBRARY_PATH|PYTHONSTARTUP|npm_config_registry|npm_config_.*script.*|BASH_FUNC_.*)$/i;
+
+/**
+ * Le variabili che arrivano in GRUPPO, dove togliere un pezzo rompe tutto il resto.
+ *
+ * ⚠️ TROVATA IL 31/8 DAL COLLAUDO DI SICUREZZA, e riprodotta a mano prima di toccare niente.
+ * `GIT_CONFIG_KEY_0` contiene la parola «KEY», quindi la lista nera qui sotto lo toglieva — e
+ * lasciava `GIT_CONFIG_COUNT=3` e i tre `GIT_CONFIG_VALUE_n`. Git riceve una terna incoerente e
+ * MUORE prima di fare qualsiasi cosa: `error: missing config key GIT_CONFIG_KEY_0`, uscita 128.
+ *
+ * Perché non è un fastidio ma la malattia peggiore della casa: `verdettoCorsa` legge ogni uscita
+ * diversa da zero come «la prova è diventata rossa per colpa della mutazione», cioè ✅ verificata.
+ * Una prova che non è mai partita comprava un verde. È AR-840 rinato DENTRO la cura di AR-840, e
+ * 395 delle 970 mutazioni hanno una prova che tocca git: quasi due su cinque.
+ *
+ * La lezione, che vale oltre a git: una lista nera di NOMI sa cosa un nome dichiara, non sa che
+ * certe variabili si tengono per mano. Il rimedio non è un'eccezione per git — sarebbe la stessa
+ * distrazione al prossimo gruppo — ma la regola: se cade un membro, cade tutto il gruppo. Il figlio
+ * parte senza quella configurazione, che è pulito; non parte a metà, che è una bugia.
+ *
+ * NON tengo i membri superstiti: `GIT_CONFIG_VALUE_n` può portare una credenziale nel valore (qui
+ * no — sono riscritture di URL — ma sul VPS non l'ho guardato, e questa funzione esiste proprio
+ * perché il figlio trovi le tasche vuote).
+ */
+const GRUPPI_INSCINDIBILI = [/^GIT_CONFIG_(KEY|VALUE)_\d+$|^GIT_CONFIG_COUNT$/];
+
+/** I nomi che cadono insieme a `caduti`, perché stanno nello stesso gruppo inscindibile. */
+export function trascinatiDalGruppo(caduti, tutti) {
+  const trascinati = new Set();
+  for (const gruppo of GRUPPI_INSCINDIBILI) {
+    if (!caduti.some((k) => gruppo.test(k))) continue;
+    for (const k of tutti) if (gruppo.test(k)) trascinati.add(k);
+  }
+  return trascinati;
+}
+
+export function ambientePulito(env = process.env) {
+  const pulito = {};
+  const caduti = [];
+  const nomi = Object.keys(env);
+  for (const [k, v] of Object.entries(env)) {
+    // ① per NOME — la difesa del 28/8.
+    if (NOME_DI_CHIAVE.test(k)) { caduti.push(k); continue; }
+    // ② per VALORE — il buco che il collaudo di sicurezza ha misurato il 30/8: la difesa ① è una
+    // lista nera di NOMI, e una lista nera di nomi non vede il segreto che sta nel valore. Sul VPS
+    // passavano al figlio `DATABASE_URL`, `SUPABASE_DB_URL` e `REDIS_URI`, che portano la password
+    // dentro l'URL. Questo secondo controllo guarda la FORMA del valore, quindi lascia passare gli
+    // URL pubblici (`MARKETPLACE_SUPABASE_URL` non ha nessuna credenziale dentro) e toglie solo
+    // quelli che una credenziale ce l'hanno davvero. Una prova non ha bisogno di nessuna delle due.
+    if (typeof v === "string" && CHIAVE_DENTRO_UN_URL.test(v)) { caduti.push(k); continue; }
+    // ③ per POTERE — vedi COMANDA_IL_FIGLIO: non è una chiave, ma comanda chi la riceve.
+    if (COMANDA_IL_FIGLIO.test(k)) { caduti.push(k); continue; }
+    pulito[k] = v;
+  }
+  // ③ per GRUPPO — vedi sopra: chi resta di un gruppo mutilato se ne va con gli altri.
+  for (const k of trascinatiDalGruppo(caduti, nomi)) delete pulito[k];
+  return pulito;
+}
+
+/**
+ * La radice in piu che il banco puo ammettere, e da dove viene.
+ *
+ * ⚠️ NON è «/tmp». È **la cartella del registro che dichiara quella prova**, e la differenza è
+ * tutta la sicurezza di questo file. Col registro vero (`cervello/mutanti.json`) la radice è il
+ * repo e basta: un percorso in /tmp non si esegue, ed è la falla del 31/8 che resta chiusa. Con un
+ * registro FINTO — le prove di questo banco se ne costruiscono uno in una cartella temporanea e ci
+ * mettono accanto le finte — la radice è quella cartella lì, e solo quella.
+ *
+ * La regola in una riga: una prova può vivere accanto al registro che la nomina. Non «ovunque sotto
+ * /tmp», che era il difetto: bastava saper scrivere UN file in /tmp per farlo eseguire come root.
+ *
+ * Chi potrebbe abusarne dovrebbe poter scrivere `MUTANTI_FILE` nell'ambiente del processo — cioè
+ * avere già i permessi che vorrebbe rubare.
+ *
+ * LE DUE ALTRE STRADE, considerate e scartate — perché una scelta senza le alternative accanto non
+ * si può giudicare, e queste due sembravano più semplici:
+ *
+ *   ① «ogni prova che ha bisogno di /tmp lo DICHIARI, una per una». È stata la prima cura, ed è
+ *      durata mezza giornata: ha rotto quattro prove del banco e me l'ha detto il server, non io.
+ *      Il motivo per cui non regge è strutturale, non una svista: `mutazioni-senza-esecutore` COPIA
+ *      il registro in un'altra cartella prima di passarlo al banco, quindi la prova che dovrebbe
+ *      dichiarare la radice non sa nemmeno quale sarà. Una regola che chiede a ciascuno di
+ *      dichiarare una cosa che nessuno di loro conosce non è una regola, è un rimando.
+ *
+ *   ② «la radice è `cwd`». Elegante — chi lancia ha già scelto dove — ma sbagliata proprio nel caso
+ *      che conta: quelle quattro prove passano `cwd: AD_ROOT` e tengono le finte altrove. Avrebbe
+ *      lasciato il buco chiuso e le prove rotte, cioè la peggiore delle tre.
+ *
+ * Questa strada le batte tutt'e due perché lega la radice a un FATTO che il banco ha già in mano —
+ * dove vive il registro che sta leggendo — invece che a una dichiarazione o a una convenzione.
+ */
+function radiceDelRegistro(viaRegistro) {
+  const fuori = [];
+  for (const c of [viaRegistro, process.env.NON_VACUITA_RADICE].filter(Boolean)) {
+    // `NON_VACUITA_RADICE` è una cartella, il registro è un file: `dirname` su una cartella
+    // risalirebbe di un livello, quindi la si prende com'è.
+    const cartella = c === process.env.NON_VACUITA_RADICE ? resolve(c) : dirname(resolve(c));
+    if (cartella === AD_ROOT || cartella.startsWith(`${AD_ROOT}/`)) continue;
+    if (!fuori.includes(cartella)) fuori.push(cartella);
+  }
+  return fuori;
+}
+
+export function eseguiProva(test, { lancia = spawnSync, cwd = AD_ROOT, timeout = TEMPO_MAX, env = ambientePulito(), radiciAmmesse = [AD_ROOT, ...radiceDelRegistro(MUTANTI)] } = {}) {
+  // 🔒 RADICI DICHIARATE, non un interruttore che spegne tutto. Prima qui c'era
+  // `soloDentroIlRepo: false`, che serviva per una ragione buona — le prove di questo stesso banco
+  // si costruiscono una fixture in /tmp — ma spegneva anche «devi nominare un file di casa», ed è
+  // da quella porta che passavano `node -e <codice>` e `npx --yes <pacchetto qualunque>`.
+  // Con le radici la fixture continua a funzionare e le altre due strade restano chiuse.
+  // ⚠️ 31/8 — LA RADICE `/tmp` NON STA PIÙ QUI DENTRO, e il perché è la cosa da leggere.
+  //
+  // Un collaudo indipendente ha eseguito codice suo COME ROOT con questa riga, che è la più corta
+  // che esista — niente opzioni, niente trucchi:
+  //     eseguiProva("/tmp/pwn.mjs")
+  // Bastava che `tmpdir()` fosse fra le radici ammesse. Il 30/8 avevo chiuso otto strade e scritto
+  // «otto su otto»: le otto erano quelle a cui avevo pensato io, e la più corta non era fra quelle.
+  // È la forma di errore per cui il collaudo esiste — chi costruisce prova le strade che conosce.
+  //
+  // MISURATO prima di togliere: delle 962 voci di `mutanti.json`, **zero** usano un percorso
+  // assoluto. Quella radice non difendeva nessun uso vero; c'era perché le prove del banco STESSO
+  // si costruiscono una fixture in una cartella temporanea. Quelle continuano a funzionare: il
+  // parametro `radiciAmmesse` esiste apposta, e adesso chi ne ha bisogno la DICHIARA invece di
+  // ereditarla. Una radice ereditata la usa anche chi non sapeva di averla.
+  const piano = comeSiEsegue(test, { soloDentroIlRepo: false, radiciAmmesse });
+  if (!piano.ok) {
+    // Non è «la prova è diventata rossa»: è che non so nemmeno come lanciarla. ⚪, mai ✅.
+    return { status: 1, signal: null, uscita: "", avvio: `non so come eseguire questo test: ${piano.perche}` };
+  }
+  let ultimo = { status: 0, signal: null, uscita: "" };
+  for (const passo of piano.passi) {
+    const r = lancia(passo.comando, passo.argomenti, { cwd, encoding: "utf8", timeout, env });
+    const uscita = `${r.stdout || ""}${r.stderr || ""}`;
+    ultimo = { status: r.status, signal: r.signal ?? null, uscita };
+    const avvio = avvioFallito({ errore: r.error || null, uscita, entrata: passo.percorsi[0] || passo.argomenti[0] || "" });
+    if (avvio) return { ...ultimo, avvio: `${avvio} [${passo.comando} ${passo.argomenti.join(" ")}]` };
+    // `&&`: il primo passo che fallisce è il verdetto, gli altri non si eseguono.
+    if (r.status !== 0) return { ...ultimo, avvio: null };
+  }
+  return { ...ultimo, avvio: null };
+}
+
+/**
+ * 🩹 QUANTI FILE TRACCIATI MANCANO DALL'ALBERO DI LAVORO, adesso. AR-924.
+ *
+ * ⚠️ PERCHÉ ESISTE, e non è un'ipotesi: il 31/8 una corsa di questo banco ha cancellato 956 file —
+ * tutta la cartella `cervello/`. Non per un difetto del banco: per una PROVA. La prova di AR-923
+ * faceva pulizia con `rmSync(dirname(fuoriRepo(...)), { recursive: true })`, cioè cancellava una
+ * cartella il cui nome veniva dalla funzione sotto esame. È esattamente ciò che il banco fa di
+ * mestiere: ROMPE quella funzione. Rotta, tornava un percorso dentro il repo, e la pulizia ha
+ * portato via il repo.
+ *
+ * Quello che ho visto io in quel momento è stato un `ENOENT` con lo stack: nessuna riga diceva che
+ * mancavano novecentocinquantasei file. Questo censimento esiste perché la prossima volta la
+ * PRIMA riga lo dica.
+ *
+ * LA REGOLA CHE NE ESCE, e vale per ogni prova di questa casa: **non si cancella mai una cartella
+ * il cui nome viene dal codice che si sta provando.** Sotto un banco che rompe apposta, un percorso
+ * calcolato dal codice sotto esame è un percorso ostile. Misurato sulle 441 prove di oggi: nessuna
+ * lo fa più. Questo guardiano non cerca quel pezzo di codice — cerca il DANNO, che è la sola cosa
+ * che si vede anche quando la forma è nuova.
+ *
+ * Torna `null` se non ho potuto contare (niente git, niente repo): ⚪, non un via libera.
+ */
+export function fileCancellati(lancia = spawnSync, cwd = AD_ROOT) {
+  const r = lancia("git", ["status", "--porcelain", "--"], { cwd, encoding: "utf8", timeout: 30_000 });
+  if (r.error || r.status !== 0) return null;
+  return `${r.stdout || ""}`
+    .split("\n")
+    .filter((riga) => /^ ?D /.test(riga))
+    .map((riga) => riga.slice(3).trim());
 }
 
 function main() {
@@ -386,9 +773,28 @@ function main() {
     process.exit(2);
   }
 
+  // AR-924: com'era l'albero PRIMA. Se dopo mancano dei file che prima c'erano, l'ha fatto una
+  // prova mentre girava — e va detto in chiaro, non lasciato scoprire da uno stack trace.
+  const cancellatiPrima = fileCancellati();
+
   const esiti = [];
-  for (const m of elenco) {
+  for (const [i, m] of elenco.entries()) {
+    // AR-917 — il tempo si guarda PRIMA di spendere, non dopo: un controllo dietro la spesa
+    // arriva quando la spesa è già fatta. Chi resta fuori viene dichiarato, non lasciato al buio.
+    // AR-918 — e `quantoPosso` non torna un sì/no: torna QUANTO. Quel numero è il tetto di QUESTA
+    // mutazione, altrimenti l'ultima sfonda il budget di tutta la corsa e la fa ammazzare rossa.
+    const concesso = BUDGET ? quantoPosso(AVVIATO + BUDGET, Date.now(), TEMPO_MAX, MINIMO_PER_UNA) : TEMPO_MAX;
+    if (!concesso) {
+      esiti.push(...fuoriDalBudget(elenco.slice(i), { budget: BUDGET, speso: Date.now() - AVVIATO }));
+      break;
+    }
     const file = viaDi(m.file);
+    // AR-920 — prima di aprire e riscrivere: sta dentro una radice ammessa? Fuori è ⚪, mai ✅.
+    const radice = dentroLeRadici(file, [AD_ROOT, ...radiceDelRegistro(MUTANTI)]);
+    if (!radice.dentro) {
+      esiti.push({ ...m, verdetto: "cieco", perche: radice.perche });
+      continue;
+    }
     if (!existsSync(file)) {
       esiti.push({ ...m, verdetto: "cieco", perche: `file assente: ${m.file}` });
       continue;
@@ -415,16 +821,31 @@ function main() {
       // porzione di tempo che questa difesa esiste per coprire.
       lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);
       writeFileSync(file, rotto);
-      const r = spawnSync("node", [m.test], { cwd: AD_ROOT, encoding: "utf8", timeout: TEMPO_MAX });
-      esiti.push({
-        ...m,
-        ...verdettoCorsa({ status: r.status, signal: r.signal, uscita: `${r.stdout || ""}${r.stderr || ""}` }),
-      });
+      const r = eseguiProva(m.test, { timeout: concesso });
+      esiti.push({ ...m, ...troncataDalBudget(verdettoCorsa(r), { status: r.status, concesso, difetto: m.difetto }) });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
       togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più
       IN_CORSO.stato = null;
     }
+  }
+
+  // AR-924 — il danno collaterale, prima di qualunque verdetto: un banco che ha portato via dei
+  // file non ha «misurato con qualche effetto collaterale», ha rotto la casa in cui misurava.
+  const cancellatiDopo = fileCancellati();
+  const nuoviCancellati =
+    cancellatiPrima === null || cancellatiDopo === null
+      ? null
+      : cancellatiDopo.filter((f) => !cancellatiPrima.includes(f));
+  if (nuoviCancellati === null) {
+    console.error("⚪ non ho potuto contare i file dell'albero di lavoro (git non risponde): se una prova ne ha cancellati, questa corsa non se n'è accorta.");
+  } else if (nuoviCancellati.length) {
+    console.error(`\n⛔ QUESTA CORSA HA CANCELLATO ${nuoviCancellati.length} FILE CHE PRIMA C'ERANO.`);
+    console.error("   Non è stato il banco: è stata una PROVA, mentre girava col fix rotto. Una prova non");
+    console.error("   deve mai cancellare una cartella il cui nome viene dal codice che sta provando.");
+    for (const f of nuoviCancellati.slice(0, 10)) console.error(`   · ${f}`);
+    if (nuoviCancellati.length > 10) console.error(`   · …e altri ${nuoviCancellati.length - 10}`);
+    console.error(`\n   Per rimetterli: git restore ${[...new Set(nuoviCancellati.map((f) => f.split("/")[0]))].join(" ")}\n`);
   }
 
   const vacue = esiti.filter((e) => e.verdetto === "vacua");
