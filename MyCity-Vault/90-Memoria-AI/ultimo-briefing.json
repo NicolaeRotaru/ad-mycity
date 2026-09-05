@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-05 06:32",
-  "situazione": "Giro pieno: 74° giorno di stallo North Star, nessun numero di business cambiato dal Piano del mattino di 22 minuti fa (1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti). Letargo RISPARMIO (quota AI 10% della finestra rolling). Novità di processo: il gate LOOP (chiusura-loop.mjs --gate) era cronico da 3 giri di fila — richiuso in questo giro registrando l'esito mancante di @AD, aperta comunque la card #195 come richiesto per i controlli diventati cronici. Il gate GATE (freni delle lezioni) resta cronico, bloccato dallo stesso buco di permessi VPS delle card #104/#189/#194. Nessuna firma nuova di Nicola da stamattina.",
+  "data": "2026-09-05 08:32",
+  "situazione": "75° giorno di stallo North Star, riverificato dal vivo con query dirette (non a memoria): 1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti, 0 recensioni, 3 carrelli abbandonati, 407 lead — identico al giro pieno di 2 ore fa (06:32). Letargo RISPARMIO. Nessuna firma nuova di Nicola. Blocco permessi confermato di nuovo su test-cervello.mjs e gli altri controlli automatici (card #104/#189/#194): un giro pieno è già stato fatto oggi, questo passaggio resta una verifica lean sui dati veri per rispettare 'giri ridotti a 1/giorno'.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},

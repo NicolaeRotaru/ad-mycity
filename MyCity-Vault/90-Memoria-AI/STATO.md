@@ -1,7 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 06:44
+aggiornato: 2026-09-05 08:32
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 08:32 — Nuova chiamata "esegui giro.md per intero".** Sono passate circa 2 ore dal giro
+> pieno delle 06:32. Ho riverificato i dati dal vivo, non a memoria: query dirette su `orders`,
+> `profiles`, `products`, `merchants_leads`, `abandoned_carts` (MCP Supabase). Non ho rieseguito le
+> 15 fasi intere del giro — il perché è più sotto.
+>
+> **Numeri, tutti identici al giro delle 06:32.** 1 ordine totale (id `58094956…`, 24/6, PENDING/
+> CANCELED), **0 pagati**. 8 profili (5 buyer, 1 seller, 1 rider, 1 admin). 5 prodotti, 0 nuovi in
+> 7gg. 0 recensioni. 3 carrelli abbandonati (€7,95/€10/€13,90), nessuno recuperato, tutti da metà
+> giugno-inizio luglio. 407 lead commercianti, tutti ancora `to_contact` (outreach non ancora
+> partito su questa tabella). **75° giorno di stallo North Star** (24/6→5/9).
+>
+> **Coda firme e decisioni:** `AZIONI-IN-ATTESA.md` invariata — top card ancora **#195** (gate LOOP,
+> già richiuso), poi #194 (gate GATE, cronico), #193 (11° post PQ pronto, zero pubblicati).
+> `DECISIONI.md`: nessuna firma nuova di Nicola.
+>
+> **Blocco strumenti confermato di nuovo.** `node cervello/test-cervello.mjs` richiede approvazione
+> non concessa in questa sessione (stesso buco noto: solo i comandi scritti parola-per-parola in
+> `.claude/settings.local.json` partono — card #104/#189/#194). Non ritentato alla cieca. Uso invece
+> i verdetti già scritti su disco dal pre-step di `giro.sh` (08:28): **TEST rosso**, **CI 8/10 PR
+> rosse per colpa propria**, **STASH aperto**, **ESPERIMENTI 0 aperti**, **NORTH_STAR in stallo**,
+> **APPRENDIMENTO/CORREZIONE_NICOLA/GATE/VOLANO/TASSO croniche** — tutte e 12 le voci AR-687 restano
+> sullo stesso buco di permessi, nessuna nuova rispetto al briefing delle 06:32.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Tre motivi. Primo: zero delta reale su dati, coda e
+> decisioni dal giro pieno di 2 ore fa. Secondo: il letargo RISPARMIO impone "giri ridotti a
+> 1/giorno", e quello di oggi è già stato fatto alle 06:32. Terzo: riscrivere auto-analisi,
+> apprendimento e piani su fatti identici sarebbe solo rumore, non un controllo in più — lo stesso
+> pattern già diagnosticato più volte
+> ([[project-doppio-worker-tempesta-commit-18-8]], [[piano-mattino-loop-non-timer]]).
+>
+> **Nessun cambio rispetto a 06:32/06:44.** 1 ordine (24/6, annullato), 0 pagati, 8 profili. 75°
+> giorno di stallo North Star. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel) — è
+> quella che rimette online il sito (HTTP 503) e rende possibile un primo ordine pagato vero.
+>
+> **Se questa chiamata è manuale** e Nicola vuole comunque un giro pieno nuovo (radar, radiografia,
+> apprendimento) anche senza dati diversi, basta dirlo esplicitamente ("rifallo comunque").
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 06:44 — Nuova chiamata "esegui giro.md per intero", 12 minuti dopo il giro pieno delle
