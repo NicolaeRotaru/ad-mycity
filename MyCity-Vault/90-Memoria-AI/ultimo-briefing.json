@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-05 14:31",
-  "situazione": "Zero delta reale dal passaggio delle 12:34: 1 ordine annullato del 24/6, 0 pagati, 9 profili (2 seller, nessuno con Stripe attivo). Il delta-gate si è riattivato per 'clienti 8→9' ma è lo stesso non-evento già spiegato a 12:34 (il secondo seller è il 'Panificio Demo' della card #196). Coda firme invariata: #196 e #197 già in coda, nessuna firma nuova di Nicola. Letargo SOPRAVVIVENZA + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
+  "data": "2026-09-05 16:35",
+  "situazione": "Zero delta reale dal passaggio delle 14:31/14:47: 1 ordine annullato del 24/6, 0 pagati, 9 profili (2 seller, nessuno con Stripe attivo). Coda firme invariata: nessuna firma nuova di Nicola. Riparato un debito di processo: l'auto-analisi era ferma dalle 10:46 nonostante 5+ passaggi pieni nel mezzo — riscritta ora con verifica dal vivo, e fondata l'entità 'Panificio Demo' (card #196) nel registro di realtà. Letargo SOPRAVVIVENZA + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},

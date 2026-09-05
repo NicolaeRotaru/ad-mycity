@@ -1,6 +1,7 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-09-04 08:31",
+  "aggiornato": "2026-09-05 16:35",
+  "_nota_giro_05_09_1635": "Passaggio N+ di oggi su 'esegui giro.md per intero': riverificato dal vivo via MCP execute_sql (non ereditato) — 1 ordine (24/6, 0 pagati), 9 profili (2 seller), invariato dai passaggi precedenti di oggi. L'unica novità della giornata resta 'Panificio Demo' (card #196, 6:40): registrato qui SOLO ORA come entità propria (era descritto in AZIONI-IN-ATTESA ma non ancora nel registro) — stato da_verificare: esiste nei dati (riga vera in profiles/sellers) ma la SUA ORIGINE non è fondata (nessuna traccia in modifiche/azioni/log di chi l'ha scritto). SOPRAVVIVENZA + NORTH_STAR confermati attivi: nessuna ricerca/lavoro macchina nuovo oltre alla verifica e a questo aggiornamento del registro, che il cancello di serietà richiede comunque per ogni giro pieno.",
   "_nota_giro_04_09_0831": "Terzo passaggio pieno di oggi (dopo 06:02 e 06:35), delta-gate marcato di nuovo per un motivo tecnico (stato sensori). Non riquery-ati i dati dal vivo (evitata una terza query identica): letto delta-gate.json corrente (ordini=1, clienti=8, ultimo_ordine 2026-06-24, tutto invariato) più il diff di AZIONI-IN-ATTESA.md/DECISIONI.md (nessuna firma nuova di Nicola). Nessuna entità nuova, nessun declassamento. Confermato di nuovo (non ri-diagnosticato) il blocco permessi su .claude/settings.local.json (card #104/#189): test-cervello.mjs/coerenza-fatti.mjs/ci-stato.mjs/delta-gate.mjs --segna-pieno non eseguibili in questa sessione, un tentativo ciascuno.",
   "_nota_giro_01_09_2035": "Diciassettesimo passaggio di oggi, richiesto esplicitamente da Nicola («fai un giro») mentre il delta-gate aveva già deciso alle 20:28 di saltare il motore pieno (nulla di cambiato). Riverificato dal vivo con `verifica-sensori.mjs` (non ereditato): orders=1 via REST, sito ancora HTTP 503 dopo 3 tentativi — bit-per-bit identico a ogni passaggio di oggi. Nessuna entità nuova, nessun declassamento. Confermata la tenuta del fix delta-gate delle 18:35: la decisione delle 20:28 è la prima 'esegui_pieno:false' onesta della giornata, dopo 9 decisioni sbagliate identiche prima del fix (motivo sempre 'clienti 7→8', baseline mai promossa). North-Star gate + letargo RISPARMIO: nessuna ricerca/lavoro nuovo sulla macchina oltre alla verifica della tenuta del fix precedente; gate correzione-nicola-gate (229 lezioni senza freno, HARD da 168 giri) esplicitamente non lavorato in questo passaggio.",
   "_nota_giro_01_09_0655": "Terzo passaggio in 10 ore (dopo il piano del mattino 06:25 e la doppia riconferma di ieri sera 21:05/22:50). Riconfermato con query dirette via MCP (`execute_sql`): 1 ordine totale, 0 pagati, ultimo 2026-06-24 CANCELED, 0 nuovi profili negli ultimi 7 giorni, 1 negozio con vetrina (Pane Quotidiano), 5 prodotti tutti `status='available'` — bit-per-bit identico al giro del 31/8 22:50. Nessuna entità nuova, nessun declassamento. Unica novità propagata (non riverificata in prima persona, ereditata da SALA-OPERATIVA 06:25 di oggi): la causa del sito HTTP 503 è ora precisa — dominio su Render + 2 env Vercel mancanti, non più 'server fermo' generico. North-Star gate + letargo RISPARMIO: nessuna ricerca/lavoro nuovo sulla macchina, solo verifica e consolidamento.",
@@ -446,6 +447,21 @@
       ],
       "note": "Evento cittadino grande OGGI 4/7 → centro pienissimo tutto il giorno: finestra ideale per la consegna a piedi/bici del primo ordine PQ (Via Calzolai 25). Nessun presidio pesante (allocazione + presidi rimandati da Nicola). Spunto editoriale leggero → Piano Editoriale/Notorietà.",
       "ultima_verifica": "2026-07-04 11:30"
+    },
+    {
+      "nome": "Panificio Demo",
+      "tipo": "negozio",
+      "stato": "da_verificare",
+      "fonte": "query diretta su profiles/sellers (2026-09-05 12:10)",
+      "confidenza": 0.3,
+      "evidenze": [
+        "seller_id 44444444-4444-4444-4444-aaaaaaaa0001, creato 2026-09-05 06:40:48 — riga vera nel database di produzione, non nel sito.",
+        "4 prodotti finti (miele, focaccia, grissini, pane), 0 ordini collegati.",
+        "Nessuna traccia in modifiche in corso su questo computer, nessuna traccia nel registro delle azioni, nessuna traccia nei log del sito per quell'ora — non creato da un senior né da questa macchina.",
+        "Non è Pane Quotidiano, l'unico negozio confermato/faro."
+      ],
+      "note": "Esiste nei dati (quindi non è un 'inventato' dell'AD), ma la sua ORIGINE non è fondata da nessuna delle due strade valide (non è nei dati come negozio reale onboardato, non è una scelta ragionata della macchina): resta da_verificare finché Nicola non conferma da dove viene o non se ne autorizza la cancellazione. Card #196 aperta 2026-09-05 12:10, ancora in attesa.",
+      "ultima_verifica": "2026-09-05 16:35 (query diretta MCP: seller_tot=2, invariato dal 12:10)"
     }
   ],
   "numeri_da_non_inventare": {

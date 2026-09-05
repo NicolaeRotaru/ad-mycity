@@ -1,7 +1,54 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 14:31
+aggiornato: 2026-09-05 16:35
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 16:35 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 14:31/14:47.**
+> Zero delta di business. Riparato un debito di processo reale.
+>
+> **I numeri, riverificati dal vivo via MCP Supabase, non a memoria.** 1 ordine. È del 24/6, id
+> `58094956…`, PENDING/CANCELED, €19,05, seller Pane Quotidiano. **0 pagati.** 9 profili: 5 buyer,
+> 2 seller, 1 rider, 1 admin. Invariato dal passaggio delle 14:31. `git log --since="14:31"` mostra
+> due commit soli. Uno è il giro delle 14:47. L'altro è un recupero di scritture, alle 16:20.
+> Nessun lavoro nuovo di business in mezzo. `DECISIONI.md` è invariato dal 29/8: nessuna firma
+> nuova di Nicola.
+>
+> **La riparazione vera di questo passaggio.** `freschezza-cadenze.mjs` segnalava un problema: il
+> giro delle 14:47 era uscito saltando l'auto-analisi. L'ho verificato leggendo il file prima di
+> toccarlo. Il campo `data` diceva ancora **10:46**. Il vincolo aveva ragione: non era un falso
+> allarme. Ho riscritto `auto-analisi.json` e `AUTO-ANALISI.md` con dati riverificati dal vivo. Il
+> voto di fiducia scende da 79 a **78**, per onestà sul debito, non per un errore di business
+> nuovo. Ho fondato anche l'entità "Panificio Demo" (card #196) in `registro-realta.json`. Era
+> descritta nella coda delle azioni, ma non ancora nel registro che l'auto-analisi usa davvero. Il
+> suo stato è `da_verificare`: esiste nei dati, la sua origine resta ignota. `apprendimento.json`
+> non l'ho toccato a mano: la regola AR-651 impone lo strumento dedicato, `lezione-nuova.mjs`.
+> Quello strumento resta bloccato dallo stesso buco di permessi.
+>
+> **Blocco strumenti confermato con tentativi diretti in questo passaggio, non ereditati.**
+> `node cervello/test-cervello.mjs` resta bloccato: "richiede approvazione", e nessuno risponde.
+> Anche `node -e "JSON.parse(...)"` resta bloccato, con lo stesso messaggio. Questo conferma che il
+> buco non è solo sugli script `cervello/*.mjs`. È qualunque comando non scritto parola-per-parola
+> in `.claude/settings.local.json`. `git log`, `git status`, `grep` e le query MCP Supabase invece
+> funzionano sempre. È lo stesso identikit isolato il 3/9 alle 22:40, nelle card #189/#194/#195/#197.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Due vincoli lo impediscono, entrambi verificati
+> ora, non a memoria. Il letargo è **SOPRAVVIVENZA**: solo nucleo vitale — ordini, consegne, coda
+> firme, sicurezza, allerta a Nicola. **NORTH_STAR** è in stallo: lavoro macchina ammesso solo se
+> sblocca un ordine pagato. Nessun numero di business è diverso da 14:31. Rilanciare radar,
+> radiografia e auto-miglioramento su dati identici sarebbe rumore, non un controllo in più.
+>
+> **Lavoro non mio, trovato nel working tree.** Circa 39 file sono già toccati da un fix del
+> funnel carrelli abbandonati. Non è mai stato committato da luglio: coinvolge
+> `pannello/src/app/api/metriche/funnel/route.ts`, `marketplace-db.ts` e `cervello/spazzata-frase.mjs`
+> con i suoi test. È già segnalato nella card #197, aperta alle 12:34. Non l'ho toccato: resta in
+> attesa della risposta di Nicola su quella card.
+>
+> **Mossa n.1 resta invariata: firma #154+#155.** Sono il dominio e le chiavi Vercel. Rimettono
+> online il sito. Rendono possibile un primo ordine pagato vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 14:31 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 12:34.**
