@@ -1,5 +1,13 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
+> **Aggiornato oggi, 2026-09-05, alle 06:30 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi dovute: CCIAA Emilia e Unione Commercianti PC. Per CCIAA, WebSearch `site:emilia.camcom.it bando 2026 piacenza`. Per Unione Commercianti, WebFetch `unionecommerciantipc.it/feed/`. **Nessun bando nuovo.** Stesso quadro di ieri. Il bando ESG resta confermato, apre il 17/9. Il Voucher Cloud/Cybersecurity resta confermato, domande dal 10/11. Entrambi già registrati ieri. BE26, PI26, BI26 e il Bando Commercio ER restano tutti chiusi. Il bando rifiuti del Comune resta invariato: 400 mila euro, è la leva #5 più sotto. Il bando fotovoltaico su parcheggi resta invariato: domande dal 30/9. Nessun dato nuovo per le 3 catene indirette qui sotto.
+>
+> **Vale sempre il filtro sotto: 0 negozi possono incassare oggi, quindi nessuna di queste leve diventa un'azione ora — solo mappa pronta per quando lo stallo si rompe.**
+
+---
+
+## Versione precedente (4 settembre 2026, invariata sotto)
+
 > **Aggiornato oggi, 2026-09-04, alle 06:32.** Giro leggero, script `cervello/monitora.md`. Ricontrollate le due fonti bandi dovute oggi: CCIAA Emilia (WebSearch `site:emilia.camcom.it bando 2026 piacenza`) e Unione Commercianti PC (RSS `unionecommerciantipc.it/feed/`). **Due bandi nuovi trovati oggi — nessuno dei due è la vecchia infornata BE26/PI26/BI26/Bando Commercio ER, che restano tutti chiusi, invariato.**
 >
 > - **🆕 Bando certificazioni ambientali, etiche e sociali (ESG) — CCIAA Emilia.** Apre il 17/9/2026 alle 10:00. Dotazione 500 mila euro per il territorio Parma-Piacenza-Reggio Emilia. Contributo 50% delle spese ammissibili, massimo 14 mila euro per impresa, per acquisire certificazioni di sostenibilità/etica/governance. **Rilevanza per le botteghe MyCity: bassa.** Le certificazioni ESG hanno tipicamente costi e processi pensati per aziende più strutturate di un forno o una bottega di quartiere; il contributo minimo utile presuppone una spesa certificativa di alcune migliaia di euro, difficile da sostenere oggi per un negozio come Pane Quotidiano. La registro come leva marginale, non prioritaria — nessuna azione. Fonte: [piacenzasera.it — Bando da 500mila euro per ambiente e responsabilità sociale](https://www.piacenzasera.it/2026/09/bando-da-500mila-euro-per-ambiente-e-responsabilita-sociale-cella-imprese-piu-competitive/659669/) (4/9).

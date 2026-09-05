@@ -662,7 +662,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-09-04 18:32",
+    "aggiornato": "2026-09-05 06:47",
     "totale": 15,
     "aperti": 0,
     "in_scadenza": 0,
@@ -1014,17 +1014,17 @@
   "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
   "_review_settimanale_04_09_1600": "REVIEW SETTIMANALE 4/9 16:00 — sei settimane senza review (l'ultima era il 24/7): il ciclo settimanale era fermo, non solo il business. Nessun torneo tra senior: stesso motivo di sempre, 0 ordini pagati da confrontare. Aggiunta PR-008 (peer review @tech, voto 7/10, sulle 5 PR reali mergiate 28/8→4/9 — l'unica attività non-loop-a-vuoto della settimana). 2 nuove proposte di auto-riscrittura, entrambe con prova diretta nella settimana: il decimatore per i passaggi SOPRAVVIVENZA (quota AI salita a 239% scrivendo blocchi ripetuti sugli stessi dati fermi) e il controllo di freschezza sui playbook ricorrenti (15+ rilanci a vuoto in 7 giorni). Radiografia completa dell'AD (auto-radiografia.json) NON rilanciata in questa review: è ferma dall'11/8 (24+ giorni, oltre la cadenza settimanale), ma lanciarla ora — 12 dimensioni, workflow multi-agente — avrebbe aggiunto consumo AI proprio nella settimana in cui la quota ha toccato 239% della finestra. Decisione: rimandata a quando il letargo torna sotto RISPARMIO, segnalata a Nicola come debito, non saltata in silenzio.",
   "_review_settimanale_04_09_completamento": "Completamento 4/9 15:35 (la review delle 16:00 si era interrotta a metà: JSON scritti, RITMO.md e LETTERA-A-NICOLA.md no). Aggiunta terza proposta AR-893: il workflow auto-radiografia.js non è solo 'fermo per risparmiare quota' come pensavano le review del 24/7 e del 4/9 — è ROTTO (errore di sintassi in 3 punti, verificato tentando di lanciarlo). Fix scritto riga per riga nella scheda, non applicato (fuori dai permessi di scrittura su .claude/workflows/ di questa sessione). RITMO.md aggiornato con il blocco '## Review settimanale · 2026-09-04 15:35' e LETTERA-A-NICOLA.md riscritta.",
-  "aggiornato": "2026-09-04 18:32",
+  "aggiornato": "2026-09-05 06:47",
   "proposte_sync": {
-    "aggiornato": "2026-09-04 18:28",
+    "aggiornato": "2026-09-05 06:27",
     "totale": 16,
     "aggiornate": 0
   },
   "pezzi_sync": {
-    "aggiornato": "2026-09-04 18:28",
+    "aggiornato": "2026-09-05 06:27",
     "fonte": "auto-coscienza/cantiere-pezzi.json",
     "freschezza": "stantio",
-    "perche": "Il quaderno dei pezzi nuovi: scritto 61 giorni e 13 ore fa e vale 30 giorni — quello che dice è di allora",
+    "perche": "Il quaderno dei pezzi nuovi: scritto 62 giorni e 1 ore fa e vale 30 giorni — quello che dice è di allora",
     "totale": 14,
     "fatti": 13,
     "da_costruire": [

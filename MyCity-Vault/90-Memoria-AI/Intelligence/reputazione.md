@@ -1,5 +1,20 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato oggi, 2026-09-05, alle 06:30 circa.** Giro leggero, script `cervello/monitora.md`.
+> Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
+> (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**
+> Le notizie di oggi da Libertà non riguardano il commercio. Sono cronaca varia: il chiarimento
+> di Brt su un'assunzione, dopo la morte di un corriere; un architetto scomparso; l'intesa tra
+> Comune e Ausl per i neogenitori; il malcontento a Marsaglia per il Punto Salute, aperto solo
+> a mezzo servizio; la statistica sulle multe, 111mila in 18 mesi. Nessuna di queste notizie
+> riguarda negozi, botteghe o il marketplace. La settimanale "Reputazione MyCity" non è dovuta
+> oggi: ricontrollata l'1/9, prossima scadenza l'8/9. Stesso quadro di stallo: nulla da
+> "reputare" finché non c'è un primo incasso vero.
+>
+> ---
+>
+> ## Versione precedente (4 settembre 2026, invariata sotto)
+>
 > **Aggiornato oggi, 2026-09-04, alle 06:32.** Giro leggero, script `cervello/monitora.md`.
 > Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
 > (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.** Le

@@ -1,4 +1,21 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-04
+# 📅 Eventi & Picchi di Domanda — 2026-09-05
+
+> **Aggiornato oggi, 5 settembre 2026, alle 06:30 circa.** Giro leggero, script `cervello/monitora.md`. Controllate le 9 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, Libertà-Città, IlPiacenza-Economia, PiacenzaSera, CCIAA bandi, Unione Commercianti bandi. **Una novità reale: il meteo cambia rotta, weekend di pioggia in arrivo proprio sul mercato di Via Roma.**
+>
+> - **⚠️ Meteo 5-11/9: cambio deciso rispetto a ieri.** Oggi sabato 5/9 resta caldo e secco, fino a 35°. Da domani 6/9 arriva la pioggia. Probabilità al 90%, per tre giorni di fila (6-8/9). È proprio il weekend del Via Roma Street Market e dello Sbaracco (6/9). Poi il caldo scende: martedì 9/9 tra 22 e 27°, giovedì 10/9 più fresco (20-23°, pioggia al 60%), venerdì 11/9 ancora instabile (18-26°, pioggia all'85%). Nessuna allerta meteo formale. Fonte: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza), WebFetch il 5/9.
+> - **Via Roma Street Market/Sbaracco, 6/9 — dettaglio nuovo sull'ordinanza.** Trovata l'ordinanza n.221 del 27/3/2026. Dice che dalle 6:00 alle 24:00 del 6/9 la telecamera ZTL di vicolo Pantalini viene disattivata per il mercato. Utile per il giorno in cui le consegne saranno operative: dice quali vincoli ci saranno per entrare in centro. Fonte: WebSearch `site:comune.piacenza.it` (5/9).
+> - **Festa del Fungo: la discrepanza continua.** Una fonte oggi dice solo il 5/9, nel quartiere Infrangibile. Ieri il Comune diceva 4-6/9, al Campo della Folgore (Via Pavia). Le due fonti non concordano ancora. Nessuna azione: è lo stesso evento gastronomico già segnalato ieri, dentro Piacenza città.
+> - **Comune-news / ZTL**: nessuna ordinanza o notizia nuova su commercio oltre il dettaglio Via Roma sopra. Fonte: WebSearch `site:comune.piacenza.it news commercio ZTL ordinanza settembre 2026` (5/9). Il fetch diretto resta bloccato per questa fonte.
+> - **Libertà — Attualità/Città**: nessuna notizia su botteghe, ZTL o commercio. Solo cronaca non pertinente: chiarimento Brt su un'assunzione dopo la morte di un corriere, un architetto scomparso, intesa Comune-Ausl per i neogenitori, malcontento a Marsaglia per il Punto Salute a mezzo servizio, statistica sulle multe (111mila in 18 mesi). Fonti: [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/città](https://www.liberta.it/territorio/citta/piacenza), WebFetch il 5/9.
+> - **IlPiacenza — Economia**: fetch diretto ancora in errore HTTP 403, blocco noto. WebSearch di ripiego: nessuna apertura o chiusura di bottega con nome trovata oggi. Dettaglio in `buchi-mercato.md`.
+> - **PiacenzaSera**: nessuna notizia di commercio nuova. Solo il bando ESG già noto (dettaglio in `leve-uscita.md`), sagre del weekend fuori/al bordo di Piacenza città (Bortellina, Chisöla, Coppa), Festival del Pensare (166 volontari) e Valtidone Wine Fest a Corano — tutti fuori o marginali rispetto a Piacenza città. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (5/9).
+> - **Bandi CCIAA/Unione Commercianti**: nessun bando nuovo oggi. Confermati invariati Voucher Cloud/Cybersecurity (domande dal 10/11) e bando ESG (apre 17/9), entrambi già noti da ieri. BE26/PI26/BI26/Bando Commercio ER restano tutti chiusi. Fonti: WebSearch `site:emilia.camcom.it bando 2026 piacenza`, WebFetch `unionecommerciantipc.it/feed/` (5/9).
+>
+> **Candore:** 9 fonti dovute oggi, tutte ricontrollate. La novità reale è il meteo (pioggia nel weekend del mercato di Via Roma), non una notizia di commercio. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare. Quindi **nessuna nota qui sotto diventa un'azione**: solo preparazione 🟢.
+
+---
+
+## Versione precedente (4 settembre 2026, invariata sotto)
 
 > **Aggiornato oggi, 4 settembre 2026, alle 06:32.** Giro leggero, script `cervello/monitora.md`. Controllate le 9 fonti giornaliere dovute oggi. Sono meteo, eventi Comune, Comune-news, Libertà-Attualità, Libertà-Città, IlPiacenza-Economia, PiacenzaSera, CCIAA bandi, Unione Commercianti bandi. **Una novità reale.** È un evento gastronomico dentro Piacenza città, mai tracciato prima in questo file.
 >

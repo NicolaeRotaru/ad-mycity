@@ -26,6 +26,47 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- loop-cronico-3giri -->
+### 🟡 #195 — Un secondo controllo automatico dice "no" da 3 giri di fila e nessuno lo ripara · ⏳ accodata 2026-09-05 06:32
+
+**Cosa cambia:** il controllo si chiama LOOP (dietro le quinte: `node cervello/chiusura-loop.mjs --gate`).
+Verifica che ogni reparto che ha lavorato oggi lasci scritto **cosa si aspettava e cosa è successo davvero**
+(il modo in cui la macchina impara dai propri esiti). Da 3 giri di fila risultava rosso — il reparto @AD
+aveva lavoro segnato FATTO nella Sala Operativa senza la riga di esito nel suo quaderno. L'ho registrata
+adesso (vedi Sala Operativa di oggi), quindi il gate torna verde da questo giro. Apro comunque la card,
+come richiesto esplicitamente quando un controllo resta cronico da 3 giri: è la terza volta che il
+processo si inceppa sullo stesso punto, e vale la pena dirlo anche se oggi l'ho già richiuso a mano.
+
+**Se va bene:** nessuna firma necessaria per oggi — è già chiuso. Ma se ricompare un quarto giro di fila,
+significa che chi lavora nel giro dimentica sistematicamente di registrare l'esito, e serve un promemoria
+automatico dentro il giro stesso (non solo un controllo a posteriori).
+
+**Cosa non ho verificato:** se il dimenticare l'ESITO è un problema di disciplina del processo o se il
+comando per registrarlo (`chiusura-loop.mjs registra`) è scomodo da ricordare a metà di un giro lungo.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 195 | 2026-09-05 06:32 | @AD | Tieni d'occhio il gate LOOP: se ricompare un 4° giro di fila, serve un promemoria dentro il giro, non solo un controllo a posteriori | 🟡 | vedi blocco sopra — gate già richiuso oggi con `chiusura-loop.mjs registra ad ...` | manuale | in attesa |
+
+<!-- gate-cronico-3giri -->
+### 🟡 #194 — Un controllo automatico dice "no" da 3 giri di fila e nessuno lo ripara · ⏳ accodata 2026-09-04 20:30
+
+**Cosa cambia:** il controllo si chiama GATE (dietro le quinte: `node cervello/gate-veri.mjs`). Verifica che le
+correzioni che mi hai fatto in passato abbiano davvero un freno che scatta se sbaglio di nuovo — non solo una
+frase scritta in memoria. Da 3 giri risulta rosso, e in questa sessione non sono nemmeno riuscita a rilanciarlo
+per vedere quale lezione è senza freno: lo stesso buco di permessi della card #189 (comandi `node cervello/*.mjs`
+non elencati per esteso in `.claude/settings.local.json`) blocca anche questo.
+
+**Se va bene:** con l'allowlist sbloccata (stessa firma richiesta da #189), rilancio `gate-veri.mjs`, vedo quale
+lezione ha un `gate:` che non può scattare (comando inesistente o mai messo alla prova in `mutanti.json`) e la
+sistemo — o aggiungendo la mutazione che la testa, o togliendo il finto freno.
+
+**Cosa non ho verificato:** quale lezione specifica è il freno finto — il comando per saperlo è bloccato.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 194 | 2026-09-04 20:30 | @AD | Sblocca il permesso per rilanciare il controllo dei freni delle lezioni (gate-veri.mjs) | 🟡 | vedi blocco sopra — stesso buco di #189 | manuale (settings.local.json sul VPS) | in attesa |
+
 <!-- post-rientro-settembre-pq -->
 ### 🔴 #193 — Un altro post è pronto per Pane Quotidiano, ma sono già undici fermi da luglio · ⏳ accodata 2026-09-03 13:25
 
@@ -3036,8 +3077,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-04 18:27)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-04-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-05 06:26)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-09-05-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

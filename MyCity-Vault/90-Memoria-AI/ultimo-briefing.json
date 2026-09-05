@@ -1,12 +1,12 @@
 {
-  "data": "2026-09-04 16:30",
-  "situazione": "Undicesimo passaggio di oggi: letargo peggiorato a SOPRAVVIVENZA (quota AI 184%, era 124% alle 14:31; salute macchina 4/100) — eseguito solo il controllo nucleo vitale, non le 15 fasi di giro.md. git log dalle 14:31 mostra solo commit del ciclo automatico (ritmo settimanale + due recuperi scritture), nessun lavoro nuovo di business. Nessuna firma nuova di Nicola: DECISIONI.md e AZIONI-IN-ATTESA.md invariati, top card ancora #193. Nessun dato di business nuovo da riquerare: 1 ordine (24/6, annullato), 0 pagati, stallo North Star confermato. Guasti già noti e non nuovi: PR rosse su GitHub, test-cervello/north-star-check bloccati dal buco di permessi VPS (card #104/#189), cadenza ritmo-settimana ferma. Nessuno di questi è cambiato da questo passaggio.",
+  "data": "2026-09-05 06:32",
+  "situazione": "Giro pieno: 74° giorno di stallo North Star, nessun numero di business cambiato dal Piano del mattino di 22 minuti fa (1 ordine annullato del 24/6, 0 pagati, 8 profili, 5 prodotti). Letargo RISPARMIO (quota AI 10% della finestra rolling). Novità di processo: il gate LOOP (chiusura-loop.mjs --gate) era cronico da 3 giri di fila — richiuso in questo giro registrando l'esito mancante di @AD, aperta comunque la card #195 come richiesto per i controlli diventati cronici. Il gate GATE (freni delle lezioni) resta cronico, bloccato dallo stesso buco di permessi VPS delle card #104/#189/#194. Nessuna firma nuova di Nicola da stamattina.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "senza questo un pagamento riuscito non diventa mai un ordine — mossa n.1", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da 25 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
+    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 26 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
     {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"},
     {"titolo": "Scegli un post da pubblicare per Pane Quotidiano o ritira quelli vecchi", "motivo": "11 post pronti, zero pubblicati", "livello": "rosso"},
-    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "fix già isolato: una riga in .claude/settings.local.json (letto insieme a .claude/settings.json in questa sessione) sblocca test-cervello.mjs, north-star-check.mjs, stash-dimenticate.mjs e di riflesso le PR rosse in CI", "livello": "giallo"}
+    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "una riga in .claude/settings.local.json sblocca test-cervello.mjs, sonda-volano.mjs, north-star-check.mjs, gate-veri.mjs, stash-dimenticate.mjs", "livello": "giallo"}
   ]
 }

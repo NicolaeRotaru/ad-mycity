@@ -1,4 +1,10 @@
-# 🕳️ Buchi di Mercato — 2026-09-04
+# 🕳️ Buchi di Mercato — 2026-09-05
+
+> **Ricontrollato oggi, 2026-09-05, alle 06:30 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.** Sono usciti solo risultati già noti: l'articolo su Confesercenti in tour contro la desertificazione commerciale, l'articolo su Coin, l'articolo sulle chiusure festive di Coop. Nessun dato nuovo per il quadro sotto.
+
+---
+
+## Versione precedente (4 settembre 2026, invariata sotto)
 
 > **Ricontrollato oggi, 2026-09-04, alle 06:32.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.** Unico risultato pertinente: lo stesso vecchio articolo Coin (già noto), più un articolo su Leroy Merlin/Si Cobas datato 2023-2024, non attinente a oggi. Nessun dato nuovo da aggiungere al quadro sotto.
 

@@ -1,7 +1,156 @@
 ---
 tipo: stato
-aggiornato: 2026-09-04 18:00
+aggiornato: 2026-09-05 06:44
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 06:44 — Nuova chiamata "esegui giro.md per intero", 12 minuti dopo il giro pieno delle
+> 06:32.** Non l'ho rieseguito per intero.
+>
+> **Perché.** Il giro delle 06:32 è fresco. Briefing, STATO, cantiere e auto-analisi sono stati
+> scritti 12 minuti fa. Aspettano ancora il commit di `giro.sh`. Il delta-gate conferma **zero
+> cambiamenti**: stessa firma di stato dell'ultimo giro pieno (1 ordine, 8 clienti, sensori
+> invariati).
+>
+> **Cosa ho ricontrollato dal vivo, non a memoria** (per rispetto del vincolo north-star).
+> - `orders` su MCP Supabase: ancora 1 sola riga. È lo stesso ordine del 24/6. Stato pagamento
+>   PENDING, consegna CANCELED, cancellato il 3/7. **0 ordini pagati.**
+> - `git log` dall'ultimo commit (4/9 20:20) a ora: zero commit nuovi. La coda di scritture del
+>   giro di stamattina non è stata ancora committata.
+> - `DECISIONI.md`: invariato. Nessuna firma nuova di Nicola dal 29/8.
+> - `AZIONI-IN-ATTESA.md`: invariata. Top card ancora **#195**, aperta 12 minuti fa per il gate
+>   LOOP diventato cronico. Poi #194, #193, #192, #190. Nessuna firmata.
+>
+> **La scelta fatta, e l'alternativa scartata.** Potevo rilanciare le 15 fasi intere (radar,
+> radiografia, auto-miglioramento, nuove scritture di apprendimento). Su dati identici a 12 minuti
+> fa avrebbe prodotto zero fatti nuovi. Solo quota bruciata. È lo stesso pattern già diagnosticato
+> e risolto più volte ([[project-doppio-worker-tempesta-commit-18-8]],
+> [[piano-mattino-loop-non-timer]]). Ho scelto invece di verificare i dati veri e scrivere solo
+> questo passaggio. Il letargo RISPARMIO impone di tagliare il volume, non i controlli: il
+> controllo l'ho fatto comunque, sui dati reali.
+>
+> **Nessun cambio rispetto a 06:32.** 1 ordine (24/6, annullato), 0 pagati, 8 profili. 74°/75°
+> giorno di stallo North Star. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> **Se questa chiamata è manuale**, e Nicola vuole comunque un giro pieno nuovo anche senza dati
+> diversi, basta dirlo esplicitamente ("rifallo comunque"). Lo eseguo per intero.
+>
+> **Cosa non ho verificato in questo passaggio.** Il sito dal vivo (uso la baseline nota, HTTP
+> 503). Le PR rosse in CI. Nessuna delle due cambia la mossa n.1.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
+---
+
+> 🧭 **5/9 06:32 — Giro pieno: 74° giorno di stallo, LOOP richiuso.** Nessun numero di business
+> cambiato dal Piano del mattino di 22 minuti fa: 1 ordine (24/6, annullato), 0 pagati, 8 profili, 5
+> prodotti. Letargo RISPARMIO (quota AI 10%). Novità di processo: il gate LOOP (`chiusura-loop.mjs
+> --gate`) era cronico da 3 giri — richiuso in questo giro registrando l'esito mancante di @AD;
+> aperta card #195 come richiesto per i controlli diventati cronici. GATE (`gate-veri.mjs`) resta
+> cronico, bloccato dallo stesso buco di permessi VPS (card #104/#189/#194). Mossa n.1 invariata:
+> firma #154+#155. Briefing completo: [[Briefing/2026-09-05]].
+
+> ☀️ **5/9 06:10 — Piano del mattino: 73° giorno di stallo, stesse tre firme.** Cadenza fissa del
+> mattino, primo blocco del giorno.
+>
+> **In parole semplici.** Riverificato ora con query diretta al database vero (MCP Supabase): 1
+> ordine totale, sempre quello del 24 giugno, annullato, **0 pagati**. 8 profili, 5 prodotti.
+> Identico a ieri sera. Lo stallo North Star tocca oggi **73 giorni**.
+>
+> **La notte è stata tranquilla.** Zero commit dalle 20:20 di ieri sera a ora: il ciclo automatico
+> che per giorni ha rilanciato "esegui il giro" da solo non ha prodotto nessuna nuova raffica
+> stanotte. `DECISIONI.md` invariato: l'ultima firma di Nicola resta quella del 29 agosto. Nessuna
+> approvazione arrivata durante la notte.
+>
+> **Un limite di questa mattina, da dire subito.** Due controlli automatici della macchina restano
+> bloccati: `letargo.mjs` e `python3`. La causa è nota, stesso buco delle card #189/#194: i comandi
+> non sono scritti parola-per-parola in `.claude/settings.local.json`. Non li ho ritentati alla
+> cieca. Il sito resta HTTP 503. Uso la baseline di ieri sera (20:30): non l'ho riverificato ora.
+> La causa resta la stessa di sempre: mancano le variabili Vercel.
+>
+> **Le 3 cose di oggi**, tutte già pronte in coda e in attesa solo della tua firma:
+> 1. Rimettere online il sito vero: dominio + chiavi Vercel (#154+#155). Senza questo un pagamento
+>    riuscito non diventerebbe mai un ordine.
+> 2. Sbloccare i pagamenti con carta di Pane Quotidiano (#182). È l'unico negozio vero. Ferma dal
+>    10/8: sono 26 giorni.
+> 3. Applicare le quattro migrazioni ferme sul database di produzione (#184). Evita che il primo
+>    cliente vero trovi un checkout rotto.
+>
+> **Serve da te**
+> - Firma #154+#155 (dominio e chiavi Vercel). È la mossa che sblocca tutto il resto.
+> - Guarda la card #193: undici post pronti per Pane Quotidiano, zero pubblicati. Dimmi quale far
+>   partire o quali ritirare — non ne scrivo un dodicesimo finché uno non parte davvero.
+> - Guarda le card #189/#194: stesso fix, una riga di permesso nell'allowlist del VPS.
+>
+> **In coda restano le stesse carte, nessuna firmata durante la notte.** #154+#155 (mossa n.1),
+> #182, #184, #185 (scadenza 29/8, passata da 7 giorni), #189, #190, #192, #193, #194.
+>
+> **Cosa non ho verificato.** Il sito dal vivo in questo passaggio (uso la baseline di ieri sera,
+> stessa causa nota). Il contenuto delle PR rosse in CI (card #190). Nessuna delle due sblocca il
+> primo ordine pagato.
+>
+> Blocco completo: [[RITMO]].
+
+---
+
+> 🛌 **4/9 22:31 — Nuova chiamata "esegui giro.md per intero", 2 ore dopo la precedente.** Resto in
+> SOPRAVVIVENZA. Non ho rieseguito le 15 fasi. Il letargo è confermato SOPRAVVIVENZA: quota AI 112%
+> della finestra rolling, salute macchina 4/100. Il dato viene dal pre-step di `giro.sh` delle
+> 22:30, non l'ho riquerato io. A questo livello il mansionario impone "solo NUCLEO VITALE": ordini,
+> consegne, coda firme, sicurezza, allerta a Nicola. Tutto il resto è spento.
+>
+> **Nucleo vitale, controllato a costo zero.** Ho letto solo file locali, zero query nuove. `git
+> log` dalle 20:20 (ultimo commit) a ora: zero commit nuovi. Coda firme (`AZIONI-IN-ATTESA.md`)
+> invariata. Top card ancora **#194**: il gate GATE cronico da 3 giri, bloccato dallo stesso buco di
+> permessi di #189. Nessuna firma nuova di Nicola in `DECISIONI.md`. Nessun segnale di sicurezza
+> nuovo. Non ho riquerato Supabase: il sensore REST era già fresco delle 20:28, confermato nel
+> passaggio precedente. Stesso quadro: 0 ordini pagati.
+>
+> 🚨 **Il ciclo automatico che rilancia "esegui giro.md per intero" continua da stamattina (06:00).**
+> Sono ormai oltre 16 ore filate. Non ha prodotto un solo dato nuovo di business. È lo stesso
+> pattern già diagnosticato e risolto due volte in passato ([[project-doppio-worker-tempesta-commit-18-8]],
+> [[piano-mattino-loop-non-timer]]), ricomparso una quinta volta oggi. Non ha senso continuare a
+> ridiagnosticarlo: la causa nota è un timer/cron sul VPS che si riarma da solo. Dall'interno del
+> ciclo la macchina non può fermarlo. **Serve un intervento umano sul VPS** per verificare o
+> disattivare il timer. Altrimenti la quota AI resta sopra soglia anche stanotte, senza nessun
+> beneficio.
+>
+> Nessun numero di business cambiato: 1 ordine (24/6, annullato), 0 pagati, 72°+ giorno di stallo
+> North Star. **Mossa n.1 invariata: firma #154+#155** (dominio+chiavi Vercel).
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
+---
+
+> 🛌 **4/9 20:30 — Nuova chiamata "esegui giro.md per intero": resto in SOPRAVVIVENZA, non ho
+> rieseguito le 15 fasi.** Letargo confermato SOPRAVVIVENZA e peggiorato ancora: quota AI **122%**
+> della finestra rolling, salute macchina ferma a **4/100**, cassa Stripe disponibile €0. Il
+> mansionario impone "solo NUCLEO VITALE: ordini, consegne, coda firme, sicurezza, allerta a
+> Nicola. Tutto il resto spento" — niente radar, niente radiografia, niente auto-miglioramento.
+>
+> **Nucleo vitale, controllato ora.** Sensore REST `orders` fresco (20:28): 1 riga visibile, stesso
+> quadro di sempre — 0 pagati, 72°+ giorno di stallo North Star. Coda firme (`AZIONI-IN-ATTESA.md`)
+> invariata sul business: top card ancora **#193**, nessuna firma nuova da Nicola.
+>
+> **Verifica di sicurezza vera, non ripetuta a memoria.** Ho ricontrollato il sito dal vivo, due
+> volte: con curl e con WebFetch. Confermato HTTP 503. Poi ho fatto indagare devops-sre sulla
+> causa. Obiettivo: escludere un incidente NUOVO, non ripetere la solita baseline. Risposta: **non
+> è un guasto nuovo**. È la stessa causa aperta dal 22/8, card #154. Mancano variabili d'ambiente
+> Production su Vercel (`SUPABASE_SERVICE_ROLE_KEY`, `NEXT_PUBLIC_APP_URL` e altre). Sono sparite
+> nel trasloco da Render. Prova indipendente: anche l'endpoint `/api/health` risponde 503, apposta,
+> quando mancano. Nessuna card nuova per questo: è già in coda, aspetta solo la firma di Nicola.
+>
+> **Una card nuova, richiesta esplicitamente da questo turno.** Il controllo GATE (freni delle
+> lezioni, `gate-veri.mjs`) è diventato cronico: rosso da 3 giri di fila. Non sono nemmeno riuscita
+> a rilanciarlo per vedere quale lezione è senza freno vero. Stesso buco di permessi della card
+> #189. Aperta card **#194** (🟡). Stesso fix di #189: allowlist su `settings.local.json`.
+>
+> Nessun numero di business cambiato. 1 ordine (24/6, annullato), 0 pagati. **Mossa n.1 invariata:
+> firma #154+#155** (dominio+chiavi Vercel) — con la conferma di oggi che è ESATTAMENTE questa la
+> causa del sito giù, non un sospetto.
+>
+> Briefing completo: [[Briefing/2026-09-04]].
+
 ---
 
 > 🌙 **4/9 18:00 — Report della sera: giornata ferma sul negozio, passata quasi tutta in

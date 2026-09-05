@@ -1693,3 +1693,21 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Prima cosa utile: verificare il ciclo che si è riacceso oggi. Si è fermato da solo? O serve un intervento umano sul server?
 
 **Dettagli tecnici** — Numeri riusati dalla query dal vivo delle 06:35 (Supabase MCP), riconfermati invariati più volte in nucleo vitale durante il giorno, ultima alle 16:30: `orders`=1, `pagati`=0, `profiles`=8, `products`=5, recensioni=0, carrelli abbandonati=3, lead=407. Nessuna nuova query in questo passaggio: letargo SOPRAVVIVENZA, quota AI 184% della finestra rolling alle 16:30, salute macchina 4/100 — il mansionario impone nucleo vitale, e i dati erano già verificati identici tutto il giorno. `AZIONI-IN-ATTESA.md`/`DECISIONI.md` letti: nessuna firma nuova di Nicola (ultima 29/8), coda invariata, top card #193. Coda: #154+#155 (mossa n.1), #182, #184, #185 (scadenza 29/8 passata), #189, #190, #193. Review settimanale di oggi (15:35): trovato `auto-radiografia.js` rotto (AR-893, fix pronto non applicato).
+
+---
+
+## Piano del mattino · 2026-09-05 06:10
+
+**In una riga:** il negozio è fermo da 73 giorni sulle stesse tre firme; oggi punto a sbloccarle, non a inventarne di nuove.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito vero: dominio e chiavi Vercel. Senza questo un pagamento riuscito non diventa mai un ordine.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero, fermo da 26 giorni.
+3. Applica le quattro migrazioni ferme sul database di produzione, prima che il primo cliente vero trovi un checkout rotto.
+
+**Serve da te**
+- Firma dominio e chiavi Vercel. È la mossa che sblocca tutto il resto.
+- Scegli quale degli undici post pronti per Pane Quotidiano far partire, o quali ritirare — zero pubblicati finora.
+- Sblocca il permesso sul VPS che tiene fermi due controlli automatici da giorni (stesso fix per entrambi).
+
+**Dettagli tecnici** (opzionale) — Riverificato ora via Supabase MCP: ordini=1 (24/6, annullato), pagati=0, profili=8, prodotti=5. Zero commit dalle 20:20 di ieri, nessuna firma nuova in DECISIONI.md (ultima 29/8). Coda invariata: #154+#155, #182, #184, #185, #189, #190, #192, #193, #194.

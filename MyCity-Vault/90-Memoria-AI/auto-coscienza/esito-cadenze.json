@@ -2,7 +2,7 @@
   "_cosa_e": "Esito REALE dell ultima uscita di OGNI cadenza (AR-163/164/166/302/313). Prima ogni copione decideva da se se e come dire di essere andato male, e chi taceva risultava sano: monitora.sh usciva 0 anche col push fallito. Qui la cadenza che non esce si vede, perche la sua riga invecchia.",
   "cadenze": {
     "ritmo-mattino": {
-      "quando": "2026-09-04 06:07",
+      "quando": "2026-09-05 06:08",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -12,19 +12,20 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-04 18:45",
+      "quando": "2026-09-04 22:48",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
       "passi_ok": false,
-      "vincoli_attivi": 13,
+      "vincoli_attivi": 14,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CORREZIONE_NICOLA",
         "ESP",
         "GATE",
+        "LOOP",
         "TASSO",
         "TEST",
         "VOLANO",
@@ -36,7 +37,7 @@
       ]
     },
     "monitora": {
-      "quando": "2026-09-04 06:51",
+      "quando": "2026-09-05 06:38",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -76,5 +77,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-04 18:45"
+  "aggiornato": "2026-09-05 06:38"
 }

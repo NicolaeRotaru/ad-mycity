@@ -1,6 +1,36 @@
 {
   "potature": [
     {
+      "quando": "2026-09-05 06:28",
+      "byte_prima": 1117439,
+      "byte_dopo": 1008915,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 92
+      }
+    },
+    {
+      "quando": "2026-09-04 22:30",
+      "byte_prima": 1117328,
+      "byte_dopo": 1008804,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 92
+      }
+    },
+    {
+      "quando": "2026-09-04 20:28",
+      "byte_prima": 1117217,
+      "byte_dopo": 1008693,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 92
+      }
+    },
+    {
       "quando": "2026-09-04 18:28",
       "byte_prima": 1117106,
       "byte_dopo": 1008582,

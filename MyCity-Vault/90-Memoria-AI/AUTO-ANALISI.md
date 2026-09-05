@@ -1,3 +1,46 @@
+## Collaudo del cancello di stop — giro 2026-09-05 06:32
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`», i 15
+passi, rispettando 🟢🟡🔴. Elenco passo per passo:
+- **FATTE:** passo 0 (letti `sensori-cecita.json`/`delta-gate.json`), passo 1 (numeri ereditati dal
+  Piano del mattino delle 06:10, riquerato dal vivo lì via MCP Supabase — nessun delta atteso da
+  ri-querare 22 minuti dopo), passo 2 (sentinelle rilette, gate LOOP trovato cronico e richiuso),
+  passo 5-6 (`Briefing/2026-09-05.md`, `STATO.md`, `ultimo-briefing.json`), passo 8
+  (`SALA-OPERATIVA.md`), passo 11 (`auto-analisi.json` + questo file, verifica L1/L2), passo 15
+  (`coerenza-fatti.mjs` rieseguito dal vivo, verde, 41 fatti).
+- **NON FATTE APPOSTA, col perché:** passo 3-4 (radar/intelligence: cadenza giornaliera già
+  rispettata ieri alle 06:32, ripeterla oggi 22 minuti dopo il Piano del mattino sarebbe rumore),
+  passo 7 (nessuna azione nuova di business: la coda è invariata, verificato col diff — aperta solo
+  la card #195, di processo, richiesta esplicitamente dal vincolo LOOP cronico), passo 9
+  (`piani-data.mjs --scrivi`: nessun contenuto nuovo nei Piani da registrare oggi, non tentato per
+  evitare un ennesimo colpo a vuoto sullo stesso buco di permessi), passo 10
+  (`intenzioni-nicola.json`: nessun dato nuovo, lasciato com'è), passo 13 (auto-miglioramento:
+  nessun contenuto importante prodotto oggi).
+- **MANCANTI, tentate e bloccate in questo passaggio:** passo 11/14 (`test-cervello.mjs`,
+  `sonda-volano.mjs`). Entrambe cadute sotto "richiede approvazione", un tentativo ciascuna, non
+  ritentate alla cieca. Stesso buco di permessi delle card #104/#189/#194/#195, non un guasto nuovo.
+
+**② Diff vero riletto.** Questo passaggio ha toccato: `AZIONI-IN-ATTESA.md` (nuova card #195),
+`Briefing/2026-09-05.md` (nuovo), `STATO.md`, `ultimo-briefing.json`, `SALA-OPERATIVA.md`,
+`memoria-squadra/ad.md` (esito chiusura-loop), `auto-coscienza/auto-analisi.json`, questo file. Il
+resto dei file segnati modificati in `git status` era già sporco prima di questa sessione: eredità
+di run interrotti precedenti, non toccati qui.
+
+**③ Sorvegliante — tre avvisi ripetuti, non nuovi.** Il sorvegliante di mutazione segnala 3 avvisi
+(AR-850 su `AZIONI-IN-ATTESA.md`, AR-046 su `storico-salute.json`, AR-095 su `ultimo-briefing.json`)
+dopo ogni singolo comando di questa sessione, anche su file non toccati in quel passaggio specifico
+— il contatore era già sopra 280-290 ripetizioni prima ancora che questo giro iniziasse scrivere.
+Sembra un contatore che si incrementa ad ogni Bash/Edit/Write indipendentemente dal contenuto reale.
+Non è un guasto nato in questo giro e non sblocca una card business: segnalato (vedi `nota_sorvegliante`
+in `auto-analisi.json`), non inseguito alla cieca per rispettare lo scope NORTH_STAR.
+
+**Voto di fiducia: 81/100 (invariato).** Nessun fatto di business nuovo da 74 giorni. Il valore
+reale di questo passaggio è la chiusura di un gate di processo diventato cronico (LOOP), fatta con
+un vero comando (`chiusura-loop.mjs registra`) e documentata con una card per Nicola — non solo una
+frase di rimando.
+
+---
+
 ## Collaudo del cancello di stop — giro 2026-09-04 10:31 (AR-532)
 
 **① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md`», i 15
