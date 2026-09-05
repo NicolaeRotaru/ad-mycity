@@ -929,12 +929,33 @@ export function passaDallaPortaDellaStoria(root, script, leggi = null) {
  * La copia è per passo e non per corsa: un passo che scrive lascerebbe la casa sporca per il
  * successivo, e la seconda misura sarebbe fatta in una casa che non è più quella dichiarata.
  */
+/**
+ * ⏱️ DOVE MI SONO FERMATO: PRIMA O DOPO AVER COPIATO IL REPO — AR-941.
+ *
+ * Le due strade sono la stessa cosa per chi legge in fretta («il budget e' finito») e due cose
+ * diversissime per chi deve giudicare il codice: fermarsi PRIMA vuol dire che il controllo sta
+ * davanti alla spesa, fermarsi DOPO vuol dire che la parte lenta si e' pagata comunque. La prova
+ * che le distingueva le distingueva col CRONOMETRO — «la copia prende secondi» — e dentro una
+ * copia di corsia la copia sta sotto la soglia: il caso non poteva piu' fallire, e il banco a
+ * corsie l'ha dichiarato `vacua`.
+ *
+ * La frase diventa un fatto con un nome, scritto una volta sola e letto da un posto solo. Il dato
+ * per distinguere c'era gia': era il messaggio, e la prova guardava l'orologio.
+ */
+export const FERMO_PRIMA_DI_COPIARE = "il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato";
+export const FERMO_DOPO_LA_COPIA = "costruire la casa spoglia ha consumato tutto il budget: non ho rilanciato niente dentro";
+
+/** Vero solo se ci si e' fermati PRIMA della copia. Un `include("budget")` direbbe si' a entrambe. */
+export function fermatoPrimaDiCopiare(motivo = "") {
+  return String(motivo).startsWith("il mio budget era finito prima di costruire la casa spoglia");
+}
+
 export function misuraIlPasso(root, voce, spec = "HEAD", scadenza = Date.now() + TEMPO_MASSIMO) {
   const { passo, stato } = voce;
   const fermo = (motivo) => ({ passo: passo.nome, script: passo.script, stato, esito: "non-misurato", motivo });
   // AR-932 — la copia del repo e la parte lenta, e prima non la contava nessuno: se il budget e
   // gia finito qui, non la comincio nemmeno.
-  if (!quantoPosso(scadenza)) return fermo("il mio budget era finito prima di costruire la casa spoglia: questo passo non l'ho rilanciato");
+  if (!quantoPosso(scadenza)) return fermo(FERMO_PRIMA_DI_COPIARE);
   const base = mkdtempSync(join(tmpdir(), "due-case-"));
   const casa = join(base, "casa-spoglia");
   const home = join(base, "home");
@@ -946,7 +967,7 @@ export function misuraIlPasso(root, voce, spec = "HEAD", scadenza = Date.now() +
 
     const env = ambienteSpoglio(process.env, home);
     const perLaPrima = quantoPosso(scadenza);
-    if (!perLaPrima) return fermo("costruire la casa spoglia ha consumato tutto il budget: non ho rilanciato niente dentro");
+    if (!perLaPrima) return fermo(FERMO_DOPO_LA_COPIA);
     const intatto = esegui(casa, passo, env, perLaPrima);
     if (intatto.ucciso) return fermo(`nella casa spoglia non ha finito in ${perLaPrima} ms: ucciso dall'orologio non è né verde né rosso`);
 

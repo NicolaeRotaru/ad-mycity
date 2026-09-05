@@ -24,7 +24,7 @@ import { readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { misuraIlPasso, quantoPosso } from "../due-case.mjs";
+import { misuraIlPasso, quantoPosso, FERMO_PRIMA_DI_COPIARE, FERMO_DOPO_LA_COPIA, fermatoPrimaDiCopiare } from "../due-case.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 //
@@ -74,6 +74,23 @@ test("AR-932 · IL CASO CHE HA ROTTO: due corse dello stesso passo non possono s
   );
 });
 
+test("AR-941 · le due strade si distinguono dalla FRASE, non dal cronometro", () => {
+  // IL CASO CHE HA ROTTO. La prova qui sotto deduceva quale ramo avesse girato dalla DURATA — «la
+  // copia del repo prende secondi, quindi sotto 2000 ms non ha copiato». Dentro una copia di corsia
+  // la copia sta sotto i due secondi: la soglia non distingueva piu' niente e il caso non poteva
+  // fallire. Il banco a corsie l'ha dichiarato `vacua` alla sua prima corsa vera.
+  //
+  // Il dato per distinguere c'era gia' ed era il MESSAGGIO. Qui si pretende che sappia distinguere:
+  // un `includes("budget")` direbbe si' a tutt'e due, ed e' esattamente la mutazione di AR-941.
+  assert.equal(fermatoPrimaDiCopiare(FERMO_PRIMA_DI_COPIARE), true, "chi si ferma prima della copia deve essere riconosciuto");
+  assert.equal(
+    fermatoPrimaDiCopiare(FERMO_DOPO_LA_COPIA),
+    false,
+    "e chi si ferma DOPO non deve passare per uno che si e' fermato prima: e' la distinzione che il cronometro non sapeva fare",
+  );
+  assert.notEqual(FERMO_PRIMA_DI_COPIARE, FERMO_DOPO_LA_COPIA, "due strade, due frasi: se diventassero uguali non ci sarebbe piu' niente da distinguere");
+});
+
 test("AR-932 · SUL CODICE VERO: con la scadenza gia passata misuraIlPasso non copia il repo, dichiara e basta", () => {
   // La meta che nessuna funzione pura puo provare: che il controllo stia DAVANTI alla copia.
   // Se ci fosse dietro, questo caso ci metterebbe i secondi della copia invece dei millisecondi.
@@ -83,10 +100,26 @@ test("AR-932 · SUL CODICE VERO: con la scadenza gia passata misuraIlPasso non c
   const ms = Number(process.hrtime.bigint() - prima) / 1e6;
   assert.equal(r.esito, "non-misurato", "budget finito vuol dire ⚪ dichiarato, mai un verde");
   assert.match(r.motivo, /budget/, `il motivo deve dire che e stato il budget, non un guasto: «${r.motivo}»`);
-  // Il tetto e ASSOLUTO e larghissimo: la copia del repo di questa casa prende secondi, non
-  // millisecondi, quindi 2000 ms distinguono «non ha copiato» da «ha copiato» su qualunque
-  // macchina, senza diventare la prova fragile di AR-787 che misura la velocita del computer.
-  assert.ok(ms < 2000, `ci ha messo ${Math.round(ms)} ms: sta copiando il repo prima di guardare l orologio`);
+  // ⟲ RISCRITTO IL 4/9 (AR-941), e il perche' e' che la versione di prima si fidava dell OROLOGIO.
+  // Diceva: «la copia del repo prende secondi, quindi 2000 ms distinguono chi ha copiato da chi
+  // no, su qualunque macchina» — e il commento accanto si vantava di NON essere la prova fragile
+  // di AR-787 che misura la velocita del computer. Era esattamente quella. Dentro una copia di
+  // corsia la casa spoglia si costruisce in meno di due secondi, quindi togliendo il controllo la
+  // prova restava verde: il banco a corsie l'ha dichiarata `vacua` alla sua prima corsa vera.
+  //
+  // La cura non ha bisogno di cronometri, perche' le due strade dicono gia' FRASI DIVERSE: chi si
+  // ferma PRIMA dice «prima di costruire la casa spoglia», chi si ferma DOPO dice «costruire la
+  // casa spoglia ha consumato tutto il budget». Il messaggio sa gia' quale ramo ha girato — bastava
+  // chiederglielo invece di dedurlo dai millisecondi.
+  assert.match(
+    r.motivo,
+    /prima di costruire la casa spoglia/,
+    `si e' fermato DOPO aver copiato il repo: il controllo sta dietro la spesa invece che davanti. Motivo dato: «${r.motivo}»`,
+  );
+  // Il cronometro resta, ma come rete larghissima e dichiarata: non distingue i due rami (su una
+  // macchina veloce la copia sta sotto il secondo), serve solo a far cadere il caso se un giorno
+  // questa strada diventasse costosa per un motivo che oggi non esiste.
+  assert.ok(ms < 30_000, `ci ha messo ${Math.round(ms)} ms: qualcosa di lento e' entrato in una strada che dovrebbe essere immediata`);
 });
 
 

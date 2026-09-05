@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-04 18:50",
+  "aggiornato": "2026-09-04 19:15",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20101,6 +20101,29 @@
       "chiuso_il": "2026-09-04 18:50",
       "chiuso_come": "riparato",
       "malattia_perche": "Dentro una corsia l'osservatore non POTEVA diventare rosso: il figlio che doveva sporcare l'albero non ci arrivava mai, quindi la condizione che la prova cerca non poteva verificarsi. Non e' una tautologia scritta a mano come `assert.ok(true)` — e' la stessa cosa prodotta dall'ambiente, ed e' la forma piu' difficile da vedere perche' il codice della prova sembra giusto."
+    },
+    {
+      "id": "AR-941",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-04 19:15",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-938",
+      "malattia": "prova-che-non-puo-fallire",
+      "malattia_perche": "Su una macchina veloce — e dentro una copia di corsia lo e' — la condizione che la prova cercava non poteva verificarsi: la copia della casa spoglia stava sotto la soglia di due secondi, quindi il caso restava verde qualunque cosa facesse il codice. La prova non poteva fallire, e il codice sembrava giusto.",
+      "titolo": "La prova di AR-932 distingueva i due rami col CRONOMETRO, e nella corsia la copia era piu' veloce della soglia",
+      "sintomo": "Seconda difesa dichiarata `vacua` dal banco a corsie, subito dopo AR-940: la prova che dovrebbe accorgersi se il controllo del budget finisce DIETRO la copia del repo invece che davanti. Il caso misurava i millisecondi e pretendeva meno di 2000: togliendo il controllo restava comunque sotto, perche' la casa spoglia si costruisce in meno di due secondi.",
+      "causa_radice": "Il caso deduceva QUALE ramo aveva girato dalla durata, e la durata dipende dalla macchina. Il commento accanto si vantava di non essere «la prova fragile di AR-787 che misura la velocita del computer»: era esattamente quella. Il dato giusto era li' a un centimetro — i due rami restituiscono due FRASI diverse («prima di costruire la casa spoglia» contro «costruire la casa spoglia ha consumato tutto il budget») — e la prova guardava altrove.",
+      "fix_proposto": "🟡 FATTO, e la cura non e' solo nel caso di prova: le due frasi diventano due FATTI CON UN NOME nel codice (FERMO_PRIMA_DI_COPIARE e FERMO_DOPO_LA_COPIA), scritte una volta sola, piu' un predicato puro `fermatoPrimaDiCopiare()` che le distingue. Il caso interroga quello, invece di dedurre dal cronometro. Il cronometro resta come rete larghissima e DICHIARATA (30 s): non distingue piu' niente, cade solo se un giorno quella strada diventasse costosa.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
+        "nota": "Il caso «AR-941» pretende che il predicato dica SI' alla frase di chi si ferma prima della copia e NO a quella di chi si ferma dopo. La mutazione lo riporta a `includes(\"budget\")` — vero per entrambe — e il caso diventa rosso: misurato. Le due mutazioni di AR-932, che prima della cura la seconda usciva `vacua`, adesso rendono rossa la loro prova."
+      },
+      "trovato_da": "il banco a corsie, alla seconda passata: e' la seconda difesa che non difendeva trovata da quando misura 165 mutazioni invece di 27",
+      "chiuso_il": "2026-09-04 19:15",
+      "chiuso_come": "riparato"
     }
   ],
   "meta": {
