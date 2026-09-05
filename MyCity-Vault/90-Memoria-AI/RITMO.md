@@ -1728,3 +1728,28 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Le stesse tre firme di stamattina: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), le quattro migrazioni (`#184`).
 
 **Dettagli tecnici** — Supabase MCP ora: `orders`=1 (invariato), `profiles`=9 (+1 da stamattina), `products`=9 (+4). Il nuovo: seller_id `44444444-4444-4444-4444-aaaaaaaa0001`, store_name "Panificio Demo", `approval_status`=approved, creato 2026-09-05 06:40:48. Zero righe in `order_items` collegate ai suoi prodotti. `audit_logs` vuoto per l'intervallo 06:00–12:12: la scrittura non è passata dall'app. Cercato nel repo (incluso il lavoro non committato su funnel/marketplace-db): nessuna traccia. AZIONI-IN-ATTESA/DECISIONI: nessuna firma nuova (ultima 29/8), coda invariata più la nuova `#196`.
+
+---
+
+## Report della sera · 2026-09-05 18:03
+
+**Com'è andata oggi**
+- Il sito resta fermo, ancora 503. Nessun ordine è diventato un pagamento. È il 73° giorno di stallo sulle stesse tre firme di stamattina.
+- È spuntato un negozio finto nel database vero: "Panificio Demo". Ha 4 prodotti mai passati dal sito. Nessun cliente coinvolto. La sua origine resta ignota.
+- Ho trovato codice pronto, o quasi, fermo da luglio. Non è mai entrato in una richiesta di unione. È un fix sui carrelli abbandonati. Era sul disco da due mesi. Nessuno lo sapeva.
+
+**I numeri**
+- Negozi veri: 1, Pane Quotidiano, invariato. Ordini pagati: 0. Profili: 9. Il +1 di oggi è il negozio finto, non un cliente vero.
+
+**Da approvare**
+- "Panificio Demo": dimmi se lo riconosci. Poi dimmi se lo cancello o lo lascio.
+- Il codice del funnel dimenticato: dimmi se vuoi che lo guardi, per capire se è da finire o da buttare.
+- Dominio e chiavi Vercel: firmali. È ancora la mossa che sblocca tutto il resto.
+
+**Lezione di oggi**
+- I salvataggi automatici proteggono solo la memoria. Non toccano mai il codice del sito. Per questo un lavoro pronto può restare invisibile per mesi.
+
+**Domani**
+- La prima cosa utile è la tua risposta su "Panificio Demo" e sul codice ritrovato. Senza quella, restano ferme entrambe.
+
+**Dettagli tecnici** — Supabase MCP ore 18:03: `orders`=1 (24/6, annullato), `profiles`=9 (5 buyer/2 seller/1 rider/1 admin), `products`=9 (5 Pane Quotidiano + 4 Panificio Demo), carrelli abbandonati=3, lead=407. Sito: HTTP 503 via WebFetch diretto. DECISIONI.md invariato dal 29/8 00:40. Coda invariata: #154+#155 (mossa n.1), #182, #184, #185, #189/#194/#195 (allowlist Bash), #196 (negozio finto), #197 (codice funnel senza PR).

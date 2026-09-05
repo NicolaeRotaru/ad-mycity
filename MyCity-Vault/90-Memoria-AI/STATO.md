@@ -1,7 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 16:35
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-05 18:03
+fonte: AD digitale (Report della sera, cervello/ritmo.md)
+---
+
+> 🌙 **5/9 18:03 — Report della sera.** Ho riverificato dal vivo su Supabase. Query dirette, non a
+> memoria. 9 profili: 5 buyer, 2 seller, 1 rider, 1 admin. 9 prodotti. 1 ordine. **0 pagati.** 3
+> carrelli abbandonati. 407 lead fermi. Sito pubblico: **HTTP 503**. Riconfermato ora con una
+> chiamata diretta.
+>
+> **La giornata in una riga.** Zero movimento vero di business. Un numero sembra cambiato da ieri
+> sera. Profili 8→9, prodotti 5→9. Non è crescita. È lo stesso "Panificio Demo" scoperto stamattina
+> alle 06:40 (card #196). È un negozio con 4 prodotti finti. È scritto nel database saltando il
+> sito. La sua origine resta ignota. Pane Quotidiano resta l'unico negozio reale. Resta a 5
+> prodotti, invariato. Nessuna firma nuova di Nicola in `DECISIONI.md` da 7 giorni. L'ultima resta
+> il 29/8 alle 00:40.
+>
+> **Cosa ha riparato l'AD oggi.** Ho trovato codice del sito mai entrato in una richiesta di unione.
+> È fermo da inizio luglio. È il fix del funnel carrelli abbandonati più un nuovo script,
+> `spazzata-frase.mjs`. L'ho segnalato nella card #197. Ho fondato "Panificio Demo" nel registro di
+> realtà, card #196, stato `da_verificare`. Ho riparato un buco di processo. L'auto-analisi era
+> ferma dalle 10:46. Nel mezzo c'erano stati 3 giri pieni.
+>
+> **La lezione del giorno.** I salvataggi automatici di recupero proteggono solo la memoria.
+> Coprono `MyCity-Vault`, `consegne`, `creativi`. Non toccano mai il codice in `cervello/` o
+> `pannello/`. Per questo un fix pronto da due mesi è rimasto invisibile a tutti. Nessuna card.
+> Nessuna riga in Sala Operativa. L'ho trovato solo con un controllo diretto del disco.
+>
+> **Mossa n.1 resta invariata: firma #154+#155.** Sono dominio e chiavi Vercel. Senza quella firma
+> il sito resta giù. E nessun ordine può diventare un pagamento vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 16:35 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 14:31/14:47.**
@@ -1008,21 +1038,21 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Base di partenza, non una misura di adesso.** I numeri sotto vengono dall'ultima lettura vera
-del database, 3 settembre alle 08:36, query diretta a Supabase via MCP. Quando i sensori sono
-ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
+del database, 5 settembre alle 18:03 (Report della sera), query diretta a Supabase via MCP. Quando
+i sensori sono ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
 
-| Numero | Oggi (3/9 08:36) | Δ vs 2/9 18:00 | "Riuscito" | Note |
+| Numero | Oggi (5/9 18:03) | Δ vs 4/9 18:00 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | invariato, non ricontrollato lato profilo `role='seller'` in questo passaggio |
-| Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe. Base: 24/8, `charges`/`payouts`/`details_submitted` tutti `false`. Card #182 |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 3/9 08:36 |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 3/9 08:36 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **71 giorni** dal 24/6 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 5/9 18:03. "Panificio Demo" (card #196) NON contato: origine non confermata |
+| Negozi con payout attivo | **0 reali** | = | 1 | confermato ora: `stripe_charges_enabled` falso su entrambi i seller. Card #182 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 5/9 18:03 (Pane Quotidiano). Il totale tabella `products` è **9**: i 4 in più sono del "Panificio Demo" non confermato |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 5/9 18:03 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **73 giorni** dal 24/6 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | non eseguibile finché Stripe PQ resta spento |
-| Profili totali | **8** (5 clienti, 1 negozio, 1 rider, 1 admin) | = | crescita | confermato query diretta 3/9 08:36, 0 nuovi in 7gg |
+| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | ▲ da 8 | crescita | il +1 è "Panificio Demo" (card #196, comparso 06:40, origine ignota), non un cliente vero |
 | Lead negozi nel DB | **407** (fermi dal 24/5) | = | lavorarli | invariato, fuori dal perimetro North-Star di questo giro |
-| Sito pubblico | **HTTP 503** | = | 200 | riverificato dal vivo il 3/9 22:35 (`WebFetch` diretto su mycity-marketplace.com). Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Sito pubblico | **HTTP 503** | = | 200 | riverificato dal vivo il 5/9 18:03 (`WebFetch` diretto su mycity-marketplace.com). Causa nota: dominio e chiavi Vercel (#155, #154) |
 
 ---
 
