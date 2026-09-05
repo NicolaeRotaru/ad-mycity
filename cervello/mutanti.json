@@ -9077,7 +9077,7 @@
    "cerca": "  if (falliti) return { ok: false, perche: `il figlio e' andato in rosso (${falliti} casi): non ha fatto il lavoro che dovevo osservare, quindi «l'albero e' pulito» non dimostra niente` };",
    "sostituisci": "  if (false) return { ok: false, perche: \"\" };",
    "test": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
-   "lezione": "L-2026-0904-04",
+   "lezione": "L-2026-0904-06",
    "perche_conta": "E' la riga che distingue «ho guardato e non c era niente» da «non ho guardato». Togliendola l osservatore torna a firmare come pulito un albero che non ha mai visto sporcarsi, ed e' esattamente il modo in cui la difesa di AR-919 e' rimasta verde per un giorno intero."
   },
   {
@@ -9087,7 +9087,7 @@
    "cerca": "  return String(motivo).startsWith(\"il mio budget era finito prima di costruire la casa spoglia\");",
    "sostituisci": "  return String(motivo).includes(\"budget\");",
    "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
-   "lezione": "L-2026-0904-04",
+   "lezione": "L-2026-0904-06",
    "perche_conta": "E' la forma esatta del difetto, non una rottura qualunque: `includes(\"budget\")` e' vero per tutte e due le frasi, quindi il predicato smette di distinguere fermarsi PRIMA della copia da fermarsi DOPO — che e' il difetto che il cronometro non vedeva. Il caso che interroga le due frasi diventa rosso."
   }
  ],

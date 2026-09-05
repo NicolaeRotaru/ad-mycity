@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-09-04 18:02",
+  "aggiornato": "2026-09-05 08:51",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -2309,6 +2309,35 @@
         "cervello/cancello-lotto.mjs": "16be0bc27b48",
         "cervello/chiusura-loop.mjs": "65dd8beb6440",
         "cervello/due-case.mjs": "636c4a93a494",
+        "cervello/esecuzione-prova.mjs": "89e0d6447233",
+        "cervello/freno-scattato.mjs": "32b11687fab1",
+        "cervello/mappa-copertura.mjs": "563535bd038a",
+        "cervello/mutazioni-senza-esecutore.mjs": "9e1a3eecc266",
+        "cervello/non-vacuita.mjs": "2810150eac3a",
+        "cervello/onesta-check.mjs": "fa9184fd7581",
+        "cervello/posto-o-contenuto.mjs": "dde8c2b51088",
+        "cervello/puntatori-scollegati.mjs": "b8145a150c3a",
+        "cervello/ricuci-corsie.mjs": "73c27658bb52",
+        "cervello/round6-applica.mjs": "312087a90f1a",
+        "cervello/test-cervello.mjs": "91e9eb7886e4",
+        "cervello/valida-contratti.mjs": "b5e2810d2112"
+      }
+    },
+    {
+      "quando": "2026-09-05 08:51",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/banco-a-corsie.mjs": "13602808ef82",
+        "cervello/cancello-lotto.mjs": "16be0bc27b48",
+        "cervello/chiusura-loop.mjs": "65dd8beb6440",
+        "cervello/due-case.mjs": "eb9db3d0d086",
         "cervello/esecuzione-prova.mjs": "89e0d6447233",
         "cervello/freno-scattato.mjs": "32b11687fab1",
         "cervello/mappa-copertura.mjs": "563535bd038a",

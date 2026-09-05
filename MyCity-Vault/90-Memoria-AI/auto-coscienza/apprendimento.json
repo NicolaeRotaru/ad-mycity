@@ -12266,9 +12266,15 @@
    "fonte": "cantiere",
    "caso_studio_nicola": false,
    "nato": "2026-09-04 12:05",
-   "ultima_conferma": "2026-09-04 12:05",
+   "ultima_conferma": "2026-09-04 19:40",
    "stato": "viva",
-   "usi": [],
+   "usi": [
+    {
+     "quando": "2026-09-04 19:40",
+     "dove": "AR-940/AR-941, stesso giorno",
+     "cosa": "Ho scritto due lezioni nuove in apprendimento.json senza rilanciare porta-delle-lezioni.test.mjs, la prova che POSSIEDE quel file: due lezioni diverse hanno preso lo stesso numero e il rosso l'ha trovato il runner, non io. E' esattamente la lezione qui sopra applicata a un altro registro — la lista intera, non il sottoinsieme che sembra collegato."
+    }
+   ],
    "gate": "cervello/guardia-viva-check.mjs",
    "data": "2026-09-04"
   },
@@ -12322,7 +12328,7 @@
    "data": "2026-09-04"
   },
   {
-   "id": "L-2026-0904-04",
+   "id": "L-2026-0904-06",
    "testo": "**AR-940.** Un osservatore che dice «pulito» deve prima poter dire «ho guardato MENTRE succedeva». Un figlio andato in rosso non ha fatto il lavoro che dovevo osservare: la sua pulizia non dimostra niente, e' ⚪ e non verde. E' la terza volta che scrivo troppo debole questa stessa domanda — cronometro, poi «almeno un caso passato», poi finalmente «in fondo, verde». Le prime due le ho trovate io; la terza l'ha trovata il banco a corsie appena ha smesso di misurare il 16% delle difese. **Ogni volta che una prova conclude qualcosa dall'ASSENZA di un segnale, la domanda vera non e' «il segnale c'era?» ma «il segnale avrebbe potuto esserci?».**",
    "tag": [
     "macchina",
