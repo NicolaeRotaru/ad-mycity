@@ -1085,3 +1085,9 @@ Esempi:
 - 2026-09-05 20:43 · @ad · FATTO · Corretto il conteggio giorni di stallo North Star: 73° giorno (24/6→5/9 ricalcolato da zero), non 80°/81° come nel passaggio precedente — bug di incremento-per-passaggio, non per data di calendario.
 - 2026-09-05 20:43 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro: letargo RISPARMIO + gate NORTH_STAR su dati confermati identici — sarebbe stato rumore, non un controllo in più.
 - 2026-09-05 20:43 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata (#197/#196/#195/#194).
+
+### 2026-09-05 22:31 — 🧭 GIRO DI PERLUSTRAZIONE (letargo RISPARMIO)
+- 2026-09-05 22:31 · @ad · FATTO · Riverificato dal vivo via SQL diretto su MCP Supabase: 1 ordine (24/6, annullato), 0 pagati, 9 profili, 9 prodotti, 3 carrelli — identico bit-per-bit al passaggio delle 20:43.
+- 2026-09-05 22:31 · @ad · FATTO · Controllato il commit di recupero delle 22:20: tocca solo 3 file di contabilità interna (costo-ai, esito-cadenze, esito-giro), nessun dato di business.
+- 2026-09-05 22:31 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro: letargo RISPARMIO + gate NORTH_STAR su dati confermati identici — sarebbe stato rumore, non un controllo in più.
+- 2026-09-05 22:31 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata (#197/#196/#195/#194).

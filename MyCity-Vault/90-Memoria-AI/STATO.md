@@ -1,7 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 20:43
+aggiornato: 2026-09-05 22:31
 fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+---
+
+> 🧭 **5/9 22:31 — Nuova chiamata "esegui giro.md per intero".** Sono passate circa 2 ore dal
+> passaggio delle 20:43. Letargo RISPARMIO: quota AI al 52% della finestra rolling, salute macchina
+> a 4. North Star ancora fermo. Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
+>
+> **I numeri, riverificati ora dal vivo con SQL diretto su MCP Supabase, non a memoria.** 1 ordine
+> totale: id `58094956…`, del 24/6, PENDING/CANCELED, €19,05, seller Pane Quotidiano. **0 pagati.**
+> 9 profili: 5 buyer, 2 seller, 1 rider, 1 admin. I due seller sono Pane Quotidiano e "Panificio
+> Demo". 9 prodotti. 3 carrelli abbandonati. L'ultimo profilo creato resta quello delle 06:40 di
+> stamattina: è "Panificio Demo", la stessa card #196. Non è un cliente nuovo. Tutto identico
+> bit-per-bit al passaggio delle 20:43. **73° giorno di stallo North Star** (24/6→5/9).
+>
+> **Cosa è successo tra le 20:43 e ora.** `git log` mostra due commit. Il primo, delle 21:00, ha
+> pubblicato il passaggio delle 20:43. Il secondo, delle 22:20, è un recupero di scritture pendenti.
+> Ho controllato il suo contenuto: tocca solo tre file di contabilità interna della macchina
+> (`costo-ai.json`, `esito-cadenze.json`, `esito-giro.json`). Nessun dato di business dentro.
+> Nessuna decisione nuova. `DECISIONI.md` resta invariato dal 29/8. `AZIONI-IN-ATTESA.md` è
+> invariata. Le top card restano le stesse: **#197** (il codice del funnel carrelli mai entrato in
+> una PR, da luglio), **#196** ("Panificio Demo", origine ignota), **#195** e **#194** (due gate
+> cronici, stesso buco di permessi VPS).
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Due regole lo impediscono, entrambe verificate
+> ora. Il letargo RISPARMIO impone di tagliare il volume superfluo. Il gate NORTH_STAR ammette solo
+> lavoro macchina che sblocchi direttamente un ordine pagato. I dati sono identici a 2 ore fa:
+> rifare radar, radiografia e auto-miglioramento sarebbe stato solo rumore. Per lo stesso motivo non
+> ho riscritto `auto-analisi.json` (data interna 20:35) né `ultimo-briefing.json` (18:35): restano
+> quelli dell'ultimo passaggio pieno, perché non c'è nessun contenuto nuovo da mettere dentro.
+> Riscriverli ora, su fatti identici, avrebbe fatto sembrare "nuova analisi" quella che è solo una
+> riconferma.
+>
+> **Lavoro non mio, ancora nel working tree, non toccato.** I ~39 file del fix funnel carrelli
+> (card #197) e il codice non committato restano esattamente dove erano: in attesa della risposta di
+> Nicola su quella card, non della mia iniziativa.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la firma di Nicola sulle card #154 e #155: dominio e
+> chiavi Vercel. Senza quella firma il sito resta giù, e nessun ordine può ancora diventare un
+> incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-05]].
+
 ---
 
 > 🧭 **5/9 20:43 — Nuova chiamata "esegui giro.md per intero", 8 minuti dopo il passaggio delle
