@@ -1,8 +1,40 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 10:30
+aggiornato: 2026-09-06 11:09
 fonte: AD digitale (giro.md, chiamata "esegui giro.md per intero")
 ---
+
+> 🧭 **6/9 11:09 — Terza chiamata "esegui giro.md per intero" nella stessa mattina.** Sono passati
+> ~40 minuti dal giro delle 10:30.
+>
+> **I numeri, riverificati dal vivo.** Ho lanciato una query SQL diretta su Supabase, non a memoria.
+> Risultato: 1 ordine, 9 profili, 9 prodotti. L'ultimo ordine resta quello del 2026-06-24. L'ultimo
+> profilo resta quello del 2026-09-05 alle 06:40. Sono identici, bit per bit, ai due passaggi di
+> questa mattina (08:59 e 10:30).
+>
+> **Cosa NON è cambiato.** Nessun commit nuovo di business nel working tree: ci sono solo i file di
+> contabilità interna della macchina, già modificati dai giri precedenti e non ancora committati.
+> `DECISIONI.md` è invariato: l'ultima firma di Nicola resta quella del 29/8. Le card in cima alla
+> coda restano le stesse: #154/#155 (dominio+Vercel), #182 (pagamenti carta Pane Quotidiano), #196
+> (Panificio Demo), #197 (funnel/carrelli), #198 (gate CADENZE cronico, aperta nel passaggio delle
+> 10:30). Siamo al **75° giorno di stallo North Star** (dal 24/6 a oggi, contando le ore piene).
+>
+> **Perché non ho rilanciato le 15 fasi pesanti.** Vale la stessa ragione dei due passaggi
+> precedenti di oggi. Il letargo è in RISPARMIO: taglia il volume, non i controlli. Il gate NORTH
+> STAR permette solo lavoro che avvicina il primo ordine pagato. Il delta-gate segna zero. Rifare da
+> capo radar, analista e auto-miglioramento su numeri identici a 40 minuti fa sarebbe lavoro sulla
+> macchina senza un aggancio a una card business. È proprio questo che il gate NORTH STAR vieta ora.
+> Ho anche ritentato una sola volta `test-cervello.mjs`, per controllare se il buco di permessi
+> fosse ancora lì: è confermato ancora bloccato, stesso problema noto da settimane (card
+> #104/#189/#194/#195/#198). Non l'ho ritentato una seconda volta: sarebbe stato uno spreco su un
+> esito già noto.
+>
+> **Mossa numero uno, invariata.** Serve la tua firma sulle card #154 e #155 (dominio + chiavi
+> Vercel): senza quella il sito resta giù e nessun ordine può diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
+## Passaggi precedenti
 
 > 🧭 **6/9 10:30 — Nuova chiamata "esegui giro.md per intero", ~1h30 dopo il giro delle 08:59.**
 > Zero delta reale. Non ho rilanciato le 15 fasi pesanti.

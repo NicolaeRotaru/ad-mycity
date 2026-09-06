@@ -1,25 +1,25 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-06 10:30",
+  "data": "2026-09-06 11:09",
   "voto_fiducia": 76,
-  "sintesi_giro_corrente": "Nuova chiamata esplicita 'leggi ed esegui cervello/giro.md per intero, non saltare passi', ~1h30 dopo il giro delle 08:59. Numeri riverificati dal vivo con SQL diretto su MCP Supabase (non a memoria, non dal sensore ereditato): 1 ordine (24/6, annullato, €19,05, seller Pane Quotidiano), 0 pagati, 9 profili, 9 prodotti, 3 carrelli abbandonati, ultimo profilo creato ancora il 5/9 06:40:48 (Panificio Demo). Identico bit-per-bit al giro delle 08:59. `git log`: un solo commit dalle 08:59 a ora ('recupero: scritture pendenti', 10:20), solo contabilità interna della macchina, nessun dato di business. `DECISIONI.md`: nessuna firma nuova di Nicola dal 29/8. La riparazione vera di questo passaggio: il vincolo HARD `freschezza-cadenze.mjs` segnalava che il giro delle 08:59 era uscito saltando l'auto-analisi/apprendimento. Verificato con `git log` mirato: l'ultimo commit a toccare `auto-analisi.json` è proprio quello delle 08:59 (961f9fa09), ma il campo `data` interno era rimasto fermo a '08:34' — lo stesso identico pattern (commit tocca il file, non ne rigenera il contenuto) già trovato e corretto almeno 6 volte negli ultimi due giorni (16:35, 18:35, 20:35 del 5/9; 07:08→08:34, 08:34→08:59 del 6/9). Per la prima volta il vincolo AR-687 lo segnala esplicitamente come 'appena diventato cronico' (CADENZE, 3 giri di fila): aperta la card #198 come richiesto, invece dell'ennesima correzione silenziosa senza traccia.",
-  "sintesi": "Business fermo dal 24/6 (74° giorno di stallo North Star). Nessun numero diverso dal giro delle 08:59, riverificato dal vivo su Supabase. Il lavoro di questo passaggio è la riparazione del debito di processo (auto-analisi con data interna non rigenerata) più l'apertura della card di sistema per il vincolo CADENZE, appena diventato cronico. RISPARMIO + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti rilanciata su dati confermati identici.",
-  "trend_fiducia": "↓ 77→76: lo stesso gap di processo (data interna di auto-analisi.json non rigenerata da un commit che pure tocca il file) si è ripresentato per la 6ª+ volta in due giorni, e questa volta è ufficialmente 'cronico' secondo il proprio contatore d'età (AR-687). Non un errore di business, ma un debito che continua a non avere un freno strutturale — l'onestà è scendere ancora, non fermarsi.",
+  "sintesi_giro_corrente": "Terza chiamata esplicita 'leggi ed esegui cervello/giro.md per intero, non saltare passi' della stessa mattina, ~40 minuti dopo il passaggio delle 10:30. Numeri riverificati dal vivo con SQL diretto su MCP Supabase (query mirata su orders/profiles/products, non a memoria, non dal sensore ereditato): 1 ordine (24/6, annullato, €19,05, seller Pane Quotidiano), 9 profili, 9 prodotti, ultimo profilo ancora il 5/9 06:40:48 (Panificio Demo), ultimo ordine ancora il 24/6. Identico bit-per-bit ai passaggi delle 08:59 e 10:30. `git status` mostra solo file di contabilità interna già modificati dai giri precedenti, nessun commit nuovo di business. `DECISIONI.md`: nessuna firma nuova di Nicola dal 29/8. Nessuna riparazione nuova da fare: il debito su auto-analisi.json era già stato chiuso nel passaggio delle 10:30, la card #198 (gate CADENZE cronico) è già in coda. Confermato di nuovo che `test-cervello.mjs` resta bloccato dall'allowlist (stesso buco noto, non ritentato alla cieca).",
+  "sintesi": "Business fermo dal 24/6 (75° giorno di stallo North Star). Nessun numero diverso dai due passaggi precedenti di oggi, riconfermato dal vivo su Supabase. Nessun lavoro di riparazione nuovo: quanto emerso nei passaggi precedenti (debito auto-analisi.json, card #198) resta valido e già tracciato. RISPARMIO + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti rilanciata su dati confermati identici per la terza volta in una mattina.",
+  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto trovato in questo passaggio, nessuna nuova riparazione. Il debito noto (auto-analisi.json, gate CADENZE) resta quello descritto nel passaggio delle 10:30, con la card #198 già aperta.",
   "entita_verificate": [
     {
       "nome": "Ordine 58094956… (24/6, annullato, €19,05, seller Pane Quotidiano)",
       "stato": "confermato, query diretta MCP",
-      "fonte": "mcp__supabase-marketplace__execute_sql, 2026-09-06 ~10:28"
+      "fonte": "mcp__supabase-marketplace__execute_sql, 2026-09-06 ~11:09 (riconfermato, terza volta identico)"
     },
     {
       "nome": "0 ordini pagati, invariato dal 24/6",
       "stato": "confermato, query diretta MCP",
-      "fonte": "mcp__supabase-marketplace__execute_sql, 2026-09-06 ~10:28"
+      "fonte": "mcp__supabase-marketplace__execute_sql, 2026-09-06 ~11:09 (riconfermato, terza volta identico)"
     },
     {
       "nome": "9 profili, 9 prodotti, 3 carrelli abbandonati — identico al giro delle 08:59",
       "stato": "confermato, query diretta MCP",
-      "fonte": "mcp__supabase-marketplace__execute_sql, 2026-09-06 ~10:28"
+      "fonte": "mcp__supabase-marketplace__execute_sql, 2026-09-06 ~11:09 (riconfermato, terza volta identico)"
     },
     {
       "nome": "auto-analisi.json toccato dal commit 961f9fa09 (08:59) senza rigenerarne il campo data interno (fermo a 08:34)",

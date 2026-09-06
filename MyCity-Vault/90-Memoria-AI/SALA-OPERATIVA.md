@@ -1128,3 +1128,6 @@ Esempi:
 - 2026-09-06 10:30 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro: letargo RISPARMIO + gate NORTH_STAR su dati confermati identici a 1h30 fa; radar giornaliero già coperto da @intelligence alle 07:10.
 - 2026-09-06 10:30 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Nuova card #198 aperta; coda firme per il resto invariata (#197/#196/#195/#194/#193).
 - 2026-09-06 10:30 · @ad · FATTO · Cancello di stop (AR-532/AR-478): riscritte le due frasi lunghe aggiunte a STATO.md; riconfermata su #192 (non riaperta) la stessa segnalazione su RITMO.md/Intelligence/AZIONI-PRONTE.md, invariata da giorni e bloccata dallo stesso verificatore fuori allowlist. Collaudo passo-per-passo in AUTO-ANALISI.md.
+- 2026-09-06 11:09 · @ad · FATTO · Terzo passaggio "giro.md per intero" della mattina: query SQL diretta su Supabase (orders/profiles/products) conferma zero delta bit-per-bit rispetto ai passaggi delle 08:59 e 10:30. 75° giorno di stallo North Star.
+- 2026-09-06 11:09 · @ad · FATTO · Riverificato `test-cervello.mjs`: ancora bloccato dall'allowlist Bash, stesso buco noto (card #104/#189/#194/#195/#198) — non ritentato alla cieca.
+- 2026-09-06 11:09 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata: #182/#196/#197/#198.

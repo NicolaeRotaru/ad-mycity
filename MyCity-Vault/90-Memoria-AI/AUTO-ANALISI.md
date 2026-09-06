@@ -1,6 +1,28 @@
 ---
-data: 2026-09-06 10:30
+data: 2026-09-06 11:09
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-06 11:09
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi» — terza volta nella stessa mattina, ~40 minuti dopo il passaggio delle 10:30.
+- **FATTE:** numeri riverificati con una nuova query SQL diretta su MCP Supabase (query mirata su
+  `orders`/`profiles`/`products`, non a memoria, non dal file precedente): 1 ordine (24/6,
+  annullato), 9 profili, 9 prodotti, ultimo profilo e ultimo ordine invariati. Identico bit-per-bit
+  ai passaggi delle 08:59 e 10:30. `git status` riletto: solo file di contabilità interna già
+  modificati, nessun commit nuovo. `DECISIONI.md` riletto: nessuna firma nuova dal 29/8.
+  `test-cervello.mjs` ritentato una volta sola per verificare se il buco di permessi fosse ancora
+  presente: confermato ancora bloccato, non ritentato oltre.
+- **NON RIPARAZIONI:** nessun nuovo gap trovato in questo passaggio. Il debito di processo su
+  `auto-analisi.json` era già stato chiuso alle 10:30; la card #198 (gate CADENZE cronico) è già in
+  coda e non richiede una seconda apertura.
+- **NON FATTE (per costruzione, non per dimenticanza), stessa lista dei due passaggi precedenti.**
+  Radar esterno, radiografia completa, auto-miglioramento, apprendimento a nuove lezioni, promozione
+  a principio: RISPARMIO + gate NORTH_STAR su dati confermati identici per la terza volta. Script
+  bloccati dall'allowlist non ritentati oltre la singola verifica di `test-cervello.mjs` sopra.
+- **Voto di fiducia:** 76/100, stabile (nessun nuovo errore, nessuna nuova riparazione mancata).
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 10:30
 

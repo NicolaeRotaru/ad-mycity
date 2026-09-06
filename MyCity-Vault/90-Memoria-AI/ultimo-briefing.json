@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-06 10:30",
-  "situazione": "Zero delta reale dal giro delle 08:59: 1 ordine annullato del 24/6, 0 pagati, 9 profili, 9 prodotti, 3 carrelli abbandonati — riverificato con query diretta su Supabase, non a memoria. 74° giorno di stallo North Star. In questo passaggio ho riparato di nuovo il debito di processo su auto-analisi.json (data interna non rigenerata dal commit delle 08:59, stesso pattern già visto 6+ volte in due giorni) e aperto la card #198 perché il controllo che lo segnala (CADENZE) è diventato ufficialmente cronico. Letargo RISPARMIO + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
+  "data": "2026-09-06 11:09",
+  "situazione": "Terzo passaggio della mattina, zero delta reale confermato di nuovo con query SQL diretta su Supabase: 1 ordine annullato del 24/6, 0 pagati, 9 profili, 9 prodotti — identico bit-per-bit ai passaggi delle 08:59 e 10:30. 75° giorno di stallo North Star. Nessuna riparazione nuova: il debito su auto-analisi.json era già stato chiuso nel passaggio precedente. Letargo RISPARMIO + gate North Star: non rilanciate le 15 fasi intere su dati confermati identici.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
