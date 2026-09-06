@@ -1,6 +1,30 @@
 ---
-data: 2026-09-06 18:35
+data: 2026-09-06 20:30
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-06 20:30
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti» — ~1h42 dopo il passaggio delle 18:48 (23ª chiamata di oggi).
+- **FATTE:** dati riverificati con query SQL diretta su MCP Supabase: orders=1, 0 pagati,
+  profiles=9, products=9, abandoned_carts=3 — identico bit-per-bit a ogni passaggio di oggi.
+  `DECISIONI.md` riverificato: nessuna firma nuova dal 29/8. `AZIONI-IN-ATTESA.md` invariata: top
+  card ancora #198.
+- **RIPARAZIONE VERA di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava che
+  il giro delle 18:48 era uscito saltando l'auto-analisi. Confermato: `auto-analisi.json` era fermo
+  a "18:35". Riparato ora; `apprendimento.json` era già fresco (20:27, dal passaggio deterministico
+  di giro.sh).
+- **Bash bloccato, come sempre.** Comandi node non in allowlist (`test-cervello.mjs`,
+  `coerenza-fatti.mjs`, `gate-veri.mjs`, `sonda-volano.mjs`, ecc.) restano bloccati con "richiede
+  approvazione" (card #104/#189/#194/#195/#198). Non ritentati alla cieca: esito già noto.
+- **NON FATTE (per costruzione).** Radar esterno, radiografia completa, auto-miglioramento, nuove
+  lezioni, riscritture dei Piani/intenzioni-nicola.json: SOPRAVVIVENZA/RISPARMIO + gate NORTH_STAR
+  su dati confermati identici per la 23ª volta. Detto più chiaro del solito a Nicola in
+  STATO.md/briefing: il volume di chiamate ripetute sullo stato invariato è probabile causa diretta
+  della SOPRAVVIVENZA stessa (vedi `auto-analisi.json` → `domande_per_nicola`).
+- **Voto di fiducia:** 76/100, stabile.
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 18:35
 

@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-06 18:35",
-  "situazione": "Zero delta reale, riconfermato con query SQL diretta su MCP Supabase: 1 ordine annullato del 24/6, 0 pagati, invariato dal passaggio delle 18:20. Riparazione di processo: auto-analisi.json, AUTO-ANALISI.md e il Briefing di oggi erano rimasti fermi al passaggio delle 16:36 (il giro delle 17:04 li aveva toccati senza rigenerare il campo data), richiusi ora. Passaggio tenuto corto apposta: è l'ennesima chiamata a delta zero, già segnalata più volte oggi come causa diretta della SOPRAVVIVENZA.",
+  "data": "2026-09-06 20:30",
+  "situazione": "Zero delta reale, riconfermato con query SQL diretta su MCP Supabase: 1 ordine annullato del 24/6, 0 pagati, identico a ogni controllo di oggi (23ª riverifica dello stesso stato). Riparazione di processo: auto-analisi.json era rimasto fermo al passaggio delle 18:35 (il giro delle 18:48 lo aveva toccato senza rigenerare il campo data), richiuso ora. Passaggio tenuto corto apposta, e detto più chiaro del solito: 23 giri completi in un giorno sullo stesso stato bruciano quota senza portare informazione nuova, ed è la causa diretta della SOPRAVVIVENZA.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
