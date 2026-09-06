@@ -1,0 +1,104 @@
+{
+  "squadra": 221,
+  "ondata": 10,
+  "territorio": [
+    "app/globals.css",
+    "components/ui/Button.tsx",
+    "components/ui/LoadingState.tsx",
+    "components/PWAInstallBanner.tsx",
+    "app/sign-up/page.tsx",
+    "components/ProductCard.tsx",
+    "app/orders/[id]/return/page.tsx",
+    "components/PushNotificationOptIn.tsx",
+    "components/rider/CashConfirmDialog.tsx",
+    "app/rider/onboarding/page.tsx",
+    "components/ui/Field.tsx",
+    "components/MobileTabBar.tsx"
+  ],
+  "malattia": "La regola generale scritta una volta sola e mai riletta col caso limite davanti: un @media che azzera TUTTE le animazioni comprese quelle che dicono «sto lavorando», un modulo di registrazione uguale per tutti anche per chi sta solo pagando, un ripiego d'errore che scrive «Errore» perche' nessuno ha immaginato di leggerlo davvero.",
+  "difetti": [
+    {
+      "chiave": "stati-ui|con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano",
+      "titolo": "Con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/chi-chiede-meno-animazioni-vede-lo-stesso-che-sta-caricando.test.ts -> 6 passate. Prova nuova, e uccide le mutazioni: tolta l'eccezione dal blocco -> exit 1; rimessa animation-duration a 0.01ms -> exit 1; codice buono -> exit 0. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+      "nota_fix": "Difetto ancora vivo, ma a riga 396 e non 213-220 come diceva la scheda (nove ondate hanno spostato il file): il blocco @media (prefers-reduced-motion: reduce) azzerava animation-duration e animation-iteration-count su *, *::before, *::after senza nessuna eccezione. Ho aggiunto DENTRO lo stesso blocco l'eccezione per .animate-spin e .skeleton: 1.5s, iteration-count infinite. Le due classi sono quelle vere e le ho verificate nel codice di adesso (Button.tsx usa animate-spin sulla Loader2, LoadingState pure, .skeleton e' shimmer 2s linear infinite a riga 301). La prova controlla anche che quelle classi esistano ancora dove servono, cosi' l'eccezione non protegge un domani una classe morta. NON HO VERIFICATO in un browser vero: nessuno qui misura i pixel che si muovono, e non ho provato con l'impostazione di sistema accesa su un telefono. Il secondo pezzo del fix proposto — accompagnare sempre l'attesa con un cambio di etichetta — NON l'ho fatto: tocca ogni chiamante di Button, cioe' mezzo sito, ed e' fuori sia dal territorio sia dalla misura di un minore.",
+      "file_toccati": ["app/globals.css", "tests/unit/chi-chiede-meno-animazioni-vede-lo-stesso-che-sta-caricando.test.ts"]
+    },
+    {
+      "chiave": "mobile-pwa|nel banner d'installazione «più tardi» e la x sono alti 24-28 px: si sbaglia mira col pollice",
+      "titolo": "Nel banner d'installazione «Più tardi» e la X sono alti 24-28 px: si sbaglia mira col pollice",
+      "esito": "riparato",
+      "prova": "grep -n \"py-1.5 text-xs|p-1 -mt-1\" components/PWAInstallBanner.tsx era rosso su righe 222 e 231 e adesso non trova piu' niente. npx vitest run tests/unit/chi-chiede-meno-animazioni-vede-lo-stesso-che-sta-caricando.test.ts -> 6 passate (il secondo describe e' questo difetto); mutazione: rimesso il vecchio px-3 py-1.5 su «Piu' tardi» -> exit 1. Le prove gia' esistenti sul banner restano verdi: npx vitest run tests/unit/su-iphone-non-si-poteva-installare.test.ts tests/unit/il-banner-che-cresce-e-non-lo-dice.test.ts -> passate.",
+      "nota_fix": "Difetto vivo, righe 222 e 231 e non 146-160 come diceva la scheda. «Piu' tardi»/«Ho capito»: aggiunto inline-flex items-center min-h-[44px] e tolto py-1.5 (il testo resta text-xs, cresce solo l'area). La X: p-3 con -mt-3 -mr-3 al posto di p-1 -mt-1 -mr-1, piu' min-h-[44px] min-w-[44px] shrink-0 — i margini negativi tengono la crocetta dov'era, cosi' il banner non si allarga. Ho usato min-h-[44px] e non min-h-11 perche' e' la convenzione gia' scritta nel repo (Button.tsx:35, CouponInput, HowItWorks). aria-label=\"Chiudi\" conservato. NON HO VERIFICATO su un telefono vero ne' con uno screenshot: la prova legge le classi nel sorgente, non i pixel resi.",
+      "file_toccati": ["components/PWAInstallBanner.tsx", "tests/unit/chi-chiede-meno-animazioni-vede-lo-stesso-che-sta-caricando.test.ts"]
+    },
+    {
+      "chiave": "flussi-conversione|per registrarsi e finire l'ordine bisogna prima dichiarare se si è acquirente, venditore o rider",
+      "titolo": "Per registrarsi e finire l'ordine bisogna prima dichiarare se si è Acquirente, Venditore o Rider",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/chi-arriva-dal-carrello-non-deve-dire-se-e-un-negoziante.test.ts -> 8 passate. Tre mutazioni, tutte uccise: tolto il confine di parola dalla regola (/^\\/(checkout|cart)/) -> exit 1; il fieldset sempre nascosto ({true ? null : () -> exit 1; hint rimesso a placeholder -> exit 1; codice buono -> exit 0. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+      "nota_fix": "Difetto vivo. returnTo era gia' letto (riga 71) ma nessuno lo guardava per decidere il modulo. Aggiunta arrivaDaUnOrdine(returnTo) — /^\\/(checkout|cart)(\\/|\\?|$)/ — e da li' tre conseguenze: initialRole forzato a 'buyer' (batte anche un ?role=seller appiccicato al link), il fieldset dei ruoli non renderizzato, il pulsante che dice «Crea l'account e continua l'ordine» invece di «Registrati come acquirente». Il confine dopo la parola serve: senza, /checkout-guida passava per cassa. Ho anche escluso un returnTo che punta a un altro sito. DUE COSE CHE NON HO POTUTO FARE COME VOLEVO: (a) la funzione l'avevo esportata per provarla importandola, ma in questa repo un .tsx non si puo' importare in vitest (Failed to parse source... make sure to not set jsx to preserve) e tsconfig.json non si tocca — l'ho rimessa privata e la prova ripesca la regola VERA dal sorgente e ci fa passare dentro gli indirizzi, quindi la logica e' provata davvero, il disegno no; (b) non ho montato la pagina ne' fatto screenshot: che il fieldset sparisca a video lo deduco dal ramo JSX, non l'ho visto.",
+      "file_toccati": ["app/sign-up/page.tsx", "tests/unit/chi-arriva-dal-carrello-non-deve-dire-se-e-un-negoziante.test.ts"]
+    },
+    {
+      "chiave": "microcopy|un avviso d'errore che dice soltanto «errore»",
+      "titolo": "Un avviso d'errore che dice soltanto «Errore»",
+      "esito": "riparato",
+      "prova": "grep -rn \"'Errore'\" su tutti e dodici i file del territorio -> nessun risultato (prima ne trovava 6 in 4 file). npx vitest run tests/unit/nessun-avviso-dice-soltanto-errore.test.ts -> 12 passate; mutazione: rimesso e instanceof Error ? e.message : 'Errore' in CashConfirmDialog -> exit 1. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+      "nota_fix": "LA SCHEDA ERA GIA' MEZZA VECCHIA: ProductCard riga 104, che la scheda dava come il caso peggiore, e' GIA' RIPARATA da un'ondata precedente — oggi riga 113-114 dice «Accedi per salvare nei preferiti» e «Non sono riuscito a salvare il preferito. Riprova fra un momento.», nessun 'Errore'. Il difetto viveva ancora negli altri quattro punti del territorio, e li ho chiusi tutti: app/orders/[id]/return/page.tsx (righe 88 e 92), components/PushNotificationOptIn.tsx (171), components/rider/CashConfirmDialog.tsx (85 e 90), app/rider/onboarding/page.tsx (143). Due mosse: il toast passa da friendlyError(e), che tiene il messaggio del server se e' leggibile e altrimenti mette «Qualcosa non ha funzionato. Riprova fra un momento.»; e il ripiego apiErrorMessage(data, 'Errore') diventa apiErrorMessage(data), che ha come suo default 'Operazione non riuscita'. Aggiunto l'import di friendlyError dove mancava (PushNotificationOptIn, CashConfirmDialog, rider/onboarding). NON HO TOCCATO gli altri punti fuori territorio: la scheda dice che 'Errore' compare 23 volte in tutto fra app/ e components/, quindi FUORI dal mio territorio la stringa resta viva altrove — questo difetto e' chiuso per i miei file, non per tutto il sito.",
+      "file_toccati": [
+        "app/orders/[id]/return/page.tsx",
+        "components/PushNotificationOptIn.tsx",
+        "components/rider/CashConfirmDialog.tsx",
+        "app/rider/onboarding/page.tsx",
+        "tests/unit/nessun-avviso-dice-soltanto-errore.test.ts"
+      ]
+    },
+    {
+      "chiave": "microcopy|la regola della password è scritta nel testo grigio che sparisce appena scrivi",
+      "titolo": "La regola della password è scritta nel testo grigio che sparisce appena scrivi",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/chi-arriva-dal-carrello-non-deve-dire-se-e-un-negoziante.test.ts -> 8 passate (l'ultima prova e' questa: hint=\"Almeno 8 caratteri\" c'e', placeholder=\"Almeno 8 caratteri\" no); mutazione hint->placeholder -> exit 1. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+      "nota_fix": "Difetto vivo a riga 248, non 226. Il PasswordInput passa da placeholder=\"Almeno 8 caratteri\" a hint=\"Almeno 8 caratteri\": `hint` esiste gia' nel tipo Common di components/ui/Field.tsx (riga 90), lo stampa Field sotto il campo (riga 68-70) e lo collega al campo via aria-describedby (riga 84-85), quindi la regola resta scritta mentre si digita e la sente anche chi legge con la voce. Zero righe toccate in Field.tsx: c'era gia' tutto. NON HO VERIFICATO a video che il testo non spinga giu' il resto del modulo; e resta aperto il pezzo citato dalla scheda ma non mio: se la password e' corta, l'errore torna da Supabase in inglese.",
+      "file_toccati": ["app/sign-up/page.tsx", "tests/unit/chi-arriva-dal-carrello-non-deve-dire-se-e-un-negoziante.test.ts"]
+    },
+    {
+      "chiave": "navigazione-gerarchia|dopo l'accesso la voce «negozi» sparisce dalla barra in basso",
+      "titolo": "Dopo l'accesso la voce «Negozi» sparisce dalla barra in basso",
+      "esito": "non_riparato",
+      "prova": "Letto components/MobileTabBar.tsx per intero: le righe 95-111 citate dalla scheda non esistono piu'. La barra non contiene nessun elenco di destinazioni: a riga 75 chiama schedeInFondo(...) importata da '@/lib/ui/schede-in-fondo' (riga 16). Letto quel file: il difetto e' vivo li' dentro — il ramo chi.isAuthenticated restituisce Home, Cerca, Carrello, Ordini, Io e NON ha '/stores', mentre il ramo dell'ospite (l'ultimo return) ha Home, Cerca, Negozi, Carrello, Accedi. Confermato, ma in un file che non e' nel mio elenco file_citati.",
+      "nota_fix": "NON RIPARATO PER SCELTA, non per difficolta'. L'elenco delle schede e' stato spostato fuori dal componente il 30/8 (R097) in lib/ui/schede-in-fondo.ts, e il file dice a chiare lettere perche': «in questa repo un componente React non si puo' montare in una prova: finche' la decisione stava dentro il JSX, nessuna prova poteva accorgersi del doppione». Quindi il fix vero — aggiungere '/stores' al ramo dell'utente autenticato e spostare «Ordini» dentro il foglio «Io» — vive tutto la' dentro, fuori dal mio territorio, e un'altra squadra di questa ondata potrebbe averci le mani adesso. L'alternativa era rattoppare l'array dentro MobileTabBar.tsx dopo la chiamata: sarebbe stato un fix che combatte l'architettura, invisibile alle prove e destinato a divergere dall'elenco vero. Meglio un aperto onesto. ATTENZIONE PER CHI RICUCE: serve anche un controllo che non me la sono sentita di dare per scontato — la barra tiene 5 schede al massimo, quindi aggiungere «Negozi» all'utente registrato obbliga a togliere qualcosa (il fix proposto dice «Ordini», che sta gia' dentro il foglio «Io»: va verificato che ci sia davvero, in components/MobileAccountSheet.tsx / lib/account-menu.ts).",
+      "file_toccati": []
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "navigazione-gerarchia|dopo l'accesso la voce «negozi» sparisce dalla barra in basso",
+      "perche": "il fix vive in un file fuori territorio: lib/ui/schede-in-fondo.ts (l'elenco delle schede e' stato spostato li' il 30/8, R097; MobileTabBar.tsx ormai lo chiama e basta). Da verificare insieme al fix: lib/account-menu.ts / components/MobileAccountSheet.tsx, perche' la barra tiene 5 schede e per far entrare «Negozi» bisogna togliere «Ordini» e accertarsi che stia davvero dentro il foglio «Io»."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Il ripiego «Errore» e' ancora vivo fuori da questo territorio",
+      "dove": "app/ e components/ (la radiografia ne contava 23 occorrenze in tutto; qui ne ho chiuse 6 in 4 file)",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Con «riduci le animazioni» attivo il pulsante non cambia etichetta mentre lavora",
+      "dove": "components/ui/Button.tsx:77 e ogni suo chiamante",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "In questa repo un .tsx non si puo' importare in una prova, quindi la logica dentro le pagine resta non provabile",
+      "dove": "tsconfig.json (jsx: preserve) — file di tutti, non toccabile da una squadra",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "① Niente browser e niente screenshot: tutte e cinque le riparazioni sono provate sul sorgente vero (regola CSS, classi delle etichette <button>, rami JSX, stringhe), non sui pixel resi. In particolare non ho acceso «riduci le animazioni» su un dispositivo per vedere la rotellina girare, non ho toccato il banner con un pollice, e non ho aperto /sign-up?returnTo=/checkout per vedere sparire il fieldset. ② Non ho lanciato npm run verify ne' npm run build, come da vincolo: ho lanciato npx tsc --noEmit -p tsconfig.json (exit 0) e 17 file di prova, i 14 che toccano i miei file piu' i 3 nuovi (138 + 26 passate). ③ eslint sui miei file: 0 errori reali — l'unico «error» e' su app/globals.css, che eslint prova a leggere come JavaScript, e le 2 warning in orders/[id]/return/page.tsx sono su righe 201 e 228, fuori dalle mie modifiche (88 e 92) e preesistenti. ④ Il warning «Could not parse CSS stylesheet» che compare nelle prove e' preesistente: l'ho misurato mettendo da parte la mia modifica a globals.css e il conteggio non cambia. ⑤ Mentre lavoravo, git status mostrava modificati anche components/store-sections/ScheletroNegozio.tsx e scripts/prova-di-fumo.mjs: non sono miei, non li ho toccati e li ho lasciati come stavano. ⑥ Non ho committato niente, non ho toccato package.json, package-lock.json ne' tsconfig.json.",
+  "file_di_prova_nuovi": [
+    "tests/unit/chi-arriva-dal-carrello-non-deve-dire-se-e-un-negoziante.test.ts",
+    "tests/unit/chi-chiede-meno-animazioni-vede-lo-stesso-che-sta-caricando.test.ts",
+    "tests/unit/nessun-avviso-dice-soltanto-errore.test.ts"
+  ]
+}

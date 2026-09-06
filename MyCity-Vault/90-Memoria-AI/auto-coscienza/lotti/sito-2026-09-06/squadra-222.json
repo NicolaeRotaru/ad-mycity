@@ -1,0 +1,93 @@
+{
+ "squadra": 222,
+ "territorio": [
+  "app/api/track/route.ts",
+  "lib/activity.ts",
+  "components/store-sections/ScheletroNegozio.tsx",
+  "lib/banner-vetrina.ts",
+  "scripts/prova-di-fumo.mjs",
+  "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql"
+ ],
+ "malattia": "Cinque cose scritte bene e mai guardate dall'altra parte: il codice dichiara un'intenzione (una riga sola per accesso, una regione che parla, tre proporzioni per la fascia, un muro che non e' un guasto, una barriera sulle viste) e nessuno ha misurato se quell'intenzione arriva davvero fino a chi la vive — il lettore di schermo, il foglio di stile, il rilascio che torna indietro, il piano della query.",
+ "difetti": [
+  {
+   "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "titolo": "Due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "esito": "non_riparato",
+   "prova": "Letto app/api/track/route.ts:196-221 e lib/activity.ts:218-253 (la SELECT degli ultimi 5 accessi e poi la INSERT: la fessura c'e' ancora). Cercato il vincolo che manca: `grep -rniE 'unique' migrations/ | grep -i activity_events` -> nessuna riga; in migrations/073_activity_tracking.sql gli indici su activity_events sono tutti non unici. Letto lib/analytics/registro-accessi.ts:46-63: `idSessioneDelBrowser()` legge `mc_sid` da sessionStorage e non lo crea mai, quindi il corpo puo' partire senza session_id.",
+   "nota_fix": "NON RIPARATO PERCHE' IL FRENO VERO E' UNA MIGRAZIONE (rosso, fuori lotto), e in codice non esiste un rimedio onesto: due istanze serverless che leggono insieme vedono tutte e due 'nessun accesso' e scrivono tutte e due. `recordActivity` gia' ingoia il codice 23505 aspettando il vincolo, quindi il giorno in cui la migrazione entra il doppione muore da solo, senza toccare la rotta. Migrazione pronta, con la sua discesa:\n-- migrations/1XX_un_accesso_per_sessione_non_due.sql  (DA FIRMARE, non applicata)\n-- SU: il minuto dell'accesso diventa una colonna, e su quella il database rifiuta il doppione.\nALTER TABLE public.activity_events\n  ADD COLUMN IF NOT EXISTS minuto_accesso timestamp\n  GENERATED ALWAYS AS (date_trunc('minute', created_at AT TIME ZONE 'UTC')) STORED;\nCREATE UNIQUE INDEX CONCURRENTLY IF NOT EXISTS activity_events_un_accesso_per_sessione\n  ON public.activity_events (user_id, session_id, minuto_accesso)\n  WHERE event_type = 'login' AND user_id IS NOT NULL AND session_id IS NOT NULL;\n-- GIU' (rollback, sempre eseguibile):\nDROP INDEX CONCURRENTLY IF EXISTS public.activity_events_un_accesso_per_sessione;\nALTER TABLE public.activity_events DROP COLUMN IF EXISTS minuto_accesso;\nPerche' il minuto e non la mezz'ora: i due segnali dello stesso ingresso arrivano a millisecondi di distanza, mentre un secondo accesso vero nella stessa scheda (dopo 30 minuti) deve restare una riga nuova. Limite dichiarato: due beacon a cavallo del cambio di minuto passerebbero il vincolo — li prende comunque il controllo applicativo che c'e' gia' (60 secondi / 30 minuti). Seconda meta', fuori dal mio territorio: `lib/analytics/registro-accessi.ts` deve CREARE `mc_sid` se manca (oggi lo legge soltanto), altrimenti la deduplica ricade sulla sola finestra dei 60 secondi. NON HO VERIFICATO: non ho eseguito niente sul database (sola lettura del codice); il conto degli accessi doppi in produzione non l'ho misurato.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "frontend-ux|chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+   "titolo": "Chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+   "esito": "riparato",
+   "prova": "Prova di comportamento in jsdom, montando il componente vero con gli aiuti della repo (tests/unit/aiuti/monta-componente + schermo) da un file fuori dal repo: pretende che la regione `role=status` abbia un nome accessibile non vuoto e che non dichiari `aria-busy=\"true\"`. Rossa sul codice di prima (`git show HEAD:components/store-sections/ScheletroNegozio.tsx` -> «la regione di stato non dice niente: expected '' not to be ''»), verde su quello riparato. Il file di prova sta nello scratchpad, non nel repo: /tmp/claude-0/-home-user/8fce493b-bb83-567f-9fdb-c4c7bac81aca/scratchpad/nome-accessibile.test.tsx (girato con --config .../vitest.scratch.config.ts --root /home/user/mycity). Regressione: `npx vitest run tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts` 8/8 verdi; `npx tsc --noEmit -p tsconfig.json` esce 0.",
+   "nota_fix": "Trovato come dice la scheda: `role=status aria-live=polite aria-busy=true` e dentro nessuna parola. Fatte due cose, tutte e due dentro il file: ① tolto `aria-busy=\"true\"` (diceva all'ausilio di tacere e non tornava mai falso, perche' il componente viene sostituito) e messo `aria-label=\"Sto aprendo il negozio\"`, lo stesso modo di components/checkout/ScheletroCassa.tsx:20, cosi' le due non divergono. Niente next-intl: il componente non ha `'use client'` e lo usa anche il guscio del server; ScheletroCassa scrive l'italiano a mano allo stesso modo. ② la seconda meta' che mi avete lasciato: i riquadri passavano da `animate-pulse` (che dentro `prefers-reduced-motion` app/globals.css:396 ferma al primo giro, perche' l'elenco tenuto vivo contiene solo la rotellina e `.skeleton`) allo `.skeleton` condiviso, che li' rallenta invece di spegnersi. Il battito stava sul contenitore, quindi l'ho tolto di li' e messo su ogni riquadro. NON HO VERIFICATO: nessun lettore di schermo vero e nessun browser aperto — il nome lo calcola l'aiuto `nomeAccessibile` della repo, non NVDA; e la mia seconda prova (quella su ScheletroCassa) e' sporca, perche' `accendi` non pulisce il documento fra un montaggio e l'altro e ritrova la regione del test precedente: l'`aria-label` della cassa l'ho letto nel sorgente, non provato.",
+   "file_toccati": [
+    "components/store-sections/ScheletroNegozio.tsx"
+   ]
+  },
+  {
+   "chiave": "architettura|la fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "titolo": "La fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "esito": "non_riparato",
+   "prova": "Ho generato il CSS vero con il Tailwind della repo e sono andata a cercarci dentro le tre proporzioni: `npx tailwindcss -i <copia di app/globals.css> -o tw.css` (210 KB) e poi `grep -o -F 'aspect-\\[16\\/9\\]' -> 1`, `'aspect-\\[3\\/1\\]' -> 0`, `'aspect-\\[4\\/1\\]' -> 0`. Il motivo sta in tailwind.config.ts:17-20: `content` guarda solo ./app e ./components, e le tre classi vivono in lib/banner-vetrina.ts:37 — `aspect-[16/9]` si salva solo perche' e' scritta anche in app/events/page.tsx:162 e components/home/HomeEvents.tsx:65.",
+   "nota_fix": "LA SCHEDA E IL CODICE NON CONCORDANO, E COMANDA IL CODICE. Nel browser, oggi, la fascia e' 16/9 a OGNI larghezza: `sm:aspect-[3/1]` e `lg:aspect-[4/1]` non esistono nel foglio di stile. Quindi a 640 punti la fascia e' alta 333 e il titolo NON viene tagliato (il difetto della scheda non si riproduce); in compenso su un monitor largo (contenitore 1232) la fascia viene alta 693, cioe' esattamente lo schermo intero prima del primo prodotto che il file dice di voler evitare. Il difetto vero e' piu' grosso e sta in `difetti_nuovi`. PERCHE' NON L'HO CHIUSO: la riparazione giusta e' una riga sola nel riquadro condiviso — in lib/banner-vetrina.ts:41, `CLASSI_FASCIA_BANNER = 'relative w-full ' + PROPORZIONI_FASCIA_BANNER + ' min-h-[192px] sm:min-h-[224px] overflow-hidden rounded-2xl border border-cream-300 shadow-warm'` — ma anche quelle due classi nascerebbero morte, per lo stesso motivo delle altre due: scritte in lib/, che Tailwind non guarda. Scriverle sarebbe un verde finto. Serve prima una riga in tailwind.config.ts (`'./lib/**/*.{js,ts}'` dentro `content`), che e' fuori dal mio territorio. IL CONTO CHE MOTIVA I DUE NUMERI (tolgo il testo dal vano, misure Tailwind): sotto sm servono 32 (p-4) + 64 (titolo text-2xl su due righe) + 8 + 40 (sottotitolo text-sm su due righe) + 8 + 40 (pulsante px-5 py-2.5 text-sm) = 192 punti, e a 360 la fascia 16/9 ne da' 184: mancano 8. Da sm in su servono 48 (p-6) + 72 (text-3xl) + 8 + 48 (text-base) + 8 + 40 = 224, e a 640 la 3/1 ne darebbe 197: ne mancherebbero 27. A 768 (240), 1024 (244) e 1280 (308) il pavimento non tocca niente. Il pavimento non rompe la prova che c'e' gia': `min-h-[192px]` non e' un `h-\\d+`. NON HO VERIFICATO: non ho aperto un browser a 640 punti; il conto delle altezze delle righe viene dalle misure di Tailwind, non da una misura a schermo.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "deploy-sre|la prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro",
+   "titolo": "La prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro",
+   "esito": "riparato",
+   "prova": "Prova di comportamento, fuori dal repo per non entrare nel territorio dei test di un'altra squadra: /tmp/claude-0/-home-user/8fce493b-bb83-567f-9fdb-c4c7bac81aca/scratchpad/prova-403.mjs (5 controlli). Sul codice di prima (`git show HEAD:scripts/prova-di-fumo.mjs`) esce 1 con due rossi — «403 nudo -> non e un muro: atteso false, avuto true» e «403 nudo su tutte e tre -> atteso uscita 1, avuto 4»; sul codice riparato esce 0. Nessuna regressione: `npx vitest run tests/unit/la-prova-di-fumo-boccia-un-sito-rotto.test.ts tests/unit/la-prova-di-fumo-bussa-a-un-sito-vero.test.ts` verdi.",
+   "nota_fix": "Cambiata `muroDavantiAlSito` (scripts/prova-di-fumo.mjs:115): il 401 resta muro sempre (vuol dire «serve una chiave» e le tre porte non lo sanno dire — verificato: app/api/health e /ready rispondono 200 o 503, middleware.ts non ha nessun 403, solo redirect); il 403 vale muro SOLO se porta una firma di Vercel (biscotto `_vercel_sso_nonce`, corpo con sso-api / authentication required, e ho aggiunto «vercel security checkpoint» e «deployment protection» per il blocco del suo firewall). Un 403 nudo torna `null`: il controllo cade come una porta che non risponde, la prova riprova, e l'uscita diventa 1 — cioe' il rilascio torna indietro. IL PREZZO, DICHIARATO: se un filtro davanti al sito rispondesse 403 senza firmarsi, si annullerebbe un rilascio sano. E' un danno rumoroso e reversibile (si torna al rilascio precedente, che sta dietro lo stesso filtro, e il riepilogo lo scrive), mentre quello di prima era silenzioso: uscita 4, nessun ritorno indietro, e un sito rotto che resta in produzione. Sul PRIMO caso ho lasciato tutto com'era: la frase «sono tornata al rilascio di prima» (riga 377 di prima, oggi 391) e' corretta — la scrive solo il ramo `SITO_ROTTO && tornato`, e `TORNATO` lo passa il lavoro di rilascio dal passo del ritorno (.github/workflows/deploy-dopo-ci.yml:503). Non l'ho toccata perche' non c'e' niente da correggere. NON HO VERIFICATO: nessuna chiamata di rete vera e nessun rilascio; il comportamento del filtro di Vercel l'ho preso dalla documentazione che il file stesso cita, non da una risposta osservata.",
+   "file_toccati": [
+    "scripts/prova-di-fumo.mjs"
+   ]
+  },
+  {
+   "chiave": "rls-database|security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "titolo": "security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "esito": "non_riparato",
+   "prova": "Letta migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql:74-80 (le sette ALTER VIEW ... SET (security_barrier = true) ci sono). La misura chiesta dalla scheda — EXPLAIN ANALYZE prima e dopo — richiede un database ricostruito con un catalogo capiente: da qui non ho nessun database e non posso scrivere sul marketplace (sola lettura).",
+   "nota_fix": "Non e' riparabile in questo lotto per due motivi, tutti e due dichiarati: ① la 152 e' gia' applicata e una migrazione applicata non si riscrive; ② togliere o rimettere `security_barrier` e' comunque SQL, cioe' una migrazione nuova (rosso, fuori lotto). E soprattutto: la scheda non chiede un rimedio, chiede un NUMERO DI PARTENZA che oggi non ha nessuno. La misura, pronta da eseguire su una copia con catalogo di prova (mai in produzione):\nEXPLAIN (ANALYZE, BUFFERS) SELECT * FROM public.seller_public_profiles WHERE id = '<id di un negozio vero>';\nALTER VIEW public.seller_public_profiles RESET (security_barrier);\nEXPLAIN (ANALYZE, BUFFERS) SELECT * FROM public.seller_public_profiles WHERE id = '<lo stesso id>';\nALTER VIEW public.seller_public_profiles SET (security_barrier = true);  -- si rimette sempre, e' il ritorno\nRosso se il piano passa da Index Scan a Seq Scan, o se il tempo cresce piu' del doppio. Le viste da guardare per prime sono le tre che portano soldi: seller_public_profiles (l'elenco negozi), sponsored_active_public (gli annunci in home), ordini_disponibili_rider (la bacheca dei fattorini). Se la misura dicesse rosso, la strada NON e' togliere la barriera (la sicurezza viene prima): e' aggiungere l'indice che il piano chiede sulla tabella sotto. NON HO VERIFICATO: niente, su questo. Nessuna query eseguita, nessun piano letto: e' esattamente il buco che la scheda denuncia, e resta aperto.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "perche": "il freno vero e' un vincolo di unicita' sul database: serve una migrazione nuova (rosso, fuori lotto). La seconda meta' vive in un file fuori territorio: lib/analytics/registro-accessi.ts (deve creare `mc_sid`, oggi lo legge soltanto)."
+  },
+  {
+   "chiave": "architettura|la fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "perche": "il fix vive in un file fuori territorio: tailwind.config.ts (il suo `content` non guarda lib/, quindi qualunque classe scritta in lib/banner-vetrina.ts nasce morta — comprese le due che chiuderebbero questo difetto)."
+  },
+  {
+   "chiave": "rls-database|security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "perche": "serve un database ricostruito con un catalogo capiente per misurare EXPLAIN ANALYZE, e ogni rimedio sarebbe una migrazione nuova (rosso, fuori lotto). La 152 e' gia' applicata e non si riscrive."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il foglio di stile del sito non compila: una riga di commento chiusa due volte, e Tailwind si ferma li'",
+   "dove": "app/globals.css:502 (in HEAD, non e' una modifica in corso: `git show HEAD:app/globals.css` ce l'ha alla riga 488)",
+   "gravita": "grave",
+   "dettaglio": "La riga 501 chiude il commento con `*/` e la 502 — ` * ====== */` — resta fuori e diventa un selettore. `npx tailwindcss -i app/globals.css -o x.css` muore con «Unexpected '/'» a globals.css:502:2 e NON scrive niente; togliendo quella riga sola compila e produce 210 KB. Se il cancello del lotto lancia il montaggio del sito, e' rosso li'. Fuori dal mio territorio: non l'ho toccata."
+  },
+  {
+   "titolo": "La fascia-banner e' 16 a 9 su ogni schermo: due proporzioni su tre non arrivano mai nel foglio di stile",
+   "dove": "lib/banner-vetrina.ts:37 + tailwind.config.ts:17-20",
+   "gravita": "grave",
+   "dettaglio": "`content` guarda solo ./app e ./components: `sm:aspect-[3/1]` e `lg:aspect-[4/1]`, scritte in lib/, non vengono generate — misurato sul CSS vero (0 occorrenze contro 1 di `aspect-[16/9]`, che si salva solo perche' e' scritta anche in app/events e components/home/HomeEvents). Effetto per chi guarda: su un monitor largo il banner della home e' alto 693 punti, uno schermo intero prima del primo prodotto — cioe' il difetto che la riparazione di ieri voleva chiudere e' meta' aperto. Riparazione: una riga in tailwind.config.ts (`'./lib/**/*.{js,ts}'`), poi il pavimento `min-h-[192px] sm:min-h-[224px]` chiude anche la scheda 'architettura' di questo incarico."
+  },
+  {
+   "titolo": "Sotto lo scheletro del negozio i prodotti si fermano lo stesso, per chi ha chiesto meno animazioni",
+   "dove": "components/SkeletonCard.tsx:8",
+   "gravita": "minore",
+   "dettaglio": "La griglia dei prodotti usa ancora `animate-pulse`, che dentro `prefers-reduced-motion` (app/globals.css:396) si ferma al primo giro. Ho chiuso la parte che sta nel mio territorio (ScheletroNegozio: briciole, menu, copertina, titolo -> `.skeleton`); il pezzo di sotto e' fuori. Stessa cura, un `className` solo."
+  }
+ ],
+ "non_verificato": "Non ho aperto nessun browser e non ho usato nessun lettore di schermo: il nome accessibile della regione di stato l'ho misurato in jsdom con l'aiuto della repo, e che a schermo non ci sia un salto o un titolo tagliato non l'ho visto. Non ho lanciato la suite intera (solo i 7 file che toccano i miei file, 59 prove verdi) ne' `npm run verify` ne' il montaggio del sito, come da consegna — e sul montaggio pesa comunque il difetto nuovo di app/globals.css:502, che non e' mio. Sul database non ho eseguito niente: ne' il vincolo di unicita' degli accessi ne' i piani delle query sulle viste barriera. Della prova di fumo ho misurato le funzioni, non una chiamata di rete vera. La mia prova sullo scheletro della cassa e' sporca (il documento non viene pulito fra un montaggio e l'altro): li' ho letto il sorgente."
+}
