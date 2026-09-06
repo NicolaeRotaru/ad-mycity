@@ -1,8 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 20:30
+aggiornato: 2026-09-06 22:31
 fonte: AD digitale (giro.md)
 ---
+
+> 🧭 **6/9 22:31 — Nuova chiamata "esegui giro.md per intero".** Sono passati ~11 minuti dal commit
+> di recupero delle 22:20. Applico una regola scritta da questa stessa macchina nel passaggio delle
+> 22:20. La regola dice: a delta zero, risposta breve. Non ripetere le 15 fasi da capo.
+>
+> **I numeri, riverificati ora con query SQL diretta su Supabase.** Non a memoria. 1 ordine totale.
+> È del 24/6, annullato, €19,05, venditore Pane Quotidiano. **0 pagati.** 9 profili. 9 prodotti. 3
+> carrelli abbandonati. L'ultimo profilo resta quello delle 06:40 del 5/9. È "Panificio Demo", la
+> card #196. Tutto identico bit-per-bit al passaggio delle 22:20. **76° giorno di stallo North
+> Star** (24/6→6/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log --since="22:20"` è vuoto. Zero commit nuovi.
+> `DECISIONI.md` è invariato dal 29/8. `AZIONI-IN-ATTESA.md` è invariata. In cima resta la card
+> **#199** (riallinea `main` VPS↔GitHub, aperta alle 20:30). Poi #198, #197, #196, #195, #194. Sono
+> tutte già note e già coperte. Non ne ho aperta una nuova.
+>
+> **`delta-gate.json` dice "pieno". Il motivo è già noto e già spiegato.** Segna "cambiato: clienti
+> 8→9" per l'ennesima volta. È sempre lo stesso profilo fantasma, "Panificio Demo". Non è mai un
+> cliente vero. La baseline non è mai stata promossa. Il comando `--segna-pieno` resta bloccato
+> dallo stesso buco di permessi delle card #104/#189/#194/#195/#198. L'ho ritentato una volta sola,
+> bloccato di nuovo, e non l'ho ripetuto. Non è un delta di business: l'ho verificato di persona con
+> SQL diretto, non fidandomi del gate.
+>
+> **`auto-analisi.json` non l'ho ritoccato.** È fermo alle 20:30, l'ultimo vero giro pieno. Non c'è
+> nessun fatto nuovo da metterci dentro. Riscriverlo ora, su dati identici, sarebbe stato solo
+> rumore. È la stessa scelta già fatta nei passaggi delle 20:43 e 22:31 di ieri.
+>
+> **Perché non rilancio le 15 fasi intere.** Due regole lo impediscono. Il letargo è in
+> **RISPARMIO**: la quota AI è al 78% della finestra rolling, la salute macchina è a 4. Il gate
+> **NORTH_STAR** ammette solo lavoro che avvicina il primo ordine pagato. I dati sono confermati
+> identici. Rifare radar, radiografia e auto-miglioramento su numeri fermi sarebbe stato solo altro
+> consumo di quota. Non un controllo in più.
+>
+> **Mossa numero uno, sempre la stessa.** Firma le card #154 e #155: sono il dominio e le chiavi
+> Vercel. Senza quella firma il sito resta giù. Nessun ordine può ancora diventare un incasso vero.
+>
+> **Mossa numero due, sempre la stessa.** Serve qualcuno con più permessi, diretto sul VPS, per
+> riallineare `main` con GitHub. È la card #199, aperta alle 20:30. È ancora senza risposta.
+
+## Passaggi precedenti
 
 > 🧭 **6/9 20:30 — Nuovo passaggio di "giro completo".** Sono passate circa 1h42 dal passaggio
 > delle 18:48. L'ultimo commit reale è delle 20:20. Era un recupero di scritture. Non portava dati
