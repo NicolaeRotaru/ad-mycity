@@ -37,6 +37,30 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 ---
 
+> 🌐 **2026-09-06 08:25 — I due nomi sono già su Vercel: mancano due righe nel pannello Netsons.** Mi hai mandato la schermata Domains.
+>
+> **Cosa vedo.** Vercel ha dentro sia `mycity-marketplace.com` sia il `www`, e li segna tutti e due in rosso. Il rosso dice che le righe del nome puntano ancora al server vecchio. Non è un guasto: è il passo che manca.
+>
+> **Cosa manca davvero.** La riga `@` di tipo A deve passare da `216.24.57.1` a `216.150.1.1`. La riga `www` di tipo CNAME deve passare al valore che Vercel mostra nella schermata. L'ho controllato da qui: quel valore esiste e porta a Vercel.
+>
+> **Tocca a te.** Entri in Netsons e sistemi quelle due caselle. La posta resta al sicuro se non tocchi le righe `MX` e `_dmarc`, che ho guardato e ci sono.
+>
+> **Cosa non ho verificato.** Cosa c'è scritto oggi nelle variabili del sito su Vercel. Va guardato da dentro, e la variabile giusta adesso è quella col `www`, perché il `www` è il principale.
+
+> 🌐 **2026-09-06 08:02 — Il nome del sito non si trasferisce: si cambiano due righe, e il pannello è Netsons.** Richiesta tua: «come faccio a spostare il dominio su vercel?», poi «non ricordo dove ho comperato il dominio».
+>
+> **In parole semplici.** Il nome del sito porta ancora al fornitore vecchio, che è spento da settimane. Per portarlo su Vercel non serve ricomprarlo e non serve trasferirlo. Si cambiano due righe nel pannello dove il nome è ospitato. Si torna indietro rimettendo il valore di prima, quindi la mossa è reversibile.
+>
+> **Dove si cambiano quelle due righe.** L'ho chiesto alle macchine che rispondono per il nome, invece di fidarmi del manuale. Rispondono quattro macchine di Netsons. Anche il responsabile della zona ha un indirizzo di posta Netsons. Il pannello da aprire è quello.
+>
+> **Cosa cambia per te.** La scheda in coda diceva due cose sbagliate, e adesso non le dice più. Diceva che la schermata di accesso di Vercel avrebbe coperto il sito. Con l'impostazione che ho letto oggi non succede. E parlava di passare il nome a un altro venditore: non serve.
+>
+> **Cosa devi fare.** Aprire il pannello e cambiare le due righe. Se non ricordi la password c'è un passo zero. Cerca la parola netsons nella tua posta. La conferma d'acquisto e gli avvisi di rinnovo arrivano da lì. Quell'indirizzo di posta è il tuo account.
+>
+> **Cosa non ho verificato.** Da chi il nome sia stato comprato davvero. La ricerca che lo direbbe passa da una porta di rete che da qui è chiusa, e l'ho provata. Non so nemmeno quali impostazioni siano oggi sul pannello di Vercel.
+>
+> Referto: `consegne/devops/2026-09-04-dominio-su-vercel.md`
+
 > 🛣️ **2026-09-05 07:05 — Il banco delle difese misurava una difesa su sei. Adesso le misura tutte, e ne ha subito trovate due che non difendevano.** Richiesta tua: le corsie parallele, firmate ieri.
 >
 > **In parole semplici.** Prima di consegnare, la macchina rompe apposta il proprio codice. Serve a vedere se le prove se ne accorgono. Una prova che resta verde col codice rotto non sta difendendo niente.
@@ -60,7 +84,6 @@ fonte: AD digitale (giro, cervello/giro.md)
 > Il motivo: ieri ho riclonato il progetto da capo, dopo che un mio esperimento aveva cancellato la cartella. Ho perso un'ora di lavoro, niente di già consegnato. Sul server quei pezzi ci sono, quindi là le due difese vengono misurate.
 
 ---
-
 > 🔧 **2026-09-03 21:00 — Lotto di riparazione del sito: 97 problemi seri chiusi su 110, e uno che nessuno aveva mai visto era il peggiore.** Richiesta tua: «risolvi il maggior numero di problemi del marketplace».
 >
 > **In parole semplici.** Il marketplace aveva 110 problemi fra bloccanti e gravi. Ne abbiamo chiusi 97 su 110. Il registro dei difetti del sito passa da 369 aperti a 304: i gravi scendono da 106 a 26, i bloccanti da 4 a 3. Le prove che girano da sole passano da 2411 a 3200.
