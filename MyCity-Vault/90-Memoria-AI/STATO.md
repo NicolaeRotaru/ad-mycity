@@ -1,7 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 22:31
-fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
+aggiornato: 2026-09-06 06:02
+fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
+---
+
+> ☀️ **6/9 06:02 — Piano del mattino: 74° giorno di stallo.** Zero novità stanotte.
+>
+> **I numeri, riverificati ora con query diretta su Supabase.** 1 ordine, del 24/6, annullato.
+> **0 pagati.** 9 profili. 9 prodotti. 3 carrelli abbandonati. Sono identici bit-per-bit al
+> passaggio delle 22:31 di ieri sera.
+>
+> **La notte.** `git log` dalle 22:31 a ora mostra un solo commit. È un recupero di scritture
+> interne delle 06:00. Tocca solo la contabilità della macchina. Nessun dato di business dentro.
+> `DECISIONI.md` è invariato: l'ultima firma di Nicola resta quella del 29/8.
+>
+> **La coda.** `AZIONI-IN-ATTESA.md` è invariata. In cima restano quattro card. **#197**: il
+> codice del funnel carrelli, senza una PR, da luglio. **#196**: "Panificio Demo", origine
+> ancora ignota. **#195** e **#194**: due gate cronici, fermi sullo stesso buco di permessi VPS.
+>
+> **Le 3 cose di oggi.**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 27 giorni.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+>
+> Blocco completo: [[RITMO]].
+
 ---
 
 > 🧭 **5/9 22:31 — Nuova chiamata "esegui giro.md per intero".** Sono passate circa 2 ore dal
@@ -1202,21 +1225,21 @@ fonte: AD digitale (giro di perlustrazione, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Base di partenza, non una misura di adesso.** I numeri sotto vengono dall'ultima lettura vera
-del database, 5 settembre alle 18:03 (Report della sera), query diretta a Supabase via MCP. Quando
+del database, 6 settembre alle 06:02 (Piano del mattino), query diretta a Supabase via MCP. Quando
 i sensori sono ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
 
-| Numero | Oggi (5/9 18:03) | Δ vs 4/9 18:00 | "Riuscito" | Note |
+| Numero | Oggi (6/9 06:02) | Δ vs 5/9 22:31 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 5/9 18:03. "Panificio Demo" (card #196) NON contato: origine non confermata |
-| Negozi con payout attivo | **0 reali** | = | 1 | confermato ora: `stripe_charges_enabled` falso su entrambi i seller. Card #182 |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 5/9 18:03 (Pane Quotidiano). Il totale tabella `products` è **9**: i 4 in più sono del "Panificio Demo" non confermato |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 5/9 18:03 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **73 giorni** dal 24/6 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 6/9 06:02. "Panificio Demo" (card #196) NON contato: origine non confermata |
+| Negozi con payout attivo | **0 reali** | = | 1 | confermato ieri: `stripe_charges_enabled` falso su entrambi i seller. Card #182 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato ieri (Pane Quotidiano). Il totale tabella `products` è **9**: i 4 in più sono del "Panificio Demo" non confermato |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 6/9 06:02 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **74 giorni** dal 24/6 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | non eseguibile finché Stripe PQ resta spento |
-| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | ▲ da 8 | crescita | il +1 è "Panificio Demo" (card #196, comparso 06:40, origine ignota), non un cliente vero |
+| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | = | crescita | invariato da ieri sera. Il +1 di ieri mattina resta "Panificio Demo" (card #196, origine ignota), non un cliente vero |
 | Lead negozi nel DB | **407** (fermi dal 24/5) | = | lavorarli | invariato, fuori dal perimetro North-Star di questo giro |
-| Sito pubblico | **HTTP 503** | = | 200 | riverificato dal vivo il 5/9 18:03 (`WebFetch` diretto su mycity-marketplace.com). Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Sito pubblico | **HTTP 503** (baseline 5/9 18:03) | = | 200 | non riverificato dal vivo in questo passaggio. Causa nota: dominio e chiavi Vercel (#155, #154) |
 
 ---
 
@@ -1224,16 +1247,19 @@ i sensori sono ciechi, i controlli automatici leggono questa tabella invece di i
 
 1. **#154+#155** — dominio e chiavi Vercel. Mossa n.1: senza questo il sito resta giù (HTTP 503) e
    nessun pagamento riuscito diventa un ordine.
-2. **#182** — pagamenti carta di Pane Quotidiano, fermi da oltre 18 giorni.
+2. **#182** — pagamenti carta di Pane Quotidiano, fermi da oltre 27 giorni.
 3. **#184** — quattro migrazioni ferme sul database di produzione.
-4. **#185** — la scadenza del 29/8, passata da 5 giorni: le quattro cose che avevi fissato non
+4. **#185** — la scadenza del 29/8, passata da 8 giorni: le quattro cose che avevi fissato non
    hanno ancora un conto verificato.
 5. **#186** — il cancello del sito.
 6. **#188** — l'origine del comando ricorrente "negozi in calo".
-7. **#189** — il permesso mancante per rilanciare `test-cervello.mjs` (buco di `settings.local.json`).
-8. **#190** — le 8 PR rosse in CI, ferme perché il gate North Star vieta di toccarle senza deroga.
+7. **#189/#194/#195** — permessi mancanti su tre controlli automatici (buco di `settings.local.json`).
+8. **#190** — le PR rosse in CI, ferme perché il gate North Star vieta di toccarle senza deroga.
 9. **#191** — 10 azioni-negozio tornate visibili dopo la pausa scaduta.
 10. **#192** — leggibilità di alcuni file di memoria.
+11. **#193** — 11 post pronti per Pane Quotidiano, zero pubblicati: scegli quale far partire.
+12. **#196** — "Panificio Demo", negozio finto comparso il 5/9 alle 06:40: dimmi se lo riconosci.
+13. **#197** — codice sul funnel carrelli abbandonati, pronto da luglio, mai entrato in una PR.
 
 Più a fondo, invariata: la divergenza tra il ramo locale di questa macchina e `main` su GitHub
 (card #104) — il rebase automatico trova sempre gli stessi conflitti reali su `AZIONI-IN-ATTESA.md`,

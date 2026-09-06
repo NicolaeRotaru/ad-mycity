@@ -1091,3 +1091,13 @@ Esempi:
 - 2026-09-05 22:31 · @ad · FATTO · Controllato il commit di recupero delle 22:20: tocca solo 3 file di contabilità interna (costo-ai, esito-cadenze, esito-giro), nessun dato di business.
 - 2026-09-05 22:31 · @ad · FATTO · Non rilanciate le 15 fasi pesanti del giro: letargo RISPARMIO + gate NORTH_STAR su dati confermati identici — sarebbe stato rumore, non un controllo in più.
 - 2026-09-05 22:31 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata (#197/#196/#195/#194).
+
+### 2026-09-06 06:02 — ☀️ PIANO DEL MATTINO (cadenza vera, primo blocco del giorno)
+- 2026-09-06 06:02 · @ad · FATTO · Riverificato dal vivo via Supabase MCP (`execute_sql`, non a memoria): ordini=1 (annullato, 24/6), pagati=0, profili=9, prodotti=9, carrelli abbandonati=3 — identico bit-per-bit al passaggio delle 22:31 di ieri sera. Stallo North Star oggi **74° giorno** (24/6→6/9).
+- 2026-09-06 06:02 · @ad · FATTO · Letta `AZIONI-IN-ATTESA.md`: invariata, top card ancora #197 (codice funnel senza PR). Letto `DECISIONI.md`: nessuna firma nuova, ultima resta il 29/8. `git log` dalle 22:31 a ora: un solo commit, recupero di scritture interne delle 06:00 (solo file di contabilità macchina, nessun dato di business).
+- 2026-09-06 06:02 · @ad · FATTO · Scritto il blocco `## Piano del mattino · 2026-09-06 06:02` in RITMO.md e il blocco corrispondente in STATO.md (frontmatter → 06:02, tabella numeri e priorità in coda aggiornate). Tre priorità assegnate, nessun reparto chiamato per lavoro pesante nuovo (gate NORTH_STAR: un solo negozio confermato, già servito dalle card in coda).
+- 2026-09-06 06:02 · @ad · PASSO-A · @devops-sre — priorità #1 resta #154+#155 (dominio+chiavi Vercel): nessuna azione possibile senza la firma di Nicola, solo preparazione già consegnata nelle card.
+- 2026-09-06 06:02 · @ad · PASSO-A · @account-negozi/@finanza — priorità #2 #182 (pagamenti carta Pane Quotidiano, 27gg fermo): in attesa che Nicola scelga strada (a) o (b) nella card.
+- 2026-09-06 06:02 · @ad · PASSO-A · @AD — priorità #3 #196 ("Panificio Demo", negozio finto comparso ieri 06:40): in attesa che Nicola dica se lo riconosce o dia il via a cancellarlo. Nessuna nuova traccia della sua origine trovata stanotte.
+- 2026-09-06 06:02 · @ad · PASSO-A · @content-social — nessun post nuovo da scrivere: #193 ha già 11 pronti, zero pubblicati; un 12° sarebbe rumore finché Nicola non sceglie ([[playbook-contenuto-giorno-backlog-undici-post]]).
+- 2026-09-06 06:02 · @ad · PASSO-A · @Nicola — stesse firme di ieri, nessuna arrivata durante la notte: #154+#155 (mossa n.1), #182, #184, #185 (scadenza 29/8 passata da 8 giorni), #189/#194/#195 (stesso buco di permessi VPS), #196 (negozio finto), #197 (codice funnel senza PR).

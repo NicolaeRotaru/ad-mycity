@@ -1753,3 +1753,19 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - La prima cosa utile è la tua risposta su "Panificio Demo" e sul codice ritrovato. Senza quella, restano ferme entrambe.
 
 **Dettagli tecnici** — Supabase MCP ore 18:03: `orders`=1 (24/6, annullato), `profiles`=9 (5 buyer/2 seller/1 rider/1 admin), `products`=9 (5 Pane Quotidiano + 4 Panificio Demo), carrelli abbandonati=3, lead=407. Sito: HTTP 503 via WebFetch diretto. DECISIONI.md invariato dal 29/8 00:40. Coda invariata: #154+#155 (mossa n.1), #182, #184, #185, #189/#194/#195 (allowlist Bash), #196 (negozio finto), #197 (codice funnel senza PR).
+
+## Piano del mattino · 2026-09-06 06:02
+
+**In una riga:** zero novità stanotte. Le stesse tre firme restano la priorità di oggi.
+
+**Le 3 cose di oggi**
+1. Rimetti online il sito vero: dominio e chiavi Vercel. Un pagamento riuscito oggi non diventa un ordine.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico negozio vero. È fermo da 27 giorni.
+3. Decidi su "Panificio Demo". È il negozio finto comparso ieri nel database. Dimmi se lo riconosci o se lo cancello.
+
+**Serve da te**
+- Firma dominio e chiavi Vercel (#154+#155). È la mossa che sblocca tutto il resto.
+- Dimmi se conosci "Panificio Demo" (#196). Oppure dammi il via a cancellarlo.
+- Scegli un post da pubblicare per Pane Quotidiano (#193). O dimmi quali ritirare. Zero pubblicati finora.
+
+**Dettagli tecnici** (opzionale) — Riverificato ora via SQL diretto su MCP Supabase. Ordini 1 (24/6, annullato). Pagati 0. Profili 9. Prodotti 9. Carrelli 3. Sono identici bit-per-bit al passaggio delle 22:31 di ieri sera. Zero commit di business da allora: solo un recupero di scritture interne alle 06:00. Nessuna firma nuova in DECISIONI.md, ultima il 29/8. Coda invariata: #154+#155, #182, #184, #185, #189/#194/#195, #196, #197.
