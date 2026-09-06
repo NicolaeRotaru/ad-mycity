@@ -1769,3 +1769,20 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Scegli un post da pubblicare per Pane Quotidiano (#193). O dimmi quali ritirare. Zero pubblicati finora.
 
 **Dettagli tecnici** (opzionale) — Riverificato ora via SQL diretto su MCP Supabase. Ordini 1 (24/6, annullato). Pagati 0. Profili 9. Prodotti 9. Carrelli 3. Sono identici bit-per-bit al passaggio delle 22:31 di ieri sera. Zero commit di business da allora: solo un recupero di scritture interne alle 06:00. Nessuna firma nuova in DECISIONI.md, ultima il 29/8. Coda invariata: #154+#155, #182, #184, #185, #189/#194/#195, #196, #197.
+
+## Punto di mezzogiorno · 2026-09-06 12:00
+
+**In una riga:** stessa mattina, stesse tre firme ferme. L'unica cosa nuova è che un quarto controllo automatico ha iniziato a dare "no" di continuo.
+
+**Le 3 priorità di stamattina, a che punto sono:**
+1. ❌ **Rimetti online il sito** (dominio + chiavi Vercel, `#154`/`#155`). Nessuna firma. Il sito resta giù.
+2. ❌ **Sblocca i pagamenti con carta di Pane Quotidiano** (`#182`). Fermo da 28 giorni.
+3. ❌ **Decidi su "Panificio Demo"** (`#196`). Ancora nessuna risposta: lo riconosci o lo cancello?
+
+**Correzione di rotta:** nessuna da fare sui numeri — li ho controllati di nuovo ora, sul database vero, e sono identici a stamattina: 1 ordine (annullato), 0 pagati, 9 profili, 9 prodotti, 3 carrelli. È il **75° giorno** senza un incasso vero. La cosa da correggere è di processo, non di negozio: un controllo automatico chiamato "cadenze" dice "no" da tre passaggi di fila e nessuno lo sta riparando, perché lo strumento che lo ripara è bloccato dallo stesso buco di permessi delle altre due card gemelle (`#194`/`#195`). L'ho segnalato in una scheda nuova stamattina alle 10:30 (`#198`), non ne apro una seconda: è lo stesso buco, non un problema nuovo. Nel pomeriggio non c'è nessun lavoro pesante nuovo da assegnare ai reparti: con un solo negozio vero e zero pagamenti attivi, spingere su marketing o contenuti sarebbe lavoro che nessuno può ancora incassare.
+
+**Cosa serve da te entro sera:**
+- Le stesse firme di stamattina: Vercel (`#154`/`#155`), pagamenti Pane Quotidiano (`#182`), "Panificio Demo" (`#196`).
+- Se hai 2 minuti: il permesso che sblocca gli strumenti di controllo interni (`#194`/`#195`/`#198`) — sono tre schede sullo stesso buco, una firma le chiude tutte e tre insieme.
+
+**Dettagli tecnici** — Riverificato ora via SQL diretto su MCP Supabase (`execute_sql`): `orders`=1, `profiles`=9, `products`=9, `abandoned_carts`=3, identico bit-per-bit ai quattro controlli precedenti di oggi (08:59/10:30/11:09/11:41). `git log` e `DECISIONI.md`: nessuna firma nuova di Nicola dal 29/8. `AZIONI-IN-ATTESA.md`: coda invariata, in cima #198/#197/#196/#195/#194/#193/#182/#154/#155. Nessun 🟢 rapido disponibile oltre a quelli già eseguiti dai passaggi di stamattina (riparazioni di `auto-analisi.json`, dedup `mutanti.json`): il resto è tutto in attesa di firma.
