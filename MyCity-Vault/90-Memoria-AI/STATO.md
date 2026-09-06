@@ -4,15 +4,23 @@ aggiornato: 2026-09-06 12:00
 fonte: AD digitale (ritmo.md, cadenza "Punto di mezzogiorno")
 ---
 
-> 🕛 **6/9 12:00 — Punto di mezzogiorno.** Riprese le tre priorità del Piano del mattino (06:02):
-> tutte e tre restano ❌, nessuna firmata da Nicola. Dati riverificati dal vivo via SQL diretto su
-> MCP Supabase: 1 ordine, 9 profili, 9 prodotti, 3 carrelli — identici bit-per-bit ai quattro
-> controlli di stamattina (08:59/10:30/11:09/11:41). **75° giorno di stallo North Star** (24/6→6/9).
-> Correzione di rotta: nessuna sui numeri (fermi), una sul processo — il vincolo CADENZE (card
-> #198) resta rosso, stesso buco di permessi delle card gemelle #194/#195. Nessun lavoro pesante
-> nuovo assegnato ai reparti nel pomeriggio: un solo negozio vero e zero pagamenti attivi rendono
-> rumore qualunque spinta su marketing/contenuti. Mossa numero uno invariata: firma #154+#155
-> (dominio+chiavi Vercel). Blocco completo: [[RITMO]].
+> 🕛 **6/9 12:00 — Punto di mezzogiorno.** Riprese le tre priorità del Piano del mattino (06:02).
+> Tutte e tre restano ❌. Nessuna firmata da Nicola.
+>
+> **I numeri, riverificati dal vivo via SQL diretto su MCP Supabase.** 1 ordine. 9 profili. 9
+> prodotti. 3 carrelli. Identici bit-per-bit ai quattro controlli di stamattina (08:59/10:30/
+> 11:09/11:41). **75° giorno di stallo North Star** (24/6→6/9).
+>
+> **Correzione di rotta.** Sui numeri non c'è niente da correggere: sono fermi. Sul processo sì. Il
+> vincolo CADENZE (card #198) resta rosso. È lo stesso buco di permessi delle card gemelle #194 e
+> #195.
+>
+> **Nel pomeriggio.** Nessun lavoro pesante nuovo assegnato ai reparti. Un solo negozio è vero. Zero
+> pagamenti sono attivi. Spingere ora su marketing o contenuti sarebbe rumore.
+>
+> **Mossa numero uno, sempre la stessa.** Firma #154+#155: dominio e chiavi Vercel.
+>
+> Blocco completo: [[RITMO]].
 
 ## Passaggi precedenti
 
