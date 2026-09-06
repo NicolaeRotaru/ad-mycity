@@ -1,0 +1,110 @@
+{
+ "squadra": 207,
+ "territorio": [
+  "app/cart/page.tsx",
+  "components/checkout/OrderSummary.tsx",
+  "lib/stripe/webhook/ordini.ts",
+  "app/api/cron/expire-checkouts/route.ts",
+  "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "migrations/086_notify_buyer_on_order_status.sql",
+  "app/category/[slug]/layout.tsx",
+  "lib/constants.ts",
+  "lib/promesse-pubbliche.ts"
+ ],
+ "malattia": "La stessa protezione scritta su una strada sola di due gemelle: il carrello dice «toglilo per continuare» e poi lascia passare (il muro sta solo alla cassa), e il giro periodico controlla se degli ordini sono gia' nati mentre il suo gemello nel webhook no. Dove la coppia si e' separata, la meta' non riparata rimette in vendita merce gia' venduta e perde l'unico avviso su un ordine pagato a meta'.",
+ "difetti": [
+  {
+   "chiave": "stati-ui|il carrello dice «toglilo per continuare» ma lascia continuare lo stesso",
+   "titolo": "Il carrello dice «toglilo per continuare» ma lascia continuare lo stesso",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx tsc --noEmit -p tsconfig.json (pulito) + npx vitest run sui 57 file di prova che leggono carrello/cassa/promesse/webhook: 462 prove verdi, fra cui tests/unit/nel-carrello-il-pulsante-che-porta-i-soldi-si-vede-sempre.test.ts (pretende href=\"/checkout\" dentro la barra in fondo) e il-pulsante-principale-ha-una-terracotta-sola.test.ts. Lettura del sorgente: app/cart/page.tsx:481 (const bloccanti), :738-757 e :826-845 (i due pulsanti).",
+   "nota_fix": "La scheda diceva un pulsante solo: dal 3/9 ne esistono DUE — quello della colonna di destra e quello della barra incollata in fondo sul telefono (che e' l'unico che si vede davvero da telefono). Erano tutti e due <Link href=\"/checkout\"> sempre accesi: chiusi tutti e due, un difetto riparato a meta' sul telefono non sarebbe stato riparato. Quando c'e' almeno una riga con disponibilita' zero (`massimo(id, variantId) === 0`, la STESSA regola della riga rossa, cosi' le due non si separano) il collegamento diventa un <button aria-disabled> che dice «Togli l'articolo esaurito per continuare» e, premuto, porta sulla riga da sistemare. Il salto lo fa `vaiAlPrimoBlocco` gia' esportato da components/checkout/OrderSummary.tsx — non una seconda regola scritta nel carrello — e per questo la riga rossa ha ora role=\"alert\", che e' quello che quella funzione cerca. `aria-disabled` e non `disabled`: un pulsante disabilitato esce dal giro del Tab e sparisce senza spiegazioni. Finche' la disponibilita' non e' stata letta `massimo` risponde null e non blocca niente: nessun falso muro al primo disegno della pagina.",
+   "file_toccati": [
+    "app/cart/page.tsx"
+   ]
+  },
+  {
+   "chiave": "microcopy|il carrello scrive «1 articoli»",
+   "titolo": "Il carrello scrive «1 articoli»",
+   "esito": "gia_riparato_prima",
+   "prova": "cd /home/user/mycity && grep -n \"pluralize(count\" app/cart/page.tsx -> riga 500 (titolo «Il tuo carrello») e riga 676 (riepilogo), tutte e due `pluralize(count, 'articolo', 'articoli')`; lib/format.ts:41-43 -> `n === 1 ? singular : plural`.",
+   "nota_fix": "Le righe 198 e 362 della scheda non esistono piu' con quel contenuto: il carrello e' stato riscritto e in tutte e due le posizioni la forma singolare/plurale c'e' gia', presa dalla funzione condivisa `pluralize`. Con un solo articolo si legge «Il tuo carrello (1 articolo)». Non ho toccato niente.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "pagamenti-stripe|quando il pagamento scade, il webhook rimette in vendita anche la merce che intanto e' stata venduta",
+   "titolo": "Quando il pagamento scade, il webhook rimette in vendita anche la merce che intanto e' stata venduta",
+   "esito": "riparato",
+   "prova": "Prova nuova, scritta apposta e verificata nei due versi: cd /home/user/mycity && npx vitest run tests/unit/il-carrello-scaduto-non-rimette-in-vendita-merce-gia-venduta.test.ts -> 6 verdi. Rimettendo il difetto (tolto il blocco di controllo da lib/stripe/webhook/ordini.ts) le due prove sul webhook diventano rosse: 2 failed | 4 passed. Poi 57 file / 462 prove del perimetro tutte verdi, incluso webhook-diviso-per-mestiere.test.ts (tetto di 600 righe per file del webhook).",
+   "nota_fix": "Confermato sul codice di adesso: `handleCheckoutExpired` (lib/stripe/webhook/ordini.ts:559) non interrogava mai la tabella orders. Aggiunto PRIMA della rivendicazione atomica il controllo che il giro periodico fa gia': si leggono gli ordini di quella sessione (`orders.stripe_session_id = session.id`, la stessa chiave usata dal giro periodico e scritta da handleCheckoutCompleted:321) e, se ce n'e' anche uno, non si tocca niente — niente EXPIRED, niente restore_stock, niente codice sconto restituito — e resta una riga di logger.error. Il carrello resta PENDING apposta: cosi' lo raccoglie il giro periodico, che e' quello che avvisa gli amministratori (e il suo avviso, con l'altro fix di questo pacchetto, ora non puo' piu' sparire in silenzio). Se il controllo stesso non riesce si solleva un'eccezione invece di ripristinare al buio: la rotta del webhook risponde 500 e Stripe riconsegna l'evento (non sapere non e' come sapere che non ci sono ordini). Vale per tutti e due gli eventi, checkout.session.expired e checkout.session.async_payment_failed, che entrano nella stessa funzione. DUE DIFFERENZE CON LA SCHEDA. (1) Non ho estratto la funzione condivisa che la scheda proponeva: la casa naturale sarebbe lib/stripe/webhook/comune.ts, che e' fuori dal mio territorio, e ordini.ts ha un tetto di 600 righe (prova webhook-diviso-per-mestiere) — oggi e' a 598, con due righe di margine. Il controllo e' quindi scritto due volte, come prima; a chiudere la classe pensa la prova nuova, che li verifica tutti e due. (2) Il commento «Il gemello nel webhook fa gia' cosi'» del giro periodico (riga ~120) parla della RIVENDICAZIONE ATOMICA, non del controllo ordini, ed era vero: non l'ho toccato. La promessa sbagliata che la scheda gli attribuiva non c'era; adesso comunque il gemello fa davvero tutte e due le cose.",
+   "file_toccati": [
+    "lib/stripe/webhook/ordini.ts",
+    "tests/unit/il-carrello-scaduto-non-rimette-in-vendita-merce-gia-venduta.test.ts"
+   ]
+  },
+  {
+   "chiave": "qa-flussi|l'unico avviso su un carrello pagato a meta' puo' sparire senza che nessuno lo sappia",
+   "titolo": "L'unico avviso su un carrello pagato a meta' puo' sparire senza che nessuno lo sappia",
+   "esito": "riparato",
+   "prova": "Stessa prova nuova: cd /home/user/mycity && npx vitest run tests/unit/il-carrello-scaduto-non-rimette-in-vendita-merce-gia-venduta.test.ts -> 6 verdi. Rimettendo il difetto (avviso scritto senza leggere l'errore e risposta sempre ok) le due prove sul giro periodico diventano rosse: 2 failed | 4 passed.",
+   "nota_fix": "Ora l'esito dell'`insert` sugli avvisi si legge, e si legge anche l'errore della lettura degli amministratori. Se l'avviso non parte — errore di scrittura, lettura fallita, oppure nessun amministratore in tabella — il giro finisce comunque il suo lavoro e POI risponde 500 con `{ok:false, error, expired, saltati}` invece di ok:true, cosi' Vercel lo ritenta. L'ordine conta: rispondere 500 subito avrebbe lasciato non scaduti tutti gli altri carrelli sani, cioe' merce riservata per sempre a ogni giro — un rimedio peggiore del male. Il ritentativo e' sicuro perche' il lavoro e' idempotente: scade solo cio' che e' ancora PENDING, e un `insert` fallito non lascia righe a meta', quindi non nascono avvisi doppi. Il caso «nessun amministratore» non lo risolve un ritentativo, ma non puo' nemmeno restare una riga di log che non guarda nessuno: esce anche lui dalla porta rossa.",
+   "file_toccati": [
+    "app/api/cron/expire-checkouts/route.ts",
+    "tests/unit/il-carrello-scaduto-non-rimette-in-vendita-merce-gia-venduta.test.ts"
+   ]
+  },
+  {
+   "chiave": "qa-flussi|se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "titolo": "Se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "esito": "non_riparato",
+   "prova": "cd /home/user/mycity && grep -n 'EXCEPTION WHEN OTHERS' migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql migrations/086_notify_buyer_on_order_status.sql -> 150:143 e 086:57, in tutti e due il corpo e' `NULL;` senza nessuna RAISE WARNING (confermato, il difetto c'e' ancora). E scripts/applica-migrazioni-mancanti.sh + scripts/check-migration-drift.mjs: si applica e si registra SOLO cio' che manca, per nome di file.",
+   "nota_fix": "NON riparato apposta, e non perche' sia difficile: il rimedio e' una migrazione, cioe' un'azione rossa fuori da questo lotto. Riscrivere le migrazioni 150 e 086 al loro posto non cambierebbe niente in produzione — sono gia' applicate e registrate per nome, e il giro dei rilasci applica solo i file nuovi: il database continuerebbe a ingoiare gli errori mentre il codice sembrerebbe a posto. Serve un file NUOVO, migrations/155_l_email_non_accodata_lascia_una_traccia.sql, che rifa' le due funzioni con CREATE OR REPLACE cambiando solo il corpo del blocco: da `NULL;` a `RAISE WARNING '[email_queue] ordine % template %: %', NEW.id, v_template, SQLERRM;` (e l'equivalente in 086 con NEW.id e NEW.delivery_status). Resta best-effort — l'ordine non si blocca — ma l'errore finisce nel log di Postgres e diventa cercabile. Da accodare per la firma di Nicola con il suo rollback (la stessa CREATE OR REPLACE col corpo `NULL;`). La tabellina «email non accodate» proposta dalla scheda e' un secondo passo, piu' grosso: una tabella nuova con le sue regole di accesso, non una riga.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "microcopy|la descrizione che google mostra per la categoria alimentari promette il ritiro in negozio, che è spento",
+   "titolo": "La descrizione che Google mostra per la categoria Alimentari promette il ritiro in negozio, che è spento",
+   "esito": "gia_riparato_prima",
+   "prova": "cd /home/user/mycity && grep -n 'fraseComeArriva' 'app/category/[slug]/layout.tsx' -> riga 10: alimentari: `... ${fraseComeArriva()}`; lib/promesse-pubbliche.ts:90-94 con RITIRO_IN_NEGOZIO_ATTIVO=false (lib/constants.ts:81) risponde «Consegna locale in 30-60 minuti.», senza ritiro. E c'e' gia' un guardiano: npx vitest run tests/unit/ritiro-in-negozio-messo-da-parte.test.ts -> 13 verdi, e al punto ② monta proprio app/category/[slug]/layout.tsx.",
+   "nota_fix": "Riparato il 3/9 da un'ondata precedente, e nel modo giusto: la frase non e' stata corretta a mano, nasce dall'interruttore. Se Nicola riaccende il ritiro, «o ritiro in negozio» ricompare da solo. Non ho toccato niente. (Nel file resta un'altra cosa, che pero' e' un difetto diverso e non promette il ritiro: la descrizione di ripiego alla riga 33 riscrive a mano «Consegna in 30-60 minuti» — l'ho messa fra i difetti nuovi, non nel mio diff.)",
+   "file_toccati": []
+  },
+  {
+   "chiave": "architettura|sulla card del catalogo la pillola verde dice «sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome",
+   "titolo": "Sulla card del catalogo la pillola verde dice «Sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts (verde: pretende che `breve` contenga ancora la cifra vera, formatPrice(3)) + tsc pulito + le 462 prove del perimetro. Lettura: lib/promesse-pubbliche.ts:277-284 -> `Sped. gratis · consegna 3,00 €` sopra soglia e `−18,00 € alla sped. gratis (consegna 3,00 €)` sotto.",
+   "nota_fix": "Ai tre euro ho dato il loro nome: da «Sped. gratis + 3,00 €» a «Sped. gratis · consegna 3,00 €». La cifra resta (e' il costo vero, ed e' per dirlo prima della scelta che quella funzione esiste), la parola che la nomina c'e'. Corretta anche la forma sotto soglia, che aveva lo stesso «(+3,00 €)» senza nome. COSA NON HO FATTO, dichiarato: (1) la verifica che la scheda stessa chiama umana — mostrare la card a tre persone sopra i sessanta e chiedere «quanto paghi di consegna?» — da qui non si puo' fare, non c'e' nessuno a cui mostrarla; (2) il guardiano automatico che la scheda proponeva, cioe' pretendere che ogni etichetta di promessaSpedizione con dentro una cifra contenga anche il sostantivo che la nomina: vive in tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts, che non e' nel mio territorio. Debito dichiarato: l'asserzione da aggiungere e' che sopra soglia `breve` contenga /consegna|spedizione/ oltre a formatPrice. (3) La larghezza: l'etichetta passa da 21 a 30 caratteri e la pillola verde e' gia' stretta a 360 pixel. Non si rompe niente — components/ProductCard.tsx:222 le tiene in un contenitore `flex flex-wrap`, quindi al massimo va a capo insieme a «Ultimi 3» — ma da qui non c'e' un browser e i pixel non li ho visti: va guardato con la verifica umana.",
+   "file_toccati": [
+    "lib/promesse-pubbliche.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "qa-flussi|se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "perche": "Il fix non vive in un file che posso toccare: serve una migrazione NUOVA (migrations/155_...sql). Riscrivere migrations/150 e migrations/086 sul posto non cambia il database — sono gia' applicate e il rilascio applica solo i file nuovi. E' un'azione rossa: script pronto in nota_fix, serve la firma di Nicola."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il giro delle scadenze riscrive lo stesso avviso ogni mezz'ora, per sempre",
+   "dove": "app/api/cron/expire-checkouts/route.ts:86-122",
+   "gravita": "minore",
+   "nota": "Un carrello scaduto ma con ordini gia' nati resta PENDING e nessuno lo chiude: a ogni giro (ogni 30 minuti) rientra fra i candidati e scrive un avviso nuovo a tutti gli amministratori. Preesistente al mio fix, non peggiorato da lui: dopo il primo avviso servirebbe uno stato — o una colonna «gia' segnalato» — per non ripetersi. Tocca lo schema, quindi non e' di questo lotto."
+  },
+  {
+   "titolo": "La descrizione di ripiego delle categorie riscrive a mano «Consegna in 30-60 minuti»",
+   "dove": "app/category/[slug]/layout.tsx:33",
+   "gravita": "minore",
+   "nota": "Le otto categorie scritte a mano ora passano da fraseComeArriva()/EXPRESS_ETA_LABEL, ma la descrizione di ripiego — quella che prende OGNI categoria non elencata — ha i minuti battuti dentro: il giorno che il numero cambia resta indietro da sola. Fix da 2 minuti (`${fraseComeArriva()}`), ma e' un difetto nuovo e per regola non entra nel mio diff."
+  },
+  {
+   "titolo": "Il file degli ordini del webhook e' a due righe dal suo tetto",
+   "dove": "lib/stripe/webhook/ordini.ts (598 righe su un tetto di 600)",
+   "gravita": "minore",
+   "nota": "Il tetto lo tiene tests/unit/webhook-diviso-per-mestiere.test.ts, ed e' un buon freno: serve a non tornare al file unico da mille righe. Ma chi tocchera' questa strada dopo di me non ha piu' spazio nemmeno per un commento, e la casa naturale per il pezzo condiviso (il controllo «esistono gia' ordini per questa sessione?») e' lib/stripe/webhook/comune.ts. E' li' che andrebbe estratto, in un lotto dove quel file e' nello stesso territorio."
+  }
+ ],
+ "non_verificato": "① Niente browser: dei due pulsanti del carrello ho verificato il codice, il tipo e le prove del perimetro, non i pixel — che il pulsante bloccato si veda spento e che il salto alla riga esaurita sia gradevole non l'ho guardato. ② `vaiAlPrimoBlocco` salta al PRIMO elemento con role=\"alert\" della pagina: se per caso fosse aperto il pannello del CAP con il suo errore (components/LocationPill.tsx:182) vincerebbe quello. E' la stessa regola che la cassa usa gia' da sola, e la coincidenza e' rara, ma non l'ho provata. ③ Il webhook e il giro periodico li ho provati con un database finto (le chiamate a Supabase sono simulate): la forma delle risposte e' quella del client vero, ma un evento firmato di Stripe contro un database vero non l'ho mandato — quella e' la verifica umana che la scheda 162 chiedeva. ④ Non ho lanciato npm run verify ne' la build (vietati mentre le altre squadre scrivono): ho lanciato tsc, eslint e le 462 prove del perimetro piu' le 6 nuove. ⑤ La larghezza dell'etichetta corta sulla card del catalogo a 360 pixel: cresce di 9 caratteri, il contenitore va a capo, ma non l'ho visto a schermo. ⑥ Non ho toccato nessun file fuori dal territorio: l'unica aggiunta esterna e' un file di prova NUOVO (tests/unit/il-carrello-scaduto-non-rimette-in-vendita-merce-gia-venduta.test.ts), che non esisteva e quindi non puo' sovrascrivere il lavoro di nessuno."
+}

@@ -1,0 +1,109 @@
+{
+  "squadra": 210,
+  "territorio": [
+    "lib/stripe/client.ts",
+    "app/api/stripe/checkout/route.ts",
+    "lib/api/corpo.ts",
+    "app/api/rider/cash-confirm/route.ts",
+    "app/api/returns/create/route.ts",
+    "app/api/returns/[id]/avanza/route.ts",
+    "lib/products/draftFromVision.ts",
+    "app/api/ai/catalog-create/route.ts",
+    "app/api/ai/catalog-create-bulk/route.ts",
+    "app/seller/products/[id]/edit/page.tsx",
+    "components/seller/ProductForm.tsx",
+    "components/StoreShowcase.tsx",
+    "components/StorePreviewCard.tsx"
+  ],
+  "malattia": "Cinque volte lo stesso vizio: davanti a un limite esterno o a una lettura che non riesce, il codice sceglie il valore che fa proseguire (Math.max sulla scadenza, 400 al posto del 413, nessun tetto sull'alt, false sulla consegna veloce, quattro scheletri per sei negozi) invece di fermarsi o dire la verita' — e ogni volta sbaglia dal lato che costa.",
+  "difetti": [
+    {
+      "chiave": "pagamenti-stripe|la cassa puo' restare aperta venti minuti dopo che la merce e' gia' tornata in vendita",
+      "titolo": "La cassa puo' restare aperta venti minuti dopo che la merce e' gia' tornata in vendita",
+      "esito": "riparato",
+      "prova": "Prova nuova che gira: npx vitest run tests/unit/la-cassa-non-resta-aperta-dopo-la-merce.test.ts (3 prove, verde). Mutante: rimesso il vecchio `Math.min(Math.max(scadenzaRiservaSec, minimoSec), massimoSec)` e tolto il throw -> ROSSO (1 fallita su 3, «expected promise to be instance of RiservaTroppoCorta»). Ripristinato, verde. Piu' npx tsc --noEmit -p tsconfig.json (exit 0) e l'intera suite unitaria: 467 file, 3496 prove, tutte verdi.",
+      "nota_fix": "La scheda era esatta sul codice: lib/stripe/client.ts alzava la scadenza al minimo di Stripe invece di fermarsi. Ho tolto il Math.max e messo il verso sicuro: se alla riserva resta meno del minimo (31 minuti, un minuto di margine sui 30 di Stripe) si lancia una `RiservaTroppoCorta` esportata e la sessione NON nasce; il taglio verso l'alto (tetto 23 ore) resta, perche' li' la cassa muore PRIMA della riserva, che e' il verso giusto, e lascia un logger.warn quando i due tempi divergono. La rotta di cassa (app/api/stripe/checkout/route.ts) riconosce quell'errore nel `catch` che aveva gia': la pulizia e' la stessa che c'era (restore_stock, release_coupon, pending a CANCELED — quindi niente merce ne' codice sconto persi) e cambia solo cosa legge il cliente: 409 «Il carrello e' scaduto. Rimetti i prodotti nel carrello e riprova.» invece di un 500 generico. Ho scartato la seconda strada del fix_proposto — allungare prima la riserva su pending_checkouts — perche' vuol dire scrivere su una colonna governata dal giro periodico di scadenza: e' la classe di modifica che chiede una migrazione, quindi rossa e fuori lotto. `createMultiSellerCheckoutSession` ha un solo chiamante in tutta la repo (verificato con grep su app/, lib/, scripts/), quindi il nuovo lancio non puo' sorprendere nessun altro. NON verificato: il comportamento vero contro Stripe (qui l'SDK e' finto) e il caso `pendingExpiresAt` assente, che resta come prima — senza riserva nota nessuna scadenza viene messa, e non l'ho toccato per non allargare il lotto.",
+      "file_toccati": [
+        "lib/stripe/client.ts",
+        "app/api/stripe/checkout/route.ts",
+        "tests/unit/la-cassa-non-resta-aperta-dopo-la-merce.test.ts"
+      ]
+    },
+    {
+      "chiave": "pagamenti-stripe|un solo metodo di pagamento elettronico: la carta, per scelta scritta nel codice",
+      "titolo": "Un solo metodo di pagamento elettronico: la carta, per scelta scritta nel codice",
+      "esito": "non_riparato",
+      "prova": "Letto lib/stripe/client.ts: `payment_method_types: ['card']` c'e' ancora, confermato. Letto lo schema di `payment_attempts` (migrations/124_radiografia_21_agosto.sql:419-436): le colonne sono payment_intent_id, pending_checkout_id, user_id, amount_cents, status, decline_code, error_code, network_status, three_d_secure, created_at — NESSUNA colonna che dica con quale metodo si e' pagato. Letto chi la legge: app/admin/page.tsx:125 seleziona solo status, decline_code, error_code.",
+      "nota_fix": "Non riparato per scelta, e la scheda stessa lo chiede: il suo fix_proposto dice «proposta con dati, non implementata di slancio». Tre motivi, in ordine di peso. ① La riga di codice da sola non accende niente: i metodi (PayPal, Klarna, SEPA, Satispay) vanno abilitati sul cruscotto Stripe, che e' una impostazione fuori dal codice — regola 7 del briefing, rossa e fuori lotto. ② E' il checkout in produzione sul percorso dei soldi: se un metodo nuovo si comporta male, dal codice non lo si spegne per metodo. ③ Soprattutto: non si puo' misurare. `payment_attempts` non ha una colonna del metodo di pagamento, quindi «ha convertito meglio o peggio?» oggi non ha risposta; darle una risposta vuol dire aggiungere una colonna, cioe' una migrazione, cioe' rosso e fuori lotto. Per Nicola, in ordine: prima la colonna del metodo su payment_attempts (migrazione, firma), poi si accende UN metodo per volta dal cruscotto e si guarda il numero. NON verificato: quali metodi siano gia' abilitati sull'account Stripe vero — da qui non lo vedo.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "api-backend|chi manda un file troppo grande legge «dati non validi» invece del vero motivo",
+      "titolo": "Chi manda un file troppo grande legge «dati non validi» invece del vero motivo",
+      "esito": "riparato",
+      "prova": "Prova nuova che gira: npx vitest run tests/unit/il-corpo-troppo-grande-non-e-un-dato-non-valido.test.ts (6 prove, verde) — due per rotta: oltre il tetto deve uscire 413 con codice PAYLOAD_TOO_LARGE, e un JSON davvero rotto deve restare 400. Mutante: tolta la riga `if (e instanceof CorpoTroppoGrande)` da tutte e tre le rotte -> ROSSO (3 fallite su 6). Ripristinato, verde.",
+      "nota_fix": "La scheda e' invecchiata su un punto e va corretta: dice «grep -rn CorpoTroppoGrande app/ -> nessuna rotta lo nomina», ma oggi lo nominano diciotto rotte sotto /api/ai (fix R153 del 27/8). Le tre rotte scoperte erano esattamente quelle citate, e comanda il codice: rider/cash-confirm, returns/create, returns/[id]/avanza avevano lo stesso `catch` copiato tre volte che schiacciava tutto su 400 «Dati non validi». Fix minimo: in ognuna, prima di quella riga, `if (e instanceof CorpoTroppoGrande) return ApiErrors.payloadTooLarge(<messaggio da negozio>)`. Non ho toccato lib/api/responses.ts (fuori dal mio territorio) e non serviva: `ApiErrors.payloadTooLarge` esiste gia' li' dal 27/8 ed e' quello che usano le rotte AI. Seconda correzione alla scheda, e conta perche' cambia il messaggio: l'impatto raccontava «il fattorino che allega la foto dei contanti supera i limiti», ma nessuna delle tre rotte riceve la foto — cash-confirm prende un PERCORSO nell'archivio privato (max 300 caratteri), returns/create prende indirizzi gia' caricati da noi. Quindi ho scritto messaggi veri invece di quello del fix_proposto: «manda una foto piu' leggera» sul fattorino, «allega meno foto o scrivi una nota piu' corta» sull'apertura del reso, «scrivi una nota piu' corta» sul reso che avanza. NON verificato: che un telefono vero superi davvero il megabyte su queste tre rotte — con indirizzi e percorsi al posto delle foto e' molto difficile; qui il guadagno e' che nei registri un limite superato smette di somigliare a un difetto del browser.",
+      "file_toccati": [
+        "app/api/rider/cash-confirm/route.ts",
+        "app/api/returns/create/route.ts",
+        "app/api/returns/[id]/avanza/route.ts",
+        "tests/unit/il-corpo-troppo-grande-non-e-un-dato-non-valido.test.ts"
+      ]
+    },
+    {
+      "chiave": "ai-endpoints|il testo alternativo della foto entra nella bozza del prodotto senza nessun tetto di lunghezza",
+      "titolo": "Il testo alternativo della foto entra nella bozza del prodotto senza nessun tetto di lunghezza",
+      "esito": "riparato",
+      "prova": "Prova nuova che gira: npx vitest run tests/unit/l-alt-della-foto-non-entra-senza-tetto-nella-bozza.test.ts (3 prove, verde) — 200.000 caratteri di alt e 200.000 di attributo devono uscire tagliati, e un alt normale deve restare intero. Mutante: tolti i due `.slice(...)` da draftFromVision.ts -> ROSSO (2 fallite su 3). Ripristinato, verde. Nessuna regressione su tests/unit/products-draft-from-vision.test.ts, api-ai-catalog-create-bulk.test.ts, ai-catalog-batch.test.ts.",
+      "nota_fix": "La scheda era esatta: la riga che copiava `alt_text` intero e quella che copiava i valori testuali degli attributi in `products.attributes` (JSONB) non avevano nessun tetto, mentre nome e descrizione ce l'hanno dal 30/8 (R158). Ho messo il taglio nella porta unica — buildDraftProductInsert in lib/products/draftFromVision.ts — perche' e' li' che passano tutte e due le rotte che creano bozze: alt a 300 caratteri (MAX_ALT_TEXT), valore di attributo a 500 (MAX_VALORE_ATTRIBUTO), le due misure suggerite dalla scheda. Una differenza dal fix_proposto, ed e' per restare nel territorio: le costanti le ho messe in draftFromVision.ts e non accanto a MAX_NOME_PRODOTTO in lib/products/aiPatch.ts, che non e' nel mio elenco di file — le rotte le importano da li'. Nello zod delle due rotte catalog-create ho aggiunto i `.max()` gemelli (alt, valori di attributo, e per completezza nome, descrizione, categoria, tag) cosi' chi manda troppo se lo sente dire invece di vedersi tagliare il testo in silenzio. NON verificato: quanto pesano oggi le righe `attributes` gia' scritte in produzione — il taglio vale da adesso in avanti, non ripulisce il passato; se qualcuna e' gia' gonfia serve una pulizia a parte (e quella e' una scrittura sul database, quindi rossa).",
+      "file_toccati": [
+        "lib/products/draftFromVision.ts",
+        "app/api/ai/catalog-create/route.ts",
+        "app/api/ai/catalog-create-bulk/route.ts",
+        "tests/unit/l-alt-della-foto-non-entra-senza-tetto-nella-bozza.test.ts"
+      ]
+    },
+    {
+      "chiave": "stati-ui|la consegna espressa sparisce dal modulo prodotto senza dire niente",
+      "titolo": "La consegna espressa sparisce dal modulo prodotto senza dire niente",
+      "esito": "riparato",
+      "prova": "Prova nuova che gira e MONTA la pagina vera: npx vitest run tests/unit/il-modulo-prodotto-non-spegne-la-consegna-veloce-al-buio.test.ts (3 prove, verde). Mutante: rimesso il ripiego `data: offersExpress = false` + `if (!user) return false` e spento l'avviso -> ROSSO (2 fallite su 3), e nel testo a video ricompare parola per parola la bugia «La consegna veloce richiede l'Express attivo per il negozio: attivalo dal profilo negozio» mostrata a un negoziante che ce l'ha attiva. Ripristinato, verde. Ogni prova controlla prima che il modulo sia davvero a video, cosi' non passa a vuoto.",
+      "nota_fix": "La scheda ha ragione sulla causa e sbaglia sul sintomo, e la differenza conta: montando la pagina vera si vede che l'opzione NON sparisce — i due pulsanti «Consegna veloce» e «Spedizione» ci sono sempre (components/seller/ProductForm.tsx:880-920). Il danno vero e' peggiore di quello scritto, ed e' doppio. ① Con la lettura fallita il modulo diceva al negoziante di andare ad attivare la consegna veloce dal profilo: cosa che aveva gia' fatto. ② Soprattutto: un prodotto che EREDITA la consegna dal negozio (express_enabled a NULL) usciva da quel modulo con un `false` scritto sopra, perche' il modulo salva sempre `expressEnabled: fastDelivery` e il ripiego muto lo aveva messo su «Spedizione». Il negoziante entrava per cambiare il prezzo e quel prodotto restava fuori dalla consegna veloce anche dopo che la rete era tornata, senza vedere niente. Fix nei due file del territorio: nella pagina la sessione non pronta ora e' una lettura fallita e non un «no» (`throw` invece di `return false`), il modulo aspetta che la lettura sia arrivata (`consegnaInLettura` nel cancello del caricamento, cosi' la scelta di default nasce su un dato vero) e se e' rotta passa `consegnaDelNegozioNonLetta`; nel modulo quella bandiera sostituisce l'avviso sbagliato con «Non riesco a leggere le impostazioni di consegna del tuo negozio. Ricarica la pagina prima di salvare: altrimenti rischi di togliere la consegna veloce a questo prodotto.» Il tipo di `sellerOffersExpress` e' passato a `boolean | null` (allargamento: i due chiamanti fuori territorio — seller/products/new e admin/products/new — continuano a compilare, tsc verde). NON verificato con occhi umani nel browser vero con la rete staccata: qui la lettura rotta e' simulata dal finto di react-query. E non ho toccato il fatto che il modulo trasformi comunque un «eredita» in una scelta esplicita a ogni salvataggio: e' un difetto suo, piu' vecchio di questo, e l'ho segnalato in difetti_nuovi invece di allargare il lotto.",
+      "file_toccati": [
+        "app/seller/products/[id]/edit/page.tsx",
+        "components/seller/ProductForm.tsx",
+        "tests/unit/il-modulo-prodotto-non-spegne-la-consegna-veloce-al-buio.test.ts"
+      ]
+    },
+    {
+      "chiave": "performance-percepita|la vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate",
+      "titolo": "La vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate",
+      "esito": "riparato",
+      "prova": "Prova nuova che gira e MONTA la vetrina vera in stato di attesa: npx vitest run tests/unit/lo-scheletro-della-vetrina-assomiglia-ai-negozi-che-arrivano.test.ts (3 prove, verde) — conta i riquadri a video e li confronta con NEGOZI_IN_VETRINA letto dal modulo vero, e confronta l'altezza del riquadro-foto con quella che StorePreviewCard da' davvero alla copertina. Mutante: rimessi `length: 4` e `aspect-[4/3]` -> ROSSO (3 fallite su 3). Ripristinato, verde.",
+      "nota_fix": "Confermato sul codice, con un aggiornamento alla scheda: il `.limit(6)` non e' piu' in StoreShowcase.tsx:20 e :29 — dal 27/8 (R079) la lettura vive in lib/queries/vetrina-negozi.ts, che esporta gia' `NEGOZI_IN_VETRINA = 6`. Ho fatto la versione «meglio» del fix_proposto: lo scheletro adesso legge quella stessa costante, quindi i due numeri non possono piu' divergere; e ho sostituito `aspect-[4/3]` con `h-28`, la classe identica che StorePreviewCard passa a StoreMediaCarousel (112 px fissi). Non ho modificato lib/queries/vetrina-negozi.ts — la costante era gia' esportata, quindi mi e' bastato importarla, e un import non e' una modifica al file. Non ho toccato StorePreviewCard.tsx: la sua `h-28` e' il riferimento giusto, era lo scheletro a doverla seguire. La terza prova aggancia le due misure a vicenda: se un domani la copertina cambia altezza, diventa rossa e lo scheletro va rifatto insieme a lei. NON verificato: il numero di CLS vero misurato in un browser — qui provo che lo scheletro e la scheda vera dichiarano la stessa altezza e lo stesso numero di riquadri, non quanti millisecondi di salto restano.",
+      "file_toccati": [
+        "components/StoreShowcase.tsx",
+        "tests/unit/lo-scheletro-della-vetrina-assomiglia-ai-negozi-che-arrivano.test.ts"
+      ]
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Aprire e salvare un prodotto trasforma «eredita la consegna dal negozio» in una scelta fissa, senza dirlo",
+      "dove": "components/seller/ProductForm.tsx:623 (expressEnabled: fastDelivery) contro lib/products/express.ts:29 (NULL = eredita)",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Quando la cassa non sa quanto dura la riserva della merce, non le mette nessuna scadenza e vive 24 ore",
+      "dove": "lib/stripe/client.ts:216 (il ramo `scadenzaRiservaSec > 0`, quando pendingExpiresAt e' assente)",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "La tabella dei tentativi di pagamento non registra con quale metodo si e' pagato: nessun metodo nuovo sara' misurabile",
+      "dove": "migrations/124_radiografia_21_agosto.sql:419 (payment_attempts) e app/admin/page.tsx:125",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "① Niente e' passato da un browser vero ne' da Stripe vero: l'SDK di Stripe, react-query e la lettura del profilo sono finti nelle prove. Restano da guardare con gli occhi il messaggio «Il carrello e' scaduto» in cassa e l'avviso di consegna sul modulo prodotto. ② Non ho lanciato `npm run verify` ne' il build, come da vincolo: la mia copertura e' `npx tsc --noEmit -p tsconfig.json` (exit 0) piu' l'intera suite unitaria, 467 file e 3496 prove tutte verdi. ③ Quel verde l'ho preso mentre le altre squadre dell'ondata stavano scrivendo nello stesso albero (git status mostra 21 file modificati fuori dal mio territorio): il conto finale va rifatto dall'AD ad albero fermo. ④ Il taglio dell'alt e degli attributi vale da adesso in poi: non so quanto pesino le righe `products.attributes` gia' scritte in produzione, e ripulirle sarebbe una scrittura sul database, quindi rossa. ⑤ Sul metodo di pagamento non ho potuto vedere quali metodi siano gia' abilitati sul cruscotto Stripe vero."
+}

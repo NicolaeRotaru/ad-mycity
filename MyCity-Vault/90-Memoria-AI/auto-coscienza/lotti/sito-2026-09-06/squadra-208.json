@@ -1,0 +1,94 @@
+{
+ "squadra": 208,
+ "territorio": [
+  "migrations/119_radiografia_18_agosto.sql",
+  "lib/database.types.ts",
+  "lib/analytics/visita-prodotto.ts",
+  "components/ProductViewTracker.tsx",
+  "components/seller/SellerShell.tsx",
+  "components/seller/site/SitePreview.tsx",
+  "components/seller/site/PageEditor.tsx",
+  "migrations/141_i_conti_del_venditore_li_fa_il_database.sql",
+  "lib/metriche-venditore.ts"
+ ],
+ "malattia": "Ogni regola di questo territorio e' stata scritta due volte — una nel database e una nel browser — e nessuno controllava che le due copie dicessero la stessa cosa: due definizioni di «visita», due di «venduto», un pannello che si dichiara finestra di dialogo senza esserlo e un'anteprima che indovina l'altezza della barra invece di chiederla.",
+ "difetti": [
+  {
+   "chiave": "rls-database|la tabella degli abbonamenti e' aperta in scrittura ai clienti, prezzo compreso, ma nessun pezzo del sito la legge",
+   "titolo": "La tabella degli abbonamenti e' aperta in scrittura ai clienti, prezzo compreso, ma nessun pezzo del sito la legge",
+   "esito": "non_riparato",
+   "prova": "grep -rn subscription_orders /home/user/mycity/app /home/user/mycity/lib --include=*.ts --include=*.tsx | grep -v database.types  → nessuna riga (la scheda regge). grep su tutto il repo fuori da migrations/: unica occorrenza lib/database.types.ts:2738, cioe' i tipi generati. Letta la policy vera: migrations/119_radiografia_18_agosto.sql:529-531 (subscription_orders_insert_own, WITH CHECK solo su user_id) e il trigger subscription_orders_campi_bloccati, che confronta OLD/NEW e quindi vive solo sull'UPDATE.",
+   "nota_fix": "Difetto CONFERMATO e non toccato. Il rimedio e' una MIGRAZIONE NUOVA (155+): i file in migrations/ sono gia' stati applicati sul database di produzione e non si riscrivono. Fuori dal lotto minori, 🔴 firma di Nicola. Cosa serve, gia' scritto: `REVOKE INSERT, UPDATE ON public.subscription_orders FROM anon, authenticated;` piu' `DROP POLICY IF EXISTS subscription_orders_insert_own ON public.subscription_orders;` — la porta si chiude finche' la funzione abbonamenti non esiste. Quando si costruira', il prezzo lo calcola il server con il service role e il trigger si estende a BEFORE INSERT. Non c'e' nessun fix lato codice: non esiste una riga di TypeScript che apra o chiuda quella porta.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+   "titolo": "Le visite al prodotto si contano con due regole diverse: PostHog conta ogni nuova scheda, il database una per persona all'ora",
+   "esito": "non_riparato",
+   "prova": "Letti per intero lib/analytics/visita-prodotto.ts, components/ProductViewTracker.tsx e il trigger in migrations/119_radiografia_18_agosto.sql:449-495. Il difetto c'e', ma il perimetro della scheda e' PIU' LARGO del vero: per il visitatore anonimo le due regole coincidono (impronta e freno stanno tutti e due in sessionStorage, quindi due schede = 2 righe e 2 eventi). Lo scarto silenzioso (RETURN NULL) colpisce solo chi ha l'account: user_id, una visita all'ora, contro un freno per scheda del browser.",
+   "nota_fix": "Ho cercato e SCARTATO la scorciatoia che sembrava chiudere tutto senza migrazione: far tornare la riga dall'INSERT (.insert().select()) per annunciare a PostHog solo quando entra davvero. Non si puo': l'unica policy di lettura su product_views e' pv_select_owner (migrations/119:401-410), che concede SELECT al solo venditore proprietario del prodotto — un cliente che chiede indietro la riga appena scritta la trova invisibile, e il conteggio delle visite si spegne del tutto invece di allinearsi. Il rimedio resta quello della scheda: un RPC che risponde «contata/scartata», cioe' una MIGRAZIONE NUOVA, 🔴 fuori lotto. Poi il client annuncia solo su «contata» e la definizione unica di visita si scrive nel GLOSSARIO-KPI. Toccare il solo lato browser (freno a un'ora anziche' a sessione) sposterebbe lo scarto senza chiuderlo: metterebbe PostHog sotto il database per i visitatori anonimi.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "accessibilita|il pannello notifiche del negoziante si dichiara finestra di dialogo ma non si chiude con esc e non gestisce il fuoco",
+   "titolo": "Il pannello notifiche del negoziante si dichiara finestra di dialogo ma non si chiude con Esc e non gestisce il fuoco",
+   "esito": "riparato",
+   "prova": "npx tsc --noEmit -p tsconfig.json → exit 0. npx vitest run su gli 8 file di prova che toccano i miei file → 8 passati, 45 prove. grep -n 'useBottomSheetA11y|aria-modal|aria-controls|notifTriggerRef' components/seller/SellerShell.tsx → righe 18, 146, 159, 195, 446, 452, 464.",
+   "nota_fix": "Il pannello ora passa dall'hook condiviso components/hooks/useBottomSheetA11y.ts, la regola gia' scritta in casa («nessun pannello sovrapposto a mano: o Modal.tsx o l'hook»), come fanno gia' i filtri di ricerca e categoria, il cassetto dell'amministrazione e la foto ingrandita del prodotto. Arrivano insieme: uscita con Esc, fuoco che entra nel pannello all'apertura, fuoco che torna al campanello alla chiusura, Tab che gira dentro. Aggiunti aria-modal=true sul pannello e aria-controls sul campanello. L'hook NON e' stato modificato (e' fuori dal mio territorio): l'ho solo importato. DIFFERENZA DALLA SCHEDA: la sua prova era `grep -c Escape components/seller/SellerShell.tsx` e resta a 0 — la parola Escape vive nell'hook, dov'e' giusto che stia; riscriverla a mano nel file per far passare un grep sarebbe stato il difetto di partenza. EFFETTO COLLATERALE VOLUTO: l'hook blocca anche lo scorrimento della pagina mentre il pannello e' aperto — coerente, perche' il velo a tutto schermo gia' intercettava ogni clic.",
+   "file_toccati": [
+    "components/seller/SellerShell.tsx"
+   ]
+  },
+  {
+   "chiave": "layout-responsive|nel costruttore della vetrina l'anteprima scorre sotto la barra del pannello venditore",
+   "titolo": "Nel costruttore della vetrina l'anteprima scorre sotto la barra del pannello venditore",
+   "esito": "riparato",
+   "prova": "npx tsc --noEmit -p tsconfig.json → exit 0. grep -rn 'lg:top-4' app components tests → nessuna riga rimasta. grep -rn 'seller-topbar-height' → SellerShell.tsx:226 (scrive) e SitePreview.tsx:64 (legge).",
+   "nota_fix": "Fatto come propone la scheda, ma con l'altezza MISURATA invece che scritta a mano: la barra del pannello venditore pubblica la propria altezza vera in --seller-topbar-height (SellerShell, effetto al montaggio piu' ridisegno al cambio di finestra), e l'anteprima si ferma a quell'altezza piu' 1rem d'aria. Ho scelto la misura e non un numero fisso perche' la barra cambia altezza col respiro dei margini (px-4 → sm:px-6) e --header-height del sito pubblico e' un 9rem scritto a mano che invecchia. Valore di scorta 4rem: SitePreview resta corretta anche se un giorno viene montata fuori dal pannello venditore. Niente ResizeObserver di proposito — non e' mai usato in questo repo e non esiste in jsdom, quindi avrebbe fatto esplodere una prova futura che monta la shell.",
+   "file_toccati": [
+    "components/seller/SellerShell.tsx",
+    "components/seller/site/SitePreview.tsx"
+   ]
+  },
+  {
+   "chiave": "dati-analytics|un prodotto rimborsato resta contato tra i venduti",
+   "titolo": "Un prodotto rimborsato resta contato tra i venduti",
+   "esito": "non_riparato",
+   "prova": "Letta la funzione vera in migrations/141_i_conti_del_venditore_li_fa_il_database.sql:38-54: il WHERE e' `p.seller_id = auth.uid() AND o.delivery_status = 'DELIVERED'`, di payment_status nessuna traccia. Letta la regola certificata in lib/metriche-venditore.ts:53-57 (ordineContaNelFatturato: non annullato E pagato). Le due definizioni divergono davvero.",
+   "nota_fix": "Difetto CONFERMATO e non toccato. Il rimedio e' una MIGRAZIONE NUOVA (155+): i file in migrations/ sono gia' stati applicati sul database di produzione e non si riscrivono. Fuori dal lotto minori, 🔴 firma di Nicola. Cosa serve: una migrazione che rifaccia venduti_per_prodotto aggiungendo `AND o.payment_status IN ('PAID','PARTIALLY_REFUNDED') AND o.delivery_status <> 'CANCELED'` e che scali la quantita' resa. Il lato TypeScript e' gia' giusto — non c'e' niente da correggere in lib/metriche-venditore.ts: la pagina Prodotti (app/seller/products/page.tsx:96) chiama l'RPC e riceve il numero gia' sbagliato dal database, quindi nessuna toppa nel browser puo' chiuderlo senza riscrivere il conto a mano, cioe' senza creare la TERZA definizione di «venduto». Non ho potuto eseguire la prova SQL della scheda: da qui non c'e' nessun Postgres (pg_isready localhost → no response).",
+   "file_toccati": []
+  },
+  {
+   "chiave": "architettura|il cancello sui totali del venditore si fida di una colonna come se fosse una promessa sul calcolo",
+   "titolo": "Il cancello sui totali del venditore si fida di una colonna come se fosse una promessa sul calcolo",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-cancello-dei-totali-non-si-apre-per-una-colonna-in-piu.test.ts → 7 prove passate, exit 0. Che MORDA e' verificato su una copia della cartella migrations/ (fuori dal repo, in scratchpad) con dentro una finta migrazione 199 che espone rimborsi_totali_cents lasciando incasso_totale_cents sul prezzo pieno: stessa logica, exit 1, «ultima definizione: migrations/199… ROSSO → incasso_totale_cents non nomina refunded_amount_cents». Sulla cartella vera: exit 0, «ultima definizione: migrations/126_radiografia_22_agosto.sql, contratto rispettato».",
+   "nota_fix": "Il buco era che nessuna prova legge il file .sql: il cancello in TypeScript si fida della PRESENZA di rimborsi_totali_cents come se fosse la promessa che una somma fatta altrove abbia tolto i rimborsi. Ho scritto il controllo che mancava, in una prova NUOVA: scorre migrations/ in ordine di numero, trova l'ULTIMA definizione di numeri_del_negozio (come la applicherebbe Postgres), e pretende che se il corpo espone la colonna-sentinella allora dentro il calcolo di incasso_totale_cents compaia refunded_amount_cents. Piu' tre prove sintetiche (la colonna aggiunta a mano viene bocciata, la somma resa netta passa, senza sentinella non dice niente) e due che tengono agganciato il controllo alla realta': che il cancello nomini ancora quella colonna, e che oggi — con la 126 che non la espone — si veda il ripiego. Non ho toccato lib/metriche-venditore.ts: il comportamento di oggi e' corretto, mancava solo la prova che diventa rossa domani. Ho creato un file NUOVO invece di allargare tests/unit/il-rimborso-al-cliente-scende-dai-guadagni-del-negozio.test.ts proprio per non scrivere in un file che un'altra squadra potrebbe avere in mano.",
+   "file_toccati": [
+    "tests/unit/il-cancello-dei-totali-non-si-apre-per-una-colonna-in-piu.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "rls-database|la tabella degli abbonamenti e' aperta in scrittura ai clienti, prezzo compreso, ma nessun pezzo del sito la legge",
+   "perche": "il fix vive in un file che non posso creare: una migrazione NUOVA (migrations/155_…sql) con la revoca di INSERT/UPDATE su subscription_orders. I file gia' applicati non si riscrivono, e una migrazione e' 🔴 fuori dal lotto minori."
+  },
+  {
+   "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+   "perche": "il fix vive in un file che non posso creare: una migrazione NUOVA con l'RPC che risponde «contata/scartata». La strada solo-browser e' una trappola verificata (RLS pv_select_owner: il cliente non puo' rileggere la riga appena scritta e le visite smetterebbero di contarsi)."
+  },
+  {
+   "chiave": "dati-analytics|un prodotto rimborsato resta contato tra i venduti",
+   "perche": "il fix vive in un file che non posso creare: una migrazione NUOVA che rifaccia venduti_per_prodotto col filtro sul pagamento. La 141 e' gia' applicata in produzione."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "L'hook dei pannelli sovrapposti riapre lo scorrimento della pagina anche se sotto ce n'e' un altro aperto",
+   "dove": "components/hooks/useBottomSheetA11y.ts:56-58 (document.body.style.overflow = '' senza contare quanti pannelli sono aperti)",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Niente browser vero: la barra e l'anteprima non le ho VISTE scorrere, e ne' Esc ne' il lettore di schermo li ho provati a mano — l'accessibilita' arriva da un hook gia' in uso in cinque punti del sito, e l'altezza della barra e' misurata a video invece che indovinata, quindi tengono per costruzione, ma la conferma con gli occhi manca. ② Niente database: da qui nessun Postgres risponde (pg_isready localhost → no response), quindi le tre schede SQL le ho confermate leggendo i file, non interrogando il catalogo. ③ Non ho lanciato la suite intera (vietato dal briefing): ho lanciato npx tsc --noEmit su tutto il progetto (exit 0) e gli 8 file di prova che toccano i miei file (45 prove verdi). ④ Non ho misurato se bloccare lo scorrimento mentre il pannello notifiche e' aperto dia fastidio su schermo piccolo: e' il comportamento standard di un dialogo modale e il velo c'era gia'."
+}
