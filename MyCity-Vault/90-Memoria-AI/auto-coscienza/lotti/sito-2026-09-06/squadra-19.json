@@ -1,0 +1,68 @@
+{
+ "squadra": 19,
+ "territorio": [
+  "app/terms/page.tsx",
+  "app/privacy/page.tsx",
+  "app/seller/customers/page.tsx",
+  "app/api/segnalazioni/route.ts",
+  "components/Segnala.tsx"
+ ],
+ "malattia": "Tre difetti su quattro nascono dallo stesso buco: l'informativa e i termini raccontano solo quello che fa MyCity, e ogni trattamento nuovo (obblighi di negozio e rider sui dati del cliente, obbligo fiscale verso l'Agenzia delle Entrate, tabella delle segnalazioni) nasce fuori dalle due liste che dovrebbero contenerlo. Il quarto e' un copia-incolla rimasto in pagina.",
+ "difetti": [
+  {
+   "chiave": "privacy-legale|il negozio e il rider ricevono nome, telefono e indirizzo del cliente senza nessun impegno scritto a usarli solo per quell'ordine",
+   "titolo": "Il negozio e il rider ricevono nome, telefono e indirizzo del cliente senza nessun impegno scritto a usarli solo per quell'ordine",
+   "esito": "riparato",
+   "prova": "Prima: grep -n -i \"dati personali|trattament|marketing\" app/terms/page.tsx -> nessuna riga (l'unico richiamo GDPR era la riga 452 dell'avviso finale). Dopo: grep -n -i \"Dati dei clienti|titolare autonomo\" app/terms/page.tsx -> 4 righe, una clausola in ognuna delle due sezioni (righe 255-271 sez. 9 Venditori, 279-292 sez. 10 Rider). Compila: npx tsc --noEmit -p tsconfig.json exit 0; npx eslint sui 3 file toccati exit 0; npx vitest run sui 6 test che leggono le pagine legali -> 6 file, 50 prove verdi (compreso le-cinque-caselle-di-posta-che-le-condizioni-promettono, che vieta i recapiti scritti a mano: la clausola non ne aggiunge).",
+   "nota_fix": "Aggiunta la clausola della bozza legale-privacy in entrambe le sezioni: Venditore e Rider sono titolari autonomi, usano nome/telefono/indirizzo solo per eseguire e consegnare quell'ordine e per gli obblighi di legge, niente pubblicita' senza consenso raccolto in proprio, niente cessione, cancellazione quando non servono piu'; il mancato rispetto e' motivo di sospensione o chiusura dell'account. Non ho messo riferimenti incrociati a numeri di articolo per non inventare rimandi. IN PIU', fuori dal fix_proposto ma dentro il territorio e citato dalla scheda: sulla pagina Clienti del negozio (app/seller/customers/page.tsx) ho aggiunto due righe di promemoria con il rimando a /terms#venditori, perche' quella schermata mostra nome e storico dei clienti e il riquadro 'Suggerimento' li' sopra invita proprio a mandare offerte: la clausola in una pagina legale che nessuno apre non cambia il comportamento, il promemoria dove nasce la tentazione si'. NON FATTO, e resta di Nicola: (a) la stessa clausola nel contratto venditore di 1 pagina - nel repo quel documento non esiste (ls docs, nessun contratto venditore), quindi non c'era niente da modificare qui; (b) la validazione legale umana del testo, che e' rossa e che l'avviso in fondo alla pagina gia' pretende. La formula 'titolare autonomo' e' quella della bozza dell'incarico, non il parere di un avvocato.",
+   "file_toccati": [
+    "app/terms/page.tsx",
+    "app/seller/customers/page.tsx"
+   ]
+  },
+  {
+   "chiave": "privacy-legale|l'informativa non dice ai venditori che dati fiscali e incassi vanno comunicati all'agenzia delle entrate (dac7)",
+   "titolo": "L'informativa non dice ai venditori che dati fiscali e incassi vanno comunicati all'Agenzia delle Entrate (DAC7)",
+   "esito": "non_riparato",
+   "prova": "grep -rli \"dac7|agenzia delle entrate\" app lib docs | wc -l -> 0, oggi come nella scheda: il difetto c'e' ancora.",
+   "nota_fix": "Non lo chiude il codice e non lo chiudo io. Per scrivere quella riga nell'informativa servono tre cose che non trovo ne' nel codice ne' nei documenti del repo: (1) se e da quando MyCity e' 'gestore di piattaforma' ai sensi del D.Lgs. 32/2023 - e' un parere che tocca al fiscalista, rosso; (2) il periodo di conservazione da dichiarare, che non posso inventare; (3) il processo vero che manda i dati all'Agenzia delle Entrate, che nel codice non esiste. Scrivere in un'informativa una comunicazione all'Agenzia che non facciamo sarebbe una dichiarazione falsa - lo stesso difetto che questa pagina si e' gia' presa una volta dichiarando fornitori che non trattavano nulla (commento R060 nel file). Serve a monte: parere di @fiscalista-iva-ecommerce confermato da Nicola, poi la riga in tabella + Agenzia delle Entrate fra i destinatari diventano dieci minuti di lavoro.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
+   "titolo": "Chi fa una segnalazione lascia la sua email lì per sempre",
+   "esito": "non_riparato",
+   "prova": "grep -rn \"segnalazioni\" app/api/cron/*/route.ts lib/account/cancellazione.ts -> nessuna riga: nessuna potatura, e la tabella non e' nell'elenco TABELLE_CON_DATI_PERSONALI (lib/account/cancellazione.ts:139). grep -c -i \"segnalazion\" app/privacy/page.tsx -> 0. app/api/segnalazioni/route.ts:66-72 conferma che email_contatto e dettaglio vengono scritti. Il difetto c'e' tutto.",
+   "nota_fix": "Due dei tre pezzi del fix vivono fuori dal mio territorio: la potatura in app/api/cron/process-deletions/route.ts e l'anonimizzazione in lib/account/cancellazione.ts. Il terzo pezzo (la riga nell'informativa) l'avrei nel territorio, ma da solo peggiora le cose: dichiarerei 'conservazione 12 mesi' mentre nessun codice cancella niente - e' esattamente il difetto R059 gia' capitato su questa pagina, dove la riga diceva 12 mesi e il lavoro notturno ne applicava 14. Un pezzo su tre non e' riparato: lascio la scheda aperta onesta. Chi prende in mano cancellazione.ts faccia i tre pezzi insieme, la riga dell'informativa dura due minuti una volta che il codice pota davvero.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "privacy-legale|nell'informativa privacy il commento dei buoni regalo e' incollato due volte",
+   "titolo": "Nell'informativa privacy il commento dei buoni regalo e' incollato due volte",
+   "esito": "riparato",
+   "prova": "grep -c \"I BUONI REGALO NON ERANO DICHIARATI\" app/privacy/page.tsx -> prima 2, adesso 1 (la prova della scheda, ora verde). Tolte le 8 righe del secondo blocco, quello col rientro di 28 spazi; il file passa da 284 a 276 righe e la riga <tr> dei buoni regalo resta una sola, quindi a video non cambia nulla. npx tsc --noEmit exit 0 e il test il-buono-regalo-non-tiene-l-email-di-chi-non-e-nostro-cliente.test.ts resta verde (controlla che la pagina contenga 'Buoni regalo', 'dati del destinatario' e art. 6.1.f: il commento cancellato non serviva a quelle prove).",
+   "nota_fix": "Copia-incolla puro: due volte lo stesso commento JSX di 12 righe. Cancellato il secondo, tenuto il primo con il rientro giusto. Nessun testo visibile agli utenti e' cambiato.",
+   "file_toccati": [
+    "app/privacy/page.tsx"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
+   "perche": "il fix vive in due file fuori territorio: app/api/cron/process-deletions/route.ts (la potatura di email_contatto e dettaglio) e lib/account/cancellazione.ts (segnalazioni assente da TABELLE_CON_DATI_PERSONALI, riga 139). Nel mio territorio ci sarebbe solo la riga dell'informativa, che senza quei due pezzi dichiarerebbe una conservazione che il codice non rispetta."
+  },
+  {
+   "chiave": "privacy-legale|l'informativa non dice ai venditori che dati fiscali e incassi vanno comunicati all'agenzia delle entrate (dac7)",
+   "perche": "non e' un file che manca, e' un dato che manca: serve il parere del fiscalista su DAC7 (siamo 'gestore di piattaforma'? da quando?) e il periodo di conservazione da dichiarare. Decisione rossa, di Nicola."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Al negoziante diciamo che i clienti VIP valgono 4 volte di piu', e quel numero non viene da nessun dato nostro",
+   "dove": "app/seller/customers/page.tsx:213",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Non ho aperto le pagine nel browser: le tre modifiche sono testo dentro componenti gia' esistenti (due <p> nelle pagine legali, un <p> di due righe sotto il riquadro suggerimento), quindi nessuno screenshot e nessuna prova a 360px. Non ho lanciato la suite intera ne' npm run verify/build (vietati dal briefing): ho lanciato tsc su tutto il progetto, eslint sui tre file toccati e i 6 test che leggono le pagine legali. Il testo delle due clausole e' la bozza di legale-privacy, non un parere legale: la formula 'titolare autonomo del trattamento' e la scala delle sanzioni vanno validate da un avvocato prima della pubblicazione (rosso). Non ho verificato se esiste, fuori dal repo, un contratto venditore gia' firmato da qualcuno che andrebbe allineato."
+}
