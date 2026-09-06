@@ -1,0 +1,117 @@
+{
+ "squadra": 211,
+ "territorio": [
+  "components/PushNotificationOptIn.tsx",
+  "app/profile/settings/page.tsx",
+  "lib/installabile.ts",
+  "components/PWAInstallBanner.tsx",
+  "app/sign-in/page.tsx",
+  "components/Segnala.tsx",
+  "components/SearchBar.tsx",
+  "components/Navbar.tsx",
+  "app/sign-up/page.tsx",
+  "app/messages/[id]/page.tsx",
+  "app/shared-cart/page.tsx",
+  "components/StoreLocationPicker.tsx",
+  "public/manifest.js",
+  "lib/analytics/posthog.tsx",
+  "components/checkout/CouponInput.tsx",
+  "components/StickyAddToCart.tsx"
+ ],
+ "malattia": "Il telefono e' stato costruito per ultimo: l'installazione e le notifiche sono state scritte guardando Android e il desktop, senza il ramo iPhone e senza il pezzo che le misura; nei testi, gli accenti e i puntini di sospensione sono caduti dove la fretta ha battuto la rilettura.",
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|su iphone la pagina impostazioni dice che il browser non supporta le notifiche, invece di spiegare che vanno attivate dall'app in schermata home",
+   "titolo": "Su iPhone la pagina impostazioni dice che il browser non supporta le notifiche, invece di spiegare che vanno attivate dall'app in schermata Home",
+   "esito": "riparato",
+   "prova": "npx tsc --noEmit -p tsconfig.json -> nessun errore sui miei file; npx vitest run sui 47 file di prova che citano i miei sorgenti -> 47 passed, 453 tests passed. Letto components/PushNotificationOptIn.tsx:42-49, dove `supported` richiede 'PushManager' in window: su Safari iOS quel ramo cade sempre in 'unsupported'.",
+   "nota_fix": "CONFERMATO sul codice di adesso: il componente aveva due soli stati e il messaggio :156 diceva «Il tuo browser non supporta le notifiche push». La decisione l'ho messa in lib/installabile.ts come funzione pura `percheNienteNotifiche({eApple, giaInstallata})`, accanto a `comeSiInstalla`, cosi' la si prova senza browser come il resto di quel file. Il componente ora, quando non ci sono notifiche, distingue «iPhone non ancora in schermata Home» (mostra i due gesti Condividi -> Aggiungi a Home, le stesse parole del banner d'installazione) da «browser davvero senza push» (messaggio vecchio, invariato). Un dettaglio che conta: se e' un iPhone GIA' in schermata Home e le notifiche comunque non ci sono, non lo rimando a installare una cosa che ha gia' — quello resta 'browser-senza-push'. ⚠️ ERRORE MIO, TROVATO E CHIUSO: la prima versione chiamava window.matchMedia senza chiedersi se esiste, e ha fatto cadere l'INTERA pagina impostazioni nella prova gli-interruttori-delle-impostazioni-dicono-il-proprio-nome (3 rossi, «window.matchMedia is not a function»). Ora la capacita' si chiede prima di usarla: nel dubbio, non installata. NON VERIFICATO: nessun iPhone vero. La scheda dava la prova come «umano, non eseguita» e resta tale — ho verificato lettura, tipi e prove, non il video di un iOS 16.4.",
+   "file_toccati": [
+    "components/PushNotificationOptIn.tsx",
+    "lib/installabile.ts"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "titolo": "Il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "esito": "non_riparato",
+   "prova": "grep -rn 'PushNotificationOptIn' app components -> due sole righe, entrambe in app/profile/settings/page.tsx (import riga 9, uso riga 501). Confermato che l'iscrizione alle notifiche si chiede in UN solo punto di tutto il sito.",
+   "nota_fix": "META' FATTA, quindi non riparato — lo dichiaro aperto invece di chiuderlo per finta. FATTO: tolta la bugia dal banner. Diceva «Accesso veloce + notifiche ordini. Niente app store.» e installare non attiva nessuna notifica; ora dice «Si apre dall'icona, veloce anche con rete debole. Niente app store.», che e' vero. MANCA il pezzo che vale i soldi: proporre l'attivazione nel momento in cui serve — a ordine confermato, «ti avvisiamo quando il rider parte» — riusando il componente che esiste gia'. Quel punto vive nella pagina di conferma ordine, che NON e' nel mio territorio: un'altra squadra ci sta dentro adesso e le riscriverei il lavoro. Vedi `bloccati`.",
+   "file_toccati": [
+    "components/PWAInstallBanner.tsx"
+   ]
+  },
+  {
+   "chiave": "microcopy|due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni",
+   "titolo": "Due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni",
+   "esito": "riparato",
+   "prova": "grep -n 'piu tardi' app/profile/settings/page.tsx -> nessuna riga; le due righe 238 e 250 ora leggono «Riprova piu' tardi.» con l'accento. grep su components/Segnala.tsx:58 -> «ti diciamo com\\'e' andata». npx vitest run sui 47 file che citano questi sorgenti -> 453 passed.",
+   "nota_fix": "LA SCHEDA HA TRE RIGHE, IL CODICE NE AVEVA DUE. Il refuso dell'accesso non e' piu' in app/sign-in/page.tsx riga 27: la frase e' stata spostata in lib/errors.ts riga 57 da un'ondata precedente ed e' GIA' corretta — «Il controllo anti-bot e' scaduto: e' stato rigenerato, premi di nuovo.», accenti a posto. Quella parte e' `gia_riparato_prima`. Le altre due le ho chiuse io: settings righe 238 e 250 (non 221 e 233, i numeri della scheda sono di tre giorni fa) e Segnala riga 58. Sull'apostrofo di «com'e'» ho seguito la convenzione della casa — barra rovesciata dentro gli apici singoli, come app/sign-in/page.tsx riga 191 — invece di cambiare il tipo di virgolette.",
+   "file_toccati": [
+    "app/profile/settings/page.tsx",
+    "components/Segnala.tsx"
+   ]
+  },
+  {
+   "chiave": "microcopy|tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione",
+   "titolo": "Tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione",
+   "esito": "riparato",
+   "prova": "grep -n '\\.\\.\\.' sui nove file citati -> restano solo operatori di espansione del codice ([...prev], {...proprieta}), commenti e un esempio di indirizzo; nessuna stringa che l'utente legge. grep -n '…' -> le nove scritte convertite. 453 prove verdi.",
+   "nota_fix": "Nove scritte convertite, una per una, scegliendole a mano e non con una sostituzione cieca: SearchBar 36 «Cerca prodotti, negozi, categorie…», Navbar 251 «Cerca a Piacenza…», sign-in 263 «Accesso in corso…», sign-up 285 «Registrazione in corso…», settings 603 «Annullamento…» e 660 «Invio richiesta…», messages/[id] 324 «Scrivi un messaggio…», shared-cart 112 «Carico la lista…», StoreLocationPicker 241 «Ricerca posizione…». I numeri di riga della scheda erano vicini ma non esatti: comanda il codice. Lasciati fuori di proposito gli operatori di espansione, i commenti e l'esempio «?cart=id1:qty1,…» — li' i tre punti sono codice o sintassi, non testo. Controllato prima che nessuna prova cerchi queste stringhe: nessuna le cita.",
+   "file_toccati": [
+    "components/SearchBar.tsx",
+    "components/Navbar.tsx",
+    "app/sign-in/page.tsx",
+    "app/sign-up/page.tsx",
+    "app/profile/settings/page.tsx",
+    "app/messages/[id]/page.tsx",
+    "app/shared-cart/page.tsx",
+    "components/StoreLocationPicker.tsx"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|nessuno misura quante persone usano mycity installata in home: il numero che decide se e quando fare l'app nativa non esiste",
+   "titolo": "Nessuno misura quante persone usano MyCity installata in Home: il numero che decide se e quando fare l'app nativa non esiste",
+   "esito": "riparato",
+   "prova": "La prova della scheda era: grep -rn 'display-mode|appinstalled' lib app components --include=*.ts --include=*.tsx | grep -v PWAInstallBanner -> prima nessuna riga (exit 1). Ora risponde con lib/analytics/posthog.tsx (display-mode letto e registrato) e components/PushNotificationOptIn.tsx. npx tsc -> zero errori sui miei file; 453 prove verdi.",
+   "nota_fix": "Quattro pezzi, tutti e quattro nel mio territorio. ① public/manifest.json: start_url passa da «/» a «/?source=pwa», cosi' la prima pagina di ogni sessione aperta dall'icona porta il marcatore. ② lib/analytics/posthog.tsx: funzione pura `comeSiApre(standalone, sorgente)` — se uno dei due dice Home, e' Home (serve per le schede aperte da un link dentro l'app, dove standalone non risponde) — e display_mode registrato come proprieta' appiccicata a TUTTI gli eventi, non come evento isolato: solo cosi' si separano gli utenti attivi installati e si calcola il ritorno a 7 e 30 giorni. ③ ascolto di `appinstalled` -> evento pwa_installata (il numeratore del tasso, prima non lo ascoltava nessuno). ④ banner: pwa_banner_mostrato / _accettato / _rifiutato, con `modo` per non mescolare iPhone (istruzioni) e Android (pulsante). ⚠️ IL DETTAGLIO CHE PORTA IL PESO: cambiare start_url senza altro AVREBBE CREATO UNA SECONDA INSTALLAZIONE sui telefoni di chi ha gia' l'icona, perche' quando `id` manca l'identita' dell'app si ricava da start_url. Per questo ho aggiunto «id»: «/», che fissa l'identita' a quella di oggi. Registrazione e invii restano dietro al consenso cookie, e la proprieta' si ridichiara anche all'evento mc:consent-change: chi accetta i cookie da dentro una pagina non rimonta il componente e sarebbe finito fra i «browser». ⚠️ ERRORE MIO CORRETTO PRIMA DI CONSEGNARE: avevo lasciato onClick={dismiss} su due pulsanti, e React passa l'evento del clic come primo argomento — cioe' `accettato` sarebbe stato sempre vero e l'evento «rifiutato» non sarebbe partito MAI. Ora onClick={() => dismiss()}. RESTA FUORI (non e' codice di questo repo): la query settimanale su PostHog — utenti attivi con display_mode=standalone e loro ritorno a 7/30 giorni. Il numero adesso si PUO' calcolare; il cruscotto va costruito su PostHog.",
+   "file_toccati": [
+    "public/manifest.json",
+    "lib/analytics/posthog.tsx",
+    "components/PWAInstallBanner.tsx"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "esito": "non_riparato",
+   "prova": "Letto tutto public/manifest.json prima e dopo. Prima: «orientation»: «portrait» alla riga 9, e nessun campo screenshots/id/display_override. Dopo: orientation non c'e' piu', ci sono id e display_override; screenshots continua a non esserci. ls public/ -> apple-touch-icon.png, favicon.ico, foto-mancante.svg, icon-192/512 (png e svg), icon-maskable-512.png, offline.html, sw.js: nessuna immagine di schermata.",
+   "nota_fix": "META' FATTA, quindi aperto. FATTO: tolto «orientation»: «portrait» — chi tiene il telefono fissato in orizzontale ora puo' girare la vetrina, e cade il vincolo che WCAG 1.3.4 non vuole su un contenuto che non ne ha bisogno. Aggiunti «id»: «/» (che serve anche a rendere sicuro il cambio di start_url dell'altra scheda) e «display_override»: [«standalone», «minimal-ui»]. MANCA: `screenshots`, cioe' il motivo per cui su Android compare la finestra d'installazione ridotta invece di quella ricca. Non si chiude col codice: servono 2-3 immagini vere del sito, formato stretto piu' una larga, che in public/ non esistono. Puntare a file inesistenti sarebbe PEGGIO di non avere il campo — la finestra d'installazione mostrerebbe riquadri rotti proprio nel momento in cui si chiede di installare. Serve materia prima: schermate vere del marketplace (chiedere a @designer / @ai-designer), poi il campo e' tre righe di JSON. NON VERIFICATO: nessuna installazione su un telefono vero, ne' prima ne' dopo.",
+   "file_toccati": [
+    "public/manifest.json"
+   ]
+  },
+  {
+   "chiave": "frontend-ux|bersagli di tocco sotto i 44px sul percorso d'acquisto",
+   "titolo": "Bersagli di tocco sotto i 44px sul percorso d'acquisto",
+   "esito": "gia_riparato_prima",
+   "prova": "Letti i tre punti nel codice di adesso. components/checkout/CouponInput.tsx:73 -> <Button ... size=\"md\" ...>, e components/ui/Button.tsx dichiara md: min-h-[44px]. CouponInput.tsx:46 -> «Rimuovi» ha className «inline-flex min-h-[44px] items-center px-3 py-2», non e' piu' testo nudo. components/StickyAddToCart.tsx:137 e :159 -> i due tasti «-» e «+» sono «w-11 h-11», cioe' 44px, non piu' w-9 h-9. npx vitest run tests/unit/i-bersagli-del-percorso-d-acquisto-si-toccano.test.ts -> verde.",
+   "nota_fix": "Tutte e tre le occorrenze erano gia' state chiuse da un'ondata precedente, e il codice porta i commenti datati: CouponInput 27/8 (R098), StickyAddToCart 6/9 («I DUE TASTI DELLA QUANTITA' ERANO 36 PIXEL, NEL CARRELLO 40»). Non mi sono inventato un lavoro. Resta una cosa da segnalare, non da fare qui: la prova di struttura chiesta dal fix_proposto copre CouponInput ma NON StickyAddToCart, e anzi il suo commento di apertura dice ancora che lo stepper «resta aperto» — non e' piu' vero, e una regressione sui due tasti passerebbe in silenzio. L'ho messa in difetti_nuovi invece di toccarla: quel file di prova legge anche components/ui/Button.tsx, che non e' nel mio territorio.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "mobile-pwa|il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "perche": "il fix vive in un file fuori territorio: la pagina di conferma ordine (app/orders/... / la schermata di ordine confermato). Li' va proposta l'attivazione delle notifiche nel momento in cui servono («ti avvisiamo quando il rider parte»), riusando components/PushNotificationOptIn.tsx che esiste gia'. Nel mio territorio ho potuto solo togliere la promessa falsa dal testo del banner."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "La prova sui bersagli da toccare dichiara ancora aperto lo stepper della barra d'acquisto, che invece e' stato chiuso: nessuno guarda piu' quei due tasti",
+   "dove": "tests/unit/i-bersagli-del-percorso-d-acquisto-si-toccano.test.ts:13-14",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Nessun dispositivo vero: il messaggio nuovo per iPhone, i puntini di sospensione a video, il manifesto senza vincolo di verso e l'installazione con start_url cambiato non li ha visti nessun telefono — solo lettura del sorgente, tipi e prove unitarie. La scheda del difetto iPhone nasceva gia' con prova «umano, non eseguita»: quella verifica resta da fare. ② Gli eventi PostHog (pwa_installata, display_mode, i tre del banner) non sono stati visti arrivare su un progetto vero: qui non c'e' chiave, e la raccolta e' dietro al consenso cookie. Verificato che il codice compila, che passa dalle funzioni gia' esistenti e che rispetta il consenso; non che il numero compaia nel cruscotto. ③ NON ho lanciato npm run verify ne' build, come da vincolo: mentre le altre squadre scrivono avrei letto rossi non miei. Ho lanciato invece i 47 file di prova che citano i miei sorgenti — 453 prove, tutte verdi — piu' npx tsc --noEmit sull'intero progetto. ④ Un errore di tipi c'e' ma NON e' mio: lib/stripe/webhook/trasferimenti.ts riga 105, file che non ho toccato (78 righe aggiunte da un'altra squadra, e' nel loro territorio). Il mio primo giro di tsc, subito dopo le mie modifiche, era a zero errori; su nessuno dei miei 14 file esce un errore. ⑤ Il campo screenshots del manifesto resta aperto e serve materia prima (immagini vere)."
+}
