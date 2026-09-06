@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-06 11:10",
+  "aggiornato": "2026-09-06 11:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20226,6 +20226,26 @@
         "nota": "Aperto e dichiarato, non riparato. La prova comportamentale nascerà col fix: un turno che committa senza toccare STATO.md deve uscire rosso dal freno di fine turno, e diventare verde aggiornandola. Finché il fix non c'è, questa scheda NON si chiude con un grep."
       },
       "trovato_da": "la seconda ricaduta identica in due giorni, mentre riparavo AR-944"
+    },
+    {
+      "id": "AR-947",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-06 11:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "L'ultima difesa fuori dalla misura non era debito: misurarla faceva esplodere la macchina",
+      "sintomo": "Dopo AR-944 le difese non misurate erano scese da sette a una, e quella restava ⚪ a ogni corsa: «il freno torna a rilanciare SE STESSO». Non era pigrizia del banco — era che la misura, per come era scritta, non poteva finire.",
+      "causa_radice": "La mutazione toglie da `statoDelPasso` la riga che riconosce «questo passo sono io», e la sua prova era `due-case.test.mjs`. Rotta quella riga, quel file non diventa rosso: si rilancia dentro `spawnSync`, che è sincrono, quindi il SIGTERM arriva e non lo legge nessuno. La prima versione ci è morta sopra con 992 processi annidati. Il banco poteva solo ammazzarlo e scrivere ⚪. Cioè: la difesa esisteva, il caso esisteva, e la sua verifica era una bomba.",
+      "fix_proposto": "🟡 FATTO, ed è la cura già usata per AR-932 e AR-941: la riga vive dentro una funzione PURA ed esportata, quindi la si INTERROGA invece di dedurne l'effetto facendo esplodere un processo. Tre casi nuovi in `il-tempo-massimo-che-si-poteva-rifiutare.test.mjs` (2,1 s in tutto): il passo che lancia due-case.mjs si riconosce «io»; il riconoscimento è sul percorso di sé e non su un file qualunque del cervello (se no il freno smetterebbe di rilanciare chiunque); e senza sapere chi sono non accuso nessuno di essere me. La mutazione punta lì.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
+        "nota": "Misurato a mano: togliendo la riga del riconoscimento la prova esce 1 in 2,1 secondi (10 passati, 1 caduto), dove prima la stessa mutazione girava fino a essere ammazzata dal cronometro senza misurare niente. La regola: quando misurare una difesa costa un'esplosione, la difesa è nel posto sbagliato, non fuori portata."
+      },
+      "trovato_da": "il cancello sulla testa 03d06adaa: unica ⚪ rimasta su 172 difese, dopo che AR-944 aveva recuperato le altre sei",
+      "chiuso_il": "2026-09-06 11:40",
+      "chiuso_come": "riparato"
     }
   ],
   "meta": {

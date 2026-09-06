@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-06 10:05",
+ "aggiornato": "2026-09-06 11:40",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12441,6 +12441,29 @@
    "stato": "viva",
    "usi": [],
    "gate": "cervello/test/un-rosso-senza-il-suo-perche.test.mjs",
+   "data": "2026-09-06"
+  },
+  {
+   "id": "L-2026-0906-03",
+   "testo": "**AR-947.** Una difesa restava non misurata perché misurarla faceva esplodere la macchina: rompendo la riga che impedisce la ricorsione, la sua prova non diventava rossa, si moltiplicava in 992 processi e non tornava più. Per settimane l'ho letta come ⚪ dovuto. **Quando verificare una difesa costa un'esplosione, la difesa è nel posto sbagliato — non fuori portata.** La riga stava dentro una funzione pura ed esportata: bastava INTERROGARLA invece di dedurne l'effetto facendo partire un processo. Due millisecondi al posto di una bomba. È la terza volta che questa mossa paga (AR-932, AR-941, ora questa), e la forma è sempre la stessa: la prova che deduce un comportamento dagli effetti collaterali costa cara e misura poco; quella che chiede il fatto direttamente costa niente e non sbaglia.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 34020569283: 1 sola ⚪ su 172 difese, ed era questa",
+    "misurato dopo la cura: togliendo la riga, `il-tempo-massimo-che-si-poteva-rifiutare.test.mjs` esce 1 in 2,1 s (10 passati, 1 caduto)"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-06 11:40",
+   "ultima_conferma": "2026-09-06 11:40",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "data": "2026-09-06"
   }
  ],

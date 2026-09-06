@@ -24,7 +24,7 @@ import { readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { misuraIlPasso, quantoPosso, FERMO_PRIMA_DI_COPIARE, FERMO_DOPO_LA_COPIA, fermatoPrimaDiCopiare } from "../due-case.mjs";
+import { misuraIlPasso, quantoPosso, statoDelPasso, FERMO_PRIMA_DI_COPIARE, FERMO_DOPO_LA_COPIA, fermatoPrimaDiCopiare } from "../due-case.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 //
@@ -156,4 +156,48 @@ test("AR-933 · e il freno di due-case lo dichiara: chi lancia i passi non usa i
   const chiamata = src.match(/spawnSync\(passo\.comando[\s\S]{0,220}?\}\);/);
   assert.ok(chiamata, "non trovo piu la chiamata che rilancia i passi: il caso va riscritto, non tolto");
   assert.match(chiamata[0], /killSignal:\s*"SIGKILL"/, "chi rilancia i passi e tornato al segnale che il figlio puo ignorare");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔁 AR-947 — LA DIFESA CHE NON SI POTEVA MISURARE PERCHÉ MISURARLA ESPLODEVA.
+//
+// `statoDelPasso` comincia con la riga che impedisce la ricorsione: se il passo lancia proprio
+// `due-case.mjs`, si salta. Senza, il freno agganciato al cancello rilancia una copia di sé che ne
+// rilancia un'altra dentro `spawnSync`, che è sincrono — il SIGTERM arriva e non lo legge nessuno.
+// La prima versione ci è morta sopra con 992 processi annidati.
+//
+// LA DIFESA C'ERA, E NON SI POTEVA MISURARE. La sua mutazione puntava a `due-case.test.mjs`, e
+// rompendo quella riga quel file non diventa rosso: si moltiplica e non torna più. Il banco lo
+// ammazzava e scriveva ⚪ — «non ho misurato» — a ogni corsa, per settimane. Era l'ultima delle 172
+// difese a restare fuori dalla misura, e restava fuori per costruzione, non per debito.
+//
+// LA CURA È LA STESSA DI AR-932 E AR-941: la riga è dentro una funzione PURA ed esportata, quindi
+// la si interroga direttamente invece di dedurne l'effetto facendo esplodere un processo. Due
+// millisecondi al posto di una bomba.
+// ─────────────────────────────────────────────────────────────────────────────
+
+test("AR-947 · un passo che lancia PROPRIO due-case.mjs si riconosce come «io», e non si rilancia", () => {
+  const me = "cervello/due-case.mjs";
+  const passo = { nome: "passi nuovi che nascono rotti sul runner", comando: "node", script: me, argomenti: [me] };
+  assert.equal(
+    statoDelPasso(passo, null, "il testo di adesso", null, me),
+    "io",
+    "senza questa risposta il freno rilancia se stesso: 992 processi annidati e un comando che non torna",
+  );
+});
+
+test("AR-947 · e il riconoscimento è sul percorso di SÉ, non su «un file qualunque del cervello»", () => {
+  const me = "cervello/due-case.mjs";
+  const altro = { nome: "un altro guardiano", comando: "node", script: "cervello/forma-json.mjs", argomenti: ["cervello/forma-json.mjs"] };
+  assert.notEqual(
+    statoDelPasso(altro, null, "testo", null, me),
+    "io",
+    "se «io» valesse per tutti, il freno smetterebbe di rilanciare CHIUNQUE e non misurerebbe più niente",
+  );
+  assert.equal(statoDelPasso(altro, null, "testo", null, me), "nato", "un passo nuovo resta un passo nuovo");
+});
+
+test("AR-947 · senza sapere chi sono, non accuso nessuno di essere me", () => {
+  const passo = { nome: "x", comando: "node", script: "cervello/due-case.mjs", argomenti: [] };
+  assert.notEqual(statoDelPasso(passo, null, "testo", null, null), "io", "`seStesso` nullo non deve far scattare il salto su nessuno");
 });
