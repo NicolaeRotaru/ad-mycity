@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-06 06:32",
-  "situazione": "Zero delta reale dal Piano del mattino delle 06:02: 1 ordine annullato del 24/6, 0 pagati, 9 profili (5 buyer, 2 seller), 9 prodotti. 74° giorno di stallo North Star. Isolata (non riparata: bloccata dai permessi VPS) la causa di un riavvio a vuoto ricorrente: il delta-gate segna \"clienti 8→9\" per la 9ª volta di fila dal 5/9 10:28 sullo stesso profilo fantasma \"Panificio Demo\", mai promosso a baseline. Letargo RISPARMIO + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
+  "data": "2026-09-06 08:34",
+  "situazione": "Zero delta reale dal giro pieno delle 06:32: 1 ordine annullato del 24/6, 0 pagati, 9 profili (5 buyer, 2 seller), 9 prodotti. 74° giorno di stallo North Star. In questo passaggio ho riparato un debito di processo: il commit delle 07:08 aveva toccato auto-analisi.json e questo stesso file senza aggiornarne la data interna, restata ferma a 06:32 — stesso pattern già visto più volte nei giorni scorsi. Letargo RISPARMIO + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},

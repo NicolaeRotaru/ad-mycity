@@ -1,5 +1,32 @@
 ---
-data: 2026-09-06 06:32
+data: 2026-09-06 08:34
+---
+
+## Collaudo del cancello di stop — giro 2026-09-06 08:34
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi», dopo il giro pieno delle 06:32 e il commit "giro AD: aggiorna memoria (07:08)".
+- **FATTE:** numeri riverificati dal sensore REST fresco (`sensori-cecita.json`, 08:20, 0 giri
+  ciechi): 1 ordine (24/6, annullato), 0 pagati. Identico da giorni. `DECISIONI.md` riletto: nessuna
+  firma nuova dal 29/8. `AZIONI-IN-ATTESA.md` riletta per intero: invariata, top card ancora
+  #197/#196/#195/#194/#193.
+- **RIPARAZIONE VERA di questo passaggio.** `freschezza-cadenze.mjs` (pre-eseguito da giro.sh alle
+  08:2x) segnalava che il giro delle 07:08 era uscito saltando l'auto-analisi/apprendimento.
+  Verificato con `git show --stat 6b149b77b`: il commit delle 07:08 HA toccato sia
+  `auto-analisi.json` (58 righe) sia `ultimo-briefing.json` (12 righe) — ma il campo `data` interno
+  di entrambi era rimasto fermo a "06:32", il valore del giro precedente. È lo stesso identico
+  pattern (contenuto toccato, data non rigenerata) già trovato e corretto più volte nei passaggi del
+  5/9 (16:35, 18:35, 20:35). Riscritti ora entrambi con verifica dal vivo sul sensore REST.
+- **NON FATTE (per costruzione, non per dimenticanza).** Radar esterno (cadenza giornaliera già
+  coperta da @intelligence alle 07:10), radiografia completa, auto-miglioramento: RISPARMIO + gate
+  NORTH_STAR su dati confermati identici. Non ritentati gli script bloccati dall'allowlist
+  (`delta-gate.mjs --segna-pieno`, `sonda-volano.mjs`, `gate-veri.mjs`, `esperimenti-check.mjs
+  --apri`, `lezione-nuova.mjs`): stesso buco noto (card #104/#189/#194/#195), nessun tentativo alla
+  cieca ripetuto in questo passaggio.
+- **Voto di fiducia:** 77/100 (↓ da 78 — onestà sul debito di processo appena trovato, non un errore
+  di business nuovo: lo stesso gap si ripresenta perché non ha ancora un freno strutturale, solo
+  correzioni a mano ripetute).
+
 ---
 
 ## Collaudo del cancello di stop — giro 2026-09-06 06:32

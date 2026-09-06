@@ -1,7 +1,70 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 06:45
+aggiornato: 2026-09-06 08:43
 fonte: AD digitale (giro.md, chiamata "esegui giro.md per intero")
+---
+
+> 🧭 **6/9 08:43 — Nuova chiamata "esegui giro.md per intero", 9 minuti dopo il passaggio delle 08:34.**
+> Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
+>
+> **I numeri, riverificati ora con query diretta su Supabase.** Non a memoria. 1 ordine: del 24/6,
+> annullato, €19,05, venditore Pane Quotidiano. **0 pagati.** 9 profili. L'ultimo resta quello delle
+> 06:40 del 5/9. È "Panificio Demo" (card #196). Non è un cliente nuovo. 3 carrelli abbandonati.
+> Tutto identico al passaggio delle 08:34. **74° giorno di stallo North Star** (24/6→6/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log` dalle 08:20 a ora: zero commit nuovi.
+> `DECISIONI.md`: invariato. L'ultima firma di Nicola resta il 29/8 alle 00:40.
+> `AZIONI-IN-ATTESA.md`: invariata. Le top card restano #197, #196, #195, #194, #193.
+> `auto-analisi.json` e `ultimo-briefing.json`: già riscritti nel passaggio delle 08:34, con la
+> data interna giusta. Non serve ritoccarli: i fatti sotto sono identici.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Due motivi. Il letargo è RISPARMIO: taglia il
+> volume, non i controlli. Il gate NORTH_STAR ammette solo lavoro che avvicina il primo ordine
+> pagato. I dati sono identici a 9 minuti fa. Il radar giornaliero resta quello già coperto da
+> @intelligence alle 07:10. Rifarlo ora sarebbe stato doppio lavoro sulla stessa cadenza.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la tua firma sulle card #154 e #155. Sono il
+> dominio e le chiavi Vercel. Senza quella firma il sito resta giù: HTTP 503, cieco da 291 giri.
+> E nessun ordine può ancora diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
+---
+
+> 🧭 **6/9 08:34 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il giro pieno delle 06:32.**
+> Zero delta reale di business. Riparato il debito di processo segnalato dal vincolo HARD
+> `freschezza-cadenze.mjs`.
+>
+> **I numeri, dal sensore REST fresco (08:20, 0 giri ciechi — priorità su MCP per istruzione del
+> sensore).** 1 ordine (24/6, annullato, €19,05, seller Pane Quotidiano). **0 pagati.** Identico da
+> giorni. **74° giorno di stallo North Star** (24/6→6/9). `DECISIONI.md`: nessuna firma nuova di
+> Nicola dal 29/8. `AZIONI-IN-ATTESA.md`: invariata, top card ancora #197/#196/#195/#194/#193.
+>
+> **La riparazione vera di questo passaggio.** Il commit delle 07:08 ("giro AD: aggiorna memoria")
+> aveva SÌ toccato `auto-analisi.json` (58 righe di diff) e `ultimo-briefing.json` (12 righe) — ma
+> senza rigenerare il campo `data` interno di nessuno dei due, rimasto fermo a "06:32". È lo stesso
+> identico pattern (contenuto toccato, data non rigenerata) già trovato e corretto più volte nei
+> passaggi del 5/9 (16:35, 18:35, 20:35): un debito di processo ricorrente, mai reso strutturale.
+> Riscritti ora entrambi, con verifica dal vivo sul sensore REST, non solo ritimbrati. Voto di
+> fiducia 78→77, per onestà sul debito, non per un fatto di business nuovo.
+>
+> **Loop chiuso.** Registrato l'ESITO di oggi in `memoria-squadra/ad.md` e `memoria-squadra/
+> intelligence.md` (gate LOOP — @intelligence aveva un FATTO alle 07:10 senza ESITO).
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Letargo RISPARMIO (taglia il volume, non i
+> controlli) + gate NORTH_STAR (solo lavoro che avvicina il 1° ordine pagato) su dati confermati
+> identici a 2 ore fa. Il radar giornaliero è già stato coperto da @intelligence alle 07:10 (vedi
+> Sala Operativa): rifarlo ora sarebbe stato doppio lavoro sulla stessa cadenza. Non ritentati gli
+> script bloccati dall'allowlist (`delta-gate.mjs --segna-pieno`, `sonda-volano.mjs`,
+> `gate-veri.mjs`, `esperimenti-check.mjs --apri`, `lezione-nuova.mjs`): stesso buco noto da settimane
+> (card #104/#189/#194/#195), nessun tentativo alla cieca ripetuto.
+>
+> **Mossa numero uno resta sempre la stessa.** Serve la tua firma sulle card #154 e #155: dominio e
+> chiavi Vercel. Senza quella firma il sito resta giù (HTTP 503, cieco da 291 giri). E nessun ordine
+> può ancora diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
 ---
 
 > 🧭 **6/9 06:45 — Nuovo passaggio, 13 minuti dopo quello delle 06:32.** Zero novità di business.
