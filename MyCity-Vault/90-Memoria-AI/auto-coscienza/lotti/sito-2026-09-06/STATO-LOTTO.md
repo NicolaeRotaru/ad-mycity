@@ -16,19 +16,49 @@ committano: commit per ondata, li fa l'AD. Cancello finale: `npm run verify` nel
 | 2 | 6-10 | 32 | 28 chiusi | ondata-2 |
 | 3 | 11-15 | 30 | 25 chiusi | ondata-3 |
 | 4 | 16-20 | 29 | 18 chiusi | ondata-4 |
+| 5 | 21-25 | 17 | 13 chiusi | ondata-5 |
+| 6 | 201-205 | 32 | 25 chiusi | ondata-6 |
+| 7 | 206-210 | 31 | 24 chiusi | ondata-7 |
+| 8 | 211-215 | 31 | 22 chiusi | ondata-8 |
+| 9 | 216-220 | 31 | 23 chiusi | ondata-9 |
+| 10 | 221-222 | 11 | 7 chiusi | ondata-10 |
+| perimetro | 223, 230-237 | 17 | 15 chiusi | riparazioni |
 
-**Totale a fine ondata 4: 84 chiusi su 122 lavorati** (79 riparati, 5 trovati già a posto).
+## Come è finita
+
+**198 chiusi su 275** (186 riparati, 12 trovati già a posto). Il registro del sito passa da 304
+difetti aperti a 150: 3 bloccanti, 38 gravi, 109 minori.
+
+**La radiografia del perimetro**, fatta a lotto finito sui 202 file toccati con la lente delle nove
+dimensioni, ha trovato **58 difetti**, di cui **sei gravi nati dal lotto stesso**. Sono stati
+riparati prima della consegna, da squadre diverse da quelle che li avevano creati:
+
+1. alla cassa il pulsante che incassa si premeva e non succedeva niente (due riparazioni incrociate);
+2. una lettura del database caduta marcata come «rimborso senza ritorno»: soldi del cliente fermi;
+3. «scarica i miei dati» spacciava per elenco vuoto una sezione non letta;
+4. lo stesso ordine scriveva l'importo in due modi su canali diversi;
+5. la foto HEIC trascinata spariva senza messaggio in due moduli su tre;
+6. il modulo prodotto salvava un campo che l'utente non aveva toccato.
+
+Più il peggiore, trovato per caso: **il foglio di stile del sito era rotto in silenzio** da un
+commento chiuso male, e il compilatore produceva zero righe. Era già dentro un commit ed è passato
+sotto 3573 prove verdi, perché nessuna prova compilava il CSS.
+
+**Consegna**: richiesta di unione NicolaeRotaru/mycity#250 — 11 commit, 290 file, +14.574/−1.285.
+Cancello verde: `npm run verify` esce 0 (495 file di test, 3654 prove), il CSS compila in 11.243
+righe, e `radiografia-in-corsa --repo ../mycity` esce 0 su 208 file e 9 dimensioni.
 
 ## Da portare a Nicola quando il lotto si chiude
 
-1. **Il confine della consegna a 25 km dal negozio.** La squadra 17 ha dovuto mettere un numero
+1. **Il confine della consegna a 25 km dal negozio.** → accodata come card #196. La squadra 17 ha dovuto mettere un numero
    per chiudere il difetto della zona: 25 km fa passare Piacenza e la cintura, e taglia fuori
    Milano e Cremona. È una decisione di business, non una riparazione: la firma è di Nicola. Con
    20 km diventava rossa una prova esistente, perché il sito una consegna a 24 km la serve già.
    Attaccato: la promessa «30-60 minuti» non regge al bordo — a 24 km la stima è 75 minuti.
-2. **Le cose che si chiudono fuori dal codice** (🔴): protezione password su Supabase Auth, Web
+2. **`RESEND_FROM` su Vercel prima di unire** → card #195. E **i moduli che rifiutano HEIC** → card #194.
+3. **Le cose che si chiudono fuori dal codice** (🔴): protezione password su Supabase Auth, Web
    Analytics su Vercel, i doppioni di regole in produzione, l'aggiornamento delle dipendenze
    (peggiorato da 3 a 4 vulnerabilità), il DAC7 e il periodo di conservazione dei dati.
-3. **Da guardare con gli occhi prima dell'unione**: nessuna squadra ha avuto un browser. In
+4. **Da guardare con gli occhi prima dell'unione**: nessuna squadra ha avuto un browser. In
    particolare il ritmo verticale della home, i titoli della scheda prodotto passati a 24px
    serif, e le foto verticali che ora mostrano bande laterali.

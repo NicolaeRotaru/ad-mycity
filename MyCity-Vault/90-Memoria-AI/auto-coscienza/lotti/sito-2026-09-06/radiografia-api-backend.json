@@ -1,0 +1,124 @@
+{
+  "dimensione": "api-backend",
+  "data": "2026-09-06 18:40",
+  "ramo_guardato": "claude/marketplace-open-issues-0gudy6",
+  "confronto": "git diff origin/main",
+  "lente": "rotte e giri notturni: permessi e chi puo' chiamare cosa, errori inghiottiti, un giro che fallisce e risponde verde, un lavoro notturno che non si accorge di essere saltato, scritture non atomiche, dati personali nei log, risposte che dicono al cliente cose da terminale",
+  "file_guardati": [
+    "app/api/account/export/route.ts",
+    "app/api/cron/abandoned-carts/route.ts",
+    "app/api/cron/expire-checkouts/route.ts",
+    "app/api/cron/expire-stale-orders/route.ts",
+    "app/api/cron/send-emails/route.ts",
+    "app/api/cron/send-push/route.ts",
+    "app/api/locale/route.ts",
+    "app/api/marketplace/import-fetch/route.ts",
+    "app/api/orders/[id]/cancel/route.ts",
+    "app/api/returns/create/route.ts",
+    "app/api/rider/cash-confirm/route.ts",
+    "app/api/sponsored/checkout/route.ts",
+    "app/api/cron/operational-alerts/route.ts",
+    "app/api/cron/process-deletions/route.ts",
+    "app/api/orders/cod/route.ts",
+    "app/api/returns/[id]/avanza/route.ts",
+    "app/api/returns/[id]/decide/route.ts"
+  ],
+  "file_di_appoggio_letti": [
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/push/send.ts",
+    "app/api/newsletter/route.ts",
+    "migrations/015_competitive_moats.sql",
+    "migrations/115_privacy_radiografia.sql",
+    "app/seller/promote/page.tsx",
+    "app/checkout/page.tsx",
+    "app/api/stripe/checkout/route.ts",
+    "app/api/cron/send-emails/route.ts (TEMPLATE_DI_SERVIZIO)"
+  ],
+  "difetti": [
+    {
+      "id": "APIBE-01",
+      "titolo": "Scarica i miei dati: se una tabella non risponde, il file dice «non hai niente» invece di dire che si e' rotto",
+      "posizione": "app/api/account/export/route.ts:158-166",
+      "gravita": "grave",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "L'export dei dati personali (GDPR art. 15 e 20) e' passato oggi da 8 a 33 tabelle. Le 25 nuove si leggono con `const esito = (await domanda) as { data: unknown[] | null }; altre[chiave] = esito.data ?? [];`: il campo `error` del client Supabase non viene ne' letto ne' scritto nel registro. Se una di quelle letture fallisce — permesso revocato, tabella rinominata, timeout — nel file JSON consegnato alla persona compare `\"portafoglio\": []`, identico a quello di chi davvero non ha credito. Non c'e' nessun modo, ne' per la persona ne' per noi, di distinguere «non hai niente» da «non sono riuscito a leggerlo». Il commento appena sopra la riga afferma il contrario — «resta vuota e il guasto si vede nel file» — ma nel file non finisce nulla: e' un'affermazione che il codice non mantiene. Conseguenza reale: rispondiamo a una richiesta fatta per legge con un documento incompleto che si presenta come completo, e la prova nuova (`tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts`) controlla che la tabella sia NELL'ELENCO, non che la lettura sia riuscita — quindi resta verde.",
+      "come_si_riproduce": "1) Rinomina o revoca il permesso su una sola delle 25 tabelle nuove (es. `wallet_ledger`) per il ruolo service_role. 2) Chiama GET /api/account/export autenticato come un utente che HA credito nel portafoglio. 3) La risposta e' 200 e il file scaricato contiene `\"portafoglio\": []`, senza nessuna riga di errore nei log e senza nessun campo che segnali il guasto. Atteso: o l'export fallisce, o il file porta un marcatore esplicito tipo `\"portafoglio\": {\"errore\": \"...\"}`.",
+      "riparazione_suggerita": "Leggere `esito.error`, scriverlo con `logger.error` e mettere nel payload un blocco `letture_non_riuscite: [chiave, ...]` accanto a `export_metadata`, cosi' la persona e il supporto vedono cosa manca. Nessuna migrazione, nessun cambio di contratto.",
+      "chi_lo_prende": "backend-dev, con revisione @dpo (completezza art. 15)"
+    },
+    {
+      "id": "APIBE-02",
+      "titolo": "Il giro notturno delle pulizie privacy puo' saltarne sei su otto e rispondere lo stesso «tutto a posto»",
+      "posizione": "app/api/cron/process-deletions/route.ts:118-320 (il try/catch attorno alle otto `pota`) + :331",
+      "gravita": "grave",
+      "nato_o_vecchio": "vecchio (buco pre-esistente), ma oggi il file e' stato toccato proprio qui e la riparazione non lo copre",
+      "cosa_succede_in_pratica": "Le otto pulizie di ritenzione stanno tutte dentro un unico `try { ... } catch (e) { logger.warn(...) }`. Il contatore `fallite.n` viene alzato solo dalla funzione `pota`, che legge il campo `error` restituito da PostgREST. Ma se una chiamata LANCIA davvero — rete che cade, DNS, connessione chiusa a meta' — l'eccezione salta fuori dal `try`, il `catch` la degrada a `warn`, `fallite.n` resta 0, e soprattutto le pulizie successive non vengono MAI eseguite. Il nuovo controllo aggiunto oggi (`if (fallite.n > 0) await svegliaPerLaRitenzione(...)` e lo stato 500) guarda solo il contatore, quindi su questo percorso non scatta: il lavoro risponde 200, il battito viene scritto, il pannello dei lavori periodici resta verde e il sorvegliante non si accorge di niente. Nel frattempo restano al loro posto indirizzi di rete, foto della porta di casa, documenti dei venditori respinti e le email dei buoni regalo, oltre la finestra che dichiariamo nella pagina pubblica. E' esattamente il difetto che il commento del 30/8 (R169) e quello del 6/9 dicono di aver chiuso — chiuso pero' solo per il percorso «PostgREST torna un errore», non per il percorso «PostgREST lancia».",
+      "come_si_riproduce": "1) Fai lanciare la seconda `pota` (es. sostituisci il client admin con uno che rifiuta la promise sulla delete di `activity_events`, oppure stacca la rete a meta' giro). 2) POST /api/cron/process-deletions con `Authorization: Bearer $CRON_SECRET`. 3) La risposta e' 200 con `{ processed: 0, retentionFallite: 0 }`, nessun avviso agli amministratori, e le sei potature successive non sono partite. Atteso: 500 e avviso, come per il percorso gia' coperto.",
+      "riparazione_suggerita": "Dare a ogni `pota` il suo `try/catch` (o avvolgere la chiamata dentro `pota` stessa) in modo che un lancio incrementi `fallite.n` come un errore restituito; il `catch` esterno deve alzare `fallite.n` almeno di 1 prima di uscire. Cosi' il 500 e la sveglia gia' scritti oggi coprono tutte e due le strade.",
+      "chi_lo_prende": "backend-dev"
+    },
+    {
+      "id": "APIBE-03",
+      "titolo": "La protezione contro il doppio pagamento della sponsorizzazione si regge su una chiave che il browser non manda mai",
+      "posizione": "app/api/sponsored/checkout/route.ts:72-75 (e il chiamante, app/seller/promote/page.tsx:107-111)",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "La rotta legge l'intestazione `idempotency-key` e, se c'e', costruisce la chiave Stripe con quella; se non c'e' ripiega su una finestra di dieci minuti (`Math.floor(Date.now() / 600_000)`). Il commento presenta il primo caso come quello normale: «La chiave buona la manda il browser — una per apertura del modulo, rigenerata dopo ogni esito». Non e' cosi': l'unico punto del sito che chiama questa rotta e' `app/seller/promote/page.tsx:107`, e manda solo `Content-Type`. In tutto il progetto l'intestazione `idempotency-key` la spedisce un solo file, `app/checkout/page.tsx:797`, che e' la cassa dei contanti. Quindi al 100% delle chiamate reali gira il ripiego. Il ripiego funziona (due clic ravvicinati danno la stessa chiave), ma ha una giuntura: due tentativi a cavallo del confine dei dieci minuti — 09:59:58 e 10:00:03 — producono chiavi diverse e quindi due sessioni Stripe distinte sullo stesso prodotto e le stesse settimane. Il rischio pratico e' basso perche' il browser reindirizza sull'ultima sessione aperta, ma il negoziante con due schede aperte puo' ancora pagare due volte la stessa promozione. Il danno vero e' l'altro: chi legge il commento fra sei mesi crede che ci sia una protezione per-modulo che non esiste, e la costruisce sopra.",
+      "come_si_riproduce": "1) Da `/seller/promote` apri gli strumenti di rete e conferma che la richiesta a /api/sponsored/checkout non porta nessuna intestazione `idempotency-key`. 2) Blocca l'orologio a 09:59:58, chiama la rotta, poi rimettilo a 10:00:03 e richiamala con gli stessi `productId` e `weeks`. 3) Stripe restituisce due `session.id` diversi: due pagamenti aperti per la stessa sponsorizzazione.",
+      "riparazione_suggerita": "Far generare al modulo di `/seller/promote` una chiave per apertura (come fa gia' `app/checkout/page.tsx`) e mandarla nell'intestazione; oppure, se si vuole tenere solo il lato server, togliere dal commento la frase sul browser e dire che il ripiego E' il meccanismo. Nota: la stessa cosa vale per `app/api/gift-cards/checkout/route.ts:52`, che e' fuori dal perimetro di oggi ma ha lo stesso ripiego e nessun mittente — vale la pena chiuderli insieme.",
+      "chi_lo_prende": "backend-dev + frontend-dev (la chiave la deve mandare la pagina)"
+    },
+    {
+      "id": "APIBE-04",
+      "titolo": "Senza nemmeno un amministratore in tabella, il giro dei carrelli scaduti resta rosso per sempre e viene ritentato all'infinito",
+      "posizione": "app/api/cron/expire-checkouts/route.ts:109-123 e :202-210",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Il ramo «carrelli scaduti che hanno gia' degli ordini» ora dichiara fallito tutto il giro (500) anche quando il motivo e' `nessun amministratore a cui scrivere`. Il commento riconosce che «riprovare non lo fa comparire», eppure il 500 e' proprio cio' che fa ritentare il lavoro a Vercel. Se la tabella `profiles` non ha nessuna riga con `role = 'admin'` (ambiente nuovo, copia di collaudo, ruolo rinominato), ogni esecuzione finisce rossa e viene ripetuta, all'infinito, per una condizione che nessun ritentativo puo' sanare. Il lavoro utile a monte e' idempotente, quindi non si corrompe niente: si spreca il ritentativo e, peggio, il pannello dei lavori periodici resta permanentemente rosso — cioe' smette di essere un segnale, e il giorno che si rompe qualcosa di vero nessuno lo guarda piu'.",
+      "come_si_riproduce": "1) In una base senza righe `profiles.role = 'admin'`, crea un `pending_checkouts` scaduto che abbia gia' un ordine collegato (stesso `stripe_session_id`). 2) POST /api/cron/expire-checkouts con il segreto del cron. 3) Risposta 500 `{ ok:false, error: 'avviso agli amministratori non partito: nessun amministratore a cui scrivere' }`. 4) Rilancia: identico, per sempre.",
+      "riparazione_suggerita": "Distinguere i due casi: per un errore del database (`errAdmins`/`errAvviso`) il 500 e il ritentativo hanno senso; per «non c'e' nessun destinatario» serve un canale diverso (Sentry/`logger.error` gia' c'e') e una risposta 200 con il conto nel corpo, altrimenti si costruisce un allarme che non si puo' spegnere.",
+      "chi_lo_prende": "backend-dev, con @devops-sre per la soglia di allarme sul pannello dei cron"
+    },
+    {
+      "id": "APIBE-05",
+      "titolo": "Scarica i miei dati legge trentatre tabelle intere senza nessun tetto: su un cliente storico la richiesta puo' non finire",
+      "posizione": "app/api/account/export/route.ts:120-166",
+      "gravita": "minore",
+      "nato_o_vecchio": "peggiorato oggi (era 8 tabelle, oggi 33)",
+      "cosa_succede_in_pratica": "Tutte le venticinque letture nuove sono `select('*')` senza `.limit()` e partono insieme dentro un `Promise.all`, sommandosi alle otto che c'erano gia'. Tre di queste tabelle crescono con l'uso e non con gli ordini — `seller_story_views` (una riga per storia guardata), `email_queue` (una riga per email, col corpo dentro) e `payment_attempts` — quindi per un cliente attivo da un anno si parla di decine di migliaia di righe caricate tutte in memoria e serializzate in un JSON solo. La rotta gira su Vercel con un tetto di tempo e di memoria: il primo effetto e' un export che scade a meta' e restituisce un errore, cioe' una richiesta legale che non si riesce a soddisfare proprio per i clienti piu' affezionati. Oggi con i volumi veri (pochi ordini, un negozio confermato) non succede: e' un difetto che si presenta alla crescita, non adesso.",
+      "come_si_riproduce": "Popola `seller_story_views` con ~50.000 righe per un utente e chiama GET /api/account/export come quell'utente: la risposta impiega decine di secondi o cade sul tetto di tempo della funzione. Con i dati attuali non e' riproducibile — e' una previsione, non un'osservazione: vedi `non_verificato`.",
+      "riparazione_suggerita": "Mettere un tetto per tabella (es. `.limit(10000)`) con un campo `troncata: true` nel payload, oppure spostare l'export su un lavoro asincrono che scrive un file e manda il link — che e' la forma che l'art. 15 permette esplicitamente.",
+      "chi_lo_prende": "backend-dev (non urgente: rimettere in coda quando i volumi crescono)"
+    }
+  ],
+  "cosa_ho_controllato_ed_era_a_posto": [
+    "Ordine delle scritture nella cassa contanti: il nuovo controllo della zona di consegna sta a app/api/orders/cod/route.ts:502, PRIMA della rivendicazione del codice sconto a :519 — un rifiuto per zona non brucia il buono. Stessa cosa sulla rotta della carta (app/api/stripe/checkout/route.ts:459 contro :485). L'ordine giusto e' rispettato su tutte e due.",
+    "Il modulo nuovo lib/ordini/zona-di-consegna.ts e' usato davvero da tutte e tre le case che dichiara: cassa contanti, cassa carta e conto della spedizione (lib/shipping.ts:40). Nessun controllo applicato a meta'.",
+    "Il controllo della zona legge s.store_lat / s.store_lng: le colonne ci sono nella lettura dei venditori (le usa gia' sellerCoordMap a app/api/orders/cod/route.ts:377). Non e' un controllo che fa finta di funzionare leggendo campi non selezionati.",
+    "Potatura delle iscrizioni newsletter mai confermate (process-deletions): i quattro filtri sono corretti contro lo schema vero. Le iscrizioni anteriori alla migrazione 115 hanno active = true (migrations/015:172) e sono protette; le nuove nascono con active: false (app/api/newsletter/route.ts, campo `riga`) e quindi vengono davvero potate; chi si e' disiscritto e' protetto da unsubscribed_at. Non cancella iscritti veri e non e' una potatura che non pota niente.",
+    "send-push: una categoria non presente in CONSEGNA_PER_CATEGORIA (oggi 'moderation') passa `undefined` a sendPushToUser, che ha i suoi valori di riserva (lib/push/send.ts:141-142: TTL 3600, urgenza alta). Nessun avviso resta senza scadenza.",
+    "send-emails: `tipo: isMarketing ? 'marketing' : 'transazionale'` deriva dallo stesso insieme TEMPLATE_DI_SERVIZIO che decide il consenso (riga 194), quindi le due decisioni non possono piu' divergere. La riparazione mantiene quello che promette.",
+    "Nessun dato personale nelle undici righe di registro aggiunte oggi: si scrivono identificativi (sellerId, orderId, titolo dell'avviso), mai email, indirizzi o nomi.",
+    "Messaggi al cliente ripuliti dal gergo da terminale: 'Rimborso fallito: ' + err.message spariva verso il cliente in due punti (orders/[id]/cancel e returns/[id]/decide) e ora e' una frase leggibile; anche `Reso gia' in stato ${ret.status}` non mostra piu' lo stato interno. Questa e' la lente «risposte che dicono al cliente cose da terminale» e oggi e' migliorata, non peggiorata.",
+    "Permessi e chi puo' chiamare cosa: nessuno dei 17 file ha cambiato il proprio guardiano. I giri notturni restano dietro withCronAuth, le rotte del venditore dietro withSellerAuth, quelle del cliente dietro withAuthRateLimit; in orders/[id]/cancel il controllo di proprieta' (order.user_id !== user.id) e' intatto. Nessuna rotta e' diventata piu' aperta di ieri.",
+    "npx tsc --noEmit sull'intero progetto: esce 0. Le firme nuove (mapAiError, ApiErrors.payloadTooLarge, il campo `tipo` di sendEmail, PushDeliveryOptions, notifyAdmins, preparaEmailCicloDiVita) esistono tutte e combaciano."
+  ],
+  "non_verificato": [
+    "Non ho eseguito nulla contro un database vero: niente Supabase, niente Stripe, niente scheduler. Tutte le riproduzioni qui sopra sono descritte, non provate — la sola cosa che ho fatto girare e' il controllo dei tipi.",
+    "APIBE-05 e' una previsione sui volumi futuri, non un'osservazione: con i dati di oggi (un solo negozio confermato) non si manifesta. L'ho dichiarato dentro il difetto stesso.",
+    "Non ho aperto le prove unitarie nuove per vedere se coprono davvero i casi limite: ho letto solo che esistono e cosa dicono di controllare. La verifica che una prova fallisca davvero quando il difetto c'e' e' lavoro della skill collaudo, non mio.",
+    "Non ho guardato le politiche RLS delle 25 tabelle aggiunte all'export: quelle letture usano il client amministratore, che le scavalca per costruzione, quindi l'isolamento fra clienti li' dipende interamente dal filtro scritto a mano (`.eq('user_id', userId)` / `.or(...)`). Li ho riletti uno per uno e i campi sembrano quelli giusti, ma non ho potuto confermare contro lo schema reale che, per esempio, product_lists.owner_id o segnalazioni.segnalante_id siano davvero la colonna del proprietario. Se una di quelle colonne fosse sbagliata, l'export di una persona conterrebbe righe di un'altra: vale la pena che @security lo verifichi contro le migrazioni.",
+    "Fuori perimetro ma collegato: app/api/gift-cards/checkout/route.ts ha lo stesso ripiego di idempotenza di APIBE-03 e nessun mittente dell'intestazione. Non era nei 17 file, non l'ho radiografato."
+  ],
+  "niente_trovato_perche": null,
+  "riepilogo": {
+    "file_guardati": 17,
+    "difetti_totali": 5,
+    "bloccanti": 0,
+    "gravi": 2,
+    "minori": 3,
+    "nati_oggi": 3,
+    "peggiorati_oggi": 1,
+    "vecchi": 1
+  }
+}

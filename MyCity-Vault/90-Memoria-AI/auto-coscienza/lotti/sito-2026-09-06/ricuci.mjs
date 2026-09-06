@@ -34,8 +34,14 @@ const salva = (p, o) => {
   writeFileSync(p, JSON.stringify(o, null, indent) + "\n");
 };
 
+// Le squadre 230-239 non hanno riparato schede del registro: hanno chiuso i difetti che la
+// radiografia del perimetro ha trovato OGGI, che nel registro ancora non esistevano. Le loro
+// chiusure le applica lo script che registra i reperti della radiografia, non questo — se le
+// leggesse qui, le loro chiavi coniate a mano risulterebbero tutte «non combaciano».
+const RIPARAZIONI_DEL_PERIMETRO = /^squadra-23\d\.json$/;
+
 const frammenti = readdirSync(QUI)
-  .filter((f) => /^squadra-\d+\.json$/.test(f))
+  .filter((f) => /^squadra-\d+\.json$/.test(f) && !RIPARAZIONI_DEL_PERIMETRO.test(f))
   .sort((a, b) => Number(a.match(/\d+/)[0]) - Number(b.match(/\d+/)[0]))
   .map((f) => ({ nome: f, dati: leggi(join(QUI, f)) }));
 

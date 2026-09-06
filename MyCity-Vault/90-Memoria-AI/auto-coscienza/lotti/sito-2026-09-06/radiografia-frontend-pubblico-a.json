@@ -1,0 +1,125 @@
+{
+  "dimensione": "frontend-ux",
+  "parte": "pubblico-a",
+  "data": "2026-09-06 18:40",
+  "ramo": "claude/marketplace-open-issues-0gudy6",
+  "repo": "/home/user/mycity",
+  "confronto": "git diff origin/main",
+  "lente": "quello che vede e prova chi usa il sito: attese che non finiscono, errori muti, testo che mente rispetto al codice, comandi senza nome, tocco sul telefono, contrasti, e riparazioni diverse incrociate sullo stesso oggetto",
+  "file_guardati": 47,
+  "file_toccati_oggi": 47,
+  "file_esclusi": ["app/checkout/page.tsx (in mano a un'altra squadra in questo momento)"],
+
+  "difetti": [
+    {
+      "id": "FE-A-01",
+      "titolo": "Il negoziante trascina il logo e non succede niente",
+      "eta": "nato_oggi",
+      "gravita": "grave",
+      "file_riga": [
+        "components/VendorForm.tsx:114",
+        "components/ImageUrlField.tsx:36"
+      ],
+      "cosa_succede": "Oggi due squadre hanno stretto il filtro dei file da 'image/*' a solo JPG/PNG/WEBP, ma nessuna delle due ha aggiunto la riga che dice di no. react-dropzone scarta il file PRIMA di chiamare onDrop, e onDrop fa 'const file = files[0]; if (!file) return;' — quindi il rifiuto e' un ritorno muto: nessun avviso, nessuna rotellina, nessun errore. Prima di oggi 'image/*' faceva passare quasi tutto e l'errore, se arrivava, arrivava dal server con una frase leggibile. Adesso il negoziante che trascina una foto HEIC dell'iPhone, una GIF o un logo SVG del suo grafico vede lo schermo fermo e pensa che il sito sia rotto. VendorForm e' il modulo con cui il negozio cambia il proprio logo su /seller; ImageUrlField lo usano tre schermate di amministrazione (vetrina del mese, eventi, sezioni della home).",
+      "incrocio": "Nello STESSO lotto, components/StoreMediaManager.tsx:55 ha fatto la stessa identica stretta e HA aggiunto onDropRejected, scrivendoci accanto: «Senza questa riga il file rifiutato spariva in silenzio, che e' il modo peggiore di dire di no». La regola l'ha scritta il lotto stesso; due squadre su tre non l'hanno applicata lo stesso giorno.",
+      "riproduzione": "Apri /seller/store (o /admin/events), trascina un file .heic/.gif/.svg sul riquadro del logo. Atteso: un avviso che dice cosa serve. Reale: niente.",
+      "come_si_chiude": "Copiare l'onDropRejected di StoreMediaManager.tsx:55 nei due dropzone, con lo stesso testo ('servono foto in JPG, PNG o WEBP').",
+      "confidenza": "95% — letto nel codice e confrontato con origin/main; il tocco su un telefono vero non l'ho potuto provare da qui."
+    },
+    {
+      "id": "FE-A-02",
+      "titolo": "Le liste dicono «non ne hai» anche quando la lettura e' fallita",
+      "eta": "vecchio_attraversato_oggi_e_non_chiuso",
+      "gravita": "medio",
+      "file_riga": ["app/lists/page.tsx:73", "app/lists/page.tsx:92"],
+      "cosa_succede": "Tutte e due le letture prendono solo 'data' e buttano via 'error', poi tornano 'data ?? []'. Per il contenitore delle query e' una lettura RIUSCITA che ha trovato zero righe: niente secondo tentativo, niente avviso. A schermo esce «Non hai ancora liste. Inizia a crearne una.» e «Nessuna lista pubblica per ora.» a chi le liste ce le ha. Chi vede quella frase non ha nessun pulsante per riprovare: puo' solo ricaricare la pagina alla cieca.",
+      "incrocio": "E' esattamente il difetto che DUE altre squadre hanno chiuso oggi, sugli stessi presupposti e con le stesse parole: app/messages/page.tsx:55 («NESSUNA CONVERSAZIONE A CHI NE HA DIECI APERTE») e app/profile/gift-cards/page.tsx:83 («UN CREDITO NON LETTO NON E' UN CREDITO A ZERO... un importo in euro non ha mai un valore di ripiego»). La squadra delle liste ha toccato proprio quelle due useQuery — ha aggiunto isLoading e gli scheletri — e ha lasciato meta' del difetto in piedi.",
+      "riproduzione": "Metti il telefono in aereo (o blocca la chiamata a product_lists) e apri /lists da un account che ha liste. Atteso: «non riusciamo a caricare» + Riprova. Reale: «Non hai ancora liste».",
+      "come_si_chiude": "Aggiungere 'if (error) throw error' alle due queryFn e uno stato isError con ErrorState + onRetry, come in app/messages/page.tsx:131.",
+      "confidenza": "90% — la lettura del codice e' certa; la rete caduta non l'ho potuta simulare da qui."
+    },
+    {
+      "id": "FE-A-03",
+      "titolo": "Lo stesso logo del negozio ora e' tagliato in due modi diversi",
+      "eta": "nato_oggi",
+      "gravita": "minore",
+      "file_riga": [
+        "components/StoreAvatar.tsx:44",
+        "components/account/AccountSidebar.tsx:118"
+      ],
+      "cosa_succede": "Due squadre hanno sistemato lo stesso oggetto — il logo del negozio — lo stesso giorno, in direzioni opposte. AccountSidebar e' passato a logoNegozio(logo,48) + object-contain, cioe' ritaglio quadrato SPENTO e logo intero (la ragione sta scritta in lib/image-url.ts:122: «un logo con la scritta ritagliato a quadrato diventa illeggibile»). StoreAvatar — il componente condiviso, usato in 7 punti — e' stato instradato su caricatoreFotoRemote, che alle misure di un avatar sceglie la fascia 'thumb'/'card', cioe' ritaglio quadrato ACCESO, e tiene object-cover. Risultato: l'insegna col nome scritto sopra si legge intera nella scheda identita' dell'account e ha i due lati tagliati in tutte le altre schede e intestazioni. La resa di StoreAvatar da sola non e' peggiorata (object-cover in un cerchio ritagliava gia' a quadrato); il difetto e' la divergenza nata oggi.",
+      "riproduzione": "Un negozio con logo largo (nome scritto per esteso): confronta il cerchio in /account con quello nella scheda negozio.",
+      "come_si_chiude": "Decidere UNA regola per il logo negozio e applicarla in tutti e due i punti (probabilmente quella di AccountSidebar: quadrato:false + contain), oppure dichiarare per iscritto perche' l'avatar tondo fa eccezione.",
+      "confidenza": "85% — dedotto dal codice e dai token; non ho visto le due rese affiancate a schermo."
+    },
+    {
+      "id": "FE-A-04",
+      "titolo": "Mentre la pagina carica adesso si vede una schermata quasi bianca",
+      "eta": "nato_oggi",
+      "gravita": "minore",
+      "file_riga": ["app/loading.tsx:24"],
+      "cosa_succede": "L'attesa della radice era uno scheletro con la scritta «Stiamo caricando…» e quattro riquadri; adesso e' una barretta alta 4 pixel sotto l'intestazione, e basta. La ragione dichiarata e' giusta (uno scheletro generico assomiglia a una pagina sola e sbaglia con tutte le altre), ma il risultato per chi guarda e' un'area bianca alta una schermata intera — il <main> ha min-height di una schermata, quindi il vuoto si vede tutto. Su una rete lenta, che e' il caso normale del nostro pubblico, «bianco» si legge come «rotto», non come «sto arrivando». La scritta «Stiamo caricando…» c'e' ancora ma e' sr-only: la sente il lettore di schermo, non la vede l'occhio. In piu' globals.css:396 azzera le animazioni per chi ha chiesto meno movimento: per loro la barretta e' ferma, cioe' non dice piu' niente.",
+      "riproduzione": "Rete lenta (throttling 3G), naviga verso una pagina senza scheletro proprio (es. /about): schermo vuoto con una riga sottile in alto.",
+      "come_si_chiude": "Rimettere la frase visibile («Stiamo caricando…») accanto alla barretta, senza rimettere la griglia finta di prodotti.",
+      "confidenza": "70% — e' un giudizio di esperienza, non un guasto: non ho potuto misurare da qui quanto dura l'attesa vera."
+    },
+    {
+      "id": "FE-A-05",
+      "titolo": "La mappa dell'ordine non si sposta piu' con il dito",
+      "eta": "nato_oggi",
+      "gravita": "minore",
+      "file_riga": ["components/DeliveryMap.tsx:89"],
+      "cosa_succede": "Su schermo tattile il trascinamento e' stato spento del tutto (dragging: !conIlDito), per non rubare lo scorrimento della pagina. Il problema che risolve e' reale, ma la soluzione di casa altrove e' «un dito scorre la pagina, due dita muovono la mappa», non «la mappa non si muove». Chi ingrandisce per leggere il nome della via non ha piu' modo di ricentrare, e non c'e' nessuna scritta che spieghi perche' la mappa non risponde. Vale sia per la pagina di stato ordine del cliente (riquadro alto 176px) sia per la schermata di lavoro del rider (224px), che sta su un telefono per definizione.",
+      "attenuante": "Alla prima apertura il difetto non si vede: con piu' di un punto la mappa fa gia' fitBounds (DeliveryMap.tsx:162, padding 40, maxZoom 16), quindi negozio e cliente entrano sempre nell'inquadratura. E il pizzico per ingrandire, che e' rimasto acceso, sposta comunque un po' la vista.",
+      "riproduzione": "Da telefono apri /orders/<id> con la mappa, ingrandisci col pizzico, poi prova a trascinare: la mappa resta ferma.",
+      "come_si_chiude": "Riaccendere dragging e usare il gesto a due dita (gestureHandling di Leaflet) con la scritta «usa due dita per muovere la mappa».",
+      "confidenza": "80% sul comportamento (letto nel codice), 50% sul fastidio reale: senza un telefono vero non so quanto pesa."
+    },
+    {
+      "id": "FE-A-06",
+      "titolo": "Oltre il duecentesimo negozio la riga sotto il titolo dira' un numero falso",
+      "eta": "nato_oggi",
+      "gravita": "minore_latente",
+      "file_riga": ["app/stores/page.tsx:39", "app/stores/page.tsx:243"],
+      "cosa_succede": "E' stato messo un tetto dichiarato di 200 negozi per lettura (scelta giusta: prima il tetto c'era lo stesso, era quello a sorpresa di PostgREST a 1000). Ma la riga sotto il titolo continua a stampare stores.length come se fosse il totale: al negozio numero 201 la pagina dira' per sempre «200 negozi locali pronti a consegnarti a casa», e gli altri spariranno senza che niente lo dica. Oggi non si vede — di negozi reali ce n'e' uno — ma e' una bugia gia' scritta che scattera' da sola.",
+      "riproduzione": "Non riproducibile oggi: serve un catalogo oltre 200 negozi.",
+      "come_si_chiude": "O la paginazione vera (.range()), o almeno «primi 200 negozi» quando filtered.length tocca il tetto.",
+      "confidenza": "95% sul codice, 100% che oggi non si veda."
+    },
+    {
+      "id": "FE-A-07",
+      "titolo": "Nel modulo di iscrizione del negozio la foto troppo pesante viene scartata in silenzio",
+      "eta": "vecchio",
+      "gravita": "medio",
+      "file_riga": ["components/SellerApplicationForm.tsx:157"],
+      "cosa_succede": "Stesso buco di FE-A-01 ma gia' presente su origin/main, quindi NON nato oggi. Qui c'e' anche un tetto di 3 MB (maxSize) e nessun onDropRejected: il negoziante che trascina una foto scattata col telefono — 3-6 MB e' la misura normale — non ottiene assolutamente niente. E' il primo modulo che un negozio nuovo compila: il momento peggiore in cui far credere che il sito sia rotto. Lo segnalo perche' la squadra che oggi ha toccato questo file (colori degli errori, etichette dei dropzone) ci e' passata sopra senza chiuderlo.",
+      "riproduzione": "Su /sell trascina una foto da 4 MB nel riquadro del logo: niente.",
+      "come_si_chiude": "Stesso onDropRejected di StoreMediaManager.tsx:55, con in piu' il caso 'file troppo pesante'.",
+      "confidenza": "95%."
+    }
+  ],
+
+  "sospetti_verificati_e_scagionati": [
+    "shadow-sm -> shadow-sm-neutral (app/messages/[id]/page.tsx:307): la chiave esiste davvero in tailwind.config.ts:175. Non e' un foglio di stile rotto in silenzio.",
+    "text-green-900 -> text-olive-900 (app/shipping/page.tsx:34) e bg-olive-500 -> bg-olive-600 (app/stores, MobileAccountSheet, OrderTimeline, referral): tutte le tonalita' esistono in tailwind.config.ts:66-77.",
+    "classi .skeleton e animate-pulse-soft usate nei nuovi scheletri: esistono (app/globals.css:301, tailwind.config.ts:183).",
+    "lg:top-[var(--header-height)] in AccountShell: la variabile esiste e vale 9rem (app/globals.css:112), coerente con i 144px dichiarati nel commento.",
+    "Footer che adesso chiama useQuery(['categories','tree']): stessa chiave E stessa queryFn di CategoryBar.tsx:114 — cache condivisa davvero, nessuna lettura in piu' e nessun conflitto di forma dei dati. Gli hook stanno tutti prima del return null: regola degli hook rispettata.",
+    "StoreMediaCarousel che passa a next/image un src gia' trasformato da sizedImage PIU' il loader: la doppia trasformazione e' innocua — buildSupabaseStorageUrl e' protetto da .includes('/storage/v1/object/public/') e la fascia 'hero' non imposta height, quindi il loader non forza il quadrato su una copertina larga.",
+    "sizedImage(raw, 460) nell'immagine di anteprima del prodotto: la firma accetta i numeri (lib/image-url.ts:126) e gli host sconosciuti passano invariati.",
+    "OrderTimeline text-ink-400 -> text-ink-600 su bg-cream-200: contrasto calcolato dai token, 8,8:1. Passa AA con margine.",
+    "Le promesse di risposta uniformate oggi (24h -> «24 ore lavorative») sono coerenti su contact, help, faq, seller/help, rider/help: non ho trovato la promessa vecchia rimasta indietro in nessun file del perimetro.",
+    "npx tsc --noEmit sull'intero progetto: exit 0. Nessuna proprieta' o classe rotta a livello di tipi nei 47 file."
+  ],
+
+  "niente_trovato_perche": "Su 47 file toccati oggi ho trovato 5 difetti nati oggi (uno grave, quattro minori) e 2 vecchi che il lotto ha attraversato senza chiudere. Il sospetto piu' pesante — il foglio di stile rotto in silenzio, cioe' classi Tailwind inventate — l'ho cercato apposta su tutte le tonalita' e le ombre nuove e NON si e' confermato: esistono tutte. Il filo rosso vero e' un altro: tre squadre hanno stretto lo stesso filtro dei file nello stesso giorno e solo una ha aggiunto la riga che dice di no; e tre squadre hanno affrontato lo stesso difetto «non lo so ancora non e' non c'e'» e la squadra delle liste ha chiuso solo la meta' del caricamento, lasciando aperta quella dell'errore.",
+
+  "cosa_non_ho_potuto_vedere_da_qui": [
+    "Nessun browser: contrasti, sovrapposizioni, salti della pagina e larghezze sul telefono sono dedotti dai token e dal codice, non misurati a schermo.",
+    "Nessun dispositivo tattile vero: il comportamento del dito su Safari iOS (pointerdown, dragging della mappa, aree premibili da 44px) non e' provato.",
+    "Nessun lettore di schermo provato: le etichette aria nuove le ho lette, non ascoltate.",
+    "Nessuna rete lenta o caduta simulata: gli stati di errore e di attesa sono dedotti dal flusso delle query, non visti scattare.",
+    "Nessun Lighthouse / misura di CLS o di tempo di caricamento.",
+    "app/checkout/page.tsx non guardato per istruzione (squadra al lavoro sopra in questo momento)."
+  ]
+}

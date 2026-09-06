@@ -1,0 +1,81 @@
+{
+ "squadra": 235,
+ "territorio": [
+  "components/VendorForm.tsx",
+  "components/ImageUrlField.tsx",
+  "components/SellerApplicationForm.tsx",
+  "tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts"
+ ],
+ "malattia": "Un filtro stretto senza la riga che dice di no. react-dropzone scarta il file PRIMA di chiamare `onDrop`, e `onDrop` apriva con `const file = files[0]; if (!file) return;`: il rifiuto usciva muto. Chi trascinava una foto dell'iPhone (HEIC) o piu' pesante del tetto vedeva il riquadro fermo e pensava che il sito fosse rotto. La cura era gia' in casa dallo stesso lotto — components/StoreMediaManager.tsx:55, «il modo peggiore di dire di no» — e due squadre su tre non l'hanno copiata lo stesso giorno.",
+ "difetti": [
+  {
+   "chiave": "frontend-ux|il negoziante trascina il logo e non succede niente",
+   "titolo": "Il negoziante trascina il logo e non succede niente",
+   "scheda": "FE-A-01 (radiografia-frontend-pubblico-a.json) — grave, nato oggi",
+   "esito": "riparato",
+   "prova": "Due esperimenti reali, lanciati oggi 6/9/2026 in /home/user/mycity.\n① DIFETTO RIMESSO: tolto `onDropRejected` da tutti e tre i componenti → `npx vitest run tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts` esce 1, «2 failed | 3 passed», e nomina i tre file uno per uno: «components/ImageUrlField.tsx — vieta [accept, maxFiles, multiple: false] e non ha un onDropRejected che parla», idem SellerApplicationForm [accept, maxSize, maxFiles] e VendorForm [accept, maxFiles].\n①bis VARIANTE FURBA: rimesso un `onDropRejected: () => {}` (il gestore c'e' ma non dice niente) in VendorForm → esce di nuovo 1, «2 failed». Il guardiano non si beve un gestore muto.\n② FIX RIPRISTINATO: stesso comando → esce 0, «5 passed».\nContorno: `npx tsc --noEmit -p tsconfig.json` su tutto il repo esce 0 (nessun errore, ne' mio ne' altrui); `npx vitest run` sulle 5 prove che leggono questi file (incluse quelle delle altre squadre di oggi) = 56 passed.",
+   "nota_fix": "Codice verificato riga per riga: le righe della scheda erano giuste (VendorForm.tsx:114 e ImageUrlField.tsx:36, `accept` stretto a jpeg/png/webp, nessun `onDropRejected`). Aggiunto in tutti e due il gestore con le PAROLE ESATTE del modello: «Formato non accettato: servono foto in JPG, PNG o WEBP.». In piu' il caso `too-many-files` (tutti e due dichiarano `maxFiles: 1`, quindi due file trascinati insieme finivano nel cestino muto anche loro): «Una foto alla volta: trascinane una sola.». Niente refactor, niente file condivisi toccati, nessuna dipendenza nuova: le frasi stanno in linea dentro ogni componente, come nel modello.",
+   "file_toccati": [
+    "components/VendorForm.tsx",
+    "components/ImageUrlField.tsx",
+    "tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts"
+   ]
+  },
+  {
+   "chiave": "frontend-ux|nel modulo di iscrizione del negozio la foto troppo pesante viene scartata in silenzio",
+   "titolo": "Nel modulo di iscrizione del negozio la foto troppo pesante viene scartata in silenzio",
+   "scheda": "FE-A-07 (radiografia-frontend-pubblico-a.json) — medio, vecchio (gia' su origin/main)",
+   "esito": "riparato",
+   "prova": "Due esperimenti reali, lanciati oggi 6/9/2026 in /home/user/mycity.\n① DIFETTO RIMESSO: tolto `onDropRejected` da tutti e tre i componenti → `npx vitest run tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts` esce 1, «2 failed | 3 passed», e nomina i tre file uno per uno: «components/ImageUrlField.tsx — vieta [accept, maxFiles, multiple: false] e non ha un onDropRejected che parla», idem SellerApplicationForm [accept, maxSize, maxFiles] e VendorForm [accept, maxFiles].\n①bis VARIANTE FURBA: rimesso un `onDropRejected: () => {}` (il gestore c'e' ma non dice niente) in VendorForm → esce di nuovo 1, «2 failed». Il guardiano non si beve un gestore muto.\n② FIX RIPRISTINATO: stesso comando → esce 0, «5 passed».\nContorno: `npx tsc --noEmit -p tsconfig.json` su tutto il repo esce 0 (nessun errore, ne' mio ne' altrui); `npx vitest run` sulle 5 prove che leggono questi file (incluse quelle delle altre squadre di oggi) = 56 passed.",
+   "nota_fix": "Confermato sul codice: SellerApplicationForm.tsx:157 dichiarava `accept` + `maxFiles: 1` + `maxSize: 3 MB` e nessun `onDropRejected`. Qui il gestore distingue tre no, perche' tre sono le porte chiuse: peso («Foto troppo pesante: serve sotto i 3 MB.»), quantita' («Una foto alla volta: trascinane una sola.») e formato (la frase del modello). E' il primo modulo che compila un negozio nuovo: il tetto lo scopriva col silenzio, adesso lo legge. NON ho alzato il tetto dei 3 MB — sarebbe un cambio di comportamento, e lo segnalo sotto come decisione da prendere, non da prendersi di nascosto.",
+   "file_toccati": [
+    "components/SellerApplicationForm.tsx",
+    "tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts"
+   ]
+  },
+  {
+   "chiave": "frontend-ux|nessun riquadro di caricamento del sito puo' piu' scartare un file senza dirlo",
+   "titolo": "Il guardiano che impedisce la ricaduta: nessun riquadro di caricamento scarta un file senza dirlo",
+   "esito": "riparato",
+   "prova": "tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts — 5 controlli, esito reale sopra (rosso col difetto, verde senza). Il quinto controllo e' l'auto-collaudo del lettore: su quattro riquadri costruiti a mano distingue il muto dal parlante, non si fa ingannare da un `onDropRejected: () => {}` e non accusa un riquadro che non dichiara nessun limite.",
+   "nota_fix": "Non tre controlli separati: un guardiano che CAMMINA su app/, components/ e lib/, legge le opzioni di ogni `useDropzone` con un lettore che sa distinguere codice, stringhe e commenti (quindi conta le graffe giuste), e cade se un riquadro dichiara un limite (accept · maxSize · minSize · maxFiles · validator · multiple:false) senza un `onDropRejected` che chiami `toast`. Oggi legge 8 riquadri. Chi il mese prossimo stringera' un filtro senza avviso trova il rosso prima di Nicola. I tre riquadri muti fuori dal mio territorio stanno in una lista dichiarata `MUTI_NOTI` con data e motivo, e la lista puo' solo ACCORCIARSI: se uno viene riparato e resta nella lista, il guardiano diventa rosso e chiede di toglierlo.",
+   "file_toccati": [
+    "tests/unit/un-riquadro-che-scarta-un-file-lo-dice.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "frontend-ux (venditore e fattorino)|le due caselle di caricamento della vetrina hanno smesso di accettare le foto dell'iPhone, e non lo dicono a nessuno",
+   "scheda": "FEVEN-06 (radiografia-frontend-venditore.json) — maggiore, nato oggi",
+   "perche": "e' la stessa malattia, ma vive in due file fuori dal mio territorio: components/seller/site/GalleryFields.tsx:26 e components/seller/site/ImageUpload.tsx:38. Non li ho toccati. Sono pero' dentro il guardiano, nella lista MUTI_NOTI: il giorno in cui una squadra li ripara, il guardiano chiede di toglierli dalla lista. Il fix e' di due righe per file, identico al mio: chi lo prende puo' copiare da components/VendorForm.tsx:120-131."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Anche il caricamento del video della home butta via il file in silenzio",
+   "dove": "components/admin/home/HomeSectionConfigForm.tsx:47",
+   "gravita": "minore",
+   "dettaglio": "Stessa malattia (accept mp4/webm + maxFiles + multiple:false, nessun onDropRejected), ma la schermata la vede solo lo staff: nessun negoziante ci sbatte contro. Trovato dal guardiano, non da me a mano. Terzo nome della lista MUTI_NOTI."
+  },
+  {
+   "titolo": "I riquadri ora rifiutano foto che il deposito accetterebbe: e' una decisione di prodotto, non un dettaglio",
+   "dove": "components/VendorForm.tsx:114 · components/ImageUrlField.tsx:36 · components/StoreMediaManager.tsx:48 vs lib/storage/carica-immagine.ts:96-104",
+   "gravita": "grave",
+   "dettaglio": "Il deposito accetta SETTE formati (jpeg, png, webp, gif, avif, heic, heif); da oggi i riquadri ne accettano TRE. La foto dell'iPhone (HEIC) e il logo GIF adesso vengono respinti dal riquadro anche se il deposito li prenderebbe. Il mio lavoro fa si' che il no si SENTA, ma non decide se quel no e' giusto: o si allarga il riquadro ai sette del deposito, o si tiene stretto e allora la frase deve dire al negoziante come uscirne (sull'iPhone: Impostazioni > Fotocamera > Formati > Massima compatibilita'). Non l'ho deciso io: tocca a chi possiede il prodotto. Nota tecnica: dal telefono, scegliendo la foto dalla galleria in Safari, iOS converte da solo in JPEG — il colpo vero lo prende chi trascina il file .heic da un Mac."
+  },
+  {
+   "titolo": "Lo stesso no si sente in tre frasi diverse a seconda di dove sbatti",
+   "dove": "lib/errors.ts (via caricaImmagine) «Formato non accettato: usa una foto JPG, PNG o WEBP.» · i riquadri «Formato non accettato: servono foto in JPG, PNG o WEBP.» · components/seller/ProductImagesField.tsx:118-121 «Formato non supportato (solo JPG, PNG, WEBP)» e «File troppo grande (max 30 MB)»",
+   "gravita": "minore",
+   "dettaglio": "Ho tenuto le parole del modello che mi e' stato indicato (StoreMediaManager), quindi non ho aggiunto una quarta voce; ma le tre che ci sono restano tre. ProductImagesField per giunta parla da terminale («File troppo grande»), non da negozio. Una passata di microcopy su un file solo le allineerebbe."
+  },
+  {
+   "titolo": "Il modulo di iscrizione e' il piu' severo di tutto il sito sul peso delle foto",
+   "dove": "components/SellerApplicationForm.tsx:159 (maxSize 3 MB) vs lib/storage/carica-immagine.ts:107 (10 MB) vs components/seller/ProductImagesField.tsx:114 (30 MB, con ricompressione)",
+   "gravita": "minore",
+   "dettaglio": "Il primo modulo che compila un negozio nuovo taglia a 3 MB, mentre il deposito arriva a 10 e le foto prodotto vengono ricompresse invece che rifiutate. Una foto scattata col telefono sta quasi sempre fra i 3 e i 6 MB: adesso almeno lo legge, ma continua a doverla rimpicciolire da sola proprio nel momento in cui la stiamo convincendo a iscriversi. Alzare a 10 MB (o ricomprimere come si fa per i prodotti) e' una riga, ma cambia comportamento: non l'ho fatto senza firma."
+  }
+ ],
+ "non_verificato": "① Non ho VISTO l'avviso comparire a schermo: qui non c'e' ne' browser ne' libreria per montare i componenti (l'ambiente di vitest e' `node`), e una dipendenza nuova dentro una riparazione non si aggiunge. La prova e' un invariante di struttura sul sorgente — «ogni riquadro che dichiara un limite dichiara un gestore che chiama toast» — e lo dico per quello che e': misura che la riga c'e' e che parla, non che il rettangolino appare sopra il riquadro. ② Non ho provato su un iPhone vero. ③ Un domani, un `onDropRejected: gestisciRifiuto` che chiama il toast dentro una funzione scritta altrove verrebbe letto come muto (rosso a torto): oggi nessuno lo fa, e il messaggio di errore spiega cosa serve. ④ Come da mandato non ho lanciato `npm run verify` ne' la build ne' i cancelli del lotto, e non ho committato niente."
+}

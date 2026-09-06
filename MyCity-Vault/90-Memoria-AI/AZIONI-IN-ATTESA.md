@@ -31,6 +31,66 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #197 — Il guardiano del perimetro conta meno di quello che ho trovato: serve la tua firma per ripararlo · ⏳ accodata 2026-09-06 21:55
+
+**In parole semplici.** Quando riguardo i file che ho appena toccato, devo dichiarare al guardiano quanti difetti ho trovato, e nominarli. Il guardiano li riconosce dal titolo, e separa l'elenco con la virgola. Ma i titoli dei difetti del sito sono frasi italiane, e 25 su 58 una virgola ce l'hanno dentro. Quelli non li posso dichiarare.
+
+**Cosa cambia:** oggi il registro dice che riguardando i 202 file ho trovato 33 difetti. Ne ho trovati 58. Il lavoro è stato fatto tutto, la contabilità no — e la differenza non si vede da nessuna parte. Chi legge la copertura la crede completa.
+
+**Perché non l'ho riparato da solo.** È codice della macchina, e la regola che mi hai dato dice che non mi tocco da sola, nemmeno per un fix banale. E per aprire la scheda di difetto servirebbe una prova che gira, che è a sua volta codice della macchina.
+
+**Cosa devi fare tu.** Dirmi solo di sì. La riparazione è piccola: o si separa l'elenco con un carattere che nei titoli non compare, oppure — meglio — si dà un identificativo alle schede del sito, come ce l'hanno quelle della macchina. La seconda strada chiude anche un'altra fragilità: oggi la chiave di una scheda è il suo titolo, quindi una squadra che ritocca un titolo mentre ripara scollega la chiusura, e al referto dopo il difetto risulta di nuovo aperto.
+
+**Se va bene:** apro la scheda nel cantiere con la sua prova, riparo, e la copertura registrata torna a dire la verità.
+
+---
+
+
+### 🔴 #196 — Decidi fin dove consegniamo: adesso il confine è a 25 chilometri dal negozio · ⏳ accodata 2026-09-06 19:10
+
+**In parole semplici.** Fino a oggi la zona di consegna non aveva un confine scritto da nessuna parte. Un ordine da Milano entrava come uno da Piacenza. Per chiudere quel difetto serviva un numero, e la squadra ne ha messo uno: 25 chilometri dal negozio. Piacenza e la cintura passano, Milano e Cremona no.
+
+**Cosa cambia:** quel numero non è una riparazione tecnica, dice a chi possiamo vendere. Con 20 chilometri diventava rossa una prova che c'era già, perché una consegna a 24 chilometri il sito la serve davvero. Quindi 20 è troppo stretto per come funzioniamo oggi.
+
+**C'è una crepa attaccata, e va decisa insieme.** La promessa «30-60 minuti» al bordo della zona non regge: a 24 chilometri la stima vera è 75 minuti. O si stringe la zona, o si cambia la frase. Sono due strade diverse e la scelta è tua.
+
+**Cosa devi fare tu.** Dimmi se 25 chilometri va bene, e cosa facciamo della promessa sui tempi. Se ti va bene così, non devi toccare niente: il numero è già nel ramo, entra quando unisci.
+
+**Se va bene:** il difetto della zona di consegna si chiude e la promessa sui tempi diventa un lavoro a parte.
+
+---
+
+
+### 🔴 #195 — Metti su Vercel la variabile del mittente delle email, prima di unire · ⏳ accodata 2026-09-06 19:10
+
+**In parole semplici.** Da oggi, se manca l'indirizzo da cui partono le email, la posta non parte più in silenzio da un mittente finto: si ferma e lo scrive nel semaforo della salute. È la scelta giusta, perché una posta che parte da un dominio inventato viene buttata dal destinatario e noi non lo sappiamo.
+
+**Cosa cambia:** ha lo stesso rovescio della card #193. Se quella variabile in produzione non c'è, dopo l'unione le email di servizio smettono di partire — conferma d'ordine, ordine pronto, ordine consegnato.
+
+**C'è un motivo concreto per sospettare che manchi.** Il manuale del progetto insegna da sempre il nome `RESEND_FROM_EMAIL`. Il codice legge `RESEND_FROM`. Chi ha configurato Vercel leggendo il manuale ha messo il nome sbagliato.
+
+**Cosa devi fare tu.** Su Vercel, progetto `mycity`, Settings, Environment Variables: controlla che fra quelle di Production ci sia `RESEND_FROM`, con dentro un indirizzo su un dominio che Resend ha verificato. Se trovi `RESEND_FROM_EMAIL`, è quello il problema: va aggiunta quella giusta.
+
+Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
+
+**Se va bene:** unisco, e il semaforo della salute inizia a sorvegliare quella variabile da solo.
+
+---
+
+
+### 🟡 #194 — Il negoziante che fotografa con l'iPhone si sente dire di no: decidi se è giusto · ⏳ accodata 2026-09-06 19:10
+
+**In parole semplici.** I moduli dove si caricano le foto accettano JPG, PNG e WEBP. L'iPhone però salva in HEIC, che è un formato diverso. Fino a oggi quella foto spariva in silenzio: il negoziante trascinava e non succedeva niente. Adesso il rifiuto si sente, con una frase in italiano.
+
+**Cosa cambia:** il difetto era che il no fosse muto, e quello l'ho chiuso. Ma resta la domanda vera, che è tua: quel no ci deve essere? Il magazzino delle foto accetterebbe sette formati, HEIC compreso. Sono i moduli a essere più stretti.
+
+**Cosa devi fare tu.** Dimmi quale delle due: o allarghiamo i moduli a quello che il magazzino già accetta, o teniamo stretto e allora la frase deve spiegare al negoziante come fare (sull'iPhone si cambia in Impostazioni, Fotocamera, Formati, «Massima compatibilità»).
+
+**Se va bene:** apro il lavoro sulla strada che scegli. Nel frattempo nessuno perde più una foto senza sapere perché.
+
+---
+
+
 ### 🔴 #193 — Controlla che su Vercel ci sia la chiave del controllo anti-robot, prima di unire · ⏳ accodata 2026-09-03 20:30
 
 **In parole semplici.** Sul sito c'è un controllo che distingue una persona da un programma automatico, e serve una chiave per farlo funzionare. Prima, se quella chiave mancava, il controllo lasciava passare tutti in silenzio. Da oggi, se manca, rifiuta.

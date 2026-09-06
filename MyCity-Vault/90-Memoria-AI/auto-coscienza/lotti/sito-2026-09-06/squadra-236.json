@@ -1,0 +1,71 @@
+{
+  "squadra": 236,
+  "territorio": [
+    "components/seller/ProductForm.tsx",
+    "app/seller/products/[id]/edit/page.tsx",
+    "app/seller/products/new/page.tsx",
+    "app/seller/products/page.tsx",
+    "lib/queries/consegna-veloce-del-negozio.ts",
+    "tests/unit/il-salvataggio-non-scrive-quello-che-nessuno-ha-toccato.test.ts",
+    "tests/unit/le-due-pagine-del-prodotto-leggono-la-consegna-allo-stesso-modo.test.ts",
+    "tests/unit/la-colonna-venduti-dice-cosa-sta-contando.test.ts"
+  ],
+  "malattia": "Tutti e tre dicono o scrivono piu' di quello che sanno: un salvataggio che porta con se' un campo indovinato invece di lasciarlo stare, la stessa domanda posta con due funzioni diverse sotto la stessa riga di cache, e una parola sola — «venduti» — appiccicata a due grandezze che non si sommano.",
+  "difetti": [
+    {
+      "id": "FEVEN-03",
+      "chiave": "frontend-ux (venditore e fattorino)|Il modulo avvisa del rischio e lascia salvare lo stesso: chi cambia solo il prezzo si porta via la consegna veloce del prodotto",
+      "titolo": "Il modulo avvisa del rischio e lascia salvare lo stesso: chi cambia solo il prezzo si porta via la consegna veloce del prodotto",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-salvataggio-non-scrive-quello-che-nessuno-ha-toccato.test.ts -> 3 passate. Rimesso il difetto (tolto il blocco che sfila `express_enabled` dal payload) -> 2 fallite su 3, uscita 1: «expected [ 'express_enabled', 'price' ] to deeply equal [ 'price' ]» e «expected [ 'express_enabled' ] to deeply equal []». Fix ripristinato -> 3 passate. Piu' npx tsc --noEmit -p tsconfig.json -> uscita 0 e npx eslint sui 5 file toccati -> uscita 0.",
+      "nota_fix": "La scheda diceva righe 155-160/631/928-936: il codice vero e' li'. Confermato tutto, compreso che il pulsante Salva resta acceso e che la riga 631 scrive sempre `expressEnabled: fastDelivery`. LA MALATTIA, non il caso: il modulo ora distingue «l'ha scelto il negoziante» da «l'abbiamo indovinato noi» (stato `consegnaSceltaDalNegoziante`, acceso solo dai due pulsanti del selettore); se la lettura del negozio e' caduta E nessuno ha toccato il selettore, `express_enabled` non entra proprio nel salvataggio — in banca dati resta il NULL che c'era, e il prezzo si salva lo stesso. HO SCARTATO l'altra strada della scheda (disabilitare Salva): avrebbe lasciato il negoziante senza poter salvare NIENTE per colpa di una lettura che non c'entra col suo lavoro, cioe' un carrello di modifiche perso per un problema di rete. In creazione il campo omesso vale NULL = «eredita dal negozio» (verificato su migrations/071_product_creation_enhancements.sql:16, la colonna non ha default). Cambiato anche il testo dell'avviso, che minacciava un danno che ora non c'e' piu'. NON ho toccato la classe `text-amber-700` (e' la scheda FEVEN-08, non mia). La prova non guarda la consegna veloce: confronta le colonne che il salvataggio cambia con quelle che c'erano in banca dati e pretende che la differenza sia solo quello che il negoziante ha toccato — vale per qualunque campo prenda domani l'abitudine di viaggiare da solo.",
+      "file_toccati": [
+        "components/seller/ProductForm.tsx",
+        "tests/unit/il-salvataggio-non-scrive-quello-che-nessuno-ha-toccato.test.ts"
+      ]
+    },
+    {
+      "id": "FEVEN-02",
+      "chiave": "frontend-ux (venditore e fattorino)|Due pagine gemelle leggono la consegna veloce con la stessa chiave e due funzioni diverse: il consiglio «attiva l'Express» torna a chi ce l'ha gia'",
+      "titolo": "Due pagine gemelle leggono la consegna veloce con la stessa chiave e due funzioni diverse: il consiglio «attiva l'Express» torna a chi ce l'ha gia'",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/le-due-pagine-del-prodotto-leggono-la-consegna-allo-stesso-modo.test.ts -> 2 passate. Rimessa la pagina «Nuovo prodotto» com'era (git show HEAD:app/seller/products/new/page.tsx) -> 2 fallite su 2, uscita 1: «expected 'async () => {...}' to be 'async function leggiSeIlNegozioOffreL...'» e «Nuovo prodotto non dice che la lettura e' caduta». Fix ripristinato -> 2 passate. Poi le 16 prove che toccano questi file insieme -> 111 passate.",
+      "nota_fix": "Confermato sul codice: stessa chiave `[...queryKeys.seller.profile,'offers-express']` in tutte e due le pagine, due funzioni diverse, e su «Nuovo prodotto» il ripiego `= false` piu' il `if (!user) return false`. Le due strade sono diventate una: `lib/queries/consegna-veloce-del-negozio.ts` con la chiave, la funzione di lettura (a livello di modulo, con un nome) e l'aggancio `useConsegnaVeloceDelNegozio()`. Le due pagine importano quello. Ho aggiunto due cose che la scheda non chiedeva ma senza le quali la riparazione era di facciata: «Nuovo prodotto» ora passa `consegnaDelNegozioNonLetta` al modulo (senza, l'avviso non compariva mai li'), e aspetta la risposta prima di disegnare il modulo — il selettore decide il suo valore UNA volta sola, alla prima comparsa, quindi un modulo disegnato prima della risposta restava sul valore indovinato anche dopo. La prova non e' una ricerca di parole: monta le due pagine per davvero, raccoglie la funzione che ognuna passa alla lettura e le confronta. LA GEMELLA ADMIN (app/admin/products/new/page.tsx) e' fuori dal mio territorio: l'ho letta, NON condivide questa riga di cache (legge l'elenco venditori con una chiave sua), quindi non entra nel meccanismo di questo difetto — resta pero' una terza copia della stessa domanda, e l'ho messa fra i difetti nuovi.",
+      "file_toccati": [
+        "lib/queries/consegna-veloce-del-negozio.ts",
+        "app/seller/products/new/page.tsx",
+        "app/seller/products/[id]/edit/page.tsx",
+        "tests/unit/le-due-pagine-del-prodotto-leggono-la-consegna-allo-stesso-modo.test.ts"
+      ]
+    },
+    {
+      "id": "FEVEN-01",
+      "chiave": "frontend-ux (venditore e fattorino)|Il cruscotto ora conta trenta giorni, l'elenco prodotti conta ancora da sempre: due colonne che si chiamano «venduti» e non si sommano",
+      "titolo": "Il cruscotto ora conta trenta giorni, l'elenco prodotti conta ancora da sempre: due colonne che si chiamano «venduti» e non si sommano",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/la-colonna-venduti-dice-cosa-sta-contando.test.ts -> 1 passata (monta l'elenco prodotti per davvero, con un prodotto e 12 venduti). Rimesso il difetto (git show HEAD:app/seller/products/page.tsx) -> 1 fallita, uscita 1: «la colonna «Venduti» non dice la finestra che sta contando... to match /Venduti da sempre/». Fix ripristinato -> 1 passata.",
+      "nota_fix": "Verificate le tre differenze una per una: finestra (migrations/141:38-53, `venduti_per_prodotto` non ha nessun filtro di data; il cruscotto legge `.gte('orders.created_at', inizio30)` a app/seller/dashboard/page.tsx:124), unita' (il cruscotto conta le RIGHE, `itemsArr.length`; la colonna somma i PEZZI, `sum(oi.quantity)`), stato (il cruscotto pagato-e-non-annullato, la colonna solo DELIVERED). HO PRESO LA STRADA «la colonna dice cosa sta contando», non «conta come il cruscotto»: farli coincidere vuol dire riscrivere `venduti_per_prodotto`, cioe' una MIGRAZIONE — rossa, firma di Nicola, fuori da questo lotto. Lo dichiaro qui come debito, non l'ho fatto. A video: l'intestazione della colonna dice «Venduti da sempre», la riga del telefono dice «12 venduti da sempre», e sotto l'elenco c'e' una frase che spiega le tre differenze in italiano da negozio. NESSUN NUMERO E' CAMBIATO. NON ho toccato app/seller/dashboard/page.tsx: la sua targhetta dichiara gia' i suoi trenta giorni, e li' dentro vivono le schede FEVEN-04 e FEVEN-05, che non sono mie.",
+      "file_toccati": [
+        "app/seller/products/page.tsx",
+        "tests/unit/la-colonna-venduti-dice-cosa-sta-contando.test.ts"
+      ]
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Salvando un prodotto che seguiva il negozio, la consegna veloce smette di seguirlo: NULL diventa un si' scritto sopra",
+      "dove": "components/seller/ProductForm.tsx:631 (con app/product/[id]/page.tsx:473-476)",
+      "gravita": "grave",
+      "dettaglio": "E' la stessa malattia del difetto che ho chiuso, ma nel caso in cui la lettura RIESCE. Un prodotto con `express_enabled` a NULL («segui il negozio») in un negozio che offre l'Express: il selettore parte su «Consegna veloce», e il primo salvataggio — anche solo del prezzo — scrive `express_enabled = true`. Da quel momento il prodotto non segue piu' il negozio. Se domani il negoziante spegne l'Express dal profilo, `isExpressEligible(true, false)` resta vero e la scheda prodotto continua a promettere al cliente 30-60 minuti con rider, per un negozio che non li fa piu'. NON l'ho riparato: il selettore e' binario e sempre visibile per scelta di prodotto, e togliere la scrittura anche a lettura riuscita cambia il significato di quel comando — e' una decisione, non un fix di lotto. La prova che ho lasciato copre il caso della lettura caduta; questo va deciso prima di essere provato."
+    },
+    {
+      "titolo": "La stessa domanda sulla consegna veloce ha ancora una terza copia nel pannello dell'amministratore",
+      "dove": "app/admin/products/new/page.tsx:41,50",
+      "gravita": "minore",
+      "dettaglio": "Fuori dal mio territorio, e senza il danno di FEVEN-02 (non condivide la riga di cache): legge `offers_express` dall'elenco venditori con una chiave sua. Resta una terza scrittura a mano della stessa domanda, da far confluire in lib/queries/consegna-veloce-del-negozio quando qualcuno entra li' dentro."
+    }
+  ],
+  "non_verificato": "① Non ho aperto il sito in un browser ne' toccato Supabase: nessuna verifica su un telefono vero, ne' su un negozio vero con l'Express acceso. Tutte le prove sono montaggi in jsdom. ② Non ho misurato l'attesa reale sulla pagina «Nuovo prodotto» col nuovo cancello di caricamento: la politica e' quella di casa (QueryProvider: 1 tentativo in piu', 2 secondi di attesa), quindi al massimo qualche secondo prima che compaia il modulo con l'avviso — ma e' un conto sulla configurazione, non una misura su rete lenta. ③ Non ho lanciato `npm run verify` ne' la build (le altre squadre stanno scrivendo): ho lanciato `npx tsc --noEmit` (uscita 0), `npx eslint` sui file toccati (uscita 0) e le 16 prove che toccano questi file (111 passate). ④ Sul difetto dei «venduti» ho scelto le parole, non i numeri: se Nicola vuole che i due numeri coincidano serve una migrazione (🔴, fuori lotto) e la frase che ho scritto va tolta. ⑤ Il testo nuovo dell'avviso e quello sotto l'elenco non sono passati da nessuno che non sia io: non c'e' stata revisione di un secondo paio d'occhi.",
+  "nota_per_ad": "Ho toccato solo 4 file di codice + 1 file nuovo in lib/queries + 3 prove nuove. Non ho aperto components/VendorForm.tsx, components/ImageUrlField.tsx, components/SellerApplicationForm.tsx (squadra dentro adesso) ne' app/seller/dashboard/page.tsx (schede FEVEN-04 e FEVEN-05, non mie). Niente commit, niente rami, niente migrazioni, niente package.json/tsconfig.json."
+}

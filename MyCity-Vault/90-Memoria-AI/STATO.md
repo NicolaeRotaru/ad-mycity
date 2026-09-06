@@ -1,10 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 10:40
+aggiornato: 2026-09-06 21:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🏪 **2026-09-06 21:50 — I difetti minori del sito: ne restano 109 su 275, e sei cose le avevo rotte io.** Richiesta tua: «chiudi i minori a pacchetti».
+>
+> **In parole semplici.** Erano 275 difetti minori aperti sul marketplace. Ne ho chiusi 198, cioè quasi tre su quattro. Il conto di tutto il sito passa da 304 difetti aperti a 150.
+>
+> **Come.** 48 squadre in dieci giri, ognuna chiusa nei suoi file perché non si pestassero i piedi. Io ho diviso, distribuito e ricucito: una sola richiesta di unione, la 250.
+>
+> **La cosa che conta più del conteggio.** Finiti i dieci giri ho riguardato i 202 file toccati con la lente dei nove mestieri. Ho trovato 58 difetti, e sei di quelli gravi li aveva creati il lotto stesso: riparati prima di consegnare, da squadre diverse da chi li aveva fatti.
+>
+> Il peggiore non era fra quei sei. Un commento chiuso male aveva rotto tutto il foglio di stile del sito: il compilatore produceva zero righe. Era già dentro un commit ed è passato sotto 3573 prove verdi, perché nessuna prova compilava il CSS. Adesso c'è la prova che compila.
+>
+> **Cosa serve da te.** Tre carte in coda: il confine della consegna a 25 chilometri (#196), la variabile del mittente delle email su Vercel prima di unire (#195), e se i moduli debbano continuare a rifiutare le foto dell'iPhone (#194). Il sito resta chiuso al pubblico finché non sblocchi i tre bloccanti di sempre.
+>
+> **Cosa non ho verificato.** Nessuna squadra ha avuto un browser: niente di quello che ho cambiato l'ha guardato qualcuno a schermo. E la contabilità della mia radiografia è incompleta — il guardiano identifica le schede dal titolo e le separa con la virgola, quindi ne dichiara 33 su 58. Te l'ho messo in coda come carta #197 invece di far finta di niente: ripararlo vuol dire toccare la macchina, e quello non lo faccio da sola.
 
 > ⏱️ **2026-09-06 10:40 — Il controllo era rosso da due giorni per un cronometro più corto della prova. Non era un guasto: era un numero.** Richiesta tua: «la CI è rossa», detto tre volte.
 
