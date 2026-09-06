@@ -1,8 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 12:00
-fonte: AD digitale (ritmo.md, cadenza "Punto di mezzogiorno")
+aggiornato: 2026-09-06 12:16
+fonte: AD digitale (giro.md)
 ---
+
+> 🧭 **6/9 12:16 — Nuova chiamata "esegui giro.md per intero".** Sono passati 16 minuti dal Punto di
+> mezzogiorno delle 12:00. Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
+>
+> **I numeri, riverificati ora dal vivo via SQL diretto su MCP Supabase.** Non a memoria. 1 ordine:
+> id `58094956…`, del 24/6, annullato, €19,05, venditore Pane Quotidiano. **0 pagati.** 9 profili. 9
+> prodotti. 3 carrelli abbandonati. Sono identici bit-per-bit al Punto di mezzogiorno di 16 minuti
+> fa. **75° giorno di stallo North Star** (24/6→6/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log --since="12:07"` mostra 3 commit. Sono
+> checkpoint interni del worker (`worker: lavoro ?`, alle 12:11/12:13/12:14). Nessun dato di business
+> dentro. `DECISIONI.md` è invariato dal 29/8. `AZIONI-IN-ATTESA.md` è invariata. In cima restano
+> quattro card. La #198 è il gate CADENZE, ormai cronico. La #197 è il funnel carrelli, ancora senza
+> una PR. La #196 è "Panificio Demo". Le #195 e #194 sono ferme sullo stesso buco di permessi VPS.
+> `delta-gate.json` continua a segnare "cambiato: clienti 8→9". Ma è sempre lo stesso profilo
+> fantasma, "Panificio Demo" (card #196). Non è un cliente nuovo. La sua baseline non è mai stata
+> promossa: è lo stesso bug già documentato nei passaggi precedenti di oggi. `auto-analisi.json`
+> resta fresco all'11:41, l'ultimo giro pieno vero: nessun gap nuovo da riparare.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Il letargo è **SOPRAVVIVENZA**. Vale solo il
+> nucleo vitale: ordini, consegne, coda firme, sicurezza, allerta a Nicola. Il gate **NORTH_STAR**
+> ammette solo lavoro macchina che sblocca direttamente il primo ordine pagato. I dati sono
+> confermati identici per l'ennesima volta in poche ore. Rifare radar, radiografia e
+> auto-miglioramento su numeri fermi sarebbe stato solo consumo di quota AI (già al 127% della
+> finestra rolling), non un controllo in più.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la tua firma sulle card #154 e #155: dominio e
+> chiavi Vercel. Senza quella firma il sito resta giù (HTTP 503, cieco da 295 giri) e nessun ordine
+> può ancora diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
+## Passaggi precedenti
 
 > 🕛 **6/9 12:00 — Punto di mezzogiorno.** Riprese le tre priorità del Piano del mattino (06:02).
 > Tutte e tre restano ❌. Nessuna firmata da Nicola.
