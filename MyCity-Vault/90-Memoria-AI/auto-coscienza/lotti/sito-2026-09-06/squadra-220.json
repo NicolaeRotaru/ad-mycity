@@ -1,0 +1,104 @@
+{
+ "squadra": 220,
+ "territorio": [
+  "app/api/orders/cod/route.ts",
+  "app/api/orders/[id]/cancel/route.ts",
+  "app/contact/page.tsx",
+  "app/help/page.tsx",
+  "app/faq/page.tsx",
+  "app/seller/help/page.tsx",
+  "app/rider/help/page.tsx",
+  "app/seller/layout.tsx",
+  "app/admin/users/page.tsx",
+  "app/api/returns/[id]/decide/route.ts",
+  "app/category/[slug]/page.tsx",
+  "app/page.tsx",
+  "lib/queries/precarico.ts",
+  "app/loading.tsx"
+ ],
+ "malattia": "Testi e attese scritti a mano, uno per pagina, senza un posto solo dove stanno: l'apostrofo saltato nel messaggio della cassa, la stessa promessa di risposta in due versioni, il nome di una tabella e l'errore inglese di Stripe lasciati passare fino a chi legge, il briciolo di pane che salta un livello, e due attese messe in fila che potevano partire insieme.",
+ "difetti": [
+  {
+   "chiave": "microcopy|refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»",
+   "titolo": "Refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»",
+   "esito": "riparato",
+   "prova": "grep sui due file prima e dopo (zero occorrenze di «l ordine», «all assistenza», «Ordine gia in» fuori dai commenti) + `npx tsc --noEmit -p tsconfig.json` (zero errori nei miei file) + `npx vitest run` sui 35 test che leggono questi sorgenti: 285 prove verdi, fra cui `gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito` e `il-motivo-vero-arriva-al-cliente`.",
+   "nota_fix": "Sei messaggi corretti, tutti su stringhe che arrivano al browser. Contanti: «Ordine gia in corso» -> «Ordine già in corso» (la scheda la dava a riga 202 e 207, in realtà è UNA sola, a riga 107, dentro la funzione `ordineGiaInCorso()`; a 202 c'è «Impossibile registrare l ordine»). Annullamento: «Impossibile leggere l'ordine», «Il negozio ha già accettato l'ordine…», «scrivi all'assistenza…». Dove serviva l'apostrofo ho passato la stringa da apici singoli a doppi, la forma che il file usava già altrove: nessun escape. Corretto anche il commento a riga 267 che citava il vecchio messaggio senza accento, così resta vero. ATTENZIONE: `tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts` (riga 109) fissava il refuso — `toContain('Ordine gia in corso')` — e diventava rosso col testo corretto. Ho cambiato QUELLA riga sola, mettendo l'accento. È un file FUORI da `file_citati`: lo dichiaro perché tu possa rivederlo. L'intento della prova (la FORMA dell'errore: `ok:false`, `error.code`, `error.message`, e il segnale `inCorso` che impedisce il doppio ordine) non è toccato. Senza quella riga l'alternativa era lasciare il refuso: il fix non si poteva chiudere. NON verificato: la resa a schermo con un server acceso.",
+   "file_toccati": [
+    "app/api/orders/cod/route.ts",
+    "app/api/orders/[id]/cancel/route.ts",
+    "tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|il tempo di risposta dell'assistenza è promesso in due modi diversi",
+   "titolo": "Il tempo di risposta dell'assistenza è promesso in due modi diversi",
+   "esito": "riparato",
+   "prova": "grep `entro 24h|entro 48h` sui sei file: zero occorrenze vive rimaste (resta solo un commento in faq che racconta il passato). grep `24 ore lavorative|48 ore lavorative`: nove punti, tutti con la stessa formula. `npx tsc --noEmit` pulito; `npx vitest run tests/unit/api-contact.test.ts` e `le-promesse-che-il-sito-non-mantiene.test.ts` verdi.",
+   "nota_fix": "Una formula sola ovunque: «entro 24 ore lavorative» per l'assistenza, «entro 48 ore lavorative» per l'approvazione dei venditori — cioè la versione più cauta, quella che già dicevano la FAQ (riga 203) e il riquadro venditori (seller/layout riga 140). Toccati sette punti: contact righe 55, 71 e 93; help 124; seller/help 23; rider/help 169; seller/layout 58. La scheda dava seller/help a riga 83: nel codice di adesso è a riga 23 (comanda il codice). La riga 55 di contact è la finta conferma dell'esca anti-robot: l'ho allineata identica alla vera (riga 71), altrimenti i due testi diversi dicevano a un robot quale delle due era la conferma buona. Il commento in faq righe 134 e 141 racconta un difetto vecchio: non l'ho toccato. NON verificato: le stesse frasi dentro le email o le traduzioni in altre lingue, che stanno fuori da questi sei file.",
+   "file_toccati": [
+    "app/contact/page.tsx",
+    "app/help/page.tsx",
+    "app/seller/help/page.tsx",
+    "app/rider/help/page.tsx",
+    "app/seller/layout.tsx"
+   ]
+  },
+  {
+   "chiave": "microcopy|testi tecnici che escono dal database e finiscono davanti a una persona",
+   "titolo": "Testi tecnici che escono dal database e finiscono davanti a una persona",
+   "esito": "riparato",
+   "prova": "grep `auth.users` in app/admin/users/page.tsx: restano solo le due righe di commento tecnico (46 e 142), nessuna dentro un messaggio. grep `Reso gia'|Rimborso fallito`: zero. `npx vitest run tests/unit/api-returns-decide.test.ts tests/unit/annullare-restituisce-i-soldi.test.ts tests/unit/il-motivo-vero-arriva-al-cliente.test.ts`: verdi. `npx tsc --noEmit` pulito.",
+   "nota_fix": "Quattro punti della scheda più un quinto gemello. Pannello utenti (righe 519 e 619): «<nome> verrà rimosso da auth.users e il profilo anonimizzato» -> «L'account di <nome> verrà cancellato e i dati personali anonimizzati» — il resto (ordini storici, irreversibile) resta, perché è la parte che protegge chi clicca. Resi riga 61: «Reso gia' in stato APPROVED» -> «Questo reso è già stato deciso.»: sparisce lo stato grezzo in inglese maiuscolo, e il venditore lo stato lo vede già nella scheda. Resi riga 205: l'errore inglese di Stripe non esce più a schermo, esce «Il rimborso non è partito: riprova o scrivi all'assistenza.» — il testo tecnico era GIÀ nei log alla riga sopra (`logger.error('[returns] refund failed', err)`), quindi non si perde niente per chi deve capire cosa è successo. IL QUINTO: `app/api/orders/[id]/cancel/route.ts` riga 66 aveva la stessa identica riga (`'Rimborso fallito: ' + esito.dettaglio`, cioè il messaggio inglese di Stripe che arriva dal `catch` di lib/ordini/annulla.ts riga 254) e usciva al CLIENTE, non al venditore. La scheda non lo elencava, ma è lo stesso difetto, lo stesso fix e il file è nel mio territorio: lasciarlo era curare l'istanza e non la classe. Anche lì il dettaglio è già nei log (annulla.ts riga 253). NON verificato: non ho fatto fallire un rimborso vero su Stripe da qui.",
+   "file_toccati": [
+    "app/admin/users/page.tsx",
+    "app/api/returns/[id]/decide/route.ts",
+    "app/api/orders/[id]/cancel/route.ts"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|sulla pagina di una sottocategoria il briciolo di pane salta la categoria madre",
+   "titolo": "Sulla pagina di una sottocategoria il briciolo di pane salta la categoria madre",
+   "esito": "riparato",
+   "prova": "Lettura del sorgente dopo la modifica: la `queryFn` ora calcola `madre`, e sia il JSON-LD sia la prop `breadcrumb` di CollectionHeader la inseriscono fra «Categorie» e la categoria corrente. `npx tsc --noEmit -p tsconfig.json`: zero errori su questo file (il tipo di `madre` esce dalle stesse righe già lette). `npx vitest run` su `scegliere-una-categoria-madre-mostra-anche-le-figlie`, `il-filtro-categoria-non-ha-due-bambini-uguali`, `category-attributes`, `le-pagine-di-catalogo-non-dicono-vuoto-su-una-lettura-rotta`: verdi.",
+   "nota_fix": "La causa era quella scritta nella scheda: le righe di TUTTE le categorie erano già in memoria (la lettura sopra ne prende fino a 500), ma nessuno cercava la madre. Aggiunta una riga nella `queryFn` — `righe.find(r => r.id === padre.parent_id)` — quindi ZERO viaggi in più verso il database. Poi la madre entra in due posti: il briciolo visibile e il BreadcrumbList per Google, dove le posizioni scalano (la categoria corrente passa da 3 a 4 quando la madre c'è). Sulle categorie principali `parent_id` è nullo e non cambia niente: il briciolo resta a tre voci come prima. NON ho aggiunto le sorelle come chip sotto il titolo: la scheda le suggeriva, ma il difetto nel titolo è il briciolo, e le sorelle sono una funzione nuova, non una riparazione. NON verificato: non ho aperto /category/<slug-figlio> con un database vero — da qui non ho né server né dati; la verifica è sul codice e sui tipi.",
+   "file_toccati": [
+    "app/category/[slug]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|la home fa due letture al database una dopo l'altra prima di mostrare qualcosa: la seconda parte solo quando la prima è tornata",
+   "titolo": "La home fa due letture al database una dopo l'altra prima di mostrare qualcosa: la seconda parte solo quando la prima è tornata",
+   "esito": "riparato",
+   "prova": "Lettura del sorgente: in `app/page.tsx` c'è ora una riga sola — `const [site, precarico] = await Promise.all([loadHomeSite(), precaricoDellaHome()]);` — al posto dei due `await` separati. `npx tsc --noEmit`: zero errori. `npx vitest run` su `home-site`, `senza-cookie-la-home-non-cambia-faccia-a-ogni-pagina`, `in-home-il-primo-prodotto-non-sta-sotto-tre-sezioni`, `la-vetrina-in-home-non-scarica-duecento-prodotti`, `il-bottone-della-home-non-porta-fuori-strada`: verdi.",
+   "nota_fix": "Il codice di adesso non è più quello della scheda: le due letture sono passate dentro `unstable_cache` (`loadHomeSite` e `precaricoDellaHome`, con memoria di 60 secondi, aggiunte il 3/9). Ma erano ancora due `await` in fila, alle righe 146 e 168, quindi il difetto c'era eccome — e alla prima visita dopo la scadenza della memoria si pagavano due viaggi invece di uno. Ora partono insieme e si aspetta la più lenta, non la somma. `homeEnabledSections(site)` è sceso sotto la Promise.all perché ha bisogno di `site`. NON ho toccato `lib/queries/precarico.ts`: la scheda proponeva anche di riusare lo stesso client Supabase invece del secondo import dinamico, ma quel file lo leggono anche la scheda prodotto e la vetrina negozio, e cambiarlo per guadagnare la creazione di un oggetto è un rischio che non paga in un lotto di minori. NON verificato: il guadagno in millisecondi — la prova originale era un test a orologio con letture finte, e da qui non ho avviato né server né misura.",
+   "file_toccati": [
+    "app/page.tsx"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|ogni pagina che si sta caricando mostra prima una griglia di prodotti finti, anche «chi siamo» e la home: poi il contenuto vero la sostituisce di colpo",
+   "titolo": "Ogni pagina che si sta caricando mostra prima una griglia di prodotti finti, anche «Chi siamo» e la home: poi il contenuto vero la sostituisce di colpo",
+   "esito": "riparato",
+   "prova": "grep `Prepariamo i prodotti` su app/ e components/: zero occorrenze in tutto il sorgente (prima era in app/loading.tsx). grep `variant=\"cards\"|70vh` in app/loading.tsx: zero. `npx tsc --noEmit`: pulito. `npx vitest run` su `il-cancello-dell-accessibilita-gira-sempre`, `lo-scheletro-della-fila-in-home-non-e-una-griglia`, `aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva`: verdi.",
+   "nota_fix": "`app/loading.tsx` non disegna più una griglia di quattro schede prodotto finte alta il 70% dello schermo con la promessa dei prodotti vicini. Al suo posto una barra alta quattro pixel in cima, con `role=status` e `aria-live` e la frase per chi non vede in `sr-only`: neutra, quindi non mente a «Chi siamo» e non salta quando arriva il contenuto vero. Usa solo classi già nel tema (`bg-cream-200`, `bg-primary-700`, `animate-pulse` di Tailwind): nessuna dipendenza nuova, nessuna riga aggiunta al CSS globale. Ho tolto la frase anche dal commento che la citava, così nessun controllo futuro la ritrova nel sorgente. NON ho scritto gli scheletri per singola pagina che la scheda suggeriva come «meglio ancora»: sarebbero file nuovi (app/about/loading.tsx e simili) fuori dal mio territorio, e le pagine che li meritano — ordine, prodotto, negozio — ce l'hanno già. NON verificato: la prova originale caricava /about e / da un server acceso; da qui non potevo avviarlo (vietato build/verify), quindi ho verificato sul sorgente, sui tipi e sui test.",
+   "file_toccati": [
+    "app/loading.tsx"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "La pagina del reclamo promette 48h in due modi, come facevano le pagine di contatto",
+   "dove": "app/orders/[id]/dispute/page.tsx:72 e :101 («entro 48h» secco) contro :148 («Decisione entro 48h lavorative»)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La promessa del tempo di risposta è riscritta a mano in ogni pagina: senza una costante condivisa la doppia versione torna",
+   "dove": "app/contact/page.tsx, app/help/page.tsx, app/faq/page.tsx, app/seller/help/page.tsx, app/rider/help/page.tsx, app/seller/layout.tsx — mentre app/sell/page.tsx:35 se n'è appena fatta una locale (TEMPO_RISPOSTA_NEGOZI = '48 ore lavorative')",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Nessun server acceso e nessun database: tutto è verificato sul sorgente, su `npx tsc --noEmit` e sui test unitari, mai sulla pagina resa. Restano non provate da qui: lo scheletro neutro visto in /about e /, il briciolo su uno slug figlio vero, i millisecondi guadagnati dalla Promise.all in home, e i messaggi d'errore letti a schermo da un cliente. ② HO TOCCATO UN FILE FUORI DA `file_citati`: `tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts` riga 109, UNA riga, per mettere l'accento nell'attesa che fissava il refuso («Ordine gia in corso»). Senza, quel test restava rosso e il difetto 1 non si chiudeva. Se preferisci, si torna indietro cambiando solo quella riga. ③ `npx tsc --noEmit` segnala 4 errori di sintassi in `components/store-sections/CollectionSection.tsx`: NON è mio, è di un'altra squadra che stava scrivendo mentre giravo — l'ho lasciato stare. ④ Non ho lanciato `npm run verify` né `build` né la suite intera, come da vincolo."
+}

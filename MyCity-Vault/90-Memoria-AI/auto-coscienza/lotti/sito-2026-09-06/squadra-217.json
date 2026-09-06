@@ -1,0 +1,87 @@
+{
+  "squadra": 217,
+  "territorio": [
+    "components/providers/ToastProvider.tsx",
+    "lib/shipping-etichetta/label.ts",
+    "components/ui/Badge.tsx",
+    "lib/order-status.ts",
+    "components/ui/OrderStatusBadge.tsx",
+    "docs/mockup/components/commerce/ProductCard.jsx",
+    "docs/mockup/_ds_manifest.js",
+    "app/shipping/page.tsx"
+  ],
+  "malattia": "Il design system e' scritto in due posti che non si parlano — i token CSS/Tailwind da una parte, il codice dall'altra — e ogni volta che serviva un colore, una spaziatura o un'icona si e' preso il valore piu' vicino a portata di mano (la palette di fabbrica di sonner, otto hex Tailwind, un'emoji, l'utility omonima del token) invece del token: tre difetti su sei stanno fuori dai miei file perche' i token che mancano vivono nei fogli di stile condivisi.",
+  "difetti": [
+    {
+      "chiave": "coerenza-brand|gli avvisi a comparsa usano i verdi, rossi e blu di fabbrica della libreria, non i colori del brand",
+      "titolo": "Gli avvisi a comparsa usano i verdi, rossi e blu di fabbrica della libreria, non i colori del brand",
+      "esito": "riparato",
+      "prova": "cd /home/user/mycity && grep -n 'richColors' components/providers/ToastProvider.tsx  → nessuna riga (il grep della scheda era rosso, ora e' muto). Poi: npx tsc --noEmit -p tsconfig.json → zero errori sui miei file. Verificata anche la tenuta delle classi: grep -c ':where(' node_modules/sonner/dist/styles.css → 47, cioe' TUTTE le regole di sonner (compresa `border: 1px solid var(--normal-border)` di [data-styled=true]) sono avvolte in :where() e pesano zero, quindi le utility Tailwind vincono comunque l'ordine del foglio di stile; e grep -o 'fill:[^,}]*' node_modules/sonner/dist/index.mjs → 4 volte fill:\"currentColor\", quindi anche l'icona dell'avviso prende il colore del brand invece di restare verde/rossa di fabbrica.",
+      "nota_fix": "Il difetto c'era ed era esattamente come descritto: <Toaster position=\"top-right\" richColors />, nessun toastOptions. Tolto richColors e mappati i quattro stati sui token del sito, come nel fix proposto: success oliva (bg-olive-50/text-olive-800/border-olive-200), error vino (secondary), warning mostarda (accent), info crema (cream-100 su ink-800). Il contrasto dei quattro accoppiamenti e' ampiamente sopra 4.5:1 (es. ink-800 #2C2A28 su cream-100 #FBF7F0). Prima di scriverlo ho controllato che l'override reggesse davvero: sonner 1.7.4 usa :where() ovunque, quindi non serve ne' `unstyled` ne' `!important`. NON verificato a video: non ho aperto un browser, non ho fatto scattare un toast vero e non ho misurato il contrasto con uno strumento — il ragionamento e' sulla cascata CSS e sui valori esadecimali della palette, non su uno screenshot.",
+      "file_toccati": ["components/providers/ToastProvider.tsx"]
+    },
+    {
+      "chiave": "coerenza-brand|l'etichetta di spedizione in contrassegno stampa quattro segni spuri al posto dell'emoji del sacchetto di soldi",
+      "titolo": "L'etichetta di spedizione in contrassegno stampa quattro segni spuri al posto dell'emoji del sacchetto di soldi",
+      "esito": "riparato",
+      "prova": "Prova comportamentale nuova, scritta e lanciata: cd /home/user/mycity && npx vitest run tests/unit/shipping-etichetta-label.test.ts → 3 test passati, uscita 0. Controprova (mutazione): rimessa l'emoji alla riga del contrassegno e rilanciato lo stesso comando → 2 test falliti su 3, uscita 1; poi il file e' stato ripristinato (grep -c '💰' lib/shipping-etichetta/label.ts → 0). La prova genera il PDF davvero, sgonfia i flussi Flate, rimette insieme i gruppi esadecimali che PDFKit usa al posto del testo in chiaro e pretende di leggere CONTRASSEGNO e Riscuoti: senza la coppia di mezzi caratteri. Girano anche in blocco senza rossi: npx vitest run tests/unit/shipping-etichetta-label.test.ts tests/unit/order-status.test.ts tests/unit/shipping.test.ts → 23 passati.",
+      "nota_fix": "Il difetto c'era, alla riga indicata (era la 91, ora la 96 dopo il commento). Tolta l'emoji: resta 'CONTRASSEGNO' in Helvetica-Bold terracotta dentro il riquadro rosso, piu' un commento che spiega perche' non si rimette (servirebbe prima doc.registerFont con un TTF vero). Ho ricontrollato tutti i caratteri non ASCII rimasti nel file: sono commenti, oppure sono WinAnsi legittimi — il punto mediano dell'intestazione (·, 0xB7) e l'euro di 'Riscuoti: €' (0x80) si stampano bene, non li ho toccati. Correzione alla scheda: l'aspetto «Ø=Ü°» era dedotto, e la mia prova lo conferma per via indiretta (i byte D8 3D DC B0 riletti in latin1) — nemmeno io ho rasterizzato il PDF in immagine, quindi la prova dice 'i byte sbagliati non ci sono piu'', non 'l'ho visto stampato'. La seconda prova generalizza: intercetta QUALUNQUE emoji, non solo il sacchetto di soldi.",
+      "file_toccati": ["lib/shipping-etichetta/label.ts", "tests/unit/shipping-etichetta-label.test.ts"]
+    },
+    {
+      "chiave": "coerenza-brand|le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+      "titolo": "Le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+      "esito": "non_riparato",
+      "prova": "Conteggio di adesso, dopo il mio intervento: cd /home/user/mycity && for c in tracking-label tracking-wide tracking-wider tracking-widest; do grep -rEo \"\\b$c\\b\" app/ components/ | wc -l; done → 16 / 44 / 50 / 3. Restano 97 usi fuori token in 50 file diversi da components/ui/Badge.tsx (grep -rlE '\\btracking-(wide|wider|widest)\\b' app/ components/ --include='*.tsx' | grep -v Badge.tsx | wc -l → 50). Il tranello e' confermato sul codice vero: tailwind.config.ts:153-158 estende letterSpacing solo con display/editorial/label, quindi l'utility tracking-wide resta il default Tailwind 0.025em mentre la variabile CSS omonima --tracking-wide vale 0.04em (docs/mockup/_ds_manifest.json).",
+      "nota_fix": "APERTO ONESTO, non chiuso per finta: ho sistemato solo la parte che vive nel mio territorio — components/ui/Badge.tsx, le quattro varianti maiuscole (discount/new/soldout/lowstock) passate da tracking-wide a tracking-label, e la taglia sm da text-[10px] a text-2xs (stesso valore, 0.625rem = 10px: nessun cambio a video, sparisce un valore scritto a mano). Il difetto resta APERTO perche' le altre 97 occorrenze stanno in 50 file di app/ e components/ fuori dal mio incarico, e la riparazione alla radice proposta dalla scheda — ridefinire letterSpacing.wide = '0.04em' — vive in tailwind.config.ts, che tocca tutte le squadre e che il briefing mi vieta per lo stesso motivo di package.json. Nota per chi ricuce: il censimento della scheda diceva 9 tracking-label, oggi ne conto 16 prima delle mie 4 (quindi 12 prima di me) — altre ondate ne hanno gia' aggiunti, il perimetro si muove. NON verificato: non ho guardato a video se i badge, ora a 0.04em, si allargano oltre il loro contenitore sulle card prodotto strette (a 360px la pillola -X% e' quella piu' a rischio).",
+      "file_toccati": ["components/ui/Badge.tsx"]
+    },
+    {
+      "chiave": "coerenza-brand|gli sfondi dei badge di stato ordine sono otto colori tailwind scritti a mano, malgrado il commento dica il contrario",
+      "titolo": "Gli sfondi dei badge di stato ordine sono otto colori Tailwind scritti a mano, malgrado il commento dica il contrario",
+      "esito": "non_riparato",
+      "prova": "Letto lib/order-status.ts:62-71 (le righe si sono spostate rispetto alle 52-59 della scheda, il contenuto e' identico): il campo color usa var(--status-*), il campo bg e' otto esadecimali a mano. Cercati i token che servirebbero: grep -n 'status-' app/globals.css → righe 82-83, ci sono gli otto --status-* del testo e NESSUN --status-*-bg; stessa cosa in docs/mockup/_ds_manifest.json, che elenca gli otto --status-* di tokens/colors.css e nessuno sfondo.",
+      "nota_fix": "BLOCCATO, e per una ragione che non e' burocratica: i token --status-new-bg … --status-canceled-bg non esistono da nessuna parte. Se sostituissi gli esadecimali con var(--status-new-bg) dentro lib/order-status.ts — che e' mio — la variabile non risolverebbe, lo style inline background diventerebbe vuoto e le otto pastiglie di stato perderebbero la tinta di sfondo sulla pagina dell'ordine e nella console del negoziante: una regressione visibile al cliente, in cambio di una scheda chiusa. I due file dove i token vanno definiti (app/globals.css e docs/mockup/tokens/colors.css) e il terzo da allineare (docs/mockup/guidelines/cards/color-status.html) sono tutti fuori dal mio incarico. Avviso per chi lo riparera': tests/unit/order-status.test.ts alla riga 33 pretende expect(ORDER_STATUS_COLOR[s].bg).toMatch(/^#/) — va cambiato in var(--status- nello stesso lavoro, altrimenti il fix corretto fa diventare rossa la suite.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
+      "titolo": "Il design system di riferimento è incompleto: mancano Button, Badge e Card e un file importa un componente che non esiste",
+      "esito": "non_riparato",
+      "prova": "Confermato sul codice vero: ls docs/mockup/components/ → commerce, feedback, forms (nessuna core/). sed -n '2p' docs/mockup/components/commerce/ProductCard.jsx → import { Badge } from '../core/Badge.jsx', cioe' un file che non c'e'. grep -n 'core/' docs/mockup/_ds_manifest.json → il manifesto cita components/core/Badge.jsx, Button.jsx, Card.jsx e la scheda con previewPath components/core/core.card.html. Nel bundle i tre ci sono davvero, gia' compilati: grep -n '^// components/core/' docs/mockup/_ds_bundle.js → Badge alla riga 146, Button alla 555, Card alla 753.",
+      "nota_fix": "BLOCCATO. Ripararlo vuol dire CREARE quattro file nuovi — docs/mockup/components/core/Button.jsx, Badge.jsx, Card.jsx e core.card.html — che non sono nel mio elenco file_citati, ricostruendoli da docs/mockup/_ds_bundle.js, che non e' nel mio elenco nemmeno lui. E non e' un copia-incolla: il bundle e' transpilato (JSX gia' trasformato, costanti sollevate come SIZES/ICON_SIZE, 3324 righe), quindi rimettere in piedi i sorgenti leggibili e' lavoro di ricostruzione, non il fix minimo che questo lotto chiede. Nel mio territorio non c'e' niente che possa chiudere il difetto: l'import rotto a ProductCard.jsx:2 si ripara solo facendo esistere il file dall'altra parte. Segnalo anche una differenza fra incarico e realta': il mio file_citati dice docs/mockup/_ds_manifest.js, ma il file sul disco e' docs/mockup/_ds_manifest.json (il .js non esiste).",
+      "file_toccati": []
+    },
+    {
+      "chiave": "coerenza-brand|sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette",
+      "titolo": "Sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette",
+      "esito": "riparato",
+      "prova": "Verificati prima i due presupposti della scheda: grep -n 'typography' package.json tailwind.config.ts → nessuna riga (il plugin non e' ne' dipendenza ne' plugin; tailwind.config.ts:230 carica solo tailwind-scrollbar-hide), quindi le classi prose erano davvero inerti; grep -rn 'prose' app/ components/ --include='*.tsx' → 'prose prose-gray' compare SOLO in app/shipping/page.tsx, quindi il difetto e' tutto dentro il mio territorio e non ne lascio meta' in giro. Dopo il fix: grep -n 'prose prose-gray\\|text-green-900' app/shipping/page.tsx → nessuna riga. npx tsc --noEmit -p tsconfig.json → zero errori su questo file.",
+      "nota_fix": "Confermati entrambi i punti e riparati entrambi. Riga 29: text-green-900 → text-olive-900 (#2E4127), il verde del brand, dentro un riquadro che gia' usava olive-50/200/600/700. Riga 51 (era la 44): tolte le due classi prose e messa la spaziatura esplicita, come chiede la prima delle due strade del fix proposto — non ho installato @tailwindcss/typography perche' sarebbe una dipendenza nuova in package.json, vietata al lotto. In pratica: la sezione passa da space-y-6 a space-y-8 fra i blocchi, e ognuno dei sei blocchi prende space-y-3 al suo interno, cosi' il testo non tocca piu' l'elenco puntato in 'Tempi di consegna' ne' la tabella dei costi. NON verificato a video: non ho aperto la pagina nel browser, quindi lo dico com'e' — che le classi prose non facessero niente e' provato (plugin assente); che lo space-y-3 dia esattamente il respiro giusto e' un giudizio sul codice, non uno screenshot. Su mobile la tabella dei costi resta come prima, dentro il suo contenitore che scorre in orizzontale: non l'ho toccata.",
+      "file_toccati": ["app/shipping/page.tsx"]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "coerenza-brand|le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+      "perche": "il fix vive in file fuori territorio: tailwind.config.ts (la riparazione alla radice, letterSpacing.wide = 0.04em — ed e' un file condiviso da tutte le squadre) piu' 50 file di app/ e components/ che contengono le altre 97 occorrenze di tracking-wide/wider/widest. Dentro il territorio ho portato components/ui/Badge.tsx sul token, ma tre quarti del difetto stanno fuori."
+    },
+    {
+      "chiave": "coerenza-brand|gli sfondi dei badge di stato ordine sono otto colori tailwind scritti a mano, malgrado il commento dica il contrario",
+      "perche": "il fix vive in file fuori territorio: app/globals.css e docs/mockup/tokens/colors.css, dove vanno definiti gli otto token --status-*-bg che oggi non esistono (piu' docs/mockup/guidelines/cards/color-status.html da allineare). Sostituire gli esadecimali dentro lib/order-status.ts senza quei token toglierebbe lo sfondo alle pastiglie di stato: regressione visibile, non riparazione."
+    },
+    {
+      "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
+      "perche": "il fix vive in file fuori territorio: vanno creati docs/mockup/components/core/Button.jsx, Badge.jsx, Card.jsx e core.card.html estraendoli da docs/mockup/_ds_bundle.js (anch'esso fuori incarico, e transpilato: ricostruzione, non copia)."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "L'emoji che il cliente scrive nelle note di consegna finisce sull'etichetta e stampa gli stessi segni spuri",
+      "dove": "lib/shipping-etichetta/label.ts:82 (data.notes) · :71-72 (recipientName, street) · :65 (sellerName)",
+      "gravita": "minore",
+      "nota": "Stessa causa radice del difetto che ho appena chiuso, ma innescata dai dati del cliente invece che dal codice: i campi liberi finiscono su doc.text() con gli stessi font WinAnsi. Una nota tipo «suonare al citofono 🔔» stampa la stessa spazzatura sopra l'indirizzo, e un nome in cirillico anche. Non l'ho messo nel mio diff perche' il briefing dice che i difetti nuovi si segnalano, non si allargano nel lotto: servirebbe una funzione che ripulisca i campi liberi prima di disegnarli (o il TTF incorporato, che chiude entrambi)."
+    }
+  ],
+  "non_verificato": "① Niente e' stato guardato a video: nessun browser aperto, nessuno screenshot, nessun toast fatto scattare davvero, nessun PDF rasterizzato in immagine. Le tre riparazioni visive (toast, badge, pagina spedizioni) poggiano su lettura del codice, sulla cascata CSS di sonner (verificata nel suo foglio di stile) e sui valori esadecimali della palette — non su un occhio umano. La riparazione dell'etichetta invece ha una prova che gira e che ho fatto fallire apposta. ② Non ho lanciato la suite intera ne' npm run verify (vietati dal briefing mentre le altre squadre scrivono): ho lanciato npx tsc --noEmit sull'intero progetto e i tre file di test che toccano la mia zona. ③ ATTENZIONE PER CHI RICUCE: npx tsc --noEmit alle 18:19 del 6/9 riporta 4 errori di sintassi (TS1005/TS1128/TS1109) in components/store-sections/CollectionSection.tsx:76-83, che NON e' mio e non l'ho aperto — sembra un file lasciato a meta' da un'altra squadra di questa ondata. Sui miei file gli errori sono zero. ④ Non ho misurato il contrasto dei quattro colori dei toast con uno strumento: e' un calcolo a occhio sui valori della palette. ⑤ Il conteggio dei tracking-* si muove sotto i piedi mentre le altre squadre lavorano: il mio 16/44/50/3 e' la fotografia delle 18:19, non un valore stabile."
+}

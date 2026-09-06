@@ -1,0 +1,105 @@
+{
+  "squadra": 216,
+  "territorio": [
+    "app/messages/[id]/page.tsx",
+    "components/StoryViewer.tsx",
+    "components/checkout/CouponInput.tsx",
+    "components/checkout/ShippingAddressForm.tsx",
+    "app/profile/referral/page.tsx",
+    "components/store-sections/CollectionSection.tsx",
+    "app/store/[id]/page.tsx",
+    "app/store/[id]/[slug]/page.tsx",
+    "components/OrderTimeline.tsx",
+    "app/checkout/page.tsx",
+    "app/product/[id]/loading.tsx",
+    "app/orders/[id]/loading.tsx",
+    "app/store/[id]/loading.tsx",
+    "components/ui/LoadingState.tsx",
+    "app/globals.css",
+    "components/ProductGrid.tsx",
+    "components/home/PromoDeals.tsx",
+    "app/promozioni/page.tsx"
+  ],
+  "malattia": "Il componente decide da solo cose che dipendono da DOVE viene messo in pagina (la priorita' delle foto, il colore su uno sfondo che non conosce, se il modulo e' vuoto o solo non ancora arrivato) e quando il posto cambia la decisione resta quella vecchia.",
+  "difetti": [
+    {
+      "chiave": "accessibilita|il pulsante «indietro» della chat col negozio non ha nome, e il visore delle storie non dice a che punto sei",
+      "titolo": "Il pulsante «indietro» della chat col negozio non ha nome, e il visore delle storie non dice a che punto sei",
+      "esito": "riparato",
+      "prova": "Letto app/messages/[id]/page.tsx righe 254-262 (il <Link href=\"/messages\"> conteneva solo <ArrowLeft size={20}/>, nessun aria-label/title/testo nascosto) e components/StoryViewer.tsx righe 133-142. Dopo il fix: npx tsc --noEmit -p tsconfig.json pulito + npx vitest run sui 31 file di test che citano i file toccati = 31 passed, 284 tests.",
+      "nota_fix": "Meta' del difetto era gia' chiusa da un'ondata precedente: StoryViewer.tsx ha gia' <p className=\"sr-only\" role=\"status\" aria-live=\"polite\">Storia {index + 1} di {stories.length}</p> alle righe 138-140, con le barrette marcate aria-hidden — esattamente il fix proposto dalla scheda. Il caso (1) era ancora aperto e l'ho chiuso: aggiunto aria-label=\"Torna a tutti i messaggi\" al Link. I numeri di riga della scheda (243-245) erano vecchi di ~11 righe. NON verificato: non ho provato con un lettore di schermo vero (VoiceOver/NVDA), la prova e' sul sorgente.",
+      "file_toccati": ["app/messages/[id]/page.tsx"]
+    },
+    {
+      "chiave": "accessibilita|in cassa due scritte piccole e il codice referral hanno un contrasto sotto la soglia di legge",
+      "titolo": "In cassa due scritte piccole e il codice referral hanno un contrasto sotto la soglia di legge",
+      "esito": "riparato",
+      "prova": "Ricalcolate le tre coppie con la formula WCAG sui colori veri di tailwind.config.ts (script node in sessione). PRIMA: «Rimuovi» secondary-600 #B82A28 su olive-50 #F6F8F1 = 5,77 (gia' a posto) · «Predefinito» ink-400 #78716C su primary-50 #FDF4F1 = 4,43 (rossa) · «Il tuo codice» primary-100 #FAE3DC su primary-600 #C0492C = 4,04 (rossa). DOPO: 5,77 · 7,04 · 4,96 — tutte e tre sopra 4,5:1. tsc pulito, 31 file di test verdi.",
+      "nota_fix": "La scheda diceva «3 coppie su 3 sotto soglia», ma il codice di oggi ne ha solo 2: «Rimuovi» in CouponInput.tsx non e' piu' text-rose-600, un'ondata precedente l'ha gia' portato a text-secondary-600 (5,77:1) mentre allargava il bersaglio a 44px. Ho chiuso le altre due: ShippingAddressForm text-ink-400 -> text-ink-500 (7,04:1) e referral text-primary-100 -> text-white. Sul referral ho scelto il bianco pieno e non text-primary-50 perche' il riquadro e' un gradiente da primary-600 a secondary-600: campionando il gradiente a passi di 5% il punto peggiore col bianco resta 4,96:1, mentre primary-50 dava 4,58 con margine quasi nullo. NON fatto: il test di sistema sui token di colore chiesto dalla scheda («un test che misura le coppie del checkout contro 4,5:1») — vive in tests/unit/, fuori dal mio elenco file_citati, e sarebbe stato un file nuovo condiviso. Lo segnalo come lavoro residuo.",
+      "file_toccati": ["components/checkout/ShippingAddressForm.tsx", "app/profile/referral/page.tsx"]
+    },
+    {
+      "chiave": "layout-responsive|la vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet",
+      "titolo": "La vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet",
+      "esito": "riparato",
+      "prova": "Letto components/store-sections/CollectionSection.tsx:72 (era `-mx-4 ... px-4 pb-2 sm:-mx-6 sm:px-6`) e il contenitore delle due pagine vetrina, che oggi non e' scritto a mano ma e' la costante CONTENITORE_PAGINA_NEGOZIO in components/store-sections/misure-vetrina.ts:26 = 'container mx-auto px-4 py-6 max-w-5xl space-y-4' — px-4 a ogni breakpoint, quindi lo sbordo di 8px per lato da 640px in su era confermato. Dopo il fix, il grep su sm:-mx-6 in CollectionSection.tsx non trova piu' nulla. tsc pulito; vitest su tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts (che vigila proprio su quella costante) verde.",
+      "nota_fix": "Scelta la seconda strada della scheda (togliere la variante sm dalla riga scorrevole) e non la prima (mettere px-4 sm:px-6 sul contenitore), per un motivo: le due pagine store non hanno piu' la classe scritta a mano, condividono la costante CONTENITORE_PAGINA_NEGOZIO che usa anche lo scheletro d'attesa ScheletroNegozio — cambiarla avrebbe spostato i margini di tre superfici invece di una, e un test la sorveglia. Verificato prima di decidere che CollectionSection viene renderizzato SOLO da SectionRenderer, e SectionRenderer solo dalle due pagine store: nessun altro contenitore con px-6 puo' ospitarlo, quindi togliere sm: e' sicuro. NON verificato: non ho aperto un browser a 640/768/1024px, la prova e' sul calcolo delle classi.",
+      "file_toccati": ["components/store-sections/CollectionSection.tsx"]
+    },
+    {
+      "chiave": "accessibilita-visiva|nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1",
+      "titolo": "Nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1",
+      "esito": "riparato",
+      "prova": "components/OrderTimeline.tsx riga 70 conteneva 'bg-cream-200 text-ink-400'. Contrasto ricalcolato: ink-400 #78716C su cream-200 #F5EDD9 = 4,11:1 (confermato, sotto 4,5). Dopo il fix a text-ink-600 (#44403C) = 8,80:1. tsc pulito, 31 file di test verdi.",
+      "nota_fix": "Cambiata solo la tonalita' del numero, nessun cambio di forma, come chiedeva la scheda. Il numero di riga (70) era ancora esatto. Guardato anche il testo dell'etichetta accanto (text-ink-400 su bianco): e' 4,80:1, sopra soglia, quindi non l'ho toccato — non allargo il lotto. Confermata anche la seconda meta' della scheda gia' scartata dalla radiografia (app/orders/[id]/page.tsx e' fuori dal mio territorio e comunque escluso). NON verificato: nessuna misura fatta su schermo reale, il calcolo e' sui valori della palette in tailwind.config.ts.",
+      "file_toccati": ["components/OrderTimeline.tsx"]
+    },
+    {
+      "chiave": "stati-ui|al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita",
+      "titolo": "Al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita",
+      "esito": "riparato",
+      "prova": "Letto app/checkout/page.tsx:392-403 (la query savedAddresses ha enabled: !!authUser?.id) e components/checkout/ShippingAddressForm.tsx:78 (const editing = manualOpen || conErrori || savedAddresses.length === 0): con la lista ancora vuota editing valeva true e il modulo si apriva. Confermato. Dopo il fix: npx tsc --noEmit pulito + npx vitest run sui 31 file che citano questi due file = 31 passed / 284 tests, incluse le prove specifiche della cassa (in-cassa-i-riquadri-e-le-pastiglie…, la-cassa-non-lascia-la-persona-senza-spiegazione, non-lo-so-ancora-non-e-non-c-e).",
+      "nota_fix": "Fatto come proponeva la scheda: nuova prop opzionale `caricamento` su ShippingAddressForm; finche' e' vera si mostrano due mattonelle-scheletro (classe .skeleton, la stessa del resto del sito) e `editing` non viene nemmeno usato. Due scelte mie oltre alla scheda. (1) La scheda diceva di prendere solo isLoading della query indirizzi: non basta, perche' quella query e' spenta finche' authUser non torna, e in React Query 5 una query spenta ha isLoading false — il modulo vuoto sarebbe lampeggiato lo stesso in quella finestra. Passo quindi `controlloAccessoInCorso || indirizziInArrivo`. Da ospite entrambe si spengono subito e il modulo si apre normale, come prima. (2) L'attesa NON copre il caso della regola 127 gia' scritta in quel file (un modulo con errori si mostra sempre, altrimenti «Conferma ordine» resta muto): la condizione e' `caricamento && !conErrori`, cosi' non ho riaperto un difetto chiuso da un'altra ondata. Numeri di riga della scheda vecchi di ~80 righe. NON verificato: non ho misurato la finestra vera con rete lenta in un browser; la prova e' sulla logica e sui test unitari.",
+      "file_toccati": ["components/checkout/ShippingAddressForm.tsx", "app/checkout/page.tsx"]
+    },
+    {
+      "chiave": "stati-ui|gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+      "titolo": "Gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+      "esito": "non_riparato",
+      "prova": "Letti tutti e tre i loading.tsx piu' components/ui/LoadingState.tsx:34-80 e la classe .skeleton in app/globals.css:301-317. Stato trovato: product e orders erano ancora come li descrive la scheda (nessun role/aria, animate-pulse + bg-cream-200); app/store/[id]/loading.tsx invece e' stato riscritto il 3/9/2026 e oggi contiene solo `return <ScheletroNegozio />`. Ho aperto components/store-sections/ScheletroNegozio.tsx: ha gia' role=\"status\" aria-busy=\"true\" aria-live=\"polite\" (riga 20-22), ma usa ancora `animate-pulse` con figli bg-cream-200/bg-cream-100 (riga 24 e seguenti). tsc pulito, 31 file di test verdi dopo le mie modifiche.",
+      "nota_fix": "Chiuso il punto ① su tutti e tre e il punto ② su due dei tre, ma non su tutti: per regola un difetto riparato a meta' resta aperto. FATTO: app/product/[id]/loading.tsx e app/orders/[id]/loading.tsx riscritti con role=\"status\" aria-busy=\"true\" aria-live=\"polite\" aria-label=\"Caricamento in corso\" e con la classe .skeleton al posto di animate-pulse + bg-cream-*; i figli decorativi marcati aria-hidden. Per il negozio il punto ① era gia' chiuso da un'ondata precedente (via ScheletroNegozio). RESTA APERTO: il punto ② del negozio, cioe' l'animate-pulse, che oggi non vive piu' in app/store/[id]/loading.tsx ma dentro components/store-sections/ScheletroNegozio.tsx — file FUORI dal mio elenco file_citati. Chi lo prende deve sostituire animate-pulse + i bg-cream-* dei ~10 figli con la classe .skeleton, e sapere che quel componente lo usano sia il guscio del server sia la pagina nel browser (quindi il cambio si vede in due punti). Ho scelto di non toccarlo per non riscrivere il lavoro di chi ha quel file adesso. NON verificato: nessuna prova con lettore di schermo vero; non ho confrontato le due animazioni a video una dopo l'altra.",
+      "file_toccati": ["app/product/[id]/loading.tsx", "app/orders/[id]/loading.tsx"]
+    },
+    {
+      "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+      "titolo": "Quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+      "esito": "non_riparato",
+      "prova": "Trovati i quattro punti col grep su `priority`: components/ProductGrid.tsx:526 (priority={i < 4}), components/home/PromoDeals.tsx:69 (i < 4), components/store-sections/CollectionSection.tsx:66 (i < 4), app/promozioni/page.tsx:123 (i < 6). Poi mappati i chiamanti: `grep -rn \"<ProductGrid\"` da 16 punti, di cui HomeSectionRenderer.tsx:250 (la fila della home) e PromoDeals renderizzato da HomeSectionRenderer.tsx:411. tsc pulito, 31 file di test verdi (compreso in-home-il-primo-prodotto-non-sta-sotto-tre-sezioni).",
+      "nota_fix": "Il difetto e' vero ma il suo fix vive nei CHIAMANTI, che sono fuori territorio: la scheda stessa chiede una prop `primaSezione` che «solo la prima griglia della pagina passa», e chi sa di essere primo e' components/home-sections/HomeSectionRenderer.tsx — non e' nel mio elenco. Non ho voluto ne' aggiungere una prop che nessuno passa (non cambierebbe niente), ne' spegnere `priority` di serie: ProductGrid ha 16 chiamanti e su almeno sei (novita', piu-venduti, ricerca, categoria, regali, piccoli-prezzi) la griglia E' la prima cosa della pagina, quindi spegnerlo di serie avrebbe peggiorato il tempo di comparsa della prima foto su pagine che non posso riaccendere dall'interno del mio territorio. HO CHIUSO SOLO LA META' CHE ERA TUTTA MIA — quella del negozio, che la scheda chiama «sulla pagina di un negozio si moltiplica»: aggiunta a ProductGrid la prop `prioritaPrimeFoto` (opzionale, accesa di serie: zero cambiamenti per i 16 chiamanti che non tocco) e CollectionSection ora passa `prioritaPrimeFoto={false}` alla griglia e `priority={false}` alle sue card di carosello. Effetto reale: una vetrina con cinque collezioni smette di chiedere venti foto urgenti in gara con la copertina, che e' l'immagine grossa che decide il tempo di comparsa. RESTA APERTO: la fila «Prodotti popolari» della home (HomeSectionRenderer.tsx:250) e PromoDeals (HomeSectionRenderer.tsx:411) — servono le stesse due righe nel chiamante. UNA CORREZIONE ALLA SCHEDA: app/promozioni/page.tsx:123 NON e' un difetto, l'ho guardato e li' la griglia e' il contenuto principale subito sotto l'intestazione, quindi `priority` e' l'uso giusto; l'ho lasciato com'e'. NON verificato: non ho misurato Lighthouse ne' i Core Web Vitals prima/dopo, non e' un test che posso far girare da qui.",
+      "file_toccati": ["components/ProductGrid.tsx", "components/store-sections/CollectionSection.tsx"]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "stati-ui|gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+      "perche": "il fix vive in un file fuori territorio: components/store-sections/ScheletroNegozio.tsx (usa ancora animate-pulse + bg-cream-*, mentre app/store/[id]/loading.tsx ormai lo delega e basta)"
+    },
+    {
+      "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+      "perche": "il fix vive in un file fuori territorio: components/home-sections/HomeSectionRenderer.tsx (righe 250 e 411, e' l'unico che sa quale sezione e' la prima della home)"
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Lo scheletro del negozio si muove in un modo, tutti gli altri in un altro",
+      "dove": "components/store-sections/ScheletroNegozio.tsx:24",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Chi decide se una foto e' urgente e' il componente, non la pagina che lo mette in mezzo",
+      "dove": "components/home-sections/HomeSectionRenderer.tsx:250 e :411",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Tutto il mio lavoro e' provato su sorgente, tipi e test unitari: npx tsc --noEmit -p tsconfig.json pulito, npx eslint sui 9 file toccati = 0 errori (resta 1 warning react-hooks/exhaustive-deps su app/checkout/page.tsx:487, pre-esistente e su un useEffect che non ho toccato), e npx vitest run sui 31 file di tests/unit che citano i file del mio territorio = 31 passed / 284 tests. NON ho aperto un browser: nessuno dei quattro fix visivi (sbordo a 640/768/1024px, i contrasti a schermo, le due mattonelle-scheletro in cassa, l'attesa delle rotte) e' stato guardato a video, e non ho provato con un lettore di schermo vero i tre aria-label che ho aggiunto. Non ho misurato Lighthouse prima/dopo per il fix sulle foto urgenti. Non ho lanciato npm run verify ne' il build (vietati dal briefing): se il lotto intero diventa rosso su qualcosa che ho toccato, i miei nove file sono quelli sopra."
+}

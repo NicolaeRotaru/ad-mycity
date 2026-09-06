@@ -1,0 +1,93 @@
+{
+ "squadra": 218,
+ "territorio": [
+  "components/ui/Card.tsx",
+  "app/profile/page.tsx",
+  "app/seller/analytics/page.tsx",
+  "components/ui/Toggle.tsx",
+  "app/profile/gift-cards/page.tsx",
+  "app/profile/loyalty/page.tsx",
+  "app/messages/page.tsx"
+ ],
+ "malattia": "Cinque difetti su sei nascono dalla stessa scorciatoia: mettere un valore di ripiego al posto di una verita' non verificata — lo zero al posto del credito non letto, l'elenco vuoto al posto della lettura caduta, un colore scelto a occhio invece che misurato. Il sesto (la Card) non e' un difetto di un file: e' una regola di design che non e' mai stata scritta.",
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "titolo": "La primitiva Card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "esito": "non_riparato",
+   "prova": "Riconteggio sul codice vero: `grep -rl \"from '@/components/ui/Card'\" app components --include=*.tsx | wc -l` = 12 file (la scheda diceva 10); riquadri scritti a mano `bg-white border border-(cream-300|surface-200)` con raggio: 73 rounded-2xl, 56 rounded-xl, 15 rounded-lg (scheda: 71/56/14). Il difetto c'e' ancora, con gli stessi ordini di grandezza.",
+   "nota_fix": "NON riparato di proposito. Il fix vero sta in tre pezzi e due sono fuori dal mio territorio: (a) scrivere la regola «quale raggio in quale contesto» nel design system, (b) allineare components/ui/Card.tsx, (c) migrare a <Card> le ~144 card scritte a mano, che vivono in decine di file di altre squadre. Toccare solo (b) — cambiare il raggio della primitiva — avrebbe cambiato l'aspetto dei 12 file che la usano SENZA chiudere il difetto (le 144 a mano restano), e mezzo sito passa di qui: rischio alto, difetto aperto lo stesso. Serve una decisione di design system, non un fix minimo. La variante `funnel` (rounded-xl) e' gia' pinnata da tests/unit/in-cassa-i-riquadri-e-le-pastiglie-si-leggono-e-parlano-la-stessa-lingua.ts: chi fara' la migrazione parta da li'.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "tipografia|nel profilo l'email può uscire dal bordo della scheda: manca break-words",
+   "titolo": "Nel profilo l'email può uscire dal bordo della scheda: manca break-words",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/i-comandi-spenti-e-il-consiglio-al-negoziante-si-vedono.test.ts — verde col fix (5 prove), e rimettendo `className=\"font-mono\"` la prova «l'indirizzo lungo puo' andare a capo» diventa rossa (uscita 1). Monta la pagina vera del profilo con un'email di 56 caratteri e guarda l'elemento che la stampa davvero, non il file.",
+   "nota_fix": "Confermato alla riga 133, unico punto di app/profile/page.tsx dove si stampa un dato lungo per intero (`grep -n font-mono` da una riga sola). Aggiunto `break-words` allo span dell'email: l'indirizzo va a capo solo se non ci sta, quindi l'aspetto normale non cambia. Gli «altri punti» citati dal fix proposto (codici ordine) vivono in file fuori dal mio territorio: non li ho toccati. NON verificato: nessuna misura di larghezza reale a 375px (jsdom non impagina) ne' screenshot.",
+   "file_toccati": [
+    "app/profile/page.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|nel pannello del negoziante il pulsante senape dei consigli si legge a fatica",
+   "titolo": "Nel pannello del negoziante il pulsante senape dei consigli si legge a fatica",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/i-comandi-spenti-e-il-consiglio-al-negoziante-si-vedono.test.ts — la prova legge i tre pulsanti della mappa INSIGHT_TONE, risolve il colore dalla tavolozza vera di tailwind.config.ts e calcola il contrasto WCAG: verde col fix, rossa (uscita 1) rimettendo accent-600.",
+   "nota_fix": "Riga 489 (la scheda diceva 415: numero vecchio, la mappa si e' spostata). `bg-accent-600 hover:bg-accent-700` -> `bg-accent-700 hover:bg-accent-800`: bianco su #9D621C = 5,00:1 (era 3,25), hover 6,91:1. Ho scelto lo sfondo piu' scuro e non `text-ink-900` per non cambiare il colore del testo rispetto agli altri due pulsanti della stessa fila. Controllata anche l'icona (`text-accent-700` su `bg-accent-50` = 4,73:1): passa, non l'ho toccata. NON verificato: nessuna misura nel browser vero (Playwright non lanciato qui), il conto e' sui colori dichiarati nella tavolozza.",
+   "file_toccati": [
+    "app/seller/analytics/page.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|l'interruttore spento delle impostazioni è quasi invisibile sul bianco",
+   "titolo": "L'interruttore spento delle impostazioni è quasi invisibile sul bianco",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/i-comandi-spenti-e-il-consiglio-al-negoziante-si-vedono.test.ts — monta il Toggle vero da spento e da acceso, legge il colore della pista dal DOM e lo misura contro il bianco: verde col fix, rossa (uscita 1) rimettendo bg-cream-300. In piu' tests/unit/gli-interruttori-delle-impostazioni-dicono-il-proprio-nome.test.ts resta verde (il nome per lo screen reader non si e' rotto).",
+   "nota_fix": "Righe 57-66 confermate. Stato spento `bg-cream-300` (#EEDFBA, 1,32:1) -> `bg-ink-400` (#78716C, 4,80:1 contro il bianco della pagina e contro la pallina bianca). Il conto mio da' 4,80 dove la scheda diceva 4,66: stesso colore, stessa conclusione. Toccata una riga sola piu' il commento del perche'; nessuna prova esistente legge il colore del Toggle (cercato `Toggle` in tests/: solo la prova del nome accessibile). NON verificato: com'e' l'interruttore su fondo `cream-50` al passaggio del mouse (li' lo stacco e' un filo piu' basso ma resta sopra 4,5) e nessun controllo visivo in un browser.",
+   "file_toccati": [
+    "components/ui/Toggle.tsx"
+   ]
+  },
+  {
+   "chiave": "stati-ui|il credito del cliente si legge zero euro quando la lettura non riesce",
+   "titolo": "Il credito del cliente si legge zero euro quando la lettura non riesce",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/quando-la-lettura-cade-il-sito-non-dice-zero-ne-nessuno.test.ts — monta le pagine vere «Gift card» e «Punti» con la lettura del portafoglio in errore: verde col fix (8 prove), e rimettendo il difetto (errore ingoiato + niente stato d'errore) escono 5 rosse su 8, uscita 1. Le tre prove che restano verdi sono i verdi di controllo (con la lettura riuscita si legge «25,00»).",
+   "nota_fix": "Confermato in tutti e due i file. Ora la funzione di lettura fa `if (error) throw error`, quindi il contenitore delle query ritenta e non mette piu' lo zero finto in cache sotto la chiave del portafoglio (che le due pagine dividono). A video: in «Gift card» al posto della cifra grande esce «Non riusciamo a leggere il tuo credito.» con un pulsante «Riprova» che rilegge davvero; mentre la lettura e' in corso esce «—» invece di «0,00 €». In «Punti» la frase «Hai gia' … di credito» lascia il posto a «Il credito che hai gia' non riusciamo a leggerlo adesso.». NON verificato: il comportamento con Supabase vero (qui il client e' finto) e quante volte react-query ritenta in produzione.",
+   "file_toccati": [
+    "app/profile/gift-cards/page.tsx",
+    "app/profile/loyalty/page.tsx"
+   ]
+  },
+  {
+   "chiave": "stati-ui|messaggi: un errore di lettura viene mostrato come «nessuna conversazione»",
+   "titolo": "Messaggi: un errore di lettura viene mostrato come «Nessuna conversazione»",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/quando-la-lettura-cade-il-sito-non-dice-zero-ne-nessuno.test.ts — monta app/messages/page.tsx con la lettura caduta: a video non compare piu' «Nessuna conversazione», compare «Non riusciamo a caricare i messaggi» e il pulsante «Riprova» chiama davvero refetch. Col difetto rimesso quelle prove sono rosse (uscita 1); il verde di controllo mostra che a elenco davvero vuoto la frase «Nessuna conversazione» c'e' ancora.",
+   "nota_fix": "Confermato: la destrutturazione non prendeva `isError` mentre la funzione di lettura lancia (riga 69). Preso `isError` e messo <ErrorState title=\"Non riusciamo a caricare i messaggi\" onRetry={refetch}> PRIMA del controllo su `conversations.length === 0`. Usato `components/ui/ErrorState` (l'unico rimasto, accetta sia `retry` sia `onRetry`), come fanno gia' app/stores e app/near. Le righe della scheda erano giuste. NON verificato: il caso «rete che torna» end-to-end con Supabase vero.",
+   "file_toccati": [
+    "app/messages/page.tsx"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "perche": "il fix vive quasi tutto fuori dal territorio: le ~144 card scritte a mano stanno in decine di file di altre squadre, e la regola «quale raggio in quale contesto» va scritta nel design system. Dentro il mio territorio c'e' solo components/ui/Card.tsx, e cambiarlo da solo non chiude niente: serve una decisione di design system + una migrazione a tappeto, da fare a lotto fermo."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Anche l'elenco delle gift card ingoia l'errore: chi non riesce a leggerle vede «Le mie gift card (0)»",
+   "dove": "app/profile/gift-cards/page.tsx:94-102",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Anche la storia dei punti ingoia l'errore: i movimenti spariscono come se non ce ne fossero",
+   "dove": "app/profile/loyalty/page.tsx:59-68",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Nessun controllo in un browser vero: niente Playwright, niente screenshot, nessuna anteprima aperta — i contrasti sono calcolati sui colori dichiarati in tailwind.config.ts e l'impaginazione a 375px non l'ho misurata (jsdom non impagina). Non ho lanciato la suite intera ne' `npm run verify` (vietati qui): ho lanciato le mie due prove nuove piu' i 5 file di prova esistenti che leggono i miei file (tutti verdi, 50 prove). `npx tsc --noEmit` non riporta errori sui miei file; gli errori che escono sono di altre squadre al lavoro adesso (components/store-sections/CollectionSection.tsx, poi tests/unit/la-foto-piccola-avvisa-il-negoziante.test.ts). Nessun controllo su Supabase vero: nelle prove il client e' finto."
+}
