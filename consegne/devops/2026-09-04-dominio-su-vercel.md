@@ -2,6 +2,7 @@
 tipo: procedura
 reparto: devops-sre
 data: 2026-09-04 10:20
+aggiornato: 2026-09-06 08:25
 colore: 🔴
 stato: pronta — aspetta Nicola
 card: "#192"
@@ -12,6 +13,32 @@ card: "#192"
 > **In due righe.** Il nome `mycity-marketplace.com` porta ancora al vecchio server spento.
 > Per farlo portare al sito vero bastano due righe da cambiare nel pannello dove l'hai
 > comprato. Non serve nessun trasferimento.
+
+> **Aggiornamento del 6 settembre, ore 08:20.** I due nomi sono **già collegati su Vercel**.
+> Li ho visti nella schermata Domains che mi hai mandato. Vercel li segna in rosso con
+> scritto «Invalid Configuration», e vuol dire una cosa sola: le righe nel pannello del nome
+> puntano ancora al server vecchio. Il §Passo 2 quindi è già fatto, e a te resta il §Passo 3.
+
+### Le due righe, coi valori veri
+
+Letti dalla tua schermata di Vercel e dai server dei nomi, il 6 settembre alle 08:20.
+
+| Riga | Tipo | Adesso c'è | Ci deve andare |
+|---|---|---|---|
+| `@` | A | `216.24.57.1` | `216.150.1.1` |
+| `www` | CNAME | `www.test-my-city-con-claude.onrender.com` | `b8de7920354765c2.vercel-dns-016.com.` |
+
+Il valore del `www` l'ho controllato da qui: esiste davvero, e porta a due indirizzi di
+Vercel. Copialo però col pulsante di copia che sta nella schermata, invece di ribatterlo a
+mano leggendo questo foglio. Una lettera sbagliata in quella riga è un sito che non risponde.
+
+**Il principale è il `www`.** Nella tua schermata il `www` è segnato «Production», e il nome
+nudo fa da rimando verso di lui. Va bene così. Cambia però una riga del §Passo 5: al sito va
+detto che si chiama `https://www.mycity-marketplace.com`.
+
+**La posta non si tocca.** Il nome ha una riga `MX` che manda la posta a
+`mail.mycity-marketplace.com`. Quella macchina ha un indirizzo tutto suo. C'è anche una riga
+`_dmarc`. Nessuna delle due va toccata. Cambiando solo `@` e `www` la posta resta dov'è.
 
 Questo documento parla del **nome del sito**, non del sito. Sono due cose separate, ed è la
 confusione fra le due che fa sembrare difficile il lavoro. Il sito è il negozio. Il nome è
@@ -94,9 +121,10 @@ cliente ti scrive che non ha ricevuto niente.
 
 Le righe da cambiare sono **due sole**: quella del nome nudo e quella del `www`.
 
-## Passo 2 — Aggiungi il nome su Vercel
+## Passo 2 — Aggiungi il nome su Vercel ✅ già fatto
 
-Fallo prima di toccare il pannello del nome, non dopo.
+Questo passo l'hai già fatto il 6 settembre. Resta qui per memoria, e perché serve se un
+giorno si ricomincia da zero. Fallo prima di toccare il pannello del nome, non dopo.
 
 Vercel → progetto **mycity** → **Settings**, cioè le impostazioni → **Domains** →
 **Add Domain**.
@@ -114,9 +142,9 @@ account: copia i suoi, non valori presi altrove.
 Torna nel pannello del nome, sezione DNS. **Modifica** le righe che ci sono già. Non
 aggiungerne di nuove accanto: resterebbero tutt'e due, e il sito risponderebbe a caso.
 
-- riga **`@`**, tipo **A**: al posto di `216.24.57.1` metti l'indirizzo che ti ha dato
-  Vercel;
-- riga **`www`**, tipo **CNAME**: metti il valore che ti ha dato Vercel.
+- riga **`@`**, tipo **A**: al posto di `216.24.57.1` metti `216.150.1.1`;
+- riga **`www`**, tipo **CNAME**: al posto di `www.test-my-city-con-claude.onrender.com`
+  metti `b8de7920354765c2.vercel-dns-016.com.`
 
 Se il pannello ti fa scegliere il TTL, mettilo a 300 secondi **prima** di salvare. Il TTL è
 per quanto tempo il resto del mondo si ricorda la risposta vecchia. Basso vuol dire che un
@@ -138,7 +166,7 @@ Vercel → progetto mycity → Settings → **Environment Variables**, cioè le 
 d'ambiente → ambiente **Production**:
 
 ```
-NEXT_PUBLIC_APP_URL = https://mycity-marketplace.com
+NEXT_PUBLIC_APP_URL = https://www.mycity-marketplace.com
 ```
 
 Poi ripubblica: Deployments → l'ultima → Redeploy. Le variabili vengono lette quando il sito

@@ -1,10 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 08:02
+aggiornato: 2026-09-06 08:25
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🌐 **2026-09-06 08:25 — I due nomi sono già su Vercel: mancano due righe nel pannello Netsons.** Mi hai mandato la schermata Domains.
+>
+> **Cosa vedo.** Vercel ha dentro sia `mycity-marketplace.com` sia il `www`, e li segna tutti e due in rosso. Il rosso dice che le righe del nome puntano ancora al server vecchio. Non è un guasto: è il passo che manca.
+>
+> **Cosa manca davvero.** La riga `@` di tipo A deve passare da `216.24.57.1` a `216.150.1.1`. La riga `www` di tipo CNAME deve passare al valore che Vercel mostra nella schermata. L'ho controllato da qui: quel valore esiste e porta a Vercel.
+>
+> **Tocca a te.** Entri in Netsons e sistemi quelle due caselle. La posta resta al sicuro se non tocchi le righe `MX` e `_dmarc`, che ho guardato e ci sono.
+>
+> **Cosa non ho verificato.** Cosa c'è scritto oggi nelle variabili del sito su Vercel. Va guardato da dentro, e la variabile giusta adesso è quella col `www`, perché il `www` è il principale.
 
 > 🌐 **2026-09-06 08:02 — Il nome del sito non si trasferisce: si cambiano due righe, e il pannello è Netsons.** Richiesta tua: «come faccio a spostare il dominio su vercel?», poi «non ricordo dove ho comperato il dominio».
 >

@@ -74,16 +74,26 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > Se non ricordi l'accesso: cerca «netsons» nella posta (la conferma d'acquisto e i rinnovi arrivano da lì, e quella mail è l'account), poi «Password dimenticata» nell'Area Clienti. La procedura ha un Passo 0 con tutte e tre le strade.
 
+> 🔍 **I due nomi sono già collegati su Vercel, visto il 2026-09-06 08:20 nella schermata che mi hai mandato.** Cambia cosa resta da fare: il Passo 2 è fatto, e a te resta il Passo 3.
+>
+> Vercel segna tutti e due i nomi in rosso, con scritto «Invalid Configuration». Vuol dire una cosa sola, e non è un guasto: le righe nel pannello Netsons puntano ancora al server vecchio. Appena le cambi, Vercel diventa verde da solo.
+>
+> **Le due righe, coi valori veri.** La riga `@` di tipo A porta oggi a `216.24.57.1` e deve portare a `216.150.1.1`. La riga `www` di tipo CNAME porta oggi a `www.test-my-city-con-claude.onrender.com`. Al suo posto va `b8de7920354765c2.vercel-dns-016.com.`, che ho controllato da qui: esiste e porta a Vercel. Copialo però col pulsante di copia della schermata, invece di ribatterlo a mano.
+>
+> **Il principale è il `www`.** Nella tua schermata il `www` è segnato «Production», e il nome nudo fa da rimando verso di lui. Va bene così, e cambia solo il Passo 5: al sito va detto `https://www.mycity-marketplace.com`.
+>
+> **La posta è al sicuro se cambi solo quelle due righe.** Ho guardato: c'è una riga `MX` verso `mail.mycity-marketplace.com`, che è una macchina con un indirizzo tutto suo, e c'è una riga `_dmarc`. Nessuna delle due si tocca.
+
 **Cosa non ho verificato.** Da chi il nome è stato *comprato*. I server dei nomi dicono chi gestisce le righe, e quasi sempre è anche chi ha venduto il nome — ma non è la stessa cosa. La risposta certa sta in una ricerca WHOIS, e da qui la porta che serve è chiusa: puoi farla tu in un minuto su `lookup.icann.org`. Non ho potuto bussare al sito per lo stesso motivo, e non so quali variabili siano configurate oggi su Vercel — quella casella si guarda da dentro.
 
 **Cosa devi fare tu.** La procedura distesa, con i sei passi in ordine e le trappole, sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`. In breve:
 
 - **Passo 1 — fotografa.** Copiati i record che ci sono adesso nel pannello del nome. Due tipi di riga **non si toccano**: le `MX` e le `TXT` che parlano di posta. Se spariscono, il sito smette di mandare le conferme d'ordine. E non se ne accorge nessuno finché un cliente non ti scrive.
-- **Passo 2 — su Vercel.** Progetto `mycity` → Settings → Domains → Add: `mycity-marketplace.com`, col `www` che rimanda al nome nudo. Vercel ti mostra i record esatti da mettere. Usa i suoi, non valori presi altrove.
-- **Passo 3 — nel pannello del nome.** *Modifica* le due righe che ci sono già, non aggiungerne di nuove accanto: `@` di tipo A e `www` di tipo CNAME, coi valori che ti ha dato Vercel.
+- **Passo 2 — su Vercel.** ✅ Già fatto il 6 settembre: tutti e due i nomi sono nel progetto `mycity`, col `www` come principale.
+- **Passo 3 — nel pannello Netsons.** *Modifica* le due righe che ci sono già, non aggiungerne di nuove accanto. La riga `@` di tipo A va portata a `216.150.1.1`. La riga `www` di tipo CNAME va portata a `b8de7920354765c2.vercel-dns-016.com.`
 - **Passo 4 — aspetta il verde.** Il certificato lo emette Vercel da solo, di solito in pochi minuti.
-- **Passo 5 — la variabile.** Metti `NEXT_PUBLIC_APP_URL = https://mycity-marketplace.com` fra quelle di produzione, e ripubblica. Senza, il sito funziona ma dice a Google e a Stripe un indirizzo sbagliato. Ad agosto lì c'era scritto `localhost`.
-- **Passo 6 — guarda.** In finestra anonima: deve aprirsi il marketplace, il `www` deve saltare sul nome nudo, e la pagina di salute deve dirti come sta il sito.
+- **Passo 5 — la variabile.** Metti `NEXT_PUBLIC_APP_URL = https://www.mycity-marketplace.com` fra quelle di produzione, e ripubblica. Senza, il sito funziona ma dice a Google e a Stripe un indirizzo sbagliato. Ad agosto lì c'era scritto `localhost`.
+- **Passo 6 — guarda.** In finestra anonima: deve aprirsi il marketplace, il nome nudo deve saltare sul `www`, e la pagina di salute deve dirti come sta il sito.
 
 **Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato. Restano poi tre cose da rimettere a mano, perché vivono in pannelli esterni. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google.
 
