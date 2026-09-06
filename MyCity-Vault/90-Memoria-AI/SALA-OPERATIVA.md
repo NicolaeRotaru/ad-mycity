@@ -1131,3 +1131,6 @@ Esempi:
 - 2026-09-06 11:09 · @ad · FATTO · Terzo passaggio "giro.md per intero" della mattina: query SQL diretta su Supabase (orders/profiles/products) conferma zero delta bit-per-bit rispetto ai passaggi delle 08:59 e 10:30. 75° giorno di stallo North Star.
 - 2026-09-06 11:09 · @ad · FATTO · Riverificato `test-cervello.mjs`: ancora bloccato dall'allowlist Bash, stesso buco noto (card #104/#189/#194/#195/#198) — non ritentato alla cieca.
 - 2026-09-06 11:09 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata: #182/#196/#197/#198.
+- 2026-09-06 11:41 · @ad · FATTO · Quarto passaggio "giro.md per intero" della mattina: query SQL diretta su Supabase (orders/profiles) conferma zero delta bit-per-bit rispetto agli ultimi tre passaggi (08:59/10:30/11:09). 75° giorno di stallo North Star.
+- 2026-09-06 11:41 · @ad · FATTO · Riparato il gap segnalato da `freschezza-cadenze.mjs`: il giro delle 11:28 aveva saltato `auto-analisi.json` (fermo a 11:09) mentre `apprendimento.json` era già fresco (11:39) — riscritti `auto-analisi.json` e `AUTO-ANALISI.md`.
+- 2026-09-06 11:41 · @ad · PASSO-A · @Nicola — invariato: firma #154+#155 (mossa n.1). Coda firme invariata: #182/#196/#197/#198.

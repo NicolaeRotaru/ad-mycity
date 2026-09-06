@@ -1,6 +1,32 @@
 ---
-data: 2026-09-06 11:09
+data: 2026-09-06 11:41
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-06 11:41
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi» — quarta volta nella stessa mattina, ~32 minuti dopo il passaggio delle 11:09.
+- **FATTE:** numeri riverificati con una nuova query SQL diretta su MCP Supabase (`orders`/
+  `profiles`, non a memoria): 1 ordine (24/6, annullato), 0 pagati, 9 profili (5 buyer, 2 seller, 1
+  rider, 1 admin). Identico bit-per-bit ai tre passaggi precedenti (08:59, 10:30, 11:09). `git log`
+  dalle 11:28 a ora: 7 commit, tutti checkpoint interni del worker (`coerenza-fatti.json`) o il giro
+  delle 11:28 stesso — nessun dato di business dentro. `DECISIONI.md` riletto: nessuna firma nuova
+  dal 29/8. `AZIONI-IN-ATTESA.md` riletta: top card ancora #198→#190, invariata.
+- **RIPARAZIONE VERA di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava che
+  il giro delle 11:28 era uscito saltando l'auto-analisi o l'apprendimento. Verificato quale dei due:
+  `apprendimento.json` aveva già il campo `aggiornato` a "11:39" (fresco). `auto-analisi.json` invece
+  era fermo a "11:09" — non riscritto dal giro delle 11:28. Riparato ora con verifica dal vivo. È lo
+  stesso pattern (un commit tocca/salta un file senza rigenerarlo per intero) già visto molte volte
+  nei giorni precedenti — resta un debito di processo dichiarato, non ancora un freno automatico.
+- **NON FATTE (per costruzione, non per dimenticanza), stessa lista dei passaggi precedenti.**
+  Radar esterno, radiografia completa, auto-miglioramento, nuove lezioni di apprendimento: letargo
+  SOPRAVVIVENZA + gate NORTH_STAR su dati confermati identici per la quarta volta in tre ore. Script
+  `cervello/*.mjs` non elencati per esteso in `.claude/settings.local.json` restano bloccati
+  (richiedono approvazione che in sessione headless nessuno può dare) — non ritentati alla cieca.
+- **Voto di fiducia:** 76/100, stabile (nessun nuovo errore di business; unica novità è la chiusura
+  del gap di freschezza su questo stesso file).
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 11:09
 
@@ -21,8 +47,6 @@ non saltare passi» — terza volta nella stessa mattina, ~40 minuti dopo il pas
   a principio: RISPARMIO + gate NORTH_STAR su dati confermati identici per la terza volta. Script
   bloccati dall'allowlist non ritentati oltre la singola verifica di `test-cervello.mjs` sopra.
 - **Voto di fiducia:** 76/100, stabile (nessun nuovo errore, nessuna nuova riparazione mancata).
-
-## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 10:30
 
