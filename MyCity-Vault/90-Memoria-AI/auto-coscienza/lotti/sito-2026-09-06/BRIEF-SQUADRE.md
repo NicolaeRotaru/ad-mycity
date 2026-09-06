@@ -8,9 +8,14 @@ frammento JSON. Il tuo lotto è fatto di difetti di gravità **minore**.
 
 - Repo del sito: **`/home/user/mycity`** (Next.js + TypeScript + Supabase + Stripe). È l'unico posto
   dove metti mano al codice.
-- Il tuo **territorio** sono i file elencati nel tuo incarico. Se un fix richiede un file fuori dal
-  territorio: **fermati su quel difetto** e mettilo in `bloccati`. Un'altra squadra ci sta dentro
+- Il tuo **territorio** è **tutto l'elenco `file_citati` del tuo incarico**, non solo il file che dà
+  il nome al pacchetto. Le altre squadre di questa ondata non ne toccano nessuno: sono tuoi, e un
+  difetto che vive in quattro di quei file lo chiudi in tutti e quattro.
+- Se invece un fix richiede un file **fuori** da `file_citati`: **fermati su quel difetto**, esito
+  `non_riparato`, e mettilo in `bloccati` col file che ti serviva. Un'altra squadra ci sta dentro
   adesso e le riscriveresti il lavoro.
+- Un difetto riparato a metà **non è riparato**: se ne chiudi tre occorrenze su cinque, l'esito è
+  `non_riparato` con scritto cosa manca. Meglio un aperto onesto che una scheda chiusa per finta.
 
 ## Le regole non negoziabili
 
