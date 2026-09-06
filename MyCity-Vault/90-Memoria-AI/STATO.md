@@ -1,8 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 18:15
-fonte: AD digitale (ritmo.md)
+aggiornato: 2026-09-06 18:35
+fonte: AD digitale (giro.md)
 ---
+
+> 🧭 **6/9 18:35 — Nuova chiamata "esegui giro.md per intero", 15 minuti dopo il recupero delle
+> 18:20.** Zero delta reale, verificato con query SQL diretta su MCP Supabase: 1 ordine (24/6,
+> annullato, €19,05, Pane Quotidiano), **0 pagati**. `git log --since="18:20"` sui file di business
+> è vuoto. `DECISIONI.md` invariato dal 29/8. `AZIONI-IN-ATTESA.md` invariata, top card #198.
+>
+> **Unica riparazione reale.** Tre file erano rimasti fermi al passaggio delle 16:36:
+> `auto-analisi.json`, `AUTO-ANALISI.md` e il Briefing di oggi. Il giro delle 17:04 li aveva toccati,
+> ma senza rigenerare il campo `data` interno. È lo stesso debito ricorrente documentato decine di
+> volte oggi qui sotto. Li ho riscritti ora.
+>
+> **Perché non rilancio le 15 fasi pesanti.** Vale SOPRAVVIVENZA più il gate NORTH_STAR. I dati sono
+> identici da ore. Il dettaglio, sempre uguale, è nei passaggi precedenti qui sotto.
+>
+> **Tengo questo passaggio corto apposta.** È l'ennesima ripetizione a delta zero. L'ho già segnalata
+> a Nicola come possibile causa della SOPRAVVIVENZA stessa. La domanda resta aperta in
+> `auto-coscienza/auto-analisi.json`, senza risposta.
+>
+> **Mossa numero uno, sempre la stessa.** Firma le card #154 e #155 (dominio + chiavi Vercel): senza
+> quella firma il sito resta giù e nessun ordine può ancora diventare un incasso vero.
+
+## Passaggi precedenti
 
 > 🌙 **6/9 18:15 — Report della sera.** Giornata a delta zero. 1 ordine annullato. 0 pagati. È il
 > **75° giorno di fila**. Riverificato ora dal vivo su Supabase: `orders`=1, `profiles`=9,

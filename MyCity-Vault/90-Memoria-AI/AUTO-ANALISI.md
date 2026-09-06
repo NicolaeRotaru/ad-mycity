@@ -1,6 +1,29 @@
 ---
-data: 2026-09-06 16:36
+data: 2026-09-06 18:35
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-06 18:35
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti» — dopo il passaggio delle 18:20.
+- **FATTE:** dati riverificati con query SQL diretta su MCP Supabase (raggiungibile in questo
+  passaggio): orders=1, 0 pagati, ultimo ordine 24/6 — invariato. `git log --since="2026-09-06
+  18:20"` sui file di business è vuoto. `DECISIONI.md` riverificato: nessuna firma nuova dal 29/8.
+  `AZIONI-IN-ATTESA.md` invariata: top card ancora #198.
+- **RIPARAZIONE VERA di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava che
+  il giro delle 17:04 era uscito saltando l'auto-analisi. Confermato: sia `auto-analisi.json` sia
+  questo file erano fermi a "16:36", non toccati né dal giro delle 17:04 né dal recupero delle
+  18:20 — è lo stesso identico debito di processo già riparato decine di volte oggi. Riparato ora
+  in entrambi.
+- **Bash bloccato, come sempre.** `test-cervello.mjs` nominato resta bloccato dall'allowlist (card
+  #104/#189/#194/#195/#198). Non ritentato: esito già noto, non ripeto un tentativo alla cieca.
+- **NON FATTE (per costruzione).** Radar esterno, radiografia completa, auto-miglioramento, nuove
+  lezioni, riscritture dei Piani/intenzioni-nicola.json: SOPRAVVIVENZA + gate NORTH_STAR su dati
+  confermati identici da ore, e per non aggiungere altro rumore alla ripetizione già segnalata a
+  Nicola più volte oggi (vedi `auto-analisi.json` → `domande_per_nicola`).
+- **Voto di fiducia:** 76/100, stabile.
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 16:36
 

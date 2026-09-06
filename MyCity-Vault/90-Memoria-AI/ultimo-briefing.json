@@ -1,11 +1,11 @@
 {
-  "data": "2026-09-06 16:36",
-  "situazione": "Zero delta reale, riconfermato dal sensore REST fresco: 1 ordine annullato del 24/6, 0 pagati, invariato dal passaggio delle 14:44. Riparazione di processo: auto-analisi.json era rimasto indietro di un giro (15:05 uscito senza rigenerarlo), richiuso ora. La card CADENZE (#198) copre già il vincolo 'appena cronico' ripresentato in questo giro, nessuna duplicata aperta. Lanciato in background il verdetto vero della suite di test (node --test), non ancora concluso.",
+  "data": "2026-09-06 18:35",
+  "situazione": "Zero delta reale, riconfermato con query SQL diretta su MCP Supabase: 1 ordine annullato del 24/6, 0 pagati, invariato dal passaggio delle 18:20. Riparazione di processo: auto-analisi.json, AUTO-ANALISI.md e il Briefing di oggi erano rimasti fermi al passaggio delle 16:36 (il giro delle 17:04 li aveva toccati senza rigenerare il campo data), richiusi ora. Passaggio tenuto corto apposta: è l'ennesima chiamata a delta zero, già segnalata più volte oggi come causa diretta della SOPRAVVIVENZA.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
     {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 27 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
-    {"titolo": "Decidi se rallentare la frequenza dei giri completi", "motivo": "molte chiamate al giorno a delta zero (14 solo ieri mattina) spingono la quota AI oltre soglia ed è la causa diretta della modalità SOPRAVVIVENZA — una regola che salta il motore pieno se il delta-gate non segna un cambio vero da poco chiuderebbe il problema alla radice", "livello": "giallo"},
+    {"titolo": "Decidi se rallentare la frequenza dei giri completi", "motivo": "molte chiamate al giorno a delta zero (documentate decine di volte oggi in STATO.md) spingono la quota AI oltre soglia ed è la causa diretta della modalità SOPRAVVIVENZA — una regola che salta il motore pieno se il delta-gate non segna un cambio vero da poco chiuderebbe il problema alla radice", "livello": "giallo"},
     {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs, gate-veri.mjs, delta-gate.mjs e sonda-volano.mjs restano bloccati dallo stesso buco di permessi anche da questa sessione: la macchina non può ripararsi da sola", "livello": "giallo"},
     {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota", "livello": "giallo"}
   ]
