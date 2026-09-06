@@ -1,6 +1,32 @@
 ---
-data: 2026-09-06 11:41
+data: 2026-09-06 12:57
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-06 12:57
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi» — ~40 minuti dopo il passaggio delle 12:16.
+- **FATTE:** numeri riverificati con una nuova query SQL diretta su MCP Supabase (`orders`/
+  `profiles`/`products`, non a memoria): 1 ordine (24/6, annullato), 0 pagati, 9 profili, 9 prodotti.
+  Identico bit-per-bit al passaggio delle 12:16. `git log --since="12:16"` mostra 5 commit: recupero
+  scritture pendenti (12:46) + due checkpoint dei playbook worker (Recensioni, Contenuto del giorno)
+  + il giro delle 12:31 — nessun dato di business dentro nessuno. `DECISIONI.md` riletto: nessuna
+  firma nuova dal 29/8. `AZIONI-IN-ATTESA.md` riletta: top card ancora #198→#194, invariata.
+- **RIPARAZIONE VERA di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava che
+  il giro delle 12:31 era uscito saltando l'auto-analisi o l'apprendimento. Verificato quale dei due:
+  `apprendimento.json` aveva già `aggiornato` a "12:54" (fresco, da checkpoint worker).
+  `auto-analisi.json` era fermo a "11:41" — non riscritto dal giro delle 12:31. Riparato ora con
+  verifica dal vivo. Stesso pattern ricorrente da giorni: un commit tocca/salta un file senza
+  rigenerarlo per intero — debito di processo dichiarato, non ancora un freno automatico.
+- **NON FATTE (per costruzione, non per dimenticanza), stessa lista dei passaggi precedenti.**
+  Radar esterno, radiografia completa, auto-miglioramento, nuove lezioni di apprendimento: letargo
+  SOPRAVVIVENZA + gate NORTH_STAR su dati confermati identici. Script `cervello/*.mjs` non elencati
+  per esteso in `.claude/settings.local.json` restano bloccati (richiedono approvazione che in
+  sessione headless nessuno può dare) — non ritentati alla cieca.
+- **Voto di fiducia:** 76/100, stabile (nessun nuovo errore di business; unica novità è la chiusura
+  del gap di freschezza su questo stesso file).
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 11:41
 

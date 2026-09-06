@@ -1,8 +1,46 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 12:16
+aggiornato: 2026-09-06 12:57
 fonte: AD digitale (giro.md)
 ---
+
+> 🧭 **6/9 12:57 — Nuova chiamata "esegui giro.md per intero".** Sono passati ~40 minuti dal passaggio
+> delle 12:16.
+>
+> **I numeri, riverificati ora dal vivo via SQL diretto su MCP Supabase.** Non a memoria. 1 ordine
+> (24/6, annullato, €19,05, seller Pane Quotidiano). **0 pagati.** 9 profili. 9 prodotti. Identici
+> bit-per-bit al passaggio delle 12:16. **75° giorno di stallo North Star** (24/6→6/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log --since="12:16"` mostra 5 commit. Uno è un
+> recupero di scritture pendenti (12:46). Due sono checkpoint dei playbook del worker (Recensioni,
+> Contenuto del giorno). Uno è il giro delle 12:31 stesso. Nessuno dei cinque porta dati di business.
+> `DECISIONI.md` è invariato dal 29/8. `AZIONI-IN-ATTESA.md` è invariata: in cima restano le stesse
+> quattro card. La #198 è il gate CADENZE, ormai cronico. La #197 è il funnel carrelli, ancora senza
+> una PR. La #196 è "Panificio Demo". Le #195 e #194 sono ferme sullo stesso buco di permessi VPS.
+>
+> **La riparazione vera di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava che
+> il giro delle 12:31 era uscito saltando l'auto-analisi o l'apprendimento. `apprendimento.json` era
+> già fresco (12:54, da checkpoint worker). `auto-analisi.json` invece era fermo a "11:41" — non
+> riscritto dal giro delle 12:31. Riscritto ora con verifica dal vivo, insieme a `AUTO-ANALISI.md`.
+> Voto di fiducia stabile a 76: stesso debito di processo ricorrente, non un errore di business nuovo.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Il letargo resta **SOPRAVVIVENZA** (quota AI al
+> 137% della finestra rolling, salute macchina 4): vale solo il nucleo vitale — ordini, consegne,
+> coda firme, sicurezza, allerta a Nicola. Il gate **NORTH_STAR** ammette solo lavoro macchina che
+> sblocca direttamente il primo ordine pagato. I dati sono confermati identici per l'ennesima volta:
+> rifare radar, radiografia e auto-miglioramento sarebbe stato solo consumo di quota, non un
+> controllo in più. Non ritentati gli script `cervello/*.mjs` non elencati per esteso in
+> `.claude/settings.local.json` (`test-cervello.mjs`, `coerenza-fatti.mjs`, `gate-veri.mjs`,
+> `sonda-volano.mjs`): stesso buco noto da settimane (card #104/#189/#194/#195/#198), nessun
+> tentativo alla cieca ripetuto.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la tua firma sulle card #154 e #155: dominio e
+> chiavi Vercel. Senza quella firma il sito resta giù e nessun ordine può ancora diventare un
+> incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
+## Passaggi precedenti
 
 > 🧭 **6/9 12:16 — Nuova chiamata "esegui giro.md per intero".** Sono passati 16 minuti dal Punto di
 > mezzogiorno delle 12:00. Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
