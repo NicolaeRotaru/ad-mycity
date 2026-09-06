@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-06 12:57",
+  "data": "2026-09-06 14:44",
   "voto_fiducia": 76,
-  "sintesi_giro_corrente": "Nuova chiamata esplicita 'leggi ed esegui cervello/giro.md per intero', ~40 minuti dopo il passaggio delle 12:16. Numeri riverificati dal vivo con SQL diretto su MCP Supabase (query mirata su orders/profiles/products, non a memoria): 1 ordine (24/6, annullato, €19,05, seller Pane Quotidiano), 0 pagati, 9 profili, 9 prodotti, ultimo profilo 2026-09-05 06:40 ('Panificio Demo'). Identico bit-per-bit al passaggio delle 12:16. `git log --since='12:16'` mostra 5 commit: uno è il recupero di scritture pendenti (12:46), due sono checkpoint dei playbook worker (Recensioni, Contenuto del giorno), uno è il giro delle 12:31 stesso — nessun dato di business dentro nessuno. `DECISIONI.md`: nessuna firma nuova dal 29/8. `AZIONI-IN-ATTESA.md`: invariata, top card ancora #198→#194. Riparazione vera di questo passaggio: il vincolo HARD `freschezza-cadenze.mjs` segnalava che il giro delle 12:31 era uscito saltando l'auto-analisi o l'apprendimento — verificato quale dei due: `apprendimento.json` aveva già 'aggiornato':'12:54' (fresco, da checkpoint worker); questo file era invece fermo a '11:41', mai riscritto dal giro delle 12:31. Riscritto ora con verifica dal vivo. `test-cervello.mjs` e gli altri script cervello/*.mjs non in allowlist restano bloccati (stesso buco noto, non ritentato alla cieca).",
-  "sintesi": "Business fermo dal 24/6 (75° giorno di stallo North Star). Nessun numero diverso dal passaggio delle 12:16, riconfermato dal vivo su Supabase. Riparazione di processo: auto-analisi.json era rimasto indietro di un giro (12:31 uscito senza rigenerarlo) — richiuso ora. SOPRAVVIVENZA + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti rilanciata su dati confermati identici.",
-  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto di business trovato in questo passaggio; unica novità è la chiusura del gap di freschezza su questo stesso file, lo stesso pattern ricorrente da giorni (debito di processo dichiarato, non ancora reso un freno automatico).",
+  "sintesi_giro_corrente": "Nuova chiamata esplicita 'leggi ed esegui cervello/giro.md per intero', ~1h47 dopo il passaggio delle 12:57. Sensore REST fresco (14:33, 0 giri ciechi): 1 ordine, invariato. `git log --since='12:57'` mostra 2 commit: il giro delle 13:14 e un recupero di scritture pendenti (14:20) — nessun dato di business dentro nessuno dei due. `DECISIONI.md`: nessuna firma nuova dal 29/8. `AZIONI-IN-ATTESA.md`: invariata, top card ancora #198→#193. Riparazione vera di questo passaggio: il vincolo HARD `freschezza-cadenze.mjs` segnalava che il giro delle 13:14 era uscito saltando l'auto-analisi — verificato: questo file era fermo a '12:57', mai riscritto dal giro delle 13:14. Riscritto ora. Novità di processo (non di business): contati nel file 14 passaggi di 'giro completo' registrati oggi in STATO.md fra le 06:02 e le 12:57, tutti con delta di business zero — in media uno ogni ~35 minuti in 9 ore. Tentato direttamente da questa sessione (non solo per memoria) di far girare `freschezza-cadenze.mjs` e `gate-veri.mjs`: entrambi bloccati con 'richiede approvazione', stesso buco già isolato nelle card #189/#194/#195/#198 — confermato anche da qui, non solo dal worker headless sul VPS.",
+  "sintesi": "Business fermo dal 24/6 (74° giorno di stallo North Star, ricontato — il metodo di conteggio dei giri precedenti aveva un'oscillazione nota e mai risolta). Nessun numero diverso dal passaggio delle 12:57. Riparazione di processo: auto-analisi.json era rimasto indietro di un giro (13:14 uscito senza rigenerarlo) — richiuso ora. SOPRAVVIVENZA + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti rilanciata su dati confermati identici. Osservazione nuova di questo passaggio: 14 giri completi oggi senza delta è un segnale di sistema, non solo di business — vedi domanda per Nicola.",
+  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto di business trovato in questo passaggio; la chiusura del gap di freschezza è lo stesso pattern ricorrente da giorni (debito di processo dichiarato, non ancora reso un freno automatico).",
   "entita_verificate": [
     {
       "nome": "Ordine 58094956… (24/6, annullato, €19,05, seller Pane Quotidiano)",
@@ -62,6 +62,12 @@
       "domanda": "Il sito resta giù (HTTP 503) per dominio+chiavi Vercel mancanti. Firmi #154/#155 ora?",
       "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
       "colore": "🔴"
+    },
+    {
+      "tipo": "sistema",
+      "domanda": "Oggi il giro completo è stato richiamato 14 volte fra le 06:02 e le 12:57 (uno ogni ~35 minuti), sempre con zero delta di business. È il motivo diretto per cui la quota AI è al 121-137% della finestra rolling e la macchina è in SOPRAVVIVENZA. Vuoi che proponga una regola — es. non rilanciare il motore AI pieno se `delta-gate.json` non segna un cambio vero da meno di N minuti — o preferisci restare così?",
+      "azione": "in attesa di indicazione",
+      "colore": "🟡"
     },
     {
       "tipo": "azione",

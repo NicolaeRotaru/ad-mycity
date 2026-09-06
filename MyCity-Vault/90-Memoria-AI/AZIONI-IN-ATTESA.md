@@ -142,6 +142,16 @@ sistemo — o aggiungendo la mutazione che la testa, o togliendo il finto freno.
 In sessione headless nessuno può concedere quell'approvazione: finché la riga in `.claude/settings.local.json`
 resta stretta, questi tre controlli restano fermi.
 
+**Aggiornamento 2026-09-06 14:44:** confermato che il buco NON è solo del worker headless sul VPS.
+Da questa sessione (interattiva, non worker) ho provato direttamente `node cervello/freschezza-cadenze.mjs`,
+`node cervello/gate-veri.mjs` e `node cervello/lezione-nuova.mjs`: tutti e tre bloccati con "richiede
+approvazione", nessuno rispondeva. Aggiungo anche `lezione-nuova.mjs` alla lista dei comandi bloccati —
+serviva per registrare correttamente (via CLI, non a mano) una lezione nuova su un tema di sistema: 14
+chiamate "giro completo" oggi fra le 06:02 e le 12:57, tutte a delta di business zero, sono probabilmente
+la causa diretta della quota AI oltre soglia (121-137%) e della modalità SOPRAVVIVENZA. Vedi la domanda
+aperta in `auto-coscienza/auto-analisi.json` (14:44): propongo di far rifiutare al `delta-gate.mjs` un
+giro pieno se l'ultimo passaggio pieno risale a meno di N minuti e nessun dato è cambiato.
+
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
 | 194 | 2026-09-04 20:30 | @AD | Sblocca il permesso per rilanciare il controllo dei freni delle lezioni (gate-veri.mjs) | 🟡 | vedi blocco sopra — stesso buco di #189, ora confermato anche su delta-gate.mjs e sonda-volano.mjs | manuale (settings.local.json sul VPS) | in attesa |
@@ -3163,7 +3173,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-06 12:53)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-06 14:27)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-06-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

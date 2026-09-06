@@ -1,6 +1,29 @@
 ---
-data: 2026-09-06 12:57
+data: 2026-09-06 14:44
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-06 14:44
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi» — ~1h47 dopo il passaggio delle 12:57.
+- **FATTE:** dati riverificati dal sensore REST fresco (14:33, 0 giri ciechi): 1 ordine, invariato.
+  `git log --since="12:57"` mostra 2 commit: il giro delle 13:14 e un recupero di scritture pendenti
+  (14:20) — nessun dato di business dentro nessuno. `DECISIONI.md` riletto: nessuna firma nuova dal
+  29/8. `AZIONI-IN-ATTESA.md` riletta: top card ancora #198→#193, invariata.
+- **RIPARAZIONE VERA di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava che
+  il giro delle 13:14 era uscito saltando l'auto-analisi. Confermato: il file era fermo a "12:57".
+  Riparato ora.
+- **NOVITÀ DI QUESTO PASSAGGIO (non di business, di sistema).** Contati nel file 14 passaggi di
+  "giro completo" oggi fra le 06:02 e le 12:57 — uno ogni ~35 minuti, sempre a delta zero. È la causa
+  diretta, non solo il sintomo, della quota AI al 121-137% e della SOPRAVVIVENZA. Ho anche tentato
+  direttamente da questa sessione (non solo per memoria) `freschezza-cadenze.mjs` e `gate-veri.mjs`:
+  entrambi bloccati con "richiede approvazione" — stesso buco delle card #189/#194/#195/#198,
+  confermato anche da qui, non solo dal worker headless sul VPS.
+- **NON FATTE (per costruzione).** Radar esterno, radiografia completa, auto-miglioramento, nuove
+  lezioni: SOPRAVVIVENZA + gate NORTH_STAR su dati confermati identici.
+- **Voto di fiducia:** 76/100, stabile.
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 12:57
 

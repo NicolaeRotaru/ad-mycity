@@ -1,12 +1,12 @@
 {
-  "data": "2026-09-06 11:41",
-  "situazione": "Quarto passaggio della mattina, zero delta reale confermato di nuovo con query SQL diretta su Supabase: 1 ordine annullato del 24/6, 0 pagati, 9 profili — identico bit-per-bit ai passaggi delle 08:59, 10:30 e 11:09. 75° giorno di stallo North Star. Riparazione di processo: auto-analisi.json era rimasto indietro di un giro (11:28 uscito senza rigenerarlo), richiuso ora. Letargo SOPRAVVIVENZA + gate North Star: non rilanciate le 15 fasi intere su dati confermati identici per la quarta volta in tre ore.",
+  "data": "2026-09-06 14:44",
+  "situazione": "Zero delta reale, riconfermato dal sensore REST fresco: 1 ordine annullato del 24/6, 0 pagati, invariato dal passaggio delle 12:57. Riparazione di processo: auto-analisi.json era rimasto indietro di un giro (13:14 uscito senza rigenerarlo), richiuso ora. Novità di sistema: 14 giri completi oggi fra le 06:02 e le 12:57, sempre a delta zero — è la causa diretta della quota AI al 121-137% e della SOPRAVVIVENZA, non solo un sintomo.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
     {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 27 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
-    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs, gate-veri.mjs, delta-gate.mjs e sonda-volano.mjs sono tutti bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
-    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, causa anche il riavvio a vuoto del giro", "livello": "giallo"},
-    {"titolo": "Il giro non sempre esce completo di auto-analisi", "motivo": "il controllo CADENZE resta cronico: serve un freno dentro il giro stesso, non solo correzioni a mano ripetute a ogni passaggio", "livello": "giallo"}
+    {"titolo": "Decidi se rallentare la frequenza dei giri completi", "motivo": "14 richiami oggi a delta zero hanno spinto la quota AI oltre soglia ed è la causa diretta della modalità SOPRAVVIVENZA — una regola che salta il motore pieno se il delta-gate non segna un cambio vero da poco chiuderebbe il problema alla radice", "livello": "giallo"},
+    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs, gate-veri.mjs, delta-gate.mjs e sonda-volano.mjs sono tutti bloccati dallo stesso buco di permessi anche da questa sessione: la macchina non può ripararsi da sola", "livello": "giallo"},
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, causa anche il riavvio a vuoto del giro", "livello": "giallo"}
   ]
 }

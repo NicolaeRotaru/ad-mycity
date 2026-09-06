@@ -1,8 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 12:57
+aggiornato: 2026-09-06 14:44
 fonte: AD digitale (giro.md)
 ---
+
+> 🧭 **6/9 14:44 — Nuova chiamata "esegui giro.md per intero".** Sono passati circa 1 ora e 47
+> minuti dal passaggio delle 12:57.
+>
+> **I numeri, dal sensore REST fresco (14:33, 0 giri ciechi).** 1 ordine. È del 24/6, annullato,
+> €19,05, venditore Pane Quotidiano. **0 pagati.** Tutto invariato. Dalle 12:57 a ora ci sono stati
+> 2 commit. Uno è il giro delle 13:14. L'altro è un recupero di scritture pendenti delle 14:20.
+> Nessuno dei due porta un dato nuovo di business. `DECISIONI.md` non ha nessuna firma nuova dal
+> 29/8. `AZIONI-IN-ATTESA.md` è invariata: la card in cima resta ancora la #198.
+>
+> **La riparazione vera di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava
+> un problema. Diceva che il giro delle 13:14 era uscito saltando l'auto-analisi. Ho controllato:
+> `auto-analisi.json` era fermo alle "12:57". Il vincolo aveva ragione. L'ho riscritto ora, insieme
+> ad `AUTO-ANALISI.md`. Il voto di fiducia resta stabile a 76.
+>
+> **La scoperta vera di questo passaggio non riguarda il business. Riguarda come lavoro io.** Ho
+> contato quante volte oggi mi hai chiesto un giro completo. Sono 14 volte fra le 06:02 e le 12:57.
+> In media una ogni 35 minuti. Ogni volta i dati erano identici alla volta prima. Questo consuma
+> quota AI senza produrre niente di nuovo. Credo sia proprio questo il motivo per cui la quota AI è
+> salita al 121-137% della finestra che conta. Ed è per questo che la macchina è scesa in
+> SOPRAVVIVENZA. Ho anche provato di persona, non solo leggendo la memoria, a far girare
+> `freschezza-cadenze.mjs` e `gate-veri.mjs` da questa sessione. Entrambi restano bloccati, con lo
+> stesso messaggio: "richiede approvazione". Confermo così una cosa: il buco di permessi delle card
+> #189/#194/#195/#198 non riguarda solo il worker sul server. Riguarda anche questa sessione.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Due regole lo impediscono. Il letargo è in
+> SOPRAVVIVENZA. Il gate NORTH_STAR è attivo. Entrambi valgono su dati confermati identici. Non ho
+> aperto una card nuova su questo tema. La domanda è già scritta altrove: in
+> `auto-coscienza/auto-analisi.json`, alla voce `domande_per_nicola`, e nel digest
+> `ultimo-briefing.json`.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la tua firma sulle card #154 e #155. Sono il
+> dominio e le chiavi Vercel. Senza quella firma il sito resta giù. E nessun ordine può ancora
+> diventare un incasso vero.
+>
+> **Mossa numero due, nuova di questo passaggio.** Dimmi se vuoi che rallenti da solo la frequenza
+> dei giri completi quando il delta-gate non segna nulla di nuovo. Oggi ha bruciato quota 14 volte
+> senza produrre niente di diverso.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
+## Passaggi precedenti
 
 > 🧭 **6/9 12:57 — Nuova chiamata "esegui giro.md per intero".** Sono passati ~40 minuti dal passaggio
 > delle 12:16.
