@@ -26,6 +26,42 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- main-divergente-251-vs-8 -->
+### 🟡 #199 — Da 6 giorni il ramo main del VPS e quello di GitHub non si parlano più: 251 commit di qui non sono mai arrivati là · ⏳ accodata 2026-09-06 20:30
+
+**Cosa cambia:** ho provato a spingere la memoria di questo giro su GitHub (`git push origin main`) ed è
+stato rifiutato: "non-fast-forward". Ho controllato il perché con `git fetch` + confronto dei due rami. Il
+ramo locale ha **251 commit** che GitHub non ha mai visto. Il ramo di GitHub ne ha **8** che il VPS non ha
+mai scaricato — sono le ultime richieste di unione che hai firmato tu (#871, #870, #855, #869, #867, #866,
+#861, #862). Il punto in cui si sono separati è il **1° settembre alle 12:14**: da lì in poi, ogni "giro AD:
+aggiorna memoria" si è fermato sul VPS, senza mai raggiungere GitHub. Questo vuol dire che chiunque guardi
+il repository su GitHub, o il Pannello pubblicato su Vercel (non quello del VPS, che legge i file in
+locale), vede la macchina **ferma al 1° settembre**, anche se qui sul VPS ha continuato a lavorare tutti i
+giorni. È un aggravamento dello stesso problema già noto (26 commit indietro il 2/9): oggi sono 251.
+
+**Cosa non ho fatto.** Non ho provato a sistemarlo da solo con un rebase: con 251 commit e molti file che si
+toccano allo stesso posto (gli istantanea di `auto-coscienza/*.json`), un rebase manuale rischia di perdere
+lavoro tuo o mio senza che nessuno se ne accorga. Ho iniziato il tentativo, ho visto i primi conflitti,
+e ho annullato tutto con `git rebase --abort` prima di rompere qualcosa — il ramo locale è tornato esattamente
+com'era, il mio commit di questo giro è ancora lì, intatto.
+
+**Se va bene:** serve una risoluzione fatta con calma (non da questa sessione, che ha i permessi Bash troppo
+stretti per usare gli strumenti giusti — vedi card #104/#194/#195). La strada più sicura: sul VPS, con lo
+strumento `cervello/git-pr.mjs` o un rebase guidato che tenga il contenuto locale per gli istantanea di
+memoria (`auto-coscienza/*.json`, `STATO.md`, `ultimo-briefing.json` — sono quelli che cambiano ad ogni giro)
+e prenda quello di GitHub per il codice delle 8 PR mergiate. Dopo, verificare che `git log --oneline
+main..origin/main` e il contrario tornino entrambi a zero.
+
+**Cosa non ho verificato:** se `giro.sh` (che secondo le istruzioni fa il push dopo di me, con retry
+automatico) sta già tentando questa risoluzione da solo e fallendo in silenzio, o se ha semplicemente smesso
+di provare. Da qui vedo solo lo stato attuale del repository, non i log di `giro.sh`.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 199 | 2026-09-06 20:30 | @devops-sre | Riallinea il ramo main del VPS con quello di GitHub (251 commit locali mai spinti, 8 commit remoti mai scaricati, separati dal 1/9 12:14) | 🟡 | vedi blocco sopra — `git log --oneline main..origin/main` (8) e `origin/main..main` (251) | manuale (VPS) | in attesa |
+
+---
+
 <!-- cadenze-cronico-3giri -->
 ### 🟡 #198 — Un terzo controllo automatico dice "no" da 3 giri di fila: le cadenze del giorno non escono sempre complete · ⏳ accodata 2026-09-06 10:30
 

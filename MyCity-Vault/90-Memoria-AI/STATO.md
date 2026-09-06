@@ -34,8 +34,21 @@ fonte: AD digitale (giro.md)
 > `delta-gate` segna ancora zero, questa sessione risponderà con un aggiornamento breve come questo —
 > non ripeterà da capo le 15 fasi — finché tu non firmi #154/#155 o cambi tu stesso lo stato dei dati.
 >
+> **Scoperta nuova di questo passaggio, non di business.** Ho provato a spingere questo commit su
+> GitHub ed è stato rifiutato: il ramo `main` del VPS e quello di GitHub sono separati dal **1°
+> settembre alle 12:14**. Da lì, **251 commit** fatti qui non sono mai arrivati su GitHub, e **8**
+> commit di GitHub (le tue ultime PR firmate: #871, #870, #855, #869, #867, #866, #861, #862) non
+> sono mai scesi qui. Significa che chi guarda GitHub o il Pannello pubblicato su Vercel vede la
+> macchina ferma al 1/9, anche se qui ha continuato a lavorare ogni giorno. Non ho tentato di
+> ripararlo da solo (un rebase su 251 commit con molti file sovrapposti rischia di perdere lavoro):
+> ho iniziato, visto i primi conflitti, e annullato tutto con `git rebase --abort` prima di
+> rompere qualcosa. Aperta la card **#199** (🟡, per @devops-sre).
+>
 > **Mossa numero uno, sempre la stessa.** Firma le card #154 e #155 (dominio + chiavi Vercel): senza
 > quella firma il sito resta giù e nessun ordine può ancora diventare un incasso vero.
+>
+> **Mossa numero due, nuova di questo passaggio.** Serve qualcuno con più permessi (VPS diretto, non
+> questa sessione) per riallineare `main` con GitHub — vedi card #199.
 
 ## Passaggi precedenti
 
