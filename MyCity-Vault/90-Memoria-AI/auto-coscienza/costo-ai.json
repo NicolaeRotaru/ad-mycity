@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-09-06 12:14",
+  "aggiornato": "2026-09-06 12:35",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-09-06",
-    "runs": 10,
+    "runs": 12,
     "token_totali": 0,
-    "durata_sec_totale": 10014,
+    "durata_sec_totale": 11266,
     "voci": [
       {
         "quando": "2026-09-06 06:07",
@@ -97,10 +97,28 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-09-06 12:31",
+        "tipo": "giro",
+        "negozio": "centro",
+        "durata_sec": 992,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-09-06 12:35",
+        "tipo": "worker-playbook",
+        "negozio": "centro",
+        "durata_sec": 260,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 635000,
-    "token_per_gate": 635000,
+    "token_stimati": 735000,
+    "token_per_gate": 735000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -460,11 +478,11 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 585000,
-    "runs_sessione": 9,
+    "token_sessione_rolling": 685000,
+    "runs_sessione": 11,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-09-06 12:14"
+    "aggiornato": "2026-09-06 12:35"
   },
   "voci_recenti": [
     {
@@ -544,6 +562,24 @@
       "tipo": "ritmo-mezzogiorno",
       "negozio": "centro",
       "durata_sec": 438,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-09-06 12:31",
+      "tipo": "giro",
+      "negozio": "centro",
+      "durata_sec": 992,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-09-06 12:35",
+      "tipo": "worker-playbook",
+      "negozio": "centro",
+      "durata_sec": 260,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
