@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-04 18:50",
+ "aggiornato": "2026-09-05 08:40",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12349,6 +12349,52 @@
    "usi": [],
    "gate": "cervello/test/una-prova-che-sporca-la-casa-degli-altri.test.mjs",
    "data": "2026-09-04"
+  },
+  {
+   "id": "L-2026-0905-01",
+   "testo": "**AR-942.** Il banco aveva misurato tutte le difese — sedici minuti, 165 mutazioni — e il cancello e' uscito rosso lo stesso, perche' una cartella temporanea non si e' lasciata cancellare. **Una faccenda di servizio non decide il verdetto.** La pulizia, il log, la telemetria: se falliscono, si DICHIARA e si va avanti, non si butta via la misura che c'era gia'. Il metro per capire da che parte sta una riga: quanto costa se va storta? Una cartella rimasta in un temporaneo di sistema costa una riga di debito e la toglie il sistema; un referto perso costa un altro giro da un quarto d'ora. Il codice deve pesare le due cose, non trattarle uguali perche' sono tutte e due `throw`. Il meccanismo esatto, da ricordare: la pulizia stava in un `finally`, e un `throw` dentro un `finally` sostituisce il valore che il `try` aveva gia' prodotto.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 33951469781: «prove non vacue — 952.0 s (exit 1)» con `ENOTEMPTY: directory not empty, rmdir '/tmp/corsia-0-qVRKJb'` e nessuna difesa fallita",
+    "due mutazioni misurate: rimettere il `throw` e togliere il secondo tentativo rendono rossa la prova"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-05 08:40",
+   "ultima_conferma": "2026-09-05 08:40",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-05"
+  },
+  {
+   "id": "L-2026-0905-02",
+   "testo": "**AR-943.** Riparando AR-942 ho estratto la pulizia in una funzione esportata, e il freno contro il `rm -rf` e' rimasto dov'era: sulla porta principale che la chiama. **Un freno che sta sulla porta protegge solo chi passa da quella porta.** Quando un atto pericoloso diventa una funzione con un nome, il controllo va DENTRO la funzione: chi la chiamera' domani non sapra' che qualcuno a monte aveva gia' guardato. Vale ogni volta che un pezzo di codice pericoloso viene estratto per essere riusato — e' il momento in cui la protezione si perde, perche' il codice sembra identico e il perimetro no.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "sicurezza"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "trovato da `node cervello/radiografia-in-corsa.mjs` (dimensione rischio-sicurezza-se) sul perimetro della riparazione di AR-942, prima della consegna",
+    "mutazione misurata: `if (false)` al posto del controllo rende rossa la prova che conta ZERO scopate sulla radice del repo"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-05 08:40",
+   "ultima_conferma": "2026-09-05 08:40",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "data": "2026-09-05"
   }
  ],
  "principi": [

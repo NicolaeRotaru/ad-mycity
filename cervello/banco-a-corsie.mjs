@@ -181,12 +181,12 @@ async function apriCopia(radice, i) {
   const albero = join(casa, "repo");
   const r = await eseguiCorsia("git", ["worktree", "add", "--detach", "--quiet", albero, "HEAD"], { cwd: radice });
   if (r.codice !== 0) {
-    if (siPuoButtare(casa)) rmSync(casa, { recursive: true, force: true });
+    dichiaraSeRestata(buttaConCura(casa));
     return { ok: false, perche: `git worktree non ha funzionato: ${r.fuori.trim().split("\n").pop()}` };
   }
   const disallineati = allineaAllAlberoDiLavoro(radice, albero);
   if (disallineati) {
-    if (siPuoButtare(casa)) rmSync(casa, { recursive: true, force: true });
+    dichiaraSeRestata(buttaConCura(casa));
     return { ok: false, perche: `non ho potuto riportare nella copia il lavoro in corso: ${disallineati}` };
   }
   for (const dove of ["node_modules", join("pannello", "node_modules")]) {
@@ -201,6 +201,61 @@ async function apriCopia(radice, i) {
   return { ok: true, casa, albero };
 }
 
+/**
+ * 🧹 BUTTARE LA CASA DI UNA CORSIA SENZA BUTTARE IL REFERTO — AR-942.
+ *
+ * IL CASO CHE HA ROTTO, corsa 33951469781: il banco aveva misurato TUTTO — 952 secondi, nessuna
+ * mutazione lasciata fuori — e poi il cancello e' uscito rosso con una riga sola:
+ *     Error: ENOTEMPTY: directory not empty, rmdir '/tmp/corsia-0-qVRKJb'
+ * Un lavoro di sedici minuti buttato via da una faccenda di pulizia. Il verdetto sulle difese c
+ * era e non e' arrivato a nessuno.
+ *
+ * PERCHE' SUCCEDE. Alla corsia diamo `TMPDIR` dentro casa sua, quindi i temporanei dei figli
+ * nascono li'. Se un nipote e' ancora vivo quando si passa la scopa, scrive un file NUOVO dentro
+ * una cartella che si sta svuotando: `rm -rf` fallisce non perche' non sappia cancellare, ma
+ * perche' il pavimento si sporca mentre lo si pulisce. Un secondo dopo non succede piu'.
+ *
+ * LA REGOLA. La pulizia non decide il verdetto. Una cartella che resta in un temporaneo di sistema
+ * e' debito da una riga — il sistema la butta da solo — mentre un referto perso costa un altro
+ * giro da un quarto d ora. Quindi: si riprova, e se ancora non va lo si DICHIARA e si va avanti.
+ * Dichiarare, non ingoiare: chi legge deve sapere che una cartella e' rimasta li'.
+ *
+ * Torna `null` se la casa e' andata via, o la frase da dire se e' rimasta.
+ */
+export function buttaConCura(casa, butta = rmSync, aspetta = attesaCorta) {
+  // 🧨 IL FRENO VIAGGIA CON LA SCOPA, e non solo sulla porta principale. `chiudiCopia` controlla gia'
+  // `siPuoButtare` prima di chiamarmi, ma io sono esportata: il prossimo che ha bisogno di spazzare
+  // mi chiamera' senza sapere che il controllo stava a monte, e quel giorno un `rm -rf` si fiderebbe
+  // di nuovo di una variabile. E' successo davvero il 4/9, ed e' costato la cartella del repo.
+  if (!siPuoButtare(casa)) {
+    return `non butto «${casa}»: non e' una casa di corsia (una cartella «${PREFISSO_CASA}…» dentro il temporaneo di sistema), e una scopa che si fida di una variabile prima o poi spazza il repo. Il verdetto sulle difese NON cambia — questa e' pulizia, non misura.`;
+  }
+  for (const tentativo of [1, 2]) {
+    try {
+      butta(casa, { recursive: true, force: true });
+      return null;
+    } catch (e) {
+      if (tentativo === 1) {
+        aspetta();
+        continue;
+      }
+      return `la casa della corsia «${casa}» non si e' lasciata buttare (${e.code || e.message}): resta li', la togliera' il sistema. Il verdetto sulle difese NON cambia — questa e' pulizia, non misura.`;
+    }
+  }
+  return null;
+}
+
+/** Dichiarare, non ingoiare: chi legge il referto deve sapere che una cartella e' rimasta li'. */
+const dichiaraSeRestata = (frase) => { if (frase) console.error(`⚠️  ${frase}`); };
+
+/** Un respiro fra i due tentativi: il nipote che sporcava sta finendo. Bloccante apposta, e' 200 ms. */
+function attesaCorta() {
+  const fino = Date.now() + 200;
+  while (Date.now() < fino) {
+    /* il figlio che stava scrivendo ha il tempo di finire */
+  }
+}
+
 async function chiudiCopia(radice, copia) {
   if (!copia?.ok) return;
   // 🧨 IL FRENO. Non «cancella quello che ti hanno detto»: cancella solo se e' davvero una casa di
@@ -210,7 +265,7 @@ async function chiudiCopia(radice, copia) {
     return;
   }
   await eseguiCorsia("git", ["worktree", "remove", "--force", copia.albero], { cwd: radice });
-  rmSync(copia.casa, { recursive: true, force: true });
+  dichiaraSeRestata(buttaConCura(copia.casa));
 }
 
 /**

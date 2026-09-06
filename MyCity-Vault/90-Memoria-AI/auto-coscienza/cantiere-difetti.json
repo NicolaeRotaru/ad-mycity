@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-04 19:15",
+  "aggiornato": "2026-09-05 08:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20123,6 +20123,51 @@
       },
       "trovato_da": "il banco a corsie, alla seconda passata: e' la seconda difesa che non difendeva trovata da quando misura 165 mutazioni invece di 27",
       "chiuso_il": "2026-09-04 19:15",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-942",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-05 07:30",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-938",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «una faccenda di servizio decide il verdetto»: non sta in una riga, sta nel POSTO della riga. Lo stesso identico `rmSync(casa, { recursive: true, force: true })` è giusto dentro un try che dichiara e sbagliato nel cammino che consegna la misura — quindi un pattern per riga conterebbe 26 spazzate in cervello/ senza saper dire quale delle 26 può portarsi via un referto, e sarebbe una finzione. La copertura vera è qui: il freno è UNA funzione esportata (`buttaConCura`), con due mutazioni che la rompono nei due modi possibili; la prossima corsia che deve spazzare chiama quella, e se qualcuno rimette una scopa nuda nel cammino della consegna il banco lo dice il giorno stesso.",
+      "titolo": "Il banco aveva misurato TUTTE le difese, e il cancello è uscito rosso perché una cartella temporanea non si è lasciata cancellare",
+      "sintomo": "Corsa 33951469781, cancello del lotto: «❌ prove non vacue (mutazioni del lotto) — 952.0 s (exit 1)», e sotto una riga sola: `Error: ENOTEMPTY: directory not empty, rmdir '/tmp/corsia-0-qVRKJb'`. Nessuna difesa aveva fallito: il banco aveva finito il lavoro, 165 mutazioni misurate in sedici minuti, e il verdetto non è arrivato a nessuno. Il giro dopo è ripartito da capo.",
+      "causa_radice": "Alla corsia diamo `TMPDIR` dentro casa sua, così i temporanei dei suoi figli nascono lì dentro e se ne vanno insieme a lei. Ma allora, se un nipote è ancora vivo quando si passa la scopa, scrive un file NUOVO dentro una cartella che si sta svuotando: `rm -rf` non fallisce perché non sappia cancellare, fallisce perché il pavimento si sporca mentre lo si pulisce. E quella scopa stava nel cammino che consegna il verdetto, senza niente intorno: l'eccezione della pulizia è diventata il verdetto della misura. Un secondo dopo non sarebbe successo. E il posto dove stava la scopa è la seconda metà della causa: `chiudiCopia` è chiamata dentro un `finally`, e un'eccezione lanciata da un `finally` SOSTITUISCE il valore che il `try` aveva già prodotto. I verdetti erano già in mano alla funzione: li ha buttati la scopa mentre usciva.",
+      "fix_proposto": "🟡 FATTO. La pulizia esce dal cammino della consegna e diventa una funzione con un nome, `buttaConCura`: prova, aspetta un respiro (200 ms — il nipote che sporcava sta finendo), riprova; se ancora non va, non alza le spalle e non rilancia — DICHIARA («la casa della corsia «…» non si è lasciata buttare (ENOTEMPTY): resta lì, la toglierà il sistema. Il verdetto sulle difese NON cambia»). La regola scritta accanto è quella che mancava: una cartella rimasta in un temporaneo di sistema è debito da una riga, un referto perso costa un altro giro da un quarto d'ora.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+        "nota": "Il caso «AR-942» pretende tre cose: che una cartella che non si lascia buttare NON arrivi come eccezione a chi stava consegnando (doesNotThrow), che il secondo tentativo ci sia davvero, e che su una cartella vera la scopa spazzi ancora. Le due mutazioni misurate: rimettere il `throw e` rende rosso il primo caso, togliere il secondo tentativo rende rosso il secondo."
+      },
+      "trovato_da": "il cancello del lotto sulla testa e63436fce: rosso senza nessuna difesa fallita",
+      "chiuso_il": "2026-09-05 08:20",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-943",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-05 08:35",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-942",
+      "malattia": "porta-laterale-senza-i-freni-della-principale",
+      "titolo": "La scopa nuova di fine corsia era esportata e faceva `rm -rf` senza il freno che sta sulla porta principale",
+      "sintomo": "Trovato dalla radiografia in corsa mentre riparavo AR-942, con la lente della dimensione «rischio-sicurezza-se» sul file che avevo appena toccato: `buttaConCura` è esportata da cervello/banco-a-corsie.mjs e chiama `rmSync(casa, { recursive: true, force: true })` su un percorso che le arriva da fuori. Non ha mai fatto danni — non è ancora uscita da qui — ed è la stessa forma che il 4 settembre è costata la cartella del repo.",
+      "causa_radice": "Il controllo `siPuoButtare` stava su `chiudiCopia`, cioè sulla porta principale, e la scopa nuova l'ha ereditato per posizione invece che per costruzione: è sicura perché OGGI la chiama solo chi ha già guardato. Chi la chiamerà domani non saprà che il controllo stava a monte — e questo è precisamente il difetto per cui il registro delle malattie ha una voce (una porta laterale rimette in gioco un atto che la porta principale protegge).",
+      "fix_proposto": "🟡 FATTO. Il freno viaggia con la scopa: `buttaConCura` chiama `siPuoButtare` come prima cosa e, se il percorso non è una casa di corsia, non spazza e lo DICE. E adesso c'è una scopa sola in casa: anche i due punti di `apriCopia` che spazzavano a mano passano di lì, così il controllo non si può più dimenticare in un ramo nuovo.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+        "nota": "Il caso conta le scopate: sulla radice del repo e sulla radice del disco devono restare ZERO — non «pulisce e poi rimette a posto», proprio non parte — e la funzione deve dire perché. La mutazione toglie il controllo (`if (false)`) e il caso diventa rosso."
+      },
+      "trovato_da": "node cervello/radiografia-in-corsa.mjs, dimensione rischio-sicurezza-se, sul perimetro della riparazione di AR-942",
+      "chiuso_il": "2026-09-05 08:40",
       "chiuso_come": "riparato"
     }
   ],

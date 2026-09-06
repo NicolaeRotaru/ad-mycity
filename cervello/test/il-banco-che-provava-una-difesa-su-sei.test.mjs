@@ -24,7 +24,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { allineaAllAlberoDiLavoro, corsiaNonPartita, dividiInCorsie, registroDiCorsia, ricuciEsiti, siPuoButtare } from "../banco-a-corsie.mjs";
+import { allineaAllAlberoDiLavoro, buttaConCura, corsiaNonPartita, dividiInCorsie, registroDiCorsia, ricuciEsiti, siPuoButtare } from "../banco-a-corsie.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -151,4 +151,58 @@ test("un file RINOMINATO occupa due campi: il vecchio nome non va letto come un 
   } finally {
     rmSync(casa, { recursive: true, force: true });
   }
+});
+
+test("AR-942 · la scopa che si rompe DICHIARA, non porta via il referto di sedici minuti", () => {
+  // IL FATTO, corsa 33951469781: il banco aveva misurato tutte le difese — 952 secondi, nessuna
+  // lasciata fuori — e il cancello e' uscito rosso lo stesso, con una riga sola:
+  //     Error: ENOTEMPTY: directory not empty, rmdir '/tmp/corsia-0-qVRKJb'
+  // Cioe' il verdetto sulle difese c'era, ed e' morto mentre si passava la scopa. Questo caso
+  // pretende la regola: la pulizia non decide il verdetto.
+  let tentativi = 0;
+  const sempreOccupata = () => {
+    tentativi++;
+    const e = new Error("directory not empty");
+    e.code = "ENOTEMPTY";
+    throw e;
+  };
+  let frase;
+  assert.doesNotThrow(() => {
+    frase = buttaConCura(join(tmpdir(), "corsia-0-finta"), sempreOccupata, () => {});
+  }, "una cartella che non si lascia buttare NON deve arrivare come eccezione a chi stava consegnando la misura");
+  assert.equal(tentativi, 2, "ci riprova una volta sola: chi sporcava di solito ha finito un attimo dopo");
+  assert.ok(String(frase).includes("ENOTEMPTY"), `e dice cosa e' successo davvero, non «pulizia fallita»: ${frase}`);
+  assert.ok(String(frase).includes("NON cambia"), `e dice a chiare lettere che il verdetto sulle difese resta quello: ${frase}`);
+
+  // Il caso vero del 4/9: sporca solo mentre si passa la prima volta. Al secondo giro va via, e chi
+  // legge non deve nemmeno sapere che c'e' stato un intoppo.
+  let giri = 0;
+  const occupataUnaVoltaSola = () => {
+    giri++;
+    if (giri === 1) {
+      const e = new Error("directory not empty");
+      e.code = "ENOTEMPTY";
+      throw e;
+    }
+  };
+  assert.equal(buttaConCura(join(tmpdir(), "corsia-1-finta"), occupataUnaVoltaSola, () => {}), null, "al secondo tentativo la casa se ne va: niente da dichiarare");
+  assert.equal(giri, 2, "e il secondo tentativo c'e' stato davvero");
+
+  // E su una cartella vera la scopa deve ancora spazzare: una pulizia che non pulisce piu'
+  // riempirebbe il disco della macchina un lotto alla volta.
+  const casa = mkdtempSync(join(tmpdir(), "corsia-0-butta-"));
+  writeFileSync(join(casa, "roba.txt"), "un temporaneo qualunque");
+  assert.equal(buttaConCura(casa), null, "una casa di corsia vera si butta, e non c'e' niente da dire");
+  assert.equal(existsSync(casa), false, "e sparisce sul serio dal disco");
+
+  // AR-943 · IL FRENO VIAGGIA CON LA SCOPA. `chiudiCopia` guarda `siPuoButtare` prima di chiamarla,
+  // ma la scopa e' esportata: chi la chiamera' domani non sapra' che il controllo stava a monte. Qui
+  // si pretende che si fermi DA SOLA — e che non tocchi nemmeno la maniglia.
+  let scopate = 0;
+  const contami = () => { scopate++; };
+  const rifiuto = buttaConCura(REPO, contami, () => {});
+  assert.equal(scopate, 0, "sulla radice del repo la scopa non parte proprio: e' il danno del 4/9, non un caso di scuola");
+  assert.ok(String(rifiuto).includes("non e' una casa di corsia"), `e lo dice, invece di far finta di aver pulito: ${rifiuto}`);
+  assert.notEqual(buttaConCura("/", contami, () => {}), null, "e nemmeno la radice del disco passa");
+  assert.equal(scopate, 0, "nessuna delle due ha mosso la scopa");
 });

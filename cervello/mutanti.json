@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-03 07:55",
+ "aggiornato": "2026-09-05 08:40",
  "mutanti": [
   {
    "lotto": 30,
@@ -9089,6 +9089,36 @@
    "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "lezione": "L-2026-0904-06",
    "perche_conta": "E' la forma esatta del difetto, non una rottura qualunque: `includes(\"budget\")` e' vero per tutte e due le frasi, quindi il predicato smette di distinguere fermarsi PRIMA della copia da fermarsi DOPO — che e' il difetto che il cronometro non vedeva. Il caso che interroga le due frasi diventa rosso."
+  },
+  {
+   "difetto": "AR-942",
+   "nome": "la scopa di fine corsia torna a rilanciare l'errore: una cartella occupata riporta via il referto",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "      return `la casa della corsia «${casa}» non si e' lasciata buttare",
+   "sostituisci": "      throw e; // `la casa della corsia «${casa}» non si e' lasciata buttare",
+   "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "lezione": "L-2026-0905-01",
+   "perche_conta": "È la riga che tiene separata la pulizia dalla misura. Rimettendoci il rilancio, una cartella ancora occupata torna a esplodere in faccia a chi stava consegnando il verdetto sulle difese — cioè esattamente la corsa 33951469781, dove 952 secondi di misura completa sono usciti rossi per un ENOTEMPTY. Il caso che pretende `doesNotThrow` diventa rosso."
+  },
+  {
+   "difetto": "AR-942",
+   "nome": "sparisce il secondo tentativo: chi sporcava mentre passavo la scopa non ha piu' il tempo di finire",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "  for (const tentativo of [1, 2]) {",
+   "sostituisci": "  for (const tentativo of [1]) {",
+   "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "lezione": "L-2026-0905-01",
+   "perche_conta": "Il caso reale non è una cartella che non si butta MAI: è una cartella dentro cui un nipote sta ancora scrivendo, e un attimo dopo se ne va. Senza il secondo tentativo ogni corsia lascerebbe dietro di sé la sua casa e una riga di debito, e il temporaneo della macchina si riempirebbe un lotto alla volta. Il caso «al secondo tentativo la casa se ne va» diventa rosso."
+  },
+  {
+   "difetto": "AR-943",
+   "nome": "il freno esce dalla scopa e resta solo sulla porta: `buttaConCura` torna a fidarsi di chi la chiama",
+   "file": "cervello/banco-a-corsie.mjs",
+   "cerca": "  if (!siPuoButtare(casa)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
+   "lezione": "L-2026-0905-02",
+   "perche_conta": "È la riga che rende la scopa sicura DA SOLA, invece che sicura perché qualcuno a monte ha guardato. Toglierla riapre esattamente la porta laterale del 4/9: un `rm -rf` che si fida di una variabile, e quel giorno la variabile era la cartella del repo. Il caso pretende che sulla radice del repo la scopa non parta proprio — non che «poi ripulisca» — e diventa rosso."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
