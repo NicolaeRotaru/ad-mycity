@@ -1,10 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-09-03 21:00
+aggiornato: 2026-09-06 08:02
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🌐 **2026-09-06 08:02 — Il nome del sito non si trasferisce: si cambiano due righe, e il pannello è Netsons.** Richiesta tua: «come faccio a spostare il dominio su vercel?», poi «non ricordo dove ho comperato il dominio».
+>
+> **In parole semplici.** Il nome del sito porta ancora al fornitore vecchio, che è spento da settimane. Per portarlo su Vercel non serve ricomprarlo e non serve trasferirlo. Si cambiano due righe nel pannello dove il nome è ospitato. Si torna indietro rimettendo il valore di prima, quindi la mossa è reversibile.
+>
+> **Dove si cambiano quelle due righe.** L'ho chiesto alle macchine che rispondono per il nome, invece di fidarmi del manuale. Rispondono quattro macchine di Netsons. Anche il responsabile della zona ha un indirizzo di posta Netsons. Il pannello da aprire è quello.
+>
+> **Cosa cambia per te.** La scheda in coda diceva due cose sbagliate, e adesso non le dice più. Diceva che la schermata di accesso di Vercel avrebbe coperto il sito. Con l'impostazione che ho letto oggi non succede. E parlava di passare il nome a un altro venditore: non serve.
+>
+> **Cosa devi fare.** Aprire il pannello e cambiare le due righe. Se non ricordi la password c'è un passo zero. Cerca la parola netsons nella tua posta. La conferma d'acquisto e gli avvisi di rinnovo arrivano da lì. Quell'indirizzo di posta è il tuo account.
+>
+> **Cosa non ho verificato.** Da chi il nome sia stato comprato davvero. La ricerca che lo direbbe passa da una porta di rete che da qui è chiusa, e l'ho provata. Non so nemmeno quali impostazioni siano oggi sul pannello di Vercel.
+>
+> Referto: `consegne/devops/2026-09-04-dominio-su-vercel.md`
 
 > 🔧 **2026-09-03 21:00 — Lotto di riparazione del sito: 97 problemi seri chiusi su 110, e uno che nessuno aveva mai visto era il peggiore.** Richiesta tua: «risolvi il maggior numero di problemi del marketplace».
 >
