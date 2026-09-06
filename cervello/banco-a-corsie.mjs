@@ -256,7 +256,19 @@ function attesaCorta() {
   }
 }
 
-async function chiudiCopia(radice, copia) {
+/**
+ * 🚪 IL PUNTO DOVE IL REFERTO E' MORTO — esportata apposta, perche' la prova deve poterci arrivare.
+ *
+ * Questa funzione gira dentro un `finally`, e un `finally` che lancia SOSTITUISCE il valore che il
+ * `try` aveva gia' prodotto. Il 5/9 i verdetti sulle 165 difese erano gia' in mano alla funzione:
+ * li ha buttati la pulizia mentre usciva. Quindi il contratto qui non e' «pulisce», e' **non lancia
+ * mai**: qualunque cosa vada storta in questa funzione si dice e si va avanti.
+ *
+ * La scopa GREZZA si puo' passare da fuori solo per poterla far fallire nella prova: passa comunque
+ * da `buttaConCura`, che e' il pezzo che la rende innocua. Iniettando la scopa gia' avvolta la prova
+ * misurerebbe se stessa — provato, e il caso e' andato rosso subito.
+ */
+export async function chiudiCopia(radice, copia, butta = rmSync) {
   if (!copia?.ok) return;
   // 🧨 IL FRENO. Non «cancella quello che ti hanno detto»: cancella solo se e' davvero una casa di
   // corsia. Il 4/9 questa riga, senza il freno, ha portato via la cartella del repo.
@@ -265,7 +277,7 @@ async function chiudiCopia(radice, copia) {
     return;
   }
   await eseguiCorsia("git", ["worktree", "remove", "--force", copia.albero], { cwd: radice });
-  dichiaraSeRestata(buttaConCura(copia.casa));
+  dichiaraSeRestata(buttaConCura(copia.casa, butta));
 }
 
 /**

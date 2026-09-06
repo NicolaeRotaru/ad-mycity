@@ -20142,7 +20142,7 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
-        "nota": "Il caso «AR-942» pretende tre cose: che una cartella che non si lascia buttare NON arrivi come eccezione a chi stava consegnando (doesNotThrow), che il secondo tentativo ci sia davvero, e che su una cartella vera la scopa spazzi ancora. Le due mutazioni misurate: rimettere il `throw e` rende rosso il primo caso, togliere il secondo tentativo rende rosso il secondo."
+        "nota": "Il caso «AR-942» pretende tre cose: che una cartella che non si lascia buttare NON arrivi come eccezione a chi stava consegnando (doesNotThrow), che il secondo tentativo ci sia davvero, e che su una cartella vera la scopa spazzi ancora. Le due mutazioni misurate: rimettere il `throw e` rende rosso il primo caso, togliere il secondo tentativo rende rosso il secondo. AGGIUNTO DAL COLLAUDO: le prime due mutazioni misurano l'attrezzo, non il punto dove il referto è morto — una scopa nuda rimessa nel `finally` le avrebbe lasciate tutte verdi. La terza mutazione fa esattamente quello, e il caso «la chiusura della corsia non lancia mai» diventa rosso."
       },
       "trovato_da": "il cancello del lotto sulla testa e63436fce: rosso senza nessuna difesa fallita",
       "chiuso_il": "2026-09-05 08:20",

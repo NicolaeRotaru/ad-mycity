@@ -24,7 +24,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { allineaAllAlberoDiLavoro, buttaConCura, corsiaNonPartita, dividiInCorsie, registroDiCorsia, ricuciEsiti, siPuoButtare } from "../banco-a-corsie.mjs";
+import { allineaAllAlberoDiLavoro, buttaConCura, chiudiCopia, corsiaNonPartita, dividiInCorsie, registroDiCorsia, ricuciEsiti, siPuoButtare } from "../banco-a-corsie.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -205,4 +205,26 @@ test("AR-942 · la scopa che si rompe DICHIARA, non porta via il referto di sedi
   assert.ok(String(rifiuto).includes("non e' una casa di corsia"), `e lo dice, invece di far finta di aver pulito: ${rifiuto}`);
   assert.notEqual(buttaConCura("/", contami, () => {}), null, "e nemmeno la radice del disco passa");
   assert.equal(scopate, 0, "nessuna delle due ha mosso la scopa");
+});
+
+test("AR-942 · il PUNTO dove il referto e' morto: la chiusura della corsia non lancia mai", async () => {
+  // QUESTA E' LA PROVA CHE MANCAVA, e me ne sono accorto rileggendo il lavoro finito. Il caso qui
+  // sopra dimostra che la scopa NUOVA e' prudente; non dimostra niente su chi la impugna. `chiudiCopia`
+  // gira dentro un `finally`, e un `finally` che lancia sostituisce il valore che il `try` aveva gia'
+  // prodotto: e' li' che il 5/9 sono morti 165 verdetti. Se domani qualcuno ci rimette una scopa nuda,
+  // il caso qui sopra resta verde e il difetto torna. Questo no.
+  const casa = mkdtempSync(join(tmpdir(), "corsia-9-chiusura-"));
+  try {
+    const scopaCheEsplode = () => {
+      const e = new Error("directory not empty");
+      e.code = "ENOTEMPTY";
+      throw e;
+    };
+    await assert.doesNotReject(
+      () => chiudiCopia(REPO, { ok: true, casa, albero: join(casa, "repo") }, scopaCheEsplode),
+      "la pulizia di fine corsia non deve MAI arrivare come eccezione al `finally`: li' si porterebbe via i verdetti gia' calcolati",
+    );
+  } finally {
+    rmSync(casa, { recursive: true, force: true });
+  }
 });
