@@ -24,6 +24,9 @@ import { fileURLToPath } from "node:url";
 // il diff diventa il file intero e la pubblicazione si blocca — successo qui, in questo lotto,
 // mentre si curava il difetto gemello.
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+// AR-877: il parser che decide se una riga di prova si puo' eseguire. Qui serve PRIMA di scrivere,
+// non dopo: e' il cancello all'ingresso del registro.
+import { comeSiEsegue } from "./esecuzione-prova.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CANTIERE = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
@@ -145,7 +148,76 @@ export function normalizzaMalattia(grezza) {
 export function testDaComando(comando) {
   if (!comando) return undefined;
   const pezzi = String(comando).trim().split(/\s+/);
+  // Il primo pezzo che e' un FILE — cioe' che ha una barra dentro. Cercare «il primo che non e'
+  // un'opzione» su `npx bats cervello/test/x.bats` tornava «bats», e su `npx tsx --test x.mts`
+  // tornava «tsx»: un campo `test` che nomina il PROGRAMMA invece della prova. Il banco poi lancia
+  // `node bats`, che non esiste, esce ≠ 0 — e ≠ 0 e' il segnale con cui riconosce «diventata rossa».
+  const file = pezzi.find((p) => p !== "node" && !p.startsWith("-") && p.includes("/"));
+  if (file) return file;
   return pezzi.find((p) => p !== "node" && !p.startsWith("-"));
+}
+
+/** I caratteri che un percorso di questa casa usa davvero. Lista BIANCA: misurata sul registro il
+ *  28/8, tutte e 939 le voci vive ci stanno dentro, campo `file` e campo `test`. */
+const PERCORSO_DI_CASA = /^[A-Za-z0-9._/-]+$/;
+
+/**
+ * 🔒 IL CANCELLO ALL'INGRESSO DEL REGISTRO DELLE MUTAZIONI — AR-877. Funzione PURA.
+ *
+ * PERCHE' ESISTE. Curando AR-840 la macchina ha imparato a ESEGUIRE una stringa presa da
+ * `cervello/mutanti.json`. Quella stringa non la scrive una persona: la compone questo file, a
+ * partire da un frammento consegnato da una CORSIA — cioe' da un modello. Curando AR-867 e' nato il
+ * parser che decide se una riga si puo' eseguire, ma sta a VALLE: al momento di lanciare. Quindi una
+ * riga ostile entrava nel registro senza che nessuno la guardasse, e da li' in poi viveva come dato —
+ * riletta da ogni strumento, in un file di 939 voci che nessuno rilegge riga per riga.
+ *
+ * Il cancello a monte fa la stessa cosa che questo file gia' fa con le malattie a contratto
+ * incompleto poco piu' sotto: se la voce non regge, NON si scrive e si dice perche'.
+ *
+ * ⚠️ LA SCHEDA DICEVA `comeSiEsegue(t, {soloDentroIlRepo:true})`. Sul codice vero quell'opzione NON
+ * VIENE LETTA DA NESSUNO (ne' in `comeSiEsegue` ne' in `spezzaComando`): il severo lo fa
+ * `radiciAmmesse`, che di suo e' vuoto. Scriverla avrebbe dato un ancoraggio finto — la forma giusta
+ * sopra un controllo che non cambia niente. Qui si chiama SENZA opzioni, che e' il modo davvero
+ * stretto, e l'opzione morta e' segnalata come difetto nuovo.
+ *
+ * Tre cose si guardano, e sono tre perche' tre sono i campi che poi qualcuno usa per agire:
+ *   · `file`     — `non-vacuita` lo APRE e ci SCRIVE dentro (writeFileSync). Un `../..` qui e' una
+ *                  scrittura fuori dal repo, ed e' il campo piu' pericoloso dei tre.
+ *   · `cerca`    — senza, `muta()` non ha niente da cercare e la mutazione nasce cieca.
+ *   · `test`     — e' cio' che viene ESEGUITO. Deve passare dal parser, in modalita' stretta, e
+ *                  deve nominare un file del repo: «npx» e «bats» passerebbero come percorsi.
+ *
+ * @returns {{ok:true, test:string} | {ok:false, perche:string}}
+ */
+export function vagliaMutante(mutante, verificaComando) {
+  const m = mutante || {};
+
+  const file = typeof m.file === "string" ? m.file.trim() : "";
+  if (!file) return { ok: false, perche: "«file» assente: non si sa cosa rompere" };
+  if (file.startsWith("/") || file.includes("..") || !PERCORSO_DI_CASA.test(file)) {
+    return { ok: false, perche: `«file» non e' un percorso di casa: «${file}» (il banco lo apre e ci scrive dentro)` };
+  }
+
+  if (typeof m.cerca !== "string" || m.cerca === "") {
+    return { ok: false, perche: "«cerca» assente o vuoto: una mutazione che non trova niente da rompere nasce cieca" };
+  }
+  if (m.sostituisci !== undefined && typeof m.sostituisci !== "string") {
+    return { ok: false, perche: "«sostituisci» dev'essere testo (anche vuoto, per cancellare una riga)" };
+  }
+
+  const comando = typeof verificaComando === "string" ? verificaComando.trim() : "";
+  if (!comando) return { ok: false, perche: "nessun comando di prova: la mutazione non avrebbe niente da rendere rosso" };
+  const riga = comeSiEsegue(comando);
+  if (!riga.ok) return { ok: false, perche: `il comando di verifica non e' eseguibile: ${riga.perche}` };
+
+  const test = testDaComando(comando);
+  if (!test) return { ok: false, perche: `il comando di verifica non nomina nessun file: «${comando}»` };
+  const piano = comeSiEsegue(test);
+  if (!piano.ok) return { ok: false, perche: `il campo «test» non e' eseguibile: ${piano.perche}` };
+  if (!piano.percorsi.length || !piano.percorsi.every((p) => p.includes("/"))) {
+    return { ok: false, perche: `«${test}» non nomina un file del repo: sarebbe una prova che nessuno puo' lanciare` };
+  }
+  return { ok: true, test };
 }
 
 function main() {
@@ -167,7 +239,7 @@ function main() {
   const malattie = leggi(MALATTIE);
 
   const log = [];
-  let nChiusi = 0, nAperti = 0, nMut = 0, nMal = 0, nMalScartate = 0, nIgnoti = 0;
+  let nChiusi = 0, nAperti = 0, nMut = 0, nMal = 0, nMalScartate = 0, nIgnoti = 0, nMutScartate = 0;
 
   for (const { nome, dati } of frammenti) {
     for (const d of dati.difetti || []) {
@@ -200,16 +272,24 @@ function main() {
       log.push(`   ${d.id} [${d.esito}] verifica:${scelta.azione} — ${scelta.perche}`);
 
       if (d.mutante && d.esito === "chiuso") {
-        mutanti.mutanti.push({
-          lotto,
-          difetto: d.id,
-          nome: d.mutante.nome || `${d.id} — il cuore del fix`,
-          file: d.mutante.file,
-          cerca: d.mutante.cerca,
-          sostituisci: d.mutante.sostituisci,
-          test: testDaComando(d.verifica_comando),
-        });
-        nMut++;
+        // 🔒 AR-877 — IL CANCELLO STA QUI, PRIMA DELLA SCRITTURA. Il controllo che c'era stava a
+        // valle, al momento di eseguire: cioe' la riga entrava comunque nel registro e ci restava.
+        const vaglio = vagliaMutante(d.mutante, d.verifica_comando);
+        if (!vaglio.ok) {
+          nMutScartate++;
+          log.push(`   ⚠️  mutazione di ${d.id} NON scritta — ${vaglio.perche}`);
+        } else {
+          mutanti.mutanti.push({
+            lotto,
+            difetto: d.id,
+            nome: d.mutante.nome || `${d.id} — il cuore del fix`,
+            file: d.mutante.file,
+            cerca: d.mutante.cerca,
+            sostituisci: d.mutante.sostituisci,
+            test: vaglio.test,
+          });
+          nMut++;
+        }
       }
     }
     for (const proposta of dati.malattie_da_censire || []) {
@@ -240,7 +320,7 @@ function main() {
   }
 
   console.log(log.join("\n"));
-  console.log(`\n${frammenti.length} frammenti · ${nChiusi} chiusi · ${nAperti} non-chiusi · ${nMut} mutazioni · ${nMal} malattie${nMalScartate ? ` · ${nMalScartate} malattie SCARTATE (contratto incompleto)` : ""}${nIgnoti ? ` · ${nIgnoti} schede ignote` : ""}`);
+  console.log(`\n${frammenti.length} frammenti · ${nChiusi} chiusi · ${nAperti} non-chiusi · ${nMut} mutazioni · ${nMal} malattie${nMutScartate ? ` · ${nMutScartate} mutazioni SCARTATE (il parser non le accetta)` : ""}${nMalScartate ? ` · ${nMalScartate} malattie SCARTATE (contratto incompleto)` : ""}${nIgnoti ? ` · ${nIgnoti} schede ignote` : ""}`);
 
   if (!scriviDavvero) { console.log("\n(prova a vuoto: rilancia con --scrivi per applicare)"); return; }
   mutanti.aggiornato = new Date().toISOString();

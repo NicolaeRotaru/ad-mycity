@@ -32,11 +32,11 @@ test("schedeIncomplete flagga le NON minori aperte senza impatto_crescita e/o na
   const difetti = [
     { id: "AR-437", stato: "aperto", gravita: "grave", nato: "2026-07-29 17:02" }, // manca impatto
     { id: "AR-439", stato: "aperto", gravita: "alto" }, // mancano entrambi
-    { id: "AR-900", stato: "aperto", severita: "grave", nato: "2026-08-13 08:50" }, // generazione nuova, manca impatto
-    { id: "AR-901", stato: "aperto", gravita: "grave", impatto_crescita: "alto", nato: "2026-08-01 10:00" }, // completa
+    { id: "AR-924", stato: "aperto", severita: "grave", nato: "2026-08-13 08:50" }, // generazione nuova, manca impatto
+    { id: "AR-925", stato: "aperto", gravita: "grave", impatto_crescita: "alto", nato: "2026-08-01 10:00" }, // completa
   ];
   const out = schedeIncomplete(difetti);
-  assert.deepEqual(out.map((x) => x.id), ["AR-437", "AR-439", "AR-900"]);
+  assert.deepEqual(out.map((x) => x.id), ["AR-437", "AR-439", "AR-924"]);
   assert.deepEqual(out.find((x) => x.id === "AR-439").manca, ["impatto_crescita", "nato"]);
 });
 

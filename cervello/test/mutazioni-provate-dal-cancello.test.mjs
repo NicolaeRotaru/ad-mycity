@@ -116,9 +116,16 @@ test("il cancello del lotto lo ESEGUE — non lo nomina in un messaggio", () => 
   // La forma che conta è l'array di argomenti di un processo: `["cervello/non-vacuita.mjs", …]`.
   // Il messaggio che c'era prima («node cervello/non-vacuita.mjs» dentro una stringa di testo) non
   // combacia con questa, ed è precisamente la differenza fra un cartello e un freno.
+  // ⟲ AGGIORNATO IL 4/9 (AR-938): fra il cancello e il banco ci sono adesso le corsie parallele,
+  // quindi gli anelli da pretendere sono DUE. Pretenderne uno solo lascerebbe staccare l'altro.
   assert.match(
     src,
-    /esegui\(\s*"[^"]*",\s*"node",\s*\[\s*"cervello\/non-vacuita\.mjs"/,
-    "il cancello deve lanciare non-vacuita come passo, con il suo codice d'uscita dentro il verdetto",
+    /esegui\(\s*"[^"]*",\s*"node",\s*\[\s*"cervello\/banco-a-corsie\.mjs"/,
+    "primo anello: il cancello deve lanciare le corsie come passo, col loro codice d'uscita dentro il verdetto",
+  );
+  assert.match(
+    readFileSync(join(REPO, "cervello/banco-a-corsie.mjs"), "utf8"),
+    /\[\s*join\([^)]*"cervello\/non-vacuita\.mjs"\)/,
+    "secondo anello: ogni corsia deve lanciare il banco vero, col percorso scritto per esteso — passato da una variabile, il collegamento sparisce dagli occhi della macchina",
   );
 });

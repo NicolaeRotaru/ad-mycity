@@ -53,11 +53,33 @@ prova("un percorso vero, invece, si esegue", () => {
 // ─────────────────────────────────────────────────────────────────────────────
 // ② IL GIUDIZIO
 // ─────────────────────────────────────────────────────────────────────────────
-prova("una riga di comando non è un percorso, comunque sia scritta", () => {
+prova("DOPO LA CURA: una riga di comando che il banco sa lanciare CONTA come eseguibile", () => {
+  // Cambiato il 28/8 e non è un allentamento: fino a ieri il banco lanciava `node "<riga intera>"`,
+  // e allora una riga di comando davvero non si poteva eseguire. Adesso `comeSiEsegue` la spezza e
+  // `non-vacuita` la esegue passo per passo — questo contatore e quel banco usano la STESSA regola,
+  // perciò il numero qui descrive il debito che il banco patisce davvero.
   const esiste = () => true;
-  for (const t of ["node cervello/test/x.test.mjs", "node --test cervello/test/x.test.mjs", "npx vitest run x"]) {
+  for (const t of ["node cervello/test/x.test.mjs", "node --test cervello/test/x.test.mjs", "npx bats cervello/test/x.bats && node cervello/test/y.test.mjs"]) {
+    assert.equal(testEseguibile(t, esiste).ok, true, `«${t}» è stato scartato: ${testEseguibile(t, esiste).perche}`);
+  }
+});
+
+prova("…ma una riga che il banco NON sa lanciare resta un verde comprato", () => {
+  const esiste = () => true;
+  for (const t of [
+    "npx vitest run x", // il file da eseguire non è dichiarato: niente da controllare, e vitest non è di casa
+    "bash cervello/test/x.sh", // programma fuori dalla lista bianca
+    "node a.mjs; rm -rf /tmp/x", // vuole una shell → non si esegue, non si conta come coperta
+    "node $(whoami).mjs",
+  ]) {
     assert.equal(testEseguibile(t, esiste).ok, false, `«${t}» è passato`);
   }
+});
+
+prova("un file che il banco lancerebbe col programma sbagliato non è più un finto rosso", () => {
+  // `node <script .bats>` usciva 1 per SyntaxError: sempre, comunque andasse la mutazione.
+  // Adesso quel file si lancia con bats, quindi conta come eseguibile per davvero.
+  assert.equal(testEseguibile("cervello/test/pausa-fail-closed.bats", () => true).ok, true);
 });
 
 prova("un percorso che esiste passa, uno che non esiste no", () => {
@@ -84,8 +106,9 @@ prova("un test assente non è «va bene»", () => {
   }
 });
 
-prova("il perché torna sempre, e dice quale dei due difetti è", () => {
-  assert.match(testEseguibile("node x.mjs", () => true).perche, /riga di comando/);
+prova("il perché torna sempre, e dice quale difetto è", () => {
+  assert.match(testEseguibile("bash x.sh", () => true).perche, /non ammesso/);
+  assert.match(testEseguibile("node a.mjs | tee x", () => true).perche, /shell/);
   assert.match(testEseguibile("cervello/test/x.mjs", () => false).perche, /non esiste/);
 });
 
@@ -96,6 +119,7 @@ prova("una mutazione cieca in più fa violazione", () => {
   const v = verdettoMutazioniCieche({ quante: 436, totale: 900, tetto: 435 });
   assert.equal(v.esito, "violazione");
   assert.match(v.motivo, /PERCORSO/, "il motivo deve dire come si ripara, non solo che è rotto");
+  assert.match(v.motivo, /senza shell/, "e deve dire che una riga di comando adesso va bene, se il banco la sa lanciare");
 });
 
 prova("scendere non è una violazione: è un tetto da abbassare", () => {
@@ -115,9 +139,10 @@ prova("senza tetto il verdetto è ⚪, non verde: non ho potuto confrontare", ()
 prova("il conto sulle voci vere nomina il difetto di ognuna", () => {
   const fuori = mutazioniCieche(
     [
-      { difetto: "AR-1", test: "node cervello/test/a.test.mjs" },
-      { difetto: "AR-2", test: "cervello/test/b.test.mjs" },
-      { difetto: "AR-3" },
+      { difetto: "AR-1", test: "node cervello/test/a.test.mjs" }, // riga di comando, ma il file non c'è
+      { difetto: "AR-2", test: "cervello/test/b.test.mjs" }, // c'è: eseguibile
+      { difetto: "AR-3" }, // nessun test dichiarato
+      { difetto: "AR-4", test: "node cervello/test/b.test.mjs" }, // riga di comando E il file c'è: eseguibile
     ],
     (p) => p === "cervello/test/b.test.mjs",
   );

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// AR-182 · AR-254 — gli archivi senza tetto, e i tetti nell'unità sbagliata.
+// AR-182 · AR-254 · AR-931 — gli archivi senza tetto, i tetti nell'unità sbagliata, e l'orologio
+// di troppo che questa stessa prova si era scritta.
 //
 // Una malattia sola: **nessun archivio della macchina ha un tetto, e dove un tetto c'è, è nell'unità
 // sbagliata.** O l'archivio si rompe (AR-254), o butta via la cosa sbagliata (AR-182).
@@ -45,13 +46,26 @@ const V = await import(join(REPO, "cervello/lezione-viva.mjs"));
 
 // La soglia vera del decadimento, la stessa che usa il cristallizzatore.
 const SOGLIA_GIORNI = 28;
-// L'età si CHIEDE al motore, non si ricalcola qui. Riscritta a mano era `Date.parse` nudo, cioè
-// l'ora locale del processo: sul server in UTC un timbro di Piacenza tornava indietro di due ore.
-// Due ore su una soglia di 28 giorni non si vedono quasi mai — finché una lezione non ci finisce
-// sopra. Il 1° settembre L-2026-0804-555 (timbro "2026-08-04 17:40") stava a 27,95 giorni per la
-// prova e a 28,03 per il motore: la prova la dichiarava protetta, il motore la faceva decadere, e
-// il rosso raccontava un difetto che non c'era. È lo stesso sbaglio che `istante()` cura in
-// `tetti-archivio.mjs` — due orologi diversi sullo stesso numero si allontanano sempre.
+// ⏰ AR-931 — IL METRO DEL TEMPO È QUELLO DEL CODICE, NON UN SECONDO METRO SCRITTO QUI.
+//
+// Questa riga usava `Date.parse`, e per questo il file è diventato rosso l'1/9 alle 17:40 senza che
+// nessuno lo toccasse. Le due letture dello stesso timbro non coincidono:
+//   · `Date.parse("2026-08-04T17:40")` legge l'ora del PROCESSO — su un runner in UTC sono le 17:40
+//     di Greenwich, cioè due ore più tardi delle 17:40 di Piacenza che quel timbro significa;
+//   · un giorno nudo, `Date.parse("2026-08-04")`, vale mezzanotte UTC, mentre in questa casa un
+//     giorno senza ora vale MEZZOGIORNO.
+// Misurato su L-2026-0804-555: 27,97 giorni col metro della prova, 28,06 col metro del codice.
+// Con la soglia a 28 in mezzo, la prova la dichiarava protetta e il codice la faceva decadere —
+// e si accusavano a vicenda per le due ore in cui le due misure stanno a cavallo della soglia.
+//
+// Il difetto non era da nessuna delle due parti del confronto: era avere due orologi. Adesso ce n'è
+// uno, `istante()` di tetti-archivio, lo stesso che usa `passoDovuto` per decidere.
+//
+// Su `main` la stessa riga e stata corretta in parallelo, con le stesse due ore misurate a un minuto
+// diverso (27,95 contro 28,03). Le due cure coincidono; questo lato porta in piu il caso
+// deterministico qui sotto e la scheda AR-931, che li non c erano. E non e la prima volta in questa
+// casa: AR-647 e lo stesso sbaglio sulle cadenze — «su un server UTC ogni cadenza sembra piu fresca
+// di 1-2 ore». Due orologi diversi sullo stesso numero si allontanano sempre.
 const etaGiorni = (date) => {
   const t = date.map((d) => T.istante(d)).filter((x) => x != null);
   return t.length ? (Date.now() - Math.max(...t)) / 86400000 : Infinity;
@@ -178,6 +192,31 @@ prova("il cablaggio: senza `decaduto_step_il` il passo tornerebbe a essere per e
 // Adesso la prova chiama la regola VERA con gli stessi argomenti del cristallizzatore, e difende
 // l'invariante invece del conteggio: una lezione con un freno che monta ancora la guardia, o usata di
 // recente, non muore MAI. Quante ne decadono è una misura che si stampa, non un verdetto.
+prova("AR-931: i due orologi sono uno solo — il metro di questa prova coincide con quello del codice", () => {
+  // 🔒 IL FRENO DEL DIFETTO QUI SOPRA, e non guarda il sorgente: esegue i due metri e li confronta.
+  //
+  // Serve un caso DETERMINISTICO, perché il difetto vero non lo era: si vedeva solo nelle due ore in
+  // cui una lezione qualunque stava a cavallo dei 28 giorni. Un difetto che compare a ore e sparisce
+  // da solo non lo trova nessuno guardando il rosso: lo si trova solo pinzando le due misure.
+  //
+  // Il giorno NUDO è il caso che nessun fuso può salvare: `Date.parse("2026-08-04")` vale mezzanotte
+  // di Greenwich per lo standard, mentre in questa casa un giorno senza ora vale MEZZOGIORNO. Fra i
+  // due ci sono dodici ore su qualunque macchina, anche una regolata su Piacenza — quindi se
+  // qualcuno rimette `Date.parse` in `etaGiorni`, questo caso diventa rosso ovunque, non solo in UTC.
+  for (const timbro of ["2026-08-04", "2026-08-04 17:40", "2026-01-15 09:00"]) {
+    const miaEta = etaGiorni([timbro]);
+    const suaEta = T.giorniDa(timbro);
+    assert.ok(
+      Math.abs(miaEta - suaEta) < 1 / 1440,
+      `sul timbro «${timbro}» questa prova misura ${miaEta.toFixed(4)} giorni e il codice ne misura ` +
+      `${suaEta.toFixed(4)}: sono due orologi diversi, e la soglia dei 28 giorni sta in mezzo`,
+    );
+  }
+  // E la data illeggibile deve valere «vecchissima» per entrambi, non «adesso» per uno dei due.
+  assert.equal(etaGiorni(["non-una-data"]), Infinity);
+  assert.equal(T.giorniDa("non-una-data"), Infinity);
+});
+
 prova("sul file VERO: nessuna lezione con un freno vivo o usata di recente muore", () => {
   const j = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
   const attive = (j.lezioni || []).filter((l) => l && l.stato === "attiva");
@@ -424,9 +463,20 @@ prova("AR-416: --se-serve sotto soglia non scrive un byte (provato sul file vero
 
 prova("AR-416: il cablaggio — il giro lancia il potatore dopo il passo che fa crescere l'archivio", () => {
   const src = leggi("cervello/giro.sh");
-  const iCrist = src.indexOf('cristallizza-apprendimento.mjs" --applica');
-  const iPota = src.indexOf('pota-apprendimento.mjs" --se-serve');
-  assert.ok(iCrist > 0, "la cristallizzazione deve esserci");
+  // ⚠️ Questa prova cercava la riga di comando ALLA LETTERA (`pota-apprendimento.mjs" --se-serve`).
+  // Il 30/8 la riga è passata alla forma `sensore "pota-apprendimento.mjs" 3 --se-serve`, che è una
+  // CURA — cattura l'esito prima di stamparlo, invece di perderlo dentro una pipe (AR-859) — e la
+  // prova è diventata rossa per una riscrittura giusta. Una prova che si rompe quando il codice
+  // migliora sta guardando come è scritto invece di cosa fa. Adesso cerca il NOME del programma,
+  // in qualunque modo lo si chiami, e continua a difendere l'unica cosa che conta qui: l'ORDINE.
+  const dove = (programma) => {
+    const i = src.indexOf(programma);
+    assert.ok(i > 0, `il giro deve lanciare ${programma}`);
+    assert.ok(src.indexOf(programma, i + 1) < 0, `${programma} è lanciato più volte: l'ordine non è più una domanda sola`);
+    return i;
+  };
+  const iCrist = dove("cristallizza-apprendimento.mjs");
+  const iPota = dove("pota-apprendimento.mjs");
   assert.ok(iPota > iCrist, "il potatore deve girare DOPO la cristallizzazione, dov'è la crescita");
 });
 
@@ -494,6 +544,93 @@ const { principiSenzaCopia, pianoPotatura } = await import("../pota-apprendiment
 console.log("✅ la copia dei principi si toglie, la memoria no");
 
 let falliti = 0;
+// ── IL DIARIO DENTRO L'ARCHIVIO (AR-886) ─────────────────────────────────────
+// Trovato il 30/8, e il modo in cui è saltato fuori conta quanto il difetto: la prova qui sopra
+// («sul file VERO l'archivio adesso rientra nel tetto») è diventata ROSSA da sola, senza che
+// nessuno toccasse il potatore. Il file aveva sforato di 279 byte.
+//
+// La causa non era il potatore: era un DIARIO SENZA TETTO dentro un file che il tetto ce l'ha.
+// `freno-scattato.mjs` scrive una riga in `lezione.usi` ogni volta che un guardiano diventa rosso,
+// e la difesa contro i doppioni guarda (riferimento, minuto): due rossi dello stesso guardiano a
+// due minuti di distanza sono due righe. Misurate: tre lezioni ne portavano 42 a testa, quasi tutte
+// con lo stesso `ref`. In tutto 300 righe che nessuno legge.
+//
+// È la stessa malattia di questo file — un archivio che cresce senza tetto — un piano più in
+// basso: dentro una voce, invece che dentro il file. E il potatore non poteva farci niente,
+// perché pota LEZIONI e qui il peso stava dentro una lezione viva.
+const F = await import(join(REPO, "cervello/freno-scattato.mjs"));
+
+prova("AR-886: di uno stesso riferimento restano il primo uso e l'ultimo, non tutti", () => {
+  const usi = [];
+  for (let i = 0; i < 42; i++) usi.push({ quando: `2026-08-20 10:${String(i).padStart(2, "0")}`, ref: "freno rosso: X" });
+  const dopo = F.compattaUsi(usi);
+  assert.equal(dopo.length, 2, "quarantadue usi dello stesso riferimento devono restare due");
+  assert.equal(dopo[0].quando, "2026-08-20 10:00", "il primo uso dice da quando ci ferma");
+  assert.equal(dopo[1].quando, "2026-08-20 10:41", "l'ultimo uso dice se ci ferma ancora");
+  // ⚠️ 31/8 — QUESTA RIGA CHIEDEVA IL NUMERO SBAGLIATO, e per un mese l'ha protetto.
+  // Chiedeva `volte === 42` su quarantadue usi. Ma `lista[0]` resta IN LISTA: contarlo anche dentro
+  // `volte` vuol dire dichiararlo due volte, e siccome si ricompatta a ogni scrittura l'errore si
+  // sommava — misurato: ventuno usi veri dichiarati trentadue (AR-922).
+  // Il conto vero è la SOMMA di ciò che il diario dichiara: uno per il primo, `volte` per l'ultimo.
+  // Chiedere la somma invece del campo è anche più difficile da sbagliare la prossima volta: è la
+  // cosa che qualcuno legge, non il modo in cui è ripartita fra due righe.
+  const dichiarate = dopo.reduce((n, u) => n + (Number(u?.volte) > 0 ? Number(u.volte) : 1), 0);
+  assert.equal(dichiarate, 42, "il conto vero va dichiarato, non fatto sparire — e nemmeno gonfiato");
+});
+
+prova("AR-886: riferimenti DIVERSI non si schiacciano fra loro", () => {
+  // Il modo sbagliato di curare questo difetto è tenere «gli ultimi due usi» e basta: cancellerebbe
+  // i riferimenti vecchi, e `tasso-lezioni` chiede proprio «c'è un uso con QUESTO riferimento?».
+  const usi = [
+    { quando: "2026-08-01 09:00", ref: "freno A" },
+    { quando: "2026-08-02 09:00", ref: "freno B" },
+    { quando: "2026-08-03 09:00", ref: "freno C" },
+    { quando: "2026-08-04 09:00", ref: "freno C" },
+    { quando: "2026-08-05 09:00", ref: "freno C" },
+  ];
+  const dopo = F.compattaUsi(usi);
+  const refs = new Set(dopo.map((u) => u.ref));
+  assert.deepEqual([...refs].sort(), ["freno A", "freno B", "freno C"], "un riferimento è sparito");
+});
+
+prova("AR-886: i quattro che leggono `usi` trovano ancora quello che cercano", () => {
+  const usi = [];
+  for (let i = 0; i < 30; i++) usi.push({ quando: `2026-08-2${i % 9} 11:00`, ref: "freno rosso: Y" });
+  usi.push({ quando: "2026-07-01 08:00", ref: "un altro freno" });
+  const prima = { id: "L-prova", usi };
+  const dopo = { id: "L-prova", usi: F.compattaUsi(usi) };
+  // ① lezione-viva vuole la data più recente: non deve cambiare.
+  assert.equal(V.ultimoUsoDi(dopo), V.ultimoUsoDi(prima), "l'ultimo uso è cambiato: il decadimento userebbe una data sbagliata");
+  // ② tasso-lezioni chiede «c'è un uso con questo ref?».
+  for (const ref of ["freno rosso: Y", "un altro freno"])
+    assert.ok(dopo.usi.some((u) => u.ref === ref), `il riferimento «${ref}» non si trova più`);
+  // ③ volano-numeri guarda solo che ce ne sia almeno uno.
+  assert.ok(dopo.usi.length > 0, "il diario non deve mai svuotarsi del tutto");
+});
+
+prova("AR-886: il cablaggio — il tetto si applica NELLO STESSO gesto della scrittura", () => {
+  // Un diario potato «ogni tanto» torna a sforare fra una potatura e l'altra, e lo scopre il
+  // potatore quando non può più farci niente: è esattamente com'è andata il 30/8.
+  const dati = { lezioni: [{ id: "L-x", gate: "node cervello/finto.mjs", usi: [] }] };
+  for (let i = 0; i < 20; i++) {
+    F.marcatura(dati, "cervello/finto.mjs", { rc: 1, ref: "freno rosso: Z", quando: `2026-08-20 10:${String(i).padStart(2, "0")}` });
+  }
+  const usi = dati.lezioni[0].usi;
+  if (usi.length === 0) return; // il freno non aggancia questa lezione finta: il caso non dice niente
+  assert.ok(usi.length <= 2, `venti scritture hanno lasciato ${usi.length} righe: il tetto non è nel gesto della scrittura`);
+});
+
+prova("AR-886: sul file VERO nessuna lezione porta più di due usi dello stesso riferimento", () => {
+  const appr = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
+  const grasse = [];
+  for (const l of appr.lezioni || []) {
+    const per = new Map();
+    for (const u of l.usi || []) per.set(u?.ref ?? "", (per.get(u?.ref ?? "") ?? 0) + 1);
+    for (const [ref, n] of per) if (n > 2) grasse.push(`${l.id} · «${ref}» × ${n}`);
+  }
+  assert.deepEqual(grasse, [], "il diario è tornato a crescere sul file vero");
+});
+
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
   if (!c.ok) falliti++;
