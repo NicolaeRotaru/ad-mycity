@@ -145,7 +145,7 @@ test("nemmeno una data corretta da sola: un rosso che si accende sempre viene sp
 });
 
 test("un numero che sta da una parte sola non è una sovrascrittura: è una scheda nuova", () => {
-  const qui = [{ id: "AR-900", nato: "2026-08-04 05:00", titolo: "roba mia" }];
+  const qui = [{ id: "AR-924", nato: "2026-08-04 05:00", titolo: "roba mia" }];
   assert.deepEqual(sovrascritte(qui, []), []);
 });
 

@@ -47,7 +47,29 @@ jobs:
     # scarico di chromium, la compilazione a freddo del Pannello e la mutazione di AR-613 che lo
     # riapre. Il margine sta qui apposta — un cancello ucciso dall'orologio è un ⚪, e chi legge un
     # lavoro bocciato dall'orologio impara a rilanciarlo invece di leggerlo.
-    timeout-minutes: 30
+    #
+    # 🚧 AR-891 — 30 → 75 IL 31/8, e il numero non è a occhio.
+    #
+    # MISURATO: su questo ramo il cancello è partito TREDICI volte e tredici volte è finito
+    # `cancelled`, mai una che desse un verdetto. Alcune corse sono durate esattamente trenta minuti
+    # prima di morire, senza nessuna spinta nel mezzo: era l'orologio, non la coda.
+    #
+    # E la cosa che rende il difetto grave non è il tetto: è che GitHub segna un lavoro ucciso
+    # dall'orologio come «annullato», non come «fallito». La suite dei controlli diceva «nessun
+    # controllo è fallito» — vero alla lettera, e falso in sostanza, perché il cancello non aveva
+    # controllato niente. Un guardiano che tace e il cui silenzio si legge come «tutto a posto» è
+    # esattamente la malattia che questo lotto cura, applicata al guardiano di questo lotto.
+    #
+    # IL CONTO, perché il costo scala col LOTTO e non è una costante: il cancello rompe apposta ogni
+    # mutazione del lotto e pretende il rosso. Questo lotto ne porta 52, e SETTE di quelle rilanciano
+    # `due-case.test.mjs`, che da sola prende minuti. Solo le mutazioni valgono mezz'ora; più la
+    # suite (535 secondi misurati a macchina libera), più npm ci, il browser e bats. Circa cinquanta
+    # minuti di lavoro vero dentro un tetto di trenta.
+    #
+    # 75 è una volta e mezza il bisogno misurato. Non di più, e vale qui la stessa ragione scritta
+    # accanto a TEMPO_MAX_SUITE in cervello/cancello-lotto.mjs: un tetto troppo generoso smette di
+    # distinguere «la macchina è lenta» da «si è piantato».
+    timeout-minutes: 75
     steps:
       # Agganciate al commit, non all'etichetta (AR-637): un tag si sposta, un commit no.
       # Per aggiornarle: `git ls-remote --tags https://github.com/actions/checkout v4`.
