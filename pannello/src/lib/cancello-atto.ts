@@ -100,7 +100,10 @@ export function prenotazioneScaduta(valore: string | null | undefined, ttlMs: nu
 // ③ Il cancello: la decisione, pura (AR-412, AR-413, AR-383)
 // ─────────────────────────────────────────────────────────────────────────────
 
-export type MotivoStop = "cieco" | "gia-in-corso" | "prenotazione-incerta";
+// 🚧 AR-871 — il quarto motivo. «atto-esploso» non è come gli altri tre: gli altri dicono «non ho
+// toccato il mondo», questo dice «non so se l'ho toccato». Vive qui e non in un catch scritto nella
+// route perché la route non c'è, in nessuna delle due che chiamano — verificato sul codice vero.
+export type MotivoStop = "cieco" | "gia-in-corso" | "prenotazione-incerta" | "atto-esploso";
 
 export type VerdettoAtto =
   | { procedi: true }
@@ -200,7 +203,7 @@ export async function scrivereInOrdine(p: {
 
 export type EsitoAtto<T> =
   | { eseguito: true; risultato: T; registrato: boolean; status: number; messaggio: string }
-  | { eseguito: false; motivo: MotivoStop; status: number; messaggio: string };
+  | { eseguito: false; motivo: MotivoStop; status: number; messaggio: string; mondoForseToccato?: boolean };
 
 /**
  * Esegue un atto verso il mondo reale UNA VOLTA SOLA, nell'ordine che non si può invertire:
@@ -230,23 +233,76 @@ export async function attoUnaVoltaSola<T>(p: {
     if (!v.procedi) return { eseguito: false, motivo: v.motivo, status: v.status, messaggio: v.messaggio };
   }
 
-  // (a) il posto, PRIMA dell'atto.
-  const posto = await p.prenota();
-  const verdetto = cancelloAtto({ prenotazione: posto });
+  // (a) il posto, PRIMA dell'atto. Se la prenotazione ESPLODE non è «preso»: è «non lo so», che è
+  // già uno dei tre stati — e «non lo so» è un no. Prima l'eccezione usciva dalla funzione e la
+  // route la restituiva come 500 senza mai togliere la firma.
+  //
+  // ⚠️ La riga che prende il posto sta dentro il try TALE E QUALE, e non è pignoleria:
+  // è il punto che la mutazione di AR-385 sostituisce per provare che invertire l'ordine fa diventare
+  // rossa `c1-atto-una-volta-sola.test.mjs`. Riscriverla avrebbe spento quella prova in silenzio.
+  let prenotazione: Prenotazione;
+  try {
+    const posto = await p.prenota();
+    prenotazione = posto;
+  } catch {
+    prenotazione = "incerta";
+  }
+  const verdetto = cancelloAtto({ prenotazione });
   if (!verdetto.procedi) {
     return { eseguito: false, motivo: verdetto.motivo, status: verdetto.status, messaggio: verdetto.messaggio };
   }
 
-  // Da qui in poi il mondo è toccato: qualunque cosa vada storta, «riprova» non è più un consiglio.
-  const risultato = await p.atto();
+  // ───────────────────────────────────────────────────────────────────────────
+  // 🚧 AR-871 — L'ATTO CHE ESPLODE: un verdetto, non un'eccezione che vola via
+  // ───────────────────────────────────────────────────────────────────────────
+  // Qui dentro finiscono cose che possono lanciare: `eseguiAzione` chiama il controllo d'onestà
+  // (lib/onesta-check.ts) e poi Resend. Nessuno dei due chiamanti — la route delle azioni e
+  // l'autopilota — mette un try/catch attorno a questa funzione: un'eccezione usciva dalla route
+  // come 500 generico, con la firma di Nicola ancora addosso all'azione e nessuno che sapesse se
+  // la mail era partita. Il modo naturale di reagire a un 500 è riprovare, ed è la cosa peggiore.
+  //
+  // Adesso l'eccezione diventa un verdetto esplicito col motivo. Il mondo POTREBBE essere stato
+  // toccato — l'atto è esploso a metà, non prima — quindi il messaggio dice di NON riprovare, come
+  // fa `chiusuraAtto` quando l'atto è avvenuto. Il posto resta preso: nessuno rifà questo atto
+  // finché la prenotazione non scade, che è la parte fail-closed.
+  let risultato: T;
+  try {
+    risultato = await p.atto();
+  } catch (e) {
+    const perche = e instanceof Error ? e.message : String(e);
+    return {
+      eseguito: false,
+      motivo: "atto-esploso",
+      mondoForseToccato: true,
+      status: 503,
+      messaggio:
+        `⚠️ L'azione si è rotta a metà (${perche}). NON so se è partita davvero: NON riprovare, ` +
+        "riprovando rischi di mandarla una seconda volta. Controlla il canale e segna a mano com'è andata.",
+    };
+  }
 
-  // (c) l'esito di ogni scrittura, confermato.
-  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: true });
+  // (c) l'esito di ogni scrittura, confermato. Anche qui il mondo è già stato toccato: se la
+  // registrazione esplode invece di tornare `false`, l'esito è lo stesso — atto fatto, non segnato —
+  // e il messaggio deve restare quello che dice «non riprovare».
+  //
+  // ⚠️ Anche qui la riga di dentro è TALE E QUALE: è il punto che la mutazione di AR-413 sostituisce
+  // (`attoEseguito: true` → `false`) per provare che il consiglio «riprova» dopo un atto avvenuto fa
+  // diventare rossa la sua prova. Spezzarla in due righe l'avrebbe accecata.
+  let esitoRegistrazione: Chiusura;
+  try {
+    const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: true });
+    esitoRegistrazione = chiusura;
+  } catch (e) {
+    esitoRegistrazione = chiusuraAtto({
+      scritture: [{ nome: `registrazione dell'atto (${e instanceof Error ? e.message : String(e)})`, ok: false }],
+      attoEseguito: true,
+    });
+  }
   return {
     eseguito: true,
     risultato,
-    registrato: chiusura.ok,
-    status: chiusura.status,
-    messaggio: chiusura.messaggio,
+    registrato: esitoRegistrazione.ok,
+    status: esitoRegistrazione.status,
+    messaggio: esitoRegistrazione.messaggio,
   };
 }

@@ -44,7 +44,7 @@ import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync,
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { censimentoDelCancello, costruisciCasaSpoglia, esitoFinale, maiProvabile, passiDelCancello, percorsoDiMe, piano, statoDelPasso, tettoDaScrivere, verdettoDueCase, verdettoTetto } from "../due-case.mjs";
+import { censimentoDelCancello, costruisciCasaSpoglia, esitoFinale, maiProvabile, misuraIlPasso, passiDelCancello, percorsoDiMe, piano, quantoPosso, statoDelPasso, tettoDaScrivere, verdettoDueCase, verdettoTetto } from "../due-case.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const MOTORE = join(REPO, "cervello/due-case.mjs");
@@ -779,3 +779,28 @@ test("gli argomenti CALCOLATI si riconoscono, e il PREZZO dichiarato dal cancell
   assert.equal(passi[2].timeout, 600_000, "il timeout si legge anche con l'underscore dentro il numero");
   assert.equal(passi[3].timeout, 900_000, "e anche quando le opzioni stanno su più righe");
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 📦 DOVE SONO FINITI SETTE CASI — 2026-09-02, e non sono stati tolti.
+//
+// Il sorvegliante del delta segnala che qui si prova meno di prima. È vero e va detto dove sono
+// andati, perché «un file che prova meno» e «una difesa persa» hanno la stessa faccia.
+//
+// I sette casi di AR-932 e AR-933 sono in `cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs`,
+// nato nello stesso commit. Il conto: 39 casi prima, 32 qui adesso, 7 di là. Non ne manca nessuno.
+//
+// PERCHÉ sono stati spostati, e non è una questione di ordine: il banco delle mutazioni concedeva a
+// ogni prova 420 secondi (`TEMPO_MAX` in non-vacuita.mjs) e QUESTO file ne prende 626. Le tre
+// mutazioni che difendono AR-932 e AR-933 uscivano ⚪ — «non ho misurato» — e nessuno se ne
+// accorgeva. Spostate, escono rosse tutte e tre, che è quello che una difesa deve saper fare.
+//
+// ✅ IL DEBITO SCRITTO QUI È STATO PAGATO IL 6/9 — AR-944, e vale la pena dire come è finita.
+// La riga qui sotto diceva: «finché prende 626 secondi, OGNI difetto la cui prova vive qui è
+// coperto sulla carta e scoperto al banco». Era vero, era scritto, ed è rimasto lì quattro giorni
+// mentre le SETTE difese di AR-797 uscivano ⚪ a ogni corsa e io le leggevo come debito dichiarato.
+// Il tetto adesso è 700 s, misurato su un costo reale di 498 s, e il costo sta in `COSTI_MISURATI`
+// dove un freno lo confronta col tetto. Sei delle sette sono tornate misurabili alla prima corsa.
+//
+// ⚠️ Quello che resta di questo file: è ancora il più lento di casa, e chi lo allunga ancora deve
+// rimisurarlo e aggiornare `COSTI_MISURATI`. Il freno lo dice, il cronometro no.
+// ─────────────────────────────────────────────────────────────────────────────

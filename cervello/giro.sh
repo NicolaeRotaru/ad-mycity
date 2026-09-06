@@ -52,6 +52,30 @@ trap 'c4_curl_chiudi' EXIT
 # 🔌 Parity skill: specchio .cursor/skills → .claude/skills prima di lanciare la CLI (best-effort).
 node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
+# ─────────────────────────────────────────────────────────────────────────────
+# sorvegliante: ok riparazione-parziale fino al 2026-11-30 — la riparazione parziale di
+# `esito-in-una-pipe` in questo file e VOLUTA, e il debito che resta e DICHIARATO,
+# non dimenticato: sta nella scheda AR-884 col conto misurato e sta sotto il tetto della malattia
+# in cervello/malattie.json (30 istanze contro una base di 30, verificata a ogni giro da
+# spazzata-fratelli.mjs, che scende e non risale).
+#
+# Perche non si curano tutte in una volta, ed e la parte che vale la pena leggere: misurato il
+# 29/8, ogni modifica a questo file fa scattare altri guardiani — i tetti delle malattie, il
+# rilevatore dei guardiani informativi, la spazzata dei fratelli, e la prova archivi-senza-tetto,
+# che cercava la riga di comando ALLA LETTERA ed e diventata rossa per una riscrittura giusta.
+# Curarne quattro ne ha fatti diventare rossi tre, e sono serviti due giri per riportare il conto
+# dov'era. Un lotto che ne curasse trentacinque insieme nessuno lo rileggerebbe, e una richiesta
+# di unione che nessuno rilegge si approva per fiducia — che non e una prova.
+#
+# Si convertono un po' per volta alla forma `sensore "<script>.mjs" <righe> [argomenti]`, dando la
+# precedenza alle righe il cui strumento SA uscire 2: dove non c'e un ramo cieco non c'e nessun ⚪
+# da perdere, e convertirla e lavoro senza guadagno.
+#
+# ⚠️ E la causa scritta nella scheda fino al 30/8 era SBAGLIATA: diceva «una pipe restituisce il
+# codice dell'ultimo comando». Non qui — questo file dichiara `set -uo pipefail` (riga 7), e con
+# pipefail la pipe il codice lo porta. Il colpevole vero e `|| true`. Misurato, non ragionato.
+# ─────────────────────────────────────────────────────────────────────────────
+
 ts() { date '+%Y-%m-%d %H:%M'; }
 
 # AR-204 — il cronometro del PROCESSO, non quello del motore AI. `GIRO_START` (più sotto) parte dopo
@@ -587,7 +611,8 @@ if command -v node >/dev/null 2>&1; then
   fi
   # PZ-009: sonda taste-file — il log dei verdetti di Nicola è vivo o vuoto? (informa, non blocca)
   echo "[$(ts)] Sonda taste-file (verdetti di Nicola)..."
-  node "$SCRIPT_DIR/taste-file.mjs" --sonda 2>&1 | esito_righe 2 || true
+  # 🚧 AR-880 — stesso caso della riga sopra, stesso rimedio: il ⚪ di questa sonda finiva in una pipe.
+  sensore "taste-file.mjs" 2 --sonda || true
   # 4/8: la CI delle PR aperte. Questa macchina apre PR da sola a ogni lavoro e non ha mai guardato
   # come finivano i controlli: la sera del 4/8, cinque PR su sei erano rosse e nessuno lo sapeva.
   # Il vincolo scatta SOLO sul rosso di cui la PR è responsabile: i rossi ereditati da `main` sono un
@@ -679,10 +704,13 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   echo "[$(ts)] Gate coerenza-fatti (fonte unica della verità, AR-102)..."
   _fatti_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _fatti_rc=$?
   printf '%s\n' "$_fatti_out" | tail -8
-  if [ "$_fatti_rc" -ne 0 ]; then
-    FATTI_VINCOLO="⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente."
-    echo "[$(ts)] ⚠️  AR-102: coerenza-fatti FALLITO (rc=$_fatti_rc) → passo un vincolo hard al motore." >&2
-  fi
+  # AR-881 — stessa forma del blocco valida-contratti, trovata cercando gli altri: `coerenza-fatti`
+  # sa uscire 2 (registro-fatti.json ASSENTE — AR-597), e col 2 questo testo manderebbe a bonificare
+  # copie vecchie in un registro che non c'è. `vincolo_da_rc` sul 2 dice «ripara lo strumento».
+  # Gli altri codici restano al testo di dominio: 3 = copie vecchie in file vivi · 1 = registro
+  # illeggibile — il numero è stampato, così chi legge sa quale dei due.
+  FATTI_VINCOLO="$(vincolo_da_rc "coerenza-fatti.mjs" "$_fatti_rc" "⛔ MEMORIA INCOERENTE (coerenza-fatti.mjs rc=$_fatti_rc): un fatto del registro (MyCity-Vault/90-Memoria-AI/registro-fatti.json) è cambiato ma copie del valore VECCHIO restano in file vivi — il Pannello le sta mostrando a Nicola come se fossero vere. PRIMA di chiudere questo giro: apri MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json, riscrivi OGNI file elencato col valore nuovo, e riesegui \`node cervello/coerenza-fatti.mjs\` finché passa (exit 0). Le cacce bonificate (0 copie) chiudile con \`chiudi-caccia\`. La storia (DECISIONI, Briefing, quaderni) NON si riscrive: è già esente.")"
+  [ -n "$FATTI_VINCOLO" ] && echo "[$(ts)] ⚠️  AR-102: coerenza-fatti rc=$_fatti_rc → passo un vincolo hard al motore." >&2
   echo "[$(ts)] Gate coerenza-rischi (registro canonico 05-Soldi-Rischi)..."
   node "$SCRIPT_DIR/coerenza-rischi.mjs" 2>&1 | esito_righe 4 || true
   # AR-449: il peso dei file che la Cabina rilegge ogni 30 secondi. Il 30/7 alle 02:03
@@ -882,7 +910,13 @@ $_chius_out"
   #    (1.070.609 > 1.048.576) e la scheda Apprendimento della Cabina è tornata illeggibile.
   #    --se-serve pota SOLO sopra il 95% del tetto (mai le lezioni vive), sotto non scrive un byte. ──
   echo "[$(ts)] Potatore archivio apprendimento (AR-416: pota prima del muro)..."
-  node "$SCRIPT_DIR/pota-apprendimento.mjs" --se-serve 2>&1 | esito_righe 3 || true
+  # 🚧 AR-880 — era in pipe, e la pipe restituisce l'uscita dell'ULTIMO comando: il ⚪ del potatore
+  # («apprendimento.json non trovato o non è JSON valido», che capita davvero se un giro viene ucciso
+  # a metà scrittura) non arrivava a nessuno. La potatura non girava e la macchina non lo sapeva.
+  # `sensore` è la funzione di casa costruita apposta (AR-859): cattura l'esito PRIMA di stampare e
+  # sul 2 grida. Il `|| true` resta: un sensore cieco non deve fermare il giro, deve smettere di
+  # essere invisibile.
+  sensore "pota-apprendimento.mjs" 3 --se-serve || true
   # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
   echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
   # AR-309 — due correzioni. (a) `2>&1` mescolava stderr nel testo del vincolo: una traccia d'errore
@@ -905,10 +939,16 @@ $_chius_out"
   echo "[$(ts)] Validatore contratti JSON auto-coscienza (AR-043 — ora gate)..."
   _contr_out="$(node "$SCRIPT_DIR/valida-contratti.mjs" 2>&1)"; _contr_rc=$?
   printf '%s\n' "$_contr_out" | tail -4
-  if [ "$_contr_rc" -ne 0 ]; then
-    VERIFICA_VINCOLO="$VERIFICA_VINCOLO
-⛔ CONTRATTI JSON FUORI-CONTRATTO (valida-contratti.mjs rc=$_contr_rc): un file auto-coscienza usa nomi-campo fuori dal contratto → il Pannello legge campi vuoti e mostra a Nicola una salute cieca. Rinomina ai nomi canonici PRIMA di chiudere il giro."
-    echo "[$(ts)] ⚠️  Lever 2: contratti JSON fuori-contratto → vincolo hard al motore." >&2
+  # AR-881 — IL VERDETTO SI LEGGE CON LA FUNZIONE DI CASA, NON CON UN CONFRONTO SCRITTO A MANO.
+  # Qui c'era `if [ "$_contr_rc" -ne 0 ]` col testo di dominio attaccato. Col 2 — la cartella
+  # auto-coscienza non c'è, quindi valida-contratti non ha aperto un solo file — il giro un vincolo
+  # lo dava comunque (niente silenzio), ma diceva «Rinomina ai nomi canonici»: una bugia sul
+  # contenuto, che manda a cercare un campo rinominato che non esiste. `vincolo_da_rc` i tre esiti
+  # li sa distinguere. AR-308: si ACCUMULA sul vincolo del verificatore, non lo si sovrascrive.
+  _contr_vincolo="$(vincolo_da_rc "valida-contratti.mjs" "$_contr_rc" "⛔ CONTRATTI JSON FUORI-CONTRATTO (valida-contratti.mjs rc=$_contr_rc): un file auto-coscienza usa nomi-campo fuori dal contratto → il Pannello legge campi vuoti e mostra a Nicola una salute cieca. Rinomina ai nomi canonici PRIMA di chiudere il giro.")"
+  if [ -n "$_contr_vincolo" ]; then
+    VERIFICA_VINCOLO="$(aggiungi_vincolo "$VERIFICA_VINCOLO" "$_contr_vincolo")"
+    echo "[$(ts)] ⚠️  Lever 2: valida-contratti rc=$_contr_rc → vincolo hard al motore." >&2
   fi
   # Le 7 capacità costruite (visione 53) — sola lettura sui dati reali della macchina:
   # INFORMATIVO — NON si promuove, e la ragione è definitiva: misura il carico di firme di NICOLA, e
@@ -1562,10 +1602,22 @@ if command -v node >/dev/null 2>&1; then
     echo "[$(ts)] ⚠️  SCAN SEGRETI: una famiglia di chiavi in uso NON è coperta da nessuna regola:" >&2
     node "$SCRIPT_DIR/scan-segreti.mjs" --prova 2>&1 | esito_righe 8 >&2
   fi
-  if ! node "$SCRIPT_DIR/scan-segreti.mjs" >/dev/null 2>&1; then
+  # 🚧 AR-880 — LO SCANNER CHE NON HA POTUTO SCANSIONARE NON DICE «HO TROVATO UN SEGRETO».
+  # `scan-segreti.mjs` esce 2 quando non riesce nemmeno a costruire l'elenco dei file (git che non
+  # risponde, per esempio). Letto come booleano, quel 2 diventava «possibile segreto nei file
+  # versionabili» e il rimedio stampato mandava a RUOTARE UNA CHIAVE che non era mai stata esposta —
+  # un lavoro vero, urgente e inutile, su una chiave di produzione.
+  # Il blocco resta in tutti e due i casi, ed è giusto: se non so cosa sto pubblicando, non pubblico
+  # (fail-closed). Cambia la FRASE, che è quello che manda una persona a fare la cosa sbagliata.
+  _segreti_out="$(node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1)"; _segreti_rc=$?
+  if [ "$_segreti_rc" -eq 2 ]; then
+    SEGRETO_TROVATO=1
+    echo "[$(ts)] ⚪ SCAN SEGRETI CIECO: non ho potuto guardare i file — sync memoria BLOCCATA per prudenza. NON è stato trovato nessun segreto: non ruotare niente, guarda perché lo scanner non è partito." >&2
+    printf '%s\n' "$_segreti_out" | esito_righe 8 >&2
+  elif [ "$_segreti_rc" -ne 0 ]; then
     SEGRETO_TROVATO=1
     echo "[$(ts)] ⛔ SCAN SEGRETI: possibile segreto nei file versionabili — sync memoria BLOCCATA." >&2
-    node "$SCRIPT_DIR/scan-segreti.mjs" 2>&1 | esito_righe 12 >&2 || true
+    printf '%s\n' "$_segreti_out" | esito_righe 12 >&2
   fi
 fi
 
@@ -1580,14 +1632,37 @@ if command -v node >/dev/null 2>&1; then
   [ -f "MyCity-Vault/90-Memoria-AI/STATO.md" ] && _onesta_files+=("MyCity-Vault/90-Memoria-AI/STATO.md")
   _ultimo_brief="$(ls -t MyCity-Vault/90-Memoria-AI/Briefing/*.md 2>/dev/null | head -1)"
   [ -n "$_ultimo_brief" ] && _onesta_files+=("$_ultimo_brief")
-  if [ "${#_onesta_files[@]}" -gt 0 ] && ! node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" >/dev/null 2>&1; then
-    echo "[$(ts)] ⚠️  ONESTA-CHECK: violazioni onestà (segnaposto non risolti / numeri senza fonte) in STATO.md o ultimo briefing:" >&2
-    node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1 | esito_righe 12 >&2 || true
-    if [ "${ONESTA_BLOCCA:-0}" = 1 ]; then
-      ONESTA_BLOCK=1
-      echo "[$(ts)] ⛔ ONESTA_BLOCCA=1: sync memoria BLOCCATA per violazioni onestà (come i segreti)." >&2
-    else
-      echo "[$(ts)] ⚠️  Giro marcato NON-ONESTO (WARN forte, push non bloccato). Imposta ONESTA_BLOCCA=1 per bloccarlo." >&2
+  # 🚧 AR-880 — LA TRAPPOLA CHE QUESTO STESSO LOTTO AVEVA ARMATO, e va detto perché è la lezione.
+  # Il mandato del lotto diceva, testuale: «convertire uno strumento a 2 senza sistemare chi lo legge
+  # trasforma un falso allarme in un silenzio». Poi `onesta-check.mjs` è stato convertito (esce 2
+  # quando non ha potuto giudicare) e QUESTA riga, che è il suo unico lettore nel giro, è rimasta
+  # booleana: qualunque uscita ≠ 0 diventava «violazioni onestà (segnaposto non risolti / numeri
+  # senza fonte)», e con ONESTA_BLOCCA=1 bloccava il push. Cioè: lo strumento dice «non ho potuto
+  # guardare» e il giro riporta «ho guardato e ho trovato dei segnaposti». Una bugia sul contenuto.
+  # Non era ancora raggiungibile — l'ha misurato la radiografia — ma una trappola armata scatta il
+  # giorno che qualcuno cambia una soglia, non il giorno che la si scrive.
+  # Una chiamata sola: l'uscita si cattura INSIEME al codice e si stampa da lì. Prima lo strumento
+  # girava due volte — una per il verdetto e una per il dettaglio — e la seconda finiva in una pipe
+  # col `|| true`. Girare due volte non è solo spreco: le due corse possono dare risposte diverse
+  # (il file cambia in mezzo), e allora il giro stampa un dettaglio che non appartiene al verdetto
+  # che ha preso.
+  if [ "${#_onesta_files[@]}" -gt 0 ]; then
+    _onesta_out="$(node "$SCRIPT_DIR/onesta-check.mjs" "${_onesta_files[@]}" 2>&1)"; _onesta_rc=$?
+    if [ "$_onesta_rc" -eq 2 ]; then
+      # ⚪ Il metro non ha potuto giudicare. Si dichiara e NON si blocca: un cieco non è una
+      # violazione. Bloccare la pubblicazione per una cosa che nessuno ha guardato è il verso
+      # sbagliato della prudenza — quello che ferma la macchina senza saper dire perché.
+      echo "[$(ts)] ⚪ ONESTA-CHECK CIECO: il metro non ha potuto giudicare STATO.md o l'ultimo briefing. Nessuna violazione trovata, e nessuna esclusa." >&2
+      printf '%s\n' "$_onesta_out" | esito_righe 6 >&2
+    elif [ "$_onesta_rc" -ne 0 ]; then
+      echo "[$(ts)] ⚠️  ONESTA-CHECK: violazioni onestà (segnaposto non risolti / numeri senza fonte) in STATO.md o ultimo briefing:" >&2
+      printf '%s\n' "$_onesta_out" | esito_righe 12 >&2
+      if [ "${ONESTA_BLOCCA:-0}" = 1 ]; then
+        ONESTA_BLOCK=1
+        echo "[$(ts)] ⛔ ONESTA_BLOCCA=1: sync memoria BLOCCATA per violazioni onestà (come i segreti)." >&2
+      else
+        echo "[$(ts)] ⚠️  Giro marcato NON-ONESTO (WARN forte, push non bloccato). Imposta ONESTA_BLOCCA=1 per bloccarlo." >&2
+      fi
     fi
   fi
 fi
@@ -1639,8 +1714,17 @@ if command -v node >/dev/null 2>&1; then
   _cf_out="$(node "$SCRIPT_DIR/coerenza-fatti.mjs" 2>&1)"; _cf_rc=$?
   if [ "$_cf_rc" -ne 0 ]; then
     MEMORIA_INCOERENTE=1
-    _gate_motivi="${_gate_motivi}coerenza-fatti rc=$_cf_rc (una copia vecchia di un fatto è rimasta in un file vivo); "
-    echo "[$(ts)] ⛔ COERENZA-FATTI (pre-push): memoria incoerente (rc=$_cf_rc) — sync BLOCCATA." >&2
+    # AR-881 — il BLOCCO resta anche col 2, ed è giusto (fail-closed: memoria che non ho potuto
+    # verificare non si pubblica). A mentire era il MOTIVO: «una copia vecchia è rimasta in un file
+    # vivo» con il registro assente è una bugia sul contenuto — e questo motivo non resta nel log,
+    # finisce nell'avviso Telegram che legge Nicola.
+    if [ "$_cf_rc" = 2 ]; then
+      _gate_motivi="${_gate_motivi}coerenza-fatti rc=2 (CIECO: il registro dei fatti non c'è, non ho verificato niente — e un non-verificato non si pubblica); "
+      echo "[$(ts)] ⚪ COERENZA-FATTI (pre-push): CIECO (rc=2) — non è un verde: sync BLOCCATA lo stesso." >&2
+    else
+      _gate_motivi="${_gate_motivi}coerenza-fatti rc=$_cf_rc (una copia vecchia di un fatto è rimasta in un file vivo); "
+      echo "[$(ts)] ⛔ COERENZA-FATTI (pre-push): memoria incoerente (rc=$_cf_rc) — sync BLOCCATA." >&2
+    fi
     printf '%s\n' "$_cf_out" | tail -8 >&2
   fi
   # (2) sanità del vault (l'INTERA 90-Memoria-AI: robusto e semplice — copre anche i file non ancora staged).
@@ -1684,6 +1768,48 @@ fi
 if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/dev/null 2>&1; then
   echo "[$(ts)] 🔁 RIVERIFICA VINCOLI (AR-321): rimisuro i ${GATE_ROSSI} cancelli che erano rossi prima del motore..."
   RIV_RIMASTI=(); RIV_RISOLTI=(); RIV_NONRIM=()
+  # ─────────────────────────────────────────────────────────────────────────────
+  # 🚧 AR-914 — L'ELENCO VUOTO VALEVA «TUTTI I VINCOLI RISOLTI», E IL GIRO PUBBLICAVA
+  #
+  # Prima l'elenco si leggeva così: `done < <(node … riverifica-elenco … 2>/dev/null)`. Se quel
+  # comando non partiva — uscita ≠ 0, stdout vuoto — il `while` non girava NEMMENO UNA VOLTA. I tre
+  # array restavano vuoti, `VINCOLI_ATTIVI` diventava vuoto, `GATE_ROSSI` diventava 0, e
+  # `riverifica-esito` con tutto vuoto usciva 0: «tutti i vincoli sono stati risolti». Il giro si
+  # dichiarava pulito e PUBBLICAVA. Riprodotto il 31/8 con la stessa forma di shell: tredici cancelli
+  # rossi spariti in silenzio. E il `2>/dev/null` cancellava anche la traccia dell'errore.
+  #
+  # È lo stesso difetto che questo blocco stava curando dieci righe più sotto (`_rrc -eq 2` →
+  # RIV_NONRIM): la cura era stata messa sul singolo guardiano e non su CHI PRODUCE L'ELENCO. Un
+  # guardiano che tace lo si sente; un elenco che tace sembra una buona notizia.
+  #
+  # Il contratto di `riverifica-elenco` è preciso — esce sempre 0 e stampa UNA RIGA PER VINCOLO —
+  # quindi la regola può essere più forte di «vuoto = male»: si CONTANO le righe, e ogni vincolo che
+  # non è tornato indietro è ⚪, mai verde. Prende anche il caso in cui la tabella ne dimentica uno.
+  # ─────────────────────────────────────────────────────────────────────────────
+  # ⚠️ I DUE FLUSSI SI TENGONO SEPARATI, e non è pignoleria. La prima stesura di questa cura
+  # catturava `2>&1` in un colpo solo: bastava un `(node:123) Warning: …` su stderr — cioè un
+  # qualunque avviso di node — perché quella riga finisse nell'elenco come un vincolo con nome
+  # lunghissimo, classe vuota e comando VUOTO. Il ciclo qui sotto avrebbe lanciato
+  # `timeout 120 node "$SCRIPT_DIR"/` senza script, sarebbe uscito ≠ 0, e il vincolo fantasma
+  # sarebbe finito fra quelli «che dicono ANCORA no»: un'accusa col nome sbagliato mandata a Nicola
+  # su Telegram. È esattamente AR-880, cioè il difetto che questo blocco era già stato curato per
+  # non fare. Riprodotto prima di separarli.
+  _riv_err="$(mktemp)"
+  _riv_elenco="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>"$_riv_err")"
+  _riv_el_rc=$?
+  if [ "$_riv_el_rc" -ne 0 ]; then
+    echo "[$(ts)]   ⚪ non ho potuto sapere CHI rimisura cosa: \`c4-cancelli riverifica-elenco\` è uscito ${_riv_el_rc}." >&2
+    sed 's/^/[ERR] /' "$_riv_err" >&2
+    _riv_elenco=""
+  fi
+  rm -f "$_riv_err"
+  # I nomi che sono tornati indietro davvero. Quelli che mancano li rimetto in ⚪ più sotto: un
+  # vincolo che era rosso e di cui non so più niente non è un vincolo risolto.
+  _riv_tornati=""
+  while IFS="$(printf '\t')" read -r _rnome _rclasse _rcomando; do
+    [ -z "${_rnome:-}" ] && continue
+    _riv_tornati="${_riv_tornati} ${_rnome}"
+  done <<< "$_riv_elenco"
   while IFS="$(printf '\t')" read -r _rnome _rclasse _rcomando; do
     [ -z "${_rnome:-}" ] && continue
     if [ "$_rclasse" = "non-rimisurabile" ]; then
@@ -1691,14 +1817,53 @@ if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/d
       echo "[$(ts)]   ⚪ $_rnome — da qui non lo posso rimisurare: $_rcomando" >&2
       continue
     fi
+    # 🚧 AR-880 — QUI SI LEGGEVA UN VERDETTO A TRE ESITI COME SE FOSSE UN SÌ/NO, e il danno non era
+    # un falso allarme qualunque: era un'accusa CON IL NOME SBAGLIATO. Un guardiano che va cieco
+    # mentre lo si rimisura finiva in RIV_RIMASTI, cioè fra quelli che «dicono ANCORA no» — e da lì
+    # nel motivo che dice «vincoli consegnati al motore e NON soddisfatti», che blocca la sync e
+    # parte a Nicola su Telegram. Nicola sarebbe andato a cercare il lavoro non fatto dall'AD mentre
+    # il guasto era uno strumento rotto. È il fratello non curato del blocco di coerenza-fatti
+    # sessanta righe più su, che invece blocca E dichiara «CIECO».
+    #
+    # RIV_NONRIM esisteva già ed era la casella giusta: rientra nel conto dei vincoli attivi (un ⚪
+    # non è mai un verde) ma NON nel motivo che accusa il motore. Mancava solo che il 2 ci arrivasse.
+    #
+    # Il 124 di `timeout` resta un ❌ apposta: un guardiano che non finisce in due minuti non è un
+    # cieco, è un guardiano che non risponde.
     # shellcheck disable=SC2086
-    if timeout 120 node "$SCRIPT_DIR"/$_rcomando >/dev/null 2>&1; then
+    # ⚠️ LA VARIABILE È SENZA VIRGOLETTE APPOSTA, e non è una svista da sistemare: `_rcomando` può
+    # portare più parole — «freschezza-checklist.mjs --check» — e le virgolette le renderebbero un
+    # nome di file solo, che non esiste. La divisione in parole è il MECCANISMO, non un effetto
+    # collaterale.
+    #
+    # La radiografia di sicurezza del 31/8 l'ha segnalata come «protezione mancante, e la tabella è
+    # modificabile». Guardata fino in fondo non regge: `_rcomando` esce dalla tabella RIVERIFICA di
+    # `cervello/c4-cancelli.mjs`, che è CODICE con dentro array scritti a mano — non un file di dati.
+    # Chi può modificarla ha già l'esecuzione di codice, quindi non c'è niente da guadagnare
+    # passando da qui. Scritto qui perché la prossima radiografia non la rialzi una terza volta.
+    timeout 120 node "$SCRIPT_DIR"/$_rcomando >/dev/null 2>&1
+    _rrc=$?
+    if [ "$_rrc" -eq 0 ]; then
       RIV_RISOLTI+=("$_rnome")
+    elif [ "$_rrc" -eq 2 ]; then
+      RIV_NONRIM+=("$_rnome")
+      echo "[$(ts)]   ⚪ $_rnome — non ho potuto rimisurarlo: il guardiano è cieco, NON è il motore che non ha fatto il lavoro." >&2
     else
       RIV_RIMASTI+=("$_rnome")
       echo "[$(ts)]   ⛔ $_rnome — il vincolo era stato consegnato al motore e il guardiano dice ANCORA no." >&2
     fi
-  done < <(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>/dev/null)
+  done <<< "$_riv_elenco"
+  # AR-914: i vincoli che erano rossi e che l'elenco non ha nominato. Prudenza, non pignoleria:
+  # sono precisamente quelli che sparivano.
+  for _rv in "${VINCOLI_ATTIVI[@]}"; do
+    case " ${_riv_tornati} " in
+      *" ${_rv} "*) ;;
+      *)
+        RIV_NONRIM+=("$_rv")
+        echo "[$(ts)]   ⚪ $_rv — era rosso e l'elenco non me l'ha nemmeno nominato: NON lo do per risolto." >&2
+        ;;
+    esac
+  done
   _riv_out="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-esito \
     --rimasti="${RIV_RIMASTI[*]:-}" --risolti="${RIV_RISOLTI[*]:-}" --non-rimisurabili="${RIV_NONRIM[*]:-}" 2>/dev/null)"
   _riv_rc=$?

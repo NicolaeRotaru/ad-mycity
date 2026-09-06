@@ -192,7 +192,7 @@ function cantiere(nota) {
   return {
     difetti: [
       {
-        id: "AR-900",
+        id: "AR-924",
         titolo: "difetto finto per la prova",
         gravita: "grave",
         stato: "aperto",

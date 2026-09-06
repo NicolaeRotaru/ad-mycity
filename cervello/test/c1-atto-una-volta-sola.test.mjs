@@ -39,6 +39,10 @@ const MANI_FINTE = `data:text/javascript,${encodeURIComponent(`
   export async function eseguiAzione(a) {
     globalThis.__c1_mani.push(a.titolo);
     await new Promise((r) => setTimeout(r, 5)); // il mondo non risponde all'istante
+    // AR-887: il caso in cui l'atto esplode DOPO aver toccato il mondo. E' il caso vero — Resend
+    // che chiude la connessione dopo aver accettato, la rete che cade a meta — e il difetto sta
+    // tutto qui: da fuori non si distingue da «non e' partita».
+    if (globalThis.__c1_esplodi) throw new Error("la rete e' caduta dopo aver mandato");
     return { stato: "fatta", dettaglio: "inviata (finta)" };
   }
   export function isCanaleGithub() { return false; }
@@ -55,7 +59,20 @@ const CODA_FINTA = `data:text/javascript,${encodeURIComponent(`
   }
 `)}`;
 
-const FINTI = { "@/lib/mani": MANI_FINTE, "@/lib/azioni-pronte": CODA_FINTA };
+// AR-925 — la PR risulta GIÀ mergiata: è il ramo che chiude l'azione senza toccare il mondo, ed è
+// lì che il registro veniva scritto prima di guardare se lo stato era stato salvato.
+const GITHUB_FINTO = `data:text/javascript,${encodeURIComponent(`
+  export function isCanaleGithub(c) { return c === "github"; }
+  export function estraiMergePr() { return { pr: 999, owner: "x", repo: "y" }; }
+  export async function prGiaMergiata() { return globalThis.__c1_prMergiata === true; }
+  export async function chiudiAzioniMergeCompletate(a) { return a; }
+`)}`;
+
+const FINTI = {
+  "@/lib/mani": MANI_FINTE,
+  "@/lib/azioni-pronte": CODA_FINTA,
+  "@/lib/github-pr-merge": GITHUB_FINTO,
+};
 
 registerHooks({
   resolve(spec, ctx, next) {
@@ -348,6 +365,80 @@ await prova("AR-384: se la sicurezza conferma, il resto prosegue davvero (il met
   assert.equal(seguite, 1, "con la sicurezza a posto le altre scritture devono partire");
   assert.equal(esito.ok, true);
   assert.equal(esito.bloccataSullaSicurezza, false);
+});
+
+// ── AR-887 ────────────────────────────────────────────────────────────────────
+// Il difetto: il ramo «non eseguito» della rotta toglieva la firma per TUTTI i motivi. Era giusto
+// per i tre che c'erano prima («non ho toccato il mondo»), sbagliato per il quarto, nato il 30/8:
+// `atto-esploso` vuol dire «non SO se l'ho toccato». Togliere la firma rimette la card in «da
+// approvare», e Nicola che la riapprova manda la mail una seconda volta — a un cliente vero. Il
+// messaggio dell'azione, nel frattempo, gli diceva «NON riprovare».
+await prova("AR-887: se l'atto esplode a meta, la firma NON si toglie — o Nicola la rimanda", async () => {
+  const sb = finoSupabase();
+  globalThis.fetch = sb.handler;
+  globalThis.__c1_mani = [];
+  globalThis.__c1_coda = [AZIONE_VERDE];
+  globalThis.__c1_esplodi = true;
+  try {
+    const r = await rotta.POST(richiestaApprova("az-1"));
+    const corpo = await r.json();
+    assert.equal(corpo.ok, false, "un atto esploso non e' un successo");
+    assert.equal(corpo.motivo, "atto-esploso", "il motivo deve arrivare fino a chi legge");
+    // IL CUORE: la firma deve essere ancora addosso all'azione.
+    const firma = sb.righe.get("azione:az-1:firma");
+    assert.ok(firma && firma !== "",
+      "la firma e' stata tolta: la card torna in «da approvare» e la prossima approvazione rimanda la mail");
+    // ...e va detto che e' una SCELTA, non un guasto: due cose diverse vanno lette diverse.
+    assert.equal(corpo.firmaTenutaApposta, true, "non basta tenere la firma: va detto che e' apposta");
+    assert.match(String(corpo.error), /NON riprovare|apposta/,
+      "il messaggio deve dire di non riprovare e perche la firma e' rimasta");
+  } finally {
+    globalThis.__c1_esplodi = false;
+  }
+});
+
+await prova("AR-887: ...ma sugli altri tre motivi la firma si toglie ancora — la cura non e' un divieto", async () => {
+  // Senza questo caso il fix sarebbe «non togliere mai la firma», che ricostruirebbe AR-110:
+  // un'azione mai partita resterebbe firmata e la CLI potrebbe raccoglierla.
+  const sb = finoSupabase();
+  globalThis.fetch = sb.handler;
+  globalThis.__c1_mani = [];
+  globalThis.__c1_coda = [AZIONE_VERDE];
+  globalThis.__c1_esplodi = false;
+  const [a, b] = await Promise.all([rotta.POST(richiestaApprova("az-1")), rotta.POST(richiestaApprova("az-1"))]);
+  const corpi = [await a.json(), await b.json()];
+  const respinta = corpi.find((c) => c.ok === false);
+  assert.equal(respinta?.motivo, "gia-in-corso");
+  assert.notEqual(respinta?.firmaTenutaApposta, true,
+    "su «posto gia preso» la firma non va tenuta: quel tentativo non ha toccato niente");
+});
+
+
+await prova("AR-925: la PR era già mergiata ma lo stato non si salva → il registro NON deve dire «fatta»", async () => {
+  // Il ramo «PR già mergiata» chiude l'azione senza toccare il mondo. Se le due scritture di stato
+  // falliscono, l'azione NON è chiusa da nessuna parte — ma il registro veniva scritto lo stesso,
+  // PRIMA di guardare l'esito. Nicola avrebbe letto «fatta» nella cronologia mentre la card gli
+  // tornava in «da decidere»: due verità diverse sullo stesso fatto, e quella scritta è la sbagliata.
+  // Il ramo del RIFIUTO ha già l'ordine giusto da AR-230; questo era rimasto indietro.
+  const sb = finoSupabase();
+  globalThis.fetch = sb.handler;
+  globalThis.__c1_mani = [];
+  globalThis.__c1_prMergiata = true;
+  globalThis.__c1_coda = [{ ...AZIONE_VERDE, id: "az-gh", canale: "github" }];
+  sb.stato.scrittureRotte.add("azione:az-gh");
+
+  const r = await rotta.POST(richiestaApprova("az-gh"));
+  const corpo = await r.json();
+  assert.equal(corpo.ok, false, "le scritture erano rotte: la rotta non può dichiarare che è andata");
+
+  const registro = sb.righe.get("azioni_log");
+  const voci = registro ? JSON.parse(registro) : [];
+  assert.equal(
+    voci.some((v) => v.id === "az-gh"),
+    false,
+    "il registro dice «fatta» per un'azione il cui stato non è stato salvato: la cronologia mente a Nicola",
+  );
+  globalThis.__c1_prMergiata = false;
 });
 
 const rossi = casi.filter((c) => !c.ok);
