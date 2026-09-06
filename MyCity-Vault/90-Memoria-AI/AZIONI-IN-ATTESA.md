@@ -70,7 +70,11 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > Confermato oggi dalla risoluzione vera: il nome nudo porta a `216.24.57.1`, che è Render, e il `www` pure. Sul progetto Vercel non c'è nessun nome personalizzato.
 
-**Cosa non ho verificato.** Chi gestisce il nome: «Netsons» l'ho letto nel manuale del sito, non nel pannello vero. Se apri e trovi un altro gestore, i passi restano identici. Non ho potuto bussare al sito da qui: la rete di questa sessione blocca le chiamate in uscita. E non so quali variabili siano configurate oggi su Vercel — quella casella si guarda da dentro.
+> 🔍 **Il pannello è Netsons, confermato il 2026-09-06 06:00.** Me l'hai chiesto tu: «non ricordo dove ho comprato il dominio». L'ho chiesto ai server dei nomi, in diretta. Le quattro macchine che rispondono per il nome sono `dns1`, `dns2`, `dns3` e `dns4` di `netsons.net`, e il responsabile della zona è `admin@netsons.com`. Quindi il pannello dove si cambiano i due record è quello di Netsons.
+>
+> Se non ricordi l'accesso: cerca «netsons» nella posta (la conferma d'acquisto e i rinnovi arrivano da lì, e quella mail è l'account), poi «Password dimenticata» nell'Area Clienti. La procedura ha un Passo 0 con tutte e tre le strade.
+
+**Cosa non ho verificato.** Da chi il nome è stato *comprato*. I server dei nomi dicono chi gestisce le righe, e quasi sempre è anche chi ha venduto il nome — ma non è la stessa cosa. La risposta certa sta in una ricerca WHOIS, e da qui la porta che serve è chiusa: puoi farla tu in un minuto su `lookup.icann.org`. Non ho potuto bussare al sito per lo stesso motivo, e non so quali variabili siano configurate oggi su Vercel — quella casella si guarda da dentro.
 
 **Cosa devi fare tu.** La procedura distesa, con i sei passi in ordine e le trappole, sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`. In breve:
 

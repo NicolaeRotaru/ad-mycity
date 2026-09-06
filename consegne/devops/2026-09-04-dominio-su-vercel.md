@@ -31,12 +31,18 @@ Vercel e quello dove il nome è registrato. Sono circa dieci minuti di lavoro tu
 l'attesa: di solito da pochi minuti a qualche ora, perché il cambio si veda in tutto il
 mondo.
 
-**Cosa non ho verificato.** Chi gestisce il nome. Ho letto «Netsons» nella tabella dei
-fornitori del manuale del sito. Non l'ho visto dal pannello vero. Se apri e trovi un altro
-gestore, i passi restano identici: cambia solo dove clicchi. Non ho potuto bussare al sito
-da qui, perché la rete di questa sessione blocca le chiamate in uscita. La prova finale la
-puoi fare solo tu. E non so cosa c'è scritto oggi nelle caselle delle variabili su Vercel:
-quella parte va guardata mentre sei lì.
+**Il pannello è Netsons.** Confermato il 6/9 chiedendolo ai server dei nomi: le quattro
+macchine che rispondono per `mycity-marketplace.com` sono `dns1`, `dns2`, `dns3` e `dns4`
+di `netsons.net`, e l'indirizzo del responsabile della zona è `admin@netsons.com`. Vuol
+dire che il pannello dove si cambiano i due record è quello di Netsons. Se non ricordi
+l'accesso, il §Passo 0 qui sotto dice come rientrare.
+
+**Cosa non ho verificato.** Da chi il nome è stato *comprato*. I server dei nomi dicono chi
+gestisce le righe, e quasi sempre è anche chi ha venduto il nome — ma non è la stessa cosa.
+La risposta certa sta in una ricerca WHOIS, e da qui non riesco a farla: la porta che serve
+è chiusa in questa sessione. Non ho potuto bussare al sito da qui per lo stesso motivo, e
+non so cosa c'è scritto oggi nelle caselle delle variabili su Vercel: quella parte va
+guardata mentre sei lì.
 
 ---
 
@@ -58,6 +64,22 @@ proprietà, non una configurazione.
 **Ti serve la strada 1.** Il resto del documento è la strada 1.
 
 ---
+
+## Passo 0 — Se non ricordi l'accesso al pannello del nome
+
+Serve solo se non entri più in Netsons. Tre strade, dalla più veloce:
+
+1. **La posta.** Cerca «netsons» nella tua casella: la conferma d'acquisto e ogni rinnovo
+   arrivano da lì, e la mail su cui li trovi è quella dell'account.
+2. **La password dimenticata.** `netsons.com` → Area Clienti → «Password dimenticata», con
+   quella mail. Ti rimanda un accesso senza dover chiamare nessuno.
+3. **Chi è il proprietario del nome, nero su bianco.** Apri `lookup.icann.org` e scrivi
+   `mycity-marketplace.com`. La riga «Registrar» dice da chi il nome è stato comprato, e
+   quella «Registrar Abuse Contact» dà un recapito. È anche il modo per scoprire se il
+   venditore è qualcun altro rispetto a Netsons.
+
+Se nessuna delle tre funziona, l'ultima spiaggia è l'assistenza di Netsons con la prova di
+pagamento: l'estratto conto della carta di quel mese basta come prova che il nome è tuo.
 
 ## Passo 1 — Fotografa quello che c'è adesso
 
@@ -161,7 +183,8 @@ e tre, perché un indirizzo nuovo le riguarda.
 | Domini sul progetto Vercel | chiavi di Vercel | due soli indirizzi tecnici, nessun nome vero |
 | La protezione blocca il nome nuovo? | chiavi di Vercel | **No**: è accesa «tutto tranne i domini personalizzati» |
 | Piano e regione | chiavi di Vercel | Pro, funzioni a Parigi |
-| Chi gestisce il nome | manuale del sito | Netsons, **da confermare aprendo il pannello** |
+| Chi gestisce le righe del nome | server dei nomi, in diretta | **Netsons** (`dns1`-`dns4.netsons.net`) |
+| Da chi il nome è stato comprato | — | **non provato da qui**: la ricerca WHOIS non passa |
 
 La riga sulla protezione corregge una preoccupazione scritta nella card #192. Lì era segnato
 che forse avresti trovato la schermata di accesso di Vercel al posto del sito. Con
