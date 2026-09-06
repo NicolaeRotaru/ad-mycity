@@ -4,7 +4,7 @@ reparto: devops-sre
 data: 2026-09-04 10:20
 aggiornato: 2026-09-06 08:25
 colore: 🔴
-stato: pronta — aspetta Nicola
+stato: eseguita il 2026-09-06 17:09 — resta la variabile del sito
 card: "#192"
 ---
 
@@ -18,6 +18,13 @@ card: "#192"
 > Li ho visti nella schermata Domains che mi hai mandato. Vercel li segna in rosso con
 > scritto «Invalid Configuration», e vuol dire una cosa sola: le righe nel pannello del nome
 > puntano ancora al server vecchio. Il §Passo 2 quindi è già fatto, e a te resta il §Passo 3.
+
+> ✅ **Fatto il 6 settembre alle 17:09.** Nicola ha cambiato le due righe in Netsons. Il nome nudo
+> risponde `216.150.1.1` e il `www` porta all'indirizzo chiesto da Vercel. La pagina che arriva è il
+> marketplace vero. La riga della posta non è stata toccata. Resta aperto il §Passo 5, e con una
+> differenza: il sito si presenta come `mycity-marketplace.com` senza il `www`, mentre Vercel serve
+> il `www`. Le due cose vanno messe d'accordo, e la strada più corta non tocca il codice. Su Vercel
+> metti il nome nudo come principale e fai rimandare il `www` a lui.
 
 ### Le due righe, coi valori veri
 

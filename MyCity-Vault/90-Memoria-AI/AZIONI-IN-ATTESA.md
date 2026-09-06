@@ -84,6 +84,12 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > **La posta è al sicuro se cambi solo quelle due righe.** Ho guardato: c'è una riga `MX` verso `mail.mycity-marketplace.com`, che è una macchina con un indirizzo tutto suo, e c'è una riga `_dmarc`. Nessuna delle due si tocca.
 
+> ✅ **FATTO il 2026-09-06 17:09: il nome porta al marketplace.** Hai cambiato le due righe in Netsons, e da qui ho controllato il risultato.
+>
+> Il nome nudo risponde `216.150.1.1`, il `www` porta all'indirizzo chiesto da Vercel, e la pagina che arriva è il marketplace vero. La riga della posta non è stata toccata. Restano tre cose fuori dal sito, e sono qui sotto.
+>
+> **Il pezzo aperto: il sito dice un nome, Vercel ne serve un altro.** Il sito si presenta come `mycity-marketplace.com` senza il `www`, mentre Vercel serve il `www`. Ogni anteprima condivisa e ogni ritorno dal pagamento fa un salto in più. Si chiude in due modi. Su Vercel metti il nome nudo come principale e fai rimandare il `www`: non tocca il codice e non serve ripubblicare. Oppure cambi la variabile del sito col `www` e ripubblichi.
+
 **Cosa non ho verificato.** Da chi il nome è stato *comprato*. I server dei nomi dicono chi gestisce le righe, e quasi sempre è anche chi ha venduto il nome — ma non è la stessa cosa. La risposta certa sta in una ricerca WHOIS, e da qui la porta che serve è chiusa: puoi farla tu in un minuto su `lookup.icann.org`. Non ho potuto bussare al sito per lo stesso motivo, e non so quali variabili siano configurate oggi su Vercel — quella casella si guarda da dentro.
 
 **Cosa devi fare tu.** La procedura distesa, con i sei passi in ordine e le trappole, sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`. In breve:
