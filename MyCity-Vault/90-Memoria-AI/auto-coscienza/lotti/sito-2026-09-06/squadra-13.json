@@ -1,0 +1,121 @@
+{
+ "squadra": 13,
+ "territorio": [
+  "app/api/stripe/checkout/route.ts",
+  "app/api/orders/cod/route.ts",
+  "app/checkout/page.tsx",
+  "app/layout.tsx",
+  "app/globals.css",
+  "components/StickyAddToCart.tsx",
+  "app/rider/orders/[id]/page.tsx",
+  "components/ConfirmDialog.tsx",
+  "components/orders/ContactSheet.tsx",
+  "components/checkout/PaymentMethodSelector.tsx",
+  "app/product/[id]/page.tsx",
+  "components/checkout/OrderSummary.tsx"
+ ],
+ "malattia": "La cassa e' stata costruita due volte — una per il computer e una per il telefono — e ogni volta che si e' sistemato qualcosa lo si e' sistemato da una parte sola: la copia rimasta indietro e' sempre quella del telefono, cioe' l'unica che il cliente vede davvero mentre compra.",
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|il credito mycity si spende solo pagando in contanti: chi paga con carta non può usare il buono regalo",
+   "titolo": "Il credito MyCity si spende solo pagando in contanti: chi paga con carta non può usare il buono regalo",
+   "esito": "non_riparato",
+   "prova": "Letto app/api/stripe/checkout/route.ts (lo schema `Body` alla riga 58 non ha `useCredit`, in tutto il file zero chiamate a wallet_debit/wallet_credit) e confrontato con app/api/orders/cod/route.ts:588-598, dove il credito viene scalato per negozio con la RPC wallet_debit e restituito con wallet_credit su ogni ramo di errore (righe 685, 713).",
+   "nota_fix": "NON RIPARATO, e non e' un difetto minore travestito: e' una funzione che tocca soldi veri. Per farla servono tre cose insieme — (1) scalare il credito per negozio prima di aprire la sessione Stripe, (2) salvarne l'importo sull'ordine in attesa, (3) RIDARLO indietro quando la sessione scade o viene annullata. Il punto (3) vive in app/api/stripe/webhook/route.ts, che gestisce gia' `checkout.session.expired` alla riga 203 e NON e' nel mio territorio. Senza il punto (3) il cliente che chiude la pagina di Stripe perde il credito: sarebbe peggio del difetto. Owner: @backend-dev, con firma di Nicola (soldi). Ho pero' chiuso la meta' che si vede: vedi il difetto qa-flussi qui sotto, che adesso dice alla persona che fine fa il suo credito e le offre di cambiare metodo in un tocco.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "qa-flussi|chi paga con la carta vede sparire il proprio credito mycity senza una spiegazione",
+   "titolo": "Chi paga con la carta vede sparire il proprio credito MyCity senza una spiegazione",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-cassa-non-lascia-la-persona-senza-spiegazione.test.ts  → 11 prove verdi, exit 0 (blocco «chi paga con la carta sa che fine fa il suo credito»). Controprova: rimettendo dentro i difetti la stessa prova esce 1.",
+   "nota_fix": "Fatto quello che il fix_proposto chiama la soluzione intanto: scegliendo la carta, chi ha credito ora vede un riquadro che dice quanto ha, che per ora si spende solo pagando alla consegna, e che il credito resta suo. Sotto c'e' un pulsante «Paga alla consegna e usa il credito» che cambia metodo e fa ricomparire la casella: un tocco, non un giro all'indietro. Il pulsante segna anche il passaggio in analisi (trackCheckoutStep), come fa il selettore. La soluzione vera (il credito che passa da Stripe) resta aperta nella scheda pagamenti-stripe qui sopra. Cosa NON ho verificato: non ho aperto la pagina in un browser, quindi il riquadro non l'ho visto a video — solo compilato (tsc exit 0) e provato sul sorgente.",
+   "file_toccati": [
+    "app/checkout/page.tsx"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|checkout: riquadri interni con angoli più tondi del contenitore che li contiene",
+   "titolo": "Checkout: riquadri interni con angoli più tondi del contenitore che li contiene",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-cassa-non-lascia-la-persona-senza-spiegazione.test.ts  → verde (blocco «gli angoli si stringono andando verso l'interno»). Prima del fix: grep 'rounded-xl' su app/checkout/page.tsx trovava i tre riquadri interni; ora sono rounded-lg. Contenitore letto in components/ui/Card.tsx:54.",
+   "nota_fix": "RIPARATO, ma la scheda descriveva la misura sbagliata e lo dico perche' cambia il conto. La scheda diceva: contenitore rounded-lg (12px, «da Card.tsx:43»), riquadri interni 16px. Oggi Card.tsx:54 dice `variant === 'funnel' ? 'rounded-xl' : 'rounded-lg'`, e gli StepCard sono funnel: il contenitore e' 16px. Quindi i tre riquadri non erano PIU' tondi del contenitore, erano UGUALI. La regola pero' resta rotta lo stesso — il raggio deve stringersi verso l'interno, mai restare pari — ed e' esattamente il caso che il fix_proposto aveva previsto («se le card del funnel passano a rounded-xl, tenerli comunque un gradino sotto»). Portati tutti e tre a rounded-lg: 12px dentro 16px. I tre sono la conferma del ritiro in negozio, il riquadro della consegna a domicilio e quello del credito MyCity. Il quarto riquadro (la scelta del pagamento) e' in PaymentMethodSelector e l'ho lasciato stare: e' un'altra scheda e un altro contenitore.",
+   "file_toccati": [
+    "app/checkout/page.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|nel checkout il pulsante che toglie l'articolo finito è bianco su arancione: si legge male",
+   "titolo": "Nel checkout il pulsante che toglie l'articolo finito è bianco su arancione: si legge male",
+   "esito": "gia_riparato_prima",
+   "prova": "grep -n 'amber-600' app/checkout/page.tsx → nessun risultato. I due pulsanti «Togli dal carrello» (righe 1305 e 1360) sono `bg-accent-700 hover:bg-accent-800`. Contrasto ricalcolato con la formula WCAG 2.1 (script in scratchpad): bianco su accent-700 #9D621C = 5,00:1 · bianco su accent-800 #7F4F1E = 6,91:1 · il vecchio amber-600 #D97706 = 3,19:1, che e' il numero scritto nella scheda. Soglia AA per testo non grande: 4,5:1.",
+   "nota_fix": "Non c'e' piu' niente da fare: qualcuno ha gia' sostituito amber-600 con accent-700 (colore della palette, non piu' Tailwind grezzo) su tutt'e due i pulsanti. Passa AA con margine sia a riposo sia sotto il mouse. Cosa NON ho verificato: il contrasto l'ho ricalcolato dai codici colore di app/globals.css:43, non l'ho misurato in un browser vero con Playwright come faceva la prova originale della scheda — quel file di configurazione stava in una cartella temporanea di un'altra sessione e non esiste piu'.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "mobile-pwa|il codice per la «zona sicura» dell'iphone c'è dappertutto ma non funziona: manca viewport-fit",
+   "titolo": "Il codice per la «zona sicura» dell'iPhone c'è dappertutto ma non funziona: manca viewport-fit",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-cassa-non-lascia-la-persona-senza-spiegazione.test.ts  → verde (blocco «la zona sicura dell'iPhone»). Controprova eseguita: tolta la riga `viewportFit: 'cover'`, la stessa prova esce 1. Prima del fix: grep 'viewportFit|viewport-fit' su app/, components/, lib/, next.config.js e public/ non trovava nulla in tutto il progetto.",
+   "nota_fix": "Il difetto era in due pezzi e uno era gia' chiuso. (1) IL DOPPIONE: gia' sistemato il 27/8 (R096) — la misura della barra gestuale ora la conta una volta sola `bottom`, tramite lib/ui/barra-in-fondo.ts; la barra della cassa non ha piu' il `pb-[calc(...)]` e StickyAddToCart non ha piu' `pb-safe`. Riletti tutti e due: confermato. (2) L'INTERRUTTORE GENERALE: mancava davvero. Aggiunto `viewportFit: 'cover'` all'export `viewport` di app/layout.tsx, con il commento che spiega perche' si puo' accendere solo adesso — accenderlo PRIMA del lavoro sul doppione avrebbe fatto contare la misura due volte, cioe' avrebbe rotto le due barre invece di sistemarle. Cosa NON ho verificato: non ho un iPhone ne' un simulatore, quindi che le barre ora si appoggino giuste sopra la barra gestuale non l'ho VISTO. Serve un occhio umano su un iPhone senza tasto casa, in verticale, nella cassa e nella scheda prodotto.",
+   "file_toccati": [
+    "app/layout.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|chi sceglie il ritiro in negozio non dice mai a che ora passa",
+   "titolo": "Chi sceglie il ritiro in negozio non dice mai a che ora passa",
+   "esito": "non_riparato",
+   "prova": "grep -rn 'RITIRO_IN_NEGOZIO_ATTIVO' su app/, components/, lib/ → lib/constants.ts:41 dice `export const RITIRO_IN_NEGOZIO_ATTIVO = false`. Letti i tre punti che lo leggono: components/checkout/PaymentMethodSelector.tsx:134 (la casella non viene proprio disegnata), app/api/orders/cod/route.ts:119 e app/api/stripe/checkout/route.ts:120 (tutt'e due riscrivono `body.pickupInStore = RITIRO_IN_NEGOZIO_ATTIVO && body.pickupInStore`, cioe' sempre falso).",
+   "nota_fix": "NON RIPARATO, per due motivi. Primo: oggi il difetto non puo' capitare a nessuno — il ritiro in negozio e' spento in tutto il sito da una decisione di Nicola del 20/8 («togli il 10% di sconto per ritira in negozio... perche non ne ho ancora parlato con i negozi»), la casella non compare e le due rotte lo forzano a falso. Non e' pero' `gia_riparato_prima`: il codice e' identico a come lo descrive la scheda, e il difetto torna intero il giorno che quell'interruttore si riaccende. Secondo: il fix vero esce dal mio territorio in tre punti — serve un campo nuovo sul profilo del negozio («accetto il ritiro», spento di default), cioe' una migrazione del database, che e' 🔴 e non e' di questo lotto; servono gli orari del negozio da lib/store-hours.ts; e serve lib/constants.ts. Nessuno dei tre e' nei miei 12 file. Quando si riaccende il ritiro, questa scheda va rifatta insieme alla migrazione: owner @backend-dev per il campo, @frontend-dev per spostare il ritiro dal passo «Come paghi» al passo «Quando vuoi riceverlo».",
+   "file_toccati": []
+  },
+  {
+   "chiave": "flussi-conversione|«compra ora · paghi alla consegna» atterra su un checkout con la carta già selezionata",
+   "titolo": "«Compra ora · paghi alla consegna» atterra su un checkout con la carta già selezionata",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-cassa-non-lascia-la-persona-senza-spiegazione.test.ts  → verde (blocco «l'intenzione dichiarata sulla scheda prodotto arriva fino alla cassa», 4 prove). Prima del fix: app/checkout/page.tsx:538 `useState(stripeAvailable ? 'card' : 'cod')` e handleBuyNow che faceva solo `router.push('/checkout')`.",
+   "nota_fix": "Il pulsante «Compra ora · paghi alla consegna» ora scrive la sua promessa nella memoria della scheda del browser (sessionStorage, chiave mc_metodo_scelto) e la cassa la raccoglie. Tre scelte che vale la pena sapere: (a) si legge dentro un useEffect e non dentro useState, perche' sul server quella memoria non esiste e leggerla mentre si costruisce la pagina farebbe partire il sito con due versioni diverse della stessa schermata; (b) si legge UNA volta e si cancella subito — non e' una preferenza salvata, e chi arriva dal carrello o ricarica ritrova il valore di partenza di sempre; (c) se arrivasse 'card' con Stripe non configurato viene ignorato. Ordine rispetto alla bozza salvata: l'effetto che rimette la bozza vecchia (righe 459-482) e' dichiarato prima, quindi l'intenzione appena espressa vince sulla bozza vecchia — ed e' giusto cosi'. DA SISTEMARE PIU' AVANTI, fuori dal mio territorio: le due funzioni `ricordaMetodoScelto`/`raccogliMetodoScelto` le ho messe in PaymentMethodSelector.tsx, ma la casa giusta e' lib/bozza-checkout.ts, che possiede gia' `metodoDaRimettere` ed e' un file .ts — cioe' provabile eseguendolo, mentre un .tsx qui non si puo' importare in una prova. Cosa NON ho verificato: il giro vero (premo il pulsante sulla scheda prodotto, atterro in cassa) non l'ho fatto in un browser.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx",
+    "components/checkout/PaymentMethodSelector.tsx",
+    "app/checkout/page.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|su telefono il pulsante di conferma si spegne senza dire perché (sul desktop è già stato corretto)",
+   "titolo": "Su telefono il pulsante di conferma si spegne senza dire perché (sul desktop è già stato corretto)",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-cassa-non-lascia-la-persona-senza-spiegazione.test.ts  → verde (blocco «il pulsante di conferma spiega perche non parte», 3 prove). Controprova eseguita: rimesso `aria-disabled={false}` sulla barra del telefono, la stessa prova esce 1. In piu' tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts (prova gia' esistente, aggiornata) resta verde: 29 prove.",
+   "nota_fix": "Sulla barra del telefono ora vale lo stesso schema del gemello sul computer: `type` diventa 'button' quando c'e' un blocco, `disabled` resta acceso SOLO mentre l'ordine sta partendo (l'unico caso in cui premere di nuovo farebbe danno: doppio ordine), `aria-disabled` dichiara il blocco, e premendolo si va sul primo riquadro che lo spiega. Aggiunte anche le classi aria-disabled:opacity-50 e aria-disabled:cursor-not-allowed, cosi' il pulsante SEMBRA bloccato come prima. DUE COSE IN PIU', tutt'e due dentro il territorio, e le dichiaro perche' allargano il diff: (1) la condizione del blocco era ricopiata a mano nei due punti — l'ho messa in un posto solo, `ordineBloccato`, perche' era proprio quella copia a far separare i due pulsanti; (2) la mossa «portami sul riquadro che spiega» era scritta in linea dentro OrderSummary: l'ho esportata come `vaiAlPrimoBlocco` e la usano tutt'e due, invece di riscriverla una seconda volta. Cosa NON ho verificato: non ho provato col tasto Tab in un browser vero ne' con un lettore di schermo — le prove leggono il sorgente, non premono il pulsante (il motivo sta in difetti_nuovi).",
+   "file_toccati": [
+    "app/checkout/page.tsx",
+    "components/checkout/OrderSummary.tsx"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "pagamenti-stripe|il credito mycity si spende solo pagando in contanti: chi paga con carta non può usare il buono regalo",
+   "perche": "il fix vive in un file fuori territorio: app/api/stripe/webhook/route.ts (serve ridare il credito su checkout.session.expired, riga 203, se no chi chiude la pagina di Stripe lo perde). E' anche una funzione che tocca soldi veri: 🔴, non di questo lotto."
+  },
+  {
+   "chiave": "flussi-conversione|chi sceglie il ritiro in negozio non dice mai a che ora passa",
+   "perche": "il fix vive in file fuori territorio: lib/constants.ts (l'interruttore RITIRO_IN_NEGOZIO_ATTIVO, oggi false) e lib/store-hours.ts (gli orari del negozio), piu' una migrazione del database per il campo «accetto il ritiro» sul profilo del negozio — migrazione = 🔴, fuori dal lotto."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Le prove unitarie non possono aprire nessun componente del sito: 'jsx: preserve' in tsconfig.json blocca la trasformazione dei file .tsx",
+   "dove": "vitest.config.ts:16 (environment node, include *.test.ts e *.test.tsx) · tsconfig.json:15 ('jsx': 'preserve')",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Con la «zona sicura» ora accesa, in orizzontale sull'iPhone col notch nessuno tiene i contenuti lontani dal bordo: safe-area-inset-left e -right non compaiono in nessun file",
+   "dove": "app/globals.css:290 (c'e' solo .pb-safe, cioe' il fondo) · nessun uso di env(safe-area-inset-left/right) in tutto il progetto",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Non ho aperto il sito in un browser: nessuno dei cinque fix l'ho VISTO a video. In particolare (1) che le barre in fondo si appoggino giuste sopra la barra gestuale di un iPhone senza tasto casa — serve un occhio umano su un telefono vero, in verticale, nella cassa e nella scheda prodotto; (2) che il pulsante del telefono, premuto da bloccato, porti davvero la persona sul riquadro giusto col tasto Tab e con un lettore di schermo; (3) il giro completo «Compra ora · paghi alla consegna» → cassa. Le prove che ho scritto leggono il sorgente, non premono i pulsanti, e il motivo e' il primo dei difetti_nuovi: il motore delle prove unitarie non sa aprire un file .tsx, quindi un componente non si puo' importare. Sui difetti minori il manuale del lotto ammette la lettura del sorgente, ma un verde qui vale meno di un verde che esegue, e lo dico invece di farlo sembrare uguale. Non ho lanciato npm run verify ne' la build (vietati mentre le altre squadre scrivono): ho lanciato `npx tsc --noEmit -p tsconfig.json` (exit 0), eslint sui file toccati (0 errori, 5 avvisi tutti preesistenti e non miei) e 107 file di prove scelti fra quelli che nominano i miei file o le parole della cassa (543 + 352 prove, tutte verdi). La suite intera non l'ho fatta girare.",
+ "nota_per_l_ad": "DUE FILE FUORI DAI 12 DELL'INCARICO, tutt'e due prove, tutt'e due colpa mia e le segnalo apposta. (1) NUOVO: tests/unit/la-cassa-non-lascia-la-persona-senza-spiegazione.test.ts — la prova dei miei fix. (2) MODIFICATO: tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts — l'ho rotta io e l'ho rimessa a posto. Quella prova contava che la condizione del blocco comparisse DUE volte, cioe' pretendeva che fosse ricopiata nei due pulsanti; togliendo la copia (che era la causa del difetto «su telefono il pulsante si spegne senza dire perche'») e' diventata rossa. L'ho riscritta perche' segua il freno fino ai due pulsanti invece di contare le copie: chiede di piu' di prima, non di meno. Nessuno dei due file puo' scontrarsi con un'altra squadra: uno e' nuovo, l'altro e' una prova che nomina i miei file."
+}
