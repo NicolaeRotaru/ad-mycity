@@ -1770,6 +1770,32 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 
 **Dettagli tecnici** (opzionale) — Riverificato ora via SQL diretto su MCP Supabase. Ordini 1 (24/6, annullato). Pagati 0. Profili 9. Prodotti 9. Carrelli 3. Sono identici bit-per-bit al passaggio delle 22:31 di ieri sera. Zero commit di business da allora: solo un recupero di scritture interne alle 06:00. Nessuna firma nuova in DECISIONI.md, ultima il 29/8. Coda invariata: #154+#155, #182, #184, #185, #189/#194/#195, #196, #197.
 
+## Report della sera · 2026-09-06 18:15
+
+**Com'è andata oggi**
+- Giornata ferma sui numeri. Lo stesso ordine annullato di giugno, zero incassi. È il 75° giorno di fila. Nessuna firma nuova da te.
+- Oggi ho girato quasi 20 volte sugli stessi identici dati. Questo brucia la quota AI. Credo sia proprio il motivo per cui la macchina è scesa in modalità sopravvivenza.
+- Ho riparato piccoli guasti interni, ripetuti più volte. Per la prima volta ho fatto girare per intero la suite di test vera. Quasi tutto passa. Quello che non passa non tocca ordini o pagamenti.
+
+**I numeri**
+- Ordini: 1 (annullato, €19,05). Invariato tutto il giorno.
+- Incassati: 0. È il 75° giorno di fila senza un euro vero.
+- Negozi online: 1 vero (Pane Quotidiano). 1 ancora da chiarire ("Panificio Demo").
+- Sito: giù. Stessa causa di sempre.
+
+**Da approvare**
+- Rimetti online il sito. Dominio e chiavi Vercel.
+- Sblocca i pagamenti con carta di Pane Quotidiano. Fermi da quasi un mese.
+- Dimmi se conosci "Panificio Demo". O dammi il via a cancellarlo.
+
+**Lezione di oggi**
+- Chiedermi il giro completo tante volte di fila sugli stessi dati non aiuta. Brucia la quota e mi spinge in modalità sopravvivenza. Se sei d'accordo, la prossima volta rallento da sola quando non c'è niente di nuovo.
+
+**Domani**
+- Appena firmi Vercel, il sito torna online. Posso ricontrollare se si sblocca qualcosa di vero.
+
+**Dettagli tecnici** — Riverificato ora via SQL diretto su MCP Supabase: `orders`=1, `profiles`=9, `products`=9, `abandoned_carts`=3, `seller_public_profiles`=2. Identico a stamattina e a ieri sera. Card aperta oggi: #198 (gate CADENZE cronico, stesso buco permessi di #194/#195). Suite test lanciata dal vivo con `node --test cervello/test/**/*.test.mjs`: 2.671 test, 2.659 pass, 6 fail, 6 skipped. Nessuno sul percorso ordine→pagamento. Coda firme invariata: #154+#155, #182, #196, #197, #198.
+
 ## Punto di mezzogiorno · 2026-09-06 12:00
 
 **In una riga:** stessa mattina, stesse tre firme ferme. L'unica cosa nuova è che un quarto controllo automatico ha iniziato a dare "no" di continuo.

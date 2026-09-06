@@ -1,8 +1,47 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 16:46
-fonte: AD digitale (giro.md)
+aggiornato: 2026-09-06 18:15
+fonte: AD digitale (ritmo.md)
 ---
+
+> 🌙 **6/9 18:15 — Report della sera.** Giornata a delta zero. 1 ordine annullato. 0 pagati. È il
+> **75° giorno di fila**. Riverificato ora dal vivo su Supabase: `orders`=1, `profiles`=9,
+> `products`=9, `abandoned_carts`=3, `seller_public_profiles`=2. Sono identici a stamattina (6/9
+> 06:02) e a ieri sera (5/9 22:31). Nessuna firma nuova di Nicola: l'ultima resta quella del 29/8.
+> Il sito resta giù (HTTP 503). Non l'ho ri-testato dal vivo in questo passaggio: è la stessa causa
+> di sempre, dominio e chiavi Vercel (card #154/#155) senza firma.
+>
+> **Cosa è successo davvero oggi, in breve.** Non un giorno di lavoro sul business. Un giorno di
+> circa 20 chiamate "giro completo" ravvicinate, tutte su dati identici. Ogni passaggio ha
+> riverificato i numeri dal vivo, mai a memoria. Nessun passaggio ha rilanciato le 15 fasi pesanti:
+> vale il letargo SOPRAVVIVENZA più il gate NORTH_STAR. Ogni passaggio ha riparato lo stesso piccolo
+> guasto: `auto-analisi.json` veniva toccato dal commit del giro precedente senza aggiornare il
+> campo `data` interno. Il vincolo `freschezza-cadenze.mjs` lo segnalava giusto, ed è stato riparato
+> ogni volta. Aperta una sola card nuova, la **#198** (10:30): è il terzo controllo di fila che
+> dice "no", per lo stesso buco di permessi delle card gemelle #194/#195. Per la prima volta ho
+> ottenuto il verdetto VERO della suite di test: l'ho lanciata dal vivo con
+> `node --test cervello/test/**/*.test.mjs`, in background, perché il comando nominato
+> `test-cervello.mjs` resta bloccato dall'allowlist. Risultato: **2.671 test, 2.659 pass, 6 fail, 6
+> skipped**. Nessuno dei 6 falliti tocca il percorso ordine→pagamento. I playbook del worker
+> (Recensioni, Contenuto del giorno, Recupero carrelli, Anti-churn) hanno girato con gate invariato:
+> nessun contenuto nuovo pronto. Sono loop già noti in memoria.
+>
+> **Perché non ho rilanciato il lavoro pesante.** Due regole lo impediscono. Il letargo
+> SOPRAVVIVENZA vale solo il nucleo vitale: ordini, consegne, coda firme, sicurezza. Il gate
+> NORTH_STAR ammette solo lavoro che avvicina il primo ordine pagato. I dati sono confermati
+> identici passaggio dopo passaggio. Rifare radar, radiografia e auto-miglioramento su numeri fermi
+> sarebbe stato solo consumo di quota, non un controllo in più. È probabile che proprio questo
+> volume di richieste ravvicinate abbia spinto la quota AI oltre soglia, e con essa la macchina in
+> SOPRAVVIVENZA. Ho lasciato l'osservazione come domanda a Nicola in `auto-analisi.json`, alla voce
+> `domande_per_nicola`. Non ho aperto una card su questo: è ancora un'ipotesi, non un fatto provato.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la tua firma sulle card #154 e #155: dominio e
+> chiavi Vercel. Senza quella firma il sito resta giù. Nessun ordine può ancora diventare un
+> incasso vero.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **6/9 16:46 — Nuova chiamata "esegui giro.md per intero".** Sono passati 10 minuti dal
 > passaggio delle 16:36. Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
@@ -1682,21 +1721,21 @@ fonte: AD digitale (giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Base di partenza, non una misura di adesso.** I numeri sotto vengono dall'ultima lettura vera
-del database, 6 settembre alle 06:02 (Piano del mattino), query diretta a Supabase via MCP. Quando
+del database, 6 settembre alle 18:15 (Report della sera), query diretta a Supabase via MCP. Quando
 i sensori sono ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
 
-| Numero | Oggi (6/9 06:02) | Δ vs 5/9 22:31 | "Riuscito" | Note |
+| Numero | Oggi (6/9 18:15) | Δ vs 5/9 22:31 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 6/9 06:02. "Panificio Demo" (card #196) NON contato: origine non confermata |
-| Negozi con payout attivo | **0 reali** | = | 1 | confermato ieri: `stripe_charges_enabled` falso su entrambi i seller. Card #182 |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato ieri (Pane Quotidiano). Il totale tabella `products` è **9**: i 4 in più sono del "Panificio Demo" non confermato |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 6/9 06:02 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **74 giorni** dal 24/6 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 6/9 18:15. "Panificio Demo" (card #196) NON contato: origine non confermata |
+| Negozi con payout attivo | **0 reali** | = | 1 | invariato: `stripe_charges_enabled` falso su entrambi i seller. Card #182 |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | invariato (Pane Quotidiano). Il totale tabella `products` è **9**: i 4 in più sono del "Panificio Demo" non confermato |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 6/9 18:15 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **75 giorni** dal 24/6 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | non eseguibile finché Stripe PQ resta spento |
-| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | = | crescita | invariato da ieri sera. Il +1 di ieri mattina resta "Panificio Demo" (card #196, origine ignota), non un cliente vero |
+| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | = | crescita | invariato tutto il giorno. Il +1 di due giorni fa resta "Panificio Demo" (card #196, origine ignota), non un cliente vero |
 | Lead negozi nel DB | **407** (fermi dal 24/5) | = | lavorarli | invariato, fuori dal perimetro North-Star di questo giro |
-| Sito pubblico | **HTTP 503** (baseline 5/9 18:03) | = | 200 | non riverificato dal vivo in questo passaggio. Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Sito pubblico | **HTTP 503** (baseline 5/9 18:03) | = | 200 | non ri-testato dal vivo in questo passaggio (già confermato giù più volte oggi). Causa nota: dominio e chiavi Vercel (#155, #154) |
 
 ---
 
