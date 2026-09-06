@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-06 09:10",
+  "aggiornato": "2026-09-06 11:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20189,6 +20189,43 @@
       "trovato_da": "Nicola, che ha detto «la CI è rossa» tre volte mentre io spiegavo perché il rosso andava bene",
       "chiuso_il": "2026-09-06 09:10",
       "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-945",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-06 10:05",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il cancello si fermava su un rosso della suite e scriveva solo il nome del file, mai il perché",
+      "sintomo": "Corsa 34017868367: «❌ cervello/test/due-case.test.mjs» e nient'altro. Quale caso fosse caduto, con che messaggio, quanti su quanti — niente. La stessa prova era verde nel flusso separato sullo stesso commit e verde in locale, quindi l'unica strada per capire era indovinare fra ambiente, tempi e codice, e ogni ipotesi costa una corsa da mezz'ora.",
+      "causa_radice": "`testRossi()` è nato per CONTARE: i tetti hanno bisogno di un numero e dei nomi, e la funzione mappa ogni riga rossa su `x.file` buttando il resto. Ma `test-cervello.mjs --json` il perché ce l'ha — sta nel campo `motivo` di ogni riga — e nessuno gliel'ha mai chiesto. Così il punto dove il referto pesa di più, il rosso che ferma la consegna, era anche l'unico senza spiegazione.",
+      "fix_proposto": "🟡 FATTO. `motiviDeiRossi()` sta accanto a `testRossi()` e risponde all'altra metà della domanda: file, motivo, quanti caduti su quanti. Il cancello lo stampa sotto ogni rosso della suite. Un rosso di cui la suite non ha scritto il motivo lo DICHIARA invece di lasciare una riga muta, e un JSON illeggibile torna `null` e non un elenco vuoto — «non ho saputo leggere» non è «non c'erano rossi».",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/un-rosso-senza-il-suo-perche.test.mjs",
+        "nota": "Quattro mutazioni misurate, tutte e quattro rendono rossa la prova: il motivo che torna a essere buttato · il rosso muto che resta muto · il JSON illeggibile che torna elenco vuoto invece di null · il file mai eseguito che torna a contare come rosso. Un caso pretende anche che l'elenco combaci con quello che i tetti contano: due letture della stessa misura, mai due misure."
+      },
+      "trovato_da": "il rosso della corsa 34017868367, che non si è lasciato diagnosticare",
+      "chiuso_il": "2026-09-06 10:05",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-946",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-09-06 11:10",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "La Cabina resta indietro mentre lavoro, e a dirmelo è il cancello mezz'ora dopo invece del freno di fine turno",
+      "sintomo": "Due volte in due giorni: 5/9 e 6/9. Ogni commit sposta in avanti «l'ultima consegna»; se STATO.md non viene aggiornato nello stesso lotto, `conta-verdetti-muti` va rosso — e il rosso arriva dentro la casa spoglia di `due-case.test.mjs`, cioè dopo ~7 minuti di suite dentro una corsa da mezz'ora. Il 6/9 ha bruciato una corsa intera del cancello (34017868367).",
+      "causa_radice": "Il freno esiste ed è giusto: un lavoro che non arriva alla Cabina, per Nicola non è successo. Ma vive SOLO nel cancello, cioè a valle del push. Il freno di fine turno (`cancello-stop.mjs`) non chiede niente alla Cabina, quindi il momento in cui potrei rimediare a costo zero — prima di spingere — passa in silenzio. E il guardiano che sa rispondere è `conta-verdetti-muti`, che al momento nessuno interroga in quel punto.",
+      "fix_proposto": "🟡 DA FARE, e la forma è vincolata: NON riscrivere la regola dentro `cancello-stop.mjs` (sarebbe `una-parola-con-due-padroni` sulla data della Cabina), ma fargli INTERROGARE `cervello/conta-verdetti-muti.mjs`, che è il proprietario. Due cose da risolvere prima di scriverlo: ① il freno di fine turno oggi lancia solo `git`, quindi va deciso con che tetto di tempo invoca un guardiano e cosa fa se non risponde (un freno di fine turno che si pianta blocca OGNI turno); ② il controllo va fatto DOPO il commit e prima del push, se no misura un istante in cui la Cabina non era ancora indietro — è esattamente l'errore che ho fatto oggi, misurando prima di committare e leggendo un verde che non valeva più.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto e dichiarato, non riparato. La prova comportamentale nascerà col fix: un turno che committa senza toccare STATO.md deve uscire rosso dal freno di fine turno, e diventare verde aggiornandola. Finché il fix non c'è, questa scheda NON si chiude con un grep."
+      },
+      "trovato_da": "la seconda ricaduta identica in due giorni, mentre riparavo AR-944"
     }
   ],
   "meta": {

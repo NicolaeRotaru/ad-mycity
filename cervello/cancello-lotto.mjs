@@ -28,7 +28,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepoCurata } from "./storia-git.mjs";
 import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
-import { verdettoConTetto, testDelLotto, idSospetti, testRossi, testRossiBash, perimetroDichiarato } from "./tetto-guardiano.mjs";
+import { verdettoConTetto, testDelLotto, idSospetti, motiviDeiRossi, testRossi, testRossiBash, perimetroDichiarato } from "./tetto-guardiano.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { idDellaMutazione, perimetroDalGit, rigaDelleSaltate } from "./perimetro-mutazioni.mjs";
 import { fileToccatiDaGit } from "./mutazioni-orfane.mjs";
@@ -1263,6 +1263,11 @@ function main() {
       perimetroDichiarato(process.env.LOTTO_PERIMETRO),
     );
     const rossiBash = testRossiBash(pTest.uscita);
+    // AR-945 — E IL PERCHÉ DI OGNI ROSSO, non solo il nome del file. Il conto lo fanno i tetti qui
+    // sotto; questa riga serve a chi poi deve RIPARARE, che col nome soltanto puo' solo indovinare.
+    for (const r of motiviDeiRossi(pTest.uscita, "tutte") || []) {
+      pTest.coda.push(`   ↳ ${r.file}${r.falliti === null ? "" : ` — ${r.falliti} caso/i caduto/i su ${(r.passati ?? 0) + r.falliti}`}: ${r.motivo}`);
+    }
     // Una famiglia senza nessun rosso non produce un avviso: «0 rossi ereditati» è rumore, e un
     // referto che si allunga di righe vuote è un referto che si impara a scorrere. Il `null` invece
     // si dichiara sempre — non aver saputo contare non è aver contato zero.

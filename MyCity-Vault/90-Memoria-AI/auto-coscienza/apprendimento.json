@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-06 09:10",
+ "aggiornato": "2026-09-06 10:05",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12418,6 +12418,29 @@
    "stato": "viva",
    "usi": [],
    "gate": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+   "data": "2026-09-06"
+  },
+  {
+   "id": "L-2026-0906-02",
+   "testo": "**AR-945.** Il cancello si è fermato su un rosso e ha scritto una riga sola: il nome del file. Il perché ce l'aveva — stava nel JSON della suite — e la funzione che lo leggeva teneva solo il nome, perché era nata per CONTARE e nessuno le aveva mai chiesto di raccontare. **Una funzione che risponde a «quanti» non risponde a «perché», e il posto dove serve il perché è esattamente quello dove il conto ferma la consegna.** La regola generale: quando un verdetto blocca qualcuno, chiediti se chi lo legge ha in mano abbastanza per ripararlo. Se ha solo un nome, il verdetto è un allarme, non un verdetto — e il costo si paga in corse da mezz'ora spese a indovinare.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "corsa 34017868367: «❌ cervello/test/due-case.test.mjs» e nient'altro, con la stessa prova verde nel flusso separato sullo stesso commit",
+    "quattro mutazioni misurate dopo la cura: tutte e quattro rendono rossa la prova"
+   ],
+   "fonte": "cantiere",
+   "caso_studio_nicola": false,
+   "nato": "2026-09-06 10:05",
+   "ultima_conferma": "2026-09-06 10:05",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/un-rosso-senza-il-suo-perche.test.mjs",
    "data": "2026-09-06"
   }
  ],

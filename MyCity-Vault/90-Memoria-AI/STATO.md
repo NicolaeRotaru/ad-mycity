@@ -1,8 +1,39 @@
 ---
 tipo: stato
-aggiornato: 2026-09-05 07:05
+aggiornato: 2026-09-06 10:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+---
+
+> ⏱️ **2026-09-06 10:40 — Il controllo era rosso da due giorni per un cronometro più corto della prova. Non era un guasto: era un numero.** Richiesta tua: «la CI è rossa», detto tre volte.
+
+>
+> **In parole semplici.** Parlo del controllo delle difese, quello del blocco qui sotto del 5 settembre. Su sette prove diceva sempre «non misurate».
+>
+> Io leggevo quel risultato come debito onesto: cose che ammetto di non aver controllato. Era una lettura sbagliata.
+>
+> Non lo era. Le sette usano tutte la stessa prova, e quella prova dura **498 secondi**.
+>
+> Il tempo massimo che le davo era **420**. La ammazzavo io, ogni volta, prima che arrivasse in fondo.
+>
+> **Perché non l'ho visto per due giorni.** Il referto diceva sempre la stessa cosa: «il test non è arrivato in fondo».
+>
+> Quella frase va bene per due guasti opposti. Uno: la prova si è piantata. Due: il cronometro era corto.
+>
+> Il primo si ripara aprendo il codice. Il secondo si ripara cambiando un numero. Sono due giornate diverse.
+>
+> **Cosa cambia.** Il tempo massimo sale a 700 secondi, e il costo vero della prova adesso è scritto accanto al numero, con la data in cui l'ho misurato. Alla prima corsa, sei delle sette sono tornate misurabili.
+>
+> **Avevi ragione tu, e la lezione è questa.** Quando insisti su una cosa che io ho già spiegato, il sospettato non è il sintomo.
+>
+> È la mia spiegazione.
+>
+> **Ho aggiunto anche una cosa che mi mancava.** Quando il controllo si ferma su una prova rossa, adesso scrive quale caso è caduto e con che messaggio.
+>
+> Prima scriveva solo il nome del file. Per capire cosa fosse successo dovevo tirare a indovinare, e ogni ipotesi costa mezz'ora di attesa.
+>
+> **Cosa non ho verificato.** Che le sette arrivino davvero in fondo tutte quante. Il banco completo su questa macchina non gira, finisce la memoria: quella prova la fa il computer dei controlli.
 
 ---
 

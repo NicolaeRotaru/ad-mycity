@@ -204,6 +204,54 @@ export function testRossi(jsonUscita = "", quale = "node") {
   }
 }
 
+/** Quanto di un messaggio di errore entra nel referto prima di diventare un muro di testo. */
+export const MOTIVO_MAX = 300;
+
+/** Taglia dichiarando il taglio: «…» muto farebbe credere che il messaggio finisse lì. */
+const accorcia = (t) => (t.length <= MOTIVO_MAX ? t : `${t.slice(0, MOTIVO_MAX)}… [tagliato a ${MOTIVO_MAX} caratteri: il resto sta nel log della suite]`);
+
+/**
+ * 📣 I ROSSI CON IL LORO PERCHÉ — AR-945.
+ *
+ * IL CASO CHE HA ROTTO, corsa 34017868367 del 6/9. La suite dentro il cancello è uscita rossa su
+ * `due-case.test.mjs`, e il referto diceva questo, tutto:
+ *     ❌ cervello/test/due-case.test.mjs
+ * Nient'altro. Quale caso sia caduto e con che messaggio lo sapeva `test-cervello.mjs` — sta nel
+ * campo `motivo` del suo JSON — e `testRossi` lo buttava via tenendo solo il nome del file.
+ *
+ * COSA COSTA. La stessa prova era VERDE nel flusso separato sullo stesso commit e verde in locale.
+ * Con il nome del file soltanto, l'unica strada era indovinare fra ambiente, tempi e codice, e ogni
+ * ipotesi costava mezz'ora di corsa. È la malattia di casa — un verdetto senza il suo perché — nel
+ * punto dove fa più male: il rosso che ferma la consegna.
+ *
+ * Non sostituisce `testRossi` (che risponde a «quanti e quali», ed è quello che i tetti contano):
+ * gli sta accanto e risponde a «e perché».
+ */
+export function motiviDeiRossi(jsonUscita = "", quale = "node") {
+  try {
+    const j = JSON.parse(jsonUscita);
+    const righe = quale === "bash" ? j.bats || [] : quale === "tutte" ? [...(j.test || []), ...(j.bats || [])] : j.test || [];
+    return righe
+      .filter((x) => x && x.esito !== "ok" && x.esito !== "non-eseguito")
+      .map((x) => ({
+        file: x.file,
+        // Un rosso senza motivo scritto non diventa una riga muta: si dichiara che il motivo manca,
+        // se no si torna al punto di partenza con una faccia diversa.
+        //
+        // ✂️ E SI TAGLIA A `MOTIVO_MAX`. Questo testo non lo scrivo io: è il messaggio di
+        // un'asserzione, cioè qualunque cosa una prova abbia deciso di stampare — uno stack, un
+        // diff di due oggetti grossi, l'intero contenuto di un file. Senza un limite, un rosso solo
+        // sotterra il resto del referto, e un referto che si impara a scorrere non lo legge nessuno:
+        // sarebbe curare «il rosso senza perché» creando «il perché che non si legge».
+        motivo: accorcia(String(x.motivo || "").trim()) || "(la suite non ha scritto nessun motivo per questo rosso)",
+        passati: Number.isFinite(x.passati) ? x.passati : null,
+        falliti: Number.isFinite(x.falliti) ? x.falliti : null,
+      }));
+  } catch {
+    return null; // non ho saputo leggere → chi chiama non deve assolvere
+  }
+}
+
 /** I file `.bats` rossi — il debito ereditato, quello con un tetto che scende. */
 export function testRossiBash(jsonUscita = "") {
   return testRossi(jsonUscita, "bash");
