@@ -1,0 +1,83 @@
+{
+ "squadra": 210,
+ "ondata": 7,
+ "pacchetti": [
+  "app/api/stripe/checkout/route.ts",
+  "lib/stripe/client.ts",
+  "app/api/returns/create/route.ts",
+  "app/api/ai/catalog-create/route.ts",
+  "components/seller/ProductForm.tsx",
+  "components/StorePreviewCard.tsx"
+ ],
+ "file_citati": [
+  "lib/stripe/client.ts",
+  "app/api/stripe/checkout/route.ts",
+  "lib/api/corpo.ts",
+  "app/api/rider/cash-confirm/route.ts",
+  "app/api/returns/create/route.ts",
+  "app/api/returns/[id]/avanza/route.ts",
+  "lib/products/draftFromVision.ts",
+  "app/api/ai/catalog-create/route.ts",
+  "app/api/ai/catalog-create-bulk/route.ts",
+  "app/seller/products/[id]/edit/page.tsx",
+  "components/seller/ProductForm.tsx",
+  "components/StoreShowcase.tsx",
+  "components/StorePreviewCard.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|la cassa puo' restare aperta venti minuti dopo che la merce e' gia' tornata in vendita",
+   "titolo": "La cassa puo' restare aperta venti minuti dopo che la merce e' gia' tornata in vendita",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/client.ts:197-203; app/api/stripe/checkout/route.ts:589,615",
+   "descrizione": "Il codice promette, per iscritto, che la pagina di pagamento Stripe scade insieme alla riserva della merce: 'La sessione di pagamento scade quando scade la riserva della merce'. Non e' vero fino in fondo. Stripe non accetta scadenze sotto la mezz'ora, e il codice alza la scadenza al minimo consentito (adesso + 31 minuti) invece di fermarsi. Se alla riserva restano meno di 31 minuti, la pagina di pagamento sopravvive alla riserva. Provato adesso: con una riserva che scade fra 10 minuti, la sessione creata scade 21 minuti DOPO. In quella finestra il giro periodico rimette la merce in vendita e restituisce il codice sconto, mentre il cliente puo' ancora pagare: nasce un ordine di merce che potrebbe essere gia' stata venduta a un altro. Oggi la riserva nasce a due ore, quindi il caso non si presenta sul percorso normale: e' una rete che non tiene, non un buco aperto. Ma e' esattamente la promessa scritta in un commento che 'spegne il sospetto' di chi legge dopo.\n\nCausa radice: Il limite di Stripe (minimo 30 minuti) e' stato assorbito con un Math.max invece che con un errore: il codice preferisce sempre creare la sessione, anche quando non puo' rispettare l'invariante che si e' dato.\n\nProva (comando, eseguita e rossa): timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/pagamenti-stripe-sessione-piu-lunga-della-riserva.test.ts",
+   "impatto": "Se domani si accorciasse la riserva (per esempio a 20 minuti sul fresco, che e' la richiesta naturale di un fornaio o di un fioraio) il freno non terrebbe e il primo effetto sarebbe vendere due volte lo stesso pezzo.",
+   "fix_proposto": "Se la riserva residua e' sotto il minimo di Stripe, non creare la sessione: rifiutare il pagamento con un messaggio ('il carrello e' scaduto, rifallo') oppure allungare PRIMA la riserva su pending_checkouts fino alla scadenza che si sta per dare a Stripe, cosi' i due tempi restano lo stesso tempo. In ogni caso togliere il Math.max silenzioso e lasciare una traccia quando i due valori divergono."
+  },
+  {
+   "chiave": "pagamenti-stripe|un solo metodo di pagamento elettronico: la carta, per scelta scritta nel codice",
+   "titolo": "Un solo metodo di pagamento elettronico: la carta, per scelta scritta nel codice",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/client.ts:197",
+   "descrizione": "CONFERMATO. La sessione di checkout è creata con `payment_method_types: ['card']` (lib/stripe/client.ts:197). Fissare quell'elenco disattiva i metodi gestiti dal cruscotto Stripe: niente PayPal, Klarna, SEPA né metodi locali (Satispay, Bancomat Pay) anche se venissero abilitati sull'account. Restano Apple Pay/Google Pay, che Stripe Checkout mostra da sé con 'card' — ed è quello che dichiara la nota alla riga 98 del file.",
+   "impatto": "Chi non vuole digitare la carta ha una sola alternativa: il contrassegno, che ci costa il giro del fattorino, la gestione del contante e la riconciliazione (e che oggi ha anche il problema del saldo Stripe, difetto sopra). Sul pubblico di Piacenza un metodo locale è la leva che sposta il mix, non un vezzo. Ordine di grandezza dichiarato da Stripe su mercati simili: qualche punto di conversione — su una base così piccola va misurato, non promesso.",
+   "fix_proposto": "Togliere payment_method_types e lasciare i metodi gestiti dal cruscotto Stripe (o usare automatic_payment_methods), poi accendere UN metodo per volta e misurarlo con payment_attempts prima di aggiungerne un altro. È una modifica 🟡 al checkout in produzione: proposta con dati, non implementata di slancio — e senza il lettore di payment_attempts non è misurabile."
+  },
+  {
+   "chiave": "api-backend|chi manda un file troppo grande legge «dati non validi» invece del vero motivo",
+   "titolo": "Chi manda un file troppo grande legge «dati non validi» invece del vero motivo",
+   "dimensione": "api-backend",
+   "file": "lib/api/corpo.ts:96-102 e 114-121; app/api/rider/cash-confirm/route.ts:60-64; app/api/returns/create/route.ts:42-46; app/api/returns/[id]/avanza/route.ts:57-62",
+   "descrizione": "Il tetto sul corpo delle richieste solleva un errore che porta con se' il codice giusto (413, «corpo troppo grande»). Ma tutte le rotte lo raccolgono nello stesso `catch` della validazione e rispondono 400 «Dati non validi». Il codice 413 e' scritto nella classe e non lo usa nessuno.\n\nCausa radice: L'errore e' stato progettato per entrare nel `try` che le rotte avevano gia' (scelta dichiarata nel commento del file), ma nessuno dei `catch` distingue poi il tipo: `CorpoTroppoGrande` e un JSON malformato finiscono nella stessa risposta.\n\nProva (grep, eseguita e rossa): grep -rn 'CorpoTroppoGrande' app/ → nessuna rotta lo nomina; il campo `status = 413` di lib/api/corpo.ts:98 non e' letto da nessuna parte.",
+   "impatto": "Il fattorino che allega la foto dei contanti da un telefono recente supera i limiti e legge «Dati non validi»: non capisce che deve solo ridurre la foto, e la conferma dell'incasso non parte. Chi guarda i registri vede errori di validazione dove c'e' un problema di dimensione.",
+   "fix_proposto": "Nel punto comune delle risposte (lib/api/responses.ts) aggiungere un aiuto che, davanti a un errore con `status === 413`, risponde 413 con «La foto e' troppo grande: mandane una piu' leggera», e usarlo nei `catch` delle rotte che ricevono foto."
+  },
+  {
+   "chiave": "ai-endpoints|il testo alternativo della foto entra nella bozza del prodotto senza nessun tetto di lunghezza",
+   "titolo": "Il testo alternativo della foto entra nella bozza del prodotto senza nessun tetto di lunghezza",
+   "dimensione": "ai-endpoints",
+   "file": "lib/products/draftFromVision.ts:95 (alt_text copiato intero in attributes) e :91 (valori di attributo testuali senza taglio) · a fronte di :109-110 (nome 120, descrizione 4000) · ingresso app/api/ai/catalog-create/route.ts:45 (alt_text: z.string() senza max, corpo fino a 1 MB per lib/api/corpo.ts:92) e app/api/ai/catalog-create-bulk/route.ts:40",
+   "descrizione": "Il 30/8 (R158) nome e descrizione hanno preso un tetto condiviso (120 e 4000 caratteri). L'alt della foto e i valori testuali degli attributi no: la riga 95 copia alt_text così com'è dentro products.attributes. Prova eseguita: buildDraftProductInsert con un alt_text di 200.000 caratteri restituisce un attributo di 200.000 caratteri. Il corpo della richiesta può arrivare a 1 MB. Non ho trovato una pagina pubblica che stampi attributes.alt_text (solo l'anteprima del form del venditore, components/seller/ProductForm.tsx:942).\n\nCausa radice: Il tetto R158 è stato applicato ai due campi visibili e non a tutto ciò che la stessa funzione scrive in JSONB.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/ai-endpoints-alt-text-senza-tetto.test.ts  (ROSSO: expected 200000 to be <= 500)",
+   "impatto": "Una bozza può portarsi dietro fino a ~1 MB di JSON in products.attributes: pesa sulle letture del catalogo del venditore e sulle esportazioni, e se un giorno l'alt finisce nell'HTML pubblico (è il suo scopo) la pagina del prodotto pesa un megabyte. Oggi tocca solo il venditore che lo fa a sé stesso.",
+   "fix_proposto": "In draftFromVision.ts tagliare alt_text a ~300 caratteri e i valori testuali degli attributi a ~500 (una costante accanto a MAX_NOME_PRODOTTO in lib/products/aiPatch.ts), e mettere .max() nello zod DraftSchema delle due rotte catalog-create."
+  },
+  {
+   "chiave": "stati-ui|la consegna espressa sparisce dal modulo prodotto senza dire niente",
+   "titolo": "La consegna espressa sparisce dal modulo prodotto senza dire niente",
+   "dimensione": "stati-ui",
+   "file": "app/seller/products/[id]/edit/page.tsx:59-66 · components/seller/ProductForm.tsx (prop sellerOffersExpress)",
+   "descrizione": "La pagina di modifica prodotto legge se il negozio offre la consegna espressa così: const { data: offersExpress = false } = useQuery(...). Se la lettura fallisce, o se la sessione non è ancora pronta, il valore di ripiego è false e il modulo si disegna come se il negozio l'espressa non ce l'avesse: l'opzione non compare e non compare nemmeno un avviso. Il negoziante che entra per cambiare il prezzo non vede più l'interruttore che ieri c'era.\n\nCausa radice: Stesso schema delle categorie: valore di ripiego muto su una lettura che può fallire, senza stato «rotto». Qui il ripiego è false, cioè la risposta peggiore delle due possibili.\n\nProva (umano, non eseguita): Aprire /seller/products/<id>/edit con un negozio che ha la consegna espressa attiva, bloccare dagli strumenti del browser la richiesta a seller_settings (o mettere la rete offline al primo caricamento) e guardare: l'interruttore «espressa» non c'è e nessun messaggio spiega perché.",
+   "impatto": "Il negoziante crede di aver perso la consegna espressa e chiama l'assistenza, oppure salva il prodotto senza accorgersene. È lavoro perso per lui e per il supporto, su una funzione che è un vantaggio commerciale.",
+   "fix_proposto": "Trattare la lettura come le altre: finché non è arrivata, non decidere; se è rotta, mostrare il modulo con una riga «non riesco a leggere le impostazioni di consegna, riprova» invece di far sparire l'opzione."
+  },
+  {
+   "chiave": "performance-percepita|la vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate",
+   "titolo": "La vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate",
+   "dimensione": "performance-percepita",
+   "file": "components/StoreShowcase.tsx:69-83 (scheletro) contro :20 e :29 (`.limit(6)`) e components/StorePreviewCard.tsx:59-63 (copertina `h-28`)",
+   "descrizione": "Confermato. Lo scheletro cicla `Array.from({ length: 4 })`, mentre entrambe le query della vetrina chiedono `.limit(6)`: su due colonne da telefono sono due righe che diventano tre, quindi nasce una riga intera e tutto ciò che sta sotto scende. In più il riquadro-foto dello scheletro è `aspect-[4/3]`, mentre la copertina vera passa da `StoreMediaCarousel` con `heightClass={compact ? 'h-24' : 'h-28'}` (StorePreviewCard.tsx:61), cioè 112 px fissi: su desktop a quattro colonne larghe ~280 px lo scheletro è alto ~210 px contro i 112 veri. Il commento alla riga 68 dice che lo scheletro serve «a evitare il CLS»: lo riduce, non lo evita.",
+   "impatto": null,
+   "fix_proposto": "Portare il conteggio degli scheletri a 6 — meglio: leggerlo dalla stessa costante che alimenta il `limit`, così non possono divergere — e sostituire `aspect-[4/3]` con `h-28`, la stessa classe della copertina vera."
+  }
+ ]
+}

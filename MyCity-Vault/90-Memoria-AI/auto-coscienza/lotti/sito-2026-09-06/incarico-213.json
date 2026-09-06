@@ -1,0 +1,80 @@
+{
+ "squadra": 213,
+ "ondata": 8,
+ "pacchetti": [
+  "lib/ordini/annulla.ts",
+  "lib/stripe/webhook/trasferimenti.ts",
+  "lib/stripe/webhook/sponsorizzati.ts",
+  "app/api/account/export/route.ts",
+  "lib/account/cancellazione.ts",
+  "components/ui/SocialProof.tsx"
+ ],
+ "file_citati": [
+  "lib/stripe/webhook/rimborsi.ts",
+  "lib/ordini/annulla.ts",
+  "lib/stripe/webhook/trasferimenti.ts",
+  "app/api/stripe/webhook/route.ts",
+  "lib/stripe/webhook/sponsorizzati.ts",
+  "app/api/account/export/route.ts",
+  "lib/account/cancellazione.ts",
+  "app/api/seller/subscription/checkout/route.ts",
+  "lib/stripe/webhook/abbonamenti.ts",
+  "components/ui/SocialProof.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|un rimborso fatto dal cruscotto stripe non restituisce il codice sconto al cliente",
+   "titolo": "Un rimborso fatto dal cruscotto Stripe non restituisce il codice sconto al cliente",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/rimborsi.ts:29-222 · lib/ordini/annulla.ts:115-124",
+   "descrizione": "handleChargeRefunded annulla gli ordini, storna i bonifici, rimette la merce a scaffale e manda l'email, ma non chiama mai release_coupon (zero occorrenze nel file), mentre annullo cliente, rifiuto negozio e scadenza carrello lo fanno.\n\nCausa radice: Il rilascio del codice è stato aggiunto porta per porta (R121, #171) e il webhook del rimborso è rimasto fuori.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && test $(grep -c release_coupon lib/stripe/webhook/rimborsi.ts) -gt 0",
+   "impatto": "Il cliente rimborsato a mano dall'amministrazione perde il codice che aveva usato, senza aver comprato niente.",
+   "fix_proposto": "Sul rimborso pieno chiamare release_coupon per il coupon_code dell'ordine, una volta sola per carrello."
+  },
+  {
+   "chiave": "pagamenti-stripe|il bonifico che torna indietro dalla banca lo scopre solo l'amministratore, e senza sapere di chi era",
+   "titolo": "Il bonifico che torna indietro dalla banca lo scopre solo l'amministratore, e senza sapere di chi era",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/trasferimenti.ts:59-65; app/api/stripe/webhook/route.ts:207-210",
+   "descrizione": "Quando la banca del negozio rifiuta il bonifico (IBAN sbagliato, conto chiuso), Stripe manda l'evento payout.failed. Il codice scrive un avviso agli amministratori con dentro solo il codice del bonifico (po_1abc) e l'importo. Non tocca l'ordine, non tocca il profilo del negozio, e soprattutto non avvisa il negoziante. L'ordine resta scritto come TRANSFERRED, cioe' pagato. Nella pagina Guadagni il negoziante legge 'versato' e in banca non trova niente. In piu' l'avviso all'amministratore non dice di quale negozio si tratti: l'evento arriva su un conto Connect e il gestore non guarda mai a chi appartiene, quindi per capirlo bisogna aprire Stripe a mano.\n\nCausa radice: Il gestore di payout.failed e' stato scritto come semplice campanello (notifyAdmins) e non come cambio di stato: non risale dal payout al conto Connect, quindi non sa a quale profilo appartiene e non puo' ne' correggere lo stato dell'ordine ne' avvisare il proprietario.\n\nProva (umano, non eseguita): In Stripe test mode forzare un payout fallito sul conto Connect del negozio (metodo di pagamento di prova che rimbalza), poi guardare due schermi: /admin (arriva un avviso che NON nomina il negozio) e /seller/earnings entrando come quel negozio (nessun avviso, l'ordine resta 'versato'). Il difetto c'e' se il negoziante non vede niente.",
+   "impatto": "Esempio: Pane Quotidiano cambia IBAN e dimentica di aggiornarlo su Stripe. Il bonifico di 120 euro rimbalza. Per MyCity l'ordine risulta pagato, il negoziante vede 'versato' nella sua pagina Guadagni, e nessuno lo chiama. Se ne accorge lui, dopo giorni, e la fiducia nel marketplace la paghiamo noi.",
+   "fix_proposto": "In handlePayoutFailed risalire al conto: leggere payout.destination o l'account dell'evento, cercare il profilo con quel stripe_account_id, scrivere una notifica AL NEGOZIO (categoria 'payout') con il motivo del rifiuto e il link per correggere l'IBAN, riportare gli ordini collegati a uno stato che il giro dei bonifici possa ripescare, e mettere il nome del negozio nell'avviso agli amministratori."
+  },
+  {
+   "chiave": "pagamenti-stripe|la vetrina in primo piano comprata di sera parte con la data del giorno prima",
+   "titolo": "La vetrina in primo piano comprata di sera parte con la data del giorno prima",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/sponsorizzati.ts:40-44",
+   "descrizione": "Quando un negozio compra uno spazio in primo piano, le date di inizio e fine si calcolano con toISOString(), che lavora sull'ora di Greenwich. In Italia siamo avanti di due ore d'estate e una d'inverno: un acquisto fatto alle 23:30 del 3 settembre viene scritto come iniziato il 3 e finito un giorno prima del dovuto rispetto al calendario di chi l'ha comprato. Nella stessa funzione il costo giornaliero e la spesa vengono presi dai metadati della sessione (amount_cents) invece che dall'importo davvero incassato (session.amount_total): se i due divergono, il rendiconto della sponsorizzazione racconta una cifra che non e' quella addebitata.\n\nCausa radice: Uso di toISOString() per una data di calendario locale (manca il passaggio dal fuso di Piacenza, che altrove nel codice esiste gia': lib/tempo/giorno-locale.ts), e fiducia nei metadati invece che nell'importo Stripe.\n\nProva (umano, non eseguita): Verifica umana: comprare una sponsorizzazione di 7 giorni dopo le 22:00 ora italiana e leggere start_date e end_date nella riga sponsored_listings: sono spostati indietro di un giorno rispetto alla data che il negoziante vede sul suo telefono.",
+   "impatto": "Un negozio paga sette giorni di vetrina e ne vede sei e mezzo. E' poco denaro, ma e' esattamente il tipo di piccolo torto che un negoziante nota e racconta agli altri.",
+   "fix_proposto": "Usare giornoLocale() (lib/tempo/giorno-locale.ts), la stessa funzione con cui il giro riquadra-casse calcola la giornata del fattorino, per start_date e end_date; e leggere l'importo da session.amount_total, tenendo i metadati solo come controllo incrociato."
+  },
+  {
+   "chiave": "privacy-legale|«scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, sos del rider",
+   "titolo": "«Scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, SOS del rider",
+   "dimensione": "privacy-legale",
+   "file": "app/api/account/export/route.ts:69-98 · migrations/*.sql (chiavi esterne verso profiles e auth.users)",
+   "descrizione": "L'export legge 20 tabelle scritte a mano nella rotta. Nel database ce ne sono altre 25 con una chiave verso l'utente che non vengono lette: wallet_ledger (credito), loyalty_accounts e loyalty_transactions (punti), gift_cards (buoni comprati o riscattati), product_questions (domande scritte dalla persona), rider_sos_events (emergenze del rider), user_carts, abandoned_carts, event_rsvps, follows, product_lists, group_orders, group_participants, subscription_orders, payment_attempts, pending_checkouts, cod_checkout_attempts, email_queue, segnalazioni, cashback_redemptions, zone_code_uses, review_helpful, seller_story_views, shop_of_month_votes, user_achievements.\n\nCausa radice: L'elenco delle tabelle vive dentro la rotta e si aggiorna solo quando qualcuno se ne ricorda (i commenti «🟡-13» e «mancavano all'appello» lo dimostrano): ogni tabella nuova nasce fuori dall'export.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"WITH lette(t) AS (VALUES ('profiles'),('user_addresses'),('orders'),('reviews'),('store_reviews'),('rider_reviews'),('favorites'),('referrals'),('notifications'),('conversations'),('messages'),('contact_messages'),('activity_events'),('recently_viewed'),('product_views'),('push_subscriptions'),('newsletter_subscribers'),('returns'),('disputes'),('consent_log')), con_utente AS (SELECT DISTINCT conrelid::regclass::text t FROM pg_constraint WHERE contype='f' AND confrelid IN ('public.profiles'::regclass,'auth.users'::regclass) AND conrelid::regclass::text NOT IN ('profiles','site_settings','cms_pages','marketplace_events','shop_of_month','products','daily_stories','seller_stories','sponsored_listings','seller_promotions','audit_logs','cod_reconciliations','catalog_ai_jobs')) SELECT count(*) FROM con_utente WHERE t NOT IN (SELECT t FROM lette);\" → oggi 25 (deve essere 0)",
+   "impatto": "Il diritto d'accesso (art. 15) e la portabilità (art. 20) devono restituire tutti i dati: chi scarica «i miei dati» e non trova il credito del portafoglio o i buoni regalo può fare reclamo al Garante, e per il team è una risposta incompleta da rifare a mano. Non tocca ordini né soldi oggi.",
+   "fix_proposto": "Trasformare l'elenco in una prova che gira: un test che legge le chiavi esterne verso profiles/auth.users e fallisce se una tabella non è nell'export né in una lista di esclusioni motivate. Aggiungere subito le 25 tabelle all'export."
+  },
+  {
+   "chiave": "privacy-legale|chi cancella l'account resta cliente su stripe, e nessuno sa più quale",
+   "titolo": "Chi cancella l'account resta cliente su Stripe, e nessuno sa più quale",
+   "dimensione": "privacy-legale",
+   "file": "lib/account/cancellazione.ts:26-45,262-300, app/api/seller/subscription/checkout/route.ts:34,57-60, lib/stripe/webhook/abbonamenti.ts:68",
+   "descrizione": "Quando qualcuno chiede di essere cancellato, la pipeline azzera il profilo, i documenti, il testo libero, i file, e alla fine cancella l'utente: la riga del profilo sparisce e con lei sparisce stripe_customer_id, cioè l'unico filo che collega noi al cliente creato su Stripe. Su Stripe quel cliente non lo cancella e non lo anonimizza nessuno: in tutto il codice non esiste una sola chiamata a customers.del o a un aggiornamento del cliente. Lì restano nome, email, indirizzo di fatturazione e lo storico dei pagamenti, sotto un identificativo che dopo la cancellazione noi non conosciamo più. Esempio: il fornaio che ha attivato l'abbonamento a giugno e chiude l'account a settembre resta su Stripe come cliente attivo, e se domani ci scrive «cancellate anche là» non abbiamo più il codice per trovarlo.\n\nCausa radice: La pipeline di cancellazione ragiona solo sulle tabelle nostre e sui secchi dello storage: i responsabili esterni (Stripe oggi, domani chiunque tenga una copia) non sono parte della procedura. Manca il passo «propaga la cancellazione a chi ha una copia» prima del passo irreversibile.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/privacy-legale-cliente-stripe.test.ts   (esegue cancellaAccount con un client finto che registra tutto: oggi FAIL, «la cancellazione non guarda mai stripe_customer_id»)",
+   "impatto": "La promessa «cancelliamo i tuoi dati» non è mantenuta presso un responsabile del trattamento che sta fuori dall'Unione. La cancellazione (art. 17) va estesa ai responsabili, e noi non solo non la estendiamo: buttiamo via il riferimento, quindi non possiamo più rimediare nemmeno volendo. In un controllo è un buco che non si può chiudere a posteriori.",
+   "fix_proposto": "In lib/account/cancellazione.ts, prima di admin.auth.admin.deleteUser: leggere profiles.stripe_customer_id, e se c'è chiamare Stripe (customers.del, oppure customers.update azzerando nome/email/indirizzo quando il cliente ha pagamenti da conservare per obbligo fiscale). Se la chiamata fallisce, non cancellare l'utente e lasciare la richiesta in coda per il giro dopo: meglio un giorno di ritardo che un dato che non si può più raggiungere. Aggiungere il caso alla prova unitaria della pipeline."
+  },
+  {
+   "chiave": "performance|la prova sociale «ordinato n volte» scarica ogni riga d'ordine del prodotto per contarle nel browser",
+   "titolo": "La prova sociale «Ordinato N volte» scarica ogni riga d'ordine del prodotto per contarle nel browser",
+   "dimensione": "performance",
+   "file": "components/ui/SocialProof.tsx:27-38",
+   "descrizione": "CONFERMATO alla lettera. `components/ui/SocialProof.tsx:27-38`:\n\n```ts\nconst { data } = await supabase\n  .from('order_items')\n  .select('quantity, orders!inner(created_at)')\n  .eq('product_id', productId)\n  .gte('orders.created_at', since);\nreturn (data ?? []).reduce((sum, row) => sum + (row.quantity ?? 1), 0);\n```\n\nNessun limite, nessuna aggregazione: si scaricano tutte le righe d'ordine degli ultimi 7 giorni per sommare un numero che poi si mostra come «Ordinato 12 volte». Montato una volta per scheda prodotto (`app/product/[id]/page.tsx:721`), non per ogni card di griglia.\n\nSeverità confermata «minore»: con 7 giorni di finestra e i volumi di oggi sono poche righe.",
+   "impatto": "Il costo della query cresce con quanto il prodotto vende: il best-seller — quello che apre più gente — è quello che scarica più righe. La pagina più visitata diventa la più lenta, l'esatto contrario di quello che serve. Query che peggiora quando le cose vanno bene.",
+   "fix_proposto": "Una RPC che fa `SUM(quantity)` nel database e restituisce un numero (l'indice `order_items_product_idx` su `product_id` esiste già, `migrations/036_curated_lists_and_indices.sql:69`). Bonus: la stessa RPC può calcolare l'intera griglia in una chiamata sola invece di una per scheda."
+  }
+ ]
+}

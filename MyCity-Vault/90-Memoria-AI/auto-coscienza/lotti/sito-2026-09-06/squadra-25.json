@@ -1,0 +1,30 @@
+{
+ "squadra": 25,
+ "territorio": [
+  "components/PhotoReviewUpload.tsx"
+ ],
+ "malattia": "davanti a un cliente che allega la foto alla recensione usciva il messaggio d'errore così com'era: il ripiego era «mostra quello che ti arriva», quindi ogni frase nuova della porta dei caricamenti o dello Storage finiva a video in gergo o in inglese.",
+ "difetti": [
+  {
+   "chiave": "frontend-ux|chi carica la foto di una recensione può ricevere in faccia un errore da programmatore",
+   "titolo": "Chi carica la foto di una recensione può ricevere in faccia un errore da programmatore",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-foto-della-recensione-non-parla-da-programmatore.test.ts (12 prove verdi, exit 0) — prova NUOVA, scritta qui. Fa lanciare gli errori alla porta vera (`caricaImmagine` eseguita davvero, con un deposito finto) e poi esegue su quelle frasi le regole VERE lette dal sorgente spedito. Tre mutanti provati, tutti rossi (exit 1): ① rimesso `toast.error(messaggioDi(err) || 'Upload fallito')`; ② allargata una regola perché si prendesse anche «senza file»; ③ rimesso il nome del secchio dentro la frase di ripiego. Originale ripristinato: exit 0. Contorno: `npx tsc --noEmit -p tsconfig.json` exit 0; `npx eslint` sui due file exit 0; le quattro prove vicine che toccano questo file verdi (la-foto-rifiutata-lo-dice-in-italiano, nessuno-scavalca-la-porta-dei-caricamenti, la-foto-della-recensione-passa-dalla-porta, le-foto-dicono-cosa-mostrano — 33 prove).",
+   "nota_fix": "IL CODICE NON ERA COME LA SCHEDA. La scheda cita riga 100 e il ramo del secchio a riga 86: dopo le ondate 2 e 4 i numeri erano spostati, ma le tre frasi c'erano davvero tutte e tre (verificate sul sorgente prima di toccare). COSA HO CAMBIATO, dentro il solo file del territorio: ① tolto il ramo che diceva «Bucket \"reviews\" non esiste. Chiedi all'admin di crearlo (public, max 5MB)» — quel caso adesso cade nel ripiego; ② al posto di `toast.error(messaggioDi(err) || 'Upload fallito')` c'è `frasePerChiCarica(err)`, che è una LISTA CHIUSA di tre regole (formato / troppo pesante / rete caduta) più un ripiego unico: «Non riusciamo a salvare la foto in questo momento. Riprova fra poco: la recensione puoi lasciarla anche senza foto.» La lista chiusa è la scelta che conta: prima il ripiego era «mostra qualunque cosa ti arrivi», quindi il difetto poteva rinascere da solo al primo messaggio nuovo di Supabase; adesso ciò che non è dichiarato non esce. PERCHÉ NON HO USATO `friendlyError` DA SOLO: il suo ultimo ramo lascia passare qualunque frase corta che cominci per lettera — «caricaImmagine senza file» lo passa — e vive comunque in `lib/errors.ts`, fuori dal mio territorio. COSA NON HO POTUTO FARE: il `fix_proposto` chiedeva una prova jsdom montando il componente. Non è possibile senza toccare file di tutti: un `.tsx` non si importa in una prova unitaria (`jsx: preserve` in tsconfig.json — provato, l'errore è «content contains invalid JS syntax… make sure to not set jsx to preserve») e @testing-library/react non è installato (package.json non si tocca). Quindi la prova esegue la porta vera e le regole vere, e legge il sorgente solo per l'ultimo anello (che il testo finisca dentro `toast.error`). NON HO TOCCATO il messaggio dei 5 MB a riga 101 (`«pane.jpg» supera 5MB`): è già italiano comprensibile e allargare il diff non serviva.",
+   "file_toccati": [
+    "components/PhotoReviewUpload.tsx",
+    "tests/unit/la-foto-della-recensione-non-parla-da-programmatore.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Se la seconda foto della recensione fallisce, la prima resta nel magazzino ma sparisce dallo schermo",
+   "dove": "components/PhotoReviewUpload.tsx:127-134",
+   "gravita": "minore",
+   "dettaglio": "Il ciclo accumula in `newUrls`; se un caricamento successivo lancia, si salta `setFiles`/`onUploaded` (riga 130-132) e le foto già salite restano su Storage senza essere allegate alla recensione: il cliente le ricarica da capo e nel secchio resta un file orfano. È di prima delle ondate, non l'ho introdotto io e non l'ho riparato per non allargare il lotto."
+  }
+ ],
+ "non_verificato": "Che il pezzo di schermo si disegni e che l'avviso appaia davvero: non si monta nessun componente (un `.tsx` non si importa in vitest con `jsx: preserve`, e la libreria per montarlo non è installata). Non ho eseguito la suite intera né `npm run verify`, come da vincolo. Non ho verificato quali frasi lo Storage vero di Supabase restituisca oggi in produzione: le tre riconosciute sono quelle che il progetto già conosce (`lib/errors.ts` e la porta dei caricamenti); una frase diversa non esce più in inglese, esce come ripiego."
+}

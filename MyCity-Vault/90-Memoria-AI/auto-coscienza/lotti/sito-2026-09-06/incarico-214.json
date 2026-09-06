@@ -1,0 +1,83 @@
+{
+ "squadra": 214,
+ "ondata": 8,
+ "pacchetti": [
+  "app/seller/orders/[id]/page.tsx",
+  "components/seller/BulkPhotoCreate.tsx",
+  "app/api/sponsored/checkout/route.ts",
+  "lib/cart.ts",
+  "components/GoogleAnalytics.tsx",
+  "lib/env.ts"
+ ],
+ "file_citati": [
+  "app/seller/orders/[id]/page.tsx",
+  "app/rider/orders/[id]/page.tsx",
+  "components/seller/BulkPhotoCreate.tsx",
+  "app/api/sponsored/checkout/route.ts",
+  "app/api/gift-cards/checkout/route.ts",
+  "lib/cart.ts",
+  "lib/analytics/events.ts",
+  "components/GoogleAnalytics.tsx",
+  "lib/analytics/tracciamento.ts",
+  "lib/analytics/gtag-avvio.ts",
+  "lib/env.ts",
+  "lib/email/client.ts",
+  "app/api/health/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|il negoziante e il fattorino leggono «stato aggiornato» anche quando il database non ha cambiato nessuna riga",
+   "titolo": "Il negoziante e il fattorino leggono «Stato aggiornato» anche quando il database non ha cambiato nessuna riga",
+   "dimensione": "frontend-ux",
+   "file": "app/seller/orders/[id]/page.tsx:243-244 · app/rider/orders/[id]/page.tsx:114-115",
+   "descrizione": "Le due transizioni di stato fanno `supabase.from('orders').update(update).eq('id', order.id)` e guardano solo `error`. Con le regole di riga (RLS) di Supabase, una riga che non si ha più il diritto di toccare non produce un errore: l'UPDATE tocca 0 righe e torna pulito. Esempio: un fattorino ha un ordine aperto sul telefono, l'admin lo riassegna a un altro, il primo preme «In consegna», vede il toast verde «Stato aggiornato», poi al ricaricamento l'ordine sparisce senza spiegazione. Per il negoziante il caso è più raro (l'ordine resta del suo negozio) ma il codice è identico.\n\nCausa radice: Manca la verifica del numero di righe toccate: `.update()` senza `.select()` non distingue «fatto» da «non c'era niente da fare».\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -nA1 \"from('orders').update(update)\" 'app/seller/orders/[id]/page.tsx' 'app/rider/orders/[id]/page.tsx' | grep -c 'select('   — stampa 0: nessuna delle due scritture verifica le righe toccate",
+   "impatto": "Un fattorino può credere di aver segnato la consegna e andarsene; il cliente non riceve l'aggiornamento. Confusione e chiamate al supporto, non perdita diretta di soldi.",
+   "fix_proposto": "`.update(update).eq('id', order.id).select('id')` e `if (!data?.length) throw new Error('L\\'ordine è cambiato nel frattempo: ricarico la pagina')`, poi invalidare la query come oggi."
+  },
+  {
+   "chiave": "frontend-ux|nella creazione prodotti da più foto, cancellare una riga sposta quello che si sta scrivendo sulla riga sbagliata",
+   "titolo": "Nella creazione prodotti da più foto, cancellare una riga sposta quello che si sta scrivendo sulla riga sbagliata",
+   "dimensione": "frontend-ux",
+   "file": "components/seller/BulkPhotoCreate.tsx:243 (key={idx}) · :119-120 (removeProduct filtra per indice) · :269-295 (campi nome/prezzo con updateProduct(idx, …))",
+   "descrizione": "L'elenco dei prodotti riconosciuti dalle foto è una lista modificabile (nome, prezzo) con pulsante di rimozione, ma le righe usano come chiave React la posizione nell'elenco. Quando il negoziante toglie la riga 1 mentre ha il cursore nel nome della riga 2, React riusa il nodo DOM: il cursore resta nella seconda casella, che ora mostra il terzo prodotto, e la digitazione continua sul prodotto sbagliato. Lo stesso difetto è già noto sul costruttore della home (HomeSectionConfigForm); questo è un altro file, sul flusso di carico del catalogo.\n\nCausa radice: Manca un identificativo stabile per ogni prodotto riconosciuto: la chiave è l'indice.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && sed -n '243p' components/seller/BulkPhotoCreate.tsx | grep -c 'key={idx}'   — stampa 1",
+   "impatto": "Il negoziante che carica dieci prodotti in un colpo può salvare nomi e prezzi scambiati fra prodotti e accorgersene solo in vetrina.",
+   "fix_proposto": "Assegnare `id: crypto.randomUUID()` a ogni prodotto al momento del riconoscimento, usare `key={p.id}` e far lavorare updateProduct/removeProduct per id."
+  },
+  {
+   "chiave": "api-backend|due clic sul pulsante che mette un prodotto in vetrina aprono due pagamenti",
+   "titolo": "Due clic sul pulsante che mette un prodotto in vetrina aprono due pagamenti",
+   "dimensione": "api-backend",
+   "file": "app/api/sponsored/checkout/route.ts:60-87; confronto con app/api/gift-cards/checkout/route.ts:102-104",
+   "descrizione": "La sessione di pagamento della sponsorizzazione («In primo piano», 4,99 euro a settimana) si crea senza nessuna chiave di idempotenza. La rotta gemella delle gift card la chiave ce l'ha, e il commento accanto racconta per esteso perche' serve. Qui manca del tutto: due invii ravvicinati dal negoziante creano due sessioni distinte, e se le paga tutte e due partono due campagne sullo stesso prodotto.\n\nCausa radice: La protezione e' stata aggiunta a una rotta di pagamento sola (gift card) invece che al punto comune che crea le sessioni di cassa: lib/stripe/client.ts non impone nessuna chiave, quindi ogni nuova rotta di pagamento nasce senza.\n\nProva (grep, eseguita e rossa): grep -n 'idempotencyKey' app/api/sponsored/checkout/route.ts (nessun risultato) a fronte di app/api/gift-cards/checkout/route.ts:102",
+   "impatto": "Un negoziante che clicca due volte perche' la pagina e' lenta puo' pagare 9,98 euro invece di 4,99 e ritrovarsi due sponsorizzazioni sovrapposte sullo stesso prodotto. Sono i primi euro che un negozio spende su MyCity: e' il momento peggiore per fargli chiedere un rimborso.",
+   "fix_proposto": "Accettare l'intestazione `idempotency-key` dal browser come fa la gift card e passarla a stripe.checkout.sessions.create come `sponsored_<venditore>_<chiave>`; meglio ancora, farla richiedere dal punto comune in lib/stripe/client.ts, cosi' la rotta di pagamento successiva non puo' nascere senza."
+  },
+  {
+   "chiave": "dati-analytics|togliere dal carrello un prodotto con più varianti manda a google il prezzo della prima riga per tutte",
+   "titolo": "Togliere dal carrello un prodotto con più varianti manda a Google il prezzo della prima riga per tutte",
+   "dimensione": "dati-analytics",
+   "file": "lib/cart.ts:203-212 · lib/analytics/events.ts:163-175",
+   "descrizione": "removeFromCart(id) senza variante toglie tutte le righe di quel prodotto: la quantità mandata è la somma di tutte le righe (qta) ma il prezzo è quello della prima riga tolta (tolte[0].price). Con due varianti a prezzo diverso (es. 3 pezzi da 4 € e 2 da 6 €) GA4 riceve remove_from_cart con valore 5 × 4 = 20 € invece di 24 €, e un solo item.\n\nCausa radice: L'evento di rimozione è pensato per una riga sola e viene riusato per una rimozione multipla.\n\nProva (grep, eseguita e rossa): grep -n \"const riga = tolte\\[0\\]\" lib/cart.ts",
+   "impatto": "Il valore netto del carrello su GA4 non torna proprio nei prodotti con varianti; effetto piccolo finché il catalogo con varianti resta piccolo.",
+   "fix_proposto": "Emettere un remove_from_cart per riga tolta (id, variante, quantità, prezzo di quella riga), oppure passare l'elenco delle righe a trackRemoveFromCart e costruire items con una voce per variante."
+  },
+  {
+   "chiave": "dati-analytics|la visita che arriva da una campagna risulta arrivata dal nulla",
+   "titolo": "La visita che arriva da una campagna risulta arrivata dal nulla",
+   "dimensione": "dati-analytics",
+   "file": "components/GoogleAnalytics.tsx:49-55 · lib/analytics/tracciamento.ts:45-72 · lib/analytics/gtag-avvio.ts:31-34",
+   "descrizione": "La pagina vista mandata a Google Analytics viene ricostruita a mano: page_location = origine del sito + una «chiave» che tiene solo il parametro q (lib/analytics/tracciamento.ts:38, PARAMETRI_CHE_CONTANO). Tutto il resto della coda dell'indirizzo sparisce, compresi utm_source, utm_medium, utm_campaign e gclid, che sono esattamente i pezzi con cui Google capisce da dove arriva la persona. E non c'e' una seconda pagina vista che li porti: la configurazione parte con send_page_view: false (lib/analytics/gtag-avvio.ts:33). Esempio: chi clicca un post sponsorizzato e atterra su mycity-marketplace.com/?utm_source=facebook&utm_campaign=natale viene registrato come arrivato su «/» e basta. Oggi il danno e' zero perche' nella pagina pubblicata non c'e' nessun codice G-… (l'ho scaricata adesso): Google Analytics e' spento. Il difetto scatta il giorno in cui si accende, che e' il giorno in cui si comincia a spendere in pubblicita'.\n\nCausa radice: La chiave nata per NON contare due volte la stessa pagina quando si tocca un filtro (riparazione R171) e' stata usata anche come indirizzo da spedire. Sono due cose diverse: una decide QUANDO mandare l'evento, l'altra COSA mandare.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/dati-analytics-g2.test.ts",
+   "impatto": "Appena si accende la misura e parte la prima campagna a pagamento, ogni visita comprata finisce sotto «diretto» e il ritorno della spesa non si puo' leggere: si rischia di spegnere la campagna che funziona e tenere quella che non rende.",
+   "fix_proposto": "Usare la chiave solo per decidere quando mandare la pagina vista, e come indirizzo mandare quello vero tenendo i parametri di campagna (utm_*, gclid, fbclid, msclkid). Attenzione a non rimettere dentro il valore di q, che e' testo scritto dalla persona: quello resta fuori (difetto gia' noto sui dati personali che escono in chiaro verso Google)."
+  },
+  {
+   "chiave": "deploy-sre|senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "titolo": "Senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "dimensione": "deploy-sre",
+   "file": "lib/env.ts:44 · lib/email/client.ts:109 · app/api/health/route.ts:84-107 (RESEND_FROM assente dall'elenco)",
+   "descrizione": "Se RESEND_FROM manca, lib/env.ts:44 ripiega su «MyCity <no-reply@example.com>» e lib/email/client.ts:109 lo usa come mittente vero. Resend rifiuta un dominio non verificato, quindi la conferma d'ordine al cliente e l'avviso al negozio falliscono all'invio, uno alla volta, e non alla configurazione. Il semaforo non ha RESEND_FROM fra le variabili che guarda (guarda solo RESEND_API_KEY). Un ripiego che punta a un indirizzo che non esiste è lo stesso errore già riparato per NEXT_PUBLIC_APP_URL (lib/env.ts:76-115): lì ci si è accorti che «localhost» finiva nell'HTML, qui «example.com» finisce nella busta.\n\nCausa radice: Valore di ripiego pensato per lo sviluppo lasciato attivo anche in produzione, e variabile fuori dall'elenco del semaforo.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/deploy-sre-semaforo-cieco-sulle-chiavi-del-browser.test.ts -t 'RESEND_FROM'   → oggi rosso: env.resendFrom() restituisce «MyCity <no-reply@example.com>»",
+   "impatto": "Se la variabile manca su Vercel, nessuna email transazionale parte: il cliente non riceve la conferma, il negozio non riceve l'ordine per posta. Il sensore non lo vede. Non ho potuto leggere l'ambiente di produzione da qui.",
+   "fix_proposto": "lib/env.ts: resendFrom() senza ripiego fuori dallo sviluppo (undefined in produzione); lib/email/client.ts: se manca, errore chiaro «RESEND_FROM non configurato» prima di chiamare Resend; aggiungere RESEND_FROM a ENV_IMPORTANTI in app/api/health/route.ts e al test del semaforo."
+  }
+ ]
+}

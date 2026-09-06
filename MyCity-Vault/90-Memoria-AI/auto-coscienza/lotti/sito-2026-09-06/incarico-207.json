@@ -1,0 +1,88 @@
+{
+ "squadra": 207,
+ "ondata": 7,
+ "pacchetti": [
+  "home/user/mycity/app/cart/page.tsx",
+  "lib/stripe/webhook/ordini.ts",
+  "app/api/cron/expire-checkouts/route.ts",
+  "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "lib/constants.ts",
+  "lib/promesse-pubbliche.ts"
+ ],
+ "file_citati": [
+  "app/cart/page.tsx",
+  "components/checkout/OrderSummary.tsx",
+  "lib/stripe/webhook/ordini.ts",
+  "app/api/cron/expire-checkouts/route.ts",
+  "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "migrations/086_notify_buyer_on_order_status.sql",
+  "app/category/[slug]/layout.tsx",
+  "lib/constants.ts",
+  "lib/promesse-pubbliche.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|il carrello dice «toglilo per continuare» ma lascia continuare lo stesso",
+   "titolo": "Il carrello dice «toglilo per continuare» ma lascia continuare lo stesso",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/cart/page.tsx:254-262 e :414-419 · confronto con /home/user/mycity/components/checkout/OrderSummary.tsx:98-112",
+   "descrizione": "CONFERMATO. Quando la disponibilità letta è zero la riga mostra in rosso «Non più disponibile · toglilo per continuare» (righe 256-262). Ma il «Procedi al checkout» è un `<Link href=\"/checkout\">` sempre attivo (righe 414-419): non si spegne, non avvisa, non porta l'attenzione sulla riga da sistemare. Al checkout il muro c'è davvero (handleSubmit blocca con `stockIssues.length > 0` e OrderSummary mette `aria-disabled`), quindi non è un vicolo cieco: è un'istruzione che si contraddice da sola e costa un passaggio in più a fine percorso.",
+   "impatto": null,
+   "fix_proposto": "Calcolare gli articoli bloccanti (`massimo(i.id, i.variantId) === 0`) e, se ce ne sono, sostituire il Link con un pulsante `aria-disabled` che porta sulla prima riga da correggere — come già fa OrderSummary.tsx:104-112 — oppure offrire lì un «Rimuovi gli articoli esauriti»."
+  },
+  {
+   "chiave": "microcopy|il carrello scrive «1 articoli»",
+   "titolo": "Il carrello scrive «1 articoli»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/cart/page.tsx righe 198 (titolo) e 362 (riepilogo), contro riga 403",
+   "descrizione": "CONFERMATO. Riga 198: `({count} articoli)` nel titolo «Il tuo carrello»; riga 362: `{count} articoli` nel riepilogo. Nessuna delle due distingue il singolare, quindi col caso più frequente — un solo prodotto — si legge «Il tuo carrello (1 articoli)». La forma giusta esiste già nella stessa pagina ma solo nel testo per i lettori di schermo (riga 403: `{count === 1 ? 'articolo' : 'articoli'}`).",
+   "impatto": null,
+   "fix_proposto": "Usare l'espressione della riga 403 anche alle righe 198 e 362."
+  },
+  {
+   "chiave": "pagamenti-stripe|quando il pagamento scade, il webhook rimette in vendita anche la merce che intanto e' stata venduta",
+   "titolo": "Quando il pagamento scade, il webhook rimette in vendita anche la merce che intanto e' stata venduta",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/ordini.ts:559-587; app/api/cron/expire-checkouts/route.ts:28-99",
+   "descrizione": "Ci sono due strade che chiudono un carrello scaduto: il giro periodico (expire-checkouts) e il webhook di Stripe (checkout.session.expired e async_payment_failed). La stessa identica riparazione e' stata messa solo su una delle due. Il giro periodico, prima di rimettere la merce a scaffale, controlla se per quella sessione esistono gia' degli ordini e in quel caso non tocca niente e avvisa gli amministratori (righe 28-99). Il gemello nel webhook non fa quel controllo: rivendica il carrello, chiama restore_stock su TUTTI i gruppi e restituisce il codice sconto, senza guardare se qualche ordine e' gia' nato. Il commento nel giro periodico dice che il gemello 'fa gia' cosi'': non e' vero, il gemello si era fermato alla rivendicazione atomica.\n\nCausa radice: Riparazione applicata su una sola delle due strade che fanno la stessa cosa (il codice e' duplicato invece di condiviso), piu' un commento che dichiara la protezione presente sul gemello.\n\nProva (umano, non eseguita): Lettura affiancata dei due file: app/api/cron/expire-checkouts/route.ts:42-99 costruisce l'insieme conOrdini e salta i carrelli che hanno gia' ordini; lib/stripe/webhook/ordini.ts:559-587 non interroga mai la tabella orders. Verifica umana: creare un pending_checkout PENDING con un ordine gia' esistente sulla stessa sessione e mandare al webhook un evento checkout.session.expired firmato di prova; la merce torna a magazzino lo stesso.",
+   "impatto": "Nel caso in cui il pagamento riesca e la creazione degli ordini si fermi a meta' (primo negozio creato, secondo no), il magazzino segna pezzi che non ci sono piu': si vende quello che non c'e', e il secondo cliente scopre l'errore al momento della consegna. Oggi e' difficile da raggiungere perche' Stripe non manda 'sessione scaduta' su una sessione pagata, ma la protezione manca ed e' scritta come se ci fosse.",
+   "fix_proposto": "Estrarre la chiusura del carrello scaduto in una funzione sola, usata dal giro periodico e dal webhook, con dentro il controllo 'esistono gia' ordini per questa sessione?'. E correggere il commento nel giro periodico, che oggi promette una protezione che il gemello non ha."
+  },
+  {
+   "chiave": "qa-flussi|l'unico avviso su un carrello pagato a meta' puo' sparire senza che nessuno lo sappia",
+   "titolo": "L'unico avviso su un carrello pagato a meta' puo' sparire senza che nessuno lo sappia",
+   "dimensione": "qa-flussi",
+   "file": "app/api/cron/expire-checkouts/route.ts:84-99 (in particolare la riga 98)",
+   "descrizione": "Quando il giro delle scadenze trova un carrello scaduto che pero' ha gia' degli ordini creati — il caso del pagamento riuscito col webhook morto a meta' — decide giustamente di non toccare niente e di avvisare gli amministratori. L'avviso e' una riga scritta nella tabella notifications, e l'esito di quella scrittura non viene guardato: «await admin.from('notifications').insert(righe)» senza leggere l'errore. Se quella scrittura fallisce (permesso cambiato, riga non valida) il caso resta segnato solo nel log tecnico, e il giro risponde comunque ok: true.\n\nCausa radice: Nello stesso file, poche righe piu' sotto, ogni altra scrittura ha il suo controllo d'errore (righe 133-136, 161, 169): qui e' saltato perche' e' un ramo che quasi mai si esegue, quindi non lo ha mai visto nessuno girare davvero.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"notifications').insert(righe)\" app/api/cron/expire-checkouts/route.ts  → riga 98, nessun controllo dell'errore restituito (le altre scritture dello stesso file leggono error)",
+   "impatto": "Il caso che l'avviso doveva segnalare e' il piu' delicato che il sistema conosca: merce gia' venduta e cliente da rimborsare a mano. Perdere quell'avviso vuol dire che un ordine pagato resta appeso finche' non se ne lamenta il cliente.",
+   "fix_proposto": "Leggere l'errore dell'insert e, se c'e', rispondere 500 invece di ok: true — cosi' Vercel ritenta il giro e il caso non si perde. Vale anche per la lettura degli amministratori alla riga 90: se torna vuota (nessun amministratore trovato) oggi non si scrive niente e non lo dice nessuno."
+  },
+  {
+   "chiave": "qa-flussi|se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "titolo": "Se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "dimensione": "qa-flussi",
+   "file": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql:112-145 (la EXCEPTION WHEN OTHERS THEN NULL alle righe 143-144) · stesso schema in migrations/086_notify_buyer_on_order_status.sql:58-60",
+   "descrizione": "Il messaggio «il tuo ordine e' pronto» e «il tuo ordine e' stato consegnato» lo mette in coda un innesco del database, che avvolge tutto il lavoro in un blocco che ingoia qualunque errore e non lo scrive da nessuna parte (EXCEPTION WHEN OTHERS THEN NULL). La scelta di non bloccare l'ordine e' giusta; il problema e' l'altra meta': se la riga non entra in coda — una colonna cambiata, un codice di ritiro mancante, un profilo cancellato — il cliente non riceve l'email e nessuno lo sa mai, perche' non c'e' nemmeno una riga di registro. Lo stesso identico schema e' nell'innesco delle notifiche della migrazione 086.\n\nCausa radice: Il modo «best-effort» e' stato copiato dalla migrazione 086 insieme al suo difetto: ingoiare l'errore e non lasciare traccia sono due cose diverse, ma nel codice sono la stessa riga.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n 'EXCEPTION WHEN OTHERS' migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql migrations/086_notify_buyer_on_order_status.sql  → in tutti e due il corpo del blocco e' NULL, senza nessuna RAISE WARNING",
+   "impatto": "Sul ritiro in negozio quell'email porta il codice che il cliente mostra al bancone. Se non parte, il cliente arriva senza codice e il negoziante non puo' chiudere l'ordine: una fatica in negozio che nessun cruscotto mostra.",
+   "fix_proposto": "Sostituire NULL con RAISE WARNING che riporta ordine, template e SQLERRM: il messaggio finisce nel log di Postgres e diventa cercabile. Meglio ancora: scrivere una riga in una tabellina «email non accodate» che il giro operativo controlla, cosi' l'email persa si puo' rimandare a mano."
+  },
+  {
+   "chiave": "microcopy|la descrizione che google mostra per la categoria alimentari promette il ritiro in negozio, che è spento",
+   "titolo": "La descrizione che Google mostra per la categoria Alimentari promette il ritiro in negozio, che è spento",
+   "dimensione": "microcopy",
+   "file": "app/category/[slug]/layout.tsx:7,30-33 · lib/constants.ts:40 · lib/promesse-pubbliche.ts:45-80",
+   "descrizione": "Il meta description della categoria «alimentari» dice «Consegna a casa in 30-60 minuti o ritiro in negozio». Ma RITIRO_IN_NEGOZIO_ATTIVO è false dal 20/8 (Nicola: «mettilo da parte, non ne ho ancora parlato con i negozi») e la cassa non lo offre. La pagina Spedizioni è già protetta da riquadroRitiroInNegozio() in lib/promesse-pubbliche.ts; questo testo, scritto a mano nel layout della categoria, è sfuggito alla stessa correzione. È il testo che compare nel risultato Google e nell'anteprima condivisa su WhatsApp.\n\nCausa radice: La promessa vive in due posti: la costante in lib/constants e il testo fisso nel layout della categoria; il secondo non legge la prima.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-categoria-promette-ritiro.test.ts",
+   "impatto": "Chi cerca su Google «alimentari Piacenza consegna» legge «o ritiro in negozio», entra per ritirare al volo e in cassa trova solo la consegna: un clic pagato con la delusione. Piccolo, ma è proprio la categoria del negozio faro.",
+   "fix_proposto": "In layout.tsx riga 7 comporre la frase da lib/promesse-pubbliche (es. `Consegna a casa in ${EXPRESS_ETA_LABEL}` + (riquadroRitiroInNegozio() ? ' o ritiro in negozio' : '')), così quando il ritiro si riaccende torna da solo (🟢, 5 minuti)."
+  },
+  {
+   "chiave": "architettura|sulla card del catalogo la pillola verde dice «sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome",
+   "titolo": "Sulla card del catalogo la pillola verde dice «Sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome",
+   "dimensione": "architettura",
+   "file": "lib/promesse-pubbliche.ts:227",
+   "descrizione": "`promessaSpedizione().breve` produce, sopra i 30 €, la stringa `Sped. gratis + 3,00 €`, usata da components/ProductCard.tsx:223 dentro un `<Badge variant=\"free\">`, cioè la pillola VERDE che nel design system significa «bel vantaggio». Sulla scheda prodotto lo stesso costo è scritto per esteso e si capisce («Consegna MyCity 3,00 € per negozio, su ogni ordine a domicilio», app/product/[id]/page.tsx:715); sulla card no: c'è solo `+ 3,00 €` senza nessun sostantivo. Effetto secondario: a 360px, in griglia a due colonne, dentro la card restano ~148 punti e questa pillola ne chiede ~147 (prima ne chiedeva ~95), quindi occupa da sola tutta la riga e, quando c'è anche «Ultimi 3», manda i badge su due righe. — La correzione di fondo è giusta e coraggiosa — il costo di consegna PRIMA della scelta, non nel carrello — ma qui il modo in cui è detta non si capisce. Su una pillola verde da 10 punti, «gratis + 3,00 €» si legge come una contraddizione: uno scrive «gratis» e poi chiede tre euro senza dire di cosa. Un cliente di Piacenza che legge quella card non sa se i 3 € sono in più, in meno, o un supplemento del negozio. La sostanza (il numero) non va tolta; va data una parola: «Sped. gratis · 3 € consegna» dice la stessa cosa ed è comprensibile.",
+   "impatto": "La correzione di fondo è giusta e coraggiosa — il costo di consegna PRIMA della scelta, non nel carrello — ma qui il modo in cui è detta non si capisce. Su una pillola verde da 10 punti, «gratis + 3,00 €» si legge come una contraddizione: uno scrive «gratis» e poi chiede tre euro senza dire di cosa. Un cliente di Piacenza che legge quella card non sa se i 3 € sono in più, in meno, o un supplemento del negozio. La sostanza (il numero) non va tolta; va data una parola: «Sped. gratis · 3 € consegna» dice la stessa cosa ed è comprensibile.",
+   "fix_proposto": "Questo non lo chiude una prova automatica: `verifica: {tipo:\"umano\"}` — mostrare la card a tre persone sopra i sessanta e chiedere «quanto paghi di consegna per questo prodotto?». Il pezzo automatizzabile è il contorno: una prova che pretende che ogni etichetta di `promessaSpedizione` che contiene una cifra contenga anche il sostantivo che la nomina — `cd /home/user/mycity && npx vitest run tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts` esteso con quel caso; oggi `breve` passa perché il numero c'è, e nessuno guarda se si capisce."
+  }
+ ]
+}

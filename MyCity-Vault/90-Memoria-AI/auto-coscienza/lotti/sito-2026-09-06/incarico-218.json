@@ -1,0 +1,77 @@
+{
+ "squadra": 218,
+ "ondata": 9,
+ "pacchetti": [
+  "components/ui/Card.tsx",
+  "app/profile/page.tsx",
+  "app/seller/analytics/page.tsx",
+  "components/ui/Toggle.tsx",
+  "app/profile/loyalty/page.tsx",
+  "home/user/mycity/app/messages/page.tsx"
+ ],
+ "file_citati": [
+  "components/ui/Card.tsx",
+  "app/profile/page.tsx",
+  "app/seller/analytics/page.tsx",
+  "components/ui/Toggle.tsx",
+  "app/profile/gift-cards/page.tsx",
+  "app/profile/loyalty/page.tsx",
+  "app/messages/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "titolo": "La primitiva Card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "dimensione": "coerenza-brand",
+   "file": "components/ui/Card.tsx:43 · riquadri 'bg-white border border-cream-300|surface-200 rounded-*' in app/ e components/",
+   "descrizione": "CONFERMATO, conteggi rifatti e coincidenti. Solo 10 file importano components/ui/Card. Le card scritte a mano con lo stesso schema (bg-white + border cream-300/surface-200) si distribuiscono così: rounded-2xl (20px) 71 volte, rounded-xl (16px) 56, rounded-lg (12px) 14, più i pochi rounded-full. La primitiva usa rounded-lg, cioè il raggio meno frequente: i 10 posti che passano di lì hanno 12px, 56 ne hanno 16 e 71 ne hanno 20. Nessuno è illegale preso da solo (il design system ammette 12-20px per le card), ma non esiste una regola che dica quale raggio in quale contesto — ed è la causa radice del difetto del checkout qui sopra.",
+   "impatto": null,
+   "fix_proposto": "Fissare la regola per contesto e scriverla nel design system: card di contenuto = rounded-xl (16px), card prodotto/negozio = rounded-2xl (20px), riquadri interni = rounded-lg (12px). Allineare components/ui/Card.tsx:43 a rounded-xl con una prop 'radius' per il caso prodotto, e migrare a <Card> almeno le pagine del funnel d'acquisto."
+  },
+  {
+   "chiave": "tipografia|nel profilo l'email può uscire dal bordo della scheda: manca break-words",
+   "titolo": "Nel profilo l'email può uscire dal bordo della scheda: manca break-words",
+   "dimensione": "tipografia",
+   "file": "app/profile/page.tsx:133",
+   "descrizione": "CONFERMATO nel file, con la portata ridotta rispetto alla segnalazione. Alla riga 133 l'email dell'utente è stampata in `font-mono` dentro una scheda con `p-6` (24px per lato) e nessuna classe che permetta di spezzare la parola. In tutto il sito ho trovato 7 usi di break-words/break-all, tutti in zone interne (admin, messaggi). I browser non spezzano né sulla chiocciola né sul punto, quindi un'email lunga esce dal bordo bianco della scheda: su un telefono da 375px restano circa 295px, cioè una trentina di caratteri a spaziatura fissa. Ho scartato invece la parte della segnalazione che presentava questo come «regola del design non copiata»: il file citato (docs/mockup/ui_kits/_mobile.css) è un foglio di correzione dei mockup con selettori #root/#mc-app e !important, non una fonte di token del sito.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `break-words` alla riga 133 e agli altri punti dove si stampa un'email o un codice ordine per intero."
+  },
+  {
+   "chiave": "accessibilita-visiva|nel pannello del negoziante il pulsante senape dei consigli si legge a fatica",
+   "titolo": "Nel pannello del negoziante il pulsante senape dei consigli si legge a fatica",
+   "dimensione": "accessibilita-visiva",
+   "file": "app/seller/analytics/page.tsx:415",
+   "descrizione": "La riga `accent: { ... btn: 'bg-accent-600 hover:bg-accent-700 text-white' }` della mappa INSIGHT_TONE colora il pulsante dei riquadri-consiglio dell'analisi vendite. Misurato in Chromium: bianco su rgb(196,128,31) = 3,25:1, testo 14px in grassetto — sotto i 4,5:1 richiesti (WCAG 2.1 — 1.4.3, AA). Le altre due tonalità della stessa mappa (olive-600, secondary-600) passano: è solo la senape a cadere.\n\nCausa radice: accent-600 è un giallo-ocra: con il bianco sopra non arriva a 4,5:1. La mappa è stata composta a occhio per tinta, non misurando ogni coppia.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 200 npx playwright test --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/av/pw.config.ts venditore-e-interruttore   (primo test: oggi 3,25:1, atteso >= 4,5)",
+   "impatto": "Il negoziante che apre l'analisi vendite trova il consiglio («migliora le foto», «rialza le scorte») e sotto un pulsante che si legge peggio degli altri due. Non blocca nulla, ma è proprio il pulsante che dovrebbe far agire il negozio.",
+   "fix_proposto": "In app/seller/analytics/page.tsx:415 usare `bg-accent-700 hover:bg-accent-800 text-white` (bianco su #9D621C = 5,00:1) oppure tenere accent-600 e scrivere sopra in `text-ink-900` (5,33:1), coerente con il badge `urgency` di components/ui/Badge.tsx che già fa così. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "accessibilita-visiva|l'interruttore spento delle impostazioni è quasi invisibile sul bianco",
+   "titolo": "L'interruttore spento delle impostazioni è quasi invisibile sul bianco",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/ui/Toggle.tsx:57-66",
+   "descrizione": "Nello stato spento la pista dell'interruttore è `bg-cream-300` (#EEDFBA) e la pallina dentro è bianca. Misurato in Chromium: pista contro pagina bianca 1,32:1, pallina contro pista 1,32:1. Un comando deve avere almeno 3:1 sul contorno che lo identifica (WCAG 2.1 — 1.4.11, AA). Il ruolo e il nome sono a posto — il componente è stato sistemato il 30/8 per lo screen reader — ma chi guarda lo schermo con vista debole non vede che lì c'è un interruttore, né da che parte sta la pallina.\n\nCausa radice: Stessa radice del bordo dei campi: cream-300 usato come colore di un comando invece che come separatore. Il difetto è nella primitiva, quindi vale ovunque il Toggle venga riusato.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 200 npx playwright test --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/av/pw.config.ts venditore-e-interruttore   (secondo test: oggi 1,32:1, atteso >= 3)",
+   "impatto": "Nelle impostazioni account ci sono cinque interruttori (notifiche, email, profilo pubblico). Chi non li distingue non sa se ha acceso o spento l'avviso dell'ordine in consegna. Non è sul percorso d'acquisto, ma è la pagina dove il cliente decide quanto MyCity gli può scrivere.",
+   "fix_proposto": "In components/ui/Toggle.tsx:62 sostituire lo stato spento `bg-cream-300` con `bg-ink-400` (#78716C: 4,66:1 contro il bianco della pagina e contro la pallina bianca). Owner: @frontend-dev."
+  },
+  {
+   "chiave": "stati-ui|il credito del cliente si legge zero euro quando la lettura non riesce",
+   "titolo": "Il credito del cliente si legge zero euro quando la lettura non riesce",
+   "dimensione": "stati-ui",
+   "file": "app/profile/gift-cards/page.tsx:70-76 · app/profile/loyalty/page.tsx:74-80",
+   "descrizione": "Il saldo del portafoglio viene letto cosi': `const { data } = await supabase.from('profiles').select('wallet_balance_cents')...single()` e poi `return (data?.wallet_balance_cents) ?? 0`. L'errore non viene raccolto, quindi una lettura fallita non diventa un errore: diventa il numero 0, e per il contenitore delle query e' una lettura RIUSCITA. Da li' in poi niente nuovo tentativo, nessun avviso, e lo zero resta in cache sotto la chiave del portafoglio, quindi lo rivede uguale anche l'altra pagina (Punti e Gift card condividono la stessa chiave). A video il cliente legge «0,00 €» esattamente come chi il credito non ce l'ha davvero.\n\nCausa radice: L'errore viene trasformato in un valore di default dentro la funzione di lettura: cosi' il difetto e' invisibile al livello superiore, che crede di avere un dato buono. Il valore di ripiego 0 e' indistinguibile dal valore vero 0.\n\nProva (umano, non eseguita): Un occhio umano: accedere come cliente con credito diverso da zero, aprire /profile/gift-cards con gli strumenti del browser e bloccare (Network → offline, oppure blocco della richiesta a /rest/v1/profiles) la lettura del profilo, poi ricaricare. Cosa deve vedere: un errore con «riprova». Cosa vede oggi: il saldo grande «0,00 €», nessun avviso, nessun nuovo tentativo. Ripetere su /profile/loyalty: stesso zero.",
+   "impatto": "Una cliente che ha ricevuto una gift card da 25 € apre Profilo → Gift card mentre la rete balla: legge saldo 0,00 €. Pensa che il regalo sia sparito o che sia stato usato da qualcun altro, scrive all'assistenza o rifa' la spesa pagando tutto. Un numero in euro sbagliato e' la cosa che rompe la fiducia piu' in fretta.",
+   "fix_proposto": "Far uscire l'errore dalla funzione di lettura (`if (error) throw error`), cosi' il contenitore delle query ritenta da solo e la pagina puo' mostrare «non riesco a leggere il saldo — riprova» al posto della cifra. Regola: un importo in euro non ha mai un valore di ripiego; o e' letto, o si dice che non e' stato letto."
+  },
+  {
+   "chiave": "stati-ui|messaggi: un errore di lettura viene mostrato come «nessuna conversazione»",
+   "titolo": "Messaggi: un errore di lettura viene mostrato come «Nessuna conversazione»",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/messages/page.tsx:54, :69, :107-109, :121-129",
+   "descrizione": "CONFERMATO, ma solo per l'errore — non per il caricamento. La destrutturazione è `const { data: conversations = [], isLoading, refetch } = useQuery(...)` (riga 54) e non prende `isError`, mentre la funzione lancia su errore (`if (error) throw error`, riga 69). Il caricamento è coperto (`if (!userId || isLoading) return <LoadingState />`, righe 107-109), quindi nessun lampo all'apertura; ma se la lettura FALLISCE `isLoading` è falso e l'elenco è vuoto, e la pagina mostra «Nessuna conversazione — Scrivi a un negozio dalla scheda prodotto…» (righe 121-129). Chi ha conversazioni aperte legge che non ne ha nessuna, senza pulsante per riprovare.",
+   "impatto": null,
+   "fix_proposto": "Prendere `isError` e mostrare `<ErrorState title=\"Non riusciamo a caricare i messaggi\" onRetry={() => refetch()} />` prima del controllo su `conversations.length === 0`."
+  }
+ ]
+}

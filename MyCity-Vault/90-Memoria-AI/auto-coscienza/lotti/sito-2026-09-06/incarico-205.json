@@ -1,0 +1,64 @@
+{
+ "squadra": 205,
+ "ondata": 6,
+ "pacchetti": [
+  "app/stores/page.tsx",
+  "lib/api/middleware.ts"
+ ],
+ "file_citati": [
+  "app/stores/page.tsx",
+  "app/near/page.tsx",
+  "components/store-sections/HeroSection.tsx",
+  "components/CollectionHeader.tsx",
+  "app/api/account/accetta-condizioni/route.ts",
+  "lib/api/middleware.ts",
+  "app/api/admin/cms/[slug]/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance|/stores e /near caricano l'intera tabella dei negozi senza paginazione, e /stores ci porta dentro anche le gallerie fotografiche",
+   "titolo": "/stores e /near caricano l'intera tabella dei negozi senza paginazione, e /stores ci porta dentro anche le gallerie fotografiche",
+   "dimensione": "performance",
+   "file": "app/stores/page.tsx:30-33 · app/near/page.tsx:28-37",
+   "descrizione": "CONFERMATO. `app/stores/page.tsx:31-33`: `.from('seller_public_profiles').select(SELECT_STORES).order('store_name')` — nessun `.limit()`, nessun `.range()`. E `SELECT_STORES` (righe 30-31) include `store_media`, il JSON della galleria fotografica.\n\n`app/near/page.tsx:37`: `.select(SELECT_NEAR)` senza limite. Qui `store_media` è stato tolto, e il commento alle righe 28-32 spiega esattamente il perché: «un campo JSON che può pesare decine di kilobyte per negozio, moltiplicato per ogni negozio, scaricato su ogni apertura». La stessa lezione non è stata applicata a `/stores`.\n\nDifferenza da segnalare rispetto al testo originale: su `/stores` la galleria **viene effettivamente usata** (`StoreMediaCarousel` in `components/StorePreviewCard.tsx:57`), quindi toglierla non è gratis — è un compromesso da decidere, non una svista.\n\nSopra i 1000 negozi entrambe le pagine subiscono il troncamento silenzioso di PostgREST. Severità «minore» oggi: con una decina di negozi non si vede nulla.",
+   "impatto": "Il peso di queste due pagine cresce in modo lineare col successo commerciale di MyCity: più negozi si firmano, più lenta diventa la pagina che li mostra. A 300 negozi con galleria, `/stores` può significare megabyte di JSON verso un telefono. Oltre i 1000, dei negozi spariscono dall'elenco senza che nessuno lo dica.",
+   "fix_proposto": "① Un `.limit()` esplicito subito (es. 200) su entrambe: rende il tetto una scelta scritta invece di una sorpresa di PostgREST — una riga, zero rischi. ② Poi paginazione vera con `.range()` o scorrimento infinito. ③ Su `/stores`, valutare con @ux-designer se in lista serve tutta la galleria o basta la prima immagine, caricando il resto all'apertura del negozio."
+  },
+  {
+   "chiave": "accessibilita-visiva|verde oliva-500 con testo bianco: 3,69:1 sul badge «aperto ora» e sul filtro «aperti ora»",
+   "titolo": "Verde oliva-500 con testo bianco: 3,69:1 sul badge «Aperto ora» e sul filtro «Aperti ora»",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/store-sections/HeroSection.tsx:130 (badge «Aperto ora») e app/stores/page.tsx:254 (filtro «Aperti ora» attivo)",
+   "descrizione": "CONFERMATO SOLO IN PARTE, e per questo ridimensionato. `bg-olive-500` (#7C8B5A) con `text-white` misura 3,69:1 (ricalcolato): sotto 4,5:1 per testo piccolo in grassetto. Vero nei due punti qui sopra, dove sull'oliva c'è TESTO. Gli altri quattro punti segnalati dal collega sono FALSI POSITIVI: StepIndicator.tsx:24 e OrderTimeline.tsx:67 nello stato «fatto» rendono un'icona `<Check>`, non testo, e Navbar.tsx:331/:357 col ramo oliva rendono l'icona `<Bike>` (il testo del nome utente sta fuori dalla pastiglia) — sono elementi grafici, soglia 3:1, e 3,69:1 la passa. Cade quindi anche l'aggravante del «ripetuto sei volte nel percorso d'acquisto». WCAG 1.4.3 (AA).",
+   "impatto": null,
+   "fix_proposto": "Sostituire `bg-olive-500` con `bg-olive-600` (#5A7C42, 4,78:1, già definito come «success brand» nel design system) nelle due righe con testo: HeroSection.tsx:130 e app/stores/page.tsx:254. Nessun cambio di layout."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la pagina «tutti i negozi» è l'unica vetrina senza briciolo di pane, e il contatore non segue i filtri",
+   "titolo": "La pagina «Tutti i negozi» è l'unica vetrina senza briciolo di pane, e il contatore non segue i filtri",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/stores/page.tsx:230-239 (intestazione scritta a mano, riga 237 stampa stores.length) · :185 (const filtered) e :295-302 (la griglia usa filtered) · confronto: components/CollectionHeader.tsx usato da /categorie, /category/[slug], /novita, /piu-venduti, /piccoli-prezzi, /promozioni, /regali",
+   "descrizione": "CONFERMATO su entrambi i punti. Primo: l'intestazione è scritta a mano (righe 230-239) — solo <h1> e una riga, nessun CollectionHeader, quindi niente «Home › Negozi», niente occhiello, niente riquadro icona; è la prima voce della barra categorie e non offre nessuna scala per risalire. Secondo: la riga sotto il titolo stampa stores.length (riga 237), cioè il totale non filtrato, mentre i filtri di ricerca/settore alimentano 'filtered' (riga 185) che è quello davvero renderizzato (righe 295 e 302). Con un filtro attivo la pagina continua a dichiarare il totale mentre a schermo restano pochi negozi. Confermato anche il passo orizzontale fuori scala: riga 230 usa 'px-4' senza sm:px-6.",
+   "impatto": null,
+   "fix_proposto": "Usare CollectionHeader con breadcrumb [Home, Negozi] come le altre vetrine, e stampare filtered.length nella riga di conteggio tenendo il totale come testo secondario."
+  },
+  {
+   "chiave": "sicurezza-auth|l'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+   "titolo": "L'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+   "dimensione": "sicurezza-auth",
+   "file": "app/api/account/accetta-condizioni/route.ts:19-22 (legge la sessione da sola con getServerSupabase) · il cancello che salta: lib/api/middleware.ts, funzione authenticate (freno di rete per percorso + arrivaDaUnAltroSito)",
+   "descrizione": "Il 30/8 la difesa contro le richieste falsificate da un altro sito e' stata messa dentro authenticate(), il punto per cui passano tutte le rotte con involucro (withAuth e simili). Questa rotta pero' non usa nessun involucro: apre la sessione da sola e scrive nel registro dei consensi con il client amministrativo. Risultato: e' l'unica scrittura con sessione che non eredita ne' quel controllo ne' il freno per percorso. Oggi la protegge ancora il SameSite=Lax dei cookie di Supabase, come prima della cura.\n\nCausa radice: Rotta scritta prima degli involucri comuni e mai migrata: la cura sistemica del 30/8 copre tutte le rotte solo se tutte passano dal cancello.\n\nProva (grep, eseguita e rossa): grep -c 'withAuth\\|arrivaDaUnAltroSito' /home/user/mycity/app/api/account/accetta-condizioni/route.ts   → 0 (nessuna delle due difese nel file)",
+   "impatto": "Se il valore SameSite dei cookie cambia (incorporamenti, nuova versione della libreria), una pagina esterna potrebbe far risultare accettate le condizioni a un utente loggato senza che lui lo voglia: un consenso a verbale falso, con IP e user-agent registrati. Nessun soldo; e' un buco nella coerenza della difesa.",
+   "fix_proposto": "Riscrivere la rotta con withAuthRateLimit({ name:'accetta-condizioni', max:20, windowMs:60000 }, …): eredita freno, controllo di provenienza e client dell'utente. Aggiungere una prova che elenca le rotte sotto app/api con sessione (getServerSupabase/getCurrentUser) fuori da un involucro e pretende zero."
+  },
+  {
+   "chiave": "sicurezza-auth|il freno contro chi bussa mille volte si azzera cambiando l'ultima parola dell'indirizzo",
+   "titolo": "Il freno contro chi bussa mille volte si azzera cambiando l'ultima parola dell'indirizzo",
+   "dimensione": "sicurezza-auth",
+   "file": "lib/api/middleware.ts:330-342 (chiaveDelFreno) · lib/api/middleware.ts:151 (frenoDiRete) · app/api/admin/cms/[slug]/route.ts",
+   "descrizione": "Il freno per indirizzo di rete che sta davanti a tutte le rotte autenticate usa come nome del contatore il percorso della richiesta, dopo aver sostituito con ':id' i pezzi che sono numeri, UUID o stringhe esadecimali lunghe. Il commento sopra alla funzione dichiara l'obiettivo: 'il nome del contatore non puo' contenere l'identificativo della risorsa'. Le rotte con una parola nell'indirizzo (le pagine CMS: /api/admin/cms/<parola>) non rientrano in nessuno dei tre schemi, quindi ogni parola diversa e' un contatore nuovo con il budget pieno da 300 al minuto.\n\nCausa radice: La normalizzazione riconosce le forme degli identificativi invece di leggere la forma della rotta. Un identificativo che ha l'aspetto di una parola non e' distinguibile da un pezzo fisso del percorso guardando solo la stringa.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/sicurezza-auth-g2.test.ts → secondo test ROSSO: expected '/api/admin/cms/home-b' received '/api/admin/cms/home-a'",
+   "impatto": "Chi vuole bussare tanto manda /api/admin/cms/aaa, /api/admin/cms/aab, /api/admin/cms/aac… e il freno non scatta mai. Ogni tentativo con un gettone finto costa comunque a noi una chiamata al servizio di accesso: e' esattamente la spesa che il freno era stato messo li' per evitare. Oggi la rotta esposta e' una sola e chiede privilegi di amministratore, quindi il danno e' il conto del servizio, non i dati.",
+   "fix_proposto": "Non ricavare il nome del contatore dalla stringa del percorso ma dalla rotta che Next ha effettivamente scelto (il template con [slug]/[id] dentro), oppure tenere solo i primi tre pezzi del percorso. Bastano tre righe e vale per tutte le rotte dinamiche future, non solo per quelle che assomigliano a un numero."
+  }
+ ]
+}

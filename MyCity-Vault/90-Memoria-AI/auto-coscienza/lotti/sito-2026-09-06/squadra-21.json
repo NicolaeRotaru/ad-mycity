@@ -1,0 +1,153 @@
+{
+ "squadra": 21,
+ "territorio": [
+  "/page.tsx",
+  "app/page.tsx",
+  "app/seller/page.tsx",
+  "app/orders/page.tsx",
+  "app/orders/[id]/page.tsx",
+  "app/seller/orders/page.tsx",
+  "app/seller/dashboard/page.tsx",
+  "app/admin/orders/page.tsx",
+  "marketplace/app/api/orders/[id]/cancel/route.ts",
+  "marketplace/app/orders/[id]/page.tsx",
+  "marketplace/app/api/returns/create/route.ts",
+  "components/ProductCard.tsx",
+  "app/profile/referral/page.tsx",
+  "app/messages/[id]/page.tsx",
+  "app/admin/today/page.tsx",
+  "app/seller/orders/[id]/page.tsx",
+  "components/checkout/CartGroupsList.tsx",
+  "lib/ordini/riga-ordine.ts",
+  "components/providers/QueryProvider.tsx",
+  "components/DeliveryMap.tsx",
+  "components/NearbyStoresMap.tsx",
+  "app/near/page.tsx",
+  "lib/order-status.ts",
+  "lib/constants.ts"
+ ],
+ "malattia": "Le pagine dell'ordine sono state scritte per il caso che va bene: la rete regge, il nome del prodotto e' corto, il ritiro esiste, la mappa e' l'unica cosa sullo schermo. Ogni volta che la realta' si discosta da quel caso, l'interfaccia dice al cliente o al negoziante una cosa che non e' vera.",
+ "difetti": [
+  {
+   "chiave": "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+   "titolo": "Quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+   "esito": "non_riparato",
+   "prova": "echo \"server: $(grep -rL \"'use client'\" --include=page.tsx app | wc -l) su $(find app -name page.tsx | wc -l)\" -> server: 16 su 113 (identico a tre giorni fa: nessuna ondata l'ha toccato)",
+   "nota_fix": "Confermato e NON riparato di proposito. Portare orders, orders/[id], seller/orders e seller/dashboard a componente server non e' un fix minimo: sono quattro pagine 'use client' con react-query, sottoscrizione realtime (app/orders/[id]/page.tsx:166), stato locale e mutazioni; separarle in guscio server + isola client e' esattamente il refactor che il lotto vieta, e la parte restante del difetto vive in altre 93 pagine fuori dal mio territorio. Serve prima la decisione di piattaforma (quali pagine passano al server, con quale soglia) — @platform-infra con @product-manager — poi una pagina per volta, ognuna con la sua misura prima/dopo. Non ho verificato nessun tempo di caricamento reale: da qui non ho ne' anteprima ne' Lighthouse.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "qa-flussi|fra «il negozio ha accettato» e «consegnato» il cliente non ha nessuna via d'uscita",
+   "titolo": "Fra «il negozio ha accettato» e «consegnato» il cliente non ha nessuna via d'uscita",
+   "esito": "non_riparato",
+   "prova": "letto app/api/orders/[id]/cancel/route.ts (rifiuta ogni stato diverso da NEW), app/orders/[id]/page.tsx (il pulsante compare solo finche' e' annullabile) e app/api/returns/create/route.ts (il reso si apre solo da DELIVERED): la finestra in mezzo e' ancora scoperta",
+   "nota_fix": "Confermato, e resta aperto perche' non e' un difetto di codice. «Annulla con il consenso del negozio» vuol dire un nuovo stato o una tabella di richieste (migrazione = rosso, fuori da questo lotto), la notifica al negoziante, il suo tocco di conferma sulla pagina venditore e il rimborso: disegno di prodotto, non una classe da cambiare. Va deciso da @product-manager e @ux-designer, poi costruito da @backend-dev + me. La variante minima (finestra di ripensamento di 2 minuti dopo l'accettazione) sarebbe scrivibile quasi tutta nella rotta di annullamento, ma cambia una regola di business che tocca i soldi: non la decido io dentro un lotto di minori.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+   "titolo": "Ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+   "esito": "non_riparato",
+   "prova": "conteggio con espressione regolare su app/, components/, lib/ (shadow, shadow-sm/md/lg/xl/2xl esclusi i token): 72 occorrenze in 49 file prima, 69 in 46 file adesso. Nei 24 file del mio territorio: 0. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+   "nota_fix": "Riparato SOLO nel mio territorio, quindi lo lascio aperto. Ho mappato sui token le sette occorrenze che stavano nei miei file: app/orders/[id]/page.tsx (il riquadro verde del codice consegna, shadow-lg -> shadow-warm-lg: era il caso piu' visibile citato dalla scheda, riga 435 nella scheda, 494 oggi), app/seller/orders/[id]/page.tsx (foglio del rifiuto shadow-2xl -> shadow-warm-xl, riquadro colorato shadow-lg -> shadow-warm-lg), app/orders/page.tsx (hover:shadow-md -> hover:shadow-card), app/messages/[id]/page.tsx (bolla della chat shadow-sm -> shadow-sm-neutral), components/ProductCard.tsx (cuore shadow -> shadow-sm-neutral, bottone aggiungi shadow-sm -> shadow-sm-neutral: erano le due della scheda, riga 168, oggi 190 e 256). Il token sm-neutral adesso e' usato davvero e non e' piu' inerte. Restano 69 occorrenze in 46 file che NON sono miei (components/ui/Card.tsx, Button.tsx, SiteEditor, HomeSectionRenderer, app/cart, app/search...). La chiusura vera e' una riga sola in tailwind.config.ts (ridefinire boxShadow sm/DEFAULT/md/lg/xl con le versioni inchiostro, cosi' cadono dentro il sistema anche le classi generiche): quel file non e' nel mio territorio ed e' di tutti. Non verificato a schermo: la differenza fra un'ombra terracotta e una nera al 6% non l'ho vista, l'ho dedotta dai token.",
+   "file_toccati": [
+    "app/orders/[id]/page.tsx",
+    "app/seller/orders/[id]/page.tsx",
+    "app/orders/page.tsx",
+    "app/messages/[id]/page.tsx",
+    "components/ProductCard.tsx"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|il codice di consegna usa un terzo carattere che il design system non prevede",
+   "titolo": "Il codice di consegna usa un terzo carattere che il design system non prevede",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && grep -n 'font-mono' 'app/orders/[id]/page.tsx' app/profile/referral/page.tsx -> 0 righe (prima: 1 + 1). npx tsc --noEmit -p tsconfig.json -> exit 0.",
+   "nota_fix": "Due strade possibili: dichiarare 'mono' in tailwind.config.ts (file fuori dal mio territorio e condiviso) oppure togliere il terzo carattere. Ho preso la seconda, che sta tutta dentro i miei file: font-mono -> 'font-sans tabular-nums' nei due punti citati, tenendo la spaziatura larga (tracking-[0.3em] sul codice consegna, tracking-wider sul codice invito). tabular-nums da' alle cifre la stessa larghezza, che era il vero motivo per cui li' serviva un monospaziato: il codice resta allineato e leggibile, ma in Inter, dentro i due caratteri che il design system dichiara. Righe: la scheda diceva 439 e 87, oggi sono 498 e 96 (le ondate precedenti hanno spostato tutto). Restano 44 usi di font-mono in pagine di staff (admin/seller/rider: identificativi ordine, IP, IBAN, codici sconto), dove il monospaziato e' difendibile e nessun cliente li vede: se si vuole zero eccezioni, quella e' la riga in tailwind.config.ts. NON verificato a schermo: non ho potuto guardare il codice consegna renderizzato su un telefono vero.",
+   "file_toccati": [
+    "app/orders/[id]/page.tsx",
+    "app/profile/referral/page.tsx"
+   ]
+  },
+  {
+   "chiave": "tipografia|sulla pagina dell'ordine l'ora della posizione del rider esce coi secondi, «agg. 14:05:33»",
+   "titolo": "Sulla pagina dell'ordine l'ora della posizione del rider esce coi secondi, «agg. 14:05:33»",
+   "esito": "gia_riparato_prima",
+   "prova": "cd /home/user/mycity && grep -n \"toLocaleTimeString\" 'app/orders/[id]/page.tsx' -> nessuna riga di codice; l'unica occorrenza della parola e' nel commento alla riga 579",
+   "nota_fix": "Il difetto non c'e' piu' e la correzione e' andata oltre quella proposta. Al posto dell'orario secco (che coi secondi ballava a ogni aggiornamento) la pagina adesso scrive DA QUANTO la posizione e' ferma, con statoPosizioneRider/daQuantoTempo di lib/ordini/posizione-rider.ts, e quando la posizione e' vecchia il pallino smette di essere verde (app/orders/[id]/page.tsx:575-588). Il commento sul posto lo racconta: «Prima qui c'era 'agg. 14:00': un orario secco, che chi legge alle 14:25 non confronta con l'orologio». Non ho toccato niente.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "tipografia|nella pagina dell'ordine il nome del prodotto viene tagliato a una riga, e il negoziante non vede la fine del nome",
+   "titolo": "Nella pagina dell'ordine il nome del prodotto viene tagliato a una riga, e il negoziante non vede la fine del nome",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && grep -n 'nomeDellaRigaOrdine' 'app/seller/orders/[id]/page.tsx' 'app/orders/[id]/page.tsx' e grep -n 'item.name' components/checkout/CartGroupsList.tsx -> nessuna delle tre righe porta piu' 'truncate'. npx vitest run tests/unit/un-ordine-vecchio-sa-ancora-cosa-hai-comprato.test.ts tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts -> 2 file, tutti verdi. npx tsc --noEmit -> exit 0.",
+   "nota_fix": "truncate -> 'line-clamp-2 break-words' nei tre punti dove compare il NOME del prodotto: app/seller/orders/[id]/page.tsx:518 (la pagina con cui il negoziante prepara l'ordine, la piu' importante delle tre), app/orders/[id]/page.tsx:653 (il dettaglio del cliente), components/checkout/CartGroupsList.tsx:50 (il riepilogo in cassa). Cosi' «Tortelli piacentini ricotta e spinaci 500 g» e «... 1 kg» non finiscono piu' identici a «Tortelli piacentini ricotta e...»: il peso, che sta dentro il nome perche' non esiste un campo variante (lib/ordini/riga-ordine.ts), arriva fino in fondo. Correzione alla scheda: il quarto punto citato, app/seller/orders/page.tsx:167, oggi NON contiene un nome di prodotto ma la riga «N articoli - indirizzo» nella lista degli ordini; li' il taglio a una riga e' voluto e la pagina di dettaglio mostra tutto, quindi l'ho lasciato. Restano cinque truncate su nomi prodotto in file fuori dal mio territorio (seller/analytics, lists/[id], FeaturedProductsPicker, HeroStoreCard): sono griglie e liste compatte, non pagine operative. NON verificato a schermo: la prova che il nome lungo va davvero a capo su 375px resta da fare a occhio, come diceva la scheda.",
+   "file_toccati": [
+    "app/seller/orders/[id]/page.tsx",
+    "app/orders/[id]/page.tsx",
+    "components/checkout/CartGroupsList.tsx"
+   ]
+  },
+  {
+   "chiave": "stati-ui|se cade la rete il negozio legge «ordine non trovato» sull ordine che ha appena incassato",
+   "titolo": "Se cade la rete il negozio legge «Ordine non trovato» sull ordine che ha appena incassato",
+   "esito": "riparato",
+   "prova": "prova nuova che gira: tests/unit/il-negozio-non-legge-ordine-non-trovato-quando-cade-la-rete.test.ts. Rimessa la versione di partenza della pagina (git show HEAD:app/seller/orders/[id]/page.tsx) -> exit 1; con il fix -> exit 0. Verde anche il guardiano esistente: npx vitest run tests/unit/il-negoziante-giudicato-da-una-lettura-fallita.test.ts. npx tsc --noEmit -> exit 0.",
+   "nota_fix": "Applicata la stessa toppa della pagina gemella del cliente, piu' un pezzo che la scheda non chiedeva ma senza il quale il fix sarebbe stato falso. (1) La lettura passava da .single(), che tratta «nessuna riga» come un errore: se avessi solo aggiunto il ramo dell'errore, un ordine davvero inesistente sarebbe finito nel guasto di rete con un «Riprova» che non puo' funzionare. Ora e' .maybeSingle() in tutte e due le letture (quella completa e il ripiego senza le colonne di pagamento) e torna null quando l'ordine non c'e'. (2) La pagina adesso legge isError e refetch e ha il suo ramo: ErrorState «Non riesco a caricare l'ordine - Sembra un problema di collegamento. L'ordine c'e': riprova» con il pulsante Riprova e il ritorno a «Tutti gli ordini»; il ramo «Ordine non trovato» resta per il caso vero. Non ho usato vistaDaQuery come suggeriva la scheda: qui la lettura ha un ripiego a due passi e i tre rami servivano espliciti; la sostanza (carico / rotto / vuoto distinti) e' la stessa. Resta fuori dal mio territorio la parte della scheda sulle «due pagine dei prodotti» del venditore, che hanno ancora la forma vecchia. NON verificato: non ho staccato la rete su un browser vero, la prova e' sul sorgente delle due pagine.",
+   "file_toccati": [
+    "app/seller/orders/[id]/page.tsx",
+    "tests/unit/il-negozio-non-legge-ordine-non-trovato-quando-cade-la-rete.test.ts"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|le mappe si mangiano lo scorrimento del dito: sopra la mappa la pagina non scorre",
+   "titolo": "Le mappe si mangiano lo scorrimento del dito: sopra la mappa la pagina non scorre",
+   "esito": "riparato",
+   "prova": "letto components/DeliveryMap.tsx:76-90 e components/NearbyStoresMap.tsx:64-68: L.map ora riceve le opzioni. npx vitest run tests/unit/la-mappa-e-le-storie-dicono-dove-siamo.test.ts -> 3 prove verdi (nessuna regressione sui segnaposti). npx tsc --noEmit -> exit 0.",
+   "nota_fix": "Due mappe, due scelte diverse, perche' la persona ci fa due cose diverse. DeliveryMap (quella dentro la pagina di stato ordine, alta poche righe, con contenuto sopra e sotto): scrollWheelZoom spento sempre, e il trascinamento spento SOLO quando il puntatore e' grossolano, cioe' un dito (window.matchMedia('(pointer: coarse)')). Sul telefono il dito scorre la pagina, col mouse la mappa si trascina ancora. Lo zoom con due dita resta acceso e non ruba lo scorrimento, e la mappa si inquadra da sola su negozio/rider/casa, quindi non serve spostarla. NearbyStoresMap (/near, quasi tutto lo schermo, vista scelta apposta): solo scrollWheelZoom spento; li' trascinare e' proprio quello che la persona vuole fare, spegnerlo sarebbe stato un peggioramento. Non ho usato L.Browser.mobile perche' il finto Leaflet delle prove (tests/unit/aiuti/finti/leaflet.mjs) non ha quell'oggetto e avrei fatto cadere le prove esistenti; matchMedia e' controllato prima di essere chiamato, quindi in jsdom non esplode. NON verificato a schermo: quel finto Leaflet ignora le opzioni, quindi la prova qui e' sul sorgente e sulla non-regressione; lo scorrimento vero del dito va guardato sull'anteprima.",
+   "file_toccati": [
+    "components/DeliveryMap.tsx",
+    "components/NearbyStoresMap.tsx"
+   ]
+  },
+  {
+   "chiave": "microcopy|al cliente che aspetta a casa il sito scrive «pronto per il ritiro»",
+   "titolo": "Al cliente che aspetta a casa il sito scrive «Pronto per il ritiro»",
+   "esito": "riparato",
+   "prova": "prova nuova che gira: tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts. Rimessa l'etichetta di prima ('Pronto per il ritiro' fisso) -> exit 1; con il fix -> exit 0. Verdi anche tests/unit/order-status.test.ts e tests/unit/ritiro-in-negozio-messo-da-parte.test.ts. npx tsc --noEmit -> exit 0.",
+   "nota_fix": "L'etichetta di READY non e' piu' una frase scritta a mano: nasce dall'interruttore, come chiedeva la scheda. lib/order-status.ts espone etichettaPronto(ritiroAttivo = RITIRO_IN_NEGOZIO_ATTIVO) e ORDER_STATUS_LABEL.READY la chiama. Col ritiro spento (oggi) dice «Pronto per il rider»; riacceso torna da se' «Pronto per il ritiro». Ho scelto «Pronto per il rider» e non «Pronto, il rider sta arrivando» per due motivi: e' la stessa frase che il sito usa gia' dall'altro lato (app/seller/orders/[id]/page.tsx:387, «Pronto per il rider» quando non c'e' ritiro), e questa etichetta finisce dentro una targhetta piccola e in una riga di elenco, dove cinque parole andrebbero a capo — e' lunga 19 caratteri contro i 20 di prima, quindi nessun rischio di impaginazione. Toglie l'ambiguita' dove serve: chi ritira e' il fattorino, non il cliente. La stessa etichetta gira anche sulle pagine di amministrazione, dove resta corretta. NON verificato a schermo: la targhetta e la fila dei passaggi non le ho viste renderizzate.",
+   "file_toccati": [
+    "lib/order-status.ts",
+    "tests/unit/la-targhetta-dell-ordine-non-manda-il-cliente-a-ritirarlo.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+   "perche": "il fix vive in file fuori territorio: le altre 93 pagine con 'use client' (app/**/page.tsx) e la decisione di piattaforma su quali passare al server; dentro il territorio sarebbe comunque il refactor che il lotto vieta"
+  },
+  {
+   "chiave": "qa-flussi|fra «il negozio ha accettato» e «consegnato» il cliente non ha nessuna via d'uscita",
+   "perche": "non si chiude col codice: serve una decisione di prodotto (@product-manager, @ux-designer) e con ogni probabilita' una migrazione del database per la richiesta di annullamento — rosso, fuori da questo lotto"
+  },
+  {
+   "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+   "perche": "il fix completo vive in un file fuori territorio: tailwind.config.ts (ridefinire boxShadow sm/DEFAULT/md/lg/xl con le versioni inchiostro); in alternativa le 69 occorrenze rimaste in 46 file di altre squadre, fra cui components/ui/Card.tsx e components/ui/Button.tsx"
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il guardiano dell'area venditore misura la chiamata al database, non quello che la pagina disegna: una pagina che non guarda isError passa lo stesso",
+   "dove": "tests/unit/il-negoziante-giudicato-da-una-lettura-fallita.test.ts:226",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "I segnaposti delle mappe portano un'ombra nera scritta a mano nel CSS del pin, fuori dai token del brand",
+   "dove": "components/NearbyStoresMap.tsx:111 e :131 · components/DeliveryMap.tsx:137",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Non ho aperto nessun browser: niente anteprima, niente telefono, niente Lighthouse. Quindi restano non viste a schermo tre cose che ho cambiato — il nome del prodotto che va a capo su 375px, il codice consegna in Inter al posto del monospaziato, e lo scorrimento del dito sopra la mappa (il finto Leaflet delle prove ignora le opzioni, percio' li' la prova e' sul sorgente). Non ho lanciato la suite intera ne' npm run verify, come da consegna: ho fatto girare 35 file di prova che toccano i miei file (tutti verdi) e npx tsc --noEmit sull'intero progetto (exit 0). Mentre lavoravo, nell'albero c'erano modifiche di altre squadre (Footer, PhotoReviewUpload, sw.js, backup-db.sh): non le ho toccate, ma un verde della suite intera va letto solo a squadre ferme."
+}

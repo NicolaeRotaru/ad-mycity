@@ -1,0 +1,73 @@
+{
+ "squadra": 209,
+ "ondata": 7,
+ "pacchetti": [
+  "scripts/applica-migrazioni-mancanti.sh",
+  "components/store-sections/ReviewsSection.tsx",
+  "app/product/[id]/opengraph-image.tsx"
+ ],
+ "file_citati": [
+  "scripts/check-migration-drift.mjs",
+  "scripts/applica-migrazioni-mancanti.sh",
+  "components/store-sections/ReviewsSection.tsx",
+  "lib/store-customization.ts",
+  "app/store/[id]/opengraph-image.tsx",
+  "app/product/[id]/opengraph-image.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "titolo": "Il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "dimensione": "deploy-sre",
+   "file": "scripts/check-migration-drift.mjs:38-46 (promessa) · :100-112 (confronto solo per nome o numero, md5 solo stampato) · scripts/applica-migrazioni-mancanti.sh:73-77",
+   "descrizione": "Il commento in testa a check-migration-drift.mjs (righe 38-46) dice che dal difetto #46 «si confronta anche il PREFISSO NUMERICO e il CONTENUTO», ma il codice (righe 100-104) dichiara applicata una migrazione se il database conosce il suo numero OPPURE il suo nome, e l'impronta md5 viene solo stampata per gli ultimi 5 file (righe 108-111): una migrazione modificata dopo essere stata applicata passa verde, esattamente il caso che il commento dice di aver chiuso. Secondo pezzo: applica-migrazioni-mancanti.sh esegue il file in una transazione (riga 73) e registra la migrazione in una SECONDA connessione (righe 74-77); con `set -e`, un intoppo di rete fra le due lascia la migrazione applicata ma non registrata, e al rilascio dopo viene riapplicata: se contiene INSERT senza ON CONFLICT si duplicano dati, se contiene CREATE senza IF NOT EXISTS il rilascio si blocca finché qualcuno non sistema il registro a mano.\n\nCausa radice: La tabella di registro di Supabase non ha una colonna per l'impronta, e invece di aggiungerla si è ripiegato sulla stampa; l'applicazione e la registrazione sono due comandi psql invece di uno.\n\nProva (grep, eseguita e rossa): grep -nE 'impronta' /home/user/mycity/scripts/check-migration-drift.mjs   → compare solo nella costruzione e nella stampa (console.log), mai in un confronto; grep -nE '^psql|--single-transaction' /home/user/mycity/scripts/applica-migrazioni-mancanti.sh   → due invocazioni psql separate per ogni file",
+   "impatto": "Un cancello che dice di controllare più di quanto controlla: il rischio non è alto oggi, ma la fiducia sul «database allineato al codice» poggia su un confronto di nomi.",
+   "fix_proposto": "applica-migrazioni-mancanti.sh: un solo `psql --single-transaction -f <file> -c \"INSERT INTO supabase_migrations.schema_migrations (version,name,statements) VALUES (…, ARRAY['md5:<impronta>'])\"` così applicazione e registrazione vivono o muoiono insieme; check-migration-drift.mjs: confrontare l'impronta salvata con quella del file e segnalare «modificata dopo l'applicazione»; correggere il commento finché non è vero."
+  },
+  {
+   "chiave": "deploy-sre|la garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un commit",
+   "titolo": "La garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un COMMIT",
+   "dimensione": "deploy-sre",
+   "file": "scripts/applica-migrazioni-mancanti.sh:71 (riguarda migrations/153 riga 141 e migrations/154 riga 115)",
+   "descrizione": "Lo script applica ogni file con `psql --single-transaction` e scrive: 'Una transazione sola: se la migrazione si rompe a meta', non lascia il database in uno stato intermedio'. Le migrazioni 153 e 154 aprono pero' un `BEGIN;` loro e lo chiudono con `COMMIT;`. Verificato su Postgres 16: `BEGIN` interno da' solo un avviso, e il `COMMIT` interno CHIUDE la transazione del wrapper. Tutto quello che segue viene eseguito e confermato per conto suo — nella mia prova le tabelle create dopo il COMMIT sono rimaste anche se l'istruzione successiva e' andata in errore (uscita psql 3). — Oggi il danno e' nullo: dopo il COMMIT interno resta solo `NOTIFY pgrst, 'reload schema'`. Ma la garanzia scritta nello script non e' la garanzia che si ottiene, e chi legge quel commento si fida. La prima migrazione che mettera' del lavoro vero dopo il proprio COMMIT si applichera' a meta' in produzione, in silenzio.",
+   "impatto": "Oggi il danno e' nullo: dopo il COMMIT interno resta solo `NOTIFY pgrst, 'reload schema'`. Ma la garanzia scritta nello script non e' la garanzia che si ottiene, e chi legge quel commento si fida. La prima migrazione che mettera' del lavoro vero dopo il proprio COMMIT si applichera' a meta' in produzione, in silenzio.",
+   "fix_proposto": "grep -l '^COMMIT;' migrations/*.sql | head -1 | xargs -r -I{} sh -c 'echo \"ROSSO: {} chiude da sola la transazione di --single-transaction\"; exit 1'"
+  },
+  {
+   "chiave": "accessibilita-visiva|il pulsante «utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)",
+   "titolo": "Il pulsante «Utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/store-sections/ReviewsSection.tsx:162-175 (stile a riga 171); commento in lib/store-customization.ts:10-12 e preset a :19-29",
+   "descrizione": "CONFERMATO, numeri ricalcolati uno per uno. A riga 171, quando la recensione è votata, il pulsante diventa `color: accent` su `color-mix(in srgb, accent 12%, white)`: terracotta #C0492C 4,20:1, oliva #5A7C42 4,10:1, senape #C4801F 2,88:1 — tutti sotto 4,5:1 per un testo di 12px in grassetto (WCAG 1.4.3). Confermata anche la nota collegata: il docblock a lib/store-customization.ts:10-12 dichiara i preset «tutti a livello ~-600 per garantire contrasto su testo bianco», ma «Senape» #C4801F misura 3,25:1 su bianco (gli altri sette reggono: bordeaux 6,18, terracotta 4,96, oliva 4,78). L'affermazione nel codice è più forte dei colori.",
+   "impatto": null,
+   "fix_proposto": "In ReviewsSection.tsx:171 scurire il testo invece di usare l'accent puro: `color: color-mix(in srgb, ${accent} 70%, #1C1A18)` sullo stesso velo al 12% (porta tutti i preset sopra 6:1), lasciando `borderColor: accent` per l'identità del negozio. In parallelo correggere il commento di lib/store-customization.ts:10-12 oppure sostituire «Senape» #C4801F con accent-700 #9D621C (5,00:1 su bianco)."
+  },
+  {
+   "chiave": "accessibilita-visiva|le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)",
+   "titolo": "Le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/store-sections/ReviewsSection.tsx:16-28 (funzione `AverageStars`, usata a riga 196)",
+   "descrizione": "CONFERMATO nel codice, ma la severità va abbassata. Vero: le stelle vuote sono `fill-cream-200 text-cream-200` (#F5EDD9 su bianco = 1,17:1 ricalcolato) e le piene `accent-500` (#E8A33D = 2,16:1), sotto la soglia 3:1 di WCAG 1.4.11. Vero anche il doppione: `RatingStars` è importato a riga 10 dello stesso file, usato a riga 119 per le singole recensioni, e porta il commento #149 che risolveva esattamente questo («accent-500 misurava 2,16:1… accent-700 misura 5,00:1»). Attenuante che il collega non aveva pesato: a riga 197-199, accanto alle stelle, c'è il voto in chiaro («4,5 (12)») in ink-600, quindi il dato non è veicolato dal solo colore — per questo è minore e non grave.",
+   "impatto": null,
+   "fix_proposto": "Cancellare `AverageStars` (righe 16-28) e sostituire l'uso a riga 196 con `<RatingStars rating={avgRating} size={16} />`, già importato e già a norma (accent-700 5,00:1, vuote ink-400 4,87:1). Meno codice, una sola casa per la regola."
+  },
+  {
+   "chiave": "immagini-media|nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato",
+   "titolo": "Nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato",
+   "dimensione": "immagini-media",
+   "file": "app/store/[id]/opengraph-image.tsx:69 (`objectFit: 'cover'` in un riquadro 220×220), da confrontare con app/product/[id]/opengraph-image.tsx:70 che usa 'contain'",
+   "descrizione": "VERIFICATO. Quando qualcuno manda su WhatsApp il link di un negozio, l'anteprima mostra il logo dentro un riquadro di 220 per 220 pixel con ritaglio a riempimento: un marchio largo perde i lati. La scheda prodotto, generata dallo stesso meccanismo e dallo stesso tipo di file, usa il ritaglio a contenimento. Due file gemelli, due comportamenti — e quello che esce peggio è proprio il momento in cui il negoziante mostra ai suoi clienti che è online.",
+   "impatto": null,
+   "fix_proposto": "Cambiare in `objectFit: 'contain'`, uguale alla scheda prodotto."
+  },
+  {
+   "chiave": "immagini-media|l'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel",
+   "titolo": "L'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel",
+   "dimensione": "immagini-media",
+   "file": "app/product/[id]/opengraph-image.tsx:40 (`photo` grezzo, non passa da sizedImage) usato a :63-71, con `export const runtime = 'edge'` a riga 4",
+   "descrizione": "VERIFICATO. L'immagine di anteprima viene generata su runtime edge, che ha un tempo massimo stretto, e prende la foto originale del prodotto — quella caricata dal telefono del negoziante, fino a 5 MB dopo la ricompressione lato client — per disegnarla in un riquadro di 460 pixel. Su una foto pesante la generazione rallenta o scade, e chi incolla il link su WhatsApp vede l'anteprima senza foto. Basterebbe chiedere la versione ridotta, come fa tutto il resto del sito.",
+   "impatto": null,
+   "fix_proposto": "Sostituire con `sizedImage(photo, 'detail')`."
+  }
+ ]
+}
