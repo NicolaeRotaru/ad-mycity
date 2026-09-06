@@ -1,0 +1,62 @@
+{
+ "squadra": 14,
+ "ondata": 3,
+ "pacchetto": "app/api/cron/send-push/route.ts",
+ "territorio_principale": "app/api/cron/send-push/route.ts",
+ "file_citati": [
+  "app/api/cron/send-push/route.ts",
+  "app/privacy/page.tsx",
+  "lib/push/send.ts",
+  "app/api/cron/send-emails/route.ts",
+  "app/profile/settings/page.tsx",
+  "app/notifications/page.tsx",
+  "migrations/115_privacy_radiografia.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "privacy-legale|le notifiche push non sono scritte da nessuna parte nell'informativa",
+   "titolo": "Le notifiche push non sono scritte da nessuna parte nell'informativa",
+   "dimensione": "privacy-legale",
+   "file": "app/api/cron/send-push/route.ts:39-70, app/privacy/page.tsx:69-132 (tabella push_subscriptions: endpoint, p256dh, auth, user_agent)",
+   "descrizione": "Il sito registra le iscrizioni alle notifiche del browser: per ogni persona teniamo l'indirizzo del servizio push, due chiavi crittografiche e la stringa del browser e del dispositivo. Un lavoro ogni cinque minuti manda le notifiche. Nell'informativa questo trattamento non c'è: nella pagina non compaiono le parole «push» né «notifiche», né fra i dati raccolti né nella tabella delle finalità, quindi non c'è base giuridica dichiarata e non c'è tempo di conservazione. Le iscrizioni morte le toglie il codice quando il browser risponde 404/410, ma quelle vive restano finché resta l'account.\n\nCausa radice: L'informativa è stata scritta per il flusso d'acquisto (account, ordini, consegna, marketing via email) e le funzioni aggiunte dopo non hanno un passo obbligatorio «aggiorna la tabella delle finalità».\n\nProva (grep, eseguita e rossa): grep -n -i \"push\\|notifica\" /home/user/mycity/app/privacy/page.tsx  → nessuna riga sul trattamento (l'unica occorrenza è «notificheremo l'evento al Garante»), mentre app/api/cron/send-push/route.ts invia e push_subscriptions conserva endpoint, chiavi e user_agent.",
+   "impatto": "Un trattamento attivo che non compare nel registro né nell'informativa: in un controllo è la contestazione più facile, perché non serve nemmeno guardare il codice, basta leggere la pagina. Per la persona significa non sapere che teniamo l'impronta del suo dispositivo.",
+   "fix_proposto": "Aggiungere in app/privacy/page.tsx la riga «Notifiche push (stato ordine e avvisi)» — base giuridica: esecuzione del contratto per le notifiche d'ordine, consenso per quelle promozionali — con conservazione «fino alla revoca o alla disiscrizione del dispositivo», e citare fra i dati raccolti l'indirizzo del servizio push e il dispositivo. Poi registrare il trattamento nel registro con gli stessi termini."
+  },
+  {
+   "chiave": "performance|l'invio di ogni notifica push aspetta senza limite di tempo, e un solo telefono che non risponde può fermare il giro delle notifiche",
+   "titolo": "L'invio di ogni notifica push aspetta senza limite di tempo, e un solo telefono che non risponde può fermare il giro delle notifiche",
+   "dimensione": "performance",
+   "file": "lib/push/send.ts:94-99 (webpush.sendNotification senza il terzo argomento options.timeout) · app/api/cron/send-push/route.ts (cron ogni 5 minuti) · vercel.json (maxDuration 300 per i cron)",
+   "descrizione": "Passo indietro: le notifiche push partono da un cron ogni 5 minuti, che scorre le iscrizioni con un ciclo `for` e per ognuna chiama `webpush.sendNotification({endpoint, keys}, body)`. La libreria web-push accetta un terzo argomento con `timeout` in millisecondi; senza, la richiesta HTTPS verso il servizio push di Apple/Google/Mozilla non ha scadenza. Esempio: martedì alle 12:05 un endpoint push di un telefono spento resta appeso; il ciclo si ferma lì; Vercel spegne la funzione dopo 300 secondi; le notifiche successive di quel giro («il tuo ordine è pronto») non partono fino al giro dopo, e se l'endpoint resta muto neanche allora. Il difetto già noto parla della query per notifica e delle 100 chiamate in parallelo, non della mancanza di scadenza.\n\nCausa radice: Chiamata esterna senza limite di tempo in un ciclo sequenziale: manca la regola di piattaforma 'ogni chiamata fuori casa ha un timeout' che altrove (captcha, geocodifica, KYC, Upstash, Anthropic, Stripe) è già applicata.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && sed -n 94,100p lib/push/send.ts | grep -c timeout   → oggi: 0 (rosso se 0)",
+   "impatto": "Notifiche «ordine pronto / in consegna» in ritardo o mai partite per tutti gli utenti dopo il primo endpoint che non risponde; funzione cron tenuta accesa 300 s per niente (costo).",
+   "fix_proposto": "Passare `{ timeout: 5_000, TTL: 3600 }` come terzo argomento di sendNotification (il try/catch a riga 95 già gestisce l'errore) e registrare nel log gli endpoint che scadono; 20 minuti @backend-dev, 🟡 in branch."
+  },
+  {
+   "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+   "titolo": "Le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+   "dimensione": "api-backend",
+   "file": "app/api/cron/send-push/route.ts:40-46 (lettura pushed_at NULL), 126-135 (invio), 152-156 (marcatura solo a fine giro) · confronto: app/api/cron/send-emails/route.ts:88-94 (claim_pending_emails atomico) · vercel.json (send-push ogni 5 min, maxDuration 300 s)",
+   "descrizione": "Il giro delle push legge fino a 100 notifiche con pushed_at NULL, le manda, e solo alla fine scrive pushed_at. Non c'è una presa in carico atomica come per le email (claim_pending_emails, aggiunta apposta per il multi-istanza, commento 🟠-11). Due giri sovrapposti (il cron parte ogni 5 minuti e può durare fino a 5; oppure una chiamata a mano col segreto mentre gira quello di Vercel) leggono la stessa riga e la mandano entrambi. La prova simula due giri concorrenti sullo stesso finto database: la notifica n1 parte 2 volte.\n\nCausa radice: Coda letta con SELECT e marcata dopo l'invio, senza UPDATE ... RETURNING che prenda il turno; il pattern giusto esiste già per le email ma non è stato replicato qui.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/api-backend-push-doppia.test.ts   (rosso: la notifica n1 è partita 2 volte)",
+   "impatto": "Il cliente riceve due volte sul telefono lo stesso avviso (ordine pronto, fattorino in arrivo). Fastidio e meno fiducia, nessun soldo perso. Probabilità bassa: serve un giro lento o due chiamate sovrapposte.",
+   "fix_proposto": "Funzione SQL claim_pending_notifications(p_max) sul modello di claim_pending_emails: UPDATE notifications SET push_claimed_at = now() WHERE pushed_at IS NULL AND (push_claimed_at IS NULL OR push_claimed_at < now() - interval '10 minutes') ... RETURNING; il giro manda solo le righe restituite. Migrazione reversibile (colonna + funzione; rollback = drop). La prova diventa verde."
+  },
+  {
+   "chiave": "mobile-pwa|le notifiche push partono senza scadenza: un avviso «in consegna» può arrivare giorni dopo la consegna, e gli aggiornamenti dello stesso ordine si accumulano",
+   "titolo": "Le notifiche push partono senza scadenza: un avviso «in consegna» può arrivare giorni dopo la consegna, e gli aggiornamenti dello stesso ordine si accumulano",
+   "dimensione": "mobile-pwa",
+   "file": "lib/push/send.ts:96-99 (webpush.sendNotification(sub, body) senza terzo argomento: TTL predefinito di web-push = 2419200 s, 4 settimane); app/api/cron/send-push/route.ts:128-133 (tag: n.id, un tag diverso per ogni notifica)",
+   "descrizione": "Con un telefono spento o senza campo il servizio push tiene il messaggio in coda fino al TTL: senza opzioni sono 4 settimane. Esempio: ordine consegnato sabato alle 19:00 mentre il telefono del cliente era scarico; lunedì mattina si accende e compare «Il tuo ordine è in consegna». In più il tag è l'id della notifica, non dell'ordine: «confermato», «in preparazione», «pronto», «in consegna» dello stesso ordine si impilano in quattro notifiche invece di sostituirsi.\n\nCausa radice: Il mittente non passa opzioni a web-push (TTL/urgency) e il cron non usa un tag per ordine.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/mobile-pwa-push-ttl.test.ts   → 1 failed: «sendNotification chiamata senza opzioni: TTL di default = 4 settimane: expected undefined to be defined»",
+   "impatto": "Avvisi fuori tempo e a pila: il tipo di notifica che fa disattivare le push o disinstallare l'app; con un solo negozio reale ogni ordine conta.",
+   "fix_proposto": "webpush.sendNotification(sub, body, { TTL: 3600, urgency: 'high' }) per la categoria order (TTL più lungo solo per promo/newsletter); nel cron tag = n.link ?? n.id (es. /orders/<id>) con renotify: true, così l'ultimo stato sostituisce il precedente."
+  },
+  {
+   "chiave": "microcopy|chi spegne le promozioni continua a vederle nella campanella del sito",
+   "titolo": "Chi spegne le promozioni continua a vederle nella campanella del sito",
+   "dimensione": "microcopy",
+   "file": "app/profile/settings/page.tsx:455-479 · app/api/cron/send-push/route.ts:95 · app/notifications/page.tsx:75-81 · migrations/115_privacy_radiografia.sql:216-236",
+   "descrizione": "Nelle impostazioni ci sono quattro interruttori sotto la scritta «Scegli cosa vuoi ricevere e come»: Aggiornamenti ordini, Promozioni e sconti, Gruppi d'acquisto, Newsletter. La regola che li fa valere è la funzione vuole_notifica, scritta nella migrazione 115. La chiama un solo posto in tutto il sito: il lavoro che manda le notifiche push, a send-push riga 95. La pagina della campanella invece legge tutte le notifiche della persona senza guardare la categoria. Quindi l'interruttore spegne l'avviso sul telefono e non quello dentro il sito: l'avviso viene scritto lo stesso e il pallino rosso si accende lo stesso.\n\nCausa radice: La regola vive in un posto solo (bene) ma la si applica solo al momento dell'invio push, non quando la notifica viene scritta né quando viene letta. Chi ha fatto la campanella non sapeva che quella funzione esistesse.\n\nProva (umano, non eseguita): Un occhio umano, sul sito pubblicato: entra con un account, Impostazioni > Notifiche, spegni «Promozioni e sconti» e salva; poi fai nascere un avviso di categoria promo (lo scrive app/api/cron/external-price-alerts/route.ts:92 con category: 'promo') e riapri /notifications. Se l'avviso è lì e il pallino è acceso, il difetto c'è.",
+   "impatto": "Una cliente spegne «Promozioni e sconti» perché non le vuole. Il giorno dopo apre MyCity e trova il pallino rosso con dentro l'avviso di un prezzo sceso. Ha detto no e continua a riceverlo: è la fiducia sul controllo dei propri dati, cioè il motivo per cui la gente accetta di darceli.",
+   "fix_proposto": "Chiamare vuole_notifica anche quando la notifica viene scritta — oppure filtrare per categoria la lettura di /notifications e il conteggio del pallino — così l'interruttore vale su tutti e due i canali, come promette la frase «Scegli cosa vuoi ricevere e come»."
+  }
+ ]
+}

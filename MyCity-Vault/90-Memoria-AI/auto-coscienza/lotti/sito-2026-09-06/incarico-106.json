@@ -1,0 +1,20 @@
+{
+ "squadra": 106,
+ "ondata": 22,
+ "pacchetto": "app/sign-up/page.tsx",
+ "territorio_principale": "app/sign-up/page.tsx",
+ "file_citati": [
+  "app/sign-up/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "flussi-conversione|per registrarsi e finire l'ordine bisogna prima dichiarare se si è acquirente, venditore o rider",
+   "titolo": "Per registrarsi e finire l'ordine bisogna prima dichiarare se si è Acquirente, Venditore o Rider",
+   "dimensione": "flussi-conversione",
+   "file": "app/sign-up/page.tsx:175-196 (il fieldset non guarda returnTo), 262-264 (testo del pulsante), 53 (returnTo già letto)",
+   "descrizione": "CONFERMATO. Il modulo di registrazione è identico per tutti e apre con «Come vuoi usare MyCity?» e tre mattonelle; il pulsante finale dice «Registrati come acquirente». Chi ci arriva dal checkout — uno che vuole solo pagare il pane — si trova una scelta di ruolo che non lo riguarda, dentro il funnel d'acquisto. Il ruolo di default è già 'buyer', quindi non nasce nessun dato sbagliato: è attrito, per questo minore e non grave. L'informazione per toglierlo c'è già: `returnTo` è letto alla riga 53.",
+   "impatto": null,
+   "fix_proposto": "Se returnTo inizia con /checkout (o /cart): forzare role='buyer', nascondere il fieldset dei ruoli e cambiare il testo del pulsante in «Crea l'account e continua l'ordine»."
+  }
+ ]
+}

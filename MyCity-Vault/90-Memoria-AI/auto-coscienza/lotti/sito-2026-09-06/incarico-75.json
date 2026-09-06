@@ -1,0 +1,21 @@
+{
+ "squadra": 75,
+ "ondata": 16,
+ "pacchetto": "lib/cart.ts",
+ "territorio_principale": "lib/cart.ts",
+ "file_citati": [
+  "lib/cart.ts",
+  "lib/analytics/events.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "dati-analytics|togliere dal carrello un prodotto con più varianti manda a google il prezzo della prima riga per tutte",
+   "titolo": "Togliere dal carrello un prodotto con più varianti manda a Google il prezzo della prima riga per tutte",
+   "dimensione": "dati-analytics",
+   "file": "lib/cart.ts:203-212 · lib/analytics/events.ts:163-175",
+   "descrizione": "removeFromCart(id) senza variante toglie tutte le righe di quel prodotto: la quantità mandata è la somma di tutte le righe (qta) ma il prezzo è quello della prima riga tolta (tolte[0].price). Con due varianti a prezzo diverso (es. 3 pezzi da 4 € e 2 da 6 €) GA4 riceve remove_from_cart con valore 5 × 4 = 20 € invece di 24 €, e un solo item.\n\nCausa radice: L'evento di rimozione è pensato per una riga sola e viene riusato per una rimozione multipla.\n\nProva (grep, eseguita e rossa): grep -n \"const riga = tolte\\[0\\]\" lib/cart.ts",
+   "impatto": "Il valore netto del carrello su GA4 non torna proprio nei prodotti con varianti; effetto piccolo finché il catalogo con varianti resta piccolo.",
+   "fix_proposto": "Emettere un remove_from_cart per riga tolta (id, variante, quantità, prezzo di quella riga), oppure passare l'elenco delle righe a trackRemoveFromCart e costruire items con una voce per variante."
+  }
+ ]
+}

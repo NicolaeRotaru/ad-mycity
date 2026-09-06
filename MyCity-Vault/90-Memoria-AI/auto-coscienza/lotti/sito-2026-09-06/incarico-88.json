@@ -1,0 +1,21 @@
+{
+ "squadra": 88,
+ "ondata": 18,
+ "pacchetto": "lib/order-status.ts",
+ "territorio_principale": "lib/order-status.ts",
+ "file_citati": [
+  "lib/order-status.ts",
+  "components/ui/OrderStatusBadge.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|gli sfondi dei badge di stato ordine sono otto colori tailwind scritti a mano, malgrado il commento dica il contrario",
+   "titolo": "Gli sfondi dei badge di stato ordine sono otto colori Tailwind scritti a mano, malgrado il commento dica il contrario",
+   "dimensione": "coerenza-brand",
+   "file": "lib/order-status.ts:52-59 · commento in components/ui/OrderStatusBadge.tsx:70-72",
+   "descrizione": "CONFERMATO. Il commento sopra ORDER_STATUS_COLOR e quello in OrderStatusBadge dichiarano «Niente classi off-palette: i colori vivono nei token del design system». È vero a metà: il campo 'color' usa davvero var(--status-new), var(--status-accepted)… (definiti in app/globals.css:76 e in docs/mockup/tokens/colors.css), ma il campo 'bg' è otto hex a mano — #FFFBEB, #EFF6FF, #F5F3FF, #EEF2FF, #ECFEFF, #FAF5FF, #ECFDF5, #FFF1F2, cioè i gradini 50 di amber, blue, violet, indigo, cyan, purple, emerald e rose. Verificato: nessuno degli otto esiste come token in app/globals.css, tailwind.config.ts o docs/mockup/tokens/colors.css. Metà del sistema degli stati vive fuori dai token.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere in app/globals.css e in docs/mockup/tokens/colors.css gli otto token --status-*-bg con quei valori e sostituire gli hex di lib/order-status.ts:52-59 con var(--status-*-bg). Aggiornare anche docs/mockup/guidelines/cards/color-status.html, che li ripete a mano."
+  }
+ ]
+}

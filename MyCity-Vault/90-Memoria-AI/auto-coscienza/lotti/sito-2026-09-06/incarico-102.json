@@ -1,0 +1,23 @@
+{
+ "squadra": 102,
+ "ondata": 22,
+ "pacchetto": "home/user/mycity/app/globals.css",
+ "territorio_principale": "home/user/mycity/app/globals.css",
+ "file_citati": [
+  "/home/user/mycity/app/globals.css",
+  "/home/user/mycity/components/ui/Button.tsx",
+  "/home/user/mycity/components/ui/LoadingState.tsx",
+  "home/user/mycity/app/globals.css"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano",
+   "titolo": "Con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/globals.css:213-220 · effetto su /home/user/mycity/components/ui/Button.tsx:77 e /home/user/mycity/components/ui/LoadingState.tsx:35, :44, :54",
+   "descrizione": "CONFERMATO. Il blocco `@media (prefers-reduced-motion: reduce)` azzera tutto senza eccezioni: `*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; … }` (globals.css:214-219). Colpisce anche `animate-spin`, cioè l'icona `Loader2` usata da ogni stato di attesa — Button.tsx:77 (`{loading && <Loader2 … className=\"animate-spin\" />}`) e LoadingState righe 35, 44, 54 — e la classe `.skeleton`, che è `animation: shimmer 2s linear infinite` (globals.css:192). Per chi ha quell'impostazione, un pulsante che sta lavorando appare come un pulsante grigio con un cerchietto immobile. Su LoadingState resta almeno il testo; sui pulsanti senza cambio di etichetta il segnale sparisce del tutto.",
+   "impatto": null,
+   "fix_proposto": "Dentro il blocco `@media (prefers-reduced-motion: reduce)` aggiungere `.animate-spin, .skeleton { animation-duration: 1.5s !important; animation-iteration-count: infinite !important; }` — lenti, non fermi — e comunque accompagnare sempre lo stato di attesa con un cambio di testo, come fa già il codice sconto («Verifico…»)."
+  }
+ ]
+}

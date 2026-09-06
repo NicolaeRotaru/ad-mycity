@@ -1,0 +1,31 @@
+{
+ "squadra": 29,
+ "ondata": 6,
+ "pacchetto": "lib/api/middleware.ts",
+ "territorio_principale": "lib/api/middleware.ts",
+ "file_citati": [
+  "app/api/account/accetta-condizioni/route.ts",
+  "lib/api/middleware.ts",
+  "app/api/admin/cms/[slug]/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "sicurezza-auth|l'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+   "titolo": "L'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+   "dimensione": "sicurezza-auth",
+   "file": "app/api/account/accetta-condizioni/route.ts:19-22 (legge la sessione da sola con getServerSupabase) · il cancello che salta: lib/api/middleware.ts, funzione authenticate (freno di rete per percorso + arrivaDaUnAltroSito)",
+   "descrizione": "Il 30/8 la difesa contro le richieste falsificate da un altro sito e' stata messa dentro authenticate(), il punto per cui passano tutte le rotte con involucro (withAuth e simili). Questa rotta pero' non usa nessun involucro: apre la sessione da sola e scrive nel registro dei consensi con il client amministrativo. Risultato: e' l'unica scrittura con sessione che non eredita ne' quel controllo ne' il freno per percorso. Oggi la protegge ancora il SameSite=Lax dei cookie di Supabase, come prima della cura.\n\nCausa radice: Rotta scritta prima degli involucri comuni e mai migrata: la cura sistemica del 30/8 copre tutte le rotte solo se tutte passano dal cancello.\n\nProva (grep, eseguita e rossa): grep -c 'withAuth\\|arrivaDaUnAltroSito' /home/user/mycity/app/api/account/accetta-condizioni/route.ts   → 0 (nessuna delle due difese nel file)",
+   "impatto": "Se il valore SameSite dei cookie cambia (incorporamenti, nuova versione della libreria), una pagina esterna potrebbe far risultare accettate le condizioni a un utente loggato senza che lui lo voglia: un consenso a verbale falso, con IP e user-agent registrati. Nessun soldo; e' un buco nella coerenza della difesa.",
+   "fix_proposto": "Riscrivere la rotta con withAuthRateLimit({ name:'accetta-condizioni', max:20, windowMs:60000 }, …): eredita freno, controllo di provenienza e client dell'utente. Aggiungere una prova che elenca le rotte sotto app/api con sessione (getServerSupabase/getCurrentUser) fuori da un involucro e pretende zero."
+  },
+  {
+   "chiave": "sicurezza-auth|il freno contro chi bussa mille volte si azzera cambiando l'ultima parola dell'indirizzo",
+   "titolo": "Il freno contro chi bussa mille volte si azzera cambiando l'ultima parola dell'indirizzo",
+   "dimensione": "sicurezza-auth",
+   "file": "lib/api/middleware.ts:330-342 (chiaveDelFreno) · lib/api/middleware.ts:151 (frenoDiRete) · app/api/admin/cms/[slug]/route.ts",
+   "descrizione": "Il freno per indirizzo di rete che sta davanti a tutte le rotte autenticate usa come nome del contatore il percorso della richiesta, dopo aver sostituito con ':id' i pezzi che sono numeri, UUID o stringhe esadecimali lunghe. Il commento sopra alla funzione dichiara l'obiettivo: 'il nome del contatore non puo' contenere l'identificativo della risorsa'. Le rotte con una parola nell'indirizzo (le pagine CMS: /api/admin/cms/<parola>) non rientrano in nessuno dei tre schemi, quindi ogni parola diversa e' un contatore nuovo con il budget pieno da 300 al minuto.\n\nCausa radice: La normalizzazione riconosce le forme degli identificativi invece di leggere la forma della rotta. Un identificativo che ha l'aspetto di una parola non e' distinguibile da un pezzo fisso del percorso guardando solo la stringa.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/sicurezza-auth-g2.test.ts → secondo test ROSSO: expected '/api/admin/cms/home-b' received '/api/admin/cms/home-a'",
+   "impatto": "Chi vuole bussare tanto manda /api/admin/cms/aaa, /api/admin/cms/aab, /api/admin/cms/aac… e il freno non scatta mai. Ogni tentativo con un gettone finto costa comunque a noi una chiamata al servizio di accesso: e' esattamente la spesa che il freno era stato messo li' per evitare. Oggi la rotta esposta e' una sola e chiede privilegi di amministratore, quindi il danno e' il conto del servizio, non i dati.",
+   "fix_proposto": "Non ricavare il nome del contatore dalla stringa del percorso ma dalla rotta che Next ha effettivamente scelto (il template con [slug]/[id] dentro), oppure tenere solo i primi tre pezzi del percorso. Bastano tre righe e vale per tutte le rotte dinamiche future, non solo per quelle che assomigliano a un numero."
+  }
+ ]
+}

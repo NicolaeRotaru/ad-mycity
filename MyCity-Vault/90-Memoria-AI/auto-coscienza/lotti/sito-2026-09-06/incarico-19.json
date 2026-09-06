@@ -1,0 +1,51 @@
+{
+ "squadra": 19,
+ "ondata": 4,
+ "pacchetto": "app/privacy/page.tsx",
+ "territorio_principale": "app/privacy/page.tsx",
+ "file_citati": [
+  "app/terms/page.tsx",
+  "app/privacy/page.tsx",
+  "app/seller/customers/page.tsx",
+  "app/api/segnalazioni/route.ts",
+  "components/Segnala.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "privacy-legale|il negozio e il rider ricevono nome, telefono e indirizzo del cliente senza nessun impegno scritto a usarli solo per quell'ordine",
+   "titolo": "Il negozio e il rider ricevono nome, telefono e indirizzo del cliente senza nessun impegno scritto a usarli solo per quell'ordine",
+   "dimensione": "privacy-legale",
+   "file": "app/terms/page.tsx:239-263 (§9-10) e 452 · app/privacy/page.tsx:52 · app/seller/customers/page.tsx:43-73",
+   "descrizione": "L'informativa promette «li condividiamo solo con il negozio e il rider necessari al tuo ordine». Nei termini, sezione 9 (Obblighi dei Venditori) e 10 (Obblighi dei Rider), non c'è una riga sui dati dei clienti: niente «usali solo per eseguire l'ordine», nessun divieto di marketing o cessione, nessun obbligo di cancellarli. L'unico richiamo al GDPR nei termini è la riga finale sulla normativa applicabile. Il negozio ha anche una pagina «Clienti» con nome e storico ordini.\n\nCausa radice: I termini sono nati come documento verso il consumatore; la parte «contratto col venditore» è rimasta ridotta a commissione e obblighi di prodotto, e il tema dati è stato delegato all'informativa, che però descrive solo ciò che fa MyCity.\n\nProva (umano, eseguita e rossa): Occhio umano: aprire /terms, sezioni 9 e 10, cercare una frase sull'uso dei dati dei clienti da parte di negozio e rider — non c'è (nel codice: grep -n -i \"dati personali\\|trattament\" app/terms/page.tsx trova solo la riga 452).",
+   "impatto": "Se un negozio usa i numeri dei clienti MyCity per mandare promozioni su WhatsApp, il cliente si lamenta con MyCity (è MyCity che ha raccolto il consenso) e MyCity non ha nessuna clausola da far valere. È uno degli otto paletti del business («i suoi clienti restano suoi»): deve valere in entrambe le direzioni.",
+   "fix_proposto": "Clausola di 5 righe in §9 e §10 (bozza pronta da legale-privacy): «Venditore e Rider trattano i dati dell'Acquirente come titolari autonomi, solo per eseguire e consegnare l'ordine e per gli obblighi di legge; non li usano per marketing, non li cedono, li cancellano quando non servono più». Stessa clausola nel contratto venditore 1 pagina. Validazione legale umana (rosso)."
+  },
+  {
+   "chiave": "privacy-legale|l'informativa non dice ai venditori che dati fiscali e incassi vanno comunicati all'agenzia delle entrate (dac7)",
+   "titolo": "L'informativa non dice ai venditori che dati fiscali e incassi vanno comunicati all'Agenzia delle Entrate (DAC7)",
+   "dimensione": "privacy-legale",
+   "file": "app/privacy/page.tsx:104-132 (tabella finalità) e 138-174 (destinatari) · app/terms/page.tsx:153-159",
+   "descrizione": "MyCity fa vendere beni a negozi terzi e trattiene una commissione: rientra nella definizione di «gestore di piattaforma» del D.Lgs. 32/2023 (DAC7), che obbliga a raccogliere codice fiscale, P.IVA, IBAN e incassi dei venditori e a comunicarli ogni anno all'Agenzia delle Entrate entro il 31 gennaio (esclusi i venditori sotto 30 vendite e 2.000 € l'anno). Nel codice la parola non compare in nessun file (grep su app, lib, docs), l'Agenzia delle Entrate non è fra i destinatari e la base «obbligo di legge» è citata solo per KYC/antiriciclaggio e fatturazione.\n\nCausa radice: L'informativa è stata costruita guardando i fornitori tecnici (Supabase, Stripe, PostHog…) e mai gli obblighi di un marketplace verso le autorità.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -rli \"dac7\\|agenzia delle entrate\" app lib docs | wc -l → 0",
+   "impatto": "Un'informativa senza questa finalità è incompleta per chi la firma (art. 13: destinatari e base giuridica). Sul piano fiscale, se l'obbligo scatta e nessuno lo sa, la comunicazione omessa costa da 3.000 a 31.500 € (cifra da riconfermare con il fiscalista). Oggi, con un negozio reale sotto soglia, il rischio è teorico: diventa reale al primo anno con più di 30 vendite per negozio.",
+   "fix_proposto": "@fiscalista-iva-ecommerce conferma se e da quando MyCity è «gestore di piattaforma» DAC7 (parere umano, rosso). Se sì: riga nella tabella finalità («Comunicazione dei dati dei venditori all'Agenzia delle Entrate — obbligo di legge D.Lgs. 32/2023 — 10 anni»), Agenzia delle Entrate fra i destinatari, 2 righe nel contratto venditore. Norma da riconfermare con WebSearch prima di pubblicare."
+  },
+  {
+   "chiave": "privacy-legale|chi fa una segnalazione lascia la sua email lì per sempre",
+   "titolo": "Chi fa una segnalazione lascia la sua email lì per sempre",
+   "dimensione": "privacy-legale",
+   "file": "app/api/segnalazioni/route.ts, components/Segnala.tsx, app/privacy/page.tsx:95-132 (tabella segnalazioni: email_contatto, dettaglio; vincolo segnalazioni_segnalante_id_fkey ON DELETE SET NULL)",
+   "descrizione": "Chi segnala un prodotto o un negozio può lasciare un'email di contatto e un testo libero, anche senza account: la regola del database permette l'inserimento sia a chi è entrato sia a chi è anonimo. Quando la persona poi cancella l'account, il collegamento al suo profilo diventa vuoto (SET NULL) ma l'email di contatto e il testo restano dove sono: nessun lavoro notturno pota quella tabella, e la pipeline di cancellazione non la nomina. Nell'informativa la parola «segnalazione» non compare: né come dato raccolto né come finalità, quindi non c'è né base giuridica né tempo di conservazione dichiarati.\n\nCausa radice: Stessa radice della cancellazione a elenco: le tabelle nuove nascono fuori dalla lista di quelle da ripulire e fuori dalla tabella delle finalità dell'informativa. Nessun controllo automatico confronta le tabelle con dati personali con l'elenco di quelle potate.\n\nProva (grep, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -c \"select conname, pg_get_constraintdef(oid) from pg_constraint where conrelid='public.segnalazioni'::regclass and contype='f';\"  → segnalante_id ... ON DELETE SET NULL, quindi la riga con email_contatto sopravvive; e grep -rn \"segnalazioni\" /home/user/mycity/app/api/cron/*/route.ts non trova nessuna potatura.",
+   "impatto": "L'indirizzo email di chi ha segnalato — spesso una persona che si è esposta contro un negozio — resta nei nostri archivi a tempo indeterminato e sopravvive alla cancellazione dell'account. Se chiede «cancellate tutto», noi ci crediamo di averlo fatto e non è vero.",
+   "fix_proposto": "① Aggiungere all'informativa la riga «Segnalazioni su contenuti e venditori», base giuridica obbligo di legge/legittimo interesse, conservazione 12 mesi dalla chiusura della segnalazione. ② Aggiungere in app/api/cron/process-deletions/route.ts una potatura che azzera email_contatto e dettaglio oltre quella finestra. ③ Aggiungere segnalazioni all'anonimizzazione del testo libero in lib/account/cancellazione.ts, cercando per segnalante_id."
+  },
+  {
+   "chiave": "privacy-legale|nell'informativa privacy il commento dei buoni regalo e' incollato due volte",
+   "titolo": "Nell'informativa privacy il commento dei buoni regalo e' incollato due volte",
+   "dimensione": "privacy-legale",
+   "file": "app/privacy/page.tsx:140",
+   "descrizione": "Lo stesso blocco di commento JSX di dodici righe compare alle righe 132 e 140, la seconda volta con un rientro sballato di ventotto spazi. La riga <tr> dei buoni regalo, quella vera, e' una sola: a video non cambia niente. — Non tocca l'utente, ma sta nel file che un'ispezione legge riga per riga e che oggi e' stato modificato proprio per aggiungere un trattamento. Un copia-incolla visibile dentro un documento legale e' il segnale che chi guarda usa per decidere quanto fidarsi del resto: e' lo stesso ragionamento gia' scritto nel file a proposito dei fornitori dichiarati e mai integrati («dice a chi legge che questa pagina e' un modello copiato»).",
+   "impatto": "Non tocca l'utente, ma sta nel file che un'ispezione legge riga per riga e che oggi e' stato modificato proprio per aggiungere un trattamento. Un copia-incolla visibile dentro un documento legale e' il segnale che chi guarda usa per decidere quanto fidarsi del resto: e' lo stesso ragionamento gia' scritto nel file a proposito dei fornitori dichiarati e mai integrati («dice a chi legge che questa pagina e' un modello copiato»).",
+   "fix_proposto": "grep -c \"I BUONI REGALO NON ERANO DICHIARATI\" app/privacy/page.tsx — oggi risponde 2, deve rispondere 1."
+  }
+ ]
+}

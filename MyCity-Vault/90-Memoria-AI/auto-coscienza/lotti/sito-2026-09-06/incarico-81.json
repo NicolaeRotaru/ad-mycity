@@ -1,0 +1,22 @@
+{
+ "squadra": 81,
+ "ondata": 17,
+ "pacchetto": "app/store/[id]/page.tsx",
+ "territorio_principale": "app/store/[id]/page.tsx",
+ "file_citati": [
+  "components/store-sections/CollectionSection.tsx",
+  "app/store/[id]/page.tsx",
+  "app/store/[id]/[slug]/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|la vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet",
+   "titolo": "La vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet",
+   "dimensione": "layout-responsive",
+   "file": "components/store-sections/CollectionSection.tsx:70 dentro app/store/[id]/page.tsx:109 e app/store/[id]/[slug]/page.tsx:69",
+   "descrizione": "CONFERMATO. La riga scorrevole della collezione usa `-mx-4 px-4 sm:-mx-6 sm:px-6`, schema corretto solo se il contenitore ha `px-4 sm:px-6` (come ProductGrid.tsx:477). Le due pagine vetrina usano invece `container mx-auto px-4 py-6 max-w-5xl`, con px-4 a tutti i breakpoint. Da 640px in su la riga si allarga di 24px per lato mentre il contenitore ne ha 16: 8px di sbordo per lato. Il progetto non personalizza `container` in tailwind.config.ts, quindi a 640, 768 e 1024px il container coincide col viewport e non c'e' margine che assorba lo sbordo; ne' html ne' body hanno overflow-x hidden, quindi lo scorrimento e' reale.",
+   "impatto": null,
+   "fix_proposto": "Allineare le due classi: `px-4 sm:px-6` sul contenitore delle due pagine store, oppure togliere la variante sm dalla riga scorrevole lasciando `-mx-4 px-4`."
+  }
+ ]
+}

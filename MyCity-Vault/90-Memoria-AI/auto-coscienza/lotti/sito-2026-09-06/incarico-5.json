@@ -1,0 +1,40 @@
+{
+ "squadra": 5,
+ "ondata": 1,
+ "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+ "territorio_principale": ".github/workflows/deploy-dopo-ci.yml",
+ "file_citati": [
+  ".github/workflows/deploy-dopo-ci.yml",
+  "migrations/105_remove_invoicing.sql",
+  "migrations/134_via_i_resti_della_fatturazione.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|il pulsante manuale del rilascio pubblica qualunque ramo senza aspettare i controlli",
+   "titolo": "Il pulsante manuale del rilascio pubblica qualunque ramo senza aspettare i controlli",
+   "dimensione": "deploy-sre",
+   "file": ".github/workflows/deploy-dopo-ci.yml:43 · :72-74 · :136",
+   "descrizione": "Il lavoro «Rilascio dopo CI verde» parte anche da workflow_dispatch (riga 43) e in quel caso la condizione di riga 72-74 è vera senza nessun esito della CI; il checkout prende `github.sha` (riga 136), cioè la punta del ramo scelto nel menù di GitHub, che può essere un ramo claude/** mai unito. Il file dichiara in cima «rilascia SOLO quando i controlli di main sono passati»: la strada a mano lo smentisce. Serve un umano con diritto di scrittura sul repo, quindi non è un buco esterno: è un pulsante che fa più di quanto dice.\n\nCausa radice: workflow_dispatch aggiunto per le prove del rilascio senza vincolare il ramo né chiedere la conferma della CI sul commit scelto.\n\nProva (grep, eseguita e rossa): grep -nE \"workflow_dispatch: \\{\\}|github.event_name == 'workflow_dispatch'|head_sha \\|\\| github.sha\" /home/user/mycity/.github/workflows/deploy-dopo-ci.yml   → 3 righe (43, 73, 136): nessun controllo sull'esito CI del commit quando si parte a mano",
+   "impatto": "Un clic sbagliato (ramo sbagliato nel menù) mette in produzione codice non provato, con migrazioni applicate al database vero prima della pubblicazione. Ci pensa poi la prova di fumo, ma quella guarda tre porte, non i pagamenti.",
+   "fix_proposto": "Nel job: `if: github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main'`, più un passo che, quando si parte a mano, interroga `GET /repos/{owner}/{repo}/commits/{sha}/check-runs` e si ferma se la CI su quel commit non è «success». In alternativa un `environment: produzione` con revisore obbligatorio (Nicola)."
+  },
+  {
+   "chiave": "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti",
+   "titolo": "Se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti",
+   "dimensione": "deploy-sre",
+   "file": ".github/workflows/deploy-dopo-ci.yml:162-197 (migrazioni prima della pubblicazione) · :297-331 (ritorno = solo `vercel rollback`) · migrations/105_remove_invoicing.sql:20-32 · migrations/134_via_i_resti_della_fatturazione.sql:46-48",
+   "descrizione": "Il rilascio applica le migrazioni al database di produzione (righe 162-197) e solo dopo pubblica il codice. Se la prova di fumo boccia il sito, il ritorno indietro rimette online il rilascio precedente (riga 321) ma il database resta con lo schema nuovo. Va bene finché una migrazione aggiunge e basta; la storia del progetto ha migrazioni che tolgono colonne e tabelle (105: DROP TABLE business_orders, DROP COLUMN invoice_number; 134: DROP COLUMN invoice_sdi_*). Il giorno che una migrazione così accompagna un rilascio bocciato, il codice «di prima» rimesso online chiede colonne che non ci sono più: è lo stesso guasto del 21 agosto (nessun ordine creabile), ma prodotto dal ritorno indietro. Nessun controllo, né umano né automatico, distingue oggi una migrazione «solo aggiunte» da una distruttiva.\n\nCausa radice: Il piano di rollback copre un solo dei due pezzi che cambiano insieme (codice e schema); manca la regola expand/contract e un cancello che la faccia rispettare.\n\nProva (grep, eseguita e rossa): grep -niE 'DROP COLUMN|DROP TABLE' /home/user/mycity/migrations/*.sql | grep -vE ':\\s*--' | wc -l   → maggiore di 0 (migrazioni distruttive esistono) ; grep -n 'rollback' /home/user/mycity/.github/workflows/deploy-dopo-ci.yml   → solo `vercel rollback`, nessun passo sul database",
+   "impatto": "Un ritorno indietro che dovrebbe salvare la produzione può lasciarla rotta in un modo diverso, e il riepilogo dice «sono tornata al rilascio precedente». Tocca ordini e pagamenti se la colonna tolta è loro.",
+   "fix_proposto": "① Un test unitario che boccia una migrazione nuova con DROP COLUMN / DROP TABLE / RENAME salvo il marcatore `-- contract: colonna non letta dal codice dal rilascio <sha>` (expand in un rilascio, contract nel successivo). ② Nel passo «Torna indietro» stampare nel riepilogo l'elenco delle migrazioni applicate in questo giro (output di applica-migrazioni-mancanti.sh) con la frase «il database è avanti di N migrazioni rispetto al sito online». ③ Runbook: come si verifica a mano che il rilascio precedente regga lo schema nuovo."
+  },
+  {
+   "chiave": "deploy-sre|il ritorno indietro del rilascio riporta il codice ma non il database",
+   "titolo": "Il ritorno indietro del rilascio riporta il codice ma non il database",
+   "dimensione": "deploy-sre",
+   "file": ".github/workflows/deploy-dopo-ci.yml:180 e 357",
+   "descrizione": "Il lavoro applica le migrazioni alla produzione PRIMA di pubblicare (passo 'Applica le migrazioni al database, prima di pubblicare') e, se la prova di fumo esce 1, chiama `vercel rollback` sul codice. Nessun passo e nessun file torna indietro sullo schema, e le quattro migrazioni di oggi non hanno un percorso di ritorno eseguibile: solo un commento 'REVERSIBILE' in cima al file, scritto a mano. Il verdetto finale (`verdettoDelLavoro`) dice 'sono tornata al rilascio di prima' senza mai dire che il database e' rimasto avanti. — Chi legge il riepilogo crede che la produzione sia tornata com'era. Per le quattro migrazioni di STANOTTE ho verificato che il codice precedente sopravvive (tutte le scritture su `returns` passano gia' dalla chiave di servizio, e `/api/chat/mark-read` scrive solo i due contatori concessi): il rilascio si puo' riportare indietro senza rompere niente. Ma la lacuna e' strutturale — la prima migrazione che toglie una colonna trasformera' un ritorno indietro riuscito in un sito rotto, e il riepilogo continuera' a dire che e' andato tutto bene.",
+   "impatto": "Chi legge il riepilogo crede che la produzione sia tornata com'era. Per le quattro migrazioni di STANOTTE ho verificato che il codice precedente sopravvive (tutte le scritture su `returns` passano gia' dalla chiave di servizio, e `/api/chat/mark-read` scrive solo i due contatori concessi): il rilascio si puo' riportare indietro senza rompere niente. Ma la lacuna e' strutturale — la prima migrazione che toglie una colonna trasformera' un ritorno indietro riuscito in un sito rotto, e il riepilogo continuera' a dire che e' andato tutto bene.",
+   "fix_proposto": "Controllo sul repository, da mettere nella CI: per ogni file in migrations/ nato in questa PR deve esistere il gemello in migrations/giu/ oppure la riga `-- RITORNO: non necessario` dentro il file. Oggi diventa rosso su 151, 152, 153 e 154."
+  }
+ ]
+}

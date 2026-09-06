@@ -1,0 +1,20 @@
+{
+ "squadra": 91,
+ "ondata": 19,
+ "pacchetto": "components/ui/Card.tsx",
+ "territorio_principale": "components/ui/Card.tsx",
+ "file_citati": [
+  "components/ui/Card.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|la primitiva card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "titolo": "La primitiva Card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi",
+   "dimensione": "coerenza-brand",
+   "file": "components/ui/Card.tsx:43 · riquadri 'bg-white border border-cream-300|surface-200 rounded-*' in app/ e components/",
+   "descrizione": "CONFERMATO, conteggi rifatti e coincidenti. Solo 10 file importano components/ui/Card. Le card scritte a mano con lo stesso schema (bg-white + border cream-300/surface-200) si distribuiscono così: rounded-2xl (20px) 71 volte, rounded-xl (16px) 56, rounded-lg (12px) 14, più i pochi rounded-full. La primitiva usa rounded-lg, cioè il raggio meno frequente: i 10 posti che passano di lì hanno 12px, 56 ne hanno 16 e 71 ne hanno 20. Nessuno è illegale preso da solo (il design system ammette 12-20px per le card), ma non esiste una regola che dica quale raggio in quale contesto — ed è la causa radice del difetto del checkout qui sopra.",
+   "impatto": null,
+   "fix_proposto": "Fissare la regola per contesto e scriverla nel design system: card di contenuto = rounded-xl (16px), card prodotto/negozio = rounded-2xl (20px), riquadri interni = rounded-lg (12px). Allineare components/ui/Card.tsx:43 a rounded-xl con una prop 'radius' per il caso prodotto, e migrare a <Card> almeno le pagine del funnel d'acquisto."
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "squadra": 80,
+ "ondata": 17,
+ "pacchetto": "components/account/AccountShell.tsx",
+ "territorio_principale": "components/account/AccountShell.tsx",
+ "file_citati": [
+  "components/account/AccountShell.tsx",
+  "components/ui/LegalLayout.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito",
+   "titolo": "Il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito",
+   "dimensione": "layout-responsive",
+   "file": "components/account/AccountShell.tsx:108 e components/ui/LegalLayout.tsx:78 (entrambi lg:sticky lg:top-24)",
+   "descrizione": "CONFERMATO come incoerenza interna, non come stima di pixel. Le due colonne si fermano a 96px dal bordo (`lg:top-24`), mentre l'intestazione del sito e' `md:sticky md:top-0` (Navbar.tsx:89) e il progetto stesso dichiara la sua altezza in --header-height = 9rem = 144px (app/globals.css:107), valore usato da tutte le altre colonne sticky (search:304, category:337, cart:358, checkout:1020, product:851, profile/settings:310). Con 96 contro 144, scorrendo, i primi ~48px del menu account — angolo arrotondato, bordo e prima voce — passano sotto l'intestazione e non sono piu' cliccabili. Identico sull'indice laterale delle pagine legali. Severita' abbassata da grave a minore: e' un'occlusione parziale su desktop, non un blocco del percorso d'acquisto.",
+   "impatto": null,
+   "fix_proposto": "Sostituire `lg:top-24` con `lg:top-[var(--header-height)]` in entrambi i file, cosi' l'altezza dell'intestazione ha una casa sola."
+  }
+ ]
+}

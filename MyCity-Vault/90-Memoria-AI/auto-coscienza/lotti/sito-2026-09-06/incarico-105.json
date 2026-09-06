@@ -1,0 +1,20 @@
+{
+ "squadra": 105,
+ "ondata": 22,
+ "pacchetto": "components/PWAInstallBanner.tsx",
+ "territorio_principale": "components/PWAInstallBanner.tsx",
+ "file_citati": [
+  "components/PWAInstallBanner.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|nel banner d'installazione «più tardi» e la x sono alti 24-28 px: si sbaglia mira col pollice",
+   "titolo": "Nel banner d'installazione «Più tardi» e la X sono alti 24-28 px: si sbaglia mira col pollice",
+   "dimensione": "mobile-pwa",
+   "file": "components/PWAInstallBanner.tsx:146-151 («Più tardi»/«Ho capito»: px-3 py-1.5 text-xs ≈ 28 px), :154-160 (X: p-1 + icona 16 px ≈ 24 px)",
+   "descrizione": "Il banner compare in fondo allo schermo sopra la barra delle schede; i due modi per chiuderlo sono sotto i 44 px consigliati per il tocco. Chi manca la X tocca la scheda della barra sotto o il contenuto dietro, e il banner resta lì.\n\nCausa radice: Pulsanti dimensionati dal testo, non dall'area di tocco.\n\nProva (grep, eseguita e rossa): grep -n \"py-1.5 text-xs\\|p-1 -mt-1\" components/PWAInstallBanner.tsx   → righe 148 e 157",
+   "impatto": "Fastidio al terzo accesso, proprio quando l'utente sta tornando: il momento in cui si costruisce l'abitudine.",
+   "fix_proposto": "min-h-11 min-w-11 (44 px) su «Più tardi»; la X con p-3 (area 40-44 px) e margine negativo per non spostare il layout."
+  }
+ ]
+}

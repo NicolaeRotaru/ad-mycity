@@ -1,0 +1,29 @@
+{
+ "squadra": 23,
+ "ondata": 5,
+ "pacchetto": "components/Footer.tsx",
+ "territorio_principale": "components/Footer.tsx",
+ "file_citati": [
+  "components/Footer.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|il piede di pagina non e' allineato col resto del sito sul telefono",
+   "titolo": "Il piede di pagina non e' allineato col resto del sito sul telefono",
+   "dimensione": "layout-responsive",
+   "file": "components/Footer.tsx:99 (px-6) contro le pagine pubbliche (px-4 sm:px-6)",
+   "descrizione": "CONFERMATO. Il contenitore del piede e' `container mx-auto px-6 py-12 grid ...` (riga 99): 24px di margine laterale a tutti i breakpoint. Le pagine pubbliche usano `px-4 sm:px-6` (search:301, category:314, cart:189, checkout, store, home): 16px sul telefono. Sotto i 640px il testo del piede e' quindi rientrato di 8px rispetto a tutto quello che sta sopra, e il bordo sinistro dei contenuti si sposta a fine pagina.",
+   "impatto": null,
+   "fix_proposto": "Sostituire `px-6` con `px-4 sm:px-6` alla riga 99."
+  },
+  {
+   "chiave": "navigazione-gerarchia|il piè di pagina elenca cinque categorie su nove e non porta all'indice delle categorie",
+   "titolo": "Il piè di pagina elenca cinque categorie su nove e non porta all'indice delle categorie",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/Footer.tsx:149-155 (Alimentari, Abbigliamento, Casa & Cucina, Elettronica, Libri) · nessun link a /categorie in tutto il file · migrations/002 e 013: 9 categorie madri",
+   "descrizione": "La colonna «Categorie» del piè di pagina è scritta a mano con cinque voci fisse: Bellezza, Giardino, Giocattoli e Sport non compaiono e non c'è una voce «Tutte le categorie». Il mega-menu in alto ne mostra nove: chi arriva in fondo alla pagina vede un catalogo più piccolo di quello vero.\n\nCausa radice: Elenco statico nel componente invece della stessa query delle categorie madri usata da CategoryBar e /categorie.\n\nProva (grep, eseguita e rossa): grep -c 'href=\"/categorie\"' components/Footer.tsx → 0 · PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"SELECT count(*) FROM public.categories WHERE parent_id IS NULL\" → 9",
+   "impatto": "Le quattro categorie tagliate perdono un ingresso; incoerenza fra testa e piede della pagina.",
+   "fix_proposto": "Leggere le madri dalla stessa cache di CategoryBar (chiave ['categories','tree']) e aggiungere «Tutte le categorie → /categorie» in coda."
+  }
+ ]
+}

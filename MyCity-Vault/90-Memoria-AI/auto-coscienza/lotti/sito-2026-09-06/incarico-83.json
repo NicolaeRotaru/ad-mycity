@@ -1,0 +1,20 @@
+{
+ "squadra": 83,
+ "ondata": 17,
+ "pacchetto": "app/seller/products/page.tsx",
+ "territorio_principale": "app/seller/products/page.tsx",
+ "file_citati": [
+  "app/seller/products/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|la barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iphone",
+   "titolo": "La barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iPhone",
+   "dimensione": "layout-responsive",
+   "file": "app/seller/products/page.tsx:453",
+   "descrizione": "CONFERMATO. La barra e' `fixed inset-x-0 bottom-0 z-sticky flex items-center justify-between gap-3 border-t border-cream-300 bg-surface-0 px-5 py-3 shadow-warm-xl` e non prevede alcuna safe area, ne' con pb-safe ne' con env(safe-area-inset-bottom) nell'offset. Su un iPhone con barra gestuale i pulsanti «Annulla» e «Salva modifiche» cadono negli ultimi ~34px riservati dal sistema. Tutte le altre barre in fondo del progetto la gestiscono (MobileTabBar.tsx:169, StickyAddToCart.tsx:54-57, checkout:1072). Lo spazio in pagina c'e' gia' (`pb-24` alla riga 170): manca solo il padding dentro la barra.",
+   "impatto": null,
+   "fix_proposto": "Sostituire il py-3 in basso con `pb-[calc(0.75rem+env(safe-area-inset-bottom))]`, oppure aggiungere la classe `pb-safe` gia' definita in app/globals.css:198."
+  }
+ ]
+}

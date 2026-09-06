@@ -1,0 +1,21 @@
+{
+ "squadra": 32,
+ "ondata": 7,
+ "pacchetto": "app/api/stripe/checkout/route.ts",
+ "territorio_principale": "app/api/stripe/checkout/route.ts",
+ "file_citati": [
+  "lib/stripe/client.ts",
+  "app/api/stripe/checkout/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|la cassa puo' restare aperta venti minuti dopo che la merce e' gia' tornata in vendita",
+   "titolo": "La cassa puo' restare aperta venti minuti dopo che la merce e' gia' tornata in vendita",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/client.ts:197-203; app/api/stripe/checkout/route.ts:589,615",
+   "descrizione": "Il codice promette, per iscritto, che la pagina di pagamento Stripe scade insieme alla riserva della merce: 'La sessione di pagamento scade quando scade la riserva della merce'. Non e' vero fino in fondo. Stripe non accetta scadenze sotto la mezz'ora, e il codice alza la scadenza al minimo consentito (adesso + 31 minuti) invece di fermarsi. Se alla riserva restano meno di 31 minuti, la pagina di pagamento sopravvive alla riserva. Provato adesso: con una riserva che scade fra 10 minuti, la sessione creata scade 21 minuti DOPO. In quella finestra il giro periodico rimette la merce in vendita e restituisce il codice sconto, mentre il cliente puo' ancora pagare: nasce un ordine di merce che potrebbe essere gia' stata venduta a un altro. Oggi la riserva nasce a due ore, quindi il caso non si presenta sul percorso normale: e' una rete che non tiene, non un buco aperto. Ma e' esattamente la promessa scritta in un commento che 'spegne il sospetto' di chi legge dopo.\n\nCausa radice: Il limite di Stripe (minimo 30 minuti) e' stato assorbito con un Math.max invece che con un errore: il codice preferisce sempre creare la sessione, anche quando non puo' rispettare l'invariante che si e' dato.\n\nProva (comando, eseguita e rossa): timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/pagamenti-stripe-sessione-piu-lunga-della-riserva.test.ts",
+   "impatto": "Se domani si accorciasse la riserva (per esempio a 20 minuti sul fresco, che e' la richiesta naturale di un fornaio o di un fioraio) il freno non terrebbe e il primo effetto sarebbe vendere due volte lo stesso pezzo.",
+   "fix_proposto": "Se la riserva residua e' sotto il minimo di Stripe, non creare la sessione: rifiutare il pagamento con un messaggio ('il carrello e' scaduto, rifallo') oppure allungare PRIMA la riserva su pending_checkouts fino alla scadenza che si sta per dare a Stripe, cosi' i due tempi restano lo stesso tempo. In ogni caso togliere il Math.max silenzioso e lasciare una traccia quando i due valori divergono."
+  }
+ ]
+}

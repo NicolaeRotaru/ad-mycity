@@ -1,0 +1,38 @@
+{
+ "squadra": 48,
+ "ondata": 10,
+ "pacchetto": "home/user/mycity/app/sign-in/page.tsx",
+ "territorio_principale": "home/user/mycity/app/sign-in/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/sign-in/page.tsx",
+  "/home/user/mycity/app/profile/settings/page.tsx",
+  "/home/user/mycity/components/Segnala.tsx",
+  "/home/user/mycity/components/SearchBar.tsx",
+  "/home/user/mycity/components/Navbar.tsx",
+  "/home/user/mycity/app/sign-up/page.tsx",
+  "/home/user/mycity/app/messages/[id]/page.tsx",
+  "/home/user/mycity/app/shared-cart/page.tsx",
+  "/home/user/mycity/components/StoreLocationPicker.tsx",
+  "home/user/mycity/app/sign-in/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni",
+   "titolo": "Due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/sign-in/page.tsx riga 27 · /home/user/mycity/app/profile/settings/page.tsx righe 221 e 233 · /home/user/mycity/components/Segnala.tsx riga 58",
+   "descrizione": "CONFERMATO riga per riga. sign-in riga 27: «Il controllo anti-bot e scaduto: e stato rigenerato, premi di nuovo Accedi.» — due accenti mancanti in una riga sola, sulla schermata di accesso, e la legge chi ha appena sbagliato la password. settings righe 221 e 233: «Esportazione non riuscita. Riprova piu tardi.» ripetuto due volte. Segnala riga 58: «Segnalazione ricevuta. La guardiamo e ti diciamo com è andata.» — «com'è».",
+   "impatto": null,
+   "fix_proposto": "«è scaduto: è stato», «più tardi», «com'è andata»."
+  },
+  {
+   "chiave": "microcopy|tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione",
+   "titolo": "Tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/components/SearchBar.tsx riga 34 · /home/user/mycity/components/Navbar.tsx riga 207 · /home/user/mycity/app/sign-in/page.tsx riga 254 · /home/user/mycity/app/sign-up/page.tsx riga 263 · /home/user/mycity/app/profile/settings/page.tsx righe 586 e 619 · /home/user/mycity/app/messages/[id]/page.tsx riga 297 · /home/user/mycity/app/shared-cart/page.tsx riga 92 · /home/user/mycity/components/StoreLocationPicker.tsx riga 234",
+   "descrizione": "CONFERMATO riga per riga (esclusi gli spread operator del codice). I punti fuori riga sono fra i più visti del sito: «Cerca prodotti, negozi, categorie...» (SearchBar 34), «Cerca a Piacenza...» (Navbar 207), «Accesso in corso...» (sign-in 254), «Registrazione in corso...» (sign-up 263), «Annullamento...» e «Invio richiesta...» (settings 586 e 619), «Scrivi un messaggio...» (messages 297), «Carico la lista...» (shared-cart 92), «Ricerca posizione...» (StoreLocationPicker 234). Nel resto del sito il carattere «…» compare 118 volte nei .tsx: la convenzione c'è, questi la rompono e la differenza di spaziatura si vede.",
+   "impatto": null,
+   "fix_proposto": "Sostituire «...» con «…» in questi punti."
+  }
+ ]
+}

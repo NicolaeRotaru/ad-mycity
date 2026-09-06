@@ -1,0 +1,21 @@
+{
+ "squadra": 58,
+ "ondata": 12,
+ "pacchetto": "lib/stripe/webhook/trasferimenti.ts",
+ "territorio_principale": "lib/stripe/webhook/trasferimenti.ts",
+ "file_citati": [
+  "lib/stripe/webhook/trasferimenti.ts",
+  "app/api/stripe/webhook/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|il bonifico che torna indietro dalla banca lo scopre solo l'amministratore, e senza sapere di chi era",
+   "titolo": "Il bonifico che torna indietro dalla banca lo scopre solo l'amministratore, e senza sapere di chi era",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/trasferimenti.ts:59-65; app/api/stripe/webhook/route.ts:207-210",
+   "descrizione": "Quando la banca del negozio rifiuta il bonifico (IBAN sbagliato, conto chiuso), Stripe manda l'evento payout.failed. Il codice scrive un avviso agli amministratori con dentro solo il codice del bonifico (po_1abc) e l'importo. Non tocca l'ordine, non tocca il profilo del negozio, e soprattutto non avvisa il negoziante. L'ordine resta scritto come TRANSFERRED, cioe' pagato. Nella pagina Guadagni il negoziante legge 'versato' e in banca non trova niente. In piu' l'avviso all'amministratore non dice di quale negozio si tratti: l'evento arriva su un conto Connect e il gestore non guarda mai a chi appartiene, quindi per capirlo bisogna aprire Stripe a mano.\n\nCausa radice: Il gestore di payout.failed e' stato scritto come semplice campanello (notifyAdmins) e non come cambio di stato: non risale dal payout al conto Connect, quindi non sa a quale profilo appartiene e non puo' ne' correggere lo stato dell'ordine ne' avvisare il proprietario.\n\nProva (umano, non eseguita): In Stripe test mode forzare un payout fallito sul conto Connect del negozio (metodo di pagamento di prova che rimbalza), poi guardare due schermi: /admin (arriva un avviso che NON nomina il negozio) e /seller/earnings entrando come quel negozio (nessun avviso, l'ordine resta 'versato'). Il difetto c'e' se il negoziante non vede niente.",
+   "impatto": "Esempio: Pane Quotidiano cambia IBAN e dimentica di aggiornarlo su Stripe. Il bonifico di 120 euro rimbalza. Per MyCity l'ordine risulta pagato, il negoziante vede 'versato' nella sua pagina Guadagni, e nessuno lo chiama. Se ne accorge lui, dopo giorni, e la fiducia nel marketplace la paghiamo noi.",
+   "fix_proposto": "In handlePayoutFailed risalire al conto: leggere payout.destination o l'account dell'evento, cercare il profilo con quel stripe_account_id, scrivere una notifica AL NEGOZIO (categoria 'payout') con il motivo del rifiuto e il link per correggere l'IBAN, riportare gli ordini collegati a uno stato che il giro dei bonifici possa ripescare, e mettere il nome del negozio nell'avviso agli amministratori."
+  }
+ ]
+}

@@ -1,0 +1,31 @@
+{
+ "squadra": 43,
+ "ondata": 9,
+ "pacchetto": "home/user/mycity/app/cart/page.tsx",
+ "territorio_principale": "home/user/mycity/app/cart/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/cart/page.tsx",
+  "/home/user/mycity/components/checkout/OrderSummary.tsx",
+  "home/user/mycity/app/cart/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|il carrello dice «toglilo per continuare» ma lascia continuare lo stesso",
+   "titolo": "Il carrello dice «toglilo per continuare» ma lascia continuare lo stesso",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/cart/page.tsx:254-262 e :414-419 · confronto con /home/user/mycity/components/checkout/OrderSummary.tsx:98-112",
+   "descrizione": "CONFERMATO. Quando la disponibilità letta è zero la riga mostra in rosso «Non più disponibile · toglilo per continuare» (righe 256-262). Ma il «Procedi al checkout» è un `<Link href=\"/checkout\">` sempre attivo (righe 414-419): non si spegne, non avvisa, non porta l'attenzione sulla riga da sistemare. Al checkout il muro c'è davvero (handleSubmit blocca con `stockIssues.length > 0` e OrderSummary mette `aria-disabled`), quindi non è un vicolo cieco: è un'istruzione che si contraddice da sola e costa un passaggio in più a fine percorso.",
+   "impatto": null,
+   "fix_proposto": "Calcolare gli articoli bloccanti (`massimo(i.id, i.variantId) === 0`) e, se ce ne sono, sostituire il Link con un pulsante `aria-disabled` che porta sulla prima riga da correggere — come già fa OrderSummary.tsx:104-112 — oppure offrire lì un «Rimuovi gli articoli esauriti»."
+  },
+  {
+   "chiave": "microcopy|il carrello scrive «1 articoli»",
+   "titolo": "Il carrello scrive «1 articoli»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/cart/page.tsx righe 198 (titolo) e 362 (riepilogo), contro riga 403",
+   "descrizione": "CONFERMATO. Riga 198: `({count} articoli)` nel titolo «Il tuo carrello»; riga 362: `{count} articoli` nel riepilogo. Nessuna delle due distingue il singolare, quindi col caso più frequente — un solo prodotto — si legge «Il tuo carrello (1 articoli)». La forma giusta esiste già nella stessa pagina ma solo nel testo per i lettori di schermo (riga 403: `{count === 1 ? 'articolo' : 'articoli'}`).",
+   "impatto": null,
+   "fix_proposto": "Usare l'espressione della riga 403 anche alle righe 198 e 362."
+  }
+ ]
+}

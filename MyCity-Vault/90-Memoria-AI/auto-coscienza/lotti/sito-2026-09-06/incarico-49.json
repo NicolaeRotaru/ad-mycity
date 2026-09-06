@@ -1,0 +1,32 @@
+{
+ "squadra": 49,
+ "ondata": 10,
+ "pacchetto": "home/user/mycity/app/seller/stories/page.tsx",
+ "territorio_principale": "home/user/mycity/app/seller/stories/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/seller/promotions/page.tsx",
+  "/home/user/mycity/app/seller/stories/page.tsx",
+  "/home/user/mycity/app/lists/[id]/page.tsx",
+  "home/user/mycity/app/seller/stories/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|al venditore si parla di «buyer» e di «upload»",
+   "titolo": "Al venditore si parla di «buyer» e di «Upload»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/seller/promotions/page.tsx riga 98 · /home/user/mycity/app/seller/stories/page.tsx righe 189 e 219",
+   "descrizione": "CONFERMATO. promotions riga 98: `toast.success('Promozione creata! È già attiva e visibile ai buyer.')`. stories riga 189: il pulsante durante il caricamento mostra `{uploading ? 'Upload…' : 'Pubblica (24h)'}`. stories riga 219: `label=\"Link prodotto/categoria (opz.)\"`. Il resto della sezione venditore è in italiano piano, quindi queste tre stonano davanti a negozianti che non hanno chiesto di imparare l'inglese.",
+   "impatto": null,
+   "fix_proposto": "«…visibile ai clienti», «Carico…», «(facoltativo)»."
+  },
+  {
+   "chiave": "microcopy|due conferme di cancellazione senza dire cosa si perde",
+   "titolo": "Due conferme di cancellazione senza dire cosa si perde",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/lists/[id]/page.tsx riga 246 · /home/user/mycity/app/seller/stories/page.tsx riga 167",
+   "descrizione": "CONFERMATO. Le due chiamate sono `confirmDialog({ title: 'Eliminare la lista?', danger: true })` e `confirmDialog({ title: 'Rimuovere storia?', danger: true })`: solo il titolo, pulsante rosso, nessun campo `message`. Le altre conferme del sito la conseguenza la spiegano — per esempio in app/admin/users/page.tsx il message dice cosa viene cancellato e che l'azione è irreversibile. Su un'azione che non si può annullare il titolo da solo non basta a decidere.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere il campo message: «La lista e i prodotti salvati dentro andranno persi. Non si può annullare.» e «La storia sparirà subito dalla tua vetrina.»"
+  }
+ ]
+}

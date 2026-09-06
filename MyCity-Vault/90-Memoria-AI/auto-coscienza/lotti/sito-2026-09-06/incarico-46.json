@@ -1,0 +1,30 @@
+{
+ "squadra": 46,
+ "ondata": 10,
+ "pacchetto": "app/product/[id]/opengraph-image.tsx",
+ "territorio_principale": "app/product/[id]/opengraph-image.tsx",
+ "file_citati": [
+  "app/store/[id]/opengraph-image.tsx",
+  "app/product/[id]/opengraph-image.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "immagini-media|nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato",
+   "titolo": "Nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato",
+   "dimensione": "immagini-media",
+   "file": "app/store/[id]/opengraph-image.tsx:69 (`objectFit: 'cover'` in un riquadro 220×220), da confrontare con app/product/[id]/opengraph-image.tsx:70 che usa 'contain'",
+   "descrizione": "VERIFICATO. Quando qualcuno manda su WhatsApp il link di un negozio, l'anteprima mostra il logo dentro un riquadro di 220 per 220 pixel con ritaglio a riempimento: un marchio largo perde i lati. La scheda prodotto, generata dallo stesso meccanismo e dallo stesso tipo di file, usa il ritaglio a contenimento. Due file gemelli, due comportamenti — e quello che esce peggio è proprio il momento in cui il negoziante mostra ai suoi clienti che è online.",
+   "impatto": null,
+   "fix_proposto": "Cambiare in `objectFit: 'contain'`, uguale alla scheda prodotto."
+  },
+  {
+   "chiave": "immagini-media|l'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel",
+   "titolo": "L'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel",
+   "dimensione": "immagini-media",
+   "file": "app/product/[id]/opengraph-image.tsx:40 (`photo` grezzo, non passa da sizedImage) usato a :63-71, con `export const runtime = 'edge'` a riga 4",
+   "descrizione": "VERIFICATO. L'immagine di anteprima viene generata su runtime edge, che ha un tempo massimo stretto, e prende la foto originale del prodotto — quella caricata dal telefono del negoziante, fino a 5 MB dopo la ricompressione lato client — per disegnarla in un riquadro di 460 pixel. Su una foto pesante la generazione rallenta o scade, e chi incolla il link su WhatsApp vede l'anteprima senza foto. Basterebbe chiedere la versione ridotta, come fa tutto il resto del sito.",
+   "impatto": null,
+   "fix_proposto": "Sostituire con `sizedImage(photo, 'detail')`."
+  }
+ ]
+}

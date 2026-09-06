@@ -1,0 +1,102 @@
+{
+ "squadra": 8,
+ "ondata": 2,
+ "pacchetto": "components/VendorForm.tsx",
+ "territorio_principale": "components/VendorForm.tsx",
+ "file_citati": [
+  "components/ImageUrlField.tsx",
+  "components/seller/ProductForm.tsx",
+  "app/seller/stories/page.tsx",
+  "components/seller/site/GalleryFields.tsx",
+  "components/seller/site/ImageUpload.tsx",
+  "components/StoreMediaManager.tsx",
+  "components/VendorForm.tsx",
+  "components/SellerApplicationForm.tsx",
+  "components/seller/ProductImagesField.tsx",
+  "components/NewsletterForm.tsx",
+  "components/seller/FeaturedProductsPicker.tsx",
+  "components/seller/BulkPhotoCreate.tsx",
+  "components/products/ImportFromUrlBox.tsx",
+  "app/seller/customers/page.tsx",
+  "components/StoreLocationPicker.tsx",
+  "components/PublicProfileToggle.tsx",
+  "app/rider/availability/page.tsx",
+  "components/ui/Field.tsx",
+  "components/checkout/CouponInput.tsx",
+  "app/profile/settings/page.tsx",
+  "app/seller/products/[id]/edit/page.tsx",
+  "lib/errors.ts",
+  "app/orders/[id]/return/page.tsx",
+  "lib/storage/carica-immagine.ts",
+  "lib/products/uploadImages.ts",
+  "components/PhotoReviewUpload.tsx",
+  "lib/products/rehostImages.ts",
+  "migrations/127_minori_22_agosto.sql",
+  "migrations/070_storage_and_rls_hardening.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|il caricamento foto del negoziante e altri campi dei suoi moduli non hanno nessun nome per chi usa un lettore di schermo",
+   "titolo": "Il caricamento foto del negoziante e altri campi dei suoi moduli non hanno nessun nome per chi usa un lettore di schermo",
+   "dimensione": "accessibilita",
+   "file": "components/ImageUrlField.tsx:94 · components/seller/ProductForm.tsx:817-823 · app/seller/stories/page.tsx:217-222 · stessi campi file nascosti in components/seller/site/GalleryFields.tsx:88, components/seller/site/ImageUpload.tsx:74, components/StoreMediaManager.tsx:169, components/VendorForm.tsx:191, components/SellerApplicationForm.tsx:296, components/seller/ProductImagesField.tsx:139",
+   "descrizione": "Passo indietro: ogni campo di un modulo deve avere un nome che il browser calcola (etichetta collegata, aria-label, o in mancanza il segnaposto). Se il nome è vuoto, chi usa un lettore di schermo sente solo «campo» e non sa cosa scriverci. Nei moduli del negoziante ci sono campi con nome VUOTO: ① il campo file del caricamento immagini (ImageUrlField.tsx:94, e lo stesso campo generato da react-dropzone in altri 6 componenti) — reso con jsdom e passato ad axe-core, regola «label»: violazione confermata; ② lo stock di ogni variante nel modulo prodotto (ProductForm.tsx:817-823): un <input type=number> senza etichetta, senza aria-label e senza segnaposto — il nome della variante sta in una <span> vicina non collegata; ③ la foto della storia (stories/page.tsx:217-222): la <label> «Foto» non ha htmlFor e non avvolge l'input. Esempio: un negoziante cieco che crea la maglia «Rossa / Blu» sente due volte «campo numerico» senza sapere quale variante sta valorizzando. Criteri WCAG 4.1.2 (livello A) e 1.3.1.\n\nCausa radice: Questi moduli scrivono <input> a mano invece di passare dalla primitiva components/ui/Field.tsx (che garantisce etichetta+id+errore), e i dropzone usano getInputProps() senza passare un aria-label. Nessuna regola di lint (eslint-plugin-jsx-a11y: label-has-associated-control / control-has-associated-label) ferma il prossimo campo senza nome, e il cancello axe in CI è spento (già noto).\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove-jsx.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/accessibilita-campi-senza-nome.test.tsx   (rossa oggi: «label: <input accept=image/* type=file …>»; i casi ② e ③ sono verificati leggendo il codice, non dalla macchina)",
+   "impatto": "Il negoziante che lavora con lettore di schermo o solo tastiera non riesce a caricare foto né a mettere lo stock giusto sulle varianti: prodotti senza foto o con stock sbagliato = vendite perse o ordini da annullare. Dal 28/6/2025 (European Accessibility Act) l'area venditore di un marketplace deve essere usabile anche da lui.",
+   "fix_proposto": "ProductForm.tsx:817 → aggiungere aria-label={`Stock di ${v.label || 'variante ' + (idx + 1)}`}. stories/page.tsx:217 → <label htmlFor=\"story-photo\"> e id=\"story-photo\" sull'input. Dropzone (ImageUrlField e gli altri 6) → getInputProps({ 'aria-label': 'Carica immagine' }) e getRootProps({ role: 'button', 'aria-label': 'Carica immagine: trascina o premi Invio' }). Sistema: aggiungere eslint-plugin-jsx-a11y con le regole label-has-associated-control e control-has-associated-label a `npm run verify`, così il prossimo campo senza nome non passa. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "accessibilita|tredici campi del negoziante, del rider e del piè di pagina hanno come unico nome il segnaposto, che sparisce appena si scrive",
+   "titolo": "Tredici campi del negoziante, del rider e del piè di pagina hanno come unico nome il segnaposto, che sparisce appena si scrive",
+   "dimensione": "accessibilita",
+   "file": "components/NewsletterForm.tsx:95-106 · components/seller/ProductForm.tsx:847-857 · components/seller/FeaturedProductsPicker.tsx:60-64 · components/seller/site/GalleryFields.tsx:70-76 · components/ImageUrlField.tsx:104-110 · components/seller/BulkPhotoCreate.tsx:269-275 · components/products/ImportFromUrlBox.tsx:144-150 · app/seller/customers/page.tsx:154-158 · components/VendorForm.tsx:287-292 · components/StoreLocationPicker.tsx:188-196 · components/PublicProfileToggle.tsx:129-136 · app/rider/availability/page.tsx:184-188",
+   "descrizione": "Stesso difetto già noto sul lato cliente («Campi con la sola scritta-suggerimento dentro»), ma in dodici file nuovi del lato negoziante/rider e nel modulo newsletter del piè di pagina (presente su ogni pagina). In tre casi c'è una <label> visibile ma scollegata (VendorForm «Slogan», StoreLocationPicker «Indirizzo del negozio», PublicProfileToggle «Handle pubblico»): l'etichetta si vede ma il browser non la associa al campo. Il nome viene solo dal segnaposto: sparisce mentre si scrive e alcuni lettori di schermo non lo leggono. Criterio WCAG 3.3.2 (A); 1.3.1 per le etichette scollegate. Nota: axe-core accetta il segnaposto come nome, quindi lo scanner non lo segnala — si vede solo leggendo il codice.\n\nCausa radice: Come sopra: <input> scritti a mano fuori dalla primitiva Field; le <label> senza htmlFor non vengono segnalate da nessuna regola di lint.\n\nProva (grep, eseguita e rossa): node /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/scan-a11y.mjs | sed -n '/inputNoName/,$p'   (elenca i campi senza id/aria-label né label che li avvolge; da ripulire dai falsi positivi come i campi dentro <label>)",
+   "impatto": "Il negoziante che compila l'indirizzo del negozio (da cui dipende la zona di consegna) o i tag prodotto senza vedere lo schermo perde il nome del campo appena inizia a scrivere; nessun blocco ma fatica e errori in più.",
+   "fix_proposto": "Per ogni campo: passare da <Input label=…> di components/ui/Field.tsx, oppure aria-label esplicito (es. NewsletterForm: aria-label={t('placeholder')}); per le tre etichette scollegate aggiungere htmlFor + id. Regola di lint jsx-a11y come nel primo difetto. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "coerenza-brand|lo stesso errore di campo è bordeaux, rosa o rosso a seconda della pagina, anche dentro il checkout",
+   "titolo": "Lo stesso errore di campo è bordeaux, rosa o rosso a seconda della pagina, anche dentro il checkout",
+   "dimensione": "coerenza-brand",
+   "file": "components/ui/Field.tsx:35,78,256 (secondary) · components/checkout/CouponInput.tsx:46,78 (rose-600) · components/VendorForm.tsx:208,260,324 (red-500/600) · app/profile/settings/page.tsx:573-574,613-633 (red) · components/SellerApplicationForm.tsx:110,114,302,341 (rose) · components/seller/ProductForm.tsx:983,1002 (rose) · app/seller/products/[id]/edit/page.tsx:117-120 (rose) · components/StoreLocationPicker.tsx:243 (red)",
+   "descrizione": "La primitiva Field mostra il messaggio d'errore dei campi in secondary-600 (il bordeaux del brand). Il CouponInput — che sta nella stessa colonna del checkout dove i campi indirizzo passano da Field — mostra «codice non valido» in rose-600 Tailwind; VendorForm, le impostazioni profilo e il selettore posizione usano red; i moduli venditore usano rose. Tre famiglie di colore per lo stesso ruolo «hai sbagliato questo campo», mentre tailwind.config.ts alla riga 107 scrive esplicitamente «NON la rose Tailwind default». È un ruolo diverso dal difetto noto sui pulsanti «pericolo»: qui è il testo d'errore dei moduli.\n\nCausa radice: Solo la primitiva Field ha una regola per l'errore; i moduli scritti a mano scelgono il rosso a occhio perché nel config non esiste un token semantico «error/danger» e nessun componente FieldError riusabile.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -nE 'text-(rose|red)-[0-9]+' components/checkout/CouponInput.tsx components/VendorForm.tsx components/SellerApplicationForm.tsx | grep -q . && echo 'DIFETTO: errori di campo in rose/red fuori dalla primitiva Field (secondary)'",
+   "impatto": "Nel checkout un cliente vede il CAP sbagliato segnalato in bordeaux e il coupon rifiutato in rosa: due segnali diversi per lo stesso significato nel passo dove si perde di più. Sul negoziante: il modulo di candidatura e la scheda prodotto segnalano gli errori in un colore che nel resto del sito non esiste.",
+   "fix_proposto": "Aggiungere in tailwind.config.ts l'alias semantico danger → secondary (o documentare secondary come colore d'errore nella CHECKLIST-BRAND), creare components/ui/FieldError.tsx e usarlo nelle 8 posizioni elencate al posto di rose/red."
+  },
+  {
+   "chiave": "immagini-media|quando una foto viene rifiutata, il negoziante legge una frase in inglese che non dice cosa fare",
+   "titolo": "Quando una foto viene rifiutata, il negoziante legge una frase in inglese che non dice cosa fare",
+   "dimensione": "immagini-media",
+   "file": "lib/errors.ts:137-157 (il ramo che lascia passare il messaggio grezzo) · mostrato da components/VendorForm.tsx:130 · components/StoreMediaManager.tsx:67 · components/seller/site/ImageUpload.tsx:47 · caso peggiore: app/orders/[id]/return/page.tsx:64, che non passa nemmeno da friendlyError",
+   "descrizione": "Il deposito rifiuta un file con due frasi sue, in inglese: «mime type image/svg+xml is not supported» quando il formato non va, e «The object exceeded the maximum allowed size» quando il file supera i 10 MB. La funzione che dovrebbe tradurre gli errori, friendlyError, conosce i codici del database, la rete, i permessi e la sessione scaduta — ma non conosce questi due. Cadono nell'ultimo ramo, quello che ripulisce il testo e lo lascia passare così com'è se è corto e comincia per lettera. Ho scritto la prova e le due frasi escono identiche, in inglese. Nella richiesta di reso è peggio: lì il messaggio grezzo viene mostrato senza passare nemmeno da friendlyError.\n\nCausa radice: friendlyError è nata per gli errori del database, di Stripe e della rete; gli errori dello Storage sono arrivati dopo, con la migrazione 070 che ha introdotto i limiti server-side, e nessuno ha aggiunto i due casi. L'ultimo ramo — «se è corto e comincia per lettera, mostralo» — è una rete di sicurezza che qui si comporta da porta aperta.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/immagini-media-logo-negozio.test.ts",
+   "impatto": "Il negoziante di Piacenza che carica il logo che gli ha dato il grafico si vede scritto «mime type image/svg+xml is not supported» e non ha modo di capire che gli basterebbe salvarlo in PNG. Rinuncia, o telefona. Nel reso è il cliente a leggerlo, mentre sta allegando la foto del prodotto arrivato rotto: è il momento in cui la fiducia si decide, e la risposta è in inglese.",
+   "fix_proposto": "Due righe in lib/errors.ts, prima dell'ultimo ramo: se il messaggio contiene «mime type» o «not supported» → «Formato non accettato: usa una foto JPG, PNG o WEBP.»; se contiene «exceeded the maximum allowed size» o «Payload too large» → «Foto troppo pesante: il limite è 10 MB, riprova con una più leggera.» E in app/orders/[id]/return/page.tsx:64 far passare l'errore da friendlyError come fanno già gli altri tre punti."
+  },
+  {
+   "chiave": "immagini-media|il campo del logo offre al negoziante formati che il deposito rifiuta e non mette un tetto al peso",
+   "titolo": "Il campo del logo offre al negoziante formati che il deposito rifiuta e non mette un tetto al peso",
+   "dimensione": "immagini-media",
+   "file": "components/VendorForm.tsx:109 · components/seller/site/ImageUpload.tsx:38 · components/StoreMediaManager.tsx:29 · app/orders/[id]/return/page.tsx:236 · lib/storage/carica-immagine.ts:96-116 (l'«unica porta», che non controlla né tipo né peso) · confronto con lib/products/uploadImages.ts:15, :27 e :34-37, che invece controlla e ricomprime",
+   "descrizione": "Il riquadro dove il negoziante trascina il logo dichiara di accettare image/* — cioè qualunque immagine, SVG compreso — e non ha nessun tetto di peso. Il deposito però accetta solo sette tipi e un massimo di 10 MB: l'ho chiesto al database e alla domanda «accetti image/svg+xml?» risponde no. Il file parte, sale, e viene respinto alla fine. Il caricamento delle foto di prodotto fa la cosa giusta e mostra come si fa: elenca i tre formati ammessi e, se la foto supera i 5 MB, la ricomprime da sola prima di spedirla (uploadImages.ts, righe 15 e 34-37). Quel controllo non è stato portato negli altri quattro punti, e la funzione condivisa che tutti chiamano — quella che si presenta come «l'unica porta» — di tipi e pesi non sa niente.\n\nCausa radice: Il controllo su formato e peso è stato scritto una volta sola, dentro il caricamento delle foto di prodotto, invece che dentro la porta comune che tutti attraversano. Chi ha aggiunto gli altri quattro punti ha chiamato la porta comune — che è la cosa giusta — e si è portato via l'assenza del controllo.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -tAc \"SELECT ('image/svg+xml' = ANY(allowed_mime_types))::text FROM storage.buckets WHERE id='products';\" | grep -qx true && echo VERDE || echo \"ROSSO: il campo logo offre image/* (SVG compreso) ma il deposito lo rifiuta\"",
+   "impatto": "L'SVG è il formato in cui un grafico consegna un logo. Il negoziante lo trascina, aspetta il caricamento, e alla fine si prende un errore. Stessa cosa con la foto della vetrina scattata con un telefono nuovo, che supera facilmente i 10 MB: la foto di prodotto verrebbe ricompressa, quella del negozio no. Risultato: negozi che restano senza logo e senza copertina, cioè le due cose che fanno sembrare vera una bottega.",
+   "fix_proposto": "Spostare il controllo dentro lib/storage/carica-immagine.ts: la porta unica rifiuta subito, prima di spedire, ciò che il deposito rifiuterebbe alla fine (i sette tipi ammessi e i 10 MB), e chiama resizeImageToFile — che già esiste in lib/image-resize.ts — quando la foto è troppo pesante. Poi nei quattro riquadri sostituire accept: { 'image/*': [] } con l'elenco esplicito dei formati, come fa components/seller/ProductImagesField.tsx:92-96, così il file sbagliato non parte nemmeno."
+  },
+  {
+   "chiave": "immagini-media|le foto caricate scadono dalla cache dopo un'ora anche se l'indirizzo non cambia mai",
+   "titolo": "Le foto caricate scadono dalla cache dopo un'ora anche se l'indirizzo non cambia mai",
+   "dimensione": "immagini-media",
+   "file": "lib/products/uploadImages.ts:42 · components/VendorForm.tsx:123 · components/SellerApplicationForm.tsx:166 · components/seller/site/ImageUpload.tsx:27 · components/PhotoReviewUpload.tsx:47 · lib/products/rehostImages.ts:153 · components/ImageUrlField.tsx:44-48 (non lo imposta affatto)",
+   "descrizione": "VERIFICATO, con una precisazione al collega: il valore da un anno in next.config.js:64 NON è una promessa contraddetta, perché il commento sopra (righe 50-62) dichiara già che quelle due righe valgono solo per l'ottimizzatore di Next e non per queste foto. Il difetto vero resta e sta altrove: ogni caricamento scrive `cacheControl: '3600'`, un'ora, su un indirizzo che è unico per upload e quindi non cambia mai contenuto. Le stiamo facendo riscaricare ogni ora senza motivo, e ogni riscaricamento è un lampeggio in più su una connessione lenta. I punti sono sette, non cinque.",
+   "impatto": null,
+   "fix_proposto": "Portare `cacheControl` a '31536000' in tutti i punti di caricamento, e impostarlo anche in ImageUrlField che oggi lo lascia al valore di serie."
+  },
+  {
+   "chiave": "microcopy|al negoziante che carica una foto troppo grande arriva un errore in inglese",
+   "titolo": "Al negoziante che carica una foto troppo grande arriva un errore in inglese",
+   "dimensione": "microcopy",
+   "file": "lib/errors.ts:139-157,171 · components/VendorForm.tsx:121-130 · app/seller/stories/page.tsx:84,111 · lib/storage/carica-immagine.ts:115-116 · migrations/127_minori_22_agosto.sql:586 · migrations/070_storage_and_rls_hardening.sql:37",
+   "descrizione": "Il bucket delle immagini accetta al massimo 10 MB (file_size_limit nelle migrazioni 070 e 127). Il modulo del negozio (VendorForm) e le storie del venditore caricano il file su Storage senza controllare la dimensione prima; quando Storage rifiuta, il messaggio grezzo «The object exceeded the maximum allowed size» passa dentro friendlyError, che non lo riconosce e lo restituisce tale e quale perché è corto, su una riga e comincia con una lettera (righe 150-157). Stesso destino per «Payload too large», «The resource already exists» e per gli errori Postgres senza codice mappato («value too long for type character varying»). Una foto da telefono moderno supera i 10 MB spesso.\n\nCausa radice: friendlyError traduce solo i codici SQL e alcune frasi Auth; gli errori di Storage non hanno codice e non sono mai stati aggiunti alla mappa, e i moduli di upload non hanno il controllo di dimensione che invece ha app/seller/products/import/page.tsx:94 (max 2 MB).\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-errore-storage-inglese.test.ts",
+   "impatto": "Un negoziante che apre il negozio di sera con le foto fatte col telefono vede «The object exceeded the maximum allowed size», non capisce, riprova tre volte e chiama Nicola o lascia la vetrina senza foto. Rallenta il primo incasso di un negozio nuovo.",
+   "fix_proposto": "In lib/errors.ts aggiungere prima del passthrough: /exceeded the maximum allowed size|payload too large/i → «La foto è troppo pesante: massimo 10 MB. Riducila o scattane un'altra.»; /resource already exists/i → «Un file con questo nome c'è già.»; /value too long/i → «Testo troppo lungo.». In carica-immagine.ts rifiutare prima dell'upload i file oltre 10 MB con lo stesso messaggio italiano (🟢)."
+  }
+ ]
+}

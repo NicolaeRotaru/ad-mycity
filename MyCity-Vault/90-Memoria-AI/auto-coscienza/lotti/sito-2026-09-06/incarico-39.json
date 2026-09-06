@@ -1,0 +1,29 @@
+{
+ "squadra": 39,
+ "ondata": 8,
+ "pacchetto": "components/ProductCard.tsx",
+ "territorio_principale": "components/ProductCard.tsx",
+ "file_citati": [
+  "components/ProductCard.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "tipografia|le iniziali del negozio sulla scheda prodotto sono a 8px",
+   "titolo": "Le iniziali del negozio sulla scheda prodotto sono a 8px",
+   "dimensione": "tipografia",
+   "file": "components/ProductCard.tsx:182",
+   "descrizione": "CONFERMATO: `h-4 w-4` (un cerchio da 16 pixel) con dentro le due iniziali in `text-[8px] font-bold text-white`. Otto pixel è il carattere più piccolo di tutto il sito — l'ho cercato, c'è una volta sola, ed è questa — cioè metà del testo di lettura, con due maiuscole dentro 16 pixel e quasi nessuna aria. A quella misura non si legge una sigla, si vede una macchia. E l'informazione non manca: il nome del negozio per esteso sta già subito a destra, alla riga 185.",
+   "impatto": null,
+   "fix_proposto": "O si toglie il pallino con le iniziali, visto che il nome è già lì accanto, o si porta il cerchio a 20px (h-5 w-5) con le lettere a 10px (text-2xs), che è il minimo dichiarato dal sistema."
+  },
+  {
+   "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+   "titolo": "Nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/ProductCard.tsx:188 (titolo text-[13px]), :208 e :215 (prezzo text-base font-extrabold), :217-222 (pulsante h-11 w-11 bg-primary-600)",
+   "descrizione": "CONFERMATO. Il prezzo è 'text-base font-extrabold' (16 px, righe 208 e 215) contro un titolo 'text-[13px] font-semibold' (riga 188): tre pixel di differenza. Accanto, il pulsante di aggiunta rapida è un quadrato pieno 'h-11 w-11 rounded-lg bg-primary-600 text-white' (44×44 px, righe 217-222). In una fila di card l'occhio cade sui quadrati colorati e non sui prezzi. Confermato anche il cambio di colore in caso di sconto: il prezzo scontato è text-secondary-600 (riga 208) contro text-ink-900 (riga 215), quindi la colonna dei prezzi non è omogenea.",
+   "impatto": null,
+   "fix_proposto": "Portare il prezzo a text-lg/text-xl e tenere il pulsante «+» come contorno o tono più tenue, così il colore pieno resta al prezzo."
+  }
+ ]
+}

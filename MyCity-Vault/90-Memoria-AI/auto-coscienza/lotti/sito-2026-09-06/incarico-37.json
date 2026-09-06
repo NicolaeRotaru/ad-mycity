@@ -1,0 +1,30 @@
+{
+ "squadra": 37,
+ "ondata": 8,
+ "pacchetto": "scripts/applica-migrazioni-mancanti.sh",
+ "territorio_principale": "scripts/applica-migrazioni-mancanti.sh",
+ "file_citati": [
+  "scripts/check-migration-drift.mjs",
+  "scripts/applica-migrazioni-mancanti.sh"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "titolo": "Il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+   "dimensione": "deploy-sre",
+   "file": "scripts/check-migration-drift.mjs:38-46 (promessa) · :100-112 (confronto solo per nome o numero, md5 solo stampato) · scripts/applica-migrazioni-mancanti.sh:73-77",
+   "descrizione": "Il commento in testa a check-migration-drift.mjs (righe 38-46) dice che dal difetto #46 «si confronta anche il PREFISSO NUMERICO e il CONTENUTO», ma il codice (righe 100-104) dichiara applicata una migrazione se il database conosce il suo numero OPPURE il suo nome, e l'impronta md5 viene solo stampata per gli ultimi 5 file (righe 108-111): una migrazione modificata dopo essere stata applicata passa verde, esattamente il caso che il commento dice di aver chiuso. Secondo pezzo: applica-migrazioni-mancanti.sh esegue il file in una transazione (riga 73) e registra la migrazione in una SECONDA connessione (righe 74-77); con `set -e`, un intoppo di rete fra le due lascia la migrazione applicata ma non registrata, e al rilascio dopo viene riapplicata: se contiene INSERT senza ON CONFLICT si duplicano dati, se contiene CREATE senza IF NOT EXISTS il rilascio si blocca finché qualcuno non sistema il registro a mano.\n\nCausa radice: La tabella di registro di Supabase non ha una colonna per l'impronta, e invece di aggiungerla si è ripiegato sulla stampa; l'applicazione e la registrazione sono due comandi psql invece di uno.\n\nProva (grep, eseguita e rossa): grep -nE 'impronta' /home/user/mycity/scripts/check-migration-drift.mjs   → compare solo nella costruzione e nella stampa (console.log), mai in un confronto; grep -nE '^psql|--single-transaction' /home/user/mycity/scripts/applica-migrazioni-mancanti.sh   → due invocazioni psql separate per ogni file",
+   "impatto": "Un cancello che dice di controllare più di quanto controlla: il rischio non è alto oggi, ma la fiducia sul «database allineato al codice» poggia su un confronto di nomi.",
+   "fix_proposto": "applica-migrazioni-mancanti.sh: un solo `psql --single-transaction -f <file> -c \"INSERT INTO supabase_migrations.schema_migrations (version,name,statements) VALUES (…, ARRAY['md5:<impronta>'])\"` così applicazione e registrazione vivono o muoiono insieme; check-migration-drift.mjs: confrontare l'impronta salvata con quella del file e segnalare «modificata dopo l'applicazione»; correggere il commento finché non è vero."
+  },
+  {
+   "chiave": "deploy-sre|la garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un commit",
+   "titolo": "La garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un COMMIT",
+   "dimensione": "deploy-sre",
+   "file": "scripts/applica-migrazioni-mancanti.sh:71 (riguarda migrations/153 riga 141 e migrations/154 riga 115)",
+   "descrizione": "Lo script applica ogni file con `psql --single-transaction` e scrive: 'Una transazione sola: se la migrazione si rompe a meta', non lascia il database in uno stato intermedio'. Le migrazioni 153 e 154 aprono pero' un `BEGIN;` loro e lo chiudono con `COMMIT;`. Verificato su Postgres 16: `BEGIN` interno da' solo un avviso, e il `COMMIT` interno CHIUDE la transazione del wrapper. Tutto quello che segue viene eseguito e confermato per conto suo — nella mia prova le tabelle create dopo il COMMIT sono rimaste anche se l'istruzione successiva e' andata in errore (uscita psql 3). — Oggi il danno e' nullo: dopo il COMMIT interno resta solo `NOTIFY pgrst, 'reload schema'`. Ma la garanzia scritta nello script non e' la garanzia che si ottiene, e chi legge quel commento si fida. La prima migrazione che mettera' del lavoro vero dopo il proprio COMMIT si applichera' a meta' in produzione, in silenzio.",
+   "impatto": "Oggi il danno e' nullo: dopo il COMMIT interno resta solo `NOTIFY pgrst, 'reload schema'`. Ma la garanzia scritta nello script non e' la garanzia che si ottiene, e chi legge quel commento si fida. La prima migrazione che mettera' del lavoro vero dopo il proprio COMMIT si applichera' a meta' in produzione, in silenzio.",
+   "fix_proposto": "grep -l '^COMMIT;' migrations/*.sql | head -1 | xargs -r -I{} sh -c 'echo \"ROSSO: {} chiude da sola la transazione di --single-transaction\"; exit 1'"
+  }
+ ]
+}

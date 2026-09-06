@@ -1,0 +1,68 @@
+{
+ "squadra": 27,
+ "ondata": 6,
+ "pacchetto": "lib/email/templates.ts",
+ "territorio_principale": "lib/email/templates.ts",
+ "file_citati": [
+  "app/api/cron/abandoned-carts/route.ts",
+  "lib/email/templates.ts",
+  "lib/format.ts",
+  "components/checkout/OrderSummary.tsx",
+  "app/seller/products/import/page.tsx",
+  "app/admin/coupons/page.tsx",
+  "app/admin/orders/page.tsx",
+  "app/api/ai/diagnose/route.ts",
+  "lib/constants.ts",
+  "lib/shipping.ts",
+  "migrations/086_notify_buyer_on_order_status.sql",
+  "app/api/cron/expire-checkouts/route.ts",
+  "app/api/cron/expire-stale-orders/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|l'email del carrello abbandonato parte nuda, senza testata né piede mycity, mentre lo stesso messaggio esiste già col guscio comune",
+   "titolo": "L'email del carrello abbandonato parte nuda, senza testata né piede MyCity, mentre lo stesso messaggio esiste già col guscio comune",
+   "dimensione": "coerenza-brand",
+   "file": "app/api/cron/abandoned-carts/route.ts:96-100 (HTML inline con <p>, pulsante #C0492C, testo #888) vs lib/email/templates.ts:380-390 (abandoned_cart_4h dentro shell())",
+   "descrizione": "Il cron dei carrelli abbandonati costruisce a mano quattro paragrafi senza <html>, senza testata con il nome MyCity, senza piede: font e colori sono quelli di default del client di posta, con un pulsante terracotta #C0492C e una nota grigia #888. In templates.ts esiste già il template abandoned_cart_4h, con il guscio comune (che oggi è indigo, vedi difetto 1). Risultato: due versioni dello stesso messaggio, una nuda e una vestita di un altro colore, con lo stesso tag 'abandoned_cart_4h'. Esempio: chi lascia un carrello da 41 € il 2/9 riceve un'email che non somiglia né al sito né alle altre email di MyCity.\n\nCausa radice: La rotta del cron è nata prima (o a fianco) del sistema di template e non è mai stata ricollegata al guscio comune; nessun freno impone che ogni sendEmail passi da templates.ts.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n 'html: `<p>Ciao' app/api/cron/abandoned-carts/route.ts && grep -n 'abandoned_cart_4h: ()' lib/email/templates.ts — se entrambe le righe esistono, il messaggio ha due case.",
+   "impatto": "Email di marketing verso clienti reali con carrello pieno: la meno riconoscibile di tutte è proprio quella che deve riportare a pagare. Il messaggio ha due case che divergono senza che nessuno se ne accorga.",
+   "fix_proposto": "Nel cron usare TEMPLATE_CICLO_DI_VITA.abandoned_cart_4h (o preparaEmailCicloDiVita) passando nome, totale e lista prodotti come argomenti del template; eliminare l'HTML inline. Una prova che ogni chiamata a sendEmail nel repo riceva un html che inizia con '<!doctype html>'."
+  },
+  {
+   "chiave": "tipografia|i prezzi escono scritti all'inglese, «€12.50», in cassa e nelle email di ordine, rimborso e gift card",
+   "titolo": "I prezzi escono scritti all'inglese, «€12.50», in cassa e nelle email di ordine, rimborso e gift card",
+   "dimensione": "tipografia",
+   "file": "lib/format.ts:1 (formatPrice = `€${Number(n).toFixed(2)}`, importata da 57 file, es. components/checkout/OrderSummary.tsx:52-86 e :134-135 sul bottone «Ordina e paga alla consegna · €…») · lib/email/templates.ts:74,82 (email «Ordine ricevuto» al cliente), :90,95,97 (oggetto «🛒 Nuovo ordine — €47.90» al negozio), :185,191,193 (rimborso), :202,211,213,222,228,230 (gift card) · 27 punti che rifanno la stringa a mano con toFixed(2), es. app/seller/products/import/page.tsx:248, app/admin/coupons/page.tsx:211-213, app/admin/orders/page.tsx:116 (CSV), app/api/ai/diagnose/route.ts:120",
+   "descrizione": "Passo indietro: in italiano un importo si scrive «12,50 €» — virgola per i decimali, simbolo dopo con uno spazio, e «12.345,00 €» quando ci sono le migliaia. È esattamente ciò che produce Intl.NumberFormat con la lingua it-IT, la funzione standard del browser e di Node. Il sito invece costruisce ogni prezzo a mano: «€» attaccato davanti, punto decimale, nessun separatore delle migliaia. Esempio concreto: un ordine da 1234,50 € esce «€1234.50» nel riepilogo di cassa, nel bottone di pagamento e nell'email «Ordine ricevuto»; l'oggetto dell'email al negozio è «🛒 Nuovo ordine — €47.90», quello del rimborso «💶 Rimborso emesso — €12.50», quello della gift card «Anna ti ha regalato €50.00 su MyCity». Il sito per giunta parla due lingue coi numeri: le pagine rider scrivono già «1,2 km» e «4,5» con la virgola (app/rider/orders/[id]/page.tsx:310, app/rider/profile/page.tsx:160). Ripasso: tutti i prezzi, ovunque, in formato inglese; e non c'è un solo punto da correggere, perché 27 pagine non usano nemmeno formatPrice e ricompongono la stringa da sole.\n\nCausa radice: formatPrice è scritta a mano con toFixed invece di appoggiarsi a Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' }); nessuna regola impedisce di rifare la stringa altrove, per cui 27 file la ricostruiscono da soli e le email hanno la loro copia.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/tipografia-prezzi-in-formato-inglese.test.ts   → oggi 6 prove su 6 rosse: «expected '€12.50' to be '12,50 €'», oggetto email «🛒 Nuovo ordine — €47.90», «💶 Rimborso emesso — €12.50», «🎁 Anna ti ha regalato €50.00 su MyCity»",
+   "impatto": "È il modo in cui il cliente di Piacenza legge quanto paga. Il primo ordine di Pane Quotidiano arriva al cliente e al negozio con un totale scritto come su un sito straniero; per un lettore italiano «€1.234» vuol dire milleduecentotrentaquattro, quindi la forma «€1234.50» costringe a rileggere e mina la fiducia proprio sulla riga dei soldi. Nell'export CSV degli ordini (app/admin/orders/page.tsx:116) il punto decimale fa leggere gli importi come testo a Excel in italiano. Nessun soldo perso, ma ogni cifra visibile — cassa, email, ricevute, dashboard incassi del negozio — è fuori standard.",
+   "fix_proposto": "① In lib/format.ts riscrivere formatPrice con `new Intl.NumberFormat('it-IT', { style: 'currency', currency: 'EUR' })` (istanza creata una volta; stesso codice su server e client, così niente differenze di idratazione) → «12,50 €», «12.345,00 €». ② Sostituire i 27 toFixed(2) manuali e le 14 righe delle email con formatPrice; aggiungere una regola ESLint no-restricted-syntax che vieti `toFixed(2)` accanto a «€». ③ Lasciare il punto solo dove lo legge una macchina: il JSON-LD di app/product/[id]/layout.tsx:94 (schema.org vuole il punto) e, per il CSV, scegliere il formato italiano («12,50» con separatore «;») perché lo apre Excel in italiano. ④ Far diventare verde la prova sopra e tenerla nella suite."
+  },
+  {
+   "chiave": "accessibilita-visiva|il piede delle email dell'ordine è grigio su grigio e in fotocopia sparisce",
+   "titolo": "Il piede delle email dell'ordine è grigio su grigio e in fotocopia sparisce",
+   "dimensione": "accessibilita-visiva",
+   "file": "lib/email/templates.ts:49 (`background:#f1f5f9;color:#64748b;font-size:12px`) e :25 (`BRAND_COLOR = '#4f46e5'`)",
+   "descrizione": "Tutte le email che partono davvero — «Ordine ricevuto», «Ordine consegnato», «Rimborso emesso», gift card, benvenuto — finiscono con la stessa striscia in fondo: testo grigio #64748b su sfondo grigio #f1f5f9, misura 12px. Il rapporto di contrasto è 4,34:1, sotto il minimo di 4,5:1 che la regola WCAG AA chiede per un testo così piccolo. In quella striscia c'è la frase «Hai ricevuto questa email perché hai un account» e i collegamenti a preferenze, privacy e cookie (i collegamenti, quelli, stanno a 5,74:1 e si leggono). Nota a margine, fuori lente ma vera: il colore di intestazione di quelle email è #4f46e5, un indaco che non è nella tavolozza MyCity (la terracotta è #C0492C).\n\nCausa radice: Le email sono nate da un modello preso in prestito (colori slate/indigo di Tailwind di serie) e non sono mai passate dai token del sito né da un controllo di contrasto: nessuna prova le guarda, perché quel codice gira solo in produzione quando parte un'email.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/accessibilita-visiva-email-piede.test.ts",
+   "impatto": "Il cliente che riceve la conferma d'ordine da MyCity legge male proprio la riga che gli dice perché gli stiamo scrivendo e dove togliere il consenso. Su un telefono al sole, o per un over-60 con la vista stanca, quella riga è un blocco grigio. È il testo che il Garante si aspetta sia leggibile.",
+   "fix_proposto": "In lib/email/templates.ts portare il testo del piede a #475569 (7,0:1 sullo stesso sfondo) oppure alzarlo a 14px e usare #64748b solo sopra il bianco. Nello stesso giro sostituire BRAND_COLOR con la terracotta #C0492C, così l'email somiglia al sito. La prova qui sopra può restare come guardiano: pretende che ogni blocco che dichiara sfondo, colore e misura regga la soglia."
+  },
+  {
+   "chiave": "microcopy|l'email del secondo giorno dice «spedizione gratis sopra 30 euro» senza dire che vale per negozio",
+   "titolo": "L'email del secondo giorno dice «spedizione gratis sopra 30 euro» senza dire che vale per negozio",
+   "dimensione": "microcopy",
+   "file": "lib/email/templates.ts:294,302 · lib/constants.ts:79-83 · lib/shipping.ts:217,227-228",
+   "descrizione": "L'email tutorial_day2 scrive «Spedizione gratis sopra €30» (html riga 294, testo riga 302). La soglia però vale per singolo negozio: lo dice il commento in lib/constants.ts:79-80 («uno legge gratuita sopra 30 €, ne spende 35 fra due negozi e paga la spedizione») e per questo VALUE_PROPS e il carrello (lib/shipping.ts:217,227) dicono «per negozio». L'email è rimasta alla versione vecchia.\n\nCausa radice: Il testo dell'email è scritto a mano e non legge FREE_SHIPPING_THRESHOLD né la frase già corretta in constants/shipping.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-email-promette-5-euro.test.ts  (terzo caso: «vale per negozio»)",
+   "impatto": "Un cliente che il secondo giorno legge l'email, mette 20 euro dal fornaio e 15 dal fioraio e in cassa paga due spedizioni: la stessa trappola che il carrello ha già tolto, riaperta dall'email.",
+   "fix_proposto": "In templates.ts righe 294 e 302 usare `Spedizione gratis sopra €${FREE_SHIPPING_THRESHOLD} nello stesso negozio` importando la costante (🟢, 2 minuti)."
+  },
+  {
+   "chiave": "microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no",
+   "titolo": "Nella campanella metà degli avvisi comincia con una faccina e metà no",
+   "dimensione": "microcopy",
+   "file": "migrations/086_notify_buyer_on_order_status.sql:33,37,42,48,54 · app/api/cron/expire-checkouts/route.ts:94 · contro app/api/cron/expire-stale-orders/route.ts:153 · lib/email/templates.ts:157",
+   "descrizione": "Gli avvisi che nascono dentro il database aprono con un'emoji: «✅ Ordine accettato», «📦 Ordine pronto», «🛵 Un rider ha preso il tuo ordine», «🚚 Ordine in consegna». Quelli scritti nel codice del sito no: «Ordine annullato», a expire-stale-orders riga 153. Nella stessa lista, uno sotto l'altro, il cliente vede due stili diversi. Anche gli oggetti delle email sono misti: «✅ Ordine consegnato — lascia una recensione» contro «Hai dimenticato qualcosa nel carrello». In più, dieci righe sopra le etichette di stato, il progetto si è dato la regola opposta a voce alta — lib/order-status.ts:15-16, «Emoji + Lucide mixati distruggono brand coherence. Lucide-only» — e le icone infatti sono tutte Lucide.\n\nCausa radice: I testi degli avvisi vivono in due case — le migrazioni SQL e le rotte del sito — e nessuna delle due conosce la regola dell'altra. La regola sulle emoji è scritta in un commento accanto alle icone, non in un posto che valga anche per i testi.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"title,\" -A1 migrations/086_notify_buyer_on_order_status.sql | grep -n \"✅\\|📦\\|🛵\\|🚚\" e poi grep -n \"title: 'Ordine annullato'\" app/api/cron/expire-stale-orders/route.ts: quattro titoli con emoji contro uno senza, nella stessa campanella.",
+   "impatto": "Non fa perdere un ordine, ma è la differenza fra una lista che sembra scritta da una sola mano e una montata a pezzi. È il dettaglio che fa dire «questo sito è fatto in casa».",
+   "fix_proposto": "Scegliere una regola sola per i titoli degli avvisi e per gli oggetti delle email — la mia raccomandazione: niente emoji, coerente con la regola già scritta per le icone — e riscrivere i quattro titoli della migrazione 086 con una migrazione nuova."
+  }
+ ]
+}

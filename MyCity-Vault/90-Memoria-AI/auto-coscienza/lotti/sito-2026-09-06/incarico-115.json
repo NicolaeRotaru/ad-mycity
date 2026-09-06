@@ -1,0 +1,26 @@
+{
+ "squadra": 115,
+ "ondata": 24,
+ "pacchetto": "home/user/mycity/app/contact/page.tsx",
+ "territorio_principale": "home/user/mycity/app/contact/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/contact/page.tsx",
+  "/home/user/mycity/app/help/page.tsx",
+  "/home/user/mycity/app/faq/page.tsx",
+  "/home/user/mycity/app/seller/help/page.tsx",
+  "/home/user/mycity/app/rider/help/page.tsx",
+  "/home/user/mycity/app/seller/layout.tsx",
+  "home/user/mycity/app/contact/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|il tempo di risposta dell'assistenza è promesso in due modi diversi",
+   "titolo": "Il tempo di risposta dell'assistenza è promesso in due modi diversi",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/contact/page.tsx righe 91, 69 e 53 · /home/user/mycity/app/help/page.tsx riga 117 · /home/user/mycity/app/faq/page.tsx riga 190 · /home/user/mycity/app/seller/help/page.tsx riga 83 · /home/user/mycity/app/rider/help/page.tsx riga 165 · /home/user/mycity/app/seller/layout.tsx righe 55 e 137",
+   "descrizione": "CONFERMATO con grep. Quattro schede di contatto dicono «Risposta entro 24h» secco (contact 91, help 117, seller/help 83, rider/help 165); la conferma dopo l'invio dice «entro 24h lavorative» (contact 69) e la FAQ «entro 24 ore lavorative» (faq 190). Sono due promesse diverse: chi scrive venerdì sera legge 24 ore e ne aspetta 72. Stessa doppia versione per i venditori dentro lo stesso file: «Approvazione entro 48h» (seller/layout riga 55) contro «entro 48 ore lavorative» (riga 137).",
+   "impatto": null,
+   "fix_proposto": "Una sola formula ovunque, quella vera: «Risposta entro 24 ore lavorative» e «Approvazione entro 48 ore lavorative»."
+  }
+ ]
+}

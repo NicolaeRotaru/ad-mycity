@@ -1,0 +1,21 @@
+{
+ "squadra": 71,
+ "ondata": 15,
+ "pacchetto": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+ "territorio_principale": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+ "file_citati": [
+  "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "migrations/086_notify_buyer_on_order_status.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "qa-flussi|se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "titolo": "Se l'email dell'ordine pronto non entra in coda, non resta traccia da nessuna parte",
+   "dimensione": "qa-flussi",
+   "file": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql:112-145 (la EXCEPTION WHEN OTHERS THEN NULL alle righe 143-144) · stesso schema in migrations/086_notify_buyer_on_order_status.sql:58-60",
+   "descrizione": "Il messaggio «il tuo ordine e' pronto» e «il tuo ordine e' stato consegnato» lo mette in coda un innesco del database, che avvolge tutto il lavoro in un blocco che ingoia qualunque errore e non lo scrive da nessuna parte (EXCEPTION WHEN OTHERS THEN NULL). La scelta di non bloccare l'ordine e' giusta; il problema e' l'altra meta': se la riga non entra in coda — una colonna cambiata, un codice di ritiro mancante, un profilo cancellato — il cliente non riceve l'email e nessuno lo sa mai, perche' non c'e' nemmeno una riga di registro. Lo stesso identico schema e' nell'innesco delle notifiche della migrazione 086.\n\nCausa radice: Il modo «best-effort» e' stato copiato dalla migrazione 086 insieme al suo difetto: ingoiare l'errore e non lasciare traccia sono due cose diverse, ma nel codice sono la stessa riga.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n 'EXCEPTION WHEN OTHERS' migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql migrations/086_notify_buyer_on_order_status.sql  → in tutti e due il corpo del blocco e' NULL, senza nessuna RAISE WARNING",
+   "impatto": "Sul ritiro in negozio quell'email porta il codice che il cliente mostra al bancone. Se non parte, il cliente arriva senza codice e il negoziante non puo' chiudere l'ordine: una fatica in negozio che nessun cruscotto mostra.",
+   "fix_proposto": "Sostituire NULL con RAISE WARNING che riporta ordine, template e SQLERRM: il messaggio finisce nel log di Postgres e diventa cercabile. Meglio ancora: scrivere una riga in una tabellina «email non accodate» che il giro operativo controlla, cosi' l'email persa si puo' rimandare a mano."
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "squadra": 76,
+ "ondata": 16,
+ "pacchetto": "components/GoogleAnalytics.tsx",
+ "territorio_principale": "components/GoogleAnalytics.tsx",
+ "file_citati": [
+  "components/GoogleAnalytics.tsx",
+  "lib/analytics/tracciamento.ts",
+  "lib/analytics/gtag-avvio.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "dati-analytics|la visita che arriva da una campagna risulta arrivata dal nulla",
+   "titolo": "La visita che arriva da una campagna risulta arrivata dal nulla",
+   "dimensione": "dati-analytics",
+   "file": "components/GoogleAnalytics.tsx:49-55 · lib/analytics/tracciamento.ts:45-72 · lib/analytics/gtag-avvio.ts:31-34",
+   "descrizione": "La pagina vista mandata a Google Analytics viene ricostruita a mano: page_location = origine del sito + una «chiave» che tiene solo il parametro q (lib/analytics/tracciamento.ts:38, PARAMETRI_CHE_CONTANO). Tutto il resto della coda dell'indirizzo sparisce, compresi utm_source, utm_medium, utm_campaign e gclid, che sono esattamente i pezzi con cui Google capisce da dove arriva la persona. E non c'e' una seconda pagina vista che li porti: la configurazione parte con send_page_view: false (lib/analytics/gtag-avvio.ts:33). Esempio: chi clicca un post sponsorizzato e atterra su mycity-marketplace.com/?utm_source=facebook&utm_campaign=natale viene registrato come arrivato su «/» e basta. Oggi il danno e' zero perche' nella pagina pubblicata non c'e' nessun codice G-… (l'ho scaricata adesso): Google Analytics e' spento. Il difetto scatta il giorno in cui si accende, che e' il giorno in cui si comincia a spendere in pubblicita'.\n\nCausa radice: La chiave nata per NON contare due volte la stessa pagina quando si tocca un filtro (riparazione R171) e' stata usata anche come indirizzo da spedire. Sono due cose diverse: una decide QUANDO mandare l'evento, l'altra COSA mandare.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/dati-analytics-g2.test.ts",
+   "impatto": "Appena si accende la misura e parte la prima campagna a pagamento, ogni visita comprata finisce sotto «diretto» e il ritorno della spesa non si puo' leggere: si rischia di spegnere la campagna che funziona e tenere quella che non rende.",
+   "fix_proposto": "Usare la chiave solo per decidere quando mandare la pagina vista, e come indirizzo mandare quello vero tenendo i parametri di campagna (utm_*, gclid, fbclid, msclkid). Attenzione a non rimettere dentro il valore di q, che e' testo scritto dalla persona: quello resta fuori (difetto gia' noto sui dati personali che escono in chiaro verso Google)."
+  }
+ ]
+}

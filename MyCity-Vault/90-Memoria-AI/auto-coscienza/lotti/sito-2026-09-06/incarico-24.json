@@ -1,0 +1,39 @@
+{
+ "squadra": 24,
+ "ondata": 5,
+ "pacchetto": "public/sw.js",
+ "territorio_principale": "public/sw.js",
+ "file_citati": [
+  "public/sw.js",
+  "/icon-192.svg"
+ ],
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|senza rete, se il telefono ha svuotato la memoria del sito, arriva la pagina d'errore del browser invece del «sei offline»",
+   "titolo": "Senza rete, se il telefono ha svuotato la memoria del sito, arriva la pagina d'errore del browser invece del «Sei offline»",
+   "dimensione": "mobile-pwa",
+   "file": "public/sw.js:113-123 (in particolare :122); confronto con la stessa correzione già fatta per le foto a public/sw.js:68-80",
+   "descrizione": "Quando la rete manca, il service worker prova la cache delle pagine e poi ripiega sulla pagina «Sei offline» con `return caches.match(OFFLINE_URL)` (riga 122). Se quella copia non c'è più — iOS cancella da solo le cache dei siti dopo 7 giorni senza aperture, e il sistema le svuota quando lo spazio scarseggia — `caches.match` restituisce `undefined`, e passare `undefined` a `event.respondWith` solleva un TypeError: il browser mostra la sua schermata d'errore. È esattamente l'errore che il 22/8/2026 era stato corretto DIECI RIGHE più sopra per le immagini (righe 68-80: lì si restituisce `Response.error()`), rimasto sul percorso delle pagine.\n\nCausa radice: La correzione del 22/8 è stata applicata al ramo dove il difetto era stato notato (le immagini) e non alla funzione gemella che sta nello stesso file: il ripiego finale del service worker non è mai garantito a essere una `Response`.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 180 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/mobile-pwa-g2.test.ts   → il caso «offline con la cache svuotata dal sistema» è rosso (risposta = undefined); il caso di controllo «offline con la cache ancora piena» è verde, quindi il rosso non è del banco di prova. La prova carica il vero public/sw.js e ne esegue il gestore delle richieste.",
+   "impatto": "Chi ha messo MyCity nella schermata Home e la riapre in ascensore, in cantina o con la linea assente non legge «Sei offline, riproveremo quando torni online»: vede la pagina bianca d'errore del browser. Sembra che il sito sia morto, non che manchi la rete.",
+   "fix_proposto": "In `public/sw.js`, riga 122: `const off = await caches.match(OFFLINE_URL); return off ?? new Response('<h1>Sei offline</h1><p>Quando torni online riproviamo.</p>', { status: 503, headers: { 'content-type': 'text/html; charset=utf-8' } });` — una pagina minima scritta dentro il service worker non può essere sfrattata dal sistema."
+  },
+  {
+   "chiave": "mobile-pwa|le notifiche push usano un'icona svg che chrome su android non disegna",
+   "titolo": "Le notifiche push usano un'icona SVG che Chrome su Android non disegna",
+   "dimensione": "mobile-pwa",
+   "file": "public/sw.js:171-172 (`icon: data.icon || '/icon-192.svg'`, `badge: '/icon-192.svg'`)",
+   "descrizione": "Verificato. Il service worker punta a `/icon-192.svg` sia per `icon` sia per `badge` della notifica; Chrome su Android non renderizza SVG nelle notifiche e mostra l'icona generica del browser al posto del marchio. Il file giusto esiste già: `public/icon-192.png` (6 KB, presente nella cartella) ed è già dichiarato nel manifest. Il `badge`, che è la sagoma nella barra di stato, andrebbe inoltre monocromatico su trasparente.",
+   "impatto": null,
+   "fix_proposto": "Usare `/icon-192.png` nel campo `icon` e preparare un `badge-96.png` monocromatico da 96×96 per il campo `badge`."
+  },
+  {
+   "chiave": "performance-percepita|il service worker riscarica ogni foto già vista a ogni visita, e tiene in cache solo 60 immagini",
+   "titolo": "Il service worker riscarica ogni foto già vista a ogni visita, e tiene in cache solo 60 immagini",
+   "dimensione": "performance-percepita",
+   "file": "public/sw.js:28 (`MAX_IMAGE_ENTRIES = 60`), :49-56 (`trimCache`), :58-82 (`staleWhileRevalidate`), :138-142 (la regola sulle immagini Supabase)",
+   "descrizione": "Confermato, tre cose misurabili. ① `staleWhileRevalidate` chiama `fetch(req)` sempre, anche quando `cached` c'è (righe 61-63): ogni foto già in cache viene comunque riscaricata in sottofondo a ogni apertura di pagina. Su una griglia di ricerca sono decine di richieste che occupano la banda mentre stanno ancora arrivando le immagini nuove. ② Il limite è 60 voci mentre una pagina di ricerca arriva a 96 prodotti (il tetto `limit ?? 96` in ProductGrid.tsx:132 e :189): la cache si riempie e si svuota dentro la stessa schermata, quindi non serve quasi mai. ③ `trimCache` fa `requests.slice(0, requests.length - maxEntries)`, cioè cancella le chiavi restituite per prime da `cache.keys()` — ordine di inserimento, FIFO — mentre il commento alla riga 48 la chiama «LRU».",
+   "impatto": null,
+   "fix_proposto": "Per le foto di prodotto, che hanno indirizzo versionato e cache lunga, usare cache-first con scadenza invece di stale-while-revalidate: se la copia c'è ed è recente, nessuna richiesta. Alzare `MAX_IMAGE_ENTRIES` almeno a 200 (una griglia piena più due navigazioni). E o si riscrive `trimCache` aggiornando l'ordine a ogni lettura, o si corregge il commento: oggi dice una cosa che il codice non fa."
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "squadra": 78,
+ "ondata": 16,
+ "pacchetto": "lib/analytics/sentry-config.ts",
+ "territorio_principale": "lib/analytics/sentry-config.ts",
+ "file_citati": [
+  "/home/user/ad-mycity/marketplace/lib/analytics/sentry-config.ts",
+  "lib/analytics/sentry-config.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+   "titolo": "Gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+   "dimensione": "deploy-sre",
+   "file": "/home/user/ad-mycity/marketplace/lib/analytics/sentry-config.ts:17,30 · sentry.server.config.ts:15,20 · next.config.js:97-100",
+   "descrizione": "CONFERMATO nella sostanza, con una correzione. ① In `sentry-config.ts` e `sentry.server.config.ts` l'ambiente è `process.env.NODE_ENV`, che su Vercel vale `production` anche nelle anteprime: gli errori di un ramo di prova finiscono nello stesso ambiente di quelli dei clienti. ② `next.config.js:99` decide se avvolgere il progetto con Sentry leggendo `NEXT_PUBLIC_SENTRY_DSN || SENTRY_DSN` al momento del build: aggiungere il DSN su Vercel dopo non ha effetto finché non si ricompila, e nulla lo dice. ③ Il DSN non è fra le variabili controllate da `/api/health` e nessun test verifica che la registrazione degli errori sia attiva. CORREZIONE: il punto «il browser legge solo NEXT_PUBLIC_SENTRY_DSN» è tecnicamente vero (sentry-config.ts:17) ma poco probabile come guasto, perché `.env.example:75` documenta proprio la variabile pubblica e non `SENTRY_DSN`. Da qui la severità abbassata da grave a minore.",
+   "impatto": "Con gli ambienti mescolati l'allarme sul tasso di errori diventa rumore e si smette di guardarlo; col DSN inchiodato al build si può credere di avere l'osservabilità e non averla. Entrambi allungano il tempo di riparazione proprio quando conta.",
+   "fix_proposto": "Usare `process.env.VERCEL_ENV ?? process.env.NODE_ENV` come `environment` nei file Sentry, così l'anteprima si separa dalla produzione. Aggiungere il DSN alle variabili importanti di `/api/health` e verificare che `SENTRY_AUTH_TOKEN` sia presente nel build, altrimenti le tracce arrivano illeggibili."
+  }
+ ]
+}

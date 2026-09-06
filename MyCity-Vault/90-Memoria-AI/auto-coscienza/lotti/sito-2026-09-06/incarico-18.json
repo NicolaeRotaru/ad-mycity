@@ -1,0 +1,67 @@
+{
+ "squadra": 18,
+ "ondata": 4,
+ "pacchetto": "app/layout.tsx",
+ "territorio_principale": "app/layout.tsx",
+ "file_citati": [
+  "components/seller/SellerShell.tsx",
+  "components/rider/RiderShell.tsx",
+  "app/accetta-condizioni/page.tsx",
+  "app/layout.tsx",
+  "public/icon-192.svg",
+  "public/icon-512.svg",
+  "docs/mockup/assets/logo-icon.svg",
+  ".next/static/css/18d4e9bd2e28f2d9.css",
+  "components/providers/QueryProvider.tsx",
+  "lib/zod-i18n.ts",
+  ".next/static/chunks/5584-8666d6f492e9f808.js",
+  ".next/app-build-manifest.js"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|due landmark «main» annidati su tutta l'area negozio, tutta l'area fattorino e /accetta-condizioni",
+   "titolo": "Due landmark «main» annidati su tutta l'area negozio, tutta l'area fattorino e /accetta-condizioni",
+   "dimensione": "accessibilita",
+   "file": "components/seller/SellerShell.tsx:401 · components/rider/RiderShell.tsx:59 · app/accetta-condizioni/page.tsx:38 (annidati in app/layout.tsx:127)",
+   "descrizione": "`app/layout.tsx:127` avvolge sempre i contenuti in `<main id=\"main-content\">`, e dentro ci finiscono altri tre `<main>`: `components/seller/SellerShell.tsx:401`, `components/rider/RiderShell.tsx:59` e `app/accetta-condizioni/page.tsx:38`. Ho verificato che non esiste un secondo layout radice (solo `app/layout.tsx` contiene `<html>`), e che `app/seller/layout.tsx:159` e `app/rider/layout.tsx:38` montano quelle shell dentro il layout radice: l'annidamento è reale, non teorico. È anche HTML non valido (il modello di contenuto di `<main>` vieta un `<main>` fra gli antenati). Il test che l'avrebbe preso esiste già ed è preciso (`tests/e2e/11-a11y-percorso-acquisto.spec.ts:49-53`, `expect(page.locator('main')).toHaveCount(1)`, nato per il caso «148») ma gira solo su home, ricerca, carrello e negozi: le tre pagine rotte sono tutte fuori dal suo perimetro. Confidenza 95%. Severità abbassata a minore: il salto al contenuto principale continua a funzionare perché lo skip-link punta all'id `main-content` del layout esterno; resta l'ambiguità del landmark e l'HTML non valido.",
+   "impatto": "Chi usa un lettore di schermo naviga per landmark: con due «principali» annidati la scorciatoia diventa ambigua e si atterra nel posto sbagliato. Sull'area negozio significa che un commerciante ipovedente parte dal menu laterale invece che dal contenuto; sull'area fattorino idem. E /accetta-condizioni è la pagina in cui si accettano le condizioni, non una pagina secondaria.",
+   "fix_proposto": "Trasformare i tre `<main>` interni in `<div>` (il landmark lo mette già il layout radice): `components/seller/SellerShell.tsx:401`, `components/rider/RiderShell.tsx:59`, `app/accetta-condizioni/page.tsx:38`. Poi allargare il perimetro del test aggiungendo /seller/dashboard, /rider e /accetta-condizioni all'array `PAGINE`: un controllo che copre solo le pagine già a posto non trova niente. Owner: @frontend-dev per i tre file, @sdet per il test."
+  },
+  {
+   "chiave": "coerenza-brand|l'icona dell'app e la favicon scrivono «my» col carattere di sistema, quindi il marchio cambia faccia su ogni dispositivo",
+   "titolo": "L'icona dell'app e la favicon scrivono «My» col carattere di sistema, quindi il marchio cambia faccia su ogni dispositivo",
+   "dimensione": "coerenza-brand",
+   "file": "public/icon-192.svg:9 e public/icon-512.svg:9 (font-family=\"system-ui, -apple-system, Helvetica, Arial, sans-serif\", testo «My») · app/layout.tsx:48 (l'SVG è la prima icona dichiarata) · public/icon-512.png, public/apple-touch-icon.png, public/icon-maskable-512.png (PNG con «My» in un sans generico)",
+   "descrizione": "Le icone SVG servite come favicon e icona PWA disegnano «My» come testo con font-family system-ui: il browser lo rende con il font che ha (SF su Mac, Roboto su Android, DejaVu su Linux), mai con il Fraunces del marchio, e il risultato cambia da telefono a telefono. I PNG (visto icon-512.png) mostrano lo stesso «My» in un sans generico su gradiente terracotta #D55F3F→#A03B25. Il gradiente è on-brand; il lettering no, e non è il logo-icon ufficiale del design system.\n\nCausa radice: Icone generate come SVG-testo di comodo, senza convertire il lettering in tracciati e senza partire dall'asset ufficiale (design-system/assets).\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n 'system-ui' public/icon-192.svg public/icon-512.svg — se trova il font di sistema dentro le icone, il difetto c'è.",
+   "impatto": "Schermata home del telefono, scheda del browser, elenco app: il segno che la gente vede più spesso non è quello del brand e non è stabile. Nessun effetto su ordini o soldi.",
+   "fix_proposto": "Rigenerare le icone dal logo-icon ufficiale con il testo convertito in tracciati (outline) o con l'icona senza lettering; da un unico sorgente produrre icon-192/512, maskable e apple-touch-icon."
+  },
+  {
+   "chiave": "immagini-media|l'icona del sito è testo disegnato col font di sistema, e manca il favicon classico",
+   "titolo": "L'icona del sito è testo disegnato col font di sistema, e manca il favicon classico",
+   "dimensione": "immagini-media",
+   "file": "public/icon-192.svg e public/icon-512.svg (byte per byte identici, entrambi con viewBox 512) · dichiarati in app/layout.tsx:46-52 · stesso difetto negli originali docs/mockup/assets/logo-icon.svg, logo-icon-512.svg, wordmark-light.svg, wordmark-ondark.svg",
+   "descrizione": "VERIFICATO, compreso il confronto byte a byte (i due SVG sono identici, quindi la variante «192» non esiste davvero) e la ricerca del favicon (nessun favicon.ico né in public/ né in app/: i lettori più vecchi e diversi aggregatori chiedono quell'indirizzo e prendono un 404). Le due icone disegnano la sigla «My» con un elemento di testo e `font-family=\"system-ui, -apple-system, Helvetica, Arial\"`: il marchio prende la forma del font di sistema di chi guarda — Segoe UI su Windows, San Francisco su macOS, DejaVu su Linux — e nessuno dei tre è il font del brand (Fraunces, caricato in app/layout.tsx:29). Un logo non deve dipendere da cosa è installato sul computer di chi lo vede. Nota: le versioni PNG (icon-192.png 192×192, icon-512.png 512×512) sono corrette e diverse fra loro; il problema è sugli SVG, che sono i primi dichiarati.",
+   "impatto": null,
+   "fix_proposto": "Convertire il testo in tracciati dentro l'SVG, così il disegno è sempre lo stesso ovunque, e aggiungere app/icon.ico. Vale anche per gli originali in docs/mockup/assets/."
+  },
+  {
+   "chiave": "performance-percepita|la home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
+   "titolo": "La home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
+   "dimensione": "performance-percepita",
+   "file": "app/layout.tsx:28-34 (Inter e Fraunces via next/font, display swap); middleware.ts:275 e :548-550 (ogni pagina passa dal middleware col nonce CSP e viene resa a richiesta); HTML locale: / e /product/[id] hanno 0 <link rel=preload as=font>, /cart /login /privacy ne hanno 2; le @font-face stanno in .next/static/css/18d4e9bd2e28f2d9.css",
+   "descrizione": "Sulle pagine prerenderizzate (carrello, login, privacy) Next scrive in testa due <link rel=\"preload\" as=\"font\"> (Inter 48 KB e Fraunces 36 KB) e il browser scarica i caratteri insieme al CSS. Su home, prodotto, negozio e Chi siamo — rese a ogni richiesta — quei tag non ci sono: l'indicazione viaggia solo dentro il payload RSC (:HL[…] in self.__next_f.push), che il browser legge quando parte il JavaScript. Così i caratteri vengono scoperti solo dopo aver scaricato e applicato il CSS: il testo appare prima in Arial/Times e poi cambia (display: swap).\n\nCausa radice: Tutte le pagine non-client sono dinamiche (middleware con nonce + getLocale nel layout): nel percorso dinamico/streaming Next 15.5.18 emette il preload di next/font come hint del payload e non come <link> nell'HTML. Il meccanismo esatto va confermato sul repository di Next; la differenza osservata tra pagine statiche e dinamiche è certa.\n\nProva (comando, eseguita e rossa): sh /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-font-preload.sh  (rosso oggi: / e /product/… → 0 preload font, /cart → 2)",
+   "impatto": "Sulle due pagine più visitate ogni visita mostra titoli in Times e testo in Arial che poi «saltano» al carattere vero, circa un giro di rete più tardi del necessario (100-500 ms su 4G/3G). È la sensazione di pagina che sfarfalla; nessun soldo perso direttamente.",
+   "fix_proposto": "Verificare su un'anteprima Vercel se in produzione accade lo stesso (qui il sito pubblicato non era raggiungibile). Se sì: passare a next/font/local con i due .woff2 in public/fonts e scrivere a mano <link rel=\"preload\" as=\"font\" crossOrigin> nel <head> di app/layout.tsx; in alternativa rendere statiche/ISR le pagine di catalogo (niente nonce per richiesta). Misurare con Lighthouse prima/dopo (font-display, CLS)."
+  },
+  {
+   "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+   "titolo": "Il traduttore degli errori dei moduli (Zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+   "dimensione": "performance-percepita",
+   "file": "components/providers/QueryProvider.tsx:5 (import '@/lib/zod-i18n'); lib/zod-i18n.ts:1 e :15 (z.setErrorMap); app/layout.tsx:9 e :123; chunk .next/static/chunks/5584-8666d6f492e9f808.js (56 KB raw / 12,9 KB gz) nella voce /layout di .next/app-build-manifest.json",
+   "descrizione": "QueryProvider, montato nel layout radice, importa zod-i18n solo per impostare i messaggi d'errore in italiano; l'import trascina zod intero nel pacchetto condiviso da tutte le 250 rotte. 56 KB da scaricare, analizzare ed eseguire prima che la pagina risponda ai tocchi, anche per chi guarda la home o una scheda prodotto e non aprirà mai un modulo.\n\nCausa radice: L'attivazione globale dell'errorMap è stata messa nel provider comune invece che accanto ai moduli che usano zod.\n\nProva (comando, eseguita e rossa): node /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-zod-nel-guscio.cjs  (rosso oggi: exit 1, chunk 5584 con ZodError nel guscio)",
+   "impatto": "+12,9 KB gz (circa il 4% dei 365 KB gz del guscio comune) su ogni prima visita; su un telefono in 3G circa 100-150 ms in più prima che «Aggiungi al carrello» risponda. Piccolo, ma lo pagano tutti.",
+   "fix_proposto": "Togliere l'import da QueryProvider e metterlo nei moduli client che usano zod (checkout, form prodotto venditore, login) o in un barrel lib/forms.ts importato solo lì; verificare dopo la build che la voce /layout del manifest non contenga più ZodError."
+  }
+ ]
+}

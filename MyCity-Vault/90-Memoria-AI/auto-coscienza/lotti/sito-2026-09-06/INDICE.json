@@ -1,0 +1,1010 @@
+[
+ {
+  "squadra": 1,
+  "ondata": 1,
+  "pacchetto": "app/cart/page.tsx (parte 1 di 3)",
+  "n": 12,
+  "territorio": "app/cart/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 2,
+  "ondata": 1,
+  "pacchetto": "(nessun file citato)",
+  "n": 8,
+  "territorio": "(nessun file citato)",
+  "agente": "tech"
+ },
+ {
+  "squadra": 3,
+  "ondata": 1,
+  "pacchetto": "app/api/cron/process-deletions/route.ts",
+  "n": 3,
+  "territorio": "app/api/cron/process-deletions/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 4,
+  "ondata": 1,
+  "pacchetto": "app/api/vision/extract-product/route.ts",
+  "n": 5,
+  "territorio": "app/api/vision/extract-product/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 5,
+  "ondata": 1,
+  "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+  "n": 3,
+  "territorio": ".github/workflows/deploy-dopo-ci.yml",
+  "agente": "devops-sre"
+ },
+ {
+  "squadra": 6,
+  "ondata": 2,
+  "pacchetto": "app/cart/page.tsx (parte 2 di 3)",
+  "n": 12,
+  "territorio": "app/cart/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 7,
+  "ondata": 2,
+  "pacchetto": "app/search/page.tsx",
+  "n": 8,
+  "territorio": "app/search/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 8,
+  "ondata": 2,
+  "pacchetto": "components/VendorForm.tsx",
+  "n": 7,
+  "territorio": "components/VendorForm.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 9,
+  "ondata": 2,
+  "pacchetto": "app/api/cron/send-emails/route.ts",
+  "n": 3,
+  "territorio": "app/api/cron/send-emails/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 10,
+  "ondata": 2,
+  "pacchetto": "lib/stripe/payout.ts",
+  "n": 2,
+  "territorio": "lib/stripe/payout.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 11,
+  "ondata": 3,
+  "pacchetto": "app/cart/page.tsx (parte 3 di 3)",
+  "n": 2,
+  "territorio": "app/cart/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 12,
+  "ondata": 3,
+  "pacchetto": "components/home-sections/HomeSectionRenderer.tsx",
+  "n": 12,
+  "territorio": "components/home-sections/HomeSectionRenderer.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 13,
+  "ondata": 3,
+  "pacchetto": "app/checkout/page.tsx",
+  "n": 8,
+  "territorio": "app/checkout/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 14,
+  "ondata": 3,
+  "pacchetto": "app/api/cron/send-push/route.ts",
+  "n": 5,
+  "territorio": "app/api/cron/send-push/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 15,
+  "ondata": 3,
+  "pacchetto": "app/seller/dashboard/page.tsx",
+  "n": 3,
+  "territorio": "app/seller/dashboard/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 16,
+  "ondata": 4,
+  "pacchetto": "app/product/[id]/page.tsx",
+  "n": 11,
+  "territorio": "app/product/[id]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 17,
+  "ondata": 4,
+  "pacchetto": "app/api/orders/cod/route.ts",
+  "n": 6,
+  "territorio": "app/api/orders/cod/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 18,
+  "ondata": 4,
+  "pacchetto": "app/layout.tsx",
+  "n": 5,
+  "territorio": "app/layout.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 19,
+  "ondata": 4,
+  "pacchetto": "app/privacy/page.tsx",
+  "n": 4,
+  "territorio": "app/privacy/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 20,
+  "ondata": 4,
+  "pacchetto": "components/CategoryBar.tsx",
+  "n": 3,
+  "territorio": "components/CategoryBar.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 21,
+  "ondata": 5,
+  "pacchetto": "app/orders/[id]/page.tsx",
+  "n": 9,
+  "territorio": "app/orders/[id]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 22,
+  "ondata": 5,
+  "pacchetto": "scripts/backup-db.sh",
+  "n": 2,
+  "territorio": "scripts/backup-db.sh",
+  "agente": "devops-sre"
+ },
+ {
+  "squadra": 23,
+  "ondata": 5,
+  "pacchetto": "components/Footer.tsx",
+  "n": 2,
+  "territorio": "components/Footer.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 24,
+  "ondata": 5,
+  "pacchetto": "public/sw.js",
+  "n": 3,
+  "territorio": "public/sw.js",
+  "agente": "devops-sre"
+ },
+ {
+  "squadra": 25,
+  "ondata": 5,
+  "pacchetto": "components/PhotoReviewUpload.tsx",
+  "n": 1,
+  "territorio": "components/PhotoReviewUpload.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 26,
+  "ondata": 6,
+  "pacchetto": "app/globals.css",
+  "n": 9,
+  "territorio": "app/globals.css",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 27,
+  "ondata": 6,
+  "pacchetto": "lib/email/templates.ts",
+  "n": 5,
+  "territorio": "lib/email/templates.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 28,
+  "ondata": 6,
+  "pacchetto": "app/stores/page.tsx",
+  "n": 3,
+  "territorio": "app/stores/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 29,
+  "ondata": 6,
+  "pacchetto": "lib/api/middleware.ts",
+  "n": 2,
+  "territorio": "lib/api/middleware.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 30,
+  "ondata": 6,
+  "pacchetto": "migrations/119_radiografia_18_agosto.sql",
+  "n": 2,
+  "territorio": "migrations/119_radiografia_18_agosto.sql",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 31,
+  "ondata": 7,
+  "pacchetto": "components/Navbar.tsx",
+  "n": 4,
+  "territorio": "components/Navbar.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 32,
+  "ondata": 7,
+  "pacchetto": "app/api/stripe/checkout/route.ts",
+  "n": 1,
+  "territorio": "app/api/stripe/checkout/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 33,
+  "ondata": 7,
+  "pacchetto": "components/seller/SellerShell.tsx",
+  "n": 2,
+  "territorio": "components/seller/SellerShell.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 34,
+  "ondata": 7,
+  "pacchetto": "app/lists/[id]/page.tsx",
+  "n": 2,
+  "territorio": "app/lists/[id]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 35,
+  "ondata": 8,
+  "pacchetto": "components/seller/ProductForm.tsx",
+  "n": 1,
+  "territorio": "components/seller/ProductForm.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 36,
+  "ondata": 8,
+  "pacchetto": "lib/metriche-venditore.ts",
+  "n": 2,
+  "territorio": "lib/metriche-venditore.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 37,
+  "ondata": 8,
+  "pacchetto": "scripts/applica-migrazioni-mancanti.sh",
+  "n": 2,
+  "territorio": "scripts/applica-migrazioni-mancanti.sh",
+  "agente": "devops-sre"
+ },
+ {
+  "squadra": 38,
+  "ondata": 8,
+  "pacchetto": "lib/format.ts",
+  "n": 2,
+  "territorio": "lib/format.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 39,
+  "ondata": 8,
+  "pacchetto": "components/ProductCard.tsx",
+  "n": 2,
+  "territorio": "components/ProductCard.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 40,
+  "ondata": 9,
+  "pacchetto": "components/SearchBar.tsx",
+  "n": 2,
+  "territorio": "components/SearchBar.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 41,
+  "ondata": 9,
+  "pacchetto": "components/store-sections/ReviewsSection.tsx",
+  "n": 2,
+  "territorio": "components/store-sections/ReviewsSection.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 42,
+  "ondata": 9,
+  "pacchetto": "home/user/mycity/components/ProductGrid.tsx",
+  "n": 2,
+  "territorio": "home/user/mycity/components/ProductGrid.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 43,
+  "ondata": 9,
+  "pacchetto": "home/user/mycity/app/cart/page.tsx",
+  "n": 2,
+  "territorio": "home/user/mycity/app/cart/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 44,
+  "ondata": 9,
+  "pacchetto": "components/StoreMediaManager.tsx",
+  "n": 2,
+  "territorio": "components/StoreMediaManager.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 45,
+  "ondata": 10,
+  "pacchetto": "components/StorePreviewCard.tsx",
+  "n": 1,
+  "territorio": "components/StorePreviewCard.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 46,
+  "ondata": 10,
+  "pacchetto": "app/product/[id]/opengraph-image.tsx",
+  "n": 2,
+  "territorio": "app/product/[id]/opengraph-image.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 47,
+  "ondata": 10,
+  "pacchetto": "app/profile/settings/page.tsx",
+  "n": 2,
+  "territorio": "app/profile/settings/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 48,
+  "ondata": 10,
+  "pacchetto": "home/user/mycity/app/sign-in/page.tsx",
+  "n": 2,
+  "territorio": "home/user/mycity/app/sign-in/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 49,
+  "ondata": 10,
+  "pacchetto": "home/user/mycity/app/seller/stories/page.tsx",
+  "n": 2,
+  "territorio": "home/user/mycity/app/seller/stories/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 50,
+  "ondata": 11,
+  "pacchetto": "public/manifest.js",
+  "n": 2,
+  "territorio": "public/manifest.js",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 51,
+  "ondata": 11,
+  "pacchetto": "lib/store-hours.ts",
+  "n": 1,
+  "territorio": "lib/store-hours.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 52,
+  "ondata": 11,
+  "pacchetto": "migrations/115_privacy_radiografia.sql",
+  "n": 1,
+  "territorio": "migrations/115_privacy_radiografia.sql",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 53,
+  "ondata": 11,
+  "pacchetto": "components/SponsoredCarousel.tsx",
+  "n": 1,
+  "territorio": "components/SponsoredCarousel.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 54,
+  "ondata": 11,
+  "pacchetto": "migrations/087_wallet_and_redemption.sql",
+  "n": 1,
+  "territorio": "migrations/087_wallet_and_redemption.sql",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 55,
+  "ondata": 12,
+  "pacchetto": "migrations/127_minori_22_agosto.sql",
+  "n": 1,
+  "territorio": "migrations/127_minori_22_agosto.sql",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 56,
+  "ondata": 12,
+  "pacchetto": "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql",
+  "n": 1,
+  "territorio": "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 57,
+  "ondata": 12,
+  "pacchetto": "lib/ordini/annulla.ts",
+  "n": 1,
+  "territorio": "lib/ordini/annulla.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 58,
+  "ondata": 12,
+  "pacchetto": "lib/stripe/webhook/trasferimenti.ts",
+  "n": 1,
+  "territorio": "lib/stripe/webhook/trasferimenti.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 59,
+  "ondata": 12,
+  "pacchetto": "lib/stripe/webhook/ordini.ts",
+  "n": 1,
+  "territorio": "lib/stripe/webhook/ordini.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 60,
+  "ondata": 13,
+  "pacchetto": "lib/stripe/webhook/sponsorizzati.ts",
+  "n": 1,
+  "territorio": "lib/stripe/webhook/sponsorizzati.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 61,
+  "ondata": 13,
+  "pacchetto": "lib/stripe/client.ts",
+  "n": 1,
+  "territorio": "lib/stripe/client.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 62,
+  "ondata": 13,
+  "pacchetto": "app/api/account/export/route.ts",
+  "n": 1,
+  "territorio": "app/api/account/export/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 63,
+  "ondata": 13,
+  "pacchetto": "lib/account/cancellazione.ts",
+  "n": 1,
+  "territorio": "lib/account/cancellazione.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 64,
+  "ondata": 13,
+  "pacchetto": "components/ui/SocialProof.tsx",
+  "n": 1,
+  "territorio": "components/ui/SocialProof.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 65,
+  "ondata": 14,
+  "pacchetto": "app/seller/orders/[id]/page.tsx",
+  "n": 1,
+  "territorio": "app/seller/orders/[id]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 66,
+  "ondata": 14,
+  "pacchetto": "components/seller/BulkPhotoCreate.tsx",
+  "n": 1,
+  "territorio": "components/seller/BulkPhotoCreate.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 67,
+  "ondata": 14,
+  "pacchetto": "components/StickyAddToCart.tsx",
+  "n": 1,
+  "territorio": "components/StickyAddToCart.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 68,
+  "ondata": 14,
+  "pacchetto": "app/messages/[id]/page.tsx",
+  "n": 1,
+  "territorio": "app/messages/[id]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 69,
+  "ondata": 14,
+  "pacchetto": "app/api/cron/expire-checkouts/route.ts",
+  "n": 1,
+  "territorio": "app/api/cron/expire-checkouts/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 70,
+  "ondata": 15,
+  "pacchetto": "app/profile/referral/page.tsx",
+  "n": 1,
+  "territorio": "app/profile/referral/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 71,
+  "ondata": 15,
+  "pacchetto": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "n": 1,
+  "territorio": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 72,
+  "ondata": 15,
+  "pacchetto": "app/api/sponsored/checkout/route.ts",
+  "n": 1,
+  "territorio": "app/api/sponsored/checkout/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 73,
+  "ondata": 15,
+  "pacchetto": "app/api/returns/create/route.ts",
+  "n": 1,
+  "territorio": "app/api/returns/create/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 74,
+  "ondata": 16,
+  "pacchetto": "app/api/ai/catalog-create/route.ts",
+  "n": 1,
+  "territorio": "app/api/ai/catalog-create/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 75,
+  "ondata": 16,
+  "pacchetto": "lib/cart.ts",
+  "n": 1,
+  "territorio": "lib/cart.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 76,
+  "ondata": 16,
+  "pacchetto": "components/GoogleAnalytics.tsx",
+  "n": 1,
+  "territorio": "components/GoogleAnalytics.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 77,
+  "ondata": 16,
+  "pacchetto": "lib/env.ts",
+  "n": 1,
+  "territorio": "lib/env.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 78,
+  "ondata": 16,
+  "pacchetto": "lib/analytics/sentry-config.ts",
+  "n": 1,
+  "territorio": "lib/analytics/sentry-config.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 79,
+  "ondata": 17,
+  "pacchetto": "app/admin/today/page.tsx",
+  "n": 1,
+  "territorio": "app/admin/today/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 80,
+  "ondata": 17,
+  "pacchetto": "components/account/AccountShell.tsx",
+  "n": 1,
+  "territorio": "components/account/AccountShell.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 81,
+  "ondata": 17,
+  "pacchetto": "app/store/[id]/page.tsx",
+  "n": 1,
+  "territorio": "app/store/[id]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 82,
+  "ondata": 17,
+  "pacchetto": "components/store-sections/SectionRenderer.tsx",
+  "n": 1,
+  "territorio": "components/store-sections/SectionRenderer.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 83,
+  "ondata": 17,
+  "pacchetto": "app/seller/products/page.tsx",
+  "n": 1,
+  "territorio": "app/seller/products/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 84,
+  "ondata": 18,
+  "pacchetto": "components/seller/ImproveAllPanel.tsx",
+  "n": 1,
+  "territorio": "components/seller/ImproveAllPanel.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 85,
+  "ondata": 18,
+  "pacchetto": "components/providers/ToastProvider.tsx",
+  "n": 1,
+  "territorio": "components/providers/ToastProvider.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 86,
+  "ondata": 18,
+  "pacchetto": "lib/shipping-etichetta/label.ts",
+  "n": 1,
+  "territorio": "lib/shipping-etichetta/label.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 87,
+  "ondata": 18,
+  "pacchetto": "components/ui/Badge.tsx",
+  "n": 1,
+  "territorio": "components/ui/Badge.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 88,
+  "ondata": 18,
+  "pacchetto": "lib/order-status.ts",
+  "n": 1,
+  "territorio": "lib/order-status.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 89,
+  "ondata": 19,
+  "pacchetto": "docs/mockup/components/commerce/ProductCard.jsx",
+  "n": 1,
+  "territorio": "docs/mockup/components/commerce/ProductCard.jsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 90,
+  "ondata": 19,
+  "pacchetto": "app/shipping/page.tsx",
+  "n": 1,
+  "territorio": "app/shipping/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 91,
+  "ondata": 19,
+  "pacchetto": "components/ui/Card.tsx",
+  "n": 1,
+  "territorio": "components/ui/Card.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 92,
+  "ondata": 19,
+  "pacchetto": "app/profile/page.tsx",
+  "n": 1,
+  "territorio": "app/profile/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 93,
+  "ondata": 19,
+  "pacchetto": "app/seller/analytics/page.tsx",
+  "n": 1,
+  "territorio": "app/seller/analytics/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 94,
+  "ondata": 20,
+  "pacchetto": "components/ui/Toggle.tsx",
+  "n": 1,
+  "territorio": "components/ui/Toggle.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 95,
+  "ondata": 20,
+  "pacchetto": "components/OrderTimeline.tsx",
+  "n": 1,
+  "territorio": "components/OrderTimeline.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 96,
+  "ondata": 20,
+  "pacchetto": "app/profile/loyalty/page.tsx",
+  "n": 1,
+  "territorio": "app/profile/loyalty/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 97,
+  "ondata": 20,
+  "pacchetto": "home/user/mycity/app/checkout/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/checkout/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 98,
+  "ondata": 20,
+  "pacchetto": "home/user/mycity/app/messages/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/messages/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 99,
+  "ondata": 21,
+  "pacchetto": "home/user/mycity/app/lists/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/lists/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 100,
+  "ondata": 21,
+  "pacchetto": "home/user/mycity/components/ui/LoadingState.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/components/ui/LoadingState.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 101,
+  "ondata": 21,
+  "pacchetto": "components/ProductGrid.tsx",
+  "n": 1,
+  "territorio": "components/ProductGrid.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 102,
+  "ondata": 22,
+  "pacchetto": "home/user/mycity/app/globals.css",
+  "n": 1,
+  "territorio": "home/user/mycity/app/globals.css",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 103,
+  "ondata": 22,
+  "pacchetto": "lib/products/uploadImages.ts",
+  "n": 1,
+  "territorio": "lib/products/uploadImages.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 104,
+  "ondata": 22,
+  "pacchetto": "lib/image-url.ts",
+  "n": 1,
+  "territorio": "lib/image-url.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 105,
+  "ondata": 22,
+  "pacchetto": "components/PWAInstallBanner.tsx",
+  "n": 1,
+  "territorio": "components/PWAInstallBanner.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 106,
+  "ondata": 22,
+  "pacchetto": "app/sign-up/page.tsx",
+  "n": 1,
+  "territorio": "app/sign-up/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 107,
+  "ondata": 23,
+  "pacchetto": "lib/constants.ts",
+  "n": 1,
+  "territorio": "lib/constants.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 108,
+  "ondata": 23,
+  "pacchetto": "app/sell/page.tsx",
+  "n": 1,
+  "territorio": "app/sell/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 109,
+  "ondata": 23,
+  "pacchetto": "lib/errors.ts",
+  "n": 1,
+  "territorio": "lib/errors.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 110,
+  "ondata": 23,
+  "pacchetto": "app/api/locale/route.ts",
+  "n": 1,
+  "territorio": "app/api/locale/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 111,
+  "ondata": 23,
+  "pacchetto": "home/user/mycity/app/reset-password/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/reset-password/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 112,
+  "ondata": 24,
+  "pacchetto": "home/user/mycity/app/api/orders/cod/route.ts",
+  "n": 1,
+  "territorio": "home/user/mycity/app/api/orders/cod/route.ts",
+  "agente": "tech"
+ },
+ {
+  "squadra": 113,
+  "ondata": 24,
+  "pacchetto": "home/user/mycity/components/ProductCard.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/components/ProductCard.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 114,
+  "ondata": 24,
+  "pacchetto": "home/user/mycity/app/sign-up/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/sign-up/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 115,
+  "ondata": 24,
+  "pacchetto": "home/user/mycity/app/contact/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/contact/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 116,
+  "ondata": 24,
+  "pacchetto": "home/user/mycity/app/admin/users/page.tsx",
+  "n": 1,
+  "territorio": "home/user/mycity/app/admin/users/page.tsx",
+  "agente": "tech"
+ },
+ {
+  "squadra": 117,
+  "ondata": 25,
+  "pacchetto": "app/category/[slug]/page.tsx",
+  "n": 1,
+  "territorio": "app/category/[slug]/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 118,
+  "ondata": 25,
+  "pacchetto": "components/MobileTabBar.tsx",
+  "n": 1,
+  "territorio": "components/MobileTabBar.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 119,
+  "ondata": 25,
+  "pacchetto": "app/page.tsx",
+  "n": 1,
+  "territorio": "app/page.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 120,
+  "ondata": 25,
+  "pacchetto": "app/loading.tsx",
+  "n": 1,
+  "territorio": "app/loading.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 121,
+  "ondata": 26,
+  "pacchetto": "app/api/track/route.ts",
+  "n": 1,
+  "territorio": "app/api/track/route.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 122,
+  "ondata": 26,
+  "pacchetto": "components/store-sections/ScheletroNegozio.tsx",
+  "n": 1,
+  "territorio": "components/store-sections/ScheletroNegozio.tsx",
+  "agente": "frontend-dev"
+ },
+ {
+  "squadra": 123,
+  "ondata": 27,
+  "pacchetto": "lib/banner-vetrina.ts",
+  "n": 1,
+  "territorio": "lib/banner-vetrina.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 124,
+  "ondata": 27,
+  "pacchetto": "lib/promesse-pubbliche.ts",
+  "n": 1,
+  "territorio": "lib/promesse-pubbliche.ts",
+  "agente": "backend-dev"
+ },
+ {
+  "squadra": 125,
+  "ondata": 27,
+  "pacchetto": "scripts/prova-di-fumo.mjs",
+  "n": 1,
+  "territorio": "scripts/prova-di-fumo.mjs",
+  "agente": "devops-sre"
+ },
+ {
+  "squadra": 126,
+  "ondata": 27,
+  "pacchetto": "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql",
+  "n": 1,
+  "territorio": "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql",
+  "agente": "backend-dev"
+ }
+]

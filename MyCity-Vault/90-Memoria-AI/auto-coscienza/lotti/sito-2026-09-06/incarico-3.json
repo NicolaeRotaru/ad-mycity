@@ -1,0 +1,43 @@
+{
+ "squadra": 3,
+ "ondata": 1,
+ "pacchetto": "app/api/cron/process-deletions/route.ts",
+ "territorio_principale": "app/api/cron/process-deletions/route.ts",
+ "file_citati": [
+  "app/api/newsletter/route.ts",
+  "components/NewsletterForm.tsx",
+  "lib/account/cancellazione.ts",
+  "app/api/cron/process-deletions/route.ts",
+  "migrations/040_account_deletion_cooldown.sql",
+  "app/api/account/delete/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "privacy-legale|iscrizioni alla newsletter mai confermate conservate per sempre, con email e indirizzo ip",
+   "titolo": "Iscrizioni alla newsletter mai confermate conservate per sempre, con email e indirizzo IP",
+   "dimensione": "privacy-legale",
+   "file": "app/api/newsletter/route.ts:51-83 · components/NewsletterForm.tsx:24-47 · lib/account/cancellazione.ts:138-146 · app/api/cron/process-deletions/route.ts:99-112",
+   "descrizione": "VERIFICATO. Il doppio consenso c'è ed è fatto bene (app/api/newsletter/route.ts:53-95: riga con active=false, token di conferma, email di verifica; conferma in /api/newsletter/confirm). Manca però la scadenza del tentativo: se nessuno clicca, la riga resta in newsletter_subscribers a tempo indefinito con email, consent_ip, consent_source e confirm_token (righe 67-79). L'unica cancellazione di quella tabella nel codice è per email dell'utente che cancella l'account (lib/account/cancellazione.ts:143): nessun cron pota le righe non confermate. Il modulo è pubblico (limitato a 5 tentativi ogni 10 minuti per IP), quindi chiunque può far memorizzare l'indirizzo di un altro. Secondario, confermato: components/NewsletterForm.tsx:34-38 manda solo l'email e non consentTextVersion, quindi la versione registrata è sempre la costante di ripiego (route riga 74).",
+   "impatto": "Archivio di indirizzi email mai consentiti che cresce senza limite (art. 5.1.c e 5.1.e), ed è anche il primo posto da cui può partire una segnalazione per spam se un giorno qualcuno scrive a quella lista per errore.",
+   "fix_proposto": "① Aggiungere al cron notturno: admin.from('newsletter_subscribers').delete().is('confirmed_at', null).lt('created_at', <30 giorni fa>). ② Far mandare al modulo consentTextVersion insieme all'email e alzarla quando il testo cambia. Prova: riga non confermata con created_at a -40 giorni → dopo il cron non deve esistere più."
+  },
+  {
+   "chiave": "qa-flussi|il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
+   "titolo": "Il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
+   "dimensione": "qa-flussi",
+   "file": "migrations/040_account_deletion_cooldown.sql:38-58 (process_expired_deletions) · app/api/account/delete/route.ts:26-68 (la richiesta) · app/api/cron/process-deletions/route.ts:262-268",
+   "descrizione": "La rotta POST /api/account/delete accetta la richiesta da chiunque sia autenticato: non guarda il ruolo (cliente, negozio, fattorino), non guarda se ci sono ordini in corso, non guarda se c'e' del credito MyCity sul conto, non guarda se ci sono bonifici ancora da fare. Sette giorni dopo, process_expired_deletions() restituisce quella persona senza nessun controllo: la funzione e' un SELECT su profiles filtrato solo per data. Nella prova, un negozio con un ordine pagato con carta (30,00 EUR, payout_status HELD, 45,00 EUR di bonifico ancora da rilasciare) viene restituito insieme al suo cliente, tutti e due pronti per la cancellazione.\n\nCausa radice: Il periodo di ripensamento di sette giorni e' stato scambiato per una salvaguardia: si e' dato per scontato che in sette giorni la partita si chiuda da sola. Ma un bonifico in attesa, un reclamo aperto o un ordine non consegnato possono durare piu' a lungo, e nessuno dei tre e' scritto nella condizione della funzione.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -v ON_ERROR_STOP=1 -f /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/qa-flussi-cancellazione-account.sql   (exit 3, riga «(a) il giro notturno prende tutti e due, negozio e cliente, senza guardare gli ordini»)",
+   "impatto": "Oggi la cancellazione poi si inceppa (difetto qui sopra), quindi il danno resta sospeso; ma il giorno in cui quel blocco viene tolto — ed e' esattamente la riparazione che serve — il negozio sparisce con l'ordine ancora da consegnare e il bonifico ancora da fare, e non c'e' piu' nessuno a cui mandarlo. Il cliente resta con un ordine pagato e senza negozio dietro.",
+   "fix_proposto": "Aggiungere la condizione dentro process_expired_deletions(): saltare chi ha un ordine con delivery_status non in (DELIVERED, CANCELED), chi ha payout_status HELD o PENDING, chi ha wallet_balance_cents > 0 e chi ha un reclamo aperto — e restituire il motivo, cosi' il giro lo puo' scrivere nel registro. Sulla rotta di richiesta (app/api/account/delete/route.ts) rispondere subito «non ora, e perche'» invece di accettare in silenzio: e' l'unico momento in cui la persona e' davanti allo schermo e puo' capire."
+  },
+  {
+   "chiave": "api-backend|`retentionfallite` e' un numero che non guarda nessuno — e oggi ci hanno attaccato due potature nuove",
+   "titolo": "`retentionFallite` e' un numero che non guarda nessuno — e oggi ci hanno attaccato due potature nuove",
+   "dimensione": "api-backend",
+   "file": "app/api/cron/process-deletions/route.ts:348 (e :298)",
+   "descrizione": "`fallite.n` conta le potature di ritenzione non riuscite e finisce solo nel corpo della risposta. Ho cercato `retentionFallite` in tutta la repo: compare in questa rotta e in due prove che se lo rileggono da una risposta finta. Non cambia il codice di stato (`daSvegliare` guarda solo `fallite` e `scadute` delle cancellazioni), non genera notifica, non e' letto da operational-alerts. Oggi sono state aggiunte due potature che lo alimentano: `gift_cards` per scadenza e `gift_cards_esauriti` per riscatto. — E' parola per parola il difetto che questo stesso lotto ha appena chiuso una riga piu' sopra («il numero c'era e non lo leggeva nessuno»), lasciato in piedi sul campo accanto — e allargato lo stesso giorno. Se la potatura smette di funzionare, gli indirizzi IP, gli user-agent, le foto della porta di casa consegnata in contanti e le email dei destinatari dei buoni regalo — persone che con noi non hanno nessun rapporto — restano oltre i termini dichiarati nell'informativa, e la risposta della notte resta verde. Nota minore nella potatura nuova: il secondo filtro usa `.lt('redeemed_at', ...)`, e in SQL un confronto con NULL e' falso, quindi un buono a saldo zero senza `redeemed_at` cade solo nella prima regola e tiene l'email del destinatario fino a 12 mesi dopo la SCADENZA (circa tre anni dall'acquisto) invece dei 12 mesi promessi dal commento.",
+   "impatto": "E' parola per parola il difetto che questo stesso lotto ha appena chiuso una riga piu' sopra («il numero c'era e non lo leggeva nessuno»), lasciato in piedi sul campo accanto — e allargato lo stesso giorno. Se la potatura smette di funzionare, gli indirizzi IP, gli user-agent, le foto della porta di casa consegnata in contanti e le email dei destinatari dei buoni regalo — persone che con noi non hanno nessun rapporto — restano oltre i termini dichiarati nell'informativa, e la risposta della notte resta verde. Nota minore nella potatura nuova: il secondo filtro usa `.lt('redeemed_at', ...)`, e in SQL un confronto con NULL e' falso, quindi un buono a saldo zero senza `redeemed_at` cade solo nella prima regola e tiene l'email del destinatario fino a 12 mesi dopo la SCADENZA (circa tre anni dall'acquisto) invece dei 12 mesi promessi dal commento.",
+   "fix_proposto": "Prova nuova: giro notturno in cui la prima `update` di ritenzione risponde errore -> pretendi che agli amministratori sia arrivata una notifica (o che l'avviso `RETENTION_NON_ESEGUITA` compaia in operational-alerts). Oggi nasce rossa: il giro risponde 200 e non avvisa nessuno. Per il buco del NULL: riga `gift_cards` con `balance_cents=0`, `redeemed_at=null`, `expires_at` fra sei mesi -> dopo il giro `recipient_email` deve essere null; oggi resta."
+  }
+ ]
+}

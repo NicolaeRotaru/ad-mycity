@@ -1,0 +1,20 @@
+{
+ "squadra": 94,
+ "ondata": 20,
+ "pacchetto": "components/ui/Toggle.tsx",
+ "territorio_principale": "components/ui/Toggle.tsx",
+ "file_citati": [
+  "components/ui/Toggle.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|l'interruttore spento delle impostazioni è quasi invisibile sul bianco",
+   "titolo": "L'interruttore spento delle impostazioni è quasi invisibile sul bianco",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/ui/Toggle.tsx:57-66",
+   "descrizione": "Nello stato spento la pista dell'interruttore è `bg-cream-300` (#EEDFBA) e la pallina dentro è bianca. Misurato in Chromium: pista contro pagina bianca 1,32:1, pallina contro pista 1,32:1. Un comando deve avere almeno 3:1 sul contorno che lo identifica (WCAG 2.1 — 1.4.11, AA). Il ruolo e il nome sono a posto — il componente è stato sistemato il 30/8 per lo screen reader — ma chi guarda lo schermo con vista debole non vede che lì c'è un interruttore, né da che parte sta la pallina.\n\nCausa radice: Stessa radice del bordo dei campi: cream-300 usato come colore di un comando invece che come separatore. Il difetto è nella primitiva, quindi vale ovunque il Toggle venga riusato.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 200 npx playwright test --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/av/pw.config.ts venditore-e-interruttore   (secondo test: oggi 1,32:1, atteso >= 3)",
+   "impatto": "Nelle impostazioni account ci sono cinque interruttori (notifiche, email, profilo pubblico). Chi non li distingue non sa se ha acceso o spento l'avviso dell'ordine in consegna. Non è sul percorso d'acquisto, ma è la pagina dove il cliente decide quanto MyCity gli può scrivere.",
+   "fix_proposto": "In components/ui/Toggle.tsx:62 sostituire lo stato spento `bg-cream-300` con `bg-ink-400` (#78716C: 4,66:1 contro il bianco della pagina e contro la pallina bianca). Owner: @frontend-dev."
+  }
+ ]
+}

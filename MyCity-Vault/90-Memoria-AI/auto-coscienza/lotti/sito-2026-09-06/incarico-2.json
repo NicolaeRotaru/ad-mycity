@@ -1,0 +1,81 @@
+{
+ "squadra": 2,
+ "ondata": 1,
+ "pacchetto": "(nessun file citato)",
+ "territorio_principale": "(nessun file citato)",
+ "file_citati": [],
+ "difetti": [
+  {
+   "chiave": "sicurezza-auth|la protezione contro le password già rubate è spenta su supabase auth",
+   "titolo": "La protezione contro le password già rubate è spenta su Supabase Auth",
+   "dimensione": "sicurezza-auth",
+   "file": "Supabase produzione, Auth → advisor auth_leaked_password_protection",
+   "descrizione": "L'advisor segnala che il controllo contro HaveIBeenPwned è disattivato: un cliente può registrarsi con una password già trapelata.\n\nCausa radice: Impostazione mai attivata nel progetto.\n\nProva (comando, eseguita e rossa): Supabase MCP get_advisors(security) → lint auth_leaked_password_protection presente",
+   "impatto": "Account più facili da rubare.",
+   "fix_proposto": "🔴 Nicola: attivare «Leaked password protection» in Authentication → Providers → Email su Supabase."
+  },
+  {
+   "chiave": "rls-database|in produzione la tabella dei prodotti ha due regole in più che nel codice, e un indice degli ordini è doppio",
+   "titolo": "In produzione la tabella dei prodotti ha due regole in più che nel codice, e un indice degli ordini è doppio",
+   "dimensione": "rls-database",
+   "file": "produzione: policy «Admin sees all products» e «Seller sees own products» (doppioni di «Admins can read all products» e «Sellers can view their own products»), non presenti nelle migrazioni; order_items: idx_order_items_order_id = order_items_order_idx",
+   "descrizione": "Confronto policy per tabella fra schema ricostruito e produzione: products 8 in locale, 10 in produzione. Sono resti di interventi a mano (il ponte 129p del 28/8). Le tabelle kpi_snapshots, merchants_leads, outreach_events, telegram_chats, uptime_checks esistono solo in produzione (sono della macchina dell'AD, migrazione memoria_ad_pannello del 24/6 fuori dal repo). ai_spend_daily, catalog_ai_jobs e segnalazioni esistono solo nel repo.\n\nCausa radice: SQL applicato a mano in produzione senza il file nel repo.\n\nProva (comando, eseguita e rossa): Query di confronto (sola lettura) fra pg_policies in produzione e in mycity_ci: 9 righe di differenza.",
+   "impatto": "Lo schema vero non è più ricostruibile dal repo: ogni prova locale sui permessi prova uno schema diverso da quello dei clienti.",
+   "fix_proposto": "Una migrazione che elimina i doppioni e l'indice doppio; portare nel repo la migrazione memoria_ad_pannello (o dichiararla fuori perimetro)."
+  },
+  {
+   "chiave": "performance|dodici regole di accesso richiamano auth.uid() per ogni riga invece che una volta sola",
+   "titolo": "Dodici regole di accesso richiamano auth.uid() per ogni riga invece che una volta sola",
+   "dimensione": "performance",
+   "file": "produzione (advisor auth_rls_initplan): product_variants_modify, wallet_ledger_owner_read, referrals, rider_reviews, follows (3), review_helpful, …",
+   "descrizione": "12 policy usano auth.uid() nudo; Postgres lo rivaluta per ogni riga. Inoltre 135 avvisi «multiple permissive policies» (ogni SELECT valuta più regole in OR) e 50 indici mai usati, 7 chiavi esterne senza indice.\n\nCausa radice: Policy scritte senza (select auth.uid()).\n\nProva (comando, eseguita e rossa): Supabase MCP get_advisors(performance) → 12 WARN auth_rls_initplan",
+   "impatto": "Query più lente al crescere delle righe; oggi impercettibile.",
+   "fix_proposto": "Riscrivere le 12 policy con (select auth.uid()); valutare l'accorpamento delle policy permissive."
+  },
+  {
+   "chiave": "dati-analytics|le statistiche di visita di vercel non sono attive, e quindi nessuno sa quanta gente entra",
+   "titolo": "Le statistiche di visita di Vercel non sono attive, e quindi nessuno sa quanta gente entra",
+   "dimensione": "dati-analytics",
+   "file": "Vercel, progetto mycity → Web Analytics non abilitato",
+   "descrizione": "get_web_analytics risponde web_analytics_not_enabled. Con PostHog spento per scelta e l'attività non scritta (chiave di servizio mancante), oggi il sito non misura i visitatori da nessuna parte.\n\nCausa radice: Funzione mai attivata.\n\nProva (comando, eseguita e rossa): Vercel MCP get_web_analytics(mycity) → errore web_analytics_not_enabled",
+   "impatto": "Nessun numero di traffico su cui decidere marketing e contenuti.",
+   "fix_proposto": "🔴 Nicola: attivare Web Analytics su Vercel (gratuito nel piano Pro fino a una soglia) o riattivare PostHog."
+  },
+  {
+   "chiave": "deploy-sre|tre librerie di produzione hanno vulnerabilità note, quattro giorni dopo averle azzerate",
+   "titolo": "Tre librerie di produzione hanno vulnerabilità note, quattro giorni dopo averle azzerate",
+   "dimensione": "deploy-sre",
+   "file": "package-lock.json: browserslist ≤4.28.6 (HIGH, GHSA-c83g-rgw3-j3cx), qs (moderate, GHSA-x5fp-wj9c-mxmx), postcss-selector-parser (low)",
+   "descrizione": "npm audit --omit=dev: 3 vulnerabilità (1 alta, 1 moderata, 1 bassa), tutte con fix disponibile. Con le dipendenze di sviluppo: 13, di cui 6 alte (@storybook/nextjs diretta, brace-expansion, image-size, js-yaml, undici). Il 1/9 erano state portate a zero: gli avvisi nuovi arrivano ogni settimana e nessun cancello li guarda.\n\nCausa radice: Nessun passo di CI che esegua npm audit --omit=dev con soglia.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npm audit --omit=dev --audit-level=high → exit 1",
+   "impatto": "Rischio basso oggi (browserslist e postcss lavorano in build; qs a runtime nelle query string), ma la deriva è strutturale.",
+   "fix_proposto": "npm audit fix per le tre; un passo di CI `npm audit --omit=dev --audit-level=high` non bloccante ma visibile nel riepilogo."
+  },
+  {
+   "chiave": "coerenza-brand|la lista di sicurezza di tailwind tiene in vita 72 classi fuori brand che non usa nessuno",
+   "titolo": "La lista di sicurezza di Tailwind tiene in vita 72 classi fuori brand che non usa nessuno",
+   "dimensione": "coerenza-brand",
+   "file": "tailwind.config.ts:24-29",
+   "descrizione": "CONFERMATO. Il safelist forza (bg|text|border) × (sky, violet, emerald, amber, indigo, rose, slate, pink, blue) × (100,200,600,700) = 108 classi. Ho contato le occorrenze reali in app/, components/, lib/ e stories/: sky 0, violet 0, indigo 0, slate 0, pink 0, blue 0 — sei famiglie su nove non le usa nessuno, cioè 72 classi generate a vuoto (amber 25, emerald 14, rose 118 sono invece usate). Il commento alle righe 21-23 le giustifica dicendo che le dashboard admin compongono classi dinamiche 'text-${color}-600': motivazione decaduta, verificata sui due file citati — app/admin/activity/page.tsx e app/admin/funnel/page.tsx ora usano mappe statiche e lo dichiarano nei commenti («Classi STATICHE per tono», «Mappa STATICA dei toni»). Il danno non è il peso ma il fatto che il safelist legittimi classi blu/indaco/ardesia in un sistema che quei colori li ha esclusi.",
+   "impatto": null,
+   "fix_proposto": "Eliminare le righe 24-29 di tailwind.config.ts. Le famiglie ancora usate (amber, emerald, rose) sono scritte in chiaro nel codice, quindi il JIT le genera comunque. Verifica: dopo il build, '.bg-sky-600' non deve più comparire nel CSS compilato."
+  },
+  {
+   "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+   "titolo": "Otto spaziature diverse per la stessa etichetta maiuscola",
+   "dimensione": "tipografia",
+   "file": "Tutto il sito · il valore dichiarato è tracking-label (0.04em) in tailwind.config.ts:151",
+   "descrizione": "CONFERMATO, conteggio rifatto: tracking-wide 47 volte (99 meno le 49 di tracking-wider e le 3 di tracking-widest, che contengono la stessa stringa), tracking-wider 49, tracking-[0.03em] 17, tracking-[0.05em] 8, tracking-[0.08em] 5, tracking-[0.04em] 4, tracking-[0.06em] 3, tracking-widest 3. Otto valori diversi, che tradotti in em vanno da 0,025 a 0,1. Il sistema dichiara un valore solo per questo scopo, `tracking-label` = 0.04em (tailwind.config.ts:151), e viene usato appena 9 volte. Ho verificato anche la copia-incolla segnalata: il blocco `text-xs font-bold uppercase tracking-[0.05em] text-primary-700` è identico in otto file (app/orders, app/profile, app/profile/addresses, app/notifications, app/returns, app/messages, app/favorites e components/CollectionHeader.tsx:94). La stessa etichetta respira in modo diverso da una pagina all'altra.",
+   "impatto": null,
+   "fix_proposto": "Usare tracking-label su tutto il testo maiuscolo e tenere tracking-wide/wider per il testo normale. Meglio ancora: estrarre un componente Eyebrow unico dal blocco già ripetuto in otto file e usare quello."
+  },
+  {
+   "chiave": "mobile-pwa|sulla pagina «sei offline» il pulsante «riprova» non fa niente",
+   "titolo": "Sulla pagina «Sei offline» il pulsante «Riprova» non fa niente",
+   "dimensione": "mobile-pwa",
+   "file": "public/offline.html:21; middleware.ts:240",
+   "descrizione": "Il pulsante è scritto con il gestore dentro l'attributo: `<button onclick=\"location.reload()\">Riprova</button>` (offline.html:21). La regola di sicurezza dei contenuti che il sito mette su ogni risposta — costruita in middleware.ts:240 — vale `script-src 'self' 'nonce-…' 'strict-dynamic' …` e non contiene né `unsafe-inline` né `unsafe-hashes`: il browser rifiuta per definizione i gestori scritti negli attributi. Vale anche quando la pagina arriva dalla cache del service worker, perché la risposta salvata porta con sé la sua intestazione. Misurato sulla copia locale; la stessa intestazione la genera lo stesso middleware in produzione (il sito pubblicato da qui risponde 403 e non ho potuto rileggerla lì).\n\nCausa radice: La pagina statica di ripiego è stata scritta prima (o fuori) dalla regola nonce introdotta nel middleware, e nessuna prova la apre: essendo un file in `public/` non passa dai test delle pagine.\n\nProva (comando, eseguita e rossa): sh /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/offline-riprova.sh   → exit 1 con «ROSSO: offline.html usa onclick inline ma script-src non lo consente». Lo script scarica la pagina con le sue intestazioni da http://localhost:3000/offline.html e confronta l'handler inline con la direttiva script-src.",
+   "impatto": "La persona è già senza rete, tocca l'unico pulsante della pagina e non succede niente: deve indovinare che si tira giù col dito per ricaricare. Piccola cosa, ma è l'unico gesto disponibile in quel momento e non funziona.",
+   "fix_proposto": "In `public/offline.html` togliere il JavaScript: `<a href=\"/\" class=\"bottone\">Riprova</a>` — un link ricarica lo stesso e non ha bisogno di script né di nonce. In alternativa uno `<script>` con il nonce, ma su un file statico il nonce non c'è: meglio il link."
+  }
+ ]
+}

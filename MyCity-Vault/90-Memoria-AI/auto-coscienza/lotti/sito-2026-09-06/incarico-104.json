@@ -1,0 +1,20 @@
+{
+ "squadra": 104,
+ "ondata": 22,
+ "pacchetto": "lib/image-url.ts",
+ "territorio_principale": "lib/image-url.ts",
+ "file_citati": [
+  "lib/image-url.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "immagini-media|sulle foto pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "titolo": "Sulle foto Pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "dimensione": "immagini-media",
+   "file": "lib/image-url.ts:24-32 (buildPexelsUrl) contro lib/image-url.ts:34-52 (buildSupabaseStorageUrl, che rispetta il flag `square`)",
+   "descrizione": "VERIFICATO. Il commento della funzione (righe 44-47) dice che per le viste grandi l'altezza non si imposta «per mostrare l'intero prodotto nel dettaglio», ma la regola è applicata solo al ramo Supabase: il ramo Pexels imposta sempre `w` e `h` uguali con `fit=crop`, ignorando il parametro. Il catalogo dimostrativo usa proprio foto Pexels (seeds/003_pexels_images.sql), quindi su quei prodotti la finestra di ingrandimento — che il commento a app/product/[id]/page.tsx:572 descrive come «vede la foto intera» — mostra un quadrato ritagliato. Effetto limitato ai contenuti dimostrativi, ma l'incoerenza è nel codice.",
+   "impatto": null,
+   "fix_proposto": "Passare il flag `square` anche a buildPexelsUrl e impostare l'altezza solo quando è vero."
+  }
+ ]
+}

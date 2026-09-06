@@ -1,0 +1,20 @@
+{
+ "squadra": 66,
+ "ondata": 14,
+ "pacchetto": "components/seller/BulkPhotoCreate.tsx",
+ "territorio_principale": "components/seller/BulkPhotoCreate.tsx",
+ "file_citati": [
+  "components/seller/BulkPhotoCreate.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|nella creazione prodotti da più foto, cancellare una riga sposta quello che si sta scrivendo sulla riga sbagliata",
+   "titolo": "Nella creazione prodotti da più foto, cancellare una riga sposta quello che si sta scrivendo sulla riga sbagliata",
+   "dimensione": "frontend-ux",
+   "file": "components/seller/BulkPhotoCreate.tsx:243 (key={idx}) · :119-120 (removeProduct filtra per indice) · :269-295 (campi nome/prezzo con updateProduct(idx, …))",
+   "descrizione": "L'elenco dei prodotti riconosciuti dalle foto è una lista modificabile (nome, prezzo) con pulsante di rimozione, ma le righe usano come chiave React la posizione nell'elenco. Quando il negoziante toglie la riga 1 mentre ha il cursore nel nome della riga 2, React riusa il nodo DOM: il cursore resta nella seconda casella, che ora mostra il terzo prodotto, e la digitazione continua sul prodotto sbagliato. Lo stesso difetto è già noto sul costruttore della home (HomeSectionConfigForm); questo è un altro file, sul flusso di carico del catalogo.\n\nCausa radice: Manca un identificativo stabile per ogni prodotto riconosciuto: la chiave è l'indice.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && sed -n '243p' components/seller/BulkPhotoCreate.tsx | grep -c 'key={idx}'   — stampa 1",
+   "impatto": "Il negoziante che carica dieci prodotti in un colpo può salvare nomi e prezzi scambiati fra prodotti e accorgersene solo in vetrina.",
+   "fix_proposto": "Assegnare `id: crypto.randomUUID()` a ogni prodotto al momento del riconoscimento, usare `key={p.id}` e far lavorare updateProduct/removeProduct per id."
+  }
+ ]
+}

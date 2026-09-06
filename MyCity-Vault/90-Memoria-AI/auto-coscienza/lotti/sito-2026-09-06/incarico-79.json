@@ -1,0 +1,22 @@
+{
+ "squadra": 79,
+ "ondata": 17,
+ "pacchetto": "app/admin/today/page.tsx",
+ "territorio_principale": "app/admin/today/page.tsx",
+ "file_citati": [
+  "app/admin/funnel/page.tsx",
+  "app/admin/today/page.tsx",
+  "app/seller/earnings/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|due tabelle dell'amministrazione (funnel e «oggi») non hanno il contenitore che scorre di lato: sul telefono allargano la pagina",
+   "titolo": "Due tabelle dell'amministrazione (funnel e «oggi») non hanno il contenitore che scorre di lato: sul telefono allargano la pagina",
+   "dimensione": "layout-responsive",
+   "file": "app/admin/funnel/page.tsx:430 e app/admin/today/page.tsx:165 (<table className=\"w-full text-sm\"> senza un genitore overflow-x-auto) · confronto: app/seller/earnings/page.tsx:315-316 (la stessa tabella dentro <div className=\"overflow-x-auto\">)",
+   "descrizione": "Nel sito 16 file hanno una tabella HTML: 13 la mettono dentro un contenitore overflow-x-auto (scorre di lato da sola), app/admin/events/page.tsx la nasconde sotto md con una vista mobile propria, mentre funnel e «oggi» dell'admin la lasciano nuda. Con più colonne di quante ne stanno in 390px, la tabella spinge la larghezza della pagina e tutta la schermata scorre in orizzontale. Non l'ho misurato a video (area admin, serve l'accesso).\n\nCausa radice: Manca un componente Tabella condiviso che porti con sé il contenitore scorrevole: ogni pagina lo riscrive a mano e due se lo sono dimenticato.\n\nProva (grep, eseguita e rossa): grep -n -B2 '<table' app/admin/funnel/page.tsx app/admin/today/page.tsx | grep -c 'overflow-x-auto'  → oggi 0 (nessuna delle due ha il contenitore); verifica umana: aprire /admin/funnel e /admin/today da un telefono da 390px e vedere se la pagina scorre di lato.",
+   "impatto": "Solo Nicola/admin dal telefono: la pagina del funnel e del «oggi» si guardano male sullo schermo piccolo. Nessun cliente o negozio coinvolto.",
+   "fix_proposto": "Avvolgere le due tabelle in <div className=\"overflow-x-auto\"> come fanno le altre 13; meglio ancora un componente Tabella condiviso in components/ui che lo faccia sempre."
+  }
+ ]
+}

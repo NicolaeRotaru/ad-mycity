@@ -1,0 +1,144 @@
+{
+ "squadra": 1,
+ "ondata": 1,
+ "pacchetto": "app/cart/page.tsx (parte 1 di 3)",
+ "territorio_principale": "app/cart/page.tsx",
+ "file_citati": [
+  "app/cart/page.tsx",
+  "app/orders/page.tsx",
+  "components/checkout/StepIndicator.tsx",
+  "components/LocationPill.tsx",
+  "components/Navbar.tsx",
+  "app/api/stripe/checkout/route.ts",
+  "app/api/cron/expire-checkouts/route.ts",
+  "app/checkout/page.tsx",
+  "components/home/DropOfDay.tsx",
+  "app/product/[id]/page.tsx",
+  "components/StickyAddToCart.tsx",
+  "app/stores/page.tsx",
+  "app/seller/dashboard/page.tsx",
+  "app/seller/reviews/page.tsx",
+  "app/seller/customers/page.tsx",
+  "app/orders/[id]/return/page.tsx",
+  "app/profile/loyalty/page.tsx",
+  "lib/format.ts",
+  "app/search/page.tsx",
+  "app/layout.tsx",
+  "app/rider/earnings/page.tsx",
+  "app/admin/payouts/page.tsx",
+  "components/ProductCard.tsx",
+  "components/checkout/CartGroupsList.tsx",
+  "app/seller/products/page.tsx",
+  "components/seller/FeaturedProductsPicker.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|foto sgranate nel carrello e negli ordini: `unoptimized` spegne il `sizes` scritto lì accanto",
+   "titolo": "Foto sgranate nel carrello e negli ordini: `unoptimized` spegne il `sizes` scritto lì accanto",
+   "dimensione": "frontend-ux",
+   "file": "app/cart/page.tsx:269-276 · app/orders/page.tsx:301,330 · altri 15 file",
+   "descrizione": "CONFERMATO. `lib/image-loader.ts` documenta il difetto #99 («`unoptimized` fa una cosa in più che nessuno aveva messo per iscritto: Next azzera `srcSet` E `sizes`») e la cura — il `loader` verso il CDN Supabase — è applicata a 8 file. Restano 17 file con `unoptimized` (elenco verificato con grep). Il caso peggiore è `app/cart/page.tsx:269-276`: riquadro da 96 CSS-pixel, foto chiesta con `sizedImage(..., 'thumb')` che vale 100px (`lib/image-url.ts:32`), `sizes=\"96px\"` reso inerte da `unoptimized`; su un telefono a 3× servono 288 pixel veri. Stessa cosa in `app/orders/page.tsx:301` e `:330` (riquadri 40 e 48px serviti a 100px, ingranditi al doppio/triplo), `components/checkout/CartGroupsList.tsx`, `components/RecentlyViewed.tsx`, `components/SearchBar.tsx`, `components/cart/CartUpsell.tsx`, `components/SponsoredCarousel.tsx`. Confermato anche che la prova esistente `tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts` confronta i soli pixel CSS: nel file non compare nessun fattore di densità schermo, per questo resta verde mentre le foto sono sgranate.",
+   "impatto": "Le foto sono la merce. Un prodotto sfocato proprio nel carrello e nella pagina ordini — dove si decide se confermare — abbassa fiducia e conversione. Invisibile da desktop, che è a 1×.",
+   "fix_proposto": "Sostituire `unoptimized` con `loader={caricatoreFotoRemote}` nei 17 file rimasti, come già fatto in `components/ProductCard.tsx`: il ridimensionamento resta sul CDN Supabase (nessun costo in più) e tornano `srcSet` e `sizes`. Poi estendere la prova esistente moltiplicando il riquadro per un fattore schermo 2, così un `unoptimized` nuovo diventa rosso."
+  },
+  {
+   "chiave": "accessibilita|tre contrasti sotto soglia misurati sui colori veri: passo del checkout, testi di servizio del carrello, «×» della pillola indirizzo",
+   "titolo": "Tre contrasti sotto soglia misurati sui colori veri: passo del checkout, testi di servizio del carrello, «×» della pillola indirizzo",
+   "dimensione": "accessibilita",
+   "file": "components/checkout/StepIndicator.tsx:29 · app/cart/page.tsx:238 · components/LocationPill.tsx:83 · components/Navbar.tsx:112 · tailwind.config.ts (palette)",
+   "descrizione": "Ho ricalcolato tutti i rapporti sui token di `tailwind.config.ts`. ⚠️ Uno dei quattro casi segnalati dal collega è un FALSO POSITIVE e l'ho tolto: il pallino del passo completato in `components/checkout/StepIndicator.tsx:24` non contiene testo bianco ma l'icona `<Check aria-hidden>` (riga 25), quindi vale la soglia 3:1 di WCAG 1.4.11 e il 3,69:1 di bianco su `olive-500` PASSA. Restano tre casi veri. (1) `components/checkout/StepIndicator.tsx:29`: l'etichetta del passo non ancora raggiunto è `text-ink-400` (#78716C) su sfondo pagina `bg-cream-100` (#FBF7F0, impostato in `app/layout.tsx:111`) → 4,49:1 contro il 4,5 richiesto, su testo 14px semibold (non è «testo grande»). Stessa coppia in `app/cart/page.tsx:238`, il «(N articoli)» accanto al titolo del carrello, 18px normale. Su `cream-200` lo stesso grigio scende a 4,11:1. (2) `components/LocationPill.tsx:83`: la «×» che chiude il suggerimento indirizzo è `text-ink-300` (#A8A29E) su bianco → 2,52:1, contro il 3:1 che WCAG 1.4.11 chiede alle parti grafiche dei controlli; il bersaglio è l'icona 14×14px senza padding, sotto i 24×24 di WCAG 2.5.8. (3) `components/Navbar.tsx:112`: `hover:text-accent-300` (#F4BC53) su `bg-primary-700` (#A03B25, riga 93) → 3,87:1 a 14px. Confidenza 95% sui numeri; 80% sull'accoppiamento renderizzato, non misurato a schermo perché non ho uno staging.",
+   "impatto": "La barra dei passi dice al cliente a che punto è dell'ordine: se l'etichetta del passo successivo si legge male, chi ha vista debole o guarda il telefono al sole fatica a capire dove si trova. I testi di servizio del carrello (quante cose ci sono dentro) sono proprio le informazioni che si leggono di sfuggita. Il caso (1) è già ammesso nella Dichiarazione pubblica: è debito dichiarato e aperto, non una sorpresa.",
+   "fix_proposto": "(1) `components/checkout/StepIndicator.tsx:29` e `app/cart/page.tsx:238` → `text-ink-400` diventa `text-ink-500` (#57534E, su cream-100 = 7,14:1). Meglio ancora: scurire il token `ink-400` in `tailwind.config.ts` e chiudere il caso ovunque in un colpo solo — da concordare con @designer perché cambia l'aspetto in molti punti. (2) `components/LocationPill.tsx:83` → `text-ink-500 hover:text-ink-900` e `p-1.5` sul pulsante per arrivare a ~26×26px. (3) `components/Navbar.tsx:112` → `hover:text-accent-200` (#FBD891 su primary-700 = 4,87:1). Owner: @frontend-dev con @designer per il token."
+  },
+  {
+   "chiave": "qa-flussi|tornare indietro dalla pagina di pagamento tiene bloccati merce e codice sconto per due ore",
+   "titolo": "Tornare indietro dalla pagina di pagamento tiene bloccati merce e codice sconto per due ore",
+   "dimensione": "qa-flussi",
+   "file": "app/api/stripe/checkout/route.ts:392-395 (claim_coupon) e :539-544 (reserve_stock) prima di aprire la sessione · :601 (cancelUrl = /cart?stripe=canceled) · app/cart/page.tsx:119 (al rientro solo un avviso, nessuna chiamata che liberi) · app/api/stripe/checkout/route.ts:175-190 e :218-251 (la sessione aperta si riusa solo se il carrello è IDENTICO) · app/api/cron/expire-checkouts/route.ts:9 e :46 (scadenza 2 ore, giro ogni 30 minuti) · nessun checkout.sessions.expire in app/ o lib/",
+   "descrizione": "Passo indietro: quando parte il pagamento con carta, la merce viene riservata e il codice sconto consumato PRIMA di mandare la persona su Stripe; si liberano solo alla scadenza (2 ore) o se il pagamento fallisce. Se la persona preme «indietro» sulla pagina di Stripe, torna al carrello con un avviso e basta: nessuno chiude la sessione né libera la riserva. Se ripaga lo STESSO carrello ritrova la stessa sessione (bene). Ma se cambia qualcosa — aggiunge un prodotto, cambia indirizzo o fascia oraria — l'impronta cambia, si riserva di nuovo e si riconsuma il codice: con l'ultimo pezzo di un prodotto la sua stessa prima prova gli risponde «Alcuni articoli non sono più disponibili», e con un codice a uso unico «Coupon non disponibile: potrebbe essere esaurito». Per due ore.\n\nCausa radice: Il rientro da Stripe (cancel_url) è trattato come un evento di sola interfaccia: manca il passo «chiudi la sessione e libera riserva e coupon» (Stripe lo permette con checkout.sessions.expire, che poi fa scattare il webhook checkout.session.expired già gestito).\n\nProva (umano, non eseguita): Occhio umano, in staging con Stripe test: 1) prodotto con stock 1 e un coupon max_uses=1; 2) in cassa scegli carta e vai su Stripe; 3) premi la freccia «indietro» di Stripe; 4) nel carrello aggiungi un secondo prodotto qualsiasi e ripaga con lo stesso coupon. Atteso: si ripaga. Reale: «Alcuni articoli non sono più disponibili nelle quantità richieste» oppure «Coupon non disponibile», finché non passano 2 ore o non gira /api/cron/expire-checkouts.",
+   "impatto": "La persona che cambia idea in cassa — il caso più comune di abbandono recuperabile — si trova il proprio prodotto «esaurito» o il proprio codice «esaurito» e se ne va; intanto per gli altri clienti quel pezzo risulta venduto senza esserlo. Non perde soldi, perde vendite.",
+   "fix_proposto": "Al rientro su /cart?stripe=canceled chiamare una rotta server che, per il pending_checkout PENDING più recente della persona, esegua stripe.checkout.sessions.expire(session_id): il webhook checkout.session.expired già esistente rimette la merce e restituisce il coupon. In alternativa, nella rotta di checkout: se esiste un pending PENDING della stessa persona con impronta DIVERSA, scaderlo (expire) prima di aprirne uno nuovo."
+  },
+  {
+   "chiave": "layout-responsive|la barra dei tre passi del checkout va a capo su tutti i telefoni",
+   "titolo": "La barra dei tre passi del checkout va a capo su tutti i telefoni",
+   "dimensione": "layout-responsive",
+   "file": "components/checkout/StepIndicator.tsx:19-33 e :56-68, usata in app/checkout/page.tsx:833 e app/cart/page.tsx:192",
+   "descrizione": "CONFERMATO. Il contenitore e' `flex items-center justify-center gap-4 sm:gap-8 mb-8 flex-wrap` e ogni passo e' avvolto in un `flex items-center gap-4 sm:gap-8` che tiene insieme il passo e il trattino `w-8`. Ogni passo e' pallino w-7 h-7 + gap-2 + etichetta text-sm. A 14px con Inter i tre blocchi misurano circa 142 + 150 + 94 px, piu' 32px di spazi esterni: oltre 400px contro i 328 disponibili a 360px di schermo e i 358 a 390px. Il terzo blocco va a capo e in fondo alla prima riga resta un trattino sospeso. Succede sia nel carrello (currentStep 1) sia nel checkout (currentStep 2).",
+   "impatto": null,
+   "fix_proposto": "Nascondere i trattini sul telefono (`hidden sm:block` sul div di riga 67) e stringere gli spazi (`gap-2 sm:gap-8`), oppure sostituire l'indicatore con la forma compatta «Passo 2 di 3» sotto i 640px."
+  },
+  {
+   "chiave": "coerenza-brand|il prezzo grande della home è in inter, quello del prodotto in fraunces",
+   "titolo": "Il prezzo grande della home è in Inter, quello del prodotto in Fraunces",
+   "dimensione": "coerenza-brand",
+   "file": "components/home/DropOfDay.tsx:117 vs app/product/[id]/page.tsx:711, app/cart/page.tsx:409, app/checkout/page.tsx:1077",
+   "descrizione": "CONFERMATO. Il prodotto rispetta la regola dei prezzi editoriali in Fraunces: page.tsx:711 'text-4xl font-extrabold font-serif', totale carrello cart/page.tsx:409 'font-serif text-2xl font-extrabold', totale checkout page.tsx:1077 'font-serif text-xl font-extrabold'. Il «Drop del giorno» no: DropOfDay.tsx:117 è 'text-4xl md:text-5xl font-extrabold text-accent-300', senza font-serif, quindi Inter. È il numero più grosso del banner e sta otto righe sotto un titolo (108) che è invece 'font-serif': due caratteri diversi dentro lo stesso riquadro.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere 'font-serif' alla riga 117 di components/home/DropOfDay.tsx. Il prezzo barrato della riga 120 può restare in Inter, come sulla card prodotto."
+  },
+  {
+   "chiave": "tipografia|nella barra fissa «aggiungi al carrello» il prezzo è a 11px in grigio, e in cassa l'etichetta «totale» è a 10px",
+   "titolo": "Nella barra fissa «Aggiungi al carrello» il prezzo è a 11px in grigio, e in cassa l'etichetta «Totale» è a 10px",
+   "dimensione": "tipografia",
+   "file": "components/StickyAddToCart.tsx:73 (`text-[11px] text-ink-400` su «{qty} × {formatPrice(price)}») e :76 (riga di consegna a 11px) · app/checkout/page.tsx:1317 (`text-2xs` = 10px sull'etichetta «Totale» del riepilogo mobile) · app/cart/page.tsx:456 («IVA inclusa» a 10px, text-ink-400)",
+   "descrizione": "Sulla scheda prodotto, quando si scorre, resta fissa in basso la barra con il bottone «Aggiungi al carrello»: lì il prezzo per quantità («2 × €12.50») è scritto a 11 pixel in grigio chiaro (ink-400). In cassa, sul telefono, la parola «Totale» sopra la cifra da pagare è a 10 pixel. La scala del sito parte da 12px (--text-xs, app/globals.css:23) e nel carrello le righe a 10px stanno oggi a cart:423, :425, :438 e :456 (il noto le citava a 380/392/410, dove ora non ci sono più): queste sono altre righe della stessa famiglia, ma nel punto in cui si decide e si paga.\n\nCausa radice: Dimensioni arbitrarie (`text-[11px]`, `text-2xs`) usate al posto della scala minima di 12px, senza una regola che le blocchi nel percorso d'acquisto.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"text-\\[11px\\].*formatPrice\\|text-2xs.*Totale\" components/StickyAddToCart.tsx app/checkout/page.tsx   → 2 righe oggi (StickyAddToCart:73, checkout:1317); 0 quando salgono a text-xs (12px) o text-sm",
+   "impatto": "Il cliente sul telefono legge il prezzo che sta per aggiungere e l'etichetta del totale con caratteri sotto la soglia di comfort; chi ha più di 50 anni li salta. Tocca la conversione della scheda prodotto e della cassa in modo lieve.",
+   "fix_proposto": "Portare le righe a `text-xs` (12px) e il prezzo della barra fissa a `text-sm font-semibold text-ink-700`; aggiungere al lint del design una regola che vieti text-[≤11px]/text-2xs dentro components/checkout, StickyAddToCart e app/checkout."
+  },
+  {
+   "chiave": "tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso",
+   "titolo": "Con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso",
+   "dimensione": "tipografia",
+   "file": "app/stores/page.tsx:237 («{stores.length} negozi locali pronti a consegnarti a casa») · app/cart/page.tsx:241 («({count} articoli)») · app/seller/dashboard/page.tsx:267-269 («{ordiniOggi} ordini · al netto») · app/seller/reviews/page.tsx:106 · app/seller/customers/page.tsx:121,192 · app/orders/[id]/return/page.tsx:149 («Sono passati {giorni} giorni») · app/profile/loyalty/page.tsx:149 · lib/format.ts:10 (pluralize esiste, 0 usi) — 52 punti fuori dall'admin",
+   "descrizione": "Cinquantadue frasi mettono un numero davanti a un sostantivo sempre al plurale, senza accordo al singolare. Oggi il marketplace ha un solo negozio reale: la pagina pubblica /stores dice «1 negozi locali pronti a consegnarti a casa». Un cliente con un prodotto nel carrello legge «Il tuo carrello (1 articoli)»; il negoziante con un ordine legge «1 ordini · al netto»; chi chiede un reso il giorno dopo legge «Sono passati 1 giorni dalla consegna». La funzione pluralize(n, 'articolo', 'articoli') sta in lib/format.ts ma nessuno la usa.\n\nCausa radice: Testo scritto pensando a numeri grandi; helper pluralize creato ma mai adottato, nessun controllo di lint sulle stringhe numero+plurale.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -rn --include=*.tsx -E \"\\{[^}]+\\} (articoli|prodotti|negozi|ordini|consegne|punti|recensioni|clienti|giorni|minuti|viste|elementi|risultati|buoni)\\b\" app components | grep -vE \"=== 1|== 1|pluralize|length === 1|\\? '\" | grep -vE \"^app/admin\" | wc -l   (oggi 52; deve scendere a 0)",
+   "impatto": "Piccoli errori di italiano nei punti dove il numero è basso, cioè proprio nei primi giorni con un negozio e pochi ordini: sono i giorni in cui il sito deve sembrare curato. Nessun soldo perso, ma la lista negozi pubblica oggi ha l'errore in prima riga.",
+   "fix_proposto": "Usare pluralize(n, 'negozio', 'negozi') nei 52 punti (a partire da /stores, carrello, dashboard negozio, pagina reso); per «giorni fa» usare «ieri» quando n=1. Mezza giornata di lavoro meccanico."
+  },
+  {
+   "chiave": "tipografia|le pagine negozi, ricerca, carrello e checkout arrivano dal server senza titolo principale",
+   "titolo": "Le pagine negozi, ricerca, carrello e checkout arrivano dal server senza titolo principale",
+   "dimensione": "tipografia",
+   "file": "app/stores/page.tsx:1,215-233 ('use client' + ritorno di caricamento prima dell'h1) · app/search/page.tsx:549 (Suspense con fallback senza h1, h1 a :448) · app/cart/page.tsx:164 (stato vuoto senza h1, h1 a :240) · app/checkout/page.tsx",
+   "descrizione": "L'HTML che il server manda per /stores, /search, /cart e /checkout non contiene nessun h1: il titolo compare solo dopo che il JavaScript ha caricato i dati. La home invece ne ha uno. Per Google e per chi usa un lettore di schermo la lista dei negozi — la pagina pubblica più importante dopo la home — è una pagina senza titolo finché non gira il codice lato browser. Il primo titolo che compare nell'HTML di ogni pagina è «Stiamo caricando…» (h2), artefatto dello streaming di React: non è un difetto, ma conferma che la gerarchia si forma solo lato browser.\n\nCausa radice: Pagine pubbliche scritte come componenti client con caricamento via useQuery; il titolo è dentro il ramo «dati arrivati» invece che fuori.\n\nProva (comando, eseguita e rossa): for p in /stores /search /cart /checkout; do printf \"%s h1=%s\\n\" $p \"$(curl -s -m 20 http://localhost:3000$p | grep -o '<h1' | wc -l)\"; done   (oggi 0 su tutte e quattro; la home dà 1)",
+   "impatto": "Posizionamento su Google della lista negozi più debole e navigazione per titoli inutilizzabile finché la pagina non è idratata. Effetto indiretto, non misurato.",
+   "fix_proposto": "Spostare l'h1 («I negozi di Piacenza», «Risultati per…», «Il tuo carrello») fuori dal ramo di caricamento, così esce anche nello scheletro; per /stores valutare un server component che passa i dati iniziali."
+  },
+  {
+   "chiave": "tipografia|il grigio delle note sul fondo panna resta a 4,49 di contrasto: un pelo sotto la soglia",
+   "titolo": "Il grigio delle note sul fondo panna resta a 4,49 di contrasto: un pelo sotto la soglia",
+   "dimensione": "tipografia",
+   "file": "tailwind.config.ts (ink-400 #78716C, cream-100 #FBF7F0) · app/layout.tsx:111 (body bg-cream-100) · 144 usi di text-ink-400 su testo piccolo, es. app/rider/earnings/page.tsx:180,261 · app/seller/customers/page.tsx:192 · app/admin/payouts/page.tsx:194,239 · app/cart/page.tsx:241 («(1 articoli)» nel titolo)",
+   "descrizione": "Il colore ink-400 usato per date, note e sottotitoli piccoli dà 4,49:1 sul fondo panna della pagina (la soglia per il testo piccolo è 4,50:1). Sulle card bianche lo stesso grigio dà 4,80 e passa. Sono 144 i testi a 11-14px con quel grigio, molti direttamente sul fondo pagina (guadagni rider, clienti del negozio, payout). Non è nella lista dei noti, che parla del bianco sul verde oliva.\n\nCausa radice: Palette scelta a occhio su bianco; il fondo pagina panna è più scuro del bianco e nessuno ha ricalcolato i contrasti sul panna.\n\nProva (comando, eseguita e rossa): node /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/contrasto.mjs | grep 'ink400 su cream100'   (oggi 4.49; deve dare ≥ 4.50)",
+   "impatto": "Le righe secondarie (quando è arrivato l'ordine, quanti giorni fa, l'id del bonifico) si leggono a fatica al sole o a occhio stanco. Nessun soldo perso.",
+   "fix_proposto": "Scurire ink-400 a #74706B (≈4,6 sul panna) nel tailwind.config.ts, oppure usare ink-500 per i testi piccoli che stanno sul fondo pagina. Un token, zero cambi di layout."
+  },
+  {
+   "chiave": "tipografia|nel carrello le righe che spiegano il prezzo sono a 10px",
+   "titolo": "Nel carrello le righe che spiegano il prezzo sono a 10px",
+   "dimensione": "tipografia",
+   "file": "app/cart/page.tsx:380, :392 e :410",
+   "descrizione": "CONFERMATO. Riga 380: «stima · potrebbe variare al checkout» in `text-2xs` (10px, il gradino più piccolo del sistema) — ed è proprio l'avviso che dice al cliente che la spedizione può cambiare. Riga 392: il conto dei negozi e del costo per ciascuno, sempre text-2xs. Riga 410: «IVA inclusa» in `text-[10px] text-ink-400 uppercase`, cioè maiuscolo a 10px senza nessuna spaziatura fra le lettere, che a quella misura si impastano. (L'affermazione del collega che sia «l'unico maiuscolo del sito senza spaziatura» non l'ho verificata e la lascio fuori: resta vero che qui la spaziatura manca.)",
+   "impatto": null,
+   "fix_proposto": "Portare le tre righe a text-xs (12px) e aggiungere alla riga 410 `tracking-label`, la spaziatura che il sistema definisce apposta per le etichette maiuscole (tailwind.config.ts:151)."
+  },
+  {
+   "chiave": "immagini-media|il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+   "titolo": "Il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+   "dimensione": "immagini-media",
+   "file": "components/ProductCard.tsx:61 · app/cart/page.tsx:231 · components/checkout/CartGroupsList.tsx:34 · app/product/[id]/page.tsx:343 · components/home/DropOfDay.tsx:90 · app/seller/products/page.tsx:266 e :363 · components/seller/FeaturedProductsPicker.tsx:71",
+   "descrizione": "VERIFICATO: otto punti, carrello e cassa compresi, chiedono l'immagine di ripiego a placehold.co, e lib/image-url.ts:79-80 li lascia passare intatti. Due conseguenze. Nel momento del pagamento c'è una chiamata a un sito che non controlliamo: se è lento o bloccato, il cliente vede un riquadro rotto proprio lì. E i colori chiesti sono tre diversi — `FBF7F0/C0492C` sulla scheda prodotto, `F5EDD9/78716C` in carrello e cassa, `eee/aaa` cioè grigio fuori palette nelle pagine del venditore. Lo stesso stato «manca la foto» ha tre facce.",
+   "impatto": null,
+   "fix_proposto": "Un solo file SVG locale in public/ (per esempio `/foto-mancante.svg`) nei colori del brand, usato in tutti e otto i punti. Zero chiamate esterne, zero attese."
+  },
+  {
+   "chiave": "mobile-pwa|«rimuovi» nel carrello è alto quanto una riga di testo: si sbaglia mira col pollice",
+   "titolo": "«Rimuovi» nel carrello è alto quanto una riga di testo: si sbaglia mira col pollice",
+   "dimensione": "mobile-pwa",
+   "file": "app/cart/page.tsx:328-334 (`className=\"text-ink-500 hover:text-secondary-600 text-sm ml-2 flex items-center gap-1\"`)",
+   "descrizione": "Verificato: la classe è esattamente quella citata, senza nessun padding verticale. L'area toccabile è quindi l'altezza della riga a `text-sm` (circa 20px), sotto il minimo di 24×24 di WCAG 2.5.8 e molto sotto i 44px consigliati sul telefono. Sta inoltre a `ml-2` (8px) dal pulsante «−» dello stepper, che è invece `w-10 h-10` (40px, riga 295): bersaglio piccolo accanto a un bersaglio grande, con conseguenze diverse (togliere il prodotto invece di scalare la quantità).",
+   "impatto": null,
+   "fix_proposto": "Aggiungere padding al pulsante (es. `px-2 py-2 -mx-2` per non spostare l'allineamento visivo) e portare la distanza dallo stepper ad almeno 12px."
+  }
+ ]
+}

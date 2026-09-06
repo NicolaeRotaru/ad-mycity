@@ -1,0 +1,20 @@
+{
+ "squadra": 109,
+ "ondata": 23,
+ "pacchetto": "lib/errors.ts",
+ "territorio_principale": "lib/errors.ts",
+ "file_citati": [
+  "lib/errors.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|il messaggio d'errore del database esce in inglese davanti al negoziante",
+   "titolo": "Il messaggio d'errore del database esce in inglese davanti al negoziante",
+   "dimensione": "microcopy",
+   "file": "lib/errors.ts:136-157 (ramo finale di friendlyError)",
+   "descrizione": "friendlyError è il traduttore unico degli errori del sito: lo chiamano le pagine per decidere cosa scrivere a schermo. In fondo c'è un ramo che, se non ha riconosciuto niente, ripulisce il messaggio grezzo e — se è lungo meno di 200 caratteri, non ha a capo e comincia con una lettera — lo mostra tale e quale. Quel controllo non distingue una frase nostra da una frase di Postgres. Ho provato tre errori normalissimi: «value too long for type character varying(120)» esce a schermo come «value too long for type character varying»; passano allo stesso modo «invalid input syntax for type numeric» e «canceling statement due to statement timeout».\n\nCausa radice: Il filtro decide «questa frase è nostra» dalla lunghezza e dalla prima lettera, cioè da due indizi di forma. I messaggi del database hanno esattamente quella forma. Non esiste un segno che distingua le frasi scritte da noi per l'utente da quelle che arrivano dal motore.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-g2.test.ts — test «un messaggio tecnico inglese del database non arriva a schermo tale e quale»",
+   "impatto": "Il negoziante di Piacenza scrive una descrizione prodotto un po' lunga, preme Salva, e legge «value too long for type character varying». Non sa cosa ha sbagliato né cosa deve accorciare: chiama noi, o lascia perdere il prodotto. Vale per ogni salvataggio del pannello venditore, non per una pagina sola.",
+   "fix_proposto": "Marcare le frasi pensate per l'utente alla fonte (le nostre rotte rispondono già col contratto ok/error/message: fidarsi solo di quelle) e per tutto il resto tornare il testo generico. In più aggiungere alla mappa i tre errori Postgres più frequenti — campo troppo lungo, valore non valido, tempo scaduto — tradotti in italiano con il rimedio."
+  }
+ ]
+}

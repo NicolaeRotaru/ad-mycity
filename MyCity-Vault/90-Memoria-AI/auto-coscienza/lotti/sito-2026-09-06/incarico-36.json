@@ -1,0 +1,30 @@
+{
+ "squadra": 36,
+ "ondata": 8,
+ "pacchetto": "lib/metriche-venditore.ts",
+ "territorio_principale": "lib/metriche-venditore.ts",
+ "file_citati": [
+  "migrations/141_i_conti_del_venditore_li_fa_il_database.sql",
+  "lib/metriche-venditore.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "dati-analytics|un prodotto rimborsato resta contato tra i venduti",
+   "titolo": "Un prodotto rimborsato resta contato tra i venduti",
+   "dimensione": "dati-analytics",
+   "file": "migrations/141_i_conti_del_venditore_li_fa_il_database.sql:41-56 · lib/metriche-venditore.ts:37-41",
+   "descrizione": "Il numero «Venduti» della pagina Prodotti lo calcola una funzione del database, venduti_per_prodotto: somma le quantita' di tutte le righe d'ordine con delivery_status = 'DELIVERED', e il pagamento non lo guarda affatto. La regola scritta e certificata nel file delle metriche dice un'altra cosa: «si contano SOLO gli ordini pagati e non annullati». Cosi' lo stesso ordine consegnato e poi rimborsato per intero conta 1 pezzo venduto nella pagina Prodotti e 0 € nei Guadagni. Sono due definizioni di «venduto» che vivono in due posti diversi: una in SQL, una in TypeScript.\n\nCausa radice: La riparazione R070 ha portato il conto dentro il database per non fermarsi a mille righe, ma ha riscritto la regola invece di citare quella gia' decisa: la definizione unica non e' condivisa fra SQL e codice.\n\nProva (grep, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -t -c \"SELECT CASE WHEN prosrc LIKE '%payment_status%' THEN 'GUARDA IL PAGAMENTO' ELSE 'IGNORA IL PAGAMENTO (conta anche i rimborsati)' END FROM pg_proc WHERE proname='venduti_per_prodotto';\"",
+   "impatto": "Il negoziante decide cosa riordinare guardando «Venduti». Se dentro ci sono i resi, riordina roba che gli e' tornata indietro. Con pochi ordini al mese uno o due resi spostano la classifica dei prodotti.",
+   "fix_proposto": "Mettere in venduti_per_prodotto lo stesso filtro della metrica certificata: AND o.payment_status IN ('PAID','PARTIALLY_REFUNDED') AND o.delivery_status <> 'CANCELED', e scalare la quantita' resa quando c'e' un reso. Poi lasciare una prova SQL che confronti il numero della funzione con quello della definizione in codice sullo stesso ordine."
+  },
+  {
+   "chiave": "architettura|il cancello sui totali del venditore si fida di una colonna come se fosse una promessa sul calcolo",
+   "titolo": "Il cancello sui totali del venditore si fida di una colonna come se fosse una promessa sul calcolo",
+   "dimensione": "architettura",
+   "file": "lib/metriche-venditore.ts:164",
+   "descrizione": "totaliDiSempre decide se mostrare i totali sommati dal database cosi': `if (!numeri || numeri.rimborsi_totali_cents == null) return ripiego;` - poi si fida di incasso_totale_cents cosi' com'e'. La funzione SQL che li produce, numeri_del_negozio, e' definita in un posto solo (migrations/126_radiografia_22_agosto.sql:617) e fa `sum(round(total_price * 100))`, cioe' non toglie i rimborsi e non restituisce affatto rimborsi_totali_cents. Oggi quindi il cancello resta chiuso e si usa il ripiego: il comportamento e' corretto. — Il cancello usa la PRESENZA di una colonna come prova che una somma fatta altrove abbia sottratto i rimborsi. Sono due cose diverse. Il giorno in cui una migrazione aggiunge rimborsi_totali_cents come dato esposto senza rendere netto incasso_totale_cents, il cancello si apre da solo - il commento dice proprio «questo cancello si apre da solo: nessun codice da cambiare» - e il negoziante torna a vedere un incassato piu' alto di quello che gli arriva sull'IBAN, cioe' il difetto di partenza, senza che nessuna prova diventi rossa. Il contratto fra il TypeScript e la funzione SQL non e' verificato da nessuna parte: tests/unit/il-rimborso-al-cliente-scende-dai-guadagni-del-negozio.test.ts esercita solo il cancello in TypeScript, mai il file .sql.",
+   "impatto": "Il cancello usa la PRESENZA di una colonna come prova che una somma fatta altrove abbia sottratto i rimborsi. Sono due cose diverse. Il giorno in cui una migrazione aggiunge rimborsi_totali_cents come dato esposto senza rendere netto incasso_totale_cents, il cancello si apre da solo - il commento dice proprio «questo cancello si apre da solo: nessun codice da cambiare» - e il negoziante torna a vedere un incassato piu' alto di quello che gli arriva sull'IBAN, cioe' il difetto di partenza, senza che nessuna prova diventi rossa. Il contratto fra il TypeScript e la funzione SQL non e' verificato da nessuna parte: tests/unit/il-rimborso-al-cliente-scende-dai-guadagni-del-negozio.test.ts esercita solo il cancello in TypeScript, mai il file .sql.",
+   "fix_proposto": "Una prova che legge migrations/*.sql, trova l'ultima definizione di numeri_del_negozio, e pretende: se il corpo nomina rimborsi_totali_cents allora nomina anche refunded_amount_cents dentro il calcolo di incasso_totale_cents. Oggi, aggiungendo a mano la sola colonna, la prova resterebbe verde: e' quello il buco."
+  }
+ ]
+}

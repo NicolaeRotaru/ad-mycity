@@ -1,0 +1,22 @@
+{
+ "squadra": 77,
+ "ondata": 16,
+ "pacchetto": "lib/env.ts",
+ "territorio_principale": "lib/env.ts",
+ "file_citati": [
+  "lib/env.ts",
+  "lib/email/client.ts",
+  "app/api/health/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "titolo": "Senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "dimensione": "deploy-sre",
+   "file": "lib/env.ts:44 · lib/email/client.ts:109 · app/api/health/route.ts:84-107 (RESEND_FROM assente dall'elenco)",
+   "descrizione": "Se RESEND_FROM manca, lib/env.ts:44 ripiega su «MyCity <no-reply@example.com>» e lib/email/client.ts:109 lo usa come mittente vero. Resend rifiuta un dominio non verificato, quindi la conferma d'ordine al cliente e l'avviso al negozio falliscono all'invio, uno alla volta, e non alla configurazione. Il semaforo non ha RESEND_FROM fra le variabili che guarda (guarda solo RESEND_API_KEY). Un ripiego che punta a un indirizzo che non esiste è lo stesso errore già riparato per NEXT_PUBLIC_APP_URL (lib/env.ts:76-115): lì ci si è accorti che «localhost» finiva nell'HTML, qui «example.com» finisce nella busta.\n\nCausa radice: Valore di ripiego pensato per lo sviluppo lasciato attivo anche in produzione, e variabile fuori dall'elenco del semaforo.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/deploy-sre-semaforo-cieco-sulle-chiavi-del-browser.test.ts -t 'RESEND_FROM'   → oggi rosso: env.resendFrom() restituisce «MyCity <no-reply@example.com>»",
+   "impatto": "Se la variabile manca su Vercel, nessuna email transazionale parte: il cliente non riceve la conferma, il negozio non riceve l'ordine per posta. Il sensore non lo vede. Non ho potuto leggere l'ambiente di produzione da qui.",
+   "fix_proposto": "lib/env.ts: resendFrom() senza ripiego fuori dallo sviluppo (undefined in produzione); lib/email/client.ts: se manca, errore chiaro «RESEND_FROM non configurato» prima di chiamare Resend; aggiungere RESEND_FROM a ENV_IMPORTANTI in app/api/health/route.ts e al test del semaforo."
+  }
+ ]
+}

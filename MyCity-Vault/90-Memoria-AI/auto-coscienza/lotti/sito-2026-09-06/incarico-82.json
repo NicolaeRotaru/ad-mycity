@@ -1,0 +1,20 @@
+{
+ "squadra": 82,
+ "ondata": 17,
+ "pacchetto": "components/store-sections/SectionRenderer.tsx",
+ "territorio_principale": "components/store-sections/SectionRenderer.tsx",
+ "file_citati": [
+  "components/store-sections/SectionRenderer.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|le schede della vetrina («prodotti · n», «info & orari», «recensioni · n») si spezzano su due righe",
+   "titolo": "Le schede della vetrina («Prodotti · N», «Info & orari», «Recensioni · N») si spezzano su due righe",
+   "dimensione": "layout-responsive",
+   "file": "components/store-sections/SectionRenderer.tsx:163 (tablist) e :180 (bottoni)",
+   "descrizione": "CONFERMATO. Il tablist e' `flex gap-1 border-b border-cream-300`, senza flex-wrap e senza overflow-x-auto, e ogni scheda e' `-mb-px border-b-2 px-4 py-2.5 text-sm` senza whitespace-nowrap. Le etichette portano i conteggi (tabLabel, righe 115-119: «Recensioni · N», «Prodotti · N»). Con tre schede attive la larghezza naturale supera i 380px, contro i 328 disponibili a 360px di schermo e i 358 a 390px: i bottoni si comprimono e l'etichetta va a capo dentro la scheda, lasciando una barra a due righe disallineata. Sopra i ~400px il problema sparisce.",
+   "impatto": null,
+   "fix_proposto": "Rendere la barra scorrevole come le altre del sito: `overflow-x-auto scrollbar-hide` sul tablist e `whitespace-nowrap shrink-0` sui bottoni — lo stesso schema di components/store-sections/StoreNav.tsx:15."
+  }
+ ]
+}

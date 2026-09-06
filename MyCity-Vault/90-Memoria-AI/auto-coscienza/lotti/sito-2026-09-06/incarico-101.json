@@ -1,0 +1,23 @@
+{
+ "squadra": 101,
+ "ondata": 21,
+ "pacchetto": "components/ProductGrid.tsx",
+ "territorio_principale": "components/ProductGrid.tsx",
+ "file_citati": [
+  "components/ProductGrid.tsx",
+  "components/home/PromoDeals.tsx",
+  "components/store-sections/CollectionSection.tsx",
+  "app/promozioni/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+   "titolo": "Quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+   "dimensione": "immagini-media",
+   "file": "components/ProductGrid.tsx:470 (`priority={i < 4}`), stesso schema in components/home/PromoDeals.tsx:65, components/store-sections/CollectionSection.tsx:64 e app/promozioni/page.tsx:109 (sei)",
+   "descrizione": "VERIFICATO, con una correzione di dettaglio: l'ordine di serie della home sta in lib/home-site.ts:238-241 (non 42-43) e «Prodotti popolari» è la sesta sezione, non la quinta — quindi il punto regge, è sempre sotto la piega. Le sue prime quattro foto vengono marcate a priorità alta e precaricate (components/ProductCard.tsx:159-160 gira `priority` a next/image), in gara con quello che l'utente sta davvero guardando. Sulla pagina di un negozio si moltiplica: ogni collezione è una sezione e ognuna marca quattro foto. È lo stesso schema del punto sulle schede negozio: `priority` è deciso dal componente invece che da chi lo mette in pagina.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere una proprietà tipo `primaSezione` a ProductGrid e a PromoDeals: solo la prima griglia della pagina passa `priority` alle prime foto, le altre restano a caricamento pigro."
+  }
+ ]
+}

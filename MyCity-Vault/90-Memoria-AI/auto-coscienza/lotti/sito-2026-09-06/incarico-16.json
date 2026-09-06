@@ -1,0 +1,129 @@
+{
+ "squadra": 16,
+ "ondata": 4,
+ "pacchetto": "app/product/[id]/page.tsx",
+ "territorio_principale": "app/product/[id]/page.tsx",
+ "file_citati": [
+  "/home/user/ad-mycity/marketplace/app/product/[id]/page.tsx",
+  "/home/user/ad-mycity/marketplace/app/api/returns/create/route.ts",
+  "/home/user/ad-mycity/marketplace/components/seller/ReturnRequestCard.tsx",
+  "app/product/[id]/page.tsx",
+  "components/ProductCard.tsx",
+  "components/store-sections/ReviewsSection.tsx",
+  "app/orders/[id]/return/page.tsx",
+  "components/Navbar.tsx",
+  "components/store-sections/HeroSection.tsx",
+  "app/rider/orders/[id]/page.tsx",
+  "app/rider/profile/page.tsx",
+  "components/home/HeroStoreCard.tsx",
+  "components/StoreListRow.tsx",
+  "components/StorePreviewCard.tsx",
+  "app/seller/analytics/page.tsx",
+  "app/seller/reviews/page.tsx",
+  "app/seller/dashboard/page.tsx",
+  "app/admin/page.tsx",
+  "app/orders/[id]/review/page.tsx",
+  "lib/image-url.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "sicurezza-auth|le foto di recensioni e resi accettano qualunque indirizzo e finiscono dentro un `<a href>` sulla pagina pubblica del prodotto",
+   "titolo": "Le foto di recensioni e resi accettano qualunque indirizzo e finiscono dentro un `<a href>` sulla pagina pubblica del prodotto",
+   "dimensione": "sicurezza-auth",
+   "file": "/home/user/ad-mycity/marketplace/app/product/[id]/page.tsx:225-231 e :1143 · /home/user/ad-mycity/marketplace/app/api/returns/create/route.ts:18 · /home/user/ad-mycity/marketplace/components/seller/ReturnRequestCard.tsx:118",
+   "descrizione": "VERIFICATO, ma con impatto molto minore di come è stato riportato — per questo lo abbasso da grave a minore. Vero: la recensione si inserisce direttamente dal browser (`supabase.from('reviews').insert({ …, photo_urls: reviewPhotos })`, app/product/[id]/page.tsx:225-231), non esiste nessuna rotta server in mezzo e sulla colonna non c'è nessun CHECK (controllate tutte le migrazioni: `photo_urls text[] not null default '{}'` in 101, nessun vincolo altrove); e sui resi il controllo è `z.array(z.string().url())` con zod ^3.22, che accetta anche `javascript:` e `data:`. Entrambi i valori diventano un collegamento cliccabile (app/product/[id]/page.tsx:1143 e components/seller/ReturnRequestCard.tsx:118). Quello che ridimensiona il danno, e che ho verificato: (a) la politica di sicurezza dei contenuti in produzione usa nonce + strict-dynamic senza `unsafe-inline` (middleware.ts:183-188), quindi un `javascript:` non parte — solo in sviluppo c'è `unsafe-inline`; (b) `img-src` (middleware.ts:196) e i `remotePatterns` di next.config.js:33-50 ammettono solo il nostro storage Supabase, placehold.co, iconify e pexels: un'immagine ospitata altrove NON si carica, quindi il finto riquadro-foto resta rotto e il tranello è molto meno credibile; (c) la regola RLS di inserimento è stata ristretta (migrazione 061) a chi ha un ordine DELIVERED per quel prodotto, con una sola recensione per prodotto/utente. Resta vero il nocciolo: un indirizzo scelto dall'utente finisce dentro un `href` senza nessuna verifica.",
+   "impatto": "Chi ha davvero comprato e ricevuto un prodotto può piazzare un collegamento cliccabile a scelta sulla pagina pubblica di quel prodotto, dentro la cornice di fiducia del marketplace (phishing verso una copia della pagina di accesso, o spam per posizionamento: i link hanno `noopener noreferrer` ma non `nofollow`) — su un riquadro però visibilmente rotto, il che abbassa molto la resa. Sul reso il bersaglio è il venditore che apre la scheda. Il rischio vero è il domani: se la politica di sicurezza dei contenuti si allenta, lo stesso campo diventa esecuzione di codice.",
+   "fix_proposto": "Un solo punto di verità per gli indirizzi delle immagini, riusando `httpsUrlSchema` di lib/store-site.ts (https obbligatorio) ristretto all'host dello storage Supabase. ① Spostare l'inserimento della recensione dietro una rotta server che valida `photo_urls`, oppure aggiungere un CHECK sulla colonna che pretenda il prefisso del nostro storage. ② In app/api/returns/create/route.ts:18 sostituire `z.string().url()` con lo schema https ristretto. ③ Nel frattempo non costruire l'`<a href>` con l'indirizzo grezzo. Da girare a @tech + @backend-dev (la migrazione col CHECK)."
+  },
+  {
+   "chiave": "performance|la scheda prodotto carica 200 recensioni all'apertura, anche a chi ne legge tre",
+   "titolo": "La scheda prodotto carica 200 recensioni all'apertura, anche a chi ne legge tre",
+   "dimensione": "performance",
+   "file": "app/product/[id]/page.tsx:132-134, 196-203",
+   "descrizione": "CONFERMATO. `app/product/[id]/page.tsx:196-203`: le recensioni si caricano con `.limit(200)` insieme al resto della pagina, `photo_urls` comprese, prima ancora che l'utente scorra fin laggiù. E l'ordinamento e il filtro «con foto» sono client-side sui dati già scaricati (righe 132-134: `reviewSort`, `reviewsOnlyPhoto`), il che spiega perché ne servono 200.",
+   "impatto": "Su un prodotto con molte recensioni sono centinaia di kilobyte scaricati sopra la piega, in concorrenza con l'immagine del prodotto e col pulsante «Aggiungi al carrello» — cioè con quello che decide se la persona compra. Nessuno legge 200 recensioni.",
+   "fix_proposto": "Caricarne 10 con «Mostra altre» paginato con `.range()`, e far partire la query solo quando la sezione entra nel viewport (`IntersectionObserver`, o `enabled` legato allo scorrimento). Ordinamento e filtro «con foto» vanno spostati sulla query, altrimenti la paginazione mente."
+  },
+  {
+   "chiave": "accessibilita|testi alternativi ripetuti o generici sulle foto: nome del prodotto detto tre volte, foto dei clienti tutte uguali",
+   "titolo": "Testi alternativi ripetuti o generici sulle foto: nome del prodotto detto tre volte, foto dei clienti tutte uguali",
+   "dimensione": "accessibilita",
+   "file": "components/ProductCard.tsx:164 · app/product/[id]/page.tsx:1146 · components/store-sections/ReviewsSection.tsx:144 · app/orders/[id]/return/page.tsx:221",
+   "descrizione": "Due casi distinti, entrambi verificati. (1) `components/ProductCard.tsx`: il link che copre la card ha già il nome del prodotto (più «esaurito», «scontato del N per cento», «novità») nell'`aria-label` alle righe 144-150, il titolo è ripetuto nell'`<h3>` di riga 198, e in mezzo la foto porta `alt={name}` alla riga 164. Chi legge la griglia con un lettore di schermo sente lo stesso nome tre volte per ogni card: su una pagina con venti prodotti sono sessanta ripetizioni. La foto qui illustra un contenuto già nominato: dovrebbe essere `alt=\"\"`. (2) Testi alternativi generici e identici sulle foto caricate dagli utenti: `app/product/[id]/page.tsx:1146` e `components/store-sections/ReviewsSection.tsx:144` usano `alt=\"Foto recensione\"` per TUTTE le foto della stessa recensione, e `app/orders/[id]/return/page.tsx:221` usa `alt=\"prova\"` per ogni foto allegata a un reso. Criterio WCAG 1.1.1 (A). Confidenza 95%. Nota: la Dichiarazione ammette già che i contenuti caricati da clienti e negozi possano non avere una descrizione — la parte (2) è debito noto; la (1) no.",
+   "impatto": "Non blocca niente, ma rende faticoso quello che dovrebbe essere veloce: sfogliare il catalogo. Sentire ogni nome tre volte triplica il tempo di lettura di una griglia e stanca. È il tipo di attrito che fa abbandonare il sito senza che nessuno lo misuri come «errore».",
+   "fix_proposto": "(1) `components/ProductCard.tsx:164` → `alt=\"\"` (la foto illustra un link già nominato). (2) Numerare le foto per distinguerle: `alt={`Foto ${i + 1} della recensione`}` in `app/product/[id]/page.tsx:1146` e `components/store-sections/ReviewsSection.tsx:144`; `alt={`Foto ${i + 1} allegata alla richiesta di reso`}` in `app/orders/[id]/return/page.tsx:221`. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "layout-responsive|toccando «n recensioni» sul telefono il titolo si ferma con 144px di vuoto sopra",
+   "titolo": "Toccando «N recensioni» sul telefono il titolo si ferma con 144px di vuoto sopra",
+   "dimensione": "layout-responsive",
+   "file": "app/product/[id]/page.tsx:950 (scroll-mt-[var(--header-height)]) e :699 (il link) contro components/Navbar.tsx:89",
+   "descrizione": "CONFERMATO, ma solo per meta' del rilievo del collega. La parte che tengo: la sezione recensioni ha `scroll-mt-[var(--header-height)]` (riga 950), cioe' 144px di margine di scorrimento a tutti i breakpoint, e il link `<a href=\"#recensioni\">` di riga 699 e' visibile anche su telefono; ma l'intestazione e' `relative md:sticky md:top-0` (Navbar.tsx:89), quindi sotto md NON e' fissa e quel margine diventa vuoto inutile (con scroll-behavior: smooth attivo, globals.css:130). La parte che SCARTO: che --header-height (9rem) sia piu' bassa dell'intestazione vera di 5-9px non l'ho potuto confermare leggendo il codice — dipende dal rendering reale dei font e va misurata a schermo, non dedotta.",
+   "impatto": null,
+   "fix_proposto": "Usare uno scroll-margin che valga zero dove l'intestazione non e' fissa: `scroll-mt-4 md:scroll-mt-[var(--header-height)]` sulla sezione di riga 950."
+  },
+  {
+   "chiave": "tipografia|voti, distanze e percentuali cambiano segno decimale da pagina a pagina: «4,5» in vetrina, «4.5» sulla scheda prodotto",
+   "titolo": "Voti, distanze e percentuali cambiano segno decimale da pagina a pagina: «4,5» in vetrina, «4.5» sulla scheda prodotto",
+   "dimensione": "tipografia",
+   "file": "con la virgola: components/store-sections/HeroSection.tsx:183, components/store-sections/ReviewsSection.tsx:203, app/rider/orders/[id]/page.tsx:310, app/rider/profile/page.tsx:160 · col punto: app/product/[id]/page.tsx:939 e :949 (voto medio «4.5»), components/home/HeroStoreCard.tsx:145, components/StoreListRow.tsx:31 e components/StorePreviewCard.tsx:67 («1.2 km»), app/seller/analytics/page.tsx:266 e :296 («3.5%»), app/seller/reviews/page.tsx:104, app/seller/dashboard/page.tsx:281, app/admin/page.tsx:178-184 («95.0%»)",
+   "descrizione": "Lo stesso numero cambia veste secondo la pagina. Il voto medio di un negozio esce «4,5» nella copertina della vetrina (HeroSection:183, con replace('.', ',')) ma «4.5» sulla scheda prodotto (product:939 e :949, toFixed(1) nudo) e nella scheda in home (HeroStoreCard:145). La distanza esce «1.2 km» nell'elenco negozi e nella card di anteprima, «1,2 km» per il rider. Le percentuali del pannello venditore («Tante visite ma pochi ordini (3.5%)») e dell'admin usano sempre il punto. Ripasso: in tre pagine c'è la virgola italiana, in nove il punto inglese, per la stessa grandezza.\n\nCausa radice: Non esiste una funzione unica per i numeri con decimali: ogni pagina chiama toFixed e qualcuno, solo nelle pagine rider e vetrina, ha aggiunto il replace del punto a mano.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -rn \"toFixed(1)\" app/product app/store app/stores components/home components/StoreListRow.tsx components/StorePreviewCard.tsx components/store-sections | grep -v \"replace('.', ',')\\|aria-label\\|ratingValue\"   → elenca 5 righe col punto (product:939,949 · HeroStoreCard:145 · StoreListRow:31 · StorePreviewCard:67); sparisce quando tutte passano da una funzione it-IT",
+   "impatto": "Un cliente che passa dalla vetrina alla scheda prodotto vede il voto scritto in due modi; un negoziante legge il proprio tasso di conversione con il punto inglese. Piccole crepe di cura che si sommano a quella dei prezzi. Nessun effetto su ordini o soldi.",
+   "fix_proposto": "Aggiungere in lib/format.ts `formatNumero(n, decimali)` e `formatKm(km)` basate su Intl.NumberFormat('it-IT'), sostituire i 12 punti elencati e togliere i replace a mano nelle pagine rider e vetrina."
+  },
+  {
+   "chiave": "tipografia|le stelle da cliccare per votare sono sotto la soglia di contrasto (2,52 contro 3 richiesto)",
+   "titolo": "Le stelle da cliccare per votare sono sotto la soglia di contrasto (2,52 contro 3 richiesto)",
+   "dimensione": "tipografia",
+   "file": "app/product/[id]/page.tsx:1020 · app/orders/[id]/review/page.tsx:27",
+   "descrizione": "CONFERMATO nel codice, con una correzione alla soglia. Nei due moduli di recensione le stelle non ancora scelte usano `text-ink-300`, cioè #A8A29E (tailwind.config.ts:98): sul bianco ho rimisurato 2,52 a 1, lo stesso numero del collega. La soglia però non è 4,5 come scritto nella segnalazione: le stelle sono a text-3xl (30px) e text-4xl (36px), quindi contano come testo grande — e come comando da toccare — e la soglia giusta è 3 a 1. Anche con la soglia più permissiva il valore non passa. Prima del clic sono grigie tutte e cinque, quindi l'unico comando di quella schermata è nel grigio più chiaro della tavolozza. Difetto reale, ma meno drammatico di come era raccontato: a 30-36px le stelle si vedono, sono sbiadite, non invisibili — per questo scendo da grave a minore.",
+   "impatto": null,
+   "fix_proposto": "Portare le stelle spente da text-ink-300 a text-ink-400 (#78716C, 4,80 a 1 sul bianco), o disegnare il contorno della stella invece del pieno. Le stelle accese (text-accent-700) vanno bene così."
+  },
+  {
+   "chiave": "tipografia|sulla scheda prodotto due titoli di pari grado escono a 14px e a 20px",
+   "titolo": "Sulla scheda prodotto due titoli di pari grado escono a 14px e a 20px",
+   "dimensione": "tipografia",
+   "file": "app/product/[id]/page.tsx:802 e :817 · confronto con :662, :952 e :994",
+   "descrizione": "CONFERMATO aprendo le cinque righe. Il nome del prodotto è un h1 (riga 662). Subito dopo arrivano «Descrizione» (riga 802) e «Caratteristiche» (riga 817), che sono h3 con classe `font-bold text-sm uppercase tracking-wide text-ink-500`: 14px grigi, mentre il paragrafo che intestano (riga 803) è a 16px in ink-700, quindi più grande e più scuro. L'h2 compare solo dopo, alla riga 952 («Recensioni»), quindi la scaletta salta un gradino: h1 → h3 → h2. E alla riga 994 c'è un altro h3, «Lascia la tua recensione», senza classe di dimensione: quello esce a 20px in Fraunces per via della regola di globals.css. Risultato: due titoli dello stesso grado, 14px e 20px, sulla stessa schermata. Il piccolo maiuscolo in sé è uno stile legittimo; il difetto oggettivo sono il salto di livello e le due dimensioni per lo stesso grado.",
+   "impatto": null,
+   "fix_proposto": "Rinumerare «Descrizione» e «Caratteristiche» come h2 (scaletta h1 → h2 → h3 senza salti) e dare a tutti i titoli di sezione della pagina la stessa classe, incluso quello della riga 994."
+  },
+  {
+   "chiave": "accessibilita-visiva|il cuore «non nei preferiti» della scheda prodotto è a 2,52:1",
+   "titolo": "Il cuore «non nei preferiti» della scheda prodotto è a 2,52:1",
+   "dimensione": "accessibilita-visiva",
+   "file": "app/product/[id]/page.tsx:679",
+   "descrizione": "CONFERMATO alla riga esatta. Nello stato non-preferito il cuore è `text-ink-300` (#A8A29E) su `bg-white`: 2,52:1 ricalcolato, sotto la soglia 3:1 per gli elementi grafici. È l'unico indicatore visivo dello stato (l'`aria-pressed` c'è a riga 675 e copre chi ascolta, non chi vede male). La card di listino ha già la versione giusta: components/ProductCard.tsx:173 usa `text-ink-400` (4,87:1) per lo stesso cuore. WCAG 1.4.11 (AA).",
+   "impatto": null,
+   "fix_proposto": "In app/product/[id]/page.tsx:679 sostituire `text-ink-300` con `text-ink-400`, allineandosi a ProductCard.tsx:173."
+  },
+  {
+   "chiave": "immagini-media|la foto principale del prodotto viene tagliata ai bordi proprio dove il cliente decide se comprare",
+   "titolo": "La foto principale del prodotto viene tagliata ai bordi proprio dove il cliente decide se comprare",
+   "dimensione": "immagini-media",
+   "file": "app/product/[id]/page.tsx:454 (il riquadro è quadrato) e :474 (className=\"object-cover\") · contro lib/image-url.ts:96-100 · confronto: la stessa foto a :568 nella finestra d'ingrandimento usa object-contain",
+   "descrizione": "Sulla scheda prodotto la foto grande sta in un riquadro quadrato e viene resa con object-cover, cioè «riempi il riquadro e butta via quello che avanza». Una foto verticale — una bottiglia di Gutturnio, un mazzo di fiori, un salame appeso — perde circa un quarto fra sopra e sotto. La cosa strana è che il codice che costruisce l'indirizzo della foto fa il contrario: in lib/image-url.ts, righe 96-100, c'è scritto nero su bianco che per le viste di dettaglio l'altezza NON viene imposta «per mostrare l'intero prodotto nel dettaglio». Il server manda quindi la foto intera, e poi il foglio di stile ne butta via i bordi. La prova che l'intenzione era un'altra sta a riga 568: la finestra d'ingrandimento, quella che si apre col clic, usa object-contain e fa vedere tutto.\n\nCausa radice: L'object-cover è stato scelto per le schede in griglia — dove riempire il quadrato è giusto, e il commento in components/ProductCard.tsx:159-160 lo spiega — ed è stato ricopiato tale e quale sulla scheda di dettaglio, dove la regola è opposta. Nessuno ha riletto insieme le due righe: quella che dice «non tagliare» e quella che taglia.\n\nProva (umano, non eseguita): Aprire sul telefono una scheda prodotto la cui prima foto è verticale (più alta che larga) e confrontare quello che si vede con quello che compare cliccando sulla foto per ingrandirla: nella scheda mancano una fascia in alto e una in basso, nell'ingrandimento ci sono. Serve un occhio umano perché è una differenza di resa a schermo, non un valore che un comando possa leggere.",
+   "impatto": "Il cliente che apre la scheda del prodotto vede il prodotto tagliato, e per vederlo intero deve indovinare che si clicca sulla foto. Su una bottiglia sparisce il collo o l'etichetta, cioè esattamente quello che serve per riconoscere il prodotto. E i pixel tagliati vengono comunque scaricati: su un telefono in giro per Piacenza si paga il traffico di una quarta parte di foto che nessuno vedrà.",
+   "fix_proposto": "In app/product/[id]/page.tsx:474 passare da object-cover a object-contain e mettere uno sfondo neutro al riquadro (bg-surface-0, già usato a riga 463), come fa Amazon sulla scheda: il prodotto si vede intero e le bande laterali non danno fastidio perché lo sfondo è dello stesso colore della pagina. Le schede in griglia restano com'erano: lì il quadrato pieno è giusto."
+  },
+  {
+   "chiave": "immagini-media|«ingrandisci foto» non mostra un pixel in più di quelli che si vedevano già",
+   "titolo": "«Ingrandisci foto» non mostra un pixel in più di quelli che si vedevano già",
+   "dimensione": "immagini-media",
+   "file": "app/product/[id]/page.tsx:601-606 (lightbox con `sizedImage(images[activeImg],'hero')`), tetto definito in lib/image-url.ts:19",
+   "descrizione": "VERIFICATO. La finestra a schermo intero apre l'immagine a 90% dell'altezza e 95% della larghezza, ma chiede al CDN la versione da 1200 pixel, e lo fa con un `<img>` semplice, senza caricatore che possa alzare la larghezza. Su un portatile con schermo fine ne servirebbero fra 1600 e 2500. Chi clicca su «Ingrandisci» per guardare l'etichetta di un salume vede la stessa immagine di prima, solo più grande e più morbida. L'originale a piena risoluzione è già nello Storage e non lo stiamo usando.",
+   "impatto": null,
+   "fix_proposto": "Nel lightbox usare l'indirizzo originale, oppure `width=2000`, aggiungendo una misura 'zoom' a SIZE_PX in lib/image-url.ts."
+  },
+  {
+   "chiave": "flussi-conversione|sulla scheda prodotto la barra «ti mancano x alla spedizione gratis» ignora il carrello, e il badge accanto la contraddice",
+   "titolo": "Sulla scheda prodotto la barra «ti mancano X alla spedizione gratis» ignora il carrello, e il badge accanto la contraddice",
+   "dimensione": "flussi-conversione",
+   "file": "app/product/[id]/page.tsx:748 (subtotal={price * qty}), 363 (freeShipping = price >= soglia) e 854-856 (badge)",
+   "descrizione": "CONFERMATO. FreeShippingProgress riceve `price * qty`, cioè solo il prodotto aperto: con 25 € già nel carrello e un articolo da 6 € scrive «Ti mancano 24,00 € alla spedizione gratis» quando in realtà la soglia è superata. Nella stessa colonna il badge «Spedizione gratuita» usa `freeShipping = price >= FREE_SHIPPING_THRESHOLD`, cioè il prezzo UNITARIO: con due pezzi da 18 € la barra dice «Hai la spedizione gratis» e il badge non compare. Due indicatori sulla stessa cosa che dicono il contrario.",
+   "impatto": null,
+   "fix_proposto": "Passare alla barra cartTotal(getCart()) + price * qty e usare la stessa grandezza per il badge, così i due segnali dicono sempre la stessa cosa."
+  }
+ ]
+}

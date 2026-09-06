@@ -1,0 +1,21 @@
+{
+ "squadra": 68,
+ "ondata": 14,
+ "pacchetto": "app/messages/[id]/page.tsx",
+ "territorio_principale": "app/messages/[id]/page.tsx",
+ "file_citati": [
+  "app/messages/[id]/page.tsx",
+  "components/StoryViewer.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|il pulsante «indietro» della chat col negozio non ha nome, e il visore delle storie non dice a che punto sei",
+   "titolo": "Il pulsante «indietro» della chat col negozio non ha nome, e il visore delle storie non dice a che punto sei",
+   "dimensione": "accessibilita",
+   "file": "app/messages/[id]/page.tsx:243-245 · components/StoryViewer.tsx:133-142",
+   "descrizione": "(1) `app/messages/[id]/page.tsx:243-245`: il link che riporta all'elenco messaggi contiene solo l'icona `<ArrowLeft size={20} />`, senza `aria-label`, senza `title` e senza testo nascosto. È un link con nome accessibile vuoto: il lettore annuncia l'indirizzo o «link» e basta. Aggravante verificata: la barra in basso è nascosta dentro il thread (`components/MobileTabBar.tsx:146`, la regex `/^\\/messages\\/[^/]+/`), quindi da telefono quello è l'unico comando di uscita in pagina. Criteri WCAG 2.4.4 (A) e 4.1.2 (A). (2) `components/StoryViewer.tsx:133-142`: le barre di avanzamento sono `<div>` puri, senza testo e senza regione viva; ho cercato in tutto il file: non esiste da nessuna parte un «Storia 2 di 5». Chi ascolta non sa quante ne restano né dove si trova. Criterio WCAG 1.3.1 (A). Confidenza 95%.",
+   "impatto": "Sul caso (1) l'effetto è concreto: la conversazione col negoziante è il canale in cui si risolvono i dubbi su un ordine, e da telefono ci si resta chiusi dentro (resta solo il tasto indietro del browser). Il caso (2) è informazione mancante su una funzione secondaria.",
+   "fix_proposto": "(1) `app/messages/[id]/page.tsx:243` → aggiungere `aria-label=\"Torna a tutti i messaggi\"` al `<Link>`: una riga. (2) In `components/StoryViewer.tsx`, accanto alle barre, aggiungere `<p className=\"sr-only\" role=\"status\" aria-live=\"polite\">Storia {index + 1} di {stories.length}</p>` — stesso schema già usato bene in `components/BuyerOnboardingTour.tsx` per «Passo N di M». Owner: @frontend-dev."
+  }
+ ]
+}

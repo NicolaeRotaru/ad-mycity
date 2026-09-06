@@ -1,0 +1,20 @@
+{
+ "squadra": 125,
+ "ondata": 27,
+ "pacchetto": "scripts/prova-di-fumo.mjs",
+ "territorio_principale": "scripts/prova-di-fumo.mjs",
+ "file_citati": [
+  "scripts/prova-di-fumo.mjs"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|la prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro",
+   "titolo": "La prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro",
+   "dimensione": "deploy-sre",
+   "file": "scripts/prova-di-fumo.mjs:116",
+   "descrizione": "`muroDavantiAlSito` esce con `null` solo se lo stato non e' 401 ne' 403; per ogni 401/403 restituisce una stringa — gli indizi (`_vercel_sso_nonce`, il corpo) cambiano solo il NOME del muro, mai il fatto che sia un muro. In `provaUnControllo` quel ritorno diventa `protetto: true`, e con tutti i controlli protetti l'uscita e' 4, sulla quale il lavoro di rilascio non annulla niente. — Il ragionamento scritto nel file regge solo finche' le tre porte non sanno rispondere 401/403 — e questo l'ho verificato: /api/health e /api/health/ready rispondono 200 o 503 e basta (app/api/health/route.ts:262, app/api/health/ready/route.ts:157), e / e' pubblica. Ma il 403 non lo decide solo il sito: lo puo' dare un filtro davanti (protezione anti-bot, blocco per zona, limite di richieste su una rete condivisa). In quel caso un rilascio rotto resta in produzione e il lavoro dice 'non ho potuto vedere'. Il rovescio dello stesso rischio che la riparazione voleva chiudere: la difendo come scelta ragionevole, ma va dichiarata e sorvegliata.",
+   "impatto": "Il ragionamento scritto nel file regge solo finche' le tre porte non sanno rispondere 401/403 — e questo l'ho verificato: /api/health e /api/health/ready rispondono 200 o 503 e basta (app/api/health/route.ts:262, app/api/health/ready/route.ts:157), e / e' pubblica. Ma il 403 non lo decide solo il sito: lo puo' dare un filtro davanti (protezione anti-bot, blocco per zona, limite di richieste su una rete condivisa). In quel caso un rilascio rotto resta in produzione e il lavoro dice 'non ho potuto vedere'. Il rovescio dello stesso rischio che la riparazione voleva chiudere: la difendo come scelta ragionevole, ma va dichiarata e sorvegliata.",
+   "fix_proposto": "Prova da aggiungere a tests/unit/la-prova-di-fumo-boccia-un-sito-rotto.test.ts: un 403 SENZA nessun indizio di Vercel deve valere come sito rotto, non come muro — `expect(provaUnControllo(...).protetto).toBe(false)`. Oggi e' true."
+  }
+ ]
+}
