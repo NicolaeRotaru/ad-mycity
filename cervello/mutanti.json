@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-05 09:10",
+ "aggiornato": "2026-09-06 09:10",
  "mutanti": [
   {
    "lotto": 30,
@@ -9129,6 +9129,46 @@
    "test": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
    "lezione": "L-2026-0905-01",
    "perche_conta": "È la mutazione che misura il SEAM, non l'attrezzo. Le altre due dimostrano che `buttaConCura` è prudente; questa rimette una scopa nuda esattamente dove stava il 5/9 — dentro il `finally` di `giraCorsia` — e il caso che pretende «la chiusura non lancia mai» diventa rosso. Senza di lei, chiunque reintroducesse il difetto originale troverebbe le prove tutte verdi."
+  },
+  {
+   "difetto": "AR-944",
+   "nome": "il tetto per una prova sola torna a 420 s: la prova piu' lenta di casa non ci sta piu' dentro",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "export const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 700_000);",
+   "sostituisci": "export const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);",
+   "test": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+   "lezione": "L-2026-0906-01",
+   "perche_conta": "È il numero esatto del difetto: con 420 le sette difese di AR-797 muoiono a metà, il cancello esce 2 e la richiesta di unione torna rossa per un cronometro. Il caso che confronta il tetto coi costi misurati diventa rosso."
+  },
+  {
+   "difetto": "AR-944",
+   "nome": "il cronometro che ammazza torna a tacere: chi legge non sa piu' se e' stata la prova o il tetto",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (esito.verdetto !== \"cieco\" || !ammazzata || !concesso || concesso < tetto) return esito;",
+   "sostituisci": "  if (true) return esito;",
+   "test": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+   "lezione": "L-2026-0906-01",
+   "perche_conta": "Senza questa riga il referto torna a dire «il test non è arrivato in fondo (SIGTERM)», che è vero sia per una prova piantata sia per un tetto corto — ed è la ragione per cui il difetto è vissuto due giorni senza che nessuno lo vedesse."
+  },
+  {
+   "difetto": "AR-944",
+   "nome": "l elenco dei costi misurati si svuota: il freno sul tetto diventa sempre verde",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  \"cervello/test/due-case.test.mjs\": 498_000,",
+   "sostituisci": "",
+   "test": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+   "lezione": "L-2026-0906-01",
+   "perche_conta": "Un freno che confronta il tetto con un elenco VUOTO non può fallire mai: è la forma «prova-che-non-puo-fallire» applicata a questa difesa. Il caso che pretende almeno un costo dentro diventa rosso."
+  },
+  {
+   "difetto": "AR-944",
+   "nome": "il cronometro si prende la colpa anche quando a tagliare e' stato il budget",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (esito.verdetto !== \"cieco\" || !ammazzata || !concesso || concesso < tetto) return esito;\n  const secondi",
+   "sostituisci": "  if (esito.verdetto !== \"cieco\" || !ammazzata || !concesso) return esito;\n  const secondi",
+   "test": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+   "lezione": "L-2026-0906-01",
+   "perche_conta": "Due cause diverse devono restare due frasi diverse: «il budget della corsa ti ha dato meno del tuo tetto» si rilancia, «il tetto è corto» si alza. Confonderle rimette il lettore davanti a un referto che non fa scegliere."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

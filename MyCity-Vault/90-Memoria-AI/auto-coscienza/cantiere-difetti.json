@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-05 08:40",
+  "aggiornato": "2026-09-06 09:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20168,6 +20168,26 @@
       },
       "trovato_da": "node cervello/radiografia-in-corsa.mjs, dimensione rischio-sicurezza-se, sul perimetro della riparazione di AR-942",
       "chiuso_il": "2026-09-05 08:40",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-944",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-06 09:10",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "titolo": "Il cancello era rosso da due giorni per un cronometro più corto della prova, e io l'ho letto come debito onesto",
+      "sintomo": "Sette difese di AR-797 uscivano ⚪ dal banco a ogni corsa, e il cancello usciva 2 — cioè la richiesta di unione 855 restava rossa. Nicola l'ha detto tre volte, «la CI è rossa», mentre io rispondevo che il rosso era onesto e il debito dichiarato.",
+      "causa_radice": "Le sette condividono UNA prova, `cervello/test/due-case.test.mjs`, e quella prova costa 498 secondi — misurati, verde, 32 casi. Il tetto per una singola prova era 420 s. Le ammazzavo io, ogni volta, prima che arrivassero in fondo. Il tetto era tarato sul bisogno di un'altra prova (l'attesa del Pannello, tre minuti) e non è mai stato rimisurato quando due-case è cresciuta. E il referto non aiutava a vederlo: diceva «il test non è arrivato in fondo (SIGTERM)», frase vera sia per una prova che si pianta sia per un cronometro corto — due cose opposte, una si ripara alzando un numero e l'altra aprendo il codice.",
+      "fix_proposto": "🟡 FATTO, e sono due metà. ① Il tetto sale a 700 s, ~1,4 volte il costo misurato, e il costo misurato è scritto accanto in `COSTI_MISURATI` con la data della misura; `oltreIlTetto()` rende la frase «il tetto sta sopra la più lenta» falsificabile invece che sperata. Il budget del banco sale da 1500 a 1800 s con l'aritmetica scritta, se no la cura del tetto se la rimangia il budget al primo runner lento. ② `ammazzataDalTetto()` — un cronometro che ammazza adesso DICE che è stato lui, col numero, così il giorno che il tetto tornerà corto si legge nel referto invece di scoprirlo dopo due giorni.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+        "nota": "Quattro mutazioni misurate, tutte e quattro rendono rossa la prova: il tetto che torna a 420 · il cronometro che torna a tacere · l'elenco dei costi misurati che si svuota (se no la ① sarebbe sempre verde) · il cronometro che parla anche quando è stato il budget a tagliare. NOTA ONESTA: al primo tentativo la prova si RICOPIAVA il tetto invece di importarlo, e la mutazione «tetto a 420» restava verde — la malattia `una-parola-con-due-padroni` commessa dentro la prova che ne curava un'altra. Trovata dalla mutazione stessa, non da me; il tetto adesso ha una casa sola ed è esportato."
+      },
+      "trovato_da": "Nicola, che ha detto «la CI è rossa» tre volte mentre io spiegavo perché il rosso andava bene",
+      "chiuso_il": "2026-09-06 09:10",
       "chiuso_come": "riparato"
     }
   ],

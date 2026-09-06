@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-05 08:40",
+ "aggiornato": "2026-09-06 09:10",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12395,6 +12395,30 @@
    "usi": [],
    "gate": "cervello/test/il-banco-che-provava-una-difesa-su-sei.test.mjs",
    "data": "2026-09-05"
+  },
+  {
+   "id": "L-2026-0906-01",
+   "testo": "**AR-944 — correzione di Nicola, e la correzione è l'insistenza stessa.** Ha detto «la CI è rossa» tre volte; tre volte gli ho spiegato che il rosso era onesto e il debito dichiarato. Aveva ragione lui: sette difese uscivano ⚪ perché la loro prova costa 498 secondi e il mio cronometro le ammazzava a 420. **Quando chi guarda insiste su un sintomo che io ho già spiegato, la spiegazione è il sospettato numero uno** — non il sintomo. Una ⚪ che si ripete identica a ogni corsa non è debito: è una domanda a cui non ho ancora risposto. E la regola tecnica sotto: **un cronometro che ammazza deve dire che è stato lui, col suo numero**, se no «non è arrivata in fondo» racconta allo stesso modo una prova piantata e un tetto corto, che si riparano in due modi opposti.",
+   "tag": [
+    "macchina",
+    "auto-coscienza",
+    "guardiani"
+   ],
+   "reparto": "AD",
+   "confidenza": "alta",
+   "evidenze": [
+    "`node --test cervello/test/due-case.test.mjs` → 32 casi verdi in 497.973 ms, misurati il 6/9; tetto per prova 420.000 ms",
+    "corsa 34015397361: 7 mutazioni ⚪ tutte di AR-797, tutte con quella prova, cancello exit 2",
+    "quattro mutazioni misurate dopo la cura: tutte e quattro rendono rossa la prova"
+   ],
+   "fonte": "correzione-nicola",
+   "caso_studio_nicola": true,
+   "nato": "2026-09-06 09:10",
+   "ultima_conferma": "2026-09-06 09:10",
+   "stato": "viva",
+   "usi": [],
+   "gate": "cervello/test/il-cronometro-piu-corto-della-prova.test.mjs",
+   "data": "2026-09-06"
   }
  ],
  "principi": [

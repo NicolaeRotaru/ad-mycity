@@ -1340,8 +1340,17 @@ function main() {
         // era un problema di budget, in fila non ci stavano. Quattro corsie da ~43 fanno ~22
         // minuti e ci arrivano tutte. Il budget sale di conseguenza (1500 s dentro un tetto di
         // 1650): le corsie girano insieme, quindi il tempo è quello della più lenta, non la somma.
-        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/banco-a-corsie.mjs", "--difetti", perimetro.difetti.join(","), "--corsie", "4", "--budget", "1500000"], {
-          timeout: 1_650_000,
+        //
+        // AR-944 — 1500 → 1800 s DI BUDGET, e il numero viene dall'aritmetica della corsa 34015397361.
+        // Il banco ha girato 1081 s con SETTE mutazioni ammazzate dal loro tetto a 420 s (quelle di
+        // AR-797: condividono `due-case.test.mjs`, che costa 498 s misurati). Il tetto per prova sale
+        // a 700 s, quindi quelle sette adesso ARRIVANO IN FONDO invece di morire: la corsia più
+        // carica ne porta due, cioè ~1000 s invece di 840, più ~240 s delle sue leggere = ~1240 s.
+        // Con il budget fermo a 1500 il margine sarebbe 260 s — cioè la cura del tetto verrebbe
+        // rimangiata dal budget al primo runner lento, e le stesse sette tornerebbero ⚪ da un'altra
+        // porta. 1800 lascia ~560 s di margine dentro un tetto di lavoro che resta 75 minuti.
+        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/banco-a-corsie.mjs", "--difetti", perimetro.difetti.join(","), "--corsie", "4", "--budget", "1800000"], {
+          timeout: 1_950_000,
         }),
       );
     } else if (toccati && toccati.length && !perimetro.saltate.length) {

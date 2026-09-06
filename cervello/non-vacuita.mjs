@@ -271,14 +271,51 @@ export function filtraPerDifetti(elenco = [], ids = null) {
 // mondo adesso resta verde anche a strumento rimosso.
 const MUTANTI = process.env.MUTANTI_FILE || join(AD_ROOT, "cervello/mutanti.json");
 
-// Quanto tempo do a UNA prova prima di considerarla non finita.
-//
-// Erano due minuti, e due minuti bastano a ogni prova che legge dei file. Non bastano a quelle che
-// devono aprire il Pannello: prima che il primo caso parta, `c4-schermo-coda.test.mjs` aspetta fino
-// a tre minuti che il server di sviluppo risponda. Con il tetto a due, quella prova veniva ammazzata
-// a metà attesa — e da oggi un ammazzato è un ⚪, cioè un cancello rosso per un motivo che col fix
-// non c'entra niente. Il tetto deve stare sopra l'attesa più lunga che una prova di casa dichiara.
-const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
+/**
+ * ⏱️ QUANTO TEMPO DO A UNA PROVA PRIMA DI CONSIDERARLA NON FINITA — e il numero non è a occhio.
+ *
+ * LA REGOLA, che era già scritta qui e non è cambiata: **il tetto deve stare sopra il costo della
+ * prova più lenta di casa.** Erano due minuti, e due minuti bastano a ogni prova che legge dei
+ * file; non bastavano a `c4-schermo-coda.test.mjs`, che aspetta fino a tre minuti che il server del
+ * Pannello risponda. Da lì il tetto a sette minuti.
+ *
+ * IL CASO CHE HA ROTTO — AR-944, corsa 34015397361 del 6/9. Sette difese di AR-797 sono uscite ⚪
+ * dal banco, e per due giorni le ho lette come «debito dichiarato». Non lo erano: le sette
+ * condividono UNA prova, `due-case.test.mjs`, e quella prova **costa 498 secondi** — misurati,
+ * verde, 32 casi. Il tetto era 420. Le ammazzavo io, ogni volta, prima che arrivassero in fondo.
+ * Il cancello usciva 2 e la richiesta di unione restava rossa per un cronometro, non per una difesa.
+ *
+ * IL NUMERO NON È «UN PO' DI PIÙ»: è ~1,4 volte il bisogno misurato, la stessa proporzione con cui
+ * è tarato il tetto del lavoro intero in `.github/workflows/cancello-lotto.yml`. Più generoso di
+ * così smetterebbe di distinguere «la macchina è lenta» da «si è piantato», che è il mestiere di
+ * questo numero.
+ *
+ * ⚠️ QUELLO CHE QUESTO NUMERO NON SA FARE, detto qui e non nascosto: non si accorge da solo del
+ * giorno in cui una prova diventa più lenta di lui. Il freno scritto è l'altro — `oltreIlTetto()`
+ * qui sotto, con i costi MISURATI accanto — e vale solo per le prove che ci sono scritte. La
+ * sentinella vera resta il referto: una ⚪ ammazzata dal tetto adesso lo DICE, col numero
+ * (`ammazzataDalTetto`), invece di dire «non è arrivata in fondo».
+ */
+export const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 700_000);
+
+/**
+ * I costi MISURATI delle prove lente di casa, in millisecondi. Non stime: cronometrate, verdi.
+ * Servono a una cosa sola — a rendere falsificabile la frase «il tetto sta sopra la più lenta».
+ */
+export const COSTI_MISURATI = Object.freeze({
+  // 497,973 ms, `node --test cervello/test/due-case.test.mjs`, 32 casi verdi, 6/9/2026.
+  "cervello/test/due-case.test.mjs": 498_000,
+});
+
+/**
+ * Quali prove costano più del tetto che ho? Pura, così la si interroga senza aspettare otto minuti.
+ * Torna l'elenco (vuoto = il tetto basta per tutte quelle che so misurare).
+ */
+export function oltreIlTetto(tetto = TEMPO_MAX, costi = COSTI_MISURATI) {
+  return Object.entries(costi)
+    .filter(([, costo]) => costo >= tetto)
+    .map(([prova, costo]) => ({ prova, costo, tetto }));
+}
 
 /**
  * IL BUDGET DI TUTTA LA CORSA — AR-917, e lo schema è quello che regge già in `due-case.mjs`.
@@ -360,6 +397,36 @@ export function troncataDalBudget(esito = {}, { status, concesso = 0, tetto = TE
   return {
     ...esito,
     perche: `il budget della corsa lasciava solo ${Math.round(concesso / 1000)} s a questa mutazione (il suo tetto è ${Math.round(tetto / 1000)} s) e non le sono bastati: NON l'ho misurata, non è la prova a essere rotta. Rilanciala da sola con \`node cervello/non-vacuita.mjs --difetti ${difetto || "AR-?"}\`.`,
+  };
+}
+
+/**
+ * ⏱️ L'HO AMMAZZATA IO? — AR-944, ed è la sorella di `troncataDalBudget` un metro più in là.
+ *
+ * IL BUCO CHE COPRE. `troncataDalBudget` parla solo quando alla mutazione era stato dato MENO del
+ * suo tetto: `concesso < tetto`. Ma il caso che ha tenuto rossa la richiesta di unione per due
+ * giorni è l'altro — alla prova era stato dato TUTTO il tetto, e il tetto non bastava. Lì il
+ * referto diceva «il test non è arrivato in fondo (SIGTERM)», che chi legge non può distinguere da
+ * «la prova si è piantata». Sono due cose opposte: la prima si ripara alzando un numero, la seconda
+ * aprendo il codice.
+ *
+ * Detta com'è: **un cronometro che ammazza deve dire che è stato lui, e con che numero.** Altrimenti
+ * la prossima volta che il tetto è corto, il referto lo racconta come un guasto della prova — ed è
+ * esattamente quello che è successo qui, a me, per due giorni.
+ *
+ * 🔎 PUÒ AMMORBIDIRE UNA SCOPERTA? No, per la stessa ragione della sorella: tocca SOLO i `cieco`,
+ * e cambia la FRASE, mai il verdetto. Un rosso è `ok`, una prova che non difende è `vacua`: nessuno
+ * dei due passa di qui.
+ *
+ * Pura: prende il verdetto già formato e lo riscrive solo nel caso suo.
+ */
+export function ammazzataDalTetto(esito = {}, { status, concesso = 0, tetto = TEMPO_MAX, test = "" } = {}) {
+  const ammazzata = status === null || status === undefined;
+  if (esito.verdetto !== "cieco" || !ammazzata || !concesso || concesso < tetto) return esito;
+  const secondi = Math.round(tetto / 1000);
+  return {
+    ...esito,
+    perche: `l'ho ammazzata IO dopo ${secondi} s: è il mio tetto per una prova sola, non un guasto di ${test || "questa prova"}. Se questa prova costa più di ${secondi} s il tetto è corto — si alza NON_VACUITA_TIMEOUT_MS, o si scrive il costo misurato in COSTI_MISURATI. NON l'ho misurata: non concludere niente sulla difesa.`,
   };
 }
 
@@ -822,7 +889,8 @@ function main() {
       lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);
       writeFileSync(file, rotto);
       const r = eseguiProva(m.test, { timeout: concesso });
-      esiti.push({ ...m, ...troncataDalBudget(verdettoCorsa(r), { status: r.status, concesso, difetto: m.difetto }) });
+      const verdetto = troncataDalBudget(verdettoCorsa(r), { status: r.status, concesso, difetto: m.difetto });
+    esiti.push({ ...m, ...ammazzataDalTetto(verdetto, { status: r.status, concesso, test: m.test }) });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
       togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più
