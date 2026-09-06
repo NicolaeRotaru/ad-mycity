@@ -1,13 +1,11 @@
 {
-  "data": "2026-09-05 18:35",
-  "situazione": "Zero delta reale dal Report della sera delle 18:03/18:08: 1 ordine annullato del 24/6, 0 pagati, 9 profili (5 buyer, 2 seller, nessuno con Stripe attivo), 9 prodotti, 3 carrelli abbandonati. Coda firme invariata: nessuna firma nuova di Nicola. Riparato un debito di processo: il giro delle 16:51 aveva toccato auto-analisi.json senza rigenerarlo davvero (campo data fermo a 16:35) — riscritto ora con verifica dal vivo. Letargo RISPARMIO + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
+  "data": "2026-09-06 06:32",
+  "situazione": "Zero delta reale dal Piano del mattino delle 06:02: 1 ordine annullato del 24/6, 0 pagati, 9 profili (5 buyer, 2 seller), 9 prodotti. 74° giorno di stallo North Star. Isolata (non riparata: bloccata dai permessi VPS) la causa di un riavvio a vuoto ricorrente: il delta-gate segna \"clienti 8→9\" per la 9ª volta di fila dal 5/9 10:28 sullo stesso profilo fantasma \"Panificio Demo\", mai promosso a baseline. Letargo RISPARMIO + gate North Star: non rilanciate le 15 fasi intere su dati identici.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 26 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
-    {"titolo": "Decidi come applicare le migrazioni mancanti al database", "motivo": "il database di produzione è indietro di 4 migrazioni", "livello": "rosso"},
-    {"titolo": "Scegli un post da pubblicare per Pane Quotidiano o ritira quelli vecchi", "motivo": "11 post pronti, zero pubblicati", "livello": "rosso"},
-    {"titolo": "Guarda il codice dimenticato sui carrelli abbandonati prima che si perda", "motivo": "fermo dal 4/7, mai entrato in una richiesta di unione, scoperto solo ora", "livello": "giallo"},
-    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "una riga in .claude/settings.local.json sblocca test-cervello.mjs, sonda-volano.mjs, north-star-check.mjs, gate-veri.mjs, stash-dimenticate.mjs, esperimenti-check.mjs, lezione-nuova.mjs", "livello": "giallo"}
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 27 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
+    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "delta-gate.mjs, sonda-volano.mjs e gate-veri.mjs sono tutti bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, causa anche il riavvio a vuoto del giro", "livello": "giallo"}
   ]
 }

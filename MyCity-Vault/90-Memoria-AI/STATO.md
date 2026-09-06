@@ -1,7 +1,76 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 06:02
-fonte: AD digitale (Piano del mattino, cervello/ritmo.md)
+aggiornato: 2026-09-06 06:45
+fonte: AD digitale (giro.md, chiamata "esegui giro.md per intero")
+---
+
+> 🧭 **6/9 06:45 — Nuovo passaggio, 13 minuti dopo quello delle 06:32.** Zero novità di business.
+> Ho riparato un piccolo allarme falso.
+>
+> **I numeri di ora, controllati di persona sul database vero.** 1 ordine totale. **0 pagati.** 9
+> profili. 9 prodotti. 3 carrelli abbandonati. Sono identici al passaggio di 13 minuti fa.
+> **Oggi è il 74° giorno senza un ordine pagato** (contando dal 24/6). Nessun commit nuovo su
+> git dalle 06:30. Nessuna firma nuova di Nicola dal 29/8. La coda delle azioni non è cambiata:
+> in cima restano le card #197, #196, #195, #194. Il sito resta giù (errore 503): manca sempre
+> la stessa cosa, le chiavi Vercel delle card #154 e #155.
+>
+> **In parole semplici, cosa ho riparato.** Un controllo automatico continuava a segnalare un
+> problema che non c'era più. Cercava un numero preciso dentro un file della coda — il conteggio
+> delle card archiviate. Quel numero cambia ogni volta che una card si archivia. Il controllo lo
+> aveva scritto una volta e non lo aggiornava mai più. Per questo suonava falso allarme a ogni
+> comando, da mesi.
+>
+> **Cosa ho verificato prima di toccarlo.** Il file della coda era già scritto bene. Il vero
+> controllo che conta — quello sul codice, non sul numero — è rimasto intatto e continua a
+> funzionare. L'ho trovato una seconda volta nello stesso giro: stesso identico difetto, stesso
+> identico motivo, su un file diverso (lo storico della salute della macchina). L'ho riparato
+> allo stesso modo. Ho spostato il controllo dal numero che cambia al codice che non cambia.
+>
+> **Cosa non ho fatto.** Non ho aperto una richiesta di unione per questi due piccoli fix: restano
+> nel ramo di lavoro. Non ho rilanciato le 15 fasi pesanti del giro (radar, radiografia,
+> auto-miglioramento): i dati sono identici a 13 minuti fa, e la macchina è in modalità risparmio.
+> Farlo ora sarebbe stato solo rumore, non un controllo in più.
+>
+> **La mossa numero uno resta sempre la stessa.** Serve la tua firma sulle card #154 e #155:
+> dominio e chiavi Vercel. Senza quella firma il sito resta giù. E nessun ordine può ancora
+> diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
+---
+
+> 🧭 **6/9 06:32 — Nuova chiamata "esegui giro.md per intero", 30 minuti dopo il Piano del mattino
+> delle 06:02.** Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
+>
+> **I numeri, riverificati ora con SQL diretto su Supabase (non a memoria).** 1 ordine (24/6,
+> annullato). **0 pagati.** 9 profili (5 buyer, 2 seller). 9 prodotti. Identici bit-per-bit al
+> Piano del mattino di mezz'ora fa. **74° giorno di stallo North Star** (24/6→6/9).
+>
+> **Trovata e non riparata la causa del riavvio continuo.** `delta-gate.json` segna "cambiato:
+> clienti 8→9" per la **9ª volta di fila** dal 5/9 10:28 (10:28, 12:00, 12:29, 14:28, 16:28, 18:28,
+> 20:28, 22:27, e ora 06:27): è sempre lo stesso profilo fantasma "Panificio Demo" (card #196),
+> mai un cliente nuovo. La baseline del gate non è mai stata promossa dopo la prima rilevazione —
+> lo stesso bug già risolto una volta l'1/9 (`_nota_segna_pieno_manuale`) e da allora ripresentatosi.
+> Ho provato a chiuderlo alla radice con `node cervello/delta-gate.mjs --segna-pieno`: **bloccato**,
+> stesso buco di permessi delle card #194/#195 (comando non in allowlist, richiede approvazione che
+> in sessione headless nessuno può dare). Non è un nuovo difetto: è la controprova dal vivo di
+> #194/#195 — l'ho aggiunta lì, non aperto una card nuova. `sonda-volano.mjs` è bloccato dallo
+> stesso motivo (nota già in memoria: bash-solo-script-esatti-in-allowlist).
+>
+> **La coda.** Invariata: #197 (funnel carrelli senza PR da luglio), #196 (Panificio Demo), #195/#194
+> (permessi VPS), nessuna firma nuova di Nicola dal 29/8.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Letargo RISPARMIO (taglia il volume, non i
+> controlli) + gate NORTH_STAR (solo lavoro che avvicina il 1° ordine pagato) su dati confermati
+> identici a mezz'ora fa: rifare radar/radiografia/auto-miglioramento sarebbe stato rumore, non un
+> controllo in più. `coerenza-fatti.mjs` verificato ora: memoria coerente.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la firma di Nicola sulle card #154 e #155: dominio e
+> chiavi Vercel. Senza quella firma il sito resta giù (HTTP 503, cieco da 286 giri), e nessun ordine
+> può ancora diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
 ---
 
 > ☀️ **6/9 06:02 — Piano del mattino: 74° giorno di stallo.** Zero novità stanotte.

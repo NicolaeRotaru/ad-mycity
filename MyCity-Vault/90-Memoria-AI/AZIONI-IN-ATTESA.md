@@ -109,9 +109,16 @@ sistemo — o aggiungendo la mutazione che la testa, o togliendo il finto freno.
 
 **Cosa non ho verificato:** quale lezione specifica è il freno finto — il comando per saperlo è bloccato.
 
+**Aggiornamento 2026-09-06 06:32:** stesso buco confermato su altri due comandi, non solo `gate-veri.mjs`.
+`node cervello/delta-gate.mjs --segna-pieno` (chiuderebbe alla radice il riavvio continuo per "clienti
+8→9", ripetuto 9 volte di fila dal 5/9 10:28 sullo stesso profilo fantasma "Panificio Demo") e
+`node cervello/sonda-volano.mjs` sono entrambi bloccati con lo stesso messaggio "richiede approvazione".
+In sessione headless nessuno può concedere quell'approvazione: finché la riga in `.claude/settings.local.json`
+resta stretta, questi tre controlli restano fermi.
+
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
-| 194 | 2026-09-04 20:30 | @AD | Sblocca il permesso per rilanciare il controllo dei freni delle lezioni (gate-veri.mjs) | 🟡 | vedi blocco sopra — stesso buco di #189 | manuale (settings.local.json sul VPS) | in attesa |
+| 194 | 2026-09-04 20:30 | @AD | Sblocca il permesso per rilanciare il controllo dei freni delle lezioni (gate-veri.mjs) | 🟡 | vedi blocco sopra — stesso buco di #189, ora confermato anche su delta-gate.mjs e sonda-volano.mjs | manuale (settings.local.json sul VPS) | in attesa |
 
 <!-- post-rientro-settembre-pq -->
 ### 🔴 #193 — Un altro post è pronto per Pane Quotidiano, ma sono già undici fermi da luglio · ⏳ accodata 2026-09-03 13:25

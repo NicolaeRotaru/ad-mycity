@@ -1,4 +1,10 @@
-# 🕳️ Buchi di Mercato — 2026-09-05
+# 🕳️ Buchi di Mercato — 2026-09-06
+
+> **Ricontrollato oggi, 2026-09-06, alle 07:10 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.** Stesso risultato di ieri: solo il vecchio articolo su Confesercenti e la desertificazione commerciale, già noto. Nessun nome nuovo, nessun dato nuovo per il quadro sotto.
+
+---
+
+## Versione precedente (5 settembre 2026, invariata sotto)
 
 > **Ricontrollato oggi, 2026-09-05, alle 06:30 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.** Sono usciti solo risultati già noti: l'articolo su Confesercenti in tour contro la desertificazione commerciale, l'articolo su Coin, l'articolo sulle chiusure festive di Coop. Nessun dato nuovo per il quadro sotto.
 

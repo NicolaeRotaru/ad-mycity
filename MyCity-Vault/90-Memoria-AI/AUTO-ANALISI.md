@@ -1,5 +1,25 @@
 ---
-data: 2026-09-05 20:35
+data: 2026-09-06 06:32
+---
+
+## Collaudo del cancello di stop — giro 2026-09-06 06:32
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi», 30 minuti dopo il Piano del mattino delle 06:02.
+- **FATTE:** dati riquerati dal vivo via Supabase `execute_sql` — 1 ordine (24/6, annullato, 0
+  pagati), 9 profili (5 buyer, 2 seller: Pane Quotidiano + "Panificio Demo"), 9 prodotti. Identico
+  bit-per-bit al Piano del mattino. `coerenza-fatti.mjs`: memoria coerente (41 fatti, 0 cacce aperte).
+- **DIAGNOSI VERA di questo passaggio.** `delta-gate.json` segna "cambiato: clienti 8→9" per la 9ª
+  volta di fila dal 5/9 10:28: sempre lo stesso profilo fantasma "Panificio Demo", mai un cliente
+  nuovo — la baseline non è mai stata ripromossa dopo la prima rilevazione. Tentativo diretto di
+  riparazione (`node cervello/delta-gate.mjs --segna-pieno`): bloccato da "richiede approvazione",
+  confermato anche su `sonda-volano.mjs`. Stesso buco di permessi delle card #194/#195/#189 — evidenza
+  aggiunta lì, non aperta una card nuova.
+- **NON FATTE (per costruzione, non per dimenticanza).** Radar esterno, radiografia completa,
+  auto-miglioramento: RISPARMIO + gate NORTH_STAR su dati confermati identici a mezz'ora fa.
+- **Voto di fiducia:** 78/100 (↑ da 77 — nessun debito di processo ereditato in questo passaggio,
+  file riscritti con contenuto verificato dal vivo).
+
 ---
 
 ## Collaudo del cancello di stop — giro 2026-09-05 20:35
