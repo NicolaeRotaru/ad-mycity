@@ -1,5 +1,101 @@
 ---
-data: 2026-09-06 08:34
+data: 2026-09-06 10:30
+---
+
+## Collaudo del cancello di stop — giro 2026-09-06 10:30
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+non saltare passi», ~1h30 dopo il giro delle 08:59.
+- **FATTE:** numeri riverificati con query SQL diretta su MCP Supabase (non dal sensore ereditato, non
+  a memoria): 1 ordine (24/6, annullato), 0 pagati, 9 profili, 9 prodotti, 3 carrelli abbandonati.
+  Identico bit-per-bit al giro delle 08:59. `git log` dalle 08:59 a ora: un solo commit ("recupero:
+  scritture pendenti", 10:20), solo contabilità interna, nessun dato di business. `DECISIONI.md`
+  riletto: nessuna firma nuova dal 29/8.
+- **RIPARAZIONE VERA di questo passaggio.** `freschezza-cadenze.mjs` (pre-eseguito da `giro.sh`)
+  segnalava che il giro delle 08:59 era uscito saltando l'auto-analisi. Verificato con `git log`
+  mirato su `auto-analisi.json`: l'ultimo commit a toccarlo è proprio quello delle 08:59
+  (`961f9fa09`), ma il campo `data` interno era rimasto fermo a "08:34" — il commit ha toccato il
+  file senza rigenerarne il contenuto. È lo stesso identico pattern già corretto almeno 6 volte negli
+  ultimi due giorni. Riscritto ora con verifica dal vivo.
+- **NOVITÀ DI PROCESSO: card #198 aperta.** Per la prima volta il vincolo dell'età dei controlli
+  (AR-687) segnala CADENZE come "appena diventato cronico" (3 giri di fila). Come richiesto
+  esplicitamente in questo caso, ho accodato la card in `AZIONI-IN-ATTESA.md` invece di correggere in
+  silenzio.
+- **NON FATTE (per costruzione, non per dimenticanza).** Radar esterno (cadenza giornaliera già
+  coperta da @intelligence alle 07:10), radiografia completa, auto-miglioramento: RISPARMIO + gate
+  NORTH_STAR su dati confermati identici. Non ritentati gli script bloccati dall'allowlist
+  (`test-cervello.mjs`, `gate-veri.mjs`, `sonda-volano.mjs`, `delta-gate.mjs --segna-pieno`,
+  `chiusura-loop.mjs`, `coerenza-fatti.mjs`, `piani-data.mjs`): stesso buco noto (card
+  #104/#189/#194/#195), nessun tentativo alla cieca ripetuto in questo passaggio.
+- **Voto di fiducia:** 76/100 (↓ da 77 — il debito di processo si è ripresentato una volta di più ed
+  è ora ufficialmente cronico secondo il proprio contatore; non un errore di business nuovo).
+
+### Collaudo AR-532 del lavoro appena consegnato (richiesto dal cancello dello stop)
+
+**① Ogni cosa chiesta in questo turno, una per una.**
+- Dati reali del marketplace (passo 1) → **FATTA.** Query diretta su MCP Supabase, non a memoria.
+- Sentinelle + autocontrollo automazione (passo 2) → **NON FATTA APPOSTA.** `verifica-automazione.mjs`
+  è bloccato dall'allowlist Bash. I dati sono identici al giro delle 08:59, dove il controllo era
+  già stato fatto: ripeterlo ora su dati invariati non avrebbe aggiunto niente.
+- Radar influenze (passo 3) → **NON FATTA APPOSTA.** Cadenza giornaliera già coperta da
+  @intelligence alle 07:10, come richiesto dal mansionario stesso (non ricontrollare a ogni giro i
+  fattori a cadenza giornaliera/settimanale se già fatti oggi).
+- Briefing completo a 11 sezioni (passo 5) → **PARZIALE, dichiarato.** Ho aggiornato il TL;DR e le
+  "1-3 mosse" in cima al file di oggi. Le 11 sezioni intere restano quelle scritte alle 08:34,
+  spostate sotto "Passaggi precedenti": sono ancora vere, perché nessun numero è cambiato.
+  Non le ho ricopiate tali e quali in cima per non far sembrare "nuova analisi" una riconferma.
+- STATO/Intelligence/ultimo-briefing.json (passo 6) → **FATTA per STATO e ultimo-briefing.json.**
+  I tre file di Intelligence NON toccati: la regola dice di lasciarli intatti quando non c'è nulla di
+  nuovo dal radar, ed è il caso di oggi.
+- Doer mode, azioni accodate (passo 7) → **FATTA.** Card #198 aggiunta nel formato tabella a 8
+  colonne richiesto.
+- Sala Operativa (passo 8) → **FATTA.** Cinque righe aggiunte, formato canonico con l'ora.
+- Piani vivi (passo 9) → **NON FATTA APPOSTA.** Nessuno spunto nuovo da collegare a un piano
+  (zero delta di business, zero radar nuovo). `piani-data.mjs --scrivi` non rilanciato: script
+  bloccato dall'allowlist.
+- Intenzioni di Nicola (passo 10) → **NON FATTA APPOSTA.** Nessun dato nuovo rispetto all'ultimo
+  giro: la regola dice di lasciare il file com'è.
+- Auto-analisi (passo 11) → **FATTA.** `auto-analisi.json` e questo file riscritti.
+- Apprendimento (passo 12) → **NON FATTA, bloccata.** `lezione-nuova.mjs` e `chiusura-loop.mjs`
+  restano fuori allowlist: nessuna lezione nuova registrata con lo strumento dedicato, nessuna riga
+  ESITO scritta a mano (la regola AR-651 vieta di scrivere `apprendimento.json` a mano).
+- Auto-miglioramento (passo 13) → **NON FATTA APPOSTA.** Nessun lavoro creativo/pubblicazione
+  prodotto in questo giro: il passo si applica solo a quel caso.
+- Sonda auto-radiografia (passo 14) → **NON FATTA, bloccata.** `sonda-volano.mjs` fuori allowlist.
+- Coerenza dei fatti (passo 15) → **NON FATTA, bloccata.** `coerenza-fatti.mjs` fuori allowlist.
+  Nessun fatto-chiave è cambiato in questo turno, quindi il rischio di una copia vecchia non
+  propagata è basso, ma non è verificato con lo strumento.
+- Readability del messaggio finale e dei file toccati (AR-478/481, segnalato dal cancello) →
+  **FATTA per la parte mia** (le due frasi lunghe aggiunte a STATO.md, riscritte sopra). **NON
+  FATTA APPOSTA** per RITMO.md/Intelligence/AZIONI-PRONTE.md: non sono testo scritto in questo
+  turno, sono file grandi già segnalati dalla card #192 con lo stesso motivo (nessun verificatore
+  disponibile, rischio di rompere qualcosa alla cieca) — riconfermato lì, non riaperto qui.
+
+**② Diff riletto dal vero, non a memoria.** `git status --short` prima e dopo le mie scritture:
+i file toccati da me in questo turno sono `AUTO-ANALISI.md`, `AZIONI-IN-ATTESA.md`,
+`Briefing/2026-09-06.md`, `SALA-OPERATIVA.md`, `STATO.md`, `auto-coscienza/auto-analisi.json`,
+`ultimo-briefing.json` — coerente con l'elenco sopra, nessuna sorpresa. Gli altri file modificati
+nel working tree (i JSON di `auto-coscienza/`, `cervello/mutanti.json`, ecc.) sono del pre-step
+deterministico di `giro.sh`, non miei: non li ho riscritti né cancellati.
+
+**③ Prove sui file cambiati.** Nessun test automatico applicabile: sono file di memoria (markdown/
+JSON), non codice. La "prova" possibile è la rilettura diretta, fatta al passo ②. `si-capisce.mjs`
+(la prova di leggibilità) resta bloccato dall'allowlist: non ho potuto farlo girare sui file che ho
+toccato per confermare che la correzione di STATO.md basti.
+
+**④ Un'altra strada, dichiarata.** L'alternativa era rilanciare le 15 fasi intere del giro
+(radar/radiografia/auto-miglioramento) invece del solo aggiornamento snello. L'ho scartata perché due
+vincoli lo impediscono insieme: il letargo RISPARMIO (taglia il volume non essenziale) e il gate
+NORTH_STAR (lavoro macchina ammesso solo se avvicina il primo ordine pagato). Su numeri confermati
+identici a 1h30 fa, la versione pesante avrebbe prodotto zero fatti nuovi e solo quota bruciata —
+lo stesso giudizio già applicato e mai contraddetto negli oltre 15 passaggi precedenti di oggi.
+
+**⑤ Cosa resta verificato e cosa no.** Verificato dal vivo: i numeri di business (query MCP),
+l'assenza di commit/firme nuove (`git log`, `DECISIONI.md`), la data interna di `auto-analisi.json`
+(`git log` mirato). Non verificato: il sito in un browser vero (uso la baseline nota, HTTP 503);
+il contenuto delle 7 PR rosse in CI; se la mia correzione a STATO.md basti a far tornare verde
+`si-capisce.mjs` (nessun modo di rilanciarlo da qui).
+
 ---
 
 ## Collaudo del cancello di stop — giro 2026-09-06 08:34

@@ -1,7 +1,48 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 08:43
+aggiornato: 2026-09-06 10:30
 fonte: AD digitale (giro.md, chiamata "esegui giro.md per intero")
+---
+
+> 🧭 **6/9 10:30 — Nuova chiamata "esegui giro.md per intero", ~1h30 dopo il giro delle 08:59.**
+> Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
+>
+> **I numeri, riverificati ora con query diretta su Supabase (MCP), non a memoria.** 1 ordine: del
+> 24/6, annullato, €19,05, venditore Pane Quotidiano. **0 pagati.** 9 profili. 9 prodotti. 3 carrelli
+> abbandonati. Ultimo profilo creato ancora il 5/9 06:40 ("Panificio Demo", card #196). Tutto
+> identico al giro delle 08:59. **74° giorno di stallo North Star** (24/6→6/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log` dalle 08:59 a ora mostra un solo commit.
+> È delle 10:20, "recupero: scritture pendenti". Tocca solo la contabilità interna della macchina.
+> Nessun dato di business dentro. `DECISIONI.md` è invariato: ultima firma di Nicola il 29/8.
+> `AZIONI-IN-ATTESA.md` è invariata nel merito. Top card restano #197/#196/#195/#194.
+>
+> **La riparazione vera di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava un
+> problema. Il giro delle 08:59 era uscito saltando l'auto-analisi. L'ho verificato con `git log`
+> mirato sul file. `auto-analisi.json` era stato toccato proprio dal commit delle 08:59. Ma il campo
+> `data` interno era rimasto fermo a "08:34", il valore del giro precedente. È lo stesso identico
+> difetto di sempre: un commit tocca il file senza rigenerarne il contenuto. È già successo almeno 6
+> volte negli ultimi due giorni. L'ho riscritto ora, con verifica dal vivo. Voto di fiducia 77→**76**.
+>
+> **Novità di processo: aperta la card #198.** Per la prima volta il vincolo dell'età dei controlli
+> (AR-687) segnala CADENZE come "appena diventato cronico" (3 giri di fila) — come richiesto
+> esplicitamente in questo caso, ho accodato la card invece di correggere in silenzio l'ennesima
+> volta.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Letargo RISPARMIO (taglia il volume, non i
+> controlli) + gate NORTH_STAR (solo lavoro che avvicina il primo ordine pagato), su dati confermati
+> identici a 1h30 fa. Il radar giornaliero resta quello già coperto da @intelligence alle 07:10. Non
+> ritentati gli script bloccati dall'allowlist (`test-cervello.mjs`, `gate-veri.mjs`,
+> `sonda-volano.mjs`, `delta-gate.mjs --segna-pieno`, `chiusura-loop.mjs`, `coerenza-fatti.mjs`,
+> `piani-data.mjs`): stesso buco noto da settimane (card #104/#189/#194/#195), nessun tentativo alla
+> cieca ripetuto.
+>
+> **Mossa numero uno, sempre la stessa.** Serve la tua firma sulle card #154 e #155. Sono il dominio
+> e le chiavi Vercel. Senza quella firma il sito resta giù: HTTP 503, cieco da 291+ giri. E nessun
+> ordine può ancora diventare un incasso vero.
+>
+> Briefing di riferimento: [[Briefing/2026-09-06]].
+
 ---
 
 > 🧭 **6/9 08:43 — Nuova chiamata "esegui giro.md per intero", 9 minuti dopo il passaggio delle 08:34.**

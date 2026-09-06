@@ -26,6 +26,32 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- cadenze-cronico-3giri -->
+### 🟡 #198 — Un terzo controllo automatico dice "no" da 3 giri di fila: le cadenze del giorno non escono sempre complete · ⏳ accodata 2026-09-06 10:30
+
+**Cosa cambia:** il controllo si chiama CADENZE (dietro le quinte: `node cervello/freschezza-cadenze.mjs`).
+Verifica che ogni giro pubblicato porti dentro anche l'auto-analisi e l'apprendimento, non solo i numeri di
+business. Da 3 giri di fila risulta rosso: il giro delle 08:59 di oggi è uscito con `auto-analisi.json`
+toccato dal commit ma con la data interna non rigenerata — lo stesso gap già corretto a mano almeno 6 volte
+negli ultimi due giorni (16:35, 18:35, 20:35 del 5/9; tre volte oggi). Ogni volta l'ho sistemato scrivendo di
+nuovo il file, ma senza un freno che impedisca al problema di ripresentarsi.
+
+**Se va bene:** non serve una firma per riparare quanto già accaduto — è già corretto in questo stesso
+passaggio. Ma se continua a ripresentarsi, vuol dire che il passo "aggiorna auto-analisi.json" dentro il giro
+manca di una verifica automatica che si accorga da sola se la data interna non è cambiata rispetto al giro
+precedente, invece di aspettare che lo trovi `freschezza-cadenze.mjs` a posteriori.
+
+**Cosa non ho verificato:** se la causa sia un problema di disciplina del processo (il passo si salta quando
+il giro è "lean") o se lo strumento che scrive `auto-analisi.json` in giro.sh abbia un bug che a volte copia
+il contenuto del giro precedente senza aggiornarne la data — da qui vedo solo l'effetto ripetuto, non la causa
+nel codice di `giro.sh`.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 198 | 2026-09-06 10:30 | @AD | Tieni d'occhio il gate CADENZE: se ricompare un 4° giro di fila, serve un controllo automatico dentro il passo stesso che scrive auto-analisi.json, non solo una correzione a posteriori | 🟡 | vedi blocco sopra — gap già corretto in questo passaggio su `auto-analisi.json` | manuale | in attesa |
+
+---
+
 <!-- codice-dimenticato-senza-pr-funnel -->
 ### 🟡 #197 — C'è del codice pronto (o quasi) da luglio che non è mai entrato in una richiesta di unione · ⏳ accodata 2026-09-05 12:34
 
@@ -152,7 +178,14 @@ senza saperlo.
 comunque, dedico un passo a sola leggibilità su quei sei file, verificato con lo stesso comando che
 li ha segnalati.
 
-| 192 | 2026-09-02 18:28 | @ad | Ripulisci la leggibilità di RITMO.md, AUTO-ANALISI.md e i 4 file Intelligence, verificato con si-capisce.mjs | 🟡 | vedi blocco sopra | manuale | in attesa |
+**Aggiornamento 2026-09-06 10:30.** Il cancello di fine turno l'ha ricontato: RITMO.md, i quattro file
+di `Intelligence/` e ora anche `AZIONI-PRONTE.md` restano sopra soglia (RITMO.md il peggiore, 504
+punti difficili). Non ho tentato una correzione alla cieca: sono file grandi, scritti in passaggi
+precedenti non di questo turno, e senza `si-capisce.mjs` (stesso buco di permessi) non potrei
+verificare se il fix regge. Resto sulla scelta già scritta sopra: serve o l'allowlist sbloccata o un
+tuo «procedi comunque».
+
+| 192 | 2026-09-02 18:28 | @ad | Ripulisci la leggibilità di RITMO.md, AUTO-ANALISI.md, AZIONI-PRONTE.md e i 4 file Intelligence, verificato con si-capisce.mjs | 🟡 | vedi blocco sopra | manuale | in attesa |
 
 ---
 
@@ -3130,7 +3163,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-06 08:26)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-06 10:26)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-06-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno
