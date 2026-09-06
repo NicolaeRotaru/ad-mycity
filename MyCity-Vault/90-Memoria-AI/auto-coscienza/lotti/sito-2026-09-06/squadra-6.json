@@ -1,0 +1,182 @@
+{
+ "squadra": 6,
+ "territorio": [
+  "components/StickyAddToCart.tsx",
+  "app/cart/page.tsx",
+  "app/checkout/page.tsx",
+  "lib/cart.ts",
+  "lib/shipping.ts",
+  "lib/geo.ts",
+  "lib/constants.ts",
+  "app/api/cron/abandoned-carts/route.ts",
+  "components/MobileTabBar.tsx",
+  "components/checkout/CartGroupsList.tsx",
+  "components/checkout/StepIndicator.tsx",
+  "components/account/AccountShell.tsx",
+  "app/globals.css",
+  "app/product/[id]/page.tsx",
+  "app/categorie/page.tsx",
+  "app/store/[id]/page.tsx",
+  "app/stores/page.tsx",
+  "components/ProductCard.tsx",
+  "app/layout.tsx"
+ ],
+ "malattia": "Il carrello e la cassa sono due schermate una dopo l'altra ma sono state riparate una alla volta: ogni volta che un difetto e' stato chiuso solo di la' — il prezzo riletto, le promozioni, le coordinate dell'indirizzo, il modo di contare gli articoli, la variante mostrata — nel carrello e' rimasta la versione vecchia, e il numero cambiava sotto gli occhi di chi stava per pagare.",
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|nella barra d'acquisto della scheda prodotto i tasti «+» e «−» sono 36px, nel carrello 40px",
+   "titolo": "Nella barra d'acquisto della scheda prodotto i tasti «+» e «−» sono 36px, nel carrello 40px",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ⑦; piu' `npx vitest run tests/unit/da-ogni-larghezza-si-riesce-a-comprare.test.ts` (12 verdi) e `npx tsc --noEmit`.",
+   "nota_fix": "Trovato come descritto: `w-9 h-9` (36px) nella barra della scheda prodotto, `w-10 h-10` (40px) nel carrello. Portati tutti e quattro a `w-11 h-11` (44px), la misura minima per il dito secondo Apple e Google: adesso lo stesso gesto ha una misura sola su tutto il percorso. Verificato che a 360 pixel la barra ci sta ancora: la prova `da-ogni-larghezza-si-riesce-a-comprare` calcola l'ingombro dai numeri veri del file e il conto passa (la pastiglia dei tasti passa da 98 a 114 pixel dentro una card larga 312). Quella prova aveva 98 scritto a mano come pinning: l'ho aggiornato a 114 con la spiegazione accanto, e ho lasciato intatta la prova che conta davvero, cioe' «stepper + pulsante + prezzo stanno dentro la card». NON verificato in un browser vero: l'ingombro e' calcolato, non misurato. Non ho toccato il commento di `tests/unit/i-bersagli-del-percorso-d-acquisto-si-toccano.test.ts` che dice «lo stepper della barra mobile e' di un altro lotto e resta aperto»: adesso e' superato, ma e' un file che non e' nel mio territorio.",
+   "file_toccati": [
+    "components/StickyAddToCart.tsx",
+    "app/cart/page.tsx",
+    "tests/unit/da-ogni-larghezza-si-riesce-a-comprare.test.ts"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|il carrello conta i pezzi, il checkout conta le righe: lo stesso carrello dice «5 articoli» e un passo dopo «2 articoli»",
+   "titolo": "Il carrello conta i pezzi, il checkout conta le righe: lo stesso carrello dice «5 articoli» e un passo dopo «2 articoli»",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ①.",
+   "nota_fix": "Confermato sul codice, ma alla riga 1376 (la scheda diceva 1262: il file e' cresciuto). La cassa scriveva `{cart.length} articoli`, cioe' le righe. Ora usa `pluralize(cartCount(cart), 'articolo', 'articoli')` — la stessa funzione del carrello, piu' il singolare corretto (prima con un pezzo solo diceva «1 articoli»). Aggiunti due import a `app/checkout/page.tsx`: `cartCount` da lib/cart e `pluralize` da lib/format. Nessun'altra riga toccata.",
+   "file_toccati": [
+    "app/checkout/page.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|sotto «procedi al checkout» si promette il reso entro 14 giorni anche per pane, torte e gastronomia",
+   "titolo": "Sotto «Procedi al checkout» si promette il reso entro 14 giorni anche per pane, torte e gastronomia",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — la riga vive in app/cart/page.tsx; letta a video nel sorgente e verificata con `npx tsc --noEmit`.",
+   "nota_fix": "Confermato: la riga «Reso facile entro 14 giorni» compariva sotto «Procedi al checkout» per qualunque carrello, senza nessun collegamento alla politica dei resi. Ora dice «Reso entro 14 giorni · alcuni prodotti sono esclusi», con la seconda meta' che porta a /returns — dove alla riga 69 c'e' scritto per esteso «Non si applica a: prodotti deperibili (alimentari freschi)…». Cosi' la promessa non e' piu' falsa per il forno, e dal percorso d'acquisto si arriva per la prima volta a come si fa un reso. COSA NON HO FATTO, ed e' la parte piu' forte della proposta: nascondere la riga sulle categorie alimentari. Servono due cose che non ho: la categoria del prodotto (il `CartItem` non ce l'ha, e risalire allo slug di primo livello vuol dire una seconda catena di query su `categories`) e soprattutto la DECISIONE su quali categorie sono escluse — e' una scelta di politica commerciale/legale, non da prendere dentro un componente. Da passare a @marketplace-policy con @legale-privacy. NON verificato: non ho aperto /cart in un browser con un prodotto alimentare dentro.",
+   "file_toccati": [
+    "app/cart/page.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|la spedizione scritta nel carrello non è quella che si paga alla cassa",
+   "titolo": "La spedizione scritta nel carrello non è quella che si paga alla cassa",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ②, che diventa rossa se qualcuno rimette `deliveryLat: null` (provato: rimettendo il difetto a mano il comando esce 1).",
+   "nota_fix": "Confermato riga per riga, e la causa era esattamente quella descritta: stessa funzione, ingressi diversi. Il carrello ora legge, nello stesso `useEffect` che gia' chiedeva la scorta, due cose in piu': ① `profiles(id, store_lat, store_lng)` per i negozi del carrello — la cassa le prende dalla stessa colonna; ② `user_addresses(lat, lng)` ordinato per `is_default` e limitato a 1, cioe' la stessa query della cassa. Le due finiscono in `dovEIlNegozio` e `doveConsegniamo` e vanno dentro `shippingForEuro` al posto dei quattro `null`. Quando manca uno dei due punti — ospite, nessun indirizzo salvato, negozio senza coordinate — `shippingForEuro` ripiega da sola sulla tariffa fissa, che e' quello che fa anche la cassa: nessun percorso perde il numero. Cancellato il commento che affermava il falso («esattamente come fa il checkout prima che la persona lo scriva») e sostituito con il racconto del difetto. In piu' la nota sotto la riga «Spedizione» adesso dice il vero: «calcolata sul tuo indirizzo predefinito» quando i due punti ci sono tutti, «stima · potrebbe variare al checkout» quando no — prima diceva «stima» sempre, anche quando non c'era niente da stimare. Costo: due letture in piu' nella `Promise.all` che c'era gia', nessun viaggio in serie. NON verificato: non ho eseguito il confronto vero carrello↔cassa con un utente collegato e un indirizzo salvato (serve un browser e dati veri). La prova che ho e' strutturale: gli ingressi delle due chiamate ora coincidono.",
+   "file_toccati": [
+    "app/cart/page.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|il carrello mostra il prezzo del giorno in cui hai messo dentro il prodotto",
+   "titolo": "Il carrello mostra il prezzo del giorno in cui hai messo dentro il prodotto",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ③.",
+   "nota_fix": "Confermato. La query e' passata da `select('id, stock')` a `select('id, stock, price')` — stessa riga di tabella, nessun viaggio in piu' — e nella stessa `Promise.all` ho aggiunto `fetchActiveDiscounts`, la funzione che gia' usano la cassa e le due rotte che creano l'ordine. Il prezzo scontato lo calcola `discountedUnitCents`, identica alla cassa. Da li' nasce `righe`: le stesse voci del carrello col prezzo di adesso. Totale (`cartTotal(righe)`), conteggio, raggruppamento per negozio, subtotali e spedizione partono tutti da `righe`; finche' la lettura non e' tornata `righe` e' identico a `items`, quindi la pagina si disegna subito e si corregge da sola. E il cambio si DICE, non si applica in silenzio: sotto il nome compare «Buona notizia: il prezzo e' sceso da 3,00 a 2,55» o «Il prezzo e' cambiato da …», verde se scende e ambra se sale. Le varianti non hanno un prezzo proprio (`product_variants` ha solo `id, product_id, label, stock`), quindi il prezzo di prodotto e' l'unico che esiste e le due pagine restano allineate. Sull'email di recupero carrello ho tolto il numero invece di ricalcolarlo: «Il tuo carrello (€X) ti aspetta» e' diventato «Il tuo carrello ti aspetta», e la lista di cosa c'e' dentro resta. `cart_total` e' la fotografia del momento in cui e' stato abbandonato: ricalcolarlo li' vuol dire rifare prezzi e promozioni dentro un cron lato server, che e' lavoro da @backend-dev e non e' un fix minore. Meglio nessun numero che un numero vecchio. NON verificato: non ho provato a video il caso «prodotto scontato dopo essere entrato nel carrello» con dati reali.",
+   "file_toccati": [
+    "app/cart/page.tsx",
+    "app/api/cron/abandoned-carts/route.ts"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|su telefono il pulsante «procedi al checkout» sta in fondo, dopo tutti i prodotti e il carosello di upsell",
+   "titolo": "Su telefono il pulsante «Procedi al checkout» sta in fondo, dopo tutti i prodotti e il carosello di upsell",
+   "esito": "gia_riparato_prima",
+   "prova": "Letto `app/cart/page.tsx`: righe 25-39 (il commento «3/9/2026 — DAL TELEFONO, IL PULSANTE CHE PORTA I SOLDI ERA L'ULTIMA COSA DELLA PAGINA»), la costante `CORSIA_DELLA_BARRA`, il `barraRef` con `seguiAltezza`, il `pb-28 lg:pb-8` sul contenitore e la barra `lg:hidden fixed … bottom: fondoDellaBarra(corsieSotto(...))` in fondo al file. Verde anche `npx vitest run tests/unit/nel-carrello-il-pulsante-che-porta-i-soldi-si-vede-sempre.test.ts`.",
+   "nota_fix": "Gia' chiuso prima che arrivassi: la barra fissa col totale e «Procedi al checkout» c'e', sta sopra la barra a schede e sopra il banner dei cookie, e dichiara la propria altezza perche' il pulsante dell'assistenza sappia di quanto alzarsi. E' esattamente il fix proposto nella scheda. Non ho toccato niente. Unica cosa che ho cambiato li' vicino: il totale della barra ora nasce dalle righe col prezzo aggiornato, per via del difetto sui prezzi.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "flussi-conversione|nel riepilogo del checkout due varianti dello stesso prodotto sono due righe identiche",
+   "titolo": "Nel riepilogo del checkout due varianti dello stesso prodotto sono due righe identiche",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ④.",
+   "nota_fix": "Confermato. Nel riepilogo di destra della cassa ora compare `item.variantLabel` sotto il nome, come nel carrello, e la chiave di React e' `${item.id}::${item.variantId ?? ''}` invece del solo `item.id` — che per due varianti dello stesso prodotto era duplicata. Il file e' cresciuto rispetto alla scheda (righe 31/43-46 sono diventate 36/49-52) ma il contenuto e' quello.",
+   "file_toccati": [
+    "components/checkout/CartGroupsList.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|due numerazioni degli step nella stessa schermata, e lo step «conferma» non si accende mai",
+   "titolo": "Due numerazioni degli step nella stessa schermata, e lo step «Conferma» non si accende mai",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ⑤.",
+   "nota_fix": "Confermato tutto, con i numeri di riga aggiornati (la barra e' a checkout:1096 e 1122, non 833). Due mosse, tutte e due dentro il territorio: ① la barra non ha piu' numeri suoi — cerchio con la spunta per il passo fatto, pallino pieno per quello dove sei, pallino spento per quello dopo. Le etichette («Carrello · Indirizzo · Conferma») dicono gia' dove sei, e cosi' l'unica numerazione della schermata resta quella delle schede («1 Indirizzo di consegna · 2 Quando vuoi riceverlo · 3 Come paghi»): il «3» in alto e il «3» in basso non si contraddicono piu' perche' il «3» in alto non c'e'. ② «Conferma» adesso si accende: `currentStep={inPartenza ? 3 : 2}`. `inPartenza` diventa vero quando l'ordine e' stato accettato — su tutte e due le strade, contanti (riga 844) e carta (riga 954) — e da li' la pagina sta solo aspettando di sparire. La barra si completa nel momento in cui il percorso si completa, e non promette piu' un passo in piu' dopo il pagamento. SCELTA: non ho tolto la barra dal checkout (l'altra opzione della scheda) perche' avrebbe lasciato il carrello con una barra che nessun'altra pagina continua. E non ho tolto i numeri dalle StepCard perche' `components/checkout/StepCard.tsx` e' fuori dal mio territorio. NON verificato: la barra al passo 3 dura il tempo del cambio pagina, non l'ho vista a video.",
+   "file_toccati": [
+    "app/checkout/page.tsx",
+    "components/checkout/StepIndicator.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|la barra dei tre passi va a capo sui telefoni stretti e il terzo passo non si accende mai",
+   "titolo": "La barra dei tre passi va a capo sui telefoni stretti e il terzo passo non si accende mai",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ⑤.",
+   "nota_fix": "Confermata la parte provata (solo due chiamate, `currentStep` 1 e 2) e accolta la parte calcolata. Riscritto `StepIndicator` con due forme: sotto i 640 pixel una riga sola — «Passo 2 di 3 · Indirizzo» con una barretta di avanzamento — dove non c'e' niente che POSSA andare a capo (via cerchi, trattini e soprattutto il `flex-wrap`, che era la causa vera); da 640 in su i tre passi per esteso su una riga, senza `flex-wrap`. Il terzo passo ora si accende davvero: vedi la scheda sulle due numerazioni. Tenuti in piedi i due appigli delle prove esistenti, che ho controllato prima di riscrivere: l'etichetta resta uno `<span>` con la sua classe `text-…` (per la prova sul contrasto) e il pallino del passo fatto resta un `<div>` con `bg-olive-600 text-white` (per la prova sul contrasto del pallino). Tutte e due verdi. NON verificato: non ho aperto un iPhone SE vero; la larghezza e' ragionata sul file, ma sotto sm non c'e' piu' un contenitore che possa mandare a capo, quindi il difetto non puo' ripresentarsi per quella via.",
+   "file_toccati": [
+    "components/checkout/StepIndicator.tsx",
+    "app/checkout/page.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|la colonna del menu account si infila sotto l'intestazione fissa",
+   "titolo": "La colonna del menu account si infila sotto l'intestazione fissa",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ⑧.",
+   "nota_fix": "Confermato: `lg:top-24` (96px) contro `--header-height: 9rem` (144px) dichiarato a globals.css riga 112 — la scheda diceva riga 106, il file e' cambiato. Sostituito con `lg:top-[var(--header-height)]`, cioe' lo stesso token che usano gia' la scheda prodotto e il riepilogo del carrello: l'offset resta scritto in un posto solo e se un giorno l'intestazione cambia altezza si spostano tutte e tre insieme. Non ho aggiunto il «piccolo margine» suggerito dalla scheda, per non introdurre un quarto valore diverso dalle altre due colonne appiccicate. NON verificato a video: il calcolo e' 144 contro 96 letto dai due file.",
+   "file_toccati": [
+    "components/account/AccountShell.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+   "titolo": "La larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+   "esito": "non_riparato",
+   "prova": "Letto e verificato: app/categorie/page.tsx:44 e :60 (`max-w-5xl`, `px-4`), app/stores/page.tsx:234/243/254 (`max-w-7xl`, `px-4`), app/checkout/page.tsx:1088 e :1112 (`max-w-6xl`, `px-4 sm:px-6`), app/cart/page.tsx:302 e app/product/[id]/page.tsx:449 (container pieno, `px-4 sm:px-6`). Per la pagina negozio: app/store/[id]/page.tsx:109 non ha piu' la classe scritta a mano, usa la costante `CONTENITORE_PAGINA_NEGOZIO`.",
+   "nota_fix": "NON riparato di proposito, e non l'ho nemmeno cominciato: un fix a meta' qui e' peggio del difetto, perche' allinea quattro pagine su cinque e lascia la quinta a stridere. Il motivo: la larghezza della pagina negozio non vive nella pagina. Sta in `components/store-sections/misure-vetrina.ts` (`CONTENITORE_PAGINA_NEGOZIO = 'container mx-auto px-4 py-6 max-w-5xl space-y-4'`), che e' FUORI dal mio territorio ed e' letta anche da `components/store-sections/ScheletroNegozio.tsx` e da `app/store/[id]/[slug]/page.tsx`, anch'essi fuori. Cambiarla dalla pagina scollegherebbe lo scheletro dal contenuto e la vetrina salterebbe mentre carica: un difetto nuovo al posto di uno vecchio. In piu' «due larghezze sole» e' una regola di design system, non una correzione: va decisa una volta (quale e' larga, quale e' stretta, e dove sta scritta) e poi applicata alle sei pagine insieme, con `px-4 sm:px-6` uniforme. Chi la prende deve avere in mano misure-vetrina.ts, categorie, stores, store, cart, checkout e prodotto nello stesso lotto.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "performance-percepita|ogni prodotto senza foto fa una richiesta a placehold.co, dominio esterno non preconnesso",
+   "titolo": "Ogni prodotto senza foto fa una richiesta a placehold.co, dominio esterno non preconnesso",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (19 prove, verde; rimettendo a mano il difetto esce 1) — sezione ⑥.",
+   "nota_fix": "Confermato. Creato `public/foto-mancante.svg` — un segnaposto disegnato coi colori di casa (fondo crema, icona e scritta «Foto in arrivo» in terracotta) — e `lib/foto-mancante.ts` che ne esporta il percorso, cosi' l'indirizzo sta in un posto solo invece che copiato in ogni pagina. Sostituito nei tre punti citati dalla scheda — `components/ProductCard.tsx`, `app/cart/page.tsx`, `components/checkout/CartGroupsList.tsx` — piu' `app/product/[id]/page.tsx`, che e' nel mio territorio, e' la galleria da 600×600 dell'ultimo schermo prima di comprare, e aveva lo stesso difetto: lasciarlo fuori sarebbe stata una riparazione a meta' sul percorso d'acquisto. Verificato che il percorso locale passa indenne per tutta la catena delle immagini: `sizedImage` lo restituisce invariato (`new URL` fallisce su un percorso relativo e il `catch` torna `src`) e `caricatoreFotoRemote` lo lascia stare per costruzione (`if (!src.startsWith('http')) return src`), quindi Next non ci mette in mezzo il suo ottimizzatore e non c'entra `dangerouslyAllowSVG`. La regola 3 di `public/sw.js` prende i nostri `.svg` in cache-first: dopo la prima volta non parte nemmeno una richiesta. Non ho aggiunto nessun `preconnect` a placehold.co: era la toppa, e adesso non serve piu'. Non ho tolto placehold.co da `next.config` perche' altre pagine lo usano ancora (vedi difetti_nuovi). NON verificato: non ho contato le richieste di rete in un browser; la prova e' che l'indirizzo esterno non c'e' piu' nei quattro file e il file locale esiste.",
+   "file_toccati": [
+    "components/ProductCard.tsx",
+    "app/cart/page.tsx",
+    "components/checkout/CartGroupsList.tsx",
+    "app/product/[id]/page.tsx",
+    "lib/foto-mancante.ts",
+    "public/foto-mancante.svg"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+   "perche": "il fix vive in un file fuori territorio: components/store-sections/misure-vetrina.ts (la costante CONTENITORE_PAGINA_NEGOZIO, letta anche da components/store-sections/ScheletroNegozio.tsx e app/store/[id]/[slug]/page.tsx). Senza quel file si possono allineare quattro pagine su cinque e la pagina negozio resta fuori: un fix a meta'. Va rifatto come una decisione di design system — due larghezze sole, px-4 sm:px-6 ovunque — con tutti e sette i file nello stesso lotto."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Fuori dal percorso d'acquisto quattro punti chiedono ancora il segnaposto a placehold.co, e uno sta in home",
+   "dove": "components/home/DropOfDay.tsx:90 · app/seller/products/page.tsx:314 e :417 · components/seller/FeaturedProductsPicker.tsx:72",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La pagina dei resi promette di restituire «qualsiasi prodotto» e ventisei righe dopo esclude gli alimentari freschi",
+   "dove": "app/returns/page.tsx:43 contro app/returns/page.tsx:69",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il carrello condiviso e il carosello «Completa con» ricevono ancora le righe col prezzo vecchio",
+   "dove": "app/cart/page.tsx — <ShareCartButton items={items} /> e <CartUpsell items={items} />, mentre totali e righe usano ormai `righe`",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La cassa applica il prezzo aggiornato per prodotto anche alle righe con variante, ma le varianti non hanno un prezzo proprio: se un giorno ce l'avranno, le due pagine divergeranno di nuovo",
+   "dove": "app/checkout/page.tsx:265-271 e app/cart/page.tsx (mappa prezzoDiOggi, indicizzata per id prodotto)",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Non ho aperto il sito in un browser: nessuno di questi fix e' stato visto a video, ne' su un telefono vero. In particolare restano non misurati (a) il confronto carrello↔cassa sulla spedizione con un utente collegato e un indirizzo salvato — la mia prova e' che i due gruppi di ingressi ora coincidono, non che i due numeri stampati coincidano; (b) la barra dei passi su uno schermo da 360 pixel; (c) il numero di richieste di rete risparmiate col segnaposto locale; (d) la riga del reso vista con un prodotto alimentare nel carrello. Non ho lanciato `npm run verify` ne' `npm run build`, come da regole del lotto: ho lanciato `npx tsc --noEmit -p tsconfig.json` (pulito), `npx eslint` sui file toccati (0 errori, 5 avvisi tutti preesistenti e su righe che non ho toccato) e l'intera suite unitaria, `npx vitest run tests/unit` → 432 file, 3301 prove, tutte verdi. Due note per chi ricuce: ① ho aggiornato UN numero fissato a mano in `tests/unit/da-ogni-larghezza-si-riesce-a-comprare.test.ts` (98 → 114), perche' quella prova misura l'ingombro di `components/StickyAddToCart.tsx`, che e' roba mia, e i tasti sono passati da 36 a 44 pixel; la prova che conta — «stanno dentro la card a 360 pixel» — l'ho lasciata intatta e passa. ② Durante il primo giro completo della suite ho visto fallire `tests/unit/il-filtro-categoria-non-ha-due-bambini-uguali.test.ts`: legge `app/search/page.tsx`, che un'altra squadra stava scrivendo in quel momento. Rilanciata da sola e nel giro dopo e' verde. Non e' roba mia, ma se la vedi rossa sai perche'."
+}

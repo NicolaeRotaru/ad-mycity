@@ -1,0 +1,184 @@
+{
+ "squadra": 8,
+ "territorio": [
+  "components/ImageUrlField.tsx",
+  "components/seller/ProductForm.tsx",
+  "app/seller/stories/page.tsx",
+  "components/seller/site/GalleryFields.tsx",
+  "components/seller/site/ImageUpload.tsx",
+  "components/StoreMediaManager.tsx",
+  "components/VendorForm.tsx",
+  "components/SellerApplicationForm.tsx",
+  "components/seller/ProductImagesField.tsx",
+  "components/NewsletterForm.tsx",
+  "components/seller/FeaturedProductsPicker.tsx",
+  "components/seller/BulkPhotoCreate.tsx",
+  "components/products/ImportFromUrlBox.tsx",
+  "app/seller/customers/page.tsx",
+  "components/StoreLocationPicker.tsx",
+  "components/PublicProfileToggle.tsx",
+  "app/rider/availability/page.tsx",
+  "components/ui/Field.tsx",
+  "components/checkout/CouponInput.tsx",
+  "app/profile/settings/page.tsx",
+  "app/seller/products/[id]/edit/page.tsx",
+  "lib/errors.ts",
+  "app/orders/[id]/return/page.tsx",
+  "lib/storage/carica-immagine.ts",
+  "lib/products/uploadImages.ts",
+  "components/PhotoReviewUpload.tsx",
+  "lib/products/rehostImages.ts",
+  "migrations/127_minori_22_agosto.sql",
+  "migrations/070_storage_and_rls_hardening.sql"
+ ],
+ "malattia": "Ogni volta che qualcuno ha aggiunto un punto in cui il negoziante carica una foto, ha ricopiato il riquadro invece di passare da una regola sola: cosi' il controllo su formato e peso e' rimasto in un punto solo (le foto di prodotto), il nome del campo per chi usa un lettore di schermo non e' stato messo da nessuna parte, il colore dell'errore l'ha scelto ognuno a occhio e le frasi del deposito sono arrivate all'utente in inglese. Otto copie a mano, e la differenza fra loro e' il difetto.",
+ "difetti": [
+  {
+   "chiave": "accessibilita|il caricamento foto del negoziante e altri campi dei suoi moduli non hanno nessun nome per chi usa un lettore di schermo",
+   "titolo": "Il caricamento foto del negoziante e altri campi dei suoi moduli non hanno nessun nome per chi usa un lettore di schermo",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts (17 prove verdi; il blocco «ogni riquadro carica-un-file dice come si chiama» diventa rosso se un aria-label sparisce — verificato togliendolo a VendorForm: exit 1, rimesso: exit 0). In piu': npx tsc --noEmit -p tsconfig.json → exit 0, e npx vitest run intero → 431 file, 3282 prove, tutte verdi.",
+   "nota_fix": "TROVATO: dei tre casi della scheda ne erano vivi due. ① i sette campi file dei dropzone: veri, riparati tutti e sette (ImageUrlField, GalleryFields, seller/site/ImageUpload, StoreMediaManager, VendorForm, SellerApplicationForm, ProductImagesField) — a ognuno ho passato un aria-label a getInputProps() e role=button + aria-label a getRootProps(). Il campo di react-dropzone non e' nascosto, e' rimpicciolito a un pixel: resta nell'albero che legge un lettore di schermo, per questo axe lo segnalava. ③ la foto della storia (app/seller/stories/page.tsx): vero, ora la label ha htmlFor=\"foto-storia\" e l'input l'id corrispondente. ② lo stock delle varianti (ProductForm:817-823): GIA' RIPARATO PRIMA — alla riga 840 c'e' gia' aria-label={`Disponibilita' ${v.label}`}. La scheda ha tre giorni e su quel punto e' vecchia. NON HO VERIFICATO con axe in un browser finto: la libreria per montare i componenti (@testing-library/react) in questo progetto non c'e' e non si aggiunge una dipendenza dentro una riparazione — la mia prova e' un invariante di struttura, dichiarato come tale nel file di prova. CORREZIONE ALLA SCHEDA: la regola di lint jsx-a11y c'e' gia' ed e' attiva (npx eslint la fa girare, le segnala come warning): la causa radice scritta nella scheda («nessuna regola di lint ferma il prossimo campo senza nome») non e' esatta — quello che manca e' che quei warning non fermino nessuno. Non ho alzato le regole da warning a error perche' e' un cambio in .eslintrc.json, che e' di tutti. Un ottavo dropzone senza nome vive in components/admin/home/HomeSectionConfigForm.tsx: fuori dal mio territorio, segnalato in difetti_nuovi e dichiarato come eccezione dentro la prova, non nascosto.",
+   "file_toccati": [
+    "components/ImageUrlField.tsx",
+    "components/seller/site/GalleryFields.tsx",
+    "components/seller/site/ImageUpload.tsx",
+    "components/StoreMediaManager.tsx",
+    "components/VendorForm.tsx",
+    "components/SellerApplicationForm.tsx",
+    "components/seller/ProductImagesField.tsx",
+    "app/seller/stories/page.tsx",
+    "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts"
+   ]
+  },
+  {
+   "chiave": "accessibilita|tredici campi del negoziante, del rider e del piè di pagina hanno come unico nome il segnaposto, che sparisce appena si scrive",
+   "titolo": "Tredici campi del negoziante, del rider e del piè di pagina hanno come unico nome il segnaposto, che sparisce appena si scrive",
+   "esito": "riparato",
+   "prova": "Verifica sul sorgente, campo per campo (uno script che cerca il nome nuovo di ognuno dei 13: 0 mancanti). Poi npx tsc --noEmit -p tsconfig.json → exit 0 e la suite intera verde (431 file, 3282 prove). Le tre etichette scollegate si controllano cosi': grep -n 'htmlFor={idSlogan}' components/VendorForm.tsx · grep -n 'htmlFor={idIndirizzo}' components/StoreLocationPicker.tsx · grep -n 'htmlFor={idHandle}' components/PublicProfileToggle.tsx.",
+   "nota_fix": "TROVATO: 11 campi vivi su 12 posizioni citate. Riparati con aria-label: NewsletterForm (email del pie' di pagina), FeaturedProductsPicker (cerca prodotto), GalleryFields (descrizione di ogni immagine, numerata), ImageUrlField (indirizzo web dell'immagine), BulkPhotoCreate (nome di ogni prodotto, numerato), ImportFromUrlBox (link da importare), seller/customers (cerca cliente). Riparate con htmlFor+id le quattro etichette che si vedevano ma non erano legate: VendorForm «Slogan», StoreLocationPicker «Indirizzo del negozio», PublicProfileToggle «Handle pubblico» e ProductForm «Tag / parole chiave». Ho usato useId() e non un id scritto a mano: questi moduli possono comparire piu' volte nella stessa pagina, e due campi con lo stesso id fanno leggere al lettore di schermo sempre il primo — un id fisso avrebbe creato un difetto nuovo mentre ne chiudevo uno. GIA' RIPARATO PRIMA: app/rider/availability/page.tsx, che alla riga 191 ha gia' aria-label=\"Aggiungi una zona personalizzata\" (la scheda ha tre giorni). IL TREDICESIMO: il titolo dice tredici campi ma le posizioni elencate sono dodici; il tredicesimo l'ho trovato una riga sotto una di quelle, PublicProfileToggle «Bio (opzionale, max 200 char)», stessa etichetta scollegata, e l'ho chiuso. NON HO VERIFICATO: che il nome nuovo suoni bene letto ad alta voce da un lettore di schermo vero — da qui non si sente. E resta un nome scritto male, dichiarato: nel modulo newsletter il nome del campo diventa «la-tua@email.it», perche' e' l'unico testo disponibile — la frase giusta («La tua email») va aggiunta in messages/*.json, che sta fuori dal mio territorio: segnalato in difetti_nuovi.",
+   "file_toccati": [
+    "components/NewsletterForm.tsx",
+    "components/seller/FeaturedProductsPicker.tsx",
+    "components/seller/site/GalleryFields.tsx",
+    "components/ImageUrlField.tsx",
+    "components/seller/BulkPhotoCreate.tsx",
+    "components/products/ImportFromUrlBox.tsx",
+    "app/seller/customers/page.tsx",
+    "components/VendorForm.tsx",
+    "components/StoreLocationPicker.tsx",
+    "components/PublicProfileToggle.tsx",
+    "components/seller/ProductForm.tsx"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|lo stesso errore di campo è bordeaux, rosa o rosso a seconda della pagina, anche dentro il checkout",
+   "titolo": "Lo stesso errore di campo è bordeaux, rosa o rosso a seconda della pagina, anche dentro il checkout",
+   "esito": "riparato",
+   "prova": "La prova della scheda, rilanciata: cd /home/user/mycity && grep -nE 'text-(rose|red)-[0-9]+' components/checkout/CouponInput.tsx components/VendorForm.tsx components/SellerApplicationForm.tsx | grep -q . && echo DIFETTO || echo VERDE → stampa VERDE (prima stampava DIFETTO). E in tutto il territorio non resta un solo errore di campo in rose o red: grep -rnE 'text-(rose|red)-[0-9]+' components/checkout/CouponInput.tsx components/VendorForm.tsx components/SellerApplicationForm.tsx components/StoreLocationPicker.tsx components/seller/ProductImagesField.tsx components/ui/Field.tsx → nessuna riga.",
+   "nota_fix": "TROVATO: sette messaggi d'errore di campo veri, tutti passati a text-secondary-600 (il bordeaux con cui components/ui/Field.tsx scrive l'errore in tutto il sito) e a tutti ho aggiunto role=\"alert\", che meta' non aveva: CouponInput (codice sconto rifiutato, dentro la cassa), VendorForm x2 (indirizzo e personalizzazione), SellerApplicationForm x2 (errore di campo e errore posizione) + l'asterisco «obbligatorio», StoreLocationPicker (ricerca indirizzo), ProductImagesField (foto prodotto — non era in elenco, stesso ruolo, stesso territorio: lasciarlo avrebbe riaperto la scheda al prossimo giro). COMANDA IL CODICE, non la scheda: quattro delle otto posizioni citate NON sono errori di campo e le ho lasciate stare apposta — ProductForm:983,1002 e' il pulsante «Elimina», app/profile/settings:573-633 e' il pannello «Zona pericolosa», app/seller/products/[id]/edit:117-120 e' il riquadro «prodotto non trovato» di pagina. Sono il ruolo «pericolo», che la scheda stessa dichiara essere un altro difetto: cambiarli qui avrebbe mescolato due lavori. Ho invece portato a secondary i tre residui rose/red dei tre file della prova (i link «Rimuovi»), perche' altrimenti la prova della scheda restava rossa per un motivo che con l'errore di campo non c'entra. NON FATTO, e va detto: l'alias semantico danger → secondary in tailwind.config.ts non l'ho aggiunto, perche' quel file sta fuori dal mio territorio e lo leggono tutte le squadre; nemmeno components/ui/FieldError.tsx, che sarebbe un file nuovo condiviso. Ho usato il token che esiste gia' (secondary), quindi il difetto e' chiuso nel merito ma la rete che impedisce al prossimo modulo di scegliere il rosso a occhio non c'e' ancora: e' debito dichiarato, e la casa giusta e' tailwind.config.ts o la CHECKLIST-BRAND.",
+   "file_toccati": [
+    "components/checkout/CouponInput.tsx",
+    "components/VendorForm.tsx",
+    "components/SellerApplicationForm.tsx",
+    "components/StoreLocationPicker.tsx",
+    "components/seller/ProductImagesField.tsx"
+   ]
+  },
+  {
+   "chiave": "immagini-media|quando una foto viene rifiutata, il negoziante legge una frase in inglese che non dice cosa fare",
+   "titolo": "Quando una foto viene rifiutata, il negoziante legge una frase in inglese che non dice cosa fare",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts → blocco ① «le frasi del deposito arrivano al negoziante in italiano», 4 prove verdi. Non e' cieca: togliendo il ramo nuovo da lib/errors.ts la prova esce 1, rimettendolo esce 0 (verificato). Le prove gia' esistenti su questo file restano verdi: npx vitest run tests/unit/errors.test.ts tests/unit/gli-errori-di-accesso-parlano-italiano.test.ts tests/unit/il-motivo-vero-arriva-al-cliente.test.ts tests/unit/in-cassa-un-guasto-di-rete-non-butta-fuori-il-cliente.test.ts → tutte verdi.",
+   "nota_fix": "TROVATO: esatto come descritto. In lib/errors.ts ho messo quattro rami PRIMA dell'ultimo — quello che ripulisce il testo e lo lascia passare se e' corto e comincia per lettera, cioe' la rete di sicurezza che qui si comportava da porta aperta: «mime type … is not supported» → «Formato non accettato: usa una foto JPG, PNG o WEBP.»; «exceeded the maximum allowed size» e «Payload too large» → «La foto e' troppo pesante: il limite e' 10 MB. Riducila o scattane un'altra.»; «resource already exists» → «Un file con questo nome c'e' gia'.»; «value too long» → «Testo troppo lungo.». Ogni ramo traccia il suo codice, come fanno gli altri. E il caso peggiore, app/orders/[id]/return/page.tsx: l'errore del caricamento adesso passa da friendlyError come fanno gli altri tre punti — prima il cliente leggeva l'inglese mentre allegava la foto del prodotto arrivato rotto. ATTENZIONE alla larghezza delle reti: ho scritto /mime type|invalid mime type/ e non il piu' largo «not supported» che suggeriva la scheda, perche' dentro una funzione che vede TUTTI gli errori dell'applicazione una rete larga si prende anche quelli di altri — e' l'errore che questo stesso file ha gia' fatto una volta col «rate limit» (sta scritto nei suoi commenti). La prova contiene un blocco apposta che controlla che accesso, rete e messaggi nostri non siano stati rubati. NON HO VERIFICATO: che il deposito vero dica ancora quelle frasi esatte — sono quelle di Supabase Storage e da qui non si interroga.",
+   "file_toccati": [
+    "lib/errors.ts",
+    "app/orders/[id]/return/page.tsx",
+    "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts"
+   ]
+  },
+  {
+   "chiave": "immagini-media|il campo del logo offre al negoziante formati che il deposito rifiuta e non mette un tetto al peso",
+   "titolo": "Il campo del logo offre al negoziante formati che il deposito rifiuta e non mette un tetto al peso",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts → blocco ② «la porta rifiuta prima di spedire», 4 prove verdi: l'SVG viene rifiutato e il deposito finto non riceve NIENTE (zero chiamate), la foto oltre i 10 MB idem, e tutti e sette i formati ammessi passano. Non e' cieca: togliendo il controllo dalla porta esce 1. In coda c'e' un blocco che rilegge migrations/070 e pretende che la lista dei sette tipi e i 10485760 byte siano ancora quelli — se la migrazione cambia, la prova diventa rossa invece di restare una bugia.",
+   "nota_fix": "TROVATO: la porta unica (lib/storage/carica-immagine.ts) non sapeva niente di tipi e pesi, esatto come dice la scheda. Ho messo li' i due controlli, prima di spedire: i sette tipi di migrations/070 (TIPI_IMMAGINE_AMMESSI) e i 10 MiB (MAX_BYTE_CARICAMENTO). Il peso lo legge sia da File.size (browser) sia da Buffer.byteLength (server, rehostImages). Poi ho sostituito accept: { 'image/*': [] } con l'elenco esplicito JPG/PNG/WEBP in cinque riquadri (VendorForm, seller/site/ImageUpload, StoreMediaManager, GalleryFields, ImageUrlField) e accept=\"image/*\" con l'elenco in app/orders/[id]/return/page.tsx: il file sbagliato non parte nemmeno. DUE SCELTE MIE, contro il fix proposto, e il motivo: (a) NON ho chiamato resizeImageToFile dentro la porta, perche' quella funzione usa il canvas del browser e la porta gira ANCHE lato server (lib/products/rehostImages.ts): chiamarla li' avrebbe rotto l'import da link. La ricompressione resta dov'e' (lib/products/uploadImages.ts) e la porta si limita a rifiutare con una frase italiana. (b) il controllo sui tipi guarda solo i tipi image/…: un video passa come prima. Non e' una svista ed e' scritto nel codice: StoreMediaManager promette un video per negozio, ma il secchio products non ha NESSUN tipo video nella sua lista, quindi quel caricamento fallisce sempre e da sempre. E' un guasto piu' grande di questa riga, va riparato dove nasce, e l'ho aperto come difetto nuovo invece di nasconderlo dietro un messaggio sbagliato. NON HO VERIFICATO: la lista vera del deposito su Supabase — il comando psql della scheda non gira da qui (non c'e' un database locale); ho letto la regola dalla migrazione, ed e' quello che la prova ricontrolla a ogni giro.",
+   "file_toccati": [
+    "lib/storage/carica-immagine.ts",
+    "components/VendorForm.tsx",
+    "components/seller/site/ImageUpload.tsx",
+    "components/StoreMediaManager.tsx",
+    "components/seller/site/GalleryFields.tsx",
+    "components/ImageUrlField.tsx",
+    "app/orders/[id]/return/page.tsx",
+    "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts"
+   ]
+  },
+  {
+   "chiave": "immagini-media|le foto caricate scadono dalla cache dopo un'ora anche se l'indirizzo non cambia mai",
+   "titolo": "Le foto caricate scadono dalla cache dopo un'ora anche se l'indirizzo non cambia mai",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts → blocco ③ «una foto che non cambia mai non si riscarica ogni ora», 3 prove verdi: la porta consegna al deposito 31536000 anche a chi non chiede niente, il numero vale davvero 365 giorni, e nessuno dei sette punti rimette '3600'. Non e' cieca: rimettendo un'ora esce 1.",
+   "nota_fix": "TROVATO: tutti e sette i punti, come dice la scheda (che sul numero aveva ragione contro le cinque del collega). Ho messo il valore in un posto solo — ANNO_IN_SECONDI in lib/storage/carica-immagine.ts — e l'ho reso il DEFAULT della porta: cosi' il settimo punto, ImageUrlField, che non lo impostava affatto e prendeva il valore corto di serie dello storage, adesso ce l'ha senza doverselo ricordare. Gli altri sei (uploadImages, rehostImages, VendorForm, SellerApplicationForm, seller/site/ImageUpload, PhotoReviewUpload) citano la costante invece del numero. HO CONFERMATO la precisazione della scheda: next.config.js:64 non c'entra, il commento sopra dichiara gia' che quelle righe valgono solo per l'ottimizzatore di Next. UN OTTAVO PUNTO ESISTE e non l'ho toccato: components/seller/BackgroundRemovalPreview.tsx:100 scrive ancora '3600' — sta fuori dal mio territorio, e' segnalato in difetti_nuovi e la prova lo dichiara come eccezione invece di fingere che non ci sia. NON HO VERIFICATO: che il browser vero smetta davvero di riscaricare — serve un giro con gli strumenti di rete aperti su un telefono, e da qui non si fa.",
+   "file_toccati": [
+    "lib/storage/carica-immagine.ts",
+    "lib/products/uploadImages.ts",
+    "lib/products/rehostImages.ts",
+    "components/VendorForm.tsx",
+    "components/SellerApplicationForm.tsx",
+    "components/seller/site/ImageUpload.tsx",
+    "components/PhotoReviewUpload.tsx",
+    "components/ImageUrlField.tsx",
+    "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|al negoziante che carica una foto troppo grande arriva un errore in inglese",
+   "titolo": "Al negoziante che carica una foto troppo grande arriva un errore in inglese",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts → blocco ① (la frase «troppo pesante» con dentro il limite di 10 MB, per tutti e due i modi in cui il deposito lo dice) e blocco ② (la porta si ferma prima, e il deposito finto non riceve niente). Non e' cieca: verificato togliendo i rami, esce 1.",
+   "nota_fix": "E' lo stesso guasto del difetto «quando una foto viene rifiutata…», visto dall'altro lato: li' la traduzione, qui il controllo prima di partire. L'ho chiuso con le stesse due mosse, coordinate apposta perche' la frase che il negoziante legge sia LA STESSA da qualunque parte arrivi: (a) lib/errors.ts traduce «exceeded the maximum allowed size» e «Payload too large», piu' «resource already exists» e «value too long» che la scheda cita; (b) lib/storage/carica-immagine.ts rifiuta il file oltre i 10 MB PRIMA di spedirlo, con la stessa identica frase italiana — cosi' il negoziante non aspetta il caricamento per sentirsi dire di no. Il tetto e' quello vero: file_size_limit di migrations/070 (10485760) e di migrations/127, riletti dalla prova. LE MIGRAZIONI NON LE HO TOCCATE: sono 🔴 e non sono di questo lotto. NON HO VERIFICATO: una foto da 12 MB caricata davvero da un telefono — la prova dichiara il peso invece di occupare la memoria per riempirlo.",
+   "file_toccati": [
+    "lib/errors.ts",
+    "lib/storage/carica-immagine.ts",
+    "components/VendorForm.tsx",
+    "app/seller/stories/page.tsx",
+    "tests/unit/la-foto-rifiutata-lo-dice-in-italiano.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il negoziante puo' caricare un video della vetrina, ma il deposito non accetta nessun video: quel caricamento fallisce sempre, e non ha mai funzionato",
+   "dove": "components/StoreMediaManager.tsx:29 (accept video/*) e :61 (carica sul secchio products) contro migrations/070_storage_and_rls_hardening.sql:37-42, dove la lista dei tipi ammessi ha sette immagini e zero video",
+   "gravita": "grave"
+  },
+  {
+   "titolo": "Anche il riquadro di caricamento dell'amministrazione ha il campo file senza nome per chi usa un lettore di schermo",
+   "dove": "components/admin/home/HomeSectionConfigForm.tsx:92",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "L'ottavo punto di caricamento fa ancora scadere le foto dopo un'ora",
+   "dove": "components/seller/BackgroundRemovalPreview.tsx:100",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il campo email del pie' di pagina si presenta al lettore di schermo come «la-tua@email.it» invece che «La tua email»",
+   "dove": "components/NewsletterForm.tsx:100 — la frase giusta va aggiunta in messages/it.json e messages/en.json, sezione newsletter",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Quattro etichette fanno da titolo a un gruppo di controlli ma sono scritte come etichetta di un campo solo, e il controllo del codice lo segnala senza fermare nessuno",
+   "dove": "components/VendorForm.tsx:191,321,328 e components/StoreMediaManager.tsx:106 — le riporta npx eslint come warning jsx-a11y/label-has-associated-control",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Le regole di accessibilita' del controllo del codice sono impostate come avviso, non come errore: un campo senza nome passa lo stesso",
+   "dove": ".eslintrc.json — jsx-a11y gira gia' ma i suoi rilievi non fermano nessuno (la scheda del primo difetto dava per assente il plugin: c'e')",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Tre cose. ① Nessuna prova con un lettore di schermo vero ne' con axe in un browser finto: la libreria per montare i componenti (@testing-library/react) in questo progetto non c'e' e non si aggiunge una dipendenza dentro una riparazione, quindi sui nomi dei campi la mia prova e' un invariante di struttura, dichiarato come tale. ② Il deposito vero su Supabase non l'ho interrogato (il comando psql della scheda non gira da qui, non c'e' un database locale): la lista dei sette tipi e il tetto di 10 MB li ho letti dalle migrazioni 070 e 127, e la prova li rilegge a ogni giro per accorgersi se cambiano. ③ Niente e' stato guardato a video, su nessun telefono: i colori nuovi degli errori (secondary-600 al posto di rose/red) e il tempo di conservazione delle foto sono verificati sul codice e sui test, non sullo schermo. Da segnalare per la ricucitura: mentre lavoravo, npx tsc sull'intero progetto e la suite intera erano rossi per file di ALTRE squadre (components/account/AccountShell.tsx, components/StickyAddToCart.tsx) — al momento della consegna sono tornati verdi, ma il conto finale va rifatto ad albero fermo."
+}
