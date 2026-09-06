@@ -1,0 +1,74 @@
+{
+  "squadra": 204,
+  "territorio": [
+    "components/ProductQA.tsx",
+    "components/StoreProductExplorer.tsx",
+    "components/AddToListButton.tsx",
+    "app/lists/page.tsx",
+    "app/lists/[id]/page.tsx",
+    "app/seller/promotions/page.tsx",
+    "app/seller/stories/page.tsx"
+  ],
+  "malattia": "La zona delle liste è stata scritta di corsa e mai riletta con gli occhi di chi la usa: campi senza nome, misure inventate, parole da programmatore e riquadri che dicono «non hai niente» prima ancora di aver letto il database.",
+  "difetti": [
+    {
+      "chiave": "accessibilita|campi con la sola scritta-suggerimento dentro (e alcune etichette scollegate): il nome sparisce appena si scrive",
+      "titolo": "Campi con la sola scritta-suggerimento dentro (e alcune etichette scollegate): il nome sparisce appena si scrive",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/i-campi-da-riempire-hanno-un-nome-che-resta.test.ts (5 prove, verde: copre i 6 campi già chiusi il 27/8) + tests/unit/la-nota-di-un-prodotto-in-lista-ha-un-nome.test.ts, nuovo, che monta la pagina della lista CON un prodotto dentro e con l'utente padrone: verde ora, e tolta la riga aria-label esce rosso («Campi senza nome: «Perché l'hai messo in lista?»», exit 1). npx tsc --noEmit -p tsconfig.json exit 0.",
+      "nota_fix": "La scheda elencava sette campi. Sei erano già stati chiusi da un'ondata precedente (il commento «27/8/2026 (R115)» sta ancora nei file): ProductQA:156 ha una etichetta sr-only con htmlFor, ProductQA:238 e StoreProductExplorer hanno aria-label, AddToListButton ha htmlFor su «+ Crea nuova lista», app/lists/page.tsx ha htmlFor su Emoji/Titolo/Descrizione, e il titolo della lista in modifica ha aria-label. Restava aperto il settimo, quello che la scheda chiamava app/lists/[id]/page.tsx:290 e che oggi sta a riga 294: il campo della nota sotto ogni prodotto della lista, con la sola scritta grigia «Perché l'hai messo in lista?». Gli ho messo aria-label={`Perché hai messo ${p.name} in lista?`}, tenendo la scritta-suggerimento e citando il nome del prodotto come già fa ProductQA con la domanda. Perché era sopravvissuto: la prova del 27/8 monta la stessa pagina ma con l'elenco dei prodotti vuoto (__DATI_QUERY__ risponde [] a tutto ciò che non è 'detail'), quindi la riga del prodotto non veniva mai disegnata e il campo non veniva mai guardato. Ho aggiunto un file di prova nuovo che monta la pagina con un prodotto dentro, così il buco non si riapre; dentro la prova c'è anche un controllo che il campo esista, perché una prova che non guarda niente passa per finta. NON verificato: nessun lettore di schermo vero, solo il nome accessibile calcolato in jsdom.",
+      "file_toccati": ["app/lists/[id]/page.tsx", "tests/unit/la-nota-di-un-prodotto-in-lista-ha-un-nome.test.ts"]
+    },
+    {
+      "chiave": "immagini-media|nella lista dei desideri il riquadro senza foto si accartoccia attorno all'icona",
+      "titolo": "Nella lista dei desideri il riquadro senza foto si accartoccia attorno all'icona",
+      "esito": "riparato",
+      "prova": "Ricontrollato il presupposto della scheda: node -p require('tailwindcss/package.json').version dice 3.4.19, e in tailwind.config.ts sotto theme.extend non c'è nessuna voce spacing (grep 'spacing' non trova nulla). In Tailwind 3 la scala di serie salta da 16 a 20: w-18 e h-18 non esistono e vengono buttate via. Dopo il fix, grep -rn 'w-18|h-18' app components non trova più niente. npx tsc --noEmit exit 0, npx eslint sui file toccati 0 errori.",
+      "nota_fix": "Confermato riga per riga: entrambi i rami erano marcati w-18 h-18 (righe 283 e 285). Sull'immagine non si vedeva perché restavano width={72} height={72} nell'HTML; sul segnaposto grigio, che quegli attributi non li ha, il riquadro si stringeva attorno all'icona da 24 pixel e la riga usciva storta. Messo w-[72px] h-[72px] su tutti e due, che è la misura che l'immagine già aveva: così i due rami sono alti uguali. Ho preferito la misura esatta a h-20 w-20 (80px) per non cambiare l'ingombro delle righe che oggi la foto ce l'hanno. NON verificato: non ho aperto il browser, la prova è sulla scala di Tailwind e sul sorgente.",
+      "file_toccati": ["app/lists/[id]/page.tsx"]
+    },
+    {
+      "chiave": "microcopy|al venditore si parla di «buyer» e di «upload»",
+      "titolo": "Al venditore si parla di «buyer» e di «Upload»",
+      "esito": "riparato",
+      "prova": "Le tre stringhe erano tutte dove diceva la scheda. Dopo il fix, grep -rn 'buyer|Upload…|(opz\\.)' app/seller/ lascia solo quattro righe che il negoziante non legge mai: due commenti nel codice (orders/[id]/page.tsx:250, layout.tsx:30), un alias di query Supabase e un campo di tipo TypeScript (customers/page.tsx). Nessun testo a video. npx tsc --noEmit exit 0.",
+      "nota_fix": "«…visibile ai buyer» è diventato «…visibile ai clienti»; il pulsante che durante il caricamento diceva «Upload…» adesso dice «Carico…»; l'etichetta «Link prodotto/categoria (opz.)» è «Link prodotto/categoria (facoltativo)». Ho lasciato in pace le quattro «buyer» che restano perché stanno in commenti e in nomi di campo del database: cambiarle vorrebbe dire toccare le query, che è un rischio senza guadagno per chi legge lo schermo. NON verificato: non ho fatto girare il sito, non ho visto le tre frasi a video.",
+      "file_toccati": ["app/seller/promotions/page.tsx", "app/seller/stories/page.tsx"]
+    },
+    {
+      "chiave": "microcopy|due conferme di cancellazione senza dire cosa si perde",
+      "titolo": "Due conferme di cancellazione senza dire cosa si perde",
+      "esito": "riparato",
+      "prova": "Le due chiamate erano nude come diceva la scheda. Ho letto components/ConfirmDialog.tsx: il campo message esiste nel tipo ConfirmOptions (riga 26), viene disegnato (riga 147-149) e viene agganciato con aria-describedby='confirm-message' (riga 119), quindi il testo nuovo lo sente anche chi usa un lettore di schermo. Dopo il fix, grep -A4 'confirmDialog({' sui due file trova 2 righe 'message:' su 2 chiamate. npx tsc --noEmit exit 0.",
+      "nota_fix": "Aggiunto message alle due conferme, con le parole del fix proposto: «La lista e i prodotti salvati dentro andranno persi. Non si può annullare.» per la lista, «La storia sparirà subito dalla tua vetrina.» per la storia. Ho tenuto lo stesso stile delle conferme di app/admin/users/page.tsx, che la conseguenza la dicono già. NON verificato: non ho aperto le due finestre di conferma nel browser.",
+      "file_toccati": ["app/lists/[id]/page.tsx", "app/seller/stories/page.tsx"]
+    },
+    {
+      "chiave": "stati-ui|«non hai ancora liste» lampeggia a chi le liste ce le ha",
+      "titolo": "«Non hai ancora liste» lampeggia a chi le liste ce le ha",
+      "esito": "riparato",
+      "prova": "Letto il sorgente prima del fix: nessuna delle query leggeva isLoading e non c'era nessun ritorno anticipato di caricamento, quindi con dati non ancora arrivati myLists.length === 0 era vero e il riquadro «Non hai ancora liste» compariva davvero. Dopo il fix le due frasi di vuoto sono dietro !caricoMie e !caricoPubbliche, e nel pannello dietro !caricoListe. npx tsc --noEmit exit 0; npx eslint sui cinque file toccati 0 errori (restano 2 avvisi vecchi in promotions, segnalati fra i difetti nuovi).",
+      "nota_fix": "Tre bugie da chiudere e un doppio clic. Su app/lists/page.tsx ho preso isLoading dalle query «le tue liste» e «liste della community» e ho messo dei riquadri-scheletro (classe skeleton, quella che il sito usa già in ProductQA) al posto delle frasi di vuoto finché la risposta non è arrivata: adesso «Non hai ancora liste» e «Nessuna lista pubblica per ora» si vedono solo su un vuoto verificato. Su AddToListButton stessa cosa nel pannello «Aggiungi alle tue liste» (lì la query parte all'apertura, enabled: open, quindi la bugia durava il tempo di una lettura), e ho aggiunto disabled={toggle.isPending} alle righe dell'elenco, così non si può premere due volte mentre il salvataggio è in volo. Una cosa l'ho lasciata di proposito: la query featuredLists non legge isLoading. La sua sezione «Liste in evidenza» esiste solo se length > 0, quindi quando è vuota non dice niente di falso, non c'è nessuna bugia da spegnere; metterci uno scheletro vorrebbe dire far apparire un titolo e dei riquadri che poi spariscono, cioè peggiorare il tremolio invece di toglierlo. Ho usato isLoading e non isPending apposta: su una query spenta (enabled: false) isPending è vero ma isLoading no, quindi lo scheletro non resta acceso a pannello chiuso. NON verificato: non ho misurato in browser quanto durava il lampeggio, né ho una prova automatica su questo difetto — è una verifica sul sorgente, ammessa sui minori.",
+      "file_toccati": ["app/lists/page.tsx", "components/AddToListButton.tsx"]
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Nel modulo delle promozioni «Sconto» e «Cosa scontare» sono etichette appese al vuoto: chi non vede non sa a cosa si riferiscono i pulsanti sotto",
+      "dove": "app/seller/promotions/page.tsx:226 e :247",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Anche sulla pagina delle liste la descrizione è abbreviata «(opz.)» invece di «(facoltativo)», e quella pagina la leggono i clienti",
+      "dove": "app/lists/page.tsx:279",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "La lista vuota promette una cosa che esiste già: «futuro: pulsante Aggiungi a lista», ma quel pulsante è in produzione da un pezzo",
+      "dove": "app/lists/[id]/page.tsx:274",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Niente di questo lotto l'ho visto in un browser: non ho aperto il sito, non ho misurato il lampeggio dei riquadri di vuoto, non ho guardato la riga della lista senza foto a schermo, non ho usato un lettore di schermo vero. Le prove sono due file di prova automatica (6 casi verdi, e il nuovo diventa rosso se tolgo il fix), il controllo dei tipi verde su tutto il progetto, il controllo di stile sui cinque file toccati, e la lettura del sorgente. Non ho lanciato la suite intera né npm run verify, come da consegna: se un'altra squadra ha rotto qualcosa nelle stesse ore, da qui non lo vedo. Sul difetto degli stati di caricamento non lascio una prova automatica: è l'unico dei cinque che regge solo sulla lettura del codice."
+}

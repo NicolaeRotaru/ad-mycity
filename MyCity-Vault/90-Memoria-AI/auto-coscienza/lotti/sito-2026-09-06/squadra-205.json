@@ -1,0 +1,74 @@
+{
+  "squadra": 205,
+  "territorio": [
+    "app/stores/page.tsx",
+    "app/near/page.tsx",
+    "components/store-sections/HeroSection.tsx",
+    "components/CollectionHeader.tsx",
+    "app/api/account/accetta-condizioni/route.ts",
+    "lib/api/middleware.ts",
+    "app/api/admin/cms/[slug]/route.ts"
+  ],
+  "malattia": "Una cura giusta scritta in un posto solo: /near aveva preso il tetto e HeroSection il verde giusto, /stores era rimasta indietro; e il portiere delle rotte indovinava la forma degli identificativi invece di chiedere a Next quali pezzi dell'indirizzo fossero variabili.",
+  "difetti": [
+    {
+      "chiave": "performance|/stores e /near caricano l'intera tabella dei negozi senza paginazione, e /stores ci porta dentro anche le gallerie fotografiche",
+      "titolo": "/stores e /near caricano l'intera tabella dei negozi senza paginazione, e /stores ci porta dentro anche le gallerie fotografiche",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-elenco-dei-negozi-dice-quanti-se-ne-vedono.test.ts -> 4 passate. Mutazione: tolto '.limit(TETTO_NEGOZI)' dalla prima lettura -> exit 1, 'una lettura dei negozi non ha nessun tetto'. Ripristinato -> verde. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+      "nota_fix": "Su /near il tetto c'era gia' (TETTO_NEGOZI_VICINI = 200, messo il 27/8 da R081, con scritto nel commento che su /stores restava aperto): meta' del difetto era gia' chiusa. Su /stores non c'era nessun limite ne' sulla lettura buona ne' sul ripiego senza le due bandierine Stripe. Aggiunto 'const TETTO_NEGOZI = 200' e '.limit(TETTO_NEGOZI)' su entrambe le letture di seller_public_profiles: il tetto diventa una scelta scritta invece della sorpresa da mille righe di PostgREST. NON ho tolto store_media: la scheda stessa segnalava che su /stores la galleria si usa davvero (StoreMediaCarousel dentro StorePreviewCard) e toglierla e' un compromesso da decidere con @ux-designer, non un fix minore. NON ho fatto la paginazione vera con .range(): e' il punto 2 del fix proposto e non e' un lavoro da lotto minori. NON VERIFICATO: il peso reale in kilobyte della pagina a 200 negozi (servirebbe un database pieno; oggi i negozi sono una decina). La prova del tetto e' sul sorgente e non sulla rete: la lettura vera parte dentro react-query, che nelle prove e' sostituita dai dati finti.",
+      "file_toccati": ["app/stores/page.tsx", "tests/unit/l-elenco-dei-negozi-dice-quanti-se-ne-vedono.test.ts"]
+    },
+    {
+      "chiave": "accessibilita-visiva|verde oliva-500 con testo bianco: 3,69:1 sul badge «aperto ora» e sul filtro «aperti ora»",
+      "titolo": "Verde oliva-500 con testo bianco: 3,69:1 sul badge «Aperto ora» e sul filtro «Aperti ora»",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-elenco-dei-negozi-dice-quanti-se-ne-vedono.test.ts -> verde. La prova monta la pagina vera, preme il filtro, legge la classe resa, va a prendere il colore dalla tavolozza in tailwind.config.ts e calcola il contrasto WCAG. Mutazione: rimesso 'bg-olive-500' -> exit 1, 'bianco su olive-500 misura 3.69:1, sotto il 4,5:1 che WCAG chiede a un testo' (il numero misurato coincide con quello della scheda).",
+      "nota_fix": "Dei due punti con testo sull'oliva, HeroSection.tsx:130 era GIA' RIPARATO da un altro passaggio (il commento in loco e' datato 3/9/2026 e la classe e' gia' bg-olive-600): letto e confermato con grep sul file. Restava il filtro «Aperti ora» acceso su app/stores/page.tsx, ora bg-olive-600 (#5A7C42, il verde success del brand): 4,78:1. Il pallino accanto resta olive-500 di proposito: e' aria-hidden, quindi elemento grafico, soglia 3:1, e 3,69 la passa. Confermati anche i quattro falsi positivi della scheda: StepIndicator e OrderTimeline nello stato «fatto» rendono un'icona, Navbar rende <Bike>, non testo. La prova non e' legata a una classe fissa: se domani si passa a un altro token conforme resta verde, se si scende sotto 4,5 diventa rossa. NON VERIFICATO: il contrasto reso da un browser vero con antialiasing e zoom; il calcolo e' quello della formula WCAG sui colori dichiarati nella tavolozza.",
+      "file_toccati": ["app/stores/page.tsx", "tests/unit/l-elenco-dei-negozi-dice-quanti-se-ne-vedono.test.ts"]
+    },
+    {
+      "chiave": "navigazione-gerarchia|la pagina «tutti i negozi» è l'unica vetrina senza briciolo di pane, e il contatore non segue i filtri",
+      "titolo": "La pagina «Tutti i negozi» è l'unica vetrina senza briciolo di pane, e il contatore non segue i filtri",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-elenco-dei-negozi-dice-quanti-se-ne-vedono.test.ts -> verde. La prova monta la pagina con tre negozi tutti chiusi, preme «Aperti ora» e rilegge la riga sotto il titolo. Mutazione 1: rimesso stores.length al posto di filtered.length -> exit 1, 'a schermo restano 0 negozi ma la riga dice 3 negozi su 3'. Mutazione 2: rimessa l'intestazione scritta a mano -> exit 1, 'la pagina dei negozi non offre nessuna scala per risalire alla home'. Ripristinato -> verde. npx vitest run tests/unit/i-filtri-dei-negozi-si-sentono.test.ts (prova gia' esistente sulla stessa pagina) -> 7 passate.",
+      "nota_fix": "Confermati tutti e tre i punti sul codice vero. ① L'intestazione scritta a mano e' sostituita da CollectionHeader, lo stesso di /novita, /piu-venduti, /near e delle categorie: briciolo di pane Home > Negozi, occhiello, riquadro icona. Il titolo resta SOPRA i tre stati (caricamento, errore, elenco), com'era stato messo il 3/9: CollectionHeader rende comunque l'h1, quindi la pagina non resta mai senza titolo di primo livello e l'h1 resta uno solo. ② La riga di conteggio ora dice «3 negozi su 12» quando c'e' un filtro acceso (ricerca, settore o «aperti ora») e «12 negozi locali pronti a consegnarti a casa» quando non ce n'e' nessuno: il numero grande e' quello che si vede davvero, il totale resta accanto. ③ Il passo orizzontale: 'px-4 py-8' e' diventato 'px-4 py-8 sm:px-6' in tutti e tre i rami della pagina, come nelle altre vetrine. L'icona lucide Store e' importata come IconaNegozio perche' nel file 'Store' e' gia' il nome di un tipo. NON VERIFICATO: l'aspetto reale a video (nessun browser da qui) — cambia il font del titolo, che passa al serif del componente condiviso, ed e' un cambiamento voluto di uniformita'.",
+      "file_toccati": ["app/stores/page.tsx", "tests/unit/l-elenco-dei-negozi-dice-quanti-se-ne-vedono.test.ts"]
+    },
+    {
+      "chiave": "sicurezza-auth|l'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+      "titolo": "L'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+      "esito": "non_riparato",
+      "prova": "Difetto confermato: grep -c 'withAuth\\|arrivaDaUnAltroSito' app/api/account/accetta-condizioni/route.ts -> 0. Confermato anche che e' l'UNICA: su 94 rotte, le cinque che aprono la sessione da sole sono accetta-condizioni, contact, track, consent, segnalazioni — e solo accetta-condizioni risponde unauthorized() senza sessione, le altre quattro la trattano come facoltativa. Il fix e' stato SCRITTO e MISURATO, poi tolto: con la rotta riscritta come withAuthRateLimit({name:'accetta-condizioni',max:20,windowMs:60000}) 'npx tsc --noEmit' resta a 0 ma 'npx vitest run tests/unit/l-indirizzo-nel-verbale-non-lo-scrive-l-utente.test.ts' passa da 6 passate a 6 FALLITE (503 al posto di 200/429/500, verbale vuoto). Ripristinata la rotta, quella prova torna a 6 passate.",
+      "nota_fix": "Il fix proposto e' quello giusto e funziona, ma non si chiude dentro il mio territorio. La prova tests/unit/l-indirizzo-nel-verbale-non-lo-scrive-l-utente.test.ts chiama POST direttamente e sostituisce '@/lib/supabase/server' con un finto che espone solo getServerSupabase e getAdminSupabase, e su 'profiles' offre solo maybeSingle(). Dentro un involucro, authenticate() chiama getCurrentUser() — che in quel finto non esiste, quindi lancia — e legge il profilo con .single() — che quel finto non ha: ogni chiamata finisce 503 e il verbale resta vuoto. Per chiudere il difetto serve toccare ANCHE quel file di prova (aggiungere getCurrentUser e .single() al finto, e far passare la richiesta dal contesto), e sta fuori dai miei file_citati: regola ④ del briefing, mi fermo. Da fare a chi lo riprende: ① riscrivere la rotta con withAuthRateLimit (la chiave del freno resta identica, 'accetta-condizioni:<id utente>', quindi il comportamento del freno non cambia); ② allineare il finto della prova; ③ aggiungere la prova che elenca le rotte sotto app/api con sessione fuori da un involucro e pretende zero. Rischio residuo intanto: invariato rispetto a stamattina — la rotta resta protetta dal SameSite=Lax dei cookie di Supabase, nessun soldo in gioco, e' un buco nella coerenza della difesa.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "sicurezza-auth|il freno contro chi bussa mille volte si azzera cambiando l'ultima parola dell'indirizzo",
+      "titolo": "Il freno contro chi bussa mille volte si azzera cambiando l'ultima parola dell'indirizzo",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-freno-non-si-azzera-cambiando-la-parola-in-fondo.test.ts -> 6 passate. La prova principale bussa 306 volte con withAdminAuth cambiando la parola in fondo a ogni colpo e pretende 429; una seconda controlla che oltre il tetto si smetta davvero di chiamare il servizio di accesso. Mutazione: tolta la riga che riconosce i pezzi variabili -> exit 1 su 4 prove, 'dopo 305 tentativi con una parola diversa a ogni colpo la risposta e ancora 401: il freno non scatta mai'. Ripristinato -> verde. Non-regressione: npx vitest run su tutti i 78 file di prova che nominano il portiere (middleware/withAuth/withAdminAuth/chiaveDelFreno) -> 78 passati, 492 prove. npx tsc --noEmit -p tsconfig.json -> exit 0.",
+      "nota_fix": "Confermato sul codice: chiaveDelFreno riconosceva tre FORME (numeri, UUID, esadecimali lunghi) e /api/admin/cms/<parola> non ne rispetta nessuna. Fix minimo in due punti di lib/api/middleware.ts: chiaveDelFreno prende un secondo argomento facoltativo con i pezzi variabili dell'indirizzo, e authenticate(req, ctx) glieli passa risolvendoli da Next. I sei involucri ora chiamano authenticate(req, ctx) invece di authenticate(req): una parola sola a call site, nessun cambio di firma verso l'esterno. Ho SCARTATO l'altra strada del fix proposto — tenere solo i primi tre pezzi del percorso — perche' avrebbe fatto diventare rossa una prova gia' verde fuori dal mio territorio (il-freno-di-rete-c-e-su-tutti-i-guardiani.test.ts pretende '/api/orders/:id/decide', che col taglio a tre diventerebbe '/api/orders/:id') e perche' avrebbe unito in un contatore solo sei gruppi di rotte diverse. Chiamata col solo percorso la funzione si comporta esattamente come prima: le cinque asserzioni della prova esistente restano verdi. Vale per tutte le tredici rotte dinamiche di oggi e per quelle di domani, non solo per le pagine CMS. Confronto anche il pezzo decodificato, perche' nel percorso uno slug accentato arriva come citt%C3%A0 mentre Next lo passa decodificato. NON VERIFICATO: il comportamento con Upstash Redis collegato (le prove girano col contatore in memoria) e il caso limite in cui il valore di un parametro coincide con un pezzo fisso del percorso — li' la chiave diventa piu' grossolana, cioe' il freno stringe, mai il contrario.",
+      "file_toccati": ["lib/api/middleware.ts", "tests/unit/il-freno-non-si-azzera-cambiando-la-parola-in-fondo.test.ts"]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "sicurezza-auth|l'accettazione delle condizioni e' l'unica rotta con sessione che non passa dal cancello comune: il controllo di provenienza aggiunto il 30 agosto qui non c'e'",
+      "perche": "il fix vive anche in un file fuori territorio: tests/unit/l-indirizzo-nel-verbale-non-lo-scrive-l-utente.test.ts — il suo finto di '@/lib/supabase/server' non espone getCurrentUser e su 'profiles' offre solo maybeSingle(), quindi con la rotta dentro un involucro authenticate() finisce sempre 503 e quelle 6 prove diventano rosse. Misurato scrivendo il fix e togliendolo."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Su /stores i filtri per settore e «aperti ora» lavorano solo sui negozi gia' scaricati: col tetto a 200 negozi, dal duecentunesimo in poi un negozio aperto non compare nemmeno cercandolo per nome",
+      "dove": "app/stores/page.tsx:185 (const filtered) e la lettura a :30-50",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Il conteggio dei prodotti per negozio arriva da store_cards con p_limit 500: oltre i 500 negozi qualcuno comparirebbe in vetrina con «0 prodotti» pur avendo il catalogo pieno, che e' il difetto #89 rientrato da un tetto diverso",
+      "dove": "app/stores/page.tsx:66 (supabase.rpc('store_cards', { p_per_store: 4, p_limit: 500 }))",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Non ho aperto nessun browser: dell'aspetto a video di /stores (intestazione nuova, font serif del titolo, passo orizzontale su schermo piccolo) ho la prova che gli elementi ci sono e con quali classi, non la prova di come si vedono. Non ho lanciato npm run verify ne' il build, come da vincoli: la copertura e' 'npx tsc --noEmit' a 0 piu' i 78 file di prova che toccano il portiere piu' le due prove nuove. Del tetto a 200 negozi ho la prova sul sorgente e non sulla rete. Sul freno non ho provato il percorso con Upstash Redis collegato. Il quarto difetto non e' stato riparato ma solo misurato: quanto costa oggi il buco resta la stima della scheda, non un numero mio."
+}
