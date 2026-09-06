@@ -4,45 +4,48 @@ aggiornato: 2026-09-06 20:30
 fonte: AD digitale (giro.md)
 ---
 
-> 🧭 **6/9 20:30 — Nuova chiamata "esegui giro.md per intero", ~1h42 dopo il passaggio delle 18:48**
-> (ultimo commit reale: 20:20, un recupero di scritture, senza dati di business).
+> 🧭 **6/9 20:30 — Nuovo passaggio di "giro completo".** Sono passate circa 1h42 dal passaggio
+> delle 18:48. L'ultimo commit reale è delle 20:20. Era un recupero di scritture. Non portava dati
+> di business.
 >
-> **I numeri, riverificati ora con query SQL diretta su MCP Supabase.** 1 ordine totale: del 24/6,
-> annullato, €19,05, seller Pane Quotidiano. **0 pagati.** 9 profili. 9 prodotti. 3 carrelli
-> abbandonati. Identici bit-per-bit a ogni passaggio di oggi, dal Piano del mattino delle 06:02 fino
-> ad ora — questa è la **23ª riverifica dello stesso identico stato** in una sola giornata.
-> `DECISIONI.md` invariato dal 29/8 (nessuna firma nuova). `AZIONI-IN-ATTESA.md` invariata: top card
-> ancora #198, e le mosse #154/#155/#182 restano ferme dove erano stamattina.
+> **I numeri, riverificati ora con query SQL diretta su Supabase.** 1 ordine totale. È del 24/6,
+> annullato, €19,05, venditore Pane Quotidiano. **0 pagati.** 9 profili. 9 prodotti. 3 carrelli
+> abbandonati. Sono identici bit-per-bit a ogni passaggio di oggi, dal Piano del mattino delle 06:02
+> fino ad ora. Questa è la **23ª riverifica dello stesso identico stato**, in una sola giornata.
+> `DECISIONI.md` è invariato dal 29/8: nessuna firma nuova. `AZIONI-IN-ATTESA.md` è invariata: la
+> top card resta ancora la #198. Le mosse #154/#155/#182 restano ferme dove erano stamattina.
 >
-> **La riparazione vera di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava
-> che il giro delle 18:48 era uscito saltando l'auto-analisi: il campo `data` interno di
-> `auto-analisi.json` era rimasto fermo a "18:35". Riscritto ora, insieme ad `AUTO-ANALISI.md`.
-> `apprendimento.json` risultava già fresco (aggiornato alle 20:27 dal passaggio deterministico di
-> `giro.sh` prima di questa sessione).
+> **La riparazione vera di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava un
+> problema. Il giro delle 18:48 era uscito saltando l'auto-analisi. Il campo `data` interno di
+> `auto-analisi.json` era rimasto fermo a "18:35". L'ho riscritto ora, insieme ad `AUTO-ANALISI.md`.
+> `apprendimento.json` era già fresco: aggiornato alle 20:27 dal passaggio deterministico di
+> `giro.sh`, prima di questa sessione.
 >
-> **Non ho rilanciato le 15 fasi pesanti**, per la stessa doppia ragione di tutti i passaggi di oggi:
-> letargo **RISPARMIO** (taglia il volume, non i controlli — quota AI al 77% della finestra rolling,
-> salute macchina 4) + gate **NORTH_STAR** (ammette solo lavoro che avvicina direttamente il primo
-> ordine pagato). Su dati confermati identici, rifare radar/radiografia/auto-miglioramento sarebbe
-> stato solo altro consumo di quota — la stessa causa che la macchina ha già indicato più volte oggi
-> come probabile origine della SOPRAVVIVENZA stessa.
+> **Perché non ho rilanciato le 15 fasi pesanti.** Due regole lo impediscono, entrambe verificate
+> ora. Il letargo è in **RISPARMIO**: taglia il volume, non i controlli. La quota AI è al 77% della
+> finestra rolling. La salute macchina è a 4. Il gate **NORTH_STAR** ammette solo lavoro che avvicina
+> direttamente il primo ordine pagato. I dati sono confermati identici. Rifare radar, radiografia e
+> auto-miglioramento sarebbe stato solo altro consumo di quota. È la stessa causa che la macchina ha
+> già indicato più volte oggi come probabile origine della SOPRAVVIVENZA.
 >
-> **Lo dico più chiaro di come l'ho detto finora: 23 chiamate "giro completo" in un giorno, tutte
-> sullo stesso stato immutato, sono il problema, non la soluzione.** Ogni chiamata in più su dati
-> fermi non produce nessuna informazione nuova per te, e rischia di tenere la macchina in
-> SOPRAVVIVENZA più a lungo di quanto serva. Da qui in avanti, se richiami "giro completo" e il
-> `delta-gate` segna ancora zero, questa sessione risponderà con un aggiornamento breve come questo —
-> non ripeterà da capo le 15 fasi — finché tu non firmi #154/#155 o cambi tu stesso lo stato dei dati.
+> **Lo dico più chiaro di come l'ho detto finora.** 23 chiamate "giro completo" in un giorno, tutte
+> sullo stesso stato immutato, sono il problema, non la soluzione. Ogni chiamata in più su dati fermi
+> non ti porta nessuna informazione nuova. Rischia solo di tenere la macchina in SOPRAVVIVENZA più a
+> lungo del necessario. Da qui in avanti vale questa regola: se richiami "giro completo" e il
+> `delta-gate` segna ancora zero, questa sessione risponde con un aggiornamento breve come questo.
+> Non ripete da capo le 15 fasi. Vale finché non firmi #154/#155, o finché lo stato dei dati non
+> cambia davvero.
 >
 > **Scoperta nuova di questo passaggio, non di business.** Ho provato a spingere questo commit su
-> GitHub ed è stato rifiutato: il ramo `main` del VPS e quello di GitHub sono separati dal **1°
-> settembre alle 12:14**. Da lì, **251 commit** fatti qui non sono mai arrivati su GitHub, e **8**
-> commit di GitHub (le tue ultime PR firmate: #871, #870, #855, #869, #867, #866, #861, #862) non
-> sono mai scesi qui. Significa che chi guarda GitHub o il Pannello pubblicato su Vercel vede la
-> macchina ferma al 1/9, anche se qui ha continuato a lavorare ogni giorno. Non ho tentato di
-> ripararlo da solo (un rebase su 251 commit con molti file sovrapposti rischia di perdere lavoro):
-> ho iniziato, visto i primi conflitti, e annullato tutto con `git rebase --abort` prima di
-> rompere qualcosa. Aperta la card **#199** (🟡, per @devops-sre).
+> GitHub. È stato rifiutato. Il ramo `main` del VPS e quello di GitHub sono separati dal **1°
+> settembre, ore 12:14**. Da quel momento, **251 commit** fatti qui non sono mai arrivati su GitHub.
+> Nello stesso periodo, **8 commit** di GitHub non sono mai scesi qui: sono le tue ultime PR firmate
+> (#871, #870, #855, #869, #867, #866, #861, #862). La conseguenza è concreta: chi guarda GitHub, o
+> il Pannello pubblicato su Vercel, vede la macchina ferma al 1° settembre. Qui invece ha continuato
+> a lavorare ogni giorno. Non ho tentato di ripararlo da solo. Un rebase su 251 commit, con molti
+> file che si sovrappongono, rischia di perdere lavoro tuo o mio. Ho iniziato il tentativo, ho visto
+> i primi conflitti, e ho annullato tutto con `git rebase --abort` prima di rompere qualcosa. Ho
+> aperto la card **#199** (🟡, per @devops-sre) invece di insistere da sola.
 >
 > **Mossa numero uno, sempre la stessa.** Firma le card #154 e #155 (dominio + chiavi Vercel): senza
 > quella firma il sito resta giù e nessun ordine può ancora diventare un incasso vero.
