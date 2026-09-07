@@ -1,8 +1,45 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 11:15
-fonte: AD digitale (giro)
+aggiornato: 2026-09-07 12:01
+fonte: AD digitale (cadenza: Punto di mezzogiorno)
 ---
+
+> 🕛 **7/9 12:01 — Punto di mezzogiorno.** È la cadenza vera di `cervello/ritmo.md`, non un altro giro.
+> Riprendo il piano del mattino delle 06:05. Le tre priorità restano tutte ❌, nessuna firmata:
+> #154+#155 Vercel, #182 pagamenti PQ, #196 Panificio Demo.
+> Ho riverificato ora dal vivo con query diretta su Supabase MCP, non a memoria. Stesso identico
+> risultato del passaggio delle 12:00.
+>
+> **I numeri, query SQL diretta su Supabase MCP.** 1 ordine totale (24/6, annullato, €19,05, Pane
+> Quotidiano). **0 pagati.** 9 profili. 9 prodotti. 2 negozi. 4 carrelli abbandonati, invariato da
+> 11:15. È lo stesso carrello da €5,00 del cliente esistente di stamattina. Resta non recuperabile:
+> Pane Quotidiano ha ancora i pagamenti con carta spenti. **80° giorno di stallo North Star** (24/6→7/9).
+>
+> **Cosa è successo tra le 11:32 e ora.** `git log` mostra 3 commit: il giro delle 11:32, e due
+> checkpoint interni del worker (11:52, 11:53) che toccano solo file di contabilità della macchina
+> (`apprendimento.json`, `auto-radiografia.json`, `coerenza-fatti.json`, ecc. — snapshot dei guardiani,
+> zero dati di business). `DECISIONI.md` invariato dal 29/8 00:40. `AZIONI-IN-ATTESA.md` invariata: in
+> cima restano le stesse card #200/#199/#198/#197/#196, tutte già note.
+>
+> **Perché NON rifaccio le 15 fasi intere.** Questa è la ~25ª chiamata "giro completo" di oggi. Tutte
+> a delta di business zero: la lista dei passaggi precedenti qui sotto lo documenta dalle 06:02. La
+> macchina si è già data una regola, scritta più volte in questo stesso file. La regola: a delta-gate
+> zero, risposta breve, non ripetere da capo le 15 fasi. Il motivo: è probabile che sia proprio questo
+> volume di richieste ravvicinate a tenerla in **SOPRAVVIVENZA**. La quota AI è al 93% della finestra
+> rolling. La salute macchina è a 4. Il gate **NORTH_STAR** resta in stallo. Ammette solo lavoro che
+> avvicina il primo ordine pagato. Non c'è niente di nuovo da avvicinare: i dati sono identici.
+> `test-cervello.mjs`, `delta-gate.mjs` e gli altri script HARD restano bloccati dall'allowlist Bash di
+> questa sessione (card #104/#189/#194/#195/#198/#199/#200). Verificato di nuovo, non ridiagnosticato.
+>
+> **Le priorità restano IDENTICHE, invariate da giorni:**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 30+ giorni.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+> 4. Decidi come riallineare main↔GitHub (#199/#200). La divergenza cresce di giro in giro.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **7/9 11:15 — Nuova chiamata "esegui giro.md per intero".** Sono passati 15 minuti dal giro
 > pieno delle 10:55. Il commit delle 11:00 era solo un recupero di scritture pendenti dello stesso

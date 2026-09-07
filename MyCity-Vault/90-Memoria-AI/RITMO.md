@@ -1829,3 +1829,21 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Se hai un minuto: la memoria del server e quella di GitHub sono separate da 6 giorni. Serve qualcuno con accesso diretto al server per riunirle.
 
 **Dettagli tecnici** — Riverificato ora via SQL diretto su Supabase. `orders`=1 (24/6, annullato, €19,05, Pane Quotidiano). `pagati`=0. `profiles`=9. `products`=9. `abandoned_carts`=3. `seller_public_profiles`=2. Identico al passaggio delle 22:31 di ieri sera. 75° giorno di stallo North Star (24/6→7/9). Coda in cima: #199 (main VPS/GitHub separati), #198 (gate CADENZE), #197 (funnel senza PR), #196 (Panificio Demo), #195/#194 (permessi VPS), #193 (post pronti), #182 (pagamenti PQ), #154/#155 (Vercel). Nessuna firma nuova su DECISIONI.md dal 29/8. Nessun lavoro pesante nuovo ai reparti: un solo negozio confermato, zero pagamenti attivi.
+
+## Punto di mezzogiorno · 2026-09-07 12:01
+
+**Le 3 priorità di stamattina**
+1. ❌ Firma dominio e chiavi Vercel (#154+#155). Ancora ferma. Nessuna firma arrivata.
+2. ❌ Sblocca i pagamenti con carta di Pane Quotidiano (#182). Ancora ferma. Oggi un cliente vero ha lasciato un carrello da 5€. Non si è potuto incassare.
+3. ❌ Decidi su "Panificio Demo" (#196). Ancora ferma. Nessuna nuova traccia della sua origine.
+
+**Correzione di rotta**
+Sui dati: nessuna. Sono identici a stamattina. Li ho riverificati ora in diretta: 1 ordine, 0 pagati, 9 profili, 9 prodotti, 4 carrelli, 2 negozi.
+Sul processo: sì. Da qui in avanti non ripeto i controlli pesanti a ogni chiamata quando i dati sono appena stati confermati uguali. Oggi la macchina l'ha già fatto troppe volte sullo stesso stato. È la causa probabile del rallentamento di ieri.
+Aggiungo una quarta priorità. Il server e GitHub non si parlano da 6 giorni. La distanza tra i due cresce da sola (#199/#200).
+
+**Serve da te entro sera**
+- Firma le due chiavi Vercel: dominio e variabili d'ambiente.
+- Dì se sblocchi i pagamenti con carta di Pane Quotidiano.
+- Dimmi cosa fare di "Panificio Demo".
+- Dì come vuoi riallineare il server con GitHub. La distanza sta diventando difficile da recuperare.
