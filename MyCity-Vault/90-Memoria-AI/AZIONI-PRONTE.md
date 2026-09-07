@@ -642,31 +642,31 @@ stato: BOZZE PRONTE — NESSUN INVIO.
 
 ## A38 · 🏛️ Playbook Istituzioni 20/7 — bandi verificati + 2 mail Hub + kit negozi
 reparto: relazioni-istituzionali + finanza-agevolata
-livello: 🟢 (verifica + bozze) · 🔴 (invio mail Comune/Unione + domanda PI26 MyCity)
-canale: email istituzionale + restart.infocamere.it + kit WhatsApp negozi
-perche: PLAYBOOK Istituzioni worker 20/7 11:30. **AGGIORNATO 10/8: PI26/BT26/bando Piccole Imprese Territorio TUTTI CHIUSI** (sportello scaduto 30/7; PI26 anche non idoneo per MyCity, Nicola 29/7 00:10). Bando ER Regione chiuso da giugno (350 domande). Nessun bando comunale «rimborso materiali» (mai esistito). **Nessun bando locale aperto oggi da agganciare a una mail istituzionale.**
-preparato: 🏛️ relazioni-istituzionali — `consegne/relazioni-istituzionali/2026-07-20-playbook-bandi-mail-istituzioni.md` + kit `2026-07-20-kit-bandi-cciaa-negozi-1pagina.md`
+livello: 🟢 (verifica + bozze) · 🔴 (invio mail Comune/Unione)
+canale: email istituzionale + kit WhatsApp negozi
+perche: PLAYBOOK Istituzioni worker, 11ª verifica il 7/9 13:10. **Gate ① (bando aperto) ANCORA chiuso**: PI26/BT26/bando Piccole Imprese Territorio tutti chiusi dal 30/7 (PI26 anche non idoneo per MyCity, Nicola 29/7 00:10); bando ER Regione chiuso da giugno (350 domande); nessun bando comunale «rimborso materiali» (mai esistito). 2 WebSearch dirette oggi non hanno trovato nessun bando genuinamente nuovo. **Gate ② (pausa lavoro-operativo Nicola, 24/8-1/9) RISOLTO**: la finestra è passata, confermato dalla card #191 (2/9, "10 azioni-negozio tornate visibili"). Per la regola OR scritta qui sotto dal 20/7 ("il vero sblocco è uno di questi due"), lo sblocco è arrivato — non da un bando nuovo, ma dalla fine della pausa.
+preparato: 🏛️ relazioni-istituzionali — `consegne/relazioni-istituzionali/2026-09-07-playbook-bandi-mail-istituzioni.md` (testo riscritto SENZA riferimento a bandi, sostituisce la versione 20/7 che citava PI26 "a sportello") + kit `2026-07-20-kit-bandi-cciaa-negozi-1pagina.md`
 bandi_aperti_oggi:
-  · NESSUNO — verificato 10 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8, 17/8, 24/8 13:53)
+  · NESSUNO — verificato 11 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8, 17/8, 24/8, 7/9 13:10)
 bandi_chiusi_non_citare:
   · PI26 (chiuso 30/7, non idoneo) · BT26 (chiuso 30/7) · Bando Piccole Imprese Territorio CCIAA/Unione Commercianti (stessa finestra, chiuso 30/7) · Bando Commercio ER FESR (esaurito giugno) · «Vita in Centro 50% materiali» (inesistente)
 bandi_verificati_non_applicabili:
   · Contributo compensativo Cittadella/Casali 2026 (8.200€) — trovato 17/8, SOLO negozi affacciati su quelle due piazze; Pane Quotidiano è in Via Calzolai → non applicabile, non è una leva-digitalizzazione generale (vedi `bando.cittadella-casali.stato` in registro-fatti.json)
-cosa_cambia: le mail Hub restano bozze pronte MA senza leva-bando da citare oggi (PI26/BT26 chiusi dal 30/7, la mail li cita ancora "a sportello" — da riscrivere prima di un eventuale invio); la spinta ora è solo "servizio digitale condiviso dell'Hub", non più scadenza bando.
-se_va_bene: quando riapre un bando genuinamente nuovo O finisce la pausa lavoro-operativo di Nicola (24/8-1/9), si aggiorna il testo mail (via bando o senza) e si invia.
-testo (mail #1 Comune — oggetto, DA AGGIORNARE prima dell'invio: PI26 è chiuso, non più "a sportello"):
-MyCity al servizio dell'Hub Urbano — digitalizzazione botteghe + bando Camera a sportello (scade 30/7)
-testo (mail #2 Unione — oggetto, DA AGGIORNARE prima dell'invio: PI26 è chiuso, non più "a sportello"):
-MyCity per i soci dell'Hub — vendita online + consegna, e una mano sul bando PI26 (scade 30/7)
+cosa_cambia: la mail Hub non aveva mai smesso di aspettare — era rimasta orfana dal 30/7 (quando PI26 è diventato inutilizzabile) senza essere mai stata rimessa in coda; il numero che la citava (`#52`) è stato nel frattempo riassegnato a un'altra card. Riscritta oggi come puro "servizio digitale dell'Hub", senza scadenze da citare.
+se_va_bene: Nicola mette nome/telefono/email reali al posto dei segnaposto e dà il via; le due mail partono verso Comune e Unione Commercianti.
+testo (mail #1 Comune — oggetto aggiornato, nessun bando citato):
+MyCity al servizio dell'Hub Urbano — portiamo online le botteghe del centro
+testo (mail #2 Unione — oggetto aggiornato, nessun bando citato):
+MyCity per i soci dell'Unione — vendita online e consegna, senza costi di attivazione
 destinatari:
   · Comune: margherita.maini@comune.piacenza.it · PEC suap@cert.comune.piacenza.it
   · Unione Commercianti: direzione@unionecommerciantipc.it · 0523 461852
 pre-condizioni:
   · Firma reale Nicola (tel/email/sito) al posto dei segnaposto
   · Esempio citato: **Pane Quotidiano** only (AR-006)
-  · Testo mail riscritto senza la leva PI26 (chiuso) prima di qualunque invio
-coda_canonica: **#52** (2 mail Hub) — bloccata da pausa lavoro-operativo Nicola fino 24/8-1/9
-raccomandazione_ad: gate #52 resta doppio e invariato — ① nessun bando aperto da citare ② pausa lavoro-operativo Nicola fino 24/8-1/9. Il vero sblocco è uno di questi due, non un nuovo giro di ricerca bandi.
+  · Nessun bando citato (tutti chiusi) — già rispettato nel testo riscritto oggi
+coda_canonica: **#202** (2 mail Hub) — pronta, aspetta firma+via Nicola
+raccomandazione_ad: gate risolto per metà — bando resta chiuso, ma la pausa che bloccava l'invio è finita da 6 giorni (1/9) e l'azione era rimasta orfana. Non serve un altro giro di ricerca bandi: serve solo la firma di Nicola sui segnaposto.
 stato: PRONTO (testo da aggiornare) — zero mail inviate.
 
 ## A40 · 📣 Post del giorno 23/7 — carosello "Cosa c'è di buono questa settimana" (Pane Quotidiano)
