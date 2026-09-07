@@ -7,8 +7,8 @@ argomento: tutti i controlli automatici aperti, sui due repository
 # Il sito non ha mai avuto una copia di sicurezza, e sette lavori sono fermi da settimane
 
 **In due righe.** Il database del sito non ha nessuna copia di sicurezza: il lavoro che
-doveva farla ha fallito ventuno volte su ventuno. E sui sette lavori fermi in attesa del
-tuo ok, il semaforo rosso che vedi è vecchio di settimane: oggi quelle prove sono verdi.
+doveva farla ha fallito ventuno volte su ventuno. Ho riparato il guasto tecnico e ripulito
+le sette richieste ferme; quello che resta sono cinque chiavi, e le può mettere solo Nicola.
 
 ## In parole semplici
 
@@ -50,28 +50,18 @@ Se domani il database del sito si rompe, oggi non c'è niente da cui ripartire. 
 punto più grave di tutta questa analisi. Dentro ci sono i negozi, i prodotti, gli ordini
 e i clienti.
 
-Sui sette lavori fermi, quattro sono ormai inutili: quello che chiedevano è già
-successo da un'altra strada, oppure il numero che volevano correggere è di nuovo
-cambiato. Tre servono ancora, e uno di questi si può chiudere in poco.
+Le sette richieste ferme sono sistemate. Cinque le ho chiuse, con dentro la spiegazione:
+chiedevano cose già successe, o numeri già cambiati. Delle altre due ho portato qui il
+pezzo che serviva ancora, e le chiudo appena questa è unita.
 
 ## Cosa devi fare
 
-Cinque chiavi da incollare, e una decisione sui sette lavori fermi. Le chiavi vanno nelle
-impostazioni del sito su GitHub, alla voce dei segreti. Il percorso esatto è in fondo,
-fra i dettagli tecnici.
+Restano cinque chiavi, e te le chiedono già due card che stanno in coda da settimane: la
+**#134** per la copia del database, la **#161** per il rilascio del sito. Le ho aggiornate
+tutte e due con quello che ho misurato oggi, invece di aprirne una terza.
 
-- **La stringa di connessione al database.** La trovi su Supabase. Serve alla copia
-  notturna e al controllo delle migrazioni.
-- **Una password lunga per la copia**, scelta da te e salvata dove tieni le altre. Senza,
-  la copia uscirebbe in chiaro, e chiunque legga il progetto la potrebbe aprire.
-- **Le tre chiavi di Vercel**, per il rilascio controllato.
-
-Poi dimmi cosa fare dei sette lavori fermi. La mia proposta, uno per uno, è nella
-tabella più sotto: ne chiuderei quattro, ne rinfrescherei due, uno lo porterei al verde.
-
-Sulla copia notturna c'è anche un secondo guasto, e quello tocca a me. Il programma che
-fa la copia è più vecchio del database, quindi si rifiuta di lavorare. È una riga da
-correggere. Aspetto il tuo ok, perché tocca il rilascio.
+Il resto l'ho fatto: il guasto della copia notturna è riparato, e le richieste ferme sono
+sistemate una per una. Restano da unire due richieste, questa e la 251 sul sito.
 
 ## Cosa non ho verificato
 
@@ -84,6 +74,31 @@ correggere. Aspetto il tuo ok, perché tocca il rilascio.
 - **Non ho toccato niente sul sito.** Nessuna chiave, nessun rilascio, nessuna
   pubblicazione.
 - **Non so se il sito risponde adesso.** Da questa sessione non riesco a bussargli.
+
+---
+
+## Cosa ho riparato
+
+
+| Riparazione | Dove | La prova che tiene |
+|---|---|---|
+| L'ancora della mutazione AR-850 non contiene più il numero delle card archiviate | `cervello/mutanti.json` | `node cervello/non-vacuita.mjs --difetti AR-850` → tutte e due le mutazioni rendono rosso il loro test |
+| `WebSearch` censito fra le ESENZIONI (era la richiesta 842) | `cervello/mappa-copertura.mjs` | il cancello dello Stop non lo segnala più come strumento non sorvegliato |
+| Il report supervisione negozi si legge a voce (era la richiesta 841) | `cervello/supervisione-negozi.mjs` | `node cervello/si-capisce.mjs` sul testo generato |
+| Il percorso di `pg_dump`: la copia notturna prendeva la versione 16 al posto della 17 | `mycity`, [#251](https://github.com/NicolaeRotaru/mycity/pull/251) | prova nuova che diventa rossa se la riga sparisce o si sposta; verificata nei due sensi |
+
+E le richieste ferme, una per una:
+
+| # | Cosa ne ho fatto |
+|---|---|
+| [#735](https://github.com/NicolaeRotaru/ad-mycity/pull/735) | chiusa: le due prove sono verdi su `main`, e le 65 skill che descriveva non esistono più |
+| [#741](https://github.com/NicolaeRotaru/ad-mycity/pull/741) | chiusa: fotografia dei sensori del 16/8, più vecchia di quella su `main` |
+| [#860](https://github.com/NicolaeRotaru/ad-mycity/pull/860) | chiusa: il difetto che aveva visto è riparato alla radice qui dentro |
+| [#864](https://github.com/NicolaeRotaru/ad-mycity/pull/864) | chiusa: fotografia del 2/9, in conflitto, e la riscrive il prossimo giro |
+| [#865](https://github.com/NicolaeRotaru/ad-mycity/pull/865) | chiusa: il numero che correggeva è già cambiato di nuovo |
+| [#842](https://github.com/NicolaeRotaru/ad-mycity/pull/842) | il suo codice è qui dentro. La chiudo quando questa è unita |
+| [#841](https://github.com/NicolaeRotaru/ad-mycity/pull/841) | il suo testo è qui dentro. La chiudo quando questa è unita |
+
 
 ---
 
