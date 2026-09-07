@@ -5090,3 +5090,52 @@ finisce in una PR, sempre, e non l'ho aperta: Nicola ha potuto vedere e firmare 
 ma non la memoria che lo racconta. Aperta adesso, in ritardo.
 
 **Cosa resta a Nicola:** carte #194, #195, #196, #197.
+
+
+## 2026-09-07 17:05 — 🟡 Partita dai 3 bloccanti del sito: uno era già risolto, e la riparazione del più grosso non funzionava
+
+Nicola: «parti dai 3 bloccanti». Prima di muovere qualcosa ho riverificato tutte e tre le schede,
+che erano del 3 settembre. Due delle tre erano diverse dalla realtà di oggi.
+
+**Il dominio non è più giù: il sito è vivo.** La scheda diceva che mycity-marketplace.com puntava
+a un server Render dismesso, con 503 da 219 giri. Oggi il DNS punta a Vercel, il dominio è
+collegato al progetto, e la pagina risponde 200 con la vetrina vera — negozi, prodotti, carrello.
+È successo fra il 3 e il 7 settembre, fuori dal codice, e la macchina non se n'era accorta: il
+registro lo portava ancora aperto. Chiuso con la prova. Il sensore sito_uptime va ripuntato: leggeva
+503, e quel 503 non è più la realtà. Non ho potuto provarlo da finestra anonima — il proxy di questa
+sessione blocca quel dominio — quindi che sia pubblico lo deduco dalla regola di protezione di
+Vercel, non l'ho visto con i miei occhi.
+
+**Il database di produzione è indietro, e la riparazione scritta nella scheda non funzionava.**
+Verificato oggi in sola lettura: mancano tutti gli oggetti citati. Ma la scheda prescriveva di
+lanciare `scripts/applica-migrazioni-mancanti.sh`, «idempotente, provato in CI» — e contro la
+produzione quello script muore sul primo file, senza applicare niente. L'ho riprodotto in locale su
+una copia fedele: `001_create_tables.sql` → «relation profiles already exists», uscita 3. Il motivo è
+che la produzione è nata prima del registro delle migrazioni, quindi la regola di salto non riconosce
+i file e prova a ricrearli. Sul database di prova non si vedeva, perché quello si costruisce da zero
+registrando tutto.
+
+**Cosa ho costruito** (PR NicolaeRotaru/mycity#252): il controllo che fa fermare lo script con un
+rifiuto pulito invece di esplodere a metà, il test che tiene chiuso il difetto (rosso senza, verde
+con), e `docs/migrazioni-baseline-produzione.md` con la procedura provata per intero su una copia
+locale — registrare 13 migrazioni come baseline, applicarne 136, verificare.
+
+**Due cose misurate che hanno cambiato la procedura.** Tredici migrazioni su 149 non sono
+ri-applicabili: l'ho misurato ricostruendo un database con tutte applicate e rieseguendo ogni file.
+E la migrazione 127 in produzione è applicata a metà — la funzione c'è, la vista no — mentre la 152
+fa un REVOKE proprio su quella vista: si sarebbe fermata lì. Per questo la procedura riapplica tutti
+i 136 file in ordine e non solo la coda.
+
+**Il terzo bloccante non l'ho toccato di proposito.** `vercel.json` pubblica ancora a ogni unione
+senza aspettare i controlli. Girare quella riga adesso vorrebbe dire che il sito non si aggiorna
+più, perché nemmeno l'altra strada funziona: al guardiano mancano quattro chiavi. Prima i segreti,
+poi la prova di rilascio, poi la riga.
+
+**Cosa resta a Nicola:** card #199 (allineare il database — è la più urgente, perché adesso le
+pagine rotte le incontra un cliente vero) e #200 (i quattro segreti su GitHub; due glieli ho già
+trovati io). Restano aperte anche #194, #195, #196, #197, #198.
+
+**Errore mio, e va scritto.** Per rispondere alla domanda di prima ho lanciato il digest della
+radiografia, che ha rigenerato il registro del sito e gli ha fatto perdere il confronto col referto
+precedente. Me ne sono accorto subito e l'ho riportato allo stato committato. Una domanda di sola
+lettura non deve scrivere niente.

@@ -2852,7 +2852,7 @@
       "severita": "bloccante",
       "file": "produzione Supabase (progetto Mycity) vs migrations/130-150; .github/workflows/deploy-dopo-ci.yml:166-205 (segreti SUPABASE_DB_URL, VERCEL_* mai configurati)",
       "descrizione": "La storia delle migrazioni in produzione (supabase_migrations.schema_migrations) si ferma al 28/8 (129p_ponte_produzione_catalogo_visibile). Il repo ha 21 file in più (130-150), uniti dal 28/8 al 2/9 e già pubblicati su Vercel (produzione = 4f446aa). Verificato oggetto per oggetto con una query di sola lettura: mancano ai_spend_daily + registra_spesa_ai + spesa_ai_di_oggi (131), foto_consegna_da_cancellare (135), order_items.product_name + i due trigger (140), andamento_del_negozio + venduti_per_prodotto (141), wallet_ledger_chiave_idx (143), i due indici sul prezzo (147), abandoned_carts.recovered_at + indice (148), enqueue_order_status_email + trigger (150). Presenti solo 142, 143 (funzioni), 144 e due funzioni della 135: applicate a mano, a spizzichi.\n\nCausa radice: Il rilascio automatico di Vercel pubblica il codice a ogni unione su main, mentre il passo che applica le migrazioni (deploy-dopo-ci.yml) non può girare: i segreti SUPABASE_DB_URL, VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID non sono configurati (card #161 ferma dal 22/8). La scheda «Il rilascio non applica le migrazioni» era stata chiusa sul codice, non sul comportamento.\n\nProva (comando, eseguita e rossa): SUPABASE_DB_URL=<stringa di connessione di produzione> node scripts/check-migration-drift.mjs   → rosso (21 migrazioni non applicate). Oppure in sola lettura: select exists(select 1 from information_schema.columns where table_name='order_items' and column_name='product_name') → false in produzione.",
-      "impatto": "Ogni pagina o giro che usa quegli oggetti in produzione fallisce o degrada in silenzio: analisi del venditore in errore, colonna Venduti in errore, tetto di spesa AI non condiviso fra le copie del sito, email «ordine pronto/consegnato» mai accodate, carrello non marcato recuperato dopo l'ordine. E ogni prossima unione allarga il buco.",
+      "impatto": "Ogni pagina o giro che usa quegli oggetti in produzione fallisce o degrada in silenzio: analisi del venditore in errore, colonna Venduti in errore, tetto di spesa AI non condiviso fra le copie del sito, email «ordine pronto/consegnato» mai accodate, carrello non marcato recuperato dopo l'ordine. E ogni prossima unione allarga il buco. - AGGRAVATO dal 7/9/2026: il sito e' tornato pubblico e raggiungibile, quindi queste pagine rotte adesso le incontra un cliente vero, non solo una prova.",
       "fix": "🔴 Nicola: configurare i quattro segreti su GitHub (card #161) e lanciare una volta scripts/applica-migrazioni-mancanti.sh contro produzione (idempotente, provato in CI); poi il cancello notturno deriva-migrazioni-produzione.yml diventa rosso da solo alla prossima deriva. Riaprire la scheda «Il rilascio non applica le migrazioni» finché il comportamento non cambia.",
       "fonte": "marketplace",
       "stato": "aperto",
@@ -2863,7 +2863,13 @@
       "impatto_crescita": "alto",
       "giro": 0,
       "verificato": "autore",
-      "fonte_radiografia": "totale 2026-09-03"
+      "fonte_radiografia": "totale 2026-09-03",
+      "riverifica": {
+        "verdetto": "ancora_presente_e_peggio",
+        "data": "2026-09-07 16:45",
+        "prova": "Query di sola lettura sulla produzione (progetto clmpyfvpvfjgeviworth), 7/9/2026. Ultima migrazione registrata: 20260828230000, del 28/8. Mancano TUTTI gli oggetti citati dalla scheda: ai_spend_daily, registra_spesa_ai, spesa_ai_di_oggi (131), foto_consegna_da_cancellare (135), order_items.product_name (140), andamento_del_negozio e venduti_per_prodotto (141), wallet_ledger_chiave_idx (143), abandoned_carts.recovered_at (148), enqueue_order_status_email (150). Tutti false.",
+        "nota": "Tre correzioni alla scheda. (1) La deriva non e' piu' 130-150 ma 130-154: quattro migrazioni nuove nel frattempo. (2) LA RIPARAZIONE PRESCRITTA NON FUNZIONA: lanciare scripts/applica-migrazioni-mancanti.sh contro la produzione muore sul primo file (001_create_tables.sql, «relation profiles already exists», uscita 3, zero applicate), perche' la produzione e' nata prima del registro delle migrazioni. Riprodotto in locale su copia fedele. Riparato in PR 252 sul repo del sito: controllo preventivo che si rifiuta invece di schiantarsi, test che lo tiene chiuso, e docs/migrazioni-baseline-produzione.md con la procedura provata per intero (registrare 13 migrazioni come baseline, applicarne 136, verificare). (3) La migrazione 127 e' applicata A META' in produzione: enforce_order_update_rules c'e', la vista rider_consegne_storico no - e la 152 fa REVOKE su quella vista, quindi si sarebbe fermata. Per questo la procedura riapplica tutti i 136 file in ordine, non solo la coda dalla 130. Misurato anche che 13 migrazioni su 149 non sono ri-applicabili: «riapplica tutto» non e' mai sicuro qui. IL DIFETTO RESTA APERTO: applicare in produzione e' ROSSO, la firma e' di Nicola."
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -2918,7 +2924,7 @@
       "impatto": "Un cliente che digita il dominio o inquadra un QR trova un errore; chi arriva su vercel.app trova una schermata di login che non è la sua. Fino a che non si sistema, nessun primo ordine può nascere.",
       "fix": "🔴 Nicola: (1) su Vercel aggiungere il dominio mycity-marketplace.com al progetto mycity e impostare i record DNS che Vercel indica; (2) finché il dominio non è attivo, o si abbassa la protezione a «solo anteprime» o si accetta che il sito sia chiuso; (3) puntare il sensore sito_uptime al dominio vero.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "getent hosts mycity-marketplace.com → 216.24.57.1 (Render). Rifatto il 3/9/2026 alle 07:24: stessa risposta, piu curl -L --max-time 12 https://mycity-marketplace.com/ che torna 000 (nessuna risposta). getent hosts mycity-marketplace.com → 216.24.57.1 (Render). Da un browser fuori dal team: aprire https://mycity-phi.vercel.app in finestra anonima → se compare la pagina di accesso di Vercel, il sito è chiuso al pubblico. Dalla macchina: node cervello/verifica-sensori.mjs con MARKETPLACE_SITE_URL → sito_uptime cieco.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -2926,7 +2932,10 @@
       "impatto_crescita": "alto",
       "giro": 0,
       "verificato": "autore",
-      "fonte_radiografia": "totale 2026-09-03"
+      "fonte_radiografia": "totale 2026-09-03",
+      "chiuso_il": "2026-09-07 16:45",
+      "chiuso_da": "verifica del 7/9/2026 - non da un lotto: risolto fuori dal codice fra il 3 e il 7 settembre",
+      "nota_riparazione": "NON era piu' vero. Verificato il 7/9/2026 alle 16:40 in tre modi. (1) DNS: mycity-marketplace.com -> 216.150.1.1 e www -> b8de7920354765c2.vercel-dns-016.com, cioe' Vercel, non piu' Render (la scheda diceva 216.24.57.1). (2) Progetto Vercel mycity: l'elenco domini contiene mycity-marketplace.com e www.mycity-marketplace.com - il dominio personalizzato E' collegato. (3) La pagina risponde: apex 308 -> www, e www restituisce HTTP 200 con titolo <MyCity Piacenza - Marketplace dei negozi della tua citta'>, 229.000 caratteri, con negozi, prodotti e carrello. La protezione Vercel e' ssoProtection=all_except_custom_domains: i domini personalizzati ne sono esenti, quindi il pubblico passa. COSA NON HO POTUTO VEDERE DA QUI: il proxy di questa sessione blocca quel dominio per policy (403 sul CONNECT), quindi la lettura e' passata dallo strumento Vercel, che e' autenticato e aggiunge un token _vercel_share. Che il sito sia raggiungibile da un browser anonimo lo deduco dalla regola all_except_custom_domains: non l'ho provato in finestra anonima. RESTA DA FARE: puntare il sensore sito_uptime al dominio vero - leggeva 503, e quel 503 non e' piu' la realta'."
     },
     {
       "dimensione": "deploy-sre",
