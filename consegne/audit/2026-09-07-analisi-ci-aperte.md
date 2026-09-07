@@ -61,7 +61,7 @@ Restano cinque chiavi, e te le chiedono già due card che stanno in coda da sett
 tutte e due con quello che ho misurato oggi, invece di aprirne una terza.
 
 Il resto l'ho fatto: il guasto della copia notturna è riparato, e le richieste ferme sono
-sistemate una per una. Restano da unire due richieste, questa e la 251 sul sito.
+sistemate una per una. La 251 sul sito è già unita: resta da unire questa.
 
 ## Cosa non ho verificato
 
@@ -85,7 +85,7 @@ sistemate una per una. Restano da unire due richieste, questa e la 251 sul sito.
 | L'ancora della mutazione AR-850 non contiene più il numero delle card archiviate | `cervello/mutanti.json` | `node cervello/non-vacuita.mjs --difetti AR-850` → tutte e due le mutazioni rendono rosso il loro test |
 | `WebSearch` censito fra le ESENZIONI (era la richiesta 842) | `cervello/mappa-copertura.mjs` | il cancello dello Stop non lo segnala più come strumento non sorvegliato |
 | Il report supervisione negozi si legge a voce (era la richiesta 841) | `cervello/supervisione-negozi.mjs` | `node cervello/si-capisce.mjs` sul testo generato |
-| Il percorso di `pg_dump`: la copia notturna prendeva la versione 16 al posto della 17 | `mycity`, [#251](https://github.com/NicolaeRotaru/mycity/pull/251) | prova nuova che diventa rossa se la riga sparisce o si sposta; verificata nei due sensi |
+| Il percorso di `pg_dump`: la copia notturna prendeva la versione 16 al posto della 17 | `mycity`, [#251](https://github.com/NicolaeRotaru/mycity/pull/251), **unita** | prova nuova che diventa rossa se la riga sparisce o si sposta; verificata nei due sensi |
 
 E le richieste ferme, una per una:
 
