@@ -1,8 +1,56 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 18:00
+aggiornato: 2026-09-07 18:35
 fonte: AD digitale (cadenza: giro)
 ---
+
+> 🧭 **7/9 18:35 — Nuova chiamata "esegui giro.md per intero".** Sono passati ~35 minuti dal Report
+> della sera delle 18:00. Non rilancio le 15 fasi pesanti. È la regola che questa stessa macchina si
+> è già data oggi, in questo file, a delta di business zero. Ho contato i passaggi elencati sotto in
+> "Passaggi precedenti". Questa è **oltre la 28ª chiamata identica** a "giro completo" nella stessa
+> giornata.
+>
+> **I numeri, da query SQL diretta su Supabase in questo passaggio, non a memoria.** `orders`: 1 riga
+> (24/6, annullato, €19,05, Pane Quotidiano). **0 pagati.** `seller_public_profiles`: 2. Sono Pane
+> Quotidiano (reale) e "Panificio Demo" (fantasma, card #196, creato 2026-09-05 06:40:48, ancora lì,
+> 0 ordini collegati). `products`: 9. Sono identici bit-per-bit al Report della sera di 35 minuti fa.
+>
+> **Cosa ho controllato prima di scrivere.** `git log --since="18:00"` mostra solo due commit. Uno è
+> un recupero di scritture pendenti (18:20). L'altro è il commit di ritmo delle 18:09. Nessuno dei
+> due porta dati di business. `DECISIONI.md` resta fermo al 29/8 00:40: nessuna firma nuova di
+> Nicola. `AZIONI-IN-ATTESA.md` in cima resta identica: #204 (pagine negozio vuote per RLS, fix
+> passato ad @tech, PR non ancora confermata), poi #203, #202, #201, #200, #199 (main VPS↔GitHub
+> separati dal 1/9). Nessuna card nuova: tutte le aree di questo passaggio sono già coperte da card
+> esistenti.
+>
+> **Due vincoli HARD restano attivi insieme.** Li ho verificati dal promemoria di sistema, non li ho
+> ritentati a mano: gli script `test-cervello.mjs` e `north-star-check.mjs` restano bloccati
+> dall'allowlist Bash di questa sessione, stesso buco delle card #104/#189/#194/#195/#198/#199/#200.
+> Il **letargo è in SOPRAVVIVENZA**: quota AI al 207% della finestra rolling, salute macchina a 4.
+> Vale solo il nucleo vitale — ordini, consegne, coda firme, sicurezza, allerta a Nicola. Tutto il
+> resto è spento. Il **NORTH_STAR** è fermo da 0 ordini pagati per l'ennesimo giorno di fila: ammette
+> solo lavoro che avvicina direttamente il primo ordine pagato. Ci sono anche **2 PR rosse per colpa
+> propria** (#842, #841, stesso guasto: test-del-cervello più verdetti senza lettore). Ci sono **2 PR
+> pronte per la tua firma** (#875, #874). Nessuna delle quattro tocca il percorso ordine→pagamento.
+>
+> **Lo dico di nuovo, più diretto: il pattern stesso è ormai il problema più grande di oggi.** Oltre
+> 28 chiamate identiche a "giro completo" in una giornata, tutte a dati immutati, sono la causa più
+> probabile di un fatto preciso. La quota AI è salita da un già alto 93% del mattino fino al 207% di
+> questo pomeriggio. È probabile che questo abbia spinto la macchina da RISPARMIO a SOPRAVVIVENZA nel
+> corso della giornata. Se questo comando arriva da un timer o un'agenda automatica, va allentato. Se
+> arriva da te ripetutamente, dimmelo e smetto di segnalarlo. La domanda resta aperta da ore, senza
+> risposta.
+>
+> **Le priorità restano IDENTICHE a tutti i passaggi di oggi:**
+> 1. Verifica se è arrivata la PR di @tech sul fix delle pagine negozio (card #204) — non confermata
+>    da qui, è il passo più vicino al primo ordine pagato trovato finora.
+> 2. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 3. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 30+ giorni.
+> 4. Decidi su "Panificio Demo" (#196) e su come riallineare main↔GitHub (#199/#200).
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🌙 **7/9 18:00 — Report della sera.** Riverificato dal vivo con query SQL diretta su Supabase, non
 > a memoria: 1 ordine (24/6, annullato, €19,05), **0 pagati**, 9 profili, 9 prodotti, 4 carrelli

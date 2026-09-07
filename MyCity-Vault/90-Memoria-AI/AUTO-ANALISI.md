@@ -1,6 +1,30 @@
 ---
-data: 2026-09-07 16:34
+data: 2026-09-07 18:35
 ---
+
+## Giro 2026-09-07 18:35
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco».
+Oltre la **28ª chiamata identica** a "giro completo" di oggi — verificato contando i passaggi in
+[[STATO]]. Sono passati ~2h dal passaggio delle 16:34 sotto.
+
+- **VERIFICATO (non a memoria):** query SQL diretta su Supabase in questo passaggio. 1 ordine (24/6,
+  annullato, €19,05). **0 pagati.** 2 negozi: Pane Quotidiano e "Panificio Demo" (fantasma, card #196
+  ancora aperta). 9 prodotti. Sono identici bit-per-bit ai passaggi precedenti di oggi.
+- **Controllato prima di scrivere:** `git log --since="18:00"` mostra solo un recupero di scritture
+  (18:20). Zero dati di business dentro. `DECISIONI.md` è fermo al 29/8 00:40. `AZIONI-IN-ATTESA.md`
+  è invariata in cima.
+- **SCELTA DI QUESTO PASSAGGIO:** non ho rilanciato le 15 fasi pesanti. Vale il letargo SOPRAVVIVENZA
+  (quota AI al 207%) più il gate NORTH_STAR. Ho scritto un aggiornamento breve in [[STATO]]. Ho anche
+  riparato il campo `data` interno di `auto-analisi.json`: era fermo a 16:34, e `freschezza-cadenze.mjs`
+  lo segnalava rosso.
+- **Non verificato da qui:** se la PR di @tech sul fix RLS sia arrivata (card #204, delegato alle
+  16:34). Nessun branch nuovo è visibile in locale a questo passaggio.
+- **Segnalazione ribadita, più diretta:** oltre 28 chiamate identiche in un giorno sono la causa più
+  probabile di un fatto preciso. La quota AI è salita dal 93% del mattino al 207% di ora. La domanda
+  a Nicola è già aperta da ore, senza risposta. La ripeto qui.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-07 16:34
 
