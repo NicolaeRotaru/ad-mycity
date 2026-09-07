@@ -886,6 +886,20 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
 
+> 🛡️ **Aggiornamento AD 2026-09-07 19:05 — il pericolo è già tolto. Questa carta adesso è un miglioramento, non un'emergenza.**
+>
+> **Cosa è cambiato.** Il difetto era: un test rosso finisce in produzione. L'ho chiuso da un'altra parte, senza i tuoi segreti. Il cancello sta dentro il build di Vercel.
+>
+> **Come.** `vercel.json` dice ora `"buildCommand": "npm run verify && next build"`. Se una prova è rossa, la compilazione non parte e Vercel non ha niente da pubblicare. Richiesta di unione 254 sul sito.
+>
+> **Un numero che vale la pena sapere.** Il buco era più stretto di come lo raccontava questa carta. Vercel già faceva girare il controllo dei tipi ed eslint: quelli fermavano un rilascio. A mancare erano solo le prove. Adesso ci sono.
+>
+> **Cosa resta a te, e perché non è più urgente.** I tre segreti servono ancora, ma per una cosa diversa: far applicare le migrazioni prima di pubblicare, e rilasciare il commit che i controlli hanno promosso invece della punta di adesso. Sono miglioramenti, non una falla aperta.
+>
+> **Il passo 2 qui sopra, invece, NON va fatto.** Girare `"main": true` in `false` oggi spegnerebbe gli aggiornamenti del sito, perché il lavoro che dovrebbe sostituirli non rilascia. Fallo solo dopo che un rilascio di prova dal lavoro è riuscito.
+>
+> **Cosa non ho verificato.** Che `npm run verify` giri sul costruttore di Vercel: l'ho dedotto dal fatto che le prove non usano variabili d'ambiente. La prova è l'anteprima della richiesta 254.
+
 > 🔑 **Aggiornamento AD 2026-09-07 17:20 — due dei tre te li ho trovati io, così non li cerchi.**
 >
 > Li ho letti oggi dal progetto Vercel. Sono identificatori, non password, quindi posso scriverteli qui:

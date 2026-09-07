@@ -5164,3 +5164,38 @@ passi. Le carte tengono il loro numero e la loro storia, che è il motivo per cu
 mandato esiste già. Non l'ho fatto, e il costo è stato di tre commit di correzione. Il freno che
 l'ha preso esiste già ed è il cancello di leggibilità: le ripetizioni fra carte le vede lui. Resta
 scoperto il caso di un doppione scritto con parole diverse — quello oggi non lo prende nessuno.
+
+
+## 2026-09-07 19:05 — 🟡 Terzo bloccante chiuso, ma non per la strada che c'era scritta
+
+Nicola: «ora sistema il terzo bloccante». La scheda prescriveva: tre segreti VERCEL_* su
+GitHub, poi girare `"main": true` in `false` in `vercel.json`. I segreti non li posso
+mettere io, e stasera mancavano ancora — le unioni delle 18:22 e 18:26 hanno fatto partire
+«Rilascio dopo CI verde» con tutti i passi saltati e verdetto rosso.
+
+**Prima di riparare ho misurato quanto era largo il buco, e non era come scritto.** Vercel
+esegue `next build`, e `next.config.js` non spegne né il controllo dei tipi né eslint:
+quelli fermavano già un rilascio. A non girare prima di pubblicare erano solo le PROVE. La
+scheda diceva «un difetto che la CI avrebbe intercettato», che è più largo del vero. È
+proprio quel restringimento che ha reso la riparazione possibile senza Nicola.
+
+**La riparazione.** `vercel.json` dichiara ora `"buildCommand": "npm run verify && next
+build"`: il cancello sta dentro il build, dove non servono segreti. Prova rossa → `next
+build` non parte → non c'è niente da pubblicare. La prova che lo tiene chiuso esegue il
+comando vero letto da `vercel.json` con `npm` e `next` finti, e guarda il comportamento:
+rossa senza il cancello, verde con. Agganciata alla CI. PR NicolaeRotaru/mycity#254.
+
+**Cosa NON ho fatto, di proposito.** Non ho girato `"main": true` in `false`. Oggi non
+chiuderebbe il difetto: lo scambierebbe con uno peggiore, perché il lavoro che dovrebbe
+sostituire la pubblicazione automatica non rilascia, e il sito smetterebbe di aggiornarsi.
+E adesso il sito è pubblico, quindi sarebbe un danno vero. L'ho scritto dentro
+`deploy-dopo-ci.yml`, perché `vercel.json` è JSON e non ammette commenti: la domanda «perché
+main è ancora true» se la farà chiunque legga.
+
+**Un mio errore di ieri, trovato e chiuso qui.** Il test consegnato nella PR 252 non era
+agganciato alla CI. Un controllo che nessuno lancia non è una rete. Adesso gira, provato
+con la stessa invocazione che usa la CI.
+
+**Cosa resta a Nicola.** La carta #191, il database di produzione: è l'unico bloccante
+rimasto. La #161 resta, ma declassata — i segreti adesso servono per migliorare il
+rilascio, non per tappare una falla.

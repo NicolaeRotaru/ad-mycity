@@ -1,10 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 17:10
+aggiornato: 2026-09-07 19:05
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🛡️ **2026-09-07 19:05 — Chiuso anche il terzo bloccante: ne resta uno solo.**
+>
+> **In parole semplici.** Il difetto era che un test rosso poteva finire in produzione. La
+> strada scritta nella scheda passava dai tuoi segreti, e stasera quei segreti mancavano
+> ancora. Ho chiuso il difetto da un'altra parte, dove non serve niente da te.
+>
+> **Un esempio concreto.** Se domani una prova sul carrello diventa rossa e qualcuno unisce
+> lo stesso, prima quel codice andava online in trenta secondi. Adesso la compilazione si
+> ferma e Vercel non ha niente da pubblicare.
+>
+> **Cosa cambia per te.** Il conto del sito scende a 149 problemi aperti, e i bloccanti da
+> due a uno. L'unico rimasto è il database di produzione, ed è la carta #191.
+>
+> **Una cosa che ho misurato e cambia il racconto.** Il buco era più stretto di come lo
+> diceva la scheda. Vercel faceva già girare il controllo dei tipi ed eslint: un errore di
+> tipo si fermava da solo. A non girare erano solo le prove. Saperlo è quello che mi ha
+> permesso di chiuderlo senza aspettarti.
+>
+> **Cosa devi fare.** Guardare che l'anteprima della richiesta 254 si costruisca verde, poi
+> unirla. E i tre passi della carta #191, che restano l'unica cosa davvero bloccante.
+>
+> **Cosa non ho verificato.** Che le prove riescano a girare sul costruttore di Vercel:
+> l'ho dedotto, non visto. Se sbaglio si vede nell'anteprima, non in produzione.
 
 > 🚦 **2026-09-07 17:10 — I bloccanti del sito sono due, non tre: il sito è vivo e raggiungibile.**
 >

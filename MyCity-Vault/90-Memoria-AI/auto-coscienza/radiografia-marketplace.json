@@ -2993,14 +2993,17 @@
       "impatto": "Un difetto che la CI avrebbe intercettato (test rosso, typecheck rotto, migrazione mancante) arriva ai clienti. Sul checkout/pagamento sono minuti di sito rotto e ordini persi, scoperti da chi compra e non dai controlli.",
       "fix": "Nell'ordine: ① mettere i tre segreti Vercel su GitHub (Settings → Secrets → Actions); ② provare il rilascio da workflow su un cambio innocuo; ③ solo dopo portare `\"main\": true` a `false` in vercel.json. Prima però va risolto il difetto successivo, altrimenti al punto ② il rilascio si ferma.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "vercel.json:6-10 ha ancora \"deploymentEnabled\": {\"main\": true}. Esecuzione reale del workflow «Rilascio dopo CI verde» n.26 (run 33674647961, commit 4f446aa, 2/9/2026 19:39): passi Setup Node / Applica migrazioni / Rilascia / Prova di fumo / Torna indietro tutti `skipped`, passo «Il verdetto» `failure`, durata 9 s → i segreti VERCEL_TOKEN/ORG_ID/PROJECT_ID non sono configurati. Stesso esito nelle esecuzioni 25 e 23 (1/9).",
         "nota": "Il workflow oggi è onesto (finisce rosso invece che verde) ma il comportamento è identico al referto: Vercel pubblica da solo a ogni unione, in parallelo alla CI. Serve Nicola (🔴): i 3 segreti su GitHub, una prova di rilascio, poi main:false in vercel.json.",
         "data": "2026-09-03 11:10"
       },
-      "gia_noto": true
+      "gia_noto": true,
+      "chiuso_il": "2026-09-07 19:05",
+      "chiuso_da": "PR 254 sul repo del sito - cancello dentro il build, non la strada prescritta dalla scheda",
+      "nota_riparazione": "Chiuso per un'altra strada, e il perche' conta. La scheda prescriveva: tre segreti VERCEL_* su GitHub, poi girare \"main\": true in false. I segreti non li posso mettere io, e stasera mancavano ancora: le unioni delle 18:22 e 18:26 hanno fatto partire «Rilascio dopo CI verde» (esecuzioni 29 e 30) con TUTTI i passi di rilascio skipped e verdetto failure. MISURATO QUANTO ERA LARGO IL BUCO: Vercel esegue next build, e next.config.js non spegne ne' il controllo dei tipi ne' eslint - quelli fermavano gia' un rilascio. Quello che NON girava prima di pubblicare erano le PROVE. Cioe' un errore di tipo si fermava da solo, un test rosso arrivava ai clienti: piu' stretto di come la scheda lo raccontava. RIPARAZIONE: vercel.json dichiara ora \"buildCommand\": \"npm run verify && next build\", cioe' il cancello sta DENTRO il build, dove non servono segreti. Prova rossa -> next build non parte -> Vercel non ha niente da pubblicare. PROVA: tests/rilascio/le-prove-rosse-non-arrivano-in-produzione.sh esegue il comando VERO letto da vercel.json con npm e next finti e guarda il comportamento; rosso senza buildCommand, verde con. Agganciata alla CI. NON HO GIRATO \"main\": true IN false, di proposito: il lavoro che dovrebbe sostituire la pubblicazione automatica non rilascia, quindi con false il sito smetterebbe di aggiornarsi - e adesso e' pubblico e raggiungibile, quindi sarebbe un peggioramento vero. Quando i segreti arriveranno (carta #161) i due cancelli convivono: quel lavoro diventa l'unica strada e il buildCommand resta come seconda rete. COSA NON HO VERIFICATO: che npm run verify riesca a girare sul costruttore vero di Vercel. Le prove non usano variabili d'ambiente in CI e Vercel installa le dipendenze di sviluppo, quindi dovrebbe, ma l'ho dedotto. La prova e' l'anteprima costruita dalla PR 254."
     },
     {
       "dimensione": "deploy-sre",
