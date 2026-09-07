@@ -1,6 +1,59 @@
 ---
-data: 2026-09-07 08:38
+data: 2026-09-07 10:33
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-07 10:33
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti». Sono passate circa 1h25 dal giro pieno delle 09:08. Nel mezzo c'è stato
+un commit alle 10:20, ma era solo un recupero di contabilità interna. Nessun dato di business dentro.
+- **FATTE:** dati riverificati con query SQL diretta su MCP Supabase. Ordini=1, del 24/6, annullato,
+  €19,05, Pane Quotidiano. Profili=9. Prodotti=9. Negozi=2. Tutti invariati. `DECISIONI.md`: nessuna
+  firma nuova dal 2026-08-29 00:40, verificato con grep diretto sui titoli. `AZIONI-IN-ATTESA.md`
+  invariata nel merito.
+- **UNICO DELTA REALE TROVATO.** Carrelli abbandonati: da 3 a 4. Ho verificato subito chi è. È un buyer
+  esistente, profilo dal 2026-05-24, già approvato. Non è un account nuovo di oggi. Stamattina alle
+  07:28 ha messo nel carrello "Pesto Genovese Bio" di Pane Quotidiano, €5,00, e l'ha abbandonato. Ho
+  verificato se è recuperabile: no. Pane Quotidiano ha ancora `stripe_charges_enabled=false`. È lo
+  stesso stato del 10/8, lo stesso blocco della card #182. Non ho aperto una card nuova. Il fatto
+  rafforza la #182 già in coda: non ne serve una seconda per lo stesso blocco.
+- **PEGGIORATO ANCORA.** Ho lanciato `git fetch origin main` e poi `git rev-list --count`. La
+  divergenza main↔GitHub è salita da 261/8 a 263/9 commit. Il remoto è passato da 8 a 9. È probabile
+  una nuova PR firmata da Nicola che questa sessione non ha ancora scaricato.
+- **RIPARAZIONE di processo.** Il campo `data` interno di `auto-analisi.json` era fermo a "08:38". Il
+  giro delle 09:08 l'aveva toccato senza aggiornarlo davvero. È lo stesso debito ricorrente: il commit
+  tocca il file, ma non ne rigenera il contenuto. L'ho riscritto ora, con verifica diretta.
+- **Bash bloccato, come sempre.** Ho ritentato `test-cervello.mjs`, che è un vincolo HARD. Ho
+  ritentato anche una query diretta con `node -e` via Bash. Entrambi restano bloccati con "richiede
+  approvazione". È lo stesso buco di permessi delle card #104/#189/#194/#195/#198/#199. Non ho
+  ritentato una terza volta.
+- **NON FATTE, per scelta.** Radar esterno, radiografia completa, auto-miglioramento, riscrittura dei
+  Piani e di `intenzioni-nicola.json`. Il letargo è RISPARMIO. Il gate NORTH_STAR ammette solo lavoro
+  che avvicina il primo ordine pagato. L'unico delta trovato è già interamente spiegato da una card
+  esistente: rifare quel lavoro sarebbe stato consumo di quota, non un controllo in più.
+- **Voto di fiducia:** 76/100, stabile.
+
+**② Il diff vero, non a memoria.** File toccati da me in questo turno: `auto-coscienza/auto-analisi.json`,
+`AUTO-ANALISI.md`, `STATO.md`, `Briefing/2026-09-07.md`, `ultimo-briefing.json`, `SALA-OPERATIVA.md`.
+
+**③ Prove eseguite.** Query SQL dirette su MCP Supabase: ordini, profili, prodotti, carrelli, negozi,
+il carrello nuovo, lo stato Stripe di Pane Quotidiano. Tutte riportate sopra. `git fetch origin main`
+più `git rev-list --count` in entrambe le direzioni. `grep` e `tail` diretti su `DECISIONI.md` e su
+`AZIONI-IN-ATTESA.md`. Il comando `date` per l'ora reale. `test-cervello.mjs` non è partito: bloccato
+dall'allowlist. Non è un risultato: è un "non l'ho potuto vedere da qui".
+
+**④ Un'altra strada.** L'alternativa scartata era aprire una card nuova per il carrello abbandonato di
+stamattina. L'ho scartata perché il blocco che lo rende inevadibile è lo stesso già scritto nella card
+#182: i pagamenti con carta di Pane Quotidiano sono spenti. Una seconda card sullo stesso blocco
+sarebbe stata rumore duplicato in coda, non un'informazione nuova per Nicola.
+
+**⑤ Cosa NON ho verificato.** Se `origin/main` ha ricevuto altri commit dopo questo `git fetch`: è una
+fotografia di questo istante, non una garanzia continua. Il contenuto del nono commit remoto: l'ho
+contato, non l'ho aperto.
+Il verdetto vero della suite `test-cervello.mjs` (bloccato dall'allowlist). Il sito HTTP/uptime dal vivo
+in questo passaggio specifico (ultimo ok 08:32 dal sensore, non ri-testato ora).
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-07 08:38
 

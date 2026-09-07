@@ -1,11 +1,13 @@
 {
-  "data": "2026-09-07 08:38",
-  "situazione": "77° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, riverificato ora con query SQL diretta su Supabase — identico a ogni controllo delle ultime 24+ ore. Nessuna firma nuova di Nicola dal 29/8. Scoperta nuova: la divergenza tra il ramo di lavoro e GitHub è peggiorata da 251 a 261 commit locali mai spinti in una notte (card #199, senza risposta). Mancava anche il Briefing giornaliero di oggi, creato ora. Letargo RISPARMIO (salute 4/100): questo passaggio non ripete le 15 fasi pesanti su dati di business confermati fermi.",
-  "opportunita": [],
+  "data": "2026-09-07 10:33",
+  "situazione": "78° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato. Novità reale di questo passaggio: un cliente già registrato (profilo dal 24/5) ha messo un prodotto di Pane Quotidiano nel carrello stamattina alle 07:28 (€5, Pesto Genovese Bio) e l'ha abbandonato — non recuperabile, perché Pane Quotidiano ha ancora i pagamenti con carta spenti (stesso blocco della card #182). Nessuna firma nuova di Nicola dal 29/8. La divergenza tra il ramo di lavoro e GitHub continua a peggiorare da sola: ora 263 commit locali mai spinti e 9 mai scaricati (era 261/8 stamattina — il nono è probabile una PR firmata non ancora arrivata qui). Letargo RISPARMIO (salute 4/100): questo passaggio non ripete le 15 fasi pesanti, perché l'unico delta trovato è già spiegato da una card esistente.",
+  "opportunita": [
+    {"titolo": "Un cliente vero si è fatto vivo stamattina su Pane Quotidiano", "motivo": "carrello da €5 abbandonato alle 07:28 da un account esistente — segnale concreto di domanda sull'unico negozio reale, oggi bloccato solo dai pagamenti spenti", "impatto": "medio", "sforzo": "basso"}
+  ],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 28 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
-    {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza è passata da 251 a 261 commit locali non spinti in una sola notte: più si aspetta, più diventa rischioso il riallineamento", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 28 giorni — stamattina un cliente vero ha già mostrato interesse che non si è potuto incassare", "livello": "rosso"},
+    {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza è salita ancora, ora 263 commit locali e 9 remoti mai scaricati: più si aspetta, più diventa rischioso il riallineamento", "livello": "rosso"},
     {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs, gate-veri.mjs, delta-gate.mjs e sonda-volano.mjs restano bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
     {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota", "livello": "giallo"}
   ]

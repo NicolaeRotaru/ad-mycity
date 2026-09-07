@@ -1,8 +1,56 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 08:38
+aggiornato: 2026-09-07 10:33
 fonte: AD digitale (giro)
 ---
+
+> 🧭 **7/9 10:33 — Nuova chiamata "esegui giro.md per intero".** Sono passati circa 1h25 dal giro
+> pieno delle 09:08. Nel mezzo c'è stato solo un commit alle 10:20, di sola contabilità interna, zero
+> dati di business. Non ho rilanciato le 15 fasi pesanti. Il letargo resta **RISPARMIO**. Il gate
+> **NORTH_STAR** ammette solo lavoro che avvicina direttamente il primo ordine pagato.
+>
+> **I numeri, riverificati ora con query SQL diretta su MCP Supabase.** Non a memoria. 1 ordine, del
+> 24/6, annullato, €19,05, Pane Quotidiano. **0 pagati.** 9 profili: l'ultimo resta "Panificio Demo"
+> del 5/9. 9 prodotti. 2 negozi. È il **78° giorno di stallo North Star** (24/6→7/9).
+>
+> **L'unico delta reale trovato: un carrello abbandonato in più, da 3 a 4.** L'ho controllato subito,
+> non l'ho solo contato. È un buyer esistente, profilo dal 2026-05-24, già approvato. Non è un account
+> nuovo di oggi. Stamattina alle **07:28** ha messo nel carrello "Pesto Genovese Bio" di Pane
+> Quotidiano, €5,00, e l'ha abbandonato. Ho verificato se è recuperabile: **no**. Pane Quotidiano ha
+> ancora i pagamenti con carta spenti. È lo stesso stato del 10/8, lo stesso blocco della card #182 già
+> in coda. Un cliente vero ha mostrato interesse stamattina. Il negozio non può ancora incassarlo. È un
+> motivo in più per sbloccare #182, non un problema nuovo: non ho aperto una seconda card sullo stesso
+> blocco.
+>
+> **Cosa ho controllato prima di scrivere.** `git log --since="09:08"` mostra solo il recupero delle
+> 10:20, contabilità interna. `DECISIONI.md` invariato dal 29/8 alle 00:40, verificato con grep diretto
+> sui titoli. `AZIONI-IN-ATTESA.md` invariata nel merito: in cima restano le stesse card, #200 e #199.
+>
+> **Peggiorato ancora, stessa causa nota.** Ho lanciato `git fetch origin main` e poi `git rev-list
+> --count`. La divergenza main↔GitHub è salita da 261/8, delle 08:38, a **263 commit locali mai spinti
+> e 9 commit remoti mai scaricati**. Il remoto è passato da 8 a 9. È probabile una nuova PR firmata da
+> Nicola che questa sessione non ha ancora scaricato. È la stessa causa della card #199: nessuna azione
+> nuova presa. Un rebase manuale su questa mole resta rischioso senza accesso VPS diretto.
+>
+> **La riparazione di processo.** Il campo `data` interno di `auto-analisi.json` era rimasto fermo a
+> "08:38". Il giro delle 09:08 l'aveva toccato senza aggiornarlo davvero. È lo stesso debito ricorrente:
+> il commit tocca il file, ma non ne rigenera il contenuto. Riscritto ora con verifica diretta, insieme
+> ad `AUTO-ANALISI.md`.
+>
+> **Bash bloccato di nuovo.** Ho ritentato `test-cervello.mjs`, un vincolo HARD, e una query diretta
+> con `node -e`. Entrambi restano bloccati con "richiede approvazione". È lo stesso buco di permessi
+> delle card #104/#189/#194/#195/#198/#199. Non ho ritentato una terza volta.
+>
+> **Le 3 cose di oggi restano quelle di stamattina, più il motivo in più di cui sopra.**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 28+ giorni. Stamattina un
+>    cliente vero ha già mostrato interesse che non si è potuto incassare.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+> 4. Decidi come riallineare main↔GitHub (#199). La divergenza cresce di giro in giro, ora 263/9.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **7/9 08:38 — Nuova chiamata "esegui giro.md per intero".** È passata circa un'ora e mezza
 > dal passaggio delle 06:54. Zero delta di business. Due cose sono nuove in questo passaggio,

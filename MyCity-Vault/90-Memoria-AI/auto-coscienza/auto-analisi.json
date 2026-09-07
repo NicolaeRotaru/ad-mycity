@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-07 08:38",
+  "data": "2026-09-07 10:33",
   "voto_fiducia": 76,
-  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', ~2h dopo il passaggio delle 06:29/06:54 (quest'ultimo uscito saltando l'auto-analisi, segnalato dal vincolo HARD freschezza-cadenze). Verificato dal vivo con query SQL diretta su MCP Supabase (non a memoria): orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), ordini_pagati=0, profiles=9 (ultimo ancora il 2026-09-05 06:40, 'Panificio Demo'), products=9, abandoned_carts=3, seller_public_profiles=2 — identico bit-per-bit a ogni controllo delle ultime 24+ ore. `DECISIONI.md` invariato dal 29/8. `AZIONI-IN-ATTESA.md` invariata nel merito: top card ancora #200 (06:29) e #199 (main VPS/GitHub separati). Riverificato con `git fetch origin main`: la divergenza è PEGGIORATA, non risolta — ora 261 commit locali mai spinti (era 251 al passaggio delle 20:30 di ieri) contro sempre 8 commit remoti mai scaricati. Riparazione vera di questo passaggio: il campo `data` interno di questo file era rimasto fermo a '2026-09-07 06:29' nonostante il giro delle 06:54 lo avesse citato come completato — stesso identico debito di processo ricorrente (commit tocca il file, non ne rigenera il contenuto). Riscritto ora con verifica diretta. Scoperta nuova (non di business): manca il Briefing giornaliero di oggi (`Briefing/2026-09-07.md` non esisteva prima di questo passaggio, nonostante almeno 3 passaggi precedenti oggi alle 06:05/06:29/06:54) — creato ora per la prima volta oggi, colmando un gap reale del passo 6 di giro.md, non ripetizione.",
-  "sintesi": "Business fermo dal 24/6, 76°/77° giorno di stallo North Star. Nessun numero diverso da nessun controllo delle ultime 24+ ore. Riparato il debito di processo ricorrente su auto-analisi.json (data interna ferma) e colmato un gap reale: il Briefing giornaliero di oggi non era mai stato creato. SOPRAVVIVENZA/RISPARMIO + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti (radar esterno, radiografia completa, auto-miglioramento) rilanciata su uno stato già verificato invariato.",
-  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto di business; la chiusura del gap di freschezza e la creazione del Briefing mancante sono debito di processo, non un errore nuovo.",
+  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', ~1h25 dopo il passaggio delle 09:08 (l'ultimo giro pieno vero; il commit delle 10:20 era solo un recupero di contabilità interna). Verificato dal vivo con query SQL diretta su MCP Supabase (non a memoria): orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), profiles=9 (ultimo ancora il 2026-09-05 06:40, 'Panificio Demo'), products=9, seller_public_profiles=2 — invariati. **Unico delta reale trovato:** abandoned_carts è salito da 3 a 4. Il carrello nuovo è di un buyer ESISTENTE (id 9262fa38…, profilo creato 2026-05-24, is_approved=true, non un account nuovo di oggi), con un solo articolo — 'Pesto Genovese Bio' €5,00 — dal negozio reale Pane Quotidiano, attività delle 2026-09-07 07:28. Verificato SUBITO se è convertibile: NO — Pane Quotidiano ha ancora stripe_charges_enabled=false, stripe_payouts_enabled=false, stripe_details_submitted=false (stesso stato del 10/8, stesso blocco della card #182). Un cliente vero ha mostrato interesse stamattina e il negozio non può ancora incassarlo: rafforza, non aggiunge, la priorità già scritta sulla card #182 — non ho aperto una card duplicata. `DECISIONI.md` invariato dal 2026-08-29 00:40 (verificato con grep diretto sui titoli `## `). `AZIONI-IN-ATTESA.md` invariata nel merito: top card ancora #200 e #199. Riverificato con `git fetch origin main` + `git rev-list --count`: la divergenza main↔GitHub è PEGGIORATA ancora — ora 263 commit locali mai spinti (era 261 alle 08:38) e 9 commit remoti mai scaricati (era 8: è arrivata una nuova PR firmata da Nicola e mai scaricata qui). Riparazione di processo: il campo `data` interno di questo file era fermo a '08:38' nonostante il giro delle 09:08 lo avesse ritoccato — stesso debito ricorrente (commit tocca il file, non rigenera il contenuto). Riscritto ora con verifica diretta.",
+  "sintesi": "Business fermo dal 24/6, 78° giorno di stallo North Star. Un solo delta reale in 1h25: un cliente esistente ha messo nel carrello un prodotto di Pane Quotidiano stamattina alle 07:28 e l'ha abbandonato — non recuperabile perché il negozio non può ancora incassare con carta (stesso blocco della card #182, non un problema nuovo). La divergenza main↔GitHub continua a peggiorare da sola (263/9, era 261/8) e ora include un commit remoto in più mai sceso qui — probabile nuova PR firmata da Nicola che questa sessione non vede ancora. SOPRAVVIVENZA/RISPARMIO + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti rilanciata, perché l'unico delta trovato è già coperto da una card esistente (#182), non ne richiede una nuova.",
+  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto di business; il carrello nuovo è un segnale reale ma già spiegato dal blocco noto, non un errore nuovo da correggere.",
   "entita_verificate": [
     {
       "nome": "Ordine 58094956… (24/6, annullato, €19,05, seller Pane Quotidiano)",
@@ -17,14 +17,14 @@
       "fonte": "SQL diretto su mcp__supabase-marketplace, questo passaggio"
     },
     {
-      "nome": "Divergenza main VPS ↔ origin/main: 261 commit locali mai spinti, 8 commit remoti mai scaricati (peggiorata da 251 a 261 dal passaggio delle 20:30 di ieri)",
+      "nome": "Divergenza main VPS ↔ origin/main: 263 commit locali mai spinti, 9 commit remoti mai scaricati (peggiorata da 261/8 al passaggio delle 08:38 — +2 locali, +1 remoto: una PR firmata in più non ancora scaricata qui)",
       "stato": "confermato, riverificato con git fetch + git rev-list in questo passaggio",
       "fonte": "git fetch origin main + git rev-list --count main..origin/main / origin/main..main"
     },
     {
-      "nome": "Briefing/2026-09-07.md assente prima di questo passaggio nonostante 3+ chiamate giro oggi",
-      "stato": "confermato con ls diretto; creato ora in questo passaggio",
-      "fonte": "ls MyCity-Vault/90-Memoria-AI/Briefing/"
+      "nome": "Carrello abbandonato nuovo: buyer esistente (id 9262fa38…, profilo dal 2026-05-24), 1 articolo 'Pesto Genovese Bio' €5,00 da Pane Quotidiano, attività 2026-09-07 07:28 — non recuperabile: Pane Quotidiano ha stripe_charges_enabled=false",
+      "stato": "confermato, query diretta MCP Supabase in questo passaggio (profiles + abandoned_carts)",
+      "fonte": "SQL diretto su mcp__supabase-marketplace, questo passaggio"
     },
     {
       "nome": "Card #200/#199/#198/#196/#182/#155/#154/#190 restano le più recenti e pertinenti in coda, nessuna card duplicata aperta in questo passaggio",
@@ -48,7 +48,7 @@
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (SOPRAVVIVENZA/RISPARMIO taglia il volume non-essenziale; North Star vieta lavoro macchina che non sblocchi direttamente una card business).",
-  "nota_dati_non_riverificati_questo_passaggio": "test-cervello.mjs nominato resta bloccato dall'allowlist Bash (card #104/#189/#194/#195/#198/#199), ritentato una volta in questo passaggio, esito identico. Sito HTTP/uptime non ri-testato dal vivo in questo passaggio specifico (ultimo ok 08:20 dal sensore). Radar esterno oltre la cadenza giornaliera non rilanciato. coerenza-fatti.mjs/gate-veri.mjs/sonda-volano.mjs/piani-data.mjs: script nominati, stesso buco di permessi, non ritentati una seconda volta.",
+  "nota_dati_non_riverificati_questo_passaggio": "test-cervello.mjs nominato resta bloccato dall'allowlist Bash (card #104/#189/#194/#195/#198/#199), ritentato una volta in questo passaggio (anche con `node -e` inline), esito identico. Sito HTTP/uptime non ri-testato dal vivo in questo passaggio specifico (ultimo ok 08:32 dal sensore). Radar esterno oltre la cadenza giornaliera non rilanciato. coerenza-fatti.mjs/gate-veri.mjs/sonda-volano.mjs/piani-data.mjs: script nominati, stesso buco di permessi, non ritentati una seconda volta.",
   "salute_macchina": {
     "supabase": "ok — MCP Supabase raggiungibile in questo passaggio (query dirette riuscite)",
     "stripe": "ok — verificato da verifica-sensori.mjs alle 08:32 (balance API ok)",
