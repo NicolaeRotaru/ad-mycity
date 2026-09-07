@@ -1,8 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 12:01
-fonte: AD digitale (cadenza: Punto di mezzogiorno)
+aggiornato: 2026-09-07 14:35
+fonte: AD digitale (cadenza: giro)
 ---
+
+> 🧭 **7/9 14:35 — Nuova chiamata "esegui giro.md per intero".** Sono passate ~2h34 dal Punto di
+> mezzogiorno delle 12:01. Non rilancio le 15 fasi pesanti: è la stessa regola che questa macchina si è
+> già data più volte oggi in questo file, ora rinforzata da due vincoli HARD attivi insieme — letargo
+> **SOPRAVVIVENZA** (solo nucleo vitale: ordini, consegne, coda firme, sicurezza, allerta a Nicola) e
+> gate **NORTH_STAR** in stallo (ammette solo lavoro che avvicina il primo ordine pagato).
+>
+> **I numeri, query SQL diretta su Supabase MCP, non a memoria.** 1 ordine (24/6, annullato, €19,05,
+> Pane Quotidiano). **0 pagati.** 9 profili. 9 prodotti. 4 carrelli abbandonati. 2 negozi. Identici
+> bit-per-bit al Punto di mezzogiorno di 2h34 fa. **81° giorno di stallo North Star** (24/6→7/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log --since="12:01"` mostra ~35 commit: tutti
+> checkpoint del worker o playbook di reparto (Referral, Intelligence, Scout negozi, Win-back,
+> Anti-churn, Fedeltà di rete, Dati-come-servizio, Capillarità, Contenuto del giorno, Recensioni,
+> Stampa, Istituzioni, badge Verificato) — ogni playbook ha ricontrollato il proprio gate e l'ha
+> trovato invariato, zero contenuto nuovo pronto. `DECISIONI.md` invariato dal 29/8 00:40, nessuna
+> firma nuova. `AZIONI-IN-ATTESA.md` ha 4 card nuove rispetto alle 12:01 (#201/#202/#203/#204), tutte
+> già accodate da passaggi precedenti di oggi pomeriggio, nessuna ancora firmata.
+>
+> **L'unico lavoro reale di questo passaggio: ho provato a verificare la card #204 dal vivo.** È
+> l'ipotesi più seria in coda: le pagine "Tutti i negozi"/"Vicino a te" potrebbero mostrare zero
+> negozi a un visitatore anonimo per una regola RLS sulla tabella `profiles`. Ho usato uno strumento
+> di lettura pagine (senza login) su `mycity-phi.vercel.app/stores`: **non conclusivo**. La pagina
+> risponde bene (titolo, sottotitolo, nessun errore duro), ma il contenuto resta su "Caricamento…"
+> perché lo strumento legge l'HTML grezzo e non esegue il JavaScript che fa la vera lettura dati.
+> Non conferma né smentisce l'ipotesi. Il test vero — 30 secondi, un browser reale in incognito —
+> resta da fare, come già scritto nella card. Aggiornata la card #204 con questo esito.
+>
+> **Bash bloccato di nuovo sugli script HARD.** `test-cervello.mjs` e gli altri script non elencati
+> per esteso in `.claude/settings.local.json` restano bloccati con "richiede approvazione". Stesso
+> buco di permessi delle card #104/#189/#194/#195/#198/#199/#200. Non ritentato: esito già noto.
+>
+> **Le priorità restano IDENTICHE, invariate da giorni, più il test su #204:**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 30+ giorni.
+> 3. **Fai il test da 30 secondi della card #204** (incognito su "Tutti i negozi"): se il sito mostra
+>    davvero zero negozi ai clienti, è probabilmente IL motivo per cui non arriva mai un primo ordine.
+> 4. Decidi su "Panificio Demo" (#196) e su come riallineare main↔GitHub (#199/#200).
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🕛 **7/9 12:01 — Punto di mezzogiorno.** È la cadenza vera di `cervello/ritmo.md`, non un altro giro.
 > Riprendo il piano del mattino delle 06:05. Le tre priorità restano tutte ❌, nessuna firmata:

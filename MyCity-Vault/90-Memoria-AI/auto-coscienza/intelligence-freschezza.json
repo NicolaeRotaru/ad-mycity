@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
-  "aggiornato": "2026-09-07 12:30",
+  "aggiornato": "2026-09-07 14:31",
   "oggi": "2026-09-07",
   "scadute": [],
   "non_misurabili": [],
@@ -12,10 +12,10 @@
       "soglia": 8,
       "fonti": 4,
       "stato": "fresca",
-      "giorni": 6,
-      "data": "2026-09-01",
+      "giorni": 0,
+      "data": "2026-09-07",
       "scaduta": false,
-      "frase": "aggiornata 6 giorni fa"
+      "frase": "aggiornata oggi"
     },
     {
       "id": "eventi",

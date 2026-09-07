@@ -56,6 +56,14 @@ usano `createBrowserClient` (rispetta RLS) e leggono `profiles` direttamente. Es
 `public.seller_public_profiles` con `GRANT SELECT ... TO anon, authenticated` pensata esattamente per
 queste pagine — ma **zero file del sito la usano oggi** (verificato con grep sul repo).
 
+**Aggiornamento 2026-09-07 14:35.** Ho provato il test da questa sessione con uno strumento di lettura
+pagine (senza login, come un visitatore anonimo). Risultato: **non conclusivo**. La pagina
+`mycity-phi.vercel.app/stores` risponde con l'involucro giusto (titolo "Tutti i negozi", sottotitolo,
+breadcrumb) ma il contenuto mostra ancora "Caricamento…" — perché questo strumento legge l'HTML
+grezzo e non esegue il JavaScript del browser che fa la vera lettura dati. Non conferma né smentisce
+l'ipotesi RLS: serve ancora il test reale in incognito richiesto sopra (30 secondi, un browser vero).
+Non ho trovato errori duri (pagina 404/500) in questo tentativo.
+
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
 | 204 | 2026-09-07 13:20 | @devops-sre | Apri mycity-live in incognito su "Tutti i negozi": conferma se appare vuoto | 🔴 | vedi blocco sopra — RLS `profiles` + vista `seller_public_profiles` mai usata dal frontend | manuale | in attesa |
@@ -3384,7 +3392,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 12:28)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 14:28)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-07-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno
