@@ -1,8 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 18:35
+aggiornato: 2026-09-07 20:33
 fonte: AD digitale (cadenza: giro)
 ---
+
+> 🧭 **7/9 20:33 — Nuova chiamata "esegui giro.md per intero".** Ho riverificato con
+> `node cervello/verifica-sensori.mjs` (REST diretto, non a memoria). `orders` = 1 riga: il solito
+> ordine del 24/6, annullato, €19,05, Pane Quotidiano. 0 pagati. Sensori 8/8 ok. PostHog è spento per
+> decisione presa in precedenza. Telegram non è configurato. Sono entrambi stati già noti, non problemi
+> nuovi. Nessun cambiamento di business dal passaggio delle 18:35.
+>
+> Non ho rilanciato le 15 fasi pesanti del giro. Il motivo: siamo in SOPRAVVIVENZA (quota AI al 117%,
+> salute macchina 4). Inoltre questa è oltre la **29ª chiamata identica** a "giro completo" oggi, sullo
+> stesso dato fermo. Il volume di queste chiamate ravvicinate è la causa più probabile della quota
+> fuori soglia — non il lavoro che farebbero. Ho fatto solo un aggiornamento breve.
+>
+> **Segnalazione diretta a Nicola:** se possibile, riduci la frequenza delle richieste "giro completo".
+> Aspetta un cambiamento reale: un nuovo ordine, un nuovo negozio, o una risposta a una delle domande 🔴
+> già in coda. Ogni chiamata su dati fermi consuma quota senza produrre nulla di nuovo. Ed è proprio
+> quello che ci tiene in SOPRAVVIVENZA invece che in RISPARMIO o NORMALE.
 
 > 🧭 **7/9 18:35 — Nuova chiamata "esegui giro.md per intero".** Sono passati ~35 minuti dal Report
 > della sera delle 18:00. Non rilancio le 15 fasi pesanti. È la regola che questa stessa macchina si

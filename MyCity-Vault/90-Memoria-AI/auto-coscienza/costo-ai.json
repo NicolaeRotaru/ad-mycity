@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-09-07 18:51",
+  "aggiornato": "2026-09-07 20:30",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-09-07",
@@ -630,67 +630,13 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 585000,
-    "runs_sessione": 10,
+    "token_sessione_rolling": 255000,
+    "runs_sessione": 4,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-09-07 18:51"
+    "aggiornato": "2026-09-07 20:30"
   },
   "voci_recenti": [
-    {
-      "quando": "2026-09-07 12:51",
-      "tipo": "worker-playbook",
-      "negozio": "centro",
-      "durata_sec": 178,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 12:56",
-      "tipo": "worker-playbook",
-      "negozio": "centro",
-      "durata_sec": 305,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 13:07",
-      "tipo": "worker-playbook",
-      "negozio": "centro",
-      "durata_sec": 602,
-      "token": 55000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 13:21",
-      "tipo": "worker-playbook",
-      "negozio": "centro",
-      "durata_sec": 880,
-      "token": 75000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 13:31",
-      "tipo": "worker-playbook",
-      "negozio": "centro",
-      "durata_sec": 560,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 13:35",
-      "tipo": "worker-playbook",
-      "negozio": "centro",
-      "durata_sec": 253,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
     {
       "quando": "2026-09-07 14:53",
       "tipo": "giro",

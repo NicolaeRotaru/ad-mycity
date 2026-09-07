@@ -2,26 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-27T17:50:52.896Z",
-      "scatti": 401,
-      "voci": 26,
-      "per_classe": {
-        "prova-accecata": 18,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": [
-        {
-          "classe": "prova-accecata",
-          "file": "cervello/worker-coda.sh",
-          "cosa": "la mutazione di AR-838 («la presa non passa piu' la spesa contata a chi sceglie: il tetto torna a non avere chi lo alimenta») non trova più il suo pezzo in questo file",
-          "ripetuta": 2
-        }
-      ]
-    },
-    {
       "quando": "2026-08-27T18:05:22.894Z",
       "scatti": 403,
       "voci": 26,
@@ -2435,7 +2415,19 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-07T18:35:48.485Z",
+      "scatti": 9606,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-09-07T16:38:53.103Z"
+  "aggiornato": "2026-09-07T18:35:48.485Z"
 }
