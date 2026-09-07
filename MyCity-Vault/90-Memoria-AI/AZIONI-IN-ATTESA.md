@@ -151,9 +151,9 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 
 **Se va bene:** dimmelo e ricontrollo oggetto per oggetto che in produzione ci siano tutti.
 
-> 🛠️ **Aggiornamento AD 2026-09-07 17:20 — quella riparazione NON funziona, e adesso c'è quella che funziona.**
+> 🛠️ **Aggiornamento AD 2026-09-07 17:20 — la riparazione qui sopra non funziona.**
 >
-> **Cosa ho trovato.** Sopra c'era scritto che il comando del rilascio «applica le migrazioni da solo: è idempotente e già provato in CI». È falso contro la produzione. L'ho lanciato su una copia locale fedele: muore sul primo file dopo due secondi, senza applicare niente.
+> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente.
 >
 > ```
 > ▶ applico 001_create_tables.sql
@@ -162,9 +162,9 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > **Perché.** Il database di produzione è nato prima del registro delle migrazioni. La regola con cui il comando decide di saltare un file cerca il numero `001` o il nome `create_tables`: in produzione non trova né l'uno né l'altro, quindi prova a rieseguire la migrazione che crea le tabelle da zero. Sul database di prova il difetto non si vedeva, perché quello si costruisce da capo registrando ogni file col suo numero.
 >
-> **Due cose misurate oggi.** Tredici migrazioni su 149 non si possono rieseguire: l'ho misurato ricostruendo un database con tutte applicate e rilanciando ogni file. E la migrazione 127 in produzione è applicata **a metà** — la funzione c'è, la vista no — mentre la 152 fa un `REVOKE` proprio su quella vista: si sarebbe fermata lì.
+> **Due cose misurate oggi.** Tredici migrazioni su 149 non si possono rieseguire. L'ho misurato ricostruendo un database con tutte applicate e rilanciando ogni file. La seconda: in produzione la migrazione 127 è applicata **a metà**. La funzione c'è, la vista no. E la migrazione 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
 >
-> **Cosa ho fatto.** Richiesta di unione 252 sul sito: il controllo che fa fermare il comando con un rifiuto pulito invece di esplodere a metà, il test che lo tiene chiuso, e `docs/migrazioni-baseline-produzione.md` con la procedura provata per intero su una copia locale — registrare tredici migrazioni, applicarne centotrentasei, verificare. Al secondo giro non fa più niente.
+> **Cosa ho fatto.** Richiesta di unione 252 sul sito. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito, invece di esplodere a metà. Il test che tiene chiuso il difetto. E il documento `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero su una copia locale: registrare tredici migrazioni, applicarne centotrentasei, verificare. Al secondo giro non fa più niente.
 >
 > **Cosa devi fare tu, adesso.** Unire la 252, poi seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
 >
