@@ -904,6 +904,10 @@ pubblicazione». Le tre cose in fila, nell'ordine giusto.
 > ancora qui. Avevo cominciato a scriverne una nuova: era un doppione, l'ho tolta. Le prove stanno
 > in `consegne/audit/2026-08-27-radiografia.md`, sezione «deploy-sre».
 
+> 🩻 **Aggiornamento del 7/9 17:10.** Dal primo settembre questo lavoro diventa rosso a ogni
+> unione, e va letto come una buona notizia. Prima usciva verde senza aver pubblicato niente.
+> Adesso dice la verità: non ha provato nulla. Cinque corse così, l'ultima stamattina.
+
 ---
 
 ### 🔴 #160 — Il segreto che fa applicare le migrazioni prima di ogni pubblicazione · ⏳ accodata 2026-08-22 09:20
@@ -1593,6 +1597,12 @@ riapre piu'. Se la perdi, hai perso il backup.
 
 Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
 sia andata davvero.
+
+> 🩻 **Aggiornamento del 7/9 17:10.** Ho contato tutte le corse: ventuno dal 19 agosto, ventuno
+> fallite. E il motivo non è più quello scritto qui sopra. Dal 22 agosto il lavoro si ferma prima,
+> su un guasto suo: il programma che fa la copia era più vecchio del database. Quel guasto l'ho
+> riparato, e tu l'hai unito nel pomeriggio: adesso è sul ramo principale del sito. Resta solo
+> quello che ti chiedo qui.
 
 ---
 
