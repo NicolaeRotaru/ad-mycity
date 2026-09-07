@@ -1,8 +1,90 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 14:35
+aggiornato: 2026-09-07 16:47
 fonte: AD digitale (cadenza: giro)
 ---
+
+> 🧭 **7/9 16:47 — Nuova chiamata "esegui giro.md per intero".** Sono passati 13 minuti dal
+> passaggio delle 16:34. È circa la **28ª chiamata identica** a "giro completo" oggi. Non rilancio le
+> 15 fasi pesanti.
+>
+> **Due freni restano attivi.** Il letargo è in **SOPRAVVIVENZA**: quota AI al 245%, salute macchina
+> a 4. Il gate **NORTH_STAR** è in stallo da 81 giorni. Entrambi dicono la stessa cosa: solo nucleo
+> vitale, solo lavoro che avvicina il primo ordine pagato.
+>
+> **I numeri, da query SQL diretta su Supabase, non a memoria.** 1 ordine (24/6, annullato, €19,05,
+> Pane Quotidiano). **0 pagati.** 9 profili. 9 prodotti. 4 carrelli abbandonati. 2 negozi. Identici
+> bit-per-bit al passaggio delle 16:34. `git log --since="16:20"` è vuoto: nessun commit nuovo in 27
+> minuti.
+>
+> **Ho controllato l'unica cosa che poteva essere cambiata.** Nel passaggio delle 16:34 avevo
+> delegato ad @tech un fix (pagine negozio: leggono `profiles`, dovrebbero leggere
+> `seller_public_profiles`) e chiesto una PR. Ho guardato i branch del sito in locale. Non vedo nessun
+> branch nuovo che assomigli a quel fix. **Non posso confermarlo né smentirlo da qui**: la copia
+> locale del sito è di sola lettura e potrebbe non vedere un lavoro fatto altrove. Lo segno come **non
+> verificato**. Se la PR non arriva al prossimo controllo, va ripresa da capo.
+>
+> **Due strumenti bloccati, non ritentati.** `test-cervello.mjs`: stesso buco noto delle card
+> #104/#189/#194/#195/#198/#199/#200. `gh pr list` sul repo del sito: negato esplicitamente questa
+> volta, non solo "richiede approvazione".
+>
+> **Le priorità restano IDENTICHE al passaggio delle 16:34:**
+> 1. Verifica se è arrivata la PR di @tech sulle pagine negozio. Non confermata da qui.
+> 2. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 3. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 30+ giorni.
+> 4. Decidi su "Panificio Demo" (#196) e su come riallineare main↔GitHub (#199/#200).
+>
+> **Una domanda diretta per Nicola.** Oggi ci sono state ~28 chiamate "giro completo" ravvicinate,
+> tutte a dati identici. È il pattern che la macchina stessa indica da ore come causa più probabile
+> della quota AI al 245%. Se il comando arriva da un timer automatico, vale la pena allentarlo. Se
+> arriva da te, dimmelo e smetto di segnalarlo.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
+
+> 🧭 **7/9 16:34 — Nuova chiamata "esegui giro.md per intero".** Sono passate ~2h dal passaggio delle
+> 14:35. Letargo **SOPRAVVIVENZA** e gate **NORTH_STAR** restano entrambi attivi. Non rilancio le 15
+> fasi pesanti: sarebbe il ~27° giro pieno di oggi sugli stessi identici dati.
+>
+> **I numeri, query SQL diretta su Supabase MCP, non a memoria.** 1 ordine (24/6, annullato, €19,05,
+> Pane Quotidiano). **0 pagati.** 9 profili. 9 prodotti. 4 carrelli abbandonati. 2 negozi. Identici
+> bit-per-bit al passaggio delle 14:35. **81° giorno di stallo North Star** (24/6→7/9). `git log
+> --since="16:20"` vuoto, `DECISIONI.md` invariato dal 29/8, `AZIONI-IN-ATTESA.md` invariata nel resto.
+>
+> **Il lavoro vero di questo passaggio: la card #204 è passata da "non conclusivo" a CONFERMATO.**
+> Invece di aspettare un browser, ho interrogato il database di produzione in diretta:
+> `aclexplode(relacl)` su `pg_class` mostra che il ruolo `anon` (visitatore anonimo) **non ha nemmeno
+> il permesso di leggere** la tabella `profiles` — non solo bloccato da RLS, proprio senza GRANT.
+> `authenticated` (cliente loggato) il permesso di lettura ce l'ha, ma le uniche 2 policy RLS lo
+> limitano al proprio profilo o a un admin. Poi ho grep-ato il codice vero: le 4 pagine che mostrano
+> l'elenco negozi (`app/stores/page.tsx`, `app/near/page.tsx`, `StoreShowcase.tsx`,
+> `HeroStoreCard.tsx`) interrogano ancora `profiles`, non la vista sicura `seller_public_profiles`
+> (che HA i permessi giusti, verificato con lo stesso comando, e le cui colonne coprono esattamente
+> quelle usate dal codice). **Prova certa, non più una deduzione: oggi chiunque apra quelle pagine,
+> loggato o no, vede zero negozi.** È la spiegazione più concreta trovata finora per 81 giorni a 0
+> ordini pagati — un cliente non può ordinare da un negozio che il sito non gli mostra mai.
+>
+> **Non ho aspettato un altro giro per proporlo: ho già messo in moto il fix.** È un cambio minimo (il
+> nome della tabella interrogata, in 4 punti) e reversibile. L'ho affidato ad @tech in un branch
+> nuovo, staccato da `origin/main` per non toccare il lavoro in corso su altri branch del repository
+> del sito; gli ho chiesto una PR, mai un merge (quello resta tuo). È partito in parallelo a questo
+> passaggio: il numero della PR e se compila arrivano al prossimo controllo.
+>
+> **Bash bloccato di nuovo sugli script HARD**, stesso buco delle card #104/#189/#194/#195/#198/#199/
+> #200 — non ritentato, esito già noto. Non ha fermato il lavoro sopra: la prova è arrivata da uno
+> strumento SQL già autorizzato, non dagli script CLI bloccati.
+>
+> **Le priorità, aggiornate:**
+> 1. **Nuova/urgente:** quando arriva la PR di @tech (fix pagine negozio), falla mergiare — è il
+>    passo più vicino al primo ordine pagato trovato finora.
+> 2. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 3. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 30+ giorni.
+> 4. Decidi su "Panificio Demo" (#196) e su come riallineare main↔GitHub (#199/#200).
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **7/9 14:35 — Nuova chiamata "esegui giro.md per intero".** Sono passate ~2h34 dal Punto di
 > mezzogiorno delle 12:01. Non rilancio le 15 fasi pesanti. Questa macchina si è già data questa

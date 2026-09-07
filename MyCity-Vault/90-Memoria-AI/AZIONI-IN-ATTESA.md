@@ -64,9 +64,32 @@ grezzo e non esegue il JavaScript del browser che fa la vera lettura dati. Non c
 l'ipotesi RLS. Serve ancora il test reale in incognito richiesto sopra, 30 secondi con un browser
 vero. Non ho trovato errori duri (pagina 404 o 500) in questo tentativo.
 
+**✅ Aggiornamento 2026-09-07 16:34 — CONFERMATO, non più un'ipotesi.** Non serviva un browser: ho
+interrogato il database di produzione direttamente (query dirette via MCP Supabase, non a memoria) e
+la prova è definitiva. `aclexplode(relacl)` sulla tabella `profiles` mostra che il ruolo `anon`
+(visitatore non loggato) **non ha nemmeno il permesso di leggere la tabella**, a prescindere dalle
+policy RLS — ogni sua query fallisce con "permesso negato". Il ruolo `authenticated` (cliente loggato)
+il permesso di lettura ce l'ha, ma le uniche 2 policy RLS lo limitano a vedere **solo il proprio
+profilo** o quello di un admin — quindi anche un cliente loggato vede zero altri negozi. Ho rigrep-ato
+il codice vero: tutti e 4 i file citati sopra interrogano ancora `.from('profiles')`, nessuno usa
+`seller_public_profiles` (che invece HA i permessi giusti per `anon` e `authenticated`, stesso comando
+di verifica). **Conclusione: oggi, chiunque apra "Tutti i negozi", "Vicino a te", la vetrina in home o
+la card hero — loggato o no — vede zero negozi.** È la spiegazione più concreta trovata finora per gli
+81 giorni a 0 ordini pagati: i clienti non vedono nemmeno Pane Quotidiano per poterci cliccare sopra.
+
+**Cosa ho fatto subito, senza aspettare un ok.** È un fix piccolo, isolato e reversibile: cambiare il
+nome della tabella in 4 punti, in un branch nuovo, senza toccare il lavoro in corso di altri branch.
+Ho passato il compito ad @tech con la prova già in mano e l'istruzione di aprire una PR (mai un merge,
+quello resta tuo): è partito in parallelo a questo passaggio, il risultato (numero PR, se compila)
+arriva al prossimo controllo.
+
+**Cosa non ho verificato.** Se il fix regge anche per la query con l'embed `shop_of_month` nella hero
+card (usa una relazione a chiave esterna che una vista come `seller_public_profiles` potrebbe non
+supportare) — l'ho tenuta volutamente fuori da questo fix minimo, @tech la segnala come gap residuo.
+
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
-| 204 | 2026-09-07 13:20 | @devops-sre | Apri mycity-live in incognito su "Tutti i negozi": conferma se appare vuoto | 🔴 | vedi blocco sopra — RLS `profiles` + vista `seller_public_profiles` mai usata dal frontend | manuale | in attesa |
+| 204 | 2026-09-07 13:20 | @tech | CONFERMATO via SQL diretto: le pagine negozi leggono `profiles` (RLS le blocca per tutti); fix in branch/PR in corso | 🔴 | vedi blocco sopra — grant/RLS provati con aclexplode, fix delegato ad @tech in background | manuale (merge PR) | in attesa |
 
 <!-- badge-verificato-due-branch-orfani -->
 ### 🟡 #203 — Due tentativi di riparare il bollino "Verificato" sono rimasti dimenticati sul disco · ⏳ accodata 2026-09-07 13:20
@@ -3397,7 +3420,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 14:28)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 16:27)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-07-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

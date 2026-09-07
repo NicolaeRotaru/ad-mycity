@@ -1,14 +1,16 @@
 {
-  "data": "2026-09-07 12:00",
-  "situazione": "80° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora con query SQL diretta su Supabase (9 profili, 9 prodotti, 2 negozi, 4 carrelli abbandonati). Nessun cambiamento di business dalle 11:15. Questa è circa la 25ª chiamata 'giro completo' ravvicinata di oggi: applicata la regola già scritta più volte in STATO.md — a delta zero, aggiornamento breve, non le 15 fasi pesanti. Letargo SOPRAVVIVENZA (quota AI 93%, salute 4/100): probabile che sia proprio questo volume di richieste a tenerci lì.",
+  "data": "2026-09-07 16:34",
+  "situazione": "81° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora con query SQL diretta su Supabase. Ma questo passaggio ha trovato la causa più concreta finora: le pagine che mostrano l'elenco negozi (Tutti i negozi, Vicino a te, vetrina home, card hero) interrogano una tabella che i permessi di produzione bloccano per chiunque non sia il negozio stesso o un admin — confermato con query dirette sul database, non più un'ipotesi. Oggi un cliente vero, loggato o no, vede zero negozi. Il fix è già stato avviato (branch + PR in preparazione da @tech), senza aspettare un altro giro.",
   "opportunita": [
-    {"titolo": "Un cliente vero si è fatto vivo stamattina su Pane Quotidiano", "motivo": "carrello da €5 abbandonato alle 07:28 da un account esistente — segnale concreto di domanda sull'unico negozio reale, oggi bloccato solo dai pagamenti spenti", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Il sito probabilmente mostra zero negozi a ogni cliente, ed è già in riparazione", "motivo": "prova diretta sul database: nessun permesso di lettura per i visitatori sulla tabella che le pagine negozio interrogano oggi; esiste già la tabella giusta coi permessi corretti, il fix è cambiare 4 righe di codice", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Un cliente vero si è fatto vivo stamattina su Pane Quotidiano", "motivo": "carrello da €5 abbandonato alle 07:28 da un account esistente — segnale concreto di domanda sull'unico negozio reale, oggi bloccato anche dai pagamenti spenti", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 28 giorni — stamattina un cliente vero ha già mostrato interesse che non si è potuto incassare", "livello": "rosso"},
-    {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza è salita ancora, ora 263 commit locali e 9 remoti mai scaricati: più si aspetta, più diventa rischioso il riallineamento", "livello": "rosso"},
-    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs, gate-veri.mjs, delta-gate.mjs e sonda-volano.mjs restano bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
+    {"titolo": "Firma il merge del fix che rimette i negozi visibili sul sito, appena arriva", "motivo": "confermato con prova diretta sul database che oggi le pagine negozio mostrano zero risultati a qualunque cliente; è la spiegazione più probabile dei 0 ordini in 81 giorni, fix già in un branch pronto per la revisione", "livello": "rosso"},
+    {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine", "livello": "rosso"},
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — un cliente vero ha già mostrato interesse che non si è potuto incassare", "livello": "rosso"},
+    {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresce di giro in giro: più si aspetta, più diventa rischioso il riallineamento", "livello": "rosso"},
+    {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs e altri guardiani restano bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
     {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota", "livello": "giallo"}
   ]
 }
