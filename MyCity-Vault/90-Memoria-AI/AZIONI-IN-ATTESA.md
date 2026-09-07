@@ -153,22 +153,15 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 
 > 🛠️ **Aggiornamento AD 2026-09-07 17:20 — la riparazione qui sopra non funziona.**
 >
-> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente.
+> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente: prova a ricreare tabelle che ci sono già, perché il database è nato prima del registro delle migrazioni.
 >
-> ```
-> ▶ applico 001_create_tables.sql
-> psql: ERROR:  relation "profiles" already exists      (uscita 3, zero applicate)
-> ```
+> **Due cose misurate.** Tredici migrazioni su 149 non si possono rieseguire. E in produzione la migrazione 127 è applicata a metà: la funzione c'è, la vista no. La 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
 >
-> **Perché.** Il database di produzione è nato prima del registro delle migrazioni. La regola con cui il comando decide di saltare un file cerca il numero `001` o il nome `create_tables`: in produzione non trova né l'uno né l'altro, quindi prova a rieseguire la migrazione che crea le tabelle da zero. Sul database di prova il difetto non si vedeva, perché quello si costruisce da capo registrando ogni file col suo numero.
+> **Cosa ho fatto.** Richiesta di unione 252 sul sito, già unita. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito. Il test che lo tiene chiuso. E `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero: registrare tredici migrazioni, applicarne centotrentasei, verificare.
 >
-> **Due cose misurate oggi.** Tredici migrazioni su 149 non si possono rieseguire. L'ho misurato ricostruendo un database con tutte applicate e rilanciando ogni file. La seconda: in produzione la migrazione 127 è applicata **a metà**. La funzione c'è, la vista no. E la migrazione 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
+> **Cosa devi fare tu, adesso.** Seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
 >
-> **Cosa ho fatto.** Richiesta di unione 252 sul sito. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito, invece di esplodere a metà. Il test che tiene chiuso il difetto. E il documento `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero su una copia locale: registrare tredici migrazioni, applicarne centotrentasei, verificare. Al secondo giro non fa più niente.
->
-> **Cosa devi fare tu, adesso.** Unire la 252, poi seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
->
-> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, mentre la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati: nessun ordine vero è mai passato di lì. Il database vero l'ho solo letto.
+> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati.
 
 ---
 
@@ -522,15 +515,15 @@ quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più ri
 
 > 🔗 **Aggiornamento AD 2026-09-07 21:30 — questa scelta adesso serve anche al sito.**
 >
-> **Cosa è successo.** Sul marketplace resta aperto un difetto grosso: del codice con una prova rossa può essere pubblicato. Ho provato a chiuderlo scrivendo codice, mettendo le prove dentro il build di Vercel. Non ha retto. L'anteprima ha fatto fallire 104 prove, perché quella suite è scritta per l'ambiente della CI. Sono tornato indietro.
+> **Cosa è successo.** Sul marketplace resta aperto un difetto grosso: del codice con una prova rossa può essere pubblicato. Ho provato a chiuderlo scrivendo codice. Non ha retto, ed è scritto nel registro del sito.
 >
-> **Cosa vuol dire per questa carta.** La medicina che stai decidendo qui chiude quel difetto alla radice. Se il codice con una prova rossa non può entrare nel codice buono, non può nemmeno essere pubblicato. E non serve nessun segreto di Vercel.
+> **Cosa vuol dire per questa carta.** La medicina che stai decidendo qui chiude quel difetto alla radice. Se il codice con una prova rossa non entra nel codice buono, non può nemmeno essere pubblicato. E non serve nessun segreto.
 >
-> **Cosa cambia nella domanda.** Solo una cosa: vale per **due** repository e non uno. Quello della macchina è quello che ho contato sopra. Quello del sito è dove sta il difetto. La lettera che scegli vale per tutti e due.
+> **Cosa cambia nella domanda.** Solo una cosa: vale per due repository, non uno. Quello della macchina è quello che ho contato sopra. Quello del sito è dove sta il difetto.
 >
-> **Cosa devi fare tu.** Sempre la stessa cosa: scrivimi A, B o C. Se scegli B o C, i controlli da rendere obbligatori sul repository del sito sono quelli della CI: `Lint + Typecheck + Build`, `Unit tests`, `Controlli database (Postgres locale, senza chiavi)`.
+> **Cosa devi fare tu.** Sempre la stessa cosa: scrivimi A, B o C. Sul sito i controlli da rendere obbligatori sono `Lint + Typecheck + Build`, `Unit tests`, `Controlli database (Postgres locale, senza chiavi)`.
 >
-> **Cosa non ho verificato.** Che i nomi dei controlli qui sopra siano scritti identici nella schermata di GitHub: li ho letti dai lavori della CI, non da quella pagina, che da qui non vedo.
+> **Cosa non ho verificato.** Che quei nomi siano scritti identici nella schermata di GitHub: li ho letti dai lavori della CI, non da quella pagina.
 
 ---
 
@@ -898,23 +891,11 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
 
-> 🛡️ **Aggiornamento AD 2026-09-07 19:05, CORRETTO alle 21:30 — avevo detto che il pericolo era tolto. Non lo è.**
+> ↩️ **Aggiornamento AD 2026-09-07 21:30 — ritiro quello che avevo scritto alle 19:05.**
 >
-> ⚠️ **Leggi prima questo.** Alle 19:05 avevo scritto qui sotto che il difetto era chiuso, perché avevo messo le prove dentro il build di Vercel. L'anteprima l'ha bocciato: 104 prove fallite, perché quella suite è scritta per l'ambiente della CI. Sono tornato indietro, e **il difetto è di nuovo aperto**. La strada che lo chiude davvero, e che non costa segreti, è la carta #177: il controllo che ferma invece di avvisare. Il resto dell'aggiornamento qui sotto resta vero solo per la parte sui due identificatori.
+> Alle 19:05 avevo scritto qui che il pericolo era tolto. **Non era vero.** Avevo messo le prove dentro il build di Vercel, e l'anteprima ha fatto fallire 104 prove: quella suite è scritta per l'ambiente della CI, non per il costruttore. Ho tolto tutto, e il difetto è di nuovo aperto.
 >
-> ~~il pericolo è già tolto~~ — quello che segue è la versione delle 19:05, tenuta per non riscrivere quello che avevo detto:
->
-> **Cosa è cambiato.** Il difetto era: un test rosso finisce in produzione. L'ho chiuso da un'altra parte, senza i tuoi segreti. Il cancello sta dentro il build di Vercel.
->
-> **Come.** `vercel.json` dice ora `"buildCommand": "npm run verify && next build"`. Se una prova è rossa, la compilazione non parte e Vercel non ha niente da pubblicare. Richiesta di unione 254 sul sito.
->
-> **Un numero che vale la pena sapere.** Il buco era più stretto di come lo raccontava questa carta. Vercel già faceva girare il controllo dei tipi ed eslint: quelli fermavano un rilascio. A mancare erano solo le prove. Adesso ci sono.
->
-> **Cosa resta a te, e perché non è più urgente.** I tre segreti servono ancora, ma per una cosa diversa: far applicare le migrazioni prima di pubblicare, e rilasciare il commit che i controlli hanno promosso invece della punta di adesso. Sono miglioramenti, non una falla aperta.
->
-> **Il passo 2 qui sopra, invece, NON va fatto.** Girare `"main": true` in `false` oggi spegnerebbe gli aggiornamenti del sito, perché il lavoro che dovrebbe sostituirli non rilascia. Fallo solo dopo che un rilascio di prova dal lavoro è riuscito.
->
-> **Cosa non ho verificato.** Che `npm run verify` giri sul costruttore di Vercel: l'ho dedotto dal fatto che le prove non usano variabili d'ambiente. La prova è l'anteprima della richiesta 254.
+> La strada che lo chiude senza costare segreti è la carta **#177**. Il dettaglio sta nel registro del sito e in DECISIONI.
 
 > 🔑 **Aggiornamento AD 2026-09-07 17:20 — due dei tre te li ho trovati io, così non li cerchi.**
 >
