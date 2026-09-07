@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-09-07 12:51",
+  "aggiornato": "2026-09-07 12:56",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-09-07",
-    "runs": 19,
+    "runs": 20,
     "token_totali": 0,
-    "durata_sec_totale": 13224,
+    "durata_sec_totale": 13529,
     "voci": [
       {
         "quando": "2026-09-07 06:07",
@@ -178,10 +178,19 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-09-07 12:56",
+        "tipo": "worker-playbook",
+        "negozio": "centro",
+        "durata_sec": 305,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 1065000,
-    "token_per_gate": 1065000,
+    "token_stimati": 1115000,
+    "token_per_gate": 1115000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -549,22 +558,13 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 955000,
+    "token_sessione_rolling": 940000,
     "runs_sessione": 17,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-09-07 12:51"
+    "aggiornato": "2026-09-07 12:56"
   },
   "voci_recenti": [
-    {
-      "quando": "2026-09-07 06:54",
-      "tipo": "giro",
-      "negozio": "centro",
-      "durata_sec": 1619,
-      "token": 65000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
     {
       "quando": "2026-09-07 09:08",
       "tipo": "giro",
@@ -705,6 +705,15 @@
       "tipo": "worker-playbook",
       "negozio": "centro",
       "durata_sec": 178,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-09-07 12:56",
+      "tipo": "worker-playbook",
+      "negozio": "centro",
+      "durata_sec": 305,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
