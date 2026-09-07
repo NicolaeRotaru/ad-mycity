@@ -7,23 +7,21 @@ Il blocco della card "2 mail Hub Urbano" era doppio, dichiarato in modo esplicit
 fino al 24/8-1/9**. La stessa nota diceva: *"il vero sblocco è uno di questi due"* (condizione OR,
 non AND).
 
-- **Gate ① (bando aperto):** ANCORA chiuso. Verificato di nuovo oggi con 2 WebSearch dirette
-  ("bando digitalizzazione commercio Piacenza settembre 2026", "Comune Piacenza contributo
-  commercianti materiali digitalizzazione 2026 sportello"): stesso PI26 (Camera di Commercio
-  dell'Emilia), sportello 20/7→30/7, già chiuso e già dichiarato non idoneo per MyCity da Nicola
-  (29/7). Nessun bando comunale "rimborso materiali" è mai esistito (accertato 6/7). Nessun bando
-  genuinamente nuovo trovato.
-- **Gate ② (pausa lavoro-operativo):** **RISOLTO.** La finestra 24/8-1/9 è passata; il 2/9 la
-  macchina ha già registrato che 10 azioni-negozio sono tornate visibili dopo la scadenza della
-  pausa (card #191 in AZIONI-IN-ATTESA.md). La mail Hub NON era fra quelle 10 (non era stata
-  esplicitamente marcata "in pausa" il 23/7, restava solo bloccata dal fatto che, nel frattempo,
-  PI26 era diventato inutilizzabile) — è rimasta orfana: il numero di coda che la citava (`#52`) è
-  stato da allora riassegnato a un'altra card (PR #675, tema completamente diverso).
+- **Gate ① (bando aperto):** ANCORA chiuso. Ho fatto oggi 2 nuove ricerche web dirette. Stesso
+  risultato di sempre: PI26 (Camera di Commercio dell'Emilia), sportello 20/7→30/7, già chiuso e già
+  dichiarato non idoneo per MyCity da Nicola il 29/7. Un bando comunale "rimborso materiali" non è
+  mai esistito (accertato il 6/7). Nessun bando genuinamente nuovo trovato oggi.
+- **Gate ② (pausa lavoro-operativo):** **RISOLTO.** La finestra 24/8-1/9 è passata. Il 2/9 la
+  macchina ha già registrato che 10 azioni-negozio sono tornate visibili da sole dopo la scadenza
+  della pausa (card #191 in AZIONI-IN-ATTESA.md). La mail Hub però NON era fra quelle 10. Non era
+  stata marcata "in pausa" il 23/7: restava bloccata solo perché, nel frattempo, PI26 era diventato
+  inutilizzabile. Per questo è rimasta orfana. Il numero di coda che la citava (`#52`) è stato
+  riassegnato nel frattempo a un'altra card, su un tema completamente diverso (PR #675).
 
-**Conclusione:** per la regola OR che l'AD stessa aveva scritto, lo sblocco è arrivato — non con un
-bando nuovo, ma con la fine della pausa. La mail va però riscritta: il testo precedente citava PI26
-"a sportello" nell'oggetto e nel corpo, e PI26 è chiuso dal 30/7. Sotto il testo aggiornato, senza
-riferimento a bandi.
+**Conclusione:** per la regola OR che l'AD stessa aveva scritto, lo sblocco è arrivato. Non è arrivato
+un bando nuovo — è finita la pausa. La mail va però riscritta prima di partire: il testo di luglio
+citava ancora PI26 "a sportello", e PI26 è chiuso dal 30/7. Sotto, il testo aggiornato, senza
+riferimento a nessun bando.
 
 ## Mail #1 — Comune di Piacenza (Ufficio Commercio / SUAP)
 
