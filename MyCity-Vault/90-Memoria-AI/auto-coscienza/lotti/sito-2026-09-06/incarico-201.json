@@ -1,0 +1,101 @@
+{
+ "squadra": 201,
+ "ondata": 6,
+ "pacchetti": [
+  "app/globals.css"
+ ],
+ "file_citati": [
+  "app/globals.css",
+  "components/MobileTabBar.tsx",
+  "public/manifest.js",
+  "app/layout.tsx",
+  "app/store/[id]/page.tsx",
+  "app/store/[id]/[slug]/page.tsx",
+  "components/ProductCard.tsx",
+  "components/PromoTicker.tsx",
+  "components/Navbar.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+   "titolo": "In fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+   "dimensione": "layout-responsive",
+   "file": "app/globals.css:117 e :207-209 (--tabbar-height: 72px) contro components/MobileTabBar.tsx:139-142 e :169",
+   "descrizione": "CONFERMATO. La variabile vale 72px e regola il padding inferiore del body sotto i 768px (globals.css:207-209), l'offset di StickyAddToCart (riga 57) e quello del banner cookie. La barra vera: `tabClass` (MobileTabBar.tsx:140) e' `flex flex-col items-center justify-center gap-0.5 py-2`, dentro icona 22px e etichetta text-[11px] con interlinea ereditata 1.5, piu' il bordo superiore della nav (riga 169) — circa 58px in tutto. Ne segue una striscia vuota di ~14px in fondo a tutte le pagine mobile e una barra d'acquisto che galleggia sopra la barra a schede invece di appoggiarcisi.",
+   "impatto": null,
+   "fix_proposto": "Portare --tabbar-height a 3.5rem, oppure farla scrivere da MobileTabBar misurando la propria altezza reale, come gia' fatto per --altezza-banner-cookie."
+  },
+  {
+   "chiave": "coerenza-brand|lo schermo di avvio dell'app installata è bianco mentre la pagina è color panna",
+   "titolo": "Lo schermo di avvio dell'app installata è bianco mentre la pagina è color panna",
+   "dimensione": "coerenza-brand",
+   "file": "public/manifest.json:7 (\"background_color\": \"#ffffff\") vs app/globals.css:129 (html background = --surface-page = cream-100 #FBF7F0) e app/layout.tsx:111 (body bg-cream-100)",
+   "descrizione": "Il manifest della PWA dichiara sfondo bianco per lo splash screen; la pagina, appena carica, è panna #FBF7F0. All'avvio dall'icona sulla home si vede un flash bianco→panna. theme_color (#C0492C) invece è coerente col layout.tsx:73.\n\nCausa radice: Manifest scritto prima della scelta del fondo panna e mai riallineato ai token.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n '\"background_color\": \"#ffffff\"' public/manifest.json",
+   "impatto": "Solo chi ha installato l'app sul telefono; un dettaglio di finitura, nessun effetto su ordini.",
+   "fix_proposto": "Impostare \"background_color\": \"#FBF7F0\" (cream-100) nel manifest."
+  },
+  {
+   "chiave": "coerenza-brand|la variabile del colore della vetrina viene impostata su entrambe le pagine negozio e non la legge nessuno",
+   "titolo": "La variabile del colore della vetrina viene impostata su entrambe le pagine negozio e non la legge nessuno",
+   "dimensione": "coerenza-brand",
+   "file": "app/store/[id]/page.tsx:108 · app/store/[id]/[slug]/page.tsx:68 · commento in app/globals.css:295",
+   "descrizione": "CONFERMATO. Le due pagine impostano style={{ ['--store-accent']: accent }} sul contenitore e il commento a globals.css:295 la presenta come il meccanismo con cui l'accento del negozio sopravvive ai temi. Ho cercato --store-accent in tutto app/, components/ e lib/ (css compresi): gli unici tre riscontri sono le due dichiarazioni inline e il commento — nessun consumatore. Le sezioni prendono il colore dalla prop ctx.accent (BannerSection.tsx:20, HeroSection.tsx:86, ContactSection.tsx:26 e 37). È codice morto che documenta un meccanismo inesistente: chi scriverà una sezione nuova fidandosi del commento userà var(--store-accent) e otterrà un colore vuoto.",
+   "impatto": null,
+   "fix_proposto": "O rimuovere le due dichiarazioni inline e il commento a globals.css:295, o — strada più pulita — far leggere alle sezioni var(--store-accent) invece della prop, così il colore si propaga per cascata e le sezioni nuove funzionano senza passarsi ctx."
+  },
+  {
+   "chiave": "coerenza-brand|il foglio di stile globale scrive a mano i valori dei token che dichiara poche righe sopra",
+   "titolo": "Il foglio di stile globale scrive a mano i valori dei token che dichiara poche righe sopra",
+   "dimensione": "coerenza-brand",
+   "file": "app/globals.css:161 (contro 105) · 184-189 · 228 (contro 103) · 305",
+   "descrizione": "CONFERMATO tutte e quattro. Riga 161: ':focus-visible { outline: 2px solid #C0492C }' mentre alla riga 105 esiste --focus-outline: 2px solid var(--primary-600); verificato che né --focus-outline né --focus-ring (riga 104) sono usati da nessuna parte in app/ e components/ (zero occorrenze di var(--focus-outline)/var(--focus-ring)). Righe 184-189: il gradiente dello scheletro di caricamento usa #F5EDD9 e #FBF7F0 invece di var(--cream-200) e var(--cream-100). Riga 228: '.card-hover:hover' ripete 'box-shadow: 0 12px 32px -8px rgba(192,73,44,0.18)', che è già --shadow-hover alla riga 103. Riga 305: il tema «caldo» della vetrina usa background-color #FBF7F0 invece di var(--cream-100). Nessuna produce oggi un errore visibile — i valori coincidono — ma sono quattro copie che divergeranno alla prima modifica di palette.",
+   "impatto": null,
+   "fix_proposto": "Sostituire con le rispettive var(): riga 161 → 'outline: var(--focus-outline)'; 184-189 → var(--cream-200)/var(--cream-100); 228 → 'box-shadow: var(--shadow-hover)'; 305 → var(--cream-100)."
+  },
+  {
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "titolo": "La scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "dimensione": "tipografia",
+   "file": "app/globals.css:22-32 (la scala dichiarata) · scavalcata in tutto il sito, in particolare components/ProductCard.tsx:182/185/188/211",
+   "descrizione": "CONFERMATO, conteggio rifatto da me. La scala dichiarata in globals.css righe 22-32 ha undici gradini (10, 12, 14, 16, 18, 20, 24, 30, 36, 48, 60px). Contando le dimensioni scritte a mano nel codice: text-[13px] 115 volte, text-[11px] 70, text-[10px] 50, text-[15px] 22, text-[17px] 16, poi 32, 26, 34, 14, 22, 13.5, 12, 9, 28, 12.5, 8, 54, 46, 30, 24, 18, 16px — circa 330 punti in tutto, di cui ~280 su gradini che nella scala non esistono (13, 11, 15, 17px). Non ho verificato l'affermazione del collega sulle 227 righe senza altezza di riga: quella la lascio fuori. L'effetto concreto l'ho aperto su components/ProductCard.tsx: nome del prodotto a 13px (riga 188), nome del negozio a 11px (riga 185), prezzo barrato a 11px (riga 211), prezzo pieno text-base (16px) — quattro dimensioni in una scheda alta pochi centimetri, e due su quattro fuori scala.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere in tailwind.config.ts i due gradini realmente usati — '2sm': 0.8125rem (13px) e 'xxs': 0.6875rem (11px), ciascuno con la sua altezza di riga — poi sostituire text-[13px] e text-[11px] con le nuove classi e ricondurre i residui (15, 17, 22, 26, 28, 32, 34) al gradino più vicino."
+  },
+  {
+   "chiave": "tipografia|il tema «editoriale» della vetrina scende sotto i 16px del testo base",
+   "titolo": "Il tema «editoriale» della vetrina scende sotto i 16px del testo base",
+   "dimensione": "tipografia",
+   "file": "app/globals.css:309",
+   "descrizione": "CONFERMATO: è l'ultima riga del file — `[data-theme='editoriale'] .store-richtext { font-size: 0.95rem; line-height: 1.75; }` — cioè 15,2 pixel. Il sistema fissa il testo di lettura a 16px (--text-base alla riga 26) e questo tema lo porta sotto. Il blocco .store-richtext (definito alle righe 279-288) è il testo libero che il negoziante scrive nella sua vetrina: presentazione, storia, avvisi — cioè proprio il testo lungo, quello che si legge davvero. Chi sceglie un tema chiamato «editoriale» si aspetta di leggere meglio e ottiene caratteri più piccoli del resto del sito. L'altezza di riga 1.75 invece è giusta.",
+   "impatto": null,
+   "fix_proposto": "Portare font-size a 1rem e tenere line-height: 1.75. L'effetto «rivista» si ottiene con l'interlinea e la larghezza della colonna (max-w-[65ch]), non rimpicciolendo le lettere."
+  },
+  {
+   "chiave": "mobile-pwa|ogni pagina corta scorre a vuoto: il contenuto principale è forzato a un'intera schermata",
+   "titolo": "Ogni pagina corta scorre a vuoto: il contenuto principale è forzato a un'intera schermata",
+   "dimensione": "mobile-pwa",
+   "file": "app/layout.tsx:127 (`<main id=\"main-content\" className=\"min-h-screen\">`); app/globals.css:207-209 (padding di `--tabbar-height` in fondo al body su mobile)",
+   "descrizione": "Verificato. Il `<main>` ha `min-h-screen` (almeno 100vh) ma sopra di lui, nello stesso flusso, ci sono `<Navbar>` con dentro PromoTicker, riga logo+ricerca e CategoryBar (la variabile `--header-height` in globals.css:106 dichiara ~144px), e sotto ci sono `<Footer>` più il `padding-bottom: calc(var(--tabbar-height) + …)` del body (globals.css:208, `--tabbar-height: 72px`). Il documento supera quindi SEMPRE l'altezza dello schermo, anche su pagine con due righe di contenuto (carrello vuoto, pagina non trovata, conferma d'ordine): resta un blocco di sfondo vuoto prima del piè di pagina.",
+   "impatto": null,
+   "fix_proposto": "Sostituire `min-h-screen` con `min-h-[calc(100vh-var(--header-height)-var(--tabbar-height))]`, oppure rendere il body un flex a colonna con `flex-1` sul main."
+  },
+  {
+   "chiave": "mobile-pwa|in cima a ogni pagina scorre una striscia con dentro un link in movimento",
+   "titolo": "In cima a ogni pagina scorre una striscia con dentro un link in movimento",
+   "dimensione": "mobile-pwa",
+   "file": "components/PromoTicker.tsx:72-79 (il link «Promozioni attive · Scopri» dentro la traccia animata) e 84-90; app/globals.css:250-261 (`animation: marquee 24s linear infinite` e le sole pause `:hover`, `:focus-within`, `:active`)",
+   "descrizione": "Verificato. La striscia è montata dentro la Navbar (Navbar.tsx:90), quindi in cima a tutte le pagine, e la traccia ha `animate-marquee` = `marquee 24s linear infinite`. Quando ci sono promozioni attive (`showPromo`) la traccia contiene un vero `<Link href=\"/promozioni\">` che si sposta insieme al testo: su telefono è un bersaglio in movimento. Le uniche pause dichiarate in globals.css sono `:hover`, `:focus-within` e `:active`: sul touch non c'è hover, e non esiste nessun comando di pausa visibile, che è quello che chiede WCAG 2.2.2 per un movimento automatico più lungo di cinque secondi. (Resta attiva la scorciatoia `prefers-reduced-motion` a globals.css:213, che però copre solo chi ha impostato quella preferenza.)",
+   "impatto": null,
+   "fix_proposto": "Fermare la marquee sotto la misura `md` (annunci fissi, eventualmente a rotazione lenta con dissolvenza) oppure aggiungere un pulsante pausa/riprendi sempre visibile. In ogni caso il link «Promozioni attive» non dovrebbe stare dentro la parte che si muove."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la striscia in cima scorre di continuo ed è l'elemento più in movimento sopra logo e ricerca",
+   "titolo": "La striscia in cima scorre di continuo ed è l'elemento più in movimento sopra logo e ricerca",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/PromoTicker.tsx:85-89 (animate-marquee, nessun return null nel file) montata sempre da components/Navbar.tsx:90 · app/globals.css:254-261 (animazione 24s infinita, pausa solo su hover/focus-within/active) · mitigazione a globals.css:213-219",
+   "descrizione": "CONFERMATO. Il ticker è la prima riga di ogni pagina (Navbar riga 90) e non ha nessun 'return null' nel componente, quindi è sempre montato; il contenuto scorre con 'animate-marquee' (riga 86) definito in globals.css righe 254-256 come animazione lineare infinita di 24 secondi, con pausa dichiarata solo per hover, focus-within e active (righe 258-261) — nessuna di queste esiste su un telefono. Onestà: esiste una mitigazione che il collega non cita, il blocco prefers-reduced-motion di globals.css righe 213-219 azzera durata e iterazioni, quindi chi ha attivato l'impostazione di sistema è coperto; tutti gli altri no.",
+   "impatto": null,
+   "fix_proposto": "Fermare lo scorrimento quando gli annunci ci stanno in una riga, oppure ruotarli a scatti con dissolvenza, oppure aggiungere un pulsante pausa."
+  }
+ ]
+}

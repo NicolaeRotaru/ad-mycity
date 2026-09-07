@@ -1,0 +1,55 @@
+{
+ "squadra": 9,
+ "territorio": [
+  "app/api/cron/send-emails/route.ts",
+  "app/api/cron/operational-alerts/route.ts",
+  "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "lib/email/client.ts",
+  "migrations/118_disiscrizione_che_funziona.sql"
+ ],
+ "malattia": "La coda email e' nata come tubo per far uscire i messaggi, non come posto dove restano dati di persone: chi l'ha scritta ha pensato al «mandare» e non al «per quanto tempo resta» ne' al «che messaggio e' questo» — e infatti dove il meccanismo giusto e' stato costruito dopo (il campo `tipo` in client.ts, il 27/8), chi spedisce non e' mai stato aggiornato per usarlo.",
+ "difetti": [
+  {
+   "chiave": "privacy-legale|la coda delle email non si svuota mai",
+   "titolo": "La coda delle email non si svuota mai",
+   "esito": "non_riparato",
+   "prova": "grep -rn \"email_queue\" --include=*.ts --include=*.sql app lib migrations | grep -i delete  → zero risultati in tutto il repo: la tabella si legge, si aggiorna (sent_at, attempts, last_error, cancelled_at) e non si pota mai. Confermato anche che app/api/cron/process-deletions/route.ts pota oggi 11 cose (activity_events.ip, audit_logs.ip, contact_messages, newsletter_subscribers, gift_cards, …) e email_queue non e' fra quelle.",
+   "nota_fix": "IL DIFETTO C'E' ANCORA ED E' ESATTAMENTE COME DESCRITTO: verificato, non e' un falso positivo. Non l'ho riparato perche' il fix vive tutto fuori dal mio territorio, in due file che non sono nei miei file_citati. ① La potatura va in app/api/cron/process-deletions/route.ts: c'e' gia' l'aiutante `pota(cosa, scrittura, fallite)` (righe 97-109) che serve proprio a questo e conta le pulizie fallite; la riga da aggiungere e' una `delete()` su email_queue con sent_at (oppure cancelled_at) piu' vecchio di 90 giorni, sullo stampo delle undici che ci sono gia'. ② La finestra va dichiarata nell'informativa, che sta in app/privacy/page.tsx: la tabella dei periodi di conservazione e' nella sezione 3 «Finalita', basi giuridiche e periodi di conservazione» e ha gia' una riga a 90 giorni (le prove di consegna), quindi la voce «Registro degli invii email: 90 giorni» ci va accanto con la stessa forma. NON HO VERIFICATO se dentro process-deletions esiste gia' una funzione SQL da riusare invece della delete diretta, ne' se qualche altra squadra di questa ondata ha quel file in mano adesso.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "privacy-legale|il piè di pagina «annulla l'iscrizione» viene aggiunto anche alle conferme d'ordine",
+   "titolo": "Il piè di pagina «annulla l'iscrizione» viene aggiunto anche alle conferme d'ordine",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/l-avviso-dell-ordine-non-porta-il-tasto-per-smettere.test.ts → 4 passate (prova nuova, scritta da me). E' una prova di comportamento, non una ricerca di parole: finge Resend e guarda il pacchetto VERO che esce (html + intestazioni), lasciando lavorare per davvero lib/email/client.ts. Messa alla prova togliendo la riga del fix dal codice: 3 prove su 4 diventano rosse (la quarta e' il controllo sui messaggi commerciali e deve restare verde). Poi rimesso il fix e ricontrollato: 4 su 4 verdi. Insieme, senza rompere niente: le 8 prove vicine della posta → 42 passate, fra cui il-tasto-per-smettere-non-va-sulle-email-di-servizio (il meccanismo) e l-ordine-pronto-e-consegnato-arrivano-al-cliente.",
+   "nota_fix": "LA SCHEDA ERA VECCHIA DI META'. Dice che «SendEmailInput (righe 16-23) non ha nessun campo di tipo»: non e' piu' vero. Il 27/8 (R067) lib/email/client.ts ha imparato tutto quello che la scheda chiede — c'e' il tipo `TipoEmail`, c'e' il campo `tipo`, il piede e le intestazioni List-Unsubscribe le mette solo sul marketing (riga 106) e c'e' pure la prova che lo verifica. Quel pezzo era gia' a posto e non l'ho toccato.\n\nQUELLO CHE MANCAVA, E CHE NESSUNO AVEVA VISTO: il meccanismo c'era ma chi spedisce non lo usava. Il campo `tipo` ha come ripiego «marketing», di proposito (meglio un link di troppo su una ricevuta che una promozione senza il modo di smettere). Il giro della coda chiamava `sendEmail` senza dichiarare niente, quindi cadeva nel ripiego: benvenuto, tutorial, «ordine pronto» e «ordine consegnato» uscivano davvero col piede «Annulla l'iscrizione con un clic» e con le due intestazioni che accendono il pulsante di Gmail. Il difetto era vivo, solo un piano piu' in la' di dove la scheda lo cercava.\n\nCOSA HO CAMBIATO — due righe di codice in tutto, il resto e' il perche' scritto nel file:\n① app/api/cron/send-emails/route.ts: alla chiamata di sendEmail ho aggiunto `tipo: isMarketing ? 'marketing' : 'transazionale'`. Non ho inventato una classifica nuova: `isMarketing` e' la variabile che c'era gia' venti righe sopra, quella che decide chi parte senza consenso commerciale, e legge TEMPLATE_DI_SERVIZIO (welcome, tutorial_day2, order_ready, order_delivered). Cosi' un template nuovo dichiarato li' eredita le due cose insieme e non se ne puo' piu' sbagliare una sola.\n② app/api/cron/operational-alerts/route.ts (riga ~552, e' nel mio territorio): la email di allarme agli amministratori aveva lo stesso buco. Le ho messo `tipo: 'transazionale'`. Qui non e' solo forma: se UNSUBSCRIBE_SECRET non e' impostata su Vercel, sendEmail RIFIUTA di spedire un messaggio commerciale e torna «saltato» senza lanciare — quindi il `catch` li' sotto non se ne accorge e il giro dichiara di essere andato bene. Gli allarmi operativi sparivano in silenzio proprio mentre il sito aveva qualcosa che non andava. Il ragionamento era gia' scritto venti righe piu' su per l'avviso dentro il sito (#33: «un allarme operativo non e' una promozione»): mancava solo sulla email.\n\nCOSA NON HO VERIFICATO: ① la seconda modifica (operational-alerts) non ha una prova sua dedicata — farla partire fino all'invio della email richiede di superare quattordici controlli finti, sproporzionato per un minore; l'ho verificata leggendo il sorgente e col controllo dei tipi, e le prove che gia' caricano quella rotta restano verdi. ② Non ho provato nessun invio vero verso Resend: le prove fingono il servizio di posta. ③ La conferma d'ordine in senso stretto — quella che parte quando si paga — NON passa da questa coda e resta col piede di disiscrizione: vedi difetti_nuovi, sono sette chiamanti fuori dal mio territorio.",
+   "file_toccati": [
+    "app/api/cron/send-emails/route.ts",
+    "app/api/cron/operational-alerts/route.ts",
+    "tests/unit/l-avviso-dell-ordine-non-porta-il-tasto-per-smettere.test.ts"
+   ]
+  },
+  {
+   "chiave": "performance|la coda email non può superare 90 messaggi all'ora, qualunque cosa succeda, e nessuno se ne accorgerebbe",
+   "titolo": "La coda email non può superare 90 messaggi all'ora, qualunque cosa succeda, e nessuno se ne accorgerebbe",
+   "esito": "gia_riparato_prima",
+   "prova": "npx vitest run tests/unit/l-allarme-della-coda-email-segue-quanto-in-fretta-la-svuotiamo.test.ts → verde. Non e' una prova di facciata: carica le due rotte vere, legge la cadenza da vercel.json (riga 127) e ricava la soglia dell'allarme da cosa la rotta chiede davvero al database, poi pretende che i tre numeri stiano insieme. Chi ne cambia uno solo la trova rossa. Letti anche i sorgenti: lib/email/ritmo-della-coda.ts:45 (EMAIL_PER_GIRO = 15) e app/api/cron/operational-alerts/route.ts:371-387 (allarme EMAIL_BACKLOG).",
+   "nota_fix": "LA SCHEDA SI ERA GIA' RISTRETTA DA SOLA a due cose: «il tetto non e' dichiarato fuori da quel commento» e «non esiste nessuna sentinella sulla profondita' della coda». Tutte e due sono state fatte il 31/8 (R193), dopo la radiografia. ① Il tetto ora e' una costante con un nome, EMAIL_PER_GIRO, in lib/email/ritmo-della-coda.ts, insieme al ragionamento che lo lega alla finestra di prenotazione e all'allarme. ② La sentinella c'e', in operational-alerts righe 371-387: conta i messaggi non spediti e non annullati fermi da piu' di mezz'ora e suona a cinquanta (EMAIL_BACKLOG, con il link a /admin/today). ③ In piu', non chiesto dalla scheda: il giro della coda ora scrive un avviso quando torna pieno (send-emails righe 111-115), che e' il punto piu' presto in cui il ritardo si vede, e la manovra sta nel runbook §6-bis. Non ho aggiunto niente: aggiungere sarebbe stato inventarmi un lavoro.\n\nCOSA RESTA APERTO E NON HO TOCCATO: il viaggio in piu' per ogni email — `supa.auth.admin.getUserById(row.user_id)` dentro il ciclo, send-emails riga ~200 — c'e' ancora. Sta nel fix_proposto ② della scheda ma FUORI dal difetto ristretto, e chiuderlo vuol dire copiare l'indirizzo su `profiles`, cioe' una migrazione del database: e' 🔴 e non e' di questo lotto. I profili invece si leggono gia' tutti insieme (righe 146-168), quella meta' era stata sistemata il 22/8. Non ho verificato quanto pesi davvero quel viaggio sui tempi: non ho misurato niente in produzione da qui.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "privacy-legale|la coda delle email non si svuota mai",
+   "perche": "il fix vive in due file fuori territorio: app/api/cron/process-deletions/route.ts (dove sta l'aiutante `pota` e le altre 11 potature: li' va la cancellazione delle righe di email_queue oltre i 90 giorni) e app/privacy/page.tsx (sezione 3, tabella dei periodi di conservazione: li' va dichiarata la voce «Registro degli invii email: 90 giorni»). Nessuno dei due e' nei miei file_citati e non li ho aperti in scrittura."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "La conferma d'ordine vera — quella che parte quando si paga — porta ancora il tasto per smettere: sette punti di invio non dicono che messaggio stanno spedendo",
+   "dove": "lib/stripe/webhook/ordini.ts:533 (conferma al cliente) e :549 (avviso al negozio) · app/api/orders/cod/route.ts:853 e :870 (contrassegno: negozio e cliente) · lib/stripe/webhook/rimborsi.ts:220 (rimborso) · lib/stripe/payout.ts:660 · lib/stripe/webhook/giftcard.ts:109 e :115 (buono regalo)",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Il controllo dei tipi su tutto il progetto (npx tsc --noEmit) NON e' pulito, ma l'unico errore non e' mio: components/account/AccountShell.tsx(117,9) error TS1005 — una modifica a meta' di un'altra squadra di questa ondata, un commento JSX rimasto aperto. Era verde due minuti prima delle mie modifiche, e filtrando l'uscita per i miei file gli errori sono ZERO. Quando l'albero si ferma, l'AD lo rilanci: se resta rosso li' dentro, e' quel file, non i miei. ② Non ho lanciato la suite intera (424 file): ho fatto girare le 8 prove che toccano la posta e i due giri notturni, 42 passate. Su una modifica di due righe dentro una chiamata a sendEmail non vedo da dove possa arrivare una rottura altrove, ma non l'ho provato. ③ Nessun invio vero verso Resend e nessuna misura su dati di produzione: da qui il servizio di posta e' finto. ④ Il fix su operational-alerts non ha una prova di comportamento sua: sorgente + tipi + le prove esistenti che caricano quella rotta. ⑤ Non ho toccato le due migrazioni del mio territorio (118 e 150): le ho solo lette per capire cosa spegne davvero il link di disiscrizione."
+}

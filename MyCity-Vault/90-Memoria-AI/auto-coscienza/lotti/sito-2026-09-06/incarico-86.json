@@ -1,0 +1,20 @@
+{
+ "squadra": 86,
+ "ondata": 18,
+ "pacchetto": "lib/shipping-etichetta/label.ts",
+ "territorio_principale": "lib/shipping-etichetta/label.ts",
+ "file_citati": [
+  "lib/shipping-etichetta/label.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|l'etichetta di spedizione in contrassegno stampa quattro segni spuri al posto dell'emoji del sacchetto di soldi",
+   "titolo": "L'etichetta di spedizione in contrassegno stampa quattro segni spuri al posto dell'emoji del sacchetto di soldi",
+   "dimensione": "coerenza-brand",
+   "file": "lib/shipping-etichetta/label.ts:91 (testo '💰 CONTRASSEGNO' con font Helvetica-Bold) · :47-101 (tutta l'etichetta usa solo i font standard Helvetica/Courier di PDFKit)",
+   "descrizione": "L'etichetta 102×152 mm che il negozio stampa e attacca al pacco è generata con PDFKit e i suoi font standard (Helvetica, Courier). Questi font coprono solo la codifica WinAnsi: un'emoji come 💰 (U+1F4B0) viene scritta nel PDF come i due surrogati UTF-16 D83D DCB0, che la stampante e i lettori PDF mostrano come «Ø=Ü°». Quindi sul riquadro rosso del contrassegno — la riga che dice al fattorino «Riscuoti: €23.50» — compare «Ø=Ü° CONTRASSEGNO». Esempio: ordine in contrassegno di Mario Rossi, via Roma 1, 23,50 €: la prova genera il PDF e nel flusso di testo compaiono i codici d83d e dcb0 subito prima di CONTRASSEGNO. Ho dedotto l'aspetto «Ø=Ü°» dalla mappa WinAnsi dei byte D8 3D DC B0; non ho rasterizzato il PDF in immagine.\n\nCausa radice: L'etichetta usa i 14 font standard di PDFKit (nessun TTF incorporato), che non sanno rappresentare caratteri fuori WinAnsi; l'emoji è stata aggiunta come decorazione senza una prova che rendesse il PDF.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/coerenza-brand-etichetta-emoji.test.ts — chiama buildShippingLabel con isCod:true, sgonfia gli stream del PDF e pretende che il testo contenga CONTRASSEGNO ma non i surrogati d83d/dcb0. Oggi: 1 test fallito (d83d presente).",
+   "impatto": "Tocca ogni ordine pagato alla consegna (il metodo di pagamento che il manifest.json mette in vetrina): l'unico pezzo di brand fisico che il cliente tocca — l'etichetta sul pacco — porta un errore di stampa proprio sulla riga dei soldi. Sporca la fiducia in consegna e fa sembrare improvvisato il negozio che stampa da MyCity.",
+   "fix_proposto": "Togliere l'emoji dalla riga 91 (basta «CONTRASSEGNO» in Helvetica-Bold terracotta, o un'icona vettoriale disegnata con doc.rect/doc.circle). Se si vogliono glifi extra o i caratteri del brand sull'etichetta, incorporare un TTF con doc.registerFont('Inter', …) / Fraunces per la testata MyCity. Aggiungere la prova a tests/unit."
+  }
+ ]
+}

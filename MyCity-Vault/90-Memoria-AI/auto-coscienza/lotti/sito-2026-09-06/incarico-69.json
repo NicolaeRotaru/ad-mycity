@@ -1,0 +1,20 @@
+{
+ "squadra": 69,
+ "ondata": 14,
+ "pacchetto": "app/api/cron/expire-checkouts/route.ts",
+ "territorio_principale": "app/api/cron/expire-checkouts/route.ts",
+ "file_citati": [
+  "app/api/cron/expire-checkouts/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "qa-flussi|l'unico avviso su un carrello pagato a meta' puo' sparire senza che nessuno lo sappia",
+   "titolo": "L'unico avviso su un carrello pagato a meta' puo' sparire senza che nessuno lo sappia",
+   "dimensione": "qa-flussi",
+   "file": "app/api/cron/expire-checkouts/route.ts:84-99 (in particolare la riga 98)",
+   "descrizione": "Quando il giro delle scadenze trova un carrello scaduto che pero' ha gia' degli ordini creati — il caso del pagamento riuscito col webhook morto a meta' — decide giustamente di non toccare niente e di avvisare gli amministratori. L'avviso e' una riga scritta nella tabella notifications, e l'esito di quella scrittura non viene guardato: «await admin.from('notifications').insert(righe)» senza leggere l'errore. Se quella scrittura fallisce (permesso cambiato, riga non valida) il caso resta segnato solo nel log tecnico, e il giro risponde comunque ok: true.\n\nCausa radice: Nello stesso file, poche righe piu' sotto, ogni altra scrittura ha il suo controllo d'errore (righe 133-136, 161, 169): qui e' saltato perche' e' un ramo che quasi mai si esegue, quindi non lo ha mai visto nessuno girare davvero.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"notifications').insert(righe)\" app/api/cron/expire-checkouts/route.ts  → riga 98, nessun controllo dell'errore restituito (le altre scritture dello stesso file leggono error)",
+   "impatto": "Il caso che l'avviso doveva segnalare e' il piu' delicato che il sistema conosca: merce gia' venduta e cliente da rimborsare a mano. Perdere quell'avviso vuol dire che un ordine pagato resta appeso finche' non se ne lamenta il cliente.",
+   "fix_proposto": "Leggere l'errore dell'insert e, se c'e', rispondere 500 invece di ok: true — cosi' Vercel ritenta il giro e il caso non si perde. Vale anche per la lettura degli amministratori alla riga 90: se torna vuota (nessun amministratore trovato) oggi non si scrive niente e non lo dice nessuno."
+  }
+ ]
+}

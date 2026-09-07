@@ -1,0 +1,45 @@
+{
+ "squadra": 11,
+ "territorio": [
+  "app/cart/page.tsx"
+ ],
+ "malattia": "Il carrello si scriveva a mano le promesse che altrove hanno gia' una casa sola: la soglia della spedizione, i 3 euro di consegna e i minuti dell'express. Ricopiati li' dentro, quei numeri restano indietro il giorno che cambiano, e a certe ore diventano falsi.",
+ "difetti": [
+  {
+   "chiave": "qa-flussi|il carrello vuoto promette ancora «spedizione gratis sopra €30» senza i 3 euro di consegna",
+   "titolo": "Il carrello vuoto promette ancora «Spedizione gratis sopra €30» senza i 3 euro di consegna",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-carrello-vuoto-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts -> 6 prove verdi, exit 0. npx tsc --noEmit -p tsconfig.json -> exit 0. MUTANTE: rimessa la frase vecchia battuta a mano, la prova torna rossa (exit 1); ripristinato il fix, exit 0.",
+   "nota_fix": "COSA HO TROVATO: il difetto c'era ancora, ma alla riga 323 e non alla 200 - le ondate 1 e 2 avevano allungato il file. La frase stava nel campo description dell'EmptyState. COSA HO CAMBIATO: ho aggiunto la funzione pura descrizioneDelCarrelloVuoto(), che chiama promessaSpedizione(0) - la stessa casa da cui prendono gia' le parole la scheda prodotto, ProductCard e FreeShippingProgress - e ne legge due campi: 'mancano' (su un carrello vuoto E' la soglia) e 'costoConsegna'. A video adesso si legge: \"Scopri i prodotti dei negozi della tua citta'. Spedizione gratis sopra 30.00 euro, piu' 3.00 euro di consegna per negozio.\" Portare la consegna a zero fa sparire la coda da se'; cambiare la soglia la aggiorna qui senza che nessuno riscriva niente. LA PROVA NON E' UN GREP: esegue prezziDelCarrello (il motore vero del checkout) su un carrello da 35 euro e pretende che il costo annunciato dal carrello vuoto sia lo stesso centesimo che la cassa addebita davvero. COSA NON HO VERIFICATO: la resa a video. La frase e' circa 30 caratteri piu' lunga di prima e qui non c'e' un browser che impagina. DIFFERENZE DALLA SCHEDA: la spazzata-frase indicata nel fix_proposto NON l'ho lanciata, e' uno strumento del repo AD e non del sito. Le parole \"Spedizione gratis sopra\" restano nel file come testo, ma i due NUMERI non ci sono piu': se la spazzata cerca la frase, continuera' a nominare questo file. Le due righe di lib/email/templates.ts citate nella scheda sono fuori dal mio territorio e non le ho toccate.",
+   "file_toccati": [
+    "app/cart/page.tsx",
+    "tests/unit/il-carrello-vuoto-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts"
+   ]
+  },
+  {
+   "chiave": "qa-flussi|il carrello dice «consegna in 30-60 min» anche alle undici di sera — quando la cassa offre solo domani",
+   "titolo": "Il carrello dice «Consegna in 30-60 min» anche alle undici di sera — quando la cassa offre solo domani",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts -> 8 prove verdi, exit 0. npx tsc --noEmit -p tsconfig.json -> exit 0. MUTANTE: rimessa la coda battuta a mano \"Disponibile - Consegna in 30-60 min\", la prova torna rossa (exit 1); ripristinato il fix, exit 0.",
+   "nota_fix": "COSA HO TROVATO: il difetto c'era ancora, alle righe 501 e 507 e non alle 353/359 indicate dalla scheda. COSA HO CAMBIATO: ho aggiunto la funzione pura quandoArrivaScrittoNelCarrello(ora), che chiede ai due orologi che usa la cassa. Se expressSiPuo(ora) e' vero dice 'Consegna in ' + EXPRESS_ETA_LABEL; altrimenti guarda giornoDiPartenza(ora) e dice 'Consegna in giornata' (today) oppure 'Consegna domani' (tomorrow). Alle 22 esce 'Consegna domani', alle 7 'Consegna in giornata', alle 14 resta la mezz'ora. ATTENZIONE ALLE 20: li' l'express la cassa lo offre ancora (expressSiPuo(20) e' vero, CHIUSURA_EXPRESS vale 21), quindi la riga continua a dire la mezz'ora. La scheda diceva che dalle 20 si parte da domani, ma quello e' solo il giorno da cui APRE il calendario: la mattonella 'Adesso' resta accesa fino alle 21. Non ho voluto togliere un'ora di ordini per eccesso di prudenza. L'ORA: sta in uno stato che parte da null e si legge in un useEffect. Partire da new Date() dentro useState avrebbe messo nell'HTML l'ora del SERVER, cambiata dal browser subito dopo (differenza di idratazione). Finche' e' null la riga non promette nessun tempo, invece di inventarne uno. Si rilegge ogni 60 secondi, perche' un carrello lasciato aperto attraversa le 21. LA PROVA NON E' UN GREP: ESEGUE expressSiPuo e giornoDiPartenza alle ore che contano (22, 7, 8, 14, 20, 21). Se domani qualcuno sposta CHIUSURA_EXPRESS, quei numeri si muovono da soli. COSA NON HO VERIFICATO: che su un browser vero, alle 22:00, la riga a video dica 'Consegna domani'. In questa repo i componenti React non si montano nelle prove - l'ho provato, il transform non compila i .tsx di app/ - quindi la parte di aggancio e' letta sul sorgente, come fanno gia' le altre prove di questa pagina.",
+   "file_toccati": [
+    "app/cart/page.tsx",
+    "tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il guardiano che vieta di promettere «spedizione gratis» senza nominare i 3 euro non guarda il carrello: la lista dei file da controllare e' scritta a mano, uno per uno, ed e' il motivo per cui questo difetto e' sopravvissuto",
+   "dove": "tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts:125-175",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "I prezzi si scrivono col punto invece della virgola: a video si legge «30.00 euro» dove in italiano si scrive «30,00»",
+   "dove": "lib/format.ts:1",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① NIENTE BROWSER: non ho visto a video ne' la frase del carrello vuoto (adesso piu' lunga) ne' la riga di disponibilita' alle 22, su nessuna larghezza di schermo. ② NON ho lanciato npm run verify ne' la suite intera (vietati dal briefing, e altre squadre stanno scrivendo adesso). Ho lanciato i 16 file di prova che leggono app/cart/page.tsx o toccano queste promesse: 162 prove, tutte verdi. ③ Nello stesso giro ho visto rossa tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts, ma il rosso e' su app/checkout/page.tsx, che in git risulta modificato da un'altra squadra di questa ondata. NON e' mio: quel file non l'ho aperto in scrittura. ④ Ho creato due file di prova nuovi in tests/unit/, che sta fuori da file_citati: il briefing lo consente e il fix_proposto del secondo difetto ne indicava il nome. Non ho modificato nessun file di prova gia' esistente, per non pestare i piedi alle altre squadre."
+}

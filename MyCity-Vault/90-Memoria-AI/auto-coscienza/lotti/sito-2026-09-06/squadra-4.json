@@ -1,0 +1,84 @@
+{
+ "squadra": 4,
+ "territorio": [
+  "app/api/vision/extract-product/route.ts",
+  "lib/ai/run.ts",
+  "app/api/vision/extract-products/route.ts",
+  "app/api/marketplace/import-fetch/route.ts",
+  "lib/products/externalSync.ts",
+  "tests/unit/api-vision-extract.test.ts"
+ ],
+ "malattia": "Questa rotta e' la gemella rimasta indietro: ogni volta che il progetto ha corretto un difetto altrove (filtro delle foto il 22/8 su product-chat e catalog-create, GIF il 22/8 su extract-products, regola anti-istruzione #200 dentro app/api/ai), la copia che vive qui non e' stata cercata. In piu' tiene una mappa d'errore scritta a mano che non conosce il freno di spesa del sito.",
+ "difetti": [
+  {
+   "chiave": "ai-endpoints|l'estrazione prodotto da foto accetta foto da qualunque sito e le fa leggere al modello col nostro conto",
+   "titolo": "L'estrazione prodotto da foto accetta foto da qualunque sito e le fa leggere al modello col nostro conto",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/api-vision-extract.test.ts  (23 test verdi; i due nuovi 'rifiuta (400) un indirizzo di un host qualunque' e 'il modello non riceve l indirizzo dell attaccante' tornano ROSSI se rimetto il filtro /^https?:\\/\\//i al posto di sanitizeImageUrls: mutazione eseguita, 2 failed | 21 passed)",
+   "nota_fix": "Difetto confermato sul codice vero, alla riga 235 (la scheda diceva 234-237). Il filtro era davvero solo «comincia per http». Sostituito con sanitizeImageUrls(parsed.data.image_urls, 4) di lib/ai/productContext — lo stesso filtro gia' usato da photo-order, product-chat e catalog-create — e la risposta a lista vuota ora e' 400 «Le foto devono essere caricate su MyCity» invece di «image_urls non valido.». Aggiunto anche un test che prova che le foto del NOSTRO storage passano ancora (200), cosi' il fix non chiude anche la porta buona. Da sapere: il filtro condiviso ammette anche placehold.co e images.pexels.com (host dichiarati); non l'ho ristretto, perche' e' la stessa politica delle altre tre rotte e cambiarla qui rifarebbe il difetto di partenza — la copia divergente.",
+   "file_toccati": [
+    "app/api/vision/extract-product/route.ts",
+    "tests/unit/api-vision-extract.test.ts"
+   ]
+  },
+  {
+   "chiave": "ai-endpoints|quando il fornitore ai è giù per due minuti diciamo al negoziante che il budget del giorno è finito e di riprovare domani",
+   "titolo": "Quando il fornitore AI è giù per due minuti diciamo al negoziante che il budget del giorno è finito e di riprovare domani",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/api-vision-extract.test.ts  (i due test nuovi 'a budget finito dice «riprova domani»' e 'a fornitore giu NON manda a casa il negoziante fino a domani' tornano ROSSI se rimetto la mappa scritta a mano: mutazione eseguita, 2 failed | 21 passed) · regressione: npx vitest run su 24 file di test AI = 168 passed",
+   "nota_fix": "Riparate tutte e due le facce. ① La radice, in lib/ai/run.ts: AiCallError impara un campo motivo ('tetto_spesa') e il freno lancia AiCallError.perTettoSpesa(feature); mapAiError traduce «riprova domani» SOLO su quello, e un 503 che arriva da Anthropic diventa «Servizio AI non disponibile in questo momento. Riprova fra qualche minuto.». Ho scelto il campo motivo e non una classe nuova (AiBudgetError) apposta: lo status resta 503 e il nome resta 'AiCallError', cosi' tests/unit/il-tetto-di-spesa-ai-e-uno-solo.test.ts, che asserisce name+status, resta verde e nessuna rotta cambia comportamento senza volerlo. ② Il rovescio: extract-product, extract-products e import-fetch avevano una mappa d'errore scritta a mano e ora passano da mapAiError (tolto anche l'import di logger rimasto inutilizzato in import-fetch, lint pulito). NON verificato: che il tetto vero configurato su Vercel sia davvero quello dell'esempio (20 €) — si vede solo dalle variabili di produzione.",
+   "file_toccati": [
+    "lib/ai/run.ts",
+    "app/api/vision/extract-product/route.ts",
+    "app/api/vision/extract-products/route.ts",
+    "app/api/marketplace/import-fetch/route.ts",
+    "tests/unit/api-vision-extract.test.ts"
+   ]
+  },
+  {
+   "chiave": "ai-endpoints|l'estrazione da una foto singola promette le gif e poi le rifiuta con un messaggio che parla d'altro",
+   "titolo": "L'estrazione da una foto singola promette le GIF e poi le rifiuta con un messaggio che parla d'altro",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && npx vitest run tests/unit/api-vision-extract.test.ts  (il test nuovo 'una GIF dichiarata viene rifiutata con un messaggio che nomina i formati veri' usa una GIF89a 1x1 vera e torna ROSSO se rimetto image/gif nell'elenco: mutazione eseguita, 1 failed | 22 passed)",
+   "nota_fix": "Confermato: righe 190 e 228 come da scheda. Allineata la rotta singola alla gemella multipla, ma un passo piu' in la': invece di ricopiare l'elenco a mano, MEDIA_TYPES adesso E' TIPI_IMMAGINE di lib/immagini-base64 (type MediaType = TipoImmagine), cioe' l'elenco che il controllo dei byte sa davvero riconoscere. Cosi' le due liste non possono piu' divergere: e' la causa radice del difetto, non solo il suo sintomo. Messaggio d'errore riscritto in «media_type deve essere image/jpeg, image/png o image/webp.».",
+   "file_toccati": [
+    "app/api/vision/extract-product/route.ts",
+    "tests/unit/api-vision-extract.test.ts"
+   ]
+  },
+  {
+   "chiave": "ai-endpoints|le due letture di pagine web che decidono un prezzo non dicono al modello che quelle pagine sono dati, non ordini",
+   "titolo": "Le due letture di pagine web che decidono un prezzo non dicono al modello che quelle pagine sono dati, non ordini",
+   "esito": "riparato",
+   "prova": "cd /home/user/mycity && for f in $(grep -rln 'web_search_20250305' app lib); do grep -qE 'REGOLA_TESTO_DI_TERZI|REGOLA DI SICUREZZA' \"$f\" || echo \"SENZA regola: $f\"; done   (prima stampava i due file, adesso non stampa niente) · piu' il test 'il secondo giro con web_search porta la regola di sicurezza nel system', ROSSO se tolgo la riga system: mutazione eseguita, 1 failed | 22 passed",
+   "nota_fix": "Fatte le due meta'. ① extract-product: il secondo giro con web_search ora passa un system con REGOLA_TESTO_DI_TERZI, e i dati che gli rimandiamo indietro (nati da una foto caricata da fuori: il testo stampato sulla foto puo' essere un'istruzione) vanno dentro recinta('estrazione', …, 2000). ② lib/products/externalSync.ts: aggiunto lo stesso system e la richiesta dell'admin entra con recinta('richiesta', query, 2000) invece che dentro tre virgolette — e' il percorso che gira anche da solo nel cron orario degli avvisi di riprezzo. NON ho fatto la seconda parte del fix proposto («sostituire solo i campi confermati invece dell'estrazione intera»): l'ho valutata e scartata perche' cambia il comportamento del prodotto (il secondo giro serve proprio a correggere nome e prezzo) e perche' l'unico campo con valore di sicurezza, policy_ok, non puo' comunque essere sbloccato dalla verifica — il secondo giro parte solo se policy_ok non e' gia' false. Se l'AD vuole lo stesso il merge campo-per-campo, e' un cambio a parte da decidere, non un fix minore.",
+   "file_toccati": [
+    "app/api/vision/extract-product/route.ts",
+    "lib/products/externalSync.ts",
+    "tests/unit/api-vision-extract.test.ts"
+   ]
+  },
+  {
+   "chiave": "ai-endpoints|un solo venditore può bruciare da solo il budget ai giornaliero di tutto il sito e lasciare gli altri negozi a «riprova domani»",
+   "titolo": "Un solo venditore può bruciare da solo il budget AI giornaliero di tutto il sito e lasciare gli altri negozi a «riprova domani»",
+   "esito": "non_riparato",
+   "prova": "Letto il codice: lib/ai/run.ts:154-161 (l'unico tetto e' globale), lib/ai/tettoSpesa.ts (il conto vive nella tabella ai_spend_daily della migrazione 131, con una sola casella: il giorno), lib/ai/run.ts:347 (il registro ai_usage non porta il user_id). Nessuna delle tre cose si puo' cambiare senza uscire dal lotto.",
+   "nota_fix": "Il difetto c'e' ed e' come descritto, ma non si chiude col codice di questo lotto e non ho voluto fingere. Per un tetto PER VENDITORE servono tre cose, tutte fuori dai minori: ① una migrazione nuova (tabella + funzione con la casella (giorno, user_id), sul modello della 131) = 🔴, firma di Nicola; ② passare l'utente dentro runMessage, cioe' toccare una ventina di punti di chiamata = non e' un fix minore; ③ decidere la soglia per venditore (2 € al giorno e' una proposta, non un dato). Ho scartato anche la scorciatoia suggerita in alternativa — abbassare il limite di import-fetch da 180 a ~20 l'ora — per due motivi: non toglie la classe di errore (product-chat fa 25 chiamate l'ora con 5 ricerche web, barcode-lookup 20 ogni 10 minuti con 4 ricerche) e toglierebbe lavoro a un venditore vero che sta caricando il catalogo, per difendersi da uno che non c'e' ancora. A chi tocca: @backend-dev per la migrazione + il passaggio dell'utente, Nicola per la firma e per la soglia. DA SAPERE, e non e' nella scheda: la verifica umana proposta («confrontare la spesa Anthropic con i log ai_usage raggruppati per user») oggi NON e' eseguibile, perche' ai_usage non registra l'utente — vedi difetti_nuovi.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il registro della spesa AI non dice chi ha speso: ai_usage non porta l'utente, quindi «chi ha bruciato il budget» non ha risposta nemmeno a fatti avvenuti",
+   "dove": "lib/ai/run.ts:347 (logger.spesa('ai_usage', …): feature, model, token, € stimati — nessun user_id)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Un test dice nel titolo che ogni 503 diventa «riprova domani», e da oggi non e' piu' vero",
+   "dove": "tests/unit/il-tetto-di-spesa-ai-e-uno-solo.test.ts:157",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Non ho eseguito npm run verify ne' la build (vietati dal briefing: altre quattro squadre stanno scrivendo). Ho girato tsc --noEmit sull'intero progetto (exit 0), eslint sui soli file toccati (pulito) e 24 file di test AI (168 verdi). ② Non ho provato niente contro Anthropic vero: i test mockano runMessage, quindi non so come si comporta il modello reale con il system nuovo nel secondo giro. ③ Il percorso image_urls continua a saltare i controlli di tipo e dimensione che l'ingresso base64 fa (#207): adesso pero' accetta solo foto del nostro storage, quindi il file e' gia' passato dal nostro caricamento. ④ Non ho potuto vedere il valore reale di AI_GLOBAL_DAILY_BUDGET_EUR su Vercel ne' se la migrazione 131 sia stata applicata in produzione (il commento in lib/ai/tettoSpesa.ts dice di no): sono cose 🔴/umane. ⑤ Non ho toccato il cron app/api/cron/external-price-alerts/route.ts: legge fetchExternalSnapshot, quindi eredita il system nuovo, ma non ho un test che lo dimostri dal suo lato."
+}

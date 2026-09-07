@@ -1,0 +1,20 @@
+{
+ "squadra": 120,
+ "ondata": 25,
+ "pacchetto": "app/loading.tsx",
+ "territorio_principale": "app/loading.tsx",
+ "file_citati": [
+  "app/loading.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance-percepita|ogni pagina che si sta caricando mostra prima una griglia di prodotti finti, anche «chi siamo» e la home: poi il contenuto vero la sostituisce di colpo",
+   "titolo": "Ogni pagina che si sta caricando mostra prima una griglia di prodotti finti, anche «Chi siamo» e la home: poi il contenuto vero la sostituisce di colpo",
+   "dimensione": "performance-percepita",
+   "file": "app/loading.tsx:8-18 (LoadingState variant=\"cards\" cards={4}, «Prepariamo i prodotti dei negozi vicino a te», min-h-[70vh]); vale per ogni rotta senza loading.tsx proprio — ne hanno uno solo app/orders/[id], app/product/[id], app/store/[id]",
+   "descrizione": "Il confine di caricamento della radice è uno scheletro a 4 schede prodotto centrato in un riquadro alto il 70% dello schermo, con cerchietto e la frase «Prepariamo i prodotti dei negozi vicino a te». Lo ricevono la home (che poi diventa hero + categorie, geometria del tutto diversa), Chi siamo (che diventa testo), e ogni altra pagina senza scheletro proprio: l'HTML di /about e di / contiene la frase due volte. All'arrivo del contenuto tutto si sposta.\n\nCausa radice: Un solo scheletro generico «a griglia» riusato come fallback di tutte le rotte, invece di scheletri che rispecchiano la geometria di ciascuna pagina.\n\nProva (comando, eseguita e rossa): sh /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-scheletro-comune.sh  (rosso oggi: /about e / contengono lo scheletro «Prepariamo i prodotti…»)",
+   "impatto": "A ogni navigazione sul telefono lo scheletro riempie lo schermo e poi l'intera pagina salta (layout shift), con un messaggio che promette prodotti dove non ce ne sono. Sensazione di pagina instabile; nessun soldo perso direttamente.",
+   "fix_proposto": "app/loading.tsx neutro (barra sottile in alto o guscio che riprende solo l'ingombro dell'header) e loading.tsx per rotta con la stessa geometria della pagina: per la home hero + riga di tessere categorie; per le pagine di testo nessuno scheletro a griglia."
+  }
+ ]
+}

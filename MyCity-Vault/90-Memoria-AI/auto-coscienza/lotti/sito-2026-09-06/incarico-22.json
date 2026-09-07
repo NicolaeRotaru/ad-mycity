@@ -1,0 +1,31 @@
+{
+ "squadra": 22,
+ "ondata": 5,
+ "pacchetto": "scripts/backup-db.sh",
+ "territorio_principale": "scripts/backup-db.sh",
+ "file_citati": [
+  "scripts/backup-db.sh",
+  "components/ui/AuthShell.tsx",
+  "docs/backup-restore.md"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|la copia degli utenti salva solo la tabella base: accesso con google e secondo fattore restano fuori",
+   "titolo": "La copia degli utenti salva solo la tabella base: accesso con Google e secondo fattore restano fuori",
+   "dimensione": "deploy-sre",
+   "file": "scripts/backup-db.sh:52-53 (schema auth escluso) · :69-75 (solo --table=auth.users) · components/ui/AuthShell.tsx:139-140 (accesso con Google in uso) · docs/backup-restore.md:41-63",
+   "descrizione": "La copia notturna esclude lo schema auth e poi recupera la sola tabella auth.users (righe 69-75). Il sito offre l'accesso con Google (AuthShell.tsx:139-140): il collegamento fra l'utente e il suo account Google vive in auth.identities, e l'eventuale secondo fattore in auth.mfa_factors — nessuna delle due è nella copia. Dopo un ripristino, gli utenti Google esistono ma senza il collegamento; Supabase di norma li riaggancia da solo se l'email è verificata, ma non l'ho potuto provare da qui (il database di prova ha solo auth.users nello shim). I fattori MFA invece spariscono in silenzio: chi aveva la doppia verifica si ritrova senza. La prova mensile di ripristino (backup-db.yml:264-282) conta solo auth.users, quindi non se ne accorge.\n\nCausa radice: La riparazione #234 ha aggiunto la tabella minima per far quadrare le chiavi esterne (profiles.id → auth.users), senza guardare quali altre tabelle di auth il flusso di accesso usa davvero.\n\nProva (umano, non eseguita): grep -cE 'auth\\.identities|mfa_factors' /home/user/mycity/scripts/backup-db.sh   → 0 ; verifica umana: sul progetto Supabase contare gli utenti con provider google e i fattori MFA attivi, e nella prossima prova di ripristino provare un accesso Google su un database ripristinato",
+   "impatto": "In un ripristino vero, una parte degli accessi (Google, doppia verifica) può non tornare com'era, e la prova mensile dice «la copia si riapre» lo stesso.",
+   "fix_proposto": "In scripts/backup-db.sh aggiungere al secondo dump `--table=auth.identities --table=auth.mfa_factors` (auth.mfa_challenges no: effimera); nella prova mensile contare anche auth.identities e pretendere che non sia 0 se auth.users non lo è; aggiornare docs/backup-restore.md."
+  },
+  {
+   "chiave": "deploy-sre|il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+   "titolo": "Il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+   "dimensione": "deploy-sre",
+   "file": "scripts/backup-db.sh:203",
+   "descrizione": "`STORICO_FOTO=\"${STORAGE_SYNC_STORICO:-${DESTINAZIONE_FOTO}-storico}\"`. Se `STORAGE_SYNC_DEST` vale 'b2:mycity-foto', lo storico diventa 'b2:mycity-foto-storico', cioe' un SECCHIO diverso che nessuno ha creato e sul quale la chiave potrebbe non avere il permesso di creazione. Se invece qualcuno scrive la destinazione con la barra finale ('b2:mycity-foto/'), lo storico diventa 'b2:mycity-foto/-storico', dentro la destinazione: rclone rifiuta di partire per sovrapposizione. In tutti e due i casi il ramo `if ! rclone sync ... ; then ... exit 5` fa fallire lo script. — Una riparazione fatta per proteggere le foto puo' spegnere del tutto la copia delle foto, e la notte in cui serve davvero non c'e' nessuna copia nuova. La modifica e' giusta nella sostanza (`--backup-dir` al posto dello specchio): e' il valore predefinito che scommette su una risorsa che nessuno ha verificato esista.",
+   "impatto": "Una riparazione fatta per proteggere le foto puo' spegnere del tutto la copia delle foto, e la notte in cui serve davvero non c'e' nessuna copia nuova. La modifica e' giusta nella sostanza (`--backup-dir` al posto dello specchio): e' il valore predefinito che scommette su una risorsa che nessuno ha verificato esista.",
+   "fix_proposto": "Aggiungere prima del ciclo: `rclone lsd \"$STORICO_FOTO\" >/dev/null 2>&1 || { echo \"[backup] esito-foto: lo storico $STORICO_FOTO non esiste o non e scrivibile\"; exit 5; }` e farlo girare una volta con le chiavi vere: oggi non e' mai stato provato."
+  }
+ ]
+}

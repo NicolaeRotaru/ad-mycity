@@ -1,0 +1,20 @@
+{
+ "squadra": 52,
+ "ondata": 11,
+ "pacchetto": "migrations/115_privacy_radiografia.sql",
+ "territorio_principale": "migrations/115_privacy_radiografia.sql",
+ "file_citati": [
+  "migrations/115_privacy_radiografia.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "sicurezza-auth|chiunque sia loggato puo' leggere se un altro utente vuole o no le notifiche, passando il suo id",
+   "titolo": "Chiunque sia loggato puo' leggere se un altro utente vuole o no le notifiche, passando il suo id",
+   "dimensione": "sicurezza-auth",
+   "file": "migrations/115_privacy_radiografia.sql:218 (GRANT EXECUTE a riga 237) (funzione vuole_notifica, SECURITY DEFINER eseguibile da authenticated; nel corpo non c'e' ne' auth.uid() ne' is_admin())",
+   "descrizione": "La funzione vuole_notifica(p_user_id, p_category) gira con i poteri del proprietario del database e la puo' chiamare qualsiasi utente autenticato, con l'id di chiunque. Dentro non controlla che l'id sia il proprio: legge notif_promos / notif_groups / notif_newsletter / notif_order_updates del profilo indicato. Restituisce solo un vero/falso sulla preferenza di quella categoria: un dato piccolo, ma di un'altra persona.\n\nCausa radice: Funzione pensata per i trigger interni (notifiche) ma esposta anche ai client con GRANT EXECUTE a authenticated, senza controllo sull'id.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -X -v ON_ERROR_ROLLBACK=on -c \"BEGIN; SET LOCAL ROLE authenticated; SET LOCAL request.jwt.claims = '{\\\"sub\\\":\\\"11111111-1111-1111-1111-111111111111\\\",\\\"role\\\":\\\"authenticated\\\"}'; SELECT vuole_notifica('22222222-2222-2222-2222-222222222222','promos'); ROLLBACK;\"   (risponde senza rifiutare: nel database vuoto da' NULL per l'id inesistente; con un profilo vero restituisce la preferenza altrui. Le quattro funzioni staff provate nello stesso modo — admin_list_user_emails, admin_kpi, numeri_del_negozio, confirm_cod_remittance — rifiutano con 'forbidden')",
+   "impatto": "Un utente curioso puo' sapere se un altro cliente ha attivato le promozioni o le newsletter. Nessun soldo e nessun dato di contatto, ma e' una lettura di un dato personale altrui che le regole per riga su profiles (solo la propria riga o lo staff) non permetterebbero.",
+   "fix_proposto": "Nella funzione: se p_user_id <> auth.uid() e non is_admin() → RAISE con ERRCODE 42501. Oppure REVOKE EXECUTE da authenticated/anon e lasciarla solo ai trigger, che girano gia' come proprietario."
+  }
+ ]
+}

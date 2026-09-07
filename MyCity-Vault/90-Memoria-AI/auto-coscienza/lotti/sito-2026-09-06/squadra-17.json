@@ -1,0 +1,138 @@
+{
+ "squadra": 17,
+ "territorio": [
+  "app/api/orders/cod/route.ts",
+  "app/api/stripe/checkout/route.ts",
+  "lib/ordini/prezzi.ts",
+  "app/api/locale/route.ts",
+  "lib/errors.ts",
+  "app/api/seller/orders/[id]/reject/route.ts",
+  "lib/ordini/annulla.ts",
+  "lib/stripe/webhook/ordini.ts",
+  "lib/carrelli-abbandonati.ts",
+  "migrations/148_carrelli_recuperati.sql",
+  "lib/shipping.ts",
+  "lib/constants.ts",
+  "lib/shipping-coordinate.ts",
+  "components/checkout/ShippingAddressForm.tsx",
+  "lib/email/templates.ts"
+ ],
+ "malattia": "Sulle due strade che creano un ordine — contanti e carta — la stessa regola vive due volte o non vive affatto: la verifica del carrello copiata in due file, la forma degli errori decisa ramo per ramo, il codice sconto rivendicato per carrello ma restituito per ordine, e il confine della zona di consegna scritto solo nei testi del sito. Ogni pezzo di verità senza una casa sola diverge appena qualcuno tocca una copia.",
+ "difetti": [
+  {
+   "chiave": "architettura|le due strade che creano un ordine, contanti e carta, rifanno a mano la stessa verifica di prodotti, varianti e scorte: 58 righe identiche su 86, pronte a divergere",
+   "titolo": "Le due strade che creano un ordine, contanti e carta, rifanno a mano la stessa verifica di prodotti, varianti e scorte: 58 righe identiche su 86, pronte a divergere",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-carrello-si-controlla-con-la-stessa-regola-in-contanti-e-con-la-carta.test.ts (13 prove verdi). ROSSO provato con due mutanti: (a) tolto il controllo sulle scorte della variante dentro lib/ordini/valida-carrello.ts -> 1 fallita; (b) rimessa la regola a mano dentro app/api/stripe/checkout/route.ts -> 1 fallita. Non regressione: npx tsc --noEmit (exit 0) e npx vitest run sui 66 file che toccano i moduli cambiati -> 506 prove verdi (incl. api-stripe-checkout, ordini-contrassegno-due-negozi, contanti-la-chiave-*).",
+   "nota_fix": "La scheda diceva 58 righe uguali su 86: verificato sul codice, i due blocchi erano gemelli riga per riga (lettura prodotto, proprietario, status, variante, scorte, prezzo scontato). Estratta la regola in lib/ordini/valida-carrello.ts (file NUOVO): `validaRigaDelCarrello` e' pura (le righe di catalogo arrivano gia' lette dal chiamante, che le legge in parallelo con la sessione del cliente) e restituisce la riga vendibile col prezzo scontato oppure un motivo tipizzato; `rispostaPerCarrelloNonVendibile` tiene in un posto solo anche la mappa motivo->codice HTTP, che era l'altra cosa che poteva divergere (404 non trovato, 409 merce finita, 400 il resto). Messaggi a chi compra invariati parola per parola. Le due rotte perdono ~30 righe ciascuna. NON ho estratto le letture dal database ne' il ciclo dei gruppi: la carta costruisce righe per Stripe (nome+foto), i contanti righe d'ordine — quella parte resta diversa a ragione. NON verificato: il comportamento end-to-end con un database vero (le prove delle rotte usano un finto database).",
+   "file_toccati": [
+    "lib/ordini/valida-carrello.ts",
+    "app/api/orders/cod/route.ts",
+    "app/api/stripe/checkout/route.ts",
+    "tests/unit/il-carrello-si-controlla-con-la-stessa-regola-in-contanti-e-con-la-carta.test.ts"
+   ]
+  },
+  {
+   "chiave": "architettura|ventuno rotte rispondono agli errori con due forme diverse a seconda del ramo, e c'è una funzione il cui unico scopo è assorbire l'incoerenza",
+   "titolo": "Ventuno rotte rispondono agli errori con due forme diverse a seconda del ramo, e c'è una funzione il cui unico scopo è assorbire l'incoerenza",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts (3 prove verdi); ROSSO provato rimettendo la forma vecchia sul 409 del gemello (1 fallita) e sul 503 della rivendicazione (1 fallita). Conteggio di oggi, con ripgrep multilinea su app/api: i file che usano ENTRAMBE le forme sono 2 — app/api/kyc/start-check/route.ts e app/api/auth/signin/route.ts. app/api/locale/route.ts risulta gia' convertito (righe 27 e 32 usano ApiErrors; la riga 35 e' una risposta di successo che deve mettere il cookie, e la scheda stessa la esclude).",
+   "nota_fix": "Il numero 21 della scheda e' vecchio di tre giorni: oggi ne restano 2, tutte e due FUORI dal mio territorio, quindi il difetto resta aperto. Dentro il territorio ho chiuso tutto: nella rotta contanti il 503 diventa ApiErrors.unavailable e i due 409 passano da un aiutante solo. ATTENZIONE, il pezzo delicato: quei 409 portavano `inCorso: true` in cima al corpo, e NON e' decorazione — lib/ordini/chiave-dopo-l-errore.ts lo legge per capire che la chiave del tentativo appartiene a un invio gemello ancora vivo e non va buttata. Spostarlo dentro `error.details` (il posto giusto) richiede quel file, che e' fuori territorio: percio' la risposta ora e' `{ ok:false, error:{code,message}, inCorso:true }` — conforme al contratto e ancora leggibile dal browser. Una prova lo verifica passando la risposta vera a `laChiaveVaButtata`. lib/errors.ts:186-195 (`apiErrorMessage`) NON l'ho toccato apposta: 7 rotte usano ancora solo la forma vecchia, togliere la tolleranza spegnerebbe i messaggi d'errore altrove. Resta aperta anche la risposta 200 «ripetuto» della rotta contanti, che e' un successo in forma vecchia (vedi difetti_nuovi).",
+   "file_toccati": [
+    "app/api/orders/cod/route.ts",
+    "tests/unit/gli-errori-della-cassa-in-contanti-parlano-la-lingua-del-sito.test.ts"
+   ]
+  },
+  {
+   "chiave": "pagamenti-stripe|il codice sconto torna in circolo più volte di quanto è stato usato: due rilasci al rifiuto del negozio, rilascio intero su un carrello a due negozi",
+   "titolo": "Il codice sconto torna in circolo più volte di quanto è stato usato: due rilasci al rifiuto del negozio, rilascio intero su un carrello a due negozi",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/il-buono-non-torna-in-circolo-mentre-l-altro-negozio-lo-usa.test.ts (7 prove verdi); ROSSO provato disattivando il nuovo controllo dei fratelli del carrello -> «non torna in circolo se l altro ordine lo tiene ancora» fallita. Prove vicine tutte verdi: il-codice-sconto-torna-a-chi-annulla, il-buono-torna-una-volta-sola-quando-il-negozio-rifiuta, annullare-restituisce-i-soldi, un-ordine-annullato-non-brucia-il-buono-di-benvenuto, il-rifiuto-del-negozio-restituisce-i-soldi (41 prove).",
+   "nota_fix": "Due meta' e due esiti diversi. (a) Il doppio release nella rotta di rifiuto NON C'E' PIU': e' stato tolto il 3/9 (il commento alle righe 87-100 di app/api/seller/orders/[id]/reject/route.ts racconta la rimozione e tests/unit/il-buono-torna-una-volta-sola-quando-il-negozio-rifiuta.test.ts la sorveglia). La scheda e' vecchia su questo punto. (b) Il rilascio intero su un carrello a due negozi l'ho chiuso SOLO per la carta: `annullaERimborsa` ora, prima di restituire, chiede se un altro ordine NON annullato dello stesso `stripe_session_id` porta ancora quel codice — colonna aggiunta a COLONNE_ANNULLO, query filtrata sull'indice orders_stripe_session_idx. Se la lettura fallisce si restituisce come prima (meglio un uso regalato che un cliente che perde il buono senza aver comprato: e' il difetto R121). PERCHE' RESTA APERTO: gli ordini pagati alla consegna non hanno nessuna targa del carrello sulle righe di `orders` — la chiave del tentativo vive in cod_checkout_attempts.order_ids (jsonb senza indice), e cercarla a ogni annullo sarebbe una scansione della tabella. La chiusura vera vuole una colonna «carrello» su orders: e' una MIGRAZIONE, quindi 🔴 e fuori da questo lotto. NON verificato: il comportamento di release_coupon nel database vero (le prove usano un finto database) e il ramo `p_order_id`, che dipende da una migrazione non ancora applicata.",
+   "file_toccati": [
+    "lib/ordini/annulla.ts",
+    "tests/unit/il-buono-non-torna-in-circolo-mentre-l-altro-negozio-lo-usa.test.ts"
+   ]
+  },
+  {
+   "chiave": "dati-analytics|il carrello risulta recuperato anche quando l'email non e' mai partita",
+   "titolo": "Il carrello risulta recuperato anche quando l'email non e' mai partita",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/il-recupero-carrelli-non-si-prende-il-merito-di-chi-sarebbe-tornato-comunque.test.ts (6 prove verdi); ROSSO provato facendo contare come «merito dell email» anche chi non l'ha mai ricevuta -> 1 fallita. Verdi anche dopo-un-ordine-il-carrello-risulta-recuperato, il-carrello-che-torna-si-vede-nei-numeri, chi-ha-appena-comprato-non-riceve-la-mail-del-carrello-dimenticato.",
+   "nota_fix": "Verificato sul codice: la marcatura `recovered = true` su tutte le righe della persona e' giusta e va tenuta (serve a non mandare l'email di un carrello gia' comprato) — il difetto e' il NUMERO che se ne ricava. Le due domande hanno gia' due colonne (`recovery_email_sent_at` c'e' dalla migrazione 027, `recovered_at` dalla 148), quindi NON serve una colonna nuova: serviva il conto giusto. Ho aggiunto in lib/carrelli-abbandonati.ts, accanto a chi scrive il dato, `contaRendimentoRecupero` (pura) e `rendimentoRecuperoCarrelli` (legge tre colonne, mai `*`): separano «carrelli tornati» da «tornati DOPO l'email», scartano chi e' stato marcato prima dell'invio e dichiarano a parte i casi senza data (database indietro di una migrazione). PERCHE' NON LO CHIAMO RIPARATO: oggi nessuno legge quel numero — non esiste ancora un cruscotto del recupero carrelli, e il posto dove nascerebbe (il cron o una pagina admin) e' fuori dal mio territorio. Il comportamento del sito non cambia di una riga: ho tolto la trappola, non ho chiuso un ciclo. La prova originale della scheda era comunque «umano, non eseguita»: da qui non vedo il database di produzione e non posso contare le righe vere.",
+   "file_toccati": [
+    "lib/carrelli-abbandonati.ts",
+    "tests/unit/il-recupero-carrelli-non-si-prende-il-merito-di-chi-sarebbe-tornato-comunque.test.ts"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|il sito accetta una consegna a milano e non chiede un centesimo di spedizione",
+   "titolo": "Il sito accetta una consegna a Milano e non chiede un centesimo di spedizione",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/una-consegna-a-milano-non-passa-piu-in-cassa.test.ts (9 prove verdi: la regola pura, il prezzo, e la rotta contanti vera che rifiuta un ordine per Milano senza creare niente e senza consumare il codice sconto) e tests/unit/in-cassa-si-sa-subito-fin-dove-consegniamo.test.ts (monta il modulo vero e legge il testo a schermo). ROSSO provato due volte: (a) `fuoriZonaDiConsegna` che risponde sempre «no» -> 4 fallite, fra cui l'ordine per Milano che torna a passare; (b) tolta la riga sotto il CAP -> 1 fallita. Non regressione: 22 file di prova su checkout e modulo indirizzo -> 220 verdi.",
+   "nota_fix": "Confermato sul codice: nessun controllo della zona esisteva, e la soglia dei 30 € azzerava la spedizione PRIMA di guardare la distanza. Fatto: (1) `RAGGIO_CONSEGNA_KM` in lib/constants.ts, una riga sola; (2) lib/ordini/zona-di-consegna.ts (file NUOVO) con `fuoriZonaDiConsegna` e il messaggio, usati dalle DUE rotte che creano l'ordine — il rifiuto sta PRIMA della rivendicazione del codice sconto, altrimenti chi abita fuori zona ci perdeva anche il buono (una prova lo verifica); (3) `shippingForEuro` non azzera piu' fuori zona; (4) una riga sotto il campo CAP che dice fin dove consegniamo. FAIL-OPEN VOLUTO: se manca una coordinata (negozio senza posizione, indirizzo non geocodificato) non si blocca nessuno. DUE COSE APERTE, per questo non e' chiuso: (a) l'avviso VERO mentre si scrive il CAP («il tuo indirizzo e' fuori zona») vuole le coordinate del negozio, che arrivano da app/checkout/page.tsx — file fuori territorio; la mia riga e' statica, non un avviso; (b) 🟡 IL NUMERO E' UNA DECISIONE DI NICOLA, non mia: dice a chi possiamo vendere. Ho messo 25 km e ho scritto da dove viene — con 20 km la prova gia' esistente tests/unit/soldi-storni-sconti-e-compensi.test.ts diventava rossa, perche' percorre come caso NORMALE una consegna a ~24 km: il sito quella distanza la serve gia', e una zona piu' stretta di quello che serviamo oggi rifiuterebbe clienti veri. La promessa pubblica «30-60 minuti» starebbe in piedi solo fino a ~19 km: le due fonti non vanno d'accordo (vedi difetti_nuovi). NON verificato: nessun ordine vero, nessun geocodificatore vero, e la scelta dei 25 km non e' firmata.",
+   "file_toccati": [
+    "lib/constants.ts",
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/shipping.ts",
+    "app/api/orders/cod/route.ts",
+    "app/api/stripe/checkout/route.ts",
+    "components/checkout/ShippingAddressForm.tsx",
+    "tests/unit/una-consegna-a-milano-non-passa-piu-in-cassa.test.ts",
+    "tests/unit/in-cassa-si-sa-subito-fin-dove-consegniamo.test.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|l'email che conferma l'ordine saluta con una virgola vuota quando manca il nome",
+   "titolo": "L'email che conferma l'ordine saluta con una virgola vuota quando manca il nome",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/l-email-dell-ordine-non-saluta-con-una-virgola-vuota.test.ts (7 prove verdi: costruisce i due messaggi veri con nome nullo, indefinito, vuoto e fatto di spazi). ROSSO provato rimettendo `Ciao ${escapeHtml(args.name ?? '')},` nei due template -> 5 fallite. Verde anche la-ricevuta-veste-i-colori-del-sito, che costruisce tutti i template.",
+   "nota_fix": "Le righe vere erano 108 e 217, non 71 e 159: la scheda ha i numeri vecchi, il difetto era identico. Aggiunto in lib/email/templates.ts un aiutante `saluto(nome)` che torna «Ciao Marco,» oppure «Ciao,» (nome ripulito con escapeHtml e senza spazi ai bordi) — lo stesso schema che l'email di benvenuto usava gia' giusto — e usato nei due template dell'ordine. Coperto anche il caso che la scheda non citava: il nome fatto di soli spazi. NON toccati gli altri template (benvenuto era gia' corretto) e non ho cambiato il testo `text` delle due email, che il saluto non lo aveva. NON verificato: come impagina il saluto ogni programma di posta.",
+   "file_toccati": [
+    "lib/email/templates.ts",
+    "tests/unit/l-email-dell-ordine-non-saluta-con-una-virgola-vuota.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "architettura|ventuno rotte rispondono agli errori con due forme diverse a seconda del ramo, e c'è una funzione il cui unico scopo è assorbire l'incoerenza",
+   "perche": "le ultime 2 rotte che usano entrambe le forme d'errore vivono fuori territorio: app/api/kyc/start-check/route.ts e app/api/auth/signin/route.ts (nel territorio ho chiuso tutto)"
+  },
+  {
+   "chiave": "pagamenti-stripe|il codice sconto torna in circolo più volte di quanto è stato usato: due rilasci al rifiuto del negozio, rilascio intero su un carrello a due negozi",
+   "perche": "per i carrelli pagati alla consegna manca una targa del carrello sugli ordini: il fix vuole una migrazione del database (colonna «carrello» su orders, oppure un indice su cod_checkout_attempts.order_ids) — 🔴, fuori da questo lotto"
+  },
+  {
+   "chiave": "dati-analytics|il carrello risulta recuperato anche quando l'email non e' mai partita",
+   "perche": "il numero onesto ora esiste ma non lo legge nessuno: il consumatore (cron del recupero carrelli o pagina admin) vive fuori territorio, in app/api/cron/abandoned-carts/route.ts"
+  },
+  {
+   "chiave": "flussi-conversione|il sito accetta una consegna a milano e non chiede un centesimo di spedizione",
+   "perche": "l'avviso «sei fuori zona» mentre si scrive il CAP ha bisogno delle coordinate del negozio, che le passa app/checkout/page.tsx (validateAddress): file fuori territorio"
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "La zona che serviamo e la promessa «30-60 minuti» non vanno d'accordo: a 24 km la stima e' di 75 minuti, e quella distanza il sito la serve gia'",
+   "dove": "lib/constants.ts:19 (RAGGIO_CONSEGNA_KM) contro lib/promesse-pubbliche.ts (rispostaTempiDiConsegna) e lib/geo.ts (deliveryEtaMinutes)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La cassa in contanti risponde al doppio invio con un successo in forma vecchia: niente `ok` e niente `data`",
+   "dove": "app/api/orders/cod/route.ts:214 (la risposta 200 «ripetuto»)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La difesa «un codice sconto si restituisce una volta sola per ordine» dipende da una migrazione mai applicata: senza, si ricade sulla chiamata vecchia che non sa per quale ordine sta scalando l'uso",
+   "dove": "lib/ordini/annulla.ts (ripiego su errore PGRST202 di release_coupon)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Sette rotte rispondono agli errori solo nella forma vecchia: nessuna incoerenza dentro il file, ma nessuna rispetta il contratto del progetto",
+   "dove": "app/api/cron/expire-stale-orders, cron/release-payouts, cron/expire-checkouts, cron/riquadra-casse, stripe/webhook, geocode (route.ts)",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Niente database vero e niente produzione: tutte le prove girano su finti database, quindi non ho visto un ordine, un rimborso o un codice sconto veri. Non ho lanciato la suite intera ne' `npm run verify`/`lint`/`build` (regola del lotto): ho fatto girare `npx tsc --noEmit` (exit 0) e i 66 file di prova che toccano i moduli che ho cambiato, piu' i 22 che toccano cassa e modulo indirizzo. Non ho aperto un browser: la riga sotto il CAP l'ho vista solo montando il componente in una prova. Il geocodificatore non l'ho esercitato davvero, quindi non so quanto spesso restituira' coordinate per un indirizzo scritto a mano — e da quello dipende quanti ordini fuori zona vengono davvero fermati. Il raggio di 25 km non e' firmato da Nicola: e' una scelta ragionata sulle due fonti interne, non una decisione presa."
+}

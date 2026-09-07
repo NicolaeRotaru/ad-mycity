@@ -1,0 +1,21 @@
+{
+ "squadra": 57,
+ "ondata": 12,
+ "pacchetto": "lib/ordini/annulla.ts",
+ "territorio_principale": "lib/ordini/annulla.ts",
+ "file_citati": [
+  "lib/stripe/webhook/rimborsi.ts",
+  "lib/ordini/annulla.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|un rimborso fatto dal cruscotto stripe non restituisce il codice sconto al cliente",
+   "titolo": "Un rimborso fatto dal cruscotto Stripe non restituisce il codice sconto al cliente",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/rimborsi.ts:29-222 · lib/ordini/annulla.ts:115-124",
+   "descrizione": "handleChargeRefunded annulla gli ordini, storna i bonifici, rimette la merce a scaffale e manda l'email, ma non chiama mai release_coupon (zero occorrenze nel file), mentre annullo cliente, rifiuto negozio e scadenza carrello lo fanno.\n\nCausa radice: Il rilascio del codice è stato aggiunto porta per porta (R121, #171) e il webhook del rimborso è rimasto fuori.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && test $(grep -c release_coupon lib/stripe/webhook/rimborsi.ts) -gt 0",
+   "impatto": "Il cliente rimborsato a mano dall'amministrazione perde il codice che aveva usato, senza aver comprato niente.",
+   "fix_proposto": "Sul rimborso pieno chiamare release_coupon per il coupon_code dell'ordine, una volta sola per carrello."
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{
+ "squadra": 41,
+ "ondata": 9,
+ "pacchetto": "components/store-sections/ReviewsSection.tsx",
+ "territorio_principale": "components/store-sections/ReviewsSection.tsx",
+ "file_citati": [
+  "components/store-sections/ReviewsSection.tsx",
+  "lib/store-customization.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|il pulsante «utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)",
+   "titolo": "Il pulsante «Utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/store-sections/ReviewsSection.tsx:162-175 (stile a riga 171); commento in lib/store-customization.ts:10-12 e preset a :19-29",
+   "descrizione": "CONFERMATO, numeri ricalcolati uno per uno. A riga 171, quando la recensione è votata, il pulsante diventa `color: accent` su `color-mix(in srgb, accent 12%, white)`: terracotta #C0492C 4,20:1, oliva #5A7C42 4,10:1, senape #C4801F 2,88:1 — tutti sotto 4,5:1 per un testo di 12px in grassetto (WCAG 1.4.3). Confermata anche la nota collegata: il docblock a lib/store-customization.ts:10-12 dichiara i preset «tutti a livello ~-600 per garantire contrasto su testo bianco», ma «Senape» #C4801F misura 3,25:1 su bianco (gli altri sette reggono: bordeaux 6,18, terracotta 4,96, oliva 4,78). L'affermazione nel codice è più forte dei colori.",
+   "impatto": null,
+   "fix_proposto": "In ReviewsSection.tsx:171 scurire il testo invece di usare l'accent puro: `color: color-mix(in srgb, ${accent} 70%, #1C1A18)` sullo stesso velo al 12% (porta tutti i preset sopra 6:1), lasciando `borderColor: accent` per l'identità del negozio. In parallelo correggere il commento di lib/store-customization.ts:10-12 oppure sostituire «Senape» #C4801F con accent-700 #9D621C (5,00:1 su bianco)."
+  },
+  {
+   "chiave": "accessibilita-visiva|le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)",
+   "titolo": "Le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/store-sections/ReviewsSection.tsx:16-28 (funzione `AverageStars`, usata a riga 196)",
+   "descrizione": "CONFERMATO nel codice, ma la severità va abbassata. Vero: le stelle vuote sono `fill-cream-200 text-cream-200` (#F5EDD9 su bianco = 1,17:1 ricalcolato) e le piene `accent-500` (#E8A33D = 2,16:1), sotto la soglia 3:1 di WCAG 1.4.11. Vero anche il doppione: `RatingStars` è importato a riga 10 dello stesso file, usato a riga 119 per le singole recensioni, e porta il commento #149 che risolveva esattamente questo («accent-500 misurava 2,16:1… accent-700 misura 5,00:1»). Attenuante che il collega non aveva pesato: a riga 197-199, accanto alle stelle, c'è il voto in chiaro («4,5 (12)») in ink-600, quindi il dato non è veicolato dal solo colore — per questo è minore e non grave.",
+   "impatto": null,
+   "fix_proposto": "Cancellare `AverageStars` (righe 16-28) e sostituire l'uso a riga 196 con `<RatingStars rating={avgRating} size={16} />`, già importato e già a norma (accent-700 5,00:1, vuote ink-400 4,87:1). Meno codice, una sola casa per la regola."
+  }
+ ]
+}

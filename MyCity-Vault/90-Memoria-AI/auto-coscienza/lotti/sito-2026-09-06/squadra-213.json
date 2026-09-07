@@ -1,0 +1,85 @@
+{
+  "squadra": 213,
+  "territorio": [
+    "lib/stripe/webhook/rimborsi.ts",
+    "lib/ordini/annulla.ts",
+    "lib/stripe/webhook/trasferimenti.ts",
+    "app/api/stripe/webhook/route.ts",
+    "lib/stripe/webhook/sponsorizzati.ts",
+    "app/api/account/export/route.ts",
+    "lib/account/cancellazione.ts",
+    "app/api/seller/subscription/checkout/route.ts",
+    "lib/stripe/webhook/abbonamenti.ts",
+    "components/ui/SocialProof.tsx"
+  ],
+  "malattia": "Ogni volta che una cosa finisce fuori dai nostri confini — un rimborso fatto a mano su Stripe, un bonifico rifiutato dalla banca, un cliente creato su Stripe, una tabella nuova nel database — nessuno ha ripercorso all'indietro tutte le conseguenze: il codice sconto non torna, il negoziante non sa niente, il dato resta dal fornitore, la tabella nasce fuori dall'export. Erano elenchi tenuti a memoria, aggiornati porta per porta, senza nessun freno che si accorgesse della porta dimenticata.",
+  "difetti": [
+    {
+      "chiave": "pagamenti-stripe|un rimborso fatto dal cruscotto stripe non restituisce il codice sconto al cliente",
+      "titolo": "Un rimborso fatto dal cruscotto Stripe non restituisce il codice sconto al cliente",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-rimborso-dal-cruscotto-restituisce-il-codice-sconto.test.ts (4 prove, verde). Prima del fix: 2 rosse su 4. Ri-rottura provata: tolta la guardia `payment_status === 'REFUNDED'` la prova «il codice non viene restituito una seconda volta» torna rossa. Regressione: 31 file di prova collegati al webhook/rimborsi/coupon, 153 prove verdi. npx tsc --noEmit: 0 errori.",
+      "nota_fix": "Confermato alla lettera: zero occorrenze di release_coupon in rimborsi.ts. Riparato in handleChargeRefunded: aggiunto `coupon_code` alla select degli ordini e, dopo il ripristino della merce, si restituisce il codice una volta sola per carrello con `release_coupon(p_code, p_order_id)` e il ripiego su PGRST202 (stessa regola di lib/ordini/annulla.ts, la migrazione con la chiave per ordine non è ancora firmata). lib/ordini/annulla.ts NON è stato toccato: lì la restituzione c'era già ed è corretta. LA PARTE CHE LA SCHEDA NON DICEVA, ed è quella pericolosa: quando il rimborso parte da noi (annullaERimborsa) il codice è già stato restituito e Stripe manda comunque charge.refunded — restituirlo di nuovo toglie un uso VERO (`greatest(0, uses_count-1)`), cioè un buono con tetto 2 ne accetta altri 2. La restituzione avviene quindi solo per gli ordini con `payment_status` diverso da 'REFUNDED', lo stesso segnale già usato due righe sopra per non rimettere a scaffale merce già rimessa. NON verificato: non ho un database vero qui, quindi il comportamento di release_coupon con la chiave per ordine resta provato solo dal lato chiamante.",
+      "file_toccati": ["lib/stripe/webhook/rimborsi.ts"]
+    },
+    {
+      "chiave": "pagamenti-stripe|il bonifico che torna indietro dalla banca lo scopre solo l'amministratore, e senza sapere di chi era",
+      "titolo": "Il bonifico che torna indietro dalla banca lo scopre solo l'amministratore, e senza sapere di chi era",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-bonifico-rifiutato-dalla-banca-lo-sa-anche-il-negozio.test.ts (3 prove, verde). Prima del fix: 3 rosse su 3. Regressione: webhook-diviso-per-mestiere + stripe-webhook-idempotenza verdi (la rotta resta sotto le 250 righe: 248). npx tsc --noEmit: 0 errori.",
+      "nota_fix": "handlePayoutFailed adesso riceve `event.account` dalla rotta (unica riga cambiata in app/api/stripe/webhook/route.ts), risale al profilo con `stripe_account_id`, avvisa IL NEGOZIO con il motivo del rifiuto e il link per correggere l'IBAN, e mette il nome del negozio nell'avviso agli amministratori; se il conto non si riconosce, l'avviso lo dice invece di far finta di niente. Nessuno dei due avvisi fa fallire il gestore (provaAMandare): un avviso non partito non deve far ritentare a Stripe un evento che non muove soldi. DUE PUNTI DELLA SCHEDA NON ESEGUITI, DI PROPOSITO. ① categoria 'payout': il vincolo del database ammette solo order/promo/group/newsletter/system (migrations/115), quindi quell'inserimento sarebbe stato RIFIUTATO — ho usato 'system', che è anche la categoria che gli interruttori delle notifiche non spengono. ② «riportare gli ordini a uno stato che il giro dei bonifici possa ripescare»: NON l'ho fatto ed è una scelta, non una dimenticanza. `payout_status='TRANSFERRED'` racconta il trasferimento dalla piattaforma al conto Stripe del negozio, che è RIUSCITO; qui fallisce il passaggio successivo, dal conto Stripe alla banca, e i soldi sono ancora sul saldo Stripe del negozio. Riaprire quegli ordini farebbe partire un secondo transfer, cioè pagherebbe il negozio due volte: è un difetto peggiore di quello che chiudevamo. Il rimedio vero è l'IBAN corretto, da lì Stripe riprova da solo. RESTA APERTO UN PEZZO: la pagina Guadagni continua a scrivere «versato», perché distinguerlo vorrebbe dire una colonna nuova sugli ordini, cioè una migrazione (🔴, fuori lotto). Da qui il negoziante lo sa dalla notifica, non dalla pagina.",
+      "file_toccati": ["lib/stripe/webhook/trasferimenti.ts", "app/api/stripe/webhook/route.ts"]
+    },
+    {
+      "chiave": "pagamenti-stripe|la vetrina in primo piano comprata di sera parte con la data del giorno prima",
+      "titolo": "La vetrina in primo piano comprata di sera parte con la data del giorno prima",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/la-vetrina-comprata-di-notte-parte-dal-giorno-giusto.test.ts (3 prove, verde). Prima del fix: 2 rosse su 3. Ri-rottura provata: rimesso `toISOString().slice(0,10)` al posto di giornoLocale, la prova sulle date torna rossa. npx tsc --noEmit: 0 errori.",
+      "nota_fix": "start_date e end_date passano da `giornoLocale()` (lib/tempo/giorno-locale.ts, la stessa funzione con cui si quadra la cassa del fattorino), e la spesa si legge da `session.amount_total` — l'importo davvero incassato — tenendo `amount_cents` dei metadati solo come ripiego se Stripe non manda il totale; se i due divergono resta scritto un avviso nel registro. LA SCHEDA SBAGLIA L'ORA, e vale la pena dirlo: alle 23:30 di Piacenza a Greenwich sono le 21:30 dello stesso giorno, quindi lì lo scarto non si vede. La finestra vera è fra mezzanotte e le due di notte d'estate (l'una d'inverno), quando da noi è già domani e a Greenwich è ancora ieri. Il difetto è reale, l'esempio no: la prova usa le 00:30 del 4 settembre.",
+      "file_toccati": ["lib/stripe/webhook/sponsorizzati.ts"]
+    },
+    {
+      "chiave": "privacy-legale|«scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, sos del rider",
+      "titolo": "«Scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, SOS del rider",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/scarica-i-miei-dati-non-salta-nessuna-tabella.test.ts (4 prove, verde) + tests/unit/api-account.test.ts verde. Ri-rottura provata: tolta una sola tabella (wallet_ledger) dalla rotta, la prova torna rossa nominandola. npx tsc --noEmit: 0 errori.",
+      "nota_fix": "Aggiunte all'export tutte e 25 le tabelle, con la colonna giusta verificata due volte (blocco CREATE TABLE nelle migrazioni + Row generata in lib/database.types.ts): wallet_ledger, loyalty_accounts, loyalty_transactions, gift_cards (buyer_id o redeemed_by), product_questions (author_id o answered_by), rider_sos_events (rider_id), user_carts, abandoned_carts, event_rsvps, follows, product_lists (owner_id), group_orders (organizer_id o seller_id), group_participants, subscription_orders (user_id o seller_id), payment_attempts, pending_checkouts (buyer_id), cod_checkout_attempts, email_queue, segnalazioni (segnalante_id), cashback_redemptions, zone_code_uses, review_helpful, seller_story_views, shop_of_month_votes (voter_id), user_achievements. Una tabella che non risponde resta vuota e non fa cadere l'intera richiesta. LA RIPARAZIONE VERA È IL FRENO, come chiedeva la scheda: la prova nuova legge le migrazioni, trova le 58 tabelle con una chiave verso profiles o auth.users, e pretende che ognuna sia nell'export o in un elenco di 14 esclusioni ognuna col suo motivo scritto (catalogo, pagine pubbliche, registro di controllo, quadratura contanti, contatore delle fatture...). La prossima tabella nuova non può più nascere fuori dall'export in silenzio. NON VERIFICATO: la prova della scheda girava su psql, e qui il database non c'è (connessione rifiutata su localhost:5432), quindi il conto delle 25 l'ho rifatto sulle migrazioni, non sul database vero; le 25 letture nuove non sono mai state eseguite contro Postgres.",
+      "file_toccati": ["app/api/account/export/route.ts"]
+    },
+    {
+      "chiave": "privacy-legale|chi cancella l'account resta cliente su stripe, e nessuno sa più quale",
+      "titolo": "Chi cancella l'account resta cliente su Stripe, e nessuno sa più quale",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/chi-cancella-l-account-non-resta-cliente-su-stripe.test.ts (5 prove, verde). Prima del fix: 3 rosse su 5. Ri-rottura provata: neutralizzata la fermata quando Stripe fallisce, tornano rosse 2 prove. Regressione sulle 9 prove che già esistevano sulla cancellazione (58 prove): tutte verdi. npx tsc --noEmit: 0 errori.",
+      "nota_fix": "Aggiunto il passo ②ter in lib/account/cancellazione.ts, PRIMA di admin.auth.admin.deleteUser: legge profiles.stripe_customer_id e, se c'è, chiama `customers.del` su Stripe. Ho scelto la cancellazione e non lo svuotamento dei campi perché cancellare il cliente toglie nome, email, indirizzo e metodi di pagamento ma lascia in piedi pagamenti e fatture, che vanno conservati per obbligo fiscale — e chiude gli abbonamenti aperti, che è quello che si vuole per un account che se ne va. Se la chiamata fallisce l'account NON si cancella e la richiesta torna in coda per la notte dopo (il giro notturno la conta come guasto, come già fa per le pulizie non riuscite); un cliente che su Stripe non esiste più (resource_missing) non blocca niente; se Stripe non è configurato ma un codice cliente c'è, ci si ferma invece di passare oltre in silenzio; se la lettura del codice fallisce non si va avanti al buio. Non ho toccato le due schede delle ondate precedenti su questo file (la cancellazione rinviata che sa solo l'amministratore, il negozio con un ordine aperto): il passo nuovo sta prima del ③ e non tocca né la cassa contanti né il testo dell'esito. NON VERIFICATO: la chiamata a Stripe è provata con un finto client, mai contro Stripe vero.",
+      "file_toccati": ["lib/account/cancellazione.ts"]
+    },
+    {
+      "chiave": "performance|la prova sociale «ordinato n volte» scarica ogni riga d'ordine del prodotto per contarle nel browser",
+      "titolo": "La prova sociale «Ordinato N volte» scarica ogni riga d'ordine del prodotto per contarle nel browser",
+      "esito": "non_riparato",
+      "prova": "Letto components/ui/SocialProof.tsx:25-40: la query è ancora quella della scheda, confermata alla lettera. Cercato un rimedio che stia dentro il file: `venduti_per_prodotto` (migrations/141) non è riusabile — è legata al negozio proprietario via auth.uid() ed è concessa solo a chi ha fatto l'accesso, mentre questa prova sociale gira per qualunque visitatore su un prodotto altrui.",
+      "nota_fix": "NON RIPARATO PERCHÉ IL FIX È UNA MIGRAZIONE, che è 🔴 e fuori da questo lotto. Serve una funzione nel database che faccia SUM(quantity) e restituisca un numero, con il permesso di esecuzione anche a chi non ha fatto l'accesso (anon): il modello da copiare è migrations/141_i_conti_del_venditore_li_fa_il_database.sql, e l'indice che le serve — order_items_product_idx su product_id — esiste già (migrations/036:69). A chi tocca: prepararla come migrazione a parte, firmata da Nicola, poi una riga sola nel componente. HO SCARTATO due scorciatoie dentro il file: (a) mettere un tetto alle righe scaricate cambia il numero mostrato al cliente, cioè ripara la lentezza mentendo sul dato; (b) contare le righe con `count: 'exact', head: true` non scaricherebbe niente ed è tentante, ma cambia il significato del numero (ordini invece di pezzi) e in questa base di codice non esiste un solo precedente di conteggio esatto insieme a un join `!inner` — senza un database vero qui non posso provare che PostgREST lo faccia, e non consegno su una pagina di prodotto una cosa che non ho visto girare. La gravità resta minore: con sette giorni di finestra e i volumi di oggi sono poche righe.",
+      "file_toccati": []
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Se l'avviso «sponsorizzazione attiva» non entra nel database, il negozio non sa di aver comprato la vetrina e nessuno se ne accorge",
+      "dove": "lib/stripe/webhook/sponsorizzati.ts:110",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Chi scarica i propri dati senza email in anagrafica interroga gli iscritti alla newsletter con l'indirizzo vuoto, e si porterebbe a casa le righe di chiunque abbia l'email vuota",
+      "dove": "app/api/account/export/route.ts:95",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "L'avviso di bonifico rifiutato non cambia lo stato che il negoziante legge nella pagina Guadagni: lì continua a esserci scritto «versato» finché non guarda le notifiche",
+      "dove": "lib/stripe/webhook/trasferimenti.ts:59 (serve una colonna nuova sugli ordini: migrazione, 🔴)",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "① Nessun database vero da qui (psql su localhost:5432 rifiuta la connessione): il conto delle 25 tabelle mancanti l'ho rifatto sulle migrazioni e sui tipi generati, non sul database, e le 25 letture nuove dell'export non sono mai state eseguite contro Postgres. ② Niente Stripe vero: `customers.del`, `payout.failed` con un conto Connect e un rimborso pieno fatto a mano dal cruscotto sono provati con finti client, non replayati in modalità di prova. ③ Non ho lanciato la suite intera né `npm run verify` (le altre squadre stanno scrivendo): ho lanciato i 31 file di prova collegati ai miei file, 153 prove verdi, più `npx tsc --noEmit` sull'intero progetto, 0 errori. ④ La prova che sorveglia l'export legge le migrazioni: se una tabella nascesse solo su Supabase senza passare da un file .sql, quella prova non la vedrebbe."
+}

@@ -1,0 +1,60 @@
+{
+ "squadra": 5,
+ "territorio": [
+  ".github/workflows/deploy-dopo-ci.yml"
+ ],
+ "malattia": "Il rilascio si fida di cose che nessuno gli ha detto: che chi preme il pulsante a mano abbia scelto un ramo provato, e che riportare indietro il codice basti a riportare indietro anche il database. Il primo l'ho chiuso; sugli altri due il freno proposto vive fuori dal mio territorio e oggi diventerebbe rosso su codice gia' unito.",
+ "difetti": [
+  {
+   "chiave": "deploy-sre|il pulsante manuale del rilascio pubblica qualunque ramo senza aspettare i controlli",
+   "titolo": "Il pulsante manuale del rilascio pubblica qualunque ramo senza aspettare i controlli",
+   "esito": "riparato",
+   "prova": "Ho ESEGUITO davvero lo script del passo nuovo (estratto dal YAML con js-yaml, come fa tests/unit/_lavoro-di-rilascio.ts) con curl finto, in 8 scenari: ramo claude/** -> uscita 1 e curl mai chiamato; main + CI 'failure' -> 1; main + CI 'success' -> 0; main + CI ancora in corso (conclusion null) -> 1; main + risposta non-JSON (502) -> 1; main + nessuna esecuzione della CI su quel commit -> 1; main + CI verde ieri e rossa nel riavvio di oggi -> 1 (conta l'ultima); main + CI verde con un altro lavoro in corso -> 0. Il passo cade sempre dalla parte sicura: non rilascia. Poi: node -e con js-yaml (YAML valido, 10 passi, il nuovo e' il 3o, PRIMA di Setup Node e delle migrazioni) e npx vitest run sui 7 file che leggono questo workflow -> 42 test verdi.",
+   "nota_fix": "Il difetto c'era davvero: workflow_dispatch: {} alla riga 61, la condizione del lavoro vera per il solo fatto di essere partiti a mano, e il checkout che ripiega su github.sha (la punta del ramo scelto nel menu'). Ho aggiunto il passo «A mano si rilascia solo main con la CI verde», subito dopo il Checkout: se il ramo non e' refs/heads/main si ferma; poi chiede a GitHub (GET /repos/{owner}/{repo}/actions/runs?head_sha=...) l'esito dell'ultima esecuzione del workflow chiamato «CI» su QUEL commit e prosegue solo su 'success'. Se la risposta non arriva o non si capisce, l'esito resta «nessuna» e il lavoro si ferma. Ho aggiunto ai permessi il solo 'actions: read' (sola lettura). DUE SCOSTAMENTI DALLA SCHEDA, voluti: (1) NON ho messo la condizione a livello di lavoro (if: github.ref == 'refs/heads/main') perche' un lavoro saltato esce VERDE e vuoto — la spunta bugiarda che questo file combatte da tre settimane (righe 369-380); un rifiuto deve vedersi, quindi qui si finisce rossi e si scrive perche' nel riepilogo. (2) Ho usato l'API delle esecuzioni invece di check-runs: il file dipende gia' dal nome «CI» (riga 58) e cosi' non dipende anche dai nomi dei singoli lavori, e non rischia di leggere il proprio check-run come «in corso». Il passo sta PRIMA delle migrazioni, che sono il primo passo che tocca la produzione. Non ho verificato dal vivo su GitHub: jq preinstallato sul runner ubuntu-latest e 'actions: read' sufficiente per quell'API sono presi dalla documentazione, non misurati — ma in entrambi i casi l'errore porta a «nessuna», cioe' rilascio bloccato, mai a un rilascio al buio.",
+   "file_toccati": [
+    ".github/workflows/deploy-dopo-ci.yml"
+   ]
+  },
+  {
+   "chiave": "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti",
+   "titolo": "Se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti",
+   "esito": "non_riparato",
+   "prova": "Il freno chiesto dalla scheda (parte ①: bocciare una migrazione con DROP COLUMN / DROP TABLE / RENAME senza marcatore) e' rosso OGGI su codice gia' unito: `grep -liE 'DROP COLUMN|DROP TABLE' migrations/*.sql | wc -l` -> 4 file (105, 134, 140, 148), e con RENAME diventano 5 (anche 150). Vive inoltre in tests/unit/, fuori dal mio territorio. Ho invece fatto la parte ② (il riepilogo dice la verita') ed e' provata eseguendo davvero i due passi: il passo delle migrazioni, lanciato sullo script vero con psql finto, scrive quante=149 ed elenco pieno quando il registro e' vuoto, quante=0 quando e' allineato, e con psql che fallisce a meta' il passo esce 3 (il `tee` non si mangia il rosso: c'e' `set -o pipefail`). Il passo «Torna indietro», eseguito con MIGRAZIONI=2, scrive nel riepilogo «Attenzione: il database e' avanti di 2 migrazioni rispetto al sito che e' online adesso» con l'elenco dei file; senza quelle variabili (come lo chiamano le prove che gia' esistono) non si rompe sotto `set -u` e dice «da qui non ho applicato nessuna migrazione».",
+   "nota_fix": "ESITO non_riparato ANCHE SE IL FILE E' CAMBIATO, e la distinzione conta: il buco strutturale resta aperto (le migrazioni si applicano prima di pubblicare, `vercel rollback` riporta il codice e lo schema resta avanti). Quello che ho chiuso e' il silenzio: il riepilogo del ritorno indietro adesso dice di quante migrazioni il database e' avanti, quali, e che se una di quelle TOGLIE una colonna il sito online puo' restare rotto. La frase compare in tutti e due i rami del passo (anche quando non sa a quale rilascio tornare) e non contiene «sono tornata», quindi le prove che gia' esistono restano verdi (42 test). PER CHIUDERLO DAVVERO SERVE, e non e' mio: (a) il freno sulle migrazioni distruttive con una base di partenza che perdoni i 5 file gia' uniti (105, 134, 140, 148, 150) e valga dalla 155 in poi — e' una convenzione nuova su come si scrivono le migrazioni, quindi la firma e' di Nicola; (b) il runbook «come verifico a mano che il rilascio di prima regga lo schema nuovo», che e' un documento, non codice.",
+   "file_toccati": [
+    ".github/workflows/deploy-dopo-ci.yml"
+   ]
+  },
+  {
+   "chiave": "deploy-sre|il ritorno indietro del rilascio riporta il codice ma non il database",
+   "titolo": "Il ritorno indietro del rilascio riporta il codice ma non il database",
+   "esito": "non_riparato",
+   "prova": "Il controllo proposto (per ogni migrazione nuova, o il gemello in migrations/giu/ o la riga `-- RITORNO: non necessario` dentro il file) e' rosso OGGI su codice gia' unito, esattamente come diceva la scheda. Provato: la cartella migrations/giu/ non esiste (`ls -d migrations/giu` -> nessuna), e nessuna delle quattro migrazioni di stanotte ha il marcatore (`grep -l RITORNO migrations/15[1-4]*.sql` -> vuoto). Ciclo eseguito sui quattro file: ROSSO su 151, 152, 153 e 154.",
+   "nota_fix": "Mi sono fermato come da consegna: il freno renderebbe rossa la CI di oggi su quattro migrazioni gia' unite. PERCHE' NON POSSO AGGIRARLO DA SOLO: le due strade per farlo passare sono (a) scrivere il ritorno indietro di 151-154 in migrations/giu/, oppure (b) aggiungere la riga `-- RITORNO: non necessario` dentro quei quattro file — in tutti e due i casi si tocca migrations/, che per me e' in sola lettura, e la seconda e' una dichiarazione sul database di produzione che non posso firmare io. Terza strada, piu' pulita: far valere il controllo dalla migrazione 155 in poi (una base di partenza che cala e non risale), ma la soglia la decide l'AD e il controllo vive in tests/unit/ o nella CI, fuori dal mio territorio. C'e' anche un pezzo che la scheda non dice: la frase «sono tornata al rilascio di prima» del verdetto finale NON e' in questo workflow, e' in scripts/prova-di-fumo.mjs riga 377 (fuori territorio, e con prove sue che verificano quel testo esatto). Dal mio file ho potuto aggiungere solo la nota sul database nel riepilogo del ritorno indietro — vedi la scheda qui sopra.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti",
+   "perche": "il freno vero (test che boccia le migrazioni distruttive) vive fuori dal territorio: tests/unit/ o .github/workflows/ci.yml — e oggi sarebbe rosso su migrations/105, 134, 140, 148, 150 gia' uniti"
+  },
+  {
+   "chiave": "deploy-sre|il ritorno indietro del rilascio riporta il codice ma non il database",
+   "perche": "il controllo proposto vive fuori dal territorio (tests/unit/ o ci.yml) e per farlo passare bisognerebbe scrivere dentro migrations/151-154, che per me sono in sola lettura"
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il verdetto finale non dice una parola sul database: parla solo del sito",
+   "dove": "scripts/prova-di-fumo.mjs:500-507 (verdettoDelLavoro legge pronto, indirizzo, codiceFumo, tornato — mai le migrazioni) · .github/workflows/deploy-dopo-ci.yml:497",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Senza la stringa di connessione il cancello sul database salta e si pubblica lo stesso",
+   "dove": ".github/workflows/deploy-dopo-ci.yml:289-292 (il passo «Il database e' allineato al codice» gira solo se le migrazioni sono girate: senza SUPABASE_DB_URL non gira, e il passo «Rilascia in produzione» parte comunque)",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Non ho fatto girare il lavoro su GitHub: nessun rilascio vero, nessuna chiamata vera all'API. jq preinstallato sul runner e 'actions: read' sufficiente per GET /actions/runs sono presi dalla documentazione — se sbaglio, l'esito diventa «nessuna» e il rilascio si ferma (mai un rilascio al buio). ② Resta aperta una via di fuga che non si chiude da dentro il file: con workflow_dispatch GitHub esegue il workflow COME STA SUL RAMO SCELTO, quindi un ramo il cui deploy-dopo-ci.yml non ha questo cancello lo salta. Si chiude solo con un'impostazione del deposito (Environment «produzione» con revisore obbligatorio) — 🔴, firma di Nicola. ③ Effetto collaterale voluto: da adesso non si puo' piu' pubblicare a mano un commit con la CI rossa. Se serve un rilascio d'emergenza resta Vercel (riporta online un rilascio precedente dalla sua pagina). ④ Non ho lanciato npm run verify ne' il build (vietati dalla consegna): ho lanciato solo i 7 file di prove che leggono questo workflow, 42 verdi. ⑤ Il conteggio delle migrazioni l'ho provato con psql finto sullo script vero, non su un Postgres vero."
+}

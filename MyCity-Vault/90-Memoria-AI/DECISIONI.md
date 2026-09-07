@@ -5048,3 +5048,45 @@ negozio chiuso e un ordine serale che si annulla da solo nella notte.
 **Traccia.** Referto `consegne/audit/2026-09-03-lotto-riparazione-sito.md` · piano dei pacchetti
 `consegne/audit/2026-09-03-1636-pacchetti-sito-gravi-110difetti.json` · ramo
 `claude/marketplace-issues-52cttv` su entrambi i repo.
+
+## 2026-09-06 21:50 — 🟡 Lotto dei difetti minori del sito: consegnato con la PR #250
+
+**Cosa.** Su richiesta di Nicola («chiudi i minori a pacchetti») ho lavorato i 275 difetti minori
+aperti del marketplace: 48 squadre in dieci ondate su territori disgiunti, poi la radiografia del
+perimetro toccato. Chiusi 198 su 275. Il registro del sito passa da 304 difetti aperti a 150.
+
+**Perché così.** Il comando dei pacchetti divideva la coda in 101 pacchetti da un difetto ciascuno
+su 22 ondate: cento squadre per 136 difetti. Ho rifatto la divisione raggruppando i pacchetti che
+si toccano davvero — 22 squadre su 5 ondate. Ho anche normalizzato i percorsi prima di dividere:
+il comando contava `/home/user/mycity/app/cart/page.tsx` e `app/cart/page.tsx` come due file
+diversi, quindi due squadre potevano finire nella stessa ondata sullo stesso file.
+
+**La decisione che conta.** Dopo le dieci ondate il cancello era verde (`npm run verify` a 0, 3599
+prove), ma il guardiano del perimetro diceva 202 file mai riguardati. Ho fermato la consegna e
+fatto la radiografia: 58 difetti, sei gravi creati dal lotto stesso. Li ho fatti riparare prima di
+consegnare, da squadre diverse da quelle che li avevano creati. Se avessi consegnato al primo
+verde, quei sei sarebbero arrivati a Nicola dentro una PR da 275 riparazioni.
+
+**Cosa resta a Nicola.** Card #196 (confine della consegna a 25 km), #195 (RESEND_FROM su Vercel
+prima di unire), #194 (i moduli rifiutano le foto HEIC dell'iPhone: si allarga o si spiega). E i
+tre bloccanti di sempre, che tengono il sito chiuso al pubblico.
+
+**Debito dichiarato.** Il guardiano del perimetro identifica le schede del sito per titolo e
+separa gli elenchi con la virgola: 25 titoli su 58 una virgola ce l'hanno, quindi la copertura
+registrata dice 33 reperti invece di 58. Accodato come carta #197 per la firma di Nicola: aprirlo nel
+cantiere vorrebbe una prova che gira, e quella prova è codice della macchina, che non tocco da
+sola. Non l'ho aggirato dichiarando zero.
+
+
+## 2026-09-07 08:45 — ✅ Il lotto dei minori è stato unito da Nicola (PR NicolaeRotaru/mycity#250)
+
+Unita stanotte, alle 06:42 UTC. Il registro del sito è stato allineato: le 212 schede che portavano
+«richiesta di unione #250 (non ancora unita)» adesso dicono che è unita. Conto dopo l'unione: 898
+schede, 748 chiuse, 150 aperte (3 bloccanti, 38 gravi, 109 minori).
+
+**Cosa ho sbagliato in questo lotto, e va scritto.** La memoria del lotto è rimasta su un ramo
+senza richiesta di unione fino a dopo il merge del sito. La regola di casa dice che ogni modifica
+finisce in una PR, sempre, e non l'ho aperta: Nicola ha potuto vedere e firmare il lavoro sul sito,
+ma non la memoria che lo racconta. Aperta adesso, in ritardo.
+
+**Cosa resta a Nicola:** carte #194, #195, #196, #197.

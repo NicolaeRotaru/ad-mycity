@@ -1,0 +1,21 @@
+{
+ "squadra": 35,
+ "ondata": 8,
+ "pacchetto": "components/seller/ProductForm.tsx",
+ "territorio_principale": "components/seller/ProductForm.tsx",
+ "file_citati": [
+  "app/seller/products/[id]/edit/page.tsx",
+  "components/seller/ProductForm.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|la consegna espressa sparisce dal modulo prodotto senza dire niente",
+   "titolo": "La consegna espressa sparisce dal modulo prodotto senza dire niente",
+   "dimensione": "stati-ui",
+   "file": "app/seller/products/[id]/edit/page.tsx:59-66 · components/seller/ProductForm.tsx (prop sellerOffersExpress)",
+   "descrizione": "La pagina di modifica prodotto legge se il negozio offre la consegna espressa così: const { data: offersExpress = false } = useQuery(...). Se la lettura fallisce, o se la sessione non è ancora pronta, il valore di ripiego è false e il modulo si disegna come se il negozio l'espressa non ce l'avesse: l'opzione non compare e non compare nemmeno un avviso. Il negoziante che entra per cambiare il prezzo non vede più l'interruttore che ieri c'era.\n\nCausa radice: Stesso schema delle categorie: valore di ripiego muto su una lettura che può fallire, senza stato «rotto». Qui il ripiego è false, cioè la risposta peggiore delle due possibili.\n\nProva (umano, non eseguita): Aprire /seller/products/<id>/edit con un negozio che ha la consegna espressa attiva, bloccare dagli strumenti del browser la richiesta a seller_settings (o mettere la rete offline al primo caricamento) e guardare: l'interruttore «espressa» non c'è e nessun messaggio spiega perché.",
+   "impatto": "Il negoziante crede di aver perso la consegna espressa e chiama l'assistenza, oppure salva il prodotto senza accorgersene. È lavoro perso per lui e per il supporto, su una funzione che è un vantaggio commerciale.",
+   "fix_proposto": "Trattare la lettura come le altre: finché non è arrivata, non decidere; se è rotta, mostrare il modulo con una riga «non riesco a leggere le impostazioni di consegna, riprova» invece di far sparire l'opzione."
+  }
+ ]
+}

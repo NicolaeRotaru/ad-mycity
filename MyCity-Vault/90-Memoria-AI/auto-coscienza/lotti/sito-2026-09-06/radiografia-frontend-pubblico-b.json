@@ -1,0 +1,147 @@
+{
+  "dimensione": "frontend-ux",
+  "parte": "pubblico-b",
+  "data": "2026-09-06 18:40",
+  "ramo": "claude/marketplace-open-issues-0gudy6",
+  "lente": "chi non usa il sito come noi: lettore di schermo, tastiera senza mouse, contrasto misurato, testo ingrandito, telefoni piccoli",
+  "metodo": "lettura di `git diff origin/main` su tutti e 47 i file del perimetro + contrasti CALCOLATI (formula WCAG 2.x sui token reali di tailwind.config.ts, compositing sRGB per opacity) + verifica che le classi/token nuovi esistano davvero. NON provato: nessun browser, nessuno screen reader reale, nessun iPhone fisico da qui.",
+  "file_guardati": 47,
+  "file_esclusi": [
+    "app/checkout/page.tsx (in mano a un'altra squadra in questo momento, come da consegna: non contato e non segnalato)"
+  ],
+  "difetti": [
+    {
+      "id": "FUXB-01",
+      "titolo": "Quando cambi un filtro, la griglia si sbiadisce e i nomi dei prodotti diventano illeggibili",
+      "file": "components/ProductGrid.tsx",
+      "righe": "547, 605 (classe `opacity-50`), stato deciso a riga 223",
+      "nato": "oggi",
+      "gravita": "grave",
+      "wcag": ["1.4.3 Contrasto (minimo) — AA", "1.4.11 Contrasto degli elementi non testuali — AA"],
+      "pilastro_pour": "Percepibile",
+      "cosa_e_successo_oggi": "È stato aggiunto uno stato «sto aggiornando» che sbiadisce tutta la griglia a metà opacità (`opacity-50`) mentre arriva la risposta. Le schede restano cliccabili — è una scelta dichiarata nel commento — quindi non vale l'esenzione WCAG per i comandi disattivati.",
+      "contrasti_calcolati": {
+        "nota": "opacity su un contenitore compone tutto il livello in sRGB contro lo sfondo pagina; valori su pagina bianca, praticamente identici su surface-50 e cream-100",
+        "nome_prodotto_13px_ink-900": "15,9:1 → 3,31:1 (serve 4,5:1)",
+        "nome_negozio_11px_ink-500": "9,0:1 → 2,34:1 (serve 4,5:1)",
+        "prezzo_16px_extrabold_ink-900": "15,9:1 → 3,31:1 (16px grassetto NON è «testo grande»: serve 4,5:1)",
+        "prezzo_barrato_11px_ink-500": "→ 2,34:1",
+        "bottone_+_aggiungi_al_carrello_bianco_su_primary-600": "4,96:1 → 2,12:1 (serve 3:1 come comando, 1.4.11)",
+        "badge_sconto_bianco_su_secondary-600": "6,18:1 → 2,39:1"
+      },
+      "conseguenza_pratica": "Chi ha la vista debole tocca un filtro su /search e per tutta la durata della lettura non legge più né i nomi né i prezzi dei prodotti che sta già guardando — e su rete lenta sono secondi, non un lampo. Peggio: il pulsante «+» per mettere nel carrello scende a 2,12:1, quindi in quel momento il comando che fa comprare praticamente sparisce. È esattamente la persona per cui è stato pensato lo stato «sto aggiornando» a rimanerne esclusa.",
+      "come_si_riproduce": "Apri /search (o una pagina categoria) da un browser con rete rallentata (DevTools → Network → Slow 3G). Cambia un filtro: prezzo massimo, voto minimo, «solo negozi aperti», oppure l'ordinamento. La griglia resta a schermo (`placeholderData: keepPreviousData`) e sbiadisce. Misura il testo con il contrasto di DevTools mentre è sbiadita.",
+      "soglia_di_sicurezza_calcolata": "Con `opacity-0.5` niente passa. Servirebbe almeno 0,8 perché ink-500 a 11px torni a 4,55:1 — cioè appena sopra la soglia, con zero margine.",
+      "fix_pronto": "Non sbiadire il testo. Togliere `opacity-50` da entrambe le righe (547 e 605) e lasciare che il segnale «occupato» sia quello che c'è già ed è corretto: `aria-busy={stoAggiornando}` sul contenitore + la riga `<p role=\"status\" aria-live=\"polite\" className=\"sr-only\">Aggiorno i risultati…</p>` (righe 555-558 e 611-614). Per il segnale VISIVO, che serve davvero, aggiungere sopra la griglia una barretta indeterminata alta 2-3px in `bg-primary-700`, che non tocca il contrasto di niente:\n\n  {stoAggiornando && (\n    <div className=\"h-0.5 w-full overflow-hidden rounded-full bg-cream-200\" aria-hidden>\n      <div className=\"h-full w-1/3 animate-[scorri_1.2s_ease-in-out_infinite] rounded-full bg-primary-700\" />\n    </div>\n  )}\n\nSe si vuole per forza tenere lo sbiadimento, il massimo ammesso è `opacity-80` — ma lascia il nome del negozio a 4,55:1, senza margine: sconsigliato.",
+      "owner": "@frontend-dev",
+      "peer_review": "@cro (lo stato «sto aggiornando» nasce da una richiesta di chiarezza sul cambio filtro: il fix non lo toglie, lo sposta su un segnale che non spegne il testo)",
+      "confidenza": "95% — i numeri sono calcolati sui token reali, non stimati. Non l'ho visto girare in un browser."
+    },
+    {
+      "id": "FUXB-02",
+      "titolo": "Abbiamo detto all'iPhone di usare tutto lo schermo, ma leggiamo solo il bordo di sotto",
+      "file": "app/layout.tsx",
+      "righe": "157 (`viewportFit: 'cover'`)",
+      "file_travolti": [
+        "components/CookieBanner.tsx:109",
+        "components/Navbar.tsx (barra desktop, che in orizzontale è quella che si vede)"
+      ],
+      "nato": "oggi",
+      "gravita": "media",
+      "wcag": ["2.5.8 Dimensione del bersaglio (minimo) — AA (WCAG 2.2)", "1.4.10 Ridisposizione — AA (adiacente)"],
+      "pilastro_pour": "Operabile",
+      "cosa_e_successo_oggi": "È stato acceso `viewportFit: 'cover'`. Da questo momento le variabili `env(safe-area-inset-*)` smettono di valere zero su un iPhone senza tasto casa. Il commento nel file elenca chi consuma il bordo DI SOTTO e ha ragione. Il problema è quello che non elenca: ho cercato `safe-area-inset-left` e `safe-area-inset-right` in `app/`, `components/`, `lib/`, `app/globals.css` e `tailwind.config.ts` — non compaiono in nessun file. E una copia del bordo di sotto è rimasta scritta a mano.",
+      "conseguenza_pratica_a": "IN ORIZZONTALE. Su un iPhone con notch, ruotato, i 44 punti a sinistra e a destra finiscono sotto l'angolo arrotondato e sotto il notch. Il padding più largo che abbiamo è `sm:px-6`, cioè 24 punti: meno della metà. Vanno sotto il bordo il marchio «MyCity» in alto a sinistra e i comandi account/carrello in alto a destra. E chi ruota il telefono spesso lo ruota apposta — è uno dei modi con cui chi vede poco si ingrandisce le cose.",
+      "conseguenza_pratica_b": "IL BANNER DEI COOKIE COPRE LA BARRA IN FONDO. `components/CookieBanner.tsx:109` è ancorato a `bottom-[var(--tabbar-height)]`, cioè 72 punti fissi (`app/globals.css:142`). `components/MobileTabBar.tsx:144` invece ha `pb-safe` (`padding-bottom: env(safe-area-inset-bottom)`, globals.css:319), quindi da oggi è alta 72+34 = 106 punti invece di 72. Il banner sta a `z-[100]`, la barra a `z-30`: il banner copre i ~22 punti superiori delle cinque destinazioni (Home · Cerca · Carrello · Ordini · Profilo). E il banner cookie è la primissima cosa che vede chi arriva sul sito da un telefono.",
+      "come_si_riproduce": "iPhone 12/13/14/15 (qualunque modello senza tasto casa), Safari. ① In verticale, prima visita: il banner cookie compare e la barra a schede in fondo perde la sua fascia superiore. ② Ruota in orizzontale su una pagina qualsiasi: il marchio a sinistra e i comandi a destra scivolano sotto il bordo curvo. Prima di oggi nessuna delle due cose succedeva, perché `env()` valeva zero.",
+      "fix_pronto": "Due righe.\n\n① BORDI LATERALI — in `app/globals.css`, sul contenitore di pagina (o su `body`):\n   body { padding-left: env(safe-area-inset-left, 0px); padding-right: env(safe-area-inset-right, 0px); }\n   È la gemella esatta della riga 328, che il bordo di sotto lo gestisce già così.\n\n② BANNER COOKIE — `components/CookieBanner.tsx:109`, sostituire\n   bottom-[var(--tabbar-height)]\n  con\n   bottom-[calc(var(--tabbar-height)+env(safe-area-inset-bottom,0px))]\n  Meglio ancora: usare `fondoDellaBarra()` di `lib/ui/barra-in-fondo.ts` (riga 32), che esiste già apposta ed è la casa unica di questo conto — il CookieBanner è l'unico elemento in fondo che se lo scrive a mano.",
+      "owner": "@frontend-dev",
+      "peer_review": "@qa (serve una prova su iPhone fisico, verticale e orizzontale: da qui non ho potuto)",
+      "confidenza": "78% — il ragionamento sul CSS è solido e la grep sull'assenza di `safe-area-inset-left/right` è un fatto verificato. Ma `env()` si comporta davvero solo su un dispositivo vero, e un iPhone da qui non ce l'ho. Chiedo a @qa 10 minuti su un telefono reale prima di considerarlo chiuso."
+    },
+    {
+      "id": "FUXB-03",
+      "titolo": "Due attese annunciano il vuoto: la regione ha un nome ma niente da dire",
+      "file": [
+        "components/store-sections/ScheletroNegozio.tsx",
+        "components/checkout/ShippingAddressForm.tsx"
+      ],
+      "righe": "ScheletroNegozio.tsx:38-41 · ShippingAddressForm.tsx:110-113",
+      "nato": "oggi",
+      "gravita": "media",
+      "wcag": ["4.1.3 Messaggi di stato — AA"],
+      "pilastro_pour": "Robusto",
+      "cosa_e_successo_oggi": "Sono state marcate due attese come regioni vive:\n  role=\"status\" aria-live=\"polite\" aria-label=\"Sto aprendo il negozio\"       (ScheletroNegozio)\n  role=\"status\" aria-busy=\"true\" aria-live=\"polite\" aria-label=\"Carico i tuoi indirizzi salvati\"  (ShippingAddressForm)\nIn tutti e due i casi dentro la regione non c'è UNA parola: solo riquadri grigi, e in ShippingAddressForm i figli sono pure `aria-hidden`. Una regione viva annuncia il proprio CONTENUTO quando cambia, non il proprio NOME: `aria-label` su un `role=\"status\"` vuoto è un nome che nessuno va a leggere, perché nessuno ci naviga sopra. NVDA, VoiceOver e TalkBack non dicono niente.",
+      "perche_e_un_difetto_e_non_un_dettaglio": "Il commento in ScheletroNegozio dichiara di aver riparato proprio questo: «Prima si sentiva “Caricamento…”; poi piu' niente. Adesso la regione ha un nome (aria-label)». La dichiarazione è falsa: dopo il fix si sente esattamente quanto prima, cioè niente. È un fix che sembra fatto e non lo è — e domani nessuno lo riguarda perché il commento dice che è a posto. In più a ScheletroNegozio è stato tolto `aria-busy=\"true\"` senza metterci un testo al suo posto: adesso quella regione non è né occupata né parlante.",
+      "prova_che_il_pattern_giusto_lo_sappiamo_gia": "Nello stesso lotto, oggi, due squadre l'hanno fatto BENE:\n  · components/ProductGrid.tsx:555-558 → <p role=\"status\" aria-live=\"polite\" className=\"sr-only\">Aggiorno i risultati…</p>\n  · app/product/[id]/page.tsx (scheletro recensioni) → <span className=\"sr-only\">Carico le recensioni…</span> dentro il contenitore aria-busy\nÈ una incoerenza interna allo stesso lotto, non una lacuna di conoscenza: quattro attese toccate oggi, due giuste e due no.",
+      "conseguenza_pratica": "Chi apre la vetrina di un negozio con VoiceOver sente silenzio finché la pagina non è pronta, e non sa se il telefono sta lavorando o se ha sbagliato qualcosa. In cassa è peggio: il primo passo dell'ordine resta muto mentre arrivano gli indirizzi salvati, cioè nel punto del percorso in cui l'incertezza costa un ordine.",
+      "come_si_riproduce": "VoiceOver (iOS) o NVDA (Windows). ① Apri una pagina negozio /store/<id> con rete rallentata: nessun annuncio durante l'attesa. ② Entra in cassa da loggato: nessun annuncio mentre carica gli indirizzi. Confronta con /search cambiando un filtro, dove invece si sente «Aggiorno i risultati…»: quello è lo stesso lotto, fatto giusto.",
+      "fix_pronto": "Una riga per file, copiando il pattern che già gira.\n\nScheletroNegozio.tsx, subito dentro il <div role=\"status\">:\n   <span className=\"sr-only\">Sto aprendo il negozio…</span>\ne rimettere `aria-busy=\"true\"` sul contenitore (segnala all'ausilio che la regione è in lavorazione; non sostituisce il testo, lo accompagna).\n\nShippingAddressForm.tsx, dentro il <div role=\"status\"> e PRIMA delle due mattonelle aria-hidden:\n   <span className=\"sr-only\">Carico i tuoi indirizzi salvati…</span>\n\nIn tutti e due i casi `aria-label` si può togliere: con il testo dentro non serve più.",
+      "owner": "@frontend-dev",
+      "confidenza": "90% — il comportamento delle regioni vive senza contenuto è documentato e coerente su NVDA/VoiceOver/TalkBack. Non l'ho verificato con uno screen reader reale da qui: è il tipo di cosa che vorrei sentire con le orecchie prima di chiudere."
+    },
+    {
+      "id": "FUXB-04",
+      "titolo": "Le iniziali del negozio sono state ingrandite, ma restano bianche su un arancione troppo chiaro",
+      "file": "components/ProductCard.tsx",
+      "righe": "214",
+      "nato": "peggiorato-no / toccato-oggi-e-non-risolto",
+      "gravita": "minore",
+      "wcag": ["1.4.3 Contrasto (minimo) — AA"],
+      "pilastro_pour": "Percepibile",
+      "cosa_e_successo_oggi": "Il pallino con le iniziali del negozio è passato da 16 a 20 punti e il testo da 8 a 10 pixel (`text-2xs`), con il commento «la sigla si legge». La misura è stata sistemata; il colore no.",
+      "contrasti_calcolati": {
+        "bianco_su_primary-500_#D55F3F_inizio_gradiente": "3,79:1 — serve 4,5:1 (10px non è testo grande)",
+        "bianco_su_primary-700_#A03B25_fine_gradiente": "6,67:1 — passa"
+      },
+      "conseguenza_pratica": "Sulla metà chiara del gradiente le due maiuscole restano sotto soglia: chi vede poco continua a leggere una macchia invece di una sigla, esattamente il difetto che il fix di oggi diceva di chiudere. Impatto contenuto perché il nome del negozio per esteso sta accanto — ma allora il pallino è decorativo, e allora andrebbe marcato tale.",
+      "come_si_riproduce": "Qualsiasi griglia prodotti. Ispeziona il `<span>` a riga 214, prendi il colore del pixel nella parte alta-sinistra del cerchio (dove il gradiente parte da primary-500) e misuralo contro il bianco delle lettere.",
+      "fix_pronto": "Far partire il gradiente da `primary-600`: `bg-gradient-to-br from-primary-600 to-primary-700` (bianco su #C0492C = 4,96:1, passa). In alternativa, se il pallino è davvero solo decorativo visto che il nome è scritto accanto: `aria-hidden` sul <span> e nessun vincolo di contrasto — ma va deciso, non lasciato a metà.",
+      "owner": "@frontend-dev",
+      "confidenza": "92% — contrasto calcolato sui token reali. Il gradiente rende il valore esatto dipendente dal punto del cerchio: 3,79:1 è il caso peggiore, all'inizio del gradiente."
+    },
+    {
+      "id": "FUXB-05",
+      "titolo": "Il pannello categorie porta il fuoco sul primo link e salta la sua stessa X per chiudere",
+      "file": "components/CategoryBar.tsx",
+      "righe": "110 (selettore del fuoco) · 262 (la X, aggiunta oggi)",
+      "nato": "oggi",
+      "gravita": "minore",
+      "wcag": ["2.4.3 Ordine del fuoco — A"],
+      "pilastro_pour": "Operabile",
+      "cosa_e_successo_oggi": "Due squadre hanno lavorato sullo stesso pannello. Una ha aggiunto la X «Chiudi le categorie» su telefono, e nel documento sta PRIMA dei link. L'altra ha aggiunto lo spostamento del fuoco all'apertura, ma cercando `querySelector('a[href]')` — cioè solo i collegamenti. Risultato: aprendo il pannello il fuoco atterra su «Tutti i negozi» e la X, che è l'unica uscita visibile su schermo piccolo, resta indietro: per raggiungerla bisogna tornare all'indietro con Maiusc+Tab.",
+      "conseguenza_pratica": "Chi naviga da tastiera o con un controllo a scansione entra nel pannello e ha davanti solo l'elenco delle categorie: l'uscita è dietro di sé. Esc funziona e riporta il fuoco sul pulsante (verificato: righe 140-143), quindi non è un intrappolamento — ma chi non conosce Esc si trova senza una via d'uscita in avanti.",
+      "come_si_riproduce": "Da tastiera, telefono o finestra stretta (< 640px). Tab fino a «Tutte le categorie», Invio. Guarda dov'è l'anello del fuoco: è su «Tutti i negozi», non sulla X. Premi Tab: scorri tutte le categorie. Per la X serve Maiusc+Tab.",
+      "fix_pronto": "Riga 110, allargare il selettore così che prenda il primo elemento raggiungibile, X compresa:\n   pannelloRef.current?.querySelector<HTMLElement>('button, a[href]')?.focus({ preventScroll: true });\nLa X è `sm:hidden`, quindi su schermo grande — dove non esiste — il fuoco continua ad andare sul primo link come adesso.",
+      "owner": "@frontend-dev",
+      "confidenza": "88% — l'ordine nel documento e il selettore li ho letti nel codice. Non l'ho provato da tastiera in un browser vero."
+    }
+  ],
+  "verificato_e_sano": [
+    "components/providers/ToastProvider.tsx — `richColors` sostituito dai colori del marchio: contrasti CALCOLATI tutti larghi (olive-800/olive-50 = 8,55 · secondary-800/secondary-50 = 9,39 · accent-800/accent-50 = 6,53 · ink-800/cream-100 = 13,39). Verificato anche il presupposto del commento: sonner 1.7.4 avvolge le sue regole in `:where(...)` (specificità zero) e la descrizione eredita con `color:inherit`, quindi le classi Tailwind vincono davvero e il testo secondario segue. Il bordo di 1px esiste già nella base di sonner, quindi `border-*-200` cambia un bordo che c'è.",
+    "components/ui/Toggle.tsx — pista spenta da cream-300 a ink-400: calcolato 4,80:1 sul bianco (serviva 3:1 per 1.4.11), e la pallina bianca sulla pista fa lo stesso 4,80:1. Acceso: primary-700 = 6,67:1. Il numero nel commento regge.",
+    "app/product/[id]/page.tsx — stelle spente da ink-300 a ink-400: calcolato 4,80:1 (il commento dice 4,80). Da h3 a h2 per «Descrizione» e «Caratteristiche»: la scaletta h1→h2 non salta più gradini (2.4.6/1.3.1). Testo alternativo delle foto recensione ora numerato invece di quattro volte identico. Scheletro recensioni con `sr-only` reale: fatto giusto.",
+    "components/checkout/CouponInput.tsx — errore da rose-600 a secondary-600: 6,18:1 sul bianco, MEGLIO del rose-600 di Tailwind (4,83:1). Migliora il contrasto oltre a unificare il colore.",
+    "components/store-sections/ReviewsSection.tsx — le stelle della media passano da un componente fatto in casa (accent-500 = 2,16:1, vuote cream-200 = 1,17:1, sotto il 3:1 di 1.4.11) al RatingStars condiviso. E il testo del voto «Utile» scurito verso l'inchiostro: la correzione è quella giusta, il colore del negozio resta sul bordo dove il contrasto non serve.",
+    "components/checkout/StepIndicator.tsx — tolti i numeri dai cerchi, ma l'etichetta testuale resta visibile su schermo grande e su telefono c'è «Passo 2 di 3 · Indirizzo» per esteso. `aria-current=\"step\"` conservato, `<nav>` etichettato. Il pallino che sostituisce il numero è `aria-hidden` e il significato non passa più solo dal colore.",
+    "app/search/page.tsx — l'intestazione (briciolo di pane + titolo + conteggio) è stata portata sopra i pulsanti Ordina/Filtri e sopra il carosello sponsorizzato; `sortTriggerRef` e `filterTriggerRef` sono stati spostati con i pulsanti, quindi il fuoco torna al posto giusto alla chiusura del pannello. Emoji delle categorie marcate `aria-hidden`. Il secondo <main> annidato non è tornato.",
+    "app/layout.tsx — `min-h-screen` sostituito da `.contenuto-almeno-una-schermata`: la classe esiste (globals.css:391) e `--header-height` (9rem) e `--tabbar-height` (72px) sono definite. Stessa cosa per `shadow-sm-neutral` (tailwind.config.ts:175), `tracking-label` (0.04em, riga 157) e `text-2xs` (0.625rem, riga 151): nessun token inventato.",
+    "components/ui/LegalLayout.tsx — `lg:top-24` (96px) sostituito da `lg:top-[var(--header-height)]` (144px): il numero corrisponde all'intestazione reale, l'indice non finisce più sotto la barra.",
+    "components/PWAInstallBanner.tsx e components/StickyAddToCart.tsx — bersagli portati a 44 punti con margini negativi che tengono la posizione. Corretto (2.5.5/2.5.8).",
+    "app/store/[id]/page.tsx e [slug]/page.tsx — rimossa la variabile CSS `--store-accent` che nessuno leggeva: verificato con grep che non resta né chi la scrive né chi la legge, e la variabile `accent` è ancora usata poco sotto. Codice morto tolto, niente rotto.",
+    "components/CategoryShowcase.tsx e components/home/HowItWorks.tsx — anelli del fuoco nuovi in `ring-primary-700` con `ring-offset-2` su fondo chiaro: 6,67:1, largamente sopra il 3:1. Nessun anello dello stesso colore dello sfondo in questo perimetro.",
+    "app/profile/referral/page.tsx — «Il tuo codice» da primary-100 a bianco (4,96:1 su primary-600, 6,18:1 su secondary-600) e WhatsApp da olive-500 (3,69:1, bocciato) a olive-600 (4,78:1, passa). Due contrasti riparati."
+  ],
+  "niente_trovato_perche": "Trovati 5 difetti, quindi la domanda non si pone per l'insieme. Vale però dire dove NON ho guardato abbastanza, perché è la parte che pesa: (1) nessuno dei 47 file l'ho aperto in un browser — tutti i contrasti sono calcolati sui token, il che è più preciso di una stima a occhio ma non vede il pixel vero (gradienti, sovrapposizioni, ombre); (2) nessuno screen reader reale: i difetti FUXB-03 e FUXB-05 li ho dedotti dal codice e dalla specifica ARIA, non li ho sentiti; (3) nessun iPhone fisico, ed è il limite più serio, perché FUXB-02 vive interamente lì — `env(safe-area-inset-*)` da qui non si può osservare; (4) `app/checkout/page.tsx` è escluso per consegna, quindi la seconda metà della cassa (il pulsante incollato in fondo, la fascia oraria, chi passa `motivoBlocco` a OrderSummary) non l'ho attraversata: `components/checkout/OrderSummary.tsx` l'ho letto, ma `vaiAlPrimoBlocco()` cerca il PRIMO `[role=\"alert\"]` del documento e chi glielo mette davanti sta nel file escluso — va riguardato quando quella squadra rilascia.",
+  "carburante_che_alzerebbe_il_tetto": [
+    "Un iPhone senza tasto casa in mano a @qa per 10 minuti: chiude FUXB-02 (verticale e orizzontale) e alza la mia confidenza dal 78% a certezza in un senso o nell'altro.",
+    "Uno screen reader vero (NVDA su Windows o VoiceOver su iOS): chiude FUXB-03 e FUXB-05 con l'orecchio invece che con la deduzione.",
+    "Un giro di axe-core sulle pagine /search, /product/<id>, /store/<id>: prende il markup rotto che io leggendo il diff non vedo, perché il diff non mi mostra il documento montato."
+  ],
+  "leva_10x_non_richiesta": {
+    "titolo": "Il contrasto lo può calcolare una prova, invece di un accessibility engineer che legge i diff",
+    "osservazione": "In questo perimetro ho contato 9 commenti che dichiarano un numero di contrasto («4,80», «6,7 volte», «5,00:1»). Tutti e 9 erano giusti — le squadre di oggi il conto lo sanno fare. Ma sono numeri scritti a mano dentro un commento: non falliscono se qualcuno cambia il token, e non esistono per i colori che nessuno ha pensato di misurare (FUXB-01 e FUXB-04 sono esattamente questo).",
+    "proposta": "Una prova sola, `tests/unit/i-colori-del-sito-si-leggono.test.ts`, che legge le coppie testo/sfondo dichiarate in una tabella (`lib/coppie-di-colore.ts`) e ricalcola il rapporto dai token veri di `tailwind.config.ts`. Diventa rossa quando qualcuno cambia un token o aggiunge una coppia sotto soglia. Costo: mezza giornata. Effetto: il contrasto smette di essere una cosa che si scopre in radiografia il giorno dopo e diventa una cosa che non passa il cancello. Da concordare con @frontend-dev e @sdet — non l'ho scritta io perché la prova vive nel repo del sito.",
+    "colore": "🟡"
+  }
+}

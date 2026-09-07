@@ -1,0 +1,57 @@
+{
+ "squadra": 31,
+ "ondata": 7,
+ "pacchetto": "components/Navbar.tsx",
+ "territorio_principale": "components/Navbar.tsx",
+ "file_citati": [
+  "components/Navbar.tsx",
+  "components/Footer.tsx",
+  "components/admin/AdminSidebar.tsx",
+  "app/admin/branding/page.tsx",
+  "components/checkout/StepIndicator.tsx",
+  "components/checkout/PaymentMethodSelector.tsx",
+  "components/OrderTimeline.tsx",
+  "components/MobileAccountSheet.tsx",
+  "app/profile/referral/page.tsx",
+  "components/CategoryBar.tsx",
+  "components/SearchBar.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|il marchio «mycity» è disegnato in quattro modi diversi, e l'anteprima nel pannello ne mostra un quinto",
+   "titolo": "Il marchio «MyCity» è disegnato in quattro modi diversi, e l'anteprima nel pannello ne mostra un quinto",
+   "dimensione": "coerenza-brand",
+   "file": "components/Navbar.tsx:99,174 · components/Footer.tsx:103 · components/admin/AdminSidebar.tsx:73-75 · app/admin/branding/page.tsx:153",
+   "descrizione": "CONFERMATO in tutti e quattro i punti più l'anteprima. Il marchio ufficiale (docs/mockup/assets/wordmark-*.svg) è Fraunces 800, «My» in mostarda. Navbar 99 e 174: 'font-serif font-bold' + text-accent-300 — colore giusto, peso 700 invece di 800. Footer 103: 'font-serif font-bold' + text-accent-700 (#9D621C), che non è il colore ufficiale (la scelta si spiega col contrasto su crema, ma allora al design system manca la variante «su crema»). AdminSidebar 73-75: 'font-serif font-extrabold' + text-accent-300, peso giusto, MA le parole «My» e «City» sono scritte a mano mentre Navbar e Footer leggono branding.wordmark — verificato: se dal pannello si rinomina il marketplace, la sidebar admin continua a dire MyCity. app/admin/branding/page.tsx:153: l'anteprima mostrata a chi rinomina usa 'text-primary-700', terracotta, un colore che il logo non ha in nessuna delle quattro rese reali.",
+   "impatto": null,
+   "fix_proposto": "Un solo componente <Wordmark surface=\"dark|light|cream\" /> in components/ui/, che legga branding.wordmark, usi sempre font-serif + font-extrabold e mappi il colore: dark → accent-300, light → accent-500, cream → accent-700. Sostituirlo nei quattro punti, anteprima del pannello compresa. Se il caso «su crema» resta accent-700, aggiungere wordmark-oncream.svg e documentarlo."
+  },
+  {
+   "chiave": "accessibilita-visiva|il verde chiaro con scritte bianche non è solo nel badge del negozio: è anche nei passi del checkout",
+   "titolo": "Il verde chiaro con scritte bianche non è solo nel badge del negozio: è anche nei passi del checkout",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/checkout/StepIndicator.tsx:24, components/checkout/PaymentMethodSelector.tsx:153, components/OrderTimeline.tsx:67, components/Navbar.tsx:350 e :376, components/MobileAccountSheet.tsx:87, app/profile/referral/page.tsx:115",
+   "descrizione": "Il collega ha già segnalato il verde `bg-olive-500` con testo bianco (3,69:1, sotto la soglia di 4,5:1) in due punti: il badge «Aperto ora» e il filtro «Aperti ora». Lo stesso identico accostamento è in altri sette punti che nessuno ha contato, e sono nel percorso dei soldi: il numero del passo nel checkout, il metodo di pagamento scelto, il pallino dei passi già fatti nella cronologia dell'ordine, l'iniziale del negozio nella barra in alto. Il difetto non è «un badge»: è il token verde usato come colore di successo in tutto il sito.\n\nCausa radice: Non c'è un token «successo» con un livello garantito: `olive-500` viene scelto a occhio dove serve un verde, e nessuno misura. La correzione precedente ha curato le due occorrenze trovate invece del token.\n\nProva (comando, eseguita e rossa): cd /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia && node contrasto.mjs   (legge la rampa colori da app/globals.css, calcola il rapporto di ogni coppia sfondo/testo scritta nella stessa stringa di classi e stampa le 34 sotto 4,5:1, olive-500/bianco a 3,69 in dieci punti)",
+   "impatto": "Il numero del passo in cui si trova il cliente mentre paga, e il segno di spunta del metodo di pagamento scelto, si leggono a fatica con la vista stanca o sotto il sole. Chi paga vuole sapere a colpo d'occhio a che punto è.",
+   "fix_proposto": "Sostituire `bg-olive-500 text-white` con `bg-olive-600 text-white` (4,95:1) ovunque, e fissare in tailwind.config.ts/globals.css che il verde di successo con testo bianco è olive-600. Un solo cambio di livello, nessun cambio di disegno."
+  },
+  {
+   "chiave": "mobile-pwa|i menù a tendina si chiudono solo con `mousedown`, e il mega-menu delle categorie non ha nessuna x su mobile",
+   "titolo": "I menù a tendina si chiudono solo con `mousedown`, e il mega-menu delle categorie non ha nessuna X su mobile",
+   "dimensione": "mobile-pwa",
+   "file": "components/CategoryBar.tsx:74 (mega-menu) e 131-188 (il pannello, senza pulsante di chiusura e senza velo); components/Navbar.tsx:283 (menù account); components/SearchBar.tsx:140 (suggerimenti)",
+   "descrizione": "Verificato in parte col file, in parte per comportamento noto di Safari iOS. Fatti dal codice: tutti e tre i pannelli si chiudono solo con `document.addEventListener('mousedown', …)` — nessun `touchstart` né `pointerdown` in nessuno dei tre file (grep). Il pannello del mega-menu (CategoryBar.tsx:131-188) non ha nessun pulsante di chiusura e il suo contenitore è `pointer-events-none` senza velo dietro: le uniche vie d'uscita sono toccare una categoria o ritoccare il pulsante «Tutte le categorie», e la CategoryBar è montata anche su mobile (Navbar.tsx:213-216). Su Safari iOS gli eventi del mouse vengono sintetizzati solo per elementi considerati cliccabili, quindi un tocco su un `<div>` qualunque può non chiudere il pannello — questa parte non l'ho potuta provare su un iPhone vero.",
+   "impatto": null,
+   "fix_proposto": "Passare da `mousedown` a `pointerdown` (o affiancare `touchstart`) nei tre file e aggiungere al pannello del mega-menu una X di chiusura visibile su mobile, come già fanno il pannello filtri e quello account."
+  },
+  {
+   "chiave": "navigazione-gerarchia|nell'intestazione per l'ospite il carrello e «registrati» sono due pillole gialle identiche affiancate",
+   "titolo": "Nell'intestazione per l'ospite il carrello e «Registrati» sono due pillole gialle identiche affiancate",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/Navbar.tsx:113-115 (Registrati: bg-accent-500 hover:bg-accent-600 text-ink-900 px-4 py-2 rounded-full) e :248 (CartButton: bg-accent-500 hover:bg-accent-600 text-ink-900 px-3 py-2 rounded-full)",
+   "descrizione": "CONFERMATO. Nel ramo dell'ospite il carrello (CartButton, riga 248) e il pulsante «Registrati» (righe 113-115) sono resi uno accanto all'altro con esattamente lo stesso riempimento 'bg-accent-500', lo stesso testo scuro 'text-ink-900' e la stessa forma 'rounded-full'; cambia solo il padding orizzontale (px-3 contro px-4). Due azioni di valore molto diverso hanno lo stesso peso visivo nell'angolo in alto a destra.",
+   "impatto": null,
+   "fix_proposto": "Tenere il pieno giallo al carrello e rendere «Registrati» un contorno bianco su terracotta, così nella stessa riga c'è un solo pieno."
+  }
+ ]
+}

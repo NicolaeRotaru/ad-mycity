@@ -1,0 +1,29 @@
+{
+ "squadra": 11,
+ "ondata": 3,
+ "pacchetto": "app/cart/page.tsx (parte 3 di 3)",
+ "territorio_principale": "app/cart/page.tsx",
+ "file_citati": [
+  "app/cart/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "qa-flussi|il carrello vuoto promette ancora «spedizione gratis sopra €30» senza i 3 euro di consegna",
+   "titolo": "Il carrello vuoto promette ancora «Spedizione gratis sopra €30» senza i 3 euro di consegna",
+   "dimensione": "qa-flussi",
+   "file": "app/cart/page.tsx:200",
+   "descrizione": "Lo stato vuoto del carrello ha la frase battuta a mano: description=\"Scopri i prodotti dei negozi della tua citta'. Spedizione gratis sopra €30.\". La spazzata su «Spedizione gratis sopra» trova cinque posti veri, due dei quali sono testi per il cliente rimasti scritti a mano (questo e lib/email/templates.ts:362 e 370), mentre lib/promesse-pubbliche.ts:226 e' la casa che dovrebbe dirla. — Su ogni ordine portato a casa si pagano comunque 3 euro di «Consegna MyCity» per negozio, anche sopra i 30: e' il motivo per cui promessaSpedizione e' stata scritta e per cui oggi si e' toccata tutta la vetrina. La frase resta cosi' com'era nel file che la squadra ha modificato oggi, e con la soglia scritta a mano: il giorno che la soglia cambia resta indietro.",
+   "impatto": "Su ogni ordine portato a casa si pagano comunque 3 euro di «Consegna MyCity» per negozio, anche sopra i 30: e' il motivo per cui promessaSpedizione e' stata scritta e per cui oggi si e' toccata tutta la vetrina. La frase resta cosi' com'era nel file che la squadra ha modificato oggi, e con la soglia scritta a mano: il giorno che la soglia cambia resta indietro.",
+   "fix_proposto": "node cervello/spazzata-frase.mjs \"Spedizione gratis sopra\" --repo /home/user/mycity deve restituire solo lib/promesse-pubbliche.ts e la pagina di amministrazione; oggi restituisce anche app/cart/page.tsx:200 e due righe di lib/email/templates.ts."
+  },
+  {
+   "chiave": "qa-flussi|il carrello dice «consegna in 30-60 min» anche alle undici di sera — quando la cassa offre solo domani",
+   "titolo": "Il carrello dice «Consegna in 30-60 min» anche alle undici di sera — quando la cassa offre solo domani",
+   "dimensione": "qa-flussi",
+   "file": "app/cart/page.tsx:353",
+   "descrizione": "Le due righe di disponibilita' del carrello (righe 353 e 359) scrivono «· Consegna in 30-60 min» sempre, a qualunque ora. La cassa invece offre «Adesso» solo fra le 8 e le 21 (lib/quando-arriva.ts, expressSiPuo con APERTURA_EXPRESS=8 e CHIUSURA_EXPRESS=21) e dalle 20:00 in poi parte gia' da «Domani» (giornoDiPartenza). Il numero e' scritto a mano in 24 punti del sito mentre EXPRESS_ETA_LABEL esiste (lib/delivery.ts:13). — Alle 22:00 il carrello dice mezz'ora e lo schermo successivo dice domani mattina: e' la stessa forma di sorpresa all'ultimo passo che il lavoro di oggi ha rimosso sulla spedizione. Piccola perche' l'ora tarda e' una fetta ridotta degli ordini, ma sta nella stessa colonna in cui si decide di comprare.",
+   "impatto": "Alle 22:00 il carrello dice mezz'ora e lo schermo successivo dice domani mattina: e' la stessa forma di sorpresa all'ultimo passo che il lavoro di oggi ha rimosso sulla spedizione. Piccola perche' l'ora tarda e' una fetta ridotta degli ordini, ma sta nella stessa colonna in cui si decide di comprare.",
+   "fix_proposto": "npx vitest run tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts — si monta la riga di disponibilita' con ora=22 e si pretende che non contenga '30-60': oggi rosso, il testo e' costante."
+  }
+ ]
+}

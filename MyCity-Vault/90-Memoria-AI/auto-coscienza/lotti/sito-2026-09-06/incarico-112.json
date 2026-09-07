@@ -1,0 +1,22 @@
+{
+ "squadra": 112,
+ "ondata": 24,
+ "pacchetto": "home/user/mycity/app/api/orders/cod/route.ts",
+ "territorio_principale": "home/user/mycity/app/api/orders/cod/route.ts",
+ "file_citati": [
+  "/home/user/mycity/app/api/orders/cod/route.ts",
+  "/home/user/mycity/app/api/orders/[id]/cancel/route.ts",
+  "home/user/mycity/app/api/orders/cod/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»",
+   "titolo": "Refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/api/orders/cod/route.ts righe 157, 202, 207 · /home/user/mycity/app/api/orders/[id]/cancel/route.ts righe 40, 50, 61",
+   "descrizione": "CONFERMATO con grep sui due file. Sei messaggi che arrivano davvero al browser: «Impossibile registrare l ordine, riprova.» (cod 157), «Ordine gia in corso, attendi qualche secondo.» (cod 202 e 207), «Impossibile leggere l ordine» (cancel 40), «Il negozio ha già accettato l ordine, non puoi più annullarlo.» (cancel 50), «Ordine già incassato in contanti: scrivi all assistenza per la restituzione.» (cancel 61). Apostrofi e accenti mancanti proprio dove si crea o si annulla un ordine.",
+   "impatto": null,
+   "fix_proposto": "«l'ordine», «già in corso», «all'assistenza», con apostrofo tipografico o escape, come già fa app/seller/orders/[id]/page.tsx."
+  }
+ ]
+}

@@ -1,0 +1,22 @@
+{
+ "squadra": 107,
+ "ondata": 23,
+ "pacchetto": "lib/constants.ts",
+ "territorio_principale": "lib/constants.ts",
+ "file_citati": [
+  "app/category/[slug]/layout.tsx",
+  "lib/constants.ts",
+  "lib/promesse-pubbliche.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|la descrizione che google mostra per la categoria alimentari promette il ritiro in negozio, che è spento",
+   "titolo": "La descrizione che Google mostra per la categoria Alimentari promette il ritiro in negozio, che è spento",
+   "dimensione": "microcopy",
+   "file": "app/category/[slug]/layout.tsx:7,30-33 · lib/constants.ts:40 · lib/promesse-pubbliche.ts:45-80",
+   "descrizione": "Il meta description della categoria «alimentari» dice «Consegna a casa in 30-60 minuti o ritiro in negozio». Ma RITIRO_IN_NEGOZIO_ATTIVO è false dal 20/8 (Nicola: «mettilo da parte, non ne ho ancora parlato con i negozi») e la cassa non lo offre. La pagina Spedizioni è già protetta da riquadroRitiroInNegozio() in lib/promesse-pubbliche.ts; questo testo, scritto a mano nel layout della categoria, è sfuggito alla stessa correzione. È il testo che compare nel risultato Google e nell'anteprima condivisa su WhatsApp.\n\nCausa radice: La promessa vive in due posti: la costante in lib/constants e il testo fisso nel layout della categoria; il secondo non legge la prima.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-categoria-promette-ritiro.test.ts",
+   "impatto": "Chi cerca su Google «alimentari Piacenza consegna» legge «o ritiro in negozio», entra per ritirare al volo e in cassa trova solo la consegna: un clic pagato con la delusione. Piccolo, ma è proprio la categoria del negozio faro.",
+   "fix_proposto": "In layout.tsx riga 7 comporre la frase da lib/promesse-pubbliche (es. `Consegna a casa in ${EXPRESS_ETA_LABEL}` + (riquadroRitiroInNegozio() ? ' o ritiro in negozio' : '')), così quando il ritiro si riaccende torna da solo (🟢, 5 minuti)."
+  }
+ ]
+}

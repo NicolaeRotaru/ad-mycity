@@ -1,0 +1,21 @@
+{
+ "squadra": 67,
+ "ondata": 14,
+ "pacchetto": "components/StickyAddToCart.tsx",
+ "territorio_principale": "components/StickyAddToCart.tsx",
+ "file_citati": [
+  "components/checkout/CouponInput.tsx",
+  "components/StickyAddToCart.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|bersagli di tocco sotto i 44px sul percorso d'acquisto",
+   "titolo": "Bersagli di tocco sotto i 44px sul percorso d'acquisto",
+   "dimensione": "frontend-ux",
+   "file": "components/checkout/CouponInput.tsx:43,68 · components/StickyAddToCart.tsx:81,90",
+   "descrizione": "CONFERMATO, tutti e tre. La primitiva `components/ui/Button.tsx:34-36` dichiara `md: min-h-[44px]` e `lg: min-h-[48px]`, ma `sm` è `min-h-[32px]`. ① `components/checkout/CouponInput.tsx:68`: il pulsante «Applica» del codice sconto usa `size=\"sm\"` → 32px. ② `components/checkout/CouponInput.tsx:40-46`: «Rimuovi» è un `<button>` di solo testo con `className=\"text-rose-600 hover:underline text-xs\"`, nessun padding → circa 30×16px. ③ `components/StickyAddToCart.tsx:81` e `:90`: i pulsanti «−» e «+» della barra d'acquisto mobile sono `w-9 h-9`, cioè 36px. Il minimo raccomandato (WCAG 2.5.8, linee guida Apple e Google) è 44px.",
+   "impatto": "Chi ha le mani grandi, o sessant'anni e la vista stanca, sbaglia il tocco. Sul «+» della quantità vuol dire un articolo in meno nell'ordine; sul codice sconto vuol dire premere due o tre volte e credere che il sito non risponda, proprio mentre si sta cercando di risparmiare.",
+   "fix_proposto": "Portare «Applica» a `size=\"md\"`, dare a «Rimuovi» `px-3 py-2 min-h-[44px]`, portare lo stepper a `w-11 h-11`. Aggiungere una prova di struttura che fallisce se un pulsante in `components/checkout/` o in `StickyAddToCart.tsx` dichiara un'altezza minore di 44px."
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+{
+ "squadra": 72,
+ "ondata": 15,
+ "pacchetto": "app/api/sponsored/checkout/route.ts",
+ "territorio_principale": "app/api/sponsored/checkout/route.ts",
+ "file_citati": [
+  "app/api/sponsored/checkout/route.ts",
+  "app/api/gift-cards/checkout/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "api-backend|due clic sul pulsante che mette un prodotto in vetrina aprono due pagamenti",
+   "titolo": "Due clic sul pulsante che mette un prodotto in vetrina aprono due pagamenti",
+   "dimensione": "api-backend",
+   "file": "app/api/sponsored/checkout/route.ts:60-87; confronto con app/api/gift-cards/checkout/route.ts:102-104",
+   "descrizione": "La sessione di pagamento della sponsorizzazione («In primo piano», 4,99 euro a settimana) si crea senza nessuna chiave di idempotenza. La rotta gemella delle gift card la chiave ce l'ha, e il commento accanto racconta per esteso perche' serve. Qui manca del tutto: due invii ravvicinati dal negoziante creano due sessioni distinte, e se le paga tutte e due partono due campagne sullo stesso prodotto.\n\nCausa radice: La protezione e' stata aggiunta a una rotta di pagamento sola (gift card) invece che al punto comune che crea le sessioni di cassa: lib/stripe/client.ts non impone nessuna chiave, quindi ogni nuova rotta di pagamento nasce senza.\n\nProva (grep, eseguita e rossa): grep -n 'idempotencyKey' app/api/sponsored/checkout/route.ts (nessun risultato) a fronte di app/api/gift-cards/checkout/route.ts:102",
+   "impatto": "Un negoziante che clicca due volte perche' la pagina e' lenta puo' pagare 9,98 euro invece di 4,99 e ritrovarsi due sponsorizzazioni sovrapposte sullo stesso prodotto. Sono i primi euro che un negozio spende su MyCity: e' il momento peggiore per fargli chiedere un rimborso.",
+   "fix_proposto": "Accettare l'intestazione `idempotency-key` dal browser come fa la gift card e passarla a stripe.checkout.sessions.create come `sponsored_<venditore>_<chiave>`; meglio ancora, farla richiedere dal punto comune in lib/stripe/client.ts, cosi' la rotta di pagamento successiva non puo' nascere senza."
+  }
+ ]
+}

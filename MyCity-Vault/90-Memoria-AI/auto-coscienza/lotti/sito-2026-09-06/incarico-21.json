@@ -1,0 +1,115 @@
+{
+ "squadra": 21,
+ "ondata": 5,
+ "pacchetto": "app/orders/[id]/page.tsx",
+ "territorio_principale": "app/orders/[id]/page.tsx",
+ "file_citati": [
+  "/page.tsx",
+  "app/page.tsx",
+  "app/seller/page.tsx",
+  "app/orders/page.tsx",
+  "app/orders/[id]/page.tsx",
+  "app/seller/orders/page.tsx",
+  "app/seller/dashboard/page.tsx",
+  "app/admin/orders/page.tsx",
+  "marketplace/app/api/orders/[id]/cancel/route.ts",
+  "marketplace/app/orders/[id]/page.tsx",
+  "marketplace/app/api/returns/create/route.ts",
+  "components/ProductCard.tsx",
+  "app/profile/referral/page.tsx",
+  "app/messages/[id]/page.tsx",
+  "app/admin/today/page.tsx",
+  "app/seller/orders/[id]/page.tsx",
+  "components/checkout/CartGroupsList.tsx",
+  "lib/ordini/riga-ordine.ts",
+  "components/providers/QueryProvider.tsx",
+  "components/DeliveryMap.tsx",
+  "components/NearbyStoresMap.tsx",
+  "app/near/page.tsx",
+  "lib/order-status.ts",
+  "lib/constants.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance|quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+   "titolo": "Quasi tutte le pagine del sito nascono vuote e le riempie il browser con chiamate al database, non solo la home e la scheda prodotto",
+   "dimensione": "performance",
+   "file": "app/**/page.tsx: solo 16 pagine su 113 sono senza 'use client' (app/page.tsx, app/seller/page.tsx, app/help, app/terms, app/returns, app/shipping, app/status, app/accessibility, app/lavora-con-noi, app/regali, app/rider/help, app/seller/help, …) · esempi vicini ai soldi: app/orders/page.tsx:53-70 · app/orders/[id]/page.tsx:99-100 · app/seller/orders/page.tsx:68-73 · app/seller/dashboard/page.tsx:62-95 · app/admin/orders/page.tsx:62-71",
+   "descrizione": "Passo indietro: in Next.js una pagina può essere costruita sul server (l'HTML arriva già pieno) o nel browser (arriva vuota e il telefono chiede i dati uno per uno a Supabase). Il difetto già noto lo diceva per la home e la scheda prodotto; misurato oggi, vale per 97 pagine su 113: la pagina ordini del cliente, il dettaglio ordine, gli ordini e il cruscotto del venditore, gli ordini dell'admin. Esempio: un cliente che apre «I miei ordini» il sabato sera dal telefono riceve un guscio vuoto, poi il browser fa auth.getUser + la query ordini (limit 100) + altre letture; con rete 4G debole vede lo scheletro grigio 1-2 secondi. Non è un errore di calcolo: è la forma di costo del sito, perché ogni pagina = N richieste REST a Supabase pagate in egress e nessuna cache lato server possibile.\n\nCausa radice: Scelta architetturale di partenza 'client-first' con react-query in tutte le pagine; le pagine sono state aggiunte copiando lo stesso modello, senza un trigger che dica quando passare al server.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && echo \"server: $(grep -rL \"'use client'\" --include=page.tsx app | wc -l) su $(find app -name page.tsx | wc -l)\"   → oggi: server: 16 su 113",
+   "impatto": "Latenza percepita su ogni pagina con dati (skeleton prima dei numeri) e costo Supabase che cresce linearmente con le pagine viste per cliente, invece di restare piatto grazie a cache/SSR. Non tocca la correttezza di un ordine.",
+   "fix_proposto": "Non riscrivere tutto: regola di piattaforma (ADR) — le pagine che toccano ordini e soldi (orders/[id], orders, seller/orders, seller/dashboard) passano a server component con la prima query fatta sul server e react-query solo per gli aggiornamenti; le altre restano client finché non c'è un segnale (p95 > 1 s o egress in crescita). Trigger dichiarato, migrazione una pagina per volta, reversibile."
+  },
+  {
+   "chiave": "qa-flussi|fra «il negozio ha accettato» e «consegnato» il cliente non ha nessuna via d'uscita",
+   "titolo": "Fra «il negozio ha accettato» e «consegnato» il cliente non ha nessuna via d'uscita",
+   "dimensione": "qa-flussi",
+   "file": "marketplace/app/api/orders/[id]/cancel/route.ts:46-50 · marketplace/app/orders/[id]/page.tsx:419-443 (il pulsante compare solo se annullabile) · marketplace/app/api/returns/create/route.ts:48",
+   "descrizione": "CONFERMATO. La rotta di annullamento rifiuta qualunque stato diverso da NEW (riga 49: «Il negozio ha già accettato l ordine, non puoi più annullarlo»), e la pagina dell'ordine mostra il pulsante solo in quella finestra («Puoi annullare l'ordine finché il negozio non lo accetta»). Il reso, dall'altro lato, è aperto solo dopo DELIVERED (returns/create:48). In mezzo c'è tutta la preparazione e tutta la consegna, in cui il cliente che si accorge di aver sbagliato indirizzo, quantità o negozio non ha nessuna azione possibile sul sito: gli resta scrivere all'assistenza. Non è un errore di codice, è un buco nel disegno del flusso. PASSI PER RIPRODURRE: 1) ordinare; 2) far accettare l'ordine al negozio; 3) tornare su /orders/<id>: nessun pulsante di annullamento, nessuna richiesta di modifica. Confidenza: 95%.",
+   "impatto": "È la telefonata più frequente di un marketplace di consegna, e oggi arriva tutta su una persona. Per il cliente anziano che ha sbagliato il tap sull'indirizzo l'unica alternativa è aspettare il fattorino e rifiutare la merce: costo pieno della consegna per noi, ordine perso per il negozio.",
+   "fix_proposto": "Un «annulla con il consenso del negozio» fra ACCEPTED e READY: il cliente chiede, il negoziante conferma con un tocco (finché non ha cominciato a preparare non gli costa niente), e il rimborso passa dalla strada già esistente (`annullaERimborsa`). In alternativa minima, una finestra di ripensamento di 2 minuti dopo l'accettazione. Da valutare con @product-manager e @ux-designer prima di costruire: qui il difetto è di disegno, non di codice."
+  },
+  {
+   "chiave": "coerenza-brand|ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+   "titolo": "Ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai",
+   "dimensione": "coerenza-brand",
+   "file": "app/orders/[id]/page.tsx:435 · components/ProductCard.tsx:168 · e le altre occorrenze di shadow/shadow-sm/md/lg/2xl",
+   "descrizione": "CONFERMATO nella sostanza, con i numeri corretti al ribasso. tailwind.config.ts definisce 'sm-neutral' rgba(28,26,24,0.06) e 'card' esattamente per le superfici bianche: ho cercato shadow-sm-neutral in app/, components/ e lib/ — ZERO occorrenze, il token è nato inerte. Le ombre calde (shadow-warm*/shadow-card) sono ~185. Accanto ci sono le ombre nere della scala Tailwind: i miei conteggi danno una trentina di occorrenze fra shadow nudo, shadow-sm, shadow-md, shadow-lg e shadow-2xl, non 52 come diceva il collega. Il caso più visibile è confermato: app/orders/[id]/page.tsx:435, il riquadro verde del codice di consegna ha 'shadow-lg' (nera) mentre le card intorno hanno ombre terracotta.",
+   "impatto": null,
+   "fix_proposto": "Mappare le occorrenze sui token: shadow/shadow-sm → shadow-sm-neutral (su bianco) o shadow-warm-sm (su crema); shadow-md/lg → shadow-warm o shadow-card; shadow-xl/2xl → shadow-warm-lg. In alternativa ridefinire boxShadow.sm/DEFAULT/md/lg in tailwind.config.ts con le versioni inchiostro, così anche le classi generiche cadono dentro il sistema."
+  },
+  {
+   "chiave": "coerenza-brand|il codice di consegna usa un terzo carattere che il design system non prevede",
+   "titolo": "Il codice di consegna usa un terzo carattere che il design system non prevede",
+   "dimensione": "coerenza-brand",
+   "file": "app/orders/[id]/page.tsx:439 · app/profile/referral/page.tsx:87 · tailwind.config.ts (fontFamily)",
+   "descrizione": "CONFERMATO nel fatto, ridimensionato nell'effetto. Il design system ammette due caratteri, Inter e Fraunces (docs/mockup/_adherence.oxlintrc.json li elenca come gli unici disponibili). Il codice di consegna — l'elemento più grande della pagina ordine — è 'font-mono text-4xl … sm:text-5xl' (riga 439), e lo stesso vale per il codice invito (referral:87). Verificato che tailwind.config.ts estende fontFamily solo con 'sans' e 'serif': 'mono' non è mappato, quindi font-mono non legge il token --font-mono di app/globals.css:17. CORREZIONE al collega: la pila predefinita di Tailwind (ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas…) e il token (ui-monospace, 'SF Mono', Menlo, Consolas) sono praticamente identiche, quindi la resa non cambia in modo apprezzabile — il difetto vero non è «un carattere diverso su ogni telefono», è un terzo carattere usato in due punti prominenti senza che il design system lo dichiari.",
+   "impatto": null,
+   "fix_proposto": "Se il monospaziato serve (per un codice a cifre è una scelta difendibile), formalizzarlo: aggiungere mono: ['var(--font-mono)', 'ui-monospace', 'SF Mono', 'Menlo', 'Consolas', 'monospace'] in tailwind.config.ts e citarlo nel design system come terzo carattere ammesso, con uso circoscritto ai codici. Altrimenti 'font-sans tabular-nums tracking-[0.3em]', che allinea le cifre restando in Inter."
+  },
+  {
+   "chiave": "tipografia|sulla pagina dell'ordine l'ora della posizione del rider esce coi secondi, «agg. 14:05:33»",
+   "titolo": "Sulla pagina dell'ordine l'ora della posizione del rider esce coi secondi, «agg. 14:05:33»",
+   "dimensione": "tipografia",
+   "file": "app/orders/[id]/page.tsx:546 (`toLocaleTimeString('it-IT')` senza opzioni) · confronto: app/messages/[id]/page.tsx:38 e app/admin/today/page.tsx:191 che passano { hour: '2-digit', minute: '2-digit' }",
+   "descrizione": "Nel riquadro «dov'è il mio rider» della pagina ordine del cliente, l'orario dell'ultimo aggiornamento della posizione viene scritto con toLocaleTimeString senza opzioni, che in italiano restituisce ore, minuti e secondi: «● agg. 14:05:33». Le altre due pagine che mostrano un'ora (chat e admin) chiedono solo ore e minuti. Ripasso: un'ora di tre pezzi dove ne servono due, proprio nel momento in cui il cliente aspetta la consegna.\n\nCausa radice: Chiamata senza le opzioni { hour: '2-digit', minute: '2-digit' } usate altrove.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"toLocaleTimeString('it-IT')\" \"app/orders/[id]/page.tsx\"   → 1 riga oggi (546); 0 quando si passano le opzioni ore/minuti",
+   "impatto": "Rumore visivo in un riquadro piccolo, letto sul telefono mentre si aspetta il rider. I secondi cambiano a ogni aggiornamento e fanno «ballare» la riga. Nessun effetto sull'ordine.",
+   "fix_proposto": "Usare `toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })` come in app/messages/[id]/page.tsx:38."
+  },
+  {
+   "chiave": "tipografia|nella pagina dell'ordine il nome del prodotto viene tagliato a una riga, e il negoziante non vede la fine del nome",
+   "titolo": "Nella pagina dell'ordine il nome del prodotto viene tagliato a una riga, e il negoziante non vede la fine del nome",
+   "dimensione": "tipografia",
+   "file": "app/seller/orders/[id]/page.tsx:502 · app/orders/[id]/page.tsx:611 · app/seller/orders/page.tsx:167 · components/checkout/CartGroupsList.tsx:44 · lib/ordini/riga-ordine.ts:31-39 (nomeDellaRigaOrdine restituisce il nome intero, non c'è un campo variante)",
+   "descrizione": "Le righe dell'ordine mostrano il nome del prodotto con la classe `truncate` (una riga sola, puntini alla fine). Su un telefono da 375px entrano circa 30 caratteri a 16px. Non esiste un campo «variante» nelle righe ordine: la taglia o il peso stanno dentro il nome. Due prodotti come «Tortelli piacentini ricotta e spinaci 500 g» e «Tortelli piacentini ricotta e spinaci 1 kg» diventano entrambi «Tortelli piacentini ricotta e…» nella pagina che il negoziante usa per preparare l'ordine. Il cliente vede lo stesso taglio nel riepilogo del checkout e nel dettaglio ordine.\n\nCausa radice: Scelta di layout «una riga per prodotto» applicata anche alle pagine operative, dove il nome completo è l'informazione di lavoro; nessuna prova con nomi lunghi.\n\nProva (umano, non eseguita): Da verificare a occhio: aprire su telefono (375px) la pagina ordine del negoziante (/seller/orders/<id>) con un prodotto dal nome di 45+ caratteri che finisca con il peso o la taglia; il nome deve leggersi per intero. Oggi si chiude con «…» prima della fine.",
+   "impatto": "Il negoziante prepara il prodotto sbagliato o deve aprire un'altra pagina per capire cosa mettere nel sacchetto; il cliente non riesce a controllare cosa ha ordinato dal riepilogo. Tocca gli ordini reali del primo negozio dal primo giorno.",
+   "fix_proposto": "Nelle quattro righe sostituire `truncate` con `line-clamp-2 break-words` (due righe, poi puntini) sulle pagine operative (seller/orders/[id], orders/[id]) e nel riepilogo checkout; tenere `truncate` solo nella lista compatta se serve. Un test visivo con un nome di 60 caratteri."
+  },
+  {
+   "chiave": "stati-ui|se cade la rete il negozio legge «ordine non trovato» sull ordine che ha appena incassato",
+   "titolo": "Se cade la rete il negozio legge «Ordine non trovato» sull ordine che ha appena incassato",
+   "dimensione": "stati-ui",
+   "file": "app/seller/orders/[id]/page.tsx:137-166, :307-308 · confronto con app/orders/[id]/page.tsx:118-126, :226-239 · components/providers/QueryProvider.tsx:22-24",
+   "descrizione": "La pagina con cui il negoziante apre un ordine e lo accetta decide cosa mostrare con due sole righe: se sta caricando mostra lo scheletro, altrimenti se non ha il dato scrive «Ordine non trovato — L'ordine non esiste o non hai i permessi per vederlo». La parola isError non compare in tutta la pagina. Il lettore globale è configurato con un solo tentativo di riprova e senza sollevare l'errore (components/providers/QueryProvider.tsx:23): quando la lettura fallisce davvero, il caricamento finisce, il dato resta vuoto e il negoziante legge che l'ordine non esiste. La stessa identica pagina lato cliente è già stata riparata (app/orders/[id]/page.tsx:118-121 spiega proprio questo difetto e oggi solleva l'errore e ha il suo ramo con «Riprova»): la correzione è stata fatta da un lato solo.\n\nCausa radice: La pagina consuma la lettura a mano (isLoading + data) invece di passare da lib/vista-query.ts, che esiste apposta e distingue carico, vuoto e rotto. Le altre pagine venditore riparate usano quel verdetto; questa e le due dei prodotti sono rimaste indietro.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/stati-ui-ordine-negozio-rotto.test.ts",
+   "impatto": "Il negoziante ha un ordine pagato da accettare entro il tempo previsto, apre la pagina, legge che non esiste e non ha nessun bottone per riprovare. Se non accetta, l'ordine scade: soldi persi per lui e cliente deluso. È anche il messaggio che fa più male alla fiducia di chi paga un canone.",
+   "fix_proposto": "Sostituire le due righe 307-308 con il verdetto di casa: const v = vistaDaQuery(query); if (v.mostraScheletro) return <LoadingState/>; if (v.mostraErrore) return <ErrorState onRetry={refetch}/>; if (v.mostraVuoto) return <EmptyState .../>. È la stessa toppa già applicata alla pagina gemella del cliente."
+  },
+  {
+   "chiave": "mobile-pwa|le mappe si mangiano lo scorrimento del dito: sopra la mappa la pagina non scorre",
+   "titolo": "Le mappe si mangiano lo scorrimento del dito: sopra la mappa la pagina non scorre",
+   "dimensione": "mobile-pwa",
+   "file": "components/DeliveryMap.tsx:61 (`L.map(divRef.current)` senza opzioni); components/NearbyStoresMap.tsx:63 (idem) e 33 (`h-[70vh]`); usi reali: app/orders/[id]/page.tsx:528 (`h-44`), app/near/page.tsx:243",
+   "descrizione": "Verificato: entrambe le mappe sono create con `L.map(div).setView(...)` senza passare nessuna opzione, quindi restano i valori predefiniti di Leaflet (trascinamento col dito attivo, nessun `gestureHandling`, `scrollWheelZoom` attivo). Sul telefono uno scorrimento verticale iniziato sopra la mappa muove la mappa, non la pagina. Il caso che dà fastidio davvero è la pagina di stato ordine (app/orders/[id]/page.tsx:528), dove la mappa è `h-44 w-full` in mezzo alla cronologia della consegna, con contenuto sopra e sotto. Abbasso la severità rispetto alla segnalazione: è attrito recuperabile (si può iniziare lo scorrimento fuori dalla mappa), non un blocco; e su /near la mappa si vede solo se la persona sceglie la vista Mappa, dove trascinare è ciò che vuole fare.",
+   "impatto": null,
+   "fix_proposto": "Passare le opzioni a Leaflet: su touch `dragging: false` con un tocco esplicito «attiva la mappa», oppure il plugin gestureHandling; in ogni caso `scrollWheelZoom: false`. Priorità alla mappa dentro la pagina di stato ordine, che sta in mezzo al contenuto."
+  },
+  {
+   "chiave": "microcopy|al cliente che aspetta a casa il sito scrive «pronto per il ritiro»",
+   "titolo": "Al cliente che aspetta a casa il sito scrive «Pronto per il ritiro»",
+   "dimensione": "microcopy",
+   "file": "lib/order-status.ts:35 · mostrata al cliente in app/orders/[id]/page.tsx:378 e :519 · ritiro spento in lib/constants.ts:40",
+   "descrizione": "Il ritiro in negozio è spento: lib/constants.ts:40 dice RITIRO_IN_NEGOZIO_ATTIVO = false, e c'è perfino un file apposta — lib/promesse-pubbliche.ts — nato per non far uscire promesse di ritiro finché è spento. Ma l'etichetta dello stato READY, quella che il cliente vede nella targhetta e nella fila dei passaggi del suo ordine, dice «Pronto per il ritiro». Vuol dire che il rider sta per passare a prenderlo, ma il cliente lo legge come «vai a ritirarlo tu». Sulla pagina di dettaglio la frase sotto lo chiarisce («Pronto in negozio · un rider sta per ritirarlo»), quindi il danno è contenuto: è l'etichetta da sola a essere ambigua.\n\nCausa radice: L'elenco delle etichette è scritto con le parole del magazzino (chi ritira è il rider) e non con quelle del cliente. Il file che protegge le promesse sul ritiro non copre le etichette di stato.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-g2.test.ts — test «se il ritiro in negozio e spento nessuna etichetta di stato lo promette al cliente»",
+   "impatto": "Il cliente che vede «Pronto per il ritiro» sul proprio ordine può pensare di doversi muovere lui, e magari telefona al negozio o a noi per chiedere. È lavoro in più per il negoziante e un dubbio nel momento peggiore, cioè mentre aspetta.",
+   "fix_proposto": "Cambiare l'etichetta di READY in «Pronto, il rider sta arrivando» e agganciare le etichette di stato al controllo di lib/promesse-pubbliche.ts, così il giorno che il ritiro si accende la parola torna da sola e non ce ne dimentichiamo."
+  }
+ ]
+}

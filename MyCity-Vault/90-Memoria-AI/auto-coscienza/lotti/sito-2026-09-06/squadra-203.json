@@ -1,0 +1,134 @@
+{
+ "squadra": 203,
+ "territorio": [
+  "app/api/cron/abandoned-carts/route.ts",
+  "lib/email/templates.ts",
+  "lib/format.ts",
+  "components/checkout/OrderSummary.tsx",
+  "app/seller/products/import/page.tsx",
+  "app/admin/coupons/page.tsx",
+  "app/admin/orders/page.tsx",
+  "app/api/ai/diagnose/route.ts",
+  "lib/constants.ts",
+  "lib/shipping.ts",
+  "migrations/086_notify_buyer_on_order_status.sql",
+  "app/api/cron/expire-checkouts/route.ts",
+  "app/api/cron/expire-stale-orders/route.ts",
+  "app/seller/promote/page.tsx",
+  "app/admin/sponsored/page.tsx"
+ ],
+ "malattia": "Ogni volta che serviva scrivere un importo, una data o un'email, chi passava di li' se la ricostruiva a mano invece di chiedere alla funzione condivisa: cosi' `formatPrice` faceva il prezzo all'inglese con `toFixed`, il cron dei carrelli si impaginava la sua email, e le due pagine delle campagne stampavano la data come esce dal database.",
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|l'email del carrello abbandonato parte nuda, senza testata né piede mycity, mentre lo stesso messaggio esiste già col guscio comune",
+   "titolo": "L'email del carrello abbandonato parte nuda, senza testata né piede MyCity, mentre lo stesso messaggio esiste già col guscio comune",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/l-email-del-carrello-dimenticato-veste-i-panni-di-mycity.test.ts -> 9/9 verdi (prova nuova, scritta qui). Mutazione fatta davvero: rimesso il cron com'era (HTML a mano) -> exit 1; ripristinato -> exit 0. Piu' npx tsc --noEmit -p tsconfig.json -> exit 0 e npx eslint sui file toccati -> exit 0.",
+   "nota_fix": "Il cron non compone piu' HTML: chiama preparaEmailCicloDiVita('abandoned_cart_4h', {name, cartItems}) e passa subject/html/text di la'. Il template ora accetta il nome e la lista del carrello (campo nuovo e OPZIONALE `cartItems` in DatiCicloDiVita: send-emails/route.ts, che e' fuori territorio, non si tocca e continua a funzionare com'e'), saluta con l'aiutante `saluto()`, filtra i nomi dei prodotti con escapeHtml e chiude con la nota «se hai cambiato idea, ignora». Tolti dal cron gli import di escapeHtml e env, rimasti senza uso. ATTENZIONE, ho tenuto in piedi il lavoro di una squadra precedente: il TOTALE continua a non comparire (cart_total e' la fotografia di quando il carrello e' stato lasciato e puo' non esistere piu'), e la prova nuova lo pretende esplicitamente. Il colore #C0492C del vecchio pulsante non e' stato riportato: nel guscio comune il marchio e' #A03B25 (primary-700), quello che la prova la-ricevuta-veste-i-colori-del-sito.test.ts legge da tailwind.config.ts. NON HO VERIFICATO l'invio vero (serve la chiave Resend) ne' la resa in un programma di posta reale: ho verificato l'HTML prodotto. La prova repo-wide suggerita dalla scheda («ogni sendEmail riceve un html che inizia con <!doctype html>») NON l'ho scritta: pretenderebbe di guardare chiamanti di sendEmail fuori dal mio territorio.",
+   "file_toccati": [
+    "app/api/cron/abandoned-carts/route.ts",
+    "lib/email/templates.ts",
+    "tests/unit/l-email-del-carrello-dimenticato-veste-i-panni-di-mycity.test.ts"
+   ]
+  },
+  {
+   "chiave": "tipografia|i prezzi escono scritti all'inglese, «€12.50», in cassa e nelle email di ordine, rimborso e gift card",
+   "titolo": "I prezzi escono scritti all'inglese, «€12.50», in cassa e nelle email di ordine, rimborso e gift card",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/format.test.ts -> 10/10 verdi con «10,00 €», «12.345,00 €». Mutazione: rimesso il vecchio formatPrice -> exit 1; ripristinato -> exit 0. Sui 76 file di prova a rischio (tutti quelli che nominano lib/format, formatPrice, email/templates, promesse-pubbliche, constants, o che asseriscono su un importo in €): 614 prove verdi. Ma il conto che lo tiene aperto: grep -rn 'toFixed(2)' --include=*.ts --include=*.tsx | grep '€' -> restano 22 file FUORI dal mio territorio che si ricostruiscono la stringa da soli.",
+   "nota_fix": "LA CAUSA RADICE E' CHIUSA: formatPrice adesso e' Intl.NumberFormat('it-IT', {style:'currency',currency:'EUR'}), istanza sola creata una volta, stesso codice su server e client. Questo raddrizza da solo tutti i punti che gia' la usavano, compreso components/checkout/OrderSummary.tsx della scheda (usa solo formatPrice, non aveva toFixed a mano). Dentro il territorio ho sostituito 19 ricostruzioni a mano: 14 in lib/email/templates.ts (ordine al cliente, oggetto «Nuovo ordine» al negozio, rimborso, gift card regalata e comprata), 2 in app/admin/coupons/page.tsx, 1 in app/seller/products/import/page.tsx, 1 in app/api/ai/diagnose/route.ts, 1 nel CSV di app/admin/orders/page.tsx. Sul CSV ho fatto la coppia intera come chiede la scheda: decimale con la virgola E separatore «;», perche' la virgola decimale da sola, con «,» separatore, sarebbe una mina; i campi restano fra virgolette, quindi nessun «;» dentro un nome puo' spezzare la riga. Ho poi corretto anche lib/constants.ts:130: la frase delle quattro promesse diceva «sopra €30 per negozio · 3,00 € di consegna», cioe' l'euro prima E dopo nella stessa riga — un misto che la mia stessa correzione aveva reso visibile; adesso e' «sopra 30 € per negozio». Il JSON-LD di app/product/[id]/layout.tsx:95 NON e' toccato e tiene il punto: schema.org lo vuole (verificato: non passa da formatPrice). PERCHE' RESTA APERTO: i 22 file elencati in `bloccati` sono fuori da file_citati e li' il prezzo esce ancora all'inglese (webhook Stripe, payout, resi, contrassegno, coupon, etichette, loyalty, opengraph). Anche la regola ESLint che vieta toFixed(2) accanto a «€» non l'ho messa: sta in un file di configurazione condiviso. Scelta dichiarata: lo spazio prima dell'euro e' U+00A0 (lo mette Intl), cosi' il prezzo non si spezza a fine riga dentro una scheda stretta; chi cerchera' «12,50 €» con lo spazio normale non lo trovera'. NON HO VERIFICATO a video: nessuna pagina aperta nel browser.",
+   "file_toccati": [
+    "lib/format.ts",
+    "lib/email/templates.ts",
+    "app/admin/coupons/page.tsx",
+    "app/seller/products/import/page.tsx",
+    "app/api/ai/diagnose/route.ts",
+    "app/admin/orders/page.tsx",
+    "tests/unit/format.test.ts",
+    "tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts",
+    "lib/constants.ts"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|il piede delle email dell'ordine è grigio su grigio e in fotocopia sparisce",
+   "titolo": "Il piede delle email dell'ordine è grigio su grigio e in fotocopia sparisce",
+   "esito": "gia_riparato_prima",
+   "prova": "grep -n '#f1f5f9|#64748b|BRAND_COLOR|4f46e5' lib/email/templates.ts -> l'unica riga che esce e' il commento storico alla riga 32 che racconta la riparazione; nel codice quei colori non ci sono piu'. Il piede oggi (riga 88) e' background COLORI.piede #F5EDD9 con color COLORI.tenue #57534E. Contrasto ricalcolato con la formula WCAG: 6,54:1, sopra il minimo di 4,5:1 (il vecchio #64748b su #f1f5f9 dava 4,34:1, ricalcolato anche quello per confronto). I link del piede su quel fondo stanno a 5,72:1.",
+   "nota_fix": "Il difetto non c'e' piu': se n'e' occupato il lavoro del 3/9/2026 documentato nel commento in cima al file, che ha sostituito BRAND_COLOR indigo #4f46e5 con la tavolozza COLORI (marchio terracotta #A03B25 = primary-700) e ha lasciato di guardia tests/unit/la-ricevuta-veste-i-colori-del-sito.test.ts, che legge la tavolozza vera da tailwind.config.ts. Quella prova gira verde adesso. Non ho toccato niente: la scheda descrive uno stato del file che non esiste piu' (i numeri di riga 25 e 49 della scheda non corrispondono al codice di oggi). NON HO VERIFICATO il contrasto con uno strumento esterno: l'ho ricalcolato io con la formula WCAG 2.x sulle due tinte lette dal file.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "microcopy|l'email del secondo giorno dice «spedizione gratis sopra 30 euro» senza dire che vale per negozio",
+   "titolo": "L'email del secondo giorno dice «spedizione gratis sopra 30 euro» senza dire che vale per negozio",
+   "esito": "riparato",
+   "prova": "grep -n 'Spedizione gratis sopra' lib/email/templates.ts -> ora html e testo dicono «Spedizione gratis sopra ${FREE_SHIPPING_THRESHOLD} € nello stesso negozio», col numero preso dalla costante e non riscritto. npx tsc --noEmit -> exit 0; le 10 prove sulle email del ciclo di vita (benvenuto, coda, servizio, ordine pronto/consegnato) -> 77/77 verdi.",
+   "nota_fix": "tutorial_day2 importa FREE_SHIPPING_THRESHOLD da lib/constants (nessun giro chiuso di import: constants tira dentro solo ./delivery e ./format, e nessuno dei due torna a templates). Le parole le ho prese da quelle gia' giuste altrove nel sito: lib/shipping.ts:227 scrive «nello stesso negozio» e mette l'euro DOPO il numero, e ho tenuto la stessa forma invece di «€30» com'era. Ho lasciato apposta il numero senza centesimi («30 €», non «30,00 €»): e' una soglia, non un importo da pagare. Il «€5 di credito» della riga sotto NON l'ho toccato: e' una cifra di promessa commerciale, non un prezzo che esce da un dato, e cambiarla rischiava di far scattare la prova le-promesse-di-invito-e-reso. NON HO VERIFICATO che l'email parta davvero (serve la chiave Resend).",
+   "file_toccati": [
+    "lib/email/templates.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no",
+   "titolo": "Nella campanella metà degli avvisi comincia con una faccina e metà no",
+   "esito": "non_riparato",
+   "prova": "grep -c '✅|📦|🛵|🚚' migrations/086_notify_buyer_on_order_status.sql -> 5 titoli con la faccina, ancora tutti li'. Dall'altra parte grep -n \"title: 'Ordine annullato'\" app/api/cron/expire-stale-orders/route.ts -> riga 236, senza faccina. I due stili convivono ancora nella stessa campanella.",
+   "nota_fix": "NON L'HO CHIUSO, e non l'ho nemmeno chiuso a meta' apposta. I quattro titoli che aprono con la faccina non stanno nel codice: li scrive un trigger dentro il database, e la migrazione 086 e' gia' stata applicata. Per cambiarli serve una MIGRAZIONE NUOVA che riscriva la funzione del trigger: e' 🔴 e questo lotto non la comprende (regola 7 del briefing). Toccare solo il pezzo che sta nel codice — le faccine negli oggetti delle email di lib/email/templates.ts (righe 154, 223, 250, 296) e in app/api/cron/expire-checkouts/route.ts:94 — avrebbe lasciato il difetto vivo dove si vede davvero, cioe' nella lista degli avvisi, e intanto avrebbe reso il sito ancora piu' misto durante l'attesa. Meglio farlo tutto insieme, in un giro solo. COSA SERVE E A CHI TOCCA: una migrazione nuova (087+) che sostituisca la funzione del trigger di 086 togliendo ✅ 📦 🛵 🚚 dai cinque titoli, piu' la ripulitura delle faccine dagli oggetti delle email e da expire-checkouts; la regola da seguire e' gia' scritta nel progetto, in lib/order-status.ts:15-16 («Lucide-only», niente emoji). Va a chi puo' far firmare una migrazione, non a una squadra di questo lotto.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "tipografia|al negoziante che paga una campagna le date escono in formato macchina, «2026-09-02 → 2026-09-09»",
+   "titolo": "Al negoziante che paga una campagna le date escono in formato macchina, «2026-09-02 → 2026-09-09»",
+   "esito": "riparato",
+   "prova": "grep -n 'start_date' app/seller/promote/page.tsx app/admin/sponsored/page.tsx -> 0 righe che stampano la data grezza; adesso sono {formatDate(c.start_date)} → {formatDate(c.end_date)} alla riga 242 di promote e {formatDate(l.start_date)} → {formatDate(l.end_date)} alla riga 179 di sponsored. formatDate('2026-09-02') restituisce «2 settembre 2026» (eseguito). npx tsc --noEmit -> exit 0, npx eslint sui due file -> exit 0.",
+   "nota_fix": "Due righe, piu' formatDate aggiunto agli import (formatPrice c'era gia' in tutti e due i file). LA SCHEDA SBAGLIAVA UN DETTAGLIO e comanda il codice: la sua prova cercava «{c.start_date} → {c.end_date}» in tutti e due i file, ma lato admin la variabile si chiama `l`, non `c` — quel grep non avrebbe mai trovato la riga di app/admin/sponsored/page.tsx. Le due righe vere le ho cercate con grep 'start_date}'. NON HO VERIFICATO a video: le due pagine non le ho aperte nel browser, ho verificato la funzione e il punto in cui viene chiamata.",
+   "file_toccati": [
+    "app/seller/promote/page.tsx",
+    "app/admin/sponsored/page.tsx"
+   ]
+  },
+  {
+   "chiave": "tipografia|la data in lettere porta lo zero davanti al giorno: «03 settembre 2026» invece di «3 settembre 2026»",
+   "titolo": "La data in lettere porta lo zero davanti al giorno: «03 settembre 2026» invece di «3 settembre 2026»",
+   "esito": "riparato",
+   "prova": "formatDate('2026-09-03') restituisce «3 settembre 2026» (eseguito). npx vitest run tests/unit/format.test.ts -> 10/10 verdi, compresa la prova nuova «niente zero davanti al giorno quando il mese e' scritto per esteso». Mutazione: rimesso day:'2-digit' -> exit 1; ripristinato -> exit 0.",
+   "nota_fix": "In lib/format.ts day:'2-digit' e' diventato day:'numeric'. La prova che stava di guardia PRETENDEVA IL DIFETTO: tests/unit/format.test.ts:42-45 diceva «uses 2-digit day» e chiedeva toMatch(/^03/). L'ho riscritta al contrario (adesso pretende «3 settembre 2026» e vieta lo zero iniziale), perche' una prova che difende il difetto non e' un guardiano. Il resto del formato non cambia: mese per esteso e anno restano come prima, e i 19 punti che chiamano formatDate seguono da soli.",
+   "file_toccati": [
+    "lib/format.ts",
+    "tests/unit/format.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "tipografia|i prezzi escono scritti all'inglese, «€12.50», in cassa e nelle email di ordine, rimborso e gift card",
+   "perche": "il fix vive anche in 22 file fuori da file_citati, che si ricostruiscono l'importo a mano con toFixed(2) accanto a «€» e quindi restano all'inglese: lib/stripe/webhook/ordini.ts, lib/stripe/webhook/rimborsi.ts, lib/stripe/webhook/dispute.ts, lib/stripe/webhook/trasferimenti.ts, lib/stripe/webhook/comune.ts, lib/stripe/payout.ts, lib/coupons.ts, lib/products/externalAlert.ts, lib/products/aiPatch.ts, lib/shipping-etichetta/label.ts, components/rider/CashConfirmDialog.tsx, components/ShareCartButton.tsx, app/api/returns/[id]/decide/route.ts, app/api/returns/[id]/avanza/route.ts, app/api/orders/cod/route.ts, app/api/rider/cash-confirm/route.ts, app/api/seller/orders/[id]/reject/route.ts, app/api/cron/release-payouts/route.ts, app/api/cron/operational-alerts/route.ts, app/api/ai/improve-product/route.ts, app/profile/loyalty/page.tsx, app/product/[id]/opengraph-image.tsx. In piu' la regola ESLint che vieterebbe la ricostruzione a mano vive nella configurazione condivisa, che il briefing mette fuori dalle mani delle squadre."
+  },
+  {
+   "chiave": "microcopy|nella campanella metà degli avvisi comincia con una faccina e metà no",
+   "perche": "il fix non e' codice: i quattro titoli con la faccina li scrive un trigger dentro il database (migrations/086_notify_buyer_on_order_status.sql, gia' applicata). Serve una migrazione nuova che riscriva la funzione del trigger, cioe' un'azione 🔴 fuori da questo lotto."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "La prova che difendeva il prezzo all'inglese stava nella suite e nessuno se n'era accorto: chiedeva «€10.00» e lo zero davanti al giorno, cioe' teneva fermo il difetto invece del comportamento giusto",
+   "dove": "tests/unit/format.test.ts:6-45 (prima della riparazione di oggi)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il CSV degli ordini che va al commercialista usava la virgola come separatore mentre Excel in italiano si aspetta il punto e virgola: le colonne finivano tutte in una cella",
+   "dove": "app/admin/orders/page.tsx:118 (prima della riparazione di oggi)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "L'oggetto delle email misto: quattro cominciano con una faccina («🛒 Nuovo ordine», «💶 Rimborso emesso», «🎁 ... ti ha regalato», «✅ Ordine consegnato») e gli altri no, contro la regola «niente emoji» che il progetto si e' gia' dato per le icone",
+   "dove": "lib/email/templates.ts:154,223,250,296 · app/api/cron/expire-checkouts/route.ts:94",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Nella risposta della FAQ sul costo di spedizione l'euro sta ancora prima del numero, «in media €2,50–4,50», scritto a mano nella frase",
+   "dove": "lib/promesse-pubbliche.ts (riga della FAQ sul costo variabile) — fuori dal territorio della squadra 203",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Niente e' stato guardato a video: non ho aperto il sito nel browser, quindi la resa dei prezzi e delle date nelle pagine (cassa, campagne, coupon, import) l'ho verificata leggendo il codice e provando le funzioni, non guardandola. ② Nessuna email e' partita davvero: senza la chiave Resend ho verificato l'HTML che il template produce, non come lo disegna Gmail, Outlook o Apple Mail — e lo spazio unificatore U+00A0 prima dell'euro in un programma di posta non l'ho visto coi miei occhi. ③ Il CSV nuovo (virgola decimale + separatore «;») non l'ho aperto con Excel in italiano: e' il cambio con piu' rischio residuo del mio lotto, anche se i campi restano fra virgolette e non esiste nessuna prova che lo copra. ④ Non ho lanciato la suite intera ne' npm run verify, come chiede il briefing: ho girato 76 file di prova scelti perche' nominano i file che ho toccato o asseriscono su un importo in € (614 prove verdi), piu' tsc su tutto il progetto ed eslint sui file toccati. Fuori da quei 76 file potrebbe esserci una prova che si aspetta il prezzo all'inglese e che non ho intercettato. ⑤ Nel frattempo altre squadre stanno scrivendo nello stesso albero (git status mostra file modificati che non sono miei, per esempio components/rider/CashConfirmDialog.tsx e app/globals.css): i verdi che riporto valgono per l'albero com'era quando li ho lanciati."
+}

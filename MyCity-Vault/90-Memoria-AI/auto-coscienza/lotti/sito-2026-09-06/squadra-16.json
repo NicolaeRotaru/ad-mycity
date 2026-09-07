@@ -1,0 +1,152 @@
+{
+ "squadra": 16,
+ "territorio": [
+  "app/product/[id]/page.tsx",
+  "components/store-sections/ReviewsSection.tsx",
+  "components/home/HeroStoreCard.tsx",
+  "components/StoreListRow.tsx",
+  "components/StorePreviewCard.tsx",
+  "app/seller/analytics/page.tsx",
+  "app/seller/reviews/page.tsx",
+  "app/admin/page.tsx"
+ ],
+ "malattia": "La scheda prodotto e' cresciuta un pezzo alla volta e ogni pezzo ha deciso da solo: la foto grande ha ricopiato l'`object-cover` delle schede in griglia dove serviva il contrario, i titoli hanno preso il grado e la misura che capitava, i numeri con la virgola sono stati formattati a mano pagina per pagina, la spedizione gratis viene calcolata su una grandezza diversa in ogni riquadro, e le recensioni arrivano tutte insieme perche' nessuno ha separato «quanto vale il voto medio» da «cosa hanno scritto le persone». Sotto sta una causa sola: mancano i posti unici dove una decisione si prende una volta — un formattatore per i decimali, una classe per i titoli di sezione, una cifra sola per la promessa di spedizione.",
+ "difetti": [
+  {
+   "chiave": "sicurezza-auth|le foto di recensioni e resi accettano qualunque indirizzo e finiscono dentro un `<a href>` sulla pagina pubblica del prodotto",
+   "titolo": "Le foto di recensioni e resi accettano qualunque indirizzo e finiscono dentro un `<a href>` sulla pagina pubblica del prodotto",
+   "esito": "riparato",
+   "prova": "Lettura del sorgente: app/api/returns/create/route.ts:24-26 usa gia' `.refine(fotoDiCasa)` (fix R021 del 27/8) e components/seller/ReturnRequestCard.tsx:183-185 filtra gia' con fotoDiCasa; restavano scoperti i due punti delle RECENSIONI, ora chiusi. Verifica: `grep -n 'fotoDiCasa' app/product/[id]/page.tsx components/store-sections/ReviewsSection.tsx` → 3 e 2 occorrenze. `npx tsc --noEmit -p tsconfig.json` → exit 0. 186 prove verdi sui 16 file di test che nominano i miei file.",
+   "nota_fix": "La scheda ha tre punti e due erano gia' fatti da un'ondata precedente (il punto ② sulla rotta dei resi e l'`<a href>` della scheda venditore: entrambi passano da lib/storage/foto-di-casa.ts). Ho chiuso il terzo, che era ancora aperto in due posti: le foto delle recensioni sulla scheda prodotto (app/product/[id]/page.tsx) e sulla vetrina del negozio (components/store-sections/ReviewsSection.tsx). Ora gli indirizzi passano da `fotoDiCasa` (https + host del nostro archivio) PRIMA di diventare `<a href>` e `<Image src>`: un indirizzo scelto dall'utente non entra piu' in nessun collegamento. Ho allineato anche il conteggio del filtro «Con foto», che prima contava recensioni le cui foto non si sarebbero viste. NON HO FATTO il punto ① della scheda (spostare l'inserimento della recensione dietro una rotta server, oppure un CHECK sulla colonna `photo_urls`): e' una migrazione, quindi 🔴 fuori da questo lotto, e va a @backend-dev. Resta debito dichiarato: un valore fasullo si puo' ancora SCRIVERE nel database, ma da oggi non viene piu' RESO in nessuna pagina, che era tutto l'impatto descritto nella scheda. NON HO VERIFICATO a video con un indirizzo malevolo vero: non ho un database ne' un'anteprima da qui.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx",
+    "components/store-sections/ReviewsSection.tsx"
+   ]
+  },
+  {
+   "chiave": "performance|la scheda prodotto carica 200 recensioni all'apertura, anche a chi ne legge tre",
+   "titolo": "La scheda prodotto carica 200 recensioni all'apertura, anche a chi ne legge tre",
+   "esito": "non_riparato",
+   "prova": "Lettura del sorgente app/product/[id]/page.tsx:165-208 (le due domande) e :387-397 (media, istogramma, conteggi). `npx tsc --noEmit -p tsconfig.json` → exit 0; 186 prove verdi.",
+   "nota_fix": "HO MIGLIORATO MA NON HO CHIUSO, e lo dico chiaro. Fatto: la domanda unica da 200 recensioni intere e' diventata due domande con due pesi. Il RIEPILOGO chiede due sole colonne (`rating, photo_urls`) e parte subito, perche' la media e il numero si leggono in alto accanto al titolo. L'ELENCO — che porta `comment`, cioe' il campo pesante — parte solo quando la sezione recensioni arriva a 600px dallo schermo (IntersectionObserver su un nodo tenuto in stato, non in una ref: al primo giro la sezione non esiste ancora). Cosi' all'apertura della pagina i commenti non gareggiano piu' con la foto del prodotto e col pulsante «Aggiungi al carrello». Ho aggiunto anche gli stati che mancavano: scheletro mentre i commenti arrivano, e un riquadro «Non sono riuscito a caricare le recensioni · Riprova» se la domanda fallisce (prima esisteva solo il caso felice). NON FATTO: la paginazione vera, cioe' 10 recensioni con «Mostra altre» via `.range()` e ordinamento/filtro spostati sulla query. Il `.limit(200)` sull'elenco e' rimasto: chi scorre fin laggiu' li scarica ancora tutti. Non l'ho spedito alla cieca per un motivo preciso: il filtro «Con foto» sta su una colonna `text[]` e il confronto PostgREST per l'array vuoto non l'ho potuto provare contro un database vero da qui; se sbagliato, il filtro tornerebbe muto e la media del voto diventerebbe quella di 10 recensioni invece che di tutte — cioe' un numero falso sulla pagina che fa comprare. Serve una sessione con il database raggiungibile.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita|testi alternativi ripetuti o generici sulle foto: nome del prodotto detto tre volte, foto dei clienti tutte uguali",
+   "titolo": "Testi alternativi ripetuti o generici sulle foto: nome del prodotto detto tre volte, foto dei clienti tutte uguali",
+   "esito": "riparato",
+   "prova": "`grep -rn \"alt=\" app/product/[id]/page.tsx | grep -i recension` → ora `alt={`Foto ${i + 1} della recensione`}`. Gli altri tre punti erano gia' a posto: components/ProductCard.tsx:170 ha `alt=\"\"`, components/store-sections/ReviewsSection.tsx:150 e app/orders/[id]/return/page.tsx:229 numerano gia' le foto (fix R117 del 27/8). `npx vitest run tests/unit/le-foto-dicono-cosa-mostrano.test.ts` → verde.",
+   "nota_fix": "Tre occorrenze su quattro le aveva gia' chiuse un'ondata precedente; la scheda ha tre giorni e non lo sapeva. Restava solo la scheda prodotto, dove tutte le foto di una recensione si chiamavano «Foto recensione»: quattro foto, quattro volte la stessa parola. Ora sono numerate, come gia' altrove.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "layout-responsive|toccando «n recensioni» sul telefono il titolo si ferma con 144px di vuoto sopra",
+   "titolo": "Toccando «N recensioni» sul telefono il titolo si ferma con 144px di vuoto sopra",
+   "esito": "riparato",
+   "prova": "`grep -n scroll-mt app/product/[id]/page.tsx` → `scroll-mt-4 md:scroll-mt-[var(--header-height)]`. Controllato components/Navbar.tsx:118: l'intestazione e' `relative md:sticky md:top-0`, quindi sotto md non e' fissa.",
+   "nota_fix": "Confermato leggendo il codice: i 144px di `--header-height` valevano a tutte le larghezze, ma l'intestazione e' fissa solo da md in su. Sotto md quel margine era vuoto puro. Ora vale `scroll-mt-4` su telefono e il valore pieno da md. NON HO VERIFICATO la parte che il collega segnalava come 5-9px di scarto fra --header-height e l'altezza vera dell'intestazione: si misura a schermo, non si deduce leggendo, e non ho un'anteprima da qui.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "tipografia|voti, distanze e percentuali cambiano segno decimale da pagina a pagina: «4,5» in vetrina, «4.5» sulla scheda prodotto",
+   "titolo": "Voti, distanze e percentuali cambiano segno decimale da pagina a pagina: «4,5» in vetrina, «4.5» sulla scheda prodotto",
+   "esito": "riparato",
+   "prova": "Il grep di prova della scheda, rieseguito: `grep -rn \"toFixed(1)\" app/product app/store app/stores components/home components/StoreListRow.tsx components/StorePreviewCard.tsx components/store-sections | grep -v \"replace('.', ',')\\|aria-label\\|ratingValue\"` → NESSUNA riga (prima ne dava 7). Esteso ai pannelli: lo stesso grep su app/seller/analytics, app/seller/reviews, app/seller/dashboard, app/admin, app/rider → nessuna riga col punto.",
+   "nota_fix": "Chiuse tutte e dodici le occorrenze visibili: voto medio sulla scheda prodotto (2), voto nella scheda in home, voto e distanza nell'elenco negozi e nella card di anteprima (4), tasso di conversione del venditore (2), voto medio nel pannello recensioni, e le tre percentuali dell'admin. Ho usato `.toFixed(1).replace('.', ',')`, che e' l'idioma gia' presente nel sito (HeroSection, pagine rider, cruscotto venditore): nessun formato nuovo, nessuna dipendenza. NON HO FATTO la parte del fix_proposto che chiedeva `formatNumero`/`formatKm` in lib/format.ts: quel file NON e' nel mio territorio — e' il pacchetto della squadra 38 (ondata 8), ed e' citato anche dalle squadre 1 e 27. Toccarlo avrebbe riscritto il lavoro di un'altra squadra. Quindi il sintomo visibile e' chiuso dappertutto, ma la causa radice (non esiste una funzione unica per i numeri decimali) resta aperta e va agganciata li'. NON HO VERIFICATO a video: e' una sostituzione di stringa, provata solo per lettura e con la suite.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx",
+    "components/home/HeroStoreCard.tsx",
+    "components/StoreListRow.tsx",
+    "components/StorePreviewCard.tsx",
+    "app/seller/analytics/page.tsx",
+    "app/seller/reviews/page.tsx",
+    "app/admin/page.tsx"
+   ]
+  },
+  {
+   "chiave": "tipografia|le stelle da cliccare per votare sono sotto la soglia di contrasto (2,52 contro 3 richiesto)",
+   "titolo": "Le stelle da cliccare per votare sono sotto la soglia di contrasto (2,52 contro 3 richiesto)",
+   "esito": "riparato",
+   "prova": "`grep -n \"reviewRating ? 'text-accent-700'\" app/product/[id]/page.tsx` → ora `text-ink-400`. `npx vitest run tests/unit/le-stelle-del-voto-dicono-quale-hai-scelto.test.ts` → verde (la prova misura il contrasto e pretende ≥ 3:1).",
+   "nota_fix": "Dei due punti della scheda, app/orders/[id]/review/page.tsx era gia' a posto (fix del 3/9: `text-ink-400`, e c'e' una prova che ricalcola il contrasto). Restava la scheda prodotto, che era rimasta indietro: ora le stelle spente sono `text-ink-400` (#78716C, 4,80 a 1 sul bianco) in tutti e due i moduli. NON HO VERIFICATO il colore reso a schermo: il contrasto l'ho preso dai valori di tailwind.config.ts, come fa la prova esistente.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "tipografia|sulla scheda prodotto due titoli di pari grado escono a 14px e a 20px",
+   "titolo": "Sulla scheda prodotto due titoli di pari grado escono a 14px e a 20px",
+   "esito": "riparato",
+   "prova": "`grep -n '<h1\\|<h2\\|<h3' app/product/[id]/page.tsx` → h1 (nome prodotto, :719) · h2 «Descrizione» (:905), «Caratteristiche» (:920), «Recensioni» (:1094), tutti con la stessa classe `font-serif text-2xl font-bold text-ink-900` · h3 «Lascia la tua recensione» (:1139), dentro la sezione Recensioni, con la misura dichiarata. `npx vitest run tests/unit/sulla-scheda-prodotto-si-legge-prima-cosa-e-quanto-costa.test.ts` → verde (e' la prova che sorveglia la gerarchia dei titoli su questa pagina).",
+   "nota_fix": "Chiusi tutti e due i difetti oggettivi della scheda: il salto di livello (h1 → h3 → h2 e' diventato h1 → h2 → h3) e le due misure per lo stesso grado. «Descrizione» e «Caratteristiche» erano h3 a 14px grigi maiuscoletto, cioe' PIU' PICCOLI e piu' chiari del paragrafo che intestano: adesso sono h2 con la stessa veste di «Recensioni». «Lascia la tua recensione» resta h3 — e' una sotto-sezione delle recensioni, il grado era giusto — ma non eredita piu' i 20px di Fraunces dalla regola di globals.css: la misura e' scritta. ATTENZIONE PER CHI RICUCE: e' un cambio VISIBILE, due titoli passano da 14px maiuscoletto a 24px serif. E' quello che la scheda chiedeva, ma va guardato sullo screenshot prima di unire.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|il cuore «non nei preferiti» della scheda prodotto è a 2,52:1",
+   "titolo": "Il cuore «non nei preferiti» della scheda prodotto è a 2,52:1",
+   "esito": "non_riparato",
+   "prova": "Letto app/product/[id]/page.tsx:719-746: il cuore non ha piu' un colore scritto a mano. La classe arriva da `classiBottoneCuore(isFav)`, e il `text-ink-300` vive ora in lib/design/cuore-preferito.ts (costante `BOTTONE_SPENTO`). Verificato con `grep -n 'text-ink-300' lib/design/cuore-preferito.ts` e `grep -rl 'cuore-preferito' incarico-*.json` nella cartella del lotto → nessun incarico lo rivendica.",
+   "nota_fix": "La scheda ha tre giorni e indica app/product/[id]/page.tsx:679, ma un'ondata precedente ha spostato il colore nel file di design: il difetto e' vero e ancora aperto, solo che non abita piu' nel mio territorio. lib/design/cuore-preferito.ts NON e' nei miei `file_citati`, quindi mi sono fermato invece di aggirare il design system con una classe appiccicata sopra (che tra l'altro sarebbe fragile: fra due classi Tailwind in conflitto vince l'ordine del foglio di stile, non quello della stringa). IL FIX E' UNA RIGA: in lib/design/cuore-preferito.ts, dentro `BOTTONE_SPENTO`, `text-ink-300` → `text-ink-400`, che e' gia' il valore di `CUORE_SPENTO` usato dalla card di listino — quindi il cambio ALLINEA i due cuori invece di divergere. Il file oggi non risulta assegnato a nessuna squadra del lotto: va dato a qualcuno.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "immagini-media|la foto principale del prodotto viene tagliata ai bordi proprio dove il cliente decide se comprare",
+   "titolo": "La foto principale del prodotto viene tagliata ai bordi proprio dove il cliente decide se comprare",
+   "esito": "riparato",
+   "prova": "`grep -n 'object-contain' app/product/[id]/page.tsx` → :579 (la foto grande della galleria) e :680 (l'ingrandimento, che gia' c'era). Il riquadro ha gia' lo sfondo neutro: il contenitore scorrevole porta `bg-surface-0`. `npx vitest run tests/unit/la-foto-del-prodotto-si-scarica-una-volta-sola.test.ts tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts` → verdi.",
+   "nota_fix": "Passata da `object-cover` a `object-contain` solo sulla foto grande del DETTAGLIO. Le schede in griglia (components/ProductCard.tsx) restano `object-cover`: li' riempire il quadrato e' la scelta giusta e c'e' scritto perche'. Ora il codice non si contraddice piu': lib/image-url.ts dice espressamente che per `detail` l'altezza non viene imposta «per mostrare l'intero prodotto», e il foglio di stile smette di buttare via quello che il server manda intero. NON HO VERIFICATO a video con una foto verticale vera: la prova di questo difetto e' dichiarata «umana» nella scheda stessa, e serve un occhio su un telefono. Da guardare prima di unire: sulle foto verticali compariranno bande laterali color pagina — e' il compromesso che fa anche Amazon.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "immagini-media|«ingrandisci foto» non mostra un pixel in più di quelli che si vedevano già",
+   "titolo": "«Ingrandisci foto» non mostra un pixel in più di quelli che si vedevano già",
+   "esito": "riparato",
+   "prova": "`grep -n 'LARGHEZZA_MASSIMA' app/product/[id]/page.tsx` → l'ingrandimento chiede ora `sizedImage(images[activeImg], LARGHEZZA_MASSIMA)` invece di `'hero'`. In lib/image-url.ts: `hero` = 1200px, `LARGHEZZA_MASSIMA` = 1600px. `npx vitest run tests/unit/image-url.test.ts tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts` → verdi.",
+   "nota_fix": "L'ingrandimento chiedeva 1200px dentro un riquadro largo il 95% dello schermo: la stessa foto di prima, solo stirata. Ora chiede 1600px, cioe' +33% di larghezza e quasi il doppio dei pixel. NON ho aggiunto una misura 'zoom' a SIZE_PX come proponeva la scheda, e non ho alzato `LARGHEZZA_MASSIMA`: quel tetto e' una decisione dichiarata del sito («oltre, si scarica roba che nessuno vede») e cambiarlo tocca ogni foto del marketplace, non solo questa. `sizedImage` accetta gia' un numero, ed e' la forma che la sua stessa documentazione preferisce. Resta vero che su uno schermo molto fine servirebbero 2000-2500px: per arrivarci bisogna prima decidere se alzare il tetto, e non e' una decisione da prendere dentro una pagina.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "flussi-conversione|sulla scheda prodotto la barra «ti mancano x alla spedizione gratis» ignora il carrello, e il badge accanto la contraddice",
+   "titolo": "Sulla scheda prodotto la barra «ti mancano X alla spedizione gratis» ignora il carrello, e il badge accanto la contraddice",
+   "esito": "riparato",
+   "prova": "Letto app/product/[id]/page.tsx: la barra riceve `subtotaleConQuestoProdotto` e la pastiglia nasce da `promessaSpedizione(subtotaleConQuestoProdotto)` — una grandezza sola per i due segnali (prima erano `price * qty` per la barra e `price` per la pastiglia). Il subtotale del carrello si legge con `cartTotal(getCart())` dopo il montaggio e si riaggiorna sull'evento `cart:updated`, quello che lib/cart.ts emette a ogni scrittura. `npx vitest run tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts` → verdi.",
+   "nota_fix": "Chiuse tutte e due le meta': la barra ignorava il carrello, e la pastiglia accanto guardava il prezzo di UN pezzo mentre la barra guardava prezzo x quantita'. Ora leggono la stessa cifra: quanto varra' il carrello premendo «Aggiungi». La somma e' quella giusta e non una stima, perche' `addToCart` SOMMA alla riga gia' presente invece di sostituirla (letto in lib/cart.ts:160-170). Il carrello si legge dopo il montaggio, non durante il render, se no si rompe l'idratazione: sul server `localStorage` non esiste. NON HO VERIFICATO a video con un carrello pieno: serve un'anteprima. Da guardare: il primo istante dopo il montaggio la barra vede il carrello a zero, poi si aggiorna — l'effetto parte subito, ma e' l'unica cosa che a schermo potrebbe fare un lampo.",
+   "file_toccati": [
+    "app/product/[id]/page.tsx"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "accessibilita-visiva|il cuore «non nei preferiti» della scheda prodotto è a 2,52:1",
+   "perche": "il fix vive in un file fuori territorio: lib/design/cuore-preferito.ts (costante BOTTONE_SPENTO). Un'ondata precedente ha spostato li' il colore del cuore che la scheda indicava dentro app/product/[id]/page.tsx:679. Una riga: text-ink-300 → text-ink-400, lo stesso valore gia' usato da CUORE_SPENTO. Nessun incarico del lotto rivendica quel file."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Sopra le 200 recensioni il numero mostrato e l'elenco non dicono piu' la stessa cosa",
+   "dove": "app/product/[id]/page.tsx:182-208",
+   "gravita": "minore",
+   "nota": "Nato dal mio stesso fix del difetto sulle 200 recensioni: il riepilogo ora conta fino a 500 recensioni (numero e media piu' veri di prima) mentre l'elenco resta a 200. Su un prodotto con 350 recensioni l'intestazione dira' «(350)» e sotto se ne leggeranno 200. Prima erano coerenti perche' sbagliati tutti e due. Si chiude con la paginazione vera, cioe' lo stesso lavoro rimasto aperto sulla scheda performance."
+  },
+  {
+   "titolo": "Il conteggio delle recensioni nella scheda si ferma comunque a un tetto, e nessuno lo dice a chi legge",
+   "dove": "app/product/[id]/page.tsx:186",
+   "gravita": "minore",
+   "nota": "Il riepilogo ha `.limit(500)`: oltre quel numero la media del voto sarebbe calcolata su un campione, non su tutte le recensioni, e la pagina non lo direbbe. Oggi nessun prodotto ci arriva, ma il giorno che succede il voto medio diventa un numero che nessuno sa da dove viene. La strada giusta e' un conteggio e una media chiesti al database (aggregato o RPC), non righe scaricate e sommate nel browser: e' una migrazione, quindi 🔴 e non di questo lotto."
+  }
+ ],
+ "non_verificato": "Niente e' stato guardato A VIDEO: non ho un'anteprima ne' un database raggiungibile da questa sessione. Tutte le prove sono lettura del sorgente piu' `npx tsc --noEmit -p tsconfig.json` (exit 0) e le 186 prove dei 16 file di test che nominano i miei file (tutte verdi). Quattro cose vanno guardate da un occhio umano prima di unire: (1) i due titoli «Descrizione» e «Caratteristiche» passano da 14px maiuscoletto a 24px serif — e' un cambio visibile; (2) la foto grande del prodotto ora si vede intera, quindi sulle foto verticali compaiono bande laterali color pagina; (3) le recensioni compaiono scorrendo, e va visto che lo scheletro non faccia saltare il resto della pagina; (4) la barra della spedizione gratis legge il carrello dopo il montaggio, quindi per un istante parte da zero. Non ho provato nessun indirizzo malevolo vero contro il filtro delle foto, e non ho misurato l'altezza reale dell'intestazione a schermo."
+}

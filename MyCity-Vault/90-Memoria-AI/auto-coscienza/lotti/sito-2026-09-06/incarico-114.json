@@ -1,0 +1,22 @@
+{
+ "squadra": 114,
+ "ondata": 24,
+ "pacchetto": "home/user/mycity/app/sign-up/page.tsx",
+ "territorio_principale": "home/user/mycity/app/sign-up/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/sign-up/page.tsx",
+  "/home/user/mycity/components/ui/Field.tsx",
+  "home/user/mycity/app/sign-up/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|la regola della password è scritta nel testo grigio che sparisce appena scrivi",
+   "titolo": "La regola della password è scritta nel testo grigio che sparisce appena scrivi",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/sign-up/page.tsx riga 226 · proprietà `hint` disponibile in /home/user/mycity/components/ui/Field.tsx (tipo Common, righe 88-95)",
+   "descrizione": "CONFERMATO. Il PasswordInput della registrazione ha `placeholder=\"Almeno 8 caratteri\"`: il segnaposto sparisce al primo carattere digitato, cioè proprio quando la regola servirebbe. Il tipo Common di Field.tsx espone `hint`, che resta sempre visibile sotto il campo, e qui non viene usato. Se poi la password è corta, l'errore torna da Supabase in inglese (vedi il difetto sulle traduzioni degli errori di autenticazione).",
+   "impatto": null,
+   "fix_proposto": "`hint=\"Almeno 8 caratteri\"` e segnaposto vuoto."
+  }
+ ]
+}

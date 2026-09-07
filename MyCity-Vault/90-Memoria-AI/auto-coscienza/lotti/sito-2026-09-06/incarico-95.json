@@ -1,0 +1,20 @@
+{
+ "squadra": 95,
+ "ondata": 20,
+ "pacchetto": "components/OrderTimeline.tsx",
+ "territorio_principale": "components/OrderTimeline.tsx",
+ "file_citati": [
+  "components/OrderTimeline.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1",
+   "titolo": "Nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/OrderTimeline.tsx:70 (`bg-cream-200 text-ink-400`)",
+   "descrizione": "CONFERMATO per OrderTimeline: il numero del passo futuro è ink-400 (#78716C) su cream-200 (#F5EDD9) = 4,11:1 ricalcolato, sotto 4,5:1 per un testo di 11px in grassetto (WCAG 1.4.3, che non ammette eccezioni di ridondanza perché è testo). SCARTATA invece la seconda metà della segnalazione: app/orders/[id]/page.tsx:483 è dentro un contenitore `aria-hidden` (riga 476) e lo stato è veicolato anche a parole nel blocco accanto (commento a riga 492), quindi l'icona non è «richiesta per capire il contenuto» e l'eccezione di 1.4.11 si applica.",
+   "impatto": null,
+   "fix_proposto": "OrderTimeline.tsx:70 → `bg-cream-200 text-ink-600`. Solo il numero della tonalità, nessun cambio di forma."
+  }
+ ]
+}

@@ -1,0 +1,66 @@
+{
+ "squadra": 222,
+ "ondata": 10,
+ "pacchetti": [
+  "app/api/track/route.ts",
+  "components/store-sections/ScheletroNegozio.tsx",
+  "lib/banner-vetrina.ts",
+  "scripts/prova-di-fumo.mjs",
+  "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql"
+ ],
+ "file_citati": [
+  "app/api/track/route.ts",
+  "lib/activity.ts",
+  "components/store-sections/ScheletroNegozio.tsx",
+  "lib/banner-vetrina.ts",
+  "scripts/prova-di-fumo.mjs",
+  "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "titolo": "Due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "dimensione": "api-backend",
+   "file": "app/api/track/route.ts:196 (regola in lib/activity.ts:218-253)",
+   "descrizione": "`accessoGiaRegistrato` fa una SELECT degli ultimi 5 accessi e poi la rotta fa la INSERT: fra le due c'e' una finestra. `recordActivity` gia' ignora in silenzio il codice `23505` («riga gia' presente») aspettando un vincolo di unicita' che il commento chiama «la migrazione proposta»: ho elencato le migrazioni toccate oggi (151, 152, 153, 154) e nessuna crea quel vincolo, e in `migrations/073_activity_tracking.sql` gli indici su `activity_events` sono tutti non unici. In piu' `registraAccessoNelRegistro` manda `session_id` solo se `sessionStorage` contiene gia' `mc_sid`: se non c'e', il corpo parte senza il campo e la deduplica ricade sulla sola finestra di 60 secondi. — Chi entra con email e password fa partire due beacon quasi insieme (quello di `trackSignedIn` e quello che `ActivityTracker` manda vedendo cambiare la sessione): se si incrociano, nel registro degli accessi restano due righe per un ingresso solo. Il registro degli accessi e' quello che si apre quando a qualcuno rubano l'account: due righe identiche a un secondo di distanza fanno perdere tempo proprio nel momento in cui serve leggerlo in fretta, e gonfiano il conto degli accessi nel cruscotto. Il codice lo dichiara onestamente come debito, quindi non e' una sorpresa: e' un debito che va portato con se' fino alla migrazione, non dimenticato.",
+   "impatto": "Chi entra con email e password fa partire due beacon quasi insieme (quello di `trackSignedIn` e quello che `ActivityTracker` manda vedendo cambiare la sessione): se si incrociano, nel registro degli accessi restano due righe per un ingresso solo. Il registro degli accessi e' quello che si apre quando a qualcuno rubano l'account: due righe identiche a un secondo di distanza fanno perdere tempo proprio nel momento in cui serve leggerlo in fretta, e gonfiano il conto degli accessi nel cruscotto. Il codice lo dichiara onestamente come debito, quindi non e' una sorpresa: e' un debito che va portato con se' fino alla migrazione, non dimenticato.",
+   "fix_proposto": "Prova nuova: due chiamate POST /api/track con `event_type:'login'`, stesso utente, stesso `session_id`, lanciate insieme con `Promise.all` su un finto database che non serializza -> pretendi UNA sola riga scritta. Oggi ne scrive due. Verifica complementare, quella che conta davvero: `grep -r \"unique\" migrations/ | grep activity_events` deve restituire almeno una riga; oggi non restituisce niente."
+  },
+  {
+   "chiave": "frontend-ux|chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+   "titolo": "Chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+   "dimensione": "frontend-ux",
+   "file": "components/store-sections/ScheletroNegozio.tsx:21",
+   "descrizione": "Le tre porte del negozio — app/store/loading.tsx, app/store/[id]/page.tsx:39 e app/store/[id]/[slug]/page.tsx:34 — oggi hanno smesso di usare `<LoadingState />` e mostrano `<ScheletroNegozio />`. Lo scheletro ha `role=\"status\" aria-busy=\"true\" aria-live=\"polite\"` ma dentro NON c'è nessun testo: solo riquadri grigi, tutti decorativi. `LoadingState` (components/ui/LoadingState.tsx, variante `spinner`) scriveva invece `<p>{t('loading')}</p>`, cioè «Caricamento…» (messages/it.json → states.loading), dentro lo stesso `role=status`. Una regione `aria-live` senza testo non annuncia niente, e `aria-busy=\"true\"` dice esplicitamente all'ausilio di tacere finché non torna falso — cosa che qui non succede mai, perché il componente viene semplicemente sostituito. — Chi usa un lettore di schermo apre la pagina di un negozio e riceve silenzio: non sa se il sito sta lavorando o se si è rotto. Prima sentiva «Caricamento…». È una regressione di comportamento, non un'imperfezione, e vale su tre porte d'ingresso al negozio — cioè su tutta la vetrina, che è quello che vendiamo ai negozianti. WCAG 2.1 4.1.3 (Status Messages, AA).",
+   "impatto": "Chi usa un lettore di schermo apre la pagina di un negozio e riceve silenzio: non sa se il sito sta lavorando o se si è rotto. Prima sentiva «Caricamento…». È una regressione di comportamento, non un'imperfezione, e vale su tre porte d'ingresso al negozio — cioè su tutta la vetrina, che è quello che vendiamo ai negozianti. WCAG 2.1 4.1.3 (Status Messages, AA).",
+   "fix_proposto": "Prova jsdom: montare `ScheletroNegozio` e pretendere che `getByRole('status')` abbia un nome accessibile non vuoto (`toHaveAccessibleName()`), lo stesso controllo passato anche su `ScheletroCassa` così le due non possono divergere. Comando: `cd /home/user/mycity && npx vitest run tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts` una volta aggiunto il caso — oggi quel file esiste, passa, e controlla solo la FORMA dello scheletro, non che dica qualcosa."
+  },
+  {
+   "chiave": "architettura|la fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "titolo": "La fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "dimensione": "architettura",
+   "file": "lib/banner-vetrina.ts:37",
+   "descrizione": "Oggi l'altezza fissa della fascia (`h-56 sm:h-72`, cioè 224 e 288 punti) è diventata una proporzione: `aspect-[16/9] sm:aspect-[3/1] lg:aspect-[4/1]`, usata da components/home-sections/HomeSectionRenderer.tsx:427 e components/cms/CmsBlockRenderer.tsx:41. A 640px il contenitore `container mx-auto px-4 sm:px-6` è largo 592, quindi la fascia diventa alta 592/3 = 197 punti; tolta l'imbottitura `sm:p-6` restano 149 punti per il testo sovrapposto, che a quella misura passa a `sm:text-3xl` (30px) e `sm:text-base` (16px). Prima di oggi, alla stessa larghezza, la fascia era alta 288 e ne restavano 240. Il testo è `absolute inset-0 ... justify-end` dentro un `overflow-hidden`: quando non ci sta, sfora verso l'ALTO e viene tagliato il titolo. Il conto: titolo su due righe (72) + sottotitolo su due righe (44) + due spazi (16) + pulsante (38) = 170 punti in un vano da 149. Il pannello ammette titoli fino a 120 caratteri e sottotitoli fino a 200 (components/admin/home/HomeSectionConfigForm.tsx:247-248), quindi le due righe non sono un caso limite: sono il caso normale. — Il banner della home è lo spazio che si vende o si regala a un negozio: se il titolo che l'admin ha scritto compare mozzato in cima, il negozio se ne accorge prima di noi. E la fascia 640-767 non è un caso di laboratorio: è il telefono grande girato in orizzontale e il tablet piccolo. Il ragionamento sulla proporzione è giusto e il difetto che chiude è vero; è il vano del testo che nessuno ha rimisurato dopo aver accorciato il riquadro.",
+   "impatto": "Il banner della home è lo spazio che si vende o si regala a un negozio: se il titolo che l'admin ha scritto compare mozzato in cima, il negozio se ne accorge prima di noi. E la fascia 640-767 non è un caso di laboratorio: è il telefono grande girato in orizzontale e il tablet piccolo. Il ragionamento sulla proporzione è giusto e il difetto che chiude è vero; è il vano del testo che nessuno ha rimisurato dopo aver accorciato il riquadro.",
+   "fix_proposto": "Un conto in node che legge le tre proporzioni da lib/banner-vetrina.ts e le misure del testo dal renderer, e pretende che a 360, 640, 768 e 1280 punti l'altezza della fascia sia >= imbottitura + titolo su due righe + sottotitolo su due righe + pulsante. Oggi a 640 servono 170 punti su 149 disponibili e il conto va in rosso. In alternativa, prova visiva dichiarata `verifica: {tipo:\"umano\"}`: aprire la home a 640px con un banner dal titolo di 40 caratteri e guardare se il titolo è intero."
+  },
+  {
+   "chiave": "deploy-sre|la prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro",
+   "titolo": "La prova di fumo chiama muro qualunque 401 o 403 — quindi un rilascio davvero rotto dietro un filtro non torna mai indietro",
+   "dimensione": "deploy-sre",
+   "file": "scripts/prova-di-fumo.mjs:116",
+   "descrizione": "`muroDavantiAlSito` esce con `null` solo se lo stato non e' 401 ne' 403; per ogni 401/403 restituisce una stringa — gli indizi (`_vercel_sso_nonce`, il corpo) cambiano solo il NOME del muro, mai il fatto che sia un muro. In `provaUnControllo` quel ritorno diventa `protetto: true`, e con tutti i controlli protetti l'uscita e' 4, sulla quale il lavoro di rilascio non annulla niente. — Il ragionamento scritto nel file regge solo finche' le tre porte non sanno rispondere 401/403 — e questo l'ho verificato: /api/health e /api/health/ready rispondono 200 o 503 e basta (app/api/health/route.ts:262, app/api/health/ready/route.ts:157), e / e' pubblica. Ma il 403 non lo decide solo il sito: lo puo' dare un filtro davanti (protezione anti-bot, blocco per zona, limite di richieste su una rete condivisa). In quel caso un rilascio rotto resta in produzione e il lavoro dice 'non ho potuto vedere'. Il rovescio dello stesso rischio che la riparazione voleva chiudere: la difendo come scelta ragionevole, ma va dichiarata e sorvegliata.",
+   "impatto": "Il ragionamento scritto nel file regge solo finche' le tre porte non sanno rispondere 401/403 — e questo l'ho verificato: /api/health e /api/health/ready rispondono 200 o 503 e basta (app/api/health/route.ts:262, app/api/health/ready/route.ts:157), e / e' pubblica. Ma il 403 non lo decide solo il sito: lo puo' dare un filtro davanti (protezione anti-bot, blocco per zona, limite di richieste su una rete condivisa). In quel caso un rilascio rotto resta in produzione e il lavoro dice 'non ho potuto vedere'. Il rovescio dello stesso rischio che la riparazione voleva chiudere: la difendo come scelta ragionevole, ma va dichiarata e sorvegliata.",
+   "fix_proposto": "Prova da aggiungere a tests/unit/la-prova-di-fumo-boccia-un-sito-rotto.test.ts: un 403 SENZA nessun indizio di Vercel deve valere come sito rotto, non come muro — `expect(provaUnControllo(...).protetto).toBe(false)`. Oggi e' true."
+  },
+  {
+   "chiave": "rls-database|security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "titolo": "security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "dimensione": "rls-database",
+   "file": "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql:74",
+   "descrizione": "La 152 mette `security_barrier = true` su sette viste, fra cui `seller_public_profiles`, `sponsored_active_public` e `ordini_disponibili_rider`, cioe' quelle che stanno sotto l'elenco negozi, gli annunci in home e la bacheca dei fattorini. Il file dichiara onestamente 'la fuga di righe che security_barrier previene non sono riuscito a riprodurla'; non dichiara pero' il prezzo: una vista barriera impedisce al pianificatore di anticipare i filtri di chi interroga, e su tabelle grandi puo' trasformare una ricerca mirata in una scansione. — Non e' un difetto di sicurezza: e' un rischio di lentezza sulle pagine che portano soldi, preso senza misura. Con il catalogo di oggi (poche righe) non si vede; su un catalogo vero puo' vedersi eccome, e nessuno avra' in mano il numero di partenza per accorgersene.",
+   "impatto": "Non e' un difetto di sicurezza: e' un rischio di lentezza sulle pagine che portano soldi, preso senza misura. Con il catalogo di oggi (poche righe) non si vede; su un catalogo vero puo' vedersi eccome, e nessuno avra' in mano il numero di partenza per accorgersene.",
+   "fix_proposto": "Sul database ricostruito con un catalogo di prova capiente: `EXPLAIN (ANALYZE) SELECT * FROM public.seller_public_profiles WHERE id = '...'` prima e dopo `ALTER VIEW ... RESET (security_barrier)`; diventa rosso se il piano passa da Index Scan a Seq Scan."
+  }
+ ]
+}

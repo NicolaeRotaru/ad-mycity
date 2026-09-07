@@ -1,0 +1,180 @@
+{
+  "dimensione": "frontend-ux",
+  "data": "2026-09-06 19:20",
+  "ramo_guardato": "claude/marketplace-open-issues-0gudy6",
+  "confronto": "git diff origin/main",
+  "lente": "il negoziante e il fattorino al lavoro, di fretta, su un telefono: numeri che cambiano significato senza dirlo, pannelli che si aprono male, un consiglio che suggerisce di attivare una cosa gia' attiva, un salvataggio che scrive piu' di quello che l'utente ha chiesto, uno stato d'errore che sembra un vuoto",
+  "verifiche_fatte": [
+    "npx tsc --noEmit -> exit 0",
+    "npx next lint sui 5 file piu' toccati -> nessun errore",
+    "vitest run sulle 4 prove del cruscotto -> 18 passate",
+    "compilazione Tailwind reale per verificare il calc() nuovo di SitePreview: emette `top: calc(var(--seller-topbar-height,4rem) + 1rem)`, valido. Sospetto scartato.",
+    "letto migrations/141 (venduti_per_prodotto), migrations/126 (numeri_del_negozio), migrations/052 (store_review_stats) per capire la finestra vera di ogni numero"
+  ],
+  "file_guardati": [
+    "app/seller/customers/page.tsx",
+    "app/seller/help/page.tsx",
+    "app/seller/layout.tsx",
+    "app/seller/orders/[id]/page.tsx",
+    "app/seller/products/[id]/edit/page.tsx",
+    "app/seller/products/ai-batch/page.tsx",
+    "app/seller/products/import/page.tsx",
+    "app/seller/promote/page.tsx",
+    "app/seller/promotions/page.tsx",
+    "app/seller/reviews/page.tsx",
+    "app/seller/stories/page.tsx",
+    "components/rider/CashConfirmDialog.tsx",
+    "components/seller/BulkPhotoCreate.tsx",
+    "components/seller/FeaturedProductsPicker.tsx",
+    "components/seller/ImproveAllPanel.tsx",
+    "components/seller/ProductImagesField.tsx",
+    "components/seller/SellerShell.tsx",
+    "components/seller/site/GalleryFields.tsx",
+    "components/seller/site/ImageUpload.tsx",
+    "components/seller/site/SitePreview.tsx",
+    "app/seller/analytics/page.tsx",
+    "app/seller/dashboard/page.tsx",
+    "app/seller/products/page.tsx",
+    "components/seller/ProductForm.tsx"
+  ],
+  "file_di_appoggio_letti": [
+    "app/seller/products/new/page.tsx",
+    "app/admin/products/new/page.tsx",
+    "lib/metriche-venditore.ts",
+    "lib/format.ts",
+    "lib/storage/carica-immagine.ts",
+    "components/hooks/useBottomSheetA11y.ts",
+    "app/layout.tsx",
+    "components/StoreMediaManager.tsx",
+    "tailwind.config.ts",
+    "components/providers/QueryProvider.tsx",
+    "migrations/052_perf_aggregation_rpcs.sql",
+    "migrations/126_radiografia_22_agosto.sql",
+    "migrations/141_i_conti_del_venditore_li_fa_il_database.sql"
+  ],
+  "difetti": [
+    {
+      "id": "FEVEN-01",
+      "titolo": "Il cruscotto ora conta trenta giorni, l'elenco prodotti conta ancora da sempre: due colonne che si chiamano «venduti» e non si sommano",
+      "posizione": "app/seller/dashboard/page.tsx:371-373 (con app/seller/products/page.tsx:295,463 e migrations/141_i_conti_del_venditore_li_fa_il_database.sql:38-53)",
+      "gravita": "grave",
+      "nato_o_vecchio": "peggiorato oggi",
+      "cosa_succede_in_pratica": "Oggi la targhetta «Articoli venduti» del cruscotto e' passata da «Dall'inizio» a «Ultimi 30 giorni», ed e' la cosa giusta. Ma la colonna «Venduti» dell'elenco prodotti — un click piu' in la' — non e' stata toccata: la riempie `venduti_per_prodotto`, che NON ha nessun filtro di data. Adesso i due numeri differiscono per tre cose insieme: la finestra (30 giorni contro sempre), l'unita' (il cruscotto conta le RIGHE d'ordine, l'elenco somma i PEZZI) e lo stato (il cruscotto prende pagato-e-non-annullato, l'elenco prende solo DELIVERED). Il negoziante che somma la colonna «Venduti» ottiene un numero molto piu' grande di quello scritto in cima al cruscotto, e nessuna delle due schermate spiega perche'. Prima di oggi almeno la finestra era la stessa (sbagliata, ma uguale): la differenza di finestra e' nata oggi.",
+      "come_si_riproduce": "Negozio con ordini piu' vecchi di 30 giorni. Apri /seller/dashboard e leggi «Articoli venduti». Apri /seller/products e somma la colonna «Venduti». I due numeri divergono, e la divergenza cresce con l'eta' del negozio.",
+      "cosa_farei": "O l'elenco prodotti dichiara la sua finestra («da sempre») accanto all'intestazione della colonna, o il cruscotto smette di chiamarli entrambi «venduti». La parola uguale su due grandezze diverse e' il difetto, non il numero."
+    },
+    {
+      "id": "FEVEN-02",
+      "titolo": "Due pagine gemelle leggono la consegna veloce con la stessa chiave e due funzioni diverse: il consiglio «attiva l'Express» torna a chi ce l'ha gia'",
+      "posizione": "app/seller/products/[id]/edit/page.tsx:81-89 contro app/seller/products/new/page.tsx:82-86",
+      "gravita": "grave",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Oggi la pagina di MODIFICA prodotto e' stata riparata: se la lettura di `offers_express` fallisce lo dice, invece di dare per scontato un «no». La pagina gemella NUOVO PRODOTTO e' rimasta com'era — `if (!user) return false;`, ripiego `= false`, e non passa `consegnaDelNegozioNonLetta` al modulo. Il guaio e' che le due usano LA STESSA chiave di cache React Query (`[...queryKeys.seller.profile,'offers-express']`) con due funzioni diverse. Chi apre prima «Nuovo prodotto» con la sessione non ancora pronta scrive `false` nella cache condivisa senza errore; poi apre «Modifica prodotto» e si becca `false` con `isError` falso — quindi il nuovo avviso NON compare, e ricompare invece il vecchio consiglio «la consegna veloce richiede l'Express attivo: attivalo dal profilo negozio» a un negoziante che l'ha attivata mesi fa. Il difetto che oggi si e' dichiarato chiuso e' vivo, un click a lato.",
+      "come_si_riproduce": "Entra come venditore con Express attivo, vai su /seller/products/new prima che la sessione sia risolta (o strozza la rete), poi apri /seller/products/<id>/edit di un prodotto con `express_enabled` a NULL: il selettore mostra «Spedizione 2-3 giorni» e l'avviso «attivalo dal profilo negozio», senza il riquadro giallo del guasto.",
+      "cosa_farei": "Una funzione sola, in un file solo, importata dalle due pagine (e dalla gemella admin). Se restano due, devono avere due chiavi diverse."
+    },
+    {
+      "id": "FEVEN-03",
+      "titolo": "Il modulo avvisa del rischio e lascia salvare lo stesso: chi cambia solo il prezzo si porta via la consegna veloce del prodotto",
+      "posizione": "components/seller/ProductForm.tsx:155-160, 631, 928-936",
+      "gravita": "grave",
+      "nato_o_vecchio": "nato oggi (mezza riparazione)",
+      "cosa_succede_in_pratica": "Con `consegnaDelNegozioNonLetta` a vero il modulo scrive «Ricarica la pagina prima di salvare: altrimenti rischi di togliere la consegna veloce a questo prodotto». Ma il selettore e' GIA' spento — `Boolean(sellerOffersExpress)` con `sellerOffersExpress` undefined da' `false` — e il pulsante Salva e' pieno e cliccabile. Alla riga 631 il modulo scrive sempre `expressEnabled: fastDelivery`. Risultato: un prodotto che ereditava la consegna veloce dal negozio (`express_enabled` a NULL) esce dal salvataggio con un `false` scritto sopra, e resta escluso anche dopo che la rete e' tornata. E' esattamente il danno che il commento in cima alla pagina di modifica dice di aver riparato: il rischio non e' stato tolto, e' stato girato addosso al negoziante che ha fretta. Un avviso non e' un freno.",
+      "come_si_riproduce": "Fai fallire la lettura di `profiles.offers_express` (offline dopo il caricamento, o revoca), apri la modifica di un prodotto con `express_enabled` NULL, cambia solo il prezzo, premi Salva: in banca dati `express_enabled` diventa `false`.",
+      "cosa_farei": "Quando la lettura e' fallita: o il Salva resta disabilitato, o il campo `expressEnabled` non entra nel payload (si lascia il NULL che c'era). Meglio non scrivere niente che scrivere un no inventato."
+    },
+    {
+      "id": "FEVEN-04",
+      "titolo": "Il cruscotto guarda se e' fallita una lettura su tre: «Nessuna recensione» e «0 articoli venduti» hanno lo stesso aspetto di un negozio nuovo",
+      "posizione": "app/seller/dashboard/page.tsx:150 (unico `throw`), 176 (`righeRes` senza controllo), 193 (`recensioniRes` senza controllo), effetti a 364 e 371-373",
+      "gravita": "maggiore",
+      "nato_o_vecchio": "peggiorato oggi",
+      "cosa_succede_in_pratica": "Nella stessa `Promise.all` solo `ordiniRes.error` viene lanciato. `righeRes` e `recensioniRes` vengono letti con `?? []` e basta. Se cadono, la targhetta recensioni scrive «—» e «Nessuna recensione» e quella degli articoli scrive «0 · Ultimi 30 giorni»: identico a un negozio che non ha mai venduto ne' ricevuto un voto. Oggi le recensioni sono passate dalla lettura diretta della tabella alla funzione `store_review_stats`: e' un modo di rompersi in piu' (funzione assente, cache dello schema PostgREST, permesso) e nessuno lo guarda. Il negoziante con quaranta recensioni a cinque stelle apre la prima schermata della sua giornata e legge che non ne ha nessuna. La casa la risposta giusta ce l'ha gia' scritta due volte: app/seller/analytics/page.tsx:361 dice «Non sono riuscito a leggere le recensioni», app/seller/products/page.tsx:110,362 dice «venduti non letti».",
+      "come_si_riproduce": "Fai fallire la RPC `store_review_stats` (rinominala, o togli il grant a `authenticated`) e ricarica /seller/dashboard: la targhetta «Valutazione media» mostra «—» e «Nessuna recensione», senza nessun segno che sia un guasto.",
+      "cosa_farei": "Stesso trattamento delle altre due pagine: un flag «non letto» per riquadro, e il riquadro lo dichiara. Zero e ignoto non si scrivono uguale."
+    },
+    {
+      "id": "FEVEN-05",
+      "titolo": "«Il tuo netto» sta di fianco a un riquadro che da oggi dichiara la sua finestra, e lui no — e puo' valere sempre o trenta giorni",
+      "posizione": "app/seller/dashboard/page.tsx:362 e 371-373, con lib/metriche-venditore.ts:160-164",
+      "gravita": "maggiore",
+      "nato_o_vecchio": "peggiorato oggi",
+      "cosa_succede_in_pratica": "`totaliDiSempre` mostra i totali di sempre solo se il database dichiara anche i rimborsi; altrimenti ripiega in silenzio sui trenta giorni che il browser sa contare. Quindi la targhetta «Il tuo netto — su X incassati» vale a volte «da sempre» e a volte «ultimi 30 giorni», con la stessa scritta. Fin qui e' vecchio (22 agosto). Cosa e' nato oggi: la targhetta accanto, sulla stessa riga, adesso dichiara «Ultimi 30 giorni». Il negoziante legge la riga da sinistra a destra e applica quella finestra a tutti e quattro i riquadri — mentre «Il tuo netto» probabilmente e' di sempre. Un riquadro etichettato accanto a uno muto e' peggio di due riquadri muti: l'etichetta di uno diventa la promessa dell'altro.",
+      "come_si_riproduce": "Stesso negozio, due ambienti: con `numeri_del_negozio` che riporta i rimborsi, e senza. «Il tuo netto» cambia valore e la scritta resta identica; nella stessa riga «Articoli venduti» dice «Ultimi 30 giorni».",
+      "cosa_farei": "Il suggerimento del riquadro dice la finestra che ha davvero usato: «da sempre» oppure «ultimi 30 giorni». Il ripiego lo sa gia', basta farlo uscire."
+    },
+    {
+      "id": "FEVEN-06",
+      "titolo": "Le due caselle di caricamento della vetrina hanno smesso di accettare le foto dell'iPhone, e non lo dicono a nessuno",
+      "posizione": "components/seller/site/GalleryFields.tsx:27-31 e components/seller/site/ImageUpload.tsx:39-43",
+      "gravita": "maggiore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Oggi `accept: { 'image/*': [] }` e' diventato jpeg + png + webp in tutte e due. Ma il deposito ne accetta SETTE (lib/storage/carica-immagine.ts:96-104): ci sono anche `image/heic`, `image/heif`, `image/avif`, `image/gif`. E react-dropzone i file fuori lista li scarta prima di `onDrop`, in silenzio: nessuna delle due caselle ha `onDropRejected`. Il negoziante fotografa la vetrina con l'iPhone, trascina il file HEIC dentro la galleria del suo sito o al posto del logo, e non succede assolutamente niente: nessun errore, nessun caricamento, nessuna spiegazione. Riprova, e non succede niente un'altra volta. La risposta giusta esiste gia' in casa, in due file: components/seller/ProductImagesField.tsx:116 e components/StoreMediaManager.tsx:55 hanno tutti e due `onDropRejected` con un messaggio.",
+      "come_si_riproduce": "Su /seller/site, trascina un .heic (o un .gif) nella galleria o nel caricatore singolo: nessun messaggio, nessuna anteprima, nessun cambiamento.",
+      "cosa_farei": "Copiare `onDropRejected` da ProductImagesField, e decidere se le sette del deposito devono diventare tre davvero — se si', dirlo nel testo della casella prima che il negoziante ci provi."
+    },
+    {
+      "id": "FEVEN-07",
+      "titolo": "Il campanello delle notifiche congela lo scorrimento di tutta l'area venditore",
+      "posizione": "components/seller/SellerShell.tsx:146 (con components/hooks/useBottomSheetA11y.ts:52)",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Il pannello notifiche e' stato agganciato a `useBottomSheetA11y`, ed e' la scelta giusta per Esc, fuoco e ritorno al campanello. Ma quell'aiutante e' scritto per i pannelli a tutta larghezza che salgono dal basso, e alla riga 52 mette `document.body.style.overflow = 'hidden'`. Qui il pannello e' un riquadro da 330 punti appeso al campanello, con dentro una riga di testo e un link. Il negoziante sul telefono tocca il campanello, legge «Nessuna nuova notifica», e prova a scorrere la pagina dietro come farebbe con un menu a tendina: la pagina e' morta finche' non tocca fuori. Non e' rotto, e' scortese — e la scortesia sta nel riuso, non nella scelta.",
+      "come_si_riproduce": "Da telefono, in una pagina venditore lunga (/seller/products): tocca il campanello, poi trascina la pagina. Non si muove.",
+      "cosa_farei": "Separare il blocco dello scorrimento dal resto dell'aiutante, con un interruttore: i pannelli dal basso lo vogliono, le tendine agganciate a un pulsante no."
+    },
+    {
+      "id": "FEVEN-08",
+      "titolo": "L'avviso nuovo del modulo prodotto usa il giallo che oggi stesso e' stato tolto dall'area venditore",
+      "posizione": "components/seller/ProductForm.tsx:929 (`text-amber-700`), contro components/seller/ImproveAllPanel.tsx:63-79",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Nello stesso lotto, due squadre sono andate in direzioni opposte. Una ha tolto da ImproveAllPanel i colori di serie di Tailwind (emerald/amber/rose) e li ha portati sui tre di MyCity (olive/accent/secondary), scrivendo nel commento che il negoziante deve vedere lo stesso codice-colore ovunque. L'altra, quaranta righe piu' in la' nello stesso mestiere, ha aggiunto un avviso nuovo in `text-amber-700`. Non si rompe niente — la classe e' nella lista di sicurezza in tailwind.config.ts:32 — ma l'avviso piu' importante del modulo prodotto e' l'unico giallo fuori tavolozza di quella schermata.",
+      "come_si_riproduce": "Confronta a video il giallo dell'avviso «Non riesco a leggere le impostazioni di consegna» con il giallo del riquadro «Cosa puoi fare tu» del pannello Migliora: sono due gialli diversi.",
+      "cosa_farei": "`text-accent-700`, come il resto."
+    },
+    {
+      "id": "FEVEN-09",
+      "titolo": "Le date delle campagne a pagamento adesso passano dal fuso orario del telefono",
+      "posizione": "app/seller/promote/page.tsx:242 (con lib/format.ts:62-63)",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Prima le date della campagna si mostravano grezze («2026-09-06»): brutte ma senza fuso. Oggi passano da `formatDate`, che e' `new Date(x).toLocaleDateString('it-IT', …)` senza `timeZone`. Le colonne `start_date`/`end_date` sono date secche: `new Date('2026-09-06')` e' mezzanotte UTC, e su un dispositivo impostato dietro l'UTC diventa il giorno prima. A Piacenza non capita quasi mai (siamo sempre avanti), ma e' la data di una cosa che il negoziante paga, e la casa ha gia' `giornoPiacenza()` per non tirare a indovinare.",
+      "come_si_riproduce": "Metti il fuso del browser su America/New_York e apri /seller/promote: una campagna che inizia il 6 si legge «5 settembre 2026».",
+      "cosa_farei": "`timeZone: 'Europe/Rome'` dentro `formatDate`, oppure una funzione a parte per le date secche."
+    },
+    {
+      "id": "FEVEN-10",
+      "titolo": "Due prove descrivono ancora un cruscotto che restituisce campi che non esistono piu'",
+      "posizione": "tests/unit/i-numeri-del-negozio-si-leggono.test.ts:141,150-152 e tests/unit/tornando-da-stripe-il-negozio-legge-lo-stato-vero.test.ts:103-105",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede_in_pratica": "Il cruscotto oggi ha smesso di restituire `vendutoArticoli`, `ordersToday`, `orders7`, `last30Count`. I finti dati di due prove li dichiarano ancora. Le prove passano (sono campi in piu', nessuno li guarda), quindi non e' un guasto: e' una descrizione scaduta. Chi legge quelle prove fra un mese per capire cosa mostra il cruscotto legge una forma che non esiste, e ci costruisce sopra.",
+      "come_si_riproduce": "`npx vitest run tests/unit/i-numeri-del-negozio-si-leggono.test.ts` -> verde, ma il finto `stats` non corrisponde piu' a quello che la pagina ritorna.",
+      "cosa_farei": "Togliere i quattro campi dai finti dati, nello stesso lotto che li ha tolti dalla pagina."
+    }
+  ],
+  "sospetti_verificati_e_scartati": [
+    {
+      "sospetto": "CashConfirmDialog: importo scritto a mano mentre un'altra squadra sistema i formati dei prezzi",
+      "esito": "NIENTE DA FARE, e niente da passare. Le due cifre da LEGGERE («Previsto», «hai gia' trattenuto») sono gia' passate oggi a `formatPriceFromCents` (righe 159 e 161). L'unico `toFixed(2)` rimasto e' alla riga 41 ed e' corretto: e' il valore dentro `<input type=\"number\">`, che l'HTML accetta solo col punto e che la riga 74 rilegge con `parseFloat`. Scriverlo «35,00 €» svuoterebbe il campo davanti al fattorino. Il caso della virgola (tastiera italiana) e' coperto: la riga 75 blocca con «Importo non valido», e il pulsante e' disabilitato durante l'invio (riga 192) — nessun doppio invio."
+    },
+    {
+      "sospetto": "SitePreview: `lg:top-[calc(var(--seller-topbar-height,4rem)+1rem)]` senza spazi attorno al `+` e' CSS non valido, quindi l'anteprima non si incolla piu'",
+      "esito": "FALSO. Compilato Tailwind sul serio con la configurazione del repo: emette `top: calc(var(--seller-topbar-height,4rem) + 1rem)`, gli spazi li mette Tailwind da solo. E' anche la convenzione di casa (dodici altri `calc(...+env(...))` scritti cosi'). Nessun difetto."
+    },
+    {
+      "sospetto": "SellerShell: il `<main>` tolto rompe il salto «vai al contenuto»",
+      "esito": "FALSO. `app/layout.tsx:200,214` ha `href=\"#main-content\"` e `<main id=\"main-content\">` che avvolge tutto: il punto di riferimento resta uno e il salto continua a funzionare. Il `<main>` dentro `<main>` era davvero da togliere."
+    },
+    {
+      "sospetto": "`--seller-topbar-height` non e' ancora scritta quando SitePreview dipinge (gli effetti dei figli girano prima di quelli del genitore)",
+      "esito": "NON E' UN DIFETTO. Il ripiego `4rem` nel `var()` vale 64 punti, la barra vera ne misura una sessantina: nessun salto visibile. Resta un limite dichiarato: la misura si rifa' solo al ridimensionamento della finestra, non quando i caratteri finiscono di caricare."
+    },
+    {
+      "sospetto": "BulkPhotoCreate: la chiave stabile con `crypto.randomUUID()` puo' mancare su browser vecchi o in contesto non sicuro",
+      "esito": "NON RILEVANTE QUI. La pagina venditore gira solo in HTTPS (contesto sicuro) e `crypto.randomUUID` c'e' da Safari 15.4 e Chrome 92. La riparazione della chiave e' giusta e risolve uno scambio di nomi e prezzi fra prodotti."
+    }
+  ],
+  "niente_trovato_perche": "Non applicabile: 10 difetti trovati su 24 file, 6 nati oggi e 4 peggiorati oggi. I file dove non ho trovato niente sono quelli con modifiche di sola forma verificate una per una: app/seller/customers/page.tsx (etichetta di ricerca + nota sul consenso, corretta e al posto giusto), app/seller/help/page.tsx e app/seller/layout.tsx (le promesse «entro 24h/48h» sono diventate «ore lavorative», e ho controllato che siano coerenti con app/sell/page.tsx:35 e components/SellerApplicationForm.tsx:410 — lo sono; restano al vecchio conteggio le pagine del CLIENTE, app/orders/[id]/dispute/page.tsx:72,101 e app/shipping/page.tsx:132, che pero' non sono in questo perimetro), app/seller/reviews/page.tsx e app/seller/analytics/page.tsx (virgola decimale italiana), app/seller/promotions/page.tsx («buyer» -> «clienti», ed e' l'ultimo «buyer» rimasto nei testi venditore), app/seller/stories/page.tsx (conferma di cancellazione che dice cosa cancella, etichette in italiano), app/seller/products/ai-batch/page.tsx e import/page.tsx (foto ridimensionate, prezzo formattato), app/seller/products/page.tsx (la barra di selezione multipla ora rispetta la striscia di iPhone: riparazione vera e verificata), components/seller/FeaturedProductsPicker.tsx (etichetta di ricerca), app/seller/orders/[id]/page.tsx (il piu' solido del lotto: `.maybeSingle()` separa «non trovato» da «non raggiungibile», e `.select('id')` sull'aggiornamento smaschera la scrittura che le regole di riga hanno lasciato passare a vuoto — era «stato aggiornato» su zero righe toccate)."
+}

@@ -1,0 +1,99 @@
+{
+ "squadra": 2,
+ "territorio": [
+  "tailwind.config.ts",
+  "public/offline.html",
+  "tests/unit/il-pulsante-riprova-della-pagina-offline-funziona-davvero.test.ts"
+ ],
+ "malattia": "Pacchetto misto: due difetti vivono nel codice (una lista di sicurezza di Tailwind rimasta larga dopo che le dashboard admin sono passate a classi statiche, e una pagina statica scritta prima della regola di sicurezza col nonce), cinque non si chiudono col codice perche stanno su interruttori di Supabase e Vercel, in policy di produzione o nel lockfile, e uno richiede otto file di altre squadre.",
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|la lista di sicurezza di tailwind tiene in vita 72 classi fuori brand che non usa nessuno",
+   "titolo": "La lista di sicurezza di Tailwind tiene in vita 72 classi fuori brand che non usa nessuno",
+   "esito": "riparato",
+   "prova": "Compilazione vera di Tailwind (non il build di Next, vietato qui): ./node_modules/.bin/tailwindcss -c tailwind.config.ts -i in.css -o prima.css --minify, poi la stessa dopo il fix. PRIMA: .bg-sky-600, .text-indigo-600, .bg-slate-200, .text-violet-600, .bg-pink-100, .border-blue-700 presenti (1 ciascuna). DOPO: tutte a 0. Restano vive .text-amber-700, .text-rose-600, .bg-emerald-100, .border-rose-200, .bg-primary-600. Selettori delle famiglie della safelist: 2376 prima, 792 dopo. CSS minificato 223.411 byte -> 139.069 byte (-84 KB, -38%).",
+   "nota_fix": "La scheda diceva di CANCELLARE le righe 24-29. Non l'ho fatto, e il codice mi ha dato ragione: lib/ NON e nei content globs di Tailwind (ci sono solo app/ e components/), e lib/loyalty.ts:22 scrive text-amber-700 dentro TIER_META, la classe del livello Bronzo che finisce a video da app/profile/loyalty e altre sette pagine. Cancellando tutto, quella classe sopravviveva solo per il caso che qualcuno l'abbia scritta a mano anche in app/cart/page.tsx - e app/cart/page.tsx lo sta riscrivendo la squadra 1 proprio adesso. Ho quindi RISTRETTO il pattern alle tre famiglie davvero usate: /(bg|text|border)-(emerald|amber|rose)-(100|200|600|700)/. Le sei famiglie fuori palette (sky, violet, indigo, slate, pink, blue) sono sparite: verificato che nell'intero repo non le usa nessun file (grep su ts/tsx/js/jsx/mdx/html/json, zero occorrenze fuori da node_modules). Seconda differenza con la scheda: non erano 72 classi ma 1584 selettori, perche il pattern non e ancorato e Tailwind generava anche tutte le varianti di opacita (.bg-sky-600/0 ... /100). Aggiornato anche il commento sopra la safelist: diceva ancora che le dashboard admin compongono classi dinamiche, cosa non piu vera. NON verificato: il CSS del build vero di Next (npm run build e vietato in questo lotto) e la resa a schermo.",
+   "file_toccati": [
+    "tailwind.config.ts"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|sulla pagina «sei offline» il pulsante «riprova» non fa niente",
+   "titolo": "Sulla pagina «Sei offline» il pulsante «Riprova» non fa niente",
+   "esito": "riparato",
+   "prova": "Prova nuova che gira: npx vitest run tests/unit/il-pulsante-riprova-della-pagina-offline-funziona-davvero.test.ts -> 3 test verdi, exit 0. Mutazione (rimesso <button onclick=\"location.reload()\">): 2 test rossi, exit 1, messaggio \"offline.html: gestore in linea rifiutato dalla regola\". Ripristinato il fix: exit 0. La prova non cerca una parola: chiama il middleware vero con NODE_ENV=production su /offline.html, legge la direttiva script-src dall'intestazione che esce davvero, e solo se quella non ammette i gestori in linea pretende che le pagine statiche di public/ non ne abbiano. Typecheck: npx tsc --noEmit -p tsconfig.json exit 0.",
+   "nota_fix": "Difetto confermato sul codice vero: buildCsp in middleware.ts genera in produzione script-src 'self' 'nonce-...' 'strict-dynamic', senza unsafe-inline ne unsafe-hashes, e il matcher del middleware non esclude /offline.html (esclude solo _next/, api/, favicon, icon-, manifest, sitemap, robots). Quindi l'onclick era morto per definizione. Fix: <a class=\"bottone\" href=\"\">Riprova</a> al posto del <button onclick>, piu la regola CSS button rinominata .bottone con display:inline-block e text-decoration:none (aspetto identico). Ho scelto href=\"\" e non href=\"/\" come proponeva la scheda: public/sw.js risponde alla navigazione fallita con la copia in cache di offline.html senza cambiare indirizzo (caches.match(OFFLINE_URL) dentro networkFirstHtml), quindi la barra degli indirizzi mostra ancora /product/123; href=\"\" risolve sull'indirizzo del documento e riprova QUELLA pagina, come faceva location.reload(). Con href=\"/\" la persona si ritrovava in home avendo perso la pagina che stava aprendo. Aggiunta anche la prova che mancava: la causa radice diceva che i file di public/ non passano da nessun test, e ora ci passano. NON verificato: il comportamento in un browser reale offline (niente browser da qui) e la risposta di produzione, che dietro il proxy risponde 403.",
+   "file_toccati": [
+    "public/offline.html",
+    "tests/unit/il-pulsante-riprova-della-pagina-offline-funziona-davvero.test.ts"
+   ]
+  },
+  {
+   "chiave": "sicurezza-auth|la protezione contro le password già rubate è spenta su supabase auth",
+   "titolo": "La protezione contro le password già rubate è spenta su Supabase Auth",
+   "esito": "non_riparato",
+   "prova": "Nessuna riga di codice puo cambiarlo: e un interruttore del progetto Supabase. Cercato nel repo un punto dove il controllo password si configuri (config.toml di Supabase o simili): non esiste, il progetto non tiene la configurazione di Auth nel repo.",
+   "nota_fix": "Serve Nicola sul cruscotto di Supabase: Authentication -> Providers -> Email -> attivare 'Leaked password protection' (controllo HaveIBeenPwned). Un minuto, reversibile, nessun deploy. Tocca a @security preparare l'azione e a Nicola premere. NON verificato da qui: non ho lo strumento Supabase in questa sessione, quindi non ho potuto ricontrollare l'advisor: resta il verdetto della radiografia del 3/9.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "rls-database|in produzione la tabella dei prodotti ha due regole in più che nel codice, e un indice degli ordini è doppio",
+   "titolo": "In produzione la tabella dei prodotti ha due regole in più che nel codice, e un indice degli ordini è doppio",
+   "esito": "non_riparato",
+   "prova": "Il fix e una migrazione SQL applicata in produzione: fuori dal lotto per regola del briefing (punto 3: nessuna migrazione) e fuori territorio (la cartella migrations/ e assegnata ad altre squadre, es. la 5).",
+   "nota_fix": "Servono due cose, entrambe 🔴 e da firmare: (1) una migrazione che elimina le due policy doppione su products ('Admin sees all products' e 'Seller sees own products') e l'indice doppio su order_items; (2) la decisione se portare nel repo la migrazione memoria_ad_pannello del 24/6 o dichiararla fuori perimetro. Owner: @backend-dev per scrivere il file, @security per rileggerlo, Nicola per applicarlo. NON verificato: non ho potuto riconfrontare produzione e schema locale da questa sessione.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "performance|dodici regole di accesso richiamano auth.uid() per ogni riga invece che una volta sola",
+   "titolo": "Dodici regole di accesso richiamano auth.uid() per ogni riga invece che una volta sola",
+   "esito": "non_riparato",
+   "prova": "Le 12 policy vivono nel database di produzione, non nel codice: si riscrivono solo con una migrazione. Stessa regola del briefing (nessuna migrazione in questo lotto).",
+   "nota_fix": "Il fix e meccanico ma va scritto e applicato: riscrivere le 12 policy con (select auth.uid()) al posto di auth.uid() nudo. Impatto oggi impercettibile (poche righe in tabella), quindi puo aspettare il lotto delle migrazioni. Owner: @backend-dev, firma di Nicola. NON verificato: non ho rieseguito l'advisor di Supabase da qui.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "dati-analytics|le statistiche di visita di vercel non sono attive, e quindi nessuno sa quanta gente entra",
+   "titolo": "Le statistiche di visita di Vercel non sono attive, e quindi nessuno sa quanta gente entra",
+   "esito": "non_riparato",
+   "prova": "Controllato nel repo: grep \"@vercel/analytics\" su package.json e app/layout.tsx -> nessuna occorrenza. Il pacchetto non c'è proprio, quindi il fix richiederebbe sia una dipendenza nuova (package.json vietato dal briefing) sia un interruttore sul cruscotto Vercel.",
+   "nota_fix": "Due strade, entrambe fuori dal mio perimetro: (a) Nicola attiva Web Analytics sul progetto mycity dal cruscotto Vercel, e poi serve comunque <Analytics /> in app/layout.tsx (territorio della squadra 1) con il pacchetto @vercel/analytics in package.json; (b) si riaccende PostHog, che era stato spento per scelta. Owner: @devops-sre per la parte Vercel, @data-engineer per decidere quale dei due, Nicola per la firma. Va deciso presto: oggi il sito non misura i visitatori da nessuna parte.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "deploy-sre|tre librerie di produzione hanno vulnerabilità note, quattro giorni dopo averle azzerate",
+   "titolo": "Tre librerie di produzione hanno vulnerabilità note, quattro giorni dopo averle azzerate",
+   "esito": "non_riparato",
+   "prova": "Rieseguito adesso in sola lettura: cd /home/user/mycity && npm audit --omit=dev --audit-level=high -> exit 1, \"4 vulnerabilities (1 low, 2 moderate, 1 high)\". Il difetto e ancora aperto ed e anche PEGGIORATO: la radiografia del 3/9 ne contava 3, ora sono 4 (una moderate nuova su qs, GHSA-4mjr-xmp4-gh2g).",
+   "nota_fix": "Il fix e npm audit fix, che riscrive package-lock.json: vietato dal briefing (punto 8) perche mentre cinque squadre lavorano sullo stesso albero un aggiornamento di dipendenze fa esplodere tutto sotto le loro mani. Va fatto dall'AD ad albero fermo, in un commit suo, con npm run verify dietro. Il pezzo strutturale resta scoperto: nessun passo di CI guarda gli avvisi, quindi la deriva ricomincia la settimana dopo. Il file dove aggiungerlo (.github/workflows/deploy-dopo-ci.yml) e territorio della squadra 5. Owner: @devops-sre.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+   "titolo": "Otto spaziature diverse per la stessa etichetta maiuscola",
+   "esito": "non_riparato",
+   "prova": "Riconteggio fatto adesso su app/, components/ e lib/: tracking-wider 49, tracking-wide 48, tracking-[0.03em] 17, tracking-label 10, tracking-[0.05em] 8, tracking-[0.08em] 5, tracking-[0.04em] 4, tracking-widest 3, tracking-[0.06em] 3. Otto valori diversi, difetto confermato. Il valore dichiarato tracking-label = 0.04em sta in tailwind.config.ts:156 (era 152 prima del mio fix sulla safelist, la scheda diceva 151).",
+   "nota_fix": "BLOCCATO per territorio: il pezzo mio (tailwind.config.ts) e gia a posto - il valore tracking-label esiste ed e giusto. Il fix vero e sostituire le spaziature nelle pagine, cioe otto file che non sono miei: app/orders/page.tsx (squadra 1, sta scrivendo ADESSO), app/profile/page.tsx, app/profile/addresses/page.tsx, app/notifications/page.tsx, app/returns/page.tsx, app/messages/page.tsx, app/favorites/page.tsx e components/CollectionHeader.tsx. Consiglio per l'AD: non spalmarlo su otto squadre, che si pestano i piedi - vale un pacchetto suo per una squadra sola, che estrae un componente Eyebrow unico dal blocco ripetuto (text-xs font-bold uppercase tracking-[0.05em] text-primary-700) e lo usa negli otto posti.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "tipografia|otto spaziature diverse per la stessa etichetta maiuscola",
+   "perche": "il fix vive in file fuori territorio: app/orders/page.tsx (squadra 1, ondata 1, attiva ora), app/profile/page.tsx, app/profile/addresses/page.tsx, app/notifications/page.tsx, app/returns/page.tsx, app/messages/page.tsx, app/favorites/page.tsx, components/CollectionHeader.tsx"
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Le classi colore scritte in lib/ non sono viste da Tailwind, perche lib/ non e fra i content del config",
+   "dove": "tailwind.config.ts:17-20 (content) vs lib/loyalty.ts:22 (text-amber-700 in TIER_META)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Le vulnerabilita delle dipendenze di produzione sono salite da 3 a 4 in tre giorni e nessun passo di CI le guarda",
+   "dove": "package-lock.json (qs, GHSA-4mjr-xmp4-gh2g) + .github/workflows/deploy-dopo-ci.yml",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Il CSS del build vero di Next (npm run build vietato nel lotto): la prova sulla safelist e una compilazione Tailwind autonoma, fedele ma non identica. La pagina offline non l'ho aperta in un browser vero senza rete, ne in produzione (da qui risponde 403): ho provato la regola di sicurezza vera e il contenuto del file, non il gesto del dito. I cinque difetti che stanno su Supabase, Vercel e nel lockfile non li ho potuti nemmeno ricontrollare alla fonte, tranne npm audit che ho rieseguito ed e ancora rosso: sugli advisor di Supabase mi fido del verdetto della radiografia del 3/9."
+}

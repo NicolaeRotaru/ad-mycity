@@ -1,0 +1,21 @@
+{
+ "squadra": 53,
+ "ondata": 11,
+ "pacchetto": "components/SponsoredCarousel.tsx",
+ "territorio_principale": "components/SponsoredCarousel.tsx",
+ "file_citati": [
+  "migrations/122_radiografia_20_agosto.sql",
+  "components/SponsoredCarousel.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "sicurezza-auth|chi vuole falsare le statistiche di un negozio che ha pagato la vetrina in evidenza puo' farlo senza account",
+   "titolo": "Chi vuole falsare le statistiche di un negozio che ha pagato la vetrina in evidenza puo' farlo senza account",
+   "dimensione": "sicurezza-auth",
+   "file": "migrations/122_radiografia_20_agosto.sql:200-262 (sponsored_sotto_tetto, track_sponsored_impression, track_sponsored_click) · components/SponsoredCarousel.tsx:144",
+   "descrizione": "Le due funzioni che contano visualizzazioni e clic degli spazi sponsorizzati sono eseguibili dal ruolo anonimo e scrivono. Il tetto che le protegge (60 visualizzazioni e 10 clic al minuto) e' contato PER CAMPAGNA, non per visitatore ne' per indirizzo di rete: e' un unico secchio condiviso. Quindi non serve superarlo per fare danno, basta riempirlo. Chi lancia 61 chiamate all'inizio di ogni minuto contro l'identificativo di una campagna consuma la quota, e da li' in poi le visualizzazioni VERE di quel minuto non vengono piu' contate. Gli identificativi delle campagne attive non sono segreti: la vista sponsored_active_public e' leggibile dal ruolo anonimo.\n\nCausa radice: Il freno e' stato pensato come tetto contro il gonfiaggio ('nessuna persona vera fa dieci clic al minuto') e non come quota condivisa fra persone diverse. Un contatore per campagna, senza nessun pezzo di identita' del chiamante nella chiave, si puo' esaurire per conto di tutti gli altri: la difesa diventa l'arma.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -c \"BEGIN; SET ROLE anon; SELECT public.track_sponsored_impression('11111111-1111-1111-1111-111111111111'::uuid) FROM generate_series(1,61); RESET ROLE; SELECT public.sponsored_sotto_tetto('11111111-1111-1111-1111-111111111111'::uuid,'impression',60); ROLLBACK;\" → nessun permesso negato, conteggio 61, e la chiamata successiva torna 'f': la visualizzazione vera non viene piu' contata.",
+   "impatto": "Un negozio che ha comprato lo spazio in evidenza con Stripe (il flusso passa da lib/stripe/webhook/sponsorizzati.ts) apre il suo pannello e vede zero visualizzazioni, oppure dieci clic che non ha mai ricevuto. Nel primo caso conclude che la vetrina a pagamento non serve e non la rinnova; nel secondo prende decisioni su numeri finti. In tutti e due i casi ha pagato per un dato che non e' piu' suo.",
+   "fix_proposto": "Mettere l'identita' del chiamante dentro la chiave del contatore (indirizzo di rete o identificativo di sessione oltre a campaign_id), cosi' chi abusa esaurisce solo la propria quota. In piu': non far contare al browser, ma passare da una rotta del server che applica il freno per indirizzo gia' esistente in lib/rate-limit.ts, e togliere l'EXECUTE ad anon sulle due funzioni."
+  }
+ ]
+}

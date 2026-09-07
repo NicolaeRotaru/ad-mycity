@@ -1,0 +1,22 @@
+{
+ "squadra": 70,
+ "ondata": 15,
+ "pacchetto": "app/profile/referral/page.tsx",
+ "territorio_principale": "app/profile/referral/page.tsx",
+ "file_citati": [
+  "components/checkout/CouponInput.tsx",
+  "components/checkout/ShippingAddressForm.tsx",
+  "app/profile/referral/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|in cassa due scritte piccole e il codice referral hanno un contrasto sotto la soglia di legge",
+   "titolo": "In cassa due scritte piccole e il codice referral hanno un contrasto sotto la soglia di legge",
+   "dimensione": "accessibilita",
+   "file": "components/checkout/CouponInput.tsx:46 · components/checkout/ShippingAddressForm.tsx:113 · app/profile/referral/page.tsx:86 · palette in tailwind.config.ts:34-118",
+   "descrizione": "Misurato dai colori veri della palette (formula WCAG): «Rimuovi» del codice sconto, text-rose-600 #E11D48 su bg-olive-50 #F6F8F1 = 4,39:1; «Predefinito» sulla mattonella dell'indirizzo attivo, text-ink-400 #78716C su bg-primary-50 #FDF4F1 = 4,43:1; «Il tuo codice» nel riquadro referral, text-primary-100 #FAE3DC su primary-600 #C0492C = 4,04:1. Soglia WCAG 1.4.3 (AA) per testo piccolo: 4,5:1. Sono testi di 10-12 px, quindi non vale la soglia ridotta di 3:1. Diversi dai tre contrasti già noti (passo del checkout, testi di servizio del carrello, × della pillola).\n\nCausa radice: Si abbinano colori della palette «a occhio»: nessun controllo automatico sulle coppie testo/sfondo (manca un test sui token di colore) e rose-600 è un colore Tailwind di default fuori dalla palette curata.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/accessibilita-contrasti-nuovi.test.ts   (rossa oggi: 3 coppie su 3 sotto 4,5:1)",
+   "impatto": "Chi ha una vista debole (anziani inclusi) fatica a leggere «Rimuovi» e «Predefinito» proprio nella cassa; nessun blocco all'acquisto, ma è una non conformità AA misurabile sul percorso di pagamento.",
+   "fix_proposto": "CouponInput.tsx:46 → text-rose-700 (#BE123C, ≈6,0:1 su olive-50) oppure text-secondary-700 della palette; ShippingAddressForm.tsx:113 → text-ink-500 (#57534E, ≈7,4:1); referral/page.tsx:86 → text-white/90 o text-primary-50. Sistema: aggiungere in tests/unit un test che misura le coppie di colori usate nei componenti del checkout contro 4,5:1. Owner: @frontend-dev (colori) / @designer (palette)."
+  }
+ ]
+}

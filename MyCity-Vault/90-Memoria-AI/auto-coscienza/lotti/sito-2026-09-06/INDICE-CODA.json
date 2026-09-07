@@ -1,0 +1,301 @@
+[
+ {
+  "squadra": 201,
+  "ondata": 6,
+  "n": 9,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "app/globals.css"
+  ],
+  "file": 9
+ },
+ {
+  "squadra": 202,
+  "ondata": 6,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "components/SearchBar.tsx",
+   "home/user/mycity/components/ProductGrid.tsx",
+   "components/StoreMediaManager.tsx"
+  ],
+  "file": 11
+ },
+ {
+  "squadra": 203,
+  "ondata": 6,
+  "n": 7,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "lib/email/templates.ts",
+   "lib/format.ts"
+  ],
+  "file": 15
+ },
+ {
+  "squadra": 204,
+  "ondata": 6,
+  "n": 5,
+  "agente": "tech",
+  "pacchetti": [
+   "app/lists/[id]/page.tsx",
+   "home/user/mycity/app/seller/stories/page.tsx",
+   "home/user/mycity/app/lists/page.tsx"
+  ],
+  "file": 7
+ },
+ {
+  "squadra": 205,
+  "ondata": 6,
+  "n": 5,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "app/stores/page.tsx",
+   "lib/api/middleware.ts"
+  ],
+  "file": 7
+ },
+ {
+  "squadra": 206,
+  "ondata": 7,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "components/Navbar.tsx",
+   "components/ProductCard.tsx"
+  ],
+  "file": 12
+ },
+ {
+  "squadra": 207,
+  "ondata": 7,
+  "n": 7,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "home/user/mycity/app/cart/page.tsx",
+   "lib/stripe/webhook/ordini.ts",
+   "app/api/cron/expire-checkouts/route.ts",
+   "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+   "lib/constants.ts",
+   "lib/promesse-pubbliche.ts"
+  ],
+  "file": 9
+ },
+ {
+  "squadra": 208,
+  "ondata": 7,
+  "n": 6,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "migrations/119_radiografia_18_agosto.sql",
+   "components/seller/SellerShell.tsx",
+   "lib/metriche-venditore.ts"
+  ],
+  "file": 9
+ },
+ {
+  "squadra": 209,
+  "ondata": 7,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "scripts/applica-migrazioni-mancanti.sh",
+   "components/store-sections/ReviewsSection.tsx",
+   "app/product/[id]/opengraph-image.tsx"
+  ],
+  "file": 6
+ },
+ {
+  "squadra": 210,
+  "ondata": 7,
+  "n": 6,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "app/api/stripe/checkout/route.ts",
+   "lib/stripe/client.ts",
+   "app/api/returns/create/route.ts",
+   "app/api/ai/catalog-create/route.ts",
+   "components/seller/ProductForm.tsx",
+   "components/StorePreviewCard.tsx"
+  ],
+  "file": 13
+ },
+ {
+  "squadra": 211,
+  "ondata": 8,
+  "n": 7,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "app/profile/settings/page.tsx",
+   "home/user/mycity/app/sign-in/page.tsx",
+   "public/manifest.js",
+   "components/StickyAddToCart.tsx"
+  ],
+  "file": 16
+ },
+ {
+  "squadra": 212,
+  "ondata": 8,
+  "n": 6,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "lib/store-hours.ts",
+   "migrations/115_privacy_radiografia.sql",
+   "components/SponsoredCarousel.tsx",
+   "migrations/087_wallet_and_redemption.sql",
+   "migrations/127_minori_22_agosto.sql",
+   "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql"
+  ],
+  "file": 13
+ },
+ {
+  "squadra": 213,
+  "ondata": 8,
+  "n": 6,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "lib/ordini/annulla.ts",
+   "lib/stripe/webhook/trasferimenti.ts",
+   "lib/stripe/webhook/sponsorizzati.ts",
+   "app/api/account/export/route.ts",
+   "lib/account/cancellazione.ts",
+   "components/ui/SocialProof.tsx"
+  ],
+  "file": 10
+ },
+ {
+  "squadra": 214,
+  "ondata": 8,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "app/seller/orders/[id]/page.tsx",
+   "components/seller/BulkPhotoCreate.tsx",
+   "app/api/sponsored/checkout/route.ts",
+   "lib/cart.ts",
+   "components/GoogleAnalytics.tsx",
+   "lib/env.ts"
+  ],
+  "file": 13
+ },
+ {
+  "squadra": 215,
+  "ondata": 8,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "lib/analytics/sentry-config.ts",
+   "app/admin/today/page.tsx",
+   "components/account/AccountShell.tsx",
+   "components/store-sections/SectionRenderer.tsx",
+   "app/seller/products/page.tsx",
+   "components/seller/ImproveAllPanel.tsx"
+  ],
+  "file": 10
+ },
+ {
+  "squadra": 216,
+  "ondata": 9,
+  "n": 7,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "app/messages/[id]/page.tsx",
+   "app/profile/referral/page.tsx",
+   "app/store/[id]/page.tsx",
+   "components/OrderTimeline.tsx",
+   "home/user/mycity/app/checkout/page.tsx",
+   "home/user/mycity/components/ui/LoadingState.tsx",
+   "components/ProductGrid.tsx"
+  ],
+  "file": 18
+ },
+ {
+  "squadra": 217,
+  "ondata": 9,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "components/providers/ToastProvider.tsx",
+   "lib/shipping-etichetta/label.ts",
+   "components/ui/Badge.tsx",
+   "lib/order-status.ts",
+   "docs/mockup/components/commerce/ProductCard.jsx",
+   "app/shipping/page.tsx"
+  ],
+  "file": 8
+ },
+ {
+  "squadra": 218,
+  "ondata": 9,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "components/ui/Card.tsx",
+   "app/profile/page.tsx",
+   "app/seller/analytics/page.tsx",
+   "components/ui/Toggle.tsx",
+   "app/profile/loyalty/page.tsx",
+   "home/user/mycity/app/messages/page.tsx"
+  ],
+  "file": 7
+ },
+ {
+  "squadra": 219,
+  "ondata": 9,
+  "n": 6,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "lib/products/uploadImages.ts",
+   "lib/image-url.ts",
+   "app/sell/page.tsx",
+   "lib/errors.ts",
+   "app/api/locale/route.ts",
+   "home/user/mycity/app/reset-password/page.tsx"
+  ],
+  "file": 8
+ },
+ {
+  "squadra": 220,
+  "ondata": 9,
+  "n": 6,
+  "agente": "tech",
+  "pacchetti": [
+   "home/user/mycity/app/api/orders/cod/route.ts",
+   "home/user/mycity/app/contact/page.tsx",
+   "home/user/mycity/app/admin/users/page.tsx",
+   "app/category/[slug]/page.tsx",
+   "app/page.tsx",
+   "app/loading.tsx"
+  ],
+  "file": 14
+ },
+ {
+  "squadra": 221,
+  "ondata": 10,
+  "n": 6,
+  "agente": "frontend-dev",
+  "pacchetti": [
+   "home/user/mycity/app/globals.css",
+   "components/PWAInstallBanner.tsx",
+   "app/sign-up/page.tsx",
+   "home/user/mycity/components/ProductCard.tsx",
+   "home/user/mycity/app/sign-up/page.tsx",
+   "components/MobileTabBar.tsx"
+  ],
+  "file": 12
+ },
+ {
+  "squadra": 222,
+  "ondata": 10,
+  "n": 5,
+  "agente": "backend-dev",
+  "pacchetti": [
+   "app/api/track/route.ts",
+   "components/store-sections/ScheletroNegozio.tsx",
+   "lib/banner-vetrina.ts",
+   "scripts/prova-di-fumo.mjs",
+   "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql"
+  ],
+  "file": 6
+ }
+]

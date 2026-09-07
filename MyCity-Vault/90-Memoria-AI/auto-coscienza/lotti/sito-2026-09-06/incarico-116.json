@@ -1,0 +1,22 @@
+{
+ "squadra": 116,
+ "ondata": 24,
+ "pacchetto": "home/user/mycity/app/admin/users/page.tsx",
+ "territorio_principale": "home/user/mycity/app/admin/users/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/admin/users/page.tsx",
+  "/home/user/mycity/app/api/returns/[id]/decide/route.ts",
+  "home/user/mycity/app/admin/users/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|testi tecnici che escono dal database e finiscono davanti a una persona",
+   "titolo": "Testi tecnici che escono dal database e finiscono davanti a una persona",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/admin/users/page.tsx righe 519 e 619 · /home/user/mycity/app/api/returns/[id]/decide/route.ts righe 47 e 148",
+   "descrizione": "CONFERMATO. admin/users righe 519 e 619: il message della conferma dice «<nome> verrà rimosso da auth.users e il profilo anonimizzato…» — «auth.users» è il nome di una tabella, non una frase (chi legge è però lo staff, non il cliente: per questo resta minore). Rotta resi riga 47: `ApiErrors.conflict(\\`Reso gia' in stato ${ret.status}\\`)` → il venditore che decide due volte legge «Reso gia' in stato APPROVED», con lo stato grezzo in inglese maiuscolo e l'apostrofo battuto a macchina. Riga 148: `ApiErrors.badGateway('Rimborso fallito: ' + err.message)` → il testo d'errore di Stripe, in inglese, arriva a schermo.",
+   "impatto": null,
+   "fix_proposto": "«L'account verrà cancellato e i dati personali anonimizzati»; «Questo reso è già stato deciso» senza lo stato grezzo; «Il rimborso non è partito: riprova o scrivi all'assistenza», mandando il testo di Stripe ai log."
+  }
+ ]
+}

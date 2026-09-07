@@ -1,0 +1,22 @@
+{
+ "squadra": 55,
+ "ondata": 12,
+ "pacchetto": "migrations/127_minori_22_agosto.sql",
+ "territorio_principale": "migrations/127_minori_22_agosto.sql",
+ "file_citati": [
+  "migrations/061_p0_security_rls_state_machine_reviews.sql",
+  "migrations/127_minori_22_agosto.sql",
+  "migrations/124_radiografia_21_agosto.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "rls-database|un interruttore di sessione spegne tutte le protezioni sull'ordine, e chi è dentro se lo accende da solo",
+   "titolo": "Un interruttore di sessione spegne tutte le protezioni sull'ordine, e chi è dentro se lo accende da solo",
+   "dimensione": "rls-database",
+   "file": "migrations/061_p0_security_rls_state_machine_reviews.sql:93 · migrations/127_minori_22_agosto.sql:314 (la versione in vigore di enforce_order_update_rules) · migrations/124_radiografia_21_agosto.sql:160 (confirm_pickup_by_seller: il set_config è la sua prima istruzione, prima del controllo di chi chiama)",
+   "descrizione": "Sulla tabella degli ordini la regola per riga permette al negozio di aggiornare i propri ordini. A impedirgli di toccare i soldi c'è UNA sola cosa: il guardiano `enforce_order_update_rules`, che lascia cambiare solo otto colonne (stato, fattorino, orari, posizione). Quel guardiano però si spegne se nella sessione esiste l'interruttore `mycity.allow_order_write = '1'`. È un'impostazione di nome libero, e PostgreSQL lascia che QUALSIASI ruolo se la accenda: l'ho fatto io con il ruolo `authenticated`, quello di un qualunque negoziante loggato. Con l'interruttore acceso ho riscritto un ordine da 48,00 € portandolo a 0,01 €, marcandolo PAGATO, mettendo il bonifico in PENDING e il compenso del negozio a 999.999 centesimi. Senza interruttore la stessa scrittura viene respinta. Peggio: `confirm_pickup_by_seller` — la funzione che ogni utente loggato può chiamare per confermare un ritiro in negozio — accende l'interruttore come PRIMA istruzione, prima di verificare che chi chiama sia davvero il negozio dell'ordine. Onestà sulla portata: da fuori si parla al database via PostgREST, che non lascia mandare un comando `SET`; quindi oggi non ho una strada dimostrata dal browser. Il difetto è che l'unico strato che protegge i soldi degli ordini è disattivabile da un ruolo pubblico, e che una funzione di produzione lo disattiva prima di sapere chi ha bussato. La stessa costruzione c'è sui profili (`mycity.allow_profile_write`).\n\nCausa radice: Difesa costruita su un'impostazione di sessione invece che sull'identità. `current_setting('mycity.allow_order_write')` non dice CHI sta scrivendo, dice solo che qualcuno ha acceso una spia — e la spia è pubblica. In più, in `confirm_pickup_by_seller` l'ordine delle istruzioni è invertito: prima si disarma, poi si controlla.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -f /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/guc-orders.sql   (crea negozio+ordine in transazione, SET ROLE authenticated, poi A: scrittura sui soldi senza flag → bloccata, B: il ruolo accende il flag da solo, C: stessa scrittura col flag → PASSATA, ROLLBACK)",
+   "impatto": "Se quell'interruttore diventa raggiungibile — una funzione nuova che lo accende presto, una connessione diretta al database, un pooler in modalità sessione — un negozio può marcare come pagato un ordine mai incassato e farsi bonificare l'importo. Sono soldi veri che escono dalla cassa di MyCity. Ed è anche il motivo per cui la regola del fattorino (with check: solo `rider_id` mio e stato diverso da CONSEGNATO) non è pericolosa oggi: tutto il resto poggia su quel solo guardiano.",
+   "fix_proposto": "@backend-dev, in una migrazione nuova: ① togliere `current_setting('mycity.allow_order_write')` e `mycity.allow_profile_write` da `is_priv` e sostituirli con un controllo che non si possa fingere (es. `pg_has_role(current_user,'service_role','member')`); ② in `confirm_pickup_by_seller` spostare il `set_config` DOPO i controlli su `v_seller_id <> auth.uid()` e sullo stato, e rimetterlo a '0' in uscita; ③ passare in rassegna le ~15 funzioni che accendono il flag (migrazioni 061, 062, 063, 066, 083, 097) applicando la stessa regola: prima si verifica chi chiama, poi si disarma; ④ prova nuova in tests/sql/rls/: con ruolo `authenticated` e flag acceso a mano, la scrittura sui soldi deve restare bloccata."
+  }
+ ]
+}

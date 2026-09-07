@@ -1,0 +1,40 @@
+{
+  "squadra": 20,
+  "territorio": ["components/CategoryBar.tsx", "lib/shopping-access.ts"],
+  "malattia": "La barra delle categorie e l'elenco delle pagine sorvegliate erano due liste tenute a mano che non si parlavano, e il pannello che si apre da «Tutte le categorie» era stato corretto a metà: nessuno aveva una prova che tenesse insieme le due liste né che entrasse nel pannello da tastiera.",
+  "difetti": [
+    {
+      "chiave": "accessibilita|il mega-menu delle categorie si dichiara «menu» ma dentro ha solo link normali",
+      "titolo": "Il mega-menu delle categorie si dichiara «menu» ma dentro ha solo link normali",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-pannello-delle-categorie-si-apre-a-misura-di-schermo.test.ts → 4 su 4 verdi. Mutazione: sostituito il corpo dell'effetto del fuoco con `void pannelloRef;` → rossa SOLO la prova del fuoco (1 fallita, 3 passate), rimesso a posto → di nuovo 4 verdi. Riprovate anche le due prove che c'erano già sulla barra: tests/unit/i-pannelli-della-barra-in-alto-si-usano-da-tastiera.test.ts e tests/unit/la-riga-delle-categorie-dice-che-continua-oltre-il-bordo.test.ts, verdi.",
+      "nota_fix": "La scheda era vecchia su due terzi. Sul codice vero il travestimento ARIA NON c'era più: nessun `role=\"menu\"` nel file (grep: zero occorrenze fuori dai commenti) e il pulsante ha già `aria-haspopup=\"true\"`, corretto il 27/8/2026 (R106); anche il ritorno del fuoco sul pulsante con Esc c'era già (righe 131-135). Mancava davvero solo il terzo pezzo: all'apertura il fuoco non entrava nel pannello. Non è un dettaglio, perché il pannello nell'ordine della pagina viene DOPO le sette destinazioni della barra: chi apriva e premeva Tab finiva su «Tutti i negozi» della barra, scavalcando il pannello appena aperto. Aggiunto un effetto che porta il fuoco sul primo link del pannello (righe 96-111). NON ho usato components/hooks/useBottomSheetA11y.ts come suggeriva la scheda, per due motivi: sta fuori dal mio territorio, e soprattutto è la meccanica di una finestra modale (trappola del fuoco + blocco dello scorrimento del corpo pagina). Questo pannello modale non è — si chiude anche cliccando fuori e la pagina dietro resta viva — e bloccare lo scorrimento avrebbe litigato col tetto d'altezza aggiunto qui sotto. Fatto quindi il minimo giusto: si sposta il fuoco, con `preventScroll` per non far saltare la pagina a chi tocca lo schermo. Non provato con un lettore di schermo vero (NVDA/VoiceOver): la prova gira in jsdom.",
+      "file_toccati": ["components/CategoryBar.tsx", "tests/unit/il-pannello-delle-categorie-si-apre-a-misura-di-schermo.test.ts"]
+    },
+    {
+      "chiave": "navigazione-gerarchia|la lista delle pagine-vetrina sorvegliate per il venditore non combacia con le pagine vere del sito",
+      "titolo": "La lista delle pagine-vetrina sorvegliate per il venditore non combacia con le pagine vere del sito",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/le-vetrine-sorvegliate-sono-le-vetrine-vere.test.ts → 4 su 4 verdi. Mutazione: rimesso l'elenco vecchio (via le otto vetrine, dentro /collections e /daily-drops) → 3 prove su 4 rosse; ripristinato → 4 verdi. Verificato a mano quali pagine esistono: `find app/<rotta> -name page.tsx` dà 0 per collections e daily-drops, 1 o 2 per tutte le altre.",
+      "nota_fix": "Confermato sul codice. Il fix vive tutto in lib/shopping-access.ts: middleware.ts chiama solo isMarketplaceBrowsePath (righe 376 e 558 — i numeri della scheda, 351 e 523-530, erano vecchi), quindi non sono uscito dal territorio. Tolte /collections e /daily-drops (nessun page.tsx sotto app/), aggiunte le sette destinazioni della barra (/stores /promozioni /novita /regali /near /piu-venduti /piccoli-prezzi) e /categorie. DUE SCOSTAMENTI DAL FIX PROPOSTO, entrambi voluti: ① non ho «derivato i prefissi dalle DESTINATIONS» importandole, perché CategoryBar è un componente client con lucide-react e il client Supabase dentro, e importarlo lo trascinerebbe nel bundle del middleware (edge). L'elenco resta scritto a mano ma ora c'è una prova che lo confronta con la barra vera E con le pagine vere di app/: se qualcuno aggiunge una voce alla barra e scorda l'elenco, diventa rossa. ② Ho TENUTO /lists /shop-of-month /events /shared-cart /favorites, che il fix proposto alla lettera avrebbe cancellato: sono pagine vere e toglierle avrebbe allargato il buco invece di chiuderlo (il controllo avrebbe smesso di valere lì). Effetto collaterale sul traffico, controllato: più pagine passano il primo filtro veloce del middleware, ma chi arriva senza cookie di sessione — cioè ogni visitatore anonimo e ogni crawler — esce comunque due righe dopo senza costruire il client Supabase (middleware.ts:381-388). Nessuna prova monta il middleware di ingresso: il rimbalzo vero del venditore col permesso scaduto non l'ho potuto riprodurre da qui.",
+      "file_toccati": ["lib/shopping-access.ts", "tests/unit/le-vetrine-sorvegliate-sono-le-vetrine-vere.test.ts"]
+    },
+    {
+      "chiave": "navigazione-gerarchia|il mega-menu «tutte le categorie» è un pannello lunghissimo senza altezza massima",
+      "titolo": "Il mega-menu «Tutte le categorie» è un pannello lunghissimo senza altezza massima",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-pannello-delle-categorie-si-apre-a-misura-di-schermo.test.ts → verde la prova «si ferma prima di superare lo schermo e scorre dentro di sé». Mutazione: tolte le classi max-h-[70vh] overflow-y-auto overscroll-contain → rossa SOLO quella prova (1 fallita, 3 passate); rimesse → 4 verdi.",
+      "nota_fix": "Confermato: prima di questo lavoro `grep -n 'max-h\\|overflow-y' components/CategoryBar.tsx` non trovava niente. Aggiunte al pannello (oggi righe 224-231) max-h-[70vh] overflow-y-auto overscroll-contain: si ferma a sette decimi dello schermo e scorre dentro di sé, con overscroll-contain perché arrivato in fondo non trascini via la pagina sotto. Scartata l'altra strada proposta (foglio a scomparsa dal basso su mobile): è un rifacimento del componente, fuori dal lotto dei minori. AVVISO ONESTO SULLA PROVA: jsdom non impagina, quindi la prova controlla che il pannello nasca con un tetto d'altezza e con lo scorrimento suo — non misura l'altezza vera. Quanto è alto su un telefono si vede solo aprendolo su un telefono.",
+      "file_toccati": ["components/CategoryBar.tsx", "tests/unit/il-pannello-delle-categorie-si-apre-a-misura-di-schermo.test.ts"]
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Il mega-menu resta aperto sopra la pagina nuova se si tocca una voce della barra",
+      "dove": "components/CategoryBar.tsx:180-196",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "① Nessun lettore di schermo vero (NVDA/VoiceOver) né telefono vero: fuoco e altezza sono provati in jsdom, che non impagina. ② Il rimbalzo del venditore col permesso scaduto non l'ho riprodotto end-to-end: nessuna prova monta il middleware di ingresso, la mia prova esercita la funzione isMarketplaceBrowsePath. ③ Non ho lanciato la suite intera né npm run verify (vietati alla squadra): ho lanciato npx tsc --noEmit -p tsconfig.json (uscita 0) e sei file di prova — i miei due nuovi, le due prove che c'erano già sulla barra categorie e le due sull'accesso al catalogo — 26 prove, tutte verdi. ④ Il difetto nuovo qui sopra l'ho letto nel codice, non riprodotto in una prova."
+}

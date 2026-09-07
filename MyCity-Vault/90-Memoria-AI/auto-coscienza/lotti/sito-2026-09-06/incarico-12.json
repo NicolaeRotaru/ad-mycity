@@ -1,0 +1,147 @@
+{
+ "squadra": 12,
+ "ondata": 3,
+ "pacchetto": "components/home-sections/HomeSectionRenderer.tsx",
+ "territorio_principale": "components/home-sections/HomeSectionRenderer.tsx",
+ "file_citati": [
+  "components/NewsletterForm.tsx",
+  "components/Footer.tsx",
+  "components/home-sections/HomeSectionRenderer.tsx",
+  "components/Honeypot.tsx",
+  "lib/home-site.ts",
+  "components/admin/home/HomeSectionConfigForm.tsx",
+  "lib/image-url.ts",
+  "components/cms/CmsBlockRenderer.tsx",
+  "components/seller/site/ImageUpload.tsx",
+  "components/seller/site/GalleryFields.tsx",
+  "components/store-sections/HeroSection.tsx",
+  "app/page.tsx",
+  "components/home/HowItWorks.tsx",
+  "app/categorie/page.tsx",
+  "components/CategoryShowcase.tsx",
+  "migrations/002_categories_and_extras.sql",
+  "components/StoreMediaCarousel.tsx",
+  "components/store-sections/BannerSection.tsx",
+  "components/store-sections/GallerySection.tsx",
+  "components/StoryViewer.tsx",
+  "components/home/ShopOfMonthHero.tsx",
+  "components/home/HomeEvents.tsx",
+  "components/Navbar.tsx",
+  "components/StoreAvatar.tsx",
+  "lib/image-loader.ts",
+  "components/home/HeroStoreCard.tsx",
+  "components/ProductGrid.tsx",
+  "components/LiveActivityFeed.tsx",
+  "components/ui/DeliveryCutoff.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|il campo email in fondo a ogni pagina non ha un nome: chi non vede sente solo «modifica testo»",
+   "titolo": "Il campo email in fondo a ogni pagina non ha un nome: chi non vede sente solo «modifica testo»",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/NewsletterForm.tsx:94-107 (l'input), components/Footer.tsx:214 e components/home-sections/HomeSectionRenderer.tsx:333 (dove viene messo)",
+   "descrizione": "Il modulo di iscrizione alla newsletter sta nel piè di pagina di OGNI pagina del sito. Il suo campo email non ha etichetta: niente <label>, niente id, niente aria-label. C'è solo il testo grigio dentro il campo («la-tua@email.it»), che è un suggerimento, non un nome, e sparisce appena si scrive. Un lettore di schermo annuncia «modifica testo» e basta. Sotto c'è anche la casella del consenso privacy, obbligatoria: quella sì è avvolta da un'etichetta e funziona. Il sito ha una primitiva dei campi fatta bene (components/ui/Field.tsx, con label, aria-invalid, aria-describedby, role=alert): questo modulo è l'unico campo di testo consegnato dal server che non ci passa. Sulla home il modulo compare due volte (piè di pagina + sezione della home), quindi i campi senza nome sono due.\n\nCausa radice: Il modulo è stato scritto a mano invece di passare dalla primitiva `Field`/`Input` che il progetto usa ovunque. Nessun controllo automatico verifica che ogni campo consegnato abbia un nome accessibile, quindi l'eccezione è passata in silenzio ed è finita su tutte le pagine.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && node /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/campo-senza-nome.mjs http://localhost:3000/  (esce 1 e stampa i campi senza <label for>, senza <label> che li avvolge e senza aria-label)",
+   "impatto": "Una persona cieca che arriva sulla home di MyCity e vuole iscriversi alla newsletter del venerdì sente «modifica testo» e non sa cosa scriverci. È l'unico campo del sito consegnato senza nome: tutti gli altri sono a posto. La newsletter è un canale di acquisizione, e la casella accanto raccoglie un consenso GDPR che l'interessato deve poter capire prima di darlo.",
+   "fix_proposto": "In components/NewsletterForm.tsx dare un id al campo (useId) e aggiungere un'etichetta vera: o una <label htmlFor> visibile («La tua email»), oppure — se il disegno non la vuole — `aria-label=\"La tua email\"` sull'input, tenendo il placeholder come esempio. Meglio ancora: far passare il modulo dalla primitiva `Input` di components/ui/Field.tsx, che lo fa già bene. Poi agganciare la prova qui sopra come guardiano, così nessun campo futuro esce senza nome."
+  },
+  {
+   "chiave": "accessibilita-visiva|sulla home lo stesso modulo compare due volte e i due campi nascosti anti-robot hanno lo stesso identificativo",
+   "titolo": "Sulla home lo stesso modulo compare due volte e i due campi nascosti anti-robot hanno lo stesso identificativo",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/Honeypot.tsx:35-38 (id costruito da `hp-${name}` con name=\"company\" fisso), usato da components/NewsletterForm.tsx:90, reso due volte sulla home da components/Footer.tsx:214 e components/home-sections/HomeSectionRenderer.tsx:333",
+   "descrizione": "Il campo trappola per i robot ricava il proprio identificativo dal nome del campo, che è una costante: `hp-company`. Sulla home il modulo newsletter viene reso due volte, quindi nella pagina consegnata ci sono due elementi con lo stesso `id` e due `<label for=\"hp-company\">` che puntano allo stesso posto. In HTML un identificativo deve essere unico: quando non lo è, l'abbinamento etichetta-campo diventa ambiguo e le tecnologie assistive prendono il primo. Qui il danno è contenuto perché entrambi i blocchi sono `aria-hidden` e fuori schermo, ma è la stessa trappola che il progetto ha già pagato sui dialoghi (il commento in components/ui/Modal.tsx:118 racconta due dialoghi con lo stesso identificativo).\n\nCausa radice: L'identificativo è costruito da un dato del dominio (il nome del campo) invece che da `useId()`, che React fornisce apposta perché due copie dello stesso componente non collidano.\n\nProva (comando, eseguita e rossa): timeout 45 curl -s http://localhost:3000/ | grep -o 'id=\"[^\"]*\"' | sort | uniq -d   (stampa id=\"hp-company\": se l'identificativo fosse unico non stamperebbe niente)",
+   "impatto": "Oggi nessun cliente se ne accorge. Domani il campo trappola finisce in un modulo visibile — o due moduli di contatto sulla stessa pagina — e l'etichetta punta al campo sbagliato.",
+   "fix_proposto": "In components/Honeypot.tsx generare l'identificativo con `useId()` e usarlo sia nel `<label htmlFor>` sia nell'`<input id>`, lasciando `name` al suo lavoro di esca. Due righe."
+  },
+  {
+   "chiave": "accessibilita-visiva|il banner della home non ha un campo per il testo alternativo dell'immagine",
+   "titolo": "Il banner della home non ha un campo per il testo alternativo dell'immagine",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/home-sections/HomeSectionRenderer.tsx:410 (`alt={c.heading ?? ''}`); schema `bannerConfig` in lib/home-site.ts:159-165 senza `alt`; nessun campo alt nel form banner di components/admin/home/HomeSectionConfigForm.tsx",
+   "descrizione": "CONFERMATO alla riga esatta. L'immagine del banner (larghezza piena, h-56/h-72) prende come testo alternativo il titolo, che è già scritto a video subito sotto a riga 412: uno screen reader legge la stessa frase due volte. Se il titolo è vuoto l'alt diventa `\"\"`. Confermata anche l'asimmetria: `galleryConfig` ha il campo `alt` (lib/home-site.ts:167-173) e l'editor lo espone (HomeSectionConfigForm.tsx:280), il banner è l'unico blocco immagine rimasto senza. WCAG 1.1.1 (A).",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `alt` a `bannerConfig` in lib/home-site.ts:159, un `<Input label=\"Testo alternativo\">` nel form del banner, e usare `alt={c.alt ?? ''}` a HomeSectionRenderer.tsx:410 — alt vuoto quando l'immagine è solo sfondo, così non si duplica il titolo."
+  },
+  {
+   "chiave": "immagini-media|le foto in galleria e le anteprime restano al loro tetto anche sugli schermi fini",
+   "titolo": "Le foto in galleria e le anteprime restano al loro tetto anche sugli schermi fini",
+   "dimensione": "immagini-media",
+   "file": "lib/image-url.ts:15-20 (thumb=100, card=400) · components/home-sections/HomeSectionRenderer.tsx:438 · components/cms/CmsBlockRenderer.tsx:63 · components/seller/site/ImageUpload.tsx:59 · components/seller/site/GalleryFields.tsx:60 · components/store-sections/HeroSection.tsx:91-95",
+   "descrizione": "VERIFICATO, incluso il pezzo di Next citato: node_modules/next/dist/server/image-optimizer.js:826 usa `withoutEnlargement: true`, cioè Next non ingrandisce mai. Dove non c'è il caricatore su misura, l'indirizzo che arriva a Next è già ridotto e il tetto della sorgente diventa il tetto della qualità. Casi concreti confermati: la galleria della home dichiara di occupare il 33% della larghezza partendo da una sorgente di 400 pixel; l'anteprima del venditore dichiara 480 partendo da 400; la galleria del negozio dichiara 160 partendo da 100; la copertina del negozio dichiara 1024 partendo da 1200, che su schermo fine ne vorrebbe il doppio. Il risultato è una morbidezza diffusa.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `loader={caricatoreFotoRemote}` anche a queste immagini — è il caricatore che già esiste in lib/image-loader.ts e che fa decidere la larghezza a Next lasciando il lavoro al CDN di Supabase."
+  },
+  {
+   "chiave": "navigazione-gerarchia|le stesse quattro promesse sono ripetute tre volte sulla home e una quarta nel piè di pagina",
+   "titolo": "Le stesse quattro promesse sono ripetute tre volte sulla home e una quarta nel piè di pagina",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/home-sections/HomeSectionRenderer.tsx:54-60 (DEFAULT_TRUST_BULLETS), usato a :230 (liveActivity) e a :261 (trustRow), entrambi in lib/home-site.ts:239-240 · hero :146-158 · components/Footer.tsx:213-222",
+   "descrizione": "CONFERMATO. L'array DEFAULT_TRUST_BULLETS (righe 54-60: pagamento alla consegna, 100% commercianti locali, consegna in 30-60 min, reso entro 14 giorni) è mappato due volte: nella card «Perché scegliere MyCity» dentro liveActivity (riga 230) e nella banda trustRow (riga 261). Entrambe le sezioni sono nell'ordine di default (lib/home-site.ts righe 239-240). Le stesse promesse in forma abbreviata sono nell'hero (righe 146-158: «Paghi alla consegna», «In 30-60 minuti…», «Account solo per confermare») e una quarta volta nel piè di pagina — dove la riga esatta è 213-222, non 229-241 come indicato.",
+   "impatto": null,
+   "fix_proposto": "Tenere una sola occorrenza: togliere la banda trustRow dall'ordine di default nel Home builder (la card dentro Attività live la copre già), o viceversa."
+  },
+  {
+   "chiave": "navigazione-gerarchia|due pulsanti primari identici «inizia a esplorare» sulla stessa home, e portano a un indice senza foto",
+   "titolo": "Due pulsanti primari identici «Inizia a esplorare» sulla stessa home, e portano a un indice senza foto",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/home-sections/HomeSectionRenderer.tsx:105-113 (hero, href /categorie, testo = heroDefaults.ctaPrimary) · app/page.tsx:32 (ctaPrimary: 'Inizia a esplorare') · components/home/HowItWorks.tsx:86-95 (stesso testo scritto a mano, stesso href, stesse classi) · app/categorie/page.tsx",
+   "descrizione": "CONFERMATO, con un caveat. Il pulsante di HowItWorks (righe 86-95) ha testo «Inizia a esplorare» scritto a mano, href /categorie e le stesse identiche classi del primario dell'hero ('bg-primary-700 hover:bg-primary-800 text-white px-6 py-3 rounded-full font-semibold shadow-warm'). Il testo dell'hero viene da heroDefaults.ctaPrimary, che in app/page.tsx riga 32 vale esattamente 'Inizia a esplorare' — quindi i due pulsanti sono gemelli. Caveat verificato: esiste una seconda variante dell'hero (app/page.tsx riga 48, 'Scopri cosa c'è oggi'), quindi la sovrapposizione perfetta riguarda la variante di default, non il 100% delle visite. Confermata anche la destinazione povera: app/categorie/page.tsx non contiene nessun <Image>/img (grep a vuoto), è un elenco testuale, mentre due sezioni più giù CategoryShowcase mostra le stesse categorie con le foto.",
+   "impatto": null,
+   "fix_proposto": "Lasciare una sola chiamata primaria (nell'hero) e mandarla dove ci sono i prodotti (/search o la categoria più venduta); in «Come funziona» sostituirla con un link testuale secondario."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la sezione «cosa cerchi oggi? — tutte le categorie» ne mostra sei e non ha il link per vedere le altre",
+   "titolo": "La sezione «Cosa cerchi oggi? — Tutte le categorie» ne mostra sei e non ha il link per vedere le altre",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/CategoryShowcase.tsx:97 (categories.slice(0, 6)) dentro il blocco 'categories' di components/home-sections/HomeSectionRenderer.tsx:174-188 (sottotitolo 'Tutte le categorie del mercato locale' alla riga 183) · migrations/002_categories_and_extras.sql:98-106",
+   "descrizione": "CONFERMATO. CategoryShowcase taglia a sei (riga 97: categories.slice(0, 6)) mentre il sottotitolo di default della sezione promette «Tutte le categorie del mercato locale» (renderer riga 183). Il seed di migrations/002 inserisce otto categorie principali (righe 98-106: alimentari, abbigliamento, casa, elettronica, libri, giardino, bellezza, sport) — la ICON_MAP di CategoryBar ne cita anche giocattoli — quindi almeno due o tre restano tagliate. Confermato anche che manca la via d'uscita: grep di 'Vedi tutt' su CategoryShowcase.tsx non trova nulla, mentre «Prodotti popolari» ha il suo HomeCtaLink 'Vedi tutto' (renderer riga 215).",
+   "impatto": null,
+   "fix_proposto": "Aggiungere l'intestazione con «Vedi tutte le categorie →» verso /categorie, come nelle altre due sezioni. Nel frattempo correggere il sottotitolo dal Home builder in «Le categorie più cercate»."
+  },
+  {
+   "chiave": "navigazione-gerarchia|le spaziature verticali fra i blocchi della home non seguono nessuna scala, e il «drop del giorno» non ha aria sopra",
+   "titolo": "Le spaziature verticali fra i blocchi della home non seguono nessuna scala, e il «Drop del giorno» non ha aria sopra",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/home-sections/HomeSectionRenderer.tsx: hero py-6 md:py-10 (:92), categorie py-6 (:177), dropOfDay pb-2 senza padding superiore (:194), prodotti py-6 (:203), attività live py-6 (:232), banda fiducia py-6 (:260), newsletter py-6 md:py-8 (:313), venditori py-5 (:343), blocchi editoriali py-4 (:369-377), blocchi di contenuto py-5 (:386, :408, :433, :454)",
+   "descrizione": "CONFERMATO, con i numeri di riga corretti (il collega li aveva spostati di qualche riga). Le sezioni della home usano cinque passi verticali diversi — py-4, py-5, py-6, py-6 md:py-8/md:py-10, pb-2 — senza una regola. Il caso peggiore è «Drop del giorno» alla riga 194: 'container mx-auto px-4 sm:px-6 pb-2', cioè padding solo in basso, quindi la sezione si incolla alla precedente mentre tutte le altre hanno respiro simmetrico.",
+   "impatto": null,
+   "fix_proposto": "Definire due soli passi (sezione normale py-8, sezione a piena larghezza con fondo py-10) e applicarli dal renderer invece di scriverli caso per caso."
+  },
+  {
+   "chiave": "performance-percepita|la copertina del negozio e altre foto grandi passano dall'ottimizzatore di vercel invece che dal cdn supabase: doppio ridimensionamento e primo caricamento lento",
+   "titolo": "La copertina del negozio e altre foto grandi passano dall'ottimizzatore di Vercel invece che dal CDN Supabase: doppio ridimensionamento e primo caricamento lento",
+   "dimensione": "performance-percepita",
+   "file": "components/store-sections/HeroSection.tsx:91-98 (copertina con priority, senza loader); components/StoreMediaCarousel.tsx:67-73; components/store-sections/BannerSection.tsx:24-29; components/store-sections/GallerySection.tsx:28-35; components/StoryViewer.tsx:196-204; components/home/ShopOfMonthHero.tsx:105-110; components/home-sections/HomeSectionRenderer.tsx:412 e :440; components/cms/CmsBlockRenderer.tsx:39 e :63; components/home/HomeEvents.tsx:67; components/Navbar.tsx:345 e :371; components/StoreAvatar.tsx:34-39 — contro la regola scritta in next.config.js:52-63 e il caricatore lib/image-loader.ts:43-63",
+   "descrizione": "Le foto dei prodotti usano loader={caricatoreFotoRemote} e vanno dritte alla trasformazione immagini di Supabase. La copertina del negozio (l'immagine più grande della pagina negozio, marcata priority), il carosello, banner, galleria, storie, negozio del mese, eventi e i loghi in navbar no: sizedImage() costruisce già l'indirizzo Supabase a 1200 px, e next/image senza loader lo avvolge in /_next/image?url=…&w=640…3840&q=75. Vercel scarica il render da Supabase, lo ricodifica per ogni larghezza e lo mette in cache: il primo visitatore per taglia/deploy paga due trasformazioni in fila, e ogni foto sorgente conta nella quota di ottimizzazione immagini di Vercel (a pagamento oltre la quota del piano). Il commento in next.config.js dice esplicitamente che le foto di negozi e prodotti NON devono passare di lì.\n\nCausa radice: Il caricatore remoto è stato aggiunto solo alle immagini prodotto (#99); in almeno 13 punti letti direttamente <Image> con foto remote resta senza loader, e nessun test o regola lint lo impedisce.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove-jsx.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-foto-negozio-senza-caricatore.test.tsx  (rosso oggi: BannerSection rende src che inizia con /_next/image?)",
+   "impatto": "La pagina negozio è la vetrina del negoziante e la pagina che si apre scansionando la vetrofania: la sua immagine principale è oggi la più lenta a comparire a freddo (secondi invece di decimi). In più un costo Vercel non previsto per ogni foto ottimizzata.",
+   "fix_proposto": "Impostare in next.config.js images.loader='custom' + images.loaderFile='./lib/image-loader.ts' così il caricatore Supabase è il default di tutte le <Image>; oppure aggiungere loader={caricatoreFotoRemote} nei punti elencati (prima HeroSection e StoreMediaCarousel, che sono l'LCP del negozio). Aggiungere una prova che fallisce se un <Image> con sizedImage() rende un src /_next/image."
+  },
+  {
+   "chiave": "performance-percepita|le prime foto della home — copertina del negozio in vetrina e tessere delle categorie — sono tutte «pigre»: il browser le mette in coda dietro al resto",
+   "titolo": "Le prime foto della home — copertina del negozio in vetrina e tessere delle categorie — sono tutte «pigre»: il browser le mette in coda dietro al resto",
+   "dimensione": "performance-percepita",
+   "file": "components/home/HeroStoreCard.tsx:118 (<Image fill … senza priority → loading=lazy di default) e :60-62 (dati via RPC vetrina_home dal browser); components/CategoryShowcase.tsx:142-147 (<img loading=\"lazy\" decoding=\"async\">); ordine delle sezioni in components/home-sections/HomeSectionRenderer.tsx; confronto: components/ProductGrid.tsx:458 (priority={i < 4}, ma la griglia è sotto la piega)",
+   "descrizione": "Nessuna immagine sopra la piega della home è eager o ad alta priorità. La copertina del negozio in vetrina compare solo dopo JavaScript + una chiamata RPC, e anche allora come immagine pigra; le tessere delle categorie, che dal 30/8 (R068) arrivano già nell'HTML grazie al precarico, sono <img loading=\"lazy\"> nude: Chrome le carica a bassa priorità e non le vede nello scanner di preload. L'elemento più grande della home (LCP) è quindi sempre un'immagine pigra.\n\nCausa radice: Pigro di default su ogni immagine, senza distinguere sopra/sotto la piega nella home; il trucco priority={i < 4} esiste solo in ProductGrid.\n\nProva (grep, eseguita e rossa): grep -c \"priority\" /home/user/mycity/components/home/HeroStoreCard.tsx  (oggi 0) ; grep -n 'loading=\"lazy\"' /home/user/mycity/components/CategoryShowcase.tsx  (oggi riga 145)",
+   "impatto": "LCP della home più tardi di centinaia di millisecondi sul telefono: prima impressione di chi arriva da un QR e punteggio Core Web Vitals usato da Google per il posizionamento mobile.",
+   "fix_proposto": "priority sulla copertina in HeroStoreCard.tsx:118 e precaricare anche vetrina_home nel server (precaricaHome) così l'immagine è nell'HTML; sulle prime 4 tessere di CategoryShowcase loading=\"eager\" + fetchPriority=\"high\" (o next/image con priority), le altre restano pigre."
+  },
+  {
+   "chiave": "performance-percepita|il riquadro «cosa sta succedendo» non esiste finché non arrivano i dati, poi si apre e spinge giù la colonna",
+   "titolo": "Il riquadro «cosa sta succedendo» non esiste finché non arrivano i dati, poi si apre e spinge giù la colonna",
+   "dimensione": "performance-percepita",
+   "file": "components/LiveActivityFeed.tsx:84 (`if (activities.length === 0) return null;`), inserito da components/home-sections/HomeSectionRenderer.tsx:226-229",
+   "descrizione": "Confermato. Il componente torna `null` sia quando è davvero vuoto sia mentre sta caricando: `activities` parte da `[]` e `isLoading` non viene mai letto, quindi i due casi non sono distinti. Il riquadro sta in una griglia a due colonne insieme al blocco fiducia: finché è `null` la colonna è vuota, poi nasce una scheda `bg-white border rounded-2xl p-5` con intestazione e righe di attività, e la riga della griglia si alza. Da telefono, dove le due colonne diventano una sotto l'altra, tutto quello che sta sotto scende di colpo.",
+   "impatto": null,
+   "fix_proposto": "Distinguere i due casi: leggere `isLoading` dalla `useQuery` e, durante il caricamento, disegnare la scheda con la sua intestazione e cinque righe `.skeleton` dell'altezza giusta. Restituire `null` solo quando la risposta è arrivata ed è davvero vuota."
+  },
+  {
+   "chiave": "performance-percepita|il banner «ordina entro…» nasce a una riga e ne diventa due dopo l'idratazione",
+   "titolo": "Il banner «Ordina entro…» nasce a una riga e ne diventa due dopo l'idratazione",
+   "dimensione": "performance-percepita",
+   "file": "components/ui/DeliveryCutoff.tsx:83-96 (i rami del testo) e :100-110 (il banner), usato nell'hero della home da components/home-sections/HomeSectionRenderer.tsx:143",
+   "descrizione": "Confermato. Prima dell'idratazione l'hook torna `{ hydrated: false, day: 'oggi' }` (riga 51), quindi la condizione `day === 'oggi' && hydrated` è falsa e il testo cade sul ramo finale: «Arriva oggi», undici caratteri. Dopo l'idratazione, con `day === 'oggi'`, diventa «Ordina entro 02:14:31 e arriva oggi in 30-60 min», circa quarantotto. Il banner è `flex items-center gap-2 … px-3 py-2 text-sm` con `max-w-sm` (384 px) passato dal renderer, meno icona da 18 px e padding: a quella misura il testo lungo non ci sta su una riga, va a capo e la scatola cresce, spingendo giù le tre righe di rassicurazione sotto (Paghi alla consegna / In 30-60 minuti / …). Il commento alla riga 82 dichiara «no layout shift»: vale per il carattere a larghezza fissa del contatore, non per la lunghezza della frase, che quadruplica.",
+   "impatto": null,
+   "fix_proposto": "Riservare lo spazio dall'inizio: dare al banner un'altezza minima pari a quella del testo lungo, oppure — meglio — usare pre-idratazione una frase della stessa lunghezza («Ordina entro le 18:00 e arriva oggi in 30-60 min», senza contatore), così l'unica cosa che cambia sono le cifre dentro uno spazio già occupato."
+  }
+ ]
+}

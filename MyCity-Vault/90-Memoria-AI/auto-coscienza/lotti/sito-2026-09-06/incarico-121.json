@@ -1,0 +1,21 @@
+{
+ "squadra": 121,
+ "ondata": 26,
+ "pacchetto": "app/api/track/route.ts",
+ "territorio_principale": "app/api/track/route.ts",
+ "file_citati": [
+  "app/api/track/route.ts",
+  "lib/activity.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "api-backend|due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "titolo": "Due segnali di accesso per lo stesso ingresso: la deduplica legge-e-poi-scrive senza vincolo sul database — e la migrazione che la reggerebbe non c'e' in questo lotto",
+   "dimensione": "api-backend",
+   "file": "app/api/track/route.ts:196 (regola in lib/activity.ts:218-253)",
+   "descrizione": "`accessoGiaRegistrato` fa una SELECT degli ultimi 5 accessi e poi la rotta fa la INSERT: fra le due c'e' una finestra. `recordActivity` gia' ignora in silenzio il codice `23505` («riga gia' presente») aspettando un vincolo di unicita' che il commento chiama «la migrazione proposta»: ho elencato le migrazioni toccate oggi (151, 152, 153, 154) e nessuna crea quel vincolo, e in `migrations/073_activity_tracking.sql` gli indici su `activity_events` sono tutti non unici. In piu' `registraAccessoNelRegistro` manda `session_id` solo se `sessionStorage` contiene gia' `mc_sid`: se non c'e', il corpo parte senza il campo e la deduplica ricade sulla sola finestra di 60 secondi. — Chi entra con email e password fa partire due beacon quasi insieme (quello di `trackSignedIn` e quello che `ActivityTracker` manda vedendo cambiare la sessione): se si incrociano, nel registro degli accessi restano due righe per un ingresso solo. Il registro degli accessi e' quello che si apre quando a qualcuno rubano l'account: due righe identiche a un secondo di distanza fanno perdere tempo proprio nel momento in cui serve leggerlo in fretta, e gonfiano il conto degli accessi nel cruscotto. Il codice lo dichiara onestamente come debito, quindi non e' una sorpresa: e' un debito che va portato con se' fino alla migrazione, non dimenticato.",
+   "impatto": "Chi entra con email e password fa partire due beacon quasi insieme (quello di `trackSignedIn` e quello che `ActivityTracker` manda vedendo cambiare la sessione): se si incrociano, nel registro degli accessi restano due righe per un ingresso solo. Il registro degli accessi e' quello che si apre quando a qualcuno rubano l'account: due righe identiche a un secondo di distanza fanno perdere tempo proprio nel momento in cui serve leggerlo in fretta, e gonfiano il conto degli accessi nel cruscotto. Il codice lo dichiara onestamente come debito, quindi non e' una sorpresa: e' un debito che va portato con se' fino alla migrazione, non dimenticato.",
+   "fix_proposto": "Prova nuova: due chiamate POST /api/track con `event_type:'login'`, stesso utente, stesso `session_id`, lanciate insieme con `Promise.all` su un finto database che non serializza -> pretendi UNA sola riga scritta. Oggi ne scrive due. Verifica complementare, quella che conta davvero: `grep -r \"unique\" migrations/ | grep activity_events` deve restituire almeno una riga; oggi non restituisce niente."
+  }
+ ]
+}

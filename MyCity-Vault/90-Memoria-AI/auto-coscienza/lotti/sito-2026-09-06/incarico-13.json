@@ -1,0 +1,94 @@
+{
+ "squadra": 13,
+ "ondata": 3,
+ "pacchetto": "app/checkout/page.tsx",
+ "territorio_principale": "app/checkout/page.tsx",
+ "file_citati": [
+  "app/api/stripe/checkout/route.ts",
+  "app/api/orders/cod/route.ts",
+  "app/checkout/page.tsx",
+  "app/layout.tsx",
+  "app/globals.css",
+  "components/StickyAddToCart.tsx",
+  "app/rider/orders/[id]/page.tsx",
+  "components/ConfirmDialog.tsx",
+  "components/orders/ContactSheet.tsx",
+  "components/checkout/PaymentMethodSelector.tsx",
+  "app/product/[id]/page.tsx",
+  "components/checkout/OrderSummary.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|il credito mycity si spende solo pagando in contanti: chi paga con carta non può usare il buono regalo",
+   "titolo": "Il credito MyCity si spende solo pagando in contanti: chi paga con carta non può usare il buono regalo",
+   "dimensione": "pagamenti-stripe",
+   "file": "app/api/stripe/checkout/route.ts:56-79 · app/api/orders/cod/route.ts:66,559-575 · app/checkout/page.tsx:587-589,1096-1097",
+   "descrizione": "La rotta carta non accetta useCredit e non addebita mai il wallet; la pagina cassa mostra la spunta «Usa il mio credito MyCity» solo con il pagamento in contanti. Un buono regalo da 50 euro comprato con carta si può spendere solo con ordini in contrassegno.\n\nCausa radice: Il credito è stato integrato solo sul percorso contanti («la carta passa da Stripe, dove il credito arriverà più avanti», app/checkout/page.tsx:587-588).\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && test $(grep -c useCredit app/api/stripe/checkout/route.ts) -gt 0",
+   "impatto": "Chi riceve un buono e paga con carta non lo può usare; attrito in cassa e credito che resta fermo (soldi già incassati da MyCity ma non spendibili come promesso).",
+   "fix_proposto": "Nel checkout carta addebitare il credito server-side prima di creare la sessione (importo Stripe = totale − credito, con scorporo proporzionale per negozio), restituendo il credito su scadenza o annullo della sessione."
+  },
+  {
+   "chiave": "qa-flussi|chi paga con la carta vede sparire il proprio credito mycity senza una spiegazione",
+   "titolo": "Chi paga con la carta vede sparire il proprio credito MyCity senza una spiegazione",
+   "dimensione": "qa-flussi",
+   "file": "app/checkout/page.tsx:490-491 e :587-590 (il credito si applica solo con paymentMethod === 'cod') · :1096-1097 (la casella «Usa il mio credito MyCity» compare solo con il contrassegno) · app/api/stripe/checkout/route.ts:56-79 (il corpo della richiesta non ha useCredit) · app/api/orders/cod/route.ts:67 (solo il contrassegno lo accetta)",
+   "descrizione": "Passo indietro: il credito MyCity nasce dalle gift card e dai punti convertiti. In cassa la casella «Usa il mio credito MyCity» è accesa per default con il contrassegno; appena la persona sceglie «carta» la casella sparisce e il totale risale, senza una riga che dica «il credito si usa solo pagando alla consegna». Esempio: Anna riceve una gift card da 50 euro, fa la spesa da 40, sceglie la carta perché non vuole contanti in casa: paga 40 euro pieni e il credito resta lì, e non le viene detto perché.\n\nCausa radice: Il credito con la carta è una funzione rimandata («arriverà più avanti», commento a page.tsx:587-588) e l'interfaccia nasconde la casella invece di spiegare il limite.\n\nProva (umano, non eseguita): Occhio umano: account con wallet_balance_cents > 0, vai in cassa con un prodotto; con «pagamento alla consegna» la casella del credito c'è e il totale è scontato; scegli «carta»: la casella sparisce, il totale torna pieno, nessun messaggio spiega che il credito vale solo alla consegna.",
+   "impatto": "Chi ha ricevuto una gift card e paga con la carta (il pubblico più probabile di una gift card) paga due volte la stessa spesa senza capirlo, o rinuncia; e chi l'ha regalata scopre che il regalo vale solo in contanti. Conversione e fiducia sulla leva-regalo, non soldi persi.",
+   "fix_proposto": "Finché il credito non passa da Stripe: quando si sceglie la carta mostrare la riga «Hai X € di credito MyCity: si usa solo con il pagamento alla consegna» (con il link per cambiare metodo). Poi, la soluzione vera: accettare useCredit anche nella rotta della carta scalando il credito prima di aprire la sessione Stripe (con storno se la sessione scade)."
+  },
+  {
+   "chiave": "coerenza-brand|checkout: riquadri interni con angoli più tondi del contenitore che li contiene",
+   "titolo": "Checkout: riquadri interni con angoli più tondi del contenitore che li contiene",
+   "dimensione": "coerenza-brand",
+   "file": "app/checkout/page.tsx:863, 880, 908 (dentro gli StepCard alle righe 861 e 894)",
+   "descrizione": "CONFERMATO, con una correzione all'etichetta del collega. Gli StepCard sono rounded-lg (12px, da Card.tsx:43). Dentro: 863 = conferma ritiro in negozio 'rounded-xl border border-olive-200'; 880 = riquadro consegna a domicilio 'rounded-xl border border-cream-300'; 908 NON è la scelta del pagamento (quella è il componente PaymentMethodSelector) ma il riquadro del credito MyCity, 'rounded-xl border-2 border-cream-300'. Tutti e tre 16px dentro un contenitore da 12px: il raggio cresce andando verso l'interno.",
+   "impatto": null,
+   "fix_proposto": "Portare i tre riquadri interni a rounded-lg (12px); se si adotta il punto precedente e le card del funnel passano a rounded-xl (16px), tenerli comunque un gradino sotto. Regola: il raggio diminuisce verso l'interno, mai il contrario."
+  },
+  {
+   "chiave": "accessibilita-visiva|nel checkout il pulsante che toglie l'articolo finito è bianco su arancione: si legge male",
+   "titolo": "Nel checkout il pulsante che toglie l'articolo finito è bianco su arancione: si legge male",
+   "dimensione": "accessibilita-visiva",
+   "file": "app/checkout/page.tsx:1186, app/checkout/page.tsx:1241",
+   "descrizione": "I due pulsanti «Togli dal carrello» — quello che compare quando un articolo è esaurito e quello che compare quando manca la variante — usano `bg-amber-600 text-white text-sm font-semibold`. Misurato in Chromium con il foglio di stile vero del sito: bianco su rgb(217,119,6) = 3,19:1, con testo da 14px peso 600. Non è testo grande (serve 18,66px in grassetto o 24px), quindi vale la soglia di 4,5:1 — WCAG 2.1 criterio 1.4.3, livello AA. Manca il 30% del contrasto richiesto.\n\nCausa radice: Colori Tailwind grezzi (amber-600) scritti a mano dentro la pagina del checkout invece della primitiva components/ui/Button.tsx, che i suoi contrasti li ha già verificati. La safelist di tailwind.config.ts:26-30 tiene vivo l'intero ramo amber-600, quindi il colore fuori palette non viene mai intercettato.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 200 npx playwright test --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/av/pw.config.ts contrasto-reale   (il primo test inserisce le classi esatte del checkout in una pagina viva, legge colore e fondo calcolati: oggi 3,19:1, atteso >= 4,5)",
+   "impatto": "Questi due pulsanti compaiono nel momento peggiore: il cliente è arrivato al pagamento e un articolo non è più disponibile. È l'unica via d'uscita per completare l'ordine con il resto della spesa. Se chi legge fatica a vederlo, l'ordine intero si perde — non un articolo, tutto il carrello.",
+   "fix_proposto": "Sostituire `bg-amber-600 hover:bg-amber-700` con `bg-amber-700 hover:bg-amber-800` (bianco su #B45309 = 5,02:1) in entrambe le righe. Meglio ancora: usare `<Button variant=\"primary\" size=\"sm\">` della primitiva, che porta anche l'altezza minima del bersaglio e l'anello di fuoco già a norma. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "mobile-pwa|il codice per la «zona sicura» dell'iphone c'è dappertutto ma non funziona: manca viewport-fit",
+   "titolo": "Il codice per la «zona sicura» dell'iPhone c'è dappertutto ma non funziona: manca viewport-fit",
+   "dimensione": "mobile-pwa",
+   "file": "app/layout.tsx:69-74 (export `viewport`, senza `viewportFit`); dipendono da lui app/globals.css:199 e 208, components/StickyAddToCart.tsx:53-57, app/checkout/page.tsx:1072-1073, app/rider/orders/[id]/page.tsx:269, components/ConfirmDialog.tsx:123, components/orders/ContactSheet.tsx:87",
+   "descrizione": "Verificato. L'export `viewport` di app/layout.tsx dichiara solo `width`, `initialScale`, `maximumScale` e `themeColor`: nessun `viewportFit`. Il grep su app/, components/, next.config.js e public/ per `viewportFit`/`viewport-fit` non trova nulla in tutto il progetto. Senza `viewport-fit=cover` le `env(safe-area-inset-*)` valgono zero, quindi la classe `.pb-safe` e tutti i `calc(...)` elencati oggi non fanno niente. Da correggere insieme al doppione, perché due punti conterebbero l'inset DUE volte appena lo si accende: la barra del checkout ha sia `pb-[calc(0.75rem+env(safe-area-inset-bottom))]` (riga 1072) sia `style={{bottom:'calc(env(safe-area-inset-bottom,0px) + …)'}}` (riga 1073), e StickyAddToCart ha `pb-safe` nella classe (riga 53) più lo stesso inset dentro il `bottom` (riga 57).",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `viewportFit: 'cover'` all'export `viewport` di app/layout.tsx e, nello stesso lavoro, togliere il doppione: nella barra del checkout tenere solo il padding e mettere `bottom: var(--altezza-banner-cookie)`; in StickyAddToCart togliere `pb-safe` OPPURE l'inset dentro il `calc`, non tutti e due."
+  },
+  {
+   "chiave": "flussi-conversione|chi sceglie il ritiro in negozio non dice mai a che ora passa",
+   "titolo": "Chi sceglie il ritiro in negozio non dice mai a che ora passa",
+   "dimensione": "flussi-conversione",
+   "file": "app/checkout/page.tsx:463, 478-484, 1050-1060, 1083-1090; components/checkout/PaymentMethodSelector.tsx:130-160; app/api/orders/cod/route.ts:66-70 (deliverySlot)",
+   "descrizione": "Il ritiro in negozio non è una scelta di consegna: è una casella dentro il passo «Come paghi», in mezzo alle piastrelle del metodo di pagamento (PaymentMethodSelector.tsx:137-152). Quando la casella è accesa, il passo «Quando vuoi riceverlo» sparisce del tutto (app/checkout/page.tsx:1052-1060) e la fascia oraria non viene nemmeno chiesta: nel controllo delle fasce il ritiro è trattato come «non serve» (righe 478-484). Il negoziante riceve quindi un ordine da ritirare senza sapere quando la persona si presenterà. In più non esiste da nessuna parte un campo che dica se quel negozio il ritiro lo fa davvero: la casella compare per tutti.\n\nCausa radice: Il ritiro è stato aggiunto come sconto sul pagamento invece che come modo di ricevere l'ordine, e ha ereditato il posto sbagliato nella scaletta dei passi. Da lì in poi ogni pezzo che riguarda il «quando» lo salta per costruzione.\n\nProva (umano, non eseguita): Aperto in un telefono: metti un prodotto nel carrello, vai alla cassa, guarda il passo 2 «Quando vuoi riceverlo», poi scendi al passo 3 e accendi «Ritiro in negozio». Il passo 2 non chiede più nessun orario e l'ordine parte senza ora di ritiro; controlla poi la scheda ordine lato negoziante: il campo della fascia è vuoto.",
+   "impatto": "Il negoziante prepara e aspetta senza sapere se è per le 10 o per le 19, e chi ritira non sa se troverà aperto: due telefonate che il sito poteva evitare. Sulla conversione pesa anche il contrario: chi cercava il ritiro non lo trova, perché è nascosto sotto «Come paghi» e non sotto «Quando vuoi riceverlo».",
+   "fix_proposto": "Spostare il ritiro nel passo 2, accanto alla consegna a domicilio, come due piastrelle «Te lo portiamo» / «Passo io a ritirarlo». Se si sceglie il ritiro, mostrare le fasce del negozio (gli orari ci sono già in lib/store-hours.ts) e salvarne una in delivery_slot. E aggiungere al profilo del negozio un interruttore «accetto il ritiro», spento di default per chi non lo ha mai confermato."
+  },
+  {
+   "chiave": "flussi-conversione|«compra ora · paghi alla consegna» atterra su un checkout con la carta già selezionata",
+   "titolo": "«Compra ora · paghi alla consegna» atterra su un checkout con la carta già selezionata",
+   "dimensione": "flussi-conversione",
+   "file": "app/product/[id]/page.tsx:914-921 (handleBuyNow → /checkout); app/checkout/page.tsx:424 (useState(stripeAvailable ? 'card' : 'cod'))",
+   "descrizione": "CONFERMATO. Il pulsante ad alta intenzione della scheda prodotto dichiara il metodo nel suo testo, ma il checkout inizializza `paymentMethod` a 'card' ogni volta che NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY è configurata. Chi ha cliccato proprio per non pagare online trova preselezionato il pagamento anticipato. Abbasso la severità rispetto al collega: la scelta è visibile e cambiabile nello step 3, non è un blocco né una cifra sbagliata — resta una promessa disattesa nel testo del pulsante.",
+   "impatto": null,
+   "fix_proposto": "handleBuyNow salva l'intenzione (es. sessionStorage 'mc_metodo_scelto' = 'cod') e il checkout inizializza paymentMethod da lì; in alternativa il pulsante diventa «Compra ora» e la scelta resta al checkout."
+  },
+  {
+   "chiave": "flussi-conversione|su telefono il pulsante di conferma si spegne senza dire perché (sul desktop è già stato corretto)",
+   "titolo": "Su telefono il pulsante di conferma si spegne senza dire perché (sul desktop è già stato corretto)",
+   "dimensione": "flussi-conversione",
+   "file": "app/checkout/page.tsx:1082 (disabled vero sulla barra mobile); components/checkout/OrderSummary.tsx:98-113 (aria-disabled + scroll sul primo [role=\"alert\"])",
+   "descrizione": "CONFERMATO. Il pulsante desktop usa `type={disabled ? 'button' : 'submit'}`, `disabled={isCheckingOut}`, `aria-disabled` e un onClick che porta sul primo riquadro che spiega il blocco. La barra fissa mobile — l'unico pulsante visibile su telefono — usa il `disabled` vero: esce dal giro del Tab, non risponde al tocco e non spiega niente. Abbasso a minore perché i riquadri esplicativi sono comunque nella pagina, sopra: la persona che scorre li trova.",
+   "impatto": null,
+   "fix_proposto": "Riportare sulla barra mobile lo schema di OrderSummary: disabled={isCheckingOut}, aria-disabled={bloccato || isCheckingOut}, type={bloccato ? 'button' : 'submit'} e onClick che scorre e mette il fuoco sul primo [role=\"alert\"]."
+  }
+ ]
+}

@@ -1,0 +1,185 @@
+{
+  "dimensione": "qa-flussi",
+  "data": "2026-09-06",
+  "ramo": "claude/marketplace-open-issues-0gudy6",
+  "lente": "il percorso di chi compra, dal carrello all'ordine consegnato: stati che si contraddicono, pulsanti premibili quando non dovrebbero, promesse che il conto smentisce, telefono contro computer",
+  "file_guardati": [
+    { "file": "app/cart/page.tsx", "righe_cambiate_oggi": 315, "squadre": 4 },
+    { "file": "app/checkout/page.tsx", "righe_cambiate_oggi": 115, "squadre": 3 },
+    { "file": "app/orders/[id]/page.tsx", "righe_cambiate_oggi": 7, "squadre": 1 },
+    { "file": "app/orders/page.tsx", "righe_cambiate_oggi": 1, "squadre": 1 },
+    { "file": "app/orders/[id]/loading.tsx", "righe_cambiate_oggi": 22, "squadre": 1 },
+    { "file": "app/orders/[id]/return/page.tsx", "righe_cambiate_oggi": 17, "squadre": 2 }
+  ],
+  "file_letti_di_contorno": [
+    "components/checkout/OrderSummary.tsx",
+    "components/checkout/DeliverySlotPicker.tsx",
+    "lib/quando-arriva.ts",
+    "lib/bozza-checkout.ts",
+    "lib/promotions.ts",
+    "lib/storage/carica-immagine.ts",
+    "lib/errors.ts"
+  ],
+  "verifiche_eseguite": [
+    { "cosa": "npm run typecheck (tsc --noEmit)", "esito": "pulito, nessun errore" },
+    { "cosa": "prova eseguita: consegnaScelta + giornoDaRimettere con bozza giorno='now' riaperta alle 22", "esito": "consegna = non-valida, ordineBloccato = true con zero riquadri role=alert a schermo" },
+    { "cosa": "prova eseguita: riga del carrello vs fascia che la cassa preseleziona, ora per ora", "esito": "divergono dalle 08:00 alle 20:59" },
+    { "cosa": "token Tailwind toccati oggi (shadow-card, shadow-warm-lg, tracking-label, text-2xs)", "esito": "tutti presenti in tailwind.config.ts, nessuna classe morta" }
+  ],
+  "difetti": [
+    {
+      "id": "qa-flussi-01",
+      "titolo": "Alla cassa il pulsante che prende i soldi si preme e non succede niente, se il problema e' l'orario di consegna",
+      "gravita": "grave",
+      "nato_oggi": true,
+      "dove": [
+        "app/checkout/page.tsx:1013",
+        "app/checkout/page.tsx:1526-1540",
+        "components/checkout/OrderSummary.tsx:44-49",
+        "app/checkout/page.tsx:1217"
+      ],
+      "squadre_incrociate": "Un'ondata ha scritto vaiAlPrimoBlocco() per portare la persona sul riquadro rosso che spiega il blocco: quella funzione cerca il primo elemento con role=\"alert\". Una seconda ondata (49f262d) ha riusato quella stessa funzione sul pulsante del telefono e ha allargato i motivi di blocco alla fascia di consegna. Ma la fascia di consegna non ha nessun riquadro role=\"alert\": la sua spiegazione e' una riga di testo grigia, senza quel ruolo. I quattro motivi di blocco sono groups vuoto, merce insufficiente, variante mancante, fascia non valida: i primi tre hanno il loro riquadro, il quarto no.",
+      "cosa_succede": "Il pulsante non e' piu' spento davvero: e' disabled solo mentre l'ordine parte, per il resto e' aria-disabled, cioe' sbiadito ma premibile. Premendolo la pagina chiama vaiAlPrimoBlocco(), che non trova nulla e non fa niente: nessuno scorrimento, nessun messaggio, nessun avviso. Prima di oggi lo stesso pulsante era spento per davvero: non si poteva ordinare lo stesso, ma almeno si vedeva che era spento.",
+      "come_riprodurlo": [
+        "Alle 15:00, da ospite (non collegato), metti qualcosa nel carrello e apri /checkout.",
+        "Nel riquadro «Quando vuoi riceverlo» tocca la mattonella «Adesso».",
+        "Compila l'indirizzo e premi «Paga con carta»: non sei collegato, il sito salva la bozza (mc_checkout_draft, con dentro giorno='now') e ti manda all'accesso.",
+        "Torna sulla cassa dopo le 21:00 (o prima delle 8:00). La bozza rimette giorno='now' — giornoDaRimettere controlla solo il caso 'today', 'now' lo rimette a qualunque ora.",
+        "expressSiPuo(22) e' falso, quindi consegnaScelta risponde non-valida e ordineBloccato diventa vero. La mattonella «Adesso» si spegne ma resta selezionata: il correttore automatico del selettore esce subito se il giorno non e' 'today' (DeliverySlotPicker.tsx, useEffect).",
+        "Dal telefono premi «Paga con carta · €X» nella barra in fondo. Non succede assolutamente niente."
+      ],
+      "atteso": "Premendo il pulsante bloccato la pagina porta sul motivo e lo annuncia, come promette il commento scritto oggi nel codice.",
+      "reale": "Nessuno scorrimento, nessun fuoco, nessun avviso. L'unica spiegazione a schermo e' una riga piccola e grigia («A quest'ora la consegna immediata non e' disponibile»), molto piu' in alto, che sul telefono e' fuori dallo schermo.",
+      "conseguenza_pratica": "Ultimo passo del percorso che incassa. La persona ha carrello pieno, indirizzo scritto e carta in mano, preme il pulsante due o tre volte e conclude che il sito e' rotto. Non e' un ordine sbagliato: e' un ordine che non nasce. Sul telefono la barra in fondo e' l'unico pulsante che si vede.",
+      "percorso_alternativo_che_salva": "Toccando la mattonella «Domani» il blocco sparisce — ma niente a schermo lo suggerisce nel momento in cui si preme.",
+      "passa_a": "@frontend-dev (con @ux-designer sul testo)",
+      "fix_suggerito_non_applicato": "Due strade, entrambe piccole: (a) dare role=\"alert\" alla riga rigaQuandoArriva quando consegna.tipo === 'non-valida', cosi' vaiAlPrimoBlocco la trova e la annuncia; (b) far cadere vaiAlPrimoBlocco su un toast quando querySelector non trova niente, cosi' nessun motivo di blocco futuro puo' piu' finire nel silenzio. La (b) spegne la classe, non il caso.",
+      "classe_di_bug": "un aggancio condiviso (il primo role=\"alert\") riusato da un'ondata successiva per uno stato che quell'aggancio non copre. Tornera' ogni volta che si aggiunge un motivo di blocco senza il suo riquadro.",
+      "confidenza": "90% — stato raggiunto e provato eseguendo le funzioni vere (consegnaScelta, giornoDaRimettere); l'assenza di role=\"alert\" in quello stato l'ho verificata leggendo tutti i punti del file, non aprendo il browser."
+    },
+    {
+      "id": "qa-flussi-02",
+      "titolo": "Chi fa un reso dall'iPhone non riesce ad allegare la foto del prodotto rotto",
+      "gravita": "minore",
+      "nato_oggi": true,
+      "dove": [
+        "app/orders/[id]/return/page.tsx:248",
+        "lib/storage/carica-immagine.ts:96-103"
+      ],
+      "squadre_incrociate": "L'ondata di oggi ha stretto accept=\"image/*\" a tre formati (jpeg, png, webp). Il deposito, scritto da un'altra mano, ne accetta sette: jpeg, png, webp, gif, avif, heic, heif. Le due liste non si parlano.",
+      "cosa_succede": "La finestra di scelta del file filtra sui tre formati dichiarati. Le foto dell'iPhone sono heic; quelle di molti Android sono heic o avif. Nel percorso «Sfoglia / File» quelle foto compaiono in grigio e non si possono scegliere.",
+      "come_riprodurlo": [
+        "Da un ordine consegnato apri «Richiedi un reso».",
+        "Premi «+» per allegare una foto e scegli il percorso File (non la Libreria foto).",
+        "Prova a selezionare una foto .heic scattata con l'iPhone: e' in grigio, non selezionabile.",
+        "Confronto: lib/storage/carica-immagine.ts:96 la accetterebbe senza problemi."
+      ],
+      "atteso": "Se il deposito accetta heic e heif, la finestra di scelta li deve offrire.",
+      "reale": "Tre formati su sette. Il piu' comune sui telefoni e' fra quelli esclusi.",
+      "conseguenza_pratica": "Il reso si puo' comunque mandare senza foto, ma senza foto la richiesta e' piu' debole e il negoziante ha meno elementi per accettarla: piu' discussioni, piu' lavoro al supporto. Nel percorso Libreria foto iOS converte in jpeg da solo, quindi non tutti lo incontrano — per questo e' minore e non grave.",
+      "passa_a": "@frontend-dev",
+      "fix_suggerito_non_applicato": "Far nascere l'attributo accept dalla costante TIPI_IMMAGINE_AMMESSI, invece di riscrivere la lista a mano: accept={TIPI_IMMAGINE_AMMESSI.join(',')}. Cosi' le due liste non possono piu' separarsi.",
+      "classe_di_bug": "la stessa lista scritta in due posti. E' esattamente il difetto che oggi altre ondate hanno tolto sui prezzi e sulla soglia di spedizione: qui e' rientrato dalla finestra.",
+      "confidenza": "85% sul codice (le due liste divergono, e' un fatto); 60% su quanti utenti veri lo incontrano — non ho potuto provare da un telefono."
+    },
+    {
+      "id": "qa-flussi-03",
+      "titolo": "Alle otto e mezza di sera il carrello promette mezz'ora e la cassa, un tocco dopo, apre su domani pomeriggio",
+      "gravita": "minore",
+      "nato_oggi": false,
+      "residuo_della_riparazione_di_oggi": true,
+      "dove": [
+        "app/cart/page.tsx:96-100",
+        "app/cart/page.tsx:572",
+        "app/checkout/page.tsx:517-519"
+      ],
+      "squadre_incrociate": "L'ondata di oggi ha tolto dal carrello il «Consegna in 30-60 min» scritto a mano e l'ha agganciato a expressSiPuo(), cioe' «l'express si puo' ancora offrire». Ma la cassa non parte da li': parte da giornoDiPartenza(), cioe' «quale giorno si puo' ancora scegliere». Le due soglie sono diverse: l'express chiude alle 21, le fasce di oggi finiscono alle 20.",
+      "cosa_succede": "Prova eseguita, ora per ora: dalle 08:00 alle 20:59 il carrello scrive «Consegna in 30-60 min» mentre la cassa si apre gia' su una fascia del pomeriggio o su domani. Il caso peggiore e' fra le 20:00 e le 20:59: carrello «Consegna in 30-60 min», cassa «Domani · 15:00-18:30». Diciannove ore di differenza fra due schermate consecutive.",
+      "come_riprodurlo": [
+        "Metti l'orologio del telefono alle 20:15 (o fallo davvero alle 20:15).",
+        "Apri /cart con un prodotto disponibile: sotto il nome leggi «Disponibile · Consegna in 30-60 min».",
+        "Premi «Procedi al checkout».",
+        "Nel riquadro «Quando vuoi riceverlo» la mattonella accesa e' «Domani» e la riga dice «Domani · 15:00-18:30». La mattonella «Adesso» e' ancora premibile, ma non e' quella preselezionata."
+      ],
+      "atteso": "Le due schermate dicono la stessa cosa, come promette il commento scritto oggi nel carrello.",
+      "reale": "Il carrello dice quello che si POTREBBE scegliere, la cassa mostra quello che HA scelto per te. Non e' la stessa domanda.",
+      "conseguenza_pratica": "Non si perdono soldi (la persona puo' ancora toccare «Adesso»), ma si perde fiducia proprio nell'ora di cena, che e' la fascia piu' calda per un marketplace di negozi di quartiere. Prima di oggi la riga era sbagliata 24 ore su 24: la riparazione di oggi ha ridotto il danno, non l'ha chiuso.",
+      "passa_a": "@frontend-dev",
+      "fix_suggerito_non_applicato": "Far dire al carrello la stessa cosa che la cassa preselezionera': una funzione sola in lib/quando-arriva.ts, chiamata da tutte e due. Oggi il carrello chiede expressSiPuo, la cassa chiede giornoDiPartenza.",
+      "classe_di_bug": "due pagine che chiamano due funzioni diverse della stessa libreria credendo di fare la stessa domanda.",
+      "confidenza": "95% — provato eseguendo le funzioni vere, tabella ora per ora."
+    },
+    {
+      "id": "qa-flussi-04",
+      "titolo": "Il carrello ferma chi ha un prodotto finito, ma lascia passare chi ne ha chiesti piu' di quanti ce ne sono",
+      "gravita": "minore",
+      "nato_oggi": false,
+      "residuo_della_riparazione_di_oggi": true,
+      "dove": [
+        "app/cart/page.tsx:483",
+        "app/checkout/page.tsx:323"
+      ],
+      "squadre_incrociate": "L'ondata di oggi ha aggiunto al carrello il blocco del pulsante, con la regola massimo(...) === 0, cioe' «non ce n'e' piu' nemmeno uno». La cassa usa un'altra regola, problemiDiDisponibilita: «ne hai chiesti piu' di quanti ce ne sono». La seconda comprende la prima, ma non viceversa.",
+      "cosa_succede": "Con 3 pezzi nel carrello e 2 disponibili, il carrello scrive in arancione «Ne restano solo 2» e lascia il pulsante «Procedi al checkout» completamente acceso. Alla cassa compare il muro «Disponibilita' insufficiente» e l'ordine si ferma.",
+      "come_riprodurlo": [
+        "Metti 3 pezzi di un prodotto nel carrello mentre ce ne sono almeno 3.",
+        "Fai scendere la scorta a 2 (un altro cliente compra, oppure il negoziante la corregge dal pannello).",
+        "Ricarica /cart: la riga diventa arancione «Ne restano solo 2», il pulsante resta acceso.",
+        "Premi «Procedi al checkout»: la cassa mostra «Disponibilita' insufficiente» e il pulsante finale e' bloccato."
+      ],
+      "atteso": "Il carrello e la cassa decidono con la stessa regola: se la cassa fermera' l'ordine, il carrello lo dice prima.",
+      "reale": "Due regole diverse a un tocco di distanza. La riparazione di oggi ha coperto meta' dei casi.",
+      "conseguenza_pratica": "Il passaggio in piu' in fondo al percorso — proprio quello che il commento di oggi dice di aver tolto — resta in piedi per chi ha chiesto troppi pezzi invece che zero. Meno frequente del caso «finito», ma stesso dolore.",
+      "passa_a": "@frontend-dev",
+      "fix_suggerito_non_applicato": "Chiamare problemiDiDisponibilita anche dal carrello, invece della regola === 0 scritta a mano li' dentro.",
+      "classe_di_bug": "stesso schema del difetto 03: la regola riscritta a mano invece di chiamare quella condivisa.",
+      "confidenza": "85% — letto nel codice, non percorso in un browser con una scorta vera che cala."
+    },
+    {
+      "id": "qa-flussi-05",
+      "titolo": "Il carrello calcola la spedizione su un indirizzo, la cassa puo' sceglierne un altro, e il numero cambia all'ultimo passo",
+      "gravita": "minore",
+      "nato_oggi": true,
+      "dove": [
+        "app/cart/page.tsx:250-257",
+        "app/checkout/page.tsx:396-400",
+        "app/checkout/page.tsx:444"
+      ],
+      "squadre_incrociate": "L'ondata di oggi ha insegnato al carrello a leggere l'indirizzo per calcolare la spedizione con la stessa formula della cassa, e a scrivere «calcolata sul tuo indirizzo predefinito» al posto di «stima». Ma le due letture non sono identiche: il carrello ordina per is_default e prende UNA riga (.limit(1)); la cassa scarica tutta la lista con lo stesso ordinamento e poi cerca esplicitamente find(a => a.is_default) ?? savedAddresses[0].",
+      "cosa_succede": "Con un solo indirizzo, o con un predefinito impostato, i due coincidono. Con due o piu' indirizzi e nessuno marcato predefinito, l'ordinamento non ha un secondo criterio: le due letture possono restituire righe diverse. Distanze diverse, spedizione diversa (2,50 € + 1,20 €/km). E il carrello, in quel caso, ha appena smesso di chiamarla «stima».",
+      "come_riprodurlo": [
+        "Su un account con due indirizzi salvati e nessuno marcato predefinito (per esempio casa a 1 km dal negozio e ufficio a 4 km).",
+        "Apri /cart con un carrello sotto i 30 €: leggi la spedizione e la scritta «calcolata sul tuo indirizzo predefinito».",
+        "Premi «Procedi al checkout» e confronta la riga Spedizione.",
+        "Se le due letture hanno pescato righe diverse, i due numeri non coincidono — e il carrello non aveva avvisato che era una stima."
+      ],
+      "atteso": "Un numero solo, oppure la parola «stima» quando non e' certo.",
+      "reale": "Il numero puo' cambiare, e la parola «stima» oggi e' stata tolta proprio nel caso in cui il carrello crede di essere certo.",
+      "conseguenza_pratica": "Il prezzo che balla nell'ultimo passo e' il difetto che tre ondate di oggi hanno inseguito. Qui e' rientrato in una forma piu' rara ma peggiore, perche' adesso il carrello afferma di essere esatto.",
+      "passa_a": "@frontend-dev",
+      "fix_suggerito_non_applicato": "Aggiungere lo stesso secondo criterio di ordinamento alle due letture (per esempio .order('created_at', {ascending: true})), oppure — meglio — mostrare «calcolata sul tuo indirizzo» solo quando esiste davvero un is_default.",
+      "classe_di_bug": "due letture della stessa tabella con ordinamenti non deterministici, presentate all'utente come un fatto invece che come una stima.",
+      "confidenza": "70% sul codice; non ho potuto verificare sui dati veri se esistano clienti con due indirizzi e nessun predefinito — se il database garantisce sempre un predefinito, il difetto non si manifesta. Da chiedere a @backend-dev."
+    }
+  ],
+  "controllati_e_puliti": [
+    "app/orders/page.tsx — una sola classe d'ombra cambiata (hover:shadow-md -> hover:shadow-card), token presente in tailwind.config.ts:176. Nessun effetto sul flusso.",
+    "app/orders/[id]/page.tsx — font-mono -> font-sans tabular-nums sul codice di consegna (le cifre restano allineate), truncate -> line-clamp-2 sul nome prodotto (nomi lunghi ora leggibili), shadow-lg -> shadow-warm-lg (token presente). Nessuna regressione di flusso.",
+    "app/orders/[id]/loading.tsx — role=status + aria-busy + skeleton al posto di animate-pulse. Corretto, e non introduce attese senza fine: e' il fallback di Suspense di Next, non uno stato controllato a mano.",
+    "Prezzi carrello vs cassa — controllato a fondo il sospetto piu' grosso: il carrello ora rilegge products.price e ci applica discountedUnitCents(prezzo, sconto)/100, che e' ESATTAMENTE la stessa catena della cassa (app/checkout/page.tsx:191). Le unita' tornano: discountedUnitCents restituisce centesimi, il /100 riporta a euro. Nessun errore di fattore 100.",
+    "Doppio ordine — il nuovo pulsante del telefono usa type='button' quando l'ordine e' bloccato e disabled solo mentre parte; handleSubmit (app/checkout/page.tsx:1029-1080) ricontrolla isCheckingOut, la merce, le varianti E rilegge la fascia sull'ora di adesso. Nessuna via per far partire due volte lo stesso ordine, nemmeno con Invio da tastiera.",
+    "Merce riservata — carrello e cassa usano tutti e due merceCheTengoIo dalla stessa libreria: la merce che tengo io per un tentativo aperto viene ridata a me in tutte e due le pagine. Nessuna contraddizione.",
+    "Soglia di spedizione gratis — il testo del carrello vuoto ora nasce da promessaSpedizione(0), che legge FREE_SHIPPING_THRESHOLD e PLATFORM_DELIVERY_FEE_CENTS. Nessun numero riscritto a mano rimasto in questi sei file.",
+    "Conteggio articoli — la cassa contava le righe, il carrello i pezzi: oggi la cassa e' passata a cartCount(cart), stessa funzione del carrello. Il numero non cala piu' fra un passo e l'altro. Verificato.",
+    "Token Tailwind e compilazione — npm run typecheck pulito; tutte le classi introdotte oggi in questi sei file (shadow-card, shadow-warm-lg, tracking-label, aria-disabled:opacity-50, line-clamp-2, tabular-nums) esistono nella configurazione. Nessuna classe morta come quella che ha rotto il foglio di stile stamattina."
+  ],
+  "niente_trovato_perche": null,
+  "limiti_dichiarati": [
+    "Non ho aperto il sito in un browser: non c'e' un'istanza in esecuzione raggiungibile da qui. I difetti 01, 03 e 05 li ho provati eseguendo le funzioni vere del repo con npx tsx; il comportamento a schermo (scorrimento, fuoco, annuncio del lettore di schermo) l'ho dedotto leggendo il codice.",
+    "Non ho provato niente da un telefono vero: le differenze telefono/computer che riporto (barra in fondo, formato heic) vengono dal codice, non da un dispositivo.",
+    "Non ho toccato il database ne' creato ordini di prova: sola lettura, come richiesto.",
+    "app/globals.css e altri cinque file risultano modificati e non ancora committati da un'altra sessione: non li ho guardati, non sono nel mio perimetro, e il loro stato puo' cambiare sotto i piedi.",
+    "Non ho eseguito la suite dei 3573 test: fuori dal mandato di questa radiografia e a rischio di interferire con le altre sessioni."
+  ],
+  "raccomandazione_al_lotto": "Il difetto 01 e' l'unico che fermerei prima dell'unione: e' sul pulsante che incassa, ed e' nato oggi da una riparazione che prometteva l'esatto contrario. Costa poche righe (dare role=alert alla riga della fascia, o far cadere vaiAlPrimoBlocco su un toast). Gli altri quattro possono seguire nel prossimo pacchetto. Idea non richiesta: tre dei cinque difetti sono la stessa classe — due pagine che rispondono alla stessa domanda con funzioni diverse. Una prova sola che confronti carrello e cassa sugli stessi ingressi (prezzo, spedizione, fascia, conteggio) li spegnerebbe tutti insieme e impedirebbe che tornino."
+}

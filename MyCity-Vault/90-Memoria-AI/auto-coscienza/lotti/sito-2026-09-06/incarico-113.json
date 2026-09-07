@@ -1,0 +1,25 @@
+{
+ "squadra": 113,
+ "ondata": 24,
+ "pacchetto": "home/user/mycity/components/ProductCard.tsx",
+ "territorio_principale": "home/user/mycity/components/ProductCard.tsx",
+ "file_citati": [
+  "/home/user/mycity/components/ProductCard.tsx",
+  "/home/user/mycity/app/orders/[id]/return/page.tsx",
+  "/home/user/mycity/components/PushNotificationOptIn.tsx",
+  "/home/user/mycity/components/rider/CashConfirmDialog.tsx",
+  "/home/user/mycity/app/rider/onboarding/page.tsx",
+  "home/user/mycity/components/ProductCard.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|un avviso d'errore che dice soltanto «errore»",
+   "titolo": "Un avviso d'errore che dice soltanto «Errore»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/components/ProductCard.tsx riga 104 · stesso ripiego in /home/user/mycity/app/orders/[id]/return/page.tsx riga 88, /home/user/mycity/components/PushNotificationOptIn.tsx riga 119, /home/user/mycity/components/rider/CashConfirmDialog.tsx riga 89, /home/user/mycity/app/rider/onboarding/page.tsx riga 126 e altri",
+   "descrizione": "CONFERMATO, con una precisazione sul conteggio. In ProductCard riga 104 è il ripiego pieno: `if (err.message === 'AUTH_REQUIRED') … else toast.error('Errore')` — qualunque altro errore diventa la parola «Errore», senza dire cosa è successo né cosa fare, mentre il cuoricino ha già fatto l'animazione come se avesse funzionato. Negli altri punti la stringa è il ramo `e instanceof Error ? e.message : 'Errore'`, quindi scatta solo quando viene lanciato qualcosa che non è un Error: reale ma più raro dei «altri 19 punti» dichiarati. In tutto la stringa 'Errore' compare 23 volte fra app/ e components/. Il messaggio buono esiste già in lib/errors.ts («Qualcosa non ha funzionato. Riprova fra un momento.»).",
+   "impatto": null,
+   "fix_proposto": "Sostituire ogni `'Errore'` secco con `friendlyError(err)`, già importato in quasi tutti quei file."
+  }
+ ]
+}

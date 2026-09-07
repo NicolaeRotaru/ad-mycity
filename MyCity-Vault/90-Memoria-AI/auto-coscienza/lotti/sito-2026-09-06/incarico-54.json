@@ -1,0 +1,24 @@
+{
+ "squadra": 54,
+ "ondata": 11,
+ "pacchetto": "migrations/087_wallet_and_redemption.sql",
+ "territorio_principale": "migrations/087_wallet_and_redemption.sql",
+ "file_citati": [
+  "migrations/087_wallet_and_redemption.sql",
+  "migrations/091_marketplace_fees.sql",
+  "migrations/030_achievements_giftcards_subscriptions_sponsored.sql",
+  "migrations/024_blockers_money_kyc_returns_cash.sql",
+  "migrations/146_paletti_sui_soldi.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "rls-database|credito applicato e costo di consegna possono diventare negativi, e portafoglio e spesa sponsorizzata non hanno paletti",
+   "titolo": "Credito applicato e costo di consegna possono diventare negativi, e portafoglio e spesa sponsorizzata non hanno paletti",
+   "dimensione": "rls-database",
+   "file": "migrations/087_wallet_and_redemption.sql:45 (orders.wallet_applied_cents, nessun CHECK) · migrations/091_marketplace_fees.sql:15 (orders.delivery_fee_cents, nessun CHECK) · migrations/087_wallet_and_redemption.sql:30 (wallet_ledger.delta_cents, nessun CHECK) · migrations/030_achievements_giftcards_subscriptions_sponsored.sql:148-149 (sponsored_listings.daily_budget_cents/spent_cents, nessun CHECK) · migrations/024_blockers_money_kyc_returns_cash.sql (returns.refund_amount_cents, nessun CHECK) · confronto: migrations/146_paletti_sui_soldi.sql (il criterio gia' adottato su seller_payout_cents e unit_price)",
+   "descrizione": "La migrazione 146 ha messo i paletti su compenso del negozio e prezzo di riga, ma altri cinque numeri di soldi sono rimasti scoperti. Provato sul database ricostruito: orders.wallet_applied_cents = -500 e delivery_fee_cents = -100 passano, un reso con refund_amount_cents = -4200 passa, e su wallet_ledger e sponsored_listings non esiste nessun CHECK sui centesimi. Oggi li scrive solo il server, quindi non c'e' un danno in corso: e' la cintura per il giorno in cui un conto sbaglia segno (un credito «negativo» applicato aumenta il totale invece di scontarlo).\n\nCausa radice: I paletti sui soldi sono stati aggiunti campo per campo dopo ogni radiografia, non con una regola «ogni colonna *_cents nasce con un CHECK».\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres timeout 60 psql -h localhost -U postgres -d mycity_ci -v ON_ERROR_STOP=1 -q -f /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/rls-database-paletti-soldi.test.sql   # esce 3 e stampa ROSSO se il difetto c'e', 0 quando e' chiuso; tutto in transazione con ROLLBACK",
+   "impatto": "Nessun cliente colpito oggi; ma un errore di conto in una riparazione futura passerebbe in silenzio fino allo scontrino o al bonifico, come e' gia' successo per i due campi sistemati il 27/8.",
+   "fix_proposto": "Una migrazione reversibile: ALTER TABLE orders ADD CONSTRAINT orders_wallet_applied_cents_ok CHECK (wallet_applied_cents >= 0 AND (gross_total_cents IS NULL OR wallet_applied_cents <= gross_total_cents)), ADD CONSTRAINT orders_delivery_fee_cents_ok CHECK (delivery_fee_cents >= 0); returns.refund_amount_cents >= 0; sponsored_listings spent_cents >= 0 e daily_budget_cents > 0; wallet_ledger delta_cents <> 0. Rollback: DROP CONSTRAINT. Aggiungere i casi a tests/sql/rls/25."
+  }
+ ]
+}

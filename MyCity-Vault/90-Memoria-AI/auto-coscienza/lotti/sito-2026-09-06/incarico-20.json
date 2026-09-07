@@ -1,0 +1,39 @@
+{
+ "squadra": 20,
+ "ondata": 4,
+ "pacchetto": "components/CategoryBar.tsx",
+ "territorio_principale": "components/CategoryBar.tsx",
+ "file_citati": [
+  "components/CategoryBar.tsx",
+  "lib/shopping-access.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|il mega-menu delle categorie si dichiara «menu» ma dentro ha solo link normali",
+   "titolo": "Il mega-menu delle categorie si dichiara «menu» ma dentro ha solo link normali",
+   "dimensione": "accessibilita",
+   "file": "components/CategoryBar.tsx:96, :136 e :68-80",
+   "descrizione": "`components/CategoryBar.tsx`: il pannello che si apre da «Tutte le categorie» ha `role=\"menu\"` (riga 136) e il pulsante dichiara `aria-haspopup=\"menu\"` (riga 96), ma dentro non c'è nessun `role=\"menuitem\"` — solo `<Link>` in liste normali. Non c'è navigazione con le frecce, all'apertura il fuoco non entra nel pannello e con Esc il pannello si chiude ma il fuoco non torna sul pulsante (effetto alle righe 68-80). ARIA sbagliata è peggio di nessuna ARIA: il lettore annuncia «menu», la persona preme le frecce e non succede niente, e alcuni lettori dentro un `role=menu` sopprimono il contenuto che non è `menuitem`. È lo stesso errore già corretto due volte altrove: nel menu account della Navbar la correzione è visibile (nota «#144» a `components/Navbar.tsx:288`, oggi `aria-haspopup=\"true\"` a riga 321, senza `role=menu`). Criteri WCAG 4.1.2 e 1.3.1 (A). Confidenza 90% (verifica sul codice, non provato con un lettore reale). Severità abbassata da grave a minore rispetto alla segnalazione: nella stessa barra le sette destinazioni sono link normali e funzionanti, ed esiste la pagina /categorie — chi resta fuori dal pannello ha comunque una strada al catalogo.",
+   "impatto": "La barra categorie sta sotto l'header di ogni pagina pubblica ed è la porta principale al catalogo. Chi usa un lettore di schermo trova un menu che promette comandi da tastiera che non esistono: o rinuncia a sfogliare per categoria, o ci perde tempo. Non blocca l'acquisto, taglia la strada di navigazione più comoda.",
+   "fix_proposto": "Togliere il travestimento, come già fatto per il menu account: rimuovere `role=\"menu\"` alla riga 136 e cambiare `aria-haspopup=\"menu\"` in `aria-haspopup=\"true\"` alla riga 96 — restano `<ul>`/`<li>` con link veri, che funzionano da sempre. Poi aggiungere le due cose che davvero mancano: fuoco sul primo link all'apertura e ritorno sul pulsante alla chiusura con Esc, riusando `components/hooks/useBottomSheetA11y.ts`. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la lista delle pagine-vetrina sorvegliate per il venditore non combacia con le pagine vere del sito",
+   "titolo": "La lista delle pagine-vetrina sorvegliate per il venditore non combacia con le pagine vere del sito",
+   "dimensione": "navigazione-gerarchia",
+   "file": "lib/shopping-access.ts:16-30 · middleware.ts:351, :523-530 · components/CategoryBar.tsx:21-29",
+   "descrizione": "Il middleware rimanda un venditore senza «modalità acquisto» alla sua dashboard solo sulle pagine elencate in MARKETPLACE_BROWSE_PREFIXES. Ma Novità, Promozioni, Regali, Più venduti, Piccoli prezzi, Tutti i negozi, Vicino a te e /categorie (le destinazioni della barra categorie) non sono nell'elenco, mentre /collections e /daily-drops ci sono e non hanno nessuna pagina in app/. Effetto: un venditore col cookie scaduto (dura 8 ore) apre «Novità», vede i prodotti, tocca una scheda e si ritrova sulla sua dashboard senza spiegazione.\n\nCausa radice: Due elenchi mantenuti a mano (destinazioni della barra e prefissi sorvegliati) senza una prova che li confronti con app/**/page.tsx.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/navigazione-gerarchia-vetrine-sorvegliate.test.ts",
+   "impatto": "Confusione del negoziante mentre guarda il marketplace; oggi raro (serve il cookie scaduto o l'indirizzo scritto a mano).",
+   "fix_proposto": "Derivare i prefissi dalle stesse DESTINATIONS della CategoryBar più /product /store /cart /checkout /search /category /categorie; togliere /collections e /daily-drops; portare la prova nel repo."
+  },
+  {
+   "chiave": "navigazione-gerarchia|il mega-menu «tutte le categorie» è un pannello lunghissimo senza altezza massima",
+   "titolo": "Il mega-menu «Tutte le categorie» è un pannello lunghissimo senza altezza massima",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/CategoryBar.tsx:133-190 (pannello absolute z-50, max-w-[900px], grid-cols-2 su mobile); grep di 'max-h' e 'overflow-y' sul file: zero occorrenze",
+   "descrizione": "CONFERMATO nella sostanza, severità corretta al ribasso. Il pannello (righe 133-190) non ha né max-height né overflow-y: elenca tutte le categorie principali (8 nel seed di migrations/002, riga 98-106, più quelle aggiunte dopo) con fino a sei sottocategorie ciascuna, in griglia a 2 colonne su telefono: molto più alto di uno schermo. Correggo però la gravità: essendo il pannello 'absolute' e l'intestazione 'relative' su mobile (Navbar:89), il contenuto in fondo È raggiungibile scorrendo la pagina — è scomodo e si sovrappone ai contenuti sotto, non è irraggiungibile. Difetto reale ma non bloccante.",
+   "impatto": null,
+   "fix_proposto": "Dare al pannello max-h-[70vh] overflow-y-auto con overscroll-contain, oppure su mobile aprirlo come foglio a scomparsa dal basso."
+  }
+ ]
+}

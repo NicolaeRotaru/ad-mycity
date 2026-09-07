@@ -1,0 +1,42 @@
+{
+ "squadra": 9,
+ "ondata": 2,
+ "pacchetto": "app/api/cron/send-emails/route.ts",
+ "territorio_principale": "app/api/cron/send-emails/route.ts",
+ "file_citati": [
+  "app/api/cron/send-emails/route.ts",
+  "app/api/cron/operational-alerts/route.ts",
+  "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+  "lib/email/client.ts",
+  "migrations/118_disiscrizione_che_funziona.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "privacy-legale|la coda delle email non si svuota mai",
+   "titolo": "La coda delle email non si svuota mai",
+   "dimensione": "privacy-legale",
+   "file": "app/api/cron/send-emails/route.ts:57,222,241,250, app/api/cron/operational-alerts/route.ts:375, migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql (tabella email_queue: user_id, template, metadata, sent_at)",
+   "descrizione": "Da fine agosto ogni cambio di stato dell'ordine mette una riga nella coda delle email, con dentro la persona, il modello usato e i dati che servono a comporre il messaggio. Il lavoro che spedisce marca sent_at, attempts e last_error, ma nessuno cancella mai le righe già spedite: nei lavori notturni non c'è una sola cancellazione su quella tabella. Restano quindi per sempre lo storico di chi ha ricevuto cosa e quando, e i dati dentro il campo metadata. L'informativa non ha una riga per questa conservazione.\n\nCausa radice: La coda è nata come strumento tecnico di consegna, non come archivio di dati personali: chi l'ha scritta ha pensato al «mandare», non al «per quanto tempo resta».\n\nProva (grep, eseguita e rossa): grep -rn \"email_queue\" /home/user/mycity/app/api/cron/*/route.ts | grep -i delete  → nessun risultato: la tabella si legge, si aggiorna, non si pota mai.",
+   "impatto": "Un archivio che cresce a ogni ordine e contiene la corrispondenza con i clienti, tenuto senza un termine dichiarato. È la stessa contestazione già presa su altre tabelle (i log di accesso, il registro consensi): un dato tenuto oltre lo scopo, e stavolta senza nemmeno una finestra scritta da qualche parte.",
+   "fix_proposto": "In app/api/cron/process-deletions/route.ts aggiungere una potatura con la stessa funzione pota(...) già usata per le altre: cancellare le righe di email_queue con sent_at o cancelled_at più vecchi di 90 giorni, e dichiarare in informativa «Registro degli invii email: 90 giorni»."
+  },
+  {
+   "chiave": "privacy-legale|il piè di pagina «annulla l'iscrizione» viene aggiunto anche alle conferme d'ordine",
+   "titolo": "Il piè di pagina «annulla l'iscrizione» viene aggiunto anche alle conferme d'ordine",
+   "dimensione": "privacy-legale",
+   "file": "lib/email/client.ts:16-23, 57-73 e 98-113 · app/api/cron/send-emails/route.ts:65 · migrations/118_disiscrizione_che_funziona.sql:48-70",
+   "descrizione": "VERIFICATO. sendEmail aggiunge a OGNI messaggio la riga «Non vuoi più ricevere queste email? Annulla l'iscrizione con un clic» e le intestazioni List-Unsubscribe / List-Unsubscribe-Post (lib/email/client.ts:57-73 e 98-113), senza distinguere il transazionale dal marketing: SendEmailInput (righe 16-23) non ha nessun campo di tipo. Il link disiscrive dall'ambito 'marketing', e la funzione SQL disiscrivi mette email_marketing = false e notif_promos = false (migrations/118_disiscrizione_che_funziona.sql:56-63). Quindi chi lo preme sulla conferma di un ordine continuerà a ricevere le email d'ordine, ma nel frattempo ha spento le comunicazioni commerciali senza volerlo — o crede di aver spento gli avvisi d'ordine e li vedrà arrivare lo stesso. La distinzione esiste già altrove: TRANSACTIONAL_TEMPLATES in app/api/cron/send-emails/route.ts:65.",
+   "impatto": "Consenso al marketing revocato per equivoco (contatti persi senza che il cliente lo volesse), più il rischio opposto: un cliente convinto di aver disattivato gli avvisi d'ordine che poi li riceve e ci segnala come spam.",
+   "fix_proposto": "Aggiungere a SendEmailInput un campo tipo: 'transazionale' | 'marketing' e mettere il piè di pagina e le intestazioni List-Unsubscribe solo sul marketing; sulle transazionali lasciare al massimo un link «gestisci le tue preferenze». Prova: inviare una conferma d'ordine e verificare che il corpo non contenga /api/unsubscribe e che non ci sia l'intestazione List-Unsubscribe."
+  },
+  {
+   "chiave": "performance|la coda email non può superare 90 messaggi all'ora, qualunque cosa succeda, e nessuno se ne accorgerebbe",
+   "titolo": "La coda email non può superare 90 messaggi all'ora, qualunque cosa succeda, e nessuno se ne accorgerebbe",
+   "dimensione": "performance",
+   "file": "app/api/cron/send-emails/route.ts:96-109, 146-175 · vercel.json (crons, functions.maxDuration)",
+   "descrizione": "CONFERMATO. `vercel.json` schedula `/api/cron/send-emails` con `*/10 * * * *`, e `app/api/cron/send-emails/route.ts:109` prende `p_max: 15` righe per giro. 15 × 6 = **90 email/ora, 2.160 al giorno**, tetto fisso indipendente da quante ne sono in coda. Il budget di tempo non è il vincolo: `vercel.json` concede `maxDuration: 300` a `app/api/cron/**/route.ts`.\n\nDentro il ciclo (`:167`) ogni riga fa ancora `await supa.auth.admin.getUserById(row.user_id)` per l'indirizzo, poi l'invio: due viaggi in sequenza per email. (I profili invece sono già letti in blocco alle righe 146-155: quella parte è stata sistemata.)\n\nCORREZIONE: severità da «grave» a «minore». Il tetto NON è una svista: il commento alle righe 96-108 lo spiega e lo motiva — la prenotazione di una riga scade dopo 15 minuti (migrazione 085) e con 50 righe l'ultima rischiava il doppio invio. «Quindici bastano per il volume di oggi» è una scelta scritta e ragionata. Il difetto reale che resta è più stretto: il tetto non è dichiarato fuori da quel commento e **non esiste nessuna sentinella sulla profondità della coda**.",
+   "impatto": "Una serata di campagna con 300 iscrizioni significa oltre tre ore per smaltire le email di benvenuto, e un benvenuto che arriva a notte fonda non fa fare il primo ordine. Il rischio vero non è il numero: è che nessuno lo vedrebbe arrivare, perché non c'è nessun allarme sulla coda.",
+   "fix_proposto": "① PRIMA di alzare `p_max`: allungare la finestra di prenotazione (migrazione 085) o il fix non è sicuro — è quello il vincolo, non il tempo di esecuzione. Poi mandare a gruppi di 10 con `Promise.allSettled` (lo schema c'è già in `send-push`). ② Eliminare l'N+1 su `getUserById` denormalizzando l'email su `profiles`, che si legge già in blocco. ③ Subito e a costo quasi zero: una sentinella che allarma se `email_queue` ha più di N righe pending da più di X minuti."
+  }
+ ]
+}

@@ -1,0 +1,100 @@
+{
+ "squadra": 219,
+ "territorio": [
+  "components/seller/ProductImagesField.tsx",
+  "lib/products/uploadImages.ts",
+  "lib/image-url.ts",
+  "app/sell/page.tsx",
+  "lib/errors.ts",
+  "app/api/locale/route.ts",
+  "messages/en.js",
+  "app/reset-password/page.tsx"
+ ],
+ "malattia": "Rami di ripiego scritti per chi sviluppa — l'inglese grezzo «per debug», il controllo delle foto solo verso l'alto, la promessa ricopiata a mano — rimasti accesi davanti al negoziante.",
+ "difetti": [
+  {
+   "chiave": "immagini-media|nessun controllo sulla risoluzione minima delle foto prodotto",
+   "titolo": "Nessun controllo sulla risoluzione minima delle foto prodotto",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-foto-piccola-avvisa-il-negoziante.test.ts → 10 passate (nuova prova, rossa senza il fix: a HEAD `fotoTroppoPiccole` non esiste e l'import fa fallire il file). Poi npx vitest run sui 36 file che toccano il mio territorio → 36 file, 382 prove verdi; npx tsc --noEmit -p tsconfig.json → uscita 0.",
+   "nota_fix": "La scheda diceva il vero: ProductImagesField controlla solo tipo e tetto di 30 MB, uploadImages ricomprime solo sopra i 5 MB, verso il basso niente. Ho messo la misura in lib/products/uploadImages.ts come funzione a sé — `LATO_MINIMO_CONSIGLIATO = 800` e `fotoTroppoPiccole(files)` — così si può provare senza montare React, e l'ho chiamata da ProductImagesField. È un AVVISO (toast.warning dopo il «Immagini caricate»), non un blocco: una foto piccola vale più di nessuna foto. Conta il LATO LUNGO, non la larghezza: una foto 400x1200 non è piccola. Se `createImageBitmap` non c'è o il file non si apre, la funzione tace e torna elenco vuoto — un avviso mancato non fa danno, un avviso sbagliato sì; e la misura parte in parallelo all'upload (con .catch) così non rallenta e non può far fallire il caricamento. NON verificato: il toast in un browser vero (le prove stubbano createImageBitmap; i test girano su node).",
+   "file_toccati": [
+    "lib/products/uploadImages.ts",
+    "components/seller/ProductImagesField.tsx",
+    "tests/unit/la-foto-piccola-avvisa-il-negoziante.test.ts"
+   ]
+  },
+  {
+   "chiave": "immagini-media|sulle foto pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "titolo": "Sulle foto Pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "esito": "non_riparato",
+   "prova": "Letto lib/image-url.ts righe 76-90 e 124-158 e tests/unit/image-url.test.ts righe 34-61. Il difetto c'è ancora, ma non nella forma della scheda.",
+   "nota_fix": "SCHEDA CONTRO CODICE: la scheda dice che buildPexelsUrl «ignora il parametro». Non è più così — il 3/9/2026 la squadra del logo gli ha aggiunto un parametro `ritaglia`, ma l'ha collegato a `opzioni.quadrato !== false` invece che a `square`. Risultato: il ritaglio quadrato è l'impostazione di fabbrica su Pexels e si spegne solo se chi chiama scrive `quadrato: false` (lo fa solo `logoNegozio`). Quindi `sizedImage(fotoPexels, 'detail')` — la finestra di ingrandimento della scheda prodotto, app/product/[id]/page.tsx:575 — ritaglia ancora un quadrato, mentre il ramo Supabase per detail/hero no. C'è anche un secondo scarto, non nella scheda: il commento di `sizedImage` promette che con una misura NUMERICA «il ritaglio è spento salvo richiesta», e sul ramo Pexels non è vero. IL FIX È UNA RIGA (passare `square` invece di `opzioni.quadrato !== false`) MA NON L'HO FATTO: tests/unit/image-url.test.ts righe 51-55 pretendono `h=1200` per «hero» su Pexels, cioè certificano il ritaglio. Chiuderlo vuol dire riscrivere quell'asserzione, e quel file sta fuori dal mio territorio — lo lascio a chi lo possiede. Attenzione a chi lo raccoglie: va deciso se il ritaglio di fabbrica su Pexels è la scelta del 3/9 (allora la scheda si chiude come «scelta, non difetto», ma il commento sul numero va corretto) o un residuo.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "microcopy|la pagina vendi su mycity promette la risposta in due tempi diversi",
+   "titolo": "La pagina Vendi su MyCity promette la risposta in due tempi diversi",
+   "esito": "riparato",
+   "prova": "grep -n \"48\" /home/user/mycity/app/sell/page.tsx → non c'è più nessun «48h»: il numero vive in un posto solo (TEMPO_RISPOSTA_NEGOZI, riga 35) e i due punti lo citano (righe 104 e 188). npx tsc --noEmit → uscita 0; le prove che leggono app/sell/page.tsx (dentro i 36 file) restano verdi.",
+   "nota_fix": "Confermato: riga 84 «entro 48h» nel toast, riga 168 «entro 48 ore lavorative» nel riquadro — 48 ore di calendario da venerdì sera scadono di domenica, 48 lavorative martedì. Ho messo una costante `TEMPO_RISPOSTA_NEGOZI = '48 ore lavorative'` in cima ad app/sell/page.tsx e l'ho usata in tutti e due i punti: si cambia in un posto e cambiano insieme. SCOSTAMENTO DALLA SCHEDA: il fix_proposto voleva la costante in lib/promesse-pubbliche.ts, che è la casa giusta (lì vivono le altre promesse pubbliche) ma sta FUORI dal mio territorio. Il difetto — la stessa pagina che promette due tempi — è chiuso comunque, perché la fonte è unica; resta da fare il trasloco nel file condiviso, e l'ho scritto nel commento della costante perché chi passa non se lo perda.",
+   "file_toccati": [
+    "app/sell/page.tsx"
+   ]
+  },
+  {
+   "chiave": "microcopy|il messaggio d'errore del database esce in inglese davanti al negoziante",
+   "titolo": "Il messaggio d'errore del database esce in inglese davanti al negoziante",
+   "esito": "riparato",
+   "prova": "Nuova prova comportamentale: npx vitest run tests/unit/il-database-non-parla-inglese-al-negoziante.test.ts → 13 passate. ROSSA SENZA IL FIX, misurata davvero: rimesso lib/errors.ts a `git show HEAD` e rilanciata → 6 fallite su 13; ripristinato il file. Poi i 6 file di prove che coprono lib/errors.ts → 85 passate, e i 36 del territorio → 382 passate. npx tsc --noEmit → uscita 0.",
+   "nota_fix": "La causa radice è quella della scheda: l'ultimo ramo decideva «questa frase è nostra» da lunghezza, a-capo e prima lettera, cioè da tre indizi di FORMA che i messaggi di Postgres hanno tutti. Due mosse. ① Le tre traduzioni: «value too long» c'era già (ondata precedente), ho aggiunto «invalid input…» → «Uno dei dati inseriti non è nel formato giusto: controlla numeri e date, poi riprova» e «canceling statement / statement timeout» → «Ci ha messo troppo e si è fermato. Riprova fra qualche secondo». Il timeout l'ho messo PRIMA del ramo di rete: finiva lì dentro e il negoziante andava a controllare il wifi mentre il guasto era dall'altra parte. ② La porta: il ramo che lascia passare il testo grezzo ora chiede anche che la frase non parli come un motore (PAROLE_DEL_MOTORE: syntax, constraint, relation, column, table, row, query, statement, varchar/varying, violates, null value, does not exist, out of range, deadlock, serializ, unrecognized, operator, integer, numeric, boolean, timestamp, jsonb, uuid, regclass). SCOSTAMENTO DALLA SCHEDA: il fix_proposto voleva marcare le frasi nostre alla fonte e fidarsi solo di quelle — è la cura giusta ma tocca il contratto delle rotte e tutti i chiamanti, cioè un lavoro suo, non un minore. Qui il buco è chiuso dal lato della porta. Il prezzo dichiarato: qualche frase inglese legittima (es. di Stripe) può finire sul generico. La metà che protegge dal danno collaterale è nella prova: le quattro frasi italiane vere delle nostre rotte — «Pane Quotidiano è chiuso in questo momento…», «Il negozio ha già accettato l ordine…» — devono arrivare intere, ed è rossa il giorno che una sparisce.",
+   "file_toccati": [
+    "lib/errors.ts",
+    "tests/unit/il-database-non-parla-inglese-al-negoziante.test.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "titolo": "Il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "esito": "non_riparato",
+   "prova": "Letti i18n.ts (RILEVAMENTO_LINGUA_ATTIVO = false, getRequestConfig torna sempre DEFAULT_LOCALE), app/api/locale/route.ts, components/Footer.tsx righe 359-365, tests/unit/api-locale.test.ts e tests/e2e/10-security-and-i18n.spec.ts righe 75-115. Nel repo non esiste messages/en.js: il file è messages/en.json.",
+   "nota_fix": "DUE COSE DELLA SCHEDA NON REGGONO PIÙ. ① «Chi cambia lingua non vede nessun effetto»: oggi non esiste nessun punto dove cambiarla — il LocaleSwitcher è fuori dal footer, e Footer.tsx lo dice per esteso. Resta viva solo la rotta, che nessuna interfaccia chiama. ② La prova citata come rossa non lo è più: il 3/9/2026 quell'end-to-end è stato riscritto apposta («POST /api/locale con locale=en setta cookie ma la pagina resta italiana») per proteggere la decisione invece di combatterla, e diventerà rossa il giorno che l'interruttore si rialza. PERCHÉ NON L'HO CHIUSO: le due strade vere stanno fuori dal mio territorio. Riaccendere vuol dire toccare i18n.ts (`resolveLocale` è già scritta) e rimettere il selettore nel footer; mandare in pensione vuol dire far rispondere 404 alla rotta, e allora vanno riscritte tests/unit/api-locale.test.ts e la prova end-to-end, che oggi certificano il 200. Un ritocco alla sola rotta romperebbe le prove degli altri senza chiudere niente. NON è un lavoro da lotto minori: è una decisione di prodotto (completare la traduzione — oggi 29 file su 347 — o buttare la coppia rotta+traduzioni). L'unica cosa che ho fatto, e non chiude la scheda, è correggere il commento in cima alla rotta: diceva «next-intl risolve il locale leggendo questo cookie», che non è più vero e faceva credere a chi passa che la funzione andasse.",
+   "file_toccati": [
+    "app/api/locale/route.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|la pagina di reset password mostra il messaggio tecnico inglese preceduto da «errore:»",
+   "titolo": "La pagina di reset password mostra il messaggio tecnico inglese preceduto da «Errore:»",
+   "esito": "riparato",
+   "prova": "grep -n \"Errore: \\${msg}\\|per debug\" /home/user/mycity/app/reset-password/page.tsx → nessun risultato: il ripiego grezzo non c'è più. Il messaggio originale ora va a `logger.error` (che porta a Sentry, lib/logger.ts righe 127-152) e a schermo resta la frase italiana. npx tsc --noEmit → uscita 0; tests/unit/chi-compra-puo-scrivere-all-assistenza.test.ts e gli altri 35 del territorio → verdi.",
+   "nota_fix": "Confermato alla riga 46, col commento «mostra il messaggio originale per debug» rimasto in produzione. SCOSTAMENTO DALLA SCHEDA, e conta: il fix_proposto suggeriva «Non siamo riusciti ad aggiornare la password…», ma `translateError` la chiamano DUE punti — l'aggiornamento della password (riga 119) e la richiesta di un nuovo link (riga 141) — e su quel secondo quella frase sarebbe falsa. Ho messo una frase vera in tutti e due i casi: «Qualcosa non ha funzionato. Riprova, oppure richiedi un nuovo link qui sotto.», che dice anche la strada d'uscita. NON verificato con una prova che gira: `translateError` non è esportata, e aggiungere un export a un file di pagina del App Router può far storcere il naso al controllo dei tipi di pagina in build — e la build non la posso lanciare in questo lotto. Prova per lettura del sorgente (ammessa sui minori) più tsc verde.",
+   "file_toccati": [
+    "app/reset-password/page.tsx"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "immagini-media|sulle foto pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "perche": "il fix vive in un file fuori territorio: tests/unit/image-url.test.ts (righe 51-55, «uses hero=1200 for hero size», pretende h=1200 su Pexels e certifica il ritaglio). La riga da cambiare in lib/image-url.ts è una sola: buildPexelsUrl(url, sizePx, square) invece di buildPexelsUrl(url, sizePx, opzioni.quadrato !== false)."
+  },
+  {
+   "chiave": "microcopy|il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "perche": "il fix vive in file fuori territorio: i18n.ts (per riaccendere RILEVAMENTO_LINGUA_ATTIVO) e components/Footer.tsx per il selettore; oppure, se si sceglie di mandare in pensione la funzione, tests/unit/api-locale.test.ts e tests/e2e/10-security-and-i18n.spec.ts, che oggi certificano il 200. In più è una decisione di prodotto, non una riparazione."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Due traduttori diversi per gli stessi errori di Supabase Auth: reset-password ne ha uno suo",
+   "dove": "app/reset-password/page.tsx:31 (translateError) contro lib/errors.ts:49 (traduciErroreAuth)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il commento di sizedImage promette che con una misura numerica il ritaglio è spento, e sul ramo Pexels non è vero",
+   "dove": "lib/image-url.ts:119-122 contro lib/image-url.ts:148",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Le prove end-to-end (Playwright) non le ho lanciate: vogliono il sito acceso, quindi la frase «l'end-to-end della lingua oggi è verde» l'ho letta nel sorgente, non eseguita. ② L'avviso sulla foto piccola l'ho provato con createImageBitmap finto su node: in un browser vero — e col toast a schermo — non l'ha visto nessuno. ③ Non ho lanciato npm run verify né la build (vietati in questo lotto): lint e controlli di build sui miei file restano scoperti; ho girato npx tsc --noEmit sull'intero repo (uscita 0) e le 382 prove dei 36 file che toccano il mio territorio. ④ Il nuovo filtro PAROLE_DEL_MOTORE l'ho provato sui messaggi Postgres della scheda e su quattro frasi italiane vere delle nostre rotte: NON ho passato in rassegna tutti i messaggi che Stripe può mandare, quindi qualche frase inglese legittima potrebbe finire sul generico. ⑤ Il ripiego del reset password non ha una prova che gira (funzione non esportata): solo lettura del sorgente."
+}

@@ -1,0 +1,31 @@
+{
+ "squadra": 38,
+ "ondata": 8,
+ "pacchetto": "lib/format.ts",
+ "territorio_principale": "lib/format.ts",
+ "file_citati": [
+  "app/seller/promote/page.tsx",
+  "app/admin/sponsored/page.tsx",
+  "lib/format.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "tipografia|al negoziante che paga una campagna le date escono in formato macchina, «2026-09-02 → 2026-09-09»",
+   "titolo": "Al negoziante che paga una campagna le date escono in formato macchina, «2026-09-02 → 2026-09-09»",
+   "dimensione": "tipografia",
+   "file": "app/seller/promote/page.tsx:242 (`{c.start_date} → {c.end_date}` stampati grezzi) · app/admin/sponsored/page.tsx:179 (stessa riga lato admin) · confronto: lib/format.ts:3 (formatDate esiste già e dà «02 settembre 2026»)",
+   "descrizione": "Nella pagina «Promuovi» del venditore, sotto ogni campagna sponsorizzata, le date di inizio e fine vengono scritte così come arrivano dal database, cioè anno-mese-giorno con i trattini: «2026-09-02 → 2026-09-09». Tutto il resto del sito usa toLocaleDateString('it-IT') o formatDate (33 punti). Ripasso: il negoziante paga per farsi vedere e legge le date della sua campagna nell'ordine americano.\n\nCausa radice: Campo data renderizzato direttamente senza passare da formatDate.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"{c.start_date} → {c.end_date}\" app/seller/promote/page.tsx app/admin/sponsored/page.tsx   → 2 righe oggi; 0 quando passano da formatDate",
+   "impatto": "Chi compra visibilità sul marketplace (l'unico posto dove un negozio spende soldi dentro MyCity) vede l'unica riga che spiega «quando» in un formato da programmatore. Confusione tra giorno e mese possibile per date come 2026-09-02 (2 settembre, non 9 febbraio). Nessun effetto sull'ordine.",
+   "fix_proposto": "Sostituire con `{formatDate(c.start_date)} → {formatDate(c.end_date)}` (lib/format.ts:3) nelle due righe."
+  },
+  {
+   "chiave": "tipografia|la data in lettere porta lo zero davanti al giorno: «03 settembre 2026» invece di «3 settembre 2026»",
+   "titolo": "La data in lettere porta lo zero davanti al giorno: «03 settembre 2026» invece di «3 settembre 2026»",
+   "dimensione": "tipografia",
+   "file": "lib/format.ts:3-4 (formatDate con day:'2-digit', 19 usi)",
+   "descrizione": "formatDate chiede il giorno a due cifre insieme al mese in lettere: esce «03 settembre 2026». In italiano lo zero davanti si usa solo nella forma numerica (03/09/2026), mai con il mese scritto per esteso.\n\nCausa radice: Opzione day:'2-digit' copiata dal formato numerico.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/tipografia-prezzo-italiano.test.ts   (la quarta prova: atteso «3 settembre 2026», ricevuto «03 settembre 2026»)",
+   "impatto": "Date che sembrano generate da una macchina nei riepiloghi ordine e nel profilo. Cosmetico.",
+   "fix_proposto": "In lib/format.ts usare day:'numeric' al posto di '2-digit'."
+  }
+ ]
+}

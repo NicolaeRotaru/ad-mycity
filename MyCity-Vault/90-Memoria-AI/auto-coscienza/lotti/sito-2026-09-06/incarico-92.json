@@ -1,0 +1,20 @@
+{
+ "squadra": 92,
+ "ondata": 19,
+ "pacchetto": "app/profile/page.tsx",
+ "territorio_principale": "app/profile/page.tsx",
+ "file_citati": [
+  "app/profile/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "tipografia|nel profilo l'email può uscire dal bordo della scheda: manca break-words",
+   "titolo": "Nel profilo l'email può uscire dal bordo della scheda: manca break-words",
+   "dimensione": "tipografia",
+   "file": "app/profile/page.tsx:133",
+   "descrizione": "CONFERMATO nel file, con la portata ridotta rispetto alla segnalazione. Alla riga 133 l'email dell'utente è stampata in `font-mono` dentro una scheda con `p-6` (24px per lato) e nessuna classe che permetta di spezzare la parola. In tutto il sito ho trovato 7 usi di break-words/break-all, tutti in zone interne (admin, messaggi). I browser non spezzano né sulla chiocciola né sul punto, quindi un'email lunga esce dal bordo bianco della scheda: su un telefono da 375px restano circa 295px, cioè una trentina di caratteri a spaziatura fissa. Ho scartato invece la parte della segnalazione che presentava questo come «regola del design non copiata»: il file citato (docs/mockup/ui_kits/_mobile.css) è un foglio di correzione dei mockup con selettori #root/#mc-app e !important, non una fonte di token del sito.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `break-words` alla riga 133 e agli altri punti dove si stampa un'email o un codice ordine per intero."
+  }
+ ]
+}

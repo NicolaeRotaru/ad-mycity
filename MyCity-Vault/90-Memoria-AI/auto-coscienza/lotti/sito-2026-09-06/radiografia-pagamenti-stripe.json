@@ -1,0 +1,75 @@
+{
+  "dimensione": "pagamenti-stripe",
+  "data": "2026-09-06 18:55",
+  "ramo": "claude/marketplace-open-issues-0gudy6",
+  "file_guardati": 8,
+  "file_guardati_elenco": [
+    "app/api/stripe/webhook/route.ts",
+    "lib/stripe/client.ts",
+    "lib/stripe/webhook/ordini.ts",
+    "lib/stripe/webhook/rimborsi.ts",
+    "lib/stripe/webhook/sponsorizzati.ts",
+    "lib/stripe/webhook/trasferimenti.ts",
+    "app/api/stripe/checkout/route.ts",
+    "lib/stripe/payout.ts"
+  ],
+  "file_letti_per_incrocio": [
+    "lib/ordini/valida-carrello.ts (nuovo oggi, usato dalla cassa)",
+    "lib/ordini/zona-di-consegna.ts (nuovo oggi, blocca il pagamento)",
+    "lib/ordini/annulla.ts (altra strada che restituisce il buono)",
+    "lib/stripe/webhook/comune.ts (provaAMandare)",
+    "app/api/cron/expire-stale-orders/route.ts (chi ritenta il rimborso)",
+    "app/api/cron/expire-checkouts/route.ts (gemello del carrello scaduto)",
+    "migrations/116_soldi_radiografia.sql (definizione di release_coupon)",
+    "lib/db/migrazione-124.ts (conRipiegoSchema)",
+    "lib/tempo/giorno-locale.ts"
+  ],
+  "difetti": [
+    {
+      "id": "PS-01",
+      "titolo": "Se il database non risponde mentre si prepara il rimborso, il cliente non viene piu rimborsato e nessuno riprova",
+      "file": "lib/stripe/payout.ts:748",
+      "file_collegato": "app/api/cron/expire-stale-orders/route.ts:168",
+      "gravita": "grave",
+      "nato_oggi": true,
+      "vecchio_o_nuovo": "NUOVO — introdotto dal cambio di oggi (classe RimborsoNonRitentabile). Su origin/main la stessa riga lanciava un Error liscio.",
+      "cosa_succede": "Un ordine pagato con carta che il negozio non accetta entro il tempo viene annullato dal giro periodico, che poi chiede il rimborso. La riga 748 legge l'ordine e, se la lettura fallisce PER QUALSIASI MOTIVO, marchia l'errore come 'senza ritorno' (ritentabile: false). Ma quella lettura puo' fallire anche per un motivo passeggero: timeout dell'istruzione, PostgREST che risponde 503, connessione caduta, pool esaurito. Il giro legge il marchio, lascia l'ordine ANNULLATO, manda un avviso agli amministratori e non riprova mai piu'. Prima di oggi lo stesso intoppo rimetteva l'ordine in 'nuovo' e mezz'ora dopo il rimborso partiva da solo. Per il cliente: ha pagato, l'ordine e' annullato, i soldi restano alla piattaforma finche' una persona non se ne accorge leggendo un avviso in /admin/orders.",
+      "come_si_riproduce": "Prendi un ordine pagato con carta, in stato NEW, oltre la scadenza di accettazione. Fai restituire alla select dentro refundOrder un errore passeggero (per esempio {code:'57014', message:'canceling statement due to statement timeout'}) invece della riga. Lancia il cron expire-stale-orders: l'ordine resta CANCELED, il contatore daChiudereAMano sale di uno, non parte nessun rimborso e al giro successivo l'ordine non e' piu' fra i candidati. Con il codice di origin/main lo stesso ordine torna in NEW e al giro dopo viene rimborsato.",
+      "prova_esistente": "tests/unit/il-rimborso-impossibile-si-marchia-da-se.test.ts e tests/unit/l-ordine-che-non-si-puo-rimborsare-non-torna-in-coda.test.ts passano (13 prove verdi), ma coprono solo il caso legittimo 'ordine gia' rimborsato per intero'. Nessuna prova distingue 'riga assente' da 'lettura fallita': e' il punto cieco.",
+      "rimedio_proposto": "Tenere RimborsoNonRitentabile solo quando la riga manca davvero (PGRST116 / !order senza error) e lasciare un Error normale su ogni altro errore del database. Una riga: distinguere error da !order invece di metterli in OR."
+    },
+    {
+      "id": "PS-02",
+      "titolo": "La cintura che doveva impedire di restituire due volte lo stesso buono non esiste nel database",
+      "file": "lib/stripe/webhook/rimborsi.ts:249",
+      "file_collegato": "migrations/116_soldi_radiografia.sql:46 (unica definizione di release_coupon) · lib/ordini/annulla.ts:195 (stessa cintura, dal 3/9)",
+      "gravita": "minore",
+      "nato_oggi": true,
+      "vecchio_o_nuovo": "MISTO — il buco (funzione a due argomenti mai creata) e' vecchio, del 3/9. Oggi e' nato un SECONDO chiamante che si appoggia alla stessa cintura inesistente, quindi il difetto e' peggiorato.",
+      "cosa_succede": "Il codice nuovo chiama release_coupon(p_code, p_order_id) e il commento spiega che la funzione del database scala l'uso solo se orders.coupon_released_at e' ancora vuoto. Quella funzione non esiste: nelle migrazioni c'e' solo release_coupon(p_code text) (migrazione 116) e la colonna coupon_released_at non compare da nessuna parte; oggi non e' stata aggiunta nessuna migrazione. Quindi ogni chiamata riceve PGRST202 e ripiega sul contatore globale, che non e' idempotente per ordine. In pratica: se la banca del cliente rifiuta il rimborso, handleRefundUpdated (stesso file, riga 401) riporta l'ordine a PAID; quando si emette il secondo rimborso arriva un secondo charge.refunded, la guardia payment_status === 'REFUNDED' non tiene e il buono viene restituito una seconda volta. uses_count scende di 2 per un ordine solo: su una campagna 'primi 50' passa il cinquantunesimo, e su un buono con tetto 2 gia' usato da due clienti si mangia l'uso vero di un altro.",
+      "come_si_riproduce": "Ordine pagato con carta e con coupon. (1) Rimborso pieno dal cruscotto Stripe -> charge.refunded: uses_count scende di 1. (2) charge.refund.updated con status='failed' -> l'ordine torna a payment_status='PAID'. (3) Nuovo rimborso pieno -> secondo charge.refunded: la guardia non scatta e uses_count scende di nuovo. Controprova: applicando una migrazione che crea release_coupon(p_code, p_order_id) con la marcatura su coupon_released_at, il secondo passaggio non scala piu' niente.",
+      "prova_esistente": "nessuna prova copre la restituzione del buono su charge.refunded.",
+      "rimedio_proposto": "Non e' un fix di codice: e' la migrazione mancante (colonna orders.coupon_released_at + release_coupon a due argomenti che scala solo se e' vuota). E' una migrazione, quindi 🔴 firma di Nicola. Finche' non c'e', il commento nel codice va corretto: descrive una protezione che oggi non c'e'."
+    },
+    {
+      "id": "PS-03",
+      "titolo": "Se la lettura del profilo cade, l'avviso dice all'amministratore che il conto non e' nostro",
+      "file": "lib/stripe/webhook/trasferimenti.ts:95-99 e 118-124",
+      "gravita": "minore",
+      "nato_oggi": true,
+      "vecchio_o_nuovo": "NUOVO — tutto il blocco e' di oggi.",
+      "cosa_succede": "Quando la banca rifiuta il bonifico a un negozio, il codice risale al profilo cercando stripe_account_id. Se quella lettura restituisce un errore passeggero, l'errore finisce nel log e si prosegue con negozio = null. A quel punto l'avviso agli amministratori dice: 'Il conto Connect non e' riconosciuto qui: va cercato su Stripe, e il negoziante non sa niente'. E' una diagnosi sbagliata: il conto e' nostro, e' la lettura che e' caduta. L'amministratore va a cercare su Stripe un negozio che sta nel nostro database, e intanto il negoziante non riceve l'avviso di correggere l'IBAN — quindi il bonifico continua a rimbalzare.",
+      "come_si_riproduce": "Fai fallire la select su profiles dentro handlePayoutFailed (errore di rete o timeout) mentre arriva un evento payout.failed con event.account valorizzato e presente in profiles: l'avviso agli amministratori dichiara il conto sconosciuto invece di dire che la lettura e' fallita.",
+      "prova_esistente": "nessuna.",
+      "rimedio_proposto": "Distinguere i due casi: se error e' valorizzato, l'avviso deve dire 'non sono riuscito a leggere di chi e' questo conto' (e va ritentato), non 'il conto non e' riconosciuto'."
+    }
+  ],
+  "cose_trovate_giuste_da_non_rompere": [
+    "app/api/stripe/webhook/route.ts: l'anti-doppione a livello evento e' solido — il turno si prende con la riga, processed=true solo dopo il successo, e il turno torna libero se il gestore fallisce. E' quello che rende innocuo un ritentativo di Stripe.",
+    "lib/stripe/webhook/rimborsi.ts:241-246: la guardia payment_status === 'REFUNDED' funziona sul ritentativo di Stripe, perche' la scrittura sugli ordini avviene PRIMA della restituzione del buono. Se qualcuno sposta quel blocco piu' in alto, nasce il doppio scarico.",
+    "lib/stripe/webhook/trasferimenti.ts: la scelta di NON rimettere gli ordini in coda dopo payout.failed e' corretta e ben motivata. Rimetterli avrebbe fatto partire un secondo trasferimento, cioe' avrebbe pagato il negozio due volte.",
+    "lib/stripe/webhook/sponsorizzati.ts: l'inserimento e' protetto dall'indice unico su stripe_session_id (migrazione 088) con la gestione del 23505 — un ritentativo non crea una seconda sponsorizzazione.",
+    "app/api/stripe/checkout/route.ts: il controllo nuovo sulla zona di consegna sta PRIMA della rivendicazione del buono e PRIMA della riserva della merce. Se lo si sposta sotto, ogni rifiuto per zona brucia un buono e lascia merce riservata."
+  ],
+  "niente_trovato_perche": "Trovati 3 difetti, quindi il campo serve a dire cosa ho guardato e cosa NON ho potuto vedere da qui. GUARDATO: gli 8 file del perimetro, prima con git diff origin/main (tutti e 8 sono stati toccati oggi: +360 righe, -91) e poi nel testo di adesso — per intero i sei piccoli (webhook/route.ts 248 righe, rimborsi.ts 442, sponsorizzati.ts 108, trasferimenti.ts 138, client.ts nella parte della cassa, ordini.ts nella parte del carrello scaduto e del tipo PendingGroup); sui due grandi (payout.ts 1019 righe, checkout/route.ts 771) ho letto tutto il cambiamento di oggi piu' le strade dei soldi intorno, non ogni riga. Ho incrociato con chi chiama e chi viene chiamato: il giro che ritenta i rimborsi, il gemello del carrello scaduto, le migrazioni del buono sconto, la funzione condivisa nata oggi per validare il carrello. Ho fatto girare le 3 prove nuove sui soldi: 13 verdi. NON HO POTUTO VEDERE DA QUI: (1) il database vero — non ho accesso a Supabase da questa sessione, quindi ho verificato solo che nessuna migrazione del repository crea release_coupon a due argomenti; se qualcuno l'avesse applicata a mano fuori dalle migrazioni, il difetto PS-02 non morde; (2) gli eventi veri di Stripe — non ho un ambiente di prova, quindi il ritentativo di charge.refunded, il payout.failed con event.account e il rimborso rifiutato dalla banca li ho ricostruiti leggendo il codice, non riprodotti; (3) i log di produzione, che direbbero quanto spesso la lettura degli ordini cade davvero (e' il numero che decide se PS-01 e' grave o bloccante); (4) la suite intera: ho lanciato 3 file di prova su misura, non npm run verify."
+}

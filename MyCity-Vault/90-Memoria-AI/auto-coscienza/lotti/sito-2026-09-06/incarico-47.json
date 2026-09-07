@@ -1,0 +1,32 @@
+{
+ "squadra": 47,
+ "ondata": 10,
+ "pacchetto": "app/profile/settings/page.tsx",
+ "territorio_principale": "app/profile/settings/page.tsx",
+ "file_citati": [
+  "components/PushNotificationOptIn.tsx",
+  "app/profile/settings/page.tsx",
+  "lib/installabile.ts",
+  "components/PWAInstallBanner.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|su iphone la pagina impostazioni dice che il browser non supporta le notifiche, invece di spiegare che vanno attivate dall'app in schermata home",
+   "titolo": "Su iPhone la pagina impostazioni dice che il browser non supporta le notifiche, invece di spiegare che vanno attivate dall'app in schermata Home",
+   "dimensione": "mobile-pwa",
+   "file": "components/PushNotificationOptIn.tsx:37-40 (supported richiede PushManager, che Safari iOS espone solo quando il sito è aperto dalla schermata Home), :125-131 (messaggio «Il tuo browser non supporta le notifiche push, oppure il marketplace non le ha ancora configurate»); app/profile/settings/page.tsx:501 (unico punto d'uso); lib/installabile.ts:64-67 (eApple già disponibile)",
+   "descrizione": "Da iOS 16.4 le web push esistono, ma solo dentro l'app aggiunta alla schermata Home. Chi apre /profile/settings da Safari su iPhone legge «il tuo browser non supporta…» e se ne va: nessuno gli dice che basta Condividi → Aggiungi a Home e poi tornare qui. Sono i clienti da telefono, cioè quasi tutti.\n\nCausa radice: Il componente conosce solo due stati (supportato / non supportato) e non distingue «iPhone nel browser» da «browser davvero senza push».\n\nProva (umano, non eseguita): Occhio umano: iPhone con iOS 16.4 o più recente, Safari (sito NON installato) → accedi → /profile/settings → sezione notifiche: si legge «Il tuo browser non supporta le notifiche push…» senza istruzioni per installare.",
+   "impatto": "Gli utenti iPhone non attivano mai le notifiche ordine: meno riaperture dell'app, e il messaggio dà del vecchio al loro telefono.",
+   "fix_proposto": "Se eApple(navigator.userAgent) e !matchMedia('(display-mode: standalone)').matches → «Su iPhone le notifiche funzionano dall'app in schermata Home: tocca Condividi, poi Aggiungi a Home, e torna qui», riusando le due righe di istruzioni di PWAInstallBanner."
+  },
+  {
+   "chiave": "mobile-pwa|il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "titolo": "Il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "dimensione": "mobile-pwa",
+   "file": "components/PWAInstallBanner.tsx:100-102 («Accesso veloce + notifiche ordini. Niente app store.»); components/PushNotificationOptIn.tsx, richiamato solo da app/profile/settings/page.tsx:9 e 484",
+   "descrizione": "Verificato. Il testo del banner è esattamente quello citato, e il grep su app/ e components/ mostra che `PushNotificationOptIn` è importato e usato in un solo punto di tutto il sito: la pagina /profile/settings (riga 484). L'iscrizione alle notifiche non viene mai proposta dopo l'installazione né nel momento in cui servirebbe (ordine appena confermato, rider che parte). Chi installa credendo di aver attivato le notifiche non riceverà niente.",
+   "impatto": null,
+   "fix_proposto": "Due cose piccole e separate: correggere il testo del banner («accesso veloce dall'icona, funziona anche con rete debole») e proporre l'attivazione delle notifiche nel momento giusto — nella pagina di conferma ordine, dicendo a cosa servono («ti avvisiamo quando il rider parte») — riusando il componente che esiste già."
+  }
+ ]
+}

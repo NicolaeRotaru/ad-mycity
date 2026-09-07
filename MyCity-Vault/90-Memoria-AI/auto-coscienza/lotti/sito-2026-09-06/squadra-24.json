@@ -1,0 +1,54 @@
+{
+ "squadra": 24,
+ "territorio": [
+  "public/sw.js",
+  "public/icon-192.svg"
+ ],
+ "malattia": "Il service worker era stato riparato una volta sola nel ramo dove il difetto si era visto (le foto, 22/8) e mai nella funzione gemella accanto: il ripiego delle pagine poteva restituire `undefined`, la cache delle foto lavorava a vuoto e le notifiche chiedevano un formato che Android non disegna.",
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|senza rete, se il telefono ha svuotato la memoria del sito, arriva la pagina d'errore del browser invece del «sei offline»",
+   "titolo": "Senza rete, se il telefono ha svuotato la memoria del sito, arriva la pagina d'errore del browser invece del «Sei offline»",
+   "esito": "riparato",
+   "prova": "Prova di comportamento nuova, non un grep: carica il vero public/sw.js in un contesto isolato (node:vm) con rete e cache finte ed ESEGUE il suo gestore delle richieste. `npx vitest run tests/unit/il-service-worker-tiene-in-piedi-la-pagina-anche-senza-rete.test.ts` -> 9 verdi sul codice riparato; rimettendo il file di prima (copia in scratchpad) diventano 4 rossi, fra cui «anche se il telefono ha svuotato la memoria del sito» (la risposta era undefined). Ricontrollati anche i vicini: 6 file, 44 prove verdi.",
+   "nota_fix": "La riga 122 della scheda era giusta come diagnosi ma il fix proposto lì dentro avrebbe rotto una prova esistente (tests/unit/le-pagine-private-non-restano-in-cache.test.ts:38 cerca la stringa esatta `return caches.match(OFFLINE_URL)` per delimitare la funzione) e quel file è fuori dal mio territorio. Ho messo la garanzia dove si risponde davvero, che è anche la causa radice detta dalla scheda («il ripiego finale non è mai garantito a essere una Response»): `event.respondWith(rispostaSicura(networkFirstHtml(req)))`. `rispostaSicura` copre due buchi invece di uno — il ripiego che torna undefined E la promessa che si rifiuta (per esempio `caches.open` con memoria piena) — e serve una pagina «Sei offline» minima scritta dentro il service worker (503, text/html, con il link Riprova come la offline.html dell'ondata 1), che il sistema non può sfrattare. NON ho cambiato `networkFirstHtml`: la prova delle pagine private resta verde.",
+   "file_toccati": [
+    "public/sw.js",
+    "tests/unit/il-service-worker-tiene-in-piedi-la-pagina-anche-senza-rete.test.ts"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|le notifiche push usano un'icona svg che chrome su android non disegna",
+   "titolo": "Le notifiche push usano un'icona SVG che Chrome su Android non disegna",
+   "esito": "riparato",
+   "prova": "La prova fa arrivare una notifica vera al gestore `push` del file e legge le opzioni passate a showNotification: `icon` e `badge` devono finire in `.png`, il file deve esistere in public/ e deve essere fra i precaricati. Rossa sul file di prima ('/icon-192.svg'), verde adesso. Comando: npx vitest run tests/unit/il-service-worker-tiene-in-piedi-la-pagina-anche-senza-rete.test.ts",
+   "nota_fix": "`icon: data.icon || '/icon-192.png'` e `badge: '/icon-192.png'` (il PNG 192x192 RGBA esiste già ed è nel manifest). Ho aggiunto '/icon-192.png' al PRECACHE: altrimenti la notifica cerca l'icona in rete proprio quando la rete balla. Niente bump di CACHE_VERSION: l'install rifà addAll sulla stessa cache e aggiunge la voce, mentre un bump svuoterebbe la cache foto di tutti. NON ho creato il `badge-96.png` monocromatico suggerito dalla scheda: è un file binario nuovo, fuori dai file del mio incarico, e la scheda lo dà come «andrebbe inoltre» — il difetto (SVG che Chrome Android non disegna) è chiuso. Nessun mittente push nel repo imposta `icon` nel payload, quindi il valore di default è quello che arriva davvero.",
+   "file_toccati": [
+    "public/sw.js",
+    "tests/unit/il-service-worker-tiene-in-piedi-la-pagina-anche-senza-rete.test.ts"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|il service worker riscarica ogni foto già vista a ogni visita, e tiene in cache solo 60 immagini",
+   "titolo": "Il service worker riscarica ogni foto già vista a ogni visita, e tiene in cache solo 60 immagini",
+   "esito": "riparato",
+   "prova": "Tre prove di comportamento sul file vero: ① stessa foto chiesta due volte -> una sola chiamata di rete (prima erano due) ② 96 foto di seguito -> nella cache ne restano 96 (prima 60) ③ copia vecchia di 3 giorni, o senza marca temporale, -> si ricontrolla in rete. Rosse sul file di prima (2 dei 3 casi), verdi adesso.",
+   "nota_fix": "Tutti e tre i punti della scheda. ① `staleWhileRevalidate` prende un quarto parametro `freschezzaMs` (24h per le foto): se la copia c'è ed è recente si restituisce senza toccare la rete. ATTENZIONE al dettaglio che la scheda non diceva e che avrebbe reso il fix finto: la freschezza NON si può leggere dall'intestazione `date` del server, perché su una risposta cross-origin (le foto stanno su *.supabase.co) il browser non la espone. Quindi la marca temporale ce la scriviamo noi (`x-mycity-salvata`) ricostruendo la risposta prima di metterla in cache; le copie salvate dalla versione precedente non hanno la marca e vengono ricontrollate, cioè il comportamento di prima. ② MAX_IMAGE_ENTRIES 60 -> 200. ③ commento corretto: il taglio è FIFO, non LRU (ho scelto di dire la verità invece di riscrivere trimCache: riordinare la cache a ogni lettura significa un put per ogni foto vista, cioè più lavoro di quello che risparmia). In più il salvataggio in cache ora è in sottofondo con `.catch`: se la memoria del telefono è piena la foto arriva lo stesso, mentre l'`await` che avevo scritto in prima battuta avrebbe trasformato un errore di quota in un'immagine rotta.",
+   "file_toccati": [
+    "public/sw.js",
+    "tests/unit/il-service-worker-tiene-in-piedi-la-pagina-anche-senza-rete.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Le foto di prodotto non entrano mai nella cache del service worker: la risposta di un <img> è opaca e `res.ok` è falso",
+   "dove": "public/sw.js:94-99 (`if (res.ok)`) + components/ProductCard.tsx (il tag immagine, fuori dal mio territorio)",
+   "gravita": "minore",
+   "descrizione": "Le foto di prodotto passano dal caricatore lib/image-loader.ts verso *.supabase.co/storage/v1/render/image/... e vengono chieste da un normale tag immagine, cioè in modalità `no-cors`: la risposta che torna è opaca (status 0, `ok` falso) indipendentemente da cosa dice il server. Il ramo `if (res.ok)` non la salva mai, quindi la cache delle immagini in pratica resta vuota e le mie migliorie ①③ del difetto performance-percepita oggi non hanno niente su cui lavorare. Le due strade sono: mettere `crossOrigin=\"anonymous\"` sul tag immagine (risposta CORS, leggibile e salvabile) oppure salvare anche le risposte opache — che però pesano sulla quota molto più di quanto occupano e non si distinguono da un errore. È una scelta con un rischio vero (quota piena su iOS), non un fix da lotto minori: la lascio a chi possiede ProductCard e la strategia immagini.",
+   "confidenza": "alta sulla meccanica (è come funziona la modalità no-cors), media sul fatto che nessun percorso usi già crossorigin: ho guardato next.config.ts e il caricatore, non ogni componente"
+  }
+ ],
+ "non_verificato": "① Da qui non ho un telefono: non ho visto Chrome su Android disegnare davvero l'icona PNG della notifica, né iOS svuotare la cache dopo 7 giorni. ② Non ho lanciato `npm run verify` né la suite intera (vietati dal briefing mentre le altre squadre scrivono): ho lanciato `npx tsc --noEmit` (pulito) e le 6 prove vicine che leggono public/sw.js o le notifiche (44 verdi). ③ public/sw.js non è coperto da ESLint di Next (sta in public/), quindi lo stile non è passato da un controllo automatico. ④ La pagina «Sei offline» minima l'ho letta come testo, non l'ho vista disegnata in un browser."
+}

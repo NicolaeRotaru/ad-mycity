@@ -1,0 +1,20 @@
+{
+ "squadra": 51,
+ "ondata": 11,
+ "pacchetto": "lib/store-hours.ts",
+ "territorio_principale": "lib/store-hours.ts",
+ "file_citati": [
+  "lib/store-hours.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "architettura|nello stesso file — «il negozio e' aperto» si calcola con due orologi diversi",
+   "titolo": "Nello stesso file — «il negozio e' aperto» si calcola con due orologi diversi",
+   "dimensione": "architettura",
+   "file": "lib/store-hours.ts:19",
+   "descrizione": "In lib/store-hours.ts convivono due difetti di partenza opposti: isOpenNow(intervals, now = new Date()) alla riga 19 usa l'orologio di chi esegue, mentre isStoreClosedForOrder(storeHours, now = romeNow()) alla riga 47 e negozioPuoServire(..., now = romeNow()) - aggiunta oggi - usano l'orologio da parete italiano. Il commento di romeNow dice espressamente che serve «cosi' l'enforcement al checkout coincide con cio' che l'utente vede nel filtro aperti ora». Ma tutti e sette i punti che mostrano «aperto ora» all'utente chiamano isOpenNow con il valore di partenza: app/stores/page.tsx:191 e components/ProductGrid.tsx:291 (che sono FILTRI, non etichette), StoreListRow.tsx:26, HeroSection.tsx:55, HoursSection.tsx:29, HeroStoreCard.tsx:98, StorePreviewCard.tsx:50. Sono tutti componenti 'use client', quindi nel browser dell'utente di Piacenza l'orologio coincide - ma la prima resa la fa comunque il server, che gira in UTC. — Due valori di partenza diversi per la stessa domanda, nello stesso file, sono una trappola: chi scrive l'ottavo punto che chiede «e' aperto?» prende quello sbagliato senza accorgersene, perche' entrambe le firme sembrano complete. Nella finestra di resa lato server la vetrina puo' dire «aperto» su un negozio che la cassa poi rifiuta - esattamente lo scarto che romeNow e' nato per chiudere. Dichiaro il limite: il valore di partenza sbagliato e' precedente a oggi (la riga 19 non e' stata toccata), ma il lavoro di oggi ha reso l'enforcement lato server piu' fine senza allineare il lato che l'utente vede, quindi l'asimmetria e' aumentata.",
+   "impatto": "Due valori di partenza diversi per la stessa domanda, nello stesso file, sono una trappola: chi scrive l'ottavo punto che chiede «e' aperto?» prende quello sbagliato senza accorgersene, perche' entrambe le firme sembrano complete. Nella finestra di resa lato server la vetrina puo' dire «aperto» su un negozio che la cassa poi rifiuta - esattamente lo scarto che romeNow e' nato per chiudere. Dichiaro il limite: il valore di partenza sbagliato e' precedente a oggi (la riga 19 non e' stata toccata), ma il lavoro di oggi ha reso l'enforcement lato server piu' fine senza allineare il lato che l'utente vede, quindi l'asimmetria e' aumentata.",
+   "fix_proposto": "Una prova che, con orari 09:00-13:00 e un istante fissato alle 11:30 UTC (13:30 a Roma), pretende che isOpenNow e isStoreClosedForOrder diano la stessa risposta: oggi la prima dice aperto e la seconda dice chiuso. In alternativa, un guardiano che fallisce se in lib/store-hours.ts compare ancora `now: Date = new Date()`: cd /home/user/mycity && grep -n 'now: Date = new Date()' lib/store-hours.ts && echo ROSSO"
+  }
+ ]
+}

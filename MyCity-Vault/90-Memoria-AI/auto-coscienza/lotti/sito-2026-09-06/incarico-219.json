@@ -1,0 +1,78 @@
+{
+ "squadra": 219,
+ "ondata": 9,
+ "pacchetti": [
+  "lib/products/uploadImages.ts",
+  "lib/image-url.ts",
+  "app/sell/page.tsx",
+  "lib/errors.ts",
+  "app/api/locale/route.ts",
+  "home/user/mycity/app/reset-password/page.tsx"
+ ],
+ "file_citati": [
+  "components/seller/ProductImagesField.tsx",
+  "lib/products/uploadImages.ts",
+  "lib/image-url.ts",
+  "app/sell/page.tsx",
+  "lib/errors.ts",
+  "app/api/locale/route.ts",
+  "messages/en.js",
+  "app/reset-password/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "immagini-media|nessun controllo sulla risoluzione minima delle foto prodotto",
+   "titolo": "Nessun controllo sulla risoluzione minima delle foto prodotto",
+   "dimensione": "immagini-media",
+   "file": "components/seller/ProductImagesField.tsx:91-107 (controlla solo tipo e tetto di 30 MB) e lib/products/uploadImages.ts:33-37 (ricomprime solo quelle troppo grandi)",
+   "descrizione": "VERIFICATO. Il controllo esiste solo verso l'alto: si rifiutano i file oltre i 30 MB e si ricomprimono quelli sopra i 5. Verso il basso non c'è niente. Un negoziante che salva dal suo sito vecchio una foto da 300 pixel la carica senza un avviso, e quella foto finisce sulla scheda prodotto in un riquadro che sul computer arriva a 220 pixel e su telefono occupa quasi mezza larghezza: sgranata nel punto che deve far comprare. Il venditore non ha modo di accorgersene finché non guarda la sua pagina da cliente.",
+   "impatto": null,
+   "fix_proposto": "Al caricamento leggere le dimensioni con `createImageBitmap` e mostrare un avviso — non un blocco — se il lato lungo è sotto gli 800 pixel: «questa foto è piccola, sulla scheda si vedrà sgranata»."
+  },
+  {
+   "chiave": "immagini-media|sulle foto pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "titolo": "Sulle foto Pexels il ritaglio quadrato viene forzato anche nelle viste grandi",
+   "dimensione": "immagini-media",
+   "file": "lib/image-url.ts:24-32 (buildPexelsUrl) contro lib/image-url.ts:34-52 (buildSupabaseStorageUrl, che rispetta il flag `square`)",
+   "descrizione": "VERIFICATO. Il commento della funzione (righe 44-47) dice che per le viste grandi l'altezza non si imposta «per mostrare l'intero prodotto nel dettaglio», ma la regola è applicata solo al ramo Supabase: il ramo Pexels imposta sempre `w` e `h` uguali con `fit=crop`, ignorando il parametro. Il catalogo dimostrativo usa proprio foto Pexels (seeds/003_pexels_images.sql), quindi su quei prodotti la finestra di ingrandimento — che il commento a app/product/[id]/page.tsx:572 descrive come «vede la foto intera» — mostra un quadrato ritagliato. Effetto limitato ai contenuti dimostrativi, ma l'incoerenza è nel codice.",
+   "impatto": null,
+   "fix_proposto": "Passare il flag `square` anche a buildPexelsUrl e impostare l'altezza solo quando è vero."
+  },
+  {
+   "chiave": "microcopy|la pagina vendi su mycity promette la risposta in due tempi diversi",
+   "titolo": "La pagina Vendi su MyCity promette la risposta in due tempi diversi",
+   "dimensione": "microcopy",
+   "file": "app/sell/page.tsx:84 («entro 48h») e 168 («entro 48 ore lavorative»)",
+   "descrizione": "Dopo l'invio della richiesta, il toast dice «Ti contatteremo entro 48h» mentre il testo della stessa pagina promette «48 ore lavorative»: 48 ore di calendario da un venerdì sera è domenica, 48 ore lavorative è martedì. È lo stesso difetto già noto per l'assistenza (24h vs 24 ore lavorative), su un'altra pagina.\n\nCausa radice: Due frasi scritte a mano nella stessa pagina senza una costante condivisa per i tempi di risposta (come rispostaTempiDiConsegna() in lib/promesse-pubbliche.ts).\n\nProva (grep, eseguita e rossa): grep -n \"48\" /home/user/mycity/app/sell/page.tsx",
+   "impatto": "Un negoziante che manda la richiesta venerdì e non sente nessuno lunedì pensa che MyCity non risponda: il primo contatto con un negozio nuovo parte con un dubbio.",
+   "fix_proposto": "Una costante TEMPO_RISPOSTA_NEGOZI = '48 ore lavorative' in lib/promesse-pubbliche.ts usata sia nel toast sia nel testo (🟢)."
+  },
+  {
+   "chiave": "microcopy|il messaggio d'errore del database esce in inglese davanti al negoziante",
+   "titolo": "Il messaggio d'errore del database esce in inglese davanti al negoziante",
+   "dimensione": "microcopy",
+   "file": "lib/errors.ts:136-157 (ramo finale di friendlyError)",
+   "descrizione": "friendlyError è il traduttore unico degli errori del sito: lo chiamano le pagine per decidere cosa scrivere a schermo. In fondo c'è un ramo che, se non ha riconosciuto niente, ripulisce il messaggio grezzo e — se è lungo meno di 200 caratteri, non ha a capo e comincia con una lettera — lo mostra tale e quale. Quel controllo non distingue una frase nostra da una frase di Postgres. Ho provato tre errori normalissimi: «value too long for type character varying(120)» esce a schermo come «value too long for type character varying»; passano allo stesso modo «invalid input syntax for type numeric» e «canceling statement due to statement timeout».\n\nCausa radice: Il filtro decide «questa frase è nostra» dalla lunghezza e dalla prima lettera, cioè da due indizi di forma. I messaggi del database hanno esattamente quella forma. Non esiste un segno che distingua le frasi scritte da noi per l'utente da quelle che arrivano dal motore.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-g2.test.ts — test «un messaggio tecnico inglese del database non arriva a schermo tale e quale»",
+   "impatto": "Il negoziante di Piacenza scrive una descrizione prodotto un po' lunga, preme Salva, e legge «value too long for type character varying». Non sa cosa ha sbagliato né cosa deve accorciare: chiama noi, o lascia perdere il prodotto. Vale per ogni salvataggio del pannello venditore, non per una pagina sola.",
+   "fix_proposto": "Marcare le frasi pensate per l'utente alla fonte (le nostre rotte rispondono già col contratto ok/error/message: fidarsi solo di quelle) e per tutto il resto tornare il testo generico. In più aggiungere alla mappa i tre errori Postgres più frequenti — campo troppo lungo, valore non valido, tempo scaduto — tradotti in italiano con il rimedio."
+  },
+  {
+   "chiave": "microcopy|il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "titolo": "Il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "dimensione": "microcopy",
+   "file": "i18n.ts (RILEVAMENTO_LINGUA_ATTIVO = false; getRequestConfig restituisce sempre DEFAULT_LOCALE), app/api/locale/route.ts (imposta il cookie NEXT_LOCALE), messages/en.json",
+   "descrizione": "L'endpoint /api/locale risponde ok e scrive il cookie NEXT_LOCALE=en, ma la configurazione di next-intl restituisce sempre «it»: la pagina resta in italiano. La prova end-to-end 10-security-and-i18n lo misura (rossa). È una scelta dichiarata nel codice (rilevamento spento), ma l'API e le traduzioni inglesi restano vive come se funzionassero.\n\nCausa radice: Funzione spenta a metà: spento il rilevamento, lasciati accesi endpoint e cookie.\n\nProva (comando, eseguita e rossa): CI=1 E2E_BASE_URL=http://localhost:3000 npx playwright test tests/e2e/10-security-and-i18n.spec.ts -g \"setta cookie\" --project=chromium → rossa",
+   "impatto": "Chi cambia lingua non vede nessun effetto; codice e traduzioni da mantenere per una funzione spenta.",
+   "fix_proposto": "O si riaccende il rilevamento (resolveLocale è già scritto) o si toglie l'interruttore dall'interfaccia e si fa rispondere 404 all'API."
+  },
+  {
+   "chiave": "microcopy|la pagina di reset password mostra il messaggio tecnico inglese preceduto da «errore:»",
+   "titolo": "La pagina di reset password mostra il messaggio tecnico inglese preceduto da «Errore:»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/reset-password/page.tsx righe 31-47",
+   "descrizione": "CONFERMATO, ma severità abbassata da grave a minore. `translateError` copre sei casi (same as/should be different, weak/at least, expired/jwt, invalid+token, rate/too many, not authenticated/no session); il ripiego finale è `return msg ? \\`Errore: ${msg}\\` : 'Errore durante l'aggiornamento della password'`, col commento «Niente match: mostra il messaggio originale per debug» rimasto in produzione. Chi ci cade legge il testo grezzo di Supabase in inglese preceduto da «Errore:». Abbasso la severità perché i sei casi coprono gli errori frequenti del reset: il ramo grezzo è residuale, non la strada principale.",
+   "impatto": null,
+   "fix_proposto": "Sostituire il ripiego con «Non siamo riusciti ad aggiornare la password. Richiedi un nuovo link qui sotto», mandando il messaggio originale a Sentry (captureError) invece che a schermo."
+  }
+ ]
+}

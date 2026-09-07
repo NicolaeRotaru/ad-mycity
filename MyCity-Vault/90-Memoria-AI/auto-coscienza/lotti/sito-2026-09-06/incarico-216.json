@@ -1,0 +1,98 @@
+{
+ "squadra": 216,
+ "ondata": 9,
+ "pacchetti": [
+  "app/messages/[id]/page.tsx",
+  "app/profile/referral/page.tsx",
+  "app/store/[id]/page.tsx",
+  "components/OrderTimeline.tsx",
+  "home/user/mycity/app/checkout/page.tsx",
+  "home/user/mycity/components/ui/LoadingState.tsx",
+  "components/ProductGrid.tsx"
+ ],
+ "file_citati": [
+  "app/messages/[id]/page.tsx",
+  "components/StoryViewer.tsx",
+  "components/checkout/CouponInput.tsx",
+  "components/checkout/ShippingAddressForm.tsx",
+  "app/profile/referral/page.tsx",
+  "components/store-sections/CollectionSection.tsx",
+  "app/store/[id]/page.tsx",
+  "app/store/[id]/[slug]/page.tsx",
+  "components/OrderTimeline.tsx",
+  "app/checkout/page.tsx",
+  "app/product/[id]/loading.tsx",
+  "app/orders/[id]/loading.tsx",
+  "app/store/[id]/loading.tsx",
+  "components/ui/LoadingState.tsx",
+  "app/globals.css",
+  "components/ProductGrid.tsx",
+  "components/home/PromoDeals.tsx",
+  "app/promozioni/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|il pulsante «indietro» della chat col negozio non ha nome, e il visore delle storie non dice a che punto sei",
+   "titolo": "Il pulsante «indietro» della chat col negozio non ha nome, e il visore delle storie non dice a che punto sei",
+   "dimensione": "accessibilita",
+   "file": "app/messages/[id]/page.tsx:243-245 · components/StoryViewer.tsx:133-142",
+   "descrizione": "(1) `app/messages/[id]/page.tsx:243-245`: il link che riporta all'elenco messaggi contiene solo l'icona `<ArrowLeft size={20} />`, senza `aria-label`, senza `title` e senza testo nascosto. È un link con nome accessibile vuoto: il lettore annuncia l'indirizzo o «link» e basta. Aggravante verificata: la barra in basso è nascosta dentro il thread (`components/MobileTabBar.tsx:146`, la regex `/^\\/messages\\/[^/]+/`), quindi da telefono quello è l'unico comando di uscita in pagina. Criteri WCAG 2.4.4 (A) e 4.1.2 (A). (2) `components/StoryViewer.tsx:133-142`: le barre di avanzamento sono `<div>` puri, senza testo e senza regione viva; ho cercato in tutto il file: non esiste da nessuna parte un «Storia 2 di 5». Chi ascolta non sa quante ne restano né dove si trova. Criterio WCAG 1.3.1 (A). Confidenza 95%.",
+   "impatto": "Sul caso (1) l'effetto è concreto: la conversazione col negoziante è il canale in cui si risolvono i dubbi su un ordine, e da telefono ci si resta chiusi dentro (resta solo il tasto indietro del browser). Il caso (2) è informazione mancante su una funzione secondaria.",
+   "fix_proposto": "(1) `app/messages/[id]/page.tsx:243` → aggiungere `aria-label=\"Torna a tutti i messaggi\"` al `<Link>`: una riga. (2) In `components/StoryViewer.tsx`, accanto alle barre, aggiungere `<p className=\"sr-only\" role=\"status\" aria-live=\"polite\">Storia {index + 1} di {stories.length}</p>` — stesso schema già usato bene in `components/BuyerOnboardingTour.tsx` per «Passo N di M». Owner: @frontend-dev."
+  },
+  {
+   "chiave": "accessibilita|in cassa due scritte piccole e il codice referral hanno un contrasto sotto la soglia di legge",
+   "titolo": "In cassa due scritte piccole e il codice referral hanno un contrasto sotto la soglia di legge",
+   "dimensione": "accessibilita",
+   "file": "components/checkout/CouponInput.tsx:46 · components/checkout/ShippingAddressForm.tsx:113 · app/profile/referral/page.tsx:86 · palette in tailwind.config.ts:34-118",
+   "descrizione": "Misurato dai colori veri della palette (formula WCAG): «Rimuovi» del codice sconto, text-rose-600 #E11D48 su bg-olive-50 #F6F8F1 = 4,39:1; «Predefinito» sulla mattonella dell'indirizzo attivo, text-ink-400 #78716C su bg-primary-50 #FDF4F1 = 4,43:1; «Il tuo codice» nel riquadro referral, text-primary-100 #FAE3DC su primary-600 #C0492C = 4,04:1. Soglia WCAG 1.4.3 (AA) per testo piccolo: 4,5:1. Sono testi di 10-12 px, quindi non vale la soglia ridotta di 3:1. Diversi dai tre contrasti già noti (passo del checkout, testi di servizio del carrello, × della pillola).\n\nCausa radice: Si abbinano colori della palette «a occhio»: nessun controllo automatico sulle coppie testo/sfondo (manca un test sui token di colore) e rose-600 è un colore Tailwind di default fuori dalla palette curata.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/accessibilita-contrasti-nuovi.test.ts   (rossa oggi: 3 coppie su 3 sotto 4,5:1)",
+   "impatto": "Chi ha una vista debole (anziani inclusi) fatica a leggere «Rimuovi» e «Predefinito» proprio nella cassa; nessun blocco all'acquisto, ma è una non conformità AA misurabile sul percorso di pagamento.",
+   "fix_proposto": "CouponInput.tsx:46 → text-rose-700 (#BE123C, ≈6,0:1 su olive-50) oppure text-secondary-700 della palette; ShippingAddressForm.tsx:113 → text-ink-500 (#57534E, ≈7,4:1); referral/page.tsx:86 → text-white/90 o text-primary-50. Sistema: aggiungere in tests/unit un test che misura le coppie di colori usate nei componenti del checkout contro 4,5:1. Owner: @frontend-dev (colori) / @designer (palette)."
+  },
+  {
+   "chiave": "layout-responsive|la vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet",
+   "titolo": "La vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet",
+   "dimensione": "layout-responsive",
+   "file": "components/store-sections/CollectionSection.tsx:70 dentro app/store/[id]/page.tsx:109 e app/store/[id]/[slug]/page.tsx:69",
+   "descrizione": "CONFERMATO. La riga scorrevole della collezione usa `-mx-4 px-4 sm:-mx-6 sm:px-6`, schema corretto solo se il contenitore ha `px-4 sm:px-6` (come ProductGrid.tsx:477). Le due pagine vetrina usano invece `container mx-auto px-4 py-6 max-w-5xl`, con px-4 a tutti i breakpoint. Da 640px in su la riga si allarga di 24px per lato mentre il contenitore ne ha 16: 8px di sbordo per lato. Il progetto non personalizza `container` in tailwind.config.ts, quindi a 640, 768 e 1024px il container coincide col viewport e non c'e' margine che assorba lo sbordo; ne' html ne' body hanno overflow-x hidden, quindi lo scorrimento e' reale.",
+   "impatto": null,
+   "fix_proposto": "Allineare le due classi: `px-4 sm:px-6` sul contenitore delle due pagine store, oppure togliere la variante sm dalla riga scorrevole lasciando `-mx-4 px-4`."
+  },
+  {
+   "chiave": "accessibilita-visiva|nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1",
+   "titolo": "Nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/OrderTimeline.tsx:70 (`bg-cream-200 text-ink-400`)",
+   "descrizione": "CONFERMATO per OrderTimeline: il numero del passo futuro è ink-400 (#78716C) su cream-200 (#F5EDD9) = 4,11:1 ricalcolato, sotto 4,5:1 per un testo di 11px in grassetto (WCAG 1.4.3, che non ammette eccezioni di ridondanza perché è testo). SCARTATA invece la seconda metà della segnalazione: app/orders/[id]/page.tsx:483 è dentro un contenitore `aria-hidden` (riga 476) e lo stato è veicolato anche a parole nel blocco accanto (commento a riga 492), quindi l'icona non è «richiesta per capire il contenuto» e l'eccezione di 1.4.11 si applica.",
+   "impatto": null,
+   "fix_proposto": "OrderTimeline.tsx:70 → `bg-cream-200 text-ink-600`. Solo il numero della tonalità, nessun cambio di forma."
+  },
+  {
+   "chiave": "stati-ui|al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita",
+   "titolo": "Al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/checkout/page.tsx:309-322 (query indirizzi) e :845-853 · /home/user/mycity/components/checkout/ShippingAddressForm.tsx:76 e :154",
+   "descrizione": "CONFERMATO in parte, con severità corretta. Il pezzo che regge: la query `savedAddresses` ha `enabled: !!authUser?.id` (riga 311), quindi parte per forza DOPO che è tornata `authUser`, cioè più tardi della query dei gruppi che sblocca il render. Quando il modulo si disegna, `savedAddresses` è ancora `[]`, e in ShippingAddressForm `const editing = manualOpen || conErrori || savedAddresses.length === 0` (riga 76) vale true: si vede il modulo vuoto. All'arrivo degli indirizzi `editing` diventa false e il `<form>` riceve la classe `hidden` (riga 154), mentre l'effetto di checkout:356-365 riempie i campi. Il passo 1 si riorganizza davanti alla persona. NON confermo invece la seconda metà della segnalazione: il riquadro ospite `{!authUser && …}` sta a riga 845, cioè dopo `if (loadingGroups) return <LoadingState />` (riga 818), e `supabase.auth.getUser()` parte al montaggio prima della query dei gruppi — quindi il lampo del riquadro verde a un cliente già collegato non è dimostrabile. Resta un difetto di stato mancante, ma di impatto minore.",
+   "impatto": null,
+   "fix_proposto": "Passare a ShippingAddressForm una prop `caricamento` presa da `isLoading` della query `savedAddresses`, e finché è vera mostrare due mattonelle-scheletro invece del modulo, senza calcolare `editing`."
+  },
+  {
+   "chiave": "stati-ui|gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+   "titolo": "Gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/product/[id]/loading.tsx:8 · /home/user/mycity/app/orders/[id]/loading.tsx:3 · /home/user/mycity/app/store/[id]/loading.tsx:3 · confronto con /home/user/mycity/components/ui/LoadingState.tsx:34-80 e /home/user/mycity/app/globals.css:182-192",
+   "descrizione": "CONFERMATO su tutti e tre i file. ① Nessuno dei tre `loading.tsx` ha `role=\"status\"`, `aria-busy` o un testo nascosto: chi usa un lettore di schermo apre una scheda prodotto, un ordine o un negozio e non sente nulla finché la pagina non è pronta. Il componente condiviso lo fa bene — `role=\"status\" aria-live=\"polite\"` in tutte e quattro le varianti di LoadingState (righe 34, 43, 53, 72) — ma i tre file di rotta non lo usano. ② Sono scritti con `animate-pulse` e sfondi `bg-cream-200`, mentre LoadingState e app/loading.tsx usano la classe `.skeleton` con lo scintillio orizzontale definito in globals.css:183-192: nella stessa navigazione si vedono in fila due scheletri con due animazioni diverse.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `role=\"status\" aria-live=\"polite\" aria-label=\"Caricamento in corso\"` ai tre `loading.tsx` e sostituire `animate-pulse bg-cream-200` con la classe `.skeleton` già esistente."
+  },
+  {
+   "chiave": "immagini-media|quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+   "titolo": "Quattro foto sotto la piega vengono chieste come «urgenti» su ogni home",
+   "dimensione": "immagini-media",
+   "file": "components/ProductGrid.tsx:470 (`priority={i < 4}`), stesso schema in components/home/PromoDeals.tsx:65, components/store-sections/CollectionSection.tsx:64 e app/promozioni/page.tsx:109 (sei)",
+   "descrizione": "VERIFICATO, con una correzione di dettaglio: l'ordine di serie della home sta in lib/home-site.ts:238-241 (non 42-43) e «Prodotti popolari» è la sesta sezione, non la quinta — quindi il punto regge, è sempre sotto la piega. Le sue prime quattro foto vengono marcate a priorità alta e precaricate (components/ProductCard.tsx:159-160 gira `priority` a next/image), in gara con quello che l'utente sta davvero guardando. Sulla pagina di un negozio si moltiplica: ogni collezione è una sezione e ognuna marca quattro foto. È lo stesso schema del punto sulle schede negozio: `priority` è deciso dal componente invece che da chi lo mette in pagina.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere una proprietà tipo `primaSezione` a ProductGrid e a PromoDeals: solo la prima griglia della pagina passa `priority` alle prime foto, le altre restano a caricamento pigro."
+  }
+ ]
+}

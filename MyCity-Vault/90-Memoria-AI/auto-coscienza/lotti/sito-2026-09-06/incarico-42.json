@@ -1,0 +1,32 @@
+{
+ "squadra": 42,
+ "ondata": 9,
+ "pacchetto": "home/user/mycity/components/ProductGrid.tsx",
+ "territorio_principale": "home/user/mycity/components/ProductGrid.tsx",
+ "file_citati": [
+  "/home/user/mycity/components/ProductGrid.tsx",
+  "/home/user/mycity/messages/it.js",
+  "/home/user/mycity/app/search/page.tsx",
+  "home/user/mycity/components/ProductGrid.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|cambiando un filtro, la griglia prodotti resta identica senza dare nessun segno che sta lavorando",
+   "titolo": "Cambiando un filtro, la griglia prodotti resta identica senza dare nessun segno che sta lavorando",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/components/ProductGrid.tsx:130-132, :522, :535-538",
+   "descrizione": "CONFERMATO nei fatti, severità abbassata. La query ha `placeholderData: keepPreviousData` (riga 131) e la `queryKey` (riga 132) contiene prezzo, disponibilità, negozio aperto, voto minimo, ordinamento e testo cercato: al cambio filtro parte una lettura nuova ma `isLoading` resta falso e a schermo restano i prodotti di prima. `isFetching` è preso a riga 130 e usato in un punto solo, il pulsante «Carica altri prodotti» (righe 535-538); il contenitore della griglia (riga 522, `<div className={\\`grid ${gridCols} gap-4\\`}>`) non ha né opacità ridotta né `aria-busy`. Confermato anche che nel progetto non esiste un indicatore globale: `grep useIsFetching` su app/ e components/ non trova nulla. Abbasso a minore perché un segnale c'è comunque — il chip/filtro cambia stato subito al tocco — quindi non è il «pulsante muto» descritto.",
+   "impatto": null,
+   "fix_proposto": "Sul contenitore della griglia: `className={\\`grid ${gridCols} gap-4 transition-opacity ${isFetching ? 'opacity-50 pointer-events-none' : ''}\\`}` con `aria-busy={isFetching}`, più una riga `role=\"status\"` («Aggiorno i risultati…») per chi non vede. Stesso trattamento alla variante rail."
+  },
+  {
+   "chiave": "microcopy|l'ordinamento «più recensiti» ordina in realtà per voto medio",
+   "titolo": "L'ordinamento «Più recensiti» ordina in realtà per voto medio",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/messages/it.json riga 121 (search.sort.rating = «Più recensiti») e en.json riga 121 («Most reviewed») · usato in /home/user/mycity/app/search/page.tsx riga 186 · ordinamento in /home/user/mycity/components/ProductGrid.tsx righe 314-320",
+   "descrizione": "CONFERMATO, severità abbassata da grave a minore (etichetta fuorviante su un ordinamento, nessun effetto su soldi o fiducia). ProductGrid: `if (sort === 'rating') arr.sort((a,b) => (ratings[b.id]?.avg ?? 0) - (ratings[a.id]?.avg ?? 0))` — ordina per MEDIA dei voti, non per numero di recensioni. Un prodotto con una sola recensione a 5 stelle scavalca uno con quaranta recensioni a 4,8. La prova che l'etichetta è sbagliata è dentro il sito: lo stesso ordinamento nella scheda prodotto si chiama «Voto più alto» (app/product/[id]/page.tsx riga 1056).",
+   "impatto": null,
+   "fix_proposto": "it.json → «Voto più alto», en.json → «Highest rated». Se invece si vuole davvero l'ordinamento per numero di recensioni, ordinare per `count` e tenere la parola attuale."
+  }
+ ]
+}

@@ -1,0 +1,54 @@
+{
+  "squadra": 10,
+  "territorio": [
+    "app/api/cron/release-payouts/route.ts",
+    "app/seller/earnings/page.tsx",
+    "app/seller/help/page.tsx",
+    "app/api/stripe/payout/route.ts",
+    "lib/stripe/payout.ts",
+    "app/api/cron/expire-stale-orders/route.ts"
+  ],
+  "malattia": "Due difetti che nascono dallo stesso vizio: una cosa che il codice sa (quante ore si aspetta il bonifico, perche' un rimborso e' fallito) non viene detta a chi la deve usare, e allora ognuno se la reinventa - con quattro versioni del tempo di pagamento e un ritentativo che non distingue un errore passeggero da uno definitivo.",
+  "difetti": [
+    {
+      "chiave": "pagamenti-stripe|tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle faq del venditore",
+      "titolo": "Tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle FAQ del venditore",
+      "esito": "non_riparato",
+      "prova": "grep -rn 'fraseAttesaBonifico|ORE_ATTESA_BONIFICO' (10 usi, casa unica in lib/stripe/tempi-bonifico.ts) + lettura di app/seller/help/domande.ts:60, dove sopravvive 'Bonifico mensile il giorno 5'. npx vitest run tests/unit/il-grafico-dei-guadagni-usa-i-giorni-di-piacenza.test.ts = verde (lega la frase al numero).",
+      "nota_fix": "TRE VERSIONI SU QUATTRO SONO GIA' CHIUSE da un lotto precedente (R051): esiste lib/stripe/tempi-bonifico.ts con ORE_ATTESA_BONIFICO=1 e fraseAttesaBonifico(); il giro dei bonifici la importa (release-payouts:25), la pagina Guadagni la stampa (earnings:295 e, via commissione.ts:95, il blocco commissioni ex-riga 356), i due commenti '+3gg' sono riscritti (payout.ts:20 e api/stripe/payout/route.ts:20-22). RESTA LA QUARTA, ed e' quella che il negoziante legge: il testo delle FAQ e' MIGRATO da app/seller/help/page.tsx (che ora non nomina piu' i pagamenti) al file fratello app/seller/help/domande.ts, importato a page.tsx:4 - e li' dice ancora 'Bonifico mensile il giorno 5 sull'IBAN che hai registrato in Impostazioni'. Quel file NON e' nel mio file_citati, quindi mi sono fermato: un difetto chiuso a meta' non e' chiuso. PATCH PRONTA, due righe, per chi ha quel territorio: (1) aggiungere in cima a app/seller/help/domande.ts l'import { fraseAttesaBonifico } from '@/lib/stripe/tempi-bonifico'; (2) alla riga 60 sostituire la risposta con: a: `Il bonifico parte ${fraseAttesaBonifico()}, sull'IBAN che hai registrato su Stripe. Da \"Guadagni\" vedi ogni ordine e il suo stato.` - cosi' anche le FAQ leggono l'unico numero vero. NON VERIFICATO: nessun'altra pagina pubblica e' stata setacciata per un quinto tempo (ho guardato solo i 6 file dell'incarico + i 10 usi della costante).",
+      "file_toccati": []
+    },
+    {
+      "chiave": "api-backend|un ordine che non si riesce a rimborsare rimbalza per sempre fra annullato e nuovo",
+      "titolo": "Un ordine che non si riesce a rimborsare rimbalza per sempre fra annullato e nuovo",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-ordine-che-non-si-puo-rimborsare-non-torna-in-coda.test.ts tests/unit/il-rimborso-impossibile-si-marchia-da-se.test.ts = 2 file, 4 prove verdi. DIFETTO RIMESSO, ROSSO PRETESO E OTTENUTO due volte: (a) mutando rimborsoSenzaRitorno() in 'return false' -> 1 fallita su 2; (b) rimettendo 'throw new Error' al posto di RimborsoNonRitentabile in payout.ts -> 1 fallita su 2. Regressione: npx vitest run sui 21 file che mockano @/lib/stripe/payout + i 2 nuovi = 23 file, 118 prove verdi. npx tsc --noEmit: nessun errore sui miei 4 file.",
+      "nota_fix": "CONFERMATO sul codice vero (righe spostate: il catch sta a expire-stale-orders:120-149, non 92-119). Il catch rimetteva l'ordine in NEW SEMPRE, senza guardare che errore fosse: con 'refundOrder: importo rimborso non valido' - che esce quando non c'e' piu' niente da rimborsare - il giro lo riannullava mezz'ora dopo, all'infinito. HO SCARTATO due strade: il contatore dei tentativi sull'ordine (vuole una colonna nuova = migrazione, fuori lotto) e il confronto sul testo del messaggio (una frase riscritta e il rimbalzo riparte in silenzio). SCELTA: la classificazione vive dove sta la conoscenza. In lib/stripe/payout.ts nasce 'export class RimborsoNonRitentabile extends Error' col marchio 'ritentabile = false', lanciata dai 4 errori che non cambieranno mai esito (ordine non trovato; importo rimborso non valido; rimborso gia' registrato o oltre il totale; ordine senza payment_intent e non COD) - i messaggi restano identici alla virgola, quindi nessun chiamante cambia comportamento. Nel cron il guardiano rimborsoSenzaRitorno() legge il CAMPO e non il tipo (l'errore attraversa il confine fra due moduli, e cosi' non serve un import nuovo che avrebbe rotto i mock dei due test gia' esistenti sulla rotta): se e' senza ritorno l'ordine resta annullato, parte un avviso agli amministratori con notifyAdmins (la stessa casa gia' usata dal giro dei bonifici, R044) e sale il contatore nuovo daChiudereAMano, che ora compare nella risposta e nella riga di spesa. L'avviso parte UNA VOLTA SOLA per ordine: l'ordine non torna fra i candidati. Errore passeggero (Stripe muto) = comportamento di prima, torna in coda - c'e' una prova dedicata che lo tiene fermo. NON VERIFICATO: niente prova su dati veri di produzione (la scheda stessa la dichiarava umana); non ho controllato i log Vercel; non ho lanciato npm run verify/build (vietato dal lotto).",
+      "file_toccati": [
+        "lib/stripe/payout.ts",
+        "app/api/cron/expire-stale-orders/route.ts",
+        "tests/unit/l-ordine-che-non-si-puo-rimborsare-non-torna-in-coda.test.ts",
+        "tests/unit/il-rimborso-impossibile-si-marchia-da-se.test.ts"
+      ]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "pagamenti-stripe|tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle faq del venditore",
+      "perche": "il fix vive in un file fuori territorio: app/seller/help/domande.ts (riga 60). Il testo delle FAQ e' migrato li' da app/seller/help/page.tsx dopo la radiografia. Nessun altro incarico del lotto cita quel file: la patta di due righe e' scritta per intero in nota_fix, si applica in trenta secondi."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Quando il rimborso e' impossibile, l'ordine resta annullato ma nessuno lo dice al cliente e la merce resta impegnata",
+      "dove": "app/api/cron/expire-stale-orders/route.ts:120-149",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Il codice sconto non torna disponibile se il rimborso dell'ordine scaduto fallisce",
+      "dove": "app/api/cron/expire-stale-orders/route.ts:196-205",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Nessuna prova su dati o log di produzione: tutto e' provato sui test unitari con Stripe e Supabase finti. Non ho lanciato npm run verify ne' build (vietati dal lotto). npx tsc --noEmit gira con UN errore che non e' mio e non tocca i miei file: components/account/AccountShell.tsx(117,9) 'error TS1005', file di un'altra squadra in scrittura mentre lavoravo. Del difetto sui tempi del bonifico ho verificato solo i 6 file dell'incarico e i 10 punti che usano la costante: non ho setacciato tutte le pagine pubbliche in cerca di un quinto tempo."
+}

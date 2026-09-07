@@ -1,0 +1,20 @@
+{
+ "squadra": 87,
+ "ondata": 18,
+ "pacchetto": "components/ui/Badge.tsx",
+ "territorio_principale": "components/ui/Badge.tsx",
+ "file_citati": [
+  "components/ui/Badge.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+   "titolo": "Le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+   "dimensione": "coerenza-brand",
+   "file": "components/ui/Badge.tsx:26-29 e 38 · tracking-* in app/ e components/",
+   "descrizione": "CONFERMATO. Il design system ha un token solo per le maiuscole: --tracking-wide 0.04em (docs/mockup/tokens/typography.css:47), esposto in tailwind.config.ts come 'tracking-label'. Conteggio mio: tracking-label 9 volte, tracking-wide 47, tracking-wider 49, tracking-widest 3 (il collega diceva 9/43/46/3). Il tranello è reale e verificato: tailwind.config.ts estende letterSpacing solo con display/editorial/label, quindi l'utility 'tracking-wide' resta il default Tailwind 0.025em e NON vale 0.04em come la variabile CSS omonima — chi la scrive crede di usare il token. Badge.tsx:26-29 usa tracking-wide su tutte e quattro le varianti maiuscole, quindi i badge del sito sono già fuori token; alla riga 38 la taglia sm è 'text-[10px]' invece di 'text-2xs', che vale esattamente 10px.",
+   "impatto": null,
+   "fix_proposto": "Sostituire tracking-wide/wider/widest con tracking-label su tutto ciò che è maiuscolo, a partire da Badge.tsx:26-29, e portare la riga 38 a 'text-2xs'. Per togliere il tranello alla radice, ridefinire letterSpacing.wide = '0.04em' in tailwind.config.ts così i due nomi coincidono."
+  }
+ ]
+}

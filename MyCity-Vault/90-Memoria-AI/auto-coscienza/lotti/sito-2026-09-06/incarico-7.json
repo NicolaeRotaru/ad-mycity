@@ -1,0 +1,96 @@
+{
+ "squadra": 7,
+ "ondata": 2,
+ "pacchetto": "app/search/page.tsx",
+ "territorio_principale": "app/search/page.tsx",
+ "file_citati": [
+  "app/search/page.tsx",
+  "lib/analytics/posthog.tsx",
+  "components/GoogleAnalytics.tsx",
+  "components/ActivityTracker.tsx",
+  "app/category/[slug]/page.tsx",
+  "components/seller/SellerShell.tsx",
+  "app/rider/earnings/page.tsx",
+  "components/admin/AdminSidebar.tsx",
+  "components/ProductGrid.tsx",
+  "migrations/002_categories_and_extras.sql",
+  "migrations/057_subcategories.sql",
+  "components/SponsoredCarousel.tsx",
+  "components/ui/Breadcrumb.tsx",
+  "components/CollectionHeader.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "dati-analytics|ogni tocco a un filtro della ricerca conta come una pagina vista, su tutti e tre i sistemi",
+   "titolo": "Ogni tocco a un filtro della ricerca conta come una pagina vista, su tutti e tre i sistemi",
+   "dimensione": "dati-analytics",
+   "file": "app/search/page.tsx:78-94 · lib/analytics/posthog.tsx:175-178 · components/GoogleAnalytics.tsx:43-50 · components/ActivityTracker.tsx:90-102",
+   "descrizione": "CONFERMATO. La pagina /search riscrive l'indirizzo a ogni cambio di filtro con `router.replace` (app/search/page.tsx:78-94): categoria, prezzo, stelle, ordinamento, «solo aperti», «solo promo», «solo disponibili». Quel cambio muove `useSearchParams()`, che sta nelle dipendenze dell'effetto che emette `$pageview` in PostHog (lib/analytics/posthog.tsx:175-178), di quello che emette `page_view` su GA4 (components/GoogleAnalytics.tsx:43-50) e di quello che manda la riga a /api/track (components/ActivityTracker.tsx:90-102, deduplicato solo sull'url intero, che qui cambia ogni volta).",
+   "impatto": "Le pagine viste si gonfiano proprio sulla pagina a più alta intenzione d'acquisto: pagine-per-sessione, frequenza di rimbalzo e il denominatore di ogni tasso di conversione risultano distorti, e la tabella `activity_events` cresce più del necessario.",
+   "fix_proposto": "Emettere la vista di pagina solo quando cambia il percorso (o percorso + il solo parametro `q`), non a ogni cambio di parametro: basta confrontare con una `ref` l'ultimo valore significativo prima di chiamare `capture`."
+  },
+  {
+   "chiave": "layout-responsive|nella ricerca su telefono i pulsanti ordina e filtri compaiono sopra il titolo della pagina",
+   "titolo": "Nella ricerca su telefono i pulsanti Ordina e Filtri compaiono sopra il titolo della pagina",
+   "dimensione": "layout-responsive",
+   "file": "app/search/page.tsx:301-325 contro app/category/[slug]/page.tsx:314-318",
+   "descrizione": "CONFERMATO. La ricerca e' una griglia `grid-cols-1 md:grid-cols-4` (riga 301): il primo figlio e' l'aside dei filtri, `hidden` sotto md (riga 304); il secondo e' il blocco `md:hidden` coi due pulsanti allineati a destra (riga 324); solo il terzo (riga 432) contiene briciole di pane, titolo e conteggio. Su telefono si vedono quindi due pulsanti sospesi prima di sapere su che pagina si e'. La pagina categoria fa il contrario: `<div className=\"md:col-span-4\">{header}</div>` a riga 318, prima dell'aside e dei pulsanti. Due pagine gemelle che si comportano in modo diverso.",
+   "impatto": null,
+   "fix_proposto": "Spostare il blocco dei pulsanti dopo il blocco risultati, o dargli `order-2` con `order-1` sul blocco risultati, allineando la ricerca al comportamento gia' corretto della categoria."
+  },
+  {
+   "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+   "titolo": "La scala tipografica è aggirata 330 volte con misure a mano",
+   "dimensione": "coerenza-brand",
+   "file": "330 occorrenze text-[Npx] in app/ e components/ — components/seller/SellerShell.tsx, app/rider/earnings/page.tsx, app/search/page.tsx, components/admin/AdminSidebar.tsx fra i primi",
+   "descrizione": "CONFERMATO, conteggio rifatto e coincidente: 330 occorrenze totali di text-[Npx]. Distribuzione verificata: 13px 115 volte, 11px 70, 10px 50, 15px 22, 17px 16, 32px 8, 26px 8, 34px 7, 14px 7, 22px 6, 13.5px 4, 12px 4, 12.5px 2. La scala del design system (docs/mockup/tokens/typography.css) è 10/12/14/16/18/20/24/30/36/48/60. Ci sono quindi misure fuori scala (13, 11, 15, 17, 22, 34), misure che duplicano un token esistente (12px = text-xs, 14px = text-sm, 10px = text-2xs) e perfino mezzi pixel (13.5px, 12.5px). Effetto pratico: la stessa etichetta secondaria è 13px in una pagina e 14px in un'altra.",
+   "impatto": null,
+   "fix_proposto": "Non serve riscrivere tutto. Prima le sostituzioni identiche (text-[10px]→text-2xs, [12px]→text-xs, [14px]→text-sm, [16px]→text-base, [18px]→text-lg, [24px]→text-2xl), poi arrotondare le vicine al gradino più prossimo (13→14, 15→16, 17→18, 22→24, 34→36) ed eliminare i mezzi pixel."
+  },
+  {
+   "chiave": "tipografia|i titoli delle file di prodotti vengono tagliati invece di andare su due righe",
+   "titolo": "I titoli delle file di prodotti vengono tagliati invece di andare su due righe",
+   "dimensione": "tipografia",
+   "file": "components/ProductGrid.tsx:362 e :367 · si vede in app/category/[slug]/page.tsx e app/search/page.tsx",
+   "descrizione": "CONFERMATO. Tutte e due le varianti dell'intestazione di sezione (con link e senza) hanno `truncate` insieme a `font-serif text-xl font-bold ... md:text-2xl`: una riga sola, il resto mozzato. Il titolo divide la riga con il collegamento «Vedi tutto», che è `shrink-0` e quindi non cede spazio. Su uno schermo da 320px restano circa 180px per il titolo, cioè undici-dodici lettere a 20px in Fraunces grassetto: nomi di sottocategoria come «Abbigliamento sportivo» o «Latticini & Formaggi» non ci stanno. Su 375px il caso è al limite. La misura in pixel è una stima; il comportamento (taglio a una riga, mai a capo) è certo dal codice.",
+   "impatto": null,
+   "fix_proposto": "Sostituire `truncate` con `line-clamp-2` in tutte e due le righe e far partire la dimensione da text-lg su telefono (text-lg sm:text-xl md:text-2xl)."
+  },
+  {
+   "chiave": "navigazione-gerarchia|quando la ricerca non trova niente, «forse cercavi» propone sei voci di abbigliamento invece delle nove categorie principali",
+   "titolo": "Quando la ricerca non trova niente, «Forse cercavi» propone sei voci di abbigliamento invece delle nove categorie principali",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/search/page.tsx:167 (didYouMean = categories.slice(0, 6)), :520-533 (resa), :96-106 (.order('name'))",
+   "descrizione": "Le sei scorciatoie sotto «nessun risultato» sono le prime sei righe della lista alfabetica: Abbigliamento, Abbigliamento sportivo, Abiti & Gonne, Accessori, Accessori & Borse, Accessori sport. Solo 1 su 6 è una categoria principale. Chi cerca «pane» e non trova nulla si vede proporre gonne e borse.\n\nCausa radice: Nessun criterio di scelta: slice(0,6) su una lista ordinata per nome e non filtrata per parent_id IS NULL.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"SELECT count(*) FILTER (WHERE parent_id IS NULL) FROM (SELECT parent_id FROM public.categories ORDER BY name LIMIT 6) s;\"   → 1 (atteso 6)",
+   "impatto": "La via di recupero dopo una ricerca fallita porta fuori strada: è il momento in cui il cliente decide se restare o chiudere.",
+   "fix_proposto": "Mostrare le 9 madri (filter parent_id === null, leggendo parent_id) con la loro emoji; meglio ancora, ordinarle per somiglianza col testo cercato."
+  },
+  {
+   "chiave": "navigazione-gerarchia|il filtro «categoria» della ricerca è una lista piatta di 72 voci con due «bambini» identiche",
+   "titolo": "Il filtro «Categoria» della ricerca è una lista piatta di 72 voci con due «Bambini» identiche",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/search/page.tsx:96-106 (query piatta ordinata per nome), :191-200 (una option per riga, solo c.name, nessun optgroup), :153-155 (chip col solo nome) · migrations/002_categories_and_extras.sql:119-120 (bambini sotto abbigliamento) · migrations/057_subcategories.sql (libri-bambini)",
+   "descrizione": "Il menu a tendina mette in fila, in ordine alfabetico, madri e figlie senza distinguerle: «Abbigliamento», «Abbigliamento sportivo», «Abiti & Gonne», «Accessori», «Accessori & Borse», «Accessori sport» … e due voci «Bambini» una dopo l'altra: una è l'abbigliamento bambino (slug bambini, madre Abbigliamento), l'altra i libri per bambini (slug libri-bambini, madre Libri). Il cliente non può sapere quale sta scegliendo; anche il chip del filtro attivo dice solo «Bambini». Sul telefono sono 72 righe da scorrere per trovare una categoria.\n\nCausa radice: La query legge id, slug, name senza parent_id e la lista è disegnata piatta; il nome della sotto-categoria non è univoco nel DB (nessun vincolo su name) e l'interfaccia lo usa come unica etichetta.\n\nProva (comando, eseguita e rossa): test -z \"$(PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"SELECT name FROM public.categories GROUP BY name HAVING count(*) > 1;\")\" && echo VERDE || echo ROSSO   → ROSSO (esce: Bambini|2|bambini, libri-bambini)",
+   "impatto": "Chi cerca vestiti per il figlio e sceglie la «Bambini» sbagliata vede libri (o niente) e crede che i negozi non abbiano quello che cerca. Con un catalogo piccolo come oggi il caso è raro, ma è un errore silenzioso: nessun messaggio dice al cliente che ha sbagliato voce.",
+   "fix_proposto": "Leggere anche parent_id, disegnare il select con un optgroup per madre (9 gruppi) e nel chip mostrare «Libri › Bambini»; a DB rinominare libri-bambini in «Libri per bambini» o mettere un vincolo di unicità su (name, parent_id) con etichetta composta."
+  },
+  {
+   "chiave": "navigazione-gerarchia|nella pagina dei risultati il carosello sponsorizzato sta sopra il briciolo di pane e sopra il titolo",
+   "titolo": "Nella pagina dei risultati il carosello sponsorizzato sta sopra il briciolo di pane e sopra il titolo",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/search/page.tsx:433 (<SponsoredCarousel placement=\"search_top\" />), :435-446 (nav Breadcrumb), :450 (<h1>) · components/SponsoredCarousel.tsx:119 (if (items.length === 0) return null)",
+   "descrizione": "CONFERMATO. Nella colonna risultati il primo figlio è il carosello a pagamento (riga 433); solo dopo arrivano la nav Breadcrumb «Home › Ricerca» (435-446), l'<h1> «Risultati per …» (450) e la riga conteggio. Chi ha appena cercato non trova subito la conferma di cosa sta guardando. Confermata anche l'attenuante indicata dal collega: con zero campagne il componente si nasconde da solo (SponsoredCarousel riga 119), quindi il difetto si manifesta solo a retail media acceso.",
+   "impatto": null,
+   "fix_proposto": "Invertire l'ordine: briciolo di pane, titolo e riga conteggio prima, carosello sponsorizzato subito sotto (resta sopra la griglia, quindi la visibilità venduta non cala)."
+  },
+  {
+   "chiave": "navigazione-gerarchia|due componenti diversi disegnano lo stesso briciolo di pane, con separatore e misure diverse",
+   "titolo": "Due componenti diversi disegnano lo stesso briciolo di pane, con separatore e misure diverse",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/ui/Breadcrumb.tsx:38-60 (text-sm, chevron PRIMA della voce alla riga 45, JSON-LD BreadcrumbList alle righe 24-27 e 62) contro components/CollectionHeader.tsx:64-83 (text-[13px], chevron DOPO la voce alla riga 79, nessun dato strutturato) e app/search/page.tsx:435-446 (terza copia a mano, text-[13px], chevron dopo)",
+   "descrizione": "CONFERMATO, tre implementazioni distinte. Il componente condiviso Breadcrumb usa text-sm, disegna il ChevronRight prima di ogni voce successiva (riga 45, dentro il blocco idx > 0) ed emette lo schema BreadcrumbList per Google (costruito alle righe 24-27, stampato in un <script type=\"application/ld+json\"> alla riga 62). CollectionHeader lo riscrive a mano con text-[13px] e il chevron dopo la voce (riga 79), senza dati strutturati; app/search/page.tsx righe 435-446 è una terza copia identica alla seconda. Passando da una categoria a un prodotto lo stesso elemento di orientamento cambia dimensione e ritmo.",
+   "impatto": null,
+   "fix_proposto": "Usare ovunque components/ui/Breadcrumb, dandogli una proprietà per l'uso dentro CollectionHeader; cancellare le due copie a mano."
+  }
+ ]
+}

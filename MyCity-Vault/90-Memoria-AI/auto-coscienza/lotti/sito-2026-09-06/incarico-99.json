@@ -1,0 +1,22 @@
+{
+ "squadra": 99,
+ "ondata": 21,
+ "pacchetto": "home/user/mycity/app/lists/page.tsx",
+ "territorio_principale": "home/user/mycity/app/lists/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/lists/page.tsx",
+  "/home/user/mycity/components/AddToListButton.tsx",
+  "home/user/mycity/app/lists/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|«non hai ancora liste» lampeggia a chi le liste ce le ha",
+   "titolo": "«Non hai ancora liste» lampeggia a chi le liste ce le ha",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/lists/page.tsx:45, :62, :79, :178-185 · /home/user/mycity/components/AddToListButton.tsx:31, :143-145, :148-153",
+   "descrizione": "CONFERMATO. Le tre query della pagina — `featuredLists` (riga 45), `publicLists` (62), `myLists` (79) — ricadono tutte su `= []` e nessuna legge `isLoading` o `isError`; non c'è nessun ritorno anticipato di caricamento nel file. Finché le risposte non arrivano `myLists.length === 0` è vero e compare il riquadro «Non hai ancora liste. Inizia a crearne una» col pulsante «Crea la prima lista» (righe 178-185), che poi sparisce. Stessa cosa nel pannello «Aggiungi alle tue liste»: la query ha `enabled: open` (riga 33), quindi all'apertura `lists` è `[]` e si legge «Non hai ancora liste. Creane una qui sotto» (righe 143-145) prima dell'elenco vero. In più i pulsanti delle liste (righe 148-153) chiamano `toggle.mutate(l.id)` senza nessun `disabled`, quindi si possono premere due volte.",
+   "impatto": null,
+   "fix_proposto": "Prendere `isLoading` dalle query e mostrare riquadri-scheletro finché è vera, tenendo l'empty state solo per il vuoto verificato. In AddToListButton passare `disabled={toggle.isPending}` alle righe dell'elenco."
+  }
+ ]
+}

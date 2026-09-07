@@ -1,0 +1,20 @@
+{
+ "squadra": 61,
+ "ondata": 13,
+ "pacchetto": "lib/stripe/client.ts",
+ "territorio_principale": "lib/stripe/client.ts",
+ "file_citati": [
+  "lib/stripe/client.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|un solo metodo di pagamento elettronico: la carta, per scelta scritta nel codice",
+   "titolo": "Un solo metodo di pagamento elettronico: la carta, per scelta scritta nel codice",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/client.ts:197",
+   "descrizione": "CONFERMATO. La sessione di checkout è creata con `payment_method_types: ['card']` (lib/stripe/client.ts:197). Fissare quell'elenco disattiva i metodi gestiti dal cruscotto Stripe: niente PayPal, Klarna, SEPA né metodi locali (Satispay, Bancomat Pay) anche se venissero abilitati sull'account. Restano Apple Pay/Google Pay, che Stripe Checkout mostra da sé con 'card' — ed è quello che dichiara la nota alla riga 98 del file.",
+   "impatto": "Chi non vuole digitare la carta ha una sola alternativa: il contrassegno, che ci costa il giro del fattorino, la gestione del contante e la riconciliazione (e che oggi ha anche il problema del saldo Stripe, difetto sopra). Sul pubblico di Piacenza un metodo locale è la leva che sposta il mix, non un vezzo. Ordine di grandezza dichiarato da Stripe su mercati simili: qualche punto di conversione — su una base così piccola va misurato, non promesso.",
+   "fix_proposto": "Togliere payment_method_types e lasciare i metodi gestiti dal cruscotto Stripe (o usare automatic_payment_methods), poi accendere UN metodo per volta e misurarlo con payment_attempts prima di aggiungerne un altro. È una modifica 🟡 al checkout in produzione: proposta con dati, non implementata di slancio — e senza il lettore di payment_attempts non è misurabile."
+  }
+ ]
+}

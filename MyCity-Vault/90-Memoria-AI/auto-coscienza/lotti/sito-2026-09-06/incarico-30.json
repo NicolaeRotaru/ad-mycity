@@ -1,0 +1,32 @@
+{
+ "squadra": 30,
+ "ondata": 6,
+ "pacchetto": "migrations/119_radiografia_18_agosto.sql",
+ "territorio_principale": "migrations/119_radiografia_18_agosto.sql",
+ "file_citati": [
+  "migrations/119_radiografia_18_agosto.sql",
+  "lib/database.types.ts",
+  "lib/analytics/visita-prodotto.ts",
+  "components/ProductViewTracker.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "rls-database|la tabella degli abbonamenti e' aperta in scrittura ai clienti, prezzo compreso, ma nessun pezzo del sito la legge",
+   "titolo": "La tabella degli abbonamenti e' aperta in scrittura ai clienti, prezzo compreso, ma nessun pezzo del sito la legge",
+   "dimensione": "rls-database",
+   "file": "migrations/119_radiografia_18_agosto.sql:528-531 (policy subscription_orders_insert_own: solo user_id = auth.uid(); total_cents, items, seller_id liberi all'INSERT) · migrations/119_radiografia_18_agosto.sql (trigger subscription_orders_campi_bloccati: protegge prezzo e articoli solo in UPDATE) · grep su app/ e lib/: zero riferimenti a subscription_orders fuori da lib/database.types.ts",
+   "descrizione": "Un cliente loggato puo' inserire da solo un abbonamento con total_cents = 1 e articoli a piacere: il guardiano esiste ma scatta solo sugli aggiornamenti, non alla nascita della riga. Oggi non fa danno perche' la funzione non e' costruita: nessuna rotta, nessun cron legge la tabella. E' una porta lasciata aperta su una stanza vuota: il giorno in cui qualcuno scrive il cron che addebita total_cents, si fidera' di un prezzo scritto dal cliente.\n\nCausa radice: Tabella nata nella migrazione 030 per una funzione mai completata; il guardiano aggiunto il 18/8 copre l'UPDATE ma non l'INSERT.\n\nProva (grep, eseguita e rossa): grep -rn subscription_orders /home/user/mycity/app /home/user/mycity/lib --include=*.ts --include=*.tsx | grep -v database.types   # oggi: nessuna riga",
+   "impatto": "Nessuno oggi. Rischio futuro sui soldi se la funzione parte senza chiudere prima la porta.",
+   "fix_proposto": "Finche' la funzione non esiste: REVOKE INSERT, UPDATE ON public.subscription_orders FROM anon, authenticated (o DROP POLICY subscription_orders_insert_own). Quando si costruira' l'abbonamento, il prezzo lo calcola il server con il service role e il trigger si estende a BEFORE INSERT."
+  },
+  {
+   "chiave": "dati-analytics|le visite al prodotto si contano con due regole diverse: posthog conta ogni nuova scheda, il database una per persona all'ora",
+   "titolo": "Le visite al prodotto si contano con due regole diverse: PostHog conta ogni nuova scheda, il database una per persona all'ora",
+   "dimensione": "dati-analytics",
+   "file": "lib/analytics/visita-prodotto.ts:11-22 · components/ProductViewTracker.tsx:14-25 · migrations/119_radiografia_18_agosto.sql:450-480",
+   "descrizione": "contaLaVisita salta la visita solo se in sessionStorage c'è la chiave mc_viewed_<id> (per scheda del browser). Il trigger product_views_dedup scarta in silenzio (RETURN NULL) le visite dello stesso utente allo stesso prodotto entro un'ora, e per gli anonimi la stessa impronta entro un'ora. Un cliente loggato che apre lo stesso prodotto in due schede in dieci minuti produce 2 product_viewed su PostHog e 1 riga in product_views: le «visite» del negoziante e quelle di PostHog non torneranno mai.\n\nCausa radice: La deduplica è stata scritta due volte, in due strati, con finestre diverse (sessione del browser vs un'ora), senza una definizione unica di «visita».\n\nProva (grep, eseguita e rossa): grep -n \"interval '1 hour'\" migrations/119_radiografia_18_agosto.sql; grep -n \"mc_viewed_\" lib/analytics/visita-prodotto.ts",
+   "impatto": "Il negoziante vede 8 visite nelle sue statistiche, l'analista ne legge 12 su PostHog per lo stesso prodotto e lo stesso giorno: due numeri per una cosa sola, senza una definizione condivisa.",
+   "fix_proposto": "Scegliere una definizione sola (es. una visita per persona/impronta per prodotto per ora) e applicarla anche nel client: far restituire al trigger l'esito (RPC che risponde «contata/scartata») e annunciare a PostHog solo quando la riga è entrata. Scrivere la definizione nel GLOSSARIO-KPI."
+  }
+ ]
+}

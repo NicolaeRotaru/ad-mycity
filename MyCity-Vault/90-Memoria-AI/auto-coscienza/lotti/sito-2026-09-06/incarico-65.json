@@ -1,0 +1,21 @@
+{
+ "squadra": 65,
+ "ondata": 14,
+ "pacchetto": "app/seller/orders/[id]/page.tsx",
+ "territorio_principale": "app/seller/orders/[id]/page.tsx",
+ "file_citati": [
+  "app/seller/orders/[id]/page.tsx",
+  "app/rider/orders/[id]/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|il negoziante e il fattorino leggono «stato aggiornato» anche quando il database non ha cambiato nessuna riga",
+   "titolo": "Il negoziante e il fattorino leggono «Stato aggiornato» anche quando il database non ha cambiato nessuna riga",
+   "dimensione": "frontend-ux",
+   "file": "app/seller/orders/[id]/page.tsx:243-244 · app/rider/orders/[id]/page.tsx:114-115",
+   "descrizione": "Le due transizioni di stato fanno `supabase.from('orders').update(update).eq('id', order.id)` e guardano solo `error`. Con le regole di riga (RLS) di Supabase, una riga che non si ha più il diritto di toccare non produce un errore: l'UPDATE tocca 0 righe e torna pulito. Esempio: un fattorino ha un ordine aperto sul telefono, l'admin lo riassegna a un altro, il primo preme «In consegna», vede il toast verde «Stato aggiornato», poi al ricaricamento l'ordine sparisce senza spiegazione. Per il negoziante il caso è più raro (l'ordine resta del suo negozio) ma il codice è identico.\n\nCausa radice: Manca la verifica del numero di righe toccate: `.update()` senza `.select()` non distingue «fatto» da «non c'era niente da fare».\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -nA1 \"from('orders').update(update)\" 'app/seller/orders/[id]/page.tsx' 'app/rider/orders/[id]/page.tsx' | grep -c 'select('   — stampa 0: nessuna delle due scritture verifica le righe toccate",
+   "impatto": "Un fattorino può credere di aver segnato la consegna e andarsene; il cliente non riceve l'aggiornamento. Confusione e chiamate al supporto, non perdita diretta di soldi.",
+   "fix_proposto": "`.update(update).eq('id', order.id).select('id')` e `if (!data?.length) throw new Error('L\\'ordine è cambiato nel frattempo: ricarico la pagina')`, poi invalidare la query come oggi."
+  }
+ ]
+}
