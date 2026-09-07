@@ -1,10 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 21:50
+aggiornato: 2026-09-07 08:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> ✅ **2026-09-07 08:45 — Il lotto dei minori è unito: il sito ha 150 difetti aperti invece di 304.** Nicola ha unito la richiesta 250 stanotte.
+>
+> **In parole semplici.** Le 198 riparazioni sono dentro `main`. Il conto del sito passa da 304 difetti aperti a 150: 3 bloccanti, 38 gravi, 109 minori. Il registro adesso lo dice per intero — le 212 schede chiuse non portano più la dicitura «non ancora unita».
+>
+> **Cosa resta da te.** Quattro carte in coda, e due vanno guardate prima che questa roba arrivi ai clienti: la variabile del mittente delle email su Vercel (#195) e il confine della consegna a 25 chilometri (#196). Poi le foto dell'iPhone (#194) e il guardiano che conta male (#197).
+>
+> **Cosa non ho verificato.** Che quello che è stato unito si veda bene a schermo: nessuna squadra ha avuto un browser, e l'anteprima da qui non la raggiungo. Adesso che è su `main`, il posto dove guardare è il sito vero.
 
 > 🏪 **2026-09-06 21:50 — I difetti minori del sito: ne restano 109 su 275, e sei cose le avevo rotte io.** Richiesta tua: «chiudi i minori a pacchetti».
 >

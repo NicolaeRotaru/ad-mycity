@@ -5076,3 +5076,17 @@ separa gli elenchi con la virgola: 25 titoli su 58 una virgola ce l'hanno, quind
 registrata dice 33 reperti invece di 58. Accodato come carta #197 per la firma di Nicola: aprirlo nel
 cantiere vorrebbe una prova che gira, e quella prova è codice della macchina, che non tocco da
 sola. Non l'ho aggirato dichiarando zero.
+
+
+## 2026-09-07 08:45 — ✅ Il lotto dei minori è stato unito da Nicola (PR NicolaeRotaru/mycity#250)
+
+Unita stanotte, alle 06:42 UTC. Il registro del sito è stato allineato: le 212 schede che portavano
+«richiesta di unione #250 (non ancora unita)» adesso dicono che è unita. Conto dopo l'unione: 898
+schede, 748 chiuse, 150 aperte (3 bloccanti, 38 gravi, 109 minori).
+
+**Cosa ho sbagliato in questo lotto, e va scritto.** La memoria del lotto è rimasta su un ramo
+senza richiesta di unione fino a dopo il merge del sito. La regola di casa dice che ogni modifica
+finisce in una PR, sempre, e non l'ho aperta: Nicola ha potuto vedere e firmare il lavoro sul sito,
+ma non la memoria che lo racconta. Aperta adesso, in ritardo.
+
+**Cosa resta a Nicola:** carte #194, #195, #196, #197.
