@@ -212,6 +212,11 @@ giorno) e ricollaudarli — lavoro per la squadra macchina, non per un turno a d
 <!-- main-divergente-251-vs-8 -->
 ### 🟡 #199 — Da 6 giorni il ramo main del VPS e quello di GitHub non si parlano più: 251 commit di qui non sono mai arrivati là · ⏳ accodata 2026-09-06 20:30
 
+**Aggiornamento 2026-09-07 14:35.** Peggiorato ancora, stessa causa. `git push origin main` rifiutato di
+nuovo (non-fast-forward). Ora sono **314 commit locali mai spinti** (erano 263 il mattino) e **9 commit
+remoti mai scaricati** (erano 8: una nuova PR firmata da te si è aggiunta). Non ho tentato un rebase:
+stessa cautela già scritta sotto.
+
 **Cosa cambia:** ho provato a spingere la memoria di questo giro su GitHub (`git push origin main`) ed è
 stato rifiutato: "non-fast-forward". Ho controllato il perché con `git fetch` + confronto dei due rami. Il
 ramo locale ha **251 commit** che GitHub non ha mai visto. Il ramo di GitHub ne ha **8** che il VPS non ha
