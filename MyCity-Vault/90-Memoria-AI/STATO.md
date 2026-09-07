@@ -1,10 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 08:45
+aggiornato: 2026-09-07 17:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🚦 **2026-09-07 17:10 — I bloccanti del sito sono due, non tre: il sito è vivo e raggiungibile.**
+>
+> **In parole semplici.** Nicola ha detto «parti dai 3 bloccanti». Prima di muovere qualcosa ho
+> riverificato le tre schede, che erano del 3 settembre. Una non era più vera. Il dominio funziona,
+> e la vetrina risponde con negozi, prodotti e carrello. Il totale degli aperti resta 150, perché
+> quella scheda passa da aperta a riparata dentro lo stesso conto. I bloccanti scendono da 3 a 2.
+>
+> **Cosa cambia per te.** Il sito non è più chiuso al pubblico. Questo rende più urgente il
+> bloccante che resta, non meno. Il database di produzione è fermo al 28 agosto, il codice è al 2
+> settembre. Le pagine che chiedono le cose nuove vanno quindi in errore. E adesso a incontrarle è
+> un cliente vero, non una prova.
+>
+> **Un esempio concreto.** La pagina dove il negoziante vede cosa ha venduto chiede la colonna
+> «nome del prodotto» sulla riga d'ordine. In produzione quella colonna non esiste, quindi la pagina
+> va in errore. Sul computer di chi sviluppa funziona benissimo: lì la migrazione è stata applicata.
+>
+> **La scoperta che vale il giro.** La riparazione scritta nella scheda di quel bloccante non
+> funziona: lanciata contro la produzione muore sul primo file senza applicare niente. L'ho
+> riprodotta in locale. Ho scritto il controllo che lo impedisce, il test che lo tiene chiuso, e la
+> procedura vera provata per intero — richiesta di unione 252 sul sito.
+>
+> **Cosa devi fare.** Due carte che c'erano già. La #191 allinea il database, ed è la più urgente:
+> l'ho corretta, perché diceva una strada che non funziona. La #161 mette i segreti su GitHub: due
+> li ho già trovati io e glieli ho scritti dentro.
+>
+> **Cosa non ho verificato.** Che il sito sia raggiungibile da un browser anonimo: il proxy di
+> questa sessione blocca quel dominio, quindi l'ho letto dallo strumento Vercel, che è autenticato.
+> Che sia pubblico lo deduco dalla regola di protezione, non l'ho visto con i miei occhi. E
+> `/api/health` risponde ancora 503, per un motivo nuovo: i battiti dei dieci lavori periodici non
+> sono leggibili, zero su dieci.
 
 > 🔎 **2026-09-07 09:40 — Rifacendo il giro sui file toccati ho trovato un difetto in più: il pulsante della home non si vede col tasto Tab.**
 >

@@ -147,9 +147,28 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > Oggi ne sono arrivate altre quattro dal lotto di riparazione. Aspettano anche loro la tua firma. Una delle quattro è quella del reso della card #190.
 
-**Cosa devi fare tu.** Configura i quattro segreti su GitHub (li elenca la card #161), poi il comando del rilascio applica le migrazioni da solo: è idempotente e già provato in CI. Dopo, il controllo notturno diventa rosso da solo alla prossima deriva.
+**Cosa devi fare tu.** Leggi l'aggiornamento del 7 settembre qui sotto: la strada scritta sopra non funziona, e adesso ce n'è una provata.
 
 **Se va bene:** dimmelo e ricontrollo oggetto per oggetto che in produzione ci siano tutti.
+
+> 🛠️ **Aggiornamento AD 2026-09-07 17:20 — la riparazione qui sopra non funziona.**
+>
+> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente.
+>
+> ```
+> ▶ applico 001_create_tables.sql
+> psql: ERROR:  relation "profiles" already exists      (uscita 3, zero applicate)
+> ```
+>
+> **Perché.** Il database di produzione è nato prima del registro delle migrazioni. La regola con cui il comando decide di saltare un file cerca il numero `001` o il nome `create_tables`: in produzione non trova né l'uno né l'altro, quindi prova a rieseguire la migrazione che crea le tabelle da zero. Sul database di prova il difetto non si vedeva, perché quello si costruisce da capo registrando ogni file col suo numero.
+>
+> **Due cose misurate oggi.** Tredici migrazioni su 149 non si possono rieseguire. L'ho misurato ricostruendo un database con tutte applicate e rilanciando ogni file. La seconda: in produzione la migrazione 127 è applicata **a metà**. La funzione c'è, la vista no. E la migrazione 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
+>
+> **Cosa ho fatto.** Richiesta di unione 252 sul sito. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito, invece di esplodere a metà. Il test che tiene chiuso il difetto. E il documento `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero su una copia locale: registrare tredici migrazioni, applicarne centotrentasei, verificare. Al secondo giro non fa più niente.
+>
+> **Cosa devi fare tu, adesso.** Unire la 252, poi seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
+>
+> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, mentre la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati: nessun ordine vero è mai passato di lì. Il database vero l'ho solo letto.
 
 ---
 
@@ -866,6 +885,19 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
+
+> 🔑 **Aggiornamento AD 2026-09-07 17:20 — due dei tre te li ho trovati io, così non li cerchi.**
+>
+> Li ho letti oggi dal progetto Vercel. Sono identificatori, non password, quindi posso scriverteli qui:
+>
+> · `VERCEL_ORG_ID` = `team_O5b1EUNnEQWvcXSNlos567lo`
+> · `VERCEL_PROJECT_ID` = `prj_XvKD8R89QzA7qVyOhltfS85SH4k9`
+>
+> Il terzo, `VERCEL_TOKEN`, devi generarlo tu: è una password e non devo vederla.
+>
+> **Un avviso sull'ordine.** Il passo 2 qui sopra — girare `"main": true` in `"main": false` — va fatto **dopo** aver allineato il database della card #191. Se lo giri prima, il sito smette di aggiornarsi: la strada vecchia si spegne e quella nuova si ferma sulle migrazioni mancanti.
+>
+> **Cosa non ho verificato.** Che quei due identificatori bastino per un rilascio: li ho letti, non li ho provati in un rilascio vero. E il pannello dei segreti su GitHub non l'ho visto: che manchino lo deduco dai tre rilasci fermatisi dicendo che mancano.
 
 > 🩻 **Aggiornamento del 28/8 00:35.** La radiografia del sito di stasera ha ritrovato questo stesso
 > guasto, da sola, e l'ha messo fra i quattro più gravi. Sono passati cinque giorni e la card è

@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-23 15:05",
+  "aggiornato": "2026-09-07 17:03",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -397,13 +397,17 @@
     {
       "id": "marketplace.hosting",
       "nome": "marketplace.hosting",
-      "valore": "Marketplace su VERCEL (progetto 'mycity', team nicolaerotarus-projects, piano Pro, Node 24.x). Render dismesso. Verificato 2026-08-22 07:40: l'ultima pubblicazione di produzione e' Ready e la home risponde 200 su mycity-phi.vercel.app. DUE COSE ANCORA APERTE, entrambe fuori dal codice: (1) mancano variabili d'ambiente sul progetto Vercel — SUPABASE_SERVICE_ROLE_KEY assente (70 errori nei log di produzione su /api/track e /api/consent, 18-21/8) e NEXT_PUBLIC_APP_URL assente (il sito serviva canonical e og:url = http://localhost:3000); /api/health risponde 503 'unhealthy'. Senza la service key il webhook Stripe non scrive: il sito NON registra un ordine. (2) il dominio mycity-marketplace.com risolve ancora su 216.24.57.1, che e' l'indirizzo di Render: va aggiunto su Vercel e ripuntato dal DNS. Il sensore sito_uptime, finche' punta al dominio, misura Render e resta cieco.",
-      "fonte": "Sessione di migrazione 2026-08-22: progetto Vercel via MCP, log runtime di produzione, HTML servito, DNS del dominio",
-      "aggiornato": "2026-08-22 09:56",
+      "valore": "Marketplace su VERCEL (progetto 'mycity', team nicolaerotarus-projects, piano Pro, Node 24.x). Render dismesso. IL DOMINIO E' VIVO, verificato 2026-09-07 16:40: mycity-marketplace.com e www sono collegati al progetto Vercel, il DNS punta a vercel-dns-016.com, l'apex fa 308 verso www e www risponde HTTP 200 con la vetrina vera (titolo 'MyCity Piacenza - Marketplace dei negozi della tua citta'', negozi, prodotti, carrello). La protezione e' ssoProtection=all_except_custom_domains: i domini personalizzati sono esenti, quindi il pubblico passa. NON provato da finestra anonima: il proxy della sessione blocca quel dominio, la lettura e' passata dallo strumento Vercel autenticato. RESTA APERTO: /api/health risponde 503 'unhealthy' - ma per un motivo nuovo, non piu' le variabili d'ambiente: 'battiti non leggibili', 0 lavori periodici letti su 10 attesi. E il database di produzione e' fermo al 28/8 mentre il codice e' al 2/9 (vedi card 199).",
+      "fonte": "Verifica 7/9/2026 16:40: DNS via getent, progetto Vercel via MCP (domini + deployment protection), pagina e /api/health letti via Vercel MCP",
+      "aggiornato": "2026-09-07 17:03",
       "storia": [
         {
           "valore": "Sito mycity-marketplace.com GIU dal 2026-07-30 08:20 (HTTP 503) — NON e un guasto: Nicola non ha rinnovato Render perche sposta il marketplace su Vercel. Migrazione pianificata in una sessione dedicata. Il sensore sito_uptime resta cieco fino ad allora: non e un allarme da alzare, e non va contato come downtime subito.",
           "fino_a": "2026-08-22 09:56"
+        },
+        {
+          "valore": "Marketplace su VERCEL (progetto 'mycity', team nicolaerotarus-projects, piano Pro, Node 24.x). Render dismesso. Verificato 2026-08-22 07:40: l'ultima pubblicazione di produzione e' Ready e la home risponde 200 su mycity-phi.vercel.app. DUE COSE ANCORA APERTE, entrambe fuori dal codice: (1) mancano variabili d'ambiente sul progetto Vercel — SUPABASE_SERVICE_ROLE_KEY assente (70 errori nei log di produzione su /api/track e /api/consent, 18-21/8) e NEXT_PUBLIC_APP_URL assente (il sito serviva canonical e og:url = http://localhost:3000); /api/health risponde 503 'unhealthy'. Senza la service key il webhook Stripe non scrive: il sito NON registra un ordine. (2) il dominio mycity-marketplace.com risolve ancora su 216.24.57.1, che e' l'indirizzo di Render: va aggiunto su Vercel e ripuntato dal DNS. Il sensore sito_uptime, finche' punta al dominio, misura Render e resta cieco.",
+          "fino_a": "2026-09-07 17:03"
         }
       ],
       "caccia": [
@@ -416,6 +420,16 @@
           "pattern": "Sito mycity-marketplace.com GIU dal 2026-07-30 08:20 (HTTP 503) — NON e un guasto: Nicola non ha rinnovato Render perche sposta il marketplace su Vercel. Migrazione pianificata in una sessione dedicata. Il sensore sito_uptime resta cieco fino ad allora: non e un allarme da alzare, e non va contato come downtime subito.",
           "dal": "2026-08-22 09:56",
           "chiusa": "2026-08-22 09:57"
+        },
+        {
+          "pattern": "il dominio mycity-marketplace.com risolve ancora su 216.24.57.1",
+          "dal": "2026-09-07 17:03",
+          "chiusa": "2026-09-07 17:03"
+        },
+        {
+          "pattern": "Marketplace su VERCEL (progetto 'mycity', team nicolaerotarus-projects, piano Pro, Node 24.x). Render dismesso. Verificato 2026-08-22 07:40: l'ultima pubblicazione di produzione e' Ready e la home risponde 200 su mycity-phi.vercel.app. DUE COSE ANCORA APERTE, entrambe fuori dal codice: (1) mancano variabili d'ambiente sul progetto Vercel — SUPABASE_SERVICE_ROLE_KEY assente (70 errori nei log di produzione su /api/track e /api/consent, 18-21/8) e NEXT_PUBLIC_APP_URL assente (il sito serviva canonical e og:url = http://localhost:3000); /api/health risponde 503 'unhealthy'. Senza la service key il webhook Stripe non scrive: il sito NON registra un ordine. (2) il dominio mycity-marketplace.com risolve ancora su 216.24.57.1, che e' l'indirizzo di Render: va aggiunto su Vercel e ripuntato dal DNS. Il sensore sito_uptime, finche' punta al dominio, misura Render e resta cieco.",
+          "dal": "2026-09-07 17:03",
+          "chiusa": "2026-09-07 17:03"
         }
       ],
       "esenzioni": []
