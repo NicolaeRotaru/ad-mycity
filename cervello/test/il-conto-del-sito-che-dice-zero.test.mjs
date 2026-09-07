@@ -45,6 +45,7 @@ import {
   doveDi,
 } from "../radiografia-marketplace-conti.mjs";
 import { syncScanMarketplace } from "../allinea-scan-cantiere.mjs";
+import { REPARTI_MARKETPLACE, REPARTI_DESIGN } from "../referti-sito.mjs";
 
 const REPO = resolve(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
@@ -251,6 +252,17 @@ test("⑧ alla scheda arrivano solo gli aperti, col numero dei riparati e il «d
   // I nomi leggibili delle aree viaggiano col referto, così la scheda non dipende da un dizionario
   // che le chiavi nuove del 18/8 non ha mai avuto.
   assert.ok(dims.every((d) => d.nome), "ogni area deve portarsi dietro il suo nome leggibile");
+
+  // ...e il nome manca per UNA ragione sola: il problema e' stato archiviato sotto un'area che non
+  // esiste. Il 7/9 dieci problemi sono finiti sotto «frontend-ux (venditore e fattorino)» — la
+  // descrizione del perimetro di una squadra scritta al posto della chiave — e la colonna dell'area
+  // e' rimasta vuota. L'assert qui sopra diventava rosso ma non diceva QUALE chiave fosse sbagliata:
+  // questo lo dice, e cosi' la prossima volta la riparazione dura un minuto invece di un'ora.
+  const VOCABOLARIO = new Set([...Object.keys(REPARTI_MARKETPLACE), ...Object.keys(REPARTI_DESIGN)]);
+  const inventate = [...new Set((VERO.problemi ?? []).map((p) => String(p?.dimensione ?? "")))].filter(
+    (k) => !VOCABOLARIO.has(k),
+  );
+  assert.deepEqual(inventate, [], `aree che non esistono nel vocabolario dichiarato: ${inventate.join(" · ")}`);
 
   // Su un referto illeggibile la scheda NON riceve una lista vuota: riceve null, che si vede.
   assert.equal(dimensioniDaDisegnare({ meta: { findings: 245 }, dimensioni: [] }), null);

@@ -46,7 +46,7 @@
  ],
  "bloccati": [
   {
-   "chiave": "frontend-ux (venditore e fattorino)|le due caselle di caricamento della vetrina hanno smesso di accettare le foto dell'iPhone, e non lo dicono a nessuno",
+   "chiave": "frontend-ux|le due caselle di caricamento della vetrina hanno smesso di accettare le foto dell'iPhone, e non lo dicono a nessuno",
    "scheda": "FEVEN-06 (radiografia-frontend-venditore.json) — maggiore, nato oggi",
    "perche": "e' la stessa malattia, ma vive in due file fuori dal mio territorio: components/seller/site/GalleryFields.tsx:26 e components/seller/site/ImageUpload.tsx:38. Non li ho toccati. Sono pero' dentro il guardiano, nella lista MUTI_NOTI: il giorno in cui una squadra li ripara, il guardiano chiede di toglierli dalla lista. Il fix e' di due righe per file, identico al mio: chi lo prende puo' copiare da components/VendorForm.tsx:120-131."
   }

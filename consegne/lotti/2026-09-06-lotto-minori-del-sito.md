@@ -1,5 +1,9 @@
 # I difetti minori del sito: ne restano 109 su 275, e sei cose le avevo rotte io
 
+> **In due righe.** Dei 275 difetti minori del sito ne ho chiusi 198, e il sito passa da 304
+> problemi aperti a 150. Tre cose aspettano te: la zona di consegna, il mittente delle email,
+> il guardiano che conta male.
+
 **In parole semplici.** Mi hai chiesto di chiudere a pacchetti i difetti minori del marketplace.
 Erano 275. Ne ho chiusi 198, cioè quasi tre su quattro. Di questi 198, ne ho riparati 186 e ne ho
 trovati 12 già a posto.
@@ -65,6 +69,16 @@ sito dal titolo e separa gli elenchi con la virgola, ma i titoli sono frasi ital
 virgola ce l'hanno. Il lavoro è stato fatto tutto, il registro ne dichiara 33. Te l'ho messo in coda come carta #197 invece di far
 finta di niente: ripararlo vuol dire toccare la macchina, e quello non lo faccio da sola.
 
+**Aggiunta del 7 settembre.** Rifacendo il giro sui file toccati ne è saltato fuori un altro, e
+l'ho verificato col conto invece che con la lettura. Il pulsante principale della home ha l'anello
+del fuoco arancione su fondo arancione scuro. Lo stacco è 1,34 a 1, contro una soglia di 3 a 1:
+chi gira col tasto Tab arriva sul pulsante più importante del sito e non vede di esserci arrivato.
+Non l'ha rotto il lotto — quel colore c'era già. La riparazione è una parola sola, ma la richiesta
+di unione 250 l'hai già chiusa tu: te la lascio come carta #198 invece di aprirne un'altra da sola.
+
+E la coda ha 95 caratteri di margine prima del tetto che il controllo riesce a leggere. La prossima
+carta lo supera. Per far posto servono carte chiuse: quelle che ci sono le devi chiudere tu.
+
 ---
 
 **Dettagli tecnici** — richiesta di unione [NicolaeRotaru/mycity#250](https://github.com/NicolaeRotaru/mycity/pull/250), ramo `claude/marketplace-open-issues-0gudy6`, 11 commit, 290 file, +14.574/−1.285.
@@ -73,5 +87,9 @@ Poi `npx tailwindcss -i app/globals.css` produce 11.243 righe.
 Infine `node cervello/radiografia-in-corsa.mjs --repo ../mycity` esce 0 su 208 file e 9 dimensioni.
 Le prove sono passate da 424 file / 3230 casi a 495 / 3654: +71 file e +424 casi.
 Conto del registro: 898 schede, 748 chiuse, 150 aperte (3 bloccanti, 38 gravi, 109 minori), da `node cervello/radiografia-marketplace-conti.mjs`.
-Piano dei pacchetti in `consegne/audit/2026-09-06-1509-pacchetti-sito-304difetti.json`; frammenti delle squadre, referti delle nove radiografie e `ricuci.mjs` in `MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/sito-2026-09-06/`.
-Il difetto del guardiano è accodato come carta #197; il comando che lo riproduce è `node cervello/radiografia-in-corsa.mjs registra --dimensione qa-flussi --toccati --trovati 1 --schede "<un titolo con la virgola>" --repo ../mycity`, che oggi esce 1.
+Il piano dei pacchetti sta in `consegne/audit/2026-09-06-1509-pacchetti-sito-304difetti.json`.
+I frammenti delle squadre stanno in `MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/sito-2026-09-06/`.
+Nella stessa cartella ci sono i referti delle nove radiografie e `ricuci.mjs`.
+Il difetto del guardiano è accodato come carta #197.
+Questo comando lo riproduce, e oggi esce 1:
+`node cervello/radiografia-in-corsa.mjs registra --dimensione qa-flussi --toccati --trovati 1 --schede "<un titolo con la virgola>" --repo ../mycity`.

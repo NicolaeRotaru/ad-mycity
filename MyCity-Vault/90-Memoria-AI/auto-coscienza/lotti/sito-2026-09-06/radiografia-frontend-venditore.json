@@ -1,5 +1,5 @@
 {
-  "dimensione": "frontend-ux (venditore e fattorino)",
+  "dimensione": "frontend-ux",
   "data": "2026-09-06 19:20",
   "ramo_guardato": "claude/marketplace-open-issues-0gudy6",
   "confronto": "git diff origin/main",

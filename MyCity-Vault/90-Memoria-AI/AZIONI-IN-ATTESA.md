@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-09-01 20:40** — Automatico: **110 aperte · 28 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-09-07 08:52** — Automatico: **98 aperte · 33 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -31,6 +31,22 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #198 — Il pulsante più importante della home non si vede quando lo raggiungi col tasto Tab · ⏳ accodata 2026-09-07 09:40
+
+**In parole semplici.** Chi non usa il mouse gira per il sito col tasto Tab. A ogni salto il browser disegna un anello intorno alla cosa selezionata, così sai dove sei. Sul pulsante principale della home quell'anello c'è, ma è arancione su fondo arancione scuro: non si vede.
+
+**Come l'ho misurato.** Non l'ho letto, l'ho contato. L'anello è `#C0492C`, il fondo del pulsante è `#A03B25`. Il loro stacco è 1,34 a 1. La soglia riconosciuta per un elemento non testuale è 3 a 1. Il pulsante di fianco, che sta su fondo bianco, il suo anello ce l'ha.
+
+**Cosa cambia:** il primo passo del percorso d'acquisto è invisibile a chi naviga da tastiera. Il pulsante funziona: è il «sei qui» che manca.
+
+**Perché non l'ho riparato da solo.** La riparazione è una parola sola nella classe del pulsante, e l'ho già scritta nella scheda. Ma la richiesta di unione del sito, la 250, l'hai già unita: aprirne un'altra da sola è una decisione tua, non mia. E c'è la domanda più larga: i punti del sito con quel fondo scuro e senza anello proprio sono 97, e non li ho guardati uno per uno.
+
+**Cosa devi fare tu.** Dirmi quale delle due: solo il pulsante della home adesso, oppure il giro completo sui 97 punti come pacchetto a parte.
+
+**Se va bene:** apro il ramo sul sito, riparo, e la prova che tiene è il conto del contrasto — diventa rossa se qualcuno rimette l'anello arancione sul fondo scuro.
+
+---
+
 ### 🟡 #197 — Il guardiano del perimetro conta meno di quello che ho trovato: serve la tua firma per ripararlo · ⏳ accodata 2026-09-06 21:55
 
 **In parole semplici.** Quando riguardo i file che ho appena toccato, devo dichiarare al guardiano quanti difetti ho trovato, e nominarli. Il guardiano li riconosce dal titolo, e separa l'elenco con la virgola. Ma i titoli dei difetti del sito sono frasi italiane, e 25 su 58 una virgola ce l'hanno dentro. Quelli non li posso dichiarare.
@@ -45,7 +61,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-
 ### 🔴 #196 — Decidi fin dove consegniamo: adesso il confine è a 25 chilometri dal negozio · ⏳ accodata 2026-09-06 19:10
 
 **In parole semplici.** Fino a oggi la zona di consegna non aveva un confine scritto da nessuna parte. Un ordine da Milano entrava come uno da Piacenza. Per chiudere quel difetto serviva un numero, e la squadra ne ha messo uno: 25 chilometri dal negozio. Piacenza e la cintura passano, Milano e Cremona no.
@@ -59,7 +74,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Se va bene:** il difetto della zona di consegna si chiude e la promessa sui tempi diventa un lavoro a parte.
 
 ---
-
 
 ### 🔴 #195 — Metti su Vercel la variabile del mittente delle email, prima di unire · ⏳ accodata 2026-09-06 19:10
 
@@ -77,7 +91,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 ---
 
-
 ### 🟡 #194 — Il negoziante che fotografa con l'iPhone si sente dire di no: decidi se è giusto · ⏳ accodata 2026-09-06 19:10
 
 **In parole semplici.** I moduli dove si caricano le foto accettano JPG, PNG e WEBP. L'iPhone però salva in HEIC, che è un formato diverso. Fino a oggi quella foto spariva in silenzio: il negoziante trascinava e non succedeva niente. Adesso il rifiuto si sente, con una frase in italiano.
@@ -89,7 +102,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 **Se va bene:** apro il lavoro sulla strada che scegli. Nel frattempo nessuno perde più una foto senza sapere perché.
 
 ---
-
 
 ### 🔴 #193 — Controlla che su Vercel ci sia la chiave del controllo anti-robot, prima di unire · ⏳ accodata 2026-09-03 20:30
 
@@ -108,7 +120,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere. Su una 
 Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è il semaforo della salute del sito. Non il primo cliente che non riesce a entrare.
 
 ---
-
 
 ### 🔴 #192 — Rimetti il dominio del marketplace su Vercel: oggi porta a un server spento · ⏳ accodata 2026-09-03 09:35
 
@@ -196,7 +207,6 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 > La seconda gamba è la migrazione `153_il_reso_lo_apre_il_server_non_il_cliente.sql`. **Non l'ho applicata.** Finché non la applichi tu, il permesso nel database resta largo com'è oggi.
 
 ---
-
 
 ### 🟡 #189 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-03 03:12
 
@@ -2376,33 +2386,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-### 🟡 #30 — Metti la serratura al Pannello: oggi chi ha l'indirizzo può darmi ordini · ⏳ accodata 2026-07-27 09:40
-
-**Cosa cambia:** il Pannello ha 33 punti che modificano lo stato, in 30 file diversi, e uno solo controlla chi sta chiamando. Non esiste un filtro d'ingresso. Chi conosce l'indirizzo può spegnere la PAUSA, accendere l'autopilota e infilare istruzioni nel prompt dell'agente che gira sul server. C'è anche una porta che scrive la tua firma su un'azione senza che tu tocchi niente: il valore che scrive è esattamente quello che il consenso accetta come «firmato da Nicola» per l'invio reale. Oggi il danno possibile è limitato perché le mani verso il mondo sono scollegate — ma il piano è collegarle, e allora questa diventa la falla numero uno.
-**Se va bene:** l'AD prepara un unico filtro d'ingresso che copre tutti e 33 i punti in un colpo solo, più la rimozione della porta orfana che firma. Anteprima prima del merge, nessun deploy senza il tuo ok.
-**Serve da te (30 secondi):** apri l'indirizzo del Pannello in una finestra in incognito, senza login. Se si apre, questa è urgente davvero. Se ti chiede di accedere, Vercel ti sta già proteggendo e la declasso. Non sono riuscito a verificarlo da solo: il proxy mi blocca la chiamata diretta e lo strumento Vercel si autentica per conto tuo, quindi la sua risposta non prova niente.
-**Nota tecnica:** difetti AR-226, AR-227, AR-205, AR-271. Un solo `middleware.ts` chiude i 33 handler; la porta orfana è `POST /api/approva`, zero chiamanti nel Pannello.
-- **Colore:** 🟡 (codice del Pannello, in branch, con anteprima)
-- **Reparto:** security + backend-dev
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-226+AR-227+AR-205+AR-271}`
-
-<!-- radiografia-sblocca-pubblicazione -->
-
----
-
-### 🟡 #29 — Sblocca la memoria: da due giorni il giro non riesce più a pubblicare · ⏳ accodata 2026-07-27 09:40
-
-**Cosa cambia:** dal 25/7 alle 20:15 il giro si ferma prima di pubblicare, perché il controllo sui segreti trova una chiave dentro un file di test — ma è una chiave finta, scritta apposta per verificare che l'invio email non parta senza firma. Il controllo riconosce il prefisso e blocca tutto. Da allora quello che arriva nel Pannello passa solo dalle scorciatoie che quel controllo lo saltano: i commit «recupero: scritture pendenti da un giro interrotto» ogni due ore sono la traccia. Finché resta così, ogni giro lavora e non pubblica.
-**Se va bene:** l'AD esclude la cartella dei test dal controllo (una riga), rilancia il controllo per vedere che passa, e da lì il giro torna a pubblicare da solo.
-**Nota tecnica:** difetto AR-270. Il controllo è `cervello/scan-segreti.mjs`, la catena che blocca è `cervello/giro.sh:713` → `:785`. L'alternativa è cambiare la stringa dentro `cervello/test/autopilot-colore.test.mjs`, ma escludere i test è più robusto: il prossimo test con una chiave finta rifarebbe lo stesso danno.
-- **Colore:** 🟡 (tocca il codice del cervello, in branch, reversibile)
-- **Reparto:** devops-sre
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-270}`
-
-<!-- auto-riscrittura-git-pr-esito -->
-
----
-
 ### 🟡 #28 — Due piccoli fix ai guardiani della macchina (da chiudere un incidente ripetuto 3 volte e un buco nel rituale ESITO) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
 
 **Cosa cambia:** (1) `cervello/git-pr.mjs` fallirebbe con un errore chiaro se trova file NON legati al lavoro dichiarato invece di committarli in silenzio — è successo 3 volte in 24 ore il 23/7 (PR #513, #516, #517) con file diversi ogni volta, sempre per lo stesso motivo. (2) Un gate che impedisce di segnare chiuso un lavoro 🟡/🔴 senza la riga ESITO in `chiusura-loop.mjs` — questa settimana il quaderno di @tech si è fermato al 20/7 nonostante decine di PR mergiate dopo (AR-154), proprio nei giorni con più da imparare.
@@ -2427,19 +2410,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 - **Origine:** caccia Vercel-deploy-cancellato (chat 24/7 00:08→00:47, ancora aperta)
 
 <!-- merge-scadenzario-check-ar147 -->
-
----
-
-### 🟡 #26 — Mergia il fix "countdown scadenze esterne" (AR-147) · ⏳ accodata 2026-07-24 00:12
-
-**Cosa cambia:** nuovo script `cervello/scadenzario-check.mjs` che segnala in automatico quando una scadenza esterna (bandi, fiscali, contrattuali) entra negli ultimi 7 giorni — parte da PI26 (10.000€, scade 30/7). Prima erano solo promemoria scritti a mano, facili da perdere.
-**Se va bene:** al primo giro dopo il merge compare una card 🔴 in questa coda per PI26 (se non è già stata inviata la domanda).
-**Nota tecnica:** branch `fix/scadenzario-check-ar147` già pushato su GitHub, ma l'apertura automatica della PR è fallita per **rate limit dell'API GitHub** (troppe richieste stasera per l'attività intensa del `/loop 10m`) — non un problema del codice. Serve riprovare `node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/scadenzario-check-ar147 --title "fix(cervello): countdown reale sulle scadenze esterne (AR-147)" --body-file consegne/tech/2026-07-24-pr-scadenzario-check-ar147.md` tra qualche minuto, oppure aprire la PR a mano da GitHub sul branch già pushato.
-- **Colore:** 🟡 (codice in branch, nessun deploy — firma tua al merge)
-- **Reparto:** tech/devops-sre
-- **Origine:** `{origine:auto-radiografia-2026-07-23, difetto:AR-147}`
-
-<!-- post-carosello-bio-2307 -->
 
 ---
 
@@ -2624,26 +2594,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 **Se va bene:** il bug «nuova chat contiene risposta vecchia» e «chat telefono non appare su desktop» vengono chiusi con un unico deploy.
 
 <!-- cadenza-housekeeping -->
-
----
-
-### 🟡 #18 — Aggiungi cadenza automatica pulizia AZIONI-IN-ATTESA in giro.sh · ⏳ accodata 2026-07-18 17:52
-
-**Contesto:** Nicola ha chiesto (18/7) una pulizia automatica periodica della coda AZIONI-IN-ATTESA. L'housekeeping manuale è fatto (17:10), ma la cadenza automatica non è in produzione: PR #450 era vuota (il branch non aveva modifiche vs main al momento dell'apertura — rebase aveva perso la modifica a `giro.sh`).
-
-**Fix da fare:** aggiungere 1 riga in `cervello/giro.sh` dopo la sezione pulizia STATO:
-```bash
-node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
-```
-(lo script già esiste — sposta le card ✅/❌ in archivio, aggiorna il contatore in cima.)
-
-**Cosa cambia:** ogni giro automatico (~60 min) la coda si ripulisce da sola — nessuna card zombie accumulata.
-**Se va bene:** Nicola non deve più chiedere «pulisci la lista» — succede sempre.
-
-- **Colore:** 🟡 (modifica giro.sh → PR → mergia Nicola)
-- **Reparto:** devops-sre
-
----
 
 ---
 
@@ -3044,5 +2994,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 28.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 33.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

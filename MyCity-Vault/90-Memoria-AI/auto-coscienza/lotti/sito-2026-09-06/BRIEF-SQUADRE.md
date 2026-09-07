@@ -1,4 +1,19 @@
-# Lotto minori del sito — 2026-09-06 — briefing comune a tutte le squadre
+# Le istruzioni per le squadre che riparano i difetti minori del sito
+
+> **In due righe.** Questo foglio dice a ogni squadra dove può mettere le mani e cosa deve consegnare.
+> Lo leggono le squadre prima di partire; tu lo leggi solo se vuoi sapere con che regole hanno lavorato.
+
+**In parole semplici.** Una «squadra» è un lavoratore a cui do un pacchetto di difetti e un pezzo di
+sito. Le squadre lavorano insieme, nello stesso momento, ognuna nel suo pezzo.
+
+**Cosa cambia per te.** Niente da fare adesso. Queste regole servono perché due squadre non si
+pestino i piedi sullo stesso file. Esempio concreto: il 6 settembre le squadre erano 48 e i file
+toccati 202, e nessun file è stato riscritto da due squadre insieme.
+
+**Cosa devi fare.** Niente. Questo foglio è per le squadre, non per te.
+
+**Cosa non ho verificato.** Non ho misurato quanto tempo ogni squadra ci ha messo davvero: so cosa
+hanno consegnato, non quanto ci hanno impiegato.
 
 Sei una **squadra** di un lotto di riparazione del **marketplace** (repo del sito, non la macchina).
 L'AD divide, distribuisce e ricuce: tu lavori **solo dentro il tuo territorio** e consegni un
@@ -30,9 +45,10 @@ frammento JSON. Il tuo lotto è fatto di difetti di gravità **minore**.
 4. **Il fix deve compilare.** Prima di consegnare, sui file TypeScript che hai toccato lancia almeno
    `npx tsc --noEmit -p tsconfig.json` **oppure** i test che li coprono. Se non riesci a farlo
    girare, dillo in `nota_fix`: un ⚪ dichiarato vale, un verde finto no.
-5. **La prova, per un minore:** va bene una verifica sul sorgente (grep/lettura) che dica cosa è
-   cambiato — sui minori il manuale la ammette. Se però esiste già un test unitario che tocca quel
-   file (`/home/user/mycity/tests/unit/`), lancialo: `npx vitest run tests/unit/<nome>.test.ts`.
+5. **La prova, per un minore:** va bene una verifica sul sorgente che dica cosa è cambiato.
+   Sui difetti minori il manuale ammette la lettura del codice.
+   Ma se esiste già un test unitario che tocca quel file, lancialo.
+   I test stanno in `/home/user/mycity/tests/unit/`: `npx vitest run tests/unit/<nome>.test.ts`.
    Se ne scrivi uno nuovo, deve uscire 0 quando è verde e 1 quando è rosso.
 6. **Il testo che scrivi nell'interfaccia è italiano da negozio, non da terminale.** Frasi corte,
    niente sigle, niente gergo tecnico davanti al cliente.

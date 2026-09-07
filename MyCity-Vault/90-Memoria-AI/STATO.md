@@ -6,11 +6,28 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 ---
 
+> 🔎 **2026-09-07 09:40 — Rifacendo il giro sui file toccati ho trovato un difetto in più: il pulsante della home non si vede col tasto Tab.**
+>
+> **In parole semplici.** Chi non usa il mouse gira col tasto Tab.
+> A ogni salto il browser disegna un anello intorno alla cosa selezionata.
+> Sul pulsante principale della home l'anello è arancione su fondo arancione scuro.
+> Lo stacco è 1,34 a 1, contro una soglia riconosciuta di 3 a 1: non si vede.
+>
+> **Come l'ho misurato.** Col conto del contrasto fra i due colori, non con una lettura del codice. Il pulsante di fianco, che sta su fondo bianco, il suo anello ce l'ha: il difetto è proprio del primo.
+>
+> **Cosa cambia per te.** Il difetto non l'ha creato il lotto: quel colore c'era già prima. Ma la richiesta di unione del sito l'hai già chiusa tu, quindi la riparazione è una carta, non un fatto compiuto: è la #198.
+>
+> **Cosa non ho verificato.** I punti del sito con lo stesso fondo scuro e senza anello proprio sono 97. Non li ho guardati uno per uno: so che sono 97, non quanti di quei 97 siano davvero cliccabili.
+
 > ✅ **2026-09-07 08:45 — Il lotto dei minori è unito: il sito ha 150 difetti aperti invece di 304.** Nicola ha unito la richiesta 250 stanotte.
 >
 > **In parole semplici.** Le 198 riparazioni sono dentro `main`. Il conto del sito passa da 304 difetti aperti a 150: 3 bloccanti, 38 gravi, 109 minori. Il registro adesso lo dice per intero — le 212 schede chiuse non portano più la dicitura «non ancora unita».
 >
-> **Cosa resta da te.** Quattro carte in coda, e due vanno guardate prima che questa roba arrivi ai clienti: la variabile del mittente delle email su Vercel (#195) e il confine della consegna a 25 chilometri (#196). Poi le foto dell'iPhone (#194) e il guardiano che conta male (#197).
+> **Cosa resta da te.** Quattro carte in coda. Due vanno guardate prima che questa roba arrivi ai clienti.
+> La prima è la variabile del mittente delle email su Vercel, carta #195.
+> La seconda è il confine della consegna a 25 chilometri, carta #196.
+> Poi ci sono le foto dell'iPhone, carta #194.
+> E il guardiano che conta male, carta #197.
 >
 > **Cosa non ho verificato.** Che quello che è stato unito si veda bene a schermo: nessuna squadra ha avuto un browser, e l'anteprima da qui non la raggiungo. Adesso che è su `main`, il posto dove guardare è il sito vero.
 
@@ -24,9 +41,18 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Il peggiore non era fra quei sei. Un commento chiuso male aveva rotto tutto il foglio di stile del sito: il compilatore produceva zero righe. Era già dentro un commit ed è passato sotto 3573 prove verdi, perché nessuna prova compilava il CSS. Adesso c'è la prova che compila.
 >
-> **Cosa serve da te.** Tre carte in coda: il confine della consegna a 25 chilometri (#196), la variabile del mittente delle email su Vercel prima di unire (#195), e se i moduli debbano continuare a rifiutare le foto dell'iPhone (#194). Il sito resta chiuso al pubblico finché non sblocchi i tre bloccanti di sempre.
+> **Cosa serve da te.** Tre carte in coda.
+> Il confine della consegna a 25 chilometri (#196).
+> La variabile del mittente delle email su Vercel, prima di unire (#195).
+> E se i moduli debbano continuare a rifiutare le foto dell'iPhone (#194).
+> Il sito resta chiuso al pubblico finché non sblocchi i tre bloccanti di sempre.
 >
-> **Cosa non ho verificato.** Nessuna squadra ha avuto un browser: niente di quello che ho cambiato l'ha guardato qualcuno a schermo. E la contabilità della mia radiografia è incompleta — il guardiano identifica le schede dal titolo e le separa con la virgola, quindi ne dichiara 33 su 58. Te l'ho messo in coda come carta #197 invece di far finta di niente: ripararlo vuol dire toccare la macchina, e quello non lo faccio da sola.
+> **Cosa non ho verificato.** Nessuna squadra ha avuto un browser.
+> Niente di quello che ho cambiato l'ha guardato qualcuno a schermo.
+> Anche la contabilità della mia radiografia è incompleta.
+> Il guardiano riconosce le schede dal titolo e separa gli elenchi con la virgola.
+> Ma i titoli sono frasi italiane, e la virgola ce l'hanno dentro: così ne dichiara 33 su 58.
+> L'ho messo in coda come carta #197. Ripararlo vuol dire toccare la macchina, e quello non lo faccio da sola.
 
 > ⏱️ **2026-09-06 10:40 — Il controllo era rosso da due giorni per un cronometro più corto della prova. Non era un guasto: era un numero.** Richiesta tua: «la CI è rossa», detto tre volte.
 

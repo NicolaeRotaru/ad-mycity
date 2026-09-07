@@ -14,7 +14,7 @@
   "difetti": [
     {
       "id": "FEVEN-03",
-      "chiave": "frontend-ux (venditore e fattorino)|Il modulo avvisa del rischio e lascia salvare lo stesso: chi cambia solo il prezzo si porta via la consegna veloce del prodotto",
+      "chiave": "frontend-ux|Il modulo avvisa del rischio e lascia salvare lo stesso: chi cambia solo il prezzo si porta via la consegna veloce del prodotto",
       "titolo": "Il modulo avvisa del rischio e lascia salvare lo stesso: chi cambia solo il prezzo si porta via la consegna veloce del prodotto",
       "esito": "riparato",
       "prova": "npx vitest run tests/unit/il-salvataggio-non-scrive-quello-che-nessuno-ha-toccato.test.ts -> 3 passate. Rimesso il difetto (tolto il blocco che sfila `express_enabled` dal payload) -> 2 fallite su 3, uscita 1: «expected [ 'express_enabled', 'price' ] to deeply equal [ 'price' ]» e «expected [ 'express_enabled' ] to deeply equal []». Fix ripristinato -> 3 passate. Piu' npx tsc --noEmit -p tsconfig.json -> uscita 0 e npx eslint sui 5 file toccati -> uscita 0.",
@@ -26,7 +26,7 @@
     },
     {
       "id": "FEVEN-02",
-      "chiave": "frontend-ux (venditore e fattorino)|Due pagine gemelle leggono la consegna veloce con la stessa chiave e due funzioni diverse: il consiglio «attiva l'Express» torna a chi ce l'ha gia'",
+      "chiave": "frontend-ux|Due pagine gemelle leggono la consegna veloce con la stessa chiave e due funzioni diverse: il consiglio «attiva l'Express» torna a chi ce l'ha gia'",
       "titolo": "Due pagine gemelle leggono la consegna veloce con la stessa chiave e due funzioni diverse: il consiglio «attiva l'Express» torna a chi ce l'ha gia'",
       "esito": "riparato",
       "prova": "npx vitest run tests/unit/le-due-pagine-del-prodotto-leggono-la-consegna-allo-stesso-modo.test.ts -> 2 passate. Rimessa la pagina «Nuovo prodotto» com'era (git show HEAD:app/seller/products/new/page.tsx) -> 2 fallite su 2, uscita 1: «expected 'async () => {...}' to be 'async function leggiSeIlNegozioOffreL...'» e «Nuovo prodotto non dice che la lettura e' caduta». Fix ripristinato -> 2 passate. Poi le 16 prove che toccano questi file insieme -> 111 passate.",
@@ -40,7 +40,7 @@
     },
     {
       "id": "FEVEN-01",
-      "chiave": "frontend-ux (venditore e fattorino)|Il cruscotto ora conta trenta giorni, l'elenco prodotti conta ancora da sempre: due colonne che si chiamano «venduti» e non si sommano",
+      "chiave": "frontend-ux|Il cruscotto ora conta trenta giorni, l'elenco prodotti conta ancora da sempre: due colonne che si chiamano «venduti» e non si sommano",
       "titolo": "Il cruscotto ora conta trenta giorni, l'elenco prodotti conta ancora da sempre: due colonne che si chiamano «venduti» e non si sommano",
       "esito": "riparato",
       "prova": "npx vitest run tests/unit/la-colonna-venduti-dice-cosa-sta-contando.test.ts -> 1 passata (monta l'elenco prodotti per davvero, con un prodotto e 12 venduti). Rimesso il difetto (git show HEAD:app/seller/products/page.tsx) -> 1 fallita, uscita 1: «la colonna «Venduti» non dice la finestra che sta contando... to match /Venduti da sempre/». Fix ripristinato -> 1 passata.",
