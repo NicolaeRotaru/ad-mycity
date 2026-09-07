@@ -26,6 +26,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- scout-negozi-oltre-finestra-pausa -->
+### 🟡 #201 — La finestra che avevi dato per riprendere i negozi è passata da 6 giorni: cerco comunque tre botteghe nuove o resto fermo? · ⏳ accodata 2026-09-07 12:21
+
+**In parole semplici.** Il 23 luglio avevi detto: aspetto ad aggiungere negozi nuovi fino a fine agosto-inizio
+settembre, prima sistemo Pannello/AD/worker. Quella finestra era «dopo il 24 agosto - 1 settembre»: oggi è
+il 7 settembre, sei giorni oltre. Nessuno mi ha ancora detto se ripartire.
+
+**Cosa cambia per te.** Ho di nuovo in mano lo scouting di tre botteghe (ortofrutta, salumeria/DOP,
+formaggi) pronte a completare il carrello-spesa del centro — lo stesso lavoro che mi hai chiesto oggi. Ma
+prima di rifarlo da capo per la settima volta ti chiedo: la pausa sui NUOVI negozi è finita anche per te,
+o resta ferma? È una domanda diversa dalla #191 (quella riguardava 10 azioni di marketing già pronte, non
+l'acquisizione di botteghe nuove).
+
+**Cosa devi fare.** Rispondimi una delle due: «riparti con lo scouting» oppure «resta in pausa, richiedimelo
+quando è il momento». Se riparti, il materiale del 20 luglio (3 botteghe, pitch pronti) va comunque
+riscritto perché cita un bando (PI26) chiuso dal 30 luglio — non lo mando così com'è.
+
+**Cosa non ho verificato.** Se nel frattempo hai comprato la bici da consegna (il motivo per cui a luglio
+avevi sospeso le visite fisiche ai negozi, chat 9/7): se manca ancora il mezzo, anche uno scouting pronto
+resta senza gambe per andare a bussare.
+
+🔧 Dettagli tecnici: gate = `profiles` (SQL live) ancora 1 solo seller reale (`c0b240c0…` Pane Quotidiano);
+il 2° record (`44444444…` Panificio Demo, 5/9) è il negozio fantasma della card #196, non un negozio vero.
+`registro-fatti.json` → `ripresa.lavoro-operativo` invariato dal 2026-07-23. Artefatto pronto ma stantio:
+`consegne/vendite/2026-07-20-playbook-scout-negozi-categorie-mancanti.md` (A18 in AZIONI-PRONTE.md).
+
+| 201 | 2026-09-07 12:21 | @vendite | Conferma se riprendere lo scouting nuovi negozi o restare in pausa | 🟡 | vedi blocco sopra — A18 in AZIONI-PRONTE.md, gate SQL live | manuale (chat) | in attesa |
+
 <!-- ancora-stop-ferma-6-giorni -->
 ### 🟡 #200 — Il controllo che chiude bene un turno di lavoro è bloccato da 6 giorni sullo stesso punto di partenza · ⏳ accodata 2026-09-07 06:29
 
