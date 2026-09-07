@@ -1,0 +1,21 @@
+{
+ "squadra": 103,
+ "ondata": 22,
+ "pacchetto": "lib/products/uploadImages.ts",
+ "territorio_principale": "lib/products/uploadImages.ts",
+ "file_citati": [
+  "components/seller/ProductImagesField.tsx",
+  "lib/products/uploadImages.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "immagini-media|nessun controllo sulla risoluzione minima delle foto prodotto",
+   "titolo": "Nessun controllo sulla risoluzione minima delle foto prodotto",
+   "dimensione": "immagini-media",
+   "file": "components/seller/ProductImagesField.tsx:91-107 (controlla solo tipo e tetto di 30 MB) e lib/products/uploadImages.ts:33-37 (ricomprime solo quelle troppo grandi)",
+   "descrizione": "VERIFICATO. Il controllo esiste solo verso l'alto: si rifiutano i file oltre i 30 MB e si ricomprimono quelli sopra i 5. Verso il basso non c'è niente. Un negoziante che salva dal suo sito vecchio una foto da 300 pixel la carica senza un avviso, e quella foto finisce sulla scheda prodotto in un riquadro che sul computer arriva a 220 pixel e su telefono occupa quasi mezza larghezza: sgranata nel punto che deve far comprare. Il venditore non ha modo di accorgersene finché non guarda la sua pagina da cliente.",
+   "impatto": null,
+   "fix_proposto": "Al caricamento leggere le dimensioni con `createImageBitmap` e mostrare un avviso — non un blocco — se il lato lungo è sotto gli 800 pixel: «questa foto è piccola, sulla scheda si vedrà sgranata»."
+  }
+ ]
+}

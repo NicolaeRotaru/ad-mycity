@@ -1,0 +1,20 @@
+{
+ "squadra": 84,
+ "ondata": 18,
+ "pacchetto": "components/seller/ImproveAllPanel.tsx",
+ "territorio_principale": "components/seller/ImproveAllPanel.tsx",
+ "file_citati": [
+  "components/seller/ImproveAllPanel.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|il pannello «migliora tutto» del venditore usa un semaforo verde-smeraldo, ambra e rosa fuori palette",
+   "titolo": "Il pannello «Migliora tutto» del venditore usa un semaforo verde-smeraldo, ambra e rosa fuori palette",
+   "dimensione": "coerenza-brand",
+   "file": "components/seller/ImproveAllPanel.tsx:65-67 (text-emerald-600/amber-600/rose-600) · :70-72 (bg-emerald-500/amber-500/rose-500) · :179,185,209-210 (emerald-50/100/200/700/800)",
+   "descrizione": "Il pannello che valuta le schede prodotto del negoziante colora punteggi e barre con emerald/amber/rose di Tailwind: 19 classi fuori palette in un solo file. Nel resto del sito il ruolo «bene» è olive (431 usi contro 17 di emerald/green, 11 dei quali qui), «attenzione» è accent/senape, «male» è secondary/bordeaux. Il negoziante vede un semaforo di un altro sito dentro la sua area.\n\nCausa radice: Componente scritto con la palette di default di Tailwind invece dei token semantici; la safelist di tailwind.config.ts:24-29 tiene vive queste classi e quindi non fanno rumore in build.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && test \"$(grep -c -E '(emerald|amber|rose)-[0-9]{2,3}' components/seller/ImproveAllPanel.tsx)\" -eq 0 — oggi il conteggio è 12 righe (19 classi), quindi fallisce.",
+   "impatto": "Lavoro quotidiano del negoziante: il pannello sembra estraneo alla piattaforma e contraddice il codice-colore imparato altrove (badge, stati ordine). Nessun soldo perso, ma coerenza rotta proprio nello strumento che deve convincerlo a curare il catalogo.",
+   "fix_proposto": "Sostituire emerald→olive (50/100/200/500/600/700/800), amber→accent (500/600), rose→secondary (500/600); riusare Badge/OrderStatusBadge dove il pannello mostra pillole."
+  }
+ ]
+}

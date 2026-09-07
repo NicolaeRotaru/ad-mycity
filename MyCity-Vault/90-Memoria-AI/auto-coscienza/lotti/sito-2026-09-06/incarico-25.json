@@ -1,0 +1,20 @@
+{
+ "squadra": 25,
+ "ondata": 5,
+ "pacchetto": "components/PhotoReviewUpload.tsx",
+ "territorio_principale": "components/PhotoReviewUpload.tsx",
+ "file_citati": [
+  "components/PhotoReviewUpload.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|chi carica la foto di una recensione può ricevere in faccia un errore da programmatore",
+   "titolo": "Chi carica la foto di una recensione può ricevere in faccia un errore da programmatore",
+   "dimensione": "frontend-ux",
+   "file": "components/PhotoReviewUpload.tsx:100",
+   "descrizione": "Il caricamento passa ora da `caricaImmagine` (lib/storage/carica-immagine.ts), e la nuova rete lancia due messaggi che finiscono dritti nella conchiglia del cliente attraverso `toast.error(messaggioDi(err) || 'Upload fallito')` a riga 100: `new Error('caricaImmagine senza file')` (riga 96 del lib) e `new Error(\\`percorso non ammesso (${v.motivo})\\`)` (riga 108), dove `motivo` può essere «la prima cartella è «xyz»: il database accetta solo l'identificativo di chi carica o «home» per lo staff. Un nome di comodo qui fa rifiutare ogni caricamento.» Accanto, a riga 86, resta il messaggio di prima: «Bucket \"reviews\" non esiste. Chiedi all'admin di crearlo (public, max 5MB).» E il ripiego finale è «Upload fallito», che non è italiano. — Chi legge questi testi è un cliente che sta caricando la foto di un pane o di un mazzo di fiori per una recensione. «Bucket», «admin», «public, max 5MB», «percorso non ammesso», «identificativo di chi carica», «Upload fallito»: non c'è una sola parola che gli dica cosa fare. Il commento dentro carica-immagine.ts dice testualmente che si ferma lì «con una frase leggibile» invece di consegnare l'errore dello storage — ma quella frase leggibile è scritta per chi programma, non per chi compra, e il chiamante la ripete tale e quale.",
+   "impatto": "Chi legge questi testi è un cliente che sta caricando la foto di un pane o di un mazzo di fiori per una recensione. «Bucket», «admin», «public, max 5MB», «percorso non ammesso», «identificativo di chi carica», «Upload fallito»: non c'è una sola parola che gli dica cosa fare. Il commento dentro carica-immagine.ts dice testualmente che si ferma lì «con una frase leggibile» invece di consegnare l'errore dello storage — ma quella frase leggibile è scritta per chi programma, non per chi compra, e il chiamante la ripete tale e quale.",
+   "fix_proposto": "Prova jsdom su `PhotoReviewUpload` con un client finto il cui `.upload()` risponde con errore e con un `userId` che fa fallire il controllo del percorso: raccogliere il testo passato a `toast.error` e pretendere che non contenga nessuna delle parole vietate (`bucket`, `admin`, `percorso`, `upload`, `public`), e che sia una fra le frasi dichiarate per il cliente. Comando: `cd /home/user/mycity && npx vitest run tests/unit/nessuno-scavalca-la-porta-dei-caricamenti.test.ts` una volta esteso — oggi quel file prova che il percorso è giusto, non che l'errore sia leggibile."
+  }
+ ]
+}

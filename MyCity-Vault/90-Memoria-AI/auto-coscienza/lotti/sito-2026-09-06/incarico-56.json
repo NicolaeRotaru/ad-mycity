@@ -1,0 +1,20 @@
+{
+ "squadra": 56,
+ "ondata": 12,
+ "pacchetto": "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql",
+ "territorio_principale": "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql",
+ "file_citati": [
+  "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "rls-database|la revoca delle scritture di fine agosto ne ha lasciate indietro quarantuno, ordini e prodotti compresi",
+   "titolo": "La revoca delle scritture di fine agosto ne ha lasciate indietro quarantuno, ordini e prodotti compresi",
+   "dimensione": "rls-database",
+   "file": "migrations/145_revoca_scritture_sulle_tabelle_esistenti.sql:66-85 (il pezzo che ridà il permesso quando trova una regola `TO public`)",
+   "descrizione": "La migrazione 145 doveva togliere ad `anon` e `authenticated` i permessi di scrittura rimasti aperti dalla configurazione di partenza di Supabase. Toglie tutto, e poi RIDÀ il permesso per ogni comando che una regola permissiva copre — considerando coperte anche le regole scritte `TO public`. In questo schema quasi tutte le regole sono scritte così (`{public}`), perché `TO public` è il modo normale di scrivere una policy che poi filtra con `auth.uid()`. Risultato: sul database ricostruito dalle 145 migrazioni, il ruolo `anon` ha ancora INSERT, UPDATE o DELETE su 41 tabelle, fra cui `orders` (UPDATE), `products` (UPDATE e DELETE), `profiles` (INSERT e UPDATE), `returns`, `disputes`, `coupons`, `user_addresses`. Non è sfruttabile: per un anonimo `auth.uid()` è vuoto, quindi la regola per riga non gli fa toccare nessuna riga. Ma il secondo strato che la 145 diceva di aver messo, su quelle 41 tabelle non c'è.\n\nCausa radice: Il criterio con cui la 145 decide se un permesso «serve» guarda il ruolo scritto nella regola (`roles @> 'public'`) e non se quella regola può davvero far passare qualcosa per quel ruolo. Una regola `TO public` che filtra su `auth.uid()` non serve mai ad `anon`, ma per la 145 conta come copertura.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"SELECT table_name, string_agg(privilege_type,',') FROM information_schema.role_table_grants WHERE table_schema='public' AND grantee='anon' GROUP BY 1 HAVING string_agg(privilege_type,',') ~ '(INSERT|UPDATE|DELETE)' ORDER BY 1;\"   (oggi elenca 41 tabelle; dopo la riparazione deve restare solo ciò che un anonimo deve davvero poter scrivere)",
+   "impatto": "È il paracadute di riserva a mancare. Il giorno in cui qualcuno scrive una regola un po' larga, o mette un `DISABLE ROW LEVEL SECURITY` durante una riparazione, su `orders` e `products` la porta si apre senza che nessuno l'abbia aperta di proposito. Oggi nessun cliente e nessun negozio ne risente.",
+   "fix_proposto": "@backend-dev: migrazione che rifà il giro della 145 con un criterio più stretto — il permesso si ridà a un ruolo solo se esiste una regola di quel comando che per quel ruolo può essere vera (cioè che non dipenda da `auth.uid()` quando il ruolo è `anon`). In pratica: ad `anon` restano le scritture volute (segnalazioni, modulo contatti, carrello anonimo se c'è), a `authenticated` il resto. Poi allargare il controllo ①bis di tests/sql/rls/14-le-porte-di-servizio-sono-chiuse.test.sql a questo criterio, così il conteggio non può risalire."
+  }
+ ]
+}

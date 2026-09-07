@@ -1,0 +1,20 @@
+{
+ "squadra": 123,
+ "ondata": 27,
+ "pacchetto": "lib/banner-vetrina.ts",
+ "territorio_principale": "lib/banner-vetrina.ts",
+ "file_citati": [
+  "lib/banner-vetrina.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "architettura|la fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "titolo": "La fascia-banner della home si accorcia proprio dove il testo cresce: fra 640 e 767 pixel il titolo esce dal riquadro e viene tagliato in cima",
+   "dimensione": "architettura",
+   "file": "lib/banner-vetrina.ts:37",
+   "descrizione": "Oggi l'altezza fissa della fascia (`h-56 sm:h-72`, cioè 224 e 288 punti) è diventata una proporzione: `aspect-[16/9] sm:aspect-[3/1] lg:aspect-[4/1]`, usata da components/home-sections/HomeSectionRenderer.tsx:427 e components/cms/CmsBlockRenderer.tsx:41. A 640px il contenitore `container mx-auto px-4 sm:px-6` è largo 592, quindi la fascia diventa alta 592/3 = 197 punti; tolta l'imbottitura `sm:p-6` restano 149 punti per il testo sovrapposto, che a quella misura passa a `sm:text-3xl` (30px) e `sm:text-base` (16px). Prima di oggi, alla stessa larghezza, la fascia era alta 288 e ne restavano 240. Il testo è `absolute inset-0 ... justify-end` dentro un `overflow-hidden`: quando non ci sta, sfora verso l'ALTO e viene tagliato il titolo. Il conto: titolo su due righe (72) + sottotitolo su due righe (44) + due spazi (16) + pulsante (38) = 170 punti in un vano da 149. Il pannello ammette titoli fino a 120 caratteri e sottotitoli fino a 200 (components/admin/home/HomeSectionConfigForm.tsx:247-248), quindi le due righe non sono un caso limite: sono il caso normale. — Il banner della home è lo spazio che si vende o si regala a un negozio: se il titolo che l'admin ha scritto compare mozzato in cima, il negozio se ne accorge prima di noi. E la fascia 640-767 non è un caso di laboratorio: è il telefono grande girato in orizzontale e il tablet piccolo. Il ragionamento sulla proporzione è giusto e il difetto che chiude è vero; è il vano del testo che nessuno ha rimisurato dopo aver accorciato il riquadro.",
+   "impatto": "Il banner della home è lo spazio che si vende o si regala a un negozio: se il titolo che l'admin ha scritto compare mozzato in cima, il negozio se ne accorge prima di noi. E la fascia 640-767 non è un caso di laboratorio: è il telefono grande girato in orizzontale e il tablet piccolo. Il ragionamento sulla proporzione è giusto e il difetto che chiude è vero; è il vano del testo che nessuno ha rimisurato dopo aver accorciato il riquadro.",
+   "fix_proposto": "Un conto in node che legge le tre proporzioni da lib/banner-vetrina.ts e le misure del testo dal renderer, e pretende che a 360, 640, 768 e 1280 punti l'altezza della fascia sia >= imbottitura + titolo su due righe + sottotitolo su due righe + pulsante. Oggi a 640 servono 170 punti su 149 disponibili e il conto va in rosso. In alternativa, prova visiva dichiarata `verifica: {tipo:\"umano\"}`: aprire la home a 640px con un banner dal titolo di 40 caratteri e guardare se il titolo è intero."
+  }
+ ]
+}

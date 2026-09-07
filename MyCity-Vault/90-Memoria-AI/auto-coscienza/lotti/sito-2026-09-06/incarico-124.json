@@ -1,0 +1,20 @@
+{
+ "squadra": 124,
+ "ondata": 27,
+ "pacchetto": "lib/promesse-pubbliche.ts",
+ "territorio_principale": "lib/promesse-pubbliche.ts",
+ "file_citati": [
+  "lib/promesse-pubbliche.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "architettura|sulla card del catalogo la pillola verde dice «sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome",
+   "titolo": "Sulla card del catalogo la pillola verde dice «Sped. gratis + 3 —00 €» — e quel «+3 —00 €» non ha un nome",
+   "dimensione": "architettura",
+   "file": "lib/promesse-pubbliche.ts:227",
+   "descrizione": "`promessaSpedizione().breve` produce, sopra i 30 €, la stringa `Sped. gratis + 3,00 €`, usata da components/ProductCard.tsx:223 dentro un `<Badge variant=\"free\">`, cioè la pillola VERDE che nel design system significa «bel vantaggio». Sulla scheda prodotto lo stesso costo è scritto per esteso e si capisce («Consegna MyCity 3,00 € per negozio, su ogni ordine a domicilio», app/product/[id]/page.tsx:715); sulla card no: c'è solo `+ 3,00 €` senza nessun sostantivo. Effetto secondario: a 360px, in griglia a due colonne, dentro la card restano ~148 punti e questa pillola ne chiede ~147 (prima ne chiedeva ~95), quindi occupa da sola tutta la riga e, quando c'è anche «Ultimi 3», manda i badge su due righe. — La correzione di fondo è giusta e coraggiosa — il costo di consegna PRIMA della scelta, non nel carrello — ma qui il modo in cui è detta non si capisce. Su una pillola verde da 10 punti, «gratis + 3,00 €» si legge come una contraddizione: uno scrive «gratis» e poi chiede tre euro senza dire di cosa. Un cliente di Piacenza che legge quella card non sa se i 3 € sono in più, in meno, o un supplemento del negozio. La sostanza (il numero) non va tolta; va data una parola: «Sped. gratis · 3 € consegna» dice la stessa cosa ed è comprensibile.",
+   "impatto": "La correzione di fondo è giusta e coraggiosa — il costo di consegna PRIMA della scelta, non nel carrello — ma qui il modo in cui è detta non si capisce. Su una pillola verde da 10 punti, «gratis + 3,00 €» si legge come una contraddizione: uno scrive «gratis» e poi chiede tre euro senza dire di cosa. Un cliente di Piacenza che legge quella card non sa se i 3 € sono in più, in meno, o un supplemento del negozio. La sostanza (il numero) non va tolta; va data una parola: «Sped. gratis · 3 € consegna» dice la stessa cosa ed è comprensibile.",
+   "fix_proposto": "Questo non lo chiude una prova automatica: `verifica: {tipo:\"umano\"}` — mostrare la card a tre persone sopra i sessanta e chiedere «quanto paghi di consegna per questo prodotto?». Il pezzo automatizzabile è il contorno: una prova che pretende che ogni etichetta di `promessaSpedizione` che contiene una cifra contenga anche il sostantivo che la nomina — `cd /home/user/mycity && npx vitest run tests/unit/la-vetrina-non-promette-una-spedizione-che-la-cassa-fa-pagare.test.ts` esteso con quel caso; oggi `breve` passa perché il numero c'è, e nessuno guarda se si capisce."
+  }
+ ]
+}

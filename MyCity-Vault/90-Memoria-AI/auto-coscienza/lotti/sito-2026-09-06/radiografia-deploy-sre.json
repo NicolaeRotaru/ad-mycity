@@ -1,0 +1,95 @@
+{
+  "dimensioni": ["deploy-sre", "ai-endpoints", "dati-analytics", "privacy-legale"],
+  "data": "2026-09-06 18:40",
+  "ramo": "claude/marketplace-open-issues-0gudy6",
+  "confronto": "git diff origin/main",
+  "sola_lettura": true,
+  "file_guardati": 13,
+  "elenco_file_guardati": [
+    "scripts/applica-migrazioni-mancanti.sh",
+    "scripts/check-migration-drift.mjs",
+    ".github/workflows/deploy-dopo-ci.yml",
+    "scripts/backup-db.sh",
+    "scripts/prova-di-fumo.mjs",
+    "app/api/ai/catalog-create-bulk/route.ts",
+    "app/api/ai/catalog-create/route.ts",
+    "app/api/ai/diagnose/route.ts",
+    "app/api/vision/extract-product/route.ts",
+    "app/api/vision/extract-products/route.ts",
+    "lib/analytics/posthog.tsx",
+    "lib/analytics/tracciamento.ts",
+    "app/privacy/page.tsx"
+  ],
+  "difetti": [
+    {
+      "id": "RX-0906-DS-01",
+      "dimensione": "deploy-sre",
+      "titolo": "Lo script delle migrazioni promette che il danno e' nullo, e in due file su ventitre' non lo e'",
+      "posizione": "scripts/applica-migrazioni-mancanti.sh:80-84",
+      "gravita": "medio",
+      "nato_o_peggiorato": "nato oggi (il commento e' stato scritto oggi)",
+      "cosa_dice_il_codice": "«Oggi succede in 23 migrazioni sulle 149 in cartella (fra cui 153 e 154) e il danno e' nullo, perche' dopo il loro COMMIT resta solo NOTIFY. La prima che mettera' del lavoro vero dopo il proprio COMMIT si applichera' a meta', in silenzio.»",
+      "perche_e_falso": "Quella «prima» esiste gia', ed e' in cartella da settimane. In migrations/115_privacy_radiografia.sql, dopo il primo COMMIT e il NOTIFY, si apre un secondo BEGIN con ALTER TABLE public.notifications ADD COLUMN category ... CHECK (...), CREATE INDEX e CREATE OR REPLACE FUNCTION public.vuole_notifica(...) SECURITY DEFINER. In migrations/117_visite_prodotto_e_numeri.sql, dopo il COMMIT, un secondo BEGIN con CREATE OR REPLACE FUNCTION public.admin_kpi() SECURITY DEFINER. I conteggi 149 e 23 sono giusti, 153 e 154 esistono: sbagliata e' solo la frase che rassicura.",
+      "conseguenza_pratica": "E' lo script che Nicola lancia a mano contro la produzione. Se il secondo blocco di 115 o 117 cade, il primo blocco e' gia' confermato per sempre, psql esce non-zero, l'INSERT in supabase_migrations.schema_migrations non parte, e al rilascio dopo il file viene riapplicato dall'inizio: database a meta', migrazione non registrata, e chi legge il codice per decidere se procedere ha appena letto «il danno e' nullo».",
+      "come_riprodurlo": "cd /home/user/mycity && for f in $(grep -lE '^[[:space:]]*COMMIT[[:space:]]*;' migrations/*.sql); do awk '/^[[:space:]]*COMMIT[[:space:]]*;/{t=1;next} t' \"$f\" | grep -qE '^[[:space:]]*(ALTER|CREATE|DROP|INSERT|UPDATE)' && echo \"$f\"; done   # stampa 115 e 117, cioe' due file con lavoro vero dopo il COMMIT",
+      "cosa_NON_e_cambiato": "Verificato riga per riga: i comandi psql eseguiti contro la produzione sono identici a prima (righe 94-98). L'unica aggiunta e' un grep e un echo su stderr. Alla domanda diretta «fa ancora esattamente quello che faceva» la risposta e' si'.",
+      "proposta": "Correggere la frase (21 su 23 sono innocue, 115 e 117 no) e valutare di far elencare allo script quali file hanno lavoro vero dopo il COMMIT, non solo quali hanno un COMMIT."
+    },
+    {
+      "id": "RX-0906-DS-02",
+      "dimensione": "deploy-sre",
+      "titolo": "L'avviso sul COMMIT esce da una porta che il riepilogo del rilascio non legge",
+      "posizione": "scripts/applica-migrazioni-mancanti.sh:92 + .github/workflows/deploy-dopo-ci.yml:280-286",
+      "gravita": "minore",
+      "nato_o_peggiorato": "nato oggi",
+      "conseguenza_pratica": "L'avviso «⚠ ... contiene un COMMIT suo» va su stderr (>&2), mentre nel rilascio lo script viene incanalato con `bash scripts/applica-migrazioni-mancanti.sh | tee \"$DIARIO\"`: in $DIARIO finisce solo stdout. Il conteggio e l'elenco delle migrazioni che il passo «Torna indietro» scrive nel riepilogo nascono da quel file, quindi l'avviso non arriva mai nel riepilogo. Chi alle 23 legge il riepilogo dopo un ritorno indietro e' esattamente la persona che dovrebbe sapere quali migrazioni non godevano della garanzia, ed e' l'unica che non lo legge. In piu' l'avviso non ferma niente: e' una riga che scorre.",
+      "come_riprodurlo": "bash -c 'bash scripts/applica-migrazioni-mancanti.sh | tee /tmp/d.txt' e poi grep '⚠' /tmp/d.txt -> nessun risultato, mentre l'avviso e' comparso a schermo.",
+      "nota": "Il riconoscimento e' anche stretto: `^[[:space:]]*COMMIT[[:space:]]*;` non prende END; (sinonimo di COMMIT in PostgreSQL) ne' COMMIT WORK. Verificato che oggi nessuna migrazione usa quelle forme ne' `commit;` minuscolo: il buco e' latente, non attivo."
+    },
+    {
+      "id": "RX-0906-DS-03",
+      "dimensione": "deploy-sre",
+      "titolo": "Il backup adesso porta con se' i semi della doppia verifica, e senza passphrase resta in chiaro",
+      "posizione": "scripts/backup-db.sh:86-99 (dump) + scripts/backup-db.sh:145-153 (cifratura condizionata)",
+      "gravita": "minore",
+      "nato_o_peggiorato": "peggiorato oggi: la cifratura condizionata c'era gia', quello che e' cambiato e' cosa c'e' dentro il file",
+      "conseguenza_pratica": "Al dump si sono aggiunte auth.identities (identity_data di Google: email, nome, sub) e auth.mfa_factors, che contiene il segreto TOTP in chiaro. La cifratura GPG scatta solo `if [ -n \"${BACKUP_PASSPHRASE:-}\" ]`; se manca, lo script stampa «ATTENZIONE ... il file resta in chiaro» ed esce 0. Chi copia quel file non ottiene piu' solo gli account: ottiene i semi con cui generare secondi fattori validi, cioe' la protezione in piu' di chi si era protetto di piu'.",
+      "attenuante_verificata": "Il lavoro automatico e' blindato: .github/workflows/backup-db.yml:99-100 si ferma con ::error:: se BACKUP_PASSPHRASE manca. La strada scoperta e' solo l'esecuzione a mano sul VPS.",
+      "come_riprodurlo": "env -u BACKUP_PASSPHRASE bash scripts/backup-db.sh -> il file mycity_<ts>_utenti.dump resta senza .gpg, e `pg_restore -l` mostra auth.mfa_factors.",
+      "proposta": "Far fallire lo script quando manca BACKUP_PASSPHRASE, oppure dumpare auth.mfa_factors solo se la passphrase c'e'. Un secondo fattore copiato in chiaro non e' un backup, e' una copia della chiave."
+    },
+    {
+      "id": "RX-0906-DS-04",
+      "dimensione": "deploy-sre",
+      "titolo": "Il database avanti si scopre solo se cade la prova di fumo, non se cadono le migrazioni",
+      "posizione": ".github/workflows/deploy-dopo-ci.yml:283-286 (dove si scrive il conto) e :410-419 (dove si legge)",
+      "gravita": "minore",
+      "nato_o_peggiorato": "buco pre-esistente, ma oggi nasce l'aspettativa che sia coperto",
+      "conseguenza_pratica": "`quante` ed `elenco` li legge solo il passo «Torna indietro», che parte con `if: always() && steps.fumo.outputs.codice == '1'`. Se e' il passo delle migrazioni a morire a meta' (psql cade sul terzo file di cinque), il lavoro si ferma li': niente rilascio, niente prova di fumo, niente ritorno indietro e nessun riepilogo. La produzione resta col codice VECCHIO su uno schema gia' mosso — che e' esattamente lo stato «database avanti, codice indietro» che il lavoro di oggi voleva rendere visibile — e nessuno scrive una riga.",
+      "come_riprodurlo": "Leggere la condizione del passo «Torna indietro» (:419) e il punto in cui gli output vengono scritti (:283-286): non esiste nessun percorso che scriva nel riepilogo quando il passo migrazioni fallisce.",
+      "proposta": "Un passo `if: failure() && steps.migrazioni.outcome == 'failure'` che scriva nel riepilogo quali migrazioni erano gia' passate prima dello schianto."
+    },
+    {
+      "id": "RX-0906-DA-01",
+      "dimensione": "dati-analytics",
+      "titolo": "Un link copiato dall'app installata fa risultare installato anche chi lo riceve",
+      "posizione": "lib/analytics/posthog.tsx:107-109 (comeSiApre) + :383-397 (dove viene usata)",
+      "gravita": "minore",
+      "nato_o_peggiorato": "nato oggi",
+      "conseguenza_pratica": "`comeSiApre` dichiara 'standalone' se `display-mode: standalone` OPPURE se l'indirizzo porta `source=pwa`. Ma `?source=pwa` e' un parametro qualunque: chi copia dalla barra dell'app e manda il link su WhatsApp lo porta con se', e ogni destinatario che apre nel browser normale entra in sessione marcato 'standalone', su TUTTI i suoi eventi (e' una super-property). Il commento dichiara il caso delle schede aperte DENTRO l'app, non questo. I due numeri su cui poggia la decisione «app nativa? non ora, la PWA basta» — quanti installano e se tornano a 7 e 30 giorni — sono gonfiati verso l'alto di una quantita' che nessuno misura.",
+      "come_riprodurlo": "Aprire https://<sito>/?source=pwa in una finestra normale (mai installata) col consenso analytics attivo: gli eventi della sessione escono con display_mode='standalone'.",
+      "proposta": "Fidarsi di `source=pwa` solo se e' la PRIMA pagina della sessione E il documento non ha un referrer esterno, oppure marcare i due casi con valori diversi ('standalone' vs 'standalone-presunto') per poterli separare a posteriori."
+    }
+  ],
+  "niente_trovato_perche": {
+    "ai-endpoints": "Cinque file guardati, nessun difetto nato oggi. Le modifiche chiudono buchi veri e le ho verificate una per una, non credute: (1) extract-product usava come unico filtro «l'indirizzo comincia per http», adesso passa da sanitizeImageUrls -> fotoDaHostAmmesso (lib/ai/productContext.ts:64-75), che confronta l'host con quello del nostro Supabase — buco SSRF chiuso, e il tetto di 4 foto NON e' una novita', era gia' in BodySchema (:216 .max(4)), quindi nessuno perde foto; (2) il secondo giro con web_search adesso porta REGOLA_TESTO_DI_TERZI e recinta() — era una delle due chiamate che dalla pagina web ricavano un PREZZO senza dire al modello che il testo di terzi e' un dato; (3) mapAiError sostituisce due mappe scritte a mano che a tetto di spesa esaurito dicevano «Riprova» invitando a bruciare chiamate impossibili — verificato che mapAiError (lib/ai/run.ts:261-288) copre 401/429/503/tetto_spesa e logga solo lo status; (4) le GIF sparite dall'elenco combaciano ora con TIPI_IMMAGINE (lib/immagini-base64.ts:18), cioe' con cio' che il controllo dei primi byte sa riconoscere; (5) i tetti Zod su alt_text/attributi/tag rispecchiano le costanti vere. Controllato inoltre che ogni import nuovo esista davvero (TIPI_IMMAGINE, TipoImmagine, sanitizeImageUrls, REGOLA_TESTO_DI_TERZI, recinta, MAX_ALT_TEXT, MAX_VALORE_ATTRIBUTO, MAX_NOME_PRODOTTO, MAX_DESCRIZIONE_PRODOTTO) e che nessun import sia rimasto orfano dopo le rimozioni (logger e AiCallError sono ancora usati in extract-product; in extract-products AiCallError e' stato tolto dall'import ed effettivamente non serve piu').",
+    "privacy-legale": "Un file guardato, nessun difetto. Qui la lente e' «promesse fatte nell'informativa che il codice non mantiene», quindi ho preso ogni promessa nuova e sono andato a cercare il codice che la mantiene. Tutte e quattro reggono: (a) «indirizzo del servizio push, due chiavi e user-agent» -> components/PushNotificationOptIn.tsx:141 salva davvero user_agent: navigator.userAgent.slice(0,200), endpoint, p256dh, auth; (b) «cancellati quando le disattivi» -> stesso file, riga 167, delete().eq('endpoint', endpoint); (c) «o quando il servizio push ci dice che quel dispositivo non esiste piu'» -> lib/push/send.ts:149-150, su 404/410 cancella la riga; (d) «o alla cancellazione dell'account» -> catena verificata: push_subscriptions.user_id REFERENCES profiles(id) ON DELETE CASCADE (migrations/027:135), profiles.id REFERENCES auth.users(id) ON DELETE CASCADE (migrations/001:4), e lib/account/cancellazione.ts:774 chiama admin.auth.admin.deleteUser. Anche la riga sulle promozionali regge: «Consenso revocabile in Impostazioni > Notifiche» -> l'interruttore notif_promos esiste (app/profile/settings/page.tsx:40,96,129) ed e' rispettato all'invio, perche' app/api/cron/send-push/route.ts:133 chiama la funzione vuole_notifica prima di spedire. Nota, non difetto: la cancellazione delle push poggia sul CASCADE del database e non sull'elenco esplicito TABELLE_CON_DATI_PERSONALI, quindi funziona ma nessun test lo sorveglia — il giorno che qualcuno cambia quella chiave esterna, l'informativa diventa falsa in silenzio.",
+    "check-migration-drift": "Guardato: le uniche modifiche sono commenti, nessuna riga di codice. Il cambiamento e' onesto e va nella direzione giusta — il commento prometteva un confronto del CONTENUTO che il codice non faceva, adesso dichiara che l'md5 si stampa e non si confronta. Resta scoperto (dichiarato dal codice stesso, non da me): una migrazione modificata dopo essere stata applicata passa verde. Non e' un difetto nato oggi.",
+    "prova-di-fumo": "Guardato. Il 403 nudo non vale piu' «muro davanti al sito»: ricade fra i falliti, quindi uscita 1 e ritorno indietro, invece dell'uscita 4 che non annullava niente. Il rischio inverso — un filtro che risponde 403 senza firmarsi fa annullare un rilascio sano — e' dichiarato nel codice, ed e' un danno rumoroso e reversibile contro uno silenzioso: e' un compromesso scelto, non un difetto. Verificato che il 401 (che e' quello che risponde davvero la Vercel Authentication accesa oggi sul progetto) resta trattato come muro, e che la firma di Vercel copre anche «vercel security checkpoint» e «deployment protection»."
+  },
+  "cosa_non_ho_potuto_vedere_da_qui": [
+    "Se BACKUP_PASSPHRASE e' impostata sul VPS dove il backup gira a mano (nel lavoro automatico e' obbligatoria e verificata).",
+    "Come risponde davvero Vercel davanti alla produzione oggi (401 o 403): letto solo il codice e la nota del 3/9 nel file, non provato dal vivo.",
+    "Se in produzione le foto prodotto arrivano da un dominio diverso dall'host Supabase: in quel caso il filtro nuovo le rifiuterebbe. Il filtro e' pero' gia' in uso dal 22/8 su product-chat e catalog-create con le stesse URL, quindi la strada e' battuta."
+  ]
+}

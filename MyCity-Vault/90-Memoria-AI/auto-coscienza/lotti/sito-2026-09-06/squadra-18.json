@@ -1,0 +1,98 @@
+{
+  "squadra": 18,
+  "territorio": [
+    "components/seller/SellerShell.tsx",
+    "components/rider/RiderShell.tsx",
+    "app/accetta-condizioni/page.tsx",
+    "app/layout.tsx",
+    "public/icon-192.svg",
+    "public/icon-512.svg",
+    "docs/mockup/assets/logo-icon.svg",
+    "components/providers/QueryProvider.tsx",
+    "lib/zod-i18n.ts"
+  ],
+  "malattia": "Il guscio del sito (app/layout.tsx) mette in comune cose che i pezzi dentro rifanno per conto loro: un secondo «contenuto principale» nel pannello del negoziante, il marchio disegnato col carattere di chi guarda invece che con quello del marchio, il traduttore degli errori dei moduli caricato per tutti anche dove non c'e' nessun modulo.",
+  "difetti": [
+    {
+      "chiave": "accessibilita|due landmark «main» annidati su tutta l'area negozio, tutta l'area fattorino e /accetta-condizioni",
+      "titolo": "Due landmark «main» annidati su tutta l'area negozio, tutta l'area fattorino e /accetta-condizioni",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-pannello-del-negoziante-non-apre-un-secondo-contenuto-principale.test.ts (verde, exit 0). Controprova fatta davvero: rimesso <main> in SellerShell -> la prova va rossa (exit 1); ripristinato -> verde. Poi npx vitest run su 12 file di prova che toccano il mio territorio: 12 passati, 64 prove passate. npx tsc --noEmit -p tsconfig.json: exit 0.",
+      "nota_fix": "La scheda dice tre <main> annidati: nel codice di oggi ne era rimasto UNO. Rider e /accetta-condizioni erano gia' stati sistemati il 27/8 (R107) e portano il commento che lo racconta; restava components/seller/SellerShell.tsx:413, che la prova esistente (tests/unit/una-pagina-ha-un-solo-contenuto-principale.test.ts:26) lasciava fuori apposta, scritto nero su bianco: «Il guscio del venditore e' in mano a un altro riparatore e resta fuori». Quel <main> e' diventato <div> con lo stesso className (zero effetto visivo: le classi di larghezza, flex e padding sono identiche) e il commento che spiega perche'. Adesso in app/ e components/ non c'e' piu' nessun <main> oltre a quello del guscio. Ho scritto una prova NUOVA invece di allargare quella esistente: monta davvero il guscio del venditore dentro un <main id=main-content> finto e conta i punti di riferimento, quindi fallisce se qualcuno rimette un <main>. NON ho toccato tests/e2e/11-a11y-percorso-acquisto.spec.ts (fuori dal mio elenco file_citati): allargare il suo array PAGINE a /seller/dashboard, /rider e /accetta-condizioni resta da fare, owner @sdet. NON ho verificato: come un lettore di schermo vero (VoiceOver/NVDA) annuncia i punti di riferimento su un browser vero — da qui non ho un dispositivo.",
+      "file_toccati": [
+        "components/seller/SellerShell.tsx",
+        "tests/unit/il-pannello-del-negoziante-non-apre-un-secondo-contenuto-principale.test.ts"
+      ]
+    },
+    {
+      "chiave": "coerenza-brand|l'icona dell'app e la favicon scrivono «my» col carattere di sistema, quindi il marchio cambia faccia su ogni dispositivo",
+      "titolo": "L'icona dell'app e la favicon scrivono «My» col carattere di sistema, quindi il marchio cambia faccia su ogni dispositivo",
+      "esito": "non_riparato",
+      "prova": "grep -n 'system-ui' public/icon-192.svg public/icon-512.svg docs/mockup/assets/logo-icon.svg: nessun risultato (prima ne dava tre). Ma i tre PNG del manifest restano quelli di prima: non li ho rigenerati, quindi il difetto e' chiuso a meta' e la scheda resta aperta.",
+      "nota_fix": "FATTO: i tre SVG del mio elenco (public/icon-192.svg, public/icon-512.svg, docs/mockup/assets/logo-icon.svg) non disegnano piu' «My» come testo. Le lettere sono diventate tracciati fissi, ricavati con fontkit dal carattere del marchio che sta gia' nella repo (app/Fraunces-ExtraBold.ttf, letto in sola lettura): identiche su ogni dispositivo, e per giunta finalmente Fraunces e non un sans generico. Gradiente terracotta D55F3F->A03B25 e raggio 96 invariati; il segno occupa 360 dei 512 punti, centrato sul suo ingombro reale. Verificato a occhio rasterizzando con sharp a 256px e a 32px: si legge bene anche a misura di scheda del browser. NON FATTO, e per questo la scheda resta aperta: public/icon-192.png, public/icon-512.png, public/apple-touch-icon.png e public/icon-maskable-512.png portano ancora il «My» in un sans generico, e sono i file che il manifest usa davvero per la schermata Home. Sono FUORI dal mio elenco file_citati, quindi non li ho toccati. Il comando pronto per chi li prende (rigenera tutto dall'unica sorgente ormai corretta): node -e \"const s=require('sharp');[[192,'icon-192.png'],[512,'icon-512.png'],[180,'apple-touch-icon.png'],[512,'icon-maskable-512.png']].forEach(([n,f])=>s('public/icon-512.svg').resize(n,n).png().toFile('public/'+f))\" — attenzione che il maskable vuole il segno dentro il cerchio di sicurezza (80% del lato), quindi va rigenerato da una sorgente con piu' margine, non da questa. NON ho verificato: come appare l'icona sulla schermata Home di un iPhone e di un Android veri.",
+      "file_toccati": [
+        "public/icon-192.svg",
+        "public/icon-512.svg",
+        "docs/mockup/assets/logo-icon.svg"
+      ]
+    },
+    {
+      "chiave": "immagini-media|l'icona del sito è testo disegnato col font di sistema, e manca il favicon classico",
+      "titolo": "L'icona del sito è testo disegnato col font di sistema, e manca il favicon classico",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-icona-del-sito-e-la-stessa-su-ogni-telefono.test.ts (6 prove verdi, exit 0). Controprova fatta davvero: rimesso l'SVG col testo system-ui e tolto public/favicon.ico -> 3 prove rosse (exit 1); ripristinato -> 6 verdi. npx tsc --noEmit: exit 0. npx eslint sui file toccati: exit 0.",
+      "nota_fix": "Due cose, tutte e due chiuse. (1) Le lettere: i due SVG di public/ e l'originale docs/mockup/assets/logo-icon.svg non hanno piu' ne' <text> ne' font-family — sono tracciati ricavati da app/Fraunces-ExtraBold.ttf. (2) Il favicon classico: public/favicon.ico non esisteva e ho creato un ICO vero con dentro tre immagini, 16, 32 e 48 pixel, in formato BMP a 32 bit (non PNG-dentro-ICO, cosi' lo leggono anche i programmi vecchi). Verificato con `file`: «MS Windows icon resource - 3 icons, 16x16, 32 bits/pixel, 32x32...», e ho ri-estratto dai byte la voce 32x32 e l'ho ridisegnata in PNG per guardarla: il «My» si legge. L'ho messo in public/ e non in app/icon.ico apposta: da public/ viene servito come file statico su /favicon.ico, che e' l'indirizzo che i browser e gli aggregatori chiedono da soli, e non si intreccia con le icone che Next genera da metadata (app/icon.* e metadata.icons insieme possono produrre tag doppi, e senza poter fare la build non potevo verificarlo). In app/layout.tsx ho aggiunto /favicon.ico come PRIMA voce di metadata.icons.icon, prima dell'SVG. La prova non cerca parole: apre i byte dell'ICO, legge l'indice del formato e controlla che ogni immagine dichiarata stia davvero dentro il file. Differenza con la scheda: i due SVG restano byte per byte identici, ma con un viewBox e' innocuo — un SVG scala da solo, la variante «192» non serve che sia diversa. Resta fuori territorio (non nel mio file_citati) docs/mockup/assets/logo-icon-512.svg, gemello identico del file che ho corretto, e i due wordmark-*.svg: sono documenti, non arrivano al cliente. NON ho verificato: la resa in una scheda di browser vera e su un aggregatore RSS reale (niente build, niente sito acceso da qui).",
+      "file_toccati": [
+        "public/icon-192.svg",
+        "public/icon-512.svg",
+        "public/favicon.ico",
+        "docs/mockup/assets/logo-icon.svg",
+        "app/layout.tsx",
+        "tests/unit/l-icona-del-sito-e-la-stessa-su-ogni-telefono.test.ts"
+      ]
+    },
+    {
+      "chiave": "performance-percepita|la home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
+      "titolo": "La home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
+      "esito": "non_riparato",
+      "prova": "Letto il sorgente: app/layout.tsx:93 'export const dynamic = force-dynamic' col commento che lo impone, tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts:180 che lo pretende, e 'ls public/fonts' -> la cartella non esiste. Nessuna modifica fatta, quindi niente da provare verde.",
+      "nota_fix": "Non si chiude col codice dentro questo lotto, e le due strade proposte dalla scheda sono tutte e due sbarrate. Strada A, «rendere statiche o ISR le pagine di catalogo»: e' vietata per iscritto. app/layout.tsx:93 dichiara `export const dynamic = 'force-dynamic'` con settanta righe che spiegano il perche' — il portiere (middleware.ts) mette su ogni risposta una regola di sicurezza che accetta solo gli script con una parola d'ordine diversa a ogni richiesta, e una pagina preparata in anticipo quella parola non ce l'ha: e' gia' successo, 95 pagine arrivate al cliente come guscio morto, senza carrello ne' cassa. C'e' pure un guardiano che diventa rosso se qualcuno la toglie (tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts:180). Strada B, «next/font/local con i due .woff2 in public/fonts e il <link rel=preload> scritto a mano»: la cartella public/fonts non esiste, i .woff2 non sono nella repo, e l'indirizzo del file di carattere che Next produce porta un codice che cambia a ogni build — non lo posso scrivere a mano senza fare la build, che qui non posso lanciare. Aggiungo che next/font/google ha gia' preload attivo di suo (e' il valore predefinito): non c'e' nessuna manopola da girare nel codice. Serve prima la verifica su un'anteprima Vercel, che la scheda stessa chiede e che da qui non ho potuto fare. NON ho verificato: se in produzione succede davvero come in locale.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "titolo": "Il traduttore degli errori dei moduli (Zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "esito": "non_riparato",
+      "prova": "grep -rn 'zod-i18n' app components lib tests -> un solo punto di attivazione (components/providers/QueryProvider.tsx:5). I moduli client che usano zod sono tre e sono fuori territorio: SellerApplicationForm.tsx, seller/ProductForm.tsx, VendorForm.tsx. Nessuna modifica fatta.",
+      "nota_fix": "Il fix vive fuori dal mio territorio. QueryProvider e' l'UNICO punto che accende i messaggi d'errore in italiano (verificato: `grep -rn zod-i18n app components lib` da un solo risultato oltre alla prova). Se tolgo quella riga e basta, zod torna a dire «String must contain at least 1 character» al negoziante che compila la scheda prodotto: risparmio 12,9 KB e peggioro l'esperienza, che non e' un affare. Per farlo bene la riga `import '@/lib/zod-i18n'` va spostata nei tre moduli client che usano davvero zod — components/SellerApplicationForm.tsx, components/seller/ProductForm.tsx, components/VendorForm.tsx — e nessuno dei tre e' nel mio elenco file_citati. Ho valutato e scartato una scorciatoia dentro territorio: trasformare l'import in un import pigro dentro una useEffect di QueryProvider. Toglie zod dal pacchetto di partenza ma lo fa comunque scaricare a ogni pagina, e apre una corsa — un modulo che valida prima che la traduzione sia arrivata mostra i messaggi in inglese. Meglio un aperto onesto. NON ho verificato: il peso vero del pacchetto dopo il fix (servirebbe la build, che qui non posso lanciare).",
+      "file_toccati": []
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "coerenza-brand|l'icona dell'app e la favicon scrivono «my» col carattere di sistema, quindi il marchio cambia faccia su ogni dispositivo",
+      "perche": "il fix vive anche in file fuori da file_citati: public/icon-192.png, public/icon-512.png, public/apple-touch-icon.png, public/icon-maskable-512.png (i PNG che il manifest usa per la schermata Home). Gli SVG del mio elenco sono a posto."
+    },
+    {
+      "chiave": "performance-percepita|il traduttore degli errori dei moduli (zod) viaggia in ogni pagina, anche dove non c'è nessun modulo",
+      "perche": "il fix vive in file fuori da file_citati: components/SellerApplicationForm.tsx, components/seller/ProductForm.tsx, components/VendorForm.tsx (i tre moduli client che usano zod e dove va spostata l'attivazione dei messaggi italiani)."
+    },
+    {
+      "chiave": "performance-percepita|la home e la scheda prodotto partono senza il preload dei caratteri: il testo cambia faccia a metà caricamento",
+      "perche": "non si chiude col codice: serve la verifica su un'anteprima Vercel e i file .woff2 del carattere dentro la repo (public/fonts non esiste). L'altra strada — pagine di catalogo statiche — e' vietata da `dynamic = 'force-dynamic'` in app/layout.tsx:93 e dal guardiano tests/unit/nessuna-pagina-arriva-senza-javascript.test.ts:180."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Anche il logo per esteso «MyCity» e' testo che si affida al carattere di chi guarda",
+      "dove": "docs/mockup/assets/wordmark-light.svg:2 e wordmark-ondark.svg:2 (font-family=\"Fraunces, Georgia, serif\" dentro un <text>)",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Il gemello dell'icona nel design system e' rimasto col carattere di sistema",
+      "dove": "docs/mockup/assets/logo-icon-512.svg:9 (font-family=\"system-ui, ...\", identico al file che ho corretto)",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Niente build e niente browser: non ho lanciato npm run verify ne' npm run build, quindi il peso vero dei pacchetti e i tag <link> che Next scrive in testa alle pagine restano non misurati da qui. Sull'accessibilita' ho contato i punti di riferimento nel DOM montato, non li ho sentiti annunciare da un lettore di schermo vero. Sulle icone ho guardato la resa rasterizzando con sharp a 256 e a 32 pixel, non su un iPhone o un Android veri: la schermata Home e la scheda del browser reali restano da vedere. Il favicon.ico l'ho validato leggendone i byte e ri-estraendone la voce 32x32, non aprendolo in un browser. Non ho lanciato la suite intera (438 file): ho lanciato i 12 file di prova che toccano il mio territorio, tutti verdi."
+}

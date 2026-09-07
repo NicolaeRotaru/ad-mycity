@@ -1,0 +1,20 @@
+{
+ "squadra": 93,
+ "ondata": 19,
+ "pacchetto": "app/seller/analytics/page.tsx",
+ "territorio_principale": "app/seller/analytics/page.tsx",
+ "file_citati": [
+  "app/seller/analytics/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|nel pannello del negoziante il pulsante senape dei consigli si legge a fatica",
+   "titolo": "Nel pannello del negoziante il pulsante senape dei consigli si legge a fatica",
+   "dimensione": "accessibilita-visiva",
+   "file": "app/seller/analytics/page.tsx:415",
+   "descrizione": "La riga `accent: { ... btn: 'bg-accent-600 hover:bg-accent-700 text-white' }` della mappa INSIGHT_TONE colora il pulsante dei riquadri-consiglio dell'analisi vendite. Misurato in Chromium: bianco su rgb(196,128,31) = 3,25:1, testo 14px in grassetto — sotto i 4,5:1 richiesti (WCAG 2.1 — 1.4.3, AA). Le altre due tonalità della stessa mappa (olive-600, secondary-600) passano: è solo la senape a cadere.\n\nCausa radice: accent-600 è un giallo-ocra: con il bianco sopra non arriva a 4,5:1. La mappa è stata composta a occhio per tinta, non misurando ogni coppia.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 200 npx playwright test --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/av/pw.config.ts venditore-e-interruttore   (primo test: oggi 3,25:1, atteso >= 4,5)",
+   "impatto": "Il negoziante che apre l'analisi vendite trova il consiglio («migliora le foto», «rialza le scorte») e sotto un pulsante che si legge peggio degli altri due. Non blocca nulla, ma è proprio il pulsante che dovrebbe far agire il negozio.",
+   "fix_proposto": "In app/seller/analytics/page.tsx:415 usare `bg-accent-700 hover:bg-accent-800 text-white` (bianco su #9D621C = 5,00:1) oppure tenere accent-600 e scrivere sopra in `text-ink-900` (5,33:1), coerente con il badge `urgency` di components/ui/Badge.tsx che già fa così. Owner: @frontend-dev."
+  }
+ ]
+}

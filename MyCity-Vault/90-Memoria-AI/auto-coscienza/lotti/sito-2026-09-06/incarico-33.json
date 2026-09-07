@@ -1,0 +1,31 @@
+{
+ "squadra": 33,
+ "ondata": 7,
+ "pacchetto": "components/seller/SellerShell.tsx",
+ "territorio_principale": "components/seller/SellerShell.tsx",
+ "file_citati": [
+  "components/seller/SellerShell.tsx",
+  "components/seller/site/SitePreview.tsx",
+  "components/seller/site/PageEditor.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|il pannello notifiche del negoziante si dichiara finestra di dialogo ma non si chiude con esc e non gestisce il fuoco",
+   "titolo": "Il pannello notifiche del negoziante si dichiara finestra di dialogo ma non si chiude con Esc e non gestisce il fuoco",
+   "dimensione": "accessibilita",
+   "file": "components/seller/SellerShell.tsx:123-131 (NotifPopover) · :386-396 (pulsante e montaggio)",
+   "descrizione": "Il pannello ha role=\"dialog\" e aria-label=\"Notifiche\" ma nessun aria-modal, nessuno spostamento del fuoco dentro, nessun ritorno del fuoco e nessun tasto Esc: il file SellerShell.tsx non contiene la parola «Escape» (0 occorrenze). Il velo dietro (riga 123-127) si chiude solo col mouse. Da tastiera si può raggiungere il contenuto con Tab (il pannello è subito dopo il pulsante nel DOM) ma per chiuderlo bisogna tornare sul pulsante. Un role=\"dialog\" senza il comportamento di dialogo è ARIA sbagliata: meglio nessun ruolo o un vero popover. Criteri WCAG 2.1.1/2.1.2 (A) e 4.1.2.\n\nCausa radice: Il popover è scritto a mano invece di usare components/ui/Modal.tsx (che ha già trappola del fuoco, Esc e ritorno del fuoco) o l'hook components/hooks/useBottomSheetA11y.ts.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && test \"$(grep -c Escape components/seller/SellerShell.tsx)\" -gt 0 || echo ROSSO: nessuna gestione di Esc",
+   "impatto": "Il negoziante da sola tastiera apre le notifiche ordini e non riesce a chiuderle con Esc: fastidio, non blocco. Non tocca il cliente.",
+   "fix_proposto": "In NotifPopover usare useBottomSheetA11y(open, ref, triggerRef, onClose) come già fa il lightbox della scheda prodotto (app/product/[id]/page.tsx:219), oppure togliere role=\"dialog\" e aggiungere aria-controls sul pulsante + chiusura su Esc. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "layout-responsive|nel costruttore della vetrina l'anteprima scorre sotto la barra del pannello venditore",
+   "titolo": "Nel costruttore della vetrina l'anteprima scorre sotto la barra del pannello venditore",
+   "dimensione": "layout-responsive",
+   "file": "components/seller/site/SitePreview.tsx:51, usata da components/seller/site/PageEditor.tsx:117 dentro components/seller/SellerShell.tsx:333",
+   "descrizione": "CONFERMATO nel rapporto fra i due valori (l'altezza esatta della barra non l'ho misurata a schermo). L'anteprima e' `lg:sticky lg:top-4`, cioe' si ferma a 16px dal bordo, mentre la barra dell'area venditore e' `sticky top-0 z-sticky` (SellerShell.tsx:333) con `px-4 py-3` e dentro un campo di ricerca: 24px di padding piu' l'altezza dell'input, quindi ben oltre 16px in qualunque conto. L'anteprima non ha z-index proprio, la barra ha z-sticky: scorrendo, la barra le passa sopra e copre il bordo superiore dell'anteprima. Severita' abbassata da grave a minore: strumento interno, contenuto solo parzialmente coperto.",
+   "impatto": null,
+   "fix_proposto": "Introdurre una variabile --seller-topbar-height scritta da SellerShell (come si fa gia' con --header-height sul sito pubblico) e usarla qui al posto di `lg:top-4`."
+  }
+ ]
+}

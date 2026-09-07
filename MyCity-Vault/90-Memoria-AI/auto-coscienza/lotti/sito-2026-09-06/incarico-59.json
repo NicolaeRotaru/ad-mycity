@@ -1,0 +1,21 @@
+{
+ "squadra": 59,
+ "ondata": 12,
+ "pacchetto": "lib/stripe/webhook/ordini.ts",
+ "territorio_principale": "lib/stripe/webhook/ordini.ts",
+ "file_citati": [
+  "lib/stripe/webhook/ordini.ts",
+  "app/api/cron/expire-checkouts/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|quando il pagamento scade, il webhook rimette in vendita anche la merce che intanto e' stata venduta",
+   "titolo": "Quando il pagamento scade, il webhook rimette in vendita anche la merce che intanto e' stata venduta",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/ordini.ts:559-587; app/api/cron/expire-checkouts/route.ts:28-99",
+   "descrizione": "Ci sono due strade che chiudono un carrello scaduto: il giro periodico (expire-checkouts) e il webhook di Stripe (checkout.session.expired e async_payment_failed). La stessa identica riparazione e' stata messa solo su una delle due. Il giro periodico, prima di rimettere la merce a scaffale, controlla se per quella sessione esistono gia' degli ordini e in quel caso non tocca niente e avvisa gli amministratori (righe 28-99). Il gemello nel webhook non fa quel controllo: rivendica il carrello, chiama restore_stock su TUTTI i gruppi e restituisce il codice sconto, senza guardare se qualche ordine e' gia' nato. Il commento nel giro periodico dice che il gemello 'fa gia' cosi'': non e' vero, il gemello si era fermato alla rivendicazione atomica.\n\nCausa radice: Riparazione applicata su una sola delle due strade che fanno la stessa cosa (il codice e' duplicato invece di condiviso), piu' un commento che dichiara la protezione presente sul gemello.\n\nProva (umano, non eseguita): Lettura affiancata dei due file: app/api/cron/expire-checkouts/route.ts:42-99 costruisce l'insieme conOrdini e salta i carrelli che hanno gia' ordini; lib/stripe/webhook/ordini.ts:559-587 non interroga mai la tabella orders. Verifica umana: creare un pending_checkout PENDING con un ordine gia' esistente sulla stessa sessione e mandare al webhook un evento checkout.session.expired firmato di prova; la merce torna a magazzino lo stesso.",
+   "impatto": "Nel caso in cui il pagamento riesca e la creazione degli ordini si fermi a meta' (primo negozio creato, secondo no), il magazzino segna pezzi che non ci sono piu': si vende quello che non c'e', e il secondo cliente scopre l'errore al momento della consegna. Oggi e' difficile da raggiungere perche' Stripe non manda 'sessione scaduta' su una sessione pagata, ma la protezione manca ed e' scritta come se ci fosse.",
+   "fix_proposto": "Estrarre la chiusura del carrello scaduto in una funzione sola, usata dal giro periodico e dal webhook, con dentro il controllo 'esistono gia' ordini per questa sessione?'. E correggere il commento nel giro periodico, che oggi promette una protezione che il gemello non ha."
+  }
+ ]
+}

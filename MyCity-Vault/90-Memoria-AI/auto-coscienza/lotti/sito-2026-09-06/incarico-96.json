@@ -1,0 +1,21 @@
+{
+ "squadra": 96,
+ "ondata": 20,
+ "pacchetto": "app/profile/loyalty/page.tsx",
+ "territorio_principale": "app/profile/loyalty/page.tsx",
+ "file_citati": [
+  "app/profile/gift-cards/page.tsx",
+  "app/profile/loyalty/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|il credito del cliente si legge zero euro quando la lettura non riesce",
+   "titolo": "Il credito del cliente si legge zero euro quando la lettura non riesce",
+   "dimensione": "stati-ui",
+   "file": "app/profile/gift-cards/page.tsx:70-76 · app/profile/loyalty/page.tsx:74-80",
+   "descrizione": "Il saldo del portafoglio viene letto cosi': `const { data } = await supabase.from('profiles').select('wallet_balance_cents')...single()` e poi `return (data?.wallet_balance_cents) ?? 0`. L'errore non viene raccolto, quindi una lettura fallita non diventa un errore: diventa il numero 0, e per il contenitore delle query e' una lettura RIUSCITA. Da li' in poi niente nuovo tentativo, nessun avviso, e lo zero resta in cache sotto la chiave del portafoglio, quindi lo rivede uguale anche l'altra pagina (Punti e Gift card condividono la stessa chiave). A video il cliente legge «0,00 €» esattamente come chi il credito non ce l'ha davvero.\n\nCausa radice: L'errore viene trasformato in un valore di default dentro la funzione di lettura: cosi' il difetto e' invisibile al livello superiore, che crede di avere un dato buono. Il valore di ripiego 0 e' indistinguibile dal valore vero 0.\n\nProva (umano, non eseguita): Un occhio umano: accedere come cliente con credito diverso da zero, aprire /profile/gift-cards con gli strumenti del browser e bloccare (Network → offline, oppure blocco della richiesta a /rest/v1/profiles) la lettura del profilo, poi ricaricare. Cosa deve vedere: un errore con «riprova». Cosa vede oggi: il saldo grande «0,00 €», nessun avviso, nessun nuovo tentativo. Ripetere su /profile/loyalty: stesso zero.",
+   "impatto": "Una cliente che ha ricevuto una gift card da 25 € apre Profilo → Gift card mentre la rete balla: legge saldo 0,00 €. Pensa che il regalo sia sparito o che sia stato usato da qualcun altro, scrive all'assistenza o rifa' la spesa pagando tutto. Un numero in euro sbagliato e' la cosa che rompe la fiducia piu' in fretta.",
+   "fix_proposto": "Far uscire l'errore dalla funzione di lettura (`if (error) throw error`), cosi' il contenitore delle query ritenta da solo e la pagina puo' mostrare «non riesco a leggere il saldo — riprova» al posto della cifra. Regola: un importo in euro non ha mai un valore di ripiego; o e' letto, o si dice che non e' stato letto."
+  }
+ ]
+}

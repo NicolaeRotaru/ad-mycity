@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-09-01 20:40
+aggiornato: 2026-09-07 08:52
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-09-07 08:52 · 33 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -953,13 +960,6 @@ controlla prima — vedi la richiesta 247, aperta per questo.
 
 ---
 
----
-
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 27.
-> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
-
----
-
 ## 🧹 Spostate dalla coda il 2026-09-03 09:50 — 17 carte gia chiuse in luglio
 
 Erano rimaste nella coda perche scritte in un formato vecchio (`✅ #slug` invece di `### ✅ #numero`), e lo strumento che archivia cerca solo il secondo. Sono chiuse: restano qui, leggibili, e la coda torna sotto il campo visivo del controllo che la legge.
@@ -1035,3 +1035,67 @@ Erano rimaste nella coda perche scritte in un formato vecchio (`✅ #slug` invec
 ❌ #push-main-memoria — ~~Pusha main su GitHub (memoria non pubblicata)~~ → RISOLTA, chiusa 2026-07-30 06:30. Verificato ora (`git fetch` + confronto): `origin/main` e `HEAD` locale coincidono esattamente (`0d777ae6d`). Il ritardo di 71 commit descritto il 17-23/7 è stato assorbito da tempo; il push funziona regolarmente (ultimo commit VPS: 06:20:46 di stamattina).
 
 <!-- ruota-pat-github -->
+
+---
+
+### ✅ #30 — ~~Metti la serratura al Pannello: oggi chi ha l'indirizzo può darmi ordini · ⏳ accodata 2026-07-27 09:40~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: era già vera.** La serratura esiste: `pannello/src/middleware.ts` c'è e il suo commento in testa racconta proprio questo difetto («Nessun middleware esisteva. Chiunque conoscesse…»). Chiusa 2026-09-07 09:10, verificato aprendo il file.
+**Cosa cambia:** il Pannello ha 33 punti che modificano lo stato, in 30 file diversi, e uno solo controlla chi sta chiamando. Non esiste un filtro d'ingresso. Chi conosce l'indirizzo può spegnere la PAUSA, accendere l'autopilota e infilare istruzioni nel prompt dell'agente che gira sul server. C'è anche una porta che scrive la tua firma su un'azione senza che tu tocchi niente: il valore che scrive è esattamente quello che il consenso accetta come «firmato da Nicola» per l'invio reale. Oggi il danno possibile è limitato perché le mani verso il mondo sono scollegate — ma il piano è collegarle, e allora questa diventa la falla numero uno.
+**Se va bene:** l'AD prepara un unico filtro d'ingresso che copre tutti e 33 i punti in un colpo solo, più la rimozione della porta orfana che firma. Anteprima prima del merge, nessun deploy senza il tuo ok.
+**Serve da te (30 secondi):** apri l'indirizzo del Pannello in una finestra in incognito, senza login. Se si apre, questa è urgente davvero. Se ti chiede di accedere, Vercel ti sta già proteggendo e la declasso. Non sono riuscito a verificarlo da solo: il proxy mi blocca la chiamata diretta e lo strumento Vercel si autentica per conto tuo, quindi la sua risposta non prova niente.
+**Nota tecnica:** difetti AR-226, AR-227, AR-205, AR-271. Un solo `middleware.ts` chiude i 33 handler; la porta orfana è `POST /api/approva`, zero chiamanti nel Pannello.
+- **Colore:** 🟡 (codice del Pannello, in branch, con anteprima)
+- **Reparto:** security + backend-dev
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-226+AR-227+AR-205+AR-271}`
+
+<!-- radiografia-sblocca-pubblicazione -->
+
+---
+
+### ✅ #29 — ~~Sblocca la memoria: da due giorni il giro non riesce più a pubblicare · ⏳ accodata 2026-07-27 09:40~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: era già vera.** La memoria si pubblica regolarmente: `origin/main` di ad-mycity porta commit del 6 settembre, e questo lotto ci ha spinto sopra tutta la notte. Il blocco di fine luglio è rientrato da tempo. Chiusa 2026-09-07 09:10.
+**Cosa cambia:** dal 25/7 alle 20:15 il giro si ferma prima di pubblicare, perché il controllo sui segreti trova una chiave dentro un file di test — ma è una chiave finta, scritta apposta per verificare che l'invio email non parta senza firma. Il controllo riconosce il prefisso e blocca tutto. Da allora quello che arriva nel Pannello passa solo dalle scorciatoie che quel controllo lo saltano: i commit «recupero: scritture pendenti da un giro interrotto» ogni due ore sono la traccia. Finché resta così, ogni giro lavora e non pubblica.
+**Se va bene:** l'AD esclude la cartella dei test dal controllo (una riga), rilancia il controllo per vedere che passa, e da lì il giro torna a pubblicare da solo.
+**Nota tecnica:** difetto AR-270. Il controllo è `cervello/scan-segreti.mjs`, la catena che blocca è `cervello/giro.sh:713` → `:785`. L'alternativa è cambiare la stringa dentro `cervello/test/autopilot-colore.test.mjs`, ma escludere i test è più robusto: il prossimo test con una chiave finta rifarebbe lo stesso danno.
+- **Colore:** 🟡 (tocca il codice del cervello, in branch, reversibile)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-270}`
+
+<!-- auto-riscrittura-git-pr-esito -->
+
+---
+
+### ✅ #26 — ~~Mergia il fix "countdown scadenze esterne" (AR-147) · ⏳ accodata 2026-07-24 00:12~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: era già vera.** AR-147 risulta `chiuso` nel cantiere della macchina. Chiusa 2026-09-07 09:10, verificato leggendo `cantiere-difetti.json`.
+**Cosa cambia:** nuovo script `cervello/scadenzario-check.mjs` che segnala in automatico quando una scadenza esterna (bandi, fiscali, contrattuali) entra negli ultimi 7 giorni — parte da PI26 (10.000€, scade 30/7). Prima erano solo promemoria scritti a mano, facili da perdere.
+**Se va bene:** al primo giro dopo il merge compare una card 🔴 in questa coda per PI26 (se non è già stata inviata la domanda).
+**Nota tecnica:** branch `fix/scadenzario-check-ar147` già pushato su GitHub, ma l'apertura automatica della PR è fallita per **rate limit dell'API GitHub** (troppe richieste stasera per l'attività intensa del `/loop 10m`) — non un problema del codice. Serve riprovare `node cervello/git-pr.mjs --repo ad-mycity --base main --branch fix/scadenzario-check-ar147 --title "fix(cervello): countdown reale sulle scadenze esterne (AR-147)" --body-file consegne/tech/2026-07-24-pr-scadenzario-check-ar147.md` tra qualche minuto, oppure aprire la PR a mano da GitHub sul branch già pushato.
+- **Colore:** 🟡 (codice in branch, nessun deploy — firma tua al merge)
+- **Reparto:** tech/devops-sre
+- **Origine:** `{origine:auto-radiografia-2026-07-23, difetto:AR-147}`
+
+<!-- post-carosello-bio-2307 -->
+
+---
+
+### ✅ #18 — ~~Aggiungi cadenza automatica pulizia AZIONI-IN-ATTESA in giro.sh · ⏳ accodata 2026-07-18 17:52~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: era già vera.** La cadenza c'è già e gira: `cervello/giro.sh` riga 521 chiama `housekeeping-azioni.mjs` a ogni giro. Chiusa 2026-09-07 09:10, verificato con `grep -n housekeeping-azioni cervello/giro.sh`. Nessuno l'aveva chiusa, e intanto la coda è cresciuta fino a sfondare il campo visivo — è la ragione per cui questa verifica è stata fatta oggi.
+**Contesto:** Nicola ha chiesto (18/7) una pulizia automatica periodica della coda AZIONI-IN-ATTESA. L'housekeeping manuale è fatto (17:10), ma la cadenza automatica non è in produzione: PR #450 era vuota (il branch non aveva modifiche vs main al momento dell'apertura — rebase aveva perso la modifica a `giro.sh`).
+
+**Fix da fare:** aggiungere 1 riga in `cervello/giro.sh` dopo la sezione pulizia STATO:
+```bash
+node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
+```
+(lo script già esiste — sposta le card ✅/❌ in archivio, aggiorna il contatore in cima.)
+
+**Cosa cambia:** ogni giro automatico (~60 min) la coda si ripulisce da sola — nessuna card zombie accumulata.
+**Se va bene:** Nicola non deve più chiedere «pulisci la lista» — succede sempre.
+
+- **Colore:** 🟡 (modifica giro.sh → PR → mergia Nicola)
+- **Reparto:** devops-sre
+
+---

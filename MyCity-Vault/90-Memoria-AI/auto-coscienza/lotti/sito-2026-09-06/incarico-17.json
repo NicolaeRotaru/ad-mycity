@@ -1,0 +1,79 @@
+{
+ "squadra": 17,
+ "ondata": 4,
+ "pacchetto": "app/api/orders/cod/route.ts",
+ "territorio_principale": "app/api/orders/cod/route.ts",
+ "file_citati": [
+  "app/api/orders/cod/route.ts",
+  "app/api/stripe/checkout/route.ts",
+  "lib/ordini/prezzi.ts",
+  "app/api/locale/route.ts",
+  "lib/errors.ts",
+  "app/api/seller/orders/[id]/reject/route.ts",
+  "lib/ordini/annulla.ts",
+  "lib/stripe/webhook/ordini.ts",
+  "lib/carrelli-abbandonati.ts",
+  "migrations/148_carrelli_recuperati.sql",
+  "lib/shipping.ts",
+  "lib/constants.ts",
+  "lib/shipping-coordinate.ts",
+  "components/checkout/ShippingAddressForm.tsx",
+  "lib/email/templates.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "architettura|le due strade che creano un ordine, contanti e carta, rifanno a mano la stessa verifica di prodotti, varianti e scorte: 58 righe identiche su 86, pronte a divergere",
+   "titolo": "Le due strade che creano un ordine, contanti e carta, rifanno a mano la stessa verifica di prodotti, varianti e scorte: 58 righe identiche su 86, pronte a divergere",
+   "dimensione": "architettura",
+   "file": "app/api/orders/cod/route.ts:275-390 (lettura prodotti :279-280, varianti :287, proprietario :353, stato :356, varianti :361, scorte :372-378, promozioni :380) · app/api/stripe/checkout/route.ts:148-360 (le stesse verifiche a :193-194, :201, :315, :322, :326, :337-343, :346) · lib/ordini/prezzi.ts (oggi condivide solo il conto dei prezzi, non la validazione del carrello)",
+   "descrizione": "Dopo che lib/ordini/prezzi.ts ha unificato il conto dei prezzi, la verifica del carrello contro il catalogo è rimasta scritta due volte: lettura di prodotti e varianti, controllo che il prodotto sia del negozio giusto, che sia «available», che la variante sia valida, che le scorte bastino, che lo sconto promozionale sia applicato. Normalizzando le righe (via commenti e via il nome della rotta nei log) 58 righe del blocco contanti su 86 compaiono identiche nel blocco carta. Oggi le due copie coincidono; ma è la stessa malattia già registrata sui gemelli webhook/contrassegno per gli avvisi: la prossima regola (es. prodotto sospeso dal moderatore, quantità massima per cliente, categoria non vendibile a domicilio) verrà aggiunta a una copia sola.\n\nCausa radice: La riparazione che ha creato il motore condiviso dei prezzi si è fermata al conto e non ha estratto la validazione del carrello; le due rotte restano due copie di 600-900 righe senza un modulo lib/ordini che possieda la regola «questo carrello si può vendere?».\n\nProva (grep, eseguita e rossa): grep/confronto (ammesso per un minore): cd /home/user/mycity && comm -12 <(sed -n 275,390p app/api/orders/cod/route.ts | sed -E \"s/^\\s+//; s/esciERilascia\\((.*)\\);/\\1;/; s/\\[cod\\]/[X]/\" | grep -v \"^//\" | grep -v \"^\\*\" | grep -v \"^$\" | sort -u) <(sed -n 148,360p app/api/stripe/checkout/route.ts | sed -E \"s/^\\s+//; s/\\[stripe\\]/[X]/\" | grep -v \"^//\" | grep -v \"^\\*\" | grep -v \"^$\" | sort -u) | wc -l  → 58 (righe identiche fra i due blocchi).",
+   "impatto": "Nessun cliente colpito oggi. Domani: una regola di vendita che vale con la carta e non in contanti (o viceversa) — ad esempio un prodotto ritirato dal catalogo che resta ordinabile pagando alla consegna — e un bug da correggere in due posti con due prove.",
+   "fix_proposto": "Estrarre in lib/ordini/valida-carrello.ts una funzione validaCarrelloControIlCatalogo(supa, groups) che restituisce le righe con unitCents oppure un errore tipizzato (PRODOTTO_NON_DISPONIBILE, SCORTE_INSUFFICIENTI, ...); farla usare a entrambe le rotte; una prova unitaria sola per tutti i casi limite. Diff piccola, reversibile."
+  },
+  {
+   "chiave": "architettura|ventuno rotte rispondono agli errori con due forme diverse a seconda del ramo, e c'è una funzione il cui unico scopo è assorbire l'incoerenza",
+   "titolo": "Ventuno rotte rispondono agli errori con due forme diverse a seconda del ramo, e c'è una funzione il cui unico scopo è assorbire l'incoerenza",
+   "dimensione": "architettura",
+   "file": "app/api/orders/cod/route.ts:202,207 · app/api/locale/route.ts:20,25 · lib/errors.ts:186-195 (la funzione che assorbe le due forme)",
+   "descrizione": "Verificato nella sostanza, con il numero corretto. lib/api/responses.ts definisce il contratto — `{ ok: true, data }` oppure `{ ok: false, error: { code, message } }` — spiegando che «il frontend deve sapere esattamente cosa aspettarsi». Sulle 89 rotte del progetto, 21 usano ENTRAMBE le forme di ERRORE nello stesso file: `ApiErrors.*` in alcuni rami e `NextResponse.json({ error: '…' })` in altri. (Il numero 61 del rapporto originale conta qualunque `NextResponse.json`, comprese le risposte di successo legittime che devono impostare un cookie: non è il difetto.) Esempi sui percorsi che contano: app/api/orders/cod/route.ts risponde `{ error: 'Ordine gia in corso…' , inCorso: true }` alle righe 202 e 207 e usa `ApiErrors` altrove; app/api/locale/route.ts:20,25. Il browser se la cava perché `apiErrorMessage` (lib/errors.ts:186-195) sa leggere tutte e due le forme.",
+   "impatto": "Chi scrive una chiamata nuova non sa quale forma aspettarsi e la legge nel modo sbagliato: l'errore vero non arriva a schermo e l'utente vede «Operazione non riuscita» senza sapere perché. È fastidio, non danno — ma su una rotta di cassa il messaggio giusto è la differenza fra riprovare e abbandonare.",
+   "fix_proposto": "Convertire i rami rimasti a `ApiErrors.*` / `apiSuccess()`: è una sostituzione meccanica, rotta per rotta. Poi un test che legge i file sotto app/api e diventa rosso se trova `NextResponse.json({ error`, con una lista di eccezioni per le rotte che devono rispondere in un formato imposto da fuori (webhook di Stripe)."
+  },
+  {
+   "chiave": "pagamenti-stripe|il codice sconto torna in circolo più volte di quanto è stato usato: due rilasci al rifiuto del negozio, rilascio intero su un carrello a due negozi",
+   "titolo": "Il codice sconto torna in circolo più volte di quanto è stato usato: due rilasci al rifiuto del negozio, rilascio intero su un carrello a due negozi",
+   "dimensione": "pagamenti-stripe",
+   "file": "app/api/seller/orders/[id]/reject/route.ts:70-92 · lib/ordini/annulla.ts:115-124,156,197 · app/api/stripe/checkout/route.ts:392 · lib/stripe/webhook/ordini.ts:314 · app/api/orders/cod/route.ts:403,626",
+   "descrizione": "(a) Il rifiuto del negozio chiama annullaERimborsa, che già restituisce il codice, e poi lo restituisce di nuovo alla riga 90: due release_coupon per un solo ordine. (b) Al checkout il codice si rivendica UNA volta per carrello, ma ogni ordine del carrello (uno per negozio) porta coupon_code: annullare o rifiutare l'ordine del negozio A libera il codice per intero mentre l'ordine del negozio B tiene lo sconto. Un codice monouso torna riutilizzabile.\n\nCausa radice: Rivendicazione per carrello contro rilascio per ordine; la riga 90 del rifiuto è stata scritta quando annullaERimborsa non restituiva ancora il codice (R121) e non è mai stata tolta.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/pagamenti-stripe-rifiuto-doppio-coupon.test.ts ; PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -f /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/pagamenti-stripe-coupon-multinegozio.sql",
+   "impatto": "Usi in più di codici a tiratura limitata e contatore uses_count non attendibile: le campagne «primi 50» durano più di 50.",
+   "fix_proposto": "Togliere il secondo release_coupon dalla rotta di rifiuto; rilasciare il codice solo quando nessun altro ordine attivo dello stesso carrello (stesso stripe_session_id o stessa chiave contanti) lo porta ancora."
+  },
+  {
+   "chiave": "dati-analytics|il carrello risulta recuperato anche quando l'email non e' mai partita",
+   "titolo": "Il carrello risulta recuperato anche quando l'email non e' mai partita",
+   "dimensione": "dati-analytics",
+   "file": "lib/carrelli-abbandonati.ts:37-48 · app/api/orders/cod/route.ts:773 · lib/stripe/webhook/ordini.ts:484 · migrations/148_carrelli_recuperati.sql:31-36",
+   "descrizione": "Quando arriva un ordine, marcaCarrelloRecuperato scrive recovered = true su tutte le righe di quella persona, filtrando solo per user_id e recovered = false. Non guarda se l'email «hai dimenticato qualcosa» era mai stata mandata (recovery_email_sent_at). Cosi' nella colonna «recuperato» finiscono insieme due cose diverse: chi e' tornato grazie all'email e chi e' tornato da solo dieci minuti dopo, senza aver ricevuto niente. Marcare la riga e' giusto (serve a non mandargli l'email di un carrello gia' comprato), ma il numero che ne esce non e' il rendimento della campagna.\n\nCausa radice: La riparazione R164 ha risolto il problema giusto (la riga spariva) ma ha usato una colonna sola per due domande diverse: «questo carrello e' diventato un ordine?» e «l'email ha funzionato?».\n\nProva (umano, non eseguita): Un occhio umano guarda la tabella abandoned_carts in produzione e conta le righe con recovered = true e recovery_email_sent_at IS NULL: sono i carrelli contati come recuperati a cui non e' mai stata mandata nessuna email. Da qui non ho accesso al database di produzione e la tabella di prova e' vuota.",
+   "impatto": "Il giorno in cui si guarda «quanto rende l'email di recupero» il numero sara' piu' alto del vero, e si terra' accesa una leva che magari non porta niente. E' una delle poche leve di ricavo gia' costruite: decidere su un numero gonfiato costa tempo e fiducia.",
+   "fix_proposto": "Marcare recovered = true come adesso (serve a fermare gli invii), ma tenere il rendimento della campagna su un conto separato: recuperato «dopo l'email» solo se recovery_email_sent_at non e' nullo e recovered_at viene dopo. Due domande, due campi."
+  },
+  {
+   "chiave": "flussi-conversione|il sito accetta una consegna a milano e non chiede un centesimo di spedizione",
+   "titolo": "Il sito accetta una consegna a Milano e non chiede un centesimo di spedizione",
+   "dimensione": "flussi-conversione",
+   "file": "app/api/orders/cod/route.ts:48-57 (DeliverySchema); lib/shipping.ts:28-32; lib/constants.ts:2 e 59; lib/shipping-coordinate.ts:38-72; components/checkout/ShippingAddressForm.tsx:180-195",
+   "descrizione": "Non esiste in nessun punto del progetto un controllo della zona di consegna. Lo schema della rotta contanti accetta qualunque CAP: «zip: z.string().min(1).max(20)» (riga 52). Il modulo della spedizione decide nell'ordine: ritiro o coupon spedizione gratis → zero; subtotale sopra i 30 € → zero; solo dopo guarda la distanza (lib/shipping.ts:28-32). Quindi la soglia dei 30 € corto-circuita la distanza. Provato: negozio a Piacenza, consegna a Milano, 60 km in linea d'aria, carrello da 35 €: la spedizione risulta 0,00 e l'ordine passa. Al fattorino spettano comunque i 3 € fissi (lib/constants.ts:59), coperti dai 3 € di fee di consegna. Sotto i 30 € succede il rovescio: la stessa consegna a Milano viene quotata oltre 70 € alla cassa, dopo che il carrello aveva scritto 4,90.\n\nCausa radice: Il perimetro di servizio — Piacenza e dintorni — vive solo nei testi del sito, mai in un controllo. Nessuno ha mai messo il confine dove si scrive l'indirizzo né dove si crea l'ordine, e la regola della spedizione gratis è stata scritta pensando che tutti gli indirizzi fossero vicini.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/flussi-conversione-carrello-vs-cassa.test.ts -t '57 km'",
+   "impatto": "Una persona di Milano o di Cremona compila tutto, conferma, riceve la mail di conferma — e poi qualcuno deve chiamarla e annullare. È un rimborso, una recensione arrabbiata e un negoziante che ha già preparato la merce. Sul lato soldi: 60 km di consegna coperti da 3 €.",
+   "fix_proposto": "Un solo posto che dice qual è la zona (per esempio un tetto di chilometri dal negozio, o l'elenco dei CAP serviti), usato in tre punti: nel campo CAP del modulo indirizzo, con avviso subito e non alla fine; nelle due rotte che creano l'ordine, come rifiuto esplicito; dentro shippingForEuro, che sopra il tetto non deve poter restituire zero. Il messaggio va scritto come un'offerta, non come un no: «Per ora consegniamo a Piacenza e dintorni. Puoi ritirare in negozio.»"
+  },
+  {
+   "chiave": "microcopy|l'email che conferma l'ordine saluta con una virgola vuota quando manca il nome",
+   "titolo": "L'email che conferma l'ordine saluta con una virgola vuota quando manca il nome",
+   "dimensione": "microcopy",
+   "file": "lib/email/templates.ts:71 · lib/email/templates.ts:159 · chiamata da app/api/orders/cod/route.ts:837 e lib/stripe/webhook/ordini.ts:526",
+   "descrizione": "La prima email che un cliente riceve dopo aver pagato apre con «Ciao ${args.name ?? ''}, abbiamo ricevuto il tuo ordine da …». Se sul profilo il nome non c'è (registrazione senza nome, accesso con Google che non lo passa, profilo vecchio), la frase esce così: «Ciao , abbiamo ricevuto il tuo ordine da Pane Quotidiano.» Stessa cosa nell'email di consegna, riga 159: «Ciao , il tuo ordine è stato consegnato.» Ho lanciato i due template con il nome nullo e l'HTML generato contiene davvero «Ciao ,». Duecento righe più sotto, nello stesso file, l'email di benvenuto la stessa cosa la fa giusta: righe 273-274, se il nome manca la frase cambia in «Grazie» e la virgola sparisce.\n\nCausa radice: Il nome viene infilato dentro una frase già scritta, col ripiego stringa vuota. La cura giusta — far cambiare la frase intera quando il nome non c'è — esiste già nello stesso file (righe 273-274) ma non è stata riusata nei due template più importanti.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/microcopy-g2.test.ts — test «la conferma d ordine non saluta con una virgola sospesa quando manca il nome» e «l email di consegna non saluta con una virgola sospesa quando manca il nome»",
+   "impatto": "Un cliente di Piacenza paga 24,50 euro da Pane Quotidiano e la prima cosa che riceve da noi è un'email che comincia «Ciao ,». È il momento in cui decide se siamo un negozio serio o un sito raffazzonato, e succede su tutte e due le strade di pagamento: contanti alla consegna e carta.",
+   "fix_proposto": "Copiare lo schema della riga 274 in un aiutante solo, per esempio saluto(nome) che torna «Ciao Marco,» oppure «Ciao,», e usarlo in orderConfirmedBuyerTemplate, orderDeliveredTemplate e in ogni template nuovo."
+  }
+ ]
+}

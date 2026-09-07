@@ -1,0 +1,21 @@
+{
+ "squadra": 89,
+ "ondata": 19,
+ "pacchetto": "docs/mockup/components/commerce/ProductCard.jsx",
+ "territorio_principale": "docs/mockup/components/commerce/ProductCard.jsx",
+ "file_citati": [
+  "docs/mockup/components/commerce/ProductCard.jsx",
+  "docs/mockup/_ds_manifest.js"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
+   "titolo": "Il design system di riferimento è incompleto: mancano Button, Badge e Card e un file importa un componente che non esiste",
+   "dimensione": "coerenza-brand",
+   "file": "docs/mockup/components/ (manca core/) · docs/mockup/components/commerce/ProductCard.jsx:2 · docs/mockup/_ds_manifest.json",
+   "descrizione": "CONFERMATO. docs/mockup/components/ contiene solo commerce/, feedback/ e forms/: la cartella core/ non c'è. Il manifesto _ds_manifest.json però elenca Badge (components/core/Badge.jsx), Button (components/core/Button.jsx), Card (components/core/Card.jsx) e la scheda «Core · Button · Badge · Card» con previewPath components/core/core.card.html. Di conseguenza docs/mockup/components/commerce/ProductCard.jsx alla riga 2 fa import { Badge } from '../core/Badge.jsx' su un file assente. Il deck si apre perché le versioni compilate stanno in _ds_bundle.js, ma la fonte consultabile non c'è: chi deve fare un pulsante non ha una specifica da guardare — il che spiega bene la deriva misurata negli altri punti.",
+   "impatto": null,
+   "fix_proposto": "Ricostruire docs/mockup/components/core/ (Button.jsx, Badge.jsx, Card.jsx, core.card.html) estraendoli da _ds_bundle.js che li contiene già compilati, verificare che l'import a ProductCard.jsx:2 si risolva, e tenere le varianti allineate a components/ui/Button.tsx e components/ui/Card.tsx del prodotto."
+  }
+ ]
+}

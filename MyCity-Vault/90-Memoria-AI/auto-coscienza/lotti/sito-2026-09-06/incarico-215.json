@@ -1,0 +1,80 @@
+{
+ "squadra": 215,
+ "ondata": 8,
+ "pacchetti": [
+  "lib/analytics/sentry-config.ts",
+  "app/admin/today/page.tsx",
+  "components/account/AccountShell.tsx",
+  "components/store-sections/SectionRenderer.tsx",
+  "app/seller/products/page.tsx",
+  "components/seller/ImproveAllPanel.tsx"
+ ],
+ "file_citati": [
+  "home/user/ad-mycity/marketplace/lib/analytics/sentry-config.ts",
+  "lib/analytics/sentry-config.ts",
+  "app/admin/funnel/page.tsx",
+  "app/admin/today/page.tsx",
+  "app/seller/earnings/page.tsx",
+  "components/account/AccountShell.tsx",
+  "components/ui/LegalLayout.tsx",
+  "components/store-sections/SectionRenderer.tsx",
+  "app/seller/products/page.tsx",
+  "components/seller/ImproveAllPanel.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "deploy-sre|gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+   "titolo": "Gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+   "dimensione": "deploy-sre",
+   "file": "/home/user/ad-mycity/marketplace/lib/analytics/sentry-config.ts:17,30 · sentry.server.config.ts:15,20 · next.config.js:97-100",
+   "descrizione": "CONFERMATO nella sostanza, con una correzione. ① In `sentry-config.ts` e `sentry.server.config.ts` l'ambiente è `process.env.NODE_ENV`, che su Vercel vale `production` anche nelle anteprime: gli errori di un ramo di prova finiscono nello stesso ambiente di quelli dei clienti. ② `next.config.js:99` decide se avvolgere il progetto con Sentry leggendo `NEXT_PUBLIC_SENTRY_DSN || SENTRY_DSN` al momento del build: aggiungere il DSN su Vercel dopo non ha effetto finché non si ricompila, e nulla lo dice. ③ Il DSN non è fra le variabili controllate da `/api/health` e nessun test verifica che la registrazione degli errori sia attiva. CORREZIONE: il punto «il browser legge solo NEXT_PUBLIC_SENTRY_DSN» è tecnicamente vero (sentry-config.ts:17) ma poco probabile come guasto, perché `.env.example:75` documenta proprio la variabile pubblica e non `SENTRY_DSN`. Da qui la severità abbassata da grave a minore.",
+   "impatto": "Con gli ambienti mescolati l'allarme sul tasso di errori diventa rumore e si smette di guardarlo; col DSN inchiodato al build si può credere di avere l'osservabilità e non averla. Entrambi allungano il tempo di riparazione proprio quando conta.",
+   "fix_proposto": "Usare `process.env.VERCEL_ENV ?? process.env.NODE_ENV` come `environment` nei file Sentry, così l'anteprima si separa dalla produzione. Aggiungere il DSN alle variabili importanti di `/api/health` e verificare che `SENTRY_AUTH_TOKEN` sia presente nel build, altrimenti le tracce arrivano illeggibili."
+  },
+  {
+   "chiave": "layout-responsive|due tabelle dell'amministrazione (funnel e «oggi») non hanno il contenitore che scorre di lato: sul telefono allargano la pagina",
+   "titolo": "Due tabelle dell'amministrazione (funnel e «oggi») non hanno il contenitore che scorre di lato: sul telefono allargano la pagina",
+   "dimensione": "layout-responsive",
+   "file": "app/admin/funnel/page.tsx:430 e app/admin/today/page.tsx:165 (<table className=\"w-full text-sm\"> senza un genitore overflow-x-auto) · confronto: app/seller/earnings/page.tsx:315-316 (la stessa tabella dentro <div className=\"overflow-x-auto\">)",
+   "descrizione": "Nel sito 16 file hanno una tabella HTML: 13 la mettono dentro un contenitore overflow-x-auto (scorre di lato da sola), app/admin/events/page.tsx la nasconde sotto md con una vista mobile propria, mentre funnel e «oggi» dell'admin la lasciano nuda. Con più colonne di quante ne stanno in 390px, la tabella spinge la larghezza della pagina e tutta la schermata scorre in orizzontale. Non l'ho misurato a video (area admin, serve l'accesso).\n\nCausa radice: Manca un componente Tabella condiviso che porti con sé il contenitore scorrevole: ogni pagina lo riscrive a mano e due se lo sono dimenticato.\n\nProva (grep, eseguita e rossa): grep -n -B2 '<table' app/admin/funnel/page.tsx app/admin/today/page.tsx | grep -c 'overflow-x-auto'  → oggi 0 (nessuna delle due ha il contenitore); verifica umana: aprire /admin/funnel e /admin/today da un telefono da 390px e vedere se la pagina scorre di lato.",
+   "impatto": "Solo Nicola/admin dal telefono: la pagina del funnel e del «oggi» si guardano male sullo schermo piccolo. Nessun cliente o negozio coinvolto.",
+   "fix_proposto": "Avvolgere le due tabelle in <div className=\"overflow-x-auto\"> come fanno le altre 13; meglio ancora un componente Tabella condiviso in components/ui che lo faccia sempre."
+  },
+  {
+   "chiave": "layout-responsive|il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito",
+   "titolo": "Il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito",
+   "dimensione": "layout-responsive",
+   "file": "components/account/AccountShell.tsx:108 e components/ui/LegalLayout.tsx:78 (entrambi lg:sticky lg:top-24)",
+   "descrizione": "CONFERMATO come incoerenza interna, non come stima di pixel. Le due colonne si fermano a 96px dal bordo (`lg:top-24`), mentre l'intestazione del sito e' `md:sticky md:top-0` (Navbar.tsx:89) e il progetto stesso dichiara la sua altezza in --header-height = 9rem = 144px (app/globals.css:107), valore usato da tutte le altre colonne sticky (search:304, category:337, cart:358, checkout:1020, product:851, profile/settings:310). Con 96 contro 144, scorrendo, i primi ~48px del menu account — angolo arrotondato, bordo e prima voce — passano sotto l'intestazione e non sono piu' cliccabili. Identico sull'indice laterale delle pagine legali. Severita' abbassata da grave a minore: e' un'occlusione parziale su desktop, non un blocco del percorso d'acquisto.",
+   "impatto": null,
+   "fix_proposto": "Sostituire `lg:top-24` con `lg:top-[var(--header-height)]` in entrambi i file, cosi' l'altezza dell'intestazione ha una casa sola."
+  },
+  {
+   "chiave": "layout-responsive|le schede della vetrina («prodotti · n», «info & orari», «recensioni · n») si spezzano su due righe",
+   "titolo": "Le schede della vetrina («Prodotti · N», «Info & orari», «Recensioni · N») si spezzano su due righe",
+   "dimensione": "layout-responsive",
+   "file": "components/store-sections/SectionRenderer.tsx:163 (tablist) e :180 (bottoni)",
+   "descrizione": "CONFERMATO. Il tablist e' `flex gap-1 border-b border-cream-300`, senza flex-wrap e senza overflow-x-auto, e ogni scheda e' `-mb-px border-b-2 px-4 py-2.5 text-sm` senza whitespace-nowrap. Le etichette portano i conteggi (tabLabel, righe 115-119: «Recensioni · N», «Prodotti · N»). Con tre schede attive la larghezza naturale supera i 380px, contro i 328 disponibili a 360px di schermo e i 358 a 390px: i bottoni si comprimono e l'etichetta va a capo dentro la scheda, lasciando una barra a due righe disallineata. Sopra i ~400px il problema sparisce.",
+   "impatto": null,
+   "fix_proposto": "Rendere la barra scorrevole come le altre del sito: `overflow-x-auto scrollbar-hide` sul tablist e `whitespace-nowrap shrink-0` sui bottoni — lo stesso schema di components/store-sections/StoreNav.tsx:15."
+  },
+  {
+   "chiave": "layout-responsive|la barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iphone",
+   "titolo": "La barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iPhone",
+   "dimensione": "layout-responsive",
+   "file": "app/seller/products/page.tsx:453",
+   "descrizione": "CONFERMATO. La barra e' `fixed inset-x-0 bottom-0 z-sticky flex items-center justify-between gap-3 border-t border-cream-300 bg-surface-0 px-5 py-3 shadow-warm-xl` e non prevede alcuna safe area, ne' con pb-safe ne' con env(safe-area-inset-bottom) nell'offset. Su un iPhone con barra gestuale i pulsanti «Annulla» e «Salva modifiche» cadono negli ultimi ~34px riservati dal sistema. Tutte le altre barre in fondo del progetto la gestiscono (MobileTabBar.tsx:169, StickyAddToCart.tsx:54-57, checkout:1072). Lo spazio in pagina c'e' gia' (`pb-24` alla riga 170): manca solo il padding dentro la barra.",
+   "impatto": null,
+   "fix_proposto": "Sostituire il py-3 in basso con `pb-[calc(0.75rem+env(safe-area-inset-bottom))]`, oppure aggiungere la classe `pb-safe` gia' definita in app/globals.css:198."
+  },
+  {
+   "chiave": "coerenza-brand|il pannello «migliora tutto» del venditore usa un semaforo verde-smeraldo, ambra e rosa fuori palette",
+   "titolo": "Il pannello «Migliora tutto» del venditore usa un semaforo verde-smeraldo, ambra e rosa fuori palette",
+   "dimensione": "coerenza-brand",
+   "file": "components/seller/ImproveAllPanel.tsx:65-67 (text-emerald-600/amber-600/rose-600) · :70-72 (bg-emerald-500/amber-500/rose-500) · :179,185,209-210 (emerald-50/100/200/700/800)",
+   "descrizione": "Il pannello che valuta le schede prodotto del negoziante colora punteggi e barre con emerald/amber/rose di Tailwind: 19 classi fuori palette in un solo file. Nel resto del sito il ruolo «bene» è olive (431 usi contro 17 di emerald/green, 11 dei quali qui), «attenzione» è accent/senape, «male» è secondary/bordeaux. Il negoziante vede un semaforo di un altro sito dentro la sua area.\n\nCausa radice: Componente scritto con la palette di default di Tailwind invece dei token semantici; la safelist di tailwind.config.ts:24-29 tiene vive queste classi e quindi non fanno rumore in build.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && test \"$(grep -c -E '(emerald|amber|rose)-[0-9]{2,3}' components/seller/ImproveAllPanel.tsx)\" -eq 0 — oggi il conteggio è 12 righe (19 classi), quindi fallisce.",
+   "impatto": "Lavoro quotidiano del negoziante: il pannello sembra estraneo alla piattaforma e contraddice il codice-colore imparato altrove (badge, stati ordine). Nessun soldo perso, ma coerenza rotta proprio nello strumento che deve convincerlo a curare il catalogo.",
+   "fix_proposto": "Sostituire emerald→olive (50/100/200/500/600/700/800), amber→accent (500/600), rose→secondary (500/600); riusare Badge/OrderStatusBadge dove il pannello mostra pillole."
+  }
+ ]
+}

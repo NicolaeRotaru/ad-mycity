@@ -1,0 +1,20 @@
+{
+ "squadra": 62,
+ "ondata": 13,
+ "pacchetto": "app/api/account/export/route.ts",
+ "territorio_principale": "app/api/account/export/route.ts",
+ "file_citati": [
+  "app/api/account/export/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "privacy-legale|«scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, sos del rider",
+   "titolo": "«Scarica i miei dati» salta 25 tabelle dove ci sono dati della persona: portafoglio, punti, buoni regalo, domande sui prodotti, SOS del rider",
+   "dimensione": "privacy-legale",
+   "file": "app/api/account/export/route.ts:69-98 · migrations/*.sql (chiavi esterne verso profiles e auth.users)",
+   "descrizione": "L'export legge 20 tabelle scritte a mano nella rotta. Nel database ce ne sono altre 25 con una chiave verso l'utente che non vengono lette: wallet_ledger (credito), loyalty_accounts e loyalty_transactions (punti), gift_cards (buoni comprati o riscattati), product_questions (domande scritte dalla persona), rider_sos_events (emergenze del rider), user_carts, abandoned_carts, event_rsvps, follows, product_lists, group_orders, group_participants, subscription_orders, payment_attempts, pending_checkouts, cod_checkout_attempts, email_queue, segnalazioni, cashback_redemptions, zone_code_uses, review_helpful, seller_story_views, shop_of_month_votes, user_achievements.\n\nCausa radice: L'elenco delle tabelle vive dentro la rotta e si aggiorna solo quando qualcuno se ne ricorda (i commenti «🟡-13» e «mancavano all'appello» lo dimostrano): ogni tabella nuova nasce fuori dall'export.\n\nProva (comando, eseguita e rossa): PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -At -c \"WITH lette(t) AS (VALUES ('profiles'),('user_addresses'),('orders'),('reviews'),('store_reviews'),('rider_reviews'),('favorites'),('referrals'),('notifications'),('conversations'),('messages'),('contact_messages'),('activity_events'),('recently_viewed'),('product_views'),('push_subscriptions'),('newsletter_subscribers'),('returns'),('disputes'),('consent_log')), con_utente AS (SELECT DISTINCT conrelid::regclass::text t FROM pg_constraint WHERE contype='f' AND confrelid IN ('public.profiles'::regclass,'auth.users'::regclass) AND conrelid::regclass::text NOT IN ('profiles','site_settings','cms_pages','marketplace_events','shop_of_month','products','daily_stories','seller_stories','sponsored_listings','seller_promotions','audit_logs','cod_reconciliations','catalog_ai_jobs')) SELECT count(*) FROM con_utente WHERE t NOT IN (SELECT t FROM lette);\" → oggi 25 (deve essere 0)",
+   "impatto": "Il diritto d'accesso (art. 15) e la portabilità (art. 20) devono restituire tutti i dati: chi scarica «i miei dati» e non trova il credito del portafoglio o i buoni regalo può fare reclamo al Garante, e per il team è una risposta incompleta da rifare a mano. Non tocca ordini né soldi oggi.",
+   "fix_proposto": "Trasformare l'elenco in una prova che gira: un test che legge le chiavi esterne verso profiles/auth.users e fallisce se una tabella non è nell'export né in una lista di esclusioni motivate. Aggiungere subito le 25 tabelle all'export."
+  }
+ ]
+}

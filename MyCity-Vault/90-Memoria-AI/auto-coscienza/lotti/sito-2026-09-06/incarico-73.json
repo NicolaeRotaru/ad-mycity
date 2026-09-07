@@ -1,0 +1,23 @@
+{
+ "squadra": 73,
+ "ondata": 15,
+ "pacchetto": "app/api/returns/create/route.ts",
+ "territorio_principale": "app/api/returns/create/route.ts",
+ "file_citati": [
+  "lib/api/corpo.ts",
+  "app/api/rider/cash-confirm/route.ts",
+  "app/api/returns/create/route.ts",
+  "app/api/returns/[id]/avanza/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "api-backend|chi manda un file troppo grande legge «dati non validi» invece del vero motivo",
+   "titolo": "Chi manda un file troppo grande legge «dati non validi» invece del vero motivo",
+   "dimensione": "api-backend",
+   "file": "lib/api/corpo.ts:96-102 e 114-121; app/api/rider/cash-confirm/route.ts:60-64; app/api/returns/create/route.ts:42-46; app/api/returns/[id]/avanza/route.ts:57-62",
+   "descrizione": "Il tetto sul corpo delle richieste solleva un errore che porta con se' il codice giusto (413, «corpo troppo grande»). Ma tutte le rotte lo raccolgono nello stesso `catch` della validazione e rispondono 400 «Dati non validi». Il codice 413 e' scritto nella classe e non lo usa nessuno.\n\nCausa radice: L'errore e' stato progettato per entrare nel `try` che le rotte avevano gia' (scelta dichiarata nel commento del file), ma nessuno dei `catch` distingue poi il tipo: `CorpoTroppoGrande` e un JSON malformato finiscono nella stessa risposta.\n\nProva (grep, eseguita e rossa): grep -rn 'CorpoTroppoGrande' app/ → nessuna rotta lo nomina; il campo `status = 413` di lib/api/corpo.ts:98 non e' letto da nessuna parte.",
+   "impatto": "Il fattorino che allega la foto dei contanti da un telefono recente supera i limiti e legge «Dati non validi»: non capisce che deve solo ridurre la foto, e la conferma dell'incasso non parte. Chi guarda i registri vede errori di validazione dove c'e' un problema di dimensione.",
+   "fix_proposto": "Nel punto comune delle risposte (lib/api/responses.ts) aggiungere un aiuto che, davanti a un errore con `status === 413`, risponde 413 con «La foto e' troppo grande: mandane una piu' leggera», e usarlo nei `catch` delle rotte che ricevono foto."
+  }
+ ]
+}

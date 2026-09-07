@@ -1,0 +1,126 @@
+{
+ "squadra": 201,
+ "territorio": [
+  "app/globals.css",
+  "components/MobileTabBar.tsx",
+  "public/manifest.js",
+  "app/layout.tsx",
+  "app/store/[id]/page.tsx",
+  "app/store/[id]/[slug]/page.tsx",
+  "components/ProductCard.tsx",
+  "components/PromoTicker.tsx",
+  "components/Navbar.tsx"
+ ],
+ "malattia": "Un valore deciso una volta e mai piu' riletto: il foglio di stile e i file che gli stanno intorno tengono copie a mano di misure e colori che altrove sono gia' dichiarati (72 pixel di barra, bianco dell'avvio, terracotta del fuoco, due crema, un'ombra), piu' una variabile che nessuno legge e un'altezza minima scelta senza contare quello che le sta sopra e sotto. Nessuna sbaglia da sola: sbagliano tutte insieme appena una delle due copie cambia.",
+ "difetti": [
+  {
+   "chiave": "layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+   "titolo": "In fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/i-pulsanti-che-galleggiano-non-coprono-chi-compra.test.ts — con --tabbar-height: 58px diventa rosso: «barra gestuale 0px, banner alto 40px: il pulsante tondo parte a 122px mentre il banner arriva a 136px». Rimesso 72px torna verde (14 prove).",
+   "nota_fix": "La misura vera l'ho rifatta e la scheda ha ragione: MobileTabBar.tsx e' alto 57,5 pixel (bordo 1 + py-2 8+8 + icona 22 + gap-0.5 2 + etichetta text-[11px] con l'interlinea 1,5 di Tailwind = 16,5), non 72. Ma il numero non si puo' abbassare da qui. --fondo-minimo vale 96 pixel ed e' 72+24: il pavimento e questa misura sono stati tarati insieme. fondoDiChiGalleggia() in lib/ui/barra-in-fondo.ts applica quel pavimento a OGNI elemento per conto suo con un max(): appena questa misura scende sotto 72, il banner «Metti MyCity in schermata Home» viene alzato dal pavimento a 96 e il pulsante tondo dell'assistenza no (resta alla somma, 122) — e gli finisce sopra. Il conto: serve max(96, tabbar+24+b) >= max(96, tabbar+24)+b per ogni b, che e' vero solo se tabbar >= 72. Non e' il valore 58 a essere sbagliato: e' il pavimento applicato a ogni elemento invece che una volta sola in fondo alla pila. E abbassare --fondo-minimo non e' una strada: un'altra prova dello stesso file («dove nessuna barra dichiara la propria corsia (la cassa) non scende piu' di prima») pretende >= 96, perche' in cassa protegge «Conferma ordine». Lascio il valore a 72 e ho scritto in app/globals.css la misura vera, il conto e la strada per sbloccarlo, cosi' il prossimo non rifa' il giro. NON HO VERIFICATO a video quanto e' davvero alta la barra su un telefono: la misura e' calcolata dal sorgente, non misurata in un browser.",
+   "file_toccati": [
+    "app/globals.css"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|lo schermo di avvio dell'app installata è bianco mentre la pagina è color panna",
+   "titolo": "Lo schermo di avvio dell'app installata è bianco mentre la pagina è color panna",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/l-app-sulla-home-si-apre-del-colore-della-pagina.test.ts — 3 prove verdi (exit 0). Mutante: rimesso \"background_color\": \"#ffffff\" → exit 1.",
+   "nota_fix": "Confermato ancora oggi: il manifesto diceva bianco, la pagina e' panna. Ho messo #FBF7F0. La prova nuova non si fida di un colore scritto a mano: risolve --surface-page → --cream-100 dentro app/globals.css e pretende che il manifesto dica lo stesso, quindi diventa rossa anche se un domani cambia la palette e il manifesto resta indietro. Tiene ferma anche theme_color, che era gia' giusto. NOTA SUL PERIMETRO: l'incarico elenca «public/manifest.js», che non esiste; il file vero e' public/manifest.json, quello che la scheda stessa cita nel campo `file`. Ho corretto quello. NON HO VERIFICATO lo schermo di avvio su un telefono vero: non ho un dispositivo da qui.",
+   "file_toccati": [
+    "public/manifest.json"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|la variabile del colore della vetrina viene impostata su entrambe le pagine negozio e non la legge nessuno",
+   "titolo": "La variabile del colore della vetrina viene impostata su entrambe le pagine negozio e non la legge nessuno",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-vetrina-del-negozio-non-rimpicciolisce-il-testo.test.ts — 5 prove verdi (exit 0). Mutante: rimessa la dichiarazione inline su app/store/[id]/page.tsx → exit 1. Ricerca su tutto il repo (git grep store-accent) prima: 3 riscontri, nessun lettore. Poi (dopo la segnalazione): npx tailwindcss -i app/globals.css -o dopo.css → 11.230 righe, e nel CSS in uscita ci sono [data-theme='moderno'] .rounded-2xl, [data-theme='caldo'] .bg-white e [data-theme='editoriale'] .store-richtext; prima del fix la stessa compilazione usciva con 0 righe.",
+   "nota_fix": "Confermato: le due dichiarazioni inline e il commento, e nessun var(--store-accent) da nessuna parte. Ho tolto lo style dalle due pagine e l'import di CSSProperties diventato inutile, e ho riscritto il commento di app/globals.css perche' dica come stanno le cose (i temi toccano angoli, ombre e fondo, mai il colore del negozio, che arriva per prop). Ho scelto la prima strada della scheda, non la seconda: far leggere var(--store-accent) alle sezioni vorrebbe dire toccare BannerSection/HeroSection/ContactSection, che non sono di questo pacchetto. La prova nuova non vieta di rimetterla: pretende che chi la SCRIVE abbia anche qualcuno che la LEGGE, cosi' la strada pulita resta aperta e il codice morto no. Ho controllato che `accent` serva ancora nelle due pagine (bordo e icona dell'avviso del negoziante): c'e', e una prova lo tiene fermo. ⚠️ 6/9/2026, DOPO LA CONSEGNA — HO ROTTO IL FOGLIO DI STILE E L'HO RIPARATO. Riscrivendo questo commento l'ho chiuso con `*/` una riga troppo presto, e la vecchia riga di separazione (`* ===== */`) e' rimasta fuori: da li' in giu' era CSS non valido. Non lo si vedeva con una lettura ne' con un grep, e nemmeno con tsc o con le prove — perche' nessuno dei tre compila il CSS. Compilando davvero (npx tailwindcss -i app/globals.css -o …) il compilatore moriva citando `[data-theme='moderno'] .rounded-2xl` e produceva ZERO righe: tutto il foglio di stile del sito, non solo i temi della vetrina. L'ha trovato un'altra squadra provando a compilare. Cura: la riga di separazione e' rientrata dentro il commento, il testo non cambia. Prova, la stessa di prima e dopo: prima 0 righe prodotte e le regole assenti; dopo 11.230 righe, con `.contenuto-almeno-una-schermata`, `[data-theme='moderno'] .rounded-2xl`, `[data-theme='caldo'] .bg-white` e `[data-theme='editoriale'] .store-richtext` tutte presenti nel CSS in uscita. LA LEZIONE: un commento riscritto in un file che nessuna prova compila e' una modifica non verificata — su un file di stile la prova e' la compilazione, non la rilettura.",
+   "file_toccati": [
+    "app/store/[id]/page.tsx",
+    "app/store/[id]/[slug]/page.tsx",
+    "app/globals.css"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|il foglio di stile globale scrive a mano i valori dei token che dichiara poche righe sopra",
+   "titolo": "Il foglio di stile globale scrive a mano i valori dei token che dichiara poche righe sopra",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/la-barra-in-alto-si-vede-anche-navigando-col-tasto-tab.test.ts — con `outline: var(--focus-outline)` la prova non parte nemmeno: «Non riconosco il colore del fuoco in: outline: var(--focus-outline)». Le altre tre sostituzioni sono verdi in tutto il perimetro (37 file, 298 prove, exit 0) e npx tsc --noEmit esce 0.",
+   "nota_fix": "TRE SU QUATTRO CHIUSE, LA QUARTA NO — quindi l'esito e' non riparato, ma le tre stanno nel diff. Chiuse: lo scheletro di caricamento ora usa var(--cream-200)/var(--cream-100); .card-hover:hover usa var(--shadow-hover); il tema «caldo» usa var(--cream-100). Aperta la prima: :focus-visible tiene ancora #C0492C scritto a mano. Il motivo non e' il CSS, e' il freno: la funzione anelloDiSistema() dentro tests/unit/la-barra-in-alto-si-vede-anche-navigando-col-tasto-tab.test.ts apre il blocco :focus-visible e ci cerca un #RRGGBB alla lettera, per rifare il conto dello stacco sui fondi della barra in alto; una var() non la sa risolvere e la prova SI SPEGNE invece di diventare piu' severa. Il file della prova non e' fra i miei file_citati e non l'ho toccato. Si sblocca insegnando a quella prova a seguire il token (poche righe: risolvere --focus-outline in app/globals.css come faccio io nelle prove nuove). Ho lasciato il motivo scritto accanto alla riga in app/globals.css.",
+   "file_toccati": [
+    "app/globals.css"
+   ]
+  },
+  {
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "titolo": "La scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "esito": "non_riparato",
+   "prova": "Lettura del sorgente: app/globals.css righe 22-32 dichiara gli undici gradini; il fix chiede di aggiungerne due in tailwind.config.ts, che non e' fra i miei file_citati. Nessuna riga cambiata.",
+   "nota_fix": "Non l'ho toccato, e non per pigrizia: il fix vive in tailwind.config.ts (i due gradini nuovi, 13px e 11px, con la loro interlinea) piu' la sostituzione di circa 330 misure sparse in tutto il sito. Il primo file e' fuori dal mio territorio, il secondo e' un rimaneggiamento di tutto il progetto — e il manuale del lotto vieta i rimaneggiamenti. Avrei potuto ritoccare le quattro misure di components/ProductCard.tsx, che e' mio: non l'ho fatto perche' sarebbero 4 su ~330 (cioe' comunque non riparato) e perche' cambiare da 13 a 14 pixel il nome del prodotto cambia come va a capo dentro la scheda, che e' il pezzo che vende: senza poter guardare una schermata a 360 pixel non lo faccio a occhi chiusi. Va preso come un pacchetto suo, con l'anteprima davanti.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "tipografia|il tema «editoriale» della vetrina scende sotto i 16px del testo base",
+   "titolo": "Il tema «editoriale» della vetrina scende sotto i 16px del testo base",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/la-vetrina-del-negozio-non-rimpicciolisce-il-testo.test.ts — 5 prove verdi (exit 0). Mutante: rimesso font-size: 0.95rem → exit 1.",
+   "nota_fix": "Confermato: era l'ultima riga del file, 0.95rem = 15,2 pixel. Ora e' var(--text-base), cioe' la misura di lettura del sito, e l'interlinea 1.75 resta: l'aria da rivista la fa quella, non il carattere rimpicciolito. La prova non confronta con «16» scritto a mano: risolve --text-base da app/globals.css e pretende che il tema non scenda sotto, quindi regge anche se un domani la misura base cambia. NON HO VERIFICATO a video come cambia l'impaginazione di una vetrina con molto testo: e' un ingrandimento di 0,8 pixel su un blocco a larghezza piena, mi aspetto solo qualche riga in piu'.",
+   "file_toccati": [
+    "app/globals.css"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|ogni pagina corta scorre a vuoto: il contenuto principale è forzato a un'intera schermata",
+   "titolo": "Ogni pagina corta scorre a vuoto: il contenuto principale è forzato a un'intera schermata",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/una-pagina-corta-non-scorre-a-vuoto.test.ts — 4 prove verdi (exit 0). Due mutanti: rimesso min-h-screen sul <main> → exit 1; tolta la sottrazione dalla regola CSS → exit 1. npx tsc --noEmit esce 0.",
+   "nota_fix": "Confermato. Il <main> di app/layout.tsx ora porta la classe .contenuto-almeno-una-schermata, dichiarata in app/globals.css come min-height: calc(100vh - var(--header-height) - var(--tabbar-height)). HO SCARTATO le due strade della scheda: il valore fra parentesi quadre (min-h-[calc(...)]) perche' dipende da come Tailwind interpreta gli spazi dentro un calc e non posso lanciare la compilazione per verificarlo; il corpo a colonna con flex-1 perche' il <body> ha una quindicina di figli (banner, barra a schede, finestre di dialogo) e trasformarlo in flex li rimescola tutti. Una classe nel foglio di stile e' deterministica e sta accanto alle due variabili che usa. RESTA UN MINIMO, e lo dichiaro: --header-height vale 144 pixel ed e' la barra in alto con la barra categorie; nelle aree professionali quella barra non c'e' e l'intestazione e' piu' bassa, quindi li' la fascia vuota si accorcia invece di sparire. Va comunque nella direzione giusta a ogni larghezza. NON HO VERIFICATO a video: nessuna anteprima da qui.",
+   "file_toccati": [
+    "app/layout.tsx",
+    "app/globals.css"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|in cima a ogni pagina scorre una striscia con dentro un link in movimento",
+   "titolo": "In cima a ogni pagina scorre una striscia con dentro un link in movimento",
+   "esito": "non_riparato",
+   "prova": "npx vitest run tests/unit/la-striscia-in-cima-si-puo-fermare.test.ts — 3 prove verdi: il comando di pausa c'e', si trova col nome accessibile, ferma e fa ripartire davvero. Lettura di components/PromoTicker.tsx righe 89-119: il <Link href=\"/promozioni\"> sta ancora dentro <Track>, cioe' dentro il div con animate-marquee.",
+   "nota_fix": "META' E' GIA' CHIUSA DA UN'ALTRA ONDATA, l'altra meta' no. Chiusa: la scheda dice «le uniche pause sono :hover, :focus-within e :active» — non e' piu' vero. Il 30/8 (R111) e' stato aggiunto un pulsante pausa/riprendi sempre visibile, con aria-pressed, e una prova che lo preme davvero. WCAG 2.2.2 e' soddisfatto e il fix_proposto lo ammetteva («oppure aggiungere un pulsante pausa»). Aperta: la frase finale della scheda, «in ogni caso il link Promozioni attive non dovrebbe stare dentro la parte che si muove». Il link ci sta ancora. NON L'HO SPOSTATO e dico perche': tirarlo fuori dalla traccia animata vuol dire renderlo un elemento fisso del nastro, e su 360 pixel la pastiglia «Promozioni attive · Scopri» mangia circa 190 dei 360, lasciando ~140 pixel di finestra agli annunci che scorrono. E' una modifica alla striscia in cima a OGNI pagina, e senza poterla guardare a 360 pixel rischio di peggiorare il telefono per chiudere una rifinitura. La strada, per chi la prende con un'anteprima davanti: togliere il blocco showPromo da <Track> (PromoTicker.tsx righe 89-97) e rimetterlo come primo figlio del contenitore alla riga 102 con shrink-0 — il nastro non si accorcia perche' ha min-width auto — accorciando l'etichetta a «Promozioni» sotto sm.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "navigazione-gerarchia|la striscia in cima scorre di continuo ed è l'elemento più in movimento sopra logo e ricerca",
+   "titolo": "La striscia in cima scorre di continuo ed è l'elemento più in movimento sopra logo e ricerca",
+   "esito": "gia_riparato_prima",
+   "prova": "npx vitest run tests/unit/la-striscia-in-cima-si-puo-fermare.test.ts — 3 prove verdi (exit 0). components/PromoTicker.tsx righe 111-119: <button type=\"button\"> con aria-label «Metti in pausa / Riprendi la striscia degli annunci», aria-pressed, sempre visibile, che scrive animationPlayState: 'paused' sulla traccia.",
+   "nota_fix": "Il difetto non c'e' piu' e non ho cambiato niente. La scheda ha tre giorni e descrive PromoTicker come «nessun return null, pausa solo su hover/focus-within/active»: il 30/8 (R111) e' stato aggiunto il comando di pausa che WCAG 2.2.2 chiede, con la sua prova che lo preme e controlla che la striscia si fermi e riparta. Il fix_proposto di questa scheda offriva tre strade e la terza era esattamente questa («oppure aggiungere un pulsante pausa»). Resta vera la mitigazione prefers-reduced-motion che la scheda cita onestamente. L'unico residuo — il link dentro la parte che si muove — l'ho tenuto aperto sull'altra scheda, quella di mobile-pwa, invece di chiuderlo qui.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "layout-responsive|in fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera",
+   "perche": "il fix vive in un file fuori territorio: lib/ui/barra-in-fondo.ts — fondoDiChiGalleggia() applica --fondo-minimo (96px) a ogni elemento con un max() separato, quindi qualunque --tabbar-height sotto 72 fa finire il pulsante dell'assistenza sopra il banner «Metti MyCity in schermata Home». Il pavimento va applicato una volta sola in fondo alla pila."
+  },
+  {
+   "chiave": "coerenza-brand|il foglio di stile globale scrive a mano i valori dei token che dichiara poche righe sopra",
+   "perche": "il fix vive in un file fuori territorio: tests/unit/la-barra-in-alto-si-vede-anche-navigando-col-tasto-tab.test.ts — la sua funzione anelloDiSistema() cerca un #RRGGBB alla lettera dentro il blocco :focus-visible e non sa risolvere var(--focus-outline). Riguarda solo 1 delle 4 occorrenze: le altre 3 sono chiuse."
+  },
+  {
+   "chiave": "tipografia|la scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte",
+   "perche": "il fix vive in un file fuori territorio: tailwind.config.ts (i due gradini 13px e 11px da aggiungere alla scala), piu' circa 330 misure sparse in tutto il sito — cioe' un rimaneggiamento, che il manuale del lotto vieta."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il pulsante nuovo della lente, sulla barra in alto, non si vede quando ci arrivi col tasto Tab: l'anello del fuoco stacca 1,34 volte sul fondo terracotta invece delle 3 richieste",
+   "dove": "components/SearchBar.tsx:198-205 (il <button type=\"submit\" aria-label=\"Avvia la ricerca\"> aggiunto oggi da un'altra squadra), montato dentro components/Navbar.tsx su fondo bg-primary-700",
+   "gravita": "grave"
+  }
+ ],
+ "non_verificato": "NIENTE E' STATO GUARDATO A VIDEO: da qui non ho anteprima ne' browser, quindi nessuna delle quattro riparazioni ha uno screenshot a 360 e a 1280 pixel. In particolare restano da guardare con gli occhi: (a) una pagina corta vera — carrello vuoto, pagina non trovata, conferma d'ordine — per vedere se la fascia vuota e' sparita davvero e se il pie' di pagina si appoggia bene, anche nelle aree professionali dove la barra categorie non c'e' e --header-height sovrastima; (b) una vetrina col tema «editoriale» e molto testo, dopo l'ingrandimento da 15,2 a 16 pixel; (c) lo schermo di avvio dell'app installata su un telefono vero. Non ho lanciato npm run verify ne' la compilazione (vietati dal mandato): la copertura e' npx tsc --noEmit (exit 0) piu' 37 file di prove sul perimetro, 298 prove, tutte verdi. RESTA ROSSO, MA NON PER COLPA MIA, tests/unit/la-barra-in-alto-si-vede-anche-navigando-col-tasto-tab.test.ts: l'ho dimostrato rimettendo TUTTI i miei file alla versione di partenza e rilanciandolo — fallisce lo stesso. E' il difetto nuovo qui sopra, del pulsante della lente. Non ho verificato se quella squadra lo sta gia' sistemando. ⚠️ AGGIUNTA DOPO LA CONSEGNA: avevo dichiarato di non aver lanciato la compilazione perche' il mandato la vietava, e proprio li' dentro si nascondeva un mio errore — un commento chiuso una riga troppo presto che azzerava tutto il CSS del sito. Ora la compilazione Tailwind l'ho lanciata e passa (11.230 righe). Resta vero che non ho lanciato npm run verify ne' npm run build. NOTA PER CHI RICUCE: mentre riparavo, app/globals.css aveva gia' un blocco NON MIO non ancora committato (prefers-reduced-motion su .animate-spin e .skeleton, intorno alla riga 400): non l'ho toccato, il mio intervento e' la sola riga 501. Le mie riparazioni precedenti sono gia' in HEAD e le ho ricontrollate una per una: ci sono tutte."
+}

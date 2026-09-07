@@ -1,0 +1,65 @@
+{
+ "squadra": 204,
+ "ondata": 6,
+ "pacchetti": [
+  "app/lists/[id]/page.tsx",
+  "home/user/mycity/app/seller/stories/page.tsx",
+  "home/user/mycity/app/lists/page.tsx"
+ ],
+ "file_citati": [
+  "components/ProductQA.tsx",
+  "components/StoreProductExplorer.tsx",
+  "components/AddToListButton.tsx",
+  "app/lists/page.tsx",
+  "app/lists/[id]/page.tsx",
+  "app/seller/promotions/page.tsx",
+  "app/seller/stories/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita|campi con la sola scritta-suggerimento dentro (e alcune etichette scollegate): il nome sparisce appena si scrive",
+   "titolo": "Campi con la sola scritta-suggerimento dentro (e alcune etichette scollegate): il nome sparisce appena si scrive",
+   "dimensione": "accessibilita",
+   "file": "components/ProductQA.tsx:156 e :238 · components/StoreProductExplorer.tsx:70-75 · components/AddToListButton.tsx:168-170 · app/lists/page.tsx:228-249 · app/lists/[id]/page.tsx:206, :212, :290",
+   "descrizione": "Il design system ha una primitiva che fa tutto bene (`components/ui/Field.tsx`: `Input`, `Textarea`, `Select` con label collegata via htmlFor/id, `aria-invalid`, `aria-describedby`, errore con `role=\"alert\"`), ma diversi campi rivolti al cliente non ci passano. Solo placeholder: `components/ProductQA.tsx:156` (la domanda al venditore sulla scheda prodotto) e `:238` (la risposta), `components/StoreProductExplorer.tsx:70-75` (cerca nei prodotti del negozio), `components/AddToListButton.tsx:170` (nome della nuova lista, con una `<label>` sopra a riga 168 non collegata), `app/lists/page.tsx:228-249` (Emoji, Titolo e Descrizione hanno `<label>` visibili ma senza `htmlFor`, quindi scollegate). Caso peggiore verificato: `app/lists/[id]/page.tsx:206` — il campo del titolo in modifica non ha né label né placeholder, è del tutto senza nome. Il placeholder viene usato come nome di ripiego (per questo axe spesso non li segnala) ma sparisce appena si digita. Criteri WCAG 3.3.2 (A) e 1.3.1 (A). Confidenza 95%.",
+   "impatto": "È il difetto che pesa di più su chi ha difficoltà cognitive o è anziano — l'utente tipo che MyCity vuole servire a Piacenza: inizia a scrivere, l'etichetta sparisce e non sa più cosa stava compilando. Nel caso di ProductQA il campo sta sulla scheda prodotto, sul percorso d'acquisto: la domanda al negoziante è spesso l'ultimo dubbio prima di comprare.",
+   "fix_proposto": "Sostituire con le primitive esistenti, tenendo il placeholder come esempio: `components/ProductQA.tsx:156` → `<Input label=\"La tua domanda\" placeholder=\"Es: questo prodotto è disponibile in altre dimensioni?\" maxLength={500} />` importando da `@/components/ui/Field`; riga 238 → `<Textarea label=\"La tua risposta\">`; StoreProductExplorer → `<Input label=\"Cerca nei prodotti del negozio\" type=\"search\">`; AddToListButton e le pagine liste → `<Input label=\"Nome della lista\">` ecc. Se l'etichetta a video non è desiderata per spazio, minimo indispensabile: `aria-label` con lo stesso testo. Owner: @frontend-dev."
+  },
+  {
+   "chiave": "immagini-media|nella lista dei desideri il riquadro senza foto si accartoccia attorno all'icona",
+   "titolo": "Nella lista dei desideri il riquadro senza foto si accartoccia attorno all'icona",
+   "dimensione": "immagini-media",
+   "file": "app/lists/[id]/page.tsx:279 e :281 (classi `w-18 h-18`)",
+   "descrizione": "VERIFICATO, compreso il controllo che rendeva il difetto dubbio: il progetto usa Tailwind 3.4.19 (package.json:58, node_modules/tailwindcss/package.json), dove la scala di serie passa da 16 a 20 e la misura 18 non esiste; in Tailwind 4 sarebbe stata valida. E tailwind.config.ts non ha nessuna voce `spacing` fra le estensioni. Sull'immagine non si nota, perché restano gli attributi width e height a 72 pixel. Sul ramo «prodotto senza foto», invece, il riquadro grigio non ha nessuna misura e si stringe attorno all'icona da 24 pixel: la riga risulta disallineata rispetto a tutte le altre.",
+   "impatto": null,
+   "fix_proposto": "Mettere `h-[72px] w-[72px]` (o `h-20 w-20`) su entrambi i rami, immagine e segnaposto."
+  },
+  {
+   "chiave": "microcopy|al venditore si parla di «buyer» e di «upload»",
+   "titolo": "Al venditore si parla di «buyer» e di «Upload»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/seller/promotions/page.tsx riga 98 · /home/user/mycity/app/seller/stories/page.tsx righe 189 e 219",
+   "descrizione": "CONFERMATO. promotions riga 98: `toast.success('Promozione creata! È già attiva e visibile ai buyer.')`. stories riga 189: il pulsante durante il caricamento mostra `{uploading ? 'Upload…' : 'Pubblica (24h)'}`. stories riga 219: `label=\"Link prodotto/categoria (opz.)\"`. Il resto della sezione venditore è in italiano piano, quindi queste tre stonano davanti a negozianti che non hanno chiesto di imparare l'inglese.",
+   "impatto": null,
+   "fix_proposto": "«…visibile ai clienti», «Carico…», «(facoltativo)»."
+  },
+  {
+   "chiave": "microcopy|due conferme di cancellazione senza dire cosa si perde",
+   "titolo": "Due conferme di cancellazione senza dire cosa si perde",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/lists/[id]/page.tsx riga 246 · /home/user/mycity/app/seller/stories/page.tsx riga 167",
+   "descrizione": "CONFERMATO. Le due chiamate sono `confirmDialog({ title: 'Eliminare la lista?', danger: true })` e `confirmDialog({ title: 'Rimuovere storia?', danger: true })`: solo il titolo, pulsante rosso, nessun campo `message`. Le altre conferme del sito la conseguenza la spiegano — per esempio in app/admin/users/page.tsx il message dice cosa viene cancellato e che l'azione è irreversibile. Su un'azione che non si può annullare il titolo da solo non basta a decidere.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere il campo message: «La lista e i prodotti salvati dentro andranno persi. Non si può annullare.» e «La storia sparirà subito dalla tua vetrina.»"
+  },
+  {
+   "chiave": "stati-ui|«non hai ancora liste» lampeggia a chi le liste ce le ha",
+   "titolo": "«Non hai ancora liste» lampeggia a chi le liste ce le ha",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/lists/page.tsx:45, :62, :79, :178-185 · /home/user/mycity/components/AddToListButton.tsx:31, :143-145, :148-153",
+   "descrizione": "CONFERMATO. Le tre query della pagina — `featuredLists` (riga 45), `publicLists` (62), `myLists` (79) — ricadono tutte su `= []` e nessuna legge `isLoading` o `isError`; non c'è nessun ritorno anticipato di caricamento nel file. Finché le risposte non arrivano `myLists.length === 0` è vero e compare il riquadro «Non hai ancora liste. Inizia a crearne una» col pulsante «Crea la prima lista» (righe 178-185), che poi sparisce. Stessa cosa nel pannello «Aggiungi alle tue liste»: la query ha `enabled: open` (riga 33), quindi all'apertura `lists` è `[]` e si legge «Non hai ancora liste. Creane una qui sotto» (righe 143-145) prima dell'elenco vero. In più i pulsanti delle liste (righe 148-153) chiamano `toggle.mutate(l.id)` senza nessun `disabled`, quindi si possono premere due volte.",
+   "impatto": null,
+   "fix_proposto": "Prendere `isLoading` dalle query e mostrare riquadri-scheletro finché è vera, tenendo l'empty state solo per il vuoto verificato. In AddToListButton passare `disabled={toggle.isPending}` alle righe dell'elenco."
+  }
+ ]
+}

@@ -1,0 +1,185 @@
+{
+  "dimensione": "architettura",
+  "data": "2026-09-06 20:05",
+  "ramo": "claude/marketplace-open-issues-0gudy6",
+  "repo": "/home/user/mycity",
+  "lente": "fondamenta condivise: regole duplicate, costanti nuove accanto a vecchie vive, responsabilita' spostate, dipendenze cicliche, decisioni sepolte nei componenti, cuciture fra squadre parallele",
+  "file_guardati": [
+    "lib/ai/run.ts",
+    "lib/api/middleware.ts",
+    "lib/carrelli-abbandonati.ts",
+    "lib/cart.ts",
+    "lib/constants.ts",
+    "lib/errors.ts",
+    "lib/format.ts",
+    "lib/foto-mancante.ts",
+    "lib/installabile.ts",
+    "lib/order-status.ts",
+    "lib/ordini/annulla.ts",
+    "lib/ordini/valida-carrello.ts",
+    "lib/ordini/zona-di-consegna.ts",
+    "lib/products/draftFromVision.ts",
+    "lib/products/externalSync.ts",
+    "lib/products/rehostImages.ts",
+    "lib/products/uploadImages.ts",
+    "lib/push/send.ts",
+    "lib/shipping-etichetta/label.ts",
+    "lib/shipping.ts",
+    "lib/shopping-access.ts",
+    "lib/storage/carica-immagine.ts",
+    "app/globals.css",
+    "lib/account/cancellazione.ts",
+    "lib/email/templates.ts",
+    "lib/env.ts",
+    "lib/home-site.ts",
+    "lib/promesse-pubbliche.ts",
+    "lib/store-hours.ts"
+  ],
+  "file_guardati_fuori_perimetro": [
+    "app/api/orders/cod/route.ts",
+    "app/api/stripe/checkout/route.ts",
+    "app/layout.tsx",
+    "app/stores/page.tsx",
+    "app/profile/loyalty/page.tsx",
+    "components/ProductGrid.tsx",
+    "components/StoreListRow.tsx",
+    "components/StorePreviewCard.tsx",
+    "components/home/HeroStoreCard.tsx",
+    "components/store-sections/HeroSection.tsx",
+    "components/store-sections/HoursSection.tsx",
+    "components/OrderTimeline.tsx",
+    "components/ShareCartButton.tsx",
+    "components/rider/CashConfirmDialog.tsx",
+    "components/checkout/ShippingAddressForm.tsx",
+    "app/seller/orders/[id]/page.tsx",
+    "lib/ordini/prezzi.ts",
+    "lib/geo.ts",
+    "lib/email/client.ts",
+    "lib/stripe/webhook/comune.ts",
+    "lib/coupons.ts"
+  ],
+  "verifiche_eseguite": [
+    "npx tsc --noEmit sull'intero progetto: 0 errori",
+    "npx vitest run: 484 file, 3600 prove, tutte verdi",
+    "grafo degli import di lib/ + components/ + app/ (680 file) ricostruito con uno script mio: 2 cicli, entrambi preesistenti e con un lato `import type` (spariscono in compilazione, non sono cicli veri a runtime)",
+    "bilancio delle graffe di app/globals.css: 0, il foglio di stile e' sintatticamente integro",
+    "misura vera del costo di romeNow() vs new Date() con process.hrtime: 64,8 us contro 0,84 us per chiamata, 20.000 giri"
+  ],
+  "difetti": [
+    {
+      "id": "ARCH-01",
+      "titolo": "Il sito ha imparato a scrivere i prezzi in italiano, ma solo meta' del sito",
+      "file_riga": "lib/format.ts:26",
+      "gravita": "grave",
+      "nato_o_vecchio": "peggiorato oggi",
+      "cosa_succede": "Oggi formatPrice e' passato da una stringa fatta a mano (`€12.50`, all'inglese) a Intl.NumberFormat('it-IT'), che scrive `12,50 €`. Il commento del file dichiara: «Questa e' la casa dei formati: chi ricompone l'importo per conto suo con toFixed(2) torna a sbagliare da solo. Si passa da qui.» Le email sono state migrate (lib/email/templates.ts), ma restano fuori almeno 10 punti che il cliente, il negoziante e il fattorino leggono davvero, tutti ancora all'inglese. Prima di oggi tutto il sito diceva `€12.50` ed era coerente; da oggi lo stesso ordine si presenta in due dialetti diversi nello stesso minuto. Caso concreto: ordine da 35 € pagato con carta. L'email al negoziante dice «Nuovo ordine — 35,00 €», la notifica push per lo stesso ordine dice «€35.00» (lib/stripe/webhook/comune.ts:143), l'etichetta PDF che il fattorino si stampa dice «Riscuoti: €35.00» (lib/shipping-etichetta/label.ts:97) e il dialogo dove lo stesso fattorino conferma l'incasso dice «Previsto: €35.00» (components/rider/CashConfirmDialog.tsx:152). Sui soldi due grafie diverse fanno rileggere, ed e' il punto in cui rileggere costa di piu'.",
+      "punti_non_migrati": [
+        "lib/shipping-etichetta/label.ts:97 — etichetta di spedizione: «Riscuoti: €X.XX» (file toccato oggi)",
+        "components/rider/CashConfirmDialog.tsx:152 e :154 — cassa del fattorino (file toccato oggi)",
+        "app/api/orders/cod/route.ts:832 — push «nuovo ordine» al negoziante, contanti",
+        "lib/stripe/webhook/comune.ts:143 — push «nuovo ordine» al negoziante, carta",
+        "app/profile/loyalty/page.tsx:143 — «= €X.XX di sconto disponibili»",
+        "components/ShareCartButton.tsx:36 — testo WhatsApp del carrello condiviso: «Totale: €X.XX»",
+        "lib/coupons.ts:80 — «Spesa minima richiesta: €X.XX»",
+        "app/api/seller/orders/[id]/reject/route.ts:106 — messaggio al cliente sul credito restituito",
+        "app/product/[id]/opengraph-image.tsx:31 — prezzo nell'anteprima social",
+        "app/api/returns/[id]/avanza/route.ts:144 e app/api/returns/[id]/decide/route.ts:120 — «al massimo X.XX €» (punto decimale, euro dopo: una terza grafia)"
+      ],
+      "come_si_riproduce": "1) In una console del progetto: `node -e \"console.log(new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'}).format(35))\"` → `35,00 €`. 2) Confronta con `lib/shipping-etichetta/label.ts:97`, che scrive `€${(data.totalCents/100).toFixed(2)}` → `€35.00`. 3) Un ordine COD da 35 €: l'email di conferma (formatPrice) e l'etichetta di spedizione dello stesso ordine mostrano lo stesso importo scritto in due modi. Nessuna prova lo vede: le 3600 prove passano tutte, perche' ognuna controlla il suo pezzo e nessuna confronta due pezzi fra loro.",
+      "come_si_chiude": "Migrare i 10 punti a formatPrice (per il PDF va verificato che il carattere Helvetica di PDFKit scriva lo spazio unificatore U+00A0 e la virgola: WinAnsi li ha entrambi), poi una prova sola che rastrella il codice e fallisce se compare `€` incollato a un `toFixed(2)` fuori da lib/format.ts. Senza quella prova il difetto rinasce al prossimo importo nuovo."
+    },
+    {
+      "id": "ARCH-02",
+      "titolo": "Il giorno lo dice un orologio e l'ora un altro: «aperto adesso» puo' sbagliare negozio",
+      "file_riga": "lib/store-hours.ts:32",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede": "Oggi isOpenNow ha cambiato orologio di partenza: da `new Date()` (l'orologio della macchina) a `romeNow()` (l'orologio da parete italiano). E' una riparazione giusta e risolve il caso descritto nel commento. Ma la domanda «che giorno e' oggi» e' rimasta fuori dalla funzione: i sette punti che la chiamano scelgono la casella del giorno con `DAY_KEYS[new Date().getDay()]`, cioe' con l'orologio vecchio. Dentro la stessa decisione ora convivono due orologi. Prima di oggi erano tutti e due sbagliati ma d'accordo; adesso possono dire cose diverse. Chi non e' nel fuso italiano — un piacentino in vacanza all'estero, un telefono col fuso impostato a mano, e il primo disegno della pagina che fa il server (che gira in UTC) — vede l'orario italiano confrontato con il giorno di un'altra data. Fra mezzanotte e le due di notte italiane il server sceglie ancora la casella di ieri.",
+      "punti_coinvolti": [
+        "components/ProductGrid.tsx:317",
+        "app/stores/page.tsx:204",
+        "components/StoreListRow.tsx:26",
+        "components/StorePreviewCard.tsx:49",
+        "components/home/HeroStoreCard.tsx:95",
+        "components/store-sections/HeroSection.tsx:54",
+        "components/store-sections/HoursSection.tsx:27"
+      ],
+      "come_si_riproduce": "Con il fuso del processo su America/New_York (`TZ=America/New_York`), alle 01:30 italiane di martedi': `new Date().getDay()` vale 1 (lunedi'), `romeNow().getHours()` vale 1. Il filtro «aperti ora» confronta l'orario di martedi' con gli intervalli di lunedi'. Nota che lib/store-hours.ts:67 (isStoreClosedForOrder, quello che blocca in cassa) fa la cosa giusta: usa `now.getDay()` dello stesso romeNow. La divergenza e' fra la vetrina e la cassa.",
+      "come_si_chiude": "Un aiutante solo in lib/store-hours.ts che torni gia' la casella del giorno italiano (`chiaveDelGiornoOggi(now = romeNow())`), e i sette punti che lo chiamano invece di rifare `DAY_KEYS[new Date().getDay()]`. Stessa mossa che chiude anche ARCH-03."
+    },
+    {
+      "id": "ARCH-03",
+      "titolo": "Chiedere che ore sono in Italia costa 77 volte di piu', e adesso lo si chiede una volta per prodotto",
+      "file_riga": "lib/store-hours.ts:32",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede": "`romeNow()` e' `new Date(base.toLocaleString('en-US', { timeZone: 'Europe/Rome' }))`: una conversione di fuso orario piu' un'analisi di testo, non una lettura d'orologio. Misurato qui: 64,8 microsecondi a chiamata contro 0,84 di `new Date()` — 77 volte tanto. Da oggi e' il valore di partenza di isOpenNow, quindi lo paga ogni chiamata che non passa un istante. Due di quelle chiamate stanno dentro un filtro che gira su OGNI elemento della lista: components/ProductGrid.tsx:320 (una per prodotto) e app/stores/page.tsx:209 (una per negozio). Con 200 prodotti a video sono circa 13 millisecondi di lavoro bloccante sul filo principale a ogni ridisegno del filtro, su un portatile; su un telefono di fascia media va moltiplicato per 3-5. Oggi con pochi negozi non si vede. Si vede il giorno in cui il catalogo cresce — cioe' quando la cosa va bene — e si presenta come «la spunta *aperti ora* fa scattare la pagina», che nessuno colleghera' mai a una riga di orari.",
+      "come_si_riproduce": "`node -e \"const r=(b=new Date())=>new Date(b.toLocaleString('en-US',{timeZone:'Europe/Rome'})); let t=process.hrtime.bigint(); for(let i=0;i<20000;i++) r(); console.log(Number(process.hrtime.bigint()-t)/1e6,'ms');\"` → ~1300 ms per 20.000 giri. Con `new Date()` al posto di `r()`: ~17 ms.",
+      "come_si_chiude": "Un `const adesso = romeNow()` sollevato fuori dal ciclo, passato a isOpenNow. Una chiamata per ridisegno invece di una per riga. E' la stessa riga che chiude ARCH-02: si fanno insieme."
+    },
+    {
+      "id": "ARCH-04",
+      "titolo": "Il file dice che senza mittente la posta non parte, e invece parte lo stesso: la rete di sicurezza promessa non esiste",
+      "file_riga": "lib/env.ts:55",
+      "gravita": "grave",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede": "Il commento scritto oggi dichiara: «In rete non c'e' piu' nessun ripiego: manca il mittente, la posta non parte e lo si sa subito (lib/email/client.ts e il semaforo /api/health). Sul computer di chi sviluppa il ripiego resta.» Nessuna delle tre cose e' nel codice. Il ripiego a lib/env.ts:60 e' incondizionato (`readEnv('RESEND_FROM') ?? MITTENTE_DI_RISERVA`), non distingue produzione da sviluppo. lib/email/client.ts usa `env.resendFrom()` a riga 109 senza nessun controllo. E la parola RESEND_FROM non compare da nessuna parte in /api/health: cercata in tutto il progetto, esiste solo in lib/env.ts, lib/email/client.ts e due file di prova. Piu' sotto, alla riga 107, lo stesso file scrive il contrario («e' meglio partire da un indirizzo NOSTRO che da uno che non esiste»): due commenti nello stesso file descrivono due progetti diversi, e il codice segue il secondo. Conseguenza vera: se RESEND_FROM manca su Vercel e mycity-marketplace.com non e' verificato su Resend, ogni conferma d'ordine fallisce all'invio una alla volta, in silenzio, mentre il sito incassa — esattamente il guasto che il commento dice di aver chiuso. E chi andra' a cercare il controllo lo cerchera' in due file dove non c'e'.",
+      "come_si_riproduce": "`grep -rn \"RESEND_FROM\\|resendFrom\" --include=*.ts . | grep -v node_modules` → 4 file, nessuno e' una rotta di health. Poi: togli RESEND_FROM dall'ambiente e chiama `env.resendFrom()` con NODE_ENV=production → torna comunque `MyCity <no-reply@mycity-marketplace.com>`, nessun errore, nessun avviso. La prova tests/unit/senza-mittente-la-posta-non-parte-da-un-dominio-finto.test.ts verifica solo il dominio del ripiego, non l'assenza del ripiego ne' il semaforo.",
+      "come_si_chiude": "Delle due, una: (a) si scrive davvero il controllo — `client.ts` rifiuta di inviare se RESEND_FROM manca in produzione, e /api/health lo espone come spia — e il commento diventa vero; (b) si accetta il ripiego sul nostro dominio e si riscrive il commento senza promettere cose che non ci sono. La (a) e' quella giusta, perche' oggi un mittente non verificato su Resend e' indistinguibile da un mittente inesistente. Va anche tolto il commento della riga 55 o allineato a quello della 107."
+    },
+    {
+      "id": "ARCH-05",
+      "titolo": "L'etichetta «Pronto» ha una casa nuova e due copie vecchie ancora vive, sulla stessa schermata",
+      "file_riga": "lib/order-status.ts:44",
+      "gravita": "minore",
+      "nato_o_vecchio": "peggiorato oggi",
+      "cosa_succede": "Oggi e' nata `etichettaPronto()`, la fonte unica dell'etichetta dello stato READY, e il suo commento dice esplicitamente che l'etichetta «gira anche dove il sottotitolo non c'e' (targhetta di stato, riga della timeline)». La riga della timeline non e' stata migrata: components/OrderTimeline.tsx:39 tiene ancora la stringa scritta a mano «Pronto per il ritiro». E app/seller/orders/[id]/page.tsx:427 fa un suo ternario su `order.pickup_in_store`. Risultato: sulla pagina ordine del negoziante, la targhetta di stato (che passa dalla fonte unica) dice «Pronto per il rider» e la fila dei passaggi dieci centimetri sotto dice «Pronto per il ritiro». Prima di oggi c'erano due copie d'accordo fra loro; adesso ce ne sono tre, di cui una si dichiara la fonte, e due dicono il contrario. La contraddizione a video e' preesistente, il fatto che ci sia una fonte unica ignorata e' di oggi.",
+      "come_si_riproduce": "Apri /seller/orders/<id> di un ordine in stato READY non in ritiro: la targhetta usa ORDER_STATUS_LABEL.READY = 'Pronto per il rider', OrderTimeline stampa 'Pronto per il ritiro'. Le due stringhe sono nella stessa pagina. `grep -rn \"Pronto per il ritiro\" --include=*.tsx .` le mostra entrambe.",
+      "come_si_chiude": "OrderTimeline e la pagina venditore chiamano etichettaPronto() (alla timeline si passa il flag pickup dell'ordine, cosi' la fonte unica accetta anche il caso per-ordine invece di guardare solo l'interruttore globale). Poi una prova che cerca la stringa letterale fuori da lib/order-status.ts e fallisce se la trova."
+    },
+    {
+      "id": "ARCH-06",
+      "titolo": "Due elenchi di formati foto ammessi, quello nuovo accanto a quello vecchio ancora vivo",
+      "file_riga": "lib/storage/carica-immagine.ts:96",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede": "Oggi la porta unica dei caricamenti ha preso il suo elenco: TIPI_IMMAGINE_AMMESSI, 7 formati (jpeg, png, webp, gif, avif, heic, heif) e un tetto di 10 MB. Ma lib/products/uploadImages.ts:15 tiene ancora ALLOWED_IMAGE_TYPES, 3 formati e un tetto di 5 MB, e quell'elenco non e' morto: alimenta l'attributo `accept` del selettore di file (components/SupportProductAssistant.tsx:568), il controllo prima del caricamento (uploadImages.ts:63) e il filtro delle immagini importate da un marketplace esterno (lib/products/rehostImages.ts:124). Il commento della porta dichiara di essere «la copia esatta» delle migrazioni 070 e 127: quindi la stessa regola vive in tre posti, due file TypeScript e due file SQL, e nessuno la tiene allineata. Oggi non si rompe niente perche' il piu' stretto vince sul percorso dei prodotti. Divergono su 4 formati e sul tetto: il giorno in cui uno dei due si sposta, il negoziante scopre che una foto HEIC dell'iPhone passa dalla vetrina e non dal catalogo, o viceversa.",
+      "come_si_riproduce": "`grep -rn \"ALLOWED_IMAGE_TYPES\\|TIPI_IMMAGINE_AMMESSI\" --include=*.ts --include=*.tsx . | grep -v node_modules` → due costanti, 5 punti d'uso, nessun collegamento fra loro. Un file image/avif da 6 MB: passa la porta (carica-immagine.ts), viene respinto da uploadProductImages.",
+      "come_si_chiude": "ALLOWED_IMAGE_TYPES diventa un sottoinsieme dichiarato di TIPI_IMMAGINE_AMMESSI (`export const ALLOWED_IMAGE_TYPES = TIPI_IMMAGINE_AMMESSI.filter(...)` con scritto il perche' della restrizione), oppure sparisce. E una prova che confronta l'elenco col `file_size_limit` delle migrazioni, cosi' il terzo posto smette di poter divergere in silenzio."
+    },
+    {
+      "id": "ARCH-07",
+      "titolo": "Il conto della spedizione adesso dipende da una cartella che gli sta sopra: un solo import e si chiude il cerchio",
+      "file_riga": "lib/shipping.ts:3",
+      "gravita": "minore",
+      "nato_o_vecchio": "nato oggi",
+      "cosa_succede": "La catena delle dipendenze oggi e' `lib/ordini/prezzi.ts → lib/shipping.ts → lib/ordini/zona-di-consegna.ts`: la cartella lib/ordini/ sta sia sopra sia sotto lib/shipping.ts. Non e' un ciclo (sono due file diversi), ma il confine fra i due strati adesso zigzaga, e basta che un domani qualcuno faccia importare a zona-di-consegna un pezzo di lib/ordini/prezzi.ts — cosa che sembrera' naturalissima, sono nella stessa cartella — perche' diventi un ciclo vero fra i due moduli che calcolano i soldi della cassa. Il file nuovo dichiara di stare li' «per un motivo pratico: un modulo piccolo e senza dipendenze si puo' chiamare da tutti e tre». Vero, ma quel motivo non chiede la cartella ordini/: lo stesso modulo a lib/zona-di-consegna.ts, accanto a shipping.ts e geo.ts con cui lavora, sarebbe altrettanto piccolo e non creerebbe l'inversione.",
+      "come_si_riproduce": "`grep -n \"ordini\" lib/shipping.ts` e `head -3 lib/ordini/prezzi.ts`: le due frecce puntano in verso opposto attraverso lo stesso confine. Lo script del grafo che ho girato oggi non lo segnala perche' non e' ancora un ciclo — ed e' proprio il punto: si vede prima che diventi un errore, non dopo.",
+      "come_si_chiude": "Spostare zona-di-consegna.ts a lib/ (o sotto lib/consegne/), aggiornare i tre import (lib/shipping.ts e le due rotte). Niente cambia nel comportamento, e le prove esistenti lo dimostrano da sole."
+    }
+  ],
+  "difetti_vecchi_segnalati": [
+    {
+      "titolo": "Due anelli fra moduli, entrambi preesistenti e innocui perche' un lato e' un import di soli tipi",
+      "file_riga": "lib/cart.ts:5 ↔ lib/cart-sync.ts:3 · lib/health/checks.ts:6 ↔ lib/health/titolare-check.ts:2",
+      "gravita": "minore",
+      "nato_o_vecchio": "vecchio (identici su origin/main)",
+      "cosa_succede": "Lo script del grafo trova due anelli su 680 file. In tutti e due il ritorno e' un `import type`, che TypeScript cancella in compilazione: a runtime il cerchio non esiste e non c'e' rischio di modulo mezzo inizializzato. Li scrivo per completezza, non come lavoro da fare adesso: diventerebbero veri solo se qualcuno trasformasse quell'import di tipi in un import di valori."
+    }
+  ],
+  "cosa_non_ho_potuto_vedere_da_qui": [
+    "Il carico e il costo veri: non ho dati di richieste al minuto, ne' il conto Vercel/Supabase, ne' le query lente. Le stime di ARCH-03 sono misurate su Node in questa macchina, non su un telefono di un cliente vero: il numero 64,8 us e' solido, il «13 ms su 200 prodotti» e' aritmetica su quel numero, non una misura sul campo.",
+    "Quanti negozi e quanti prodotti ci sono davvero in catalogo oggi: senza quello non so dire se ARCH-03 morde adesso o fra sei mesi. Serve @backend-dev o una lettura Supabase.",
+    "Il comportamento in produzione: non ho aperto il sito, non ho fatto un ordine, non ho guardato un log. ARCH-01 e ARCH-05 li ho verificati leggendo il codice e confrontando le stringhe, non guardando una schermata.",
+    "Se mycity-marketplace.com sia verificato su Resend (ARCH-04): e' una configurazione fuori dal repo. Se lo fosse, il ripiego funziona e resta solo il commento sbagliato; se non lo fosse, il guasto e' reale. Va chiesto a @devops-sre.",
+    "Le migrazioni SQL 070 e 127 le ho lette solo attraverso il commento che le cita (ARCH-06): non ho confrontato riga per riga il `file_size_limit` e i mime type dichiarati nei secchi.",
+    "Le altre dimensioni della radiografia (sicurezza, accessibilita', dati, prestazioni di rete): non sono passato di li', sono di altre squadre."
+  ],
+  "niente_trovato_perche": null,
+  "note_su_cosa_e_andato_bene": [
+    "lib/ordini/valida-carrello.ts: estratto e adottato da TUTTE E DUE le rotte che creano un ordine (cod e stripe), con la prova che rilegge il sorgente delle rotte e fallisce se una smette di usarlo. E' il modo giusto di chiudere una duplicazione: la fonte unica piu' il guardiano che impedisce alla copia di rinascere.",
+    "lib/ordini/zona-di-consegna.ts: una regola nuova (fin dove consegniamo) nata gia' in un posto solo, chiamata dalle due rotte E dal conto della spedizione, col numero in lib/constants.ts e le prove che leggono la costante invece di scriverci dentro 25. A parte dove sta il file (ARCH-07), il disegno e' quello giusto.",
+    "app/globals.css: il foglio di stile e' integro (graffe bilanciate), i colori scritti a mano sono stati riportati ai token, e i due punti che NON si sono potuti chiudere sono documentati con il perche' e con quale prova diventa rossa. Un debito dichiarato vale piu' di un debito nascosto.",
+    "lib/api/middleware.ts: la chiave del freno di rete adesso la deriva da Next invece di indovinarla con le espressioni regolari. E' la differenza fra un rattoppo e una regola che vale anche per le rotte di domani."
+  ]
+}

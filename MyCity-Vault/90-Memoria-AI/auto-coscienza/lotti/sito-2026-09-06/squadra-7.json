@@ -1,0 +1,136 @@
+{
+ "squadra": 7,
+ "territorio": [
+  "app/search/page.tsx",
+  "lib/analytics/posthog.tsx",
+  "components/GoogleAnalytics.tsx",
+  "components/ActivityTracker.tsx",
+  "app/category/[slug]/page.tsx",
+  "components/seller/SellerShell.tsx",
+  "app/rider/earnings/page.tsx",
+  "components/admin/AdminSidebar.tsx",
+  "components/ProductGrid.tsx",
+  "migrations/002_categories_and_extras.sql",
+  "migrations/057_subcategories.sql",
+  "components/SponsoredCarousel.tsx",
+  "components/ui/Breadcrumb.tsx",
+  "components/CollectionHeader.tsx"
+ ],
+ "malattia": "La pagina dei risultati e' stata costruita a strati, ognuno senza guardare quello prima: cosi' l'ordine dei blocchi segue l'ordine in cui sono stati scritti invece di quello in cui la persona ha bisogno di leggerli, e ogni pezzo condiviso (briciolo di pane, chiave della pagina vista, lista delle categorie) e' stato ricopiato a mano nel posto nuovo invece di essere riusato — quindi la stessa cosa esiste in tre versioni che si comportano in tre modi diversi.",
+ "difetti": [
+  {
+   "chiave": "dati-analytics|ogni tocco a un filtro della ricerca conta come una pagina vista, su tutti e tre i sistemi",
+   "titolo": "Ogni tocco a un filtro della ricerca conta come una pagina vista, su tutti e tre i sistemi",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/anche-posthog-smette-di-contare-i-filtri.test.ts -> 6 prove verdi (exit 0). Cancello verificato al contrario: tolta la riga di guardia da lib/analytics/posthog.tsx la stessa prova esce 1 (rossa), rimessa esce 0. Verdi anche le prove gia' esistenti sugli altri due sensori: tests/unit/cambiare-un-filtro-non-e-una-pagina-nuova.test.ts.",
+   "nota_fix": "La scheda dice tre sistemi rotti; sul codice vero ne erano gia' due su tre curati. Il 27/8 (R171) ActivityTracker e GoogleAnalytics erano passati a `chiaveDellaPaginaVista` (lib/analytics/tracciamento.ts): percorso piu' la sola ricerca, i filtri no. Restava PostHog, e la prova di allora lo dichiara nero su bianco alle righe 57-59: «il terzo sensore, PostHog, e' in mano a un altro lotto: li' il difetto resta aperto e questa prova non lo copre». Quel lotto e' questo. Restare a meta' era il caso peggiore: la stessa ricerca con sette tocchi ai filtri contava 1 pagina vista sul beacon, 1 su Google e 8 su PostHog — tre numeri diversi per gli stessi minuti della stessa persona, e due sistemi che si controllano a vicenda non tornavano piu'. Fix: in `PostHogProvider` l'effetto di navigazione calcola ora la stessa chiave condivisa e una `ref` (`ultimaPaginaVista`) taglia corto se la pagina non e' cambiata davvero — lo stesso identico schema che ActivityTracker usa gia'. Le dipendenze dell'effetto restano `[pathname, searchParams]`: l'effetto puo' scattare quanto vuole, e' la telemetria che parte solo a pagina nuova. Non ho toccato la seconda `capture('$pageview')`, quella dentro il gestore del consenso: e' un'emissione voluta e distinta (la pagina da cui la persona accetta i cookie) e non passa dalla guardia, quindi resta com'era. NON verificato: nessun evento vero mandato a PostHog da qui — non c'e' chiave ne' browser; la prova e' sulla regola e sulla struttura dell'effetto.",
+   "file_toccati": [
+    "lib/analytics/posthog.tsx",
+    "tests/unit/anche-posthog-smette-di-contare-i-filtri.test.ts"
+   ]
+  },
+  {
+   "chiave": "layout-responsive|nella ricerca su telefono i pulsanti ordina e filtri compaiono sopra il titolo della pagina",
+   "titolo": "Nella ricerca su telefono i pulsanti Ordina e Filtri compaiono sopra il titolo della pagina",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts -> 11 prove verdi (exit 0), fra cui l'ordine dei blocchi dentro la colonna risultati. Cancello verificato al contrario: rimesso il carosello in cima come prima del fix, la stessa prova esce 1 (rossa).",
+   "nota_fix": "Confermato sul codice. Il blocco `md:hidden` coi due pulsanti era il secondo figlio della griglia, e il primo (l'aside dei filtri) e' `hidden` sotto md: su telefono la pagina si apriva quindi con due bottoni sospesi, prima del briciolo di pane e del titolo. La scheda proponeva di spostarli DOPO il blocco risultati, o di usare order-1/order-2: non l'ho fatto, perche' entrambe le strade mettono i filtri sotto tutta la lista dei prodotti, che per chi compra da telefono e' peggio di prima. Li ho invece spostati DENTRO la colonna risultati, in fondo al blocco intestazione (`space-y-3`): l'ordine su telefono e' ora dove sono -> cosa ho cercato -> quanti risultati -> chip dei filtri attivi -> Ordina/Filtri -> sponsorizzati -> prodotti. Su schermo grande non cambia niente: il blocco resta `md:hidden` e l'aside resta il primo figlio della griglia, quindi le colonne sono quelle di prima. La pagina categoria, che la scheda cita come riferimento gia' corretto, non l'ho toccata: la prova la controlla e la lascia com'e'.",
+   "file_toccati": [
+    "app/search/page.tsx",
+    "tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts"
+   ]
+  },
+  {
+   "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+   "titolo": "La scala tipografica è aggirata 330 volte con misure a mano",
+   "esito": "non_riparato",
+   "prova": "Conteggio rifatto: `grep -rhoE 'text-\\[[0-9.]+px\\]' app/ components/ | wc -l` -> 329 (la scheda diceva 330: una e' sparita nel frattempo). Per file del mio territorio: SellerShell 17, rider/earnings 15, search 14, AdminSidebar 10, category/[slug] 10, CollectionHeader 2, SponsoredCarousel 1 = 69. Fuori dal mio territorio: 260 su 329, cioe' il 79%.",
+   "nota_fix": "Non lo chiudo, e non lo chiudo a meta'. Il difetto e' repo-wide: 260 delle 329 occorrenze vivono in file che non sono miei, e la regola del lotto dice che tre occorrenze chiuse su cinque valgono `non_riparato`. Sistemare solo le 69 di casa mia avrebbe prodotto un diff largo, nessuna chiusura e un rischio vero: le sostituzioni davvero identiche sono poche (12px->text-xs, 14px->text-sm, 10px->text-2xs), mentre il grosso del mucchio e' 13px (115 volte) e 11px (70), che non hanno un gradino corrispondente — portarli a 14 e 12 e' un cambio di dimensione VISIBILE su barre laterali e cruscotti che da qui non ho potuto guardare renderizzati. Serve un passaggio unico su tutto il repo con un codemod e un controllo a video, non cinque squadre che ne limano un pezzo per uno. Due sole occorrenze le ho tolte di conseguenza, non di proposito: il `text-[13px]` dei due briciolo-di-pane scritti a mano e' sparito insieme alle copie (vedi l'ultimo difetto). Restano 327.",
+   "file_toccati": []
+  },
+  {
+   "chiave": "tipografia|i titoli delle file di prodotti vengono tagliati invece di andare su due righe",
+   "titolo": "I titoli delle file di prodotti vengono tagliati invece di andare su due righe",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts -> verde (exit 0): zero `truncate` e due `line-clamp-2` dentro `sectionHeader`. Cancello verificato al contrario: rimesso `truncate` su una delle due varianti, la prova esce 1 (rossa).",
+   "nota_fix": "Confermato: tutte e due le varianti dell'intestazione (con link e senza) avevano `truncate` accanto a `font-serif text-xl font-bold ... md:text-2xl`. Righe reali 367 e 373, non 362 e 367 come diceva la scheda — il file si e' mosso, il difetto era esattamente quello descritto. Fatto quello che proponeva la scheda: `truncate` -> `line-clamp-2` su entrambe, e la misura parte da `text-lg` su telefono e risale (`sm:text-xl md:text-2xl`). Aggiunto `min-w-0` alla variante senza link, che ne era priva: senza, un figlio flex non si restringe e il ritorno a capo non scatta (la variante col link ce l'aveva gia', sul `<Link>`). NON verificato a video: la stima dei 180px residui su uno schermo da 320 viene dalla scheda, non l'ho misurata in un browser; e non ho visto come si allinea il collegamento «Vedi tutto» quando il titolo occupa due righe (il contenitore e' `items-end`, quindi dovrebbe restare in basso, ma e' un dovrebbe).",
+   "file_toccati": [
+    "components/ProductGrid.tsx",
+    "tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|quando la ricerca non trova niente, «forse cercavi» propone sei voci di abbigliamento invece delle nove categorie principali",
+   "titolo": "Quando la ricerca non trova niente, «Forse cercavi» propone sei voci di abbigliamento invece delle nove categorie principali",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-filtro-categoria-non-ha-due-bambini-uguali.test.ts -> 10 prove verdi (exit 0). La prova ricostruisce le categorie vere dalle sei migrazioni che le creano e rifa' il conto del comando psql della scheda: le prime sei in ordine alfabetico sono Abbigliamento, Abbigliamento sportivo, Abiti & Gonne, Accessori, Accessori & Borse, Accessori sport, e una sola su sei e' una categoria principale. Cancello verificato al contrario: rimesso `categories.slice(0, 6)`, la prova esce 1 (rossa).",
+   "nota_fix": "Confermato, e i sei nomi tornano identici a quelli della scheda. La query leggeva solo `id, slug, name`, quindi la pagina non sapeva chi fosse madre e chi figlia: ho aggiunto `parent_id` (per distinguerle) e `icon` (l'emoji, come chiedeva la scheda) e `didYouMean` e' ora `categories.filter(c => !c.parent_id)`, cioe' le nove principali. L'emoji ha sempre il suo ripiego (l'icona lente di prima) perche' la chiave di cache `queryKeys.categories.allList` la condivide `components/seller/site/CategorySelect.tsx`, che legge `id, name, slug, parent_id` senza `icon`: chi arriva primo riempie la cache, e senza ripiego l'emoji sarebbe sparita a intermittenza. `parent_id` invece c'e' in tutte e due le letture, quindi il filtro sulle madri regge comunque. NON verificato: la presenza della colonna `icon` l'ho letta dalle migrazioni (002 la crea, e ci mette le nove emoji), non interrogando il database vivo.",
+   "file_toccati": [
+    "app/search/page.tsx",
+    "tests/unit/il-filtro-categoria-non-ha-due-bambini-uguali.test.ts"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|il filtro «categoria» della ricerca è una lista piatta di 72 voci con due «bambini» identiche",
+   "titolo": "Il filtro «Categoria» della ricerca è una lista piatta di 72 voci con due «Bambini» identiche",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-filtro-categoria-non-ha-due-bambini-uguali.test.ts -> 10 prove verdi (exit 0). La prova rifa' il secondo comando psql della scheda sulle categorie ricostruite dalle migrazioni: l'unico nome ripetuto e' «Bambini»; col nome della madre davanti tutte e 71 le etichette tornano uniche, e le due diventano «Abbigliamento > Bambini» e «Libri > Bambini».",
+   "nota_fix": "Confermato: due voci «Bambini» esistono davvero (slug `bambini` sotto Abbigliamento da 002, slug `libri-bambini` sotto Libri da 057). Chiuso dal lato codice, come indicava la prima meta' della scheda: il menu' a tendina e' ora a gruppi (`<optgroup>` per ognuna delle nove madri, la madre stessa come prima voce del suo gruppo, le figlie sotto), e il chip del filtro attivo mostra «Libri > Bambini» invece del solo «Bambini» (funzione `nomeConLaSuaMadre`). Le figlie rimaste senza madre non spariscono: hanno un ramo apposta in fondo, altrimenti uscirebbero dal filtro senza che nessuno se ne accorga. La seconda meta' della scheda — rinominare `libri-bambini` a database o mettere un vincolo di unicita' su (name, parent_id) — NON l'ho fatta: e' una migrazione, quindi rossa e fuori da questo lotto, e soprattutto non serve piu' per chiudere il difetto, perche' l'ambiguita' ora non arriva piu' sotto gli occhi del cliente. DIFFERENZA con la scheda, dichiarata: le voci che ho contato dalle migrazioni sono 71, non 72 (9 principali + 62 figlie); non so se il database vivo ne abbia una in piu' aggiunta a mano. NON verificato a video: su iOS Safari il `<select>` nativo mostra le etichette di gruppo con un suo stile — che i nove gruppi si leggano bene sul telefono vero non l'ho potuto guardare.",
+   "file_toccati": [
+    "app/search/page.tsx",
+    "tests/unit/il-filtro-categoria-non-ha-due-bambini-uguali.test.ts"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|nella pagina dei risultati il carosello sponsorizzato sta sopra il briciolo di pane e sopra il titolo",
+   "titolo": "Nella pagina dei risultati il carosello sponsorizzato sta sopra il briciolo di pane e sopra il titolo",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts -> verde (exit 0): dentro la colonna risultati il briciolo di pane e l'<h1> vengono prima di <SponsoredCarousel>, e il carosello resta prima di <ProductGrid>. Cancello verificato al contrario: rimesso il carosello come primo figlio, la prova esce 1 (rossa).",
+   "nota_fix": "Confermato: `<SponsoredCarousel placement=\"search_top\" />` era il primo figlio della colonna risultati. Spostato sotto il blocco intestazione e sopra la griglia, esattamente come proponeva la scheda: la visibilita' venduta non cala, perche' resta il primo blocco sopra i prodotti. Confermata anche l'attenuante che la scheda segnalava: con zero campagne il componente si nasconde da solo (SponsoredCarousel riga 119), quindi oggi il difetto non si vede — si vedrebbe il giorno in cui si accendono gli spazi a pagamento. Non ho toccato SponsoredCarousel.",
+   "file_toccati": [
+    "app/search/page.tsx",
+    "tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|due componenti diversi disegnano lo stesso briciolo di pane, con separatore e misure diverse",
+   "titolo": "Due componenti diversi disegnano lo stesso briciolo di pane, con separatore e misure diverse",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts -> verde (exit 0): ne' app/search/page.tsx ne' components/CollectionHeader.tsx contengono piu' un `aria-label=\"Breadcrumb\"` scritto a mano, tutti e due importano e usano `@/components/ui/Breadcrumb`, e la pagina categoria costruisce una sola BreadcrumbList. npx tsc --noEmit: nessun errore nei miei file.",
+   "nota_fix": "Confermate tutte e tre le implementazioni. Fatto quello che proponeva la scheda: le due copie a mano sono cancellate e passano dal componente condiviso. La proprieta' nuova su `ui/Breadcrumb` si chiama `datiStrutturati` (vera per difetto, cosi' i quattro punti che gia' lo usavano — prodotto, negozio, liste — non cambiano di una virgola). CollectionHeader e la ricerca la passano a falso, e la ragione e' concreta: `app/category/[slug]/page.tsx` stampa gia' la sua BreadcrumbList, e accendere lo schema dentro CollectionHeader avrebbe messo due schede identiche sulla stessa pagina — un peggioramento SEO introdotto per sistemare un problema di grafica. Sulla ricerca l'ho lasciato spento perche' una pagina di risultati non va nell'indice. CONSEGUENZA DA SAPERE: CollectionHeader lo usano dieci pagine (categoria, novita, promozioni, near, piu-venduti, piccoli-prezzi, regali, events, lists, categorie); su tutte il briciolo di pane passa da 13px a 14px e la freccia si sposta da dopo la voce a prima. E' l'unificazione che la scheda chiedeva, ma si vede su dieci pagine, non su una. NON verificato a video su nessuna delle dieci. RESTA APERTO, e lo segnalo a @seo invece di deciderlo io: le nove pagine collezione oltre a categoria non hanno nessuna BreadcrumbList: ora basta togliere `datiStrutturati={false}` da CollectionHeader e rimuovere quella scritta a mano nella pagina categoria per dargliela a tutte. Non l'ho fatto perche' e' una scelta SEO, non una riparazione grafica.",
+   "file_toccati": [
+    "components/ui/Breadcrumb.tsx",
+    "components/CollectionHeader.tsx",
+    "app/search/page.tsx",
+    "tests/unit/nella-ricerca-si-sa-subito-dove-si-e.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "coerenza-brand|la scala tipografica è aggirata 330 volte con misure a mano",
+   "perche": "260 delle 329 occorrenze di text-[Npx] vivono in file fuori dal mio territorio (nel territorio ne cadono 69, il 21%). Il difetto non e' di un pacchetto: e' del repo, e va chiuso in un passaggio unico con un codemod piu' un controllo a video, perche' 185 delle 329 (13px e 11px) non hanno un gradino corrispondente nella scala e spostarle cambia davvero la dimensione a schermo."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il file della barra laterale dell'area cliente non compila: manca una parentesi graffa",
+   "dove": "components/account/AccountShell.tsx:117",
+   "gravita": "grave",
+   "nota": "NON E' MIO e non l'ho toccato: e' fuori dal mio territorio. `npx tsc --noEmit` da' un solo errore in tutto il repo, TS1005 «'}' expected» a riga 117 — un blocco di commento aperto male poco sopra (righe 107-112). Il file risulta modificato in `git status` e l'ho visto arrivare durante il mio turno: e' quasi certamente una squadra ancora a meta' della sua modifica. Va ricontrollato ad albero fermo prima del cancello, perche' cosi' com'e' fa fallire la compilazione dell'intero sito."
+  },
+  {
+   "titolo": "Due pagine leggono le categorie con la stessa chiave di cache ma chiedono colonne diverse",
+   "dove": "app/search/page.tsx:140 e components/seller/site/CategorySelect.tsx:23",
+   "gravita": "minore",
+   "nota": "Tutte e due usano `queryKeys.categories.allList` (`['all-categories']`) ma con `select` diversi: la ricerca chiede id, slug, name, icon, parent_id; il selettore del negoziante chiede id, name, slug, parent_id. React Query tiene una cache sola per chiave, quindi chi arriva primo decide quali colonne trovera' il secondo. Col mio fix il campo che conta (`parent_id`) c'e' in tutte e due, e l'emoji ha il suo ripiego, quindi oggi non rompe niente — ma la trappola resta armata per il prossimo campo che qualcuno aggiunge. Si spegne alla radice mettendo la lettura delle categorie in un hook solo."
+  },
+  {
+   "titolo": "Una prova dice che il difetto di PostHog e ancora aperto, ma e chiuso da adesso",
+   "dove": "tests/unit/cambiare-un-filtro-non-e-una-pagina-nuova.test.ts:57-59",
+   "gravita": "minore",
+   "nota": "Il commento dice «il terzo sensore, PostHog, e' in mano a un altro lotto: li' il difetto resta aperto e questa prova non lo copre». Da adesso non e' piu' vero: l'ho chiuso, e la copertura c'e' in tests/unit/anche-posthog-smette-di-contare-i-filtri.test.ts. Non ho corretto quel commento perche' il file non e' nel mio incarico e il vincolo era di non uscire dai miei file. Sono tre righe: le puo' rinfrescare l'AD quando ricuce."
+  }
+ ],
+ "non_verificato": "① NIENTE E' STATO GUARDATO A VIDEO. Non ho aperto il sito in un browser: nessuno screenshot a 320, 375 o 768px, nessuna verifica su telefono vero. Tutte le mie prove sono sul sorgente e sulla regola, e cinque degli otto difetti erano difetti di come una cosa SI VEDE. In particolare: che il titolo su due righe non scomponga la riga con «Vedi tutto»; che i nove gruppi del menu' a tendina si leggano bene sul select nativo di iOS Safari; che il briciolo di pane a 14px con la freccia spostata stia bene sulle dieci pagine che usano CollectionHeader. ② NIENTE E' STATO PROVATO CONTRO IL DATABASE VIVO: le categorie (71, di cui 9 principali, con la doppia «Bambini») le ho ricostruite dalle sei migrazioni che le creano, non interrogando Supabase; se il database di produzione ha categorie aggiunte a mano i conti possono spostarsi — la scheda ne dichiarava 72, io ne trovo 71. ③ NIENTE TELEMETRIA VERA: che PostHog ora mandi davvero una pagina vista sola non l'ho potuto osservare, serve una chiave e un browser; ho provato la regola e la struttura dell'effetto. ④ NON HO LANCIATO `npm run verify`, `npm run build` ne' il lint, come da vincolo: ho lanciato `npx tsc --noEmit -p tsconfig.json` (un solo errore in tutto il repo, e non e' in un mio file) e 20 file di prove per 195 prove verdi. ⑤ NON HO PROVATO l'insieme delle squadre: il mio lavoro l'ho verificato mentre le altre scrivevano, quindi il cancello ad albero fermo resta da fare."
+}

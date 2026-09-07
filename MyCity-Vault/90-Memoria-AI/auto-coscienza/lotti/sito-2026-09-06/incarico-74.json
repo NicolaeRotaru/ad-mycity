@@ -1,0 +1,23 @@
+{
+ "squadra": 74,
+ "ondata": 16,
+ "pacchetto": "app/api/ai/catalog-create/route.ts",
+ "territorio_principale": "app/api/ai/catalog-create/route.ts",
+ "file_citati": [
+  "lib/products/draftFromVision.ts",
+  "app/api/ai/catalog-create/route.ts",
+  "lib/api/corpo.ts",
+  "app/api/ai/catalog-create-bulk/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "ai-endpoints|il testo alternativo della foto entra nella bozza del prodotto senza nessun tetto di lunghezza",
+   "titolo": "Il testo alternativo della foto entra nella bozza del prodotto senza nessun tetto di lunghezza",
+   "dimensione": "ai-endpoints",
+   "file": "lib/products/draftFromVision.ts:95 (alt_text copiato intero in attributes) e :91 (valori di attributo testuali senza taglio) · a fronte di :109-110 (nome 120, descrizione 4000) · ingresso app/api/ai/catalog-create/route.ts:45 (alt_text: z.string() senza max, corpo fino a 1 MB per lib/api/corpo.ts:92) e app/api/ai/catalog-create-bulk/route.ts:40",
+   "descrizione": "Il 30/8 (R158) nome e descrizione hanno preso un tetto condiviso (120 e 4000 caratteri). L'alt della foto e i valori testuali degli attributi no: la riga 95 copia alt_text così com'è dentro products.attributes. Prova eseguita: buildDraftProductInsert con un alt_text di 200.000 caratteri restituisce un attributo di 200.000 caratteri. Il corpo della richiesta può arrivare a 1 MB. Non ho trovato una pagina pubblica che stampi attributes.alt_text (solo l'anteprima del form del venditore, components/seller/ProductForm.tsx:942).\n\nCausa radice: Il tetto R158 è stato applicato ai due campi visibili e non a tutto ciò che la stessa funzione scrive in JSONB.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/ai-endpoints-alt-text-senza-tetto.test.ts  (ROSSO: expected 200000 to be <= 500)",
+   "impatto": "Una bozza può portarsi dietro fino a ~1 MB di JSON in products.attributes: pesa sulle letture del catalogo del venditore e sulle esportazioni, e se un giorno l'alt finisce nell'HTML pubblico (è il suo scopo) la pagina del prodotto pesa un megabyte. Oggi tocca solo il venditore che lo fa a sé stesso.",
+   "fix_proposto": "In draftFromVision.ts tagliare alt_text a ~300 caratteri e i valori testuali degli attributi a ~500 (una costante accanto a MAX_NOME_PRODOTTO in lib/products/aiPatch.ts), e mettere .max() nello zod DraftSchema delle due rotte catalog-create."
+  }
+ ]
+}

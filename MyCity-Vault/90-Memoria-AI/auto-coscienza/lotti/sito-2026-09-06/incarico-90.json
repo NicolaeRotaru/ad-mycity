@@ -1,0 +1,20 @@
+{
+ "squadra": 90,
+ "ondata": 19,
+ "pacchetto": "app/shipping/page.tsx",
+ "territorio_principale": "app/shipping/page.tsx",
+ "file_citati": [
+  "app/shipping/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette",
+   "titolo": "Sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette",
+   "dimensione": "coerenza-brand",
+   "file": "app/shipping/page.tsx:44 e 29",
+   "descrizione": "CONFERMATO su entrambi i punti. Riga 44: la sezione è 'prose prose-gray max-w-none space-y-6 …', ma il plugin @tailwindcss/typography non è installato — package.json elenca solo tailwind-scrollbar-hide e tailwind.config.ts carica solo quello. Le classi prose sono quindi inerti: la spaziatura interna di titoli, paragrafi ed elenchi che ci si aspetterebbe non viene applicata (regge solo space-y-6, che spazia i blocchi ma non il loro interno). Riga 29: «Spedizione GRATIS» è 'text-green-900', il verde Tailwind, dentro un riquadro che per il resto usa correttamente olive-50, olive-200, olive-600 e olive-700.",
+   "impatto": null,
+   "fix_proposto": "Riga 44: togliere 'prose prose-gray' e definire esplicitamente la spaziatura di titoli ed elenchi, oppure installare @tailwindcss/typography e configurarne i colori sui token ink/cream. Riga 29: 'text-green-900' → 'text-olive-900'."
+  }
+ ]
+}

@@ -1,0 +1,93 @@
+{
+ "squadra": 211,
+ "ondata": 8,
+ "pacchetti": [
+  "app/profile/settings/page.tsx",
+  "home/user/mycity/app/sign-in/page.tsx",
+  "public/manifest.js",
+  "components/StickyAddToCart.tsx"
+ ],
+ "file_citati": [
+  "components/PushNotificationOptIn.tsx",
+  "app/profile/settings/page.tsx",
+  "lib/installabile.ts",
+  "components/PWAInstallBanner.tsx",
+  "app/sign-in/page.tsx",
+  "components/Segnala.tsx",
+  "components/SearchBar.tsx",
+  "components/Navbar.tsx",
+  "app/sign-up/page.tsx",
+  "app/messages/[id]/page.tsx",
+  "app/shared-cart/page.tsx",
+  "components/StoreLocationPicker.tsx",
+  "public/manifest.js",
+  "lib/analytics/posthog.tsx",
+  "components/checkout/CouponInput.tsx",
+  "components/StickyAddToCart.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|su iphone la pagina impostazioni dice che il browser non supporta le notifiche, invece di spiegare che vanno attivate dall'app in schermata home",
+   "titolo": "Su iPhone la pagina impostazioni dice che il browser non supporta le notifiche, invece di spiegare che vanno attivate dall'app in schermata Home",
+   "dimensione": "mobile-pwa",
+   "file": "components/PushNotificationOptIn.tsx:37-40 (supported richiede PushManager, che Safari iOS espone solo quando il sito è aperto dalla schermata Home), :125-131 (messaggio «Il tuo browser non supporta le notifiche push, oppure il marketplace non le ha ancora configurate»); app/profile/settings/page.tsx:501 (unico punto d'uso); lib/installabile.ts:64-67 (eApple già disponibile)",
+   "descrizione": "Da iOS 16.4 le web push esistono, ma solo dentro l'app aggiunta alla schermata Home. Chi apre /profile/settings da Safari su iPhone legge «il tuo browser non supporta…» e se ne va: nessuno gli dice che basta Condividi → Aggiungi a Home e poi tornare qui. Sono i clienti da telefono, cioè quasi tutti.\n\nCausa radice: Il componente conosce solo due stati (supportato / non supportato) e non distingue «iPhone nel browser» da «browser davvero senza push».\n\nProva (umano, non eseguita): Occhio umano: iPhone con iOS 16.4 o più recente, Safari (sito NON installato) → accedi → /profile/settings → sezione notifiche: si legge «Il tuo browser non supporta le notifiche push…» senza istruzioni per installare.",
+   "impatto": "Gli utenti iPhone non attivano mai le notifiche ordine: meno riaperture dell'app, e il messaggio dà del vecchio al loro telefono.",
+   "fix_proposto": "Se eApple(navigator.userAgent) e !matchMedia('(display-mode: standalone)').matches → «Su iPhone le notifiche funzionano dall'app in schermata Home: tocca Condividi, poi Aggiungi a Home, e torna qui», riusando le due righe di istruzioni di PWAInstallBanner."
+  },
+  {
+   "chiave": "mobile-pwa|il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "titolo": "Il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica",
+   "dimensione": "mobile-pwa",
+   "file": "components/PWAInstallBanner.tsx:100-102 («Accesso veloce + notifiche ordini. Niente app store.»); components/PushNotificationOptIn.tsx, richiamato solo da app/profile/settings/page.tsx:9 e 484",
+   "descrizione": "Verificato. Il testo del banner è esattamente quello citato, e il grep su app/ e components/ mostra che `PushNotificationOptIn` è importato e usato in un solo punto di tutto il sito: la pagina /profile/settings (riga 484). L'iscrizione alle notifiche non viene mai proposta dopo l'installazione né nel momento in cui servirebbe (ordine appena confermato, rider che parte). Chi installa credendo di aver attivato le notifiche non riceverà niente.",
+   "impatto": null,
+   "fix_proposto": "Due cose piccole e separate: correggere il testo del banner («accesso veloce dall'icona, funziona anche con rete debole») e proporre l'attivazione delle notifiche nel momento giusto — nella pagina di conferma ordine, dicendo a cosa servono («ti avvisiamo quando il rider parte») — riusando il componente che esiste già."
+  },
+  {
+   "chiave": "microcopy|due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni",
+   "titolo": "Due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/sign-in/page.tsx riga 27 · /home/user/mycity/app/profile/settings/page.tsx righe 221 e 233 · /home/user/mycity/components/Segnala.tsx riga 58",
+   "descrizione": "CONFERMATO riga per riga. sign-in riga 27: «Il controllo anti-bot e scaduto: e stato rigenerato, premi di nuovo Accedi.» — due accenti mancanti in una riga sola, sulla schermata di accesso, e la legge chi ha appena sbagliato la password. settings righe 221 e 233: «Esportazione non riuscita. Riprova piu tardi.» ripetuto due volte. Segnala riga 58: «Segnalazione ricevuta. La guardiamo e ti diciamo com è andata.» — «com'è».",
+   "impatto": null,
+   "fix_proposto": "«è scaduto: è stato», «più tardi», «com'è andata»."
+  },
+  {
+   "chiave": "microcopy|tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione",
+   "titolo": "Tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/components/SearchBar.tsx riga 34 · /home/user/mycity/components/Navbar.tsx riga 207 · /home/user/mycity/app/sign-in/page.tsx riga 254 · /home/user/mycity/app/sign-up/page.tsx riga 263 · /home/user/mycity/app/profile/settings/page.tsx righe 586 e 619 · /home/user/mycity/app/messages/[id]/page.tsx riga 297 · /home/user/mycity/app/shared-cart/page.tsx riga 92 · /home/user/mycity/components/StoreLocationPicker.tsx riga 234",
+   "descrizione": "CONFERMATO riga per riga (esclusi gli spread operator del codice). I punti fuori riga sono fra i più visti del sito: «Cerca prodotti, negozi, categorie...» (SearchBar 34), «Cerca a Piacenza...» (Navbar 207), «Accesso in corso...» (sign-in 254), «Registrazione in corso...» (sign-up 263), «Annullamento...» e «Invio richiesta...» (settings 586 e 619), «Scrivi un messaggio...» (messages 297), «Carico la lista...» (shared-cart 92), «Ricerca posizione...» (StoreLocationPicker 234). Nel resto del sito il carattere «…» compare 118 volte nei .tsx: la convenzione c'è, questi la rompono e la differenza di spaziatura si vede.",
+   "impatto": null,
+   "fix_proposto": "Sostituire «...» con «…» in questi punti."
+  },
+  {
+   "chiave": "mobile-pwa|nessuno misura quante persone usano mycity installata in home: il numero che decide se e quando fare l'app nativa non esiste",
+   "titolo": "Nessuno misura quante persone usano MyCity installata in Home: il numero che decide se e quando fare l'app nativa non esiste",
+   "dimensione": "mobile-pwa",
+   "file": "public/manifest.json:5 (start_url \"/\" senza marcatore); components/PWAInstallBanner.tsx:66 e 71 (display-mode letto solo per nascondere il banner, mai inviato); lib/analytics/posthog.tsx (nessuna proprietà display_mode, nessun evento appinstalled/pwa)",
+   "descrizione": "Il banner invita a installare, ma non esiste un evento «banner mostrato / accettato / rifiutato», nessun ascolto di appinstalled, e le sessioni aperte dall'icona in Home sono indistinguibili da quelle del browser (start_url senza ?source=pwa, nessuna super-property display_mode). Tecnologia & Stack dice «app native → PWA, non ora»: il «quando» si decide con adoption e retention D7/D30 della PWA, che oggi non si possono calcolare.\n\nCausa radice: L'installabilità è stata costruita senza il pezzo di misura.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -rn \"display-mode\\|appinstalled\" lib app components --include=*.ts --include=*.tsx | grep -v PWAInstallBanner   → nessuna riga (exit 1)",
+   "impatto": "Il business case app nativa vs PWA resta a sensazione; non si sa se il banner porta installazioni o solo chiusure.",
+   "fix_proposto": "start_url \"/?source=pwa\"; in PostHogProvider registrare display_mode (standalone|browser) come super-property; window.addEventListener('appinstalled') → evento pwa_installata; nel banner eventi pwa_banner_mostrato/accettato/rifiutato. Poi una query settimanale: utenti attivi con display_mode=standalone e loro retention D7/D30."
+  },
+  {
+   "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "dimensione": "mobile-pwa",
+   "file": "public/manifest.json:9 (`\"orientation\": \"portrait\"`); assenti nel file: `screenshots`, `id`, `display_override`",
+   "descrizione": "Verificato leggendo tutto il manifest. ① `\"orientation\": \"portrait\"` impone il verticale all'app installata: chi tiene il telefono fissato in orizzontale non può girare la vetrina, e WCAG 1.3.4 chiede di non vincolare il contenuto a un solo verso quando non è essenziale — per un catalogo di negozi non lo è. ② Non esistono i campi `screenshots` (quindi Chrome su Android mostra la finestra d'installazione ridotta invece di quella ricca), né `id`, né `display_override`.",
+   "impatto": null,
+   "fix_proposto": "Togliere `orientation` (o metterlo su `any`) e aggiungere `screenshots` con 2-3 immagini `form_factor: \"narrow\"` più una `\"wide\"`, oltre a un `id` stabile (es. `\"/?pwa\"`) perché aggiornamenti futuri del manifest non creino una seconda installazione."
+  },
+  {
+   "chiave": "frontend-ux|bersagli di tocco sotto i 44px sul percorso d'acquisto",
+   "titolo": "Bersagli di tocco sotto i 44px sul percorso d'acquisto",
+   "dimensione": "frontend-ux",
+   "file": "components/checkout/CouponInput.tsx:43,68 · components/StickyAddToCart.tsx:81,90",
+   "descrizione": "CONFERMATO, tutti e tre. La primitiva `components/ui/Button.tsx:34-36` dichiara `md: min-h-[44px]` e `lg: min-h-[48px]`, ma `sm` è `min-h-[32px]`. ① `components/checkout/CouponInput.tsx:68`: il pulsante «Applica» del codice sconto usa `size=\"sm\"` → 32px. ② `components/checkout/CouponInput.tsx:40-46`: «Rimuovi» è un `<button>` di solo testo con `className=\"text-rose-600 hover:underline text-xs\"`, nessun padding → circa 30×16px. ③ `components/StickyAddToCart.tsx:81` e `:90`: i pulsanti «−» e «+» della barra d'acquisto mobile sono `w-9 h-9`, cioè 36px. Il minimo raccomandato (WCAG 2.5.8, linee guida Apple e Google) è 44px.",
+   "impatto": "Chi ha le mani grandi, o sessant'anni e la vista stanca, sbaglia il tocco. Sul «+» della quantità vuol dire un articolo in meno nell'ordine; sul codice sconto vuol dire premere due o tre volte e credere che il sito non risponda, proprio mentre si sta cercando di risparmiare.",
+   "fix_proposto": "Portare «Applica» a `size=\"md\"`, dare a «Rimuovi» `px-3 py-2 min-h-[44px]`, portare lo stepper a `w-11 h-11`. Aggiungere una prova di struttura che fallisce se un pulsante in `components/checkout/` o in `StickyAddToCart.tsx` dichiara un'altezza minore di 44px."
+  }
+ ]
+}

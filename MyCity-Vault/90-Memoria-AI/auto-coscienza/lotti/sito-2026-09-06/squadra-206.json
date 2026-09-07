@@ -1,0 +1,104 @@
+{
+ "squadra": 206,
+ "territorio": [
+  "components/Navbar.tsx",
+  "components/Footer.tsx",
+  "components/admin/AdminSidebar.tsx",
+  "app/admin/branding/page.tsx",
+  "components/checkout/StepIndicator.tsx",
+  "components/checkout/PaymentMethodSelector.tsx",
+  "components/OrderTimeline.tsx",
+  "components/MobileAccountSheet.tsx",
+  "app/profile/referral/page.tsx",
+  "components/CategoryBar.tsx",
+  "components/SearchBar.tsx",
+  "components/ProductCard.tsx"
+ ],
+ "malattia": "Un valore visivo deciso a occhio e copiato a mano in ogni punto in cui serviva — il peso del marchio, il verde di «fatto», il giallo pieno del pulsante, la misura delle iniziali — senza che nessuno lo dichiarasse una volta sola: cosi ogni copia e' derivata dalle altre e nessuna e' stata misurata.",
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|il marchio «mycity» è disegnato in quattro modi diversi, e l'anteprima nel pannello ne mostra un quinto",
+   "titolo": "Il marchio «MyCity» è disegnato in quattro modi diversi, e l'anteprima nel pannello ne mostra un quinto",
+   "esito": "riparato",
+   "prova": "npx tsc --noEmit -p tsconfig.json (uscita 0) + npx vitest run sulle 27 prove che leggono i miei file (27 file, 255 prove, tutte verdi). Sul sorgente: `grep -n \"font-serif\" components/Navbar.tsx components/Footer.tsx components/admin/AdminSidebar.tsx app/admin/branding/page.tsx` ora da' font-extrabold in tutti e quattro i punti, e `grep -n \"branding.wordmark\" components/admin/AdminSidebar.tsx` mostra che la sidebar legge il pannello invece delle parole scritte a mano. Il peso 800 esiste davvero: app/layout.tsx:45 carica Fraunces con weight ['400','500','600','700','800'], quindi non e' un grassetto finto disegnato dal browser.",
+   "nota_fix": "Le righe della scheda erano vecchie: Navbar non e' a 99/174 ma a 127/205, Footer non a 103 ma a 174. Il resto tornava. Ho fatto quattro correzioni sul posto invece del componente <Wordmark/> proposto: components/ui/ e' fuori dal mio territorio e un componente condiviso nuovo e' un refactor, che il briefing vieta. ① Navbar 127 e 205: font-bold -> font-extrabold (era 700, il marchio e' 800). ② Footer 174: stesso passaggio a 800; ho lasciato accent-700 perche' e' la resa giusta su crema, e ho scritto sopra il perche' delle DUE rese ammesse (scuro -> accent-300, crema -> accent-700) cosi' la scelta e' dichiarata e non sembra una svista. ③ AdminSidebar: AdminLogo scriveva «My» e «City» a mano; ora chiama useBranding() come Navbar e Footer, stessa cache di React Query quindi nessuna chiamata in piu'. Chi rinomina il marketplace dal pannello ora vede cambiare anche la sidebar admin. ④ app/admin/branding/page.tsx:153: l'anteprima era text-primary-700, un terracotta che il marchio non ha; ora e' accent-700 e font-extrabold, cioe' esattamente la resa su crema che il cliente vedra' nel footer. NON VERIFICATO: non ho aperto il sito nel browser, quindi il confronto a occhio col file docs/mockup/assets/wordmark-*.svg non l'ho fatto; ho verificato le classi e il peso disponibile nel font, non i pixel a video. E non ho aggiunto wordmark-oncream.svg ai mockup (cartella fuori territorio): la variante su crema per ora e' documentata solo nel commento del Footer.",
+   "file_toccati": [
+    "components/Navbar.tsx",
+    "components/Footer.tsx",
+    "components/admin/AdminSidebar.tsx",
+    "app/admin/branding/page.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|il verde chiaro con scritte bianche non è solo nel badge del negozio: è anche nei passi del checkout",
+   "titolo": "Il verde chiaro con scritte bianche non è solo nel badge del negozio: è anche nei passi del checkout",
+   "esito": "riparato",
+   "prova": "`grep -rn \"bg-olive-500\" components/OrderTimeline.tsx components/MobileAccountSheet.tsx app/profile/referral/page.tsx` esce a vuoto (uscita 1); prima trovava tre righe. In tutto il repo non resta nessun `bg-olive-500` accoppiato a `text-white`: le altre occorrenze di olive-500 sono pallini e barrette senza testo sopra. Conto rifatto a mano sui colori veri di app/globals.css righe 44-45: olive-500 #7C8B5A col bianco stacca 3,69 volte (sotto il 4,5 richiesto), olive-600 #5A7C42 arriva a 4,78. Prove: 27 file, 255 prove verdi, incluse quelle di i-testi-si-leggono-anche-con-poca-vista.test.ts che misura il contrasto sui colori letti dal file.",
+   "nota_fix": "Dei sette punti della scheda ne erano gia' stati chiusi quattro dalle ondate precedenti: StepIndicator (ora olive-600), PaymentMethodSelector (ora olive-600) e Navbar :389 e :415 (ora olive-600) — li ho letti, non li ho toccati. Restavano i tre miei: OrderTimeline:67 (il pallino dei passi gia' fatti nella cronologia dell'ordine), MobileAccountSheet:87 (l'iniziale del fattorino) e app/profile/referral/page.tsx:126 (il pulsante WhatsApp degli inviti, che passava a olive-600 solo al passaggio del mouse: ora parte da olive-600 e va a olive-700). Sul token: globals.css riga 76 dichiara GIA' `--success: var(--olive-600)`, quindi la regola del verde di successo esiste ed e' quella giusta — mancava solo che il codice la seguisse. NON VERIFICATO: non ho potuto lanciare io lo script contrasto.mjs citato nella scheda (vive nella cartella di lavoro di un'altra sessione); ho rifatto il conto WCAG a mano sugli stessi due colori e mi torna la stessa cifra della scheda, 3,69. Non ho toccato globals.css ne' tailwind.config.ts: sono di tutti e il briefing li mette fuori.",
+   "file_toccati": [
+    "components/OrderTimeline.tsx",
+    "components/MobileAccountSheet.tsx",
+    "app/profile/referral/page.tsx"
+   ]
+  },
+  {
+   "chiave": "mobile-pwa|i menù a tendina si chiudono solo con `mousedown`, e il mega-menu delle categorie non ha nessuna x su mobile",
+   "titolo": "I menù a tendina si chiudono solo con `mousedown`, e il mega-menu delle categorie non ha nessuna X su mobile",
+   "esito": "riparato",
+   "prova": "`grep -rn \"pointerdown\" components/CategoryBar.tsx components/Navbar.tsx components/SearchBar.tsx` trova le sei righe (registrazione e rimozione in tutti e tre); di `mousedown` restano solo le parole dentro i commenti che spiegano il perche', nessun ascoltatore. Per la X: `grep -n \"Chiudi le categorie\" components/CategoryBar.tsx`. Prove verdi: i-pannelli-della-barra-in-alto-si-usano-da-tastiera, chiuso-un-pannello-il-fuoco-torna-da-dove-era-partito, il-pannello-delle-categorie-si-apre-a-misura-di-schermo, la-riga-delle-categorie-dice-che-continua-oltre-il-bordo — dentro le 27 file / 255 prove verdi. tsc uscita 0 (il tipo del gestore e' passato da MouseEvent a PointerEvent in tutti e tre).",
+   "nota_fix": "Confermato sul codice: tutti e tre i pannelli ascoltavano solo `mousedown` e il mega-menu non aveva nessuna via d'uscita visibile. Ho messo `pointerdown`, che e' lo stesso gesto per dito, penna e mouse insieme — un ascoltatore solo invece di affiancare touchstart, cosi' non c'e' il rischio di chiudere due volte. Alla CategoryBar ho aggiunto in cima al pannello una riga «Categorie» con la X a destra, visibile solo sotto sm (su schermo grande il mega-menu si chiude gia' cliccando fuori e non serve): bersaglio 44x44 punti, aria-label «Chiudi le categorie», e chiudendo il fuoco torna sul pulsante che l'aveva aperto, esattamente come fa gia' Esc. Ho controllato che la X non rubi il posto a nessuna prova: quelle esistenti cercano il PRIMO <button> della radice (che resta «Tutte le categorie», perche' il pannello viene dopo) e il PRIMO a[href] dentro il pannello (che resta «Tutti i negozi», perche' la X e' un <button>). NON VERIFICATO, ed e' la parte che pesa: su un iPhone vero non ho potuto provare niente: che Safari iOS non generasse il mousedown su un div qualunque era gia' dichiarato «non provato» nella scheda e resta tale. Quello che ho provato e' che ora l'evento ascoltato copre anche il tocco, e che dal telefono una via d'uscita esplicita c'e'. Non ho aggiunto il velo scuro dietro al pannello: cambia il disegno e non serve piu', visto che ora c'e' la X.",
+   "file_toccati": [
+    "components/CategoryBar.tsx",
+    "components/Navbar.tsx",
+    "components/SearchBar.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|nell'intestazione per l'ospite il carrello e «registrati» sono due pillole gialle identiche affiancate",
+   "titolo": "Nell'intestazione per l'ospite il carrello e «Registrati» sono due pillole gialle identiche affiancate",
+   "esito": "riparato",
+   "prova": "`grep -n \"bg-accent-500\" components/Navbar.tsx`: nella riga dell'ospite resta un solo pieno giallo, il carrello (CartButton, ora riga 318). Le altre occorrenze sono i contapallini del carrello e l'avatar del venditore, non pillole. Il «Registrati» ora e' `border border-white/70 ... text-white`. Conto del contrasto sui colori di app/globals.css riga 41: bianco su primary-700 #A03B25 stacca 6,67 volte, ben oltre il 4,5 richiesto a un testo. tsc 0, 27 file / 255 prove verdi.",
+   "nota_fix": "Confermato: le righe erano 145 (Registrati) e 306 (CartButton), non 113-115 e 248 come diceva la scheda. Stesso riempimento accent-500, stesso testo ink-900, stessa forma rounded-full, a due dita di distanza. Ho seguito la proposta della scheda: il pieno giallo resta al carrello, che e' la strada verso il pagamento, e «Registrati» diventa un contorno bianco sul terracotta della barra. Cosi' nella stessa riga c'e' un pieno solo. Il contorno non e' sbiadito: bianco pieno sul testo, bordo bianco al 70% che si accende del tutto al passaggio del mouse, e l'anello di fuoco da tastiera (focus-visible:outline-white) e' rimasto dov'era. NON VERIFICATO: non ho misurato se il numero di iscrizioni cambia — e' un effetto da guardare in un test A/B, non da qui; e non ho aperto il browser, quindi il confronto a occhio fra le due forme e' un ragionamento sulle classi, non uno screenshot.",
+   "file_toccati": [
+    "components/Navbar.tsx"
+   ]
+  },
+  {
+   "chiave": "tipografia|le iniziali del negozio sulla scheda prodotto sono a 8px",
+   "titolo": "Le iniziali del negozio sulla scheda prodotto sono a 8px",
+   "esito": "riparato",
+   "prova": "`grep -rn \"text-\\[8px\\]\" --include=*.tsx .` non trova piu' niente in tutto il sito (uscita 1): era l'unica occorrenza, come diceva la scheda. Ora il cerchio e' `h-5 w-5` con `text-2xs`, e text-2xs esiste davvero come gradino dichiarato: tailwind.config.ts righe 149-152, '2xs': '0.625rem' = 10px. tsc 0; verdi anche le prove che leggono ProductCard (lo-scheletro-non-aveva-la-forma-di-quello-che-arriva, il-cuore-dei-preferiti-ha-un-colore-solo, sul-telefono-il-piu-della-card-non-viene-tagliato-dal-prezzo-scontato).",
+   "nota_fix": "Confermato: cerchio da 16 punti con due maiuscole a 8 pixel. Delle due strade proposte ho preso la seconda — cerchio a 20 punti, lettere a 10 — invece di togliere il pallino. Motivo: su un marketplace con tanti negozi il segno del venditore accanto al prodotto e' informazione, non decorazione, e toglierlo e' una decisione di disegno che non spetta a una riparazione minore; portarlo al gradino minimo dichiarato dal sistema si', ed e' reversibile in una riga. Ho controllato l'effetto collaterale: la riga del negozio cresce di 4 punti, e SkeletonCard (fuori territorio) non ricalca quel cerchio — usa barrette generiche — quindi non l'ho reso incoerente, era gia' approssimato prima. NON VERIFICATO: che a 10 pixel due maiuscole siano davvero leggibili su uno schermo vero non l'ho guardato; ho verificato che 10px e' il minimo che il sistema dei caratteri dichiara, non che basti all'occhio.",
+   "file_toccati": [
+    "components/ProductCard.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+   "titolo": "Nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+   "esito": "non_riparato",
+   "prova": "Ho rifatto il conto della prova che sorveglia questa riga (tests/unit/sul-telefono-il-piu-della-card-non-viene-tagliato-dal-prezzo-scontato.test.ts) con i suoi stessi numeri, cambiando solo il corpo del prezzo. Dentro una scheda da 138 punti, tolti i 44 del pulsante e lo spazio, ai prezzi restano 88 punti. «129,90 €»: a text-base (16px) chiede 74,2 punti — avanzano 13,8; a text-lg (18px) chiede 83,5 — ne avanzano 4,5; a text-xl (20px) chiede 92,8 e SBORDA di 4,8, cioe' la cifra viene tagliata dal riquadro. Script del conto: /tmp/claude-0/-home-user/8fce493b-bb83-567f-9fdb-c4c7bac81aca/scratchpad/conto.mjs (rifa' le stesse formule del test).",
+   "nota_fix": "La diagnosi della scheda e' confermata riga per riga (prezzo text-base font-extrabold a 208 e 215, titolo text-[13px] a 188, pulsante h-11 w-11 bg-primary-600 a 217-222). Non l'ho chiusa, e il motivo e' preciso. La prova che sorveglia questa riga tiene il corpo del prezzo scritto a mano dentro di se': `larghezzaTesto(formatPrice(129.9), 16)`, riga 95, col commento «text-base = 16». Non lo legge dal componente. Quindi se io porto il prezzo a text-lg o text-xl quella prova RESTA VERDE mentre smette di descrivere la realta': continuerebbe a misurare 16 pixel su un prezzo che a video ne fa 20. E la prova esiste esattamente per il guaio che si rifarebbe: a text-xl il prezzo scontato a tre cifre sborda di 4,8 punti su un telefono da 360, e quello che sborda lo taglia il bordo della scheda. Alzare il prezzo oggi vuol dire mangiarsi il margine che una riparazione precedente aveva comprato, con la guardia cieca. La prova sta in tests/unit/, fuori dal mio territorio: non posso aggiornarla io. NON HO FATTO nemmeno la meta' facile (ammorbidire il «+»): il briefing dice che un difetto chiuso a meta' non e' chiuso, e quel quadrato e' il pulsante che aggiunge al carrello — sbiadirlo e' una scommessa sulla conversione, roba da test A/B con @cro, non da riparazione minore. Segnalo anche una cosa che secondo me NON va corretta: la scheda lamenta che il prezzo scontato sia text-secondary-600 e quello pieno text-ink-900, «la colonna non e' omogenea». Il prezzo in saldo di un altro colore e' una convenzione che i clienti leggono ovunque: toglierla spegne un segnale utile. Se si decide, si decida apposta.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "navigazione-gerarchia|nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»",
+   "perche": "il fix vive in un file fuori territorio: tests/unit/sul-telefono-il-piu-della-card-non-viene-tagliato-dal-prezzo-scontato.test.ts — tiene il corpo del prezzo scritto a mano (riga 95: `larghezzaTesto(formatPrice(129.9), 16)`) invece di leggerlo da components/ProductCard.tsx. Finche' resta cosi', alzare il prezzo passa senza che nessuno se ne accorga e il «+» torna a essere tagliato sui telefoni stretti. Chi prende in mano quel file faccia leggere il corpo dal componente (una riga), poi il prezzo puo' salire a text-lg — a text-lg il conto torna, avanzano 4,5 punti; a text-xl no, sborda."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "La prova che protegge il «+» della scheda prodotto tiene la misura del prezzo scritta a mano, quindi non si accorge se il prezzo cresce",
+   "dove": "tests/unit/sul-telefono-il-piu-della-card-non-viene-tagliato-dal-prezzo-scontato.test.ts:95",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il pulsante WhatsApp degli inviti diventava piu' scuro solo passandoci sopra col mouse, cosa che dal telefono non succede mai",
+   "dove": "app/profile/referral/page.tsx:126",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Tre cose. ① Non ho aperto il sito in un browser: nessuno screenshot, nessun confronto a occhio col marchio dei mockup, nessuna misura di pixel veri — tutto quello che dico sui colori e sui pesi viene dalle classi e dalla rampa colori di app/globals.css, ricalcolata a mano. ② Il tocco su un iPhone vero non l'ho potuto provare: il passaggio a pointerdown copre il dito per come e' definito l'evento, ma la conferma su Safari iOS resta da fare (era gia' dichiarata non provata nella scheda). ③ Non ho lanciato npm run verify ne' build, come da vincolo. La suite unita' l'ho lanciata intera: 464 file, 3484 prove, un solo rosso — webhook-diviso-per-mestiere.test.ts, perche' lib/stripe/webhook/ordini.ts ha toccato le 600 righe. NON E' MIO e l'ho provato: quel file l'ha modificato un'altra squadra alle 17:37 aggiungendo 11 righe sul carrello scaduto, io in lib/ non ho mai scritto — il mio diff sono 10 file, tutti dentro il mio elenco file_citati (git diff --stat lo mostra). Prima di partire avevo preso la fotografia verde delle 22 prove che leggono i miei file, cosi' il confronto e' vero e non a memoria."
+}

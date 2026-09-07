@@ -1,0 +1,84 @@
+{
+ "squadra": 220,
+ "ondata": 9,
+ "pacchetti": [
+  "home/user/mycity/app/api/orders/cod/route.ts",
+  "home/user/mycity/app/contact/page.tsx",
+  "home/user/mycity/app/admin/users/page.tsx",
+  "app/category/[slug]/page.tsx",
+  "app/page.tsx",
+  "app/loading.tsx"
+ ],
+ "file_citati": [
+  "app/api/orders/cod/route.ts",
+  "app/api/orders/[id]/cancel/route.ts",
+  "app/contact/page.tsx",
+  "app/help/page.tsx",
+  "app/faq/page.tsx",
+  "app/seller/help/page.tsx",
+  "app/rider/help/page.tsx",
+  "app/seller/layout.tsx",
+  "app/admin/users/page.tsx",
+  "app/api/returns/[id]/decide/route.ts",
+  "app/category/[slug]/page.tsx",
+  "app/page.tsx",
+  "lib/queries/precarico.ts",
+  "app/loading.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»",
+   "titolo": "Refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/api/orders/cod/route.ts righe 157, 202, 207 · /home/user/mycity/app/api/orders/[id]/cancel/route.ts righe 40, 50, 61",
+   "descrizione": "CONFERMATO con grep sui due file. Sei messaggi che arrivano davvero al browser: «Impossibile registrare l ordine, riprova.» (cod 157), «Ordine gia in corso, attendi qualche secondo.» (cod 202 e 207), «Impossibile leggere l ordine» (cancel 40), «Il negozio ha già accettato l ordine, non puoi più annullarlo.» (cancel 50), «Ordine già incassato in contanti: scrivi all assistenza per la restituzione.» (cancel 61). Apostrofi e accenti mancanti proprio dove si crea o si annulla un ordine.",
+   "impatto": null,
+   "fix_proposto": "«l'ordine», «già in corso», «all'assistenza», con apostrofo tipografico o escape, come già fa app/seller/orders/[id]/page.tsx."
+  },
+  {
+   "chiave": "microcopy|il tempo di risposta dell'assistenza è promesso in due modi diversi",
+   "titolo": "Il tempo di risposta dell'assistenza è promesso in due modi diversi",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/contact/page.tsx righe 91, 69 e 53 · /home/user/mycity/app/help/page.tsx riga 117 · /home/user/mycity/app/faq/page.tsx riga 190 · /home/user/mycity/app/seller/help/page.tsx riga 83 · /home/user/mycity/app/rider/help/page.tsx riga 165 · /home/user/mycity/app/seller/layout.tsx righe 55 e 137",
+   "descrizione": "CONFERMATO con grep. Quattro schede di contatto dicono «Risposta entro 24h» secco (contact 91, help 117, seller/help 83, rider/help 165); la conferma dopo l'invio dice «entro 24h lavorative» (contact 69) e la FAQ «entro 24 ore lavorative» (faq 190). Sono due promesse diverse: chi scrive venerdì sera legge 24 ore e ne aspetta 72. Stessa doppia versione per i venditori dentro lo stesso file: «Approvazione entro 48h» (seller/layout riga 55) contro «entro 48 ore lavorative» (riga 137).",
+   "impatto": null,
+   "fix_proposto": "Una sola formula ovunque, quella vera: «Risposta entro 24 ore lavorative» e «Approvazione entro 48 ore lavorative»."
+  },
+  {
+   "chiave": "microcopy|testi tecnici che escono dal database e finiscono davanti a una persona",
+   "titolo": "Testi tecnici che escono dal database e finiscono davanti a una persona",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/admin/users/page.tsx righe 519 e 619 · /home/user/mycity/app/api/returns/[id]/decide/route.ts righe 47 e 148",
+   "descrizione": "CONFERMATO. admin/users righe 519 e 619: il message della conferma dice «<nome> verrà rimosso da auth.users e il profilo anonimizzato…» — «auth.users» è il nome di una tabella, non una frase (chi legge è però lo staff, non il cliente: per questo resta minore). Rotta resi riga 47: `ApiErrors.conflict(\\`Reso gia' in stato ${ret.status}\\`)` → il venditore che decide due volte legge «Reso gia' in stato APPROVED», con lo stato grezzo in inglese maiuscolo e l'apostrofo battuto a macchina. Riga 148: `ApiErrors.badGateway('Rimborso fallito: ' + err.message)` → il testo d'errore di Stripe, in inglese, arriva a schermo.",
+   "impatto": null,
+   "fix_proposto": "«L'account verrà cancellato e i dati personali anonimizzati»; «Questo reso è già stato deciso» senza lo stato grezzo; «Il rimborso non è partito: riprova o scrivi all'assistenza», mandando il testo di Stripe ai log."
+  },
+  {
+   "chiave": "navigazione-gerarchia|sulla pagina di una sottocategoria il briciolo di pane salta la categoria madre",
+   "titolo": "Sulla pagina di una sottocategoria il briciolo di pane salta la categoria madre",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/category/[slug]/page.tsx:54-59 (madre non risolta benché presente in righe), :141-147 (JSON-LD Home › Categorie › X), :173-177 (briciolo visibile)",
+   "descrizione": "Su /category/libri-romanzi il briciolo dice «Home › Categorie › Romanzi»: manca «Libri». Chi vuole risalire di un livello e vedere le sorelle (Gialli, Fumetti…) deve riaprire il mega-menu. I dati strutturati per Google hanno lo stesso buco. Le righe di tutte le categorie sono già caricate (riga 54): la madre c'è in memoria, non viene cercata.\n\nCausa radice: La queryFn calcola solo padre = righe.find(slug) e le sue figlie; non calcola righe.find(r => r.id === padre.parent_id).\n\nProva (umano, non eseguita): Aprire /category/libri-romanzi (o qualunque slug con parent_id) e guardare il briciolo sotto l'intestazione: se manca il livello «Libri» il difetto c'è.",
+   "impatto": "Un tap in più per tornare alla categoria madre; briciolo incompleto per Google.",
+   "fix_proposto": "Nella queryFn aggiungere madre = righe.find(r => r.id === padre?.parent_id) ?? null e inserirla nel breadcrumb e nel JSON-LD; mostrare anche le sorelle come chip sotto il titolo."
+  },
+  {
+   "chiave": "performance-percepita|la home fa due letture al database una dopo l'altra prima di mostrare qualcosa: la seconda parte solo quando la prima è tornata",
+   "titolo": "La home fa due letture al database una dopo l'altra prima di mostrare qualcosa: la seconda parte solo quando la prima è tornata",
+   "dimensione": "performance-percepita",
+   "file": "app/page.tsx:96 (const site = await loadHomeSite()) e app/page.tsx:118 (const precarico = await precaricaHome()); lib/queries/precarico.ts:27-30 e :41-48",
+   "descrizione": "Prima di mandare il contenuto della home il server legge due cose indipendenti: la configurazione della home (site_settings.home_site, riga 96) e il precarico delle categorie (riga 118). Le aspetta in fila, non insieme. Con due letture finte da 150 ms l'una, Home() impiega 336 ms invece di ~150: il tempo della seconda si somma alla prima. In produzione ogni lettura è un viaggio Vercel → Supabase (decine di ms, di più sotto carico), pagato da ogni visitatore mentre guarda lo scheletro.\n\nCausa radice: Due await in sequenza (righe 96 e 118) senza Promise.all; il precarico crea inoltre un secondo client Supabase (import dinamico in precarico.ts:29) invece di riusare quello della riga 73.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove-jsx.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-home-letture-in-fila.test.tsx  (rosso oggi: 336 ms > 240 ms)",
+   "impatto": "Chi arriva sulla home (per esempio da un QR in vetrina) resta sullo scheletro un giro di rete in più del necessario, a ogni visita. È la porta d'ingresso di ogni campagna: la sensazione di lentezza nasce qui.",
+   "fix_proposto": "In app/page.tsx: const [site, precarico] = await Promise.all([loadHomeSite(), precaricaHome()]); meglio ancora, mettere la lettura di home_site dentro lo stesso precarico (stesso client anonimo) e avvolgere le sezioni sotto l'hero in un <Suspense> così il testo dell'hero esce prima delle categorie."
+  },
+  {
+   "chiave": "performance-percepita|ogni pagina che si sta caricando mostra prima una griglia di prodotti finti, anche «chi siamo» e la home: poi il contenuto vero la sostituisce di colpo",
+   "titolo": "Ogni pagina che si sta caricando mostra prima una griglia di prodotti finti, anche «Chi siamo» e la home: poi il contenuto vero la sostituisce di colpo",
+   "dimensione": "performance-percepita",
+   "file": "app/loading.tsx:8-18 (LoadingState variant=\"cards\" cards={4}, «Prepariamo i prodotti dei negozi vicino a te», min-h-[70vh]); vale per ogni rotta senza loading.tsx proprio — ne hanno uno solo app/orders/[id], app/product/[id], app/store/[id]",
+   "descrizione": "Il confine di caricamento della radice è uno scheletro a 4 schede prodotto centrato in un riquadro alto il 70% dello schermo, con cerchietto e la frase «Prepariamo i prodotti dei negozi vicino a te». Lo ricevono la home (che poi diventa hero + categorie, geometria del tutto diversa), Chi siamo (che diventa testo), e ogni altra pagina senza scheletro proprio: l'HTML di /about e di / contiene la frase due volte. All'arrivo del contenuto tutto si sposta.\n\nCausa radice: Un solo scheletro generico «a griglia» riusato come fallback di tutte le rotte, invece di scheletri che rispecchiano la geometria di ciascuna pagina.\n\nProva (comando, eseguita e rossa): sh /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-scheletro-comune.sh  (rosso oggi: /about e / contengono lo scheletro «Prepariamo i prodotti…»)",
+   "impatto": "A ogni navigazione sul telefono lo scheletro riempie lo schermo e poi l'intera pagina salta (layout shift), con un messaggio che promette prodotti dove non ce ne sono. Sensazione di pagina instabile; nessun soldo perso direttamente.",
+   "fix_proposto": "app/loading.tsx neutro (barra sottile in alto o guscio che riprende solo l'ingombro dell'header) e loading.tsx per rotta con la stessa geometria della pagina: per la home hero + riga di tessere categorie; per le pagine di testo nessuno scheletro a griglia."
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "squadra": 118,
+ "ondata": 25,
+ "pacchetto": "components/MobileTabBar.tsx",
+ "territorio_principale": "components/MobileTabBar.tsx",
+ "file_citati": [
+  "components/MobileTabBar.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "navigazione-gerarchia|dopo l'accesso la voce «negozi» sparisce dalla barra in basso",
+   "titolo": "Dopo l'accesso la voce «Negozi» sparisce dalla barra in basso",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/MobileTabBar.tsx:95-102 (autenticato: Home, Cerca, Carrello, Ordini, Io) contro :104-111 (ospite: Home, Cerca, Negozi, Carrello, Accedi)",
+   "descrizione": "CONFERMATO col file davanti. L'array dell'ospite (righe 104-111) contiene '/stores' con etichetta t('stores'); quello dell'utente autenticato (righe 95-102) la sostituisce con '/orders' e '/profile'. Il cliente che ha imparato dove stavano i negozi, dopo il login non li trova più nello stesso posto e deve passare dalla barra categorie in cima — che però soffre già del difetto di scorrimento senza affordance — o dal piè di pagina.",
+   "impatto": null,
+   "fix_proposto": "Tenere le stesse cinque destinazioni per ospite e utente registrato (Home, Cerca, Negozi, Carrello, Io) e spostare «Ordini» dentro il foglio «Io», dove c'è già."
+  }
+ ]
+}

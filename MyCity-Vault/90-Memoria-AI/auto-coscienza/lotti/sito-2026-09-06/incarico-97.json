@@ -1,0 +1,22 @@
+{
+ "squadra": 97,
+ "ondata": 20,
+ "pacchetto": "home/user/mycity/app/checkout/page.tsx",
+ "territorio_principale": "home/user/mycity/app/checkout/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/checkout/page.tsx",
+  "/home/user/mycity/components/checkout/ShippingAddressForm.tsx",
+  "home/user/mycity/app/checkout/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita",
+   "titolo": "Al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/checkout/page.tsx:309-322 (query indirizzi) e :845-853 · /home/user/mycity/components/checkout/ShippingAddressForm.tsx:76 e :154",
+   "descrizione": "CONFERMATO in parte, con severità corretta. Il pezzo che regge: la query `savedAddresses` ha `enabled: !!authUser?.id` (riga 311), quindi parte per forza DOPO che è tornata `authUser`, cioè più tardi della query dei gruppi che sblocca il render. Quando il modulo si disegna, `savedAddresses` è ancora `[]`, e in ShippingAddressForm `const editing = manualOpen || conErrori || savedAddresses.length === 0` (riga 76) vale true: si vede il modulo vuoto. All'arrivo degli indirizzi `editing` diventa false e il `<form>` riceve la classe `hidden` (riga 154), mentre l'effetto di checkout:356-365 riempie i campi. Il passo 1 si riorganizza davanti alla persona. NON confermo invece la seconda metà della segnalazione: il riquadro ospite `{!authUser && …}` sta a riga 845, cioè dopo `if (loadingGroups) return <LoadingState />` (riga 818), e `supabase.auth.getUser()` parte al montaggio prima della query dei gruppi — quindi il lampo del riquadro verde a un cliente già collegato non è dimostrabile. Resta un difetto di stato mancante, ma di impatto minore.",
+   "impatto": null,
+   "fix_proposto": "Passare a ShippingAddressForm una prop `caricamento` presa da `isLoading` della query `savedAddresses`, e finché è vera mostrare due mattonelle-scheletro invece del modulo, senza calcolare `editing`."
+  }
+ ]
+}

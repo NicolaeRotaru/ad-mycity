@@ -1,0 +1,21 @@
+{
+ "squadra": 110,
+ "ondata": 23,
+ "pacchetto": "app/api/locale/route.ts",
+ "territorio_principale": "app/api/locale/route.ts",
+ "file_citati": [
+  "app/api/locale/route.ts",
+  "messages/en.js"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "titolo": "Il cambio di lingua è un interruttore finto: il sito accetta la scelta, la salva e poi la ignora",
+   "dimensione": "microcopy",
+   "file": "i18n.ts (RILEVAMENTO_LINGUA_ATTIVO = false; getRequestConfig restituisce sempre DEFAULT_LOCALE), app/api/locale/route.ts (imposta il cookie NEXT_LOCALE), messages/en.json",
+   "descrizione": "L'endpoint /api/locale risponde ok e scrive il cookie NEXT_LOCALE=en, ma la configurazione di next-intl restituisce sempre «it»: la pagina resta in italiano. La prova end-to-end 10-security-and-i18n lo misura (rossa). È una scelta dichiarata nel codice (rilevamento spento), ma l'API e le traduzioni inglesi restano vive come se funzionassero.\n\nCausa radice: Funzione spenta a metà: spento il rilevamento, lasciati accesi endpoint e cookie.\n\nProva (comando, eseguita e rossa): CI=1 E2E_BASE_URL=http://localhost:3000 npx playwright test tests/e2e/10-security-and-i18n.spec.ts -g \"setta cookie\" --project=chromium → rossa",
+   "impatto": "Chi cambia lingua non vede nessun effetto; codice e traduzioni da mantenere per una funzione spenta.",
+   "fix_proposto": "O si riaccende il rilevamento (resolveLocale è già scritto) o si toglie l'interruttore dall'interfaccia e si fa rispondere 404 all'API."
+  }
+ ]
+}

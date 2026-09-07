@@ -1,0 +1,34 @@
+{
+ "squadra": 10,
+ "ondata": 2,
+ "pacchetto": "lib/stripe/payout.ts",
+ "territorio_principale": "lib/stripe/payout.ts",
+ "file_citati": [
+  "app/api/cron/release-payouts/route.ts",
+  "app/seller/earnings/page.tsx",
+  "app/seller/help/page.tsx",
+  "app/api/stripe/payout/route.ts",
+  "lib/stripe/payout.ts",
+  "app/api/cron/expire-stale-orders/route.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle faq del venditore",
+   "titolo": "Tre tempi diversi per lo stesso bonifico nel codice — e un quarto nelle FAQ del venditore",
+   "dimensione": "pagamenti-stripe",
+   "file": "app/api/cron/release-payouts/route.ts:10 · app/seller/earnings/page.tsx:297,356 · app/seller/help/page.tsx:39 · app/api/stripe/payout/route.ts:20 · lib/stripe/payout.ts:15",
+   "descrizione": "CONFERMATO, ed è peggio di come era stato riportato: le versioni sono QUATTRO. Il giro paga a consegna + 1 ora (HOLD_HOURS = 1, app/api/cron/release-payouts/route.ts:10). La pagina Guadagni dice «pagamento automatico ~24 ore dopo la consegna» (app/seller/earnings/page.tsx:297 e 356). I commenti di due file dei soldi dicono «+3gg» (app/api/stripe/payout/route.ts:20, lib/stripe/payout.ts:15). E le FAQ venditore dicono un'altra cosa ancora: «Bonifico mensile il giorno 5 sull'IBAN che hai registrato» (app/seller/help/page.tsx:39) — che è la versione più lontana dalla realtà.",
+   "impatto": "Il tempo del bonifico è la promessa su cui il negozio giudica se restare: averla scritta in quattro modi vuol dire che nessuno sa quale sia quella vera, e la migliore (paghiamo in un'ora, non in tre giorni e non il 5 del mese) è anche l'unica che non diciamo — buttiamo via il vantaggio competitivo più forte verso i negozi. Al primo dubbio su un pagamento, il negoziante e chi risponde leggono numeri diversi.",
+   "fix_proposto": "Una fonte sola: esportare la costante delle ore di attesa e stamparla nella pagina Guadagni e nelle FAQ; aggiornare i due commenti «+3gg». E se la promessa commerciale è «entro un'ora dalla consegna», scriverlo grande al negozio — è il motivo per cui uno resta."
+  },
+  {
+   "chiave": "api-backend|un ordine che non si riesce a rimborsare rimbalza per sempre fra annullato e nuovo",
+   "titolo": "Un ordine che non si riesce a rimborsare rimbalza per sempre fra annullato e nuovo",
+   "dimensione": "api-backend",
+   "file": "app/api/cron/expire-stale-orders/route.ts:92-119; lib/stripe/payout.ts:719-721",
+   "descrizione": "Il giro delle mezz'ore annulla gli ordini fermi da tre ore che il negozio non ha mai accettato e, se erano pagati con carta, chiede il rimborso. Se il rimborso solleva un errore, l'ordine viene rimesso in stato «nuovo» per ritentare al giro dopo. Ma non tutti gli errori sono ritentabili: quando l'ordine risulta gia' rimborsato per intero (per esempio da un reso chiuso prima), refundOrder esce con «importo rimborso non valido» a ogni tentativo. L'ordine allora torna «nuovo», viene riannullato mezz'ora dopo, rifallisce, e cosi' via senza fine.\n\nCausa radice: Il ritentativo non distingue fra un errore passeggero (Stripe non risponde) e uno definitivo (non c'e' piu' niente da rimborsare): fa marcia indietro sempre, senza un contatore dei tentativi ne' uno stato finale di resa.\n\nProva (umano, non eseguita): Serve un occhio umano sui dati veri: cercare in produzione un ordine con delivery_status='NEW', created_at piu' vecchio di tre ore, payment_status='REFUNDED' e refunded_amount_cents pari a gross_total_cents; poi guardare nei log di Vercel se la riga '[cron] expire-stale-orders: rimborso fallito, ordine rimesso in coda' compare piu' volte per lo stesso identificativo.",
+   "impatto": "Il negozio continua a vedere in lista un ordine «nuovo» da accettare che in realta' e' morto, e ogni mezz'ora il sistema lo riannulla e lo resuscita. Nessun allarme lo dice: il caso finisce solo nel contatore `failed` della risposta del giro, che non guarda nessuno.",
+   "fix_proposto": "Contare i tentativi sull'ordine (o distinguere l'errore «niente da rimborsare» dagli altri) e, oltre il terzo, lasciarlo annullato con un avviso agli amministratori invece di rimetterlo in coda: un ordine che non si puo' rimborsare e' un lavoro da fare a mano, non da ritentare per sempre."
+  }
+ ]
+}

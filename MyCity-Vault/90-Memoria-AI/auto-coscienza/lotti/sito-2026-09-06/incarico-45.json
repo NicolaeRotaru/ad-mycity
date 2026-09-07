@@ -1,0 +1,21 @@
+{
+ "squadra": 45,
+ "ondata": 10,
+ "pacchetto": "components/StorePreviewCard.tsx",
+ "territorio_principale": "components/StorePreviewCard.tsx",
+ "file_citati": [
+  "components/StoreShowcase.tsx",
+  "components/StorePreviewCard.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance-percepita|la vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate",
+   "titolo": "La vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate",
+   "dimensione": "performance-percepita",
+   "file": "components/StoreShowcase.tsx:69-83 (scheletro) contro :20 e :29 (`.limit(6)`) e components/StorePreviewCard.tsx:59-63 (copertina `h-28`)",
+   "descrizione": "Confermato. Lo scheletro cicla `Array.from({ length: 4 })`, mentre entrambe le query della vetrina chiedono `.limit(6)`: su due colonne da telefono sono due righe che diventano tre, quindi nasce una riga intera e tutto ciò che sta sotto scende. In più il riquadro-foto dello scheletro è `aspect-[4/3]`, mentre la copertina vera passa da `StoreMediaCarousel` con `heightClass={compact ? 'h-24' : 'h-28'}` (StorePreviewCard.tsx:61), cioè 112 px fissi: su desktop a quattro colonne larghe ~280 px lo scheletro è alto ~210 px contro i 112 veri. Il commento alla riga 68 dice che lo scheletro serve «a evitare il CLS»: lo riduce, non lo evita.",
+   "impatto": null,
+   "fix_proposto": "Portare il conteggio degli scheletri a 6 — meglio: leggerlo dalla stessa costante che alimenta il `limit`, così non possono divergere — e sostituire `aspect-[4/3]` con `h-28`, la stessa classe della copertina vera."
+  }
+ ]
+}

@@ -1,0 +1,79 @@
+{
+  "squadra": 237,
+  "territorio": [
+    "components/ProductGrid.tsx",
+    "components/store-sections/ScheletroNegozio.tsx",
+    "components/checkout/ShippingAddressForm.tsx",
+    "app/layout.tsx",
+    "components/CookieBanner.tsx",
+    "components/ProductCard.tsx",
+    "components/CategoryBar.tsx",
+    "tests/unit/il-catalogo-si-legge-anche-mentre-si-aggiorna.test.ts",
+    "tests/unit/mentre-il-sito-lavora-chi-ascolta-lo-sente.test.ts"
+  ],
+  "malattia": "Cinque rimedi scritti stamattina hanno sistemato la METÀ VISIBILE del problema e dichiarato chiuso il resto: una schiaritura pensata come segnale di attesa che spegneva il testo di tutto il catalogo, due regioni vive a cui è stato dato un nome invece di una frase (col commento che scriveva «fatto»), un `viewportFit: 'cover'` acceso leggendo un bordo di schermo su quattro, e un pallino ingrandito ma lasciato del colore di prima. La causa comune è una sola: nessuno di questi rimedi poteva diventare rosso, perché i contrasti vivevano dentro i commenti come numeri scritti a mano e le regioni vive non erano coperte da niente.",
+  "difetti": [
+    {
+      "chiave": "FUXB-01",
+      "titolo": "Quando cambi un filtro, la griglia si sbiadisce e i nomi dei prodotti diventano illeggibili",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-catalogo-si-legge-anche-mentre-si-aggiorna.test.ts → 3 passed. MUTAZIONE ESEGUITA: rimesso `opacity-50` sul contenitore della griglia (riga 638) → la prova è diventata ROSSA elencando 9 cadute calcolate sui token veri: nome prodotto 3,37:1 invece di 17,35 · nome negozio 2,37:1 invece di 7,63 · badge sconto 2,42:1 invece di 6,18 · badge «Nuovo» 1,99:1 invece di 4,78 · iniziali 2,13:1 · «Ultimi 2» 2,55:1 · prezzo 2,42:1 · prezzo barrato 2,37:1 · superficie del «+» al carrello 2,13:1 invece di 4,96 (soglia 3). Ripristinato → 3 passed. I numeri confermano in modo indipendente quelli della radiografia (3,31 · 2,34 · 2,12): la differenza di 0,05 è perché io misuro sul fondo pagina reale `cream-100`, la radiografia sul bianco.",
+      "nota_fix": "Tolto `opacity-50` da tutti e due i contenitori (fila orizzontale e griglia) e messo al suo posto `BarraSiAggiorna`: una riga alta 4px sopra la griglia, pista `cream-200` e riempimento `primary-700` (6,34:1 sul fondo pagina), `aria-hidden` perché lo stato lo dicono già `aria-busy` e la riga «Aggiorno i risultati…», che ho lasciato intatte perché erano giuste. Animazione `animate-progress-fill` e NON una pulsazione: una pulsazione fa ballare l'opacità, cioè esattamente il difetto da cui veniamo, e a 0,6 di opacità la barra scenderebbe a 2,80:1. Sotto `prefers-reduced-motion` la riga compare ferma, e comparire è già il segnale. SCOSTAMENTO DALLA SCHEDA: il fix pronto della radiografia proponeva `animate-[scorri_1.2s...]`, ma il keyframe `scorri` non esiste in tailwind.config.ts e quel file è di tutti — ho usato un'animazione già dichiarata. Corretto anche il commento di testa che continuava a dire «la griglia si schiarisce». NON VERIFICATO: nessun browser aperto, i contrasti sono calcolati sui token, non letti da un pixel.",
+      "file_toccati": ["components/ProductGrid.tsx"]
+    },
+    {
+      "chiave": "FUXB-03",
+      "titolo": "Due attese annunciano il vuoto: la regione ha un nome ma niente da dire",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/mentre-il-sito-lavora-chi-ascolta-lo-sente.test.ts → 5 passed. MUTAZIONI ESEGUITE, una per file: tolto lo `<span className=\"sr-only\">` da ScheletroNegozio → ROSSO «La regione viva dello scheletro del negozio non contiene nessuna parola»; tolto quello da ShippingAddressForm → ROSSO «In cassa la regione viva dell'attesa è vuota». Ripristinati tutti e due → 5 passed. La prova non cerca una stringa: monta i due componenti veri, raccoglie ogni `[role=status]`/`[aria-live]`, toglie ciò che è `aria-hidden` e pretende che resti del testo — quindi vale anche per le attese che nasceranno domani in quei due file.",
+      "nota_fix": "Una riga per file, copiando il modello che già gira in ProductGrid: `<span className=\"sr-only\">Sto aprendo il negozio…</span>` e `<span className=\"sr-only\">Carico i tuoi indirizzi salvati…</span>`, messo PRIMA delle mattonelle `aria-hidden`. Tolti i due `aria-label`, che con il testo dentro non servono più, e rimesso `aria-busy=\"true\"` su ScheletroNegozio. CORRETTO ANCHE IL COMMENTO, come chiesto: quello di ScheletroNegozio dichiarava «adesso la regione ha un nome» come se il difetto fosse chiuso, ed è la parte che faceva più danno — un commento che dice «fatto» compra a quel difetto un altro giro di radiografie. Ora spiega perché il nome non basta e cita i due posti dove il modello giusto già gira. NON VERIFICATO: nessuno screen reader vero. Che NVDA/VoiceOver leggano quella frase lo so dalla specifica ARIA, non l'ho sentito con le orecchie.",
+      "file_toccati": [
+        "components/store-sections/ScheletroNegozio.tsx",
+        "components/checkout/ShippingAddressForm.tsx"
+      ]
+    },
+    {
+      "chiave": "FUXB-02",
+      "titolo": "Abbiamo detto all'iPhone di usare tutto lo schermo, ma leggiamo solo il bordo di sotto",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/mentre-il-sito-lavora-chi-ascolta-lo-sente.test.ts → 5 passed. MUTAZIONI ESEGUITE: tolto il `style` dal `<body>` → ROSSO «nessuno legge safe-area-inset-left»; rimesso `bottom-[var(--tabbar-height)] md:bottom-0` sul banner cookie → ROSSO «CookieBanner si scrive il proprio bottom a mano». Ripristinati → 5 passed. La prova sul banner non è un grep: chiama `fondoDellaBarra(corsieSotto(VARIABILE_ALTEZZA))` e verifica che il valore calcolato contenga davvero sia la barra gestuale sia la barra a schede; e legge i sorgenti SENZA commenti, perché i commenti di questi file citano il difetto vecchio e la prova sarebbe diventata rossa per una frase.",
+      "nota_fix": "① Bordi laterali: `paddingLeft`/`paddingRight` a `env(safe-area-inset-left/right, 0px)` sul `<body>` in app/layout.tsx. SCOSTAMENTO DALLA SCHEDA: la radiografia proponeva di scriverlo in app/globals.css, che è fuori dal mio territorio — l'ho messo sul `<body>` dello stesso layout che ha acceso `viewportFit`, che è l'unico elemento che li vede tutti. Funziona sulla barra in alto perché è `relative` sul telefono e `md:sticky` sul computer, cioè resta nel flusso e il padding del body la protegge. Verificato prima di scrivere che in app/ e components/ non esiste NESSUN `w-screen` né bleed a `100vw`: il padding sul body non può creare scorrimento orizzontale. Il bordo di sotto non l'ho toccato: ha già la sua casa, e contarlo due volte era il difetto di agosto. ② Banner cookie: `bottom` calcolato da `lib/ui/barra-in-fondo.ts` come già fanno carrello, StickyAddToCart e PWAInstallBanner — questo era l'ultimo elemento in fondo che se lo scriveva a mano. Tolto `md:bottom-0` perché da 768 in su `--tabbar-height` vale già 0px di suo (app/globals.css:339-341): era una seconda verità sullo stesso fatto. NON VERIFICATO, ed è il limite serio: `env()` si comporta davvero solo su un telefono vero. Servono 10 minuti di @qa su un iPhone senza tasto casa, verticale E orizzontale.",
+      "file_toccati": ["app/layout.tsx", "components/CookieBanner.tsx"]
+    },
+    {
+      "chiave": "FUXB-04",
+      "titolo": "Le iniziali del negozio sono state ingrandite, ma restano bianche su un arancione troppo chiaro",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/il-catalogo-si-legge-anche-mentre-si-aggiorna.test.ts → 3 passed. MUTAZIONE ESEGUITA: rimesso `from-primary-500` → ROSSO «il testo «PQ» (span.flex): #FFFFFF su #D55F3F = 3,79:1, ne servono 4,50» — lo stesso identico numero che aveva calcolato la radiografia, ottenuto per un'altra strada. Ripristinato → 3 passed.",
+      "nota_fix": "Il gradiente parte da `primary-600` invece che da `primary-500`: bianco su #C0492C = 4,96:1, e l'altro capo (`primary-700`) stava già a 6,67. Scartata l'alternativa `aria-hidden` che la scheda proponeva come seconda strada: il pallino il negozio lo dice davvero, non è decorativo, e nasconderlo sarebbe stato togliere informazione invece di renderla leggibile. NON VERIFICATO: il gradiente rende il valore esatto dipendente dal punto del cerchio; 4,96 è il caso peggiore, quello dell'angolo in alto a sinistra dove il gradiente comincia.",
+      "file_toccati": ["components/ProductCard.tsx"]
+    },
+    {
+      "chiave": "FUXB-05",
+      "titolo": "Il pannello categorie porta il fuoco sul primo link e salta la sua stessa X per chiudere",
+      "esito": "non_riparato",
+      "prova": "Il difetto l'ho CONFERMATO montando il componente vero: aperto il pannello, il fuoco atterra su «Tutti i negozi» e non sulla «×». Ho anche scritto e fatto girare la riparazione — `querySelectorAll('button, a[href]')` con un giro che verifica chi ha preso il fuoco davvero — e con quella il fuoco andava sulla «×» come deve. POI l'ho tolta: faceva diventare ROSSA `tests/unit/il-pannello-delle-categorie-si-apre-a-misura-di-schermo.test.ts` (riga 77, «Il fuoco deve entrare sul primo link del pannello»), che è fuori dal mio territorio. `components/CategoryBar.tsx` è tornato identico all'originale: `git status` non lo elenca più.",
+      "nota_fix": "NON RIPARATO PER SCELTA, non per difficoltà. La riparazione tocca due file e vanno cambiati INSIEME: il codice in CategoryBar.tsx (mio) e l'ultima riga di quella prova (non mia). Cambiarne uno solo lascia un rosso nel lotto. Vedi `bloccati` per le due righe esatte, già scritte e già provate. ATTENZIONE PER CHI LA APPLICA: la «×» è `sm:hidden`, quindi su schermo grande è nel documento ma invisibile e il browser rifiuta di darle il fuoco — prendere «il primo pulsante» e fidarsi lascerebbe il fuoco fermo sul computer, cioè scambierebbe il difetto del telefono con uno del desktop. Per questo la riparazione chiede il fuoco a uno per volta e controlla `document.activeElement`, invece di indovinare chi è visibile. In jsdom non esiste il CSS, quindi la «×» risulta sempre focalizzabile: è il motivo tecnico per cui la prova dell'altra squadra diventa rossa anche se sul desktop vero non cambia niente.",
+      "file_toccati": []
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "FUXB-05",
+      "perche": "il fix vive anche in un file fuori territorio: tests/unit/il-pannello-delle-categorie-si-apre-a-misura-di-schermo.test.ts (riga 77). La prova pretende che il fuoco vada sul primo LINK del pannello; la riparazione lo porta sulla «×» che chiude, che è un `button`. Il suo stesso intento dichiarato alla riga 75 — «il fuoco deve entrare nel pannello, non restare sulla barra dietro» — resta soddisfatto: cambia solo l'ultima riga, che è più specifica di quanto serva. Le due modifiche, da fare insieme: ① components/CategoryBar.tsx riga 123, sostituire `pannelloRef.current?.querySelector<HTMLElement>('a[href]')?.focus({ preventScroll: true });` con `const candidati = Array.from(pannelloRef.current?.querySelectorAll<HTMLElement>('button, a[href]') ?? []); for (const c of candidati) { c.focus({ preventScroll: true }); if (document.activeElement === c) return; }` ② nella prova dell'altra squadra, riga 71 e 77, sostituire `pannello.querySelector('a[href]')` con `pannello.querySelector('button, a[href]')` e il messaggio con «Il fuoco deve entrare sul primo elemento raggiungibile del pannello, la × compresa». Entrambe girate e verdi in locale prima di essere tolte."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Il cuore dei preferiti spento sta a 3,03:1 e vive dentro un `opacity-60` scritto a mano",
+      "dove": "components/ProductCard.tsx:~185 (bottone preferiti quando la lista non è ancora letta)",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Nessuna prova impedisce a un contenitore di catalogo di rinascere schiarito fuori da ProductGrid: la regola oggi legge solo quel file",
+      "dove": "tests/unit/il-catalogo-si-legge-anche-mentre-si-aggiorna.test.ts (schiaritureDellaGriglia)",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "① NESSUN BROWSER APERTO: tutti i contrasti sono ricalcolati dai token veri di tailwind.config.ts, che è più preciso di una stima a occhio ma non vede il pixel montato (gradienti, ombre, testo sopra una foto). ② NESSUNO SCREEN READER VERO: che NVDA/VoiceOver/TalkBack leggano davvero le due frasi nuove lo deduco dalla specifica ARIA. È la cosa che vorrei sentire con le orecchie prima di chiamarlo chiuso. ③ NESSUN IPHONE FISICO, ed è il buco più serio, perché FUXB-02 vive interamente lì: `env(safe-area-inset-*)` da qui non si può osservare. Servono 10 minuti di @qa su un modello senza tasto casa, in verticale (banner cookie sopra la barra a schede) e in orizzontale (marchio e comandi fuori dal bordo curvo). ④ NON HO LANCIATO `npm run verify` né la build, come da consegna: ho lanciato `npx tsc --noEmit -p tsconfig.json` (esce 0) e 39 file di prova, cioè tutti quelli che nominano uno dei sette file del territorio, più i due miei: 178 prove verdi. ⑤ IL PERIMETRO DELLA BARRA IN FONDO: ho verificato il conto del banner cookie contro `lib/ui/barra-in-fondo.ts` e contro l'altezza vera di MobileTabBar (`fixed bottom-0 ... pb-safe`), ma non ho attraversato le altre corsie — se un'altra squadra tocca la barra d'acquisto o il pulsante dell'assistenza, quel pezzo va riguardato insieme."
+}

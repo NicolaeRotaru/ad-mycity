@@ -1,0 +1,20 @@
+{
+ "squadra": 64,
+ "ondata": 13,
+ "pacchetto": "components/ui/SocialProof.tsx",
+ "territorio_principale": "components/ui/SocialProof.tsx",
+ "file_citati": [
+  "components/ui/SocialProof.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance|la prova sociale «ordinato n volte» scarica ogni riga d'ordine del prodotto per contarle nel browser",
+   "titolo": "La prova sociale «Ordinato N volte» scarica ogni riga d'ordine del prodotto per contarle nel browser",
+   "dimensione": "performance",
+   "file": "components/ui/SocialProof.tsx:27-38",
+   "descrizione": "CONFERMATO alla lettera. `components/ui/SocialProof.tsx:27-38`:\n\n```ts\nconst { data } = await supabase\n  .from('order_items')\n  .select('quantity, orders!inner(created_at)')\n  .eq('product_id', productId)\n  .gte('orders.created_at', since);\nreturn (data ?? []).reduce((sum, row) => sum + (row.quantity ?? 1), 0);\n```\n\nNessun limite, nessuna aggregazione: si scaricano tutte le righe d'ordine degli ultimi 7 giorni per sommare un numero che poi si mostra come «Ordinato 12 volte». Montato una volta per scheda prodotto (`app/product/[id]/page.tsx:721`), non per ogni card di griglia.\n\nSeverità confermata «minore»: con 7 giorni di finestra e i volumi di oggi sono poche righe.",
+   "impatto": "Il costo della query cresce con quanto il prodotto vende: il best-seller — quello che apre più gente — è quello che scarica più righe. La pagina più visitata diventa la più lenta, l'esatto contrario di quello che serve. Query che peggiora quando le cose vanno bene.",
+   "fix_proposto": "Una RPC che fa `SUM(quantity)` nel database e restituisce un numero (l'indice `order_items_product_idx` su `product_id` esiste già, `migrations/036_curated_lists_and_indices.sql:69`). Bonus: la stessa RPC può calcolare l'intera griglia in una chiamata sola invece di una per scheda."
+  }
+ ]
+}

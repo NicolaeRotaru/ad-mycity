@@ -1,0 +1,198 @@
+{
+ "squadra": 12,
+ "territorio": [
+  "components/NewsletterForm.tsx",
+  "components/Footer.tsx",
+  "components/home-sections/HomeSectionRenderer.tsx",
+  "components/Honeypot.tsx",
+  "lib/home-site.ts",
+  "components/admin/home/HomeSectionConfigForm.tsx",
+  "lib/image-url.ts",
+  "components/cms/CmsBlockRenderer.tsx",
+  "components/seller/site/ImageUpload.tsx",
+  "components/seller/site/GalleryFields.tsx",
+  "components/store-sections/HeroSection.tsx",
+  "app/page.tsx",
+  "components/home/HowItWorks.tsx",
+  "app/categorie/page.tsx",
+  "components/CategoryShowcase.tsx",
+  "migrations/002_categories_and_extras.sql",
+  "components/StoreMediaCarousel.tsx",
+  "components/store-sections/BannerSection.tsx",
+  "components/store-sections/GallerySection.tsx",
+  "components/StoryViewer.tsx",
+  "components/home/ShopOfMonthHero.tsx",
+  "components/home/HomeEvents.tsx",
+  "components/Navbar.tsx",
+  "components/StoreAvatar.tsx",
+  "lib/image-loader.ts",
+  "components/home/HeroStoreCard.tsx",
+  "components/ProductGrid.tsx",
+  "components/LiveActivityFeed.tsx",
+  "components/ui/DeliveryCutoff.tsx"
+ ],
+ "malattia": "Quasi tutti nascono dalla stessa cosa: la home è stata montata pezzo per pezzo e nessuno ha mai guardato la pagina INTERA. Così le stesse quattro promesse finiscono in tre punti, lo stesso pulsante in due, i moduli si ripetono con lo stesso identificativo, ogni sezione si è scelta la sua aria, e la cura che c'era già in casa (il caricatore delle foto verso il CDN di Supabase, `statoDellaVista` per distinguere «carico» da «vuoto», la primitiva dei campi) è stata applicata dove serviva quel giorno invece che dappertutto.",
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|il campo email in fondo a ogni pagina non ha un nome: chi non vede sente solo «modifica testo»",
+   "titolo": "Il campo email in fondo a ogni pagina non ha un nome: chi non vede sente solo «modifica testo»",
+   "esito": "gia_riparato_prima",
+   "prova": "grep -n 'aria-label' components/NewsletterForm.tsx → riga 103: `aria-label={t('placeholder')}`. E alle righe 95-97 c'è il commento di chi l'ha riparato, che racconta esattamente questo difetto («Il campo aveva per unico nome il segnaposto…»).",
+   "nota_fix": "Il difetto come è scritto non c'è più: il campo un nome accessibile ce l'ha, quindi un lettore di schermo non dice più solo «modifica testo». Resta un difetto di qualità del nome, e lo dichiaro: il nome è l'indirizzo di esempio («la-tua@email.it»), non «La tua email». Per cambiarlo servono due chiavi nuove in messages/it.json e messages/en.json, che sono fuori dal mio territorio e in mano a tutte le squadre: non li ho toccati. Lo lascio in difetti_nuovi. NON verificato: con un lettore di schermo vero (da qui non ho né browser né anteprima).",
+   "file_toccati": []
+  },
+  {
+   "chiave": "accessibilita-visiva|sulla home lo stesso modulo compare due volte e i due campi nascosti anti-robot hanno lo stesso identificativo",
+   "titolo": "Sulla home lo stesso modulo compare due volte e i due campi nascosti anti-robot hanno lo stesso identificativo",
+   "esito": "riparato",
+   "prova": "grep -n 'hp-\\|useId' components/Honeypot.tsx → l'identificativo `hp-${name}` non esiste più, al suo posto `const campoId = useId()` usato sia in `<label htmlFor>` sia in `<input id>`. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Trovato esattamente come descritto. Due righe, come diceva la scheda: `useId()` di React dà un identificativo diverso a ogni copia del componente, quindi i due moduli newsletter della home (piè di pagina + sezione) non collidono più. Il `name` resta «company»: quello è l'esca per i robot e non c'entra con l'identificativo. NON verificato: l'HTML consegnato da un server acceso (la prova della scheda chiedeva `curl` sulla home, e da qui non ho un sito che gira); la verifica è sul sorgente.",
+   "file_toccati": [
+    "components/Honeypot.tsx"
+   ]
+  },
+  {
+   "chiave": "accessibilita-visiva|il banner della home non ha un campo per il testo alternativo dell'immagine",
+   "titolo": "Il banner della home non ha un campo per il testo alternativo dell'immagine",
+   "esito": "riparato",
+   "prova": "grep -n 'alt' lib/home-site.ts (bannerConfig ha `alt: shortText(120)`), components/admin/home/HomeSectionConfigForm.tsx (nuovo `<Input label=\"Testo alternativo\">` nel caso 'banner'), components/home-sections/HomeSectionRenderer.tsx (`alt={c.alt ?? ''}`). npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato alla riga esatta. Fatte tutte e tre le cose del fix proposto: campo nello schema, campo nel pannello (con la spiegazione «lascialo vuoto se l'immagine è solo uno sfondo»), e il renderer che smette di ripetere il titolo. I banner già salvati non hanno `alt`, quindi escono con alt vuoto — immagine decorativa: è la scelta giusta, perché il titolo è comunque scritto a video due righe sotto. NON verificato: come si vede il campo nuovo dentro il pannello (nessuna anteprima da qui).",
+   "file_toccati": [
+    "lib/home-site.ts",
+    "components/admin/home/HomeSectionConfigForm.tsx",
+    "components/home-sections/HomeSectionRenderer.tsx"
+   ]
+  },
+  {
+   "chiave": "immagini-media|le foto in galleria e le anteprime restano al loro tetto anche sugli schermi fini",
+   "titolo": "Le foto in galleria e le anteprime restano al loro tetto anche sugli schermi fini",
+   "esito": "riparato",
+   "prova": "grep -n 'loader={caricatoreFotoRemote}' sui punti citati: HomeSectionRenderer:438 (galleria), CmsBlockRenderer:63 e :39, seller/site/ImageUpload.tsx:59, seller/site/GalleryFields.tsx:60, store-sections/HeroSection.tsx:91-98. Prove di comportamento già in casa, rieseguite: tests/unit/foto-che-si-adattano-allo-schermo.test.ts (col caricatore srcSet e sizes tornano vivi e ogni variante chiede a Supabase quella larghezza) e tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts (nessuna foto chiesta più piccola del suo riquadro). npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Il tetto non stava nei numeri di lib/image-url.ts: stava nel fatto che senza `loader` la larghezza scritta nell'indirizzo era l'unica che arrivava, e Next non ingrandisce. Col caricatore la larghezza la decide Next in base a `sizes` e alla densità dello schermo, e il ridimensionamento resta sul CDN di Supabase. Per questo NON ho toccato thumb=100 / card=400: alzarli avrebbe fatto scaricare foto più grandi anche dove non servono, e i quattro nomi sono ancora fissati da una prova («i quattro nomi valgono ancora i loro pixel»). NON verificato: il peso vero scaricato da un browser (nessuna anteprima da qui).",
+   "file_toccati": [
+    "components/home-sections/HomeSectionRenderer.tsx",
+    "components/cms/CmsBlockRenderer.tsx",
+    "components/seller/site/ImageUpload.tsx",
+    "components/seller/site/GalleryFields.tsx",
+    "components/store-sections/HeroSection.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|le stesse quattro promesse sono ripetute tre volte sulla home e una quarta nel piè di pagina",
+   "titolo": "Le stesse quattro promesse sono ripetute tre volte sulla home e una quarta nel piè di pagina",
+   "esito": "riparato",
+   "prova": "components/home-sections/HomeSectionRenderer.tsx, in fondo: `schedaFiduciaGiaInPagina` + `daDisegnare = sections.filter((s) => s.type !== 'trustRow')`. Le due sezioni che leggevano lo stesso DEFAULT_TRUST_BULLETS adesso non compaiono più insieme. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato: la scheda dentro «Attività live» e la banda fiducia leggono lo stesso elenco e nell'ordine di partenza ci sono tutte e due. HO SCELTO L'ALTRA STRADA rispetto al fix proposto, e dico perché: togliere `trustRow` da DEFAULT_ORDER rompe due prove che stanno fuori dal mio territorio (tests/unit/home-site.test.ts:44 e tests/unit/in-home-il-primo-prodotto-non-sta-sotto-tre-sezioni.test.ts:85 fissano l'ordine di partenza), e la sezione resterebbe comunque ordinabile dal pannello. Così invece la banda si nasconde solo quando è davvero una ripetizione: se l'admin ha scritto i suoi vantaggi nella scheda (config.bullets), le due dicono cose diverse e restano tutte e due. Restano le altre due occorrenze che la scheda cita ma il fix proposto non chiede di togliere: le tre righe corte nell'hero e la striscia del piè di pagina, che sono più corte e in un altro contesto. NON verificato: come si vede la home senza la banda (nessuna anteprima da qui).",
+   "file_toccati": [
+    "components/home-sections/HomeSectionRenderer.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|due pulsanti primari identici «inizia a esplorare» sulla stessa home, e portano a un indice senza foto",
+   "titolo": "Due pulsanti primari identici «Inizia a esplorare» sulla stessa home, e portano a un indice senza foto",
+   "esito": "riparato",
+   "prova": "grep -rn 'Inizia a esplorare' app/ components/ → sulla home resta UNA sola volta (app/page.tsx:37, il testo del pulsante dell'hero); in components/home/HowItWorks.tsx la scritta compare solo dentro il commento che spiega il cambio. Il pulsante dell'hero adesso ha href=\"/search\". npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato, compreso il caveat: i due pulsanti erano gemelli (stesso testo, stesso indirizzo, stesse classi). Fatte tutte e due le cose del fix proposto: ① in «Come funziona» il pulsante pieno diventa un link sottolineato con un'altra frase («Sfoglia le categorie»), tocco alto 44 punti e anello di fuoco per la tastiera; ② l'unica chiamata principale, quella dell'hero, porta a /search, dove i prodotti hanno foto e prezzo, invece che a /categorie, che è un elenco di nomi (verificato: app/categorie/page.tsx non contiene nessun <Image>/<img>). /categorie resta raggiungibile dalla barra, dal piè di pagina, dal link nuovo di «Come funziona» e da «Vedi tutte le categorie». EFFETTO COLLATERALE BUONO: tests/e2e/01-home-renders.spec.ts fa `page.click('text=Inizia a esplorare')`, che con due elementi uguali in pagina è ambiguo per Playwright; e l'indirizzo atteso è /(categorie|search), quindi /search va bene. NON verificato: l'end-to-end non l'ho lanciato (serve un sito acceso), e non ho misurato quale delle due destinazioni converte di più.",
+   "file_toccati": [
+    "components/home/HowItWorks.tsx",
+    "components/home-sections/HomeSectionRenderer.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|la sezione «cosa cerchi oggi? — tutte le categorie» ne mostra sei e non ha il link per vedere le altre",
+   "titolo": "La sezione «Cosa cerchi oggi? — Tutte le categorie» ne mostra sei e non ha il link per vedere le altre",
+   "esito": "riparato",
+   "prova": "grep -n 'Vedi tutte le categorie' components/CategoryShowcase.tsx → riga 149, dentro l'intestazione, verso /categorie. grep -rn 'Tutte le categorie del mercato locale' app/ components/ lib/ → nessun riscontro: il sottotitolo di default è «Le categorie più cercate», nel renderer e nel segnaposto del pannello. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato: il taglio a sei era muto e il sottotitolo prometteva «tutte». Fatte tutte e due le cose del fix proposto. Il link compare SOLO se ci sono più di sei categorie (`categories.length > TESSERE_IN_HOME`): con sei o meno non c'è niente da vedere altrove e un «vedi tutte» sarebbe un giro a vuoto. Il 6 non è più un numero nudo dentro una `slice`: è la costante TESSERE_IN_HOME. NON verificato: quante categorie ci sono davvero in produzione (la migrazione 002 ne semina otto, ma il database vero non l'ho letto) e come sta il link sotto un titolo centrato (nessuna anteprima).",
+   "file_toccati": [
+    "components/CategoryShowcase.tsx",
+    "components/home-sections/HomeSectionRenderer.tsx",
+    "components/admin/home/HomeSectionConfigForm.tsx"
+   ]
+  },
+  {
+   "chiave": "navigazione-gerarchia|le spaziature verticali fra i blocchi della home non seguono nessuna scala, e il «drop del giorno» non ha aria sopra",
+   "titolo": "Le spaziature verticali fra i blocchi della home non seguono nessuna scala, e il «Drop del giorno» non ha aria sopra",
+   "esito": "riparato",
+   "prova": "grep -n 'SPAZIO_SEZIONE\\|SPAZIO_FASCIA' components/home-sections/HomeSectionRenderer.tsx → tutte e diciannove le sezioni prendono uno dei due passi; grep -n 'py-4\\|py-5\\|pb-2\\|md:py-8' sullo stesso file → restano solo dentro il commento che spiega com'era. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato, «Drop del giorno» compreso: `pb-2`, cioè aria solo sotto. Due passi soli, come chiedeva il fix: SPAZIO_SEZIONE e SPAZIO_FASCIA. HO SCELTO NUMERI DIVERSI da quelli proposti (py-8 / py-10) e dico perché: py-8 su ogni sezione allunga la home di parecchi punti sul telefono, e la home è stata accorciata il 3/9 apposta per portare i prodotti sopra la piega. Quindi il passo normale resta py-6 (il valore che già usavano cinque sezioni su undici) e le bande a piena larghezza con un fondo colorato crescono solo da schermo medio in su (py-6 md:py-10). Sul telefono cambia in pratica solo il «Drop del giorno», che era il caso rotto. Le due stringhe sono letterali, quindi Tailwind le trova. NON verificato: il ritmo verticale a occhio, né da telefono né da computer (nessuna anteprima da qui): è la parte del mio lavoro che più merita un'occhiata umana, in particolare la banda scura «Diventa venditore», che da computer passa da py-5 a py-10.",
+   "file_toccati": [
+    "components/home-sections/HomeSectionRenderer.tsx"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|la copertina del negozio e altre foto grandi passano dall'ottimizzatore di vercel invece che dal cdn supabase: doppio ridimensionamento e primo caricamento lento",
+   "titolo": "La copertina del negozio e altre foto grandi passano dall'ottimizzatore di Vercel invece che dal CDN Supabase: doppio ridimensionamento e primo caricamento lento",
+   "esito": "riparato",
+   "prova": "grep -n 'loader={caricatoreFotoRemote}' su tutti i punti elencati nella scheda: HeroSection:91-98 (copertina con priority), StoreMediaCarousel:67-73, store-sections/BannerSection:24-29, store-sections/GallerySection:28-35, StoryViewer:196-204, home/ShopOfMonthHero:105-110, HomeSectionRenderer:412 e :440, CmsBlockRenderer:39 e :63, Navbar (i due loghi), StoreAvatar:34-39. HomeEvents:67 ce l'aveva già. Un controllo scritto per l'occasione ha ripassato tutti i 29 file del mio territorio cercando `<Image …/>` senza `loader=`: restano solo i due LOGHI di cui sotto. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Tutti i punti elencati nella scheda sono fatti. DUE ESCLUSIONI VOLUTE, e sono la parte importante da leggere: StoryViewer:210 e ShopOfMonthHero:117 sono LOGHI di negozio. Il caricatore, per le misure piccole, chiede a Supabase un ritaglio quadrato (`height=width&resize=cover`): su un marchio da 1000×300 restano i 300 pixel centrali, cioè un pezzo di parola. È esattamente il difetto che `logoNegozio()` esiste per evitare, ed è già di un'altra squadra — tests/unit/il-logo-del-negozio-non-si-taglia-a-quadrato.test.ts dichiara ShopOfMonthHero.tsx «fuori portata, in mano a un'altra squadra». I loghi di Navbar e StoreAvatar invece li ho fatti: lì il marchio è dentro un cerchio con `object-cover`, quindi il quadrato centrale è già quello che si vede, e prima l'indirizzo arrivava GREZZO (file intero) all'ottimizzatore di Vercel. NON ho cambiato next.config.js (images.loader='custom'), che era la prima strada del fix proposto: quel file lo leggono tutte le squadre e cambierebbe il comportamento di ogni immagine del sito in un colpo — è una decisione da lotto, non da pacchetto. NON verificato: che in produzione l'indirizzo servito non sia più /_next/image (serve un sito acceso).",
+   "file_toccati": [
+    "components/store-sections/HeroSection.tsx",
+    "components/StoreMediaCarousel.tsx",
+    "components/store-sections/BannerSection.tsx",
+    "components/store-sections/GallerySection.tsx",
+    "components/StoryViewer.tsx",
+    "components/home/ShopOfMonthHero.tsx",
+    "components/home-sections/HomeSectionRenderer.tsx",
+    "components/cms/CmsBlockRenderer.tsx",
+    "components/Navbar.tsx",
+    "components/StoreAvatar.tsx"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|le prime foto della home — copertina del negozio in vetrina e tessere delle categorie — sono tutte «pigre»: il browser le mette in coda dietro al resto",
+   "titolo": "Le prime foto della home — copertina del negozio in vetrina e tessere delle categorie — sono tutte «pigre»: il browser le mette in coda dietro al resto",
+   "esito": "non_riparato",
+   "prova": "grep -n 'TESSERE_SUBITO' components/CategoryShowcase.tsx → le prime quattro tessere escono con `loading=\"eager\"` e `fetchPriority=\"high\"`, le altre restano pigre. grep -c 'priority' components/home/HeroStoreCard.tsx → ancora 0: questa metà NON l'ho fatta, di proposito. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Ne ho chiusa una metà su due, quindi lo lascio aperto — ma la metà che manca secondo me NON va fatta come dice la scheda, e questo è il pezzo da leggere. ① FATTO: le tessere delle categorie erano tutte `loading=\"lazy\"`; le prime quattro (quelle che riempiono lo schermo di un telefono) adesso partono subito e ad alta priorità. Sono l'elemento più grande sopra la piega sul telefono, cioè esattamente l'impatto dichiarato dalla scheda (LCP mobile, Core Web Vitals). ② NON FATTO, e non a caso: la copertina del negozio in vetrina sta dentro `<div className=\"hidden md:flex\">` (components/home/HeroStoreCard.tsx:110), cioè sotto i 768 punti quella scheda NON si vede. Metterle `priority` farebbe precaricare, sul telefono, una foto che nessuno vedrà mai, in gara con le tessere che invece si vedono: peggiorerebbe proprio il numero che la scheda vuole migliorare. Quello che ho fatto lì è correggere il `sizes`, che diceva «100vw sotto i 768» per una cosa che sotto i 768 non esiste: adesso è 384px, la larghezza vera della scheda. Per chiudere davvero questa metà serve l'altra cosa che la scheda propone — precaricare `vetrina_home` dal server, così la copertina è già nell'HTML — e quel codice sta in lib/queries/precarico.ts, fuori dal mio territorio: l'ho messo in bloccati. NON verificato: nessuna misura di LCP prima/dopo (niente browser né anteprima da qui).",
+   "file_toccati": [
+    "components/CategoryShowcase.tsx",
+    "components/home/HeroStoreCard.tsx"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|il riquadro «cosa sta succedendo» non esiste finché non arrivano i dati, poi si apre e spinge giù la colonna",
+   "titolo": "Il riquadro «cosa sta succedendo» non esiste finché non arrivano i dati, poi si apre e spinge giù la colonna",
+   "esito": "riparato",
+   "prova": "grep -n 'statoDellaVista\\|ScheletroAttivita' components/LiveActivityFeed.tsx → la `useQuery` adesso legge `isLoading` e `isError`, il verdetto lo dà `statoDellaVista` (la casa unica, lib/stato-vista.ts) e `null` esce solo con `mostraVuoto`/`mostraErrore`, cioè dopo aver guardato. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato parola per parola: `activities` partiva da un elenco vuoto e `isLoading` non lo leggeva nessuno. Fatto come chiedeva il fix, con una differenza: invece di scrivere a mano il confronto ho usato `statoDellaVista`, che è la funzione che il sito usa già per la stessa domanda in carrello, checkout, categorie e vetrina — tre stati, non due. Lo scheletro ripete la scatola vera (stessa cornice, stessa intestazione, cinque righe alte quanto le vere), così la colonna occupa da subito lo spazio che occuperà. Cinque righe e non otto: bastano a riempire la colonna e ognuna in più è un'animazione da far girare. NON verificato: l'altezza a video combacia per costruzione (stesse classi), non l'ho misurata su uno schermo.",
+   "file_toccati": [
+    "components/LiveActivityFeed.tsx"
+   ]
+  },
+  {
+   "chiave": "performance-percepita|il banner «ordina entro…» nasce a una riga e ne diventa due dopo l'idratazione",
+   "titolo": "Il banner «Ordina entro…» nasce a una riga e ne diventa due dopo l'idratazione",
+   "esito": "riparato",
+   "prova": "grep -n 'min-h-\\[3.5rem\\]' components/ui/DeliveryCutoff.tsx → riga 137, nella variante `banner`. tests/unit/il-conto-alla-rovescia-col-negozio-chiuso.test.ts (che legge questo file) resta verde. npx tsc --noEmit -p tsconfig.json (exit 0) && npx vitest run <62 file di prova: tutti quelli che leggono il codice vero con execSync/readdirSync + home-site + banner + scheletro-fila + foto/caricatore + conto-alla-rovescia + logo-non-quadrato> → 62 file, 587 prove, tutte verdi",
+   "nota_fix": "Confermato: prima dell'idratazione «Arriva oggi» (11 caratteri), dopo «Ordina entro 02:14:31 e arriva oggi in 30-60 min» (una cinquantina) dentro una scatola larga 384 punti — va a capo e spinge giù le tre righe di rassicurazione. Ho preso la prima strada del fix (riservare l'altezza), NON la seconda (una frase pre-idratazione della stessa lunghezza), e dico perché: quella frase direbbe «Ordina entro le 18:00 e arriva oggi» anche alle 23, cioè una promessa che il server poi rifiuta — in questa casa vale più la verità del pixel. L'altezza minima è 3,5rem = due righe di testo piccolo più il padding, e vale a ogni misura di schermo, perché la scatola è `max-w-sm` sempre: va a capo anche da computer. Tocca solo la variante `banner`, che è usata in un posto solo (l'hero della home); la variante `inline` della scheda prodotto non cambia. NON verificato: l'altezza vera a video — il calcolo è sulle classi (2 × 1,25rem + 2 × 0,5rem), non su uno screenshot.",
+   "file_toccati": [
+    "components/ui/DeliveryCutoff.tsx"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "performance-percepita|le prime foto della home — copertina del negozio in vetrina e tessere delle categorie — sono tutte «pigre»: il browser le mette in coda dietro al resto",
+   "perche": "la metà che manca — far arrivare la copertina del negozio in vetrina già dentro l'HTML, invece che dopo JavaScript e una chiamata al database — vive in un file fuori territorio: lib/queries/precarico.ts (la funzione `precaricaHome`, che oggi non precarica `vetrina_home`). La metà che si vede sul telefono — le tessere delle categorie — è fatta."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il campo email della newsletter ha per nome l'indirizzo di esempio: chi non vede sente «la trattino tua chiocciola email punto it» invece di «La tua email»",
+   "dove": "components/NewsletterForm.tsx:103",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il logo del negozio del mese viene chiesto con un ritaglio quadrato: un marchio con la scritta dentro si legge a metà",
+   "dove": "components/home/ShopOfMonthHero.tsx:117",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Nell'hero della home tre righe ripetono in forma corta le promesse che la scheda fiducia e il piè di pagina dicono per esteso: la stessa cosa detta tre volte in una schermata",
+   "dove": "components/home-sections/HomeSectionRenderer.tsx:160-172",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Da qui non ho né browser né anteprima: NIENTE di quello che ho toccato l'ho visto renderizzato. Tutte le scelte visive — l'aria delle sezioni (soprattutto la banda scura «Diventa venditore», che da computer passa da py-5 a py-10), il link «Vedi tutte le categorie» sotto un titolo centrato, lo scheletro delle attività, l'altezza minima del banner di consegna, il link secondario di «Come funziona» — sono verificate sul sorgente, sui test e sul calcolo delle classi, non con gli occhi. Vale la pena una passata umana da telefono e da computer. ② Non ho misurato nessun numero di velocità (LCP, Lighthouse) prima e dopo: il guadagno delle foto e delle tessere è ragionato, non misurato. ③ Non ho provato con un lettore di schermo vero. ④ Non ho lanciato le prove end-to-end (servono un sito acceso e i segreti) né `npm run verify`, come da regole del lotto: ho lanciato tsc e 62 file di prova mirati, 587 prove, tutte verdi. ⑤ Non ho letto il database vero: quante categorie ci siano davvero in produzione (sei? otto?) decide se il link «Vedi tutte le categorie» compare o no."
+}

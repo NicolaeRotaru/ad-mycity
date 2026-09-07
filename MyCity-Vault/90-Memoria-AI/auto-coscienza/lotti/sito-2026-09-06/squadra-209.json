@@ -1,0 +1,76 @@
+{
+  "squadra": 209,
+  "territorio": [
+    "scripts/check-migration-drift.mjs",
+    "scripts/applica-migrazioni-mancanti.sh",
+    "components/store-sections/ReviewsSection.tsx",
+    "lib/store-customization.ts",
+    "app/store/[id]/opengraph-image.tsx",
+    "app/product/[id]/opengraph-image.tsx"
+  ],
+  "malattia": "Sei difetti nati tutti dallo stesso gesto: due file gemelli scritti in momenti diversi (le due anteprime di condivisione, le stelle disegnate due volte) e commenti che promettono piu' di quanto il codice sotto faccia davvero.",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+      "titolo": "Il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+      "esito": "non_riparato",
+      "prova": "Letto scripts/check-migration-drift.mjs righe 100-112: `missing` filtra su `!perNome.has(m.name) && !perVersione.has(m.prefix)`, l'impronta md5 compare solo in un console.log degli ultimi 5 file. Letto scripts/applica-migrazioni-mancanti.sh righe 73-77: due invocazioni psql distinte. Dopo la modifica: `git diff -U0 scripts/applica-migrazioni-mancanti.sh | grep -E '^[-+].*psql'` restituisce solo una riga di COMMENTO, nessuna riga di comando psql cambiata. `node --check scripts/check-migration-drift.mjs` e `bash -n scripts/applica-migrazioni-mancanti.sh` passano.",
+      "nota_fix": "NON RIPARATO nella sostanza, e le due meta' sono bloccate per due motivi diversi. (1) Confrontare davvero il contenuto richiede una colonna dove conservare l'impronta in supabase_migrations.schema_migrations: e' una migrazione del database, cioe' 🔴, fuori da questo lotto. (2) Unire applicazione e registrazione in un solo `psql --single-transaction` cambierebbe cosa lo script ESEGUE sul database di produzione: il vincolo del mio incarico dice di fermarmi. HO FATTO SOLO la parte a rischio zero: i due commenti bugiardi sono stati riscritti per dire il vero (in testa al file e sopra la stampa dell'md5), perche' l'impatto dichiarato della scheda e' proprio la fiducia mal riposta. Restano aperti i due pezzi strutturali. Differenza con la scheda: nessuna, i numeri di riga tornavano.",
+      "file_toccati": ["scripts/check-migration-drift.mjs"]
+    },
+    {
+      "chiave": "deploy-sre|la garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un commit",
+      "titolo": "La garanzia una transazione sola dello script che applica le migrazioni non vale per le migrazioni che contengono un COMMIT",
+      "esito": "riparato",
+      "prova": "Contate le migrazioni che chiudono da sole la transazione: `grep -lE '^[[:space:]]*COMMIT[[:space:]]*;' migrations/*.sql | wc -l` -> 23 su 149 file, fra cui 153 e 154 (BEGIN a riga 80/73, COMMIT a riga 141/135). Provata la condizione dell'avviso file per file: 153 -> AVVISO, 154 -> AVVISO, 001 -> silenzio. `bash -n scripts/applica-migrazioni-mancanti.sh` passa. `git diff -U0 ... | grep '^[-+].*psql'` conferma che nessun comando psql e' cambiato.",
+      "nota_fix": "Il danno della scheda e' la garanzia scritta e non mantenuta: 'una transazione sola' non vale dopo un COMMIT interno al file. Ho riscritto il commento perche' dica esattamente quanto copre --single-transaction e dove smette, e ho aggiunto PRIMA della psql un avviso non bloccante che nomina il file quando contiene un COMMIT suo. SCELTA DIVERSA DALLA SCHEDA, e spiego perche': il fix_proposto era un grep che esce 1, cioe' un cancello rosso. Applicato qui fermerebbe lo script su 23 migrazioni gia' esistenti — cioe' impedirebbe a Nicola di allineare il database, che e' il mestiere dello script. Un avviso che si vede al momento giusto ottiene lo stesso avvertimento senza togliere la funzione. Nessuna riga SQL e nessun comando psql toccati: lo script esegue sul database esattamente quello che eseguiva prima.",
+      "file_toccati": ["scripts/applica-migrazioni-mancanti.sh"]
+    },
+    {
+      "chiave": "accessibilita-visiva|il pulsante «utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)",
+      "titolo": "Il pulsante «Utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)",
+      "esito": "riparato",
+      "prova": "Contrasti ricalcolati uno per uno sugli OTTO preset attuali con la formula WCAG (relative luminance), simulando color-mix in srgb come media pesata dei canali. Accent puro sul velo al 12%: oliva 4,10 · terracotta 4,20 · senape 4,27 · bordeaux 5,08 · bosco 5,77 · cacao 7,27 · vino 9,93 · inchiostro 11,37 — tre sotto 4,5:1. Con `color-mix(accent 70%, #1C1A18)` sullo stesso velo: peggiore 6,10 (oliva), poi 6,29 · 6,36 · 7,34 · 7,84 · 9,16 · 11,22 · 12,15. `npx tsc --noEmit` non segnala nulla sul file; `npx vitest run tests/unit/le-foto-dicono-cosa-mostrano.test.ts tests/unit/store-site.test.ts tests/unit/la-vetrina-del-negozio-resta-nei-colori-del-sito.test.ts tests/unit/store-customization.test.ts` -> tutti verdi.",
+      "nota_fix": "LA SCHEDA ERA VECCHIA SU DUE PUNTI, e il codice ha comandato. (1) Lo stile sta a riga 182, non 171. (2) I numeri: 'senape 2,88:1' non esiste piu', perche' il preset Senape non e' piu' #C4801F ma #9D621C (accent-700) — cambiato dal lavoro del 3/9 sui colori fuori tavolozza. Ho ricalcolato tutto da zero: il difetto c'e' ancora ma con altri numeri, oliva 4,10 · terracotta 4,20 · senape 4,27, tre preset su otto sotto la soglia per un testo 12px bold (WCAG 1.4.3). Riparato scurendo il testo verso l'inchiostro e lasciando il bordo accent pieno, come fa gia' HeroSection.tsx:156 con lo stesso schema al 65%. SECONDA META' GIA' A POSTO PRIMA DI ME: il docblock di lib/store-customization.ts:10-12 non dice piu' '~-600', dice 'tutti sopra 4,5 a 1 sul bianco' — e adesso e' VERO, il peggiore degli otto e' oliva a 4,78:1. Per questo non ho toccato lib/store-customization.ts: non c'era piu' niente da correggere.",
+      "file_toccati": ["components/store-sections/ReviewsSection.tsx"]
+    },
+    {
+      "chiave": "accessibilita-visiva|le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)",
+      "titolo": "Le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)",
+      "esito": "riparato",
+      "prova": "Ricalcolati sul bianco: accent-500 #E8A33D = 2,16:1, cream-200 #F5EDD9 = 1,17:1, sotto il 3:1 di WCAG 1.4.11 — i due numeri della scheda tornano. Cancellata la funzione AverageStars e messo al suo posto RatingStars (accent-700 #9D621C = 5,00:1, vuote ink-400), gia' importata a riga 11 e gia' usata a riga 106. `npx vitest run tests/unit/le-foto-dicono-cosa-mostrano.test.ts` (monta davvero ReviewsSection e conta le immagini) verde, come `la-foto-della-recensione-non-parla-da-programmatore` e `la-foto-della-recensione-passa-dalla-porta`. `npx tsc --noEmit`: nessun errore sul file, l'import StarHalf rimasto orfano e' stato tolto.",
+      "nota_fix": "Fatto come proposto. UNA DIFFERENZA DI COMPORTAMENTO CHE DICHIARO, perche' non e' zero: AverageStars arrotondava al mezzo punto piu' vicino (4,8 diventava 5 stelle piene), RatingStars tiene la parte intera e mette la mezza da 0,5 in su (4,8 diventa 4 piene + mezza). Su 4,3 il vecchio mostrava la mezza, il nuovo no. Accettata di proposito: e' la stessa regola gia' in uso sulle stelle della singola recensione due righe sopra, e il voto in chiaro ('4,8 (12)') sta li' accanto, quindi nessun dato si perde. Righe della scheda (16-28, uso a 196) confermate.",
+      "file_toccati": ["components/store-sections/ReviewsSection.tsx"]
+    },
+    {
+      "chiave": "immagini-media|nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato",
+      "titolo": "Nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato",
+      "esito": "riparato",
+      "prova": "Letto app/store/[id]/opengraph-image.tsx: riquadro 220x220 (righe 46-48) con `objectFit: 'cover'`, contro `objectFit: 'contain'` della gemella app/product/[id]/opengraph-image.tsx. Cambiato in 'contain'. `npx tsc --noEmit` pulito sul file; `npx vitest run tests/unit/il-logo-del-negozio-non-si-taglia-a-quadrato.test.ts` verde (il file non usa ne' logoNegozio ne' sizedImage su store_logo, quindi non entra negli elenchi chiusi di quella prova e non ne sposta i conti).",
+      "nota_fix": "Una parola. ATTENZIONE A UN INCIAMPO CHE HO FATTO E CORRETTO: la prima volta avevo infilato il commento di spiegazione FRA `// eslint-disable-next-line @next/next/no-img-element` e il tag <img>, e cosi' la disattivazione non copriva piu' la riga giusta. Adesso il commento sta sopra e la riga eslint e' di nuovo attaccata all'immagine.",
+      "file_toccati": ["app/store/[id]/opengraph-image.tsx"]
+    },
+    {
+      "chiave": "immagini-media|l'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel",
+      "titolo": "L'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel",
+      "esito": "riparato",
+      "prova": "Letto app/product/[id]/opengraph-image.tsx: `runtime = 'edge'` a riga 4, `photo` preso grezzo da `p.images[0]` a riga 31 e passato a `src` a riga 56 dentro un riquadro `width={460}`. Messo `sizedImage(raw, 460)` con l'import da '@/lib/image-url'. `npx tsc --noEmit` pulito sul file. `npx vitest run tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts` verde: la prova di struttura misura solo i blocchi `<Image ... />` con un `sizes`, e qui c'e' un `<img>` minuscolo senza sizes, quindi il conto degli accoppiamenti non si muove.",
+      "nota_fix": "SCELTO 460 INVECE DI 'detail' (che vale 800), e spiego perche' mi sono scostato dal fix_proposto. Il riquadro si conosce con esattezza — 45% di 1200 meno 40 di margine per lato = 460 — e il docblock di lib/image-url.ts dice che il numero e' la forma da preferire quando il riquadro e' noto, perche' 'un numero non puo' mentire sulla dimensione'. L'immagine di anteprima si genera una volta sola a 1200x630, senza schermi a doppia densita', quindi 460 e' esattamente quanto serve e chiede meno di meta' dei pixel di 'detail'. Col numero il ritaglio quadrato resta spento (NOMI_QUADRATI copre solo thumb e card), quindi la foto non viene tagliata. NON HO PROVATO che il CDN di Supabase risponda davvero a quella larghezza: serve una foto vera in produzione.",
+      "file_toccati": ["app/product/[id]/opengraph-image.tsx"]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "deploy-sre|il cancello delle migrazioni promette di confrontare il contenuto ma confronta solo i nomi, e registra in un passo separato",
+      "perche": "Non e' un file fuori territorio: sono due strade chiuse per regola. Confrontare l'impronta del contenuto vuole una colonna nuova in supabase_migrations.schema_migrations, cioe' una migrazione del database (🔴, fuori lotto). Fondere applicazione e registrazione in un solo psql cambierebbe cosa lo script esegue sulla produzione, e il mio incarico dice di fermarmi li'. Serve una firma di Nicola su entrambe."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Anche l'anteprima di condivisione del negozio scarica il logo a piena risoluzione per un riquadro da 220 pixel",
+      "dove": "app/store/[id]/opengraph-image.tsx:24 (`const logo = s?.store_logo ?? null`, usato a :63 dentro un riquadro 220x220, con runtime edge a :4)",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "① Non ho lanciato scripts/applica-migrazioni-mancanti.sh contro nessun database: serve SUPABASE_DB_URL e la produzione. Ho provato la sola condizione dell'avviso (il grep) file per file, non il giro intero dello script. ② I contrasti sono calcolati, non guardati a schermo: nessuno ha aperto la vetrina di un negozio per vedere il pulsante «Utile» votato coi propri occhi, e color-mix l'ho simulato come media pesata in sRGB, che e' quello che fa il browser ma non l'ho confrontato con un browser vero. ③ Le due anteprime di condivisione non le ho fatte generare: niente PNG guardato, ne' per il logo che adesso e' contenuto ne' per la foto chiesta a 460 pixel. ④ Non ho lanciato npm run verify ne' build (vietati): ho lanciato npx tsc --noEmit sull'intero progetto — l'unico errore che esce e' su tests/unit/il-corpo-troppo-grande-non-e-un-dato-non-valido.test.ts, che riguarda app/api/returns/[id]/avanza/route.ts di un'altra squadra, non i miei file — e le 9 prove che toccano il mio territorio, 100 casi tutti verdi."
+}

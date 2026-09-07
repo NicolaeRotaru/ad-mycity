@@ -1,0 +1,21 @@
+{
+ "squadra": 98,
+ "ondata": 20,
+ "pacchetto": "home/user/mycity/app/messages/page.tsx",
+ "territorio_principale": "home/user/mycity/app/messages/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/messages/page.tsx",
+  "home/user/mycity/app/messages/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|messaggi: un errore di lettura viene mostrato come «nessuna conversazione»",
+   "titolo": "Messaggi: un errore di lettura viene mostrato come «Nessuna conversazione»",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/messages/page.tsx:54, :69, :107-109, :121-129",
+   "descrizione": "CONFERMATO, ma solo per l'errore — non per il caricamento. La destrutturazione è `const { data: conversations = [], isLoading, refetch } = useQuery(...)` (riga 54) e non prende `isError`, mentre la funzione lancia su errore (`if (error) throw error`, riga 69). Il caricamento è coperto (`if (!userId || isLoading) return <LoadingState />`, righe 107-109), quindi nessun lampo all'apertura; ma se la lettura FALLISCE `isLoading` è falso e l'elenco è vuoto, e la pagina mostra «Nessuna conversazione — Scrivi a un negozio dalla scheda prodotto…» (righe 121-129). Chi ha conversazioni aperte legge che non ne ha nessuna, senza pulsante per riprovare.",
+   "impatto": null,
+   "fix_proposto": "Prendere `isError` e mostrare `<ErrorState title=\"Non riusciamo a caricare i messaggi\" onRetry={() => refetch()} />` prima del controllo su `conversations.length === 0`."
+  }
+ ]
+}

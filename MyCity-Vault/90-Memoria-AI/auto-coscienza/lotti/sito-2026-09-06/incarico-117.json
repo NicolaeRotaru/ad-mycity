@@ -1,0 +1,20 @@
+{
+ "squadra": 117,
+ "ondata": 25,
+ "pacchetto": "app/category/[slug]/page.tsx",
+ "territorio_principale": "app/category/[slug]/page.tsx",
+ "file_citati": [
+  "app/category/[slug]/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "navigazione-gerarchia|sulla pagina di una sottocategoria il briciolo di pane salta la categoria madre",
+   "titolo": "Sulla pagina di una sottocategoria il briciolo di pane salta la categoria madre",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/category/[slug]/page.tsx:54-59 (madre non risolta benché presente in righe), :141-147 (JSON-LD Home › Categorie › X), :173-177 (briciolo visibile)",
+   "descrizione": "Su /category/libri-romanzi il briciolo dice «Home › Categorie › Romanzi»: manca «Libri». Chi vuole risalire di un livello e vedere le sorelle (Gialli, Fumetti…) deve riaprire il mega-menu. I dati strutturati per Google hanno lo stesso buco. Le righe di tutte le categorie sono già caricate (riga 54): la madre c'è in memoria, non viene cercata.\n\nCausa radice: La queryFn calcola solo padre = righe.find(slug) e le sue figlie; non calcola righe.find(r => r.id === padre.parent_id).\n\nProva (umano, non eseguita): Aprire /category/libri-romanzi (o qualunque slug con parent_id) e guardare il briciolo sotto l'intestazione: se manca il livello «Libri» il difetto c'è.",
+   "impatto": "Un tap in più per tornare alla categoria madre; briciolo incompleto per Google.",
+   "fix_proposto": "Nella queryFn aggiungere madre = righe.find(r => r.id === padre?.parent_id) ?? null e inserirla nel breadcrumb e nel JSON-LD; mostrare anche le sorelle come chip sotto il titolo."
+  }
+ ]
+}

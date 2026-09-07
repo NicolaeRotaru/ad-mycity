@@ -1,0 +1,168 @@
+{
+  "squadra": 1,
+  "territorio": [
+    "app/cart/page.tsx"
+  ],
+  "malattia": "Il carrello è cresciuto per aggiunte successive e ogni riga nuova ha scelto da sé la misura del testo, il grigio e l'area toccabile, sotto la scala minima del sistema; le regole condivise (il caricatore foto, il plurale, il grigio giusto) esistevano già in libreria e qui dentro non le aveva applicate nessuno.",
+  "difetti": [
+    {
+      "chiave": "frontend-ux|foto sgranate nel carrello e negli ordini: `unoptimized` spegne il `sizes` scritto lì accanto",
+      "titolo": "Foto sgranate nel carrello e negli ordini: `unoptimized` spegne il `sizes` scritto lì accanto",
+      "esito": "non_riparato",
+      "prova": "cd /home/user/mycity && grep -rl unoptimized app/ components/  → prima: 4 file (fra cui app/cart/page.tsx); dopo: 3 file, il carrello non c'è più. npx vitest run tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts + tests/unit/foto-che-si-adattano-allo-schermo.test.ts → 22 test verdi. npx tsc --noEmit → 0.",
+      "nota_fix": "PARZIALE, e la scheda è vecchia. Diceva «restano 17 file con unoptimized»: oggi ne restavano QUATTRO (gli altri li ha già chiusi qualcuno dopo la radiografia), e app/orders/page.tsx — citato nel titolo — non ne ha più. Nel mio territorio ho sostituito `unoptimized` con `loader={caricatoreFotoRemote}` sulla foto del carrello (riga 340): il `sizes=\"96px\"` è tornato vivo, il ridimensionamento resta sul CDN Supabase, nessun costo nuovo. Restano TRE file, tutti fuori dal mio territorio: app/orders/[id]/page.tsx, app/seller/products/page.tsx, app/shared-cart/page.tsx — per questo la scheda resta aperta. Ho dovuto toccare anche tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts: è un cricchetto («il numero scende e non risale») che elenca i file rimasti, e la mia riparazione lo faceva diventare rosso; ho tolto il carrello dall'elenco e aggiornato il conto da quattro a tre. NON ho fatto la seconda parte del fix proposto (moltiplicare il riquadro per la densità schermo dentro quella prova): renderebbe rossi i tre file che non posso toccare, cioè romperebbe il cancello a tutte le altre squadre. Non ho verificato a video la nitidezza su un telefono a 3×: non ho un'anteprima da qui.",
+      "file_toccati": [
+        "app/cart/page.tsx",
+        "tests/unit/la-foto-chiesta-piu-piccola-del-riquadro.test.ts"
+      ]
+    },
+    {
+      "chiave": "accessibilita|tre contrasti sotto soglia misurati sui colori veri: passo del checkout, testi di servizio del carrello, «×» della pillola indirizzo",
+      "titolo": "Tre contrasti sotto soglia misurati sui colori veri: passo del checkout, testi di servizio del carrello, «×» della pillola indirizzo",
+      "esito": "riparato",
+      "prova": "Letti i tre punti citati nel sorgente: components/checkout/StepIndicator.tsx:29 è già `text-ink-500` (commento «27/8/2026 (R110)»), components/LocationPill.tsx la «×» è già `text-ink-500 … p-1.5`, components/Navbar.tsx non ha più nessun `hover:text-accent-300` (grep → 0, c'è `hover:text-accent-200`). L'ultimo caso vivo era app/cart/page.tsx: `text-ink-400` su fondo panna → ora `text-ink-500`. npx tsc --noEmit → 0.",
+      "nota_fix": "La scheda era in ritardo sul codice: due dei tre casi (la «×» della pillola indirizzo e il link della barra in alto) erano già stati riparati il 27/8 da un altro lotto, e anche l'etichetta del passo del checkout è già ink-500. L'unica occorrenza ancora sotto soglia era quella del carrello — «(N articoli)» in ink-400 (#78716C) sul fondo cream-100 (#FBF7F0), 4,49:1 contro il 4,50 richiesto — e l'ho portata a ink-500 (#57534E, 7,14:1). Con questa la scheda si chiude tutta. Non ho misurato i colori a schermo: il rapporto l'ho ricalcolato sui token di tailwind.config.ts, non su uno screenshot.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|tornare indietro dalla pagina di pagamento tiene bloccati merce e codice sconto per due ore",
+      "titolo": "Tornare indietro dalla pagina di pagamento tiene bloccati merce e codice sconto per due ore",
+      "esito": "gia_riparato_prima",
+      "prova": "Letto app/api/stripe/checkout/route.ts:613 — `await liberaRiserveAbbandonate(admin, { buyerId, improntaDaTenere: improntaCarrello, soloConProdotti })` gira PRIMA di `reserve_stock`. Letto lib/ordini/riserve-abbandonate.ts: riga 108 scarta il tentativo con impronta uguale, riga 160 `release_coupon`, riga 169 `checkout.sessions.expire`. npx vitest run tests/unit/chi-annulla-il-pagamento-puo-ricomprare-il-suo-pezzo.test.ts → verde.",
+      "nota_fix": "Non c'è più niente da riparare, e non l'ho riparato io: la scheda dice «nessun checkout.sessions.expire in app/ o lib/», ma il 3/9/2026 è arrivata proprio la seconda strada del fix proposto — se la stessa persona ha un tentativo aperto con impronta DIVERSA, quello viene chiuso (merce rimessa, codice sconto restituito, pagina di Stripe fatta scadere) prima di aprirne uno nuovo. In più lib/ordini/merce-che-tengo-io.ts fa contare a chi guarda la merce che sta tenendo lui, così sull'ultimo pezzo non si legge più «non più disponibile» a se stessi. Cosa NON ho verificato: il giro vero con Stripe in prova (serve uno staging e le chiavi di test, non ce le ho da qui) e il caso di due richieste davvero simultanee, che il codice stesso dichiara scoperto senza un vincolo unico sul database. Il fix vive comunque tutto fuori dal mio territorio: non ho toccato una riga.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "layout-responsive|la barra dei tre passi del checkout va a capo su tutti i telefoni",
+      "titolo": "La barra dei tre passi del checkout va a capo su tutti i telefoni",
+      "esito": "non_riparato",
+      "prova": "Letto components/checkout/StepIndicator.tsx: il contenitore è ancora `flex items-center justify-center gap-4 sm:gap-8 mb-8 flex-wrap` e il trattino è `w-8 sm:w-16 h-px` senza `hidden sm:block`. Il difetto c'è ancora, tale e quale.",
+      "nota_fix": "Il fix è di una riga ma vive in components/checkout/StepIndicator.tsx, fuori dal mio territorio — e quel file è già assegnato: la squadra dell'ondata 2 (pacchetto «app/cart/page.tsx parte 2») ha la scheda gemella «navigazione-gerarchia|la barra dei tre passi va a capo sui telefoni stretti». Se lo tocco io, gliela riscrivo. Da fare là: `hidden sm:block` sul trattino e `gap-2 sm:gap-8` sul contenitore. Attenzione a non chiuderle due volte: sono due schede per lo stesso difetto.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "coerenza-brand|il prezzo grande della home è in inter, quello del prodotto in fraunces",
+      "titolo": "Il prezzo grande della home è in Inter, quello del prodotto in Fraunces",
+      "esito": "non_riparato",
+      "prova": "Letto components/home/DropOfDay.tsx:117: `className=\"text-4xl md:text-5xl font-extrabold text-accent-300\"`, ancora senza `font-serif`. Il difetto c'è.",
+      "nota_fix": "Confermato e banale — una parola, `font-serif` — ma il file è components/home/DropOfDay.tsx, fuori dal mio territorio (il mio è solo app/cart/page.tsx). Lo stesso file è anche nel mirino della squadra dell'ondata 2 per la scheda del segnaposto foto. Nel carrello il prezzo è già in Fraunces (`font-serif text-2xl font-extrabold`, riga 522): da qui non c'era niente da correggere.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "tipografia|nella barra fissa «aggiungi al carrello» il prezzo è a 11px in grigio, e in cassa l'etichetta «totale» è a 10px",
+      "titolo": "Nella barra fissa «Aggiungi al carrello» il prezzo è a 11px in grigio, e in cassa l'etichetta «Totale» è a 10px",
+      "esito": "non_riparato",
+      "prova": "cd /home/user/mycity && grep -c 'text-2xs\\|text-\\[10px\\]\\|text-\\[11px\\]' app/cart/page.tsx → 0 (prima: 5). Il grep della scheda su components/StickyAddToCart.tsx:73 e app/checkout/page.tsx:1317 dà ancora 2 righe: quelli sono fuori dal mio territorio. npx tsc --noEmit → 0.",
+      "nota_fix": "PARZIALE. Nel carrello ho tolto tutto quello che stava sotto i 12px del sistema: «IVA inclusa» da 10px a `text-xs` con la spaziatura `tracking-label` (era maiuscolo a 10px senza spaziatura), l'etichetta «Totale» della barra fissa del telefono da 10px a 12px, e la riga di scorta «Ne resta solo uno» da 11px a 12px. Il cuore della scheda però è altrove — components/StickyAddToCart.tsx:73/76 (il prezzo per quantità a 11px grigio) e app/checkout/page.tsx:1317 («Totale» a 10px in cassa) — e sono fuori dal territorio: la scheda resta aperta. La regola di lint proposta (vietare text-2xs/text-[≤11px] nel percorso d'acquisto) non l'ho scritta: vive nella configurazione condivisa e la toccherebbero tutte le squadre insieme.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso",
+      "titolo": "Con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso",
+      "esito": "non_riparato",
+      "prova": "cd /home/user/mycity && il grep della scheda (numero + sostantivo al plurale, escluso admin) dava 52, ora dà 48; sullo stesso grep app/cart/page.tsx passa da 4 a 0. npx tsc --noEmit → 0; npx vitest run sui 13 file di prova che toccano il carrello → 129 test verdi.",
+      "nota_fix": "PARZIALE, e volutamente: nel carrello adesso si legge «Il tuo carrello (1 articolo)» e «1 articolo» nel riepilogo, con `pluralize` di lib/format.ts — la funzione che esisteva e non usava nessuno. Ho messo `pluralize` anche sui due punti dei negozi (l'avviso multi-negozio e la riga «N negozi × 3,00 €») benché stiano dentro un `if` che li mostra solo da due in su: così il carrello sparisce del tutto dal conteggio e non può tornare indietro. Restano 48 punti in una ventina di file fuori dal mio territorio, e il peggiore è pubblico: /stores dice ancora «1 negozi locali pronti a consegnarti a casa» (app/stores/page.tsx:237) con l'unico negozio vero che abbiamo. Quello lo consegno come il primo da chiudere a chi ha quel file.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "tipografia|le pagine negozi, ricerca, carrello e checkout arrivano dal server senza titolo principale",
+      "titolo": "Le pagine negozi, ricerca, carrello e checkout arrivano dal server senza titolo principale",
+      "esito": "non_riparato",
+      "prova": "Letto app/cart/page.tsx: il ramo di caricamento (l'unico che il server manda, perché `letto` parte da falso) aveva un rettangolo grigio `h-8 w-48 skeleton` ed ora ha `<h1 className=\"font-serif text-2xl font-bold text-ink-900 mb-6\">Il tuo carrello</h1>`; il ramo del carrello vuoto ha un `<h1 className=\"sr-only\">`. npx tsc --noEmit → 0.",
+      "nota_fix": "PARZIALE, e con un pezzo che non ho potuto provare. Nel carrello il titolo adesso sta anche nel ramo di caricamento, cioè nell'HTML che parte dal server: al posto del rettangolo grigio si legge subito «Il tuo carrello» (meno salto di layout, e un h1 per Google e per chi naviga per intestazioni). Nel ramo «carrello vuoto» ho messo un h1 invisibile: il disegno resta identico, ma l'intestazione c'è. ⚪ NON ho eseguito la prova della scheda (`curl localhost:3000/cart | grep -c '<h1'`): far girare il sito vorrebbe dire `npm run build`/`dev`, che in questo lotto è vietato — la mia è una verifica sul sorgente. Restano fuori territorio /stores, /search e /checkout, che è il grosso della scheda: resta aperta. Nota per chi la chiude: nel ramo vuoto l'ordine delle intestazioni diventa h1 → h3, perché EmptyState scrive un h3.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "tipografia|il grigio delle note sul fondo panna resta a 4,49 di contrasto: un pelo sotto la soglia",
+      "titolo": "Il grigio delle note sul fondo panna resta a 4,49 di contrasto: un pelo sotto la soglia",
+      "esito": "non_riparato",
+      "prova": "Letto tailwind.config.ts:103 → `ink.400: '#78716C'`, invariato (il rapporto sul fondo cream-100 resta 4,49). In app/cart/page.tsx l'occorrenza citata dalla scheda (riga 241, «(1 articoli)») è passata a `text-ink-500`.",
+      "nota_fix": "PARZIALE. La cura vera è un token solo — scurire ink-400 — ma tailwind.config.ts è di tutti e in questo momento ci sta scrivendo dentro un'altra squadra (ho visto il file già modificato: stanno tagliando la safelist dei colori). Toccarlo io vorrebbe dire scontrarsi con loro e cambiare l'aspetto di 144 testi senza il parere del designer. Ho chiuso solo il punto del carrello passando a ink-500. Non ho toccato l'altro `text-ink-400` del carrello (riga 471, nel riquadro riepilogo): quello sta su fondo BIANCO, dove lo stesso grigio dà 4,80 e passa. Il resto — guadagni rider, clienti del negozio, payout — è fuori dal territorio.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "tipografia|nel carrello le righe che spiegano il prezzo sono a 10px",
+      "titolo": "Nel carrello le righe che spiegano il prezzo sono a 10px",
+      "esito": "riparato",
+      "prova": "cd /home/user/mycity && grep -c 'text-2xs\\|text-\\[10px\\]' app/cart/page.tsx → 0 (prima 4). npx tsc --noEmit → 0; npx vitest run tests/unit/nel-carrello-il-pulsante-che-porta-i-soldi-si-vede-sempre.test.ts + i-numeri-del-negozio-si-leggono + altri 11 → 129 test verdi.",
+      "nota_fix": "Le tre righe citate sono salite a 12px (`text-xs`): «stima · potrebbe variare al checkout», il conto dei negozi con il costo per ciascuno, e «IVA inclusa», che ha preso anche `tracking-label` come chiede la scheda (era maiuscolo a 10px con le lettere impastate). Ho alzato allo stesso modo altre due righe della stessa famiglia che stavano nello stesso file e che la scheda non citava: la nota della spedizione (`detto.nota`, gemella della prima) e l'etichetta «Totale» della barra fissa del telefono, che era l'ultimo 10px rimasto nel punto in cui si paga. Non ho verificato a video che le righe più alte non stringano il riquadro del riepilogo su schermi molto stretti: sono spans in un `flex justify-between`, il rischio è basso ma non l'ho guardato.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    },
+    {
+      "chiave": "immagini-media|il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+      "titolo": "Il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+      "esito": "non_riparato",
+      "prova": "cd /home/user/mycity && grep -rl 'placehold.co' app components → 7 file, 8 punti, come dice la scheda; app/cart/page.tsx:336 chiede ancora `https://placehold.co/200x200/F5EDD9/78716C?text=Foto`. In public/ non esiste nessun segnaposto locale (ls public/ → solo icone, manifest, offline.html, sw.js, mappa).",
+      "nota_fix": "Non l'ho riparato, di proposito. La cura è un file nuovo condiviso — un SVG nei colori del brand in public/ — usato da tutti e otto i punti: crearlo qui vorrebbe dire decidere da solo il segnaposto per sette file di altre squadre, e public/ non è il mio territorio. In più lo stesso difetto è già assegnato per l'ondata 2 alla squadra del carrello parte 2, con la scheda «performance-percepita|ogni prodotto senza foto fa una richiesta a placehold.co». Chi lo chiude faccia il file una volta e cambi gli otto punti insieme, altrimenti restano tre stili diversi come oggi. Nota utile: con il caricatore appena messo, la chiamata a placehold.co dal carrello resta identica (il caricatore lascia stare gli indirizzi che non conosce), quindi il difetto non è né peggiorato né migliorato dal mio lavoro.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "mobile-pwa|«rimuovi» nel carrello è alto quanto una riga di testo: si sbaglia mira col pollice",
+      "titolo": "«Rimuovi» nel carrello è alto quanto una riga di testo: si sbaglia mira col pollice",
+      "esito": "riparato",
+      "prova": "Letto app/cart/page.tsx: la classe del pulsante «Rimuovi» era `text-ink-500 hover:text-secondary-600 text-sm ml-2 flex items-center gap-1` (nessun padding: area alta ~20px) ed è ora `… text-sm ml-1 pl-1 pr-2 py-2 -my-2 flex items-center gap-1`. npx tsc --noEmit → 0; 129 test verdi sui 13 file che toccano il carrello.",
+      "nota_fix": "L'area toccabile passa da ~20px a 36px di altezza (`py-2` sopra un testo da 20px), sopra i 24×24 che chiede WCAG 2.5.8. Il `-my-2` toglie l'ingombro in più dal flusso, così la riga del prodotto resta alta come prima e il disegno non cambia. Sulla distanza dallo stepper la scheda sbaglia il conto e lo dico: diceva «ml-2 (8px) dal pulsante −», ma il contenitore è `flex … gap-2`, quindi i pixel veri erano 16. Con `ml-1 pl-1` il testo resta esattamente dov'era e fra i due bersagli (il «−» da 40px e «Rimuovi») restano 12px netti. NON ho provato col dito su un telefono vero: la misura è calcolata sulle classi, non su uno schermo.",
+      "file_toccati": [
+        "app/cart/page.tsx"
+      ]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "frontend-ux|foto sgranate nel carrello e negli ordini: `unoptimized` spegne il `sizes` scritto lì accanto",
+      "perche": "il carrello è a posto, ma restano 3 file fuori territorio: app/orders/[id]/page.tsx, app/seller/products/page.tsx, app/shared-cart/page.tsx"
+    },
+    {
+      "chiave": "qa-flussi|tornare indietro dalla pagina di pagamento tiene bloccati merce e codice sconto per due ore",
+      "perche": "già chiuso il 3/9 in app/api/stripe/checkout/route.ts e lib/ordini/riserve-abbandonate.ts: fuori territorio e senza niente da fare"
+    },
+    {
+      "chiave": "layout-responsive|la barra dei tre passi del checkout va a capo su tutti i telefoni",
+      "perche": "il fix vive in un file fuori territorio: components/checkout/StepIndicator.tsx — e la scheda gemella è già della squadra dell'ondata 2"
+    },
+    {
+      "chiave": "coerenza-brand|il prezzo grande della home è in inter, quello del prodotto in fraunces",
+      "perche": "il fix vive in un file fuori territorio: components/home/DropOfDay.tsx"
+    },
+    {
+      "chiave": "tipografia|nella barra fissa «aggiungi al carrello» il prezzo è a 11px in grigio, e in cassa l'etichetta «totale» è a 10px",
+      "perche": "restano fuori territorio components/StickyAddToCart.tsx e app/checkout/page.tsx"
+    },
+    {
+      "chiave": "tipografia|con un solo elemento il sito scrive «1 negozi», «1 articoli», «1 ordini», «1 giorni fa»: il plurale è fisso",
+      "perche": "restano 48 punti in file fuori territorio, il più urgente app/stores/page.tsx:237 («1 negozi locali»)"
+    },
+    {
+      "chiave": "tipografia|le pagine negozi, ricerca, carrello e checkout arrivano dal server senza titolo principale",
+      "perche": "restano fuori territorio app/stores/page.tsx, app/search/page.tsx e app/checkout/page.tsx"
+    },
+    {
+      "chiave": "tipografia|il grigio delle note sul fondo panna resta a 4,49 di contrasto: un pelo sotto la soglia",
+      "perche": "il token ink-400 vive in tailwind.config.ts, file condiviso e in mano a un'altra squadra proprio adesso"
+    },
+    {
+      "chiave": "immagini-media|il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi",
+      "perche": "serve un file nuovo in public/ e 7 file di chiamata fuori territorio; stessa cosa già assegnata all'ondata 2"
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Sulle pagine vuote il titolo principale è un h3: chi naviga per intestazioni salta un livello",
+      "dove": "components/EmptyState.tsx:53 (usato dal carrello vuoto, e da ogni altra pagina che mostra uno stato vuoto)",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Non ho visto niente a schermo: nessuna anteprima, nessun telefono, e in questo lotto è vietato far partire il sito (npm run build/dev). Quindi restano non provati da me: la nitidezza vera della foto del carrello su un telefono a 3×, il conteggio degli h1 nell'HTML del server (la prova della scheda è un curl su localhost), la larghezza del riquadro riepilogo con le righe passate da 10 a 12 pixel, e il dito sul pulsante «Rimuovi» ingrandito. Tutto quello che dichiaro l'ho verificato sul sorgente, con `npx tsc --noEmit` (esce 0) e con `npx vitest run` sui 13 file di prova che toccano il carrello (129 test verdi, fra cui il cricchetto delle foto senza caricatore che ho dovuto aggiornare). Non ho lanciato npm run verify né i cancelli del lotto, come da consegna."
+}

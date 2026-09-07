@@ -1,0 +1,40 @@
+{
+ "squadra": 15,
+ "ondata": 3,
+ "pacchetto": "app/seller/dashboard/page.tsx",
+ "territorio_principale": "app/seller/dashboard/page.tsx",
+ "file_citati": [
+  "app/seller/dashboard/page.tsx",
+  "app/seller/analytics/page.tsx",
+  "app/rider/reviews/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance|il cruscotto del venditore scarica ogni riga mai venduta per fare i conti di oggi, e sopra le mille righe i numeri sbagliano in silenzio",
+   "titolo": "Il cruscotto del venditore scarica ogni riga mai venduta per fare i conti di oggi, e sopra le mille righe i numeri sbagliano in silenzio",
+   "dimensione": "performance",
+   "file": "app/seller/dashboard/page.tsx:72-74 (query order_items senza limite, senza ordine, senza filtro data) · app/seller/dashboard/page.tsx:131-148 (ordini, incassato, oggi/7 giorni/30 giorni calcolati nel browser da quelle righe) · app/seller/dashboard/page.tsx:75 (store_reviews intera per fare una media) · app/seller/dashboard/page.tsx:78-85 (il commento del 22/8 dice che il problema era stato chiuso: lo era solo sulla query gemella `orders`) · supabase/config.toml:55 (max_rows = 1000)",
+   "descrizione": "Passo indietro: il cruscotto del negoziante (Home venditore) mostra quattro riquadri — ordini, incassato, venduto oggi, 7 giorni, 30 giorni. Per farli, nel Promise.all di riga 68 la pagina chiede a Supabase TUTTE le righe d'ordine del negozio: `.from('order_items').select('quantity, unit_price, orders(created_at, delivery_status, payment_status), products!inner(seller_id)').eq('products.seller_id', user.id)` e basta: niente `.limit`, niente `.order`, niente `.gte('orders.created_at', …)`. PostgREST restituisce al massimo 1000 righe (max_rows = 1000) senza dirlo, e senza un ORDER BY sceglie lui quali. Dalle righe arrivate il browser calcola `orderCount`, `revenue`, `today`, `last7`, `last30` (righe 131-148). Il 22/8 lo stesso difetto era stato chiuso sulla query gemella `orders` (righe 86-89, filtro a 30 giorni + RPC numeri_del_negozio) ma la query `order_items` due righe sopra è rimasta com'era. Esempio concreto: un panificio che da gennaio ha 1.200 righe d'ordine apre il cruscotto un martedì: arrivano 1000 righe, magari le più vecchie; «venduto oggi» dice 0 pezzi mentre ne ha venduti 12. In più ogni apertura scarica la storia intera (1000 righe con join) fino a un telefono per produrre quattro numeri, e `store_reviews` intera per una media.\n\nCausa radice: Aggregazione fatta nel browser invece che nel database, con il tetto silenzioso di PostgREST (1000 righe, nessun errore) scambiato per 'tutte le righe'; il fix del 22/8 ha messo il confine su una sola delle due query gemelle e senza ORDER BY il taglio tiene righe arbitrarie.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-dashboard-order-items-senza-limite.test.ts   → oggi ROSSA: 2 test falliti su 2 ('catena letta: .eq(products.seller_id, user.id)' senza confine; con 1001 righe e tetto a 1000 il conteggio oggi = 0 invece di 1)",
+   "impatto": "Il negoziante vede numeri più bassi del vero proprio quando il negozio va bene (dopo le prime mille righe), e i suoi tre 'fatturato' (dashboard, ordini, guadagni) tornano a non coincidere: la telefonata «i vostri conti non tornano» che erode fiducia. Costo: ogni apertura del cruscotto muove ~1000 righe di egress Supabase per negozio, un costo che cresce con la storia del negozio invece di restare piatto.",
+   "fix_proposto": "Spostare i conti nel database: usare la RPC `numeri_del_negozio` (migrazione 126, già chiamata a riga 90) per ordini/incassato di sempre e aggiungere una finestra (p_giorni 1/7/30) o una RPC 'pezzi venduti per finestra'; se si tiene la lettura delle righe, metterle il confine come alla gemella: `.gte('orders.created_at', 30 giorni fa)` + `.order('orders(created_at)')` + `.limit(…)` dichiarato a schermo; media recensioni con `select('rating.avg()')` o nella stessa RPC. Lavoro: 1-2 ore @frontend-dev con @backend-dev per la RPC, 🟡 in branch."
+  },
+  {
+   "chiave": "layout-responsive|sulla dashboard del negoziante l'incasso esce dal suo riquadro sopra i cento euro",
+   "titolo": "Sulla dashboard del negoziante l'incasso esce dal suo riquadro sopra i cento euro",
+   "dimensione": "layout-responsive",
+   "file": "app/seller/dashboard/page.tsx:249 (grid grid-cols-3) e :324-331 (HeroStat)",
+   "descrizione": "CONFERMATO con una correzione. I tre riquadri sono `grid grid-cols-3 gap-2.5 sm:gap-3` senza alcuna variante responsive, dentro un hero `p-6 sm:p-8` dentro un main `px-4` (SellerShell.tsx:401). A 360px: 360 - 32 - 48 = 280px, meno 20px di spazi diviso 3 = ~87px per riquadro; tolto il px-3 di HeroStat restano ~63px. Il valore e' `text-lg font-bold` (18px) e formatPrice (lib/format.ts:1) produce «€234.56», una parola sola senza punti di rottura: con Inter misura ~70px, «€1234.56» ~81px. Il numero esce quindi dal riquadro semitrasparente e va a sovrapporsi al bordo del riquadro accanto (il gap e' 10px). Correggo il collega su un punto: il testo NON viene tagliato dall'overflow-hidden dell'hero (riga 201), perche' fra l'ultimo riquadro e il bordo restano i 24px del p-6; il difetto e' lo sbordo, non il taglio. Per questo scendo da grave a minore.",
+   "impatto": null,
+   "fix_proposto": "Rendere responsive la griglia (`grid-cols-1 sm:grid-cols-3`, oppure `grid-cols-2 sm:grid-cols-3` col terzo a tutta larghezza) e ridurre il corpo sul telefono (`text-base sm:text-2xl`); in aggiunta far usare a formatPrice il formato italiano. Verificare a 360px con un valore a quattro cifre."
+  },
+  {
+   "chiave": "tipografia|il voto medio esce con il punto («4.5 ★») mentre nella pagina del rider lo stesso numero è scritto con la virgola",
+   "titolo": "Il voto medio esce con il punto («4.5 ★») mentre nella pagina del rider lo stesso numero è scritto con la virgola",
+   "dimensione": "tipografia",
+   "file": "app/seller/dashboard/page.tsx:281 e app/seller/analytics/page.tsx:302 (avgRating.toFixed(1)) · app/rider/reviews/page.tsx:100 (toFixed(1).replace('.', ','))",
+   "descrizione": "La dashboard e le analitiche del negozio scrivono la valutazione media con il punto decimale («4.5 ★»); la pagina recensioni del rider converte a mano il punto in virgola («4,5»). Stesso numero, due grafie, nessuna funzione condivisa.\n\nCausa radice: toFixed(1) usato direttamente; manca un formatNumber('it-IT') condiviso.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n \"avgRating.toFixed(1)\" app/seller/dashboard/page.tsx app/seller/analytics/page.tsx | grep -vc \"replace('.', ',')\"   (oggi 2; deve dare 0)",
+   "impatto": "Incoerenza piccola ma visibile al negoziante nella sua pagina principale.",
+   "fix_proposto": "Aggiungere in lib/format.ts `formatNumber = (n, digits=1) => n.toLocaleString('it-IT', {minimumFractionDigits: digits, maximumFractionDigits: digits})` e usarla nei tre punti."
+  }
+ ]
+}

@@ -1,0 +1,102 @@
+{
+ "squadra": 214,
+ "territorio": [
+  "app/seller/orders/[id]/page.tsx",
+  "app/rider/orders/[id]/page.tsx",
+  "components/seller/BulkPhotoCreate.tsx",
+  "app/api/sponsored/checkout/route.ts",
+  "app/api/gift-cards/checkout/route.ts",
+  "lib/cart.ts",
+  "lib/analytics/events.ts",
+  "components/GoogleAnalytics.tsx",
+  "lib/analytics/tracciamento.ts",
+  "lib/analytics/gtag-avvio.ts",
+  "lib/env.ts",
+  "lib/email/client.ts",
+  "app/api/health/route.ts"
+ ],
+ "malattia": "Il codice diceva «fatto» senza guardare cosa fosse successo davvero: scritture che non contano le righe toccate, un pagamento senza chiave che protegga dal doppio clic, eventi pensati per una riga sola riusati su una rimozione multipla, una chiave nata per decidere QUANDO mandare un dato usata anche per decidere COSA mandare, e un ripiego da sviluppo lasciato acceso in produzione.",
+ "difetti": [
+  {
+   "chiave": "frontend-ux|il negoziante e il fattorino leggono «stato aggiornato» anche quando il database non ha cambiato nessuna riga",
+   "titolo": "Il negoziante e il fattorino leggono «Stato aggiornato» anche quando il database non ha cambiato nessuna riga",
+   "esito": "riparato",
+   "prova": "Difetto ancora presente all'inizio: `grep -n \"from('orders').update(update)\"` su tutte e due le pagine dava una riga per file, nessuna con `.select(`. Dopo il fix: `npx tsc --noEmit -p tsconfig.json` esce pulito (0 errori) e `npx eslint` sulle due pagine dà 0 errori (6 avvisi di accessibilità preesistenti, righe 91-115, fuori dalla parte toccata). Regressione: 241 file di prove del perimetro, 1849 prove, tutte verdi.",
+   "nota_fix": "Verificato sul codice di adesso: il difetto c'era ancora in tutte e due le pagine, con le righe spostate rispetto alla scheda (venditore 247, non 243-244; fattorino 114, giusto). Le due transizioni ora fanno `.update(update).eq('id', order.id).select('id')` e, se non torna nessuna riga, lanciano «Non ho potuto aggiornare l'ordine: è cambiato nel frattempo. Ricarica la pagina.» invece del messaggio verde. Aggiunto anche il rinfresco delle due query (ordine + elenco) prima di lanciare: senza, il pulsante restava com'era e il tocco successivo dava lo stesso errore all'infinito. Ho controllato le ALTRE scritture delle stesse pagine: il rifiuto del venditore passa da una rotta del server che valida, la conferma del ritiro e le tre azioni del fattorino passano da funzioni del database che restituiscono un esito — nessuna di quelle ha il difetto. NON verificato: non ho potuto montare le pagine né provare il caso vero con le regole di riga di Supabase (servirebbe un ordine riassegnato in un ambiente vivo); la prova è sul sorgente e sulla compilazione.",
+   "file_toccati": [
+    "app/seller/orders/[id]/page.tsx",
+    "app/rider/orders/[id]/page.tsx"
+   ]
+  },
+  {
+   "chiave": "frontend-ux|nella creazione prodotti da più foto, cancellare una riga sposta quello che si sta scrivendo sulla riga sbagliata",
+   "titolo": "Nella creazione prodotti da più foto, cancellare una riga sposta quello che si sta scrivendo sulla riga sbagliata",
+   "esito": "riparato",
+   "prova": "Difetto confermato prima del fix: `sed -n '243p' components/seller/BulkPhotoCreate.tsx | grep -c 'key={idx}'` stampava 1. Dopo: `grep -n 'idx' components/seller/BulkPhotoCreate.tsx` lascia solo `products.map((p, idx)` e l'etichetta per lo screen reader «Nome del prodotto N», che il posto in fila lo vuole davvero. `npx tsc --noEmit` pulito, `npx eslint` sul file 0 problemi.",
+   "nota_fix": "Ogni prodotto riconosciuto nasce con `chiave: crypto.randomUUID()` (tipo nuovo `RigaProdotto = DetectedProduct & { chiave: string }`); la lista usa `key={p.chiave}` e `updateProduct`/`removeProduct` lavorano per chiave invece che per posizione. `crypto.randomUUID()` è già usato allo stesso modo in altri sei punti del sito (ProductViewTracker, ActivityTracker, la pagina delle gift card): nessuna dipendenza nuova. Controllato che la chiave NON finisca nella chiamata al server: `createAll` costruisce l'oggetto campo per campo, quindi al server arriva quello di prima. NON verificato: `@testing-library/react` non è installata in questa repo, quindi non ho potuto montare il componente e riprodurre il cursore che salta di riga; la prova è sul sorgente più la compilazione.",
+   "file_toccati": [
+    "components/seller/BulkPhotoCreate.tsx"
+   ]
+  },
+  {
+   "chiave": "api-backend|due clic sul pulsante che mette un prodotto in vetrina aprono due pagamenti",
+   "titolo": "Due clic sul pulsante che mette un prodotto in vetrina aprono due pagamenti",
+   "esito": "riparato",
+   "prova": "Difetto confermato prima del fix: `grep -n 'idempotency' app/api/sponsored/checkout/route.ts` non dava nessun risultato, mentre la rotta gemella delle gift card ce l'aveva alla riga 102. Dopo il fix il grep trova la chiave e il passaggio a `stripe.checkout.sessions.create(..., { idempotencyKey })`. `npx tsc --noEmit` pulito; 55 file di prove che toccano le rotte di pagamento tutti verdi.",
+   "nota_fix": "La rotta ora accetta l'intestazione `idempotency-key` dal browser come fa la gift card, e SENZA intestazione si difende da sola con `sponsored_<venditore>_<prodotto>_<settimane>_<finestra di 10 minuti>`: due clic ravvicinati tornano sulla stessa sessione di pagamento, quindi un addebito solo. Il ripiego a finestra qui non ha il rovescio che ha sui regali (due fratelli che regalano la stessa cifra alla stessa persona sono due cose volute; due sponsorizzazioni identiche sullo stesso prodotto nello stesso minuto no). DUE LIMITI DICHIARATI: (a) due clic a cavallo del confine dei dieci minuti aprirebbero ancora due sessioni — si chiude quando la pagina che chiama (app/seller/promote) manda la sua intestazione, ma quel file è fuori dal mio territorio; (b) la causa radice indicata dalla scheda — far pretendere la chiave dal punto comune in `lib/stripe/client.ts` — vive anch'essa fuori dal territorio, quindi la prossima rotta di pagamento può ancora nascere senza. L'ho messa in `difetti_nuovi`. NON verificato: non ho chiamato Stripe vero, quindi il comportamento dell'idempotenza è quello documentato da Stripe, non misurato da qui.",
+   "file_toccati": [
+    "app/api/sponsored/checkout/route.ts"
+   ]
+  },
+  {
+   "chiave": "dati-analytics|togliere dal carrello un prodotto con più varianti manda a google il prezzo della prima riga per tutte",
+   "titolo": "Togliere dal carrello un prodotto con più varianti manda a Google il prezzo della prima riga per tutte",
+   "esito": "riparato",
+   "prova": "Prova nuova che gira: `npx vitest run tests/unit/togliere-un-prodotto-con-piu-varianti-non-sbaglia-il-prezzo.test.ts` — 4 prove verdi (uscita 0). Rimessa la vecchia riga `tolte[0]` la stessa prova esce ROSSA con uscita 1 (2 fallite su 4): riempie il carrello con 3 pezzi da 4 € e 2 da 6 € e pretende che escano 24 €, non i 20 € di prima. Regressione: tutti e 20 i file di prove del carrello verdi (132 prove).",
+   "nota_fix": "Confermato sul codice: `const riga = tolte[0]` c'era ancora, riga 200. Ora `removeFromCart` manda un evento PER OGNI riga tolta, con la sua quantità e il suo prezzo. Lasciato apposta com'era `rimuoviRigaSenzaVariante` poco sotto, che usa lo stesso `tolte[0]`: lì il filtro è `c.id === id && !c.variantId` e `sameLine` impedisce due righe uguali, quindi può togliere una riga sola — non è lo stesso difetto. SCELTA DICHIARATA: l'`item_id` mandato a Google resta quello del prodotto, non prodotto+variante; distinguere le varianti nei report vorrebbe dire cambiare la convenzione degli identificativi usata da tutti gli altri eventi (`lib/analytics/events.ts`), cioè un refactor, non un fix minimo. Il numero che non tornava — il valore in euro — adesso torna. NON verificato: non ho guardato cosa arriva davvero dentro GA4 (la misura è spenta, non c'è nessun codice G-… nella pagina pubblicata).",
+   "file_toccati": [
+    "lib/cart.ts"
+   ]
+  },
+  {
+   "chiave": "dati-analytics|la visita che arriva da una campagna risulta arrivata dal nulla",
+   "titolo": "La visita che arriva da una campagna risulta arrivata dal nulla",
+   "esito": "riparato",
+   "prova": "Prova nuova che gira: `npx vitest run tests/unit/la-visita-che-arriva-da-una-campagna-non-arriva-dal-nulla.test.ts` — 8 prove verdi (uscita 0). Senza il fix la funzione `indirizzoDaSpedire` non esiste e il file non importa nemmeno: rosso immediato. Regressione sulle prove che sorvegliano questa zona (la ricerca che non deve uscire, i filtri che non sono pagine nuove, la prima pagina vista, PostHog): 12 file, 131 prove, tutte verdi.",
+   "nota_fix": "Confermato sul codice: `page_location: window.location.origin + paginaVista` c'era ancora (riga 54), e `PARAMETRI_CHE_CONTANO = ['q']` pure. Separate le due cose che erano una sola: `chiaveDellaPaginaVista` continua a decidere QUANDO mandare la pagina vista (resta la dipendenza dell'effetto, quindi i filtri non contano ancora come pagine nuove), la nuova `indirizzoDaSpedire` decide COSA si manda e tiene utm_source/medium/campaign/term/content/id, gclid, gbraid, wbraid, fbclid, msclkid, ttclid. È un ELENCO DI COSE AMMESSE, non di cose vietate: `q` — dove la gente scrive la propria email — non è nell'elenco e non uscirà nemmeno quando qualcuno aggiungerà un parametro nuovo alla ricerca; c'è una prova apposta su questo. `page_path` resta la chiave con la maschera, come prima. Aggiunto un `eslint-disable-next-line react-hooks/exhaustive-deps` sull'effetto, con la ragione scritta sopra: verificato che serve davvero (togliendolo eslint avvisa) e che con esso eslint dà 0 problemi. NOTA per chi ricuce: la prova `quello-che-si-cerca-non-esce-da-nessuna-porta.test.ts` modella la porta di Google ricostruendo l'indirizzo dalla chiave; resta verde e la sua garanzia (il testo cercato non esce) regge, ma il suo modello ora è più stretto di quello che il componente manda davvero. Non l'ho toccata: è fuori dal territorio. NON verificato: che GA4 attribuisca davvero la visita alla campagna — si vede solo con la misura accesa e una campagna vera.",
+   "file_toccati": [
+    "components/GoogleAnalytics.tsx",
+    "lib/analytics/tracciamento.ts"
+   ]
+  },
+  {
+   "chiave": "deploy-sre|senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "titolo": "Senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "esito": "non_riparato",
+   "prova": "Riparata una parte su due, quindi non è riparato. Fatto e provato: `npx vitest run tests/unit/senza-mittente-la-posta-non-parte-da-un-dominio-finto.test.ts` — 5 prove verdi (uscita 0); rimettendo «no-reply@example.com» la stessa prova esce ROSSA con uscita 1 (3 fallite su 5). Non fatto: il semaforo continua a non guardare RESEND_FROM — `grep -n RESEND_FROM app/api/health/route.ts` non dà nessun risultato, come prima.",
+   "nota_fix": "COSA HO CAMBIATO: `lib/env.ts` non ripiega più su «MyCity <no-reply@example.com>» ma su «MyCity <no-reply@mycity-marketplace.com>», costruito dal DOMINIO_PUBBLICO che sta venti righe sotto. È esattamente la cura che la scheda stessa cita come precedente: quando si riparò NEXT_PUBLIC_APP_URL non si scelse «nessun valore», si scelse UN INDIRIZZO NOSTRO al posto di localhost. example.com è un dominio riservato agli esempi che Resend non verificherà mai; il nostro può esserlo. COSA NON HO POTUTO CHIUDERE, e perché: il resto del fix proposto (resendFrom() che torna vuoto in produzione + errore esplicito in lib/email/client.ts + RESEND_FROM nell'elenco del semaforo) l'ho scritto tutto e l'ho poi RIMOSSO, perché rende rosse TRE prove che stanno fuori dal mio territorio e che simulano la produzione senza quella variabile: tests/unit/il-semaforo-parla-anche-al-monitor-senza-segreto.test.ts (riga 108, NODE_ENV=production), tests/unit/il-semaforo-guarda-i-segreti-che-contano.test.ts (la mappa TUTTE_LE_IMPORTANTI, riga 39) e tests/unit/senza-il-segreto-della-disiscrizione-la-posta-parte-lo-stesso.test.ts (riga 64, NODE_ENV=production). Servono tre righe, una per file: aggiungere RESEND_FROM alle variabili che quelle prove impostano. `app/api/health/route.ts` e `lib/email/client.ts` li ho RIMESSI IDENTICI a com'erano (`git diff --stat` su quei due file non stampa niente). A CHI TOCCA: la riga nel semaforo e le tre righe nelle prove le può fare in un colpo la squadra 77 dell'ondata 16, che ha già lib/env.ts, lib/email/client.ts e app/api/health/route.ts nel suo territorio. E resta comunque un pezzo 🔴 fuori da questo lotto: impostare RESEND_FROM su Vercel e verificare il dominio su Resend — non ho potuto leggere l'ambiente di produzione da qui.",
+   "file_toccati": [
+    "lib/env.ts"
+   ]
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "deploy-sre|senza il mittente configurato le email partono da un dominio finto e falliscono una per una",
+   "perche": "il fix vive in un file fuori territorio: tests/unit/il-semaforo-parla-anche-al-monitor-senza-segreto.test.ts, tests/unit/il-semaforo-guarda-i-segreti-che-contano.test.ts, tests/unit/senza-il-segreto-della-disiscrizione-la-posta-parte-lo-stesso.test.ts — tre prove che simulano la produzione senza RESEND_FROM: finché non impostano quella variabile, mettere RESEND_FROM fra le variabili guardate dal semaforo (app/api/health/route.ts, che è mio) le fa diventare rosse. Serve una riga per file."
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Ogni nuova rotta di pagamento nasce senza chiave di idempotenza, perché il punto comune non la pretende",
+   "dove": "lib/stripe/client.ts (getStripe / checkout.sessions.create)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La posizione del fattorino si scrive senza controllare se la riga è ancora sua",
+   "dove": "app/rider/orders/[id]/page.tsx:229-237",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Nessun componente React è stato montato: `@testing-library/react` non è installata in questa repo. Le pagine dell'ordine, la lista dei prodotti da foto e «cosa manda il componente di Google Analytics» sono provate sul sorgente e sulle funzioni pure, non sul comportamento a schermo. ② Non ho chiamato Stripe né Resend veri: l'idempotenza della sponsorizzazione e la verifica del dominio del mittente sono comportamenti documentati dai due servizi, non misurati da qui. ③ Non ho letto l'ambiente di produzione: non so se RESEND_FROM sia impostata su Vercel né se mycity-marketplace.com sia verificato su Resend. ④ Non ho riprodotto il caso vero delle regole di riga di Supabase (ordine riassegnato a un altro fattorino): servirebbe un ambiente vivo. ⑤ Non ho lanciato `npm run verify` né la build, come da briefing; ho lanciato `npx tsc --noEmit -p tsconfig.json` (pulito), `npx eslint` sui file toccati (0 errori) e 241 file di prove del perimetro (1849 prove verdi). ⑥ Non ho guardato cosa arriva dentro GA4: la misura è spenta, nella pagina pubblicata non c'è nessun codice G-…"
+}

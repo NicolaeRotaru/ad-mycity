@@ -1,0 +1,68 @@
+{
+ "squadra": 15,
+ "territorio": [
+  "app/seller/dashboard/page.tsx",
+  "app/seller/analytics/page.tsx",
+  "app/rider/reviews/page.tsx"
+ ],
+ "malattia": "Il cruscotto del negoziante si fidava di quello che il server gli mandava senza dirglielo: mille righe scelte a caso spacciate per «tutte», tre riquadri messi in fila per tre a qualunque larghezza di schermo, e il voto medio scritto col punto invece che con la virgola.",
+ "difetti": [
+  {
+   "chiave": "performance|il cruscotto del venditore scarica ogni riga mai venduta per fare i conti di oggi, e sopra le mille righe i numeri sbagliano in silenzio",
+   "titolo": "Il cruscotto del venditore scarica ogni riga mai venduta per fare i conti di oggi, e sopra le mille righe i numeri sbagliano in silenzio",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/il-cruscotto-del-negozio-non-scarica-la-storia-intera.test.ts (4 prove, verde; rossa 3 su 4 rimettendo la lettura senza .gte/.limit e la scritta «Dall'inizio») · npx tsc --noEmit -p tsconfig.json (pulito) · npx vitest run sulle 3 prove che gia' montavano questa pagina: 27 verdi.",
+   "nota_fix": "LA SCHEDA E' CONFERMATA, con due correzioni sul perimetro. (1) Delle cinque grandezze che la scheda dice calcolate nel browser dalle righe d'ordine, QUATTRO erano codice morto: `vendutoArticoli`, `ordersToday`, `orders7`, `last30Count` non li leggeva nessun riquadro (i tre riquadri «oggi/7/30 giorni» in cima leggono gli ordini, gia' sistemati il 22/8). L'unico numero vivo era «Articoli venduti». Le quattro somme morte le ho tolte: erano il motivo per cui serviva la storia intera del negozio. (2) La RPC `numeri_del_negozio` (migrazione 126) NON puo' dare gli articoli di sempre: conta ordini, non righe d'ordine. Senza migrazione (fuori lotto, rossa) il conto di sempre non si puo' rifare nel database. COSA HO CAMBIATO: la lettura di `order_items` ha ora la stessa finestra della gemella (`orders!inner` + `.gte('orders.created_at', 30 giorni fa)`), un tetto scritto in chiaro (`.limit(TETTO_RIGHE)`, 1000, lo stesso che il server applicava in silenzio) e seleziona solo `id` invece di prezzo e quantita' che nessuno sommava piu'. Di conseguenza la targhetta dice «Ultimi 30 giorni» invece di «Dall'inizio», che era falso oltre le mille righe; e se il tetto viene toccato scrive «137+ · Ultimi 30 giorni · almeno» invece di dare per buono un numero mozzato: e' la parte che toglie il silenzio. Il voto medio non legge piu' tutte le recensioni: chiama `store_review_stats` (migrazione 052, gia' in produzione, la stessa che usano /stores e /near) e torna una riga. COSA NON HO VERIFICATO: da qui non c'e' un database, quindi non ho eseguito la query contro un PostgREST vero — il filtro su risorsa annidata e' pero' lo stesso meccanismo del `.eq('products.seller_id')` che era gia' in questa query e funziona. RESTA APERTO (serve @backend-dev, migrazione = rossa): un conto degli articoli venduti DALL'INIZIO calcolato dal database, per rimettere il totale di sempre senza scaricare righe.",
+   "file_toccati": [
+    "app/seller/dashboard/page.tsx",
+    "tests/unit/il-cruscotto-del-negozio-non-scarica-la-storia-intera.test.ts"
+   ]
+  },
+  {
+   "chiave": "layout-responsive|sulla dashboard del negoziante l'incasso esce dal suo riquadro sopra i cento euro",
+   "titolo": "Sulla dashboard del negoziante l'incasso esce dal suo riquadro sopra i cento euro",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/i-numeri-in-cima-al-cruscotto-ci-stanno-sul-telefono.test.ts (2 prove, verde; rimettendo `grid-cols-3` diventano rosse tutte e due e stampano «€1234.56 chiede 81 punti e ne ha 63», cioe' gli stessi numeri della scheda) · npx tsc --noEmit (pulito) · npx eslint sui file toccati (pulito).",
+   "nota_fix": "CONFERMATO. La prova non cerca la classe nel file: monta la pagina, legge dal DOM quante colonne fa la griglia sul telefono, quanto spazio interno ha ogni riquadro e con che corpo e' scritta la cifra, rifa' il conto della larghezza a 360 punti e lo confronta con la larghezza della cifra vera. COSA HO CAMBIATO: la griglia e' `grid-cols-2 sm:grid-cols-3` e «Oggi» — il numero che il negoziante guarda la mattina — prende tutta la riga sul telefono (`col-span-2 sm:col-span-1`); i riquadri hanno `min-w-0` e la cifra `break-words` come rete per un incasso a sei cifre. Ho scelto due colonne invece di una perche' a 360 punti danno 111 punti di scritto per riquadro contro i 63 di prima (a «€1234.56» ne servono 81), senza allungare la fascia di tre riquadri impilati sopra il resto della pagina. NON ho toccato `formatPrice`: vive in lib/format.ts, fuori dal mio territorio. COSA NON HO VERIFICATO: jsdom non impagina, quindi la larghezza del testo e' stimata dalle metriche di Inter (cifre a sei decimi del corpo), non misurata da un browser vero: e' un bilancio di spazio, non uno screenshot a 360 punti.",
+   "file_toccati": [
+    "app/seller/dashboard/page.tsx",
+    "tests/unit/i-numeri-in-cima-al-cruscotto-ci-stanno-sul-telefono.test.ts"
+   ]
+  },
+  {
+   "chiave": "tipografia|il voto medio esce con il punto («4.5 ★») mentre nella pagina del rider lo stesso numero è scritto con la virgola",
+   "titolo": "Il voto medio esce con il punto («4.5 ★») mentre nella pagina del rider lo stesso numero è scritto con la virgola",
+   "esito": "riparato",
+   "prova": "grep -n \"avgRating.toFixed(1)\" app/seller/dashboard/page.tsx app/seller/analytics/page.tsx | grep -vc \"replace('.', ',')\"  → 0 (era 2, come dice la scheda) · npx tsc --noEmit pulito · npx eslint pulito.",
+   "nota_fix": "CONFERMATO in tutti e tre i punti citati. Il rider era gia' a posto (`toFixed(1).replace('.', ',')`): l'ho preso come riferimento e ho allineato il cruscotto e le analitiche, cosi' lo stesso voto si scrive «4,6» nelle tre pagine. NON ho fatto la parte del fix proposto che aggiunge `formatNumber` in lib/format.ts: quel file NON e' nel mio territorio e in questo momento c'e' dentro un'altra squadra. La causa radice — manca una funzione condivisa, il conto e' scritto a mano in tre punti — resta aperta e l'ho segnalata in difetti_nuovi. COSA NON HO VERIFICATO: non ho aperto le tre pagine in un browser; la sostituzione e' la stessa identica riga gia' in produzione nella pagina del rider.",
+   "file_toccati": [
+    "app/seller/dashboard/page.tsx",
+    "app/seller/analytics/page.tsx"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Manca una funzione sola che scriva i numeri all'italiana: adesso la virgola e' incollata a mano in tre punti diversi",
+   "dove": "lib/format.ts (fuori dal mio territorio) · app/seller/dashboard/page.tsx · app/seller/analytics/page.tsx · app/rider/reviews/page.tsx",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Il prezzo esce all'inglese in tutto il sito: «€234.56» col punto, invece di «234,56 €»",
+   "dove": "lib/format.ts:1 (formatPrice, fuori dal mio territorio)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Se la lettura delle recensioni fallisce, il cruscotto scrive «Nessuna recensione» invece di dire che non lo sa",
+   "dove": "app/seller/dashboard/page.tsx (targhetta «Valutazione media»: l'errore della lettura non viene guardato, come prima del mio intervento)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Se la lettura delle righe d'ordine fallisce, «Articoli venduti» mostra zero come se il negozio non avesse venduto niente",
+   "dove": "app/seller/dashboard/page.tsx (l'errore di quella lettura non e' mai stato controllato; si controlla solo quello degli ordini)",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Da questa postazione non c'e' ne' un database ne' un browser. Non ho eseguito le due query nuove contro un PostgREST vero (il filtro sulla data della risorsa annidata e la chiamata a `store_review_stats` con l'id del negozio stesso): il primo usa lo stesso meccanismo del filtro sul venditore che era gia' in quella query, la seconda e' una funzione del 2025 gia' usata dalle pagine pubbliche /stores e /near. Non ho misurato lo sbordo a 360 punti in un browser vero: la prova rifa' il conto dello spazio con le metriche del carattere. Non ho lanciato la suite intera (vietato dal briefing mentre le altre squadre scrivono): ho lanciato le 7 prove che toccano queste pagine, 49 verdi. Il cambio di significato della targhetta «Articoli venduti» — da «Dall'inizio» a «Ultimi 30 giorni» — e' una mia scelta dichiarata: senza una funzione nuova nel database il totale di sempre non e' calcolabile senza scaricare righe, e mille righe spacciate per tutte erano una bugia peggiore."
+}

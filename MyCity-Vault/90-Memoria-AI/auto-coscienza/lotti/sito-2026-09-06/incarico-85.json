@@ -1,0 +1,20 @@
+{
+ "squadra": 85,
+ "ondata": 18,
+ "pacchetto": "components/providers/ToastProvider.tsx",
+ "territorio_principale": "components/providers/ToastProvider.tsx",
+ "file_citati": [
+  "components/providers/ToastProvider.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|gli avvisi a comparsa usano i verdi, rossi e blu di fabbrica della libreria, non i colori del brand",
+   "titolo": "Gli avvisi a comparsa usano i verdi, rossi e blu di fabbrica della libreria, non i colori del brand",
+   "dimensione": "coerenza-brand",
+   "file": "components/providers/ToastProvider.tsx:40",
+   "descrizione": "Il provider dei toast monta <Toaster position=\"top-right\" richColors /> di sonner: l'opzione richColors accende la palette interna della libreria (verde, rosso, ambra e blu saturi) su ogni avviso — «aggiunto al carrello», coupon, errori, avvisi di salvataggio. Non c'è nessun toastOptions.classNames né style con i token del sito: i toast sono l'unico elemento del marketplace che mostra un blu.\n\nCausa radice: Adozione di sonner con l'opzione di comodo richColors senza mappare i quattro stati sui token olive/secondary/accent/cream del design system.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n 'richColors' components/providers/ToastProvider.tsx && echo 'DIFETTO: toast con palette di fabbrica di sonner'",
+   "impatto": "Ogni azione del cliente (carrello, preferiti, coupon) riceve una risposta in un colore che non appartiene alla palette; il comportamento è giusto, la voce visiva no.",
+   "fix_proposto": "Togliere richColors e passare toastOptions={{ classNames: { success: 'bg-olive-50 text-olive-800 border-olive-200', error: 'bg-secondary-50 text-secondary-800 border-secondary-200', warning: 'bg-accent-50 text-accent-800 border-accent-200', info: 'bg-cream-100 text-ink-800 border-cream-300' } }}."
+  }
+ ]
+}

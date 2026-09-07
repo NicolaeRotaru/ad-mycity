@@ -1,0 +1,35 @@
+{
+ "squadra": 44,
+ "ondata": 9,
+ "pacchetto": "components/StoreMediaManager.tsx",
+ "territorio_principale": "components/StoreMediaManager.tsx",
+ "file_citati": [
+  "components/StoreMediaManager.tsx",
+  "lib/storage/percorso-caricamento.ts",
+  "migrations/070_storage_and_rls_hardening.sql",
+  "app/seller/products/ai-batch/page.tsx",
+  "components/account/AccountSidebar.tsx",
+  "components/rider/CashConfirmDialog.tsx",
+  "components/SupportProductAssistant.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "immagini-media|il negoziante non riesce a mettere il video alla vetrina, ma il sito glielo chiede",
+   "titolo": "Il negoziante non riesce a mettere il video alla vetrina, ma il sito glielo chiede",
+   "dimensione": "immagini-media",
+   "file": "components/StoreMediaManager.tsx:29 (accetta video/*), :101 (testo «fino a 3 immagini e 1 video»), :60-64 (carica su cartella store-media) · lib/storage/percorso-caricamento.ts:33 (il deposito è 'products') · migrations/070_storage_and_rls_hardening.sql:36-41",
+   "descrizione": "Nella pagina «Copertina negozio» il riquadro di caricamento accetta anche i file video e la scritta sotto promette «Aggiungi fino a 3 immagini e 1 video». Il file finisce nel deposito pubblico chiamato 'products'. Ma quel deposito, dalla migrazione 070, accetta soltanto sette tipi di immagine — image/jpeg, image/png, image/webp, image/gif, image/avif, image/heic, image/heif — e nessun video, con un tetto di 10 MB. Ho interrogato il database ricostruito dalle 145 migrazioni: alla domanda «accetti video/mp4?» il deposito risponde no. Quindi ogni video che un negoziante trascina lì viene rifiutato dal server, sempre, per chiunque. E anche se il tipo passasse, un filmato di quindici secondi da telefono pesa 30-60 MB: il tetto di 10 MB lo fermerebbe lo stesso.\n\nCausa radice: La migrazione 070 ha stretto il deposito 'products' alle sole immagini per bloccare SVG e file non-immagine, e nessuno ha rivisto i punti che caricano video in quello stesso deposito. Il video della vetrina è rimasto orfano: il pannello lo offre, il magazzino lo rifiuta, e le due verità vivono in file che non si parlano.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && PGPASSWORD=postgres psql -h localhost -U postgres -d mycity_ci -tAc \"SELECT ('video/mp4' = ANY(allowed_mime_types))::text FROM storage.buckets WHERE id='products';\" | grep -qx true && echo VERDE || echo \"ROSSO: il deposito 'products' rifiuta i video, ma la vetrina ne offre 1\"",
+   "impatto": "Il fornaio che vuole far vedere il forno acceso trascina il video, aspetta, e riceve un errore. Non è che il suo video sia sbagliato: non può funzionare per nessuno. La copertina è la prima cosa che un cliente vede di una bottega, e il negoziante perde tempo su una promessa che il sito non può mantenere.",
+   "fix_proposto": "Decidere una cosa sola e scriverla in un posto solo. O si riapre il video: si aggiunge video/mp4 all'elenco dei tipi ammessi del deposito e si alza il tetto per i video (o si crea un deposito 'store-video' separato con il suo tetto), comprimendo lato browser prima di spedire. Oppure si toglie: si leva video/* dal riquadro di caricamento in StoreMediaManager.tsx:29 e la parola «video» dalla scritta a :101. Nel dubbio la seconda, che è di un minuto e smette di far perdere tempo ai negozianti; poi la prima con calma."
+  },
+  {
+   "chiave": "immagini-media|nel pannello del negoziante le foto della vetrina si scaricano intere per stare in un francobollo",
+   "titolo": "Nel pannello del negoziante le foto della vetrina si scaricano intere per stare in un francobollo",
+   "dimensione": "immagini-media",
+   "file": "components/StoreMediaManager.tsx:113 · app/seller/products/ai-batch/page.tsx:290 · components/account/AccountSidebar.tsx:116 · components/rider/CashConfirmDialog.tsx:203 · components/SupportProductAssistant.tsx:346, :393, :406, :460, :540",
+   "descrizione": "In nove punti la foto viene messa a schermo con un tag img normale e l'indirizzo originale, senza passare da sizedImage, che è la funzione che chiede al server una copia più piccola. Nel gestore della copertina negozio le tre foto stanno in riquadri da 80 per 64 pixel ma vengono scaricate alla dimensione con cui sono state caricate — fino a 10 MB l'una, perché è quello il tetto del deposito. Nella barra laterale dell'account il logo del negozio sta in un cerchio da 48 pixel, ed è il logo intero. Gli altri punti sono l'assistente al supporto, la conferma contanti del rider e l'importazione con l'AI.\n\nCausa radice: sizedImage non è obbligatoria: è una funzione che ci si deve ricordare di chiamare. I punti nati dopo — o scritti in fretta col commento eslint-disable per zittire l'avviso su img — non l'hanno chiamata, e niente se ne è accorto.\n\nProva (umano, non eseguita): Aprire la gestione della copertina negozio con la scheda Rete degli strumenti per sviluppatori aperta e guardare quanti byte pesano le tre anteprime da 80x64: sono i byte del file originale, non quelli di una miniatura. Confronto: la stessa foto passata da sizedImage con 'thumb' arriva a 100 pixel di lato.",
+   "impatto": "Il negoziante che apre «Copertina negozio» dal telefono, magari in bottega col traffico dati, può scaricare decine di megabyte per vedere tre francobolli. La pagina sembra lenta e la colpa non è della sua connessione. Non perde soldi, ma è lavoro suo reso più faticoso ogni volta.",
+   "fix_proposto": "Nei nove punti avvolgere l'indirizzo in sizedImage con la taglia del riquadro — sizedImage(m.url, 'thumb') per i francobolli, sizedImage(logo, 96, { quadrato: true }) per il cerchio dell'account — come già fanno components/StoreListRow.tsx:71 e components/StorePreviewCard.tsx:110. Poi togliere il commento eslint-disable dove non serve più, così il prossimo che scrive un img grezzo lo vede segnalato."
+  }
+ ]
+}

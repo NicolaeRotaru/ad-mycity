@@ -1,0 +1,20 @@
+{
+ "squadra": 122,
+ "ondata": 26,
+ "pacchetto": "components/store-sections/ScheletroNegozio.tsx",
+ "territorio_principale": "components/store-sections/ScheletroNegozio.tsx",
+ "file_citati": [
+  "components/store-sections/ScheletroNegozio.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "frontend-ux|chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+   "titolo": "Chi non vede lo schermo — mentre il negozio si apre — non sente più niente",
+   "dimensione": "frontend-ux",
+   "file": "components/store-sections/ScheletroNegozio.tsx:21",
+   "descrizione": "Le tre porte del negozio — app/store/loading.tsx, app/store/[id]/page.tsx:39 e app/store/[id]/[slug]/page.tsx:34 — oggi hanno smesso di usare `<LoadingState />` e mostrano `<ScheletroNegozio />`. Lo scheletro ha `role=\"status\" aria-busy=\"true\" aria-live=\"polite\"` ma dentro NON c'è nessun testo: solo riquadri grigi, tutti decorativi. `LoadingState` (components/ui/LoadingState.tsx, variante `spinner`) scriveva invece `<p>{t('loading')}</p>`, cioè «Caricamento…» (messages/it.json → states.loading), dentro lo stesso `role=status`. Una regione `aria-live` senza testo non annuncia niente, e `aria-busy=\"true\"` dice esplicitamente all'ausilio di tacere finché non torna falso — cosa che qui non succede mai, perché il componente viene semplicemente sostituito. — Chi usa un lettore di schermo apre la pagina di un negozio e riceve silenzio: non sa se il sito sta lavorando o se si è rotto. Prima sentiva «Caricamento…». È una regressione di comportamento, non un'imperfezione, e vale su tre porte d'ingresso al negozio — cioè su tutta la vetrina, che è quello che vendiamo ai negozianti. WCAG 2.1 4.1.3 (Status Messages, AA).",
+   "impatto": "Chi usa un lettore di schermo apre la pagina di un negozio e riceve silenzio: non sa se il sito sta lavorando o se si è rotto. Prima sentiva «Caricamento…». È una regressione di comportamento, non un'imperfezione, e vale su tre porte d'ingresso al negozio — cioè su tutta la vetrina, che è quello che vendiamo ai negozianti. WCAG 2.1 4.1.3 (Status Messages, AA).",
+   "fix_proposto": "Prova jsdom: montare `ScheletroNegozio` e pretendere che `getByRole('status')` abbia un nome accessibile non vuoto (`toHaveAccessibleName()`), lo stesso controllo passato anche su `ScheletroCassa` così le due non possono divergere. Comando: `cd /home/user/mycity && npx vitest run tests/unit/aprendo-un-negozio-si-vede-una-cosa-sola-mentre-arriva.test.ts` una volta aggiunto il caso — oggi quel file esiste, passa, e controlla solo la FORMA dello scheletro, non che dica qualcosa."
+  }
+ ]
+}

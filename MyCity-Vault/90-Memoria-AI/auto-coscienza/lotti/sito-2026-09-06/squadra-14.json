@@ -1,0 +1,88 @@
+{
+ "squadra": 14,
+ "territorio": [
+  "app/api/cron/send-push/route.ts",
+  "app/privacy/page.tsx",
+  "lib/push/send.ts",
+  "app/api/cron/send-emails/route.ts",
+  "app/profile/settings/page.tsx",
+  "app/notifications/page.tsx",
+  "migrations/115_privacy_radiografia.sql"
+ ],
+ "malattia": "Il giro delle notifiche push è stato scritto guardando solo «parte o non parte»: nessuno ha dichiarato il trattamento nell'informativa, nessuno ha messo un tetto di tempo né una scadenza al messaggio, e la presa in carico della coda non è atomica come quella delle email.",
+ "difetti": [
+  {
+   "chiave": "privacy-legale|le notifiche push non sono scritte da nessuna parte nell'informativa",
+   "titolo": "Le notifiche push non sono scritte da nessuna parte nell'informativa",
+   "esito": "riparato",
+   "prova": "grep -n -i 'push' app/privacy/page.tsx → prima 0 righe sul trattamento (solo «notificheremo l'evento al Garante»), ora 7 · npx vitest run tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts (2 prove nuove sull'informativa, verdi; rosse se il testo non c'è)",
+   "nota_fix": "La scheda diceva il vero: la parola «push» non compariva. Aggiunta in «2. Categorie di dati trattati» la voce «Iscrizione alle notifiche push» (endpoint del servizio push, due chiavi di cifratura, user-agent) e in «3. Finalità» DUE righe, non una: lo stato dell'ordine sta sul contratto (art. 6.1.b), le promozioni sul consenso revocabile in Impostazioni (art. 6.1.a) — mettere tutto sotto una base sola sarebbe stato sbagliato, perché è il consenso che l'interruttore revoca. Conservazione dichiarata: fino a disattivazione, cancellazione account o primo rifiuto del servizio push (è ciò che il codice fa davvero su 404/410). NON verificato: il registro dei trattamenti vive fuori da questo repo e va allineato con gli stessi termini (@dpo); il testo legale non è passato da @legale-privacy.",
+   "file_toccati": [
+    "app/privacy/page.tsx",
+    "tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts"
+   ]
+  },
+  {
+   "chiave": "performance|l'invio di ogni notifica push aspetta senza limite di tempo, e un solo telefono che non risponde può fermare il giro delle notifiche",
+   "titolo": "L'invio di ogni notifica push aspetta senza limite di tempo, e un solo telefono che non risponde può fermare il giro delle notifiche",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts → 7 passed. Controprova: tolte le opzioni da sendNotification la stessa prova va 4 failed | 3 passed (il tetto di tempo, i due TTL e il contrassegno). npx tsc --noEmit -p tsconfig.json → exit 0.",
+   "nota_fix": "webpush.sendNotification riceve ora un terzo argomento con timeout: 5000. Verificato sulla libreria installata (web-push 3.6.7, src/web-push-lib.js righe 222 e 396) che 'timeout' è fra le opzioni ammesse e che alla scadenza la richiesta viene distrutta con un errore — quindi il try/catch già presente la prende. Il log del fallimento ora distingue «scaduto» da «transitorio» e registra SOLO l'host del servizio push, mai l'endpoint intero: l'endpoint identifica la persona. DA SAPERE: è un tetto sul silenzio della connessione (socket timeout), non sul tempo totale della risposta — una risposta lenta ma continua non viene tagliata. Per quello servirebbe un AbortController, che è più del fix minimo.",
+   "file_toccati": [
+    "lib/push/send.ts",
+    "tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts"
+   ]
+  },
+  {
+   "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+   "titolo": "Le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+   "esito": "non_riparato",
+   "prova": "Letto app/api/cron/send-push/route.ts righe 78-86 (SELECT delle notifiche con pushed_at NULL) e 189-200 (UPDATE pushed_at solo a fine giro) e confrontato con app/api/cron/send-emails/route.ts (claim_pending_emails): il difetto c'è ancora, la lettura non prende il turno.",
+   "nota_fix": "Confermato sul codice vero. Il fix giusto è quello proposto — funzione SQL claim_pending_notifications(p_max) con UPDATE ... RETURNING e una colonna push_claimed_at, sul modello di claim_pending_emails — ma è una MIGRAZIONE del database: fuori da questo lotto (🔴, regola 7 del briefing) e il file nuovo starebbe fuori dal mio territorio. Un rattoppo solo lato codice (per esempio marcare pushed_at PRIMA dell'invio) non lo chiude: sposterebbe il rischio da «due push» a «zero push» se l'invio fallisce. Serve firma di Nicola su una migrazione reversibile (colonna + funzione; rollback = drop).",
+   "file_toccati": []
+  },
+  {
+   "chiave": "mobile-pwa|le notifiche push partono senza scadenza: un avviso «in consegna» può arrivare giorni dopo la consegna, e gli aggiornamenti dello stesso ordine si accumulano",
+   "titolo": "Le notifiche push partono senza scadenza: un avviso «in consegna» può arrivare giorni dopo la consegna, e gli aggiornamenti dello stesso ordine si accumulano",
+   "esito": "riparato",
+   "prova": "npx vitest run tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts → 7 passed (TTL 3600 e urgency high per un ordine, TTL 86400 e urgency normal per una promozione, un contrassegno solo per i due stati dello stesso ordine, renotify true). Controprova con il codice vecchio: rosse.",
+   "nota_fix": "TTL e urgency non sono fissi: il giro li sceglie per categoria (order/system = 1 ora e urgency alta, promo/group = 1 giorno, newsletter = 1 giorno a urgency bassa), così un «in consegna» scade e una promozione no. Sul contrassegno mi sono scostato dalla scheda: 'tag = n.link ?? n.id' avrebbe fatto collassare in UNA sola notifica tutte le promozioni con link generico '/', che si sarebbero mangiate a vicenda; uso il collegamento solo se è preciso (diverso da '/'), altrimenti l'identificativo. Aggiunto renotify: true — verificato che il service worker lo legge davvero (public/sw.js righe 176-177 leggono data.tag e data.renotify), altrimenti sarebbe stato un campo morto. NON verificato: il comportamento vero dei servizi push di Apple/Google (da qui non si può provare), e l'aspetto sul telefono.",
+   "file_toccati": [
+    "lib/push/send.ts",
+    "app/api/cron/send-push/route.ts",
+    "tests/unit/le-notifiche-push-non-restano-appese-ne-arrivano-in-ritardo.test.ts"
+   ]
+  },
+  {
+   "chiave": "microcopy|chi spegne le promozioni continua a vederle nella campanella del sito",
+   "titolo": "Chi spegne le promozioni continua a vederle nella campanella del sito",
+   "esito": "non_riparato",
+   "prova": "Letto app/notifications/page.tsx righe 75-83 (select('*') senza filtro di categoria) e components/hooks/useNotificationsCount.ts righe 32-36 (conteggio del pallino senza filtro di categoria): il difetto c'è ancora su tutti e due i canali.",
+   "nota_fix": "Il difetto vive in tre punti e due sono FUORI dal mio territorio: il conteggio del pallino (components/hooks/useNotificationsCount.ts, più components/seller/SellerShell.tsx) e chi scrive le notifiche (app/api/cron/external-price-alerts/route.ts). Riparare solo l'elenco di /notifications sarebbe stato peggio del difetto: il pallino direbbe «3» e la pagina ne mostrerebbe 1, e la persona penserebbe di aver perso qualcosa. Il fix pulito è alla radice — chiamare vuole_notifica quando la notifica viene SCRITTA, così non nasce nemmeno — ma quel file è di un'altra squadra.",
+   "file_toccati": []
+  }
+ ],
+ "bloccati": [
+  {
+   "chiave": "api-backend|le notifiche push partono due volte se due giri del cron si sovrappongono: la presa in carico non è atomica",
+   "perche": "il fix richiede una migrazione del database (colonna push_claimed_at + funzione claim_pending_notifications): fuori lotto (🔴, briefing regola 7) e il file di migrazione sarebbe fuori da file_citati"
+  },
+  {
+   "chiave": "microcopy|chi spegne le promozioni continua a vederle nella campanella del sito",
+   "perche": "il fix vive in file fuori territorio: components/hooks/useNotificationsCount.ts (e components/seller/SellerShell.tsx) per il pallino, app/api/cron/external-price-alerts/route.ts per chi scrive la notifica"
+  }
+ ],
+ "difetti_nuovi": [
+  {
+   "titolo": "Se il giro delle push salta per più di un'ora, quelle notifiche non partono più: la finestra di recupero è di 60 minuti e chi resta fuori resta fuori per sempre",
+   "dove": "app/api/cron/send-push/route.ts:77-84 (gte created_at, now-1h)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Nell'informativa il commento sui buoni regalo è incollato due volte di fila",
+   "dove": "app/privacy/page.tsx:136-146",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "Non ho provato niente sul sito pubblicato né su un telefono vero: TTL, urgency e sostituzione dell'avviso sono verificati su cosa arriva alla libreria di invio, non su cosa fanno davvero i servizi push di Apple e Google. Il tetto di tempo è sul silenzio della connessione, non sul tempo totale. Non ho lanciato npm run verify né la suite intera (vietato dal briefing): ho lanciato npx tsc --noEmit (exit 0) e tutti i 9 file di test che citano i file toccati (62 prove verdi). Il testo dell'informativa non è passato da @legale-privacy/@dpo e il registro dei trattamenti, che sta fuori da questo repo, va ancora allineato."
+}

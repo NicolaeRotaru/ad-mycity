@@ -1,0 +1,56 @@
+{
+ "squadra": 233,
+ "territorio": [
+  "lib/format.ts",
+  "lib/email/templates.ts",
+  "lib/push/send.ts",
+  "app/api/cron/send-push/route.ts",
+  "lib/shipping-etichetta/label.ts",
+  "components/rider/CashConfirmDialog.tsx",
+  "lib/stripe/webhook/comune.ts",
+  "app/api/orders/cod/route.ts",
+  "tests/unit/lo-stesso-ordine-dice-la-stessa-cifra-su-ogni-canale.test.ts"
+ ],
+ "malattia": "Stamattina `formatPrice` e' passata all'italiano in un punto solo, ma i canali che si ricostruivano l'importo per conto proprio con `(cents / 100).toFixed(2)` sono rimasti all'inglese: prima erano tutti sbagliati allo stesso modo e almeno si somigliavano, adesso lo stesso ordine dice «35,00 €» da una parte e «€35.00» dall'altra — e la casa dei formati non aveva nessuna porta per chi tiene i soldi in centesimi, che sono quasi tutti.",
+ "difetti": [
+  {
+   "chiave": "tipografia|lo stesso ordine scrive l'importo in due modi diversi a seconda del canale: «35,00 €» via email, «€35.00» su push, etichetta e schermata dei contanti",
+   "titolo": "Lo stesso ordine scrive l'importo in due modi diversi a seconda del canale: «35,00 €» via email, «€35.00» su push, etichetta e schermata dei contanti",
+   "esito": "riparato",
+   "prova": "QUATTRO CONTROPROVE, tutte fatte rimettendo il difetto per davvero e poi ripristinando. ① ETICHETTA PDF: rimessa `Riscuoti: €${(data.totalCents / 100).toFixed(2)}` -> ROSSO, 4 failed | 1 passed, «stesso ordine, cifre diverse: l'email al cliente scrive \"35,00 €\", ma l'etichetta che stampa il fattorino scrive \"€35.00\"». ② SCHERMATA CONTANTI: rimessa `Previsto: €{(expectedCents / 100).toFixed(2)}` -> ROSSO, 1 failed | 4 passed, «riga 159: Previsto: €{(expectedCents / 100).toFixed(2)}». ③ PUSH STRADA CARTA (lib/stripe/webhook/comune.ts): rimessa `€${(created.totalCents / 100).toFixed(2)}` -> ROSSO, 5 failed | 2 passed, e il messaggio nomina il canale: «l'email al cliente scrive \"12.345,67 €\", ma la notifica sul telefono del negoziante scrive \"€12345.67\"» (stesso esito su 35,00 / 1234,50 / 9,90 / 0,05). ④ PUSH STRADA CONTRASSEGNO (app/api/orders/cod/route.ts): rimessa `€${(c.totalCents / 100).toFixed(2)}` -> ROSSO, 1 failed | 6 passed, «app/api/orders/cod/route.ts:835 — body: `Ordine #… · €${(c.totalCents / 100).toFixed(2)} · pagamento alla consegna`». RIPRISTINO DI TUTTI E QUATTRO -> VERDE: `npx vitest run tests/unit/lo-stesso-ordine-dice-la-stessa-cifra-su-ogni-canale.test.ts` = 7 passed, 0 failed. POI: `npx tsc --noEmit -p tsconfig.json` -> exit 0. E le 30 prove esistenti che citano i miei sorgenti (grep su webhook/comune, orders/cod/route, suonaLaCampanellaAiNegozi, shipping-etichetta, lib/format, CashConfirmDialog) -> 30 file passed, 239 tests passed, 0 failed.",
+   "nota_fix": "CHIUSO SUL SERIO: i quattro canali che scrivono la cifra di un ordine adesso la scrivono nello stesso modo. (Al primo giro l'avevo lasciato aperto perche' la push viveva in territorio vietato; l'AD ha liberato i due file e l'ho chiuso.) || COS'HO TROVATO. Spazzato tutto il territorio cercando l'euro: 12 righe scrivono soldi a mano. Tre sono importi VERI di un ordine, due sono la push, otto sono cifre fisse di marketing, una non e' una cifra da leggere. || COS'HO CAMBIATO (5 righe di codice in tutto). ① lib/format.ts: aggiunta `formatPriceFromCents(cents)` = `formatPrice(cents / 100)`. La casa dei formati non aveva la porta per i centesimi, ed e' la CAUSA per cui ognuno si divideva per cento sul posto: chi divide sul posto poi scrive anche il `toFixed`, e il `toFixed` e' l'inglese. ② lib/shipping-etichetta/label.ts:97 — il foglio che il fattorino stampa diceva «Riscuoti: €35.00». Verificato che il font regge: Helvetica standard scrive l'euro come byte WinAnsi 0x80 e lo spazio unificatore come 0xA0, e `widthOfString('€')` da' 6.672, cioe' un glifo vero e non un buco. ③ components/rider/CashConfirmDialog.tsx:152 e :154 — «Previsto: €35.00» e «€2.50 di compenso», le due cifre che il fattorino legge prima di dichiarare i contanti. ④ lib/stripe/webhook/comune.ts:143 — la campanella al negozio per un ordine pagato con carta: sul telefono arrivava «€35.00» mentre l'email dello stesso ordine, partita nello stesso minuto, diceva gia' «35,00 €». ⑤ app/api/orders/cod/route.ts:832 — la stessa campanella per un ordine in contrassegno. || COSA NON HO TOCCATO, E PERCHE'. (a) CashConfirmDialog.tsx:34, `useState((expectedCents / 100).toFixed(2))`: sembra lo stesso difetto e NON lo e'. Non e' una cifra da leggere, e' il valore dentro `<input type=\"number\">`, che il browser accetta solo col punto decimale e che tre righe piu' sotto rileggiamo con `parseFloat`. Formattarlo «35,00 €» svuoterebbe il campo e il fattorino si troverebbe la casella vuota proprio al momento di dichiarare i contanti. Ho lasciato la riga e ci ho scritto sopra il perche', cosi' la prossima radiografia non la «ripara» rompendo la cassa. (b) Le otto righe di lib/email/templates.ts (391, 392, 400, 401, 407, 412, 413, 414): sono cifre FISSE di marketing — «spedizione gratis sopra 30 €» e «€5 di benvenuto» — non importi di un ordine. Toccarle SOLO qui avrebbe peggiorato le cose, che e' esattamente il difetto che sto riparando: «€5» sta scritto a mano in almeno sei file fuori dal mio territorio (BuyerOnboardingTour.tsx:32, WelcomeCreditBanner.tsx:82, HomeSectionRenderer.tsx:353 e :357, app/orders/page.tsx:268, app/sign-up/page.tsx:210 e :211) e la soglia sta in lib/shipping.ts:229,239,240 e lib/constants.ts:130 come «30 €» e in lib/promesse-pubbliche.ts:157 come «€30». Se scrivevo «5,00 €» nell'email, la stessa persona leggeva «5,00 €» nella posta e «€5» sul sito lo stesso minuto. Passate intere in `difetti_nuovi`: vanno fatte in un colpo solo, da chi ha tutti quei file. || LA PROVA. `tests/unit/lo-stesso-ordine-dice-la-stessa-cifra-su-ogni-canale.test.ts`, nuova. Non contiene nessuna stringa attesa: prende un ordine, fa girare DAVVERO cinque canali sullo stesso importo — email al cliente, email al negoziante, email del rimborso, l'etichetta PDF vera (di cui sgonfia i flussi compressi e rilegge il testo esadecimale rimettendo l'euro WinAnsi al suo posto) e la notifica sul telefono (chiamando `suonaLaCampanellaAiNegozi` con un client che invece di scrivere sul database tiene da parte le righe) — raccoglie la cifra che ognuno ha scritto e pretende che siano la stessa stringa. Se due divergono dice QUALI due e COSA ha scritto ciascuno. Gira su cinque importi: 3500 (il caso del 6/9), 123450 (quattro cifre, dove l'italiano NON mette il punto), 1234567 (cinque cifre, dove il punto delle migliaia arriva e «€12345.67» confonde di piu'), 990 e 5. Controlla anche che nessun canale se la cavi non scrivendo affatto la cifra, se no passerebbe per finta. || IL PEZZO DEBOLE, DICHIARATO. Due punti non si riescono a far girare da qui e li sorveglio leggendo il sorgente (l'euro non deve mai tornare attaccato a un valore calcolato): la schermata dei contanti, che e' un componente React che si apre solo dopo un clic (servirebbe @testing-library/react, cioe' toccare package.json, vietato), e la rotta del contrassegno, che per partire chiede una ventina di finti. Vale meno delle cinque prove che eseguono il codice, ed e' scritto dentro la prova stessa. || PROVE ESISTENTI: nessuna pretendeva il vecchio formato, quindi non ho riscritto nessuna attesa. tests/unit/shipping-etichetta-label.test.ts sorveglia un'altra cosa (le emoji che sulla stampa escono come mezzi caratteri) e l'ho lasciata intatta: ho controllato che i byte nuovi non la facciano scattare per sbaglio — 0xA0 e 0x80 non cadono nelle sue finestre 0xD8-0xDB / 0xDC-0xDF — e infatti resta verde.",
+   "file_toccati": [
+    "lib/format.ts",
+    "lib/shipping-etichetta/label.ts",
+    "components/rider/CashConfirmDialog.tsx",
+    "lib/stripe/webhook/comune.ts",
+    "app/api/orders/cod/route.ts",
+    "tests/unit/lo-stesso-ordine-dice-la-stessa-cifra-su-ogni-canale.test.ts"
+   ]
+  }
+ ],
+ "bloccati": [],
+ "difetti_nuovi": [
+  {
+   "titolo": "Il credito di benvenuto e' scritto «€5» a mano in sette posti diversi, e nessuno passa dalla casa dei formati",
+   "dove": "components/BuyerOnboardingTour.tsx:32, components/WelcomeCreditBanner.tsx:82, components/home-sections/HomeSectionRenderer.tsx:353 e :357, app/orders/page.tsx:268, app/sign-up/page.tsx:210 e :211, lib/email/templates.ts:392,401,407,412,413,414",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "La soglia della spedizione gratis esce in tre forme diverse: «30,00 €» dal cruscotto, «30 €» dal carrello e dalle email, «€30» dalle promesse pubbliche",
+   "dove": "app/admin/delivery/page.tsx:53,94,148 (formatPrice) vs lib/shipping.ts:229,239,240 e lib/constants.ts:130 («30 €») vs lib/promesse-pubbliche.ts:157 («€30»)",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Fuori dai canali dell'ordine, dodici punti si dividono ancora i centesimi per conto proprio invece di passare da formatPriceFromCents",
+   "dove": "app/api/seller/orders/[id]/reject/route.ts:106, app/api/cron/operational-alerts/route.ts:273, app/api/cron/release-payouts/route.ts:411, app/api/returns/[id]/avanza/route.ts:144, app/api/returns/[id]/decide/route.ts:120, app/api/rider/cash-confirm/route.ts:229, components/ShareCartButton.tsx:36, lib/stripe/webhook/trasferimenti.ts:87, lib/stripe/webhook/ordini.ts:194, lib/stripe/webhook/rimborsi.ts:439, lib/stripe/webhook/dispute.ts:118, lib/stripe/payout.ts:1001",
+   "gravita": "minore"
+  },
+  {
+   "titolo": "Le due campanelle «nuovo ordine» al negozio sono scritte due volte, e il commento del codice dice gia' che dovrebbero essere una sola",
+   "dove": "lib/stripe/webhook/comune.ts:130 (suonaLaCampanellaAiNegozi) e app/api/orders/cod/route.ts:829, che ricostruisce la stessa riga a mano invece di chiamarla",
+   "gravita": "minore"
+  }
+ ],
+ "non_verificato": "① Due punti NON li ho fatti girare, li ho solo letti: la schermata dei contanti del fattorino (manca @testing-library/react e aggiungerla vuol dire toccare package.json, vietato) e la rotta del contrassegno (per partire chiede una ventina di finti). Su quei due la prova legge il sorgente, non il video: vale meno delle cinque che eseguono il codice, e la differenza e' scritta dentro la prova. La push della strada CARTA invece la chiamo per davvero. ② L'etichetta NON l'ho stampata su carta: ho verificato che l'euro e lo spazio unificatore finiscono nel PDF come glifi veri (byte WinAnsi 0x80 e 0xA0, larghezza 6.672 per l'euro in Helvetica-Bold), non che una stampante termica li disegni bene. Se qualcuno ha la stampante sotto mano, vale un foglio di prova. ③ NON ho lanciato la suite intera ne' `npm run verify` ne' la build: ci sono altre squadre nello stesso albero e leggerei rossi che non sono miei. Ho lanciato le 30 prove esistenti che citano i miei sorgenti (239 test, tutti verdi) piu' la mia. ④ NON ho aperto nessuna email vera ne' guardato una push arrivata su un telefono: il confronto e' fra quello che le funzioni PRODUCONO, non fra quello che Resend e Apple consegnano."
+}

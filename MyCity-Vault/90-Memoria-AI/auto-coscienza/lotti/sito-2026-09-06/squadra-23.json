@@ -1,0 +1,37 @@
+{
+  "squadra": 23,
+  "territorio": ["components/Footer.tsx"],
+  "malattia": "Il piè di pagina era stato scritto a mano e mai riallineato al resto del sito: margini laterali suoi (px-6 fisso) e un elenco di categorie fisso a cinque voci, mentre le pagine pubbliche passavano a px-4 sm:px-6 e il catalogo cresceva a nove categorie.",
+  "difetti": [
+    {
+      "chiave": "layout-responsive|il piede di pagina non e' allineato col resto del sito sul telefono",
+      "titolo": "Il piede di pagina non e' allineato col resto del sito sul telefono",
+      "esito": "riparato",
+      "prova": "grep -c 'container mx-auto px-6' components/Footer.tsx -> 0 (era 3) · grep -n 'container mx-auto' components/Footer.tsx -> le tre righe ora sono 'px-4 sm:px-6' · npx tsc --noEmit -p tsconfig.json -> exit 0 · npx eslint components/Footer.tsx -> exit 0 · npx vitest run tests/unit/il-numero-whatsapp-che-non-esiste.test.ts tests/unit/informativa-senza-dati-finti.test.ts tests/unit/i18n.test.ts -> 3 file, 47 prove, exit 0",
+      "nota_fix": "CONFERMATO ma il perimetro della scheda era piu' stretto del difetto. La scheda indica una sola riga (99, oggi 103): di contenitori 'container mx-auto px-6' ce n'erano TRE - la griglia dei link (103), la fascia newsletter (213) e la striscia fiducia+contatti (221). Riparare solo la prima avrebbe lasciato newsletter e contatti rientrati di 8px sotto i 640px, cioe' il difetto chiuso per un terzo. Portate tutte e tre a 'px-4 sm:px-6', gli stessi valori di app/search/page.tsx:382, app/category/[slug]/page.tsx:300 e 341, app/cart/page.tsx:367 e 472, app/checkout/page.tsx:1117 e 1141. NON toccato il blocco dei dati legali (riga 251 di prima): non e' un 'container', e' testo centrato a piena larghezza e ha gia' px-4, quindi sul telefono era gia' allineato. NON VERIFICATO: la resa a video. Nessun browser da qui - la prova e' sul sorgente, come il manuale ammette sui minori. Un occhio umano a 360px chiude il cerchio.",
+      "file_toccati": ["components/Footer.tsx"]
+    },
+    {
+      "chiave": "navigazione-gerarchia|il piè di pagina elenca cinque categorie su nove e non porta all'indice delle categorie",
+      "titolo": "Il piè di pagina elenca cinque categorie su nove e non porta all'indice delle categorie",
+      "esito": "riparato",
+      "prova": "grep -c 'href=\"/categorie\"' components/Footer.tsx -> 1 (era 0, la prova della scheda era rossa) · grep -c 'href=\"/category/' components/Footer.tsx -> 0 (erano 5 link scritti a mano) · le nove madri di riserva contate nel sorgente -> 9 · le quattro tagliate ora presenti: bellezza, giardino, giocattoli, sport · npx tsc --noEmit -p tsconfig.json -> exit 0 · npx eslint components/Footer.tsx -> exit 0 · npx vitest run (i 3 file che leggono Footer.tsx) -> 47 prove verdi, exit 0",
+      "nota_fix": "CONFERMATO, e le nove madri sono reali: migrations/002_categories_and_extras.sql:98-105 ne crea otto (alimentari, abbigliamento, casa, elettronica, libri, giardino, bellezza, sport) e migrations/013_extra_category.sql:5 aggiunge giocattoli. L'elenco ora arriva dal database con la stessa chiave di cache del mega-menu, ['categories','tree'] di components/CategoryBar.tsx:114, stesse colonne e stesso .order('name'): dove il piede si disegna il menu in alto ha gia' chiesto le categorie (CategoryBar sta nella Navbar su tutte le aree non-pro), quindi non parte nessuna lettura in piu'. Aggiunto in coda 'Tutte le categorie' verso /categorie, pagina che esiste (app/categorie/page.tsx). SCELTA CHE MI PRENDO, oltre al fix_proposto: le nove madri restano nel file come RISERVA. Solo query, come diceva la scheda, avrebbe lasciato la colonna VUOTA nel disegno lato server, al primo colpo d'occhio e il giorno che la lettura fallisce - e avrebbe tolto dall'HTML nove link interni che oggi Google legge senza eseguire codice: un difetto peggiore di quello che chiudevo. E' lo stesso schema di components/hooks/useBranding.ts, che ha un valore di riserva vero e non il vuoto. Il dato del database vince sempre sulla riserva, quindi la causa radice (elenco che invecchia) e' chiusa lo stesso. DETTAGLI: la lettura sta prima del 'return null' (le hook non si saltano) ed e' spenta con 'enabled' sulle pagine admin/seller/rider, dove il piede non si disegna: zero letture aggiunte li'. Estratto 'areaPro' per non ripetere il controllo del percorso. Mappa slug->icona copiata da CategoryBar/CategoryShowcase con Tag come ripiego: metterla in comune voleva dire toccare un file fuori territorio. NON VERIFICATO: che in produzione le madri siano ancora nove e con quei nomi - il conteggio viene dalle migrazioni, non dal database vivo (nessun accesso da qui); e la resa a video della colonna, che ora ha dieci voci invece di sei.",
+      "file_toccati": ["components/Footer.tsx"]
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Le stesse categorie si leggono due volte con due chiavi di cache diverse, quindi il sito le chiede due volte per pagina",
+      "dove": "components/CategoryBar.tsx:114 (chiave ['categories','tree']) contro components/CategoryShowcase.tsx:108 via lib/queries/categorie-pubbliche.ts (chiave queryKeys.categories.all = ['categories'])",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "Il commento della rotta categorie in cache promette un precaricamento lato server che non esiste",
+      "dove": "lib/queries/categorie-pubbliche.ts:19-22 dice 'il server precarica le categorie dentro la pagina', ma in app/layout.tsx non c'e' nessun prefetch/hydration delle categorie",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Nessuna resa a video: da qui non c'e' browser ne' anteprima, quindi i due fix sono provati sul sorgente, sul compilatore e sui test, non con gli occhi. Restano da guardare a mano: il piede a 360px (i margini ora combaciano con la pagina sopra) e la colonna Categorie, che passa da sei a dieci voci e allunga quella colonna sul telefono. Non ho toccato la suite intera ne' lanciato npm run verify/build, come da vincolo: ho girato i tre file di test che leggono components/Footer.tsx (47 prove verdi), tsc su tutto il progetto (exit 0) ed eslint sul solo file toccato (exit 0). Non ho potuto interrogare il database vivo: le nove categorie madri vengono dalle migrazioni 002 e 013, non da un conteggio in produzione."
+}

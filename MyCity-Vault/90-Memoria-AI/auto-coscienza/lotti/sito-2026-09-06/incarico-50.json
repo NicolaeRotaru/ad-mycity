@@ -1,0 +1,31 @@
+{
+ "squadra": 50,
+ "ondata": 11,
+ "pacchetto": "public/manifest.js",
+ "territorio_principale": "public/manifest.js",
+ "file_citati": [
+  "public/manifest.js",
+  "components/PWAInstallBanner.tsx",
+  "lib/analytics/posthog.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|nessuno misura quante persone usano mycity installata in home: il numero che decide se e quando fare l'app nativa non esiste",
+   "titolo": "Nessuno misura quante persone usano MyCity installata in Home: il numero che decide se e quando fare l'app nativa non esiste",
+   "dimensione": "mobile-pwa",
+   "file": "public/manifest.json:5 (start_url \"/\" senza marcatore); components/PWAInstallBanner.tsx:66 e 71 (display-mode letto solo per nascondere il banner, mai inviato); lib/analytics/posthog.tsx (nessuna proprietà display_mode, nessun evento appinstalled/pwa)",
+   "descrizione": "Il banner invita a installare, ma non esiste un evento «banner mostrato / accettato / rifiutato», nessun ascolto di appinstalled, e le sessioni aperte dall'icona in Home sono indistinguibili da quelle del browser (start_url senza ?source=pwa, nessuna super-property display_mode). Tecnologia & Stack dice «app native → PWA, non ora»: il «quando» si decide con adoption e retention D7/D30 della PWA, che oggi non si possono calcolare.\n\nCausa radice: L'installabilità è stata costruita senza il pezzo di misura.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -rn \"display-mode\\|appinstalled\" lib app components --include=*.ts --include=*.tsx | grep -v PWAInstallBanner   → nessuna riga (exit 1)",
+   "impatto": "Il business case app nativa vs PWA resta a sensazione; non si sa se il banner porta installazioni o solo chiusure.",
+   "fix_proposto": "start_url \"/?source=pwa\"; in PostHogProvider registrare display_mode (standalone|browser) come super-property; window.addEventListener('appinstalled') → evento pwa_installata; nel banner eventi pwa_banner_mostrato/accettato/rifiutato. Poi una query settimanale: utenti attivi con display_mode=standalone e loro retention D7/D30."
+  },
+  {
+   "chiave": "mobile-pwa|il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "titolo": "Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione",
+   "dimensione": "mobile-pwa",
+   "file": "public/manifest.json:9 (`\"orientation\": \"portrait\"`); assenti nel file: `screenshots`, `id`, `display_override`",
+   "descrizione": "Verificato leggendo tutto il manifest. ① `\"orientation\": \"portrait\"` impone il verticale all'app installata: chi tiene il telefono fissato in orizzontale non può girare la vetrina, e WCAG 1.3.4 chiede di non vincolare il contenuto a un solo verso quando non è essenziale — per un catalogo di negozi non lo è. ② Non esistono i campi `screenshots` (quindi Chrome su Android mostra la finestra d'installazione ridotta invece di quella ricca), né `id`, né `display_override`.",
+   "impatto": null,
+   "fix_proposto": "Togliere `orientation` (o metterlo su `any`) e aggiungere `screenshots` con 2-3 immagini `form_factor: \"narrow\"` più una `\"wide\"`, oltre a un `id` stabile (es. `\"/?pwa\"`) perché aggiornamenti futuri del manifest non creino una seconda installazione."
+  }
+ ]
+}

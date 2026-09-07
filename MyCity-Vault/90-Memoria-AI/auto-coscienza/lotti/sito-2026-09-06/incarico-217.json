@@ -1,0 +1,78 @@
+{
+ "squadra": 217,
+ "ondata": 9,
+ "pacchetti": [
+  "components/providers/ToastProvider.tsx",
+  "lib/shipping-etichetta/label.ts",
+  "components/ui/Badge.tsx",
+  "lib/order-status.ts",
+  "docs/mockup/components/commerce/ProductCard.jsx",
+  "app/shipping/page.tsx"
+ ],
+ "file_citati": [
+  "components/providers/ToastProvider.tsx",
+  "lib/shipping-etichetta/label.ts",
+  "components/ui/Badge.tsx",
+  "lib/order-status.ts",
+  "components/ui/OrderStatusBadge.tsx",
+  "docs/mockup/components/commerce/ProductCard.jsx",
+  "docs/mockup/_ds_manifest.js",
+  "app/shipping/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "coerenza-brand|gli avvisi a comparsa usano i verdi, rossi e blu di fabbrica della libreria, non i colori del brand",
+   "titolo": "Gli avvisi a comparsa usano i verdi, rossi e blu di fabbrica della libreria, non i colori del brand",
+   "dimensione": "coerenza-brand",
+   "file": "components/providers/ToastProvider.tsx:40",
+   "descrizione": "Il provider dei toast monta <Toaster position=\"top-right\" richColors /> di sonner: l'opzione richColors accende la palette interna della libreria (verde, rosso, ambra e blu saturi) su ogni avviso — «aggiunto al carrello», coupon, errori, avvisi di salvataggio. Non c'è nessun toastOptions.classNames né style con i token del sito: i toast sono l'unico elemento del marketplace che mostra un blu.\n\nCausa radice: Adozione di sonner con l'opzione di comodo richColors senza mappare i quattro stati sui token olive/secondary/accent/cream del design system.\n\nProva (grep, eseguita e rossa): cd /home/user/mycity && grep -n 'richColors' components/providers/ToastProvider.tsx && echo 'DIFETTO: toast con palette di fabbrica di sonner'",
+   "impatto": "Ogni azione del cliente (carrello, preferiti, coupon) riceve una risposta in un colore che non appartiene alla palette; il comportamento è giusto, la voce visiva no.",
+   "fix_proposto": "Togliere richColors e passare toastOptions={{ classNames: { success: 'bg-olive-50 text-olive-800 border-olive-200', error: 'bg-secondary-50 text-secondary-800 border-secondary-200', warning: 'bg-accent-50 text-accent-800 border-accent-200', info: 'bg-cream-100 text-ink-800 border-cream-300' } }}."
+  },
+  {
+   "chiave": "coerenza-brand|l'etichetta di spedizione in contrassegno stampa quattro segni spuri al posto dell'emoji del sacchetto di soldi",
+   "titolo": "L'etichetta di spedizione in contrassegno stampa quattro segni spuri al posto dell'emoji del sacchetto di soldi",
+   "dimensione": "coerenza-brand",
+   "file": "lib/shipping-etichetta/label.ts:91 (testo '💰 CONTRASSEGNO' con font Helvetica-Bold) · :47-101 (tutta l'etichetta usa solo i font standard Helvetica/Courier di PDFKit)",
+   "descrizione": "L'etichetta 102×152 mm che il negozio stampa e attacca al pacco è generata con PDFKit e i suoi font standard (Helvetica, Courier). Questi font coprono solo la codifica WinAnsi: un'emoji come 💰 (U+1F4B0) viene scritta nel PDF come i due surrogati UTF-16 D83D DCB0, che la stampante e i lettori PDF mostrano come «Ø=Ü°». Quindi sul riquadro rosso del contrassegno — la riga che dice al fattorino «Riscuoti: €23.50» — compare «Ø=Ü° CONTRASSEGNO». Esempio: ordine in contrassegno di Mario Rossi, via Roma 1, 23,50 €: la prova genera il PDF e nel flusso di testo compaiono i codici d83d e dcb0 subito prima di CONTRASSEGNO. Ho dedotto l'aspetto «Ø=Ü°» dalla mappa WinAnsi dei byte D8 3D DC B0; non ho rasterizzato il PDF in immagine.\n\nCausa radice: L'etichetta usa i 14 font standard di PDFKit (nessun TTF incorporato), che non sanno rappresentare caratteri fuori WinAnsi; l'emoji è stata aggiunta come decorazione senza una prova che rendesse il PDF.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/coerenza-brand-etichetta-emoji.test.ts — chiama buildShippingLabel con isCod:true, sgonfia gli stream del PDF e pretende che il testo contenga CONTRASSEGNO ma non i surrogati d83d/dcb0. Oggi: 1 test fallito (d83d presente).",
+   "impatto": "Tocca ogni ordine pagato alla consegna (il metodo di pagamento che il manifest.json mette in vetrina): l'unico pezzo di brand fisico che il cliente tocca — l'etichetta sul pacco — porta un errore di stampa proprio sulla riga dei soldi. Sporca la fiducia in consegna e fa sembrare improvvisato il negozio che stampa da MyCity.",
+   "fix_proposto": "Togliere l'emoji dalla riga 91 (basta «CONTRASSEGNO» in Helvetica-Bold terracotta, o un'icona vettoriale disegnata con doc.rect/doc.circle). Se si vogliono glifi extra o i caratteri del brand sull'etichetta, incorporare un TTF con doc.registerFont('Inter', …) / Fraunces per la testata MyCity. Aggiungere la prova a tests/unit."
+  },
+  {
+   "chiave": "coerenza-brand|le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+   "titolo": "Le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna",
+   "dimensione": "coerenza-brand",
+   "file": "components/ui/Badge.tsx:26-29 e 38 · tracking-* in app/ e components/",
+   "descrizione": "CONFERMATO. Il design system ha un token solo per le maiuscole: --tracking-wide 0.04em (docs/mockup/tokens/typography.css:47), esposto in tailwind.config.ts come 'tracking-label'. Conteggio mio: tracking-label 9 volte, tracking-wide 47, tracking-wider 49, tracking-widest 3 (il collega diceva 9/43/46/3). Il tranello è reale e verificato: tailwind.config.ts estende letterSpacing solo con display/editorial/label, quindi l'utility 'tracking-wide' resta il default Tailwind 0.025em e NON vale 0.04em come la variabile CSS omonima — chi la scrive crede di usare il token. Badge.tsx:26-29 usa tracking-wide su tutte e quattro le varianti maiuscole, quindi i badge del sito sono già fuori token; alla riga 38 la taglia sm è 'text-[10px]' invece di 'text-2xs', che vale esattamente 10px.",
+   "impatto": null,
+   "fix_proposto": "Sostituire tracking-wide/wider/widest con tracking-label su tutto ciò che è maiuscolo, a partire da Badge.tsx:26-29, e portare la riga 38 a 'text-2xs'. Per togliere il tranello alla radice, ridefinire letterSpacing.wide = '0.04em' in tailwind.config.ts così i due nomi coincidono."
+  },
+  {
+   "chiave": "coerenza-brand|gli sfondi dei badge di stato ordine sono otto colori tailwind scritti a mano, malgrado il commento dica il contrario",
+   "titolo": "Gli sfondi dei badge di stato ordine sono otto colori Tailwind scritti a mano, malgrado il commento dica il contrario",
+   "dimensione": "coerenza-brand",
+   "file": "lib/order-status.ts:52-59 · commento in components/ui/OrderStatusBadge.tsx:70-72",
+   "descrizione": "CONFERMATO. Il commento sopra ORDER_STATUS_COLOR e quello in OrderStatusBadge dichiarano «Niente classi off-palette: i colori vivono nei token del design system». È vero a metà: il campo 'color' usa davvero var(--status-new), var(--status-accepted)… (definiti in app/globals.css:76 e in docs/mockup/tokens/colors.css), ma il campo 'bg' è otto hex a mano — #FFFBEB, #EFF6FF, #F5F3FF, #EEF2FF, #ECFEFF, #FAF5FF, #ECFDF5, #FFF1F2, cioè i gradini 50 di amber, blue, violet, indigo, cyan, purple, emerald e rose. Verificato: nessuno degli otto esiste come token in app/globals.css, tailwind.config.ts o docs/mockup/tokens/colors.css. Metà del sistema degli stati vive fuori dai token.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere in app/globals.css e in docs/mockup/tokens/colors.css gli otto token --status-*-bg con quei valori e sostituire gli hex di lib/order-status.ts:52-59 con var(--status-*-bg). Aggiornare anche docs/mockup/guidelines/cards/color-status.html, che li ripete a mano."
+  },
+  {
+   "chiave": "coerenza-brand|il design system di riferimento è incompleto: mancano button, badge e card e un file importa un componente che non esiste",
+   "titolo": "Il design system di riferimento è incompleto: mancano Button, Badge e Card e un file importa un componente che non esiste",
+   "dimensione": "coerenza-brand",
+   "file": "docs/mockup/components/ (manca core/) · docs/mockup/components/commerce/ProductCard.jsx:2 · docs/mockup/_ds_manifest.json",
+   "descrizione": "CONFERMATO. docs/mockup/components/ contiene solo commerce/, feedback/ e forms/: la cartella core/ non c'è. Il manifesto _ds_manifest.json però elenca Badge (components/core/Badge.jsx), Button (components/core/Button.jsx), Card (components/core/Card.jsx) e la scheda «Core · Button · Badge · Card» con previewPath components/core/core.card.html. Di conseguenza docs/mockup/components/commerce/ProductCard.jsx alla riga 2 fa import { Badge } from '../core/Badge.jsx' su un file assente. Il deck si apre perché le versioni compilate stanno in _ds_bundle.js, ma la fonte consultabile non c'è: chi deve fare un pulsante non ha una specifica da guardare — il che spiega bene la deriva misurata negli altri punti.",
+   "impatto": null,
+   "fix_proposto": "Ricostruire docs/mockup/components/core/ (Button.jsx, Badge.jsx, Card.jsx, core.card.html) estraendoli da _ds_bundle.js che li contiene già compilati, verificare che l'import a ProductCard.jsx:2 si risolva, e tenere le varianti allineate a components/ui/Button.tsx e components/ui/Card.tsx del prodotto."
+  },
+  {
+   "chiave": "coerenza-brand|sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette",
+   "titolo": "Sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette",
+   "dimensione": "coerenza-brand",
+   "file": "app/shipping/page.tsx:44 e 29",
+   "descrizione": "CONFERMATO su entrambi i punti. Riga 44: la sezione è 'prose prose-gray max-w-none space-y-6 …', ma il plugin @tailwindcss/typography non è installato — package.json elenca solo tailwind-scrollbar-hide e tailwind.config.ts carica solo quello. Le classi prose sono quindi inerti: la spaziatura interna di titoli, paragrafi ed elenchi che ci si aspetterebbe non viene applicata (regge solo space-y-6, che spazia i blocchi ma non il loro interno). Riga 29: «Spedizione GRATIS» è 'text-green-900', il verde Tailwind, dentro un riquadro che per il resto usa correttamente olive-50, olive-200, olive-600 e olive-700.",
+   "impatto": null,
+   "fix_proposto": "Riga 44: togliere 'prose prose-gray' e definire esplicitamente la spaziatura di titoli ed elenchi, oppure installare @tailwindcss/typography e configurarne i colori sui token ink/cream. Riga 29: 'text-green-900' → 'text-olive-900'."
+  }
+ ]
+}

@@ -1,0 +1,63 @@
+{
+  "squadra": 3,
+  "territorio": [
+    "app/api/cron/process-deletions/route.ts"
+  ],
+  "malattia": "Il giro notturno faceva le pulizie e non aveva nessuno che lo guardasse: quello che non veniva cancellato (le iscrizioni mai confermate) e quello che non riusciva a cancellare (il conto `retentionFallite`) finivano tutti e due dentro una risposta HTTP che non legge nessun essere umano.",
+  "difetti": [
+    {
+      "chiave": "privacy-legale|iscrizioni alla newsletter mai confermate conservate per sempre, con email e indirizzo ip",
+      "titolo": "Iscrizioni alla newsletter mai confermate conservate per sempre, con email e indirizzo IP",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-iscrizione-alla-newsletter-mai-confermata-non-resta-per-sempre.test.ts — 8 verdi con la riparazione, exit 0. Rosso ricreato per davvero: git checkout del solo app/api/cron/process-deletions/route.ts, stessa prova → 3 rosse (la riga mai confermata di 40 giorni fa resta nella tabella; le due prove dell'allarme falliscono), poi ripristino. Le altre 5 prove del file sono verdi anche prima: sono le guardie di ciò che NON si deve toccare. Verdi anche i 10 file vicini già esistenti (71 prove: api-cron-deletions, una-cancellazione-fallita…, il-sorvegliante…, i due dei buoni regalo, i due della newsletter, cancellare-l-account…, il-battito-del-cron…, cron-health). npx tsc --noEmit -p tsconfig.json: exit 0, zero errori in tutta la repo. eslint sui due file: pulito.",
+      "nota_fix": "TROVATO: la scheda diceva il vero sulla parte ① — nessuna potatura toccava `newsletter_subscribers`, e una riga mai confermata restava in piedi a tempo indeterminato con email, indirizzo di rete e gettone. La parte ② della scheda NON è più vera: components/NewsletterForm.tsx riga 52 manda già `consentTextVersion`, quindi la versione del consenso registrata non è più la costante di ripiego (era stata chiusa da un'altra sessione). FATTO: una potatura in più dentro il giro, subito dopo quella dei messaggi del modulo contatti, con QUATTRO filtri e non uno. La scheda ne proponeva due (`confirmed_at` vuoto + 30 giorni): applicata così avrebbe cancellato metà della lista alla prima notte. Gli altri due sono la parte che conta: `active` falso, perché le iscrizioni più vecchie della migrazione 115 hanno `confirmed_at` vuoto solo perché quella colonna non esisteva ancora e sono iscritti veri (la 015 metteva `active` a vero); e `unsubscribed_at` vuoto, perché chi si è tolto dalla lista (migrazione 118) deve tenere la sua riga, altrimenti rischiamo di riscrivergli. Il conto dei 30 giorni parte da `created_at`, che la rotta della newsletter riscrive a ogni tentativo: è già il metro della pausa anti-ripetizione. NON VERIFICATO: girato solo sul finto database delle prove, che applica i filtri ma non è PostgREST; il permesso di cancellare per il `service_role` l'ho letto nella migrazione 145, non provato su un database vero; non ho guardato se esiste un indice su `created_at` (la tabella è piccola e il lavoro gira una volta a notte).",
+      "file_toccati": [
+        "app/api/cron/process-deletions/route.ts",
+        "tests/unit/l-iscrizione-alla-newsletter-mai-confermata-non-resta-per-sempre.test.ts"
+      ]
+    },
+    {
+      "chiave": "qa-flussi|il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
+      "titolo": "Il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
+      "esito": "non_riparato",
+      "prova": "Letto il sorgente: migrations/040_account_deletion_cooldown.sql righe 38-57 — `process_expired_deletions()` è un SELECT su `profiles` filtrato solo per `deletion_requested_at`, nessun controllo su ordini, bonifici o credito; nessuna migrazione successiva la ridefinisce (grep di `process_expired_deletions` in migrations/: 040 la crea, 059/063/064 toccano solo i permessi). L'unico rinvio che esiste oggi è la cassa contanti del fattorino (lib/account/cancellazione.ts:650, motivo `cassa_da_versare`).",
+      "nota_fix": "NON RIPARATO, e non è pigrizia: il fix non vive nel mio territorio e forzarlo qui avrebbe peggiorato le cose. La condizione giusta va dentro la funzione del database (migrazione = 🔴, fuori da questo lotto) oppure dentro `cancellaAccount` (lib/account/cancellazione.ts, che è della squadra 63, ondata 13), con il motivo nuovo aggiunto a `MOTIVI_DI_RINVIO` in lib/cron-cancellazioni.ts. Se avessi messo il controllo qui nella rotta, il rinvio sarebbe uscito SENZA un motivo riconosciuto e sarebbe stato contato come guasto: ogni negozio con un ordine aperto avrebbe reso rossa la notte, tutte le notti — cioè esattamente il falso allarme che il lavoro del 3/9 aveva appena tolto di mezzo. La terza parte della scheda (dire «non ora, e perché» alla persona davanti allo schermo) sta in app/api/account/delete/route.ts, anche quello fuori territorio. SERVE: una riga in `cancellaAccount` che guardi ordini non conclusi, `payout_status` HELD/PENDING, credito sul conto e reclami aperti e torni un motivo nuovo, + quel motivo in `MOTIVI_DI_RINVIO`, + la risposta immediata sulla rotta di richiesta. La migrazione resta 🔴 e va firmata da Nicola.",
+      "file_toccati": []
+    },
+    {
+      "chiave": "api-backend|`retentionfallite` e' un numero che non guarda nessuno — e oggi ci hanno attaccato due potature nuove",
+      "titolo": "`retentionFallite` e' un numero che non guarda nessuno — e oggi ci hanno attaccato due potature nuove",
+      "esito": "riparato",
+      "prova": "npx vitest run tests/unit/l-iscrizione-alla-newsletter-mai-confermata-non-resta-per-sempre.test.ts — il secondo gruppo di prove: con una potatura rifiutata dal database (`errori: { activity_events: 'permission denied…' }`) l'amministratore riceve una notifica, la notte risponde 500 e il battito NON viene scritto; con la notte sana, nessuna notifica e 200. Rosso ricreato: con il solo app/api/cron/process-deletions/route.ts riportato indietro, quelle prove falliscono (nessuna notifica, stato 200). Restano verdi le prove già esistenti dei buoni regalo, che leggono `retentionFallite` dal corpo.",
+      "nota_fix": "TROVATO: la scheda diceva il vero. `fallite.n` usciva solo nel corpo della risposta, e il corpo lo riceve lo scheduler, che guarda il codice di stato e lo butta via — è parola per parola il difetto chiuso il 3/9 sulle cancellazioni, lasciato in piedi sul campo accanto. FATTO: se una pulizia non riesce, il giro adesso ① scrive un avviso nel pannello degli amministratori, con una frase che si legge di notte, e ② risponde 500. Il 500 fa due cose: rende rossa l'esecuzione nel pannello dei lavori periodici e non fa scrivere il battito (`withCronAuth` lo scrive solo sotto il 400), così se ne accorge anche il sorvegliante. Toccata anche la risposta della notte SENZA cancellazioni da fare, che rispondeva sempre 200: è la notte più frequente, se il conto non pesa lì non pesa quasi mai. La parte comune della notifica è stata estratta in `avvisaAmministratori(admin, titolo, riga)`; `sveglia()` la chiama e manda gli stessi identici campi di prima. IL PREZZO, dichiarato: una pulizia rifiutata di solito lo resta, quindi la notte resterà rossa finché qualcuno non la ripara — è voluto (un guasto vero non è un rinvio), ma nel frattempo il sorvegliante dirà «il lavoro è fermo» mentre gira: lo dice la notifica, che invece è precisa. NON RIPARATA la nota minore in coda alla scheda (il buono regalo a saldo zero senza `redeemed_at`): la chiuderei con una terza potatura, ma una prova già esistente e fuori dal mio territorio (tests/unit/il-buono-regalo-scaduto-da-un-anno…, riga 104) pretende che le potature dei buoni siano ESATTAMENTE due, e diventerebbe rossa. L'ho verificata sul database: oggi quel buco non si può aprire, perché l'unico punto che porta `balance_cents` a zero è `redeem_gift_card` (migrations/087 riga 109) e nella stessa UPDATE scrive `redeemed_at`. Resta una trappola per chi domani aggiunge la spesa parziale: l'ho registrata come difetto nuovo, così non sparisce quando questa scheda si chiude.",
+      "file_toccati": [
+        "app/api/cron/process-deletions/route.ts",
+        "tests/unit/l-iscrizione-alla-newsletter-mai-confermata-non-resta-per-sempre.test.ts"
+      ]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "qa-flussi|il giro notturno prende in carico la cancellazione di un negozio che ha ancora un ordine aperto e soldi da incassare",
+      "perche": "il fix vive fuori dal territorio: migrations/040_account_deletion_cooldown.sql (migrazione = 🔴), lib/account/cancellazione.ts (squadra 63, ondata 13), lib/cron-cancellazioni.ts e app/api/account/delete/route.ts"
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Se il blocco delle pulizie notturne lancia un errore invece di rifiutare, le otto potature saltano tutte e la notte resta verde",
+      "dove": "app/api/cron/process-deletions/route.ts:317-319 (il `catch` intorno alle potature)",
+      "gravita": "grave"
+    },
+    {
+      "titolo": "Un buono regalo a saldo zero senza data di riscatto tiene l'email del destinatario fino a tre anni dall'acquisto",
+      "dove": "app/api/cron/process-deletions/route.ts:311-316 (il filtro `.lt('redeemed_at', …)` non prende le righe vuote)",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "La versione del testo del consenso alla newsletter è scritta a mano in due file: alla prima modifica uno resta indietro",
+      "dove": "components/NewsletterForm.tsx:20 e app/api/newsletter/route.ts:35 (entrambi «newsletter-v1»)",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Niente è girato su un database vero: da qui non ho né psql né Supabase, quindi filtri, permessi del `service_role` e comportamento di PostgREST li ho letti nelle migrazioni e provati sul finto database delle prove, che applica i filtri ma non è Postgres. Non ho lanciato `npm run verify` né la suite intera (vietati ad albero in movimento): ho girato 11 file di prove, quello nuovo e i 10 vicini. Non ho misurato l'effetto della nuova cancellazione su una tabella grande (nessun indice controllato) né provato la notifica su Sentry. Sul difetto 2 non ho toccato niente, quindi non ho nessuna prova che il rinvio proposto funzioni."
+}

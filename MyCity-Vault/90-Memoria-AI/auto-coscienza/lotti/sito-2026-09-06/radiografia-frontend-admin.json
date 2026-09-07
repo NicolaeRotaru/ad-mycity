@@ -1,0 +1,294 @@
+{
+  "dimensione": "frontend-ux",
+  "parte": "admin + rider",
+  "ramo_guardato": "claude/marketplace-open-issues-0gudy6",
+  "data": "2026-09-06",
+  "lente": "le schermate da cui si governa il marketplace: numeri che dicono altro da quello che sembrano, tabelle che tagliano, comandi pericolosi senza conferma, elenchi con dati personali di troppo, avvisi che nessuno vedra mai",
+  "file_guardati": [
+    "app/admin/branding/page.tsx",
+    "app/admin/coupons/page.tsx",
+    "app/admin/funnel/page.tsx",
+    "app/admin/orders/page.tsx",
+    "app/admin/page.tsx",
+    "app/admin/sponsored/page.tsx",
+    "app/admin/today/page.tsx",
+    "app/admin/users/page.tsx",
+    "app/rider/help/page.tsx",
+    "app/rider/orders/[id]/page.tsx",
+    "app/rider/onboarding/page.tsx"
+  ],
+  "file_letti_di_contorno": [
+    "lib/queries/cruscotto-oggi.ts",
+    "lib/format.ts",
+    "lib/supabase/blocchi.ts",
+    "lib/pagamenti/tasso-autorizzazione.ts",
+    "components/Navbar.tsx",
+    "components/Footer.tsx",
+    "components/admin/AdminSidebar.tsx",
+    "migrations/014_mvp_sprint.sql",
+    "migrations/114_hardening_radiografia.sql",
+    "migrations/119_radiografia_18_agosto.sql",
+    "tests/unit/una-lettura-caduta-non-esce-come-elenco-vuoto.test.ts"
+  ],
+  "metodo": "sola lettura. Per ogni file: `git diff origin/main -- <file>` per vedere cosa e' nato oggi, poi lettura del file di adesso e delle query che lo alimentano. Nessuna riga modificata, nessun comando che scrive.",
+  "difetti": [
+    {
+      "id": "FUX-ADM-01",
+      "titolo": "I due file da scaricare dal pannello adesso si aprono in due modi diversi",
+      "nato": "oggi",
+      "gravita": "minore",
+      "dove": "app/admin/orders/page.tsx:127 (adesso `;`) contro app/admin/users/page.tsx:343 (ancora `,`)",
+      "cosa_succede": "Oggi una squadra ha cambiato il separatore del file degli ORDINI da virgola a punto e virgola, con la spiegazione giusta: Excel in italiano vuole il punto e virgola. Il file degli UTENTI, che sta nello stesso pannello e nasce dalle stesse tre righe di codice copiate, e' rimasto a virgola. Nessuno l'ha guardato.",
+      "conseguenza_pratica": "Chi scarica gli ordini apre un foglio in colonne. Chi scarica gli utenti, dalla stessa barra dello stesso pannello, apre un foglio con tutta la riga schiacciata nella colonna A: id, email, nome, ruolo, data, tutto attaccato. Deve rifare l'importazione a mano dicendo a Excel qual e' il separatore. Stessa azione, due risultati.",
+      "come_si_riproduce": [
+        "Apri /admin/orders e premi «Esporta CSV» → apri il file con Excel in italiano: le colonne ci sono.",
+        "Apri /admin/users e premi «Esporta CSV» → apri il file con Excel in italiano: una colonna sola.",
+        "Confronto nel codice: `.join(';')` in app/admin/orders/page.tsx:127 contro `.join(',')` in app/admin/users/page.tsx:343."
+      ],
+      "classe": "una regola imparata su un file e non portata al gemello che sta due cartelle piu' in la. Il presidio: una funzione sola che costruisce il CSV (`lib/csv.ts`), usata da tutti e due, con una prova sopra.",
+      "passo_a": "@tech",
+      "confidenza": "95% — la differenza fra i due file l'ho letta riga per riga; il comportamento di Excel italiano non l'ho eseguito da qui."
+    },
+    {
+      "id": "FUX-ADM-02",
+      "titolo": "Il file degli ordini per il commercialista contiene solo gli ultimi cinquanta",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/orders/page.tsx:49 (`PER_PAGINA = 50`), :100 (`filtered = orders`), :106-128 (`exportCSV`)",
+      "cosa_succede": "La pagina Ordini carica cinquanta ordini per volta, con il pulsante «Carica altri 50». Il pulsante «Esporta CSV» scrive nel file solo quello che e' gia' stato caricato. Se non hai premuto «Carica altri», il file ha cinquanta righe. Il file non dice da nessuna parte che e' parziale, e il nome e' `mycity-ordini-2026-09-06.csv`: sembra tutto.",
+      "conseguenza_pratica": "A fine mese il commercialista riceve un file che sembra il registro degli ordini e invece e' l'ultima manciata. Le somme che ci fa sopra sono sbagliate per difetto, e non c'e' niente nel file che glielo faccia sospettare. Oggi con pochi ordini non morde; morde esattamente il giorno in cui gli ordini sono tanti.",
+      "come_si_riproduce": [
+        "Serve un negozio con piu' di 50 ordini (oggi non l'ho potuto mettere in piedi: vedi `non_verificato`).",
+        "Apri /admin/orders senza premere «Carica altri 50».",
+        "Premi «Esporta CSV» e conta le righe: 50, piu' l'intestazione.",
+        "Nel titolo la pagina scrive `${filtered.length} ordini` (app/admin/orders/page.tsx:139): dice «50 ordini» anche quando sono migliaia."
+      ],
+      "nota": "Oggi il lotto ha toccato proprio questa funzione e ha scritto nel commento «il file lo apre il commercialista». Ha migliorato la virgola dei decimali senza accorgersi che il file e' monco: un difetto sfiorato e non visto.",
+      "classe": "l'esportazione prende quello che ha in mano il browser invece di rileggere dal database. Il presidio: l'export fa la sua query completa (a finestre, come `leggiTutteLeRighe`), oppure il pulsante dichiara quante righe sta scrivendo.",
+      "passo_a": "@tech",
+      "confidenza": "90% — logica letta e chiara; non l'ho eseguita con piu' di 50 ordini veri."
+    },
+    {
+      "id": "FUX-ADM-03",
+      "titolo": "Un negozio puo' far eseguire un comando nel foglio Excel del commercialista scegliendosi il nome",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/orders/page.tsx:111-114 e :127; app/admin/users/page.tsx:334-343",
+      "cosa_succede": "Nel file finiscono di peso il nome del cliente, il nome del negozio e il nome del fattorino, cioe' testo che scrivono loro. Il codice li mette fra virgolette e raddoppia le virgolette interne — protegge dalla riga spezzata, non dal resto. Un campo che comincia con `=`, `+`, `-` o `@` in Excel non e' testo: e' una formula, e Excel la esegue all'apertura del file.",
+      "conseguenza_pratica": "Un negoziante che chiama il suo negozio `=HYPERLINK(\"http://sito-finto\",\"Fattura\")` mette un link cliccabile dentro il foglio che apre il commercialista. Con formule piu' cattive si arriva a leggere altre celle e a mandarle fuori. Chi apre il file si fida perche' l'ha scaricato dal nostro pannello.",
+      "come_si_riproduce": [
+        "Da venditore, cambia il nome del negozio in `=1+1`.",
+        "Da amministratore, /admin/orders → «Esporta CSV».",
+        "Apri il file con Excel: nella colonna «Negozio» non c'e' scritto `=1+1`, c'e' scritto `2`. La formula e' stata eseguita.",
+        "In tutto il repo non esiste nessuna funzione che neutralizzi il primo carattere: `grep -rn \"sanitiz\" lib/ app/admin` non trova niente per il CSV."
+      ],
+      "classe": "il testo dell'utente entra in un formato che qualcun altro esegue. Il presidio: un apostrofo davanti quando il campo comincia con `= + - @`, in una funzione sola, con una prova che le passa i quattro caratteri.",
+      "passo_a": "@security (giudizio sulla gravita') poi @tech (fix)",
+      "confidenza": "95% — assenza del filtro verificata nel codice; l'esecuzione in Excel non l'ho fatta da qui."
+    },
+    {
+      "id": "FUX-ADM-04",
+      "titolo": "L'avviso «il tasso di consegna e' sotto l'obiettivo» sparisce proprio quando il tasso e' zero",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/page.tsx:154 (`const fulfillmentLow = fulfillmentRate > 0 && fulfillmentRate < 95;`), avviso reso a :202",
+      "cosa_succede": "L'avviso rosso «verifica gli ordini bloccati» compare solo se il tasso e' maggiore di zero. Quel `> 0` serviva a non gridare quando non ci sono ancora dati, ma non distingue «non ho dati» da «non e' stato consegnato niente»: nei due casi il conto fa zero uguale. Risultato: al 94% l'avviso c'e', all'1% c'e', allo 0% non c'e' piu'.",
+      "conseguenza_pratica": "Il giorno peggiore possibile — dieci ordini chiusi e nessuno consegnato, per esempio perche' nessun fattorino sta prendendo i giri — la Panoramica mostra un riquadro «0,0%» e nessun avviso. Chi apre il pannello vede una pagina tranquilla. L'avviso e' scritto, colorato, con il link giusto a /admin/orders, e non lo vedra' mai nessuno.",
+      "come_si_riproduce": [
+        "Servono ordini chiusi (non NEW, non ACCEPTED) con zero DELIVERED: `closedOrders > 0` e `delivered = 0`.",
+        "Apri /admin/page (Panoramica).",
+        "Il riquadro «Tasso di consegna» dice «0,0%», l'avviso sotto non compare.",
+        "Metti un solo ordine a DELIVERED: il tasso sale, per esempio a 9,1%, e l'avviso compare. Peggiore la situazione, meno avvisi."
+      ],
+      "nota": "Nello stesso file, due riquadri piu' in la, la strada giusta esiste gia': `tassoDaGuardare` (lib/pagamenti/tasso-autorizzazione.ts:77-85) tace perche' ha un minimo di venti tentativi dichiarato, non perche' confonde lo zero con il vuoto. Il tasso di consegna deve fare lo stesso: tacere su `closedOrders < N`, mai su `rate === 0`.",
+      "classe": "la guardia contro il campione vuoto messa sul risultato invece che sul numero di casi. Il presidio: `fulfillmentLow = closedOrders >= N && fulfillmentRate < 95`, e una prova che a 0% pretende l'avviso acceso.",
+      "passo_a": "@tech",
+      "confidenza": "95% — condizione letta, identica su origin/main; non eseguita con dati veri."
+    },
+    {
+      "id": "FUX-ADM-05",
+      "titolo": "Nella schermata «Today» gli ultimi dieci ordini possono essere di settimana scorsa, e sembrano di stamattina",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "lib/queries/cruscotto-oggi.ts:141-144 (nessun filtro sulla data), app/admin/today/page.tsx:158 (titolo), :163 (frase quando e' vuoto), :195-197 (colonna «Quando»)",
+      "cosa_succede": "Tutti gli altri numeri della pagina sono filtrati da mezzanotte in poi. La tabella in fondo no: prende gli ultimi dieci ordini esistenti, di qualunque giorno. E la colonna «Quando» stampa solo ora e minuti — `toLocaleTimeString` — quindi un ordine di tre giorni fa si presenta come «18:42», identico a uno di stamattina. La frase quando la tabella e' vuota dice «Nessun ordine ancora oggi», che promette che li' dentro ci siano gli ordini di oggi.",
+      "conseguenza_pratica": "E' la pagina che si apre per prima la mattina per capire cosa sta succedendo adesso. Alle 9 il riquadro dice «Ordini oggi: 0» e la tabella sotto mostra dieci righe con orari plausibili. I due pezzi si contraddicono sulla stessa schermata, e vince quello che sembra piu' concreto: l'elenco. Con i volumi di oggi — pochi ordini al giorno — questa non e' l'eccezione, e' il caso normale.",
+      "come_si_riproduce": [
+        "Prendi un giorno senza ordini nuovi (basta il primo mattino).",
+        "Apri /admin/today.",
+        "In alto «Ordini oggi» = 0. In fondo «Ultimi 10 ordini» mostra righe con un orario e nessuna data.",
+        "Nel codice: la query a lib/queries/cruscotto-oggi.ts:141-144 non ha nessun `.gte('created_at', inizioOggi)`, a differenza delle sette letture sopra."
+      ],
+      "classe": "una tabella dentro un cruscotto «di oggi» che non condivide il filtro del cruscotto, piu' una data resa senza il giorno. Il presidio: o si filtra da mezzanotte (e allora la frase «nessun ordine ancora oggi» diventa vera), o si scrive «ieri 18:42» quando non e' oggi. Una prova sul risultato di `leggiCruscottoOggi` con un ordine di ieri.",
+      "passo_a": "@tech",
+      "confidenza": "95% — query e resa lette; il confronto con origin/main conferma che non e' nato oggi."
+    },
+    {
+      "id": "FUX-ADM-06",
+      "titolo": "«Coupon eliminato» in verde anche quando il coupon e' ancora vivo",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/coupons/page.tsx:90-95 (`toggle`) e :97-105 (`remove`)",
+      "cosa_succede": "Queste due scritture non guardano il campo `error` che Supabase restituisce, e non hanno un `onError`. Qualunque cosa vada storta — sessione scaduta, rete caduta a meta', regola del database che rifiuta — la funzione finisce senza lanciare, quindi parte `onSuccess`: messaggio verde «Coupon eliminato», elenco ricaricato. Venti righe sopra, nello stesso file, la creazione lo fa nel modo giusto (`if (error) throw error` + `onError`): il modello corretto e' li' accanto.",
+      "conseguenza_pratica": "L'amministratore vede il verde e chiude la pagina convinto che lo sconto sia spento. Il codice resta spendibile dai clienti. Si scopre a fine mese guardando i margini, non prima. Lo stesso vale per il pulsante Attivo/Disattivato: si preme, non succede niente, e non c'e' nemmeno un messaggio rosso a dirlo.",
+      "come_si_riproduce": [
+        "Apri /admin/coupons.",
+        "Strumenti sviluppatore → Rete → metti il browser offline (o blocca le chiamate a `/rest/v1/coupons`).",
+        "Premi «Elimina» su un coupon e conferma.",
+        "Compare il messaggio verde «Coupon eliminato». Torna online, ricarica: il coupon e' ancora li'."
+      ],
+      "classe": "e' la stessa classe che il lotto di oggi ha nominato e frenato altrove — `tests/unit/una-lettura-caduta-non-esce-come-elenco-vuoto.test.ts`, scritta stamattina per l'export GDPR. La lezione e' stata imparata su una rotta e non e' arrivata qui.",
+      "passo_a": "@tech",
+      "confidenza": "95% — codice letto; il blocco di rete non l'ho eseguito da qui."
+    },
+    {
+      "id": "FUX-ADM-07",
+      "titolo": "Se la lettura dei coupon o delle campagne cade, il pannello scrive «non ce n'e' nessuno»",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/coupons/page.tsx:54 (`const { data: coupons = [], isLoading }`, nessun ramo d'errore) e app/admin/sponsored/page.tsx:64 (`const { data } = await q;`, il campo `error` buttato via)",
+      "cosa_succede": "Nella pagina Coupon la lettura lancia l'errore, ma la pagina lo ignora: `= []` lo trasforma in elenco vuoto, e sotto c'e' solo `if (isLoading)`. Nella pagina Sponsorizzati e' peggio: la riga `const { data } = await q;` non guarda nemmeno il campo `error`. In tutti e due i casi a schermo esce «0 codici sconto» / «Nessuna campagna».",
+      "conseguenza_pratica": "Una lettura rotta e un pannello davvero vuoto si presentano identici. L'amministratore che apre Coupon dopo un guasto conclude che i codici sconto sono stati cancellati e ne ricrea uno uguale: adesso ce ne sono due. Su Sponsorizzati conclude che nessun negozio sta pagando per la vetrina.",
+      "come_si_riproduce": [
+        "Apri /admin/coupons con almeno un coupon esistente.",
+        "Strumenti sviluppatore → Rete → blocca le richieste a `/rest/v1/coupons`.",
+        "Ricarica: il titolo dice «0 codici sconto» e la tabella e' vuota. Nessun messaggio d'errore, nessun pulsante «riprova».",
+        "Stessa cosa su /admin/sponsored bloccando `/rest/v1/sponsored_listings`."
+      ],
+      "nota": "La strada giusta esiste gia' nello stesso pannello: /admin/today mostra `ErrorState` con «Non sono riuscito a leggere i numeri di oggi» e il pulsante «riprova» (app/admin/today/page.tsx:52-63).",
+      "classe": "identica a FUX-ADM-06 e allo stesso freno scritto oggi. Il presidio: un solo componente `ErrorState` obbligatorio su ogni pagina admin che legge un elenco, e una prova che fa cadere la lettura e pretende che a schermo NON compaia lo zero.",
+      "passo_a": "@tech",
+      "confidenza": "95%."
+    },
+    {
+      "id": "FUX-ADM-08",
+      "titolo": "«Speso totale» sulla pagina Sponsorizzati non e' il totale: e' il totale del filtro acceso",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/sponsored/page.tsx:47-66 (il filtro sta nella query) e :99-102, :119-120 (i quattro riquadri sommano `listings`, cioe' il gia' filtrato)",
+      "cosa_succede": "I quattro riquadri in alto — Campagne, Speso totale, Impressions, CTR medio — si calcolano sulla lista che arriva dal database, e quella lista e' gia' ristretta dal filtro Tutti/active/paused/ended. I riquadri pero' si chiamano «totale» e «medio» e non cambiano aspetto quando il filtro e' acceso.",
+      "conseguenza_pratica": "Premi «paused» per vedere le campagne in pausa e il riquadro dei soldi scende: sembra che la spesa pubblicitaria sia crollata. E' solo il filtro. Su un riquadro con dentro degli euro, quel malinteso e' il tipo di numero che fa prendere una decisione sbagliata.",
+      "come_si_riproduce": [
+        "Servono almeno due campagne, una attiva e una in pausa.",
+        "Apri /admin/sponsored con filtro «Tutti» e annota «Speso totale».",
+        "Premi «paused»: «Speso totale» cambia, l'etichetta no."
+      ],
+      "difetto_gemello_stessa_riga": "la query a :47-62 non ha nessun `.limit()`: PostgREST risponde con al massimo mille righe anche senza che nessuno lo chieda, quindi dalla campagna numero 1001 in poi «Speso totale» smetterebbe di salire in silenzio. E' la stessa trappola gia' descritta e riparata in lib/queries/cruscotto-oggi.ts (difetto ②, commento del 27/8).",
+      "classe": "un totale calcolato nel browser su una lista parziale. Il presidio: i totali li fa il database (`count`/`sum`) e l'etichetta dice su cosa (\"Speso — campagne in pausa\").",
+      "passo_a": "@tech",
+      "confidenza": "90%."
+    },
+    {
+      "id": "FUX-ADM-09",
+      "titolo": "L'elenco utenti si ferma a cinquecento, la ricerca cerca solo li' dentro, e non lo dice",
+      "nato": "vecchio",
+      "gravita": "grave",
+      "dove": "app/admin/users/page.tsx:113 (`TETTO_UTENTI = 500`), :274 (il filtro gira nel browser sui 500 gia' scaricati), :359 (`sub={`${filtered.length} risultati`}`), :332-341 (l'export scrive `filtered`)",
+      "cosa_succede": "La pagina scarica i 500 profili piu' recenti, poi cerca e filtra dentro quei 500. Il sottotitolo scrive il numero di righe che ha in mano e lo chiama «risultati». Non c'e' nessuna frase che dica «questi sono i primi 500».",
+      "conseguenza_pratica": "Tre danni in fila. ① Al 501esimo iscritto la pagina dira' sempre «500 risultati», qualunque sia il numero vero. ② Cercare per nome o email un cliente iscritto sei mesi fa non da' «non trovato per via del tetto», da' zero righe: l'amministratore conclude che quella persona non esiste, e magari sta rispondendo a una richiesta GDPR. ③ Il file CSV degli utenti eredita il tetto senza dirlo.",
+      "come_si_riproduce": [
+        "Servono piu' di 500 profili (oggi non ci sono: vedi `non_verificato`).",
+        "Apri /admin/users: il sottotitolo dice «500 risultati».",
+        "Cerca l'email del 501esimo profilo piu' recente: nessun risultato, nessuna spiegazione."
+      ],
+      "nota": "Il tetto in se' e' giusto (commento #90). Manca la dichiarazione: la stessa macchina lo sa gia' fare — `lib/queries/cruscotto-oggi.ts` restituisce il campo `campione` proprio per dire «questo e' un pezzo, non il totale», e /admin/today lo scrive a schermo.",
+      "classe": "tetto silenzioso + ricerca fatta nel browser invece che nel database. Il presidio: la ricerca va nella query (`ilike`), e quando le righe sono esattamente il tetto la pagina lo dichiara.",
+      "passo_a": "@tech",
+      "confidenza": "90%."
+    },
+    {
+      "id": "FUX-ADM-10",
+      "titolo": "L'avviso «questi numeri sono un campione» dimentica di nominare i Consegnati",
+      "nato": "vecchio",
+      "gravita": "minore",
+      "dove": "app/admin/today/page.tsx:130-135 contro lib/queries/cruscotto-oggi.ts:156-164",
+      "cosa_succede": "Quando gli ordini del giorno sfondano il tetto di lettura, la pagina avvisa che «ordini e incasso qui sotto sono un campione». Ma dallo stesso campione nasce anche il riquadro «Consegnati» (`todayDelivered`, cruscotto-oggi.ts:160). Il commento del tipo `campione` lo dice giusto — «incasso e consegnati» — la frase a schermo no.",
+      "conseguenza_pratica": "Il riquadro «Consegnati» resta l'unico che sembra affidabile mentre non lo e'. Morde solo oltre le ventimila righe in un giorno, quindi oggi e' teoria; la scrivo perche' e' una riga di testo da correggere, non un lavoro.",
+      "come_si_riproduce": [
+        "Lettura del codice: `campione` = `ordersToday.troncato`, e `deliveredToday` e' calcolato dallo stesso array `todayOrders`.",
+        "Il tetto vero e' `TETTO_DURO = 20_000` in lib/supabase/blocchi.ts:70."
+      ],
+      "passo_a": "@tech",
+      "confidenza": "99% — e' una lettura di codice, non serve eseguire niente."
+    },
+    {
+      "id": "FUX-ADM-11",
+      "titolo": "La colonna «Data» del file ordini esce nell'ora di Londra e come testo",
+      "nato": "vecchio",
+      "gravita": "minore",
+      "dove": "app/admin/orders/page.tsx:110 (`o.created_at` messo nel file cosi' com'e')",
+      "cosa_succede": "Nel file finisce la data grezza del database, `2026-09-06T14:32:11.123Z`. E' in orario universale (UTC), non italiano, ed e' in un formato che Excel italiano non riconosce: resta una parola, non una data.",
+      "conseguenza_pratica": "Un ordine delle 00:30 di lunedi ora italiana esce datato domenica. Ordinare o raggruppare per giorno nel foglio non funziona. Oggi la squadra ha sistemato la virgola dei decimali nella colonna accanto con la stessa motivazione — «il commercialista lo apre con Excel» — e questa colonna e' rimasta.",
+      "come_si_riproduce": [
+        "/admin/orders → «Esporta CSV» → apri il file: la colonna «Data» contiene `2026-09-06T14:32:11.123Z`, allineata a sinistra (Excel la tratta come testo).",
+        "In estate l'Italia e' due ore avanti su UTC: ogni ordine fra mezzanotte e le 02:00 nel file appartiene al giorno prima."
+      ],
+      "classe": "stessa famiglia di FUX-ADM-01: `lib/format.ts` esiste apposta ed e' stato riscritto oggi, ma l'export non ci passa.",
+      "passo_a": "@tech",
+      "confidenza": "95%."
+    }
+  ],
+  "verificato_e_sano": [
+    {
+      "file": "app/admin/today/page.tsx",
+      "esito": "La modifica di oggi — la tabella dentro un `div` con `overflow-x-auto` (:169) — e' corretta e non rompe niente: il riquadro esterno (:161) ha `overflow-hidden rounded-xl`, quindi l'angolo arrotondato resta e a scorrere e' solo la tabella. Non ci sono menu a tendina dentro le celle che il nuovo contenitore potrebbe tagliare in verticale. Il riquadro rosso «Richiede attenzione immediata» (:107-125) sta sopra a tutto, subito sotto il titolo: si vede, e i tre link portano dove dicono."
+    },
+    {
+      "file": "app/admin/funnel/page.tsx",
+      "esito": "Uguale: solo il contenitore che scorre, nessuna logica toccata. I trattini al posto degli zero quando il mese non e' finito ci sono ancora, e la lettura gestisce errore e troncamento nel modo giusto (:90-132)."
+    },
+    {
+      "file": "app/admin/branding/page.tsx",
+      "esito": "Il cambio di oggi (`text-primary-700` → `text-accent-700`, `font-bold` → `font-extrabold`) e' un fix vero, non un capriccio: l'anteprima adesso corrisponde a come il nome esce davvero nel piede di pagina (components/Footer.tsx:190) e ha lo stesso spessore della barra in alto (components/Navbar.tsx:128). Prima l'anteprima mostrava un colore che sul sito non esisteva."
+    },
+    {
+      "file": "app/rider/orders/[id]/page.tsx",
+      "esito": "La modifica di oggi e' la piu' seria del perimetro ed e' fatta bene: `.select('id')` sulla scrittura piu' il controllo «zero righe toccate» chiude un caso reale — il fattorino a cui l'ordine e' stato riassegnato leggeva «Stato aggiornato» e se ne andava, e il cliente non riceveva niente. Ricarica anche lo stato vero prima di mostrare l'errore, quindi il pulsante non resta bugiardo."
+    },
+    {
+      "file": "app/rider/onboarding/page.tsx",
+      "esito": "`friendlyError` al posto della parola secca «Errore»: giusto, e la funzione (lib/errors.ts:117) tiene il messaggio del server quando e' leggibile invece di coprirlo."
+    },
+    {
+      "file": "app/rider/help/page.tsx",
+      "esito": "«Risposta entro 24h» → «Risposta entro 24 ore lavorative». E' una promessa piu' onesta: prima un fattorino che scriveva il sabato aspettava una risposta per domenica."
+    },
+    {
+      "file": "app/admin/coupons/page.tsx (parte grafica)",
+      "esito": "`formatPrice` al posto di `€X.XX`: le unita' sono le stesse (euro, non centesimi — colonna `numeric(10,2)` in migrations/014_mvp_sprint.sql:134-136), quindi la cifra non cambia, cambia solo la scrittura. Il pulsante «Elimina» ha la sua conferma (:231-238)."
+    },
+    {
+      "file": "app/admin/users/page.tsx (parte grafica)",
+      "esito": "Le due frasi di conferma riscritte oggi sono migliori: sparisce `auth.users` (che a chi legge non dice niente) e resta il fatto che conta — «l'account verra' cancellato, i dati personali anonimizzati, gli ordini restano per obblighi fiscali, azione irreversibile». Tutte e tre le azioni distruttive (sospendi, riattiva, elimina) hanno la conferma."
+    },
+    {
+      "file": "app/admin/sponsored/page.tsx (parte grafica)",
+      "esito": "`formatDate` sulle date del periodo: prima uscivano `2026-09-06`. Nessuno spostamento di giorno: l'Italia e' avanti su UTC, quindi una data senza ora resta il giorno giusto."
+    },
+    {
+      "controllo": "dati personali di troppo negli elenchi",
+      "esito": "Guardato apposta. /admin/today mostra il nome del cliente e basta — niente telefono, niente indirizzo. /admin/orders mostra nome e citta'. /admin/users mostra email e telefono, ma e' la pagina che serve a gestire gli utenti e sta dietro il ruolo amministratore. Nessun elenco espone piu' del necessario. Il file CSV degli utenti contiene le email: e' un problema di dove finisce il file, non della schermata — se serve un parere lo do a @dpo."
+    },
+    {
+      "controllo": "comandi pericolosi senza conferma",
+      "esito": "Guardato tutte le azioni distruttive del perimetro. Hanno conferma: elimina utente, sospendi, riattiva, elimina coupon. NON ce l'ha «Elimina» campagna sponsorizzata (app/admin/sponsored/page.tsx:190-193): un clic e la campagna sparisce, con i suoi impressions e la sua spesa. E' vecchio, e lo lascio come nota qui invece che come difetto perche' il danno e' recuperabile e i numeri restano nella contabilita' — ma e' l'unico pulsante rosso del perimetro senza rete."
+    }
+  ],
+  "non_verificato": [
+    "Non ho eseguito il sito: niente browser, niente sessione da amministratore. Tutto quello che c'e' qui nasce dalla lettura del codice di adesso sul ramo `claude/marketplace-open-issues-0gudy6` e dal confronto con `origin/main`.",
+    "Non ho eseguito `npm test` ne' `npm run typecheck`: sul repo stanno lavorando altre sessioni in parallelo e il typecheck scrive `tsconfig.tsbuildinfo`. Va fatto girare da chi chiude il lotto.",
+    "I difetti che hanno bisogno di volume — piu' di 50 ordini (FUX-ADM-02), piu' di 500 profili (FUX-ADM-09), piu' di 1000 campagne (FUX-ADM-08) — non li ho potuti mettere in scena. Il ragionamento e' sul codice, non su una prova eseguita: confidenza 90%, non 95%.",
+    "Il comportamento vero di Excel italiano (separatore, formule) non l'ho provato da qui. Quello che ho verificato con certezza e' l'asimmetria fra i due file del pannello e l'assenza di qualunque filtro sul primo carattere."
+  ],
+  "niente_trovato_perche": null,
+  "sintesi": {
+    "difetti_nati_oggi": 1,
+    "difetti_vecchi_ma_seri": 10,
+    "bloccanti": 0,
+    "gravi": 8,
+    "minori": 3,
+    "giudizio": "Le undici modifiche di oggi su questo perimetro sono pulite: nessuna ha rotto qualcosa, e due (la scrittura del fattorino che ora si accorge di non aver scritto niente, l'anteprima del nome del marketplace) sono fix veri. L'unico difetto nato oggi e' un'asimmetria: la stessa lezione applicata al file degli ordini e non a quello degli utenti. Il resto e' vecchio, e va detto lo stesso perche' e' proprio dove si governa il marketplace.",
+    "classe_di_bug_dominante": "il pannello amministratore mostra un numero senza dire su cosa e' calcolato — un totale che e' il totale del filtro, un elenco che e' i primi cinquecento, un file che sono i primi cinquanta, una tabella «di oggi» che e' di sempre — e un guasto di lettura esce come uno zero. Sono la stessa cosa vista da due lati: la schermata non distingue «non lo so» da «e' zero». La macchina questa lezione l'ha gia' imparata due volte (il campo `campione` del 27/8, il freno GDPR scritto stamattina) e non l'ha ancora portata in giro.",
+    "presidio_proposto_10x": "Un componente solo per gli elenchi del pannello — chiamiamolo `ElencoAdmin` — che per costruzione non ti lascia scrivere una tabella senza tre cose: il ramo d'errore (mai lo zero al posto del guasto), la dichiarazione del tetto quando le righe sono esattamente il limite, e l'etichetta che dice su quale filtro e' calcolato il totale. Piu' una prova di regressione che monta ogni pagina admin con la lettura fatta cadere e pretende che a schermo NON compaia un numero. Cosi' i difetti 05, 06, 07, 08, 09 e 10 diventano impossibili invece che riparati uno per uno."
+  }
+}

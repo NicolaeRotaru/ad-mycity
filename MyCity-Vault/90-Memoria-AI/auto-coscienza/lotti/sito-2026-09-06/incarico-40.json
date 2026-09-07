@@ -1,0 +1,29 @@
+{
+ "squadra": 40,
+ "ondata": 9,
+ "pacchetto": "components/SearchBar.tsx",
+ "territorio_principale": "components/SearchBar.tsx",
+ "file_citati": [
+  "components/SearchBar.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "accessibilita-visiva|il pulsante «pulisci» della barra di ricerca è un bersaglio da 16×16 pixel",
+   "titolo": "Il pulsante «pulisci» della barra di ricerca è un bersaglio da 16×16 pixel",
+   "dimensione": "accessibilita-visiva",
+   "file": "components/SearchBar.tsx:177-184 (className a riga 181)",
+   "descrizione": "CONFERMATO (righe 177-184, non 175-182). Il pulsante che svuota la ricerca ha `className=\"absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-700\"` e dentro una `<X size={16} />`: nessun padding, area premibile 16×16 CSS px. WCAG 2.2 SC 2.5.8 Target Size Minimum (AA) chiede 24×24, e l'eccezione di spaziatura non regge perché il cerchio da 24px intersecherebbe il campo di ricerca stesso. La barra è in cima a ogni pagina. Nello stesso repo la soglia è già riconosciuta: components/StoreMediaCarousel.tsx:96 porta i pallini a `w-6 h-6` con la nota «la soglia riconosciuta è 24».",
+   "impatto": null,
+   "fix_proposto": "Portare la classe a `absolute right-2 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full text-ink-400 hover:text-ink-700 hover:bg-cream-100`. Il campo ha già `pr-11` (44px) a destra: l'icona resta di 16px, cresce solo l'area premibile."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la lente nella barra di ricerca non si può toccare e non c'è nessun pulsante «cerca»",
+   "titolo": "La lente nella barra di ricerca non si può toccare e non c'è nessun pulsante «Cerca»",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/SearchBar.tsx:164 (icona Search con pointer-events-none) · :163-185 (il <form> non contiene nessun elemento type=\"submit\") · :176-183 (crocetta Pulisci, icona 16 px senza padding)",
+   "descrizione": "CONFERMATO. L'icona della lente alla riga 164 ha esplicitamente 'pointer-events-none': toccarla non fa nulla. Dentro il <form role=\"search\"> (righe 163-185) gli unici elementi sono l'input e, quando c'è testo, un <button type=\"button\"> di pulizia: nessun submit visibile, quindi l'unico modo di cercare è premere Invio o toccare un suggerimento. La crocetta «Pulisci» (righe 176-183) è un bottone con la sola icona X da 16 px e nessuna classe di padding o dimensione minima, quindi con area di tocco molto sotto i 44 px.",
+   "impatto": null,
+   "fix_proposto": "Trasformare la lente in un <button type=\"submit\"> con area minima 44×44, e dare alla crocetta lo stesso ingombro minimo."
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+  "squadra": 22,
+  "territorio": ["scripts/backup-db.sh", "components/ui/AuthShell.tsx", "docs/backup-restore.md"],
+  "malattia": "La copia notturna e' cresciuta a strati, e ogni strato ha guardato solo il pezzo che stava aggiungendo: chi ha salvato gli utenti non ha guardato come si entra davvero nel sito, chi ha aggiunto lo storico delle foto non ha guardato se il posto dove scrive esiste.",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|la copia degli utenti salva solo la tabella base: accesso con google e secondo fattore restano fuori",
+      "titolo": "La copia degli utenti salva solo la tabella base: accesso con Google e secondo fattore restano fuori",
+      "esito": "riparato",
+      "prova": "Prima: `grep -c 'auth.identities\\|mfa_factors' scripts/backup-db.sh` = 0. Fix applicato, poi lo script VERO fatto girare con un pg_dump finto che registra i suoi argomenti (banco in scratchpad, rclone e pg_dump finti, come fanno le prove gia' in tests/unit): nel log del dump degli utenti compaiono `--table=auth.users --table=auth.identities --table=auth.mfa_factors`, prima c'era solo la prima. Le tre prove che toccano questi file restano verdi: `npx vitest run tests/unit/la-copia-delle-foto-non-ripete-la-cancellazione.test.ts tests/unit/la-copia-notturna-non-finge-di-aver-salvato-le-foto.test.ts tests/unit/la-copia-notturna-sa-che-database-copia.test.ts` -> 15 passed.",
+      "nota_fix": "La scheda diceva il vero: AuthShell.tsx:139-140 usa signInWithOAuth con provider google, e il secondo dump prendeva la sola auth.users. Aggiunte auth.identities (il legame fra la persona e il suo account Google) e auth.mfa_factors (i secondi fattori); auth.mfa_challenges no, come suggerito: dura minuti e non serve a nessun ripristino. Riscritto il commento che aveva causato il buco («il resto dello schema auth e' roba interna di Supabase») e aggiornato docs/backup-restore.md: l'avviso in cima dice cosa comprende davvero la copia, e la procedura di ripristino ha ora il blocco per rimettere il file degli utenti con i tre controlli (utenti, identita' per provider, fattori). Verificato che il ripristino mensile in .github/workflows/backup-db.yml non si rompe: fa `CREATE SCHEMA IF NOT EXISTS auth` e poi pg_restore con `|| true`. Non ho potuto lanciare pg_dump contro un Supabase vero (nessuna chiave da qui): il ragionamento e' che pg_dump senza --strict-names ignora i pattern che non trovano niente e fallisce solo se NESSUN --table trova qualcosa — auth.users c'e' sempre, quindi il dump non puo' peggiorare. Resta fuori dal mio territorio il terzo pezzo del fix proposto: la prova mensile conta solo auth.users e non si accorgerebbe se le identita' tornassero a mancare (.github/workflows/backup-db.yml:279-283). L'ho messo in difetti_nuovi.",
+      "file_toccati": ["scripts/backup-db.sh", "docs/backup-restore.md"]
+    },
+    {
+      "chiave": "deploy-sre|il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+      "titolo": "Il magazzino di sicurezza delle foto punta a un secchio che non e mai esistito: la copia notturna puo diventare rossa al primo giro",
+      "esito": "non_riparato",
+      "prova": "Due notti vere con lo script vero e rclone finto (banco in scratchpad, stessa tecnica delle prove in tests/unit), destinazione scritta con la barra in fondo. PRIMA (derivazione vecchia, riprodotta passando STORAGE_SYNC_STORICO=<copia>/-storico): la foto cancellata al fornitore finiva in `copia/-storico/<data>/products/pane.jpg`, cioe' DENTRO il secchio della copia. DOPO: finisce in `copia-storico/<data>/products/pane.jpg`, fuori. Il controllo preliminare si vede girare: «Lo storico delle foto (...) non risponde: provo a crearlo» -> «Storico delle foto pronto». Tre prove esistenti verdi (15 passed).",
+      "nota_fix": "LA SCHEDA SBAGLIA IL MECCANISMO SUL SECONDO CASO, e il codice comanda: con la barra finale rclone NON si rifiuta di partire per sovrapposizione (le due cartelle sono affiancate dentro lo stesso secchio, non una dentro l'altra: provato al banco). Gira in silenzio e fa una cosa peggiore del fallire — mette la rete di sicurezza dentro lo stesso secchio da cui dovrebbe difendere, cosi' il giorno che quel secchio sparisce si porta via anche lo storico. Chiuso in codice: la barra finale viene tolta prima di ricavare il nome dello storico. Aggiunto anche il controllo prima del ciclo, ma NON come propone la scheda: `rclone lsd` e, se non risponde, `rclone mkdir` (innocuo se esiste); se non riesce scrive un avviso chiaro e NON esce. Un `exit 5` preventivo avrebbe potuto spegnere una copia che oggi funziona — molti fornitori creano il secchio al primo caricamento — cioe' avrebbe rifatto lo stesso errore della scheda al contrario. LASCIO APERTO perche' la chiusura vera non sta nel codice: serve il secchio `<destinazione>-storico` creato davvero presso il fornitore e una chiave che possa scriverci, e serve una notte vera con quelle chiavi. Oggi STORAGE_SYNC_SOURCE/DEST non sono nemmeno impostate: la copia delle foto e' spenta del tutto, quindi il difetto non fa danno adesso ma esplode alla prima accensione. TOCCA A NICOLA (rosso): creare i DUE secchi e le chiavi, poi guardare la riga «esito-foto» della prima notte. Documentato in docs/backup-restore.md: riga STORAGE_SYNC_STORICO nella tabella, avviso «i secchi da creare sono due, non uno», e il passo 1 dell'accensione corretto.",
+      "file_toccati": ["scripts/backup-db.sh", "docs/backup-restore.md"]
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "La prova mensile di ripristino conta solo gli utenti: se domani il collegamento con Google sparisse dalla copia, nessuno se ne accorgerebbe",
+      "dove": ".github/workflows/backup-db.yml:279-283",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Non ho potuto lanciare pg_dump contro un Supabase vero ne' rclone contro un secchio vero: nessuna chiave da qui. Quindi non ho la prova che auth.identities e auth.mfa_factors esistano con quel nome sul progetto vero (sono le tabelle standard di GoTrue, confidenza alta) ne' che il secchio dello storico si crei davvero con la chiave di Nicola. Non ho lanciato npm run verify ne' la build, come da consegna. Non ho toccato components/ui/AuthShell.tsx: mi e' servito solo come prova che l'accesso con Google e' in uso."
+}

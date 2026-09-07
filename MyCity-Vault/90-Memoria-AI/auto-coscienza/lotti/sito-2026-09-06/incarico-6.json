@@ -1,0 +1,137 @@
+{
+ "squadra": 6,
+ "ondata": 2,
+ "pacchetto": "app/cart/page.tsx (parte 2 di 3)",
+ "territorio_principale": "app/cart/page.tsx",
+ "file_citati": [
+  "components/StickyAddToCart.tsx",
+  "app/cart/page.tsx",
+  "app/checkout/page.tsx",
+  "lib/cart.ts",
+  "lib/shipping.ts",
+  "lib/geo.ts",
+  "lib/constants.ts",
+  "app/api/cron/abandoned-carts/route.ts",
+  "components/MobileTabBar.tsx",
+  "components/checkout/CartGroupsList.tsx",
+  "components/checkout/StepIndicator.tsx",
+  "components/account/AccountShell.tsx",
+  "app/globals.css",
+  "app/product/[id]/page.tsx",
+  "app/categorie/page.tsx",
+  "app/store/[id]/page.tsx",
+  "app/stores/page.tsx",
+  "components/ProductCard.tsx",
+  "app/layout.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "mobile-pwa|nella barra d'acquisto della scheda prodotto i tasti «+» e «−» sono 36px, nel carrello 40px",
+   "titolo": "Nella barra d'acquisto della scheda prodotto i tasti «+» e «−» sono 36px, nel carrello 40px",
+   "dimensione": "mobile-pwa",
+   "file": "components/StickyAddToCart.tsx:82 e 92 (`w-9 h-9`); confronto: app/cart/page.tsx:295 e 315 (`w-10 h-10`)",
+   "descrizione": "Verificato. I due tasti della quantità dentro la barra fissa in fondo sono `w-9 h-9` (36×36px), attaccati l'uno all'altro dentro la stessa pillola bordata, sotto i 44px indicati da Apple e Google come minimo per il dito. Lo stesso identico comando nella pagina carrello è `w-10 h-10` (40px): due misure diverse per lo stesso gesto nello stesso funnel.",
+   "impatto": null,
+   "fix_proposto": "Portarli a `w-11 h-11` (44px) qui e nel carrello, così la misura è una sola in tutto il funnel."
+  },
+  {
+   "chiave": "flussi-conversione|il carrello conta i pezzi, il checkout conta le righe: lo stesso carrello dice «5 articoli» e un passo dopo «2 articoli»",
+   "titolo": "Il carrello conta i pezzi, il checkout conta le righe: lo stesso carrello dice «5 articoli» e un passo dopo «2 articoli»",
+   "dimensione": "flussi-conversione",
+   "file": "app/checkout/page.tsx:1262 ({cart.length} articoli); app/cart/page.tsx:405 ({count} articoli) con lib/cart.ts:274-275 (cartCount somma le quantità)",
+   "descrizione": "Nel carrello «articoli» è la somma delle quantità; nel riepilogo del checkout è il numero di righe. Con 2 filoni e 3 focacce il carrello dice «5 articoli», il checkout «2 articoli».\n\nCausa radice: Due definizioni diverse dello stesso contatore: il checkout non usa cartCount.\n\nProva (grep, eseguita e rossa): grep -n 'cart.length} articoli' app/checkout/page.tsx && grep -n 'export const cartCount' -A1 lib/cart.ts",
+   "impatto": "Un numero che cambia tra un passo e l'altro proprio prima di pagare fa dubitare che il carrello sia arrivato intero; qualcuno torna indietro a controllare.",
+   "fix_proposto": "Nel checkout usare cartCount(cart) come nel carrello."
+  },
+  {
+   "chiave": "flussi-conversione|sotto «procedi al checkout» si promette il reso entro 14 giorni anche per pane, torte e gastronomia",
+   "titolo": "Sotto «Procedi al checkout» si promette il reso entro 14 giorni anche per pane, torte e gastronomia",
+   "dimensione": "flussi-conversione",
+   "file": "app/cart/page.tsx:476",
+   "descrizione": "Per qualunque carrello, sotto il pulsante che porta al checkout, compare la riga «Reso facile entro 14 giorni». Vale anche per i prodotti alimentari, dove il reso non esiste (il diritto di recesso non vale per i beni deperibili, art. 59 lett. d del Codice del Consumo) e nessuna pagina del percorso spiega come si fa un reso.\n\nCausa radice: Riga di fiducia statica, uguale per tutte le categorie, senza politica resi dietro.\n\nProva (umano, non eseguita): Aprire /cart con un prodotto alimentare nel carrello (es. un filone di Pane Quotidiano) e leggere, sotto «Procedi al checkout», la riga «Reso facile entro 14 giorni».",
+   "impatto": "Promessa che salta al primo reclamo: il cliente si sente ingannato e il negozio si trova a discutere una politica che non ha mai accettato. Sul primo negozio reale (un forno) la riga è sbagliata su ogni ordine.",
+   "fix_proposto": "Mostrare la riga solo per categorie non alimentari e collegarla alla pagina della politica resi; per il food sostituirla con una promessa vera (es. «Problema con l'ordine? Rimborso entro 24 ore») o toglierla."
+  },
+  {
+   "chiave": "flussi-conversione|la spedizione scritta nel carrello non è quella che si paga alla cassa",
+   "titolo": "La spedizione scritta nel carrello non è quella che si paga alla cassa",
+   "dimensione": "flussi-conversione",
+   "file": "app/cart/page.tsx:216-224; app/checkout/page.tsx:397-405 e 528-535; lib/shipping.ts:28-32; lib/geo.ts:34-37; lib/constants.ts:16-17",
+   "descrizione": "La pagina del carrello chiama la funzione della spedizione passando SEMPRE deliveryLat e deliveryLng a null (app/cart/page.tsx:220-221): senza coordinate la funzione ricade sulla tariffa fissa di 4,90 €. La pagina del checkout chiama la stessa funzione passando form.lat e form.lng (app/checkout/page.tsx:532-533), e quelle coordinate per chi ha un indirizzo salvato sono già piene appena la pagina si apre: l'effetto alle righe 397-405 pre-seleziona l'indirizzo predefinito con la sua latitudine e longitudine. Con le coordinate la spedizione diventa 2,50 + 1,20 al chilometro (lib/constants.ts:16-17). Esempio provato: negozio in centro a Piacenza, cliente a 2,9 km, carrello da 20 €. Il carrello scrive 4,90. Il checkout, un tocco dopo, scrive 6,00. Il commento scritto nel carrello alle righe 210-224 dichiara il contrario: dice che le coordinate restano a null «esattamente come fa il checkout prima che la persona lo scriva» — ma il checkout l'indirizzo ce l'ha già, non aspetta che lo scriva.\n\nCausa radice: Le due pagine usano la stessa funzione ma con ingressi diversi: il carrello non sa niente degli indirizzi salvati della persona, il checkout li carica al montaggio. La riparazione del 22/8/2026 ha unificato la FUNZIONE e non gli INGRESSI, e il commento ha cristallizzato un'assunzione sbagliata sul checkout.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/flussi-conversione-carrello-vs-cassa.test.ts -t 'indirizzo salvato'",
+   "impatto": "Chi ha già comprato una volta — cioè il cliente che vale di più — vede il totale salire di 1,10 € proprio nel passo finale. Sotto i 2 km succede il contrario: il carrello dice 4,90 e la cassa 3,10, quindi il prezzo balla in tutte e due le direzioni. Un numero che cambia all'ultimo passo è il motivo numero uno per cui si chiude la pagina, e chi non chiude arriva alla cassa già diffidente.",
+   "fix_proposto": "Nel carrello leggere l'indirizzo predefinito della persona con la stessa query del checkout (user_addresses, is_default) e passare le sue lat/lng a shippingForEuro. Se la persona non è collegata o non ha indirizzi, restare sulla tariffa fissa e scrivere «spedizione da 4,90 €» invece di un numero secco. E cancellare il commento alle righe 220-224, che oggi afferma una cosa falsa."
+  },
+  {
+   "chiave": "flussi-conversione|il carrello mostra il prezzo del giorno in cui hai messo dentro il prodotto",
+   "titolo": "Il carrello mostra il prezzo del giorno in cui hai messo dentro il prodotto",
+   "dimensione": "flussi-conversione",
+   "file": "app/cart/page.tsx:84-99 (l'unica lettura dal database chiede solo lo stock), 217, 230, 380; app/checkout/page.tsx:135-186; app/api/cron/abandoned-carts/route.ts:99",
+   "descrizione": "Il carrello interroga il database solo per lo stock: la query alle righe 85-88 seleziona «id, stock» e nient'altro. Tutti i prezzi a video e il subtotale nascono da it.price, cioè il numero congelato dentro localStorage quando il prodotto è stato aggiunto (righe 217, 230, 380). Il checkout invece rilegge products.price e ci applica fetchActiveDiscounts (righe 143-186), esattamente come fanno le due rotte che creano l'ordine. Quindi se il fornaio ritocca il prezzo, o se parte o finisce una promozione, il carrello resta indietro e il totale cambia al passo dopo. Esempio provato: un prodotto messo nel carrello a 31 €, oggi in promozione al 15%. Il carrello somma 31 e promette la spedizione gratis (soglia 30). Il checkout ricalcola 26,35 e aggiunge 4,90 di spedizione. Stessa radice anche nell'email di recupero carrello: app/api/cron/abandoned-carts/route.ts:99 scrive «Il tuo carrello (€X) ti aspetta» con il totale vecchio.\n\nCausa radice: La riparazione del 22/8/2026 sul prezzo scaduto e sulle promozioni è stata fatta solo nel checkout. Il carrello — che è la pagina dove si decide se proseguire — è rimasto sui prezzi di localStorage, e nessuno ha portato lì la stessa lettura.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/flussi-conversione-carrello-vs-cassa.test.ts -t 'soglia della spedizione gratis'",
+   "impatto": "La persona decide di andare alla cassa guardando un totale e una promessa di spedizione gratis che il passo dopo non ci sono più. È il caso più frequente su un marketplace di alimentari, dove i prezzi si muovono e le promozioni durano pochi giorni. Il commento del checkout alle righe 155-160 lo dice già con parole loro: «il momento esatto in cui si abbandona».",
+   "fix_proposto": "Allargare la query già presente in app/cart/page.tsx:85 da «id, stock» a «id, stock, price», chiamare fetchActiveDiscounts sugli stessi id e sovrascrivere it.price con discountedUnitCents, come fa il checkout. Dove il prezzo è cambiato, dirlo in riga con una frase gentile («il prezzo è passato da 3,00 a 3,50») invece di lasciarlo scoprire alla cassa."
+  },
+  {
+   "chiave": "flussi-conversione|su telefono il pulsante «procedi al checkout» sta in fondo, dopo tutti i prodotti e il carosello di upsell",
+   "titolo": "Su telefono il pulsante «Procedi al checkout» sta in fondo, dopo tutti i prodotti e il carosello di upsell",
+   "dimensione": "flussi-conversione",
+   "file": "app/cart/page.tsx:194 (grid-cols-1 lg:grid-cols-3), 196-355 (colonna prodotti + CartUpsell), 414-419 (CTA nella colonna destra); components/MobileTabBar.tsx:48-56",
+   "descrizione": "CONFERMATO come struttura: su mobile la griglia collassa a una colonna e il riepilogo con «Procedi al checkout» viene dopo l'elenco articoli, l'upsell «Completa con» e il resto. Il checkout una barra fissa in basso ce l'ha (page.tsx:1071-1094) e la scheda prodotto pure (StickyAddToCart), il carrello no; la MobileTabBar resta visibile su /cart (nasconde solo /checkout, /seller, /rider, auth). Tengo la severità a minore: è una perdita di conversione per posizionamento, non un dato falso né un blocco.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere al carrello la stessa barra fissa del checkout («Totale {finalTotal}» + «Procedi al checkout», lg:hidden fixed inset-x-0 bottom-0) con l'offset di StickyAddToCart (env(safe-area-inset-bottom) + var(--tabbar-height) + var(--altezza-banner-cookie)) e pb-28 lg:pb-8 sul contenitore."
+  },
+  {
+   "chiave": "flussi-conversione|nel riepilogo del checkout due varianti dello stesso prodotto sono due righe identiche",
+   "titolo": "Nel riepilogo del checkout due varianti dello stesso prodotto sono due righe identiche",
+   "dimensione": "flussi-conversione",
+   "file": "components/checkout/CartGroupsList.tsx:31 (key={item.id}) e 43-46 (nessun variantLabel); confronto app/cart/page.tsx:246",
+   "descrizione": "CONFERMATO. La lista di destra del checkout stampa foto, nome, «×quantità» e prezzo: `item.variantLabel` non compare mai, mentre il carrello lo mostra. Un carrello con «Maglietta (M)» e «Maglietta (L)» mostra due righe indistinguibili. In più la key è `item.id`, che per due varianti dello stesso prodotto è duplicata (nel carrello la chiave giusta è `${id}::${variantId}`). Minore e non grave: nessun importo sbagliato e la variante è visibile un passo prima, nel carrello.",
+   "impatto": null,
+   "fix_proposto": "Stampare item.variantLabel sotto il nome, come fa il carrello, e usare key={`${item.id}::${item.variantId ?? ''}`}."
+  },
+  {
+   "chiave": "flussi-conversione|due numerazioni degli step nella stessa schermata, e lo step «conferma» non si accende mai",
+   "titolo": "Due numerazioni degli step nella stessa schermata, e lo step «Conferma» non si accende mai",
+   "dimensione": "flussi-conversione",
+   "file": "components/checkout/StepIndicator.tsx:38-42 (CHECKOUT_STEPS) e 55-72; app/checkout/page.tsx:833 (currentStep={2}), app/cart/page.tsx:192 (currentStep={1}); StepCard n={1}/n={2}/n={3} alle righe 849, 861, 894",
+   "descrizione": "CONFERMATO (il collega cita StepIndicator.tsx:207-211, ma il file è lungo 72 righe: il contenuto però è quello). In cima al checkout la barra dice «1 Carrello · 2 Indirizzo · 3 Conferma» con il 2 acceso; subito sotto partono le schede numerate «1 Indirizzo di consegna», «2 Quando vuoi riceverlo», «3 Come paghi». Due numerazioni sovrapposte in cui il «3» in alto e il «3» in basso significano cose diverse. E `grep currentStep=` dà solo due chiamate in tutto il progetto (cart=1, checkout=2): lo step 3 non è mai attivo, la barra resta per sempre a «2 di 3» e fa credere che dopo il pagamento ci sia un altro passo.",
+   "impatto": null,
+   "fix_proposto": "Togliere la numerazione dalle StepCard (icona + titolo bastano) oppure togliere la barra dal checkout; e rendere «Conferma» attivo quando indirizzo e metodo sono a posto."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la barra dei tre passi va a capo sui telefoni stretti e il terzo passo non si accende mai",
+   "titolo": "La barra dei tre passi va a capo sui telefoni stretti e il terzo passo non si accende mai",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/checkout/StepIndicator.tsx:57-72 (flex … gap-4 sm:gap-8 flex-wrap, trattini w-8 sm:w-16, cerchi w-7 h-7) · app/cart/page.tsx:192 (currentStep 1) · app/checkout/page.tsx:833 (currentStep 2)",
+   "descrizione": "CONFERMATO, con distinzione fra la parte provata e la parte calcolata. Parte provata: grep di 'StepIndicator' su tutto app/ e components/ restituisce solo due usi, currentStep 1 (cart:192) e currentStep 2 (checkout:833). Nessuna pagina passa currentStep 3, quindi il pallino «Conferma» (CHECKOUT_STEPS riga 40) resta grigio per tutto il percorso e la barra non si completa mai. Parte calcolata (non misurata in browser ma coerente col file): tre passi da cerchio 28 px + gap 8 px + etichetta text-sm, più due trattini w-8 e i gap-4 del contenitore, superano i ~343-358 px utili di un iPhone SE/12, e il contenitore ha flex-wrap alla riga 58, quindi il terzo passo va a capo.",
+   "impatto": null,
+   "fix_proposto": "Sotto sm mostrare la forma compatta («Passo 2 di 3 · Indirizzo») o accorciare etichette e trattini; montare l'indicatore con currentStep 3 sulla pagina dell'ordine confermato."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la colonna del menu account si infila sotto l'intestazione fissa",
+   "titolo": "La colonna del menu account si infila sotto l'intestazione fissa",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/account/AccountShell.tsx:108 (lg:sticky lg:top-24) contro app/globals.css:106 (--header-height: 9rem) · confronto: app/product/[id]/page.tsx:851 e app/cart/page.tsx:358 usano top-[var(--header-height)]",
+   "descrizione": "CONFERMATO. L'aside dell'area account si blocca a top-24 (96 px, riga 108) mentre il token --header-height dichiara 9rem ≈ 144 px (globals.css riga 106) proprio per l'intestazione sticky di desktop (Navbar riga 89: md:sticky md:top-0 z-sticky). Sono 48 px di scarto, quindi la parte alta della card identità finisce dietro la barra terracotta, che avendo z-sticky sta sopra. Confermato che tutte le altre colonne appiccicose usano il token: scheda acquisto prodotto (riga 851) e riepilogo carrello (riga 358).",
+   "impatto": null,
+   "fix_proposto": "Sostituire lg:top-24 con lg:top-[var(--header-height)] più un piccolo margine, così l'offset resta scritto in un posto solo."
+  },
+  {
+   "chiave": "navigazione-gerarchia|la larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+   "titolo": "La larghezza del contenuto cambia tre volte lungo il percorso d'acquisto",
+   "dimensione": "navigazione-gerarchia",
+   "file": "app/categorie/page.tsx:35 (max-w-5xl, px-4) · app/store/[id]/page.tsx:109 (max-w-5xl, px-4) · app/checkout/page.tsx:823 (max-w-6xl, px-4 sm:px-6) · app/cart/page.tsx:190 e app/product/[id]/page.tsx:476 (container pieno, px-4 sm:px-6) · app/stores/page.tsx:230 (max-w-7xl, px-4)",
+   "descrizione": "CONFERMATO riga per riga. Su un monitor largo il blocco di contenuto passa da 1280 px (home, prodotto, carrello, container di default) a 1024 px (max-w-5xl su /categorie riga 35 e sulla pagina negozio riga 109) a 1152 px (max-w-6xl sul checkout riga 823): il bordo sinistro si sposta a ogni passaggio mentre intestazione e piè di pagina restano larghi. Confermato anche il passo orizzontale disallineato: /categorie, /store/[id] e /stores usano 'px-4' fisso, mentre prodotto, carrello e checkout usano 'px-4 sm:px-6'.",
+   "impatto": null,
+   "fix_proposto": "Fissare due larghezze sole e documentarle: piena (container) per catalogo e scoperta, ristretta per i percorsi a modulo; e usare ovunque lo stesso px-4 sm:px-6."
+  },
+  {
+   "chiave": "performance-percepita|ogni prodotto senza foto fa una richiesta a placehold.co, dominio esterno non preconnesso",
+   "titolo": "Ogni prodotto senza foto fa una richiesta a placehold.co, dominio esterno non preconnesso",
+   "dimensione": "performance-percepita",
+   "file": "components/ProductCard.tsx:61, app/cart/page.tsx:231 e components/checkout/CartGroupsList.tsx:35; app/layout.tsx:105-108 (l'elenco dei preconnect)",
+   "descrizione": "Confermato. Quando `images[0]` manca, ProductCard ripiega su `'https://placehold.co/400x400/FBF7F0/C0492C?text=Foto'`; l'indirizzo attraversa `sizedImage` senza essere toccato (lib/image-url.ts:78-80 lascia placehold.co com'è, e il caricatore non trova parametri `width`/`w` da riscrivere), quindi parte una richiesta vera a un dominio terzo per ogni scheda senza foto. Nel `<head>` (app/layout.tsx:105-108) sono preconnessi solo l'host Supabase e js.stripe.com, con dns-prefetch per api.stripe.com e challenges.cloudflare.com: placehold.co non c'è. La prima richiesta paga DNS più handshake TLS, e se il servizio è lento o giù la griglia resta coi buchi. Gli stessi segnaposto compaiono nel carrello e nel riepilogo del checkout, cioè sul percorso d'acquisto.",
+   "impatto": null,
+   "fix_proposto": "Sostituire l'indirizzo remoto con un segnaposto locale servito dal nostro dominio (un SVG in `public/`, che il service worker già mette in cache-first alla regola 3 di sw.js): zero richieste esterne, non può cadere, e si disegna on-brand. Il `preconnect` a placehold.co è solo una toppa."
+  }
+ ]
+}

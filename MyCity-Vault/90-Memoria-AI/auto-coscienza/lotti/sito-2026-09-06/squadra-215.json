@@ -1,0 +1,84 @@
+{
+  "squadra": 215,
+  "territorio": [
+    "lib/analytics/sentry-config.ts",
+    "app/admin/funnel/page.tsx",
+    "app/admin/today/page.tsx",
+    "app/seller/earnings/page.tsx",
+    "components/account/AccountShell.tsx",
+    "components/ui/LegalLayout.tsx",
+    "components/store-sections/SectionRenderer.tsx",
+    "app/seller/products/page.tsx",
+    "components/seller/ImproveAllPanel.tsx"
+  ],
+  "malattia": "Ogni volta che una regola vale per tutto il sito — il contenitore che fa scorrere una tabella, l'altezza dell'intestazione, la striscia che l'iPhone si tiene in fondo, i tre colori del semaforo — non esiste un posto solo dove sta scritta: ogni pagina se la riscrive a mano, e chi arriva dopo se la dimentica.",
+  "difetti": [
+    {
+      "chiave": "deploy-sre|gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+      "titolo": "Gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+      "esito": "non_riparato",
+      "prova": "grep -c 'ambienteSentry()' lib/analytics/sentry-config.ts -> 1 (riga 32) · grep -n environment sentry.server.config.ts sentry.edge.config.ts -> tutti e due usano ambienteSentry() · cat lib/analytics/ambiente.ts -> return process.env.VERCEL_ENV || process.env.NODE_ENV || 'development' · npx vitest run tests/unit/gli-errori-delle-anteprime-non-si-mescolano.test.ts -> verde · grep -c SENTRY app/api/health/route.ts -> 0 · grep -n SENTRY_DSN next.config.js -> riga 98, ancora letto al momento del build",
+      "nota_fix": "Il difetto era in tre pezzi e ne resta scoperto uno e mezzo. Il pezzo uno (l'ambiente) NON e' piu' come lo racconta la scheda: un'ondata precedente ha creato lib/analytics/ambiente.ts, che legge VERCEL_ENV e ripiega su NODE_ENV, e i tre punti di accensione (sentry-config, sentry.server.config, sentry.edge.config) lo usano gia'; c'e' anche il test che diventa rosso se qualcuno torna indietro. Il pezzo due (il DSN inchiodato al momento del build, next.config.js:98) e il pezzo tre (il DSN fuori dalle variabili controllate da /api/health) vivono in due file che non sono nel mio territorio: next.config.js e app/api/health/route.ts. Non li ho toccati. Metto quindi non_riparato onesto invece di chiudere per un terzo di lavoro fatto da altri. NON HO VERIFICATO: se SENTRY_AUTH_TOKEN sia davvero presente nel build su Vercel — da qui non si vede, e' un'impostazione della piattaforma (rosso, non di questo lotto).",
+      "file_toccati": []
+    },
+    {
+      "chiave": "layout-responsive|due tabelle dell'amministrazione (funnel e «oggi») non hanno il contenitore che scorre di lato: sul telefono allargano la pagina",
+      "titolo": "Due tabelle dell'amministrazione (funnel e «oggi») non hanno il contenitore che scorre di lato: sul telefono allargano la pagina",
+      "esito": "riparato",
+      "prova": "prima: grep -n -B4 '<table' app/admin/funnel/page.tsx app/admin/today/page.tsx | grep -c 'overflow-x-auto' -> 0 · dopo: lo stesso comando -> 2 · npx tsc --noEmit -p tsconfig.json -> uscita 0 · npx vitest run tests/unit/il-funnel-dice-quando-guarda-solo-un-campione.test.ts tests/unit/il-cruscotto-di-oggi-non-dice-zero-quando-non-ha-letto.test.ts -> verdi",
+      "nota_fix": "Ho avvolto tutte e due le tabelle in <div className=\"overflow-x-auto\">, come fanno le altre tredici del sito. Una correzione alla scheda: sul «oggi» la pagina NON si allargava, perche' la tabella sta gia' dentro un riquadro con overflow-hidden (riga 161) — quindi il guasto vero era peggio nel modo opposto, le ultime colonne (Totale e Quando) venivano tagliate dal bordo arrotondato e non c'era modo di raggiungerle. Sul funnel invece l'analisi e' giusta: nessun contenitore, la tabella spingeva la larghezza della pagina. Il fix chiude tutti e due i casi. Non ho creato il componente Tabella condiviso che la causa radice chiederebbe: e' un refactor, fuori dal mandato di un minore. NON HO VERIFICATO a video: sono pagine dell'area admin e servirebbe l'accesso.",
+      "file_toccati": ["app/admin/funnel/page.tsx", "app/admin/today/page.tsx"]
+    },
+    {
+      "chiave": "layout-responsive|il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito",
+      "titolo": "Il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito",
+      "esito": "riparato",
+      "prova": "prima: grep -n 'lg:top-24' components/ui/LegalLayout.tsx -> riga 78 · dopo: grep -c 'lg:top-24' components/account/AccountShell.tsx components/ui/LegalLayout.tsx -> 0 e 0 · grep -n 'top-\\[var(--header-height)\\]' -> AccountShell.tsx:113 e LegalLayout.tsx:85 · npx vitest run tests/unit/le-pagine-legali-non-mandano-in-un-vicolo-cieco.test.ts -> verde · npx tsc --noEmit -> uscita 0",
+      "nota_fix": "Meta' del difetto era gia' chiusa: AccountShell.tsx l'ha sistemato un'ondata precedente (c'e' anche il commento datato 6/9/2026 alla riga 108) e usa gia' lg:top-[var(--header-height)]. Restava aperto l'indice laterale delle pagine legali, LegalLayout.tsx, ancora a lg:top-24. L'ho portato allo stesso valore, cosi' l'altezza dell'intestazione (144 pixel, --header-height in globals.css:107) ha davvero una casa sola. NON HO VERIFICATO a video la sovrapposizione dei 48 pixel: e' un calcolo sul sorgente, non una misura sullo schermo.",
+      "file_toccati": ["components/ui/LegalLayout.tsx"]
+    },
+    {
+      "chiave": "layout-responsive|le schede della vetrina («prodotti · n», «info & orari», «recensioni · n») si spezzano su due righe",
+      "titolo": "Le schede della vetrina («Prodotti · N», «Info & orari», «Recensioni · N») si spezzano su due righe",
+      "esito": "riparato",
+      "prova": "prima: il tablist era 'flex gap-1 border-b border-cream-300' e i bottoni '-mb-px border-b-2 px-4 py-2.5 text-sm' · dopo: grep -c 'overflow-x-auto scrollbar-hide' components/store-sections/SectionRenderer.tsx -> 1 (riga 173) e grep -c 'shrink-0 whitespace-nowrap' -> 1 (riga 191) · il plugin che nasconde la barretta esiste gia': grep -n scrollbar-hide tailwind.config.ts -> riga 230 · npx tsc --noEmit -> uscita 0 · npx vitest run (16 file che citano questi sorgenti) -> 142 prove verdi",
+      "nota_fix": "Confermato sul codice, riga per riga come diceva la scheda (i numeri di riga erano scivolati di dieci). Ho messo overflow-x-auto scrollbar-hide sulla barra e shrink-0 whitespace-nowrap sui bottoni: e' lo stesso schema di StoreNav.tsx:15, che sta due file piu' in la'. Cosi' le schede non si comprimono e non vanno a capo, scorrono. Non ho toccato la navigazione da tastiera (frecce, Home, End): funziona come prima. NON HO VERIFICATO a 360 pixel su un telefono vero: il calcolo delle larghezze e' quello della scheda, non l'ho rimisurato a video.",
+      "file_toccati": ["components/store-sections/SectionRenderer.tsx"]
+    },
+    {
+      "chiave": "layout-responsive|la barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iphone",
+      "titolo": "La barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iPhone",
+      "esito": "riparato",
+      "prova": "prima: grep -c 'safe-area-inset-bottom' app/seller/products/page.tsx -> 0 · dopo -> 1 (riga 557, py-3 diventato pt-3 + pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))]) · npx vitest run tests/unit/il-pulsante-del-copilot-non-copre-salva-modifiche.test.ts -> verde · npx tsc --noEmit -> uscita 0",
+      "nota_fix": "Confermato, ma la barra era alla riga 550 e non alla 453, e nel frattempo qualcuno le aveva gia' aggiunto pl-5 pr-24 sm:pr-44 per non finire sotto il pulsante del Copilot. Ho tenuto tutto e cambiato solo il padding di sotto. Ho scelto il calc invece della classe pb-safe perche' pb-safe (globals.css:319) SOSTITUISCE il padding-bottom con la sola striscia di sistema: messa accanto a py-3 avrebbe cancellato i 12 pixel normali e su un telefono senza striscia la barra sarebbe rimasta senza aria. Il calc li somma. Su desktop la striscia vale zero, quindi non cambia niente. NON HO VERIFICATO su un iPhone vero: da qui la striscia di sistema non esiste.",
+      "file_toccati": ["app/seller/products/page.tsx"]
+    },
+    {
+      "chiave": "coerenza-brand|il pannello «migliora tutto» del venditore usa un semaforo verde-smeraldo, ambra e rosa fuori palette",
+      "titolo": "Il pannello «Migliora tutto» del venditore usa un semaforo verde-smeraldo, ambra e rosa fuori palette",
+      "esito": "riparato",
+      "prova": "la prova della scheda, che prima era rossa: cd /home/user/mycity && test \"$(grep -c -E '(emerald|amber|rose)-[0-9]{2,3}' components/seller/ImproveAllPanel.tsx)\" -eq 0 — prima 12 righe, adesso 0, quindi passa · npx tsc --noEmit -> uscita 0 · npx vitest run (16 file, fra cui i-testi-si-leggono-anche-con-poca-vista e il-pulsante-principale-ha-una-terracotta-sola) -> 142 prove verdi",
+      "nota_fix": "Tutte e 19 le classi sostituite coi token del sito, gli stessi tre della tabella delle coorti in app/admin/funnel: emerald -> olive (bene), amber -> accent (attenzione), rose -> secondary (male). Due scelte di sfumatura che mi prendo io e dichiaro. Sul riempimento delle barre ho usato olive-600 e non olive-500, perche' olive-600 e' la sfumatura che tailwind.config.ts chiama «success brand» ed e' quella di Button success e Badge new: olive-500 su fondo cream-200 si vedeva appena. Sui testi ambra ho usato accent-700 e non accent-600, perche' accent-600 su bianco sta a 3,3 contro 1 di contrasto e non arriva al minimo di 4,5 per il testo normale, mentre accent-700 sta a 5,1 — cosi' il colore rientra in palette e per giunta si legge meglio di prima (l'amber-600 di partenza stava a 3,9). Non ho riscritto le pillole con Badge/OrderStatusBadge come suggeriva il fix: e' un cambio di struttura, non di colore, e su un minore non ci sta. NON HO VERIFICATO a video il risultato: e' l'area venditore e serve l'accesso.",
+      "file_toccati": ["components/seller/ImproveAllPanel.tsx"]
+    }
+  ],
+  "bloccati": [
+    {
+      "chiave": "deploy-sre|gli errori delle anteprime finiscono mescolati a quelli veri dei clienti, e nessuno controlla che il registratore sia acceso",
+      "perche": "il fix vive in due file fuori territorio: next.config.js (riga 98, il DSN letto al momento del build: aggiungerlo su Vercel dopo non ha effetto finche' non si ricompila) e app/api/health/route.ts (il DSN non e' fra le variabili controllate, quindi nessuno si accorge se il registratore degli errori e' spento)"
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "La tabella degli ultimi ordini del pannello «oggi» stava dentro un riquadro che taglia: le ultime colonne sparivano invece di far scorrere la pagina",
+      "dove": "app/admin/today/page.tsx:161",
+      "gravita": "minore"
+    },
+    {
+      "titolo": "La classe pb-safe sostituisce il padding di sotto invece di sommarlo: chi la mette accanto a py-3 perde i 12 pixel di aria senza accorgersene",
+      "dove": "app/globals.css:319",
+      "gravita": "minore"
+    }
+  ],
+  "non_verificato": "Niente di questo lotto l'ho guardato a video: le quattro schermate toccate stanno dietro un accesso (admin, area venditore) e la striscia di sistema dell'iPhone da qui non esiste. Le prove sono lettura del sorgente piu' il compilatore e i test che coprono quei file — ammesse sui minori, ma non sono una misura sullo schermo. In piu': non ho lanciato npm run verify ne' il build (me lo vieta il briefing, altre squadre stanno scrivendo), quindi non so se il progetto compila davvero fino in fondo; e non ho verificato il contrasto reale dei colori nuovi su uno schermo, l'ho calcolato dai valori esadecimali di tailwind.config.ts."
+}

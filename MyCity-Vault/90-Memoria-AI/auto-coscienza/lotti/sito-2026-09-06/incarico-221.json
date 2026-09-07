@@ -1,0 +1,82 @@
+{
+ "squadra": 221,
+ "ondata": 10,
+ "pacchetti": [
+  "home/user/mycity/app/globals.css",
+  "components/PWAInstallBanner.tsx",
+  "app/sign-up/page.tsx",
+  "home/user/mycity/components/ProductCard.tsx",
+  "home/user/mycity/app/sign-up/page.tsx",
+  "components/MobileTabBar.tsx"
+ ],
+ "file_citati": [
+  "app/globals.css",
+  "components/ui/Button.tsx",
+  "components/ui/LoadingState.tsx",
+  "components/PWAInstallBanner.tsx",
+  "app/sign-up/page.tsx",
+  "components/ProductCard.tsx",
+  "app/orders/[id]/return/page.tsx",
+  "components/PushNotificationOptIn.tsx",
+  "components/rider/CashConfirmDialog.tsx",
+  "app/rider/onboarding/page.tsx",
+  "components/ui/Field.tsx",
+  "components/MobileTabBar.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano",
+   "titolo": "Con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/globals.css:213-220 · effetto su /home/user/mycity/components/ui/Button.tsx:77 e /home/user/mycity/components/ui/LoadingState.tsx:35, :44, :54",
+   "descrizione": "CONFERMATO. Il blocco `@media (prefers-reduced-motion: reduce)` azzera tutto senza eccezioni: `*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; … }` (globals.css:214-219). Colpisce anche `animate-spin`, cioè l'icona `Loader2` usata da ogni stato di attesa — Button.tsx:77 (`{loading && <Loader2 … className=\"animate-spin\" />}`) e LoadingState righe 35, 44, 54 — e la classe `.skeleton`, che è `animation: shimmer 2s linear infinite` (globals.css:192). Per chi ha quell'impostazione, un pulsante che sta lavorando appare come un pulsante grigio con un cerchietto immobile. Su LoadingState resta almeno il testo; sui pulsanti senza cambio di etichetta il segnale sparisce del tutto.",
+   "impatto": null,
+   "fix_proposto": "Dentro il blocco `@media (prefers-reduced-motion: reduce)` aggiungere `.animate-spin, .skeleton { animation-duration: 1.5s !important; animation-iteration-count: infinite !important; }` — lenti, non fermi — e comunque accompagnare sempre lo stato di attesa con un cambio di testo, come fa già il codice sconto («Verifico…»)."
+  },
+  {
+   "chiave": "mobile-pwa|nel banner d'installazione «più tardi» e la x sono alti 24-28 px: si sbaglia mira col pollice",
+   "titolo": "Nel banner d'installazione «Più tardi» e la X sono alti 24-28 px: si sbaglia mira col pollice",
+   "dimensione": "mobile-pwa",
+   "file": "components/PWAInstallBanner.tsx:146-151 («Più tardi»/«Ho capito»: px-3 py-1.5 text-xs ≈ 28 px), :154-160 (X: p-1 + icona 16 px ≈ 24 px)",
+   "descrizione": "Il banner compare in fondo allo schermo sopra la barra delle schede; i due modi per chiuderlo sono sotto i 44 px consigliati per il tocco. Chi manca la X tocca la scheda della barra sotto o il contenuto dietro, e il banner resta lì.\n\nCausa radice: Pulsanti dimensionati dal testo, non dall'area di tocco.\n\nProva (grep, eseguita e rossa): grep -n \"py-1.5 text-xs\\|p-1 -mt-1\" components/PWAInstallBanner.tsx   → righe 148 e 157",
+   "impatto": "Fastidio al terzo accesso, proprio quando l'utente sta tornando: il momento in cui si costruisce l'abitudine.",
+   "fix_proposto": "min-h-11 min-w-11 (44 px) su «Più tardi»; la X con p-3 (area 40-44 px) e margine negativo per non spostare il layout."
+  },
+  {
+   "chiave": "flussi-conversione|per registrarsi e finire l'ordine bisogna prima dichiarare se si è acquirente, venditore o rider",
+   "titolo": "Per registrarsi e finire l'ordine bisogna prima dichiarare se si è Acquirente, Venditore o Rider",
+   "dimensione": "flussi-conversione",
+   "file": "app/sign-up/page.tsx:175-196 (il fieldset non guarda returnTo), 262-264 (testo del pulsante), 53 (returnTo già letto)",
+   "descrizione": "CONFERMATO. Il modulo di registrazione è identico per tutti e apre con «Come vuoi usare MyCity?» e tre mattonelle; il pulsante finale dice «Registrati come acquirente». Chi ci arriva dal checkout — uno che vuole solo pagare il pane — si trova una scelta di ruolo che non lo riguarda, dentro il funnel d'acquisto. Il ruolo di default è già 'buyer', quindi non nasce nessun dato sbagliato: è attrito, per questo minore e non grave. L'informazione per toglierlo c'è già: `returnTo` è letto alla riga 53.",
+   "impatto": null,
+   "fix_proposto": "Se returnTo inizia con /checkout (o /cart): forzare role='buyer', nascondere il fieldset dei ruoli e cambiare il testo del pulsante in «Crea l'account e continua l'ordine»."
+  },
+  {
+   "chiave": "microcopy|un avviso d'errore che dice soltanto «errore»",
+   "titolo": "Un avviso d'errore che dice soltanto «Errore»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/components/ProductCard.tsx riga 104 · stesso ripiego in /home/user/mycity/app/orders/[id]/return/page.tsx riga 88, /home/user/mycity/components/PushNotificationOptIn.tsx riga 119, /home/user/mycity/components/rider/CashConfirmDialog.tsx riga 89, /home/user/mycity/app/rider/onboarding/page.tsx riga 126 e altri",
+   "descrizione": "CONFERMATO, con una precisazione sul conteggio. In ProductCard riga 104 è il ripiego pieno: `if (err.message === 'AUTH_REQUIRED') … else toast.error('Errore')` — qualunque altro errore diventa la parola «Errore», senza dire cosa è successo né cosa fare, mentre il cuoricino ha già fatto l'animazione come se avesse funzionato. Negli altri punti la stringa è il ramo `e instanceof Error ? e.message : 'Errore'`, quindi scatta solo quando viene lanciato qualcosa che non è un Error: reale ma più raro dei «altri 19 punti» dichiarati. In tutto la stringa 'Errore' compare 23 volte fra app/ e components/. Il messaggio buono esiste già in lib/errors.ts («Qualcosa non ha funzionato. Riprova fra un momento.»).",
+   "impatto": null,
+   "fix_proposto": "Sostituire ogni `'Errore'` secco con `friendlyError(err)`, già importato in quasi tutti quei file."
+  },
+  {
+   "chiave": "microcopy|la regola della password è scritta nel testo grigio che sparisce appena scrivi",
+   "titolo": "La regola della password è scritta nel testo grigio che sparisce appena scrivi",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/sign-up/page.tsx riga 226 · proprietà `hint` disponibile in /home/user/mycity/components/ui/Field.tsx (tipo Common, righe 88-95)",
+   "descrizione": "CONFERMATO. Il PasswordInput della registrazione ha `placeholder=\"Almeno 8 caratteri\"`: il segnaposto sparisce al primo carattere digitato, cioè proprio quando la regola servirebbe. Il tipo Common di Field.tsx espone `hint`, che resta sempre visibile sotto il campo, e qui non viene usato. Se poi la password è corta, l'errore torna da Supabase in inglese (vedi il difetto sulle traduzioni degli errori di autenticazione).",
+   "impatto": null,
+   "fix_proposto": "`hint=\"Almeno 8 caratteri\"` e segnaposto vuoto."
+  },
+  {
+   "chiave": "navigazione-gerarchia|dopo l'accesso la voce «negozi» sparisce dalla barra in basso",
+   "titolo": "Dopo l'accesso la voce «Negozi» sparisce dalla barra in basso",
+   "dimensione": "navigazione-gerarchia",
+   "file": "components/MobileTabBar.tsx:95-102 (autenticato: Home, Cerca, Carrello, Ordini, Io) contro :104-111 (ospite: Home, Cerca, Negozi, Carrello, Accedi)",
+   "descrizione": "CONFERMATO col file davanti. L'array dell'ospite (righe 104-111) contiene '/stores' con etichetta t('stores'); quello dell'utente autenticato (righe 95-102) la sostituisce con '/orders' e '/profile'. Il cliente che ha imparato dove stavano i negozi, dopo il login non li trova più nello stesso posto e deve passare dalla barra categorie in cima — che però soffre già del difetto di scorrimento senza affordance — o dal piè di pagina.",
+   "impatto": null,
+   "fix_proposto": "Tenere le stesse cinque destinazioni per ospite e utente registrato (Home, Cerca, Negozi, Carrello, Io) e spostare «Ordini» dentro il foglio «Io», dove c'è già."
+  }
+ ]
+}

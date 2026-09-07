@@ -1,0 +1,25 @@
+{
+ "squadra": 100,
+ "ondata": 21,
+ "pacchetto": "home/user/mycity/components/ui/LoadingState.tsx",
+ "territorio_principale": "home/user/mycity/components/ui/LoadingState.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/product/[id]/loading.tsx",
+  "/home/user/mycity/app/orders/[id]/loading.tsx",
+  "/home/user/mycity/app/store/[id]/loading.tsx",
+  "/home/user/mycity/components/ui/LoadingState.tsx",
+  "/home/user/mycity/app/globals.css",
+  "home/user/mycity/components/ui/LoadingState.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "stati-ui|gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+   "titolo": "Gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto",
+   "dimensione": "stati-ui",
+   "file": "/home/user/mycity/app/product/[id]/loading.tsx:8 · /home/user/mycity/app/orders/[id]/loading.tsx:3 · /home/user/mycity/app/store/[id]/loading.tsx:3 · confronto con /home/user/mycity/components/ui/LoadingState.tsx:34-80 e /home/user/mycity/app/globals.css:182-192",
+   "descrizione": "CONFERMATO su tutti e tre i file. ① Nessuno dei tre `loading.tsx` ha `role=\"status\"`, `aria-busy` o un testo nascosto: chi usa un lettore di schermo apre una scheda prodotto, un ordine o un negozio e non sente nulla finché la pagina non è pronta. Il componente condiviso lo fa bene — `role=\"status\" aria-live=\"polite\"` in tutte e quattro le varianti di LoadingState (righe 34, 43, 53, 72) — ma i tre file di rotta non lo usano. ② Sono scritti con `animate-pulse` e sfondi `bg-cream-200`, mentre LoadingState e app/loading.tsx usano la classe `.skeleton` con lo scintillio orizzontale definito in globals.css:183-192: nella stessa navigazione si vedono in fila due scheletri con due animazioni diverse.",
+   "impatto": null,
+   "fix_proposto": "Aggiungere `role=\"status\" aria-live=\"polite\" aria-label=\"Caricamento in corso\"` ai tre `loading.tsx` e sostituire `animate-pulse bg-cream-200` con la classe `.skeleton` già esistente."
+  }
+ ]
+}

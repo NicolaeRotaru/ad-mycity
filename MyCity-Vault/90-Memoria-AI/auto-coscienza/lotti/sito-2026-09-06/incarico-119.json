@@ -1,0 +1,21 @@
+{
+ "squadra": 119,
+ "ondata": 25,
+ "pacchetto": "app/page.tsx",
+ "territorio_principale": "app/page.tsx",
+ "file_citati": [
+  "app/page.tsx",
+  "lib/queries/precarico.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "performance-percepita|la home fa due letture al database una dopo l'altra prima di mostrare qualcosa: la seconda parte solo quando la prima è tornata",
+   "titolo": "La home fa due letture al database una dopo l'altra prima di mostrare qualcosa: la seconda parte solo quando la prima è tornata",
+   "dimensione": "performance-percepita",
+   "file": "app/page.tsx:96 (const site = await loadHomeSite()) e app/page.tsx:118 (const precarico = await precaricaHome()); lib/queries/precarico.ts:27-30 e :41-48",
+   "descrizione": "Prima di mandare il contenuto della home il server legge due cose indipendenti: la configurazione della home (site_settings.home_site, riga 96) e il precarico delle categorie (riga 118). Le aspetta in fila, non insieme. Con due letture finte da 150 ms l'una, Home() impiega 336 ms invece di ~150: il tempo della seconda si somma alla prima. In produzione ogni lettura è un viaggio Vercel → Supabase (decine di ms, di più sotto carico), pagato da ogni visitatore mentre guarda lo scheletro.\n\nCausa radice: Due await in sequenza (righe 96 e 118) senza Promise.all; il precarico crea inoltre un secondo client Supabase (import dinamico in precarico.ts:29) invece di riusare quello della riga 73.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove-jsx.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/performance-percepita-home-letture-in-fila.test.tsx  (rosso oggi: 336 ms > 240 ms)",
+   "impatto": "Chi arriva sulla home (per esempio da un QR in vetrina) resta sullo scheletro un giro di rete in più del necessario, a ogni visita. È la porta d'ingresso di ogni campagna: la sensazione di lentezza nasce qui.",
+   "fix_proposto": "In app/page.tsx: const [site, precarico] = await Promise.all([loadHomeSite(), precaricaHome()]); meglio ancora, mettere la lettura di home_site dentro lo stesso precarico (stesso client anonimo) e avvolgere le sezioni sotto l'hero in un <Suspense> così il testo dell'hero esce prima delle categorie."
+  }
+ ]
+}

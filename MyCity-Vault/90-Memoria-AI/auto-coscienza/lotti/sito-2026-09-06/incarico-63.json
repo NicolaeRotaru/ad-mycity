@@ -1,0 +1,22 @@
+{
+ "squadra": 63,
+ "ondata": 13,
+ "pacchetto": "lib/account/cancellazione.ts",
+ "territorio_principale": "lib/account/cancellazione.ts",
+ "file_citati": [
+  "lib/account/cancellazione.ts",
+  "app/api/seller/subscription/checkout/route.ts",
+  "lib/stripe/webhook/abbonamenti.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "privacy-legale|chi cancella l'account resta cliente su stripe, e nessuno sa più quale",
+   "titolo": "Chi cancella l'account resta cliente su Stripe, e nessuno sa più quale",
+   "dimensione": "privacy-legale",
+   "file": "lib/account/cancellazione.ts:26-45,262-300, app/api/seller/subscription/checkout/route.ts:34,57-60, lib/stripe/webhook/abbonamenti.ts:68",
+   "descrizione": "Quando qualcuno chiede di essere cancellato, la pipeline azzera il profilo, i documenti, il testo libero, i file, e alla fine cancella l'utente: la riga del profilo sparisce e con lei sparisce stripe_customer_id, cioè l'unico filo che collega noi al cliente creato su Stripe. Su Stripe quel cliente non lo cancella e non lo anonimizza nessuno: in tutto il codice non esiste una sola chiamata a customers.del o a un aggiornamento del cliente. Lì restano nome, email, indirizzo di fatturazione e lo storico dei pagamenti, sotto un identificativo che dopo la cancellazione noi non conosciamo più. Esempio: il fornaio che ha attivato l'abbonamento a giugno e chiude l'account a settembre resta su Stripe come cliente attivo, e se domani ci scrive «cancellate anche là» non abbiamo più il codice per trovarlo.\n\nCausa radice: La pipeline di cancellazione ragiona solo sulle tabelle nostre e sui secchi dello storage: i responsabili esterni (Stripe oggi, domani chiunque tenga una copia) non sono parte della procedura. Manca il passo «propaga la cancellazione a chi ha una copia» prima del passo irreversibile.\n\nProva (comando, eseguita e rossa): cd /home/user/mycity && npx vitest run --config /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/vitest.prove.config.mts /tmp/claude-0/-home-user/ce5a9e09-6011-58c6-998d-7f02d8f3768e/scratchpad/radiografia/prove/privacy-legale-cliente-stripe.test.ts   (esegue cancellaAccount con un client finto che registra tutto: oggi FAIL, «la cancellazione non guarda mai stripe_customer_id»)",
+   "impatto": "La promessa «cancelliamo i tuoi dati» non è mantenuta presso un responsabile del trattamento che sta fuori dall'Unione. La cancellazione (art. 17) va estesa ai responsabili, e noi non solo non la estendiamo: buttiamo via il riferimento, quindi non possiamo più rimediare nemmeno volendo. In un controllo è un buco che non si può chiudere a posteriori.",
+   "fix_proposto": "In lib/account/cancellazione.ts, prima di admin.auth.admin.deleteUser: leggere profiles.stripe_customer_id, e se c'è chiamare Stripe (customers.del, oppure customers.update azzerando nome/email/indirizzo quando il cliente ha pagamenti da conservare per obbligo fiscale). Se la chiamata fallisce, non cancellare l'utente e lasciare la richiesta in coda per il giro dopo: meglio un giorno di ritardo che un dato che non si può più raggiungere. Aggiungere il caso alla prova unitaria della pipeline."
+  }
+ ]
+}

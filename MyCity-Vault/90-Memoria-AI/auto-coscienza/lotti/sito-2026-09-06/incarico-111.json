@@ -1,0 +1,21 @@
+{
+ "squadra": 111,
+ "ondata": 23,
+ "pacchetto": "home/user/mycity/app/reset-password/page.tsx",
+ "territorio_principale": "home/user/mycity/app/reset-password/page.tsx",
+ "file_citati": [
+  "/home/user/mycity/app/reset-password/page.tsx",
+  "home/user/mycity/app/reset-password/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|la pagina di reset password mostra il messaggio tecnico inglese preceduto da «errore:»",
+   "titolo": "La pagina di reset password mostra il messaggio tecnico inglese preceduto da «Errore:»",
+   "dimensione": "microcopy",
+   "file": "/home/user/mycity/app/reset-password/page.tsx righe 31-47",
+   "descrizione": "CONFERMATO, ma severità abbassata da grave a minore. `translateError` copre sei casi (same as/should be different, weak/at least, expired/jwt, invalid+token, rate/too many, not authenticated/no session); il ripiego finale è `return msg ? \\`Errore: ${msg}\\` : 'Errore durante l'aggiornamento della password'`, col commento «Niente match: mostra il messaggio originale per debug» rimasto in produzione. Chi ci cade legge il testo grezzo di Supabase in inglese preceduto da «Errore:». Abbasso la severità perché i sei casi coprono gli errori frequenti del reset: il ramo grezzo è residuale, non la strada principale.",
+   "impatto": null,
+   "fix_proposto": "Sostituire il ripiego con «Non siamo riusciti ad aggiornare la password. Richiedi un nuovo link qui sotto», mandando il messaggio originale a Sentry (captureError) invece che a schermo."
+  }
+ ]
+}

@@ -1,0 +1,20 @@
+{
+ "squadra": 60,
+ "ondata": 13,
+ "pacchetto": "lib/stripe/webhook/sponsorizzati.ts",
+ "territorio_principale": "lib/stripe/webhook/sponsorizzati.ts",
+ "file_citati": [
+  "lib/stripe/webhook/sponsorizzati.ts"
+ ],
+ "difetti": [
+  {
+   "chiave": "pagamenti-stripe|la vetrina in primo piano comprata di sera parte con la data del giorno prima",
+   "titolo": "La vetrina in primo piano comprata di sera parte con la data del giorno prima",
+   "dimensione": "pagamenti-stripe",
+   "file": "lib/stripe/webhook/sponsorizzati.ts:40-44",
+   "descrizione": "Quando un negozio compra uno spazio in primo piano, le date di inizio e fine si calcolano con toISOString(), che lavora sull'ora di Greenwich. In Italia siamo avanti di due ore d'estate e una d'inverno: un acquisto fatto alle 23:30 del 3 settembre viene scritto come iniziato il 3 e finito un giorno prima del dovuto rispetto al calendario di chi l'ha comprato. Nella stessa funzione il costo giornaliero e la spesa vengono presi dai metadati della sessione (amount_cents) invece che dall'importo davvero incassato (session.amount_total): se i due divergono, il rendiconto della sponsorizzazione racconta una cifra che non e' quella addebitata.\n\nCausa radice: Uso di toISOString() per una data di calendario locale (manca il passaggio dal fuso di Piacenza, che altrove nel codice esiste gia': lib/tempo/giorno-locale.ts), e fiducia nei metadati invece che nell'importo Stripe.\n\nProva (umano, non eseguita): Verifica umana: comprare una sponsorizzazione di 7 giorni dopo le 22:00 ora italiana e leggere start_date e end_date nella riga sponsored_listings: sono spostati indietro di un giorno rispetto alla data che il negoziante vede sul suo telefono.",
+   "impatto": "Un negozio paga sette giorni di vetrina e ne vede sei e mezzo. E' poco denaro, ma e' esattamente il tipo di piccolo torto che un negoziante nota e racconta agli altri.",
+   "fix_proposto": "Usare giornoLocale() (lib/tempo/giorno-locale.ts), la stessa funzione con cui il giro riquadra-casse calcola la giornata del fattorino, per start_date e end_date; e leggere l'importo da session.amount_total, tenendo i metadati solo come controllo incrociato."
+  }
+ ]
+}

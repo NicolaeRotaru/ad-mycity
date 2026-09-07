@@ -1,0 +1,20 @@
+{
+ "squadra": 108,
+ "ondata": 23,
+ "pacchetto": "app/sell/page.tsx",
+ "territorio_principale": "app/sell/page.tsx",
+ "file_citati": [
+  "app/sell/page.tsx"
+ ],
+ "difetti": [
+  {
+   "chiave": "microcopy|la pagina vendi su mycity promette la risposta in due tempi diversi",
+   "titolo": "La pagina Vendi su MyCity promette la risposta in due tempi diversi",
+   "dimensione": "microcopy",
+   "file": "app/sell/page.tsx:84 («entro 48h») e 168 («entro 48 ore lavorative»)",
+   "descrizione": "Dopo l'invio della richiesta, il toast dice «Ti contatteremo entro 48h» mentre il testo della stessa pagina promette «48 ore lavorative»: 48 ore di calendario da un venerdì sera è domenica, 48 ore lavorative è martedì. È lo stesso difetto già noto per l'assistenza (24h vs 24 ore lavorative), su un'altra pagina.\n\nCausa radice: Due frasi scritte a mano nella stessa pagina senza una costante condivisa per i tempi di risposta (come rispostaTempiDiConsegna() in lib/promesse-pubbliche.ts).\n\nProva (grep, eseguita e rossa): grep -n \"48\" /home/user/mycity/app/sell/page.tsx",
+   "impatto": "Un negoziante che manda la richiesta venerdì e non sente nessuno lunedì pensa che MyCity non risponda: il primo contatto con un negozio nuovo parte con un dubbio.",
+   "fix_proposto": "Una costante TEMPO_RISPOSTA_NEGOZI = '48 ore lavorative' in lib/promesse-pubbliche.ts usata sia nel toast sia nel testo (🟢)."
+  }
+ ]
+}

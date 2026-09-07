@@ -1,0 +1,20 @@
+{
+ "squadra": 126,
+ "ondata": 27,
+ "pacchetto": "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql",
+ "territorio_principale": "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql",
+ "file_citati": [
+  "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql"
+ ],
+ "difetti": [
+  {
+   "chiave": "rls-database|security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "titolo": "security_barrier su sette viste della vetrina: scelta giusta per la sicurezza — effetto sulla velocita non misurato",
+   "dimensione": "rls-database",
+   "file": "migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql:74",
+   "descrizione": "La 152 mette `security_barrier = true` su sette viste, fra cui `seller_public_profiles`, `sponsored_active_public` e `ordini_disponibili_rider`, cioe' quelle che stanno sotto l'elenco negozi, gli annunci in home e la bacheca dei fattorini. Il file dichiara onestamente 'la fuga di righe che security_barrier previene non sono riuscito a riprodurla'; non dichiara pero' il prezzo: una vista barriera impedisce al pianificatore di anticipare i filtri di chi interroga, e su tabelle grandi puo' trasformare una ricerca mirata in una scansione. — Non e' un difetto di sicurezza: e' un rischio di lentezza sulle pagine che portano soldi, preso senza misura. Con il catalogo di oggi (poche righe) non si vede; su un catalogo vero puo' vedersi eccome, e nessuno avra' in mano il numero di partenza per accorgersene.",
+   "impatto": "Non e' un difetto di sicurezza: e' un rischio di lentezza sulle pagine che portano soldi, preso senza misura. Con il catalogo di oggi (poche righe) non si vede; su un catalogo vero puo' vedersi eccome, e nessuno avra' in mano il numero di partenza per accorgersene.",
+   "fix_proposto": "Sul database ricostruito con un catalogo di prova capiente: `EXPLAIN (ANALYZE) SELECT * FROM public.seller_public_profiles WHERE id = '...'` prima e dopo `ALTER VIEW ... RESET (security_barrier)`; diventa rosso se il piano passa da Index Scan a Seq Scan."
+  }
+ ]
+}
