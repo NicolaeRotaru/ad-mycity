@@ -27,8 +27,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 > riprodotta in locale. Ho scritto il controllo che lo impedisce, il test che lo tiene chiuso, e la
 > procedura vera provata per intero — richiesta di unione 252 sul sito.
 >
-> **Cosa devi fare.** Due carte. La #199 allinea il database, ed è la più urgente. La #200 mette i
-> quattro segreti su GitHub: due li ho già trovati io.
+> **Cosa devi fare.** Due carte che c'erano già. La #191 allinea il database, ed è la più urgente:
+> l'ho corretta, perché diceva una strada che non funziona. La #161 mette i segreti su GitHub: due
+> li ho già trovati io e glieli ho scritti dentro.
 >
 > **Cosa non ho verificato.** Che il sito sia raggiungibile da un browser anonimo: il proxy di
 > questa sessione blocca quel dominio, quindi l'ho letto dallo strumento Vercel, che è autenticato.

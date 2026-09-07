@@ -5139,3 +5139,28 @@ trovati io). Restano aperte anche #194, #195, #196, #197, #198.
 radiografia, che ha rigenerato il registro del sito e gli ha fatto perdere il confronto col referto
 precedente. Me ne sono accorto subito e l'ho riportato allo stato committato. Una domanda di sola
 lettura non deve scrivere niente.
+
+
+## 2026-09-07 17:25 — 🟡 Correzione della voce precedente: le due carte nuove erano doppioni
+
+La voce delle 17:05 diceva «restano a Nicola le card #199 e #200». Sbagliato: quelle due carte le
+avevo appena create io, e ripetevano due carte che erano già in coda.
+
+- La #199 (allineare il database) ripeteva la **#191**, del 3 settembre.
+- La #200 (i quattro segreti) ripeteva la **#161**, del 22 agosto.
+
+L'ha trovato il guardiano della leggibilità, non io: il cancello ha detto che il mio lavoro aveva
+aggiunto tre punti difficili al file che legge Nicola, e i punti erano frasi che ripetevano parola
+per parola quelle delle carte vecchie. La #161 racconta di aver già subito lo stesso errore il 28
+agosto — «avevo cominciato a scriverne una nuova: era un doppione, l'ho tolta» — e io l'ho rifatto
+identico un mese dopo.
+
+**Cosa ho fatto.** Tolte le due carte nuove. Aggiornate quelle vere: nella #191 la frase «il comando
+del rilascio applica le migrazioni da solo: è idempotente e già provato in CI», che oggi so essere
+falsa contro la produzione, e nella #161 i due identificatori di Vercel più l'avviso sull'ordine dei
+passi. Le carte tengono il loro numero e la loro storia, che è il motivo per cui i numeri sono fissi.
+
+**La lezione, e perché non basta scriverla.** Prima di accodare una carta si cerca in coda se il
+mandato esiste già. Non l'ho fatto, e il costo è stato di tre commit di correzione. Il freno che
+l'ha preso esiste già ed è il cancello di leggibilità: le ripetizioni fra carte le vede lui. Resta
+scoperto il caso di un doppione scritto con parole diverse — quello oggi non lo prende nessuno.

@@ -31,59 +31,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-<!-- segreti-github-rilascio -->
-
-### 🔴 #200 — Metti i quattro segreti su GitHub, così il rilascio smette di scavalcare i controlli · ⏳ accodata 2026-09-07 17:05
-
-> ⚠️ **Questa viene per seconda: prima la card #199, qui sotto.** Il motivo è in fondo.
-
-**In parole semplici.** Oggi ogni volta che qualcosa entra nel ramo principale, il sito va online da solo senza aspettare che i controlli automatici siano finiti. Il guardiano che dovrebbe fermarlo esiste, ma è spento: gli mancano quattro chiavi.
-
-**Cosa cambia:** un difetto che i controlli avrebbero preso — un test rosso, un errore di tipo — arriva ai clienti. Sul pagamento sono minuti di sito rotto scoperti da chi compra, non da noi.
-
-**Due dei quattro te li ho già trovati io** (sono identificatori, non password):
-
-- `VERCEL_ORG_ID` = `team_O5b1EUNnEQWvcXSNlos567lo`
-- `VERCEL_PROJECT_ID` = `prj_XvKD8R89QzA7qVyOhltfS85SH4k9`
-
-**Gli altri due devi generarli tu, perché sono password e io non le devo vedere:**
-
-- `VERCEL_TOKEN` — su Vercel, Account Settings poi Tokens
-- `SUPABASE_DB_URL` — la stringa di connessione del database, in Supabase sotto Project Settings poi Database
-
-Si mettono nel repo del sito, in Settings poi Secrets and variables poi Actions.
-
-**Cosa devi fare tu.** Prima la card 199, poi questa. In quest'ordine, e il motivo è pratico: appena i segreti ci sono, il rilascio prova ad applicare le migrazioni, e se il database non è ancora allineato quel passo si ferma.
-
-**Cosa non ho verificato.** Che i due identificatori qui sopra siano quelli giusti per il rilascio: li ho letti dal progetto Vercel, ma non ho provato un rilascio con quelle chiavi in mano. E non ho visto il pannello dei segreti su GitHub: che siano davvero assenti lo deduco dai tre rilasci che si sono fermati dicendo che mancano.
-
-**Se va bene:** faccio partire un rilascio di prova su una modifica innocua. Se passa, l'ultimo passo è togliere la pubblicazione automatica dal ramo principale — una riga in `vercel.json` — e il terzo bloccante è chiuso. Quella riga non l'ho toccata apposta: girarla adesso vorrebbe dire che il sito non si aggiorna più, perché nessuna delle due strade funzionerebbe.
-
----
-
-
-<!-- allinea-database-produzione -->
-
-### 🔴 #199 — Rimetti nel database del sito i pezzi che il sito già usa · ⏳ accodata 2026-09-07 17:05
-
-**In parole semplici.** Il sito pubblicato chiede al database tabelle e colonne che nel database vero non ci sono. Non è un'ipotesi: le ho cercate una per una oggi, in sola lettura, e mancano tutte. Il database si è fermato al 28 agosto, il codice è andato avanti fino al 2 settembre.
-
-**Un esempio concreto.** La pagina dove il negoziante vede cosa ha venduto chiede la colonna «nome del prodotto» sulla riga d'ordine. Quella colonna non esiste. Quindi la pagina va in errore — mentre sul computer di chi sviluppa funziona benissimo.
-
-**Cosa cambia:** oggi restano rotti i conti del venditore, la colonna «Venduti», il tetto di spesa dell'intelligenza artificiale, le email «ordine pronto» e «ordine consegnato», e il carrello che dovrebbe risultare recuperato. Da quando il sito è tornato raggiungibile, queste cose non le incontra più solo una prova: le incontra un cliente.
-
-**Attenzione, questa è la parte che conta.** La riparazione scritta nella scheda del difetto **non funziona**: lanciata contro la produzione muore sul primo file dopo due secondi, senza applicare niente. L'ho riprodotta in locale su una copia fedele. Il motivo è che il database è nato prima del registro delle migrazioni, quindi lo script prova a ricreare tabelle che ci sono già.
-
-**Cosa ho fatto io.** Ho scritto il controllo che impedisce quello schianto, il test che lo tiene chiuso, e la procedura vera. L'ho provata per intero su una copia locale: funziona, e al secondo giro non fa più niente. Sta nella richiesta di unione 252 del sito.
-
-**Cosa devi fare tu.** Unire la 252, poi seguire i tre passi di `docs/migrazioni-baseline-produzione.md`: registrare tredici migrazioni vecchie, applicarne centotrentasei, verificare. Serve la stringa di connessione del database di produzione, che ce l'hai solo tu.
-
-**Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, mentre la produzione è la 17: una versione di scarto. E la copia locale imita la forma della produzione, non i suoi dati: nessun ordine vero è mai passato di lì. Il database vero l'ho solo letto, mai toccato.
-
-**Se va bene:** le pagine rotte tornano a funzionare, e il controllo notturno della deriva diventa capace di accorgersi da solo della prossima.
-
----
-
 ### 🟡 #198 — Il pulsante più importante della home non si vede quando lo raggiungi col tasto Tab · ⏳ accodata 2026-09-07 09:40
 
 **In parole semplici.** Chi non usa il mouse gira per il sito col tasto Tab. A ogni salto il browser disegna un anello intorno alla cosa selezionata, così sai dove sei. Sul pulsante principale della home quell'anello c'è, ma è arancione su fondo arancione scuro: non si vede.
@@ -200,9 +147,28 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 >
 > Oggi ne sono arrivate altre quattro dal lotto di riparazione. Aspettano anche loro la tua firma. Una delle quattro è quella del reso della card #190.
 
-**Cosa devi fare tu.** Configura i quattro segreti su GitHub (li elenca la card #161), poi il comando del rilascio applica le migrazioni da solo: è idempotente e già provato in CI. Dopo, il controllo notturno diventa rosso da solo alla prossima deriva.
+**Cosa devi fare tu.** Leggi l'aggiornamento del 7 settembre qui sotto: la strada scritta sopra non funziona, e adesso ce n'è una provata.
 
 **Se va bene:** dimmelo e ricontrollo oggetto per oggetto che in produzione ci siano tutti.
+
+> 🛠️ **Aggiornamento AD 2026-09-07 17:20 — quella riparazione NON funziona, e adesso c'è quella che funziona.**
+>
+> **Cosa ho trovato.** Sopra c'era scritto che il comando del rilascio «applica le migrazioni da solo: è idempotente e già provato in CI». È falso contro la produzione. L'ho lanciato su una copia locale fedele: muore sul primo file dopo due secondi, senza applicare niente.
+>
+> ```
+> ▶ applico 001_create_tables.sql
+> psql: ERROR:  relation "profiles" already exists      (uscita 3, zero applicate)
+> ```
+>
+> **Perché.** Il database di produzione è nato prima del registro delle migrazioni. La regola con cui il comando decide di saltare un file cerca il numero `001` o il nome `create_tables`: in produzione non trova né l'uno né l'altro, quindi prova a rieseguire la migrazione che crea le tabelle da zero. Sul database di prova il difetto non si vedeva, perché quello si costruisce da capo registrando ogni file col suo numero.
+>
+> **Due cose misurate oggi.** Tredici migrazioni su 149 non si possono rieseguire: l'ho misurato ricostruendo un database con tutte applicate e rilanciando ogni file. E la migrazione 127 in produzione è applicata **a metà** — la funzione c'è, la vista no — mentre la 152 fa un `REVOKE` proprio su quella vista: si sarebbe fermata lì.
+>
+> **Cosa ho fatto.** Richiesta di unione 252 sul sito: il controllo che fa fermare il comando con un rifiuto pulito invece di esplodere a metà, il test che lo tiene chiuso, e `docs/migrazioni-baseline-produzione.md` con la procedura provata per intero su una copia locale — registrare tredici migrazioni, applicarne centotrentasei, verificare. Al secondo giro non fa più niente.
+>
+> **Cosa devi fare tu, adesso.** Unire la 252, poi seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
+>
+> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, mentre la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati: nessun ordine vero è mai passato di lì. Il database vero l'ho solo letto.
 
 ---
 
@@ -919,6 +885,19 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
+
+> 🔑 **Aggiornamento AD 2026-09-07 17:20 — due dei tre te li ho trovati io, così non li cerchi.**
+>
+> Li ho letti oggi dal progetto Vercel. Sono identificatori, non password, quindi posso scriverteli qui:
+>
+> · `VERCEL_ORG_ID` = `team_O5b1EUNnEQWvcXSNlos567lo`
+> · `VERCEL_PROJECT_ID` = `prj_XvKD8R89QzA7qVyOhltfS85SH4k9`
+>
+> Il terzo, `VERCEL_TOKEN`, devi generarlo tu: è una password e non devo vederla.
+>
+> **Un avviso sull'ordine.** Il passo 2 qui sopra — girare `"main": true` in `"main": false` — va fatto **dopo** aver allineato il database della card #191. Se lo giri prima, il sito smette di aggiornarsi: la strada vecchia si spegne e quella nuova si ferma sulle migrazioni mancanti.
+>
+> **Cosa non ho verificato.** Che quei due identificatori bastino per un rilascio: li ho letti, non li ho provati in un rilascio vero. E il pannello dei segreti su GitHub non l'ho visto: che manchino lo deduco dai tre rilasci fermatisi dicendo che mancano.
 
 > 🩻 **Aggiornamento del 28/8 00:35.** La radiografia del sito di stasera ha ritrovato questo stesso
 > guasto, da sola, e l'ha messo fra i quattro più gravi. Sono passati cinque giorni e la card è
