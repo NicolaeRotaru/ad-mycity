@@ -5234,3 +5234,31 @@ costruttore non fosse quello della CI?», e non me la sono fatta.
 
 **Cosa resta a Nicola.** La carta #177, già in coda dal 26 agosto, che adesso vale per due
 repository: è la strada che chiude il bloccante senza nessun segreto. E la #191 per il database.
+
+
+## 2026-09-07 21:45 — 🔎 La coda delle azioni non entra più nel campo visivo di chi la legge
+
+Trovato mentre riparavo altro: due guardiani della macchina erano rossi, e uno dice una cosa che
+vale la pena scrivere a parte.
+
+**Il fatto.** `AZIONI-IN-ATTESA.md` su `main` sta a 202.157 caratteri, contro un campo visivo di
+200.000. È sopra il tetto di 2.157 caratteri, e non da adesso: il guardiano è rosso su `main` senza
+che io ci abbia messo mano. Vuol dire che chi legge la coda per intero — il controllo, e
+verosimilmente anche la Cabina — la vede tagliata, e le carte che restano fuori sono quelle in
+fondo, cioè le più vecchie.
+
+**Perché la pulizia automatica non lo risolve.** L'ho lanciata a vuoto per vedere: 99 carte aperte,
+0 chiuse da spostare, 33 già in archivio. Non c'è niente da archiviare, perché sono tutte carte che
+aspettano davvero una firma. Il file è grosso perché la coda è lunga, non perché è sporca.
+
+**Cosa ho fatto io.** Solo la mia parte: ho compresso i miei stessi aggiornamenti di oggi sulle
+carte #161, #191 e #177, che erano prolissi — da 5.537 a 2.876 caratteri, tenendo i fatti e
+rimandando al registro per il dettaglio. Adesso i due guardiani sono verdi.
+
+**Cosa NON ho fatto, e perché.** Non ho tolto nessuna carta dalla coda. Quali domande valgono ancora
+la pena di essere fatte a Nicola è una decisione sua, non mia: sono 99, e alcune aspettano da
+settimane. La strada giusta è che lui ne chiuda un blocco, oppure che si alzi il campo visivo di chi
+legge — ma quella è una modifica alla macchina, quindi porta la sua firma.
+
+**Perché non ho accodato una carta per dirglielo.** Perché sarebbe stata la centesima, e avrebbe
+peggiorato esattamente il problema che descrive. Gliel'ho detto in chat.
