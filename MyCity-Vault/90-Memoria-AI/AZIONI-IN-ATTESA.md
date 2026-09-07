@@ -513,17 +513,21 @@ avrebbero potuto.
 E non sono andato a vedere una per una se quelle dieci fossero giuste o sbagliate. I registri di
 quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più risposta.
 
-> 🔗 **Aggiornamento AD 2026-09-07 21:30 — questa scelta adesso serve anche al sito.**
+> 🔒 **Aggiornamento AD 2026-09-07 22:35 — vale anche per il sito, e ho fatto la mia parte.**
 >
-> **Cosa è successo.** Sul marketplace resta aperto un difetto grosso: del codice con una prova rossa può essere pubblicato. Ho provato a chiuderlo scrivendo codice. Non ha retto, ed è scritto nel registro del sito.
+> **Perché conta doppio.** Sul marketplace del codice con una prova rossa può ancora andare online. Quello che scegli qui lo chiude alla radice, senza segreti: vale per due repository, non uno.
 >
-> **Cosa vuol dire per questa carta.** La medicina che stai decidendo qui chiude quel difetto alla radice. Se il codice con una prova rossa non entra nel codice buono, non può nemmeno essere pubblicato. E non serve nessun segreto.
+> **Una cosa che non sapevamo.** Sopra c'è scritto che non la potevo leggere. Ho riprovato da un'altra porta, e si legge. Sul sito una regola esiste già, dal 26 maggio, e non ha mai protetto niente: è spenta, non punta a nessun ramo, e pretende un controllo di nome «Main» che non esiste. **Attento:** accesa così, il pulsante «unisci» resta bloccato per sempre, ad aspettare un controllo che non arriva.
 >
-> **Cosa cambia nella domanda.** Solo una cosa: vale per due repository, non uno. Quello della macchina è quello che ho contato sopra. Quello del sito è dove sta il difetto.
+> **La A l'ho fatta.** Contavo solo la macchina; del sito non contava nessuno. Misurato oggi: sette lavori su 110 entrati con la prova rossa, il 6,4%, l'ultimo il 20 luglio. Quel sette adesso è un tetto.
 >
-> **Cosa devi fare tu.** Sempre la stessa cosa: scrivimi A, B o C. Sul sito i controlli da rendere obbligatori sono `Lint + Typecheck + Build`, `Unit tests`, `Controlli database (Postgres locale, senza chiavi)`.
+> **La B e la C sono sei clic.** Un comando ti scrive i passi esatti sui due repo, coi nomi veri dei controlli. Cambia un punto solo: nella B ti aggiungi a chi può scavalcare, nella C lasci vuoto.
 >
-> **Cosa non ho verificato.** Che quei nomi siano scritti identici nella schermata di GitHub: li ho letti dai lavori della CI, non da quella pagina.
+> **Cosa serve da te.** La lettera, e girare tu l'interruttore: l'ho riprovato oggi, GitHub ha detto no su tutti e due. Consiglio la B.
+>
+> **Di quanto fidarti.** Che tu riesca davvero a scavalcare si vede solo al primo lavoro dopo averla accesa.
+>
+> `node cervello/serratura-ramo.mjs --istruzioni`
 
 ---
 

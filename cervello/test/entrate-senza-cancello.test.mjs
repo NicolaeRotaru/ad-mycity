@@ -114,3 +114,38 @@ test("la chiave c'è, ma dentro la configurazione che viaggia sullo standard inp
   assert.match(c, /header = "Authorization: Bearer chiave-finta-123"/, "se non la passa più, il comando non funziona");
   assert.match(c, /Accept: application\/vnd\.github\+json/);
 });
+
+// ── 7/9/2026 — LE CASE SONO DUE ────────────────────────────────────────────
+//
+// Il difetto vero non era «manca un'opzione»: era che questo comando misurava la macchina e taceva
+// sul sito, e quel silenzio si leggeva come «il sito sta bene». Misurato il 7/9: sette lavori su 110
+// sono entrati nel main del sito con la CI rossa, e nessuno li aveva mai contati.
+//
+// Il modo in cui la cura può marcire è preciso: qualcuno riscrive il repo dentro il codice, e il
+// conto del sito continua a uscire — plausibile, e preso dalla casa sbagliata. Queste prove girano
+// offline apposta: devono poter fallire senza rete e senza chiave.
+
+test("ogni casa porta al SUO repo e al SUO cancello, non a quello dell'altra", async () => {
+  const { piano } = await import("../entrate-senza-cancello.mjs");
+  const macchina = piano("macchina");
+  const sito = piano("sito");
+  assert.equal(macchina.repo, "NicolaeRotaru/ad-mycity");
+  assert.equal(sito.repo, "NicolaeRotaru/mycity");
+  assert.notEqual(sito.repo, macchina.repo, "se le due case puntano allo stesso repo, il conto del sito è quello della macchina");
+  assert.match(macchina.corse, /cancello-lotto\.yml/);
+  assert.match(sito.corse, /ci\.yml/, "sul sito il cancello è la CI, non il cancello del lotto");
+});
+
+test("una casa che non esiste si ferma, invece di misurare quella di riserva", async () => {
+  const { piano, casaChiesta } = await import("../entrate-senza-cancello.mjs");
+  assert.throws(() => piano("negozio"), /sconosciuta/);
+  assert.throws(() => casaChiesta(["--casa", "negozio"]), /sconosciuta/,
+    "un nome scritto male non deve tornare alla macchina di nascosto: darebbe un numero vero della casa sbagliata");
+});
+
+test("senza --casa si conta la macchina: chi lo chiamava prima non cambia comportamento", async () => {
+  const { casaChiesta } = await import("../entrate-senza-cancello.mjs");
+  assert.equal(casaChiesta([]), "macchina");
+  assert.equal(casaChiesta(["--json", "--tetto", "10"]), "macchina");
+  assert.equal(casaChiesta(["--casa", "sito"]), "sito");
+});

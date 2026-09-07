@@ -120,6 +120,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sensore-cassa.mjs:*)",
       "Bash(node cervello/sensori-spenti-check.mjs:*)",
       "Bash(node cervello/sentinella-budget.mjs:*)",
+      "Bash(node cervello/serratura-ramo.mjs:*)",
       "Bash(node cervello/si-capisce.mjs:*)",
       "Bash(node cervello/sincronizza-proposte.mjs:*)",
       "Bash(node cervello/sistema-immunitario.mjs:*)",

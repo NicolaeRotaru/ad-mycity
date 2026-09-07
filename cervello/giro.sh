@@ -261,6 +261,8 @@ PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sve
 SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
 SERRATURA_VINCOLO=""     # AR-825: lavori entrati su main senza un verde del cancello
+SERRATURA_SITO_VINCOLO="" # 7/9/2026: lo stesso conto sul repo del sito, che prima non guardava nessuno
+SERRATURA_CIECA_VINCOLO="" # card #177: non riesco più a leggere com'è messa la serratura del ramo
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
 CABLATI_VINCOLO=""       # 21/8: un percorso di UNA macchina sola rientrato nel codice (correzione Nicola 4/7)
@@ -780,6 +782,30 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   if ! guardiano entrate-senza-cancello.mjs --tetto 10; then
     SERRATURA_VINCOLO="$(vincolo_da_rc "entrate-senza-cancello" "$GUARDIANO_RC" "⛔ IL NUMERO È CRESCIUTO (entrate-senza-cancello.mjs rc=$GUARDIANO_RC, AR-825): un altro lavoro è entrato su main senza un verde del cancello. Erano dieci il 26/8 e quel dieci è il tetto. Guarda QUALE e perché prima di qualunque altra cosa: node cervello/entrate-senza-cancello.mjs. Se lo scavalco era giusto, dillo abbassando o alzando il tetto con un commit che si vede — non lasciandolo salire in silenzio.")"
     echo "[$(ts)] ⚠️  AR-825: entrate-senza-cancello rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # 7/9/2026 — LO STESSO CONTO SUL SITO, che per dodici giorni non ha contato nessuno.
+  # Il guardiano sopra guardava solo il repo della macchina. Sul marketplace la stessa malattia c'è
+  # eccome, e il silenzio si leggeva come un verde: misurato oggi, SETTE lavori su 110 sono entrati
+  # nel main del sito con la CI rossa sulla testa (6,4%, finestra dall'11/6). L'ultimo è del 20/7 —
+  # cioè da sette settimane non ricapita, e il tetto serve proprio a tenerla così.
+  echo "[$(ts)] 🚪 Lo stesso conto sul SITO (marketplace)..."
+  if ! guardiano entrate-senza-cancello.mjs --casa sito --tetto 7; then
+    SERRATURA_SITO_VINCOLO="$(vincolo_da_rc "entrate-senza-cancello-sito" "$GUARDIANO_RC" "⛔ IL NUMERO È CRESCIUTO SUL SITO (entrate-senza-cancello.mjs --casa sito rc=$GUARDIANO_RC): un altro lavoro è entrato nel main del marketplace con la CI rossa. Erano sette il 7/9 e quel sette è il tetto. Guarda QUALE e perché: node cervello/entrate-senza-cancello.mjs --casa sito. Se lo scavalco era giusto, dillo spostando il tetto con un commit che si vede — non lasciandolo salire in silenzio.")"
+    echo "[$(ts)] ⚠️  entrate-senza-cancello --casa sito rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # 🔒 COM'È MESSA LA SERRATURA, sui due repo — card #177.
+  # I due conti qui sopra dicono QUANTI sono passati. Questo dice PERCHÉ possono passare, ed è la
+  # domanda che la card #177 dichiarava senza risposta («l'impostazione non l'ho potuta leggere»).
+  # Il 7/9 si è scoperto che una porta si legge eccome: sul sito esiste già una regola di ramo, del
+  # 26/5, spenta e puntata su zero rami, che pretende un controllo di nome «Main» che non esiste.
+  # Qui NON si blocca sullo stato — accendere la serratura è la scelta di Nicola, e un allarme che
+  # suona a ogni giro per una cosa che solo lui può fare è un allarme che si impara a scorrere.
+  # Si blocca sul ⚪: se GitHub non si legge più, questo smette di essere una risposta.
+  # Il giorno in cui sceglie, qui va aggiunto `--pretende chiusa` e diventa un freno vero.
+  echo "[$(ts)] 🔒 La serratura del ramo (card #177: c'è, non c'è, o c'è per finta?)..."
+  if ! guardiano serratura-ramo.mjs; then
+    SERRATURA_CIECA_VINCOLO="$(vincolo_da_rc "serratura-ramo" "$GUARDIANO_RC" "⛔ NON SO PIÙ COM'È MESSA LA SERRATURA (serratura-ramo.mjs rc=$GUARDIANO_RC, card #177): GitHub non mi fa più leggere le regole del ramo. ⚪ non è un verde: finché non torna leggibile, non dire a Nicola che i due repo sono come li avevamo lasciati. Dettaglio: node cervello/serratura-ramo.mjs")"
+    echo "[$(ts)] ⚠️  serratura-ramo rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] 🔐 Rotte del Pannello che scrivono da una GET (AR-409)..."
   if ! guardiano rotte-scriventi-check.mjs; then
@@ -1393,6 +1419,18 @@ if [ -n "${SERRATURA_VINCOLO:-}" ]; then
 
 ## Vincolo serratura del cancello (HARD — AR-825: un verdetto che non ferma non è un freno)
 $SERRATURA_VINCOLO"
+fi
+if [ -n "${SERRATURA_SITO_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo serratura del cancello SUL SITO (HARD — la stessa malattia, sull'altra casa)
+$SERRATURA_SITO_VINCOLO"
+fi
+if [ -n "${SERRATURA_CIECA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo serratura illeggibile (HARD — card #177: ⚪ non è un verde)
+$SERRATURA_CIECA_VINCOLO"
 fi
 if [ -n "${TASSO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

@@ -5262,3 +5262,52 @@ legge — ma quella è una modifica alla macchina, quindi porta la sua firma.
 
 **Perché non ho accodato una carta per dirglielo.** Perché sarebbe stata la centesima, e avrebbe
 peggiorato esattamente il problema che descrive. Gliel'ho detto in chat.
+
+## 2026-09-07 22:35 — 🟡 La serratura del ramo: fatta la A, preparate la B e la C, l'interruttore resta a Nicola
+
+**Cosa mi ha chiesto Nicola.** «Fai A, B e C della 177». Le tre strade della carta #177 sono
+alternative fra loro: non si possono fare tutte e tre. L'ho letta per quello che vuole dire — *smetti
+di chiedermi di scegliere, fai tutto quello che puoi* — e ho fatto ogni pezzo che era mio, lasciando
+in piedi la sola cosa che resta sua: girare l'interruttore.
+
+**Una scoperta che cambia la carta.** La #177 dichiarava: «l'impostazione com'è messa adesso non
+l'ho potuta leggere, GitHub non me la fa vedere da qui». Vero solo a metà. Le impostazioni vecchie
+(branch protection) rispondono 403 su tutti e due i repo — riprovato oggi, con la risposta in mano.
+Le regole nuove (rulesets) rispondono 200 e si leggono benissimo. Da quella porta è saltata fuori
+una cosa che non sapeva nessuno: sul repo del sito **esiste già** una regola di ramo chiamata
+«Main», creata il 26/5/2026 e mai più toccata, rotta in tre modi insieme — spenta
+(`enforcement: disabled`), puntata su zero rami (`ref_name.include` vuoto), e con un controllo
+richiesto di nome `Main` che **non esiste** fra i controlli veri del repo. Il terzo è quello che
+morde nel verso sbagliato: accenderla così bloccherebbe ogni unione per sempre, in attesa di un
+controllo che non arriva. Sul repo della macchina di regole non ce n'è nessuna.
+
+**Strada A — fatta.** `entrate-senza-cancello.mjs` contava solo il repo della macchina, col nome del
+cancello scritto dentro il codice. Del sito non contava nessuno, e quel silenzio si leggeva come un
+verde. Adesso le case stanno in una tabella e si sceglie con `--casa sito`. Prima misura del sito:
+**7 lavori su 110 uniti su main con la CI rossa, il 6,4%**, finestra dall'11/6; tutti e sette col
+cancello rosso sulla testa, nessuno mai-visto; l'ultimo è del 20/7. Tetto 7 cablato in `giro.sh`,
+provato: con `--tetto 7` esce 0, con `--tetto 6` esce 1.
+
+**Strade B e C — preparate fino all'ultimo clic.** Nuovo `cervello/serratura-ramo.mjs`: legge le
+regole dei due repo e dice quale dei tre casi c'è — `chiusa`, `aperta`, `finta` — e con
+`--istruzioni` scrive i passi esatti per ognuno, coi nomi dei controlli **letti dalle corse vere**
+(due sorgenti: la testa di main e le teste delle ultime PR unite). La prima stesura leggeva solo
+main e sulla macchina perdeva proprio «prove, guardiani e typecheck», cioè il cancello di cui parla
+tutta la carta: avrebbe fatto pretendere a Nicola il controllo sbagliato. Cablato nel giro senza
+bloccare sullo stato — un allarme che suona ogni giro per una cosa che solo lui può fare è un allarme
+che si impara a scorrere — ma bloccante sul ⚪, cioè se GitHub smette di farsi leggere.
+
+**Cosa NON ho fatto, e perché.** Non ho acceso niente. Due ragioni indipendenti, e la prima basta:
+① le tre strade si escludono a vicenda, quindi «farle tutte» vorrebbe dire sceglierne una al posto
+suo, ed è la firma che la carta tiene in mano a lui; ② non posso comunque — la scrittura delle
+regole l'ho provata e il mio stesso strato di permessi l'ha bloccata, e non l'ho aggirata.
+
+**Il rischio che avrei corso accendendola io.** Se avessi sbagliato anche un solo nome di controllo,
+o se la lista di chi può scavalcare non fosse valsa per lui, il pulsante «unisci» si sarebbe
+bloccato su tutti e due i repo — proprio mentre due richieste di unione aspettano di essere unite e
+il database di produzione (carta #191) aspetta di essere allineato. Un errore da lì si ripara solo
+rientrando nelle impostazioni, cioè solo lui.
+
+**La lezione, in una riga.** Un guardiano puntato su una casa sola non dice «l'altra sta bene»: non
+dice niente, e il niente si legge come un verde. Vale per ogni strumento di questa macchina che
+guarda il repo della macchina e non quello del sito.

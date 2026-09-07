@@ -1,10 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 21:30
+aggiornato: 2026-09-07 22:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🔒 **2026-09-07 22:35 — Sulla carta #177 ho fatto tutto quello che era mio. Resta un interruttore, ed è tuo.**
+>
+> **In parole semplici.** La carta ti chiede di scegliere fra tre strade: A, B o C. Non si possono
+> fare tutte e tre, perché sono alternative. Ho fatto ogni pezzo che potevo fare io, su tutte e tre.
+>
+> **La cosa nuova che ho scoperto.** Nella carta c'era scritto che com'è messa adesso l'impostazione
+> non la potevo leggere. Ho riprovato da un'altra porta, e si legge. Sul repo del sito una regola
+> esiste già, dal 26 maggio, e non ha mai protetto niente: è spenta, non punta a nessun ramo, e
+> pretende un controllo di nome «Main» che non esiste. Se qualcuno la accendesse così com'è, ogni
+> unione resterebbe bloccata per sempre, in attesa di un controllo che non arriva mai.
+>
+> **Cosa ho fatto.** La strada A per intero: il conto degli scavalchi guardava solo la macchina, e
+> del sito non contava nessuno. Adesso conta tutti e due. Prima misura del sito: sette lavori su 110
+> sono entrati con la prova rossa, il 6,4%, l'ultimo il 20 luglio. Quel sette è un tetto: se sale, il
+> giro si ferma. Per la B e la C ho preparato i passi esatti sui due repo, coi nomi veri dei
+> controlli da spuntare.
+>
+> **Cosa devi fare.** Scrivermi la lettera, e girare tu l'interruttore. Da qui non posso: l'ho
+> riprovato oggi e GitHub mi ha risposto no su tutti e due i repo. Consiglio la B. Restano aperti i
+> 150 problemi del sito, 2 bloccanti, e la carta **#191** per il database.
+>
+> **Cosa non ho verificato.** Che tu riesca davvero a scavalcare quando serve: si vede solo al primo
+> lavoro dopo che l'hai accesa.
 
 > ↩️ **2026-09-07 21:30 — Ho dichiarato chiuso il terzo bloccante troppo presto. È ancora aperto.**
 >
