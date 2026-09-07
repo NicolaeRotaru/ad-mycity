@@ -121,52 +121,17 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 
 ---
 
-### 🔴 #192 — Rimetti il dominio del marketplace su Vercel: oggi porta a un server spento · ⏳ accodata 2026-09-03 09:35
+### 🟡 #192 — Il dominio funziona: resta da mettere d'accordo il nome che il sito dichiara · ⏳ accodata 2026-09-03 09:35 · ✅ il grosso è fatto il 2026-09-06 17:09
 
-**In parole semplici.** Il nome che sta sui QR e sui post, mycity-marketplace.com, punta ancora all'indirizzo del vecchio server Render, che abbiamo spento ad agosto. Il sito vero gira su Vercel, ma lì il dominio non è mai stato collegato. Chi lo digita trova un errore.
+**In parole semplici.** Il nome del sito ha portato a un server spento per trentotto giorni. Il 6 settembre hai cambiato le due righe nel pannello Netsons, e adesso porta al marketplace. Controllato da qui: il nome nudo risponde `216.150.1.1`, il `www` porta all'indirizzo di Vercel, la pagina che arriva è il marketplace vero, e la riga della posta è intatta.
 
-**Cosa cambia:** il marketplace torna ad avere un indirizzo che funziona. Il sensore che lo controlla legge «errore» da 219 giri di fila: l'ultima risposta buona è del 30 luglio, cioè 35 giorni fa. Finché resta così, nessuna campagna e nessun volantino porta un cliente da nessuna parte.
+**Cosa resta.** Il sito si presenta come `mycity-marketplace.com`, senza il `www`, mentre Vercel serve il `www`. Non si rompe niente. Però ogni anteprima condivisa e ogni ritorno dal pagamento fa un salto in più, e Google si trova un indirizzo dichiarato che rimbalza.
 
-> 🔍 **Ricontrollato dall'AD alle 16:45 di oggi, con le chiavi di Vercel.** Quello che c'è scritto qui sopra è ancora vero, e in più adesso so anche il resto.
->
-> Sul progetto Vercel del sito i domini sono solo tre indirizzi tecnici. Nessun dominio personalizzato. La protezione di Vercel è accesa su tutti gli indirizzi tecnici: anche chi conoscesse quello vero trova la schermata di accesso di Vercel.
->
-> Quindi non c'è nessuna porta di servizio da dare a un cliente mentre aspettiamo. Finché resta così, le riparazioni fatte oggi sul sito non le vede nessuno.
+**Cosa devi fare tu.** Una delle due, e la prima non tocca il codice. Su Vercel metti il nome nudo come principale e fai rimandare il `www` a lui. Oppure metti `NEXT_PUBLIC_APP_URL = https://www.mycity-marketplace.com` fra le variabili di produzione, e poi ripubblica.
 
-> 🔍 **Ricontrollato ancora il 2026-09-04 10:20, perché me l'hai chiesto a voce: «come faccio a spostare il dominio su Vercel?».** Due cose cambiano rispetto a quanto è scritto qui sopra.
->
-> **Primo, una buona notizia: la protezione non ti darà fastidio.** È accesa in modalità «tutto tranne i domini personalizzati». Vuol dire che copre gli indirizzi tecnici, ma salta apposta il nome vero: appena lo colleghi, il sito è pubblico. Il passo «togli la protezione» qui sopra non serve — resta solo come rete, se per caso la vedessi.
->
-> **Secondo, non ti serve nessun trasferimento.** Il nome resta comprato dov'è: si cambiano due righe soltanto, quella del nome nudo e quella del `www`. Dieci minuti di lavoro tuo, e si torna indietro rimettendo il valore di prima.
->
-> Confermato oggi dalla risoluzione vera: il nome nudo porta a `216.24.57.1`, che è Render, e il `www` pure. Sul progetto Vercel non c'è nessun nome personalizzato.
+**Cosa non ho verificato.** Il lucchetto e la catena del certificato: da qui la rete non lascia bussare al sito per la via normale. E nessuno ha ancora fatto un ordine vero dal nome nuovo.
 
-> 🔍 **Il pannello è Netsons, confermato il 2026-09-06 06:00.** Me l'hai chiesto tu: «non ricordo dove ho comprato il dominio». L'ho chiesto ai server dei nomi, in diretta. Le quattro macchine che rispondono per il nome sono `dns1`, `dns2`, `dns3` e `dns4` di `netsons.net`, e il responsabile della zona è `admin@netsons.com`. Quindi il pannello dove si cambiano i due record è quello di Netsons.
->
-> Se non ricordi l'accesso: cerca «netsons» nella posta (la conferma d'acquisto e i rinnovi arrivano da lì, e quella mail è l'account), poi «Password dimenticata» nell'Area Clienti. La procedura ha un Passo 0 con tutte e tre le strade.
-
-> 🔍 **I due nomi sono già collegati su Vercel, visto il 2026-09-06 08:20 nella schermata che mi hai mandato.** Cambia cosa resta da fare: il Passo 2 è fatto, e a te resta il Passo 3.
->
-> Vercel segna tutti e due i nomi in rosso, con scritto «Invalid Configuration». Vuol dire una cosa sola, e non è un guasto: le righe nel pannello Netsons puntano ancora al server vecchio. Appena le cambi, Vercel diventa verde da solo.
->
-> **Le due righe, coi valori veri.** La riga `@` di tipo A porta oggi a `216.24.57.1` e deve portare a `216.150.1.1`. La riga `www` di tipo CNAME porta oggi a `www.test-my-city-con-claude.onrender.com`. Al suo posto va `b8de7920354765c2.vercel-dns-016.com.`, che ho controllato da qui: esiste e porta a Vercel. Copialo però col pulsante di copia della schermata, invece di ribatterlo a mano.
->
-> **Il principale è il `www`.** Nella tua schermata il `www` è segnato «Production», e il nome nudo fa da rimando verso di lui. Va bene così, e cambia solo il Passo 5: al sito va detto `https://www.mycity-marketplace.com`.
->
-> **La posta è al sicuro se cambi solo quelle due righe.** Ho guardato: c'è una riga `MX` verso `mail.mycity-marketplace.com`, che è una macchina con un indirizzo tutto suo, e c'è una riga `_dmarc`. Nessuna delle due si tocca.
-
-**Cosa non ho verificato.** Da chi il nome è stato *comprato*. I server dei nomi dicono chi gestisce le righe, e quasi sempre è anche chi ha venduto il nome — ma non è la stessa cosa. La risposta certa sta in una ricerca WHOIS, e da qui la porta che serve è chiusa: puoi farla tu in un minuto su `lookup.icann.org`. Non ho potuto bussare al sito per lo stesso motivo, e non so quali variabili siano configurate oggi su Vercel — quella casella si guarda da dentro.
-
-**Cosa devi fare tu.** La procedura distesa, con i sei passi in ordine e le trappole, sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`. In breve:
-
-- **Passo 1 — fotografa.** Copiati i record che ci sono adesso nel pannello del nome. Due tipi di riga **non si toccano**: le `MX` e le `TXT` che parlano di posta. Se spariscono, il sito smette di mandare le conferme d'ordine. E non se ne accorge nessuno finché un cliente non ti scrive.
-- **Passo 2 — su Vercel.** ✅ Già fatto il 6 settembre: tutti e due i nomi sono nel progetto `mycity`, col `www` come principale.
-- **Passo 3 — nel pannello Netsons.** *Modifica* le due righe che ci sono già, non aggiungerne di nuove accanto. La riga `@` di tipo A va portata a `216.150.1.1`. La riga `www` di tipo CNAME va portata a `b8de7920354765c2.vercel-dns-016.com.`
-- **Passo 4 — aspetta il verde.** Il certificato lo emette Vercel da solo, di solito in pochi minuti.
-- **Passo 5 — la variabile.** Metti `NEXT_PUBLIC_APP_URL = https://www.mycity-marketplace.com` fra quelle di produzione, e ripubblica. Senza, il sito funziona ma dice a Google e a Stripe un indirizzo sbagliato. Ad agosto lì c'era scritto `localhost`.
-- **Passo 6 — guarda.** In finestra anonima: deve aprirsi il marketplace, il nome nudo deve saltare sul `www`, e la pagina di salute deve dirti come sta il sito.
-
-**Se va bene:** dimmelo, e il giro seguente ricontrolla il sensore e ti dice se il verde è tornato. Restano poi tre cose da rimettere a mano, perché vivono in pannelli esterni. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google.
+**Se va bene:** restano tre cose fuori dal sito, da fare una volta sola. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google. La procedura distesa sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`.
 
 ---
 

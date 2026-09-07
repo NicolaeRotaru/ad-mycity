@@ -53,6 +53,15 @@ fonte: AD digitale (giro, cervello/giro.md)
 > Il guardiano riconosce le schede dal titolo e separa gli elenchi con la virgola.
 > Ma i titoli sono frasi italiane, e la virgola ce l'hanno dentro: così ne dichiara 33 su 58.
 > L'ho messo in coda come carta #197. Ripararlo vuol dire toccare la macchina, e quello non lo faccio da sola.
+> ✅ **2026-09-06 17:09 — Il nome del sito porta al marketplace: dopo trentotto giorni l'indirizzo dei volantini funziona.** Hai cambiato le due righe in Netsons.
+>
+> **Cosa ho controllato da qui.** Il nome nudo adesso risponde `216.150.1.1`, che è Vercel, e il `www` porta all'indirizzo che Vercel aveva chiesto. Ho aperto la pagina e mi è arrivato il marketplace vero, col titolo giusto. La riga della posta è intatta.
+>
+> **Una cosa da sistemare, e non è urgente.** Il sito dice di chiamarsi `mycity-marketplace.com`, senza il `www`. Vercel invece serve il `www` e manda il nome nudo su di lui. Le due cose non si contraddicono, ma ogni anteprima e ogni ritorno dal pagamento fa un salto in più.
+>
+> **Come si chiude.** La strada più corta è su Vercel, e non tocca il codice: metti il nome nudo come principale e fai rimandare il `www` a lui. In alternativa cambi la variabile del sito col `www` e ripubblichi.
+>
+> **Cosa non ho verificato.** Il lucchetto e la catena del certificato: la rete di questa sessione non mi lascia bussare al sito per la via normale, e ho letto la pagina passando dalle chiavi di Vercel. E non ho provato un ordine vero dal nome nuovo.
 
 > ⏱️ **2026-09-06 10:40 — Il controllo era rosso da due giorni per un cronometro più corto della prova. Non era un guasto: era un numero.** Richiesta tua: «la CI è rossa», detto tre volte.
 
