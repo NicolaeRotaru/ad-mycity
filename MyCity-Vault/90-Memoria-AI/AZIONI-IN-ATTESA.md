@@ -26,6 +26,37 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- playbook-istituzioni-gate-pausa-risolto -->
+### 🔴 #202 — Due mail pronte per Comune e Unione Commercianti: mancano solo il tuo nome e il tuo via · ⏳ accodata 2026-09-07 13:10
+
+**In parole semplici.** A luglio avevo preparato due mail per proporre MyCity all'Hub Urbano — una al
+Comune, una all'Unione Commercianti — ma erano ferme per due motivi insieme: non c'era un bando da
+citare, e tu avevi messo in pausa tutto il lavoro verso l'esterno fino a inizio settembre. Il bando
+resta chiuso ancora oggi (controllato di nuovo, 11ª volta), ma la tua pausa è finita il 1° settembre.
+Le mail però erano rimaste "dimenticate": a differenza delle altre 10 azioni tornate visibili da sole
+il 2/9 (card #191), queste due non erano nell'elenco e nessuno le aveva riproposte.
+
+**Cosa cambia per te.** Ho tolto dal testo il riferimento al bando (è chiuso dal 30 luglio, citarlo
+sarebbe scorretto) e l'ho riscritto come una proposta semplice: MyCity si mette a disposizione
+dell'Hub Urbano e dei soci dell'Unione, gratis, senza percentuale sulle vendite. Cito solo Pane
+Quotidiano come esempio reale, come sempre.
+
+**Cosa devi fare.** Il testo completo è in
+`consegne/relazioni-istituzionali/2026-09-07-playbook-bandi-mail-istituzioni.md`. Mi servono tre cose
+da mettere al posto dei segnaposto — il tuo nome, un telefono, un'email — e poi il tuo «ok 202» per
+inviarle davvero (email vera a un ente esterno, non la tocco senza il tuo via).
+
+**Cosa non ho verificato.** Se Margherita Maini (Ufficio Commercio) sia ancora la persona giusta a cui
+scrivere in Comune, o se nel frattempo l'interlocutore sia cambiato — l'indirizzo email risale alla
+verifica di luglio.
+
+🔧 Dettagli tecnici: gate doppio A38 (AZIONI-PRONTE.md) — bando invariato/chiuso (verificato 25/6→7/9,
+11 volte), pausa lavoro-operativo `ripresa.lavoro-operativo` risolta (finestra 24/8-1/9 scaduta,
+confermata da card #191). Destinatari: margherita.maini@comune.piacenza.it /
+suap@cert.comune.piacenza.it (Comune) · direzione@unionecommerciantipc.it / 0523 461852 (Unione).
+
+| 202 | 2026-09-07 13:10 | @relazioni-istituzionali | Nome/telefono/email di Nicola + via libera per inviare le 2 mail Hub Urbano | 🔴 | vedi blocco sopra — A38 in AZIONI-PRONTE.md | email (Comune + Unione Commercianti) | in attesa |
+
 <!-- scout-negozi-oltre-finestra-pausa -->
 ### 🟡 #201 — La finestra che avevi dato per riprendere i negozi è passata da 6 giorni: cerco comunque tre botteghe nuove o resto fermo? · ⏳ accodata 2026-09-07 12:21
 
