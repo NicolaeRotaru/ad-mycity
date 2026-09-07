@@ -1,8 +1,35 @@
 ---
 tipo: stato
-aggiornato: 2026-09-06 22:31
-fonte: AD digitale (giro.md)
+aggiornato: 2026-09-07 06:05
+fonte: AD digitale (ritmo)
 ---
+
+> ☀️ **7/9 06:05 — Piano del mattino: 75° giorno di stallo.** Zero novità stanotte.
+>
+> **I numeri, riverificati ora con query diretta su Supabase.** 1 ordine. È del 24/6. Annullato.
+> €19,05. Venditore Pane Quotidiano. **0 pagati.** 9 profili. 9 prodotti. 3 carrelli abbandonati.
+> 2 negozi: Pane Quotidiano è reale, "Panificio Demo" è finto. Tutto identico al passaggio delle
+> 22:31 di ieri sera.
+>
+> **La notte.** Il timer delle 06:00 ha scritto solo tre file di contabilità interna. Sono
+> `costo-ai.json`, `esito-cadenze.json`, `esito-giro.json`. Si è fermato prima di scrivere il Piano
+> vero. Lo sto completando ora io. `DECISIONI.md` è invariato. L'ultima firma di Nicola resta
+> quella del 29/8.
+>
+> **La coda.** `AZIONI-IN-ATTESA.md` è invariata. In cima resta la **#199**, aperta ieri alle 20:30.
+> Il ramo `main` del VPS e quello di GitHub non si parlano più da 6 giorni. 251 commit di qui non
+> sono mai arrivati là. Poi **#198**: il gate CADENZE, ormai cronico. **#197**: il codice del funnel
+> carrelli, senza una richiesta di unione da luglio. **#196**: "Panificio Demo", origine ancora
+> ignota.
+>
+> **Le 3 cose di oggi.**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 28 giorni.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **6/9 22:31 — Nuova chiamata "esegui giro.md per intero".** Sono passati ~11 minuti dal commit
 > di recupero delle 22:20. Applico una regola scritta da questa stessa macchina nel passaggio delle

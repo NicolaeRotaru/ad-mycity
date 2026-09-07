@@ -1812,3 +1812,20 @@ Non ho rilanciato query nuove su Supabase. I dati sono già stati verificati dal
 - Se hai 2 minuti: il permesso che sblocca gli strumenti di controllo interni. Sono tre schede sullo stesso buco: `#194`, `#195`, `#198`. Una firma le chiude tutte e tre insieme.
 
 **Dettagli tecnici** — Riverificato ora via SQL diretto su MCP Supabase (`execute_sql`). `orders`=1, `profiles`=9, `products`=9, `abandoned_carts`=3. Identico bit-per-bit ai quattro controlli precedenti di oggi (08:59/10:30/11:09/11:41). `git log` e `DECISIONI.md`: nessuna firma nuova di Nicola dal 29/8. `AZIONI-IN-ATTESA.md`: coda invariata, in cima #198/#197/#196/#195/#194/#193/#182/#154/#155. Nessun 🟢 rapido disponibile oltre a quelli già eseguiti dai passaggi di stamattina: riparazioni di `auto-analisi.json`, dedup di `mutanti.json`. Il resto è tutto in attesa di firma.
+
+## Piano del mattino · 2026-09-07 06:05
+
+**In una riga:** stessa situazione di ieri sera. Nessuna novità stanotte. Il sito resta giù.
+
+**Le 3 cose di oggi**
+1. Firma dominio e chiavi Vercel. Rimette online il sito.
+2. Sblocca i pagamenti con carta di Pane Quotidiano. Fermo da 28 giorni.
+3. Decidi su "Panificio Demo". È il negozio finto comparso il 5 settembre.
+
+**Serve da te**
+- Firma le due chiavi Vercel: dominio e variabili d'ambiente.
+- Dì se sblocchi i pagamenti carta di Pane Quotidiano. In alternativa, dì se preferisci pubblicare senza promettere consegna.
+- Dimmi cosa fare di "Panificio Demo".
+- Se hai un minuto: la memoria del server e quella di GitHub sono separate da 6 giorni. Serve qualcuno con accesso diretto al server per riunirle.
+
+**Dettagli tecnici** — Riverificato ora via SQL diretto su Supabase. `orders`=1 (24/6, annullato, €19,05, Pane Quotidiano). `pagati`=0. `profiles`=9. `products`=9. `abandoned_carts`=3. `seller_public_profiles`=2. Identico al passaggio delle 22:31 di ieri sera. 75° giorno di stallo North Star (24/6→7/9). Coda in cima: #199 (main VPS/GitHub separati), #198 (gate CADENZE), #197 (funnel senza PR), #196 (Panificio Demo), #195/#194 (permessi VPS), #193 (post pronti), #182 (pagamenti PQ), #154/#155 (Vercel). Nessuna firma nuova su DECISIONI.md dal 29/8. Nessun lavoro pesante nuovo ai reparti: un solo negozio confermato, zero pagamenti attivi.
