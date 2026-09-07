@@ -31,29 +31,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-<!-- allinea-database-produzione -->
-
-### 🔴 #199 — Rimetti nel database del sito i pezzi che il sito già usa · ⏳ accodata 2026-09-07 17:05
-
-**In parole semplici.** Il sito pubblicato chiede al database tabelle e colonne che nel database vero non ci sono. Non è un'ipotesi: le ho cercate una per una oggi, in sola lettura, e mancano tutte. Il database si è fermato al 28 agosto, il codice è andato avanti fino al 2 settembre.
-
-**Un esempio concreto.** La pagina dove il negoziante vede cosa ha venduto chiede la colonna «nome del prodotto» sulla riga d'ordine. Quella colonna non esiste. Quindi la pagina va in errore — mentre sul computer di chi sviluppa funziona benissimo.
-
-**Cosa cambia:** oggi restano rotti i conti del venditore, la colonna «Venduti», il tetto di spesa dell'intelligenza artificiale, le email «ordine pronto» e «ordine consegnato», e il carrello che dovrebbe risultare recuperato. Da quando il sito è tornato raggiungibile, queste cose non le incontra più solo una prova: le incontra un cliente.
-
-**Attenzione, questa è la parte che conta.** La riparazione scritta nella scheda del difetto **non funziona**: lanciata contro la produzione muore sul primo file dopo due secondi, senza applicare niente. L'ho riprodotta in locale su una copia fedele. Il motivo è che il database è nato prima del registro delle migrazioni, quindi lo script prova a ricreare tabelle che ci sono già.
-
-**Cosa ho fatto io.** Ho scritto il controllo che impedisce quello schianto, il test che lo tiene chiuso, e la procedura vera. L'ho provata per intero su una copia locale: funziona, e al secondo giro non fa più niente. Sta nella richiesta di unione 252 del sito.
-
-**Cosa devi fare tu.** Unire la 252, poi seguire i tre passi di `docs/migrazioni-baseline-produzione.md`: registrare tredici migrazioni vecchie, applicarne centotrentasei, verificare. Serve la stringa di connessione del database di produzione, che ce l'hai solo tu.
-
-**Se va bene:** le pagine rotte tornano a funzionare, e il controllo notturno della deriva diventa capace di accorgersi da solo della prossima.
-
----
-
 <!-- segreti-github-rilascio -->
 
 ### 🔴 #200 — Metti i quattro segreti su GitHub, così il rilascio smette di scavalcare i controlli · ⏳ accodata 2026-09-07 17:05
+
+> ⚠️ **Questa viene per seconda: prima la card #199, qui sotto.** Il motivo è in fondo.
 
 **In parole semplici.** Oggi ogni volta che qualcosa entra nel ramo principale, il sito va online da solo senza aspettare che i controlli automatici siano finiti. Il guardiano che dovrebbe fermarlo esiste, ma è spento: gli mancano quattro chiavi.
 
@@ -73,10 +55,34 @@ Si mettono nel repo del sito, in Settings poi Secrets and variables poi Actions.
 
 **Cosa devi fare tu.** Prima la card 199, poi questa. In quest'ordine, e il motivo è pratico: appena i segreti ci sono, il rilascio prova ad applicare le migrazioni, e se il database non è ancora allineato quel passo si ferma.
 
+**Cosa non ho verificato.** Che i due identificatori qui sopra siano quelli giusti per il rilascio: li ho letti dal progetto Vercel, ma non ho provato un rilascio con quelle chiavi in mano. E non ho visto il pannello dei segreti su GitHub: che siano davvero assenti lo deduco dai tre rilasci che si sono fermati dicendo che mancano.
+
 **Se va bene:** faccio partire un rilascio di prova su una modifica innocua. Se passa, l'ultimo passo è togliere la pubblicazione automatica dal ramo principale — una riga in `vercel.json` — e il terzo bloccante è chiuso. Quella riga non l'ho toccata apposta: girarla adesso vorrebbe dire che il sito non si aggiorna più, perché nessuna delle due strade funzionerebbe.
 
 ---
 
+
+<!-- allinea-database-produzione -->
+
+### 🔴 #199 — Rimetti nel database del sito i pezzi che il sito già usa · ⏳ accodata 2026-09-07 17:05
+
+**In parole semplici.** Il sito pubblicato chiede al database tabelle e colonne che nel database vero non ci sono. Non è un'ipotesi: le ho cercate una per una oggi, in sola lettura, e mancano tutte. Il database si è fermato al 28 agosto, il codice è andato avanti fino al 2 settembre.
+
+**Un esempio concreto.** La pagina dove il negoziante vede cosa ha venduto chiede la colonna «nome del prodotto» sulla riga d'ordine. Quella colonna non esiste. Quindi la pagina va in errore — mentre sul computer di chi sviluppa funziona benissimo.
+
+**Cosa cambia:** oggi restano rotti i conti del venditore, la colonna «Venduti», il tetto di spesa dell'intelligenza artificiale, le email «ordine pronto» e «ordine consegnato», e il carrello che dovrebbe risultare recuperato. Da quando il sito è tornato raggiungibile, queste cose non le incontra più solo una prova: le incontra un cliente.
+
+**Attenzione, questa è la parte che conta.** La riparazione scritta nella scheda del difetto **non funziona**: lanciata contro la produzione muore sul primo file dopo due secondi, senza applicare niente. L'ho riprodotta in locale su una copia fedele. Il motivo è che il database è nato prima del registro delle migrazioni, quindi lo script prova a ricreare tabelle che ci sono già.
+
+**Cosa ho fatto io.** Ho scritto il controllo che impedisce quello schianto, il test che lo tiene chiuso, e la procedura vera. L'ho provata per intero su una copia locale: funziona, e al secondo giro non fa più niente. Sta nella richiesta di unione 252 del sito.
+
+**Cosa devi fare tu.** Unire la 252, poi seguire i tre passi di `docs/migrazioni-baseline-produzione.md`: registrare tredici migrazioni vecchie, applicarne centotrentasei, verificare. Serve la stringa di connessione del database di produzione, che ce l'hai solo tu.
+
+**Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, mentre la produzione è la 17: una versione di scarto. E la copia locale imita la forma della produzione, non i suoi dati: nessun ordine vero è mai passato di lì. Il database vero l'ho solo letto, mai toccato.
+
+**Se va bene:** le pagine rotte tornano a funzionare, e il controllo notturno della deriva diventa capace di accorgersi da solo della prossima.
+
+---
 
 ### 🟡 #198 — Il pulsante più importante della home non si vede quando lo raggiungi col tasto Tab · ⏳ accodata 2026-09-07 09:40
 
