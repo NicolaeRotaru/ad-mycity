@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-09-07 06:53",
+  "aggiornato": "2026-09-07 20:52",
   "timbro": {
-    "quando": "2026-09-07 06:53",
+    "quando": "2026-09-07 20:52",
     "scade_dopo_ore": 26,
     "ambiente": "locale",
     "scritto_da": "cervello/salute.mjs",
@@ -315,8 +315,8 @@
       }
     },
     "vps": {
-      "quando": "2026-09-07 06:53",
-      "iso": "2026-09-07T04:53:14.962Z",
+      "quando": "2026-09-07 20:52",
+      "iso": "2026-09-07T18:52:53.738Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 18,
@@ -331,7 +331,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima traccia 0 ore fa (costo-ai.json)",
+          "detto": "ultima traccia 0 ore fa (ultimo-briefing.json)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -346,7 +346,7 @@
           "detto": "il ritmo della macchina si è fermato. Un'altra è uscita saltando dei passi: giro.",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 15,
+          "rosso_da": 16,
           "cronico": true
         },
         {
@@ -355,10 +355,10 @@
           "titolo": "I file che la Cabina mostra sono ancora validi",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "2 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (154h), Il quaderno dei pezzi nuovi (1538h)",
+          "detto": "2 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (168h), Il quaderno dei pezzi nuovi (1552h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 15,
+          "rosso_da": 16,
           "cronico": true
         },
         {
@@ -370,7 +370,7 @@
           "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (45 giorni), La calibrazione previsto-vs-reale (44 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 15,
+          "rosso_da": 16,
           "cronico": true
         },
         {
@@ -391,7 +391,7 @@
           "titolo": "La macchina ha scritto di recente",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima scrittura 0 ore fa (worker:ultimo)",
+          "detto": "ultima scrittura 0 ore fa (automazione:monitora)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -403,7 +403,7 @@
           "titolo": "Il disco temporaneo ha ancora posto per lavorare",
           "impatto": 1,
           "esito": "ok",
-          "detto": "su /tmp restano 1852 MB su 1907 (97%)",
+          "detto": "su /tmp restano 1788 MB su 1907 (94%)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -418,7 +418,7 @@
           "detto": "riparte in continuazione: mycity-worker (160 riavvii), mycity-worker-chat (1159 riavvii)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 14,
+          "rosso_da": 15,
           "cronico": true
         },
         {
@@ -430,7 +430,7 @@
           "detto": "l'allineamento rimanda da 726 giri di fila: il server scrive e non pubblica più",
           "prova": null,
           "regressione": false,
-          "rosso_da": 14,
+          "rosso_da": 15,
           "cronico": true
         },
         {
@@ -442,7 +442,7 @@
           "detto": "l'automazione ha un controllo fallito — 14 FALLITI: timer watch-main, timer mycity-sentinella-dati, timer mycity-sentinella, battito occhi (sentinella-dati:ultimo), segnale sync-giro, segnale watch-main, segnale freschezza-okr, segnale memoria-non-pubblicata, segnale ritmo-settim",
           "prova": "node cervello/verifica-automazione.mjs --json",
           "regressione": false,
-          "rosso_da": 15,
+          "rosso_da": 16,
           "cronico": true
         },
         {
@@ -475,10 +475,10 @@
           "titolo": "I test del cervello passano",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-09-07 06:45  (2 corsie · 66 in fila da sole: 59 scrive sul dato vivo · 4 lancia il compilatore · 3 avvia un browser vero) · ✅ cervello/test/allarme-cronico.test.mjs  (10 passati)",
+          "detto": "un test del cervello è rosso o non parte — 🧹 tolte 3 cartelle temporanee orfane da /tmp · 🧪 TEST DEL CERVELLO — 2026-09-07 20:45  (2 corsie · 66 in fila da sole: 59 scrive sul dato vivo · 4 lancia il compilatore · 3 avvia un browser vero)",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false,
-          "rosso_da": 12,
+          "rosso_da": 13,
           "cronico": true
         },
         {
@@ -499,7 +499,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 7 min fa (2026-09-07T04:46:01.123Z) — 38 file guardati, 2 voci, 1 gravi.",
+          "detto": "✅ ultimo scatto 6 min fa (2026-09-07T18:46:16.642Z) — 50 file guardati, 1 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false,
           "rosso_da": 0,
@@ -523,7 +523,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "1 consegne su 101 degli ultimi 30 giorni senza una riga di esito (1%) · Cabina 0 giorni indietro (STATO al 2026-09-07 06:29)",
+          "detto": "1 consegne su 102 degli ultimi 30 giorni senza una riga di esito (1%) · Cabina 0 giorni indietro (STATO al 2026-09-07 20:33)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -547,10 +547,10 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "«Cosa cambia per te» mancato nel 97% dei 35 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "detto": "«Cosa cambia per te» mancato nel 87% dei 45 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false,
-          "rosso_da": 15,
+          "rosso_da": 16,
           "cronico": true
         },
         {
@@ -583,7 +583,7 @@
           "titolo": "La Cabina risponde",
           "impatto": 1,
           "esito": "ok",
-          "detto": "risponde in 0.1s (indirizzo da ambiente)",
+          "detto": "risponde in 0.0s (indirizzo da ambiente)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -631,7 +631,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "7 senior con almeno un esito registrato",
+          "detto": "12 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -663,29 +663,18 @@
         }
       ],
       "cronicita": {
-        "worker.cadenze": 15,
-        "cervello.freschezza": 15,
-        "cervello.riti": 15,
-        "worker.servizi": 14,
-        "worker.pubblicazione": 14,
-        "worker.automazione": 15,
-        "cervello.test": 12,
-        "cervello.scrittura": 15
+        "worker.cadenze": 16,
+        "cervello.freschezza": 16,
+        "cervello.riti": 16,
+        "worker.servizi": 15,
+        "worker.pubblicazione": 15,
+        "worker.automazione": 16,
+        "cervello.test": 13,
+        "cervello.scrittura": 16
       }
     }
   },
   "storico": [
-    {
-      "quando": "2026-08-02 17:00",
-      "iso": "2026-08-02T15:00:43.741Z",
-      "casa": "claude",
-      "modo": "rapido",
-      "ok": 10,
-      "rotti": 1,
-      "guasti": 0,
-      "nonvisti": 6,
-      "copertura": 0.65
-    },
     {
       "quando": "2026-08-03 20:22",
       "iso": "2026-08-03T18:22:43.049Z",
@@ -1327,6 +1316,17 @@
     {
       "quando": "2026-09-07 06:53",
       "iso": "2026-09-07T04:53:14.962Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 18,
+      "rotti": 8,
+      "guasti": 0,
+      "nonvisti": 2,
+      "copertura": 0.93
+    },
+    {
+      "quando": "2026-09-07 20:52",
+      "iso": "2026-09-07T18:52:53.738Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 18,
