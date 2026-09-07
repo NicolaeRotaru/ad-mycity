@@ -25,31 +25,28 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- possibile-pagina-negozi-vuota-rls -->
 ### 🔴 #204 — Controlla adesso se un cliente vero vede negozi sul sito o una pagina vuota · ⏳ accodata 2026-09-07 13:20
 
-**In parole semplici.** Stavo controllando il bollino "Negozio Verificato" (l'ottava volta, sempre
-fermo) quando ho trovato una cosa più grande e più urgente: il database ha una regola di sicurezza
-sulla tabella dei negozi che dice "ognuno vede solo i propri dati". Le pagine che mostrano l'elenco
-negozi — "Tutti i negozi", "Vicino a te", la vetrina in home — leggono però quella stessa tabella
-direttamente dal telefono/computer del cliente, non da dietro le quinte. Se la regola di sicurezza
-vale davvero anche per un visitatore qualunque, quelle pagine oggi potrebbero mostrare **zero
-negozi** a chiunque non sia il negozio stesso o un amministratore.
+**In parole semplici.** Stavo controllando il bollino "Negozio Verificato". È l'ottava volta, sempre
+fermo. Nel farlo ho trovato una cosa più urgente. Il database ha una regola: "ognuno vede solo i
+propri dati". Le pagine con l'elenco negozi — "Tutti i negozi", "Vicino a te", la vetrina in home —
+leggono quel database direttamente dal telefono del cliente. Non passano da dietro le quinte. Se la
+regola vale anche per un visitatore qualunque, quelle pagine oggi mostrano **zero negozi**. Le vede
+solo il negozio stesso o un amministratore.
 
-**Cosa cambia per te.** Se è vero, è il problema più grave che il sito possa avere in questo momento:
-un cliente che apre MyCity non trova nessuna bottega, punto — peggio di un ordine lento, è un negozio
-che sembra vuoto. L'ho dedotto guardando le regole del database (solo 2 permessi di lettura: il
-proprietario e l'amministratore, nessuno per il pubblico), non guardando il sito vero: da qui non
-sono riuscito a fare la prova finale (una visita reale/anonima a mycity-live).
+**Cosa cambia per te.** Se è vero, è il problema più grave che il sito possa avere adesso. Un cliente
+apre MyCity e non trova nessuna bottega. Punto. Peggio di un ordine lento: sembra un negozio vuoto.
+L'ho dedotto dalle regole del database. Ho contato solo 2 permessi di lettura: il proprietario e
+l'amministratore. Nessuno per il pubblico. Non ho guardato il sito vero. Da qui non potevo.
 
-**Cosa devi fare.** Un test di 30 secondi, il più affidabile: apri il sito in **navigazione anonima**
-(senza essere loggato) su un telefono o computer normale e vai su "Tutti i negozi" o "Vicino a te".
-Se vedi Pane Quotidiano (o altri negozi) → falso allarme, c'è un meccanismo che non ho visto da qui e
-lo richiudo subito. Se la pagina è vuota o dà errore → è reale, e serve @backend-dev o @security
-subito: la correzione tecnica esiste già pronta (vedi dettagli tecnici) solo da collegare alle
-pagine giuste.
+**Cosa devi fare.** Un test di 30 secondi. Apri il sito in **navigazione anonima**, senza essere
+loggato. Vai su "Tutti i negozi" o "Vicino a te". Vedi Pane Quotidiano o altri negozi? Falso allarme:
+c'è un meccanismo che da qui non vedevo, e richiudo la card. La pagina è vuota o dà errore? È reale.
+Serve @backend-dev o @security subito. La correzione tecnica esiste già pronta (sotto, in dettagli
+tecnici): va solo collegata alle pagine giuste.
 
-**Cosa non ho verificato.** Non ho potuto aprire il sito vero da questa sessione (non ho un browser
-né le chiavi pubbliche a disposizione qui) — quello che scrivo sopra è dedotto dalle regole del
-database e dal codice, non da una visita reale al sito. È per questo che il test da 30 secondi sopra
-viene prima di qualunque intervento tecnico.
+**Cosa non ho verificato.** Non ho potuto aprire il sito vero da questa sessione. Non avevo un
+browser né le chiavi pubbliche a disposizione qui. Quello che scrivo sopra è una deduzione dalle
+regole del database e dal codice. Non è una visita reale al sito. Per questo il test da 30 secondi
+viene prima di ogni intervento tecnico.
 
 🔧 **Dettagli tecnici:** tabella `profiles`, RLS attiva (`relrowsecurity=true`), solo 2 policy SELECT
 (`auth.uid()=id`, `is_admin()`) — nessuna per `anon`/`authenticated` generico. Le pagine
@@ -66,22 +63,23 @@ queste pagine — ma **zero file del sito la usano oggi** (verificato con grep s
 <!-- badge-verificato-due-branch-orfani -->
 ### 🟡 #203 — Due tentativi di riparare il bollino "Verificato" sono rimasti dimenticati sul disco · ⏳ accodata 2026-09-07 13:20
 
-**In parole semplici.** Cercando perché il bollino "Negozio Verificato" continua a comparire su
-negozi non idonei (bug noto dal 6/7), ho trovato **due correzioni già scritte** e mai arrivate a una
-richiesta di unione: una del 20/7 (branch `fix/gate-verified-badge`) e una più recente e più completa
-in una cartella di lavoro separata (`marketplace/.wt-seo`). Nessuna delle due è stata proposta a te.
+**In parole semplici.** Il bollino "Negozio Verificato" continua a comparire su negozi non idonei.
+È un bug noto dal 6/7. Cercando la causa, ho trovato **due correzioni già scritte**. Nessuna delle
+due è mai arrivata a una richiesta di unione. Una è del 20/7, branch `fix/gate-verified-badge`.
+L'altra è più recente e più completa, in una cartella di lavoro separata (`marketplace/.wt-seo`).
+Non te le ha proposte nessuno.
 
-**Cosa cambia per te.** La prima delle due ha anche un errore di battitura che l'avrebbe comunque
-bloccata a ogni controllo automatico (un commento nel codice dimenticato aperto, che inghiotte la
-riga dopo): non sarebbe mai passata così com'è. La seconda sembra la base giusta da cui ripartire,
-ma dipende dalla card #204 qui sopra — non ha senso sistemare il bollino se prima la pagina negozi
-è vuota per tutti.
+**Cosa cambia per te.** La prima delle due ha anche un errore di battitura. Un commento nel codice
+resta aperto e inghiotte la riga dopo. Ogni controllo automatico l'avrebbe bloccata così com'è. La
+seconda sembra la base giusta da cui ripartire. Ma dipende dalla card #204 qui sopra: non ha senso
+sistemare il bollino se prima la pagina negozi è vuota per tutti.
 
-**Se va bene:** dopo aver chiuso #204, chiedo a @tech di guardare le due versioni, scegliere quella
-buona (o unirle) e aprirti UNA sola richiesta di unione pulita — non due parallele. Il bollino resta comunque
-condizionato ai 5 pilastri: oggi 0 negozi verificati, Pane Quotidiano fermo a 3/5 (mancano pagamenti
-Stripe attivi e una consegna vera, invariato da 49 giorni — vedi quaderno trust-safety). Non propongo
-nessun annuncio pubblico: sarebbe una promessa falsa finché non c'è un negozio che la merita davvero.
+**Se va bene:** dopo aver chiuso #204, chiedo a @tech di guardare le due versioni. Sceglie quella
+buona, o le unisce. Poi apre UNA sola richiesta di unione, non due parallele. Il bollino resta
+condizionato ai 5 pilastri di sempre. Oggi 0 negozi verificati. Pane Quotidiano è fermo a 3 su 5:
+mancano i pagamenti Stripe attivi e una consegna vera, invariato da 49 giorni (vedi quaderno
+trust-safety). Non propongo nessun annuncio pubblico: sarebbe una promessa falsa finché non c'è un
+negozio che la merita davvero.
 
 **Cosa non ho verificato:** se la versione in `.wt-seo` compila ed è completa — l'ho letta ma non
 l'ho fatta girare.
