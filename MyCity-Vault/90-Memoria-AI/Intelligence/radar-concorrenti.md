@@ -1,4 +1,38 @@
-# 🔍 Radar Concorrenti — 2026-09-01
+# 🔍 Radar Concorrenti — 2026-09-07
+
+> **Aggiornato: 7 settembre 2026 13:25** · @intelligence. Playbook settimanale dovuto oggi: ultimo controllo il 1/9, **6 giorni fa**. Contesto invariato rispetto al 1/9: **0 negozi possono incassare** (Stripe disattivato anche per Pane Quotidiano). Nessuna opportunità qui sotto diventa 🟡/🔴: resta preparazione/bozza a costo zero.
+>
+> **Esito di oggi: nessun movimento locale nuovo su nessuno dei concorrenti monitorati.** Ricontrollate 6 fonti: Glovo, Conad spesa online, Cortilia (tutte in WebFetch diretto), CompraPiacenza.it/CNA, Just Eat (WebSearch), procedimento giudiziario Procura di Milano + istruttoria Antitrust AGCM (WebSearch mirata). **Una scoperta nuova, non locale ma rilevante per il pitch:** un terzo procedimento pubblico indipendente contro Glovo/Delivery Hero, mai tracciato prima in questo radar — vedi sotto.
+>
+> | Competitor | Stato oggi (7/9) | Fonte |
+> |---|---|---|
+> | **Glovo** | Fetch diretto riuscito. Categorie confermate identiche al 1/9: Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni. Nessuna categoria o promo nuova per Piacenza. Trovata menzione di "Glovo Prime" (abbonamento 5,99€/mese, consegne illimitate) sulla pagina Piacenza — **verificato che NON è una novità**: il servizio esiste in Italia dal 2018, semplicemente non era mai stato annotato in questo radar prima d'ora. Nessuna azione. | [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) (WebFetch, 7/9); conferma data lancio: [Foodcommunity — Glovo Prime](https://foodcommunity.it/glovo-prime-abbonamento-consegne/) (WebSearch, 7/9) |
+> | **Conad — Spesa online** | Copertura invariata: 8 punti vendita (3 Superstore Piacenza, Sapori & Dintorni, Podenzano, Rivergaro, Castell'Arquato, San Giorgio Piacentino). "Spesa a Casa" e "Ordina e Ritira" confermati. Nessuna soglia o promo nuova. | [spesaonline.conad.it/aree-coperte-dal-servizio/piacenza](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) (WebFetch, 7/9) |
+> | **Cortilia** | Homepage generica invariata, "consegna sempre gratuita". Nessuna menzione di Piacenza nel contenuto, nessuna novità di prezzo o servizio. | [cortilia.it](https://www.cortilia.it/) (WebFetch, 7/9) |
+> | **Just Eat** | WebSearch mirata "Just Eat Piacenza novità settembre 2026 promozione": solo aggregatori di coupon generici (Groupon, CupoNation, Radarcoupon), nessuna notizia specifica su Piacenza o cambio di prodotto. | WebSearch (7/9) |
+> | **CompraPiacenza.it / CNA** | piacenza.cna.it ora raggiungibile in ricerca (pagina "COMPRAPIACENZA - Vetrina digitale per il commercio locale" indicizzata), ma resta lo stesso modello statico già noto: vetrina che mette in contatto cliente e negozio, senza ordine+consegna+payout integrati. Nessun bando o novità di settembre trovato. **Ottavo controllo consecutivo senza movimento**, dal 17/8 in poi. | WebSearch "CNA Piacenza CompraPiacenza novità settembre 2026" (7/9) |
+>
+> **Procedimenti giudiziari Glovo/Deliveroo (Procura di Milano + istruttoria Antitrust AGCM) — ricontrollato oggi, ancora nessun esito.** Stessa ricerca del 1/9, stesso risultato: solo gli articoli già noti di febbraio (caporalato, Procura Milano) e maggio 2026 (istruttoria AGCM). **Nessuna fonte più recente di maggio 2026** riporta un esito su nessuno dei due. Confidenza sul fatto "nessun esito ancora": alta, 85% (quarta verifica indipendente consecutiva con lo stesso risultato).
+>
+> **🆕 Terzo procedimento scoperto oggi, indipendente dagli altri due: la Commissione Europea ha multato Delivery Hero e Glovo per 329 milioni di euro** (Delivery Hero 223,3 mln, Glovo 105,7 mln) per un cartello nel mercato del lavoro — accordo di non contendersi i rider ("no-poach"), scambio di informazioni commerciali sensibili e spartizione geografica dei mercati, in violazione dell'art. 101 TFUE. **Attenzione alla data: la decisione è del 2 giugno 2025, non di questa settimana** — è un fatto vecchio di 15 mesi, mai tracciato in questo radar prima d'ora (il monitoraggio copre solo il procedimento Procura Milano e l'istruttoria AGCM, entrambi del 2026). Lo aggiungo ora come contesto verificato, non come novità della settimana. È la prima volta che la Commissione sanziona un accordo di "no-poach" e la prima volta che riconosce che una partecipazione di minoranza in un concorrente (Delivery Hero in Glovo) ha facilitato la condotta anticoncorrenziale. **Confidenza: alta, 85%** — 3 fonti indipendenti concordi su cifre e data (studi legali internazionali che seguono il caso, nessuna fonte di parte). Fonti: [Lexology — European Commission fines Delivery Hero and Glovo €329 million](https://www.lexology.com/library/detail.aspx?g=bf2c387b-bf81-4b2e-823a-f9948be2bb89), [Greenberg Traurig — European Commission Fines Delivery Hero and Glovo €329 Million in First Labor Market Cartel Case](https://www.gtlaw.com/en/insights/2025/8/european-commission-fines-delivery-hero-and-glovo-eur-329-million-in-first-labor-market-cartel-case), [Slaughter and May](https://www.slaughterandmay.com/insights/new-insights/competition-and-regulatory-newsletter-european-commission-fines-delivery-hero-and-glovo-329-million-for-participating-in-first-eu-labour-market-cartel/) (tutte consultate 7/9/2026).
+>
+> **Candore:** zero novità locali/di questa settimana su tutti i concorrenti monitorati — 6 fonti ricontrollate con metodo, stesso esito "invariato" del 1/9. L'unica scoperta è un fatto vecchio (multa UE giugno 2025) mai registrato prima: lo tratto con onestà come "scoperto oggi, accaduto 15 mesi fa", non come movimento della settimana. Utile comunque per il pitch: sono ora **tre autorità pubbliche indipendenti** (Procura di Milano, AGCM, Commissione Europea) che hanno agito contro Glovo/Delivery Hero — non due.
+
+## Opportunità — 7/9: due bozze pronte, entrambe 🟢 preparazione, nessuna diventa azione oggi
+
+⚠️ Vincolo di realtà invariato: 0 negozi payout-ready (Stripe disattivato anche per Pane Quotidiano). Nessuna delle due opportunità sotto ha oggi un canale di conversione reale — restano bozze a costo zero, pronte per quando il primo negozio potrà incassare.
+
+**① Aggiorna il paragrafo di pitch "botteghe vs giganti sotto procedimento": ora sono tre autorità, non due** — 🟢 solo preparazione
+Il fatto verificato sopra (multa Commissione Europea €329 mln, 2/6/2025, mai tracciata prima) si aggiunge ai due procedimenti italiani già noti (Procura di Milano, controllo giudiziario per caporalato, 9-25/2/2026; AGCM, istruttoria per comunicazione ingannevole, 6/5/2026). **Prima mossa:** @pr-stampa aggiorna il paragrafo già pronto nel kit stampa/pitch deck, sostituendo "due procedimenti pubblici indipendenti" con "tre autorità pubbliche indipendenti — una Procura, un'Autorità Antitrust nazionale, la Commissione Europea". Il testo resta bozza, non va pubblicato né usato in un pitch reale finché il fronte tecnico interno non è chiuso e non c'è un negozio payout-ready. **Impatto stimato:** non quantificabile ora, stesso motivo dei giri precedenti — 0 negozi possono incassare, quindi nessun pitch commerciale ha oggi un canale di conversione. Fonte: vedi procedimento sopra (Lexology, Greenberg Traurig, Slaughter and May, consultate 7/9/2026).
+
+**② Template pronto "picco Bleech Festival + rischio pioggia 11-12/9" per il primo negozio in centro storico** — 🟢 solo preparazione, combina meteo + concorrenza
+Da `eventi-picchi.md` (aggiornato oggi 7/9): il Bleech Festival è in corso 7-13/9 nel centro storico, con il cuore degli eventi l'11-12/9 a Palazzo Farnese — proprio i giorni con più probabilità di pioggia (90% e 85-88%). Dal radar concorrenti di oggi: **nessuno dei concorrenti monitorati ha una promo o un'offerta specifica per Piacenza legata a un evento locale** (Glovo, Conad, Cortilia, Just Eat tutti invariati), e CompraPiacenza.it resta un modello statico (vetrina, senza ordine+consegna+payout) — quindi non può capitalizzare uno spostamento di domanda verso la consegna quando piove durante il festival. È un buco di offerta locale reale, non un trend generico: nessun attore oggi collega "evento in centro + pioggia" a un servizio di consegna dedicato per le botteghe del centro storico. **Prima mossa:** @content-social/@vendite preparano un template pronto ("cena/aperitivo a domicilio durante Bleech, anche se piove") da attivare sul primo negozio in centro storico non appena sarà payout-ready — non prima. **Impatto stimato:** non quantificabile ora per lo stesso vincolo; da validare quando ci sarà un negozio reale sulla rotta del festival. Fonti: `eventi-picchi.md` (meteo ilmeteo.it, WebFetch 7/9) + radar concorrenti sopra (Glovo, Conad, Cortilia, Just Eat, CompraPiacenza, tutti WebFetch/WebSearch 7/9/2026).
+
+*(Nessuna terza opportunità aggiunta oggi: la ricerca sui bandi CCIAA/Unione Commercianti resta invariata — tutti chiusi, gate confermato in `eventi-picchi.md`, non riproposta qui.)*
+
+---
+
+## Versione precedente (1 settembre 2026, invariata sotto)
 
 > **Aggiornato: 1 settembre 2026 06:50** · @intelligence. Giro rimasto fermo **8 giorni** (ultimo controllo 24/8) per la pausa concordata con Nicola. Tutte le fonti concorrenti sono dovute oggi. Contesto attuale invariato rispetto al 24/8: il sito pubblico è giù (HTTP 503, dal 9° giorno), 3 azioni 🔴 attendono ancora la firma di Nicola (sito online, pagamenti Pane Quotidiano, migrazioni DB), e **0 negozi possono incassare**. Quindi, come nei giri precedenti, nessuna opportunità qui sotto diventa 🟡/🔴: resta preparazione a costo zero.
 >
@@ -115,3 +149,17 @@ Precedente: versione 17/8 (in git history), versione 10/8 (in git history).
 - [cortilia.it](https://www.cortilia.it/) — WebFetch diretto, nessuna menzione Piacenza
 - WebSearch "CNA Piacenza CompraPiacenza novità agosto settembre 2026" — nessun risultato pertinente, 7° controllo a vuoto
 - WebSearch "Glovo Deliveroo Foodinho controllo giudiziario caporalato esito settembre 2026" — nessun esito nuovo, stesso quadro di maggio
+
+---
+
+**🔧 Fonti consultate oggi (7/9/2026):**
+- [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) — WebFetch diretto, categorie invariate; trovata menzione "Glovo Prime", verificata come non-novità (dal 2018)
+- [foodcommunity.it — Glovo Prime](https://foodcommunity.it/glovo-prime-abbonamento-consegne/) — WebSearch, conferma che Glovo Prime non è un lancio 2026
+- [spesaonline.conad.it/aree-coperte-dal-servizio/piacenza](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) — WebFetch diretto, copertura invariata
+- [cortilia.it](https://www.cortilia.it/) — WebFetch diretto, nessuna menzione Piacenza
+- WebSearch "CNA Piacenza CompraPiacenza novità settembre 2026" — nessuna novità, 8° controllo consecutivo a vuoto
+- WebSearch "Just Eat Piacenza novità settembre 2026 promozione" — solo aggregatori coupon generici, nessuna notizia locale
+- WebSearch "Glovo Deliveroo Foodinho controllo giudiziario caporalato esito settembre 2026" — nessun esito nuovo, stesso quadro di maggio
+- WebSearch "Antitrust AGCM Glovo Deliveroo istruttoria esito settembre 2026" — nessun esito nuovo; ha fatto emergere di striscio la multa UE giugno 2025 (vedi sotto)
+- WebSearch "EU fines Delivery Hero Glovo 329 million antitrust 2026" — confermata multa Commissione Europea, 2/6/2025, 3 fonti indipendenti (Lexology, Greenberg Traurig, Slaughter and May)
+- WebSearch "'Glovo Prime' abbonamento Italia lancio 2026" — confermato: nessun lancio 2026, servizio attivo dal 2018
