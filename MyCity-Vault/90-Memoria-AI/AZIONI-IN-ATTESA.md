@@ -22,6 +22,76 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- possibile-pagina-negozi-vuota-rls -->
+### 🔴 #204 — Controlla adesso se un cliente vero vede negozi sul sito o una pagina vuota · ⏳ accodata 2026-09-07 13:20
+
+**In parole semplici.** Stavo controllando il bollino "Negozio Verificato" (l'ottava volta, sempre
+fermo) quando ho trovato una cosa più grande e più urgente: il database ha una regola di sicurezza
+sulla tabella dei negozi che dice "ognuno vede solo i propri dati". Le pagine che mostrano l'elenco
+negozi — "Tutti i negozi", "Vicino a te", la vetrina in home — leggono però quella stessa tabella
+direttamente dal telefono/computer del cliente, non da dietro le quinte. Se la regola di sicurezza
+vale davvero anche per un visitatore qualunque, quelle pagine oggi potrebbero mostrare **zero
+negozi** a chiunque non sia il negozio stesso o un amministratore.
+
+**Cosa cambia per te.** Se è vero, è il problema più grave che il sito possa avere in questo momento:
+un cliente che apre MyCity non trova nessuna bottega, punto — peggio di un ordine lento, è un negozio
+che sembra vuoto. L'ho dedotto guardando le regole del database (solo 2 permessi di lettura: il
+proprietario e l'amministratore, nessuno per il pubblico), non guardando il sito vero: da qui non
+sono riuscito a fare la prova finale (una visita reale/anonima a mycity-live).
+
+**Cosa devi fare.** Un test di 30 secondi, il più affidabile: apri il sito in **navigazione anonima**
+(senza essere loggato) su un telefono o computer normale e vai su "Tutti i negozi" o "Vicino a te".
+Se vedi Pane Quotidiano (o altri negozi) → falso allarme, c'è un meccanismo che non ho visto da qui e
+lo richiudo subito. Se la pagina è vuota o dà errore → è reale, e serve @backend-dev o @security
+subito: la correzione tecnica esiste già pronta (vedi dettagli tecnici) solo da collegare alle
+pagine giuste.
+
+**Cosa non ho verificato.** Non ho potuto aprire il sito vero da questa sessione (non ho un browser
+né le chiavi pubbliche a disposizione qui) — quello che scrivo sopra è dedotto dalle regole del
+database e dal codice, non da una visita reale al sito. È per questo che il test da 30 secondi sopra
+viene prima di qualunque intervento tecnico.
+
+🔧 **Dettagli tecnici:** tabella `profiles`, RLS attiva (`relrowsecurity=true`), solo 2 policy SELECT
+(`auth.uid()=id`, `is_admin()`) — nessuna per `anon`/`authenticated` generico. Le pagine
+`app/stores/page.tsx`, `app/near/page.tsx`, `components/StoreShowcase.tsx`, `components/home/HeroStoreCard.tsx`
+usano `createBrowserClient` (rispetta RLS) e leggono `profiles` direttamente. Esiste già in produzione
+(migrazione `20260817200014_seller_public_profiles_stripe_trust`, applicata il 17/8) una vista sicura
+`public.seller_public_profiles` con `GRANT SELECT ... TO anon, authenticated` pensata esattamente per
+queste pagine — ma **zero file del sito la usano oggi** (verificato con grep sul repo).
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 204 | 2026-09-07 13:20 | @devops-sre | Apri mycity-live in incognito su "Tutti i negozi": conferma se appare vuoto | 🔴 | vedi blocco sopra — RLS `profiles` + vista `seller_public_profiles` mai usata dal frontend | manuale | in attesa |
+
+<!-- badge-verificato-due-branch-orfani -->
+### 🟡 #203 — Due tentativi di riparare il bollino "Verificato" sono rimasti dimenticati sul disco · ⏳ accodata 2026-09-07 13:20
+
+**In parole semplici.** Cercando perché il bollino "Negozio Verificato" continua a comparire su
+negozi non idonei (bug noto dal 6/7), ho trovato **due correzioni già scritte** e mai arrivate a una
+richiesta di unione: una del 20/7 (branch `fix/gate-verified-badge`) e una più recente e più completa
+in una cartella di lavoro separata (`marketplace/.wt-seo`). Nessuna delle due è stata proposta a te.
+
+**Cosa cambia per te.** La prima delle due ha anche un errore di battitura che l'avrebbe comunque
+bloccata a ogni controllo automatico (un commento nel codice dimenticato aperto, che inghiotte la
+riga dopo): non sarebbe mai passata così com'è. La seconda sembra la base giusta da cui ripartire,
+ma dipende dalla card #204 qui sopra — non ha senso sistemare il bollino se prima la pagina negozi
+è vuota per tutti.
+
+**Se va bene:** dopo aver chiuso #204, chiedo a @tech di guardare le due versioni, scegliere quella
+buona (o unirle) e aprirti UNA sola richiesta di unione pulita — non due parallele. Il bollino resta comunque
+condizionato ai 5 pilastri: oggi 0 negozi verificati, Pane Quotidiano fermo a 3/5 (mancano pagamenti
+Stripe attivi e una consegna vera, invariato da 49 giorni — vedi quaderno trust-safety). Non propongo
+nessun annuncio pubblico: sarebbe una promessa falsa finché non c'è un negozio che la merita davvero.
+
+**Cosa non ho verificato:** se la versione in `.wt-seo` compila ed è completa — l'ho letta ma non
+l'ho fatta girare.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 203 | 2026-09-07 13:20 | @tech | Dopo #204: scegli/unisci i due branch badge e apri UNA PR pulita | 🟡 | `marketplace` branch `fix/gate-verified-badge` (rotto, commento non chiuso) vs `marketplace/.wt-seo` (usa `seller_public_profiles`) | manuale | in attesa |
+
+---
+
 <!-- ar687-cronico-ci -->
 
 <!-- pausa-scaduta-risveglio -->
