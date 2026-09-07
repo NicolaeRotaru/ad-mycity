@@ -513,11 +513,11 @@ avrebbero potuto.
 E non sono andato a vedere una per una se quelle dieci fossero giuste o sbagliate. I registri di
 quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più risposta.
 
-> 🔒 **Aggiornamento AD 2026-09-07 22:35 — vale anche per il sito, e ho fatto la mia parte.**
+> 🔒 **Aggiornamento AD 2026-09-07 22:35 — ho fatto la mia parte.**
 >
-> **Perché conta doppio.** Sul marketplace del codice con una prova rossa può ancora andare online. Quello che scegli qui lo chiude alla radice, senza segreti: vale per due repository, non uno.
+> **Perché conta doppio.** Vale anche per il sito. Lì del codice con una prova rossa può ancora andare online, e quello che scegli qui lo chiude alla radice, senza segreti.
 >
-> **Una cosa che non sapevamo.** Sopra c'è scritto che non la potevo leggere. Ho riprovato da un'altra porta, e si legge. Sul sito una regola esiste già, dal 26 maggio, e non ha mai protetto niente: è spenta, non punta a nessun ramo, e pretende un controllo di nome «Main» che non esiste. **Attento:** accesa così, il pulsante «unisci» resta bloccato per sempre, ad aspettare un controllo che non arriva.
+> **Una cosa che non sapevamo.** Sopra c'è scritto che non la potevo leggere. Ho riprovato da un'altra porta, e si legge. Sul sito una regola esiste già, dal 26 maggio. Non ha mai protetto niente: è spenta, non punta a nessun ramo, e pretende un controllo di nome «Main» che non esiste. **Attento:** accesa così, il pulsante «unisci» resta bloccato per sempre, ad aspettare un controllo che non arriva.
 >
 > **La A l'ho fatta.** Contavo solo la macchina; del sito non contava nessuno. Misurato oggi: sette lavori su 110 entrati con la prova rossa, il 6,4%, l'ultimo il 20 luglio. Quel sette adesso è un tetto.
 >

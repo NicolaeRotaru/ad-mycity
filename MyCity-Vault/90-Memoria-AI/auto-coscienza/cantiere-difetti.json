@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-06 11:40",
+  "aggiornato": "2026-09-07 23:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20245,6 +20245,50 @@
       },
       "trovato_da": "il cancello sulla testa 03d06adaa: unica ⚪ rimasta su 172 difese, dopo che AR-944 aveva recuperato le altre sei",
       "chiuso_il": "2026-09-06 11:40",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-948",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-07 23:05",
+      "area": "macchina",
+      "nato_come": "nuovo-lavoro",
+      "dimensione": "rischio-sicurezza-se",
+      "titolo": "Un'opzione scritta a meta' non si ferma: misura la casa sbagliata e ti da' un numero vero",
+      "sintomo": "`entrate-senza-cancello.mjs --casa` col nome dimenticato tornava «macchina» in silenzio, ed emetteva il conto della macchina a chi aveva chiesto il sito. Stessa forma in `serratura-ramo.mjs`: `--pretende` con un refuso (o senza valore) saltava il confronto e usciva 0 — cioe' un guardiano che dice verde per sempre senza aver mai controllato niente. Il secondo e' quello che fa male davvero, perche' il giorno che Nicola sceglie A/B/C quel `--pretende chiusa` va cablato nel giro.",
+      "causa_radice": "Tutti e due gli argomenti erano letti con un ripiego (`argv[i+1] || default`), che non sa distinguere «non me l'hai chiesto» da «me l'hai chiesto e ho perso il valore». Sono due situazioni opposte: la prima e' un default sano, la seconda e' una domanda mutilata. Ripiegare sulla seconda produce la peggiore delle uscite — un numero vero, plausibile, e della cosa sbagliata. E' la stessa malattia della card #177 (un verdetto che non ferma) rimessa dentro gli strumenti nati per misurarla.",
+      "fix_proposto": "🟡 FATTO. `casaChiesta` alza un errore se `--casa` c'e' senza nome; `serratura-ramo.mjs` esce 2 (⚪) se `--pretende` non porta uno dei tre stati, e dice quali sono. Quattro prove nuove, tutte offline.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/entrate-senza-cancello.test.mjs cervello/test/serratura-ramo.test.mjs",
+        "nota": "Misurato a mano: `node cervello/entrate-senza-cancello.mjs --casa` esce 2, e `node cervello/serratura-ramo.mjs --pretende chuisa` esce 2. Prima uscivano 0 tutti e due, col conto della casa sbagliata sullo schermo."
+      },
+      "impatto_crescita": "Indiretto ma reale: sono i due strumenti che devono dire a Nicola se il codice rotto puo' arrivare in produzione. Un numero della casa sbagliata, o un verde mai controllato, gli fa credere protetto un marketplace che non lo e'.",
+      "trovato_da": "la radiografia del perimetro toccato, lente rischio-sicurezza-se, dentro il lotto che ha scritto quei due file",
+      "chiuso_il": "2026-09-07 23:05",
+      "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-949",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-07 23:05",
+      "area": "macchina",
+      "nato_come": "nuovo-lavoro",
+      "dimensione": "cadenza-esecuzione",
+      "titolo": "Il giro chiama GitHub una volta per regola, e nessuno gli aveva messo un tetto",
+      "sintomo": "`serratura-ramo.mjs`, appena cablato in `giro.sh`, chiedeva il dettaglio di OGNI regola di ramo, una richiesta per regola, su due repo. Oggi le regole sono zero e una, quindi non si vede. Con trenta regole sono trenta richieste da 20 secondi l'una, dentro `guardiano()`, che non mette nessun tetto di tempo: il battito della macchina resta fermo li'.",
+      "causa_radice": "Ho cablato nel giro uno strumento il cui costo cresce con un numero che non controllo io (quante regole ha il repo). E' la stessa forma gia' scritta in testa a `entrate-senza-cancello.mjs`: il tetto va nello strumento che porta il rischio, non nell'esecutore condiviso da venti guardiani.",
+      "fix_proposto": "🟡 FATTO. Il tetto vive in `regoleDaGuardare()`, funzione PURA ed esportata, invece che dentro `main`: cosi' il caso oltre il tetto si prova offline, che sui repo veri non si potrebbe fare (di regole ce n'e' una sola, e fabbricarne undici vorrebbe dire scrivere sulle impostazioni — proprio la cosa che qui non si fa). E le regole non guardate NON spariscono: il referto stampa «⚪ N regole NON guardate: il verdetto non le copre», perche' un elenco tagliato raccontato come intero e' la bugia che questa macchina passa il tempo a togliersi di dosso.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/serratura-ramo.test.mjs",
+        "nota": "Tre casi: undici regole → dieci guardate e una contata; una regola → zero non guardate (un dubbio inventato e' un difetto quanto un dubbio taciuto); cinquanta regole → il tetto regge. Rompendo il tetto la prova diventa rossa: e' la mutazione registrata in mutanti.json."
+      },
+      "impatto_crescita": "Nessuno diretto. Conta perche' un giro che non finisce e' un giro che non produce niente, e questo strumento gira a ogni battito.",
+      "trovato_da": "la radiografia del perimetro toccato, lente cadenza-esecuzione, su cervello/giro.sh",
+      "chiuso_il": "2026-09-07 23:05",
       "chiuso_come": "riparato"
     }
   ],

@@ -11,7 +11,11 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { esamina, nomiControlli } from "../serratura-ramo.mjs";
+import { spawnSync } from "node:child_process";
+import { join } from "node:path";
+import { esamina, nomiControlli, regoleDaGuardare, TETTO_REGOLE } from "../serratura-ramo.mjs";
+
+const COMANDO = join(import.meta.dirname, "..", "serratura-ramo.mjs");
 
 const CONTROLLI = ["Lint + Typecheck + Build", "Unit tests"];
 
@@ -114,4 +118,52 @@ test("i nomi arrivano dall'unione delle teste, non da una sola", () => {
 
 test("nomi vuoti o mancanti non entrano nell'elenco da copiare a mano", () => {
   assert.deepEqual(nomiControlli([{ name: "" }, {}, { name: "Unit tests" }]), ["Unit tests"]);
+});
+
+// ── AR-948 — «--pretende» scritto storto non deve dire verde ───────────────
+//
+// Trovato riguardando il perimetro con la lente «cosa succede se». Il giorno che Nicola sceglie, qui
+// dentro `giro.sh` va aggiunto `--pretende chiusa`. Se quel giorno la parola esce con un refuso, la
+// prima stesura saltava il confronto e usciva 0: un guardiano che dice verde per sempre senza avere
+// mai controllato niente. Cioè il difetto della card #177 — un verdetto che non ferma — rimesso
+// dentro lo strumento nato per misurarlo.
+
+test("«--pretende» con una parola che non è uno stato esce ⚪, non verde", () => {
+  const r = spawnSync(process.execPath, [COMANDO, "--pretende", "chuisa"], { encoding: "utf8" });
+  assert.equal(r.status, 2, "⚪ non è mai un verde, e un refuso non è un permesso");
+  assert.match(r.stderr, /chiusa, aperta, finta/, "deve dire quali sono le parole buone, non solo che è sbagliata");
+});
+
+test("«--pretende» senza nessuna parola dietro esce ⚪ allo stesso modo", () => {
+  const r = spawnSync(process.execPath, [COMANDO, "--pretende"], { encoding: "utf8" });
+  assert.equal(r.status, 2);
+});
+
+// ── AR-949 — il tetto sulle richieste, e quello che resta fuori ────────────
+//
+// Questo comando gira dentro `giro.sh`, dove nessuno mette un limite di tempo: una richiesta per
+// regola, a 20 secondi l'una, e un repo con cinquanta regole terrebbe fermo il battito della
+// macchina. Sui due repo veri le regole sono zero e una, quindi il caso oltre il tetto con GitHub
+// non si può ricreare: servirebbe scrivere sulle impostazioni, cioè la cosa che qui non si fa. Con
+// la funzione pura si prova offline, ed è il motivo per cui il tetto vive lì e non dentro `main`.
+
+test("oltre il tetto si guardano solo le prime, e le altre si CONTANO", () => {
+  const undici = Array.from({ length: 11 }, (_, i) => ({ id: i + 1 }));
+  const { guardate, nonGuardate } = regoleDaGuardare(undici);
+  assert.equal(guardate.length, TETTO_REGOLE, "oltre il tetto non si chiede: sarebbe il giro fermo");
+  assert.equal(nonGuardate, 1, "quello che resta fuori è un numero da dire, non un silenzio");
+});
+
+test("sotto il tetto non resta fuori niente, e non si inventa un ⚪", () => {
+  const { guardate, nonGuardate } = regoleDaGuardare([{ id: 1 }]);
+  assert.equal(guardate.length, 1);
+  assert.equal(nonGuardate, 0, "dire «1 non guardata» quando le ho guardate tutte è un dubbio inventato");
+  assert.deepEqual(regoleDaGuardare([]), { guardate: [], nonGuardate: 0 });
+});
+
+test("il tetto è un numero vero: se sparisce, un repo con cinquanta regole ferma il giro", () => {
+  const cinquanta = Array.from({ length: 50 }, (_, i) => ({ id: i }));
+  assert.ok(regoleDaGuardare(cinquanta).guardate.length <= TETTO_REGOLE,
+    `senza tetto sarebbero 50 richieste da 20 s dentro guardiano(), che non ha nessun limite di tempo`);
+  assert.equal(regoleDaGuardare(cinquanta).nonGuardate, 40);
 });

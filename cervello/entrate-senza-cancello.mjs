@@ -56,9 +56,18 @@ export const CASE = {
   sito: { repo: "NicolaeRotaru/mycity", cancello: "ci.yml" },
 };
 
-/** Quale casa contare: `--casa <nome>`, o la macchina se non è chiesto niente. */
+/**
+ * Quale casa contare: `--casa <nome>`, o la macchina se non è chiesto niente.
+ *
+ * `--casa` SENZA il nome è un errore, non un ripiego. Trovato riguardando con la lente «cosa succede
+ * se»: la prima stesura, davanti a `--casa` scritto e il nome dimenticato, tornava «macchina» in
+ * silenzio. Chi l'aveva scritto voleva il sito, e si sarebbe portato via il numero della macchina —
+ * vero, plausibile, e della casa sbagliata. È lo stesso guasto che questo strumento è nato per
+ * curare, in miniatura: un verdetto che sembra una risposta e non lo è.
+ */
 export function casaChiesta(argv = []) {
   const i = argv.indexOf("--casa");
+  if (i !== -1 && !argv[i + 1]) throw new Error("«--casa» senza il nome della casa: dimmi quale, non tiro a indovinare");
   const nome = (i !== -1 ? argv[i + 1] : process.env.ENTRATE_CASA) || "macchina";
   if (!CASE[nome]) throw new Error(`casa sconosciuta «${nome}»: conosco ${Object.keys(CASE).join(", ")}`);
   return nome;

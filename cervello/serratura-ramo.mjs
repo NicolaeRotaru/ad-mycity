@@ -136,6 +136,26 @@ export function esamina({ rulesets = [], controlliVeri = [], entrateSenzaVerde =
   return { stato: "finta", motivi, regole };
 }
 
+/**
+ * Quante regole guardare in faccia, e quante restano fuori — AR-949.
+ *
+ * Il tetto non è prudenza generica. Questo comando lo esegue `giro.sh`, e `guardiano()` non mette
+ * nessun limite di tempo: una richiesta per regola, a 20 secondi l'una, vuol dire che un repo con
+ * cinquanta regole terrebbe fermo il battito della macchina per venti minuti. Oggi le regole sono
+ * zero e una, quindi il tetto non morde: c'è perché il giorno che qualcuno ne crea trenta, questo
+ * strumento non diventi il motivo per cui il giro non finisce più.
+ *
+ * Ed è PURA e conta cosa resta fuori, apposta: sui due repo veri di regole ce n'è una sola, quindi
+ * il caso oltre il tetto non lo si può ricreare con GitHub — servirebbe scrivere sulle impostazioni,
+ * cioè proprio la cosa che qui non si fa. Con la funzione pura il caso si prova offline, e
+ * `nonGuardate` diventa un numero che il referto DEVE dire: un elenco tagliato raccontato come
+ * intero è la bugia che questa macchina passa il tempo a togliersi di dosso.
+ */
+export const TETTO_REGOLE = 10;
+export function regoleDaGuardare(elenco = [], tetto = TETTO_REGOLE) {
+  return { guardate: elenco.slice(0, tetto), nonGuardate: Math.max(0, elenco.length - tetto) };
+}
+
 const ETICHETTA = {
   chiusa: "🔒 CHIUSA — un lavoro con la prova rossa non entra",
   aperta: "🔓 APERTA — il controllo parla, ma non ferma nessuno",
@@ -172,8 +192,17 @@ function main() {
   const argv = process.argv.slice(2);
   const json = argv.includes("--json");
   const vuoleIstruzioni = argv.includes("--istruzioni");
+  // `--pretende` senza il valore, o con un valore che non è uno dei tre stati, NON deve passare in
+  // silenzio. Trovato riguardando con la lente «cosa succede se»: la prima stesura, davanti a
+  // `--pretende chuisa` scritto storto, saltava il confronto e usciva 0. Un guardiano cablato nel
+  // giro con un refuso avrebbe detto verde per sempre, senza mai controllare niente — che è
+  // esattamente il difetto della card #177 spostato dentro lo strumento che serve a misurarlo.
   const iP = argv.indexOf("--pretende");
   const pretende = iP !== -1 ? argv[iP + 1] : null;
+  if (iP !== -1 && !ETICHETTA[pretende]) {
+    console.error(`✗ «--pretende ${pretende ?? ""}» non dice niente: gli stati sono ${Object.keys(ETICHETTA).join(", ")}.`);
+    process.exit(2);
+  }
 
   if (!CHIAVE) {
     console.error("⚪ nessuna chiave GitHub (GITHUB_TOKEN o GH_TOKEN): non posso guardare, e non fingo di averlo fatto.");
@@ -188,8 +217,10 @@ function main() {
       console.error(`⚪ non ho potuto leggere le regole di ${repo} (http ${rs.http}): senza quelle qualunque verdetto sarebbe inventato.`);
       process.exit(2);
     }
-    // Le regole arrivano in elenco senza il dettaglio: il dettaglio si chiede una per una.
-    const intere = rs.corpo.map((r) => {
+    // Le regole arrivano in elenco senza il dettaglio: il dettaglio si chiede una per una, e il
+    // tetto su quante chiederne sta in `regoleDaGuardare` (AR-949), col perché scritto lì.
+    const { guardate, nonGuardate } = regoleDaGuardare(rs.corpo);
+    const intere = guardate.map((r) => {
       const d = chiedi(`https://api.github.com/repos/${repo}/rulesets/${r.id}`);
       return d.http === 200 && d.corpo ? d.corpo : r;
     });
@@ -206,6 +237,9 @@ function main() {
       repo,
       ...esamina({ rulesets: intere, controlliVeri: controlli }),
       controlliVeri: controlli,
+      // Un elenco tagliato va DETTO. Un verdetto dato su una parte, raccontato come se fosse sul
+      // tutto, è la bugia che questa macchina passa il tempo a togliersi di dosso.
+      nonGuardate,
       // La porta vecchia resta chiusa in faccia (403). Va DETTO, non nascosto: il verdetto qui sopra
       // guarda solo le regole nuove. Quello che lo regge lo stesso è il comportamento — i lavori
       // entrati con la prova rossa, che con una serratura vera non sarebbero potuti entrare.
@@ -222,7 +256,9 @@ function main() {
       console.log(`   ${" ".repeat(9)} ${ETICHETTA[r.stato]}`);
       for (const m of r.motivi) console.log(`   ${" ".repeat(9)} · ${m}`);
       console.log(`   ${" ".repeat(9)} (regole vecchie: ${r.portaVecchia})`);
-      console.log(`   ${" ".repeat(9)} controlli veri: ${r.controlliVeri.length}\n`);
+      console.log(`   ${" ".repeat(9)} controlli veri: ${r.controlliVeri.length}`);
+      if (r.nonGuardate) console.log(`   ${" ".repeat(9)} ⚪ ${r.nonGuardate} regole NON guardate (oltre il tetto): il verdetto non le copre`);
+      console.log("");
     }
     if (vuoleIstruzioni) {
       console.log("COME ACCENDERLA — la B e la C sono lo stesso modulo, cambia solo il punto 5.");

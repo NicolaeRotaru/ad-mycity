@@ -149,3 +149,14 @@ test("senza --casa si conta la macchina: chi lo chiamava prima non cambia compor
   assert.equal(casaChiesta(["--json", "--tetto", "10"]), "macchina");
   assert.equal(casaChiesta(["--casa", "sito"]), "sito");
 });
+
+// AR-948 — Trovato riguardando il perimetro con la lente «cosa succede se», non consegnando: chi
+// scrive `--casa` e dimentica il nome vuole l'altra casa, e si porterebbe via il numero della
+// macchina. Un'opzione scritta a metà non deve ripiegare: deve fermarsi.
+test("«--casa» senza il nome si ferma, invece di dare il numero dell'altra casa", async () => {
+  const { casaChiesta } = await import("../entrate-senza-cancello.mjs");
+  assert.throws(() => casaChiesta(["--casa"]), /senza il nome/,
+    "tornare «macchina» in silenzio darebbe un numero vero della casa che non è stata chiesta");
+  assert.throws(() => casaChiesta(["--casa", "--tetto", "7"]), /sconosciuta|senza il nome/,
+    "«--tetto» non è il nome di una casa: qui il valore è stato dimenticato");
+});
