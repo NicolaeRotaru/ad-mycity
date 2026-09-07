@@ -104,14 +104,14 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
       `}\n`,
   );
   writeFileSync(join(dir, "finto/modulo.mjs"), `export function guardia(scaduto) {\n  ${cerca}\n  return true;\n}\n`);
-  writeFileSync(join(dir, "cervello/test-finto.test.mjs"), "// AR-900 AR-901\nprocess.exit(0);\n");
+  writeFileSync(join(dir, "cervello/test-finto.test.mjs"), "// AR-924 AR-925\nprocess.exit(0);\n");
   writeFileSync(join(dir, "cervello/mutanti.json"), typeof mutanti === "string" ? mutanti : JSON.stringify({ mutanti }));
   writeFileSync(join(dir, "cervello/tetti-lotto.json"), JSON.stringify(tetti ?? { prova_con_or: 0, mutazione_mancante: 0 }));
 
   const scriviCantiere = (verifica, stato) =>
     writeFileSync(
       join(dir, DENTRO_CANTIERE),
-      JSON.stringify({ difetti: [{ id: "AR-900", stato, verifica }] }, null, 1),
+      JSON.stringify({ difetti: [{ id: "AR-924", stato, verifica }] }, null, 1),
     );
 
   execFileSync("git", ["init", "-q", "."], { cwd: dir });
@@ -131,14 +131,14 @@ function cancello(dir) {
 
 const PATTERN = { file: "finto/modulo.mjs", pattern: "guardia", presente: true };
 const COMANDO = { comando: "node cervello/test-finto.test.mjs" };
-const MUTAZIONE_VIVA = [{ lotto: 30, difetto: "AR-900", file: "finto/modulo.mjs", cerca: "if (scaduto) return false;", sostituisci: "", test: "cervello/test-finto.test.mjs" }];
+const MUTAZIONE_VIVA = [{ lotto: 30, difetto: "AR-924", file: "finto/modulo.mjs", cerca: "if (scaduto) return false;", sostituisci: "", test: "cervello/test-finto.test.mjs" }];
 
 prova("il difetto che il lotto ripara ADESSO senza mutazione NON si consegna", () => {
   const dir = repoFinto({ verificaPrima: PATTERN, verificaOra: COMANDO, mutanti: [] });
   const { codice, uscita } = cancello(dir);
   assert.equal(codice, 1, `il cancello doveva bloccare, invece è uscito ${codice}:\n${uscita}`);
   assert.match(uscita, /mutazione-mancante/, "deve dire quale regola ha violato");
-  assert.match(uscita, /AR-900/, "deve dire QUALE difetto");
+  assert.match(uscita, /AR-924/, "deve dire QUALE difetto");
 });
 
 prova("con la sua mutazione viva, lo stesso lotto passa", () => {
@@ -160,11 +160,11 @@ prova("una mutazione che punta a un pezzo sparito non vale: nomina il difetto e 
   assert.match(uscita, /non esiste più/, "deve spiegare che il pezzo da rompere non c'è più");
 });
 
-prova("il difetto accorpato («AR-899+AR-900») conta come nominato", () => {
+prova("il difetto accorpato («AR-923+AR-924») conta come nominato", () => {
   const dir = repoFinto({
     verificaPrima: PATTERN,
     verificaOra: COMANDO,
-    mutanti: [{ ...MUTAZIONE_VIVA[0], difetto: "AR-899+AR-900" }],
+    mutanti: [{ ...MUTAZIONE_VIVA[0], difetto: "AR-923+AR-924" }],
   });
   assert.equal(cancello(dir).codice, 0, "una voce sola può coprire due difetti, se li nomina entrambi");
 });
