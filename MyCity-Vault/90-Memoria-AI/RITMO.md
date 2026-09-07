@@ -1847,3 +1847,29 @@ Aggiungo una quarta priorità. Il server e GitHub non si parlano da 6 giorni. La
 - Dì se sblocchi i pagamenti con carta di Pane Quotidiano.
 - Dimmi cosa fare di "Panificio Demo".
 - Dì come vuoi riallineare il server con GitHub. La distanza sta diventando difficile da recuperare.
+
+## Report della sera · 2026-09-07 18:00
+
+**Com'è andata oggi**
+- Trovata una spiegazione concreta per gli ordini a zero. I visitatori del sito non vedono nessun negozio. Vale anche per chi ha fatto login. Succede su "Tutti i negozi", "Vicino a te" e nella vetrina in home. Manca un permesso sul database. L'ho confermato con una query diretta: non è più un sospetto.
+- Ho passato il fix a chi lo scrive: piccolo, 4 righe. Alle 18:00 non è ancora arrivata una richiesta di unione da guardare. Resta da riprendere domani.
+- Nessuna firma nuova da te oggi. Le tre cose chieste stamattina restano tutte ferme.
+
+**I numeri**
+- Ordini: 1 (lo stesso di giugno, annullato, €19,05). Invariato.
+- Incassati: 0. È il 75° giorno di fila senza un euro vero.
+- Negozi online: 1 vero (Pane Quotidiano). 1 ancora da chiarire ("Panificio Demo").
+- Sito: giù. Stessa causa di sempre (dominio e chiavi Vercel).
+
+**Da approvare**
+- Apri il sito in navigazione anonima e guarda se vedi i negozi: 30 secondi, dice se il problema trovato oggi è vero.
+- Rimetti online il sito: dominio e chiavi Vercel.
+- Sblocca i pagamenti con carta di Pane Quotidiano. Fermi da un mese.
+
+**Lezione di oggi**
+- Un permesso sbagliato sul database può nascondere tutti i negozi ai clienti senza far comparire nessun errore. Vale la pena controllarlo prima di cercare altre cause quando gli ordini non arrivano.
+
+**Domani**
+- Controllo se la richiesta di unione con il fix è arrivata e, se sì, la preparo per la tua firma.
+
+**Dettagli tecnici** — Card #204 in [[AZIONI-IN-ATTESA]]: tabella `profiles`, nessun GRANT per `anon`. RLS limita `authenticated` al proprio profilo/admin. Vista sicura `seller_public_profiles` già in produzione (migrazione 17/8), ma non usata da `app/stores/page.tsx`, `app/near/page.tsx`, `components/StoreShowcase.tsx`, `components/home/HeroStoreCard.tsx`. Riverificato via grep alle 18:00: ancora `.from('profiles')` in tutti e 4. Fix delegato ad @tech alle 16:34. Alle 18:00 nessun branch nuovo nella copia locale del sito, nessuna PR trovata. Riverificato dal vivo via SQL diretto su Supabase: `orders`=1, `payment_status='paid'`→0, `profiles`=9 (5 buyer/2 seller/1 rider/1 admin), `products`=9, `abandoned_carts`=4, `seller_stripe_attivo`=0, `merchants_leads`=407. Stallo North Star ricalcolato sul calendario (24/6→7/9): 75 giorni esatti. I valori 79/81 comparsi in alcuni passaggi di oggi erano un conteggio per-chiamata: corretto. `DECISIONI.md` fermo al 29/8. Coda in cima: #204/#203/#202/#201/#200/#199/#198/#197/#196/#182/#154/#155.

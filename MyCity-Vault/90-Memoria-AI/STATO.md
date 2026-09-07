@@ -1,8 +1,33 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 16:47
+aggiornato: 2026-09-07 18:00
 fonte: AD digitale (cadenza: giro)
 ---
+
+> 🌙 **7/9 18:00 — Report della sera.** Riverificato dal vivo con query SQL diretta su Supabase, non
+> a memoria: 1 ordine (24/6, annullato, €19,05), **0 pagati**, 9 profili, 9 prodotti, 4 carrelli
+> abbandonati. Identico bit-per-bit a tutta la giornata. Stallo North Star: **75° giorno** dal 24/6.
+> Ricalcolato oggi sul calendario. I valori 79 e 81 usati in alcuni passaggi di oggi erano sbagliati:
+> contavano i passaggi fatti, non i giorni di calendario.
+>
+> **La scoperta di oggi non è un numero: è una causa.** I visitatori del sito non vedono nessun
+> negozio. Vale anche per chi ha fatto login. Succede sulle pagine "Tutti i negozi", "Vicino a te" e
+> nella vetrina in home. Manca un permesso sul database: solo il proprietario del profilo o un admin
+> possono leggerlo. L'ho confermato con query dirette sul database vero. Non è più un'ipotesi. È la
+> spiegazione più concreta trovata finora per 75 giorni senza un ordine pagato.
+>
+> **Il fix è pronto da questo pomeriggio. Non ancora la richiesta di unione (PR).** L'ho passato ad
+> @tech alle 16:34. Ho ricontrollato alle 16:47 e di nuovo ora, alle 18:00. Nella copia locale del
+> sito non vedo nessun branch nuovo che somigli al fix. Da qui non so se è ancora in lavorazione
+> altrove o se va ripreso da capo domani.
+>
+> **Nessuna firma nuova di Nicola oggi.** `DECISIONI.md` resta fermo al 29/8. Le priorità di stamattina
+> restano tutte aperte: #154+#155 (dominio e chiavi Vercel), #182 (pagamenti Pane Quotidiano), #196
+> ("Panificio Demo"), #199/#200 (main VPS↔GitHub separati).
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **7/9 16:47 — Nuova chiamata "esegui giro.md per intero".** Sono passati 13 minuti dal
 > passaggio delle 16:34. È circa la **28ª chiamata identica** a "giro completo" oggi. Non rilancio le
@@ -2202,27 +2227,32 @@ fonte: AD digitale (cadenza: giro)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Base di partenza, non una misura di adesso.** I numeri sotto vengono dall'ultima lettura vera
-del database, 6 settembre alle 18:15 (Report della sera), query diretta a Supabase via MCP. Quando
+del database, 7 settembre alle 18:00 (Report della sera), query diretta a Supabase via MCP. Quando
 i sensori sono ciechi, i controlli automatici leggono questa tabella invece di inventare un numero.
 
-| Numero | Oggi (6/9 18:15) | Δ vs 5/9 22:31 | "Riuscito" | Note |
+| Numero | Oggi (7/9 18:00) | Δ vs 6/9 18:15 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 6/9 18:15. "Panificio Demo" (card #196) NON contato: origine non confermata |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | confermato query diretta 7/9 18:00. "Panificio Demo" (card #196) NON contato: origine non confermata |
 | Negozi con payout attivo | **0 reali** | = | 1 | invariato: `stripe_charges_enabled` falso su entrambi i seller. Card #182 |
 | Prodotti VERI del faro pubblicati | **5** | = | ≥5 | invariato (Pane Quotidiano). Il totale tabella `products` è **9**: i 4 in più sono del "Panificio Demo" non confermato |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 6/9 18:15 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **75 giorni** dal 24/6 |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, creato 24/6 08:28, confermato query diretta 7/9 18:00 |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **75 giorni** dal 24/6 (ricalcolo esatto sul calendario) |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | non eseguibile finché Stripe PQ resta spento |
-| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | = | crescita | invariato tutto il giorno. Il +1 di due giorni fa resta "Panificio Demo" (card #196, origine ignota), non un cliente vero |
+| Profili totali | **9** (5 buyer, 2 seller, 1 rider, 1 admin) | = | crescita | invariato tutto il giorno |
+| Carrelli abbandonati | **4** | = | lavorarli | invariato dalle 10:33 di oggi (unico +1 della giornata, non recuperabile: Stripe PQ spento) |
 | Lead negozi nel DB | **407** (fermi dal 24/5) | = | lavorarli | invariato, fuori dal perimetro North-Star di questo giro |
-| Sito pubblico | **HTTP 503** (baseline 5/9 18:03) | = | 200 | non ri-testato dal vivo in questo passaggio (già confermato giù più volte oggi). Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Sito pubblico | **HTTP 503** (baseline 5/9 18:03) | = | 200 | non ri-testato dal vivo oggi. Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Pagine negozio visibili ai clienti | **0 su 0** (bloccate) | ▼ | tutte | **CONFERMATO oggi (card #204):** `anon`/`authenticated` non possono leggere `profiles`; le pagine vetrina non usano ancora la vista sicura `seller_public_profiles`. Fix passato ad @tech, PR non ancora arrivata |
 
 ---
 
 ## Priorità in coda (invariate, nessuna firmata)
 
-1. **#154+#155** — dominio e chiavi Vercel. Mossa n.1: senza questo il sito resta giù (HTTP 503) e
+0. **#204 — NUOVA, la più urgente.** Controlla in incognito se il sito mostra i negozi: se è vuoto
+   anche per un visitatore, è la causa più probabile dei 75 giorni senza un ordine pagato. Fix già
+   passato ad @tech, PR non ancora arrivata.
+1. **#154+#155** — dominio e chiavi Vercel. Mossa n.1 storica: senza questo il sito resta giù (HTTP 503) e
    nessun pagamento riuscito diventa un ordine.
 2. **#182** — pagamenti carta di Pane Quotidiano, fermi da oltre 27 giorni.
 3. **#184** — quattro migrazioni ferme sul database di produzione.
