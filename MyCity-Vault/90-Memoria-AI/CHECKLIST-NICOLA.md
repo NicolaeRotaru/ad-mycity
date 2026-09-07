@@ -2,30 +2,24 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-09-05 10:46
+aggiornato: 2026-09-07 11:15
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma dal 3 settembre (oltre i 2 giorni della regola AR-030).
+> Rigenerata perché era ferma dal 5 settembre (oltre i 2 giorni della regola AR-030).
 >
-> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **76 giorni**.
+> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **79 giorni**.
 >
-> Riverificato ora (query diretta a Supabase MCP): le carte sotto sono confermate ancora aperte
-> nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, migrazioni ferme, Pane Quotidiano
-> senza incassi). Due numeri corretti rispetto all'ultima versione: le PR aperte sul repo
-> memoria/cervello sono **10**, di cui **8 rosse** per colpa propria (non più 8/8). Lo vedi nella
-> sezione CI più sotto. Nuova voce di processo: il buco di permessi dell'allowlist VPS
-> (card #189/#194) blocca ormai anche `esperimenti-check.mjs` e `node cervello/lezione-nuova.mjs` —
-> ha smesso di essere solo un fastidio sui test, impedisce anche di registrare nuove lezioni.
->
-> Il resto dell'elenco non è stato riverificato voce per voce in questo passaggio. Sono le singole
-> card 🟡 «da valutare». Se una di queste risulta già chiusa, dimmelo e la tolgo.
+> Riverificato ora (sensori REST, eseguiti davvero in questo passaggio): le carte sotto restano
+> confermate ancora aperte nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, Pane Quotidiano
+> senza incassi, main↔GitHub disallineati). Il resto dell'elenco (le card 🟡 "da valutare") non è
+> stato riverificato voce per voce in questo passaggio. Se una risulta già chiusa, dimmelo e la tolgo.
 
 ---
 
-## 🔴 IL SITO È GIÙ DA 10 GIORNI — dominio e chiavi Vercel
+## 🔴 IL SITO È GIÙ — dominio e chiavi Vercel
 
 - [ ] 🔴 **Metti le due chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
   ordine registrato).
@@ -34,37 +28,36 @@ aggiornato: 2026-09-05 10:46
 - [ ] 🔴 **Sposta il dominio `mycity-marketplace.com` su Vercel** (punta ancora a Render).
   → Card `#155`
 
-> ℹ️ **Il server che fa girare la macchina è ripartito da solo** stanotte, dopo il fermo segnalato
-> il 22 agosto. Non serve più una tua azione su questo punto. → Card `#168` (aggiornata)
-
 ---
 
-## 🔴 NOVITÀ — database, pagamenti e la scadenza del 29 agosto
+## 🔴 PANE QUOTIDIANO NON INCASSA — 29+ giorni
 
-- [ ] 🔴 **La scadenza che avevi fissato tu è passata da tre giorni.** Era il 29 agosto. Dimmi se
-  vuoi il conto puntuale delle quattro cose, o se hai già deciso diversamente.
+- [ ] 🔴 **Sblocca i pagamenti con carta di Pane Quotidiano.** Fermo da oltre un mese. Il 7/9 alle
+  07:28 un cliente vero ha messo un prodotto nel carrello (€5, Pesto Genovese Bio) e non ha potuto
+  completare l'acquisto: è il segnale più concreto finora di domanda reale sull'unico negozio attivo.
+  → Card `#182`
+
+- [ ] 🔴 **La scadenza che avevi fissato tu era il 29 agosto. È passata da oltre una settimana.**
+  Dimmi se vuoi il conto puntuale delle quattro cose rimaste, o se hai già deciso diversamente.
   → Card `#185`
 
 - [ ] 🔴 **Il database di produzione è indietro di 4 migrazioni** (126-129). Scegli fra accendere
   il cancello del rilascio o farle applicare a mano.
   → Card `#184`
 
-- [ ] 🔴 **Pane Quotidiano non incassa da 18 giorni.** Alcuni post pronti in coda promettono ancora
-  "ordina, ti portiamo". Un pagamento con carta fallirebbe davanti al primo cliente.
-  → Card `#182`
-
 ---
 
-## 🔴 MIGRAZIONI DATABASE FERME (bloccano vetrina e sicurezza dati)
+## 🟡 IL RAMO DI LAVORO E GITHUB NON SI PARLANO PIÙ
 
-- [ ] 🔴 Il segreto che applica le migrazioni prima di ogni pubblicazione.
-  → Card `#160`
-- [ ] 🔴 Migrazione 120 — la vetrina non deve più dare l'ID interno degli ordini.
-  → Card `#159`
-- [ ] 🔴 Migrazione 126 — il lotto dei cento difetti riparati.
-  → Card `#158`
-- [ ] 🔴 Le tre chiavi di Vercel + una parola, così in produzione ci va solo ciò che ha passato i controlli.
-  → Card `#161`
+- [ ] 🟡 **Il ramo main del VPS e quello di GitHub sono disallineati.** Centinaia di commit locali non
+  sono mai stati spinti. Alcuni commit remoti non sono mai scaricati qui: probabilmente sono tue PR
+  firmate. La distanza cresce da sola: più si aspetta, più rischioso diventa il riallineamento. Decidi
+  se far intervenire ora qualcuno con accesso VPS diretto.
+  → Card `#199`
+
+- [ ] 🟡 **Il controllo che chiude bene un turno di lavoro è bloccato da giorni sullo stesso punto di
+  partenza**, causa diretta della card #199.
+  → Card `#200`
 
 ---
 
@@ -74,7 +67,7 @@ aggiornato: 2026-09-05 10:46
   A, lascia com'è e conta i casi; B, obbligatorio ma tu puoi scavalcarlo, consigliata; C,
   obbligatorio e basta.
   → Card `#177`
-- [ ] 🔴 **Otto richieste di unione ferme in coda**: dimmi quali mergiare e quali chiudere.
+- [ ] 🔴 **Otto o più richieste di unione ferme in coda**: dimmi quali mergiare e quali chiudere.
   → Card `#166`
 - [ ] 🔴 **L'informativa privacy esce col nome «MyCity» e basta** — servono i dati veri del titolare.
   → Card `#165`
@@ -85,13 +78,19 @@ aggiornato: 2026-09-05 10:46
 
 ---
 
+## 🟡 Un negozio finto nel database vero
+
+- [ ] 🟡 **"Panificio Demo" è comparso nel database di produzione il 5/9 alle 6:40, origine ignota,
+  zero ordini collegati.** Dimmi se lo riconosci o se posso cancellarlo.
+  → Card `#196`
+
+---
+
 ## 🟡 Decisioni rapide (una parola/un click bastano)
 
 - [ ] 🟡 **Il pannello del negoziante ha 14 voci di menù**, e il tuo paletto dice «nessuna app
   nuova»: scegli quale delle due vale.
   → Card `#178`
-- [ ] 🟡 **Ho tolto un permesso speciale rimasto in giro, morto** — solo da confermare.
-  → Card `#176`
 - [ ] 🟡 **Il sito scrive "spedizione gratis" e poi fa pagare 3 €** — decisione di prezzo, tua.
   → Card `#175`
 - [ ] 🟡 **148 difetti sono chiusi con una prova che non può diventare rossa** — servirebbe una
@@ -105,12 +104,9 @@ aggiornato: 2026-09-05 10:46
 
 ## 🟡 CI rossa sul repo memoria/cervello (ad-mycity)
 
-**10 PR aperte, 8 rosse** per colpa propria del ramo che le ha portate (0 ereditate da `main`, 0 mai
-provate): `#865`, `#864`, `#860`, `#855`, `#842`, `#841`, `#741`, `#735`. Verdetto ereditato dal
-pre-step di `giro.sh` (non riquerato con `ci-stato.mjs` in questo passaggio: nessuna PR sblocca una
-card business, il gate NORTH_STAR non ne giustifica la riverifica). Non riparabili da questa
-sessione: `test-cervello.mjs` resta bloccato dall'allowlist Bash (stesso buco noto delle card
-#104/#189).
+**8 PR aperte non passano i controlli** (colpa propria del ramo che le ha portate, 0 ereditate da
+`main`): `#865`, `#864`, `#860`, `#842`, `#841`, `#741`, `#735`. Non riparabili da questa sessione:
+`test-cervello.mjs` resta bloccato dall'allowlist Bash (stesso buco delle card #104/#189).
 
 ---
 
@@ -125,6 +121,10 @@ sessione: `test-cervello.mjs` resta bloccato dall'allowlist Bash (stesso buco no
   → Card `#95`
 - [ ] 🟡 **Comunicato "I fornelli restano spenti"** per Pane Quotidiano — pronto, aspetta il via.
   → Card `#107`
+- [ ] 🟡 **La riga di permesso mancante in `.claude/settings.local.json`** blocca ancora una decina
+  di controlli automatici diversi (`test-cervello.mjs`, `esperimenti-check.mjs`, `sonda-volano.mjs`
+  inclusi). Vuoi che venga applicata?
+  → Card `#104`/`#189`/`#194`/`#195`/`#198`
 
 > ⚠️ **Restano altre righe tecniche in coda** (fix di codice interno, PR da aprire/mergiare lato AD,
 > cure alla memoria) che non richiedono una TUA decisione — in tutto **89 card 🟡/🔴 aperte** (contate

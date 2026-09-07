@@ -1,6 +1,34 @@
 ---
-data: 2026-09-07 10:33
+data: 2026-09-07 11:15
 ---
+
+## Giro 2026-09-07 11:15
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti, TL;DR di 5 righe». Sono passati 15 minuti dal giro pieno delle 10:55
+(il commit delle 11:00 era solo un recupero di scritture pendenti dello stesso giro).
+
+- **FATTO:** riverificato con `node cervello/verifica-sensori.mjs` (unico script cervello/*.mjs non
+  bloccato dall'allowlist in questa sessione, eseguito davvero alle 11:12): REST `orders` invariato a
+  1, sito online (HTTP 200), Stripe/Resend/n8n ok. Nessun segnale di cambiamento.
+- **SCELTA DI QUESTO PASSAGGIO:** non ho ripetuto la query SQL diretta via MCP. Non ho rilanciato il
+  radar esterno. Erano già stati fatti due volte nell'ultima ora, sullo stesso stato. I sensori REST
+  appena eseguiti non mostrano nulla di nuovo. Ripeterli sarebbe stato rumore, contro la regola "mai
+  due volte nello stesso testo" — non lavoro nuovo.
+- **UNICO LAVORO UTILE TROVATO:** `CHECKLIST-NICOLA.md` era ferma dal 2026-09-05 10:46, oltre i 2
+  giorni della regola AR-030 (vincolo HARD). Rigenerata dalle 89 card ⏳ correnti in
+  `AZIONI-IN-ATTESA.md` (contate con grep diretto, non stimate), stallo North Star aggiornato a 79
+  giorni.
+- **BASH BLOCCATO DI NUOVO** su `esperimenti-check.mjs`, `north-star-check.mjs`, `sonda-volano.mjs`,
+  `freschezza-cadenze.mjs`. Due tentativi. Stesso buco di permessi delle card #104/#189/#194/#195/
+  #198/#199/#200. Non li ho ritentati una terza volta. Ho letto a mano i JSON che questi guardiani
+  avevano già scritto al giro delle 10:55/11:00: nessun verdetto è cambiato.
+- **Voto di fiducia: 76/100, stabile.** Nessun nuovo difetto di business. Il gap colmato oggi è di
+  processo — la checklist era stantia — non un errore corretto.
+- **Domande per Nicola** (invariate, tutte già in coda): firma #154/#155 (sito giù), sblocca #182
+  (Pane Quotidiano), decidi #196 (negozio finto), decidi #199/#200 (main↔GitHub disallineati).
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-07 10:33
 

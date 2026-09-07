@@ -1,8 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 10:33
+aggiornato: 2026-09-07 11:15
 fonte: AD digitale (giro)
 ---
+
+> 🧭 **7/9 11:15 — Nuova chiamata "esegui giro.md per intero".** Sono passati 15 minuti dal giro
+> pieno delle 10:55. Il commit delle 11:00 era solo un recupero di scritture pendenti dello stesso
+> giro. Zero dati di business dentro.
+>
+> **Riverificato con `node cervello/verifica-sensori.mjs`.** È l'unico script non bloccato
+> dall'allowlist in questa sessione. Eseguito davvero, non a memoria. REST Supabase conferma `orders`
+> ancora a 1 riga visibile. Stripe balance ok. Sito online (HTTP 200). Resend ok. N8n ok. Nessun
+> segnale di cambiamento. Non ho ripetuto la query SQL diretta via MCP: era già stata fatta due volte
+> in un'ora, con lo stesso risultato. Sarebbe stato rumore, non lavoro nuovo.
+>
+> **Bash bloccato di nuovo sugli altri script:** `esperimenti-check.mjs`, `north-star-check.mjs`,
+> `sonda-volano.mjs`, `freschezza-cadenze.mjs`. Richiedono un'approvazione non allowlistata. Stesso
+> buco di permessi della card #104/#189/#194/#195/#198/#199/#200. Due tentativi, poi non ho ritentato
+> una terza volta: la regola è "2 blocchi = fallo da solo con gli strumenti che restano". Ho letto a
+> mano i JSON che questi guardiani avevano già scritto al giro delle 10:55/11:00. Nessuno segnala un
+> cambio di verdetto.
+>
+> **L'unico lavoro reale utile in questo passaggio.** `CHECKLIST-NICOLA.md` era stantia dal 5/9 10:46,
+> oltre i 2 giorni della regola AR-030. L'ho rigenerata dalle voci ⏳ correnti di [[AZIONI-IN-ATTESA]]:
+> 89 card aperte, contate con grep diretto. Ho aggiornato lo stallo a **79 giorni** (24/6→7/9) e il
+> conteggio delle PR rosse.
+>
+> **Le priorità restano IDENTICHE a stamattina, invariate da giorni:**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 29+ giorni, un cliente vero
+>    ha già mostrato interesse ieri mattina che non si è potuto incassare.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+> 4. Decidi come riallineare main↔GitHub (#199/#200). La divergenza cresce di giro in giro.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **7/9 10:33 — Nuova chiamata "esegui giro.md per intero".** Sono passati circa 1h25 dal giro
 > pieno delle 09:08. Nel mezzo c'è stato solo un commit alle 10:20, di sola contabilità interna, zero
