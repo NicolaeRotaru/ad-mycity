@@ -1,5 +1,18 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato oggi, 2026-09-07, alle 06:33 circa.** Giro leggero, script `cervello/monitora.md`.
+> Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
+> (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**
+> Le notizie di oggi da Libertà non riguardano il commercio. Sono cronaca varia: commemorazione
+> religiosa, politica locale, sanità (donazioni organi), un reality show. Nessuna di queste
+> notizie riguarda negozi, botteghe o il marketplace. La settimanale "Reputazione MyCity" non è
+> dovuta oggi: ricontrollata l'1/9, prossima scadenza l'8/9. Stesso quadro di stallo: nulla da
+> "reputare" finché non c'è un primo incasso vero.
+>
+> ---
+>
+> ## Versione precedente (6 settembre 2026, invariata sotto)
+>
 > **Aggiornato oggi, 2026-09-06, alle 07:10 circa.** Giro leggero, script `cervello/monitora.md`.
 > Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
 > (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**

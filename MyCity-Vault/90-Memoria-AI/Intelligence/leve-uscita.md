@@ -1,5 +1,13 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
+> **Aggiornato oggi, 2026-09-07, alle 06:33 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi dovute: CCIAA Emilia e Unione Commercianti PC. Per CCIAA: WebSearch `site:emilia.camcom.it bando 2026 piacenza`. Per Unione Commercianti: WebFetch `unionecommerciantipc.it/feed/`. **Nessun bando nuovo.** Stesso quadro di ieri. Il bando ESG resta confermato: apre il 17/9. Il Voucher Cloud/Cybersecurity resta confermato: domande dal 10/11. Il bando fotovoltaico sui parcheggi resta confermato: domande dal 30/9 al 16/11. BE26, PI26, BI26 e il Bando Commercio ER restano tutti chiusi. Il bando rifiuti del Comune resta invariato: 400 mila euro, è la leva #5 più sotto. Nessun dato nuovo per le 3 catene indirette qui sotto. Le fonti settimanali di questo file non sono dovute oggi: comune-imprese, Vita in Centro, Unione Commercianti homepage. Ultimo controllo il 2/9. Prossima scadenza il 9/9.
+>
+> **Vale sempre il filtro sotto.** 0 negozi possono incassare oggi. Quindi nessuna di queste leve diventa un'azione ora: restano solo una mappa pronta per quando lo stallo si rompe.
+
+---
+
+## Versione precedente (6 settembre 2026, invariata sotto)
+
 > **Aggiornato oggi, 2026-09-06, alle 07:10 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi dovute: CCIAA Emilia e Unione Commercianti PC. Per CCIAA, WebSearch `site:emilia.camcom.it bando 2026 piacenza`. Per Unione Commercianti, WebFetch `unionecommerciantipc.it/feed/`. **Nessun bando nuovo.** Stesso quadro di ieri. Il bando ESG resta confermato, apre il 17/9. Il Voucher Cloud/Cybersecurity resta confermato, domande dal 10/11. Il bando fotovoltaico sui parcheggi resta confermato, domande dal 30/9. BE26, PI26, BI26 e il Bando Commercio ER restano tutti chiusi. Il bando rifiuti del Comune resta invariato: 400 mila euro, è la leva #5 più sotto. Nessun dato nuovo per le 3 catene indirette qui sotto. 🆕 Nota da `eventi-picchi.md` di oggi: il Bleech Festival parte oggi (7-13/9). Sono segnalati anche saldi/svuota-magazzino dei negozi del centro per oggi 6/9. Nessuna delle due cose è una leva di bandi o istituzioni: restano solo contesto.
 >
 > **Vale sempre il filtro sotto: 0 negozi possono incassare oggi, quindi nessuna di queste leve diventa un'azione ora — solo mappa pronta per quando lo stallo si rompe.**

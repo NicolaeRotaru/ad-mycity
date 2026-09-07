@@ -26,6 +26,54 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- pausa-scaduta-risveglio -->
 
+<!-- ancora-stop-ferma-6-giorni -->
+### 🟡 #200 — Il controllo che chiude bene un turno di lavoro è bloccato da 6 giorni sullo stesso punto di partenza · ⏳ accodata 2026-09-07 06:29
+
+**Cosa cambia:** ho trovato la causa di un problema tecnico nuovo, scoperto mentre chiudevo questo
+turno. C'è un controllo automatico (si chiama `cancello-stop.mjs`) che, prima di lasciarmi finire,
+rilegge TUTTO quello che è cambiato dall'ultimo turno chiuso bene, e lo ricontrolla. Per sapere da
+dove ripartire, tiene un segnalibro — un file che ricorda l'ultimo punto buono. Quel segnalibro è
+fermo al **1° settembre alle 11:46**, la stessa data in cui si è rotto il collegamento tra questo
+computer e GitHub (vedi la card #199 qui sotto: sono la stessa causa). Il segnalibro avanza solo
+quando un turno chiude senza intoppi. Da quel giorno, nessun turno c'è riuscito. Il risultato: ogni
+nuovo turno deve ricontrollare non solo il proprio lavoro, ma **tutto quello scritto negli ultimi 6
+giorni** — oggi erano 204 file. Il conto cresce ogni giorno, e prima o poi diventerà impossibile da
+ricontrollare in un turno solo.
+
+**Cosa non ho fatto.** Non ho spostato il segnalibro da solo: avrebbe voluto dire dichiarare
+"controllato" un lavoro di 6 giorni che non ho riletto riga per riga — la stessa scorciatoia che la
+regola dell'asticella vieta. Ho invece riletto e sistemato solo il lavoro di questo mio turno (2
+file di memoria, verificati) e segnalato qui il resto.
+
+**Se va bene:** una volta risolta la #199 (il ramo riallineato con GitHub), qualcuno con accesso
+diretto al VPS verifica che gli ultimi turni siano davvero a posto e sposta il segnalibro in avanti a
+mano (il file è `cervello/_tmp_stop-ancora.json`). Da lì il controllo torna a guardare solo il lavoro
+di un turno per volta, come deve.
+
+**Cosa non ho verificato:** se gli altri turni degli ultimi 6 giorni (quelli automatici del worker,
+non da questa chat) passano dallo stesso controllo o no — da qui vedo solo il segnalibro fermo, non
+il motivo per cui nessuno l'ha più spostato.
+
+**Scoperta collegata, stesso turno.** Mentre cercavo di chiudere, il controllo ha segnalato due prove
+"cieche" — controlli che dovrebbero accorgersi se una riparazione passata viene disfatta, ma che non
+trovano più quello che cercano. Ho controllato entrambe di persona: non sono riparazioni disfatte, è
+un difetto nel modo in cui i controlli sono scritti. Un controllo (AR-850) cerca la frase esatta
+"Adesso sono 28" nella coda delle azioni: oggi il numero vero è 27, quindi non la trova mai, a
+prescindere da cosa scrivo. L'altro (AR-046) cerca il numero esatto "663" chiusure nello storico
+salute: il numero vero oggi è 732. Sono controlli scritti per riconoscere un numero preciso di un
+giorno preciso, invece che riconoscere la FORMA giusta: appena quel numero cambia — cosa che succede
+di continuo, è normale — il controllo urla "cieco" per sempre, anche se tutto è a posto. Prova:
+`grep -n difetti_chiusi MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json` mostra 732,
+non 663. Non li ho corretti in questo turno: sistemarli bene vuol dire riscrivere il modo in cui
+`cervello/mutanti.json` cerca il testo (usare un pattern stabile, non un numero fotografato quel
+giorno) e ricollaudarli — lavoro per la squadra macchina, non per un turno a delta zero.
+
+| # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
+|---|---|---|---|---|---|---|---|
+| 200 | 2026-09-07 06:29 | @devops-sre | Dopo aver risolto la card #199, verifica gli ultimi turni e sposta avanti il segnalibro `cervello/_tmp_stop-ancora.json` | 🟡 | vedi blocco sopra — segnalibro fermo al commit `a7c21a2e9a` del 1/9 11:46 | manuale (VPS) | in attesa |
+
+---
+
 <!-- main-divergente-251-vs-8 -->
 ### 🟡 #199 — Da 6 giorni il ramo main del VPS e quello di GitHub non si parlano più: 251 commit di qui non sono mai arrivati là · ⏳ accodata 2026-09-06 20:30
 
@@ -3209,7 +3257,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 06:26)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 08:28)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-07-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

@@ -1,12 +1,11 @@
 {
-  "data": "2026-09-06 22:31",
-  "situazione": "76° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, riverificato ora con query SQL diretta su Supabase — identico a ogni controllo di oggi. Nessuna firma nuova di Nicola dal 29/8. Scoperta di processo del passaggio delle 22:20: il ramo main del VPS e quello di GitHub sono separati dal 1° settembre ore 12:14 (251 commit locali mai spinti, 8 commit remoti mai scaricati) — card #199 aperta per @devops-sre, serve intervento con più permessi del VPS. Letargo RISPARMIO (quota AI 78%): questo passaggio non ripete le 15 fasi pesanti su dati confermati fermi.",
+  "data": "2026-09-07 08:38",
+  "situazione": "77° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, riverificato ora con query SQL diretta su Supabase — identico a ogni controllo delle ultime 24+ ore. Nessuna firma nuova di Nicola dal 29/8. Scoperta nuova: la divergenza tra il ramo di lavoro e GitHub è peggiorata da 251 a 261 commit locali mai spinti in una notte (card #199, senza risposta). Mancava anche il Briefing giornaliero di oggi, creato ora. Letargo RISPARMIO (salute 4/100): questo passaggio non ripete le 15 fasi pesanti su dati di business confermati fermi.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Firma il dominio e le chiavi Vercel che tengono il sito giù", "motivo": "causa nota (variabili d'ambiente Production mancanti) — senza questo un pagamento riuscito non diventa mai un ordine, mossa n.1", "livello": "rosso"},
-    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 27 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
-    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub", "motivo": "separati dal 1/9 12:14 — 251 commit locali mai arrivati su GitHub/Vercel, 8 commit remoti (le tue ultime PR firmate) mai scesi qui: chi guarda GitHub o il Pannello pubblicato vede la macchina ferma al 1° settembre", "livello": "giallo"},
-    {"titolo": "Decidi se rallentare la frequenza dei giri completi", "motivo": "molte chiamate al giorno a delta zero spingono la quota AI oltre soglia ed è la causa diretta della modalità RISPARMIO/SOPRAVVIVENZA", "livello": "giallo"},
+    {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 28 giorni, blocca il primo incasso vero sull'unico negozio reale", "livello": "rosso"},
+    {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza è passata da 251 a 261 commit locali non spinti in una sola notte: più si aspetta, più diventa rischioso il riallineamento", "livello": "rosso"},
     {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs, gate-veri.mjs, delta-gate.mjs e sonda-volano.mjs restano bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
     {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota", "livello": "giallo"}
   ]

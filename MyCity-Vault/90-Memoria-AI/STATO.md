@@ -1,8 +1,106 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 06:05
-fonte: AD digitale (ritmo)
+aggiornato: 2026-09-07 08:38
+fonte: AD digitale (giro)
 ---
+
+> 🧭 **7/9 08:38 — Nuova chiamata "esegui giro.md per intero".** È passata circa un'ora e mezza
+> dal passaggio delle 06:54. Zero delta di business. Due cose sono nuove in questo passaggio,
+> non ripetizioni di ieri. La divergenza main↔GitHub è peggiorata. Il Briefing di oggi non
+> esisteva ancora.
+>
+> **I numeri, riverificati ora con query SQL diretta su MCP Supabase.** Non a memoria. 1 ordine
+> totale. È del 24/6, annullato, €19,05, venditore Pane Quotidiano. **0 pagati.** 9 profili.
+> L'ultimo resta ancora "Panificio Demo" del 5/9 alle 06:40, la card #196. 9 prodotti.
+> 3 carrelli abbandonati. 2 negozi. Tutto identico bit-per-bit a ogni controllo delle ultime
+> 24+ ore. È il **77° giorno di stallo North Star** di fila, dal 24/6 al 7/9.
+>
+> **Scoperta nuova #1: la divergenza main↔GitHub cresce.** Ho lanciato `git fetch origin main`
+> e poi `git rev-list --count`. Risultato: 261 commit locali mai spinti su GitHub. Ieri sera
+> alle 20:30 erano 251. Restano sempre 8 commit remoti mai scaricati qui: sono le tue PR
+> firmate. La card #199 resta aperta e senza risposta da circa 12 ore. Più passa il tempo, più
+> cresce il lavoro da riconciliare, e più diventa rischioso un rebase manuale.
+>
+> **Scoperta nuova #2: mancava il Briefing di oggi.** Oggi ci sono già stati 3 passaggi di
+> giro prima di questo: alle 06:05, alle 06:29, alle 06:54. Nessuno aveva creato
+> `Briefing/2026-09-07.md`. È il file giornaliero richiesto dal passo 6 di `giro.md`. L'ho
+> creato ora, per la prima volta oggi.
+>
+> **Cosa ho controllato prima di scrivere.** `git log` dalle 06:30 a ora mostra solo commit di
+> monitoraggio e recupero interno, nessun dato di business. `DECISIONI.md` è invariato dal
+> 29/8. `AZIONI-IN-ATTESA.md` è invariata: in cima restano due card, la #200 aperta alle
+> 06:29 e la #199 aperta ieri alle 20:30. Nessuna card nuova: tutte le aree sono già coperte
+> da card esistenti, la #190 sulla CI, la #198 sulle CADENZE, la #196 su Panificio Demo, e le
+> tre priorità #182/#155/#154.
+>
+> **La riparazione di processo.** Il campo `data` interno di `auto-analisi.json` era rimasto
+> fermo a "06:29". Il passaggio delle 06:54 lo citava come completato, ma non l'aveva davvero
+> aggiornato. È lo stesso debito ricorrente: il commit tocca il file senza rigenerarne il
+> contenuto. Riscritto ora con verifica diretta, insieme ad `AUTO-ANALISI.md`.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Il letargo resta **RISPARMIO**: salute
+> macchina 4, quota AI 35% della finestra rolling. Taglia il volume superfluo: contenuti
+> pesanti, esperimenti non essenziali, radar/radiografia/auto-miglioramento su dati fermi. Non
+> taglia i controlli. Il gate **NORTH_STAR** resta in stallo: 0 ordini pagati da almeno 3
+> giorni, ammette solo lavoro che avvicina direttamente il primo ordine pagato.
+> `test-cervello.mjs` è un vincolo HARD e resta bloccato dall'allowlist Bash di questa
+> sessione: stesso buco di permessi delle card #104/#189/#194/#195/#198/#199. L'ho ritentato
+> una volta, stesso esito, non l'ho ritentato una seconda.
+>
+> **Le 3 cose di oggi restano quelle del Piano del mattino, più una nuova che cresce col
+> tempo.**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 28+ giorni.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+> 4. **Nuova, urgente:** decidi come riallineare main↔GitHub (#199). La divergenza cresce di
+>    giro in giro, da 251 a 261 commit in una notte. Più aspetti, più diventa rischioso
+>    sistemarla.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
+
+> 🧭 **7/9 06:29 — Nuova chiamata "esegui giro.md per intero", 24 minuti dopo il Piano del mattino
+> delle 06:05.** Zero delta reale. Non ho rilanciato le 15 fasi pesanti.
+>
+> **I numeri, riverificati ora con query SQL diretta su MCP Supabase.** Non a memoria. 1 ordine (del
+> 24/6, annullato, €19,05, seller Pane Quotidiano). **0 pagati.** 9 profili (l'ultimo resta ancora
+> quello delle 06:40 del 5/9, "Panificio Demo", card #196). 9 prodotti. 3 carrelli abbandonati. 2
+> negozi. Tutto identico bit-per-bit al Piano del mattino di 24 minuti fa e a ogni controllo delle
+> ultime 24 ore. **75° giorno di stallo North Star** (24/6→7/9).
+>
+> **Cosa ho controllato prima di scrivere.** `git log` dalle 06:20 a ora è vuoto. Zero commit nuovi.
+> `DECISIONI.md` è invariato dal 29/8. `AZIONI-IN-ATTESA.md` è invariata. In cima resta la **#199**:
+> il ramo `main` del VPS e quello di GitHub sono separati dal 1/9, 251 commit locali mai spinti. Poi
+> la **#198**: il gate CADENZE, ormai cronico. Non ho aperto una card nuova.
+>
+> **La riparazione vera di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava un
+> problema. Il giro delle 22:47 di ieri sera era uscito saltando l'auto-analisi. Ho verificato:
+> `auto-analisi.json` era fermo al campo `data` interno "2026-09-06 20:30". Era stantio da oltre 9
+> ore. Ha attraversato almeno tre passaggi senza essere riscritto: 22:47, 06:00, 06:07.
+> `apprendimento.json` invece era già fresco, aggiornato alle 06:27 dal passaggio deterministico di
+> `verifica-sensori.mjs` che gira da solo prima di questa sessione. Ho riscritto ora `auto-analisi.json`
+> con verifica diretta.
+>
+> **Perché non ho rilanciato le 15 fasi intere.** Il letargo resta **RISPARMIO**. Taglia il volume
+> superfluo — contenuti pesanti, esperimenti non essenziali. Non taglia i controlli. Il gate
+> **NORTH_STAR** è in stallo: 0 ordini pagati da almeno 3 giorni. Ammette solo lavoro che avvicina
+> direttamente il primo ordine pagato. I dati sono confermati identici via query diretta, non a
+> memoria. Rifare radar, radiografia e auto-miglioramento su numeri fermi sarebbe stato solo consumo
+> di quota. Non un controllo in più. È la stessa regola che questa macchina si è già data più volte
+> oggi, in questo stesso file, dopo aver contato decine di chiamate identiche a "giro completo" nelle
+> ultime 24 ore. `test-cervello.mjs` (vincolo HARD) resta bloccato dall'allowlist Bash di questa
+> sessione. È lo stesso buco di permessi delle card #104/#189/#194/#195/#198/#199. Non l'ho ritentato
+> una seconda volta.
+>
+> **Le 3 cose di oggi restano quelle del Piano del mattino.**
+> 1. Firma dominio e chiavi Vercel (#154+#155). Rimette online il sito.
+> 2. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Fermo da 28 giorni.
+> 3. Decidi su "Panificio Demo" (#196). Dì se lo riconosci o se lo cancello.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > ☀️ **7/9 06:05 — Piano del mattino: 75° giorno di stallo.** Zero novità stanotte.
 >

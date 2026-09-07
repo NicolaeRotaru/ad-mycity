@@ -1,6 +1,113 @@
 ---
-data: 2026-09-06 20:30
+data: 2026-09-07 08:38
 ---
+
+## Collaudo del cancello di stop — giro 2026-09-07 08:38
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti» — ~2h dopo il passaggio delle 06:29/06:54.
+- **FATTE:** dati riverificati con query SQL diretta su MCP Supabase. Un ordine, del 24/6, annullato,
+  €19,05, venditore Pane Quotidiano. Zero pagati. 9 profili: l'ultimo resta ancora "Panificio Demo"
+  del 5/9. 9 prodotti. 3 carrelli abbandonati. 2 negozi. Tutto identico bit-per-bit a ogni controllo
+  delle ultime 24+ ore. `DECISIONI.md`: nessuna firma nuova dal 29/8. `AZIONI-IN-ATTESA.md` invariata
+  nel merito.
+- **SCOPERTA NUOVA (non ripetizione).** Ho lanciato `git fetch origin main` e poi `git rev-list`.
+  La divergenza main↔GitHub è peggiorata, non ferma. Ora sono 261 commit locali mai spinti: ieri sera
+  alle 20:30 erano 251. Restano sempre 8 commit remoti mai scaricati. Il problema cresce a ogni giro
+  senza intervento umano.
+- **GAP COLMATO (non ripetizione).** `Briefing/2026-09-07.md` non esisteva ancora. Almeno 3 passaggi
+  giro oggi (06:05/06:29/06:54) avrebbero dovuto crearlo, per il passo 6 di `giro.md`. L'ho creato ora,
+  per la prima volta oggi.
+- **RIPARAZIONE di processo.** Il campo `data` interno di `auto-analisi.json` era fermo a "06:29".
+  Il passaggio delle 06:54 lo citava come già completato, ma non l'aveva davvero aggiornato. È lo
+  stesso debito ricorrente: il commit tocca il file senza rigenerarne il contenuto. Riscritto ora
+  con verifica diretta.
+- **Bash bloccato, come sempre.** `test-cervello.mjs` è un vincolo HARD e resta bloccato con
+  "richiede approvazione". È lo stesso buco di permessi delle card #104/#189/#194/#195/#198/#199.
+  Ritentato una volta, stesso esito, non ritentato una seconda volta.
+- **NON FATTE (per costruzione).** Radar esterno, radiografia completa, auto-miglioramento, nuove
+  lezioni, riscritture dei Piani/intenzioni-nicola.json: letargo RISPARMIO + gate NORTH_STAR (0
+  ordini pagati da ≥3 giorni) su dati confermati identici via query diretta.
+- **Voto di fiducia:** 76/100, stabile.
+
+**② Il diff vero, non a memoria.** File toccati da me in questo turno: `STATO.md`, `AUTO-ANALISI.md`,
+`auto-coscienza/auto-analisi.json`, `SALA-OPERATIVA.md`, `ultimo-briefing.json`,
+`Briefing/2026-09-07.md` (nuovo). Nessun altro file del mio turno.
+
+**③ Prove eseguite.** Query SQL diretta su MCP Supabase (dati di business, riportata sopra).
+`git fetch origin main` + `git rev-list --count` (divergenza main↔origin, numero verificato non
+stimato). `tail`/`grep` diretti su `DECISIONI.md` e `AZIONI-IN-ATTESA.md`. `test-cervello.mjs` non
+esce: bloccato dall'allowlist Bash di questa sessione — non è un risultato, è un "non l'ho potuto
+vedere da qui".
+
+**④ Un'altra strada.** Alternativa scartata: dichiarare il Briefing di oggi "già coperto" da STATO.md
+e non crearlo. L'ho scartata perché il passo 6 di `giro.md` è esplicito: un file per giorno in
+`Briefing/`, e la Cabina lo mostra separatamente da STATO.md — ometterlo lascia un buco reale nella
+tracciabilità del giorno, non solo un dettaglio di formato.
+
+**⑤ Cosa NON ho verificato.** Se `origin/main` ha ricevuto altri commit dopo questo `git fetch`
+(fotografia di questo istante). Le due prove "cieche" del sorvegliante (AR-850, AR-046): confermate
+in passaggio precedente come difetto del test, non ricollaudate ora (fuori scope North Star). Il
+verdetto vero della suite `test-cervello.mjs` (bloccato dall'allowlist).
+
+## Passaggi precedenti
+
+## Collaudo del cancello di stop — giro 2026-09-07 06:29
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti» — 24 minuti dopo il Piano del mattino delle 06:05.
+- **FATTE:** dati riverificati con query SQL diretta su MCP Supabase. Un ordine, del 24/6, annullato,
+  €19,05, venditore Pane Quotidiano. Zero pagati. 9 profili, l'ultimo ancora "Panificio Demo" del 5/9
+  alle 06:40. 9 prodotti. 3 carrelli abbandonati. 2 negozi. Tutto identico bit-per-bit al Piano del
+  mattino di 24 minuti fa. `DECISIONI.md` riverificato: nessuna firma nuova dal 29/8.
+  `AZIONI-IN-ATTESA.md` invariata: top card ancora #199 e #198.
+- **RIPARAZIONE VERA di questo passaggio.** Il vincolo HARD `freschezza-cadenze.mjs` segnalava un
+  problema. Il giro delle 22:47 di ieri sera era uscito saltando l'auto-analisi. Confermato:
+  `auto-analisi.json` era fermo a "2026-09-06 20:30". Era stantio da oltre 9 ore. Ha attraversato tre
+  passaggi senza essere riscritto: 22:47, 06:00, 06:07. Riparato ora con verifica diretta.
+  `apprendimento.json` invece era già fresco, aggiornato alle 06:27 dal passaggio deterministico di
+  `verifica-sensori.mjs` eseguito da `giro.sh`.
+- **Bash bloccato, come sempre.** `test-cervello.mjs` (vincolo HARD) resta bloccato con "richiede
+  approvazione" — stesso buco di permessi delle card #104/#189/#194/#195/#198/#199. Non ritentato
+  una seconda volta: esito già noto.
+- **NON FATTE (per costruzione).** Radar esterno, radiografia completa, auto-miglioramento, nuove
+  lezioni, riscritture dei Piani/intenzioni-nicola.json: letargo RISPARMIO + gate NORTH_STAR (0
+  ordini pagati da ≥3 giorni) su dati confermati identici via query diretta. È la stessa regola che
+  questa macchina si è già data più volte oggi in STATO.md, dopo aver contato decine di chiamate
+  identiche a "giro completo" nelle ultime 24 ore sullo stesso stato.
+- **Voto di fiducia:** 76/100, stabile.
+
+**② Il diff vero, non a memoria.** `git status --short` a fine turno mostra 4 file modificati da me:
+`STATO.md`, `AUTO-ANALISI.md`, `auto-coscienza/auto-analisi.json`, `SALA-OPERATIVA.md`. Nessun altro
+file del mio turno. Il controllo `cancello-stop.mjs` confronta invece con un segnalibro fermo al
+commit `a7c21a2e9a` del 2026-09-01 (vedi ⑤ e card #200): quel confronto include 204 file cambiati
+nell'arco di 6 giorni da decine di turni precedenti, non il lavoro di QUESTO turno. Ho riletto per
+intero solo i 4 file miei; i restanti 200 sono fuori dal perimetro che posso onestamente dichiarare
+verificato oggi.
+
+**③ Prove eseguite.** Query SQL diretta su MCP Supabase (dati di business, riportata sopra).
+`git log`/`git status` per confermare l'assenza di commit e modifiche nuove oltre le mie. Lettura
+diretta di `cervello/mutanti.json` e dei file bersaglio per capire le due prove "cieche" segnalate
+(vedi ⑤). `test-cervello.mjs` non esce: bloccato dall'allowlist Bash di questa sessione (stesso buco
+di permessi delle card #104/#189/#194/#195/#198/#199) — non è un risultato, è un "non l'ho potuto
+vedere da qui".
+
+**④ Un'altra strada.** Alternativa scartata: aggiornare da solo il segnalibro `_tmp_stop-ancora.json`
+a HEAD per far tornare il conteggio a zero file. L'ho scartata perché equivarrebbe a dichiarare
+"controllato" 6 giorni di lavoro che non ho riletto — la scorciatoia che la regola dell'asticella
+vieta esplicitamente. Ho scelto invece di limitare la mia dichiarazione di verifica al lavoro
+verificabile di questo turno e di accodare la causa radice come card #200, per una decisione umana.
+
+**⑤ Cosa NON ho verificato.** I 200 file fuori dal mio turno (contenuto storico già committato nei
+giorni scorsi). Se gli altri turni del worker automatico passano lo stesso cancello o lo saltano. Se
+`origin/main` (GitHub) è nel frattempo tornato allineato — non l'ho ricontrollato in questo passaggio,
+resta quanto già noto dalla card #199. Le due prove "cieche" (AR-850, AR-046) non sono difetti
+introdotti da me: ho verificato che sono numeri fotografati un giorno preciso (28 e 663) diventati
+stantii man mano che i conteggi veri sono avanzati (27 e 732) — un difetto del test, non del lavoro.
+Non le ho corrette: la riparazione tocca `cervello/mutanti.json` e va ricollaudata, fuori scope per
+un turno a delta di business zero sotto il gate NORTH_STAR.
+
+## Passaggi precedenti
 
 ## Collaudo del cancello di stop — giro 2026-09-06 20:30
 

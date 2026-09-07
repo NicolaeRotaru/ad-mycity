@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-06 22:47",
+      "quando": "2026-09-07 06:54",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -21,9 +21,9 @@
       "vincoli_attivi": 12,
       "vincoli": [
         "APPRENDIMENTO",
+        "CADENZE",
         "CORREZIONE_NICOLA",
         "ESP",
-        "GATE",
         "TASSO",
         "TEST",
         "VOLANO",
@@ -35,7 +35,7 @@
       ]
     },
     "monitora": {
-      "quando": "2026-09-06 06:39",
+      "quando": "2026-09-07 06:42",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-07 06:07"
+  "aggiornato": "2026-09-07 06:54"
 }

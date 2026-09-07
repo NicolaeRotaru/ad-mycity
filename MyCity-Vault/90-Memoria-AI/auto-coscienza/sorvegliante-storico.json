@@ -2,34 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-24T11:23:05.193Z",
-      "scatti": 642,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:26:45.101Z",
-      "scatti": 653,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:33:20.126Z",
-      "scatti": 679,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-24T11:41:36.374Z",
-      "scatti": 711,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-24T11:45:39.308Z",
       "scatti": 724,
       "voci": 0,
@@ -2391,7 +2363,69 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-07T04:40:22.684Z",
+      "scatti": 8998,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+          "cosa": "la mutazione di AR-850 («la riga di riepilogo nella coda torna alla forma con due incisi») non trova più il suo pezzo in questo file",
+          "ripetuta": 367
+        }
+      ]
+    },
+    {
+      "quando": "2026-09-07T04:42:01.721Z",
+      "scatti": 9004,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+          "cosa": "la mutazione di AR-850 («la riga di riepilogo nella coda torna alla forma con due incisi») non trova più il suo pezzo in questo file",
+          "ripetuta": 373
+        }
+      ]
+    },
+    {
+      "quando": "2026-09-07T06:44:30.791Z",
+      "scatti": 9045,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-07T06:54:58.065Z",
+      "scatti": 9074,
+      "voci": 10,
+      "per_classe": {
+        "gate-orfano": 2,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-09-07T04:07:52.420Z"
+  "aggiornato": "2026-09-07T06:54:58.065Z"
 }

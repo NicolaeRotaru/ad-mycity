@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-06 20:30",
+  "data": "2026-09-07 08:38",
   "voto_fiducia": 76,
-  "sintesi_giro_corrente": "23ª chiamata di oggi a 'esegui giro.md per intero', ~1h42 dopo il passaggio delle 18:48 (ultimo commit reale 20:20, un recupero senza dati di business). Verificato dal vivo via SQL diretto su MCP Supabase: orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), 0 pagati, profiles=9, products=9, abandoned_carts=3 — identico bit-per-bit a ogni controllo di oggi. `DECISIONI.md` invariato dal 29/8. `AZIONI-IN-ATTESA.md` invariata: top card ancora #198. Riparazione vera di questo passaggio: `freschezza-cadenze.mjs` (HARD) segnalava il giro delle 18:48 uscito saltando l'auto-analisi — il campo `data` interno era rimasto fermo a '18:35'. Riscritto ora con verifica diretta; `apprendimento.json` era già fresco (20:27, dal passaggio deterministico di giro.sh). Passaggio tenuto breve per lo stesso motivo indicato in tutti i passaggi precedenti di oggi: letargo RISPARMIO + gate NORTH_STAR, su dati confermati identici.",
-  "sintesi": "Business fermo dal 24/6. Nessun numero diverso da nessun passaggio precedente di oggi (23 controlli identici). Riparato il debito di processo ricorrente su auto-analisi.json (data interna non rigenerata dal giro delle 18:48). SOPRAVVIVENZA/RISPARMIO + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti rilanciata.",
-  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto di business; la chiusura del gap di freschezza è lo stesso debito di processo ricorrente da giorni, non un errore nuovo.",
+  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', ~2h dopo il passaggio delle 06:29/06:54 (quest'ultimo uscito saltando l'auto-analisi, segnalato dal vincolo HARD freschezza-cadenze). Verificato dal vivo con query SQL diretta su MCP Supabase (non a memoria): orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), ordini_pagati=0, profiles=9 (ultimo ancora il 2026-09-05 06:40, 'Panificio Demo'), products=9, abandoned_carts=3, seller_public_profiles=2 — identico bit-per-bit a ogni controllo delle ultime 24+ ore. `DECISIONI.md` invariato dal 29/8. `AZIONI-IN-ATTESA.md` invariata nel merito: top card ancora #200 (06:29) e #199 (main VPS/GitHub separati). Riverificato con `git fetch origin main`: la divergenza è PEGGIORATA, non risolta — ora 261 commit locali mai spinti (era 251 al passaggio delle 20:30 di ieri) contro sempre 8 commit remoti mai scaricati. Riparazione vera di questo passaggio: il campo `data` interno di questo file era rimasto fermo a '2026-09-07 06:29' nonostante il giro delle 06:54 lo avesse citato come completato — stesso identico debito di processo ricorrente (commit tocca il file, non ne rigenera il contenuto). Riscritto ora con verifica diretta. Scoperta nuova (non di business): manca il Briefing giornaliero di oggi (`Briefing/2026-09-07.md` non esisteva prima di questo passaggio, nonostante almeno 3 passaggi precedenti oggi alle 06:05/06:29/06:54) — creato ora per la prima volta oggi, colmando un gap reale del passo 6 di giro.md, non ripetizione.",
+  "sintesi": "Business fermo dal 24/6, 76°/77° giorno di stallo North Star. Nessun numero diverso da nessun controllo delle ultime 24+ ore. Riparato il debito di processo ricorrente su auto-analisi.json (data interna ferma) e colmato un gap reale: il Briefing giornaliero di oggi non era mai stato creato. SOPRAVVIVENZA/RISPARMIO + NORTH_STAR restano attivi: nessuna delle 15 fasi pesanti (radar esterno, radiografia completa, auto-miglioramento) rilanciata su uno stato già verificato invariato.",
+  "trend_fiducia": "→ stabile a 76: nessun nuovo difetto di business; la chiusura del gap di freschezza e la creazione del Briefing mancante sono debito di processo, non un errore nuovo.",
   "entita_verificate": [
     {
       "nome": "Ordine 58094956… (24/6, annullato, €19,05, seller Pane Quotidiano)",
@@ -17,55 +17,65 @@
       "fonte": "SQL diretto su mcp__supabase-marketplace, questo passaggio"
     },
     {
-      "nome": "auto-analisi.json e Briefing/2026-09-06.md toccati dal commit delle 17:04 senza rigenerare il campo data interno (fermo a 16:36)",
-      "stato": "confermato, riparato in questo passaggio",
-      "fonte": "git log mirato sui due file prima della riscrittura"
+      "nome": "Divergenza main VPS ↔ origin/main: 261 commit locali mai spinti, 8 commit remoti mai scaricati (peggiorata da 251 a 261 dal passaggio delle 20:30 di ieri)",
+      "stato": "confermato, riverificato con git fetch + git rev-list in questo passaggio",
+      "fonte": "git fetch origin main + git rev-list --count main..origin/main / origin/main..main"
     },
     {
-      "nome": "Card #198 (CADENZE cronico) resta la più recente in coda, nessuna card duplicata aperta in questo passaggio",
+      "nome": "Briefing/2026-09-07.md assente prima di questo passaggio nonostante 3+ chiamate giro oggi",
+      "stato": "confermato con ls diretto; creato ora in questo passaggio",
+      "fonte": "ls MyCity-Vault/90-Memoria-AI/Briefing/"
+    },
+    {
+      "nome": "Card #200/#199/#198/#196/#182/#155/#154/#190 restano le più recenti e pertinenti in coda, nessuna card duplicata aperta in questo passaggio",
       "stato": "confermato",
-      "fonte": "AZIONI-IN-ATTESA.md, riga 30"
+      "fonte": "grep diretto su AZIONI-IN-ATTESA.md"
     },
     {
       "nome": "Nessuna firma nuova di Nicola in DECISIONI.md dal 2026-08-29",
-      "stato": "confermato, riverificato ora (git log sul file)",
-      "fonte": "git log -3 su DECISIONI.md"
+      "stato": "confermato, riverificato ora (tail diretto)",
+      "fonte": "tail -3 DECISIONI.md"
     },
     {
       "nome": "Panificio Demo — negozio con origine ignota, comparso 2026-09-05 06:40",
       "stato": "da_verificare, già fondato nel registro-realta.json, invariato",
       "fonte": "registro-realta.json + card #196"
+    },
+    {
+      "nome": "Le due prove 'cieche' segnalate dal sorvegliante (AR-850 su AZIONI-IN-ATTESA.md, AR-046 su storico-salute.json) restano un difetto del test (numero hardcoded stantio), non del contenuto — invariato dal passaggio delle 06:29, non ricollaudato in questo passaggio (fuori scope North Star)",
+      "stato": "confermato in passaggio precedente, non ricontrollato ora",
+      "fonte": "auto-analisi.json passaggio 06:29 + cervello/mutanti.json"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (SOPRAVVIVENZA taglia il volume non-essenziale; North Star vieta lavoro macchina che non sblocchi direttamente una card business).",
-  "nota_dati_non_riverificati_questo_passaggio": "test-cervello.mjs nominato resta bloccato dall'allowlist Bash (card #104/#189/#194/#195/#198) — non ritentato una seconda volta in questo passaggio, esito già noto. Sito HTTP 503 non ri-testato dal vivo (baseline nota, AR-589 non fa scattare il letargo). Radar esterno oltre la cadenza giornaliera non rilanciato. coerenza-fatti.mjs/gate-veri.mjs/sonda-volano.mjs: script nominati, stesso buco di permessi, non ritentati.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (SOPRAVVIVENZA/RISPARMIO taglia il volume non-essenziale; North Star vieta lavoro macchina che non sblocchi direttamente una card business).",
+  "nota_dati_non_riverificati_questo_passaggio": "test-cervello.mjs nominato resta bloccato dall'allowlist Bash (card #104/#189/#194/#195/#198/#199), ritentato una volta in questo passaggio, esito identico. Sito HTTP/uptime non ri-testato dal vivo in questo passaggio specifico (ultimo ok 08:20 dal sensore). Radar esterno oltre la cadenza giornaliera non rilanciato. coerenza-fatti.mjs/gate-veri.mjs/sonda-volano.mjs/piani-data.mjs: script nominati, stesso buco di permessi, non ritentati una seconda volta.",
   "salute_macchina": {
     "supabase": "ok — MCP Supabase raggiungibile in questo passaggio (query dirette riuscite)",
-    "stripe": "non riverificato in questo passaggio (ultimo ok 18:20)",
+    "stripe": "ok — verificato da verifica-sensori.mjs alle 08:32 (balance API ok)",
     "dati_freschi": true,
-    "sensori_attivi": 7,
-    "sito_uptime": "non riverificato dal vivo in questo passaggio (ultimo ok 18:20)"
+    "sensori_attivi": 9,
+    "sito_uptime": "ok — verificato da verifica-sensori.mjs alle 08:32 (storefront HTTP 200)"
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio (229 senza gate su 296, soglia 20) — non lavorata in questo passaggio: il gate North-Star vieta lavoro macchina che non sblocchi direttamente una card business.",
-  "nota_permessi_bash": "Confermato di nuovo: solo gli script elencati per esteso in .claude/settings.local.json passano senza approvazione (git-pr.mjs, pulisci-coda.mjs). test-cervello.mjs e gli altri script cervello/*.mjs nominati restano bloccati. Non ritentati alla cieca in questo passaggio: esito già noto e documentato in decine di passaggi precedenti oggi.",
-  "livello_verifica": "L1 — controlli deterministici su entità/numeri/semaforo/freschezza, con verifica diretta via query SQL fresca e confronto git log mirato sui file sospetti.",
-  "refutazione": "Tentata la demolizione di 'anche questo passaggio è solo rumore, come i precedenti identici oggi': in parte regge — i numeri di business sono correttamente confermati invariati, non rigenerati per finta; la riparazione del campo data su auto-analisi.json/Briefing è un lavoro reale (richiesto dal gate HARD freschezza-cadenze), non decorativo. Ho tenuto il passaggio breve apposta, per non aggiungere altro rumore alla ripetizione già segnalata più volte oggi.",
+  "nota_permessi_bash": "Confermato di nuovo: solo gli script elencati per esteso in .claude/settings.local.json passano senza approvazione (git-pr.mjs, pulisci-coda.mjs). test-cervello.mjs e gli altri script cervello/*.mjs nominati restano bloccati. Non ritentati alla cieca una seconda volta: esito già noto e documentato in decine di passaggi precedenti.",
+  "livello_verifica": "L1 — controlli deterministici su entità/numeri/semaforo/freschezza, con verifica diretta via query SQL fresca, git fetch/rev-list mirato e confronto file su disco.",
+  "refutazione": "Tentata la demolizione di 'anche questo passaggio è solo rumore, come i precedenti identici oggi': in parte regge sui numeri di business (correttamente confermati invariati, non rigenerati per finta), ma NON regge del tutto — questo passaggio ha colmato un gap reale (Briefing giornaliero mai creato oggi) e ha scoperto un peggioramento reale (divergenza main↔origin salita da 251 a 261 commit), non solo ripetuto un controllo.",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
-      "domanda": "Il sito resta giù (HTTP 503) per dominio+chiavi Vercel mancanti. Firmi #154/#155 ora?",
+      "domanda": "Il sito resta giù (HTTP 503 storico, dominio+chiavi Vercel mancanti). Firmi #154/#155 ora?",
       "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
       "colore": "🔴"
     },
     {
       "tipo": "sistema",
-      "domanda": "Il giro completo continua a essere richiamato molte volte al giorno a delta zero (decine di volte oggi, documentate in STATO.md). Resta la causa diretta della quota AI sopra soglia e della modalità SOPRAVVIVENZA. Vuoi che proponga una regola concreta che tenga il motore pieno fermo quando delta-gate.json non segna un cambio vero da meno di N minuti, indipendentemente da quante volte viene richiamato?",
-      "azione": "in attesa di indicazione — riproposta identica dai passaggi precedenti, non ancora risposta",
-      "colore": "🟡"
+      "domanda": "Il ramo main del VPS e quello di GitHub sono ora a 261 commit di divergenza (era 251 ieri sera), e crescono di giro in giro. Più aspettiamo, più rischioso diventa il riallineamento. Vuoi che qualcuno con accesso VPS diretto intervenga ora (card #199), o preferisci decidere prima come vuoi gestire il conflitto sugli 8 commit remoti (le tue PR firmate)?",
+      "azione": "in attesa — la divergenza cresce a ogni giro senza intervento",
+      "colore": "🔴"
     },
     {
       "tipo": "azione",
-      "domanda": "La riga di permesso mancante in .claude/settings.local.json (card #104/#189/#194/#195/#198) blocca ancora una decina di controlli automatici diversi (test-cervello.mjs incluso). Vuoi che venga applicata?",
+      "domanda": "La riga di permesso mancante in .claude/settings.local.json (card #104/#189/#194/#195/#198/#199) blocca ancora una decina di controlli automatici diversi (test-cervello.mjs incluso). Vuoi che venga applicata?",
       "azione": "in attesa",
       "colore": "🟡"
     },
