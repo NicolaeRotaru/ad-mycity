@@ -16642,15 +16642,15 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-09-07 09:21",
+    "aggiornato": "2026-09-07 17:12",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 151,
-    "findings_chiusi": 748,
+    "findings_aperti": 150,
+    "findings_chiusi": 749,
     "findings_tot": 899,
     "aperti_per_severita": {
-      "bloccante": 3,
+      "bloccante": 2,
       "grave": 38,
       "minore": 110,
       "altre": 0
