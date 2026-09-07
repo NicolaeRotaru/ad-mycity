@@ -5199,3 +5199,38 @@ con la stessa invocazione che usa la CI.
 **Cosa resta a Nicola.** La carta #191, il database di produzione: è l'unico bloccante
 rimasto. La #161 resta, ma declassata — i segreti adesso servono per migliorare il
 rilascio, non per tappare una falla.
+
+
+## 2026-09-07 21:30 — ↩️ Correzione: il terzo bloccante non era chiuso, l'avevo dichiarato troppo presto
+
+Alle 19:05 ho scritto che il terzo bloccante era chiuso. Era falso, e l'ho scoperto venti minuti
+dopo dalla mia stessa richiesta di unione.
+
+**Cosa avevo fatto.** I segreti di Vercel non li posso mettere io, quindi avevo messo il cancello
+dove non servono: dentro il build, con `"buildCommand": "npm run verify && next build"`. Avevo
+scritto — nel commit, nella PR e qui — che la prova sarebbe stata l'anteprima costruita da quella
+richiesta.
+
+**Cosa ha detto la prova.** L'anteprima ha fatto fallire 104 prove. Non erano difetti veri: quella
+suite è scritta per l'ambiente della CI, dove certe variabili non ci sono, mentre il costruttore di
+Vercel ha addosso le variabili del progetto. Dal log, `env.resendFrom()` torna undefined e cade la
+prova sul mittente della posta — la stessa verde in CI cinquanta minuti prima.
+
+**Cosa ho fatto.** Tolto tutto. Non ho provato a puntellarlo: far girare quella suite dentro il
+build vorrebbe dire tenere allineate a mano due liste di variabili, e ogni variabile aggiunta domani
+spegnerebbe tutti i rilasci. Una trappola, non un cancello.
+
+**La cosa che ho fatto bene, e va detta perché è l'unica ragione per cui il danno è zero.** Avevo
+dichiarato in anticipo che non avevo verificato il comportamento sul costruttore vero, e che
+l'anteprima sarebbe stata la prova. Quindi la bocciatura è arrivata dove doveva — su un'anteprima,
+prima dell'unione — e non in produzione. Il difetto del mio lavoro non è stato l'esperimento: è
+stato dichiarare chiuso il bloccante e aggiornare la memoria PRIMA che la prova rispondesse.
+
+**La lezione, e il freno.** Quando la prova di una riparazione è un evento futuro — un'anteprima, un
+rilascio, una notte di attesa — la scheda non si chiude adesso. Si chiude quando l'evento risponde.
+Il freno esiste già e non l'ho usato: la skill `collaudo` dice che chi costruisce non collauda e che
+il difetto va ricreato nella variante scomoda. La variante scomoda qui era «e se l'ambiente del
+costruttore non fosse quello della CI?», e non me la sono fatta.
+
+**Cosa resta a Nicola.** La carta #177, già in coda dal 26 agosto, che adesso vale per due
+repository: è la strada che chiude il bloccante senza nessun segreto. E la #191 per il database.

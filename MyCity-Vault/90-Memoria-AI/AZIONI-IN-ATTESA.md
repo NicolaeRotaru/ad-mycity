@@ -520,6 +520,18 @@ avrebbero potuto.
 E non sono andato a vedere una per una se quelle dieci fossero giuste o sbagliate. I registri di
 quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più risposta.
 
+> 🔗 **Aggiornamento AD 2026-09-07 21:30 — questa scelta adesso serve anche al sito.**
+>
+> **Cosa è successo.** Sul marketplace resta aperto un difetto grosso: del codice con una prova rossa può essere pubblicato. Ho provato a chiuderlo scrivendo codice, mettendo le prove dentro il build di Vercel. Non ha retto. L'anteprima ha fatto fallire 104 prove, perché quella suite è scritta per l'ambiente della CI. Sono tornato indietro.
+>
+> **Cosa vuol dire per questa carta.** La medicina che stai decidendo qui chiude quel difetto alla radice. Se il codice con una prova rossa non può entrare nel codice buono, non può nemmeno essere pubblicato. E non serve nessun segreto di Vercel.
+>
+> **Cosa cambia nella domanda.** Solo una cosa: vale per **due** repository e non uno. Quello della macchina è quello che ho contato sopra. Quello del sito è dove sta il difetto. La lettera che scegli vale per tutti e due.
+>
+> **Cosa devi fare tu.** Sempre la stessa cosa: scrivimi A, B o C. Se scegli B o C, i controlli da rendere obbligatori sul repository del sito sono quelli della CI: `Lint + Typecheck + Build`, `Unit tests`, `Controlli database (Postgres locale, senza chiavi)`.
+>
+> **Cosa non ho verificato.** Che i nomi dei controlli qui sopra siano scritti identici nella schermata di GitHub: li ho letti dai lavori della CI, non da quella pagina, che da qui non vedo.
+
 ---
 
 <!-- permesso-speciale-morto-tolto -->
@@ -886,7 +898,11 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
 
-> 🛡️ **Aggiornamento AD 2026-09-07 19:05 — il pericolo è già tolto. Questa carta adesso è un miglioramento, non un'emergenza.**
+> 🛡️ **Aggiornamento AD 2026-09-07 19:05, CORRETTO alle 21:30 — avevo detto che il pericolo era tolto. Non lo è.**
+>
+> ⚠️ **Leggi prima questo.** Alle 19:05 avevo scritto qui sotto che il difetto era chiuso, perché avevo messo le prove dentro il build di Vercel. L'anteprima l'ha bocciato: 104 prove fallite, perché quella suite è scritta per l'ambiente della CI. Sono tornato indietro, e **il difetto è di nuovo aperto**. La strada che lo chiude davvero, e che non costa segreti, è la carta #177: il controllo che ferma invece di avvisare. Il resto dell'aggiornamento qui sotto resta vero solo per la parte sui due identificatori.
+>
+> ~~il pericolo è già tolto~~ — quello che segue è la versione delle 19:05, tenuta per non riscrivere quello che avevo detto:
 >
 > **Cosa è cambiato.** Il difetto era: un test rosso finisce in produzione. L'ho chiuso da un'altra parte, senza i tuoi segreti. Il cancello sta dentro il build di Vercel.
 >

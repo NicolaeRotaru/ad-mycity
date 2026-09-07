@@ -1,10 +1,39 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 19:05
+aggiornato: 2026-09-07 21:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> ↩️ **2026-09-07 21:30 — Ho dichiarato chiuso il terzo bloccante troppo presto. È ancora aperto.**
+>
+> **In parole semplici.** Alle 19:05 ti avevo scritto che restava un bloccante solo. Non è vero:
+> sono di nuovo due. La riparazione che avevo fatto non ha retto, e l'ho tolta.
+>
+> **Cosa era, e cosa è successo.** I segreti di Vercel non li posso mettere io, quindi avevo messo
+> il cancello dove non servono: dentro il build, facendo girare le prove prima di compilare. Avevo
+> detto che la prova sarebbe stata l'anteprima. L'anteprima ha fatto fallire 104 prove.
+>
+> **Perché.** Quella suite è scritta per l'ambiente della CI, dove certe variabili non ci sono. Il
+> costruttore di Vercel invece ha addosso le variabili del progetto. Non erano difetti veri: era il
+> posto sbagliato dove farle girare.
+>
+> **Un esempio concreto.** C'è una prova che controlla da quale indirizzo parte la posta. In CI la
+> variabile del mittente non è impostata, e la prova verifica che il sito ripieghi sul dominio
+> pubblico. Su Vercel quella variabile c'è, quindi la prova trovava un valore che non si aspettava e
+> cadeva. Era verde in CI cinquanta minuti prima.
+>
+> **Cosa cambia per te.** Il conto torna a 150 problemi aperti e 2 bloccanti. Restano due
+> miglioramenti veri di quel giro: un test che era orfano adesso gira in CI, e un'avvertenza falsa
+> nel workflow è corretta.
+>
+> **Cosa devi fare.** La carta **#177**, che era già in coda dal 26 agosto e adesso vale doppio:
+> il controllo che ferma invece di avvisare chiude quel bloccante alla radice, senza nessun segreto.
+> Ti serve solo scrivermi A, B o C. E resta la **#191** per il database.
+>
+> **Cosa non ho verificato.** Che i nomi dei controlli da rendere obbligatori siano scritti identici
+> nella schermata di GitHub: li ho letti dai lavori della CI, non da quella pagina.
 
 > 🛡️ **2026-09-07 19:05 — Chiuso anche il terzo bloccante: ne resta uno solo.**
 >
