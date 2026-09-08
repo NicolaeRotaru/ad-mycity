@@ -23,7 +23,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- possibile-pagina-negozi-vuota-rls -->
-### 🔴 #204 — Controlla adesso se un cliente vero vede negozi sul sito o una pagina vuota · ⏳ accodata 2026-09-07 13:20
+### 🟡 #204 — Il codice era già corretto da luglio: resta solo da confermare cosa serve davvero Vercel · ⏳ accodata 2026-09-07 13:20 · corretta 2026-09-07 23:10
 
 **In parole semplici.** Stavo controllando il bollino "Negozio Verificato". È l'ottava volta, sempre
 fermo. Nel farlo ho trovato una cosa più urgente. Il database ha una regola: "ognuno vede solo i
@@ -83,13 +83,40 @@ Ho passato il compito ad @tech con la prova già in mano e l'istruzione di aprir
 quello resta tuo): è partito in parallelo a questo passaggio, il risultato (numero PR, se compila)
 arriva al prossimo controllo.
 
-**Cosa non ho verificato.** Se il fix regge anche per la query con l'embed `shop_of_month` nella hero
-card (usa una relazione a chiave esterna che una vista come `seller_public_profiles` potrebbe non
-supportare) — l'ho tenuta volutamente fuori da questo fix minimo, @tech la segnala come gap residuo.
+**Cosa non ho verificato (a quel punto).** Se il fix regge anche per la query con l'embed
+`shop_of_month` nella hero card (usa una relazione a chiave esterna che una vista come
+`seller_public_profiles` potrebbe non supportare) — l'ho tenuta volutamente fuori da questo fix
+minimo, @tech la segnala come gap residuo.
+
+**❌→✅ Correzione 2026-09-07 23:10 — la "conferma" delle 16:34 era sbagliata: il codice era già a
+posto da luglio.** Ho rifatto la verifica da capo con un `git fetch origin` riuscito (stavolta la
+rete non era negata) e ho grep-ato esplicitamente `origin/main`, non il checkout locale. Risultato:
+tutti e 4 i file (`app/stores/page.tsx`, `app/near/page.tsx`, `StoreShowcase.tsx`,
+`HeroStoreCard.tsx`) su `origin/main` usano già `seller_public_profiles`. `git log -S
+"seller_public_profiles" -- app/stores/page.tsx` mostra che il fix risale al **1° luglio 2026**
+(commit `03d66e6`), non a oggi. `main` locale e `origin/main` sono identici. La "conferma" di
+stamattina aveva grep-ato il working tree mentre era sul branch `fix/enforce-order-update-invoice-number`,
+forkato da `main` il 24 giugno — cioè PRIMA del fix del 1° luglio: un branch vecchio ha prodotto un
+falso positivo che sembrava una prova definitiva (le query GRANT/RLS sul database erano vere, ma il
+grep sul codice guardava il posto sbagliato).
+
+**Cosa resta da fare, aggiornato.** Non serve una nuova PR per il nome della tabella: il codice è già
+corretto. Resta da confermare solo che **Vercel serva davvero l'ultima `main`** (l'ultima verifica
+nota di deploy "Ready" è dell'8/22, dopo il fix di luglio, quindi probabile ma non ri-testato oggi) e
+se un browser vero mostra i negozi (gli strumenti di lettura HTML statico non eseguono il JavaScript
+di queste pagine client-side, quindi mostrano sempre "Caricamento…" a prescindere dal fatto che il
+codice sia giusto o sbagliato — non è una prova né a favore né contro). **Il blocco reale e già
+confermato resta #182**: anche se un cliente vede Pane Quotidiano, non può ancora pagare con carta.
+
+**Lezione da questa correzione (non ancora nel registro strutturato — CLI bloccata due volte
+dall'allowlist di questa sessione, non ritentata una terza):** prima di dichiarare "confermato" un
+difetto di codice via grep, verificare sempre contro `origin/<branch-produzione>` fetchato fresco,
+mai contro il checkout di sessione senza controllare `git branch --show-current` +
+`git merge-base <branch> origin/main`.
 
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
-| 204 | 2026-09-07 13:20 | @tech | CONFERMATO via SQL diretto: le pagine negozi leggono `profiles` (RLS le blocca per tutti); fix in branch/PR in corso | 🔴 | vedi blocco sopra — grant/RLS provati con aclexplode, fix delegato ad @tech in background | manuale (merge PR) | in attesa |
+| 204 | 2026-09-07 13:20 | @tech | ❌→✅ Corretto 23:10: il codice era già giusto da luglio, non serve una PR nuova. Resta da verificare solo il test in browser reale + che Vercel serva `origin/main` | 🟡 | vedi blocco sopra — correzione con `git fetch` + grep contro `origin/main` + `git log -S` | manuale (verifica) | in attesa |
 
 <!-- badge-verificato-due-branch-orfani -->
 ### 🟡 #203 — Due tentativi di riparare il bollino "Verificato" sono rimasti dimenticati sul disco · ⏳ accodata 2026-09-07 13:20
@@ -3420,7 +3447,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 20:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-07 22:27)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-07-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

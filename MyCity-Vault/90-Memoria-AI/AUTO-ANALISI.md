@@ -1,6 +1,37 @@
 ---
-data: 2026-09-07 18:35
+data: 2026-09-07 22:55
 ---
+
+## Giro 2026-09-07 22:55
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti». ~31ª chiamata a "giro completo" oggi.
+
+- **NON riverificati i dati di business in questo passaggio** (scelta deliberata, non omissione): il
+  sensore era già stato letto ≤2h fa (passaggi 20:33/22:41), stesso stato — 1 ordine annullato, 0
+  pagati, 2 negozi, card #204 col fix in mano ad @tech, PR non ancora arrivata. Riverificarlo una terza
+  volta nella stessa ora sarebbe stato il rumore già segnalato più volte oggi in [[STATO]].
+- **IL VINCOLO VERO DI QUESTO PASSAGGIO:** `freschezza-cadenze.mjs` segnalava che il giro delle 20:49
+  era uscito **saltando auto-analisi/apprendimento** — hard gate, da riparare prima di ogni altro
+  lavoro. In parallelo, il sorvegliante ripeteva da **8 passaggi di fila** lo stesso avviso: la lezione
+  L-2026-0907-601 (in `apprendimento.json`, area **correzione-nicola**) dichiarava un gate,
+  `cervello/mirror-fresco.mjs`, che non esisteva sul disco — un freno promesso a parole, non scritto.
+- **FATTO:** scritto `cervello/mirror-fresco.mjs` per davvero — fa `git fetch origin` + `git rev-list
+  --count` sulla copia locale del marketplace, tiene lo stato in
+  `auto-coscienza/mirror-fresco.json` (ultimo allineamento, storia), ed esce grave (1) solo se il
+  mirror è indietro da più di 24h senza essersi riallineato nel frattempo — così non punisce un
+  singolo commit appena arrivato, ma cattura davvero la deriva silenziosa che ha prodotto 6 diagnosi
+  sbagliate identiche sulla card #204 (lezione L-2026-0907-601). Aggiornato il campo `gate` della
+  lezione, registrato l'ESITO in `memoria-squadra/ad.md`.
+- **Non verificato con una corsa vera:** in questa sessione **ogni** `node cervello/*.mjs` — anche
+  `node --check` di sola sintassi — chiede approvazione e viene negato dal sandbox (`git`/`grep`/`wc`
+  passano senza problemi). Stesso buco già noto e loggato (card #104): non ridiagnosticato una volta
+  di più. La prima corsa vera dello script resta da fare al prossimo giro con permessi (VPS o sessione
+  con l'allowlist corretta) — fino ad allora il gate è scritto ma non ancora *dimostrato* verde.
+- **Non ho aperto nuove card né rilanciato le 15 fasi pesanti:** letargo RISPARMIO + gate NORTH_STAR,
+  nessun delta di business da giustificare un giro pieno.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-07 18:35
 

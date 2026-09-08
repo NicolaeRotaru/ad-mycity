@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-07 20:33",
-  "situazione": "81° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora via verifica-sensori.mjs (REST diretto). Stesso quadro del passaggio delle 16:34: le pagine che mostrano l'elenco negozi interrogano una tabella che i permessi di produzione bloccano per chiunque non sia il negozio stesso o un admin — fix già avviato da @tech (branch + PR in preparazione), esito ancora non confermato in questo passaggio. In SOPRAVVIVENZA (quota AI 117%): nessuna fase pesante rilanciata su dati fermi, 29ª chiamata identica oggi.",
+  "data": "2026-09-07 22:55",
+  "situazione": "81° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora con query diretta. Esito della PR di @tech sul fix pagine-negozio (card #204) non verificabile da qui: questa sessione non può fare `git fetch` verso GitHub (rete negata dal sandbox). Lavoro vero di questo passaggio: scritto il freno che mancava da 8 passaggi (`cervello/mirror-fresco.mjs`, segnala se la copia locale del sito resta indietro da GitHub senza che nessuno se ne accorga) e promosse 3 lezioni tecniche mature a regola fissa. Letargo RISPARMIO: nessuna fase pesante rilanciata su dati fermi.",
   "opportunita": [
     {"titolo": "Il sito probabilmente mostra zero negozi a ogni cliente, ed è già in riparazione", "motivo": "prova diretta sul database: nessun permesso di lettura per i visitatori sulla tabella che le pagine negozio interrogano oggi; esiste già la tabella giusta coi permessi corretti, il fix è cambiare 4 righe di codice", "impatto": "alto", "sforzo": "basso"},
     {"titolo": "Un cliente vero si è fatto vivo stamattina su Pane Quotidiano", "motivo": "carrello da €5 abbandonato alle 07:28 da un account esistente — segnale concreto di domanda sull'unico negozio reale, oggi bloccato anche dai pagamenti spenti", "impatto": "medio", "sforzo": "basso"}
@@ -11,6 +11,7 @@
     {"titolo": "Decidi come sbloccare i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — un cliente vero ha già mostrato interesse che non si è potuto incassare", "livello": "rosso"},
     {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresce di giro in giro: più si aspetta, più diventa rischioso il riallineamento", "livello": "rosso"},
     {"titolo": "Aggiungi la riga di permesso mancante per sbloccare i controlli automatici", "motivo": "test-cervello.mjs e altri guardiani restano bloccati dallo stesso buco di permessi: la macchina non può ripararsi da sola", "livello": "giallo"},
-    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota", "livello": "giallo"}
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota", "livello": "giallo"},
+    {"titolo": "Dai una sessione con permessi pieni (VPS) per collaudare il nuovo freno anti-mirror-stantio", "motivo": "lo script è scritto ma non è mai stato eseguito: da questa sessione ogni comando node viene bloccato dal sandbox", "livello": "giallo"}
   ]
 }

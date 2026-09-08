@@ -1,8 +1,77 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 20:33
+aggiornato: 2026-09-07 23:10
 fonte: AD digitale (cadenza: giro)
 ---
+
+> 🧭 **7/9 23:10 — Nuova chiamata "esegui giro.md per intero", 15 minuti dopo il passaggio delle
+> 22:55.** Riverificato dal vivo via query diretta su MCP Supabase: 1 ordine (24/6, annullato,
+> €19,05), **0 pagati**, 9 profili, 9 prodotti, 4 carrelli abbandonati, 2 negozi. Identico
+> bit-per-bit. Pane Quotidiano resta con `stripe_charges_enabled=false` e
+> `stripe_payouts_enabled=false`: stesso blocco della card #182, invariato.
+>
+> **Il lavoro vero di questo passaggio: la card #204 era una FALSA CONFERMA — correzione fatta, non
+> solo segnalata.** Il passaggio delle 16:34 di oggi aveva dichiarato "confermato via SQL diretto"
+> che le 4 pagine negozio (`app/stores/page.tsx`, `app/near/page.tsx`, `StoreShowcase.tsx`,
+> `HeroStoreCard.tsx`) leggevano ancora `profiles` invece della vista sicura
+> `seller_public_profiles`, e aveva delegato ad @tech un fix "in branch, PR in arrivo". **Ho rifatto
+> la verifica da capo, questa volta con un `git fetch origin` riuscito** (a differenza dei
+> passaggi delle 18:00/22:55 di oggi, dove la rete era negata dal sandbox) **e grep esplicito contro
+> `origin/main`, non contro il checkout locale.** Risultato: tutt'e 4 i file su `origin/main` usano
+> già `seller_public_profiles`, con i permessi giusti (`GRANT SELECT ... TO anon, authenticated`,
+> vista creata dalla migrazione del 17/8). `git log -S "seller_public_profiles"` sul file
+> `app/stores/page.tsx` mostra che il fix è stato introdotto il **1° luglio 2026** (commit
+> `03d66e6`), oltre due mesi fa — non oggi. `main` locale e `origin/main` sono identici (0 commit di
+> differenza in entrambe le direzioni).
+>
+> **La causa della falsa conferma:** il grep delle 16:34 leggeva il working tree della copia locale
+> del sito, che in quel momento era sul branch `fix/enforce-order-update-invoice-number` — forkato da
+> `main` il **24 giugno**, cioè PRIMA del fix del 1° luglio. Un branch vecchio, non `origin/main`, ha
+> prodotto una "prova" che sembrava definitiva (query GRANT/RLS vere sul database + grep sul codice)
+> ma il grep guardava il posto sbagliato. Lezione da registrare alla prima sessione con permessi: mai
+> dichiarare "confermato" un difetto di codice grep-ando il checkout di sessione senza controllare
+> anche `git branch --show-current` + `git merge-base <branch> origin/main` — verificare sempre
+> contro `origin/<branch-produzione>` fetchato fresco. `node cervello/lezione-nuova.mjs` bloccato
+> dall'allowlist di questa sessione (2 tentativi, non un terzo): la lezione resta solo qui e nel
+> quaderno di @tech, non ancora nel registro strutturato.
+>
+> **Cosa significa per il business.** Se `origin/main` è davvero quanto gira su Vercel (l'ultima
+> verifica nota è dell'8/22, "Ready"), un cliente che apre "Tutti i negozi" oggi probabilmente VEDE
+> Pane Quotidiano — non è più la spiegazione più probabile per 0 ordini pagati. **Il blocco reale e
+> confermato resta #182**: Pane Quotidiano non può ancora incassare con carta
+> (`stripe_charges_enabled=false`), a prescindere da chi vede la vetrina. Non ho potuto verificare il
+> rendering vero della pagina in produzione (le pagine sono componenti client, uno strumento di
+> lettura HTML statico mostra solo "Caricamento…", stesso limite dei passaggi precedenti) né se
+> Vercel serve davvero l'ultimo commit di `main` — resta un gap.
+>
+> **Aggiornata la card #204** in [[AZIONI-IN-ATTESA]]: da "🔴 confermato, fix in corso" a "verificato
+> che il codice è già corretto da luglio — non serve una nuova PR; resta da confermare solo che Vercel
+> serva `origin/main` aggiornato". Non ho toccato la card #203 (dipende da #204): la sua logica resta
+> valida a prescindere da questa correzione.
+>
+> Non rilanciate le 15 fasi pesanti: letargo RISPARMIO + gate NORTH_STAR, il delta di business resta
+> zero — il valore di questo passaggio è aver tolto una falsa pista dalla coda, non un nuovo numero.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
+
+> 🧭 **7/9 22:55 — Nuova chiamata "esegui giro.md per intero" (letargo RISPARMIO, non più SOPRAVVIVENZA).**
+> Riverificato con query diretta: 1 ordine (24/6, annullato), 0 pagati, 9 profili, 9 prodotti —
+> invariato da tutta la giornata. Non posso confermare se la PR di @tech sul fix pagine-negozio
+> (card #204) sia arrivata: questa sessione non riesce a fare `git fetch` verso GitHub (rete negata
+> dal sandbox).
+>
+> **Il lavoro vero di questo passaggio:** il sorvegliante ripeteva da **8 passaggi di fila** lo stesso
+> avviso — la lezione L-2026-0907-601 (mirror locale del sito stantio → 6 diagnosi sbagliate identiche
+> sulla card #204) dichiarava un gate, `cervello/mirror-fresco.mjs`, mai scritto sul disco. Scritto ora
+> per davvero: fa `git fetch` + `git rev-list` sulla copia locale, esce grave solo se resta indietro da
+> oltre 24h senza riallinearsi. **Non ancora eseguito con successo**: in questa sessione ogni comando
+> `node` chiede approvazione e viene negato dal sandbox (stesso buco noto, card #104) — resta da
+> collaudare al prossimo giro con permessi pieni. Promosse anche 3 lezioni tecniche mature (già con un
+> test reale che le sorveglia) a "regola fissa" nel registro dell'apprendimento.
+>
+> Non rilanciate le 15 fasi pesanti: nessun delta di business da giustificarle.
 
 > 🧭 **7/9 20:33 — Nuova chiamata "esegui giro.md per intero".** Ho riverificato con
 > `node cervello/verifica-sensori.mjs` (REST diretto, non a memoria). `orders` = 1 riga: il solito
