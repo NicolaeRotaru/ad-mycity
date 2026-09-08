@@ -1604,6 +1604,23 @@ sia andata davvero.
 > riparato, e tu l'hai unito nel pomeriggio: adesso è sul ramo principale del sito. Resta solo
 > quello che ti chiedo qui.
 
+> 🩻 **Aggiornamento dell'8/9 07:35 — manca un solo passo, e la strada sbagliata te l'ho data io.**
+> Le due chiavi le hai messe, e la copia adesso arriva fino a bussare al database: quindi la parola
+> d'ordine e la forma dell'indirizzo vanno bene. Trova la porta chiusa per un motivo che non c'entra
+> con le credenziali — «Network is unreachable» verso `db.clmpyfvpvfjgeviworth.supabase.co`.
+>
+> Supabase offre due strade: la **connessione diretta** e il **Session pooler**. La diretta risponde
+> solo agli indirizzi di nuova generazione, e i computer che GitHub ci presta hanno solo quelli
+> vecchi. Io ti avevo detto di prendere la connessione diretta: era sbagliato.
+>
+> **Quello che resta da fare:** su Supabase, pannello **Connect**, prendi la riga del riquadro
+> **Session pooler** — si riconosce perché l'indirizzo contiene `pooler.supabase.com` invece di
+> `db.…supabase.co`. Non il **Transaction pooler** (porta 6543): quello non regge una copia del
+> database. La incolli al posto di quella di adesso e me lo dici: rilancio io.
+>
+> Perché non sbagli una terza volta, il lavoro adesso se ne accorge da solo e lo dice in due
+> secondi (richiesta di unione [#255](https://github.com/NicolaeRotaru/mycity/pull/255), da unire).
+
 ---
 
 ### 🔴 #131 — L'ultima riparazione del sito: il riquadro in home smette di essere un contatore di ordini · ⏳ accodata 2026-08-19 22:20
