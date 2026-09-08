@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 12:27",
+      "byte_prima": 1083374,
+      "byte_dopo": 964696,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0718-262",
+            "testo": "**Bug triplicamento messaggi nella chat del Pannello (18/7):** Nicola ha mostrato screensh"
+          },
+          {
+            "id": "L-2026-0717-255",
+            "testo": "**Messaggi 🚫 «Annullati» consecutivi nascondono la risposta nel Pannello (17/7, «Non sto "
+          },
+          {
+            "id": "L-2026-0717-249",
+            "testo": "**DEBOUNCE worker — Nicola (17/7): raccogliere tutti i messaggi rapidi prima di rispondere"
+          },
+          {
+            "id": "L-2026-0717-244",
+            "testo": "**Streaming live chat (Nicola 17/7): fix è nel WORKER, non nel Pannello — due modifiche sp"
+          },
+          {
+            "id": "L-2026-0716-236",
+            "testo": "**Session reset da catena di comandi troppo lunga («impallato»)** — quando l'AD incatena t"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 11:45",
       "byte_prima": 1088706,
       "byte_dopo": 970316,

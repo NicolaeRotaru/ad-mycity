@@ -1,17 +1,54 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 12:00
-fonte: AD digitale (cadenza: punto di mezzogiorno)
+aggiornato: 2026-09-08 12:30
+fonte: AD digitale (cadenza: giro completo)
 ---
 
-## Prossime priorità (2026-09-08 12:00)
-🕛 Punto di mezzogiorno. È la cadenza vera, non un richiamo del ciclo. Priorità invariate rispetto
-alle 11:55. Nessun dato di business nuovo da 77+ giorni. Blocco completo per Nicola: [[RITMO]].
+## Prossime priorità (2026-09-08 12:30)
+9°+ passaggio "giro completo" identico di oggi. Priorità invariate rispetto alle 12:00. Nessun dato
+di business nuovo da 77+ giorni. Blocco completo per Nicola: [[RITMO]].
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`
    vieta a se stesso Edit/Write.
-3. **#199 — Riallinea main VPS↔GitHub.** Peggiora: ora 343 commit locali/12 remoti (era 331/12).
+3. **#199 — Riallinea main VPS↔GitHub.** Peggiora ancora: ora 351 commit locali/12 remoti (era 343/12
+   alle 11:55).
 4. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 12:30 — 9°+ passaggio "giro completo" di oggi.** Ho riverificato dal vivo via REST
+> (`verifica-sensori.mjs`). Risultato: `orders`=1 riga, 8/9 sensori ok. È identico a tutti i
+> passaggi di oggi. In `AZIONI-IN-ATTESA.md` la card più recente resta #204, già nota, nessuna
+> nuova. `DECISIONI.md` è invariato dal 29/8 00:40. `git log` mostra solo checkpoint del worker
+> (playbook carrelli/contenuto/anti-churn), tutti su gate già chiusi. Zero dati di business nuovi.
+>
+> **L'unico numero che si è mosso: la divergenza main↔GitHub, di nuovo in peggio.** Ho eseguito
+> `git fetch origin main` + `git rev-list --count` in diretta. Risultato: **351 commit locali mai
+> spinti su GitHub**, **12 remoti mai scaricati**. Alle 11:55 erano 343/12: +8 in 35 minuti. È lo
+> stesso blocco noto della card #199. Serve un intervento con accesso VPS diretto. Non è
+> risolvibile da qui.
+>
+> **Controlli fatti in questo passaggio, non ripetuti a memoria.** `coerenza-fatti.mjs`: verde, 41
+> fatti, 0 cacce aperte, memoria coerente. `auto-analisi.json` e `registro-realta.json` erano già
+> freschi, scritti alle 11:55, 35 minuti prima: non li ho riscritti, sarebbe stato solo rumore
+> identico. `apprendimento.json` era già fresco: aggiornato dal worker alle 12:27.
+> `test-cervello.mjs`, `north-star-check.mjs`, `freschezza-cadenze.mjs`: un tentativo ciascuno,
+> tutti bloccati con "richiede approvazione". È lo stesso buco noto delle card #104/#189/#194. Non
+> l'ho ridiagnosticato.
+>
+> **Non ho rilanciato le 15 fasi pesanti.** Due motivi lo impongono insieme. Il letargo è in
+> **SOPRAVVIVENZA**: quota AI al 116% della finestra rolling, salute macchina 4. Il gate
+> **NORTH_STAR** è in stallo da 0 pagati da 77+ giorni. Insieme ammettono solo lavoro che avvicina
+> direttamente il primo ordine pagato. Non c'era nessun dato nuovo da inseguire con radar,
+> radiografia o auto-miglioramento.
+>
+> **Le priorità restano IDENTICHE a tutti i passaggi di oggi, con un'urgenza in più su #199.**
+> 1. Sblocca i pagamenti con carta di Pane Quotidiano (#182). È l'unico blocco confermato tra i
+>    dati di oggi e il primo ordine pagato.
+> 2. Sblocca da fuori la chat i permessi Bash (#189). Le righe sono già pronte in coda.
+> 3. Riallinea main VPS↔GitHub (#199). Cresce di circa 8 commit ogni mezz'ora. Conviene non
+>    lasciarla crescere oltre.
+> 4. Decidi su "Panificio Demo" (#196). Invariato da 3 giorni.
+>
+> Blocco completo: [[RITMO]].
 
 > 🧭 **8/9 11:55 — 8°+ passaggio "giro completo" di oggi.** Questa volta l'ha chiesto Nicola
 > direttamente in chat, non il timer. Riverificato dal vivo: REST (`verifica-sensori.mjs`)

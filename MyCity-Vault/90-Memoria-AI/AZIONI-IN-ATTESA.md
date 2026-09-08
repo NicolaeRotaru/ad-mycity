@@ -327,9 +327,14 @@ spinti** (erano 331 alle 06:48) e **12 commit remoti mai scaricati** (invariato)
 di alcune decine di commit ogni poche ore. Non tentato un rebase da questa sessione: stessa cautela
 di sempre.
 
+**Aggiornamento 2026-09-08 12:30.** Peggiorato ancora, stessa causa, nessun intervento nel mezzo:
+`git fetch origin main` + `git rev-list --count` diretti mostrano ora **351 commit locali mai
+spinti** (erano 343 alle 11:55, +8 in 35 minuti) e **12 commit remoti mai scaricati** (invariato).
+Non tentato un rebase da questa sessione: stessa cautela di sempre.
+
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
-| 199 | 2026-09-06 20:30 | @devops-sre | Riallinea il ramo main del VPS con quello di GitHub (343 commit locali mai spinti, 12 commit remoti mai scaricati, separati dal 1/9 12:14, la distanza cresce di giro in giro) — urgente: nasconde che il dominio è già risolto e crea doppioni di card | 🟡 | vedi blocco sopra — `git log --oneline main..origin/main` (12) e `origin/main..main` (343) | manuale (VPS) | in attesa |
+| 199 | 2026-09-06 20:30 | @devops-sre | Riallinea il ramo main del VPS con quello di GitHub (351 commit locali mai spinti, 12 commit remoti mai scaricati, separati dal 1/9 12:14, la distanza cresce di giro in giro) — urgente: nasconde che il dominio è già risolto e crea doppioni di card | 🟡 | vedi blocco sopra — `git log --oneline main..origin/main` (12) e `origin/main..main` (351) | manuale (VPS) | in attesa |
 
 ---
 
@@ -3551,7 +3556,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-08 11:43)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-08 12:25)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-08-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno
