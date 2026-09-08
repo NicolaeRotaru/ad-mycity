@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 10:11",
+ "aggiornato": "2026-09-08 11:44",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -10460,9 +10460,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -10564,9 +10564,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -10676,9 +10676,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -10713,9 +10713,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -10877,9 +10877,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -10941,9 +10941,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -11046,9 +11046,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -11080,9 +11080,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -11237,9 +11237,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
+     "quando": "2026-09-08 11:44",
      "ref": "freno rosso nel cancello: sorvegliante del delta",
-     "volte": 16
+     "volte": 18
     }
    ]
   },
@@ -11712,8 +11712,9 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
-     "quando": "2026-08-27 19:37",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
+     "quando": "2026-09-08 11:44",
+     "ref": "freno rosso nel cancello: sorvegliante del delta",
+     "volte": 3
     }
    ],
    "gate": "node cervello/test/sorvegliante.test.mjs",

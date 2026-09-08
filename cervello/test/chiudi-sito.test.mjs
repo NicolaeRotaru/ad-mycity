@@ -231,3 +231,53 @@ test("e una corsia che dichiara il titolo del pacchetto di UN'ALTRA corsia resta
   assert.equal(p.chiudo.length, 0, "una corsia chiude quello che aveva in mano, non quello di un'altra");
   assert.equal(p.orfani.length, 1);
 });
+
+// ── AR-953 — il passaggio di mano fra corsie ───────────────────────────────
+//
+// Sette corsie di questo lotto hanno lasciato un pezzo `bloccato` per un'altra squadra: la cura
+// stava in un file fuori dal loro territorio. È il funzionamento normale del lotto. Ma la squadra
+// che poi lo finisce dichiara una scheda che nel SUO pacchetto non c'è, e la chiusura non aggancia
+// niente: l'8/9/2026 la corsia 26 ha chiuso il pezzo della corsia 7 ed è finita fra le orfane.
+// Sette passaggi di mano, sette chiusure impossibili.
+//
+// La cura NON è cercare il titolo in tutti i pacchetti — quello è il difetto che il comando esiste
+// per fermare, e c'è già una mutazione che lo sorveglia. Il passaggio di mano si DICHIARA.
+
+test("una corsia che dichiara da quale pacchetto ha preso il difetto lo chiude", () => {
+  const problemi = [problema("frontend-ux", "il pannello scrive «non ce n'è nessuno»")];
+  const pacchetti = new Map([
+    [7, { difetti: [{ dimensione: "frontend-ux", titolo: "il pannello scrive «non ce n'è nessuno»" }] }],
+    [26, { difetti: [{ dimensione: "frontend-ux", titolo: "un altro difetto, quello suo" }] }],
+  ]);
+  const frammento = {
+    corsia: 26,
+    difetti: [{ ...riparato("il pannello scrive «non ce n'è nessuno»"), dal_pacchetto: 7 }],
+  };
+  const p = piano(problemi, [frammento], { quando: OGGI, pacchetti });
+  assert.equal(p.orfani.length, 0, "senza questo, sette pezzi passati di mano non si chiudono mai");
+  assert.equal(p.chiudo.length, 1);
+  assert.equal(p.chiudo[0].dalPacchetto, 7);
+  assert.match(p.chiudo[0].campi.chiuso_da, /passato dalla corsia 7 alla 26/,
+    "chi legge il registro deve poter sapere che il pezzo ha cambiato mano");
+});
+
+test("SENZA dichiararlo resta orfana: il passaggio di mano non si indovina", () => {
+  const problemi = [problema("frontend-ux", "il pannello scrive «non ce n'è nessuno»")];
+  const pacchetti = new Map([
+    [7, { difetti: [{ dimensione: "frontend-ux", titolo: "il pannello scrive «non ce n'è nessuno»" }] }],
+    [26, { difetti: [{ dimensione: "frontend-ux", titolo: "un altro difetto, quello suo" }] }],
+  ]);
+  const frammento = { corsia: 26, difetti: [riparato("il pannello scrive «non ce n'è nessuno»")] };
+  const p = piano(problemi, [frammento], { quando: OGGI, pacchetti });
+  assert.equal(p.chiudo.length, 0, "cercare in tutti i pacchetti riaprirebbe il difetto che questo comando ferma");
+  assert.equal(p.orfani.length, 1);
+});
+
+test("un passaggio di mano dichiarato verso un pacchetto che quel difetto non ha resta orfano, e lo dice", () => {
+  const problemi = [problema("frontend-ux", "roba di qualcun altro")];
+  const pacchetti = new Map([[7, { difetti: [{ dimensione: "frontend-ux", titolo: "tutt'altro" }] }]]);
+  const frammento = { corsia: 26, difetti: [{ ...riparato("roba di qualcun altro"), dal_pacchetto: 7 }] };
+  const p = piano(problemi, [frammento], { quando: OGGI, pacchetti });
+  assert.equal(p.orfani.length, 1);
+  assert.match(p.orfani[0].perche, /corsia 7/, "va detto che la corsia lo dichiarava preso da un'altra, se no non si sa dove guardare");
+});

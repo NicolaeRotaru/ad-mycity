@@ -148,9 +148,27 @@ export function piano(problemi = [], frammenti = [], { quando, pr, commit, pacch
   const orfani = [];
 
   for (const d of difettiDeiFrammenti(frammenti)) {
-    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: indici.get(Number(d?.corsia)) });
+    // ⚠️ IL PASSAGGIO DI MANO, e perché è un campo esplicito invece di una ricerca larga.
+    //
+    // Sette corsie di questo lotto hanno lasciato un pezzo `bloccato` per un'altra squadra: la cura
+    // stava in un file che non era il loro territorio. È normale e va bene. Ma la squadra che poi lo
+    // finisce dichiara una scheda che nel SUO pacchetto non c'è, e la chiusura non aggancia niente:
+    // l'8/9/2026 la corsia 26 ha chiuso il pezzo della corsia 7 ed è finita fra le orfane.
+    //
+    // La tentazione era cercare il titolo in TUTTI i pacchetti. Sarebbe stato il difetto che questo
+    // comando esiste per fermare: una squadra che sbaglia a copiare un titolo aggancerebbe la scheda
+    // di un'altra, che magari quel difetto non l'ha nemmeno guardato — e c'è una mutazione che
+    // sorveglia proprio quello. Qui invece il passaggio di mano si DICHIARA: `dal_pacchetto: 7` dice
+    // «questo l'ho preso dalla corsia 7», e si guarda solo lì. Esplicito, non somigliante.
+    const daAltri = d?.dal_pacchetto !== undefined && d?.dal_pacchetto !== null;
+    const numeroPacchetto = Number(daAltri ? d.dal_pacchetto : d?.corsia);
+    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: indici.get(numeroPacchetto) });
     if (!r.chiave) {
-      orfani.push({ chiave: d?.chiave || "(assente)", corsia: d.corsia, perche: r.perche });
+      orfani.push({
+        chiave: d?.chiave || "(assente)",
+        corsia: d.corsia,
+        perche: daAltri ? `${r.perche} (dichiarata come presa dalla corsia ${d.dal_pacchetto})` : r.perche,
+      });
       continue;
     }
     const v = chiudibile(d);
@@ -162,10 +180,15 @@ export function piano(problemi = [], frammenti = [], { quando, pr, commit, pacch
       chiave: r.chiave,
       dedotta: r.dedotta,
       corsia: d.corsia,
+      dalPacchetto: daAltri ? Number(d.dal_pacchetto) : null,
       campi: {
         stato: "riparato",
         chiuso_il: quando,
-        chiuso_da: [pr ? `PR #${pr}` : null, commit || null].filter(Boolean).join(" · ") || "lotto dei gravi del sito",
+        chiuso_da: [
+          pr ? `PR #${pr}` : null,
+          commit || null,
+          daAltri ? `passato dalla corsia ${d.dal_pacchetto} alla ${d.corsia}` : null,
+        ].filter(Boolean).join(" · ") || "lotto dei gravi del sito",
         nota_riparazione: [d.nota_fix, `prova: ${d.verifica_comando}`, `mutazione: ${d.non_vacuita}`].filter(Boolean).join(" — "),
       },
     });

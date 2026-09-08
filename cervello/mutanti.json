@@ -9299,10 +9299,46 @@
    "difetto": "AR-951",
    "nome": "l'indice dei titoli diventa comune a tutte le corsie invece che della sola corsia che dichiara",
    "file": "cervello/chiudi-sito.mjs",
-   "cerca": "    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: indici.get(Number(d?.corsia)) });",
+   "cerca": "    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: indici.get(numeroPacchetto) });",
    "sostituisci": "    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: new Map([...indici.values()].flatMap((m) => [...m])) });",
    "test": "cervello/test/chiudi-sito.test.mjs",
-   "perche_conta": "Una corsia chiude quello che aveva in mano, non quello di un'altra. Con l'indice comune, una squadra che sbaglia a copiare il titolo aggancerebbe la scheda di un'altra squadra - che magari quel difetto non l'ha nemmeno guardato. Il territorio disgiunto delle corsie serve proprio a questo: e' la stessa regola, applicata al momento di scrivere invece che al momento di riparare."
+   "perche_conta": "Una corsia chiude quello che aveva in mano, non quello di un'altra. Con l'indice comune, una squadra che sbaglia a copiare il titolo aggancerebbe la scheda di un'altra squadra - che magari quel difetto non l'ha nemmeno guardato. Il territorio disgiunto delle corsie serve proprio a questo: e' la stessa regola, applicata al momento di scrivere invece che al momento di riparare. 8/9: la riga si e spostata quando il piano ha imparato il passaggio di mano dichiarato (dal_pacchetto). Il pezzo e lo stesso — si guarda UN pacchetto solo — e la mutazione lo insegue li."
+  },
+  {
+   "difetto": "AR-953",
+   "nome": "sparisce il file dei titoli: i nomi con la virgola tornano a spezzarsi in schede fantasma",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    return testo.split(/\\r\\n|\\r|\\n/).map((s) => s.trim()).filter(Boolean);",
+   "sostituisci": "    return String(lista || \"\").split(\",\").map((s) => s.trim()).filter(Boolean);",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "Nel registro del sito una scheda si chiama col suo titolo, e i titoli sono frasi italiane: 35 su 59 contengono una virgola. Senza il file dei titoli ognuno di quelli si spezza in due o tre nomi che non esistono, il comando li rifiuta, e la dimensione resta scoperta per sempre. Non e' scomodo: e' impossibile registrare il perimetro del sito per qualunque titolo scritto come si parla, e il lotto non passa il proprio cancello di consegna. La prima prova cercava l'opzione nel sorgente e restava verde col fix rotto: e' il motivo per cui la decisione e' stata estratta in schedeDichiarate, dove una prova la esegue."
+  },
+  {
+   "difetto": "AR-954",
+   "nome": "il file cancellato torna a essere un file illeggibile, e blocca tutta la dimensione",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    const vivi = file.filter((f) => imp(f) !== null);",
+   "sostituisci": "    const vivi = file;",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "La lista dei file toccati dal lotto comprende quelli che il lotto ha CANCELLATO. Trattarli come illeggibili faceva morire la registrazione, e la dimensione restava scoperta a causa di un file tolto apposta. Con questa mutazione l'impronta viene scritta anche per i file che non esistono, quindi il confronto di domani non ha niente contro cui confrontare: il guardiano direbbe verde su una copertura che non copre."
+  },
+  {
+   "difetto": "AR-955",
+   "nome": "il file dei titoli torna a spezzarsi solo sul fine-riga di casa",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    return testo.split(/\\r\\n|\\r|\\n/).map((s) => s.trim()).filter(Boolean);",
+   "sostituisci": "    return testo.split(\"\\n\").map((s) => s.trim()).filter(Boolean);",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "Un file dei titoli scritto su un'altra macchina porta il ritorno a capo attaccato a ogni riga. Con questa mutazione ogni titolo si porta dietro quel carattere invisibile, quindi NESSUNO combacia col registro: il comando risponde «queste schede non esistono» su cinquanta nomi giusti, e chi legge va a cercare il difetto dalla parte sbagliata. Registrare il perimetro del sito tornerebbe impossibile, e il lotto non passerebbe il proprio cancello di consegna."
+  },
+  {
+   "difetto": "AR-955",
+   "nome": "la lettura fallita del file dei titoli torna a essere una traccia di errore cruda",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "      throw new Error(`non ho potuto leggere il file dei titoli «${file}»: ${e.message}`);",
+   "sostituisci": "      throw e;",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "Chi registra il perimetro sta chiudendo un lotto, spesso a fine giornata. Un percorso sbagliato gli deve dire quale file non ha trovato, non uno stack: con lo stack, la stessa persona ricontrolla le schede, il registro e la dimensione prima di accorgersi che era un refuso nel path."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

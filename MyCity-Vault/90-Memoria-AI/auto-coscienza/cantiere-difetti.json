@@ -20358,6 +20358,78 @@
       "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti.",
       "trovato_da": "la radiografia del perimetro toccato, lente rischio-sicurezza-se, riguardando chiudi-sito.mjs dopo la modifica di AR-951",
       "nota_riparazione": "NON riparato in questo lotto di proposito: e' la stessa regola che impongo alle corsie — i difetti trovati riparando non entrano nel lavoro in corso, si registrano. Riguardando lo stesso file con la stessa lente ho controllato anche: corsia assente (`Number(undefined)` da NaN, l'indice non si trova, restano ammesse solo le chiavi piene — fallisce chiuso, va bene), chiave nulla o vuota (intercettata da `!d`), due pacchetti con lo stesso numero di corsia (il secondo vince, ma i titoli del primo diventano orfani e il comando esce 1: rumoroso, non silenzioso)."
+    },
+    {
+      "id": "AR-953",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-08 11:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "dimensione": "processi-lavoro",
+      "titolo": "Nel registro del sito una scheda si chiama col suo titolo, e i titoli si separavano con la virgola: il perimetro non si poteva registrare",
+      "sintomo": "`radiografia-in-corsa.mjs registra --schede` separa gli identificatori con la virgola. Nella casa «marketplace» una scheda si identifica col TITOLO, e i titoli sono frasi italiane. Misurato sui 59 reperti del perimetro del lotto dell'8/9: 35 titoli su 59 contengono una virgola. Passandoli, ognuno si spezzava in due o tre schede fantasma e il comando li rifiutava. Non era difficile registrare il perimetro del sito: era impossibile, per qualunque titolo scritto come si parla.",
+      "causa_radice": "L'identificatore e il separatore erano lo stesso carattere. Il formato `--schede a,b,c` e' nato per la casa «macchina», dove le schede si chiamano `AR-123` e la virgola non compare mai; quando la stessa opzione ha iniziato a servire anche il sito, dove il nome e' una frase, nessuno ha rifatto il conto. E' la stessa forma di AR-951: un contratto che regge in una casa e si rompe nell'altra, senza che niente diventi rosso.",
+      "fix_proposto": "🟡 FATTO. Aggiunta `--schede-file <percorso>`: un titolo per riga, nessun separatore da indovinare. `--schede` resta per la casa «macchina», dove funziona.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+        "nota": "Due casi nuovi. Mutazione eseguita: tolta l'opzione -> rosso. E la prova mostra il conto vero: quel titolo con due virgole, passato alla vecchia maniera, diventava tre schede."
+      },
+      "impatto_crescita": "Diretto: senza questo il lotto dei gravi del sito non poteva passare il proprio cancello di consegna. Undici dimensioni e 108 file riguardati restavano non registrati, quindi il guardiano del perimetro avrebbe detto «scoperto» per sempre, e la radiografia separata del giorno dopo avrebbe ritrovato gli stessi 50 reperti come se fossero nuovi.",
+      "trovato_da": "usando il comando per registrare il perimetro del lotto dei gravi del sito: 11 dimensioni su 11 rifiutate",
+      "nota_riparazione": "Il comando ora registra davvero: 108 file riguardati su 11 dimensioni, 50 schede nominate una per riga.",
+      "chiuso_il": "2026-09-08 11:40",
+      "chiuso_come": "riparato",
+      "chiuso_da": "lotto dei gravi del sito"
+    },
+    {
+      "id": "AR-954",
+      "gravita": "minore",
+      "stato": "chiuso",
+      "nato": "2026-09-08 11:40",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "dimensione": "processi-lavoro",
+      "titolo": "Un file cancellato dal lotto teneva scoperta la sua dimensione per sempre",
+      "sintomo": "`registra --toccati` prende la lista dei file toccati dal lotto, che comprende anche i CANCELLATI, e poi si rifiutava di leggerli: «non ho potuto leggere: app/rider/onboarding/maggiore-eta.ts». La dimensione restava scoperta a causa di un file che il lotto aveva tolto apposta. L'elenco sapeva gia' distinguerli («1 file cancellati dal lotto: non si radiografano»), la registrazione no.",
+      "causa_radice": "Due pezzi dello stesso comando con due idee diverse di cosa sia un file: uno sa che un cancellato non si radiografa, l'altro lo tratta come illeggibile. Il secondo e' stato scritto dopo, senza rileggere il primo.",
+      "fix_proposto": "🟡 FATTO. `registra` separa i vivi dagli spariti: registra l'impronta dei vivi, annota gli spariti, e resta rosso solo se NESSUNO dei file dichiarati esiste — quello e' un errore vero.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+        "nota": "Un caso nuovo. Mutazione eseguita: rimesso il comportamento vecchio -> 2 rossi, fra cui il caso che sorveglia «ho trovato N cose senza dire quali»."
+      },
+      "impatto_crescita": "Nullo sui soldi, ma blocca il cancello di consegna: una dimensione scoperta ferma il lotto, e la causa sarebbe un file che non esiste piu'.",
+      "trovato_da": "registrando il perimetro del lotto dei gravi del sito, insieme ad AR-953",
+      "nota_riparazione": "L'impronta si scrive solo per i file vivi: un cancellato non ha niente da confrontare domani.",
+      "chiuso_il": "2026-09-08 11:40",
+      "chiuso_come": "riparato",
+      "chiuso_da": "lotto dei gravi del sito"
+    },
+    {
+      "id": "AR-955",
+      "gravita": "minore",
+      "stato": "chiuso",
+      "nato": "2026-09-08 11:55",
+      "area": "macchina",
+      "nato_come": "nuovo-lavoro",
+      "dimensione": "rischio-sicurezza-se",
+      "titolo": "Il file dei titoli non si spezzava col solo ritorno a capo, e un percorso sbagliato dava una traccia di errore",
+      "sintomo": "Due cose trovate riguardando `schedeDichiarate` appena scritta, con la lente «cosa succede se». ① Il file dei titoli si spezzava sul solo fine-riga di casa: un file con il SOLO ritorno a capo (vecchio Mac) lascia i titoli incollati in un nome unico, che nel registro non esiste, e il comando risponde «queste schede non esistono» mandando dalla parte sbagliata. ② Un percorso sbagliato non veniva intercettato: traccia di errore cruda invece di una frase, a chi sta chiudendo un lotto.",
+      "causa_radice": "Scritta guardando il caso normale (il file lo scrivo io, qui, adesso) invece dei modi in cui arriva. La stessa forma di AR-950 e AR-948: un dato malformato che somiglia a un dato buono.",
+      "fix_proposto": "🟡 FATTO. Si spezza su tutti e tre i fine-riga; la lettura fallita diventa una frase che nomina il file.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+        "nota": "Tre casi che chiamano la funzione vera, non il sorgente. Due mutazioni eseguite e rosse. La prima stesura della prova restava VERDE col fix rotto: è così che ho scoperto che metà del fix non serviva."
+      },
+      "impatto_crescita": "Nullo sui soldi. Toglie un'ora di caccia al prossimo che registra un perimetro da una macchina diversa.",
+      "trovato_da": "la radiografia del perimetro toccato, lente rischio-sicurezza-se, su radiografia-in-corsa.mjs appena modificato",
+      "nota_riparazione": "⚠️ CORREZIONE DELLA MIA STESSA SCHEDA. La prima stesura diceva che i fine-riga di Windows rompevano tutto: NON È VERO, e l'ha dimostrato la mutazione restando verde. Con `split(\"\\n\")` il ritorno a capo resta in coda a ogni pezzo e il `.trim()` che c'era già lo toglieva — misurato: \"Un titolo, vero\\r\\nUn altro\\r\\n\" dava già i due titoli puliti. Avevo scritto un difetto che non esisteva, e la prova che gli avevo messo accanto lo confermava senza poterlo smentire. L'unico caso che la separazione larga cambia davvero è il file col solo ritorno a capo, ed è quello che la prova adesso esegue. Un fix che non cura niente è peggio di nessun fix: occupa il posto di quello vero, ed è la stessa lezione di AR-950 (la difesa contro i surrogati ricopiata da Python senza rifare la prova). Riguardando lo stesso file ho controllato anche: file vuoto (ripiega sulla riga di comando, silenzioso ma innocuo), `dal_pacchetto` a zero o non numerico in chiudi-sito.mjs (orfano rumoroso, va bene), titoli con spazi in coda (tolti).",
+      "chiuso_il": "2026-09-08 11:55",
+      "chiuso_come": "riparato",
+      "chiuso_da": "lotto dei gravi del sito"
     }
   ],
   "meta": {
