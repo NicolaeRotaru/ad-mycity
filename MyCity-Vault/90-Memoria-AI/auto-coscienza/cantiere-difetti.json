@@ -20338,6 +20338,26 @@
       "chiuso_il": "2026-09-08 09:45",
       "chiuso_come": "riparato",
       "chiuso_da": "lotto dei gravi del sito"
+    },
+    {
+      "id": "AR-952",
+      "gravita": "minore",
+      "stato": "aperto",
+      "nato": "2026-09-08 10:35",
+      "area": "macchina",
+      "nato_come": "scoperta",
+      "dimensione": "rischio-sicurezza-se",
+      "titolo": "Due corsie che dichiarano la stessa scheda la chiudono due volte, e il conto mostrato a Nicola conta le dichiarazioni invece delle schede",
+      "sintomo": "In `piano()` di `chiudi-sito.mjs` niente impedisce a due frammenti di dichiarare la stessa chiave. Finiscono due voci in `chiudo`, e `main()` fa `Object.assign` due volte sulla stessa scheda: il `chiuso_da` della seconda corsia sovrascrive quello della prima, in silenzio. Il numero stampato («Da chiudere: N») conta le dichiarazioni, non le schede distinte, quindi direbbe a Nicola piu' chiusure di quante ne siano avvenute.",
+      "causa_radice": "Il piano tratta ogni difetto dichiarato come indipendente, mentre le corsie possono legittimamente incrociarsi: e' successo in questo stesso lotto — la corsia 26 ha chiuso la meta' che la corsia 7 aveva lasciato bloccata. Il territorio disgiunto vale sui FILE, non sulle schede.",
+      "fix_proposto": "Raggruppare `chiudo` per chiave prima di scrivere: una voce per scheda, con l'elenco delle corsie che l'hanno dichiarata dentro `chiuso_da`. E contare le schede distinte, non le righe.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova automatica: il caso non e' coperto e non fingo che lo sia. Si riproduce a mano — due frammenti che dichiarano la stessa chiave, poi si guarda se «Da chiudere» conta due o uno. MISURATO sui 28 frammenti veri di questo lotto: 33 dichiarazioni, 33 schede distinte, 0 doppioni. Il rischio c'e' e non e' scattato: e' per questo che e' minore."
+      },
+      "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti.",
+      "trovato_da": "la radiografia del perimetro toccato, lente rischio-sicurezza-se, riguardando chiudi-sito.mjs dopo la modifica di AR-951",
+      "nota_riparazione": "NON riparato in questo lotto di proposito: e' la stessa regola che impongo alle corsie — i difetti trovati riparando non entrano nel lavoro in corso, si registrano. Riguardando lo stesso file con la stessa lente ho controllato anche: corsia assente (`Number(undefined)` da NaN, l'indice non si trova, restano ammesse solo le chiavi piene — fallisce chiuso, va bene), chiave nulla o vuota (intercettata da `!d`), due pacchetti con lo stesso numero di corsia (il secondo vince, ma i titoli del primo diventano orfani e il comando esce 1: rumoroso, non silenzioso)."
     }
   ],
   "meta": {

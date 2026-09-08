@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-09-08 09:42",
+  "aggiornato": "2026-09-08 10:23",
   "giorni_sospetto": 3,
-  "difetti_aperti": 168,
-  "difetti_da_fare": 168,
+  "difetti_aperti": 169,
+  "difetti_da_fare": 169,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 942,
+    "totale": 943,
     "chiusi": 774,
-    "aperti": 157,
+    "aperti": 158,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 168,
+    "da_fare": 169,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 774,
-      "aperto": 157,
+      "aperto": 158,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 168,
-    "viste": 168,
+    "attese": 169,
+    "viste": 169,
     "fuori": 0,
-    "motivo": "bilancio a posto: 774 chiuse + 168 classificate = 942 schede, e ogni stato vivo è dentro (157 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 774 chiuse + 169 classificate = 943 schede, e ogni stato vivo è dentro (158 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 111,
+    "umana": 112,
     "prova-debole-su-grave": 26,
     "auto-comando": 27,
     "auto-sospetta": 4
@@ -198,8 +198,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 9,
-  "schede_campi_illeggibili": 30,
+  "schede_non_giudicabili": 10,
+  "schede_campi_illeggibili": 31,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -350,6 +350,11 @@
       "id": "AR-946",
       "gravita": "grave",
       "impatto_crescita": null
+    },
+    {
+      "id": "AR-952",
+      "gravita": "minore",
+      "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -409,9 +414,15 @@
       "gravita": "minore",
       "impatto_crescita": null,
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-952",
+      "gravita": "minore",
+      "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti.",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 141,
+  "non_auto_chiudibili": 142,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -4153,6 +4164,19 @@
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "La Cabina resta indietro mentre lavoro, e a dirmelo è il cancello mezz'ora dopo invece del freno di fine turno",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-952",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "impatto_crescita": "Nullo finche' non scatta. Se scatta, Nicola legge un numero di riparazioni piu' alto del vero e una corsia perde la firma sul suo lavoro. Non corrompe il registro: i campi hanno la stessa forma, cambia solo chi risulta averli scritti.",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Due corsie che dichiarano la stessa scheda la chiudono due volte, e il conto mostrato a Nicola conta le dichia",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
