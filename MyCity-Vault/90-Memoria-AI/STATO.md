@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 20:33
+aggiornato: 2026-09-08 22:41
 fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 22:41 (invariato, ~2h dopo il passaggio delle 20:33 — terzo giro in 2 ore)
+Stessi numeri, riverificati dal vivo via SQL diretto. 1 ordine (24/6, annullato, €19,05). 0 pagati.
+9 profili. 407 lead ancora tutti da contattare. Applicata la strategia snella per i giri ravvicinati a
+dati invariati: niente riscritture pesanti duplicate. La divergenza main↔GitHub è peggiorata: 368
+commit locali mai spinti, 12 remoti mai scaricati (era 360/12). Priorità invariate, tre in tutto:
+Stripe di Pane Quotidiano (#182), i permessi Bash da sbloccare (#189/#104), e "Panificio Demo" da
+decidere (#196).
 
 ## Giro delle 20:33 (invariato, ~2h dopo il passaggio delle 18:32)
 Stessi numeri di sempre. Riverificati ora con query SQL dirette. 1 ordine, quello del 24/6, annullato,

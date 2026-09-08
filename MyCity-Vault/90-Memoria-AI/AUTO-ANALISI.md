@@ -1,6 +1,30 @@
 ---
-data: 2026-09-08 20:33
+data: 2026-09-08 22:41
 ---
+
+## Giro 2026-09-08 22:41 (nuova chiamata, ~2h dopo il passaggio delle 20:33)
+
+**Voto di fiducia: 76/100** (stabile). Terzo giro completo nelle ultime due ore sugli stessi dati.
+
+- **Riverificato dal vivo, con query SQL dirette su supabase-marketplace.** Non ereditate. Risultato
+  bit-per-bit identico al passaggio delle 20:33: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano),
+  0 pagati, 9 profili, 407 lead negozi tutti `to_contact`, 6 eventi attività ultimi 7gg.
+- **Applicata la "strategia snella"** già documentata per questo esatto pattern (giri ravvicinati a
+  dati invariati): niente riquery pesanti duplicate, niente riscrittura di radar/radiografia/
+  auto-miglioramento — solo verifica e i file obbligatori del cancello di serietà.
+- **Tentato il fix di causa-radice del delta-gate**, non solo il sintomo: `node cervello/delta-gate.mjs
+  --segna-pieno` (la baseline non è mai stata ripromossa dopo il primo "clienti 8→9" dovuto al profilo
+  fantasma "Panificio Demo", quindi il gate segna "cambiato" ogni volta). Bloccato da "richiede
+  approvazione", un tentativo, stesso buco delle card #104/#189. `coerenza-fatti.mjs` invece è
+  eseguibile in questa sessione ed è stato rilanciato ora: memoria coerente, 41 fatti, 0 cacce aperte.
+- **Unico numero aggiornato dal vivo:** la divergenza main↔GitHub (#199), da `git fetch` +
+  `git log` diretti: 368 commit locali mai spinti / 12 remoti mai scaricati (era 360/12 alle 16:33,
+  in crescita).
+- **Le priorità restano le stesse, tre in tutto.** #182: Stripe di Pane Quotidiano, fermo da circa 29
+  giorni. #189 e #104: le righe di permesso Bash da aggiungere fuori da questa chat. #196: decidere su
+  "Panificio Demo", quarto giorno senza risposta.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 20:33 (nuova chiamata, ~4h dopo il passaggio delle 16:33)
 

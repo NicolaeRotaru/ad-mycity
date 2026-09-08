@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 22:35",
+      "byte_prima": 1046485,
+      "byte_dopo": 927347,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0710-85",
+            "testo": "**Nicola vuole che l'AD resti in ascolto fino a verifica live (chat 10/7 ~18:55):** dopo a"
+          },
+          {
+            "id": "L-2026-0710-84",
+            "testo": "**`pannello/vercel.json` con `deploymentEnabled.main: false` blocca TUTTI i build Vercel, "
+          },
+          {
+            "id": "L-2026-0710-83",
+            "testo": "**Il linter del progetto annulla le Edit su file TSX/React (chat 10/7):** durante il fix d"
+          },
+          {
+            "id": "L-2026-0710-82",
+            "testo": "**watch-main può sovrascrivere HEAD durante un checkout, mandando il commit su main locale"
+          },
+          {
+            "id": "L-2026-0710-81",
+            "testo": "**git stash obbligatorio prima di git checkout su un branch diverso quando ci sono file no"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 20:30",
       "byte_prima": 1052333,
       "byte_dopo": 933437,

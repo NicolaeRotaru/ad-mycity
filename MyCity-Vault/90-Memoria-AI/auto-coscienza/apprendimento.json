@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 20:44",
+ "aggiornato": "2026-09-08 22:47",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -7436,118 +7436,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0710-85",
-   "testo": "**Nicola vuole che l'AD resti in ascolto fino a verifica live (chat 10/7 ~18:55):** dopo aver creato una PR, Nicola ha chiesto esplicitamente 'riesci a restare sempre in ascolto finché tutto non è finito? così controlli sempre che tutto sia andato correttamente'. Questo significa: non fermarsi dopo 'PR creata' — monitorare attivamente che il merge arrivi, che Vercel buildi, e che la modifica sia visibile nel Pannello prima di dichiarare il lavoro finito. Il loop di follow-through è parte del lavoro, non optional.",
-   "tag": [
-    "workflow",
-    "follow-through",
-    "ascolto",
-    "verifica-live",
-    "pannello",
-    "vercel",
-    "preferenza-nicola"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:55",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-84",
-   "testo": "**`pannello/vercel.json` con `deploymentEnabled.main: false` blocca TUTTI i build Vercel, codice incluso (chat 10/7 ~18:50):** trovata la causa radice per cui il Pannello non si aggiornava da ore nonostante le PR mergiata. Il campo `\"deploymentEnabled\": {\"main\": false}` era stato aggiunto per fermare i deploy dei commit di memoria, ma è ridondante e distruttivo: l'`ignoreCommand` già skippa i commit di sola-memoria confrontando i file in `pannello/`. Con `main: false`, Vercel ignora OGNI push su main, incluso il codice reale. Sintomo tipico: PR mergiata, commit visibile su GitHub, Vercel non reagisce. Fix: `main: false` → `true`. L'ignoreCommand si occupa da solo dei commit di sola-memoria. ADDENDUM (chat 10/7 ~19:00): dopo aver portato `deploymentEnabled` a `true`, se Vercel aveva già valutato la config vecchia per il push con il fix, NON builda comunque — serve un commit trigger aggiuntivo su `pannello/` (es. una riga in `pannello/.deploy-trigger`) per forzare il primo build con la nuova config.",
-   "tag": [
-    "vercel",
-    "vercel.json",
-    "deploymentEnabled",
-    "deploy-bloccato",
-    "pannello",
-    "ignoreCommand",
-    "causa-radice",
-    "commit-trigger"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 19:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-83",
-   "testo": "**Il linter del progetto annulla le Edit su file TSX/React (chat 10/7):** durante il fix di ParlaCasella.tsx, due round di Edit sono state automaticamente ripristinate dal linter (ESLint/Prettier con auto-fix abilitato). Il sintomo è che il file torna allo stato originale dopo la Edit. Regola fissa: per file TSX/React in questo progetto, usare Write per riscrivere il file intero invece di applicare patch parziali con Edit. Il Write non dà presa al linter perché sovrascrive atomicamente. Se si usa Edit e le modifiche spariscono, non riprovare con Edit — passare subito a Write.",
-   "tag": [
-    "linter",
-    "eslint",
-    "prettier",
-    "tsx",
-    "react",
-    "edit",
-    "write",
-    "pannello"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.34999999999999987,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:45",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-82",
-   "testo": "**watch-main può sovrascrivere HEAD durante un checkout, mandando il commit su main locale (chat 10/7):** il processo watch-main gira ogni ~5 minuti e fa un git reset/pull su main. Se scatta proprio mentre l'AD è in mezzo a un git checkout di un branch fix, HEAD può essere resettato su main — e il commit successivo atterra su main locale invece del branch voluto. Recovery: se ci si accorge che il commit è sia su main locale che sul branch fix, la PR da fix verso origin/main funziona comunque (origin/main non ha ancora il commit, quindi il diff su GitHub è corretto). Prevenzione: verificare `git branch` subito prima di fare il commit, non solo dopo il checkout. Se watch-main ha già resettato, rifare il checkout del branch fix prima di committare. Nota: git reset è bloccato dall'allowlist, quindi il recovery post-commit su main locale dipende dal fatto che il branch fix abbia già lo stesso commit.",
-   "tag": [
-    "watch-main",
-    "git-checkout",
-    "main-locale",
-    "commit-su-main",
-    "branch-fix",
-    "PR",
-    "recovery"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.34999999999999987,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 20:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-81",
-   "testo": "**git stash obbligatorio prima di git checkout su un branch diverso quando ci sono file non committati (chat 10/7):** Nicola ha eseguito `git checkout fix/chat-altezza-scroll-spaziatura` e ha ricevuto 'error: Your local changes to the following files would be overwritten by checkout'. I file non committati (LEZIONI-CHAT.md, sentinella-dati.json, routing.json) bloccano il checkout. Regola fissa: quando si deve cambiare branch con modifiche in corso, sempre `git stash` prima, poi checkout, poi il comando successivo (git-pr.mjs o altro). Sequenza corretta: `git stash && git checkout fix/<branch> && node cervello/git-pr.mjs ...`. I file stashati possono essere recuperati con `git stash pop` dopo il checkout se servono ancora sul branch fix.",
-   "tag": [
-    "git-stash",
-    "checkout",
-    "branch",
-    "uncommitted-files",
-    "overwritten",
-    "errore",
-    "git-pr.mjs"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:30",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0710-80",
    "testo": "**git-pr.mjs legge il branch CORRENTE, non quello che vuoi aprire (chat 10/7):** Nicola ha lanciato `node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'` da `main` e ha ricevuto 'ERRORE: head e base sono lo stesso ramo (main)'. Il problema è che git-pr.mjs usa il branch su cui SEI (HEAD), non un parametro `--head` separato. Regola fissa: SEMPRE fare `git checkout fix/<branch>` (o feature/<branch>) PRIMA di lanciare git-pr.mjs. Il comando corretto è: `cd /opt/mycity/ad-mycity && git checkout fix/<nome> && node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'`. Da non confondere con git push che accetta `origin <branch>` esplicitamente.",
    "tag": [
@@ -11252,9 +11140,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 20:30",
+     "quando": "2026-09-08 22:35",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 94
+     "volte": 95
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -13128,19 +13016,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 442,
+  "lezioni_attive": 437,
   "promosse_a_principio": 95,
   "decadute": 0,
   "tasso_applicazione": 0.15,
-  "tasso_calcolato_il": "2026-09-08 20:44",
+  "tasso_calcolato_il": "2026-09-08 22:47",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 20:30",
-  "lezioni_totali": 448,
+  "cristallizzazione_ultima": "2026-09-08 22:35",
+  "lezioni_totali": 443,
   "lezioni_per_stato": {
-   "attiva": 331,
+   "attiva": 326,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,
