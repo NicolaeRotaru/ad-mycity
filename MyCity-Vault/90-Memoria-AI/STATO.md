@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 18:00
-fonte: AD digitale (cadenza: report della sera)
+aggiornato: 2026-09-08 18:32
+fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 18:32 (invariato rispetto al Report della sera di 32 minuti fa)
+Stessi numeri: 1 ordine, 0 pagati, 78°+ giorno di stallo. Nessuna card/firma nuova. Non rilanciate
+le 15 fasi pesanti (SOPRAVVIVENZA + gate NORTH_STAR, nessun dato nuovo). `test-cervello.mjs`
+riprovato ora: ancora bloccato dall'allowlist Bash (#104/#189). Priorità invariate: 1) #182 Stripe
+Pane Quotidiano 2) #189 permessi Bash 3) #199 main↔GitHub 4) #196 Panificio Demo.
 
 ## Report della sera (2026-09-08 18:00)
 Ho riverificato ora in diretta, con una query sul database vero, non a memoria. **1 ordine**: quello
@@ -93,11 +99,11 @@ nuovo da 78+ giorni. Blocco completo per Nicola: [[RITMO]].
 > quota senza produrre niente di nuovo. È la causa più probabile del livello SOPRAVVIVENZA.
 >
 > **Detto direttamente a Nicola: questa è la decina-e-passa di chiamata identica a "giro completo"
-> solo in giornata di oggi, tutte sugli stessi dati fermi da 77 giorni.** Ogni chiamata su dati
-> invariati consuma quota AI senza produrre niente di nuovo — è il pattern che questa macchina
-> segnala da ore come causa più probabile della SOPRAVVIVENZA. Le uniche due cose che
-> cambierebbero l'esito di un giro restano #182 (Stripe di Pane Quotidiano) e #189 (i permessi
-> Bash, righe già pronte in coda).
+> solo in giornata di oggi.** Tutte sugli stessi dati fermi da 77 giorni. Ogni chiamata su dati
+> invariati consuma quota AI senza produrre niente di nuovo. È il pattern che questa macchina
+> segnala da ore come causa più probabile della SOPRAVVIVENZA.
+> Restano due sole cose che cambierebbero l'esito di un giro. La prima è #182, Stripe di Pane
+> Quotidiano. La seconda è #189, i permessi Bash — le righe sono già pronte in coda.
 >
 > Blocco completo: [[RITMO]].
 

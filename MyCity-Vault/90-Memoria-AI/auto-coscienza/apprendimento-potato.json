@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 18:30",
+      "byte_prima": 1058195,
+      "byte_dopo": 939270,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0712-97",
+            "testo": "**Caso-studio Nicola — «vado dal negozio» ≠ sempre Pane Quotidiano (chat 12/7 19:51):** Ni"
+          },
+          {
+            "id": "L-2026-0712-96",
+            "testo": "**Dark mode Pannello: `bg-white/*` senza variante dark = illeggibile (chat 12/7 19:48, fix"
+          },
+          {
+            "id": "L-2026-0712-95",
+            "testo": "**Prima di aprire una nuova PR, verifica se il fix è già su main (chat 12/7 19:39):** dopo"
+          },
+          {
+            "id": "L-2026-0712-94",
+            "testo": "**Prima di agire su una segnalazione UX, riassumi e chiedi conferma (chat 12/7 19:35):** N"
+          },
+          {
+            "id": "L-2026-0712-91",
+            "testo": "**localStorage badge/notifiche: key mancante = nessun badge (default sicuro), NON 'non let"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 16:30",
       "byte_prima": 1065049,
       "byte_dopo": 945146,

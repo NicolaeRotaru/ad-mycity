@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-08 16:33",
-  "situazione": "Nuova chiamata 'giro completo', identica nel merito ai passaggi di oggi. 78°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato dal vivo con verifica-sensori.mjs + coerenza-fatti.mjs. Nessuna card nuova oltre #204. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). L'unico numero mosso: la divergenza del ramo main tra questa macchina e GitHub peggiora ancora, da 357 a 360 commit locali mai spinti. Non rilanciate le 15 fasi pesanti: letargo SOPRAVVIVENZA + gate NORTH_STAR, nessun dato di business nuovo da inseguire.",
+  "data": "2026-09-08 18:32",
+  "situazione": "Nuova chiamata 'esegui giro.md per intero', 32 minuti dopo il Report della sera delle 18:00 — stesso identico esito. 78°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati. Nessuna card nuova oltre #204, nessuna firma nuova in DECISIONI.md dal 29/8. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). test-cervello.mjs riprovato ora: ancora bloccato dall'allowlist Bash (card #104/#189), stesso esito di tutti i passaggi precedenti di oggi. Non rilanciate le 15 fasi pesanti: letargo SOPRAVVIVENZA + gate NORTH_STAR, nessun dato di business nuovo da inseguire.",
   "opportunita": [
     {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è certa: basta aggiungere righe di permesso letterali in un file che nessuna sessione può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"}
   ],

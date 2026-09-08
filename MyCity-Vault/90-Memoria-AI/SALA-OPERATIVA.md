@@ -1307,3 +1307,8 @@ Esempi:
 - 2026-09-08 18:00 · @ad · FATTO · `git fetch origin main` + `rev-list --count`: divergenza main↔GitHub peggiora ancora, 362 commit locali/12 remoti (era 360/12 alle 16:33). `DECISIONI.md` invariato dal 29/8 00:40, nessuna firma nuova. `chiusura-loop.mjs --gate`: verde.
 - 2026-09-08 18:00 · @ad · FATTO · Scritto il blocco `## Report della sera · 2026-09-08 18:00` in RITMO.md (formato per Nicola, cervello/scrittura-umana.md) e aggiornato STATO.md con i numeri di questo passaggio. Non rilanciate le 15 fasi pesanti: letargo/gate NORTH_STAR invariati, nessun delta di business — è la cadenza sera, non un nuovo giro completo.
 - 2026-09-08 18:00 · @ad · PASSO-A · @Nicola — invariato: #182 (Stripe Pane Quotidiano) mossa n.1, #189 (permessi Bash da fuori la chat), #199 (main↔GitHub, ora 362/12), #196 (Panificio Demo).
+
+### 2026-09-08 18:32 — Nuova chiamata "esegui giro.md per intero"
+- 2026-09-08 18:32 · @ad · FATTO · Riverificato: dati di business invariati vs il Report della sera di 32 minuti fa (1 ordine, 0 pagati, 78°+ giorni). Nessuna card/firma nuova.
+- 2026-09-08 18:32 · @ad · FATTO · Riprovato `test-cervello.mjs`: ancora bloccato dall'allowlist Bash, stesso buco noto card #104/#189. Non rilanciate le 15 fasi pesanti (SOPRAVVIVENZA + gate NORTH_STAR, nessun dato nuovo). Aggiornati STATO.md, Briefing/2026-09-08.md, ultimo-briefing.json.
+- 2026-09-08 18:32 · @ad · PASSO-A · @Nicola — invariato: #182 (Stripe Pane Quotidiano) mossa n.1, #189 (permessi Bash — sblocca anche la validazione del residuo mirror-fresco.mjs fermo da 4h), #199 (main↔GitHub), #196 (Panificio Demo).
