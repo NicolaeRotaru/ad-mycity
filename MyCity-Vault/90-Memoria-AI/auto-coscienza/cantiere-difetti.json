@@ -20314,6 +20314,30 @@
       "chiuso_il": "2026-09-08 08:55",
       "chiuso_come": "riparato",
       "chiuso_da": "lotto dei gravi del sito"
+    },
+    {
+      "id": "AR-951",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-08 09:45",
+      "area": "macchina",
+      "nato_come": "nuovo-lavoro",
+      "dimensione": "processi-lavoro",
+      "titolo": "Il pacchetto della corsia non porta la chiave della scheda: le squadre ripiegano sul titolo e le chiusure non agganciano niente",
+      "sintomo": "Il briefing del lotto promette a ogni corsia una `chiave` dentro il suo `corsia-N.json`. Il pacchetto quella chiave non ce l'ha: porta `dimensione` e `titolo` separati. Tredici squadre hanno ripiegato sul titolo, che e' meta' della chiave del registro del sito (`dimensione|titolo` normalizzati). Risultato misurato: `node cervello/chiudi-sito.mjs` su 13 frammenti dava 23 chiavi orfane su 23, zero chiusure scritte. Il lavoro c'era, il modo di registrarlo no.",
+      "causa_radice": "Un contratto scritto in un documento e non nel dato. Il briefing dice cosa il pacchetto DEVE contenere, e nessuno lo verifica al momento di generarlo: la promessa e il file sono due cose separate, quindi possono allontanarsi senza che niente diventi rosso. E' la stessa forma di AR-950 e AR-948 — un dato mancante che somiglia a un dato presente — spostata dagli argomenti della riga di comando al pacchetto di lavoro.",
+      "fix_proposto": "🟡 FATTO. `chiudi-sito.mjs` ricostruisce la meta' mancante DAL PACCHETTO, che la dimensione ce l'ha scritta: `chiaviDelPacchetto` indicizza i titoli di una corsia, `risolviChiave` risolve in tre strade dichiarate (chiave piena / titolo unico nel pacchetto di QUELLA corsia / orfana col perche'). Si ferma sull'ambiguita': un titolo sotto due dimensioni non si sceglie, perche' chiudere la scheda sbagliata lascia aperto un difetto vero e ne dichiara chiuso uno su cui nessuno ha lavorato. Le chiavi ricostruite si contano a parte nel referto: dedotta non e' dichiarata.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/chiudi-sito.test.mjs",
+        "nota": "Sette casi nuovi. Tre mutazioni eseguite: (A) il rifiuto sull'ambiguita' diventa «prendi il primo» -> rosso su 1; (B) sparisce la ricostruzione dal titolo -> rosso su 3; (C) l'indice dei titoli diventa comune a tutte le corsie invece che per corsia -> rosso su 1. Rimesse: 22 su 22 verdi."
+      },
+      "impatto_crescita": "Diretto sul lavoro gia' fatto: senza questo, ventidue riparazioni gravi del marketplace restavano non registrate, e il lotto successivo le avrebbe ripianificate da capo. E' il costo che il registro dei difetti del sito paga ogni volta che una chiusura non aggancia: lavoro rifatto invece di lavoro nuovo.",
+      "trovato_da": "la prova a vuoto di chiudi-sito.mjs lanciata in anticipo, mentre le ultime quindici corsie erano ancora al lavoro",
+      "nota_riparazione": "La cura NON e' stata ammorbidire il confronto delle chiavi. Un confronto che accetta il somigliante e' esattamente il difetto che questo comando esiste per fermare: scriverebbe chiusure su schede sbagliate, in silenzio, sull'unica lista che sa cosa e' gia' riparato. La ricostruzione e' deterministica (la dimensione si legge dal pacchetto, non si indovina), e' limitata al pacchetto della corsia che ha dichiarato, e si rifiuta quando i candidati sono due. Resta aperto un pezzo dichiarato: chi genera i pacchetti dovrebbe scriverci dentro la chiave, cosi' la ricostruzione non servirebbe. Finche' non c'e', questo e' il ripiego che almeno non mente.",
+      "chiuso_il": "2026-09-08 09:45",
+      "chiuso_come": "riparato",
+      "chiuso_da": "lotto dei gravi del sito"
     }
   ],
   "meta": {

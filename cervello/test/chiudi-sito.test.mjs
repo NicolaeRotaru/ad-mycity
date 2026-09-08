@@ -16,7 +16,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chiudibile, difettiDeiFrammenti, opzione, piano } from "../chiudi-sito.mjs";
+import { chiaviDelPacchetto, chiudibile, difettiDeiFrammenti, opzione, piano, risolviChiave } from "../chiudi-sito.mjs";
 
 const problema = (dimensione, titolo) => ({ dimensione, titolo, stato: "aperto", severita: "grave" });
 const OGGI = "2026-09-08 09:00";
@@ -148,4 +148,86 @@ test("con --pr e --commit i valori arrivano interi", () => {
 
 test("un'opzione seguita da un'altra opzione non ne ruba il nome", () => {
   assert.equal(opzione(["/tmp/lotto", "--pr", "--applica"], "--pr"), null);
+});
+
+// ── AR-951 — la chiave che il pacchetto non portava ────────────────────────
+//
+// Il pacchetto di ogni corsia dovrebbe portare la `chiave` della scheda. L'8/9/2026 non la
+// portava: le squadre hanno ripiegato sul TITOLO, che è metà della chiave — manca la dimensione —
+// e il piano è uscito con 23 chiavi orfane su 23. Zero chiusure scritte, tutto il lotto fermo.
+//
+// La cura non è ammorbidire il confronto: è ricostruire l'altra metà DAL PACCHETTO, che la
+// dimensione ce l'ha scritta. Deterministico, non somigliante. E si ferma sull'ambiguità: un
+// titolo sotto due dimensioni non si sceglie tirando a indovinare, perché chiudere la scheda
+// sbagliata è peggio che non chiudere niente — lascia aperto un difetto vero e ne dichiara chiuso
+// uno su cui nessuno ha lavorato.
+
+const registroCon = (...chiavi) => new Set(chiavi);
+
+test("una chiave piena del registro passa così com'è, e non risulta dedotta", () => {
+  const r = risolviChiave("sicurezza|il coupon si brucia", {
+    nelRegistro: registroCon("sicurezza|il coupon si brucia"),
+    perTitolo: new Map(),
+  });
+  assert.equal(r.chiave, "sicurezza|il coupon si brucia");
+  assert.equal(r.dedotta, false);
+});
+
+test("un TITOLO SOLO si ricostruisce guardando il pacchetto, che la dimensione ce l'ha", () => {
+  const pacchetto = { difetti: [{ dimensione: "Sicurezza", titolo: "Il  Coupon Si Brucia" }] };
+  const r = risolviChiave("il coupon si brucia", {
+    nelRegistro: registroCon("sicurezza|il coupon si brucia"),
+    perTitolo: chiaviDelPacchetto(pacchetto),
+  });
+  assert.equal(r.chiave, "sicurezza|il coupon si brucia", "senza questo il lotto resta fermo con 23 orfane su 23");
+  assert.equal(r.dedotta, true, "una chiave ricostruita va detta, non spacciata per dichiarata");
+});
+
+test("UN TITOLO SOTTO DUE DIMENSIONI NON SI SCEGLIE: si rifiuta", () => {
+  const pacchetto = {
+    difetti: [
+      { dimensione: "sicurezza", titolo: "la pagina mostra un buco" },
+      { dimensione: "frontend-ux", titolo: "la pagina mostra un buco" },
+    ],
+  };
+  const r = risolviChiave("la pagina mostra un buco", {
+    nelRegistro: registroCon("sicurezza|la pagina mostra un buco", "frontend-ux|la pagina mostra un buco"),
+    perTitolo: chiaviDelPacchetto(pacchetto),
+  });
+  assert.equal(r.chiave, undefined, "chiudere la scheda sbagliata lascia aperto un difetto vero e ne finge chiuso un altro");
+  assert.match(r.perche, /2 schede|indovinare/);
+});
+
+test("un titolo che nel pacchetto non c'è resta orfano, col perché", () => {
+  const r = risolviChiave("un titolo che nessuno ha mai scritto", {
+    nelRegistro: registroCon("sicurezza|il coupon si brucia"),
+    perTitolo: chiaviDelPacchetto({ difetti: [{ dimensione: "sicurezza", titolo: "il coupon si brucia" }] }),
+  });
+  assert.equal(r.chiave, undefined);
+  assert.match(r.perche, /né una chiave|pacchetto/);
+});
+
+test("senza il pacchetto restano ammesse solo le chiavi piene", () => {
+  const r = risolviChiave("il coupon si brucia", { nelRegistro: registroCon("sicurezza|il coupon si brucia") });
+  assert.equal(r.chiave, undefined, "senza la dimensione da qualche parte, il titolo da solo non basta");
+});
+
+test("e nel piano vero: una corsia che dichiara il titolo chiude la scheda giusta", () => {
+  const problemi = [problema("sicurezza", "il coupon si brucia"), problema("frontend-ux", "un altro difetto")];
+  const pacchetti = new Map([[1, { difetti: [{ dimensione: "sicurezza", titolo: "il coupon si brucia" }] }]]);
+  const p = piano(problemi, [{ corsia: 1, difetti: [riparato("Il Coupon  Si Brucia")] }], { quando: OGGI, pacchetti });
+  assert.equal(p.orfani.length, 0);
+  assert.equal(p.chiudo.length, 1);
+  assert.equal(p.chiudo[0].chiave, "sicurezza|il coupon si brucia");
+});
+
+test("e una corsia che dichiara il titolo del pacchetto di UN'ALTRA corsia resta orfana", () => {
+  const problemi = [problema("sicurezza", "il coupon si brucia")];
+  const pacchetti = new Map([
+    [1, { difetti: [{ dimensione: "altro", titolo: "roba mia" }] }],
+    [2, { difetti: [{ dimensione: "sicurezza", titolo: "il coupon si brucia" }] }],
+  ]);
+  const p = piano(problemi, [{ corsia: 1, difetti: [riparato("il coupon si brucia")] }], { quando: OGGI, pacchetti });
+  assert.equal(p.chiudo.length, 0, "una corsia chiude quello che aveva in mano, non quello di un'altra");
+  assert.equal(p.orfani.length, 1);
 });

@@ -80,35 +80,87 @@ export function difettiDeiFrammenti(frammenti = []) {
   return out;
 }
 
+/** La stessa normalizzazione di `chiaveProblema`: spazi collassati, tutto minuscolo. */
+const normalizza = (v) => String(v ?? "").trim().toLowerCase().replace(/\s+/g, " ");
+
+/**
+ * I titoli del pacchetto di una corsia, con accanto la chiave VERA che gli corrisponde.
+ *
+ * Serve perché una corsia dichiara quello che ha in mano, e in mano ha il pacchetto. Se il
+ * pacchetto non porta la chiave — è successo l'8/9/2026, su 23 difetti su 23 — la corsia ripiega
+ * sul titolo, che è metà della chiave: manca la dimensione. Da qui si ricostruisce l'altra metà
+ * senza indovinare niente, perché il pacchetto la dimensione ce l'ha scritta.
+ */
+export function chiaviDelPacchetto(pacchetto) {
+  const per = new Map();
+  for (const d of pacchetto?.difetti || []) {
+    const t = normalizza(d?.titolo);
+    if (!t) continue;
+    if (!per.has(t)) per.set(t, []);
+    per.get(t).push(chiaveProblema(d));
+  }
+  return per;
+}
+
+/**
+ * La chiave vera dietro quella che una corsia ha dichiarato. PURA.
+ *
+ * Tre strade, in ordine, e nessuna è un'ipotesi:
+ *   ① la dichiarata è già una chiave del registro → quella;
+ *   ② è il titolo di UNA sola scheda del pacchetto di quella corsia → la chiave di quella scheda;
+ *   ③ tutto il resto → orfana, col perché.
+ *
+ * ⚠️ Il caso ② si ferma se i candidati sono due. Un titolo che compare sotto due dimensioni non
+ * si risolve tirando a indovinare: chiudere la scheda sbagliata è peggio che non chiudere niente,
+ * perché lascia aperto un difetto vero e ne dichiara chiuso uno su cui nessuno ha lavorato.
+ */
+export function risolviChiave(dichiarata, { nelRegistro, perTitolo } = {}) {
+  const d = normalizza(dichiarata);
+  if (!d) return { perche: "la corsia non ha dichiarato nessuna chiave" };
+  if (nelRegistro?.has(d)) return { chiave: d, dedotta: false };
+  const candidati = (perTitolo?.get(d) ?? []).filter((k) => nelRegistro?.has(k));
+  const unici = [...new Set(candidati)];
+  if (unici.length === 1) return { chiave: unici[0], dedotta: true };
+  if (unici.length > 1) {
+    return { perche: `il titolo combacia con ${unici.length} schede di dimensioni diverse: non tiro a indovinare` };
+  }
+  return { perche: "né una chiave del registro né il titolo di una scheda del pacchetto di questa corsia" };
+}
+
 /**
  * Il piano delle scritture. PURO: prende il registro e i frammenti, torna cosa cambierebbe.
  *
  * `orfani` è il caso che fa uscire 1: una chiave dichiarata da una corsia che nel registro non
- * esiste. Vuol dire che qualcuno ha ritoccato un titolo mentre riparava, e la chiusura non
- * aggancerebbe niente — il difetto risulterebbe di nuovo aperto al referto successivo, in silenzio.
+ * esiste e che nemmeno il suo pacchetto sa spiegare. Vuol dire che qualcuno ha ritoccato un titolo
+ * mentre riparava, e la chiusura non aggancerebbe niente — il difetto risulterebbe di nuovo aperto
+ * al referto successivo, in silenzio.
+ *
+ * `pacchetti` è una mappa corsia → pacchetto (il `corsia-N.json` da cui quella squadra ha lavorato).
+ * Senza, restano ammesse solo le chiavi piene.
  */
-export function piano(problemi = [], frammenti = [], { quando, pr, commit } = {}) {
+export function piano(problemi = [], frammenti = [], { quando, pr, commit, pacchetti } = {}) {
   const perChiave = new Map(problemi.map((p) => [chiaveProblema(p), p]));
+  const nelRegistro = new Set(perChiave.keys());
+  const indici = new Map();
+  for (const [corsia, pacchetto] of pacchetti ?? []) indici.set(Number(corsia), chiaviDelPacchetto(pacchetto));
   const chiudo = [];
   const lascio = [];
   const orfani = [];
 
   for (const d of difettiDeiFrammenti(frammenti)) {
-    if (!d?.chiave) {
-      orfani.push({ chiave: "(assente)", corsia: d.corsia });
-      continue;
-    }
-    if (!perChiave.has(d.chiave)) {
-      orfani.push({ chiave: d.chiave, corsia: d.corsia });
+    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: indici.get(Number(d?.corsia)) });
+    if (!r.chiave) {
+      orfani.push({ chiave: d?.chiave || "(assente)", corsia: d.corsia, perche: r.perche });
       continue;
     }
     const v = chiudibile(d);
     if (!v.si) {
-      lascio.push({ chiave: d.chiave, corsia: d.corsia, perche: d.perche_resta_aperto || v.perche });
+      lascio.push({ chiave: r.chiave, corsia: d.corsia, perche: d.perche_resta_aperto || v.perche });
       continue;
     }
     chiudo.push({
-      chiave: d.chiave,
+      chiave: r.chiave,
+      dedotta: r.dedotta,
       corsia: d.corsia,
       campi: {
         stato: "riparato",
@@ -128,6 +180,17 @@ function leggiFrammenti(cartella) {
     .map((n) => JSON.parse(readFileSync(join(cartella, n), "utf8")));
 }
 
+/** I pacchetti da cui le corsie hanno lavorato, per numero di corsia. */
+function leggiPacchetti(cartella) {
+  const per = new Map();
+  for (const n of readdirSync(cartella)) {
+    const m = n.match(/^corsia-(\d+)\.json$/);
+    if (!m) continue;
+    per.set(Number(m[1]), JSON.parse(readFileSync(join(cartella, n), "utf8")));
+  }
+  return per;
+}
+
 function main() {
   const argv = process.argv.slice(2);
   const cartella = argv.find((a) => !a.startsWith("--"));
@@ -139,25 +202,34 @@ function main() {
     console.error(`⚪ cartella dei frammenti non leggibile: ${cartella ?? "(non l'hai detta)"}`);
     process.exit(2);
   }
-  let registro, frammenti;
+  let registro, frammenti, pacchetti;
   try {
     registro = JSON.parse(readFileSync(REGISTRO, "utf8"));
     frammenti = leggiFrammenti(cartella);
+    pacchetti = leggiPacchetti(cartella);
   } catch (e) {
     console.error(`⚪ non ho potuto leggere (${e.message}): senza registro o frammenti qualunque scrittura sarebbe alla cieca.`);
     process.exit(2);
   }
 
   const quando = timbroOra();
-  const { chiudo, lascio, orfani } = piano(registro.problemi, frammenti, { quando, pr, commit });
+  const { chiudo, lascio, orfani } = piano(registro.problemi, frammenti, { quando, pr, commit, pacchetti });
 
-  console.log(`✍️  CHIUSURE DEL SITO — ${frammenti.length} corsie lette\n`);
+  const dedotte = chiudo.filter((c) => c.dedotta).length;
+  console.log(`✍️  CHIUSURE DEL SITO — ${frammenti.length} corsie lette, ${pacchetti.size} pacchetti\n`);
   console.log(`   Da chiudere:      ${chiudo.length}`);
   console.log(`   Restano aperti:   ${lascio.length}`);
-  console.log(`   Chiavi orfane:    ${orfani.length}\n`);
+  console.log(`   Chiavi orfane:    ${orfani.length}`);
+  if (dedotte) {
+    console.log(`   (${dedotte} chiavi ricostruite dal titolo: il pacchetto non portava la chiave, la dimensione l'ha messa lui.)`);
+  }
+  console.log("");
   for (const c of chiudo) console.log(`   ✅ corsia ${String(c.corsia).padEnd(2)} ${c.chiave.slice(0, 95)}`);
   for (const l of lascio) console.log(`   ⏳ corsia ${String(l.corsia).padEnd(2)} ${l.chiave.slice(0, 70)} — ${l.perche.slice(0, 60)}`);
-  for (const o of orfani) console.log(`   ❌ corsia ${String(o.corsia).padEnd(2)} chiave che NON esiste nel registro: ${o.chiave.slice(0, 80)}`);
+  for (const o of orfani) {
+    console.log(`   ❌ corsia ${String(o.corsia).padEnd(2)} ${o.chiave.slice(0, 70)}`);
+    console.log(`        ${o.perche}`);
+  }
 
   if (applica && chiudo.length) {
     const perChiave = new Map(registro.problemi.map((p) => [chiaveProblema(p), p]));
