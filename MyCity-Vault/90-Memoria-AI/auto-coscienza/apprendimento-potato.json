@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 08:30",
+      "byte_prima": 1112874,
+      "byte_dopo": 991707,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0720-383",
+            "testo": "**«Elencami i 50 workflow» = lista numerata completa in chat, 10 blocchi + 🔴🟡🟢 (Nicola "
+          },
+          {
+            "id": "L-2026-0720-382",
+            "testo": "**Worker navbar — voce Worker apre chat grande, FAB popup; codice ok su main, se vede popu"
+          },
+          {
+            "id": "L-2026-0720-381",
+            "testo": "**«Spiegami meglio il punto N» su workflow stub = esempio concreto + passi n8n, non ripete"
+          },
+          {
+            "id": "L-2026-0720-380",
+            "testo": "**Builder automazioni — ON-DEMAND, non ogni mattina; trigger: comando Nicola, richiesta re"
+          },
+          {
+            "id": "L-2026-0720-378",
+            "testo": "**Organigramma n8n — builder-automazioni UNICO esperto costruttore; altri reparti richiedo"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 06:30",
       "byte_prima": 1121247,
       "byte_dopo": 999811,

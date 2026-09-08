@@ -1,50 +1,55 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-08 06:34",
-  "voto_fiducia": 79,
-  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', 28 minuti dopo il Piano del mattino delle 06:06. Riverificato dal vivo, non a memoria: query SQL diretta su Supabase MCP conferma 1 ordine (24/6, annullato, €19,05), 0 pagati, 2 seller (Pane Quotidiano ancora stripe_charges_enabled=false, 'Panificio Demo' invariato), identico bit-per-bit al passaggio delle 06:06. `git log --since='06:06'` mostra solo 4 commit di contabilità interna (monitoraggio/recupero scritture), zero dati di business. Non ho rilanciato le 15 fasi pesanti: letargo RISPARMIO + gate NORTH_STAR, stesso motivo già documentato decine di volte oggi in [[STATO]] — a delta zero, aggiornamento breve, non un giro pieno da capo. Il lavoro vero di questo passaggio è stato chiudere un debito di processo concreto: auto-analisi.json e ultimo-briefing.json erano fermi da 7h39 (ultimo contenuto reale: 22:55 del 7/9), e mancava del tutto Briefing/2026-09-08.md — nessuno dei passaggi di stanotte/stamattina li aveva rigenerati davvero (il commit toccava il file senza riscriverne il contenuto, stesso debito ricorrente già notato più volte). Riscritti tutti e tre ora, con verifica diretta.",
-  "sintesi": "76° giorno di stallo North Star, confermato di nuovo via SQL diretto: stesso stato del Piano del mattino di 28 minuti fa. Il lavoro reale di questo passaggio non è sul business (invariato) ma sull'igiene della memoria: tre file obbligatori (auto-analisi.json, ultimo-briefing.json, Briefing/2026-09-08.md) erano rimasti fermi da stanotte nonostante 4+ passaggi intermedi — riscritti ora con verifica diretta, non solo toccati.",
-  "trend_fiducia": "= stabile a 79: nessun progresso di business né regressione. Il debito di freschezza sui file obbligatori è stato chiuso, ma è un debito che questa stessa macchina ha lasciato aprire per 7h39 nonostante più passaggi nel mezzo — non merita un voto in salita.",
+  "data": "2026-09-08 08:35",
+  "voto_fiducia": 80,
+  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', ~2h dopo il passaggio delle 06:48. Riverificato dal vivo, non a memoria: query SQL diretta su supabase-marketplace conferma 1 ordine (24/6, annullato, €19,05), 0 pagati, 9 profili, seller_public_profiles ancora 2 righe (Pane Quotidiano stripe spento + 'Panificio Demo' fantasma) — identico bit-per-bit al passaggio delle 06:48. Non rilanciate le 15 fasi pesanti: letargo RISPARMIO + gate NORTH_STAR (0 pagati da 76+ giorni), nessun delta di business. Il lavoro vero di questo passaggio: isolata la causa DEFINITIVA del blocco Bash cronico che tiene ferme le card #104/#189/#194/#195/#198 da una settimana. Non è più un'ipotesi ('il jolly non funziona') ma un fatto verificato leggendo il file: `.claude/settings.json` ha `Edit`/`Write` su se stesso e su `settings.local.json` esplicitamente in `permissions.deny` — nessuna sessione Claude Code, per quanti permessi le vengano dati dentro la chat, può toccare quei due file. Non ho tentato di aggirarlo (sarebbe stato scorretto: è una barriera scritta apposta). Ho invece isolato l'elenco esatto degli script HARD ancora senza riga letterale, cosi la correzione — quando qualcuno con accesso diretto al disco la fa — è un copia-incolla, non una nuova indagine.",
+  "sintesi": "76°+ giorno di stallo North Star, confermato di nuovo via SQL diretto: stato invariato dal passaggio delle 06:48. Il lavoro reale di questo passaggio è la diagnosi definitiva (non più probabile) del blocco permessi cronico: `.claude/settings.json` vieta a se stesso Edit/Write, quindi il fix richiede un accesso fuori da questa sessione. Chiuso anche il gate chiusura-loop (ESITO @ad e @intelligence registrato via CLI) e confermata coerenza-fatti pulita (41 fatti, 0 cacce aperte).",
+  "trend_fiducia": "▲ leggero, da 79 a 80: nessun progresso di business, ma la diagnosi del blocco permessi passa da 'sospetta/ripetuta' a 'verificata leggendo il file sorgente' — è la prima volta in ~8 giorni di card aperte che la causa è dimostrata, non dedotta dal pattern dei fallimenti.",
   "entita_verificate": [
     {
       "nome": "orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0",
-      "stato": "confermato via SQL diretto MCP Supabase in questo passaggio (06:34)",
+      "stato": "confermato via SQL diretto su supabase-marketplace in questo passaggio (08:3x)",
       "fonte": "execute_sql su supabase-marketplace"
     },
     {
       "nome": "seller_public_profiles: Pane Quotidiano (stripe_charges_enabled=false, stripe_payouts_enabled=false) + 'Panificio Demo' (fantasma, card #196, invariato dal 5/9)",
-      "stato": "confermato via SQL diretto in questo passaggio (06:34)",
+      "stato": "confermato via SQL diretto in questo passaggio",
       "fonte": "execute_sql su supabase-marketplace"
     },
     {
-      "nome": "Divergenza main VPS↔GitHub: 331 commit locali mai spinti, 12 remoti mai scaricati (card #199)",
-      "stato": "confermato con git fetch origin main + git log a due vie, in questo passaggio; era 327/12 alle 06:06",
-      "fonte": "git fetch/log locale"
+      "nome": "profili totali = 9",
+      "stato": "confermato via SQL diretto in questo passaggio",
+      "fonte": "execute_sql su supabase-marketplace"
     },
     {
-      "nome": "auto-analisi.json / ultimo-briefing.json fermi a contenuto '2026-09-07 22:55'; Briefing/2026-09-08.md assente",
-      "stato": "confermato leggendo i file, riscritti in questo passaggio",
-      "fonte": "Read diretto dei file"
+      "nome": ".claude/settings.json vieta a se stesso Edit/Write (e a settings.local.json) nella sezione permissions.deny",
+      "stato": "confermato leggendo il file per intero in questo passaggio — causa definitiva del blocco cronico #104/#189/#194/#195/#198, non più un'ipotesi",
+      "fonte": "Read diretto di .claude/settings.json, righe 91-94"
     },
     {
-      "nome": "Card #182/#196/#199/#200/#204/#154/#155 restano le stesse, nessuna duplicata aperta",
-      "stato": "confermato",
-      "fonte": "grep diretto su AZIONI-IN-ATTESA.md"
+      "nome": "il jolly Bash(node cervello/*.mjs:*) non copre gli script HARD non elencati per esteso",
+      "stato": "riconfermato empiricamente: chiusura-loop.mjs (allowlistato per esteso) gira; test-cervello.mjs/freschezza-cadenze.mjs/esperimenti-check.mjs (solo sotto il jolly) restano bloccati",
+      "fonte": "3 tentativi diretti in questo passaggio"
+    },
+    {
+      "nome": "Divergenza main VPS↔GitHub (card #199)",
+      "stato": "non riverificata in questo passaggio (nessun git fetch nuovo lanciato): ereditata dal valore delle 06:48 (331 locali/12 remoti), da considerarsi possibilmente cresciuta",
+      "fonte": "ereditato, non riverificato"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO/North Star tagliano il volume non-essenziale). Nessun confronto coi migliori pertinente: il lavoro era igiene di processo, non un artefatto rivolto a clienti/negozi.",
-  "nota_dati_non_riverificati_questo_passaggio": "Radar esterno, radiografia, auto-miglioramento, esperimenti e i gate mjs bloccati (test-cervello, apprendimento-guardiano, correzione-nicola-gate, gate-veri, sonda-volano, coerenza-fatti CLI) non rilanciati: cadenza già coperta oggi su dati di business invariati, e la maggior parte di questi script non elencati per esteso in .claude/settings.local.json restano bloccati dall'allowlist Bash — stesso buco noto delle card #104/#189/#194/#195/#198/#199/#200, non ridiagnosticato. `mirror-fresco.mjs` (scritto ieri sera) resta anch'esso non eseguito con una corsa vera per lo stesso motivo.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO/North Star tagliano il volume non-essenziale). Non pertinente.",
+  "nota_dati_non_riverificati_questo_passaggio": "Radar esterno, radiografia, auto-miglioramento, esperimenti (bloccato, un tentativo), sonda-volano, apprendimento-guardiano, correzione-nicola-gate, gate-veri: non rilanciati/non eseguibili in questo passaggio. Motivo per radar/radiografia/auto-miglioramento: cadenza già coperta oggi su dati di business invariati (RISPARMIO+NORTH_STAR). Motivo per gli script mjs: stesso buco di permessi, ora diagnosticato con causa esatta (vedi entita_verificate) invece che solo confermato di nuovo.",
   "salute_macchina": {
-    "supabase": "ok — query dirette eseguite in questo passaggio (06:34)",
-    "stripe": "invariato, Pane Quotidiano ancora spento (nessun nuovo controllo Stripe diretto in questo passaggio)",
+    "supabase": "ok — query dirette eseguite in questo passaggio",
+    "stripe": "invariato, Pane Quotidiano ancora spento",
     "dati_freschi": true,
     "sensori_attivi": 9,
-    "sito_uptime": "non riverificato in questo passaggio; la scoperta delle 06:06 (dominio mycity-marketplace.com risponde con la home vera) resta da confermare con un occhio umano, non ancora promossa a fatto in registro-fatti.json"
+    "permessi_bash": "diagnosi completata: settings.json si vieta Edit/Write a se stesso (deliberato), il jolly node cervello/*.mjs non copre gli script non elencati per esteso — fix richiede accesso disco fuori sessione"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta sopra soglia (229 senza gate su 296, soglia 20), invariata da ieri sera: nessuna nuova lezione promossa in questo passaggio perché la porta CLI (`node cervello/lezione-nuova.mjs`) resta bloccata dall'allowlist — non aggirata a mano (violerebbe AR-651).",
-  "nota_permessi_bash": "Confermato di nuovo, non ridiagnosticato: in QUESTA sessione ogni `node cervello/*.mjs` non esplicitamente allowlistato chiede approvazione e viene negato, mentre `git`/`grep`/`wc`/`ls`/`date` e le query SQL dirette via MCP passano senza problemi. Stesso buco noto, card #104.",
-  "livello_verifica": "L1 — controlli deterministici su numeri di business (SQL diretto) e su freschezza dei file di memoria; nessuna nuova ipotesi di business aperta o chiusa in questo passaggio.",
-  "refutazione": "Tentata la demolizione di 'anche questo è solo un altro giro a delta zero, quindi inutile': non regge del tutto — i numeri di business sono davvero invariati e non giustificavano le 15 fasi pesanti, ma tre file obbligatori del cancello di serietà erano genuinamente rotti (stantii da 7h39, uno addirittura assente) e restare fermo li avrebbe lasciati rotti per un altro giro intero.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta sopra soglia (228 senza gate su 296, soglia 20), non lavorata in questo passaggio: la porta CLI (lezione-nuova.mjs) resta bloccata dallo stesso meccanismo diagnosticato sopra.",
+  "nota_permessi_bash": "Diagnosi AGGIORNATA rispetto ai passaggi precedenti (che dicevano solo 'bloccato, causa nota card #104'): la causa esatta è che .claude/settings.json ha Edit/Write su se stesso e su settings.local.json in permissions.deny — nessuna sessione può cambiarlo dall'interno, indipendentemente da quanti permessi vengano concessi in chat. Il jolly Bash(node cervello/*.mjs:*) presente nello stesso file NON copre gli script non elencati anche per esteso (confermato empiricamente su 3 script in questo passaggio). Le righe letterali mancanti sono elencate nella card #189 aggiornata.",
+  "livello_verifica": "L1 — controlli deterministici su numeri di business (SQL diretto) + L2 — lettura diretta del file sorgente della causa di un guasto di sistema cronico (non solo pattern-matching sui sintomi).",
+  "refutazione": "Tentata la demolizione di 'è comunque solo un altro giro a delta zero, quindi inutile': non regge — i numeri di business sono davvero invariati, ma la diagnosi del blocco permessi è un salto di qualità reale (da 'bloccato, causa ignota/probabile' a 'bloccato, causa dimostrata leggendo il file'), e chiude il gate chiusura-loop con una ESITO vera invece di restare solo un promemoria.",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
@@ -53,15 +58,15 @@
       "colore": "🔴"
     },
     {
-      "tipo": "verifica",
-      "domanda": "mycity-marketplace.com sembra già funzionante (letto con uno strumento di pagina, non un browser vero): puoi confermare con un occhio umano in 30 secondi?",
-      "azione": "se confermi, le card #154/#155 si chiudono e registro-fatti.json si aggiorna nello stesso lavoro",
+      "tipo": "sistema",
+      "domanda": "Confermata la causa esatta del blocco Bash cronico (#189 e collegate): .claude/settings.json vieta a se stesso Edit/Write. Vuoi aggiungere tu (o chi ha accesso diretto al VPS/disco) le righe letterali mancanti per gli script HARD? Elenco pronto nella card #189.",
+      "azione": "in attesa — nessuna sessione Claude Code può farlo da sola, per design",
       "colore": "🟡"
     },
     {
       "tipo": "sistema",
-      "domanda": "La divergenza main↔GitHub cresce di giro in giro (331/12 ora, era 327/12 stamattina). Vuoi che qualcuno con accesso VPS diretto intervenga?",
-      "azione": "in attesa — la divergenza cresce a ogni giro senza intervento",
+      "domanda": "La divergenza main↔GitHub (#199) non è stata riverificata in questo passaggio: era 331/12 alle 06:48. Vuoi che qualcuno con accesso VPS diretto intervenga?",
+      "azione": "in attesa",
       "colore": "🔴"
     },
     {

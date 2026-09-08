@@ -1,6 +1,41 @@
 ---
-data: 2026-09-08 06:34
+data: 2026-09-08 08:35
 ---
+
+## Giro 2026-09-08 08:35
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
+scrivi tutti i file richiesti». ~2h dopo il passaggio delle 06:48.
+
+- **Riverificato dal vivo, non a memoria.** Query SQL diretta su supabase-marketplace. Conferma: 1
+  ordine (24/6, annullato, €19,05). **0 pagati.** 9 profili. Pane Quotidiano ancora
+  `stripe_charges_enabled=false`/`stripe_payouts_enabled=false`. "Panificio Demo" invariato. Tutto
+  identico bit-per-bit al passaggio delle 06:48.
+- **Non rilanciate le 15 fasi pesanti.** Letargo in RISPARMIO. Gate NORTH_STAR attivo (0 pagati da
+  76+ giorni). Nessun delta di business da inseguire.
+- **Il lavoro vero di questo passaggio: diagnosi DEFINITIVA del blocco Bash cronico.** Le card
+  #104/#189/#194/#195/#198 dicevano da una settimana "bloccato, causa nota". Non avevano mai mostrato
+  la causa vera. L'ho letta di persona in `.claude/settings.json`. La sezione `permissions.deny`
+  contiene tre cose: `Edit(./.claude/settings.json)`. `Write(./.claude/settings.json)`. Le stesse due
+  righe per `settings.local.json`. **Il risultato: nessuna sessione Claude Code può toccare questi due
+  file.** Vale a prescindere da quanti permessi le si concedano in chat. Non è un bug: è una barriera
+  scritta apposta. Per questo non ho provato ad aggirarla.
+  Ho anche riconfermato una cosa, stavolta con una prova diretta e non solo per pattern osservato: il
+  jolly `Bash(node cervello/*.mjs:*)` nello stesso file NON copre gli script non elencati anche per
+  esteso. Prova: `chiusura-loop.mjs` è elencato per esteso ed è partito subito. `test-cervello.mjs`,
+  `freschezza-cadenze.mjs` ed `esperimenti-check.mjs` stanno solo sotto il jolly, e restano bloccati.
+- **Chiuso per davvero il gate chiusura-loop.** Registrato l'ESITO di oggi per @ad e @intelligence via
+  `chiusura-loop.mjs registra` (comando allowlistato, gira regolarmente) — non solo segnalato.
+- **coerenza-fatti.mjs eseguito con successo** (allowlistato): memoria coerente, 41 fatti, 0 cacce
+  aperte.
+- **Cosa NON ho fatto e perché.** Non ho tentato di modificare `.claude/settings.json` con altri
+  mezzi (es. redirect da shell): sarebbe un aggiramento di una barriera esplicita, non un fix. Ho
+  invece scritto nella card #189 l'elenco esatto delle righe letterali mancanti, pronto per essere
+  incollato da chi ha accesso diretto al disco (VPS/editor). Non ho riverificato `git fetch` per la
+  divergenza main↔GitHub (card #199): resta il valore ereditato delle 06:48 (331/12), possibilmente
+  cresciuto.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 06:34
 

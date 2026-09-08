@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 06:30",
+ "aggiornato": "2026-09-08 08:40",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -1690,96 +1690,6 @@
    "decaduto_step_il": "2026-09-08 06:30"
   },
   {
-   "id": "L-2026-0720-383",
-   "testo": "**«Elencami i 50 workflow» = lista numerata completa in chat, 10 blocchi + 🔴🟡🟢 (Nicola 20/7 ~03:34).** Dopo consegna 50 JSON stub (L-379), Nicola «**allora elencami in chat i 50 workflow**». 5 perché: (1) «elencami» ≠ «crea JSON» (L-379) — vuole **leggere tutti i titoli** in chat, numerati e raggruppati; (2) formato atteso: **10 categorie × 5** con numeri 1–50, titolo breve per workflow, colore **🔴** messaggi/post · **🟡** avvisi interni · **🟢** solo report; (3) evidenziare **n.31** (59 card Da approvare → Telegram) e **n.41** (RSS bandi Comune, PI26 oggi 10:00) come priorità; (4) reminder stub: bozze importabili, spente finché non completate (L-381); (5) chiudere «**quale numero accendiamo per primo**» — consiglio 31 o 41. **ADDENDUM 03:36:** «inserisci questi 50 workflow in bacheca» → casella condensata in cima BACHECA.md (L-377). Regola: post-consegna JSON, «elencami N workflow» → elenco chat completo strutturato; se chiede bacheca → blocco ## condensato separato. Vedi L-379, L-377, L-381.",
-   "tag": [
-    "n8n",
-    "workflow",
-    "catalogo",
-    "elenco",
-    "bacheca",
-    "nicola"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:36",
-   "stato": "attiva",
-   "usi": [],
-   "_evidenza_2": "ADDENDUM 03:36: «inserisci questi 50 workflow in bacheca home» — terza casella BACHECA.md condensata 10 blocchi; pattern L-377 esteso.",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-382",
-   "testo": "**Worker navbar — voce Worker apre chat grande, FAB popup; codice ok su main, se vede popup = deploy (Nicola 20/7 ~03:34).** «Dentro la navbar in alto, il bottone worker deve aprire la chat grande e non la fluttuante» — follow-up L-363 (tre superfici). 5 perché: (1) Nicola **re-chiede** perché produzione **non** mostra ancora il fix (#492 ~02:30), non perché il requisito è nuovo; (2) codice su main già corretto — voce **Worker** menu laterale = `apriWorkerPopup(true)` fullscreen (`page.tsx` ~2580); **FAB** basso-destra resta popup piccolo **volutamente**; (3) se menu apre ancora popup = **deploy Production** indietro (GitHub outage, merge #492/#493/#494 deploy pendente — L-372), non bug codice da rifare; (4) risposta giusta: verifica codice main + spiega lag deploy + Ctrl+F5 + offri redeploy 🔴 se persiste; (5) **non** dire «è già così» senza distinguere repo vs Pannello live (L-361). Regola: re-ask Worker grande vs popup → codice main + FAB≠menu + deploy gate, non nuova PR se già `true`. Vedi L-363, L-361, L-372.",
-   "tag": [
-    "pannello",
-    "worker",
-    "navbar",
-    "fullscreen",
-    "popup",
-    "fab",
-    "deploy",
-    "nicola"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:34",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-381",
-   "testo": "**«Spiegami meglio il punto N» su workflow stub = esempio concreto + passi n8n, non ripetere abstract (Nicola 20/7 ~03:33).** Dopo consegna 50 JSON stub (L-379), Nicola «**spiegami meglio il punto 3**» — il punto 3 era «stub collegabili, non attivi». 5 perché: (1) «spiegami meglio» su voce numerata = **non** ripetere la stessa frase — vuole **walkthrough operativo** con esempio file; (2) **stub** = ha **trigger + nota** che spiega lo scopo, **manca** azione vera (nodo Telegram/Meta segnaposto tipo «STUB 31», non avviso reale); (3) **esempio concreto n.31** (59 card Da approvare): import → apri flusso → togli Stub Telegram → metti bot vero (token+chat) → collega Pannello → **solo allora** Active; (4) **perché così:** `id`/`versionId` evitano errore import NOT NULL (L-329) + niente messaggi/post per sbaglio senza chiavi — invii restano **🔴**; (5) **2 workflow completi** repo (pubblica post + lista attesa) = eccezione più vicina al reale; chiudere con **un solo prossimo passo** («solo Telegram n.31 nodo per nodo»). Regola: chiarimento «punto N» post-lista workflow → apri 1 JSON, mostra cosa c’è/manca, numeri workflow reali, perché stub, CTA singola. Vedi L-379, L-329.",
-   "tag": [
-    "n8n",
-    "workflow",
-    "stub",
-    "spiegazione",
-    "telegram",
-    "nicola"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:33",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-380",
-   "testo": "**Builder automazioni — ON-DEMAND, non ogni mattina; trigger: comando Nicola, richiesta reparto, ok card 🔴, radar occasionale (Nicola 20/7 ~03:28).** Nicola «quando si attiva Builder automazioni?» — follow-up organigramma L-378. 5 perché: (1) confonde Builder con **worker/giro** che gira in background — Builder **non** parte da solo ogni mattina; (2) **trigger espliciti:** Nicola chiede («collega Telegram», «crea 50 workflow», «accendi RSS bandi») → AD delega subito; altri reparti dichiarano bisogno mano → passa da Builder; **dopo ok card 🔴** (post/email/avviso) → Builder collega mano e avvia flusso (dry-run prima); (3) **radar occasionale** («n8n su?», strumento utile da aggiungere) — **non ogni giro**; (4) **🟢 da solo:** preparare JSON/bozze workflow/script repo; **🔴/chiavi:** accendere sul server n8n, far mandare messaggi/post/soldi (Telegram 59 avvisi bloccati); (5) chiude con **CTA concreta** («accendi Telegram» / «importa 50 workflow» / «RSS bandi»), non «Builder gira in background». Regola: «quando si attiva Builder?» → on-demand per compito automazione/mano, distinto dal worker; bozze sì subito, live 🔴. Vedi L-378, L-379, L-376.",
-   "tag": [
-    "builder-automazioni",
-    "trigger",
-    "on-demand",
-    "n8n",
-    "nicola"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:28",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0720-379",
    "testo": "**«Crea i 50 workflow» = 50 JSON importabili stub con id/versionId, non attivi senza credenziali (Nicola 20/7 ~03:27).** Nicola «adesso crea i 50 workflow» — follow-up diretto del catalogo 10×5 (L-368). 5 perché: (1) «crea» ≠ elenco testuale — si aspetta **artefatti importabili** pronti in repo; (2) **50 file JSON** in `consegne/automazioni/n8n/workflows/` + indice `CATALOGO-50-WORKFLOW.json` + script rigenerabile `genera-catalogo-50.mjs`; (3) ogni file **deve** avere `id` e `versionId` — altrimenti import n8n CLI fallisce NOT NULL (L-329); (4) **stub collegabili:** trigger + descrizione + nodo Telegram segnaposto — **spenti di default**, sostituire Meta/Resend/Sheets prima di Active; i **2 workflow già completi** (pubblica post + lista attesa) restano i migliori punti di partenza; (5) **priorità accensione:** Telegram (59 avvisi, n.31 card-da-approvare) → Meta FB+IG (n.1–2) → RSS bandi Comune (n.41) → carrello 1h email (n.11) → nuovo ordine negozio (n.21); messaggi/post = **🔴** card anche con webhook ok. Regola: «crea N workflow» dopo catalogo → genera JSON in repo con id/versionId + stub + indice + script rigenerazione; chiudere «quale accendiamo per primo», non «sono pronti online». Vedi L-368, L-329, L-378.",
    "tag": [
@@ -1791,7 +1701,7 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -1800,28 +1710,7 @@
    "stato": "attiva",
    "usi": [],
    "_evidenza_2": "ADDENDUM 03:33: Nicola «spiegami meglio il punto 3» — punto 3 = stub; serve esempio n.31 (59 card) + passi import→sostituisci segnaposto→Active solo post 🔴, non ripetere elenco. Vedi L-381.",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-378",
-   "testo": "**Organigramma n8n — builder-automazioni UNICO esperto costruttore; altri reparti richiedono; partner-management monitora vendor; devops hosta server (Nicola 20/7 ~03:26).** Nicola «ci sono senior esperti di n8n dentro mycity?» — chiarimento ruoli, non correzione. 5 perché: (1) dopo team-play mani per reparto (L-376) vuole sapere **chi progetta** i workflow, non solo chi li chiede; (2) **builder-automazioni** = owner unico: progetta/costruisce flussi n8n, collega mani (Telegram, email, social, cron, RSS), retry/errori/dry-run; (3) marketing/CRM/ops/vendite/… **chiedono** automazioni — non le disegnano; (4) **partner-management** guarda n8n come **fornitore** (up? scade? si rompe?) — non architettura flussi; **devops-sre** tiene su server/Docker — non progettista workflow; (5) **non esiste** un secondo «esperto n8n» dedicato — i **50 workflow** = Builder li costruisce partendo dalle richieste reparto, messaggi/post/soldi sempre **🔴**. Regola: domanda «chi è esperto n8n?» → **builder-automazioni** costruisce, reparti richiedono, AD orchestra; non elencare tutti i senior come esperti n8n. Vedi L-376, L-332, L-344.",
-   "tag": [
-    "n8n",
-    "organigramma",
-    "builder-automazioni",
-    "owner",
-    "nicola"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:26",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 08:30"
   },
   {
    "id": "L-2026-0720-377",
@@ -12380,9 +12269,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 06:30",
+     "quando": "2026-09-08 08:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 84
+     "volte": 85
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14256,22 +14145,22 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 492,
+  "lezioni_attive": 487,
   "promosse_a_principio": 95,
-  "decadute": 5,
+  "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-08 06:20",
+  "tasso_calcolato_il": "2026-09-08 08:40",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 06:30",
-  "lezioni_totali": 503,
+  "cristallizzazione_ultima": "2026-09-08 08:30",
+  "lezioni_totali": 493,
   "lezioni_per_stato": {
-   "attiva": 381,
+   "attiva": 376,
    "principio": 95,
    "in-prova": 5,
-   "decaduta": 5,
+   "decaduta": 0,
    "ritirata": 0,
    "senza-stato": 16,
    "altro": 1

@@ -1,13 +1,13 @@
 {
-  "data": "2026-09-08 06:34",
-  "situazione": "76° giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora con query diretta su Supabase. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). La notizia di oggi è un'altra: recuperando 12 commit di GitHub mai arrivati qui (la copia locale e GitHub sono separate dal 1° settembre), è emerso che il dominio del sito sembra già spostato su Vercel e funzionante — letto con uno strumento di pagina, non ancora confermato con un occhio umano. La divergenza main↔GitHub intanto cresce di giro in giro (ora 331 commit locali mai spinti, 12 remoti mai scaricati).",
+  "data": "2026-09-08 08:35",
+  "situazione": "76°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora con query diretta su Supabase. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). La novità di questo passaggio non è di business: diagnosticata la causa ESATTA del guasto tecnico che da una settimana blocca i controlli automatici di qualità (test-cervello, freschezza-cadenze, esperimenti e altri) — il file di permessi della sessione vieta a se stesso di essere modificato dall'interno, quindi nessuna sessione Claude Code può risolverlo da sola: serve un intervento con accesso diretto al disco.",
   "opportunita": [
-    {"titolo": "Il dominio del sito sembra già a posto, manca solo una conferma a occhio", "motivo": "uno strumento di lettura pagine mostra la home vera del marketplace su mycity-marketplace.com, non più un dominio parcheggiato: se confermato chiude due card storiche in un colpo solo", "impatto": "alto", "sforzo": "basso"}
+    {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è ora certa (non più solo sospetta): basta aggiungere righe di permesso letterali in un file che la sessione non può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
     {"titolo": "Sblocca i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — unico blocco confermato tra i dati di oggi e il primo ordine pagato", "livello": "rosso"},
-    {"titolo": "Riallinea subito il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresce di giro in giro (331/12 ora): più si aspetta, più diventa rischioso il riallineamento, e nasconde lavoro vero già fatto altrove", "livello": "rosso"},
-    {"titolo": "Conferma con un tuo occhio che il sito si vede su mycity-marketplace.com", "motivo": "trovato funzionante da uno strumento automatico, non ancora da una persona vera — 30 secondi per chiudere due card storiche", "livello": "giallo"},
+    {"titolo": "Sblocca da fuori la chat i permessi che tengono fermi i controlli di qualità della macchina da una settimana", "motivo": "diagnosi confermata: il file dei permessi vieta a se stesso di essere modificato, serve un accesso diretto al disco (VPS/editor), non un permesso concesso in chat", "livello": "giallo"},
+    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresceva di giro in giro (331/12 alle 06:48, non riverificata in questo passaggio)", "livello": "rosso"},
     {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati", "livello": "giallo"}
   ]
 }

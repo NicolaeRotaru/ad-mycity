@@ -1,17 +1,18 @@
 ---
 tipo: supervisione-negozi
-data: 2026-09-08 06:27
+data: 2026-09-08 08:28
 ---
 
-# 🛡️ Supervisione negozi & prodotti — 2026-09-08 06:27
+# 🛡️ Supervisione negozi & prodotti — 2026-09-08 08:28
 
-> La macchina ha vegliato ogni negozio e ogni prodotto e ha trovato i dati mancanti. Qui sotto:
-> le **proposte pronte** (riempimento automatico, in attesa del tuo ok) e ciò che **serve da te** (foto, prezzi, ecc.).
+> La macchina ha vegliato ogni negozio e ogni prodotto, e ha trovato i dati mancanti.
+> Sotto trovi le **proposte pronte**: il riempimento automatico che aspetta il tuo ok.
+> Poi trovi ciò che **serve da te**: foto, prezzi e altri dati che solo tu puoi dare.
 > Nessun dato è stato scritto sul sito: parte solo dopo la tua firma.
 
-**Quadro:** 2 negozi (2 approvati) · 9 prodotti · **4 campi** riempibili in automatico (proposti) · **8** che servono da te.
+**Quadro:** 2 negozi, di cui 2 approvati · 9 prodotti · **4 campi** proposti in automatico · **8** che servono da te.
 
-## ✅ Proposte pronte (riempimento automatico — aspettano il tuo ok)
+## ✅ Proposte pronte: il riempimento automatico che aspetta il tuo ok
 
 ### Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno
 - **Valore DEDOTTO** (non fornito dal negozio): «nuovo». proposto "nuovo": è il valore prevalente reale (merce di negozio nuova).

@@ -589,7 +589,50 @@ confermati bloccati stamattina con lo stesso identico pattern: `sonda-volano.mjs
 riga letterale per `test-cervello.mjs`, vale la pena aggiungerle tutte insieme in un colpo solo
 (elenco sopra + `delta-gate.mjs`), invece di scoprirle una a una nei prossimi giri.
 
-| 189 | 2026-09-01 14:28 | @devops-sre | Sblocca il permesso per rilanciare il controllo dei test del cervello | 🟡 | vedi blocco sopra | manuale (settings.local.json sul VPS) | in attesa |
+**✅ Aggiornamento 8/9 08:35 — CAUSA TROVATA, non più solo "buco noto".** Ho letto `.claude/settings.json`
+per intero. La sezione `permissions.deny` contiene, scritte esplicitamente: `"Edit(./.claude/settings.json)"`,
+`"Write(./.claude/settings.json)"`, `"Edit(./.claude/settings.local.json)"`, `"Write(./.claude/settings.local.json)"`.
+**Nessuna sessione Claude Code può modificare questi due file dall'interno**, indipendentemente da
+quanti permessi le vengano concessi durante la chat — è una barriera scritta apposta (probabilmente da
+te stesso, per evitare che la macchina si dia permessi da sola), non un bug da riparare col codice.
+Ho anche riconfermato con una prova diretta (non solo dedotta dal pattern dei fallimenti) che il jolly
+`"Bash(node cervello/*.mjs:*)"` già presente nel file **non copre gli script non elencati anche per
+esteso**: ho lanciato `chiusura-loop.mjs` (elencato per esteso) ed è partito subito; ho rilanciato
+`test-cervello.mjs`/`freschezza-cadenze.mjs`/`esperimenti-check.mjs` (solo sotto il jolly) e sono
+rimasti bloccati con "richiede approvazione", senza nessuno in sessione headless che possa rispondere.
+Non ho tentato di aggirare la barriera (sarebbe scorretto, è una scelta esplicita nel file).
+
+**Cosa devi fare, aggiornato.** Con un accesso diretto al disco (SSH sul VPS, o un editor locale — non
+dentro questa chat) aggiungi in `.claude/settings.json`, dentro l'array `permissions.allow`, queste
+righe letterali (mancano tutte, sono script di sola lettura/diagnostica, nessuno tocca soldi o dati
+esterni):
+```
+"Bash(node cervello/test-cervello.mjs:*)",
+"Bash(node cervello/freschezza-cadenze.mjs:*)",
+"Bash(node cervello/delta-gate.mjs:*)",
+"Bash(node cervello/sonda-volano.mjs:*)",
+"Bash(node cervello/verifica-automazione.mjs:*)",
+"Bash(node cervello/stash-dimenticate.mjs:*)",
+"Bash(node cervello/gate-veri.mjs:*)",
+"Bash(node cervello/apprendimento-guardiano.mjs:*)",
+"Bash(node cervello/correzione-nicola-gate.mjs:*)",
+"Bash(node cervello/esperimenti-check.mjs:*)",
+"Bash(node cervello/north-star-check.mjs:*)",
+"Bash(node cervello/lezione-nuova.mjs:*)",
+"Bash(node cervello/mirror-fresco.mjs:*)",
+"Bash(node cervello/tasso-lezioni.mjs:*)",
+"Bash(node cervello/tasso-chiusura.mjs:*)",
+"Bash(node cervello/ci-stato.mjs:*)",
+"Bash(node cervello/si-capisce.mjs:*)",
+"Bash(node cervello/piani-data.mjs:*)",
+"Bash(node cervello/radiografia-in-corsa.mjs:*)",
+"Bash(node cervello/taste-file.mjs:*)",
+"Bash(node cervello/calibrazione.mjs:*)"
+```
+Fatto questo, al prossimo giro rilancio tutti i cancelli fermi da una settimana e chiudo le card
+collegate (#104/#194/#195/#198 + gli effetti a catena su delta-gate/apprendimento/correzione-nicola).
+
+| 189 | 2026-09-01 14:28 | @Nicola | Aggiungi da FUORI la chat (VPS/editor) le 20 righe di permesso elencate sopra a `.claude/settings.json` | 🟡 | vedi blocco sopra — causa confermata leggendo il file, non più un'ipotesi | manuale (accesso diretto al disco, non in chat) | in attesa |
 
 <!-- trigger-esterno-anti-churn -->
 ### 🟡 #188 — Dimmi dove vive il comando anti-churn che gira ogni giorno · ⏳ accodata 2026-09-01 11:22
@@ -3502,7 +3545,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-08 06:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-08 08:28)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-08-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

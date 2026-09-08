@@ -1,14 +1,53 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 06:48
+aggiornato: 2026-09-08 08:35
 fonte: AD digitale (cadenza: giro)
 ---
 
-## Prossime priorità (aggiornato 2026-09-08 06:48)
-Sono le stesse priorità delle 06:34. Nulla è cambiato.
+## Prossime priorità (aggiornato 2026-09-08 08:35)
+Stesse priorità del passaggio delle 06:48, più una nuova (diagnosi completata, non un nuovo blocco).
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
-2. **#199 — Riallinea main VPS↔GitHub.** La divergenza resta ferma. 331 commit locali, 12 remoti.
-3. **#196 — Decidi su "Panificio Demo".** Invariato.
+2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa ora certa: `.claude/settings.json`
+   vieta a se stesso Edit/Write. Nessuna sessione Claude Code può risolverlo da sola.
+3. **#199 — Riallinea main VPS↔GitHub.** Non riverificato in questo passaggio. Era 331/12 alle 06:48.
+4. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 08:35 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 06:48.**
+> Riverificato dal vivo con query SQL diretta su supabase-marketplace: 1 ordine (24/6, annullato,
+> €19,05), **0 pagati**, 9 profili, Pane Quotidiano ancora con Stripe spento, "Panificio Demo"
+> invariato — identico bit-per-bit al passaggio delle 06:48. Non rilanciate le 15 fasi pesanti:
+> letargo RISPARMIO + gate NORTH_STAR, nessun delta di business.
+>
+> **Il lavoro vero di questo passaggio: trovata la causa del blocco Bash cronico.** Da una settimana
+> tiene ferme le card #104/#189/#194/#195/#198. Prima era solo "nota". Ora è definitiva. Ho letto per
+> intero `.claude/settings.json`. Nella sezione `permissions.deny` ci sono, scritte esplicitamente,
+> quattro righe: `Edit(./.claude/settings.json)`. `Write(./.claude/settings.json)`. Le stesse due
+> righe per `settings.local.json`. Il significato è semplice: **nessuna sessione Claude Code può
+> modificare questi due file dall'interno.** Vale a prescindere da quanti permessi vengano concessi
+> durante la chat. Non è un bug: è una barriera scritta apposta.
+> Ho anche riconfermato un'altra cosa, stavolta con una prova diretta e non solo per pattern
+> osservato: il jolly `Bash(node cervello/*.mjs:*)` presente nello stesso file **non copre gli script
+> non elencati anche per esteso**. La prova: `chiusura-loop.mjs` è elencato per esteso in
+> `settings.json`, ed è partito subito. `test-cervello.mjs`, `freschezza-cadenze.mjs` ed
+> `esperimenti-check.mjs` stanno solo sotto il jolly. Restano bloccati con "richiede approvazione", e
+> in sessione headless non c'è nessuno che possa rispondere.
+>
+> **Non ho provato ad aggirare la barriera** (sarebbe stato scorretto: è una scelta esplicita nel
+> file). Ho invece chiuso il loop dove potevo: registrato per davvero l'ESITO di oggi per @ad e
+> @intelligence nel gate chiusura-loop (comando allowlistato, gira regolarmente — non solo un
+> promemoria), e verificato `coerenza-fatti.mjs` pulito (41 fatti, 0 cacce aperte).
+>
+> **Cosa serve ora, aggiornato per la card #189:** qualcuno con accesso diretto al disco (non dentro
+> questa chat — SSH sul VPS, o un editor locale) aggiunge in `.claude/settings.json`, dentro
+> `permissions.allow`, righe letterali per gli script HARD ancora senza voce esplicita:
+> `test-cervello.mjs`, `freschezza-cadenze.mjs`, `delta-gate.mjs`, `sonda-volano.mjs`,
+> `verifica-automazione.mjs`, `stash-dimenticate.mjs`, `gate-veri.mjs`, `apprendimento-guardiano.mjs`,
+> `correzione-nicola-gate.mjs`, `esperimenti-check.mjs`, `north-star-check.mjs`, `lezione-nuova.mjs`,
+> `mirror-fresco.mjs`, `tasso-lezioni.mjs`, `tasso-chiusura.mjs`, `ci-stato.mjs`, `si-capisce.mjs`,
+> `piani-data.mjs`, `radiografia-in-corsa.mjs`, `taste-file.mjs`, `calibrazione.mjs`. Sono tutti
+> script di sola lettura/diagnostica interni al cervello — nessuno tocca soldi o dati esterni.
+>
+> Blocco completo: [[RITMO]].
 
 > 🔁 **8/9 06:48 — Terzo passaggio "giro completo" in 42 minuti.**
 > I dati sono identici al passaggio delle 06:34. Riverificato dal vivo con SQL diretto: 1 ordine, 0
