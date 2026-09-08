@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 11:10",
+      "byte_prima": 1096676,
+      "byte_dopo": 975589,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0720-351",
+            "testo": "**VPS — «cos'altro posso inserire?» = inventario stack + collegare mani, non altri contain"
+          },
+          {
+            "id": "L-2026-0720-349",
+            "testo": "**Comandi worker senza aprire cmd ogni volta — chat Pannello prima, SSH solo raro (Nicola "
+          },
+          {
+            "id": "L-2026-0719-337",
+            "testo": "**«Com'è fatto un workflow complesso/grande?» = scheletro 7 blocchi + esempio, non «tanti "
+          },
+          {
+            "id": "L-2026-0719-336",
+            "testo": "**«Invece nel marketing?» = catalogo n8n acquisizione/contenuti, separato da ops/revenue ("
+          },
+          {
+            "id": "L-2026-0719-335",
+            "testo": "**«Dimmi altri 10 workflow diversi» = catalogo revenue n8n, non ripetere la leva già data "
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 10:30",
       "byte_prima": 1104786,
       "byte_dopo": 983515,

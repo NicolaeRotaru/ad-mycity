@@ -1,10 +1,41 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 10:35
+aggiornato: 2026-09-08 11:15
 fonte: AD digitale (cadenza: giro)
 ---
 
-## Prossime priorità (aggiornato 2026-09-08 10:35 — 6° passaggio di oggi, invariate)
+## Prossime priorità (aggiornato 2026-09-08 11:15 — 7° passaggio di oggi, invariate)
+Stesse priorità di tutti i passaggi di oggi. Nessun dato di business nuovo da 77 giorni.
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
+2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`
+   vieta a se stesso Edit/Write.
+3. **#199 — Riallinea main VPS↔GitHub.** Non riverificato in questo passaggio.
+4. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 11:15 — 7° passaggio "giro completo" di oggi.** Sono passati 40 minuti da quello
+> delle 10:35.
+>
+> Ho riverificato i dati dal vivo. Ho fatto una query diretta su Supabase, il database vero.
+> Risultato: 1 ordine. È del 24/6, annullato, €19,05, del negozio Pane Quotidiano. **0 pagati.**
+> 9 profili cliente. 9 prodotti. 2 negozi. È lo stesso identico risultato di tutti i 6 passaggi
+> di oggi. Ho controllato anche i commit: `git log --since="10:35"` mostra solo i due già noti,
+> delle 10:52 e delle 11:00. Nessun dato di business nuovo nel mezzo.
+>
+> **Non ho rilanciato le 15 fasi pesanti.** Non ho nemmeno riscritto auto-analisi, apprendimento
+> e registro-realtà. Il motivo: erano già stati riscritti col contenuto vero 40 minuti fa, alle
+> 10:35. Restano dentro la finestra di freschezza. Riscriverli ora, identici, sarebbe stato solo
+> rumore. La regola del letargo RISPARMIO dice di tagliare il volume, non i controlli.
+> `test-cervello.mjs` resta bloccato dall'allowlist Bash di questa sessione. È lo stesso buco
+> noto delle card #104/#189. Un solo tentativo, non ritentato una seconda volta.
+>
+> **Lo dico di nuovo, esplicito.** Oggi sono 7 le chiamate identiche a "giro completo". Sono tutte
+> sugli stessi dati, fermi da 77 giorni. Ogni chiamata su dati invariati consuma quota AI. Non
+> produce nulla di nuovo. È il pattern che questa macchina ha già segnalato decine di volte ieri.
+> Lo ha indicato come causa principale del passaggio a SOPRAVVIVENZA. Le uniche due cose che
+> cambierebbero l'esito di un giro: sbloccare #182, cioè Stripe di Pane Quotidiano. Oppure
+> sbloccare #189, cioè i permessi Bash da fuori la chat.
+
+## Passaggio precedente (10:35, 6° passaggio di oggi)
 Stesse priorità del passaggio delle 08:35. Nessun dato di business nuovo da 77 giorni.
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa ora certa: `.claude/settings.json`

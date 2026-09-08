@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-08 10:35",
-  "situazione": "77°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato per la 6a volta oggi, riverificato ora con query diretta su Supabase. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). Questo passaggio ha chiuso un buco di processo (auto-analisi/apprendimento saltati alle 08:53, riscritti ora) e confermato che la CI è pulita (0 PR da riparare). Segnale per Nicola: il giro pieno è scattato 6 volte oggi a dati fermi da 77 giorni — continuerà a ripetersi identico finché #182 (Stripe) o #189 (permessi) non si sbloccano.",
+  "data": "2026-09-08 11:15",
+  "situazione": "77°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato per la 7a volta oggi, riverificato ora con query diretta su Supabase (profili 9, prodotti 9, negozi 2). Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). Nessun commit di business dal passaggio delle 10:35: non ho rilanciato le 15 fasi pesanti né riscritto auto-analisi/apprendimento (già freschi da 40 minuti). Segnale esplicito per Nicola: 7 giri pieni identici oggi su dati fermi da 77 giorni — continuerà a ripetersi finché #182 (Stripe) o #189 (permessi Bash) non si sbloccano.",
   "opportunita": [
     {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è ora certa (non più solo sospetta): basta aggiungere righe di permesso letterali in un file che la sessione non può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"}
   ],

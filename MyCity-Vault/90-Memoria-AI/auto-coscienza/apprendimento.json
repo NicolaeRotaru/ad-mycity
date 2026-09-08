@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 10:39",
+ "aggiornato": "2026-09-08 11:16",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -1877,7 +1877,7 @@
     "correzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -1885,7 +1885,7 @@
    "ultima_conferma": "2026-07-20 03:04",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-366",
@@ -1900,7 +1900,7 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -1908,7 +1908,7 @@
    "ultima_conferma": "2026-07-20 03:14",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-365",
@@ -1923,7 +1923,7 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.45999999999999996,
+   "confidenza": 0.30999999999999994,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -1931,7 +1931,7 @@
    "ultima_conferma": "2026-07-20 03:16",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-363",
@@ -1973,7 +1973,7 @@
     "nicola"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -1981,7 +1981,7 @@
    "ultima_conferma": "2026-07-20 02:31",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-361",
@@ -1998,7 +1998,7 @@
     "correzione"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2006,7 +2006,7 @@
    "ultima_conferma": "2026-07-20 03:12",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-360",
@@ -2023,7 +2023,7 @@
     "nicola"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4899999999999999,
+   "confidenza": 0.33999999999999986,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2031,7 +2031,7 @@
    "ultima_conferma": "2026-07-20 02:23",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-359",
@@ -2046,7 +2046,7 @@
     "correzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4899999999999999,
+   "confidenza": 0.33999999999999986,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2054,7 +2054,7 @@
    "ultima_conferma": "2026-07-20 02:31",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-358",
@@ -2119,7 +2119,7 @@
     "nicola"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.45999999999999996,
+   "confidenza": 0.30999999999999994,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -2127,7 +2127,7 @@
    "ultima_conferma": "2026-07-20 01:53",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-355",
@@ -2142,7 +2142,7 @@
     "nicola"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -2150,7 +2150,7 @@
    "ultima_conferma": "2026-07-20 01:53",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-354",
@@ -2167,7 +2167,7 @@
     "correzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.48,
+   "confidenza": 0.32999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2175,7 +2175,7 @@
    "ultima_conferma": "2026-07-20 01:45",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-353",
@@ -2192,7 +2192,7 @@
     "gate"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4899999999999999,
+   "confidenza": 0.33999999999999986,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2200,7 +2200,7 @@
    "ultima_conferma": "2026-07-20 01:39",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-352",
@@ -2229,29 +2229,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0720-351",
-   "testo": "**VPS — «cos'altro posso inserire?» = inventario stack + collegare mani, non altri container (Nicola 20/7 ~01:29).** Dopo promemoria accesso n8n, chiede cosa aggiungere sul server «guardando a quello che ho creato fino ad ora». 5 perché: (1) pattern «cos'altro mettere/installare» = rispondere da **inventario verificato** (worker systemd, n8n Docker :5678, Playwright Node22+Chromium, Docker) — **non** lista generica di software da scaricare; (2) il passo utile **non** è un altro programma — è **finire i collegamenti** delle mani già previste (n8n Active+`N8N_WEBHOOK_URL`, Telegram, Resend, Gemini, chiave scrittura marketplace); (3) **59 avvisi** approvazione bloccati senza `TELEGRAM_BOT_TOKEN` (fonte: report 19/7 `notifica-approvazioni`) — Telegram BotFather = win più veloce (~5 min); (4) altri workflow n8n = import modelli già in repo, stesso container Docker — rinforza L-344 cervello/braccia; (5) **NON** proporre ora: secondo cervello, container a caso, WhatsApp (verifica Meta lenta) — Pannello resta su Vercel. Regola: «cos'altro sul VPS» → stack attuale + 3-5 leve mancanti ordinate per ROI + cosa NON serve; se chiede da dove partire → **Telegram** prima. Vedi L-347, L-344, CHECKLIST-VIVO.",
-   "tag": [
-    "vps",
-    "inventario",
-    "n8n",
-    "telegram",
-    "playwright",
-    "mani",
-    "nicola"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 02:57",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0720-350",
    "testo": "**Worker chat — ingrandisci fluttuante = stessa chat `workerFull`, NON pagina Assistente (Nicola 20/7 ~01:25).** Nicola: «ingrandimento apre un'altra chat» + chiarimento «la chat del worker dentro il menu finestra a sinistra». 5 perché: (1) nel Pannello esistono **due** interfacce Worker — chat flottante/`workerFull` (sidebar conv **dentro** il riquadro) vs voce menù `vista=assistente` (layout vecchio, cassetto esterno); (2) pulsante Maximize2 **prima** navigava alla seconda → sembra «altra chat»; (3) Nicola vuole **continuità**: stessa conv aperta, stesso layout, solo più grande; (4) fix = `setWorkerFull(true)` + chiudi fluttuante, **non** `setVista('assistente')` — incluso in PR #485 (`b72958dc`); (5) AD aveva detto «già mergiato» senza verifica — merge 🔴 #203 ancora pendente; se layout vecchio → hard refresh PWA, attendere conferma Nicola. Regola: bug ingrandisci → spiegare doppia UI Worker + fix workerFull + non dichiarare risolto senza merge/test. Vedi L-348, PR #485, DECISIONI 17/7 #430.",
    "tag": [
@@ -2266,7 +2243,7 @@
     "correzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4899999999999999,
+   "confidenza": 0.33999999999999986,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2274,30 +2251,7 @@
    "ultima_conferma": "2026-07-20 01:25",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-349",
-   "testo": "**Comandi worker senza aprire cmd ogni volta — chat Pannello prima, SSH solo raro (Nicola 20/7 ~01:17).** Chiede modo **sicuro** di lanciare comandi sul worker senza Termux/SSH ogni volta. 5 perché: (1) pattern «ricordami/percorso operativo» = risposta **gerarchica concreta**, non tutorial generico SSH (come L-247, L-347); (2) **uso normale = chat Worker** — AD esegue sul VPS, niente root, meno rischio incollare nel posto sbagliato (già capitato Termux locale vs server L-324/L-326); (3) **SSH = casi rari** (Docker, file segreti, riavvio) con scorciatoia **una tantum** (chiave ed25519 + Host `mycity` in config) — setup guidato in chat, non in LEZIONI-CHAT; (4) **tmux** se sessione lunga; **n8n browser** per ripetitivo (pub post) — rinforza L-344 cervello/braccia; (5) regola gate: «serve SSH?» prima — spesso no; **controllare prompt** `root@ubuntu…#` = server vs `~ $` = telefono. **Evitare:** shell web su internet, SSH senza password esposto. Rinforza target zero-cmd L-6832. Regola: domanda «senza cmd» → chat prima, SSH scorciatoia secondo, mai proporre shell web. **ADDENDUM 01:47 (Nicola):** chiede se **menu** manda comandi al VPS e perché non pagina terminale — chiarire: menu = **solo pulsanti preset** (Stato worker), **non** shell libera; pagina terminale web = **NO** (L-355); task ripetuti → pulsante sicuro. Vedi L-355, L-6832, L-324, L-326, CHECKLIST-VIVO.",
-   "tag": [
-    "vps",
-    "ssh",
-    "termux",
-    "worker",
-    "sicurezza",
-    "nicola",
-    "chat-first"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 01:47",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-348",
@@ -2341,7 +2295,7 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.45999999999999996,
+   "confidenza": 0.30999999999999994,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -2349,7 +2303,7 @@
    "ultima_conferma": "2026-07-20 00:57",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-346",
@@ -2365,7 +2319,7 @@
     "nicola"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2373,7 +2327,7 @@
    "ultima_conferma": "2026-07-20 01:39",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-345",
@@ -2389,7 +2343,7 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.5199999999999999,
+   "confidenza": 0.3699999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2397,7 +2351,7 @@
    "ultima_conferma": "2026-07-20 00:55",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-344",
@@ -2411,7 +2365,7 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -2419,7 +2373,7 @@
    "ultima_conferma": "2026-07-20 02:47",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-343",
@@ -2435,7 +2389,7 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2443,7 +2397,7 @@
    "ultima_conferma": "2026-07-20 00:42",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-342",
@@ -2459,7 +2413,7 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4899999999999999,
+   "confidenza": 0.33999999999999986,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2467,7 +2421,7 @@
    "ultima_conferma": "2026-07-20 00:51",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-341",
@@ -2483,7 +2437,7 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.5199999999999999,
+   "confidenza": 0.3699999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2492,7 +2446,7 @@
    "stato": "attiva",
    "usi": [],
    "_addendum_00_42": "Nicola chiede meccanismo coesistenza — trigger separati: sync sempre; auto-open se vuota≠«+»; cross-device stessa conv riapre; «+» blocca fino salvataggio nuova conv. Vedi L-343.",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-340",
@@ -2507,7 +2461,7 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.48,
+   "confidenza": 0.32999999999999996,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2516,7 +2470,7 @@
    "stato": "attiva",
    "usi": [],
    "_addendum_00_36": "Correzione Nicola 00:36 — meccanismo «pezzi separati» resta valido ma combinazione sync-sì/auto-no **superata**; vuole entrambi con PR #481. Vedi L-341.",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0720-339",
@@ -2559,7 +2513,7 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2567,73 +2521,7 @@
    "ultima_conferma": "2026-07-20 00:29",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0719-337",
-   "testo": "**«Com'è fatto un workflow complesso/grande?» = scheletro 7 blocchi + esempio, non «tanti nodi a caso» (Nicola 19/7 ~23:36).** Dopo cataloghi revenue/ops (L-335) e marketing (L-336), Nicola chiede **anatomia** di un workflow grosso — non altro elenco idee. 5 perché: (1) «com'è fatto» = architettura **riusabile** per disegnare JSON, non meta-setup; (2) grosso ≠ molti nodi — è **catena con regole** che fanno sempre la stessa cosa; (3) 7 parti obbligatorie: sveglia (trigger ordine/carrello/post/orario) → filtro («ha senso agire?» evita doppioni) → rami (instrada per canale/caso) → attese (1h/24h/3gg + **ricontrolla** situazione) → azioni (messaggio/post/avviso, ogni touch diverso) → rete sicurezza (retry, salva fallimento, alert Telegram) → chiusura (segna fatto, riepilogo); (4) esempio concreto obbligatorio (carrello abbandonato mappa sui 7 blocchi); (5) tutti i workflow del catalogo L-333/L-335/L-336 seguono lo stesso scheletro — cambiano trigger/tempi/messaggi. Regola: «com'è fatto un workflow complesso?» / «molto grande?» → **7 blocchi + esempio**; vietato contare nodi, ripetere catalogo idee o tutorial install. Prossimo: Nicola sceglie flusso → JSON pezzo per pezzo dopo webhook. Vedi L-333, L-332, L-335.",
-   "tag": [
-    "n8n",
-    "workflow",
-    "architettura",
-    "anatomia",
-    "nicola",
-    "caso-studio"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-19",
-   "ultima_conferma": "2026-07-19 23:36",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0719-336",
-   "testo": "**«Invece nel marketing?» = catalogo n8n acquisizione/contenuti, separato da ops/revenue (Nicola 19/7 ~23:34).** Dopo L-335 (10 workflow ordini/retention/negozi), Nicola chiede **«Invece nel marketing?»** — stessa richiesta di catalogo ampio ma **filtro reparto marketing**. 5 perché: (1) «invece» = **cambio binario**, non estensione del blocco precedente; (2) marketing = visibilità, domanda nuova, contenuti, campagne — **non** recupero carrelli/ordini/post-consegna; (3) formato identico: lista numerata 10 voci trigger→azione→stop; (4) risposta deve **dichiarare esplicitamente** la differenza ops vs marketing (traffico/contenuti vs ordini/retention); (5) stesse regole: webhook pendente + 🔴 pub/messaggi reali. Regola: «invece nel marketing?» / «e sul marketing?» → 10 idee **solo acquisizione/contenuti**; vietato mescolare o ripetere leve ops già elencate. Vedi L-335, L-333.",
-   "tag": [
-    "n8n",
-    "workflow",
-    "marketing",
-    "acquisizione",
-    "nicola",
-    "caso-studio"
-   ],
-   "reparto": "@marketing",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-19",
-   "ultima_conferma": "2026-07-19 23:34",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0719-335",
-   "testo": "**«Dimmi altri 10 workflow diversi» = catalogo revenue n8n, non ripetere la leva già data (Nicola 19/7 ~23:33).** Dopo L-333 (carrello abbandonato prioritario), Nicola chiede **10 workflow diversi** — conferma che vuole un **portfolio ampio** di automazioni mappate a soldi/ordini/retention, non un solo esempio né meta-setup. 5 perché: (1) «altri» + «diversi» = **escludere** carrello abbandonato già proposto; (2) formato lista numerata con trigger→azione→stop in una riga; (3) coprire clienti + negozi + ops (welcome, post-consegna, dormiente, pagamento fallito, ordine→bottega, meteo, referral, negozio fermo, post→social, bandi); (4) ogni voce chiude con prerequisito webhook + 🔴 se tocca persone reali; (5) prossimo passo = Nicola **sceglie uno** → JSON n8n completo in repo. Regola: «dimmi N workflow» → N idee **distinte** revenue-first; vietato duplicare la leva già data o rispondere con tutorial tecnico. Vedi L-333, L-332.",
-   "tag": [
-    "n8n",
-    "workflow",
-    "catalogo",
-    "roi",
-    "nicola",
-    "caso-studio"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-19",
-   "ultima_conferma": "2026-07-20 02:59",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 11:10"
   },
   {
    "id": "L-2026-0719-334",
@@ -12154,9 +12042,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 10:30",
+     "quando": "2026-09-08 11:10",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 86
+     "volte": 87
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14030,19 +13918,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 482,
+  "lezioni_attive": 477,
   "promosse_a_principio": 95,
   "decadute": 0,
-  "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-08 10:39",
+  "tasso_applicazione": 0.14,
+  "tasso_calcolato_il": "2026-09-08 11:16",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 10:30",
-  "lezioni_totali": 488,
+  "cristallizzazione_ultima": "2026-09-08 11:10",
+  "lezioni_totali": 483,
   "lezioni_per_stato": {
-   "attiva": 371,
+   "attiva": 366,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,
