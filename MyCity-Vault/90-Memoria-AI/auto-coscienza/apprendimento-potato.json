@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 20:30",
+      "byte_prima": 1052333,
+      "byte_dopo": 933437,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0712-90",
+            "testo": "**Route API con loop sequenziale → usare Promise.all() (PR #296, 12/7):** la route Archivi"
+          },
+          {
+            "id": "L-2026-0712-89",
+            "testo": "**Nicola approva le azioni 🔴 direttamente in chat (12/7 00:39):** ha dichiarato «io le co"
+          },
+          {
+            "id": "L-2026-0711-88",
+            "testo": "**Commit in /opt/mycity/ad-mycity/marketplace come root dà 'dubious ownership' — fix: safe"
+          },
+          {
+            "id": "L-2026-0711-87",
+            "testo": "**Dichiarare subito la provenance del lavoro trovato, non aspettare che Nicola chieda (cha"
+          },
+          {
+            "id": "L-2026-0710-86",
+            "testo": "**PR sul marketplace fallisce se il branch locale è già merged (chat 10/7, turno fix 5 blo"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 18:30",
       "byte_prima": 1058195,
       "byte_dopo": 939270,

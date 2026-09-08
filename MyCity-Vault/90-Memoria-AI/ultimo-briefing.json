@@ -1,14 +1,14 @@
 {
-  "data": "2026-09-08 18:32",
-  "situazione": "Nuova chiamata 'esegui giro.md per intero', 32 minuti dopo il Report della sera delle 18:00 — stesso identico esito. 78°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati. Nessuna card nuova oltre #204, nessuna firma nuova in DECISIONI.md dal 29/8. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). test-cervello.mjs riprovato ora: ancora bloccato dall'allowlist Bash (card #104/#189), stesso esito di tutti i passaggi precedenti di oggi. Non rilanciate le 15 fasi pesanti: letargo SOPRAVVIVENZA + gate NORTH_STAR, nessun dato di business nuovo da inseguire.",
+  "data": "2026-09-08 20:33",
+  "situazione": "Nuova chiamata 'esegui giro.md per intero', ~2h dopo il passaggio delle 18:32 — stesso identico esito di cassa. 76° giorno di calendario di stallo North Star (ricalcolato: 24/6→8/9): 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati. Nessuna card nuova, nessuna firma nuova in DECISIONI.md dal 29/8. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento, ~29 giorni). Novità non di cassa trovata in questo passaggio: 407 lead negozi in pipeline, tutti mai contattati. Chiuso il buco di processo HARD (auto-analisi/registro-realta/AUTO-ANALISI erano fermi da ~4h). Non rilanciate le 15 fasi pesanti: letargo RISPARMIO + gate NORTH_STAR, nessun dato di business nuovo da inseguire.",
   "opportunita": [
-    {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è certa: basta aggiungere righe di permesso letterali in un file che nessuna sessione può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"}
+    {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è certa: basta aggiungere righe di permesso letterali in un file che nessuna sessione può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"},
+    {"titolo": "Far ripartire il contatto dei 407 negozi in lista d'attesa", "motivo": "la pipeline vendite esiste ma non è mai stata avviata (0/407 contattati) — leva ferma indipendente dal blocco Stripe", "impatto": "medio", "sforzo": "medio"}
   ],
   "azioni": [
-    {"titolo": "Sblocca i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — unico blocco confermato tra i dati di oggi e il primo ordine pagato", "livello": "rosso"},
+    {"titolo": "Sblocca i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da circa 29 giorni — unico blocco confermato tra i dati di oggi e il primo ordine pagato", "livello": "rosso"},
     {"titolo": "Sblocca da fuori la chat i permessi che tengono fermi i controlli di qualità della macchina", "motivo": "il file dei permessi vieta a se stesso di essere modificato, serve un accesso diretto al disco (VPS/editor)", "livello": "giallo"},
-    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresce di giro in giro: 360 commit locali mai spinti (era 331 stamattina)", "livello": "rosso"},
-    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati", "livello": "giallo"},
-    {"titolo": "Di' se limitare i prossimi giri ravvicinati a un check veloce", "motivo": "le chiamate ripetute a \"giro completo\" oggi sugli stessi dati fermi consumano quota AI senza produrre niente di nuovo", "livello": "giallo"}
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati, 4° giorno senza risposta", "livello": "giallo"},
+    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub", "motivo": "divergenza in crescita da giorni, non riverificata in questo passaggio per non duplicare il controllo", "livello": "rosso"}
   ]
 }

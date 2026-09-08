@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-09-08 18:20",
+  "aggiornato": "2026-09-08 20:53",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders CONTATI via REST: 1 righe visibili con questa chiave",
-      "ultimo_ok": "2026-09-08 18:20",
+      "ultimo_ok": "2026-09-08 20:53",
       "ultimo_errore": "",
       "ultimo_conteggio": 1
     },
@@ -25,7 +25,7 @@
       "ultimo_errore": "",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-09-08 18:20"
+      "ultimo_ok": "2026-09-08 20:53"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -41,7 +41,7 @@
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-09-08 18:20",
+      "ultimo_ok": "2026-09-08 20:53",
       "ultimo_errore": ""
     },
     "sito_uptime": {
@@ -49,13 +49,13 @@
       "stato": "ok",
       "canale": "storefront GET",
       "dettaglio": "storefront raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-09-08 18:20",
+      "ultimo_ok": "2026-09-08 20:53",
       "ultimo_errore": ""
     },
     "supabase_memoria": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-09-08 18:20",
+      "ultimo_ok": "2026-09-08 20:53",
       "ultimo_errore": "",
       "canale": "REST memoria",
       "dettaglio": "impostazioni leggibili via REST (DB memoria)"
@@ -65,7 +65,7 @@
       "stato": "ok",
       "canale": "Cabina GET",
       "dettaglio": "Pannello raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-09-08 18:20",
+      "ultimo_ok": "2026-09-08 20:53",
       "ultimo_errore": ""
     },
     "telegram_bot": {
@@ -73,7 +73,7 @@
       "stato": "non_configurato",
       "canale": "Telegram getMe",
       "dettaglio": "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate",
-      "non_misurato_qui": "2026-09-08 18:20: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
+      "non_misurato_qui": "2026-09-08 20:53: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
     },
     "n8n_health": {
       "giri_ciechi": 0,
@@ -81,7 +81,7 @@
       "ultimo_errore": "",
       "canale": "n8n healthz",
       "dettaglio": "n8n health ok",
-      "ultimo_ok": "2026-09-08 18:20"
+      "ultimo_ok": "2026-09-08 20:53"
     },
     "mcp_stripe": {
       "giri_ciechi": 3,
@@ -94,7 +94,7 @@
     "watchdog_esterno": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-09-08 18:20",
+      "ultimo_ok": "2026-09-08 20:53",
       "ultimo_errore": "",
       "canale": "battito-esterno.yml",
       "dettaglio": "guardiano esterno presente e schedulato (GitHub Actions, indipendente dal VPS)"
@@ -102,7 +102,7 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 767,
+    "giri_totali": 770,
     "sensori_ok": 8,
     "max_giri_ciechi": 3,
     "sensori_totali": 8,

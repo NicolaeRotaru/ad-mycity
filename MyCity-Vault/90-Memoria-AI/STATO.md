@@ -1,8 +1,27 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 18:32
+aggiornato: 2026-09-08 20:33
 fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 20:33 (invariato, ~2h dopo il passaggio delle 18:32)
+Stessi numeri di sempre. Riverificati ora con query SQL dirette. 1 ordine, quello del 24/6, annullato,
+€19,05. 0 pagati. 9 profili. 2 negozi: Pane Quotidiano, reale, con Stripe ancora spento. E "Panificio
+Demo", il fantasma della card #196. **76° giorno di calendario** di stallo North Star, dal 24/6 a
+oggi. Ricalcolato ora: 6+31+31+8. Nessuna card nuova. Nessuna firma nuova.
+
+Non ho rilanciato le 15 fasi pesanti. Il letargo è in RISPARMIO. Il gate North Star è fermo. Insieme
+bastano a fermarle.
+
+Ho chiuso il buco obbligatorio di freschezza-cadenze. Tre file erano fermi al passaggio delle 16:33,
+quindi da circa 4 ore: `auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`. Riscritti ora.
+
+**Novità che non riguarda la cassa.** La pipeline vendite (`merchants_leads`) ha 407 lead. Sono tutti
+ancora "da contattare". Non è solo ferma: non è mai partita.
+
+Priorità invariate. Prima: #182, Stripe di Pane Quotidiano, fermo da circa 29 giorni. Seconda: #189,
+i permessi Bash. Terza: #199, il ramo main contro GitHub — non riverificato in questo passaggio.
+Quarta: #196, "Panificio Demo", quarto giorno.
 
 ## Giro delle 18:32 (invariato rispetto al Report della sera di 32 minuti fa)
 Stessi numeri: 1 ordine, 0 pagati, 78°+ giorno di stallo. Nessuna card/firma nuova. Non rilanciate

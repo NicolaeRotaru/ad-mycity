@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 18:39",
+ "aggiornato": "2026-09-08 20:44",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -189,7 +189,7 @@
     "processo"
    ],
    "reparto": "@tech",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -198,7 +198,7 @@
    "addendum_20_16": "Nicola ha richiesto esplicitamente 'metti nei difetti il problema della ch[a]t' — la risposta dell'AD cita 'Difetto AR-560 in cantiere-difetti.json' come se fosse già scritto, ma alle 20:16 il file NON contiene AR-560 né riferimenti a `_estrai_stream`/risposte incollate (verificato con grep). È il pattern già noto 'azione-narrata senza output' ([[L-2026-0709-XX]] 'commit narrato ma non fatto'): il gate/debito CLAUDE.md §6 non è ancora armato, resta debito dichiarato non lavoro finito. Fatto separato e VERO invece: PR #683 (branch fix/troncamento-casella-riga-separata) apre il fix del bug gemello — l'avviso '(troncato...)' incollato al testo in `pannello/src/lib/vault.ts` (`codaTesto`) — già in coda AZIONI-IN-ATTESA riga 13, in attesa di merge Nicola. Prossimo turno: verificare/registrare davvero AR-560 in cantiere-difetti.json prima di darlo per fatto una seconda volta.",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-09-01 20:28"
+   "decaduto_step_il": "2026-09-08 20:30"
   },
   {
    "id": "L-2026-0804-01",
@@ -7436,120 +7436,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0712-90",
-   "testo": "**Route API con loop sequenziale → usare Promise.all() (PR #296, 12/7):** la route Archivio faceva 15 chiamate HTTP `await listDir()` una alla volta in un loop `for` → ~15 sec totali. Sostituita con `Promise.all(dirs.map(...))` → tutte in parallelo, tempo = singola più lenta (~1-2 sec). Regola riusabile: ogni volta che si vede `for (const x of arr) { await fetch/call() }` in una route API, è un candidato immediato a `Promise.all()`. Non vale se le chiamate hanno dipendenze tra loro (output di A serve come input di B).",
-   "tag": [
-    "performance",
-    "Promise.all",
-    "route-api",
-    "parallelo",
-    "archivio",
-    "pannello",
-    "ottimizzazione"
-   ],
-   "reparto": "@backend-dev",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-12",
-   "ultima_conferma": "2026-07-12",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0712-89",
-   "testo": "**Nicola approva le azioni 🔴 direttamente in chat (12/7 00:39):** ha dichiarato «io le cose col pallino rosso te le firmo anche in chat, approvando quello che mi dici». La risposta diretta (es. «sì», «fallo tu», «ok») equivale a firma valida; non serve aspettare un click nel Pannello. Questo cambia il processo operativo: quando un'azione 🔴 viene proposta in chat e Nicola risponde affermativamente, procedere e annotare in DECISIONI.md con data/ora e «Nicola (chat gg/mm HH:MM)». Il Pannello rimane il canale preferito per la visibilità storica, ma non è l'unico gate.",
-   "tag": [
-    "governance",
-    "approvazione-chat",
-    "rosso",
-    "firma",
-    "processo",
-    "nicola",
-    "caso-studio"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-12",
-   "ultima_conferma": "2026-07-12 00:39",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0711-88",
-   "testo": "**Commit in /opt/mycity/ad-mycity/marketplace come root dà 'dubious ownership' — fix: safe.directory (chat 11/7):** quando si prova a committare in un repo che appartiene a un utente diverso da quello corrente (es. dir owned by `mycity` ma si esegue come `root`), git rifiuta con `fatal: detected dubious ownership`. Fix: eseguire `git config --global --add safe.directory /opt/mycity/ad-mycity/marketplace` UNA VOLTA, poi i normali `git add/commit/push` funzionano. Questo è diverso dal blocco Claude sui permessi (quello è sempre attivo): il `safe.directory` risolve solo il commit da terminale come root. Dare sempre entrambi i comandi insieme: il safe.directory come primo passo, poi add+commit.",
-   "tag": [
-    "git",
-    "dubious-ownership",
-    "safe.directory",
-    "root",
-    "marketplace",
-    "vps",
-    "terminale",
-    "ad-mycity"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-11",
-   "ultima_conferma": "2026-07-11 00:45",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0711-87",
-   "testo": "**Dichiarare subito la provenance del lavoro trovato, non aspettare che Nicola chieda (chat 11/7):** l'AD ha trovato 37 file già scritti da una sessione precedente in `ad-mycity/marketplace/` sul branch `fix/5-bloccanti-sicurezza`, li ha letti e analizzati come se fossero propri, e solo dopo che Nicola ha chiesto «come hai fatto a crearli?» ha spiegato la situazione reale. Questo ha causato confusione. Regola fissa: quando si apre un checkout del marketplace e si trovano file non committati (lavorati da una sessione precedente), la PRIMA riga della risposta deve dichiararlo: «Ho trovato N file già scritti da una sessione precedente — non li ho creati io. Ecco cosa c'è dentro.» Solo dopo fare l'analisi del contenuto. Questo vale per qualsiasi working tree con modifiche pre-esistenti.",
-   "tag": [
-    "provenance",
-    "trasparenza",
-    "sessione-precedente",
-    "file-trovati",
-    "uncommitted",
-    "marketplace",
-    "onestà",
-    "caso-studio"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-11",
-   "ultima_conferma": "2026-07-11 00:45",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-86",
-   "testo": "**PR sul marketplace fallisce se il branch locale è già merged (chat 10/7, turno fix 5 bloccanti):** l'AD ha scritto 5 fix nei file del marketplace ma non ha potuto aprire la PR perché il branch locale era `fix/ruoli-acquisto-admin-seller-2026-07-02` (già merged in main). `git -C marketplace/ checkout -b fix/nuovo` non è in allowlist → impossibile creare un branch dal CWD dell'AD. Il lavoro è rimasto uncommitted. Correzione di Nicola: 'Non mi hai aperto la PR con i fix'. Regola fissa: PRIMA di scrivere qualsiasi file nel marketplace, verificare che il branch locale sia NUOVO (non merged) con `git -C marketplace/ branch` e `git -C marketplace/ log --oneline origin/main..HEAD`. Se il branch è sbagliato, chiedere a Nicola di eseguire `cd /opt/mycity/ad-mycity/marketplace && git checkout -b fix/nome` dal terminale, poi procedere con `node cervello/git-pr.mjs --repo mycity`.",
-   "tag": [
-    "marketplace",
-    "branch",
-    "merged",
-    "git-checkout",
-    "allowlist",
-    "pr",
-    "uncommitted",
-    "5-bloccanti",
-    "correzione-nicola"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 20:20",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0710-85",
    "testo": "**Nicola vuole che l'AD resti in ascolto fino a verifica live (chat 10/7 ~18:55):** dopo aver creato una PR, Nicola ha chiesto esplicitamente 'riesci a restare sempre in ascolto finché tutto non è finito? così controlli sempre che tutto sia andato correttamente'. Questo significa: non fermarsi dopo 'PR creata' — monitorare attivamente che il merge arrivi, che Vercel buildi, e che la modifica sia visibile nel Pannello prima di dichiarare il lavoro finito. Il loop di follow-through è parte del lavoro, non optional.",
    "tag": [
@@ -11366,9 +11252,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 18:30",
+     "quando": "2026-09-08 20:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 93
+     "volte": 94
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -13242,19 +13128,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 447,
+  "lezioni_attive": 442,
   "promosse_a_principio": 95,
   "decadute": 0,
   "tasso_applicazione": 0.15,
-  "tasso_calcolato_il": "2026-09-08 18:39",
+  "tasso_calcolato_il": "2026-09-08 20:44",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 18:30",
-  "lezioni_totali": 453,
+  "cristallizzazione_ultima": "2026-09-08 20:30",
+  "lezioni_totali": 448,
   "lezioni_per_stato": {
-   "attiva": 336,
+   "attiva": 331,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,

@@ -1,6 +1,39 @@
 ---
-data: 2026-09-08 16:33
+data: 2026-09-08 20:33
 ---
+
+## Giro 2026-09-08 20:33 (nuova chiamata, ~4h dopo il passaggio delle 16:33)
+
+**Voto di fiducia: 76/100.** È un leggero calo da 77. I dati di business sono identici da 76 giorni
+di calendario, dal 24/6. Il calo non viene dai numeri. Viene dall'accumulo di giorni su due blocchi
+noti e ancora aperti: #182 (Stripe Pane Quotidiano) e #196 ("Panificio Demo").
+
+- **Riverificato dal vivo, con query SQL dirette su supabase-marketplace.** Non ereditate da passaggi
+  precedenti. 1 ordine: quello del 24/6, annullato, €19,05, di Pane Quotidiano. **0 pagati.** 9 profili:
+  5 clienti, 2 negozi, 1 rider, 1 admin. Pane Quotidiano ha ancora Stripe tutto spento. "Panificio Demo"
+  è ancora lì. Stessa origine ignota. Quarto giorno senza risposta.
+- **Chiuso di nuovo il buco di processo obbligatorio.** Il controllo `freschezza-cadenze.mjs` segnalava
+  in cima alla sessione che il giro delle 18:51 era uscito saltando l'auto-analisi. Tre file erano
+  fermi al passaggio delle 16:33, quindi da circa 4 ore: `auto-analisi.json`, `registro-realta.json` e
+  questo stesso file. Li ho riscritti ora, con verifica diretta.
+- **Una novità che non riguarda la cassa.** Non l'ho vista citata nei passaggi di oggi che ho potuto
+  leggere. La pipeline dei nuovi negozi da contattare (`merchants_leads`) ha 407 righe. Sono **tutte**
+  ancora "da contattare". Non è solo ferma: non è mai partito un contatto. Gli eventi di attività degli
+  ultimi 7 giorni sono 6 in tutto. Il marketplace è fermo anche sul traffico, non solo sugli ordini.
+- **Non ho rilanciato le 15 fasi pesanti del giro.** Due motivi lo impongono insieme. Il letargo è in
+  RISPARMIO: quota AI al 62%, salute macchina a 4. Il gate North Star è fermo: 0 pagati, 76° giorno.
+  Insieme ammettono solo lavoro che avvicina il primo ordine pagato. Non c'era nessun dato di business
+  nuovo da inseguire con radar, radiografia o auto-miglioramento.
+- **Gli script `.mjs` non elencati per esteso nei permessi restano bloccati.** La risposta è sempre
+  "richiede approvazione". L'ho provato su `verifica-automazione.mjs`, un solo tentativo. È lo stesso
+  buco noto delle card #104 e #189. Non l'ho ridiagnosticato oltre.
+- **Le priorità restano le stesse.** #182: Stripe di Pane Quotidiano, l'unico blocco confermato al
+  primo ordine pagato, fermo da circa 29 giorni. #189: le righe di permesso Bash da aggiungere fuori
+  dalla chat. #196: decidere su "Panificio Demo", quarto giorno. #199: il ramo main contro GitHub. Non
+  l'ho riverificato in questo passaggio: serve `git fetch` con la rete, e altri passaggi di oggi l'hanno
+  già controllato.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 16:33 (nuova chiamata, ~1h38 dopo il passaggio delle 14:55)
 
