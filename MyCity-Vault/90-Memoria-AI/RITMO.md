@@ -1873,3 +1873,21 @@ Aggiungo una quarta priorità. Il server e GitHub non si parlano da 6 giorni. La
 - Controllo se la richiesta di unione con il fix è arrivata e, se sì, la preparo per la tua firma.
 
 **Dettagli tecnici** — Card #204 in [[AZIONI-IN-ATTESA]]: tabella `profiles`, nessun GRANT per `anon`. RLS limita `authenticated` al proprio profilo/admin. Vista sicura `seller_public_profiles` già in produzione (migrazione 17/8), ma non usata da `app/stores/page.tsx`, `app/near/page.tsx`, `components/StoreShowcase.tsx`, `components/home/HeroStoreCard.tsx`. Riverificato via grep alle 18:00: ancora `.from('profiles')` in tutti e 4. Fix delegato ad @tech alle 16:34. Alle 18:00 nessun branch nuovo nella copia locale del sito, nessuna PR trovata. Riverificato dal vivo via SQL diretto su Supabase: `orders`=1, `payment_status='paid'`→0, `profiles`=9 (5 buyer/2 seller/1 rider/1 admin), `products`=9, `abandoned_carts`=4, `seller_stripe_attivo`=0, `merchants_leads`=407. Stallo North Star ricalcolato sul calendario (24/6→7/9): 75 giorni esatti. I valori 79/81 comparsi in alcuni passaggi di oggi erano un conteggio per-chiamata: corretto. `DECISIONI.md` fermo al 29/8. Coda in cima: #204/#203/#202/#201/#200/#199/#198/#197/#196/#182/#154/#155.
+
+## Piano del mattino · 2026-09-08 06:06
+
+**In una riga:** i numeri del marketplace sono fermi come ieri, ma ho scoperto che il dominio del sito è probabilmente già a posto — solo che questa macchina non lo sapeva.
+
+**Le 3 cose di oggi**
+1. Sblocca i pagamenti con carta di Pane Quotidiano. Restano spenti: è l'unico blocco confermato tra noi e il primo ordine pagato.
+2. Firma il riallineamento tra la memoria di questo VPS e quella su GitHub. Sono separate da una settimana, e stamattina ho scoperto che nascondono lavoro vero l'una all'altra.
+3. Dimmi cosa fare di "Panificio Demo", il negozio finto comparso nel database tre giorni fa.
+
+**Serve da te**
+- Apri `mycity-marketplace.com` da telefono o computer normale e dimmi se vedi il marketplace vero (categorie, promozioni). Io l'ho visto funzionante stamattina, ma voglio la tua conferma con un occhio umano.
+- Dai il via a qualcuno con accesso diretto al VPS per riallineare la memoria con GitHub: più aspettiamo, più cresce il lavoro da riconciliare.
+- Dimmi se riconosci "Panificio Demo" o se lo cancello.
+
+**La scoperta di stamattina, in parole semplici.** Questa macchina tiene la sua memoria in due posti. Uno è il computer che lavora ogni giorno, il VPS. L'altro è GitHub, dove tu vedi le richieste di unione. Da una settimana i due posti non si parlano più. Stamattina sono riuscita a farli parlare per un momento. Ho letto cosa c'era dall'altra parte. Un'altra sessione aveva già controllato il sito nei giorni scorsi. Aveva concluso che il dominio funziona di nuovo. L'ho verificato io stessa. Ho aperto la pagina vera. Risponde con il marketplace, non con un errore. Per settimane questa chat ti ha chiesto di "rimettere online il sito" come prima mossa. Probabilmente non serve più. Il problema resta finché i due posti stanno separati. Ogni scoperta fatta da una parte resta invisibile all'altra. Rischiamo di risolvere due volte lo stesso problema. Oppure di lasciarne uno vero senza risposta.
+
+**Dettagli tecnici** — Riverificato dal vivo via SQL diretto: `orders`=1 (24/6, annullato), `payment_status='paid'`→0, `profiles`=9, `products`=9, `seller_public_profiles`=2. Pane Quotidiano: `stripe_charges_enabled=false`, `stripe_payouts_enabled=false`, `stripe_details_submitted=false`. Stallo North Star 76 giorni (24/6→8/9). `git fetch origin main` riuscito (raro): `git log --oneline origin/main..HEAD` = 327, `HEAD..origin/main` = 12. I 12 commit remoti includono l'analisi "3 bloccanti del sito" (commit `f153ee05c`, PR #875) che dichiara il dominio spostato su Vercel e verificato 200 in produzione. Verificato indipendentemente con WebFetch su `https://mycity-marketplace.com` e `/stores`: home piena (categorie/promo/footer), `/stores` mostra ancora "Caricamento…" ma lo strumento non esegue JavaScript (non prova né smentisce l'RLS di #204). Card #154/#155/#199 aggiornate in [[AZIONI-IN-ATTESA]] con l'esito. Trovata anche collisione di numerazione: card "#199"/"#200" esistono con contenuto diverso sia sul VPS sia su GitHub (doppioni non riconciliati, stesso errore già noto dalla card #161).

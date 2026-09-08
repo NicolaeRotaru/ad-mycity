@@ -294,9 +294,36 @@ main..origin/main` e il contrario tornino entrambi a zero.
 automatico) sta già tentando questa risoluzione da solo e fallendo in silenzio, o se ha semplicemente smesso
 di provare. Da qui vedo solo lo stato attuale del repository, non i log di `giro.sh`.
 
+**⚠️ Aggiornamento 2026-09-08 06:06 (Piano del mattino) — la separazione nasconde lavoro vero, non
+solo commit di contabilità.** Stamattina `git fetch origin main` è riuscito per la prima volta da
+giorni (non negato dal sandbox). Risultato: **327 commit locali mai spinti**, **12 commit remoti mai
+scaricati**. I 12 di GitHub non sono solo altre PR firmate: dentro ci sono scoperte vere fatte da
+un'altra sessione tra il 6 e il 7/9, mai arrivate qui. La più importante: **il dominio del sito
+(`mycity-marketplace.com`) NON è più giù.** L'ho verificato io stessa in diretta, aprendo la vera
+pagina pubblica (non leggendo un commit): la home risponde con il marketplace vero, categorie,
+promozione, footer — non un errore, non un dominio parcheggiato. Le card **#154/#155** qui sotto (che
+questa sessione ripete come "mossa numero uno" da giorni) parlano di un sito ancora appoggiato su
+Render: non è più la realtà. Sull'elenco negozi (`/stores`) resta "Caricamento…", ma è il limite noto
+dello strumento di lettura pagine (non esegue il JavaScript) — non è una prova che il problema
+persista.
+
+**Il secondo effetto grave: le due storie hanno inventato le stesse targhe per problemi diversi.**
+Su GitHub esistono una card "#199" (allineare il database di produzione) e una "#200" (quattro
+segreti mancanti) — diverse da questa #199 e dalla #200 di questo file. Se Nicola guarda il Pannello
+pubblicato (che legge da GitHub) e poi questa chat (che legge dal VPS), lo stesso numero di card gli
+racconta due cose diverse. Non ho tentato nessun rebase: stessa cautela di sempre, 327+12 commit con
+molti file di memoria che si toccano nello stesso punto è un lavoro da fare con calma, non da questa
+sessione.
+
+**Cosa devi fare (aggiornato, più urgente di ieri):** questo non è più solo un problema di igiene del
+repository — nasconde un blocco già risolto (il dominio) e crea doppioni pericolosi nella coda.
+Serve una sessione con accesso diretto al VPS che risolva la divergenza una volta per tutte, tenendo
+gli istantanea di memoria (`auto-coscienza/*.json`, `STATO.md`) della versione più recente e i
+contenuti/PR di GitHub per il resto.
+
 | # | Data e ora | Reparto | Azione | Colore | Contenuto | Canale | Stato |
 |---|---|---|---|---|---|---|---|
-| 199 | 2026-09-06 20:30 | @devops-sre | Riallinea il ramo main del VPS con quello di GitHub (251 commit locali mai spinti, 8 commit remoti mai scaricati, separati dal 1/9 12:14) | 🟡 | vedi blocco sopra — `git log --oneline main..origin/main` (8) e `origin/main..main` (251) | manuale (VPS) | in attesa |
+| 199 | 2026-09-06 20:30 | @devops-sre | Riallinea il ramo main del VPS con quello di GitHub (327 commit locali mai spinti, 12 commit remoti mai scaricati, separati dal 1/9 12:14) — urgente: nasconde che il dominio è già risolto e crea doppioni di card | 🟡 | vedi blocco sopra — `git log --oneline main..origin/main` (12) e `origin/main..main` (327) | manuale (VPS) | in attesa |
 
 ---
 
@@ -1346,6 +1373,16 @@ dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so 
 il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
 cambiato.
 
+**✅ Aggiornamento 2026-09-08 06:06 — sembra risolta, verificato in diretta, non solo dedotto.** Ho
+aperto io stessa `https://mycity-marketplace.com` (non `mycity-phi.vercel.app`): risponde con la
+home vera del marketplace — categorie, promozione, footer — non un dominio parcheggiato né un
+errore. Il trasloco DNS→Vercel descritto sopra risulta fatto. Non l'ho scoperto rileggendo un
+commit: è la pagina pubblica vera, in questo momento. Resta un margine: lo strumento che uso per
+aprire pagine non esegue JavaScript, quindi non posso dire se l'elenco negozi (`/stores`) mostra
+davvero le botteghe o resta su "Caricamento…" — quello serve ancora un browser vero, come già scritto
+nella card #204. **Prima di chiudere questa card serve solo la tua conferma:** apri il dominio da un
+telefono o un browser normale e dimmi se lo vedi come sopra.
+
 ---
 
 ### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
@@ -1374,6 +1411,13 @@ dichiara da solo invece di localhost. Ma è un paracadute. Il dominio giusto lo 
 **Production**. Confronta la lista con `.env.example` nel repo del sito: lì c'è scritta ognuna a cosa
 serve e cosa succede se manca. Le due sopra sono obbligatorie. Guarda anche che ci siano
 `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `CRON_SECRET` e `UNSUBSCRIBE_SECRET`.
+
+**Aggiornamento 2026-09-08 06:06.** Il dominio (card #155) risulta risolto, verificato in diretta.
+Questa card resta invece **non verificabile da qui**: le chiavi di Vercel non si vedono da fuori, e
+0 ordini pagati (confermato ora via query diretta) non distingue "chiave ancora mancante" da
+"nessun pagamento tentato" — Pane Quotidiano ha comunque Stripe spento (card #182), quindi nessun
+pagamento reale ha ancora potuto testare questa chiave. Resta aperta finché non la controlli tu su
+Vercel.
 
 ⚠️ **Una variabile aggiunta non entra in vigore da sola:** vale dalla pubblicazione successiva. Dopo
 averle messe, fai ripubblicare (Deployments → l'ultima → Redeploy).

@@ -1,8 +1,56 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 23:10
+aggiornato: 2026-09-08 06:06
 fonte: AD digitale (cadenza: giro)
 ---
+
+## Prossime priorità (Piano del mattino 2026-09-08 06:06)
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Confermato ora dal vivo: ancora
+   spenti. È l'unico blocco confermato che separa dal primo ordine pagato.
+2. **#199 — Riallinea il ramo main di questo repository fra VPS e GitHub.** Più urgente da oggi:
+   nasconde una scoperta vera (il dominio del sito sembra già risolto) e ha creato card doppie con
+   lo stesso numero fra le due storie.
+3. **#196 — Decidi su "Panificio Demo".** Negozio finto nel database vero da 3 giorni, origine
+   ignota, 0 ordini collegati: basta un sì/no per chiuderla.
+
+> ☀️ **8/9 06:06 — Piano del mattino: 76° giorno di stallo, ma con una scoperta che cambia le
+> priorità.** I numeri di sempre, riverificati ora con query diretta su Supabase: 1 ordine (24/6,
+> annullato, €19,05), **0 pagati**, 9 profili, 9 prodotti. Pane Quotidiano ha ancora Stripe spento.
+> Identico da settimane.
+>
+> **La notizia vera di stamattina non è nei dati del marketplace. È nel repository di questa
+> macchina.** `git fetch origin main` è riuscito. Quasi mai riesce da qui. Ha confermato che il ramo
+> di questo VPS e quello di GitHub non si parlano dal 1° settembre. Non è un piccolo
+> disallineamento. **327 commit scritti qui non sono mai arrivati su GitHub. 12 commit scritti su
+> GitHub non sono mai scesi qui.** Ho letto quei 12 commit. Non sono solo contabilità. Dentro c'è il
+> lavoro di un'altra sessione del 6 e 7 settembre. Aveva verificato i tre bloccanti storici del sito.
+> Aveva concluso che **il dominio è già stato spostato su Vercel**. Non è più appoggiato al vecchio
+> server spento.
+>
+> **Non mi sono fidata del commit. Sono andata a vedere io.** Ho aperto `mycity-marketplace.com` con
+> uno strumento di lettura pagine. Risponde con la vera home del marketplace: categorie, promozione,
+> footer. Non un dominio parcheggiato, non un errore. Le card #154 e #155 sembrano superate sul
+> fronte del dominio. Questa sessione le aveva ripetute come "mossa numero uno" per settimane. Ho
+> aggiornato entrambe con l'esito. Resta da avere la tua conferma con un occhio umano. Resta anche
+> incerto se le chiavi di Vercel della card #154 siano davvero tutte a posto: quelle non si vedono
+> da fuori.
+>
+> **Un problema nuovo, causato dalla stessa separazione.** Le due storie, VPS e GitHub, hanno scritto
+> card diverse con **lo stesso numero**. La #199 di GitHub parla di riallineare il database di
+> produzione. La #199 di qui parla di riallineare il ramo main. Guardi il Pannello pubblicato, che
+> legge da GitHub. Poi guardi questa chat. Lo stesso numero ti racconta due cose diverse. È lo stesso
+> errore che un'altra sessione aveva già fatto il mese scorso su un'altra coppia di card. Lo sapeva
+> già: l'ha scritto lei stessa nella card #161.
+>
+> **Le priorità di oggi.**
+> 1. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Resta l'unico blocco confermato.
+> 2. Riallinea il ramo main VPS↔GitHub (#199). Più urgente di ieri: nasconde lavoro vero e crea
+>    doppioni pericolosi nella coda.
+> 3. Decidi su "Panificio Demo" (#196).
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 > 🧭 **7/9 23:10 — Nuova chiamata "esegui giro.md per intero", 15 minuti dopo il passaggio delle
 > 22:55.** Riverificato dal vivo via query diretta su MCP Supabase: 1 ordine (24/6, annullato,
