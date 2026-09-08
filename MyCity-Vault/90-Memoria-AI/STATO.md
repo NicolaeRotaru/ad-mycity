@@ -1,11 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 11:55
-fonte: AD digitale (cadenza: giro)
+aggiornato: 2026-09-08 12:00
+fonte: AD digitale (cadenza: punto di mezzogiorno)
 ---
 
-## Prossime priorità (2026-09-08 11:55)
-8°+ passaggio di oggi. Priorità invariate. Nessun dato di business nuovo da 77+ giorni.
+## Prossime priorità (2026-09-08 12:00)
+🕛 Punto di mezzogiorno. È la cadenza vera, non un richiamo del ciclo. Priorità invariate rispetto
+alle 11:55. Nessun dato di business nuovo da 77+ giorni. Blocco completo per Nicola: [[RITMO]].
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`
    vieta a se stesso Edit/Write.
