@@ -308,15 +308,16 @@ function scriviReport(scan, quando) {
   const L = [];
   L.push(`---\ntipo: supervisione-negozi\ndata: ${quando}\n---\n`);
   L.push(`# 🛡️ Supervisione negozi & prodotti — ${quando}\n`);
-  L.push(`> La macchina ha vegliato ogni negozio e ogni prodotto e ha trovato i dati mancanti. Qui sotto:`);
-  L.push(`> le **proposte pronte** (riempimento automatico, in attesa del tuo ok) e ciò che **serve da te** (foto, prezzi, ecc.).`);
+  L.push(`> La macchina ha vegliato ogni negozio e ogni prodotto, e ha trovato i dati mancanti.`);
+  L.push(`> Sotto trovi le **proposte pronte**: il riempimento automatico che aspetta il tuo ok.`);
+  L.push(`> Poi trovi ciò che **serve da te**: foto, prezzi e altri dati che solo tu puoi dare.`);
   L.push(`> Nessun dato è stato scritto sul sito: parte solo dopo la tua firma.\n`);
   const c = scan.conteggi;
-  L.push(`**Quadro:** ${c.negozi} negozi (${c.negozi_approvati} approvati) · ${c.prodotti} prodotti · `
-    + `**${c.autofill_proposte} campi** riempibili in automatico (proposti) · **${c.da_procurare}** che servono da te.\n`);
+  L.push(`**Quadro:** ${c.negozi} negozi, di cui ${c.negozi_approvati} approvati · ${c.prodotti} prodotti · `
+    + `**${c.autofill_proposte} campi** proposti in automatico · **${c.da_procurare}** che servono da te.\n`);
 
   const gruppi = [...scan.gruppiProdotti, ...scan.gruppiNegozi];
-  L.push(`## ✅ Proposte pronte (riempimento automatico — aspettano il tuo ok)\n`);
+  L.push(`## ✅ Proposte pronte: il riempimento automatico che aspetta il tuo ok\n`);
   if (!gruppi.length) {
     L.push(`Nessun campo deducibile da riempire in automatico in questo giro. 🎉\n`);
   } else {
