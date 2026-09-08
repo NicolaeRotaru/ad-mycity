@@ -47,6 +47,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/cantiere-prove.mjs:*)",
       "Bash(node cervello/capacita.mjs:*)",
       "Bash(node cervello/chiusura-loop.mjs:*)",
+      "Bash(node cervello/chiudi-sito.mjs:*)",
       "Bash(node cervello/ci-stato.mjs:*)",
       "Bash(node cervello/coerenza-fatti.mjs:*)",
       "Bash(node cervello/coerenza-rischi.mjs:*)",

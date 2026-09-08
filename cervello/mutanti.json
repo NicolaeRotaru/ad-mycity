@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-07 23:15",
+ "aggiornato": "2026-09-08 09:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -9258,6 +9258,24 @@
    "sostituisci": "  return { guardate: elenco, nonGuardate: 0 };",
    "test": "cervello/test/serratura-ramo.test.mjs",
    "perche_conta": "Questo comando gira dentro giro.sh, dove guardiano() non mette nessun limite di tempo. Una richiesta per regola a 20 secondi l'una: con cinquanta regole il battito della macchina resta fermo venti minuti. E senza il conto di quelle non guardate, un elenco tagliato verrebbe raccontato come intero."
+  },
+  {
+   "difetto": "AR-950",
+   "nome": "torna la forma che scambia l'opzione assente per un valore: la cartella finisce nel registro",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "  if (i === -1) return null;\n",
+   "sostituisci": "",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "Senza quella riga indexOf torna -1, e l'elemento in posizione zero e' la cartella dei frammenti: il comando scriverebbe «PR #/tmp/…/lotto» dentro il campo chiuso_da di ogni difetto chiuso, senza dare nessun errore. E' una traccia falsa e permanente sull'unica lista che sa cosa e' gia' stato riparato. La prima stesura della prova riscriveva la funzione invece di chiamarla, e questa stessa mutazione restava verde: e' il motivo per cui la funzione e' esportata."
+  },
+  {
+   "difetto": "AR-950",
+   "nome": "sparisce il controllo sulle chiavi orfane: una chiusura scritta su una scheda che non esiste",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "    if (!perChiave.has(d.chiave)) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "La chiave del registro del sito e' dimensione piu' titolo normalizzati: basta che una corsia ritocchi un titolo mentre ripara e la chiusura non aggancia piu' niente. Senza questo controllo sparirebbe in silenzio, e al referto successivo il difetto risulterebbe di nuovo aperto — col lotto dopo che ripianifica lavoro gia' fatto. Al primo collaudo del comando dei pacchetti erano 356 chiavi su 361 a non combaciare, per questa ragione esatta."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

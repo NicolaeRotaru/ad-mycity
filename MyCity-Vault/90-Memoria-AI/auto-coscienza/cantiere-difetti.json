@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-07 23:05",
+  "aggiornato": "2026-09-08 08:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20290,6 +20290,30 @@
       "trovato_da": "la radiografia del perimetro toccato, lente cadenza-esecuzione, su cervello/giro.sh",
       "chiuso_il": "2026-09-07 23:05",
       "chiuso_come": "riparato"
+    },
+    {
+      "id": "AR-950",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-09-08 08:55",
+      "area": "macchina",
+      "nato_come": "nuovo-lavoro",
+      "dimensione": "rischio-sicurezza-se",
+      "titolo": "L'opzione che non c'e' diventa un valore: senza --pr il comando scriveva la cartella dentro il registro del sito",
+      "sintomo": "In `chiudi-sito.mjs`, `argv[argv.indexOf('--pr') + 1]`: quando l'opzione manca `indexOf` torna -1, e `argv[-1 + 1]` e' `argv[0]`, cioe' la cartella dei frammenti. Lanciato senza `--pr` il comando avrebbe scritto «PR #/tmp/…/lotto» dentro il campo `chiuso_da` di OGNI difetto chiuso. Non da' nessun errore: lascia una traccia sbagliata, permanente, sull'unica cosa che dice quali riparazioni sono gia' state fatte.",
+      "causa_radice": "La forma `argv[indexOf(x) + 1]` non sa distinguere «non me l'hai chiesto» da «me l'hai chiesto e ho perso il valore» — la stessa malattia gia' registrata come AR-948 su `--casa` e `--pretende`, ricomparsa in un file scritto un'ora dopo. Non l'ha presa la prima stesura perche' il caso «opzione assente» sembra il caso normale, non un caso limite.",
+      "fix_proposto": "🟡 FATTO. Una funzione `dopo(opzione)` che torna null se l'opzione manca o se dietro c'e' un'altra opzione. Due casi di prova nuovi, uno per il ripiego e uno per i valori veri.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/chiudi-sito.test.mjs",
+        "nota": "Misurato a mano prima del fix: con argv = ['/tmp/lotto', '--applica'] la vecchia forma tornava '/tmp/lotto' per --pr. Adesso torna null."
+      },
+      "impatto_crescita": "Indiretto ma su memoria che non si ripara da sola: il registro dei difetti del sito e' l'unica lista che sa cosa e' gia' stato riparato. Una traccia falsa li' dentro non la corregge nessuno, e il lotto successivo ci ricostruisce sopra.",
+      "trovato_da": "la radiografia del perimetro toccato, lente rischio-sicurezza-se, sul file appena scritto dal lotto dei gravi del sito",
+      "nota_riparazione": "Lo stesso riguardo ha trovato altre due cose sullo stesso file, riparate qui dentro e senza scheda propria perche' non sono difetti separati. ① La scrittura del registro passava da `writeFileSync`, non atomica: su un file da ottomila righe che e' l'unica copia, un'interruzione lo lascia troncato in silenzio. Adesso passa da `scriviTestoAtomico`. ② C'era una difesa contro i surrogati solitari, ricopiata da una sessione di Python di agosto: provata, e non serve — dal 2019 `JSON.stringify` li scrive gia' sfuggiti, e quella regex non trovava mai niente. Tolta, col perche' scritto accanto. Una difesa ricopiata senza rifare la prova e' peggio di nessuna difesa: occupa il posto di quella vera.",
+      "chiuso_il": "2026-09-08 08:55",
+      "chiuso_come": "riparato",
+      "chiuso_da": "lotto dei gravi del sito"
     }
   ],
   "meta": {
