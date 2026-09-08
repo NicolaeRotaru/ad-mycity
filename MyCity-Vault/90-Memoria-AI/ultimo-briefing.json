@@ -1,13 +1,14 @@
 {
-  "data": "2026-09-08 12:30",
-  "situazione": "9°+ passaggio 'giro completo' identico di oggi. 77°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato via REST (verifica-sensori.mjs). Nessuna firma nuova di Nicola in DECISIONI.md dal 29/8, nessuna card nuova oltre #204 (già nota). Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). L'unico numero mosso: la divergenza del ramo main tra questa macchina e GitHub peggiora di nuovo, da 343 a 351 commit locali mai spinti (12 remoti mai scaricati) in 35 minuti. Non rilanciate le 15 fasi pesanti: letargo SOPRAVVIVENZA + gate NORTH_STAR, nessun dato di business nuovo da inseguire.",
+  "data": "2026-09-08 14:33",
+  "situazione": "11°+ passaggio 'giro completo' identico di oggi. 78°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato via SQL diretto. Nessuna card nuova oltre #204. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). L'unico numero mosso: la divergenza del ramo main tra questa macchina e GitHub peggiora ancora, da 355 a 357 commit locali mai spinti. Non rilanciate le 15 fasi pesanti: letargo SOPRAVVIVENZA + gate NORTH_STAR, nessun dato di business nuovo da inseguire.",
   "opportunita": [
     {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è certa: basta aggiungere righe di permesso letterali in un file che nessuna sessione può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
     {"titolo": "Sblocca i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — unico blocco confermato tra i dati di oggi e il primo ordine pagato", "livello": "rosso"},
     {"titolo": "Sblocca da fuori la chat i permessi che tengono fermi i controlli di qualità della macchina", "motivo": "il file dei permessi vieta a se stesso di essere modificato, serve un accesso diretto al disco (VPS/editor)", "livello": "giallo"},
-    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresce di giro in giro: 343 commit locali mai spinti (era 331 poche ore fa)", "livello": "rosso"},
-    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati", "livello": "giallo"}
+    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub prima che peggiori ancora", "motivo": "la distanza cresce di giro in giro: 357 commit locali mai spinti (era 331 stamattina)", "livello": "rosso"},
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati", "livello": "giallo"},
+    {"titolo": "Di' se limitare i prossimi giri ravvicinati a un check veloce", "motivo": "l'11°+ chiamata identica a \"giro completo\" oggi sugli stessi dati fermi consuma quota AI senza produrre niente di nuovo", "livello": "giallo"}
   ]
 }

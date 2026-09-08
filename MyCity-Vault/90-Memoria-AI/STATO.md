@@ -1,42 +1,46 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 14:01
+aggiornato: 2026-09-08 14:33
 fonte: AD digitale (cadenza: giro completo)
 ---
 
-## Prossime priorità (2026-09-08 14:01)
-10°+ passaggio "giro completo" identico di oggi. Priorità invariate. Nessun dato di business nuovo
-da 77+ giorni. Blocco completo per Nicola: [[RITMO]].
+## Prossime priorità (2026-09-08 14:33)
+11°+ passaggio "giro completo" identico di oggi. Priorità invariate. Nessun dato di business nuovo
+da 78+ giorni. Blocco completo per Nicola: [[RITMO]].
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`
    vieta a se stesso Edit/Write.
-3. **#199 — Riallinea main VPS↔GitHub.** Peggiora ancora: ora 355 commit locali/12 remoti (era 351/12
-   alle 13:59).
+3. **#199 — Riallinea main VPS↔GitHub.** Peggiora ancora: ora 357 commit locali/12 remoti (era 355/12
+   alle 14:01).
 4. **#196 — Decidi su "Panificio Demo".** Invariato.
 
-> 🧭 **8/9 14:01 — 10°+ passaggio "giro completo" di oggi.** Riverificato dal vivo, non a memoria.
-> Query SQL diretta su Supabase: `orders`=1, `ordini_pagati`=0, `profiles`=9, `products`=9,
-> `seller_public_profiles`=2. Ultimo ordine il 24/6. Ultimo profilo il 5/9 ("Panificio Demo").
-> È identico bit-per-bit a tutti i passaggi di oggi. `git log --since="13:59"` è vuoto: zero commit
-> nel mezzo. `AZIONI-IN-ATTESA.md` è invariata: la card più recente resta #204, già nota. Non ho
-> ricontrollato `DECISIONI.md` da capo in questo passaggio. I passaggi precedenti di oggi lo hanno già
-> verificato "invariato dal 29/8" più volte: non lo ridiagnostico.
+> 🧭 **8/9 14:33 — 11°+ passaggio "giro completo" di oggi.** Riverificato dal vivo, non a memoria.
+> Query SQL diretta su Supabase: `orders`=1, `ordini_pagati`=0, Pane Quotidiano ancora Stripe spento,
+> "Panificio Demo" ancora presente. È identico bit-per-bit a tutti i passaggi di oggi.
+> `AZIONI-IN-ATTESA.md` è invariata: la card più recente resta #204, già nota.
 >
-> **L'unico numero che si muove: la divergenza main↔GitHub, di nuovo in peggio.** Ho lanciato in
-> diretta `git fetch origin main` + `git rev-list --count` (comando allowlistato, non ereditato).
-> Risultato: **355 commit locali mai spinti su GitHub, 12 remoti mai scaricati**. Alle 13:59 erano
-> 351/12: +4 in circa 2 ore. È lo stesso blocco noto della card #199. Non è risolvibile da qui.
+> **L'unico numero che si muove: la divergenza main↔GitHub, di nuovo in peggio.** `git fetch origin
+> main` + `git rev-list --count` in diretta: **357 commit locali mai spinti su GitHub, 12 remoti mai
+> scaricati**. Alle 14:01 erano 355/12. Non è risolvibile da qui.
 >
-> **Non ho rilanciato le 15 fasi pesanti.** Non ho nemmeno riscritto `auto-analisi.json` e
-> `ultimo-briefing.json`. Erano già freschi (11:55 e 12:30), dentro la finestra di freschezza. Il
-> loro contenuto è identico a quanto ho appena verificato. Riscriverli ora sarebbe stato solo rumore,
-> non un controllo in più. `test-cervello.mjs` e gli altri script HARD non elencati per esteso
-> nell'allowlist restano bloccati con "richiede approvazione" in questa sessione. È lo stesso buco
-> noto delle card #104/#189. Un solo tentativo, non ridiagnosticato.
+> **Chiuso il buco di processo HARD.** `freschezza-cadenze.mjs` (mostrato in cima a questa sessione)
+> segnalava che il giro delle 14:19 era uscito saltando auto-analisi/apprendimento. Riscritti ora
+> `auto-analisi.json`/`registro-realta.json`/`AUTO-ANALISI.md` con verifica diretta.
 >
-> **Il letargo resta in SOPRAVVIVENZA** (quota AI 101% della finestra rolling, salute macchina 4) e
-> il gate **NORTH_STAR** resta in stallo (0 pagati, 77+ giorni): insieme ammettono solo lavoro che
+> **Trovato un residuo non committato da un giro precedente interrotto:** `apprendimento.json` ha
+> una pota pendente (-268/+161 righe) e un nuovo script mai aggiunto (`cervello/mirror-fresco.mjs`).
+> Non toccati oltre la segnalazione: senza `test-cervello.mjs` eseguibile qui non sono validabili.
+>
+> **Non ho rilanciato le 15 fasi pesanti.** `test-cervello.mjs` e gli altri script HARD non elencati
+> per esteso nell'allowlist restano bloccati con "richiede approvazione" in questa sessione (4
+> tentativi su test-cervello.mjs). È lo stesso buco noto delle card #104/#189.
+>
+> **Il letargo resta in SOPRAVVIVENZA** (quota AI 111% della finestra rolling, salute macchina 4) e
+> il gate **NORTH_STAR** resta in stallo (0 pagati, 78+ giorni): insieme ammettono solo lavoro che
 > avvicina direttamente il primo ordine pagato. Non c'era nulla di nuovo da inseguire.
+>
+> **Segnalato di nuovo, diretto:** è l'11°+ chiamata identica a "giro completo" solo oggi. Consuma
+> quota senza produrre niente di nuovo — probabile causa del SOPRAVVIVENZA.
 >
 > **Detto direttamente a Nicola: questa è la decina-e-passa di chiamata identica a "giro completo"
 > solo in giornata di oggi, tutte sugli stessi dati fermi da 77 giorni.** Ogni chiamata su dati

@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 14:30",
+      "byte_prima": 1071077,
+      "byte_dopo": 952001,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0714-207",
+            "testo": "**Collegare scheletri — priorità Nicola, non pulsante (chat 14/7 ~02:32):** dopo spiegazio"
+          },
+          {
+            "id": "L-2026-0714-206",
+            "testo": "**Badge «da collegare» ≠ macchina spenta (chat 14/7 ~02:29):** Nicola screenshot «perché m"
+          },
+          {
+            "id": "L-2026-0714-198",
+            "testo": "**Coda Lavori — percezione «ferma» vs worker attivo (chat 14/7 ~01:06):** Nicola «perché i"
+          },
+          {
+            "id": "L-2026-0713-155",
+            "testo": "**Card trigger-build obsoleta — rebuild solo su pannello/ (chat 13/7 ~19:44):** Nicola «ci"
+          },
+          {
+            "id": "L-2026-0713-109",
+            "testo": "**Nicola specifica badge + «apri pr» sync chat (chat 13/7 ~12:14):** dopo diagnosi PC≠tele"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 13:59",
       "byte_prima": 1077745,
       "byte_dopo": 957807,

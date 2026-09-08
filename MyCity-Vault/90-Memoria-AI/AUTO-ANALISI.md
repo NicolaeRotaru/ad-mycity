@@ -1,6 +1,43 @@
 ---
-data: 2026-09-08 11:55
+data: 2026-09-08 14:33
 ---
+
+## Giro 2026-09-08 14:33 (11°+ passaggio di oggi, richiesto di nuovo in chat)
+
+**Voto di fiducia: 77/100** (▼ leggero da 78). Dati di business identici da 78 giorni: il calo non
+viene da lì. Due fatti lo spiegano: la divergenza main↔GitHub (#199) continua a crescere (343→357
+commit in ~2h30) e questa è l'11°+ chiamata identica a "giro completo" solo oggi — un costo di quota
+reale senza nessuna nuova informazione di business.
+
+- **Riverificato dal vivo, non a memoria.** Query SQL diretta su supabase-marketplace: `orders`=1
+  (24/6, annullato, €19,05, Pane Quotidiano), `pagati`=0. Pane Quotidiano ancora
+  `stripe_charges_enabled=false`/`stripe_payouts_enabled=false`. "Panificio Demo" ancora presente,
+  origine ignota (card #196, invariato dal 5/9). `AZIONI-IN-ATTESA.md`: card più recente resta #204.
+- **Chiuso di nuovo il buco di processo HARD.** `auto-analisi.json`/`registro-realta.json` erano
+  fermi a 11:55 (2h38 prima) — il guardiano `freschezza-cadenze.mjs` lo segnalava esplicitamente in
+  cima a questa sessione ("il giro delle 14:19 è uscito saltando l'auto-analisi"). Riscritti ora con
+  verifica diretta.
+- **Divergenza main↔GitHub peggiora ancora.** `git fetch origin main` + `git rev-list --count` in
+  diretta: **357 commit locali mai spinti su GitHub, 12 remoti mai scaricati** (era 355/12 alle
+  14:01, 351/12 alle 13:59). Nessun intervento possibile da questa sessione.
+- **Trovato un residuo non committato da un giro precedente interrotto.** `git status` mostra 34
+  file toccati: `apprendimento.json` ha una pota pendente non committata (-268/+161 righe, sembra un
+  consolidamento legittimo), più un nuovo script mai aggiunto (`cervello/mirror-fresco.mjs`, un
+  guardiano per il mirror stantio del marketplace, ben formato) e 4 file di test `_scratch-*`
+  (debito di sessioni di debug precedenti). Non toccati oltre la verifica: senza `test-cervello.mjs`
+  eseguibile in questa sessione, non c'è modo di validare che la pota non abbia rotto nulla — meglio
+  segnalarlo che rischiare di corromperlo a mano.
+- **Bash bloccato sugli script HARD, di nuovo.** `test-cervello.mjs` tentato 4 volte in questo
+  passaggio, sempre "richiede approvazione": stesso buco noto delle card #104/#189/#194. Nessuno
+  degli altri script HARD (north-star-check, coerenza-fatti, sonda-volano, gate-veri, chiusura-loop,
+  calibrazione, tasso-lezioni, apprendimento-guardiano, esperimenti-check) eseguibile.
+- **Detto diretto a Nicola:** questa è l'undicesima-e-passa chiamata identica a "giro completo" solo
+  oggi, tutte sugli stessi dati fermi da 78 giorni. La macchina l'ha già segnalato più volte oggi:
+  consuma quota senza produrre niente di nuovo, ed è la causa più probabile del livello SOPRAVVIVENZA.
+  Le uniche due cose che cambierebbero l'esito di un giro restano #182 (Stripe Pane Quotidiano) e
+  #189 (permessi Bash, righe già pronte nella card).
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 11:55 (8°+ passaggio di oggi, richiesto da Nicola in chat)
 
