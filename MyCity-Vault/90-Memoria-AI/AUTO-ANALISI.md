@@ -1,6 +1,37 @@
 ---
-data: 2026-09-08 14:33
+data: 2026-09-08 16:33
 ---
+
+## Giro 2026-09-08 16:33 (nuova chiamata, ~1h38 dopo il passaggio delle 14:55)
+
+**Voto di fiducia: 77/100** (stabile). I dati di business restano identici da 78+ giorni. Il lavoro
+vero di questo passaggio è chiudere di nuovo un buco di processo. Il passaggio delle 14:55 era uscito
+senza riscrivere `auto-analisi.json` e `registro-realta.json`. Ho anche riverificato dal vivo la
+divergenza main↔GitHub.
+
+- **Riverificato dal vivo, non a memoria.** Ho usato `verifica-sensori.mjs`. `orders`=1 via REST.
+  Invariato. 8 sensori su 10 sono ok. PostHog resta spento: decisione già presa da Nicola. Telegram
+  non è configurato: nota vecchia, non nuova. Ho usato anche `coerenza-fatti.mjs`: 41 fatti, 0 cacce
+  aperte, memoria coerente. `AZIONI-IN-ATTESA.md`: la card più recente resta #204. `DECISIONI.md`:
+  nessuna firma nuova, ferma al 29/8 00:40.
+- **La divergenza main↔GitHub peggiora ancora.** Ho lanciato in diretta `git fetch origin main` e
+  `git rev-list --count`. Risultato: **360 commit locali mai spinti su GitHub**. E **12 remoti mai
+  scaricati**. Erano 357/12 alle 14:33. Da questa sessione non posso intervenire: serve un accesso
+  diretto al VPS.
+- **Il residuo non committato del giro interrotto resta com'era.** `apprendimento.json` ha una pota
+  in sospeso. `mirror-fresco.mjs` non è mai stato aggiunto. Ci sono file scratch di test. Non li ho
+  toccati di nuovo. Il motivo: non ho nessuna CLI di validazione eseguibile per confermare che siano
+  sicuri. `test-cervello.mjs`, `freschezza-cadenze.mjs` e `sonda-volano.mjs` restano bloccati, sempre
+  con "richiede approvazione". È lo stesso buco noto delle card #104/#189.
+- **Non ho rilanciato le 15 fasi pesanti.** Due motivi lo impongono insieme. Il letargo è in
+  SOPRAVVIVENZA: quota AI al 113%, salute macchina a 4. Il gate NORTH_STAR è fermo: 0 pagati, 78°
+  giorno di fila. Non c'era nessun dato di business nuovo da inseguire con radar, radiografia o
+  auto-miglioramento.
+- **Le priorità restano le stesse.** #182: Stripe di Pane Quotidiano, l'unico blocco confermato al
+  primo ordine pagato. #189: le righe di permesso Bash da aggiungere fuori dalla chat. #199: il ramo
+  main contro GitHub, ora a 360/12. #196: decidere sul negozio "Panificio Demo".
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 14:33 (11°+ passaggio di oggi, richiesto di nuovo in chat)
 

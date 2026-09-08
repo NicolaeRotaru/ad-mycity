@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 14:42",
+ "aggiornato": "2026-09-08 16:41",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -7267,29 +7267,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0713-107",
-   "testo": "**PR #315 conflitti con #314 — rebasare prima di dire «pronta» (chat 13/7 ~11:42):** Nicola «Nella #315 ci sono dei conflitti» subito dopo che l'AD aveva dichiarato la PR pronta. 5 perché: (1) #314 (fix data UI su `AutoCoscienza.tsx`) era entrata su main mentre #315 era ancora aperta; (2) entrambe toccavano lo stesso file per lo stesso bug display; (3) l'AD non aveva ribasato/simulato merge dopo l'apertura di #314; (4) causa diversa da L-99 (file worker) ma stesso sintomo per Nicola; (5) **fix:** rebase su main HEAD, unire manualmente data UI + tick leggero worker, commit `ccb4072b`, simulazione merge → zero conflitti. Regola: dopo ogni PR parallela sullo stesso componente, ribasare e simulare merge PRIMA di dire «pronta al merge» — anche se il branch era «pulito» all'apertura.",
-   "tag": [
-    "pr",
-    "conflitti",
-    "rebase",
-    "pr-315",
-    "pr-314",
-    "auto-coscienza",
-    "AutoCoscienza",
-    "nicola"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-13",
-   "ultima_conferma": "2026-07-13 11:42",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0713-106",
    "testo": "**Caso-studio Nicola — «tutto il Pannello» deve aggiornarsi da solo (chat 13/7 ~11:32):** dopo correzione cliente-core=botteghe Nicola chiede «Hai aggiornamento su tutto il panello?» poi «Voglio che il pannello si aggiorna sempre in automatico sui dati nuovi» + «Tutto il panello». 5 perché: (1) metabolizzazione post-chat aggiorna solo STATO/LEZIONI/apprendimento — non coda AZIONI né registro-fatti; (2) esempio vivo: coda #antichurn parla ancora «6 botteghe», registro senza cliente-core fino a ora; (3) il Pannello rilegge GitHub a ogni refresh — il buco è a monte, non cache UI; (4) lo strumento AR-102 (registro-fatti + coerenza-fatti.mjs) esiste ma non scatta automaticamente dopo chat; (5) **fix in 3 mosse:** ogni correzione Nicola → registro obbligatorio, metabolizzazione propaga a file vivi, fix UI residui (#313/#315). Regola: non dire «memoria aggiornata» se coda/registro/piani citano ancora il valore vecchio.",
    "tag": [
@@ -7303,38 +7280,14 @@
     "nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5299999999999999,
+   "confidenza": 0.3799999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 22:33",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0713-105",
-   "testo": "**Nicola approva fix tempo reale auto-coscienza — PR #315 (chat 13/7 ~11:38–11:37):** dopo diagnosi «03/07» e domanda su aggiornamento live, Nicola «Prepara pr» + «Aggiornamento leggere ogni 10 minuti», poi «Apri pr» per conferma esecuzione. 5 perché: (1) standing-ask L-100/L-103 concretizzata in implementazione; (2) sceglie tick leggero ~10 min senza AI; (3) PR #315 = UI max(data,aggiornato) + worker tick; (4) AD dichiara scope onesto: #315 ≠ propagazione coda/registro; (5) merge 🔴 #90/#91, suggerito con #313. Regola: «Prepara pr»/«Apri pr» dopo diagnosi = eseguire subito + onestà su cosa resta fuori.",
-   "tag": [
-    "auto-coscienza",
-    "pannello",
-    "tempo-reale",
-    "worker",
-    "tick-leggero",
-    "pr-315",
-    "caso-studio",
-    "nicola",
-    "apri-pr"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.3799999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-13",
-   "ultima_conferma": "2026-07-13 11:43",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 16:30"
   },
   {
    "id": "L-2026-0713-104",
@@ -7361,31 +7314,6 @@
    "decaduto_step_il": "2026-09-04 12:29"
   },
   {
-   "id": "L-2026-0713-103",
-   "testo": "**Due velocità auto-coscienza + metabolizzazione post-chat (chat 13/7 ~11:38):** Nicola «Non c'è un modo per aggiornare in tempo reale anche apprendimento e miglioramento?» → poi «Prepara pr» + «Aggiornamento leggere ogni 10 minuti». 5 perché: (1) standing-ask tempo reale (L-100) estesa esplicitamente ad apprendimento E miglioramento; (2) **apprendimento.json** si aggiorna GIÀ dopo ogni chat riuscita via metabolizzazione worker (`worker.sh`, messaggio ≥160 char) — corregge diagnosi incompleta «solo giro AI»; (3) **auto-miglioramento.json**: conteggio esperimenti ogni ~10 min (`meta_esperimenti.aggiornato`); benchmark/torneo resta venerdì o giro AI (ragionamento costoso, non ogni tick); (4) Pannello legge solo `data` (review 3/7) → percezione «fermo» pur con `aggiornato` 13/7; (5) Nicola ha approvato PR #315 (fix UI + tick leggero). Regola: su «tempo reale» distinguere SEMPRE metabolizzazione post-chat vs tick leggero vs review pesante vs bug display.",
-   "tag": [
-    "auto-coscienza",
-    "metabolizzazione",
-    "apprendimento",
-    "miglioramento",
-    "tempo-reale",
-    "worker",
-    "due-velocità",
-    "caso-studio",
-    "nicola",
-    "pr-315"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3799999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-13",
-   "ultima_conferma": "2026-07-13 11:38",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0713-102",
    "testo": "**Caso-studio Nicola — cliente core = botteghe, i 6 ristoranti sono tattici (chat 13/7 ~11:25):** dopo la correzione linguistica 12/7 («6 ristoranti, non botteghe») Nicola chiede «I miei clienti sono le botteghe e non i ristoranti. O mi sbaglio?» — **conferma strategica**: ha ragione. 5 perché: (1) l'AD aveva trattato i 6 come se definissero il profilo MyCity dopo aver corretto solo il lessico; (2) il dossier 6/7 li classificava come ristoranti ma il principio 6/7 «gioca dove i big non giocano» puntava alle botteghe — due verità non integrate; (3) MyCity core = carrello multi-negozio settimanale (pane/salumi/formaggi/ortofrutta), non cena a domicilio Glovo; (4) i 6 sono mossa tattica (reputazione alta, digitale debole) per credibilità/primi incassi, NON il tipo di negozio target; (5) **fix:** distinguere SEMPRE tre livelli in chat — (a) tassonomia locale («6 ristoranti» nel pitch), (b) cliente core strategico (= botteghe), (c) faro operativo (Pane Quotidiano). Dopo visita 13/7 focus su Garetti/Peretti/Amendolara + 27 botteghe. Visita ai 6 ok ma non devono ridefinire il brand.",
    "tag": [
@@ -7399,7 +7327,7 @@
     "nicola"
    ],
    "reparto": "@vendite",
-   "confidenza": 0.5399999999999999,
+   "confidenza": 0.3899999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -7407,31 +7335,7 @@
    "ultima_conferma": "2026-07-13 22:34",
    "stato": "attiva",
    "nota": "ADDENDUM 22:34 — Nicola esclude anche trattorie e chiude eccezione «tattici»; regola definitiva in L-188",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0713-101",
-   "testo": "**Caso-studio Nicola — caselle «Confronto coi migliori» vuote in Miglioramento (chat 13/7 ~11:24, PR 11:33):** Nicola «manca qualcosa dentro questa casella e pure quella sotto» dopo ripresa chat (fattura Cursor pagata, ActionRequiredError risolto). 5 perché: (1) i dati benchmark esistono in `auto-miglioramento.json` con schema `reparto`, `divario`, `obiettivo`, `progresso`, `migliori`; (2) `AutoCoscienza.tsx` tipo `Benchmark` e render (~551–561) leggono campi obsoleti `ambito`, `nostro`, `cosa_ci_manca`; (3) mismatch schema → caselle sembrano vuote pur avendo 2 voci (@content-social L3 divario alto, @AD L2 divario medio); (4) `ParlaCasella` mostra «Confronto: undefined» perché `b.ambito` è undefined; (5) distinto dal bug data vs aggiornato (L-2026-0713-100). **Nicola «Apri pr» → PR #313 aperta** (commit `027d4671`, solo `AutoCoscienza.tsx`, branch pulito, typecheck OK), merge 🔴 in attesa. Regola: casella auto-coscienza «vuota» → confrontare schema file vs tipi componente PRIMA di dire «mancano dati».",
-   "tag": [
-    "auto-coscienza",
-    "pannello",
-    "schema-mismatch",
-    "benchmark",
-    "miglioramento",
-    "ux",
-    "caso-studio",
-    "nicola",
-    "pr-313"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-13",
-   "ultima_conferma": "2026-07-13 11:33",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 16:30"
   },
   {
    "id": "L-2026-0713-100",
@@ -7484,29 +7388,6 @@
    "promosso_il": "2026-07-24 20:20",
    "cristallizzato_in": "memoria-persistente",
    "gate": "node cervello/ramo-pulito.mjs"
-  },
-  {
-   "id": "L-2026-0712-98",
-   "testo": "**Caso-studio Nicola — le 6 prospect sono RISTORANTI, non botteghe (chat 12/7 19:53):** dopo le istruzioni visita acquisizione l'AD ha continuato a dire «6 botteghe» / «spesa online»; Nicola corregge: **«Queste 6 non sono botteghe ma ristoranti»**. Il dossier 6/7 (L-2026-0706 vendites) le classificava già come ristoranti/trattorie — l'errore è stato **non riusare il linguaggio del dossier in chat live**. 5 perché: (1) default mentale «botteghe» dalla shortlist food generica; (2) pitch scritto con framing scaffale invece di cucina; (3) il dato corretto esisteva in memoria ma non è stato applicato al turno; (4) PQ (bottega) e i 6 (ristoranti) sono categorie diverse — confonderle contamina il pitch; (5) **fix:** in chat e pitch dire sempre **«6 ristoranti»**, offerta = «i tuoi piatti anche a casa» (asporto/consegna), NON «metti la spesa online»; mostrare Pane Quotidiano come **esempio piattaforma**, non come modello di cucina.",
-   "tag": [
-    "vendite",
-    "visita",
-    "6-ristoranti",
-    "ristoranti",
-    "pitch",
-    "linguaggio",
-    "caso-studio",
-    "nicola"
-   ],
-   "reparto": "@vendite",
-   "confidenza": 0.3799999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-12",
-   "ultima_conferma": "2026-07-12 19:53",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0712-97",
@@ -11597,9 +11478,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 14:30",
+     "quando": "2026-09-08 16:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 91
+     "volte": 92
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -13473,19 +13354,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 457,
+  "lezioni_attive": 452,
   "promosse_a_principio": 95,
   "decadute": 0,
   "tasso_applicazione": 0.14,
-  "tasso_calcolato_il": "2026-09-08 14:42",
+  "tasso_calcolato_il": "2026-09-08 16:41",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 14:30",
-  "lezioni_totali": 463,
+  "cristallizzazione_ultima": "2026-09-08 16:30",
+  "lezioni_totali": 458,
   "lezioni_per_stato": {
-   "attiva": 346,
+   "attiva": 341,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,

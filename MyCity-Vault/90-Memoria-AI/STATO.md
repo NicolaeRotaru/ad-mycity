@@ -1,18 +1,49 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 14:33
+aggiornato: 2026-09-08 16:33
 fonte: AD digitale (cadenza: giro completo)
 ---
 
-## Prossime priorità (2026-09-08 14:33)
-11°+ passaggio "giro completo" identico di oggi. Priorità invariate. Nessun dato di business nuovo
-da 78+ giorni. Blocco completo per Nicola: [[RITMO]].
+## Prossime priorità (2026-09-08 16:33)
+Nuova chiamata "giro completo", identica nel merito ai passaggi di oggi. Nessun dato di business
+nuovo da 78+ giorni. Blocco completo per Nicola: [[RITMO]].
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`
    vieta a se stesso Edit/Write.
-3. **#199 — Riallinea main VPS↔GitHub.** Peggiora ancora: ora 357 commit locali/12 remoti (era 355/12
-   alle 14:01).
+3. **#199 — Riallinea main VPS↔GitHub.** Peggiora ancora: ora 360 commit locali/12 remoti (era 357/12
+   alle 14:33).
 4. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 16:33 — Nuova chiamata "giro completo".** Sono passati 1h38 dal passaggio delle 14:55.
+>
+> Ho riverificato dal vivo, non a memoria. Ho usato `verifica-sensori.mjs`. `orders`=1 via REST.
+> Invariato. Ho usato anche `coerenza-fatti.mjs`. Risultato: 41 fatti, 0 cacce aperte, memoria
+> coerente. `AZIONI-IN-ATTESA.md` è invariata: la card più recente resta #204. `DECISIONI.md` è
+> invariato dal 29/8 00:40.
+>
+> **Ho chiuso di nuovo un buco di processo obbligatorio.** Il passaggio delle 14:55 era uscito senza
+> riscrivere due file. Sono `auto-analisi.json` e `registro-realta.json`. Il guardiano
+> `freschezza-cadenze.mjs` lo segnalava in cima a questa sessione. Li ho riscritti ora, con verifica
+> diretta.
+>
+> **L'unico numero che si muove è la divergenza main↔GitHub.** Peggiora di nuovo. Ho lanciato in
+> diretta `git fetch origin main` e poi `git rev-list --count`. Risultato: **360 commit locali mai
+> spinti su GitHub**. E **12 commit remoti mai scaricati**. Erano 357/12 alle 14:33. Da questa
+> sessione non posso risolverlo: serve un accesso diretto al VPS.
+>
+> **Non ho rilanciato le 15 fasi pesanti del giro.** Due motivi lo impongono insieme. Il letargo è in
+> SOPRAVVIVENZA: la quota AI è al 113% della finestra, la salute macchina è a 4. Il gate NORTH_STAR è
+> fermo: 0 pagati, 78° giorno di fila. Insieme ammettono solo lavoro che avvicina il primo ordine
+> pagato. Non c'era nessun dato nuovo da inseguire con radar, radiografia o auto-miglioramento.
+> Ho provato anche `freschezza-cadenze.mjs` e `sonda-volano.mjs`. Restano bloccati: "richiede
+> approvazione". Un tentativo per ciascuno. È lo stesso buco noto delle card #104/#189: non l'ho
+> ridiagnosticato oltre.
+>
+> Le priorità restano le stesse. #182, Stripe di Pane Quotidiano. #189, i permessi Bash. #199, il
+> ramo main contro GitHub, ora a 360/12. #196, il negozio "Panificio Demo". Blocco completo:
+> [[RITMO]].
+
+## Passaggio precedente (14:33, 11°+ passaggio di oggi)
 
 > 🧭 **8/9 14:33 — 11°+ passaggio "giro completo" di oggi.** Riverificato dal vivo, non a memoria.
 > Query SQL diretta su Supabase: `orders`=1, `ordini_pagati`=0. Pane Quotidiano ha ancora Stripe

@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-08 14:33",
+  "data": "2026-09-08 16:33",
   "voto_fiducia": 77,
-  "sintesi_giro_corrente": "11°+ passaggio 'giro completo' identico di oggi, richiesto di nuovo in chat interattiva. Riverificato dal vivo con query SQL dirette (non ereditate): orders=1 (24/6, CANCELED, €19,05, Pane Quotidiano), pagati=0; Pane Quotidiano ancora stripe_charges_enabled=false/stripe_payouts_enabled=false; 'Panificio Demo' ancora presente (card #196, invariato). AZIONI-IN-ATTESA.md: card più recente resta #204. DECISIONI.md: nessuna firma nuova (invariato dal 29/8, non ri-letto per intero in questo passaggio — ereditato dai passaggi precedenti di oggi che lo hanno già verificato più volte). Correzione di processo obbligatoria (vincolo HARD freschezza-cadenze.mjs, mostrato in cima a questa sessione): il giro delle 14:19 è uscito saltando auto-analisi/apprendimento — riscritti ora auto-analisi.json/registro-realta.json/AUTO-ANALISI.md con verifica diretta. apprendimento.json NON riscritto da questo passaggio: risulta già modificato (non committato) da un giro precedente interrotto con una pota legittima (-268/+161 righe) — rischio di corruzione a toccarlo di nuovo senza la CLI dedicata (bloccata), lasciato come sta e segnalato. Novità reale trovata: la divergenza main VPS↔GitHub (card #199) è salita da 355/12 (14:01) a 357 commit locali mai spinti/12 remoti mai scaricati. test-cervello.mjs (4 tentativi), north-star-check.mjs, freschezza-cadenze.mjs, coerenza-fatti.mjs, sonda-volano.mjs, gate-veri.mjs, chiusura-loop.mjs, calibrazione.mjs, tasso-lezioni.mjs, apprendimento-guardiano.mjs, esperimenti-check.mjs: nessuno eseguibile in questa sessione, stesso buco noto (card #104/#189/#194) — non ridiagnosticato oltre il tentativo su test-cervello.mjs.",
-  "sintesi": "78°+ giorno di stallo North Star (0 pagati), stato di business invariato per l'11°+ volta oggi. Il lavoro reale di questo passaggio è chiudere di nuovo il buco di processo HARD (auto-analisi/registro-realta fermi da 2h38, dal passaggio delle 11:55) e riverificare dal vivo la divergenza main↔GitHub, cresciuta a 357/12. Trovato inoltre un residuo non committato di un giro interrotto (apprendimento.json in pota, script mirror-fresco.mjs mai aggiunto, 4 file scratch di test): non toccato oltre la segnalazione, per non rischiare di corrompere una modifica altrui a metà senza la CLI di validazione.",
-  "trend_fiducia": "▼ leggero, da 78 a 77: non per un peggioramento di fatti di business (identici da 78 giorni), ma perché (1) la divergenza main↔GitHub continua a crescere di giro in giro senza intervento (343→355→357 in ~2h30) e (2) questo è l'11°+ giro pieno identico di oggi sugli stessi dati — un costo di quota AI reale a fronte di zero nuova informazione, il pattern che la macchina stessa ha già segnalato più volte a Nicola oggi come causa più probabile del livello SOPRAVVIVENZA.",
+  "sintesi_giro_corrente": "Nuova chiamata 'giro completo', ~1h38 dopo il passaggio delle 14:55 (uscito saltando la riscrittura di auto-analisi.json/registro-realta.json — vincolo HARD freschezza-cadenze, riparato ora). Riverificato dal vivo: `verifica-sensori.mjs` conferma orders=1 via REST (invariato), 8/10 sensori ok (PostHog spento per decisione di Nicola, Telegram non configurato — entrambi noti, non nuovi). `coerenza-fatti.mjs`: 41 fatti, 0 cacce aperte, memoria coerente. `AZIONI-IN-ATTESA.md`: card più recente resta #204 (verificato con grep su tutti i numeri della coda). `DECISIONI.md`: ultima voce resta 29/8 00:40, nessuna firma nuova. Nessuna entità nuova, nessun declassamento. Unico numero mosso: la divergenza main VPS↔GitHub (card #199), da 357/12 (14:33) a 360 commit locali mai spinti/12 remoti mai scaricati (git fetch+rev-list eseguiti ora in diretta, non ereditati). Il residuo non committato dal giro interrotto (apprendimento.json in pota, mirror-fresco.mjs, file scratch di test) resta ancora in git status, non toccato di nuovo per lo stesso motivo del passaggio precedente. freschezza-cadenze.mjs e sonda-volano.mjs bloccati ('richiede approvazione'), un tentativo ciascuno — stesso buco noto card #104/#189.",
+  "sintesi": "78°+ giorno di stallo North Star (0 pagati), stato di business invariato — l'ennesima chiamata identica oggi sugli stessi dati fermi da giugno. Il lavoro reale di questo passaggio è chiudere di nuovo il buco di processo HARD (auto-analisi/registro-realta stantii da 2h, dal passaggio delle 14:33/14:55) e riverificare dal vivo la divergenza main↔GitHub, cresciuta a 360/12.",
+  "trend_fiducia": "= stabile a 77: i fatti di business restano identici (78+ giorni), la divergenza main↔GitHub continua a crescere lentamente senza intervento (357→360) ma è un debito già noto e segnalato, non una novità di peggioramento. Nessun elemento nuovo giustifica un movimento del voto.",
   "entita_verificate": [
     {
       "nome": "orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0",
@@ -18,7 +18,7 @@
     },
     {
       "nome": "Divergenza main VPS↔GitHub (card #199)",
-      "stato": "riverificata dal vivo in questo passaggio: 357 commit locali mai spinti su GitHub, 12 remoti mai scaricati (era 355/12 alle 14:01) — cresce ancora, nessun intervento tentato (serve accesso VPS diretto)",
+      "stato": "riverificata dal vivo in questo passaggio: 360 commit locali mai spinti su GitHub, 12 remoti mai scaricati (era 357/12 alle 14:33) — cresce ancora, nessun intervento tentato (serve accesso VPS diretto)",
       "fonte": "git fetch origin main + git rev-list --count, eseguiti in questo passaggio"
     },
     {
@@ -54,7 +54,7 @@
     },
     {
       "tipo": "sistema",
-      "domanda": "La divergenza main↔GitHub (#199) è salita a 357 commit locali mai spinti (era 331 stamattina). Vuoi che qualcuno con accesso VPS diretto intervenga prima che un rebase manuale diventi più rischioso?",
+      "domanda": "La divergenza main↔GitHub (#199) è salita a 360 commit locali mai spinti (era 331 stamattina). Vuoi che qualcuno con accesso VPS diretto intervenga prima che un rebase manuale diventi più rischioso?",
       "azione": "in attesa",
       "colore": "🔴"
     },

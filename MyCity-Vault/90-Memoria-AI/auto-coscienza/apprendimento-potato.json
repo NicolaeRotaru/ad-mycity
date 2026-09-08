@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 16:30",
+      "byte_prima": 1065049,
+      "byte_dopo": 945146,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0713-107",
+            "testo": "**PR #315 conflitti con #314 — rebasare prima di dire «pronta» (chat 13/7 ~11:42):** Nicol"
+          },
+          {
+            "id": "L-2026-0713-105",
+            "testo": "**Nicola approva fix tempo reale auto-coscienza — PR #315 (chat 13/7 ~11:38–11:37):** dopo"
+          },
+          {
+            "id": "L-2026-0713-103",
+            "testo": "**Due velocità auto-coscienza + metabolizzazione post-chat (chat 13/7 ~11:38):** Nicola «N"
+          },
+          {
+            "id": "L-2026-0713-101",
+            "testo": "**Caso-studio Nicola — caselle «Confronto coi migliori» vuote in Miglioramento (chat 13/7 "
+          },
+          {
+            "id": "L-2026-0712-98",
+            "testo": "**Caso-studio Nicola — le 6 prospect sono RISTORANTI, non botteghe (chat 12/7 19:53):** do"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 14:30",
       "byte_prima": 1071077,
       "byte_dopo": 952001,
