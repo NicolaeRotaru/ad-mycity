@@ -1,10 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 11:15
+aggiornato: 2026-09-08 11:55
 fonte: AD digitale (cadenza: giro)
 ---
 
-## Prossime priorità (aggiornato 2026-09-08 11:15 — 7° passaggio di oggi, invariate)
+## Prossime priorità (2026-09-08 11:55)
+8°+ passaggio di oggi. Priorità invariate. Nessun dato di business nuovo da 77+ giorni.
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
+2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`
+   vieta a se stesso Edit/Write.
+3. **#199 — Riallinea main VPS↔GitHub.** Peggiora: ora 343 commit locali/12 remoti (era 331/12).
+4. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 11:55 — 8°+ passaggio "giro completo" di oggi.** Questa volta l'ha chiesto Nicola
+> direttamente in chat, non il timer. Riverificato dal vivo: REST (`verifica-sensori.mjs`)
+> conferma `orders`=1 riga visibile, identico. 8/9 sensori ok. `DECISIONI.md` è invariato dal 29/8
+> 00:40: nessuna firma nuova. `AZIONI-IN-ATTESA.md`: la card più recente resta #204, già chiusa la
+> settimana scorsa.
+>
+> **Ho corretto un buco di processo.** Il gate HARD `freschezza-cadenze.mjs` lo segnalava di
+> nuovo: il passaggio delle 11:29 era uscito senza riscrivere davvero `auto-analisi.json` e
+> `registro-realta.json` (fermi a 10:35). Riscritti ora. `apprendimento.json` era già fresco:
+> aggiornato dal worker alle 11:45.
+>
+> **L'unica novità reale trovata: la divergenza main↔GitHub peggiora.** `git fetch origin main` +
+> `git rev-list --count`, eseguiti in diretta in questo passaggio. Risultato: **343 commit locali
+> mai spinti su GitHub, 12 remoti mai scaricati**. Alle 06:48 erano 331/12. Nessun intervento
+> tentato: serve accesso VPS diretto, non un rebase automatico su questa mole.
+>
+> **Non rilanciate le 15 fasi pesanti.** Due motivi lo impongono insieme: il letargo RISPARMIO e
+> il gate NORTH_STAR (0 pagati da 77+ giorni). Ammettono solo lavoro che avvicina il primo ordine
+> pagato, o che chiude un debito che lo blocca indirettamente. Non c'era nessun dato nuovo da
+> inseguire con radar, radiografia o auto-miglioramento. `test-cervello.mjs`,
+> `freschezza-cadenze.mjs` e `north-star-check.mjs` restano bloccati ("richiede approvazione") in
+> questa sessione interattiva: stesso buco noto delle card #104/#189/#194. Un tentativo per
+> script, non ridiagnosticato da capo.
+>
+> **Detto direttamente a Nicola, visto che questa chiamata viene da lui.** I dati di business sono
+> fermi da 77+ giorni, attraverso decine di passaggi identici oggi. Restano solo due cose che
+> cambierebbero l'esito di un giro. Sbloccare #182, cioè Stripe di Pane Quotidiano. Oppure
+> sbloccare #189, cioè i permessi Bash: le righe sono già pronte in coda. La #199, il main
+> diviso da GitHub, peggiora di giro in giro: conviene non lasciarla crescere oltre.
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggio precedente (11:15, 7° passaggio di oggi)
 Stesse priorità di tutti i passaggi di oggi. Nessun dato di business nuovo da 77 giorni.
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa nota: `.claude/settings.json`

@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 11:45",
+      "byte_prima": 1088706,
+      "byte_dopo": 970316,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0719-277",
+            "testo": "**peer_review in auto-miglioramento non è bloccata al primo ordine reale — si popola con f"
+          },
+          {
+            "id": "L-2026-0718-275",
+            "testo": "**Le caselle Pannello con score/dati datati vengono lette da Nicola come 'incomplete'.** I"
+          },
+          {
+            "id": "L-2026-0718-269",
+            "testo": "**Prima di aprire una PR per aggiungere una funzione, verifica se è già su main (18/7).** "
+          },
+          {
+            "id": "L-2026-0718-268",
+            "testo": "**Nicola non traccia lo stato dei bloccanti macchina tra sessioni — rispondere SEMPRE con "
+          },
+          {
+            "id": "L-2026-0718-265",
+            "testo": "**Casella 'Database diretto non disponibile' → Nicola chiede 'non ho capito' (18/7).** Il "
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 11:10",
       "byte_prima": 1096676,
       "byte_dopo": 975589,

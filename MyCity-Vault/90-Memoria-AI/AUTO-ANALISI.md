@@ -1,6 +1,45 @@
 ---
-data: 2026-09-08 10:35
+data: 2026-09-08 11:55
 ---
+
+## Giro 2026-09-08 11:55 (8°+ passaggio di oggi, richiesto da Nicola in chat)
+
+**Voto di fiducia: 78/100** (▼ leggero da 79). I dati di business sono identici da 77+ giorni: il
+calo non viene da lì. Due fatti lo spiegano. La divergenza main↔GitHub (card #199) continua a
+crescere senza intervento: da 331 a 343 commit in poche ore. E il vincolo HARD
+`freschezza-cadenze.mjs` è scattato una seconda volta oggi, sullo stesso motivo: il passaggio
+delle 11:29 aveva solo "toccato" auto-analisi/registro-realta, senza riscriverli davvero.
+
+- **Riverificato dal vivo.** `verifica-sensori.mjs` (REST, non a memoria): `orders`=1 riga
+  visibile, identico. 8/9 sensori ok. Due sono spenti per scelta già presa: PostHog (decisione del
+  5/7) e Telegram (mai configurato). Nessuno dei due è un guasto nuovo. `DECISIONI.md` è invariato
+  dal 29/8 00:40: nessuna firma nuova di Nicola. `AZIONI-IN-ATTESA.md`: la card più recente resta
+  #204, già chiusa la scorsa settimana. Nessuna card nuova da aprire.
+- **Corretto il buco di processo (HARD).** `auto-analisi.json` e `registro-realta.json` erano
+  fermi a 10:35, 1h20 prima. Riscritti ora con verifica diretta. `apprendimento.json` era già
+  fresco: aggiornato dal worker alle 11:45, 10 minuti prima. Non l'ho riscritto una seconda volta
+  a vuoto.
+- **Novità reale trovata: la divergenza main↔GitHub (#199) peggiora.** `git fetch origin main` +
+  `git rev-list --count`, eseguiti in diretta, non ereditati da un passaggio precedente. Risultato:
+  **343 commit locali mai spinti su GitHub, 12 remoti mai scaricati**. Alle 06:48 erano 331/12.
+  Nessun intervento tentato: serve accesso VPS diretto, non un'azione da fare a cuor leggero su
+  questa mole.
+- **Bash bloccato sugli script HARD**, stesso buco noto delle card #189/#194: `test-cervello.mjs`,
+  `freschezza-cadenze.mjs`, `north-star-check.mjs` restano "richiede approvazione" in questa
+  sessione interattiva. Un tentativo per script. Non ridiagnosticato da capo, non ritentato una
+  seconda volta.
+- **Non rilanciate le 15 fasi pesanti** (radar, radiografia, auto-miglioramento, esperimenti). Due
+  motivi insieme lo impongono: il letargo RISPARMIO e il gate NORTH_STAR (0 pagati da 77+ giorni).
+  Ammettono solo lavoro che avvicina il primo ordine pagato, o che chiude un debito che lo blocca
+  indirettamente. Non c'era nessun dato nuovo da inseguire con quelle fasi: le avrei lanciate solo
+  per consumare quota, non per aggiungere un controllo vero. È la stessa regola che questa macchina
+  si è già data decine di volte in questa stessa giornata (vedi i passaggi precedenti sotto).
+
+**Domande aperte per Nicola, invariate:** #182 (Stripe Pane Quotidiano, mossa n.1), #189 (righe di
+permesso in `.claude/settings.json` da aggiungere da fuori la chat), #199 (main↔GitHub, ora 343/12
+e in crescita).
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 10:35
 

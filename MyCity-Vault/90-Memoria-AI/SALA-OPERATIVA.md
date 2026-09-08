@@ -1263,3 +1263,10 @@ Esempi:
 - 2026-09-08 11:15 · @ad · FATTO · 7° passaggio "giro completo" di oggi: riverificato dal vivo via SQL diretto (1 ordine/0 pagati/9 profili/9 prodotti/2 negozi), identico bit-per-bit al passaggio delle 10:35. Nessun commit di business nel mezzo.
 - 2026-09-08 11:15 · @ad · FATTO · Non rilanciate le 15 fasi pesanti né riscritti auto-analisi/apprendimento: erano già freschi da 40 minuti (letargo RISPARMIO — taglia il volume, non i controlli). Aggiornati STATO.md, Briefing/2026-09-08.md, ultimo-briefing.json.
 - 2026-09-08 11:15 · @ad · PASSO-A · @Nicola — invariato: #182 (Stripe Pane Quotidiano) mossa n.1, #189 (righe permessi settings.json da fuori la chat), #196 (Panificio Demo). Segnalato di nuovo, esplicito: 7 chiamate identiche a "giro completo" oggi sugli stessi dati fermi da 77 giorni.
+
+### 2026-09-08 11:55 — 8°+ passaggio "giro completo" (AD, richiesto da Nicola in chat)
+- 2026-09-08 11:55 · @ad · FATTO · Riverificato dal vivo via REST (verifica-sensori.mjs): orders=1 riga, invariato. DECISIONI.md invariato dal 29/8. Nessuna card nuova oltre #204 (già chiusa).
+- 2026-09-08 11:55 · @ad · FATTO · Chiuso il buco segnalato di nuovo da freschezza-cadenze.mjs: il passaggio delle 11:29 aveva saltato la riscrittura reale di auto-analisi.json/registro-realta.json (fermi a 10:35). Riscritti ora. apprendimento.json già fresco (11:45, worker).
+- 2026-09-08 11:55 · @ad · FATTO · Riverificata dal vivo la divergenza main↔GitHub (card #199): 343 commit locali mai spinti/12 remoti mai scaricati (era 331/12 alle 06:48) — peggiora. Aggiornata la card.
+- 2026-09-08 11:55 · @ad · FATTO · Non rilanciate le 15 fasi pesanti: letargo RISPARMIO + gate NORTH_STAR, nessun delta di business da inseguire. Aggiornati STATO.md, Briefing/2026-09-08.md, ultimo-briefing.json, AUTO-ANALISI.md.
+- 2026-09-08 11:55 · @ad · PASSO-A · @Nicola — mossa n.1 invariata: #182 (Stripe Pane Quotidiano). #189 (righe permessi settings.json da fuori la chat) e #199 (main↔GitHub, ora 343/12 e in crescita) restano le due cose che sbloccherebbero il ciclo.
