@@ -1,4 +1,15 @@
-# 🕳️ Buchi di Mercato — 2026-09-07
+# 🕳️ Buchi di Mercato — 2026-09-08
+
+> **Ricontrollato oggi, 2026-09-08, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi**, ma è emerso un dato aggregato nuovo, mai visto in questo radar.
+>
+> - **🆕 Imprese a Piacenza in calo del 3,3% nel primo semestre 2026.** Il calo è peggiore della media nazionale e regionale. Sono 840 imprese in meno rispetto allo stesso periodo del 2025. Titolo IlPiacenza: "Piacenza, imprese in calo del 3,3%: peggio della media nazionale e regionale".
+>   **Attenzione, candore.** Questo NON è lo stesso numero della "desertificazione -22,6%/12 anni" già in memoria. Quel numero riguarda solo le botteghe del centro, su 12 anni. Questo invece è il totale delle imprese attive in tutta la provincia, primo semestre 2026 contro primo semestre 2025. Sono due metriche diverse. Periodo diverso, perimetro diverso. Non vanno sommate. Non vanno usate una al posto dell'altra.
+>   È comunque un secondo indicatore utile, indipendente dal primo. Punta nella stessa direzione: il tessuto commerciale locale si sta restringendo.
+>   Fonte: [ilpiacenza.it — Piacenza, imprese in calo del 3,3%](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html). Trovato via WebSearch l'8/9.
+
+---
+
+## Versione precedente (7 settembre 2026, invariata sotto)
 
 > **Ricontrollato oggi, 2026-09-07, alle 06:33 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.** Stesso risultato dei giorni scorsi: solo il vecchio articolo su Confesercenti e la desertificazione commerciale, già noto. C'è anche un vecchio articolo su Coop, sulle chiusure festive. Nessun nome nuovo. Nessun dato nuovo per il quadro sotto.
 

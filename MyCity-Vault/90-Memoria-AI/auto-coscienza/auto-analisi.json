@@ -1,83 +1,72 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-07 22:55",
+  "data": "2026-09-08 06:34",
   "voto_fiducia": 79,
-  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', ~31ª di oggi. Business invariato (nessuna verifica dati ripetuta in questo passaggio: il sensore REST/SQL era già stato confermato ≤1h fa in due passaggi precedenti, 20:33/22:41 — rileggerlo una terza volta sullo stesso stato sarebbe stato rumore, non lavoro). Il vincolo HARD di questo passaggio era un altro: freschezza-cadenze segnalava che il giro delle 20:49 era uscito saltando auto-analisi/apprendimento, e il sorvegliante ripeteva da 8 passaggi lo stesso gate-orfano su apprendimento.json:26 (gate «cervello/mirror-fresco.mjs» dichiarato ma mai scritto). Chiuso qui: scritto `cervello/mirror-fresco.mjs` (fetch+rev-list su marketplace/, soglia 24h, stato persistito), aggiornato il campo gate della lezione L-2026-0907-601, registrato l'ESITO in memoria-squadra/ad.md. Non eseguito in sessione: ogni `node cervello/*.mjs` richiede approvazione e viene negato dal sandbox di questa sessione (stesso buco noto, card #104) — verificato solo a mano (lettura riga per riga), non con una corsa reale. Voto fiducia +1 non per il business (fermo) ma per aver chiuso un debito ripetuto invece di rispondere 'ancora bloccato' un'ottava volta.",
-  "sintesi": "Stesso stallo di business da 81 giorni, confermato via SQL diretto — ma questo passaggio ha convertito la principale ipotesi aperta (card #204, sito forse vuoto per i clienti) da 'non conclusivo' a 'confermato con prova server-side', e ha già messo in moto il fix in un branch separato invece di aspettare un altro giro. È il primo progresso concreto sul gate NORTH_STAR da diversi giorni di passaggi a delta zero.",
-  "trend_fiducia": "↑ da 76 a 80: non per un numero di business cambiato, ma perché questo passaggio ha chiuso un'ipotesi aperta da 3+ passaggi con prova diretta e ha avviato l'azione che la sblocca, invece di ripetere la stessa domanda a Nicola una quarta volta.",
+  "sintesi_giro_corrente": "Nuova chiamata a 'esegui giro.md per intero', 28 minuti dopo il Piano del mattino delle 06:06. Riverificato dal vivo, non a memoria: query SQL diretta su Supabase MCP conferma 1 ordine (24/6, annullato, €19,05), 0 pagati, 2 seller (Pane Quotidiano ancora stripe_charges_enabled=false, 'Panificio Demo' invariato), identico bit-per-bit al passaggio delle 06:06. `git log --since='06:06'` mostra solo 4 commit di contabilità interna (monitoraggio/recupero scritture), zero dati di business. Non ho rilanciato le 15 fasi pesanti: letargo RISPARMIO + gate NORTH_STAR, stesso motivo già documentato decine di volte oggi in [[STATO]] — a delta zero, aggiornamento breve, non un giro pieno da capo. Il lavoro vero di questo passaggio è stato chiudere un debito di processo concreto: auto-analisi.json e ultimo-briefing.json erano fermi da 7h39 (ultimo contenuto reale: 22:55 del 7/9), e mancava del tutto Briefing/2026-09-08.md — nessuno dei passaggi di stanotte/stamattina li aveva rigenerati davvero (il commit toccava il file senza riscriverne il contenuto, stesso debito ricorrente già notato più volte). Riscritti tutti e tre ora, con verifica diretta.",
+  "sintesi": "76° giorno di stallo North Star, confermato di nuovo via SQL diretto: stesso stato del Piano del mattino di 28 minuti fa. Il lavoro reale di questo passaggio non è sul business (invariato) ma sull'igiene della memoria: tre file obbligatori (auto-analisi.json, ultimo-briefing.json, Briefing/2026-09-08.md) erano rimasti fermi da stanotte nonostante 4+ passaggi intermedi — riscritti ora con verifica diretta, non solo toccati.",
+  "trend_fiducia": "= stabile a 79: nessun progresso di business né regressione. Il debito di freschezza sui file obbligatori è stato chiuso, ma è un debito che questa stessa macchina ha lasciato aprire per 7h39 nonostante più passaggi nel mezzo — non merita un voto in salita.",
   "entita_verificate": [
     {
-      "nome": "orders=1, pagati=0, profili=9, prodotti=9, carrelli_abbandonati=4, negozi=2",
-      "stato": "confermato via SQL diretto MCP Supabase in questo passaggio (16:33)",
+      "nome": "orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0",
+      "stato": "confermato via SQL diretto MCP Supabase in questo passaggio (06:34)",
       "fonte": "execute_sql su supabase-marketplace"
     },
     {
-      "nome": "anon: nessun GRANT SELECT su `profiles`; authenticated: GRANT SELECT ma RLS limita a auth.uid()=id o is_admin()",
-      "stato": "confermato con aclexplode(relacl) su pg_class, in questo passaggio",
-      "fonte": "execute_sql su supabase-marketplace, query ACL dirette"
-    },
-    {
-      "nome": "seller_public_profiles: vista esistente, GRANT SELECT ad anon+authenticated, definizione compatibile con le colonne usate dal frontend",
-      "stato": "confermato con aclexplode + pg_get_viewdef, in questo passaggio",
+      "nome": "seller_public_profiles: Pane Quotidiano (stripe_charges_enabled=false, stripe_payouts_enabled=false) + 'Panificio Demo' (fantasma, card #196, invariato dal 5/9)",
+      "stato": "confermato via SQL diretto in questo passaggio (06:34)",
       "fonte": "execute_sql su supabase-marketplace"
     },
     {
-      "nome": "app/stores/page.tsx, app/near/page.tsx, components/StoreShowcase.tsx, components/home/HeroStoreCard.tsx interrogano .from('profiles'), zero usano seller_public_profiles",
-      "stato": "confermato con grep diretto sul repo marketplace collegato, in questo passaggio",
-      "fonte": "grep locale su /opt/mycity/ad-mycity/marketplace"
+      "nome": "Divergenza main VPS↔GitHub: 331 commit locali mai spinti, 12 remoti mai scaricati (card #199)",
+      "stato": "confermato con git fetch origin main + git log a due vie, in questo passaggio; era 327/12 alle 06:06",
+      "fonte": "git fetch/log locale"
     },
     {
-      "nome": "Fix delegato ad @tech (branch nuovo da origin/main, PR in preparazione)",
-      "stato": "in corso, esito non ancora noto a fine di questo passaggio",
-      "fonte": "Agent tech lanciato in background in questo passaggio"
+      "nome": "auto-analisi.json / ultimo-briefing.json fermi a contenuto '2026-09-07 22:55'; Briefing/2026-09-08.md assente",
+      "stato": "confermato leggendo i file, riscritti in questo passaggio",
+      "fonte": "Read diretto dei file"
     },
     {
-      "nome": "Card #200/#199/#196/#182/#155/#154/#201/#202/#203 restano le più recenti, nessuna duplicata aperta",
+      "nome": "Card #182/#196/#199/#200/#204/#154/#155 restano le stesse, nessuna duplicata aperta",
       "stato": "confermato",
       "fonte": "grep diretto su AZIONI-IN-ATTESA.md"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (SOPRAVVIVENZA/North Star tagliano il volume non-essenziale). Il lavoro di diagnosi RLS via query dirette (ACL/policy) invece di un tentativo di rendering HTML è un salto di livello ingegneristico rispetto ai passaggi precedenti: prova server-side, non deduzione o tentativo inconclusivo.",
-  "nota_dati_non_riverificati_questo_passaggio": "Radar esterno, radiografia, auto-miglioramento e nuovi esperimenti non rilanciati: cadenza già coperta oggi, gate NORTH_STAR non ne giustifica un giro pieno su dati di business invariati. test-cervello.mjs e gli altri script non elencati per esteso in .claude/settings.local.json restano bloccati dall'allowlist Bash — non ritentati, stesso buco delle card #104/#189/#194/#195/#198/#199/#200, verificato decine di volte oggi.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO/North Star tagliano il volume non-essenziale). Nessun confronto coi migliori pertinente: il lavoro era igiene di processo, non un artefatto rivolto a clienti/negozi.",
+  "nota_dati_non_riverificati_questo_passaggio": "Radar esterno, radiografia, auto-miglioramento, esperimenti e i gate mjs bloccati (test-cervello, apprendimento-guardiano, correzione-nicola-gate, gate-veri, sonda-volano, coerenza-fatti CLI) non rilanciati: cadenza già coperta oggi su dati di business invariati, e la maggior parte di questi script non elencati per esteso in .claude/settings.local.json restano bloccati dall'allowlist Bash — stesso buco noto delle card #104/#189/#194/#195/#198/#199/#200, non ridiagnosticato. `mirror-fresco.mjs` (scritto ieri sera) resta anch'esso non eseguito con una corsa vera per lo stesso motivo.",
   "salute_macchina": {
-    "supabase": "ok — query dirette eseguite in questo passaggio (16:33-16:40)",
-    "stripe": "invariato dall'ultimo verifica-sensori.mjs (nessun nuovo controllo in questo passaggio: non pertinente al fix in corso)",
+    "supabase": "ok — query dirette eseguite in questo passaggio (06:34)",
+    "stripe": "invariato, Pane Quotidiano ancora spento (nessun nuovo controllo Stripe diretto in questo passaggio)",
     "dati_freschi": true,
     "sensori_attivi": 9,
-    "sito_uptime": "non riverificato in questo passaggio (nessun segnale di cambiamento atteso)"
+    "sito_uptime": "non riverificato in questo passaggio; la scoperta delle 06:06 (dominio mycity-marketplace.com risponde con la home vera) resta da confermare con un occhio umano, non ancora promossa a fatto in registro-fatti.json"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta sopra soglia (229 senza gate su 296, soglia 20) ma NON più ferma: la lezione L-2026-0907-601 (tag correzione-nicola, mirror stantio → 6 diagnosi identiche sbagliate sulla card #204) ha ora un gate scritto (`cervello/mirror-fresco.mjs`), non solo dichiarato. Non ancora eseguito con successo (node bloccato dall'allowlist): la conferma vera arriva al prossimo giro con permessi.",
-  "nota_permessi_bash": "Confermato di nuovo, più netto di prima: in QUESTA sessione ogni invocazione `node cervello/*.mjs` — incluso `node --check` di sintassi — chiede approvazione e viene negata, mentre `git`/`grep`/`wc`/`ls` passano senza problemi. Non è più 'alcuni script passano, altri no': è 'nessun node passa'. Aggirato in passato (card #204) con query SQL dirette (execute_sql, autorizzato) quando la verifica non richiedeva uno script specifico; per un gate nuovo come mirror-fresco.mjs non c'è equivalente SQL, quindi resta da eseguire con permessi migliori (VPS o sessione con l'allowlist corretta).",
-  "livello_verifica": "L2 — non solo controlli deterministici su numeri/freschezza file, ma verifica diretta e riproducibile lato database (ACL/policy/viewdef) di un'ipotesi di business aperta da giorni, più un'azione concreta avviata (fix in branch) sulla base della prova.",
-  "refutazione": "Tentata la demolizione di 'anche questo è solo un altro giro a delta zero come gli ultimi 26': non regge — i numeri di business sono davvero invariati, ma il lavoro di questo passaggio (prova RLS certa + fix avviato) è oggettivamente diverso da una riverifica, verificabile leggendo il diff di questo file rispetto al passaggio delle 14:35 e la card #204 aggiornata.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta sopra soglia (229 senza gate su 296, soglia 20), invariata da ieri sera: nessuna nuova lezione promossa in questo passaggio perché la porta CLI (`node cervello/lezione-nuova.mjs`) resta bloccata dall'allowlist — non aggirata a mano (violerebbe AR-651).",
+  "nota_permessi_bash": "Confermato di nuovo, non ridiagnosticato: in QUESTA sessione ogni `node cervello/*.mjs` non esplicitamente allowlistato chiede approvazione e viene negato, mentre `git`/`grep`/`wc`/`ls`/`date` e le query SQL dirette via MCP passano senza problemi. Stesso buco noto, card #104.",
+  "livello_verifica": "L1 — controlli deterministici su numeri di business (SQL diretto) e su freschezza dei file di memoria; nessuna nuova ipotesi di business aperta o chiusa in questo passaggio.",
+  "refutazione": "Tentata la demolizione di 'anche questo è solo un altro giro a delta zero, quindi inutile': non regge del tutto — i numeri di business sono davvero invariati e non giustificavano le 15 fasi pesanti, ma tre file obbligatori del cancello di serietà erano genuinamente rotti (stantii da 7h39, uno addirittura assente) e restare fermo li avrebbe lasciati rotti per un altro giro intero.",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
-      "domanda": "Il sito resta giù (dominio+chiavi Vercel mancanti). Firmi #154/#155 ora?",
-      "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
-      "colore": "🔴"
-    },
-    {
-      "tipo": "priorita",
-      "domanda": "Pane Quotidiano non incassa da 30+ giorni (#182). Sblocchi ora?",
+      "domanda": "Pane Quotidiano non incassa da 30+ giorni (#182). È l'unico blocco confermato al primo ordine pagato: lo sblocchi ora?",
       "azione": "in attesa",
       "colore": "🔴"
     },
     {
-      "tipo": "priorita",
-      "domanda": "Ho appena confermato (con prova SQL, non più un'ipotesi) che le pagine negozio mostrano zero risultati a qualunque cliente, loggato o no — probabile causa vera degli 81 giorni senza un ordine pagato. Il fix è già in un branch, PR in arrivo: quando esce, la firmi?",
-      "azione": "attendere la PR di @tech su questo turno o il prossimo, poi firmare il merge",
-      "colore": "🔴"
+      "tipo": "verifica",
+      "domanda": "mycity-marketplace.com sembra già funzionante (letto con uno strumento di pagina, non un browser vero): puoi confermare con un occhio umano in 30 secondi?",
+      "azione": "se confermi, le card #154/#155 si chiudono e registro-fatti.json si aggiorna nello stesso lavoro",
+      "colore": "🟡"
     },
     {
       "tipo": "sistema",
-      "domanda": "La divergenza main↔GitHub cresce di giro in giro (#199/#200). Vuoi che qualcuno con accesso VPS diretto intervenga ora?",
+      "domanda": "La divergenza main↔GitHub cresce di giro in giro (331/12 ora, era 327/12 stamattina). Vuoi che qualcuno con accesso VPS diretto intervenga?",
       "azione": "in attesa — la divergenza cresce a ogni giro senza intervento",
       "colore": "🔴"
     },
     {
       "tipo": "sicurezza",
-      "domanda": "Chi ha scritto 'Panificio Demo' nel database vero il 5/9 alle 6:40, saltando il sito? (card #196)",
+      "domanda": "Chi ha scritto 'Panificio Demo' nel database vero il 5/9 alle 6:40? (card #196)",
       "azione": "se non lo riconosci, dimmi se posso cancellarlo (0 ordini collegati)",
       "colore": "🟡"
     }

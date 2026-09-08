@@ -1,5 +1,24 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato oggi, 2026-09-08, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`.
+> Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
+> (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**
+> Le notizie di oggi da Libertà non riguardano il commercio: episodio alla Farnesiana, furti a
+> San Nazzaro, guida in stato d'ebbrezza, scoperta archeologica. C'è solo una nota sul rincaro
+> del caffè al bar, ma non è un dato di reputazione.
+>
+> Oggi era dovuta anche la fonte settimanale "Reputazione MyCity" (ultimo controllo 1/9,
+> scadenza 8/9). Fatta con una WebSearch mirata: "MyCity Piacenza marketplace negozi
+> recensioni". **Nessuna recensione o menzione di terzi trovata.** I soli risultati indicizzati
+> sono pagine del nostro stesso sito (mycity-marketplace.com). Ci sono anche marketplace con
+> nome simile ma non collegati a noi, come andrei.shop.
+>
+> Stesso quadro di stallo: nulla da "reputare" finché non c'è un primo incasso vero.
+>
+> ---
+>
+> ## Versione precedente (7 settembre 2026, invariata sotto)
+>
 > **Aggiornato oggi, 2026-09-07, alle 06:33 circa.** Giro leggero, script `cervello/monitora.md`.
 > Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
 > (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**

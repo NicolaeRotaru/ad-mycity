@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 06:30",
+      "byte_prima": 1121247,
+      "byte_dopo": 999811,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0723-454",
+            "testo": "**Notare un file estraneo con `git status` non basta — va tolto PRIMA di lanciare `git-pr."
+          },
+          {
+            "id": "L-2026-0720-388",
+            "testo": "**«Addattale a mycity» — overlay obbligatorio su marketing skill community + patch auto sy"
+          },
+          {
+            "id": "L-2026-0720-386",
+            "testo": "**Marketing skills Claude Cloud — scaricabili GitHub, worker oggi zero marketing; due pacc"
+          },
+          {
+            "id": "L-2026-0720-385",
+            "testo": "**Intelligence sotto potenziale — diagnosi fatti + 3 gap + piano accensione, non teoria (N"
+          },
+          {
+            "id": "L-2026-0720-384",
+            "testo": "**«Togli duplicato da bacheca» = grep titolo, tieni copia più in alto, elimina ripetizione"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-07 22:30",
       "byte_prima": 1112798,
       "byte_dopo": 1004274,

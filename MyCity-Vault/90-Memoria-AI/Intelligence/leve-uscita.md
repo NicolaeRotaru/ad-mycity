@@ -1,5 +1,17 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
+> **Aggiornato oggi, 2026-09-08, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi dovute: CCIAA Emilia e Unione Commercianti PC. **Nessun bando nuovo.**
+>   Per CCIAA ho fatto una WebSearch mirata. Trova solo PI26, BE26 e BI26, tutti già chiusi.
+>   Per Unione Commercianti ho letto il feed RSS. Mostra ancora il Voucher Cloud/Cybersecurity, domande dal 10/11. Mostra anche il vecchio bando piccole imprese territorio (PI26): resta chiuso dal 30/7, non idoneo per MyCity, come già confermato.
+>   Il bando ESG resta confermato: apre il 17/9. Il bando fotovoltaico sui parcheggi resta confermato: domande dal 30/9 al 16/11. Il bando rifiuti del Comune resta invariato: 400 mila euro, aperto dal 31/8 al 23/10/2026, è la leva #5 più sotto.
+>   Nessun dato nuovo per le 3 catene indirette qui sotto. Le fonti settimanali di questo file non sono dovute oggi: comune-imprese, Vita in Centro, Unione Commercianti homepage. Ultimo controllo il 2/9, prossima scadenza il 9/9.
+>
+> **Vale sempre il filtro sotto.** 0 negozi possono incassare oggi. Quindi nessuna di queste leve diventa un'azione ora: restano solo una mappa pronta per quando lo stallo si rompe.
+
+---
+
+## Versione precedente (7 settembre 2026, invariata sotto)
+
 > **Aggiornato oggi, 2026-09-07, alle 06:33 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi dovute: CCIAA Emilia e Unione Commercianti PC. Per CCIAA: WebSearch `site:emilia.camcom.it bando 2026 piacenza`. Per Unione Commercianti: WebFetch `unionecommerciantipc.it/feed/`. **Nessun bando nuovo.** Stesso quadro di ieri. Il bando ESG resta confermato: apre il 17/9. Il Voucher Cloud/Cybersecurity resta confermato: domande dal 10/11. Il bando fotovoltaico sui parcheggi resta confermato: domande dal 30/9 al 16/11. BE26, PI26, BI26 e il Bando Commercio ER restano tutti chiusi. Il bando rifiuti del Comune resta invariato: 400 mila euro, è la leva #5 più sotto. Nessun dato nuovo per le 3 catene indirette qui sotto. Le fonti settimanali di questo file non sono dovute oggi: comune-imprese, Vita in Centro, Unione Commercianti homepage. Ultimo controllo il 2/9. Prossima scadenza il 9/9.
 >
 > **Vale sempre il filtro sotto.** 0 negozi possono incassare oggi. Quindi nessuna di queste leve diventa un'azione ora: restano solo una mappa pronta per quando lo stallo si rompe.

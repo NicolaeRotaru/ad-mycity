@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 06:20",
+ "aggiornato": "2026-09-08 06:30",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -291,28 +291,6 @@
    ]
   },
   {
-   "id": "L-2026-0723-454",
-   "testo": "**Notare un file estraneo con `git status` non basta — va tolto PRIMA di lanciare `git-pr.mjs`, non solo segnalato mentalmente; e un `Edit` con placeholder `${...}` consecutivi separati da un semplice spazio può scrivere byte NUL invece degli spazi, rendendo il file 'binario' per git (Nicola non coinvolto, incidente auto-scoperto sulla PR #516).** Sulla PR #516 (estensione del dedup chat a tutta la conversazione, non solo bolle adiacenti) sono successe due cose nello stesso giro: (1) ripetuto lo STESSO errore di una lezione di 3 ore prima — 4 file `.txt` estranei visti con `git status` ma lasciati lì invece di spostarli via, `git-pr.mjs` li ha committati nella PR, servito un commit di pulizia extra; (2) scoperta nuova — un `Edit` su `page.tsx` con template literal `${a} ${b} ${c}` ha scritto byte NUL al posto degli spazi tra i placeholder (`tsc` non si è accorto di nulla, ma `git diff`/`git commit` hanno segnalato il file come binario). Causa del NUL non capita a fondo, solo aggirata: file ricostruito riga per riga con `head`/`tail`/`Write`, verificato byte-identico al resto prima di committare. Regola: (1) prima di lanciare `git-pr.mjs` sposta/cancella SEMPRE i file estranei visti in `git status`, non limitarti a notarli; (2) dopo un `Edit` con più `${...}` ravvicinati separati da spazi, controlla `git diff --stat` — \"Binary files differ\" su un file di testo = NUL nascosto, verificare con `od -An -tx1` prima di committare.",
-   "tag": [
-    "git-pr",
-    "nul-byte",
-    "edit-tool",
-    "processo",
-    "tech",
-    "pannello"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-23",
-   "ultima_conferma": "2026-07-23 20:03",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0723-452",
    "testo": "**Dettatura vocale bloccata su Brave = limite permanente del browser (blocca di proposito il servizio Google di riconoscimento vocale), non un permesso da sbloccare nelle impostazioni Android — verificato con fonti esterne, non solo dedotto (Nicola 23/7 ~18:30, screenshot Brave sul tab microfono).** Il codice mostrava «Microfono bloccato… vai nelle impostazioni», messaggio fuorviante su Brave perché lì non esiste un permesso da concedere: Brave impedisce proprio la chiamata al servizio di trascrizione (fonti: GitHub brave-browser issue #18569, browser-laptop issue #15312). Fix: `pannello/src/lib/dettatura-vocale.ts` rileva `navigator.brave` e mostra il messaggio vero invece di mandare l'utente a cercare un permesso inesistente; workaround immediato = usare Chrome/Samsung Internet solo per dettare. Regola riusabile: se un negoziante o Nicola segnala il microfono/dettatura bloccato senza motivo apparente, chiedere SUBITO quale browser sta usando prima di ipotizzare un bug nel codice — su Brave è un limite noto e permanente (nessun fix lato nostro possibile), su altri browser va investigato come bug vero.",
    "tag": [
@@ -324,7 +302,7 @@
     "pwa"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.6,
+   "confidenza": 0.44999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -332,7 +310,7 @@
    "ultima_conferma": "2026-07-23 18:38",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 06:30"
   },
   {
    "id": "L-2026-0723-451",
@@ -372,7 +350,7 @@
     "nicola"
    ],
    "reparto": "@finanza",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -380,7 +358,7 @@
    "ultima_conferma": "2026-07-23 17:25",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 06:30"
   },
   {
    "id": "L-2026-0723-449",
@@ -443,7 +421,7 @@
     "processo"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.6499999999999999,
+   "confidenza": 0.4999999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -451,7 +429,7 @@
    "ultima_conferma": "2026-07-23 16:53",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 06:30"
   },
   {
    "id": "L-2026-0723-446",
@@ -1689,30 +1667,6 @@
    "usi": []
   },
   {
-   "id": "L-2026-0720-388",
-   "testo": "**«Addattale a mycity» — overlay obbligatorio su marketing skill community + patch auto sync (Nicola 20/7 ~04:05).** Seguito L-387 (47 skill scaricate): Nicola «**Addattale a mycity**» — non basta avvisare che sono B2B generiche; vuole **adattamento implementato**. 5 perché: (1) coerente con onestà brand (ONESTA-RULES, Il Turno) — skill US senza patch rischiano numeri/testimonianze finte; (2) **fatto:** blocco MYCITY in **tutte e 47** skill (Il Turno, Piacenza, FB/IG locali, no LinkedIn B2B default, pubblicare 🔴); (3) overlay centralizzato `cervello/prompt-fragments/mycity-marketing-overlay.md` + `patchMarketingSkillForMyCity` in `sync-worker-plugins.mjs` — **idempotente**, si riapplica ai futuri update GitHub community; (4) commit **`9e2f08a9`** nella stessa **PR #495** (2 commit: download + adattamento); (5) skill **potenziano** senior marketing/content/seo, non sostituiscono. Regola: dopo import skill marketing esterne → **sempre** overlay MyCity + patch sync; se Nicola dice «adattale a mycity» → esegui subito, non solo consiglio. Vedi L-387, L-386, PIATTAFORMA-CREATIVA.",
-   "tag": [
-    "marketing",
-    "worker",
-    "plugin",
-    "skills",
-    "overlay",
-    "mycity",
-    "onestà",
-    "nicola"
-   ],
-   "reparto": "@prompt-engineer",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 04:05",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0720-387",
    "testo": "**Marketing skills community — Nicola sceglie pacchetto intero, 47 skill, PR #495, worker 19→66 (Nicola 20/7 ~04:02).** Seguito L-386: Nicola «**Scarica tutti quelli della community**» — **non** Anthropic leggero né subset 4–5. 5 perché: (1) coerente con indipendenza dipendenti (L-375) — massimo tooling copy/marketing nel worker; (2) **fatto:** **47 skill** da `coreyhaines31/marketingskills` scaricate, manifest `worker-plugins.json` aggiornato, sync `.claude/skills/`, test **4/4**; branch `fix/marketing-skills-community` commit `30e9cb4a` (+ adattamento MyCity `9e2f08a9`); **PR #495** 🔴 merge Nicola; (3) conteggio: **19** plugin tech-only oggi → **66** post-merge; (4) skill = marketing **generico B2B** — obbligo adattare Turno/Piacenza/onestà numeri; **non** sostituiscono senior marketing/content/seo; (5) post-merge: **riavvio worker** (o prossimo giro) per caricare skill. Regola: se Nicola dice «scarica tutti community» / «tutto il pacchetto community» → **non** riproporre Anthropic o subset — scarica intero repo approvato + PR 🟡/🔴; ricordare adattamento scope MyCity. Vedi L-386, L-375.",
    "tag": [
@@ -1725,7 +1679,7 @@
     "nicola"
    ],
    "reparto": "@prompt-engineer",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -1733,73 +1687,7 @@
    "ultima_conferma": "2026-07-20 04:05",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-386",
-   "testo": "**Marketing skills Claude Cloud — scaricabili GitHub, worker oggi zero marketing; due pacchetti + sync manifest + adattamento MyCity (Nicola 20/7 ~03:59).** Nicola «**riesci a scaricare da github, marketing skills cloud claude?**» — vuole portare nel worker le skill marketing di Claude Cloud/Cowork. 5 perché: (1) collegato a indipendenza dipendenti (L-375) — potenziare worker su post/piani copy; (2) **fatti verificati:** fetch GitHub **OK** (prova skill `content-creation` Anthropic); manifest `cervello/worker-plugins.json` = **19 plugin tutti tecnici**, zero marketing; (3) **due sorgenti:** Anthropic ufficiale `anthropics/knowledge-work-plugins/marketing` (~8 skill contenuti/campagne/brand/SEO/email) vs community `coreyhaines31/marketingskills` (~45 copy/CRO/social/ads/launch); (4) **integrazione:** aggiungere voci manifest → `node cervello/sync-worker-plugins.mjs` (+ specchio Claude) → **PR 🟡** merge Nicola + riavvio worker; GitHub PR API può essere 503 ma download file funziona; (5) skill = marketing **generico B2B** — obbligo adattare Turno/Piacenza/onestà numeri; **non** sostituiscono senior marketing/content/seo. Regola: «marketing skills cloud» / «skill marketing github» → verifica manifest attuale + due pacchetti + path sync + chiedi scelta ufficiale/community/entrambi prima di PR; consiglio default Anthropic leggero o 4–5 community (copywriting, social, seo-audit, cro, launch). Vedi L-375, plugin worker L-128/L-320.",
-   "tag": [
-    "marketing",
-    "worker",
-    "plugin",
-    "skills",
-    "github",
-    "nicola"
-   ],
-   "reparto": "@prompt-engineer",
-   "confidenza": 0.4099999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 04:02",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-385",
-   "testo": "**Intelligence sotto potenziale — diagnosi fatti + 3 gap + piano accensione, non teoria (Nicola 20/7 ~03:39).** Nicola «**l'intelligence non si al massimo del suo potenziale** — spiegami come può essere migliorata». 5 perché: (1) senior **esiste** ma lavoro resta **on-demand in chat/giro** — non sveglia proattiva; (2) **fatti repo:** ultima perlustrazione completa **6/7**, briefing spesso «intelligence limitata» / meteo non verificato live; (3) **3 gap operativi:** cron mattutino **n.41** RSS bandi **spento** (PI26 oggi da coda, non da radar); **n.31** Telegram — **59 card** pronte, **zero push** senza chiavi bot; **Firecrawl** assente worker → ricerca web debole, Comune **403** VPS; (4) **già ok:** radar fonti locali **16/16 vive**, triangolazione fonti quando lavoro serio; (5) **piano:** intelligence **programmata ogni mattina** → riassunto Telegram solo se conta → collegata a **numeri reali** + card approvabili; priorità **41** (bandi) o **31** (avvisi); Firecrawl **dopo** sveglia automatica. Regola: «intelligence non al massimo» → diagnosi con **date e gap verificabili**, non elenco generico capacità; chiude CTA accensione + offerta piano 3 passi (41→31→scan concorrenti settimanale). Vedi L-374, L-365, L-368 blocco 9.",
-   "tag": [
-    "intelligence",
-    "gap",
-    "n8n",
-    "telegram",
-    "rss",
-    "firecrawl",
-    "nicola"
-   ],
-   "reparto": "@intelligence",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 12:04",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-384",
-   "testo": "**«Togli duplicato da bacheca» = grep titolo, tieni copia più in alto, elimina ripetizione in fondo (Nicola 20/7 ~03:37).** Nicola «**togli dalla bacheca il duplicato: mappa negozi piacenza**» — dopo aggiunte caselle n8n (L-377). 5 perché: (1) ogni `##` in `BACHECA.md` = **casella in home** Plancia — duplicati identici confondono; (2) causa: blocco già presente + re-inserimento senza controllo; (3) fix: **grep titolo** in BACHECA.md — se 2+ copie → **tieni quella più in alto**, **elimina quella in fondo**; (4) **prevenzione:** prima di «salva/inserisci in bacheca» grep titolo — se esiste, **aggiorna** blocco esistente, non aggiungere duplicato; (5) se UI ancora doppia = refresh main GitHub. Regola: «togli duplicato X» → 🟢 dedup immediato; inserimento bacheca → grep prima. Vedi L-377, DECISIONI 16/7 bacheca.",
-   "tag": [
-    "bacheca",
-    "pannello",
-    "home",
-    "dedup",
-    "nicola"
-   ],
-   "reparto": "@ad",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:37",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 06:30"
   },
   {
    "id": "L-2026-0720-383",
@@ -12492,9 +12380,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-07 22:30",
+     "quando": "2026-09-08 06:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 83
+     "volte": 84
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -13940,6 +13828,39 @@
    "promosso_il": "2026-08-28 12:26"
   },
   {
+   "id": "L-2026-0826-02",
+   "tag": [
+    "collisioni",
+    "sessioni-parallele",
+    "guardiani"
+   ],
+   "reparto": "tech",
+   "promosso_il": "2026-09-07 22:55"
+  },
+  {
+   "id": "L-2026-0827-02",
+   "tag": [
+    "prove-vacue",
+    "rami-irraggiungibili",
+    "funzioni-pure",
+    "cieco-non-e-verde"
+   ],
+   "reparto": "tech",
+   "promosso_il": "2026-09-07 22:55"
+  },
+  {
+   "id": "L-2026-0827-03",
+   "tag": [
+    "due-porte-due-altezze",
+    "cancelli",
+    "asticella",
+    "commenti-veri-ma-vecchi",
+    "numeri-che-non-scendono"
+   ],
+   "reparto": "tech",
+   "promosso_il": "2026-09-07 22:55"
+  },
+  {
    "id": "L-2026-0904-01",
    "tag": [
     "letargo",
@@ -14335,22 +14256,22 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 497,
-  "promosse_a_principio": 92,
-  "decadute": 0,
+  "lezioni_attive": 492,
+  "promosse_a_principio": 95,
+  "decadute": 5,
   "tasso_applicazione": 0.13,
   "tasso_calcolato_il": "2026-09-08 06:20",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-07 22:55",
+  "cristallizzazione_ultima": "2026-09-08 06:30",
   "lezioni_totali": 503,
   "lezioni_per_stato": {
-   "attiva": 386,
+   "attiva": 381,
    "principio": 95,
    "in-prova": 5,
-   "decaduta": 0,
+   "decaduta": 5,
    "ritirata": 0,
    "senza-stato": 16,
    "altro": 1

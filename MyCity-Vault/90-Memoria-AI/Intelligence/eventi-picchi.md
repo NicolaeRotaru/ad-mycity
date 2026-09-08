@@ -1,4 +1,28 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-07
+# 📅 Eventi & Picchi di Domanda — 2026-09-08
+
+> **Aggiornato oggi, 8 settembre 2026, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`. Controllate le 9 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, Libertà-Città, IlPiacenza-Economia, PiacenzaSera, CCIAA bandi, Unione Commercianti bandi. **Una novità reale: il meteo si ribalta ANCORA — è il quarto cambio di rotta in quattro giorni.**
+>
+> - **⚠️ Meteo 8-14/9: la pioggia annunciata ieri per oggi non c'è. È il quarto ribaltamento.** Ieri (7/9) la previsione dava per oggi, martedì 8/9, il 90% di probabilità di pioggia. Oggi la previsione dice l'esatto contrario: sereno, poco nuvoloso, **0% di pioggia**, massima 34°, minima 22°.
+>   Giorni dopo, oggi vs ieri: mercoledì 9/9 pioggia al 67% (ieri 69%, quasi uguale). Giovedì 10/9 pioggia al 79% (ieri 54%, è salita). Venerdì 11/9 pioggia al 46% (ieri 90%, **scesa di molto** — buona notizia, perché l'11/9 è uno dei due giorni clou del Bleech Festival a Palazzo Farnese). Sabato 12/9 pioggia al 77% (ieri 85-88%, l'altro giorno clou, leggero miglioramento). Domenica 13/9 pioggia all'88% (invariato). Lunedì 14/9 pioggia all'85% (dato nuovo, oltre l'orizzonte di ieri).
+>   **Impatto sul Bleech Festival (7-13/9):** il festival è al secondo giorno, con tempo secco. Non sotto la pioggia temuta ieri. Il weekend clou dell'11-12/9 a Palazzo Farnese oggi appare meno a rischio, soprattutto l'11/9.
+>   **La lezione resta la stessa dopo quattro letture:** questa fonte cambia idea da un giorno all'altro sulle previsioni oltre i 3 giorni. Vanno lette come indicative. Vanno ricontrollate ogni giorno. Non sono mai un piano fermo.
+>   Fonte: [ilmeteo.it — meteo Piacenza](https://www.ilmeteo.it/meteo/piacenza). WebFetch l'8/9.
+> - **Bleech Festival, giorno 2 (7-13/9).** Nessuna notizia di cronaca su incidenti o affluenza da Libertà/PiacenzaSera oggi. Calendario invariato: concerti nei cortili, mercati, degustazioni. Il cuore resta l'11-12/9 a Palazzo Farnese.
+> - **Comune, eventi 8-14/9.** Nessun evento nuovo dentro Piacenza città, oltre a quelli già tracciati (Bleech e Femme Fest 10-13/9). L'ultimaprovincia (Festival Teatro e Circo) chiude il 12/9, fuori Piacenza città: invariato. Festa dell'Uva a Gropparello Castle (12-14/9) confermata, sempre fuori dal perimetro città.
+>   Fonte: WebSearch "eventi piacenza comune settimana 8-14 settembre 2026", 8/9.
+> - **Comune-news.** Nessuna ordinanza o notizia nuova su ZTL o commercio. Quadro già noto: gara strisce blu entro l'11/9, manifestazione bici/monopattini entro il 15/9.
+>   Fonte: WebSearch `site:comune.piacenza.it news commercio settembre 2026`, 8/9.
+> - **Libertà, Attualità/Città.** Nessuna notizia nuova su botteghe o commercio in senso stretto. Una nota di contesto sui prezzi: il caffè al bar è aumentato a Piacenza, media 1,42€ a tazzina, rincari fino a 10 centesimi. È un segnale di pressione sui margini dei pubblici esercizi, non un'azione per noi. Il resto è cronaca non pertinente: episodio alla Farnesiana, furti, sanità.
+>   Fonti: [liberta.it/attualita](https://www.liberta.it/attualita) e [liberta.it/città](https://www.liberta.it/territorio/citta/piacenza). WebFetch l'8/9.
+> - **IlPiacenza, Economia.** Il fetch diretto resta in errore HTTP 403: blocco noto. La WebSearch di ripiego non trova aperture o chiusure di bottega con nome. Trova però un dato aggregato nuovo — vedi `buchi-mercato.md`.
+> - **PiacenzaSera.** Nessuna notizia di commercio nuova sul centro di Piacenza oggi. Fonte: [piacenzasera.it](https://www.piacenzasera.it/), 8/9.
+> - **Bandi CCIAA/Unione Commercianti.** Nessun bando nuovo oggi. Stesso quadro di ieri: Voucher Cloud/Cybersecurity dal 10/11, bando fotovoltaico parcheggi dal 30/9. BE26, PI26, BI26 e il Bando Commercio ER restano tutti chiusi. Dettaglio in `leve-uscita.md`.
+>
+> **Candore:** ho ricontrollato tutte le 9 fonti dovute oggi. L'unica novità reale è di nuovo il meteo — un quarto ribaltamento delle previsioni pioggia in quattro giorni, stavolta con l'errore di ieri già smentito nel giro di 24 ore. Non è una novità commerciale. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare. Quindi nessuna nota qui sotto diventa un'azione, solo preparazione 🟢.
+
+---
+
+## Versione precedente (7 settembre 2026, invariata sotto)
 
 > **Aggiornato oggi, 7 settembre 2026, alle 06:33 circa.** Giro leggero, script `cervello/monitora.md`. Controllate le 9 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, Libertà-Città, IlPiacenza-Economia, PiacenzaSera, CCIAA bandi, Unione Commercianti bandi. **Una novità reale: il meteo cambia rotta.** È la terza volta in tre giorni. La pioggia forte era annunciata per giovedì 10/9. Ora arriva prima, da domani martedì 8/9.
 >

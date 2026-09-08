@@ -1,8 +1,53 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 06:06
+aggiornato: 2026-09-08 06:34
 fonte: AD digitale (cadenza: giro)
 ---
+
+## Prossime priorità (aggiornato 2026-09-08 06:34)
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Invariato, unico blocco confermato.
+2. **#199 — Riallinea main VPS↔GitHub.** Divergenza salita a 331 commit locali/12 remoti (era 327/12
+   alle 06:06).
+3. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 06:34 — Nuova chiamata "esegui giro.md per intero", 28 minuti dopo il Piano del mattino.**
+> Riverificato dal vivo con query SQL diretta su Supabase: 1 ordine (24/6, annullato, €19,05), **0
+> pagati**, Pane Quotidiano ancora `stripe_charges_enabled=false`, "Panificio Demo" invariato.
+> Identico bit-per-bit al passaggio delle 06:06. `git log --since="06:06"` mostra solo 4 commit di
+> contabilità interna, zero dati di business.
+>
+> **Il lavoro vero di questo passaggio: tre file obbligatori del cancello di serietà erano rotti da
+> stanotte, non solo il gate "freschezza-cadenze" segnalato.** `auto-analisi.json` e
+> `ultimo-briefing.json` erano fermi al contenuto delle 22:55 di ieri sera — 7h39 di stallo, attraverso
+> almeno 4 passaggi intermedi che li citavano come fatti senza riscriverli davvero (stesso debito
+> ricorrente notato più volte: il commit tocca il file, non ne rigenera il contenuto).
+> `Briefing/2026-09-08.md` mancava del tutto: nessuno dei passaggi di stanotte/stamattina l'aveva mai
+> creato. Riscritti tutti e tre ora con verifica diretta, non solo "toccati".
+>
+> **Divergenza main↔GitHub in crescita:** da 327/12 (06:06) a **331/12** commit. Nessun intervento
+> tentato: serve accesso VPS diretto, stessa cautela di sempre.
+>
+> **Bash bloccato di nuovo sugli script HARD** (test-cervello, apprendimento-guardiano,
+> correzione-nicola-gate, gate-veri, sonda-volano, `mirror-fresco.mjs` scritto ieri sera ma mai
+> collaudato con una corsa vera): stesso buco noto, card #104. Non ridiagnosticato, non ritentato oltre
+> un tentativo a testa. Non ho promosso lezioni a mano nel registro apprendimento: la porta CLI
+> (`lezione-nuova.mjs`) resta bloccata e aggirarla a mano violerebbe la regola AR-651.
+>
+> **Perché non ho rilanciato le 15 fasi pesanti.** Letargo **RISPARMIO** (salute macchina 4, quota AI
+> 13% della finestra rolling — molto meglio di ieri) + gate **NORTH_STAR** (0 pagati da 76 giorni):
+> ammette solo lavoro che avvicina il primo ordine pagato o chiude un debito che lo blocca
+> indirettamente. Radar/radiografia/auto-miglioramento su dati fermi sarebbero stati solo consumo di
+> quota, non un controllo in più — stessa regola che questa macchina si è già data decine di volte
+> nella giornata di ieri, documentata sotto.
+>
+> **Le priorità restano quelle del Piano del mattino, invariate:**
+> 1. Sblocca i pagamenti con carta di Pane Quotidiano (#182). Unico blocco confermato.
+> 2. Riallinea main VPS↔GitHub (#199). Più urgente: la divergenza cresce e nasconde lavoro vero.
+> 3. Decidi su "Panificio Demo" (#196).
+>
+> Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 ## Prossime priorità (Piano del mattino 2026-09-08 06:06)
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Confermato ora dal vivo: ancora
