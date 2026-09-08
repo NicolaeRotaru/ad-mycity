@@ -2,43 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-27T19:28:05.189Z",
-      "scatti": 411,
-      "voci": 26,
-      "per_classe": {
-        "prova-accecata": 18,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-27T19:58:49.572Z",
-      "scatti": 417,
-      "voci": 26,
-      "per_classe": {
-        "prova-accecata": 18,
-        "perimetro-letterale": 1,
-        "malattia-nuova": 3,
-        "esenzione-aggiunta": 1,
-        "difesa-rimossa": 3
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-28T10:17:07.547Z",
-      "scatti": 3248,
-      "voci": 7,
-      "per_classe": {
-        "gate-orfano": 2,
-        "difesa-rimossa": 1,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-28T10:18:54.714Z",
       "scatti": 3253,
       "voci": 7,
@@ -2430,7 +2393,43 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-08T04:41:45.821Z",
+      "scatti": 9831,
+      "voci": 11,
+      "per_classe": {
+        "gate-orfano": 3,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-08T04:43:46.860Z",
+      "scatti": 9833,
+      "voci": 11,
+      "per_classe": {
+        "gate-orfano": 3,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-09-08T04:52:27.523Z",
+      "scatti": 9855,
+      "voci": 11,
+      "per_classe": {
+        "gate-orfano": 3,
+        "difesa-rimossa": 3,
+        "prova-accecata": 4,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-09-08T04:12:03.582Z"
+  "aggiornato": "2026-09-08T04:52:27.524Z"
 }

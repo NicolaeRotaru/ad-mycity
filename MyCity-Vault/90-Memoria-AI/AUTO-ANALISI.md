@@ -7,25 +7,29 @@ data: 2026-09-08 06:34
 **① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco,
 scrivi tutti i file richiesti». 28 minuti dopo il Piano del mattino delle 06:06.
 
-- **Riverificato dal vivo, non a memoria:** query SQL diretta su Supabase MCP conferma 1 ordine (24/6,
-  annullato, €19,05), **0 pagati**, Pane Quotidiano ancora `stripe_charges_enabled=false`, "Panificio
-  Demo" invariato. Identico bit-per-bit al passaggio delle 06:06. `git log --since="06:06"` mostra solo
-  4 commit di contabilità interna (monitoraggio/recupero scritture), zero dati di business.
-- **Non rilanciate le 15 fasi pesanti:** letargo RISPARMIO + gate NORTH_STAR, stesso motivo già
-  documentato decine di volte oggi in [[STATO]] — a delta zero, aggiornamento breve, non un giro pieno.
-- **Il vincolo vero di questo passaggio:** `freschezza-cadenze.mjs` segnalava il giro delle 20:49 di
-  ieri uscito saltando auto-analisi/apprendimento. Verificato di persona: `auto-analisi.json` e
-  `ultimo-briefing.json` erano fermi al contenuto delle 22:55 di ieri sera (7h39 di stallo, attraversando
-  almeno 4 passaggi intermedi che li citavano come "fatti" senza riscriverli), e mancava del tutto
-  `Briefing/2026-09-08.md`. Riscritti tutti e tre ora, con verifica diretta — non solo "toccati".
-- **Scoperta minore aggiornata:** la divergenza main VPS↔GitHub (card #199) è salita da 327/12 (06:06) a
-  **331/12** commit. Nessun intervento tentato: stessa cautela di sempre, serve accesso VPS diretto.
-- **Bash bloccato di nuovo sugli script HARD** (test-cervello, apprendimento-guardiano,
-  correzione-nicola-gate, gate-veri, sonda-volano, `mirror-fresco.mjs` scritto ieri sera ma mai
-  eseguito con successo): stesso buco noto, card #104. Non ridiagnosticato, non ritentato oltre un
-  singolo tentativo.
-- **Non ho aperto nuove card né promosso lezioni a mano:** la porta CLI per nuove lezioni
-  (`lezione-nuova.mjs`) resta bloccata — aggirarla scrivendo a mano nel registro violerebbe AR-651.
+- **Riverificato dal vivo, non a memoria.** Query SQL diretta su Supabase MCP. Conferma: 1 ordine
+  (24/6, annullato, €19,05). **0 pagati.** Pane Quotidiano ha ancora `stripe_charges_enabled=false`.
+  "Panificio Demo" è invariato. Tutto identico bit-per-bit al passaggio delle 06:06.
+  `git log --since="06:06"` mostra solo 4 commit. Sono tutti di contabilità interna (monitoraggio,
+  recupero scritture). Zero dati di business dentro.
+- **Non rilanciate le 15 fasi pesanti.** Letargo in RISPARMIO. Gate NORTH_STAR attivo. È lo stesso
+  motivo già documentato decine di volte oggi in [[STATO]]. A delta zero basta un aggiornamento
+  breve, non un giro pieno da capo.
+- **Il vincolo vero di questo passaggio.** `freschezza-cadenze.mjs` segnalava che il giro delle 20:49
+  di ieri era uscito saltando auto-analisi/apprendimento. L'ho verificato di persona.
+  `auto-analisi.json` e `ultimo-briefing.json` erano fermi al contenuto delle 22:55 di ieri sera. Sono
+  7h39 di stallo. Nel mezzo sono passati almeno 4 giri che li citavano come "fatti" senza mai
+  riscriverli davvero. `Briefing/2026-09-08.md` mancava del tutto. Ho riscritto tutti e tre i file
+  ora, con verifica diretta — non li ho solo "toccati".
+- **Scoperta minore aggiornata.** La divergenza main VPS↔GitHub (card #199) è salita. Alle 06:06 era
+  327 commit locali contro 12 remoti. Ora è 331 contro 12. Non ho tentato nessun intervento: stessa
+  cautela di sempre, serve accesso VPS diretto.
+- **Bash bloccato di nuovo sugli script HARD.** Riguarda test-cervello, apprendimento-guardiano,
+  correzione-nicola-gate, gate-veri, sonda-volano, e `mirror-fresco.mjs` (scritto ieri sera ma mai
+  eseguito con successo). È lo stesso buco noto della card #104. Non l'ho ridiagnosticato. Non l'ho
+  ritentato oltre un singolo tentativo a testa.
+- **Non ho aperto nuove card né promosso lezioni a mano.** La porta CLI per nuove lezioni
+  (`lezione-nuova.mjs`) resta bloccata. Scriverle a mano nel registro violerebbe la regola AR-651.
 
 ## Passaggi precedenti
 

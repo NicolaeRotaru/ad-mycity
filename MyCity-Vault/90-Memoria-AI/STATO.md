@@ -1,14 +1,30 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 06:34
+aggiornato: 2026-09-08 06:48
 fonte: AD digitale (cadenza: giro)
 ---
 
-## Prossime priorità (aggiornato 2026-09-08 06:34)
-1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Invariato, unico blocco confermato.
-2. **#199 — Riallinea main VPS↔GitHub.** Divergenza salita a 331 commit locali/12 remoti (era 327/12
-   alle 06:06).
+## Prossime priorità (aggiornato 2026-09-08 06:48)
+Sono le stesse priorità delle 06:34. Nulla è cambiato.
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
+2. **#199 — Riallinea main VPS↔GitHub.** La divergenza resta ferma. 331 commit locali, 12 remoti.
 3. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🔁 **8/9 06:48 — Terzo passaggio "giro completo" in 42 minuti.**
+> I dati sono identici al passaggio delle 06:34. Riverificato dal vivo con SQL diretto: 1 ordine, 0
+> pagati, stesso Stripe spento su Pane Quotidiano. Non ho rilanciato le 15 fasi pesanti. Il motivo:
+> letargo RISPARMIO più gate NORTH_STAR, e non c'è nessun dato nuovo da inseguire. I file obbligatori
+> del cancello di serietà erano già freschi. Scritti 9 minuti prima.
+>
+> **Causa radice trovata di un guasto minore.** `delta-gate.mjs` segna "cambiato: clienti 8→9" da una
+> settimana. Il numero vero è fermo da giorni. Il problema è un altro: la sua baseline non è mai stata
+> promossa. Il comando che la promuove (`--segna-pieno`) resta bloccato dall'allowlist. Ogni volta che
+> qualcuno lo prova, fallisce. Finché resta così, ogni chiamata — mia o del battito automatico —
+> troverà un cambiamento falso. E forzerà un giro pieno che non serve. Non è un guasto di questa
+> sessione: è dentro lo script stesso. Serve un accesso con permessi più ampi per sistemarlo — VPS
+> diretto, o l'allowlist ampliata. Segnalato nella card #189 di [[AZIONI-IN-ATTESA]].
+
+## Passaggio precedente (06:34)
 
 > 🧭 **8/9 06:34 — Nuova chiamata "esegui giro.md per intero", 28 minuti dopo il Piano del mattino.**
 > Riverificato dal vivo con query SQL diretta su Supabase: 1 ordine (24/6, annullato, €19,05), **0

@@ -578,6 +578,17 @@ delle 2026-09-01 14:28; le altre 10 voci croniche dello stesso elenco hanno già
 (#93/#94/#95/#96/#97/#99/#101/#113/#116/#119 e successive). Fix condiviso con card #104/#42/#74.
 Diagnosi confermata e registrata: `memoria-squadra/devops-sre.md` (esito 3/9 22:35).
 
+**Aggiornamento 8/9 06:48 — nuovo sintomo dello stesso buco, questa volta con un effetto concreto sul
+ritmo dei giri.** `node cervello/delta-gate.mjs --segna-pieno` (comando che promuove la baseline dopo
+un giro pieno) è bloccato uguale — un tentativo, non ritentato. Effetto: la baseline è ferma a
+`clienti:8` dal 21/8 mentre il valore reale è 9 da giorni, quindi OGNI heartbeat/chiamata la legge come
+"cambiato: clienti 8→9" e forza un giro pieno anche quando i dati di business sono identici (vedi
+`delta-gate.json`, decine di righe `"motivo":"cambiato: clienti 8→9"` dal 5/9 a oggi). Altri script
+confermati bloccati stamattina con lo stesso identico pattern: `sonda-volano.mjs`,
+`verifica-automazione.mjs`, `stash-dimenticate.mjs`, `freschezza-cadenze.mjs`. Quando si aggiunge la
+riga letterale per `test-cervello.mjs`, vale la pena aggiungerle tutte insieme in un colpo solo
+(elenco sopra + `delta-gate.mjs`), invece di scoprirle una a una nei prossimi giri.
+
 | 189 | 2026-09-01 14:28 | @devops-sre | Sblocca il permesso per rilanciare il controllo dei test del cervello | 🟡 | vedi blocco sopra | manuale (settings.local.json sul VPS) | in attesa |
 
 <!-- trigger-esterno-anti-churn -->

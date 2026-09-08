@@ -1241,3 +1241,8 @@ Esempi:
 
 ### 2026-09-08 07:20 — 🔭 MONITORAGGIO WEB (intelligence)
 - 2026-09-08 07:20 · @intelligence · FATTO · monitoraggio web leggero: 9 fonti giornaliere dovute + 1 settimanale (reputazione-mycity, scadenza oggi). Novità principali: (1) meteo — quarto ribaltamento in quattro giorni, la pioggia al 90% annunciata ieri per oggi non c'è (0%, sereno, 34°), l'11/9 (giorno clou Bleech a Palazzo Farnese) migliora da 90%→46% di pioggia; (2) nuovo dato aggregato IlPiacenza: imprese in provincia -3,3% nel primo semestre 2026 (-840 unità vs 2025), metrica diversa dalla "desertificazione -22,6%/12 anni" già nota, non va confusa con quella; (3) nessun bando nuovo, nessuna recensione/menzione MyCity trovata. Aggiornati `eventi-picchi.md`, `buchi-mercato.md`, `leve-uscita.md`, `reputazione.md`. `radar-concorrenti.md` non era dovuto oggi (settimanale, ricontrollato il 7/9). Nessuna azione 🟡/🔴 da accodare: 0 negozi possono ancora incassare.
+
+### 2026-09-08 06:48 — Terzo passaggio "giro completo" (AD)
+- 2026-09-08 06:48 · @ad · FATTO · Riverificato dal vivo via SQL diretto: identico bit-per-bit al passaggio delle 06:34 (1 ordine, 0 pagati, stesso Stripe spento). Non rilanciate le 15 fasi pesanti: RISPARMIO + NORTH_STAR, nessun delta di business.
+- 2026-09-08 06:48 · @ad · FATTO · Trovata la causa radice del loop dei giri pieni: `delta-gate.mjs` segna "cambiato: clienti 8→9" da giorni perché la baseline non è mai stata promossa (`--segna-pieno` bloccato dallallowlist). Aggiunta evidenza alla card #189 gia aperta (stesso buco, non duplicata una card nuova).
+- 2026-09-08 06:48 · @ad · FATTO · Aggiornati Briefing/2026-09-08.md (nuovo passaggio in cima, precedente conservato sotto), STATO.md, AZIONI-IN-ATTESA.md (#189).
