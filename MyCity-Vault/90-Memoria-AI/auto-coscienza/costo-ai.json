@@ -1,280 +1,36 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-09-07 23:13",
+  "aggiornato": "2026-09-08 06:12",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-09-07",
-    "runs": 29,
+    "data": "2026-09-08",
+    "runs": 1,
     "token_totali": 0,
-    "durata_sec_totale": 22089,
+    "durata_sec_totale": 723,
     "voci": [
       {
-        "quando": "2026-09-07 06:07",
+        "quando": "2026-09-08 06:12",
         "tipo": "ritmo-mattino",
         "negozio": "centro",
-        "durata_sec": 473,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 06:42",
-        "tipo": "monitora",
-        "negozio": "centro",
-        "durata_sec": 703,
-        "token": 60000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 06:54",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1619,
+        "durata_sec": 723,
         "token": 65000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 09:08",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 2253,
-        "token": 120000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 10:55",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1452,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 11:32",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1280,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 11:46",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 823,
-        "token": 70000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:06",
-        "tipo": "ritmo-mezzogiorno",
-        "negozio": "centro",
-        "durata_sec": 374,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:16",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1131,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:18",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 161,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:25",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 405,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:28",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 176,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:32",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 187,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:36",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 253,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:41",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 311,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:46",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 281,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:48",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1042,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:48",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 122,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:51",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 178,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 12:56",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 305,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 13:07",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 602,
-        "token": 55000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 13:21",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 880,
-        "token": 75000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 13:31",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 560,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 13:35",
-        "tipo": "worker-playbook",
-        "negozio": "centro",
-        "durata_sec": 253,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 14:53",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1355,
-        "token": 55000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 17:04",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 2020,
-        "token": 100000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 18:09",
-        "tipo": "ritmo-sera",
-        "negozio": "centro",
-        "durata_sec": 550,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 18:51",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1225,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-09-07 20:49",
-        "tipo": "giro",
-        "negozio": "centro",
-        "durata_sec": 1115,
-        "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       }
     ],
-    "token_stimati": 1650000,
-    "token_per_gate": 1650000,
+    "token_stimati": 65000,
+    "token_per_gate": 65000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
+    {
+      "data": "2026-09-07",
+      "runs": 29,
+      "token_totali": 0,
+      "token_stimati": 1650000,
+      "token_per_gate": 1650000,
+      "durata_sec_totale": 22089
+    },
     {
       "data": "2026-09-06",
       "runs": 20,
@@ -639,37 +395,19 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 150000,
-    "runs_sessione": 3,
+    "token_sessione_rolling": 65000,
+    "runs_sessione": 1,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-09-07 23:13"
+    "aggiornato": "2026-09-08 06:12"
   },
   "voci_recenti": [
     {
-      "quando": "2026-09-07 18:09",
-      "tipo": "ritmo-sera",
+      "quando": "2026-09-08 06:12",
+      "tipo": "ritmo-mattino",
       "negozio": "centro",
-      "durata_sec": 550,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 18:51",
-      "tipo": "giro",
-      "negozio": "centro",
-      "durata_sec": 1225,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-09-07 20:49",
-      "tipo": "giro",
-      "negozio": "centro",
-      "durata_sec": 1115,
-      "token": 50000,
+      "durata_sec": 723,
+      "token": 65000,
       "modello": "claude",
       "stima_grezza": true
     }
