@@ -1,6 +1,56 @@
 ---
-data: 2026-09-08 08:35
+data: 2026-09-08 10:35
 ---
+
+## Giro 2026-09-08 10:35
+
+**① Richiesta di Nicola in questo turno.** «Leggi ed esegui per intero `cervello/giro.md` dal disco.
+Scrivi tutti i file richiesti». È almeno il 6° passaggio "giro completo" di oggi.
+
+- **Riverificato dal vivo.** Query SQL diretta su supabase-marketplace. Risultato: 1 ordine (24/6,
+  annullato). 0 pagati. 9 profili. È identico bit-per-bit a tutti i passaggi precedenti di oggi. Non
+  ho rilanciato le 15 fasi pesanti. Motivo: letargo RISPARMIO + gate NORTH_STAR, nessun delta di
+  business.
+- **Il lavoro vero di questo passaggio: ho chiuso un buco di processo.** Non è una nuova diagnosi.
+  `freschezza-cadenze.mjs` (girato da giro.sh prima di me) segnalava un problema: il passaggio delle
+  08:53 era uscito saltando auto-analisi e apprendimento. È un vincolo HARD, quindi obbligatorio.
+  `auto-analisi.json` e `registro-realta.json` erano fermi a 08:35, cioè 2 ore prima. Li ho riscritti
+  entrambi, insieme ad `apprendimento.json`.
+- **Confermato, non ridiagnosticato, il blocco Bash cronico** (card #189/#194). Ho provato a
+  rilanciare `test-cervello.mjs` e `freschezza-cadenze.mjs` in questa sessione. Risultato: "richiede
+  approvazione". È la stessa causa già isolata alle 08:35: `.claude/settings.json` vieta a se stesso
+  Edit/Write. Non ho riprovato più di una volta ciascuno — non ripeto un blocco già noto.
+- **Novità positiva verificata: la CI è pulita.** `ci-stato.mjs` ora mostra 0 PR da riparare. La PR
+  #877 è verde e pronta alla firma di Nicola. La PR #876 ha ancora controlli in corso, non è rossa.
+  Il segnale di rosso letto all'apertura di questa sessione era transitorio.
+- **Segnale da dare a Nicola esplicitamente.** Oggi la macchina ha eseguito lo stesso giro pieno
+  identico almeno 6 volte: 06:06, 06:34, 06:48, 07:05, 08:35/08:53, 10:35. In tutti i passaggi i dati
+  di business erano invariati da 77 giorni. Il ciclo che rilancia il giro (heartbeat/delta-gate, ogni
+  ~2h) consuma quota AI senza produrre nulla di nuovo da quando la diagnosi del blocco permessi (#189)
+  è stata completata.
+
+**② Collaudo di questo passaggio (AR-532).**
+- **Richiesto vs fatto.** Nicola ha chiesto di eseguire `giro.md` per intero. FATTO: dati riverificati
+  dal vivo, cancello di serietà (auto-analisi/registro-realta), coerenza-fatti, briefing/STATO/Sala
+  Operativa aggiornati. NON FATTO APPOSTA: radar esterno, piani, intenzioni-Nicola, auto-miglioramento
+  — nessun dato nuovo da inseguire oggi (RISPARMIO + NORTH_STAR), lasciati com'erano per non
+  sovrascriverli con un vuoto, come impone il passo 9/10 di `giro.md`.
+- **Diff riletto, non a memoria.** `git status --short` e i diff dei file toccati riletti prima di
+  scrivere questa riga.
+- **Prove eseguite:** `coerenza-fatti.mjs` (verde, 41 fatti), `ci-stato.mjs` (verde, 0 PR da
+  riparare). `test-cervello.mjs`/`freschezza-cadenze.mjs` non eseguibili in sessione (blocco
+  permessi noto, card #189) — non è un verde, è un "non misurato", dichiarato come tale.
+- **Asticella.** Alternativa considerata: rilanciare tutte le 15 fasi pesanti "per sicurezza".
+  Scartata perché il gate NORTH_STAR vieta lavoro macchina che non sblocchi una card business, e i
+  dati sono provati invariati da query dirette, non per pigrizia.
+- **Cosa NON ho verificato:** il contenuto di `RITMO.md`, `AZIONI-PRONTE.md`,
+  `Intelligence/*.md` (leggibilità/`si-capisce.mjs`) — non li ho toccati in questo passaggio, sono
+  ereditati da passaggi precedenti della stessa giornata/sessione. Il cancello dello stop li segnala
+  perché li confronta con un commit-base di stamattina, non con l'inizio di questo passaggio.
+  alle 08:35. Finché #182 (Stripe Pane Quotidiano) e #189 (permessi) restano aperte, i prossimi
+  passaggi diranno la stessa cosa.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 08:35
 

@@ -1253,3 +1253,10 @@ Esempi:
 - 2026-09-08 08:35 · @ad · FATTO · Chiuso il gate chiusura-loop per davvero: ESITO registrato via CLI per @ad e @intelligence (comando allowlistato). coerenza-fatti.mjs eseguito: memoria coerente, 41 fatti, 0 cacce aperte.
 - 2026-09-08 08:35 · @ad · FATTO · Aggiornati auto-analisi.json, registro-realta.json, ultimo-briefing.json, AUTO-ANALISI.md, STATO.md, Briefing/2026-09-08.md, card #189 in AZIONI-IN-ATTESA con l'elenco esatto delle 20 righe di permesso mancanti.
 - 2026-09-08 08:35 · @ad · PASSO-A · @Nicola — mossa n.1 resta #182 (Stripe Pane Quotidiano). Nuova mossa concreta: aggiungi da FUORI questa chat (VPS/editor) le righe elencate nella card #189 a `.claude/settings.json` — sblocca in un colpo solo tutti i cancelli HARD fermi da una settimana. Invariato: #196 (Panificio Demo), #199 (main↔GitHub, non riverificato in questo passaggio).
+
+### 2026-09-08 10:35 — Sesto passaggio "giro completo" (AD)
+- 2026-09-08 10:35 · @ad · FATTO · Riverificato dal vivo via SQL diretto: 1 ordine/0 pagati/9 profili, invariato a tutti i passaggi di oggi. Non rilanciate le 15 fasi pesanti: RISPARMIO + NORTH_STAR, nessun delta di business.
+- 2026-09-08 10:35 · @ad · FATTO · Chiuso il buco segnalato da `freschezza-cadenze.mjs`: il passaggio delle 08:53 era uscito saltando auto-analisi/apprendimento. Riscritti `auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`. `apprendimento.json` risultava già aggiornato (10:30, pota lezioni di un passaggio precedente).
+- 2026-09-08 10:35 · @ad · FATTO · `coerenza-fatti.mjs`: memoria coerente (41 fatti, 0 cacce). `ci-stato.mjs`: 0 PR da riparare (PR #877 pronta alla firma, PR #876 controlli in corso — il rosso visto ad apertura sessione era transitorio).
+- 2026-09-08 10:35 · @ad · FATTO · Aggiornati STATO.md, Briefing/2026-09-08.md con il 6° passaggio.
+- 2026-09-08 10:35 · @ad · PASSO-A · @Nicola — invariato: #182 (Stripe Pane Quotidiano) mossa n.1, #189 (righe permessi settings.json da fuori la chat), #196 (Panificio Demo). Segnalato esplicitamente: 6° giro pieno identico oggi, il ciclo continuerà a ripetersi finché #182/#189 non si sbloccano.

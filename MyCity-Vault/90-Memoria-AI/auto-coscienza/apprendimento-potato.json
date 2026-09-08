@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 10:30",
+      "byte_prima": 1104786,
+      "byte_dopo": 983515,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0720-375",
+            "testo": "**«Indipendenza dai dipendenti» = automazione ripetizione + umani solo 🔴, bottleneck prim"
+          },
+          {
+            "id": "L-2026-0720-374",
+            "testo": "**RSS bandi Comune via n8n — sveglia cron, 403 worker, workflow non attivo (Nicola 20/7 ~0"
+          },
+          {
+            "id": "L-2026-0720-373",
+            "testo": "**«20 mani n8n per MyCity» = 20 integrazioni/canali per impatto, non automazioni 10×5 (Nic"
+          },
+          {
+            "id": "L-2026-0720-368",
+            "testo": "**«50 cose n8n / 10 funzioni performanti» = griglia 10×5 ripetitivo ROI, non ragionamento "
+          },
+          {
+            "id": "L-2026-0720-367",
+            "testo": "**«Tutte le mani per colosso Piacenza» = catalogo 5 blocchi da sensori + ordine priorità ("
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 08:30",
       "byte_prima": 1112874,
       "byte_dopo": 991707,

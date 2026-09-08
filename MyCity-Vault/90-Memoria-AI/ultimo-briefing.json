@@ -1,6 +1,6 @@
 {
-  "data": "2026-09-08 08:35",
-  "situazione": "76°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato, riverificato ora con query diretta su Supabase. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). La novità di questo passaggio non è di business: diagnosticata la causa ESATTA del guasto tecnico che da una settimana blocca i controlli automatici di qualità (test-cervello, freschezza-cadenze, esperimenti e altri) — il file di permessi della sessione vieta a se stesso di essere modificato dall'interno, quindi nessuna sessione Claude Code può risolverlo da sola: serve un intervento con accesso diretto al disco.",
+  "data": "2026-09-08 10:35",
+  "situazione": "77°+ giorno di stallo North Star: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati — invariato per la 6a volta oggi, riverificato ora con query diretta su Supabase. Il blocco confermato resta uno solo: Pane Quotidiano non incassa con carta (Stripe spento). Questo passaggio ha chiuso un buco di processo (auto-analisi/apprendimento saltati alle 08:53, riscritti ora) e confermato che la CI è pulita (0 PR da riparare). Segnale per Nicola: il giro pieno è scattato 6 volte oggi a dati fermi da 77 giorni — continuerà a ripetersi identico finché #182 (Stripe) o #189 (permessi) non si sbloccano.",
   "opportunita": [
     {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "la causa è ora certa (non più solo sospetta): basta aggiungere righe di permesso letterali in un file che la sessione non può toccare da sola — elenco pronto nella card #189", "impatto": "alto", "sforzo": "basso"}
   ],

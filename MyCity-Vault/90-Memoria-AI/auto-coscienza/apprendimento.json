@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 08:40",
+ "aggiornato": "2026-09-08 10:39",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -1740,29 +1740,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0720-375",
-   "testo": "**«Indipendenza dai dipendenti» = automazione ripetizione + umani solo 🔴, bottleneck primo ordine (Nicola 20/7 ~03:17).** Nicola «voglio rendere mycity il più indipendente dai dipendenti». 5 perché: (1) **non** è «assumere meno domani» generico — è **modello operativo**: cervello + n8n fanno il lavoro di un team intero su ciò che si ripete; (2) **resta umano (Nicola 🔴):** firma bandi/contratti, trattative negozi difficili, primo ordine concierge, dispute gravi, deploy e soldi; (3) **3 fasi** allineate L-370: accendi città (onboarding semi-auto + checklist) · abitudine (post/cron/carrelli/recensioni) · default locale (ops ordini/rider con regole, non telefonate); (4) **collo di bottiglia** = **primo ordine reale + botteghe payout-ready** — senza liquidità reale le automazioni scalano a vuoto; (5) **ordine pratico oggi:** PI26 10:00 → Telegram (59 avvisi) → Meta post test 🔴 → notifica ordine negozio → carrello abbandonato; chiudere con **una scelta blocco** («bandi» / «Telegram» / «primo ordine»), non checklist hiring o 50 workflow. Regola: «indipendente dai dipendenti» → automazione + card 🔴 + fasi + bottleneck + CTA blocco — **non** elenco assunzioni né solo catalogo n8n. Vedi L-370, L-367, L-357.",
-   "tag": [
-    "strategia",
-    "automazione",
-    "lean",
-    "dipendenti",
-    "n8n",
-    "cervello",
-    "nicola"
-   ],
-   "reparto": "@corporate-strategy",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:17",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0720-376",
    "testo": "**Mani n8n — chiedi a TUTTI i senior per reparto, non lista generica AD (Nicola 20/7 ~03:19).** Dopo risposta «20 mani n8n» (L-373), Nicola corregge: «**ti stai risparmiando**, chiedi a **tutti i senior** di quali mani hanno bisogno che n8n gli può dare». 5 perché: (1) catalogo integrazioni dall'AD solo = **risparmio di delega** — suona inventato e non usa la squadra; (2) Nicola vuole **team-play** (CULTURA-SQUADRA): ogni reparto dichiara le **proprie** mani n8n (marketing→Meta/email/GBP/meteo; negozi→WhatsApp/onboarding; ops→Supabase trigger/Telegram alert; soldi→Stripe read/Sheets; intelligence→RSS+cron 403 Comune; governance→Telegram 59 card/cron report; builder→webhook bidirezionale; creativi→Meta pub); (3) ruolo AD = **comporre e sintetizzare** i contributi senior, **non** sostituirli con elenco generico; (4) ordine priorità **condiviso** resta valido: Telegram (59 avvisi) → Meta → RSS bandi → email welcome → notifica ordine; (5) chiudere con CTA **reparto/blocco** («Telegram» / «Meta» / «RSS bandi»), non «dimmi blocco» generico senza aver consultato i senior. Regola: «mani n8n / automazioni» → **delega per reparto ai senior** + sintesi AD + 🔴 + ordine 1→5 + CTA — **mai** lista generica dall'AD da solo. Vedi L-373, L-370, L-367.",
    "tag": [
@@ -1775,7 +1752,7 @@
     "correzione"
    ],
    "reparto": "@ad",
-   "confidenza": 0.48,
+   "confidenza": 0.32999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -1783,53 +1760,7 @@
    "ultima_conferma": "2026-07-20 03:19",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-374",
-   "testo": "**RSS bandi Comune via n8n — sveglia cron, 403 worker, workflow non attivo (Nicola 20/7 ~03:16).** Nicola chiede chiarimento su voce catalogo «RSS Comune/bandi → riassunto portali istituzionali». 5 perché: (1) pattern «spiega voce catalogo n8n» = **cosa fa + perché n8n + stato oggi + passi setup + CTA** — non ripetere solo elenco; (2) **RSS bandi** = Schedule cron (es. 7:00) + nodi RSS Read (Comune news/bandi, CCIAA Emilia, CNA/Vita in Centro) + filtro AI (5 righe max) → Telegram o webhook worker; (3) **perché n8n e non worker in chat:** sito Comune **blocca fetch diretto dal VPS worker (403)** — n8n legge feed da rete Docker; **non** promettere workflow già attivo — **oggi non c'è**; (4) contattare negozi o **inviare domande bandi** = **🔴** card — RSS **solo avvisa** con riassunto; (5) delivery ideale **Telegram** (bot mancante, **59** avvisi) — CTA «accendi RSS bandi» / «prima Telegram». Regola: «RSS Comune/bandi» → sveglia + motivo 403 + non attivo + setup 5 passi + 🔴 domande. Vedi L-365, L-373, L-370.",
-   "tag": [
-    "n8n",
-    "rss",
-    "bandi",
-    "comune",
-    "403",
-    "intelligence",
-    "telegram",
-    "cron"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:16",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-373",
-   "testo": "**«20 mani n8n per MyCity» = 20 integrazioni/canali per impatto, non automazioni 10×5 (Nicola 20/7 ~03:14).** Nicola «dimmi 20 mani che può usare n8n che servono per mycity». 5 perché: (1) pattern «N mani n8n» = elenco **numerato di connettori/integrazioni** (Telegram, Meta FB+IG, Resend, API marketplace, Google suite, cron, RSS, meteo, WhatsApp, Stripe read, Gemini, Twilio, webhook worker, Supabase read…) — **non** griglia 10×5 automazioni (L-368) né catalogo mani generale 5 blocchi (L-367); (2) **ordinate per impatto** MyCity (Telegram #1 = 59 avvisi bloccati senza bot); (3) ogni uscita verso persone/post/soldi = **🔴** card Pannello anche con webhook ok (L-357); (4) **ordine consigliato:** Telegram → Meta FB+IG → post test 🔴 → email welcome → notifica ordine negozio; (5) chiudere con CTA «dimmi blocco» (Telegram/Meta) per guida passo passo — non tutorial setup generico. **ADDENDUM 03:19:** se Nicola chiede mani n8n **per reparto/senior** o corregge «ti stai risparmiando» → **delega ai senior** per reparto e sintetizza (L-376) — elenco generico AD solo **non basta**. Regola: «20 mani n8n» → 20 integrazioni per impatto + 🔴 + ordine 1→5 + CTA blocco; se contesto «senior/reparto» → L-376. Vedi L-376, L-368, L-366, L-367.",
-   "tag": [
-    "n8n",
-    "mani",
-    "integrazioni",
-    "telegram",
-    "catalogo",
-    "mycity"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:19",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 10:30"
   },
   {
    "id": "L-2026-0720-372",
@@ -1845,7 +1776,7 @@
     "pipeline"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.47,
+   "confidenza": 0.31999999999999995,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -1853,7 +1784,7 @@
    "ultima_conferma": "2026-07-20 03:12",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 10:30"
   },
   {
    "id": "L-2026-0720-371",
@@ -1869,7 +1800,7 @@
     "correzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4899999999999999,
+   "confidenza": 0.33999999999999986,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -1877,7 +1808,7 @@
    "ultima_conferma": "2026-07-20 03:12",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 10:30"
   },
   {
    "id": "L-2026-0720-370",
@@ -1919,7 +1850,7 @@
     "correzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -1927,53 +1858,7 @@
    "ultima_conferma": "2026-07-20 03:09",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-368",
-   "testo": "**«50 cose n8n / 10 funzioni performanti» = griglia 10×5 ripetitivo ROI, non ragionamento worker (Nicola 20/7 ~02:59).** Nicola chiede lista ampia strutturata per MyCity. 5 perché: (1) pattern «N cose» + «M funzioni fondamentali» = **griglia numerata** (10 categorie × 5 automazioni = 50), non elenco piatto né tutorial setup; (2) **performanti** = ripetitive che fanno soldi/tempo — social, acquisizione, carrelli, fidelizzazione, negozi, ops, comunicazione, marketing locale, intelligence **programmata** (cron), salute macchina; (3) **non** duplicare cervello worker (L-365) — n8n esegue braccia, worker decide; intelligence in n8n solo sveglie fisse, ricerche ad hoc = chat Worker; (4) ogni uscita verso persone/post = **🔴** card Pannello anche con webhook ok (L-357); (5) chiudere con **ordine priorità** numerato (Telegram→Meta→post test 🔴→carrello→notifica ordine negozio) + CTA «dimmi blocco» per workflow JSON import. Regola: «50 cose n8n» / «10 funzioni» → 10×5 + reminder 🔴 + priorità + offer import. Vedi L-366, L-335, L-365, L-367.",
-   "tag": [
-    "n8n",
-    "catalogo",
-    "workflow",
-    "50x10",
-    "roi",
-    "nicola"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:27",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0720-367",
-   "testo": "**«Tutte le mani per colosso Piacenza» = catalogo 5 blocchi da sensori + ordine priorità (Nicola 20/7 ~02:56).** Nicola chiede inventario completo delle mani per far crescere MyCity localmente. 5 perché: (1) pattern «colosso/crescita/mani» = risposta **strategica operativa**, non teoria — partire da **sensori verificati** (cosa è già acceso) + `cervello/azioni.md`; (2) struttura **5 blocchi:** già accese · gratis alto impatto locale · leve per reparto (clienti/negozi/ops/soldi) · interruttore sicurezza (card 🔴 anche con chiavi) · **ordine consigliato numerato**; (3) post-webhook n8n (L-357) Telegram resta **#1** (59 avvisi bloccati), Meta n8n #2, post test 🔴 #3; (4) **non** confondere «mani possibili» con «mani attive» — distinguere sempre; (5) chiudere con **CTA singola** («facciamo Telegram» / «facciamo Meta») per passo immediato. Regola: «tutte le mani» / «colosso Piacenza» → 5 blocchi + ordine 1→5 + CTA. **Addendum 03:05 (L-370):** se Nicola dice «pensa più in grande» dopo il catalogo → **non basta** — aggiungere **moat + 3 fasi + bottleneck primo ordine** e chiudere con **una missione**, non più plugin. Vedi L-366, L-351, L-344, L-370, azioni.md.",
-   "tag": [
-    "mani",
-    "crescita",
-    "colosso",
-    "piacenza",
-    "telegram",
-    "n8n",
-    "catalogo",
-    "nicola"
-   ],
-   "reparto": "@builder-automazioni",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-20",
-   "ultima_conferma": "2026-07-20 03:05",
-   "stato": "attiva",
-   "usi": [],
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 10:30"
   },
   {
    "id": "L-2026-0720-364",
@@ -12269,9 +12154,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 08:30",
+     "quando": "2026-09-08 10:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 85
+     "volte": 86
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -14145,19 +14030,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 487,
+  "lezioni_attive": 482,
   "promosse_a_principio": 95,
   "decadute": 0,
   "tasso_applicazione": 0.13,
-  "tasso_calcolato_il": "2026-09-08 08:40",
+  "tasso_calcolato_il": "2026-09-08 10:39",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 08:30",
-  "lezioni_totali": 493,
+  "cristallizzazione_ultima": "2026-09-08 10:30",
+  "lezioni_totali": 488,
   "lezioni_per_stato": {
-   "attiva": 376,
+   "attiva": 371,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,

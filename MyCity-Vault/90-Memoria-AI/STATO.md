@@ -1,16 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 08:35
+aggiornato: 2026-09-08 10:35
 fonte: AD digitale (cadenza: giro)
 ---
 
-## Prossime priorità (aggiornato 2026-09-08 08:35)
-Stesse priorità del passaggio delle 06:48, più una nuova (diagnosi completata, non un nuovo blocco).
+## Prossime priorità (aggiornato 2026-09-08 10:35 — 6° passaggio di oggi, invariate)
+Stesse priorità del passaggio delle 08:35. Nessun dato di business nuovo da 77 giorni.
 1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
 2. **#189 — Sblocca da FUORI la chat il blocco Bash cronico.** Causa ora certa: `.claude/settings.json`
    vieta a se stesso Edit/Write. Nessuna sessione Claude Code può risolverlo da sola.
 3. **#199 — Riallinea main VPS↔GitHub.** Non riverificato in questo passaggio. Era 331/12 alle 06:48.
 4. **#196 — Decidi su "Panificio Demo".** Invariato.
+
+> 🧭 **8/9 10:35 — 6° passaggio "giro completo" di oggi.** Prima erano le 06:06, 06:34, 06:48, 07:05,
+> 08:35 e 08:53.
+> Riverificato dal vivo via SQL diretto. Risultato: 1 ordine, 0 pagati, 9 profili. È identico
+> bit-per-bit a tutti i passaggi di oggi. Non ho rilanciato le 15 fasi pesanti. Motivo: letargo
+> RISPARMIO + gate NORTH_STAR.
+>
+> **Lavoro di questo passaggio: ho chiuso un buco di processo.** Non è una nuova diagnosi.
+> `freschezza-cadenze.mjs` segnalava un problema: il passaggio delle 08:53 era uscito saltando
+> auto-analisi e apprendimento. È un vincolo HARD. Ho riscritto `auto-analisi.json` e
+> `registro-realta.json`, fermi a 08:35. `apprendimento.json` era già aggiornato da un passaggio
+> precedente (pota lezioni, alle 10:30). Ho anche verificato due cose: `coerenza-fatti.mjs` è pulito
+> (41 fatti, 0 cacce). `ci-stato.mjs` dice 0 PR da riparare — la #877 è pronta alla firma, la #876 ha
+> ancora controlli in corso e non è rossa (il rosso visto prima era transitorio).
+>
+> **Segnale esplicito per Nicola.** Oggi il giro pieno è scattato 6 volte a dati fermi da 77 giorni.
+> Il ciclo automatico (heartbeat/delta-gate, ogni ~2h) continuerà a ripetersi identico. Due sole cose
+> possono cambiarlo: sbloccare #182 (Stripe di Pane Quotidiano) o #189 (i permessi Bash).
 
 > 🧭 **8/9 08:35 — Nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 06:48.**
 > Riverificato dal vivo con query SQL diretta su supabase-marketplace: 1 ordine (24/6, annullato,
