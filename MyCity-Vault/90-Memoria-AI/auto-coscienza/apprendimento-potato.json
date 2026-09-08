@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-08 13:59",
+      "byte_prima": 1077745,
+      "byte_dopo": 957807,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0716-235",
+            "testo": "**Flash/refresh dello streaming in chat: causa e fix (16/7, PR #411)** — Nicola descriveva"
+          },
+          {
+            "id": "L-2026-0716-231",
+            "testo": "**Max potenza + max efficienza (chat 16/7): ragionamento INTERNO profondo, output BREVE** "
+          },
+          {
+            "id": "L-2026-0714-230",
+            "testo": "**Rischio tecnico — 6/8 fix batch, 2 decisioni umane (chat 14/7 ~13:11, PR #383):** Nicola"
+          },
+          {
+            "id": "L-2026-0714-229",
+            "testo": "**Costo dell'AI — 5/6 fix batch, timer mattina = decisione Nicola (chat 14/7 ~13:09, PR #3"
+          },
+          {
+            "id": "L-2026-0714-227",
+            "testo": "**PR #379 conflitti — salta commit memoria obsoleto (chat 14/7 ~12:44):** Nicola «La pr 37"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 12:27",
       "byte_prima": 1083374,
       "byte_dopo": 964696,

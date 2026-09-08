@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-08 12:36",
+ "aggiornato": "2026-09-08 14:06",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -4622,36 +4622,14 @@
     "workflow-sviluppo"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.4999999999999999,
+   "confidenza": 0.34999999999999987,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 21:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0716-235",
-   "testo": "**Flash/refresh dello streaming in chat: causa e fix (16/7, PR #411)** — Nicola descriveva un «refresh fastidioso» che fa sparire la risposta per un secondo e poi riapparirla. Radice: React smontava e rimontava il DOM durante il passaggio da testo semplice (stato pending) a Markdown (testo arrivato) — due componenti distinti → unmount+mount visibile. Fix: usare `<Markdown>` anche nello stato pending, così il DOM non cambia struttura tra streaming e finale. Regola: quando Nicola descrive un bug di rendering vago, chiedere conferma («la risposta si azzera? compare una parola?») prima di scrivere il fix — in questo caso la conferma ha chiarito che era un refresh/lampeggio, non un testo strano.",
-   "tag": [
-    "streaming",
-    "flash",
-    "react",
-    "chat-pannello",
-    "pr-411",
-    "frontend",
-    "markdown"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-16",
-   "ultima_conferma": "2026-07-16 17:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 13:59"
   },
   {
    "id": "L-2026-0716-234",
@@ -4667,14 +4645,14 @@
     "strategia-vendite"
    ],
    "reparto": "@vendite",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 19:10",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 13:59"
   },
   {
    "id": "L-2026-0716-233",
@@ -4709,84 +4687,14 @@
     "preferenze-nicola"
    ],
    "reparto": "@vendite",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 12:57",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0716-231",
-   "testo": "**Max potenza + max efficienza (chat 16/7): ragionamento INTERNO profondo, output BREVE** — Nicola vuole le due cose insieme. Comandi che attivano la modalità analisi: «ragiona prima:», «vai più a fondo», «grillami su X», «fai un giro». Leva tecnica proposta (🟡 pendente conferma): alzare il `thinking` budget nel worker-chat → pensiero interno più ricco, risposta visibile invariata e concisa. Preferenza ribadita: risposte veloci e coincise SEMPRE, ma il ragionamento dietro deve essere solido.",
-   "tag": [
-    "ragionamento",
-    "efficienza",
-    "thinking-budget",
-    "preferenze-nicola",
-    "max-potenza"
-   ],
-   "reparto": "@prompt-engineer",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-16",
-   "ultima_conferma": "2026-07-16 11:31",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0714-230",
-   "testo": "**Rischio tecnico — 6/8 fix batch, 2 decisioni umane (chat 14/7 ~13:11, PR #383):** Nicola «Risolvi questi problemi» su casella `rischio-sicurezza-se` (Rischio tecnico). 5 perché: (1) 8 finding = hardening guardiani/sicurezza (git auto-modifica, auto-fix auto-chiusura, Cursor --trust, hook segreti falso positivo, monitora distruttivo, scan Resend/n8n, timeout sensori, || true invisibile); (2) **6 chiusi in codice** — hook anti-segreti verifica `core.hooksPath` + installa-hooks idempotente, monitora allineato a giro (no `checkout -f -B`), pattern Resend/n8n, AbortSignal 8s, meta-guardiano freschezza, auto-fix senza `--applica` automatico; (3) **2 restano tipo umano** — permessi Cursor `--force --trust` e chi scrive `verifica.pattern` per chiudere difetti; (4) **errore AD:** commit finito su main → spostato su branch `fix/rischio-tecnico-se`, fix riapplicati; (5) scan `allinea-scan-cantiere`: 6 chiusi, 2 aperti. **Pendente:** Approva **#145** (**PR #383**, `d726c0c8`) → Ctrl+Shift+R Radiografia › Rischio tecnico. **Regola:** casella Rischio tecnico ≠ Angoli ciechi (`copertura-cieca`); PR #383 = branch `fix/rischio-tecnico-se`; finding `genera: domanda-nicola`/`tipo: umano` → proposta decisione, non altra PR. Correlazione L-214 (commit scope/branch), L-222 (sensori timeout).",
-   "tag": [
-    "rischio-tecnico",
-    "rischio-sicurezza-se",
-    "pr-383",
-    "radiografia",
-    "guardiani",
-    "hook-segreti",
-    "monitora",
-    "cursor-trust",
-    "auto-fix",
-    "nicola"
-   ],
-   "reparto": "@security",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-14",
-   "ultima_conferma": "2026-07-14 13:11",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0714-229",
-   "testo": "**Costo dell'AI — 5/6 fix batch, timer mattina = decisione Nicola (chat 14/7 ~13:09, PR #381):** Nicola «Risolvi questi problemi» su casella Costo dell'AI. 5 perché: (1) radiografia segnalava 6 difetti operativi verificati in auto-radiografia (token ciechi su ritmo/monitora, router economico finto, soglia giorno vs sessione ~5h, GATE-BUDGET bypassato da GIRO_FORCE, triple timer mattina); (2) fix condiviso stima token in `costo-ai.mjs`/`motore-ai.sh` — ritmo+monitora ora contribuiscono al totale; (3) `banco-ai.mjs` reso onesto: router = consiglio, esecuzione sempre Claude/Cursor (coerente [[niente-api-ai]] 8/7); (4) soglia sessione rolling aggiunta oltre totale giornaliero; (5) GATE-BUDGET non si spegne più su giro forzato dal Pannello. **Scan post-fix:** 5/6 chiusi (`d7b7c037`). **Resta 1:** 6:00 piano mattino + 6:20 giro + 6:30 monitora = tripla lettura vault — **non** auto-fixabile, serve scelta Nicola (sposta monitora es. 8:00 o unifica). **Regola:** su casella Costo AI diagnosticare i 6 pattern radiografia prima di nuovo codice; l'ultimo aperto se è scheduling = proposta orari, non altra PR. Correlazione L-104 (plugin token), DECISIONI 8/7 niente-api-ai.",
-   "tag": [
-    "costo-ai",
-    "pr-381",
-    "radiografia",
-    "gate-budget",
-    "router-economico",
-    "ritmo",
-    "monitora",
-    "token",
-    "timer-mattina",
-    "nicola"
-   ],
-   "reparto": "@prompt-engineer",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-14",
-   "ultima_conferma": "2026-07-14 13:09",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 13:59"
   },
   {
    "id": "L-2026-0714-228",
@@ -4804,36 +4712,14 @@
     "caso-studio"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.5099999999999999,
+   "confidenza": 0.3599999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-14",
    "ultima_conferma": "2026-07-14 13:08",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0714-227",
-   "testo": "**PR #379 conflitti — salta commit memoria obsoleto (chat 14/7 ~12:44):** Nicola «La pr 379 ha dei conflitti». 5 perché: (1) pattern #374/#378 — conflitto memoria worker vs main, codice `calibrazione.mjs` intatto; (2) branch portava **2 commit**: fix vero + secondo commit = aggiornamento memoria stale dal worker → **saltare** il secondo, non risolvere merge inutile; (3) rebase su main, head `f2d79065`, solo 1 file codice (`sensore_stato` su esito loop); (4) mergeable API verificata zero conflitti; (5) card **#143** pendente Approva — merge 🔴 resta a Nicola. **Regola:** in risoluzione conflitti PR codice, se un commit è solo memoria obsoleta vs main → dropparlo; spiegare a Nicola «codice intatto, memoria worker». Correlazione L-226, L-220, L-164.",
-   "tag": [
-    "pr-379",
-    "conflitti",
-    "memoria-obsoleta",
-    "onesta-numeri",
-    "calibrazione",
-    "mergeable",
-    "nicola"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-14",
-   "ultima_conferma": "2026-07-14 12:44",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-08 13:59"
   },
   {
    "id": "L-2026-0714-226",
@@ -11818,9 +11704,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 12:27",
+     "quando": "2026-09-08 13:59",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 89
+     "volte": 90
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -13694,19 +13580,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 467,
+  "lezioni_attive": 462,
   "promosse_a_principio": 95,
   "decadute": 0,
   "tasso_applicazione": 0.14,
-  "tasso_calcolato_il": "2026-09-08 12:36",
+  "tasso_calcolato_il": "2026-09-08 14:06",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 12:27",
-  "lezioni_totali": 473,
+  "cristallizzazione_ultima": "2026-09-08 13:59",
+  "lezioni_totali": 468,
   "lezioni_per_stato": {
-   "attiva": 356,
+   "attiva": 351,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,
