@@ -15,32 +15,33 @@ da 78+ giorni. Blocco completo per Nicola: [[RITMO]].
 4. **#196 — Decidi su "Panificio Demo".** Invariato.
 
 > 🧭 **8/9 14:33 — 11°+ passaggio "giro completo" di oggi.** Riverificato dal vivo, non a memoria.
-> Query SQL diretta su Supabase: `orders`=1, `ordini_pagati`=0, Pane Quotidiano ancora Stripe spento,
-> "Panificio Demo" ancora presente. È identico bit-per-bit a tutti i passaggi di oggi.
+> Query SQL diretta su Supabase: `orders`=1, `ordini_pagati`=0. Pane Quotidiano ha ancora Stripe
+> spento. "Panificio Demo" è ancora presente. È identico bit-per-bit a tutti i passaggi di oggi.
 > `AZIONI-IN-ATTESA.md` è invariata: la card più recente resta #204, già nota.
 >
-> **L'unico numero che si muove: la divergenza main↔GitHub, di nuovo in peggio.** `git fetch origin
-> main` + `git rev-list --count` in diretta: **357 commit locali mai spinti su GitHub, 12 remoti mai
-> scaricati**. Alle 14:01 erano 355/12. Non è risolvibile da qui.
+> **L'unico numero che si muove: la divergenza main↔GitHub, di nuovo in peggio.** Ho lanciato in
+> diretta `git fetch origin main` e `git rev-list --count`. Risultato: **357 commit locali mai
+> spinti su GitHub, 12 remoti mai scaricati**. Alle 14:01 erano 355/12. Non è risolvibile da qui.
 >
-> **Chiuso il buco di processo HARD.** `freschezza-cadenze.mjs` (mostrato in cima a questa sessione)
-> segnalava che il giro delle 14:19 era uscito saltando auto-analisi/apprendimento. Riscritti ora
-> `auto-analisi.json`/`registro-realta.json`/`AUTO-ANALISI.md` con verifica diretta.
+> **Chiuso il buco di processo HARD.** `freschezza-cadenze.mjs`, mostrato in cima a questa sessione,
+> segnalava che il giro delle 14:19 era uscito saltando auto-analisi e apprendimento. Ho riscritto
+> ora `auto-analisi.json`, `registro-realta.json` e `AUTO-ANALISI.md`, con verifica diretta.
 >
-> **Trovato un residuo non committato da un giro precedente interrotto:** `apprendimento.json` ha
-> una pota pendente (-268/+161 righe) e un nuovo script mai aggiunto (`cervello/mirror-fresco.mjs`).
-> Non toccati oltre la segnalazione: senza `test-cervello.mjs` eseguibile qui non sono validabili.
+> **Trovato un residuo non committato, di un giro precedente interrotto.** `apprendimento.json` ha
+> una pota pendente (-268/+161 righe). C'è anche un nuovo script mai aggiunto,
+> `cervello/mirror-fresco.mjs`. Non li ho toccati oltre la segnalazione. `test-cervello.mjs` non è
+> eseguibile qui: non posso validarli.
 >
 > **Non ho rilanciato le 15 fasi pesanti.** `test-cervello.mjs` e gli altri script HARD non elencati
-> per esteso nell'allowlist restano bloccati con "richiede approvazione" in questa sessione (4
-> tentativi su test-cervello.mjs). È lo stesso buco noto delle card #104/#189.
+> per esteso nell'allowlist restano bloccati con "richiede approvazione" in questa sessione. Ho
+> tentato `test-cervello.mjs` 4 volte. È lo stesso buco noto delle card #104/#189.
 >
-> **Il letargo resta in SOPRAVVIVENZA** (quota AI 111% della finestra rolling, salute macchina 4) e
-> il gate **NORTH_STAR** resta in stallo (0 pagati, 78+ giorni): insieme ammettono solo lavoro che
+> **Il letargo resta in SOPRAVVIVENZA.** Quota AI al 111% della finestra rolling, salute macchina 4.
+> Il gate **NORTH_STAR** resta in stallo: 0 pagati, 78+ giorni. Insieme ammettono solo lavoro che
 > avvicina direttamente il primo ordine pagato. Non c'era nulla di nuovo da inseguire.
 >
-> **Segnalato di nuovo, diretto:** è l'11°+ chiamata identica a "giro completo" solo oggi. Consuma
-> quota senza produrre niente di nuovo — probabile causa del SOPRAVVIVENZA.
+> **Segnalato di nuovo, diretto.** È l'11°+ chiamata identica a "giro completo" solo oggi. Consuma
+> quota senza produrre niente di nuovo. È la causa più probabile del livello SOPRAVVIVENZA.
 >
 > **Detto direttamente a Nicola: questa è la decina-e-passa di chiamata identica a "giro completo"
 > solo in giornata di oggi, tutte sugli stessi dati fermi da 77 giorni.** Ogni chiamata su dati
