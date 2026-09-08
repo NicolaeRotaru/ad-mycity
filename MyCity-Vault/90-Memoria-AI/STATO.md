@@ -1,8 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 16:33
-fonte: AD digitale (cadenza: giro completo)
+aggiornato: 2026-09-08 18:00
+fonte: AD digitale (cadenza: report della sera)
 ---
+
+## Report della sera (2026-09-08 18:00)
+Ho riverificato ora in diretta, con una query sul database vero, non a memoria. **1 ordine**: quello
+del 24/6, annullato, €19,05, di Pane Quotidiano. **0 pagati**. 9 profili. 9 prodotti. 2 negozi
+pubblici. Uno è Pane Quotidiano, vero, con Stripe ancora spento. L'altro è "Panificio Demo", il
+negozio fantasma della card #196, invariato dal 5/9. È identico a ieri sera e a tutti i passaggi di
+oggi. **Sono 78 giorni senza un ordine pagato.**
+
+L'unico numero che si è mosso oggi è la distanza fra questo computer e GitHub. Alle 16:33 erano 360
+le scritture di qui mai arrivate là, e 12 quelle di là mai arrivate qui. Ora sono **362/12**
+(verificato ora con `git fetch origin main` + `git rev-list --count`). Nessuna firma nuova di
+Nicola oggi. `DECISIONI.md` resta fermo al 29/8 00:40.
+
+Priorità invariate per domani:
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato.
+2. **#189 — Aggiungi da FUORI la chat le righe di permesso già pronte.** Sblocca gli script fermi.
+3. **#199 — Riallinea main VPS↔GitHub.** Continua a crescere, +2 dal pomeriggio.
+4. **#196 — Decidi su "Panificio Demo".** Invariato da 3 giorni.
 
 ## Prossime priorità (2026-09-08 16:33)
 Nuova chiamata "giro completo", identica nel merito ai passaggi di oggi. Nessun dato di business

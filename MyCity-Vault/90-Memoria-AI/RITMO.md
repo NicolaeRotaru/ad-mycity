@@ -1911,3 +1911,28 @@ Aggiungo una quarta priorità. Il server e GitHub non si parlano da 6 giorni. La
 - Dimmi cosa fare di "Panificio Demo" (`#196`). Lo riconosci o lo cancello?
 
 **Dettagli tecnici** — Riverificato ora via REST (`verifica-sensori.mjs`): `orders`=1, 8/9 sensori ok. PostHog spento per decisione presa il 5/7. Telegram non configurato: entrambi noti, non nuovi. `DECISIONI.md` invariato dal 29/8 00:40: nessuna firma nuova. `AZIONI-IN-ATTESA.md`: nessuna card nuova oltre la `#204`, già chiusa la settimana scorsa. Divergenza main↔GitHub (`#199`): 343 commit locali mai spinti, 12 remoti mai scaricati. Misurata alle 11:55, confermata invariata ora. Questo blocco era rimasto da scrivere da un passaggio precedente interrotto a mezzogiorno in punto (commit `76a079419`). Quel passaggio aveva già aggiornato STATO, SALA-OPERATIVA e Briefing, ma non questo file. Non rilanciate le 15 fasi pesanti del giro: letargo RISPARMIO più gate NORTH_STAR, nessun delta di business da inseguire.
+
+## Report della sera · 2026-09-08 18:00
+
+**Com'è andata oggi**
+- Ancora nessun ordine pagato. Sono 78 giorni di fila. Ho riverificato ora, in diretta, con una query sul database vero. I numeri sono gli stessi di stamattina e di ieri.
+- L'unica cosa che si è mossa oggi va in negativo. La memoria di questo computer e quella su GitHub si allontanano ancora di più. Nel primo pomeriggio erano 360 le scritture di qui mai arrivate là. Ora sono 362.
+- Nessuna tua firma nuova oggi. Le tre priorità di stamattina restano tutte aperte, invariate.
+
+**I numeri**
+- Ordini: 1, lo stesso del 24 giugno, annullato. Pagati: 0.
+- Negozi online: 2. Pane Quotidiano è vero, ma i pagamenti con carta restano spenti. "Panificio Demo" è il negozio finto, invariato da tre giorni.
+- Memoria VPS↔GitHub: 362 scritture di qui non sono mai arrivate là, 12 di là non sono mai arrivate qui. Nel primo pomeriggio erano 360/12.
+
+**Da approvare**
+- Sblocca i pagamenti con carta di Pane Quotidiano. Resta l'unico vero ostacolo tra noi e un cliente che paga davvero.
+- Fai aggiungere, da un computer con accesso diretto (non da questa chat), le righe di permesso già pronte che sbloccano i controlli automatici fermi da una settimana.
+- Dimmi cosa fare di "Panificio Demo": lo riconosci o lo cancello?
+
+**Lezione di oggi**
+- Ripetere lo stesso controllo tante volte sugli stessi dati fermi non porta niente di nuovo: meglio aspettare un cambiamento vero prima di rifarlo.
+
+**Domani**
+- La prima cosa utile resta sempre la stessa: sbloccare i pagamenti con carta di Pane Quotidiano, perché è il passo più vicino a un primo ordine vero.
+
+**Dettagli tecnici** — Riverificato con query SQL diretta su Supabase: `orders`=1, `payment_status='paid'`→0, `profiles`=9, `products`=9, `seller_public_profiles`=2 (Pane Quotidiano `stripe_charges_enabled=false`/`stripe_payouts_enabled=false`; Panificio Demo idem). `git fetch origin main` + `git rev-list --count`: 362 commit locali mai spinti (era 360 alle 16:33), 12 remoti mai scaricati (invariato). `DECISIONI.md` fermo al 2026-08-29 00:40. `AZIONI-IN-ATTESA.md` in cima invariata: #204/#203/#202/#201/#200/#199/#198/#196/#195/#194/#193/#192/#189, nessuna card nuova in questo passaggio. Gate `chiusura-loop.mjs --gate`: verde, entrambi i reparti attivi oggi hanno l'ESITO nel quaderno. Non rilanciate le 15 fasi pesanti del giro: letargo/gate NORTH_STAR invariati, nessun delta di business da inseguire — questo è il report della sera in cadenza, non un nuovo giro completo.
