@@ -5,16 +5,21 @@ fonte: AD digitale (cadenza: giro su richiesta)
 ---
 
 ## Giro delle 12:33 (invariato, ~33min dopo il Punto di mezzogiorno delle 12:00)
-Riverificato dal vivo via SQL diretto: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), **0
-pagati**. Pane Quotidiano Stripe ancora spento (#182). "Panificio Demo" ancora presente, 0 ordini
-(#196). Bit-per-bit identico. Nessuna card nuova in `AZIONI-IN-ATTESA.md` dopo la #206. Refresh solo
-del cancello di serietà (`auto-analisi.json`, era fermo da 37min — gate freschezza-cadenze).
+Ho riverificato dal vivo via SQL diretto. 1 ordine: 24/6, annullato, €19,05, Pane Quotidiano. **0
+pagati.** Pane Quotidiano ha ancora Stripe spento (#182). "Panificio Demo" c'è ancora, 0 ordini
+(#196). Tutto bit-per-bit identico ai passaggi precedenti. Nessuna card nuova dopo la #206.
 
-**Non rilanciate le 15 fasi pesanti**: letargo SOPRAVVIVENZA (quota AI 128% della finestra) + gate
-NORTH_STAR (0 pagati, 78°+ giorno) impongono di tagliare il volume su dati fermi. Questa è circa la
-30ª chiamata "giro completo" documentata in questo file nelle ultime ~30 ore, sempre sugli stessi
-dati. Segnalato di nuovo a Nicola, esplicito, nel TL;DR di chat: conviene diradare le chiamate finché
-#182/#189/#199 non si sbloccano, sono gli unici tre fatti che cambierebbero l'esito di un giro.
+Ho rinfrescato solo `auto-analisi.json`. Era fermo da 37 minuti. Il gate freschezza-cadenze lo
+segnalava.
+
+**Non ho rilanciato le 15 fasi pesanti.** Due motivi insieme. Il letargo è in SOPRAVVIVENZA: la
+quota AI è al 128% della finestra. Il gate NORTH_STAR resta fermo: 0 pagati, 78°+ giorno. Insieme
+ammettono solo lavoro che avvicina il primo ordine pagato. Su dati fermi, le fasi pesanti sarebbero
+solo rumore.
+
+Questa è circa la 30ª chiamata "giro completo" in 30 ore, sempre sugli stessi dati. L'ho segnalato
+di nuovo a Nicola, in chiaro, nel TL;DR. Tre cose soltanto cambierebbero l'esito di un giro: #182,
+#189, #199. Conviene diradare le chiamate finché una delle tre non si sblocca.
 
 Priorità invariate: 1) #182 Stripe Pane Quotidiano 2) #205 conferma pausa negozi 3) #206 CI rosso
 PR #877 4) #199 main↔GitHub 5) #196 Panificio Demo.
