@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-09-09 20:31",
+  "aggiornato": "2026-09-09 21:06",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-09-09",
-    "runs": 17,
+    "runs": 18,
     "token_totali": 0,
-    "durata_sec_totale": 16448,
+    "durata_sec_totale": 18579,
     "voci": [
       {
         "quando": "2026-09-09 06:06",
@@ -160,10 +160,19 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-09-09 21:06",
+        "tipo": "giro",
+        "negozio": "centro",
+        "durata_sec": 2131,
+        "token": 115000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 1000000,
-    "token_per_gate": 1000000,
+    "token_stimati": 1115000,
+    "token_per_gate": 1115000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -547,22 +556,13 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 260000,
+    "token_sessione_rolling": 320000,
     "runs_sessione": 4,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-09-09 20:31"
+    "aggiornato": "2026-09-09 21:06"
   },
   "voci_recenti": [
-    {
-      "quando": "2026-09-09 14:56",
-      "tipo": "giro",
-      "negozio": "centro",
-      "durata_sec": 1423,
-      "token": 55000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
     {
       "quando": "2026-09-09 17:06",
       "tipo": "giro",
@@ -587,6 +587,15 @@
       "negozio": "centro",
       "durata_sec": 1341,
       "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-09-09 21:06",
+      "tipo": "giro",
+      "negozio": "centro",
+      "durata_sec": 2131,
+      "token": 115000,
       "modello": "claude",
       "stima_grezza": true
     }
