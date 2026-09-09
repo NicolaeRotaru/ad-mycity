@@ -1,10 +1,87 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 17:10
+aggiornato: 2026-09-07 22:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🔒 **2026-09-07 22:35 — Sulla carta #177 ho fatto tutto quello che era mio. Resta un interruttore, ed è tuo.**
+>
+> **In parole semplici.** La carta ti chiede di scegliere fra tre strade: A, B o C. Non si possono
+> fare tutte e tre, perché sono alternative. Ho fatto ogni pezzo che potevo fare io, su tutte e tre.
+>
+> **La cosa nuova che ho scoperto.** Nella carta c'era scritto che com'è messa adesso l'impostazione
+> non la potevo leggere. Ho riprovato da un'altra porta, e si legge. Sul repo del sito una regola
+> esiste già, dal 26 maggio, e non ha mai protetto niente: è spenta, non punta a nessun ramo, e
+> pretende un controllo di nome «Main» che non esiste. Se qualcuno la accendesse così com'è, ogni
+> unione resterebbe bloccata per sempre, in attesa di un controllo che non arriva mai.
+>
+> **Cosa ho fatto.** La strada A per intero: il conto degli scavalchi guardava solo la macchina, e
+> del sito non contava nessuno. Adesso conta tutti e due. Prima misura del sito: sette lavori su 110
+> sono entrati con la prova rossa, il 6,4%, l'ultimo il 20 luglio. Quel sette è un tetto: se sale, il
+> giro si ferma. Per la B e la C ho preparato i passi esatti sui due repo, coi nomi veri dei
+> controlli da spuntare.
+>
+> **Cosa devi fare.** Scrivermi la lettera, e girare tu l'interruttore. Da qui non posso: l'ho
+> riprovato oggi e GitHub mi ha risposto no su tutti e due i repo. Consiglio la B. Restano aperti i
+> 150 problemi del sito, 2 bloccanti, e la carta **#191** per il database.
+>
+> **Cosa non ho verificato.** Che tu riesca davvero a scavalcare quando serve: si vede solo al primo
+> lavoro dopo che l'hai accesa.
+
+> ↩️ **2026-09-07 21:30 — Ho dichiarato chiuso il terzo bloccante troppo presto. È ancora aperto.**
+>
+> **In parole semplici.** Alle 19:05 ti avevo scritto che restava un bloccante solo. Non è vero:
+> sono di nuovo due. La riparazione che avevo fatto non ha retto, e l'ho tolta.
+>
+> **Cosa era, e cosa è successo.** I segreti di Vercel non li posso mettere io, quindi avevo messo
+> il cancello dove non servono: dentro il build, facendo girare le prove prima di compilare. Avevo
+> detto che la prova sarebbe stata l'anteprima. L'anteprima ha fatto fallire 104 prove.
+>
+> **Perché.** Quella suite è scritta per l'ambiente della CI, dove certe variabili non ci sono. Il
+> costruttore di Vercel invece ha addosso le variabili del progetto. Non erano difetti veri: era il
+> posto sbagliato dove farle girare.
+>
+> **Un esempio concreto.** C'è una prova che controlla da quale indirizzo parte la posta. In CI la
+> variabile del mittente non è impostata, e la prova verifica che il sito ripieghi sul dominio
+> pubblico. Su Vercel quella variabile c'è, quindi la prova trovava un valore che non si aspettava e
+> cadeva. Era verde in CI cinquanta minuti prima.
+>
+> **Cosa cambia per te.** Il conto torna a 150 problemi aperti e 2 bloccanti. Restano due
+> miglioramenti veri di quel giro: un test che era orfano adesso gira in CI, e un'avvertenza falsa
+> nel workflow è corretta.
+>
+> **Cosa devi fare.** La carta **#177**, che era già in coda dal 26 agosto e adesso vale doppio:
+> il controllo che ferma invece di avvisare chiude quel bloccante alla radice, senza nessun segreto.
+> Ti serve solo scrivermi A, B o C. E resta la **#191** per il database.
+>
+> **Cosa non ho verificato.** Che i nomi dei controlli da rendere obbligatori siano scritti identici
+> nella schermata di GitHub: li ho letti dai lavori della CI, non da quella pagina.
+
+> 🛡️ **2026-09-07 19:05 — Chiuso anche il terzo bloccante: ne resta uno solo.**
+>
+> **In parole semplici.** Il difetto era che un test rosso poteva finire in produzione. La
+> strada scritta nella scheda passava dai tuoi segreti, e stasera quei segreti mancavano
+> ancora. Ho chiuso il difetto da un'altra parte, dove non serve niente da te.
+>
+> **Un esempio concreto.** Se domani una prova sul carrello diventa rossa e qualcuno unisce
+> lo stesso, prima quel codice andava online in trenta secondi. Adesso la compilazione si
+> ferma e Vercel non ha niente da pubblicare.
+>
+> **Cosa cambia per te.** Il conto del sito scende a 149 problemi aperti, e i bloccanti da
+> due a uno. L'unico rimasto è il database di produzione, ed è la carta #191.
+>
+> **Una cosa che ho misurato e cambia il racconto.** Il buco era più stretto di come lo
+> diceva la scheda. Vercel faceva già girare il controllo dei tipi ed eslint: un errore di
+> tipo si fermava da solo. A non girare erano solo le prove. Saperlo è quello che mi ha
+> permesso di chiuderlo senza aspettarti.
+>
+> **Cosa devi fare.** Guardare che l'anteprima della richiesta 254 si costruisca verde, poi
+> unirla. E i tre passi della carta #191, che restano l'unica cosa davvero bloccante.
+>
+> **Cosa non ho verificato.** Che le prove riescano a girare sul costruttore di Vercel:
+> l'ho dedotto, non visto. Se sbaglio si vede nell'anteprima, non in produzione.
 
 > 🚦 **2026-09-07 17:10 — I bloccanti del sito sono due, non tre: il sito è vivo e raggiungibile.**
 >
