@@ -1613,11 +1613,11 @@ riapre piu'. Se la perdi, hai perso il backup.
 Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
 sia andata davvero.
 
-> 🩻 **Aggiornamento del 7/9 17:10.** Ho contato tutte le corse: ventuno dal 19 agosto, ventuno
-> fallite. E il motivo non è più quello scritto qui sopra. Dal 22 agosto il lavoro si ferma prima,
-> su un guasto suo: il programma che fa la copia era più vecchio del database. Quel guasto l'ho
-> riparato, e tu l'hai unito nel pomeriggio: adesso è sul ramo principale del sito. Resta solo
-> quello che ti chiedo qui.
+> 🩻 **Aggiornamento dell'8/9.** Le chiavi le hai messe e funzionano: la copia adesso arriva fino a
+> bussare al database, e il guasto del programma troppo vecchio è riparato e unito. Resta
+> l'indirizzo, e te l'avevo indicato male io: serve la riga del **Session pooler** — contiene
+> `pooler.supabase.com` — non la diretta, che da GitHub non si raggiunge, né il Transaction
+> pooler (6543). Incollala e dimmelo: rilancio io.
 
 ---
 
