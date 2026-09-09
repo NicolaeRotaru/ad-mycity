@@ -1,8 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 11:56
-fonte: AD digitale (cadenza: giro completo)
+aggiornato: 2026-09-09 12:00
+fonte: AD digitale (cadenza: Punto di mezzogiorno)
 ---
+
+## Punto di mezzogiorno delle 12:00 (cadenza vera, cervello/ritmo.md)
+Ho ripreso il piano del mattino. Le 3 cose di oggi erano #182 Stripe, #189 permessi Bash, #199
+main↔GitHub. Sono tutte e tre ancora ferme. Nessuna firma di Nicola è arrivata nel mezzo.
+
+Ho riverificato i dati dal vivo con una query SQL diretta. Sono identici al giro delle 11:56: 1
+ordine, 0 pagati, 2 seller profiles, 407 lead su 407 ancora `to_contact`. Non c'è nessuna card nuova
+in `AZIONI-IN-ATTESA.md` dopo la #206, aperta alle 11:53. `DECISIONI.md` resta fermo dal 29/8 00:40.
+
+L'unico numero che si è mosso è la divergenza main↔GitHub. È peggiorata di nuovo. Alle 11:15 erano
+378 i commit locali mai spinti su GitHub e 13 quelli remoti mai scaricati. Ora sono **385 locali e 13
+remoti**.
+
+Non serve nessuna correzione di rotta. La coda resta pulita. Oggi non c'è nessun lavoro verde rapido
+che sblocchi il pomeriggio. Le tre leve vere restano fuori dalla portata di questa sessione.
+
+Priorità invariate:
+1. **#182** — sblocca Stripe per Pane Quotidiano.
+2. **#205** — conferma se la pausa sui negozi è davvero finita.
+3. **#206** — il CI è rosso. Va riparato. Non blocca la memoria.
+4. **#199** — main e GitHub restano disallineati. Ora sono 385 commit locali e 13 remoti.
+5. **#196** — decidi cosa fare di "Panificio Demo".
+
+Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 ## Giro delle 11:56 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 11:15)
 Ho riverificato dal vivo con query SQL dirette su supabase-marketplace. I dati sono identici a quelli

@@ -1958,3 +1958,29 @@ Aggiungo una quarta priorità. Il server e GitHub non si parlano da 6 giorni. La
 - La prima cosa utile resta sempre la stessa: appena arriva una delle tre firme, si riparte da lì.
 
 **Dettagli tecnici** — #182 Stripe Pane Quotidiano (`stripe_charges_enabled=false`, ~31 giorni) · #189 20 righe di permesso pronte in `.claude/settings.json` (vedi card #189) · #199 main↔GitHub 370 commit locali/12 remoti (era 368/12 ieri sera, verificato con `git fetch origin main` + `git rev-list --count`) · #196 seller_id `44444444-4444-4444-4444-aaaaaaaa0001`, 0 ordini collegati. Dati riverificati dal vivo con `verifica-sensori.mjs` (REST): `orders`=1, 0 pagati, identico a tutta la giornata di ieri. `DECISIONI.md` fermo al 2026-08-29 00:40. Non rilanciate le 15 fasi pesanti del giro: letargo/gate NORTH_STAR invariati, nessun delta di business da inseguire.
+
+## Punto di mezzogiorno · 2026-09-09 12:00
+
+**Le 3 cose del mattino, a che punto sono:**
+1. Stripe di Pane Quotidiano — ❌ ancora ferma. Nessuna firma nel mezzo.
+2. Sbloccare i controlli automatici (permessi da fuori la chat) — ❌ ancora ferma.
+3. Riallineare questo computer con GitHub — ❌ peggiorata. Erano 370 scritture mai arrivate là stamattina, ora sono 385.
+
+**Correzioni di rotta.** Nessuna. Ho riverificato i dati adesso, sul database vero: sono identici a
+stamattina, un solo ordine, zero pagati. Non c'è niente di nuovo da rincorrere né da riassegnare — le
+tre cose bloccate restano bloccate per lo stesso motivo di stamattina, e nessun reparto ha lavoro
+pesante nuovo da fare finché una delle tre non si sblocca.
+
+**Una cosa in più oggi.** Il controllo che dice "il codice è pronto per andare online" è rosso da tre
+volte di fila (l'ho segnalato con la card #206). Non blocca la memoria, ma blocca ogni futura modifica
+al sito finché resta così.
+
+**Serve da te entro sera:**
+- Una delle tre firme di stamattina (Stripe, permessi, o un accesso diretto al computer per GitHub).
+- Due risposte veloci: la pausa sui negozi (iniziata a luglio) è finita? E il negozio finto "Panificio
+  Demo" nel database — lo cancello o lo lasci?
+
+**Dettagli tecnici** — dati riverificati con query SQL dirette su Supabase: `orders`=1, 0 pagati, 2
+seller profiles, 407/407 lead `to_contact`. `git fetch origin main` + `git rev-list --count`:
+385 commit locali mai spinti / 13 remoti mai scaricati (era 378/13 alle 11:15). `AZIONI-IN-ATTESA.md`
+senza card nuove dopo la #206 (11:53). `DECISIONI.md` fermo al 2026-08-29 00:40.

@@ -25,25 +25,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- ci-diventato-cronico -->
 ### 🟡 #206 — Il controllo che dice "il codice è pronto per andare online" è rosso da 3 controlli di fila, e nessuno l'ha ancora riparato · ⏳ accodata 2026-09-09 11:53
 
-**In parole semplici.** C'è un controllo automatico (si chiama "CI") che prova il codice prima che vada
-online, un po' come un collaudo prima di consegnare un'auto. Da tre controlli di fila risulta rosso: la
-prova più recente è sulla richiesta di unione numero 877 ("Le prove ballerine erano la rete, non
-l'ordine…"), dove sia i test del cervello sia il typecheck del Pannello finiscono male. Non è la prima
-volta di oggi che lo segnalo — è la terza — e finora nessuno l'ha ancora sistemato.
+**In parole semplici.** C'è un controllo automatico che si chiama "CI". Prova il codice prima che vada
+online. È un po' come il collaudo prima di consegnare un'auto. Da tre controlli di fila risulta rosso.
+La prova più recente è sulla richiesta di unione numero 877. Lì sia i test del cervello sia il
+typecheck del Pannello finiscono male. Questa è la terza volta oggi che lo segnalo. Finora nessuno
+l'ha ancora sistemato.
 
-**Cosa cambia per te.** Finché resta rosso, quella richiesta di unione (e ogni altra dopo di lei) non è
-sicura da mergiare: rischi di portare online codice che si rompe da solo. Il lavoro di memoria (questo
-giro) non ne risente — viaggia su un binario diverso — ma il lavoro sul codice del sito/Pannello resta
-fermo dietro questo semaforo rosso.
+**Cosa cambia per te.** Finché resta rosso, quella richiesta di unione non è sicura da mergiare. Lo
+stesso vale per ogni altra richiesta che arrivi dopo. Il rischio è portare online codice che si rompe
+da solo. Il lavoro di memoria di questo giro non ne risente: viaggia su un binario diverso. Il lavoro
+sul codice del sito e del Pannello, invece, resta fermo dietro questo semaforo rosso.
 
-**Cosa devi fare.** Non serve una firma tua adesso: serve che qualcuno (io, con @tech/@devops-sre, alla
-prossima finestra buona) apra la PR #877, legga l'elenco dei controlli falliti e li rimetta a posto uno
-per uno, poi rilanci il controllo finché non torna verde. Se preferisci che me ne occupi ora invece di
-aspettare, dimmelo con "ok 206" e lo metto in cima.
+**Cosa devi fare.** Non serve una firma tua adesso. Serve che qualcuno apra la PR 877, legga l'elenco
+dei controlli falliti e li rimetta a posto uno per uno. Poi serve rilanciare il controllo, finché non
+torna verde. Me ne posso occupare io, insieme a @tech e @devops-sre, alla prossima finestra buona. Se
+preferisci che me ne occupi subito invece di aspettare, scrivimi "ok 206" e lo metto in cima.
 
 **Cosa non ho verificato.** Non ho ancora aperto il dettaglio dei singoli test falliti dentro la PR
-877 (serve un giro dedicato, non un'occhiata di passaggio) — qui registro solo che il semaforo è rosso
-da 3 controlli e non si sistema da solo.
+877. Serve un giro dedicato, non un'occhiata di passaggio. Qui registro solo che il semaforo è rosso
+da 3 controlli, e che non si sistema da solo.
 
 🔧 **Dettagli tecnici:** `node cervello/ci-stato.mjs --json` (allowlistato) → PR #877
 (`claude/analisi-ci-aperte-hywz8i` → `main`, sha `d15425aa2`): 2/2 controlli rossi ("prove, guardiani e
