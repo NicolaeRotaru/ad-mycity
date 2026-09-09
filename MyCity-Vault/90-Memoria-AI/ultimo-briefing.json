@@ -1,15 +1,15 @@
 {
-  "data": "2026-09-09 14:45",
-  "situazione": "78°+ giorno di calendario di stallo North Star. Dati bit-per-bit identici a tutti i passaggi di oggi (letti dai sensori appena rinfrescati da giro.sh alle 14:20/14:33, non ri-interrogati a vuoto): 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili, 8/8 sensori dati sani. Nessuna card nuova, nessuna firma nuova di Nicola. Unico numero in movimento: la divergenza main↔GitHub, ora 395 commit locali mai spinti/13 remoti mai scaricati (era 385/13 a mezzogiorno). Questa è oltre la 30ª chiamata 'giro completo' identica in ~30 ore: il pattern stesso è probabilmente la prima causa della SOPRAVVIVENZA in cui si trova la macchina.",
+  "data": "2026-09-09 18:34",
+  "situazione": "77° giorno di calendario di stallo North Star. Dati bit-per-bit identici al Report della sera di 34 minuti fa, riverificati ora dal vivo con query SQL dirette su Supabase: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili, 4 carrelli abbandonati, 0 recensioni. Nessuna card nuova, nessuna firma nuova di Nicola. Unico numero in movimento: la divergenza main↔GitHub, ora 401 commit locali mai spinti/13 remoti mai scaricati (era 399/13 alle 18:00).",
   "opportunita": [
-    {"titolo": "Far ripartire il contatto dei 407 negozi in lista d'attesa", "motivo": "la pausa che lo bloccava è scaduta da 8 giorni (card #205) — leva ferma indipendente dal blocco Stripe", "impatto": "medio", "sforzo": "medio"},
-    {"titolo": "Diradare le chiamate a giro completo su dati fermi", "motivo": "oltre 30 chiamate identiche in 30 ore sugli stessi dati consumano la quota AI che ha portato la macchina in SOPRAVVIVENZA, senza produrre informazione nuova", "impatto": "alto", "sforzo": "basso"}
+    {"titolo": "Far ripartire il contatto dei 407 negozi in lista d'attesa", "motivo": "la pausa che lo bloccava è scaduta da 9 giorni (card #205) — leva ferma indipendente dal blocco Stripe", "impatto": "medio", "sforzo": "medio"},
+    {"titolo": "Diradare le chiamate a giro completo su dati fermi", "motivo": "decine di chiamate identiche sugli stessi dati consumano la quota AI che tiene la macchina in RISPARMIO/SOPRAVVIVENZA, senza produrre informazione nuova", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
     {"titolo": "Sblocca i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — unico blocco confermato tra i dati di oggi e il primo ordine pagato", "livello": "rosso"},
-    {"titolo": "Conferma se la pausa sui negozi è finita davvero", "motivo": "la data che avevi fissato (24 agosto-1 settembre) è passata da 8 giorni, i 407 lead restano a zero", "livello": "giallo"},
-    {"titolo": "Fai riparare il controllo di qualità del codice rimasto rosso", "motivo": "3 controlli di fila falliti sulla PR #877 — finché resta rosso nessuna richiesta di unione sul codice è sicura da mergiare", "livello": "giallo"},
-    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati, giorni senza risposta", "livello": "giallo"},
-    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub", "motivo": "divergenza in crescita continua, ora 395 commit locali mai spinti / 13 remoti mai scaricati", "livello": "rosso"}
+    {"titolo": "Aggiungi da fuori la chat le righe di permesso già pronte", "motivo": "senza queste righe la macchina non può far girare i propri controlli automatici (test, gate, sensori) durante il giro", "livello": "giallo"},
+    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub", "motivo": "divergenza in crescita continua, ora 401 commit locali mai spinti / 13 remoti mai scaricati", "livello": "rosso"},
+    {"titolo": "Conferma se la pausa sui negozi è finita davvero", "motivo": "la data che avevi fissato (24 agosto-1 settembre) è passata da 9 giorni, i 407 lead restano a zero", "livello": "giallo"},
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati, giorni senza risposta", "livello": "giallo"}
   ]
 }

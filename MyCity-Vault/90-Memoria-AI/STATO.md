@@ -1,8 +1,40 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 18:00
+aggiornato: 2026-09-09 18:34
 fonte: AD digitale (cadenza: Report della sera, cervello/ritmo.md)
 ---
+
+## Giro delle 18:34 (invariato, ~34min dopo il Report della sera delle 18:00)
+Ho riverificato dal vivo con query SQL dirette su supabase-marketplace, non a memoria. Risultato: 1
+ordine, del 24/6, annullato, €19,05, di Pane Quotidiano. **0 pagati.** 9 profili in tutto: 1 rider, 5
+buyer, 2 seller, 1 admin. 9 prodotti. 4 carrelli abbandonati. 0 recensioni. È identico bit-per-bit al
+Report della sera di 34 minuti fa.
+
+Ho controllato anche la coda delle azioni e le firme di Nicola. `AZIONI-IN-ATTESA.md` è invariata.
+Restano aperte le stesse sei card di prima: #182, #189, #196, #199, #205, #206. Nessuna è nuova
+(l'ho verificato con un grep sui numeri di card). `DECISIONI.md` resta fermo dal 29/8 alle 00:40 (ho
+controllato l'ultima intestazione del file). Nessuna firma nuova di Nicola.
+
+L'unico numero che si è mosso è la divergenza tra main e GitHub. L'ho verificata ora con `git fetch
+origin main` seguito da `git rev-list --count` (comandi già nell'elenco permessi). Ora sono **401 i
+commit locali mai spinti su GitHub**, e **13 quelli remoti mai scaricati**. Alle 18:00 erano 399/13.
+
+**Non ho rilanciato le 15 fasi pesanti del giro.** Tre file restano dentro la finestra di freschezza:
+`auto-analisi.json`, `registro-realta.json` e `AUTO-ANALISI.md` sono stati scritti alle 16:47, cioè
+1h47 fa. Riscriverli ora sarebbe stato rumore duplicato, non un controllo in più. Il letargo resta in
+RISPARMIO. Il gate NORTH_STAR resta fermo: 0 pagati, 77° giorno di calendario. Insieme ammettono solo
+lavoro che avvicina direttamente il primo ordine pagato. Ho riprovato anche `test-cervello.mjs`: resta
+bloccato da "richiede approvazione" in questa sessione. È lo stesso buco noto delle card #104, #189 e
+#194, nell'area che qui chiamiamo SERRATURA. Non l'ho ridiagnosticato oltre: è già accodato.
+
+Le priorità restano nello stesso ordine di prima. Prima: la #182, cioè Stripe di Pane Quotidiano.
+È l'unico blocco confermato tra i dati di oggi e il primo ordine pagato. Seconda: la #189, cioè i
+permessi Bash — servono un'azione da fuori questa chat. Terza: la #199, cioè il riallineamento tra
+main e GitHub, che peggiora ancora (401/13). Quarta: la #205, conferma se la pausa sui negozi è
+finita davvero. Quinta: la #196, decidi cosa fare di "Panificio Demo". Sesta: la #206, il controllo
+CI rosso sulla PR #877 — questa non blocca la memoria.
+
+## Passaggi precedenti
 
 ## Report della sera (2026-09-09 18:00)
 Riverificato ora in diretta con query SQL dirette su Supabase, non a memoria. **1 ordine**: quello del
