@@ -1,15 +1,15 @@
 {
-  "data": "2026-09-09 11:15",
-  "situazione": "78° giorno di calendario di stallo North Star. Dati riverificati dal vivo via SQL diretto: bit-per-bit identici al passaggio delle 10:35 e a tutti i passaggi precedenti di oggi — 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili, 407 lead negozi ancora tutti mai contattati (card #205 in attesa). Nessuna card nuova, nessuna firma nuova di Nicola. Cancello di serietà riscritto con timestamp fresco. Unico numero in movimento: la divergenza main↔GitHub, ora 378 commit locali mai spinti/13 remoti mai scaricati.",
+  "data": "2026-09-09 14:45",
+  "situazione": "78°+ giorno di calendario di stallo North Star. Dati bit-per-bit identici a tutti i passaggi di oggi (letti dai sensori appena rinfrescati da giro.sh alle 14:20/14:33, non ri-interrogati a vuoto): 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili, 8/8 sensori dati sani. Nessuna card nuova, nessuna firma nuova di Nicola. Unico numero in movimento: la divergenza main↔GitHub, ora 395 commit locali mai spinti/13 remoti mai scaricati (era 385/13 a mezzogiorno). Questa è oltre la 30ª chiamata 'giro completo' identica in ~30 ore: il pattern stesso è probabilmente la prima causa della SOPRAVVIVENZA in cui si trova la macchina.",
   "opportunita": [
     {"titolo": "Far ripartire il contatto dei 407 negozi in lista d'attesa", "motivo": "la pausa che lo bloccava è scaduta da 8 giorni (card #205) — leva ferma indipendente dal blocco Stripe", "impatto": "medio", "sforzo": "medio"},
-    {"titolo": "Sbloccare i controlli automatici di qualità con un intervento di 5 minuti fuori dalla chat", "motivo": "causa certa: righe di permesso letterali in un file che nessuna sessione può toccare da sola — elenco pronto nella card #189, ora con la prova che il blocco costa quota reale (50+ giri pieni a vuoto)", "impatto": "alto", "sforzo": "basso"}
+    {"titolo": "Diradare le chiamate a giro completo su dati fermi", "motivo": "oltre 30 chiamate identiche in 30 ore sugli stessi dati consumano la quota AI che ha portato la macchina in SOPRAVVIVENZA, senza produrre informazione nuova", "impatto": "alto", "sforzo": "basso"}
   ],
   "azioni": [
     {"titolo": "Sblocca i pagamenti con carta di Pane Quotidiano", "motivo": "fermo da oltre 30 giorni — unico blocco confermato tra i dati di oggi e il primo ordine pagato", "livello": "rosso"},
     {"titolo": "Conferma se la pausa sui negozi è finita davvero", "motivo": "la data che avevi fissato (24 agosto-1 settembre) è passata da 8 giorni, i 407 lead restano a zero", "livello": "giallo"},
-    {"titolo": "Sblocca da fuori la chat i permessi che tengono fermi i controlli di qualità della macchina", "motivo": "il file dei permessi vieta a se stesso di essere modificato, serve un accesso diretto al disco (VPS/editor)", "livello": "giallo"},
-    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati, 5° giorno senza risposta", "livello": "giallo"},
-    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub", "motivo": "divergenza in crescita continua, ora 376 commit locali mai spinti / 13 remoti mai scaricati", "livello": "rosso"}
+    {"titolo": "Fai riparare il controllo di qualità del codice rimasto rosso", "motivo": "3 controlli di fila falliti sulla PR #877 — finché resta rosso nessuna richiesta di unione sul codice è sicura da mergiare", "livello": "giallo"},
+    {"titolo": "Decidi cosa fare del negozio finto comparso nel database", "motivo": "\"Panificio Demo\" resta senza origine nota, 0 ordini collegati, giorni senza risposta", "livello": "giallo"},
+    {"titolo": "Riallinea il ramo main del VPS con quello di GitHub", "motivo": "divergenza in crescita continua, ora 395 commit locali mai spinti / 13 remoti mai scaricati", "livello": "rosso"}
   ]
 }

@@ -1,8 +1,43 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 12:33
+aggiornato: 2026-09-09 14:45
 fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 14:45 (invariato, dopo il recupero delle 14:20 "scritture pendenti da un giro interrotto")
+Non ho ri-interrogato il database una terza volta. I sensori erano già freschi. Li ha rinfrescati il
+pre-step di `giro.sh`, 25 minuti prima (14:20/14:33). Dicono: **1 ordine, 0 pagati**, 9 clienti, 8
+sensori su 8 sani (mcp_stripe cieco da 3 giri, noto, non blocca). È identico, bit per bit, alla firma
+dell'1/9. In `AZIONI-IN-ATTESA.md` le card più recenti restano due: #206 (CI rosso sulla PR #877) e
+#205 (pausa negozi scaduta). Nessuna card nuova.
+
+Un solo numero l'ho verificato dal vivo in questo passaggio: la divergenza main↔GitHub. È peggiorata
+ancora. Ora sono **395 commit locali mai spinti su GitHub** e **13 remoti mai scaricati** (era 385/13
+a mezzogiorno).
+
+Ho rinfrescato il cancello di serietà: `auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`.
+Erano fermi dalle 12:33, quindi da circa 2 ore. Il gate freschezza-cadenze lo segnalava come HARD in
+cima alla sessione. `apprendimento.json` invece era già fresco (14:32, da un passaggio concorrente):
+non l'ho toccato.
+
+**Non ho rilanciato le 15 fasi pesanti.** Due freni lo impongono insieme. Il letargo resta in
+SOPRAVVIVENZA: quota AI oltre il 128%. Il gate NORTH_STAR resta fermo: 0 pagati al 78°+ giorno.
+Insieme ammettono solo lavoro che avvicina il primo ordine pagato. Su dati fermi le fasi pesanti
+sarebbero solo rumore. Questa è oltre la 30ª chiamata "giro completo" identica documentata in questo
+file nelle ultime ~30 ore.
+
+**Lo dico di nuovo, diretto, a Nicola.** Il pattern di queste chiamate ravvicinate e identiche è
+probabilmente la prima causa della SOPRAVVIVENZA in cui si trova la macchina. Non è un guasto
+nascosto. Ogni "fai un giro" su dati fermi da 78 giorni consuma quota vera. Letture, scritture di
+memoria, questo stesso file: tutto quanto costa, e non produce nessuna informazione nuova. Diradare
+le chiamate su questi identici dati è, a conti fatti, l'azione più efficace disponibile ora per far
+scendere la quota AI e uscire dalla SOPRAVVIVENZA.
+
+Priorità invariate: 1) #182 Stripe Pane Quotidiano 2) #205 conferma pausa negozi 3) #206 CI rosso PR
+#877 4) #199 main↔GitHub (395/13, peggiora ogni volta) 5) #196 Panificio Demo. Tutte e cinque
+richiedono un'azione di Nicola fuori da questa chat: nessuna sessione può sbloccarle da sola.
+
+## Passaggi precedenti
 
 ## Giro delle 12:33 (invariato, ~33min dopo il Punto di mezzogiorno delle 12:00)
 Ho riverificato dal vivo via SQL diretto. 1 ordine: 24/6, annullato, €19,05, Pane Quotidiano. **0

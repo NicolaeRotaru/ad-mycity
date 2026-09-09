@@ -1,9 +1,9 @@
 ---
 tipo: supervisione-negozi
-data: 2026-09-09 12:28
+data: 2026-09-09 14:30
 ---
 
-# 🛡️ Supervisione negozi & prodotti — 2026-09-09 12:28
+# 🛡️ Supervisione negozi & prodotti — 2026-09-09 14:30
 
 > La macchina ha vegliato ogni negozio e ogni prodotto, e ha trovato i dati mancanti.
 > Sotto trovi le **proposte pronte**: il riempimento automatico che aspetta il tuo ok.

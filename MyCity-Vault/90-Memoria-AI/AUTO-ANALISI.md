@@ -1,6 +1,33 @@
 ---
-data: 2026-09-09 11:56
+data: 2026-09-09 14:45
 ---
+
+## Giro 2026-09-09 14:45 (nuova chiamata "esegui giro.md per intero", dopo il recupero delle 14:20)
+
+**Voto di fiducia: 75/100** (stabile). Dati di business bit-per-bit identici alla firma dell'1/9.
+
+- **Non ho ri-interrogato il database una terza volta a vuoto.** I sensori erano già freschi. Li ha
+  rinfrescati il pre-step di `giro.sh`, 25 minuti prima (14:20/14:33). Dicono: 1 ordine (24/6,
+  annullato, €19,05), 0 pagati, 9 clienti, 8 sensori su 8 sani. Riverificare col MCP sugli stessi
+  numeri sarebbe stato solo rumore.
+- **Un solo numero l'ho verificato dal vivo in questo passaggio: la divergenza main↔GitHub.** Uso
+  `git fetch` + `git rev-list`, comandi già permessi. È peggiorata ancora. Ora sono **395 commit
+  locali mai spinti su GitHub** e **13 remoti mai scaricati** (era 385/13 a mezzogiorno). È la card
+  #199, causa già nota.
+- **Ho richiuso di nuovo il buco obbligatorio di freschezza-cadenze.** `auto-analisi.json` e
+  `registro-realta.json` erano fermi dalle 12:33, quindi da circa 2 ore. Il vincolo HARD in cima alla
+  sessione lo segnalava. Li ho riscritti ora. `apprendimento.json` invece era già fresco (14:32,
+  scritto da un passaggio o un worker concorrente): non l'ho toccato, per non produrre rumore doppio.
+- **`test-cervello.mjs` e `gh pr view/list --json` restano bloccati o negati in questa sessione.** È
+  lo stesso buco noto delle card #104/#189. Un tentativo per ciascuno, non ridiagnosticato oltre.
+- **Non ho rilanciato le 15 fasi pesanti.** Due freni lo impongono insieme. Il letargo resta in
+  SOPRAVVIVENZA: quota AI oltre il 128% della finestra, salute macchina a 4. Il gate North Star resta
+  fermo: 0 pagati al 78°+ giorno. Insieme ammettono solo lavoro che avvicina il primo ordine pagato.
+  Nessun dato nuovo lo giustifica oggi. Nessuna card nuova aperta. Le stesse cinque priorità restano
+  ferme: #182 Stripe, #205 pausa negozi, #206 CI rosso, #199 divergenza git, #196 Panificio Demo.
+  Tutte e cinque restano fuori dalla portata di questa sessione.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-09 11:56 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 11:15)
 
