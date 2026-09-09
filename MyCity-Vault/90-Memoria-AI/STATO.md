@@ -1,8 +1,25 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 12:00
-fonte: AD digitale (cadenza: Punto di mezzogiorno)
+aggiornato: 2026-09-09 12:33
+fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 12:33 (invariato, ~33min dopo il Punto di mezzogiorno delle 12:00)
+Riverificato dal vivo via SQL diretto: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), **0
+pagati**. Pane Quotidiano Stripe ancora spento (#182). "Panificio Demo" ancora presente, 0 ordini
+(#196). Bit-per-bit identico. Nessuna card nuova in `AZIONI-IN-ATTESA.md` dopo la #206. Refresh solo
+del cancello di serietà (`auto-analisi.json`, era fermo da 37min — gate freschezza-cadenze).
+
+**Non rilanciate le 15 fasi pesanti**: letargo SOPRAVVIVENZA (quota AI 128% della finestra) + gate
+NORTH_STAR (0 pagati, 78°+ giorno) impongono di tagliare il volume su dati fermi. Questa è circa la
+30ª chiamata "giro completo" documentata in questo file nelle ultime ~30 ore, sempre sugli stessi
+dati. Segnalato di nuovo a Nicola, esplicito, nel TL;DR di chat: conviene diradare le chiamate finché
+#182/#189/#199 non si sbloccano, sono gli unici tre fatti che cambierebbero l'esito di un giro.
+
+Priorità invariate: 1) #182 Stripe Pane Quotidiano 2) #205 conferma pausa negozi 3) #206 CI rosso
+PR #877 4) #199 main↔GitHub 5) #196 Panificio Demo.
+
+## Passaggi precedenti
 
 ## Punto di mezzogiorno delle 12:00 (cadenza vera, cervello/ritmo.md)
 Ho ripreso il piano del mattino. Le 3 cose di oggi erano #182 Stripe, #189 permessi Bash, #199
