@@ -1,0 +1,535 @@
+{
+  "_cosa_e": "I pacchetti di un lotto: una squadra per pacchetto, cinque squadre per ondata. Lo scrive cervello/pacchetti-lotto.mjs.",
+  "generato": "2026-09-08 06:19",
+  "registro": "sito",
+  "aperti": 150,
+  "prova_umana": null,
+  "_prova_umana": "non misurata: le schede del sito non hanno il campo verifica",
+  "solo_gravi": true,
+  "quota": 40,
+  "coperti": 40,
+  "fuori": 0,
+  "coppie_che_si_toccano": [
+    [
+      "app/api/cron/process-deletions/route.ts",
+      "app/api/cron/operational-alerts/route.ts",
+      [
+        "app/api/cron/operational-alerts/route.ts"
+      ]
+    ],
+    [
+      "app/api/cron/process-deletions/route.ts",
+      "lib/cron-cancellazioni.ts",
+      [
+        "lib/cron-cancellazioni.ts"
+      ]
+    ],
+    [
+      "app/rider/onboarding/page.tsx",
+      "app/terms/page.tsx",
+      [
+        "app/terms/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/api/stripe/checkout/route.ts",
+      [
+        "app/api/stripe/checkout/route.ts"
+      ]
+    ],
+    [
+      "app/admin/orders/page.tsx",
+      "app/admin/users/page.tsx",
+      [
+        "app/admin/users/page.tsx"
+      ]
+    ],
+    [
+      "app/admin/coupons/page.tsx",
+      "app/admin/sponsored/page.tsx",
+      [
+        "app/admin/sponsored/page.tsx"
+      ]
+    ]
+  ],
+  "ondate": [
+    [
+      {
+        "chiave": "app/api/cron/process-deletions/route.ts",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+            "titolo": "Il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "migrations/115_privacy_radiografia.sql:64-69 · migrations/073_activity_tracking.sql:47-110 · app/api/cron/process-deletions/route.ts:182-186",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|se la tabella della cassa contanti non si legge — tutte le cancellazioni account passano per «rinvio deciso da noi»: verdetto verde — battito scritto — nessuno svegliato",
+            "titolo": "Se la tabella della cassa contanti non si legge — TUTTE le cancellazioni account passano per «rinvio deciso da noi»: verdetto verde — battito scritto — nessuno svegliato",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/cron/process-deletions/route.ts:334 (catena: lib/account/cancellazione.ts:446-462 e :528, lib/cron-cancellazioni.ts:114)",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|la notte che fallisce spegne il battito — e il sorvegliante annuncia «process-deletions fermo: scheduler o deploy down?» mentre il lavoro gira ogni notte — e non si spegne piu' da solo",
+            "titolo": "La notte che fallisce spegne il battito — e il sorvegliante annuncia «process-deletions fermo: scheduler o deploy down?» mentre il lavoro gira ogni notte — e non si spegne piu' da solo",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/cron/process-deletions/route.ts:364 (letto da lib/api/middleware.ts:494 e app/api/cron/operational-alerts/route.ts:303-309)",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|il giro notturno delle pulizie privacy puo' saltarne sei su otto e rispondere lo stesso «tutto a posto»",
+            "titolo": "Il giro notturno delle pulizie privacy puo' saltarne sei su otto e rispondere lo stesso «tutto a posto»",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/cron/process-deletions/route.ts:118-320 (il try/catch attorno alle otto `pota`) + :331",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/dashboard/page.tsx",
+        "difetti": [
+          {
+            "chiave": "tipografia|scritte bianche sul verde oliva chiaro: 3,69 contro il 4,5 richiesto",
+            "titolo": "Scritte bianche sul verde oliva chiaro: 3,69 contro il 4,5 richiesto",
+            "gravita": "grave",
+            "gruppo": "tipografia",
+            "dove": "components/store-sections/HeroSection.tsx:130 · components/checkout/PaymentMethodSelector.tsx:153 · components/checkout/StepIndicator.tsx:24 · app/stores/page.tsx:254 · app/profile/referral/page.tsx:115 · components/OrderTimeline.tsx:67 · components/Navbar.tsx:331 e :357 · components/MobileAccountSheet.tsx:71 · app/seller/dashboard/page.tsx:211",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|il cruscotto guarda se e' fallita una lettura su tre: «nessuna recensione» e «0 articoli venduti» hanno lo stesso aspetto di un negozio nuovo",
+            "titolo": "Il cruscotto guarda se e' fallita una lettura su tre: «Nessuna recensione» e «0 articoli venduti» hanno lo stesso aspetto di un negozio nuovo",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/seller/dashboard/page.tsx:150 (unico `throw`), 176 (`righeRes` senza controllo), 193 (`recensioniRes` senza controllo), effetti a 364 e 371-373",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|«il tuo netto» sta di fianco a un riquadro che da oggi dichiara la sua finestra, e lui no — e puo' valere sempre o trenta giorni",
+            "titolo": "«Il tuo netto» sta di fianco a un riquadro che da oggi dichiara la sua finestra, e lui no — e puo' valere sempre o trenta giorni",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/seller/dashboard/page.tsx:362 e 371-373, con lib/metriche-venditore.ts:160-164",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/rider/onboarding/page.tsx",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+            "titolo": "Un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/rider/onboarding/page.tsx:43, 111-112, 158 · app/api/kyc/start-check/route.ts:92-100 · migrations/021_seller_kyc_and_approval.sql:21 · migrations/119_radiografia_18_agosto.sql:91 · app/admin/users/ (nessun riferimento a legal_birth_date) · app/terms/page.tsx:108",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|il documento del minorenne e' gia' nel nostro archivio quando il cancello dei diciotto anni si accorge di lui",
+            "titolo": "Il documento del minorenne e' gia' nel nostro archivio quando il cancello dei diciotto anni si accorge di lui",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/rider/onboarding/page.tsx:113",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/deploy-dopo-ci.yml",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|la produzione è indietro di ventuno migrazioni: il codice pubblicato chiama tabelle, colonne e funzioni che nel database vero non esistono",
+            "titolo": "La produzione è indietro di ventuno migrazioni: il codice pubblicato chiama tabelle, colonne e funzioni che nel database vero non esistono",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "produzione Supabase (progetto Mycity) vs migrations/130-150; .github/workflows/deploy-dopo-ci.yml:166-205 (segreti SUPABASE_DB_URL, VERCEL_* mai configurati)",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci",
+            "titolo": "Ogni unione su main pubblica in produzione senza aspettare la CI",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/vercel.json:6-10 + /home/user/ad-mycity/marketplace/.github/workflows/deploy-dopo-ci.yml:58-70",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/orders/cod/route.ts",
+        "difetti": [
+          {
+            "chiave": "api-backend|la cassa in contanti libera la merce ma lascia aperta la pagina di pagamento di stripe: il cliente puo' pagare una carta che non doveva piu' esistere",
+            "titolo": "La cassa in contanti libera la merce ma lascia aperta la pagina di pagamento di Stripe: il cliente puo' pagare una carta che non doveva piu' esistere",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/orders/cod/route.ts:287 (confronto: app/api/stripe/checkout/route.ts:607-612)",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|passare ai contanti libera la merce ma lascia viva la pagina di pagamento: si puo' pagare due volte",
+            "titolo": "Passare ai contanti libera la merce ma lascia viva la pagina di pagamento: si puo' pagare due volte",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/orders/cod/route.ts:287",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/cron/operational-alerts/route.ts",
+        "difetti": [
+          {
+            "chiave": "microcopy|il sito dà quasi tutti gli indirizzi email su un dominio che il codice stesso tratta come ripiego",
+            "titolo": "Il sito dà quasi tutti gli indirizzi email su un dominio che il codice stesso tratta come ripiego",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "components/Footer.tsx:237-238 · app/contact/page.tsx:89-92 (info@mycity.it) e 176 (info@mycity-marketplace.com) · app/help/page.tsx:101-105 · app/faq/page.tsx:128 · app/seller/help/page.tsx:25-28 · app/lavora-con-noi/page.tsx:74-95,220 · app/accessibility/page.tsx:154 · lib/legal/titolare.ts:35,109,150 · lib/env.ts:44,70 · app/api/cron/operational-alerts/route.ts:456",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|i due allarmi nati oggi si contraddicono: il giro notturno dice «rinvio legittimo — non svegliare» — il sorvegliante scrive «o fallisce — o non gira» — per lo stesso fattorino — ogni giorno",
+            "titolo": "I due allarmi nati oggi si contraddicono: il giro notturno dice «rinvio legittimo — non svegliare» — il sorvegliante scrive «o fallisce — o non gira» — per lo stesso fattorino — ogni giorno",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/cron/operational-alerts/route.ts:438-462",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/orders/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|il file degli ordini per il commercialista contiene solo gli ultimi cinquanta",
+            "titolo": "Il file degli ordini per il commercialista contiene solo gli ultimi cinquanta",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/orders/page.tsx:49 (`PER_PAGINA = 50`), :100 (`filtered = orders`), :106-128 (`exportCSV`)",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|un negozio puo' far eseguire un comando nel foglio excel del commercialista scegliendosi il nome",
+            "titolo": "Un negozio puo' far eseguire un comando nel foglio Excel del commercialista scegliendosi il nome",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/orders/page.tsx:111-114 e :127; app/admin/users/page.tsx:334-343",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/coupons/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|«coupon eliminato» in verde anche quando il coupon e' ancora vivo",
+            "titolo": "«Coupon eliminato» in verde anche quando il coupon e' ancora vivo",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/coupons/page.tsx:90-95 (`toggle`) e :97-105 (`remove`)",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|se la lettura dei coupon o delle campagne cade, il pannello scrive «non ce n'e' nessuno»",
+            "titolo": "Se la lettura dei coupon o delle campagne cade, il pannello scrive «non ce n'e' nessuno»",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/coupons/page.tsx:54 (`const { data: coupons = [], isLoading }`, nessun ramo d'errore) e app/admin/sponsored/page.tsx:64 (`const { data } = await q;`, il campo `error` buttato via)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/PhotoReviewUpload.tsx",
+        "difetti": [
+          {
+            "chiave": "architettura|gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+            "titolo": "Gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "components/PhotoReviewUpload.tsx:44 · components/rider/CashConfirmDialog.tsx:53 · app/seller/stories/page.tsx:74",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/terms/page.tsx",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+            "titolo": "Manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "lib/order-status.ts:1-9 e 111-116 · app/terms/page.tsx:162-170 · lib/ordini/annulla.ts:68-157 · app/api/rider/ (nessuna rotta) · database: 0 funzioni in pg_proc con nome assente/fallita/tentativo",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è",
+            "titolo": "Le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql (trigger trg_enqueue_order_status_email); app/api/cron/send-emails/route.ts:88",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ai/tettoSpesa.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+            "titolo": "Il tetto giornaliero di spesa AI in produzione non è condiviso: ogni copia del sito conta per sé",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "lib/ai/tettoSpesa.ts:138-165 (ripiego in memoria quando spesa_ai_di_oggi/registra_spesa_ai falliscono); produzione: funzioni e tabella ai_spend_daily assenti (migrazione 131)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/seller/ProductForm.tsx",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|la banda di sicurezza del 30% sul prezzo (e la traccia di chi ha scritto) esistono solo sul percorso che quasi nessuno usa",
+            "titolo": "La banda di sicurezza del 30% sul prezzo (e la traccia di chi ha scritto) esistono solo sul percorso che quasi nessuno usa",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "marketplace/components/seller/ProductForm.tsx:340-353 (applyPatch, nessuna banda) · marketplace/app/seller/products/[id]/edit/page.tsx:75 (salvataggio diretto su Supabase) a fronte di marketplace/lib/products/aiPatch.ts:100-117 (banda presente) e marketplace/app/api/ai/catalog-apply/route.ts:70-84",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/health/route.ts",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|il semaforo resta verde mentre nessuno riesce più ad accedere o a pagare con la carta",
+            "titolo": "Il semaforo resta verde mentre nessuno riesce più ad accedere o a pagare con la carta",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "app/api/health/route.ts:84-107 · lib/captcha.ts:17-28 · app/sign-in/page.tsx:18 · app/sign-up/page.tsx:33,93 · app/checkout/page.tsx:497-499 · app/api/auth/signin/route.ts:47 · app/api/auth/signup/route.ts:40",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "scripts/backup-db.sh",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|le foto di prodotti e negozi non sono in nessuna copia di sicurezza",
+            "titolo": "Le foto di prodotti e negozi non sono in nessuna copia di sicurezza",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/scripts/backup-db.sh:46 (`--exclude-schema=storage`) · docs/backup-restore.md:43-56,108-126",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "components/ImageUrlField.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|se incolli l'indirizzo di un'immagine esterna, la pagina mostra un buco senza dire perché",
+            "titolo": "Se incolli l'indirizzo di un'immagine esterna, la pagina mostra un buco senza dire perché",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/ImageUrlField.tsx:99-106 (campo «oppure incolla un URL https://…»), reso poi da app/events/page.tsx:161-168, app/shop-of-month/page.tsx:165-174, components/home/HomeEvents.tsx:65-67",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/StoreMediaCarousel.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|sulla home le schede negozio scaricano la foto grande e la marcano urgente, sei volte",
+            "titolo": "Sulla home le schede negozio scaricano la foto grande e la marcano urgente, sei volte",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/StoreMediaCarousel.tsx:67-73 (`sizedImage(m.url,'hero')`, `sizes=\"…1024px\"`, `priority={i === 0}`) usato in scheda piccola da components/StorePreviewCard.tsx:58-62 con altezza h-24/h-28, per i 6 negozi di components/StoreShowcase.tsx:20 e :106",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/CategoryShowcase.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+            "titolo": "Le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/CategoryShowcase.tsx:43-58 (undici indirizzi Pexels fissi) e :118 (`onError` che nasconde l'immagine)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/analytics/posthog.tsx",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|il filmato di sessione di posthog porta ancora l'indirizzo intero con la ricerca in chiaro: il cancello nuovo copre nove proprieta' nominate — non il filmato",
+            "titolo": "Il filmato di sessione di PostHog porta ancora l'indirizzo intero con la ricerca in chiaro: il cancello nuovo copre nove proprieta' nominate — non il filmato",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "lib/analytics/posthog.tsx:143-196 (before_send agganciato alla riga 227)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/store-hours.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|la pausa pranzo del negozio rifiuta l'ordine per stasera",
+            "titolo": "La pausa pranzo del negozio rifiuta l'ordine per stasera",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/store-hours.ts:72",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/cron-cancellazioni.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni",
+            "titolo": "Una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/cron-cancellazioni.ts:66",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/auth/decisione-portiere.ts",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro",
+            "titolo": "Il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "lib/auth/decisione-portiere.ts:56 con middleware.ts:456-480",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/stripe/payout.ts",
+        "difetti": [
+          {
+            "chiave": "pagamenti-stripe|la nuova bandiera annullalordine apre la strada alla merce rimessa a scaffale due volte",
+            "titolo": "La nuova bandiera annullaLOrdine apre la strada alla merce rimessa a scaffale due volte",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/payout.ts:771 (usata a 838 e 987)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/stripe/checkout/route.ts",
+        "difetti": [
+          {
+            "chiave": "pagamenti-stripe|il codice sconto a uso unico resta bruciato: la liberazione della riserva vecchia arriva dopo che il codice e gia stato richiesto",
+            "titolo": "Il codice sconto a uso unico resta bruciato: la liberazione della riserva vecchia arriva dopo che il codice e gia stato richiesto",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "app/api/stripe/checkout/route.ts:449 (la liberazione e a 607)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|l'avviso «il tasso di consegna e' sotto l'obiettivo» sparisce proprio quando il tasso e' zero",
+            "titolo": "L'avviso «il tasso di consegna e' sotto l'obiettivo» sparisce proprio quando il tasso e' zero",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/page.tsx:154 (`const fulfillmentLow = fulfillmentRate > 0 && fulfillmentRate < 95;`), avviso reso a :202",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/queries/cruscotto-oggi.ts",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|nella schermata «today» gli ultimi dieci ordini possono essere di settimana scorsa, e sembrano di stamattina",
+            "titolo": "Nella schermata «Today» gli ultimi dieci ordini possono essere di settimana scorsa, e sembrano di stamattina",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "lib/queries/cruscotto-oggi.ts:141-144 (nessun filtro sulla data), app/admin/today/page.tsx:158 (titolo), :163 (frase quando e' vuoto), :195-197 (colonna «Quando»)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/sponsored/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|«speso totale» sulla pagina sponsorizzati non e' il totale: e' il totale del filtro acceso",
+            "titolo": "«Speso totale» sulla pagina Sponsorizzati non e' il totale: e' il totale del filtro acceso",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/sponsored/page.tsx:47-66 (il filtro sta nella query) e :99-102, :119-120 (i quattro riquadri sommano `listings`, cioe' il gia' filtrato)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/users/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|l'elenco utenti si ferma a cinquecento, la ricerca cerca solo li' dentro, e non lo dice",
+            "titolo": "L'elenco utenti si ferma a cinquecento, la ricerca cerca solo li' dentro, e non lo dice",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/users/page.tsx:113 (`TETTO_UTENTI = 500`), :274 (il filtro gira nel browser sui 500 gia' scaricati), :359 (`sub={`${filtered.length} risultati`}`), :332-341 (l'export scrive `filtered`)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/seller/site/GalleryFields.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|le due caselle di caricamento della vetrina hanno smesso di accettare le foto dell'iphone, e non lo dicono a nessuno",
+            "titolo": "Le due caselle di caricamento della vetrina hanno smesso di accettare le foto dell'iPhone, e non lo dicono a nessuno",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "components/seller/site/GalleryFields.tsx:27-31 e components/seller/site/ImageUpload.tsx:39-43",
+            "umano": null
+          }
+        ]
+      }
+    ]
+  ]
+}

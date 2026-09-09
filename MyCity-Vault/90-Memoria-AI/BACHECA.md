@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-28 12:26
+## 🛡️ I guardiani della macchina · 2026-09-07 22:34
 
-A ogni giro, prima che l'AI scriva una riga, girano **91 controlli automatici**. **48** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **92 controlli automatici**. **49** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -898,6 +898,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `porte-check` | Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta. | ⛔ ferma il giro |
 | `rotte-scriventi-check` | Trova le pagine del Pannello che cambiano qualcosa mentre fingono di leggere: se una tocca lo stato, deve chiedere il permesso come le altre. | ⛔ ferma il giro |
 | `scan-segreti` | Cerca chiavi e password nei file che stanno per essere pubblicati, e blocca tutto se ne trova una. | 🚧 blocca la pubblicazione |
+| `serratura-ramo` | Va a guardare se il controllo automatico ha davvero il potere di fermare un'unione, o se avvisa e basta. Sa distinguere tre casi, e il terzo è il peggiore: nessuna regola, una regola vera, oppure una regola che c'è ma è spenta o punta a un controllo che non esiste — quella sembra protezione e non lo è. | ⛔ ferma il giro |
 | `uscite-check` | Elenca ogni punto in cui la macchina tocca il mondo — email, messaggi, pagamenti — e pretende che ognuno abbia un controllo. | ⛔ ferma il giro |
 | `vault-sanita` | Ultima visita alla memoria prima che finisca online: file troncati, link rotti, roba che non deve uscire. | 🚧 blocca la pubblicazione |
 

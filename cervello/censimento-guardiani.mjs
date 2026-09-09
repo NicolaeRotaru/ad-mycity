@@ -144,6 +144,7 @@ export const DESCRIZIONI = {
   "vault-sanita": { famiglia: "sicurezza", cosa: "Ultima visita alla memoria prima che finisca online: file troncati, link rotti, roba che non deve uscire." },
   "porte-check": { famiglia: "sicurezza", cosa: "Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta." },
   "entrate-senza-cancello": { famiglia: "sicurezza", cosa: "Conta i lavori entrati nel codice buono senza il via libera del controllo automatico: quello sopra trova chi lo scavalca, questo trova chi ci passa, si sente dire no ed entra lo stesso." },
+  "serratura-ramo": { famiglia: "sicurezza", cosa: "Va a guardare se il controllo automatico ha davvero il potere di fermare un'unione, o se avvisa e basta. Sa distinguere tre casi, e il terzo è il peggiore: nessuna regola, una regola vera, oppure una regola che c'è ma è spenta o punta a un controllo che non esiste — quella sembra protezione e non lo è." },
   "uscite-check": { famiglia: "sicurezza", cosa: "Elenca ogni punto in cui la macchina tocca il mondo — email, messaggi, pagamenti — e pretende che ognuno abbia un controllo." },
   "firma-check": { famiglia: "sicurezza", cosa: "Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso." },
   "rotte-scriventi-check": { famiglia: "sicurezza", cosa: "Trova le pagine del Pannello che cambiano qualcosa mentre fingono di leggere: se una tocca lo stato, deve chiedere il permesso come le altre." },

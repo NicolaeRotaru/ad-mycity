@@ -153,22 +153,15 @@ Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è
 
 > 🛠️ **Aggiornamento AD 2026-09-07 17:20 — la riparazione qui sopra non funziona.**
 >
-> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente.
+> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente: prova a ricreare tabelle che ci sono già, perché il database è nato prima del registro delle migrazioni.
 >
-> ```
-> ▶ applico 001_create_tables.sql
-> psql: ERROR:  relation "profiles" already exists      (uscita 3, zero applicate)
-> ```
+> **Due cose misurate.** Tredici migrazioni su 149 non si possono rieseguire. E in produzione la migrazione 127 è applicata a metà: la funzione c'è, la vista no. La 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
 >
-> **Perché.** Il database di produzione è nato prima del registro delle migrazioni. La regola con cui il comando decide di saltare un file cerca il numero `001` o il nome `create_tables`: in produzione non trova né l'uno né l'altro, quindi prova a rieseguire la migrazione che crea le tabelle da zero. Sul database di prova il difetto non si vedeva, perché quello si costruisce da capo registrando ogni file col suo numero.
+> **Cosa ho fatto.** Richiesta di unione 252 sul sito, già unita. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito. Il test che lo tiene chiuso. E `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero: registrare tredici migrazioni, applicarne centotrentasei, verificare.
 >
-> **Due cose misurate oggi.** Tredici migrazioni su 149 non si possono rieseguire. L'ho misurato ricostruendo un database con tutte applicate e rilanciando ogni file. La seconda: in produzione la migrazione 127 è applicata **a metà**. La funzione c'è, la vista no. E la migrazione 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
+> **Cosa devi fare tu, adesso.** Seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
 >
-> **Cosa ho fatto.** Richiesta di unione 252 sul sito. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito, invece di esplodere a metà. Il test che tiene chiuso il difetto. E il documento `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero su una copia locale: registrare tredici migrazioni, applicarne centotrentasei, verificare. Al secondo giro non fa più niente.
->
-> **Cosa devi fare tu, adesso.** Unire la 252, poi seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
->
-> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, mentre la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati: nessun ordine vero è mai passato di lì. Il database vero l'ho solo letto.
+> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati.
 
 ---
 
@@ -519,6 +512,22 @@ avrebbero potuto.
 
 E non sono andato a vedere una per una se quelle dieci fossero giuste o sbagliate. I registri di
 quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più risposta.
+
+> 🔒 **Aggiornamento AD 2026-09-07 22:35 — ho fatto la mia parte.**
+>
+> **Perché conta doppio.** Vale anche per il sito. Lì del codice con una prova rossa può ancora andare online, e quello che scegli qui lo chiude alla radice, senza segreti.
+>
+> **Una cosa che non sapevamo.** Sopra c'è scritto che non la potevo leggere. Ho riprovato da un'altra porta, e si legge. Sul sito una regola esiste già, dal 26 maggio. Non ha mai protetto niente: è spenta, non punta a nessun ramo, e pretende un controllo di nome «Main» che non esiste. **Attento:** accesa così, il pulsante «unisci» resta bloccato per sempre, ad aspettare un controllo che non arriva.
+>
+> **La A l'ho fatta.** Contavo solo la macchina; del sito non contava nessuno. Misurato oggi: sette lavori su 110 entrati con la prova rossa, il 6,4%, l'ultimo il 20 luglio. Quel sette adesso è un tetto.
+>
+> **La B e la C sono sei clic.** Un comando ti scrive i passi esatti sui due repo, coi nomi veri dei controlli. Cambia un punto solo: nella B ti aggiungi a chi può scavalcare, nella C lasci vuoto.
+>
+> **Cosa serve da te.** La lettera, e girare tu l'interruttore: l'ho riprovato oggi, GitHub ha detto no su tutti e due. Consiglio la B.
+>
+> **Di quanto fidarti.** Che tu riesca davvero a scavalcare si vede solo al primo lavoro dopo averla accesa.
+>
+> `node cervello/serratura-ramo.mjs --istruzioni`
 
 ---
 
@@ -885,6 +894,12 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
 pubblicazione». Le tre cose in fila, nell'ordine giusto.
+
+> ↩️ **Aggiornamento AD 2026-09-07 21:30 — ritiro quello che avevo scritto alle 19:05.**
+>
+> Alle 19:05 avevo scritto qui che il pericolo era tolto. **Non era vero.** Avevo messo le prove dentro il build di Vercel, e l'anteprima ha fatto fallire 104 prove: quella suite è scritta per l'ambiente della CI, non per il costruttore. Ho tolto tutto, e il difetto è di nuovo aperto.
+>
+> La strada che lo chiude senza costare segreti è la carta **#177**. Il dettaglio sta nel registro del sito e in DECISIONI.
 
 > 🔑 **Aggiornamento AD 2026-09-07 17:20 — due dei tre te li ho trovati io, così non li cerchi.**
 >
@@ -1598,19 +1613,11 @@ riapre piu'. Se la perdi, hai perso il backup.
 Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
 sia andata davvero.
 
-> 🩻 **Aggiornamento del 7/9 17:10.** Ho contato tutte le corse: ventuno dal 19 agosto, ventuno
-> fallite. E il motivo non è più quello scritto qui sopra. Dal 22 agosto il lavoro si ferma prima,
-> su un guasto suo: il programma che fa la copia era più vecchio del database. Quel guasto l'ho
-> riparato, e tu l'hai unito nel pomeriggio: adesso è sul ramo principale del sito. Resta solo
-> quello che ti chiedo qui.
-
-> 🩻 **Aggiornamento dell'8/9 07:35 — manca un passo solo, e la strada sbagliata te l'ho data io.**
-> Le chiavi le hai messe e funzionano: la copia adesso arriva fino a bussare al database. Trova la
-> porta chiusa perché l'indirizzo è quello della **connessione diretta**, che risponde solo agli
-> indirizzi di nuova generazione: dai computer di GitHub non si raggiunge.
->
-> **Da fare:** su Supabase, pannello **Connect**, prendi la riga del **Session pooler** — contiene
-> `pooler.supabase.com`. Non il **Transaction pooler** (porta 6543). Incollala e dimmelo: rilancio io.
+> 🩻 **Aggiornamento dell'8/9.** Le chiavi le hai messe e funzionano: la copia adesso arriva fino a
+> bussare al database, e il guasto del programma troppo vecchio è riparato e unito. Resta
+> l'indirizzo, e te l'avevo indicato male io: serve la riga del **Session pooler** — contiene
+> `pooler.supabase.com` — non la diretta, che da GitHub non si raggiunge, né il Transaction
+> pooler (6543). Incollala e dimmelo: rilancio io.
 
 ---
 

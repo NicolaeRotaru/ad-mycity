@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-09-07 17:01",
+  "aggiornato": "2026-09-08 11:43",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -2997,6 +2997,431 @@
       "file": {
         "cervello/mappa-copertura.mjs": "d2bbc22cc1da",
         "cervello/supervisione-negozi.mjs": "5ad2f0477611"
+      }
+    },
+    {
+      "quando": "2026-09-07 23:06",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-948"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/censimento-guardiani.mjs": "e616b8e5381f",
+        "cervello/entrate-senza-cancello.mjs": "2264a1a31b3f",
+        "cervello/serratura-ramo.mjs": "6bff44b88135"
+      }
+    },
+    {
+      "quando": "2026-09-07 23:06",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-949"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/giro.sh": "3c9195db832e"
+      }
+    },
+    {
+      "quando": "2026-09-07 23:53",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-948"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/censimento-guardiani.mjs": "e616b8e5381f",
+        "cervello/entrate-senza-cancello.mjs": "2264a1a31b3f",
+        "cervello/serratura-ramo.mjs": "0c0404f5febb"
+      }
+    },
+    {
+      "quando": "2026-09-08 08:33",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-950"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/censimento-guardiani.mjs": "e616b8e5381f",
+        "cervello/chiudi-sito.mjs": "7a980de9ad55",
+        "cervello/entrate-senza-cancello.mjs": "2264a1a31b3f",
+        "cervello/serratura-ramo.mjs": "0c0404f5febb"
+      }
+    },
+    {
+      "quando": "2026-09-08 10:11",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-952"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/censimento-guardiani.mjs": "e616b8e5381f",
+        "cervello/chiudi-sito.mjs": "9cc81b4f5998",
+        "cervello/entrate-senza-cancello.mjs": "2264a1a31b3f",
+        "cervello/serratura-ramo.mjs": "0c0404f5febb"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "accessibilita",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "La Dichiarazione promette che i dialoghi di CONFERMA trattengono il fuoco e lo riportano indietro: il dialogo di conferma non fa nessuna delle due cose",
+        "La data della Dichiarazione e' ferma al 20 agosto, ma la Dichiarazione stessa e' stata riscritta due volte dopo"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/accessibility/page.tsx": "88bf73cd4bb8"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "La prova che rende idempotente l'ordine in contanti si scrive best-effort, e la risposta dice riuscito lo stesso",
+        "La lettura dei negozi non viene mai controllata: se torna corta, saltano il controllo 'negozio chiuso' e quello 'fuori zona', e la consegna va a tariffa fissa",
+        "Il salvataggio del prodotto restituisce 500 senza lasciare traccia dell'errore vero",
+        "La porta unica del catalogo non e' sul dato: le regole per riga lasciano ancora scrivere il browser, e la traccia si salta",
+        "La potatura del profilo riscrive ogni notte righe gia' pulite, mentre tutte le sue sorelle hanno il filtro",
+        "La nuova lettura della cassa contanti e' l'unica query del sorvegliante senza tetto"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/api/cron/operational-alerts/route.ts": "db0a7aaf2d6f",
+        "app/api/cron/process-deletions/route.ts": "2590b4bc3f3b",
+        "app/api/health/route.ts": "8481a4d20f50",
+        "app/api/orders/cod/route.ts": "f8a10a726d4b",
+        "app/api/seller/products/[id]/route.ts": "10e64735afdb"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 8,
+      "schede": [
+        "Il modulo che ripara la disconnessione silenziosa non e' collegato a niente: middleware.ts butta ancora via i cookie di sessione rinnovati",
+        "L'avviso dovuto a chi ha chiesto la cancellazione viene calcolato ogni notte e buttato via: nessuno chiama recapitaAvvisi",
+        "Due squadre hanno scritto lo stesso modulo di esportazione CSV due volte, e le due copie divergono gia' alla nascita",
+        "La garanzia «non gli si compila» sul codice sconto vale solo sulla cassa con carta: i contanti rifanno validate+claim a mano",
+        "La traccia «chi ha cambiato il prezzo» esce in due forme diverse a seconda della porta",
+        "Le due liste che il semaforo delle variabili deve tenere allineate vivono in due case, e il disallineamento e' silenzioso",
+        "Costanti e tipi doppi nati dentro lo stesso lotto, in due squadre che non si sono viste",
+        "Il tetto di peso del magazzino `products` esiste ancora in una terza copia, che si dichiara «il limite del bucket» e sbaglia"
+      ],
+      "spariti": [
+        "app/rider/onboarding/maggiore-eta.ts"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "lib/account/cancellazione.ts": "686ae53a9087",
+        "lib/admin/elenco-utenti.ts": "9028cbabce53",
+        "lib/admin/esporta-utenti.ts": "84d6b177766a",
+        "lib/admin/scritture-delle-campagne.ts": "595d082a3d50",
+        "lib/admin/vista-dei-coupon.ts": "32ef21ac4c0d",
+        "lib/admin/vista-delle-campagne.ts": "40af1ea1ec46",
+        "lib/ai/decisioneTettoSpesa.ts": "3d5e773cdf9a",
+        "lib/ai/run.ts": "75933e9c3c33",
+        "lib/ai/tettoSpesa.ts": "e87c77b40415",
+        "lib/api/middleware.ts": "546377f91895",
+        "lib/auth/cookie-di-sessione.ts": "41e09a612c66",
+        "lib/auth/decisione-portiere.ts": "28fd6f005cd6",
+        "lib/captcha.ts": "39806e91da8e",
+        "lib/contatti-pubblici.ts": "9367237793a4",
+        "lib/cron-cancellazioni.ts": "67c4f9f1d0e1",
+        "lib/csv-sicuro.ts": "5c9fc09b207d",
+        "lib/database.types.ts": "375cc04c65c1",
+        "lib/design/contrasto.ts": "1e7239ba3c36",
+        "lib/env.ts": "d3f2f0f5511f",
+        "lib/esito-scrittura.ts": "f39866a82955",
+        "lib/health-env.ts": "54a50b8cd7ed",
+        "lib/immagine-categoria.ts": "c140481c735a",
+        "lib/indirizzo-immagine-ammesso.ts": "662dd27fa73e",
+        "lib/legal/promessa-cliente-assente.ts": "243fdd58b96b",
+        "lib/legal/titolare.ts": "a995eae0e0a8",
+        "lib/letture-cruscotto.ts": "720ebaa8bae1",
+        "lib/maggiore-eta.ts": "5c19f2f1225f",
+        "lib/media/foto-del-negozio.ts": "f6a05abf9d67",
+        "lib/metriche-venditore.ts": "790c9108c82d",
+        "lib/ordini-recenti.ts": "ad793d30c0ea",
+        "lib/ordini/che-fine-ha-fatto-la-pagina-di-pagamento.ts": "bfaf6757c423",
+        "lib/ordini/esporta-ordini.ts": "4072c440e014",
+        "lib/ordini/ordine-in-contanti-puo-nascere.ts": "b7ee2e23ca55",
+        "lib/ordini/rimessa-a-scaffale.ts": "71ba9c3f8682",
+        "lib/ordini/riserve-abbandonate.ts": "376e8ffad91a",
+        "lib/ordini/riuso-della-cassa-aperta.ts": "73f7023f50e6",
+        "lib/ordini/rivendica-il-codice-sconto.ts": "869e937e44fb",
+        "lib/ordini/tentativi-aperti-da-liberare.ts": "2c6edddbe275",
+        "lib/privacy/avvisi-a-chi-aspetta.ts": "b891b3e8540f",
+        "lib/privacy/cancellazioni-in-sospeso.ts": "18bab790bae3",
+        "lib/privacy/colonne-personali.ts": "519b03e9fce8",
+        "lib/privacy/potature-ritenzione.ts": "92a1ebcb4ee9",
+        "lib/products/salva-dal-browser.ts": "9a4c68979099",
+        "lib/products/salvataggio-tracciato.ts": "148b72f0c3a2",
+        "lib/queries/cruscotto-oggi.ts": "b9693ae16866",
+        "lib/salute-marketplace.ts": "9453b5897e92",
+        "lib/storage/carica-immagine.ts": "dfcd13d6614c",
+        "lib/storage/casella-di-caricamento.ts": "845359df2077",
+        "lib/storage/foto-del-sito.ts": "546557a04d90",
+        "lib/storage/percorso-caricamento.ts": "0c725bf44674",
+        "lib/storage/regole-secchi.ts": "4cef23cf2685",
+        "lib/store-hours.ts": "780efc56abac"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "dati-analytics",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "L'indirizzo d'ingresso intero esce dalla porta dei flag, dove il filtro nuovo non arriva",
+        "La misura che parte dal server e' una seconda porta verso lo stesso raccoglitore, senza nessuna rete",
+        "La rete guarda gli indirizzi, non un dato personale nudo"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "lib/analytics/filmato-senza-dati-personali.ts": "9e421e0a324e",
+        "lib/analytics/posthog.tsx": "d7ce32f07ee9"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "La copia del database muore per colpa delle foto, quaranta righe sopra la riga che dice che non deve succedere",
+        "Un secchio di foto svuotato all'origine passa per verde: il controllo di vuoto guarda il totale, non il singolo secchio",
+        "La passphrase del backup viaggia sulla riga di comando"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        ".github/workflows/backup-db.yml": "983ae599c212",
+        ".github/workflows/ci.yml": "56f8f9d0ef7e",
+        ".github/workflows/deploy-dopo-ci.yml": "77b9a4ef3b94",
+        "scripts/backup-db.sh": "cf9b905b7f3e"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 9,
+      "schede": [
+        "Le foto dell'iPhone (HEIC) adesso entrano davvero, ma nessuno le converte: sul telefono Android e su Chrome restano un riquadro rotto",
+        "Il pannello ordini dice «0 ordini · Nessun ordine» quando la lettura e' caduta — lo stesso difetto che il lotto ha chiuso nelle due pagine sorelle",
+        "Il cruscotto admin resta sullo scheletro PER SEMPRE se la lettura non riesce — la riga che il lotto ha appena descritto come difetto sul cruscotto del negoziante",
+        "«Elimina campagna» cancella senza chiedere conferma, su un bersaglio da premere alto sedici punti — mentre la pagina sorella dei coupon la conferma",
+        "Tolte le foto, le tessere della home restano sotto un velo scuro pensato per le foto — con una banda chiara in mezzo",
+        "Il rifiuto dice «usa una foto JPG, PNG o WEBP» mentre la porta ne accetta sette",
+        "Se la lettura delle categorie cade, il negoziante vede il suo prodotto «senza categoria» e non gli viene detto niente",
+        "Nell'elenco negozi la copertina viene chiesta 320 punti dove il riquadro ne e' 400: fra 1025 e 1279 di larghezza si vede sgranata",
+        "Tre tabelle admin sorelle, toccate nello stesso lotto, dicono «e' vuoto» in tre registri diversi"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/admin/coupons/page.tsx": "a8afb0c1f6ec",
+        "app/admin/orders/page.tsx": "927c82d9a7c2",
+        "app/admin/page.tsx": "e7e2af7f64a5",
+        "app/admin/sponsored/page.tsx": "7c59342aeb29",
+        "app/admin/today/page.tsx": "17121d3b0dc3",
+        "app/admin/users/page.tsx": "8d55267d8024",
+        "app/contact/page.tsx": "9c48fb30c05b",
+        "app/help/page.tsx": "f271a0811250",
+        "app/lavora-con-noi/page.tsx": "a7b108afec69",
+        "app/rider/onboarding/page.tsx": "97699d2db132",
+        "app/sell/page.tsx": "9522fe24837d",
+        "app/seller/dashboard/page.tsx": "0c39475a54ed",
+        "app/seller/help/page.tsx": "e0a18ec1fc03",
+        "app/seller/products/[id]/edit/page.tsx": "d001a6a18bd6",
+        "app/seller/products/page.tsx": "f3cd50a43999",
+        "app/seller/stories/page.tsx": "ac95c4245567",
+        "app/stores/page.tsx": "0ef40ffb4a0b",
+        "app/terms/page.tsx": "7f71cdf508b1",
+        "components/CategoryShowcase.tsx": "7a66db7d10b2",
+        "components/Footer.tsx": "eea06997e872",
+        "components/ImageUrlField.tsx": "4c94b0ed06e4",
+        "components/PhotoReviewUpload.tsx": "7a1447a11b4b",
+        "components/StoreMediaCarousel.tsx": "2fd9bbb9543c",
+        "components/StorePreviewCard.tsx": "8bcd81faa2e2",
+        "components/StoreShowcase.tsx": "4e7ebd0de90a",
+        "components/WelcomeCreditBanner.tsx": "e6f8358d4ab3",
+        "components/rider/CashConfirmDialog.tsx": "d7d715e76e08",
+        "components/seller/ProductForm.tsx": "3110a65f0fe1",
+        "components/seller/site/GalleryFields.tsx": "89c89a054b82",
+        "components/seller/site/ImageUpload.tsx": "bfe052873870",
+        "components/store-sections/HeroSection.tsx": "9d2aa289d159"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "La merce puo' tornare a scaffale due volte fra il rimborso e l'eco di Stripe: il nuovo guardiano non vede l'altro processo",
+        "La pulizia gira prima di ogni convalida del carrello: un tentativo respinto uccide una cassa ancora buona",
+        "Una riga di intento senza id di sessione viene scaduta mentre la sua cassa sta nascendo: ordine pagato senza merce"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "ef093a89e7e0",
+        "lib/stripe/payout.ts": "4eef2fae804c"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Le copie vecchie del documento d'identita' restano nel secchio e nessuna regola di conservazione le trova piu'",
+        "I documenti di chi si ferma a meta' iscrizione non scadono mai",
+        "Il documento d'identita' lo puo' caricare qualunque account, per qualunque ruolo",
+        "L'ingresso di un documento d'identita' non lascia una riga di registro"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/api/kyc/start-check/route.ts": "f3e9a92cd3b0",
+        "app/api/kyc/upload-document/route.ts": "ecee48f5b4e6"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Ordine in contanti annullato: la stessa schermata dice «Ordine annullato» e «Paghi 24,00 EUR in contanti al rider alla consegna»",
+        "«Contatta il rider» chiama il numero del NEGOZIO, non del rider",
+        "Chiesto il reso, la richiesta sparisce: nessuna schermata del cliente ne mostra lo stato, e il modulo si puo' ricompilare a vuoto",
+        "«Invia un messaggio» chiude il pannello e non manda niente",
+        "Sul modulo del reso un problema di rete diventa «Ordine non trovato», senza nessun «Riprova»",
+        "Una foto allegata al reso non si puo' piu' togliere"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/orders/[id]/page.tsx": "f31fcc4ea5d4",
+        "app/orders/[id]/return/page.tsx": "cc4a3ac7d4a4"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "La 157 poggia su un censimento sbagliato: i magazzini senza tetto sono tre, non uno, e quello lasciato aperto e' l'unico dove scrive ogni utente registrato",
+        "Ritorno indietro assente in tre migrazioni su sei, e la 157 sovrascrive i valori vecchi senza annotarli"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "migrations/155_il_registro_attivita_oscura_per_difetto.sql": "c3192b4a6754",
+        "migrations/156_niente_fattorini_minorenni.sql": "2cdd43aef41c",
+        "migrations/157_il_magazzino_delle_prove_di_incasso_ha_un_tetto.sql": "bc7423b62af0",
+        "migrations/158_il_conto_della_spesa_ai_esiste_anche_in_produzione.sql": "b25c094ff9de",
+        "migrations/159_la_foto_della_categoria_si_cambia_senza_ripubblicare_il_sito.sql": "867ddc06b304",
+        "migrations/160_la_merce_torna_a_scaffale_una_volta_sola.sql": "8e1d2d8f4c44"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:30",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Il rifiuto non fa partire il cronometro dei 90 giorni: i documenti del respinto non scadono mai",
+        "Sospendere un amministratore non gli toglie niente, e la rotta risponde che e' fatto",
+        "Il bersaglio non e' validato: si modera un id qualunque, sé stessi compresi, con i testi di un altro ruolo",
+        "Se la notifica non parte nessuno lo sa, e i tre passi non sono legati"
+      ],
+      "nota": "perimetro del lotto gravi del sito; i reperti gia riparati dentro il lotto non sono contati qui",
+      "file": {
+        "app/api/admin/users/[id]/moderate/route.ts": "698a3e759e98"
+      }
+    },
+    {
+      "quando": "2026-09-08 11:43",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-955"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/censimento-guardiani.mjs": "e616b8e5381f",
+        "cervello/chiudi-sito.mjs": "f7b28fb4d78a",
+        "cervello/entrate-senza-cancello.mjs": "2264a1a31b3f",
+        "cervello/radiografia-in-corsa.mjs": "6cbef3e1e5fb",
+        "cervello/serratura-ramo.mjs": "0c0404f5febb"
       }
     }
   ]

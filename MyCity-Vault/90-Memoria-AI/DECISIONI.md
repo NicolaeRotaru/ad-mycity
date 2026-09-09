@@ -5164,3 +5164,150 @@ passi. Le carte tengono il loro numero e la loro storia, che è il motivo per cu
 mandato esiste già. Non l'ho fatto, e il costo è stato di tre commit di correzione. Il freno che
 l'ha preso esiste già ed è il cancello di leggibilità: le ripetizioni fra carte le vede lui. Resta
 scoperto il caso di un doppione scritto con parole diverse — quello oggi non lo prende nessuno.
+
+
+## 2026-09-07 19:05 — 🟡 Terzo bloccante chiuso, ma non per la strada che c'era scritta
+
+Nicola: «ora sistema il terzo bloccante». La scheda prescriveva: tre segreti VERCEL_* su
+GitHub, poi girare `"main": true` in `false` in `vercel.json`. I segreti non li posso
+mettere io, e stasera mancavano ancora — le unioni delle 18:22 e 18:26 hanno fatto partire
+«Rilascio dopo CI verde» con tutti i passi saltati e verdetto rosso.
+
+**Prima di riparare ho misurato quanto era largo il buco, e non era come scritto.** Vercel
+esegue `next build`, e `next.config.js` non spegne né il controllo dei tipi né eslint:
+quelli fermavano già un rilascio. A non girare prima di pubblicare erano solo le PROVE. La
+scheda diceva «un difetto che la CI avrebbe intercettato», che è più largo del vero. È
+proprio quel restringimento che ha reso la riparazione possibile senza Nicola.
+
+**La riparazione.** `vercel.json` dichiara ora `"buildCommand": "npm run verify && next
+build"`: il cancello sta dentro il build, dove non servono segreti. Prova rossa → `next
+build` non parte → non c'è niente da pubblicare. La prova che lo tiene chiuso esegue il
+comando vero letto da `vercel.json` con `npm` e `next` finti, e guarda il comportamento:
+rossa senza il cancello, verde con. Agganciata alla CI. PR NicolaeRotaru/mycity#254.
+
+**Cosa NON ho fatto, di proposito.** Non ho girato `"main": true` in `false`. Oggi non
+chiuderebbe il difetto: lo scambierebbe con uno peggiore, perché il lavoro che dovrebbe
+sostituire la pubblicazione automatica non rilascia, e il sito smetterebbe di aggiornarsi.
+E adesso il sito è pubblico, quindi sarebbe un danno vero. L'ho scritto dentro
+`deploy-dopo-ci.yml`, perché `vercel.json` è JSON e non ammette commenti: la domanda «perché
+main è ancora true» se la farà chiunque legga.
+
+**Un mio errore di ieri, trovato e chiuso qui.** Il test consegnato nella PR 252 non era
+agganciato alla CI. Un controllo che nessuno lancia non è una rete. Adesso gira, provato
+con la stessa invocazione che usa la CI.
+
+**Cosa resta a Nicola.** La carta #191, il database di produzione: è l'unico bloccante
+rimasto. La #161 resta, ma declassata — i segreti adesso servono per migliorare il
+rilascio, non per tappare una falla.
+
+
+## 2026-09-07 21:30 — ↩️ Correzione: il terzo bloccante non era chiuso, l'avevo dichiarato troppo presto
+
+Alle 19:05 ho scritto che il terzo bloccante era chiuso. Era falso, e l'ho scoperto venti minuti
+dopo dalla mia stessa richiesta di unione.
+
+**Cosa avevo fatto.** I segreti di Vercel non li posso mettere io, quindi avevo messo il cancello
+dove non servono: dentro il build, con `"buildCommand": "npm run verify && next build"`. Avevo
+scritto — nel commit, nella PR e qui — che la prova sarebbe stata l'anteprima costruita da quella
+richiesta.
+
+**Cosa ha detto la prova.** L'anteprima ha fatto fallire 104 prove. Non erano difetti veri: quella
+suite è scritta per l'ambiente della CI, dove certe variabili non ci sono, mentre il costruttore di
+Vercel ha addosso le variabili del progetto. Dal log, `env.resendFrom()` torna undefined e cade la
+prova sul mittente della posta — la stessa verde in CI cinquanta minuti prima.
+
+**Cosa ho fatto.** Tolto tutto. Non ho provato a puntellarlo: far girare quella suite dentro il
+build vorrebbe dire tenere allineate a mano due liste di variabili, e ogni variabile aggiunta domani
+spegnerebbe tutti i rilasci. Una trappola, non un cancello.
+
+**La cosa che ho fatto bene, e va detta perché è l'unica ragione per cui il danno è zero.** Avevo
+dichiarato in anticipo che non avevo verificato il comportamento sul costruttore vero, e che
+l'anteprima sarebbe stata la prova. Quindi la bocciatura è arrivata dove doveva — su un'anteprima,
+prima dell'unione — e non in produzione. Il difetto del mio lavoro non è stato l'esperimento: è
+stato dichiarare chiuso il bloccante e aggiornare la memoria PRIMA che la prova rispondesse.
+
+**La lezione, e il freno.** Quando la prova di una riparazione è un evento futuro — un'anteprima, un
+rilascio, una notte di attesa — la scheda non si chiude adesso. Si chiude quando l'evento risponde.
+Il freno esiste già e non l'ho usato: la skill `collaudo` dice che chi costruisce non collauda e che
+il difetto va ricreato nella variante scomoda. La variante scomoda qui era «e se l'ambiente del
+costruttore non fosse quello della CI?», e non me la sono fatta.
+
+**Cosa resta a Nicola.** La carta #177, già in coda dal 26 agosto, che adesso vale per due
+repository: è la strada che chiude il bloccante senza nessun segreto. E la #191 per il database.
+
+
+## 2026-09-07 21:45 — 🔎 La coda delle azioni non entra più nel campo visivo di chi la legge
+
+Trovato mentre riparavo altro: due guardiani della macchina erano rossi, e uno dice una cosa che
+vale la pena scrivere a parte.
+
+**Il fatto.** `AZIONI-IN-ATTESA.md` su `main` sta a 202.157 caratteri, contro un campo visivo di
+200.000. È sopra il tetto di 2.157 caratteri, e non da adesso: il guardiano è rosso su `main` senza
+che io ci abbia messo mano. Vuol dire che chi legge la coda per intero — il controllo, e
+verosimilmente anche la Cabina — la vede tagliata, e le carte che restano fuori sono quelle in
+fondo, cioè le più vecchie.
+
+**Perché la pulizia automatica non lo risolve.** L'ho lanciata a vuoto per vedere: 99 carte aperte,
+0 chiuse da spostare, 33 già in archivio. Non c'è niente da archiviare, perché sono tutte carte che
+aspettano davvero una firma. Il file è grosso perché la coda è lunga, non perché è sporca.
+
+**Cosa ho fatto io.** Solo la mia parte: ho compresso i miei stessi aggiornamenti di oggi sulle
+carte #161, #191 e #177, che erano prolissi — da 5.537 a 2.876 caratteri, tenendo i fatti e
+rimandando al registro per il dettaglio. Adesso i due guardiani sono verdi.
+
+**Cosa NON ho fatto, e perché.** Non ho tolto nessuna carta dalla coda. Quali domande valgono ancora
+la pena di essere fatte a Nicola è una decisione sua, non mia: sono 99, e alcune aspettano da
+settimane. La strada giusta è che lui ne chiuda un blocco, oppure che si alzi il campo visivo di chi
+legge — ma quella è una modifica alla macchina, quindi porta la sua firma.
+
+**Perché non ho accodato una carta per dirglielo.** Perché sarebbe stata la centesima, e avrebbe
+peggiorato esattamente il problema che descrive. Gliel'ho detto in chat.
+
+## 2026-09-07 22:35 — 🟡 La serratura del ramo: fatta la A, preparate la B e la C, l'interruttore resta a Nicola
+
+**Cosa mi ha chiesto Nicola.** «Fai A, B e C della 177». Le tre strade della carta #177 sono
+alternative fra loro: non si possono fare tutte e tre. L'ho letta per quello che vuole dire — *smetti
+di chiedermi di scegliere, fai tutto quello che puoi* — e ho fatto ogni pezzo che era mio, lasciando
+in piedi la sola cosa che resta sua: girare l'interruttore.
+
+**Una scoperta che cambia la carta.** La #177 dichiarava: «l'impostazione com'è messa adesso non
+l'ho potuta leggere, GitHub non me la fa vedere da qui». Vero solo a metà. Le impostazioni vecchie
+(branch protection) rispondono 403 su tutti e due i repo — riprovato oggi, con la risposta in mano.
+Le regole nuove (rulesets) rispondono 200 e si leggono benissimo. Da quella porta è saltata fuori
+una cosa che non sapeva nessuno: sul repo del sito **esiste già** una regola di ramo chiamata
+«Main», creata il 26/5/2026 e mai più toccata, rotta in tre modi insieme — spenta
+(`enforcement: disabled`), puntata su zero rami (`ref_name.include` vuoto), e con un controllo
+richiesto di nome `Main` che **non esiste** fra i controlli veri del repo. Il terzo è quello che
+morde nel verso sbagliato: accenderla così bloccherebbe ogni unione per sempre, in attesa di un
+controllo che non arriva. Sul repo della macchina di regole non ce n'è nessuna.
+
+**Strada A — fatta.** `entrate-senza-cancello.mjs` contava solo il repo della macchina, col nome del
+cancello scritto dentro il codice. Del sito non contava nessuno, e quel silenzio si leggeva come un
+verde. Adesso le case stanno in una tabella e si sceglie con `--casa sito`. Prima misura del sito:
+**7 lavori su 110 uniti su main con la CI rossa, il 6,4%**, finestra dall'11/6; tutti e sette col
+cancello rosso sulla testa, nessuno mai-visto; l'ultimo è del 20/7. Tetto 7 cablato in `giro.sh`,
+provato: con `--tetto 7` esce 0, con `--tetto 6` esce 1.
+
+**Strade B e C — preparate fino all'ultimo clic.** Nuovo `cervello/serratura-ramo.mjs`: legge le
+regole dei due repo e dice quale dei tre casi c'è — `chiusa`, `aperta`, `finta` — e con
+`--istruzioni` scrive i passi esatti per ognuno, coi nomi dei controlli **letti dalle corse vere**
+(due sorgenti: la testa di main e le teste delle ultime PR unite). La prima stesura leggeva solo
+main e sulla macchina perdeva proprio «prove, guardiani e typecheck», cioè il cancello di cui parla
+tutta la carta: avrebbe fatto pretendere a Nicola il controllo sbagliato. Cablato nel giro senza
+bloccare sullo stato — un allarme che suona ogni giro per una cosa che solo lui può fare è un allarme
+che si impara a scorrere — ma bloccante sul ⚪, cioè se GitHub smette di farsi leggere.
+
+**Cosa NON ho fatto, e perché.** Non ho acceso niente. Due ragioni indipendenti, e la prima basta:
+① le tre strade si escludono a vicenda, quindi «farle tutte» vorrebbe dire sceglierne una al posto
+suo, ed è la firma che la carta tiene in mano a lui; ② non posso comunque — la scrittura delle
+regole l'ho provata e il mio stesso strato di permessi l'ha bloccata, e non l'ho aggirata.
+
+**Il rischio che avrei corso accendendola io.** Se avessi sbagliato anche un solo nome di controllo,
+o se la lista di chi può scavalcare non fosse valsa per lui, il pulsante «unisci» si sarebbe
+bloccato su tutti e due i repo — proprio mentre due richieste di unione aspettano di essere unite e
+il database di produzione (carta #191) aspetta di essere allineato. Un errore da lì si ripara solo
+rientrando nelle impostazioni, cioè solo lui.
+
+**La lezione, in una riga.** Un guardiano puntato su una casa sola non dice «l'altra sta bene»: non
+dice niente, e il niente si legge come un verde. Vale per ogni strumento di questa macchina che
+guarda il repo della macchina e non quello del sito.
