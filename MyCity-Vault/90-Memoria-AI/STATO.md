@@ -1,8 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 16:47
-fonte: AD digitale (cadenza: giro su richiesta)
+aggiornato: 2026-09-09 18:00
+fonte: AD digitale (cadenza: Report della sera, cervello/ritmo.md)
 ---
+
+## Report della sera (2026-09-09 18:00)
+Riverificato ora in diretta con query SQL dirette su Supabase, non a memoria. **1 ordine**: quello del
+24/6, annullato, €19,05, di Pane Quotidiano. **0 pagati.** 9 profili. 9 prodotti. 2 negozi pubblici
+(Pane Quotidiano, vero, Stripe ancora spento; "Panificio Demo", il fantasma della card #196, invariato
+dal 5/9). 4 carrelli abbandonati. 0 recensioni. 407 lead negozi, ancora tutti da contattare. È identico
+bit-per-bit a stamattina e a ieri sera. **Sono 77 giorni di calendario senza un ordine pagato**
+(24/6→9/9: 6+31+31+9).
+
+L'unico numero che si è mosso oggi è la distanza fra questo computer e GitHub. Alle 14:45 erano 395 le
+scritture di qui mai arrivate là, e 13 quelle di là mai arrivate qui. Ora sono **399/13** (verificato
+ora con `git fetch origin main` + `git rev-list --count`). Nessuna firma nuova di Nicola oggi:
+`DECISIONI.md` resta fermo al 29/8 00:40. `AZIONI-IN-ATTESA.md` invariata: le stesse sei card aperte
+di stamattina (#182, #189, #196, #199, #205, #206), nessuna nuova dopo la #206 delle 11:53.
+
+Oggi questa macchina ha eseguito il "giro completo" (o una sua variante lean) oltre 15 volte, sempre
+sugli stessi dati fermi. L'ha segnalato più volte durante la giornata (12:33, 14:45, 16:47): è la causa
+più probabile della SOPRAVVIVENZA in cui si trova la quota AI. Questo blocco è la cadenza vera della
+sera, non un giro in più: qui la ripetizione è prevista e giusta, non rumore.
+
+Priorità invariate per domani:
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato al primo ordine pagato.
+2. **#205 — Conferma se la pausa sui negozi è davvero finita.** Era scaduta l'1/9. 407 lead aspettano.
+3. **#196 — Decidi su "Panificio Demo".** Il negozio finto nel database, 5° giorno.
+4. **#189 — Aggiungi da FUORI la chat le righe di permesso già pronte.** Sblocca gli script fermi.
+5. **#199 — Riallinea main VPS↔GitHub.** Ora 399/13, cresce ogni giro.
+6. **#206 — Ripara il controllo CI rosso sulla PR #877.** Non blocca la memoria.
+
+## Passaggi precedenti
 
 ## Giro delle 16:47 (invariato, ~2h dopo il passaggio delle 14:45)
 Sono passate ~2 ore dal passaggio delle 14:45. I dati restano fermi.

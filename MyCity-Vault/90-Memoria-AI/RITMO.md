@@ -1984,3 +1984,28 @@ al sito finché resta così.
 seller profiles, 407/407 lead `to_contact`. `git fetch origin main` + `git rev-list --count`:
 385 commit locali mai spinti / 13 remoti mai scaricati (era 378/13 alle 11:15). `AZIONI-IN-ATTESA.md`
 senza card nuove dopo la #206 (11:53). `DECISIONI.md` fermo al 2026-08-29 00:40.
+
+## Report della sera · 2026-09-09 18:00
+
+**Com'è andata oggi**
+- Ancora nessun ordine pagato. Sono 77 giorni di fila. Riverificato ora, in diretta, con una query sul database vero: identico a stamattina e a ieri sera.
+- La memoria di questo computer e quella su GitHub si allontanano ancora. Stamattina erano 370 le scritture di qui mai arrivate là, ora sono 399.
+- Nessuna tua firma nuova oggi. Le sei richieste aperte restano tutte ferme, in attesa di un tuo sì/no o di un accesso diretto al VPS.
+
+**I numeri**
+- Ordini: 1, lo stesso del 24 giugno, annullato. Pagati: 0.
+- Negozi online: 2. Pane Quotidiano è vero, pagamenti con carta ancora spenti. "Panificio Demo" resta il negozio finto, invariato da 5 giorni.
+- Lead negozi da contattare: 407 su 407, invariato — la pausa che avevi messo è scaduta da 8 giorni.
+
+**Da approvare**
+- Sblocca i pagamenti con carta di Pane Quotidiano. È il passo più vicino a un cliente che paga davvero.
+- Dimmi se la pausa sui negozi è finita: 407 lead aspettano solo questa risposta.
+- Dimmi cosa fare di "Panificio Demo": lo riconosci o lo cancello?
+
+**Lezione di oggi**
+- Un numero che si ricopia da un passaggio all'altro senza ricontarlo si sfasa da solo: il conteggio dei giorni di stallo aveva iniziato a scivolare da 77 a 78 nel pomeriggio.
+
+**Domani**
+- La prima cosa utile resta sempre la stessa: appena arriva una delle tue firme, la macchina riparte da lì.
+
+**Dettagli tecnici** — Riverificato con query SQL dirette su Supabase: `orders`=1, `payment_status='paid'`→0, `profiles`=9, `products`=9, `seller_public_profiles`=2, `abandoned_carts`=4, `reviews`=0, `merchants_leads`=407. `git fetch origin main` + `git rev-list --count`: 399 commit locali mai spinti (era 395 alle 14:45), 13 remoti mai scaricati (invariato). `DECISIONI.md` fermo al 2026-08-29 00:40. `AZIONI-IN-ATTESA.md` invariata: #182/#189/#196/#199/#205/#206, nessuna card nuova dopo la #206 (11:53). Giorni di stallo North Star ricalcolati a mano: 24/6→9/9 = 6+31+31+9 = 77 (non 78, come scritto in alcuni passaggi del pomeriggio).
