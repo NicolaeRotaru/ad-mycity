@@ -1,31 +1,31 @@
 {
-  "data": "2026-08-31 21:05",
-  "sintesi": "La pausa concordata sui negozi (24/8-1/9) è agli ultimi giorni. La scadenza che Nicola stesso aveva fissato per il cantiere — 29 agosto — è già passata di due giorni: le quattro cose (difetti macchina, difetti design marketplace, worker-negozi da costruire, design venditore) non sono state riverificate punto per punto in questo giro. Business bit-per-bit fermo dal 28/8: 1 negozio reale (Pane Quotidiano), 0 ordini pagati, stallo North Star 68 giorni. Le tre firme che moltiplicano tutto il resto restano ferme: #168 (server, causa diretta del sito giù da 9 giorni), #184 (database indietro di 4 migrazioni), #182 (pagamenti Pane Quotidiano fermi da 18 giorni).",
+  "data": "2026-09-09 06:35",
+  "sintesi": "La pausa sui negozi che Nicola aveva fissato il 23/7 (\"dopo il 24 agosto-1 settembre\") è scaduta da 8 giorni: non risulta ancora una ripresa esplicita in memoria, e i 407 lead negozi restano a 0 contattati (card #205, nuova). Il sito è di nuovo raggiungibile (era giù, ora HTTP 200 su sensore diretto) — i vecchi blocchi #168/#184 su server/database non risultano più i più urgenti. Il blocco reale che resta aperto è #182: Pane Quotidiano non può ancora incassare con carta, unico ostacolo confermato al primo ordine pagato. Business fermo dal 24/6: 0 ordini pagati, 77° giorno di stallo North Star.",
   "prossime_mosse": [
     {
-      "titolo": "Firma le tre carte che sbloccano sito, database e pagamenti",
-      "quando": "appena possibile — sono ferme da 9, 2 e 3 giorni",
-      "come": "Card #168 (riaccendere il server), #184 (applicare le migrazioni 126-129 o accendere il cancello del rilascio), #182 (completare l'onboarding Stripe di Pane Quotidiano o riscrivere le CTA dei post in coda)",
+      "titolo": "Decidi se la pausa sui negozi è davvero finita",
+      "quando": "appena possibile — la data fissata è passata da 8 giorni",
+      "come": "una riga: \"riparto\" (la pipeline di 407 lead riparte) o \"aspetta ancora fino a [data]\" (aggiorno il registro dei fatti)",
       "priorita": "alta",
-      "ad_prepara": "Diagnosi e comandi già scritti in ciascuna card, pronti a partire appena firmate",
-      "senior": "@devops-sre",
-      "colore": "🔴"
+      "ad_prepara": "card #205 già pronta con la domanda; appena arriva il via, passo il lavoro a @vendite",
+      "senior": "@ad",
+      "colore": "🟡"
     },
     {
-      "titolo": "Decidi come trattare la scadenza del 29 agosto ormai passata",
-      "quando": "appena rientri dal lavoro operativo",
-      "come": "dire se vuoi una riverifica puntuale delle quattro cose (cantiere.scadenza-zero) o hai già un piano diverso",
+      "titolo": "Sblocca i pagamenti con carta di Pane Quotidiano",
+      "quando": "appena possibile — fermo da circa 30 giorni",
+      "come": "completare l'onboarding Stripe (charges/payouts/details_submitted, oggi tutti false)",
       "priorita": "alta",
-      "ad_prepara": "posso riaprire il cantiere e contare lo stato reale di ciascuna delle quattro non appena lo chiedi",
-      "senior": "@ad",
+      "ad_prepara": "diagnosi già scritta nella card #182, pronta a partire appena sbloccato",
+      "senior": "@backend-dev",
       "colore": "🔴"
     },
     {
       "titolo": "Ordine di prova su Pane Quotidiano",
-      "quando": "appena i pagamenti sono attivi (dipende da #182) e la pausa concordata finisce (24/8-1/9)",
+      "quando": "appena i pagamenti sono attivi (dipende da #182)",
       "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
       "priorita": "media",
-      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico appena Nicola dà il via",
+      "ad_prepara": "flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico",
       "senior": "@operations",
       "colore": "🟡"
     }
@@ -34,29 +34,29 @@
     {
       "nome": "Pane Quotidiano",
       "perche": "Unico negozio reale, faro di MyCity",
-      "stato": "pausa concordata fino al 24/8-1/9 in scadenza; pagamenti ancora spenti da 18 giorni (card #182)"
+      "stato": "pausa formalmente scaduta da 8 giorni (card #205); pagamenti ancora spenti (card #182, ~30 giorni)"
     }
   ],
   "rischi": [
-    "La scadenza del 29 agosto (cantiere.scadenza-zero) è passata senza una riverifica puntuale delle quattro cose in questo giro.",
-    "Il sito pubblico è giù da 9 giorni: nessun cliente reale può navigare il catalogo, anche se il bug che lo azzerava per i visitatori senza accesso è già riparato nel codice (#857).",
-    "7 PR di manutenzione sul repo ad-mycity restano in gran parte rosse (5 su 7): debito che si accumula, ma non tocca il marketplace live (non deployate)."
+    "La pausa sui negozi (23/7) è scaduta senza una conferma esplicita: la pipeline di 407 lead resta ferma senza che nessuno abbia deciso se è voluto o dimenticato.",
+    "Divergenza main↔GitHub in crescita continua (373 commit locali mai spinti/12 remoti mai scaricati): nasconde lavoro vero e rischia doppioni di card fra le due storie.",
+    "Il blocco permessi Bash (card #189) impedisce alla macchina di rilanciare da sola i propri controlli di qualità (test-cervello, coerenza-fatti, delta-gate) — quantificato in questo giro un costo concreto: 50+ giri pieni a vuoto dallo stesso falso positivo."
   ],
   "serve_da_nicola": [
     {
       "ambito": "priorita",
-      "cosa_manca": "Ordine fra le tre firme urgenti (#168 sito, #184 database, #182 pagamenti) se non riesci a farle tutte insieme",
-      "domanda_per_nicola": "Se devi scegliere per prima, farei #168 (sblocca il sito, che è ciò che tutti vedono per primi) — sei d'accordo o ne priorizzi un'altra?"
+      "cosa_manca": "Conferma se la pausa sui negozi (23/7, \"dopo il 24 agosto-1 settembre\") è finita",
+      "domanda_per_nicola": "Riparto con la pipeline dei 407 negozi, o aspetto ancora fino a una data che mi dici tu? (card #205)"
     },
     {
-      "ambito": "cantiere",
-      "cosa_manca": "Stato reale delle quattro cose della scadenza 29/8, mai riverificato punto per punto in questo giro",
-      "domanda_per_nicola": "Vuoi che riapra il cantiere e ti porti il conto esatto di quanto manca su ciascuna delle quattro?"
+      "ambito": "cassa",
+      "cosa_manca": "Sblocco Stripe di Pane Quotidiano",
+      "domanda_per_nicola": "Puoi completare l'onboarding Stripe (charges/payouts/details_submitted) per sbloccare il primo ordine pagato? (card #182)"
     },
     {
       "ambito": "macchina",
-      "cosa_manca": "Conferma sul livello RISPARMIO",
-      "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime ora che la pausa negozi sta per finire?"
+      "cosa_manca": "Le righe di permesso che sbloccherebbero i controlli interni",
+      "domanda_per_nicola": "Puoi aggiungere da fuori la chat (VPS/editor) le righe già pronte nella card #189? Ora c'è la prova che il blocco costa quota reale, non solo controlli mancati."
     }
   ]
 }

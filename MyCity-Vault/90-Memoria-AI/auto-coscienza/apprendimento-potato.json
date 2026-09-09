@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-09 08:32",
+      "byte_prima": 1032811,
+      "byte_dopo": 911609,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0710-70",
+            "testo": "**Fix Vercel `ignored-build-step` — crash «fatal: bad object SHA» quando il SHA precedente"
+          },
+          {
+            "id": "L-2026-0710-75",
+            "testo": "**git checkout sovrascrive settings.local.json quando il file è TRACCIATO nel branch targe"
+          },
+          {
+            "id": "L-2026-0710-72",
+            "testo": "**Due blocchi nuovi nella pipeline PR da VPS: `gh` non eredita il token del remote URL, e "
+          },
+          {
+            "id": "L-2026-0702-01",
+            "testo": "Una scoperta che cambia il faro (es. usa Casa Linda, non Garetti) NON deve restare solo ne"
+          },
+          {
+            "id": "L-2026-0701-27",
+            "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra "
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-09 06:30",
       "byte_prima": 1040395,
       "byte_dopo": 919749,

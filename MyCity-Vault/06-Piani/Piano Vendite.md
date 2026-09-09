@@ -2,17 +2,16 @@
 
 <!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
 > 🗓️ **Ultimo aggiornamento: 2026-07-20 20:22** — l'ultima volta che è cambiato il testo qui sotto. Il piano è nato il 2026-06-25 12:34.
-> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 11:00, e non è una revisione del piano.*
-<!-- 🗓️ AD-DATA {"corpo":"2026-07-20 20:22","nato":"2026-06-25 12:34","nota":"2026-07-20 11:00"} -->
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-09-09 06:35, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-07-20 20:22","nato":"2026-06-25 12:34","nota":"2026-09-09 06:35"} -->
 <!-- 🗓️ AD-DATA:END -->
 
 <!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
-> ⛔ **Attenzione: 15 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
-> · **Il Bando Commercio ER è dato per aperto** (righe 25, 127, 135, 185) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
-> · **Il voucher PI26 è dato per aperto o da inviare** (riga 193) — il registro dice: Non idoneo, confermato da Nicola 2026-07-29 00:10 — nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity *(Nicola (chat 29/7 ~00:10) — DECISIONI.md 2026-07-29 00:15)*
-> · **La commissione al negozio è scritta 12%** (riga 87) — il registro dice: 10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero… *(Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare …)*
-> · **Il negozio-faro è Garetti (o Casa Linda)** (righe 19, 25, 72, 95, 117, 147, 150, 182, 184) — il registro dice: Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e vers… *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
-> *Misurato il 2026-09-08 22:47. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> ⛔ **Attenzione: 14 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
+> · **Il Bando Commercio ER è dato per aperto** (righe 24, 126, 134, 184) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
+> · **La commissione al negozio è scritta 12%** (riga 86) — il registro dice: 10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero… *(Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare …)*
+> · **Il negozio-faro è Garetti (o Casa Linda)** (righe 18, 24, 71, 94, 116, 146, 149, 181, 183) — il registro dice: Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e vers… *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
+> *Misurato il 2026-09-09 08:47. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > Base dati: [[Vendite & Acquisizione Negozi]] · [[Piano d'Azione]] · [[Bandi & Finanziamenti]] · [[Botteghe del Centro - Mappa]].
@@ -188,10 +187,9 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
+## 🤖 Aggiornamento dell'AD — 2026-09-09 06:35
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **North Star 0 — stallo ~625h:** ordine test PQ (🟡) + **PI26 invio ORA** (🔴) = leve del giorno.
-- **PI26 sportello aperto** — WhatsApp anchor botteghe dopo chiusura domanda.
-- **13 botteghe onda-2** — giro settimana 21-25/7 quando bici pronta (6 ristoranti esclusi).
-- **Meteo 21/7 pioggia** → push clienti (gate: ordine test fatto).
+- **La pausa sui negozi (23/7, "dopo il 24 agosto-1 settembre") è scaduta da 8 giorni** — card #205 in [[AZIONI-IN-ATTESA]], in attesa di conferma esplicita di Nicola prima di far ripartire qualunque contatto.
+- **407 lead in `merchants_leads`, 0 mai contattati** — pipeline mai avviata, non solo ferma (verificato via SQL diretto, 2026-09-09).
+- **North Star 0 — 77° giorno di stallo:** il gate ammette solo lavoro che avvicina il primo ordine pagato di Pane Quotidiano (#182, Stripe ancora spento) — nessun'altra spinta commerciale finché quello non si sblocca o Nicola non conferma la ripartenza.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

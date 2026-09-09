@@ -1,6 +1,115 @@
 ---
-data: 2026-09-08 22:41
+data: 2026-09-09 08:38
 ---
+
+## Giro 2026-09-09 08:38 (nuova chiamata, ~2h dopo il passaggio delle 06:46)
+
+**Voto di fiducia: 75/100** (stabile). Dati di business bit-per-bit identici alle 06:35/06:46: nessun
+peggioramento né miglioramento reale, solo l'accumulo di un altro passaggio sugli stessi blocchi noti.
+
+- **Chiuso di nuovo il buco HARD di freschezza-cadenze.** Il promemoria di sistema a inizio sessione
+  segnalava un problema. Il giro delle 07:04 era uscito saltando l'auto-analisi e l'apprendimento.
+  `auto-analisi.json`, `registro-realta.json` e questo file erano fermi alle 06:35. Da circa 2 ore.
+  Riscritti ora con verifica diretta. `apprendimento.json` era già fresco: aggiornato dal worker alle
+  08:32.
+- **Riverificato dal vivo, con query SQL dirette su supabase-marketplace.** 1 ordine (24/6, annullato,
+  €19,05, Pane Quotidiano). 0 pagati. 9 profili. Pane Quotidiano ha ancora Stripe tutto spento (#182).
+  "Panificio Demo" è ancora presente (#196, 5° giorno). 407 lead negozi restano tutti `to_contact`
+  (card #205, invariata). `AZIONI-IN-ATTESA.md`: la card più recente resta #205, nessuna nuova.
+  `DECISIONI.md` invariato dal 29/8 00:40.
+- **`coerenza-fatti.mjs` eseguito con successo** (allowlistato): 41 fatti, 0 cacce aperte, memoria
+  coerente. Nessuna riscrittura necessaria: nulla è cambiato oltre l'ora.
+- **Divergenza main↔GitHub peggiorata ancora.** Ora sono 374 commit locali mai spinti su GitHub. E 12
+  remoti mai scaricati (era 373/12 alle 06:35). Verificato con `git fetch`+`git rev-list` diretti.
+- **Bash bloccato di nuovo su `test-cervello.mjs`** ("richiede approvazione"). Un tentativo, non
+  ritentato. Stesso buco noto delle card #104/#189.
+- **Trovata e riparata la causa di un avviso ripetuto 236 volte.** Il sorvegliante segnalava da mesi
+  che la prova di AR-046 (su `storico-salute.json`) non trovava più il suo bersaglio. La causa: la
+  prova cercava un numero fotografato un giorno preciso, "663". Quel numero cresce ogni volta che il
+  cantiere chiude un difetto in più — oggi era già a 732. Ho spostato il bersaglio della prova sulla
+  riga di codice in `auto-fix.mjs` che scrive quel campo, non sul dato che ne esce: quella riga non
+  cambia da sola. Verificata: il testo combacia carattere per carattere col file vero, non solo per
+  intenzione.
+- **Non rilanciate le 15 fasi pesanti.** Letargo RISPARMIO più gate NORTH_STAR (0 pagati, 78° giorno di
+  calendario). Insieme ammettono solo lavoro che avvicina il primo ordine pagato. Nessun dato nuovo da
+  inseguire: lo stato è bit-per-bit identico a due passaggi fa.
+
+**Domande aperte per Nicola, invariate:** #182 (Stripe Pane Quotidiano, 🔴), #189 (permessi Bash, 🟡),
+#196 (chi ha scritto "Panificio Demo", 🟡), #205 (la pausa negozi è scaduta, riparto o aspetto?, 🟡).
+
+**Collaudo di questo passaggio (AR-532).**
+- **Richiesto vs fatto.** Nicola ha chiesto di eseguire `giro.md` per intero. FATTO: dati riverificati
+  dal vivo, cancello di serietà scritto (auto-analisi/registro-realta/AUTO-ANALISI), coerenza-fatti
+  verde, STATO/Briefing/ultimo-briefing/Sala Operativa aggiornati, ESITO registrato nel quaderno di
+  @ad. NON FATTO APPOSTA: radar esterno, Intelligence, Piani, intenzioni-Nicola, auto-miglioramento —
+  dati bit-per-bit invariati da due passaggi, letargo RISPARMIO più gate NORTH_STAR lo vietano. NON
+  FATTO PER BLOCCO: `test-cervello.mjs`, `si-capisce.mjs`, `piani-data.mjs`, `sonda-volano.mjs` — un
+  tentativo ciascuno, "richiede approvazione", stesso buco delle card #104/#189. La scrittura del
+  digest anche su Supabase (memoria) non è riuscita: la connessione disponibile in questa sessione è
+  in sola lettura.
+- **Diff riletto, non a memoria.** `git diff --stat HEAD` sui file toccati: 9 file, tutti miei
+  (STATO/AUTO-ANALISI/SALA-OPERATIVA/Briefing/ultimo-briefing/auto-analisi.json/registro-realta.json/
+  mutanti.json/memoria-squadra). I "234 file toccati" segnalati dal cancello dello stop vengono dal
+  segnalibro fermo al 1° settembre (card #200, causa già nota): confrontano contro 6+ giorni di lavoro
+  altrui, non contro questo turno. Non ho toccato `consegne/salute/*`, `AZIONI-PRONTE.md`,
+  `Intelligence/*.md` o `RITMO.md`: i punti-difficili che il sorvegliante segnala su quei file sono
+  debito ereditato, non introdotto qui.
+- **Prove eseguite.** `coerenza-fatti.mjs` (verde, 41 fatti). Query SQL dirette su
+  supabase-marketplace. `git fetch origin main` + `git rev-list --count` in entrambe le direzioni.
+  `chiusura-loop.mjs registra` (ESITO scritto per davvero). Rilettura a mano dei due paragrafi
+  segnalati come poco leggibili in STATO.md/AUTO-ANALISI.md, riscritti in frasi più corte.
+- **Un'altra strada considerata per AR-046.** Alternativa scartata: aggiornare `mutanti.json` con il
+  valore corrente (732) invece di spostare il bersaglio. Scartata perché quel numero cresce a ogni
+  chiusura del cantiere: sarebbe tornato cieco al prossimo giro. Spostato invece sulla riga di codice
+  che scrive il campo, stabile nel tempo.
+- **Cosa NON ho verificato.** Se `si-capisce.mjs` conferma davvero che i due file sono sotto soglia
+  ora: lo script resta bloccato in questa sessione, non l'ho potuto rilanciare. Se la mutazione
+  riscritta di AR-046 supera per davvero `il-volano-i-sensori-e-la-stella.test.mjs`: `test-cervello.mjs`
+  è bloccato allo stesso modo. Ho verificato a mano che il testo di `cerca` combacia carattere per
+  carattere con la riga vera in `auto-fix.mjs` (via `grep`), ma non ho potuto far girare la suite.
+
+## Passaggi precedenti
+
+## Giro 2026-09-09 06:35 (nuova chiamata, 5 minuti dopo il recupero delle 06:30)
+
+**Voto di fiducia: 75/100** (▼ da 76). Nessun peggioramento sui dati di business (identici): il calo
+è per l'accumulo di giorni su blocchi noti non sbloccati, più una scadenza temporale passata senza
+essere colta prima (vedi sotto).
+
+- **Chiuso per primo il buco HARD di freschezza-cadenze.** `auto-analisi.json`, `registro-realta.json`
+  e questo file erano fermi al 2026-09-08 22:41 (~8h): il recupero delle 06:20/06:30 aveva rinfrescato
+  solo `apprendimento.json`/`auto-radiografia.json`, non questi tre. Riscritti ora con verifica diretta.
+- **Riverificato dal vivo, con query SQL dirette su supabase-marketplace.** 1 ordine (24/6, annullato,
+  €19,05, Pane Quotidiano), 0 pagati, 9 profili, Pane Quotidiano ancora con Stripe tutto spento (#182),
+  "Panificio Demo" ancora presente (#196, 5° giorno), 407 lead negozi tutti `to_contact` (invariato),
+  4 carrelli abbandonati senza righe nuove reali (l'unica del 7/9 è l'account admin, non un cliente).
+  DECISIONI.md invariato dal 29/8 00:40 (verificato sull'ultimo header, non a memoria).
+- **Novità reale di questo passaggio, non di cassa.** La pausa sui negozi che Nicola aveva fissato il
+  23/7 ("dopo il 24 agosto-1 settembre") è scaduta da **8 giorni**. Nessun passaggio precedente
+  l'aveva ancora segnalato: la pipeline di 407 lead resta 0/407 contattati. Aperta la card **#205** per
+  chiedere conferma esplicita — non presumo la ripartenza da sola, sarebbe uscire dal proprio mandato.
+- **Quantificato per la prima volta il costo del delta-gate mai promosso (card #189).** `delta-gate.json`
+  mostra `"cambiato: clienti 8→9"` innescare un giro pieno ad ogni battito da almeno il 2026-09-03
+  20:28 — **50+ ripetizioni consecutive** dello stesso falso positivo, perché `--segna-pieno` resta
+  bloccato dallo stesso permesso mancante. Concausa plausibile, non l'unica, del consumo di quota
+  durante il letargo RISPARMIO/SOPRAVVIVENZA di questi giorni.
+- **Divergenza main↔GitHub peggiorata ancora:** 373 commit locali mai spinti/12 remoti mai scaricati
+  (era 370/12 alle 06:00 di stamattina) — verificato con `git fetch`+`git rev-list` diretti.
+- **Bash bloccato di nuovo su `test-cervello.mjs`** ("richiede approvazione", sessione senza nessuno
+  che possa firmare): un tentativo, stesso buco noto delle card #104/#189, non ridiagnosticato oltre.
+  Il resto della sessione (Supabase MCP, Read/Edit/Write sul vault, `git`/`date`) ha funzionato senza
+  ostacoli: il blocco è specifico all'esecuzione di script `node cervello/*.mjs` non allowlistati per
+  esteso, non un blocco generale di questa sessione.
+- **Non rilanciate le 15 fasi pesanti** (radar esterno, radiografia, auto-miglioramento, esperimenti):
+  letargo RISPARMIO + gate NORTH_STAR (0 pagati, 77° giorno di calendario) ammettono solo lavoro che
+  avvicina il primo ordine pagato o chiude un debito che lo blocca indirettamente — applicata la
+  strategia snella già in uso per questo pattern.
+
+**Domande aperte per Nicola:** #182 (Stripe Pane Quotidiano, 🔴), #189 (permessi Bash, 🟡, per design
+nessuna sessione può ripararlo da sola), #196 (chi ha scritto "Panificio Demo", 🟡), **#205 nuova**
+(la pausa negozi è scaduta, riparto o aspetto ancora?, 🟡).
+
+## Passaggi precedenti
 
 ## Giro 2026-09-08 22:41 (nuova chiamata, ~2h dopo il passaggio delle 20:33)
 

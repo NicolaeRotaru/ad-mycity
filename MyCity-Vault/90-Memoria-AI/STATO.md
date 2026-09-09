@@ -1,8 +1,117 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 06:00
-fonte: AD digitale (cadenza: Piano del mattino)
+aggiornato: 2026-09-09 08:38
+fonte: AD digitale (cadenza: giro completo)
 ---
+
+## Giro delle 08:38 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 06:46)
+Riverificato dal vivo. Query SQL dirette su supabase-marketplace, non a memoria. 1 ordine (24/6,
+annullato, €19,05, Pane Quotidiano). **0 pagati.** 9 profili. 2 negozi pubblici. Pane Quotidiano ha
+ancora Stripe spento (card #182, invariata). "Panificio Demo" è ancora lì (card #196, 5° giorno). 9
+prodotti. 407 lead negozi, tutti ancora `to_contact` (card #205, invariata). Tutto identico bit-per-bit
+al passaggio delle 06:46. `AZIONI-IN-ATTESA.md` è invariata: la card più recente resta #205. Nessuna
+carta nuova. `DECISIONI.md` è fermo dal 29/8 00:40: nessuna firma nuova.
+
+`coerenza-fatti.mjs` eseguito con successo: 41 fatti, 0 cacce aperte, memoria coerente. `git fetch
+origin main` riuscito. La divergenza main↔GitHub è peggiorata ancora. Ora sono **374 commit locali mai
+spinti su GitHub**. E **12 remoti mai scaricati** (era 373/12 alle 06:35). Stesso blocco noto, card
+#199.
+
+Ho chiuso di nuovo il buco HARD di freschezza-cadenze. `auto-analisi.json`, `registro-realta.json` e
+`AUTO-ANALISI.md` erano fermi dalle 06:35, quindi da circa 2 ore. Il promemoria di sistema a inizio
+sessione segnalava che il giro delle 07:04 era uscito saltando questo passo. Li ho riscritti ora, con
+verifica diretta. `apprendimento.json` era già fresco: aggiornato dal worker alle 08:32.
+
+`test-cervello.mjs` resta bloccato da "richiede approvazione" in questa sessione. Un tentativo, non
+ritentato. È lo stesso buco noto delle card #104/#189 (area SERRATURA).
+
+**Trovata e riparata la causa di un avviso ripetuto 236 volte.** Il sorvegliante segnalava da mesi che
+la prova di AR-046 (`storico-salute.json`) non trovava più il suo bersaglio. La causa: la prova cercava
+un numero fotografato un giorno preciso, "663". Quel numero cresce ogni volta che il cantiere chiude un
+difetto in più — oggi era già a 732. Un numero che cresce da solo non può restare il bersaglio di una
+prova. Ho spostato il bersaglio della prova sul punto giusto: la riga di codice in `auto-fix.mjs` che
+scrive quel campo, non il dato che ne esce. Quella riga non cambia mai da sola. Verificata: il testo
+combacia carattere per carattere col file vero.
+
+**Non ho rilanciato le 15 fasi pesanti del giro.** Il letargo resta in RISPARMIO. La salute macchina è
+a 4. Il gate NORTH_STAR resta fermo: 0 pagati, 78° giorno di calendario. Insieme ammettono solo lavoro
+che avvicina direttamente il primo ordine pagato. Non c'era nessun dato nuovo da inseguire con radar,
+radiografia o auto-miglioramento. I dati sono bit-per-bit identici a due passaggi fa.
+
+Priorità invariate, stesso ordine. 1) **#182** Stripe Pane Quotidiano — unico blocco confermato al
+primo ordine pagato. 2) **#189** i permessi Bash, servono da fuori questa chat. 3) **#205** conferma se
+la pausa negozi (scaduta l'1/9) è finita davvero — 407 lead in attesa. 4) **#199** main↔GitHub, diverge
+ancora (374/12). 5) **#196** decidi su "Panificio Demo".
+
+Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
+
+## Giro delle 06:46 (11 minuti dopo il passaggio delle 06:35)
+Nuova chiamata "giro completo". È identica nel merito alla precedente. Ho riverificato dal vivo, non
+a memoria. Ho fatto una query SQL diretta su supabase-marketplace. Risultato: 1 ordine (24/6,
+annullato, €19,05, Pane Quotidiano). **0 pagati.** 9 profili. 2 negozi pubblici. 407 lead ancora
+tutti "da contattare". 4 carrelli abbandonati. È identico bit-per-bit al passaggio delle 06:35,
+finito 6 minuti fa (commit `edf64c81d`, ore 06:39).
+
+Ho anche lanciato `node cervello/verifica-sensori.mjs`. Conferma: 8 sensori su 10 sono ok. PostHog è
+spento per scelta di Nicola. Telegram non è configurato. Sono entrambi noti, non problemi nuovi.
+`DECISIONI.md` è invariato dal 29/8 alle 00:40: nessuna firma nuova. `AZIONI-IN-ATTESA.md` è
+invariata: nessuna card nuova da aprire. Le due scoperte del passaggio precedente restano le più
+recenti: la #205 (pausa-negozi scaduta) e la #189 (il bug del delta-gate).
+
+**Non ho rilanciato le 15 fasi pesanti del giro.** E non ho riscritto auto-analisi, registro-realta
+e apprendimento. Motivo: sono stati scritti 6-11 minuti fa, con verifica diretta, sugli stessi
+identici dati. Riscriverli ora sarebbe stato solo rumore duplicato, non un controllo in più. È la
+stessa strategia già seguita più volte in questo file: vedi i passaggi delle 06:34, delle 06:48,
+delle 11:15 e delle 22:41 dell'8/9. Restano attivi insieme due freni. Il letargo è in **RISPARMIO**
+(salute macchina 4). Il gate **NORTH_STAR** è fermo (0 pagati, 77° giorno). Insieme ammettono solo
+lavoro che avvicina direttamente il primo ordine pagato.
+
+`freschezza-cadenze.mjs`, `letargo.mjs` e `delta-gate.mjs` restano bloccati da "richiede
+approvazione" in questa sessione. Un tentativo per ciascuno, non ritentati. È lo stesso buco noto
+delle card #104 e #189 (area SERRATURA). Non l'ho ridiagnosticato oltre.
+
+Priorità invariate, stesso ordine di sempre: 1) **#182** Stripe Pane Quotidiano — unico blocco
+confermato al primo ordine pagato. 2) **#189** i permessi Bash, servono da fuori questa chat. 3)
+**#205** conferma se la pausa negozi (scaduta l'1/9) è finita davvero — 407 lead in attesa. 4)
+**#199** main↔GitHub, diverge ancora. 5) **#196** decidi su "Panificio Demo".
+
+Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
+
+## Giro delle 06:35 (5 minuti dopo il recupero delle 06:30)
+77° giorno di calendario di stallo North Star. Riverificato dal vivo via query SQL dirette: 1 ordine
+(24/6, annullato, €19,05), **0 pagati**. 9 profili. Pane Quotidiano ancora con Stripe spento (#182).
+"Panificio Demo" ancora nel database, 5° giorno (#196). 407 lead negozi, ancora tutti da contattare.
+DECISIONI.md invariato dal 29/8 00:40. Divergenza main↔GitHub peggiorata: **373 commit locali mai
+spinti su GitHub, 12 remoti mai scaricati** (era 370/12 alle 06:00).
+
+**Chiuso per primo un buco di processo HARD**, segnalato in cima a questa sessione:
+`auto-analisi.json`, `registro-realta.json` e `AUTO-ANALISI.md` erano fermi dalle 22:41 di ieri sera
+(~8h) — il recupero delle 06:20/06:30 aveva rinfrescato solo `apprendimento.json`/
+`auto-radiografia.json`, non questi tre. Riscritti ora con verifica diretta.
+
+**Novità reale del passaggio, non di cassa: la pausa sui negozi fissata da Nicola il 23/7 ("dopo il
+24 agosto-1 settembre") è scaduta da 8 giorni**, e nessun passaggio precedente l'aveva ancora
+segnalato — i 407 lead restano 0/407 contattati. Aperta la card **#205**: chiede solo un sì/no,
+"riparto" o "aspetta ancora fino a [data]".
+
+**Quantificato per la prima volta il costo del delta-gate mai promosso (card #189).**
+`delta-gate.json` mostra `"cambiato: clienti 8→9"` forzare un giro pieno ad ogni battito da almeno il
+2026-09-03 20:28 — **50+ ripetizioni consecutive** dello stesso falso positivo (`--segna-pieno`
+bloccato dallo stesso permesso mancante). Concausa plausibile del consumo di quota durante il letargo
+di questi giorni — non l'unica, ma la prima volta che viene contata.
+
+Priorità invariate, in ordine: 1) **#182** Stripe Pane Quotidiano, unico blocco confermato al primo
+ordine pagato. 2) **#189** i permessi Bash — nessuna sessione può ripararli da sola, per design. 3)
+**#205 (nuova)** conferma se la pausa negozi è finita davvero. 4) **#199** main↔GitHub, cresce ogni
+giro. 5) **#196** decidi su "Panificio Demo".
+
+Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 ## Prossime priorità (Piano del mattino 2026-09-09 06:00)
 77° giorno di stallo North Star, da 24/6 a oggi.

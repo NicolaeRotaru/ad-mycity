@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-09 06:30",
+ "aggiornato": "2026-09-09 08:47",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -7465,28 +7465,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0710-70",
-   "testo": "**Fix Vercel `ignored-build-step` — crash «fatal: bad object SHA» quando il SHA precedente non esiste nella history (chat 10/7):** lo script `ignored-build-step` in `vercel.json` eseguiva `git diff --quiet ${VERCEL_GIT_PREVIOUS_SHA:-HEAD^} HEAD -- .` per capire se buildare. Se il SHA precedente (`VERCEL_GIT_PREVIOUS_SHA`) non esiste più nella history del repo (es. dopo un rebase, force-push o history rewrite), git crashava con `fatal: bad object <SHA>` → Vercel registrava un errore invece di prendere una decisione build/skip. **Fix:** aggiungere `git cat-file -e <SHA> 2>/dev/null || exit 1` prima del diff — se il SHA non esiste, esci con 1 (Vercel interpreta exit 1 = «builda»), se esiste fai il diff normale. In questo modo il fallback è SEMPRE buildare, mai crashare silenziosamente. **Regola riusabile:** negli `ignored-build-step` di Vercel, verificare SEMPRE l'esistenza del SHA di confronto prima di usarlo in un comando git; il SHA `VERCEL_GIT_PREVIOUS_SHA` può essere assente o invalido in scenari legittimi (primo deploy, history riscritta, branch forcato). Il fix fu necessario per sbloccare il deploy dei chip skill rapide del Pannello (10/7 17:03).",
-   "tag": [
-    "vercel",
-    "ignored-build-step",
-    "git-cat-file",
-    "SHA",
-    "deploy",
-    "devops-sre",
-    "pannello"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.34999999999999987,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 17:03",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0710-71",
    "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
    "tag": [
@@ -7509,52 +7487,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0710-75",
-   "testo": "**git checkout sovrascrive settings.local.json quando il file è TRACCIATO nel branch target (chat 10/7, terza sovrascrittura della sessione):** durante il tentativo di risolvere i conflitti della PR #247, l'AD ha fatto `git checkout feature/skill-rapide-chat`. Risultato: settings.local.json è stato sovrascritto con la versione vecchia del branch. Causa: il file era tracciato nella history del branch (prima di essere aggiunto a .gitignore), quindi git lo ripristina alla versione del branch ignorando il .gitignore locale. Questo contraddirebbe L-2026-0710-71 (causa = Write tool) che era PARZIALE. Entrambe le cause sono reali: (a) il Write tool sovrascrive se non si include tutto il contenuto; (b) git checkout ripristina se il file è tracked nel branch target. **Regola riusabile:** prima di fare checkout di un branch diverso, verificare con `git ls-tree <branch> .claude/settings.local.json` che il file non esista nel branch; se esiste, usare `git checkout <branch> -- .` con attenzione o fare stash del file prima. La soluzione permanente: rimuovere il file dalla history di tutti i branch con `git rm --cached .claude/settings.local.json` su ogni branch che lo tiene tracciato.",
-   "tag": [
-    "settings-local",
-    "git-checkout",
-    "file-tracked",
-    "gitignore-limite",
-    "sovrascrittura",
-    "PR-conflitti",
-    "pannello",
-    "permessi"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 22:30",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-72",
-   "testo": "**Due blocchi nuovi nella pipeline PR da VPS: `gh` non eredita il token del remote URL, e `feature/*` nell'allowlist non matcha branch con slash (chat 10/7):** (1) `gh` CLI ha bisogno di auth esplicito — il token nel remote URL git (`https://NicolaeRotaru:<PAT>@github.com/...`) NON viene passato automaticamente a `gh`; serve `echo \"$GIT_PUSH_TOKEN\" | gh auth login --with-token` dal terminale VPS (una volta sola) oppure `GH_TOKEN` come env var nello shell. (2) Il pattern `\"Bash(git push origin feature/*:*)\"` nell'allowlist di Claude Code matcha solo `feature/` seguito da UN segmento senza slash — quindi `feature/skill-rapide-chat` NON è coperto. Fix: usare `\"Bash(git push origin feature/**:*)\"` o il nome esatto del branch. **Regola riusabile:** prima di usare `gh pr create` da una sessione AD, verificare con `gh auth status` che il login sia attivo; e quando si aggiunge un'allowlist per un branch con `/` nel nome, testare il glob con il nome esatto o usare `**` invece di `*`. Quando l'auth `gh` manca, la via più veloce è GitHub UI (banner 'Compare & pull request') — non insistere con script intermedi.",
-   "tag": [
-    "gh-cli",
-    "gh-auth",
-    "allowlist",
-    "glob",
-    "feature-branch",
-    "pr-create",
-    "devops-sre",
-    "pannello"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:30",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0709-69",
@@ -7622,14 +7554,14 @@
     "operations"
    ],
    "reparto": "@AD",
-   "confidenza": 0.48,
+   "confidenza": 0.32999999999999996,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-14 03:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
+   "decaduto_step_il": "2026-09-09 08:32"
   },
   {
    "id": "L-2026-0709-66",
@@ -7873,24 +7805,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0702-01",
-   "testo": "Una scoperta che cambia il faro (es. usa Casa Linda, non Garetti) NON deve restare solo nella LETTERA-A-NICOLA: finché non riscrive coda/OKR/STATO nello stesso giro, la produzione continua sul bersaglio sbagliato. Ogni correzione strategica va propagata a valle con un task concreto, o non è successa.",
-   "tag": [
-    "northstar",
-    "propagazione",
-    "azione"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "auto-radiografia",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-13 21:01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 08:28"
-  },
-  {
    "id": "L-2026-0702-45",
    "testo": "**Firma ≠ esecuzione (giro 2/7 10:19):** Nicola approva **ok 16** alle 08:38 ma 1h40 dopo il DB è **identico** (delivery_status=NEW, payment_status=PENDING, stallo +1,8h → 191,9h). **Regola:** nel briefing separare sempre (1) **decisione firmata** vs (2) **esecuzione verificata su DB/canale**. Loop business 🔴 finché `delivered_at` null — non degradare a 🟡 solo perché ok 16 è in coda. Prossimo giro: se ok 16 approvato ma DB invariato, escalation diretta «tap WhatsApp #20 ORA» senza riproporre ok 16.",
    "tag": [
@@ -8013,32 +7927,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-24 18:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-27",
-   "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra niente, toglila ovunque». Il finding `radiografia.js`/path Windows marketplace era **classificato nella dimensione sbagliata** — `cadenza-esecuzione` = schedulazione ritmo AD (mattino/sera/settimana), NON audit del sito. **5 perché:** (1) prima auto-radiografia ha mescolato path repo marketplace con tema cadenze; (2) `radiografia.js`/`MARKETPLACE_REPO` = dimensione `copertura-cieca` (audit marketplace); (3) il vero gap cadenza = `ritmo.md` documenta solo Windows (`schtasks`/`.ps1`) mentre il battito gira su VPS Linux; (4) Pannello = una casella per dimensione — contenuto misto confonde; (5) fix: AR-002 spostato → `copertura-cieca`; riscritto finding cadenza; `ritmo.md` + sezione VPS; AR-005 (timer systemd opzionale). **Pattern:** separare audit codice marketplace da ritmo operativo AD; quando Nicola dice «non c'entra» → ripulire **tutti** i file collegati (auto-radiografia.json, cantiere-difetti, RADIOGRAFIA-MACCHINA), non solo la casella Pannello. **RICADUTA + ESCALATION (4/7):** lo stesso path Windows era ancora cablato (`marketplace-repo.mjs` come fallback + `radiografia.js:46`/`audit-design.js:46`) → Nicola rialza il tono: «togli il cablato su windows **una volta per sempre**, **impedisci che riaccada** questo errore». **Lezione-radice (5° perché finale):** pulire i file a mano NON basta — l'errore rientra da una porta laterale. La chiusura vera di un anti-pattern ricorrente = **parametrizzare la fonte-di-verità** (resolver cross-platform in `marketplace-repo.mjs`: `MARKETPLACE_REPO` env o `<ad-repo>/marketplace`, mai una cartella di un PC) **+ un guardiano generativo** (`no-path-cablati-check.mjs` agganciato a `giro.sh`) che a ogni giro FALLISCE se un path di macchina (`C:\\…`, `/Users/<nome>`) rientra nel codice. Regola: quando Nicola dice «impedisci che riaccada» → non basta il fix, serve la **forcing-function** che rende l'errore impossibile in silenzio.",
-   "tag": [
-    "auto-radiografia",
-    "cadenza",
-    "classificazione",
-    "nicola",
-    "pannello",
-    "ritmo",
-    "vps",
-    "hardcoded-path",
-    "cross-platform",
-    "guardiano",
-    "forcing-function"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.34999999999999987,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-04 10:05",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:08"
   },
   {
    "id": "L-2026-0701-25",
@@ -11024,9 +10912,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-09 06:30",
+     "quando": "2026-09-09 08:32",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 96
+     "volte": 97
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -12900,22 +12788,22 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 432,
+  "lezioni_attive": 427,
   "promosse_a_principio": 95,
-  "decadute": 5,
+  "decadute": 0,
   "tasso_applicazione": 0.15,
-  "tasso_calcolato_il": "2026-09-09 06:20",
+  "tasso_calcolato_il": "2026-09-09 08:47",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-09 06:30",
-  "lezioni_totali": 443,
+  "cristallizzazione_ultima": "2026-09-09 08:32",
+  "lezioni_totali": 433,
   "lezioni_per_stato": {
-   "attiva": 321,
+   "attiva": 316,
    "principio": 95,
    "in-prova": 5,
-   "decaduta": 5,
+   "decaduta": 0,
    "ritirata": 0,
    "senza-stato": 16,
    "altro": 1

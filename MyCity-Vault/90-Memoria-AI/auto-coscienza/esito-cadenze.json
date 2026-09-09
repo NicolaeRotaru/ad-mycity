@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-09-08 23:00",
+      "quando": "2026-09-09 07:04",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -35,7 +35,7 @@
       ]
     },
     "monitora": {
-      "quando": "2026-09-08 06:41",
+      "quando": "2026-09-09 06:39",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-09-09 06:06"
+  "aggiornato": "2026-09-09 07:04"
 }
