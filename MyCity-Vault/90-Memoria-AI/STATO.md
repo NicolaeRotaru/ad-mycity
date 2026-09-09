@@ -1,8 +1,44 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 14:45
+aggiornato: 2026-09-09 16:47
 fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 16:47 (invariato, ~2h dopo il passaggio delle 14:45)
+Sono passate ~2 ore dal passaggio delle 14:45. I dati restano fermi.
+
+Riverificato dal vivo con query SQL diretta su supabase-marketplace, non a memoria. **1 ordine, 0
+pagati** (24/6, annullato, €19,05, Pane Quotidiano). È identico a tutti i passaggi di oggi. È identico
+alla firma dell'1/9. `AZIONI-IN-ATTESA.md` riverificato con grep sui numeri di card. Le stesse 6 card
+restano aperte, nessuna nuova. Sono: #182 (Stripe Pane Quotidiano), #189 (permessi Bash), #196
+(Panificio Demo), #199 (main↔GitHub), #205 (pausa negozi), #206 (CI rosso PR #877).
+
+Ho richiuso il buco obbligatorio di freschezza-cadenze. Tre file erano fermi da circa 2 ore:
+`auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`. Il vincolo HARD lo segnalava in cima
+alla sessione. Il giro delle 14:56 era uscito saltando questo passo. Riscritti ora con verifica
+diretta. `apprendimento.json` era già fresco (16:39, 8 minuti prima). L'ha scritto un worker
+concorrente. Non l'ho toccato, per non produrre rumore doppio.
+
+**Non ho rilanciato le 15 fasi pesanti.** Il letargo resta in SOPRAVVIVENZA: quota AI al 120% della
+finestra, salute macchina a 4. Il gate NORTH_STAR resta fermo: 0 pagati, al 78°+ giorno. Insieme
+ammettono solo lavoro che avvicina il primo ordine pagato. Su dati fermi le fasi pesanti sarebbero
+solo rumore aggiuntivo.
+
+**Lo ripeto direttamente a Nicola, perché il conteggio ormai è netto.** Contando le voci di questo
+file: oggi (9/9) "giro completo" è stato chiamato oltre 15 volte, sempre identico. Nelle ultime ~34
+ore sono oltre 35 volte. Sempre sugli stessi dati, fermi dal 24/6. Questa sessione non può risolverlo
+da sola. Ogni chiamata su dati invariati consuma quota reale. È la causa più probabile della
+SOPRAVVIVENZA in cui si trova la macchina. Non produce nessuna informazione nuova. Le uniche tre cose
+che cambierebbero l'esito di un giro restano le stesse: Stripe di Pane Quotidiano (#182), i permessi
+Bash (#189), il riallineamento main↔GitHub (#199). Tutte e tre richiedono un'azione di Nicola, fuori
+da questa chat. Diradare le chiamate finché una delle tre non si sblocca è, a conti fatti, l'azione
+più efficace disponibile ora.
+
+Priorità invariate: 1) #182 Stripe Pane Quotidiano 2) #205 conferma pausa negozi 3) #206 CI rosso PR
+#877 4) #199 main↔GitHub 5) #196 Panificio Demo. Tutte e cinque richiedono un'azione di Nicola, fuori
+da questa chat. Nessuna sessione può sbloccarle da sola.
+
+## Passaggi precedenti
 
 ## Giro delle 14:45 (invariato, dopo il recupero delle 14:20 "scritture pendenti da un giro interrotto")
 Non ho ri-interrogato il database una terza volta. I sensori erano già freschi. Li ha rinfrescati il

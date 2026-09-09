@@ -1,6 +1,19 @@
 ---
-data: 2026-09-09 14:45
+data: 2026-09-09 16:47
 ---
+
+## Giro 2026-09-09 16:47 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 14:45)
+
+**Voto di fiducia: 75/100** (stabile). Dati di business fermi. Sono identici alla firma dell'1/9.
+
+- Riverificato dal vivo, non a memoria. Query SQL diretta su supabase-marketplace. 1 ordine: 24/6, annullato, €19,05, Pane Quotidiano. 0 pagati. Identico a tutti i passaggi di oggi.
+- `AZIONI-IN-ATTESA.md` riverificato con grep sui numeri di card. Stesse 6 card aperte, nessuna nuova. Sono: #182 (Stripe Pane Quotidiano). #189 (permessi Bash). #196 (Panificio Demo). #199 (main↔GitHub). #205 (pausa negozi). #206 (CI rosso PR #877).
+- Richiuso di nuovo il buco obbligatorio di freschezza-cadenze. Tre file erano fermi da circa 2 ore: `auto-analisi.json`, `registro-realta.json`, questo file. Il vincolo HARD lo segnalava in cima alla sessione. Il giro delle 14:56 era uscito saltando questo passo. Riscritti ora con verifica diretta.
+- `apprendimento.json` era già fresco (16:39, 8 minuti prima). L'ha scritto un worker concorrente. Non l'ho toccato, per non produrre rumore doppio.
+- Non ho rilanciato le 15 fasi pesanti. Due freni lo impongono insieme. Il letargo resta in SOPRAVVIVENZA: quota AI al 120% della finestra rolling, salute macchina a 4. Il gate North Star resta fermo: 0 pagati al 78°+ giorno. Insieme ammettono solo lavoro che avvicina il primo ordine pagato. Nessun dato nuovo lo giustifica oggi.
+- Lo segnalo di nuovo a Nicola, diretto. Il pattern delle chiamate ravvicinate e identiche continua. Sono oltre 35 chiamate "giro completo" nelle ultime ~34 ore, tutte sugli stessi dati fermi dal 24/6. Ogni chiamata consuma quota vera. Non produce nessuna informazione nuova. Le leve che cambierebbero l'esito restano le stesse: Stripe (#182). Permessi Bash (#189). Riallineare main e GitHub (#199). Tutte e tre richiedono un'azione di Nicola, fuori da questa chat.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-09 14:45 (nuova chiamata "esegui giro.md per intero", dopo il recupero delle 14:20)
 
