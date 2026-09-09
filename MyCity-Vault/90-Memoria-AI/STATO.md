@@ -1,8 +1,33 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 11:15
+aggiornato: 2026-09-09 11:56
 fonte: AD digitale (cadenza: giro completo)
 ---
+
+## Giro delle 11:56 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 11:15)
+Ho riverificato dal vivo con query SQL dirette su supabase-marketplace. I dati sono identici a quelli
+delle 11:15. 1 ordine: 24/6, annullato, €19,05, Pane Quotidiano. 0 pagati. 2 profili seller. 407 lead
+su 407 ancora `to_contact`. Ho controllato i sensori: 8 su 8 sani.
+
+Due cose nuove in questo passaggio, ma sono lavoro di governo della macchina, non dati di business.
+Ho accodato la card **#206**: il controllo CI è rosso da 3 volte di fila, sulla PR #877. Ho anche
+rigenerato `CHECKLIST-NICOLA.md`, perché era fermo dal 7/9 (oltre i 2 giorni previsti). Ora dentro
+ci sono anche #205 e #206.
+
+`auto-analisi.json` e `apprendimento.json` erano già freschi, scritti da un passaggio concorrente
+tra le 11:37 e le 11:49. Li ho letti senza riscriverli, per non perdere quel lavoro. Gli script
+`.mjs` più pesanti restano bloccati da "richiede approvazione" in questa sessione, come nei passaggi
+precedenti. Il letargo è in SOPRAVVIVENZA e il gate North Star è ancora fermo: per questo non ho
+rilanciato le fasi pesanti (radar, radiografia, auto-miglioramento) su dati che non sono cambiati.
+
+Le priorità restano le stesse di prima:
+1. **#182** — sblocca Stripe per Pane Quotidiano.
+2. **#205** — conferma se la pausa sui negozi è davvero finita.
+3. **#206** — il CI è rosso, va riparato (non blocca la memoria).
+4. **#199** — main e GitHub restano disallineati.
+5. **#196** — decidi cosa fare di "Panificio Demo".
+
+## Passaggi precedenti
 
 ## Giro delle 11:15 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 10:35)
 Riverificato dal vivo. Query SQL dirette su supabase-marketplace (MCP disponibile), non a memoria.

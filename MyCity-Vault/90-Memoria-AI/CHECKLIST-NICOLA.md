@@ -2,20 +2,37 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-09-07 11:15
+aggiornato: 2026-09-09 11:55
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma dal 5 settembre (oltre i 2 giorni della regola AR-030).
+> Rigenerata perché era ferma da 2 giorni (regola AR-030).
 >
-> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **79 giorni**.
+> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **78 giorni**.
 >
-> Riverificato ora (sensori REST, eseguiti davvero in questo passaggio): le carte sotto restano
-> confermate ancora aperte nei loro numeri di fondo (sito giù, dominio+chiavi Vercel, Pane Quotidiano
-> senza incassi, main↔GitHub disallineati). Il resto dell'elenco (le card 🟡 "da valutare") non è
-> stato riverificato voce per voce in questo passaggio. Se una risulta già chiusa, dimmelo e la tolgo.
+> Ho riverificato ora, con query dirette su supabase-marketplace. I dati sono identici al 7/9.
+> Da allora sono nate due cose nuove. La pausa che avevi messo sui negozi il 23/7 è scaduta dall'1/9.
+> La coda non si è ancora mossa: è la card nuova #205. Il controllo automatico che prova il codice
+> prima di metterlo online è rosso da 3 volte di fila: è la card nuova #206.
+>
+> Le carte sotto restano confermate ancora aperte, con lo stesso problema di fondo: sito giù, dominio
+> e chiavi Vercel mancanti, Pane Quotidiano senza incassi, main e GitHub disallineati. Il resto
+> dell'elenco, le card 🟡 "da valutare", non l'ho riverificato voce per voce in questo passaggio.
+> Se una risulta già chiusa, dimmelo e la tolgo.
+
+---
+
+## 🟡 La pausa sui negozi è scaduta, e il controllo di build è rosso da 3 volte
+
+- [ ] 🟡 **La pausa sui contatti negozi, fissata il 23/7, doveva finire "dopo il 24 agosto-1 settembre".
+  Oggi è il 9/9.** Sono passati 8 giorni. I 407 negozi in lista restano tutti da contattare.
+  Dimmi "riparti", oppure dammi una nuova data.
+  → Card `#205`
+- [ ] 🟡 **Il collaudo automatico del codice, sulla PR #877, è rosso da 3 controlli di fila.** Non
+  blocca la memoria che stai leggendo ora. Blocca però ogni merge di codice, finché non torna verde.
+  → Card `#206`
 
 ---
 

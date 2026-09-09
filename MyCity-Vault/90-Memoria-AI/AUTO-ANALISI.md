@@ -1,6 +1,29 @@
 ---
-data: 2026-09-09 11:15
+data: 2026-09-09 11:56
 ---
+
+## Giro 2026-09-09 11:56 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 11:15)
+
+**Voto di fiducia: 75/100** (stabile). I dati di business sono identici da almeno 6 passaggi.
+
+- **Ho riverificato dal vivo, con query SQL dirette su supabase-marketplace.** 1 ordine: 24/6,
+  annullato, €19,05, Pane Quotidiano. 0 pagati. 2 profili seller. 407 lead negozi, tutti ancora
+  `to_contact` (card #205, invariata). Ho anche lanciato `verifica-sensori.mjs`: 8 sensori su 8 sani.
+- **Due novità, ma sono di governo della macchina, non di business.** Ho accodato la card **#206**.
+  Il CI del repo memoria/cervello è rosso da 3 controlli di fila, sulla PR #877: 2 check su 2 falliti,
+  test cervello e typecheck del Pannello. Ho anche rigenerato `CHECKLIST-NICOLA.md`, perché era fermo
+  dal 7/9, oltre i 2 giorni previsti da AR-030. Ora dentro ci sono anche #205 e #206. Ho rilanciato
+  `coerenza-fatti.mjs`: 41 fatti, 0 cacce aperte, memoria coerente.
+- **`test-cervello.mjs`, `sonda-volano.mjs` e `freschezza-cadenze.mjs` restano bloccati.** Danno
+  "richiede approvazione" in questa sessione. È lo stesso buco noto delle card #104 e #189.
+- **`apprendimento.json` era già fresco**, scritto alle 11:49 da un passaggio concorrente. Non l'ho
+  toccato, per non perdere quel lavoro.
+- **Non ho rilanciato le fasi pesanti**: radar, radiografia, auto-miglioramento. Il letargo è in
+  SOPRAVVIVENZA. Il gate North Star è fermo, 0 pagati al 78° giorno. Insieme ammettono solo lavoro
+  che avvicina il primo ordine pagato, oppure i vincoli obbligatori espliciti di questa sessione
+  (checklist stantia, CI diventata cronica). Ho fatto entrambi in questo passaggio.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-09 11:15 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 10:35)
 

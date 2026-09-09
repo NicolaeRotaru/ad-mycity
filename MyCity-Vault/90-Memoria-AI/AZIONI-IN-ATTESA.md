@@ -22,6 +22,37 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- ci-diventato-cronico -->
+### 🟡 #206 — Il controllo che dice "il codice è pronto per andare online" è rosso da 3 controlli di fila, e nessuno l'ha ancora riparato · ⏳ accodata 2026-09-09 11:53
+
+**In parole semplici.** C'è un controllo automatico (si chiama "CI") che prova il codice prima che vada
+online, un po' come un collaudo prima di consegnare un'auto. Da tre controlli di fila risulta rosso: la
+prova più recente è sulla richiesta di unione numero 877 ("Le prove ballerine erano la rete, non
+l'ordine…"), dove sia i test del cervello sia il typecheck del Pannello finiscono male. Non è la prima
+volta di oggi che lo segnalo — è la terza — e finora nessuno l'ha ancora sistemato.
+
+**Cosa cambia per te.** Finché resta rosso, quella richiesta di unione (e ogni altra dopo di lei) non è
+sicura da mergiare: rischi di portare online codice che si rompe da solo. Il lavoro di memoria (questo
+giro) non ne risente — viaggia su un binario diverso — ma il lavoro sul codice del sito/Pannello resta
+fermo dietro questo semaforo rosso.
+
+**Cosa devi fare.** Non serve una firma tua adesso: serve che qualcuno (io, con @tech/@devops-sre, alla
+prossima finestra buona) apra la PR #877, legga l'elenco dei controlli falliti e li rimetta a posto uno
+per uno, poi rilanci il controllo finché non torna verde. Se preferisci che me ne occupi ora invece di
+aspettare, dimmelo con "ok 206" e lo metto in cima.
+
+**Cosa non ho verificato.** Non ho ancora aperto il dettaglio dei singoli test falliti dentro la PR
+877 (serve un giro dedicato, non un'occhiata di passaggio) — qui registro solo che il semaforo è rosso
+da 3 controlli e non si sistema da solo.
+
+🔧 **Dettagli tecnici:** `node cervello/ci-stato.mjs --json` (allowlistato) → PR #877
+(`claude/analisi-ci-aperte-hywz8i` → `main`, sha `d15425aa2`): 2/2 controlli rossi ("prove, guardiani e
+typecheck", "suite del cervello + typecheck del Pannello"). Segnale "acceso da almeno 3 giri di fila"
+dal blocco vincoli di sessione (chiave `CI`). Non è lo stesso guasto delle card #182/#189/#199/#205
+(quelle sono dati di business/permessi, questa è la pipeline di build del codice).
+
+---
+
 <!-- ripresa-lavoro-operativo-scaduta -->
 ### 🟡 #205 — La pausa che avevi messo sui negozi è finita da 8 giorni, e in coda nessuno si è ancora mosso · ⏳ accodata 2026-09-09 06:35
 
@@ -3585,7 +3616,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-09 11:09)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-09 11:47)
 Report completo con comandi pronti: `consegne/supervisione/2026-09-09-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno

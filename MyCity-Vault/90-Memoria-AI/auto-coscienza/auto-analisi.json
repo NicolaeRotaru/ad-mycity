@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-09 11:15",
+  "data": "2026-09-09 11:56",
   "voto_fiducia": 75,
-  "sintesi_giro_corrente": "Nuova chiamata 'esegui giro.md per intero' (Nicola, chat), ~40min dopo il passaggio delle 10:35. Riverificato dal vivo con query SQL dirette su supabase-marketplace (MCP disponibile in sessione): orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0; seller_public_profiles=2 (invariato, Pane Quotidiano Stripe ancora spento #182, 'Panificio Demo' #196 invariato); products=9 (tutti status='available'); abandoned_carts=4; merchants_leads=407, TUTTE outreach_status='to_contact' (card #205 invariata). Bit-per-bit identico al passaggio delle 10:35 e a tutti i precedenti di oggi. AZIONI-IN-ATTESA.md: card più recente resta #205 (verificato con grep sui numeri #182/#189/#196/#199/#205, tutte ancora aperte con lo stesso testo). DECISIONI.md invariato dal 29/8 00:40. git fetch+rev-list diretti (allowlistati): divergenza main↔GitHub salita a 378 commit locali mai spinti/13 remoti mai scaricati (era 376/13 alle 10:35). In questa sessione la maggior parte degli script .mjs HARD (test-cervello, freschezza-cadenze, sonda-volano, coerenza-fatti, ecc.) non è allowlistata per esteso e resta bloccata da 'richiede approvazione' — stesso buco noto card #104/#189: usati Supabase MCP + git (allowlistati) al loro posto. apprendimento.json già fresco (11:11, worker/passaggio concorrente non narrato qui, non toccato). Applicata la strategia snella (letargo RISPARMIO + gate NORTH_STAR): non rilanciati radar esterno/radiografia/auto-miglioramento su dati di business invariati — è circa il 20° passaggio identico di oggi.",
+  "sintesi_giro_corrente": "Nuova chiamata 'esegui giro.md per intero' (Nicola, chat), ~40min dopo il passaggio delle 11:15. Riverificato dal vivo con query SQL dirette su supabase-marketplace: orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0; profili seller=2 (invariato, Pane Quotidiano Stripe ancora spento #182, 'Panificio Demo' #196 invariato); merchants_leads=407, TUTTE outreach_status='to_contact' (card #205 invariata). Bit-per-bit identico al passaggio delle 11:15 e a tutti i precedenti di oggi. `verifica-sensori.mjs` eseguito: 8/8 sensori sani (PostHog spento per decisione di Nicola, non cieco). Lavoro reale di QUESTO passaggio, sul governo della macchina non sui dati di business: accodata card nuova #206 (`node cervello/ci-stato.mjs --json` mostra PR #877 rossa da 3 controlli di fila, 2/2 check falliti — la sessione precedente non l'aveva ancora tradotta in una card esplicita per il vincolo 'appena diventati cronici'); rigenerato `CHECKLIST-NICOLA.md` (fermo dal 7/9, oltre i 2 giorni di AR-030) con dentro #205 e #206; `coerenza-fatti.mjs` rieseguito con successo (41 fatti, 0 cacce aperte, nulla da propagare). `test-cervello.mjs`, `sonda-volano.mjs`, `freschezza-cadenze.mjs` tentati via Bash: ancora bloccati da 'richiede approvazione' — stesso buco noto card #104/#189. `auto-analisi.json` di questo passaggio aggiorna quello scritto alle 11:15 (fresco, 41 minuti); `apprendimento.json` risulta già fresco (11:49) da un passaggio concorrente sullo stesso ramo, non toccato per non perdere lavoro altrui.",
   "sintesi": "78° giorno di calendario di stallo North Star (0 pagati dal 24/6), stato di business bit-per-bit invariato rispetto al passaggio delle 10:35 e a tutti quelli precedenti di oggi. Lavoro reale del passaggio: riverifica dal vivo via SQL diretto (non ereditata), cancello di serietà riscritto con timestamp fresco, nessuna card nuova da aprire, nessuna entità da fondare o declassare.",
   "trend_fiducia": "= stabile a 75: nessun peggioramento né miglioramento sui dati di business (identici da almeno 5 passaggi). La divergenza main↔GitHub cresce ancora (378/13) ma è causa già nota (card #199), non un fatto nuovo.",
   "entita_verificate": [
@@ -56,6 +56,12 @@
     {
       "tipo": "processo",
       "domanda": "La pausa negozi che avevi fissato il 23/7 ('dopo il 24 agosto-1 settembre') è scaduta da 8 giorni: i 407 lead sono ancora 0/407 contattati. Riparto, o la pausa continua per altri motivi non ancora scritti qui? (card #205, nuova)",
+      "azione": "in attesa",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "sistema",
+      "domanda": "Il controllo CI del repo memoria/cervello è rosso da 3 controlli di fila (PR #877, test cervello + typecheck Pannello falliti). Vuoi che me ne occupi ora o aspetto la prossima finestra? (card #206, nuova)",
       "azione": "in attesa",
       "colore": "🟡"
     }

@@ -1361,3 +1361,6 @@ Esempi:
 - 2026-09-09 11:15 · @ad · FATTO · `git fetch origin main` + `rev-list --count` in diretta: divergenza main↔GitHub 378 commit locali mai spinti / 13 remoti mai scaricati (era 376/13).
 - 2026-09-09 11:15 · @ad · FATTO · Cancello di serietà riscritto (`auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`). La maggior parte degli `.mjs` HARD resta bloccata da approvazione in questa sessione (stesso buco #104/#189): usati Supabase MCP + git allowlistati al loro posto.
 - 2026-09-09 11:15 · @ad · PASSO-A · @Nicola — priorità invariate: #182 (Stripe Pane Quotidiano, mossa n.1), #189 (permessi Bash), #205 (la pausa negozi è finita?), #199 (main↔GitHub, ora 378/13), #196 (Panificio Demo).
+- 2026-09-09 11:56 · @ad · FATTO · Nuovo giro completo (chiesto da Nicola in chat), riverificato dal vivo via SQL diretto: bit-per-bit identico al passaggio delle 11:15 — 1 ordine, 0 pagati, 2 seller profiles, 407 lead ancora `to_contact`. Sensori 8/8 sani.
+- 2026-09-09 11:56 · @ad · FATTO · Accodata card #206 (CI rossa da 3 controlli di fila, PR #877) e rigenerato `CHECKLIST-NICOLA.md` (stantio dal 7/9, AR-030) con dentro #205 e #206.
+- 2026-09-09 11:56 · @ad · PASSO-A · @Nicola — priorità: #182 (Stripe Pane Quotidiano, mossa n.1), #205 (conferma fine pausa negozi), #206 (CI da riparare), #199 (main↔GitHub), #196 (Panificio Demo).
