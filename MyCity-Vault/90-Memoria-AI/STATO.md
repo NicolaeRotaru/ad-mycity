@@ -1,8 +1,40 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 18:34
+aggiornato: 2026-09-09 20:36
 fonte: AD digitale (cadenza: Report della sera, cervello/ritmo.md)
 ---
+
+## Giro delle 20:36 (invariato, ~1h43 dopo il passaggio delle 18:34)
+Riverificato dal vivo con query SQL diretta su supabase-marketplace, non a memoria. Bit-per-bit
+identico a tutti i passaggi di oggi: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), **0
+pagati**, 9 profili, 9 prodotti, 407 lead. `AZIONI-IN-ATTESA.md` riverificato per esteso su tutti i
+marker `### 🟡/🔴`: il numero più alto resta #206, nessuna card nuova. `DECISIONI.md` fermo dal
+29/8 00:40, nessuna firma nuova.
+
+L'unico numero che si muove è la divergenza main↔GitHub, verificata ora dal vivo con `git fetch
+origin main` + `git rev-list --count`. Ora **403 commit locali mai spinti su GitHub**, **13 remoti
+mai scaricati** (era 401/13 alle 18:34).
+
+Il gate HARD di freschezza-cadenze segnalava in cima a questa sessione che il giro delle 18:53 era
+uscito saltando auto-analisi/apprendimento: `auto-analisi.json`, `registro-realta.json`,
+`AUTO-ANALISI.md` erano fermi dalle 16:47 (~3h44). Riscritti ora con verifica diretta.
+`test-cervello.mjs` e gli altri script `.mjs` HARD restano bloccati da "richiede approvazione" in
+questa sessione — stesso buco noto delle card #104/#189, non ridiagnosticato oltre un tentativo.
+
+**Non ho rilanciato le 15 fasi pesanti.** Il letargo resta in RISPARMIO (salute macchina 4). Il
+gate NORTH_STAR resta fermo: 0 pagati, 78° giorno di calendario. Insieme ammettono solo lavoro che
+avvicina direttamente il primo ordine pagato. Su dati fermi le fasi pesanti sarebbero solo rumore.
+
+**Lo ripeto a Nicola, perché il conteggio continua a crescere.** Questa è, per conteggio diretto in
+questo file, oltre la 45ª chiamata "giro completo" identica nelle ultime ~36 ore. Tutte sugli stessi
+dati fermi dal 24/6. Tre leve cambierebbero l'esito, e tutte e tre richiedono un'azione tua, fuori da
+questa chat. Prima: #182, Stripe di Pane Quotidiano. Seconda: #189, i permessi Bash. Terza: #199, il
+riallineamento main↔GitHub. Ora è a 403/13, e cresce a ogni giro.
+
+Priorità invariate: 1) **#182** Stripe Pane Quotidiano 2) **#189** permessi Bash 3) **#199**
+main↔GitHub 4) **#205** conferma pausa negozi 5) **#196** Panificio Demo 6) **#206** CI rosso PR #877.
+
+## Passaggi precedenti
 
 ## Giro delle 18:34 (invariato, ~34min dopo il Report della sera delle 18:00)
 Ho riverificato dal vivo con query SQL dirette su supabase-marketplace, non a memoria. Risultato: 1

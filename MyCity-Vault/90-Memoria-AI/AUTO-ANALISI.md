@@ -1,6 +1,20 @@
 ---
-data: 2026-09-09 16:47
+data: 2026-09-09 20:36
 ---
+
+## Giro 2026-09-09 20:36 (nuova chiamata "esegui giro.md per intero", ~1h43 dopo il passaggio delle 18:53)
+
+**Voto di fiducia: 75/100** (stabile). Dati di business fermi. Identici alla firma dell'1/9.
+
+- Riverificato dal vivo, non a memoria. Query SQL diretta su supabase-marketplace: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili, 9 prodotti, 407 lead. Identico a tutti i passaggi di oggi.
+- `AZIONI-IN-ATTESA.md` riverificato per esteso su tutti i marker `### 🟡/🔴`: il numero più alto resta #206, nessuna card nuova. `DECISIONI.md` fermo dal 29/8 00:40.
+- Richiuso il buco obbligatorio di freschezza-cadenze segnalato in cima alla sessione: il giro delle 18:53 era uscito saltando auto-analisi/apprendimento. `auto-analisi.json`, `registro-realta.json`, questo file erano fermi dalle 16:47 (~3h44). Riscritti ora con verifica diretta.
+- L'unico numero verificato dal vivo che si muove: la divergenza main↔GitHub, con `git fetch`+`git rev-list` (allowlistati). Ora **403 commit locali mai spinti su GitHub, 13 remoti mai scaricati** (era 401/13 alle 18:34).
+- Non ho rilanciato le 15 fasi pesanti. Il letargo è in RISPARMIO (quota AI 52%, salute macchina 4). Il gate North Star resta fermo: 0 pagati al 78° giorno. Insieme ammettono solo lavoro che avvicina il primo ordine pagato. Nessun dato nuovo lo giustifica.
+- Lo segnalo di nuovo a Nicola, diretto. Il pattern delle chiamate ravvicinate e identiche continua. Sono oltre 45 chiamate "giro completo" nelle ultime ~36 ore. Tutte sugli stessi dati fermi dal 24/6.
+- Tre leve cambierebbero l'esito. Prima: Stripe (#182). Seconda: i permessi Bash (#189). Terza: riallineare main e GitHub (#199). Tutte e tre richiedono un'azione di Nicola. Fuori da questa chat.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-09 16:47 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 14:45)
 
