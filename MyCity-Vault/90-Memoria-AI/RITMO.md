@@ -1936,3 +1936,25 @@ Aggiungo una quarta priorità. Il server e GitHub non si parlano da 6 giorni. La
 - La prima cosa utile resta sempre la stessa: sbloccare i pagamenti con carta di Pane Quotidiano, perché è il passo più vicino a un primo ordine vero.
 
 **Dettagli tecnici** — Riverificato con query SQL diretta su Supabase: `orders`=1, `payment_status='paid'`→0, `profiles`=9, `products`=9, `seller_public_profiles`=2 (Pane Quotidiano `stripe_charges_enabled=false`/`stripe_payouts_enabled=false`; Panificio Demo idem). `git fetch origin main` + `git rev-list --count`: 362 commit locali mai spinti (era 360 alle 16:33), 12 remoti mai scaricati (invariato). `DECISIONI.md` fermo al 2026-08-29 00:40. `AZIONI-IN-ATTESA.md` in cima invariata: #204/#203/#202/#201/#200/#199/#198/#196/#195/#194/#193/#192/#189, nessuna card nuova in questo passaggio. Gate `chiusura-loop.mjs --gate`: verde, entrambi i reparti attivi oggi hanno l'ESITO nel quaderno. Non rilanciate le 15 fasi pesanti del giro: letargo/gate NORTH_STAR invariati, nessun delta di business da inseguire — questo è il report della sera in cadenza, non un nuovo giro completo.
+
+## Piano del mattino · 2026-09-09 06:00
+
+**In una riga:** Ancora 0 ordini pagati, 77° giorno di fila — le tre cose che lo sbloccherebbero aspettano ancora la tua firma.
+
+**Le 3 cose di oggi**
+1. Sblocca i pagamenti con carta di Pane Quotidiano. È l'unico blocco confermato tra i dati di oggi e il primo incasso vero.
+2. Dai il via libera per sbloccare i controlli automatici interni. Sono fermi da una settimana. Bloccano a catena anche gli altri.
+3. Riallinea questo computer con GitHub. Sono 370 scritture di qui mai arrivate là. Chi guarda il Pannello pubblico vede una versione vecchia della macchina.
+
+**Serve da te**
+- Attiva i pagamenti con carta per Pane Quotidiano su Stripe. Oppure dimmi cosa manca per farlo.
+- Fai aggiungere le righe di permesso già pronte. Serve un computer con accesso diretto, non questa chat.
+- Dimmi cosa fare di "Panificio Demo", il negozio finto nel database. Lo riconosci o lo cancello?
+
+**Lezione di oggi**
+- Un blocco confermato resta un blocco finché qualcuno con le chiavi giuste non lo apre: ripeterlo non lo sposta.
+
+**Domani**
+- La prima cosa utile resta sempre la stessa: appena arriva una delle tre firme, si riparte da lì.
+
+**Dettagli tecnici** — #182 Stripe Pane Quotidiano (`stripe_charges_enabled=false`, ~31 giorni) · #189 20 righe di permesso pronte in `.claude/settings.json` (vedi card #189) · #199 main↔GitHub 370 commit locali/12 remoti (era 368/12 ieri sera, verificato con `git fetch origin main` + `git rev-list --count`) · #196 seller_id `44444444-4444-4444-4444-aaaaaaaa0001`, 0 ordini collegati. Dati riverificati dal vivo con `verifica-sensori.mjs` (REST): `orders`=1, 0 pagati, identico a tutta la giornata di ieri. `DECISIONI.md` fermo al 2026-08-29 00:40. Non rilanciate le 15 fasi pesanti del giro: letargo/gate NORTH_STAR invariati, nessun delta di business da inseguire.

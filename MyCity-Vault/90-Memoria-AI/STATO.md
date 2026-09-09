@@ -1,8 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-09-08 22:41
-fonte: AD digitale (cadenza: giro su richiesta)
+aggiornato: 2026-09-09 06:00
+fonte: AD digitale (cadenza: Piano del mattino)
 ---
+
+## Prossime priorità (Piano del mattino 2026-09-09 06:00)
+77° giorno di stallo North Star, da 24/6 a oggi.
+
+Dati riverificati dal vivo via REST (`verifica-sensori.mjs`). 1 ordine, quello del 24/6, annullato,
+€19,05. **0 pagati.** Identico a tutta la giornata di ieri. `DECISIONI.md` è fermo dal 29/8 00:40.
+Nessuna firma nuova.
+
+La divergenza main↔GitHub è peggiorata ancora. **370 commit locali mai spinti su GitHub.** **12
+commit remoti mai scaricati.** Ieri sera erano 368/12.
+
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato tra i dati
+   di oggi e il primo ordine pagato. Fermo da ~31 giorni.
+2. **#189 — Aggiungi da FUORI la chat le 20 righe di permesso già pronte.** Sblocca gli script di
+   controllo interni. Sono fermi da una settimana.
+3. **#199 — Riallinea main VPS↔GitHub.** Cresce di alcune decine di commit al giorno. Nasconde
+   lavoro vero. Crea doppioni di card fra le due storie.
+4. **#196 — Decidi su "Panificio Demo".** Negozio finto nel database vero. 5° giorno. 0 ordini
+   collegati. Basta un sì/no per chiuderla.
+
+Nessun reparto riceve lavoro pesante nuovo oggi. Il gate North Star ammette solo ciò che avvicina
+il 1° ordine pagato. Le tre leve che lo farebbero aspettano tutte un'azione che solo Nicola può fare
+da fuori questa chat: Stripe, l'editor sul VPS, l'accesso diretto al disco.
 
 ## Giro delle 22:41 (invariato, ~2h dopo il passaggio delle 20:33 — terzo giro in 2 ore)
 Stessi numeri, riverificati dal vivo via SQL diretto. 1 ordine (24/6, annullato, €19,05). 0 pagati.
