@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-09 08:47",
+ "aggiornato": "2026-09-09 10:41",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -8445,29 +8445,6 @@
    ]
   },
   {
-   "id": "L-2026-0710-87",
-   "testo": "**`.claude/settings.local.json` va in `.gitignore` — un `git checkout` lo sovrascrive (chat 10/7):** durante la chat, l'AD ha eseguito `git checkout feature/skill-rapide-chat` e il file `.claude/settings.local.json` (tracciato nel branch con una versione precedente) è stato sovrascritto dalla versione del branch, cancellando tutti i permessi che Nicola aveva appena aggiunto manualmente. È successo due volte nella stessa chat, costringendo Nicola a rincollare il contenuto ogni volta. **Causa radice:** il file è di sessione personale (permessi, allowlist) — NON va tracciato nel repo; è specifico del VPS/utente, non del codebase. Ogni branch con versione diversa lo sovrascrive al checkout. **Fix definitivo (da fare UNA volta sola):** aggiungere `.claude/settings.local.json` al `.gitignore` — così git non lo traccia, non lo commita, non lo sovrascrive mai ai checkout. **Regola riusabile:** tutti i file di config locale/personale (`.env`, `.claude/settings.local.json`, credenziali) devono stare in `.gitignore`; se già committati in un branch, non basta toglierli dalla HEAD — serve `git rm --cached <file>` per staccarli dal tracking. Vedi [[codice-solo-pr-mai-merge]], [[verifica-prima-di-affermare]].",
-   "tag": [
-    "settings-local-json",
-    "gitignore",
-    "git-checkout",
-    "sovrascrittura-permessi",
-    "allowlist-permessi",
-    "devops-sre"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32",
-   "id_precedente": "L-2026-0710-71",
-   "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
-  },
-  {
    "id": "L-2026-0723-456",
    "testo": "**Nicola: «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — segnale di soglia sulla fiducia, non una singola correzione (chat 23/7 ~23:40).** Arrivato dopo una sera a volume altissimo (30+ giri, 7 PR tra le 16:48 e le 23:16) in cui sono comparsi più errori visibili ravvicinati: (1) pattern-match sbagliato sulla richiesta \"tasto Jarvis\" (23:35, già lezione separata), (2) file estranei lasciati in `git-pr.mjs` **due volte** a 3h di distanza (già lezione separata), (3) la sensazione di \"non ricordare\" — reale ma non arbitraria: la memoria vive SOLO nei file scritti tra un turno e l'altro (LEZIONI-CHAT.md), non è continuità implicita dentro la stessa sera. **5 perché:** ① perché Nicola l'ha detto proprio ora? Perché ha visto 2+ errori distinti nella stessa giornata intensa, ravvicinati nel tempo — la densità di errori percepiti è salita insieme alla densità di lavoro. ② perché la densità di lavoro alza gli errori? Perché con più PR/giri in sequenza si abbassa il tempo speso a verificare ogni singolo passo (git status prima di git-pr, rilettura della richiesta prima di rispondere). ③ perché la memoria non ha attutito la percezione? Perché la persistenza è a livello file, letta all'inizio della chat SUCCESSIVA — un errore corretto nello stesso turno non \"si vede\" come imparato, si vede solo come errore. ④ perché non è stato spiegato prima il limite di memoria? Perché non era mai stato chiesto esplicitamente prima di stasera — l'AD non lo comunica in modo proattivo. ⑤ **causa radice:** fiducia erosa da errori visibili accumulati in poco tempo sotto alto volume, aggravata dall'assenza di trasparenza proattiva sul funzionamento della memoria PRIMA che diventasse un problema di fiducia. **Regola riusabile:** quando il ritmo di lavoro sale (giri/PR ravvicinati), rallentare le verifiche di routine invece di correre a chiudere il prossimo fix — la densità di errori visibili pesa più della velocità; e quando Nicola tocca per la prima volta un limite strutturale (qui: memoria tra chat), spiegarlo SUBITO in modo esplicito, non aspettare che lo chieda due volte. Vedi [[feedback-verifica-prima-di-affermare]].",
    "tag": [
@@ -8478,14 +8455,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-23",
    "ultima_conferma": "2026-07-23 23:40",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-09 10:30"
   },
   {
    "id": "L-2026-0724-01",
@@ -8498,14 +8475,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:22",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-09 10:30"
   },
   {
    "id": "L-2026-0724-02",
@@ -8518,14 +8495,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-24",
    "ultima_conferma": "2026-07-24 00:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-09 10:30"
   },
   {
    "id": "L-2026-0724-527",
@@ -8562,14 +8539,14 @@
     "meta"
    ],
    "reparto": "@ad",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 1,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-26",
    "ultima_conferma": "2026-07-26 06:23",
    "stato": "attiva",
-   "decaduto_step_il": "2026-09-01 11:32"
+   "decaduto_step_il": "2026-09-09 10:30"
   },
   {
    "id": "L-2026-0730-528",
@@ -10447,7 +10424,7 @@
     "lettura-richiesta"
    ],
    "reparto": "@ad",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -10460,7 +10437,7 @@
    "gate_nota": "Debito dichiarato: è un errore di lettura/giudizio in una risposta di chat, non un pattern di codice — nessun test automatico può verificare 'ha letto bene il messaggio corto'. Il freno più vicino che esiste già è `cervello/contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit): ri-espone questa lezione all'inizio di ogni turno il cui prompt tocca temi affini (casella/Pannello/Sala Operativa), verificato attivo l'8/4 17:xx (vedi L-2026-0804-01). Non è un cancello che blocca un commit, solo un promemoria a monte.",
    "id_precedente": "L-2026-0804-02",
    "nota_rinumero": "rinumerata da L-2026-0804-02 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)",
-   "decaduto_step_il": "2026-09-01 18:28"
+   "decaduto_step_il": "2026-09-09 10:30"
   },
   {
    "id": "L-2026-0810-01",
@@ -10912,9 +10889,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-09 08:32",
+     "quando": "2026-09-09 10:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 97
+     "volte": 98
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -12788,19 +12765,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 427,
+  "lezioni_attive": 426,
   "promosse_a_principio": 95,
   "decadute": 0,
   "tasso_applicazione": 0.15,
-  "tasso_calcolato_il": "2026-09-09 08:47",
+  "tasso_calcolato_il": "2026-09-09 10:41",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-09 08:32",
-  "lezioni_totali": 433,
+  "cristallizzazione_ultima": "2026-09-09 10:30",
+  "lezioni_totali": 432,
   "lezioni_per_stato": {
-   "attiva": 316,
+   "attiva": 315,
    "principio": 95,
    "in-prova": 5,
    "decaduta": 0,

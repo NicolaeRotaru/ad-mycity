@@ -1,8 +1,51 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 08:38
+aggiornato: 2026-09-09 10:35
 fonte: AD digitale (cadenza: giro completo)
 ---
+
+## Giro delle 10:35 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 08:38)
+Riverificato dal vivo. Query SQL dirette su supabase-marketplace (MCP disponibile in questa sessione),
+non a memoria. 1 ordine (24/6, annullato, €19,05, Pane Quotidiano). **0 pagati.** 9 profili. 2 negozi
+pubblici. Pane Quotidiano ha ancora Stripe spento (card #182, invariata). "Panificio Demo" è ancora lì
+(card #196, 5° giorno). 9 prodotti. 4 carrelli abbandonati. 0 recensioni. 407 lead negozi, tutti ancora
+`to_contact` (card #205, invariata). Bit-per-bit identico al passaggio delle 08:38. `AZIONI-IN-ATTESA.md`
+è invariata: la card più recente resta #205, e le cinque card aperte (#182/#189/#196/#199/#205) sono
+tutte ancora nel file col testo originale. `DECISIONI.md` è fermo dal 29/8 00:40: nessuna firma nuova.
+
+`coerenza-fatti.mjs` eseguito con successo: 41 fatti, 0 cacce aperte, memoria coerente. `git fetch
+origin main` riuscito. La divergenza main↔GitHub è peggiorata ancora. Ora sono **376 commit locali mai
+spinti su GitHub**. E **13 remoti mai scaricati** (era 374/12 alle 08:38). Stesso blocco noto, card #199.
+
+`sonda-volano.mjs` resta bloccato da "richiede approvazione" in questa sessione. Un tentativo, non
+ritentato. È lo stesso buco noto delle card #104/#189 (area SERRATURA).
+
+`apprendimento.json` e `chiusura-loop.json` risultano già freschissimi (10:20-10:30). Li ha scritti un
+passaggio o un worker concorrente, non narrato in questa chat. Ha lavorato lì sul gate
+`correzione-nicola-gate`. Ha lasciato un nuovo script non ancora committato, `cervello/mirror-fresco.mjs`
+(è il guardiano per la lezione L-2026-0907-601). Non li ho toccati né sovrascritti in questo passaggio:
+sono fuori dallo scopo di un giro a dati invariati.
+
+Riscritto il cancello di serietà (`auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`) con
+timestamp fresco: erano fermi dalle 08:38, quindi da circa 2 ore, come segnalato dal promemoria di
+sistema a inizio sessione (freschezza-cadenze: "il giro delle 09:01 è uscito saltando l'auto-analisi o
+l'apprendimento").
+
+**Non ho rilanciato le 15 fasi pesanti del giro.** Il letargo resta in RISPARMIO. La salute macchina è
+a 4. Il gate NORTH_STAR resta fermo: 0 pagati, 78° giorno di calendario. Insieme ammettono solo lavoro
+che avvicina direttamente il primo ordine pagato. Non c'era nessun dato nuovo da inseguire con radar,
+radiografia o auto-miglioramento. I dati sono bit-per-bit identici a tutti i passaggi precedenti di oggi.
+
+Priorità invariate, stesso ordine.
+1. **#182** — Stripe Pane Quotidiano. È l'unico blocco confermato al primo ordine pagato.
+2. **#189** — i permessi Bash. Servono da fuori questa chat.
+3. **#205** — conferma se la pausa negozi (scaduta l'1/9) è finita davvero. 407 lead restano in attesa.
+4. **#199** — main↔GitHub diverge ancora (376/13).
+5. **#196** — decidi cosa fare di "Panificio Demo".
+
+Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 ## Giro delle 08:38 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 06:46)
 Riverificato dal vivo. Query SQL dirette su supabase-marketplace, non a memoria. 1 ordine (24/6,

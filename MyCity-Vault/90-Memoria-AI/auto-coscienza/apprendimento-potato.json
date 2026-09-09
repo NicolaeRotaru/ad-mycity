@@ -1,6 +1,21 @@
 {
   "potature": [
     {
+      "quando": "2026-09-09 10:30",
+      "byte_prima": 1024512,
+      "byte_dopo": 909753,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0710-87",
+            "testo": "**`.claude/settings.local.json` va in `.gitignore` — un `git checkout` lo sovrascrive (cha"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-09 08:32",
       "byte_prima": 1032811,
       "byte_dopo": 911609,
