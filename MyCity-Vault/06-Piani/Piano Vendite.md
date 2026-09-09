@@ -11,7 +11,7 @@
 > · **Il Bando Commercio ER è dato per aperto** (righe 24, 126, 134, 184) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
 > · **La commissione al negozio è scritta 12%** (riga 86) — il registro dice: 10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero… *(Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare …)*
 > · **Il negozio-faro è Garetti (o Casa Linda)** (righe 18, 24, 71, 94, 116, 146, 149, 181, 183) — il registro dice: Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e vers… *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
-> *Misurato il 2026-09-09 20:53. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-09-09 22:53. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > Base dati: [[Vendite & Acquisizione Negozi]] · [[Piano d'Azione]] · [[Bandi & Finanziamenti]] · [[Botteghe del Centro - Mappa]].

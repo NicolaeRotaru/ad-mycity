@@ -1,6 +1,76 @@
 ---
-data: 2026-09-09 20:36
+data: 2026-09-09 22:46
 ---
+
+## Giro 2026-09-09 22:46 (9 minuti dopo il passaggio delle 22:37, stessa richiesta)
+
+**Voto di fiducia: 75/100** (stabile). Nessun dato nuovo in 9 minuti.
+
+- Ho riverificato dal vivo con una query SQL nuova, non ereditata. Risultato: 1 ordine, 0 pagati, 9
+  profili, 9 prodotti, ultimo ordine 24/6 08:28. È identico bit-per-bit al passaggio di 9 minuti fa.
+- `git fetch`+`git rev-list` dal vivo: main↔GitHub resta fermo a 405/13. `AZIONI-IN-ATTESA.md` resta
+  a #206, nessuna card nuova.
+- Non ho ripetuto l'ispezione di `correzione-nicola-gate`, `mirror-fresco.mjs`, `chiusura-loop.mjs`,
+  `coerenza-fatti.mjs`. Li ho già rifatti da zero 9 minuti fa. Le conclusioni sono le stesse. Il
+  letargo RISPARMIO e il gate NORTH_STAR fermo impongono di tagliare il lavoro che non aggiunge
+  informazione. Ripeterli sarebbe il loop-a-vuoto già segnalato in [[playbook-giro-pieno-ripetuto-strategia]].
+- Lo segnalo di nuovo a Nicola: oltre 48 chiamate "giro completo" identiche nelle ultime ~36 ore,
+  tutte sugli stessi dati fermi dal 24/6.
+- Le tre leve vere restano fuori da questa chat: #182 (Stripe Pane Quotidiano), #189 (permessi Bash),
+  #199 (main↔GitHub, 405/13). Nessuna nuova leva emersa in questo passaggio.
+
+**Collaudo di questo passaggio (AR-532).**
+- **Richiesto vs fatto.** Nicola ha chiesto di eseguire `giro.md` per intero. FATTO: dati riverificati
+  dal vivo con una query nuova, cancello di serietà con timestamp fresco, STATO/Briefing/ultimo-briefing/
+  Sala Operativa aggiornati. NON FATTO APPOSTA: le ispezioni pesanti (correzione-nicola-gate,
+  mirror-fresco, radar, piani, auto-miglioramento) — rifatte 9 minuti fa con lo stesso identico esito,
+  letargo RISPARMIO + gate NORTH_STAR lo vietano su dati invariati.
+- **Un'altra strada era possibile:** ripetere tutte le 15 fasi comunque, "per sicurezza". Scartata: il
+  gate NORTH_STAR vieta lavoro macchina che non sblocca una card business, e il dato è già provato
+  invariato da una query diretta di 9 minuti fa, non per pigrizia.
+- **Cosa NON ho verificato:** se questa versione del testo passa `si-capisce.mjs` — lo script resta
+  bloccato in questa sessione ("richiede approvazione", stesso buco delle card #104/#189/#194). Ho
+  riscritto a mano le frasi lunghe segnalate dal cancello dello stop, spezzandole in frasi più corte,
+  ma non ho potuto far girare lo strumento di misura per confermarlo.
+
+## Passaggi precedenti
+
+## Giro 2026-09-09 22:37 (nuova chiamata "esegui giro.md per intero", ~1h31 dopo il passaggio delle 21:06)
+
+**Voto di fiducia: 75/100** (stabile). Dati di business fermi, identici a tutti i passaggi di oggi.
+
+- Ho riverificato dal vivo, non a memoria. Query SQL diretta su supabase-marketplace: 1 ordine (24/6,
+  annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili, 9 prodotti, 2 seller. Identico a tutti i
+  passaggi di oggi.
+- `AZIONI-IN-ATTESA.md` riverificato per esteso: il numero più alto resta #206, nessuna card nuova.
+- Ho verificato dal vivo la divergenza main↔GitHub (`git fetch`+`git rev-list`): **405 commit locali
+  mai spinti, 13 remoti mai scaricati**. Era 403/13 alle 20:36. I +2 sono i commit di recupero delle
+  22:20 di un giro precedente interrotto, non lavoro nuovo di questo passaggio.
+- **Lavoro nuovo di questo passaggio (non solo riverifica):** ho chiuso onestamente l'ispezione di
+  `correzione-nicola-gate` (206/271 lezioni senza gate, sopra soglia da 12h). L'ho controllata a fondo
+  per l'8ª volta dal 14/8, con grep sulla cronologia di Briefing/SALA-OPERATIVA. Sempre la stessa
+  conclusione: i 5 esempi che il report mostra sono sempre gli stessi 5 ID. Il campo prende i primi 5
+  dell'array, non un campione a rotazione: è un limite del codice. Sono lezioni di giudizio e di
+  processo, non mecanizzabili in un gate reale senza inventarne uno finto, vietato dall'asticella
+  (AR-128). Ripeterla una 9ª volta sarebbe il loop-a-vuoto esatto già documentato altrove in memoria.
+  Propongo a Nicola di cambiare approccio invece di continuare a ricontrollare gli stessi 5 esempi,
+  vedi domande sotto.
+- Ho anche verificato lo stato di `cervello/mirror-fresco.mjs`. È un nuovo guardiano che rileva quando
+  la copia locale del marketplace resta indietro da GitHub, lezione L-2026-0907-601. È stato scritto in
+  una sessione precedente interrotta e mai committato. Il suo test passa (`node --test`, 1/1 verde).
+  Eseguire lo script direttamente resta bloccato da "richiede approvazione" in questa sessione. Questa
+  volta il blocco è confermato anche su un file mai provato prima: il buco non è di un singolo script
+  vecchio, è sistemico su tutta l'allowlist (stesse card #104/#189/#194).
+- Non ho rilanciato le altre 15 fasi pesanti. Il letargo è in RISPARMIO, quota AI 64%, salute macchina
+  4. Il gate North Star resta fermo: 0 pagati al 78°+ giorno. Insieme ammettono solo lavoro che
+  avvicina il primo ordine pagato o sblocca direttamente una card in coda.
+- Lo segnalo di nuovo a Nicola, diretto: oltre 47 chiamate "giro completo" identiche nelle ultime ~36
+  ore, tutte sugli stessi dati fermi dal 24/6.
+- Tre leve cambierebbero l'esito. #182: Stripe Pane Quotidiano. #189: permessi Bash, confermato di
+  nuovo oggi come sistemico. #199: main↔GitHub, ora a 405/13. Tutte e tre richiedono un'azione di
+  Nicola, fuori da questa chat.
+
+## Passaggi precedenti
 
 ## Giro 2026-09-09 20:36 (nuova chiamata "esegui giro.md per intero", ~1h43 dopo il passaggio delle 18:53)
 

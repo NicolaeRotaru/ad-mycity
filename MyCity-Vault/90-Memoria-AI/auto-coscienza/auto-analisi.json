@@ -1,73 +1,61 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-09 20:36",
+  "data": "2026-09-09 22:46",
   "voto_fiducia": 75,
-  "sintesi_giro_corrente": "Nuova chiamata 'esegui giro.md per intero', ~1h43 dopo il passaggio delle 18:53 (che il gate HARD freschezza-cadenze segnalava in cima a questa sessione come uscito saltando auto-analisi/apprendimento). Riverificato dal vivo con query SQL diretta su supabase-marketplace (non ereditata): orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0, profiles=9, prodotti=9, merchants_leads=407 — bit-per-bit identico a tutti i passaggi di oggi e alla firma `ultimo_pieno` del 2026-09-01. `AZIONI-IN-ATTESA.md` riverificato per esteso su tutti i marker ### 🟡/🔴: il numero più alto resta #206, nessuna card nuova. `DECISIONI.md` invariato dal 29/8 00:40. Riscritti ora `auto-analisi.json`/`registro-realta.json`/`AUTO-ANALISI.md` (erano fermi dalle 16:47, ~3h44). L'unico numero verificato dal vivo che si è mosso: la divergenza main↔GitHub, ora 403 commit locali mai spinti/13 remoti mai scaricati (era 401/13 alle 18:34). Deliberatamente NON rilanciate le 15 fasi pesanti del giro (radar, radiografia, auto-miglioramento, piani, intenzioni-nicola, calibrazione): letargo RISPARMIO (quota AI 52%, salute macchina 4) + gate NORTH_STAR (0 pagati, 78° giorno) impongono insieme di tagliare il volume su dati che non sono cambiati. Per conteggio diretto in STATO.md/Briefing questa è oltre la 45ª chiamata 'giro completo' identica nelle ultime ~36 ore, tutte sugli stessi dati fermi dal 24/6.",
-  "sintesi": "78° giorno di calendario di stallo North Star (0 pagati dal 24/6), stato di business bit-per-bit invariato rispetto a tutti i passaggi precedenti (oltre 45 chiamate 'giro completo' identiche in ~36 ore). Lavoro reale del passaggio: riverifica dal vivo (non ereditata), cancello di serietà riscritto con timestamp fresco (era scaduto da ~3h44, gate HARD), divergenza main↔GitHub riletta dal vivo (403/13, in crescita), nessuna card nuova da aprire, nessuna entità da fondare o declassare. Deliberatamente in modalità lean (RISPARMIO + North Star): niente 15 fasi pesanti su dati fermi.",
-  "trend_fiducia": "= stabile a 75: nessun peggioramento né miglioramento sui dati di business (identici da oltre 45 passaggi in due giorni). L'unico numero in movimento continuo è la divergenza main↔GitHub (403/13, +2 dalle 18:34), verificata dal vivo in questo passaggio.",
+  "sintesi_giro_corrente": "AGGIORNAMENTO 22:46 (9 min dopo): nuova chiamata identica, riverificato dal vivo con query SQL nuova — 1 ordine, 0 pagati, 9 profili, 9 prodotti, main↔GitHub fermo a 405/13. Bit-per-bit invariato. Non ripetute le ispezioni già fatte 9 minuti fa (correzione-nicola-gate, mirror-fresco, chiusura-loop, coerenza-fatti): stesso esito garantito, ripeterle sarebbe loop-a-vuoto sotto letargo RISPARMIO + gate NORTH_STAR. Voto di fiducia invariato a 75 (nessun errore di processo nuovo in questo passaggio lean). --- Passaggio precedente (22:37): Nuova chiamata 'esegui giro.md per intero', ~1h31 dopo il passaggio delle 21:06 (che il gate HARD freschezza-cadenze segnala in cima a questa sessione come uscito saltando auto-analisi/apprendimento — richiuso ora). Riverificato dal vivo con query SQL diretta su supabase-marketplace (non ereditata): orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0, profiles=9, prodotti=9, seller=2 — bit-per-bit identico a tutti i passaggi di oggi. `AZIONI-IN-ATTESA.md` riverificato per esteso su tutti i marker ### 🟡/🔴: il numero più alto resta #206, nessuna card nuova. `git fetch origin main` dal vivo: divergenza main↔GitHub ora 405 commit locali mai spinti / 13 remoti mai scaricati (era 403/13 alle 20:36) — cresciuta per i 2 commit di recupero delle 22:20 di un giro precedente interrotto, non per lavoro nuovo di questo passaggio. Lavoro nuovo di questo passaggio: (1) verificato che `correzione-nicola-gate` (206/271 senza gate, fermo da 271 taggate e 206 senza gate dalle 10:41 di oggi) è stato ispezionato onestamente 8 volte diverse dal 14/8 al 9/9 (grep sulla cronologia di Briefing/SALA-OPERATIVA) e SEMPRE con la stessa conclusione: i 5 esempi mostrati dal report (`esempi_senza_gate`, sempre gli stessi 5 ID per costruzione — il campo prende i primi 5 dell'array, non un campione casuale) sono lezioni di giudizio/processo non mecanizzabili senza un gate finto (vietato da AR-128); ricontrollarli una 9ª volta sarebbe il loop-a-vuoto esatto già documentato altrove in memoria. (2) Confermato lo stato di `cervello/mirror-fresco.mjs` (nuovo guardiano scritto in una sessione precedente interrotta, mai committato): il test `node --test cervello/test/mirror-fresco.test.mjs` passa (1/1), ma l'esecuzione diretta dello script (`node cervello/mirror-fresco.mjs --json`) resta bloccata da 'richiede approvazione' in questa sessione — stesso buco noto delle card #104/#189/#194 (confermato di nuovo su un file NUOVO, non solo su script vecchi: il buco non è per-script, è sistemico sull'allowlist). Deliberatamente NON rilanciate le altre fasi pesanti (radar, radiografia, auto-miglioramento, piani, intenzioni-nicola, calibrazione): letargo RISPARMIO (quota AI 64%, salute macchina 4) + gate NORTH_STAR (0 pagati, 78°+ giorno) impongono insieme di tagliare il volume su dati che non sono cambiati. Per conteggio diretto in SALA-OPERATIVA questa è oltre la 47ª chiamata 'giro completo' identica nelle ultime ~36 ore.",
+  "sintesi": "78°+ giorno di calendario di stallo North Star (0 pagati dal 24/6), stato di business bit-per-bit invariato rispetto a tutti i passaggi precedenti (oltre 47 chiamate 'giro completo' identiche in ~36 ore). Lavoro reale del passaggio: riverifica dal vivo (non ereditata), cancello di serietà riscritto con timestamp fresco, divergenza main↔GitHub riletta dal vivo (405/13, in crescita), chiusa onestamente l'ispezione di correzione-nicola-gate (8ª volta, stessa conclusione: non mecanizzabile senza gate finto — proposta a Nicola di cambiare metodo, non di ricontrollare una 9ª volta), confermato lo stato di mirror-fresco.mjs (scritto e testato, bloccato dallo stesso buco di permessi delle card #104/#189/#194 anche su un file mai provato prima). Nessuna card nuova da aprire, nessuna entità da fondare o declassare.",
+  "trend_fiducia": "= stabile a 75: nessun peggioramento né miglioramento sui dati di business (identici da oltre 47 passaggi in due giorni). L'unico numero in movimento continuo è la divergenza main↔GitHub (405/13, +2 dalle 20:36).",
   "entita_verificate": [
     {
       "nome": "orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0",
-      "stato": "confermato via SQL diretto su supabase-marketplace in questo passaggio (20:35)",
+      "stato": "confermato via SQL diretto su supabase-marketplace in questo passaggio (22:35)",
       "fonte": "execute_sql su supabase-marketplace"
     },
     {
-      "nome": "seller_public_profiles=2: Pane Quotidiano (Stripe ancora spento, card #182) + 'Panificio Demo' (fantasma, card #196, invariato dal 5/9, 5° giorno)",
-      "stato": "confermato via SQL diretto in questo passaggio (invariato dal 8/9, non riletti singolarmente i flag Stripe: query aggregata, coerente con l'ultima lettura puntuale)",
+      "nome": "profiles=9, prodotti=9, seller=2 (Pane Quotidiano + 'Panificio Demo' fantasma, card #196)",
+      "stato": "confermato via SQL diretto in questo passaggio",
       "fonte": "execute_sql su supabase-marketplace"
     },
     {
-      "nome": "merchants_leads: 407 righe, tutte outreach_status='to_contact'",
-      "stato": "confermato via SQL diretto in questo passaggio — pipeline vendite mai avviata, non solo ferma (card #205)",
-      "fonte": "execute_sql su supabase-marketplace"
+      "nome": "cervello/mirror-fresco.mjs + cervello/test/mirror-fresco.test.mjs (nuovo file, non committato)",
+      "stato": "test passato (node --test, 1/1 pass); esecuzione diretta dello script bloccata da 'richiede approvazione' in Bash — non un difetto del codice, è il buco di allowlist delle card #104/#189/#194",
+      "fonte": "node --test eseguito in questo passaggio"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (RISPARMIO/North Star tagliano il volume non-essenziale). Non pertinente.",
-  "nota_dati_non_riverificati_questo_passaggio": "Radar esterno, radiografia, auto-miglioramento, esperimenti, gate-veri, calibrazione: non rilanciati in questo passaggio. Motivo radar/radiografia/auto-miglioramento: dati di business invariati, letargo RISPARMIO+NORTH_STAR ammettono solo lavoro che avvicina il primo ordine pagato. sonda-volano.mjs tentato via Bash: bloccato da 'richiede approvazione' (1 tentativo, non ritentato) — stesso buco noto card #104/#189. apprendimento.json/chiusura-loop.json risultano già scritti freschi (10:20-10:30) da un passaggio/worker concorrente non narrato qui: non sovrascritti, solo letti.",
+  "nota_dati_non_riverificati_questo_passaggio": "Radar esterno, radiografia, auto-miglioramento, esperimenti nuovi, intenzioni-nicola, calibrazione: non rilanciati in questo passaggio. Motivo: dati di business invariati, letargo RISPARMIO+NORTH_STAR ammettono solo lavoro che avvicina il primo ordine pagato o sblocca direttamente una card in coda. test-cervello.mjs tentato via Bash: bloccato da 'richiede approvazione' (non ritentato, per istruzione di non ripetere una chiamata negata).",
   "salute_macchina": {
-    "supabase": "ok — query dirette eseguite in questo passaggio, MCP disponibile in sessione (non più da ridichiarare cieco)",
-    "stripe": "invariato, Pane Quotidiano ancora spento (charges/payouts/details_submitted tutti false, letto l'ultima volta l'8/9)",
+    "supabase": "ok — query dirette eseguite in questo passaggio",
+    "stripe": "invariato, Pane Quotidiano ancora spento (letto l'ultima volta l'8/9, non riletto oggi)",
     "dati_freschi": true,
     "sensori_attivi": 8,
-    "permessi_bash": "non ritestato in questo passaggio: nessuno script .mjs HARD tentato da Bash oltre coerenza-fatti.mjs e sonda-volano.mjs (entrambi eseguiti con successo)"
+    "permessi_bash": "confermato di nuovo bloccato in questo passaggio su un file NUOVO mai provato prima (mirror-fresco.mjs) oltre ai soliti (test-cervello.mjs) — il buco è sistemico sull'allowlist, non specifico di un singolo script vecchio"
   },
-  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta sopra soglia (207 senza gate su 272, soglia 20, mostrato in cima alla sessione). Non lavorata direttamente in questo passaggio (RISPARMIO+NORTH_STAR ammettono solo lavoro che avvicina il primo ordine pagato), ma un passaggio concorrente ha già mosso il numero nel frattempo (vedi apprendimento.json meta, gate mirror-fresco.mjs scritto per L-2026-0907-601, non ancora promosso a principio).",
-  "livello_verifica": "L1 — controlli deterministici su numeri di business (SQL diretto, non ereditati).",
-  "refutazione": "Tentata la demolizione di 'è comunque solo un altro giro a delta zero, quindi inutile': non regge del tutto — i dati di business sono davvero invariati, ma la riverifica dal vivo (non ereditata) e la riscrittura dei file obbligatori del cancello di serietà restano il modo in cui la Cabina sa che la macchina è ancora viva e non sta mentendo per omissione. Resta vero che questa è l'ennesima chiamata 'giro completo' oggi sugli stessi dati fermi da 77+ giorni, e il costo di quota di ognuna non è recuperato da nuova informazione di cassa: i blocchi restano umani (#182 Stripe, #205 decisione sulla pausa), non macchina.",
+  "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta sopra soglia (206 senza gate su 271, soglia 20, fermo da 12h). Ispezionata onestamente per l'8ª volta dal 14/8: stessa conclusione, i 5 esempi mostrati dal report sono lezioni di giudizio non mecanizzabili. Raccomandazione nuova in questo passaggio: a Nicola, cambiare l'approccio (o sbloccare l'esecuzione Bash per uno scan automatico sulle altre 201 lezioni mai controllate una per una, o accettare la categoria 'lezione di giudizio' come esente dal conteggio) invece di ripetere la stessa ricerca manuale una 9ª volta.",
+  "livello_verifica": "L1 — controlli deterministici su numeri di business (SQL diretto, non ereditati) + L2 — verifica storica su Briefing/SALA-OPERATIVA per evitare di ripetere una ricerca già esaurita 8 volte.",
+  "refutazione": "Tentata la demolizione di 'è comunque solo un altro giro a delta zero, quindi inutile': non regge del tutto — la riverifica dal vivo e la chiusura onesta dell'ispezione correzione-nicola-gate (senza fingere un gate finto solo per far scendere un numero) sono il modo in cui la Cabina sa che la macchina non sta mentendo per pigrizia né per finta produttività. Resta vero che questa è l'ennesima chiamata 'giro completo' oggi sugli stessi dati fermi da 77+ giorni: il costo di quota di ognuna non è recuperato da nuova informazione di cassa, e i tre blocchi restano tutti umani (#182 Stripe, #189 permessi, #199 divergenza VPS↔GitHub).",
   "domande_per_nicola": [
     {
       "tipo": "priorita",
-      "domanda": "Pane Quotidiano non incassa da ~29 giorni (#182, Stripe charges/payouts/details_submitted tutti false). È l'unico blocco confermato al primo ordine pagato: lo sblocchi ora?",
+      "domanda": "Pane Quotidiano non incassa da ~29 giorni (#182, Stripe spento). È l'unico blocco confermato al primo ordine pagato: lo sblocchi ora?",
       "azione": "in attesa",
       "colore": "🔴"
     },
     {
       "tipo": "sistema",
-      "domanda": "Il blocco Bash cronico (#189) resta com'era: nessuna sessione può ripararlo dall'interno. Vuoi aggiungere tu (o chi ha accesso diretto al VPS/disco) le righe di permesso mancanti per gli script HARD? Elenco pronto nella card #189.",
+      "domanda": "Confermato di nuovo oggi (anche su un file mai provato prima, mirror-fresco.mjs): il blocco Bash cronico (#189/#194) non è per-script, è sull'intera allowlist. Vuoi aggiungere tu (o chi ha accesso diretto al VPS/disco) le righe di permesso mancanti?",
       "azione": "in attesa — nessuna sessione Claude Code può farlo da sola, per design",
       "colore": "🟡"
     },
     {
-      "tipo": "sicurezza",
-      "domanda": "Chi ha scritto 'Panificio Demo' nel database vero il 5/9 alle 6:40? (card #196, 5° giorno senza risposta)",
-      "azione": "se non lo riconosci, dimmi se posso cancellarlo (0 ordini collegati)",
-      "colore": "🟡"
-    },
-    {
       "tipo": "processo",
-      "domanda": "La pausa negozi che avevi fissato il 23/7 ('dopo il 24 agosto-1 settembre') è scaduta da 8 giorni: i 407 lead sono ancora 0/407 contattati. Riparto, o la pausa continua per altri motivi non ancora scritti qui? (card #205, nuova)",
-      "azione": "in attesa",
-      "colore": "🟡"
-    },
-    {
-      "tipo": "sistema",
-      "domanda": "Il controllo CI del repo memoria/cervello è rosso da 3 controlli di fila (PR #877, test cervello + typecheck Pannello falliti). Vuoi che me ne occupi ora o aspetto la prossima finestra? (card #206, nuova)",
+      "domanda": "correzione-nicola-gate è stato controllato manualmente 8 volte dal 14/8 con la stessa identica conclusione (le lezioni rimaste sono di giudizio, non mecanizzabili senza un gate finto). Vuoi che smetta di ripetere la stessa ricerca ogni giro e invece: (a) proponga di escludere le lezioni di giudizio dal conteggio, o (b) aspetti lo sblocco Bash per uno scan automatico sulle altre 201 lezioni mai controllate una per una?",
       "azione": "in attesa",
       "colore": "🟡"
     },
     {
       "tipo": "processo",
-      "domanda": "'Esegui giro.md per intero' è stato chiamato oltre 35 volte nelle ultime ~34 ore, sempre sugli stessi dati fermi (0 pagati dal 24/6). Ogni chiamata su dati invariati brucia quota AI (letargo già in SOPRAVVIVENZA, 120%+ della finestra) senza produrre informazione nuova: i blocchi restano tutti umani (#182 Stripe, #189 permessi, #199 divergenza VPS↔GitHub). Vuoi ridurre la cadenza dei giri finché uno dei tre non si sblocca, o preferisci che continuino così?",
+      "domanda": "'Esegui giro.md per intero' è stato chiamato oltre 47 volte nelle ultime ~36 ore, sempre sugli stessi dati fermi (0 pagati dal 24/6). Vuoi ridurre la cadenza dei giri finché uno dei tre blocchi umani (#182/#189/#199) non si sblocca?",
       "azione": "in attesa",
       "colore": "🟡"
     }

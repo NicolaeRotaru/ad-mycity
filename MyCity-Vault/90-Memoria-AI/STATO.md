@@ -1,8 +1,65 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 20:36
-fonte: AD digitale (cadenza: Report della sera, cervello/ritmo.md)
+aggiornato: 2026-09-09 22:46
+fonte: AD digitale (cadenza: giro su richiesta)
 ---
+
+## Giro delle 22:46 (invariato, 9 minuti dopo il passaggio delle 22:37)
+Nuova chiamata identica a "esegui giro.md per intero". Ho riverificato dal vivo con una query SQL
+diretta su supabase-marketplace. Non è una query ereditata: l'ho lanciata di nuovo adesso. Risultato:
+1 ordine, 0 pagati, 9 profili, 9 prodotti, ultimo ordine 24/6 08:28. È identico bit-per-bit al
+passaggio di 9 minuti fa. Ho anche rifatto `git fetch`+`git rev-list` dal vivo: la divergenza
+main↔GitHub resta ferma a 405/13. Nessun nuovo commit locale in 9 minuti. `AZIONI-IN-ATTESA.md`
+resta ferma a #206 come numero più alto: nessuna card nuova.
+
+Non ho ripetuto il resto del passaggio delle 22:37: l'ispezione di correzione-nicola-gate,
+mirror-fresco, chiusura-loop, coerenza-fatti. Li ho già rifatti da zero 9 minuti fa. Le conclusioni
+sono le stesse identiche di allora. Il letargo è in RISPARMIO e il gate NORTH_STAR resta fermo:
+insieme impongono di tagliare il lavoro superfluo su dati che non sono cambiati. Rifare questi
+controlli un'altra volta sarebbe il loop-a-vuoto che la memoria [[playbook-giro-pieno-ripetuto-strategia]]
+segnala già come errore. Restano valide le domande già poste a Nicola nel passaggio precedente, vedi sotto.
+
+**Questa è oltre la 48ª chiamata "giro completo" identica nelle ultime ~36 ore, sugli stessi dati
+fermi dal 24/6.** Le tre leve vere restano fuori da questa chat. Prima: #182, Stripe di Pane
+Quotidiano. Seconda: #189, i permessi Bash. Terza: #199, main↔GitHub a 405/13. Nessuna nuova leva
+emersa in questo passaggio.
+
+## Giro delle 22:37 (invariato, ~1h31 dopo il passaggio delle 21:06)
+Ho riverificato dal vivo con una query SQL diretta su supabase-marketplace. Il risultato è identico
+bit-per-bit a tutti i passaggi di oggi: 1 ordine (24/6, annullato, €19,05, Pane Quotidiano), **0
+pagati**, 9 profili, 9 prodotti, 2 seller. `AZIONI-IN-ATTESA.md`: il numero più alto resta #206,
+nessuna card nuova.
+
+Ho verificato dal vivo anche la divergenza main↔GitHub con `git fetch`+`git rev-list`. Il risultato:
+**405 commit locali mai spinti, 13 remoti mai scaricati**. Era 403/13 alle 20:36. I +2 sono commit
+di recupero di un giro precedente interrotto, non lavoro nuovo di questo passaggio.
+
+**Lavoro nuovo di questo passaggio:** ho chiuso l'8ª ispezione di `correzione-nicola-gate` (206/271
+lezioni senza gate, sopra soglia da 12h). La conclusione è la stessa di sempre. I 5 esempi mostrati
+dal controllo sono sempre gli stessi 5: è un limite del codice, non una mancanza di lavoro. Sono
+lezioni di giudizio, non mecanizzabili senza un gate finto (AR-128). Propongo a Nicola di cambiare
+approccio invece di ripetere la stessa ricerca una 9ª volta (vedi domande in `auto-analisi.json`). Ho
+anche confermato lo stato di `cervello/mirror-fresco.mjs`: nuovo guardiano, test verde, ma non
+eseguibile. È lo stesso blocco delle card #104/#189/#194, oggi confermato pure su un file mai
+provato prima.
+
+Ho registrato l'ESITO del giorno per @ad in `chiusura-loop.mjs`: soddisfa il vincolo HARD di
+chiusura del loop. `coerenza-fatti.mjs` è pulito: 41 fatti, 0 cacce aperte.
+
+**Non ho rilanciato le 15 fasi pesanti.** Il letargo resta in RISPARMIO, salute macchina 4. Il gate
+NORTH_STAR resta fermo: 0 pagati, 78°+ giorno di calendario. Insieme ammettono solo lavoro che
+avvicina direttamente il primo ordine pagato.
+
+**Lo ripeto a Nicola, perché il conteggio continua a crescere.** Per conteggio diretto in questo
+file, questa è oltre la 47ª chiamata "giro completo" identica nelle ultime ~36 ore. Tutte sugli
+stessi dati fermi dal 24/6. Tre leve cambierebbero l'esito. Tutte e tre richiedono un'azione tua,
+fuori da questa chat. Prima: #182, Stripe di Pane Quotidiano. Seconda: #189, i permessi Bash. Terza:
+#199, il riallineamento main↔GitHub, ora a 405/13. Cresce a ogni giro.
+
+Priorità invariate: 1) **#182** Stripe Pane Quotidiano 2) **#189** permessi Bash 3) **#199**
+main↔GitHub 4) **#205** conferma pausa negozi 5) **#196** Panificio Demo 6) **#206** CI rosso PR #877.
+
+## Passaggi precedenti
 
 ## Giro delle 20:36 (invariato, ~1h43 dopo il passaggio delle 18:34)
 Riverificato dal vivo con query SQL diretta su supabase-marketplace, non a memoria. Bit-per-bit
