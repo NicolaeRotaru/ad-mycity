@@ -1,6 +1,35 @@
 ---
-data: 2026-09-09 10:35
+data: 2026-09-09 11:15
 ---
+
+## Giro 2026-09-09 11:15 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 10:35)
+
+**Voto di fiducia: 75/100** (stabile). Dati di business bit-per-bit identici da almeno 5 passaggi:
+nessun peggioramento né miglioramento reale, solo l'accumulo di un altro passaggio sugli stessi blocchi.
+
+- **Riverificato dal vivo con query SQL dirette su supabase-marketplace.** 1 ordine: 24/6, annullato,
+  €19,05, Pane Quotidiano. 0 pagati. 2 negozi pubblici. Pane Quotidiano ha ancora Stripe spento (card
+  #182). "Panificio Demo" è ancora presente (card #196). 9 prodotti. 4 carrelli abbandonati. 407 lead
+  negozi, tutti ancora `to_contact` (card #205, invariata). In `AZIONI-IN-ATTESA.md` la card più
+  recente resta #205. `DECISIONI.md` è invariato dal 29/8 00:40.
+- **Divergenza main↔GitHub salita a 378 commit locali mai spinti / 13 remoti mai scaricati.** Era
+  376/13 alle 10:35. Verificato con `git fetch`+`git rev-list` diretti, entrambi allowlistati.
+- **La maggior parte degli script `.mjs` HARD non è allowlistata per esteso in questa sessione.**
+  Test-cervello, freschezza-cadenze, sonda-volano, coerenza-fatti e simili restano bloccati da
+  "richiede approvazione". Stesso buco noto delle card #104/#189. Ho usato al loro posto Supabase MCP
+  per i dati e `git fetch`/`git rev-list` per la divergenza main↔GitHub.
+- **`apprendimento.json` è già fresco, aggiornato alle 11:11.** L'ha scritto un passaggio o un worker
+  concorrente, non narrato in questa chat. Non l'ho toccato: è fuori dallo scopo di un giro a dati
+  invariati.
+- **Non rilanciate le 15 fasi pesanti.** Letargo RISPARMIO + gate NORTH_STAR (0 pagati, 78° giorno)
+  ammettono solo lavoro che avvicina il primo ordine pagato. Nessun dato nuovo da inseguire: è circa
+  il 20° passaggio identico di oggi sugli stessi dati fermi da 78+ giorni.
+
+**Domande aperte per Nicola, invariate:** #182 (Stripe Pane Quotidiano, 🔴), #189 (permessi Bash, 🟡),
+#196 (chi ha scritto "Panificio Demo", 🟡), #205 (la pausa negozi è scaduta da 9 giorni, riparto o
+aspetto?, 🟡), #199 (main↔GitHub diverge ancora, 🟡).
+
+## Passaggi precedenti
 
 ## Giro 2026-09-09 10:35 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 08:38)
 

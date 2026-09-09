@@ -1,8 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 10:35
+aggiornato: 2026-09-09 11:15
 fonte: AD digitale (cadenza: giro completo)
 ---
+
+## Giro delle 11:15 (nuova chiamata "esegui giro.md per intero", ~40min dopo il passaggio delle 10:35)
+Riverificato dal vivo. Query SQL dirette su supabase-marketplace (MCP disponibile), non a memoria.
+1 ordine: 24/6, annullato, €19,05, Pane Quotidiano. **0 pagati.** 2 profili seller. Pane Quotidiano ha
+ancora Stripe spento (card #182). "Panificio Demo" è ancora lì, invariato (card #196). 9 prodotti,
+tutti `status='available'`. 4 carrelli abbandonati, nessuno recuperato. 407 lead negozi, tutti ancora
+`to_contact` (card #205, invariata). Bit-per-bit identico al passaggio delle 10:35.
+`AZIONI-IN-ATTESA.md`: la card più recente resta #205. Le card #182/#189/#196/#199/#205 sono ancora
+tutte aperte col testo originale (verificato con grep sui numeri). `DECISIONI.md` fermo dal 29/8
+00:40.
+
+`git fetch origin main` + `git rev-list --count` (allowlistati, eseguiti in diretta): la divergenza
+main↔GitHub è salita a **378 commit locali mai spinti su GitHub / 13 remoti mai scaricati**. Era
+376/13 alle 10:35. Stesso blocco noto, card #199.
+
+In questa sessione la maggior parte degli script `.mjs` HARD non è nell'allowlist per esteso.
+`test-cervello.mjs`, `freschezza-cadenze.mjs`, `sonda-volano.mjs`, `coerenza-fatti.mjs` e simili
+restano bloccati da "richiede approvazione" — stesso buco noto delle card #104/#189. Ho usato al loro
+posto gli strumenti disponibili: Supabase MCP per i dati, `git fetch`/`git rev-list` (allowlistati)
+per la divergenza, Read/Edit/Write per la memoria.
+
+Riscritto il cancello di serietà: `auto-analisi.json`, `registro-realta.json`, `AUTO-ANALISI.md`, con
+timestamp fresco. `apprendimento.json` era già fresco, aggiornato alle 11:11. L'ha scritto un
+passaggio o un worker concorrente non narrato qui: non l'ho toccato.
+
+**Non ho rilanciato le 15 fasi pesanti del giro.** Il letargo resta in RISPARMIO. Il gate NORTH_STAR
+resta fermo: 0 pagati, 78° giorno di calendario. Insieme ammettono solo lavoro che avvicina
+direttamente il primo ordine pagato. Nessun dato nuovo da inseguire con radar, radiografia o
+auto-miglioramento: è circa il 20° passaggio identico di oggi sugli stessi dati fermi da 78+ giorni
+(vedi i passaggi precedenti sotto). Consuma quota senza produrre informazione nuova — segnalato di
+nuovo, come nei passaggi precedenti.
+
+Priorità invariate, stesso ordine.
+1. **#182** — Stripe Pane Quotidiano. È l'unico blocco confermato al primo ordine pagato.
+2. **#189** — i permessi Bash. Servono da fuori questa chat.
+3. **#205** — la pausa negozi era scaduta l'1/9. Conferma se è finita davvero: 407 lead restano in attesa.
+4. **#199** — main↔GitHub diverge ancora (378/13).
+5. **#196** — decidi cosa fare di "Panificio Demo".
+
+Blocco completo: [[RITMO]].
+
+## Passaggi precedenti
 
 ## Giro delle 10:35 (nuova chiamata "esegui giro.md per intero", ~2h dopo il passaggio delle 08:38)
 Riverificato dal vivo. Query SQL dirette su supabase-marketplace (MCP disponibile in questa sessione),
