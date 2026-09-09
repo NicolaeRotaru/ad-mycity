@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-09-09 06:30",
+      "byte_prima": 1040395,
+      "byte_dopo": 919749,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0710-80",
+            "testo": "**git-pr.mjs legge il branch CORRENTE, non quello che vuoi aprire (chat 10/7):** Nicola ha"
+          },
+          {
+            "id": "L-2026-0710-79",
+            "testo": "**Cursor CLI (`agent`) in PATH causa 'model not found' / 'module_not_found' quando CERVELL"
+          },
+          {
+            "id": "L-2026-0710-78",
+            "testo": "**Verificare sempre che il branch esista su origin prima di dare una PR URL (chat 10/7, PR"
+          },
+          {
+            "id": "L-2026-0710-76",
+            "testo": "**Feature UI deployata ma non visibile: prima di diagnosticare il build, verificare la loc"
+          },
+          {
+            "id": "L-2026-0710-73",
+            "testo": "**Caso-studio Nicola — «azione-narrata senza output» = «non fatto» agli occhi di Nicola (c"
+          }
+        ],
+        "copie_di_principi": 95
+      }
+    },
+    {
       "quando": "2026-09-08 22:35",
       "byte_prima": 1046485,
       "byte_dopo": 927347,

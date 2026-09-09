@@ -1,5 +1,18 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
+> **Aggiornato oggi, 2026-09-09, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi due fonti bandi giornaliere: CCIAA Emilia e Unione Commercianti PC. **Più tre fonti settimanali dovute oggi**: comune-imprese, Vita in Centro, Unione Commercianti homepage. Ultimo controllo il 2/9, 7 giorni fa. **Nessun bando nuovo trovato oggi.**
+>   Per CCIAA: WebSearch `site:emilia.camcom.it bando 2026 piacenza`. Conferma solo PI26 e BE26, entrambi già chiusi. BE26 aveva domande dal 20/7 al 30/7: finestra già passata.
+>   Per Unione Commercianti (RSS + homepage, controllati insieme): nessun bando nuovo. Trovati solo articoli informativi generici datati 8/9, su regime fiscale/apertura partita IVA/forma giuridica. Non sono bandi, sono guide. Confermati i bandi già noti: Voucher Cloud/Cybersecurity (domande dal 10/11), bando fotovoltaico parcheggi (pubblicato 11/8, domande attese dal 30/9 al 16/11), Piccole Imprese Territorio 2026 (chiuso dal 30/7, non idoneo per MyCity, invariato).
+>   **🆕 Comune-imprese (settimanale, dovuta oggi):** WebSearch. Conferma il bando rifiuti (400 mila euro, leva #5 più sotto). Conferma anche il bando "Piazza Cittadella": contributo compensativo cantiere, domande scadute il 10/6, solo per negozi affacciati su piazza Cittadella/Casali. Non applicabile a Pane Quotidiano, come già in memoria. Nessun bando commercio nuovo.
+>   **🆕 Vita in Centro (settimanale, dovuta oggi):** WebFetch. Nessun articolo nuovo rispetto ai controlli precedenti. Gli articoli più recenti restano quelli già noti: il concorso fotografico "Al centro le persone" (19/3) e "Musica a tavola" (22/10/25). Il sito non sembra aggiornato di recente.
+>   Il bando ESG resta confermato: apre il 17/9. Nessun dato nuovo per le 3 catene indirette qui sotto.
+>
+> **Vale sempre il filtro sotto.** 0 negozi possono incassare oggi. Quindi nessuna di queste leve diventa un'azione ora: restano solo una mappa pronta per quando lo stallo si rompe.
+
+---
+
+## Versione precedente (8 settembre 2026, invariata sotto)
+
 > **Aggiornato oggi, 2026-09-08, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi dovute: CCIAA Emilia e Unione Commercianti PC. **Nessun bando nuovo.**
 >   Per CCIAA ho fatto una WebSearch mirata. Trova solo PI26, BE26 e BI26, tutti già chiusi.
 >   Per Unione Commercianti ho letto il feed RSS. Mostra ancora il Voucher Cloud/Cybersecurity, domande dal 10/11. Mostra anche il vecchio bando piccole imprese territorio (PI26): resta chiuso dal 30/7, non idoneo per MyCity, come già confermato.

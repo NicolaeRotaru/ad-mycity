@@ -1,4 +1,28 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-08
+# 📅 Eventi & Picchi di Domanda — 2026-09-09
+
+> **Aggiornato oggi, 9 settembre 2026, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`. Controllate 7 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, PiacenzaSera. (IlPiacenza-Economia e i bandi CCIAA/Unione Commercianti sono dettagliati negli altri due file.) Controllata anche una fonte settimanale dovuta oggi: Sagre-provincia, ultimo controllo il 2/9, 7 giorni fa. **Una novità reale: il meteo si ribalta di nuovo.** È il quinto cambio di rotta in cinque giorni. Stavolta tocca proprio il giorno clou del Bleech Festival.
+>
+> - **⚠️ Meteo 9-15/9: quinto ribaltamento, e l'11/9 torna a rischio.** Oggi mercoledì 9/9 la pioggia sale all'84%. Ieri la stessa giornata era data al 67%. Giovedì 10/9 resta quasi invariato: 76% contro il 79% di ieri. **Venerdì 11/9 torna al 90% di pioggia.** Ieri era scesa al 46%. È il giorno clou del Bleech Festival a Palazzo Farnese: la buona notizia di ieri è smentita in 24 ore. Sabato 12/9 scende invece al 46%, contro il 77% di ieri. I due giorni clou del weekend si sono scambiati di posto rispetto a ieri. Domenica 13/9 resta al 90% (ieri 88%, invariato). Lunedì 14/9 resta all'88% (ieri 85%, invariato). Martedì 15/9: dato nuovo, 85%, oltre l'orizzonte di ieri.
+>   **Impatto sul Bleech Festival (7-13/9):** il festival è al terzo giorno. Il giorno clou dell'11/9 a Palazzo Farnese torna ad alto rischio pioggia (90%). Il 12/9 invece migliora (46%). È l'opposto di quanto scritto ieri.
+>   **La lezione si conferma dopo cinque letture.** Questa fonte ribalta le previsioni oltre i 3 giorni, ogni singolo giorno finora. Vanno lette come indicative. Vanno ricontrollate ogni giorno, mai prese come piano fermo — soprattutto sul giorno clou di un evento.
+>   Fonte: [ilmeteo.it — meteo Piacenza](https://www.ilmeteo.it/meteo/piacenza). WebFetch il 9/9.
+> - **Bleech Festival, giorno 3 (7-13/9).** Nessuna notizia di cronaca su incidenti o affluenza da Libertà/PiacenzaSera oggi. Calendario invariato: concerti nei cortili, mercati, degustazioni. Il cuore resta l'11-12/9 a Palazzo Farnese.
+> - **Comune, eventi 9-15/9.** Nessun evento nuovo dentro Piacenza città. Festa dell'Uva a Gropparello Castle confermata 12-14/9, fuori Piacenza città, invariato. L'ultimaprovincia (Festival Teatro e Circo) confermato in chiusura il 12/9, fuori Piacenza città.
+>   Fonte: WebSearch "eventi piacenza comune settimana 9-15 settembre 2026", 9/9.
+> - **Comune-news.** Nessuna ordinanza o notizia nuova su ZTL o commercio. Quadro confermato: gara strisce blu con proposte entro le 12:00 dell'11/9. Manifestazione d'interesse per noleggio bici/monopattini con proposte entro il 15/9. Nessun bando commercio nuovo.
+>   Fonte: WebSearch `site:comune.piacenza.it news commercio settembre 2026`, 9/9.
+> - **Libertà, Attualità.** Il fetch diretto non restituisce articoli datati specifici per oggi, solo indicazioni di sezione. Nessuna notizia pertinente identificabile su commercio/eventi. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita), WebFetch il 9/9. (Libertà-Città è dovuta per `reputazione.md`: vedi lì lo Sbaracco e la lamentela dell'edicola.)
+> - **PiacenzaSera.** 🆕 **"Legge per il commercio locale, Confesercenti fa tappa a Piacenza, Castello e Gragnano"** (9/9). Confesercenti è in tour su una nuova legge per il commercio locale, con tappe anche a Castello e Gragnano. È solo una nota di contesto istituzionale: nessun contatto diretto oggi. Utile a @relazioni-istituzionali per capire chi si muove sul tema desertificazione. Nuovi eventi in calendario: Festa dello Sport e del Volontariato il 19/9 a Castel San Giovanni (fuori Piacenza città), FestinZucca il 12/9 a San Nicolò (da verificare se dentro il perimetro città), Villaggio Coldiretti + Notte Gialla il 13/9 (data e location da verificare). Nessuno di questi è ancora un picco di domanda confermato per una bottega MyCity.
+>   Fonte: [piacenzasera.it — Confesercenti](https://www.piacenzasera.it/2026/09/legge-per-il-commercio-locale-confesercenti-fa-tappa-a-piacenza-castello-e-gragnano/660315/), [piacenzasera.it](https://www.piacenzasera.it/), 9/9.
+> - **🆕 Sagre e mercatini di provincia (settimanale, dovuta oggi — ultimo controllo 2/9).** WebSearch mirata. Trova solo sagre già passate rispetto a oggi: Festa della Coppa a Carpaneto Piacentino (4-7/9, conclusa), Festa del Fungo nel quartiere Infrangibile (dentro Piacenza città, ma svolta il 5/9, già passata), Valtidone Wine Festival a Borgonovo Val Tidone (6/9, concluso). Nessun evento nuovo nella finestra 7-14 giorni da oggi, oltre a quelli già tracciati sopra: Festa dell'Uva, FestinZucca, Villaggio Coldiretti. Nessun dato azionabile nuovo.
+>   Fonte: WebSearch "sagre mercatini Piacenza provincia settembre 2026", 9/9.
+> - **IlPiacenza-Economia e bandi CCIAA/Unione Commercianti.** Controllati oggi, nessuna novità. Dettaglio in `buchi-mercato.md` e `leve-uscita.md`.
+>
+> **Candore:** ho ricontrollato tutte le fonti dovute oggi, comprese le due settimanali (Sagre-provincia). L'unica novità reale è ancora il meteo: un quinto ribaltamento, stavolta con impatto diretto sul giorno clou del Bleech Festival. L'11/9 torna a rischio pioggia alto. Non è una novità commerciale. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare. Quindi nessuna nota qui sotto diventa un'azione, solo preparazione 🟢.
+
+---
+
+## Versione precedente (8 settembre 2026, invariata sotto)
 
 > **Aggiornato oggi, 8 settembre 2026, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`. Controllate le 9 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, Libertà-Città, IlPiacenza-Economia, PiacenzaSera, CCIAA bandi, Unione Commercianti bandi. **Una novità reale: il meteo si ribalta ANCORA — è il quarto cambio di rotta in quattro giorni.**
 >

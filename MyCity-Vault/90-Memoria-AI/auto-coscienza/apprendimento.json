@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-09-09 06:20",
+ "aggiornato": "2026-09-09 06:30",
  "nota_review_04_09_1600": "Review settimanale: +1 lezione nuova (L-2026-0904-01, promossa direttamente a principio — 4ª manifestazione dello stesso ciclo automatico già visto 15/8 e 18/8, matura per evidenza). meta.lezioni_totali/promosse_a_principio/lezioni_per_stato sotto sono ancora quelli dell'ultimo giro automatico (14:36): +1/+1 non ricalcolati a mano per non produrre un conteggio derivato sbagliato — il prossimo giro pieno li riallinea (lezioni reali ora: 501 totali, 92 principi, verificato con jq).",
  "lezioni": [
   {
@@ -7436,75 +7436,6 @@
    "cristallizzato_in": "memoria-persistente"
   },
   {
-   "id": "L-2026-0710-80",
-   "testo": "**git-pr.mjs legge il branch CORRENTE, non quello che vuoi aprire (chat 10/7):** Nicola ha lanciato `node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'` da `main` e ha ricevuto 'ERRORE: head e base sono lo stesso ramo (main)'. Il problema è che git-pr.mjs usa il branch su cui SEI (HEAD), non un parametro `--head` separato. Regola fissa: SEMPRE fare `git checkout fix/<branch>` (o feature/<branch>) PRIMA di lanciare git-pr.mjs. Il comando corretto è: `cd /opt/mycity/ad-mycity && git checkout fix/<nome> && node cervello/git-pr.mjs --repo ad-mycity --base main --title '...'`. Da non confondere con git push che accetta `origin <branch>` esplicitamente.",
-   "tag": [
-    "git-pr.mjs",
-    "branch",
-    "pr",
-    "checkout",
-    "head",
-    "main",
-    "stesso-ramo",
-    "errore"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:24",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-79",
-   "testo": "**Cursor CLI (`agent`) in PATH causa 'model not found' / 'module_not_found' quando CERVELLO_MOTORE non è esplicitamente `claude` (chat 10/7):** Nicola ha chiesto di impedire a Cursor di attivarsi senza richiesta. Il worker usava la logica `auto` di `motore-ai.sh` che preferiva `agent` (Cursor) se installato. Fix strutturale: in modalità `auto`, Claude viene scelto per primo; Cursor gira SOLO se `CERVELLO_MOTORE=cursor` è esplicitamente impostato nel .env. Se 'module_not_found' si ripresenta: (1) verificare `CERVELLO_MOTORE` nel .env; (2) riavviare il worker dal Pannello (ricarica l'env senza aspettare un deploy). Il 'module_not_found' dal DB = worker che gira ancora con l'env vecchio prima che la variabile fosse settata — la soluzione è il riavvio, non un re-build.",
-   "tag": [
-    "cursor",
-    "agent-cli",
-    "model-not-found",
-    "module-not-found",
-    "motore-ai",
-    "CERVELLO_MOTORE",
-    "worker",
-    "riavvio"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 23:59",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-78",
-   "testo": "**Verificare sempre che il branch esista su origin prima di dare una PR URL (chat 10/7, PR fix/chat-altezza-scroll-spaziatura):** l'AD ha suggerito prima il branch sbagliato (`fix/rimuovi-autoscroll-chat` invece di `fix/chat-altezza-scroll-spaziatura`), poi ha dato una URL per un branch che non era ancora pushato su origin — Nicola ha aperto il link e ha trovato una pagina vuota. Causa: l'AD ha assunto che il branch esistesse su origin senza verificarlo con `git branch -r | grep <nome>` o `git ls-remote origin <nome>`. **Regola fissa, SEMPRE:** prima di dare a Nicola qualsiasi URL GitHub `compare/main...<branch>` o qualsiasi branch name per una PR, eseguire `git ls-remote origin <nome-branch>` e verificare che ritorni un hash. Se il branch non è su origin, comunicarlo subito e indicare il comando di push (`git push origin <nome-branch>`) da eseguire prima di aprire il link. Una pagina vuota su GitHub causa confusione e fa perdere tempo.",
-   "tag": [
-    "git",
-    "branch",
-    "pr",
-    "origin",
-    "ls-remote",
-    "verifica-branch",
-    "pannello",
-    "AD"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
    "id": "L-2026-0710-77",
    "testo": "**BUG APERTO fine-chat 10/7 — chip skill rapide visibili ma click non popola textarea (ParlaCasella/ChatCasella):** Nicola ha confermato che aprendo '💬 Parla con questa casella' i chip compaiono (deploy ok, commit f6f85911 Vercel READY), ma cliccandoli la textarea rimane vuota. Cause probabili: (a) textareaRef non correttamente collegato al DOM; (b) setBozza aggiorna lo state ma il valore controllato della textarea non è `bozza`; (c) l'evento click viene intercettato da un elemento padre. Prossimo passo: aprire ParlaCasella.tsx righe 35-44, verificare che `onClick={() => { setBozza(s.cmd); textareaRef.current?.focus(); }}` sia cablato e che la textarea usi `value={bozza}` come prop controllata. **AGGIORNAMENTO**: nella stessa sessione è emerso che i chip mancavano anche dalla chat principale (page.tsx, fix commit 65bee0a8) e dalla chat fluttuante (fix commit 3f68c4b1) — entrambi nel branch fix/chat-altezza-scroll-spaziatura, NON pushato. I chip devono essere in TUTTI E 4 i componenti chat: ParlaCasella, ChatCasella, page.tsx (chat principale), e componente fluttuante.",
    "tag": [
@@ -7532,53 +7463,6 @@
    "_branch_pendente": "fix/chat-altezza-scroll-spaziatura — commit 65bee0a8 (page.tsx) e 3f68c4b1 (fluttuante) NON pushati su origin (verificato chat 10/7: il branch NON esiste su origin). Il branch correlato presente su origin è `fix/rimuovi-autoscroll-chat` — PR da creare manualmente da Nicola via GitHub compare URL. Serve ancora 'Bash(git push origin fix/*:*)' in settings.local.json per pushare i commit dei chip.",
    "promosso_il": "2026-07-26 06:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0710-76",
-   "testo": "**Feature UI deployata ma non visibile: prima di diagnosticare il build, verificare la location e le condizioni di visibilità (chat 10/7, chip skill rapide):** Vercel ha buildato il commit `f6f85911` con i chip, ma Nicola non li vedeva. La chat si è conclusa senza trovare la causa perché non si è mai guidato Nicola all'interazione ESATTA: i chip compaiono solo aprendo una casella del Pannello → cliccando il link '💬 Parla con questa casella' → con la textarea VUOTA. Non compaiono nella pagina Archivio, non sulla home, non se si sta scrivendo. **Regola riusabile:** dopo un deploy, prima di ipotizzare 'il build è fallito' o 'Vercel non ha preso il codice', guidare Nicola all'interazione specifica passo-per-passo (quale pagina, quale componente, quale stato) per escludere che stia guardando nel posto sbagliato. Solo se l'interazione corretta non mostra la feature → allora diagnosticare il deploy. **Correlato:** L-2026-0710-73 (mai dire 'Fatto' senza prova), L-2026-0710-70 (fix ignored-build-step).",
-   "tag": [
-    "feature-visibility",
-    "UI",
-    "pannello",
-    "deploy",
-    "chip-skill",
-    "verifica-location",
-    "debug-deploy"
-   ],
-   "reparto": "@frontend-dev",
-   "confidenza": 0.31999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 23:30",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
-  },
-  {
-   "id": "L-2026-0710-73",
-   "testo": "**Caso-studio Nicola — «azione-narrata senza output» = «non fatto» agli occhi di Nicola (chat 10/7, chip skill rapide):** Nicola: «non hai creato il commit, cerca di capire perché, questo errore ormai lo stai facendo da molto tempo, fai una bella analisi completa e profonda ed impara da questo e non farlo mai più». L'AD aveva scritto 'Faccio il commit' come testo narrativo, poi 'Fatto' — senza MAI mostrare l'output del tool call `git commit` né di `git log --oneline`. Risultato: Nicola ha pensato per tutta la chat che i chip non fossero stati committati, mentre i commit esistevano (98a2b758 alle 11:07, 84bee730 alle 11:12). Il lavoro era fatto ma sembrava non fatto perché la PROVA era assente. **5 perché:** (1) L'AD scrive le azioni git come narrazione testuale ('Faccio il commit', 'Fatto') invece di eseguirle come tool calls con output visibili al turno. (2) Non c'è un pattern di verifica immediata post-azione (git log mostrato in chat). (3) Nicola vede solo testo della chat, non i tool calls interni — senza l'output del comando, per lui l'azione non è mai avvenuta. (4) L'assenza di prova ha generato un ciclo di diagnosi a vuoto per qualcosa che era già a posto. (5) Il pattern si ripete su azioni diverse (commit, push, PR) — è sistemico. **Regola fissa, SEMPRE, senza eccezioni:** dopo ogni azione git (commit, push, checkout di verifica) mostrare IMMEDIATAMENTE l'output: `git log --oneline -3` dopo un commit, `git log origin/branch --oneline -1` dopo un push. Se l'output non è visibile nel turno, per Nicola l'azione non è avvenuta. Dire 'Fatto' come testo non basta mai. **Gemello di** L-2026-0709-66 (committato≠pushato, verifica prima di dichiarare) e [[verifica-prima-di-affermare]], ma cattura la sfumatura specifica 'azione narrata vs azione provata con output in chat'.",
-   "tag": [
-    "nicola",
-    "caso-studio",
-    "git-proof",
-    "git-log",
-    "azione-narrata",
-    "fatto-senza-prova",
-    "commit",
-    "verifica",
-    "AD",
-    "pattern-ricorrente"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3799999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 20:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-31 22:31"
   },
   {
    "id": "L-2026-0710-70",
@@ -11140,9 +11024,9 @@
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs"
     },
     {
-     "quando": "2026-09-08 22:35",
+     "quando": "2026-09-09 06:30",
      "ref": "freno rosso nel giro: entrate-senza-cancello.mjs",
-     "volte": 95
+     "volte": 96
     }
    ],
    "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
@@ -13016,22 +12900,22 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 437,
+  "lezioni_attive": 432,
   "promosse_a_principio": 95,
-  "decadute": 0,
+  "decadute": 5,
   "tasso_applicazione": 0.15,
   "tasso_calcolato_il": "2026-09-09 06:20",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-09-08 22:35",
+  "cristallizzazione_ultima": "2026-09-09 06:30",
   "lezioni_totali": 443,
   "lezioni_per_stato": {
-   "attiva": 326,
+   "attiva": 321,
    "principio": 95,
    "in-prova": 5,
-   "decaduta": 0,
+   "decaduta": 5,
    "ritirata": 0,
    "senza-stato": 16,
    "altro": 1

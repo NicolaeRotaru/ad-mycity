@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-08 22:41",
-  "voto_fiducia": 76,
-  "sintesi_giro_corrente": "Terzo giro completo nelle ultime due ore ('giro completo' alle 18:32, 20:33, ora 22:41). Riverificato dal vivo con query SQL dirette su supabase-marketplace (non ereditate, non MCP cieco): orders=1 (24/6, CANCELED, €19,05, seller Pane Quotidiano), pagati=0 — bit-per-bit identico al passaggio delle 20:33. 9 profili (invariato). 407 lead merchants_leads tutti 'to_contact' (invariato). activity_events 7gg=6 (invariato). Applicata la strategia snella già documentata per questo pattern (giri ravvicinati a dati invariati, vedi [[playbook-giro-pieno-ripetuto-strategia]]): niente riscrittura duplicata di radar/radiografia/auto-miglioramento. Tentato il fix di causa-radice del delta-gate (`--segna-pieno`, root cause del 'cambiato: clienti 8→9' ripetuto — baseline mai ripromossa dopo il profilo fantasma 'Panificio Demo'): bloccato da approvazione, un tentativo, stesso buco card #104/#189. `coerenza-fatti.mjs` invece eseguibile ed eseguito: memoria coerente. Unico numero aggiornato dal vivo: divergenza main↔GitHub, 368 locali/12 remoti (era 360/12 alle 16:33, in crescita) — via `git fetch`+`git log` diretti, non node script.",
-  "sintesi": "76° giorno di calendario di stallo North Star (0 pagati dal 24/6), stato di business invariato — l'ennesima chiamata 'giro completo' oggi sugli stessi dati fermi. Il lavoro reale di questo passaggio: chiuso di nuovo il buco di processo HARD (auto-analisi/registro-realta/AUTO-ANALISI stantii da ~4h) e trovata una novità non di cassa — la pipeline di 407 lead negozi non è mai stata contattata (0/407).",
-  "trend_fiducia": "▼ leggero calo da 77 a 76: nessun peggioramento sui dati di business (identici), ma il blocco Stripe di Pane Quotidiano (#182) e il fantasma 'Panificio Demo' (#196) restano aperti da settimane senza intervento — l'accumulo di giorni su blocchi noti e non sbloccati pesa sulla fiducia più della semplice invarianza dei numeri.",
+  "data": "2026-09-09 06:35",
+  "voto_fiducia": 75,
+  "sintesi_giro_corrente": "Nuova chiamata 'esegui giro.md per intero', 5 minuti dopo il commit di recupero delle 06:30. Prima cosa fatta: chiuso il buco HARD di freschezza-cadenze — auto-analisi.json/registro-realta.json/AUTO-ANALISI.md erano fermi dal 2026-09-08 22:41 (~8h), il recupero delle 06:20/06:30 aveva rinfrescato solo apprendimento.json/auto-radiografia.json. Riverificato dal vivo con query SQL dirette su supabase-marketplace (non ereditate): orders=1 (24/6, CANCELED, €19,05, seller Pane Quotidiano), pagati=0; profiles=9; Pane Quotidiano ancora stripe_charges_enabled/payouts_enabled/details_submitted=false (#182); 'Panificio Demo' ancora presente (#196, 5° giorno); merchants_leads=407 tutti 'to_contact'; abandoned_carts=4, nessuna riga nuova reale (l'unica del 7/9 è l'account admin 'Assistenza MyCity', non un cliente). DECISIONI.md invariato dal 29/8 00:40. Novità reale di questo passaggio: la finestra di pausa negozi che Nicola aveva fissato il 23/7 ('dopo il 24 agosto-1 settembre') è scaduta da 8 giorni e la pipeline di 407 lead è ancora ferma al 100% — aperta la card #205 per chiedere conferma esplicita. Quantificato per la prima volta l'effetto del delta-gate mai promosso (card #189): 'clienti 8→9' ha forzato giro pieno ad ogni battito da almeno il 2026-09-03 20:28 (50+ ripetizioni), concausa plausibile del consumo di quota durante il letargo. Divergenza main↔GitHub peggiorata a 373 locali/12 remoti (era 370/12 alle 06:00). `test-cervello.mjs` bloccato da approvazione (1 tentativo), stesso buco #104/#189/SERRATURA — non ridiagnosticato oltre. Applicata la strategia snella: non rilanciati radar/radiografia/auto-miglioramento su dati invariati.",
+  "sintesi": "77° giorno di calendario di stallo North Star (0 pagati dal 24/6), stato di business invariato. Lavoro reale del passaggio: richiuso il buco HARD di freschezza-cadenze su questi tre file, quantificato il costo del delta-gate mai promosso (50+ giri pieni consecutivi per lo stesso falso positivo), e aperta una domanda business nuova e concreta: la pausa negozi fissata da Nicola il 23/7 è scaduta da 8 giorni senza che nessuno l'abbia notato prima (card #205).",
+  "trend_fiducia": "▼ leggero calo da 76 a 75: nessun peggioramento sui dati di business (identici), ma si aggiunge un giorno in più su blocchi noti non sbloccati (#182/#189/#196/#199) e una scadenza temporale passata senza essere colta (pausa negozi, ora card #205) — segnale che il ciclo osserva→decide ha un ritardo, non solo un'attesa legittima.",
   "entita_verificate": [
     {
       "nome": "orders=1 (24/6, annullato, €19,05, seller Pane Quotidiano), pagati=0",
@@ -49,13 +49,13 @@
     },
     {
       "tipo": "sicurezza",
-      "domanda": "Chi ha scritto 'Panificio Demo' nel database vero il 5/9 alle 6:40? (card #196, 4° giorno senza risposta)",
+      "domanda": "Chi ha scritto 'Panificio Demo' nel database vero il 5/9 alle 6:40? (card #196, 5° giorno senza risposta)",
       "azione": "se non lo riconosci, dimmi se posso cancellarlo (0 ordini collegati)",
       "colore": "🟡"
     },
     {
       "tipo": "processo",
-      "domanda": "407 lead negozi in pipeline, 0 mai contattati. Fuori dal perimetro North-Star di oggi (non sblocca Pane Quotidiano), ma è una leva ferma da settimane: vuoi che @vendite riparta a contattarli appena #182 è sbloccato, o prima?",
+      "domanda": "La pausa negozi che avevi fissato il 23/7 ('dopo il 24 agosto-1 settembre') è scaduta da 8 giorni: i 407 lead sono ancora 0/407 contattati. Riparto, o la pausa continua per altri motivi non ancora scritti qui? (card #205, nuova)",
       "azione": "in attesa",
       "colore": "🟡"
     }

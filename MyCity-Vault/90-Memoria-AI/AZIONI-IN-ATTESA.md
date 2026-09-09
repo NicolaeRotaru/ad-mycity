@@ -22,6 +22,35 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- ripresa-lavoro-operativo-scaduta -->
+### 🟡 #205 — La pausa che avevi messo sui negozi è finita da 8 giorni, e in coda nessuno si è ancora mosso · ⏳ accodata 2026-09-09 06:35
+
+**In parole semplici.** Il 23 luglio avevi messo in pausa ogni contatto con i negozi — Pane Quotidiano
+compreso — fino a "dopo il 24 agosto-1 settembre", per concentrarti prima su Pannello/AD/worker/
+marketplace. Oggi è il 9 settembre: quella finestra è chiusa da 8 giorni. Ho controllato i dati veri
+adesso: i 407 negozi in lista d'attesa sono ancora tutti "da contattare", zero contattati. Pane
+Quotidiano ha ancora i pagamenti con carta spenti (card #182).
+
+**Cosa cambia per te.** Se consideri finita la pausa, la macchina può ripartire da sola su ciò che è
+già pronto (sblocco Stripe di Pane Quotidiano, poi la lista negozi). Se invece la pausa continua per
+altri motivi non scritti qui, va detto esplicitamente — altrimenti ogni giro continuerà a segnalare
+"tutto fermo" su una pausa che sulla carta è già scaduta.
+
+**Cosa devi fare.** Una riga sola basta: "riparti" (e la macchina riprende #182 + i negozi in coda) o
+"aspetta ancora, fino a [data]" (e aggiorno subito il registro dei fatti con la nuova data).
+
+**Cosa non ho verificato.** Non so se nel frattempo hai già ripreso il lavoro operativo fuori da questa
+memoria (es. contatti diretti, non passati da qui) — se è così, dimmelo e chiudo la card senza aprire
+nulla di nuovo.
+
+🔧 **Dettagli tecnici:** `registro-fatti.json` → `ripresa.lavoro-operativo` = "dopo il 24 agosto - 1
+settembre 2026" (fissato 23/7, confermato 29/7). `negozi.attesa-concordata` lega a questo fatto la
+soppressione dell'allarme anti-churn su Pane Quotidiano (`c0b240c0-2a86-4218-9d0f-5154f08ff929`).
+`merchants_leads`: 407/407 righe `outreach_status='to_contact'` (verificato via SQL diretto, 2026-09-09
+06:35).
+
+---
+
 <!-- possibile-pagina-negozi-vuota-rls -->
 ### 🟡 #204 — Il codice era già corretto da luglio: resta solo da confermare cosa serve davvero Vercel · ⏳ accodata 2026-09-07 13:20 · corretta 2026-09-07 23:10
 

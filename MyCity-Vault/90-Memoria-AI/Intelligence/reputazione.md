@@ -1,5 +1,28 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato oggi, 2026-09-09, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`.
+> Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
+> (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**
+> Da Libertà-Città due notizie di contesto commercio/decoro, nessuna su MyCity. Prosegue lo
+> **Sbaracco**: sconti fino al 70% nel centro storico, articolo dell'8/9. C'è anche una lamentela
+> dell'edicolante di via Arrigoni per rifiuti abbandonati davanti al negozio. È un problema di
+> decoro urbano segnalato da un commerciante, non una notizia su di noi. Da Libertà-Attualità
+> nessuna notizia pertinente identificabile oggi.
+>
+> Oggi era dovuta anche la fonte settimanale "Reputazione MyCity". Ultimo controllo l'1/9, 8
+> giorni fa: leggermente in ritardo rispetto alla cadenza di 7 giorni. Fatta con una WebSearch
+> mirata: "MyCity Piacenza marketplace negozi recensioni". **Ancora nessuna recensione o
+> menzione di terzi trovata.** Gli unici risultati indicizzati restano pagine del nostro stesso
+> sito (mycity-marketplace.com). Descrivono il servizio: catalogo negozi/prodotti di Piacenza,
+> consegna 24-48h, newsletter del venerdì "Cosa c'è nel piatto a Piacenza". Confermato che
+> pc.andrei.shop è un marketplace omonimo non collegato a noi, come già noto.
+>
+> Stesso quadro di stallo: nulla da "reputare" finché non c'è un primo incasso vero.
+>
+> ---
+>
+> ## Versione precedente (8 settembre 2026, invariata sotto)
+>
 > **Aggiornato oggi, 2026-09-08, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`.
 > Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
 > (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**

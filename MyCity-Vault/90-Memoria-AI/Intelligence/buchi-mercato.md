@@ -1,4 +1,13 @@
-# 🕳️ Buchi di Mercato — 2026-09-08
+# 🕳️ Buchi di Mercato — 2026-09-09
+
+> **Ricontrollato oggi, 2026-09-09, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre — ora nono controllo consecutivo bloccato. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.**
+>
+> - **Il calo imprese di ieri (-3,3%, primo semestre 2026) ha ora anche un numero assoluto: 24.768 imprese attive a Piacenza al 30/6/2026.** Non so se sia lo stesso conteggio dell'articolo di ieri (-840 unità) o un numero da un articolo diverso. La WebSearch di oggi lo riporta come frase isolata, senza titolo di articolo proprio. **Candore:** non lo tratto come conferma indipendente. L'articolo sorgente resta bloccato da HTTP 403. Lo registro come nota da verificare al prossimo controllo, non come nuovo fatto.
+>   Fonte: WebSearch "ilpiacenza.it economia negozio chiude apre settembre 2026", 9/9 — nessun link diretto all'articolo sorgente di questa cifra.
+
+---
+
+## Versione precedente (8 settembre 2026, invariata sotto)
 
 > **Ricontrollato oggi, 2026-09-08, alle 07:20 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi**, ma è emerso un dato aggregato nuovo, mai visto in questo radar.
 >
