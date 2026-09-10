@@ -1,5 +1,22 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
+> **Aggiornato oggi, 2026-09-10, alle 06:34 circa.** Giro leggero, script `cervello/monitora.md`.
+> Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
+> (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi.** Nessuna recensione.
+> Le notizie di oggi da Libertà/PiacenzaSera riguardano la crisi del commercio: "Piacenza perde
+> 367 negozi in sei anni" (Confesercenti). Il dettaglio è in `buchi-mercato.md`. C'è anche la
+> chiusura stagionale del Palazzetto di Cadeo, non pertinente a noi. La lamentela dell'edicolante
+> di via Arrigoni e il rincaro del caffè restano quelle già note dell'8/9: nessun aggiornamento oggi.
+>
+> La fonte settimanale "Reputazione MyCity" non è dovuta oggi. L'ultimo controllo è stato il 9/9,
+> la prossima scadenza è il 16/9.
+>
+> Stesso quadro di stallo: nulla da "reputare" finché non c'è un primo incasso vero.
+
+---
+
+## Versione precedente (9 settembre 2026, invariata sotto)
+
 > **Aggiornato oggi, 2026-09-09, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`.
 > Fonti giornaliere controllate oggi: liberta.it/attualita e liberta.it/territorio/citta/piacenza
 > (WebFetch). **Nessuna menzione nuova di MyCity o dei nostri negozi. Nessuna recensione.**

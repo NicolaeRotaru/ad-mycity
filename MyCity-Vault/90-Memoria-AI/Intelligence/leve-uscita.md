@@ -1,5 +1,16 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
+> **Aggiornato oggi, 2026-09-10, alle 06:34 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi le due fonti bandi giornaliere: CCIAA Emilia e Unione Commercianti PC. **Nessun bando nuovo.**
+>   Per CCIAA ho fatto una WebSearch. Conferma solo bandi già chiusi: il Bando Innovazione Digitale 2026 (PI26, 2 milioni di euro, domande aperte dal 20/7) e il Bando Efficienza Energetica 2026 (BE26, 1,5 milioni, domande dal 20 al 30/7). Entrambi restano chiusi, invariato.
+>   Per Unione Commercianti ho letto il feed RSS. È lo stesso elenco di ieri: nessun articolo nuovo dal 3/9. Confermati: Voucher Cloud/Cybersecurity (fino a 20.000€, domande dal 10/11 al 20/1/27); il bando fotovoltaico parcheggi (fino a 100.000€, domande dal 30/9 al 16/11); Piccole Imprese Territorio 2026 (chiuso dal 30/7, non idoneo per MyCity, invariato); Innovazione Digitale 2026 ed Efficienza Energetica 2026 (entrambi chiusi dal 30/7).
+>   Le tre fonti settimanali di questo file non sono dovute oggi: comune-imprese, Vita in Centro, Unione Commercianti homepage. L'ultimo controllo è stato il 9/9, la prossima scadenza è il 16/9.
+>
+> **Vale sempre il filtro sotto.** 0 negozi possono incassare oggi. Nessuna di queste leve diventa un'azione ora. Restano solo una mappa pronta per quando lo stallo si rompe.
+
+---
+
+## Versione precedente (9 settembre 2026, invariata sotto)
+
 > **Aggiornato oggi, 2026-09-09, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`. Ricontrollate oggi due fonti bandi giornaliere: CCIAA Emilia e Unione Commercianti PC. **Più tre fonti settimanali dovute oggi**: comune-imprese, Vita in Centro, Unione Commercianti homepage. Ultimo controllo il 2/9, 7 giorni fa. **Nessun bando nuovo trovato oggi.**
 >   Per CCIAA: WebSearch `site:emilia.camcom.it bando 2026 piacenza`. Conferma solo PI26 e BE26, entrambi già chiusi. BE26 aveva domande dal 20/7 al 30/7: finestra già passata.
 >   Per Unione Commercianti (RSS + homepage, controllati insieme): nessun bando nuovo. Trovati solo articoli informativi generici datati 8/9, su regime fiscale/apertura partita IVA/forma giuridica. Non sono bandi, sono guide. Confermati i bandi già noti: Voucher Cloud/Cybersecurity (domande dal 10/11), bando fotovoltaico parcheggi (pubblicato 11/8, domande attese dal 30/9 al 16/11), Piccole Imprese Territorio 2026 (chiuso dal 30/7, non idoneo per MyCity, invariato).

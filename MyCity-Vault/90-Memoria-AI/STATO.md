@@ -1,8 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-09-10 06:00
+aggiornato: 2026-09-10 07:05
 fonte: AD digitale (cadenza: Piano del mattino)
 ---
+
+## Giro delle 07:05 (invariato, ~1h05 dopo il Piano del mattino delle 06:00)
+Riverificato dal vivo con query SQL dirette su supabase-marketplace, non a memoria. 1 ordine (24/6,
+annullato, €19,05, Pane Quotidiano). **0 pagati.** 9 profili. È identico bit-per-bit al Piano del
+mattino di stamattina. `AZIONI-IN-ATTESA.md` invariata: la card più recente resta #206. `DECISIONI.md`
+fermo dal 29/8 00:40.
+
+Chiuso il buco obbligatorio di freschezza-cadenze (`auto-analisi.json`, `registro-realta.json`,
+`AUTO-ANALISI.md` erano fermi dal passaggio delle 2026-09-09 22:46, ~8h): riscritti ora con verifica
+diretta. Creato il Briefing di oggi (`Briefing/2026-09-10.md`), mancante finora.
+
+**Non ho rilanciato le 15 fasi pesanti.** Il letargo resta in RISPARMIO. Il gate NORTH_STAR resta
+fermo: 0 pagati, 79° giorno di calendario. Insieme ammettono solo lavoro che avvicina direttamente il
+primo ordine pagato. La maggior parte degli script `.mjs` HARD resta bloccata da "richiede
+approvazione" in questa sessione (stesso buco noto delle card #104/#189/#194): un tentativo, non
+ritentato. Non ho riverificato dal vivo la divergenza main↔GitHub (#199) in questo passaggio: valore
+ereditato dall'ultima verifica narrata sotto.
+
+Priorità invariate, stesso ordine di stamattina: 1) **#182** Stripe Pane Quotidiano 2) **#199**
+main↔GitHub 3) **#206** CI rosso PR #877 4) **#205** conferma pausa negozi 5) **#196** Panificio Demo
+6) **#189** permessi Bash.
+
+## Passaggi precedenti
 
 ## Piano del mattino delle 06:00
 Sono 78 giorni di fila senza un ordine pagato. Dal 24/6 al 10/9 fanno 6+31+31+10.

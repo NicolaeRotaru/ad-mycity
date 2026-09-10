@@ -1,4 +1,23 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-09
+# 📅 Eventi & Picchi di Domanda — 2026-09-10
+
+> **Aggiornato oggi, 10 settembre 2026, alle 06:34 circa.** Giro leggero, script `cervello/monitora.md`. Controllate 5 fonti giornaliere dovute oggi: meteo, comune-eventi, comune-news, Libertà-Attualità, PiacenzaSera. IlPiacenza-Economia e i bandi CCIAA/Unione Commercianti sono dettagliati negli altri due file. Nessuna fonte settimanale di questo file era dovuta oggi: Sagre-provincia è stata ricontrollata ieri, la prossima scadenza è il 16/9. **La novità reale resta il meteo: sesto ribaltamento in sei giorni, stavolta in senso positivo per il Bleech Festival.**
+>
+> - **⚠️ Meteo 10-16/9: sesto ribaltamento.** Oggi piove. Ma l'11/9, il giorno clou del festival, ora migliora. Oggi giovedì 10/9 c'è pioggia diffusa al mattino: 23,9mm attesi, probabilità tra il 50% e l'87% nelle prossime ore. Da domani venerdì 11/9 il tempo migliora: massima 26°C. Nei giorni successivi sale ancora, 25-28°C fino al 16/9. È l'opposto di quanto diceva ieri la stessa fonte. Ieri (9/9) dava per l'11/9 un 90% di probabilità di pioggia, proprio nel giorno clou del Bleech Festival a Palazzo Farnese. Oggi però la fonte non riporta le percentuali giorno-per-giorno per tutta la settimana come ieri: solo le temperature massime e minime dopo domani. La lettura di oggi resta quindi parziale.
+>   **Impatto sul Bleech Festival (7-13/9).** Il festival è al quarto giorno. Se la tendenza di oggi si conferma, l'11-12/9 a Palazzo Farnese potrebbe restare asciutto. Ma attenzione: **la stessa fonte ha cambiato idea sei volte su sei letture consecutive**. Va riletta domani mattina prima di darla per buona.
+>   Fonte: [ilmeteo.it — meteo Piacenza](https://www.ilmeteo.it/meteo/piacenza). WebFetch il 10/9.
+> - **Bleech Festival, giorno 4 (7-13/9).** Nessuna notizia di cronaca su incidenti o affluenza da Libertà/PiacenzaSera oggi. Calendario invariato: concerti nei cortili, mercati, degustazioni. Il cuore resta l'11-12/9 a Palazzo Farnese.
+> - **Comune, eventi 10-17/9.** Nessun evento nuovo dentro Piacenza città nella finestra immediata. Confermato l'avvio del progetto "Giovanni chiamato Francesco": musica, arte, liuteria sociale e solidarietà, dall'11/9 al 4/10. Non è chiaro se si svolga dentro Piacenza città o in provincia: da verificare. Il festival di danza e coreografia parte il 17/9, oltre l'orizzonte dei 7 giorni. Proseguono i concerti aperitivo della domenica al Nicolini.
+>   Fonte: WebSearch "eventi piacenza comune settimana 10-17 settembre 2026", 10/9.
+> - **Comune-news.** Nessuna ordinanza o notizia nuova su ZTL o commercio. Confermato: le proposte per la gara strisce blu scadono domani 11/9 alle 12:00. La manifestazione d'interesse per bici e monopattini scade il 15/9. Nessun bando commercio nuovo.
+>   Fonte: WebSearch `site:comune.piacenza.it news commercio settembre 2026`, 10/9.
+> - **Libertà-Attualità e PiacenzaSera.** La notizia principale di oggi in entrambe le testate è "Piacenza perde 367 negozi in sei anni" (Confesercenti). Non è un picco di domanda: è desertificazione. Il dettaglio completo è in `buchi-mercato.md`. Segnalata anche la chiusura per l'intera stagione del Palazzetto di Cadeo, 1,4 milioni di euro di lavori. È fuori Piacenza città: irrilevante per noi.
+>   Fonti: [liberta.it/attualita](https://www.liberta.it/attualita), [piacenzasera.it](https://www.piacenzasera.it/), 10/9.
+>
+> **Candore.** Nessuna azione oggi. Il contesto di fondo resta invariato: 0 negozi possono ancora incassare.
+
+---
+
+## Versione precedente (9 settembre 2026, invariata sotto)
 
 > **Aggiornato oggi, 9 settembre 2026, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`. Controllate 7 fonti giornaliere dovute oggi: meteo, eventi Comune, Comune-news, Libertà-Attualità, PiacenzaSera. (IlPiacenza-Economia e i bandi CCIAA/Unione Commercianti sono dettagliati negli altri due file.) Controllata anche una fonte settimanale dovuta oggi: Sagre-provincia, ultimo controllo il 2/9, 7 giorni fa. **Una novità reale: il meteo si ribalta di nuovo.** È il quinto cambio di rotta in cinque giorni. Stavolta tocca proprio il giorno clou del Bleech Festival.
 >

@@ -1,4 +1,18 @@
-# 🕳️ Buchi di Mercato — 2026-09-09
+# 🕳️ Buchi di Mercato — 2026-09-10
+
+> **Ricontrollato oggi, 2026-09-10, alle 06:34 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403 — decimo controllo consecutivo bloccato. Ma oggi la stessa notizia arriva confermata in modo indipendente da tre testate lette direttamente: Libertà-Attualità, Libertà-Città e PiacenzaSera.
+>
+> - **🆕 Confermato con tre fonti indipendenti oggi: "Piacenza perde 367 negozi in sei anni".** Fonte Confesercenti: calo dell'11,5% dal 2019. Stima 55 milioni di euro di ricchezza territoriale persa. In tutta l'Emilia-Romagna quasi 6.500 attività commerciali chiuse nello stesso periodo.
+>   **Candore.** Attenzione: sono ORA TRE metriche di desertificazione diverse in memoria. Sono tutte vere. Non vanno sommate. Non vanno scambiate una con l'altra.
+>   1. **-22,6% in 12 anni.** Riguarda solo le botteghe del centro storico. È già in memoria. Non è mai stata riconciliata con le altre due (vedi la nota: due cifre mai riconciliate).
+>   2. **-3,3% nel primo semestre 2026.** Sono 840 imprese in meno, su 24.768 attive in totale. Riguarda tutte le imprese della provincia. Confronta il primo semestre 2026 con lo stesso periodo del 2025. Trovato l'8-9/9.
+>   3. 🆕 **-11,5% in 6 anni dal 2019.** Sono 367 negozi chiusi. Sono 55 milioni di euro persi. Fonte Confesercenti, oggi 10/9. Il perimetro esatto non è chiaro: nei testi letti oggi non dice se parla della città, del centro storico o di tutta la provincia.
+>   Serve @analista per fissare i tre perimetri esatti. Va fatto prima di usare una di queste cifre in un pitch, in un comunicato o in una slide. Sono tutte vere. Ma rischiano di essere confuse tra loro.
+>   Fonti: [liberta.it/attualita](https://www.liberta.it/attualita) (10/9), [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) (10/9), [piacenzasera.it — A Piacenza giù le serrande per 367 negozi in sei anni](https://www.piacenzasera.it/2026/09/a-piacenza-giu-le-serrande-per-367-negozi-in-sei-anni/660504) (10/9).
+
+---
+
+## Versione precedente (9 settembre 2026, invariata sotto)
 
 > **Ricontrollato oggi, 2026-09-09, alle 06:32 circa.** Giro leggero, script `cervello/monitora.md`. Fonte dovuta oggi: IlPiacenza-Economia. Il fetch diretto resta bloccato con HTTP 403, come sempre — ora nono controllo consecutivo bloccato. Ripiegato su WebSearch mirata: "ilpiacenza.it economia negozio chiude apre settembre 2026". **Nessuna chiusura o apertura di bottega con nome trovata oggi.**
 >
