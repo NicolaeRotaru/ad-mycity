@@ -1,8 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-09-09 22:46
-fonte: AD digitale (cadenza: giro su richiesta)
+aggiornato: 2026-09-10 06:00
+fonte: AD digitale (cadenza: Piano del mattino)
 ---
+
+## Piano del mattino delle 06:00
+Sono 78 giorni di fila senza un ordine pagato. Dal 24/6 al 10/9 fanno 6+31+31+10.
+
+Riverificato dal vivo con query SQL diretta su supabase-marketplace. È identico a tutta la giornata
+di ieri. 1 ordine: quello del 24/6, annullato, €19,05, di Pane Quotidiano. **0 pagati.** 9 profili, 9
+prodotti, 2 negozi pubblici. 407 lead su 407 ancora `to_contact`. `AZIONI-IN-ATTESA.md`: il numero
+più alto resta #206. Nessuna card nuova. `DECISIONI.md` fermo dal 29/8 00:40. Nessuna firma nuova.
+
+La divergenza main↔GitHub è peggiorata ancora. Ora sono 407 i commit locali mai spinti su GitHub, e
+13 i remoti mai scaricati. Ieri sera alle 22:37/22:46 erano 405/13.
+
+### Prossime priorità (Piano del mattino 2026-09-10 06:00)
+1. **#182 — Sblocca i pagamenti con carta di Pane Quotidiano.** Unico blocco confermato tra i dati di
+   oggi e il primo ordine pagato. Fermo da oltre un mese.
+2. **#199 — Riallinea main VPS↔GitHub.** Ora 407 commit locali, 13 remoti. Cresce ogni giorno. Chi
+   guarda il Pannello pubblicato su GitHub vede una versione vecchia della macchina.
+3. **#206 — Ripara il controllo CI rosso sulla PR #877.** Blocca ogni futura modifica al codice del
+   sito finché resta rosso.
+4. **#205 — La pausa sui negozi è scaduta l'1/9.** Conferma se è finita davvero. 407 lead aspettano.
+5. **#196 — Decidi su "Panificio Demo".** Il negozio finto nel database. Invariato da 5 giorni.
+6. **#189 — Aggiungi da FUORI la chat le righe di permesso già pronte.** Sblocca i controlli interni.
+
+Nessun reparto riceve lavoro pesante nuovo oggi. Il gate North Star ammette solo ciò che avvicina
+direttamente il primo ordine pagato. Tutte e sei le priorità aspettano un'azione di Nicola. Serve
+fuori da questa chat: Stripe, un editor sul VPS, o l'accesso diretto al disco e a GitHub.
+
+## Passaggi precedenti
 
 ## Giro delle 22:46 (invariato, 9 minuti dopo il passaggio delle 22:37)
 Nuova chiamata identica a "esegui giro.md per intero". Ho riverificato dal vivo con una query SQL

@@ -2009,3 +2009,25 @@ senza card nuove dopo la #206 (11:53). `DECISIONI.md` fermo al 2026-08-29 00:40.
 - La prima cosa utile resta sempre la stessa: appena arriva una delle tue firme, la macchina riparte da lì.
 
 **Dettagli tecnici** — Riverificato con query SQL dirette su Supabase: `orders`=1, `payment_status='paid'`→0, `profiles`=9, `products`=9, `seller_public_profiles`=2, `abandoned_carts`=4, `reviews`=0, `merchants_leads`=407. `git fetch origin main` + `git rev-list --count`: 399 commit locali mai spinti (era 395 alle 14:45), 13 remoti mai scaricati (invariato). `DECISIONI.md` fermo al 2026-08-29 00:40. `AZIONI-IN-ATTESA.md` invariata: #182/#189/#196/#199/#205/#206, nessuna card nuova dopo la #206 (11:53). Giorni di stallo North Star ricalcolati a mano: 24/6→9/9 = 6+31+31+9 = 77 (non 78, come scritto in alcuni passaggi del pomeriggio).
+
+## Piano del mattino · 2026-09-10 06:00
+
+**In una riga:** Ancora 0 ordini pagati, 78° giorno di fila — stessi tre blocchi, aspettano ancora la tua firma.
+
+**Le 3 cose di oggi**
+1. Sblocca i pagamenti con carta di Pane Quotidiano. Unico blocco confermato tra i dati di oggi e il primo incasso vero.
+2. Riallinea questo computer con GitHub. Sono 407 scritture di qui mai arrivate là. Chi guarda il Pannello pubblico vede una versione vecchia della macchina.
+3. Ripara il controllo che dice "il codice è pronto per andare online": è rosso da giorni e blocca ogni modifica futura al sito.
+
+**Serve da te**
+- Attiva i pagamenti con carta per Pane Quotidiano su Stripe. Oppure dimmi cosa manca per farlo.
+- Fai riallineare questo computer con GitHub. Serve un accesso diretto, non questa chat.
+- Due risposte veloci: la pausa sui negozi è finita? E "Panificio Demo", il negozio finto nel database — lo cancello o lo lasci?
+
+**Lezione di oggi**
+- Un blocco confermato resta un blocco finché qualcuno con le chiavi giuste non lo apre: ripeterlo non lo sposta.
+
+**Domani**
+- La prima cosa utile resta sempre la stessa: appena arriva una delle firme, si riparte da lì.
+
+**Dettagli tecnici** — Dati riverificati dal vivo via query SQL diretta su supabase-marketplace: `orders`=1, 0 pagati, `profiles`=9, `products`=9, `seller_public_profiles`=2, `merchants_leads`=407/407 `to_contact` — identico a ieri. `git fetch origin main` + `git rev-list --count`: 407 commit locali mai spinti / 13 remoti mai scaricati (era 405/13 ieri sera). `AZIONI-IN-ATTESA.md`: card più alta #206, nessuna nuova. `DECISIONI.md` fermo al 2026-08-29 00:40. Giorni di stallo North Star: 24/6→10/9 = 6+31+31+10 = 78.
