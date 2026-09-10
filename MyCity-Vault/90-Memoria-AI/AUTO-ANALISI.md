@@ -6,28 +6,31 @@ data: 2026-09-10 07:05
 
 **Voto di fiducia: 75/100** (stabile). Nessun dato di business nuovo.
 
-- Riverificato dal vivo con query SQL dirette su supabase-marketplace, non ereditate: 1 ordine (24/6,
-  annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili. Bit-per-bit identico al Piano del mattino
-  delle 06:00. `AZIONI-IN-ATTESA.md` invariata (card più alta #206). `DECISIONI.md` fermo dal 29/8
-  00:40.
-- Chiuso il buco HARD di freschezza-cadenze: questo file, `auto-analisi.json` e `registro-realta.json`
-  erano fermi dal passaggio delle 2026-09-09 22:46 (~8h). Creato anche il Briefing di oggi
-  (`Briefing/2026-09-10.md`), che mancava.
-- Non riverificata dal vivo in questo passaggio la divergenza main↔GitHub (#199): uso il valore
-  ereditato dall'ultima verifica narrata in `STATO.md`.
-- Non rilanciate le 15 fasi pesanti (radar, radiografia, auto-miglioramento, esperimenti,
-  calibrazione, piani): letargo RISPARMIO + gate NORTH_STAR (0 pagati, 79° giorno) ammettono solo
-  lavoro che avvicina il primo ordine pagato, e il dato di business è invariato.
+- Riverificato dal vivo con query SQL dirette su supabase-marketplace, non ereditate. Risultato: 1
+  ordine (24/6, annullato, €19,05, Pane Quotidiano), 0 pagati, 9 profili. È identico bit-per-bit al
+  Piano del mattino delle 06:00. `AZIONI-IN-ATTESA.md` è invariata: la card più alta resta #206.
+  `DECISIONI.md` è fermo dal 29/8 00:40.
+- Chiuso il buco HARD di freschezza-cadenze. Questo file, `auto-analisi.json` e
+  `registro-realta.json` erano fermi dal passaggio delle 2026-09-09 22:46, quindi da circa 8 ore.
+  Creato anche il Briefing di oggi (`Briefing/2026-09-10.md`), che mancava.
+- Non ho riverificato dal vivo, in questo passaggio, la divergenza main↔GitHub (#199). Uso il
+  valore ereditato dall'ultima verifica narrata in `STATO.md`.
+- Non ho rilanciato le 15 fasi pesanti: radar, radiografia, auto-miglioramento, esperimenti,
+  calibrazione, piani. Il letargo resta in RISPARMIO. Il gate NORTH_STAR resta fermo (0 pagati,
+  79° giorno). Insieme ammettono solo lavoro che avvicina il primo ordine pagato. Il dato di
+  business è invariato.
 
 **Collaudo di questo passaggio (AR-532).**
-- **Richiesto vs fatto.** Nicola ha chiesto di eseguire `giro.md` per intero. FATTO: dati riverificati
-  dal vivo, cancello di serietà riscritto, Briefing/STATO/ultimo-briefing/Sala Operativa aggiornati.
-  NON FATTO APPOSTA: le 15 fasi pesanti e la riverifica dal vivo di main↔GitHub — letargo RISPARMIO +
-  gate NORTH_STAR lo vietano su dati invariati, e la maggior parte degli script `.mjs` HARD resta
-  bloccata da "richiede approvazione" in questa sessione (stesso buco noto delle card #104/#189/#194).
-- **Cosa NON ho verificato:** l'esito reale di `test-cervello.mjs`, `gate-veri.mjs`,
-  `freschezza-cadenze.mjs`, `sonda-volano.mjs`, `coerenza-fatti.mjs` in questa sessione — bloccati da
-  approvazione, un tentativo ciascuno, non ritentati.
+- **Richiesto vs fatto.** Nicola ha chiesto di eseguire `giro.md` per intero. FATTO: dati
+  riverificati dal vivo, cancello di serietà riscritto, Briefing/STATO/ultimo-briefing/Sala
+  Operativa aggiornati. NON FATTO APPOSTA: le 15 fasi pesanti. Non ho nemmeno riverificato dal vivo
+  main↔GitHub. Il letargo RISPARMIO e il gate NORTH_STAR vietano lavoro macchina che non avvicina il
+  primo ordine pagato, su dati invariati. In più, la maggior parte degli script `.mjs` HARD resta
+  bloccata da "richiede approvazione" in questa sessione: stesso buco noto delle card
+  #104/#189/#194.
+- **Cosa NON ho verificato.** L'esito reale di `test-cervello.mjs`, `gate-veri.mjs`,
+  `freschezza-cadenze.mjs`, `sonda-volano.mjs`, `coerenza-fatti.mjs` in questa sessione. Sono
+  bloccati da approvazione. Un tentativo ciascuno, non ritentati.
 
 ## Passaggi precedenti
 
