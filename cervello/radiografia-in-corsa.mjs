@@ -362,6 +362,44 @@ function leggiRegistro() {
   };
 }
 
+/**
+ * I nomi delle schede che chi registra ha dichiarato. PURA: le si passa come leggere il file.
+ *
+ * ⚠️ PERCHÉ ESISTE IL FILE DEI TITOLI, e non è comodità.
+ *
+ * Nella casa «marketplace» una scheda si identifica col suo TITOLO, e i titoli sono frasi italiane.
+ * L'8/9/2026, sui 59 reperti del perimetro del lotto, 35 titoli su 59 contenevano una virgola —
+ * cioè l'identificatore e il separatore erano lo stesso carattere. Registrare il perimetro del sito
+ * non era difficile: era IMPOSSIBILE, per qualunque titolo scritto come si parla, e il lotto non
+ * poteva passare il proprio cancello di consegna per colpa di un carattere. Un titolo per riga non
+ * ha separatori da indovinare.
+ *
+ * Sta qui, esportata, per la stessa ragione di `opzione()` in chiudi-sito.mjs: la prima stesura
+ * viveva dentro `main()` e la prova cercava «--schede-file» nel sorgente. Rompendo il codice vero
+ * la prova restava VERDE — l'ha smascherata la mutazione, non la rilettura. Una ricerca di parole
+ * non può fallire nel modo in cui fallisce la realtà.
+ *
+ * `--schede` resta per la casa «macchina», dove le schede si chiamano `AR-123` e la virgola non
+ * compare mai.
+ */
+export function schedeDichiarate({ file, lista } = {}, leggi) {
+  if (file) {
+    let testo;
+    try {
+      testo = leggi(file);
+    } catch (e) {
+      // Un percorso sbagliato dava una traccia di errore cruda. Chi registra il perimetro sta
+      // chiudendo un lotto: gli serve una frase, non uno stack.
+      throw new Error(`non ho potuto leggere il file dei titoli «${file}»: ${e.message}`);
+    }
+    // ⚠️ Si spezza su TUTTI i fine-riga, non solo su quello di casa. Un file scritto altrove porta
+    // il ritorno a capo attaccato a ogni titolo, e allora nessun titolo combacia: il comando
+    // direbbe «queste schede non esistono» su cinquanta nomi giusti, e chi legge non capirebbe.
+    return testo.split(/\r\n|\r|\n/).map((s) => s.trim()).filter(Boolean);
+  }
+  return String(lista || "").split(",").map((s) => s.trim()).filter(Boolean);
+}
+
 /** Una scheda dichiarata trovata esiste davvero dove deve stare? (l'anti «ne ho trovati tre» a voce) */
 export function schedaEsiste(casa, id) {
   if (casa === "marketplace") {
@@ -452,14 +490,24 @@ function main() {
     if (estranei.length) stampa(1, [`❌ questi file non appartengono a ${casa}/${dimensione}: ${estranei.slice(0, 5).join(", ")}`]);
 
     const imp = improntaDelFile(dirRepo);
-    const mancanti = file.filter((f) => imp(f) === null);
-    if (mancanti.length) stampa(1, [`❌ non ho potuto leggere: ${mancanti.slice(0, 5).join(", ")}`]);
+    // ⚠️ Un file CANCELLATO dal lotto non è un file illeggibile: è un file che non c'è più, e
+    // riguardarlo non ha senso. Prima qui il comando moriva — `registra --toccati` prendeva la
+    // lista dei toccati, che comprende anche i cancellati, e poi si rifiutava di leggerli. La
+    // dimensione restava scoperta per sempre a causa di un file che il lotto aveva tolto apposta.
+    const vivi = file.filter((f) => imp(f) !== null);
+    const spariti = file.filter((f) => imp(f) === null);
+    if (!vivi.length && file.length) {
+      stampa(1, [`❌ non ho potuto leggere nessuno dei file dichiarati: ${file.slice(0, 5).join(", ")}`]);
+    }
 
     const trovatiRaw = argomento("--trovati");
     if (trovatiRaw === null) stampa(1, ["❌ serve --trovati <quanti>: quante cose hai trovato riguardando. Anche zero, ma dichiarato."]);
     const trovati = Number(trovatiRaw);
     if (!Number.isInteger(trovati) || trovati < 0) stampa(1, [`❌ --trovati vuole un numero intero, non «${trovatiRaw}»`]);
-    const schede = (argomento("--schede") || "").split(",").map((s) => s.trim()).filter(Boolean);
+    const schede = schedeDichiarate(
+      { file: argomento("--schede-file"), lista: argomento("--schede") },
+      (f) => readFileSync(f, "utf8"),
+    );
     if (trovati > 0) {
       if (schede.length !== trovati) stampa(1, [`❌ hai dichiarato ${trovati} cose trovate e ${schede.length} schede: quello che hai visto si scrive, o non l'hai visto.`]);
       const fantasmi = schede.filter((s) => schedaEsiste(casa, s) === false);
@@ -476,8 +524,10 @@ function main() {
       chi: argomento("--chi", "AD"),
       trovati,
       schede,
+      spariti: spariti.length ? spariti : undefined,
       nota: argomento("--nota", ""),
-      file: Object.fromEntries(file.map((f) => [f, imp(f)])),
+      // Solo i file VIVI portano un'impronta: un cancellato non ha niente da confrontare domani.
+      file: Object.fromEntries(vivi.map((f) => [f, imp(f)])),
     };
     reg.scansioni.push(voce);
     if (reg.scansioni.length > TETTO_SCANSIONI) reg.scansioni = reg.scansioni.slice(-TETTO_SCANSIONI);

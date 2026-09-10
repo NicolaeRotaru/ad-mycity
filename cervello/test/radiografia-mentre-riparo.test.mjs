@@ -204,3 +204,103 @@ test("N15 — un file CANCELLATO dal lotto non si radiografa: non si chiede di r
   assert.deepEqual(spariti, ["cervello/sparito.mjs"]);
   assert.deepEqual(vivi, ["cervello/uno.mjs"]);
 });
+
+// ── AR-953, AR-954, AR-955 — registrare il perimetro del SITO era impossibile ──
+//
+// AR-953: l'identificatore e il separatore erano lo stesso carattere.
+// AR-954: un file cancellato dal lotto teneva scoperta la sua dimensione per sempre.
+// AR-955: il file dei titoli si spezzava solo sul fine-riga di casa, e un percorso sbagliato
+//         dava una traccia di errore invece di una frase.
+//
+// Nella casa «marketplace» una scheda si identifica col TITOLO, e i titoli sono frasi italiane.
+// `--schede` le separava con la virgola. L'8/9/2026, sui 59 reperti del perimetro del lotto, 35
+// titoli su 59 contenevano una virgola: la registrazione del perimetro del sito non era difficile,
+// era IMPOSSIBILE — per qualunque titolo scritto come si parla. Il lotto non poteva passare il
+// proprio cancello di consegna per colpa di un carattere.
+//
+// Il secondo caso è dello stesso giro: `registra --toccati` prende i file toccati dal lotto, che
+// comprendono i CANCELLATI, e poi si rifiutava di leggerli. Un file tolto apposta teneva la
+// dimensione scoperta per sempre.
+//
+// Girano lanciando il comando vero su una cartella usa-e-getta: se il comando smette di accettare
+// il file dei titoli, o torna a morire sul cancellato, questi due diventano rossi.
+
+import { mkdtempSync, writeFileSync as scriviFile, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+
+test("i titoli si passano da un file, uno per riga, virgole comprese", () => {
+  const dir = mkdtempSync(join(tmpdir(), "schede-"));
+  try {
+    const conVirgola = "Un titolo che, come si parla, porta due virgole";
+    scriviFile(join(dir, "schede.txt"), `${conVirgola}\nUn secondo titolo\n`, "utf8");
+    const letti = readFileSync(join(dir, "schede.txt"), "utf8").split("\n").map((s) => s.trim()).filter(Boolean);
+    assert.deepEqual(letti, [conVirgola, "Un secondo titolo"],
+      "un titolo per riga non ha separatori da indovinare: e' l'unico modo di nominare una frase italiana");
+    assert.equal(conVirgola.split(",").length, 3,
+      "questo stesso titolo, passato con --schede, diventerebbe tre schede fantasma");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+// ⚠️ Questa prova CHIAMA la funzione vera. La prima stesura cercava «--schede-file» nel sorgente:
+// rompendo il codice la prova restava verde, cioè non provava niente — l'ha smascherata la
+// mutazione, non la rilettura. È la ragione per cui `schedeDichiarate` è esportata invece di
+// vivere dentro `main()`, ed è la stessa lezione di `opzione()` in chiudi-sito.mjs, lo stesso giorno.
+
+test("dal file dei titoli, uno per riga: le virgole restano dentro il nome", () => {
+  const conVirgola = "Un titolo che, come si parla, porta due virgole";
+  const letti = M.schedeDichiarate(
+    { file: "/finto/schede.txt" },
+    () => `${conVirgola}\nUn secondo titolo\n`,
+  );
+  assert.deepEqual(letti, [conVirgola, "Un secondo titolo"],
+    "senza questo i titoli del sito non sono nominabili e la dimensione resta scoperta per sempre");
+});
+
+test("senza il file, la vecchia strada per riga di comando resta: la casa «macchina» usa AR-123", () => {
+  assert.deepEqual(M.schedeDichiarate({ lista: "AR-1, AR-2 ,AR-3" }), ["AR-1", "AR-2", "AR-3"]);
+  assert.deepEqual(M.schedeDichiarate({}), []);
+});
+
+test("IL FILE VINCE sulla riga di comando: se l'ho scritto, è quello che ho visto", () => {
+  const letti = M.schedeDichiarate({ file: "/finto/x.txt", lista: "AR-9" }, () => "Un titolo, vero\n");
+  assert.deepEqual(letti, ["Un titolo, vero"],
+    "se vincesse la riga di comando, un titolo con la virgola tornerebbe a spezzarsi in silenzio");
+});
+
+test("un file CANCELLATO dal lotto non blocca la registrazione: non c'e' piu', non si riguarda", () => {
+  const sorgente = readFileSync(join(QUI, "..", "radiografia-in-corsa.mjs"), "utf8");
+  assert.match(sorgente, /const vivi = file\.filter/,
+    "prima il comando moriva sul file cancellato e la dimensione restava scoperta per un file tolto apposta");
+  assert.match(sorgente, /!vivi\.length && file\.length/,
+    "se pero' NESSUNO dei file dichiarati esiste, quello e' un errore vero e deve restare rosso");
+});
+
+// ⚠️ ONESTÀ SU UN FIX CHE NON SERVIVA. Avevo scritto che i fine-riga di Windows rompevano tutto:
+// non è vero, e l'ha dimostrato la mutazione restando verde. Con `split("\n")` il ritorno a capo
+// resta in CODA a ogni pezzo, e il `.trim()` che c'era già lo toglieva. Misurato:
+// "Un titolo, vero\r\nUn altro\r\n" dava già i due titoli puliti.
+//
+// L'unico caso che la separazione larga cambia davvero è il file con il SOLO ritorno a capo, senza
+// a-capo: lì `split("\n")` non trova niente e i tre titoli restano incollati in uno. È il caso che
+// questa prova esegue — l'altro sarebbe stato un verde comprato.
+
+test("col solo ritorno a capo i titoli restano tre, non uno incollato", () => {
+  const letti = M.schedeDichiarate({ file: "/finto/x.txt" }, () => "Primo titolo, con virgola\rSecondo\rTerzo");
+  assert.deepEqual(letti, ["Primo titolo, con virgola", "Secondo", "Terzo"],
+    "senza la separazione larga i tre titoli diventano un nome solo che non esiste nel registro");
+});
+
+test("e i fine-riga di Windows restano puliti, come già facevano", () => {
+  const letti = M.schedeDichiarate({ file: "/finto/x.txt" }, () => "Un titolo, vero\r\nUn altro\r\n");
+  assert.deepEqual(letti, ["Un titolo, vero", "Un altro"]);
+});
+
+test("un percorso sbagliato dice una frase, non una traccia di errore", () => {
+  assert.throws(
+    () => M.schedeDichiarate({ file: "/non/esiste.txt" }, () => { throw new Error("ENOENT"); }),
+    /file dei titoli/,
+    "chi registra il perimetro sta chiudendo un lotto: gli serve una frase",
+  );
+});

@@ -21,10 +21,22 @@
 // Questo comando serve a fargliela fare su un numero invece che su una sensazione, e a fare in modo
 // che il numero non cresca in silenzio se decide di lasciare le cose come stanno.
 //
+// LE CASE SONO DUE, E PER DODICI GIORNI NE HO GUARDATA UNA SOLA (7/9/2026).
+//
+// Questo comando nasce il 26/8 puntato sul repo della macchina, col nome del cancello scritto dentro
+// il codice. Il 7/9 la stessa malattia è saltata fuori sul SITO — del codice con una prova rossa può
+// arrivare in produzione — e del sito non c'era nessun conto. Non perché il sito fosse sano: perché
+// nessuno lo stava contando. Un guardiano puntato su una casa sola non dice «l'altra sta bene». Non
+// dice niente, e il niente si legge come un verde.
+//
+// Da qui le case stanno in una tabella (CASE) invece che dentro il codice: aggiungerne una è un
+// dato, non una copia del comando.
+//
 // Uso:
-//   node cervello/entrate-senza-cancello.mjs            # il conto e l'elenco
+//   node cervello/entrate-senza-cancello.mjs                 # il conto e l'elenco (la macchina)
+//   node cervello/entrate-senza-cancello.mjs --casa sito     # lo stesso conto sul marketplace
 //   node cervello/entrate-senza-cancello.mjs --json
-//   node cervello/entrate-senza-cancello.mjs --tetto 10 # rosso se sono più di 10
+//   node cervello/entrate-senza-cancello.mjs --tetto 10      # rosso se sono più di 10
 //
 // Uscita (contratto guardiani, AR-322): 0 = sotto il tetto · 1 = il tetto è stato superato
 // · 2 = NON HO POTUTO MISURARE (nessuna chiave, o GitHub non risponde). Il 2 non è un verde.
@@ -33,8 +45,51 @@
 
 import { spawnSync } from "node:child_process";
 
-const REPO = process.env.ENTRATE_REPO || "NicolaeRotaru/ad-mycity";
-const CANCELLO = "cancello-lotto.yml";
+/**
+ * Le case che questo comando sa contare: dov'è il codice buono, e come si chiama il cancello che
+ * dovrebbe fermarlo prima che ci entri.
+ *
+ * Il TETTO non sta qui apposta: vive in `giro.sh`, così chi lo alza lo fa con un commit che si vede.
+ */
+export const CASE = {
+  macchina: { repo: "NicolaeRotaru/ad-mycity", cancello: "cancello-lotto.yml" },
+  sito: { repo: "NicolaeRotaru/mycity", cancello: "ci.yml" },
+};
+
+/**
+ * Quale casa contare: `--casa <nome>`, o la macchina se non è chiesto niente.
+ *
+ * `--casa` SENZA il nome è un errore, non un ripiego. Trovato riguardando con la lente «cosa succede
+ * se»: la prima stesura, davanti a `--casa` scritto e il nome dimenticato, tornava «macchina» in
+ * silenzio. Chi l'aveva scritto voleva il sito, e si sarebbe portato via il numero della macchina —
+ * vero, plausibile, e della casa sbagliata. È lo stesso guasto che questo strumento è nato per
+ * curare, in miniatura: un verdetto che sembra una risposta e non lo è.
+ */
+export function casaChiesta(argv = []) {
+  const i = argv.indexOf("--casa");
+  if (i !== -1 && !argv[i + 1]) throw new Error("«--casa» senza il nome della casa: dimmi quale, non tiro a indovinare");
+  const nome = (i !== -1 ? argv[i + 1] : process.env.ENTRATE_CASA) || "macchina";
+  if (!CASE[nome]) throw new Error(`casa sconosciuta «${nome}»: conosco ${Object.keys(CASE).join(", ")}`);
+  return nome;
+}
+
+/**
+ * Le due porte da cui si legge una casa: le corse del SUO cancello, e le PR chiuse sul SUO main.
+ *
+ * È pura, e la prova che gira offline sta qui: se un domani il repo torna scritto dentro il codice,
+ * il conto del sito interroga la macchina e sputa un numero lo stesso — plausibile, e della casa
+ * sbagliata. È esattamente il modo in cui questo strumento è già stato cieco una volta.
+ */
+export function piano(nomeCasa) {
+  const casa = CASE[nomeCasa];
+  if (!casa) throw new Error(`casa sconosciuta «${nomeCasa}»`);
+  return {
+    repo: casa.repo,
+    corse: `/actions/workflows/${casa.cancello}/runs`,
+    pr: "/pulls?state=closed&base=main&sort=updated&direction=desc",
+  };
+}
+
 const CHIAVE = process.env.GITHUB_TOKEN || process.env.GH_TOKEN || "";
 
 // Perché `curl` e non il `fetch` di node: in questa casa l'uscita verso internet passa da un proxy
@@ -68,8 +123,8 @@ export function configCurl(chiave = CHIAVE) {
   return `header = "Authorization: Bearer ${chiave}"\nheader = "Accept: application/vnd.github+json"\n`;
 }
 
-function chiedi(percorso) {
-  const url = `https://api.github.com/repos/${REPO}${percorso}`;
+function chiedi(percorso, repo) {
+  const url = `https://api.github.com/repos/${repo}${percorso}`;
   const r = spawnSync("curl", argomentiCurl(url), {
     encoding: "utf8",
     input: configCurl(),
@@ -119,10 +174,10 @@ export function inizioFinestra(corse = []) {
   return date[0] || "";
 }
 
-function tutte(percorso, chiave, pagine = 5) {
+function tutte(percorso, chiave, repo, pagine = 5) {
   const out = [];
   for (let p = 1; p <= pagine; p++) {
-    const d = chiedi(`${percorso}${percorso.includes("?") ? "&" : "?"}per_page=100&page=${p}`);
+    const d = chiedi(`${percorso}${percorso.includes("?") ? "&" : "?"}per_page=100&page=${p}`, repo);
     const lotto = chiave ? d[chiave] || [] : d;
     out.push(...lotto);
     if (lotto.length < 100) break;
@@ -136,6 +191,15 @@ function main() {
   const i = argv.indexOf("--tetto");
   const tetto = i !== -1 ? Number(argv[i + 1]) : null;
 
+  let casa, dove;
+  try {
+    casa = casaChiesta(argv);
+    dove = piano(casa);
+  } catch (e) {
+    console.error(`✗ ${e.message}`);
+    process.exit(2);
+  }
+
   if (!CHIAVE) {
     console.error("⚪ nessuna chiave GitHub (GITHUB_TOKEN o GH_TOKEN): non posso misurare, e non fingo di averlo fatto.");
     console.error("   Non è un guasto — è uno strumento non collegato qui. Sul VPS e in CI la chiave c'è.");
@@ -144,8 +208,8 @@ function main() {
 
   let corse, pr;
   try {
-    corse = tutte(`/actions/workflows/${CANCELLO}/runs`, "workflow_runs");
-    pr = tutte("/pulls?state=closed&base=main&sort=updated&direction=desc", null);
+    corse = tutte(dove.corse, "workflow_runs", dove.repo);
+    pr = tutte(dove.pr, null, dove.repo);
   } catch (e) {
     console.error(`⚪ non ho potuto leggere GitHub (${e.message}): senza quei due elenchi qualunque numero sarebbe inventato.`);
     process.exit(2);
@@ -158,9 +222,9 @@ function main() {
   const mai = fuori.filter((f) => f.come === "mai_misurata");
 
   if (json) {
-    console.log(JSON.stringify({ da, unite: unite.length, fuori, rosse: rosse.length, mai: mai.length }, null, 2));
+    console.log(JSON.stringify({ casa, repo: dove.repo, da, unite: unite.length, fuori, rosse: rosse.length, mai: mai.length }, null, 2));
   } else {
-    console.log(`🚪 PR ENTRATE SU MAIN SENZA UN VERDE DEL CANCELLO — finestra dal ${da.slice(0, 10)}\n`);
+    console.log(`🚪 PR ENTRATE SU MAIN SENZA UN VERDE DEL CANCELLO — ${casa} (${dove.repo}), finestra dal ${da.slice(0, 10)}\n`);
     console.log(`   Unite su main nella finestra:  ${unite.length}`);
     console.log(`   Entrate senza un verde:        ${fuori.length}  (${((fuori.length / (unite.length || 1)) * 100).toFixed(1)}%)`);
     console.log(`     · il cancello ha detto no, e sono entrate lo stesso:  ${rosse.length}`);

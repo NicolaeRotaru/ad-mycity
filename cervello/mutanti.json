@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-06 11:55",
+ "aggiornato": "2026-09-08 09:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -9231,6 +9231,114 @@
    "test": "cervello/test/il-tempo-massimo-che-si-poteva-rifiutare.test.mjs",
    "lezione": "L-2026-0906-03",
    "perche_conta": "E' la stessa rottura che AR-797 dichiara, e sta qui sotto un secondo nome perche' AR-947 non ripara quella riga: ripara il fatto che ROMPERLA non si potesse misurare. Prima la stessa mutazione mandava `due-case.test.mjs` in 992 processi annidati e il banco la ammazzava scrivendo ⚪; adesso interroga la funzione pura e diventa rossa in 2,1 secondi. Se un giorno questo caso tornasse a passare dal file che esplode, il ⚪ tornerebbe e nessuno lo leggerebbe come una difesa persa."
+  },
+  {
+   "difetto": "AR-948",
+   "nome": "l'opzione scritta a meta' torna a ripiegare: chiedi il sito e ti do' il numero della macchina",
+   "file": "cervello/entrate-senza-cancello.mjs",
+   "cerca": "  if (i !== -1 && !argv[i + 1]) throw new Error(\"«--casa» senza il nome della casa: dimmi quale, non tiro a indovinare\");\n",
+   "sostituisci": "",
+   "test": "cervello/test/entrate-senza-cancello.test.mjs",
+   "perche_conta": "Senza questa riga «--casa» col nome dimenticato torna «macchina» in silenzio: chi voleva il sito si porta via il conto della macchina — un numero vero, plausibile, e della casa sbagliata. E' la peggiore delle uscite, perche' non somiglia a un errore."
+  },
+  {
+   "difetto": "AR-948",
+   "nome": "«--pretende» con un refuso torna a passare in silenzio: il guardiano dice verde senza aver controllato",
+   "file": "cervello/serratura-ramo.mjs",
+   "cerca": "  if (iP !== -1 && !ETICHETTA[pretende]) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/serratura-ramo.test.mjs",
+   "perche_conta": "Il giorno che Nicola sceglie A, B o C, dentro giro.sh va aggiunto «--pretende chiusa». Se quel giorno la parola esce storta, senza questo controllo il confronto viene saltato e l'uscita e' 0: un guardiano che dice verde per sempre senza aver mai guardato niente. Cioe' il difetto della card #177 — un verdetto che non ferma — rimesso dentro lo strumento nato per misurarlo."
+  },
+  {
+   "difetto": "AR-949",
+   "nome": "sparisce il tetto sulle richieste: un repo con cinquanta regole tiene fermo il giro",
+   "file": "cervello/serratura-ramo.mjs",
+   "cerca": "  return { guardate: elenco.slice(0, tetto), nonGuardate: Math.max(0, elenco.length - tetto) };",
+   "sostituisci": "  return { guardate: elenco, nonGuardate: 0 };",
+   "test": "cervello/test/serratura-ramo.test.mjs",
+   "perche_conta": "Questo comando gira dentro giro.sh, dove guardiano() non mette nessun limite di tempo. Una richiesta per regola a 20 secondi l'una: con cinquanta regole il battito della macchina resta fermo venti minuti. E senza il conto di quelle non guardate, un elenco tagliato verrebbe raccontato come intero."
+  },
+  {
+   "difetto": "AR-950",
+   "nome": "torna la forma che scambia l'opzione assente per un valore: la cartella finisce nel registro",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "  if (i === -1) return null;\n",
+   "sostituisci": "",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "Senza quella riga indexOf torna -1, e l'elemento in posizione zero e' la cartella dei frammenti: il comando scriverebbe «PR #/tmp/…/lotto» dentro il campo chiuso_da di ogni difetto chiuso, senza dare nessun errore. E' una traccia falsa e permanente sull'unica lista che sa cosa e' gia' stato riparato. La prima stesura della prova riscriveva la funzione invece di chiamarla, e questa stessa mutazione restava verde: e' il motivo per cui la funzione e' esportata."
+  },
+  {
+   "difetto": "AR-950",
+   "nome": "sparisce il controllo sulle chiavi orfane: una chiusura scritta su una scheda che non esiste",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "    if (!r.chiave) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "La chiave del registro del sito e' dimensione piu' titolo normalizzati: basta che una corsia ritocchi un titolo mentre ripara e la chiusura non aggancia piu' niente. Senza questo controllo sparirebbe in silenzio, e al referto successivo il difetto risulterebbe di nuovo aperto — col lotto dopo che ripianifica lavoro gia' fatto. Al primo collaudo del comando dei pacchetti erano 356 chiavi su 361 a non combaciare, per questa ragione esatta. 8/9/2026: il controllo si e' spostato dentro risolviChiave quando il piano ha imparato a ricostruire la chiave dal titolo. Il pezzo e' lo stesso — una chiave che il registro non conosce non deve diventare una chiusura — e la mutazione lo insegue li'."
+  },
+  {
+   "difetto": "AR-951",
+   "nome": "il rifiuto sull'ambiguita' sparisce: un titolo sotto due dimensioni chiude la prima che capita",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "  if (unici.length === 1) return { chiave: unici[0], dedotta: true };",
+   "sostituisci": "  if (unici.length >= 1) return { chiave: unici[0], dedotta: true };",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "Con questa riga ammorbidita, un titolo che compare sotto due dimensioni verrebbe risolto prendendo il primo candidato. La conseguenza non e' un errore: e' una chiusura scritta sulla scheda sbagliata, in silenzio, dentro l'unica lista che dice quali riparazioni sono gia' state fatte. Resta aperto un difetto vero e ne risulta chiuso un altro su cui nessuno ha lavorato - e al referto successivo nessuno sa piu' quale dei due credere."
+  },
+  {
+   "difetto": "AR-951",
+   "nome": "sparisce la ricostruzione dal titolo: le corsie tornano a essere tutte orfane",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "  const candidati = (perTitolo?.get(d) ?? []).filter((k) => nelRegistro?.has(k));",
+   "sostituisci": "  const candidati = [];",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "E' il difetto di partenza, misurato: 23 chiavi orfane su 23, zero chiusure scritte, ventidue riparazioni gravi del marketplace che restano non registrate. Il lotto successivo le ripianifica da capo, e il lavoro si rifa'. La chiave del registro del sito e' dimensione piu' titolo: il pacchetto la dimensione ce l'ha, quindi la meta' mancante si ricostruisce senza indovinare - ma solo se questa riga la va a prendere."
+  },
+  {
+   "difetto": "AR-951",
+   "nome": "l'indice dei titoli diventa comune a tutte le corsie invece che della sola corsia che dichiara",
+   "file": "cervello/chiudi-sito.mjs",
+   "cerca": "    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: indici.get(numeroPacchetto) });",
+   "sostituisci": "    const r = risolviChiave(d?.chiave, { nelRegistro, perTitolo: new Map([...indici.values()].flatMap((m) => [...m])) });",
+   "test": "cervello/test/chiudi-sito.test.mjs",
+   "perche_conta": "Una corsia chiude quello che aveva in mano, non quello di un'altra. Con l'indice comune, una squadra che sbaglia a copiare il titolo aggancerebbe la scheda di un'altra squadra - che magari quel difetto non l'ha nemmeno guardato. Il territorio disgiunto delle corsie serve proprio a questo: e' la stessa regola, applicata al momento di scrivere invece che al momento di riparare. 8/9: la riga si e spostata quando il piano ha imparato il passaggio di mano dichiarato (dal_pacchetto). Il pezzo e lo stesso — si guarda UN pacchetto solo — e la mutazione lo insegue li."
+  },
+  {
+   "difetto": "AR-953",
+   "nome": "sparisce il file dei titoli: i nomi con la virgola tornano a spezzarsi in schede fantasma",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    return testo.split(/\\r\\n|\\r|\\n/).map((s) => s.trim()).filter(Boolean);",
+   "sostituisci": "    return String(lista || \"\").split(\",\").map((s) => s.trim()).filter(Boolean);",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "Nel registro del sito una scheda si chiama col suo titolo, e i titoli sono frasi italiane: 35 su 59 contengono una virgola. Senza il file dei titoli ognuno di quelli si spezza in due o tre nomi che non esistono, il comando li rifiuta, e la dimensione resta scoperta per sempre. Non e' scomodo: e' impossibile registrare il perimetro del sito per qualunque titolo scritto come si parla, e il lotto non passa il proprio cancello di consegna. La prima prova cercava l'opzione nel sorgente e restava verde col fix rotto: e' il motivo per cui la decisione e' stata estratta in schedeDichiarate, dove una prova la esegue."
+  },
+  {
+   "difetto": "AR-954",
+   "nome": "il file cancellato torna a essere un file illeggibile, e blocca tutta la dimensione",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    const vivi = file.filter((f) => imp(f) !== null);",
+   "sostituisci": "    const vivi = file;",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "La lista dei file toccati dal lotto comprende quelli che il lotto ha CANCELLATO. Trattarli come illeggibili faceva morire la registrazione, e la dimensione restava scoperta a causa di un file tolto apposta. Con questa mutazione l'impronta viene scritta anche per i file che non esistono, quindi il confronto di domani non ha niente contro cui confrontare: il guardiano direbbe verde su una copertura che non copre."
+  },
+  {
+   "difetto": "AR-955",
+   "nome": "il file dei titoli torna a spezzarsi solo sul fine-riga di casa",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    return testo.split(/\\r\\n|\\r|\\n/).map((s) => s.trim()).filter(Boolean);",
+   "sostituisci": "    return testo.split(\"\\n\").map((s) => s.trim()).filter(Boolean);",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "Un file dei titoli scritto su un'altra macchina porta il ritorno a capo attaccato a ogni riga. Con questa mutazione ogni titolo si porta dietro quel carattere invisibile, quindi NESSUNO combacia col registro: il comando risponde «queste schede non esistono» su cinquanta nomi giusti, e chi legge va a cercare il difetto dalla parte sbagliata. Registrare il perimetro del sito tornerebbe impossibile, e il lotto non passerebbe il proprio cancello di consegna."
+  },
+  {
+   "difetto": "AR-955",
+   "nome": "la lettura fallita del file dei titoli torna a essere una traccia di errore cruda",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "      throw new Error(`non ho potuto leggere il file dei titoli «${file}»: ${e.message}`);",
+   "sostituisci": "      throw e;",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "perche_conta": "Chi registra il perimetro sta chiudendo un lotto, spesso a fine giornata. Un percorso sbagliato gli deve dire quale file non ha trovato, non uno stack: con lo stack, la stessa persona ricontrolla le schede, il registro e la dimensione prima di accorgersi che era un refuso nel path."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
