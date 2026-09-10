@@ -1,5 +1,5 @@
 {
- "ultimo_fetch": "2026-09-09 22:54",
+ "ultimo_fetch": "2026-09-10 06:21",
  "ultimo_ok": null,
  "dietro": 231,
  "storia": [
@@ -49,6 +49,10 @@
   },
   {
    "quando": "2026-09-09 22:54",
+   "dietro": 231
+  },
+  {
+   "quando": "2026-09-10 06:21",
    "dietro": 231
   }
  ]

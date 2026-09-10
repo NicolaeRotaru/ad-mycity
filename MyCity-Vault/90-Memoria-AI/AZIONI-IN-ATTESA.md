@@ -3616,8 +3616,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-09 22:28)
-Report completo con comandi pronti: `consegne/supervisione/2026-09-09-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-09-10 06:28)
+Report completo con comandi pronti: `consegne/supervisione/2026-09-10-supervisione.md`. Tutte 🟡, con **valore DEDOTTO** (non fornito dal negozio), reversibili (backup versionato per riga).
 
 ### 🟡 Metti «nuovo» come condizione ai 4 prodotti che non ce l'hanno
 

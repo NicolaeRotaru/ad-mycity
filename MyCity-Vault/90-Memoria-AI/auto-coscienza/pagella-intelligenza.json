@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-09-09 22:20",
+  "aggiornato": "2026-09-10 06:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 0,
+  "migliorate": 1,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -25,24 +25,24 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.15,
-      "valore": 0.33,
-      "etichetta": "33% (1/3 correzioni)",
+      "valore": 0.5,
+      "etichetta": "50% (1/2 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 3,
+        "correzioni": 2,
         "su_tema_cronico": 0,
         "quota": 0,
         "temi_cronici": 0,
-        "temi_totali": 10
+        "temi_totali": 5
       },
       "gate": {
-        "correzioni": 3,
-        "con_gate": 3,
+        "correzioni": 2,
+        "con_gate": 2,
         "quota": 1
       },
       "precedente": 0.33,
-      "movimento": "ferma"
+      "movimento": "migliorata"
     },
     {
       "id": "calibrazione",
@@ -101,7 +101,7 @@
       "fonte": "auto-coscienza/storico-salute.json",
       "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
       "valore": 4,
-      "etichetta": "4/100 (misurato 2026-09-09)",
+      "etichetta": "4/100 (misurato 2026-09-10)",
       "ok": false,
       "cieco": false,
       "precedente": 4,
@@ -109,18 +109,6 @@
     }
   ],
   "serie": [
-    {
-      "data": "2026-08-07 14:20",
-      "voci_superate": 0,
-      "pronta": false,
-      "valori": {
-        "lezioni": 0.16,
-        "calibrazione": null,
-        "freni": 9,
-        "quaderni": 0.09166666666666666,
-        "salute": 45
-      }
-    },
     {
       "data": "2026-08-07 14:58",
       "voci_superate": 0,
@@ -2503,6 +2491,18 @@
       "pronta": false,
       "valori": {
         "lezioni": 0.33,
+        "calibrazione": null,
+        "freni": 7,
+        "quaderni": 0.10655737704918032,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-09-10 06:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.5,
         "calibrazione": null,
         "freni": 7,
         "quaderni": 0.10655737704918032,
