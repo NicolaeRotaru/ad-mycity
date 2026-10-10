@@ -666,3 +666,5 @@ Esempi:
 - 2026-10-10 11:58 · @analista · FATTO · Numeri riletti dal database: 1 negozio vero, 1 ordine (24/6, annullato), 0 pagati, 0 clienti nuovi in 7 giorni, 407 contatti di negozi. Trovato un «Panificio Demo» approvato dal 5/9 con 4 prodotti.
 - 2026-10-10 11:59 · @devops-sre · FATTO · Il controllo del sito resta 503: i 10 lavori automatici non lasciano traccia dal 30/7 e su Vercel manca CRON_SECRET. Il server della macchina non prende lavori dal 7/10: 31 in coda.
 - 2026-10-10 12:05 · @ad · PASSO-A · Card #199 chiusa e archiviata; card 🔴 #201 nuova (negozio di prova); aggiornate #154 e #168.
+- 2026-10-10 15:43 · @devops-sre · FATTO · Con «Fai la #154» messe su Vercel 8 chiavi del sito (indirizzo con www, 4 chiavi interne, coppia push, tetto AI): 12 su 21. Ne mancano 9 da Supabase, Stripe, Resend e Upstash. Arretrato al riavvio: 7 email vecchie e 3 promemoria carrello, nessun versamento.
+- 2026-10-10 15:50 · @ad · PASSO-A · @Nicola — card #154 riscritta: copiare le 9 chiavi e scrivere «fatto 154»; facoltativo «annulla le email vecchie». Alla firma ripubblico la stessa versione e ricontrollo.

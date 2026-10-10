@@ -23,8 +23,8 @@
   ],
   "azioni": [
     {
-      "titolo": "Metti su Vercel le chiavi che mancano al sito",
-      "motivo": "È la card #154. Senza la chiave di servizio del database il sito non registra un ordine. Senza CRON_SECRET i 10 lavori automatici non girano dal 30 luglio.",
+      "titolo": "Copia su Vercel le 9 chiavi del sito che vengono da Supabase, Stripe, Resend e Upstash",
+      "motivo": "È la card #154. Il 10/10 alle 15:43 ho messo le 8 che potevo creare io, compresa quella dei lavori automatici. Senza la chiave di servizio del database il sito non registra ancora un ordine.",
       "livello": "rosso"
     },
     {

@@ -5327,3 +5327,19 @@ gratuito. Se resta così, i due database si riaddormentano dopo circa una settim
 
 **Esito, 2026-10-10 12:05.** Tutti e due i progetti erano attivi alle 10:16. Il sito però risponde ancora 503:
 non per il database, ma perché i suoi lavori automatici non girano dal 30 luglio. È la card #154.
+
+## 2026-10-10 15:43 — 🔴 Messe su Vercel 8 chiavi del sito, con la firma di Nicola («Fai la #154»)
+
+**Cosa.** Sul progetto del sito, ambiente Production, ho aggiunto 8 variabili: l'indirizzo pubblico
+con il «www», le quattro chiavi interne (lavori automatici, versamenti manuali, link di
+disiscrizione, cookie del ruolo), la coppia per le notifiche push e il tetto di spesa AI a 20 euro al
+giorno. Le chiavi interne e la metà segreta della coppia sono nuove, casuali, segnate «Sensitive».
+Non ho ripubblicato il sito.
+
+**Perché.** Il sito ne controlla 21 e su Vercel ce n'erano 4. Queste 8 si potevano creare da qui
+senza leggere niente di nessun servizio esterno. Le 9 che mancano le rilasciano Supabase, Stripe,
+Resend e Upstash: le copia Nicola, con i passi in `consegne/salute/2026-10-10-chiavi-vercel.md`.
+Ripubblicare adesso non sarebbe servito: senza la chiave di servizio del database il sito resta 503.
+
+**Come si torna indietro.** Su Vercel, progetto mycity → Settings → Environment Variables: ognuna
+delle 8 si cancella o si cambia da lì, e ha un commento che dice chi l'ha messa e perché.

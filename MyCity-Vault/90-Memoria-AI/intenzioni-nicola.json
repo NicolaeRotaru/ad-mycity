@@ -3,11 +3,11 @@
   "sintesi": "I due database sono di nuovo accesi grazie al tuo «ok 199». Il business resta fermo come a settembre: un negozio vero, nessun ordine pagato. Prima di poter vendere servono tre tue mosse: le chiavi del sito su Vercel, togliere il negozio di prova e riaccendere il server della macchina. Il piano dei segmenti mette a ottobre ottiche, estetiste e mercato coperto: tutto aspetta che il sito venda.",
   "prossime_mosse": [
     {
-      "titolo": "Rimetti al sito le chiavi che mancano su Vercel",
-      "quando": "subito dopo i database",
-      "come": "Vercel → progetto mycity → Settings → Environment Variables → Production, confrontando con .env.example del sito (card #154)",
+      "titolo": "Copia su Vercel le 9 chiavi di Supabase, Stripe, Resend e Upstash",
+      "quando": "adesso: le altre 8 le ho già messe io il 10/10 alle 15:43",
+      "come": "i passi in consegne/salute/2026-10-10-chiavi-vercel.md (card #154), poi scrivimi «fatto 154»",
       "priorita": "alta",
-      "ad_prepara": "elenco delle variabili che mancano, letto oggi; dopo il nuovo deploy rileggo il controllo di salute del sito",
+      "ad_prepara": "con «fatto 154» ripubblico la stessa versione del sito e controllo che risponda e che i lavori automatici ripartano",
       "senior": "@devops-sre",
       "colore": "🔴"
     },

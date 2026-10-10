@@ -1,10 +1,29 @@
 ---
 tipo: stato
-aggiornato: 2026-10-10 12:05
+aggiornato: 2026-10-10 15:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🔑 **2026-10-10 15:50 — Ho messo su Vercel le 8 chiavi del sito che potevo creare io. Le 9 che mancano le copi tu.**
+>
+> **In parole semplici.** Hai firmato «Fai la #154». Ho aggiunto l'indirizzo del sito, quattro
+> chiavi interne, la coppia per le notifiche e il tetto di spesa per l'AI. Adesso il sito ha 12 chiavi
+> su 21. Le altre 9 le rilasciano Supabase, Stripe, Resend e Upstash.
+>
+> **Un esempio concreto.** La chiave di servizio del database la mostra solo il pannello di Supabase.
+> Senza quella, quando un cliente paga, Stripe incassa ma l'ordine non nasce.
+>
+> **Cosa cambia per te.** Sul sito per ora niente: le chiavi valgono dalla prossima pubblicazione.
+> Quando ci sono tutte ripartono i lavori automatici, e con loro 7 email vecchie e 3 promemoria di
+> carrelli. Soldi non se ne muovono: non ci sono ordini fermi né versamenti da fare.
+>
+> **Cosa devi fare.** Copiare le 9 chiavi con i passi della card **#154**, poi scrivermi «fatto 154».
+> Dopo restano la **#201** e la **#168**.
+>
+> **Cosa non ho verificato.** Com'è messo Stripe, se il dominio è verificato su Resend, e se il
+> pannello di Render esiste ancora.
 
 > ✅ **2026-10-10 12:05 — I due database sono di nuovo accesi. Il sito però non vende ancora, e la macchina resta ferma.**
 >
@@ -599,7 +618,7 @@ se l'attività è ferma.
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
 | Nuovi clienti reali (7gg) | **0 acquirenti** | = | crescita | Query diretta 10/10 11:58: 5 acquirenti in tutto, nessuno nuovo negli ultimi 7 giorni. Profili totali 9: il nono è il negozio di prova. |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | riletto il 10/10 11:58 (tabella `merchants_leads`) |
-| **Sito pubblico** | **home 200, controllo 503** (misurato 10/10 11:59, database acceso) | ▲ la home risponde dal dominio vero | 200 | Il controllo dice «battiti non leggibili»: i 10 lavori automatici del sito non lasciano traccia dal 30/7, e su Vercel manca `CRON_SECRET`. È la card #154 |
+| **Sito pubblico** | **home 200, controllo 503** (misurato 10/10 11:59, database acceso) | ▲ la home risponde dal dominio vero | 200 | Il controllo dice «battiti non leggibili»: i 10 lavori automatici del sito non lasciano traccia dal 30/7. Su Vercel il 10/10 alle 15:43 ho messo 8 chiavi, fra cui `CRON_SECRET`; ne mancano 9, prima fra tutte la chiave di servizio del database. È la card #154 |
 
 ---
 

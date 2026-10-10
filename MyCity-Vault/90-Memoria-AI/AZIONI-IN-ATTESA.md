@@ -1001,52 +1001,24 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 
 ---
 
-### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
+### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
 
-**Cosa cambia:** il sito è passato su Vercel, ma le chiavi che aveva su Render non sono state
-ricopiate tutte. Ne mancano almeno due, e una è quella grossa.
+**Cosa cambia:** con la tua firma «Fai la #154» ho messo su Vercel le 8 chiavi che potevo creare
+io: l'indirizzo del sito con il «www», quattro chiavi interne, la coppia per le notifiche e il tetto
+di spesa per l'AI. Adesso ce ne sono 12 su 21. Le 9 che mancano le rilascia un servizio esterno, e
+le vede solo chi entra nel suo pannello. La più importante è la chiave di servizio del database:
+senza, Stripe incassa ma l'ordine non nasce. Quando ripartono i lavori automatici partono anche 7
+email vecchie, ferme da giugno e agosto, e 3 promemoria di carrelli. Soldi non se ne muovono: non
+ci sono ordini fermi né versamenti da fare.
 
-La prima si chiama `SUPABASE_SERVICE_ROLE_KEY`. È la chiave con cui il sito scrive nel database
-quando non c'è nessun utente collegato a farlo — ed è esattamente il momento in cui Stripe ci avvisa
-che un cliente ha pagato. Senza quella chiave, quell'avviso arriva e non riesce a scrivere niente:
-**un pagamento riuscito non diventa un ordine.** Non è un'ipotesi. Nei registri della produzione, fra
-il 18 e il 21 agosto, ci sono 70 errori con scritto dentro il nome di quella chiave, su quattro
-persone diverse. Nessuno se n'è accorto perché il sito risponde e le pagine si vedono: il buco è
-sotto, dove si incassa.
+**Se va bene:** copi le 9 chiavi seguendo i passi in `consegne/salute/2026-10-10-chiavi-vercel.md`,
+una decina di minuti. Su Stripe l'indirizzo degli avvisi di pagamento deve avere il «www», perché
+Stripe non segue i rimandi. Poi mi scrivi «fatto 154»: ripubblico la stessa versione di oggi e
+controllo che il sito risponda e che i lavori automatici ripartano. Se vuoi, scrivi anche «annulla
+le email vecchie».
 
-La seconda si chiama `NEXT_PUBLIC_APP_URL`, ed è l'indirizzo con cui il sito si presenta. Manca
-anche quella, e il ripiego scritto nel codice puntava al computer di chi sviluppa. Risultato: ogni
-pagina diceva a Google che il suo indirizzo ufficiale è `http://localhost:3000`, e ogni link
-condiviso su WhatsApp mostrava l'anteprima rotta. L'ho letto nell'HTML che il sito serviva davvero,
-non in un file di configurazione.
-
-Il ripiego l'ho già sistemato io: da ora, se la variabile manca, il sito usa il dominio che Vercel
-dichiara da solo invece di localhost. Ma è un paracadute. Il dominio giusto lo sai solo tu.
-
-**Se va bene:** Vercel → progetto **mycity** → Settings → Environment Variables, ambiente
-**Production**. Confronta la lista con `.env.example` nel repo del sito: lì c'è scritta ognuna a cosa
-serve e cosa succede se manca. Le due sopra sono obbligatorie. Guarda anche che ci siano
-`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `CRON_SECRET` e `UNSUBSCRIBE_SECRET`.
-
-⚠️ **Una variabile aggiunta non entra in vigore da sola:** vale dalla pubblicazione successiva. Dopo
-averle messe, fai ripubblicare (Deployments → l'ultima → Redeploy).
-
-Poi come si controlla se ha funzionato, senza chiedere a me: apri
-`https://mycity-phi.vercel.app/api/health`. Adesso risponde `"status":"unhealthy"`. Quando le chiavi
-ci sono tutte deve rispondere `"status":"ok"`.
-
-**Cosa non ho verificato:** non ho potuto vedere l'elenco delle variabili sul pannello di Vercel — da
-qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se mancassero, non
-perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
-
-> 🔄 **Aggiornamento 2026-10-10 09:30 — adesso la lista l'ho letta.** In Production il progetto
-> `mycity` ha quattro variabili: l'indirizzo e la chiave pubblica del database, e le due anti-robot.
-> Le obbligatorie di questa card non ci sono. Unico dubbio: le variabili condivise del team, che da qui
-> non leggo. Questa card viene subito dopo la #199: senza, riaccendere il database non basta per vendere.
-
-> 🔄 **12:05 — c'è una conseguenza in più.** I 10 lavori automatici del sito (email, versamenti ai negozi,
-> carrelli abbandonati) non lasciano traccia dal 30 luglio, il giorno di Render. Fra le quattro variabili manca
-> anche `CRON_SECRET`, la chiave che quei lavori devono presentare.
+> Storia: accodata il 22/8, quando dopo il passaggio da Render il sito scriveva «localhost» come suo
+> indirizzo. Il 10/10 alle 09:30 ho letto la lista vera: 4 chiavi su 21. Alle 15:43 ne ho aggiunte 8.
 
 ---
 
