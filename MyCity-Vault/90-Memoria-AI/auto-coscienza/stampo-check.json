@@ -1,7 +1,7 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-10-10 15:54",
+  "aggiornato": "2026-10-11 01:31",
   "origine": "cloud",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
@@ -221,18 +221,7 @@
       "difetto": "quaderno_fermo"
     }
   ],
-  "regressioni": [
-    {
-      "nome": "dpo",
-      "difetto": "quaderno_fermo",
-      "perche": "non so da quando era fermo: senza l'ultimo esito nella baseline non distinguo, e cieco non è verde"
-    },
-    {
-      "nome": "mobile-app",
-      "difetto": "quaderno_fermo",
-      "perche": "non so da quando era fermo: senza l'ultimo esito nella baseline non distinguo, e cieco non è verde"
-    }
-  ],
+  "regressioni": [],
   "invecchiati": [
     {
       "nome": "account-negozi",
@@ -330,6 +319,11 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
+      "nome": "dpo",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-06, era 2026-09-06): a muoversi è stato il calendario"
+    },
+    {
       "nome": "finanza",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-23, era 2026-07-23): a muoversi è stato il calendario"
@@ -373,6 +367,11 @@
       "nome": "marketing",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "mobile-app",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-08-21): a muoversi è stato il calendario"
     },
     {
       "nome": "onboarding-negozi",
@@ -465,15 +464,6 @@
       "perche": "nessun esito è sparito (ultimo 2026-08-17, era 2026-07-27): a muoversi è stato il calendario"
     }
   ],
-  "debito_riparato_da_togliere": [
-    {
-      "nome": "dpo",
-      "difetto": "quaderno_vuoto"
-    },
-    {
-      "nome": "mobile-app",
-      "difetto": "quaderno_vuoto"
-    }
-  ],
+  "debito_riparato_da_togliere": [],
   "baseline_letta": true
 }

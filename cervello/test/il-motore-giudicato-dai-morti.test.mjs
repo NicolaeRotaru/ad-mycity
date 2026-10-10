@@ -25,10 +25,22 @@
 //      «quanto manca alla prima morte», e senza quello «lento» resterebbe una parola;
 //   ⑤ un archivio con timbri illeggibili o assenti non diventa «gira»: in mancanza di prove si dice
 //      fermo, perché è il verdetto che fa guardare;
-//   ⑥ sull'archivio VERO il guardiano non dice più «non gira».
+//   ⑥ sull'archivio VERO il guardiano non dice più «non gira»: giudicato nell'istante in cui il
+//      motore ha fatto il suo ultimo passo (AR-958);
+//   ⑥bis sull'archivio VERO, con l'orologio vero, il verdetto dice quello che i passi dicono — nei
+//      due versi: «gira» se ci sono passi recenti, «fermo davvero» se non ce ne sono.
+//
+// PERCHÉ ⑥ HA UN OROLOGIO SUO (AR-958, 10/10). Fino al 1/9 il motore faceva passi ogni giorno e ⑥
+// usava l'orologio vero. Poi la macchina si è fermata per 39 giorni (database in pausa): l'ultimo
+// passo è del 1/9 alle 11:32, e dal 15/9 nessun passo è più «recente». Il guardiano allora diceva
+// giusto — «fermo davvero» — e la prova lo bocciava, perché pretendeva un «gira» che era diventato
+// falso. Una prova che chiede al mondo di stare in un certo stato non prova il codice: misura il
+// mondo. ⑥ adesso rifà il giudizio sull'archivio vero nel momento in cui il motore lavorava, e ⑥bis
+// controlla che col giorno di oggi il verdetto non menta in nessuno dei due versi.
 //
 // NON-VACUITÀ (verificata il 17/8 rompendo il fix apposta): facendo tornare `passiDecadimento` a
-// dichiarare sempre fermo (`fermo: true`), i casi ① ⑥ diventano ROSSI.
+// dichiarare sempre fermo (`fermo: true`), i casi ① ⑥ diventano ROSSI. Il 10/10: togliendo
+// `adesso` dalla chiamata dentro `analizza`, ⑥ torna ROSSO (giudica con l'orologio vero).
 
 import assert from "node:assert/strict";
 import { test } from "node:test";
@@ -36,6 +48,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GIORNI_PASSO_RECENTE, analizza, passiDecadimento } from "../apprendimento-guardiano.mjs";
+import { msDaTimbro } from "../ora-piacenza.mjs";
 
 const REPO = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const ARCHIVIO = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
@@ -97,14 +110,21 @@ test("⑤ senza timbri leggibili il verdetto resta fermo: al buio non si dà via
 
 test("⑥ sull'archivio vero il verdetto non accusa più il motore di essere fermo", () => {
   const dati = JSON.parse(readFileSync(ARCHIVIO, "utf8"));
-  const r = analizza(dati);
+
+  // L'istante del giudizio è quello dell'ultimo passo VERO del motore, letto dall'archivio stesso
+  // (col fuso di Piacenza, come lo legge il guardiano), più un'ora. Non una data scritta qui.
+  const passi = (dati.lezioni || []).map((l) => msDaTimbro(l?.decaduto_step_il)).filter(Number.isFinite);
+  assert.ok(passi.length > 0, "prerequisito: l'archivio vero ha almeno un passo di decadimento timbrato");
+  const adesso = Math.max(...passi) + 60 * 60 * 1000;
+
+  const r = analizza(dati, { adesso });
   const suiDecaduti = r.problemi.filter((p) => p.includes("decadute"));
 
   // prerequisito del caso: l'archivio è ancora grande e nessuno è morto, cioè la riga esiste
   assert.equal(suiDecaduti.length, 1, "prerequisito: il guardiano parla ancora di decadute");
 
-  // e il motore, sull'archivio vero, sta DAVVERO facendo passi: lo si misura qui, non si spera
-  const p = passiDecadimento(r.vive);
+  // e il motore, sull'archivio vero, in quell'istante stava DAVVERO facendo passi: lo si misura qui
+  const p = passiDecadimento(r.vive, adesso);
   assert.ok(p.passiRecenti > 0, `prerequisito: passi recenti sull'archivio vero (trovati ${p.passiRecenti})`);
 
   assert.match(
@@ -113,4 +133,23 @@ test("⑥ sull'archivio vero il verdetto non accusa più il motore di essere fer
     "col motore che fa passi ogni giorno il verdetto deve dirlo: «non gira» è una diagnosi falsa su un organo sano",
   );
   assert.doesNotMatch(suiDecaduti[0], /il decadimento non gira|è FERMO davvero/);
+});
+
+// ── ⑥bis Sull'archivio VERO, oggi: il verdetto dice quello che i passi dicono, nei due versi ──────
+
+test("⑥bis sull'archivio vero, col giorno di oggi, il verdetto non mente in nessuno dei due versi", () => {
+  const dati = JSON.parse(readFileSync(ARCHIVIO, "utf8"));
+  const r = analizza(dati);
+  const suiDecaduti = r.problemi.filter((p) => p.includes("decadute"));
+  assert.equal(suiDecaduti.length, 1, "prerequisito: il guardiano parla ancora di decadute");
+
+  // I passi si contano qui, con lo stesso orologio del verdetto: è il fatto contro cui lo si misura.
+  const p = passiDecadimento(r.vive);
+  if (p.passiRecenti > 0) {
+    assert.match(suiDecaduti[0], /il decadimento GIRA/, `ci sono ${p.passiRecenti} passi recenti: dire «fermo» sarebbe falso`);
+    assert.doesNotMatch(suiDecaduti[0], /è FERMO davvero/);
+  } else {
+    assert.match(suiDecaduti[0], /è FERMO davvero/, "nessun passo recente: dire «gira» coprirebbe una macchina ferma");
+    assert.doesNotMatch(suiDecaduti[0], /il decadimento GIRA/);
+  }
 });

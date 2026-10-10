@@ -278,27 +278,46 @@ export const MATURANO_DA_SOLE = new Set([DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOT
  * Quando non si può misurare (l'agente non ha il suo valore nella baseline) l'esito è
  * **regressione**, non invecchiamento: cieco non è verde, e il verso sicuro dell'incertezza è
  * quello che blocca.
+ *
+ * AR-959 — UN QUADERNO CHE ALLA DICHIARAZIONE ERA VUOTO NON È «CIECO». La baseline non ha il suo
+ * ultimo esito perché non ne aveva nessuno: il debito lo dice per nome (`quaderno_vuoto`). Quindi
+ * si sa esattamente cosa c'era — niente — e niente non può sparire: ogni esito di oggi è nato dopo.
+ * Il 10/10 @dpo e @mobile-app, guariti dal vuoto con un esito ciascuno, hanno passato i 30 giorni a
+ * macchina ferma e sono usciti «regressione»: la CI era rossa su main per un calendario, la stessa
+ * malattia del 1/8 entrata da una porta che la regola non copriva. Settantadue quaderni avevano
+ * ancora quel debito, ognuno pronto a rifarlo al suo primo esito.
  */
 export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}, baseline = {} } = {}) {
   const ultimoAllora = baseline.ultimo_esito || {};
   const bytesAllora = baseline.kit_bytes || {};
+  const vuotiAllora = new Set(
+    Object.entries(baseline.debito || {})
+      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_VUOTO))
+      .map(([nome]) => nome)
+  );
   const regressioni = [];
   const invecchiati = [];
   for (const n of nuovi) {
-    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora });
+    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora });
     (v.invecchiato ? invecchiati : regressioni).push({ ...n, perche: v.perche });
   }
   return { regressioni, invecchiati };
 }
 
 /** Il cuore della distinzione: il pezzo PROPRIO dell'agente è peggiorato, sì o no? */
-function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora }) {
+function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora = new Set() }) {
   if (!MATURANO_DA_SOLE.has(n.difetto)) {
     return { invecchiato: false, perche: "questo difetto non matura da solo: se è nuovo, qualcuno l'ha introdotto" };
   }
   if (n.difetto === DIFETTO.QUADERNO_FERMO) {
     const oggi = ultimoOggi[n.nome];
     const allora = ultimoAllora[n.nome];
+    if (oggi && !allora && vuotiAllora.has(n.nome)) {
+      return {
+        invecchiato: true,
+        perche: `alla dichiarazione il quaderno era vuoto: ogni esito di oggi (l'ultimo è del ${oggi}) è nato dopo, e nessuno può essere sparito — a muoversi è stato il calendario`,
+      };
+    }
     if (!oggi || !allora) {
       return { invecchiato: false, perche: "non so da quando era fermo: senza l'ultimo esito nella baseline non distinguo, e cieco non è verde" };
     }

@@ -2,7 +2,7 @@
   "_cosa_e": "Il debito DICHIARATO dello stampo senior al 28/7/2026: i difetti che il metro nuovo vede oggi e che NON fanno fallire il guardiano. Serve perché un cancello che parte rosso su mezzo parco viene disattivato entro la settimana; uno che parte verde si accorge del primo che sporca.",
   "_come_si_legge": "debito[nome-agente] = elenco dei difetti già noti per quel nome. Il guardiano FALLISCE quando compare una coppia nome+difetto che non è qui dentro.",
   "_perche_per_nome": "Per NOME e non per conteggio: a parità di numero, «uno riparato + uno nuovo» è un peggioramento travestito da pareggio. E un'esenzione da un punteggio può solo abbassarlo, mai alzarlo — allargare questa lista è una decisione visibile, non un effetto collaterale.",
-  "_come_si_riduce": "Riparando un kit, o scrivendo il primo ESITO di un quaderno con `node cervello/chiusura-loop.mjs registra <reparto> …`, poi togliendo la riga da qui. `node cervello/stampo-check.mjs` stampa i nomi GUARITI da togliere. Non si riscrive mai da solo.",
+  "_come_si_riduce": "Riparando un kit, o scrivendo il primo ESITO di un quaderno con `node cervello/chiusura-loop.mjs registra <reparto> …`, poi togliendo la riga da qui. `node cervello/stampo-check.mjs` stampa i nomi GUARITI da togliere. Non si riscrive mai da solo. AR-959: quando si toglie `quaderno_vuoto`, nello stesso momento si scrive in `ultimo_esito` il primo esito di quel quaderno (il guardiano stampa il valore accanto al nome guarito). Togliere la riga senza scrivere la data cancella l'unica cosa che la baseline sapeva — che era vuoto — e il giorno che il quaderno diventa fermo esce «regressione» per un calendario.",
   "dichiarato_il": "2026-08-22 20:30",
   "dichiarato_da": "lotto 49 — AR-436: il metro dei mansionari e stato irrigidito e adesso puo bocciare. I 120 su 120 che passavano erano quattro titoli garantiti dal template di rollout; col metro nuovo passano 38. Gli 87 difetti di sostanza che emergono NON sono nati oggi: erano li e nessuno li poteva vedere. Entrano nel debito dichiarato per nome, come si fa per i kit, e il cricchetto scende da qui.",
   "riepilogo_alla_dichiarazione": {
@@ -117,7 +117,6 @@
       "quaderno_vuoto"
     ],
     "dpo": [
-      "quaderno_vuoto",
       "loop_senza_varianti"
     ],
     "enterprise-risk": [
@@ -216,9 +215,6 @@
     "ml-engineer": [
       "quaderno_vuoto",
       "loop_senza_varianti"
-    ],
-    "mobile-app": [
-      "quaderno_vuoto"
     ],
     "new-verticals": [
       "quaderno_vuoto",
@@ -436,7 +432,9 @@
     "tech": "2026-07-30",
     "trust-safety": "2026-07-27",
     "ux-designer": "2026-07-13",
-    "vendite": "2026-07-27"
+    "vendite": "2026-07-27",
+    "dpo": "2026-09-06",
+    "mobile-app": "2026-08-21"
   },
   "kit_bytes": {
     "accessibility": 17667,
@@ -559,5 +557,9 @@
     "trust-safety": 19867,
     "ux-designer": 24385,
     "vendite": 24708
+  },
+  "_ultimo_esito_aggiunti": {
+    "dpo": "2026-10-11 01:30: guarito da quaderno_vuoto (primo esito 2026-09-06), misurato quel giorno, non ricostruito",
+    "mobile-app": "2026-10-11 01:30: guarito da quaderno_vuoto (primo esito 2026-08-21), misurato quel giorno, non ricostruito"
   }
 }

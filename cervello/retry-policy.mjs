@@ -103,7 +103,13 @@ const TIPI_AZIONE_REALE = new Set(["esegui-azione"]);
 /** Le classi che il canale dichiarato può nominare. Un valore fuori elenco non è una dichiarazione. */
 export const CLASSI_ERRORE = new Set(["auth", "quota", "quota_settimanale", "timeout", "altro"]);
 
-export function classificaErrore(risultato = "") {
+// AR-957 — `nowMs` è l'orologio con cui si legge la DATA del reset («resets Aug 14 at 9am»). Prima
+// non si passava: la data si leggeva sempre con l'orologio vero, anche quando chi decide il
+// ritentativo ne aveva dato un altro. La regola «una data passata da più di 30 giorni è dell'anno
+// prossimo» faceva il resto: rileggendo un guasto vecchio, il 14 agosto diventava il 14 agosto
+// dell'anno dopo, oltre il tetto, e il muro di giorni tornava un ritentativo fra 6 ore. La prova
+// l'ha mostrato da sola il giorno in cui il calendario vero ha superato di 30 giorni il suo.
+export function classificaErrore(risultato = "", nowMs = Date.now()) {
   const t = String(risultato);
 
   // ① Il canale dichiarato dallo script: `[classe] quota` (l'ultima riga marcata vince).
@@ -114,7 +120,7 @@ export function classificaErrore(risultato = "") {
     return {
       classe: classeDichiarata,
       resetHint: mD ? mD[1].trim() : null,
-      resetData: classeDichiarata === "quota" || classeDichiarata === "quota_settimanale" ? dataDaTesto(t) : null,
+      resetData: classeDichiarata === "quota" || classeDichiarata === "quota_settimanale" ? dataDaTesto(t, nowMs) : null,
       fonte_classe: "dichiarata", // AR-294: da una riga emessa apposta, non da una frase
     };
   }
@@ -142,7 +148,7 @@ export function classificaErrore(risultato = "") {
   return {
     classe: auth ? "auth" : settimanale ? "quota_settimanale" : quota ? "quota" : timeout ? "timeout" : "altro",
     resetHint: m ? m[1].trim() : null,
-    resetData: quota || settimanale ? dataDaTesto(t) : null,
+    resetData: quota || settimanale ? dataDaTesto(t, nowMs) : null,
     fonte_classe: "prosa", // AR-294: letta dal testo — è il ripiego, non il canale
   };
 }
@@ -244,7 +250,7 @@ export function decidiRitento({ tipo, tentativi = 0, risultato = "", nowMs, erro
   // l'istante calcolato cade nel passato → il worker lo riprende immediatamente.
   const refMs = Number.isFinite(errorAtMs) ? errorAtMs : now;
   const tent = Number.isFinite(+tentativi) ? +tentativi : 0;
-  const { classe, resetHint, resetData } = classificaErrore(risultato);
+  const { classe, resetHint, resetData } = classificaErrore(risultato, refMs);
   const preEsec = TIPI_PRE_ESECUZIONE.has(tipo);
   // Tipi sconosciuti li trattiamo come reali (prudenza: non ritentare qualcosa che non capiamo).
   const azioneReale = TIPI_AZIONE_REALE.has(tipo) || !preEsec;

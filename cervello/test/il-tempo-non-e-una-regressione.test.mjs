@@ -112,6 +112,32 @@ prova("③ senza il valore nella baseline non si indovina: si blocca", () => {
   assert.match(regressioni[0].perche, /cieco non è verde/);
 });
 
+prova("③ bis — AR-959: un quaderno che alla dichiarazione era VUOTO non è cieco, e il calendario non è una sua colpa", () => {
+  // Il caso del 10/10: @dpo aveva nel debito `quaderno_vuoto`, poi ha scritto il suo primo esito, poi
+  // la macchina si è fermata e i 30 giorni sono passati. Alla baseline non c'era nessun esito da
+  // ricordare: niente poteva sparire. Prima usciva «non so da quando era fermo» → regressione.
+  const baseline = { debito: { dpo: ["quaderno_vuoto", "loop_senza_varianti"] }, ultimo_esito: {} };
+  const { regressioni, invecchiati } = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_FERMO }], {
+    ultimoOggi: { dpo: "2026-09-06" },
+    baseline,
+  });
+  assert.equal(regressioni.length, 0, `un quaderno vuoto alla dichiarazione non può aver perso righe: ${JSON.stringify(regressioni)}`);
+  assert.equal(invecchiati.length, 1);
+  assert.match(invecchiati[0].perche, /era vuoto/);
+
+  // Il confine resta dov'era: senza la parola `quaderno_vuoto` nel debito, lo stesso caso è cieco.
+  const cieco = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_FERMO }], {
+    ultimoOggi: { dpo: "2026-09-06" },
+    baseline: { debito: { dpo: ["loop_senza_varianti"] }, ultimo_esito: {} },
+  });
+  assert.equal(cieco.regressioni.length, 1, "senza sapere che era vuoto non si indovina: si blocca");
+  assert.match(cieco.regressioni[0].perche, /cieco non è verde/);
+
+  // E un quaderno ancora senza esiti oggi non diventa «invecchiato» per via del debito: niente da giudicare.
+  const senzaEsiti = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_FERMO }], { ultimoOggi: {}, baseline });
+  assert.equal(senzaEsiti.invecchiati.length, 0, "senza un esito oggi la regola del vuoto non si applica");
+});
+
 prova("④ sul repo vero: nessuna regressione, e ogni fermo resta contato nel rapporto", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8" });
   const j = JSON.parse(r.stdout);

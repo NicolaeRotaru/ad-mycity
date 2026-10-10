@@ -58,6 +58,21 @@ prova("legge la data di reset scritta per esteso, non solo l'ora", () => {
   assert.equal(dataDaTesto("nessuna data qui dentro", ORA), null, "senza data si dice null, non si inventa");
 });
 
+prova("AR-957 — la data del reset si legge con l'orologio dato, non con quello vero", () => {
+  // Il guasto era qui: classificaErrore leggeva la data sempre con Date.now(). Da quando il
+  // calendario vero ha superato di 30 giorni quello della prova, «Aug 14» diventava l'anno dopo.
+  // Due orologi lontani un anno danno due date lontane un anno: la data segue l'orologio passato.
+  const atteso = dataDaTesto("resets Aug 14 at 9am", ORA);
+  assert.equal(classificaErrore(SETTIMANALE, ORA).resetData, atteso, "con l'orologio della prova: 14 agosto 2026");
+  const fraUnAnno = ORA + 365 * 86400000;
+  assert.equal(
+    classificaErrore(SETTIMANALE, fraUnAnno).resetData,
+    dataDaTesto("resets Aug 14 at 9am", fraUnAnno),
+    "con un orologio diverso la data cambia con lui: se restasse uguale, l'orologio passato verrebbe ignorato"
+  );
+  assert.notEqual(atteso, dataDaTesto("resets Aug 14 at 9am", fraUnAnno), "i due orologi devono dare date diverse, o il confronto non prova niente");
+});
+
 prova("IL DIFETTO: il ritentativo cade fra GIORNI, non fra minuti", () => {
   const d = decidiRitento({ tipo: "monitora", tentativi: 0, risultato: SETTIMANALE, nowMs: ORA });
   assert.equal(d.azione, "ritenta");
