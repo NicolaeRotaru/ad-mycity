@@ -67,6 +67,30 @@ test("AR-431 — la lista dei documenti di governo esiste ed è quella nominata 
   );
 });
 
+// AR-960 — fino all'11/10 la voce scadenzario diceva «guardiano: null» e aspettava un controllo sulle
+// scadenze scadute «da scrivere apposta». Esisteva dal 28/7: scadenzario-check.mjs. La lista
+// guardava una copia nel Vault che nessuno legge. Qui non basta che il file del guardiano esista:
+// lo si esegue, e deve fermarsi davanti a una scadenza aperta già passata.
+test("AR-960 — il guardiano dichiarato per lo scadenzario esiste e FRENA su una scadenza aperta già passata", () => {
+  const voce = DOCUMENTI.find((d) => d.id === "scadenzario");
+  assert.ok(voce?.guardiano, "la voce scadenzario deve avere un guardiano, non un'attesa");
+  assert.ok(existsSync(join(REPO, voce.guardiano)), `il guardiano dichiarato non esiste: ${voce.guardiano}`);
+  const dir = mkdtempSync(join(tmpdir(), "c9-scadenze-"));
+  const registro = join(dir, "scadenzario.json");
+  writeFileSync(
+    registro,
+    JSON.stringify({ aggiornato: "2026-01-01 09:00", scadenze: [{ id: "prova", titolo: "domanda di prova", scade: "2026-01-02T12:00:00+01:00", fonte: "prova" }], chiuse: [] })
+  );
+  const env = { ...process.env, SCADENZARIO_REGISTRO: registro, SCADENZARIO_FILE_VIVI: join(dir, "nessun-file.md") };
+  const r = spawnSync(process.execPath, [join(REPO, voce.guardiano)], { encoding: "utf8", env, timeout: 60_000 });
+  assert.equal(r.status, 1, `una scadenza aperta già passata deve far uscire 1 il guardiano dichiarato:\n${r.stdout}${r.stderr}`);
+
+  // E il contrario: chiusa, la stessa scadenza non è più un allarme. Un guardiano sempre rosso non frena niente.
+  writeFileSync(registro, JSON.stringify({ aggiornato: "2026-01-01 09:00", scadenze: [], chiuse: [{ id: "prova", scade: "2026-01-02T12:00:00+01:00" }] }));
+  const chiusa = spawnSync(process.execPath, [join(REPO, voce.guardiano)], { encoding: "utf8", env, timeout: 60_000 });
+  assert.equal(chiusa.status, 0, `una scadenza chiusa non deve far uscire rosso il guardiano:\n${chiusa.stdout}${chiusa.stderr}`);
+});
+
 test("AR-431 — IL PUNTO: sulla lista vera nessun documento di governo è scoperto in silenzio", () => {
   const c = copertura(OGGI, guardianiVeri);
   assert.deepEqual(

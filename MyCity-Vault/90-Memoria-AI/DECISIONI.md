@@ -5343,3 +5343,21 @@ Ripubblicare adesso non sarebbe servito: senza la chiave di servizio del databas
 
 **Come si torna indietro.** Su Vercel, progetto mycity → Settings → Environment Variables: ognuna
 delle 8 si cancella o si cambia da lì, e ha un commento che dice chi l'ha messa e perché.
+
+## 2026-10-11 01:50 — 🟡 Riparate le cinque prove che tenevano rossa la CI su main
+
+**Cosa.** Nicola ha chiesto perché la CI fosse rossa e se potevo risolverla. Le prove rosse erano
+cinque, e nessuna per un guasto nuovo del codice di oggi: quattro sono diventate rosse da sole
+mentre la macchina era ferma, la quinta per una lista che guardava il file sbagliato. Riparate così:
+il ritentativo dopo un limite settimanale legge la data con l'orologio che riceve (AR-957); il
+controllo sul motore delle lezioni si può giudicare in un istante dato, e la prova non pretende più
+che il motore giri (AR-958); un quaderno partito vuoto, quando diventa fermo, non è più una
+«regressione» (AR-959); la lista dei documenti di governo punta al controllo delle scadenze che
+esiste dal 28/7 (AR-960). Per il glossario dei KPI il controllo non esiste ancora: data spostata al
+15/11 col perché, lavoro nella scheda AR-962.
+
+**Perché.** Una CI sempre rossa non ferma niente: si impara a ignorarla, e intanto blocca ogni
+richiesta di unione. Nessuna prova è stata spenta o saltata: ogni riparazione ha la sua prova, e una
+mutazione che la fa tornare rossa.
+
+**Come si torna indietro.** Non unire la richiesta #878: su main resta tutto com'era.

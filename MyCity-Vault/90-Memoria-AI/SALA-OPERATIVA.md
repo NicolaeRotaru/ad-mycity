@@ -668,3 +668,4 @@ Esempi:
 - 2026-10-10 12:05 · @ad · PASSO-A · Card #199 chiusa e archiviata; card 🔴 #201 nuova (negozio di prova); aggiornate #154 e #168.
 - 2026-10-10 15:43 · @devops-sre · FATTO · Con «Fai la #154» messe su Vercel 8 chiavi del sito (indirizzo con www, 4 chiavi interne, coppia push, tetto AI): 12 su 21. Ne mancano 9 da Supabase, Stripe, Resend e Upstash. Arretrato al riavvio: 7 email vecchie e 3 promemoria carrello, nessun versamento.
 - 2026-10-10 15:50 · @ad · PASSO-A · @Nicola — card #154 riscritta: copiare le 9 chiavi e scrivere «fatto 154»; facoltativo «annulla le email vecchie». Alla firma ripubblico la stessa versione e ricontrollo.
+- 2026-10-11 01:50 · @devops-sre · FATTO · CI rossa su main riparata: cinque prove, quattro riparazioni nel codice o nei dati della macchina (AR-957, AR-958, AR-959, AR-960) e una data spostata col perché (AR-962). Cancello del lotto verde, mutazioni tutte rosse.

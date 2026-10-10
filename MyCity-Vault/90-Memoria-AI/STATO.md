@@ -1,10 +1,27 @@
 ---
 tipo: stato
-aggiornato: 2026-10-10 15:50
+aggiornato: 2026-10-11 01:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🧪 **2026-10-11 01:50 — La CI era rossa per cinque prove. Le ho riparate, ognuna con la sua prova.**
+>
+> **In parole semplici.** Le prove automatiche della macchina erano rosse su main da settimane, e
+> tenevano rossa ogni richiesta di unione. Quattro sono diventate rosse da sole, mentre la macchina
+> era ferma. La quinta guardava il file sbagliato.
+>
+> **Un esempio concreto.** Una prova pretendeva che il motore delle lezioni stesse lavorando. Il suo
+> ultimo passo è del 1° settembre: il controllo diceva giustamente «fermo», e la prova lo bocciava.
+>
+> **Cosa cambia per te.** Quando unisci la richiesta #878, le prove della macchina tornano verdi
+> anche per le richieste dopo.
+>
+> **Cosa devi fare.** Unire la #878 quando ti va: la riparazione viaggia dentro quella richiesta.
+>
+> **Cosa non ho verificato.** Il controllo del glossario dei KPI non esiste ancora. La sua data è
+> spostata al 15 novembre, e il lavoro sta in una scheda del cantiere.
 
 > 🔑 **2026-10-10 15:50 — Ho messo su Vercel le 8 chiavi del sito che potevo creare io. Le 9 che mancano le copi tu.**
 >
