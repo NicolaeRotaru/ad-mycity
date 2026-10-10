@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-09-08 08:55",
+  "aggiornato": "2026-10-10 09:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20430,6 +20430,28 @@
       "chiuso_il": "2026-09-08 11:55",
       "chiuso_come": "riparato",
       "chiuso_da": "lotto dei gravi del sito"
+    },
+    {
+      "id": "AR-956",
+      "stato": "aperto",
+      "gravita": "medio",
+      "dimensione": "sensori",
+      "area": "salute",
+      "nato": "2026-10-10 09:10",
+      "nato_come": "scoperta",
+      "titolo": "Da una sessione cloud la visita dà per morta la Cabina, quando a non arrivarci è la rete della sessione",
+      "sintomo": "Visita del 2026-10-10 08:55 da una sessione cloud: «❌ La Cabina risponde — fetch failed», messo in testa al referto sotto «blocca gli incassi», e «❌ il cuore della Cabina non risponde: fetch failed». Nello stesso minuto la Cabina rispondeva: letta con lo strumento Vercel, /api/cuore → HTTP 200 (con workerVivo:false e la memoria che non risponde, che è il rosso vero).",
+      "causa_radice": "① Perché ❌ e non ⚪? Perché reteChiusa() non riconosce l'errore. ② Perché non lo riconosce? Perché guarda() salva solo e.message, e il fetch di Node scrive lì soltanto «fetch failed»: il motivo vero sta in e.cause (qui: ENOTFOUND getaddrinfo ad-mycity.vercel.app). ③ Perché ENOTFOUND? Il fetch di Node non usa HTTPS_PROXY: in una sessione cloud prova a risolvere il nome da solo, e la rete della sessione non glielo permette. ④ Causa di sistema: reteChiusa() conosce già ENOTFOUND, CONNECT e proxy, ma riceve un errore a cui è stata tolta la parte che li contiene. Il classificatore giusto lavora su un'informazione già tagliata.",
+      "fix_proposto": "🟡 In guarda() (cervello/salute.mjs) conservare anche e.cause.code ed e.cause.message nel campo errore, così reteChiusa() vede ENOTFOUND/ECONNREFUSED. Attenzione al rovescio: sul VPS un ENOTFOUND può voler dire che il dominio è davvero sparito, quindi vale come ⚪ solo quando nell'ambiente c'è HTTPS_PROXY (rete mediata); senza proxy resta ❌. Prova comportamentale: un fetch finto che lancia TypeError('fetch failed', {cause:{code:'ENOTFOUND'}}) deve dare ⚪ con HTTPS_PROXY impostato e ❌ senza.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Da una sessione cloud lancia `node cervello/salute.mjs`. Poi leggi https://ad-mycity.vercel.app/api/cuore con lo strumento Vercel. Se la Cabina risponde 200 e il referto la dà comunque ❌ «non risponde: fetch failed», il difetto è aperto. Chiuso quando quel controllo esce ⚪ «la rete di QUESTO ambiente non arriva alla Cabina»."
+      },
+      "dove": "cervello/salute.mjs: guarda() riga 116 e reteChiusa()",
+      "impatto_crescita": "basso",
+      "impatto_crescita_nota": "scelta ragionata: non tocca ordini né negozi, ma mette un falso rosso in testa al referto, sotto «blocca gli incassi», e copre il rosso vero (la memoria in pausa). Un allarme falso in cima è quello che insegna a non leggere gli altri.",
+      "trovato_da": "AD, visita di salute del 2026-10-10 (skill salute) — riprodotto con un fetch di prova: TypeError «fetch failed», cause ENOTFOUND",
+      "origine": "visita 2026-10-10 08:55, sessione cloud"
     }
   ],
   "meta": {

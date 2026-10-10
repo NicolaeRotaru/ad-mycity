@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-09-07 08:52** — Automatico: **98 aperte · 33 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-10 09:06** — Automatico: **96 aperte · 36 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,6 +30,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
+
+### 🔴 #200 — Avvisa il fornaio: il Comune paga una parte della differenziata, ma il bando chiude il 23 ottobre · ⏳ accodata 2026-10-10 09:40
+
+**In parole semplici.** Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata: compostiere, meno usa e getta, meno sprechi. Pane Quotidiano ha i requisiti, e i soldi vanno a chi chiede per primo.
+
+**Cosa cambia:** è un favore concreto al nostro unico negozio vero, e non dipende dal sito.
+
+**Cosa devi fare tu.** Leggere il messaggio pronto e mandarlo tu su WhatsApp: `consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md`.
+
+**Se va bene:** al prossimo giro guardo se il fornaio ha fatto la domanda.
+
+**Cosa non ho verificato:** se nel fondo restano soldi.
+
+---
+
+### 🔴 #199 — Riaccendi i due database: Supabase li ha messi in pausa, e il sito non può vendere · ⏳ accodata 2026-10-10 09:30
+
+**In parole semplici.** Il database del sito e quello della memoria della macchina sono tutti e due in pausa. Il sito si apre, ma resta su «Stiamo caricando…» e la sua pagina di controllo risponde 503. La Cabina si apre, ma non sa più niente.
+
+**Cosa cambia:** finché restano in pausa nessuno può comprare, e la macchina non lavora. Supabase tiene la riaccensione a un clic per 90 giorni dalla pausa, poi serve rimontare una copia a mano.
+
+**Cosa devi fare tu.** ① su supabase.com, organizzazione «mycity.inizioditutto» → Billing: guarda se c'è una fattura scoperta; ② riaccendi i progetti «Mycity» e «ad-mycity» (Resume project), oppure scrivimi «ok 199» e lo faccio io; ③ decidi se passare al piano Pro, circa 35 dollari al mese per tutti e due: non si addormentano più e arrivano le copie di sicurezza. Io farei tutti e tre.
+
+**Se va bene:** ricontrollo sito e catalogo, rimisuro i numeri veri, e passiamo alle card #191 e #154.
+
+**Cosa non ho verificato:** il giorno della pausa (lo dice la mail di Supabase) e se la causa è la poca attività o una fattura. Tutto il resto, con le prove: `consegne/salute/2026-10-10-database-in-pausa.md`.
+
+---
 
 ### 🟡 #198 — Il pulsante più importante della home non si vede quando lo raggiungi col tasto Tab · ⏳ accodata 2026-09-07 09:40
 
@@ -100,24 +128,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 **Cosa devi fare tu.** Dimmi quale delle due: o allarghiamo i moduli a quello che il magazzino già accetta, o teniamo stretto e allora la frase deve spiegare al negoziante come fare (sull'iPhone si cambia in Impostazioni, Fotocamera, Formati, «Massima compatibilità»).
 
 **Se va bene:** apro il lavoro sulla strada che scegli. Nel frattempo nessuno perde più una foto senza sapere perché.
-
----
-
-### 🔴 #193 — Controlla che su Vercel ci sia la chiave del controllo anti-robot, prima di unire · ⏳ accodata 2026-09-03 20:30
-
-**In parole semplici.** Sul sito c'è un controllo che distingue una persona da un programma automatico, e serve una chiave per farlo funzionare. Prima, se quella chiave mancava, il controllo lasciava passare tutti in silenzio. Da oggi, se manca, rifiuta.
-
-**Cosa cambia:** è la scelta giusta — una difesa spenta che si comporta come una difesa accesa è peggio di nessuna difesa. Ma ha un rovescio pesante. Se quella chiave in produzione non c'è, dopo l'unione si spengono insieme quattro cose: l'accesso, la registrazione, il modulo contatti e l'iscrizione alla newsletter. Cioè la porta d'ingresso del marketplace.
-
-**Cosa devi fare tu.** Sono trenta secondi su Vercel. Apri il progetto `mycity`, poi Settings, poi Environment Variables. Cerca `TURNSTILE_SECRET_KEY` fra quelle di Production.
-
-Se c'è, dimmelo e uniamo. Se non c'è, mettila prima: la trovi nel pannello di Cloudflare Turnstile.
-
-Te lo chiedo perché da qui le variabili di Vercel non le posso leggere. Su una cosa che chiude la porta d'ingresso non voglio indovinare.
-
-**Se va bene:** unisco la richiesta di unione del sito.
-
-Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è il semaforo della salute del sito. Non il primo cliente che non riesce a entrare.
 
 ---
 
@@ -721,6 +731,13 @@ chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira su
 > 3. `git push origin HEAD:refs/heads/memoria/vps-2026-09-03`.
 > 4. `git diff --stat HEAD -- cervello/worker.sh`.
 
+> 🔄 **Aggiornamento 2026-10-10 09:30 — 39 giorni senza una traccia, e adesso dorme anche la memoria.**
+> L'ultima scrittura automatica del server è del 1/9 alle 12:15. Il database della memoria è in pausa
+> (card #199): anche se il server fosse acceso, non potrebbe prendere lavori. L'allarme su GitHub lo
+> ripete dal 3/9 (segnalazione #868, 195 aggiornamenti), ma lì non lo legge nessuno.
+> **Cosa devi fare:** prima la #199. Poi, dalla console Hetzner, guarda se il server è acceso e pagato;
+> se è acceso, valgono i quattro comandi qui sopra. **Cosa non ho verificato:** se è acceso. Da qui non lo raggiungo.
+
 ---
 
 ### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
@@ -746,28 +763,6 @@ quella già presa.
 
 **Se va bene:** correggo i tre percorsi in un ramo, apro la richiesta di unione e ti dico cosa
 controllare. Non tocco la regola del magazzino: quella è giusta, sono i tre percorsi a essere fuori.
-
----
-
-### 🔴 #166 — Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05
-
-**Cosa cambia:** in coda ci sono otto pacchetti di lavoro in attesa della tua firma. Il più vecchio
-è fermo da sette giorni. Li ho aperti uno per uno e provati a unire davvero, in una copia
-usa-e-getta, facendo girare i controlli.
-
-Servono ancora **tre su otto**. Uno ripara un blocco di fine turno che si ripete da giorni: senza
-la riparazione tre controlli sono rossi, con la riparazione tornano verdi tutti e 118.
-
-Gli altri cinque no. Uno ti chiede la firma su un pacchetto che hai già firmato il 18 agosto alle
-04:08. Un altro, unito oggi, renderebbe **rosso** un controllo che adesso è verde.
-
-**Cosa devi fare:** dirmi se sei d'accordo. Sono quattro da unire e quattro da chiudere. La scheda
-con la prova di ogni verdetto sta nella richiesta di unione 824.
-
-**Se va bene:** unisco i quattro buoni in fila. Ho già provato che non si pestano fra loro. Poi
-chiudo gli altri quattro, e in ognuno scrivo il perché.
-
----
 
 ---
 
@@ -1002,42 +997,6 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 
 ---
 
-### 🔴 #155 — Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56
-
-**Cosa cambia:** `mycity-marketplace.com` è il dominio vero, quello sui volantini e nei messaggi ai
-negozianti. Risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
-luglio dà errore.
-
-Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
-`mycity-phi.vercel.app`, e quell'indirizzo non lo conosce nessuno. Fra i domini registrati nel
-progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna da solo.
-
-In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
-
-Finché resta così succedono tre cose. Chi digita il dominio trova un sito morto. La sentinella che
-controlla se il sito è su continua a misurare Render, quindi resta cieca. E Google, che il dominio
-lo ha già indicizzato, continua a trovarlo giù.
-
-**Se va bene:** due passi, in quest'ordine.
-
-Primo, su Vercel: progetto **mycity** → Settings → Domains → Add, e scrivi `mycity-marketplace.com`
-(aggiungi anche `www.mycity-marketplace.com`). Vercel ti dice esattamente quale record DNS mettere.
-
-Secondo, dal gestore del dominio — nel runbook risulta **Netsons** — cambia il record che oggi punta
-a `216.24.57.1` (Render) e mettici quello che ti ha dato Vercel. Il cambio ci mette da pochi minuti a
-qualche ora a girare per il mondo.
-
-Quando è fatto dimmelo: rifaccio il controllo e aggiorno la memoria, così la sentinella del sito
-smette di essere cieca.
-
-**Cosa non ho verificato:** che `216.24.57.1` sia di Render l'ho dedotto — è l'indirizzo che Render
-dà pubblicamente per i domini principali, e combacia con la storia (Render non rinnovato, sito giù
-dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so chi gestisce davvero
-il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
-cambiato.
-
----
-
 ### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
 
 **Cosa cambia:** il sito è passato su Vercel, ma le chiavi che aveva su Render non sono state
@@ -1075,6 +1034,11 @@ ci sono tutte deve rispondere `"status":"ok"`.
 **Cosa non ho verificato:** non ho potuto vedere l'elenco delle variabili sul pannello di Vercel — da
 qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se mancassero, non
 perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
+
+> 🔄 **Aggiornamento 2026-10-10 09:30 — adesso la lista l'ho letta.** In Production il progetto
+> `mycity` ha quattro variabili: l'indirizzo e la chiave pubblica del database, e le due anti-robot.
+> Le obbligatorie di questa card non ci sono. Unico dubbio: le variabili condivise del team, che da qui
+> non leggo. Questa card viene subito dopo la #199: senza, riaccendere il database non basta per vendere.
 
 ---
 
@@ -1690,6 +1654,12 @@ testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse
 - **Origine:** `{origine:analisi-coda-2026-08-19, referto:consegne/audit/2026-08-19-analisi-coda-approvazioni.md, pr:773}`
 
 🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 37 righe tabellari con stato `in attesa`. Totale 99 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
+
+> 🔄 **Aggiornamento 2026-10-10 09:30 — la coda sta toccando il tetto.** Stamattina il file era a 54
+> caratteri dal limite che il controllo riesce a leggere. Ho chiuso solo tre card che i fatti avevano
+> già chiuso (#155, #166, #193), con la prova scritta dentro. Fra le altre, sette chiedono di pubblicare
+> post di luglio e agosto che promettono una consegna che oggi non parte. Una parola, «ok 130», e
+> ti porto l'elenco delle chiusure, una riga per card col perché.
 
 ---
 
@@ -3012,9 +2982,9 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-| 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | ✅ fatto: unita da Nicola il 2026-08-28 10:56 (letto su GitHub il 2026-10-10) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 33.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 36.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

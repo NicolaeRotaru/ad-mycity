@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-09-03 00:53",
+  "aggiornato": "2026-10-10 08:55",
   "timbro": {
-    "quando": "2026-09-03 00:53",
+    "quando": "2026-10-10 08:55",
     "scade_dopo_ore": 26,
     "ambiente": "cloud",
     "scritto_da": "cervello/salute.mjs",
@@ -24,15 +24,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-09-03 00:53",
-      "iso": "2026-09-02T22:53:35.344Z",
+      "quando": "2026-10-10 08:55",
+      "iso": "2026-10-10T06:55:12.621Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,
-      "rotti": 6,
+      "rotti": 8,
       "guasti": 0,
-      "nonvisti": 8,
-      "copertura": 0.65,
+      "nonvisti": 6,
+      "copertura": 0.74,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -40,10 +40,10 @@
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "l'ultima visita del VPS è di 42 ore fa: da lassù non si sta più controllando nessuno",
+          "detto": "l'ultima visita del VPS è di 938 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
           "regressione": false,
-          "rosso_da": 13,
+          "rosso_da": 14,
           "cronico": true
         },
         {
@@ -52,11 +52,11 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 37 ore (l'ultima è costo-ai.json, 2026-09-01 12:14)",
+          "detto": "nessun processo automatico lascia tracce da 896 ore (l'ultima è ultimo-briefing.json, 2026-09-03 01:01)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 3,
+          "cronico": true
         },
         {
           "id": "worker.cadenze",
@@ -67,7 +67,7 @@
           "detto": "il ritmo della macchina si è fermato. Non si alzano più 6 cadenze su 6: giro, ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora. Altre 2 sono uscite saltando dei passi: giro, ritmo-settimana.",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 13,
+          "rosso_da": 14,
           "cronico": true
         },
         {
@@ -76,10 +76,10 @@
           "titolo": "I file che la Cabina mostra sono ancora validi",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "6 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (52h), Il referto del checkup (42h), Com'è andato l'ultimo giro (37h), Il battito delle cadenze (37h), L'ultimo briefing (37h), Il quaderno dei pezzi nuovi (1436h)",
+          "detto": "7 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (948h), Il referto del checkup (896h), Com'è andato l'ultimo giro (933h), Il battito delle cadenze (933h), I quaderni dei senior (765h), L'ultimo briefing (896h), Il quaderno dei pezzi nuovi (2332h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 13,
+          "rosso_da": 14,
           "cronico": true
         },
         {
@@ -88,10 +88,10 @@
           "titolo": "La review del venerdì lascia i suoi compiti",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (41 giorni), La peer review fra senior (41 giorni), La calibrazione previsto-vs-reale (40 giorni), La lettera a Nicola (35 giorni)",
+          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (78 giorni), La peer review fra senior (78 giorni), La calibrazione previsto-vs-reale (77 giorni), La lettera a Nicola (72 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 13,
+          "rosso_da": 14,
           "cronico": true
         },
         {
@@ -172,7 +172,7 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "66 guardiani del giro presenti",
+          "detto": "64 guardiani del giro presenti",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -196,10 +196,10 @@
           "titolo": "Il cantiere dei difetti sta calando",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 11 difetti aperti in più rispetto a una settimana fa (113 allora, 124 adesso). Si aprono più difetti di quanti se ne chiudono.",
+          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 18 difetti aperti in più rispetto a una settimana fa (151 allora, 169 adesso). Si aprono più difetti di quanti se ne chiudono.",
           "prova": "node cervello/salute-onesta.mjs --gate",
           "regressione": false,
-          "rosso_da": 1,
+          "rosso_da": 2,
           "cronico": false
         },
         {
@@ -231,11 +231,11 @@
           "organo": "cabina",
           "titolo": "La Cabina risponde",
           "impatto": 1,
-          "esito": "nonvisto",
-          "detto": "la rete di QUESTO ambiente non arriva alla Cabina (https://ad-mycity.vercel.app): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù",
+          "esito": "rotto",
+          "detto": "la Cabina non risponde: fetch failed (indirizzo da ponte-cabina.json)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 0,
+          "rosso_da": 1,
           "cronico": false
         },
         {
@@ -243,11 +243,11 @@
           "organo": "cabina",
           "titolo": "La Cabina è collegata alla memoria",
           "impatto": 2,
-          "esito": "nonvisto",
-          "detto": "la rete di QUESTO ambiente non arriva alla Cabina (https://ad-mycity.vercel.app): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù",
+          "esito": "rotto",
+          "detto": "il cuore della Cabina non risponde: fetch failed",
           "prova": null,
           "regressione": false,
-          "rosso_da": 0,
+          "rosso_da": 1,
           "cronico": false
         },
         {
@@ -280,7 +280,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "8 senior con almeno un esito registrato",
+          "detto": "7 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -312,12 +312,14 @@
         }
       ],
       "cronicita": {
-        "worker.ponte": 13,
-        "worker.tracce": 2,
-        "worker.cadenze": 13,
-        "cervello.freschezza": 13,
-        "cervello.riti": 13,
-        "cervello.burndown": 1
+        "worker.ponte": 14,
+        "worker.tracce": 3,
+        "worker.cadenze": 14,
+        "cervello.freschezza": 14,
+        "cervello.riti": 14,
+        "cervello.burndown": 2,
+        "cabina.viva": 1,
+        "cabina.cuore": 1
       }
     },
     "vps": {
@@ -1329,6 +1331,17 @@
       "guasti": 0,
       "nonvisti": 8,
       "copertura": 0.65
+    },
+    {
+      "quando": "2026-10-10 08:55",
+      "iso": "2026-10-10T06:55:12.621Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 8,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.74
     }
   ]
 }

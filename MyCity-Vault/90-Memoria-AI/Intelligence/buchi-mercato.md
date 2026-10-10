@@ -1,117 +1,143 @@
-# 🕳️ Buchi di Mercato — 2026-09-01
+# 🕳️ Buchi di mercato
 
-> **Ricontrollato 2026-09-01 07:00** (giro leggero `cervello/monitora.md`). Sono 8 giorni di buco: l'ultimo controllo risale al 18/8. Fonte: IlPiacenza-Economia. Il fetch diretto resta in errore HTTP 403, stesso blocco delle settimane scorse. Oggi invece liberta.it e piacenzasera.it hanno risposto senza blocco. Ho ripiegato su WebSearch mirata ("ilpiacenza.it economia negozio chiude apre agosto settembre 2026"). **Nessuna chiusura o apertura di bottega specifica trovata con nome.** L'unico risultato pertinente: l'apertura di un **maxistore Maury's da 3.300 mq in via R. Goitre**,
-dal 27/8 al 19/9/2026, con promozioni di apertura. È una grande superficie non-food. Vende
-abbigliamento e casa. Non è una bottega di quartiere, quindi non cambia il quadro delle categorie
-scoperte sotto. Fonte: [anteprimavolantino.it — Volantino Maury's Nuova Apertura Piacenza](https://www.anteprimavolantino.it/134193/volantino-maurys-nuova-apertura-piacenza-dal-27-agosto-2026/),
-pubblicato il 1/9. Nessun altro dato nuovo oggi. Catalogo, contatti e stato pagamenti (dati DB)
-non sono ricontrollati: la fonte è Supabase, non giornaliera, quindi non era dovuta oggi. Restano
-quelli letti il 10/8, e sono coerenti con `registro-fatti.json`, verificato oggi stesso: negozio
-faro Pane Quotidiano, Stripe ancora non attivo al 22/8, nessun aggiornamento più recente noto.
+Aggiornato: 10 ottobre 2026 09:18 · @intelligence
+
+> ⚠️ **Oggi il sito non può vendere.** I due database del marketplace sono in pausa. Il controllo di salute del sito risponde 503, cioè «servizio non disponibile». Nessun negozio può incassare. Quindi niente di quello che segue diventa un'azione commerciale adesso: è preparazione a costo zero (🟢), pronta per quando il sito torna a vendere.
 >
-> Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json`.
-> Il contesto macro in fondo alla pagina è stato rinfrescato il 13/8 alle 09:30. È il recupero del giro delle 08:41, fallito per limite motore. La fonte è IlPiacenza-Economia. Il fetch diretto ha dato HTTP 403, quindi l'ho recuperata via WebSearch. Il resto del file non è stato ricontrollato oggi. Catalogo e lista contatti restano quelli letti dal database il 10/8.
-> **Ricontrollato 15/8 06:45** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia via WebSearch, il fetch diretto resta in errore 403. Nessuna apertura o chiusura nuova di negozi trovata. Confermano lo stesso quadro già noto dal 13/8. Le imprese attive a Piacenza restano in calo. Nel primo semestre 2026 sono scese del 3,3%. Sono 840 in meno rispetto a un anno fa ([ilpiacenza.it](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html)). Via Taverna resta sotto i 40 negozi, contro i 51 di prima. Catalogo e contatti restano quelli letti dal database il 10/8: non ricontrollati oggi perché non dovuti.
-> **Ricontrollato 17/8 06:33** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia, fetch diretto ancora in errore 403, ripiegato su WebSearch mirata ("ilpiacenza.it economia negozio apre chiude agosto 2026"). Nessuna apertura o chiusura nuova trovata: la ricerca restituisce solo notizie generiche di Ferragosto (orari supermercati) senza nomi di negozi specifici. Nessun cambiamento al quadro del 13-15/8. Catalogo e contatti non ricontrollati oggi perché non dovuti (fonte Supabase, non giornaliera).
-> **Ricontrollato 18/8** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia. Il fetch diretto resta in errore 403. Ho usato una WebSearch mirata ("ilpiacenza.it economia negozio chiude apre agosto 2026"). Non ha trovato nessuna apertura o chiusura nuova con il nome di un negozio. Solo risultati generici fuori tema: H&M a livello nazionale, orari supermercati per Ferragosto, un vecchio articolo su Coin non riferito a Piacenza. Nessun cambiamento al quadro del 13-17/8. Catalogo e contatti non ricontrollati oggi perché non dovuti (fonte Supabase, non giornaliera).
-> Precedente versione: 20 luglio 2026 (in git history).
-> Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate il 10/8: `profiles`, `products`, `categories`, `merchants_leads`.
+> **Il buco:** l'ultimo controllo era del 1° settembre, 39 giorni fa. I numeri interni (catalogo, contatti) non li ho potuti rileggere: con i database in pausa restano quelli del 10 agosto.
+>
+> **Come ho cercato:** l'apertura diretta delle pagine web non ha funzionato su nessun sito. L'errore era di rete: «nome del sito non trovato». Ho fatto tutto con la ricerca web, che restituisce titolo, link e un riassunto. Ho letto i riassunti, non i testi interi.
+
+## 🆕 Novità del 10/10
+
+### In parole semplici
+
+Dal 1° settembre non ho trovato nessuna apertura o chiusura di botteghe a Piacenza con un nome. Le ricerche sui giornali locali e sulle associazioni dei commercianti non hanno restituito articoli recenti.
+
+Ho trovato però un buco concreto per uno dei segmenti di ottobre, il mercato coperto. Il mercato coperto di piazza Casali sta accanto al cantiere di piazza Cittadella. Il Comune ha un bando 2026 da 8.200 € per risarcire le attività affacciate su quelle due piazze. Lo scopo dichiarato è evitare che chiudano. Vuol dire che lì si perde il cliente di passaggio. È proprio il problema che MyCity promette di risolvere: prenotazioni, richiami su WhatsApp, consegna.
+
+E c'è un rischio nuovo per tutte le schede prodotto. Da aprile 2026 la parola «artigianale» si può usare solo se il negozio è iscritto all'Albo delle imprese artigiane. La multa è l'1% del fatturato, con un minimo di 25.000 € per ogni violazione.
+
+### Cosa cambia per te
+
+- Quando il sito torna a vendere, il gancio per il mercato coperto è pronto: «il cantiere ti toglie passaggio, noi ti riportiamo i clienti».
+- Prima di scrivere «artigianale» su una scheda o in un post, bisogna sapere se il negozio è iscritto all'Albo. Vale anche per Pane Quotidiano.
+- Ho tolto le pescherie dalle categorie da cercare adesso: il piano le rimanda a una fase successiva.
+
+### Cosa devi fare
+
+Niente adesso. Quando il sito riparte, la mia raccomandazione è aprire ottobre dal mercato coperto, prima di ottiche ed estetiste. È l'unico dei tre con un segnale esterno verificato.
+
+### Cosa non ho verificato
+
+- Quali banchi ci sono nel mercato coperto, e se rientrano nel bando: il testo intero non si apre da qui.
+- Se il cantiere sia già nel vivo. Il bando parla di attività «interessate dal cantiere». Ma ad agosto la prima pietra era prevista entro aprile 2027: forse oggi ci sono solo lavori preliminari.
+- Se Pane Quotidiano sia iscritto all'Albo delle imprese artigiane.
+- I nostri numeri: con i database in pausa, catalogo e contatti sono fermi al 10 agosto.
+
+### Dettagli tecnici — il buco, il rischio, il contesto, con le fonti
+
+**① Mercato coperto e cantiere di piazza Cittadella: il buco del segmento di ottobre** (confidenza 55%)
+- **Fatto** (fonte primaria, letta in sintesi). Il Comune scrive di voler «garantire anche per l'annualità 2026 il sostegno alle attività commerciali» interessate dal cantiere di piazza Cittadella. Area: piazza Cittadella e piazza Casali. Fondo: 8.200 €. Possono chiedere le attività già aperte, al piano strada, con accesso e vetrine sulle piazze. Esclusi: banche, professionisti, agenzie immobiliari e assicurative, intrattenimento, ambulatori. Il testo dice anche che il sostegno 2025 è servito ma è durato poco. Fonte: [bando contributi attività piazza Cittadella 2026, pdf del Comune](https://piacenza-api.cloud.municipiumapp.it/s3/5141/allegati/novit/notizie/2026/piazza-cittadella/bando-contributi-attivita-piazza-cittadella-2026.pdf), letto via ricerca il 10/10. Scadenza non trovata.
+- **Fatto.** Il mercato coperto sta in piazza Casali, in un prefabbricato degli anni '50 costruito per riparare i banchi degli ambulanti. Fonte: [tesi del Politecnico di Milano «Il mercato è la piazza»](https://www.politesi.polimi.it/retrieve/a81cb05a-f991-616b-e053-1605fe0a889a/Il%20mercato%20%c3%a8%20la%20piazza.pdf). La fonte è vecchia, ma il luogo non è cambiato.
+- **Fatto (14/8).** Appalto integrato approvato, prima pietra entro aprile 2027. Fonte: [piacenzasera.it, 14/8](https://www.piacenzasera.it/2026/08/riqualificazione-piazza-cittadella-al-via-lappalto-integrato-posa-prima-pietra-entro-aprile-2027/657840/).
+- **Inferenza, confidenza 55%.** Chi sta in piazza Casali ha anni di cantiere davanti. Perde il cliente di passaggio, non quello fedele. Il primo valore che il piano promette per ottobre è fatto di prenotazioni, promemoria e recupero dei clienti persi. Serve proprio a trattenere i fedeli quando il passaggio cala.
+- **Prima mossa (🟢).** @vendite prepara la lista dei banchi e dei negozi di piazza Casali e piazza Cittadella, da fonti pubbliche, con nome e categoria. Nessun contatto finché il sito non vende.
+- **Impatto:** non stimabile oggi. Non sappiamo quanti banchi ci sono, né quanto hanno perso.
+- **Attacco alla mia tesi.** Se il cantiere vero parte solo nel 2027, il dolore di oggi è piccolo e il gancio è debole. Se il bando 2026 riguarda poche vetrine, il danno è circoscritto. Due verifiche da fare sul posto, prima di un pitch.
+- **Effetto a catena.** Se il cantiere fa chiudere qualche banco, il mercato perde clienti e i clienti vanno al supermercato. Chi resta ha ancora più bisogno di un filo diretto con i propri clienti.
+
+**② Le altre due categorie di ottobre, ottiche ed estetiste: nessun segnale esterno trovato.** Ricerche: «Piacenza nuova apertura negozio bottega ottobre 2026», «Piacenza chiude storico negozio centro settembre 2026». L'unico dato utile: per le estetiste il concorrente è Treatwell, già presente a Piacenza. Il dettaglio è nel radar concorrenti. Da fare quando il database torna: contare quante ottiche ed estetiste ci sono tra i 407 contatti. Lo scarico di maggio filtrava su ristorazione e commercio generico, quindi potrebbero essere poche.
+
+**③ Rischio: la parola «artigianale»** (confidenza 85%)
+- Legge 11 marzo 2026, n. 34, la legge annuale sulle piccole e medie imprese. Articolo 16, in vigore dal 7 aprile 2026. Modifica la legge quadro sull'artigianato del 1985.
+- «Artigiano», «artigianato» e «artigianale» sono riservati a chi è iscritto all'Albo delle imprese artigiane. Vale per insegne, marchi, pubblicità e confezioni.
+- Sanzione: 1% del fatturato, minimo 25.000 € per ogni violazione. Le scorte etichettate prima dell'11 marzo 2026 si possono vendere fino a esaurimento.
+- Fonti: [quifinanza.it — legge sull'artigianato dal 7 aprile](https://quifinanza.it/economia/imprese-pmi/legge-artigianato-7-aprile-2026/964565/amp/) · [lindipendente.online, 8/4/2026](https://www.lindipendente.online/2026/04/08/artigianato-in-vigore-le-nuove-norme-per-la-tutela-dei-consumatori/?pdf=186676) · [vademecum Confartigianato](https://www.confartigianato.it/wp-content/uploads/2026/07/Vademecum-pubblicita-e-artigianato-def.pdf) · [informaimpresa.it — legge 34/2026](https://informaimpresa.it/item/legge-34-2026-nuove-regole-sull-utilizzo-del-termine-artigiano). Molte fonti sono associazioni di categoria. Il testo in Gazzetta Ufficiale non l'ho letto.
+- **Cosa tocca a noi** (ipotesi, da far valutare a @legale-privacy): schede prodotto, vetrine dei negozi, post e testi scritti in massa. Chi risponde su un marketplace, il negozio o la piattaforma, non lo so. È una domanda per il legale.
+- **Prima mossa (🟢).** @legale-privacy scrive una regola per i testi. Nel frattempo @content-social e @ai-copywriter non usano «artigianale» finché il negozio non conferma l'iscrizione all'Albo.
+
+**④ Commercio locale: nessuna novità con un nome dal 1/9**
+
+| Dove ho cercato | Esito | Ricerca usata (10/10) |
+|---|---|---|
+| Libertà, IlPiacenza, PiacenzaSera | Nessun articolo su aperture o chiusure | «Piacenza chiude storico negozio centro settembre 2026» · «liberta.it Piacenza negozio chiude ottobre 2026» · «Piacenza inaugura nuovo negozio centro settembre 2026 ilpiacenza» · «Piacenza "abbassa la saracinesca" 2026» |
+| Comune, assessore al commercio | Nessuna notizia. Ultima conferma trovata dell'assessore: Simone Fornasari, aprile 2024. Non riconfermato per il 2026 | «assessore commercio Comune di Piacenza 2026 negozi centro» · «Fornasari assessore Piacenza commercio settembre 2026» |
+| Vita in Centro | Nessun risultato | «"Vita in Centro" Piacenza 2026» |
+| Confcommercio e Unione Commercianti | Nessuna notizia di settembre-ottobre | «Confcommercio Piacenza settembre ottobre 2026 commercio centro storico» · «Unione Commercianti Piacenza ottobre 2026» |
+| Confesercenti | Nessuna notizia | «Confesercenti Piacenza settembre 2026 negozi imprese» |
+| CNA | Nessuna notizia | «CNA Piacenza ottobre 2026 artigiani» |
+| Coldiretti, Campagna Amica | Nessuna notizia | «Coldiretti Piacenza Campagna Amica mercato ottobre 2026» |
+
+**Contesto nuovo per questo file** (dato di aprile 2026, una fonte sola). Uno studio Nomisma sull'Emilia-Romagna, ripreso da Repubblica il 15/4/2026, dà Piacenza a -8% di negozi di vicinato in dieci anni. Peggio stanno Ferrara (-15,8%), Ravenna (-13,1%) e Modena (-8,5%); meglio Rimini (-5,9%). Fonte: [rassegna stampa, Repubblica del 15/4/2026](https://www.trecuori.org/trecuori/wp-content/uploads/2026/04/Repubblica-Oss.-Reciprocita-15.04.2026.pdf). Da confermare con una seconda fonte prima di citarlo in un pitch.
+
+**⑤ Categorie da cercare, allineate al calendario dei segmenti.** Fonte: registro dei fatti, voce `strategia.segmenti-onboarding`.
+
+| Mese | Categorie | Contatti nel database al 10/8 | Note |
+|---|---|---|---|
+| Settembre: il fresco | frutta e verdura, panetterie, gastronomie, macellerie | panifici 11, macellerie 8, mai contattati | mese passato col sito fermo |
+| Ottobre | ottiche, estetiste, mercato coperto | da contare quando il database torna | mercato coperto: vedi il punto ① |
+| Novembre: i regali | enoteche, fiorai, cartolerie, più aziende per regali e welfare | fiorai 7, enoteche 0 (mai cercate) | gancio: Fiera dei Vini, 14-16/11 |
+| Dicembre | stop all'inserimento di negozi nuovi | — | si consolida |
+| Fase successiva | pescherie | 0 | rimandate dal piano |
+
+Esclusi per decisione di Nicola: ristoranti, catene, franchising. Correzione rispetto alla versione del 1/9: la pescheria stava al secondo posto delle priorità. Il piano la rimanda, quindi non è più una priorità di adesso.
 
 ---
 
-## Stato attuale del catalogo MyCity (dati live, non stimati)
+## Controlli precedenti
 
-- **1 negozio reale**: Pane Quotidiano — Via Calzolai 25, Piacenza. Panificio/gastronomia bio.
-- **5 prodotti** in vendita: Pudding vaniglia bio, Hummus di ceci bio, Kefir di latte di capra bio, Pesto Genovese bio, Kefir Berchtesgadener Land bio. Non solo pane: linea bio/gastronomia.
-- **0 negozi possono ancora incassare**: `stripe_charges_enabled`/`stripe_payouts_enabled`/`stripe_details_submitted` tutti falsi anche per Pane Quotidiano (fatto `negozio.faro`, verificato 10/8 09:58). Nessun buco di mercato conta finché questo non si sblocca — è la vera priorità zero, non una categoria mancante.
-- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`). Solo 1 di queste ha dentro un venditore reale: Panificio, grazie a Pane Quotidiano.
-- **407 contatti negozio** in archivio, tabella `merchants_leads`. Vengono da un solo scarico, fatto il 24/5/2026, mai aggiornato da allora. **Sono tutti ancora `to_contact`**: nessuno è stato davvero contattato. È una correzione rispetto alla versione precedente di questo file, che dava per contattati alcuni di questi nomi.
+> Sotto, lo storico ancora utile, accorciato. Le versioni intere stanno nella storia del repository.
 
----
+### Stato del catalogo MyCity — dati del 10/8, non ricontrollati
 
-## 🔴 Il buco più grande non è di categoria: è di prospecting sulle categorie giuste
+Fonte: interrogazione diretta del database del marketplace, 10/8/2026 13:20-13:35, tabelle `profiles`, `products`, `categories`, `merchants_leads`.
+- **1 negozio reale:** Pane Quotidiano, via Calzolai 25. Panificio e gastronomia bio.
+- **5 prodotti in vendita:** pudding alla vaniglia bio, hummus di ceci bio, kefir di latte di capra bio, pesto genovese bio, kefir Berchtesgadener Land bio. Nessun pane «base» a catalogo, nonostante il nome del negozio.
+- **0 negozi possono incassare.** I pagamenti di Pane Quotidiano erano disattivati il 10/8, e ancora non attivi il 22/8.
+- **72 categorie** pronte nel sito; solo una ha un venditore, Panificio.
+- **407 contatti di negozi**, da un solo scarico del 24/5/2026. Tutti ancora «da contattare»: nessuno è stato chiamato davvero.
 
-Il file di luglio elencava enoteca/pescheria/erboristeria/formaggi come "categorie scoperte, 0 prospect". Controllato oggi riga per riga sui 407 contatti reali: **è ancora vero, e il motivo è strutturale**. Lo scarico del 24/5 viene da OpenStreetMap/Google Places filtrato su ristorazione e retail generico — **zero risultati contengono "wine", "fish", "herb", "deli", "cheese"**. Non è che i negozi non li abbiano trovati: quelle categorie non erano nel raggio di ricerca del primo scarico. È un buco nello strumento di scouting, non (solo) nel mercato.
+### Il buco nello strumento di ricerca dei negozi (10/8)
 
-| Categoria nei 407 contatti | N. lead | Contattati davvero | Score medio | Nota |
-|---|---|---|---|---|
-| Abbigliamento (`clothes`) | 92 | 0 | 57,6 | Fuori perimetro attuale (non food/bottega di quartiere) |
-| Bar | 76 | 0 | 65,8 | Escluso insieme a ristoranti/osterie per decisione di Nicola del 18/7. Da rivedere: bar ≠ osteria |
-| Cafè | 43 | 0 | 50,0 | Stesso dubbio di "Bar": La Ragazzetta (vedi sotto) è proprio un caffè |
-| Supermercato | 42 | 0 | 71,4 | Catene tipo Conad, Esselunga, Lidl e Coop: non target da onboarding, ma segnalano la densità della zona |
-| Ristorante | 27 | 0 | 87,0 | **Escluso** per decisione Nicola 18/7 |
-| Pizzeria | 22 | 0 | 95,5 | **Escluso** per decisione Nicola 18/7 |
-| Panificio (`bakery`) | 11 | 0 | 77,3 | Categoria del negozio faro. 11 concorrenti/prospect diretti, mai contattati |
-| Macelleria (`butcher`) | 8 | 0 | 50,0 | 0 contattati nonostante citati come "prospect" a luglio |
-| Fioraio (`florist`) | 7 | 0 | 50,0 | Già segnata come "scoperta" a luglio. I 7 nomi esistono, ma nessuno è mai stato chiamato |
-| *(coda lunga: sushi, kebab, cinese, messicano, indiano…)* | ~74 | 0 | var. | Ristorazione etnica, stesso vincolo del 18/7 |
+Lo scarico del 24/5 veniva da OpenStreetMap e Google Places, filtrato su ristorazione e commercio generico. Per questo non contiene enoteche, pescherie, erboristerie, gastronomie o formaggerie: nessuno le ha mai cercate. È un buco dello strumento, non solo del mercato.
 
-**Enoteca, pescheria, erboristeria, formaggi/caseificio: 0 su 0** — non ci sono NEI 407, quindi nessuno li ha mai cercati con uno scarico dedicato.
+| Categoria nei 407 contatti | Contatti | Contattati davvero | Nota |
+|---|---|---|---|
+| Abbigliamento | 92 | 0 | fuori dal perimetro attuale |
+| Bar | 76 | 0 | da capire: un bar non è un ristorante |
+| Caffè | 43 | 0 | stesso dubbio dei bar |
+| Supermercati | 42 | 0 | catene: non da inserire, ma dicono quanto è densa la zona |
+| Ristoranti | 27 | 0 | esclusi da Nicola |
+| Pizzerie | 22 | 0 | esclusi da Nicola |
+| Panifici | 11 | 0 | la categoria del negozio faro |
+| Macellerie | 8 | 0 | mai chiamate |
+| Fiorai | 7 | 0 | mai chiamati |
+| Ristorazione etnica (sushi, kebab, cinese…) | circa 74 | 0 | esclusi come i ristoranti |
 
----
+### Correzione del 10/8 sui nomi citati a luglio
 
-## 🟡 Correzione importante rispetto alla versione precedente di questo file
+Garetti, Peretti e Amendolara (gastronomia e salumi) e La Ragazzetta (caffè storico) non sono nella tabella dei contatti. Vengono da una ricerca web di luglio. Restano legittimi come scelta ragionata con fonti pubbliche, ma vanno tenuti distinti dai 407. Prima di un pitch serve verificare telefono e indirizzo aggiornati.
 
-Quattro nomi erano citati come "prospect" nella versione del 20/7: **Garetti**, **Peretti** e
-**Amendolara** (gastronomia/salumi, 3 anchor), più **La Ragazzetta** (caffè storico). Non sono
-nella tabella `merchants_leads`. Non vengono dallo scarico del 24/5: vengono da una ricerca web
-mirata di `@intelligence` a luglio. Sono legittimi come **scelta ragionata con fonti pubbliche**
-(AR-006: base news/articoli citati, non inventati). Vanno però tenuti distinti dai 407 lead
-strutturati nel DB. Se serve un pitch, per questi 4 serve prima una verifica telefono/indirizzo
-aggiornata da fonte web, perché il DB non ce l'ha.
+### Zone scoperte — inferenza, non misurata
 
----
+Nessun dato reale di consegna su cui misurarle: zero ordini pagati. Le due righe sotto vengono dalla densità abitativa, non da ordini veri.
+- Quartieri oltre la ZTL (Farnesiana, Besurica): molte case, inferenza non misurata.
+- Periferia nord (Borgotrebbia, Castelvetro): domanda di consegna forse più alta, inferenza non misurata.
 
-## Categorie scoperte — priorità per la ripresa (24/8-1/9)
+### Buchi nel negozio faro (Pane Quotidiano)
 
-| # | Categoria | Perché priorità | Prospect nel DB oggi | Prossimo passo |
-|---|-----------|----------------|----------------------|-----------------|
-| 1 | **Enoteca / vini** | Gutturnio, Ortrugo DOC — alto scontrino, gift-box | 0 (mai cercato) | Nuovo scarico mirato scouting, non solo ricontattare i 407 |
-| 2 | **Pescheria** | Servizio premium, differenziante | 0 (mai cercato) | Idem |
-| 3 | **Erboristeria / naturale** | Sovrapposizione clientela bio di PQ | 0 (mai cercato) | Idem |
-| 4 | **Formaggi / caseificio (DOP piacentini)** | Differenziante, alto margine | 0 (mai cercato) | Idem |
-| 5 | **Macelleria** | Categoria alimentare base, alta frequenza | 8 lead reali, 0 contattati | Ricontattare i 8 già in DB prima di cercarne altri |
-| 6 | **Fiori / piante** | Impulso, alta frequenza | 7 lead reali, 0 contattati | Ricontattare i 7 già in DB |
-| 7 | **Caffè storico / bar di quartiere** | La Ragazzetta = lead caldo (apertura 4/7) | 76 bar + 43 cafè in DB, mai filtrati per escludere solo osterie/ristoranti pieni | Rivedere il criterio di esclusione 18/7: bar/caffè ≠ osteria |
+- Pagamenti disattivati: bloccano ogni incasso. È la priorità zero.
+- Catalogo di soli 5 prodotti, nessun pane base.
+- Foto professionali: da fare con il negoziante.
 
----
+### Contesto del commercio a Piacenza (agosto 2026)
 
-## Zone geografiche scoperte
+- **Imprese attive in calo.** 24.768 al 30/6/2026, cioè 840 in meno in un anno (-3,3%). Peggio della media nazionale (-0,9%) e regionale (-1,0%). Il commercio perde il 3,8%, a 4.734 imprese. Confesercenti: calano i piccoli negozi, crescono le grandi superfici. Fonte: [ilpiacenza.it — imprese in calo nel primo semestre 2026](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html), letto in sintesi il 13/8, più Libertà su dati Confesercenti.
+- **Centro storico.** Negozi al dettaglio da 642 nel 2012 a 548 previsti nel 2025: 94 in meno. Fuori dal centro, da 517 a 380: 137 in meno. Nel frattempo i B&B in centro passano da 2 a 21. Fonte: [ilpiacenza.it — Metamorfosi Piacenza](https://www.ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html), dati dell'Osservatorio Confcommercio, marzo 2026.
+- **Vie in sofferenza.** Via Taverna è scesa da 51 a meno di 40 negozi. Su Corso Vittorio Emanuele, più di 20 chiusure in 3 mesi: da riverificare sul posto. Fonte: piacenzasera.it, articolo di luglio 2026 registrato come «piacenzasera.it/2026/07/sempre-piu-serrande-abbassate-centro-storico-verso-la-desertificazione» (indirizzo non riaperto oggi).
+- **Grande superficie nuova.** Maury's ha aperto un negozio da 3.300 mq in via Goitre il 27/8: abbigliamento e casa, non una bottega di quartiere. Fonte: [anteprimavolantino.it](https://www.anteprimavolantino.it/134193/volantino-maurys-nuova-apertura-piacenza-dal-27-agosto-2026/).
 
-Nessun dato di consegna reale su cui misurare zone (0 ordini pagati, 0 consegne). Le due righe sotto restano un'inferenza da densità abitativa, non un dato osservato — da verificare quando ci sarà traffico reale:
+### Cosa NON è ancora un buco da inseguire
 
-| Zona | Note |
-|------|------|
-| Quartieri oltre ZTL (Farnesiana, Besurica) | Alta densità residenziale, inferenza non misurata |
-| Periferia nord (Borgotrebbia, Castelvetro) | Domanda consegna potenzialmente più alta, inferenza non misurata |
-
----
-
-## Buchi nel negozio attuale (Pane Quotidiano)
-
-| Gap | Stato oggi |
-|-----|-----------|
-| Pagamenti (Stripe charges/payouts) | **Disattivati** — priorità assoluta, blocca ogni incasso (vedi `negozio.faro`) |
-| Catalogo | Solo 5 prodotti bio/gastronomia, nessun pane "base" a catalogo nonostante il nome del negozio |
-| Foto prodotto pro | Da verificare oggi, serve intervento diretto del negoziante |
-
----
-
-## Contesto macro — aggiornato 13/8 (web scan, dati DB sotto restano del 10/8)
-
-- **Nuovo dato 13/8 (Confesercenti/Liberta.it):** imprese attive a Piacenza scese a **24.768** al 30/6/2026, **-840 rispetto a un anno prima**. Confesercenti: calano i piccoli negozi, ma crescono le superfici di vendita (i grandi guadagnano terreno sui piccoli). Conferma il trend −22,1% (2012-2025) già noto, con un numero assoluto più recente da citare in un pitch.
-- **Nuovo dettaglio 13/8 (piacenzasera.it, dato luglio ma dettaglio più preciso oggi):** oltre a "20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele" (da riverificare sul posto), **via Taverna è scesa da 51 a meno di 40 negozi**, con altre chiusure attese. Due vie del centro con lo stesso segnale — rafforza l'argomento "botteghe a rischio" per @vendite, ancora da verificare di persona prima di un pitch nominale.
-- **Nuovo dettaglio 13/8, recupero 09:30 (ilpiacenza.it via WebSearch):** il fetch diretto ha dato HTTP 403, quindi questa è una sintesi, non il testo integrale. Lo stesso -3,3% (-840 imprese) è **peggio sia della media nazionale (-0,9%) sia di quella regionale (-1,0%)**. Per settore: edilizia la più colpita (-10,7%, 4.085 imprese), poi **commercio -3,8% (4.734 imprese)**, manifatturiero -3,6% (2.296), alloggio/ristorazione -2,7% (1.850), agricoltura -2,6% (4.197). In controtendenza: servizi alle imprese +1,3% (+64, a quota 5.071). Fonte: [ilpiacenza.it — "Piacenza, imprese in calo del 3,3%: peggio della media nazionale e regionale"](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html) (sintesi via WebSearch, consultato 13/8). **Confidenza alta sul dato aggregato**, perché è la stessa fonte CCIAA del punto sopra, triangolata con Confesercenti. **Confidenza media sul dettaglio settoriale**, perché l'ho letto solo in sintesi, non nel testo integrale.
-- **Dato di contesto, non di oggi ma nuovo per questo file (Osservatorio Confcommercio demografia imprese 2025, ripreso da ilpiacenza.it a marzo 2026):** nel **centro storico** il commercio al dettaglio è sceso da 642 attività (2012) a 548 previste (2025), **-94**. Fuori dal centro il calo è più marcato: da 517 a 380, **-137**. In controtendenza, le "altre forme di alloggio" (B&B/case vacanza) in centro storico sono salite da 2 (2012) a 21 previste (2025), +19 (+147,5%). La fonte è datata marzo 2026 (dati Osservatorio 2025), quindi non è una notizia di oggi. La aggiungo perché dà, per la prima volta, un numero assoluto e verificabile al "buco di offerta" nel centro storico — più solido dei riferimenti sparsi già in questo file. Fonte: [ilpiacenza.it — "Metamorfosi Piacenza: meno negozi di abbigliamento, boom di B&B e ristorazione"](https://www.ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html) (sintesi via WebSearch, HTTP 403 sul full-text).
-- Radar concorrenti (10/8, non ricontrollato oggi — settimanale, prossimo controllo dovuto ≥17/8): nessun movimento locale nuovo dei grandi (Glovo/JustEat/Deliveroo); Glovo e Deliveroo Italia sotto controllo giudiziario per caporalato algoritmico (fatto verificato, argomento di pitch pronto ma parcheggiato fino al 24/8-1/9).
-- **Ricontrollato 14/8** (giro leggero `cervello/monitora.md`). IlPiacenza-Economia ha dato di nuovo HTTP 403 sul fetch diretto. Il ripiego WebSearch ha trovato lo stesso identico articolo del calo imprese -3,3%, già incorporato ieri (13/8, riga sopra). Nessun dato più recente reperibile oggi. Nessuna novità da aggiungere.
-
----
-
-## Cosa NON è ancora un buco di mercato da inseguire
-
-Con 0 negozi che possono incassare e la pausa concordata con Nicola fino al 24/8-1/9, **nessuna di queste categorie va trasformata in pitch o asset pesante oggi** (regola AR-006: sforzo pesante solo su entità `confermata`, e oggi l'unica confermata — Pane Quotidiano — non incassa nemmeno). Questo file resta preparazione per la ripresa, non lavoro da eseguire ora.
-
----
-
-*Fonti: query dal vivo `mcp__supabase-marketplace__execute_sql` su `profiles`, `products`, `categories`, `merchants_leads` (10/8/2026 13:20-13:35) · `registro-fatti.json` (`negozio.faro`, `negozi.attesa-concordata`) · `Intelligence/radar-concorrenti.md` e `Intelligence/eventi-picchi.md` (10/8, aggiornati oggi da @intelligence) · versione precedente 20/7 (git history) per confronto. Contesto macro 13/8: liberta.it (Confesercenti Piacenza, imprese attive 30/6/2026) · piacenzasera.it/2026/07/sempre-piu-serrande-abbassate-centro-storico-verso-la-desertificazione (via Taverna). Recupero 09:30 (giro 08:41 fallito): ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html · ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html (entrambe lette via WebSearch, fetch diretto bloccato HTTP 403).*
+Con zero negozi che possono incassare, nessuna di queste categorie va trasformata in pitch o in materiale pesante. La regola: lo sforzo pesante va solo dove c'è un negozio confermato che può incassare. Oggi l'unico confermato, Pane Quotidiano, non incassa. Questo file resta preparazione per quando il sito torna a vendere.

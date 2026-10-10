@@ -2,8 +2,8 @@
 
 <!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
 > 🗓️ **Ultimo aggiornamento: 2026-07-20 20:22** — l'ultima volta che è cambiato il testo qui sotto. Il piano è nato il 2026-06-25 12:34.
-> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 11:00, e non è una revisione del piano.*
-<!-- 🗓️ AD-DATA {"corpo":"2026-07-20 20:22","nato":"2026-06-25 12:34","nota":"2026-07-20 11:00"} -->
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-10-10 09:45, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-07-20 20:22","nato":"2026-06-25 12:34","nota":"2026-10-10 09:45"} -->
 <!-- 🗓️ AD-DATA:END -->
 
 <!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
@@ -188,10 +188,10 @@ Il bando trasforma "costo zero" in "lo Stato ti **paga** per andare online con n
 #vendite #acquisizione #negozi #piano #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 11:00
+## 🤖 Aggiornamento dell'AD — 2026-10-10 09:45
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **North Star 0 — stallo ~625h:** ordine test PQ (🟡) + **PI26 invio ORA** (🔴) = leve del giorno.
-- **PI26 sportello aperto** — WhatsApp anchor botteghe dopo chiusura domanda.
-- **13 botteghe onda-2** — giro settimana 21-25/7 quando bici pronta (6 ristoranti esclusi).
-- **Meteo 21/7 pioggia** → push clienti (gate: ordine test fatto).
+- **Prima di tutto il sito deve tornare a vendere.** I due database sono in pausa su Supabase: nessun negozio nuovo ha senso finché nessuno può comprare. È la card #199.
+- **Ottobre: aprire dal mercato coperto di piazza Casali.** È l'unico dei tre segmenti del mese con un segnale esterno verificato: il cantiere di piazza Cittadella toglie passaggio, e il Comune ha un fondo da 8.200 € per le attività colpite. Prima mossa 🟢: la lista dei banchi da fonti pubbliche, senza contattare nessuno. Fonte: `90-Memoria-AI/Intelligence/buchi-mercato.md`.
+- **Estetiste: il concorrente è Treatwell**, già a Piacenza, con una percentuale sui clienti nuovi. Il nostro argomento è il paletto: i clienti restano del centro, nessuna percentuale su quello che incassava già.
+- **Natale: i negozi dei regali devono incassare entro metà novembre.** A dicembre il piano ferma gli inserimenti, e l'anno scorso il mercatino partiva il 22/11. Gancio per le enoteche: la Fiera dei Vini del 14-16/11.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

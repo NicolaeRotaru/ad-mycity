@@ -1,62 +1,81 @@
 {
-  "data": "2026-08-31 21:05",
-  "sintesi": "La pausa concordata sui negozi (24/8-1/9) è agli ultimi giorni. La scadenza che Nicola stesso aveva fissato per il cantiere — 29 agosto — è già passata di due giorni: le quattro cose (difetti macchina, difetti design marketplace, worker-negozi da costruire, design venditore) non sono state riverificate punto per punto in questo giro. Business bit-per-bit fermo dal 28/8: 1 negozio reale (Pane Quotidiano), 0 ordini pagati, stallo North Star 68 giorni. Le tre firme che moltiplicano tutto il resto restano ferme: #168 (server, causa diretta del sito giù da 9 giorni), #184 (database indietro di 4 migrazioni), #182 (pagamenti Pane Quotidiano fermi da 18 giorni).",
+  "data": "2026-10-10 09:45",
+  "sintesi": "Il 23 luglio avevi detto che dopo il 1° settembre ti saresti concentrato solo sul business, e il piano dei segmenti mette a ottobre ottiche, estetiste e mercato coperto. Dalla memoria non risulta niente di tuo dopo il 9 settembre, l'ultimo lavoro unito su GitHub. Oggi qualunque mossa sui negozi aspetta la stessa cosa: riaccendere i due database e rimettere le chiavi al sito, senza i quali nessuno può comprare. Le tue mosse, quindi, partono da lì.",
   "prossime_mosse": [
     {
-      "titolo": "Firma le tre carte che sbloccano sito, database e pagamenti",
-      "quando": "appena possibile — sono ferme da 9, 2 e 3 giorni",
-      "come": "Card #168 (riaccendere il server), #184 (applicare le migrazioni 126-129 o accendere il cancello del rilascio), #182 (completare l'onboarding Stripe di Pane Quotidiano o riscrivere le CTA dei post in coda)",
+      "titolo": "Riaccendi i due database e decidi sul piano Pro",
+      "quando": "oggi: ogni giorno in pausa è un giorno senza vendite, e la finestra per riaccenderli con un clic è di 90 giorni",
+      "come": "Supabase → organizzazione mycity.inizioditutto → Billing, poi Resume project su «Mycity» e «ad-mycity»; oppure «ok 199» e lo faccio io",
       "priorita": "alta",
-      "ad_prepara": "Diagnosi e comandi già scritti in ciascuna card, pronti a partire appena firmate",
+      "ad_prepara": "diagnosi con le prove in consegne/salute/2026-10-10-database-in-pausa.md; ricontrollo del sito e dei numeri appena rispondono",
       "senior": "@devops-sre",
       "colore": "🔴"
     },
     {
-      "titolo": "Decidi come trattare la scadenza del 29 agosto ormai passata",
-      "quando": "appena rientri dal lavoro operativo",
-      "come": "dire se vuoi una riverifica puntuale delle quattro cose (cantiere.scadenza-zero) o hai già un piano diverso",
+      "titolo": "Rimetti al sito le chiavi che mancano su Vercel",
+      "quando": "subito dopo i database",
+      "come": "Vercel → progetto mycity → Settings → Environment Variables → Production, confrontando con .env.example del sito (card #154)",
       "priorita": "alta",
-      "ad_prepara": "posso riaprire il cantiere e contare lo stato reale di ciascuna delle quattro non appena lo chiedi",
-      "senior": "@ad",
+      "ad_prepara": "elenco delle variabili che mancano, letto oggi; dopo il nuovo deploy rileggo il controllo di salute del sito",
+      "senior": "@devops-sre",
       "colore": "🔴"
     },
     {
-      "titolo": "Ordine di prova su Pane Quotidiano",
-      "quando": "appena i pagamenti sono attivi (dipende da #182) e la pausa concordata finisce (24/8-1/9)",
-      "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
+      "titolo": "Riaccendi il server della macchina",
+      "quando": "dopo i database, perché senza memoria il server non può prendere lavori",
+      "come": "console Hetzner: acceso e pagato? poi i comandi della card #168",
+      "priorita": "alta",
+      "ad_prepara": "comandi pronti nella card #168; appena torna, il primo giro rimette in fila le cadenze arretrate",
+      "senior": "@devops-sre",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Gira al fornaio il bando rifiuti del Comune",
+      "quando": "entro il 23 ottobre, meglio subito: i fondi vanno in ordine di arrivo",
+      "come": "il messaggio pronto per WhatsApp sta nella card #200",
       "priorita": "media",
-      "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico appena Nicola dà il via",
-      "senior": "@operations",
+      "ad_prepara": "testo del messaggio con il link ufficiale, in consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md",
+      "senior": "@account-negozi",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Riprendi i negozi del segmento di ottobre",
+      "quando": "quando il sito vende di nuovo",
+      "come": "ottiche, estetiste, mercato coperto, come da piano dei segmenti",
+      "priorita": "media",
+      "ad_prepara": "niente di pesante finché il sito non vende: solo materiali neutri e riusabili, come vuole la regola di allocazione",
+      "senior": "@vendite",
       "colore": "🟡"
     }
   ],
   "primi_negozi": [
     {
       "nome": "Pane Quotidiano",
-      "perche": "Unico negozio reale, faro di MyCity",
-      "stato": "pausa concordata fino al 24/8-1/9 in scadenza; pagamenti ancora spenti da 18 giorni (card #182)"
+      "perche": "unico negozio vero, faro di MyCity",
+      "stato": "non incassa con la carta (incassi e versamenti spenti dal 10/8, card #182); oggi non visibile perché il database del sito è in pausa"
     }
   ],
   "rischi": [
-    "La scadenza del 29 agosto (cantiere.scadenza-zero) è passata senza una riverifica puntuale delle quattro cose in questo giro.",
-    "Il sito pubblico è giù da 9 giorni: nessun cliente reale può navigare il catalogo, anche se il bug che lo azzerava per i visitatori senza accesso è già riparato nel codice (#857).",
-    "7 PR di manutenzione sul repo ad-mycity restano in gran parte rosse (5 su 7): debito che si accumula, ma non tocca il marketplace live (non deployate)."
+    "Se nessuno riaccende i database entro 90 giorni dalla pausa, si perde la riaccensione a un clic: resta solo una copia da rimontare a mano.",
+    "Riaccesi sul piano gratuito, senza il server acceso e senza visitatori, i database si riaddormentano dopo circa una settimana.",
+    "L'allarme della macchina ferma arriva solo su GitHub: è suonato per 37 giorni senza che tu lo vedessi.",
+    "Natale: se il sito torna a vendere dopo metà novembre, i negozi nuovi perdono la stagione più ricca."
   ],
   "serve_da_nicola": [
     {
-      "ambito": "priorita",
-      "cosa_manca": "Ordine fra le tre firme urgenti (#168 sito, #184 database, #182 pagamenti) se non riesci a farle tutte insieme",
-      "domanda_per_nicola": "Se devi scegliere per prima, farei #168 (sblocca il sito, che è ciò che tutti vedono per primi) — sei d'accordo o ne priorizzi un'altra?"
+      "ambito": "infrastruttura",
+      "cosa_manca": "Perché i database sono in pausa: poca attività o una fattura scoperta",
+      "domanda_per_nicola": "Su Supabase, alla voce Billing, c'è una fattura non pagata o una carta scaduta? Me lo dici con un sì o un no."
     },
     {
-      "ambito": "cantiere",
-      "cosa_manca": "Stato reale delle quattro cose della scadenza 29/8, mai riverificato punto per punto in questo giro",
-      "domanda_per_nicola": "Vuoi che riapra il cantiere e ti porti il conto esatto di quanto manca su ciascuna delle quattro?"
+      "ambito": "costi",
+      "cosa_manca": "Dove vanno i 50 € al mese per Supabase che avevi confermato il 20/7: l'organizzazione di MyCity risulta sul piano gratuito",
+      "domanda_per_nicola": "Paghi Supabase su un altro account, o quei 50 € non partono più?"
     },
     {
       "ambito": "macchina",
-      "cosa_manca": "Conferma sul livello RISPARMIO",
-      "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime ora che la pausa negozi sta per finire?"
+      "cosa_manca": "Se il server è acceso",
+      "domanda_per_nicola": "Dalla console Hetzner il server risulta acceso? Se sì, mi incolli cosa stampano i comandi della card #168?"
     }
   ]
 }

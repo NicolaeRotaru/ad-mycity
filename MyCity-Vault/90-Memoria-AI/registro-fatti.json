@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-09-07 17:03",
+  "aggiornato": "2026-10-10 09:07",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -329,6 +329,16 @@
       "valore": "«Hulii» NON è un nome di persona: è un nome scritto a caso da Nicola quando ha creato questo account Claude, e da lì è finito dentro CONTESTO_BUSINESS.md ai paragrafi 0 e 1. Il proprietario di MyCity è Nicola, e basta. Dove il documento dice «segnalalo a Hulii» si legge «dillo a Nicola». Non va usato in nessun testo che esce di casa.",
       "fonte": "Nicola, chat 2026-08-11: «hulii è un nome scritto a caso quando avevo creato questo account di claude» (in risposta alla domanda aperta della PR #701)",
       "aggiornato": "2026-08-11 10:20",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "infrastruttura.supabase",
+      "nome": "Supabase: piano e stato dei due database",
+      "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO GRATUITO; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — risultano IN PAUSA (INACTIVE) al 2026-10-10 08:56. Effetto: il sito risponde ma non carica negozi/prodotti (/api/health 503) e la Cabina non legge la memoria. Si riaccendono con un clic entro 90 giorni dalla pausa (data della pausa non letta: la dice la mail di Supabase). Sul piano gratuito un progetto si mette in pausa dopo ~7 giorni di poca attività; con fattura scaduta Supabase mette in pausa e riporta al gratuito. Da riconciliare con finanza.costi_infrastruttura, che conta Supabase 50 €/m confermati da Nicola il 20/7. Card #199.",
+      "fonte": "Supabase MCP get_project + get_organization 2026-10-10 08:56; docs supabase.com/docs/guides/platform/free-project-pausing e billing-faq",
+      "aggiornato": "2026-10-10 09:07",
       "storia": [],
       "caccia": [],
       "esenzioni": []

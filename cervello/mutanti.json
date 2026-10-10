@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-08 09:05",
+ "aggiornato": "2026-10-10 09:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -9339,6 +9339,15 @@
    "sostituisci": "      throw e;",
    "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
    "perche_conta": "Chi registra il perimetro sta chiudendo un lotto, spesso a fine giornata. Un percorso sbagliato gli deve dire quale file non ha trovato, non uno stack: con lo stack, la stessa persona ricontrolla le schede, il registro e la dimensione prima di accorgersi che era un refuso nel path."
+  },
+  {
+   "lezione": "L-2026-1010-01",
+   "nome": "col buio totale il giro torna a non guardare lo stato dei servizi da cui dipende",
+   "file": "cervello/lib-sensori-verdetto.mjs",
+   "cerca": "Passaggio minimo se nulla è cambiato fuori.\" + CHIEDI_I_SERVIZI;",
+   "sostituisci": "Passaggio minimo se nulla è cambiato fuori.\";",
+   "test": "cervello/test/sensori-verita.test.mjs",
+   "perche_conta": "Il 10/10 i due database erano in pausa da settimane e la macchina diceva solo «cieco». Senza questa riga il giro del server, quando torna, ripete il «passaggio minimo» e non nomina mai il servizio spento: il guasto lo scopre di nuovo Nicola."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

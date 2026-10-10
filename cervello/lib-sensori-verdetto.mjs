@@ -59,15 +59,26 @@ export function sintesiSensori(v, maxCecita) {
 }
 
 /**
+ * L-2026-1010-01 — col buio totale si guarda PRIMA chi ci tiene accesi.
+ *
+ * Il 10/10 la macchina era ferma da 39 giorni e il sito non vendeva. La causa era una sola: i due
+ * progetti Supabase in pausa (piano gratuito). I sensori dicevano «cieco» su tutto e la visita
+ * elencava otto rossi separati, ma nessuno dei due nominava il guasto: l'ha nominato una domanda
+ * sola allo stato del progetto. Un buio totale è quasi sempre un servizio spento, non tanti guasti.
+ */
+export const CHIEDI_I_SERVIZI =
+  " Prima di cercare guasti dentro la macchina, guarda lo stato dei servizi da cui dipende: i due progetti Supabase (strumento Supabase get_project, oppure il loro pannello: INACTIVE vuol dire in pausa) e la loro fatturazione.";
+
+/**
  * Le istruzioni per il giro. AR-587: non affermano MAI cose non misurate — il vecchio testo
  * «Stripe ok ma Supabase REST cieco» usciva anche quando Stripe non era stato misurato affatto.
  */
 export function istruzioniGiro(esito, restOk) {
   if (esito === "non_misurato") {
-    return "NESSUN sensore d'ambiente misurato da questa sessione (niente chiavi): lo stato reale dei sensori NON è visibile da qui. Non affermare nulla sulla loro salute e NON scrivere numeri nuovi: usa la baseline di STATO + sezione Gap.";
+    return "NESSUN sensore d'ambiente misurato da questa sessione (niente chiavi): lo stato reale dei sensori NON è visibile da qui. Non affermare nulla sulla loro salute e NON scrivere numeri nuovi: usa la baseline di STATO + sezione Gap." + CHIEDI_I_SERVIZI;
   }
   if (esito === "cieco") {
-    return "Tutti i sensori REST ciechi: NON inventare numeri. Usa baseline STATO + sezione Gap. Passaggio minimo se nulla è cambiato fuori.";
+    return "Tutti i sensori REST ciechi: NON inventare numeri. Usa baseline STATO + sezione Gap. Passaggio minimo se nulla è cambiato fuori." + CHIEDI_I_SERVIZI;
   }
   if (restOk) {
     return "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.";

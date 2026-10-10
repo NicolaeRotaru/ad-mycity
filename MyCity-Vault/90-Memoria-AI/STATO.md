@@ -1,10 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 22:35
+aggiornato: 2026-10-10 09:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🛑 **2026-10-10 09:40 — Il sito non può vendere e la macchina è ferma: i due database sono in pausa.**
+>
+> **In parole semplici.** Su Supabase, piano gratuito, il database del sito e quello della memoria
+> risultano tutti e due in pausa. Il sito si apre ma resta su «Stiamo caricando…», e la sua pagina di
+> controllo risponde 503. La macchina non lascia una traccia automatica dal 1° settembre alle 12:15:
+> sono 39 giorni. L'allarme su GitHub lo ripete dal 3 settembre, ma lì non lo legge nessuno.
+>
+> **Un esempio concreto.** Alle 08:57 ho aperto il sito dal suo dominio vero. I riquadri dei negozi
+> sono rimasti su «Stiamo caricando…». Chi arrivasse oggi da un volantino non vedrebbe nemmeno il pane
+> di Pane Quotidiano.
+>
+> **Cosa cambia per te.** Finché i database dormono, nessuno può comprare e io non posso misurare
+> niente: i numeri qui sotto restano quelli del 1° settembre. Supabase tiene la riaccensione a un clic
+> per 90 giorni dalla pausa.
+>
+> **Cosa devi fare.** La card **#199**: guardare la fatturazione di Supabase, riaccendere i due
+> progetti (o scrivermi «ok 199»), e decidere sul piano Pro, circa 35 dollari al mese. Subito dopo
+> vengono la **#154** (le chiavi che mancano su Vercel: ne vedo solo quattro) e la **#168** (il server).
+>
+> **Cosa non ho verificato.** Il giorno della pausa e se la causa è la poca attività o una fattura
+> scoperta. Se il server è acceso. I numeri di business dopo il 1° settembre.
 
 > 🔒 **2026-09-07 22:35 — Sulla carta #177 ho fatto tutto quello che era mio. Resta un interruttore, ed è tuo.**
 >
@@ -547,6 +569,10 @@ leggono questa tabella invece di inventare un numero.
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
 se l'attività è ferma.
 
+**10/10 09:40: non li ho potuti rimisurare.** Il database del sito è in pausa (card #199): finché dorme,
+questa tabella resta quella del 1/9. Lo stallo del primo ordine pagato è di 108 giorni dal 24/6, se fra il
+1/9 e la pausa non è arrivato niente: non lo posso vedere.
+
 | Numero | Oggi (1/9 11:12) | Δ vs 31/8 20:58 | "Riuscito" | Note |
 |---|---|---|---|---|
 | Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 1/9 11:12 |
@@ -558,7 +584,7 @@ se l'attività è ferma.
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
 | Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Un equivoco chiarito: ieri il totale "8 profili" aveva fatto scattare un giro pieno. Non era un cliente nuovo. Erano 5 acquirenti, 1 rider, 1 negozio, 1 admin. Il conteggio è di TUTTI i profili, non dei soli clienti |
 | **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | = (invariato, ora 217 giri ciechi dal 30/7) | 200 | Dato dal sensore `verifica-sensori.mjs`. Girato da giro.sh l'1/9, ultima volta alle 11:32, tre tentativi. Non riverificato con un check diretto in questo passaggio: il comando era bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
+| **Sito pubblico** | **home 200, controllo 503** (misurato 10/10 08:57) | ▲ la home ora risponde dal dominio vero | 200 | Il dominio è su Vercel dal 6/9. Il controllo `/api/health` risponde 503 perché il database del sito è in pausa: è la card #199 |
 
 ---
 

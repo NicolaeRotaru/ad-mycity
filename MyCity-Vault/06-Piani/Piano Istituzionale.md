@@ -2,8 +2,8 @@
 
 <!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
 > 🗓️ **Ultimo aggiornamento: 2026-06-25 12:34** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
-> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 20:22, e non è una revisione del piano.*
-<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-10-10 09:45, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-10-10 09:45"} -->
 <!-- 🗓️ AD-DATA:END -->
 
 <!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
@@ -196,9 +196,10 @@ Questa è la sezione che trasforma la relazione istituzionale in **fatturato**. 
 #istituzionale #bandi #relazioni #piacenza #priorità/alta
 
 <!-- 🤖 AD-AGGIORNAMENTO:START · non scrivere qui dentro: lo rigenera l'AD a ogni giro -->
-## 🤖 Aggiornamento dell'AD — 2026-07-20 20:22
+## 🤖 Aggiornamento dell'AD — 2026-10-10 09:45
 > Proposte 🟡 dall'auto-analisi (radar / Intelligence / briefing). NON riscrivono il piano sopra: spunti da validare.
-- **PI26 sportello APERTO fino 30/7 ore 16:00** — se non inviata, priorità alta (🔴 #bandi-cciaa-2007). Fonte: [Camcom Emilia PI26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26)
-- **North Star 0** — ordine test PQ stasera prima di qualsiasi altra leva istituzionale in pitch negozi.
-- **Bando ER FESR: CHIUSO 23/6** — non citare (registro-fatti).
+- **Bando rifiuti del Comune, 400.000 €, chiude il 23/10** e Pane Quotidiano ha i requisiti. Messaggio pronto per il fornaio nella card #200, lo manda Nicola. Fonte: [pagina del Comune](https://www.comune.piacenza.it/it/news/incentivi-rifiuti).
+- **Fondo del Comune per piazza Cittadella e piazza Casali, 8.200 €**: solo per chi si affaccia su quelle piazze, non per Pane Quotidiano. Serve come segnale per il mercato coperto, non come leva per una mail al Comune.
+- **Nessun bando nuovo utile** aperto per ottobre-novembre. Nel buco di settembre si è aperto e chiuso «Digital Export» delle Camere di Commercio: solo manifattura.
+- **Regola nuova da passare ai testi:** dal 7/4 «artigianale» solo per chi è iscritto all'Albo delle imprese artigiane, multa minima 25.000 €. Parere da chiedere a @legale-privacy.
 <!-- 🤖 AD-AGGIORNAMENTO:END -->

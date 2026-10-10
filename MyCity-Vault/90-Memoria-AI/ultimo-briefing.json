@@ -1,33 +1,61 @@
 {
-  "data": "2026-09-03 01:01",
-  "situazione": "Visita su richiesta di Nicola («come siamo messi?»). Marketplace: CI verde su main e pubblicazione Vercel del 2/9 21:35 riuscita, ma in produzione manca ancora la chiave di servizio del database (errore su /api/track alle 21:00 del 2/9), il dominio non è collegato a Vercel e il database è indietro di 20 migrazioni su 145 (era 4 il 31/8). Il fornaio ha il conto Stripe ma incassi e versamenti sono spenti. Business invariato: 1 ordine mai pagato, stallo North Star 71 giorni. Macchina: il worker del VPS è vivo (battito 00:58) e il 2/9 ha fatto i 4 playbook, ma dal 1/9 12:15 non pubblica più la memoria: il giro muore sul conflitto di 8 file con origin/main (6 giri falliti su 9 dal 22/8). Per questo git, il Pannello e l'allarme esterno (issue #863) lo vedono fermo da 37 ore.",
+  "data": "2026-10-10 09:45",
+  "situazione": "Il sito non può vendere e la macchina è ferma, per la stessa causa: su Supabase (piano gratuito) il database del sito e quello della memoria sono in pausa. Il sito risponde dal dominio vero ma resta su «Stiamo caricando…» e il suo controllo dice 503. La macchina non lascia una traccia automatica dal 1° settembre (39 giorni). I numeri di business non si possono rimisurare: l'ultima misura, del 1/9, diceva 1 negozio vero, 1 ordine mai pagato, 0 clienti nuovi. La mossa n.1 è riaccendere i due database (card #199).",
   "opportunita": [
     {
-      "titolo": "Il sito è servito da Vercel: appena entrano le chiavi si può fare la prova del catalogo in incognito",
-      "motivo": "tre persone lo hanno usato il 2/9 alle 21:00; il fix del catalogo invisibile (#244) è in produzione dal 28/8 ma nessuno l'ha ancora verificato dal vivo",
+      "titolo": "Il piano che non fa addormentare i database costa meno di quanto avevi messo in conto",
+      "motivo": "Supabase Pro per due progetti viene circa 35 dollari al mese (prezzi letti sulla documentazione Supabase), contro i 50 € al mese per Supabase che avevi confermato il 20/7. Porta anche le copie di sicurezza giornaliere che oggi mancano (card #134).",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "La finestra del Natale si gioca entro metà novembre",
+      "motivo": "Il piano ferma l'inserimento di negozi nuovi a dicembre, e l'anno scorso il mercatino in piazza Cavalli partiva il 22/11. Ogni settimana di sito fermo fra ottobre e novembre è tolta alla stagione più ricca.",
+      "impatto": "alto",
+      "sforzo": "medio"
+    },
+    {
+      "titolo": "Una richiesta di unione del sito è pronta e verde: rende affidabili i controlli e toglie un finto backup",
+      "motivo": "La #255 sul repo del sito ha 15 controlli su 15 verdi dal 9/9 e si unisce senza conflitti. Per far uscire davvero la copia notturna del database serve anche incollare su GitHub l'indirizzo del Session pooler di Supabase.",
       "impatto": "medio",
       "sforzo": "basso"
+    },
+    {
+      "titolo": "Il mercato coperto è il primo dei segmenti di ottobre",
+      "motivo": "È l'unico dei tre con un segnale esterno verificato: il cantiere di piazza Cittadella toglie passaggio, e il Comune ha un fondo da 8.200 € per le attività colpite.",
+      "impatto": "medio",
+      "sforzo": "medio"
     }
   ],
   "azioni": [
     {
-      "titolo": "Metti le chiavi mancanti su Vercel: senza, un pagamento riuscito non diventa un ordine",
-      "motivo": "card #154 — l'errore «Service role Supabase non configurato» è ancora nei log del 2/9 21:00",
+      "titolo": "Riaccendi i due database su Supabase, dopo aver guardato la fatturazione",
+      "motivo": "È la card #199. Tutti e due i database risultano in pausa dalle 08:56. Senza, il sito non vende e la macchina non lavora. Supabase lascia 90 giorni dalla pausa per riaccenderli con un clic.",
       "livello": "rosso"
     },
     {
-      "titolo": "Sposta il dominio del sito su Vercel",
-      "motivo": "card #155 — il progetto Vercel ha solo i domini vercel.app; il dominio pubblico punta ancora al vecchio server",
+      "titolo": "Metti su Vercel le chiavi che mancano al sito: ne vedo solo quattro",
+      "motivo": "È la card #154. Mancano la chiave di servizio del database, quelle di Stripe e quella della posta. Senza, il sito mostra i prodotti ma non registra un ordine.",
       "livello": "rosso"
     },
     {
-      "titolo": "Applica al database le 20 migrazioni mancanti",
-      "motivo": "card #184 — erano 4 il 31/8; i blocchi 130-150 sono entrati in main l'1/9 e il controllo di deriva non gira perché manca il segreto SUPABASE_DB_URL",
+      "titolo": "Guarda se il server della macchina è acceso e pagato",
+      "motivo": "È la card #168. Nessuna traccia automatica dal 1/9 alle 12:15. Da qui il server non lo raggiungo.",
       "livello": "rosso"
     },
     {
-      "titolo": "Sul server, pubblica i lavori fermi dal 1/9 con i tre comandi della card #168",
-      "motivo": "il worker è vivo ma il giro muore sul conflitto con origin/main: il ramo lo unisco io in PR",
+      "titolo": "Porta il database del sito al passo del codice",
+      "motivo": "È la card #191. Si fa dopo la riaccensione. La procedura provata sta nel repo del sito.",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Fai attivare i pagamenti con la carta a Pane Quotidiano",
+      "motivo": "È la card #182. L'unico negozio vero ha incassi e versamenti spenti dal 10/8.",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Avvisa il fornaio del bando rifiuti del Comune, che chiude il 23 ottobre",
+      "motivo": "È la card #200. Pane Quotidiano ha i requisiti e i soldi vanno a chi chiede per primo. Il messaggio è pronto.",
       "livello": "rosso"
     }
   ]
