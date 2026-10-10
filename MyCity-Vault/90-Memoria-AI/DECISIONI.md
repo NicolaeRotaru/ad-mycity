@@ -5324,3 +5324,6 @@ non poteva lavorare. La diagnosi completa sta in `consegne/salute/2026-10-10-dat
 **Una cosa da tenere d'occhio.** Poco prima Nicola aveva scritto di aver pagato l'abbonamento di
 Supabase. Alle 09:39 però l'organizzazione «mycity.inizioditutto» risultava ancora sul piano
 gratuito. Se resta così, i due database si riaddormentano dopo circa una settimana di poca attività.
+
+**Esito, 2026-10-10 12:05.** Tutti e due i progetti erano attivi alle 10:16. Il sito però risponde ancora 503:
+non per il database, ma perché i suoi lavori automatici non girano dal 30 luglio. È la card #154.

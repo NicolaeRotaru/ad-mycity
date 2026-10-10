@@ -1,16 +1,7 @@
 {
-  "data": "2026-10-10 09:45",
-  "sintesi": "Il 23 luglio avevi detto che dopo il 1° settembre ti saresti concentrato solo sul business, e il piano dei segmenti mette a ottobre ottiche, estetiste e mercato coperto. Dalla memoria non risulta niente di tuo dopo il 9 settembre, l'ultimo lavoro unito su GitHub. Oggi qualunque mossa sui negozi aspetta la stessa cosa: riaccendere i due database e rimettere le chiavi al sito, senza i quali nessuno può comprare. Le tue mosse, quindi, partono da lì.",
+  "data": "2026-10-10 12:05",
+  "sintesi": "I due database sono di nuovo accesi grazie al tuo «ok 199». Il business resta fermo come a settembre: un negozio vero, nessun ordine pagato. Prima di poter vendere servono tre tue mosse: le chiavi del sito su Vercel, togliere il negozio di prova e riaccendere il server della macchina. Il piano dei segmenti mette a ottobre ottiche, estetiste e mercato coperto: tutto aspetta che il sito venda.",
   "prossime_mosse": [
-    {
-      "titolo": "Riaccendi i due database e decidi sul piano Pro",
-      "quando": "oggi: ogni giorno in pausa è un giorno senza vendite, e la finestra per riaccenderli con un clic è di 90 giorni",
-      "come": "Supabase → organizzazione mycity.inizioditutto → Billing, poi Resume project su «Mycity» e «ad-mycity»; oppure «ok 199» e lo faccio io",
-      "priorita": "alta",
-      "ad_prepara": "diagnosi con le prove in consegne/salute/2026-10-10-database-in-pausa.md; ricontrollo del sito e dei numeri appena rispondono",
-      "senior": "@devops-sre",
-      "colore": "🔴"
-    },
     {
       "titolo": "Rimetti al sito le chiavi che mancano su Vercel",
       "quando": "subito dopo i database",
@@ -18,6 +9,15 @@
       "priorita": "alta",
       "ad_prepara": "elenco delle variabili che mancano, letto oggi; dopo il nuovo deploy rileggo il controllo di salute del sito",
       "senior": "@devops-sre",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Togli dalla vetrina il negozio di prova",
+      "quando": "subito, prima che arrivi un cliente",
+      "come": "card #201: dimmi se l'hai creato tu, e con «ok 201» preparo il comando",
+      "priorita": "alta",
+      "ad_prepara": "il comando pronto per toglierlo dalla vetrina, senza cancellare niente",
+      "senior": "@trust-safety",
       "colore": "🔴"
     },
     {
@@ -63,9 +63,9 @@
   ],
   "serve_da_nicola": [
     {
-      "ambito": "infrastruttura",
-      "cosa_manca": "Perché i database sono in pausa: poca attività o una fattura scoperta",
-      "domanda_per_nicola": "Su Supabase, alla voce Billing, c'è una fattura non pagata o una carta scaduta? Me lo dici con un sì o un no."
+      "ambito": "negozio di prova",
+      "cosa_manca": "Chi ha creato «Panificio Demo» il 5 settembre",
+      "domanda_per_nicola": "L'hai creato tu? Se è una prova, lo tolgo dalla vetrina con «ok 201»."
     },
     {
       "ambito": "costi",

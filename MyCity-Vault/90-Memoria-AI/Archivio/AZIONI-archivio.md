@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-10 09:06
+aggiornato: 2026-10-10 12:03
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-10 12:03 · 37 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -1149,8 +1156,6 @@ chiudo gli altri quattro, e in ognuno scrivo il perché.
 
 ---
 
----
-
 ### ✅ #155 — ~~Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56~~ → GIÀ FATTA
 
 **Chiusa dall'AD, non decisa da Nicola: era già vera.** Il dominio è su Vercel: il progetto `mycity` elenca `mycity-marketplace.com` e `www.mycity-marketplace.com`, e il 2026-10-10 alle 08:56 l'indirizzo principale ha risposto da Vercel (308 verso www, poi 200 con la vetrina). Letto con lo strumento Vercel. Chiusa 2026-10-10 09:25.
@@ -1186,3 +1191,19 @@ dà pubblicamente per i domini principali, e combacia con la storia (Render non 
 dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so chi gestisce davvero
 il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
 cambiato.
+
+---
+
+### ✅ #199 — ~~Riaccendi i due database: Supabase li ha messi in pausa, e il sito non può vendere · ⏳ accodata 2026-10-10 09:30~~ → FATTA con «ok 199»
+
+**Fatta dall'AD con la firma di Nicola.** Riaccensione chiesta alle 09:39; alle 10:16 tutti e due i progetti risultavano attivi (ACTIVE_HEALTHY, letto con lo strumento Supabase). Resta da guardare: alle 11:58 l'organizzazione risultava ancora sul piano gratuito.
+
+**In parole semplici.** Il database del sito e quello della memoria della macchina sono tutti e due in pausa. Il sito si apre, ma resta su «Stiamo caricando…» e la sua pagina di controllo risponde 503. La Cabina si apre, ma non sa più niente.
+
+**Cosa cambia:** finché restano in pausa nessuno può comprare, e la macchina non lavora. Supabase tiene la riaccensione a un clic per 90 giorni dalla pausa, poi serve rimontare una copia a mano.
+
+**Cosa devi fare tu.** ① su supabase.com, organizzazione «mycity.inizioditutto» → Billing: guarda se c'è una fattura scoperta; ② riaccendi i progetti «Mycity» e «ad-mycity» (Resume project), oppure scrivimi «ok 199» e lo faccio io; ③ decidi se passare al piano Pro, circa 35 dollari al mese per tutti e due: non si addormentano più e arrivano le copie di sicurezza. Io farei tutti e tre.
+
+**Se va bene:** ricontrollo sito e catalogo, rimisuro i numeri veri, e passiamo alle card #191 e #154.
+
+**Cosa non ho verificato:** il giorno della pausa (lo dice la mail di Supabase) e se la causa è la poca attività o una fattura. Tutto il resto, con le prove: `consegne/salute/2026-10-10-database-in-pausa.md`.

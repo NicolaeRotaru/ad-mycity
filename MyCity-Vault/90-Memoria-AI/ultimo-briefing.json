@@ -1,13 +1,7 @@
 {
-  "data": "2026-10-10 09:45",
-  "situazione": "Il sito non può vendere e la macchina è ferma, per la stessa causa: su Supabase (piano gratuito) il database del sito e quello della memoria sono in pausa. Il sito risponde dal dominio vero ma resta su «Stiamo caricando…» e il suo controllo dice 503. La macchina non lascia una traccia automatica dal 1° settembre (39 giorni). I numeri di business non si possono rimisurare: l'ultima misura, del 1/9, diceva 1 negozio vero, 1 ordine mai pagato, 0 clienti nuovi. La mossa n.1 è riaccendere i due database (card #199).",
+  "data": "2026-10-10 12:05",
+  "situazione": "I due database sono di nuovo accesi: li ho riaccesi con la tua firma, alle 10:16 erano attivi. I numeri veri, riletti alle 11:58, dicono che il business è fermo come a settembre: 1 negozio vero, 0 ordini pagati, 108 giorni dall'unico ordine. Il sito però non vende ancora: su Vercel mancano le chiavi, e i 10 lavori automatici non girano dal 30 luglio. Dal 5 settembre c'è anche un «Panificio Demo» approvato. Il server della macchina non prende lavori dal 7 ottobre.",
   "opportunita": [
-    {
-      "titolo": "Il piano che non fa addormentare i database costa meno di quanto avevi messo in conto",
-      "motivo": "Supabase Pro per due progetti viene circa 35 dollari al mese (prezzi letti sulla documentazione Supabase), contro i 50 € al mese per Supabase che avevi confermato il 20/7. Porta anche le copie di sicurezza giornaliere che oggi mancano (card #134).",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
     {
       "titolo": "La finestra del Natale si gioca entro metà novembre",
       "motivo": "Il piano ferma l'inserimento di negozi nuovi a dicembre, e l'anno scorso il mercatino in piazza Cavalli partiva il 22/11. Ogni settimana di sito fermo fra ottobre e novembre è tolta alla stagione più ricca.",
@@ -29,33 +23,33 @@
   ],
   "azioni": [
     {
-      "titolo": "Riaccendi i due database su Supabase, dopo aver guardato la fatturazione",
-      "motivo": "È la card #199. Tutti e due i database risultano in pausa dalle 08:56. Senza, il sito non vende e la macchina non lavora. Supabase lascia 90 giorni dalla pausa per riaccenderli con un clic.",
+      "titolo": "Metti su Vercel le chiavi che mancano al sito",
+      "motivo": "È la card #154. Senza la chiave di servizio del database il sito non registra un ordine. Senza CRON_SECRET i 10 lavori automatici non girano dal 30 luglio.",
       "livello": "rosso"
     },
     {
-      "titolo": "Metti su Vercel le chiavi che mancano al sito: ne vedo solo quattro",
-      "motivo": "È la card #154. Mancano la chiave di servizio del database, quelle di Stripe e quella della posta. Senza, il sito mostra i prodotti ma non registra un ordine.",
+      "titolo": "Togli dalla vetrina il negozio di prova «Panificio Demo»",
+      "motivo": "È la card #201. È approvato dal 5 settembre, con 4 prodotti, e compare accanto ai negozi veri.",
       "livello": "rosso"
     },
     {
-      "titolo": "Guarda se il server della macchina è acceso e pagato",
-      "motivo": "È la card #168. Nessuna traccia automatica dal 1/9 alle 12:15. Da qui il server non lo raggiungo.",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Porta il database del sito al passo del codice",
-      "motivo": "È la card #191. Si fa dopo la riaccensione. La procedura provata sta nel repo del sito.",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Fai attivare i pagamenti con la carta a Pane Quotidiano",
-      "motivo": "È la card #182. L'unico negozio vero ha incassi e versamenti spenti dal 10/8.",
+      "titolo": "Riaccendi il server della macchina, e prima decidi cosa fare dei 31 lavori in coda",
+      "motivo": "È la card #168. L'ultimo lavoro preso è del 7 ottobre alle 15:37.",
       "livello": "rosso"
     },
     {
       "titolo": "Avvisa il fornaio del bando rifiuti del Comune, che chiude il 23 ottobre",
-      "motivo": "È la card #200. Pane Quotidiano ha i requisiti e i soldi vanno a chi chiede per primo. Il messaggio è pronto.",
+      "motivo": "È la card #200. Il messaggio è pronto.",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Porta il database del sito al passo del codice",
+      "motivo": "È la card #191. Adesso che il database è acceso si può fare.",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Fai attivare i pagamenti con la carta a Pane Quotidiano",
+      "motivo": "È la card #182.",
       "livello": "rosso"
     }
   ]

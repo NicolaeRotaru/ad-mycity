@@ -7,6 +7,8 @@ card: "#199 in AZIONI-IN-ATTESA"
 
 # I due database sono in pausa: per questo il sito non vende e la macchina tace
 
+> ✅ **Esito, 2026-10-10 12:05.** Riaccesi con «ok 199»: alle 10:16 tutti e due erano attivi. Restano le chiavi su Vercel, nella card #154, e il server, nella card #168.
+
 **In due righe.** Supabase ha messo in pausa il database del sito e quello della macchina. Si
 riaccendono con un clic dal suo pannello, oppure lo faccio io se mi scrivi «ok 199».
 

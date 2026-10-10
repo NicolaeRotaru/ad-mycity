@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-10 09:06** — Automatico: **96 aperte · 36 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-10 12:03** — Automatico: **98 aperte · 37 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -31,6 +31,20 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
+
+**In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
+
+**Cosa cambia:** la home promette «negozi veri di Piacenza». Un cliente può ordinare da un forno che non esiste.
+
+**Cosa devi fare tu.** Dirmi se l'hai creato tu. Se è una prova, scrivimi «ok 201» e preparo il comando che lo toglie dalla vetrina.
+
+**Se va bene:** nel catalogo restano solo i 5 prodotti di Pane Quotidiano.
+
+**Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
+
+---
+
 ### 🔴 #200 — Avvisa il fornaio: il Comune paga una parte della differenziata, ma il bando chiude il 23 ottobre · ⏳ accodata 2026-10-10 09:40
 
 **In parole semplici.** Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata: compostiere, meno usa e getta, meno sprechi. Pane Quotidiano ha i requisiti, e i soldi vanno a chi chiede per primo.
@@ -42,20 +56,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Se va bene:** al prossimo giro guardo se il fornaio ha fatto la domanda.
 
 **Cosa non ho verificato:** se nel fondo restano soldi.
-
----
-
-### 🔴 #199 — Riaccendi i due database: Supabase li ha messi in pausa, e il sito non può vendere · ⏳ accodata 2026-10-10 09:30 · ▶️ in corso: «ok 199» di Nicola, riaccensione chiesta alle 09:39
-
-**In parole semplici.** Il database del sito e quello della memoria della macchina sono tutti e due in pausa. Il sito si apre, ma resta su «Stiamo caricando…» e la sua pagina di controllo risponde 503. La Cabina si apre, ma non sa più niente.
-
-**Cosa cambia:** finché restano in pausa nessuno può comprare, e la macchina non lavora. Supabase tiene la riaccensione a un clic per 90 giorni dalla pausa, poi serve rimontare una copia a mano.
-
-**Cosa devi fare tu.** ① su supabase.com, organizzazione «mycity.inizioditutto» → Billing: guarda se c'è una fattura scoperta; ② riaccendi i progetti «Mycity» e «ad-mycity» (Resume project), oppure scrivimi «ok 199» e lo faccio io; ③ decidi se passare al piano Pro, circa 35 dollari al mese per tutti e due: non si addormentano più e arrivano le copie di sicurezza. Io farei tutti e tre.
-
-**Se va bene:** ricontrollo sito e catalogo, rimisuro i numeri veri, e passiamo alle card #191 e #154.
-
-**Cosa non ho verificato:** il giorno della pausa (lo dice la mail di Supabase) e se la causa è la poca attività o una fattura. Tutto il resto, con le prove: `consegne/salute/2026-10-10-database-in-pausa.md`.
 
 ---
 
@@ -738,6 +738,10 @@ chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira su
 > **Cosa devi fare:** prima la #199. Poi, dalla console Hetzner, guarda se il server è acceso e pagato;
 > se è acceso, valgono i quattro comandi qui sopra. **Cosa non ho verificato:** se è acceso. Da qui non lo raggiungo.
 
+> 🔄 **Aggiornamento 2026-10-10 12:05 — con la memoria riaccesa si vede di più.** Il server ha lavorato fino al 28/9;
+> l'ultimo lavoro l'ha preso il 7/10 alle 15:37 ed è rimasto «in corso». Oggi alle 11:00 la Cabina ha accodato 5 lavori
+> nuovi: in coda adesso sono 31, e nessuno li prende. Prima di riaccendere il server, decidi se svuotare i vecchi.
+
 ---
 
 ### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
@@ -1039,6 +1043,10 @@ perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce cos
 > `mycity` ha quattro variabili: l'indirizzo e la chiave pubblica del database, e le due anti-robot.
 > Le obbligatorie di questa card non ci sono. Unico dubbio: le variabili condivise del team, che da qui
 > non leggo. Questa card viene subito dopo la #199: senza, riaccendere il database non basta per vendere.
+
+> 🔄 **12:05 — c'è una conseguenza in più.** I 10 lavori automatici del sito (email, versamenti ai negozi,
+> carrelli abbandonati) non lasciano traccia dal 30 luglio, il giorno di Render. Fra le quattro variabili manca
+> anche `CRON_SECRET`, la chiave che quei lavori devono presentare.
 
 ---
 
@@ -2986,5 +2994,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 36.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 37.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

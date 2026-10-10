@@ -662,3 +662,7 @@ Esempi:
 - 2026-10-10 09:45 · @intelligence · FACCIO · Radar dopo 39 giorni di buco: meteo, eventi, concorrenti, commercio locale, bandi.
 - 2026-10-10 09:18 · @intelligence · FATTO · Radar dopo 39 giorni: nessuna mossa dei concorrenti a Piacenza, Natale non ancora annunciato, bando rifiuti del Comune aperto fino al 23/10 e utile a Pane Quotidiano, nuova regola sulla parola «artigianale». Aggiornati i tre file Intelligence.
 - 2026-10-10 09:40 · @account-negozi · PASSO-A · Accodata la card 🔴 #200: messaggio pronto per il fornaio sul bando rifiuti, lo manda Nicola.
+- 2026-10-10 09:39 · @devops-sre · FATTO · Con «ok 199» di Nicola chiesta la riaccensione dei due database; alle 10:16 erano attivi.
+- 2026-10-10 11:58 · @analista · FATTO · Numeri riletti dal database: 1 negozio vero, 1 ordine (24/6, annullato), 0 pagati, 0 clienti nuovi in 7 giorni, 407 contatti di negozi. Trovato un «Panificio Demo» approvato dal 5/9 con 4 prodotti.
+- 2026-10-10 11:59 · @devops-sre · FATTO · Il controllo del sito resta 503: i 10 lavori automatici non lasciano traccia dal 30/7 e su Vercel manca CRON_SECRET. Il server della macchina non prende lavori dal 7/10: 31 in coda.
+- 2026-10-10 12:05 · @ad · PASSO-A · Card #199 chiusa e archiviata; card 🔴 #201 nuova (negozio di prova); aggiornate #154 e #168.

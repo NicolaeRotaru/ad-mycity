@@ -1,10 +1,29 @@
 ---
 tipo: stato
-aggiornato: 2026-10-10 09:40
+aggiornato: 2026-10-10 12:05
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> ✅ **2026-10-10 12:05 — I due database sono di nuovo accesi. Il sito però non vende ancora, e la macchina resta ferma.**
+>
+> **In parole semplici.** Hai scritto «ok 199» e ho riacceso il database del sito e quello della memoria:
+> alle 10:16 erano attivi. Così ho potuto rileggere i numeri veri. Il business è fermo come a settembre:
+> un solo negozio vero, nessun ordine pagato.
+>
+> **Un esempio concreto.** L'unico ordine resta quello del 24 giugno, annullato: sono 108 giorni. Dal 5
+> settembre c'è un secondo negozio, «Panificio Demo», con 4 prodotti: è approvato, quindi compare accanto
+> a Pane Quotidiano.
+>
+> **Cosa cambia per te.** Restano tre cose prima di poter vendere. Su Vercel mancano le chiavi del sito: senza,
+> non si registra un ordine e i 10 lavori automatici non girano dal 30 luglio. Il negozio di prova va tolto.
+> E il server della macchina non prende lavori dal 7 ottobre.
+>
+> **Cosa devi fare.** Tre card, in quest'ordine: la **#154**, poi la **#201**, poi la **#168**.
+>
+> **Cosa non ho verificato.** Perché l'organizzazione Supabase risulta ancora sul piano gratuito, se il
+> server è acceso, e il sito da un browser vero.
 
 > 🛑 **2026-10-10 09:40 — Il sito non può vendere e la macchina è ferma: i due database sono in pausa.**
 >
@@ -561,30 +580,26 @@ fonte: AD digitale (giro, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database. L'ho fatta l'1 settembre alle 11:12, con query
-dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
+vengono dall'ultima lettura vera del database. L'ho fatta il 10 ottobre alle 11:58, dopo la riaccensione,
+con query dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
 leggono questa tabella invece di inventare un numero.
 
 **Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto. Archiviando le voci
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
 se l'attività è ferma.
 
-**10/10 09:40: non li ho potuti rimisurare.** Il database del sito è in pausa (card #199): finché dorme,
-questa tabella resta quella del 1/9. Lo stallo del primo ordine pagato è di 108 giorni dal 24/6, se fra il
-1/9 e la pausa non è arrivato niente: non lo posso vedere.
-
-| Numero | Oggi (1/9 11:12) | Δ vs 31/8 20:58 | "Riuscito" | Note |
+| Numero | Oggi (10/10 11:58) | Δ vs 1/9 11:12 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 1/9 11:12 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | I profili `role='seller'` approvati sono 2: il secondo è «Panificio Demo», creato il 5/9, con 4 prodotti. Non è un negozio vero: card #201 |
 | Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18+ giorni fermo su questo stesso quadro |
-| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 1/9 11:12. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | query diretta 10/10 11:58. In tutto i prodotti disponibili sono 9: gli altri 4 sono del negozio di prova |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 11:12, query MCP diretta) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **108 giorni** dal 24/6 (query diretta 10/10 11:58). Ordini negli ultimi 7 giorni: 0 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Un equivoco chiarito: ieri il totale "8 profili" aveva fatto scattare un giro pieno. Non era un cliente nuovo. Erano 5 acquirenti, 1 rider, 1 negozio, 1 admin. Il conteggio è di TUTTI i profili, non dei soli clienti |
-| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **home 200, controllo 503** (misurato 10/10 08:57) | ▲ la home ora risponde dal dominio vero | 200 | Il dominio è su Vercel dal 6/9. Il controllo `/api/health` risponde 503 perché il database del sito è in pausa: è la card #199 |
+| Nuovi clienti reali (7gg) | **0 acquirenti** | = | crescita | Query diretta 10/10 11:58: 5 acquirenti in tutto, nessuno nuovo negli ultimi 7 giorni. Profili totali 9: il nono è il negozio di prova. |
+| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | riletto il 10/10 11:58 (tabella `merchants_leads`) |
+| **Sito pubblico** | **home 200, controllo 503** (misurato 10/10 11:59, database acceso) | ▲ la home risponde dal dominio vero | 200 | Il controllo dice «battiti non leggibili»: i 10 lavori automatici del sito non lasciano traccia dal 30/7, e su Vercel manca `CRON_SECRET`. È la card #154 |
 
 ---
 
