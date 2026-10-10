@@ -5311,3 +5311,16 @@ rientrando nelle impostazioni, cioè solo lui.
 **La lezione, in una riga.** Un guardiano puntato su una casa sola non dice «l'altra sta bene»: non
 dice niente, e il niente si legge come un verde. Vale per ogni strumento di questa macchina che
 guarda il repo della macchina e non quello del sito.
+
+## 2026-10-10 09:39 — 🔴 Riaccesi i due database, con la firma di Nicola («ok 199»)
+
+**Cosa.** Nicola ha scritto «ok 199». Ho chiesto a Supabase di riaccendere i due progetti in pausa:
+«Mycity», cioè il database del sito, e «ad-mycity», cioè la memoria della macchina. Supabase ha
+risposto che la richiesta è accettata. Alle 09:40 tutti e due risultavano «in accensione».
+
+**Perché.** Erano in pausa da settimane. Finché dormivano, il sito non poteva vendere e la macchina
+non poteva lavorare. La diagnosi completa sta in `consegne/salute/2026-10-10-database-in-pausa.md`.
+
+**Una cosa da tenere d'occhio.** Poco prima Nicola aveva scritto di aver pagato l'abbonamento di
+Supabase. Alle 09:39 però l'organizzazione «mycity.inizioditutto» risultava ancora sul piano
+gratuito. Se resta così, i due database si riaddormentano dopo circa una settimana di poca attività.

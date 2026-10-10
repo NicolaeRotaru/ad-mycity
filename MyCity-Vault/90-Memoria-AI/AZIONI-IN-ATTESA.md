@@ -45,7 +45,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #199 — Riaccendi i due database: Supabase li ha messi in pausa, e il sito non può vendere · ⏳ accodata 2026-10-10 09:30
+### 🔴 #199 — Riaccendi i due database: Supabase li ha messi in pausa, e il sito non può vendere · ⏳ accodata 2026-10-10 09:30 · ▶️ in corso: «ok 199» di Nicola, riaccensione chiesta alle 09:39
 
 **In parole semplici.** Il database del sito e quello della memoria della macchina sono tutti e due in pausa. Il sito si apre, ma resta su «Stiamo caricando…» e la sua pagina di controllo risponde 503. La Cabina si apre, ma non sa più niente.
 
