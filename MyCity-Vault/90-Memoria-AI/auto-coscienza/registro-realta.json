@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📒 REGISTRO DI REALTÀ — la fonte di verità dell'AD. L'auto-analisi (cervello/auto-analisi.md) fonda OGNI entità DA SOLA prima di disturbare Nicola, in 3 strade: (a) nei dati reali → confermato; (b) scelta ragionata della macchina con prove verificabili → scelta_ragionata (legittima, si mostra il perché); (c) nessun fondamento → da_verificare (il vero 'inventato', si blocca). Schema in cervello/auto-coscienza.md.",
-  "aggiornato": "2026-09-01 06:55",
+  "aggiornato": "2026-10-10 12:05",
   "_nota_giro_01_09_0655": "Terzo passaggio in 10 ore (dopo il piano del mattino 06:25 e la doppia riconferma di ieri sera 21:05/22:50). Riconfermato con query dirette via MCP (`execute_sql`): 1 ordine totale, 0 pagati, ultimo 2026-06-24 CANCELED, 0 nuovi profili negli ultimi 7 giorni, 1 negozio con vetrina (Pane Quotidiano), 5 prodotti tutti `status='available'` — bit-per-bit identico al giro del 31/8 22:50. Nessuna entità nuova, nessun declassamento. Unica novità propagata (non riverificata in prima persona, ereditata da SALA-OPERATIVA 06:25 di oggi): la causa del sito HTTP 503 è ora precisa — dominio su Render + 2 env Vercel mancanti, non più 'server fermo' generico. North-Star gate + letargo RISPARMIO: nessuna ricerca/lavoro nuovo sulla macchina, solo verifica e consolidamento.",
   "_nota_giro_31_08_2105": "Giro di perlustrazione (richiesto in chat). Riconfermato con query dirette via MCP (`execute_sql`): 1 ordine totale, 0 pagati, ultimo 2026-06-24 CANCELED (invariato), 8 profili totali/0 nuovi negli ultimi 7 giorni, 1 negozio con vetrina (Pane Quotidiano, `role='seller'`), 5 prodotti tutti `status='available'` — bit-per-bit identico al giro del 28/8, tranne una novità di CODICE non di cassa: PR #857 (mergiata) ha riparato il bug RLS che azzerava il catalogo per i visitatori senza accesso, non verificabile dal vivo perché il sito resta HTTP 503 (riconfermato con verifica-sensori.mjs, 3 tentativi). Nessuna entità nuova, nessun declassamento. Trovata e corretta un'incoerenza interna in registro-fatti.json (campo `nome` di `cantiere.scadenza-zero` diceva ancora '29 settembre', mai allineato dopo la correzione di Nicola del 23/8 a '29 agosto') — non una nuova entità, una correzione di metadato. North-Star gate + letargo RISPARMIO: nessuna ricerca/lavoro nuovo sulla macchina, solo verifica e consolidamento.",
   "_nota_giro_28_08_1235": "Giro pieno dopo un buco di cadenza (ultimo giro pieno narrato: 24/8 13:15). Riconfermato con query dirette via MCP (`execute_sql`): 1 ordine totale, 0 pagati, ultimo 2026-06-24 CANCELED (invariato), 8 profili totali/0 nuovi negli ultimi 7 giorni (il profilo del 20/8 è uscito dalla finestra dei 7gg — nessuna nuova risposta di Nicola su cosa fosse), 1 negozio con vetrina (Pane Quotidiano), 5 prodotti — tutto invariato tranne il SITO: REGRESSIONE reale, HTTP 503, verificata con due canali indipendenti (verifica-sensori.mjs + WebFetch diretto separato), era su il 24/8. Refutazione vera tentata su 3 claim (dettaglio in auto-analisi.json): tutte e tre sopravvivono. Nessuna entità nuova, nessun declassamento oltre l'aggiornamento della data di ultima verifica sul profilo del 20/8. Contate con grep dirette 85 card 🟡/🔴 aperte in AZIONI-IN-ATTESA (sostituisce la stima stale 99/62 di metà agosto). North-Star gate + letargo RISPARMIO: nessuna ricerca/lavoro nuovo sulla macchina, solo verifica e consolidamento.",
@@ -51,10 +51,26 @@
       "evidenze": [
         "Progetto Supabase reale e separato dal marketplace: ref xjljcsorpbqwttrejqte, org xwbccbdkgcmdudcuxwdc, ACTIVE_HEALTHY, creato 2026-06-28 (verificato live).",
         "Schema applicato e verificato: 5 tabelle (briefings, diario, lavori, conversazioni, impostazioni), RLS attiva su tutte, advisor = solo INFO atteso.",
-        "Scrittura testata: il briefing delle 20:25 è stato inserito nella tabella briefings (id 092ad453-900c-4f23-8397-0f7d0a60419e)."
+        "Scrittura testata: il briefing delle 20:25 è stato inserito nella tabella briefings (id 092ad453-900c-4f23-8397-0f7d0a60419e).",
+        "2026-10-10 08:56: Supabase MCP get_project → status INACTIVE (in pausa); organizzazione sul piano gratuito. La Cabina conferma da sola: /api/cuore dice «la memoria non risponde».",
+        "2026-10-10 10:16: riacceso dall'AD con la firma di Nicola («ok 199») → ACTIVE_HEALTHY (Supabase MCP list_projects)."
       ],
-      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello.",
-      "ultima_verifica": "2026-06-29 11:30"
+      "note": "È il DB-memoria della Cabina, distinto dal marketplace (clmpyfvpvfjgeviworth). Manca solo il wiring Vercel (service key, lato Nicola) per accenderlo nel Pannello. — Era in pausa la mattina del 2026-10-10; riacceso alle 10:16 (card #199, fatta).",
+      "ultima_verifica": "2026-10-10 11:58 (Supabase MCP: ACTIVE_HEALTHY, query dirette riuscite)"
+    },
+    {
+      "nome": "DB Marketplace (progetto Supabase Mycity)",
+      "tipo": "infrastruttura",
+      "stato": "confermato",
+      "fonte": "Supabase MCP → list_projects + get_project (clmpyfvpvfjgeviworth)",
+      "confidenza": 1,
+      "evidenze": [
+        "Progetto reale: ref clmpyfvpvfjgeviworth, regione eu-west-3, Postgres 17, organizzazione xwbccbdkgcmdudcuxwdc (piano gratuito), creato 2026-05-21.",
+        "2026-10-10 08:56: status INACTIVE (in pausa). Effetto misurato sul sito: /api/health → 503 «unhealthy», home ferma sui segnaposto «Stiamo caricando…» (Vercel MCP).",
+        "2026-10-10 10:16: riacceso dall'AD con la firma di Nicola («ok 199») → ACTIVE_HEALTHY (Supabase MCP list_projects)."
+      ],
+      "note": "È il database di produzione del marketplace. Riacceso il 2026-10-10 alle 10:16: i numeri sono stati riletti alle 11:58 (STATO.md).",
+      "ultima_verifica": "2026-10-10 11:58 (Supabase MCP: ACTIVE_HEALTHY, query dirette riuscite)"
     },
     {
       "nome": "Nicola",
@@ -127,7 +143,8 @@
         "🔄 Refresh 9/7 11:15 (dopo prelude giro.sh, sensori 11:07): delta-gate corrente==ultimo_pieno — firma identica (ordini=1 annullato, ultimo 24/6 08:28, clienti=23, dati_leggibili=true); MCP execute_sql + node gated in sessione, nessun numero ri-misurato; nessun ordine nuovo, North Star 0, stallo ~15,5 giorni (~355h). Radar giornaliero (meteo) già coperto LIVE alle 00:20, non ri-aperto a 11h (cadenza rispettata). Loop chiusi per @ad/@intelligence/@analista. Nessuna entità nuova.",
         "🔭 Giro pieno 11/7 08:30: baseline REST 06:20 invariata (ordini=1 annullato, ultimo 24/6 08:28, clienti=23, dati_leggibili=true) — MCP execute_sql non autorizzato in sessione, i 4 numeri non-REST = conferma live 00:30 (7/7); nessun ordine nuovo, North Star 0, stallo ~408h ≈ 17 giorni. Intelligence LIVE: ondata caldo >40°C 15-17/7 → gate catena freddo batch 13/7; VP 17/7 confermato target 1° ordine. CHECKLIST-NICOLA rigenerata (AR-030 chiuso). Nessuna entità nuova.",
         "🔭 Giro 14/7 11:01: REST live — 1 approved (PQ c0b240c0…), 5 prodotti available seller PQ, ordini=1 CANCELED, 0/7g, 23 profili, 250 available; North Star 0, stallo ~497h. Invariato vs 02:48.",
-        "🔭 Giro 12/8 22:43: query diretta MCP execute_sql — ordini=1 (canceled_at 2026-07-03 15:38), pagati=0, profili=7, negozi=1, recensioni=0, carrelli_abbandonati=3, nuovi_clienti_7g=0. IDENTICO al 10/8. North Star 0, stallo 49 giorni (~1176h)."
+        "🔭 Giro 12/8 22:43: query diretta MCP execute_sql — ordini=1 (canceled_at 2026-07-03 15:38), pagati=0, profili=7, negozi=1, recensioni=0, carrelli_abbandonati=3, nuovi_clienti_7g=0. IDENTICO al 10/8. North Star 0, stallo 49 giorni (~1176h).",
+        "2026-10-10: non riverificabile sul database (in pausa). Resta confermato dall'ultima lettura diretta; i pagamenti con carta erano spenti al 24/8."
       ],
       "note": "UNICO negozio reale su MyCity (Via Calzolai 25, contratto 12% firmato 01:02). #16 ANNULLATO (delivery_status=CANCELED, allineamento 6/7 16:15): NON c'è una consegna da eseguire — il 1° ordine reale va CREATO ex-novo (post 'Il Turno' sul VEN 17/7 + SEO vetrina + lista d'attesa, tutto già in coda). Al «1° ordine reale consegnato» (NON #16): payout-test #2 (sandbox), recensione #27, carrello samir #26. Payout ancora OFF (stripe_payouts_enabled=false). Fascicolo pagamenti PQ scoperto incompleto il 10/8: dati mai inviati, incassi/versamenti disattivati dal 15/6 — se un cliente pagasse oggi, il pagamento non partirebbe.",
       "ultima_verifica": "2026-08-24 13:15 (query diretta MCP Supabase: 1 ordine CANCELED, ordini_pagati=0, 8 profili, stripe charges/payouts/details_submitted tutti false, North Star 0, stallo 61 giorni; sito pubblico riverificato in diretta con WebFetch: HTTP 503)"
@@ -444,6 +461,20 @@
       ],
       "note": "Evento cittadino grande OGGI 4/7 → centro pienissimo tutto il giorno: finestra ideale per la consegna a piedi/bici del primo ordine PQ (Via Calzolai 25). Nessun presidio pesante (allocazione + presidi rimandati da Nicola). Spunto editoriale leggero → Piano Editoriale/Notorietà.",
       "ultima_verifica": "2026-07-04 11:30"
+    },
+    {
+      "nome": "Panificio Demo",
+      "tipo": "negozio",
+      "stato": "da_verificare",
+      "fonte": "query diretta sul database del sito, 2026-10-10 11:58 (Supabase MCP)",
+      "confidenza": 0.3,
+      "evidenze": [
+        "profilo role='seller', store_name «Panificio Demo», creato il 2026-09-05 06:40 UTC, approvato nello stesso istante (is_approved=true).",
+        "4 prodotti, tutti disponibili.",
+        "Il nome non compare nel codice del sito né in quello della macchina: chi l'ha creato non è tracciato."
+      ],
+      "note": "Il nome dice «prova», non un forno vero di Piacenza. Non va usato in nessun contenuto né contato fra i negozi veri. Card #201: chiesto a Nicola se l'ha creato lui.",
+      "ultima_verifica": "2026-10-10 11:58"
     }
   ],
   "numeri_da_non_inventare": {
@@ -456,5 +487,7 @@
       "conferma di Nicola"
     ]
   },
-  "_nota_giro_13_08_2130": "AR-577 — sette entità portavano stati fuori contratto (1 «demo» + 6 «escluso»): allineate a «scartato», l unico dei quattro stati ammessi che le descrive. Il perché di ognuna resta nella sua nota. Prima di questa riga i sei ristoranti esclusi da Nicola il 18/7 rientravano nel conteggio dei negozi candidabili di allocazione-check.mjs, che conosceva «demo» ma non «escluso»."
+  "_nota_giro_13_08_2130": "AR-577 — sette entità portavano stati fuori contratto (1 «demo» + 6 «escluso»): allineate a «scartato», l unico dei quattro stati ammessi che le descrive. Il perché di ognuna resta nella sua nota. Prima di questa riga i sei ristoranti esclusi da Nicola il 18/7 rientravano nel conteggio dei negozi candidabili di allocazione-check.mjs, che conosceva «demo» ma non «escluso».",
+  "_nota_giro_10_10_0950": "Giro + visita del 10/10 su richiesta di Nicola. Nessuna entità di business nuova e nessun declassamento. I due database risultano in pausa: aggiunta l'entità del database del sito (confermata come oggetto reale, non raggiungibile). Nessun numero di business rimisurato: con il database in pausa la regola «niente numeri senza fonte» lascia valida solo la base del 1/9.",
+  "_nota_giro_10_10_1205": "Dopo la riaccensione dei database: numeri riletti con query dirette. Nessun negozio vero nuovo; trovato «Panificio Demo», approvato dal 5/9, registrato come da_verificare."
 }

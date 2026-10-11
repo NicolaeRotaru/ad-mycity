@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🎯 CALIBRAZIONE — confronto previsto-vs-reale per reparto. Chi azzecca guadagna autonomia. La riempie cervello/calibrazione.mjs (upgrade U3, anello chiuso). Schema in cervello/auto-coscienza.md.",
   "_review_settimanale_24_07_1600": "REVIEW SETTIMANALE: nessuna previsione nuova nel registro dal 20/7 20:23 (4 giorni) — coerente con la decisione di Nicola del 23/7 di mettere in pausa i playbook di reparto verso negozi/marketing fino al 24/8-1/9 (meno mosse misurabili da prevedere). Ricalcolo confermato sui dati esistenti (35 chiuse, 0 aperte): nessun reparto supera 'autonomia bassa' — @customer-success e @designer hanno il punteggio più alto (1.0 su 1 previsione ciascuno, ma lower_bound 0.38 = ancora troppo poche evidenze per fidarsi); @finanza, @crm-lifecycle, @vendite, @ad restano a 0 (previsioni sistematicamente sbagliate, soprattutto sulle stime numeriche dei playbook — scarti spesso >90%). Nessuna promozione di autonomia questa settimana: il segnale è insufficiente per tutti, non solo per chi sbaglia.",
-  "aggiornato": "2026-09-03 09:55",
+  "aggiornato": "2026-10-10 09:09",
   "per_reparto": [
     {
       "reparto": "@ad",
@@ -153,6 +153,18 @@
       "azzeccate": 0,
       "escluse": 0,
       "non_previsioni": 1,
+      "righe": 1,
+      "quadra": true,
+      "punteggio": 0,
+      "lower_bound": 0,
+      "autonomia": "bassa"
+    },
+    {
+      "reparto": "@devops-sre",
+      "previsioni": 0,
+      "azzeccate": 0,
+      "escluse": 1,
+      "non_previsioni": 0,
       "righe": 1,
       "quadra": true,
       "punteggio": 0,
@@ -903,9 +915,25 @@
       "nota": "Ponte chiusura-loop.mjs registra → calibrazione.mjs da-loop",
       "creato": "2026-07-25 06:29",
       "chiuso_il": "2026-07-25 06:29"
+    },
+    {
+      "id": "CAL-20261010070911-devops",
+      "reparto": "@devops-sre",
+      "azione": "Card #199: riaccendere i due database Supabase",
+      "metrica": "health_sito_200",
+      "atteso": 1,
+      "baseline": 0,
+      "reale": null,
+      "entro": "2026-10-17",
+      "tolleranza": 0.25,
+      "stato": "aperta",
+      "scarto_pct": null,
+      "nota": "",
+      "creato": "2026-10-10 09:09",
+      "chiuso_il": ""
     }
   ],
-  "_nota": "42 chiuse · 0 aperte · 3 banali (escluse dall'autonomia) — registro gestito da calibrazione.mjs.",
+  "_nota": "42 chiuse · 1 aperte · 3 banali (escluse dall'autonomia) — registro gestito da calibrazione.mjs.",
   "promozioni_proposte": {},
   "registro_legacy": [
     {

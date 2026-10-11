@@ -111,7 +111,11 @@ function tronca(s, n) {
   return t.length > n ? t.slice(0, n - 1) + "…" : t;
 }
 
-export function analizza(dati) {
+// AR-958 — `adesso` è l'istante in cui si giudica. Senza, vale l'orologio vero, com'era. Serve a
+// giudicare l'archivio vero nel momento in cui il motore ha lavorato: prima l'unico modo di
+// rifare quel giudizio era aspettare che il motore lavorasse ancora, e a macchina ferma la prova
+// pretendeva un «gira» che sarebbe stato falso.
+export function analizza(dati, { adesso = null } = {}) {
   const tutte = Array.isArray(dati?.lezioni) ? dati.lezioni : [];
   // AR-362 — «vive» arriva dalla porta unica, non da un filtro scritto qui. La definizione è la
   // stessa che usano tasso-lezioni e cristallizza: prima erano tre (476 / 471 / 381) sullo stesso file.
@@ -188,7 +192,7 @@ export function analizza(dati) {
     // confidenza ogni 7 giorni e uccide sotto 0,3: da 0,8 servono più di due mesi per la prima
     // morte. Giudicare il motore dal conto dei morti è come dire che una pentola non scalda perché
     // l'acqua non bolle ancora. Qui si guarda il MOTORE — i passi fatti — e non solo il risultato.
-    const p = passiDecadimento(vive);
+    const p = passiDecadimento(vive, adesso);
     problemi.push(
       p.fermo
         ? `${vive.length} lezioni vive, 0 decadute e nessun passo di decadimento negli ultimi ${GIORNI_PASSO_RECENTE} giorni — il decadimento è FERMO davvero: l'archivio è un cimitero. Va potato.`

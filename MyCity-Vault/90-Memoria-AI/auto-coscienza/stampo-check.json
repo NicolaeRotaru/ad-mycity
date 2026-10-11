@@ -1,24 +1,24 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-09-07 23:44",
+  "aggiornato": "2026-10-11 04:48",
   "origine": "cloud",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
-    "vivi": 27,
+    "vivi": 2,
     "vuoti": 70,
-    "fermi": 23,
+    "fermi": 48,
     "assenti": 0
   },
-  "con_difetti": 101,
-  "senza_difetti": 19,
+  "con_difetti": 119,
+  "senza_difetti": 1,
   "per_tipo": {
     "loop_senza_varianti": 82,
     "quaderno_vuoto": 70,
-    "quaderno_fermo": 23,
+    "quaderno_fermo": 48,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9,
@@ -29,11 +29,19 @@
   "debito_dichiarato_il": "2026-08-22 20:30",
   "nuovi_rispetto_al_debito": [
     {
+      "nome": "account-negozi",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "ads-performance",
       "difetto": "quaderno_fermo"
     },
     {
       "nome": "ai-copywriter",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ai-designer",
       "difetto": "quaderno_fermo"
     },
     {
@@ -45,11 +53,47 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "backend-dev",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "builder-automazioni",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "chief-of-staff",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "contabilita",
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "content-social",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "corporate-strategy",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "crm-lifecycle",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "cro",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "customer-success",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "data-engineer",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "designer",
       "difetto": "quaderno_fermo"
     },
     {
@@ -61,11 +105,23 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "dpo",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "finanza",
       "difetto": "quaderno_fermo"
     },
     {
       "nome": "finanza-agevolata",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "frontend-dev",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "growth-monetizzazione",
       "difetto": "quaderno_fermo"
     },
     {
@@ -89,6 +145,10 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "mobile-app",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "onboarding-negozi",
       "difetto": "quaderno_fermo"
     },
@@ -101,7 +161,27 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "people-talent",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "pr-stampa",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "product-manager",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "prompt-engineer",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "qa",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "relazioni-istituzionali",
       "difetto": "quaderno_fermo"
     },
     {
@@ -113,16 +193,41 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "security",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "seo",
       "difetto": "quaderno_fermo"
     },
     {
       "nome": "supporto",
       "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "tech",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "trust-safety",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ux-designer",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "vendite",
+      "difetto": "quaderno_fermo"
     }
   ],
   "regressioni": [],
   "invecchiati": [
+    {
+      "nome": "account-negozi",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-01, era 2026-07-31): a muoversi è stato il calendario"
+    },
     {
       "nome": "ads-performance",
       "difetto": "quaderno_fermo",
@@ -132,6 +237,11 @@
       "nome": "ai-copywriter",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "ai-designer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "ai-video",
@@ -144,14 +254,59 @@
       "perche": "nessun esito è sparito (ultimo 2026-08-03, era 2026-07-27): a muoversi è stato il calendario"
     },
     {
+      "nome": "backend-dev",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-29, era 2026-07-19): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "builder-automazioni",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-01, era 2026-07-20): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "chief-of-staff",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-13, era 2026-07-30): a muoversi è stato il calendario"
+    },
+    {
       "nome": "contabilita",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
+      "nome": "content-social",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-01, era 2026-07-31): a muoversi è stato il calendario"
+    },
+    {
       "nome": "corporate-strategy",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "crm-lifecycle",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-24, era 2026-07-31): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "cro",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-07-01): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "customer-success",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-01, era 2026-07-31): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "data-engineer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-13, era 2026-07-28): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "designer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-07-27): a muoversi è stato il calendario"
     },
     {
       "nome": "dispatch",
@@ -164,6 +319,11 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
+      "nome": "dpo",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-06, era 2026-09-06): a muoversi è stato il calendario"
+    },
+    {
       "nome": "finanza",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-23, era 2026-07-23): a muoversi è stato il calendario"
@@ -172,6 +332,16 @@
       "nome": "finanza-agevolata",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-21, era 2026-07-21): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "frontend-dev",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-23, era 2026-07-28): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "growth-monetizzazione",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-24, era 2026-07-27): a muoversi è stato il calendario"
     },
     {
       "nome": "influencer-partnership",
@@ -199,6 +369,11 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
+      "nome": "mobile-app",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-08-21): a muoversi è stato il calendario"
+    },
+    {
       "nome": "onboarding-negozi",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-14, era 2026-07-14): a muoversi è stato il calendario"
@@ -214,9 +389,34 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
+      "nome": "people-talent",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-07-20): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "pr-stampa",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-24, era 2026-07-27): a muoversi è stato il calendario"
+    },
+    {
       "nome": "product-manager",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-13, era 2026-07-13): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "prompt-engineer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-20, era 2026-07-29): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "qa",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-28, era 2026-07-01): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "relazioni-istituzionali",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-24, era 2026-07-27): a muoversi è stato il calendario"
     },
     {
       "nome": "rider-fleet",
@@ -229,6 +429,11 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-19, era 2026-07-19): a muoversi è stato il calendario"
     },
     {
+      "nome": "security",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-07, era 2026-07-29): a muoversi è stato il calendario"
+    },
+    {
       "nome": "seo",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-27, era 2026-07-27): a muoversi è stato il calendario"
@@ -237,17 +442,30 @@
       "nome": "supporto",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
-    }
-  ],
-  "debito_riparato_da_togliere": [
-    {
-      "nome": "dpo",
-      "difetto": "quaderno_vuoto"
     },
     {
-      "nome": "mobile-app",
-      "difetto": "quaderno_vuoto"
+      "nome": "tech",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-09-08, era 2026-07-30): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "trust-safety",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-24, era 2026-07-27): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "ux-designer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-21, era 2026-07-13): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "vendite",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-08-17, era 2026-07-27): a muoversi è stato il calendario"
     }
   ],
+  "debito_riparato_da_togliere": [],
+  "azioni_dei_guariti": [],
+  "baseline_cieca": [],
   "baseline_letta": true
 }

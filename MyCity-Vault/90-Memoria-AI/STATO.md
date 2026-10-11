@@ -1,10 +1,101 @@
 ---
 tipo: stato
-aggiornato: 2026-09-07 22:35
+aggiornato: 2026-10-11 08:53
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🧪 **2026-10-11 08:53 — La CI era rossa per cinque prove: riparate, e passate da dieci collaudi.**
+>
+> **In parole semplici.** Le prove automatiche della macchina erano rosse su main da settimane, e
+> tenevano rossa ogni richiesta di unione. Quattro le ha fatte scattare il calendario. Due di queste
+> hanno svelato difetti veri nel codice, una era una prova scritta male, una una data scaduta. La
+> quinta guardava il file sbagliato.
+>
+> **Un esempio concreto.** Una prova pretendeva che il motore delle lezioni stesse lavorando. Il suo
+> ultimo passo è del 1° settembre: il controllo diceva giustamente «fermo», e la prova lo bocciava.
+> Dieci collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
+> tutte le prove con l'orologio spostato al 24 ottobre: una sola diventava rossa da sola, e l'ho
+> riparata. Il sesto collaudo ha trovato la stessa trappola in un controllo del cancello: il 16
+> ottobre si sarebbe acceso da solo. L'ho spostata al 15 novembre, con l'avviso nello scadenzario.
+> Il settimo ha fatto girare ogni controllo del cancello fino al 2029: nessun'altra data li accende.
+> L'ottavo ha trovato una trappola nata qui: una scadenza esterna con un certo nome avrebbe fatto
+> rossa la CI. Adesso il legame fra scadenza e controllo è scritto in un campo apposta. Il nono e
+> il decimo dicono che regge: il collaudo si ferma qui.
+>
+> **Cosa cambia per te.** Quando unisci la richiesta #878, le prove della macchina tornano verdi
+> anche per le richieste dopo. E lo scadenzario contiene il bando rifiuti: tre giorni prima della
+> chiusura il giro te lo mette in cima.
+>
+> **Cosa devi fare.** Unire la #878 entro il 20 ottobre: lo scadenzario arriva al server solo con
+> l'unione. E mandare al fornaio il messaggio della card #200 entro il 22.
+>
+> **Cosa non ho verificato.** L'ora di chiusura del bando: la fonte dice solo il giorno. E due cose
+> restano con una data, il 15 novembre: il controllo del glossario dei KPI, che non esiste ancora, e
+> un vecchio programma da togliere. Toglierlo fa scattare un falso allarme in un altro controllo: è
+> un difetto a parte, registrato. Se nessuno le chiude, quel giorno la CI torna rossa da sola. Lo
+> scadenzario le annuncia tre giorni prima.
+
+> 🔑 **2026-10-10 15:50 — Ho messo su Vercel le 8 chiavi del sito che potevo creare io. Le 9 che mancano le copi tu.**
+>
+> **In parole semplici.** Hai firmato «Fai la #154». Ho aggiunto l'indirizzo del sito, quattro
+> chiavi interne, la coppia per le notifiche e il tetto di spesa per l'AI. Adesso il sito ha 12 chiavi
+> su 21. Le altre 9 le rilasciano Supabase, Stripe, Resend e Upstash.
+>
+> **Un esempio concreto.** La chiave di servizio del database la mostra solo il pannello di Supabase.
+> Senza quella, quando un cliente paga, Stripe incassa ma l'ordine non nasce.
+>
+> **Cosa cambia per te.** Sul sito per ora niente: le chiavi valgono dalla prossima pubblicazione.
+> Quando ci sono tutte ripartono i lavori automatici, e con loro 7 email vecchie e 3 promemoria di
+> carrelli. Soldi non se ne muovono: non ci sono ordini fermi né versamenti da fare.
+>
+> **Cosa devi fare.** Copiare le 9 chiavi con i passi della card **#154**, poi scrivermi «fatto 154».
+> Dopo restano la **#201** e la **#168**.
+>
+> **Cosa non ho verificato.** Com'è messo Stripe, se il dominio è verificato su Resend, e se il
+> pannello di Render esiste ancora.
+
+> ✅ **2026-10-10 12:05 — I due database sono di nuovo accesi. Il sito però non vende ancora, e la macchina resta ferma.**
+>
+> **In parole semplici.** Hai scritto «ok 199» e ho riacceso il database del sito e quello della memoria:
+> alle 10:16 erano attivi. Così ho potuto rileggere i numeri veri. Il business è fermo come a settembre:
+> un solo negozio vero, nessun ordine pagato.
+>
+> **Un esempio concreto.** L'unico ordine resta quello del 24 giugno, annullato: sono 108 giorni. Dal 5
+> settembre c'è un secondo negozio, «Panificio Demo», con 4 prodotti: è approvato, quindi compare accanto
+> a Pane Quotidiano.
+>
+> **Cosa cambia per te.** Restano tre cose prima di poter vendere. Su Vercel mancano le chiavi del sito: senza,
+> non si registra un ordine e i 10 lavori automatici non girano dal 30 luglio. Il negozio di prova va tolto.
+> E il server della macchina non prende lavori dal 7 ottobre.
+>
+> **Cosa devi fare.** Tre card, in quest'ordine: la **#154**, poi la **#201**, poi la **#168**.
+>
+> **Cosa non ho verificato.** Perché l'organizzazione Supabase risulta ancora sul piano gratuito, se il
+> server è acceso, e il sito da un browser vero.
+
+> 🛑 **2026-10-10 09:40 — Il sito non può vendere e la macchina è ferma: i due database sono in pausa.**
+>
+> **In parole semplici.** Su Supabase, piano gratuito, il database del sito e quello della memoria
+> risultano tutti e due in pausa. Il sito si apre ma resta su «Stiamo caricando…», e la sua pagina di
+> controllo risponde 503. La macchina non lascia una traccia automatica dal 1° settembre alle 12:15:
+> sono 39 giorni. L'allarme su GitHub lo ripete dal 3 settembre, ma lì non lo legge nessuno.
+>
+> **Un esempio concreto.** Alle 08:57 ho aperto il sito dal suo dominio vero. I riquadri dei negozi
+> sono rimasti su «Stiamo caricando…». Chi arrivasse oggi da un volantino non vedrebbe nemmeno il pane
+> di Pane Quotidiano.
+>
+> **Cosa cambia per te.** Finché i database dormono, nessuno può comprare e io non posso misurare
+> niente: i numeri qui sotto restano quelli del 1° settembre. Supabase tiene la riaccensione a un clic
+> per 90 giorni dalla pausa.
+>
+> **Cosa devi fare.** La card **#199**: guardare la fatturazione di Supabase, riaccendere i due
+> progetti (o scrivermi «ok 199»), e decidere sul piano Pro, circa 35 dollari al mese. Subito dopo
+> vengono la **#154** (le chiavi che mancano su Vercel: ne vedo solo quattro) e la **#168** (il server).
+>
+> **Cosa non ho verificato.** Il giorno della pausa e se la causa è la poca attività o una fattura
+> scoperta. Se il server è acceso. I numeri di business dopo il 1° settembre.
 
 > 🔒 **2026-09-07 22:35 — Sulla carta #177 ho fatto tutto quello che era mio. Resta un interruttore, ed è tuo.**
 >
@@ -539,26 +630,26 @@ fonte: AD digitale (giro, cervello/giro.md)
 ## I numeri chiave, come li ho misurati l'ultima volta
 
 **Questa è la base di partenza, non una misura di adesso.** I numeri qui sotto
-vengono dall'ultima lettura vera del database. L'ho fatta l'1 settembre alle 11:12, con query
-dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
+vengono dall'ultima lettura vera del database. L'ho fatta il 10 ottobre alle 11:58, dopo la riaccensione,
+con query dirette a Supabase via MCP. Quando i sensori sono ciechi, i controlli automatici
 leggono questa tabella invece di inventare un numero.
 
 **Sta in cima apposta.** Prima era in fondo, dentro una voce di agosto. Archiviando le voci
 vecchie sarebbe sparita. E con lei sarebbe sparito il numero che tre controlli usano per capire
 se l'attività è ferma.
 
-| Numero | Oggi (1/9 11:12) | Δ vs 31/8 20:58 | "Riuscito" | Note |
+| Numero | Oggi (10/10 11:58) | Δ vs 1/9 11:12 | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato query diretta 1/9 11:12 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | I profili `role='seller'` approvati sono 2: il secondo è «Panificio Demo», creato il 5/9, con 4 prodotti. Non è un negozio vero: card #201 |
 | Negozi con payout attivo | **0 reali** | = | 1 | non riverificato oggi lato Stripe, solo balance API generico ok. Riporto il dato del 24/8 come base, non come misura fresca: `charges`, `payouts` e `details_submitted` erano tutti `false`. Card #182: 18+ giorni fermo su questo stesso quadro |
-| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | confermato query diretta 1/9 11:12. PR #857, mergiata, ha riparato il bug RLS che li mostrava a 0 per i visitatori non loggati. Non verificabile in produzione perché il sito resta giù (vedi riga sotto) |
+| Prodotti VERI del faro pubblicati | **5** (tutti `status='available'`) | = | ≥5 | query diretta 10/10 11:58. In tutto i prodotti disponibili sono 9: gli altri 4 sono del negozio di prova |
 | Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **69 giorni** dal 24/6 (misurato 1/9 11:12, query MCP diretta) |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **108 giorni** dal 24/6 (query diretta 10/10 11:58). Ordini negli ultimi 7 giorni: 0 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero, non eseguibile finché Stripe PQ resta spento |
-| Nuovi clienti reali (7gg) | **0 acquirenti** | = (invariato dal 28/8) | crescita | Verificato con query diretta: `profiles role='buyer'` creati negli ultimi 7gg = 0. Un equivoco chiarito: ieri il totale "8 profili" aveva fatto scattare un giro pieno. Non era un cliente nuovo. Erano 5 acquirenti, 1 rider, 1 negozio, 1 admin. Il conteggio è di TUTTI i profili, non dei soli clienti |
-| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (fuori dal perimetro North-Star di questo giro) |
-| **Sito pubblico** | **HTTP 503** | = (invariato, ora 217 giri ciechi dal 30/7) | 200 | Dato dal sensore `verifica-sensori.mjs`. Girato da giro.sh l'1/9, ultima volta alle 11:32, tre tentativi. Non riverificato con un check diretto in questo passaggio: il comando era bloccato da approvazione. Causa nota: dominio e chiavi Vercel (#155, #154) |
+| Nuovi clienti reali (7gg) | **0 acquirenti** | = | crescita | Query diretta 10/10 11:58: 5 acquirenti in tutto, nessuno nuovo negli ultimi 7 giorni. Profili totali 9: il nono è il negozio di prova. |
+| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | riletto il 10/10 11:58 (tabella `merchants_leads`) |
+| **Sito pubblico** | **home 200, controllo 503** (misurato 10/10 11:59, database acceso) | ▲ la home risponde dal dominio vero | 200 | Il controllo dice «battiti non leggibili»: i 10 lavori automatici del sito non lasciano traccia dal 30/7. Su Vercel il 10/10 alle 15:43 ho messo 8 chiavi, fra cui `CRON_SECRET`; ne mancano 9, prima fra tutte la chiave di servizio del database. È la card #154 |
 
 ---
 

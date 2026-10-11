@@ -1,8 +1,22 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-09-07 08:52
+aggiornato: 2026-10-10 12:03
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-10 12:03 · 37 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-10 09:06 · 36 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -1099,3 +1113,97 @@ node /opt/mycity/ad-mycity/cervello/housekeeping-azioni.mjs
 - **Reparto:** devops-sre
 
 ---
+
+### ✅ #193 — ~~Controlla che su Vercel ci sia la chiave del controllo anti-robot, prima di unire · ⏳ accodata 2026-09-03 20:30~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: era già vera.** `TURNSTILE_SECRET_KEY` e `NEXT_PUBLIC_TURNSTILE_SITE_KEY` ci sono, in Production, messe da te il 2026-09-07 alle 09:20; la richiesta di unione del sito che aspettava questa chiave è entrata in produzione. Letto con lo strumento Vercel il 2026-10-10 alle 09:05. Chiusa 2026-10-10 09:25.
+
+**In parole semplici.** Sul sito c'è un controllo che distingue una persona da un programma automatico, e serve una chiave per farlo funzionare. Prima, se quella chiave mancava, il controllo lasciava passare tutti in silenzio. Da oggi, se manca, rifiuta.
+
+**Cosa cambia:** è la scelta giusta — una difesa spenta che si comporta come una difesa accesa è peggio di nessuna difesa. Ma ha un rovescio pesante. Se quella chiave in produzione non c'è, dopo l'unione si spengono insieme quattro cose: l'accesso, la registrazione, il modulo contatti e l'iscrizione alla newsletter. Cioè la porta d'ingresso del marketplace.
+
+**Cosa devi fare tu.** Sono trenta secondi su Vercel. Apri il progetto `mycity`, poi Settings, poi Environment Variables. Cerca `TURNSTILE_SECRET_KEY` fra quelle di Production.
+
+Se c'è, dimmelo e uniamo. Se non c'è, mettila prima: la trovi nel pannello di Cloudflare Turnstile.
+
+Te lo chiedo perché da qui le variabili di Vercel non le posso leggere. Su una cosa che chiude la porta d'ingresso non voglio indovinare.
+
+**Se va bene:** unisco la richiesta di unione del sito.
+
+Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è il semaforo della salute del sito. Non il primo cliente che non riesce a entrare.
+
+---
+
+### ✅ #166 — ~~Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: superata dai fatti.** Le otto richieste del 22 agosto non ci sono più: oggi sul repo della macchina ne resta aperta una sola, la #877 dell'8 settembre, che ha un suo seguito nel giro di oggi. Letto su GitHub il 2026-10-10 alle 09:02. Chiusa 2026-10-10 09:25.
+
+**Cosa cambia:** in coda ci sono otto pacchetti di lavoro in attesa della tua firma. Il più vecchio
+è fermo da sette giorni. Li ho aperti uno per uno e provati a unire davvero, in una copia
+usa-e-getta, facendo girare i controlli.
+
+Servono ancora **tre su otto**. Uno ripara un blocco di fine turno che si ripete da giorni: senza
+la riparazione tre controlli sono rossi, con la riparazione tornano verdi tutti e 118.
+
+Gli altri cinque no. Uno ti chiede la firma su un pacchetto che hai già firmato il 18 agosto alle
+04:08. Un altro, unito oggi, renderebbe **rosso** un controllo che adesso è verde.
+
+**Cosa devi fare:** dirmi se sei d'accordo. Sono quattro da unire e quattro da chiudere. La scheda
+con la prova di ogni verdetto sta nella richiesta di unione 824.
+
+**Se va bene:** unisco i quattro buoni in fila. Ho già provato che non si pestano fra loro. Poi
+chiudo gli altri quattro, e in ognuno scrivo il perché.
+
+---
+
+### ✅ #155 — ~~Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56~~ → GIÀ FATTA
+
+**Chiusa dall'AD, non decisa da Nicola: era già vera.** Il dominio è su Vercel: il progetto `mycity` elenca `mycity-marketplace.com` e `www.mycity-marketplace.com`, e il 2026-10-10 alle 08:56 l'indirizzo principale ha risposto da Vercel (308 verso www, poi 200 con la vetrina). Letto con lo strumento Vercel. Chiusa 2026-10-10 09:25.
+
+**Cosa cambia:** `mycity-marketplace.com` è il dominio vero, quello sui volantini e nei messaggi ai
+negozianti. Risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
+luglio dà errore.
+
+Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
+`mycity-phi.vercel.app`, e quell'indirizzo non lo conosce nessuno. Fra i domini registrati nel
+progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna da solo.
+
+In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
+
+Finché resta così succedono tre cose. Chi digita il dominio trova un sito morto. La sentinella che
+controlla se il sito è su continua a misurare Render, quindi resta cieca. E Google, che il dominio
+lo ha già indicizzato, continua a trovarlo giù.
+
+**Se va bene:** due passi, in quest'ordine.
+
+Primo, su Vercel: progetto **mycity** → Settings → Domains → Add, e scrivi `mycity-marketplace.com`
+(aggiungi anche `www.mycity-marketplace.com`). Vercel ti dice esattamente quale record DNS mettere.
+
+Secondo, dal gestore del dominio — nel runbook risulta **Netsons** — cambia il record che oggi punta
+a `216.24.57.1` (Render) e mettici quello che ti ha dato Vercel. Il cambio ci mette da pochi minuti a
+qualche ora a girare per il mondo.
+
+Quando è fatto dimmelo: rifaccio il controllo e aggiorno la memoria, così la sentinella del sito
+smette di essere cieca.
+
+**Cosa non ho verificato:** che `216.24.57.1` sia di Render l'ho dedotto — è l'indirizzo che Render
+dà pubblicamente per i domini principali, e combacia con la storia (Render non rinnovato, sito giù
+dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so chi gestisce davvero
+il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
+cambiato.
+
+---
+
+### ✅ #199 — ~~Riaccendi i due database: Supabase li ha messi in pausa, e il sito non può vendere · ⏳ accodata 2026-10-10 09:30~~ → FATTA con «ok 199»
+
+**Fatta dall'AD con la firma di Nicola.** Riaccensione chiesta alle 09:39; alle 10:16 tutti e due i progetti risultavano attivi (ACTIVE_HEALTHY, letto con lo strumento Supabase). Resta da guardare: alle 11:58 l'organizzazione risultava ancora sul piano gratuito.
+
+**In parole semplici.** Il database del sito e quello della memoria della macchina sono tutti e due in pausa. Il sito si apre, ma resta su «Stiamo caricando…» e la sua pagina di controllo risponde 503. La Cabina si apre, ma non sa più niente.
+
+**Cosa cambia:** finché restano in pausa nessuno può comprare, e la macchina non lavora. Supabase tiene la riaccensione a un clic per 90 giorni dalla pausa, poi serve rimontare una copia a mano.
+
+**Cosa devi fare tu.** ① su supabase.com, organizzazione «mycity.inizioditutto» → Billing: guarda se c'è una fattura scoperta; ② riaccendi i progetti «Mycity» e «ad-mycity» (Resume project), oppure scrivimi «ok 199» e lo faccio io; ③ decidi se passare al piano Pro, circa 35 dollari al mese per tutti e due: non si addormentano più e arrivano le copie di sicurezza. Io farei tutti e tre.
+
+**Se va bene:** ricontrollo sito e catalogo, rimisuro i numeri veri, e passiamo alle card #191 e #154.
+
+**Cosa non ho verificato:** il giorno della pausa (lo dice la mail di Supabase) e se la causa è la poca attività o una fattura. Tutto il resto, con le prove: `consegne/salute/2026-10-10-database-in-pausa.md`.

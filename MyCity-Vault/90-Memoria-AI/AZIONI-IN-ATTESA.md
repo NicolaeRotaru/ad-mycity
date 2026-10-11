@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-09-07 08:52** — Automatico: **98 aperte · 33 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-10 12:03** — Automatico: **98 aperte · 37 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,6 +30,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
+
+### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
+
+**In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
+
+**Cosa cambia:** la home promette «negozi veri di Piacenza». Un cliente può ordinare da un forno che non esiste.
+
+**Cosa devi fare tu.** Dirmi se l'hai creato tu. Se è una prova, scrivimi «ok 201» e preparo il comando che lo toglie dalla vetrina.
+
+**Se va bene:** nel catalogo restano solo i 5 prodotti di Pane Quotidiano.
+
+**Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
+
+---
+
+### 🔴 #200 — Avvisa il fornaio: il Comune paga una parte della differenziata, ma il bando chiude il 23 ottobre · ⏳ accodata 2026-10-10 09:40
+
+**In parole semplici.** Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata: compostiere, meno usa e getta, meno sprechi. Pane Quotidiano ha i requisiti, e i soldi vanno a chi chiede per primo.
+
+**Cosa cambia:** è un favore concreto al nostro unico negozio vero, e non dipende dal sito.
+
+**Cosa devi fare tu.** Leggere il messaggio pronto e mandarlo tu su WhatsApp: `consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md`.
+
+**Se va bene:** al prossimo giro guardo se il fornaio ha fatto la domanda.
+
+**Cosa non ho verificato:** se nel fondo restano soldi.
+
+---
 
 ### 🟡 #198 — Il pulsante più importante della home non si vede quando lo raggiungi col tasto Tab · ⏳ accodata 2026-09-07 09:40
 
@@ -100,24 +128,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 **Cosa devi fare tu.** Dimmi quale delle due: o allarghiamo i moduli a quello che il magazzino già accetta, o teniamo stretto e allora la frase deve spiegare al negoziante come fare (sull'iPhone si cambia in Impostazioni, Fotocamera, Formati, «Massima compatibilità»).
 
 **Se va bene:** apro il lavoro sulla strada che scegli. Nel frattempo nessuno perde più una foto senza sapere perché.
-
----
-
-### 🔴 #193 — Controlla che su Vercel ci sia la chiave del controllo anti-robot, prima di unire · ⏳ accodata 2026-09-03 20:30
-
-**In parole semplici.** Sul sito c'è un controllo che distingue una persona da un programma automatico, e serve una chiave per farlo funzionare. Prima, se quella chiave mancava, il controllo lasciava passare tutti in silenzio. Da oggi, se manca, rifiuta.
-
-**Cosa cambia:** è la scelta giusta — una difesa spenta che si comporta come una difesa accesa è peggio di nessuna difesa. Ma ha un rovescio pesante. Se quella chiave in produzione non c'è, dopo l'unione si spengono insieme quattro cose: l'accesso, la registrazione, il modulo contatti e l'iscrizione alla newsletter. Cioè la porta d'ingresso del marketplace.
-
-**Cosa devi fare tu.** Sono trenta secondi su Vercel. Apri il progetto `mycity`, poi Settings, poi Environment Variables. Cerca `TURNSTILE_SECRET_KEY` fra quelle di Production.
-
-Se c'è, dimmelo e uniamo. Se non c'è, mettila prima: la trovi nel pannello di Cloudflare Turnstile.
-
-Te lo chiedo perché da qui le variabili di Vercel non le posso leggere. Su una cosa che chiude la porta d'ingresso non voglio indovinare.
-
-**Se va bene:** unisco la richiesta di unione del sito.
-
-Nel frattempo ho messo una rete. Se un giorno quella chiave sparisse, a dirlo è il semaforo della salute del sito. Non il primo cliente che non riesce a entrare.
 
 ---
 
@@ -721,6 +731,17 @@ chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira su
 > 3. `git push origin HEAD:refs/heads/memoria/vps-2026-09-03`.
 > 4. `git diff --stat HEAD -- cervello/worker.sh`.
 
+> 🔄 **Aggiornamento 2026-10-10 09:30 — 39 giorni senza una traccia, e adesso dorme anche la memoria.**
+> L'ultima scrittura automatica del server è del 1/9 alle 12:15. Il database della memoria è in pausa
+> (card #199): anche se il server fosse acceso, non potrebbe prendere lavori. L'allarme su GitHub lo
+> ripete dal 3/9 (segnalazione #868, 195 aggiornamenti), ma lì non lo legge nessuno.
+> **Cosa devi fare:** prima la #199. Poi, dalla console Hetzner, guarda se il server è acceso e pagato;
+> se è acceso, valgono i quattro comandi qui sopra. **Cosa non ho verificato:** se è acceso. Da qui non lo raggiungo.
+
+> 🔄 **Aggiornamento 2026-10-10 12:05 — con la memoria riaccesa si vede di più.** Il server ha lavorato fino al 28/9;
+> l'ultimo lavoro l'ha preso il 7/10 alle 15:37 ed è rimasto «in corso». Oggi alle 11:00 la Cabina ha accodato 5 lavori
+> nuovi: in coda adesso sono 31, e nessuno li prende. Prima di riaccendere il server, decidi se svuotare i vecchi.
+
 ---
 
 ### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
@@ -746,28 +767,6 @@ quella già presa.
 
 **Se va bene:** correggo i tre percorsi in un ramo, apro la richiesta di unione e ti dico cosa
 controllare. Non tocco la regola del magazzino: quella è giusta, sono i tre percorsi a essere fuori.
-
----
-
-### 🔴 #166 — Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05
-
-**Cosa cambia:** in coda ci sono otto pacchetti di lavoro in attesa della tua firma. Il più vecchio
-è fermo da sette giorni. Li ho aperti uno per uno e provati a unire davvero, in una copia
-usa-e-getta, facendo girare i controlli.
-
-Servono ancora **tre su otto**. Uno ripara un blocco di fine turno che si ripete da giorni: senza
-la riparazione tre controlli sono rossi, con la riparazione tornano verdi tutti e 118.
-
-Gli altri cinque no. Uno ti chiede la firma su un pacchetto che hai già firmato il 18 agosto alle
-04:08. Un altro, unito oggi, renderebbe **rosso** un controllo che adesso è verde.
-
-**Cosa devi fare:** dirmi se sei d'accordo. Sono quattro da unire e quattro da chiudere. La scheda
-con la prova di ogni verdetto sta nella richiesta di unione 824.
-
-**Se va bene:** unisco i quattro buoni in fila. Ho già provato che non si pestano fra loro. Poi
-chiudo gli altri quattro, e in ognuno scrivo il perché.
-
----
 
 ---
 
@@ -1002,79 +1001,24 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 
 ---
 
-### 🔴 #155 — Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56
+### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
 
-**Cosa cambia:** `mycity-marketplace.com` è il dominio vero, quello sui volantini e nei messaggi ai
-negozianti. Risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
-luglio dà errore.
+**Cosa cambia:** con la tua firma «Fai la #154» ho messo su Vercel le 8 chiavi che potevo creare
+io: l'indirizzo del sito con il «www», quattro chiavi interne, la coppia per le notifiche e il tetto
+di spesa per l'AI. Adesso ce ne sono 12 su 21. Le 9 che mancano le rilascia un servizio esterno, e
+le vede solo chi entra nel suo pannello. La più importante è la chiave di servizio del database:
+senza, Stripe incassa ma l'ordine non nasce. Quando ripartono i lavori automatici partono anche 7
+email vecchie, ferme da giugno e agosto, e 3 promemoria di carrelli. Soldi non se ne muovono: non
+ci sono ordini fermi né versamenti da fare.
 
-Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
-`mycity-phi.vercel.app`, e quell'indirizzo non lo conosce nessuno. Fra i domini registrati nel
-progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna da solo.
+**Se va bene:** copi le 9 chiavi seguendo i passi in `consegne/salute/2026-10-10-chiavi-vercel.md`,
+una decina di minuti. Su Stripe l'indirizzo degli avvisi di pagamento deve avere il «www», perché
+Stripe non segue i rimandi. Poi mi scrivi «fatto 154»: ripubblico la stessa versione di oggi e
+controllo che il sito risponda e che i lavori automatici ripartano. Se vuoi, scrivi anche «annulla
+le email vecchie».
 
-In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
-
-Finché resta così succedono tre cose. Chi digita il dominio trova un sito morto. La sentinella che
-controlla se il sito è su continua a misurare Render, quindi resta cieca. E Google, che il dominio
-lo ha già indicizzato, continua a trovarlo giù.
-
-**Se va bene:** due passi, in quest'ordine.
-
-Primo, su Vercel: progetto **mycity** → Settings → Domains → Add, e scrivi `mycity-marketplace.com`
-(aggiungi anche `www.mycity-marketplace.com`). Vercel ti dice esattamente quale record DNS mettere.
-
-Secondo, dal gestore del dominio — nel runbook risulta **Netsons** — cambia il record che oggi punta
-a `216.24.57.1` (Render) e mettici quello che ti ha dato Vercel. Il cambio ci mette da pochi minuti a
-qualche ora a girare per il mondo.
-
-Quando è fatto dimmelo: rifaccio il controllo e aggiorno la memoria, così la sentinella del sito
-smette di essere cieca.
-
-**Cosa non ho verificato:** che `216.24.57.1` sia di Render l'ho dedotto — è l'indirizzo che Render
-dà pubblicamente per i domini principali, e combacia con la storia (Render non rinnovato, sito giù
-dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so chi gestisce davvero
-il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
-cambiato.
-
----
-
-### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
-
-**Cosa cambia:** il sito è passato su Vercel, ma le chiavi che aveva su Render non sono state
-ricopiate tutte. Ne mancano almeno due, e una è quella grossa.
-
-La prima si chiama `SUPABASE_SERVICE_ROLE_KEY`. È la chiave con cui il sito scrive nel database
-quando non c'è nessun utente collegato a farlo — ed è esattamente il momento in cui Stripe ci avvisa
-che un cliente ha pagato. Senza quella chiave, quell'avviso arriva e non riesce a scrivere niente:
-**un pagamento riuscito non diventa un ordine.** Non è un'ipotesi. Nei registri della produzione, fra
-il 18 e il 21 agosto, ci sono 70 errori con scritto dentro il nome di quella chiave, su quattro
-persone diverse. Nessuno se n'è accorto perché il sito risponde e le pagine si vedono: il buco è
-sotto, dove si incassa.
-
-La seconda si chiama `NEXT_PUBLIC_APP_URL`, ed è l'indirizzo con cui il sito si presenta. Manca
-anche quella, e il ripiego scritto nel codice puntava al computer di chi sviluppa. Risultato: ogni
-pagina diceva a Google che il suo indirizzo ufficiale è `http://localhost:3000`, e ogni link
-condiviso su WhatsApp mostrava l'anteprima rotta. L'ho letto nell'HTML che il sito serviva davvero,
-non in un file di configurazione.
-
-Il ripiego l'ho già sistemato io: da ora, se la variabile manca, il sito usa il dominio che Vercel
-dichiara da solo invece di localhost. Ma è un paracadute. Il dominio giusto lo sai solo tu.
-
-**Se va bene:** Vercel → progetto **mycity** → Settings → Environment Variables, ambiente
-**Production**. Confronta la lista con `.env.example` nel repo del sito: lì c'è scritta ognuna a cosa
-serve e cosa succede se manca. Le due sopra sono obbligatorie. Guarda anche che ci siano
-`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `CRON_SECRET` e `UNSUBSCRIBE_SECRET`.
-
-⚠️ **Una variabile aggiunta non entra in vigore da sola:** vale dalla pubblicazione successiva. Dopo
-averle messe, fai ripubblicare (Deployments → l'ultima → Redeploy).
-
-Poi come si controlla se ha funzionato, senza chiedere a me: apri
-`https://mycity-phi.vercel.app/api/health`. Adesso risponde `"status":"unhealthy"`. Quando le chiavi
-ci sono tutte deve rispondere `"status":"ok"`.
-
-**Cosa non ho verificato:** non ho potuto vedere l'elenco delle variabili sul pannello di Vercel — da
-qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se mancassero, non
-perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
+> Storia: accodata il 22/8, quando dopo il passaggio da Render il sito scriveva «localhost» come suo
+> indirizzo. Il 10/10 alle 09:30 ho letto la lista vera: 4 chiavi su 21. Alle 15:43 ne ho aggiunte 8.
 
 ---
 
@@ -1690,6 +1634,12 @@ testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse
 - **Origine:** `{origine:analisi-coda-2026-08-19, referto:consegne/audit/2026-08-19-analisi-coda-approvazioni.md, pr:773}`
 
 🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 37 righe tabellari con stato `in attesa`. Totale 99 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
+
+> 🔄 **Aggiornamento 2026-10-10 09:30 — la coda sta toccando il tetto.** Stamattina il file era a 54
+> caratteri dal limite che il controllo riesce a leggere. Ho chiuso solo tre card che i fatti avevano
+> già chiuso (#155, #166, #193), con la prova scritta dentro. Fra le altre, sette chiedono di pubblicare
+> post di luglio e agosto che promettono una consegna che oggi non parte. Una parola, «ok 130», e
+> ti porto l'elenco delle chiusure, una riga per card col perché.
 
 ---
 
@@ -3012,9 +2962,9 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-| 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 179 | 2026-08-28 12:13 | @tech | Merge PR #853 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/853 | github | ✅ fatto: unita da Nicola il 2026-08-28 10:56 (letto su GitHub il 2026-10-10) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 33.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 37.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

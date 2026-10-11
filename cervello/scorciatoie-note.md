@@ -83,3 +83,18 @@
 20. **Il caso peggiore non è quello medio.** Un controllo che costa due decimi di secondo di solito
     può costarne quattrocento quando il lotto tocca il file sbagliato. *Cura: il collaudatore misura
     il caso peggiore, non quello di tutti i giorni.*
+
+## G. La cura che lascia in piedi il debito accanto
+
+21. **Il tetto gemello.** Curi una porta e abbassi il suo tetto, ma lo stesso atto ha un secondo
+    tetto rimasto alla misura di prima: la stessa uscita sbagliata passa dall'altra parte. Misurato
+    l'11/10/2026 dal decimo collaudo della CI: in `atti-con-porte.json` i tetti delle porte e delle
+    esenzioni «per sempre» erano fermi a 1 e 2 dal 25/8, con le misure vere a 0 e 1. Abbassato il
+    primo, un'esenzione a scadenza si poteva ancora rietichettare «per sempre» e passava tutto
+    verde. *Cura: quando curi un tetto, guarda gli altri tetti dello stesso atto — chi cura un
+    debito di solito ne cura due.*
+22. **Il legame per nome.** Due registri si riconoscono da un prefisso dell'id o da una frase della
+    fonte. Una voce del mondo con quel prefisso fa rosso, un doppione con un altro nome passa, una
+    fonte che cita il file di un'altra voce dà un falso rosso. Misurato l'11/10/2026 dall'ottavo
+    collaudo della CI, fra lo scadenzario e i registri del cancello. *Cura: il legame è un campo
+    apposta, confrontato per uguaglianza; chi non ha il campo non c'entra.*

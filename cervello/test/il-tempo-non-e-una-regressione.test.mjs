@@ -18,6 +18,8 @@
 //   ② una regressione VERA continua a bloccare: righe di esito sparite, kit rimpicciolito. È la metà
 //      che conta: un fix che si limitasse a far passare tutto supererebbe solo la ①;
 //   ③ quando non si può misurare, l'esito è «regressione»: cieco non è verde;
+//   ③bis/③ter (AR-959) un quaderno vuoto alla dichiarazione non è cieco; e chi toglie quel «vuoto»
+//      senza scrivere la data lo scopre il giorno stesso, non trenta giorni dopo;
 //   ④ sul repo vero, oggi: nessuna regressione, e i tredici invecchiati ci sono ancora tutti.
 
 import { spawnSync } from "node:child_process";
@@ -25,7 +27,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
-import { DIFETTO, classificaNuovi } from "../stampo-metro.mjs";
+import { DIFETTO, azioneDelGuarito, baselineCieca, classificaNuovi } from "../stampo-metro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -112,11 +114,108 @@ prova("③ senza il valore nella baseline non si indovina: si blocca", () => {
   assert.match(regressioni[0].perche, /cieco non è verde/);
 });
 
+prova("③ bis — AR-959: un quaderno che alla dichiarazione era VUOTO non è cieco, e il calendario non è una sua colpa", () => {
+  // Il caso del 10/10: @dpo aveva nel debito `quaderno_vuoto`, poi ha scritto il suo primo esito, poi
+  // non ne ha scritto un secondo e i 30 giorni sono passati. Alla baseline non c'era nessun esito da
+  // ricordare: niente poteva sparire. Prima usciva «non so da quando era fermo» → regressione.
+  const baseline = { debito: { dpo: ["quaderno_vuoto", "loop_senza_varianti"] }, ultimo_esito: {} };
+  const { regressioni, invecchiati } = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_FERMO }], {
+    ultimoOggi: { dpo: "2026-09-06" },
+    baseline,
+  });
+  assert.equal(regressioni.length, 0, `un quaderno vuoto alla dichiarazione non può aver perso righe: ${JSON.stringify(regressioni)}`);
+  assert.equal(invecchiati.length, 1);
+  assert.match(invecchiati[0].perche, /era vuoto/);
+
+  // Il confine resta dov'era: senza la parola `quaderno_vuoto` nel debito, lo stesso caso è cieco.
+  const cieco = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_FERMO }], {
+    ultimoOggi: { dpo: "2026-09-06" },
+    baseline: { debito: { dpo: ["loop_senza_varianti"] }, ultimo_esito: {} },
+  });
+  assert.equal(cieco.regressioni.length, 1, "senza sapere che era vuoto non si indovina: si blocca");
+  assert.match(cieco.regressioni[0].perche, /cieco non è verde/);
+
+  // E un quaderno ancora senza esiti oggi non diventa «invecchiato» per via del debito: niente da giudicare.
+  const senzaEsiti = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_FERMO }], { ultimoOggi: {}, baseline });
+  assert.equal(senzaEsiti.invecchiati.length, 0, "senza un esito oggi la regola del vuoto non si applica");
+});
+
+prova("③ ter — AR-959 (collaudo): chi toglie il «vuoto» senza scrivere la data lo scopre OGGI, non fra trenta giorni", () => {
+  // La variante scomoda, quella che capita da sola: il guardiano stampa «Guariti — da togliere», qualcuno
+  // toglie `quaderno_vuoto` e non scrive `ultimo_esito`. Il collaudo l'ha rifatta con un orologio
+  // finto: quel giorno tutto verde, trenta giorni dopo stampo-check rosso. Adesso il rosso è subito.
+  const guaritoSenzaData = { debito: { dpo: ["loop_senza_varianti"] }, ultimo_esito: {} };
+  assert.deepEqual(
+    baselineCieca({ ultimoOggi: { dpo: "2026-09-06" }, baseline: guaritoSenzaData }),
+    [{ nome: "dpo", ultimo_oggi: "2026-09-06" }],
+    "il quaderno scrive ma la baseline non ha né la data né il «vuoto»: va detto oggi, con la data da scrivere",
+  );
+  // Con la data scritta, o col «vuoto» ancora nel debito, la baseline sa giudicarlo: niente da dire.
+  assert.deepEqual(baselineCieca({ ultimoOggi: { dpo: "2026-09-06" }, baseline: { ...guaritoSenzaData, ultimo_esito: { dpo: "2026-09-06" } } }), []);
+  assert.deepEqual(baselineCieca({ ultimoOggi: { dpo: "2026-09-06" }, baseline: { debito: { dpo: ["quaderno_vuoto"] }, ultimo_esito: {} } }), []);
+  // Un quaderno che non ha ancora scritto niente non ha niente da far giudicare.
+  assert.deepEqual(baselineCieca({ ultimoOggi: {}, baseline: guaritoSenzaData }), []);
+  // E un senior nuovo, mai entrato nella baseline, che scrive il suo primo esito: stesso buco, stesso rosso.
+  assert.equal(baselineCieca({ ultimoOggi: { "senior-nuovo": "2026-10-11" }, baseline: { debito: {}, ultimo_esito: {} } }).length, 1);
+});
+
+prova("③ quater — AR-959 (terzo collaudo): un senior nuovo, dichiarato col quaderno assente, scrive il primo esito dal giro — e nessuno diventa rosso", () => {
+  // Il percorso che il terzo collaudo ha rifatto sul repo vero: la richiesta che aggiunge il senior lo
+  // dichiara con `quaderno_assente`; poi il giro esegue `chiusura-loop registra`, che crea il quaderno
+  // col primo esito, e lo pubblica su main. Nessuna richiesta di unione ha toccato niente: se qui
+  // uscisse un rosso, la CI sarebbe rossa per tutti e il giro non potrebbe ripararla.
+  const baseline = { debito: { "senior-nuovo": ["quaderno_assente"] }, ultimo_esito: {} };
+  assert.deepEqual(baselineCieca({ ultimoOggi: { "senior-nuovo": "2026-10-12" }, baseline }), [],
+    "assente alla dichiarazione vuol dire «niente da ricordare», come vuoto: la baseline sa giudicarlo");
+  // E trenta giorni dopo, fermo, è il calendario: niente di quello che c'era allora può essere sparito.
+  const { regressioni, invecchiati } = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.QUADERNO_FERMO }], {
+    ultimoOggi: { "senior-nuovo": "2026-10-12" },
+    baseline,
+  });
+  assert.equal(regressioni.length, 0, `un quaderno nato dopo la dichiarazione non può aver perso righe: ${JSON.stringify(regressioni)}`);
+  assert.equal(invecchiati.length, 1);
+});
+
+prova("③ quinquies — AR-959 (quarto collaudo): un quaderno dichiarato assente che nasce vuoto non è una regressione", () => {
+  // Il giro crea il quaderno del senior nuovo, ma senza una riga di esito valida: oggi esce «vuoto», un
+  // difetto che nella baseline non c'era. Da un quaderno che non esisteva non può sparire niente.
+  const baseline = { debito: { "senior-nuovo": ["quaderno_assente"] }, ultimo_esito: {} };
+  const { regressioni, invecchiati } = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.QUADERNO_VUOTO }], { ultimoOggi: {}, baseline });
+  assert.equal(regressioni.length, 0, `assente → vuoto non ha tolto niente a nessuno: ${JSON.stringify(regressioni)}`);
+  assert.match(invecchiati[0]?.perche || "", /non c'era/);
+  // Il confine: un quaderno che alla dichiarazione aveva esiti e oggi è vuoto ha perso righe, e resta
+  // rosso — anche quando nel debito ha altro, come quasi tutti (il quinto collaudo: 21 quaderni veri).
+  const perso = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_VUOTO }], {
+    ultimoOggi: {},
+    baseline: { debito: { dpo: ["loop_senza_varianti"] }, ultimo_esito: { dpo: "2026-09-06" } },
+  });
+  assert.equal(perso.regressioni.length, 1, "un quaderno svuotato resta una regressione");
+  // E «assente» scusa solo il quaderno vuoto: ogni altro difetto nuovo resta di chi l'ha portato — su
+  // tutte le chiavi, come in ②ter (sesto collaudo: una regola che scusava ogni `quaderno_*` passava).
+  const scusati = [DIFETTO.QUADERNO_VUOTO, DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOTTILE];
+  for (const d of Object.values(DIFETTO).filter((x) => !scusati.includes(x))) {
+    const r = classificaNuovi([{ nome: "senior-nuovo", difetto: d }], { ultimoOggi: {}, baseline });
+    assert.equal(r.regressioni.length, 1, `${d} non è scusato dal quaderno assente`);
+  }
+});
+
+prova("③ sexies — AR-959 (quinto collaudo): il guardiano dice cosa fare di ogni voce guarita, e «toglila» non basta sempre", () => {
+  const conEsiti = { ultimoOggi: { a: "2026-10-12" }, baseline: { debito: {}, ultimo_esito: {} }, quadro: {} };
+  assert.equal(azioneDelGuarito({ nome: "a", difetto: DIFETTO.QUADERNO_VUOTO }, conEsiti).azione, "togli-e-scrivi-data");
+  assert.equal(azioneDelGuarito({ nome: "a", difetto: DIFETTO.QUADERNO_ASSENTE }, conEsiti).azione, "togli-e-scrivi-data");
+  // Il caso del collaudo: dichiarato assente, il quaderno nasce vuoto. Togliere la riga lo farebbe rosso.
+  const nato = azioneDelGuarito({ nome: "b", difetto: DIFETTO.QUADERNO_ASSENTE }, { ultimoOggi: {}, baseline: { debito: {} }, quadro: { b: [DIFETTO.QUADERNO_VUOTO] } });
+  assert.equal(nato.azione, "sostituisci-con-vuoto");
+  assert.match(nato.testo, /quaderno_vuoto/);
+  assert.equal(azioneDelGuarito({ nome: "c", difetto: DIFETTO.KIT_SOTTILE }, conEsiti).azione, "togli", "gli altri difetti guariti si tolgono e basta");
+});
+
 prova("④ sul repo vero: nessuna regressione, e ogni fermo resta contato nel rapporto", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8" });
   const j = JSON.parse(r.stdout);
   assert.equal(j.baseline_letta, true, "senza baseline il guardiano è cieco e questa prova non prova niente");
   assert.deepEqual(j.regressioni, [], `regressioni sul parco vero: ${JSON.stringify(j.regressioni)}`);
+  assert.deepEqual(j.baseline_cieca, [], `quaderni che la baseline non sa più giudicare: ${JSON.stringify(j.baseline_cieca)}`);
   assert.equal(r.status, 0, `atteso verde, uscito ${r.status}`);
   // La metà che impedisce il condono: se un giorno qualcuno «sistemasse» il rosso togliendo le voci
   // dal rapporto invece di far chiudere il loop ai reparti, questa riga diventa rossa.
