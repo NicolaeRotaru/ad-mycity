@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-10-11 02:17 · CI rossa: collaudo indipendente della riparazione (11/10) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso la riparazione delle 01:50 regge → reale non reggeva del tutto: la prova sulle lezioni sarebbe tornata rossa alla prima morte; rinforzata e provata simulando il giro (42 morti su 497) · #ci #collaudo #calendario
 - 2026-10-11 01:48 · CI rossa su main: cinque prove del cervello · V5 C4 A4 K4 I3 M5 E3 (media 4) · atteso capire e riparare le cinque prove rosse senza spegnerne nessuna → reale quattro riparate con prova e mutazione, una data spostata col perché e la scheda AR-962; cancello del lotto verde · #ci #cantiere #prove
 - 2026-10-10 15:52 · card #154: chiavi del sito su Vercel · V5 C4 A3 K4 I2 M5 E3 (media 3.71) · atteso mettere tutte le chiavi mancanti e ripubblicare → reale messe 8 su 17 mancanti (12 su 21 in tutto); le 9 dei servizi esterni restano a Nicola, ripubblicazione rimandata a dopo · #vercel #chiavi #ordini
 - 2026-10-10 09:09 · Visita del 10/10: i due database Supabase in pausa, card #199 accodata · V5 C5 A4 K5 I4 M5 E4 (media 4.57) · atteso Nicola riaccende i due database (o firma «ok 199») e /api/health del sito torna 200 entro il 2026-10-17 → reale da misurare al prossimo giro: oggi /api/health 503, database INACTIVE · #salute #supabase #esito

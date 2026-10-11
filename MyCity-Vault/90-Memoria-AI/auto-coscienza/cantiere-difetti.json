@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-10-11 01:45",
+  "aggiornato": "2026-10-11 02:31",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -20469,10 +20469,10 @@
       "verifica": {
         "comando": "node cervello/test/limite-settimanale-riparte.test.mjs"
       },
-      "dove": "cervello/retry-policy.mjs: classificaErrore, decidiRitento · cervello/errore-motore.mjs: registra",
+      "dove": "cervello/retry-policy.mjs: classificaErrore (due rami), decidiRitento · cervello/errore-motore.mjs: registra",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi. Sulla macchina vera l'orologio passato è quasi sempre quello vero, quindi il danno pratico era raro. Ma la prova rossa teneva rossa la CI di ogni richiesta di unione.",
-      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. Riparato in retry-policy.mjs ed errore-motore.mjs; nessun altro chiamante senza orologio (cercato in tutto il repo). Prova nuova «AR-957» in limite-settimanale-riparte.test.mjs: 26/26 verdi. Non-vacuità: tolto l'orologio da dataDaTesto nel ramo della prosa, tornano rossi due casi (AR-957 e IL DIFETTO). Mutazioni in cervello/mutanti.json."
+      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. Riparato in retry-policy.mjs ed errore-motore.mjs; nessun altro chiamante senza orologio (cercato in tutto il repo). 2026-10-11 02:12, dopo il collaudo indipendente: la prima prova passava solo dalla prosa. Aggiunte tre prove — il ramo della classe dichiarata (`[classe] quota_settimanale`), il guasto registrato da errore-motore.registra (data del reset e ritentativo letti con l'orologio della cadenza), e la sentinella che rilegge un guasto di due giorni prima («resets in 3 days» contato dal momento del guasto: si riprova un giorno dopo, non fra 6 ore). 28/28 verdi. Non-vacuità: quattro mutazioni in cervello/mutanti.json, una per ogni punto in cui l'orologio si perdeva, e tutte e quattro rendono rossa la prova."
     },
     {
       "id": "AR-958",
@@ -20485,15 +20485,15 @@
       "trovato_da": "CI rossa su main e su ogni PR: domanda di Nicola dell'11/10 «perché la CI è rossa? riesci a risolvere il problema?»",
       "titolo": "La prova sul motore delle lezioni pretendeva che il motore girasse: a macchina ferma bocciava un verdetto giusto",
       "sintomo": "Il caso ⑥ di il-motore-giudicato-dai-morti è rosso su main: «prerequisito: passi recenti sull'archivio vero (trovati 0)». L'ultimo passo di decadimento nell'archivio è del 1/9 alle 11:32; dal 15/9 nessuno è più recente di 14 giorni.",
-      "causa_radice": "① Il guardiano oggi dice «il decadimento è FERMO davvero», ed è vero: la macchina è ferma dal 1/9, coi database in pausa. ② Il caso ⑥ chiedeva il contrario, sull'archivio vero e con l'orologio vero: chiedeva al mondo di restare acceso. ③ analizza() non accettava l'istante del giudizio, quindi l'unico modo di rifare quel giudizio era aspettare che il motore lavorasse ancora. Causa di sistema: una prova sul dato vero che misura lo stato del mondo invece del codice. È la stessa forma di AR-472, dove a muoversi era il calendario.",
-      "fix_proposto": "🟡 analizza(dati, { adesso }) passa l'istante a passiDecadimento; senza, resta l'orologio vero. Il caso ⑥ giudica l'archivio vero un'ora dopo il suo ultimo passo timbrato, letto dall'archivio stesso col fuso di Piacenza: resta la prova di AR-766 sul dato vero. Caso nuovo ⑥bis: con l'orologio vero il verdetto deve dire quello che dicono i passi, nei due versi.",
+      "causa_radice": "① Il guardiano oggi dice «il decadimento è FERMO davvero», ed è vero: il motore delle lezioni non fa un passo dal 1/9 alle 11:32 (perché si sia fermato lo dice il giro, non questa scheda). ② Il caso ⑥ chiedeva il contrario, sull'archivio vero e con l'orologio vero: chiedeva al mondo di restare acceso. ③ analizza() non accettava l'istante del giudizio, quindi l'unico modo di rifare quel giudizio era aspettare che il motore lavorasse ancora. Causa di sistema: una prova sul dato vero che misura lo stato del mondo invece del codice. È la stessa forma di AR-472, dove a muoversi era il calendario.",
+      "fix_proposto": "🟡 analizza(dati, { adesso }) passa l'istante a passiDecadimento; senza, resta l'orologio vero. Il caso ⑥ giudica l'archivio vero un'ora dopo l'ultimo passo timbrato sulle lezioni vive. ⑥ e ⑥bis giudicano la riga sulle decadute quando c'è, e quando manca controllano che manchi per la ragione giusta (morti sopra zero, o vive non oltre 400). Caso nuovo ⑦ su un archivio finto con i passi in un giorno fisso: «gira» un'ora dopo, «fermo» un mese dopo — è quello che prova che analizza usa l'istante dato, qualunque cosa succeda all'archivio vero.",
       "verifica": {
         "comando": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
       },
-      "dove": "cervello/apprendimento-guardiano.mjs: analizza · cervello/test/il-motore-giudicato-dai-morti.test.mjs: ⑥ e ⑥bis",
+      "dove": "cervello/apprendimento-guardiano.mjs: analizza · cervello/test/il-motore-giudicato-dai-morti.test.mjs: ⑥, ⑥bis e ⑦",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi; teneva rossa la CI. Il verdetto vero, «fermo davvero», resta visibile dove serve: nel guardiano dell'apprendimento e nella visita.",
-      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. 7/7 verdi. Non-vacuità: togliendo adesso dalla chiamata dentro analizza, ⑥ torna rosso; con fermo:false fisso tornano rossi ②, ⑤ e ⑥bis."
+      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola: analizza accetta l'istante, ⑥ giudica nel momento dell'ultimo passo, ⑥bis col giorno di oggi. 2026-10-11 02:12, dopo il collaudo indipendente: ⑥ e ⑥bis pretendevano la riga sulle decadute, che sparisce alla prima morte — e due lezioni stanno a 0,32, quattro a 0,35: al prossimo passo muoiono. Simulato il passo sull'archivio vero (42 morti): con la versione dell'01:45 ⑥ e ⑥bis diventavano rossi, ora restano verdi per la ragione giusta. Aggiunto ⑦, indipendente dall'archivio vero. 8/8 verdi. Non-vacuità: togliendo l'istante dalla chiamata dentro analizza, ⑦ diventa rosso anche sull'archivio dopo le morti."
     },
     {
       "id": "AR-959",
@@ -20506,7 +20506,7 @@
       "trovato_da": "CI rossa su main e su ogni PR: domanda di Nicola dell'11/10 «perché la CI è rossa? riesci a risolvere il problema?»",
       "titolo": "Un quaderno che alla dichiarazione era vuoto, quando diventava fermo, usciva «regressione»: la CI rossa per un calendario",
       "sintomo": "stampo-check esce 1 su main con due regressioni, @dpo e @mobile-app, «quaderno_fermo: non so da quando era fermo». Rosse anche il-tempo-non-e-una-regressione ④ e un-quaderno-una-casa, che chiede al guardiano di uscire 0.",
-      "causa_radice": "① @dpo e @mobile-app avevano nel debito dichiarato quaderno_vuoto. ② Hanno scritto un esito ciascuno (6/9 e 21/8), poi la macchina si è fermata e i 30 giorni sono passati. ③ La baseline non ha il loro ultimo esito, perché alla dichiarazione non ne avevano. ④ classificaNuovi trattava «nessun valore» come cieco, quindi regressione. Ma qui la baseline sapeva cosa c'era: niente, e niente non può sparire. ⑤ La procedura di riduzione diceva solo «togli la riga»: togliendo quaderno_vuoto senza scrivere il primo esito si cancellava l'unica cosa nota. Causa di sistema: la regola di AR-472 copriva il calendario per chi aveva un esito nella baseline, non per chi era vuoto. Settantadue quaderni erano ancora in quella condizione.",
+      "causa_radice": "① @dpo e @mobile-app avevano nel debito dichiarato quaderno_vuoto. ② Hanno scritto un esito ciascuno (6/9 e 21/8), poi non ne hanno scritto un secondo — sul ramo principale dal 10/9 al 9/10 non è entrato nessun lavoro — e i 30 giorni sono passati. ③ La baseline non ha il loro ultimo esito, perché alla dichiarazione non ne avevano. ④ classificaNuovi trattava «nessun valore» come cieco, quindi regressione. Ma qui la baseline sapeva cosa c'era: niente, e niente non può sparire. ⑤ La procedura di riduzione diceva solo «togli la riga»: togliendo quaderno_vuoto senza scrivere il primo esito si cancellava l'unica cosa nota. Causa di sistema: la regola di AR-472 copriva il calendario per chi aveva un esito nella baseline, non per chi era vuoto. Settantadue quaderni erano ancora in quella condizione.",
       "fix_proposto": "🟡 In classificaNuovi: se l'agente ha quaderno_vuoto nel debito e oggi ha un esito, il fermo è invecchiamento, non regressione. Senza quella parola nel debito il caso resta cieco e blocca, come prima. stampo-check stampa accanto a ogni quaderno guarito il valore da scrivere in ultimo_esito, e _come_si_riduce lo dice. Dati: tolti i due quaderno_vuoto guariti, scritti dpo 2026-09-06 e mobile-app 2026-08-21, con la nota _ultimo_esito_aggiunti.",
       "verifica": {
         "comando": "node cervello/test/il-tempo-non-e-una-regressione.test.mjs"
@@ -20514,7 +20514,7 @@
       "dove": "cervello/stampo-metro.mjs: classificaNuovi, maturatoDaSolo · cervello/stampo-check.mjs: guariti · cervello/stampo-baseline.json",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi; teneva rossa la CI. Gli invecchiati restano contati nel rapporto: la pressione perché i quaderni ripartano non sparisce, si sposta dove qualcuno può agire.",
-      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. Caso nuovo ③bis in il-tempo-non-e-una-regressione.test.mjs, con il confine: senza la parola quaderno_vuoto nel debito lo stesso caso blocca ancora. 7/7 verdi; stampo-check esce 0. Non-vacuità: spenta la regola del vuoto, ③bis torna rosso. ④ resta verde anche così, perché adesso dpo e mobile-app hanno il loro ultimo esito nella baseline: la regola serve ai settantadue quaderni ancora in debito."
+      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. Caso nuovo ③bis in il-tempo-non-e-una-regressione.test.mjs, con il confine: senza la parola quaderno_vuoto nel debito lo stesso caso blocca ancora. 7/7 verdi; stampo-check esce 0. Non-vacuità: spenta la regola del vuoto, ③bis torna rosso. ④ resta verde anche così, perché adesso dpo e mobile-app hanno il loro ultimo esito nella baseline: la regola serve ai settantadue quaderni ancora in debito. 2026-10-11 02:12, dopo il collaudo indipendente: corretti i testi — «settantadue» quaderni col debito erano quelli di prima del lotto (settanta dopo), e nella baseline si scrive l'ULTIMO esito del quaderno guarito, non il primo. Per @dpo e @mobile-app è lo stesso: un esito solo ciascuno, del 6/9 e del 21/8, misurati."
     },
     {
       "id": "AR-960",
@@ -20535,28 +20535,28 @@
       "dove": "cervello/documenti-di-governo.mjs: voce scadenzario",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi. La lista diceva che le scadenze non avevano un guardiano, e lo avevano.",
-      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. c9-governo-senza-sveglia 8/8 verdi, guardiano-mai-messo-di-guardia 19/19, scadenze-calcolate 21/21. Non-vacuità: rimettendo guardiano null sulla voce, «IL PUNTO» torna rosso. La seconda voce scaduta, glossario-kpi, non ha un guardiano: data spostata al 15/11 col perché nuovo, lavoro nella scheda AR-962."
+      "nota_fix": "2026-10-11 01:45, su richiesta di Nicola. c9-governo-senza-sveglia 8/8 verdi, guardiano-mai-messo-di-guardia 19/19, scadenze-calcolate 21/21. Non-vacuità: rimettendo guardiano null sulla voce, «IL PUNTO» torna rosso. La seconda voce scaduta, glossario-kpi, non ha un guardiano: data spostata al 15/11 col perché nuovo, lavoro nella scheda AR-962. 2026-10-11 02:12, dopo il collaudo indipendente: la prova ora controlla anche che il documento dichiarato esista e che il guardiano legga proprio quello — scadenzario-check.mjs dice nel suo JSON quale file ha letto. Seconda mutazione: rimettendo nella lista la copia del Vault, la prova diventa rossa. E il registro non è più vuoto: dentro c'è la scadenza vera del bando rifiuti del Comune (23/10), che fino ad allora stava solo nella card #200 — vedi AR-964. 2026-10-11 02:31: toccato scadenzario-check.mjs, il cancello ha preteso la guardia dell'entrypoint (AR-445) — prima importarlo lo faceva girare. Messa nella stessa forma di stampo-check.mjs e tasso-lezioni.mjs, che il giro lancia allo stesso modo; la malattia «programma che parte importando» scende da 62 a 61 in cervello/malattie.json."
     },
     {
       "id": "AR-961",
       "stato": "aperto",
-      "gravita": "minore",
+      "gravita": "medio",
       "dimensione": "integrita-memoria",
       "area": "macchina",
       "nato": "2026-10-11 01:45",
       "nato_come": "scoperta",
       "trovato_da": "Trovato riparando AR-960, l'11/10.",
       "titolo": "Lo scadenzario ha due case: la copia nel Vault è ferma al 30/7 e dice di essere letta dal guardiano, che invece legge l'altra",
-      "sintomo": "MyCity-Vault/05-Soldi-Rischi/scadenzario.json: aggiornato il 2026-07-30, una voce chiusa, campi scadenza e stato. cervello/scadenzario.json: due voci chiuse, campi scade e chiuse. Il _cosa_e della copia nel Vault dice «Letto da cervello/scadenzario-check.mjs a ogni giro», ed è falso.",
+      "sintomo": "MyCity-Vault/05-Soldi-Rischi/scadenzario.json: aggiornato il 2026-07-30, una voce chiusa, campi scadenza e stato. cervello/scadenzario.json: due voci chiuse, campi scade e chiuse. Il _cosa_e della copia nel Vault dice «Letto da cervello/scadenzario-check.mjs a ogni giro», ed è falso. E il mansionario del senior che possiede le scadenze (.claude/agents/scadenzario.md, sezione «Dove scrivi») gli dice di scrivere nella copia del Vault: il proprietario del calendario scrive nella casa che il guardiano non legge.",
       "causa_radice": "Due file per lo stesso registro, con due schemi diversi. Chi scrive una scadenza nella copia del Vault crede che il guardiano la veda, e il guardiano non la vede.",
-      "fix_proposto": "🟡 Una casa sola. La copia nel Vault sta nell'area di Nicola: proporgli di toglierla, o di ridurla a un rimando di una riga a cervello/scadenzario.json. Poi un controllo che fallisce se ricompare un secondo scadenzario.",
+      "fix_proposto": "🟡 Una casa sola. La copia nel Vault sta nell'area di Nicola: proporgli di toglierla, o di ridurla a un rimando di una riga a cervello/scadenzario.json. Poi un controllo che fallisce se ricompare un secondo scadenzario. E nello stesso lavoro il mansionario del senior scadenzario deve puntare a cervello/scadenzario.json (è un'auto-modifica: 🟡, firma di Nicola).",
       "verifica": {
         "tipo": "umano",
         "nota": "Aperto finché esistono due file scadenzario.json con scadenze dentro. Chiuso quando ne resta uno solo, o quando la copia nel Vault è un rimando senza scadenze, e un controllo fallisce se ne nasce un secondo."
       },
       "dove": "MyCity-Vault/05-Soldi-Rischi/scadenzario.json · cervello/scadenzario.json",
       "impatto_crescita": "basso",
-      "impatto_crescita_nota": "Oggi le scadenze aperte sono zero in tutti e due i file. Il rischio è il giorno in cui qualcuno ne scrive una nella copia sbagliata."
+      "impatto_crescita_nota": "Il rischio non è teorico: delegata una scadenza al senior scadenzario, la scriverebbe nella copia del Vault, e il guardiano non avviserebbe mai. Visto il 2026-10-11 02:12 durante il collaudo di AR-960."
     },
     {
       "id": "AR-962",
@@ -20578,6 +20578,48 @@
       "dove": "cervello/documenti-di-governo.mjs: voce glossario-kpi · MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md",
       "impatto_crescita": "medio",
       "impatto_crescita_nota": "Un numero sbagliato portato a Nicola sposta decisioni vere. Il caso di AR-282 sulla cassa è il precedente misurato."
+    },
+    {
+      "id": "AR-963",
+      "stato": "aperto",
+      "gravita": "minore",
+      "dimensione": "worker-orchestrazione",
+      "area": "macchina",
+      "nato": "2026-10-11 02:12",
+      "nato_come": "scoperta",
+      "trovato_da": "Trovato riparando AR-957, l'11/10, cercando chi altro decide i ritentativi di quota.",
+      "titolo": "La sentinella dei lavori ha una sua copia delle parole della quota, e non conosce il limite settimanale",
+      "sintomo": "cervello/sentinella-lavori.mjs, rete di sicurezza 1c: ogni lavoro in attesa con il ritentativo oltre 6 ore e una parola di quota nel risultato (quota, rate limit, 429, out of usage, session limit) viene riportato ad ADESSO, perché «la finestra di sessione è di 5 ore». Ma un limite SETTIMANALE è programmato apposta a giorni di distanza da decidiRitento. Se il suo messaggio contiene una di quelle parole, a ogni passaggio della sentinella — ogni 3 minuti, da cervello/vps/mycity-sentinella.timer — il lavoro riparte, fallisce, consuma un tentativo: i 40 tentativi pensati per dieci giorni finiscono in poche ore, e il lavoro si ferma per sempre.",
+      "causa_radice": "La decisione «è una quota di 5 ore o un muro di giorni?» ha due copie: classificaErrore in retry-policy.mjs, che distingue il settimanale, e una lista di parole scritta a mano dentro la sentinella, che non lo distingue. È la malattia delle due copie della stessa decisione. Non verificato: se i messaggi veri del limite settimanale contengono oggi una di quelle parole. Quello stampato a agosto («You've reached your weekly limit») non ne contiene.",
+      "fix_proposto": "🟡 La sentinella chiede la classe a classificaErrore invece di cercare parole, e sblocca solo la classe «quota». La decisione va in una funzione pura in retry-policy.mjs (un lavoro, l'istante → sbloccare sì o no), provata in limite-settimanale-riparte.test.mjs su un lavoro settimanale col 429 nel messaggio: non deve ripartire.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto finché sentinella-lavori.mjs decide lo sblocco con una lista di parole sua. Chiuso quando decide con classificaErrore, con una prova che diventa rossa se un lavoro settimanale viene sbloccato."
+      },
+      "dove": "cervello/sentinella-lavori.mjs: rete di sicurezza 1c · cervello/retry-policy.mjs: classificaErrore",
+      "impatto_crescita": "basso",
+      "impatto_crescita_nota": "Non tocca ordini né negozi: fa arrendere la macchina prima del tempo durante un limite settimanale, e il lavoro va rilanciato a mano."
+    },
+    {
+      "id": "AR-964",
+      "stato": "aperto",
+      "gravita": "medio",
+      "dimensione": "integrita-memoria",
+      "area": "macchina",
+      "nato": "2026-10-11 02:12",
+      "nato_come": "scoperta",
+      "trovato_da": "Trovato dal collaudo indipendente di AR-960, l'11/10: il guardiano dichiarato sorvegliava un registro vuoto.",
+      "titolo": "Le scadenze che i reparti trovano non entrano nello scadenzario: il bando rifiuti stava solo in una card",
+      "sintomo": "La card #200 (accodata il 2026-10-10 09:40) dice che il bando rifiuti del Comune chiude il 23 ottobre, con la fonte. cervello/scadenzario.json aveva zero scadenze aperte: il guardiano delle scadenze diceva «niente di imminente» perché nessuno gli aveva dato niente da guardare. Il 20/10 non avrebbe avvisato nessuno.",
+      "causa_radice": "Nessuna strada porta una scadenza dalla card al registro. Chi la trova (intelligence, account-negozi, l'AD) scrive la card e la consegna; l'unico che scrive nel registro è il senior scadenzario, che però non viene chiamato, e quando lo è scrive nella copia sbagliata (AR-961). E nessun controllo confronta le date delle card con il registro.",
+      "fix_proposto": "🟡 ① Una card con una scadenza la dichiara in un campo suo (la data come dato, non come frase nel titolo). ② Un guardiano fallisce se una card aperta dichiara una scadenza che nel registro non c'è. ③ Cablato nel giro, come scadenzario-check. Il 2026-10-11 02:12 la scadenza del bando rifiuti è stata scritta a mano nel registro: è il caso, non la cura.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto finché una scadenza può stare in una card senza stare nel registro senza che nessun controllo fallisca. Chiuso quando quel controllo esiste, gira nel giro e una card finta con una scadenza fuori registro lo fa diventare rosso."
+      },
+      "dove": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md · cervello/scadenzario.json · cervello/scadenzario-check.mjs",
+      "impatto_crescita": "medio",
+      "impatto_crescita_nota": "Una scadenza persa è un incasso perso per un negozio vero: qui 400.000 € del Comune assegnati in ordine di arrivo, e Pane Quotidiano ha i requisiti."
     }
   ],
   "meta": {

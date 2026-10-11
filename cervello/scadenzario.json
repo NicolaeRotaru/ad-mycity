@@ -2,8 +2,19 @@
   "_cosa_e": "📅 LO SCADENZARIO — le scadenze esterne come DATI, non come racconto dentro i Report. Lo legge cervello/scadenzario-check.mjs a ogni giro, che CALCOLA quanto manca invece di leggere una frase. Nasce da AR-147 (l'agente `scadenzario` esisteva da sempre e non aveva mai prodotto un artefatto-dati) e da AR-214 (due schede della stessa pagina davano due countdown diversi).",
   "_perche_esiste": "Misurato il 28/7 alle 05:59: due file dicevano «mancano 3 giorni» per PI26, mentre ne mancavano 2,4. E non divergevano fra loro — concordavano, e sbagliavano tutti e due, il che è peggio perché sembra una conferma. Il numero era stato TRASCRITTO invece che calcolato: vero il giorno in cui è stato scritto, poi invecchiato in silenzio sembrando aggiornato. Nel vault la deriva si legge riga per riga: «mancano 4 giorni», «~2,5 residui», «~2,3», «~2,2», «mancano 3 giorni».",
   "_come_si_usa": "Ogni scadenza esterna con una conseguenza reale va qui, con la data come DATO (ISO col fuso) e la FONTE di quella data. Chi la mostra la calcola: nessuno la trascrive. Quando è passata si sposta in `chiuse` — la storia non si cancella.",
-  "aggiornato": "2026-08-13 03:30",
-  "scadenze": [],
+  "aggiornato": "2026-10-11 02:06",
+  "scadenze": [
+    {
+      "id": "bando-rifiuti-piacenza-2026",
+      "titolo": "Bando incentivi rifiuti del Comune di Piacenza — da girare a Pane Quotidiano",
+      "scade": "2026-10-23T00:00:00+02:00",
+      "colore": "🔴",
+      "chi": "Nicola: manda al fornaio il messaggio già pronto (card #200)",
+      "conseguenza": "Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata, assegnati in ordine di arrivo: dopo il 23/10 Pane Quotidiano non può più chiedere la sua parte.",
+      "fonte": "https://www.comune.piacenza.it/it/news/incentivi-rifiuti — letta il 2026-09-01 e ricontrollata dal reparto intelligence il 2026-10-10 (apertura 31/8, chiusura 23/10/2026). Messaggio pronto: consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md",
+      "nota_ora": "L'ora di chiusura non è nella nostra fonte: la scadenza è messa all'inizio del 23/10, così l'avviso delle 72 ore arriva prima e mai dopo. Scritta qui l'11/10 alle 02:06: fino ad allora il bando stava solo nella card, e il guardiano sorvegliava un registro vuoto (AR-964)."
+    }
+  ],
   "chiuse": [
     {
       "id": "bando-commercio-er",

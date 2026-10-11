@@ -251,7 +251,7 @@ async function main() {
       console.log(`\n   🎉 Guariti (da togliere da stampo-baseline.json): ${guariti.length}`);
       for (const g of guariti.slice(0, 10)) {
         // AR-959: togliere `quaderno_vuoto` cancella l'unica cosa che la baseline sapeva di quel
-        // quaderno (che era vuoto). Senza il suo primo esito al posto suo, il giorno che diventa
+        // quaderno (che era vuoto). Senza il suo ultimo esito al posto suo, il giorno che diventa
         // fermo esce «regressione» per un calendario. Il valore da scrivere lo dice il guardiano.
         const daScrivere =
           g.difetto === DIFETTO.QUADERNO_VUOTO && ultimoOggi[g.nome] && !(baseline.ultimo_esito || {})[g.nome]

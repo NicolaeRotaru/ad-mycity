@@ -24,8 +24,8 @@
 // Exit (contratto AR-322): 0 = niente di imminente · 1 = scadenza entro 72h o countdown stantio · 2 = cieco
 
 import { existsSync, readFileSync } from "node:fs";
-import { dirname, isAbsolute, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { dirname, isAbsolute, join, relative } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { codiceUscita, countdownNelTesto, countdownStantio, livelloScadenza, quantoManca, testoCountdown } from "./scadenze-regole.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -39,6 +39,10 @@ const REGISTRO = REGISTRO_OVERRIDE
   ? (isAbsolute(REGISTRO_OVERRIDE) ? REGISTRO_OVERRIDE : join(REPO, REGISTRO_OVERRIDE))
   : join(QUI, "scadenzario.json");
 const JSON_MODE = process.argv.includes("--json");
+// AR-960 — quale file ha letto, detto nel JSON. La lista dei documenti di governo dichiara un
+// documento e un guardiano: senza questa riga nessuno può controllare che il guardiano legga proprio
+// quel documento, e non una sua copia (fino all'11/10 la lista guardava la copia nel Vault).
+const REGISTRO_LETTO = relative(REPO, REGISTRO).split("\\").join("/");
 
 // I file VIVI che Nicola legge e in cui un countdown trascritto fa danno. La storia (Briefing,
 // DECISIONI, Report, SALA) è esente per la stessa ragione di AR-102: non si riscrive, ed è datata.
@@ -76,7 +80,7 @@ function main() {
   const aperte = Array.isArray(reg.scadenze) ? reg.scadenze : [];
   if (aperte.length === 0) {
     // Nessuna scadenza aperta è uno stato legittimo — ma va detto, non sottinteso.
-    if (JSON_MODE) console.log(JSON.stringify({ ok: true, scadenze: [], stantii: [], nota: "nessuna scadenza aperta" }, null, 2));
+    if (JSON_MODE) console.log(JSON.stringify({ ok: true, registro: REGISTRO_LETTO, scadenze: [], stantii: [], nota: "nessuna scadenza aperta" }, null, 2));
     else console.log("📅 SCADENZE — nessuna scadenza aperta nel registro.");
     process.exit(0);
   }
@@ -111,7 +115,7 @@ function main() {
   }, "lontana");
   const rc = stantii.length > 0 ? 1 : codiceUscita(peggiore);
 
-  const out = { ok: rc === 0, adesso: new Date(adesso).toISOString(), scadenze: righe, stantii, livello_peggiore: peggiore };
+  const out = { ok: rc === 0, registro: REGISTRO_LETTO, adesso: new Date(adesso).toISOString(), scadenze: righe, stantii, livello_peggiore: peggiore };
 
   if (JSON_MODE) {
     console.log(JSON.stringify(out, null, 2));
@@ -133,4 +137,6 @@ function main() {
   process.exit(rc);
 }
 
-main();
+// AR-445 — importarlo non deve farlo girare: la guardia dell'entrypoint, come negli altri moduli.
+// Toccato dal lotto di AR-960 (il campo `registro` nel JSON), il cancello lo pretende adesso.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

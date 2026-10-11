@@ -12,8 +12,9 @@
 // non per copertura». Senza la rassegna si aspetta il prossimo incidente per scoprire il prossimo
 // documento scoperto.
 //
-// NON-VACUITÀ (eseguita): togliendo la voce `attesa` allo scadenzario in documenti-di-governo.mjs,
-// il caso «la lista vera è coperta» diventa rosso.
+// NON-VACUITÀ (eseguita): togliendo il guardiano allo scadenzario in documenti-di-governo.mjs
+// (`guardiano: null`, senza un'attesa), il caso «la lista vera è coperta» diventa rosso, e con lui
+// il caso AR-960 (mutazione registrata in cervello/mutanti.json, rilanciata l'11/10).
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -70,11 +71,22 @@ test("AR-431 — la lista dei documenti di governo esiste ed è quella nominata 
 // AR-960 — fino all'11/10 la voce scadenzario diceva «guardiano: null» e aspettava un controllo sulle
 // scadenze scadute «da scrivere apposta». Esisteva dal 28/7: scadenzario-check.mjs. La lista
 // guardava una copia nel Vault che nessuno legge. Qui non basta che il file del guardiano esista:
-// lo si esegue, e deve fermarsi davanti a una scadenza aperta già passata.
-test("AR-960 — il guardiano dichiarato per lo scadenzario esiste e FRENA su una scadenza aperta già passata", () => {
+// lo si esegue, deve leggere proprio il documento che la lista dichiara, e deve fermarsi davanti a
+// una scadenza aperta già passata.
+test("AR-960 — il guardiano dichiarato legge il documento dichiarato, e FRENA su una scadenza aperta già passata", () => {
   const voce = DOCUMENTI.find((d) => d.id === "scadenzario");
   assert.ok(voce?.guardiano, "la voce scadenzario deve avere un guardiano, non un'attesa");
   assert.ok(existsSync(join(REPO, voce.guardiano)), `il guardiano dichiarato non esiste: ${voce.guardiano}`);
+  assert.ok(existsSync(join(REPO, voce.documento)), `il documento dichiarato non esiste: ${voce.documento}`);
+
+  // Il collaudo dell'11/10: un guardiano vero che sorveglia un ALTRO file è lo stesso buco di prima,
+  // con un nome giusto sopra. Lo si chiede al guardiano, senza nessun registro iniettato.
+  const envVero = { ...process.env };
+  delete envVero.SCADENZARIO_REGISTRO;
+  const vero = spawnSync(process.execPath, [join(REPO, voce.guardiano), "--json"], { encoding: "utf8", env: envVero, timeout: 60_000 });
+  assert.notEqual(vero.status, 2, `il guardiano è cieco sul registro vero:\n${vero.stdout}${vero.stderr}`);
+  assert.equal(JSON.parse(vero.stdout).registro, voce.documento, "il guardiano deve leggere il documento che la lista dichiara, non una sua copia");
+
   const dir = mkdtempSync(join(tmpdir(), "c9-scadenze-"));
   const registro = join(dir, "scadenzario.json");
   writeFileSync(

@@ -73,6 +73,31 @@ prova("AR-957 — la data del reset si legge con l'orologio dato, non con quello
   assert.notEqual(atteso, dataDaTesto("resets Aug 14 at 9am", fraUnAnno), "i due orologi devono dare date diverse, o il confronto non prova niente");
 });
 
+prova("AR-957 — anche quando la classe la dichiara lo script, la data si legge con l'orologio dato", () => {
+  // Il collaudo dell'11/10: la prova sopra passa dalla prosa. La strada che le cadenze usano davvero
+  // è la riga `[classe] …` emessa apposta, ed è un ramo suo con la sua lettura della data.
+  const dichiarato = `${SETTIMANALE}\n[classe] quota_settimanale`;
+  const r = classificaErrore(dichiarato, ORA);
+  assert.equal(r.fonte_classe, "dichiarata", "prerequisito: è il ramo del canale dichiarato, non la prosa");
+  assert.equal(r.resetData, dataDaTesto("resets Aug 14 at 9am", ORA), "con l'orologio della prova: 14 agosto 2026");
+  const fraUnAnno = ORA + 365 * 86400000;
+  assert.equal(classificaErrore(dichiarato, fraUnAnno).resetData, dataDaTesto("resets Aug 14 at 9am", fraUnAnno));
+});
+
+prova("AR-957 — la sentinella che rilegge un guasto di due giorni fa conta il reset dal momento del guasto", () => {
+  // «resets in 3 days» scritto due giorni fa vuol dire FRA UN GIORNO. Letto con l'orologio vero
+  // diventerebbe «fra tre giorni da oggi», oltre il tetto, e il muro tornerebbe un ritentativo fra 6 ore.
+  const d = decidiRitento({
+    tipo: "monitora",
+    tentativi: 0,
+    risultato: "You've reached your weekly limit · resets in 3 days",
+    errorAtMs: ORA,
+    nowMs: ORA + 2 * 86400000,
+  });
+  assert.equal(d.classe, "quota_settimanale");
+  assert.equal(d.quandoISO, new Date(ORA + 3 * 86400000 + 2 * 60 * 1000).toISOString(), "si riprova due minuti dopo il reset vero");
+});
+
 prova("IL DIFETTO: il ritentativo cade fra GIORNI, non fra minuti", () => {
   const d = decidiRitento({ tipo: "monitora", tentativi: 0, risultato: SETTIMANALE, nowMs: ORA });
   assert.equal(d.azione, "ritenta");
@@ -135,6 +160,11 @@ prova("il guasto registrato è leggibile e dice quando riparte", () => {
     assert.equal(voce.classe, "quota_settimanale");
     assert.equal(voce.riparte_da_sola, true);
     assert.ok(voce.ritento_previsto, "senza ritento_previsto la sentinella non sa quando svegliarsi");
+    // AR-957: la data scritta nell'anello è quella letta con l'orologio della cadenza che ha visto il
+    // guasto. Con l'orologio vero, rileggendo un guasto d'agosto a ottobre, sarebbe l'agosto dopo.
+    const reset = dataDaTesto("resets Aug 14 at 9am", ORA);
+    assert.equal(voce.reset_data, new Date(reset).toISOString(), "il reset registrato è il 14 agosto 2026");
+    assert.equal(voce.ritento_previsto, new Date(reset + 2 * 60 * 1000).toISOString(), "e si riprova due minuti dopo");
     const salvato = JSON.parse(readFileSync(path, "utf8"));
     assert.equal(salvato.voci.length, 1);
     // Un secondo guasto non cancella il primo: l'anello serve a vedere se il guasto si ripete.

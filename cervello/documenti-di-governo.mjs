@@ -68,7 +68,7 @@ export const DOCUMENTI = [
     attesa: {
       fino: "2026-11-15",
       perche:
-        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza. DATA SPOSTATA l'11/10 (era il 30/9), col perché nuovo: dal 1/9 al 10/10 la macchina è rimasta ferma, coi due database in pausa, e nessun lotto ha girato. E il confronto non si può scrivere in un'ora: prima serve sapere quali numeri il codice chiama KPI, cioè un registro che oggi non esiste. È la scheda AR-962, nel cantiere: lì il lavoro c'è, qui c'è solo la data.",
+        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza. DATA SPOSTATA l'11/10 (era il 30/9), col perché nuovo: il 30/9 è passato senza che nessuno lo costruisse — i lotti di inizio settembre hanno lavorato sul sito, e dal 10/9 al 9/10 sul ramo principale non è entrato nessun lavoro. E il confronto non si scrive in un'ora: prima serve sapere quali numeri il codice chiama KPI, cioè un registro che oggi non esiste. È la scheda AR-962, nel cantiere: lì il lavoro c'è, qui c'è solo la data.",
     },
   },
 ];

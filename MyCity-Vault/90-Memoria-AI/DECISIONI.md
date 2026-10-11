@@ -5361,3 +5361,19 @@ richiesta di unione. Nessuna prova è stata spenta o saltata: ogni riparazione h
 mutazione che la fa tornare rossa.
 
 **Come si torna indietro.** Non unire la richiesta #878: su main resta tutto com'era.
+
+## 2026-10-11 02:16 — 🟡 Il collaudo ha trovato punti deboli nella riparazione della CI: chiusi
+
+**Cosa.** Un agente che non aveva costruito niente ha provato a smontare la riparazione delle 01:50.
+Ha trovato cose vere. La più seria: la prova sul motore delle lezioni sarebbe tornata rossa al primo
+giro, appena muoiono le prime lezioni (due stanno a 0,32). Riscritta e provata simulando quel giro:
+42 lezioni morte su 497, la prova resta verde per la ragione giusta. Le altre: la prova dello scadenzario
+controlla anche che il controllo legga il file dichiarato; tre prove in più sul limite settimanale;
+un testo che diceva «nessun lotto ha girato a settembre», falso, riscritto coi fatti. Nel registro
+delle scadenze è entrato il bando rifiuti del Comune (23/10), che stava solo nella card #200.
+Due difetti nuovi registrati e non riparati qui: la sentinella dei lavori ha una sua copia delle
+parole della quota (AR-963), e nessuna strada porta le scadenze dalle card al registro (AR-964).
+
+**Perché.** Chi costruisce cerca conferme: il secondo giro lo fa sempre qualcun altro.
+
+**Come si torna indietro.** Non unire la richiesta #878.
