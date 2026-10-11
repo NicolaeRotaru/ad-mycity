@@ -71,11 +71,18 @@ prova("AR-957 — la data del reset si legge con l'orologio dato, non con quello
     "con un orologio diverso la data cambia con lui: se restasse uguale, l'orologio passato verrebbe ignorato"
   );
   assert.notEqual(atteso, dataDaTesto("resets Aug 14 at 9am", fraUnAnno), "i due orologi devono dare date diverse, o il confronto non prova niente");
+
+  // Il collaudo dell'11/10: i confronti qui sopra cambiano insieme, quindi una lettura che prendesse
+  // l'anno dal calendario vero passava lo stesso finché il calendario vero era nel 2026. L'anno si
+  // fissa: letta con un orologio del 2030, la data del reset è del 2030.
+  const nel2030 = Date.parse("2030-08-10T06:30:00+02:00");
+  assert.equal(new Date(classificaErrore(SETTIMANALE, nel2030).resetData).getUTCFullYear(), 2030, "la data del reset prende l'anno dall'orologio dato");
 });
 
 prova("AR-957 — anche quando la classe la dichiara lo script, la data si legge con l'orologio dato", () => {
-  // Il collaudo dell'11/10: la prova sopra passa dalla prosa. La strada che le cadenze usano davvero
-  // è la riga `[classe] …` emessa apposta, ed è un ramo suo con la sua lettura della data.
+  // Il collaudo dell'11/10: la prova sopra passa dalla prosa. La riga `[classe] …` è il canale che il
+  // parser legge per primo (AR-294): oggi nessuno script la emette ancora, ma il ramo esiste, e ha la
+  // sua lettura della data.
   const dichiarato = `${SETTIMANALE}\n[classe] quota_settimanale`;
   const r = classificaErrore(dichiarato, ORA);
   assert.equal(r.fonte_classe, "dichiarata", "prerequisito: è il ramo del canale dichiarato, non la prosa");

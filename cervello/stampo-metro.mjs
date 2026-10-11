@@ -291,11 +291,7 @@ export const MATURANO_DA_SOLE = new Set([DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOT
 export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}, baseline = {} } = {}) {
   const ultimoAllora = baseline.ultimo_esito || {};
   const bytesAllora = baseline.kit_bytes || {};
-  const vuotiAllora = new Set(
-    Object.entries(baseline.debito || {})
-      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_VUOTO))
-      .map(([nome]) => nome)
-  );
+  const vuotiAllora = vuotiAllaDichiarazione(baseline);
   const regressioni = [];
   const invecchiati = [];
   for (const n of nuovi) {
@@ -303,6 +299,39 @@ export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}
     (v.invecchiato ? invecchiati : regressioni).push({ ...n, perche: v.perche });
   }
   return { regressioni, invecchiati };
+}
+
+/** I quaderni che alla dichiarazione erano vuoti: il debito lo dice per nome (`quaderno_vuoto`). PURA. */
+export function vuotiAllaDichiarazione(baseline = {}) {
+  return new Set(
+    Object.entries(baseline.debito || {})
+      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_VUOTO))
+      .map(([nome]) => nome)
+  );
+}
+
+/**
+ * AR-959, il pezzo che il collaudo dell'11/10 ha trovato scoperto: la baseline che non saprebbe più
+ * giudicare un quaderno.
+ *
+ * Un quaderno fermo si giudica con una di due cose scritte nella baseline: il suo ultimo esito di
+ * allora (`ultimo_esito`), oppure la parola `quaderno_vuoto` nel debito. Quando un quaderno guarisce
+ * dal vuoto, è il guardiano stesso a dire di togliere quella parola. Se nello stesso momento nessuno
+ * scrive la data, la baseline perde l'unica cosa che sapeva: il quaderno resta verde finché scrive, e
+ * trenta giorni dopo il suo ultimo esito esce «regressione» per un calendario. È la CI rossa del
+ * 10/10, e il collaudo l'ha rifatta con un orologio finto.
+ *
+ * Qui il buco diventa rosso IL GIORNO STESSO, quando chi ha tolto la riga è ancora lì e la data da
+ * scrivere è una sola: ogni quaderno che ha esiti oggi deve avere nella baseline o la sua data o la
+ * parola «vuoto». Vale anche per un senior nuovo, che entra nel parco col suo primo esito. PURA.
+ */
+export function baselineCieca({ ultimoOggi = {}, baseline = {} } = {}) {
+  const ultimoAllora = baseline.ultimo_esito || {};
+  const vuotiAllora = vuotiAllaDichiarazione(baseline);
+  return Object.entries(ultimoOggi)
+    .filter(([nome, oggi]) => oggi && !ultimoAllora[nome] && !vuotiAllora.has(nome))
+    .map(([nome, oggi]) => ({ nome, ultimo_oggi: oggi }))
+    .sort((a, b) => a.nome.localeCompare(b.nome));
 }
 
 /** Il cuore della distinzione: il pezzo PROPRIO dell'agente è peggiorato, sì o no? */

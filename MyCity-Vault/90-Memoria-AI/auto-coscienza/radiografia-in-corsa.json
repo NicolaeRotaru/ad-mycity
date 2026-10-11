@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-11 02:24",
+  "aggiornato": "2026-10-11 03:23",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -3498,6 +3498,27 @@
         "cervello/scadenzario-check.mjs": "6ad7beb8de73",
         "cervello/stampo-check.mjs": "5fcf5a3360af",
         "cervello/stampo-metro.mjs": "3b84dc86b882"
+      }
+    },
+    {
+      "quando": "2026-10-11 03:23",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/stampo-check.mjs": "15705e413945",
+        "cervello/stampo-metro.mjs": "28b2efceeae7"
       }
     }
   ]

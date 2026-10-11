@@ -23,7 +23,7 @@
 //
 // Exit (contratto AR-322): 0 = niente di imminente · 1 = scadenza entro 72h o countdown stantio · 2 = cieco
 
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync } from "node:fs";
 import { dirname, isAbsolute, join, relative } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { codiceUscita, countdownNelTesto, countdownStantio, livelloScadenza, quantoManca, testoCountdown } from "./scadenze-regole.mjs";
@@ -137,6 +137,21 @@ function main() {
   process.exit(rc);
 }
 
-// AR-445 — importarlo non deve farlo girare: la guardia dell'entrypoint, come negli altri moduli.
-// Toccato dal lotto di AR-960 (il campo `registro` nel JSON), il cancello lo pretende adesso.
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+// AR-445 — importarlo non deve farlo girare: la guardia dell'entrypoint. Toccato dal lotto di AR-960
+// (il campo `registro` nel JSON), il cancello la pretende adesso.
+//
+// Confronta i percorsi VERI, non le scritte. Il secondo collaudo dell'11/10 l'ha lanciato attraverso
+// un collegamento simbolico: con la forma di casa (`import.meta.url === pathToFileURL(argv[1])`) il
+// modulo non partiva, usciva 0 e non stampava niente — un guardiano muto, che al giro sembra verde.
+// Prima della guardia, con lo stesso collegamento, usciva 1. La forma di casa ha lo stesso buco in
+// altri 27 moduli: è la scheda AR-965.
+function lanciatoDallaRigaDiComando() {
+  const arg = process.argv[1];
+  if (!arg) return false;
+  try {
+    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return import.meta.url === pathToFileURL(arg).href;
+  }
+}
+if (lanciatoDallaRigaDiComando()) main();

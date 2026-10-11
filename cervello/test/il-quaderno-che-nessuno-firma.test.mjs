@@ -180,7 +180,15 @@ prova("AR-621 · AR-622: la sonda pubblica i due numeri, non li tiene per sé", 
   assert.ok(s && s.misurabile, "senza questo blocco il canale resta senza sensore");
   assert.equal(typeof s.reparti_muti_conteggio, "number");
   assert.equal(typeof s.peer_review.senza_risposta, "number");
-  assert.ok(s.quota_voce_dominante > 0, "e la concentrazione delle voci: è il monologo, misurato");
+  // AR-967 — la quota si misura sulle righe dell'ultima settimana. Pretendere «> 0» chiedeva alla Sala
+  // vera di essere stata scritta di recente: una prova che misura il mondo, e non il codice. Il secondo
+  // collaudo dell'11/10 l'ha vista rossa da sola con l'orologio al 19/10 e nessuno in Sala. Si pretende
+  // la coerenza, nei due versi: righe nella finestra → una voce domina; finestra vuota → nessuna.
+  if (s.righe_nella_finestra > 0) {
+    assert.ok(s.quota_voce_dominante > 0 && s.quota_voce_dominante <= 1, "e la concentrazione delle voci: è il monologo, misurato");
+  } else {
+    assert.equal(s.quota_voce_dominante, null, "una settimana senza righe in Sala non ha una voce dominante: dirne una sarebbe inventarla");
+  }
 });
 
 // ───────────────────── AR-407 · la medicina somministrata ─────────────────────

@@ -41,7 +41,8 @@
 // momento in cui il motore lavorava, ⑥bis controlla che col giorno di oggi il verdetto non menta.
 //
 // E L'ARCHIVIO CAMBIERÀ ANCORA (collaudo dell'11/10). Due lezioni stanno a confidenza 0,32 e quattro
-// a 0,35: al prossimo passo muoiono, e con la prima morte la riga sulle decadute sparisce, perché il
+// a 0,35: al prossimo passo ne muoiono cinque, il massimo che il motore uccide in un giro (rifatto col
+// motore vero, `cristallizza-apprendimento.mjs`). Con la prima morte la riga sulle decadute sparisce, perché il
 // guardiano la scrive solo con zero morti sopra le 400 vive. Una prova che pretendesse quella riga
 // tornerebbe rossa al primo giro sano — di nuovo il mondo, non il codice. Perciò ⑥ e ⑥bis giudicano
 // la riga quando c'è, e quando non c'è controllano che manchi per la ragione giusta; il caso che non

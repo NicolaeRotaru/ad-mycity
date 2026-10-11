@@ -19,9 +19,9 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdtempSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { DOCUMENTI, copertura, scoperti } from "../documenti-di-governo.mjs";
@@ -97,10 +97,43 @@ test("AR-960 — il guardiano dichiarato legge il documento dichiarato, e FRENA 
   const r = spawnSync(process.execPath, [join(REPO, voce.guardiano)], { encoding: "utf8", env, timeout: 60_000 });
   assert.equal(r.status, 1, `una scadenza aperta già passata deve far uscire 1 il guardiano dichiarato:\n${r.stdout}${r.stderr}`);
 
+  // Il secondo collaudo dell'11/10: il campo `registro` deve dire il file letto DAVVERO, non
+  // un'etichetta scritta fissa. Col registro iniettato deve nominare quello, non lo scadenzario vero.
+  const letto = spawnSync(process.execPath, [join(REPO, voce.guardiano), "--json"], { encoding: "utf8", env, timeout: 60_000 });
+  assert.equal(JSON.parse(letto.stdout).registro, relative(REPO, registro).split(sep).join("/"), "il guardiano deve dire quale file ha letto davvero");
+
+  // E lanciato attraverso un collegamento simbolico alla cartella del repo deve frenare lo stesso: con
+  // la guardia dell'entrypoint scritta sui nomi invece che sui percorsi veri usciva 0, muto.
+  const collegamento = join(dir, "repo-collegato");
+  symlinkSync(REPO, collegamento, "dir");
+  const daCollegamento = spawnSync(process.execPath, [join(collegamento, voce.guardiano)], { encoding: "utf8", env, timeout: 60_000 });
+  assert.equal(daCollegamento.status, 1, `dal collegamento il guardiano deve girare e frenare:\n${daCollegamento.stdout}${daCollegamento.stderr}`);
+
   // E il contrario: chiusa, la stessa scadenza non è più un allarme. Un guardiano sempre rosso non frena niente.
   writeFileSync(registro, JSON.stringify({ aggiornato: "2026-01-01 09:00", scadenze: [], chiuse: [{ id: "prova", scade: "2026-01-02T12:00:00+01:00" }] }));
   const chiusa = spawnSync(process.execPath, [join(REPO, voce.guardiano)], { encoding: "utf8", env, timeout: 60_000 });
   assert.equal(chiusa.status, 0, `una scadenza chiusa non deve far uscire rosso il guardiano:\n${chiusa.stdout}${chiusa.stderr}`);
+});
+
+// AR-966 — il secondo collaudo dell'11/10: un'attesa che scade rende rossa la CI di tutti (è IL PUNTO,
+// qui sotto), e prima nessuno avvisava: la data stava solo in questa lista, che il giro non legge. Così
+// la CI è diventata rossa il 30/9 senza preavviso. Adesso ogni attesa ha la sua voce nello scadenzario,
+// che il giro sorveglia: l'avviso arriva tre giorni prima del rosso. Le due date devono restare uguali,
+// nei due versi — una copia che diverge è peggio di nessuna copia.
+test("AR-966 — ogni attesa della lista ha la sua scadenza nello scadenzario, con la stessa data", () => {
+  const reg = JSON.parse(readFileSync(join(REPO, "cervello/scadenzario.json"), "utf8"));
+  const aperte = new Map((reg.scadenze || []).map((s) => [s.id, s]));
+  const attese = DOCUMENTI.filter((d) => !d.guardiano && d.attesa?.fino);
+  for (const d of attese) {
+    const s = aperte.get(`attesa-${d.id}`);
+    assert.ok(s, `l'attesa di «${d.id}» (fino al ${d.attesa.fino}) non è nello scadenzario: il giorno dopo la CI diventa rossa senza preavviso`);
+    const [a, m, g] = d.attesa.fino.split("-").map(Number);
+    assert.equal(Date.parse(s.scade), Date.UTC(a, m - 1, g), `le due date di «${d.id}» divergono: ${s.scade} contro ${d.attesa.fino}`);
+  }
+  for (const id of aperte.keys()) {
+    if (!id.startsWith("attesa-")) continue;
+    assert.ok(attese.some((d) => `attesa-${d.id}` === id), `«${id}» è nello scadenzario ma l'attesa non c'è più: va spostata in chiuse`);
+  }
 });
 
 test("AR-431 — IL PUNTO: sulla lista vera nessun documento di governo è scoperto in silenzio", () => {

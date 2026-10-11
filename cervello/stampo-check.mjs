@@ -36,6 +36,7 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import {
   DIFETTO,
+  baselineCieca,
   classificaNuovi,
   codiceUscita,
   debitoRiparato,
@@ -166,6 +167,9 @@ async function main() {
   // `classificaNuovi`, dentro stampo-metro.mjs, dove un test lo può eseguire.
   const { regressioni, invecchiati } = classificaNuovi(nuovi, { ultimoOggi, kitBytesOggi: kitBytes, baseline });
   const guariti = baselineLetta ? debitoRiparato(quadro, baseline) : [];
+  // AR-959 (collaudo dell'11/10) — la baseline deve saper giudicare ogni quaderno che scrive: chi
+  // toglie `quaderno_vuoto` senza scrivere la data lo scopre oggi, non trenta giorni dopo.
+  const cieca = baselineLetta ? baselineCieca({ ultimoOggi, baseline }) : [];
   const perTipo = {};
   for (const d of Object.values(quadro)) for (const x of d) perTipo[x] = (perTipo[x] || 0) + 1;
 
@@ -193,13 +197,16 @@ async function main() {
     regressioni,
     invecchiati,
     debito_riparato_da_togliere: guariti,
+    baseline_cieca: cieca,
     baseline_letta: baselineLetta,
   };
 
-  const rc = codiceUscita({ cieco: baselineLetta ? 0 : 1, nuovi: regressioni.length });
+  const rc = codiceUscita({ cieco: baselineLetta ? 0 : 1, nuovi: regressioni.length + cieca.length });
   const sintesi = regressioni.length
     ? `${regressioni.length} regressioni oltre il debito dichiarato`
-    : `nessuna regressione · ${invecchiati.length} invecchiati · debito noto: ${Object.keys(quadro).length}/${roster.length} agenti`;
+    : cieca.length
+      ? `${cieca.length} quaderni che la baseline non sa più giudicare: manca la data in ultimo_esito`
+      : `nessuna regressione · ${invecchiati.length} invecchiati · debito noto: ${Object.keys(quadro).length}/${roster.length} agenti`;
 
   // AR-464 · AR-568 — la scrittura passa dalla decisione condivisa: `--sola-lettura` chiude la
   // porta, e una misura più povera presa da un altro punto d'osservazione non prende il posto di
@@ -231,6 +238,11 @@ async function main() {
       for (const n of regressioni.slice(0, 20)) console.log(`   • @${n.nome.padEnd(24)} ${n.difetto} — ${n.perche}`);
     } else {
       console.log(`   ✅ Nessuna regressione. Debito dichiarato il ${baseline.dichiarato_il}.`);
+    }
+    if (cieca.length) {
+      console.log(`\n   ⛔ ${cieca.length} quaderni scrivono, ma la baseline non sa più giudicarli: scrivi in ultimo_esito`);
+      for (const c of cieca.slice(0, 20)) console.log(`   • "${c.nome}": "${c.ultimo_oggi}"`);
+      console.log(`   → Senza, trenta giorni dopo l'ultimo esito il quaderno esce «regressione» per un calendario (AR-959).`);
     }
     // Gli invecchiati non bloccano, ma non si nascondono: un debito che si allarga in silenzio è
     // indistinguibile da un debito che non c'è.

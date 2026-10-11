@@ -7,6 +7,7 @@ reparto: devops-sre
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-10-11 03:23 · CI rossa: secondo collaudo e spazzata con l'orologio spostato (11/10) · V5 C5 A5 K5 I3 M5 E3 (media 4.43) · atteso i rinforzi delle 02:16 reggono → reale un grave (quaderno guarito senza data) e sei minori; la suite al 24/10 aveva un solo rosso vero, riparato · #ci #collaudo #calendario
 - 2026-10-11 02:17 · CI rossa: collaudo indipendente della riparazione (11/10) · V4 C5 A5 K5 I3 M4 E3 (media 4.14) · atteso la riparazione delle 01:50 regge → reale non reggeva del tutto: la prova sulle lezioni sarebbe tornata rossa alla prima morte; rinforzata e provata simulando il giro (42 morti su 497) · #ci #collaudo #calendario
 - 2026-10-11 01:48 · CI rossa su main: cinque prove del cervello · V5 C4 A4 K4 I3 M5 E3 (media 4) · atteso capire e riparare le cinque prove rosse senza spegnerne nessuna → reale quattro riparate con prova e mutazione, una data spostata col perché e la scheda AR-962; cancello del lotto verde · #ci #cantiere #prove
 - 2026-10-10 15:52 · card #154: chiavi del sito su Vercel · V5 C4 A3 K4 I2 M5 E3 (media 3.71) · atteso mettere tutte le chiavi mancanti e ripubblicare → reale messe 8 su 17 mancanti (12 su 21 in tutto); le 9 dei servizi esterni restano a Nicola, ripubblicazione rimandata a dopo · #vercel #chiavi #ordini

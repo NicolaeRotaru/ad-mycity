@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-11 02:10",
+ "aggiornato": "2026-10-11 03:22",
  "mutanti": [
   {
    "lotto": 30,
@@ -9382,6 +9382,14 @@
    "test": "cervello/test/limite-settimanale-riparte.test.mjs"
   },
   {
+   "difetto": "AR-957",
+   "nome": "la data scritta col mese prende l'anno dal calendario vero: finché il calendario è nel 2026 nessun'altra prova se ne accorge",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "      const d = new Date(nowMs);",
+   "sostituisci": "      const d = new Date();",
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
    "difetto": "AR-958",
    "nome": "analizza torna a giudicare solo con l'orologio vero: l'archivio finto del caso ⑦ è «fermo» anche un'ora dopo il suo ultimo passo",
    "file": "cervello/apprendimento-guardiano.mjs",
@@ -9395,6 +9403,14 @@
    "file": "cervello/stampo-metro.mjs",
    "cerca": "    if (oggi && !allora && vuotiAllora.has(n.nome)) {",
    "sostituisci": "    if (false) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "chi toglie il «vuoto» senza scrivere la data torna a scoprirlo trenta giorni dopo, con la CI rossa per un calendario",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "    .filter(([nome, oggi]) => oggi && !ultimoAllora[nome] && !vuotiAllora.has(nome))",
+   "sostituisci": "    .filter(() => false)",
    "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
   },
   {
@@ -9412,6 +9428,38 @@
    "cerca": "    documento: \"cervello/scadenzario.json\",",
    "sostituisci": "    documento: \"MyCity-Vault/05-Soldi-Rischi/scadenzario.json\",",
    "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "il guardiano dice di aver letto lo scadenzario vero qualunque file abbia letto: un'etichetta al posto della misura",
+   "file": "cervello/scadenzario-check.mjs",
+   "cerca": "const REGISTRO_LETTO = relative(REPO, REGISTRO).split(\"\\\\\").join(\"/\");",
+   "sostituisci": "const REGISTRO_LETTO = \"cervello/scadenzario.json\";",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "la guardia d'avvio torna a confrontare i nomi: lanciato da un collegamento simbolico il guardiano non parte, esce 0 e sembra verde",
+   "file": "cervello/scadenzario-check.mjs",
+   "cerca": "    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));",
+   "sostituisci": "    return import.meta.url === pathToFileURL(arg).href;",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la data dell'attesa si sposta solo nella lista: lo scadenzario avvisa per un giorno sbagliato, e il rosso torna senza preavviso",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "      fino: \"2026-11-15\",",
+   "sostituisci": "      fino: \"2026-12-15\",",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "la quota della voce dominante non si misura più: la prova della Sala deve accorgersene anche ora che non pretende più il mondo acceso",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "  return { totale: lista.length, voci: per.size, dominante, quota: Math.round((quante / lista.length) * 100) / 100 };",
+   "sostituisci": "  return { totale: lista.length, voci: per.size, dominante, quota: null };",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

@@ -5377,3 +5377,22 @@ parole della quota (AR-963), e nessuna strada porta le scadenze dalle card al re
 **Perché.** Chi costruisce cerca conferme: il secondo giro lo fa sempre qualcun altro.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 03:23 — 🟡 Il secondo collaudo della riparazione della CI: un difetto grave chiuso, e una bomba a orologeria tolta
+
+**Cosa.** Due controllori indipendenti hanno provato a rompere i rinforzi delle 02:16, ognuno con una
+lente diversa. Il rilievo grave: un quaderno che guarisce dal «vuoto» perdeva la sua data, e trenta
+giorni dopo la CI tornava rossa come il 10/10. Adesso il controllo dei quaderni diventa rosso il
+giorno stesso, e dice quale data scrivere. Poi ho fatto girare tutte le 478 prove con l'orologio al
+24/10. Una sola diventava rossa da sola: quella sulla Sala, che pretendeva righe recenti. L'ho resa
+coerente. La data del 15/11 del glossario dei KPI resta un rosso voluto, ma adesso lo scadenzario
+lo annuncia tre giorni prima. La scadenza del bando rifiuti passa alla fine del 23/10: all'inizio,
+il guardiano avrebbe detto «scaduta» per tutto l'ultimo giorno utile.
+
+**Correzione a quanto scritto alle 02:16.** «42 lezioni morte su 497» veniva da una simulazione
+senza il tetto del motore. Col motore vero ne muoiono 5 per giro. La conclusione non cambia.
+
+**Perché.** Chi costruisce cerca conferme: il collaudo lo fa qualcun altro, finché un giro non
+trova più niente.
+
+**Come si torna indietro.** Non unire la richiesta #878.

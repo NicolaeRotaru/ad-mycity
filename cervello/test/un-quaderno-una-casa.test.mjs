@@ -129,9 +129,12 @@ function parcoFinto({ casaAlt = [] } = {}) {
   }
   for (const n of casaAlt) writeFileSync(join(alt, `${n}.md`), "# copia vecchia\n");
 
-  // Debito dichiarato vuoto: qualunque difetto è NUOVO, che è il punto della prova.
+  // Debito dichiarato vuoto: qualunque difetto è NUOVO, che è il punto della prova. La baseline però
+  // conosce l'ultimo esito dei due quaderni: dall'11/10 (AR-959) una baseline che non sa giudicare un
+  // quaderno che scrive è un rosso suo, il giorno stesso — e questa prova parla d'altro.
   const baseline = join(dir, "baseline.json");
-  writeFileSync(baseline, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: {} }));
+  const giorno = esitoRecente.slice(0, 10);
+  writeFileSync(baseline, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: {}, ultimo_esito: { tech: giorno, vendite: giorno } }));
 
   const r = spawnSync("node", [GUARDIANO, "--json"], {
     encoding: "utf8",
