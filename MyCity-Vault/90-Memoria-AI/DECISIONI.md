@@ -5514,7 +5514,7 @@ scorciatoie.
 
 **Contesto.** Nicola: «controlla attentamente le migrazioni». Confronto oggetto per oggetto fra il database di produzione (sola lettura) e un database costruito dal repository del sito.
 
-**Cosa ho trovato.** Il 9/9 dalle 07:25 alle 08:04 UTC sono state rieseguite in produzione le migrazioni dalla 003 alla 079, a pacchetti. Il lavoro si è fermato lì, senza traccia in memoria. Effetto misurato: 12 funzioni su 93 e 27 policy su 172 tornate a versioni vecchie.
+**Cosa ho trovato.** Il 9/9 dalle 07:25 alle 08:04 UTC sono state rieseguite in produzione le migrazioni dalla 003 alla 079, a pacchetti. Il lavoro si è fermato lì, senza traccia in memoria. Effetto misurato: 11 funzioni su 93 e 27 policy su 172 tornate a versioni vecchie.
 
 Le più gravi, una per una:
 - `handle_new_user` è alla versione della 015. Per questo l'iscrizione di negozi e fattorini fallisce su `chk_approvazione_coerente`.

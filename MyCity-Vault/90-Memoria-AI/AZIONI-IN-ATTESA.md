@@ -187,7 +187,7 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 > 🧭 **Aggiornamento AD 2026-10-11 10:40 — la procedura del 7 settembre non basta più: c'è la migrazione 161.**
 >
-> **Cosa è successo.** Il 9 settembre, fra le 9:25 e le 10:04, il passo 2 è stato lanciato a mano in produzione, a pezzi, e si è fermato dopo la migrazione 079. Rieseguire migrazioni vecchie riscrive sopra le versioni nuove. Sono tornate a com'erano fra maggio e luglio 12 funzioni del database e 27 regole di accesso. Nessuno l'aveva annotato.
+> **Cosa è successo.** Il 9 settembre, fra le 9:25 e le 10:04, il passo 2 è stato lanciato a mano in produzione, a pezzi, e si è fermato dopo la migrazione 079. Rieseguire migrazioni vecchie riscrive sopra le versioni nuove. Sono tornate a com'erano fra maggio e luglio 11 funzioni del database e 27 regole di accesso. Nessuno l'aveva annotato.
 >
 > **Cosa si rompe oggi.** Nessuno riesce a iscriversi come negozio o come fattorino: il database rifiuta la riga del profilo. E dieci regole di accesso sono di nuovo aperte.
 >
