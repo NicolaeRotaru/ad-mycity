@@ -151,11 +151,20 @@ test("AR-966 — ogni attesa della lista ha la sua scadenza nello scadenzario, c
   // deve avere la sua voce nello scadenzario, col nome del file e con la stessa data. porte-gemelle
   // confronta `fino_al` con la data di Greenwich: l'esenzione vale per tutto quel giorno e muore alla
   // mezzanotte di Greenwich del giorno dopo, che è il momento in cui il cancello diventa rosso.
+  //
+  // Una voce sola per esenzione (settimo collaudo dell'11/10): con la prima voce trovata, una seconda
+  // che nomina lo stesso file e porta un'altra data passava, restava aperta, e a ogni giro dopo la sua
+  // data il guardiano dello scadenzario usciva rosso per una scadenza che non esiste. Per la stessa
+  // ragione gli id dello scadenzario sono unici: la mappa qui sopra terrebbe solo l'ultimo.
+  const ids = (reg.scadenze || []).map((s) => s.id);
+  assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), [], "nello scadenzario due voci aperte hanno lo stesso id: una delle due non la controlla nessuno");
   const porte = JSON.parse(readFileSync(join(REPO, "cervello/atti-con-porte.json"), "utf8"));
   const datate = (porte.atti || []).flatMap((atto) => (atto.esenti || []).filter((e) => e?.fino_al));
   for (const e of datate) {
-    const voce = [...aperte.values()].find((s) => String(s.id).startsWith("esenzione-") && String(s.fonte || "").includes(e.file));
-    assert.ok(voce, `l'esenzione di ${e.file} scade il ${e.fino_al} e nello scadenzario non c'è: il giorno dopo porte-gemelle è rosso per tutti, senza preavviso`);
+    const voci = [...aperte.values()].filter((s) => String(s.id).startsWith("esenzione-") && String(s.fonte || "").includes(e.file));
+    assert.ok(voci.length, `l'esenzione di ${e.file} scade il ${e.fino_al} e nello scadenzario non c'è: il giorno dopo porte-gemelle è rosso per tutti, senza preavviso`);
+    assert.equal(voci.length, 1, `l'esenzione di ${e.file} ha ${voci.length} voci nello scadenzario (${voci.map((s) => s.id).join(", ")}): ne serve una sola, o le altre avvisano per date che non esistono`);
+    const voce = voci[0];
     const [a, m, g] = String(e.fino_al).split("-").map(Number);
     assert.equal(Date.parse(voce.scade), Date.UTC(a, m - 1, g + 1), `le due date dell'esenzione di ${e.file} divergono: lo scadenzario dice ${voce.scade}, porte-gemelle diventa rosso dal giorno dopo il ${e.fino_al}`);
   }

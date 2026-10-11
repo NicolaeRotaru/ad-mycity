@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-10-11 06:10
+aggiornato: 2026-10-11 06:59
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
 
-> 🧪 **2026-10-11 06:10 — La CI era rossa per cinque prove: riparate, e passate da sei collaudi.**
+> 🧪 **2026-10-11 06:59 — La CI era rossa per cinque prove: riparate, e passate da sette collaudi.**
 >
 > **In parole semplici.** Le prove automatiche della macchina erano rosse su main da settimane, e
 > tenevano rossa ogni richiesta di unione. Quattro le ha fatte scattare il calendario. Due di queste
@@ -15,10 +15,11 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Un esempio concreto.** Una prova pretendeva che il motore delle lezioni stesse lavorando. Il suo
 > ultimo passo è del 1° settembre: il controllo diceva giustamente «fermo», e la prova lo bocciava.
-> Sei collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
+> Sette collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
 > tutte le prove con l'orologio spostato al 24 ottobre: una sola diventava rossa da sola, e l'ho
 > riparata. Il sesto collaudo ha trovato la stessa trappola in un controllo del cancello: il 16
 > ottobre si sarebbe acceso da solo. L'ho spostata al 15 novembre, con l'avviso nello scadenzario.
+> Il settimo ha fatto girare ogni controllo del cancello fino al 2029: nessun'altra data li accende.
 >
 > **Cosa cambia per te.** Quando unisci la richiesta #878, le prove della macchina tornano verdi
 > anche per le richieste dopo. E lo scadenzario contiene il bando rifiuti: tre giorni prima della
@@ -29,9 +30,9 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Cosa non ho verificato.** L'ora di chiusura del bando: la fonte dice solo il giorno. E due cose
 > restano con una data, il 15 novembre: il controllo del glossario dei KPI, che non esiste ancora, e
-> un vecchio programma da togliere. Toglierlo oggi accende un falso allarme di un altro controllo,
-> registrato a parte. Se nessuno le chiude, quel giorno la CI torna rossa da sola. Lo scadenzario le
-> annuncia tre giorni prima.
+> un vecchio programma da togliere. Toglierlo fa scattare un falso allarme in un altro controllo: è
+> un difetto a parte, registrato. Se nessuno le chiude, quel giorno la CI torna rossa da sola. Lo
+> scadenzario le annuncia tre giorni prima.
 
 > 🔑 **2026-10-10 15:50 — Ho messo su Vercel le 8 chiavi del sito che potevo creare io. Le 9 che mancano le copi tu.**
 >

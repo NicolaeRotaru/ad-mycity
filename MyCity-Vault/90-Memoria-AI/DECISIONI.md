@@ -5446,3 +5446,19 @@ sulla Sala vera c'era ancora. Adesso anche quella gira su una Sala finta.
 sorvegliante dentro questa richiesta l'avrebbe allargata a un altro problema.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 07:00 — 🟡 Il settimo collaudo della riparazione della CI: regge, e nessun'altra data accende il cancello da sola
+
+**Cosa.** Il settimo controllore ha fatto girare tutti i 28 controlli del cancello, uno per uno, con
+l'orologio spostato a undici date fino al 2029. Si accende da solo soltanto quello già annunciato del
+15 novembre, all'istante dichiarato. Ha trovato quattro cose minori sul mio lavoro. Tre le ho
+chiuse: tre mutazioni legate al giorno esatto, che un rinnovo fatto bene avrebbe accecato; una prova
+che accettava una voce doppia nello scadenzario; e una mia frase, «toglierlo oggi accende quattro
+falsi allarmi», vera sul commit prima e non su quello consegnato. La quarta, le date che stanno in
+altri due registri, è una scheda nuova. Ha trovato anche due difetti che c'erano già: li ho
+registrati.
+
+**Perché.** Il collaudo si ferma quando un giro non trova più niente. Questo ha trovato cose
+piccole, e le ho chiuse.
+
+**Come si torna indietro.** Non unire la richiesta #878.
