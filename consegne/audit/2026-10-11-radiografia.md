@@ -23,6 +23,7 @@ Il codice in sé regge le prove di base. Il controllo dei tipi dà 0 errori, la 
 | … di cui gravi | 80 |
 | … di cui minori | 218 |
 | … difetti che erano stati chiusi e sono tornati | 25 |
+| … difetti collegati a uno già noto, di cui mostrano una conseguenza nuova | 18 |
 | Difetti già noti ancora presenti oggi (del tutto o in parte) | 163 |
 | … di cui gravi o bloccanti | 20 |
 | Difetti già noti chiusi oggi, perché verificati risolti | 38 |
@@ -82,6 +83,7 @@ Non valgono tutti uguale. Questo è l'ordine che ti propongo: prima quello che e
 
 - Prove dure eseguite oggi su `NicolaeRotaru/mycity@70a9299`: `tsc --noEmit` 0 errori · `npm run lint` 0 errori e 78 avvisi (tutti di accessibilità) · `vitest run` 540 file, 4.258 prove verdi · `next build` riuscita, 216 rotte. Senza `--legacy-peer-deps`, `npm ci` fallisce: il file delle versioni non è allineato.
 - Metodo: 4 workflow da 5-6 corsie, ognuna in due giri (ampiezza, poi angolo avversario). Ogni difetto è passato dalla verifica tecnica e, se grave o bloccante, dalla seconda opinione di `internal-audit`. Poi 6 critici di completezza, fra cui «il giorno del lancio», con le stesse due verifiche. Poi l'unione dei doppioni: 335 schede diventate 283, più 24 dei critici. In parallelo, 12 revisori hanno ricontrollato i 201 difetti aperti del registro. In tutto 195 agenti.
+- Doppio conteggio possibile: 18 dei 307 nuovi citano un difetto noto ancora aperto (per esempio R11, R12 e R55 sono conseguenze concrete di K42, la produzione indietro di 26 migrazioni). Non li ho fusi, perché hanno un rimedio proprio. Il totale di 470 può quindi contare due volte al massimo 18 difetti.
 - Registro: `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json` rifatto con `cervello/radiografia-marketplace-digest.mjs`. Dopo la fusione: 463 aperti (11 bloccanti, 102 gravi, 350 minori) più 7 «riparati» da verificare.
 - 23 falle di sicurezza ancora aperte compaiono qui e nel grezzo solo con un titolo generico e il loro numero (R1, R2, R7, R9…). Il referto completo è consegnato a Nicola in chat, fuori da GitHub.
 - La macchina: ho riparato un difetto del digest che questa radiografia ha fatto emergere. Le aree con solo schede vecchie perdevano il nome nel Pannello. La correzione è in `cervello/referti-sito.mjs`, `dimensioniDegliOrfani`, con la prova ⑥-bis in `cervello/test/il-referto-che-nessuno-legge.test.mjs`: senza la correzione la prova diventa rossa.

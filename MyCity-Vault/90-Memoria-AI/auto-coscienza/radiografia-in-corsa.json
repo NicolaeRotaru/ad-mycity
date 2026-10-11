@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-11 08:16",
+  "aggiornato": "2026-10-11 23:28",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -3626,6 +3626,25 @@
         "cervello/scadenze-del-cancello.mjs": "6d91c9afd114",
         "cervello/stampo-check.mjs": "c342a25311db",
         "cervello/stampo-metro.mjs": "794bd6725b1a"
+      }
+    },
+    {
+      "quando": "2026-10-11 23:28",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "AR-975",
+        "AR-976",
+        "AR-977"
+      ],
+      "nota": "collaudo indipendente dell'11/10: 3 difetti aperti come schede; un quarto (il nome dipendeva dall'ordine delle schede) riparato subito in questo lotto con la prova ⑥-bis e la sua mutazione",
+      "file": {
+        "cervello/radiografia-marketplace-digest.mjs": "6f7e248d5762",
+        "cervello/referti-sito.mjs": "d87f718fcfbe"
       }
     }
   ]

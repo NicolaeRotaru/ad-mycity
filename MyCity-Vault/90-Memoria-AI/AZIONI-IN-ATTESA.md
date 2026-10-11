@@ -46,11 +46,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **In parole semplici.** Cinque difetti gravi si riparano solo dopo una tua scelta. Per ognuna ti dico cosa farei.
 
 **Cosa cambia:** finché non scegli, il sito promette cose diverse da quelle che fa.
-1. **Dati del titolare** (card #165): aprirei la partita IVA adesso, non a 5.000 euro.
-2. **Supabase Pro:** sì. Senza, le foto rischiano di non vedersi e i database si addormentano.
-3. **50 euro al mese ai negozi:** niente canone finché il negozio non incassa.
-4. **5 euro di benvenuto:** li toglierei dalle pagine finché la cassa non li applica.
-5. **Lo sconto di MyCity:** lo pagherei noi, non il fornaio.
+- **Dati del titolare** (card #165): aprirei la partita IVA adesso, non a 5.000 euro.
+- **Supabase Pro:** sì. Senza, le foto rischiano di non vedersi e i database si addormentano.
+- **50 euro al mese ai negozi:** niente canone finché il negozio non incassa.
+- **5 euro di benvenuto:** li toglierei dalle pagine finché la cassa non li applica.
+- **Lo sconto di MyCity:** lo pagherei noi, non il fornaio.
 
 **Se va bene:** sistemo pagine e codice nella richiesta di unione della #205.
 

@@ -394,9 +394,14 @@ export function dimensioniDegliOrfani(problemi, dimensioniGia) {
     perChiave.get(k).push(p);
   }
   const out = [];
-  for (const elenco of perChiave.values()) {
-    const id = elenco.find((p) => p?.fonte)?.fonte ?? null;
-    const fonte = FONTI_SITO.find((f) => f.id === id) ?? { id, reparti: {} };
+  for (const [k, elenco] of perChiave) {
+    // La famiglia si riconosce dall'AREA, non dal campo `fonte` della prima scheda: in casa 164 orfani
+    // su 949 portano in `fonte` un testo libero o null, e il nome cambiava con l'ordine delle schede
+    // (trovato dal collaudo dell'11/10). I vocabolari delle famiglie non si sovrappongono.
+    const fonte =
+      FONTI_SITO.find((f) => f.reparti?.[k]) ??
+      FONTI_SITO.find((f) => elenco.some((p) => p?.fonte === f.id)) ??
+      { id: null, reparti: {} };
     out.push(...dimensioniDaProblemi(elenco, fonte));
   }
   return out;

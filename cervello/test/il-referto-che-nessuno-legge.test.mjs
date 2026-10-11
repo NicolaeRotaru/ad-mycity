@@ -232,6 +232,16 @@ test("⑥-bis un'area rimasta solo nelle schede vecchie tiene il suo nome leggib
   const una = dimensioniDegliOrfani(dueFamiglie, []);
   assert.equal(una.length, 1, "la stessa area deve restare una riga sola");
   assert.equal(una[0].totale, 2);
+  // Il nome non dipende dall'ordine né dal campo `fonte`, che in casa a volte è testo libero o null.
+  const fonteStrana = [
+    { dimensione: "tipografia", titolo: "c", stato: "aperto", fonte: "radiografia-in-corsa del lotto", fuori_dal_referto: true },
+    { dimensione: "architettura", titolo: "d", stato: "aperto", fonte: null, fuori_dal_referto: true },
+  ];
+  for (const elenco of [fonteStrana, [...fonteStrana].reverse()]) {
+    const nomi = Object.fromEntries(dimensioniDegliOrfani(elenco, []).map((d) => [d.chiave, d.nome]));
+    assert.equal(nomi.tipografia, design.reparti.tipografia);
+    assert.equal(nomi.architettura, FONTI_SITO.find((f) => f.id === "marketplace").reparti.architettura);
+  }
 });
 
 test("⑦ il gemello TypeScript si ferma sullo stesso ⚪, con lo stesso motivo", () => {
