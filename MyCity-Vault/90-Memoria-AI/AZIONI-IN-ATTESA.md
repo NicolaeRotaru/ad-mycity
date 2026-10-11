@@ -31,6 +31,18 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40
+
+**In parole semplici.** La password dell'amministratore del marketplace non è più segreta. Il perché è in chat: questo file è pubblico.
+
+**Cosa cambia:** chi la conosce entra come amministratore: approva negozi, vede ordini e profili. L'ultimo accesso è del 28 settembre: se non eri tu, dimmelo.
+
+**Cosa devi fare tu.** In Supabase, Authentication, Users: metti una password nuova e lunga. Meglio ancora: rendi amministratore il tuo account e cancella quello di prova. Fallo anche per il fattorino e il negozio di prova (card #201).
+
+**Se va bene:** controllo che la password vecchia non funzioni più.
+
+---
+
 ### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
 
 **In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
@@ -172,6 +184,18 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 > **Cosa devi fare tu, adesso.** Seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
 >
 > **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati.
+
+> 🧭 **Aggiornamento AD 2026-10-11 10:40 — la procedura del 7 settembre non basta più: c'è la migrazione 161.**
+>
+> **In parole semplici.** Il 9 settembre il passo 2 è stato lanciato a mano in produzione e interrotto dopo la migrazione 079. Sono tornate indietro 11 funzioni del database e 27 regole di accesso.
+>
+> **Un esempio concreto.** Un fornaio che oggi si registra su MyCity come negozio riceve un errore e non entra.
+>
+> **Cosa cambia per te.** Con la migrazione 161 in coda, il database torna identico al codice del sito. L'ho provato su una copia fedele della produzione: 33 prove di sicurezza verdi su 33. Richiesta di unione: https://github.com/NicolaeRotaru/mycity/pull/256
+>
+> **Cosa devi fare tu.** Unire la #256, poi lanciare i passi 2 e 3 della procedura aggiornata, nello stesso giro.
+>
+> **Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto.
 
 ---
 
