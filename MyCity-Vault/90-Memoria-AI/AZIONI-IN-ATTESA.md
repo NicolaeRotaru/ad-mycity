@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-10 12:03** — Automatico: **98 aperte · 37 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-11 23:18** — Automatico: **101 aperte · 38 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,6 +30,43 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
+
+### 🟡 #205 — Ripara il codice del sito prima di applicare le migrazioni · ⏳ accodata 2026-10-11 23:15
+
+**In parole semplici.** La 161 chiude la lettura dei profili, ma scheda prodotto, vetrine e pagine dell'ordine prendono il negozio proprio da lì. Applicata oggi, ogni prodotto mostrerebbe «non disponibile».
+
+**Cosa cambia:** riparo io il codice in un ramo, con la migrazione che completa la 161 e la guardia del rilascio su GitHub. Poi iscrizione di negozi e fattorini, promesse false e soldi. Dettagli: `consegne/audit/2026-10-11-radiografia.md`.
+
+**Se va bene:** ti apro la richiesta di unione sul sito, collaudata da chi non l'ha scritta.
+
+---
+
+### 🔴 #204 — Cinque decisioni che servono prima del lancio · ⏳ accodata 2026-10-11 23:15
+
+**In parole semplici.** Cinque difetti gravi si riparano solo dopo una tua scelta. Per ognuna ti dico cosa farei.
+
+**Cosa cambia:** finché non scegli, il sito promette cose diverse da quelle che fa.
+1. **Dati del titolare** (card #165): aprirei la partita IVA adesso, non a 5.000 euro.
+2. **Supabase Pro:** sì. Senza, le foto rischiano di non vedersi e i database si addormentano.
+3. **50 euro al mese ai negozi:** niente canone finché il negozio non incassa.
+4. **5 euro di benvenuto:** li toglierei dalle pagine finché la cassa non li applica.
+5. **Lo sconto di MyCity:** lo pagherei noi, non il fornaio.
+
+**Se va bene:** sistemo pagine e codice nella richiesta di unione della #205.
+
+---
+
+### 🔴 #203 — Cambia oggi le chiavi del database del sito: una chiave segreta non è più segreta · ⏳ accodata 2026-10-11 23:15
+
+**In parole semplici.** Una chiave del database è finita dove la vede chiunque. Dove e perché sono in chat: questo file è pubblico.
+
+**Cosa cambia:** finché funziona, chi la trova legge e cambia i dati del sito. Toglierla da Vercel non basta: va spenta su Supabase.
+
+**Cosa devi fare tu.** I cinque passi in chat dell'11/10: Supabase, poi Vercel, poi una nuova pubblicazione. Poi decidi col DPO se avvisare il Garante: ci sono 72 ore.
+
+**Se va bene:** controllo che il sito pubblicato abbia solo la chiave pubblica.
+
+---
 
 ### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40
 
@@ -158,6 +195,8 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 ---
 
 ### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35
+
+> ⚠️ **2026-10-11 23:15 — Non applicare ancora:** prima la #205, o la 161 spegne le schede prodotto.
 
 **In parole semplici.** Il codice pubblicato è del 2 settembre. Il database vero si è fermato al 28 agosto. Al registro delle migrazioni mancano ventuno righe, e le cose che davvero non ci sono le ho contate una per una: sedici, più quattro indici.
 
@@ -323,47 +362,6 @@ continua a non riverificarla nel merito.
 
 **Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
 per ciascuna delle quattro nel prossimo giro.
-
----
-
-<!-- rilascio-ordinato-migrazioni -->
-
-### 🔴 #184 — Il database di produzione è indietro di quattro migrazioni, e va allineato in ordine · ⏳ accodata 2026-08-29 00:45
-
-**In parole semplici.** Il codice del sito e il database dei clienti non dicono la stessa cosa. Il
-registro delle migrazioni in produzione è fermo a `125c`: mancano la 126, la 127, la 128 e la 129.
-Il catalogo l'ho già rimesso in vetrina con un ponte, quindi non c'è niente che brucia. Ma la
-distanza resta, e cresce a ogni modifica.
-
-**Per esempio.** La 128 aggiunge due informazioni alla vetrina degli sconti: se un prodotto è finito
-e se ha varianti. Senza di lei, quando tornerà una promozione attiva, il cartellino «Esaurito» non
-comparirà e il «+» sarà premibile su una cosa che non c'è più. Il cliente lo scopre alla cassa.
-
-**Cosa cambia per te.** Oggi nessuno se ne accorge, perché le promozioni attive sono zero. Il giorno
-in cui Pane Quotidiano ne accende una, quel difetto è davanti a un cliente.
-
-**Cosa devi fare.** Scegliere fra due strade.
-
-**(a) Accendi il cancello del rilascio.** Sono le tre chiavi Vercel che ti chiedo dalla card #161. Da
-lì in poi le migrazioni le applica il rilascio da solo, in ordine, e questa distanza non si riforma.
-È la strada che chiude il problema invece del sintomo.
-
-**(b) Dammi il via e le applico io a mano.** In ordine: 126, poi 127, poi 128, poi 129. Una
-transazione per file, con la misura prima e dopo di ognuna, come ho fatto stanotte.
-
-**Io farei tutte e due.** La (a) chiude il problema. La (b) tappa intanto: sono quattro file, e da
-soli non tornano.
-
-**Cosa non ho verificato.** Non ho letto le tre migrazioni mancanti riga per riga contro lo schema
-vero della produzione. Stanotte l'ho fatto solo per la 129, ed è lì che è saltato fuori che la 128
-cambia la firma di una funzione. Le altre due possono avere sorprese dello stesso tipo: le guardo
-prima di eseguire, non mentre.
-
-**Cosa cambia:** il codice pubblicato si aspetta un database che oggi non esiste, e la prima
-promozione accesa lo mostra a un cliente.
-
-**Se va bene:** con la (a) controllo che il primo rilascio applichi da solo le quattro mancanti. Con
-la (b) te le applico in ordine, e ti porto la misura di ognuna.
 
 ---
 
@@ -903,6 +901,8 @@ prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche 
 
 ### 🔴 #161 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20
 
+> ⚠️ **2026-10-11 23:15 — Non mettere ancora le chiavi su GitHub:** prima la guardia della #205, il perché è in chat.
+
 **Cosa cambia:** oggi ogni unione su `main` fa partire una pubblicazione di produzione entro pochi
 secondi, **senza aspettare i controlli**. I due corrono in parallelo: un test rosso finisce in
 produzione lo stesso, e il referto arriva dopo il funerale.
@@ -1026,6 +1026,8 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 ---
 
 ### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
+
+> ⚠️ **2026-10-11 23:15 — Prima la #203:** le chiavi di Supabase vanno cambiate prima di copiarle qui.
 
 **Cosa cambia:** con la tua firma «Fai la #154» ho messo su Vercel le 8 chiavi che potevo creare
 io: l'indirizzo del sito con il «www», quattro chiavi interne, la coppia per le notifiche e il tetto
@@ -2990,5 +2992,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 37.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 38.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

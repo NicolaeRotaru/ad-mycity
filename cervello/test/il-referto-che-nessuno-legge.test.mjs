@@ -45,6 +45,8 @@ import {
   FONTI_SITO,
   REFERTI_DI_ALTRI,
   chiaveProblema,
+  dimensioniDaProblemi,
+  dimensioniDegliOrfani,
   fondiConLaCasa,
   fonteDiFile,
   problemiDaRaw,
@@ -205,6 +207,31 @@ test("⑥ un problema sparito dal referto resta in casa segnato, non fa calare i
   assert.equal(sparito.stato, "aperto", "sparire non è essere riparati");
   // E lo stato del problema ancora presente è stato conservato, non riscritto ad «aperto».
   assert.equal(problemi.find((p) => p.titolo === "uno").stato, "chiuso");
+});
+
+test("⑥-bis un'area rimasta solo nelle schede vecchie tiene il suo nome leggibile", () => {
+  const design = FONTI_SITO.find((f) => f.id === "design");
+  const vecchi = [
+    { dimensione: "tipografia", titolo: "vecchio", stato: "aperto", fonte: "design" },
+    { dimensione: "microcopy", titolo: "ancora vivo", stato: "aperto", fonte: "design" },
+  ];
+  const nuovi = [{ dimensione: "microcopy", titolo: "ancora vivo", stato: "aperto", fonte: "design" }];
+  const { problemi } = fondiConLaCasa(nuovi, vecchi);
+  const dimensioni = dimensioniDaProblemi(nuovi, design);
+
+  const aggiunte = dimensioniDegliOrfani(problemi, dimensioni);
+  assert.deepEqual(aggiunte.map((d) => d.chiave), ["tipografia"], "l'area che ha solo schede vecchie deve entrare");
+  assert.equal(aggiunte[0].nome, design.reparti.tipografia, "col nome della sua famiglia, non con la chiave");
+  // Un'area gia' presente nel referto nuovo non si raddoppia.
+  assert.equal(dimensioniDegliOrfani(problemi, [...dimensioni, ...aggiunte]).length, 0);
+  // E nemmeno un'area che negli orfani compare sotto due famiglie diverse.
+  const dueFamiglie = [
+    { dimensione: "tipografia", titolo: "a", stato: "aperto", fonte: "design", fuori_dal_referto: true },
+    { dimensione: "tipografia", titolo: "b", stato: "aperto", fonte: "marketplace", fuori_dal_referto: true },
+  ];
+  const una = dimensioniDegliOrfani(dueFamiglie, []);
+  assert.equal(una.length, 1, "la stessa area deve restare una riga sola");
+  assert.equal(una[0].totale, 2);
 });
 
 test("⑦ il gemello TypeScript si ferma sullo stesso ⚪, con lo stesso motivo", () => {
