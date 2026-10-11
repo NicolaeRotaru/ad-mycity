@@ -27,7 +27,7 @@ import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
-import { DIFETTO, baselineCieca, classificaNuovi } from "../stampo-metro.mjs";
+import { DIFETTO, azioneDelGuarito, baselineCieca, classificaNuovi } from "../stampo-metro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -183,9 +183,27 @@ prova("③ quinquies — AR-959 (quarto collaudo): un quaderno dichiarato assent
   const { regressioni, invecchiati } = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.QUADERNO_VUOTO }], { ultimoOggi: {}, baseline });
   assert.equal(regressioni.length, 0, `assente → vuoto non ha tolto niente a nessuno: ${JSON.stringify(regressioni)}`);
   assert.match(invecchiati[0]?.perche || "", /non c'era/);
-  // Il confine: un quaderno che alla dichiarazione aveva esiti e oggi è vuoto ha perso righe, e resta rosso.
-  const perso = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_VUOTO }], { ultimoOggi: {}, baseline: { debito: {}, ultimo_esito: { dpo: "2026-09-06" } } });
+  // Il confine: un quaderno che alla dichiarazione aveva esiti e oggi è vuoto ha perso righe, e resta
+  // rosso — anche quando nel debito ha altro, come quasi tutti (il quinto collaudo: 21 quaderni veri).
+  const perso = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_VUOTO }], {
+    ultimoOggi: {},
+    baseline: { debito: { dpo: ["loop_senza_varianti"] }, ultimo_esito: { dpo: "2026-09-06" } },
+  });
   assert.equal(perso.regressioni.length, 1, "un quaderno svuotato resta una regressione");
+  // E «assente» scusa solo il quaderno vuoto: un difetto nuovo di altro genere resta di chi l'ha portato.
+  const kit = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.KIT_SENZA_SEZIONE_E }], { ultimoOggi: {}, baseline });
+  assert.equal(kit.regressioni.length, 1, "un kit rotto non è scusato dal quaderno assente");
+});
+
+prova("③ sexies — AR-959 (quinto collaudo): il guardiano dice cosa fare di ogni voce guarita, e «toglila» non basta sempre", () => {
+  const conEsiti = { ultimoOggi: { a: "2026-10-12" }, baseline: { debito: {}, ultimo_esito: {} }, quadro: {} };
+  assert.equal(azioneDelGuarito({ nome: "a", difetto: DIFETTO.QUADERNO_VUOTO }, conEsiti).azione, "togli-e-scrivi-data");
+  assert.equal(azioneDelGuarito({ nome: "a", difetto: DIFETTO.QUADERNO_ASSENTE }, conEsiti).azione, "togli-e-scrivi-data");
+  // Il caso del collaudo: dichiarato assente, il quaderno nasce vuoto. Togliere la riga lo farebbe rosso.
+  const nato = azioneDelGuarito({ nome: "b", difetto: DIFETTO.QUADERNO_ASSENTE }, { ultimoOggi: {}, baseline: { debito: {} }, quadro: { b: [DIFETTO.QUADERNO_VUOTO] } });
+  assert.equal(nato.azione, "sostituisci-con-vuoto");
+  assert.match(nato.testo, /quaderno_vuoto/);
+  assert.equal(azioneDelGuarito({ nome: "c", difetto: DIFETTO.KIT_SOTTILE }, conEsiti).azione, "togli", "gli altri difetti guariti si tolgono e basta");
 });
 
 prova("④ sul repo vero: nessuna regressione, e ogni fermo resta contato nel rapporto", () => {

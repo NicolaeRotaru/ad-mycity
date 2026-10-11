@@ -5418,3 +5418,15 @@ risposta, e in Cabina il numero era passato da 1 a 4. Le ho riscritte «FATTO» 
 **Perché.** Un numero sbagliato in Cabina è una bugia a Nicola, anche se nasce da una riga mal scritta.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 04:49 — 🟡 Il quinto collaudo della riparazione della CI: il diff regge, chiusa un'altra prova sul mondo
+
+**Cosa.** Il quinto controllore ha detto che le riparazioni reggono. Fuori dal lotto ha trovato una
+terza prova che leggeva la Sala vera: diventava rossa se tre colleghi raccoglievano il loro passaggio,
+cioè facevano il loro lavoro. Adesso la rotazione si prova su un repo finto. Chiusi anche due buchi
+nelle prove e una frase sbagliata del guardiano dei quaderni, che diceva di togliere una riga dove
+toglierla fa diventare rosso.
+
+**Perché.** Una prova che diventa rossa quando la squadra lavora insegna a non lavorare.
+
+**Come si torna indietro.** Non unire la richiesta #878.

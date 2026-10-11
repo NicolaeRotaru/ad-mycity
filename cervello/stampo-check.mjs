@@ -36,6 +36,7 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import {
   DIFETTO,
+  azioneDelGuarito,
   baselineCieca,
   classificaNuovi,
   codiceUscita,
@@ -197,6 +198,8 @@ async function main() {
     regressioni,
     invecchiati,
     debito_riparato_da_togliere: guariti,
+    // AR-959 — cosa fare di ognuno: togliere non basta sempre (vedi azioneDelGuarito).
+    azioni_dei_guariti: guariti.map((g) => ({ ...g, ...azioneDelGuarito(g, { ultimoOggi, baseline, quadro }) })),
     baseline_cieca: cieca,
     baseline_letta: baselineLetta,
   };
@@ -262,14 +265,10 @@ async function main() {
     if (guariti.length) {
       console.log(`\n   🎉 Guariti (da togliere da stampo-baseline.json): ${guariti.length}`);
       for (const g of guariti.slice(0, 10)) {
-        // AR-959: togliere `quaderno_vuoto` cancella l'unica cosa che la baseline sapeva di quel
-        // quaderno (che era vuoto). Senza il suo ultimo esito al posto suo, il giorno che diventa
-        // fermo esce «regressione» per un calendario. Il valore da scrivere lo dice il guardiano.
-        const daScrivere =
-          (g.difetto === DIFETTO.QUADERNO_VUOTO || g.difetto === DIFETTO.QUADERNO_ASSENTE) && ultimoOggi[g.nome] && !(baseline.ultimo_esito || {})[g.nome]
-            ? `  → e scrivi in ultimo_esito "${g.nome}": "${ultimoOggi[g.nome]}"`
-            : "";
-        console.log(`   • @${g.nome.padEnd(24)} ${g.difetto}${daScrivere}`);
+        // AR-959: togliere `quaderno_vuoto` o `quaderno_assente` cancella l'unica cosa che la baseline
+        // sapeva di quel quaderno. Cosa scrivere al suo posto lo decide azioneDelGuarito.
+        const { testo } = azioneDelGuarito(g, { ultimoOggi, baseline, quadro });
+        console.log(`   • @${g.nome.padEnd(24)} ${g.difetto}${testo ? `  → ${testo}` : ""}`);
       }
     }
   }

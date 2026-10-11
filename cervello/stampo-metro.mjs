@@ -389,6 +389,25 @@ function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora
     : { invecchiato: false, perche: `il kit si è ristretto (${allora}B → ${oggi}B)` };
 }
 
+/**
+ * Cosa fare di una voce di debito guarita (AR-959, quinto collaudo dell'11/10). «Toglila» non basta
+ * sempre: togliere `quaderno_vuoto` o `quaderno_assente` senza scrivere la data rende la baseline
+ * cieca, e togliere `quaderno_assente` da un quaderno che adesso c'è ma è vuoto fa uscire quel vuoto
+ * come regressione. La frase giusta la decide questa funzione, una volta sola per il JSON e per chi
+ * legge il rapporto. PURA.
+ */
+export function azioneDelGuarito(g, { ultimoOggi = {}, baseline = {}, quadro = {} } = {}) {
+  const datato = Boolean((baseline.ultimo_esito || {})[g.nome]);
+  const senzaEsiti = g.difetto === DIFETTO.QUADERNO_VUOTO || g.difetto === DIFETTO.QUADERNO_ASSENTE;
+  if (senzaEsiti && ultimoOggi[g.nome] && !datato) {
+    return { azione: "togli-e-scrivi-data", testo: `e scrivi in ultimo_esito "${g.nome}": "${ultimoOggi[g.nome]}"` };
+  }
+  if (g.difetto === DIFETTO.QUADERNO_ASSENTE && (quadro[g.nome] || []).includes(DIFETTO.QUADERNO_VUOTO)) {
+    return { azione: "sostituisci-con-vuoto", testo: "non toglierla: sostituiscila con quaderno_vuoto — il quaderno adesso c'è, ma è vuoto" };
+  }
+  return { azione: "togli", testo: "" };
+}
+
 /** I nomi del debito dichiarato che NON sono più in difetto: si possono togliere dalla lista. */
 export function debitoRiparato(quadro = {}, baseline = {}) {
   const noto = baseline.debito || {};

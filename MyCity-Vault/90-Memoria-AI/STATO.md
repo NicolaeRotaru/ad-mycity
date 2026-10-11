@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-10-11 04:25
+aggiornato: 2026-10-11 04:49
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
 
-> 🧪 **2026-10-11 04:25 — La CI era rossa per cinque prove: riparate, e passate da quattro collaudi.**
+> 🧪 **2026-10-11 04:49 — La CI era rossa per cinque prove: riparate, e passate da cinque collaudi.**
 >
 > **In parole semplici.** Le prove automatiche della macchina erano rosse su main da settimane, e
 > tenevano rossa ogni richiesta di unione. Quattro le ha fatte scattare il calendario. Due di queste
@@ -15,7 +15,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Un esempio concreto.** Una prova pretendeva che il motore delle lezioni stesse lavorando. Il suo
 > ultimo passo è del 1° settembre: il controllo diceva giustamente «fermo», e la prova lo bocciava.
-> Quattro collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
+> Cinque collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
 > tutte le prove con l'orologio spostato al 24 ottobre: una sola diventava rossa da sola, e l'ho
 > riparata.
 >
