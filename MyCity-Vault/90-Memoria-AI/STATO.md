@@ -1,12 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-10-11 08:16
+aggiornato: 2026-10-11 08:53
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
 
-> 🧪 **2026-10-11 08:16 — La CI era rossa per cinque prove: riparate, e passate da nove collaudi.**
+> 🧪 **2026-10-11 08:53 — La CI era rossa per cinque prove: riparate, e passate da dieci collaudi.**
 >
 > **In parole semplici.** Le prove automatiche della macchina erano rosse su main da settimane, e
 > tenevano rossa ogni richiesta di unione. Quattro le ha fatte scattare il calendario. Due di queste
@@ -15,14 +15,14 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **Un esempio concreto.** Una prova pretendeva che il motore delle lezioni stesse lavorando. Il suo
 > ultimo passo è del 1° settembre: il controllo diceva giustamente «fermo», e la prova lo bocciava.
-> Nove collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
+> Dieci collaudi indipendenti hanno trovato altri punti deboli, e li ho chiusi. Poi ho fatto girare
 > tutte le prove con l'orologio spostato al 24 ottobre: una sola diventava rossa da sola, e l'ho
 > riparata. Il sesto collaudo ha trovato la stessa trappola in un controllo del cancello: il 16
 > ottobre si sarebbe acceso da solo. L'ho spostata al 15 novembre, con l'avviso nello scadenzario.
 > Il settimo ha fatto girare ogni controllo del cancello fino al 2029: nessun'altra data li accende.
 > L'ottavo ha trovato una trappola nata qui: una scadenza esterna con un certo nome avrebbe fatto
-> rossa la CI. Adesso il legame fra scadenza e controllo è scritto in un campo apposta. Il nono
-> dice che regge, e che il collaudo si può fermare.
+> rossa la CI. Adesso il legame fra scadenza e controllo è scritto in un campo apposta. Il nono e
+> il decimo dicono che regge: il collaudo si ferma qui.
 >
 > **Cosa cambia per te.** Quando unisci la richiesta #878, le prove della macchina tornano verdi
 > anche per le richieste dopo. E lo scadenzario contiene il bando rifiuti: tre giorni prima della

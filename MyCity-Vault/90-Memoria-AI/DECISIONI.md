@@ -5492,3 +5492,17 @@ L'ho abbassato a zero.
 doveva fermare.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 08:53 — 🟡 Il decimo collaudo della riparazione della CI: regge, il collaudo si ferma qui
+
+**Cosa.** Il decimo controllore ha detto che le correzioni del nono giro reggono. Ha trovato un
+secondo tetto rimasto alto nello stesso registro: quello delle esenzioni «per sempre» era a 2, ma
+ce n'è una sola. Così l'esenzione a scadenza del vecchio programma si poteva rietichettare «per
+sempre» e passare tutto verde. L'ho abbassato a 1 col comando del controllo stesso. Correggo anche
+la voce di prima: le porte scoperte sono zero dal 25 agosto, non dal 24. Il messaggio del controllo
+delle porte che si contraddice è una scheda nuova, e la lezione è entrata nel catalogo delle
+scorciatoie.
+
+**Perché.** Chi cura un tetto rimasto alto di solito ne ha lasciato un secondo accanto.
+
+**Come si torna indietro.** Non unire la richiesta #878.
