@@ -33,13 +33,13 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40
 
-**In parole semplici.** L'account con cui si entra come amministratore del marketplace ha una password che non è più segreta. Il perché te l'ho scritto in chat: qui non lo ripeto, perché questo file è pubblico.
+**In parole semplici.** La password dell'amministratore del marketplace non è più segreta. Il perché è in chat: questo file è pubblico.
 
-**Cosa cambia:** chi la conosce entra nel pannello di amministrazione. Può approvare negozi, vedere gli ordini e i profili, cambiare i prodotti. L'ultimo accesso a quell'account è del 28 settembre: se non eri tu, dimmelo.
+**Cosa cambia:** chi la conosce entra come amministratore: approva negozi, vede ordini e profili. L'ultimo accesso è del 28 settembre: se non eri tu, dimmelo.
 
-**Cosa devi fare tu.** In Supabase, Authentication, Users: cambia la password dell'account amministratore con una lunga e nuova. Meglio ancora: rendi amministratore il tuo account personale e cancella quello di prova. Fallo anche per gli altri due account di prova, il fattorino e il negozio demo (card #201).
+**Cosa devi fare tu.** In Supabase, Authentication, Users: metti una password nuova e lunga. Meglio ancora: rendi amministratore il tuo account e cancella quello di prova. Fallo anche per il fattorino e il negozio di prova (card #201).
 
-**Se va bene:** controllo in sola lettura che la password vecchia non funzioni più e ti scrivo l'esito.
+**Se va bene:** controllo che la password vecchia non funzioni più.
 
 ---
 
@@ -187,19 +187,15 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 > 🧭 **Aggiornamento AD 2026-10-11 10:40 — la procedura del 7 settembre non basta più: c'è la migrazione 161.**
 >
-> **Cosa è successo.** Il 9 settembre, fra le 9:25 e le 10:04, il passo 2 è stato lanciato a mano in produzione, a pezzi, e si è fermato dopo la migrazione 079. Rieseguire migrazioni vecchie riscrive sopra le versioni nuove. Sono tornate a com'erano fra maggio e luglio 11 funzioni del database e 27 regole di accesso. Nessuno l'aveva annotato.
+> **In parole semplici.** Il 9 settembre il passo 2 è stato lanciato a mano in produzione e interrotto dopo la migrazione 079. Sono tornate indietro 11 funzioni del database e 27 regole di accesso.
 >
-> **Cosa si rompe oggi.** Nessuno riesce a iscriversi come negozio o come fattorino: il database rifiuta la riga del profilo. E dieci regole di accesso sono di nuovo aperte.
+> **Un esempio concreto.** Un fornaio che oggi si registra su MyCity come negozio riceve un errore e non entra.
 >
-> **Un esempio concreto.** Un fornaio che oggi si registra su MyCity come negozio riceve un errore e non entra. Il database gli scrive insieme «approvato» e «in attesa», e il controllo della migrazione 119 rifiuta la riga.
+> **Cosa cambia per te.** Con la migrazione 161 in coda, il database torna identico al codice del sito. L'ho provato su una copia fedele della produzione: 33 prove di sicurezza verdi su 33. Richiesta di unione: https://github.com/NicolaeRotaru/mycity/pull/256
 >
-> **Cosa ho fatto.** Ho ricostruito in locale una copia fedele della produzione, con 2.198 oggetti identici, lo stesso registro e i dati mascherati. Ci ho provato la procedura: da sola lascia rotta l'iscrizione, e in più riporterebbe indietro il compenso del fattorino e la bacheca. Ho scritto la migrazione 161, che viene dopo tutte e chiude quello che resta. L'ho provata: in un giro solo si applicano 48 migrazioni, e il database risulta identico al codice del sito. Le prove di sicurezza passano 33 su 33; prima ne fallivano 33 su 33. Richiesta di unione: https://github.com/NicolaeRotaru/mycity/pull/256
+> **Cosa devi fare tu.** Unire la #256, poi lanciare i passi 2 e 3 della procedura aggiornata, nello stesso giro.
 >
-> **Cosa cambia per te.** Dopo la riparazione, negozi e fattorini tornano a potersi iscrivere, e restano «in attesa» finché non li approvi tu.
->
-> **Cosa devi fare tu.** Unire la #256, poi lanciare i passi 2 e 3 di `docs/migrazioni-baseline-produzione.md` (aggiornati), nello stesso giro.
->
-> **Cosa non ho verificato.** Il comando contro la produzione vera: da qui si legge soltanto. E la prova è su PostgreSQL 16, la produzione è la 17.
+> **Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto.
 
 ---
 
