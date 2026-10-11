@@ -5477,3 +5477,18 @@ sorvegliante con le estensioni è una scheda nuova.
 **Perché.** Un'istruzione che accende il rosso quando la segui insegna a non seguirla.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 08:16 — 🟡 Il nono collaudo della riparazione della CI: regge, chiusi i rilievi minori e abbassato un tetto rimasto alto
+
+**Cosa.** Il nono controllore ha detto che il lavoro regge e che il collaudo si può fermare. Ha
+trovato sette cose minori, e le ho chiuse. La più utile: un collegamento scritto male nello
+scadenzario veniva trattato come una voce da chiudere, e chiuderla avrebbe spento un avviso vero.
+Ha trovato anche due mie frasi imprecise nelle schede, e le ho corrette. E ha visto un tetto rimasto
+alto dal 24 agosto: il controllo delle porte ne permetteva una scoperta, ma non ce n'è nessuna. Così
+togliere solo l'esenzione del vecchio programma, lasciando il file, sarebbe passato tutto verde.
+L'ho abbassato a zero.
+
+**Perché.** Un tetto più alto del debito vero lascia passare in silenzio proprio l'errore che
+doveva fermare.
+
+**Come si torna indietro.** Non unire la richiesta #878.

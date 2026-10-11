@@ -20,6 +20,12 @@
 // se uno dei due cambia regola, la prova se ne accorge.
 //
 // 🟢 Funzioni pure. Nessun effetto all'import, nessuna lettura dal disco: chi chiama passa i dati.
+//
+// ⚠️ UN LIMITE, DICHIARATO. La chiave di un'esenzione è il suo file, non l'atto: se due atti
+// esentassero lo stesso file con due date diverse, una voce sola non potrebbe annunciarle tutte e due,
+// e la prova lo direbbe come «date che divergono». Oggi il registro ha un atto solo.
+
+import { sep } from "node:path";
 
 // I registri, col nome breve che lo scadenzario usa nel campo `cancello.registro`:
 //   · «porte»   — il registro delle porte (atti-con-porte.json), letto da porte-gemelle;
@@ -27,6 +33,12 @@
 //                 «IL PUNTO» di c9.
 // Gli altri due registri con date che fermano il cancello (hook-in-attesa.json, le attese dei gate)
 // non sono ancora qui: è AR-972.
+
+/** I due registri che il campo `cancello.registro` può nominare. */
+const REGISTRI = new Set(["porte", "governo"]);
+
+/** Il percorso come lo scrive porte-gemelle (`normalizza`): la prova c9 controlla che restino uguali. */
+const comePorteGemelle = (p) => String(p || "").split(sep).join("/").replace(/^\.\//, "");
 
 /** «AAAA-MM-GG» → [anno, mese, giorno]; null se la forma non è quella. */
 function giorno(s) {
@@ -45,7 +57,7 @@ export function datePorte(registro = {}) {
       .filter((e) => e && e.fino_al)
       .map((e) => {
         const g = giorno(e.fino_al);
-        return { registro: "porte", chiave: e.file, data: String(e.fino_al), confine: g ? Date.UTC(g[0], g[1] - 1, g[2] + 1) : NaN };
+        return { registro: "porte", chiave: comePorteGemelle(e.file), data: String(e.fino_al), confine: g ? Date.UTC(g[0], g[1] - 1, g[2] + 1) : NaN };
       }),
   );
 }
@@ -83,7 +95,7 @@ export function problemiScadenze({ date = [], voci = [] } = {}) {
     problemi.push(`due voci aperte dello scadenzario hanno lo stesso id «${id}»: chi le legge per id ne vede una sola`);
   }
   const rimandi = voci.filter((v) => v && v.cancello);
-  const stessa = (v, d) => v.cancello.registro === d.registro && v.cancello.chiave === d.chiave;
+  const stessa = (v, d) => v.cancello?.registro === d.registro && v.cancello?.chiave === d.chiave;
   for (const d of date) {
     if (!Number.isFinite(d.confine)) {
       problemi.push(`${descrivi(d)}: la data non è nella forma AAAA-MM-GG, e non so quando il cancello diventa rosso`);
@@ -99,6 +111,12 @@ export function problemiScadenze({ date = [], voci = [] } = {}) {
     }
   }
   for (const v of rimandi) {
+    // Un collegamento scritto male non è una voce da chiudere: chiuderla spegnerebbe un avviso vero.
+    const c = v.cancello;
+    if (!c || typeof c !== "object" || !REGISTRI.has(c.registro) || !String(c.chiave ?? "").trim()) {
+      problemi.push(`«${v.id}» ha un campo cancello incompleto: servono registro («porte» o «governo») e chiave. Non è una voce da chiudere: è un collegamento da scrivere bene`);
+      continue;
+    }
     if (!date.some((d) => stessa(v, d))) {
       problemi.push(`«${v.id}» rimanda a una data del cancello che non c'è più (${v.cancello.registro} · ${v.cancello.chiave}): la voce va in chiuse`);
     }

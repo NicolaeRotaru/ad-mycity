@@ -25,7 +25,7 @@ import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { DOCUMENTI, copertura, scoperti } from "../documenti-di-governo.mjs";
-import { esenzioniMorte } from "../porte-gemelle.mjs";
+import { esenzioniMorte, normalizza } from "../porte-gemelle.mjs";
 import { dateGoverno, datePorte, problemiScadenze } from "../scadenze-del-cancello.mjs";
 
 const CERVELLO = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -202,6 +202,41 @@ test("AR-966 — la voce orfana, la data che diverge e la data scritta male si v
   const scrittaMale = problemiScadenze({ date: datePorte(portaFinta("2026-11-14T10:00")), voci: [] });
   assert.equal(scrittaMale.length, 1);
   assert.match(scrittaMale[0], /AAAA-MM-GG/);
+});
+
+// Il nono collaudo: i rami del modulo che nessun caso finto toccava, e due ingressi storti.
+test("AR-966 — si leggono tutti gli atti e tutte le esenzioni a scadenza, col percorso scritto come lo scrive porte-gemelle", () => {
+  const reg = {
+    atti: [
+      { esenti: [{ file: "cervello/a.mjs", fino_al: "2026-11-14" }, { file: "cervello/b.mjs", natura: "strutturale" }] },
+      { esenti: [{ file: "./cervello/c.mjs", fino_al: "2026-12-01" }, { file: "cervello/d.mjs", fino_al: "2027-01-10" }] },
+    ],
+  };
+  const date = datePorte(reg);
+  assert.deepEqual(date.map((d) => d.chiave), ["cervello/a.mjs", "cervello/c.mjs", "cervello/d.mjs"]);
+  for (const f of ["./cervello/c.mjs", "cervello/a.mjs"]) {
+    assert.equal(datePorte({ atti: [{ esenti: [{ file: f, fino_al: "2026-11-14" }] }] })[0].chiave, normalizza(f), "il percorso deve uscire uguale a quello di porte-gemelle");
+  }
+});
+
+test("AR-966 — un documento che ha il suo guardiano non ha più una data, anche se l'attesa è rimasta scritta", () => {
+  const doc = [
+    { id: "con-guardiano", guardiano: "cervello/x.mjs", attesa: { fino: "2026-11-15", perche: "rimasta lì" } },
+    { id: "senza", guardiano: null, attesa: { fino: "2026-11-20", perche: "un controllo da costruire" } },
+  ];
+  assert.deepEqual(dateGoverno(doc).map((d) => d.chiave), ["senza"]);
+});
+
+test("AR-966 — gli id unici valgono anche per le scadenze del mondo, e un collegamento scritto male non si chiude", () => {
+  const doppio = problemiScadenze({ date: [], voci: [{ id: "bando", scade: "2026-10-23T23:59:00+02:00" }, { id: "bando", scade: "2026-10-24T23:59:00+02:00" }] });
+  assert.equal(doppio.length, 1);
+  assert.match(doppio[0], /stesso id/);
+  for (const cancello of [{}, { registro: "porte" }, { registro: "altro", chiave: "x" }, "porte"]) {
+    const pr = problemiScadenze({ date: [], voci: [{ id: "z", scade: "2026-11-15T01:00:00+01:00", cancello }] });
+    assert.equal(pr.length, 1, JSON.stringify(pr));
+    assert.match(pr[0], /incompleto/);
+    assert.doesNotMatch(pr[0], /va in chiuse/, "chiudere una voce col collegamento scritto male spegnerebbe un avviso vero");
+  }
 });
 
 test("AR-431 — IL PUNTO: sulla lista vera nessun documento di governo è scoperto in silenzio", () => {
