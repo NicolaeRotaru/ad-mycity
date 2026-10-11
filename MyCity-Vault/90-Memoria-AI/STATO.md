@@ -1,10 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-10-11 08:53
+aggiornato: 2026-10-11 10:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🧭 **2026-10-11 10:40 — Il 9 settembre il database del sito è tornato indietro. La riparazione è pronta.**
+>
+> **In parole semplici.** Il 9 settembre qualcuno ha rieseguito a mano le migrazioni vecchie in produzione, e si è fermato a metà. Dodici funzioni e ventisette regole di accesso sono tornate a com'erano fra maggio e luglio. Oggi nessuno riesce a iscriversi come negozio o come fattorino, e dieci regole di accesso sono di nuovo aperte.
+>
+> **Cosa cambia per te.** La procedura scritta il 7 settembre da sola non basta più. Con la migrazione 161 in coda, provata su una copia fedele della produzione, il database torna identico al codice del sito. Le prove di sicurezza passano tutte, 33 su 33. Richiesta di unione #256 sul sito.
+>
+> **Cosa devi fare.** Prima di tutto la card #202, oggi stesso. Poi unire la #256 e lanciare i passi 2 e 3 della procedura aggiornata (card #191).
+>
+> **Cosa non ho verificato.** Il comando contro la produzione vera: da qui si legge soltanto.
 
 > 🧪 **2026-10-11 08:53 — La CI era rossa per cinque prove: riparate, e passate da dieci collaudi.**
 >

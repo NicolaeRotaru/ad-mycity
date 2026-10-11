@@ -31,6 +31,18 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40
+
+**In parole semplici.** L'account con cui si entra come amministratore del marketplace ha una password che non è più segreta. Il perché te l'ho scritto in chat: qui non lo ripeto, perché questo file è pubblico.
+
+**Cosa cambia:** chi la conosce entra nel pannello di amministrazione. Può approvare negozi, vedere gli ordini e i profili, cambiare i prodotti. L'ultimo accesso a quell'account è del 28 settembre: se non eri tu, dimmelo.
+
+**Cosa devi fare tu.** In Supabase, Authentication, Users: cambia la password dell'account amministratore con una lunga e nuova. Meglio ancora: rendi amministratore il tuo account personale e cancella quello di prova. Fallo anche per gli altri due account di prova, il fattorino e il negozio demo (card #201).
+
+**Se va bene:** controllo in sola lettura che la password vecchia non funzioni più e ti scrivo l'esito.
+
+---
+
 ### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
 
 **In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
@@ -172,6 +184,22 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 > **Cosa devi fare tu, adesso.** Seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
 >
 > **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati.
+
+> 🧭 **Aggiornamento AD 2026-10-11 10:40 — la procedura del 7 settembre non basta più: c'è la migrazione 161.**
+>
+> **Cosa è successo.** Il 9 settembre, fra le 9:25 e le 10:04, il passo 2 è stato lanciato a mano in produzione, a pezzi, e si è fermato dopo la migrazione 079. Rieseguire migrazioni vecchie riscrive sopra le versioni nuove. Sono tornate a com'erano fra maggio e luglio 12 funzioni del database e 27 regole di accesso. Nessuno l'aveva annotato.
+>
+> **Cosa si rompe oggi.** Nessuno riesce a iscriversi come negozio o come fattorino: il database rifiuta la riga del profilo. E dieci regole di accesso sono di nuovo aperte.
+>
+> **Un esempio concreto.** Un fornaio che oggi si registra su MyCity come negozio riceve un errore e non entra. Il database gli scrive insieme «approvato» e «in attesa», e il controllo della migrazione 119 rifiuta la riga.
+>
+> **Cosa ho fatto.** Ho ricostruito in locale una copia fedele della produzione, con 2.198 oggetti identici, lo stesso registro e i dati mascherati. Ci ho provato la procedura: da sola lascia rotta l'iscrizione, e in più riporterebbe indietro il compenso del fattorino e la bacheca. Ho scritto la migrazione 161, che viene dopo tutte e chiude quello che resta. L'ho provata: in un giro solo si applicano 48 migrazioni, e il database risulta identico al codice del sito. Le prove di sicurezza passano 33 su 33; prima ne fallivano 33 su 33. Richiesta di unione: https://github.com/NicolaeRotaru/mycity/pull/256
+>
+> **Cosa cambia per te.** Dopo la riparazione, negozi e fattorini tornano a potersi iscrivere, e restano «in attesa» finché non li approvi tu.
+>
+> **Cosa devi fare tu.** Unire la #256, poi lanciare i passi 2 e 3 di `docs/migrazioni-baseline-produzione.md` (aggiornati), nello stesso giro.
+>
+> **Cosa non ho verificato.** Il comando contro la produzione vera: da qui si legge soltanto. E la prova è su PostgreSQL 16, la produzione è la 17.
 
 ---
 

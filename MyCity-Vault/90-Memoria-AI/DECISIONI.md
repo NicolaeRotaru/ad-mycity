@@ -5506,3 +5506,26 @@ scorciatoie.
 **Perché.** Chi cura un tetto rimasto alto di solito ne ha lasciato un secondo accanto.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+
+---
+
+## 2026-10-11 10:40 — Controllo delle migrazioni sul database vero: migrazione 161 proposta, niente scritto in produzione
+
+**Contesto.** Nicola: «controlla attentamente le migrazioni». Confronto oggetto per oggetto fra il database di produzione (sola lettura) e un database costruito dal repository del sito.
+
+**Cosa ho trovato.** Il 9/9 dalle 07:25 alle 08:04 UTC sono state rieseguite in produzione le migrazioni dalla 003 alla 079, a pacchetti. Il lavoro si è fermato lì, senza traccia in memoria. Effetto misurato: 12 funzioni su 93 e 27 policy su 172 tornate a versioni vecchie.
+
+Le più gravi, una per una:
+- `handle_new_user` è alla versione della 015. Per questo l'iscrizione di negozi e fattorini fallisce su `chk_approvazione_coerente`.
+- `enforce_profile_update_rules` e `enforce_order_update_rules` sono alla 061.
+- `verify_delivery_code` e `verify_pickup_code` sono alla 063.
+- Dieci policy sono di nuovo aperte.
+
+La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su una copia fedele. Applica 47 file, non 136. Lascia rotta l'iscrizione. E riporterebbe indietro `orders_rider_payout_status_check` e `ordini_disponibili_rider`, perché riapplica la 119 e la 122.
+
+**Cosa ho fatto (🟡).** Migrazione `161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql` più la procedura aggiornata, nella PR mycity #256. Provata su una copia fedele della produzione (2.198 oggetti, registro identico, dati mascherati) e su un database nuovo: 48 applicate, zero differenze, 33 su 33 prove RLS verdi, 540 file di prove unitarie verdi.
+
+**Cosa NON ho fatto (🔴, firma di Nicola).** Applicare qualunque cosa in produzione. Cambiare credenziali: card #202, motivo spiegato solo in chat perché questo repo è pubblico.
+
+**La lezione.** Una prova generale vale quanto è fedele la copia. Quella del 7/9 era costruita da zero, con un registro diverso da quello vero: per questo prometteva 136 file e in produzione ne avrebbe applicati 47. Il freno: la verifica in sola lettura del passo 3, che oggi in produzione dà 4 «falso» su 5 e dopo deve dare 5 «vero».
