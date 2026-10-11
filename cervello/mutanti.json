@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-11 03:53",
+ "aggiornato": "2026-10-11 04:24",
  "mutanti": [
   {
    "lotto": 30,
@@ -9430,6 +9430,22 @@
    "test": "cervello/test/un-quaderno-una-casa.test.mjs"
   },
   {
+   "difetto": "AR-959",
+   "nome": "un quaderno dichiarato assente che nasce vuoto torna una regressione: il giro crea il file e la CI di tutti diventa rossa",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "  if (n.difetto === DIFETTO.QUADERNO_VUOTO && assentiAllora.has(n.nome)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "il guardiano giudica la baseline senza il suo debito: vuoti e assenti diventano «non giudicabili» e il primo esito accende il rosso",
+   "file": "cervello/stampo-check.mjs",
+   "cerca": "  const cieca = baselineLetta ? baselineCieca({ ultimoOggi, baseline }) : [];",
+   "sostituisci": "  const cieca = baselineLetta ? baselineCieca({ ultimoOggi, baseline: { ...baseline, debito: {} } }) : [];",
+   "test": "cervello/test/un-quaderno-una-casa.test.mjs"
+  },
+  {
    "difetto": "AR-960",
    "nome": "lo scadenzario torna senza guardiano nella lista, come se scadenzario-check non esistesse",
    "file": "cervello/documenti-di-governo.mjs",
@@ -9491,6 +9507,14 @@
    "file": "cervello/sala-regole.mjs",
    "cerca": "  if (!lista.length) return { totale: 0, voci: 0, dominante: null, quota: null };",
    "sostituisci": "  if (!lista.length) return { totale: 0, voci: 0, dominante: null, quota: 0 };",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "ogni riga della Sala conta come richiesta di revisione: il numero in Cabina si gonfia e la prova sulla Sala vera deve accorgersene",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "    if (r.tipo !== \"RIVEDI\") continue;",
+   "sostituisci": "    if (false) continue;",
    "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
   }
  ],

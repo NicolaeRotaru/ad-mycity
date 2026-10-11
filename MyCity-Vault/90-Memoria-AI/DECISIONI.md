@@ -5407,3 +5407,14 @@ anche un rilievo medio e due minori: ognuno ha ora una prova che diventa rossa s
 **Perché.** Il collaudo si ferma quando un giro non trova più niente.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 04:25 — 🟡 Il quarto collaudo della riparazione della CI: regge, chiusi gli ultimi rilievi
+
+**Cosa.** Il quarto controllore non ha trovato niente di bloccante. Ha trovato due prove che
+controllavano solo metà del lavoro, e due casi rari: li ho chiusi. Ha anche visto un errore mio. Tre
+righe che avevo scritto in Sala come «RIVEDI→FATTO» contavano come richieste di revisione senza
+risposta, e in Cabina il numero era passato da 1 a 4. Le ho riscritte «FATTO» prima dell'unione.
+
+**Perché.** Un numero sbagliato in Cabina è una bugia a Nicola, anche se nasce da una riga mal scritta.
+
+**Come si torna indietro.** Non unire la richiesta #878.

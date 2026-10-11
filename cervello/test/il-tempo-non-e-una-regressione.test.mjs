@@ -176,6 +176,18 @@ prova("③ quater — AR-959 (terzo collaudo): un senior nuovo, dichiarato col q
   assert.equal(invecchiati.length, 1);
 });
 
+prova("③ quinquies — AR-959 (quarto collaudo): un quaderno dichiarato assente che nasce vuoto non è una regressione", () => {
+  // Il giro crea il quaderno del senior nuovo, ma senza una riga di esito valida: oggi esce «vuoto», un
+  // difetto che nella baseline non c'era. Da un quaderno che non esisteva non può sparire niente.
+  const baseline = { debito: { "senior-nuovo": ["quaderno_assente"] }, ultimo_esito: {} };
+  const { regressioni, invecchiati } = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.QUADERNO_VUOTO }], { ultimoOggi: {}, baseline });
+  assert.equal(regressioni.length, 0, `assente → vuoto non ha tolto niente a nessuno: ${JSON.stringify(regressioni)}`);
+  assert.match(invecchiati[0]?.perche || "", /non c'era/);
+  // Il confine: un quaderno che alla dichiarazione aveva esiti e oggi è vuoto ha perso righe, e resta rosso.
+  const perso = classificaNuovi([{ nome: "dpo", difetto: DIFETTO.QUADERNO_VUOTO }], { ultimoOggi: {}, baseline: { debito: {}, ultimo_esito: { dpo: "2026-09-06" } } });
+  assert.equal(perso.regressioni.length, 1, "un quaderno svuotato resta una regressione");
+});
+
 prova("④ sul repo vero: nessuna regressione, e ogni fermo resta contato nel rapporto", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8" });
   const j = JSON.parse(r.stdout);

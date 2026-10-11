@@ -292,10 +292,15 @@ export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}
   const ultimoAllora = baseline.ultimo_esito || {};
   const bytesAllora = baseline.kit_bytes || {};
   const vuotiAllora = senzaEsitiAllaDichiarazione(baseline);
+  const assentiAllora = new Set(
+    Object.entries(baseline.debito || {})
+      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_ASSENTE))
+      .map(([nome]) => nome)
+  );
   const regressioni = [];
   const invecchiati = [];
   for (const n of nuovi) {
-    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora });
+    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora, assentiAllora });
     (v.invecchiato ? invecchiati : regressioni).push({ ...n, perche: v.perche });
   }
   return { regressioni, invecchiati };
@@ -347,7 +352,14 @@ export function baselineCieca({ ultimoOggi = {}, baseline = {} } = {}) {
 }
 
 /** Il cuore della distinzione: il pezzo PROPRIO dell'agente è peggiorato, sì o no? */
-function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora = new Set() }) {
+function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora = new Set(), assentiAllora = new Set() }) {
+  // Il quarto collaudo dell'11/10: un quaderno dichiarato assente che nasce senza una riga di esito
+  // valida (vuoto, o con un esito scritto senza il trattino — il giro l'ha già fatto) esce «vuoto», un
+  // difetto nuovo. Ma da un quaderno che non c'era non può sparire niente: non è una regressione di
+  // nessuno, e il giro che l'ha creato non potrebbe nemmeno rimediare, perché non pubblica cervello/.
+  if (n.difetto === DIFETTO.QUADERNO_VUOTO && assentiAllora.has(n.nome)) {
+    return { invecchiato: true, perche: "alla dichiarazione il quaderno non c'era: adesso c'è, ma senza esiti — da un quaderno che non esisteva non può sparire niente" };
+  }
   if (!MATURANO_DA_SOLE.has(n.difetto)) {
     return { invecchiato: false, perche: "questo difetto non matura da solo: se è nuovo, qualcuno l'ha introdotto" };
   }

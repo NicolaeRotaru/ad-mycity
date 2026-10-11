@@ -147,8 +147,13 @@ prova("AR-622: una RIVEDI senza risposta del destinatario conta come senza rispo
 
 prova("AR-622: sulla Sala vera la revisione fra pari è ferma, e il numero lo dice", () => {
   assert.ok(existsSync(SALA), "senza la Sala vera questa prova non misura niente");
-  const peer = L.revisioniTraPari(L.righeSala(readFileSync(SALA, "utf8")));
-  assert.ok(peer.richieste >= 1, "una richiesta c'è: se sono zero il lettore delle righe è rotto");
+  const righe = L.righeSala(readFileSync(SALA, "utf8"));
+  // AR-967 — qui c'era «richieste >= 1»: l'unica RIVEDI della Sala vera è la sua riga più vecchia, e la
+  // potatura che il giro consiglia la sposterebbe nello Storico (quarto collaudo dell'11/10). Il lettore
+  // rotto si vede dalle RIGHE, non dalle richieste: quante RIVEDI ci sono lo decide la squadra.
+  assert.ok(righe.length > 0, "la Sala vera ha delle righe: se il lettore ne trova zero, è rotto");
+  const peer = L.revisioniTraPari(righe);
+  assert.equal(peer.richieste, righe.filter((r) => r.tipo === "RIVEDI").length, "ogni RIVEDI letta è una richiesta, né una di più né una di meno");
   assert.equal(
     peer.richieste,
     peer.con_risposta + peer.senza_risposta,

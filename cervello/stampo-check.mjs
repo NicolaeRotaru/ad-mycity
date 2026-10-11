@@ -266,7 +266,7 @@ async function main() {
         // quaderno (che era vuoto). Senza il suo ultimo esito al posto suo, il giorno che diventa
         // fermo esce «regressione» per un calendario. Il valore da scrivere lo dice il guardiano.
         const daScrivere =
-          g.difetto === DIFETTO.QUADERNO_VUOTO && ultimoOggi[g.nome] && !(baseline.ultimo_esito || {})[g.nome]
+          (g.difetto === DIFETTO.QUADERNO_VUOTO || g.difetto === DIFETTO.QUADERNO_ASSENTE) && ultimoOggi[g.nome] && !(baseline.ultimo_esito || {})[g.nome]
             ? `  → e scrivi in ultimo_esito "${g.nome}": "${ultimoOggi[g.nome]}"`
             : "";
         console.log(`   • @${g.nome.padEnd(24)} ${g.difetto}${daScrivere}`);
