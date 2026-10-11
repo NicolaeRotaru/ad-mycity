@@ -2,7 +2,7 @@
   "_cosa_e": "📅 LO SCADENZARIO — le scadenze esterne come DATI, non come racconto dentro i Report. Lo legge cervello/scadenzario-check.mjs a ogni giro, che CALCOLA quanto manca invece di leggere una frase. Nasce da AR-147 (l'agente `scadenzario` esisteva da sempre e non aveva mai prodotto un artefatto-dati) e da AR-214 (due schede della stessa pagina davano due countdown diversi).",
   "_perche_esiste": "Misurato il 28/7 alle 05:59: due file dicevano «mancano 3 giorni» per PI26, mentre ne mancavano 2,4. E non divergevano fra loro — concordavano, e sbagliavano tutti e due, il che è peggio perché sembra una conferma. Il numero era stato TRASCRITTO invece che calcolato: vero il giorno in cui è stato scritto, poi invecchiato in silenzio sembrando aggiornato. Nel vault la deriva si legge riga per riga: «mancano 4 giorni», «~2,5 residui», «~2,3», «~2,2», «mancano 3 giorni».",
   "_come_si_usa": "Ogni scadenza esterna con una conseguenza reale va qui, con la data come DATO (ISO col fuso) e la FONTE di quella data. Chi la mostra la calcola: nessuno la trascrive. Quando è passata si sposta in `chiuse` — la storia non si cancella.",
-  "aggiornato": "2026-10-11 03:13",
+  "aggiornato": "2026-10-11 06:08",
   "scadenze": [
     {
       "id": "bando-rifiuti-piacenza-2026",
@@ -25,6 +25,16 @@
       "conseguenza": "Dal 15/11 all'01:00 la prova «IL PUNTO» di c9-governo-senza-sveglia diventa rossa, e con lei la CI di ogni richiesta di unione: per la lista dei documenti di governo un'attesa scaduta torna a essere un buco. È la stessa trappola che ha fatto rossa la CI il 30/9: qui serve ad accorgersene tre giorni prima.",
       "fonte": "cervello/documenti-di-governo.mjs → voce glossario-kpi, attesa.fino «2026-11-15», letta come mezzanotte di Greenwich (Date.UTC), cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
       "chi_la_chiude": "Chi costruisce il controllo del glossario, o sposta la data, sposta questa voce in `chiuse` o ne aggiorna la data nello stesso lavoro: la prova c9 lo pretende."
+    },
+    {
+      "id": "esenzione-round2-applica",
+      "titolo": "Vecchio programma del 25 luglio da togliere, o la CI torna rossa per tutti",
+      "scade": "2026-11-15T01:00:00+01:00",
+      "colore": "🟡",
+      "chi": "una sessione di lavoro sulla macchina: riparare il sorvegliante (scheda AR-969) e togliere il programma, oppure rinnovare l'esenzione con un perché nuovo",
+      "conseguenza": "Dal 15/11 all'01:00 è scaduta l'esenzione che il registro delle porte dà al programma usa-e-getta cervello/round2-applica.mjs: porte-gemelle diventa rosso, e con lui il cancello del lotto di ogni richiesta di unione. È la trappola trovata dal sesto collaudo dell'11/10, che scattava il 16/10: rinnovata invece che tolta, perché togliere il programma oggi accende quattro falsi allarmi del sorvegliante.",
+      "fonte": "cervello/atti-con-porte.json → esenzione di cervello/round2-applica.mjs, fino_al «2026-11-14». porte-gemelle la confronta con la data di Greenwich (toISOString): vale per tutto il 14/11 e muore alla mezzanotte di Greenwich del 15/11, cioè l'01:00 a Piacenza. La prova c9-governo-senza-sveglia controlla che le due date restino uguali, nei due versi.",
+      "chi_la_chiude": "Chi toglie il programma, o rinnova l'esenzione, sposta questa voce in `chiuse` o ne aggiorna la data nello stesso lavoro: la prova c9 lo pretende."
     }
   ],
   "chiuse": [

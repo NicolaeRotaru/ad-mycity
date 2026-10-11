@@ -190,9 +190,13 @@ prova("③ quinquies — AR-959 (quarto collaudo): un quaderno dichiarato assent
     baseline: { debito: { dpo: ["loop_senza_varianti"] }, ultimo_esito: { dpo: "2026-09-06" } },
   });
   assert.equal(perso.regressioni.length, 1, "un quaderno svuotato resta una regressione");
-  // E «assente» scusa solo il quaderno vuoto: un difetto nuovo di altro genere resta di chi l'ha portato.
-  const kit = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.KIT_SENZA_SEZIONE_E }], { ultimoOggi: {}, baseline });
-  assert.equal(kit.regressioni.length, 1, "un kit rotto non è scusato dal quaderno assente");
+  // E «assente» scusa solo il quaderno vuoto: ogni altro difetto nuovo resta di chi l'ha portato — su
+  // tutte le chiavi, come in ②ter (sesto collaudo: una regola che scusava ogni `quaderno_*` passava).
+  const scusati = [DIFETTO.QUADERNO_VUOTO, DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOTTILE];
+  for (const d of Object.values(DIFETTO).filter((x) => !scusati.includes(x))) {
+    const r = classificaNuovi([{ nome: "senior-nuovo", difetto: d }], { ultimoOggi: {}, baseline });
+    assert.equal(r.regressioni.length, 1, `${d} non è scusato dal quaderno assente`);
+  }
 });
 
 prova("③ sexies — AR-959 (quinto collaudo): il guardiano dice cosa fare di ogni voce guarita, e «toglila» non basta sempre", () => {

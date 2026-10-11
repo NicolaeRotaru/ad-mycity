@@ -143,6 +143,29 @@ test("AR-966 — ogni attesa della lista ha la sua scadenza nello scadenzario, c
     if (!id.startsWith("attesa-")) continue;
     assert.ok(attese.some((d) => `attesa-${d.id}` === id), `«${id}» è nello scadenzario ma l'attesa non c'è più: va spostata in chiuse`);
   }
+
+  // La stessa trappola sta in ogni esenzione a scadenza che fa rosso un guardiano del cancello. Il
+  // sesto collaudo ne ha trovata una nel registro delle porte (fino al 15/10, porte-gemelle rosso per
+  // tutti dal 16). La cura che l'esenzione stessa chiede — togliere il file — oggi accende quattro
+  // falsi allarmi del sorvegliante (AR-969): rinnovata, e da qui in avanti un'esenzione con `fino_al`
+  // deve avere la sua voce nello scadenzario, col nome del file e con la stessa data. porte-gemelle
+  // confronta `fino_al` con la data di Greenwich: l'esenzione vale per tutto quel giorno e muore alla
+  // mezzanotte di Greenwich del giorno dopo, che è il momento in cui il cancello diventa rosso.
+  const porte = JSON.parse(readFileSync(join(REPO, "cervello/atti-con-porte.json"), "utf8"));
+  const datate = (porte.atti || []).flatMap((atto) => (atto.esenti || []).filter((e) => e?.fino_al));
+  for (const e of datate) {
+    const voce = [...aperte.values()].find((s) => String(s.id).startsWith("esenzione-") && String(s.fonte || "").includes(e.file));
+    assert.ok(voce, `l'esenzione di ${e.file} scade il ${e.fino_al} e nello scadenzario non c'è: il giorno dopo porte-gemelle è rosso per tutti, senza preavviso`);
+    const [a, m, g] = String(e.fino_al).split("-").map(Number);
+    assert.equal(Date.parse(voce.scade), Date.UTC(a, m - 1, g + 1), `le due date dell'esenzione di ${e.file} divergono: lo scadenzario dice ${voce.scade}, porte-gemelle diventa rosso dal giorno dopo il ${e.fino_al}`);
+  }
+  for (const s of aperte.values()) {
+    if (!String(s.id).startsWith("esenzione-")) continue;
+    assert.ok(
+      datate.some((e) => String(s.fonte || "").includes(e.file)),
+      `«${s.id}» è nello scadenzario ma nel registro delle porte non c'è più un'esenzione a scadenza col suo file: va spostata in chiuse`,
+    );
+  }
 });
 
 test("AR-431 — IL PUNTO: sulla lista vera nessun documento di governo è scoperto in silenzio", () => {

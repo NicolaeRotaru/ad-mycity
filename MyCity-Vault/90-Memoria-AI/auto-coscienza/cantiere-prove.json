@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-10-11 04:50",
+  "aggiornato": "2026-10-11 06:18",
   "giorni_sospetto": 3,
-  "difetti_aperti": 181,
-  "difetti_da_fare": 181,
+  "difetti_aperti": 183,
+  "difetti_da_fare": 183,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 958,
+    "totale": 960,
     "chiusi": 777,
-    "aperti": 170,
+    "aperti": 172,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 181,
+    "da_fare": 183,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 777,
-      "aperto": 170,
+      "aperto": 172,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 181,
-    "viste": 181,
+    "attese": 183,
+    "viste": 183,
     "fuori": 0,
-    "motivo": "bilancio a posto: 777 chiuse + 181 classificate = 958 schede, e ogni stato vivo è dentro (170 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 777 chiuse + 183 classificate = 960 schede, e ogni stato vivo è dentro (172 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 118,
+    "umana": 120,
     "prova-debole-su-grave": 26,
     "auto-comando": 33,
     "auto-sospetta": 4
@@ -422,7 +422,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 148,
+  "non_auto_chiudibili": 150,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -4336,6 +4336,32 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/il-quaderno-che-nessuno-firma.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-968",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Altre prove pretendono uno stato del mondo, e diventeranno rosse da sole col lavoro normale della squadra",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-969",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il sorvegliante scambia per un freno spento ogni nome scritto in un file cancellato: togliere un programma mor",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }

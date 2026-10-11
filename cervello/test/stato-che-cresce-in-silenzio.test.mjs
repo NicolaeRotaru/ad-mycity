@@ -236,7 +236,11 @@ prova("AR-847: SUL FILE VERO, la forma si riconosce ancora", () => {
   // strumento — che è il momento in cui lo spostamento automatico diventa pericoloso.
   const p = spaccaStato(readFileSync(join(QUI, "..", "..", "MyCity-Vault/90-Memoria-AI/STATO.md"), "utf8"));
   assert.equal(p.leggibile, true, p.motivo || "");
-  assert.ok(p.voci.length > 10, `sul file vero riconosco solo ${p.voci.length} voci: il taglio non sta funzionando`);
+  // AR-967 — qui c'era «più di 10 voci». Ma quando STATO passa la soglia il giro sposta le voci più
+  // vecchie nell'archivio, e può lasciarne una sola (sesto collaudo dell'11/10: a 158.914 caratteri su
+  // 160.000 bastavano due note normali). Quante voci restano lo decide il giro; la garanzia del giro è
+  // «almeno una», e la forma rotta si vede da `leggibile` e dalla testa qui sotto.
+  assert.ok(p.voci.length >= 1, `sul file vero non riconosco nessuna voce: il taglio non sta funzionando`);
   assert.ok(p.testa.join("\n").includes("I numeri chiave"), "i numeri chiave del file vero non finiscono nella testa: verrebbero archiviati");
 });
 

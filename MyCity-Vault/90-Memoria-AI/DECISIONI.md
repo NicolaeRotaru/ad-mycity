@@ -5430,3 +5430,19 @@ toglierla fa diventare rosso.
 **Perché.** Una prova che diventa rossa quando la squadra lavora insegna a non lavorare.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 06:10 — 🟡 Il sesto collaudo della riparazione della CI: una data che il 16 ottobre avrebbe acceso il rosso, spostata e annunciata
+
+**Cosa.** Il sesto controllore ha cercato le date nascoste nei registri della macchina. Ne ha trovata
+una nuova: il controllo delle porte esentava un vecchio programma fino al 15 ottobre. Dal 16 il
+cancello sarebbe diventato rosso per tutti, senza che nessuno toccasse niente. L'esenzione stessa
+diceva la cura: togliere quel programma usa-e-getta del 25 luglio. Ci ho provato, e un altro
+controllo, il sorvegliante, ha scambiato il programma tolto per quattro freni spenti. È un suo
+difetto, e l'ho registrato a parte. Così ho spostato l'esenzione al 14 novembre, e lo scadenzario
+annuncia il rosso tre giorni prima. Ha trovato anche una mia frase falsa del quinto giro: una prova
+sulla Sala vera c'era ancora. Adesso anche quella gira su una Sala finta.
+
+**Perché.** Una data che scade da sola rende rossa la CI di tutti, e nessuno sa perché. Riparare il
+sorvegliante dentro questa richiesta l'avrebbe allargata a un altro problema.
+
+**Come si torna indietro.** Non unire la richiesta #878.

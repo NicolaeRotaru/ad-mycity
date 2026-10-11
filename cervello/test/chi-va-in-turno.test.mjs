@@ -74,8 +74,20 @@ test("il turno ruota: in una settimana la squadra cambia", () => {
 // gli stessi sei nomi tutti i giorni, e la rotazione più sotto non veniva mai raggiunta. Su 120
 // senior ne lavoravano 6, e nessun conteggio lo diceva — il turno era pieno, quindi sembrava sano.
 
+/** Nove passaggi pendenti verso nove colleghi, con date diverse: il caso del 21/8 su un repo finto.
+ *  AR-967 — sul repo vero queste prove dipendevano da quanti passaggi pendono oggi: bastava che i
+ *  convocati raccogliessero il loro per renderle rosse o cieche (quinto e sesto collaudo, 11/10). Le
+ *  date sono diverse apposta: con una data sola, una rotazione che ordina per data passava lo stesso. */
+function repoNovePendenti() {
+  const destinatari = Array.from({ length: 9 }, (_, i) => `dest-${i + 1}`);
+  const agenti = ["alfa", ...destinatari, ...Array.from({ length: 6 }, (_, i) => `altro-${i + 1}`)];
+  const sala = destinatari.map((d, i) => `- 2026-08-0${i + 1} 10:00 · @alfa · PASSO-A · @${d} — raccogli il pezzo ${i + 1}`).join("\n");
+  return repoFinto({ agenti, sala });
+}
+
 test("i passaggi pendenti non possono prendersi tutto il turno", () => {
-  const { turno, copertura } = turnoDelGiro({ radice: RADICE, oggi: OGGI });
+  const { turno, copertura } = turnoDelGiro({ radice: repoNovePendenti(), oggi: OGGI });
+  assert.ok(turno.some((v) => v.motivo === "passaggio-da-raccogliere"), "nove passaggi pendenti: qualcuno va convocato");
   const daPassaggio = turno.filter((v) => v.motivo === "passaggio-da-raccogliere");
   assert.ok(
     daPassaggio.length < turno.length,
@@ -88,14 +100,10 @@ test("i passaggi pendenti ruotano anche fra loro", () => {
   // Nove pendenti su tre posti, presi sempre nello stesso ordine, sono comunque tre nomi fissi:
   // è lo stesso difetto un piano più sotto. In giorni diversi devono toccare a persone diverse.
   //
-  // AR-967 — la rotazione si prova su un repo finto con nove passaggi pendenti. Sul repo vero questa
+  // AR-967 — sul repo finto con nove passaggi pendenti (vedi repoNovePendenti). Sul repo vero questa
   // prova pretendeva più di tre nomi in quattro giri: diventava rossa da sola appena tre colleghi
-  // raccoglievano il loro passaggio scrivendo in Sala — proprio ciò per cui il turno li chiama
-  // (quinto collaudo, 11/10). Quanti passaggi pendono lo decide la squadra, non il codice.
-  const destinatari = Array.from({ length: 9 }, (_, i) => `dest-${i + 1}`);
-  const agenti = ["alfa", ...destinatari, ...Array.from({ length: 6 }, (_, i) => `altro-${i + 1}`)];
-  const sala = destinatari.map((d, i) => `- 2026-08-10 10:0${i} · @alfa · PASSO-A · @${d} — raccogli il pezzo ${i + 1}`).join("\n");
-  const dir = repoFinto({ agenti, sala });
+  // raccoglievano il loro passaggio scrivendo in Sala — proprio ciò per cui il turno li chiama.
+  const dir = repoNovePendenti();
   const visti = new Set();
   for (const g of ["2026-08-13", "2026-08-15", "2026-08-17", "2026-08-19"]) {
     for (const v of turnoDelGiro({ radice: dir, oggi: g }).turno) {
