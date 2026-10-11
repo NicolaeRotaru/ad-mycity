@@ -124,6 +124,15 @@ prova("AR-621: il monologo si misura, non si racconta", () => {
   assert.equal(v.voci, 2);
 });
 
+prova("AR-967: una settimana senza righe in Sala non ha una voce dominante — null, non zero", () => {
+  // La metà «finestra vuota» della prova sulla Sala vera si vede solo in una settimana muta: qui la si
+  // prova sempre. Uno zero direbbe «nessuno ha dominato»; null dice «non c'era niente da misurare».
+  const vuota = L.concentrazioneVoci([]);
+  assert.equal(vuota.quota, null, "senza righe la quota non si misura: è null");
+  assert.equal(vuota.dominante, null);
+  assert.equal(L.concentrazioneVoci(L.righeSala(SALA_FINTA)).quota, 0.75, "e con le righe la misura c'è");
+});
+
 prova("AR-622: una RIVEDI senza risposta del destinatario conta come senza risposta", () => {
   const senza = L.revisioniTraPari(L.righeSala(SALA_FINTA));
   assert.equal(senza.richieste, 1);

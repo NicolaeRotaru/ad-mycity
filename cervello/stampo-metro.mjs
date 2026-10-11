@@ -291,7 +291,7 @@ export const MATURANO_DA_SOLE = new Set([DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOT
 export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}, baseline = {} } = {}) {
   const ultimoAllora = baseline.ultimo_esito || {};
   const bytesAllora = baseline.kit_bytes || {};
-  const vuotiAllora = vuotiAllaDichiarazione(baseline);
+  const vuotiAllora = senzaEsitiAllaDichiarazione(baseline);
   const regressioni = [];
   const invecchiati = [];
   for (const n of nuovi) {
@@ -301,11 +301,22 @@ export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}
   return { regressioni, invecchiati };
 }
 
-/** I quaderni che alla dichiarazione erano vuoti: il debito lo dice per nome (`quaderno_vuoto`). PURA. */
-export function vuotiAllaDichiarazione(baseline = {}) {
+/**
+ * I quaderni che alla dichiarazione non avevano nessun esito: vuoti (`quaderno_vuoto`) o non ancora
+ * nati (`quaderno_assente`). Il debito lo dice per nome. PURA.
+ *
+ * Il terzo collaudo dell'11/10 ha trovato il secondo caso: un senior nuovo entra nella baseline col
+ * quaderno assente, poi il giro gli scrive il primo esito (`chiusura-loop registra` crea il file) e lo
+ * pubblica su main. Contando solo i vuoti, quel quaderno risultava «non giudicabile» e la CI diventava
+ * rossa per tutti, per una scrittura che nessuna richiesta di unione aveva fatto — e il giro non può
+ * ripararla, perché non pubblica `cervello/`. Vuoto o assente, alla dichiarazione non c'era niente:
+ * niente può essere sparito.
+ */
+const SENZA_ESITI = new Set([DIFETTO.QUADERNO_VUOTO, DIFETTO.QUADERNO_ASSENTE]);
+export function senzaEsitiAllaDichiarazione(baseline = {}) {
   return new Set(
     Object.entries(baseline.debito || {})
-      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_VUOTO))
+      .filter(([, difetti]) => Array.isArray(difetti) && difetti.some((d) => SENZA_ESITI.has(d)))
       .map(([nome]) => nome)
   );
 }
@@ -322,12 +333,13 @@ export function vuotiAllaDichiarazione(baseline = {}) {
  * 10/10, e il collaudo l'ha rifatta con un orologio finto.
  *
  * Qui il buco diventa rosso IL GIORNO STESSO, quando chi ha tolto la riga è ancora lì e la data da
- * scrivere è una sola: ogni quaderno che ha esiti oggi deve avere nella baseline o la sua data o la
- * parola «vuoto». Vale anche per un senior nuovo, che entra nel parco col suo primo esito. PURA.
+ * scrivere è una sola: ogni quaderno che ha esiti oggi deve avere nella baseline o la sua data, o la
+ * parola «vuoto» o «assente». Vale anche per un senior nuovo: dichiarato assente, il primo esito che
+ * gli scrive il giro non accende niente. PURA.
  */
 export function baselineCieca({ ultimoOggi = {}, baseline = {} } = {}) {
   const ultimoAllora = baseline.ultimo_esito || {};
-  const vuotiAllora = vuotiAllaDichiarazione(baseline);
+  const vuotiAllora = senzaEsitiAllaDichiarazione(baseline);
   return Object.entries(ultimoOggi)
     .filter(([nome, oggi]) => oggi && !ultimoAllora[nome] && !vuotiAllora.has(nome))
     .map(([nome, oggi]) => ({ nome, ultimo_oggi: oggi }))
@@ -345,7 +357,7 @@ function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora
     if (oggi && !allora && vuotiAllora.has(n.nome)) {
       return {
         invecchiato: true,
-        perche: `alla dichiarazione il quaderno era vuoto: ogni esito di oggi (l'ultimo è del ${oggi}) è nato dopo, e di quello che c'era allora non può essere sparito niente — a muoversi è stato il calendario`,
+        perche: `alla dichiarazione il quaderno era vuoto o non c'era: ogni esito di oggi (l'ultimo è del ${oggi}) è nato dopo, e di quello che c'era allora non può essere sparito niente — a muoversi è stato il calendario`,
       };
     }
     if (!oggi || !allora) {

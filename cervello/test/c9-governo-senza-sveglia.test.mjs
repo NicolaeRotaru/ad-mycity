@@ -22,7 +22,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdtempSync, readFileSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative, sep } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { DOCUMENTI, copertura, scoperti } from "../documenti-di-governo.mjs";
 
@@ -108,6 +108,15 @@ test("AR-960 — il guardiano dichiarato legge il documento dichiarato, e FRENA 
   symlinkSync(REPO, collegamento, "dir");
   const daCollegamento = spawnSync(process.execPath, [join(collegamento, voce.guardiano)], { encoding: "utf8", env, timeout: 60_000 });
   assert.equal(daCollegamento.status, 1, `dal collegamento il guardiano deve girare e frenare:\n${daCollegamento.stdout}${daCollegamento.stderr}`);
+
+  // E chi lo IMPORTA non lo fa girare (AR-445). Col registro iniettato c'è una scadenza passata: se la
+  // guardia d'avvio dicesse sempre «sì», il programma partirebbe dentro l'import e chiuderebbe chi lo
+  // ha importato col suo process.exit(1). Il terzo collaudo l'ha visto: nessun'altra prova se ne accorge.
+  const importatore = join(dir, "importatore.mjs");
+  writeFileSync(importatore, `await import(${JSON.stringify(pathToFileURL(join(REPO, voce.guardiano)).href)});\nconsole.log("importato");\n`);
+  const importato = spawnSync(process.execPath, [importatore], { encoding: "utf8", env, timeout: 60_000 });
+  assert.equal(importato.status, 0, `importare il guardiano non deve farlo girare:\n${importato.stdout}${importato.stderr}`);
+  assert.equal(importato.stdout.trim(), "importato", "chi importa il modulo deve restare vivo, e senza il rapporto del guardiano in mezzo");
 
   // E il contrario: chiusa, la stessa scadenza non è più un allarme. Un guardiano sempre rosso non frena niente.
   writeFileSync(registro, JSON.stringify({ aggiornato: "2026-01-01 09:00", scadenze: [], chiuse: [{ id: "prova", scade: "2026-01-02T12:00:00+01:00" }] }));

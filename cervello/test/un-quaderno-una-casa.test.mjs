@@ -69,7 +69,7 @@ prova("tre case sono peggio di due, e si vedono tutte", () => {
 // ── L'innesto: il guardiano lo usa davvero ──────────────────────────────────
 
 /** Un parco finto: due agenti, i loro kit, e i quaderni nelle case indicate. */
-function parcoFinto({ casaAlt = [] } = {}) {
+function parcoFinto({ casaAlt = [], dateNellaBaseline = true } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "mycity-case-"));
   const agenti = join(dir, "agents");
   const kit = join(dir, "kit");
@@ -134,7 +134,8 @@ function parcoFinto({ casaAlt = [] } = {}) {
   // quaderno che scrive è un rosso suo, il giorno stesso — e questa prova parla d'altro.
   const baseline = join(dir, "baseline.json");
   const giorno = esitoRecente.slice(0, 10);
-  writeFileSync(baseline, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: {}, ultimo_esito: { tech: giorno, vendite: giorno } }));
+  const ultimoEsito = dateNellaBaseline ? { tech: giorno, vendite: giorno } : {};
+  writeFileSync(baseline, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: {}, ultimo_esito: ultimoEsito }));
 
   const r = spawnSync("node", [GUARDIANO, "--json"], {
     encoding: "utf8",
@@ -164,6 +165,15 @@ prova("e lascia VERDE lo stesso parco quando la casa è una sola: non è un giro
   const r = parcoFinto({ casaAlt: [] });
   assert.equal(r.rc, 0, `atteso verde:\n${r.out}`);
   assert.deepEqual(r.json.nuovi_rispetto_al_debito, []);
+});
+
+prova("AR-959 (terzo collaudo): senza le date nella baseline il guardiano FRENA il giorno stesso, e dice quali scrivere", () => {
+  // La funzione pura ha la sua prova (③ter in il-tempo-non-e-una-regressione); qui si lancia il
+  // guardiano vero, perché un rosso che la funzione calcola e l'uscita non porta non ferma nessuno.
+  const r = parcoFinto({ casaAlt: [], dateNellaBaseline: false });
+  assert.equal(r.rc, 1, `due quaderni scrivono e la baseline non sa giudicarli: atteso rosso, avuto ${r.rc}:\n${r.out}`);
+  assert.deepEqual(r.json.baseline_cieca.map((c) => c.nome), ["tech", "vendite"], "e il rapporto dice quali quaderni, con la data da scrivere");
+  assert.deepEqual(r.json.regressioni, [], "non è una regressione di nessuno: è la baseline che ha perso la memoria");
 });
 
 prova("una copia di un quaderno che non esiste nella casa vera viene vista lo stesso", () => {

@@ -159,6 +159,23 @@ prova("③ ter — AR-959 (collaudo): chi toglie il «vuoto» senza scrivere la 
   assert.equal(baselineCieca({ ultimoOggi: { "senior-nuovo": "2026-10-11" }, baseline: { debito: {}, ultimo_esito: {} } }).length, 1);
 });
 
+prova("③ quater — AR-959 (terzo collaudo): un senior nuovo, dichiarato col quaderno assente, scrive il primo esito dal giro — e nessuno diventa rosso", () => {
+  // Il percorso che il terzo collaudo ha rifatto sul repo vero: la richiesta che aggiunge il senior lo
+  // dichiara con `quaderno_assente`; poi il giro esegue `chiusura-loop registra`, che crea il quaderno
+  // col primo esito, e lo pubblica su main. Nessuna richiesta di unione ha toccato niente: se qui
+  // uscisse un rosso, la CI sarebbe rossa per tutti e il giro non potrebbe ripararla.
+  const baseline = { debito: { "senior-nuovo": ["quaderno_assente"] }, ultimo_esito: {} };
+  assert.deepEqual(baselineCieca({ ultimoOggi: { "senior-nuovo": "2026-10-12" }, baseline }), [],
+    "assente alla dichiarazione vuol dire «niente da ricordare», come vuoto: la baseline sa giudicarlo");
+  // E trenta giorni dopo, fermo, è il calendario: niente di quello che c'era allora può essere sparito.
+  const { regressioni, invecchiati } = classificaNuovi([{ nome: "senior-nuovo", difetto: DIFETTO.QUADERNO_FERMO }], {
+    ultimoOggi: { "senior-nuovo": "2026-10-12" },
+    baseline,
+  });
+  assert.equal(regressioni.length, 0, `un quaderno nato dopo la dichiarazione non può aver perso righe: ${JSON.stringify(regressioni)}`);
+  assert.equal(invecchiati.length, 1);
+});
+
 prova("④ sul repo vero: nessuna regressione, e ogni fermo resta contato nel rapporto", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8" });
   const j = JSON.parse(r.stdout);

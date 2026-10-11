@@ -5396,3 +5396,14 @@ senza il tetto del motore. Col motore vero ne muoiono 5 per giro. La conclusione
 trova più niente.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 03:53 — 🟡 Il terzo collaudo della riparazione della CI: chiuso il caso del senior nuovo
+
+**Cosa.** Il terzo controllore ha trovato un rosso possibile per tutti. Se entra un senior nuovo senza
+quaderno, il primo esito che gli scrive il giro avrebbe reso rossa la CI di ogni richiesta, e il giro
+non può ripararla. Adesso un quaderno che alla dichiarazione non esisteva conta come uno vuoto. Chiusi
+anche un rilievo medio e due minori: ognuno ha ora una prova che diventa rossa se la correzione sparisce.
+
+**Perché.** Il collaudo si ferma quando un giro non trova più niente.
+
+**Come si torna indietro.** Non unire la richiesta #878.
