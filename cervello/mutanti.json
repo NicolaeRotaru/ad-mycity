@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-11 06:57",
+ "aggiornato": "2026-10-11 07:36",
  "mutanti": [
   {
    "lotto": 30,
@@ -9551,10 +9551,66 @@
   },
   {
    "difetto": "AR-966",
-   "nome": "una seconda voce nello scadenzario nomina lo stesso file con un'altra data, dopo quella giusta: resta aperta e a ogni giro avvisa di una scadenza che non esiste",
-   "file": "cervello/scadenzario.json",
-   "cerca": "    }\n  ],\n  \"chiuse\": [",
-   "sostituisci": "    },\n    {\n      \"id\": \"esenzione-round2-applica-bis\",\n      \"scade\": \"2027-03-01T01:00:00+01:00\",\n      \"fonte\": \"cervello/atti-con-porte.json → esenzione di cervello/round2-applica.mjs\"\n    }\n  ],\n  \"chiuse\": [",
+   "nome": "il doppione torna invisibile: una seconda voce sulla stessa data, con un altro nome, avvisa per un giorno che nessuno controlla",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    } else if (sue.length > 1) {",
+   "sostituisci": "    } else if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la voce orfana resta aperta: il giro avvisa di un rosso che non arriverà più",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    if (!date.some((d) => stessa(v, d))) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "due voci con lo stesso id passano: chi legge lo scadenzario per id ne vede una sola",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "  for (const id of new Set(ids.filter((id, i) => ids.indexOf(id) !== i))) {",
+   "sostituisci": "  for (const id of []) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il confine delle porte cade un giorno prima di quello di porte-gemelle: lo scadenzario dichiarerebbe un istante falso",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "confine: g ? Date.UTC(g[0], g[1] - 1, g[2] + 1) : NaN };",
+   "sostituisci": "confine: g ? Date.UTC(g[0], g[1] - 1, g[2]) : NaN };",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il confine delle attese cade un giorno dopo quello della lista: lo scadenzario avviserebbe a rosso già acceso",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "return { registro: \"governo\", chiave: d.id, data: String(d.attesa.fino), confine: g ? Date.UTC(g[0], g[1] - 1, g[2]) : NaN };",
+   "sostituisci": "return { registro: \"governo\", chiave: d.id, data: String(d.attesa.fino), confine: g ? Date.UTC(g[0], g[1] - 1, g[2] + 1) : NaN };",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il collegamento torna al prefisso dell'id: una scadenza del mondo chiamata «esenzione-…» fa rossa la CI",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "  const rimandi = voci.filter((v) => v && v.cancello);",
+   "sostituisci": "  const rimandi = voci.filter((v) => v && (v.cancello || /^(attesa|esenzione)-/.test(String(v.id))));",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la data dello scadenzario non si confronta più: una voce che diverge di un'ora passa",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    } else if (Date.parse(sue[0].scade) !== d.confine) {",
+   "sostituisci": "    } else if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "una data scritta male passa per «senza voce»: si cerca la voce invece di dire che la data non si legge",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    if (!Number.isFinite(d.confine)) {",
+   "sostituisci": "    if (false) {",
    "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
   },
   {

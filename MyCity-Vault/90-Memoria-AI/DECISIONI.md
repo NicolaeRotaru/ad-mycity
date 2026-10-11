@@ -5462,3 +5462,18 @@ registrati.
 piccole, e le ho chiuse.
 
 **Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 07:38 — 🟡 L'ottavo collaudo della riparazione della CI: bocciati i testi di chiusura, e chiusa una trappola nata qui
+
+**Cosa.** L'ottavo controllore ha detto che mutazioni e prova reggono, ma ha bocciato i miei testi.
+La frase che spiega come togliere il vecchio programma nominava il registro delle mutazioni col suo
+percorso. Il sorvegliante lo leggeva come un programma che non esiste, e seguire l'istruzione
+accendeva un sesto falso allarme. Tolto il percorso. Ha trovato anche una trappola nata in questa
+richiesta: la prova dello scadenzario riconosceva le sue voci dal nome. Una scadenza esterna
+chiamata «esenzione-…» avrebbe fatto rossa la CI, e il messaggio diceva di spegnerla. Adesso il
+legame sta in un campo apposta, e la regola in un modulo provato su dati finti. Il difetto del
+sorvegliante con le estensioni è una scheda nuova.
+
+**Perché.** Un'istruzione che accende il rosso quando la segui insegna a non seguirla.
+
+**Come si torna indietro.** Non unire la richiesta #878.

@@ -25,6 +25,8 @@ import { dirname, join, relative, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { DOCUMENTI, copertura, scoperti } from "../documenti-di-governo.mjs";
+import { esenzioniMorte } from "../porte-gemelle.mjs";
+import { dateGoverno, datePorte, problemiScadenze } from "../scadenze-del-cancello.mjs";
 
 const CERVELLO = join(dirname(fileURLToPath(import.meta.url)), "..");
 const REPO = join(CERVELLO, "..");
@@ -126,55 +128,80 @@ test("AR-960 — il guardiano dichiarato legge il documento dichiarato, e FRENA 
 
 // AR-966 — il secondo collaudo dell'11/10: un'attesa che scade rende rossa la CI di tutti (è IL PUNTO,
 // qui sotto), e prima nessuno avvisava: la data stava solo in questa lista, che il giro non legge. Così
-// la CI è diventata rossa il 30/9 senza preavviso. Adesso ogni attesa ha la sua voce nello scadenzario,
-// che il giro sorveglia: l'avviso arriva tre giorni prima del rosso. Le due date devono restare uguali,
-// nei due versi — una copia che diverge è peggio di nessuna copia.
-test("AR-966 — ogni attesa della lista ha la sua scadenza nello scadenzario, con la stessa data", () => {
-  const reg = JSON.parse(readFileSync(join(REPO, "cervello/scadenzario.json"), "utf8"));
-  const aperte = new Map((reg.scadenze || []).map((s) => [s.id, s]));
-  const attese = DOCUMENTI.filter((d) => !d.guardiano && d.attesa?.fino);
-  for (const d of attese) {
-    const s = aperte.get(`attesa-${d.id}`);
-    assert.ok(s, `l'attesa di «${d.id}» (fino al ${d.attesa.fino}) non è nello scadenzario: il giorno dopo la CI diventa rossa senza preavviso`);
-    const [a, m, g] = d.attesa.fino.split("-").map(Number);
-    assert.equal(Date.parse(s.scade), Date.UTC(a, m - 1, g), `le due date di «${d.id}» divergono: ${s.scade} contro ${d.attesa.fino}`);
-  }
-  for (const id of aperte.keys()) {
-    if (!id.startsWith("attesa-")) continue;
-    assert.ok(attese.some((d) => `attesa-${d.id}` === id), `«${id}» è nello scadenzario ma l'attesa non c'è più: va spostata in chiuse`);
-  }
+// la CI è diventata rossa il 30/9 senza preavviso. Adesso ogni data che può far rosso un passo del
+// cancello ha la sua voce nello scadenzario, che il giro sorveglia: l'avviso arriva tre giorni prima.
+// Il sesto collaudo ha trovato la stessa trappola nel registro delle porte (un'esenzione fino al 15/10,
+// porte-gemelle rosso per tutti dal 16): rinnovata, con la sua voce. Le date devono restare uguali, nei
+// due versi — una copia che diverge è peggio di nessuna copia.
+//
+// L'ottavo collaudo ha mostrato che il collegamento per prefisso dell'id e per frase della fonte faceva
+// rossa la CI per una scadenza del mondo che si chiamasse «esenzione-…», e lasciava passare un doppione
+// con un altro nome. Adesso il collegamento è il campo `cancello`, confrontato per uguaglianza, e la
+// regola sta in un modulo puro (`scadenze-del-cancello.mjs`) che qui si prova su dati finti e sui veri.
+const scadenzarioVero = () => JSON.parse(readFileSync(join(REPO, "cervello/scadenzario.json"), "utf8"));
+const portaFinta = (fino_al = "2026-11-14", file = "cervello/finto.mjs") => ({
+  atti: [{ esenti: [{ file, perche: "uno script usa-e-getta già applicato", fino_al, natura: "temporanea", si_toglie_quando: "quando il file viene tolto dal repo" }] }],
+});
+const voce = (id, registro, chiave, scade) => ({ id, scade, ...(registro ? { cancello: { registro, chiave } } : {}) });
 
-  // La stessa trappola sta in ogni esenzione a scadenza che fa rosso un guardiano del cancello. Il
-  // sesto collaudo ne ha trovata una nel registro delle porte (fino al 15/10, porte-gemelle rosso per
-  // tutti dal 16). La cura che l'esenzione stessa chiede — togliere il file — oggi accende quattro
-  // falsi allarmi del sorvegliante (AR-969): rinnovata, e da qui in avanti un'esenzione con `fino_al`
-  // deve avere la sua voce nello scadenzario, col nome del file e con la stessa data. porte-gemelle
-  // confronta `fino_al` con la data di Greenwich: l'esenzione vale per tutto quel giorno e muore alla
-  // mezzanotte di Greenwich del giorno dopo, che è il momento in cui il cancello diventa rosso.
-  //
-  // Una voce sola per esenzione (settimo collaudo dell'11/10): con la prima voce trovata, una seconda
-  // che nomina lo stesso file e porta un'altra data passava, restava aperta, e a ogni giro dopo la sua
-  // data il guardiano dello scadenzario usciva rosso per una scadenza che non esiste. Per la stessa
-  // ragione gli id dello scadenzario sono unici: la mappa qui sopra terrebbe solo l'ultimo.
-  const ids = (reg.scadenze || []).map((s) => s.id);
-  assert.deepEqual(ids.filter((id, i) => ids.indexOf(id) !== i), [], "nello scadenzario due voci aperte hanno lo stesso id: una delle due non la controlla nessuno");
+test("AR-966 — sui registri veri ogni data che fa rosso il cancello ha una voce sola nello scadenzario, con la stessa data", () => {
   const porte = JSON.parse(readFileSync(join(REPO, "cervello/atti-con-porte.json"), "utf8"));
-  const datate = (porte.atti || []).flatMap((atto) => (atto.esenti || []).filter((e) => e?.fino_al));
-  for (const e of datate) {
-    const voci = [...aperte.values()].filter((s) => String(s.id).startsWith("esenzione-") && String(s.fonte || "").includes(e.file));
-    assert.ok(voci.length, `l'esenzione di ${e.file} scade il ${e.fino_al} e nello scadenzario non c'è: il giorno dopo porte-gemelle è rosso per tutti, senza preavviso`);
-    assert.equal(voci.length, 1, `l'esenzione di ${e.file} ha ${voci.length} voci nello scadenzario (${voci.map((s) => s.id).join(", ")}): ne serve una sola, o le altre avvisano per date che non esistono`);
-    const voce = voci[0];
-    const [a, m, g] = String(e.fino_al).split("-").map(Number);
-    assert.equal(Date.parse(voce.scade), Date.UTC(a, m - 1, g + 1), `le due date dell'esenzione di ${e.file} divergono: lo scadenzario dice ${voce.scade}, porte-gemelle diventa rosso dal giorno dopo il ${e.fino_al}`);
+  const date = [...dateGoverno(DOCUMENTI), ...datePorte(porte)];
+  assert.deepEqual(problemiScadenze({ date, voci: scadenzarioVero().scadenze || [] }), []);
+});
+
+test("AR-966 — i confini sono quelli dei guardiani veri: un attimo prima verde, un attimo dopo rosso", () => {
+  // Le porte: il confine di datePorte contro esenzioniMorte di porte-gemelle.
+  const reg = portaFinta("2026-11-14");
+  const [p] = datePorte(reg);
+  assert.equal(p.confine, Date.UTC(2026, 10, 15), "un'esenzione fino al 14/11 cambia colore alla mezzanotte di Greenwich del 15");
+  const porta = [{ file: "cervello/finto.mjs", stato: "scoperta" }];
+  assert.deepEqual(esenzioniMorte(reg.atti[0], porta, new Date(p.confine - 1)), [], "un attimo prima del confine l'esenzione deve valere ancora");
+  assert.equal(esenzioniMorte(reg.atti[0], porta, new Date(p.confine + 1)).length, 1, "un attimo dopo il confine porte-gemelle deve darla per scaduta");
+  // Il governo: il confine di dateGoverno contro scoperti della lista.
+  const doc = [{ id: "finto", documento: "x.json", guardiano: null, attesa: { fino: "2026-11-15", perche: "un controllo da costruire" } }];
+  const [g] = dateGoverno(doc);
+  assert.equal(g.confine, Date.UTC(2026, 10, 15));
+  assert.deepEqual(scoperti(g.confine - 1, new Set(), doc), [], "un attimo prima del confine l'attesa deve valere ancora");
+  assert.equal(scoperti(g.confine + 1, new Set(), doc).length, 1, "un attimo dopo il confine l'attesa deve essere un buco");
+});
+
+test("AR-966 — una scadenza del mondo senza `cancello` non c'entra, qualunque nome abbia", () => {
+  const date = datePorte(portaFinta());
+  const voci = [
+    voce("esenzione-finto", "porte", "cervello/finto.mjs", "2026-11-15T01:00:00+01:00"),
+    { id: "esenzione-imu-2027", scade: "2027-06-16T23:59:00+02:00", fonte: "una tassa, non il cancello: cervello/finto.mjs nominato per caso" },
+    { id: "attesa-esito-bando-rifiuti", scade: "2026-12-01T12:00:00+01:00" },
+  ];
+  assert.deepEqual(problemiScadenze({ date, voci }), []);
+});
+
+test("AR-966 — il doppione si vede, con un altro id o con lo stesso, prima o dopo quella giusta", () => {
+  const date = datePorte(portaFinta());
+  const giusta = voce("esenzione-finto", "porte", "cervello/finto.mjs", "2026-11-15T01:00:00+01:00");
+  const bis = voce("promemoria-finto", "porte", "cervello/finto.mjs", "2027-03-01T01:00:00+01:00");
+  for (const voci of [[giusta, bis], [bis, giusta]]) {
+    const pr = problemiScadenze({ date, voci });
+    assert.equal(pr.length, 1, JSON.stringify(pr));
+    assert.match(pr[0], /ne serve una sola/);
   }
-  for (const s of aperte.values()) {
-    if (!String(s.id).startsWith("esenzione-")) continue;
-    assert.ok(
-      datate.some((e) => String(s.fonte || "").includes(e.file)),
-      `«${s.id}» è nello scadenzario ma nel registro delle porte non c'è più un'esenzione a scadenza col suo file: va spostata in chiuse`,
-    );
-  }
+  const stessoId = problemiScadenze({ date, voci: [giusta, { ...giusta }] });
+  assert.ok(stessoId.some((x) => /stesso id/.test(x)), JSON.stringify(stessoId));
+});
+
+test("AR-966 — la voce orfana, la data che diverge e la data scritta male si vedono", () => {
+  const orfana = problemiScadenze({ date: [], voci: [voce("esenzione-finto", "porte", "cervello/finto.mjs", "2026-11-15T01:00:00+01:00")] });
+  assert.equal(orfana.length, 1);
+  assert.match(orfana[0], /non c'è più/);
+  const unOraDopo = problemiScadenze({ date: datePorte(portaFinta()), voci: [voce("esenzione-finto", "porte", "cervello/finto.mjs", "2026-11-15T02:00:00+01:00")] });
+  assert.equal(unOraDopo.length, 1);
+  assert.match(unOraDopo[0], /cambia colore/);
+  const manca = problemiScadenze({ date: datePorte(portaFinta()), voci: [] });
+  assert.equal(manca.length, 1);
+  assert.match(manca[0], /senza preavviso/);
+  const scrittaMale = problemiScadenze({ date: datePorte(portaFinta("2026-11-14T10:00")), voci: [] });
+  assert.equal(scrittaMale.length, 1);
+  assert.match(scrittaMale[0], /AAAA-MM-GG/);
 });
 
 test("AR-431 — IL PUNTO: sulla lista vera nessun documento di governo è scoperto in silenzio", () => {

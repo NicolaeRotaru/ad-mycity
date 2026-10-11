@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-10-11 07:01",
+  "aggiornato": "2026-10-11 07:39",
   "giorni_sospetto": 3,
-  "difetti_aperti": 186,
-  "difetti_da_fare": 186,
+  "difetti_aperti": 187,
+  "difetti_da_fare": 187,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 963,
+    "totale": 964,
     "chiusi": 777,
-    "aperti": 175,
+    "aperti": 176,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 186,
+    "da_fare": 187,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 777,
-      "aperto": 175,
+      "aperto": 176,
       "da-riverificare": 10,
       "in-corso": 1
     },
@@ -26,13 +26,13 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 186,
-    "viste": 186,
+    "attese": 187,
+    "viste": 187,
     "fuori": 0,
-    "motivo": "bilancio a posto: 777 chiuse + 186 classificate = 963 schede, e ogni stato vivo è dentro (175 aperto · 1 in-corso · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 777 chiuse + 187 classificate = 964 schede, e ogni stato vivo è dentro (176 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 123,
+    "umana": 124,
     "prova-debole-su-grave": 26,
     "auto-comando": 33,
     "auto-sospetta": 4
@@ -422,7 +422,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 153,
+  "non_auto_chiudibili": 154,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -4398,6 +4398,19 @@
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Le date che possono far rosso il cancello stanno in quattro registri, e lo scadenzario ne conosce due, per cop",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-973",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il sorvegliante legge «mutanti.json» come il programma «mutanti.js»: ogni riga che nomina quel registro divent",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
