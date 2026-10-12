@@ -372,3 +372,37 @@ export function dimensioniDaProblemi(problemi, fonte) {
   }
   return ordine.map((k) => per.get(k));
 }
+
+/**
+ * Le aree che restano SOLO nelle schede tenute in casa, col loro nome leggibile.
+ *
+ * L'11/10/2026 la radiografia nuova non aveva niente da dire su tipografia, coerenza del marchio e
+ * velocita' percepita, mentre in casa c'erano ancora schede aperte di quelle tre aree. Le aree della
+ * casa nascevano solo dal referto nuovo: le tre restavano senza nome, e la scheda del Pannello
+ * disegnava una colonna «area» vuota (il controllo ⑧ di il-conto-del-sito-che-dice-zero e' diventato
+ * rosso). Qui le aree degli orfani si aggiungono in coda, col nome della LORO famiglia.
+ */
+export function dimensioniDegliOrfani(problemi, dimensioniGia) {
+  const note = new Set((dimensioniGia ?? []).map((d) => d?.chiave));
+  // Per chiave, non per famiglia: la stessa area in due famiglie deve restare UNA riga, non due.
+  const perChiave = new Map();
+  for (const p of problemi ?? []) {
+    if (!p?.fuori_dal_referto) continue;
+    const k = String(p?.dimensione ?? "").trim() || "senza-nome";
+    if (note.has(k)) continue;
+    if (!perChiave.has(k)) perChiave.set(k, []);
+    perChiave.get(k).push(p);
+  }
+  const out = [];
+  for (const [k, elenco] of perChiave) {
+    // La famiglia si riconosce dall'AREA, non dal campo `fonte` della prima scheda: in casa 164 orfani
+    // su 949 portano in `fonte` un testo libero o null, e il nome cambiava con l'ordine delle schede
+    // (trovato dal collaudo dell'11/10). I vocabolari delle famiglie non si sovrappongono.
+    const fonte =
+      FONTI_SITO.find((f) => f.reparti?.[k]) ??
+      FONTI_SITO.find((f) => elenco.some((p) => p?.fonte === f.id)) ??
+      { id: null, reparti: {} };
+    out.push(...dimensioniDaProblemi(elenco, fonte));
+  }
+  return out;
+}

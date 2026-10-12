@@ -5529,3 +5529,20 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto (🔴, firma di Nicola).** Applicare qualunque cosa in produzione. Cambiare credenziali: card #202, motivo spiegato solo in chat perché questo repo è pubblico.
 
 **La lezione.** Una prova generale vale quanto è fedele la copia. Quella del 7/9 era costruita da zero, con un registro diverso da quello vero: per questo prometteva 136 file e in produzione ne avrebbe applicati 47. Il freno: la verifica in sola lettura del passo 3, che oggi in produzione dà 4 «falso» su 5 e dopo deve dare 5 «vero».
+
+## 2026-10-11 23:15 — 🟡 Radiografia completa del marketplace: referto pubblico senza i dettagli delle falle aperte, registro aggiornato, una riparazione alla macchina
+
+**Cosa.** Radiografia di codice, design, database di produzione e sito di produzione, chiesta da Nicola: «che adesso il marketplace sia pronto, che non ci siano errori di nessun tipo». Risultato: 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori), 163 noti ancora presenti, 38 noti chiusi perché verificati risolti. Card nuove: #203, #204 e #205.
+
+**Perché così.** Il deposito dell'AD e quello del sito sono pubblici. Scrivere dove stanno 23 falle di sicurezza ancora aperte avrebbe dato le istruzioni a chiunque. Quindi nel deposito compaiono col numero e un titolo generico. Il referto completo è consegnato a Nicola in chat. Stessa regola della card #202.
+
+**Cosa ho cambiato nella macchina (🟡, firma di Nicola nell'unione).** Il digest del registro faceva perdere il nome alle aree rimaste solo con schede vecchie, e la scheda del Pannello le disegnava vuote. Correzione in `cervello/referti-sito.mjs` (`dimensioniDegliOrfani`). La prova ⑥-bis diventa rossa senza la correzione.
+
+**Cosa NON ho fatto (🔴).** Toccare la produzione, cambiare chiavi o password, applicare migrazioni, scrivere nel database.
+
+## 2026-10-12 — 🟢 Il registro dei difetti del sito torna a dire quello che ha visto il ricontrollo
+
+**Cosa.** Nel registro dei difetti del sito ho rimesso la nota del ricontrollo dell'11/10 su 89 difetti noti, dove un digest lanciato a metà lavoro l'aveva sostituita con quella del 3/9. Gli stati erano rimasti giusti. Ho riaperto 7 difetti segnati «riparati» che il ricontrollo ha trovato ancora presenti. Adesso registro, Pannello e lista dei difetti dicono la stessa cosa: 470 aperti, 11 bloccanti, 109 gravi, 350 minori.
+
+**La lezione.** Il digest sostituisce le schede con la versione del referto più recente della loro famiglia. Una nota scritta in casa prima di un digest si perde, se il referto più recente contiene la stessa scheda. Le note vanno scritte dopo l'ultimo digest, e i difetti si ritrovano per nome, non per posizione.
+

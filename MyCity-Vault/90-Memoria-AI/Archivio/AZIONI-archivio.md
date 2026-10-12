@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-10 12:03
+aggiornato: 2026-10-11 23:18
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-11 23:18 · 38 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -1207,3 +1214,46 @@ cambiato.
 **Se va bene:** ricontrollo sito e catalogo, rimisuro i numeri veri, e passiamo alle card #191 e #154.
 
 **Cosa non ho verificato:** il giorno della pausa (lo dice la mail di Supabase) e se la causa è la poca attività o una fattura. Tutto il resto, con le prove: `consegne/salute/2026-10-10-database-in-pausa.md`.
+
+---
+
+<!-- rilascio-ordinato-migrazioni -->
+
+### ❌ #184 — Il database di produzione è indietro di quattro migrazioni, e va allineato in ordine · ⏳ accodata 2026-08-29 00:45 · ❌ superata 2026-10-11 23:15
+
+**Chiusa dall'AD, non decisa da Nicola: superata dai fatti.** Le quattro migrazioni (126-129) sono fra le 26 che oggi mancano in produzione, e l'allineamento intero lo porta la #191. Verificato l'11/10 con la radiografia.
+
+**In parole semplici.** Il codice del sito e il database dei clienti non dicono la stessa cosa. Il
+registro delle migrazioni in produzione è fermo a `125c`: mancano la 126, la 127, la 128 e la 129.
+Il catalogo l'ho già rimesso in vetrina con un ponte, quindi non c'è niente che brucia. Ma la
+distanza resta, e cresce a ogni modifica.
+
+**Per esempio.** La 128 aggiunge due informazioni alla vetrina degli sconti: se un prodotto è finito
+e se ha varianti. Senza di lei, quando tornerà una promozione attiva, il cartellino «Esaurito» non
+comparirà e il «+» sarà premibile su una cosa che non c'è più. Il cliente lo scopre alla cassa.
+
+**Cosa cambia per te.** Oggi nessuno se ne accorge, perché le promozioni attive sono zero. Il giorno
+in cui Pane Quotidiano ne accende una, quel difetto è davanti a un cliente.
+
+**Cosa devi fare.** Scegliere fra due strade.
+
+**(a) Accendi il cancello del rilascio.** Sono le tre chiavi Vercel che ti chiedo dalla card #161. Da
+lì in poi le migrazioni le applica il rilascio da solo, in ordine, e questa distanza non si riforma.
+È la strada che chiude il problema invece del sintomo.
+
+**(b) Dammi il via e le applico io a mano.** In ordine: 126, poi 127, poi 128, poi 129. Una
+transazione per file, con la misura prima e dopo di ognuna, come ho fatto stanotte.
+
+**Io farei tutte e due.** La (a) chiude il problema. La (b) tappa intanto: sono quattro file, e da
+soli non tornano.
+
+**Cosa non ho verificato.** Non ho letto le tre migrazioni mancanti riga per riga contro lo schema
+vero della produzione. Stanotte l'ho fatto solo per la 129, ed è lì che è saltato fuori che la 128
+cambia la firma di una funzione. Le altre due possono avere sorprese dello stesso tipo: le guardo
+prima di eseguire, non mentre.
+
+**Cosa cambia:** il codice pubblicato si aspetta un database che oggi non esiste, e la prima
+promozione accesa lo mostra a un cliente.
+
+**Se va bene:** con la (a) controllo che il primo rilascio applichi da solo le quattro mancanti. Con
+la (b) te le applico in ordine, e ti porto la misura di ognuna.

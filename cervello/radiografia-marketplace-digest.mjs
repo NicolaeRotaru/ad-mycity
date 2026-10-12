@@ -33,6 +33,7 @@ import {
   problemiDaRaw,
   fondiConLaCasa,
   dimensioniDaProblemi,
+  dimensioniDegliOrfani,
 } from "./referti-sito.mjs";
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
@@ -115,6 +116,8 @@ export function scriviDigest() {
 
   // 4) La fusione con la casa: il referto e' la verita' sul problema, la casa quella sul lavoro fatto.
   const { problemi, conservati, orfani } = fondiConLaCasa(problemiNuovi, casaVecchia?.problemi);
+  // Un'area che ha solo schede vecchie non perde il nome: senza, la scheda del Pannello la disegna vuota.
+  dimensioni.push(...dimensioniDegliOrfani(problemi, dimensioni));
 
   const meta = {
     findings: problemi.length,

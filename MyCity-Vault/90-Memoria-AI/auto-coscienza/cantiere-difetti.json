@@ -20837,6 +20837,69 @@
       "dove": "porte-gemelle.mjs, il rapporto stampato (l'11/10: la riga «ANCORA SCOPERTA/E» verso la riga 974, il motivo «sopra-il-tetto» verso la riga 709).",
       "impatto_crescita": "basso",
       "impatto_crescita_nota": "Non tocca ordini né negozi. Confonde chi aggiunge una porta nuova proprio nel momento in cui il controllo lo ferma."
+    },
+    {
+      "id": "AR-975",
+      "stato": "aperto",
+      "gravita": "minore",
+      "area": "macchina",
+      "nato": "2026-10-11 23:40",
+      "nato_come": "scoperta",
+      "trovato_da": "Collaudo indipendente della riparazione del digest del sito, durante la radiografia completa del marketplace dell 11/10.",
+      "impatto_crescita": "basso",
+      "dimensione": "guardiani-e-guardrail",
+      "titolo": "Se si toglie dal digest la riga che recupera le aree rimaste solo con schede vecchie, nessuna prova diventa rossa subito",
+      "sintomo": "Il collaudo ha tolto da scriviDigest la chiamata a dimensioniDegliOrfani: le prove restano 18 su 18 verdi. Il controllo ⑧ si accorge solo dopo un nuovo digest, e solo se esiste un area con soltanto schede vecchie.",
+      "causa_radice": "scriviDigest legge e scrive il disco del repo vero: non ha una prova che ne esegua la composizione su dati finti, quindi il collegamento fra le funzioni pure e il file scritto non e protetto.",
+      "fix_proposto": "🟡 Estrarre da scriviDigest una funzione pura che compone la casa (elenchi letti, casa vecchia → digest) e provarla su una casa finta con un area solo-orfana: la riga deve comparire con il suo nome. Mutazione: togliere la chiamata a dimensioniDegliOrfani.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto finché togliere la chiamata a dimensioniDegliOrfani da scriviDigest lascia verdi tutte le prove. Chiuso quando una prova sulla composizione diventa rossa con quella mutazione."
+      },
+      "dove": "cervello/radiografia-marketplace-digest.mjs, scriviDigest, subito dopo fondiConLaCasa.",
+      "impatto_crescita_nota": "Non tocca ordini né negozi: protegge solo il nome delle aree nella scheda del Pannello."
+    },
+    {
+      "id": "AR-976",
+      "stato": "aperto",
+      "gravita": "minore",
+      "area": "macchina",
+      "nato": "2026-10-11 23:40",
+      "nato_come": "scoperta",
+      "trovato_da": "Collaudo indipendente della riparazione del digest del sito, durante la radiografia completa del marketplace dell 11/10.",
+      "impatto_crescita": "basso",
+      "dimensione": "memoria-e-contratti",
+      "titolo": "Le aree recuperate dalle schede vecchie contano anche le chiuse, e un area vuota ha due nomi diversi fra il digest e i conti",
+      "sintomo": "Nel digest dell 11/10 le tre aree recuperate (coerenza-brand, tipografia, velocita percepita) contano 78 schede, 61 chiuse e 17 aperte, mentre le altre aree contano solo le schede del referto nuovo. E un problema senza area si chiama «senza-nome» nel digest e «(senza area)» nei conti del Pannello.",
+      "causa_radice": "dimensioniDaProblemi conta ogni scheda che riceve; per gli orfani riceve anche le chiuse. I due nomi del caso vuoto vivono in due file diversi senza una costante comune.",
+      "fix_proposto": "🟡 Decidere cosa contano i contatori di area (solo aperti, o tutto) e farlo uguale per referto e orfani; una costante unica per l area vuota, importata da digest e conti. Oggi il Pannello non legge totale, gravi e fonte delle aree: va controllato prima di cambiarli.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto finché i contatori di un area recuperata contano le chiuse e il caso vuoto ha due nomi. Chiuso con una prova che confronta i contatori di un area del referto e di un area recuperata con la stessa regola."
+      },
+      "dove": "cervello/referti-sito.mjs (dimensioniDaProblemi, dimensioniDegliOrfani) · cervello/radiografia-marketplace-conti.mjs (aggiungi, «(senza area)»).",
+      "impatto_crescita_nota": "Nessun numero mostrato oggi cambia: è coerenza interna del registro."
+    },
+    {
+      "id": "AR-977",
+      "stato": "aperto",
+      "gravita": "minore",
+      "area": "macchina",
+      "nato": "2026-10-11 23:40",
+      "nato_come": "scoperta",
+      "trovato_da": "Collaudo indipendente della riparazione del digest del sito, durante la radiografia completa del marketplace dell 11/10.",
+      "impatto_crescita": "basso",
+      "dimensione": "memoria-e-contratti",
+      "titolo": "Quando una radiografia nuova riscrive i titoli, tutte le schede vecchie restano in casa come se fossero altri difetti, e il confronto con la visita prima si perde",
+      "sintomo": "L 11/10 nessuna delle 949 schede del 3/9 coincide per chiave con il referto nuovo: sono diventate tutte orfane, tenute in casa col loro stato. 18 delle 307 schede nuove citano un difetto noto ancora aperto: il totale di 470 aperti può contare due volte al massimo 18 difetti. Inoltre al secondo lancio del digest confronto_precedente torna null e il confronto 949 → 1256 con la visita del 3/9 si perde.",
+      "causa_radice": "fondiConLaCasa fonde solo per dimensione+titolo esatti: una scheda riscritta con parole nuove è un altra scheda. confronto_precedente si calcola dalla casa che si sta sostituendo, quindi un secondo lancio nello stesso giorno confronta la visita con sé stessa.",
+      "fix_proposto": "🟡 Far portare alle schede nuove il riferimento gia_noto in un campo che la fusione legge (es. sostituisce: Kn → la vecchia diventa «assorbita» invece di orfana). Conservare confronto_precedente quando la data della casa vecchia è uguale a quella nuova.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Aperto finché una scheda nuova che dichiara gia_noto lascia la vecchia aperta come difetto distinto, e finché un secondo digest nello stesso giorno azzera confronto_precedente."
+      },
+      "dove": "cervello/referti-sito.mjs fondiConLaCasa · cervello/radiografia-marketplace-digest.mjs (confronto_precedente).",
+      "impatto_crescita_nota": "Tocca la fiducia nel numero che Nicola legge nel Pannello: il conto dei difetti del sito può essere gonfiato di qualche unità."
     }
   ],
   "meta": {

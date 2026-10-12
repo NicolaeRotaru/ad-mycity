@@ -1,10 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-11 10:40
+aggiornato: 2026-10-11 23:15
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
 ---
+
+> 🩻 **2026-10-11 23:15 — La radiografia completa del marketplace: non è pronto, e due porte del database sono aperte.**
+>
+> Restano aperti 470 difetti: 307 nuovi e 163 già noti, e 38 noti li ho chiusi perché risolti. Fra i 307 nuovi, 9 sono bloccanti e 80 gravi. Un esempio: chi si iscrive da «Diventa venditore» trova «richiesta in valutazione», ma il modulo non gli compare mai.
+>
+> Oggi tocca a te la #203, la chiave del database, e la #202, la password dell'amministratore. Poi le cinque decisioni della #204. Il codice lo riparo io con la #205, prima delle migrazioni: applicata così, la 161 spegnerebbe le schede prodotto. Non ho potuto aprire il sito vero in un browser né vedere Stripe. Referto: `consegne/audit/2026-10-11-radiografia.md`.
 
 > 🧭 **2026-10-11 10:40 — Il 9 settembre il database del sito è tornato indietro. La riparazione è pronta.**
 >
