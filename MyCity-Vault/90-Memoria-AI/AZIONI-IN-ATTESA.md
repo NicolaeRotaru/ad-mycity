@@ -58,11 +58,13 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #203 — Cambia oggi le chiavi del database del sito: una chiave segreta non è più segreta · ⏳ accodata 2026-10-11 23:15
 
+> ⚠️ **2026-10-12 17:55 — Ancora aperta.** Accettata 244 volte in 24 ore, tutte letture del sito. Nel database nessuna traccia di intrusi. La procedura collaudata è in chat del 12/10.
+
 **In parole semplici.** Una chiave del database è finita dove la vede chiunque. Dove e perché sono in chat: questo file è pubblico.
 
 **Cosa cambia:** finché funziona, chi la trova legge e cambia i dati del sito. Toglierla da Vercel non basta: va spenta su Supabase.
 
-**Cosa devi fare tu.** I cinque passi in chat dell'11/10: Supabase, poi Vercel, poi una nuova pubblicazione. Poi decidi col DPO se avvisare il Garante: ci sono 72 ore.
+**Cosa devi fare tu.** I passi della chat del 12/10, nell'ordine. Mai tornare a una pubblicazione vecchia. Sul Garante decidi col DPO entro mercoledì 14 ottobre in serata.
 
 **Se va bene:** controllo che il sito pubblicato abbia solo la chiave pubblica.
 
@@ -72,9 +74,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **In parole semplici.** La password dell'amministratore del marketplace non è più segreta. Il perché è in chat: questo file è pubblico.
 
+> ⚠️ **2026-10-12 17:55 — Password ancora vecchia.** L'account di prova va bloccato, non cancellato: il database lo registra come chi ha dato il via al primo negozio. Il comando collaudato è in chat del 12/10.
+
 **Cosa cambia:** chi la conosce entra come amministratore: approva negozi, vede ordini e profili. L'ultimo accesso è del 28 settembre: se non eri tu, dimmelo.
 
-**Cosa devi fare tu.** In Supabase, Authentication, Users: metti una password nuova e lunga. Meglio ancora: rendi amministratore il tuo account e cancella quello di prova. Fallo anche per il fattorino e il negozio di prova (card #201).
+**Cosa devi fare tu.** Incolla nell'editor SQL di Supabase il comando della chat del 12/10. Se qualcosa non torna, si annulla da solo. Da amministratore, il tuo account non potrà più comprare.
 
 **Se va bene:** controllo che la password vecchia non funzioni più.
 
@@ -91,6 +95,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Se va bene:** nel catalogo restano solo i 5 prodotti di Pane Quotidiano.
 
 **Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
+
+> ⚠️ **2026-10-12 17:55 — Da dove viene.** È un account di prova come gli altri due, nato il 5/9 da un programma. Il 7/9 alle 21:37 qualcuno ci è entrato, tre minuti dopo un accesso dal tuo account. Se eri tu, scrivimi «ok 201».
 
 ---
 
@@ -1027,7 +1033,7 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 
 ### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
 
-> ⚠️ **2026-10-11 23:15 — Prima la #203:** le chiavi di Supabase vanno cambiate prima di copiarle qui.
+> ⚠️ **2026-10-12 17:55 — La chiave di Supabase nasce con la #203:** è la nuova `sb_secret_`. Mai ricopiare la vecchia «Legacy», neanche da Render. Qui restano 8 chiavi.
 
 **Cosa cambia:** con la tua firma «Fai la #154» ho messo su Vercel le 8 chiavi che potevo creare
 io: l'indirizzo del sito con il «www», quattro chiavi interne, la coppia per le notifiche e il tetto

@@ -8,6 +8,11 @@ firma: "«Fai la #154», Nicola, 2026-10-10"
 
 # Ho messo su Vercel le otto chiavi che potevo creare io: le altre nove le copi tu
 
+> ⚠️ **2026-10-12 17:55 — La chiave di Supabase non si prende più da qui.** La chiave «Legacy» che
+> questa guida diceva di copiare non è più segreta. Va spenta, non ricopiata. La chiave di servizio
+> nuova nasce con la card #203 e va su Vercel in quel momento. Qui sotto restano le altre otto chiavi.
+> Anche dalla scorciatoia di Render non va ricopiato niente di Supabase.
+
 **In due righe.** Il sito non registra ordini perché su Vercel mancano le sue chiavi. Otto le ho
 create io oggi. Le altre nove le rilasciano Supabase, Stripe, Resend e Upstash, e le vede solo chi
 entra nei loro pannelli.
@@ -50,9 +55,9 @@ Sono nove valori da copiare, da quattro pannelli. Ci vogliono una decina di minu
 su Vercel così: progetto **mycity** → Settings → Environment Variables → Add. Scrivi il nome
 esattamente come qui sotto, scegli solo l'ambiente **Production** e spunta **Sensitive**.
 
-- **Supabase**, il più importante. Progetto «Mycity» → Project Settings → API Keys → scheda delle
-   chiavi «Legacy» → la chiave **service_role**, quella che comincia con `eyJ`. Il nome su Vercel è
-   `SUPABASE_SERVICE_ROLE_KEY`.
+- **Supabase: non da qui.** La chiave di servizio la metti con la card #203: è quella nuova, che
+   comincia con `sb_secret_`. Il nome su Vercel resta `SUPABASE_SERVICE_ROLE_KEY`. Non copiare mai la
+   chiave «Legacy» che comincia con `eyJ`: è quella da spegnere.
 - **Stripe**, tre valori. In Developers → API keys trovi la chiave segreta, che comincia con
    `sk_live_`, e quella pubblicabile, che comincia con `pk_live_`. Su Vercel si chiamano
    `STRIPE_SECRET_KEY` e `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`.
@@ -75,8 +80,8 @@ pagamento passerebbe, e l'ordine non arriverebbe.
 
 **Una scorciatoia, se ce l'hai ancora.** Se riesci ad aprire il pannello di Render, il servizio del
 sito ha una pagina Environment. Lì ci sono quasi tutti questi valori, perché il sito li usava fino al
-30 luglio. Copia solo i nomi di questa lista: gli altri li ho già messi io, e Vercel rifiuta un nome
-doppio. La chiave degli avvisi di Stripe, invece, prendila sempre da Stripe.
+30 luglio. Copia solo i nomi di questa lista, tranne quelli di Supabase: gli altri li ho già messi io, e
+Vercel rifiuta un nome doppio. La chiave degli avvisi di Stripe, invece, prendila sempre da Stripe.
 
 Poi scrivimi **«fatto 154»**. Ripubblico io il sito: stessa versione di oggi, nessun codice nuovo.
 Poi controllo la sua pagina di controllo e che i lavori automatici ripartano. Se vuoi anche annullare
