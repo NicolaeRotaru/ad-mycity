@@ -5540,3 +5540,9 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 
 **Cosa NON ho fatto (🔴).** Toccare la produzione, cambiare chiavi o password, applicare migrazioni, scrivere nel database.
 
+## 2026-10-12 — 🟢 Il registro dei difetti del sito torna a dire quello che ha visto il ricontrollo
+
+**Cosa.** Nel registro dei difetti del sito ho rimesso la nota del ricontrollo dell'11/10 su 89 difetti noti, dove un digest lanciato a metà lavoro l'aveva sostituita con quella del 3/9. Gli stati erano rimasti giusti. Ho riaperto 7 difetti segnati «riparati» che il ricontrollo ha trovato ancora presenti. Adesso registro, Pannello e lista dei difetti dicono la stessa cosa: 470 aperti, 11 bloccanti, 109 gravi, 350 minori.
+
+**La lezione.** Il digest sostituisce le schede con la versione del referto più recente della loro famiglia. Una nota scritta in casa prima di un digest si perde, se il referto più recente contiene la stessa scheda. Le note vanno scritte dopo l'ultimo digest, e i difetti si ritrovano per nome, non per posizione.
+
