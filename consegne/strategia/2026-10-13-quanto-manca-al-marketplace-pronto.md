@@ -54,7 +54,7 @@ Oggi una cosa sola: chiudere le due porte aperte del database. Cambi le chiavi s
 
 | Settimana | Tocca a te | Tocca a me |
 |---|---|---|
-| 13-19 ottobre | Chiavi e password, oggi. Entro mercoledì 14 sera, decidere col responsabile della privacy se avvisare il Garante. Le cinque scelte che ti ho preparato. Supabase a pagamento. Togliere il negozio di prova. Chiamare il commercialista per la partita IVA. | Riparo i circa 90 problemi seri del codice, con il collaudo. |
+| 13-19 ottobre | Chiavi e password, oggi. Entro mercoledì 14 sera, decidere col responsabile della privacy se avvisare il Garante. Le sei scelte che ti ho preparato. Supabase a pagamento. Togliere il negozio di prova. Chiamare il commercialista per la partita IVA. | Riparo i circa 90 problemi seri del codice, con il collaudo. |
 | 20-26 ottobre | Unisci la riparazione. Applichi le modifiche al database, una volta sola: secondo me circa un'ora. Copi su Vercel le altre 8 chiavi che mancano. | Controllo la produzione pezzo per pezzo. Chiudo le promesse false che restano. |
 | 27 ottobre - 9 novembre | Partita IVA e Stripe attivi. Il fornaio completa il suo fascicolo pagamenti. Decidi chi consegna. | Primo ordine vero dall'inizio alla fine, uno con la carta e uno in contanti. Riparo quello che solo un ordine vero fa vedere. |
 
@@ -62,7 +62,7 @@ Oggi una cosa sola: chiudere le due porte aperte del database. Cambi le chiavi s
 
 **Due date che non si spostano.** Mercoledì 14 ottobre in serata finiscono le 72 ore per decidere se avvisare il Garante della chiave esposta. Il 30 novembre si spegne il modello di intelligenza artificiale che legge le foto e scrive le schede prodotto: la riparazione è piccola, ma va fatta prima.
 
-**Una scorciatoia che ti propongo.** Al lancio teniamo accesa solo la strada essenziale: vetrina, carrello, pagamento, consegna, incasso del negozio. Restano spente l'intelligenza artificiale per i negozi, i buoni regalo, la classifica degli inviti e la newsletter. Restano spenti anche il Drop del giorno, l'app da installare e le statistiche di PostHog. Così 14 dei 120 problemi seri escono dal percorso del lancio. Le riaccendiamo una alla volta, quando servono. È anche la regola del tuo documento sul business: mai dodici funzioni insieme.
+**Una scorciatoia che ti propongo.** Al lancio teniamo accesa solo la strada essenziale: vetrina, carrello, pagamento, consegna, incasso del negozio. Restano spente l'intelligenza artificiale per i negozi, i buoni regalo, la classifica degli inviti e la newsletter. Restano spenti anche il Drop del giorno, l'app da installare e le statistiche di PostHog. Così 14 dei 120 problemi seri escono dal percorso del lancio. Le riaccendiamo una alla volta, quando servono. È anche la regola del tuo documento sul business: mai dodici funzioni insieme. Te l'ho messa fra le cose da approvare.
 
 **Se invece le firme vanno al ritmo di queste settimane,** ci vogliono mesi, non settimane. Intanto il sito non sta fermo ad aspettare: si rompe da solo. Il 10 ottobre, per esempio, il database era in pausa e nessuno poteva comprare.
 
@@ -146,7 +146,7 @@ Quindi, se le fasi partono dal lancio, il marketplace come lo immagini tu arriva
 - **Pacchetti oggi:** `node cervello/pacchetti-lotto.mjs --sito --gravi` → 120 difetti in 57 pacchetti, 12 ondate da 5 squadre.
 - **Firme in attesa:** `AZIONI-IN-ATTESA.md`, 100 card con ⏳, di cui 37 rosse; età mediana delle rosse 51 giorni, la più vecchia 91, 32 oltre i 30 giorni. Le card del percorso: chiavi del database #203 (aggiornata il 12/10 alle 17:55: ancora aperta, scadenza per il Garante mercoledì 14/10 in serata) · password amministratore #202 (ancora vecchia al 12/10 17:55) · cinque decisioni #204 · riparazione del codice #205 · negozio di prova #201 · migrazioni #191 · chiavi Vercel #154 (8 chiavi, la nona nasce con la #203) · dati del titolare #165 · copie di sicurezza #134.
 - **Ordine obbligato:** prima la riparazione del codice (#205), poi la migrazione 161 e quella che la completa. Applicata da sola, la 161 spegne schede prodotto e vetrine (R3 della radiografia dell'11/10).
-- **Le 14 schede gravi che escono dal lancio** se quelle funzioni restano spente: R17 (app installabile), R22 (PostHog), R36-R42 (sette sull'AI), il tetto di spesa AI, R56 (newsletter), R61 (Drop del giorno e Negozio del mese), R78 (buoni regalo), R86 (classifica inviti).
+- **Le 14 schede gravi che escono dal lancio** se quelle funzioni restano spente (proposta aggiunta come sesta scelta alla card #204): R17 (app installabile), R22 (PostHog), R36-R42 (sette sull'AI), il tetto di spesa AI, R56 (newsletter), R61 (Drop del giorno e Negozio del mese), R78 (buoni regalo), R86 (classifica inviti).
 - **Scadenze esterne:** modello `claude-sonnet-4-5` spento il 2026-11-30 (R37). Piano Supabase gratuito: pausa dopo circa 7 giorni di poca attività (registro dei fatti, `infrastruttura.supabase`).
 - **Cancello per il fresco:** `consegne/audit/GATE-COMPLIANCE-PRELANCIO.md`, dal 2026-07-02.
 - **Visione e fasi:** `CONTESTO_BUSINESS.md`, paragrafi 6 e 7; prezzi e soglie dal registro dei fatti.

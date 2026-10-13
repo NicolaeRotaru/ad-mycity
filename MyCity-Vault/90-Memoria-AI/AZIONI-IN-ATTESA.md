@@ -41,7 +41,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #204 — Cinque decisioni che servono prima del lancio · ⏳ accodata 2026-10-11 23:15
+### 🔴 #204 — Sei decisioni che servono prima del lancio · ⏳ accodata 2026-10-11 23:15
 
 **In parole semplici.** Cinque difetti gravi si riparano solo dopo una tua scelta. Per ognuna ti dico cosa farei.
 
@@ -51,6 +51,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 - **50 euro al mese ai negozi:** niente canone finché il negozio non incassa.
 - **5 euro di benvenuto:** li toglierei dalle pagine finché la cassa non li applica.
 - **Lo sconto di MyCity:** lo pagherei noi, non il fornaio.
+- **Al lancio (13/10 09:13):** terrei spente IA, buoni regalo, inviti, newsletter e altre tre: 14 gravi in meno.
 
 **Se va bene:** sistemo pagine e codice nella richiesta di unione della #205.
 
