@@ -10,7 +10,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Il codice lo riparo in circa una settimana: il 3 settembre ho chiuso 97 problemi seri su 110 in un giorno. Il resto aspetta firme e scelte tue. Con un'ora al giorno da parte tua, il sito vende verso il 10 novembre. Zero problemi invece non arriva mai: in dodici giorni ne ho chiusi 529, poi la radiografia di ottobre ne ha trovati 307 nuovi.
 >
-> Oggi tocca a te chiudere le due porte del database, chiavi e password. Entro mercoledì 14 sera decidi col responsabile della privacy se avvisare il Garante. Il marketplace della tua visione, con la Carta Piacenza e WhatsApp, è in buona parte ancora da costruire.
+> Oggi tocca a te chiudere le due porte del database, chiavi e password. Entro mercoledì 14 sera decidi col responsabile della privacy se avvisare il Garante. «Finito», come hai precisato, vuol dire pronto per operare: un negozio vero, ordini veri, soldi che arrivano al fornaio. La Carta Piacenza e WhatsApp vengono dopo.
 >
 > Non ho visto Stripe né il sito in un browser, e i tempi della partita IVA sono una stima. Referto: `consegne/strategia/2026-10-13-quanto-manca-al-marketplace-pronto.md`.
 

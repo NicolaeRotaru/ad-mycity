@@ -2,6 +2,7 @@
 data: 2026-10-13 08:54
 tipo: analisi-tempi-lancio
 richiesta: «Fammi capire quanto tempo ci vuole per avere il marketplace pronto, tutti i problemi risolti e com'è fatto il marketplace una volta finito»
+precisazione: «Finito= pronto per operare» (Nicola, stessa conversazione)
 fonti: radiografia del sito dell'11/10 · registro dei difetti del sito · database del sito letto in sola lettura il 13/10 alle 08:44 · coda delle azioni in attesa · CONTESTO_BUSINESS.md
 ---
 
@@ -55,8 +56,8 @@ Oggi una cosa sola: chiudere le due porte aperte del database. Cambi le chiavi s
 | Settimana | Tocca a te | Tocca a me |
 |---|---|---|
 | 13-19 ottobre | Chiavi e password, oggi. Entro mercoledì 14 sera, decidere col responsabile della privacy se avvisare il Garante. Le sei scelte che ti ho preparato. Supabase a pagamento. Togliere il negozio di prova. Chiamare il commercialista per la partita IVA. | Riparo i circa 90 problemi seri del codice, con il collaudo. |
-| 20-26 ottobre | Unisci la riparazione. Applichi le modifiche al database, una volta sola: secondo me circa un'ora. Copi su Vercel le altre 8 chiavi che mancano. | Controllo la produzione pezzo per pezzo. Chiudo le promesse false che restano. |
-| 27 ottobre - 9 novembre | Partita IVA e Stripe attivi. Il fornaio completa il suo fascicolo pagamenti. Decidi chi consegna. | Primo ordine vero dall'inizio alla fine, uno con la carta e uno in contanti. Riparo quello che solo un ordine vero fa vedere. |
+| 20-26 ottobre | Unisci la riparazione. Applichi le modifiche al database, una volta sola: secondo me circa un'ora. Copi su Vercel le altre 8 chiavi che mancano. Cambi su GitHub il segreto delle copie di sicurezza del database. | Controllo la produzione pezzo per pezzo. Chiudo le promesse false che restano. |
+| 27 ottobre - 9 novembre | Partita IVA e Stripe attivi. Il fornaio completa il suo fascicolo pagamenti. Prepari le consegne del fresco: contenitori termici, attestato HACCP, avviso all'ASL. | Primo ordine vero dall'inizio alla fine, uno con la carta e uno in contanti. Riparo quello che solo un ordine vero fa vedere. |
 
 **Risultato: pronto a vendere intorno al 10 novembre.** Il pezzo più lento è probabilmente la partita IVA. Le pagine legali ne hanno bisogno, e secondo la radiografia anche Stripe. Se scegli di aprirla più avanti, il problema bloccante sulla legge resta aperto, e da qui non lo posso chiudere io.
 
@@ -90,50 +91,36 @@ C'è anche un altro conto. Su 1.256 schede scritte finora, 150 sono saltate fuor
 
 **Poi ne arriveranno altri, ed è normale.** I revisori dell'11 ottobre hanno elencato 411 punti che da qui non potevano vedere. Molti chiedono ordini veri, Stripe acceso o il sito aperto in un browser vero. Li vedremo solo quando il sito lavora. Per questo propongo una radiografia nuova dopo il primo mese di ordini veri.
 
-## 3) Com'è fatto il marketplace una volta finito
+## 3) Com'è fatto il marketplace pronto per operare
 
-Le risposte sono due, perché «finito» vuol dire due cose diverse. C'è il sito al lancio, che è già costruito e va reso vero. E c'è il marketplace della tua visione, che in buona parte è ancora da costruire.
+Hai precisato che «finito» vuol dire pronto per operare. Quindi la risposta è il marketplace del 10 novembre, se il calendario regge. È quello che ha superato le quattro prove del punto 2.
 
-### Il sito al lancio, a novembre
+**Chi c'è dentro.** All'inizio c'è un negozio vero: Pane Quotidiano, con i suoi 5 prodotti. Il negozio di prova sparisce. Gli altri negozi entrano quando li porti tu: il sito li regge, ma nel database oggi non ce n'è un altro.
 
-Il sito c'è già quasi tutto: 113 pagine, 96 servizi interni, 588 file di prove automatiche. Al lancio deve fare davvero quello che scrive. Ecco un ordine, dall'inizio alla fine, con un prodotto vero di Pane Quotidiano:
+**Come gira un ordine:**
 
 1. **La cliente.** Apre il sito dal telefono, magari dal codice QR sulla vetrina del forno. Trova il pesto di Pane Quotidiano e lo mette nel carrello. Ci può aggiungere prodotti di altri negozi: il carrello è uno solo. Sceglie una fascia oraria e paga con la carta, oppure in contanti alla consegna. Per la consegna paga 3 euro.
 2. **Il negoziante.** Riceve l'ordine nel suo pannello e lo accetta. Prepara la borsa e preme «pronto». Circa un'ora dopo la consegna, il sito gli gira sul conto Stripe il prezzo meno il 10% di MyCity.
-3. **Chi consegna.** Vede la consegna libera e la prende. Ritira col codice del negozio e consegna col codice della cliente. Se lei paga in contanti, scatta una foto e fa firmare. Prende 3 euro a consegna, e ha un pulsante di emergenza che chiama il 112.
-4. **Tu.** Approvi negozi e fattorini, segui ordini e reclami. Ricevi i contanti incassati da chi consegna, e così si sbloccano i pagamenti ai negozi.
+3. **Chi consegna.** All'inizio sei tu: avevi deciso di consegnare in proprio fino a circa 30 ordini al giorno, con fattorini a 3-5 euro solo per i picchi. Si ritira col codice del negozio e si consegna col codice della cliente. Se lei paga in contanti, si scatta una foto e si fa firmare.
+4. **Tu, dal pannello.** Approvi negozi e fattorini, segui ordini, resi e reclami. Registri i contanti incassati, e così parte il pagamento al negozio.
 
-Dopo l'acquisto la cliente può seguire il fattorino sulla mappa, rendere entro 14 giorni, recensire e scrivere al negozio. Il negozio ha anche una vetrina sua, come un piccolo sito, e una pagina con incassi e clienti. Ci sono già punti fedeltà, buoni regalo, inviti e sponsorizzazioni. Con la scorciatoia di sopra, alcuni restano spenti al lancio.
+**I soldi di un ordine, con un esempio.** Una spesa da 35 euro da Pane Quotidiano: la cliente paga 38 euro, cioè 35 di spesa e 3 di consegna. Il fornaio riceve 31,50 euro, cioè 35 meno il 10%. MyCity tiene 3,50 euro, più i 3 della consegna, con cui paga chi consegna. Sotto i 30 euro per negozio la cliente paga in più la spedizione: 2,50 euro più 1,20 per ogni chilometro, e resta a MyCity.
 
-### Il marketplace della tua visione
+**Cosa è acceso e cosa è spento.**
 
-Il tuo documento sul business dice che MyCity è il sistema operativo del commercio di Piacenza. Il cuore sono due cose: i soldi già vincolati alla spesa in città, e WhatsApp come porta d'ingresso. Il sito di oggi è la vetrina e la cassa. Il motore, invece, c'è solo in parte:
-
-| Pezzo della visione | Nel codice oggi |
+| Acceso | Spento al lancio, se approvi la scorciatoia |
 |---|---|
-| Catalogo creato dalle foto | Sì, ma serve la chiave dell'intelligenza artificiale |
-| Punti che si spendono solo su MyCity | Sì: 1 punto per euro, 100 punti valgono 5 euro |
-| Buoni regalo e credito MyCity | In parte: solo online e solo per chi paga in contanti |
-| Ritiro in negozio | Costruito, ma spento |
-| Anteprima da approvare per il negoziante | In parte: c'è nel pannello, non su WhatsApp |
-| «Carta Piacenza», soldi spendibili anche in negozio | No |
-| Welfare aziendale | No |
-| Lista della spesa settimanale su WhatsApp | No |
-| Box anti-spreco | No |
-| Prenotazioni per ottici ed estetiste | No |
-| Il report del lunedì mandato al negozio | No: i numeri ci sono, ma solo dentro il pannello |
-| La misura degli euro spostati davvero | No |
-| Il Worker che lavora per il negozio | No |
+| Vetrina, ricerca, pagine dei negozi | Intelligenza artificiale per i negozi |
+| Carrello con più negozi, fasce orarie | Buoni regalo |
+| Pagamento con la carta e in contanti | Classifica degli inviti, newsletter |
+| Consegna seguita sulla mappa | Drop del giorno |
+| Resi entro 14 giorni, recensioni, chat col negozio | App da installare sul telefono |
+| Pannello del negozio, del fattorino e tuo | Statistiche di PostHog |
+| Incassi del negozio su Stripe | Ritiro in negozio, già spento oggi |
 
-Il tuo documento divide la costruzione in tre fasi, ognuna con un cancello da superare:
+**Le scelte che lo definiscono, ancora aperte.** Fin dove consegni: oggi il confine è a 25 chilometri dal negozio. Se il negozio paga 50 euro al mese: io partirei senza canone finché non incassa. Chi paga lo sconto di MyCity: io direi MyCity, non il fornaio. Sono tutte nella coda delle cose da firmare.
 
-- **Fase 0, i primi tre mesi.** Carta Piacenza, lista settimanale su WhatsApp, catalogo dalle foto. Si va avanti solo se più di 4 clienti su 10 ricomprano entro 8 settimane, e se un'azienda o il Comune mette soldi vincolati.
-- **Fase 1, da tre a nove mesi.** Box anti-spreco, cashback che si spende solo in città, ritiro in negozio, la misura degli euro spostati.
-- **Fase 2, da nove a diciotto mesi.** Welfare aziendale in grande, un assistente per gli acquisti, i dati di cassa del negozio.
-
-Quindi, se le fasi partono dal lancio, il marketplace come lo immagini tu arriva circa un anno e mezzo dopo. E solo se ogni cancello dà il risultato. Il tuo documento elenca anche le cose che non diventerà mai: una moneta diversa dall'euro, prezzi che ballano da soli, dirette di vendita giorno e notte, l'usato, le notifiche a chi passa davanti al negozio.
-
-**I soldi, a regime.** MyCity incassa il 10% sugli ordini che porta, 3 euro per consegna e l'abbonamento dei negozi. Sull'abbonamento da 50 euro al mese devi ancora decidere. L'obiettivo scritto è 10.000 euro al mese: 100 negozi che pagano 100 euro ciascuno, metà per il sito e metà per il Worker.
+**Dopo, la tua visione.** Il tuo documento sul business va oltre: Carta Piacenza, lista della spesa su WhatsApp, welfare aziendale, box anti-spreco, il Worker per i negozi. Nel codice oggi ci sono solo dei pezzi, come il catalogo dalle foto e i punti che si spendono solo su MyCity. Il resto va costruito dopo il lancio, una fase alla volta, come dice il tuo documento.
 
 ---
 
@@ -148,5 +135,6 @@ Quindi, se le fasi partono dal lancio, il marketplace come lo immagini tu arriva
 - **Ordine obbligato:** prima la riparazione del codice (#205), poi la migrazione 161 e quella che la completa. Applicata da sola, la 161 spegne schede prodotto e vetrine (R3 della radiografia dell'11/10).
 - **Le 14 schede gravi che escono dal lancio** se quelle funzioni restano spente (proposta aggiunta come sesta scelta alla card #204): R17 (app installabile), R22 (PostHog), R36-R42 (sette sull'AI), il tetto di spesa AI, R56 (newsletter), R61 (Drop del giorno e Negozio del mese), R78 (buoni regalo), R86 (classifica inviti).
 - **Scadenze esterne:** modello `claude-sonnet-4-5` spento il 2026-11-30 (R37). Piano Supabase gratuito: pausa dopo circa 7 giorni di poca attività (registro dei fatti, `infrastruttura.supabase`).
+- **Conto di un ordine** (`lib/constants.ts` e `computeOrderSplit` in `lib/stripe/client.ts` del sito, @ 70a9299): commissione 10% solo sul subtotale prodotti; consegna 3 € a MyCity su ogni ordine a domicilio; spedizione 2,50 € + 1,20 €/km, gratis da 30 € per negozio, resta a MyCity; compenso fisso del fattorino 3 €, pagato da MyCity; confine di consegna 25 km.
 - **Cancello per il fresco:** `consegne/audit/GATE-COMPLIANCE-PRELANCIO.md`, dal 2026-07-02.
 - **Visione e fasi:** `CONTESTO_BUSINESS.md`, paragrafi 6 e 7; prezzi e soglie dal registro dei fatti.
