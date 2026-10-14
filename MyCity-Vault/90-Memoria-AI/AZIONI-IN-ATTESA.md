@@ -967,8 +967,8 @@ Il passo è già scritto nel rilascio (`.github/workflows/deploy-dopo-ci.yml`) e
 perché gli manca il segreto.
 
 **Cosa devi fare:** GitHub → il repo `mycity` → Settings → Secrets and variables → Actions → New
-repository secret. Nome: `SUPABASE_DB_URL`. Valore: la stringa di connessione diretta del database
-(Supabase → Settings → Database → Connection string → Direct).
+repository secret. Nome: `SUPABASE_DB_URL`. Valore: la riga del **Session pooler**
+(Supabase → Connect → Session pooler, porta 5432), come nella #134.
 
 **Se va bene:** da quel momento ogni rilascio applica le migrazioni **prima** di pubblicare, e se
 non si applicano non pubblica. Quella finestra si chiude per sempre.
@@ -1590,11 +1590,11 @@ riapre piu'. Se la perdi, hai perso il backup.
 Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
 sia andata davvero.
 
-> 🩻 **Aggiornamento dell'8/9.** Le chiavi le hai messe e funzionano: la copia adesso arriva fino a
-> bussare al database, e il guasto del programma troppo vecchio è riparato e unito. Resta
-> l'indirizzo, e te l'avevo indicato male io: serve la riga del **Session pooler** — contiene
-> `pooler.supabase.com` — non la diretta, che da GitHub non si raggiunge, né il Transaction
-> pooler (6543). Incollala e dimmelo: rilancio io.
+> 🩻 **Aggiornamento dell'8/9 09:28.** Le chiavi le hai messe e funzionano: la copia arriva fino
+> a bussare al database. Il guasto del programma troppo vecchio è riparato e unito. Resta
+> l'indirizzo, e te l'avevo indicato male io. Serve la riga del **Session pooler**: contiene
+> `pooler.supabase.com`. Non la diretta, che da GitHub non si raggiunge. Non il Transaction
+> pooler (porta 6543). Incollala e dimmelo: rilancio io.
 
 ---
 
