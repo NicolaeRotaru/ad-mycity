@@ -1591,10 +1591,10 @@ Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo 
 sia andata davvero.
 
 > 🩻 **Aggiornamento dell'8/9 09:28.** Le chiavi le hai messe e funzionano: la copia arriva fino
-> a bussare al database. Il guasto del programma troppo vecchio è riparato e unito. Resta
-> l'indirizzo, e te l'avevo indicato male io. Serve la riga del **Session pooler**: contiene
-> `pooler.supabase.com`. Non la diretta, che da GitHub non si raggiunge. Non il Transaction
-> pooler (porta 6543). Incollala e dimmelo: rilancio io.
+> a bussare al database. Il guasto del programma vecchio è riparato. Resta l'indirizzo, e te
+> l'avevo indicato male io. Serve la riga del **Session pooler**: contiene `pooler.supabase.com`.
+> Non la diretta, che da GitHub non si raggiunge. Non il Transaction pooler (porta 6543).
+> Incollala dopo aver unito la #255 del sito, e dimmelo: rilancio io.
 
 ---
 
