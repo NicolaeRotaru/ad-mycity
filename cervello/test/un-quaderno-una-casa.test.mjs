@@ -69,7 +69,7 @@ prova("tre case sono peggio di due, e si vedono tutte", () => {
 // ── L'innesto: il guardiano lo usa davvero ──────────────────────────────────
 
 /** Un parco finto: due agenti, i loro kit, e i quaderni nelle case indicate. */
-function parcoFinto({ casaAlt = [] } = {}) {
+function parcoFinto({ casaAlt = [], dateNellaBaseline = true, debito = {}, giorniEsito = 1, quaderniVuoti = [] } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "mycity-case-"));
   const agenti = join(dir, "agents");
   const kit = join(dir, "kit");
@@ -121,17 +121,22 @@ function parcoFinto({ casaAlt = [] } = {}) {
   // nuovo — su un altro asse: li' si era mosso il metro, qui si e' mosso il calendario. Una prova
   // che dipende dal giorno in cui gira non e' una rete: e' una bomba a orologeria con la miccia
   // lunga, e scoppia lontano da chi l'ha innescata.
-  const esitoRecente = new Date(Date.now() - 864e5).toISOString().slice(0, 16).replace("T", " ");
+  const esitoRecente = new Date(Date.now() - giorniEsito * 864e5).toISOString().slice(0, 16).replace("T", " ");
   for (const n of ["tech", "vendite"]) {
     writeFileSync(join(agenti, `${n}.md`), mansionario);
     writeFileSync(join(kit, `${n}-KIT.md`), kitTesto);
-    writeFileSync(join(casa, `${n}.md`), `## Esiti\n- ${esitoRecente} · roba · x · atteso 1 → reale 1 · #t\n`);
+    const esiti = quaderniVuoti.includes(n) ? "" : `- ${esitoRecente} · roba · x · atteso 1 → reale 1 · #t\n`;
+    writeFileSync(join(casa, `${n}.md`), `## Esiti\n${esiti}`);
   }
   for (const n of casaAlt) writeFileSync(join(alt, `${n}.md`), "# copia vecchia\n");
 
-  // Debito dichiarato vuoto: qualunque difetto è NUOVO, che è il punto della prova.
+  // Debito dichiarato vuoto: qualunque difetto è NUOVO, che è il punto della prova. La baseline però
+  // conosce l'ultimo esito dei due quaderni: dall'11/10 (AR-959) una baseline che non sa giudicare un
+  // quaderno che scrive è un rosso suo, il giorno stesso — e questa prova parla d'altro.
   const baseline = join(dir, "baseline.json");
-  writeFileSync(baseline, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: {} }));
+  const giorno = esitoRecente.slice(0, 10);
+  const ultimoEsito = dateNellaBaseline ? Object.fromEntries(["tech", "vendite"].filter((n) => !quaderniVuoti.includes(n)).map((n) => [n, giorno])) : {};
+  writeFileSync(baseline, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: {}, debito, ultimo_esito: ultimoEsito }));
 
   const r = spawnSync("node", [GUARDIANO, "--json"], {
     encoding: "utf8",
@@ -161,6 +166,39 @@ prova("e lascia VERDE lo stesso parco quando la casa è una sola: non è un giro
   const r = parcoFinto({ casaAlt: [] });
   assert.equal(r.rc, 0, `atteso verde:\n${r.out}`);
   assert.deepEqual(r.json.nuovi_rispetto_al_debito, []);
+});
+
+prova("AR-959 (terzo collaudo): senza le date nella baseline il guardiano FRENA il giorno stesso, e dice quali scrivere", () => {
+  // La funzione pura ha la sua prova (③ter in il-tempo-non-e-una-regressione); qui si lancia il
+  // guardiano vero, perché un rosso che la funzione calcola e l'uscita non porta non ferma nessuno.
+  const r = parcoFinto({ casaAlt: [], dateNellaBaseline: false });
+  assert.equal(r.rc, 1, `due quaderni scrivono e la baseline non sa giudicarli: atteso rosso, avuto ${r.rc}:\n${r.out}`);
+  assert.deepEqual(r.json.baseline_cieca.map((c) => c.nome), ["tech", "vendite"], "e il rapporto dice quali quaderni, con la data da scrivere");
+  assert.deepEqual(r.json.regressioni, [], "non è una regressione di nessuno: è la baseline che ha perso la memoria");
+});
+
+prova("AR-959 (quarto collaudo): dichiarati vuoto e assente, senza date, il guardiano li sa giudicare — oggi e trenta giorni dopo", () => {
+  // Il verso verde del caso sopra, sul guardiano vero. Senza, staccare la baseline dal guardiano
+  // (chiamare le due funzioni senza il debito) lasciava verdi tutte le prove: il parco vero oggi non
+  // ha quaderni dichiarati vuoti o assenti che scrivono.
+  const debito = { tech: ["quaderno_assente"], vendite: ["quaderno_vuoto"] };
+  const oggi = parcoFinto({ casaAlt: [], dateNellaBaseline: false, debito });
+  assert.equal(oggi.rc, 0, `il primo esito di un quaderno nato dopo la dichiarazione non è un rosso:\n${oggi.out}`);
+  assert.deepEqual(oggi.json.baseline_cieca, []);
+  const dopo = parcoFinto({ casaAlt: [], dateNellaBaseline: false, debito, giorniEsito: 40 });
+  assert.equal(dopo.rc, 0, `trenta giorni dopo, fermi, è il calendario:\n${dopo.out}`);
+  assert.deepEqual(dopo.json.invecchiati.map((x) => `${x.nome}:${x.difetto}`).sort(), ["tech:quaderno_fermo", "vendite:quaderno_fermo"]);
+});
+
+prova("AR-959 (sesto collaudo): dichiarato assente e nato vuoto, il guardiano vero dice «sostituiscila», e chi obbedisce resta verde", () => {
+  // Il consiglio lo decide azioneDelGuarito, ma qui si legge dal guardiano vero: senza il quadro di
+  // oggi la funzione direbbe «togli», e chi toglie la riga diventa rosso il giorno stesso.
+  const r = parcoFinto({ casaAlt: [], debito: { tech: ["quaderno_assente"] }, quaderniVuoti: ["tech"] });
+  assert.equal(r.rc, 0, `assente → vuoto non è una regressione:\n${r.out}`);
+  const tech = r.json.azioni_dei_guariti.find((a) => a.nome === "tech" && a.difetto === "quaderno_assente");
+  assert.equal(tech?.azione, "sostituisci-con-vuoto", `il guardiano deve dire di sostituirla: ${JSON.stringify(r.json.azioni_dei_guariti)}`);
+  const obbedito = parcoFinto({ casaAlt: [], debito: { tech: ["quaderno_vuoto"] }, quaderniVuoti: ["tech"] });
+  assert.equal(obbedito.rc, 0, `dopo la sostituzione resta verde:\n${obbedito.out}`);
 });
 
 prova("una copia di un quaderno che non esiste nella casa vera viene vista lo stesso", () => {

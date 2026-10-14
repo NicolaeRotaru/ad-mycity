@@ -58,6 +58,53 @@ prova("legge la data di reset scritta per esteso, non solo l'ora", () => {
   assert.equal(dataDaTesto("nessuna data qui dentro", ORA), null, "senza data si dice null, non si inventa");
 });
 
+prova("AR-957 — la data del reset si legge con l'orologio dato, non con quello vero", () => {
+  // Il guasto era qui: classificaErrore leggeva la data sempre con Date.now(). Da quando il
+  // calendario vero ha superato di 30 giorni quello della prova, «Aug 14» diventava l'anno dopo.
+  // Due orologi lontani un anno danno due date lontane un anno: la data segue l'orologio passato.
+  const atteso = dataDaTesto("resets Aug 14 at 9am", ORA);
+  assert.equal(classificaErrore(SETTIMANALE, ORA).resetData, atteso, "con l'orologio della prova: 14 agosto 2026");
+  const fraUnAnno = ORA + 365 * 86400000;
+  assert.equal(
+    classificaErrore(SETTIMANALE, fraUnAnno).resetData,
+    dataDaTesto("resets Aug 14 at 9am", fraUnAnno),
+    "con un orologio diverso la data cambia con lui: se restasse uguale, l'orologio passato verrebbe ignorato"
+  );
+  assert.notEqual(atteso, dataDaTesto("resets Aug 14 at 9am", fraUnAnno), "i due orologi devono dare date diverse, o il confronto non prova niente");
+
+  // Il collaudo dell'11/10: i confronti qui sopra cambiano insieme, quindi una lettura che prendesse
+  // l'anno dal calendario vero passava lo stesso finché il calendario vero era nel 2026. L'anno si
+  // fissa: letta con un orologio del 2030, la data del reset è del 2030.
+  const nel2030 = Date.parse("2030-08-10T06:30:00+02:00");
+  assert.equal(new Date(classificaErrore(SETTIMANALE, nel2030).resetData).getUTCFullYear(), 2030, "la data del reset prende l'anno dall'orologio dato");
+});
+
+prova("AR-957 — anche quando la classe la dichiara lo script, la data si legge con l'orologio dato", () => {
+  // Il collaudo dell'11/10: la prova sopra passa dalla prosa. La riga `[classe] …` è il canale che il
+  // parser legge per primo (AR-294): oggi nessuno script la emette ancora, ma il ramo esiste, e ha la
+  // sua lettura della data.
+  const dichiarato = `${SETTIMANALE}\n[classe] quota_settimanale`;
+  const r = classificaErrore(dichiarato, ORA);
+  assert.equal(r.fonte_classe, "dichiarata", "prerequisito: è il ramo del canale dichiarato, non la prosa");
+  assert.equal(r.resetData, dataDaTesto("resets Aug 14 at 9am", ORA), "con l'orologio della prova: 14 agosto 2026");
+  const fraUnAnno = ORA + 365 * 86400000;
+  assert.equal(classificaErrore(dichiarato, fraUnAnno).resetData, dataDaTesto("resets Aug 14 at 9am", fraUnAnno));
+});
+
+prova("AR-957 — la sentinella che rilegge un guasto di due giorni fa conta il reset dal momento del guasto", () => {
+  // «resets in 3 days» scritto due giorni fa vuol dire FRA UN GIORNO. Letto con l'orologio vero
+  // diventerebbe «fra tre giorni da oggi», oltre il tetto, e il muro tornerebbe un ritentativo fra 6 ore.
+  const d = decidiRitento({
+    tipo: "monitora",
+    tentativi: 0,
+    risultato: "You've reached your weekly limit · resets in 3 days",
+    errorAtMs: ORA,
+    nowMs: ORA + 2 * 86400000,
+  });
+  assert.equal(d.classe, "quota_settimanale");
+  assert.equal(d.quandoISO, new Date(ORA + 3 * 86400000 + 2 * 60 * 1000).toISOString(), "si riprova due minuti dopo il reset vero");
+});
+
 prova("IL DIFETTO: il ritentativo cade fra GIORNI, non fra minuti", () => {
   const d = decidiRitento({ tipo: "monitora", tentativi: 0, risultato: SETTIMANALE, nowMs: ORA });
   assert.equal(d.azione, "ritenta");
@@ -120,6 +167,11 @@ prova("il guasto registrato è leggibile e dice quando riparte", () => {
     assert.equal(voce.classe, "quota_settimanale");
     assert.equal(voce.riparte_da_sola, true);
     assert.ok(voce.ritento_previsto, "senza ritento_previsto la sentinella non sa quando svegliarsi");
+    // AR-957: la data scritta nell'anello è quella letta con l'orologio della cadenza che ha visto il
+    // guasto. Con l'orologio vero, rileggendo un guasto d'agosto a ottobre, sarebbe l'agosto dopo.
+    const reset = dataDaTesto("resets Aug 14 at 9am", ORA);
+    assert.equal(voce.reset_data, new Date(reset).toISOString(), "il reset registrato è il 14 agosto 2026");
+    assert.equal(voce.ritento_previsto, new Date(reset + 2 * 60 * 1000).toISOString(), "e si riprova due minuti dopo");
     const salvato = JSON.parse(readFileSync(path, "utf8"));
     assert.equal(salvato.voci.length, 1);
     // Un secondo guasto non cancella il primo: l'anello serve a vedere se il guasto si ripete.

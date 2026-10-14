@@ -115,7 +115,7 @@ export function leggi(path = FILE_ERRORI) {
  * che una cadenza ANDATA BENE non lasci una voce, altrimenti l'anello mente al contrario.
  */
 export function registra({ cadenza, rc = 1, testo = "", nowMs = Date.now(), path = FILE_ERRORI } = {}) {
-  const { classe, resetHint, resetData } = classificaErrore(testo);
+  const { classe, resetHint, resetData } = classificaErrore(testo, nowMs);
   const decisione = decidiRitento({ tipo: String(cadenza || ""), tentativi: 0, risultato: testo, nowMs });
   const voce = {
     quando: nowPiacenza(),

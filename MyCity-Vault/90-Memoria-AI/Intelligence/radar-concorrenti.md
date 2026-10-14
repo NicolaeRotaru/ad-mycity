@@ -1,117 +1,130 @@
-# 🔍 Radar Concorrenti — 2026-09-01
+# 🔍 Radar concorrenti
 
-> **Aggiornato: 1 settembre 2026 06:50** · @intelligence. Giro rimasto fermo **8 giorni** (ultimo controllo 24/8) per la pausa concordata con Nicola. Tutte le fonti concorrenti sono dovute oggi. Contesto attuale invariato rispetto al 24/8: il sito pubblico è giù (HTTP 503, dal 9° giorno), 3 azioni 🔴 attendono ancora la firma di Nicola (sito online, pagamenti Pane Quotidiano, migrazioni DB), e **0 negozi possono incassare**. Quindi, come nei giri precedenti, nessuna opportunità qui sotto diventa 🟡/🔴: resta preparazione a costo zero.
+Aggiornato: 10 ottobre 2026 09:15 · @intelligence
+
+> ⚠️ **Oggi il sito non può vendere.** I due database del marketplace sono in pausa. Il controllo di salute del sito risponde 503, cioè «servizio non disponibile». Nessun negozio può incassare. Quindi niente di quello che segue diventa un'azione commerciale adesso: è preparazione a costo zero (🟢), pronta per quando il sito torna a vendere.
 >
-> **Esito di oggi: nessun movimento locale nuovo su nessuno dei concorrenti monitorati.** Novità di oggi: il fetch diretto su Glovo, Libertà e PiacenzaSera **ha funzionato senza 403**, a differenza delle ultime settimane. Non serve più il ripiego WebSearch per queste tre fonti. Resta necessario per comune.piacenza.it/imprese-e-commercio, che non elenca comunque bandi, e per CNA/piacenza.cna.it.
+> **Il buco:** l'ultimo controllo del radar era del 1° settembre, 39 giorni fa. Tutti i controlli settimanali erano scaduti.
 >
-> | Competitor | Stato oggi (1/9) | Fonte |
-> |---|---|---|
-> | **Glovo** | Fetch diretto riuscito (raro, di solito 403). Categorie confermate identiche al 24/8: Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni. Nessuna categoria nuova. Nessuna promo specifica per Piacenza. | [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) (WebFetch diretto, 1/9) |
-> | **Conad — Spesa online** | Copertura invariata: 3 Superstore Piacenza (via Atleti Azzurri d'Italia, via Grazia Deledda, via Don G. Morisi), più Sapori & Dintorni e Podenzano/Rivergaro/Castell'Arquato/San Giorgio Piacentino. I due modelli "Spesa a Casa" e "Ordina e Ritira" sono confermati. Nessuna soglia o promo nuova trovata. | [spesaonline.conad.it/aree-coperte-dal-servizio/piacenza](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) (WebFetch, 1/9) |
-> | **Cortilia** | Homepage generica invariata. Nessuna menzione di Piacenza nel contenuto. Nessuna novità di prezzo o servizio. | [cortilia.it](https://www.cortilia.it/) (WebFetch, 1/9) |
-> | **CompraPiacenza.it / CNA** | piacenza.cna.it resta non raggiungibile in fetch diretto. WebSearch mirata: "CNA Piacenza CompraPiacenza novità agosto settembre 2026". Nessun risultato pertinente: solo pagine generiche su Piacenza (Wikipedia, turismo). **Settimo controllo consecutivo a vuoto**, dal 17/8 in poi. | WebSearch (1/9) |
->
-> **Procedimenti giudiziari Glovo/Deliveroo (controllo giudiziario Procura Milano + istruttoria Antitrust) — ricontrollato oggi, ancora nessun esito.** Nuova ricerca mirata "Glovo Deliveroo Foodinho controllo giudiziario caporalato esito settembre 2026": i risultati restituiscono solo gli stessi articoli di febbraio 2026 (L'Espresso, Il Post, Sky TG24, Il Fatto Quotidiano, AGI su Foodinho 9/2 e Deliveroo 25/2). **Nessuna fonte più recente di maggio 2026** riporta un esito. Confidenza sul fatto "nessun esito ancora": alta, 85% (stessa fonte-pattern di 24/8, terza verifica indipendente con lo stesso risultato). L'argomento di pitch "botteghe vs caporalato algoritmico" resta quindi valido e invariato — parcheggiato, non usarlo finché non c'è un canale di conversione reale (vedi `buchi-mercato.md`).
->
-> **Candore:** zero novità sostanziali trovate oggi su tutti i concorrenti monitorati. Non è un dato debole per pigrizia: sono 5 fonti ricontrollate con metodo (2 dirette + 1 WebSearch bandi + 1 procedimento giudiziario + CNA), tutte con lo stesso esito "invariato". In un mercato dove i grandi (Glovo/Deliveroo/JustEat) sono distratti dal consolidamento Uber-Delivery Hero e dai procedimenti giudiziari, l'assenza di mosse è essa stessa un'informazione: la finestra di distrazione dei competitor resta aperta.
+> **Come ho cercato:** l'apertura diretta delle pagine web non ha funzionato su nessun sito, nemmeno su ansa.it. L'errore era di rete: «nome del sito non trovato». Ho fatto tutto con la ricerca web, che restituisce titolo, link e un riassunto. Ho letto i riassunti, non i testi interi.
+
+## 🆕 Novità del 10/10
+
+### In parole semplici
+
+Nei 39 giorni di buco nessun concorrente ha fatto una mossa visibile a Piacenza. Non ho trovato nuove zone, promozioni o categorie per Glovo, Just Eat, Deliveroo, Conad, Coop, Esselunga o Amazon-Cortilia.
+
+L'unica novità vera è nazionale. Ad agosto la Procura di Milano ha detto no al piano di Glovo per uscire dal controllo giudiziario. Poi Glovo ha ritirato la sua richiesta di uscita: il controllo resta in vigore.
+
+Tre cose che il radar non sapeva:
+- Le estetiste sono uno dei nostri segmenti di ottobre. Per loro il concorrente vero non è Glovo. È Treatwell, l'app per prenotare, già presente a Piacenza.
+- L'accordo Everli-Esselunga per la spesa a casa copre 29 province italiane. Piacenza non c'è.
+- CompraPiacenza.it è nato come progetto della Camera di Commercio per il 2020-2021. Probabilmente è fermo. Questo spiega perché da otto controlli non troviamo niente.
+
+### Cosa cambia per te
+
+- Il discorso «da noi i fattorini non sono sfruttati» resta vero, ora con una fonte di fine agosto 2026. Resta parcheggiato finché non ci sono negozi da convincere.
+- Quando proporremo le prenotazioni alle estetiste, ci confronteranno con Treatwell. Treatwell fa pagare una percentuale sui clienti nuovi: nel Regno Unito il 35% della prima prenotazione. Il nostro paletto è l'opposto: niente percentuale su quello che il negozio già incassava, e i clienti restano suoi.
+- CompraPiacenza: propongo di controllarlo una volta al mese invece che ogni settimana.
+
+### Cosa devi fare
+
+Niente. È tutta preparazione.
+
+### Cosa non ho verificato
+
+- Le pagine di Glovo, Conad e Cortilia per Piacenza non si sono aperte. Quindi «nessuna novità» vuol dire «nessuna notizia nelle ricerche», non «ho guardato la pagina ed è uguale».
+- La data esatta della decisione del giudice su Glovo: le fonti non la mostrano. So solo che è dopo il 30 agosto.
+- La percentuale di Treatwell in Italia. Il 35% è il dato del Regno Unito. Per l'Italia ho trovato solo un 25% citato in un'intervista, senza certezza sulla piattaforma.
+- Lo stato attuale di CompraPiacenza: ho letto il documento della Camera di Commercio, non il sito.
+- Di quanto fidarsi: molto sul caso Glovo, perché lo riportano quattro testate diverse. Abbastanza sul resto.
+
+### Dettagli tecnici — le novità una per una, con le fonti
+
+**① Glovo (la società italiana si chiama Foodinho): il controllo giudiziario resta.** Confidenza 85% che il controllo sia ancora in vigore; 60% sull'ordine esatto dei passaggi.
+- 18/8: parere del pm Paolo Storari. Il piano di Glovo (3 € minimo a consegna, 14 € lordi l'ora) non basta. Secondo i consulenti della Procura almeno il 30% delle ore lavorate resta non pagato.
+- 26/8: Open riporta lo scontro tra Glovo e Procura sui compensi.
+- 30/8: Il Post. La Procura chiede al giudice delle indagini (gip) di respingere il piano e di tenere il controllo.
+- Dopo il 30/8, data non visibile nelle fonti: il gip Roberto Crepaldi respinge la richiesta del pm di ordinare l'assunzione dei rider come dipendenti. Motivo: decide il Tribunale del lavoro, caso per caso. Il controllo giudiziario resta. Glovo ha ritirato la sua richiesta di revoca.
+- Fonti, tutte lette via ricerca web il 10/10: [ilpost.it, 30/8/2026](https://www.ilpost.it/2026/08/30/procura-rifiuto-piano-glovo-controllo-giudiziario/) · [open.online, 26/8/2026](https://www.open.online/2026/08/26/scontro-glovo-procura-milano-compensi-rider/) · [ilgiorno.it — la decisione del gip](https://www.ilgiorno.it/milano/cronaca/rider-glovo-u72m7367) · [ladige.it — il pm: i rider vanno assunti](https://www.ladige.it/attualita/i-rider-di-glovo-ancora-sottopagati-per-il-pm-vanno-assunti-mmzephgs).
+- **Errore mio del 1/9, corretto qui.** Quel controllo scriveva «nessuna fonte più recente di maggio». Era falso: gli articoli del 26 e del 30 agosto esistevano già. Cercavo «esito settembre 2026». Oggi ho cercato per nomi (il pm, il gip) e li ho trovati.
+- **Previsione a 2-3 mosse (ipotesi, confidenza 40%).** Se Glovo deve pagare di più i rider, il suo costo per consegna sale. Fra 3 e 6 mesi questo può diventare una tariffa più alta per negozi o clienti. La distanza di prezzo da un servizio locale si accorcerebbe. Da verificare sui listini: non l'ho visto.
+- Piacenza: nessuna notizia locale. Ricerca «Glovo Piacenza 2026»: nessun risultato pertinente.
+
+**② Estetiste: Treatwell è il concorrente del segmento di ottobre. Non era mai stato mappato.**
+- Presenza a Piacenza: almeno un centro estetico si prenota su Treatwell. È «Stile Vanità l'Estetica di Rossella e Teresa», via Sant'Antonino 37, con 128 recensioni e media 5,0. Fonte: [treatwell.it — scheda del centro](https://www.treatwell.it/en/place/stile-vanita-l-estetica-di-rossella-e-teresa/reviews/page-8/). Confidenza 80% sulla presenza. Il numero totale di centri di Piacenza su Treatwell non l'ho trovato.
+- Chi è: Treatwell si è fusa con l'italiana Uala nel 2022. Allora il gruppo dichiarava oltre 45.000 saloni partner. Fonte: [spabusiness.com — fusione Treatwell-Uala](https://www.spabusiness.com/wellness-news/Treatwell-completes-merger-with-Uala/350041).
+- Quanto costa al salone. Nel Regno Unito: 35% sulla prima prenotazione di un cliente nuovo, 0% sulle successive. Fonte: guida Whito aggiornata a settembre 2026, [whito.co.uk](https://whito.co.uk/tools/treatwell-cost-salons-uk/). Per l'Italia: un 25% sulla prima prenotazione, citato in un'intervista su [quotidiano.net](https://www.quotidiano.net/economia/made-in-italy/treatwell-dopo-lapp-beauty-scende-8857598f), senza certezza sulla piattaforma. Un altro concorrente, Fresha, trattiene il 20% sui clienti nuovi secondo [aranzulla.it](https://www.aranzulla.it/app-per-estetista-1954811.html). Confidenza 40% sui numeri italiani.
+- **Dove non attaccarli:** sulla vetrina verso chi non conosce il centro. Treatwell ha una rete nazionale e recensioni già raccolte; noi no.
+- **Dove sono scoperti:** la percentuale pesa proprio sul cliente nuovo, e il cliente passa dalla loro app. Il nostro paletto dice il contrario: i clienti restano del negozio, e nessuna percentuale su quello che il negozio già incassava. Il primo valore che il piano promette alle estetiste lavora sui clienti che il centro ha già: promemoria e recupero di chi non torna. Su quei clienti, nel modello inglese, Treatwell non prende percentuale. Guadagna però con l'abbonamento al suo programma di gestione del salone: prezzo per l'Italia non trovato.
+
+**③ Esselunga ed Everli: Piacenza è fuori dall'accordo.** È un fatto di gennaio 2026, nuovo per il radar. L'accordo copre 65 punti vendita Esselunga in 29 province di 8 regioni. Ci sono Parma, Pavia e Cremona; Piacenza no. Fonti: [lasicilia.it — accordo Everli-Esselunga](https://www.lasicilia.it/news/economia/3014091/everli-ed-esselunga-una-nuova-collaborazione-per-la-spesa-online-accordo-per-65-negozi-in-29-province-di-otto-regioni-italiane.html) · [economyup.it](https://economyup.it/retail/accordo-everli-esselunga-perche-la-spesa-online-non-e-piu-un-canale-ma-unecosistema). Confidenza 75%, perché l'elenco l'ho letto in un riassunto. Non ho verificato se Esselunga consegna da sola a Piacenza.
+
+**④ CompraPiacenza.it: probabilmente fermo dal 2021.** Un documento della Camera di Commercio di Piacenza descrive il progetto: vetrina online, campagne digitali e newsletter. Due fasi: da novembre 2020 a marzo 2021, poi manutenzione per tutto il 2021. Fonte: [trasparenza.pc.camcom.it — relazione del progetto Compra Piacenza](https://trasparenza.pc.camcom.it/trasparenza/Art-26-27-Dlgs33-2013/internazionalizzazione-e-studi/relazione%20progetto%20compra%20piacenza_pdf.pdf). **Inferenza, confidenza 60%:** era una misura dell'emergenza Covid, probabilmente non più alimentata. Spiega gli otto controlli a vuoto, dal 17/8 a oggi. Proposta: controllo mensile invece che settimanale. Ricerca usata: «CompraPiacenza.it 2026 negozi piattaforma CNA Confesercenti».
+
+**⑤ Nessuna novità trovata — e con quale ricerca (10/10)**
+
+| Concorrente | Esito | Ricerca usata |
+|---|---|---|
+| Just Eat | Nessuna novità. Solo articoli vecchi sui rider assunti come dipendenti | «Just Eat Italia novità ottobre 2026 rider negozi» |
+| Deliveroo | Nessuna novità locale. Unico documento recente: termini e condizioni in vigore dal 19/8/2026, senza dire cosa cambia ([pdf Deliveroo](https://a.storyblok.com/f/62776/x/f07951f676/deliveroo-italy-termini-e-condizioni-aggiornati.pdf)). Sotto controllo giudiziario dal 25/2/2026: nessun esito trovato | «Deliveroo Italia novità settembre 2026» · «Deliveroo controllo giudiziario Milano rider settembre 2026» |
+| Antitrust su Glovo e Deliveroo (indagine aperta il 6/5/2026) | Nessun esito trovato | «Antitrust AGCM Glovo Deliveroo istruttoria esito sanzione 2026» |
+| Uber + Delivery Hero | Nessun aggiornamento dopo metà luglio: 41,50 € per azione, chiusura attesa nella seconda metà del 2027 ([cyprus-mail.com, 16/7/2026](https://cyprus-mail.com/2026/07/16/uber-launches-14-8-billion-takeover-bid-for-delivery-hero)) | «Uber Delivery Hero acquisizione aggiornamento settembre ottobre 2026 antitrust» |
+| Conad, spesa online | Nessuna novità. Ultimo dato verificato il 1/9: 3 Superstore in città più 5 punti in provincia | «Conad spesa online Piacenza novità 2026 consegna domicilio» |
+| Coop | Nessuna informazione sulla consegna a casa a Piacenza. Non l'abbiamo mai verificata | «Coop consegna spesa a domicilio Piacenza 2026 EasyCoop Coop Alleanza» |
+| Amazon-Cortilia | Nessuna novità datata. Un articolo senza data dice: consegna il giorno dopo se ordini entro le 12:30, spedizione gratis sopra 109 €, 15 € di sconto sul primo ordine ([smartworld.it](https://www.smartworld.it/news/cortilia-amazon-espansione-toscana-veneto-valle-daosta.html)). Contrasta con la nota del 24/8 «consegna gratis sempre», letta su cortilia.it: forse sono due canali diversi. Da riverificare quando la pagina si apre | «Amazon Cortilia novità settembre ottobre 2026 spesa fresca» |
+| Everli | Nessuna novità oltre l'accordo con Esselunga | «Everli 2026 Italia novità chiusura città» |
+| Nuove app di consegna per i negozi di Piacenza | Nessuna trovata | «consegna a domicilio Piacenza nuova app negozi locali 2026» |
+
+**Il discorso per i negozi, con i prezzi in vigore.** «Siamo le botteghe del centro, non le piattaforme sotto inchiesta per come pagano i fattorini.» I prezzi vanno detti così, e mai con la sola frase «zero commissioni»: 50 € al mese di abbonamento, più il 10% solo sugli ordini portati da MyCity, che serve a pagare la consegna. Fonte: registro dei fatti, voci `pricing.abbonamento` e `pricing.commissione` (Nicola, 11/8/2026). La versione del 24/8 di questo file diceva solo «10% commissione»: incompleta.
+
+**Segnali di rischio, aggiornati al 10/10**
+- Uber e Delivery Hero: invariato, chiusura attesa nella seconda metà del 2027.
+- Glovo e Deliveroo: controllo giudiziario ancora in corso, indagine Antitrust senza esito. Rischio di reputazione per loro, argomento per noi.
+- Treatwell sulle estetiste: rete nazionale e recensioni già raccolte. Più arriviamo tardi, più il centro avrà già l'abitudine di prenotare altrove.
+- Il rischio più grande non è un concorrente: è il sito fermo. Il conto per il Natale è nel file degli eventi.
 
 ---
 
-## Versione precedente (24 agosto 2026, invariata sotto)
+## Controlli precedenti
 
-> Aggiornato: 24 agosto 2026 · @intelligence. Playbook settimanale Intelligence, dovuto oggi: l'ultimo controllo risale al 17/8, **7 giorni fa** — il giro dell'11-23/8 era rimasto fermo (pausa Nicola). Precedente: 17/8 06:33.
-> ⚠️ **Nota di contesto obbligatoria (23/8):** Nicola ha corretto la priorità reale per i prossimi 5 giorni — c'è una scadenza-zero al **29/8/2026**: chiudere ~311 difetti aperti della macchina + costruire da zero worker Bottega e design lato-venditore. **Nessuna delle opportunità qui sotto va spinta in avanti come azione commerciale questa settimana.** Tutto resta 🟢 (solo preparazione, zero costo, reversibile), anche dove il vincolo "pausa fino al 24/8" formalmente scade oggi.
+> Sotto, lo storico ancora utile, accorciato. Le versioni intere stanno nella storia del repository.
 
-## Food delivery a Piacenza — nessun movimento locale nuovo dal 17/8
+### 1 settembre 2026 — nessun movimento locale
 
-| Competitor | Stato | Cambiato dal 17/8? | Fonte |
-|------------|-------|---------------------|-------|
-| **Glovo** | Attivo a Piacenza: categorie Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni | Non ri-verificato con fetch diretto oggi (nessun segnale di novità intercettato nelle ricerche mirate — vedi sotto). Nessun movimento locale trovato | glovoapp.com/it/it/piacenza (17/8, non ricontrollato oggi) |
-| **JustEat** | Attivo, sotto Prosus | WebSearch mirata oggi ("JustEat Piacenza novità agosto 2026") ha restituito solo pagine di codici sconto generici (aggregatori coupon), nessuna notizia specifica su Piacenza o cambio di prodotto | WebSearch (24/8) |
-| **Deliveroo** | Attivo a Piacenza | Invariato — nessuna notizia locale trovata oggi | — |
-| **Conad — Spesa online** | 8 punti vendita coperti: 3 Superstore Piacenza, più Podenzano, Rivergaro, Castell'Arquato, San Giorgio Piacentino, Sapori & Dintorni. Due modelli di servizio: "Spesa a Casa" e "Ordina e Ritira" | Nessun cambiamento sulla copertura. **Trovata una promo nuova non locale:** dal 24/8 al 7/10 spesa minima 30€ con Carta Insieme attiva gratis "Polizza nel Carrello" (copertura infortuni bimbi 60gg) — è una promo nazionale Conad, non specifica di Piacenza, nessun impatto diretto sul confronto con MyCity | spesaonline.conad.it/aree-coperte-dal-servizio/piacenza + conad.it (24/8) |
-| **Amazon-Cortilia** | Homepage generica, "consegna gratis sempre disponibile", 4.500+ prodotti da 400 produttori | Confermata la copertura su Piacenza (già nota, espansione regionale annunciata a maggio 2026). Nessuna novità di prezzo o servizio specifica per Piacenza trovata oggi | cortilia.it + press.aboutamazon.com (24/8) |
-| **CompraPiacenza.it / CNA** | Vetrina statica Comune/CNA/Confesercenti/Confcommercio/Libertà | Il sito piacenza.cna.it risponde ancora 403 in accesso diretto. Con WebSearch, nessuna notizia di agosto 2026 su CompraPiacenza: verificato 5 volte nelle ultime settimane, sempre senza esito | WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" (24/8) |
+- **Glovo a Piacenza**, pagina aperta direttamente quel giorno. Categorie: Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni. Nessuna promo per Piacenza. Fonte: [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) (1/9).
+- **Conad spesa online.** Copertura: 3 Superstore a Piacenza (via Atleti Azzurri d'Italia, via Grazia Deledda, via Don G. Morisi), più Sapori & Dintorni, Podenzano, Rivergaro, Castell'Arquato e San Giorgio Piacentino. Due servizi: «Spesa a Casa» e «Ordina e Ritira». Fonte: [spesaonline.conad.it](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) (1/9).
+- **Cortilia:** homepage generica, nessuna menzione di Piacenza (1/9).
+- **CompraPiacenza / CNA:** settimo controllo a vuoto (piacenza.cna.it non apribile).
+- Allora scrivevo che il caso Glovo non aveva novità dopo maggio. Era sbagliato: vedi il punto ① sopra.
 
-**Candore:** 6 fonti ricontrollate oggi (Glovo via ricerca mirata, JustEat, Conad, Cortilia, CNA/CompraPiacenza via WebSearch per il 403), **zero movimento locale nuovo trovato**. Confermo esplicitamente: nessuna notizia di prezzo, promo o espansione zone a Piacenza diversa da quanto già noto al 17/8.
+### 24 agosto 2026
 
-## Consolidamento globale Uber↔Delivery Hero — INVARIATO dal 16/7
+- **Just Eat:** la ricerca dava solo siti di codici sconto, nessuna notizia su Piacenza.
+- **Conad:** promo nazionale «Polizza nel Carrello» dal 24/8 al 7/10, con spesa minima 30 € e Carta Insieme. Non era locale. Secondo la data registrata allora, è finita il 7/10.
+- **Amazon-Cortilia:** copertura di Piacenza confermata, dentro l'espansione regionale annunciata a maggio 2026. Allora la homepage diceva «consegna gratis sempre disponibile», con più di 4.500 prodotti da 400 produttori. Fonti: cortilia.it e il comunicato Amazon di maggio 2026 (press.aboutamazon.com/it/2026/5/amazon-cortilia-servizio-consegna-spesa-arriva-toscana-valle-daosta-veneto).
+- **Uber + Delivery Hero:** 41,50 € per azione, circa 13 miliardi di euro, chiusura attesa nella seconda metà del 2027. Fonte: Delivery Hero Newsroom, letta il 10/8.
 
-Non ri-verificato con una fonte dedicata oggi (nessun segnale di novità intercettato nelle ricerche di questo giro). Ultimo controllo diretto: 10/8, stessi termini annunciati il 16/7. Prezzo 41,50€/azione, valore ~13 mld€. Chiusura attesa H2 2027.
-- Fonte: Delivery Hero Newsroom, consultata il 10/8 (link in fondo).
-- **Lettura invariata:** resta l'argomento "i giganti sono distratti dall'integrazione" per @vendite alla ripresa (24/8-1/9).
+### I due procedimenti su Glovo e Deliveroo — i fatti di base (verificati 10/8-24/8)
 
-## 🆕 Fatto nuovo nel radar — Glovo e Deliveroo Italia sotto controllo giudiziario per presunto caporalato algoritmico
+- **Procura di Milano.** Il 9/2/2026 Foodinho (Glovo Italia) va sotto controllo giudiziario. Accusa: circa 40.000 rider pagati fino al 77% sotto la soglia di povertà, circa 2,50 € a consegna. Il 25/2/2026 la stessa misura tocca Deliveroo Italia.
+- **Piano di uscita di Glovo, 20/5/2026:** rider da autonomi a dipendenti, paga oraria da 10 a 14 € lordi, compenso a consegna da 2,50 a 3 €.
+- **Antitrust, 6/5/2026:** indagine su Glovo (Glovoapp23, Foodinho, Glovo Infrastructure Services Italy) e Deliveroo Italia. Accusa: informazioni ingannevoli sul loro impegno etico verso i rider. Codacons sostiene l'indagine; le aziende negano e dichiarano piena collaborazione.
+- Fonti: [L'Espresso, 9/2/2026](https://www.lespresso.it/c/attualita/2026/2/9/glovo-commissariamento-caporalato-testimonianze-rider-retribuzioni-consegne/59771) · [L'Espresso, 25/2/2026](https://www.lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209) · [Sky TG24, 20/5/2026](https://tg24.sky.it/economia/2026/05/20/glovo-rider-aumenti-contratti-controlli-giudiziari) · [ANSA, 6/5/2026](https://www.ansa.it/sito/notizie/economia/2026/05/06/lantitrust-avvia-una-istruttorie-su-glovo-e-di-deliveroo-_f572e763-6ac0-4721-8636-6f4cedad81bc.html) · [AGCM, comunicato PS13124-PS12991](https://www.agcm.it/media/comunicati-stampa/2026/5/PS13124-PS12991) · [Milano Finanza](https://www.milanofinanza.it/news/glovo-controllo-giudiziario-per-caporalato-per-foodinho-sfrutta-i-rider-202602091350118916).
 
-Il fatto risale a febbraio 2026, non a questa settimana. Ma non era mai stato registrato in questo radar, e riguarda i due concorrenti principali a Piacenza. Lo aggiungo ora come contesto verificato.
+### Decisioni di postura ancora valide
 
-- Il 9 febbraio 2026 la Procura di Milano ha messo Foodinho srl (gestisce Glovo in Italia) sotto **controllo giudiziario**. Secondo l'accusa, circa 40.000 rider erano pagati fino al 77% sotto la soglia di povertà — compensi di circa 2,50€ a consegna. Il 25 febbraio 2026 la stessa misura è stata estesa a **Deliveroo Italia**.
-- Il 20 maggio 2026 Foodinho/Glovo ha presentato un piano per uscire dal controllo giudiziario: i rider passerebbero da autonomi a dipendenti, la paga oraria da 10 a 14€ lordi, il compenso a consegna da 2,50 a 3€. Nessun aggiornamento trovato oggi su questo piano — l'ultima notizia reperibile resta quella del 20/5, tre mesi fa.
-- Fonti triangolate (10/8, link in fondo): L'Espresso su Foodinho (9/2/2026), L'Espresso su Deliveroo (25/2/2026), Sky TG24 sul piano di uscita (20/5/2026).
-- **Confidenza sul fatto in sé: alta (90%)** — tre fonti indipendenti, provvedimento giudiziario pubblico. **Confidenza sullo stato attuale del percorso di uscita: bassa (30%)** — nessuna fonte più recente di maggio, potrebbe essere già risolto senza che lo sappiamo.
+- **CompraPiacenza.it:** complementare a noi. Loro erano una vetrina statica; noi facciamo ordine, consegna e incasso. L'idea di una partnership resta valida solo se il portale è vivo: con quanto trovato oggi, probabilmente non lo è.
+- **Deliveroo a Piacenza:** attivo e forte. Correzione di Nicola del 20/7: il radar lo dava per non operativo.
+- **Dove non competere:** sul prezzo puro contro i giganti si perde. Il nostro vantaggio è la vicinanza e la fiducia con il negoziante.
 
-**🆕 Aggiunto 17/8: un secondo procedimento pubblico, indipendente dal primo.** Il 6 maggio 2026 l'**Antitrust (AGCM)** ha aperto un'istruttoria contro Glovo (Glovoapp23, Foodinho, Glovo Infrastructure Services Italy) e Deliveroo Italia per aver "comunicato informazioni ingannevoli sul proprio impegno etico e sulla responsabilità sociale" verso i rider. Codacons sostiene l'istruttoria e chiede una sanzione esemplare; entrambe le aziende negano e dichiarano piena collaborazione. Non è la stessa notizia di febbraio rivestita: è un'**autorità diversa** (Antitrust, non la Procura di Milano) che indaga sullo stesso tema. Rafforza l'argomento di pitch sotto: ora ci sono **due procedimenti pubblici aperti**, non uno solo. Fonte: [ansa.it — L'Antitrust avvia un'istruttoria su Glovo e Deliveroo](https://www.ansa.it/sito/notizie/economia/2026/05/06/lantitrust-avvia-una-istruttorie-su-glovo-e-di-deliveroo-_f572e763-6ac0-4721-8636-6f4cedad81bc.html) (6/5/2026, consultata 17/8/2026). Confidenza: alta, 90% — fonte primaria ANSA con dichiarazioni ufficiali di entrambe le aziende.
+### Bando scoperto tardi (24/8), da ricordare per il 2027
 
-**🆕 Ricontrollato 24/8: nessun aggiornamento su nessuno dei due procedimenti.** Due ricerche separate oggi ("Glovo Deliveroo Foodinho controllo giudiziario caporalato agosto 2026" e "Antitrust AGCM Glovo Deliveroo istruttoria esito agosto 2026") restituiscono solo gli stessi articoli già noti (Milano Finanza, Sky TG24, L'Espresso di febbraio; ANSA/PMI.it/AGCM di maggio). **Nessuna fonte più recente di maggio 2026** riporta un esito, una sentenza o una chiusura di uno dei due procedimenti — né sul controllo giudiziario (Procura di Milano) né sull'istruttoria Antitrust. Lo dico esplicitamente per evitare di leggere "silenzio" come "risolto": è verificato, non inventato. **Confidenza sul fatto "nessun esito ancora": alta, 85%** (due ricerche mirate indipendenti, stesso risultato) — resta comunque possibile che ci sia stato un aggiornamento non indicizzato dai motori di ricerca usati. Fonti: [milanofinanza.it](https://www.milanofinanza.it/news/glovo-controllo-giudiziario-per-caporalato-per-foodinho-sfrutta-i-rider-202602091350118916), [agcm.it — comunicato ufficiale PS13124-PS12991](https://www.agcm.it/media/comunicati-stampa/2026/5/PS13124-PS12991) (entrambe consultate 24/8/2026).
+**Piccole Imprese per il Territorio (BT26), Camera di Commercio dell'Emilia.** Fondo perduto del 40%, fino a 7.000 €, investimento minimo 5.000 €. Pensato proprio per commercio al dettaglio, cura della persona e artigianato. Era aperto dal 20 al 30 luglio 2026: lo abbiamo scoperto 25 giorni dopo la chiusura. Prima mossa per il 2027: segnarlo nel calendario dei bandi. Fonti: [entilocaliweb.it](https://www.entilocaliweb.it/2026/07/20/camera-di-commercio-dell-emilia-bando-piccole-imprese-per-il-territorio-2026/) · [gcerti.it](https://www.gcerti.it/piccole-imprese-grande-valore-per-il-territorio-1-milione-di-euro-a-fondo-perduto-dalla-camera-di-commercio-dellemilia).
 
-## Punti di forza da comunicare ai negozi (aggiornati)
+### Fonti dei controlli di agosto (non riaperte oggi)
 
-> **"Noi siamo le botteghe del centro storico, non i ristoranti delle catene sotto inchiesta per come trattano i rider."** MyCity: 10% commissione, 50€/mese abbonamento, payout a consegna.
-
-Il secondo pezzo della frase è materiale nuovo, disponibile solo ora grazie al fatto appena verificato (vedi Opportunità).
-
-## Postura vs CompraPiacenza.it
-
-Invariata: complementare (loro vetrine statiche, noi ordine+consegna+payout). Integrazione/partnership quando rete ≥10 negozi.
-
-## Segnali di rischio
-
-- Consolidamento Uber-Delivery Hero + Prosus (Glovo+JET): invariato, moat fiducia botteghe da costruire — ma non questa settimana (vedi nota deadline 29/8 in testa al file).
-- Glovo/Deliveroo sotto controllo giudiziario + istruttoria Antitrust: rischio reputazionale per i giganti, opportunità di posizionamento per MyCity. Ricontrollato oggi, nessun esito nuovo (vedi sopra).
-- Nessun nuovo segnale normativo aggiuntivo dal 27/7.
-
-## Opportunità — 24/8: la finestra "ripresa" apre formalmente, ma resta 🟢 solo preparazione
-
-⚠️ Il vincolo "pausa fino al 24/8-1/9" scade oggi sulla carta. **Ma la correzione di Nicola del 23/8 sposta la priorità reale** su un fronte tecnico interno (311 difetti + due pezzi da costruire, scadenza 29/8). Quindi nessuna di queste diventa 🟡/🔴 questa settimana: restano bozze pronte, a costo zero, che @pr-stampa/@vendite possono prendere in mano appena Nicola libera attenzione commerciale.
-
-**① Argomento di pitch "botteghe vs caporalato algoritmico"** — 🟢 solo preparazione, NON usare ora
-Il fatto verificato sopra è materiale legittimo per @pr-stampa/@vendite: MyCity paga 10% commissione fissa e trasparente, non è sotto inchiesta. Rafforza la narrativa "botteghe di fiducia" nei primi pitch commerciali. **Prima mossa:** @pr-stampa prepara un paragrafo pronto per il kit stampa/pitch deck citando le fonti sopra con date — non pubblicare né usare finché il fronte tecnico (scadenza 29/8) non è chiuso. Il paragrafo può citare **due** procedimenti pubblici indipendenti (Procura di Milano + Antitrust), entrambi confermati ancora aperti oggi, 24/8.
-**Impatto stimato:** non quantificabile ora — MyCity ha 0 negozi che possono incassare (Stripe disattivato anche per Pane Quotidiano, vedi `buchi-mercato.md`), quindi nessun pitch commerciale ha oggi un canale di conversione reale. L'impatto va misurato quando la prima bottega sarà payout-ready.
-
-**② Discovery di processo: un bando CCIAA su misura per le nostre categorie è stato perso, non c'era nel radar** — 🟢 nota, azione futura a costo zero
-Cercando conferma sui bandi (vedi sotto "novità bandi"), ho trovato **BT26 — "Piccole Imprese per il Territorio"** (CCIAA Emilia): fondo perduto 40% spese ammissibili, max 7.000€, investimento minimo 5.000€, **rivolto esplicitamente a commercio al dettaglio, ristorazione/somministrazione, cura della persona, artigianato artistico tradizionale** — esattamente le categorie delle botteghe MyCity. Finestra domande: **20/7-30/7/2026**, quindi **già chiusa** prima che questo radar lo scoprisse (non era mai stato tracciato: il monitoraggio esistente copriva solo PI26/BE26/BI26/Bando Commercio ER). Nessuna azione possibile su questa edizione. **Prima mossa (a costo zero, per @relazioni-istituzionali/@grant-writer):** segnare BT26 nel calendario bandi per il 2027 — i bandi camerali di questo tipo tendono a essere annuali — così la prossima apertura non si perde di nuovo. Fonte: [entilocaliweb.it — Camera di Commercio dell'Emilia, Bando Piccole Imprese per il Territorio 2026](https://www.entilocaliweb.it/2026/07/20/camera-di-commercio-dell-emilia-bando-piccole-imprese-per-il-territorio-2026/), [gcerti.it](https://www.gcerti.it/piccole-imprese-grande-valore-per-il-territorio-1-milione-di-euro-a-fondo-perduto-dalla-camera-di-commercio-dellemilia) (entrambe consultate 24/8/2026). Confidenza sul contenuto del bando: alta, 85% (2 fonti indipendenti concordi su importi e finestra).
-
-*(La terza opportunità della settimana — il picco di domanda per il Radio Sound Party 28-30/8 — è in `eventi-picchi.md`, sezione Opportunità, per restare vicina al dettaglio meteo/evento.)*
-
----
-
-**🔧 Link completi delle fonti** (consultate 10/8/2026 salvo indicazione diversa):
-- radarcoupon.it/codici/glovoapp.com
-- glovo.codicesconto.tv
-- deliveryhero.com/newsroom/delivery-hero-and-uber-to-join-forces-to-deliver-more-for-customers-vendors-and-riders
-- lespresso.it/c/attualita/2026/2/9/glovo-commissariamento-caporalato-testimonianze-rider-retribuzioni-consegne/59771
-- lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209
-- tg24.sky.it/economia/2026/05/20/glovo-rider-aumenti-contratti-controlli-giudiziari
-- **17/8:** glovoapp.com/it/it/piacenza/ — categorie confermate, invariate
-- **17/8:** spesaonline.conad.it/aree-coperte-dal-servizio/piacenza — copertura confermata, invariata
-- **17/8:** cortilia.it — nessun dato specifico Piacenza
-- **17/8:** WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" — nessuna notizia (piacenza.cna.it in 403 diretto)
-- **24/8:** milanofinanza.it/news/glovo-controllo-giudiziario-per-caporalato-per-foodinho-sfrutta-i-rider-202602091350118916 — riconferma fatto febbraio, nessun esito nuovo
-- **24/8:** agcm.it/media/comunicati-stampa/2026/5/PS13124-PS12991 — istruttoria Antitrust, nessun esito nuovo
-- **24/8:** WebSearch "JustEat Piacenza novità agosto 2026 promozione" — solo aggregatori coupon generici, nessuna notizia locale
-- **24/8:** spesaonline.conad.it + conad.it — promo nazionale "Polizza nel Carrello" dal 24/8, non specifica Piacenza
-- **24/8:** cortilia.it + press.aboutamazon.com/it/2026/5/amazon-cortilia-servizio-consegna-spesa-arriva-toscana-valle-daosta-veneto — copertura Piacenza confermata, nessuna novità di prezzo
-- **24/8:** WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" — nessuna notizia, 5° controllo consecutivo senza esito
-- **24/8:** entilocaliweb.it/2026/07/20/camera-di-commercio-dell-emilia-bando-piccole-imprese-per-il-territorio-2026 — bando BT26, nuova scoperta, già chiuso 30/7
-- **24/8:** gcerti.it/piccole-imprese-grande-valore-per-il-territorio-1-milione-di-euro-a-fondo-perduto-dalla-camera-di-commercio-dellemilia — dettagli BT26 (importi, target)
-
-Precedente: versione 17/8 (in git history), versione 10/8 (in git history).
-
----
-
-**🔧 Fonti consultate oggi (1/9/2026):**
-- [glovoapp.com/it/it/piacenza](https://glovoapp.com/it/it/piacenza/) — WebFetch diretto riuscito, categorie invariate
-- [spesaonline.conad.it/aree-coperte-dal-servizio/piacenza](https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza) — WebFetch diretto, copertura invariata
-- [cortilia.it](https://www.cortilia.it/) — WebFetch diretto, nessuna menzione Piacenza
-- WebSearch "CNA Piacenza CompraPiacenza novità agosto settembre 2026" — nessun risultato pertinente, 7° controllo a vuoto
-- WebSearch "Glovo Deliveroo Foodinho controllo giudiziario caporalato esito settembre 2026" — nessun esito nuovo, stesso quadro di maggio
+- radarcoupon.it/codici/glovoapp.com · glovo.codicesconto.tv (10/8)
+- deliveryhero.com/newsroom/delivery-hero-and-uber-to-join-forces-to-deliver-more-for-customers-vendors-and-riders (10/8)
+- glovoapp.com/it/it/piacenza · spesaonline.conad.it · cortilia.it (17/8, 24/8, 1/9)
+- Ricerche «CNA Piacenza CompraPiacenza novità agosto 2026» (17/8, 24/8) e «agosto settembre 2026» (1/9): sempre a vuoto

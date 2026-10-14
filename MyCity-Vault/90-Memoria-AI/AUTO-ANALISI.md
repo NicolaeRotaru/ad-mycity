@@ -1,4 +1,29 @@
-# 🔬 AUTO-ANALISI — 2026-09-01 11:56
+# 🔬 AUTO-ANALISI — 2026-10-10 09:50
+
+## Giro, visita, numeri e coda: «fai tutte e 4», dopo 39 giorni senza un giro
+
+**Voto di fiducia: 82/100** (▲ da 78).
+
+**In parole semplici.** Questa volta i fatti che contano li ho misurati io, e da tre lati diversi. Su
+Supabase i due database risultano in pausa. Il sito, interrogato da solo, dice 503. La Cabina risponde,
+ma dice che la memoria non risponde. Tre letture indipendenti che puntano nello stesso punto.
+
+**Un errore mio, trovato prima di consegnare.** La visita automatica metteva in testa «la Cabina non
+risponde», sotto «blocca gli incassi». Era falso: la Cabina risponde 200. A non arrivarci era la rete di
+questa sessione, e il controllo buttava via il motivo vero dell'errore. L'ho riprodotto, corretto nel
+referto e registrato come difetto AR-956. Non l'ho riparato: è codice della macchina, serve la tua firma.
+
+**Cosa ho dichiarato e non misurato.** I numeri di business: con il database in pausa non si leggono,
+quindi resta la base del 1° settembre e lo dico. Il server: da qui non lo raggiungo. Il motivo della
+pausa e la sua data: li vede solo chi entra in Supabase.
+
+**La refutazione.** Ho provato a smontare «la causa è la pausa dei database». Se il sito fosse giù per
+altro, il suo controllo direbbe altro e la Cabina leggerebbe la memoria. Non succede. Ho provato a
+smontare anche «la Cabina non risponde»: è caduto, e per questo è diventato un difetto registrato.
+
+---
+
+## Passaggio precedente — 2026-09-01 11:56
 
 ## Ottavo passaggio, un giro di perlustrazione richiesto in chat, 20 minuti dopo il settimo
 

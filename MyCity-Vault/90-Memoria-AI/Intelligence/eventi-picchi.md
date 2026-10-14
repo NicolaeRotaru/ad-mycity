@@ -1,313 +1,150 @@
-# 📅 Eventi & Picchi di Domanda — 2026-09-01
+# 📅 Eventi e picchi di domanda
 
-> **Aggiornato: 1 settembre 2026 06:55** · @intelligence · giro leggero, **8 giorni fermo** (ultimo controllo 24/8). Controllate oggi cinque cose. Primo: il meteo dell'1-8/9. Secondo: il calendario eventi del Comune a 7-14gg. Terzo: viabilità e cantieri del centro. Quarto: i bandi — CCIAA, Unione Commercianti e **un bando nuovo del Comune**, vedi sotto. Quinto: Libertà/PiacenzaSera (oggi il fetch diretto ha funzionato, niente 403). Precedente: 24/8.
+Aggiornato: 10 ottobre 2026 09:17 · @intelligence
+
+> ⚠️ **Oggi il sito non può vendere.** I due database del marketplace sono in pausa. Il controllo di salute del sito risponde 503, cioè «servizio non disponibile». Nessun negozio può incassare. Quindi niente di quello che segue diventa un'azione commerciale adesso: è preparazione a costo zero (🟢), pronta per quando il sito torna a vendere.
 >
-> ⚠️ **Contesto invariato rispetto al 24/8:** il sito pubblico resta giù (HTTP 503, 9° giorno), 3 azioni 🔴 attendono la firma di Nicola (rimettere online il sito, sbloccare i pagamenti di Pane Quotidiano, migrazioni DB), e **0 negozi possono oggi incassare**. Nessuna opportunità qui sotto diventa un'azione commerciale ora: resta preparazione 🟢, zero costo, reversibile.
+> **Il buco:** l'ultimo controllo era del 1° settembre, 39 giorni fa. Meteo, eventi e bandi erano tutti scaduti.
+>
+> **Come ho cercato:** l'apertura diretta delle pagine web non ha funzionato su nessun sito. L'errore era di rete: «nome del sito non trovato». Ho fatto tutto con la ricerca web, che restituisce titolo, link e un riassunto. Ho letto i riassunti, non i testi interi.
+
+## 🆕 Novità del 10/10
+
+### In parole semplici
+
+Nei prossimi 21 giorni a Piacenza non c'è un grande evento in centro. E il meteo non mostra un picco di pioggia sicuro.
+
+Il meteo, in breve. Non ho una previsione affidabile per il 12-24 ottobre: le pagine meteo non si aprono da qui. Le ricerche danno solo tendenze vecchie di 5-8 giorni. Questo weekend dovrebbe migliorare, dopo l'instabilità di venerdì 9. Per mercoledì 14 è indicata nebbia in pianura, senza pioggia di rilievo. Dalla seconda metà del mese è possibile un tempo più autunnale.
+
+Due date certe. Domenica 25 ottobre torna l'ora solare: da lì le serate sono più buie. Domenica 1 novembre è Ognissanti.
+
+Gli eventi. Domani, domenica 11, dovrebbe esserci «Manufatto», il mercatino di chi produce a mano, in piazza Duomo. Alla fiera di Piacenza Expo, fuori dal centro, ci sono fiere di settore dal 22 al 24 ottobre. Il 31 c'è una mostra di giocattoli vintage. A novembre arrivano la Fiera dei Vini, dal 14 al 16, e una corsa in piazza Cavalli il 29.
+
+Il Natale 2026 non è ancora annunciato. L'anno scorso il mercatino in piazza Cavalli è durato dal 22 novembre al 24 dicembre.
+
+### Cosa cambia per te
+
+- **Il Natale si decide a novembre.** Il piano dice che a dicembre si smette di inserire negozi nuovi. Quindi i negozi per i regali devono entrare entro novembre. Ogni settimana di sito fermo tra ottobre e novembre è una settimana tolta alla stagione più ricca.
+- **Il bando rifiuti del Comune chiude il 23 ottobre.** Pane Quotidiano ha i requisiti, e i soldi vanno a chi arriva prima. Se vuoi che il fornaio lo sappia, va avvisato in questi giorni.
+- Nei 39 giorni di buco si è aperto e chiuso un bando che non conoscevamo: «Digital Export», delle Camere di Commercio della regione, dal 28 settembre al 5 ottobre. Non era per noi. Ma il buco ci ha resi ciechi proprio mentre era aperto.
+
+### Cosa devi fare
+
+Una sola decisione: vuoi che qualcuno avvisi Pane Quotidiano del bando rifiuti prima del 23 ottobre? È un messaggio a una persona vera, quindi serve il tuo sì. Se la risposta è no, non c'è altro da fare.
+
+### Cosa non ho verificato
+
+- Il meteo giorno per giorno. Tutto viene da tendenze di 5-8 giorni fa: fidati poco, diciamo 30-40%.
+- La data di «Manufatto». Il 1° settembre il Comune indicava l'11 ottobre. Oggi il sito turistico scrive «1 October». Probabile refuso: tutte le altre date dell'anno cadono di domenica, e l'11 è domenica.
+- Il bando rifiuti: non so se i 400.000 € siano già finiti.
+- Cantieri e viabilità di ottobre. Non ho trovato ordinanze nuove, e la pagina del Comune non si apre da qui.
+- Libertà, IlPiacenza e PiacenzaSera: le ricerche non restituiscono i loro articoli recenti. Una notizia locale importante potrebbe essermi sfuggita.
+
+### Dettagli tecnici — meteo, calendario, viabilità, bandi, con le fonti
+
+**① Meteo Piacenza, 10-24 ottobre**
+
+| Periodo | Cosa dicono le fonti | Fonte | Fiducia |
+|---|---|---|---|
+| ven 9 - dom 11/10 | Weekend «a due volti»: instabilità venerdì 9, poi ritorno del bel tempo. Quadro nazionale, non locale | [fleetmagazine.com — traffico e meteo 9-11 ottobre 2026](https://www.fleetmagazine.com/previsioni-traffico-meteo-weekend-9-11-ottobre-2026/) | media |
+| 8-9/10, già passati | Il Resto del Carlino, 5/10: dopo settimane asciutte, possibile peggioramento in Emilia-Romagna l'8-9 ottobre. Lo definiva «scenario minoritario» | [ilrestodelcarlino.it — maltempo, quando e dove](https://www.ilrestodelcarlino.it/meteo/maltempo-quando-dove-pioggia-emilia-romagna-e55b5869) | storico |
+| mer 14/10 | 3BMeteo, tendenza a 12 giorni letta il 2/10: molte nubi, nubi basse e nebbia sulla pianura emiliana, niente fenomeni di rilievo. La fonte stessa dice «attendibilità bassa» | [3bmeteo.com — Emilia-Romagna](https://www.3bmeteo.com/meteo_regione-emiliaromagna.htm?giorno=12) | bassa |
+| 12-16/10 | Un articolo su Milano, a circa 60 km: lunedì 12 nubi e nebbia, minime fino a 5°, poi settimana debolmente instabile. **Non sono sicura che sia del 2026**: anche il 12 ottobre 2020 era un lunedì | [fanpage.it — Milano, lunedì 12 ottobre](https://www.fanpage.it/milano/previsioni-meteo-milano-lunedi-12-ottobre-nuvole-e-nebbia-temperature-minime-in-calo/) | bassa |
+| 17-24/10 | Tendenza mensile del 25/9: prima metà di ottobre stabile e mite; seconda metà forse più autunnale, con correnti da nord o perturbazioni atlantiche | [centrometeoitaliano.it — ottobre 2026](https://www.centrometeoitaliano.it/notizie-meteo/meteo-ottobre-2026-autunno-prova-a-decollare-possibili-svolte-nella-seconda-parte-del-mese-25-09-2026-183413/) | bassa |
+| allerte | Nessuna allerta di ottobre 2026 trovata. La pagina regionale delle allerte, nella versione indicizzata, si ferma a metà agosto | [allertameteo.regione.emilia-romagna.it](https://allertameteo.regione.emilia-romagna.it/en/aggiornamenti/-/asset_publisher/Nb5jHes0zyRl/) | — |
+
+**Impatto:** nessun picco di pioggia prevedibile oggi. Le consegne attive sono zero, quindi l'impatto operativo è nullo. Il dato da tenere è un altro: dal 25/10 il buio arriva un'ora prima. Ipotesi, confidenza 40% e nessun nostro dato a sostegno: sere più buie e più fredde spostano un po' di spesa verso la consegna a casa. Da misurare quando ci saranno ordini. Fonti sull'ora solare: [quifinanza.it — ora solare 2026](https://quifinanza.it/info-utili/ora-solare-2026-quando-torna/1014409/) · [money.it](https://www.money.it/come-cambiare-l-ora-legale-e-solare-sul-cellulare).
+
+Ricerche meteo usate: «meteo Piacenza ottobre 2026 pioggia previsioni settimana», «Piacenza meteo weekend 10 11 ottobre 2026», «tendenza meteo metà ottobre 2026 Nord Italia», «allerta meteo Emilia-Romagna ottobre 2026 Arpae Piacenza», «meteo Emilia-Romagna 12 13 14 ottobre 2026».
+
+**② Calendario 10-31 ottobre (da 7 a 21 giorni)**
+
+| Data | Evento | Dove | Peso per MyCity | Fonte |
+|---|---|---|---|---|
+| sab 10 - dom 11/10 | Giornate FAI d'autunno, nazionali, in 350 città. Partecipazione di Piacenza non verificata | — | basso | [agi.it, 8/10/2026](https://www.agi.it/cultura/news/2026-10-08/cosa-e-giornate-fai-2026-39417642/) · [siviaggia.it](https://siviaggia.it/notizie/giornate-fai-autunno-10-11-ottobre-2026/605176/) |
+| dom 11/10, da confermare | «Manufatto», mercato di chi produce a mano | piazza Duomo | medio-basso: gente in centro di domenica | pagina eventi del Comune letta il 1/9 (diceva 11/10) · [visitpiacenza.it](https://visitpiacenza.it/en/?p=75913) (oggi scrive «1 October») |
+| 22-24/10 | AGV Expo e T3 Expo: fiere di settore su logistica automatica e camion | Piacenza Expo, fuori dal centro | basso | [visitpiacenza.it — fiere a Piacenza Expo](https://visitpiacenza.it/en/news/piacenza-expo-fairs/) · [logistik-heute.de](https://logistik-heute.de/termine/agv-expo-2026-automated-factory-and-warehousing-show-piacenza-it-285606.html) |
+| dom 25/10 | Torna l'ora solare | — | contesto | fonti sopra |
+| sab 31/10 | Mostra del giocattolo vintage | Piacenza Expo | basso | [visitpiacenza.it — fiere](https://visitpiacenza.it/en/news/piacenza-expo-fairs/) |
+| dom 1/11 | Ognissanti. Cade di domenica: nessun ponte | — | contesto | calendario |
+| Halloween | Nessun evento in centro trovato. Grazzano Visconti fa la sua festa ogni anno, ma la data 2026 non l'ho trovata | provincia | basso | [visitpiacenza.it — Halloween a Grazzano](https://visitpiacenza.it/en/events/halloween-a-grazzano-visconti/) |
+| Sbaracco d'autunno | Nessuna edizione di Piacenza trovata per ottobre | — | — | ricerca «Sbaracco Piacenza ottobre 2026 negozi centro» |
+
+Geofluid, fiera di settore a Piacenza Expo dal 7 al 10/10, chiude oggi. Ricerche usate: «Piacenza eventi ottobre 2026 centro storico», «Piacenza eventi weekend 17 18 ottobre 2026», «"piazza Cavalli" ottobre 2026 evento Piacenza», «Piacenza Halloween 31 ottobre 2026 centro eventi».
+
+**③ Oltre i 21 giorni: i primi segnali di novembre e del Natale**
+- **Fiera dei Vini, da sabato 14 a lunedì 16 novembre**, Piacenza Expo, quarta edizione. Espositori: 230 secondo un comunicato di agosto, 280 secondo un'altra fonte. Novità: un'area «Osteria Piacentina». Fonti: [qds.it — Fiera dei Vini 2026](https://qds.it/fiera-dei-vini-2026-lancia-un-concorso-nazionale-di-fotografia/) · [quotidiano.net — Piacenza Expo](https://www.quotidiano.net/economia/piacenza-expo-un-hub-di-37aa42f7) · [visitpiacenza.it](https://visitpiacenza.it/en/news/piacenza-expo-fairs/). Confidenza 75%: non ho letto una pagina ufficiale di Piacenza Expo.
+- **«4 Piazze Running», domenica 29 novembre**, piazza Cavalli. Una fonte sola, la pagina delle iscrizioni: [avaibooksports.com](https://www.avaibooksports.com/inscripcion/4-piazze-running-2026/?lang=en).
+- **Manufatto** torna l'8 novembre e il 13 dicembre, secondo la stessa pagina di VisitPiacenza.
+- **13 novembre:** seconda festa di Sant'Antonino, il patrono, per il ritrovamento delle reliquie. La festa principale è il 4 luglio. Fonte: [diocesipiacenzabobbio.org](https://diocesipiacenzabobbio.org/wp-content/uploads/2024/07/4luglioSantAntonino.pdf).
+- **Natale 2026: nessun annuncio trovato.** La base dell'anno scorso: mercatini in piazza Cavalli dal 22/11 al 24/12/2025. Pista di pattinaggio al Palazzetto di via Alberici dal 29/11 al 18/1. Trenino gratis nei weekend dal 22/11 al 21/12. Fonti: [opuscolo Natale 2025 del Comune](https://piacenza-api.cloud.municipiumapp.it/s3/5141/allegati/ciao/eventi/2025/brochure-natale-2025.pdf) · [visitpiacenza.it — Natale a Piacenza](https://visitpiacenza.it/en/events/christmas-in-piacenza/). Il programma completo di solito sta su nataleapiacenza.it.
+
+**④ Viabilità e cantieri: nessuna ordinanza nuova trovata per ottobre.** Ricerca: «Piacenza ZTL cantieri viabilità ottobre 2026 lavori centro storico». Stato delle voci già note:
+- Corso Garibaldi e vie vicine, compresa via Calzolai di Pane Quotidiano: divieto di sosta fino al 10/9. **Finito.**
+- Via Maddalena: chiusura dal 7 al 19/9. **Finita.**
+- Via Morigi: senso unico sperimentale dal 24/8, senza data di fine. Stato di oggi non verificato.
+- Via Benedettine: 70 posti auto tolti fino a dicembre. Ancora valido, sulla carta.
+- Via Farnesiana, via Veneto, via Borghetto, via San Bartolomeo: lavori annunciati per fine agosto e inizio settembre. Stato di oggi non verificato.
+- Piazza Cittadella: il Comune ha un bando 2026 per risarcire le attività colpite dal cantiere. Il dettaglio è nel file dei buchi di mercato. Ad agosto la prima pietra era prevista entro aprile 2027.
+- Cornicione di Corso Vittorio Emanuele 226-234: nessuna notizia dal 19/7, cioè da 12 settimane. Da verificare sul posto prima di citarlo.
+- ZTL del centro, 8:00-19:00: invariata per quanto noto.
+- Divieto di alcolici e vetro dalle 24 alle 7, ed esercizi chiusi alle 21, in vicolo Barozzieri, vicolo Moroni e viale Pubblico Passeggio (tratto piazzale Roma - Stradone Farnese). In vigore da agosto. Pesa sulle consegne serali in quelle vie.
+
+**⑤ Bandi: nessun bando nuovo utile a botteghe o a una startup digitale, aperto per ottobre-novembre**
+
+| Bando | Stato al 10/10 | Utile a noi? | Fonte |
+|---|---|---|---|
+| Incentivi alla raccolta differenziata, Comune di Piacenza, 400.000 € | Aperto, chiude il 23/10. I soldi vanno in ordine di arrivo: fondi residui non verificati | **Sì, per Pane Quotidiano**: sotto 250 mq, sede in città. Spese ammesse: compostiere, stop al monouso, meno sprechi di cibo | [bando, pdf del Comune](https://cloud-ita.municipiumapp.it/s3/5141/allegati/servizi/per-sportello-telematico/bando-incentivi-rifiuti-2026.pdf). Data verificata il 1/9 con 4 fonti |
+| Contributi alle attività di piazza Cittadella e piazza Casali, Comune, 8.200 € | Trovato oggi. Date di apertura e chiusura non lette | Solo per chi si affaccia sulle due piazze | [bando, pdf del Comune](https://piacenza-api.cloud.municipiumapp.it/s3/5141/allegati/novit/notizie/2026/piazza-cittadella/bando-contributi-attivita-piazza-cittadella-2026.pdf) |
+| Fonti rinnovabili nelle imprese, Regione: fotovoltaico su pensiline, con accumulo | Aperto dal 30/9 al 15/11 secondo un aggregatore. Il 18/8 avevamo letto 16/11. Fino al 40%, massimo 100.000 €, spesa minima 70.000 € | No: serve un parcheggio aziendale | [reteagevolazioni.it](https://www.reteagevolazioni.it/bando-fotovoltaico-imprese-emilia-romagna/) · [unionecommerciantipc.it](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) |
+| Certificazioni ESG, Camera di Commercio dell'Emilia | Chiuso: era aperto dal 17 al 29/9 | No | studiobrancaleone.it, letto il 1/9 |
+| Digital Export 2026-2027, Unioncamere Emilia-Romagna | **Aperto e chiuso nel buco**: dal 28/9 al 5/10. Solo imprese manifatturiere. Contributo del 50%, da 10.000 a 20.000 € | Poco | [ucer.camcom.it — bando](https://www.ucer.camcom.it/internazionalizzazione-delle-imprese/news/notizie-2026/bando-digital-export-2026-2027/documenti/bando-digital-export-2026-2027.pdf/@@download/file) · [scheda CNA](https://forlicesena.cna.it/wp-content/uploads/2026/08/Scheda-CNA-Bando-DIGITAL-EXPORT-2026-2027.pdf) |
+| Innovazione digitale, Efficienza energetica, Piccole imprese per il territorio (Camera di Commercio) | Chiusi il 30/7 | Da ricordare per il 2027 | storico |
+| Commercio di vicinato, Regione | Chiuso il 21/7, al limite delle 350 domande | Da ricordare per il 2027 | storico |
+| Startup innovative, Regione | Edizione 2025 chiusa il 30/1/2026. Nessuna edizione 2026 trovata | Da tenere d'occhio | [reteagevolazioni.it](https://www.reteagevolazioni.it/bando-startup-innovative-emilia-romagna/) |
+
+Ricerche usate: «Camera di Commercio dell'Emilia bando contributi ottobre novembre 2026 scadenza», «emilia.camcom.it nuovo bando settembre ottobre 2026», «Regione Emilia-Romagna bando commercio negozi di vicinato 2026 domande ottobre», «Regione Emilia-Romagna bando startup innovative 2026», «Regione Emilia-Romagna nuovi bandi imprese ottobre novembre 2026», «Comune di Piacenza avviso pubblico imprese commercio ottobre 2026».
+
+**⑥ Opportunità per quando il sito torna a vendere** (tutte 🟢, preparazione)
+
+**1. La finestra del Natale (confidenza 70%).**
+- Fatto: a dicembre il piano ferma l'inserimento di negozi nuovi. Fonte: registro dei fatti, voce `strategia.segmenti-onboarding`.
+- Fatto: l'anno scorso il mercatino di Natale in piazza Cavalli è partito il 22/11.
+- Conseguenza: i negozi di novembre (enoteche, fiorai, cartolerie) devono essere dentro, e capaci di incassare, verso metà novembre. Solo così prendono il Natale.
+- Prima mossa: @vendite prepara adesso la lista dei negozi di novembre e il testo del primo contatto, senza mandarlo. Gancio già pronto per le enoteche: la Fiera dei Vini del 14-16/11.
+- Impatto: non lo stimo. Non abbiamo nessuno storico di vendite, e un numero sarebbe inventato.
+- Effetto a catena: se il sito torna dopo metà novembre, il Natale 2026 è perso per i negozi nuovi. Si arriva a gennaio con un negozio solo, e con la stagione più ricca già passata.
+
+**2. Il bando rifiuti per Pane Quotidiano (chiude il 23/10).** È l'unica cosa con una data vera che non dipende dal sito. È un favore al negozio faro, non una vendita. Serve il via di Nicola, perché è un messaggio a una persona. Fonti nella tabella dei bandi.
 
 ---
 
-## 🆕 Novità di oggi (1/9)
-
-Meteo stabile e caldo. Tre eventi nuovi in calendario. Un cantiere aggiuntivo. Nessuna azione.
-
-**① Meteo 1-8/9: settimana stabile, calda, senza pioggia — l'estate non è finita.** Confermato da
-due fonti indipendenti. ilmeteo.it, fetch diretto, dà 21-32° oggi e domani, con salita fino a
-**35°** lunedì 7/9. Cielo sereno o poco nuvoloso tutta la settimana, nessuna allerta. È coerente
-con un titolo di IlPiacenza trovato via WebSearch: "Piena estate anche a inizio settembre: a
-Piacenza ancora massime fino a 35 gradi". **Impatto:** nessun rischio pioggia questa settimana,
-diversamente da fine agosto. Il caldo prolungato tiene alta la domanda di freschi e bevande. Oggi
-resta però un dato preparatorio, perché le consegne attive sono 0.
-Fonti: [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) (WebFetch, 1/9). Più [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) (titolo, via WebSearch 1/9).
-
-**② Tre eventi nuovi in calendario, il più rilevante è uno Sbaracco il 6/9.** Dalla pagina eventi del Comune (fetch diretto riuscito oggi):
-- **Domenica 6/9 — "La domenica dello Sbaracco"**: i negozi del centro svuotano il magazzino con
-  sconti. Lo stesso giorno c'è anche il consueto **mercatino "Via Roma Street Market"**:
-  hobbistica, libri, oggettistica, prima domenica del mese. Sono due eventi di piazza sovrapposti
-  nello stesso weekend. È il tipo di picco di afflusso in centro storico che genera domanda di
-  cibo e bevande da asporto nelle vie limitrofe — lo stesso effetto del Radio Sound Party del
-  28-30/8, ma più piccolo. È anche ricorrente (mensile o stagionale), non un evento isolato.
-- **10-13/9 — "Femme Fest"**: 4 giorni di musica/cultura/incontri in centro. Rilevanza media: più
-  pubblico di nicchia che affollamento di piazza, ma comunque persone in più in centro per 4
-  giorni.
-- **11/10 — "Manufatto"** (mercati artigianali). È fuori dalla finestra dei 7-14 giorni: resta
-  solo una nota di calendario.
-Fonte: [comune.piacenza.it — pagina eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806) (WebFetch diretto, 1/9 — oggi ha funzionato, diversamente dal solito 403 registrato nelle settimane scorse).
-**Nessuna azione oggi** (0 negozi possono incassare, 0 consegne attive): la nota resta preparatoria, coerente col Radio Sound Party del 24/8 già segnato come "solo bozza-template" in Opportunità sotto.
-
-**③ 🆕 Nuovo bando del Comune, aperto DA IERI (31/8): incentivi alla raccolta differenziata per le piccole attività — rilevante per Pane Quotidiano.** Dettaglio completo nella sezione Opportunità sotto e in `leve-uscita.md`: è una leva diretta per il negozio faro, non solo un prospect. Verificato con 4 fonti indipendenti oggi: pagina ufficiale del Comune, PiacenzaSera (2 articoli, 27/8 e 31/8), IlPiacenza, Piacenza24.
-
-**④ Cantieri: un'altra via si aggiunge alla lista già nota.** Oltre a via Farnesiana/via Veneto/via Borghetto/via San Bartolomeo (segnalati il 15/8) e via Benedettine (già senza 70 stalli), trovati con verifica mirata sulla viabilità del centro:
-- **Corso Garibaldi e vie limitrofe** (Sant'Ilario, Piazzetta Sant'Ilario, Manzini, Lampugnani, Calzolai — **quest'ultima è la via del negozio faro Pane Quotidiano**): divieto di sosta permanente con rimozione forzata dal 27/7 al **10/9/2026** per rifacimento della linea interrata.
-- **Via Maddalena**: divieto totale di circolazione (tratto verso via Castello) e divieto di sosta con rimozione (tratto verso San Giacomino) dal **7 al 19/9/2026**.
-- **Via Morigi**: senso unico e spazio pedonale ampliato dal 24/8, sperimentale, senza data di fine indicata.
-**Impatto:** via Calzolai, dove ha sede Pane Quotidiano, è tra le vie con divieto di sosta con rimozione forzata fino al 10/9. È irrilevante per un cliente a piedi. Da tenere a mente invece per un eventuale approvvigionamento o consegna su ruote, quando la logistica sarà operativa. Fonte: [comune.piacenza.it — modifiche alla viabilità, aggiornamento](https://www.comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento) (WebFetch, 1/9).
-
-**⑤ Nessuna novità da Libertà — Attualità/Città oltre quanto già coperto.** Oggi il fetch diretto ha funzionato, niente 403. Notizie del giorno: agroalimentare e ricerca Cattolica, cronaca (incidente Perino, grandinata Castello), cassa integrazione Lpr. Nessuna riguarda botteghe, commercio o ZTL. Un solo titolo di rilievo indiretto, di 17 ore fa: "Raccolta differenziata, dal Comune 400mila euro di incentivi alle attività". È lo stesso bando del punto ③. Fonte: [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) (WebFetch, 1/9).
-
-**⑥ PiacenzaSera: nessuna novità di rilievo oltre il bando rifiuti.** Titoli del giorno: sagra gastronomica DOP+focaccia di Recco, prezzi ingrosso Grana Padano in salita, evento vivaisti/artigiani a Verde Grazzano (fuori Piacenza città), Festa di Fine Estate Emporio Solidale, voucher baby sitter (bando sociale, non commerciale), chiusura stazione Complanare Sud (viabilità periferica, non centro). Nessuna azione. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (WebFetch, 1/9).
-
-Nessuna delle sei richiede un'azione commerciale oggi. L'unica con un valore concreto per il negozio faro è il bando rifiuti (③), che resta comunque 🟢 nota/preparazione — vedi Opportunità.
-
----
-
-## 🌡️ Meteo Piacenza 24-31/8 — pioggia lunedì notte, poi caldo in salita fino a 35-37° venerdì, weekend instabile
-
-Previsione aggiornata oggi (24/8), la tabella del 18-25/8 sotto è superata dal tempo (resta come storico, non cancellata).
-
-| Data | Previsione |
-|------|------|
-| Lun 24 - Mar 25/8 | Perturbazione atlantica in arrivo nella notte tra lunedì e martedì: piogge e rovesci sparsi, tendono a esaurirsi dalla mattinata di martedì. Massime non oltre 27° |
-| Mer 26 - Gio 27/8 | L'anticiclone si rinforza: schiarite più ampie, temperature in aumento giorno dopo giorno |
-| Ven 28/8 | Giornata più calda della settimana: massime in pianura **35-37°** |
-| Sab 29 - Dom 30/8 | Possibile rapido passaggio di una perturbazione sabato, con qualche pioggia e temperature in lieve calo — **attenzione: sabato 29/8 è anche il giorno del concerto Baby K all'Arena Daturi (vedi calendario sotto), rischio pioggia da tenere d'occhio se/quando ci sarà logistica attiva** |
-| Lun 31/8 | Torna il sole, trend che continua nei giorni successivi |
-
-**Impatto:** nessuna allerta meteo (gialla/arancione) emessa a oggi per questa settimana, a differenza del 18/8. Il rischio pioggia più rilevante per un eventuale picco di domanda è sabato 29/8, in sovrapposizione con l'evento di piazza. Oggi 0 consegne attive, quindi impatto operativo nullo — nota preparatoria.
-
-Fonti: [ilpiacenza.it — Pioggia nella notte tra lunedì e martedì 25 agosto: temperature in lieve calo, torna il caldo nel weekend](https://www.ilpiacenza.it/attualita/pioggia-nella-notte-tra-lunedi-e-martedi-25-agosto-temperature-in-lieve-calo-torna-il-caldo-nel-weekend.html) + ricerca aggregata 3bmeteo/meteo.it/forlitoday-3B (24/8).
-
----
-
-## 🌡️ Meteo Piacenza 18-25/8 (storico, superato) — allerta gialla temporali del 18/8, poi torna a scaldare
-
-Aggiornamento 18/8: il Dipartimento Protezione Civile ha emesso un **bollettino di allerta gialla per rischio temporali**, valido su gran parte d'Italia. Riguarda proprio **martedì 18/8**. È un giorno dopo rispetto a quanto il giro di ieri (17/8) aveva anticipato: la finestra critica si è spostata di 24 ore.
-
-| Data | Previsione |
-|------|------|
-| Mar 18/8 | **Allerta gialla, rischio temporali**: pomeriggio con nuvolosità diffusa e rovesci/temporali sparsi, non esclusi episodi di forte intensità; sgombra quasi ovunque in serata. Massime in calo, 32-34° |
-| Da gio 21/8 | Nuova onda depressionaria di origine atlantica: aumento nuvolosità, possibili precipitazioni (più probabili sul settore centro-occidentale della regione), lieve flessione delle temperature |
-
-**Impatto:** il rischio temporali/rovesci era concentrato il 18/8. Rilevante solo se/quando riparte la logistica bici (oggi non operativa). La bozza "ondata di caldo" per Pane Quotidiano resta superata dal meteo attuale: da rivedere o archiviare, non da pubblicare.
-
-Fonte: [meteo.it — Allerta meteo gialla per il 18 agosto 2026 in Italia: ecco dove](https://www.meteo.it/notizie/allerta-meteo-gialla-18-agosto-2026-italia-dove-e4219ba1) (18/8, WebSearch — il fetch diretto su arpae.it resta senza dati previsionali diretti, solo un hub di link).
-
----
-
-## 📆 Calendario eventi (7–14 giorni)
-
-| Evento | Date | Rilevanza |
-|--------|------|-----------|
-| 🆕🔥 **Radio Sound Party — 50° anniversario Radio Sound** — Arena Daturi (Viale Risorgimento 4, ingresso centro lato Milano, sotto Palazzo Farnese) | Ven-Dom 28-30/8, ingresso gratuito | **Alta per MyCity — primo evento di massa dentro Piacenza città da settimane.** Ven 28: DJ set + Mighty Ninety (revival anni '90-2000). Sab 29: **Baby K live** (headliner, forte richiamo). Dom 30: "Family Village" tutto il giorno, chiusura tribute Max Pezzali. Zona centro/adiacente Palazzo Farnese: picco di persone in centro nel weekend, potenziale domanda di cibo/bevande da asporto nelle vie limitrofe. **Nessuna azione ora**: 0 negozi MyCity possono incassare oggi, nessuna logistica attiva. Vedi Opportunità sotto. |
-| Restrizioni Piazzetta Barozzieri (alcolici, contenitori in vetro, orari esercizi) | Dal 11/8 | Bassa/operativa — zona specifica, nessun impatto su consegne cargo-bike se non si passa da lì la sera. |
-| Sportelli "Digitale Facile" del Comune — riaperti | dal 24/8 | Nessuna — non tocca il marketplace. |
-| ❌ ~~PI26/BE26/BI26 CCIAA~~ — CHIUSI | non applicabile | Invariato, confermato di nuovo oggi (24/8): nessun bando nuovo aperto (vedi sotto) |
-| ~~Festa del Cotechino, Pianello Val Tidone~~ | Sab-Dom 22-23/8 | **Già avvenuto**, esce dalla finestra 7-14gg. Nessun follow-up necessario (era comunque fuori Piacenza città, nessun negozio MyCity in zona). |
-| Cornicione Corso V.E. 226-234 | dal 19/7, **riapertura ancora non confermata online** | ⚠️ 5 settimane senza notizia di riapertura — dato sempre più stantio, verificare sul posto prima di citarlo. Non ricontrollato con fonte dedicata oggi. |
-
-**L'unico evento di massa nuovo nei prossimi 7-14 giorni è il Radio Sound Party (28-30/8), e — diversamente da Cotechino/Grazzano nelle settimane scorse — è DENTRO Piacenza città, zona centro. È il primo picco di domanda potenzialmente rilevante per MyCity da settimane.**
-
-**Ferragosto 15/8, aggiornamento 14/8:** PiacenzaSera conferma che **i mercati restano regolari** in centro storico e alla Besurica il giorno di Ferragosto. Nessuna chiusura del mercato. Per i negozi vale comunque l'attesa chiusura per consuetudine nazionale. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora.
-Fonte: [piacenzasera.it — Ferragosto, mercato regolare in centro storico e alla Besurica](https://www.piacenzasera.it/2026/08/ferragosto-mercato-regolare-in-centro-storico-e-alla-besurica-2/657852/) (14/8).
-
----
-
-## 🆕 Novità di oggi da Libertà — Attualità
-Fonte rimasta indietro nel giro delle 06:30, recuperata ora.
-
-**① Restrizione alcolici/vetro estesa a tre zone nuove — attività chiuse alle 21**
-Le zone nuove: vicolo Barozzieri, vicolo Moroni, viale Pubblico Passeggio (tratto piazzale Roma-Stradone Farnese). Non è una misura nuova: è l'estensione di quella già registrata l'11/8 a Piazzetta Barozzieri. Il Comune ha allargato l'art. 18 del Regolamento di Polizia Urbana, nato nel 2018 per la zona Roma/stazione, a queste tre nuove aree. Divieto di vendita/consumo alcolici e contenitori in vetro dalle 24 alle 7. Esercizi commerciali/artigianali chiusi alle 21 in quelle vie. Sanzione 500€, sospensione dell'attività in caso di recidiva/gravità.
-**Impatto operativo:** se in futuro si consegna in quella fascia (centro, zona stazione/Roma), le consegne serali dopo le 21 in quelle vie specifiche non troveranno esercizi aperti. Oggi è irrilevante, 0 consegne attive — da tenere a mente quando riparte la logistica.
-Fonte: [liberta.it — "Degrado, giro di vite tra Lupa e Stradone: stop ad alcolici, attività chiuse alle 21"](https://liberta.it/news/territorio/citta/piacenza/degrado-giro-di-vite-tra-lupa-e-stradone-stop-ad-alcolici-attivita-chiuse-alle-21/109125) (consultato 13/8, articolo ~1 giorno).
-
-**② Controlli su e-bike e monopattini: 5 su 7 mezzi controllati non a norma**
-Controlli delle autorità sui mezzi a due ruote in città: la maggioranza dei mezzi ispezionati non era conforme. Rilevante solo se/quando MyCity userà cargo-bike per le consegne (oggi non operative, vedi sotto). Nessuna azione ora.
-Fonte: liberta.it, articolo del 12/8 (consultato 13/8, stesso giro di ricerca del punto ①).
-
-**③ Piazza Cittadella — Legambiente chiede di riaprire il confronto pubblico sul progetto di riqualificazione**
-Presentato il progetto della "nuova" piazza Cittadella. Legambiente contesta e chiede un confronto pubblico prima di procedere. Un giudice ha già dato ragione a un loro esposto sull'abbattimento alberi, e la Procura ha aperto un fascicolo con i carabinieri in Comune per acquisire documenti. La rilevanza diretta per MyCity oggi è bassa, perché la piazza non è centrale per le rotte di consegna previste. Se lo scontro istituzionale si allunga, però, può tradursi in cantiere o modifiche di viabilità nella zona: da ricontrollare tra 2-3 settimane, non ora.
-Fonti: [liberta.it — "Nuova" piazza Cittadella, Legambiente: «Riaprire confronto pubblico»](https://www.liberta.it/news/attualita/cronaca/nuova-piazza-cittadella-legambiente-riaprire-confronto-pubblico/109142) · [piacenza24.eu — Procura apre un fascicolo](https://www.piacenza24.eu/piazza-cittadella-la-procura-apre-un-fascicolo/) (consultati 13/8).
-
-**Nessuna di queste tre richiede un'azione oggi.** Restano note operative/di contesto, coerenti col vincolo "niente spinta commerciale prima del 24/8".
-
----
-
-## 🆕 Novità di oggi (14/8)
-
-**① Piazza Cittadella — approvato l'appalto integrato, posa prima pietra entro aprile 2027**
-Aggiornamento rispetto alla contestazione Legambiente segnalata ieri (13/8). Il Comune ha dato il via all'appalto integrato per la riqualificazione della piazza. Prima pietra prevista entro aprile 2027. Zona non centrale per le rotte di consegna previste. Nessuna azione: resta solo un aggiornamento di contesto, un cantiere pluriennale da tenere a mente.
-Fonte: [piacenzasera.it — Riqualificazione Piazza Cittadella, al via l'appalto integrato](https://www.piacenzasera.it/2026/08/riqualificazione-piazza-cittadella-al-via-lappalto-integrato-posa-prima-pietra-entro-aprile-2027/657840/) (14/8).
-
-**② "Luce e gas, stangata di settembre" — rincari fino a 515€/mese famiglie, +54% imprese**
-Notizia di cronaca (Libertà, 13/8, letta oggi) su rincari attesi da settembre per le utenze. Non è una notizia su MyCity: riguarda la **catena indiretta caro-energia → botteghe a rischio chiusura**, già mappata in `radar.json` (`catene_indirette`). È il primo anello che si muove, e per la prima volta con numeri concreti. Dettaglio e leva collegata in `leve-uscita.md` (catena #2). Nessuna azione oggi: il dato alimenta solo la lista da preparare per @vendite, per quando il batch negozi riparte (24/8-1/9).
-Fonte: [liberta.it — Luce e gas, stangata di settembre: fino a 515 euro in più a famiglia](https://www.liberta.it/news/attualita/cronaca/luce-e-gas-stangata-di-settembre-fino-a-515-euro-in-piu-a-famiglia/109157) (13/8, letta 14/8).
-
-Nessuna di queste due richiede un'azione reale oggi (🟢 nota/prep, coerente col vincolo pre-24/8).
-
----
-
-## 🆕 Novità di oggi (15/8) — solo operative, nessuna azione
-
-**① Cantieri stradali fine agosto/inizio settembre — 4 vie coinvolte**
-Lavori di riqualificazione in arrivo su via Farnesiana, via Veneto, via Borghetto e via San Bartolomeo tra fine agosto e inizio settembre. Su via Benedettine sono già stati eliminati 70 stalli di parcheggio fino a dicembre per gli stessi lavori. Nessuna di queste vie è nelle rotte di consegna previste oggi (0 consegne attive). Da tenere a mente per quando riparte la logistica: possibili deviazioni/parcheggio ridotto in quella zona fino a fine anno.
-Fonte: [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) (consultato 15/8, articoli del 13-14/8).
-
-**② West Nile virus, secondo caso nel Piacentino**
-Bollettino ISS, 14/8. Notizia sanitaria, non commerciale. Nessun legame diretto con delivery/negozi oggi. Segnalata solo per completezza, nessuna azione.
-Fonte: [liberta.it/attualita](https://www.liberta.it/attualita) (consultato 15/8).
-
-Nessuna di queste due richiede un'azione oggi (🟢 nota, coerente col vincolo pre-24/8).
-
----
-
-## 🆕 Novità di oggi (17/8) — meteo confermato, un evento a 5 giorni, nessuna azione
-
-**① La svolta meteo prevista è arrivata** — vedi tabella meteo sopra: oggi instabilità/temporali, da giovedì nuovo peggioramento. Il caldo estremo di Ferragosto è finito. Nessuna azione (bici non operativa).
-
-**② Cotechino Festival Pianello, 60ª edizione (22-23/8)** — evento nuovo nella finestra 7-14 giorni, trovato tramite ricerca sagre/mercatini. Fuori Piacenza città, nessun negozio MyCity in zona: solo nota per contesto stagionale/DOP.
-Fonte: [piacenzasera.it](https://www.piacenzasera.it/) e ricerca aggregata sagre Piacenza provincia (17/8).
-
-**③ Comune di Piacenza — nessuna novità oltre quanto già noto**: WebSearch conferma solo le stesse notizie già registrate (chiusura estiva sportelli Digitale Facile, restrizioni Piazzetta Barozzieri). Nessun nuovo provvedimento ZTL/traffico/commercio.
-Fonte: WebSearch `site:comune.piacenza.it news commercio agosto 2026` (17/8).
-
-Nessuna di queste tre richiede un'azione oggi (🟢 nota, coerente col vincolo pre-24/8).
-
----
-
-## 🆕 Novità di oggi (18/8) — allerta meteo spostata, nessuna novità commercio, nessuna azione
-
-**① Allerta gialla temporali proprio oggi** — vedi tabella meteo sopra: il bollettino Protezione Civile sposta di un giorno la finestra critica rispetto a quanto atteso ieri. Nessuna azione (bici non operativa).
-
-**② Libertà — Attualità e Città: nessuna novità su commercio/botteghe.** Le uniche notizie del giorno sono cronaca non pertinente (rafforzata sorveglianza al museo Alberoni dopo furti a Messina; furgone in fiamme a Montosero) e un'ordinanza anti-rumore su un autolavaggio per proteste dei residenti — zona/tema irrilevante per il delivery. Fonti: [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/territorio/citta/piacenza — autolavaggio, ordinanza](https://www.liberta.it/news/territorio/citta/piacenza/quellautolavaggio-fa-troppo-rumore-i-residenti-protestano-scatta-lordinanza/109178) (18/8).
-
-**③ PiacenzaSera: solo eventi già di contesto, nessuna novità commercio.** Radio Sound Party (28-30/8), Summertime in Jazz a Bobbio (22/8), Settimana della Letteratura a Bobbio, Premio di poesia Valente Faustini (48ª edizione) — tutti fuori Piacenza città o non rilevanti per il delivery. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (18/8).
-
-**④ Comune di Piacenza — nessuna novità oltre quanto già noto**: WebSearch conferma solo le stesse notizie già registrate (chiusura estiva sportelli Digitale Facile, restrizioni Piazzetta Barozzieri, chiusure uffici/biblioteche di agosto). Nessun nuovo provvedimento ZTL/traffico/commercio. Fonte: WebSearch `site:comune.piacenza.it news commercio agosto 2026` (18/8).
-
-Nessuna di queste quattro richiede un'azione oggi (🟢 nota, coerente col vincolo pre-24/8).
-
----
-
-## 🆕 Novità di oggi (24/8) — riparte il controllo dopo 6 giorni, un evento grande in città, nessun'azione commerciale (deadline 29/8 altrove)
-
-**① Radio Sound Party 28-30/8** — vedi calendario sopra e Opportunità sotto. Il fatto nuovo rilevante: è il primo evento di massa dentro Piacenza città (non fuori, come Cotechino/Grazzano). Fonti: [piacenza24.eu — Baby K accende la festa dei 50 anni di Radio Sound](https://www.piacenza24.eu/baby-k-radio-sound-party-50-anni-arena-daturi/), [radiosound.online — programma completo](https://radiosound.online/radio-sound-party-2026-piacenza-programma/) (24/8).
-
-**② Nessun aggiornamento sul procedimento giudiziario Glovo/Deliveroo + istruttoria Antitrust** — dettaglio completo in `radar-concorrenti.md` (ricontrollato oggi con 2 ricerche indipendenti, stesso esito di maggio).
-
-**③ Scoperto un bando CCIAA mai tracciato prima (BT26), ma già chiuso** — dettaglio completo in `radar-concorrenti.md`, Opportunità ②. Qui solo la nota di calendario: la finestra 20/7-30/7/2026 è passata prima che questo radar lo vedesse.
-
-**④ Comune di Piacenza — nessuna novità su commercio/ZTL oltre quanto già noto.** WebSearch mirata `site:comune.piacenza.it news commercio agosto 2026` non ripetuta con termine identico oggi per limite di tempo; verificato indirettamente tramite la ricerca eventi (nessun avviso di viabilità/commercio nei risultati). Da ricontrollare in modo dedicato nel prossimo giro.
-
-**⑤ Libertà — nessuna notizia nuova specifica di commercio trovata con ricerca mirata "commercio negozi centro storico 24 agosto 2026"**: i risultati restituiscono solo articoli più vecchi già noti (370 negozi sfitti 2024, hub urbano centro storico 2025, desertificazione luglio 2026 — già in `buchi-mercato.md`). Nessuna notizia datata questa settimana. Lo segnalo come "nessun movimento", non come conferma che non ci siano notizie: la ricerca su Libertà non è affidabile quanto un controllo diretto della sezione (il sito non si presta bene a WebSearch mirata per data).
-
-Nessuna di queste cinque richiede un'azione commerciale oggi. Le uniche azioni sono 🟢 preparazioni a costo zero (vedi Opportunità).
-
----
-
-## 💰 Bandi — 1/9: un bando nuovo e aperto ORA (rifiuti, Comune), un secondo nuovo ma di bassa rilevanza (BC26 ESG, CCIAA)
-
-**🆕 Incentivi raccolta differenziata (Comune di Piacenza) — APERTO dal 31/8 al 23/10/2026, rilevante per Pane Quotidiano.** 400.000€ stanziati per piccole/medie attività (sotto 250 mq) con sede a Piacenza, registrate come utenze non domestiche TCP. Spese ammissibili: contenitori per la differenziata, formazione personale, **compostiere, eliminazione prodotti monouso, riduzione sprechi alimentari** — tutte voci pertinenti a un panificio/gastronomia come Pane Quotidiano. Importo variabile per superficie/categoria (non un tetto fisso unico). Domande online, valutate in ordine cronologico fino a esaurimento fondi. **Confidenza alta, 90%**: 4 fonti indipendenti concordi (pagina ufficiale del Comune, PiacenzaSera×2, IlPiacenza, Piacenza24). Dettaglio prima mossa in Opportunità sotto.
-
-**🆕 BC26 "Certificazioni ESG" (CCIAA Emilia) — bando nuovo, mai tracciato prima, ma bassa rilevanza per le botteghe MyCity.** Fondo perduto 50% fino a 14.000€ (investimento minimo 5.000€) per ottenere certificazioni ambientali/etiche/sociali (ISO 14001, SA8000, carbon footprint, parità di genere, ecc.). Beneficiari: MPMI di Parma/Piacenza/Reggio Emilia. Finestra domande: **17-29/9/2026**. **Bassa priorità**: le certificazioni ESG sono tipicamente fuori portata/interesse per una singola bottega di quartiere (investimento minimo 5.000€ e percorso di certificazione complesso). Lo segno per completezza del monitoraggio bandi, non come leva da spingere. Confidenza alta, 85% (2 fonti indipendenti: studiobrancaleone.it, con dettagli confermati anche da qrsrl.it/phormamentis.it nella ricerca aggregata).
-
-**Verificato di nuovo, invariato: PI26 chiuso il 30/7, non riaperto.** Una fonte di bassa qualità (aggregatore) suggeriva erroneamente una scadenza "30 settembre" per l'Innovazione Digitale — verificato con 2 fonti dirette (emilia.camcom.it, puntoimpresadigitale.camcom.it): la finestra reale era 20-30/7/2026, già chiusa. **Candore:** ho scartato il primo risultato perché contraddiceva 6 settimane di verifiche precedenti, e la doppia verifica lo conferma sbagliato — nessuna riapertura di PI26.
-
-Ricontrollati anche oggi (invariati, nessuna riapertura): BI26 (chiuso 11/6), BE26 (chiuso 30/7), Bando Commercio Emilia-Romagna (chiuso, limite 350 domande), bando fotovoltaico parcheggi aziendali (domande dal 30/9 al 16/11, bassa rilevanza per le botteghe senza parcheggio). Il "Trame urbane" — hub urbano di Piacenza (1.077.000€, di cui 560.000€ regionali, progetto comunale di rigenerazione centro storico) è un fatto di marzo/agosto 2026 mai tracciato in questo file: è già stato assegnato al Comune, non è una leva diretta per i singoli negozi, ma segnala che l'Amministrazione sta investendo sul centro storico — contesto utile per @relazioni-istituzionali quando riprenderà i contatti.
-
----
-
-## 💰 Bandi (storico) — riconfermato tutto chiuso, più una scoperta tardiva (BT26, già chiusa)
-
-Ricontrollati il 14/8, il 15/8, il 17/8, il 18/8 e di nuovo oggi (24/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC (via WebSearch). Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
-
-**🆕 Scoperta di oggi (24/8): BT26 "Piccole Imprese per il Territorio", mai tracciato prima, mirato esattamente su retail/commercio/cura persona/artigianato — ma già chiuso.** Fondo perduto 40% spese ammissibili fino a 7.000€ (investimento minimo 5.000€), finestra domande 20/7-30/7/2026. Dettaglio completo e prima mossa (tracciarlo per il 2027) in `radar-concorrenti.md`, Opportunità ②. Nessuna azione possibile su questa edizione — l'ho scoperto 25 giorni dopo la chiusura. **Candore:** questo è un buco reale nel processo di monitoraggio bandi, non solo un'informazione mancante: la lista tracciata (PI26/BE26/BI26/Bando Commercio ER) non copriva tutti i bandi CCIAA rilevanti per le nostre categorie.
-
-Bando **non commercio** già segnalato l'11/8: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti). Copre il 35-40% a fondo perduto, fino a 100.000€. Domande dal 30/9/2026 al 16/11/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione, nessuna novità oggi. Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8, riconfermato 18/8 e 24/8).
-
----
-
-## 🚦 Operativo
-
-- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato da 5 settimane (19/7→15/8) — il dato più vecchio del file.
-- ZTL centro 8:00–19:00 invariata.
-- Nuova restrizione Piazzetta Barozzieri (alcol/vetro/orari) dall'11/8 — zona ristretta, non tocca le rotte di consegna previste.
-- 🆕 Cantieri fine agosto/inizio settembre: via Farnesiana, via Veneto, via Borghetto, via San Bartolomeo. Via Benedettine già senza 70 stalli fino a dicembre. Tenerne conto quando riparte la logistica.
-- Bici consegna: non operativa (invariato).
-- 🆕 Caldo estremo finito: oggi 17/8 instabilità/temporali, poi migliora, poi nuovo peggioramento da giovedì 21/8. Se si riattiva la logistica bici, tenerne conto per la pianificazione settimanale (non solo mattina presto per il caldo, ma anche rischio pioggia lunedì e da giovedì).
-
----
-
-## Opportunità 1/9 — un'opportunità concreta per il negozio faro, il resto resta preparazione
-
-**① 🆕 Bando rifiuti del Comune (400k€, aperto 31/8-23/10) — 🟢 nota da girare a Pane Quotidiano quando si riprende il contatto col fornaio, NON un'azione da accodare ora**
-A differenza delle altre voci di questo file, questa non è un prospect futuro: **è un beneficio diretto per il nostro unico negozio reale**, Pane Quotidiano (panificio/gastronomia, sotto 250 mq, sede in via Calzolai). Le spese ammissibili — compostiere, eliminazione monouso, riduzione sprechi alimentari — sono esattamente il tipo di costo che un panificio bio sostiene già o dovrebbe sostenere. **Prima mossa (a costo zero):** @account-negozi/@relazioni-istituzionali preparano un messaggio pronto (non lo mandano) da girare al fornaio alla prossima interazione utile, con link al bando e scadenza 23/10. Coerente con la regola "banale e a costo zero": è un'informazione utile al negozio già in relazione con noi, non un nuovo contatto commerciale. **Impatto stimato:** non quantificabile in €, ma riduce un costo operativo reale del negozio faro nella finestra in cui più conta rafforzare il rapporto. Fonti: [comune.piacenza.it/it/news/incentivi-rifiuti](https://www.comune.piacenza.it/it/news/incentivi-rifiuti) (ufficiale), [piacenzasera.it — Raccolta rifiuti, online il bando](https://www.piacenzasera.it/2026/08/raccolta-rifiuti-on-line-il-bando-per-gli-incentivi-alle-attivita-commerciali/659295), [ilpiacenza.it — Bonus rifiuti alle attività](https://www.ilpiacenza.it/attualita/bonus-rifiuti-alle-attivita-pronto-il-bando-per-gli-incentivi.html) (tutte consultate 1/9/2026).
-
-**② Sbaracco + Via Roma Street Market, 6/9 — 🟢 solo nota, stesso vincolo del Radio Sound Party**
-Due eventi di piazza lo stesso giorno in centro storico. Stesso ragionamento del 24/8 per il Radio Sound Party: nessun canale di conversione reale oggi (0 negozi payout-ready). Nota utile per @content-social quando preparerà il template "picco evento di piazza" — questo è un secondo caso reale da usare come esempio, oltre al Radio Sound Party.
-
-**③ Femme Fest, 10-13/9 — 🟢 nota di calendario**, rilevanza minore del punto ②, stesso vincolo.
-
----
-
-## Opportunità 24/8 (storico) — la finestra "pausa" scade oggi sulla carta, ma resta tutto 🟢 (scadenza 29/8 su altro fronte, vedi nota in testa)
-
-**① Picco Radio Sound Party (28-30/8, Arena Daturi, Baby K sabato) — 🟢 solo bozza-template, NON pubblicare/attivare ora**
-Primo evento di massa dentro Piacenza città da settimane: ingresso gratis, headliner Baby K, migliaia di persone attese in zona centro/Palazzo Farnese nel weekend. È esattamente il tipo di picco di domanda (cibo/bevande da asporto in centro) che un marketplace di consegna dovrebbe sfruttare. **Ma oggi 0 negozi MyCity possono incassare** (Stripe disattivato anche per Pane Quotidiano) e 0 consegne sono operative: non c'è alcun canale su cui convertire il picco. **Prima mossa (a costo zero):** @content-social prepara — non pubblica — un template "menu/bundle serata evento" riutilizzabile per la prima bottega gastronomica che sarà payout-ready, da adattare al prossimo evento di piazza simile. **Impatto stimato:** non quantificabile onestamente oggi — nessun dato storico di conversione su un evento di piazza a Piacenza per MyCity, and 0 canale attivo. Dichiaro l'assenza di stima invece di inventare un numero.
-
-**② Bandi: monitoraggio confermato + scoperta BT26 (già chiusa) — 🟢**
-Ricontrollato oggi (CCIAA + Unione Commercianti): tutto chiuso, nessuna apertura nuova. Trovato un bando mai tracciato (BT26, dettaglio in `radar-concorrenti.md`) — azione futura è solo segnarlo per il 2027, zero costo ora.
-
-**③ Bozza "ondata di caldo" per Pane Quotidiano — superata dal meteo attuale, da archiviare** — 🟢
-Il meteo di questa settimana (vedi tabella 24-31/8) non conferma più un'ondata di caldo prolungata: la giornata più calda è solo venerdì 28/8 (35-37°), non un'ondata estesa come a fine luglio/Ferragosto. La bozza del 27/7 resta in `consegne/content/`, ma va rivista prima di un eventuale uso, non usata così com'è.
-
-**④ Verifica fisica del cornicione Corso V.E. — 🟢 nota, a costo zero per @operations quando riparte l'attività**
-Dato fermo da 5 settimane senza conferma online, non ricontrollato con fonte dedicata oggi. Non urgente ora (nessuna consegna attiva).
-
----
-
-## Perlustrazione settimane precedenti
-
-Report 27/7 → 30/7 → 10/8 → 13/8-18/8 (accumulo giornaliero) → 24/8: versioni precedenti di questo file (in git history).
-
----
-
-**🔧 Link completi delle fonti** (consultate 13/8/2026, salvo indicazione diversa):
-- 3bmeteo.com/meteo/piacenza (riconfermato via WebSearch il 14/8, 403 sul fetch diretto)
-- ilpiacenza.it/eventi/ferragosto-a-piacenza-tra-storia-e-arte-arriva-lo-speciale-city-tour.html
-- comune.piacenza.it/it/news/piazzetta-barozzieri-e-dintorni-al-via-le-restrizioni-su-alcool-contenitori-in-vetro-e-orari-degli-eserciz
-- comune.piacenza.it/it/news/sportelli-digitale-facile-chiusura-estiva-dal-10-al-22-agosto-si-riapre-il-24
-- emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese (BI26/PI26/BE26, tutti chiusi — ricontrollato 14/8 via WebSearch, fetch diretto 403)
-- unionecommerciantipc.it/category/bandi/ (Bando Commercio ER, chiuso)
-- liberta.it/news/territorio/citta/piacenza/degrado-giro-di-vite-tra-lupa-e-stradone-stop-ad-alcolici-attivita-chiuse-alle-21/109125 (recupero 09:30)
-- liberta.it/news/attualita/cronaca/nuova-piazza-cittadella-legambiente-riaprire-confronto-pubblico/109142 (recupero 09:30)
-- piacenza24.eu/piazza-cittadella-la-procura-apre-un-fascicolo/ (recupero 09:30)
-- **14/8:** liberta.it/attualita — "Luce e gas, stangata di settembre" (109157)
-- **14/8:** piacenzasera.it — "Riqualificazione Piazza Cittadella, al via l'appalto integrato" (657840) · "Ferragosto, mercato regolare in centro storico e alla Besurica" (657852)
-- **14/8:** unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/ (bando non-commercio, bassa rilevanza)
-- **14/8:** liberta.it/territorio/citta/piacenza — nessuna menzione MyCity/marketplace, nessuna novità botteghe/ZTL
-- **15/8:** liberta.it/attualita — West Nile secondo caso (14/8), stangata energia confermata (già nota)
-- **15/8:** liberta.it/territorio/citta/piacenza — cantieri via Benedettine/Veneto/Borghetto/San Bartolomeo/Farnesiana
-- **15/8:** ricerca meteo aggregata (meteo.it, 3bmeteo.com, ilmeteo.it) — dettaglio temporali dal 17/8
-- **15/8:** WebSearch site:comune.piacenza.it news commercio — nessuna novità oltre quanto già noto
-- **15/8:** WebSearch eventi Piacenza settimana — nessun evento di massa nuovo
-- **15/8:** unionecommerciantipc.it/category/bandi/ — nessun bando nuovo, fotovoltaico riconfermato
-- **15/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26/BI26 confermati chiusi
-- **17/8:** ricerca meteo aggregata (piacenzasera.it, 3bmeteo.com) — svolta meteo confermata, temporali lunedì
-- **17/8:** WebSearch eventi/sagre Piacenza provincia — Cotechino Festival Pianello 60° (22-23/8), nuovo nella finestra 7-14gg
-- **17/8:** WebSearch site:comune.piacenza.it news commercio — nessuna novità oltre quanto già noto
-- **17/8:** unionecommerciantipc.it/feed/ (RSS) — stessi 5 bandi già noti, nessuno nuovo
-- **17/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26/BI26 confermati chiusi
-- **18/8:** [meteo.it — Allerta meteo gialla per il 18 agosto 2026 in Italia](https://www.meteo.it/notizie/allerta-meteo-gialla-18-agosto-2026-italia-dove-e4219ba1) — bollettino Protezione Civile
-- **18/8:** liberta.it/attualita e liberta.it/territorio/citta/piacenza — nessuna novità commercio, solo cronaca non pertinente
-- **18/8:** piacenzasera.it — solo eventi già di contesto (Radio Sound Party, Summertime in Jazz, Settimana Letteratura, Premio Valente Faustini)
-- **18/8:** WebSearch site:comune.piacenza.it news commercio agosto 2026 — nessuna novità oltre quanto già noto
-- **18/8:** unionecommerciantipc.it/feed/ (RSS) — stessi 5 bandi già noti, dettaglio nuovo: scadenza fotovoltaico 16/11/2026
-- **18/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26 confermati chiusi (finestra 20-30/7/2026)
-- **24/8:** [ilpiacenza.it — Pioggia nella notte tra lunedì e martedì 25 agosto](https://www.ilpiacenza.it/attualita/pioggia-nella-notte-tra-lunedi-e-martedi-25-agosto-temperature-in-lieve-calo-torna-il-caldo-nel-weekend.html) + ricerca meteo aggregata (3bmeteo.com, meteo.it) — previsione 24-31/8
-- **24/8:** [piacenza24.eu — Baby K accende la festa dei 50 anni di Radio Sound](https://www.piacenza24.eu/baby-k-radio-sound-party-50-anni-arena-daturi/), [radiosound.online — programma Radio Sound Party 2026](https://radiosound.online/radio-sound-party-2026-piacenza-programma/) — evento 28-30/8, Arena Daturi
-- **24/8:** WebSearch "Arena Daturi Piacenza dove si trova indirizzo centro" — conferma posizione Viale Risorgimento 4, zona centro/Palazzo Farnese
-- **24/8:** [entilocaliweb.it — Bando Piccole Imprese per il Territorio 2026 (BT26)](https://www.entilocaliweb.it/2026/07/20/camera-di-commercio-dell-emilia-bando-piccole-imprese-per-il-territorio-2026/), [gcerti.it — dettaglio BT26](https://www.gcerti.it/piccole-imprese-grande-valore-per-il-territorio-1-milione-di-euro-a-fondo-perduto-dalla-camera-di-commercio-dellemilia) — scoperta nuova, bando già chiuso 30/7
-- **24/8:** unionecommerciantipc.it (WebSearch) — PI26/BE26/BI26/Bando Commercio ER/fotovoltaico riconfermati, nessuna apertura nuova
-- **24/8:** WebSearch "liberta.it Piacenza commercio negozi centro storico 24 agosto 2026" — nessuna notizia datata questa settimana, solo articoli più vecchi già noti
-- **24/8:** vedi anche `radar-concorrenti.md` per le fonti sul procedimento Glovo/Deliveroo (milanofinanza.it, agcm.it) e sui concorrenti food-delivery, ricontrollate oggi
-- **1/9:** [ilmeteo.it/meteo/piacenza](https://www.ilmeteo.it/meteo/piacenza) — previsioni 1-8/9, WebFetch diretto
-- **1/9:** [ilpiacenza.it — Piena estate anche a inizio settembre](https://www.ilpiacenza.it/meteo/piena-estate-anche-a-inizio-settembre-a-piacenza-ancora-massime-fino-a-35-gradi.html) — titolo via WebSearch, conferma indipendente del meteo
-- **1/9:** [comune.piacenza.it/it/categorie-eventi/76806](https://www.comune.piacenza.it/it/categorie-eventi/76806) — WebFetch diretto (oggi senza 403): Sbaracco 6/9, Via Roma Street Market 6/9, Femme Fest 10-13/9, Manufatto 11/10
-- **1/9:** [comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento](https://www.comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento) — WebFetch diretto: Corso Garibaldi/Calzolai fino al 10/9, via Maddalena 7-19/9, via Morigi dal 24/8
-- **1/9:** [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) — WebFetch diretto (oggi senza 403), nessuna novità commercio
-- **1/9:** [piacenzasera.it](https://www.piacenzasera.it/) — WebFetch diretto, nessuna novità di rilievo oltre bando rifiuti
-- **1/9:** [comune.piacenza.it/it/news/incentivi-rifiuti](https://www.comune.piacenza.it/it/news/incentivi-rifiuti) — WebFetch diretto, bando rifiuti ufficiale, 400k€, 31/8-23/10
-- **1/9:** [piacenzasera.it — Raccolta rifiuti, online il bando](https://www.piacenzasera.it/2026/08/raccolta-rifiuti-on-line-il-bando-per-gli-incentivi-alle-attivita-commerciali/659295), [ilpiacenza.it — Bonus rifiuti alle attività](https://www.ilpiacenza.it/attualita/bonus-rifiuti-alle-attivita-pronto-il-bando-per-gli-incentivi.html) — triangolazione bando rifiuti
-- **1/9:** [studiobrancaleone.it — BC26 Certificazioni ESG](https://www.studiobrancaleone.it/news/cciaa-emilia-bando-certificazioni-esg-2026/) — dettaglio bando nuovo, bassa rilevanza
-- **1/9:** [emilia.camcom.it — PI26](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26), [puntoimpresadigitale.camcom.it — PI26](https://www.puntoimpresadigitale.camcom.it/voucher/bando-innovazione-digitale-2026-pi26) — verifica incrociata, PI26 confermato chiuso 30/7 (scarta una fonte aggregata errata)
-
-*Senior: @intelligence · nessuna azione commerciale da eseguire ora — il vincolo resta lo stesso (sito giù, PQ non incassa, 3 azioni 🔴 in attesa di firma). L'unica nota con valore diretto è il bando rifiuti per Pane Quotidiano (③ sopra), comunque 🟢. Monitoraggio bandi/meteo/eventi resta sempre attivo.*
+## Controlli precedenti
+
+> Sotto, lo storico ancora utile, accorciato. Meteo ed eventi passati sono stati tolti: non servono più. Le versioni intere stanno nella storia del repository.
+
+### 1 settembre 2026
+
+- **Meteo 1-8/9:** caldo stabile, fino a 35°, nessuna pioggia. Superato.
+- **Eventi di settembre, passati:** «La domenica dello Sbaracco» e il «Via Roma Street Market» del 6/9, «Femme Fest» dal 10 al 13/9. Il Via Roma Street Market si tiene la prima domenica del mese (hobbistica, libri, oggetti): data di novembre non verificata. Fonte: [comune.piacenza.it — pagina eventi](https://www.comune.piacenza.it/it/categorie-eventi/76806) (1/9).
+- **Bando rifiuti del Comune trovato il 1/9.** 400.000 € per attività sotto 250 mq, iscritte alla tariffa puntuale dei rifiuti. Domande online dal 31/8 al 23/10, valutate in ordine di arrivo. Fonti: [comune.piacenza.it — incentivi rifiuti](https://www.comune.piacenza.it/it/news/incentivi-rifiuti) · [piacenzasera.it](https://www.piacenzasera.it/2026/08/raccolta-rifiuti-on-line-il-bando-per-gli-incentivi-alle-attivita-commerciali/659295) · [ilpiacenza.it](https://www.ilpiacenza.it/attualita/bonus-rifiuti-alle-attivita-pronto-il-bando-per-gli-incentivi.html).
+- **Verifica sul bando Innovazione digitale:** un aggregatore indicava una scadenza «30 settembre». Era sbagliato. Due fonti dirette davano la finestra vera: dal 20 al 30/7. Fonti: [emilia.camcom.it](https://www.emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese/bando-innovazione-digitale-2026-pi26) · [puntoimpresadigitale.camcom.it](https://www.puntoimpresadigitale.camcom.it/voucher/bando-innovazione-digitale-2026-pi26).
+- **Hub urbano di Piacenza, «Trame urbane»:** 1.077.000 € di progetto comunale per il centro storico, di cui 560.000 € dalla Regione. Già assegnato al Comune, non è un aiuto diretto ai negozi. Contesto utile per @relazioni-istituzionali.
+- **Viabilità di settembre:** dettagli nella sezione ④ sopra, con lo stato aggiornato. Fonte di allora: [comune.piacenza.it — modifiche alla viabilità](https://www.comune.piacenza.it/it/news/modifiche-alla-viabilita-aggiornamento).
+
+### Agosto 2026 — cosa resta vero
+
+- **Il modello «evento di piazza».** Due casi veri: il Radio Sound Party del 28-30/8 all'Arena Daturi, e lo Sbaracco del 6/9. Picco di gente in centro, quindi domanda di cibo e bevande da asporto nelle vie vicine. Il modello di menù per una serata evento è ancora da preparare. Fonti: [piacenza24.eu](https://www.piacenza24.eu/baby-k-radio-sound-party-50-anni-arena-daturi/) · [radiosound.online](https://radiosound.online/radio-sound-party-2026-piacenza-programma/).
+- **Piazza Cittadella.** Appalto integrato approvato, prima pietra entro aprile 2027 ([piacenzasera.it, 14/8](https://www.piacenzasera.it/2026/08/riqualificazione-piazza-cittadella-al-via-lappalto-integrato-posa-prima-pietra-entro-aprile-2027/657840/)). Legambiente chiede un confronto pubblico, e la Procura ha aperto un fascicolo sull'abbattimento degli alberi ([liberta.it, 13/8](https://www.liberta.it/news/attualita/cronaca/nuova-piazza-cittadella-legambiente-riaprire-confronto-pubblico/109142) · [piacenza24.eu](https://www.piacenza24.eu/piazza-cittadella-la-procura-apre-un-fascicolo/)).
+- **Divieto di alcolici e chiusura alle 21** nelle vie elencate al punto ④. Sanzione 500 €, sospensione dell'attività se recidiva. Fonte: [liberta.it, 13/8](https://liberta.it/news/territorio/citta/piacenza/degrado-giro-di-vite-tra-lupa-e-stradone-stop-ad-alcolici-attivita-chiuse-alle-21/109125).
+- **Caro energia.** Titolo di Libertà del 13/8: «stangata di settembre», fino a 515 € in più a famiglia e +54% di costi energia per le imprese. È il primo anello della catena «bollette alte → botteghe a rischio». Fonte: [liberta.it, 13/8](https://www.liberta.it/news/attualita/cronaca/luce-e-gas-stangata-di-settembre-fino-a-515-euro-in-piu-a-famiglia/109157).
+- **Controlli su bici elettriche e monopattini:** 5 mezzi su 7 controllati non erano a norma (Libertà, 12/8). Conta se un giorno useremo bici cargo per consegnare.
+- **Bando fotovoltaico della Regione:** segnalato dall'11/8, vedi la tabella dei bandi.
+- **Bando Piccole imprese per il territorio:** scoperto il 24/8, già chiuso. Dettaglio e mossa per il 2027 nel radar concorrenti.
+
+### Fonti dei controlli di agosto (non riaperte oggi)
+
+- 3bmeteo.com/meteo/piacenza · ilmeteo.it/meteo/piacenza · meteo.it (luglio-settembre)
+- comune.piacenza.it: notizie su piazzetta Barozzieri e sportelli «Digitale Facile» (agosto)
+- emilia.camcom.it, contributi alle imprese · unionecommerciantipc.it/category/bandi/ · unionecommerciantipc.it/feed/ (agosto)
+- liberta.it/attualita · liberta.it/territorio/citta/piacenza · piacenzasera.it (agosto-settembre)

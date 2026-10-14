@@ -74,8 +74,20 @@ test("il turno ruota: in una settimana la squadra cambia", () => {
 // gli stessi sei nomi tutti i giorni, e la rotazione più sotto non veniva mai raggiunta. Su 120
 // senior ne lavoravano 6, e nessun conteggio lo diceva — il turno era pieno, quindi sembrava sano.
 
+/** Nove passaggi pendenti verso nove colleghi, con date diverse: il caso del 21/8 su un repo finto.
+ *  AR-967 — sul repo vero queste prove dipendevano da quanti passaggi pendono oggi: bastava che i
+ *  convocati raccogliessero il loro per renderle rosse o cieche (quinto e sesto collaudo, 11/10). Le
+ *  date sono diverse apposta: con una data sola, una rotazione che ordina per data passava lo stesso. */
+function repoNovePendenti() {
+  const destinatari = Array.from({ length: 9 }, (_, i) => `dest-${i + 1}`);
+  const agenti = ["alfa", ...destinatari, ...Array.from({ length: 6 }, (_, i) => `altro-${i + 1}`)];
+  const sala = destinatari.map((d, i) => `- 2026-08-0${i + 1} 10:00 · @alfa · PASSO-A · @${d} — raccogli il pezzo ${i + 1}`).join("\n");
+  return repoFinto({ agenti, sala });
+}
+
 test("i passaggi pendenti non possono prendersi tutto il turno", () => {
-  const { turno, copertura } = turnoDelGiro({ radice: RADICE, oggi: OGGI });
+  const { turno, copertura } = turnoDelGiro({ radice: repoNovePendenti(), oggi: OGGI });
+  assert.ok(turno.some((v) => v.motivo === "passaggio-da-raccogliere"), "nove passaggi pendenti: qualcuno va convocato");
   const daPassaggio = turno.filter((v) => v.motivo === "passaggio-da-raccogliere");
   assert.ok(
     daPassaggio.length < turno.length,
@@ -87,13 +99,30 @@ test("i passaggi pendenti non possono prendersi tutto il turno", () => {
 test("i passaggi pendenti ruotano anche fra loro", () => {
   // Nove pendenti su tre posti, presi sempre nello stesso ordine, sono comunque tre nomi fissi:
   // è lo stesso difetto un piano più sotto. In giorni diversi devono toccare a persone diverse.
+  //
+  // AR-967 — sul repo finto con nove passaggi pendenti (vedi repoNovePendenti). Sul repo vero questa
+  // prova pretendeva più di tre nomi in quattro giri: diventava rossa da sola appena tre colleghi
+  // raccoglievano il loro passaggio scrivendo in Sala — proprio ciò per cui il turno li chiama.
+  const dir = repoNovePendenti();
   const visti = new Set();
   for (const g of ["2026-08-13", "2026-08-15", "2026-08-17", "2026-08-19"]) {
-    for (const v of turnoDelGiro({ radice: RADICE, oggi: g }).turno) {
+    for (const v of turnoDelGiro({ radice: dir, oggi: g }).turno) {
       if (v.motivo === "passaggio-da-raccogliere") visti.add(v.key);
     }
   }
   assert.ok(visti.size > 3, `in quattro giri i passaggi sono andati sempre ai soliti ${visti.size}: ${[...visti].join(", ")}`);
+});
+
+test("sulla Sala vera, chi è convocato per un passaggio ne ha davvero uno da raccogliere", () => {
+  // Quello che sul repo vero resta vero qualunque cosa scriva la squadra: il turno non convoca per un
+  // passaggio chi non ne ha uno pendente.
+  const sala = readFileSync(join(RADICE, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md"), "utf8");
+  for (const g of ["2026-08-13", "2026-08-15", "2026-08-17", "2026-08-19"]) {
+    const pendenti = new Set(handoffPendenti(sala, { senior: SENIOR, oggi: g }).map((h) => h.a));
+    for (const v of turnoDelGiro({ radice: RADICE, oggi: g }).turno) {
+      if (v.motivo === "passaggio-da-raccogliere") assert.ok(pendenti.has(v.key), `@${v.key} convocato il ${g} per un passaggio che non pende`);
+    }
+  }
 });
 
 test("il giro resta il motore dei soldi: metà turno ai motori dell'organigramma", () => {
@@ -186,7 +215,10 @@ test("i passaggi vecchi di mesi non convocano nessuno: si segnalano, non si inse
 test("nella Sala vera i passaggi mai raccolti si vedono, e sono verso colleghi che esistono", () => {
   const sala = readFileSync(join(RADICE, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md"), "utf8");
   const tutti = handoffDellaSala(sala, { senior: SENIOR });
-  assert.ok(tutti.length >= 3, `solo ${tutti.length} passaggi letti dalla Sala: il formato non viene riconosciuto`);
+  // AR-967 — qui c'era «almeno 3»: la potatura della Sala li consuma, e il numero lo decide la squadra.
+  // Il formato rotto si vede così: righe di passaggio verso un collega ci sono, e il lettore non ne legge nessuna.
+  const righeDiPassaggio = sala.split("\n").filter((r) => /·\s*PASSO-A\s*·\s*@(?!nicola\b)/i.test(r)).length;
+  if (righeDiPassaggio > 0) assert.ok(tutti.length > 0, `${righeDiPassaggio} righe di passaggio nella Sala e nessuna letta: il formato non viene riconosciuto`);
   for (const h of handoffPendenti(sala, { senior: SENIOR, oggi: OGGI, giorniMax: 999 })) {
     assert.ok(SENIOR.includes(h.a), `passaggio verso @${h.a}, che non è un reparto`);
     assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(h.data));

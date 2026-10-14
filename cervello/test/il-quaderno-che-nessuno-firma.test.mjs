@@ -124,6 +124,15 @@ prova("AR-621: il monologo si misura, non si racconta", () => {
   assert.equal(v.voci, 2);
 });
 
+prova("AR-967: una settimana senza righe in Sala non ha una voce dominante — null, non zero", () => {
+  // La metà «finestra vuota» della prova sulla Sala vera si vede solo in una settimana muta: qui la si
+  // prova sempre. Uno zero direbbe «nessuno ha dominato»; null dice «non c'era niente da misurare».
+  const vuota = L.concentrazioneVoci([]);
+  assert.equal(vuota.quota, null, "senza righe la quota non si misura: è null");
+  assert.equal(vuota.dominante, null);
+  assert.equal(L.concentrazioneVoci(L.righeSala(SALA_FINTA)).quota, 0.75, "e con le righe la misura c'è");
+});
+
 prova("AR-622: una RIVEDI senza risposta del destinatario conta come senza risposta", () => {
   const senza = L.revisioniTraPari(L.righeSala(SALA_FINTA));
   assert.equal(senza.richieste, 1);
@@ -138,8 +147,13 @@ prova("AR-622: una RIVEDI senza risposta del destinatario conta come senza rispo
 
 prova("AR-622: sulla Sala vera la revisione fra pari è ferma, e il numero lo dice", () => {
   assert.ok(existsSync(SALA), "senza la Sala vera questa prova non misura niente");
-  const peer = L.revisioniTraPari(L.righeSala(readFileSync(SALA, "utf8")));
-  assert.ok(peer.richieste >= 1, "una richiesta c'è: se sono zero il lettore delle righe è rotto");
+  const righe = L.righeSala(readFileSync(SALA, "utf8"));
+  // AR-967 — qui c'era «richieste >= 1»: l'unica RIVEDI della Sala vera è la sua riga più vecchia, e la
+  // potatura che il giro consiglia la sposterebbe nello Storico (quarto collaudo dell'11/10). Il lettore
+  // rotto si vede dalle RIGHE, non dalle richieste: quante RIVEDI ci sono lo decide la squadra.
+  assert.ok(righe.length > 0, "la Sala vera ha delle righe: se il lettore ne trova zero, è rotto");
+  const peer = L.revisioniTraPari(righe);
+  assert.equal(peer.richieste, righe.filter((r) => r.tipo === "RIVEDI").length, "ogni RIVEDI letta è una richiesta, né una di più né una di meno");
   assert.equal(
     peer.richieste,
     peer.con_risposta + peer.senza_risposta,
@@ -180,7 +194,15 @@ prova("AR-621 · AR-622: la sonda pubblica i due numeri, non li tiene per sé", 
   assert.ok(s && s.misurabile, "senza questo blocco il canale resta senza sensore");
   assert.equal(typeof s.reparti_muti_conteggio, "number");
   assert.equal(typeof s.peer_review.senza_risposta, "number");
-  assert.ok(s.quota_voce_dominante > 0, "e la concentrazione delle voci: è il monologo, misurato");
+  // AR-967 — la quota si misura sulle righe dell'ultima settimana. Pretendere «> 0» chiedeva alla Sala
+  // vera di essere stata scritta di recente: una prova che misura il mondo, e non il codice. Il secondo
+  // collaudo dell'11/10 l'ha vista rossa da sola con l'orologio al 19/10 e nessuno in Sala. Si pretende
+  // la coerenza, nei due versi: righe nella finestra → una voce domina; finestra vuota → nessuna.
+  if (s.righe_nella_finestra > 0) {
+    assert.ok(s.quota_voce_dominante > 0 && s.quota_voce_dominante <= 1, "e la concentrazione delle voci: è il monologo, misurato");
+  } else {
+    assert.equal(s.quota_voce_dominante, null, "una settimana senza righe in Sala non ha una voce dominante: dirne una sarebbe inventarla");
+  }
 });
 
 // ───────────────────── AR-407 · la medicina somministrata ─────────────────────

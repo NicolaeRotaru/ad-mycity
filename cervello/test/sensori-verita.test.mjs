@@ -120,6 +120,17 @@ await prova("AR-587: le istruzioni non affermano più «Stripe ok» quando Strip
   assert.doesNotMatch(istruzioniGiro("non_misurato", false), /ok:/i);
 });
 
+// ── L-2026-1010-01: col buio totale si guarda prima chi ci tiene accesi ──────
+await prova("L-2026-1010-01: con i sensori tutti ciechi o non misurati, il giro guarda prima lo stato dei servizi", () => {
+  for (const esito of ["non_misurato", "cieco"]) {
+    const testo = istruzioniGiro(esito, false);
+    assert.match(testo, /stato dei servizi/i, `${esito}: il giro non viene mandato a guardare i servizi da cui dipende — «${testo}»`);
+    assert.match(testo, /get_project/, `${esito}: manca il modo concreto di guardarli`);
+  }
+  // Il rovescio: quando i dati arrivano, l'istruzione non deve mandare a caccia di un servizio spento.
+  assert.doesNotMatch(istruzioniGiro("ok", true), /stato dei servizi/i, "con Supabase leggibile l'avviso del buio totale non c'entra");
+});
+
 // ── AR-590: lo spento per decisione resta spento ─────────────────────────────
 await prova("AR-590 (pura): POSTHOG_OFF (spento:true) e motivo 'decisione' sono spenti; la sola chiave assente no", () => {
   assert.equal(eSpentoPerDecisione({ nome: "posthog_api", spento: true }, null), true);

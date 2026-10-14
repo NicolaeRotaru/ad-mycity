@@ -278,27 +278,100 @@ export const MATURANO_DA_SOLE = new Set([DIFETTO.QUADERNO_FERMO, DIFETTO.KIT_SOT
  * Quando non si può misurare (l'agente non ha il suo valore nella baseline) l'esito è
  * **regressione**, non invecchiamento: cieco non è verde, e il verso sicuro dell'incertezza è
  * quello che blocca.
+ *
+ * AR-959 — UN QUADERNO CHE ALLA DICHIARAZIONE ERA VUOTO NON È «CIECO». La baseline non ha il suo
+ * ultimo esito perché non ne aveva nessuno: il debito lo dice per nome (`quaderno_vuoto`). Quindi
+ * si sa esattamente cosa c'era — niente — e niente non può sparire: ogni esito di oggi è nato dopo.
+ * Il 10/10 @dpo e @mobile-app, guariti dal vuoto con un esito ciascuno, hanno passato i 30 giorni
+ * senza scriverne un secondo e sono usciti «regressione»: la CI era rossa su main per un calendario,
+ * la stessa malattia del 1/8 entrata da una porta che la regola non copriva. Prima di questa riga
+ * settantadue quaderni avevano quel debito — settanta, tolti quei due — e ognuno avrebbe rifatto la
+ * stessa strada trenta giorni dopo il suo primo esito.
  */
 export function classificaNuovi(nuovi = [], { ultimoOggi = {}, kitBytesOggi = {}, baseline = {} } = {}) {
   const ultimoAllora = baseline.ultimo_esito || {};
   const bytesAllora = baseline.kit_bytes || {};
+  const vuotiAllora = senzaEsitiAllaDichiarazione(baseline);
+  const assentiAllora = new Set(
+    Object.entries(baseline.debito || {})
+      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_ASSENTE))
+      .map(([nome]) => nome)
+  );
   const regressioni = [];
   const invecchiati = [];
   for (const n of nuovi) {
-    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora });
+    const v = maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora, assentiAllora });
     (v.invecchiato ? invecchiati : regressioni).push({ ...n, perche: v.perche });
   }
   return { regressioni, invecchiati };
 }
 
+/**
+ * I quaderni che alla dichiarazione non avevano nessun esito: vuoti (`quaderno_vuoto`) o non ancora
+ * nati (`quaderno_assente`). Il debito lo dice per nome. PURA.
+ *
+ * Il terzo collaudo dell'11/10 ha trovato il secondo caso: un senior nuovo entra nella baseline col
+ * quaderno assente, poi il giro gli scrive il primo esito (`chiusura-loop registra` crea il file) e lo
+ * pubblica su main. Contando solo i vuoti, quel quaderno risultava «non giudicabile» e la CI diventava
+ * rossa per tutti, per una scrittura che nessuna richiesta di unione aveva fatto — e il giro non può
+ * ripararla, perché non pubblica `cervello/`. Vuoto o assente, alla dichiarazione non c'era niente:
+ * niente può essere sparito.
+ */
+const SENZA_ESITI = new Set([DIFETTO.QUADERNO_VUOTO, DIFETTO.QUADERNO_ASSENTE]);
+export function senzaEsitiAllaDichiarazione(baseline = {}) {
+  return new Set(
+    Object.entries(baseline.debito || {})
+      .filter(([, difetti]) => Array.isArray(difetti) && difetti.some((d) => SENZA_ESITI.has(d)))
+      .map(([nome]) => nome)
+  );
+}
+
+/**
+ * AR-959, il pezzo che il collaudo dell'11/10 ha trovato scoperto: la baseline che non saprebbe più
+ * giudicare un quaderno.
+ *
+ * Un quaderno fermo si giudica con una di due cose scritte nella baseline: il suo ultimo esito di
+ * allora (`ultimo_esito`), oppure la parola `quaderno_vuoto` nel debito. Quando un quaderno guarisce
+ * dal vuoto, è il guardiano stesso a dire di togliere quella parola. Se nello stesso momento nessuno
+ * scrive la data, la baseline perde l'unica cosa che sapeva: il quaderno resta verde finché scrive, e
+ * trenta giorni dopo il suo ultimo esito esce «regressione» per un calendario. È la CI rossa del
+ * 10/10, e il collaudo l'ha rifatta con un orologio finto.
+ *
+ * Qui il buco diventa rosso IL GIORNO STESSO, quando chi ha tolto la riga è ancora lì e la data da
+ * scrivere è una sola: ogni quaderno che ha esiti oggi deve avere nella baseline o la sua data, o la
+ * parola «vuoto» o «assente». Vale anche per un senior nuovo: dichiarato assente, il primo esito che
+ * gli scrive il giro non accende niente. PURA.
+ */
+export function baselineCieca({ ultimoOggi = {}, baseline = {} } = {}) {
+  const ultimoAllora = baseline.ultimo_esito || {};
+  const vuotiAllora = senzaEsitiAllaDichiarazione(baseline);
+  return Object.entries(ultimoOggi)
+    .filter(([nome, oggi]) => oggi && !ultimoAllora[nome] && !vuotiAllora.has(nome))
+    .map(([nome, oggi]) => ({ nome, ultimo_oggi: oggi }))
+    .sort((a, b) => a.nome.localeCompare(b.nome));
+}
+
 /** Il cuore della distinzione: il pezzo PROPRIO dell'agente è peggiorato, sì o no? */
-function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora }) {
+function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora, vuotiAllora = new Set(), assentiAllora = new Set() }) {
+  // Il quarto collaudo dell'11/10: un quaderno dichiarato assente che nasce senza una riga di esito
+  // valida (vuoto, o con un esito scritto senza il trattino — il giro l'ha già fatto) esce «vuoto», un
+  // difetto nuovo. Ma da un quaderno che non c'era non può sparire niente: non è una regressione di
+  // nessuno, e il giro che l'ha creato non potrebbe nemmeno rimediare, perché non pubblica cervello/.
+  if (n.difetto === DIFETTO.QUADERNO_VUOTO && assentiAllora.has(n.nome)) {
+    return { invecchiato: true, perche: "alla dichiarazione il quaderno non c'era: adesso c'è, ma senza esiti — da un quaderno che non esisteva non può sparire niente" };
+  }
   if (!MATURANO_DA_SOLE.has(n.difetto)) {
     return { invecchiato: false, perche: "questo difetto non matura da solo: se è nuovo, qualcuno l'ha introdotto" };
   }
   if (n.difetto === DIFETTO.QUADERNO_FERMO) {
     const oggi = ultimoOggi[n.nome];
     const allora = ultimoAllora[n.nome];
+    if (oggi && !allora && vuotiAllora.has(n.nome)) {
+      return {
+        invecchiato: true,
+        perche: `alla dichiarazione il quaderno era vuoto o non c'era: ogni esito di oggi (l'ultimo è del ${oggi}) è nato dopo, e di quello che c'era allora non può essere sparito niente — a muoversi è stato il calendario`,
+      };
+    }
     if (!oggi || !allora) {
       return { invecchiato: false, perche: "non so da quando era fermo: senza l'ultimo esito nella baseline non distinguo, e cieco non è verde" };
     }
@@ -314,6 +387,25 @@ function maturatoDaSolo(n, { ultimoOggi, kitBytesOggi, ultimoAllora, bytesAllora
   return oggi >= allora
     ? { invecchiato: true, perche: `il kit non si è ristretto (${oggi}B, erano ${allora}B): si è alzata la mediana del parco` }
     : { invecchiato: false, perche: `il kit si è ristretto (${allora}B → ${oggi}B)` };
+}
+
+/**
+ * Cosa fare di una voce di debito guarita (AR-959, quinto collaudo dell'11/10). «Toglila» non basta
+ * sempre: togliere `quaderno_vuoto` o `quaderno_assente` senza scrivere la data rende la baseline
+ * cieca, e togliere `quaderno_assente` da un quaderno che adesso c'è ma è vuoto fa uscire quel vuoto
+ * come regressione. La frase giusta la decide questa funzione, una volta sola per il JSON e per chi
+ * legge il rapporto. PURA.
+ */
+export function azioneDelGuarito(g, { ultimoOggi = {}, baseline = {}, quadro = {} } = {}) {
+  const datato = Boolean((baseline.ultimo_esito || {})[g.nome]);
+  const senzaEsiti = g.difetto === DIFETTO.QUADERNO_VUOTO || g.difetto === DIFETTO.QUADERNO_ASSENTE;
+  if (senzaEsiti && ultimoOggi[g.nome] && !datato) {
+    return { azione: "togli-e-scrivi-data", testo: `e scrivi in ultimo_esito "${g.nome}": "${ultimoOggi[g.nome]}"` };
+  }
+  if (g.difetto === DIFETTO.QUADERNO_ASSENTE && (quadro[g.nome] || []).includes(DIFETTO.QUADERNO_VUOTO)) {
+    return { azione: "sostituisci-con-vuoto", testo: "non toglierla: sostituiscila con quaderno_vuoto — il quaderno adesso c'è, ma è vuoto" };
+  }
+  return { azione: "togli", testo: "" };
 }
 
 /** I nomi del debito dichiarato che NON sono più in difetto: si possono togliere dalla lista. */

@@ -1,54 +1,96 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-09-01 11:56",
-  "voto_fiducia": 78,
-  "sintesi_giro_corrente": "Ottavo passaggio oggi, 20 minuti dopo il settimo (11:36). Letargo è passato da RISPARMIO a SOPRAVVIVENZA (quota AI 115% della finestra, salute macchina 4/100): la regola è tagliare il volume, mai i controlli di verità. Ho rieseguito a mano solo `coerenza-fatti.mjs` (pulito, 41 fatti, 0 copie vecchie) e controllato i sensori pre-girati (11:46-11:55, freschi) e i commit dopo le 11:46 (due playbook worker di routine, nessuna carta nuova). Non rieseguiti: `ci-stato.mjs`, `north-star-check.mjs`, `letargo.mjs` (comando bash bloccato da approvazione, come nei passaggi precedenti) — riporto il verdetto già scritto nell'hook di sessione. Nessuna carta nuova aperta (gate North-Star): le carte in coda restano invariate, nessuna firmata.",
-  "sintesi": "Business fermo dal 24/6, stallo North Star 69 giorni. Nessun numero di business è cambiato dal passaggio precedente (20 minuti prima). Verifica ridotta al minimo dichiarato: letargo SOPRAVVIVENZA impone nucleo vitale (ordini+consegne+coda firme+sicurezza+allerta Nicola), non un giro pieno.",
-  "trend_fiducia": "▼ 80→78: sceso perché il letargo è salito a SOPRAVVIVENZA (peggiorato da RISPARMIO) e questo passaggio ha verificato ancora meno in prima persona (solo coerenza-fatti + sensori ereditati, niente ci-stato.mjs) — scelta coerente con la regola, ma meno solida in assoluto.",
+  "data": "2026-10-10 09:50",
+  "voto_fiducia": 82,
+  "sintesi_giro_corrente": "Giro, visita, numeri e coda su richiesta di Nicola («fai tutte e 4»), dopo 39 giorni senza un giro. La visita ha dato 8 rossi; la causa comune l'ha data una sola domanda allo stato dei progetti Supabase: i due database (sito e memoria) sono in pausa, organizzazione sul piano gratuito. Verificato da tre lati: Supabase (INACTIVE), il sito (/api/health 503, home ferma sui segnaposto) e la Cabina (/api/cuore 200 ma «la memoria non risponde»). Un rosso della visita era falso (la Cabina risponde): registrato come AR-956. Nessun numero di business rimisurato: con il database in pausa vale la base del 1/9.",
+  "sintesi": "Il sito non vende e la macchina è ferma per la stessa causa: i due database su Supabase sono in pausa. In più al sito mancano chiavi su Vercel (ne vedo 4) e il server della macchina non lascia tracce dal 1/9. Mossa n.1: card #199.",
+  "trend_fiducia": "▲ 78→82: questa volta i fatti chiave li ho misurati io, da tre lati indipendenti (Supabase, sito, Cabina) e con lo stato delle richieste su GitHub; resta fuori portata tutto ciò che sta dentro i database e sul server.",
   "entita_verificate": [
     {
-      "nome": "Memoria coerente (coerenza-fatti.mjs): 41 fatti, 0 cacce aperte, 0 copie vecchie",
+      "nome": "Database del sito (Supabase «Mycity») in pausa",
       "stato": "confermato",
-      "fonte": "node cervello/coerenza-fatti.mjs, eseguito in questo passaggio (nessuna riscrittura necessaria)"
+      "fonte": "Supabase MCP get_project clmpyfvpvfjgeviworth → INACTIVE, 2026-10-10 08:56"
     },
     {
-      "nome": "Nessun commit nuovo dopo le 11:46 salvo 2 playbook worker di routine (contenuto del giorno, recupero carrelli)",
+      "nome": "Database della memoria (Supabase «ad-mycity») in pausa",
       "stato": "confermato",
-      "fonte": "git log --since='2026-09-01 11:40' + git show --stat sui 3 commit più recenti"
+      "fonte": "Supabase MCP get_project xjljcsorpbqwttrejqte → INACTIVE, 2026-10-10 08:56; /api/cuore: «la memoria non risponde»"
     },
     {
-      "nome": "1 ordine totale / 0 pagati — invariato",
-      "stato": "confermato (ereditato dal sensore pre-girato, non riquery-ato direttamente in questo passaggio: scelta deliberata sotto letargo SOPRAVVIVENZA)",
-      "fonte": "sensori-cecita.json, campo supabase_rest, aggiornato 2026-09-01 11:46 da giro.sh"
+      "nome": "Organizzazione Supabase sul piano gratuito",
+      "stato": "confermato",
+      "fonte": "Supabase MCP get_organization xwbccbdkgcmdudcuxwdc → plan free"
     },
     {
-      "nome": "Sito pubblico HTTP 503, 219 giri ciechi",
-      "stato": "confermato (ereditato dal sensore pre-girato, non ri-derivato con un check HTTP diretto in questo passaggio: comando bloccato da approvazione)",
-      "fonte": "sensori-cecita.json, campo sito_uptime, aggiornato 2026-09-01 11:55 da giro.sh"
+      "nome": "Il sito risponde dal dominio vero ma il suo controllo dice 503",
+      "stato": "confermato",
+      "fonte": "Vercel MCP web_fetch: mycity-marketplace.com → 308 → www 200 (segnaposto «Stiamo caricando…»); /api/health → 503 unhealthy, 08:57"
+    },
+    {
+      "nome": "La Cabina risponde (il rosso della visita era falso)",
+      "stato": "confermato",
+      "fonte": "Vercel MCP web_fetch https://ad-mycity.vercel.app/api/cuore → 200; errore riprodotto: fetch failed con causa ENOTFOUND dalla rete della sessione"
+    },
+    {
+      "nome": "Ultima traccia automatica del server: 2026-09-01 12:15",
+      "stato": "confermato",
+      "fonte": "git log su main: ultimo commit dell'autore «AD MyCity VPS»"
+    },
+    {
+      "nome": "Allarme esterno aperto dal 3/9 con 195 aggiornamenti",
+      "stato": "confermato",
+      "fonte": "GitHub: issue #868 con etichetta macchina-ferma, aggiornata 2026-10-10 00:52"
+    },
+    {
+      "nome": "Sul progetto Vercel del sito solo 4 variabili in Production",
+      "stato": "confermato (con un dubbio: le variabili condivise del team non le leggo)",
+      "fonte": "Vercel MCP filter_project_envs senza decifrare i valori, hiddenProductionEnvCount 0"
+    },
+    {
+      "nome": "Richieste di unione aperte: #255 sul sito (15 controlli verdi) e #877 sulla macchina (3 rossi)",
+      "stato": "confermato",
+      "fonte": "GitHub list_pull_requests + get_check_runs"
+    },
+    {
+      "nome": "Main della macchina rossa dal 9/9 sui test del cervello",
+      "stato": "confermato",
+      "fonte": "GitHub actions: Test del cervello su main, corsa 1620, conclusione failure"
+    },
+    {
+      "nome": "1 negozio vero, 1 ordine mai pagato, 0 clienti nuovi",
+      "stato": "da_verificare — base del 1/9, non rimisurabile oggi",
+      "fonte": "STATO.md, misura del 2026-09-01 11:12"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (letargo SOPRAVVIVENZA + gate North-Star). Coerente con la regola del tasso di chiusura (non aprire ricerche sotto soglia 1): questo passaggio ha ULTERIORMENTE ridotto il volume rispetto all'11:36 (solo coerenza-fatti, niente ci-stato.mjs) mantenendo il controllo di verità più economico e diagnostico.",
+  "benchmark": "Nessun lavoro creativo in questo giro. La diagnosi segue il metodo della skill salute: tre risposte (✅/❌/⚪), copertura dichiarata, un falso allarme smascherato e registrato invece che taciuto.",
   "salute_macchina": {
-    "supabase": "REST ok (sensore 11:46); MCP marketplace non riquery-ato in questo passaggio",
-    "stripe": "balance API ok (sensore 11:46); stato specifico del fascicolo Pane Quotidiano NON riverificato oggi — riporto il dato del 24/8 come baseline dichiarata",
-    "dati_freschi": true,
-    "sensori_attivi": 7,
-    "sito_uptime": "giù (HTTP 503) — invariato, 219 giri ciechi (+2 dal passaggio delle 11:36)"
+    "supabase": "tutti e due i progetti INACTIVE (in pausa), piano gratuito",
+    "stripe": "non configurato in questa sessione: non verificato",
+    "dati_freschi": false,
+    "sensori_attivi": 1,
+    "sito_uptime": "home 200 dal dominio vero, controllo /api/health 503 (database in pausa)",
+    "sensori_ciechi_dichiarati": "Tutti ciechi da questa sessione (nessuna chiave) e i due database in pausa. Server della macchina: nessuna traccia automatica dal 2026-09-01 12:15, non raggiungibile da qui. Cabina: viva (/api/cuore 200) ma cieca, la memoria non risponde."
   },
   "gate_correzione_nicola_confermati_invariati": "Area 'correzione-nicola' resta senza gate proprio: 229 senza gate su 296 (soglia 20), letto dal system-reminder di oggi — attivo da 164 giri di fila (AR-687). Non investito in questo passaggio: il gate North-Star vieta lavoro sulla macchina che non sblocchi una card business, scelta dichiarata e non un'omissione silenziosa.",
-  "livello_verifica": "L0-L1 (misura quasi interamente ereditata + un controllo proprio): numeri di business ereditati dal sensore pre-girato (11:46-11:55), NON riquery-ati direttamente in questo passaggio — scelta deliberata sotto letargo SOPRAVVIVENZA. coerenza-fatti.mjs rieseguito da me a mano. Non rieseguiti: ci-stato.mjs, check HTTP diretto sul sito, north-star-check.mjs, letargo.mjs (comando bash bloccato da approvazione).",
-  "refutazione": "Tentata la demolizione di 'nulla è cambiato dal passaggio delle 11:36': sopravvive sulla coerenza dei fatti (verificata con coerenza-fatti.mjs rieseguito) e sul git log (nessun commit rilevante nuovo, verificato con git show --stat). Sui numeri di business puri (ordini/clienti/prodotti) e sulla CI la refutazione NON è stata tentata con una nuova query in questo passaggio: mi appoggio al sensore di 1-10 minuti fa e al verdetto CI del passaggio precedente, dichiarati come tali, non spacciati per misura diretta.",
+  "livello_verifica": "L2 sui fatti chiave: misurati in prima persona con tre strumenti indipendenti (Supabase MCP, Vercel MCP, GitHub). L0 sui numeri di business: non rimisurabili, dichiarati come base del 1/9. Non visto: il server (nessuna chiave), i database dall'interno (in pausa), il sito da un browser vero (rete della sessione chiusa).",
+  "refutazione": "Tentata la demolizione di «la causa è la pausa dei database»: se il sito fosse giù per altro, /api/health direbbe altro e la Cabina leggerebbe la memoria. Invece le tre letture puntano nello stesso punto. Tentata anche quella di «la Cabina non risponde»: caduta, la Cabina risponde 200. Non demolibile da qui: perché sono in pausa (poca attività o fattura scoperta) e da quando.",
   "domande_per_nicola": [
     {
       "tipo": "urgenza",
-      "domanda": "Il sito è giù da oltre 2 settimane (503). Causa nota da giorni: dominio su Render (non pagato) + 2 variabili Vercel mancanti. Firmi #154/#155 ora?",
-      "azione": "se sì, il sito torna su appena applicate; se no, dimmi quale priorità dare",
+      "domanda": "Riaccendo io i due database da qui (con «ok 199»), o lo fai tu dal pannello Supabase dopo aver guardato la fatturazione?",
+      "azione": "card #199",
       "colore": "🔴"
     },
     {
       "tipo": "decisione",
-      "domanda": "Card #188: da 23 giri il worker rilancia lo stesso playbook anti-churn negozi che non trova mai nulla (un solo negozio vero). Sai dove vive questo comando ricorrente, così possiamo metterlo in pausa?",
-      "azione": "rispondimi dove disattivarlo, o confermi di lasciarlo così finché non c'è un secondo negozio",
+      "domanda": "Passiamo Supabase al piano Pro, circa 35 dollari al mese per tutti e due i progetti, così non si addormentano più?",
+      "azione": "card #199, passo 3",
+      "colore": "🔴"
+    },
+    {
+      "tipo": "verifica",
+      "domanda": "I 50 € al mese per Supabase che mi avevi confermato il 20/7: li paghi su un altro account?",
+      "azione": "riconciliare il fatto finanza.costi_infrastruttura",
       "colore": "🟡"
     }
   ]

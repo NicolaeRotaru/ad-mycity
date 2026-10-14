@@ -5311,3 +5311,238 @@ rientrando nelle impostazioni, cioè solo lui.
 **La lezione, in una riga.** Un guardiano puntato su una casa sola non dice «l'altra sta bene»: non
 dice niente, e il niente si legge come un verde. Vale per ogni strumento di questa macchina che
 guarda il repo della macchina e non quello del sito.
+
+## 2026-10-10 09:39 — 🔴 Riaccesi i due database, con la firma di Nicola («ok 199»)
+
+**Cosa.** Nicola ha scritto «ok 199». Ho chiesto a Supabase di riaccendere i due progetti in pausa:
+«Mycity», cioè il database del sito, e «ad-mycity», cioè la memoria della macchina. Supabase ha
+risposto che la richiesta è accettata. Alle 09:40 tutti e due risultavano «in accensione».
+
+**Perché.** Erano in pausa da settimane. Finché dormivano, il sito non poteva vendere e la macchina
+non poteva lavorare. La diagnosi completa sta in `consegne/salute/2026-10-10-database-in-pausa.md`.
+
+**Una cosa da tenere d'occhio.** Poco prima Nicola aveva scritto di aver pagato l'abbonamento di
+Supabase. Alle 09:39 però l'organizzazione «mycity.inizioditutto» risultava ancora sul piano
+gratuito. Se resta così, i due database si riaddormentano dopo circa una settimana di poca attività.
+
+**Esito, 2026-10-10 12:05.** Tutti e due i progetti erano attivi alle 10:16. Il sito però risponde ancora 503:
+non per il database, ma perché i suoi lavori automatici non girano dal 30 luglio. È la card #154.
+
+## 2026-10-10 15:43 — 🔴 Messe su Vercel 8 chiavi del sito, con la firma di Nicola («Fai la #154»)
+
+**Cosa.** Sul progetto del sito, ambiente Production, ho aggiunto 8 variabili: l'indirizzo pubblico
+con il «www», le quattro chiavi interne (lavori automatici, versamenti manuali, link di
+disiscrizione, cookie del ruolo), la coppia per le notifiche push e il tetto di spesa AI a 20 euro al
+giorno. Le chiavi interne e la metà segreta della coppia sono nuove, casuali, segnate «Sensitive».
+Non ho ripubblicato il sito.
+
+**Perché.** Il sito ne controlla 21 e su Vercel ce n'erano 4. Queste 8 si potevano creare da qui
+senza leggere niente di nessun servizio esterno. Le 9 che mancano le rilasciano Supabase, Stripe,
+Resend e Upstash: le copia Nicola, con i passi in `consegne/salute/2026-10-10-chiavi-vercel.md`.
+Ripubblicare adesso non sarebbe servito: senza la chiave di servizio del database il sito resta 503.
+
+**Come si torna indietro.** Su Vercel, progetto mycity → Settings → Environment Variables: ognuna
+delle 8 si cancella o si cambia da lì, e ha un commento che dice chi l'ha messa e perché.
+
+## 2026-10-11 01:50 — 🟡 Riparate le cinque prove che tenevano rossa la CI su main
+
+**Cosa.** Nicola ha chiesto perché la CI fosse rossa e se potevo risolverla. Le prove rosse erano
+cinque, e nessuna per un guasto nuovo del codice di oggi: quattro sono diventate rosse da sole
+mentre la macchina era ferma, la quinta per una lista che guardava il file sbagliato. Riparate così:
+il ritentativo dopo un limite settimanale legge la data con l'orologio che riceve (AR-957); il
+controllo sul motore delle lezioni si può giudicare in un istante dato, e la prova non pretende più
+che il motore giri (AR-958); un quaderno partito vuoto, quando diventa fermo, non è più una
+«regressione» (AR-959); la lista dei documenti di governo punta al controllo delle scadenze che
+esiste dal 28/7 (AR-960). Per il glossario dei KPI il controllo non esiste ancora: data spostata al
+15/11 col perché, lavoro nella scheda AR-962.
+
+**Perché.** Una CI sempre rossa non ferma niente: si impara a ignorarla, e intanto blocca ogni
+richiesta di unione. Nessuna prova è stata spenta o saltata: ogni riparazione ha la sua prova, e una
+mutazione che la fa tornare rossa.
+
+**Come si torna indietro.** Non unire la richiesta #878: su main resta tutto com'era.
+
+## 2026-10-11 02:16 — 🟡 Il collaudo ha trovato punti deboli nella riparazione della CI: chiusi
+
+**Cosa.** Un agente che non aveva costruito niente ha provato a smontare la riparazione delle 01:50.
+Ha trovato cose vere. La più seria: la prova sul motore delle lezioni sarebbe tornata rossa al primo
+giro, appena muoiono le prime lezioni (due stanno a 0,32). Riscritta e provata simulando quel giro:
+42 lezioni morte su 497, la prova resta verde per la ragione giusta. Le altre: la prova dello scadenzario
+controlla anche che il controllo legga il file dichiarato; tre prove in più sul limite settimanale;
+un testo che diceva «nessun lotto ha girato a settembre», falso, riscritto coi fatti. Nel registro
+delle scadenze è entrato il bando rifiuti del Comune (23/10), che stava solo nella card #200.
+Due difetti nuovi registrati e non riparati qui: la sentinella dei lavori ha una sua copia delle
+parole della quota (AR-963), e nessuna strada porta le scadenze dalle card al registro (AR-964).
+
+**Perché.** Chi costruisce cerca conferme: il secondo giro lo fa sempre qualcun altro.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 03:23 — 🟡 Il secondo collaudo della riparazione della CI: un difetto grave chiuso, e una bomba a orologeria tolta
+
+**Cosa.** Due controllori indipendenti hanno provato a rompere i rinforzi delle 02:16, ognuno con una
+lente diversa. Il rilievo grave: un quaderno che guarisce dal «vuoto» perdeva la sua data, e trenta
+giorni dopo la CI tornava rossa come il 10/10. Adesso il controllo dei quaderni diventa rosso il
+giorno stesso, e dice quale data scrivere. Poi ho fatto girare tutte le 478 prove con l'orologio al
+24/10. Una sola diventava rossa da sola: quella sulla Sala, che pretendeva righe recenti. L'ho resa
+coerente. La data del 15/11 del glossario dei KPI resta un rosso voluto, ma adesso lo scadenzario
+lo annuncia tre giorni prima. La scadenza del bando rifiuti passa alla fine del 23/10: all'inizio,
+il guardiano avrebbe detto «scaduta» per tutto l'ultimo giorno utile.
+
+**Correzione a quanto scritto alle 02:16.** «42 lezioni morte su 497» veniva da una simulazione
+senza il tetto del motore. Col motore vero ne muoiono 5 per giro. La conclusione non cambia.
+
+**Perché.** Chi costruisce cerca conferme: il collaudo lo fa qualcun altro, finché un giro non
+trova più niente.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 03:53 — 🟡 Il terzo collaudo della riparazione della CI: chiuso il caso del senior nuovo
+
+**Cosa.** Il terzo controllore ha trovato un rosso possibile per tutti. Se entra un senior nuovo senza
+quaderno, il primo esito che gli scrive il giro avrebbe reso rossa la CI di ogni richiesta, e il giro
+non può ripararla. Adesso un quaderno che alla dichiarazione non esisteva conta come uno vuoto. Chiusi
+anche un rilievo medio e due minori: ognuno ha ora una prova che diventa rossa se la correzione sparisce.
+
+**Perché.** Il collaudo si ferma quando un giro non trova più niente.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 04:25 — 🟡 Il quarto collaudo della riparazione della CI: regge, chiusi gli ultimi rilievi
+
+**Cosa.** Il quarto controllore non ha trovato niente di bloccante. Ha trovato due prove che
+controllavano solo metà del lavoro, e due casi rari: li ho chiusi. Ha anche visto un errore mio. Tre
+righe che avevo scritto in Sala come «RIVEDI→FATTO» contavano come richieste di revisione senza
+risposta, e in Cabina il numero era passato da 1 a 4. Le ho riscritte «FATTO» prima dell'unione.
+
+**Perché.** Un numero sbagliato in Cabina è una bugia a Nicola, anche se nasce da una riga mal scritta.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 04:49 — 🟡 Il quinto collaudo della riparazione della CI: il diff regge, chiusa un'altra prova sul mondo
+
+**Cosa.** Il quinto controllore ha detto che le riparazioni reggono. Fuori dal lotto ha trovato una
+terza prova che leggeva la Sala vera: diventava rossa se tre colleghi raccoglievano il loro passaggio,
+cioè facevano il loro lavoro. Adesso la rotazione si prova su un repo finto. Chiusi anche due buchi
+nelle prove e una frase sbagliata del guardiano dei quaderni, che diceva di togliere una riga dove
+toglierla fa diventare rosso.
+
+**Perché.** Una prova che diventa rossa quando la squadra lavora insegna a non lavorare.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 06:10 — 🟡 Il sesto collaudo della riparazione della CI: una data che il 16 ottobre avrebbe acceso il rosso, spostata e annunciata
+
+**Cosa.** Il sesto controllore ha cercato le date nascoste nei registri della macchina. Ne ha trovata
+una nuova: il controllo delle porte esentava un vecchio programma fino al 15 ottobre. Dal 16 il
+cancello sarebbe diventato rosso per tutti, senza che nessuno toccasse niente. L'esenzione stessa
+diceva la cura: togliere quel programma usa-e-getta del 25 luglio. Ci ho provato, e un altro
+controllo, il sorvegliante, ha scambiato il programma tolto per quattro freni spenti. È un suo
+difetto, e l'ho registrato a parte. Così ho spostato l'esenzione al 14 novembre, e lo scadenzario
+annuncia il rosso tre giorni prima. Ha trovato anche una mia frase falsa del quinto giro: una prova
+sulla Sala vera c'era ancora. Adesso anche quella gira su una Sala finta.
+
+**Perché.** Una data che scade da sola rende rossa la CI di tutti, e nessuno sa perché. Riparare il
+sorvegliante dentro questa richiesta l'avrebbe allargata a un altro problema.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 07:00 — 🟡 Il settimo collaudo della riparazione della CI: regge, e nessun'altra data accende il cancello da sola
+
+**Cosa.** Il settimo controllore ha fatto girare tutti i 28 controlli del cancello, uno per uno, con
+l'orologio spostato a undici date fino al 2029. Si accende da solo soltanto quello già annunciato del
+15 novembre, all'istante dichiarato. Ha trovato quattro cose minori sul mio lavoro. Tre le ho
+chiuse: tre mutazioni legate al giorno esatto, che un rinnovo fatto bene avrebbe accecato; una prova
+che accettava una voce doppia nello scadenzario; e una mia frase, «toglierlo oggi accende quattro
+falsi allarmi», vera sul commit prima e non su quello consegnato. La quarta, le date che stanno in
+altri due registri, è una scheda nuova. Ha trovato anche due difetti che c'erano già: li ho
+registrati.
+
+**Perché.** Il collaudo si ferma quando un giro non trova più niente. Questo ha trovato cose
+piccole, e le ho chiuse.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 07:38 — 🟡 L'ottavo collaudo della riparazione della CI: bocciati i testi di chiusura, e chiusa una trappola nata qui
+
+**Cosa.** L'ottavo controllore ha detto che mutazioni e prova reggono, ma ha bocciato i miei testi.
+La frase che spiega come togliere il vecchio programma nominava il registro delle mutazioni col suo
+percorso. Il sorvegliante lo leggeva come un programma che non esiste, e seguire l'istruzione
+accendeva un sesto falso allarme. Tolto il percorso. Ha trovato anche una trappola nata in questa
+richiesta: la prova dello scadenzario riconosceva le sue voci dal nome. Una scadenza esterna
+chiamata «esenzione-…» avrebbe fatto rossa la CI, e il messaggio diceva di spegnerla. Adesso il
+legame sta in un campo apposta, e la regola in un modulo provato su dati finti. Il difetto del
+sorvegliante con le estensioni è una scheda nuova.
+
+**Perché.** Un'istruzione che accende il rosso quando la segui insegna a non seguirla.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 08:16 — 🟡 Il nono collaudo della riparazione della CI: regge, chiusi i rilievi minori e abbassato un tetto rimasto alto
+
+**Cosa.** Il nono controllore ha detto che il lavoro regge e che il collaudo si può fermare. Ha
+trovato sette cose minori, e le ho chiuse. La più utile: un collegamento scritto male nello
+scadenzario veniva trattato come una voce da chiudere, e chiuderla avrebbe spento un avviso vero.
+Ha trovato anche due mie frasi imprecise nelle schede, e le ho corrette. E ha visto un tetto rimasto
+alto dal 24 agosto: il controllo delle porte ne permetteva una scoperta, ma non ce n'è nessuna. Così
+togliere solo l'esenzione del vecchio programma, lasciando il file, sarebbe passato tutto verde.
+L'ho abbassato a zero.
+
+**Perché.** Un tetto più alto del debito vero lascia passare in silenzio proprio l'errore che
+doveva fermare.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+## 2026-10-11 08:53 — 🟡 Il decimo collaudo della riparazione della CI: regge, il collaudo si ferma qui
+
+**Cosa.** Il decimo controllore ha detto che le correzioni del nono giro reggono. Ha trovato un
+secondo tetto rimasto alto nello stesso registro: quello delle esenzioni «per sempre» era a 2, ma
+ce n'è una sola. Così l'esenzione a scadenza del vecchio programma si poteva rietichettare «per
+sempre» e passare tutto verde. L'ho abbassato a 1 col comando del controllo stesso. Correggo anche
+la voce di prima: le porte scoperte sono zero dal 25 agosto, non dal 24. Il messaggio del controllo
+delle porte che si contraddice è una scheda nuova, e la lezione è entrata nel catalogo delle
+scorciatoie.
+
+**Perché.** Chi cura un tetto rimasto alto di solito ne ha lasciato un secondo accanto.
+
+**Come si torna indietro.** Non unire la richiesta #878.
+
+
+---
+
+## 2026-10-11 10:40 — Controllo delle migrazioni sul database vero: migrazione 161 proposta, niente scritto in produzione
+
+**Contesto.** Nicola: «controlla attentamente le migrazioni». Confronto oggetto per oggetto fra il database di produzione (sola lettura) e un database costruito dal repository del sito.
+
+**Cosa ho trovato.** Il 9/9 dalle 07:25 alle 08:04 UTC sono state rieseguite in produzione le migrazioni dalla 003 alla 079, a pacchetti. Il lavoro si è fermato lì, senza traccia in memoria. Effetto misurato: 11 funzioni su 93 e 27 policy su 172 tornate a versioni vecchie.
+
+Le più gravi, una per una:
+- `handle_new_user` è alla versione della 015. Per questo l'iscrizione di negozi e fattorini fallisce su `chk_approvazione_coerente`.
+- `enforce_profile_update_rules` e `enforce_order_update_rules` sono alla 061.
+- `verify_delivery_code` e `verify_pickup_code` sono alla 063.
+- Dieci policy sono di nuovo aperte.
+
+La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su una copia fedele. Applica 47 file, non 136. Lascia rotta l'iscrizione. E riporterebbe indietro `orders_rider_payout_status_check` e `ordini_disponibili_rider`, perché riapplica la 119 e la 122.
+
+**Cosa ho fatto (🟡).** Migrazione `161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql` più la procedura aggiornata, nella PR mycity #256. Provata su una copia fedele della produzione (2.198 oggetti, registro identico, dati mascherati) e su un database nuovo: 48 applicate, zero differenze, 33 su 33 prove RLS verdi, 540 file di prove unitarie verdi.
+
+**Cosa NON ho fatto (🔴, firma di Nicola).** Applicare qualunque cosa in produzione. Cambiare credenziali: card #202, motivo spiegato solo in chat perché questo repo è pubblico.
+
+**La lezione.** Una prova generale vale quanto è fedele la copia. Quella del 7/9 era costruita da zero, con un registro diverso da quello vero: per questo prometteva 136 file e in produzione ne avrebbe applicati 47. Il freno: la verifica in sola lettura del passo 3, che oggi in produzione dà 4 «falso» su 5 e dopo deve dare 5 «vero».
+
+## 2026-10-11 23:15 — 🟡 Radiografia completa del marketplace: referto pubblico senza i dettagli delle falle aperte, registro aggiornato, una riparazione alla macchina
+
+**Cosa.** Radiografia di codice, design, database di produzione e sito di produzione, chiesta da Nicola: «che adesso il marketplace sia pronto, che non ci siano errori di nessun tipo». Risultato: 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori), 163 noti ancora presenti, 38 noti chiusi perché verificati risolti. Card nuove: #203, #204 e #205.
+
+**Perché così.** Il deposito dell'AD e quello del sito sono pubblici. Scrivere dove stanno 23 falle di sicurezza ancora aperte avrebbe dato le istruzioni a chiunque. Quindi nel deposito compaiono col numero e un titolo generico. Il referto completo è consegnato a Nicola in chat. Stessa regola della card #202.
+
+**Cosa ho cambiato nella macchina (🟡, firma di Nicola nell'unione).** Il digest del registro faceva perdere il nome alle aree rimaste solo con schede vecchie, e la scheda del Pannello le disegnava vuote. Correzione in `cervello/referti-sito.mjs` (`dimensioniDegliOrfani`). La prova ⑥-bis diventa rossa senza la correzione.
+
+**Cosa NON ho fatto (🔴).** Toccare la produzione, cambiare chiavi o password, applicare migrazioni, scrivere nel database.
+
+## 2026-10-12 — 🟢 Il registro dei difetti del sito torna a dire quello che ha visto il ricontrollo
+
+**Cosa.** Nel registro dei difetti del sito ho rimesso la nota del ricontrollo dell'11/10 su 89 difetti noti, dove un digest lanciato a metà lavoro l'aveva sostituita con quella del 3/9. Gli stati erano rimasti giusti. Ho riaperto 7 difetti segnati «riparati» che il ricontrollo ha trovato ancora presenti. Adesso registro, Pannello e lista dei difetti dicono la stessa cosa: 470 aperti, 11 bloccanti, 109 gravi, 350 minori.
+
+**La lezione.** Il digest sostituisce le schede con la versione del referto più recente della loro famiglia. Una nota scritta in casa prima di un digest si perde, se il referto più recente contiene la stessa scheda. Le note vanno scritte dopo l'ultimo digest, e i difetti si ritrovano per nome, non per posizione.
+

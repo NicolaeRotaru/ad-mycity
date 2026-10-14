@@ -48,15 +48,17 @@ export const DOCUMENTI = [
     guardiano: "cervello/freschezza-checklist.mjs",
   },
   {
+    // AR-960 — il guardiano c'era già, e la lista guardava il file sbagliato. Fino all'11/10 questa
+    // voce puntava a MyCity-Vault/05-Soldi-Rischi/scadenzario.json con «guardiano: null» e un'attesa
+    // che chiedeva «un controllo sulle scadenze scadute, scritto apposta». Quel controllo esisteva dal
+    // 28/7 (lotto 14, AR-147/AR-214): `scadenzario-check.mjs` legge cervello/scadenzario.json, esce 1
+    // quando una scadenza aperta è «scaduta» o a meno di 72 ore (scadenze-regole.mjs), e giro.sh lo
+    // esegue a ogni giro trasformando il rosso in un vincolo per il motore. La copia nel Vault è ferma
+    // al 30/7 e non la legge nessuno: è la scheda AR-961, due case per lo stesso documento.
     id: "scadenzario",
-    documento: "MyCity-Vault/05-Soldi-Rischi/scadenzario.json",
-    cosa_e: "tutte le scadenze: fiscali, contributive, contrattuali, bandi",
-    guardiano: null,
-    attesa: {
-      fino: "2026-09-30",
-      perche:
-        "Un guardiano di freschezza qui direbbe la cosa sbagliata: lo scadenzario non invecchia perché nessuno lo tocca, invecchia quando una DATA passa senza che sia successo niente. Serve un controllo sulle scadenze scadute, non sull'ultima modifica del file — e va scritto apposta, non copiato da freschezza-rischi.",
-    },
+    documento: "cervello/scadenzario.json",
+    cosa_e: "tutte le scadenze esterne: fiscali, contributive, contrattuali, bandi",
+    guardiano: "cervello/scadenzario-check.mjs",
   },
   {
     id: "glossario-kpi",
@@ -64,9 +66,9 @@ export const DOCUMENTI = [
     cosa_e: "l'unica definizione condivisa di ogni numero che la macchina dice a Nicola",
     guardiano: null,
     attesa: {
-      fino: "2026-09-30",
+      fino: "2026-11-15",
       perche:
-        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza.",
+        "Qui il pericolo non è la data vecchia: è un KPI che vive solo dentro uno script e non è mai passato dal glossario — la causa esatta di AR-282 sulla cassa. Il controllo giusto confronta i KPI scritti nel codice con quelli definiti qui, e quel confronto va costruito, non è una freschezza. DATA SPOSTATA l'11/10 (era il 30/9), col perché nuovo: il 30/9 è passato senza che nessuno lo costruisse — i lotti di inizio settembre hanno lavorato sul sito, e dal 10/9 al 9/10 sul ramo principale non è entrato nessun lavoro. E il confronto non si scrive in un'ora: prima serve sapere quali numeri il codice chiama KPI, cioè un registro che oggi non esiste. È la scheda AR-962, nel cantiere: lì il lavoro c'è, qui c'è solo la data.",
     },
   },
 ];

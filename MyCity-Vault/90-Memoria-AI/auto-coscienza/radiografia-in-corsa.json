@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-09-08 11:43",
+  "aggiornato": "2026-10-11 23:28",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -3422,6 +3422,229 @@
         "cervello/entrate-senza-cancello.mjs": "2264a1a31b3f",
         "cervello/radiografia-in-corsa.mjs": "6cbef3e1e5fb",
         "cervello/serratura-ramo.mjs": "0c0404f5febb"
+      }
+    },
+    {
+      "quando": "2026-10-10 09:17",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe"
+      }
+    },
+    {
+      "quando": "2026-10-11 01:35",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "f32d932162fb",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/stampo-check.mjs": "efaf158af6ca",
+        "cervello/stampo-metro.mjs": "0f8f9013d620"
+      }
+    },
+    {
+      "quando": "2026-10-11 02:15",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "0876b0e454a7",
+        "cervello/stampo-check.mjs": "5fcf5a3360af",
+        "cervello/stampo-metro.mjs": "3b84dc86b882"
+      }
+    },
+    {
+      "quando": "2026-10-11 02:24",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "6ad7beb8de73",
+        "cervello/stampo-check.mjs": "5fcf5a3360af",
+        "cervello/stampo-metro.mjs": "3b84dc86b882"
+      }
+    },
+    {
+      "quando": "2026-10-11 03:23",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/stampo-check.mjs": "15705e413945",
+        "cervello/stampo-metro.mjs": "28b2efceeae7"
+      }
+    },
+    {
+      "quando": "2026-10-11 03:53",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/stampo-check.mjs": "15705e413945",
+        "cervello/stampo-metro.mjs": "793cd37fb10e"
+      }
+    },
+    {
+      "quando": "2026-10-11 04:25",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/stampo-check.mjs": "856dd09cbcf9",
+        "cervello/stampo-metro.mjs": "f21e1c90dc93"
+      }
+    },
+    {
+      "quando": "2026-10-11 04:49",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/stampo-check.mjs": "c342a25311db",
+        "cervello/stampo-metro.mjs": "794bd6725b1a"
+      }
+    },
+    {
+      "quando": "2026-10-11 07:37",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/scadenze-del-cancello.mjs": "9229d4dca022",
+        "cervello/stampo-check.mjs": "c342a25311db",
+        "cervello/stampo-metro.mjs": "794bd6725b1a"
+      }
+    },
+    {
+      "quando": "2026-10-11 08:16",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/apprendimento-guardiano.mjs": "b8f832a67ac0",
+        "cervello/documenti-di-governo.mjs": "ecab81e3d95c",
+        "cervello/errore-motore.mjs": "9971410e7263",
+        "cervello/lib-sensori-verdetto.mjs": "4ba52d695fbe",
+        "cervello/retry-policy.mjs": "38d4fb7a9831",
+        "cervello/scadenzario-check.mjs": "d0bf1a0f59a6",
+        "cervello/scadenze-del-cancello.mjs": "6d91c9afd114",
+        "cervello/stampo-check.mjs": "c342a25311db",
+        "cervello/stampo-metro.mjs": "794bd6725b1a"
+      }
+    },
+    {
+      "quando": "2026-10-11 23:28",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "AR-975",
+        "AR-976",
+        "AR-977"
+      ],
+      "nota": "collaudo indipendente dell'11/10: 3 difetti aperti come schede; un quarto (il nome dipendeva dall'ordine delle schede) riparato subito in questo lotto con la prova ⑥-bis e la sua mutazione",
+      "file": {
+        "cervello/radiografia-marketplace-digest.mjs": "6f7e248d5762",
+        "cervello/referti-sito.mjs": "d87f718fcfbe"
       }
     }
   ]

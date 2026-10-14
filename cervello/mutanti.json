@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-09-08 09:05",
+ "aggiornato": "2026-10-11 08:13",
  "mutanti": [
   {
    "lotto": 30,
@@ -9339,6 +9339,367 @@
    "sostituisci": "      throw e;",
    "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
    "perche_conta": "Chi registra il perimetro sta chiudendo un lotto, spesso a fine giornata. Un percorso sbagliato gli deve dire quale file non ha trovato, non uno stack: con lo stack, la stessa persona ricontrolla le schede, il registro e la dimensione prima di accorgersi che era un refuso nel path."
+  },
+  {
+   "lezione": "L-2026-1010-01",
+   "nome": "col buio totale il giro torna a non guardare lo stato dei servizi da cui dipende",
+   "file": "cervello/lib-sensori-verdetto.mjs",
+   "cerca": "Passaggio minimo se nulla è cambiato fuori.\" + CHIEDI_I_SERVIZI;",
+   "sostituisci": "Passaggio minimo se nulla è cambiato fuori.\";",
+   "test": "cervello/test/sensori-verita.test.mjs",
+   "perche_conta": "Il 10/10 i due database erano in pausa da settimane e la macchina diceva solo «cieco». Senza questa riga il giro del server, quando torna, ripete il «passaggio minimo» e non nomina mai il servizio spento: il guasto lo scopre di nuovo Nicola."
+  },
+  {
+   "difetto": "AR-957",
+   "nome": "la data del reset torna a leggersi con l'orologio vero: un muro di giorni ridiventa un ritentativo fra 6 ore",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "    resetData: quota || settimanale ? dataDaTesto(t, nowMs) : null,",
+   "sostituisci": "    resetData: quota || settimanale ? dataDaTesto(t) : null,",
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "AR-957",
+   "nome": "decidiRitento torna a non passare il suo orologio a classificaErrore",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "  const { classe, resetHint, resetData } = classificaErrore(risultato, refMs);",
+   "sostituisci": "  const { classe, resetHint, resetData } = classificaErrore(risultato);",
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "AR-957",
+   "nome": "il ramo della classe dichiarata torna a leggere la data del reset con l'orologio vero",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "      resetData: classeDichiarata === \"quota\" || classeDichiarata === \"quota_settimanale\" ? dataDaTesto(t, nowMs) : null,",
+   "sostituisci": "      resetData: classeDichiarata === \"quota\" || classeDichiarata === \"quota_settimanale\" ? dataDaTesto(t) : null,",
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "AR-957",
+   "nome": "il guasto registrato torna a portare la data del reset letta con l'orologio vero, non con quello della cadenza",
+   "file": "cervello/errore-motore.mjs",
+   "cerca": "  const { classe, resetHint, resetData } = classificaErrore(testo, nowMs);",
+   "sostituisci": "  const { classe, resetHint, resetData } = classificaErrore(testo);",
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "AR-957",
+   "nome": "la data scritta col mese prende l'anno dal calendario vero: finché il calendario è nel 2026 nessun'altra prova se ne accorge",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "      const d = new Date(nowMs);",
+   "sostituisci": "      const d = new Date();",
+   "test": "cervello/test/limite-settimanale-riparte.test.mjs"
+  },
+  {
+   "difetto": "AR-958",
+   "nome": "analizza torna a giudicare solo con l'orologio vero: l'archivio finto del caso ⑦ è «fermo» anche un'ora dopo il suo ultimo passo",
+   "file": "cervello/apprendimento-guardiano.mjs",
+   "cerca": "    const p = passiDecadimento(vive, adesso);",
+   "sostituisci": "    const p = passiDecadimento(vive);",
+   "test": "cervello/test/il-motore-giudicato-dai-morti.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "un quaderno vuoto alla dichiarazione torna «cieco»: il calendario rifà rossa la CI",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "    if (oggi && !allora && vuotiAllora.has(n.nome)) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "chi toglie il «vuoto» senza scrivere la data torna a scoprirlo trenta giorni dopo, con la CI rossa per un calendario",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "    .filter(([nome, oggi]) => oggi && !ultimoAllora[nome] && !vuotiAllora.has(nome))",
+   "sostituisci": "    .filter(() => false)",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "un quaderno ASSENTE alla dichiarazione torna «non giudicabile»: il primo esito che il giro scrive a un senior nuovo fa rossa la CI di tutti",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "const SENZA_ESITI = new Set([DIFETTO.QUADERNO_VUOTO, DIFETTO.QUADERNO_ASSENTE]);",
+   "sostituisci": "const SENZA_ESITI = new Set([DIFETTO.QUADERNO_VUOTO]);",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "il guardiano calcola la baseline cieca ma non la porta nell'uscita: il rosso del giorno stesso resta una riga nel rapporto",
+   "file": "cervello/stampo-check.mjs",
+   "cerca": "  const rc = codiceUscita({ cieco: baselineLetta ? 0 : 1, nuovi: regressioni.length + cieca.length });",
+   "sostituisci": "  const rc = codiceUscita({ cieco: baselineLetta ? 0 : 1, nuovi: regressioni.length });",
+   "test": "cervello/test/un-quaderno-una-casa.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "un quaderno dichiarato assente che nasce vuoto torna una regressione: il giro crea il file e la CI di tutti diventa rossa",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "  if (n.difetto === DIFETTO.QUADERNO_VUOTO && assentiAllora.has(n.nome)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "il guardiano giudica la baseline senza il suo debito: vuoti e assenti diventano «non giudicabili» e il primo esito accende il rosso",
+   "file": "cervello/stampo-check.mjs",
+   "cerca": "  const cieca = baselineLetta ? baselineCieca({ ultimoOggi, baseline }) : [];",
+   "sostituisci": "  const cieca = baselineLetta ? baselineCieca({ ultimoOggi, baseline: { ...baseline, debito: {} } }) : [];",
+   "test": "cervello/test/un-quaderno-una-casa.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "ogni nome del debito conta come «assente»: un quaderno con la sua data, svuotato davvero, passa per calendario",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "      .filter(([, difetti]) => Array.isArray(difetti) && difetti.includes(DIFETTO.QUADERNO_ASSENTE))",
+   "sostituisci": "      .filter(([, difetti]) => Array.isArray(difetti))",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "«assente» scusa qualunque difetto nuovo: un senior dichiarato assente passa con un kit rotto",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "  if (n.difetto === DIFETTO.QUADERNO_VUOTO && assentiAllora.has(n.nome)) {",
+   "sostituisci": "  if (assentiAllora.has(n.nome)) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "il guardiano torna a dire «togli quaderno_assente» anche quando il quaderno è nato vuoto: chi obbedisce diventa rosso",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "  if (g.difetto === DIFETTO.QUADERNO_ASSENTE && (quadro[g.nome] || []).includes(DIFETTO.QUADERNO_VUOTO)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "il guardiano consiglia senza guardare il quaderno di oggi: dice «togli» dove togliere fa rosso",
+   "file": "cervello/stampo-check.mjs",
+   "cerca": "    azioni_dei_guariti: guariti.map((g) => ({ ...g, ...azioneDelGuarito(g, { ultimoOggi, baseline, quadro }) })),",
+   "sostituisci": "    azioni_dei_guariti: guariti.map((g) => ({ ...g, ...azioneDelGuarito(g, { ultimoOggi, baseline }) })),",
+   "test": "cervello/test/un-quaderno-una-casa.test.mjs"
+  },
+  {
+   "difetto": "AR-959",
+   "nome": "«assente» scusa ogni difetto del quaderno, anche le due case: un senior nuovo col quaderno in due cartelle passa",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "  if (n.difetto === DIFETTO.QUADERNO_VUOTO && assentiAllora.has(n.nome)) {",
+   "sostituisci": "  if (String(n.difetto).startsWith(\"quaderno_\") && assentiAllora.has(n.nome)) {",
+   "test": "cervello/test/il-tempo-non-e-una-regressione.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "lo scadenzario torna senza guardiano nella lista, come se scadenzario-check non esistesse",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "    guardiano: \"cervello/scadenzario-check.mjs\",",
+   "sostituisci": "    guardiano: null,",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "la lista torna a guardare la copia del Vault: il guardiano giusto sorveglia un altro file, e il nome giusto copre il buco",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "    documento: \"cervello/scadenzario.json\",",
+   "sostituisci": "    documento: \"MyCity-Vault/05-Soldi-Rischi/scadenzario.json\",",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "il guardiano dice di aver letto lo scadenzario vero qualunque file abbia letto: un'etichetta al posto della misura",
+   "file": "cervello/scadenzario-check.mjs",
+   "cerca": "const REGISTRO_LETTO = relative(REPO, REGISTRO).split(\"\\\\\").join(\"/\");",
+   "sostituisci": "const REGISTRO_LETTO = \"cervello/scadenzario.json\";",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "la guardia d'avvio torna a confrontare i nomi: lanciato da un collegamento simbolico il guardiano non parte, esce 0 e sembra verde",
+   "file": "cervello/scadenzario-check.mjs",
+   "cerca": "    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));",
+   "sostituisci": "    return import.meta.url === pathToFileURL(arg).href;",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-960",
+   "nome": "la guardia d'avvio dice sempre sì: chi importa il guardiano lo fa girare, e il suo process.exit chiude anche chi l'ha importato",
+   "file": "cervello/scadenzario-check.mjs",
+   "cerca": "    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));",
+   "sostituisci": "    return true;",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la data dell'attesa si sposta solo nella lista (un secolo avanti, qualunque sia oggi): lo scadenzario avvisa per un giorno sbagliato, e il rosso torna senza preavviso. Legata all'attesa SENZA guardiano: quando il controllo nasce, il pezzo sparisce e il banco lo dice",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "    guardiano: null,\n    attesa: {\n      fino: \"20",
+   "sostituisci": "    guardiano: null,\n    attesa: {\n      fino: \"21",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la data dell'esenzione si sposta solo nel registro delle porte (un secolo avanti, qualunque sia oggi): lo scadenzario avvisa per un giorno sbagliato, e il rosso torna senza preavviso",
+   "file": "cervello/atti-con-porte.json",
+   "cerca": "     \"fino_al\": \"20",
+   "sostituisci": "     \"fino_al\": \"21",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "l'esenzione perde la scadenza e la voce dello scadenzario resta orfana: avvisa di un rosso che non arriverà più",
+   "file": "cervello/atti-con-porte.json",
+   "cerca": "     \"fino_al\": \"",
+   "sostituisci": "     \"fino_al_vecchio\": \"",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il doppione torna invisibile: una seconda voce sulla stessa data, con un altro nome, avvisa per un giorno che nessuno controlla",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    } else if (sue.length > 1) {",
+   "sostituisci": "    } else if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la voce orfana resta aperta: il giro avvisa di un rosso che non arriverà più",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    if (!date.some((d) => stessa(v, d))) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "due voci con lo stesso id passano: chi legge lo scadenzario per id ne vede una sola",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "  for (const id of new Set(ids.filter((id, i) => ids.indexOf(id) !== i))) {",
+   "sostituisci": "  for (const id of []) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il confine delle porte cade un giorno prima di quello di porte-gemelle: lo scadenzario dichiarerebbe un istante falso",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "confine: g ? Date.UTC(g[0], g[1] - 1, g[2] + 1) : NaN };",
+   "sostituisci": "confine: g ? Date.UTC(g[0], g[1] - 1, g[2]) : NaN };",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il confine delle attese cade un giorno dopo quello della lista: lo scadenzario avviserebbe a rosso già acceso",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "return { registro: \"governo\", chiave: d.id, data: String(d.attesa.fino), confine: g ? Date.UTC(g[0], g[1] - 1, g[2]) : NaN };",
+   "sostituisci": "return { registro: \"governo\", chiave: d.id, data: String(d.attesa.fino), confine: g ? Date.UTC(g[0], g[1] - 1, g[2] + 1) : NaN };",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il collegamento torna al prefisso dell'id: una scadenza del mondo chiamata «esenzione-…» fa rossa la CI",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "  const rimandi = voci.filter((v) => v && v.cancello);",
+   "sostituisci": "  const rimandi = voci.filter((v) => v && (v.cancello || /^(attesa|esenzione)-/.test(String(v.id))));",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "la data dello scadenzario non si confronta più: una voce che diverge di un'ora passa",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    } else if (Date.parse(sue[0].scade) !== d.confine) {",
+   "sostituisci": "    } else if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "una data scritta male passa per «senza voce»: si cerca la voce invece di dire che la data non si legge",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    if (!Number.isFinite(d.confine)) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "gli id unici si controllano solo fra le voci col collegamento: due scadenze del mondo con lo stesso id passano",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "  const ids = voci.map((v) => v?.id);",
+   "sostituisci": "  const ids = voci.filter((v) => v && v.cancello).map((v) => v?.id);",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "si legge solo il primo atto del registro delle porte: le esenzioni degli altri restano senza preavviso",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "  return (registro.atti || []).flatMap((atto) =>",
+   "sostituisci": "  return (registro.atti || []).slice(0, 1).flatMap((atto) =>",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "si legge solo la prima esenzione di ogni atto: le altre restano senza preavviso",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    (atto.esenti || [])\n",
+   "sostituisci": "    (atto.esenti || []).slice(0, 1)\n",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "un'attesa rimasta scritta accanto a un guardiano conta ancora come data: la prova pretenderebbe una voce per un rosso che non arriverà",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    .filter((d) => d && !d.guardiano && d.attesa?.fino)",
+   "sostituisci": "    .filter((d) => d && d.attesa?.fino)",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "un collegamento scritto male passa per voce orfana: il messaggio dice di chiuderla e spegne un avviso vero",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "    if (!c || typeof c !== \"object\" || !REGISTRI.has(c.registro) || !String(c.chiave ?? \"\").trim()) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-966",
+   "nome": "il percorso dell'esenzione non si scrive come lo scrive porte-gemelle: con «./» davanti la voce non si trova più",
+   "file": "cervello/scadenze-del-cancello.mjs",
+   "cerca": "chiave: comePorteGemelle(e.file)",
+   "sostituisci": "chiave: e.file",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "la quota della voce dominante non si misura più: la prova della Sala deve accorgersene anche ora che non pretende più il mondo acceso",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "  return { totale: lista.length, voci: per.size, dominante, quota: Math.round((quante / lista.length) * 100) / 100 };",
+   "sostituisci": "  return { totale: lista.length, voci: per.size, dominante, quota: null };",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "una settimana senza righe in Sala dà quota zero invece di null: «nessuno ha dominato» al posto di «niente da misurare»",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "  if (!lista.length) return { totale: 0, voci: 0, dominante: null, quota: null };",
+   "sostituisci": "  if (!lista.length) return { totale: 0, voci: 0, dominante: null, quota: 0 };",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "ogni riga della Sala conta come richiesta di revisione: il numero in Cabina si gonfia e la prova sulla Sala vera deve accorgersene",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "    if (r.tipo !== \"RIVEDI\") continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "i passaggi pendenti tornano a non ruotare: sempre gli stessi tre convocati, e la prova sul repo finto deve accorgersene",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "sostituisci": "  for (const h of pendenti) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "test": "cervello/test/chi-va-in-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-967",
+   "nome": "i passaggi pendenti si ordinano per data invece di ruotare: sempre i tre più vecchi, e la prova con le date diverse deve accorgersene",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "sostituisci": "  for (const h of rotazioneDelGiorno(pendenti, oggi).sort((x, y) => String(x.data).localeCompare(String(y.data)))) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "test": "cervello/test/chi-va-in-turno.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",
