@@ -696,95 +696,53 @@ rotte apposta viene dal cancello, che lo stampa a ogni consegna — non l'ho ric
 ---
 
 <!-- muro-negozi-due-sql-in-ordine -->
-### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni · ⏳ accodata 2026-08-22 20:25
+### 🔴 #168 — Riaccendi il server che fa lavorare la macchina: tace dal 25 settembre · ⏳ accodata 2026-08-22 20:25 · riscritta 2026-10-16 18:30
 
-**In parole semplici.** Il server non alza più le cadenze dal 18 agosto alle 06:50. Sono 109 ore.
-Il worker ha tirato avanti ancora tre giorni coi soli lavori della sentinella. Poi si è fermato anche
-lui: l'ultima traccia lasciata da un processo automatico è del 21 agosto alle 20:41.
+**In parole semplici.** Il server è il computer affittato da Hetzner che fa lavorare la macchina da sola. Non prende lavori dal
+25 settembre. Il 7 ottobre si è svegliato per 25 secondi, poi più niente. Nelle ultime 24 ore il database della memoria l'ha
+chiamato solo la Cabina. In coda aspettano 72 lavori, il più vecchio del 26 settembre.
 
-La cosa che fa più male non è il fermo. È che la macchina se n'era accorta e non è arrivata a te. Il
-pomeriggio del 21 la sentinella ha scritto nove allarmi. Quattro dicevano «battito fermo», e il primo
-diceva «6 cadenze su 6». Il controllo della salute segna lo stesso rosso da dodici giri di fila.
-L'allarme funzionava. Usciva da un canale spento, e l'hai scoperto tu quattro giorni dopo.
+**Cosa cambia per te.** Finché resta spento non parte niente da solo: né il giro, né i ritmi del giorno, né le sentinelle.
+La macchina lavora solo quando apri una sessione. Il 24 settembre avevi firmato questa card dal Pannello, ma il Pannello l'ha
+messa «in coda» come se partisse da sola. Non è partito niente: questi passi si fanno solo con le tue mani.
 
-**Un esempio di cosa vuol dire.** Venerdì 21, alle 14:55, la sentinella ha scritto «battito fermo,
-6 cadenze su 6». Alle 15:04 di nuovo. Alle 15:27 di nuovo. L'ultimo alle 18:09. Nove allarmi in un
-pomeriggio solo, tutti finiti in un registro che non apre nessuno. Tu quel giorno non hai ricevuto
-niente, e il giorno dopo nemmeno.
+**Cosa devi fare.** In quest'ordine, senza saltare.
 
-**Cosa cambia per te.** Finché resta così non si alza più niente da solo. Né il giro, né il piano del
-mattino, né quello di mezzogiorno, né la review del venerdì, né il controllo che gira ogni ora. La
-review del venerdì non lascia i suoi compiti da 29 giorni. Tutto quello che vedi accadere in questi
-giorni lo sto facendo io da qui, a mano, quando mi scrivi.
+- **Prima, la console Hetzner.** Guarda se il server è acceso e se il conto è pagato. Se è spento, leggi lì il motivo prima di riaccenderlo.
+- **Poi salva il suo lavoro, prima di toccare i servizi.** Riavviare aggiunge modifiche e rischia di perdere quelle che ha sul disco.
+- **Infine aspetta la riparazione del freno sulla spesa, prima di far ripartire il worker.** Dall'11 al 25 settembre quel freno
+  ha rifiutato 269 lavori, e alla riaccensione scatterebbe di nuovo. La riparazione arriva in una richiesta di unione.
+- **Dimmi cosa hanno stampato i comandi**, e riparto da lì.
 
-**Cosa non ho verificato.** Da questa sessione non ho nessuna delle chiavi che servono per guardare
-dentro il server. Non so se il worker è spento, se è partito e si è schiantato subito, o se è solo in pausa. Non so se il database della
-memoria risponde. Non ho potuto aprire la Cabina: la rete di questo ambiente non ci arriva. Quello che
-ho misurato davvero sono le tracce lasciate nel repo. Quelle non mentono, e dicono che da 23 ore non
-è passato nessuno.
+**Se va bene.** Recupero io in una richiesta di unione il lavoro salvato. Poi il server riprende i lavori arretrati e la memoria
+torna a pubblicarsi da sola.
 
-**Cosa devi fare.** Tre cose in fila. La prima è di cinque secondi.
-
-1. Apri la Cabina e guarda **l'interruttore di pausa**. Se è acceso, la macchina è ferma perché
-   l'hai messa in pausa tu, e basta rispegnere l'interruttore.
-2. Se la pausa è spenta, entra nel server e chiedi come sta il worker. I comandi sono qui sotto.
-3. Dimmi cosa risponde e riparto da lì.
-
-**Se va bene.** Appena il worker torna su, il primo giro rimette in fila da solo tutte le cadenze
-arretrate, e la memoria torna a pubblicarsi. Poi ti propongo di riparare per prima cosa l'allarme che
-non ti ha avvisato. Finché quello resta rotto, il prossimo fermo lo scopri di nuovo tu. E di nuovo
-giorni dopo.
+**Cosa non ho verificato.** Il server non lo vedo da qui: non so se è acceso, se il disco è pieno o se ha ancora le credenziali
+del motore AI. Vedo solo che non chiama più il database.
 
 **Dettagli tecnici** (per chi esegue, dal terminale del server):
 
 ```bash
-ssh root@INDIRIZZO-IP-DEL-VPS          # l'IP è nella console Hetzner
-systemctl status mycity-worker         # è vivo? quante volte è ripartito?
-systemctl list-timers 'mycity-*'       # quali cadenze sono ancora armate
+ssh root@162.55.51.250
+systemctl status mycity-worker mycity-worker-chat --no-pager
+systemctl list-timers 'mycity-*' --no-pager
 journalctl -u mycity-worker -n 50 --no-pager
+df -h ; last reboot | head -5
 sudo bash /opt/mycity/ad-mycity/cervello/vps/diagnostica-completa.sh
+# salva il lavoro chiuso sul disco, senza forzare:
+cd "$(systemctl show -p WorkingDirectory --value mycity-worker)"
+git log --oneline origin/main..HEAD | wc -l
+git push origin HEAD:refs/heads/memoria/vps-2026-10-16
+ls -la .git/MYCITY_RUN_LOCK-* 2>/dev/null   # lucchetto del giro rimasto appeso?
 ```
 
-Se il worker è morto: `sudo systemctl start mycity-worker`. Se riparte e ricade, il log dice perché.
-Il 20 agosto era il disco pieno, e quel caso si vede in tre righe con `df -h`.
-
-Misurato da questa sessione il 2026-08-22 alle 19:40 con `node cervello/salute.mjs` (referto in
-`consegne/salute/2026-08-22-1940-claude.md`) e `node cervello/freschezza-cadenze.mjs`: giro 27h,
-ritmo-mattino 110h, ritmo-mezzogiorno 128h, monitora 109h, ritmo-settimana 364h. Difetto di sistema
-chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira sul server, e il server
-è questo.
-
-> ✅ **Aggiornamento 2026-09-01 06:20 — Il server è tornato a lavorare da solo.** Il registro delle
-> modifiche mostra scritture automatiche del worker la sera del 31/8 (22:20) e stamattina all'1/9
-> (06:00). Sono entrambe commit di "recupero scritture pendenti". È il segno che le cadenze
-> schedulate girano di nuovo, senza bisogno che io intervenga da qui. Non ho aperto una connessione
-> diretta al server per controllare da quando esattamente sia ripartito. Quello che ho misurato è
-> la traccia che lascia nel repository, e quella traccia è fresca. Questa card resta aperta solo per
-> l'allarme che non ti aveva avvisato, il canale spento. Il fermo del server in sé sembra superato.
-
-> 🔄 **Aggiornamento 2026-09-03 01:01 — Il server è vivo, ma non pubblica più.** Il suo battito nel
-> database della memoria è delle 00:58, e ieri ha fatto i quattro playbook del mattino. Il giro invece
-> muore ogni giorno quando prova ad allinearsi a GitHub: conflitto su 8 file, 6 giri falliti su 9 dal
-> 22/8. L'ultimo push riuscito della memoria è del 1/9 alle 12:15: da allora git, il Pannello e l'allarme
-> esterno vedono ferma una macchina che lavora.
->
-> **Cosa devi fare.** Quattro comandi sul server, poi dimmi cosa stampano: il conflitto lo risolvo io in PR.
->
-> 1. `cd "$(systemctl show -p WorkingDirectory --value mycity-worker)"`.
-> 2. `git log --oneline origin/main..HEAD | wc -l`.
-> 3. `git push origin HEAD:refs/heads/memoria/vps-2026-09-03`.
-> 4. `git diff --stat HEAD -- cervello/worker.sh`.
-
-> 🔄 **Aggiornamento 2026-10-10 09:30 — 39 giorni senza una traccia, e adesso dorme anche la memoria.**
-> L'ultima scrittura automatica del server è del 1/9 alle 12:15. Il database della memoria è in pausa
-> (card #199): anche se il server fosse acceso, non potrebbe prendere lavori. L'allarme su GitHub lo
-> ripete dal 3/9 (segnalazione #868, 195 aggiornamenti), ma lì non lo legge nessuno.
-> **Cosa devi fare:** prima la #199. Poi, dalla console Hetzner, guarda se il server è acceso e pagato;
-> se è acceso, valgono i quattro comandi qui sopra. **Cosa non ho verificato:** se è acceso. Da qui non lo raggiungo.
-
-> 🔄 **Aggiornamento 2026-10-10 12:05 — con la memoria riaccesa si vede di più.** Il server ha lavorato fino al 28/9;
-> l'ultimo lavoro l'ha preso il 7/10 alle 15:37 ed è rimasto «in corso». Oggi alle 11:00 la Cabina ha accodato 5 lavori
-> nuovi: in coda adesso sono 31, e nessuno li prende. Prima di riaccendere il server, decidi se svuotare i vecchi.
+Fonti, lette il 15-16/10 in sola lettura dal database della memoria: `worker:ultimo` = 2026-10-07 15:37:09; ultima attività
+continua 2026-09-25 12:32:56; ultimo lavoro vero dalla coda 2026-09-09 12:17; 72 lavori in attesa e un giro orfano «in corso»
+dal 25/9. Il ramo di salvataggio `memoria/vps-2026-09-03` chiesto il 3/9 non è mai nato. Il lavoro dal 2/9 al 10/9, 377 commit,
+è su `origin/fix/ar-046-mutazione-cieca`, mai unito. L'aggiornamento del 10/10, «ha lavorato fino al 28/9», era sbagliato: il
+28/9 hanno chiamato solo Vercel e Amazon. Il giro orfano si tratta con `cervello/vps/recupera-lavori-orfani.sh`. Se il motore
+AI risponde «auth»: `bash cervello/vps/collega-claude.sh`. Schede: AR-518, AR-978, AR-980, AR-981, AR-982, AR-983. Referto completo:
+`consegne/salute/2026-10-16-visita-completa-macchina.md`. Le versioni precedenti di questa card sono nella storia di git.
 
 ---
 
