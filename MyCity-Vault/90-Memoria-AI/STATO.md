@@ -4,8 +4,6 @@ aggiornato: 2026-10-16 12:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
----
-
 > 🩺 **2026-10-16 12:45 — La macchina è spenta da tre settimane, e il Pannello non te l'ha detto bene.**
 >
 > Il server che fa lavorare la macchina da sola non prende lavori dal 25 settembre e non dà segni di vita dal 7 ottobre. In coda aspettano 72 lavori. Il resto è acceso e sano: la Cabina risponde, il database della memoria è acceso e chiuso, i 120 senior sono al loro posto, nel repo non ci sono segreti.
@@ -13,6 +11,16 @@ fonte: AD digitale (giro, cervello/giro.md)
 > Il 24 settembre hai firmato 53 card, 19 della macchina, ma nessuna è partita: il Pannello le ha messe «in coda» senza dirti che toccavano a te. E il freno sulla spesa ha rifiutato 269 lavori dall'11 al 25 settembre: se riaccendi il server prima che lo ripari, si ferma di nuovo.
 >
 > Tocca a te riaccendere il server, salvando prima il suo lavoro: i passi sono nella card del server. Dei 85 difetti seri della macchina ne posso chiudere circa 70 da qui. Non ho visto il server né Stripe. Referto: `consegne/salute/2026-10-16-visita-completa-macchina.md`.
+
+> 🛠️ **2026-10-16 09:36 — La prima ondata del sito è riparata nel codice: 21 problemi seri, più quelli che la riparazione stessa aveva fatto nascere.**
+>
+> Nicola ha chiesto di cominciare dalla prima delle 12 ondate. Sette squadre hanno riparato 21 problemi gravi o bloccanti: 10 del tutto, 11 nella parte di codice (il resto è una firma o un'impostazione sua). Ho anticipato dalla quarta ondata la scheda prodotto che la migrazione 161 avrebbe spento. Le 11 falle di sicurezza della prima ondata restano fuori: i dettagli sono solo nel referto privato, e il sito è un deposito pubblico.
+>
+> Riguardando i file toccati, due riesami hanno trovato difetti nati dalla riparazione: li ho fatti correggere in due giri, ognuno ricollaudato da due collaudatori diversi. Le prove automatiche del sito sono 5.078, tutte verdi. Manca il riesame finale. Dopo, tolgo la bozza alla richiesta di unione del sito.
+>
+> Una scoperta che cambia l'ordine dei lavori: oltre alla scheda prodotto, anche carrello, cassa, pagine degli ordini e del fattorino leggono il negozio dai profili. Finché non sono riparate, la 161 resta ferma. Non ho visto il sito vero né Stripe.
+
+---
 
 > ⏱️ **2026-10-13 08:54 — Quanto manca al marketplace pronto: verso il 10 novembre, se le firme arrivano.**
 >

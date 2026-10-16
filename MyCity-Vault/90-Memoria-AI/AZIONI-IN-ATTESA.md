@@ -31,7 +31,48 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🟡 #205 — Ripara il codice del sito prima di applicare le migrazioni · ⏳ accodata 2026-10-11 23:15
+### 🔴 #208 — Tre scelte che la riparazione ha fatto per te: dimmi se vanno bene · ⏳ accodata 2026-10-16 12:40
+
+**In parole semplici.** Per chiudere tre difetti ho scelto io una regola. Ognuna sta in un punto solo del codice e si cambia in pochi minuti.
+
+**Cosa cambia:**
+- **Contanti senza foto.** Sotto i 50 € il fattorino conferma l'incasso anche senza foto. Da 50 € in su scrive il motivo, e agli amministratori arriva un avviso.
+- **L'IBAN del cliente.** Si tiene solo finché il bonifico di rimborso è da fare, poi si cancella. L'informativa privacy adesso lo dice.
+- **Il rimborso di chi ha pagato in contanti.** Arriva col bonifico, e il credito MyCity solo se il cliente lo sceglie. I Termini al punto 7 dicono «stesso mezzo di pagamento».
+
+**Cosa devi fare tu.** Scrivimi «ok 208», oppure cosa cambiare. Sulla seconda e sulla terza ti consiglio una lettura del legale.
+
+**Se va bene:** le segno come decise in DECISIONI.
+
+---
+
+### 🔴 #207 — Dopo l'unione, due passi su Supabase: la password dal telefono e i contanti prima della consegna · ⏳ accodata 2026-10-16 12:40
+
+**In parole semplici.** Due riparazioni della #206 si completano solo dal pannello di Supabase, che vedi solo tu.
+
+**Cosa cambia:**
+- **Due modelli email.** Oggi chi chiede la nuova password dal computer e apre l'email dal telefono non riesce a cambiarla. Con i modelli nuovi ci riesce.
+- **Un file da lanciare nel database.** Il controllo della pagina del fattorino entra anche nel database: un ordine in contanti non si chiude come consegnato senza l'incasso confermato.
+
+**Cosa devi fare tu, solo dopo che la #206 è online.** I passi esatti sono nel referto `consegne/audit/2026-10-16-prima-ondata-sito.md`, alla sezione «I passi dopo l'unione»: i due collegamenti da incollare e il nome del file. Il file si può lanciare due volte senza danni, ma non prima della pubblicazione.
+
+**Se va bene:** chiudo i due difetti dopo la prova vera, la password chiesta dal computer e cambiata dal telefono.
+
+---
+
+### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40
+
+**In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati nel codice. In più ci sono una sessantina di difetti fatti nascere dalla riparazione stessa, chiusi prima di consegnare. Ogni pezzo è passato da due collaudatori che non l'avevano scritto.
+
+**Cosa cambia:** per esempio, il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso, così il fornaio viene pagato. E l'intelligenza artificiale non scrive più gli allergeni al posto del negoziante. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
+
+**Cosa devi fare tu.** Unirla: la produzione si aggiorna da sola. Poi accendi la regola «Main» su GitHub: è la carta #177. Poi fai i due passi su Supabase della carta #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
+
+**Se va bene:** controllo la produzione pezzo per pezzo e chiudo le schede nel registro dei difetti del sito.
+
+---
+
+### 🟡 #205 — Ripara il codice del sito prima di applicare le migrazioni · ⏳ accodata 2026-10-11 23:15 · ✅ prima ondata nella #206
 
 **In parole semplici.** La 161 chiude la lettura dei profili, ma scheda prodotto, vetrine e pagine dell'ordine prendono il negozio proprio da lì. Applicata oggi, ogni prodotto mostrerebbe «non disponibile».
 
@@ -201,47 +242,19 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 ---
 
-### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35
+### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40
 
-> ⚠️ **2026-10-11 23:15 — Non applicare ancora:** prima la #205, o la 161 spegne le schede prodotto.
+> ⚠️ **2026-10-16 12:40 — Non applicare ancora la 161, nemmeno dopo la #206.** La vetrina adesso regge. Carrello, cassa, ordini e pagine del fattorino leggono però il negozio dai profili. Con la 161 oggi la cassa farebbe pagare la spedizione a tariffa fissa, e il fattorino perderebbe l'indirizzo dove ritirare. È il prossimo lotto.
 
-**In parole semplici.** Il codice pubblicato è del 2 settembre. Il database vero si è fermato al 28 agosto. Al registro delle migrazioni mancano ventuno righe, e le cose che davvero non ci sono le ho contate una per una: sedici, più quattro indici.
+**In parole semplici.** Il database vero è indietro di circa 48 migrazioni rispetto al codice. Per questo oggi l'email «ordine pronto» non parte e la pagina Analisi del venditore va in errore. E chi ha appena comprato può ricevere il messaggio del carrello abbandonato.
 
-**Cosa cambia:** oggi in produzione l'email «ordine pronto» non parte mai, la pagina Analisi del venditore va in errore, e il carrello non viene mai segnato come recuperato — quindi chi ha appena comprato può ricevere il messaggio del carrello abbandonato. Il motivo è uno solo: il passo del rilascio che applica le migrazioni non può girare, perché i quattro segreti che gli servono non sono mai stati configurati. È la card #161, ferma dal 22 agosto.
+**Cosa cambia:** con le migrazioni applicate, database e codice tornano uguali. La procedura provata è in `docs/migrazioni-baseline-produzione.md`. La migrazione 161 rimette a posto quello che il passo lanciato a mano il 9 settembre aveva riportato indietro: 11 funzioni e 27 regole di accesso. Provata su una copia fedele della produzione: 33 prove di sicurezza verdi su 33.
 
-> 🔍 **Verificato dall'AD 2026-09-03 19:05, guardando il database vero.** Non è la scheda di ieri: sono i nomi letti oggi nel registro delle migrazioni di produzione.
->
-> L'ultima applicata è quella del 28 agosto, il ponte del catalogo visibile. Dopo quella, nel repo ce ne sono diciannove che in produzione non risultano.
->
-> Oggi ne sono arrivate altre quattro dal lotto di riparazione. Aspettano anche loro la tua firma. Una delle quattro è quella del reso della card #190.
+**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta due migrazioni nuove. La 162 va insieme alla 153 o dopo. La 163 si lancia da sola: è nella carta #207.
 
-**Cosa devi fare tu.** Leggi l'aggiornamento del 7 settembre qui sotto: la strada scritta sopra non funziona, e adesso ce n'è una provata.
+**Se va bene:** ricontrollo oggetto per oggetto che in produzione ci sia tutto.
 
-**Se va bene:** dimmelo e ricontrollo oggetto per oggetto che in produzione ci siano tutti.
-
-> 🛠️ **Aggiornamento AD 2026-09-07 17:20 — la riparazione qui sopra non funziona.**
->
-> **Cosa ho trovato.** Sopra c'era scritto che il comando applica le migrazioni da solo. È falso contro la produzione. L'ho lanciato su una copia locale fedele. Muore sul primo file dopo due secondi, senza applicare niente: prova a ricreare tabelle che ci sono già, perché il database è nato prima del registro delle migrazioni.
->
-> **Due cose misurate.** Tredici migrazioni su 149 non si possono rieseguire. E in produzione la migrazione 127 è applicata a metà: la funzione c'è, la vista no. La 152 fa un `REVOKE` proprio su quella vista, quindi si sarebbe fermata lì.
->
-> **Cosa ho fatto.** Richiesta di unione 252 sul sito, già unita. Dentro ci sono tre cose. Il controllo che fa fermare il comando con un rifiuto pulito. Il test che lo tiene chiuso. E `docs/migrazioni-baseline-produzione.md`, con la procedura provata per intero: registrare tredici migrazioni, applicarne centotrentasei, verificare.
->
-> **Cosa devi fare tu, adesso.** Seguire i tre passi di quel documento. Serve la stringa di connessione del database, che ce l'hai solo tu.
->
-> **Cosa non ho verificato.** La prova generale è girata su PostgreSQL 16 in locale, la produzione è la 17. E la copia imita la forma della produzione, non i suoi dati.
-
-> 🧭 **Aggiornamento AD 2026-10-11 10:40 — la procedura del 7 settembre non basta più: c'è la migrazione 161.**
->
-> **In parole semplici.** Il 9 settembre il passo 2 è stato lanciato a mano in produzione e interrotto dopo la migrazione 079. Sono tornate indietro 11 funzioni del database e 27 regole di accesso.
->
-> **Un esempio concreto.** Un fornaio che oggi si registra su MyCity come negozio riceve un errore e non entra.
->
-> **Cosa cambia per te.** Con la migrazione 161 in coda, il database torna identico al codice del sito. L'ho provato su una copia fedele della produzione: 33 prove di sicurezza verdi su 33. Richiesta di unione: https://github.com/NicolaeRotaru/mycity/pull/256
->
-> **Cosa devi fare tu.** Unire la #256, poi lanciare i passi 2 e 3 della procedura aggiornata, nello stesso giro.
->
-> **Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto.
+**Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto. E la prova è girata su PostgreSQL 16, mentre la produzione è la 17. I passaggi precedenti sono scritti in DECISIONI: 3/9, 7/9 e 11/10.
 
 ---
 
@@ -497,6 +510,8 @@ per email, con un modello solo: «è arrivato un ordine».
 <!-- serratura-cancello -->
 
 ### 🔴 #177 — Il controllo che protegge il codice avvisa ma non ferma: decidi tu se dargli la serratura · ⏳ accodata 2026-08-26 08:05
+
+> 🔁 **2026-10-16 12:40 — Sul sito la regola «Main» si può accendere, dopo la #206.** Il controllo che aspettava adesso esiste ed è verde. Oggi nessuno può scavalcarla, quindi accesa così è la strada C. I passi: referto della #206, «I passi dopo l'unione».
 
 **In parole semplici.** Prima che una mia modifica entri nel codice buono, gira un controllo
 automatico. Ricontrolla tutto: le prove, i conti, i guardiani. Quel controllo funziona bene. Legge,
@@ -906,52 +921,23 @@ prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche 
 
 ---
 
-### 🔴 #161 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20
+### 🔴 #161 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20 · 🔁 riscritta 2026-10-16 12:40
 
-> ⚠️ **2026-10-11 23:15 — Non mettere ancora le chiavi su GitHub:** prima la guardia della #205, il perché è in chat.
+> ⚠️ **2026-10-16 12:40 — Prima unisci la #206.** La guardia che aspettavi è lì dentro. Poi accendi la regola «Main»: è la carta #177.
 
-**Cosa cambia:** oggi ogni unione su `main` fa partire una pubblicazione di produzione entro pochi
-secondi, **senza aspettare i controlli**. I due corrono in parallelo: un test rosso finisce in
-produzione lo stesso, e il referto arriva dopo il funerale.
+**Cosa cambia:** oggi ogni unione su `main` fa partire una pubblicazione di produzione entro pochi secondi, **senza aspettare i controlli**. Un test rosso finisce in produzione lo stesso. Il lavoro che dovrebbe pubblicare dopo i controlli è rosso a ogni unione dal 1° settembre, perché gli mancano i segreti.
 
 **Cosa devi fare, in questo ordine** (al contrario il sito smette di aggiornarsi e basta):
 
-1. GitHub → Settings → Secrets → Actions. Servono tre segreti.
-   · `VERCEL_TOKEN`: lo crei su Vercel, in Account Settings, alla voce Tokens.
-   · `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID`: su Vercel, dentro il progetto, in Settings → General.
-     Stanno in fondo alla pagina.
-2. **Solo dopo**, in `vercel.json`: `"main": true` diventa `"main": false`.
+1. GitHub → Settings → Secrets → Actions. Servono quattro segreti.
+   · `VERCEL_TOKEN`: lo crei su Vercel, in Account Settings → Tokens. È una password: non devo vederla.
+   · `VERCEL_ORG_ID` = `team_O5b1EUNnEQWvcXSNlos567lo` e `VERCEL_PROJECT_ID` = `prj_XvKD8R89QzA7qVyOhltfS85SH4k9`, letti da me sul progetto.
+   · `SUPABASE_DB_URL`: la riga del «Session pooler» (Supabase → Connect), la stessa della #134. Senza, dopo la #206 il rilascio si ferma con un errore invece di pubblicare codice su un database vecchio.
+2. **Solo dopo aver allineato il database (carta #191)**, in `vercel.json`: `"main": true` diventa `"main": false`.
 
-**Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
-pubblicazione». Le tre cose in fila, nell'ordine giusto.
+**Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate → pubblicazione».
 
-> ↩️ **Aggiornamento AD 2026-09-07 21:30 — ritiro quello che avevo scritto alle 19:05.**
->
-> Alle 19:05 avevo scritto qui che il pericolo era tolto. **Non era vero.** Avevo messo le prove dentro il build di Vercel, e l'anteprima ha fatto fallire 104 prove: quella suite è scritta per l'ambiente della CI, non per il costruttore. Ho tolto tutto, e il difetto è di nuovo aperto.
->
-> La strada che lo chiude senza costare segreti è la carta **#177**. Il dettaglio sta nel registro del sito e in DECISIONI.
-
-> 🔑 **Aggiornamento AD 2026-09-07 17:20 — due dei tre te li ho trovati io, così non li cerchi.**
->
-> Li ho letti oggi dal progetto Vercel. Sono identificatori, non password, quindi posso scriverteli qui:
->
-> · `VERCEL_ORG_ID` = `team_O5b1EUNnEQWvcXSNlos567lo`
-> · `VERCEL_PROJECT_ID` = `prj_XvKD8R89QzA7qVyOhltfS85SH4k9`
->
-> Il terzo, `VERCEL_TOKEN`, devi generarlo tu: è una password e non devo vederla.
->
-> **Un avviso sull'ordine.** Il passo 2 qui sopra — girare `"main": true` in `"main": false` — va fatto **dopo** aver allineato il database della card #191. Se lo giri prima, il sito smette di aggiornarsi: la strada vecchia si spegne e quella nuova si ferma sulle migrazioni mancanti.
->
-> **Cosa non ho verificato.** Che quei due identificatori bastino per un rilascio: li ho letti, non li ho provati in un rilascio vero. E il pannello dei segreti su GitHub non l'ho visto: che manchino lo deduco dai tre rilasci fermatisi dicendo che mancano.
-
-> 🩻 **Aggiornamento del 28/8 00:35.** La radiografia del sito di stasera ha ritrovato questo stesso
-> guasto, da sola, e l'ha messo fra i quattro più gravi. Sono passati cinque giorni e la card è
-> ancora qui. Avevo cominciato a scriverne una nuova: era un doppione, l'ho tolta. Le prove stanno
-> in `consegne/audit/2026-08-27-radiografia.md`, sezione «deploy-sre».
-
-> 🩻 **Aggiornamento del 7/9 17:10.** Dal primo settembre questo lavoro diventa rosso a ogni
-> unione, e va letto come una buona notizia. Prima usciva verde senza aver pubblicato niente.
-> Adesso dice la verità: non ha provato nulla. Cinque corse così, l'ultima stamattina.
+**Cosa non ho verificato.** Che i due identificatori bastino per un rilascio vero: li ho letti, non provati. Gli aggiornamenti vecchi, del 28/8 e del 7/9, li trovi nel registro delle decisioni.
 
 ---
 
@@ -1033,6 +1019,8 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 ---
 
 ### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
+
+> ➕ **2026-10-16 12:40 — Dopo la #206 le chiavi di Stripe sono due:** la seconda è `STRIPE_CONNECT_WEBHOOK_SECRET`, per gli avvisi sui conti dei negozi. Passi nella stessa guida.
 
 > ⚠️ **2026-10-12 17:55 — La chiave di Supabase nasce con la #203:** è la nuova `sb_secret_`. Mai ricopiare la vecchia «Legacy», neanche da Render. Qui restano 8 chiavi.
 
@@ -1562,6 +1550,8 @@ distanza. Se scegli fissa, e' una riga.
 ---
 
 ### 🔴 #134 — Del database non esiste nessuna copia: mancano due segreti, non uno · ⏳ accodata 2026-08-20 11:30 · 🔁 corretta 2026-08-20 13:35
+
+> 🔁 **2026-10-16 12:40 — Per `SUPABASE_DB_URL` usa la riga del «Session pooler».** La trovi in Supabase → Connect. Da GitHub la connessione diretta non arriva.
 
 **Cosa cambia:** oggi del database non c'e' **nessuna copia**, da nessuna parte. Il lavoro
 notturno esiste e parte ogni notte alle 4:17, ma si ferma subito. Le due volte che e' partito, il
