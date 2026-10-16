@@ -104,6 +104,12 @@ E una domanda a cui solo tu puoi rispondere: **la decisione sul Garante, la pass
 - L'archivio delle lezioni ha ancora il 3% di margine sotto il suo tetto.
 - Da qui, senza chiavi, i sensori non hanno riscritto la memoria con la loro cecità.
 
+## Cosa ho scritto nel cantiere dei difetti
+
+Ogni problema trovato è stato confrontato con le 968 schede che c'erano già. Quello che nessuna scheda copriva l'ho registrato: sono 34 schede nuove. 3 sono bloccanti, 19 gravi, 11 medie e 1 minore. 23 le posso chiudere io in richieste di unione. Le altre 11 vogliono anche una tua mano: il server, una chiave o una decisione.
+
+Questo peggiora un numero che guardi. A ottobre i difetti nati diventano 56, e i chiusi restano zero. La regola che hai approvato dice cosa fare adesso: niente ricerche nuove, solo chiusure. Il primo passo pronto sono le 23 schede che hanno già la prova verde e aspettano solo di essere chiuse, una per una.
+
 ## Una correzione alla visita rapida
 
 La visita rapida del 15 ottobre alle 21:07 diceva «la Cabina non risponde». Era falso. A non arrivarci era la rete di questo container, che blocca gli indirizzi di Vercel. Con lo strumento di Vercel la Cabina risponde, e scrive nella memoria ogni mattina. Lo stesso falso rosso del 10 ottobre è già pubblicato, e la Cabina lo mostra a te su se stessa. È un difetto noto, e sta nel lotto dei controlli che sbagliano.
@@ -128,3 +134,4 @@ La visita rapida del 15 ottobre alle 21:07 diceva «la Cabina non risponde». Er
 - **Senior:** 120 file = 120 in CLAUDE.md = 120 in AGENTI.md; nessun mandato conteso; 3 vivi negli ultimi 7 giorni (ultimo esito 2026-10-11 23:23), 70 mai un esito, 31 con una calibrazione previsto/reale. Sei senior senza il campo `tools`.
 - **Per vedere di più:** accesso al server (console Hetzner e ssh); Stripe autorizzato o `STRIPE_SECRET_KEY`; `SUPABASE_URL` + `SUPABASE_SERVICE_KEY` e `MARKETPLACE_SUPABASE_*` nell'ambiente cloud; rete aperta verso `ad-mycity.vercel.app`, `*.supabase.co` e il server (card #76); `NODE_USE_ENV_PROXY=1` per gli script node, che è gratis e fa tornare a vedere GitHub `ci-stato.mjs` e `verifica-automazione.mjs`; `TELEGRAM_BOT_TOKEN` e `TELEGRAM_CHAT_ID`.
 - **Dati grezzi della visita:** 8 referti d'organo e 8 verifiche, più il critico, nel diario del flusso `wf_fbe2b556-2d8`.
+- **Schede nuove nel cantiere:** AR-978 → AR-1011, nate il 2026-10-16 18:15, ognuna con `nato_da` che rimanda al problema della visita e `schede_collegate` con le schede vicine già esistenti. Bloccanti: AR-978 (server muto), AR-980 (la pubblicazione del server si blocca quando una sessione cloud tocca STATO o la coda delle card), AR-983 (freno sulla spesa). Tutte le gravi e le bloccanti hanno `verifica: {tipo: "umano"}` con la procedura scritta: la prova a comando si scrive nella riparazione. Schede chiuse che i controllori propongono di riaprire, non riaperte: AR-030, 122, 194, 203, 211, 237, 278, 348, 595, 649.
