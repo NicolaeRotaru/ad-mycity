@@ -66,7 +66,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia:** per esempio, il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso, così il fornaio viene pagato. E l'intelligenza artificiale non scrive più gli allergeni al posto del negoziante. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
 
-**Cosa devi fare tu.** Unirla: la produzione si aggiorna da sola. Dopo, accendi la regola «Main» su GitHub (carta #177) e fai i due passi su Supabase (carta #207). **Non applicare ancora la 161**: aspetta il prossimo lotto.
+**Cosa devi fare tu.** Unirla: la produzione si aggiorna da sola. Poi accendi la regola «Main» su GitHub: è la carta #177. Poi fai i due passi su Supabase della carta #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
 
 **Se va bene:** controllo la produzione pezzo per pezzo e chiudo le schede nel registro dei difetti del sito.
 
@@ -250,11 +250,11 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 **Cosa cambia:** con le migrazioni applicate, database e codice tornano uguali. La procedura provata è in `docs/migrazioni-baseline-produzione.md`. La migrazione 161 rimette a posto quello che il passo lanciato a mano il 9 settembre aveva riportato indietro: 11 funzioni e 27 regole di accesso. Provata su una copia fedele della produzione: 33 prove di sicurezza verdi su 33.
 
-**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. Delle due migrazioni nuove della #206, la 162 va insieme alla 153 o dopo; la 163 si lancia da sola (carta #207).
+**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta due migrazioni nuove. La 162 va insieme alla 153 o dopo. La 163 si lancia da sola: è nella carta #207.
 
 **Se va bene:** ricontrollo oggetto per oggetto che in produzione ci sia tutto.
 
-**Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto. E la prova è girata su PostgreSQL 16, mentre la produzione è la 17. La storia della carta è in DECISIONI: 3/9, 7/9 e 11/10.
+**Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto. E la prova è girata su PostgreSQL 16, mentre la produzione è la 17. I passaggi precedenti sono scritti in DECISIONI: 3/9, 7/9 e 11/10.
 
 ---
 
@@ -923,7 +923,7 @@ prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche 
 
 ### 🔴 #161 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20 · 🔁 riscritta 2026-10-16 12:40
 
-> ⚠️ **2026-10-16 12:40 — Prima unisci la #206 e accendi la regola «Main» (carta #177).** La guardia che aspettavi è lì dentro.
+> ⚠️ **2026-10-16 12:40 — Prima unisci la #206.** La guardia che aspettavi è lì dentro. Poi accendi la regola «Main»: è la carta #177.
 
 **Cosa cambia:** oggi ogni unione su `main` fa partire una pubblicazione di produzione entro pochi secondi, **senza aspettare i controlli**. Un test rosso finisce in produzione lo stesso. Il lavoro che dovrebbe pubblicare dopo i controlli è rosso a ogni unione dal 1° settembre, perché gli mancano i segreti.
 
@@ -937,7 +937,7 @@ prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche 
 
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate → pubblicazione».
 
-**Cosa non ho verificato.** Che i due identificatori bastino per un rilascio vero: li ho letti, non provati. La storia della carta è in DECISIONI: 28/8 e 7/9.
+**Cosa non ho verificato.** Che i due identificatori bastino per un rilascio vero: li ho letti, non provati. Gli aggiornamenti vecchi, del 28/8 e del 7/9, li trovi nel registro delle decisioni.
 
 ---
 
@@ -1551,7 +1551,7 @@ distanza. Se scegli fissa, e' una riga.
 
 ### 🔴 #134 — Del database non esiste nessuna copia: mancano due segreti, non uno · ⏳ accodata 2026-08-20 11:30 · 🔁 corretta 2026-08-20 13:35
 
-> 🔁 **2026-10-16 12:40 — Per `SUPABASE_DB_URL` usa la riga del «Session pooler»** (Supabase → Connect). Da GitHub la connessione diretta non arriva.
+> 🔁 **2026-10-16 12:40 — Per `SUPABASE_DB_URL` usa la riga del «Session pooler».** La trovi in Supabase → Connect. Da GitHub la connessione diretta non arriva.
 
 **Cosa cambia:** oggi del database non c'e' **nessuna copia**, da nessuna parte. Il lavoro
 notturno esiste e parte ogni notte alle 4:17, ma si ferma subito. Le due volte che e' partito, il
