@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-13 08:54
+aggiornato: 2026-10-16 09:36
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🛠️ **2026-10-16 09:36 — La prima ondata del sito è riparata nel codice: 21 problemi seri, più quelli che la riparazione stessa aveva fatto nascere.**
+>
+> Nicola ha chiesto di cominciare dalla prima delle 12 ondate. Sette squadre hanno riparato 21 problemi gravi o bloccanti: 10 del tutto, 11 nella parte di codice (il resto è una firma o un'impostazione sua). Ho anticipato dalla quarta ondata la scheda prodotto che la migrazione 161 avrebbe spento. Le 11 falle di sicurezza della prima ondata restano fuori: i dettagli sono solo nel referto privato, e il sito è un deposito pubblico.
+>
+> Riguardando i file toccati, due riesami hanno trovato difetti nati dalla riparazione: li ho fatti correggere in due giri, ognuno ricollaudato da due collaudatori diversi. Le prove automatiche del sito sono 5.078, tutte verdi. Manca il riesame finale. Dopo, tolgo la bozza alla richiesta di unione del sito.
+>
+> Una scoperta che cambia l'ordine dei lavori: oltre alla scheda prodotto, anche carrello, cassa, pagine degli ordini e del fattorino leggono il negozio dai profili. Finché non sono riparate, la 161 resta ferma. Non ho visto il sito vero né Stripe.
 
 ---
 
