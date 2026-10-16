@@ -6,7 +6,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > 🩺 **2026-10-16 12:45 — La macchina è spenta da tre settimane, e il Pannello non te l'ha detto bene.**
 >
-> Il server che fa lavorare la macchina da sola non prende lavori dal 25 settembre e non dà segni di vita dal 7 ottobre. In coda aspettano 72 lavori. Il resto è acceso e sano: la Cabina risponde, il database della memoria è acceso e chiuso, i 120 senior sono al loro posto, nel repo non ci sono segreti.
+> Il server non prende lavori dal 25 settembre. Dal 7 ottobre non dà più segni di vita. In coda aspettano 72 lavori, il più vecchio del 26 settembre. Il resto è acceso e sano: la Cabina risponde, il database della memoria è acceso e chiuso, i 120 senior sono al loro posto, nel repo non ci sono segreti.
 >
 > Il 24 settembre hai firmato 53 card, 19 della macchina, ma nessuna è partita: il Pannello le ha messe «in coda» senza dirti che toccavano a te. E il freno sulla spesa ha rifiutato 269 lavori dall'11 al 25 settembre: se riaccendi il server prima che lo ripari, si ferma di nuovo.
 >
