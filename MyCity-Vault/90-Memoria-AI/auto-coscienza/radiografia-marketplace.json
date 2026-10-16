@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1256,
+    "findings": 1303,
     "bloccanti": 35,
-    "gravi": 449,
-    "minori": 772,
+    "gravi": 465,
+    "minori": 803,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -25871,20 +25871,20 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-12 08:52",
+    "aggiornato": "2026-10-16 12:01",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 470,
+    "findings_aperti": 517,
     "findings_chiusi": 786,
-    "findings_tot": 1256,
+    "findings_tot": 1303,
     "aperti_per_severita": {
       "bloccante": 11,
-      "grave": 109,
-      "minore": 350,
+      "grave": 125,
+      "minore": 381,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1256,
+    "dichiarati_dal_referto": 1303,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
