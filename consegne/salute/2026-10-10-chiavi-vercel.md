@@ -65,6 +65,22 @@ esattamente come qui sotto, scegli solo l'ambiente **Production** e spunta **Sen
    essere esattamente `https://www.mycity-marketplace.com/api/stripe/webhook`, con il «www». Se è un
    altro, correggilo. Poi copia la chiave che Stripe chiama «Signing secret», quella che comincia con
    `whsec_`. Su Vercel si chiama `STRIPE_WEBHOOK_SECRET`.
+   Controlla anche che quell'indirizzo ascolti questi 14 avvisi: `checkout.session.completed`,
+   `checkout.session.expired`, `checkout.session.async_payment_succeeded`,
+   `checkout.session.async_payment_failed`, `charge.refunded`, `charge.refund.updated`,
+   `charge.dispute.created`, `charge.dispute.closed`, `transfer.reversed`, `payment_intent.succeeded`,
+   `payment_intent.payment_failed`, `customer.subscription.updated`, `customer.subscription.deleted`,
+   `invoice.payment_failed`.
+- **Stripe, gli avvisi sui conti dei negozi.** *Aggiunto il 2026-10-15 alle 21:45.* Serve solo
+   dopo che hai unito la riparazione della prima ondata del sito. Prima, il sito non sa leggere
+   questa chiave. Quando la banca di un negozio rifiuta un bonifico, Stripe lo dice con un avviso
+   firmato con una chiave diversa dalla prima. Senza questa chiave il sito lo respinge e nessuno lo
+   sa. In Developers → Webhooks premi **Add endpoint**. L'indirizzo è lo **stesso** di prima:
+   `https://www.mycity-marketplace.com/api/stripe/webhook`. Scegli **«Events on Connected accounts»**
+   e iscrivi `account.updated` e `payout.failed`. Poi copia il «Signing secret» di questo **nuovo**
+   indirizzo: questa chiave nuova va su Vercel col nome `STRIPE_CONNECT_WEBHOOK_SECRET`. Per provarlo, dal nuovo indirizzo
+   usa «Send test webhook» con `payout.failed`: deve rispondere 200. Prima in modalità di prova, poi
+   in quella vera.
 - **Resend**, due valori. In API Keys crea una chiave con il permesso di spedire: su Vercel è
    `RESEND_API_KEY`. In Domains controlla che `mycity-marketplace.com` risulti «Verified». Poi scegli
    il mittente, per esempio `MyCity <ordini@mycity-marketplace.com>`: su Vercel è `RESEND_FROM`.

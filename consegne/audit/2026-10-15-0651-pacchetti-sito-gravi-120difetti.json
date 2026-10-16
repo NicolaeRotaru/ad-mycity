@@ -1,0 +1,1844 @@
+{
+  "_cosa_e": "I pacchetti di un lotto: una squadra per pacchetto, cinque squadre per ondata. Lo scrive cervello/pacchetti-lotto.mjs.",
+  "generato": "2026-10-15 06:51",
+  "registro": "sito",
+  "aperti": 470,
+  "prova_umana": null,
+  "_prova_umana": "non misurata: le schede del sito non hanno il campo verifica",
+  "solo_gravi": true,
+  "quota": 120,
+  "coperti": 120,
+  "fuori": 0,
+  "coppie_che_si_toccano": [
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "lib/stripe/payout.ts (parte 2 di 2)",
+      [
+        "lib/stripe/payout.ts",
+        "lib/stripe/webhook/rimborsi.ts"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/api/orders/cod/route.ts",
+      [
+        "app/rider/orders/[id]/page.tsx",
+        "app/rider/page.tsx"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/terms/page.tsx",
+      [
+        "app/terms/page.tsx",
+        "app/api/returns/[id]/decide/route.ts"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/product/[id]/page.tsx",
+      [
+        "app/orders/[id]/dispute/page.tsx"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/orders/[id]/page.tsx",
+      [
+        "app/rider/orders/[id]/page.tsx",
+        "app/rider/page.tsx"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "lib/constants.ts",
+      [
+        "app/api/cron/release-payouts/route.ts"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "lib/env.ts",
+      [
+        "lib/env.ts"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "migrations/119_radiografia_18_agosto.sql",
+      [
+        "migrations/127_minori_22_agosto.sql"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/rider/orders/[id]/page.tsx",
+      [
+        "app/rider/orders/[id]/page.tsx"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/api/cron/operational-alerts/route.ts",
+      [
+        "lib/email/client.ts"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "lib/ordini/annulla.ts",
+      [
+        "lib/ordini/annulla.ts",
+        "lib/email/templates.ts"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "migrations/127_minori_22_agosto.sql",
+      [
+        "migrations/127_minori_22_agosto.sql"
+      ]
+    ],
+    [
+      "lib/stripe/payout.ts (parte 1 di 2)",
+      "app/admin/payouts/page.tsx",
+      [
+        "app/admin/disputes/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/terms/page.tsx",
+      [
+        "app/sell/page.tsx",
+        "components/SellerApplicationForm.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/product/[id]/page.tsx",
+      [
+        "components/store-sections/HeroSection.tsx",
+        "components/home-sections/HomeSectionRenderer.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/orders/[id]/page.tsx",
+      [
+        "app/orders/[id]/page.tsx",
+        "app/rider/orders/[id]/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "lib/constants.ts",
+      [
+        "lib/constants.ts",
+        "lib/stripe/client.ts"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      [
+        "app/sell/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "lib/env.ts",
+      [
+        "app/api/newsletter/route.ts"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/sell/page.tsx",
+      [
+        "app/sell/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/checkout/page.tsx",
+      [
+        "app/checkout/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/rider/orders/[id]/page.tsx",
+      [
+        "app/rider/orders/[id]/page.tsx",
+        "app/seller/orders/[id]/page.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "lib/ordini/annulla.ts",
+      [
+        "lib/email/templates.ts"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "migrations/014_mvp_sprint.sql",
+      [
+        "migrations/014_mvp_sprint.sql"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "components/home-sections/HomeSectionRenderer.tsx",
+      [
+        "components/home-sections/HomeSectionRenderer.tsx"
+      ]
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      "app/seller/orders/[id]/page.tsx",
+      [
+        "app/seller/orders/[id]/page.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "app/product/[id]/page.tsx",
+      [
+        "components/Footer.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "app/orders/[id]/page.tsx",
+      [
+        "migrations/126_radiografia_22_agosto.sql",
+        "app/orders/[id]/return/page.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "migrations/126_radiografia_22_agosto.sql",
+      [
+        "migrations/126_radiografia_22_agosto.sql",
+        "components/products/VendutoDa.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "lib/constants.ts",
+      [
+        "app/api/cron/release-payouts/route.ts",
+        "app/rider/onboarding/page.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      [
+        "app/sell/page.tsx",
+        "app/seller/layout.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "lib/env.ts",
+      [
+        "lib/legal/titolare.ts",
+        "app/privacy/page.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "app/sell/page.tsx",
+      [
+        "app/sell/page.tsx",
+        "migrations/119_radiografia_18_agosto.sql"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "migrations/119_radiografia_18_agosto.sql",
+      [
+        "migrations/119_radiografia_18_agosto.sql"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "app/seller/layout.tsx",
+      [
+        "app/seller/layout.tsx",
+        "app/rider/onboarding/page.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "lib/ordini/annulla.ts",
+      [
+        "lib/ordini/annulla.ts"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "app/api/kyc/start-check/route.ts",
+      [
+        "app/api/kyc/start-check/route.ts",
+        "app/admin/users/page.tsx"
+      ]
+    ],
+    [
+      "app/terms/page.tsx",
+      "components/Footer.tsx",
+      [
+        "components/Footer.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "app/orders/[id]/page.tsx",
+      [
+        "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "app/orders/[id]/dispute/page.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "migrations/126_radiografia_22_agosto.sql",
+      [
+        "lib/products/aiPatch.ts",
+        "app/api/ai/improve-product/route.ts"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "lib/constants.ts",
+      [
+        "lib/promesse-pubbliche.ts",
+        "app/cart/page.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      [
+        "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "components/ui/AuthShell.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/PhotoReviewUpload.tsx",
+      [
+        "components/seller/site/ImageUpload.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "app/checkout/page.tsx",
+      [
+        "app/checkout/page.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/home-sections/HomeSectionRenderer.tsx",
+      [
+        "components/home-sections/HomeSectionRenderer.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "app/api/ai/improve-product/route.ts",
+      [
+        "app/api/ai/improve-product/route.ts"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "lib/products/aiPatch.ts",
+      [
+        "lib/products/aiPatch.ts"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/Navbar.tsx",
+      [
+        "components/Navbar.tsx"
+      ]
+    ],
+    [
+      "app/product/[id]/page.tsx",
+      "components/Footer.tsx",
+      [
+        "components/Footer.tsx"
+      ]
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      "migrations/126_radiografia_22_agosto.sql",
+      [
+        "migrations/126_radiografia_22_agosto.sql"
+      ]
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      [
+        "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql"
+      ]
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      "app/rider/orders/[id]/page.tsx",
+      [
+        "app/rider/orders/[id]/page.tsx"
+      ]
+    ],
+    [
+      "migrations/126_radiografia_22_agosto.sql",
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      [
+        "components/seller/ProductForm.tsx"
+      ]
+    ],
+    [
+      "migrations/126_radiografia_22_agosto.sql",
+      "app/api/ai/improve-product/route.ts",
+      [
+        "app/api/vision/extract-product/route.ts",
+        "app/api/ai/improve-product/route.ts"
+      ]
+    ],
+    [
+      "migrations/126_radiografia_22_agosto.sql",
+      "lib/products/aiPatch.ts",
+      [
+        "lib/products/aiPatch.ts",
+        "components/SupportProductAssistant.tsx"
+      ]
+    ],
+    [
+      "migrations/126_radiografia_22_agosto.sql",
+      "lib/ai/catalogBatch.ts",
+      [
+        "lib/ai/catalogBatch.ts",
+        "app/seller/products/ai-batch/page.tsx"
+      ]
+    ],
+    [
+      "lib/constants.ts",
+      "app/seller/layout.tsx",
+      [
+        "app/rider/onboarding/page.tsx"
+      ]
+    ],
+    [
+      "lib/constants.ts",
+      "migrations/127_minori_22_agosto.sql",
+      [
+        "lib/shipping.ts"
+      ]
+    ],
+    [
+      "lib/constants.ts",
+      "app/rider/help/page.tsx",
+      [
+        "app/rider/help/page.tsx"
+      ]
+    ],
+    [
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      "app/sell/page.tsx",
+      [
+        "app/sell/page.tsx"
+      ]
+    ],
+    [
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      "app/checkout/page.tsx",
+      [
+        "migrations/114_hardening_radiografia.sql"
+      ]
+    ],
+    [
+      "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+      "app/seller/layout.tsx",
+      [
+        "app/seller/layout.tsx"
+      ]
+    ],
+    [
+      "lib/env.ts",
+      "lib/ordini/annulla.ts",
+      [
+        "app/profile/settings/page.tsx"
+      ]
+    ],
+    [
+      "app/sign-in/page.tsx",
+      "app/sell/page.tsx",
+      [
+        "app/sign-in/page.tsx",
+        "app/sign-up/page.tsx"
+      ]
+    ],
+    [
+      "components/rider/SOSButton.tsx",
+      "app/rider/orders/[id]/page.tsx",
+      [
+        "app/admin/sos/page.tsx"
+      ]
+    ],
+    [
+      "app/admin/orders/page.tsx",
+      "app/api/cron/operational-alerts/route.ts",
+      [
+        "app/api/cron/operational-alerts/route.ts"
+      ]
+    ],
+    [
+      "app/admin/orders/page.tsx",
+      "app/admin/payouts/page.tsx",
+      [
+        "app/admin/payouts/page.tsx"
+      ]
+    ],
+    [
+      ".github/workflows/backup-db.yml",
+      "scripts/backup-db.sh",
+      [
+        "docs/backup-restore.md",
+        "scripts/backup-db.sh"
+      ]
+    ],
+    [
+      "app/sell/page.tsx",
+      "migrations/119_radiografia_18_agosto.sql",
+      [
+        "migrations/119_radiografia_18_agosto.sql"
+      ]
+    ],
+    [
+      "migrations/119_radiografia_18_agosto.sql",
+      "app/seller/layout.tsx",
+      [
+        "app/rider/profile/page.tsx"
+      ]
+    ],
+    [
+      "migrations/119_radiografia_18_agosto.sql",
+      "migrations/127_minori_22_agosto.sql",
+      [
+        "migrations/127_minori_22_agosto.sql"
+      ]
+    ],
+    [
+      "app/rider/orders/[id]/page.tsx",
+      "app/seller/orders/[id]/page.tsx",
+      [
+        "app/seller/orders/[id]/page.tsx"
+      ]
+    ],
+    [
+      "app/rider/orders/[id]/page.tsx",
+      "lib/analytics/posthog.tsx",
+      [
+        "lib/analytics/posthog.tsx"
+      ]
+    ],
+    [
+      "app/api/ai/improve-product/route.ts",
+      "lib/products/aiPatch.ts",
+      [
+        "app/api/ai/catalog-chat/route.ts"
+      ]
+    ],
+    [
+      "app/api/ai/improve-product/route.ts",
+      "lib/ai/client.ts",
+      [
+        "lib/ai/client.ts"
+      ]
+    ],
+    [
+      "components/Footer.tsx",
+      "components/CategoryShowcase.tsx",
+      [
+        "components/CategoryShowcase.tsx"
+      ]
+    ]
+  ],
+  "ondate": [
+    [
+      {
+        "chiave": "lib/stripe/payout.ts (parte 1 di 2)",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|se il fattorino conferma la consegna prima dei contanti, l'incasso resta in sospeso e il negozio non viene pagato",
+            "titolo": "Se il fattorino conferma la consegna prima dei contanti, l'incasso resta in sospeso e il negozio non viene pagato",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/rider/orders/[id]/page.tsx:189-207 (verifyDelivery: dopo il codice giusto setTimeout(() => router.push('/rider'), 1000) a :206) · app/rider/orders/[id]/page.tsx:485-508 (riquadro «Conferma incasso» dentro il contenuto, sotto mappa, scheda e GPS) · app/rider/orders/[id]/page.tsx:557-591 (barra fissa con «Conferma consegna») · migrations/127_minori_22_agosto.sql verify_delivery_code (porta a DELIVERED senza guardare cash_confirmed_at) e confirm_cod_remittance (~657-672: salta gli ordini con cash_confirmed_at nullo) · app/rider/page.tsx:232 (myActive esclude DELIVERED: nessun promemoria) · migrations/127_minori_22_agosto.sql:718-729 (dopo 7 giorni il fattorino non vede più l'ordine) · app/api/rider/cash-confirm/route.ts (legge l'ordine con la sessione del fattorino) · lib/stripe/payout.ts:340-342",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|si possono togliere quattro controlli sui soldi e 4.257 prove automatiche su 4.258 restano verdi",
+            "titolo": "Si possono togliere quattro controlli sui soldi e 4.257 prove automatiche su 4.258 restano verdi",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "lib/stripe/webhook/ordini.ts:88 (sessione davvero pagata) · lib/stripe/webhook/ordini.ts:188-226 (incasso uguale al preventivo, con rimborso automatico) · lib/stripe/payout.ts:88 (bonifico al negozio solo a ordine consegnato) · lib/stripe/payout.ts:132 (turno atomico del bonifico: .in('payout_status', ['HELD','PENDING_SELLER_ONBOARDING']))",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|chi paga in contanti e restituisce un prodotto riceve d'ufficio credito mycity invece dei soldi, senza che nessuno gli chieda se lo vuole",
+            "titolo": "Chi paga in contanti e restituisce un prodotto riceve d'ufficio credito MyCity invece dei soldi, senza che nessuno gli chieda se lo vuole",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "lib/stripe/payout.ts:859-900 (ramo contanti → rpc wallet_credit, reason 'cod_refund') · app/api/returns/[id]/decide/route.ts:174-197 · app/returns/page.tsx (testo «il rimborso arriva come credito MyCity… se preferisci il bonifico, scrivici») · app/terms/page.tsx §7 («con lo stesso mezzo di pagamento») · app/orders/[id]/return/page.tsx (nessuna scelta del metodo)",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|conferme d'ordine, avvisi al negozio, rimborsi e buoni regalo partono come email pubblicitarie, con «annulla l'iscrizione» in fondo",
+            "titolo": "Conferme d'ordine, avvisi al negozio, rimborsi e buoni regalo partono come email pubblicitarie, con «annulla l'iscrizione» in fondo",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "lib/email/client.ts:106,132-148 · app/api/orders/cod/route.ts:937,954 · lib/stripe/webhook/ordini.ts:533,549 · lib/stripe/webhook/rimborsi.ts:274 · lib/stripe/payout.ts:676 · lib/stripe/webhook/giftcard.ts:109,115",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|chiudere un reclamo rimborsando solo i contanti blocca per sempre il resto del bonifico al negozio",
+            "titolo": "Chiudere un reclamo rimborsando solo i contanti blocca per sempre il resto del bonifico al negozio",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "app/api/admin/disputes/[id]/resolve/route.ts:170-174 (integrale calcolato su total_price) · lib/stripe/payout.ts:821,853 (refundOrder calcola il pieno sul lordo gross_total_cents) · app/api/cron/release-payouts/route.ts:204 e :364 (paga solo internal_dispute_status vuoto o RESOLVED)",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|gli avvisi di stripe sui conti dei negozi vengono respinti: se la banca rifiuta un bonifico al negozio non lo sa nessuno",
+            "titolo": "Gli avvisi di Stripe sui conti dei negozi vengono respinti: se la banca rifiuta un bonifico al negozio non lo sa nessuno",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "app/api/stripe/webhook/route.ts:43,52 · lib/env.ts:41 · app/api/stripe/webhook/route.ts:182-185,207-211 · lib/stripe/webhook/trasferimenti.ts:69-137 · lib/stripe/payout.ts:39-49 · (istruzioni date a Nicola) /home/user/ad-mycity/consegne/salute/2026-10-10-chiavi-vercel.md:59-62",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|se il database sbaglia una scrittura durante un pagamento, il sito risponde a stripe «tutto a posto» e stripe non riprova più",
+            "titolo": "Se il database sbaglia una scrittura durante un pagamento, il sito risponde a Stripe «tutto a posto» e Stripe non riprova più",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/webhook/dispute.ts:109-112 · lib/stripe/webhook/dispute.ts:140 · lib/stripe/webhook/trasferimenti.ts:46-47 · lib/stripe/webhook/abbonamenti.ts:63,93 · lib/stripe/payout.ts:1027 · app/api/stripe/webhook/route.ts:233-237 · app/api/cron/release-payouts/route.ts:89,200",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|se un rimborso in contanti si inceppa a metà, il cliente non riceve niente e il reso non si può più rifare",
+            "titolo": "Se un rimborso in contanti si inceppa a metà, il cliente non riceve niente e il reso non si può più rifare",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/payout.ts:841 (prenotazione del rimborso) · lib/stripe/payout.ts:865-906 (ramo contanti: storno a 879 senza protezione, accredito che lancia a 906) · lib/stripe/payout.ts:966-978 (solo il ramo carta restituisce la prenotazione con storna_rimborso) · app/api/returns/[id]/avanza/route.ts:140 · app/api/returns/[id]/decide/route.ts:116",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|un reclamo chiuso a favore del cliente su un ordine in contanti mai pagato gli regala credito mycity",
+            "titolo": "Un reclamo chiuso a favore del cliente su un ordine in contanti mai pagato gli regala credito MyCity",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/payout.ts:791 (colonne lette) · lib/stripe/payout.ts:865-933 (ramo contanti di refundOrder) · app/api/admin/disputes/[id]/resolve/route.ts:111-133 · app/admin/disputes/page.tsx:296-321 · app/orders/[id]/dispute/page.tsx:64-70",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|un rimborso parziale fatto dal cruscotto stripe viene ignorato: il negozio prende il bonifico intero e l'annullo dopo non funziona più",
+            "titolo": "Un rimborso parziale fatto dal cruscotto Stripe viene ignorato: il negozio prende il bonifico intero e l'annullo dopo non funziona più",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/webhook/rimborsi.ts:44-64 · lib/stripe/payout.ts:161 (residuoRecuperabile) · lib/ordini/annulla.ts (ramo isPaidCard: residuoCent = total_price − refunded_amount_cents) · lib/stripe/payout.ts:827-830,939-978",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|l'email di rimborso promette i soldi sul metodo di pagamento entro 5-10 giorni anche a chi ha pagato in contanti e ha ricevuto credito mycity",
+            "titolo": "L'email di rimborso promette i soldi sul metodo di pagamento entro 5-10 giorni anche a chi ha pagato in contanti e ha ricevuto credito MyCity",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "lib/email/templates.ts:241-256 · lib/stripe/payout.ts:662-679 · lib/stripe/payout.ts:859-932 · app/api/returns/[id]/avanza/route.ts:177 · app/api/returns/[id]/decide/route.ts:189-196 · app/api/admin/disputes/[id]/resolve/route.ts:120-128",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato",
+            "titolo": "Ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "produzione: tabella profiles (role rider) · lib/stripe/payout.ts:310 · components (striscia «Consegna in 30-60 min» in testata, home, negozio, scheda prodotto)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "(nessun file citato)",
+        "difetti": [
+          {
+            "chiave": "rls-database|falla di sicurezza r1 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R1 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "bloccante",
+            "gruppo": "rls-database",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "rls-database|falla di sicurezza r2 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R2 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "bloccante",
+            "gruppo": "rls-database",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "rls-database|falla di sicurezza r10 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R10 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "rls-database",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "rls-database|falla di sicurezza r11 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R11 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "rls-database",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "rls-database|falla di sicurezza r12 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R12 da chiudere (regole d'accesso al database): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "rls-database",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "sicurezza-auth|falla di sicurezza r7 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R7 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "bloccante",
+            "gruppo": "sicurezza-auth",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "sicurezza-auth|falla di sicurezza r9 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R9 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "bloccante",
+            "gruppo": "sicurezza-auth",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "sicurezza-auth|falla di sicurezza r14 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R14 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "sicurezza-auth|falla di sicurezza r15 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R15 da chiudere (sicurezza degli accessi): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|falla di sicurezza r75 da chiudere (rilascio): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R75 da chiudere (rilascio): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "(nel referto privato)",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|falla di sicurezza r83 da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "titolo": "Falla di sicurezza R83 da chiudere (pagamenti): i dettagli restano fuori dal deposito pubblico finché non è chiusa",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "(nel referto privato)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/deploy-dopo-ci.yml",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|il controllo che confronta il database vero col codice non si è mai collegato, e il rilascio controllato cadrà sullo stesso indirizzo",
+            "titolo": "Il controllo che confronta il database vero col codice non si è mai collegato, e il rilascio controllato cadrà sullo stesso indirizzo",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": ".github/workflows/deriva-migrazioni-produzione.yml:57-66 · .github/workflows/deploy-dopo-ci.yml:287-320 · .github/workflows/deploy-dopo-ci.yml:335 · scripts/check-migration-drift.mjs",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|la regola che dovrebbe fermare il codice rosso esiste su github ma è spenta, non guarda nessun ramo e aspetta un controllo che non esiste",
+            "titolo": "La regola che dovrebbe fermare il codice rosso esiste su GitHub ma è spenta, non guarda nessun ramo e aspetta un controllo che non esiste",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "GitHub → Settings → Rules → ruleset «Main» (id 16879481) · vercel.json:6-10 · .github/workflows/deploy-dopo-ci.yml:52-58",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|la produzione è indietro di ventuno migrazioni: il codice pubblicato chiama tabelle, colonne e funzioni che nel database vero non esistono",
+            "titolo": "La produzione è indietro di ventuno migrazioni: il codice pubblicato chiama tabelle, colonne e funzioni che nel database vero non esistono",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "produzione Supabase (progetto Mycity) vs migrations/130-150; .github/workflows/deploy-dopo-ci.yml:166-205 (segreti SUPABASE_DB_URL, VERCEL_* mai configurati)",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|ogni unione su main pubblica in produzione senza aspettare la ci",
+            "titolo": "Ogni unione su main pubblica in produzione senza aspettare la CI",
+            "gravita": "bloccante",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/vercel.json:6-10 + /home/user/ad-mycity/marketplace/.github/workflows/deploy-dopo-ci.yml:58-70",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/126_radiografia_22_agosto.sql",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|il riquadro «venduto da» non compare in produzione: la migrazione che aggiunge i dati dell'impresa alla vista pubblica dei negozi non è stata applicata",
+            "titolo": "Il riquadro «Venduto da» non compare in produzione: la migrazione che aggiunge i dati dell'impresa alla vista pubblica dei negozi non è stata applicata",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "components/products/VendutoDa.tsx:21-28,44-50 · migrations/126_radiografia_22_agosto.sql:364-403 · produzione: vista public.seller_public_profiles",
+            "umano": null
+          },
+          {
+            "chiave": "ai-endpoints|dalla chat assistenza un alimento creato dalle foto si pubblica scrivendo «pubblica», senza mostrare gli allergeni e senza i controlli del modulo",
+            "titolo": "Dalla chat Assistenza un alimento creato dalle foto si pubblica scrivendo «pubblica», senza mostrare gli allergeni e senza i controlli del modulo",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "components/SupportProductAssistant.tsx:247-295 e 322-327 (la chat crea la bozza e invita a scrivere «pubblica») · components/SupportProductAssistant.tsx:455-490 (la scheda bozza mostra nome, prezzo, categoria, descrizione e tag, non gli attributi) · app/api/vision/extract-product/route.ts:91-96 (il modello compila gli attributi, allergeni compresi) · lib/products/draftFromVision.ts (buildDraftProductInsert copia gli attributi nella bozza) · lib/products/aiPatch.ts:274-277 (status available accettato senza nessun controllo) · app/api/ai/catalog-apply/route.ts:124-135 · components/seller/ProductForm.tsx:663-677 (il controllo che qui manca) · migrations/126_radiografia_22_agosto.sql:528-531 (il database guarda solo gli allergeni, non gli ingredienti)",
+            "umano": null
+          },
+          {
+            "chiave": "ai-endpoints|«migliora tutto il catalogo» può scrivere allergeni e ingredienti indovinati dal nome sopra quelli del negoziante, che li applica senza vederli",
+            "titolo": "«Migliora tutto il catalogo» può scrivere allergeni e ingredienti indovinati dal nome sopra quelli del negoziante, che li applica senza vederli",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "lib/ai/catalogBatch.ts:128 (prompt «Migliora la scheda… attributi mancanti») · lib/ai/catalogBatch.ts:189-205 (al modello si passa l'elenco attributi della categoria, allergeni e ingredienti compresi, senza foto) · lib/products/aiPatch.ts:240-258 (qualunque attributo di testo o casella viene scritto, anche sopra il valore esistente) · app/seller/products/ai-batch/page.tsx:447-454 (anteprima: solo «summary» o «Modifiche proposte», nessun valore) e :378 («Applica a tutti») · app/api/ai/catalog-batch/apply/route.ts:176-205 · migrations/126_radiografia_22_agosto.sql:528-531 (il guardiano del database controlla solo che il campo non sia vuoto) · stesso varco in app/api/ai/improve-product/route.ts:57, catalog-chat, product-chat, copilot",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/sign-in/page.tsx",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|chi chiede la nuova password dal computer e apre l'email dal telefono non riesce a cambiarla, e la pagina non dice perché",
+            "titolo": "Chi chiede la nuova password dal computer e apre l'email dal telefono non riesce a cambiarla, e la pagina non dice perché",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "lib/supabase/client.ts:17 · node_modules/@supabase/ssr/dist/main/createBrowserClient.js:37 · app/reset-password/page.tsx:93-100 · app/reset-password/page.tsx:154-157 · app/auth/callback/route.ts:52-54 · app/sign-in/page.tsx:72",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|chi si iscrive e non trova l'email di conferma resta chiuso fuori: «reinvia» è sempre spento e l'accesso gli dice «password sbagliata»",
+            "titolo": "Chi si iscrive e non trova l'email di conferma resta chiuso fuori: «Reinvia» è sempre spento e l'accesso gli dice «password sbagliata»",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/auth/verify-email/page.tsx:24-30,32-39,67-73 · app/sign-up/page.tsx:178 · app/api/auth/signin/route.ts:53-56 · app/sign-in/page.tsx:143-147",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/stripe/payout.ts (parte 2 di 2)",
+        "difetti": [
+          {
+            "chiave": "pagamenti-stripe|la nuova bandiera annullalordine apre la strada alla merce rimessa a scaffale due volte",
+            "titolo": "La nuova bandiera annullaLOrdine apre la strada alla merce rimessa a scaffale due volte",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/payout.ts:771 (usata a 838 e 987)",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|la merce puo' tornare a scaffale due volte fra il rimborso e l'eco di stripe: il nuovo guardiano non vede l'altro processo",
+            "titolo": "La merce puo' tornare a scaffale due volte fra il rimborso e l'eco di Stripe: il nuovo guardiano non vede l'altro processo",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/payout.ts:1085 (+ lib/stripe/webhook/rimborsi.ts:206-209)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/orders/cod/route.ts",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso",
+            "titolo": "Nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/api/orders/cod/route.ts:738 (salvato in orders.delivery_slot) · app/api/orders/cod/route.ts:859-862 (avviso «Nuovo ordine!» senza fascia) · lib/stripe/webhook/ordini.ts:317 (salvato, ramo carta) · app/seller/orders/[id]/page.tsx:142 (la pagina del negozio non la legge) · app/rider/page.tsx:41,118 (letta ma mai mostrata) · app/rider/orders/[id]/page.tsx:88 (non letta) · app/orders/[id]/page.tsx (mai usata) · lib/quando-arriva.ts:47-57 (etichette relative «Domani · 9:00–12:00»)",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|se il negoziante segna chiusi tutti i giorni, per esempio per ferie, il sito lo considera sempre aperto e accetta ordini a qualsiasi ora",
+            "titolo": "Se il negoziante segna chiusi tutti i giorni, per esempio per ferie, il sito lo considera sempre aperto e accetta ordini a qualsiasi ora",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "lib/store-hours.ts (negozioPuoServire: `if (!configured) return true`; isStoreClosedForOrder: `if (!configured) return false`) · components/seller/StoreHoursEditor.tsx:89-95 («Chiudi» mette il giorno a lista vuota) · components/seller/AnnouncementEditor.tsx:38 (suggerisce «Chiusi per ferie dal 10 al 20 agosto») · app/api/orders/cod/route.ts:418-422 · app/api/stripe/checkout/route.ts (stesso controllo) · components/seller/SellerOnboardingChecklist.tsx:92",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|il negozio che scrive l'indirizzo senza premere «cerca» viene messo a roma, e da piacenza nessuno può più ordinargli una consegna",
+            "titolo": "Il negozio che scrive l'indirizzo senza premere «Cerca» viene messo a Roma, e da Piacenza nessuno può più ordinargli una consegna",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "components/StoreLocationPicker.tsx:9,31-34,53-56,201-205 · components/SellerApplicationForm.tsx:144-148,200-213,346-350 · components/VendorForm.tsx:95-99,161-170 · app/sell/page.tsx:102-103 · lib/ordini/zona-di-consegna.ts:40-45 · lib/constants.ts:57 · app/api/orders/cod/route.ts:520-532 · app/api/stripe/checkout/route.ts:516",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18",
+            "titolo": "Il codice sconto di MyCity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "lib/stripe/client.ts:415-425 · lib/stripe/webhook/ordini.ts:290-294 · app/api/orders/cod/route.ts:644,691-695 · lib/ordini/prezzi.ts:121-124 · app/seller/earnings/commissione.ts:90 · app/seller/help/domande.ts:61-62 · app/terms/page.tsx:255-257 · migrations/014_mvp_sprint.sql:130-143",
+            "umano": null
+          },
+          {
+            "chiave": "dati-analytics|il cruscotto del negoziante mostra meno soldi di quelli che riceve quando il cliente paga anche col credito mycity",
+            "titolo": "Il cruscotto del negoziante mostra meno soldi di quelli che riceve quando il cliente paga anche col credito MyCity",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "lib/metriche-venditore.ts:78-80 e 116-127 · app/api/orders/cod/route.ts:681-684, 692, 705, 713, 728-729 · app/seller/dashboard/page.tsx:153 e 228 · app/seller/analytics/page.tsx:94, 153, 214 · lib/guadagni/negozio.ts:51-53",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|la pagina dell'unico negozio vero e l'errore di cassa offrono il «ritiro in negozio», ma il servizio è spento",
+            "titolo": "La pagina dell'unico negozio vero e l'errore di cassa offrono il «Ritiro in negozio», ma il servizio è spento",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "lib/store-customization.ts:104-113 (BADGE_CATALOG con 'ritiro_in_negozio') · components/store-sections/HeroSection.tsx:83, :244 · lib/store-hours.ts:239, :245 (motivoNegozioChiuso) · app/api/stripe/checkout/route.ts:405 · app/api/orders/cod/route.ts:421 · lib/constants.ts:81 (RITIRO_IN_NEGOZIO_ATTIVO = false)",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|promettiamo 5 euro di benvenuto (e 5 euro con la newsletter) che si tolgono da soli in cassa, ma in cassa non compaiono mai",
+            "titolo": "Promettiamo 5 euro di benvenuto (e 5 euro con la newsletter) che si tolgono da soli in cassa, ma in cassa non compaiono mai",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "components/BuyerOnboardingTour.tsx:32 · migrations/029_welcome_credit_search_fts_price_alert.sql:28-40 · lib/email/templates.ts:405-414 · components/home-sections/HomeSectionRenderer.tsx:353-357 · app/checkout/page.tsx:410-416,534,654-657 · app/api/orders/cod/route.ts:70-72,668-672 · app/profile/loyalty/page.tsx:174-181 · app/api/newsletter/route.ts:118-127 · app/api/newsletter/confirm/route.ts:44-52",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|la prova che rende idempotente l'ordine in contanti si scrive best-effort, e la risposta dice riuscito lo stesso",
+            "titolo": "La prova che rende idempotente l'ordine in contanti si scrive best-effort, e la risposta dice riuscito lo stesso",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/orders/cod/route.ts:1036-1049",
+            "umano": null
+          },
+          {
+            "chiave": "api-backend|la lettura dei negozi non viene mai controllata: se torna corta, saltano il controllo 'negozio chiuso' e quello 'fuori zona', e la consegna va a tariffa fissa",
+            "titolo": "La lettura dei negozi non viene mai controllata: se torna corta, saltano il controllo 'negozio chiuso' e quello 'fuori zona', e la consegna va a tariffa fissa",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/orders/cod/route.ts:404 (identico in app/api/stripe/checkout/route.ts:353)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/rider/SOSButton.tsx",
+        "difetti": [
+          {
+            "chiave": "api-backend|l'sos del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
+            "titolo": "L'SOS del fattorino non arriva davvero a nessuno: solo una notifica nel pannello, mentre a lui diciamo «alert immediato»",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "migrations/037_rider_sos_admin_dashboard.sql:41-62 (il trigger scrive solo righe in notifications) · vercel.json:21 (send-push ogni 5 minuti) · components/rider/SOSButton.tsx:153 (testo «riceveranno un alert immediato») · components/rider/RiderShell.tsx:67 (SOSButton senza orderId) · app/admin/sos/page.tsx:140-149",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|il pulsante sos apre il 112 solo dopo aver aspettato gps e rete: con poco segnale il tastierino può non aprirsi mai",
+            "titolo": "Il pulsante SOS apre il 112 solo dopo aver aspettato GPS e rete: con poco segnale il tastierino può non aprirsi mai",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "components/rider/SOSButton.tsx:44-50 (attesa GPS fino a 8 secondi) · :56 (auth.getUser, chiamata di rete) · :58-66 (insert, chiamata di rete) · :81 (window.location.href = 'tel:112')",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/orders/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|il dettaglio di un ordine nel pannello admin non esiste: ogni link «ordine» e ogni allarme portano a una pagina non trovata",
+            "titolo": "Il dettaglio di un ordine nel pannello admin non esiste: ogni link «ordine» e ogni allarme portano a una pagina non trovata",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/orders/page.tsx:233 · app/admin/today/page.tsx:198 · app/admin/payouts/page.tsx:221 · app/api/cron/operational-alerts/route.ts:86,108,132,172,201,244,424 e :636 (link «[apri]» nella mail agli amministratori) · app/admin/orders/page.tsx:246-257 (unica azione: Annulla) · .next/server/app/admin/orders/ (c'è solo page.js, nessun [id])",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|il pannello ordini dice «0 ordini · nessun ordine» quando la lettura e' caduta — lo stesso difetto che il lotto ha chiuso nelle due pagine sorelle",
+            "titolo": "Il pannello ordini dice «0 ordini · Nessun ordine» quando la lettura e' caduta — lo stesso difetto che il lotto ha chiuso nelle due pagine sorelle",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/orders/page.tsx:71",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/backup-db.yml",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|il database di produzione non ha nessuna copia di sicurezza: la copia notturna è fallita 60 volte su 60",
+            "titolo": "Il database di produzione non ha nessuna copia di sicurezza: la copia notturna è fallita 60 volte su 60",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": ".github/workflows/backup-db.yml:120 · .github/workflows/backup-db.yml:197-200 · docs/backup-restore.md:34-38 · docs/backup-restore.md:63-66 · docs/backup-restore.md:116-117 · scripts/backup-db.sh (pg_dump)",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|la copia del database muore per colpa delle foto, quaranta righe sopra la riga che dice che non deve succedere",
+            "titolo": "La copia del database muore per colpa delle foto, quaranta righe sopra la riga che dice che non deve succedere",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": ".github/workflows/backup-db.yml:173-176 (e lo stesso schema a :349-352)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/terms/page.tsx",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|il sito non dice chi c'è dietro: niente nome, sede, partita iva né pec, il titolare risulta solo «mycity»",
+            "titolo": "Il sito non dice chi c'è dietro: niente nome, sede, partita IVA né PEC, il titolare risulta solo «MyCity»",
+            "gravita": "bloccante",
+            "gruppo": "privacy-legale",
+            "dove": "lib/legal/titolare.ts:110-128 (titolare(): denominazione ripiega su 'MyCity', tutti gli altri campi null) · lib/legal/titolare.ts:131-149 (rigaIdentita vuota; commento «la attivo quando raggiungeremo i 5000€») · app/privacy/page.tsx:57-62 · app/terms/page.tsx:59-62 e 214-215 (modulo di recesso) · components/Footer.tsx:136 · Vercel produzione: nessuna delle 14 NEXT_PUBLIC_TITOLARE_*",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|le segnalazioni di contenuti illeciti finiscono in un archivio che nessuno può aprire: la pagina admin a cui porta l'avviso non esiste",
+            "titolo": "Le segnalazioni di contenuti illeciti finiscono in un archivio che nessuno può aprire: la pagina admin a cui porta l'avviso non esiste",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/api/segnalazioni/route.ts:63-75 (scrive nella tabella) e :104-110 (avviso con link '/admin/segnalazioni') · components/Segnala.tsx:58 (al cliente: «La guardiamo e ti diciamo com'è andata») e :113-120 (solo l'email, facoltativa) · app/terms/page.tsx:434-437 e :450-455 (promessa di esito motivato e di comunicazione scritta al venditore) · migrations/126_radiografia_22_agosto.sql:426-442 (colonne stato, esito_motivato, deciso_da) · .next/app-path-routes-manifest.json (nessuna rotta /admin/segnalazioni)",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|il negozio può chiudere un reso senza rimborsare il cliente, anche se il cliente ha esercitato il recesso e la merce è già tornata",
+            "titolo": "Il negozio può chiudere un reso senza rimborsare il cliente, anche se il cliente ha esercitato il recesso e la merce è già tornata",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/api/returns/[id]/avanza/route.ts:51-56 (CANCELED ammesso da REQUESTED, APPROVED, SHIPPED_BACK e RECEIVED) · app/api/returns/[id]/avanza/route.ts:79 (la rotta non legge nemmeno il motivo del reso) · components/seller/ReturnRequestCard.tsx:60-73 (pulsante «Chiudi senza rimborso» anche dopo «Ho ricevuto la merce») · app/api/returns/[id]/decide/route.ts:66-74 (il divieto di rifiuto vale solo per CHANGED_MIND) · app/orders/[id]/return/page.tsx:30 (motivo già selezionato: DAMAGED) · app/returns/page.tsx:54, 68 e la sezione «Tempi e modalità di rimborso» · app/terms/page.tsx:199-200 · app/api/cron/release-payouts/route.ts:79 (CANCELED non è fra gli stati che bloccano il bonifico)",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|i buoni regalo sono in vendita senza nessuna regola nelle condizioni, e i soldi finiscono sul conto di mycity",
+            "titolo": "I buoni regalo sono in vendita senza nessuna regola nelle condizioni, e i soldi finiscono sul conto di MyCity",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/profile/gift-cards/page.tsx:37,43,106-132,268-270 · app/api/gift-cards/checkout/route.ts:49-68 · migrations/030_achievements_giftcards_subscriptions_sponsored.sql:96 · app/terms/page.tsx (nessuna sezione buoni) · components/account/AccountShell.tsx:37",
+            "umano": null
+          },
+          {
+            "chiave": "pagamenti-stripe|nessuna pagina chiede al negozio la partita iva: lo approviamo senza, e «venduto da» resta vuoto",
+            "titolo": "Nessuna pagina chiede al negozio la partita IVA: lo approviamo senza, e «Venduto da» resta vuoto",
+            "gravita": "grave",
+            "gruppo": "pagamenti-stripe",
+            "dove": "components/SellerApplicationForm.tsx:29-31, 53-54 · app/sell/page.tsx:93 · components/products/VendutoDa.tsx:25, 52, 60 · app/api/kyc/start-check/route.ts:78 · app/terms/page.tsx:67 · app/admin/users/page.tsx:1077-1083",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|ai negozi diciamo «apri gratis, nessun costo mensile» in sei punti del sito, e poi chiediamo 50 euro al mese",
+            "titolo": "Ai negozi diciamo «apri gratis, nessun costo mensile» in sei punti del sito, e poi chiediamo 50 euro al mese",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "app/faq/page.tsx:118 · app/about/page.tsx:28 · app/sell/layout.tsx:6, :10, :19 · app/seller/help/domande.ts:62 · app/seller/earnings/commissione.ts:91 · contro components/SellerApplicationForm.tsx:225, :238, :378, :403 · components/seller/SubscriptionBanner.tsx:56-62 · app/seller/layout.tsx:59, :163 · app/api/seller/subscription/checkout/route.ts:23, :97 · app/terms/page.tsx:254-258",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+            "titolo": "Manca l'esito «cliente assente»: i termini promettono tre telefonate e un rimborso al netto della consegna, il codice non sa registrarlo",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "lib/order-status.ts:1-9 e 111-116 · app/terms/page.tsx:162-170 · lib/ordini/annulla.ts:68-157 · app/api/rider/ (nessuna rotta) · database: 0 funzioni in pg_proc con nome assente/fallita/tentativo",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+            "titolo": "Un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/rider/onboarding/page.tsx:43, 111-112, 158 · app/api/kyc/start-check/route.ts:92-100 · migrations/021_seller_kyc_and_approval.sql:21 · migrations/119_radiografia_18_agosto.sql:91 · app/admin/users/ (nessun riferimento a legal_birth_date) · app/terms/page.tsx:108",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/PhotoReviewUpload.tsx",
+        "difetti": [
+          {
+            "chiave": "architettura|gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+            "titolo": "Gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "components/PhotoReviewUpload.tsx:44 · components/rider/CashConfirmDialog.tsx:53 · app/seller/stories/page.tsx:74",
+            "umano": null
+          },
+          {
+            "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto",
+            "titolo": "Le foto dell'iPhone (HEIC) adesso entrano davvero, ma nessuno le converte: sul telefono Android e su Chrome restano un riquadro rotto",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "components/PhotoReviewUpload.tsx:41 · app/seller/stories/page.tsx:256 · components/seller/site/GalleryFields.tsx:33 · components/seller/site/ImageUpload.tsx:20",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/cron/process-deletions/route.ts",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+            "titolo": "Il registro attività copia in chiaro nome e cognome legali di negozianti e fattorini a ogni modifica del profilo",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "migrations/115_privacy_radiografia.sql:64-69 · migrations/073_activity_tracking.sql:47-110 · app/api/cron/process-deletions/route.ts:182-186",
+            "umano": null
+          },
+          {
+            "chiave": "architettura|l'avviso dovuto a chi ha chiesto la cancellazione viene calcolato ogni notte e buttato via: nessuno chiama recapitaavvisi",
+            "titolo": "L'avviso dovuto a chi ha chiesto la cancellazione viene calcolato ogni notte e buttato via: nessuno chiama recapitaAvvisi",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/privacy/avvisi-a-chi-aspetta.ts:112 (recapitaAvvisi) + app/api/cron/process-deletions/route.ts:125",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/kyc/upload-document/route.ts",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|le copie vecchie del documento d'identita' restano nel secchio e nessuna regola di conservazione le trova piu'",
+            "titolo": "Le copie vecchie del documento d'identita' restano nel secchio e nessuna regola di conservazione le trova piu'",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/api/kyc/upload-document/route.ts:118",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|i documenti di chi si ferma a meta' iscrizione non scadono mai",
+            "titolo": "I documenti di chi si ferma a meta' iscrizione non scadono mai",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/api/kyc/upload-document/route.ts:140",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/checkout/page.tsx",
+        "difetti": [
+          {
+            "chiave": "rls-database|il carrello rifiuta il codice di benvenuto a chi ha solo un ordine annullato: la riparazione è arrivata alla cassa ma non al database",
+            "titolo": "Il carrello rifiuta il codice di benvenuto a chi ha solo un ordine annullato: la riparazione è arrivata alla cassa ma non al database",
+            "gravita": "grave",
+            "gruppo": "rls-database",
+            "dove": "migrations/114_hardening_radiografia.sql:349-350 (check_coupon conta TUTTI gli ordini) · lib/coupons.ts:100-113 (la cassa esclude annullati e falliti, e il commento parla di una «migrazione gemella» che non esiste) · lib/coupons.ts:147-160 (validateCouponFromBrowser chiama check_coupon) · app/checkout/page.tsx:604-608 (se il controllo dice no, il codice non si applica)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/product/[id]/page.tsx",
+        "difetti": [
+          {
+            "chiave": "rls-database|quando si chiude la lettura dei profili (riparazione in attesa di firma), le schede prodotto non si aprono più, le vetrine si svuotano e google le scarta",
+            "titolo": "Quando si chiude la lettura dei profili (riparazione in attesa di firma), le schede prodotto non si aprono più, le vetrine si svuotano e Google le scarta",
+            "gravita": "bloccante",
+            "gruppo": "rls-database",
+            "dove": "app/product/[id]/page.tsx:372-383 · lib/queries/catalogo.ts:61,65-70 (COLONNE_SCHEDA_PRODOTTO con profiles!products_seller_id_fkey) · lib/queries/precarico.ts:63 · components/SearchBar.tsx:84-86 · components/home/TrendingNow.tsx:45,55,71,81 · components/SimilarProducts.tsx:51-58,68-77 · components/SponsoredCarousel.tsx:53,64-65 · components/cart/CartUpsell.tsx:57,77 · components/RecentlyViewed.tsx:50 · app/store/[id]/opengraph-image.tsx:12-17 · migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql:353-354 · migrations/110_public_profile_view.sql:47 · migrations/112_seller_public_profiles.sql:10 · migrations/152_le_viste_usano_i_permessi_di_chi_legge.sql:22-27 · tests/sql/rls/19-il-catalogo-si-vede-anche-senza-account.test.sql:177-181",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|il cliente può scrivere al negozio, ma il negozio non viene mai avvisato e dal suo pannello non vede i messaggi",
+            "titolo": "Il cliente può scrivere al negozio, ma il negozio non viene mai avvisato e dal suo pannello non vede i messaggi",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/product/[id]/page.tsx:1053 · components/ContactSellerButton.tsx:24,43-50 · app/api/chat/messages/route.ts:29-52 · migrations/026_chat_messaging.sql:96-128 · components/seller/SellerShell.tsx:30-53 · components/Navbar.tsx:93 · components/MobileTabBar.tsx:61 · app/orders/[id]/dispute/page.tsx:101",
+            "umano": null
+          },
+          {
+            "chiave": "privacy-legale|il sito promette «reso entro 14 giorni» e «ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+            "titolo": "Il sito promette «Reso entro 14 giorni» e «Ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/product/[id]/page.tsx:824-829 (FRASE_RESO su ogni scheda) · lib/promesse-pubbliche.ts:199 · components/checkout/OrderSummary.tsx:204-207 · components/home-sections/HomeSectionRenderer.tsx:77 · app/come-funziona/page.tsx:9 e 30 · components/Footer.tsx:327 · components/ui/AuthShell.tsx:47 · app/api/returns/create/route.ts (nessuna esclusione) · app/cart/page.tsx:768-776 (il commento che ammette «resta da fare»)",
+            "umano": null
+          },
+          {
+            "chiave": "ai-endpoints|l'ai può mettere un «prezzo pieno» barrato preso dal mercato, e la pagina mostra uno sconto che il negozio non ha mai fatto",
+            "titolo": "L'AI può mettere un «prezzo pieno» barrato preso dal mercato, e la pagina mostra uno sconto che il negozio non ha mai fatto",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "app/api/ai/improve-product/route.ts:55 (il modello, con la ricerca web accesa, può proporre compare_at_price) · lib/ai/patchSchema.ts:13-16 (compare_at_price in tutti gli schemi AI: chat, copilot, SEO, diagnosi) · lib/products/aiPatch.ts:182-189 (accettato se > 0, senza banda né storico) e :139-149 (patchAiPerIlForm frena solo `price`) · components/seller/ProductForm.tsx:454-459 · app/product/[id]/page.tsx:413-416, 600, 781-784 (badge «-X%» e «Risparmi …») · components/ProductCard.tsx:58-64",
+            "umano": null
+          },
+          {
+            "chiave": "immagini-media|le foto di prodotti e negozi rischiano di uscire tutte rotte, perché il sito usa un servizio di supabase che è solo a pagamento",
+            "titolo": "Le foto di prodotti e negozi rischiano di uscire tutte rotte, perché il sito usa un servizio di Supabase che è solo a pagamento",
+            "gravita": "bloccante",
+            "gruppo": "immagini-media",
+            "dove": "lib/image-url.ts:92-110 (buildSupabaseStorageUrl: /object/public/ diventa /render/image/public/) · lib/image-loader.ts:43-64 (caricatore usato da 42 <Image>, fra cui components/ProductCard.tsx:168-182, app/product/[id]/page.tsx:575-580, :638, :680, components/store-sections/HeroSection.tsx:97, components/seller/site/ImageUpload.tsx:72) · app/product/[id]/layout.tsx (precarico della prima foto) · app/product/[id]/opengraph-image.tsx:41 (sizedImage(raw, 460)) · altre 10 <Image> senza caricatore che passano la stessa URL render all'ottimizzatore di Vercel",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+            "titolo": "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "lib/promesse-pubbliche.ts:175-185 · app/checkout/page.tsx:539-543,558 · app/product/[id]/page.tsx (riga di rassicurazione)",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|nelle schede prodotto vere compaiono «vegano false», «biologico true» e «alt text», e il negozio vede spuntate caselle sbagliate",
+            "titolo": "Nelle schede prodotto vere compaiono «Vegano false», «Biologico true» e «Alt text», e il negozio vede spuntate caselle sbagliate",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "lib/category-attributes.ts:188-212 (findLabelForKey, formatAttributeValue) · app/product/[id]/page.tsx:913-940 · lib/products/draftFromVision.ts:97-119 · components/seller/AttributesFields.tsx:217",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/env.ts",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione",
+            "titolo": "Chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/privacy/page.tsx:41-44 (rimanda al modulo contatti) · app/api/contact/route.ts:53-55 · lib/env.ts:238-243 · app/api/account/export/route.ts:42-45 · app/api/account/delete/route.ts:29-32 · app/profile/settings/page.tsx:552-566 · app/cookies/page.tsx:139 · lib/legal/titolare.ts:117",
+            "umano": null
+          },
+          {
+            "chiave": "deploy-sre|in produzione l'iscrizione alla newsletter va in errore, mentre la home continua a promettere 5 euro a chi si iscrive",
+            "titolo": "In produzione l'iscrizione alla newsletter va in errore, mentre la home continua a promettere 5 euro a chi si iscrive",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "app/api/newsletter/route.ts:71 · lib/env.ts:238-243 · components/NewsletterForm.tsx:47 · produzione: site_settings.home_site sezione newsletter",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/sell/page.tsx",
+        "difetti": [
+          {
+            "chiave": "rls-database|un cliente che chiede di diventare negozio viene respinto dal database dopo aver compilato tutto il modulo",
+            "titolo": "Un cliente che chiede di diventare negozio viene respinto dal database dopo aver compilato tutto il modulo",
+            "gravita": "bloccante",
+            "gruppo": "rls-database",
+            "dove": "app/sell/page.tsx:82-116 (riga 107 role:'seller') · migrations/119_radiografia_18_agosto.sql:66-101 (lista 'consentiti' senza 'role', RAISE a riga ~101) · app/sign-in/page.tsx:201 · app/sign-up/page.tsx:76 · lib/errors.ts:18",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+            "titolo": "Le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:186-213 · .github/workflows/ci.yml (nessun job imposta E2E_DATI_DI_PROVA)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/rider/orders/[id]/page.tsx",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|quando posthog verrà acceso, un clic sul telefono del cliente nelle pagine del negozio manderà quel numero negli stati uniti",
+            "titolo": "Quando PostHog verrà acceso, un clic sul telefono del cliente nelle pagine del negozio manderà quel numero negli Stati Uniti",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "lib/analytics/posthog.tsx:79-117 (PAGINE_CON_DATI_DI_TERZI, applicaRegistrazioneSchermo spegne solo la telecamera) · lib/analytics/posthog.tsx:311-318 (autocapture acceso ovunque) · lib/analytics/filmato-senza-dati-personali.ts (testoSenzaIndirizzi ripulisce solo testi con «/») · app/seller/orders/[id]/page.tsx:520 · app/rider/orders/[id]/page.tsx:394 · app/admin/sos/page.tsx:157",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/orders/[id]/page.tsx",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|dopo le migrazioni il fattorino non vede più dove ritirare, e il cliente non vede più da quale negozio ha comprato",
+            "titolo": "Dopo le migrazioni il fattorino non vede più dove ritirare, e il cliente non vede più da quale negozio ha comprato",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql:345,353-354 (insieme a 110:14,47 · 112:10 · 115:30, anche loro fra le 48 da applicare) · app/rider/orders/[id]/page.tsx:93,292-299,366-377 · app/rider/page.tsx:125,396 · app/orders/[id]/page.tsx:107,246,372,625-632,723,748-757 · app/orders/page.tsx:56,205,314 · app/orders/[id]/review/page.tsx:75 · app/orders/[id]/dispute/page.tsx:42 · app/messages/page.tsx:73-74 · app/messages/[id]/page.tsx:81-82 · app/shared-cart/page.tsx:101",
+            "umano": null
+          },
+          {
+            "chiave": "mobile-pwa|se il gps del fattorino perde il segnale, la pagina dice «posizione spenta» ma continua a mandarla, anche dopo la consegna",
+            "titolo": "Se il GPS del fattorino perde il segnale, la pagina dice «posizione spenta» ma continua a mandarla, anche dopo la consegna",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "app/rider/orders/[id]/page.tsx:219-246 (startSharing: crea una nuova sorveglianza e sovrascrive watchIdRef senza chiudere la precedente) · app/rider/orders/[id]/page.tsx:239-242 (errore: toast 'Errore GPS: ' + err.message e setSharing(false), senza clearWatch) · app/rider/orders/[id]/page.tsx:249-255 (stopSharing chiude solo l'ultima) · app/rider/orders/[id]/page.tsx:229-237 (scrive rider_lat/rider_lng sull'ordine `id` catturato) · migrations/126_radiografia_22_agosto.sql:335-336 (il guardiano che cancella la posizione scatta solo su UPDATE OF delivery_status) · migrations/011_orders_delivery.sql:129-134 (regola del fattorino senza WITH CHECK, rimessa dal ripasso del 9/9) · migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql:365-367 (la versione con «delivery_status <> 'DELIVERED'», non applicata) · app/orders/[id]/page.tsx:106 (la pagina del cliente scarica rider_lat e rider_lng)",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|ordine in contanti annullato: la stessa schermata dice «ordine annullato» e «paghi 24,00 eur in contanti al rider alla consegna»",
+            "titolo": "Ordine in contanti annullato: la stessa schermata dice «Ordine annullato» e «Paghi 24,00 EUR in contanti al rider alla consegna»",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/orders/[id]/page.tsx:694-699",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|«contatta il rider» chiama il numero del negozio, non del rider",
+            "titolo": "«Contatta il rider» chiama il numero del NEGOZIO, non del rider",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/orders/[id]/page.tsx:625-639 — il numero passato e' order.seller.store_phone",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|chiesto il reso, la richiesta sparisce: nessuna schermata del cliente ne mostra lo stato, e il modulo si puo' ricompilare a vuoto",
+            "titolo": "Chiesto il reso, la richiesta sparisce: nessuna schermata del cliente ne mostra lo stato, e il modulo si puo' ricompilare a vuoto",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/orders/[id]/return/page.tsx:91 (rimanda all'ordine) — app/orders/[id]/page.tsx:100-114 e 438-443 (l'ordine non sa niente del reso)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/constants.ts",
+        "difetti": [
+          {
+            "chiave": "microcopy|la pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+            "titolo": "La pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "app/rider/help/page.tsx:51,53,55,62-63 · app/lavora-con-noi/page.tsx:30-35 · app/rider/onboarding/page.tsx:22,280 · lib/constants.ts:55-57,100 · lib/shipping.ts:73-77 · app/api/cron/release-payouts/route.ts:404-406",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|la pagina spedizioni mostra prezzi più bassi di quelli che fa pagare la cassa e scrive «gratis» dove si pagano sempre 3 euro di consegna",
+            "titolo": "La pagina Spedizioni mostra prezzi più bassi di quelli che fa pagare la cassa e scrive «gratis» dove si pagano sempre 3 euro di consegna",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "app/shipping/page.tsx:34-35 (riquadro «Spedizione GRATIS · Per ordini ≥ €30»), app/shipping/page.tsx:72-96 (tabella 0-2 km € 2,50 · 2-5 km € 3,50 · 5-10 km € 4,50 · Sopra €30 GRATIS · Oltre 10 km A preventivo) · lib/constants.ts:17-18 (SPEDIZIONE_BASE_EUR 2,5 + SPEDIZIONE_PER_KM_EUR 1,2) · lib/constants.ts:57 (RAGGIO_CONSEGNA_KM 25) · lib/constants.ts:~103 (PLATFORM_DELIVERY_FEE_CENTS 300) · lib/geo.ts:34-37 · lib/stripe/client.ts:184-196 (riga «Costo di consegna — negozio» addebitata al cliente) · lib/promesse-pubbliche.ts:157 (FAQ: «in media €2,50–4,50»)",
+            "umano": null
+          },
+          {
+            "chiave": "microcopy|nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce",
+            "titolo": "Nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "lib/promesse-pubbliche.ts:214-215 · app/cart/page.tsx:799-805 · lib/constants.ts:116 · lib/stripe/client.ts (computeOrderSplit) · tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts:188-197",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/119_radiografia_18_agosto.sql",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «in scadenza»",
+            "titolo": "Un fattorino con patente o assicurazione scaduta continua a prendere consegne, e il profilo gli dice solo «In scadenza»",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/rider/profile/page.tsx:119 (soon = scadenza a meno di 60 giorni, comprese quelle già passate), :121-131 («Scade <data>»), :134 («Verificato» appena caricato il documento), :145 (etichetta «In scadenza») · migrations/119_radiografia_18_agosto.sql:93 (il fattorino può riscrivere da solo le date di scadenza) · migrations/127_minori_22_agosto.sql enforce_order_update_rules (la presa in carico guarda solo is_rider_approvato())",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/profile/referral/leaderboard/page.tsx",
+        "difetti": [
+          {
+            "chiave": "privacy-legale|la classifica degli inviti promette 100, 50 e 25 euro ai primi tre del mese, ma nessuno li paga ed è un concorso a premi mai comunicato al ministero",
+            "titolo": "La classifica degli inviti promette 100, 50 e 25 euro ai primi tre del mese, ma nessuno li paga ed è un concorso a premi mai comunicato al Ministero",
+            "gravita": "grave",
+            "gruppo": "privacy-legale",
+            "dove": "app/profile/referral/leaderboard/page.tsx:48 («I primi 3 vincono buoni speciali a fine mese!») · :52-63 (riquadri €100 / €50 / €25) · :105 («I primi 3 ricevono il premio entro 7 giorni dalla fine del mese») · app/profile/referral/page.tsx:89 (link «Classifica inviti» per ogni cliente collegato)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/cron/operational-alerts/route.ts",
+        "difetti": [
+          {
+            "chiave": "api-backend|se l'email d'allarme non parte, il sorvegliante la dà per spedita, dice «tutto bene» e tace per sei ore",
+            "titolo": "Se l'email d'allarme non parte, il sorvegliante la dà per spedita, dice «tutto bene» e tace per sei ore",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/cron/operational-alerts/route.ts:641-676 (try/catch che non scatta mai) · app/api/cron/operational-alerts/route.ts:677-683 (attesa di sei ore scritta comunque) · app/api/cron/operational-alerts/route.ts:685-691 (ok:true) · lib/email/client.ts:58-63, 86, 170 (sendEmail restituisce l'errore, non lo lancia)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|chi si iscrive come negozio trova scritto «richiesta in valutazione» senza aver mai potuto compilare la richiesta",
+            "titolo": "Chi si iscrive come negozio trova scritto «richiesta in valutazione» senza aver mai potuto compilare la richiesta",
+            "gravita": "bloccante",
+            "gruppo": "qa-flussi",
+            "dove": "app/sell/page.tsx:139-146 · app/seller/layout.tsx:130-149 · migrations/114_hardening_radiografia.sql:198-222 · migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql:97-120 · components/ui/AuthShell.tsx:205",
+            "umano": null
+          },
+          {
+            "chiave": "qa-flussi|chi corregge la descrizione di un prodotto rimette in magazzino la merce venduta nel frattempo",
+            "titolo": "Chi corregge la descrizione di un prodotto rimette in magazzino la merce venduta nel frattempo",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "app/seller/products/[id]/edit/page.tsx:98-121 · components/seller/ProductForm.tsx:676-691 · lib/products/schema.ts:122 · lib/products/salvataggio-tracciato.ts:13,264-282 · lib/products/persistVariantsServer.ts (update di ogni variante con il suo stock) · migrations/161_quello_che_il_ripasso_del_9_settembre_aveva_riportato_indietro.sql:236-268 (reserve_stock)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ordini/annulla.ts",
+        "difetti": [
+          {
+            "chiave": "api-backend|chi paga alla consegna non riceve nessuna email se il negozio rifiuta o lascia scadere l'ordine",
+            "titolo": "Chi paga alla consegna non riceve nessuna email se il negozio rifiuta o lascia scadere l'ordine",
+            "gravita": "grave",
+            "gruppo": "api-backend",
+            "dove": "app/api/cron/expire-stale-orders/route.ts:142-150,229-237 · app/api/seller/orders/[id]/reject/route.ts:69-73,107-127 · lib/ordini/annulla.ts:223-238 · app/api/admin/orders/[id]/cancel/route.ts:76 · migrations/122_radiografia_20_agosto.sql:95-138 · lib/email/templates.ts:137 · components/PushNotificationOptIn.tsx (usato solo in app/profile/settings/page.tsx)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/products/import/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|il caricamento dei prodotti da file non legge i file salvati con excel in italiano",
+            "titolo": "Il caricamento dei prodotti da file non legge i file salvati con Excel in italiano",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/seller/products/import/page.tsx:28-50 (parseCsv divide solo sulla virgola) · :98-103 (errore «Colonne mancanti»)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/014_mvp_sprint.sql",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|la pagina recensioni del negozio va sempre in errore: il negoziante non vede né può rispondere alle recensioni",
+            "titolo": "La pagina Recensioni del negozio va sempre in errore: il negoziante non vede né può rispondere alle recensioni",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/seller/reviews/page.tsx:38-46 · migrations/014_mvp_sprint.sql:56-65 · app/rider/reviews/page.tsx:44-52",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "migrations/127_minori_22_agosto.sql",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|lo storico consegne dice al fattorino che ha guadagnato zero sulle spese sopra i 30 euro",
+            "titolo": "Lo Storico consegne dice al fattorino che ha guadagnato zero sulle spese sopra i 30 euro",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/rider/history/page.tsx:53 (non legge rider_fee_cents), :61 (totale = somma di shipping_cost), :71 (totale del giorno), :118 («+» per consegna = shipping_cost) · lib/shipping.ts:97-102 (compensoConsegnaEuro, la regola giusta) · lib/guadagni/fattorino.ts:9-15 (lo stesso errore, già corretto in Guadagni) · migrations/127_minori_22_agosto.sql:740-741 (la vista porta già rider_fee_cents)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/seller/layout.tsx",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti",
+            "titolo": "Il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "middleware.ts:581-587 · middleware.ts:570-577 · app/seller/layout.tsx:130-145 · app/rider/layout.tsx:9-20 · app/rider/onboarding/page.tsx:61-75 · app/rider/profile/page.tsx:27",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/kyc/start-check/route.ts",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|l'amministratore approva i fattorini alla cieca: il pannello non mostra patente, polizza, documento né età",
+            "titolo": "L'amministratore approva i fattorini alla cieca: il pannello non mostra patente, polizza, documento né età",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/users/page.tsx:1031-1085 (DetailPanel: titolo «Richiesta venditore», solo campi di negozio e azienda) · app/admin/users/page.tsx:383-393 (i rider sono moderabili) · lib/kyc/providers.ts:140-143 (in produzione verifica solo manuale, stato PENDING) · app/api/kyc/start-check/route.ts:69-72",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/home-sections/HomeSectionRenderer.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|la home promette «arriva oggi in 30-60 minuti» anche di domenica, senza guardare se un negozio è aperto",
+            "titolo": "La home promette «arriva oggi in 30-60 minuti» anche di domenica, senza guardare se un negozio è aperto",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "components/home-sections/HomeSectionRenderer.tsx:167 · components/ui/DeliveryCutoff.tsx:66-118 · lib/delivery.ts:8,30-45 · components/home-sections/HomeSectionRenderer.tsx:76 · app/page.tsx:33",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/ai/improve-product/route.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|il modello ai che legge le foto e scrive le schede si spegne il 30 novembre: dodici funzioni smetteranno di rispondere",
+            "titolo": "Il modello AI che legge le foto e scrive le schede si spegne il 30 novembre: dodici funzioni smetteranno di rispondere",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "lib/ai/client.ts:18-22 (MODELS.vision e MODELS.smart = 'claude-sonnet-4-5') · lib/ai/client.ts:34-37 (tabella prezzi legata a quei due id) · lib/ai/run.ts:287-313 (un 404 del fornitore diventa «Errore nel servizio AI. Riprova.») · chiamanti: app/api/vision/extract-product/route.ts:295,374 · app/api/vision/extract-products/route.ts:225 · app/api/vision/photo-order/route.ts:90 · app/api/ai/improve-product/route.ts:319 · app/api/ai/barcode-lookup/route.ts:109 · app/api/ai/diagnose/route.ts:129 · app/api/ai/variants/route.ts:130 · app/api/ai/product-chat/route.ts · app/api/ai/catalog-chat/route.ts · app/api/ai/copilot/route.ts · lib/products/externalSync.ts",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ai/catalogBatch.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|«traduci» sostituisce l'italiano invece di aggiungere una lingua, e sul catalogo intero lo cancella per tutti i clienti",
+            "titolo": "«Traduci» sostituisce l'italiano invece di aggiungere una lingua, e sul catalogo intero lo cancella per tutti i clienti",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "components/seller/QuickAiTools.tsx:96-108 (la traduzione viene scritta nei campi nome/descrizione/tag del modulo) · app/api/ai/translate/route.ts:105-124 (restituisce un patch su name/description/tags) · lib/ai/catalogBatch.ts:153-160 (operazione 'translate' del lotto) · app/seller/products/ai-batch/page.tsx:56 («Traduce nome, descrizione e tag in un'altra lingua»), :410-421 (scelta lingua) e :378 («Applica a tutti») · app/api/ai/catalog-batch/apply/route.ts:176-205 (scrive il patch sul prodotto)",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/products/aiPatch.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|il negoziante chiede in chat di cambiare un prezzo, la chat risponde «modifiche salvate» e il prezzo resta quello vecchio",
+            "titolo": "Il negoziante chiede in chat di cambiare un prezzo, la chat risponde «Modifiche salvate» e il prezzo resta quello vecchio",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "lib/products/aiPatch.ts:170-181 · app/api/ai/catalog-apply/route.ts:89-91 e 153-157 · components/SupportProductAssistant.tsx:86-88, 211-233, 423-426 · app/api/ai/catalog-apply-bulk/route.ts:100-116 e 177 · components/seller/CatalogCopilot.tsx:128-131 · app/api/ai/catalog-chat/route.ts:48-72",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ai/client.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|in produzione tutti i pulsanti di intelligenza artificiale del negozio rispondono «servizio non configurato», a partire dal primo prodotto",
+            "titolo": "In produzione tutti i pulsanti di intelligenza artificiale del negozio rispondono «servizio non configurato», a partire dal primo prodotto",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "app/seller/products/new/page.tsx:207-226 (sottotitolo «lascia che l'AI la prepari per te da foto, voce o link» + BulkPhotoCreate e ImportFromUrlBox in testa) · lib/ai/client.ts:108-130 (AiConfigError) · app/api/ai/description/route.ts:117 · app/api/ai/catalog-create/route.ts:112",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/layout.tsx",
+        "difetti": [
+          {
+            "chiave": "mobile-pwa|chrome non trova il file che rende mycity installabile: su android l'app non si può mettere in home",
+            "titolo": "Chrome non trova il file che rende MyCity installabile: su Android l'app non si può mettere in Home",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "app/layout.tsx:93 (dynamic = 'force-dynamic') · app/layout.tsx:100 (manifest dichiarato nei metadata) · app/layout.tsx:183-188 (il <head> scritto a mano, dove il link non c'è) · next.config.js:26-81 (nessun htmlLimitedBots) · components/PWAInstallBanner.tsx:79-89 · lib/installabile.ts:48-55",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/orders/[id]/page.tsx",
+        "difetti": [
+          {
+            "chiave": "mobile-pwa|le etichette di spedizione con nome, indirizzo e telefono del cliente restano salvate sul dispositivo del negozio anche dopo l'uscita dall'account",
+            "titolo": "Le etichette di spedizione con nome, indirizzo e telefono del cliente restano salvate sul dispositivo del negozio anche dopo l'uscita dall'account",
+            "gravita": "grave",
+            "gruppo": "mobile-pwa",
+            "dove": "public/sw.js:150-154 (PERCORSI_PRIVATI senza /api) · public/sw.js:157-166 (networkFirstHtml mette in cache ogni navigazione andata a buon fine) · app/seller/orders/[id]/page.tsx:430-433 (link «Stampa etichetta», target=_blank) · app/api/seller/orders/[id]/label/route.ts:24-25,39-43,53-55 (PDF con delivery_full_name, address, phone; Cache-Control private, no-cache)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/rider/help/page.tsx",
+        "difetti": [
+          {
+            "chiave": "microcopy|il numero di telefono +39 0523 000000 è finto: sta nella pagina contatti e come numero d'emergenza dei fattorini",
+            "titolo": "Il numero di telefono +39 0523 000000 è finto: sta nella pagina Contatti e come numero d'emergenza dei fattorini",
+            "gravita": "grave",
+            "gruppo": "microcopy",
+            "dove": "app/contact/page.tsx:96-113 · app/rider/help/page.tsx:62-63,130-142",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "components/Navbar.tsx",
+        "difetti": [
+          {
+            "chiave": "accessibilita-visiva|metà del logo e il pulsante «accedi» nella testata hanno lo stesso colore dello sfondo e non si vedono",
+            "titolo": "Metà del logo e il pulsante «Accedi» nella testata hanno lo stesso colore dello sfondo e non si vedono",
+            "gravita": "grave",
+            "gruppo": "accessibilita-visiva",
+            "dove": "app/globals.css:194 · components/Navbar.tsx:127-129 · components/Navbar.tsx:144 · components/Navbar.tsx:217-219 · components/Navbar.tsx:245",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin/payouts/page.tsx",
+        "difetti": [
+          {
+            "chiave": "stati-ui|nel pannello admin rimesse, bonifici, reclami, assistenza e prodotti dicono «non c'è niente» quando in realtà non sono riusciti a leggere",
+            "titolo": "Nel pannello admin rimesse, bonifici, reclami, assistenza e prodotti dicono «non c'è niente» quando in realtà non sono riusciti a leggere",
+            "gravita": "grave",
+            "gruppo": "stati-ui",
+            "dove": "app/admin/cod-remittance/page.tsx:69 e :152 · app/admin/payouts/page.tsx:89-105 e :172-175 (nessun ramo isError) · app/admin/disputes/page.tsx:68 e :213 · app/admin/support/page.tsx:48 e :107 · app/admin/products/page.tsx:41-53 (errore lanciato ma mai mostrato, nessuna paginazione)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/promozioni/page.tsx",
+        "difetti": [
+          {
+            "chiave": "stati-ui|la pagina promozioni va in errore quando non c'è nessuna promozione attiva",
+            "titolo": "La pagina Promozioni va in errore quando non c'è nessuna promozione attiva",
+            "gravita": "grave",
+            "gruppo": "stati-ui",
+            "dove": "app/promozioni/page.tsx:47-54 · app/promozioni/page.tsx:99-106 · components/ProductGrid.tsx:296-305 · components/ProductGrid.tsx:362-367 · lib/queries/keys.ts:174",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/home/DropOfDay.tsx",
+        "difetti": [
+          {
+            "chiave": "flussi-conversione|il «drop del giorno» in home annuncia un prezzo scontato che la cassa non applica, e il codice del «negozio del mese» può non esistere",
+            "titolo": "Il «Drop del giorno» in home annuncia un prezzo scontato che la cassa non applica, e il codice del «Negozio del mese» può non esistere",
+            "gravita": "grave",
+            "gruppo": "flussi-conversione",
+            "dove": "components/home/DropOfDay.tsx:57-66 (legge daily_drops), :84 (risparmio arrotondato all'euro), :108-121 (prezzo scontato, prezzo barrato, -%), :139-141 (porta alla scheda prodotto) · app/admin/daily-drops/page.tsx:27 e :79-94 (drop_price calcolato nel browser) · app/api/admin/daily-drops/route.ts (salva original_price e drop_price così come arrivano) · lib/home-site.ts:43 e :212 (la sezione è nella home predefinita) · app/admin/shop-of-month/page.tsx:92-101 (codice sconto a testo libero) · components/home/ShopOfMonthHero.tsx:94-99 · app/shop-of-month/page.tsx:158-164",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/Footer.tsx",
+        "difetti": [
+          {
+            "chiave": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+            "titolo": "Home, piè di pagina e mappa per Google mettono in mostra categorie vuote: otto su nove non hanno prodotti",
+            "gravita": "grave",
+            "gruppo": "navigazione-gerarchia",
+            "dove": "components/CategoryShowcase.tsx (nessun filtro sui prodotti) · components/Footer.tsx:151-165 · app/sitemap.ts:105-111 · app/category/[slug]/layout.tsx:26-30",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql",
+        "difetti": [
+          {
+            "chiave": "qa-flussi|le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è",
+            "titolo": "Le email «ordine pronto» e «ordine consegnato» in produzione non partono mai: il grilletto che le accoda non c'è",
+            "gravita": "grave",
+            "gruppo": "qa-flussi",
+            "dove": "migrations/150_l_ordine_pronto_e_consegnato_arrivano_per_email.sql (trigger trg_enqueue_order_status_email); app/api/cron/send-emails/route.ts:88",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ai/tettoSpesa.ts",
+        "difetti": [
+          {
+            "chiave": "ai-endpoints|il tetto giornaliero di spesa ai in produzione non è condiviso: ogni copia del sito conta per sé",
+            "titolo": "Il tetto giornaliero di spesa AI in produzione non è condiviso: ogni copia del sito conta per sé",
+            "gravita": "grave",
+            "gruppo": "ai-endpoints",
+            "dove": "lib/ai/tettoSpesa.ts:138-165 (ripiego in memoria quando spesa_ai_di_oggi/registra_spesa_ai falliscono); produzione: funzioni e tabella ai_spend_daily assenti (migrazione 131)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "scripts/backup-db.sh",
+        "difetti": [
+          {
+            "chiave": "deploy-sre|le foto di prodotti e negozi non sono in nessuna copia di sicurezza",
+            "titolo": "Le foto di prodotti e negozi non sono in nessuna copia di sicurezza",
+            "gravita": "grave",
+            "gruppo": "deploy-sre",
+            "dove": "/home/user/ad-mycity/marketplace/scripts/backup-db.sh:46 (`--exclude-schema=storage`) · docs/backup-restore.md:43-56,108-126",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "components/CategoryShowcase.tsx",
+        "difetti": [
+          {
+            "chiave": "immagini-media|le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+            "titolo": "Le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice",
+            "gravita": "grave",
+            "gruppo": "immagini-media",
+            "dove": "components/CategoryShowcase.tsx:43-58 (undici indirizzi Pexels fissi) e :118 (`onError` che nasconde l'immagine)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/cron-cancellazioni.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni",
+            "titolo": "Una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/cron-cancellazioni.ts:66",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "lib/auth/decisione-portiere.ts",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro",
+            "titolo": "Il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "lib/auth/decisione-portiere.ts:56 con middleware.ts:456-480",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/accessibility/page.tsx",
+        "difetti": [
+          {
+            "chiave": "accessibilita|la dichiarazione promette che i dialoghi di conferma trattengono il fuoco e lo riportano indietro: il dialogo di conferma non fa nessuna delle due cose",
+            "titolo": "La Dichiarazione promette che i dialoghi di CONFERMA trattengono il fuoco e lo riportano indietro: il dialogo di conferma non fa nessuna delle due cose",
+            "gravita": "grave",
+            "gruppo": "accessibilita",
+            "dove": "app/accessibility/page.tsx:89-92 (la promessa) — components/ConfirmDialog.tsx:79-91 e 110-121 (il codice che la smentisce)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/auth/cookie-di-sessione.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|il modulo che ripara la disconnessione silenziosa non e' collegato a niente: middleware.ts butta ancora via i cookie di sessione rinnovati",
+            "titolo": "Il modulo che ripara la disconnessione silenziosa non e' collegato a niente: middleware.ts butta ancora via i cookie di sessione rinnovati",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/auth/cookie-di-sessione.ts:184 (travasaCookie) + middleware.ts:436-441 e middleware.ts:501,575,586",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/admin/esporta-utenti.ts",
+        "difetti": [
+          {
+            "chiave": "architettura|due squadre hanno scritto lo stesso modulo di esportazione csv due volte, e le due copie divergono gia' alla nascita",
+            "titolo": "Due squadre hanno scritto lo stesso modulo di esportazione CSV due volte, e le due copie divergono gia' alla nascita",
+            "gravita": "grave",
+            "gruppo": "architettura",
+            "dove": "lib/admin/esporta-utenti.ts:97 (raccogliUtentiDaEsportare) vs lib/ordini/esporta-ordini.ts:112 (raccogliOrdiniDaEsportare)",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "lib/analytics/posthog.tsx",
+        "difetti": [
+          {
+            "chiave": "dati-analytics|l'indirizzo d'ingresso intero esce dalla porta dei flag, dove il filtro nuovo non arriva",
+            "titolo": "L'indirizzo d'ingresso intero esce dalla porta dei flag, dove il filtro nuovo non arriva",
+            "gravita": "grave",
+            "gruppo": "dati-analytics",
+            "dove": "lib/analytics/posthog.tsx:296",
+            "umano": null
+          }
+        ]
+      }
+    ],
+    [
+      {
+        "chiave": "app/admin/page.tsx",
+        "difetti": [
+          {
+            "chiave": "frontend-ux|il cruscotto admin resta sullo scheletro per sempre se la lettura non riesce — la riga che il lotto ha appena descritto come difetto sul cruscotto del negoziante",
+            "titolo": "Il cruscotto admin resta sullo scheletro PER SEMPRE se la lettura non riesce — la riga che il lotto ha appena descritto come difetto sul cruscotto del negoziante",
+            "gravita": "grave",
+            "gruppo": "frontend-ux",
+            "dove": "app/admin/page.tsx:143",
+            "umano": null
+          }
+        ]
+      },
+      {
+        "chiave": "app/api/admin/users/[id]/moderate/route.ts",
+        "difetti": [
+          {
+            "chiave": "sicurezza-auth|il rifiuto non fa partire il cronometro dei 90 giorni: i documenti del respinto non scadono mai",
+            "titolo": "Il rifiuto non fa partire il cronometro dei 90 giorni: i documenti del respinto non scadono mai",
+            "gravita": "grave",
+            "gruppo": "sicurezza-auth",
+            "dove": "app/api/admin/users/[id]/moderate/route.ts:75",
+            "umano": null
+          }
+        ]
+      }
+    ]
+  ]
+}
