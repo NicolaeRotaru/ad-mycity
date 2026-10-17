@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-10-10 08:55",
+  "aggiornato": "2026-10-15 21:07",
   "timbro": {
-    "quando": "2026-10-10 08:55",
+    "quando": "2026-10-15 21:07",
     "scade_dopo_ore": 26,
     "ambiente": "cloud",
     "scritto_da": "cervello/salute.mjs",
@@ -24,8 +24,8 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-10-10 08:55",
-      "iso": "2026-10-10T06:55:12.621Z",
+      "quando": "2026-10-15 21:07",
+      "iso": "2026-10-15T19:07:35.939Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,
@@ -40,10 +40,10 @@
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "l'ultima visita del VPS è di 938 ore fa: da lassù non si sta più controllando nessuno",
+          "detto": "l'ultima visita del VPS è di 1070 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
           "regressione": false,
-          "rosso_da": 14,
+          "rosso_da": 15,
           "cronico": true
         },
         {
@@ -52,10 +52,10 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 896 ore (l'ultima è ultimo-briefing.json, 2026-09-03 01:01)",
+          "detto": "nessun processo automatico lascia tracce da 129 ore (l'ultima è ultimo-briefing.json, 2026-10-10 12:05)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 3,
+          "rosso_da": 4,
           "cronico": true
         },
         {
@@ -67,7 +67,7 @@
           "detto": "il ritmo della macchina si è fermato. Non si alzano più 6 cadenze su 6: giro, ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora. Altre 2 sono uscite saltando dei passi: giro, ritmo-settimana.",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 14,
+          "rosso_da": 15,
           "cronico": true
         },
         {
@@ -76,10 +76,10 @@
           "titolo": "I file che la Cabina mostra sono ancora validi",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "7 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (948h), Il referto del checkup (896h), Com'è andato l'ultimo giro (933h), Il battito delle cadenze (933h), I quaderni dei senior (765h), L'ultimo briefing (896h), Il quaderno dei pezzi nuovi (2332h)",
+          "detto": "7 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (129h), Il referto del checkup (132h), Com'è andato l'ultimo giro (1065h), Il battito delle cadenze (1065h), I quaderni dei senior (108h), L'ultimo briefing (129h), Il quaderno dei pezzi nuovi (2464h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 14,
+          "rosso_da": 15,
           "cronico": true
         },
         {
@@ -88,10 +88,10 @@
           "titolo": "La review del venerdì lascia i suoi compiti",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (78 giorni), La peer review fra senior (78 giorni), La calibrazione previsto-vs-reale (77 giorni), La lettera a Nicola (72 giorni)",
+          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (83 giorni), La peer review fra senior (83 giorni), La lettera a Nicola (78 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 14,
+          "rosso_da": 15,
           "cronico": true
         },
         {
@@ -196,11 +196,11 @@
           "titolo": "Il cantiere dei difetti sta calando",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 18 difetti aperti in più rispetto a una settimana fa (151 allora, 169 adesso). Si aprono più difetti di quanti se ne chiudono.",
+          "detto": "il cantiere dei difetti CRESCE invece di calare — il cantiere CRESCE: 18 difetti aperti in più rispetto a una settimana fa (173 allora, 191 adesso). Si aprono più difetti di quanti se ne chiudono.",
           "prova": "node cervello/salute-onesta.mjs --gate",
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 3,
+          "cronico": true
         },
         {
           "id": "cervello.scrittura",
@@ -235,7 +235,7 @@
           "detto": "la Cabina non risponde: fetch failed (indirizzo da ponte-cabina.json)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 1,
+          "rosso_da": 2,
           "cronico": false
         },
         {
@@ -247,7 +247,7 @@
           "detto": "il cuore della Cabina non risponde: fetch failed",
           "prova": null,
           "regressione": false,
-          "rosso_da": 1,
+          "rosso_da": 2,
           "cronico": false
         },
         {
@@ -280,7 +280,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "7 senior con almeno un esito registrato",
+          "detto": "2 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -312,14 +312,14 @@
         }
       ],
       "cronicita": {
-        "worker.ponte": 14,
-        "worker.tracce": 3,
-        "worker.cadenze": 14,
-        "cervello.freschezza": 14,
-        "cervello.riti": 14,
-        "cervello.burndown": 2,
-        "cabina.viva": 1,
-        "cabina.cuore": 1
+        "worker.ponte": 15,
+        "worker.tracce": 4,
+        "worker.cadenze": 15,
+        "cervello.freschezza": 15,
+        "cervello.riti": 15,
+        "cervello.burndown": 3,
+        "cabina.viva": 2,
+        "cabina.cuore": 2
       }
     },
     "vps": {
@@ -683,17 +683,6 @@
     }
   },
   "storico": [
-    {
-      "quando": "2026-07-29 11:24",
-      "iso": "2026-07-29T09:24:54.765Z",
-      "casa": "claude",
-      "modo": "rapido",
-      "ok": 8,
-      "rotti": 0,
-      "guasti": 0,
-      "nonvisti": 6,
-      "copertura": 0.57
-    },
     {
       "quando": "2026-07-29 11:34",
       "iso": "2026-07-29T09:34:38.070Z",
@@ -1335,6 +1324,17 @@
     {
       "quando": "2026-10-10 08:55",
       "iso": "2026-10-10T06:55:12.621Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 8,
+      "guasti": 0,
+      "nonvisti": 6,
+      "copertura": 0.74
+    },
+    {
+      "quando": "2026-10-15 21:07",
+      "iso": "2026-10-15T19:07:35.939Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 9,

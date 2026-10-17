@@ -12,6 +12,14 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Non ho visto il sito vero, Stripe né le email vere. Referto: `consegne/audit/2026-10-16-prima-ondata-sito.md`.
 
+> 🩺 **2026-10-16 12:45 — La macchina è spenta da tre settimane, e il Pannello non te l'ha detto bene.**
+>
+> Il server non prende lavori dal 25 settembre. Dal 7 ottobre non dà più segni di vita. In coda aspettano 72 lavori, il più vecchio del 26 settembre. Il resto è acceso e sano: la Cabina risponde, il database della memoria è acceso e chiuso, i 120 senior sono al loro posto, nel repo non ci sono segreti.
+>
+> Il 24 settembre hai firmato 53 card, 19 della macchina, ma nessuna è partita: il Pannello le ha messe «in coda» senza dirti che toccavano a te. E il freno sulla spesa ha rifiutato 269 lavori dall'11 al 25 settembre: se riaccendi il server prima che lo ripari, si ferma di nuovo.
+>
+> Tocca a te riaccendere il server, salvando prima il suo lavoro: i passi sono nella card del server. Dei 85 difetti seri della macchina ne posso chiudere circa 70 da qui. Non ho visto il server né Stripe. Referto: `consegne/salute/2026-10-16-visita-completa-macchina.md`.
+
 ---
 
 > ⏱️ **2026-10-13 08:54 — Quanto manca al marketplace pronto: verso il 10 novembre, se le firme arrivano.**
