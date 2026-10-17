@@ -22,7 +22,7 @@ Un esempio concreto. Prima, se il fattorino confermava la consegna di un ordine 
 
 Riparare ha fatto nascere difetti nuovi. Per questo, dopo ogni giro, revisori diversi hanno riguardato ogni file toccato, e i difetti nati li ho fatti correggere. Sette riesami, sette giri di correzione. Quasi tutti i difetti nati stavano in un posto solo: il rimborso di chi ha pagato in contanti, con la lista dei bonifici e l'IBAN salvato. Il settimo riesame ne ha trovati ancora 15 lì dentro.
 
-Il 17/10 hai scelto di semplificare, invece di fare un ottavo giro. Quando va rimborsato chi ha pagato in contanti, agli amministratori arriva un avviso con la cifra e l'ordine, e la stessa cosa arriva per email alla casella info. Tu chiedi l'IBAN al cliente per email e fai il bonifico. Il cliente riceve soldi, non credito MyCity. Tre squadre in fila hanno tolto le parti vecchie e riscritto i testi, ognuna ricollaudata da due collaudatori che non l'avevano scritta. Poi un collaudo finale su tutto: in corso, lo scrivo qui appena finisce.
+Il 17/10 hai scelto di semplificare, invece di fare un ottavo giro. Quando va rimborsato chi ha pagato in contanti, agli amministratori arriva un avviso con la cifra e l'ordine, e la stessa cosa arriva per email alla casella info. Tu chiedi l'IBAN al cliente per email e fai il bonifico. Il cliente riceve soldi, non credito MyCity. Tre squadre in fila hanno tolto le parti vecchie e riscritto i testi, ognuna ricollaudata da due collaudatori che non l'avevano scritta. Poi un collaudo finale su tutto, con due collaudatori nuovi: tutti e due hanno detto «regge». Hanno trovato tre frasi non vere sull'ordine pagato in parte col credito, e le ho corrette io.
 
 ## Cosa cambia per te
 
@@ -56,6 +56,7 @@ Il 17/10 hai scelto di semplificare, invece di fare un ottavo giro. Quando va ri
 - **Il sito vero e Stripe vero.** Tutte le prove girano su un database ricostruito dalle 157 migrazioni del codice e su finti Supabase e Stripe. La produzione è indietro di circa 48 migrazioni: il codice è scritto per reggere anche così, ma non l'ho visto girare lì.
 - **Le email vere.** Né il cambio password da un altro telefono, né l'avviso del bonifico nella casella info: li ho provati con servizi finti.
 - **Che la casella info esista.** Il sito ci scrive, ma non so se qualcuno la legge.
+- **Che in produzione ci sia almeno un amministratore.** Senza, il rimborso di chi ha pagato in contanti non parte e il negozio legge un errore: è voluto, perché un avviso che non arriva a nessuno è un bonifico perso.
 - **La regola «Main» accesa.** Il controllo c'è e passa; che blocchi davvero una richiesta rossa si vede solo quando la accendi.
 - **Un riesame dopo la semplificazione.** Come hai scelto tu, non c'è stato un ottavo riesame. Dei 145 file toccati, 111 sono identici a come li ha visti l'ultimo riesame. Gli altri 34 sono cambiati dopo: li hanno guardati il collaudo di ogni squadra e il collaudo finale, non un revisore del mestiere.
 - **I testi legali.** Li ho scritti io e li hanno controllati le prove, non un avvocato.
@@ -100,11 +101,13 @@ Per i numeri: il 15/10 ti avevo scritto «20 nati» e poi «18 nati» per il pri
 - **squadra 2, le parti vecchie:** via la lista dei bonifici, l'IBAN salvato, la migrazione 162 e la cancellazione dell'account che aspettava (torna com'era a `775b62a`). Promossa al secondo collaudo;
 - **squadra 3, i testi per il cliente:** pagina dell'ordine, modulo di reso, FAQ, Resi, Termini §7, informativa, impostazioni. Bocciata al terzo collaudo per un titolo che diceva «rimborsato» prima del bonifico: l'ho corretto io, con la prova portata dal collaudatore (`7d93d85`).
 
-Unione nel ramo del sito: `2b50a31`. Collaudo finale, due collaudatori nuovi: lente A sui difetti vecchi R71, R84, R82, R76, R25 e sul doppio pagamento, lente B sul diff intero `65fa3f3..2b50a31`. Esito: in corso, lo scrivo qui appena finisce.
+Unione nel ramo del sito: `2b50a31`. Collaudo finale, due collaudatori nuovi: lente A sui difetti vecchi R71, R84, R82, R76, R25 e sul doppio pagamento, lente B sul diff intero `65fa3f3..2b50a31`. Esito: «regge» per tutte e due le lenti.
+- **Lente A.** R71, R84, R82, R76 e R25 restano chiusi: 14 mutazioni del cuore di ogni comportamento, tutte rosse, e 7 prove nuove sulle varianti scomode. Nessun bonifico pagato due volte. Due difetti c'erano già prima della semplificazione, provati anche sul commit base `65fa3f3`: sono nel registro. Il più serio: se la risposta del database si perde subito dopo la prenotazione del rimborso, il rimborso dei contanti resta bloccato e nessuno viene avvisato.
+- **Lente B.** Cinque cose piccole nate dalla semplificazione, nessuna bloccante. Tre erano frasi non vere sull'ordine misto: la notifica taceva il credito già tornato, l'email chiedeva l'IBAN con un «per farlo» ambiguo, l'avviso chiamava il reso in due modi. Corrette da me in `8953965`, con una prova che diventa rossa su ognuna (4 mutazioni, 4 rosse). La quarta è la durata dell'avviso con l'email: è la scelta D9, nel registro come aperta. La quinta tocca solo una prova automatica, che usa dal database finto una funzione in più di quanto previsto.
 
 **Le scelte rimaste a te** (carta #208): D1, la parte di un ordine pagata col credito MyCity torna credito; D5, con l'account cancellato quel credito non torna a nessuno e l'avviso lo dice; D9, l'avviso con l'email resta finché non lo cancelli, senza una durata scritta. Altri due limiti dichiarati: se il sito cade a metà di un rimborso, la ripresa parte quando qualcuno rifà il passo dalla pagina; un database di prova che avesse già applicato la 162 va pulito a mano, solo lì.
 
-**I difetti che c'erano già prima**, trovati dai riesami e dalle note: 77 schede nuove nel registro del sito, 21 gravi e 56 minori, dopo aver tolto i doppioni. Fra i gravi, tre pesano per il lancio: in produzione il bonifico al negozio fallisce perché il sito scrive una colonna che il database non ha ancora; il fattorino non riceve il compenso delle consegne pagate con carta; dopo un reclamo il negozio non viene più pagato per quell'ordine, anche quando ha ragione. Registro: `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json`, 547 aperti dopo l'aggiunta (11 bloccanti, 130 gravi, 406 minori). Le schede della prima ondata si chiudono dopo l'unione, come vuole la regola del lotto.
+**I difetti che c'erano già prima**, trovati dai riesami e dalle note: 79 schede nuove nel registro del sito, 22 gravi e 57 minori, dopo aver tolto i doppioni. Fra i gravi, tre pesano per il lancio: in produzione il bonifico al negozio fallisce perché il sito scrive una colonna che il database non ha ancora; il fattorino non riceve il compenso delle consegne pagate con carta; dopo un reclamo il negozio non viene più pagato per quell'ordine, anche quando ha ragione. Registro: `MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json`, 550 aperti dopo l'aggiunta (11 bloccanti, 131 gravi, 408 minori), compresa la scheda aperta della scelta D9. Le schede della prima ondata si chiudono dopo l'unione, come vuole la regola del lotto.
 
 ### I passi dopo l'unione
 
@@ -122,7 +125,14 @@ Poi la prova vera: chiedi la password dal computer e apri l'email dal telefono.
 
 ### Il cancello
 
-In corso sul commit `2b50a31`: prove del database, migrazioni e compilazione verdi; le prove automatiche girano ancora.
+Locale (Postgres 16, stessi passi della CI del sito) su `2b50a31`:
+- `npm run verify` verde: 628 file, 5.445 prove; lint 0 errori, 78 avvisi come la base `775b62a`;
+- `next build` riuscita;
+- 157 migrazioni applicate, prove dei permessi tutte verdi;
+- la 163 regge un database pieno e una seconda applicazione; rilascio applicato due volte: `applicate 0`;
+- `db:check-drift` e `db:types` verdi.
+
+Il primo giro di `verify` era caduto solo sui tipi di tre pagine tolte, rimasti nella cartella `.next` di una compilazione vecchia: rifatto dopo la compilazione nuova, verde. CI di GitHub sulla #258 a `2b50a31`: 9 controlli verdi su 9, compreso «Main». Sulla correzione `8953965`: prove in corso.
 
 ### Il metodo, e quanto è costato
 
