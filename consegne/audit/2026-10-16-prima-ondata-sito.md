@@ -132,7 +132,7 @@ Locale (Postgres 16, stessi passi della CI del sito) su `2b50a31`:
 - la 163 regge un database pieno e una seconda applicazione; rilascio applicato due volte: `applicate 0`;
 - `db:check-drift` e `db:types` verdi.
 
-Il primo giro di `verify` era caduto solo sui tipi di tre pagine tolte, rimasti nella cartella `.next` di una compilazione vecchia: rifatto dopo la compilazione nuova, verde. CI di GitHub sulla #258 a `2b50a31`: 9 controlli verdi su 9, compreso «Main». Sulla correzione `8953965`: prove in corso.
+Il primo giro di `verify` era caduto solo sui tipi di tre pagine tolte, rimasti nella cartella `.next` di una compilazione vecchia: rifatto dopo la compilazione nuova, verde. CI di GitHub sulla #258 a `2b50a31`: 9 controlli verdi su 9, compreso «Main». Sulla correzione (`8953965` ed `e72c9a5`): 629 file e 5.449 prove verdi in locale, 9 controlli verdi su 9 su GitHub.
 
 ### Il metodo, e quanto è costato
 

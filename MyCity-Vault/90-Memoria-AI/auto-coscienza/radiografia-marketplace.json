@@ -26399,20 +26399,20 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-16 12:01",
+    "aggiornato": "2026-10-17 18:34",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 517,
+    "findings_aperti": 550,
     "findings_chiusi": 786,
-    "findings_tot": 1303,
+    "findings_tot": 1336,
     "aperti_per_severita": {
       "bloccante": 11,
-      "grave": 125,
-      "minore": 381,
+      "grave": 131,
+      "minore": 408,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1303,
+    "dichiarati_dal_referto": 1336,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

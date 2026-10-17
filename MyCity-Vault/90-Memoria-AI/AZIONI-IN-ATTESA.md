@@ -60,7 +60,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · 🔁 riscritta 2026-10-17 18:11
+### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · ✅ da unire 2026-10-17 18:41
 
 **In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati e collaudati da chi non li aveva scritti. Dentro c'è la tua scelta del 17/10: chi paga in contanti è rimborsato a mano, senza IBAN sul sito.
 
