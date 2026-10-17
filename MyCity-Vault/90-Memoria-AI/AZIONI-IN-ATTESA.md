@@ -31,16 +31,16 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🔴 #208 — Tre scelte che la riparazione ha fatto per te: dimmi se vanno bene · ⏳ accodata 2026-10-16 12:40
+### 🔴 #208 — Tre scelte che la riparazione ha fatto per te: dimmi se vanno bene · ⏳ accodata 2026-10-16 12:40 · 🔁 riscritta 2026-10-17 18:11
 
-**In parole semplici.** Per chiudere tre difetti ho scelto io una regola. Ognuna sta in un punto solo del codice e si cambia in pochi minuti.
+**In parole semplici.** Per chiudere tre difetti ho scelto io una regola, che si cambia in pochi minuti.
 
 **Cosa cambia:**
 - **Contanti senza foto.** Sotto i 50 € il fattorino conferma l'incasso anche senza foto. Da 50 € in su scrive il motivo, e agli amministratori arriva un avviso.
-- **L'IBAN del cliente.** Si tiene solo finché il bonifico di rimborso è da fare, poi si cancella. L'informativa privacy adesso lo dice.
-- **Il rimborso di chi ha pagato in contanti.** Arriva col bonifico, e il credito MyCity solo se il cliente lo sceglie. I Termini al punto 7 dicono «stesso mezzo di pagamento».
+- **Ordine pagato in parte col credito.** Il bonifico rende i contanti, il credito torna credito: se lo vuoi in soldi è una riga. Con l'account cancellato quel credito si perde, e l'avviso lo dice.
+- **L'avviso del bonifico.** Ha l'email del cliente e resta nelle notifiche e nella casella info finché non lo cancelli: decidi tu per quanto.
 
-**Cosa devi fare tu.** Scrivimi «ok 208», oppure cosa cambiare. Sulla seconda e sulla terza ti consiglio una lettura del legale.
+**Cosa devi fare tu.** Scrivimi «ok 208», oppure cosa cambiare. Fai rileggere a un legale i testi nuovi sul rimborso: email, informativa, Termini al punto 7, FAQ.
 
 **Se va bene:** le segno come decise in DECISIONI.
 
@@ -60,15 +60,15 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40
+### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · 🔁 riscritta 2026-10-17 18:11
 
-**In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati nel codice. In più ci sono una sessantina di difetti fatti nascere dalla riparazione stessa, chiusi prima di consegnare. Ogni pezzo è passato da due collaudatori che non l'avevano scritto.
+**In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati e collaudati da chi non li aveva scritti. Dentro c'è la tua scelta del 17/10: chi paga in contanti è rimborsato a mano, senza IBAN sul sito.
 
-**Cosa cambia:** per esempio, il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso, così il fornaio viene pagato. E l'intelligenza artificiale non scrive più gli allergeni al posto del negoziante. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
+**Cosa cambia:** il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso. E per ogni rimborso di contanti ti arriva l'avviso «💶 Bonifico di rimborso da fare», anche per email a info@mycity-marketplace.com: chiedi l'IBAN al cliente e fai il bonifico. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
 
-**Cosa devi fare tu.** Unirla: la produzione si aggiorna da sola. Poi accendi la regola «Main» su GitHub: è la carta #177. Poi fai i due passi su Supabase della carta #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
+**Cosa devi fare tu.** Controlla che quella casella esista e la leggi. Poi unisci: la produzione si aggiorna da sola. Poi la regola «Main» (carta #177) e i due passi della #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
 
-**Se va bene:** controllo la produzione pezzo per pezzo e chiudo le schede nel registro dei difetti del sito.
+**Se va bene:** controllo la produzione e chiudo le schede nel registro dei difetti del sito.
 
 ---
 
@@ -250,7 +250,7 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 **Cosa cambia:** con le migrazioni applicate, database e codice tornano uguali. La procedura provata è in `docs/migrazioni-baseline-produzione.md`. La migrazione 161 rimette a posto quello che il passo lanciato a mano il 9 settembre aveva riportato indietro: 11 funzioni e 27 regole di accesso. Provata su una copia fedele della produzione: 33 prove di sicurezza verdi su 33.
 
-**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta due migrazioni nuove. La 162 va insieme alla 153 o dopo. La 163 si lancia da sola: è nella carta #207.
+**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta una migrazione sola, la 163: si lancia da sola, è nella carta #207.
 
 **Se va bene:** ricontrollo oggetto per oggetto che in produzione ci sia tutto.
 
