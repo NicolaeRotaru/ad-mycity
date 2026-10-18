@@ -82,12 +82,14 @@ Atteso: un file non vuoto. Dimmi solo «copia fatta» e la sua grandezza: la str
 | `333fea1` | tre prove chieste dai collaudatori: ordine sospeso in elenco, chat con due negozi, nome alla cassa |
 | `f8bd13a` | i due difetti nati dal riesame: vista giù non spegne bacheca e chat (`conNegozioSePossibile`); tetto di 3 s sugli autori delle liste |
 | `a5c260c` | il giro senza uscita del fattorino: la consegna dice «Riprova» su lettura caduta; «Ordina di nuovo» torna severo; procedura migrazioni «Stato al 18/10» |
+| `b9bc130` | bocciata al collaudo la `a5c260c`: con `.single()` una consegna non del fattorino diceva «riprova»; ora `.maybeSingle()` e zero righe dicono «Ordine non trovato» |
+| `a08ae23` | dal terzo collaudo («regge»): una prova fa cadere la lettura dell'ordine e pretende «Riprova» |
 
-**Collaudi.** Tre squadre, ognuna con lente A («sa diventare rosso?») e lente B («nasce rotto?»): «regge» al primo giro. Correzione `f8bd13a`: due collaudatori, «regge», con un giro senza uscita trovato dalla lente B e corretto in `a5c260c`. Mutazioni sulle correzioni: 9 su 9 rosse.
+**Collaudi.** Tre squadre, ognuna con lente A («sa diventare rosso?») e lente B («nasce rotto?»): «regge» al primo giro. Correzione `f8bd13a`: due collaudatori, «regge», con un giro senza uscita trovato dalla lente B e corretto in `a5c260c`. `a5c260c` bocciata da un collaudatore nuovo (zero righe trattate come guasto), corretta in `b9bc130`. Terzo collaudo su `b9bc130`: «regge». Mutazioni sulle correzioni: 12 su 12 rosse.
 
 **Riesame del perimetro** (workflow `wf_709f9433-e0a`): 24 file in 4 dimensioni, 4 revisori + 4 verificatori. 35 segnalazioni, 4 smontate (già nel registro), 2 difetti nati (corretti), 26 c'erano già. Registro del perimetro: 24 file su 24 riguardati dopo l'ultima modifica.
 
-**Cancello locale su `a5c260c`:** `npm run verify` 634 file, 5.602 prove (base 629 / 5.449), lint 0 errori e 78 avvisi come la base; `npm run build` riuscita; prove SQL, migrazione su database pieno, rilascio due volte, database nato prima del registro, `la-158`/`la-159`/`la-160`, `db:check-drift`, `db:types`: verdi.
+**Cancello locale su `b9bc130`:** `npm run verify` 634 file, 5.608 prove (base 629 / 5.449), lint 0 errori e 78 avvisi come la base; `npm run build` riuscita; prove SQL, migrazione su database pieno, rilascio due volte, database nato prima del registro, `la-158`/`la-159`/`la-160`, `db:check-drift`, `db:types`: verdi.
 
 **Produzione, sola lettura il 18/10.** Su `profiles` vive «Anyone can view approved seller profiles», «Public profile read», «Riders can view buyer of assigned orders», amministratori, propria riga. `anon` e `authenticated` hanno SELECT per colonna su `full_name`, `public_handle`, `public_bio`, `public_avatar_url`, `public_profile_enabled`: leggere `/u/[handle]` col client di servizio non mostra niente in più di oggi.
 
