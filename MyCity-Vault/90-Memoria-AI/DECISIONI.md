@@ -5546,3 +5546,17 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 
 **La lezione.** Il digest sostituisce le schede con la versione del referto più recente della loro famiglia. Una nota scritta in casa prima di un digest si perde, se il referto più recente contiene la stessa scheda. Le note vanno scritte dopo l'ultimo digest, e i difetti si ritrovano per nome, non per posizione.
 
+
+## 2026-10-17 18:14 — 🟡 Prima ondata del sito riparata, e il rimborso dei contanti semplificato per scelta di Nicola
+
+**Cosa.** La richiesta di unione mycity #258 ripara 21 problemi seri della prima ondata: 10 del tutto, 11 nella parte di codice. Restano fuori 11 falle di sicurezza (dettagli solo nel referto privato) e una decisione di Nicola. Referto: `consegne/audit/2026-10-16-prima-ondata-sito.md`. Carte: #206, #207, #208.
+
+**La scelta di Nicola, 17/10.** Sette riesami, ognuno con 15-27 difetti nati, quasi tutti nel rimborso di chi paga in contanti. Domanda a Nicola con tre strade. Risposta: «Semplifica». Tolti dal sito la lista dei bonifici, l'IBAN salvato e la cancellazione dell'account che aspettava il bonifico. Adesso agli amministratori arriva l'avviso «💶 Bonifico di rimborso da fare», con cifra, ordine, email del cliente e causale fissa. La stessa cosa arriva per email alla casella info. Il bonifico si fa a mano. Il cliente riceve soldi, non credito.
+
+**Poi due scelte sul consumo.** Nicola ha chiesto perché la sessione aveva consumato metà dei crediti. Risposta vera: il giro che non convergeva e gli agenti dei riesami. Scelta: «Finisci e chiudi», cioè niente più riesami completi. Dopo una bocciatura della squadra dei soldi: «Ancora un giro sulla semplificazione». Le tre squadre sono passate, la terza con una correzione mia. In più un collaudo finale con due collaudatori nuovi.
+
+**Restano a Nicola (🔴).** Unire la #258. Controllare la casella info. Fare i passi su Supabase. Decidere sulla #208: il credito di un ordine misto, l'account cancellato, quanto resta l'avviso con l'email. Far rileggere a un legale email, informativa, Termini §7 e FAQ.
+
+**Cosa NON ho fatto.** Applicare migrazioni, toccare la produzione, Stripe, Vercel o GitHub. Unire richieste.
+
+**La lezione.** Quando due riesami di fila trovano difetti nati nello stesso posto, il problema è quel posto, non la squadra. La domanda giusta da portare a Nicola è se semplificare, non un altro giro. Qui la domanda è arrivata dopo il settimo riesame, e almeno tre giri prima sarebbe stato meglio. Il freno non è scritto: è debito dichiarato.
