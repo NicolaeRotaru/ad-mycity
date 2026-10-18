@@ -5560,3 +5560,11 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Applicare migrazioni, toccare la produzione, Stripe, Vercel o GitHub. Unire richieste.
 
 **La lezione.** Quando due riesami di fila trovano difetti nati nello stesso posto, il problema è quel posto, non la squadra. La domanda giusta da portare a Nicola è se semplificare, non un altro giro. Qui la domanda è arrivata dopo il settimo riesame, e almeno tre giri prima sarebbe stato meglio. Il freno non è scritto: è debito dichiarato.
+
+## 2026-10-18 17:12 — 🔴 Migrazione 163 lanciata in produzione con l'ok di Nicola; le altre 48 ferme
+
+**Cosa.** Nicola: «Sì fai tutte le migrazioni e controlla se le migrazioni sono tutte corrette». Ho lanciato la 163 sul database di produzione (`verify_delivery_code` con il controllo dell'incasso). Prima ho salvato la versione precedente per poter tornare indietro, e ho verificato in sola lettura che le colonne usate esistessero e che non ci fossero consegne in corso. Dopo: controllo dell'incasso presente, proprietario e permessi identici. L'ho lanciata senza scriverla nel registro delle migrazioni, così lo script la riapplica dopo la 127 quando arriverà il resto.
+
+**Il conto, in sola lettura.** 157 file nel codice, 108 risultano nel registro, ne mancano 49: le 48 della prova generale più la 163. La verifica del passo 3 dà 4 «falso» su 5: l'iscrizione di negozi e fattorini è rotta, sei regole di accesso sono ancora aperte.
+
+**Perché non le altre 48.** La 110, la 112 e la 161 chiudono la lettura dei profili degli altri utenti. Carrello, cassa, pagine degli ordini e del fattorino, messaggi e pagine del venditore la usano ancora. In più non esiste una copia del database, e la 094 ricalcola soldi su ordini vivi. Mi sono fermata e ho chiesto a Nicola, come vuole la regola d'oro.

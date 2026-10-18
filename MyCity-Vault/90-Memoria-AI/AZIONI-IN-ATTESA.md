@@ -48,6 +48,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #207 — Dopo l'unione, due passi su Supabase: la password dal telefono e i contanti prima della consegna · ⏳ accodata 2026-10-16 12:40
 
+> ✅ **2026-10-18 17:12 — La 163 l'ho lanciata io, con il tuo «sì».** Verificata in sola lettura: il controllo dell'incasso c'è, proprietario e permessi sono quelli di prima. Resta solo il passo dei due modelli email.
+
 **In parole semplici.** Due riparazioni della #206 si completano solo dal pannello di Supabase, che vedi solo tu.
 
 **Cosa cambia:**
@@ -243,6 +245,8 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 ---
 
 ### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40
+
+> 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
 
 > ⚠️ **2026-10-16 12:40 — Non applicare ancora la 161, nemmeno dopo la #206.** La vetrina adesso regge. Carrello, cassa, ordini e pagine del fattorino leggono però il negozio dai profili. Con la 161 oggi la cassa farebbe pagare la spedizione a tariffa fissa, e il fattorino perderebbe l'indirizzo dove ritirare. È il prossimo lotto.
 
