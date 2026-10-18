@@ -5568,3 +5568,5 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Il conto, in sola lettura.** 157 file nel codice, 108 risultano nel registro, ne mancano 49: le 48 della prova generale più la 163. La verifica del passo 3 dà 4 «falso» su 5: l'iscrizione di negozi e fattorini è rotta, sei regole di accesso sono ancora aperte.
 
 **Perché non le altre 48.** La 110, la 112 e la 161 chiudono la lettura dei profili degli altri utenti. Carrello, cassa, pagine degli ordini e del fattorino, messaggi e pagine del venditore la usano ancora. In più non esiste una copia del database, e la 094 ricalcola soldi su ordini vivi. Mi sono fermata e ho chiesto a Nicola, come vuole la regola d'oro.
+
+**La scelta di Nicola, 2026-10-18 17:18.** «Prima il lotto, poi tutte»: riparo carrello, cassa, ordini, fattorino e messaggi perché leggano il negozio dalla vista pubblica. Poi Nicola fa la copia del database e io lancio le 48 e controllo i 5 punti.
