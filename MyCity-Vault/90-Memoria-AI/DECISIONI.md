@@ -5570,3 +5570,17 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Perché non le altre 48.** La 110, la 112 e la 161 chiudono la lettura dei profili degli altri utenti. Carrello, cassa, pagine degli ordini e del fattorino, messaggi e pagine del venditore la usano ancora. In più non esiste una copia del database, e la 094 ricalcola soldi su ordini vivi. Mi sono fermata e ho chiesto a Nicola, come vuole la regola d'oro.
 
 **La scelta di Nicola, 2026-10-18 17:18.** «Prima il lotto, poi tutte»: riparo carrello, cassa, ordini, fattorino e messaggi perché leggano il negozio dalla vista pubblica. Poi Nicola fa la copia del database e io lancio le 48 e controllo i 5 punti.
+
+## 2026-10-18 20:53 — 🟡 Il lotto che sblocca le 48 migrazioni è pronto: il sito legge i negozi dalla vista pubblica
+
+**Cosa.** Come ha scelto Nicola il 18/10 alle 17:18 («Prima il lotto, poi tutte»), tre squadre hanno spostato sulla vista `seller_public_profiles` le letture del negozio di carrello, cassa, lista condivisa, ordini, fattorino, chat, storie, drop, eventi e «Chi siamo». L'autore delle liste e il profilo pubblico si leggono dal server, solo per chi ha acceso il profilo pubblico. Richiesta di unione mycity #259. Referto: `consegne/audit/2026-10-18-lotto-letture-profili.md`.
+
+**Come.** Ogni squadra collaudata da due collaudatori che non l'avevano scritta: tutte e tre promosse al primo giro. Poi un riesame dei 24 file toccati, con quattro revisori e quattro verificatori: 2 difetti nati dal lotto, corretti. Il collaudo della correzione ha trovato un giro senza uscita per il fattorino: corretto anche quello, e ricollaudato. Cancello locale verde sull'ultimo commit: 634 file, 5.602 prove, build, tutte le prove SQL.
+
+**Il controllo in sola lettura sulla produzione.** Oggi chiunque legge nome e cognome di chi ha acceso il profilo pubblico: regola «Public profile read» e permessi per colonna di anon. Quindi leggere il profilo pubblico col client di servizio non mostra niente in più di oggi.
+
+**Registro dei difetti del sito.** Chiuse le 11 schede della prima ondata, ora in produzione (la #258 è unita, la 163 è lanciata). Aggiunte 38 schede, 1 grave e 37 minori: il più serio è il negoziante che in chat legge «Utente» al posto del cliente. Aperte 577: 10 bloccanti, 122 gravi, 445 minori. Altre 4 schede si chiudono dopo l'unione della #259.
+
+**Cosa NON ho fatto.** Le 48 migrazioni. Aspettano tre cose: l'unione della #259, la copia del database fatta da Nicola, il suo «vai».
+
+**La lezione.** Una correzione che rende una pagina «più tollerante» sposta l'errore nella pagina dopo. Qui la bacheca restava in piedi, e mandava il fattorino su una pagina che diceva «Ordine non trovato». Quando una pagina smette di mostrare un errore, va guardata anche la pagina a cui porta. Il freno c'è: la prova monta la pagina della consegna con la vista giù e pretende «Riprova» a schermo.

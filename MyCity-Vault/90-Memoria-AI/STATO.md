@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-17 18:14
+aggiornato: 2026-10-18 20:54
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧩 **2026-10-18 20:54 — Il lotto che sblocca le 48 migrazioni è pronto: la richiesta #259 del sito.**
+>
+> Tre delle 48 migrazioni che mancano chiudono la tabella dei profili. Carrello, cassa, ordini, pagine del fattorino e chat prendevano il negozio proprio da lì. Adesso lo prendono dalla vista pubblica dei negozi, e reggono prima e dopo le migrazioni. Per esempio, la spedizione nel carrello resta 5,40 € come alla cassa, invece di scendere a 4,90.
+>
+> Tocca a te unire la #259. Poi fai la copia del database: i passi sono nel referto, cinque minuti. Al tuo «vai» lancio le 48 e controllo i cinque punti. La prima ondata è in produzione: ho chiuso le sue 11 schede riparate del tutto.
+>
+> Non ho visto il sito vero né un telefono vero. Referto: `consegne/audit/2026-10-18-lotto-letture-profili.md`.
 
 > 🛠️ **2026-10-17 18:14 — La prima ondata del sito è pronta da unire: 21 problemi seri riparati, e il rimborso dei contanti adesso è un bonifico che fai tu.**
 >
