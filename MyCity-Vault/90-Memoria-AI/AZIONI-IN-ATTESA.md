@@ -48,6 +48,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #207 — Dopo l'unione, due passi su Supabase: la password dal telefono e i contanti prima della consegna · ⏳ accodata 2026-10-16 12:40
 
+> ✅ **2026-10-18 17:12 — La 163 l'ho lanciata io, con il tuo «sì».** Verificata in sola lettura: il controllo dell'incasso c'è, proprietario e permessi sono quelli di prima. Resta solo il passo dei due modelli email.
+
 **In parole semplici.** Due riparazioni della #206 si completano solo dal pannello di Supabase, che vedi solo tu.
 
 **Cosa cambia:**
@@ -60,7 +62,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · ✅ da unire 2026-10-17 18:41
+### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · ✅ unita e in produzione
+
+> ✅ **2026-10-18 20:54 — Unita e pubblicata.** Ho chiuso nel registro le 11 schede riparate del tutto. Le 8 parziali dicono cosa manca.
 
 **In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati e collaudati da chi non li aveva scritti. Dentro c'è la tua scelta del 17/10: chi paga in contanti è rimborsato a mano, senza IBAN sul sito.
 
@@ -73,6 +77,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 ### 🟡 #205 — Ripara il codice del sito prima di applicare le migrazioni · ⏳ accodata 2026-10-11 23:15 · ✅ prima ondata nella #206
+
+> ✅ **2026-10-18 20:54 — La seconda parte è nella richiesta 259 del sito.**
 
 **In parole semplici.** La 161 chiude la lettura dei profili, ma scheda prodotto, vetrine e pagine dell'ordine prendono il negozio proprio da lì. Applicata oggi, ogni prodotto mostrerebbe «non disponibile».
 
@@ -244,7 +250,9 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 ### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40
 
-> ⚠️ **2026-10-16 12:40 — Non applicare ancora la 161, nemmeno dopo la #206.** La vetrina adesso regge. Carrello, cassa, ordini e pagine del fattorino leggono però il negozio dai profili. Con la 161 oggi la cassa farebbe pagare la spedizione a tariffa fissa, e il fattorino perderebbe l'indirizzo dove ritirare. È il prossimo lotto.
+> 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
+
+> 🧩 **2026-10-18 20:54 — Il lotto che sblocca le 48 è pronto: la richiesta 259 del sito.** Carrello, cassa, ordini, fattorino e chat leggono il negozio dalla vista pubblica. Dopo l'unione fai la copia del database: i passi sono nel referto del lotto. Poi mi dici «vai» e le lancio io.
 
 **In parole semplici.** Il database vero è indietro di circa 48 migrazioni rispetto al codice. Per questo oggi l'email «ordine pronto» non parte e la pagina Analisi del venditore va in errore. E chi ha appena comprato può ricevere il messaggio del carrello abbandonato.
 

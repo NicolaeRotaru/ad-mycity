@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-17 18:16",
+  "aggiornato": "2026-10-18 21:18",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -3939,6 +3939,137 @@
       "nota": "Riesami 1-7 della prima ondata del sito (15-17/10/2026): registro solo i file rimasti identici dopo l'ultimo riesame che li ha guardati. Trovati = difetti che c'erano già, messi nel registro. I difetti nati dal lotto (circa 140 in sette riesami) sono stati corretti prima della consegna: referto consegne/audit/2026-10-16-prima-ondata-sito.md. I 34 file cambiati dopo il settimo riesame (correzione 7 e semplificazione del rimborso dei contanti) restano scoperti per scelta di Nicola del 17/10, «Finisci e chiudi»: collaudati da due lenti, non riesaminati. Le schede di qa-flussi (5) e privacy-legale (1) non si registrano qui: i loro file sono fra i 34.",
       "file": {
         "migrations/163_la_consegna_in_contanti_si_chiude_dopo_l_incasso.sql": "ff82ae2b45d9"
+      }
+    },
+    {
+      "quando": "2026-10-18 20:52",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 23,
+      "schede": [
+        "In chat il negoziante vede «Utente» al posto del nome di ogni cliente",
+        "La bacheca del fattorino promette un «Giro intelligente» di consegne vicine con «+15% efficienza» che nessuno calcola",
+        "La mappa vuota dice al fattorino di toccare «Naviga», ma in quel caso il pulsante «Naviga» non c'è mai",
+        "Il pulsante «Chat» del fattorino apre gli SMS del telefono, non una chat",
+        "Gli eventi promettono una notifica all'inizio, ma nessuna notifica parte mai",
+        "Un evento finito resta in pagina con «LIVE ORA» e «Termina 2 giorni fa»",
+        "Dopo «Partecipa» il pulsante dice «Ci sei» ma il contatore resta «0 partecipanti» fino a un minuto",
+        "Una lista vuota mostra a tutti una nota da programmatori: «futuro: pulsante Aggiungi a lista»",
+        "Nella lista, togliere un prodotto, cambiare la nota, renderla privata o eliminarla può fallire senza dire niente",
+        "«La tua spesa della settimana: prodotti che compri spesso» elenca anche cose comprate una volta sola, con un totale a prezzi vecchi",
+        "Il carrello condiviso mostra i prezzi per le quantità scelte, ma nel carrello entra meno merce senza dirlo",
+        "Nel carrello condiviso: «1 prodotto non disponibile sono stati esclusi» e «Il link condiviso e' scaduto o malformato»",
+        "Ogni profilo pubblico dice «Buyer su MyCity Piacenza», anche quello di un negoziante, e in inglese",
+        "Un negozio con tre storie compare tre volte di fila nel carosello della home",
+        "In chat, dopo ogni messaggio inviato, la tastiera del telefono si chiude",
+        "Il profilo pubblico di una persona risponde «Profilo non trovato» quando la lettura non riesce, e nei registri non resta niente",
+        "«Ordina di nuovo» in home rimette i prodotti senza il negozio, e il carrello li raggruppa per nome invece che per negozio",
+        "Ogni profilo pubblico dice «Nessun achievement ancora», anche a chi ne ha",
+        "L'interruttore del profilo pubblico promette «badge e bio», ma la pagina pubblica mostra anche nome e cognome",
+        "Il profilo pubblico cerca l'handle con un confronto che tratta «_» come una lettera qualsiasi",
+        "Chiunque abbia un account può riempire i 30 posti del carosello delle storie in home e svuotarlo per tutti",
+        "La bacheca del fattorino legge tutta la sua storia di consegne a ogni aggiornamento, senza limite",
+        "Il negoziante col negozio non ancora approvato vede «Negozio» al posto della sua insegna nella lista condivisa e alla cassa"
+      ],
+      "nota": "riesame del 18/10 su 333fea1 (4 revisori + 4 verificatori) e collaudo delle squadre; i file cambiati dopo (f8bd13a, a5c260c: bacheca e consegna del fattorino, chat, ReorderRail, liste) riguardati da 3 collaudatori della correzione; i 2 difetti nati dal riesame sono corretti, non schedati",
+      "file": {
+        "app/about/page.tsx": "5ca21cb27492",
+        "app/events/page.tsx": "9946af2f9609",
+        "app/lists/[id]/page.tsx": "990936016225",
+        "app/lists/page.tsx": "bdc4c40421dd",
+        "app/messages/[id]/page.tsx": "7ec22f704e19",
+        "app/messages/page.tsx": "8f410f2b6657",
+        "app/rider/orders/[id]/page.tsx": "8b19b28d5fbb",
+        "app/rider/page.tsx": "60fd2d112fb3",
+        "app/shared-cart/page.tsx": "d213f417e693",
+        "app/u/[handle]/page.tsx": "73e2861e86a9",
+        "components/StoreStoryRing.tsx": "f50e318b7f59",
+        "components/home-sections/ReorderRail.tsx": "10cbc5d3b0db",
+        "components/home/DropOfDay.tsx": "7374ffeb60eb",
+        "components/home/StoriesCarousel.tsx": "4b3c52b378f5"
+      }
+    },
+    {
+      "quando": "2026-10-18 20:52",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "riesame del 18/10 su 333fea1 (4 revisori + 4 verificatori) e collaudo delle squadre; i file cambiati dopo (f8bd13a, a5c260c: bacheca e consegna del fattorino, chat, ReorderRail, liste) riguardati da 3 collaudatori della correzione; i 2 difetti nati dal riesame sono corretti, non schedati",
+      "file": {
+        "app/api/profili-pubblici/route.ts": "f320642883c7"
+      }
+    },
+    {
+      "quando": "2026-10-18 20:52",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 10,
+      "schede": [
+        "Durante la consegna, un aggiornamento che non riesce sostituisce tutta la pagina dell'ordine con «Non riesco a caricare l'ordine», e il codice di consegna sparisce",
+        "Dopo le migrazioni il cliente non vede più il nome del suo fattorino: pagina dell'ordine e recensione dicono sempre «Il tuo rider»",
+        "Tornando dal pagamento con carta, se la lettura degli ordini cade si legge solo «Impossibile caricare gli ordini»: niente «pagamento completato» e il carrello resta pieno",
+        "Chi apre un reclamo con la rete debole legge «Ordine non trovato» e viene riportato all'elenco degli ordini",
+        "Chi apre un secondo reclamo sullo stesso ordine legge «Questo valore è già stato usato. Prova con uno diverso.»",
+        "In cassa, «Togli dal carrello» sull'articolo esaurito toglie anche le altre varianti dello stesso prodotto, che erano disponibili",
+        "Se la lettura del credito non riesce, la cassa non lo mostra ma il server lo spende lo stesso: il totale a schermo non è quello dell'ordine",
+        "«Ripeti ordine» rimette i prodotti senza la variante scelta, e la pagina dell'ordine non dice quale variante si era comprata",
+        "Se la cassa non riesce a leggere il carrello, il pulsante è spento ma il riepilogo dice «Subtotale 0,00 € · Spedizione Gratis · Totale 0,00 €»",
+        "Se la pagina della recensione non riesce a leggere l'ordine, dice «Ordine non trovato» invece di «Riprova»"
+      ],
+      "nota": "riesame del 18/10 su 333fea1 (4 revisori + 4 verificatori) e collaudo delle squadre; i file cambiati dopo (f8bd13a, a5c260c: bacheca e consegna del fattorino, chat, ReorderRail, liste) riguardati da 3 collaudatori della correzione; i 2 difetti nati dal riesame sono corretti, non schedati",
+      "file": {
+        "app/cart/page.tsx": "d94f85952277",
+        "app/checkout/page.tsx": "22ebc5f417e8",
+        "app/orders/[id]/dispute/page.tsx": "b8acf2c6ca82",
+        "app/orders/[id]/page.tsx": "4d1b4186dc1f",
+        "app/orders/[id]/review/page.tsx": "942a9f3ddaa6",
+        "app/orders/page.tsx": "86256712978f"
+      }
+    },
+    {
+      "quando": "2026-10-18 20:52",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "La chat con l'Assistenza compare come «Utente», e sotto c'è scritto «Negozio»",
+        "In home ogni sezione chiede di nuovo alla vetrina lo stesso negozio, e ogni fascia compare un giro di rete più tardi",
+        "Un negozio sospeso con il profilo pubblico acceso: cliente e fattorino non ne vedono più nome e indirizzo",
+        "Con la vista dei negozi giù e i profili chiusi, in chat il cliente legge «Utente» al posto di ogni negozio, senza un segno che il nome non è stato letto",
+        "Sulla bacheca del fattorino un guasto passeggero della vista dei negozi toglie il nome del negozio fino al giro dopo, senza riprovare subito"
+      ],
+      "nota": "riesame del 18/10 su 333fea1 (4 revisori + 4 verificatori) e collaudo delle squadre; i file cambiati dopo (f8bd13a, a5c260c: bacheca e consegna del fattorino, chat, ReorderRail, liste) riguardati da 3 collaudatori della correzione; i 2 difetti nati dal riesame sono corretti, non schedati",
+      "file": {
+        "lib/queries/controparte-della-chat.ts": "0b79c611aaa3",
+        "lib/queries/negozio-dell-ordine.ts": "5330001cf272",
+        "lib/queries/profili-pubblici.ts": "f64d6789faff"
+      }
+    },
+    {
+      "quando": "2026-10-18 21:18",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "collaudo c3",
+      "trovati": 0,
+      "schede": [],
+      "nota": "terzo collaudo del 18/10 su b9bc130 (lenti A e B): regge; un buco di prova chiuso in a08ae23",
+      "file": {
+        "app/rider/orders/[id]/page.tsx": "06226b26cd54"
       }
     }
   ]
