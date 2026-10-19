@@ -252,7 +252,7 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 > 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
 
-> 🧩 **2026-10-18 20:54 — Il lotto che sblocca le 48 è pronto: la richiesta 259 del sito.** Carrello, cassa, ordini, fattorino e chat leggono il negozio dalla vista pubblica. Dopo l'unione fai la copia del database: i passi sono nel referto del lotto. Poi mi dici «vai» e le lancio io.
+> ✅ **2026-10-19 08:45 — Il lotto che sblocca le 48 è in produzione.** Hai unito la richiesta 259 del sito e Vercel l'ha pubblicata. Adesso fai la copia del database: i passi sono nel referto del lotto. Poi mi dici «vai» e le lancio io.
 
 **In parole semplici.** Il database vero è indietro di circa 48 migrazioni rispetto al codice. Per questo oggi l'email «ordine pronto» non parte e la pagina Analisi del venditore va in errore. E chi ha appena comprato può ricevere il messaggio del carrello abbandonato.
 
@@ -985,6 +985,8 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 ---
 
 ### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
+
+> ➕ **2026-10-19 08:45 — Dopo la richiesta 259 del sito, la chiave di servizio serve anche al profilo pubblico.** Senza, la pagina del profilo dice «non trovato». Oggi nessuno l'ha acceso, quindi non tocca nessuno.
 
 > ➕ **2026-10-16 12:40 — Dopo la #206 le chiavi di Stripe sono due:** la seconda è `STRIPE_CONNECT_WEBHOOK_SECRET`, per gli avvisi sui conti dei negozi. Passi nella stessa guida.
 
