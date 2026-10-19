@@ -5592,3 +5592,13 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Perché.** Era la raccomandazione della scheda bloccante sulle foto rotte (radiografia dell'11/10). Il piano gratuito non ha la trasformazione delle foto né le copie del database scaricabili, e addormenta i progetti dopo una settimana di poca attività.
 
 **Effetti.** Scheda bloccante chiusa; aperta una scheda minore sul rischio che l'abbonamento scada senza che un controllo se ne accorga. Fatto «infrastruttura.supabase» aggiornato nel registro dei fatti. Le copie giornaliere degli ultimi 7 giorni prendono il posto della copia a mano: le migrazioni partono quando Nicola mi dice la data dell'ultima copia e «vai».
+
+## 2026-10-19 19:21 — 🔴 Migrazioni in produzione: col «vai» di Nicola è entrata la 091, le altre 48 sono ferme
+
+**Cosa.** Nicola ha mandato la foto delle copie di Supabase (ultima: 19/10 alle 06:53 ora di Piacenza, copia fisica) e ha scritto «vai». Ho ricontato: mancavano le stesse 49. È entrata la 091, che aggiunge tre colonne vuote (la tariffa di consegna sugli ordini e due codici Stripe sui profili), registrata nel registro delle migrazioni.
+
+**Come.** Ogni migrazione parte con un lucchetto: un'impronta del file originale, controllata dal database prima di confermare. Se il testo arrivato non è identico al file, tutto si annulla. Provato sul database vero: un testo sbagliato viene bloccato. Provato qui: le 49 migrazioni senza commenti danno uno schema identico a quello dei file originali.
+
+**Perché si è fermato.** La 092 cancella righe (i casi in cui un cliente ha invitato sé stesso). La modalità automatica della sessione ha annullato la chiamata, e poi anche la preparazione dei blocchi successivi, classificandole come rilascio in produzione. Non l'ho aggirata. Servono le conferme di Nicola, una per blocco.
+
+**Stato del database.** 1 migrazione su 49 entrata. Le altre 48 non hanno toccato niente: le chiamate annullate non sono partite (registro ricontrollato dopo).
