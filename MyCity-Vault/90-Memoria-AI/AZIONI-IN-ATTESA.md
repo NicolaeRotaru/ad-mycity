@@ -828,6 +828,8 @@ giornaliere conserva.
 **Se va bene:** riempio le quattro righe con la data del controllo, e da lì si vede se conviene
 passare al piano a pagamento oppure no.
 
+> 📌 **19/10 18:58:** il piano adesso è il Pro (lettura di Supabase alle 18:50). Restano da guardare in «Database → Backups» le copie giornaliere e il ripristino al minuto.
+
 ---
 
 ### 🟡 #163 — La coda è diventata lunga tre ore, e un controllo ne guarda solo due terzi · ⏳ accodata 2026-08-22 13:20

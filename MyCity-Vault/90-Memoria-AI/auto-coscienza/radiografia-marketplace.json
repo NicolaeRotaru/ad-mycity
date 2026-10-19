@@ -26,7 +26,7 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1375,
+    "findings": 1376,
     "bloccanti": 35,
     "gravi": 472,
     "minori": 868,
@@ -4502,13 +4502,17 @@
       "impatto": "Su un marketplace di cibo, una vetrina senza foto non vende: è il primo colpo d'occhio del lancio. Tocca tutte le foto di prodotti, copertine, gallerie e anteprime social, cioè 42 punti col caricatore più 10 che passano da Vercel. La stessa causa, il piano gratuito, è quella che il 10/10 ha messo in pausa i due database (card #199): la decisione da prendere è una sola e chiude tutte e due.",
       "fix": "Raccomandazione: Nicola passa l'organizzazione Supabase al piano Pro. È la spesa già messa in conto il 20/7 in intenzioni-nicola.json. Così le trasformazioni si accendono e i database smettono di addormentarsi, cioè sparisce anche la causa della card #199. Va controllato che in Storage → Settings «Enable Image Transformations» sia acceso. Rete di sicurezza nel codice, da fare comunque: (1) un interruttore d'ambiente, per esempio NEXT_PUBLIC_TRASFORMAZIONI_FOTO=off, che fa restituire a sizedImage l'indirizzo /object/public/ originale. Le foto caricate sono già ridotte a 1600 px JPEG 0,85 da lib/image-resize.ts: più pesanti, ma visibili. (2) Un onError sulle foto di ProductCard e della galleria che mostri /foto-mancante.svg invece dell'icona rotta. (3) Un controllo in /api/health che chiede l'indirizzo render di una foto vera e diventa rosso con un 403.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "(a) node --experimental-strip-types su una copia di lib/image-url.ts: sizedImage('https://clmpyfvpvfjgeviworth.supabase.co/storage/v1/object/public/products/…/pane.jpg','card') restituisce …/storage/v1/render/image/public/products/…/pane.jpg?width=400&height=400&quality=75&resize=cover, e lo stesso vale per thumb, detail, hero, 1600 e logoNegozio. (b) Pagina vera di produzione scratchpad/verifica-produzione-live/product.json (Pesto Genovese Bio): link preload, srcSet e <img> hanno solo candidati /render/image/public/ (384w…3840w). Stesso risultato in kefir.json e store-pq.json. (c) WebFetch di raw.githubusercontent.com/supabase/storage/master/src/http/plugins/tenant-feature.ts: con la funzione spenta fa reply.status(403) con error 'FeatureNotEnabled', «feature not enabled for this tenant». (d) Playwright, telefono 390×844, /search con 8 prodotti finti le cui foto stanno su supabase.co (script scratchpad/performance-2/foto403.cjs). Se render risponde 403: 8 foto su 8 rotte, schermata search-piano-free-403.png con riquadri bianchi e icona rotta. Se risponde 200: 8 su 8 caricate. (e) Prova umana da 30 secondi: aprire nel browser l'indirizzo render di una foto vera di Pane Quotidiano, oppure Supabase → Organization → Billing.",
       "prova_tipo": "comando",
-      "prova_eseguita": "Visto adesso: il codice manda tutte le foto a /render/image/. La produzione di oggi usa solo quegli indirizzi per i prodotti veri di Pane Quotidiano. Il server Supabase risponde 403 quando la funzione è spenta, e la memoria registra il piano gratuito al 10/10 ore 11:58. Nella simulazione col 403, 8 foto su 8 escono rotte senza nessun ripiego. NON visto: la risposta vera di Supabase oggi, perché il proxy blocca supabase.co (CONNECT 403), né il piano dell'organizzazione oggi. · Verifica tecnica: (1) mcp Supabase get_organization xwbccbdkgcmdudcuxwdc → plan:\"free\", tier_free, oggi 11/10. (2) Prova di controllo in produzione con mcp__Vercel__web_fetch_vercel_url, usando come intermediario l'ottimizzatore di Vercel su mycity-phi.vercel.app/_next/image, che scarica lui la foto da Supabase. Foto vera del Kefir (1781623482327-vgqw90-1000062973.jpg). Indirizzo /storage/v1/render/image/public/…?width=400 → 502 «OPTIMIZED_EXTERNAL_IMAGE_REQUEST_UNAUTHORIZED», cioè Supabase ha risposto non autorizzato. Stessa foto via /storage/v1/object/public/ → 200 image/jpeg, 4477 byte. Unica differenza fra le due: render contro object. (3) Letti lib/image-url.ts:92-110 e lib/image-loader.ts:43-64: la riscrittura verso render è incondizionata per *.supabase.co. (4) grep sui json di produzione in verifica-produzione-live: render 83/137/17 contro object 8/14/1.",
+      "prova_eseguita": "Prima e dopo, nei registri di Supabase (query_logs, edge_logs, percorso /storage/v1/render/image/): il 2026-10-19 alle 08:52, 14:35 e 17:50 ora di Piacenza le foto vere di Pane Quotidiano rispondevano 403. Alle 18:47 Supabase ha aggiornato il progetto (storage_logs: PUT /tenants/clmpyfvpvfjgeviworth). Alle 18:56 la stessa foto (products/…/1781623482327-vgqw90-1000062973.jpg) chiesta dal sito di produzione attraverso il suo ottimizzatore (https://www.mycity-marketplace.com/_next/image?url=…/render/image/public/…?width=400) è tornata 200, image/webp, 8.646 byte, cache di Vercel MISS; nello stesso minuto Supabase registra GET 200 su /render/image/public/products/… (edge_logs e storage_logs).",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: performance · id R8 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: performance · id R8 · si ripara: decisione-nicola",
+      "chiuso_il": "2026-10-19 18:57",
+      "chiuso_da": "Nicola ha passato l'organizzazione Supabase al piano Pro il 2026-10-19 (letto con get_organization: plan pro). Nessuna modifica al codice.",
+      "riparato_in": "piano Pro di Supabase (decisione e pagamento di Nicola, 2026-10-19)",
+      "nota_riparazione": "Risolto dal piano Pro, non dal codice. Resta il rischio che l'abbonamento scada e il progetto torni al gratuito: è una scheda a parte, minore."
     },
     {
       "dimensione": "immagini-media",
@@ -27091,23 +27095,41 @@
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
       "nato_oggi": true
+    },
+    {
+      "dimensione": "immagini-media",
+      "reparto": "Immagini e media",
+      "titolo": "Se l'abbonamento Supabase scade, le foto del sito tornano rotte e nessun controllo se ne accorge",
+      "severita": "minore",
+      "file": "lib/image-url.ts (sizedImage → /render/image/public/) · lib/image-loader.ts · app/api/health (non chiede una foto vera)",
+      "descrizione": "Il 19/10 le foto sono tornate perché Nicola ha passato Supabase al piano Pro: la trasformazione delle foto c'è solo a pagamento. Il codice non ha una rete: se una fattura non passa e Supabase riporta il progetto al gratuito, ogni foto di prodotto e negozio risponde 403 e la vetrina resta senza foto. La pagina di salute del sito non chiede nessuna foto, quindi resta verde.",
+      "impatto": "Oggi nessuno: il piano è Pro. Il danno arriverebbe solo se l'abbonamento si interrompe, e si vedrebbe solo guardando il sito.",
+      "fix": "Due pezzi piccoli, già proposti dalla scheda chiusa sulle foto rotte: un controllo in /api/health che chiede l'indirizzo render di una foto vera e diventa rosso con un 403; e un onError sulle foto di ProductCard e della galleria che mostri un segnaposto invece dell'icona rotta.",
+      "fonte": "design",
+      "stato": "aperto",
+      "prova": "Registri di Supabase (query_logs, edge_logs): select count(*) from logs where source = 'edge_logs' and log_attributes['request.path'] like '%render/image%' and log_attributes['response.status_code'] = '403' nelle ultime 24 ore. Maggiore di zero vuol dire foto rotte in produzione.",
+      "prova_tipo": "comando",
+      "prova_eseguita": "Il 2026-10-19 la stessa interrogazione ha contato le risposte 403 della mattina e del pomeriggio, prima del passaggio al Pro. Oggi nessun controllo del sito la fa da solo.",
+      "giro": 2,
+      "verificato": true,
+      "fonte_radiografia": "nata il 2026-10-19 dalla chiusura della scheda sulle foto rotte (piano Pro)"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-18 20:55",
+    "aggiornato": "2026-10-19 19:00",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 577,
-    "findings_chiusi": 797,
-    "findings_tot": 1374,
+    "findings_aperti": 574,
+    "findings_chiusi": 802,
+    "findings_tot": 1376,
     "aperti_per_severita": {
-      "bloccante": 10,
-      "grave": 122,
+      "bloccante": 9,
+      "grave": 120,
       "minore": 445,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1374,
+    "dichiarati_dal_referto": 1376,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

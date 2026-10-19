@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-19 08:45
+aggiornato: 2026-10-19 18:58
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 📸 **2026-10-19 18:58 — Supabase è sul piano Pro: le foto del sito escono di nuovo, e il database ha una copia automatica.**
+>
+> Hai pagato l'abbonamento, e Supabase ha acceso subito il servizio che rimpicciolisce le foto. Fino alle 17:50 ogni foto vera di Pane Quotidiano veniva rifiutata. Alle 18:56 la stessa foto è tornata, chiesta dal sito pubblicato. Ho chiuso la scheda bloccante delle foto rotte.
+>
+> Col piano Pro, Supabase fa una copia del database al giorno e la tiene sette giorni. È la copia che serviva prima delle migrazioni, perché i dati non cambiano dal 5 settembre. Guarda in Supabase, alla voce «Database» e poi «Backups», la data dell'ultima copia. Scrivimela insieme a «vai», e lancio le migrazioni.
+>
+> L'elenco delle copie non l'ho visto: da qui non lo posso leggere.
 
 > ✅ **2026-10-19 08:45 — Il sito legge i negozi dalla vista pubblica, ed è in produzione. Adesso tocca alla copia del database.**
 >

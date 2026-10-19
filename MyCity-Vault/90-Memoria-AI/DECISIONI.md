@@ -5584,3 +5584,11 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Le 48 migrazioni. Aspettano tre cose: l'unione della #259, la copia del database fatta da Nicola, il suo «vai».
 
 **La lezione.** Una correzione che rende una pagina «più tollerante» sposta l'errore nella pagina dopo. Qui la bacheca restava in piedi, e mandava il fattorino su una pagina che diceva «Ordine non trovato». Quando una pagina smette di mostrare un errore, va guardata anche la pagina a cui porta. Il freno c'è: la prova monta la pagina della consegna con la vista giù e pretende «Riprova» a schermo.
+
+## 2026-10-19 18:58 — 🔴 Nicola passa Supabase al piano Pro: le foto tornano, e c'è la copia giornaliera prima delle migrazioni
+
+**Cosa.** Nicola ha pagato l'abbonamento: l'organizzazione Supabase risulta sul piano Pro (lettura delle 18:50). Alle 18:47 Supabase ha aggiornato il progetto del sito. Alle 18:56 una foto vera di Pane Quotidiano, chiesta dal sito pubblicato, è tornata (prima rispondeva 403, l'ultima volta alle 17:50).
+
+**Perché.** Era la raccomandazione della scheda bloccante sulle foto rotte (radiografia dell'11/10). Il piano gratuito non ha la trasformazione delle foto né le copie del database scaricabili, e addormenta i progetti dopo una settimana di poca attività.
+
+**Effetti.** Scheda bloccante chiusa; aperta una scheda minore sul rischio che l'abbonamento scada senza che un controllo se ne accorga. Fatto «infrastruttura.supabase» aggiornato nel registro dei fatti. Le copie giornaliere degli ultimi 7 giorni prendono il posto della copia a mano: le migrazioni partono quando Nicola mi dice la data dell'ultima copia e «vai».
