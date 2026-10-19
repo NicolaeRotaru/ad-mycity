@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-18 20:54
+aggiornato: 2026-10-19 08:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-10-19 08:45 — Il sito legge i negozi dalla vista pubblica, ed è in produzione. Adesso tocca alla copia del database.**
+>
+> Hai unito la richiesta del sito ieri sera, e Vercel l'ha pubblicata. Carrello, cassa, ordini, pagine del fattorino e chat reggono le migrazioni che mancano. Ho chiuso nel registro le quattro schede che il lotto risolve.
+>
+> Adesso la copia del database la fai tu, con la tua password. Poi mi scrivi «copia fatta» e «vai», e lancio io le migrazioni. In produzione manca ancora la chiave di servizio del database, quella della carta #154. Senza, il profilo pubblico non si apre. Oggi però nessuno l'ha acceso.
+>
+> Il sito pubblicato non l'ho aperto: ho letto solo i registri di Vercel e il database.
 
 > 🧩 **2026-10-18 20:54 — Il lotto che sblocca le 48 migrazioni è pronto: la richiesta #259 del sito.**
 >

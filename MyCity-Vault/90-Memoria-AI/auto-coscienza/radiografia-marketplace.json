@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1374,
+    "findings": 1375,
     "bloccanti": 35,
     "gravi": 472,
-    "minori": 867,
+    "minori": 868,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -2809,14 +2809,18 @@
       "impatto": "Il giorno dopo le migrazioni la consegna si blocca al primo passo, perché il fattorino non sa dove ritirare. E chi ha comprato non vede più da chi. Le prove automatiche non se ne accorgono: le 33 prove SQL controllano che il profilo sia chiuso, non che queste pagine continuino a mostrare il negozio.",
       "fix": "Prima del passo 3 (migrazioni): far leggere i dati del negozio a queste pagine dalla vista `seller_public_profiles`, con una seconda lettura per `seller_id`. La vista ha già store_name, store_address, store_phone, store_lat, store_lng e store_logo, e resta leggibile da tutti. Togliere l'aggancio `profiles!orders_seller_id_fkey` da rider/orders/[id], rider, orders, orders/[id], la recensione, il reclamo, i messaggi e shared-cart. Aggiungere una prova che, sul database costruito dal codice, apra da fattorino un ordine assegnato e controlli che nome e indirizzo del negozio non siano vuoti. Il fix va unito e pubblicato PRIMA di lanciare lo script.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "(a) mcp__Supabase__execute_sql in sola lettura (begin read only; set local role authenticated; request.jwt.claims con il sub dell'account fattorino). Per ognuno dei 2 profili negozio ho valutato le regole una per una: si vede oggi (true); passa per la regola dei negozi approvati che la 161 toglie (true); passa per «Public profile read» (false); passa per il proprio profilo (false); passa come amministratore (false). (b) grep -n -A2 \"CREATE POLICY\" migrations/*.sql | grep \"ON public.profiles\": le regole di lettura sono solo quelle di 001 (proprio profilo), 006/018 (negozi approvati, tolta da 110/112/161), 011 (fattorino, tolta da 115/161), 012 (amministratore) e 033 (pubblico, tolta da 110/161). (c) Le pagine usano tutte `import { supabase } from '@/lib/supabase/client'`, quindi la chiave del browser con il gettone dell'utente, e le regole valgono.",
       "prova_tipo": "query",
-      "prova_eseguita": "Visto: in produzione oggi il fattorino legge le righe dei 2 negozi solo grazie alla regola che la 161 cancella. Dopo la 161 nessuna regola rimasta gli dà quelle righe, quindi l'aggancio torna vuoto. Non l'ho potuto rieseguire su un database ricostruito, perché l'avvio di un Postgres locale è fallito per i permessi delle cartelle: lo scenario post-161 è dedotto dalle regole, non eseguito. · Verifica tecnica: (1) In produzione, pg_policies su public.profiles: 5 regole SELECT presenti, comprese le tre che la 161 toglie. (2) In produzione, in sola lettura, con ruolo authenticated e il sub di un fattorino vero: tutti e due i profili negozio si vedono, e si vedono solo grazie alla regola dei negozi approvati (true). Le strade del profilo pubblico, del proprio profilo e dell'amministratore danno tutte false. (3) grep -i -A4 'create policy' su migrations/*.sql filtrato per ON profiles: nessuna regola di lettura nuova dopo la 033. (4) grep di 'profiles!' sulle 9 pagine e lettura delle righe 285-302 e 362-380 di rider/orders/[id], e di 244-248 e 720-726 di orders/[id]. (5) Colonne della vista seller_public_profiles in produzione. Non l'ho eseguito su un database con la 161 applicata: lo stato dopo la 161 l'ho dedotto dalle regole.",
+      "prova_eseguita": "tests/unit/gli-ordini-sanno-il-negozio-con-i-profili-chiusi.test.ts (9 pagine montate in 3 mondi: OGGI, DOPO_LA_161, PROFILI_CHIUSI_VISTA_VECCHIA) — verdi nel cancello locale su b9bc130 (634 file, 5.608 prove) e nei 9 controlli della CI su a08ae23.",
       "giro": 3,
       "verificato": true,
       "gia_noto": "No. N190 (stesso meccanismo) copre solo scheda prodotto, ricerca, fasce, carrello e anteprima del negozio; N39 è il rovescio, cioè la regola aperta oggi.",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-giorno-del-lancio · id R26 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-giorno-del-lancio · id R26 · si ripara: codice",
+      "chiuso_il": "2026-10-19 08:45",
+      "chiuso_da": "PR NicolaeRotaru/mycity#259, unita il 2026-10-18 e pubblicata (Vercel: rilascio di produzione dpl_E5h3TKJnCxQhRjpGTctQZcN3NMGc pronto)",
+      "riparato_in": "NicolaeRotaru/mycity#259",
+      "nota_riparazione": "Riparato nel lotto delle letture dei profili: il negozio si legge dalla vista seller_public_profiles, che regge prima e dopo le 48 migrazioni."
     },
     {
       "dimensione": "deploy-sre",
@@ -25611,11 +25615,16 @@
       "impatto": "Dal giorno in cui si applica la 161, ogni ordine a domicilio sotto i 30 € per negozio mostra un costo di consegna diverso da quello che si paga. Sopra i 30 € chi abita fuori zona legge «Gratis» e poi viene respinto. Il codice stesso definisce il prezzo mostrato diverso da quello pagato «il difetto più costoso da spiegare a chi compra». Con il contante il cliente lo scopre davanti al fattorino.",
       "fix": "Prima di applicare la 161 ci sono tre passi. ① In app/checkout/page.tsx:214-231 e in app/cart/page.tsx:247 leggere id, store_name, store_lat e store_lng da seller_public_profiles, come fanno già le due rotte del server. La vista è leggibile anche senza account. Togliere offers_express, che non usa più nessuno, e il ripiego 42703 legato a quella colonna. ② Aggiungere la prova descritta sotto. ③ Lato AD, nella scheda della 161 in AZIONI-IN-ATTESA: oggi nomina scheda prodotto, vetrine e pagine dell'ordine. Va aggiunto che anche carrello, cassa e fattorini devono essere online prima della firma.",
       "fonte": "trovato dalle squadre della prima ondata mentre riparavano, verificato da un secondo revisore, 16/10/2026 (qa-flussi)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Prova che gira, da scrivere: una prova vitest con il database finto coi permessi nel mondo DOPO_LA_161 (tests/unit/aiuti/database-coi-permessi.ts, sullo stampo di tests/unit/le-vetrine-montate-reggono-con-i-profili-chiusi.test.ts). Monta la cassa con Pane Quotidiano a circa 5 km dall'indirizzo salvato della cliente. Pretende a schermo la spedizione che prezziDelCarrello calcola con le coordinate della vista (8,50 €), non 4,90 €. Oggi la prova è rossa, perché la lettura di checkout/page.tsx:216 torna vuota. Verificato leggendo il codice di /home/user/wt/finale. cart/page.tsx:247 e checkout/page.tsx:216/221 leggono .from('profiles'). cod/route.ts:380 e stripe/checkout/route.ts:246 leggono .from('seller_public_profiles'). lib/shipping.ts:41-46 senza coordinate restituisce 4,9. prezzoSpedizioneEuro vale 2,5 + 1,2 × km (lib/geo.ts:34-37). Il server ignora groups[].shippingCents (stripe/checkout/route.ts:466-472). Nel diff del lotto non c'è né il carrello né la cassa.\n\nVerifica del secondo revisore: Ho cercato di smontare la scheda e regge. L'ho verificata eseguendo il codice, non solo leggendolo.\n\n1) Il database. Ho costruito mycity_res_s7_vetrina con tests/sql/harness/apply.sh dal codice unito: 158 migrazioni applicate, nessuna fallita. Su profiles restano solo due regole di lettura: «Users can view their own profile» e «Admins can read all profiles». Ho seminato Pane Quotidiano approvato, con coordinate, e ho letto come cliente autenticato.\n- La lettura di cart/page.tsx:247 (`profiles` id, store_lat, store_lng) restituisce 0 righe e nessun errore.\n- Quella di checkout/page.tsx:216, con offers_express, restituisce 0 righe e nessun errore, quindi il ripiego 42703 non scatta nemmeno.\n- La vista seller_public_profiles, che usano le rotte del server (cod/route.ts:380, stripe/checkout/route.ts:246), restituisce il negozio con le coordinate.\n- Da anonimo: profiles 0 righe, vista 1 riga.\n\n2) Il conto. Ho fatto girare lib/shipping.ts con esbuild e node, a circa 5 km.\n- Senza coordinate del negozio (quello che vede il browser): 4,90 €.\n- Con le coordinate (quello che calcola il server): 8,50 €.\n- A circa 1 km: 4,90 € contro 3,70 €.\n- Milano, carrello da 35 €: il browser scrive 0 («Gratis», perché fuoriZonaDiConsegna risponde false senza coordinate); il server calcola 74,90 € e la rotta lo rifiuta.\nIl server ricalcola davvero con prezziDelCarrello e le coordinate della vista, e ignora l'importo mandato dal browser. Il browser non manda nessun totale da confrontare: nessuna prote",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-19 08:45",
+      "chiuso_da": "PR NicolaeRotaru/mycity#259, unita il 2026-10-18 e pubblicata (Vercel: rilascio di produzione dpl_E5h3TKJnCxQhRjpGTctQZcN3NMGc pronto)",
+      "riparato_in": "NicolaeRotaru/mycity#259",
+      "prova_eseguita": "tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts (la rotta vera dei contanti crea l'ordine; la cifra a schermo è uguale a shipping_cost) — verdi nel cancello locale su b9bc130 (634 file, 5.608 prove) e nei 9 controlli della CI su a08ae23.",
+      "nota_riparazione": "Riparato nel lotto delle letture dei profili: il negozio si legge dalla vista seller_public_profiles, che regge prima e dopo le 48 migrazioni."
     },
     {
       "dimensione": "frontend-ux",
@@ -25627,11 +25636,16 @@
       "impatto": "Si può ancora comprare. Si perde l'identità del negozio proprio nei punti che servono a farlo conoscere (storie, drop, eventi), e il riordino arriva in carrello senza nome. «Chi siamo» perde il suo unico numero vero.",
       "fix": "Si ripara come le altre letture già spostate dal lotto. In ciascun componente si toglie l'aggancio profiles!…_fkey. Il negozio si legge con una seconda domanda su seller_public_profiles per seller_id (in blocco per le liste), poi si uniscono i risultati. In app/about/page.tsx:43-47 si contano le righe di seller_public_profiles. Le pagine montate vanno aggiunte a tests/unit/le-vetrine-montate-reggono-con-i-profili-chiusi.test.ts.",
       "fonte": "trovato dalle squadre della prima ondata mentre riparavano, verificato da un secondo revisore, 16/10/2026 (frontend-ux)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Lettura del codice di /home/user/wt/finale. Il comando grep -n \"profiles!\" components/home/StoriesCarousel.tsx components/StoreStoryRing.tsx components/home/DropOfDay.tsx app/events/page.tsx components/home-sections/ReorderRail.tsx trova 5 agganci. grep -n \"from('profiles')\" app/about/page.tsx trova la riga 44. Dopo la riparazione devono essere 0. Prova più forte: montare questi componenti nel database finto DOPO_LA_161 e pretendere a schermo «Pane Quotidiano». Nessuno di questi file è nel diff del lotto.\n\nVerifica del secondo revisore: La scheda regge in tutti i punti. Ho provato i cinque agganci sul database vero, non solo con un grep.\n\nCodice in /home/user/wt/finale. Gli agganci a profiles ci sono tutti:\n- StoriesCarousel.tsx:48\n- StoreStoryRing.tsx:31\n- DropOfDay.tsx:69\n- events/page.tsx:85\n- ReorderRail.tsx:69\n- about/page.tsx:43-47 conta su `profiles` (role=seller, is_approved) con getServerSupabase, che usa la chiave pubblica.\n\nCosa si vede quando l'aggancio torna vuoto:\n- StoriesCarousel:79-85 ripiega su «?» e «—».\n- StoryViewer:208 mostra l'intestazione solo `{active.seller && …}`, quindi spariscono logo, nome e link alla vetrina.\n- DropOfDay:129 mostra «da X» solo se c'è store_name.\n- events:218 nasconde lo sponsor.\n- ReorderRail:127 passa storeName undefined, e il carrello (cart/page.tsx:410-412) raggruppa sotto «Negozio». Anche la striscia stessa scrive «Negozio» (riga 193).\n- about:50 tiene lo «100%» statico quando il conto è 0.\n\nProva eseguita sul database mycity_res_s7_vetrina:\n- Il database ha già le migrazioni fino alla 163. Su profiles restano solo due regole di lettura: «Users can view their own profile» e «Admins can read all profiles».\n- Ho seminato dentro una transazione, poi annullata con ROLLBACK, un prodotto 'available', una storia, un drop, un evento con sponsor e un ordine del cliente.\n- Ho rifatto gli agganci come li fa PostgREST: LEFT JOIN LATERAL su profiles, con i permessi di chi legge.\n- Da anonimo: storia → seller NULL. Drop → prodotto visibile, negozio NULL. Evento → sponsor",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-19 08:45",
+      "chiuso_da": "PR NicolaeRotaru/mycity#259, unita il 2026-10-18 e pubblicata (Vercel: rilascio di produzione dpl_E5h3TKJnCxQhRjpGTctQZcN3NMGc pronto)",
+      "riparato_in": "NicolaeRotaru/mycity#259",
+      "prova_eseguita": "tests/unit/storie-drop-ed-eventi-reggono-con-i-profili-chiusi.test.ts e tests/unit/chi-siamo-e-i-profili-pubblici-reggono-con-i-profili-chiusi.test.ts — verdi nel cancello locale su b9bc130 (634 file, 5.608 prove) e nei 9 controlli della CI su a08ae23.",
+      "nota_riparazione": "Riparato nel lotto delle letture dei profili: il negozio si legge dalla vista seller_public_profiles, che regge prima e dopo le 48 migrazioni."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -26027,11 +26041,16 @@
       "impatto": "Il fattorino può lasciare a metà una consegna vera, con il cliente che aspetta alla porta, credendo che l'ordine non sia più suo.",
       "fix": "Leggere anche isError e refetch dalla query, e mostrare «Non riesco a caricare l'ordine: controlla la connessione» con un pulsante «Riprova» prima del ramo !order.",
       "fonte": "riesame finale dei file della prima ondata, 2026-10-16 (radiografia mentre si ripara); confermato da due verificatori, uno leggendo e uno eseguendo",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Lettura del codice: app/rider/orders/[id]/page.tsx:94 (`const { data: order, isLoading } = useQuery(…)`, nessun isError), :110 (`if (error) throw error`), :307-308 (`if (isLoading) …; if (!order) return <EmptyState title=\"Ordine non trovato\" …/>`). components/providers/QueryProvider.tsx:23 (retry: 1). In @tanstack/react-query v5 isLoading = isPending && isFetching: con status 'error' è falso. · verifica: Righe lette dal codice (cd /home/user/wt/perimetro):\n- sed -n 80,130p e 290,330p 'app/rider/orders/[id]/page.tsx' → :94 `const { data: order, isLoading } = useQuery({`, :110 `if (error) throw error;`, :307 `if (isLoading) return <LoadingState />;`, :308 `if (!order) return <EmptyState icon={Package} title=\"Ordine non trovato\" ctaLabel=\"Tutte le consegne\" ctaHref=\"/rider\" />;`\n- cat components/providers/QueryProvider.tsx → `retry: 1`, nessun throwOnError.\n- grep isLoading in node_modules/@tanstack/query-core/build/modern/queryObserver.js → :310 `const isLoading = isPending && isFetching;`. Versione 5.100.14.\n- grep \"isError|refetch|throwOnError|channel\" nella pagina → isError, refetch e throwOnError non compaiono mai; nessun channel; invalidateQueries solo dentro le mutazioni.\n\nConfronto col commit base:\n- git show 775b62ac…:'app/rider/orders/[id]/page.tsx' | grep → :82 `const { data: order, isLoading } = useQuery({`, :277-278 identiche alle righe di oggi. | Prova usa e getta fuori dalla copia: /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/perim4/prove/v15/ordine-errore.test.tsx con /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/perim4/prove/v15/vitest.config.mts (root sulla copia, ambiente jsdom). La prova monta Pagina con il QueryProvider vero e NextIntlClientProvider (messages/it.json). @/lib/supabase/client è finto: .from().select().eq().single() restituisce {data:null, error:{message:'TypeError: Failed to fetch'}}. Coma",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-19 08:45",
+      "chiuso_da": "PR NicolaeRotaru/mycity#259, unita il 2026-10-18 e pubblicata (Vercel: rilascio di produzione dpl_E5h3TKJnCxQhRjpGTctQZcN3NMGc pronto)",
+      "riparato_in": "NicolaeRotaru/mycity#259",
+      "prova_eseguita": "tests/unit/gli-ordini-sanno-il-negozio-con-i-profili-chiusi.test.ts (describe «se la vetrina dei negozi non risponde»: guasto vero → «Non riesco a leggere la consegna» con «Riprova»; zero righe → «Ordine non trovato») — verdi nel cancello locale su b9bc130 (634 file, 5.608 prove) e nei 9 controlli della CI su a08ae23.",
+      "nota_riparazione": "Riparato nel lotto delle letture dei profili: il negozio si legge dalla vista seller_public_profiles, che regge prima e dopo le 48 migrazioni."
     },
     {
       "dimensione": "frontend-ux",
@@ -27053,6 +27072,22 @@
       "fonte": "collaudo della correzione del lotto «letture dalla vista pubblica», 2026-10-18 (nato dal lotto, scelta dichiarata)",
       "stato": "aperto",
       "prova": "Collaudo della correzione, lente A: lettura di app/rider/page.tsx (refetchInterval 60_000) e di conNegozioSePossibile, che restituisce le righe col negozio null invece di lanciare.",
+      "prova_tipo": "verificata da un secondo revisore",
+      "verificato": true,
+      "nato_oggi": true
+    },
+    {
+      "dimensione": "deploy-sre",
+      "reparto": "Rilascio e produzione",
+      "titolo": "Senza la chiave di servizio del database in produzione, il profilo pubblico dice «non trovato» e le liste non mostrano chi le ha create",
+      "severita": "minore",
+      "file": "app/u/[handle]/page.tsx (getAdminSupabase) · app/api/profili-pubblici/route.ts (getAdminSupabase) · produzione Vercel: SUPABASE_SERVICE_ROLE_KEY assente (carta #154)",
+      "descrizione": "Nato dal lotto del 18/10 (richiesta #259), sopra una mancanza che c'era già. Il profilo pubblico e l'autore delle liste adesso si leggono dal server col client di servizio, perché dopo le migrazioni la tabella dei profili si chiude. In produzione la chiave di servizio non c'è: i registri di Vercel dicono «Service role Supabase non configurato» dal 20 agosto. Così /u/<handle> risponde «Profilo non trovato» e le liste arrivano senza «@handle». Esempio: Maria accende il profilo pubblico per mostrare i badge, e chi apre il suo link legge che non esiste.",
+      "impatto": "Oggi nessuno: in produzione 0 persone hanno il profilo pubblico acceso e le liste sono 0 (sola lettura, 19/10). Diventa vero il giorno che qualcuno lo accende, se la chiave manca ancora.",
+      "fix": "Mettere la chiave di servizio su Vercel, come chiede la carta #154 (dopo la rotazione della #203). Nessuna modifica al codice.",
+      "fonte": "controllo della produzione dopo l'unione della #259, 2026-10-19 (registri di Vercel e sola lettura sul database)",
+      "stato": "aperto",
+      "prova": "Vercel, errori di produzione degli ultimi 15 minuti dopo il rilascio dpl_E5h3TKJnCxQhRjpGTctQZcN3NMGc: «Error: Service role Supabase non configurato (SUPABASE_SERVICE_ROLE_KEY)», prima volta 2026-08-20. Database di produzione: profili con public_profile_enabled 0, product_lists 0.",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
       "nato_oggi": true
