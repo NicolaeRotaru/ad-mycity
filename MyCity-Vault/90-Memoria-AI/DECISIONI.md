@@ -5602,3 +5602,15 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Perché si è fermato.** La 092 cancella righe (i casi in cui un cliente ha invitato sé stesso). La modalità automatica della sessione ha annullato la chiamata, e poi anche la preparazione dei blocchi successivi, classificandole come rilascio in produzione. Non l'ho aggirata. Servono le conferme di Nicola, una per blocco.
 
 **Stato del database.** 1 migrazione su 49 entrata. Le altre 48 non hanno toccato niente: le chiamate annullate non sono partite (registro ricontrollato dopo).
+
+## 2026-10-20 14:45 — 🟡 Le 48 migrazioni passano da un pulsante su GitHub, collaudato quattro volte
+
+**Cosa.** Un lavoro GitHub a mano, «Migrazioni a mano (produzione)», che Nicola avvia con tre caselle: APPLICA, 48 e 163. È fatto di due lavori. Il primo conta senza scrivere e mostra l'elenco. Il secondo riconta, controlla che la copia del database non stia girando e che su main non sia cambiato niente. Poi applica con lo script ufficiale e fa sei controlli finali. Se si ferma a metà, scrive cosa manca ancora e con che caselle riavviare.
+
+**Perché.** Dallo strumento Supabase della sessione le conferme per le migrazioni che cancellano qualcosa non arrivano sul telefono di Nicola: è entrata solo la 091. Il pulsante usa lo stesso script del rilascio automatico, provato l'11/10 su una copia fedele.
+
+**Collaudo.** Quattro giri, con collaudatori che non l'hanno scritto. Il secondo e il terzo hanno bocciato il pulsante, con difetti gravi tutti corretti. Fra questi c'erano l'«Approve» chiesto prima del conto e la finestra notturna sull'orario sbagliato: la copia gira fra le 07 e le 10 UTC. Il quarto giro ha detto «regge» con due lenti su tre: 16 difetti minori, corretti in 04110a4. Il più utile è un sesto controllo finale sulla guardia dei contanti. La 125, la 126 e la 127 la tolgono, solo la 163 la rimette, e i cinque controlli della procedura non se ne accorgevano. Prove: 85 mutazioni su 85 rosse e il percorso completo su una copia locale, compreso un guasto a metà.
+
+**Registro dei difetti del sito.** Aggiunte 18 schede «deploy-sre», già riparate (16 del quarto giro e 2 del mio riesame). Le schede aperte non cambiano: 574.
+
+**Cosa NON ho fatto.** Le 48 migrazioni. Aspettano il segreto del Session pooler, l'unione della #260 e l'«avvia» di Nicola.

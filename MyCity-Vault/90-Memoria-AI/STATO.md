@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-10-19 18:58
+aggiornato: 2026-10-20 14:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔘 **2026-10-20 14:45 — Il pulsante delle 48 migrazioni è pronto.**
+>
+> Dallo strumento Supabase di questa sessione è entrata solo la 091: per le altre la conferma sul tuo telefono non compare. Allora ho costruito un pulsante su GitHub, nella richiesta #260 del sito. Prima conta le migrazioni che mancano senza scrivere niente, poi le applica con lo script ufficiale. Alla fine fa sei controlli, fra cui la guardia sui contanti.
+>
+> L'hanno collaudato quattro giri di controllori che non l'hanno scritto. Il quarto non ha trovato niente di grave, e i 16 difetti minori sono corretti. Sulla copia locale del database ho provato anche un guasto a metà e il riavvio.
+>
+> Cosa serve da te, in ordine. Cambia il segreto `SUPABASE_DB_URL` su GitHub con la riga del «Session pooler». Se vuoi, metti la spunta «Required reviewers» nell'ambiente `database-produzione`. Unisci la #260 e scrivimi «avvia».
+>
+> Non l'ho provato sul database vero: da GitHub ci si collega solo dopo che cambi il segreto.
 
 > 📸 **2026-10-19 18:58 — Supabase è sul piano Pro: le foto del sito escono di nuovo, e il database ha una copia automatica.**
 >
