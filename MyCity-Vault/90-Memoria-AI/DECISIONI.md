@@ -5584,3 +5584,33 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Le 48 migrazioni. Aspettano tre cose: l'unione della #259, la copia del database fatta da Nicola, il suo «vai».
 
 **La lezione.** Una correzione che rende una pagina «più tollerante» sposta l'errore nella pagina dopo. Qui la bacheca restava in piedi, e mandava il fattorino su una pagina che diceva «Ordine non trovato». Quando una pagina smette di mostrare un errore, va guardata anche la pagina a cui porta. Il freno c'è: la prova monta la pagina della consegna con la vista giù e pretende «Riprova» a schermo.
+
+## 2026-10-19 18:58 — 🔴 Nicola passa Supabase al piano Pro: le foto tornano, e c'è la copia giornaliera prima delle migrazioni
+
+**Cosa.** Nicola ha pagato l'abbonamento: l'organizzazione Supabase risulta sul piano Pro (lettura delle 18:50). Alle 18:47 Supabase ha aggiornato il progetto del sito. Alle 18:56 una foto vera di Pane Quotidiano, chiesta dal sito pubblicato, è tornata (prima rispondeva 403, l'ultima volta alle 17:50).
+
+**Perché.** Era la raccomandazione della scheda bloccante sulle foto rotte (radiografia dell'11/10). Il piano gratuito non ha la trasformazione delle foto né le copie del database scaricabili, e addormenta i progetti dopo una settimana di poca attività.
+
+**Effetti.** Scheda bloccante chiusa; aperta una scheda minore sul rischio che l'abbonamento scada senza che un controllo se ne accorga. Fatto «infrastruttura.supabase» aggiornato nel registro dei fatti. Le copie giornaliere degli ultimi 7 giorni prendono il posto della copia a mano: le migrazioni partono quando Nicola mi dice la data dell'ultima copia e «vai».
+
+## 2026-10-19 19:21 — 🔴 Migrazioni in produzione: col «vai» di Nicola è entrata la 091, le altre 48 sono ferme
+
+**Cosa.** Nicola ha mandato la foto delle copie di Supabase (ultima: 19/10 alle 06:53 ora di Piacenza, copia fisica) e ha scritto «vai». Ho ricontato: mancavano le stesse 49. È entrata la 091, che aggiunge tre colonne vuote (la tariffa di consegna sugli ordini e due codici Stripe sui profili), registrata nel registro delle migrazioni.
+
+**Come.** Ogni migrazione parte con un lucchetto: un'impronta del file originale, controllata dal database prima di confermare. Se il testo arrivato non è identico al file, tutto si annulla. Provato sul database vero: un testo sbagliato viene bloccato. Provato qui: le 49 migrazioni senza commenti danno uno schema identico a quello dei file originali.
+
+**Perché si è fermato.** La 092 cancella righe (i casi in cui un cliente ha invitato sé stesso). La modalità automatica della sessione ha annullato la chiamata, e poi anche la preparazione dei blocchi successivi, classificandole come rilascio in produzione. Non l'ho aggirata. Servono le conferme di Nicola, una per blocco.
+
+**Stato del database.** 1 migrazione su 49 entrata. Le altre 48 non hanno toccato niente: le chiamate annullate non sono partite (registro ricontrollato dopo).
+
+## 2026-10-20 14:45 — 🟡 Le 48 migrazioni passano da un pulsante su GitHub, collaudato quattro volte
+
+**Cosa.** Un lavoro GitHub a mano, «Migrazioni a mano (produzione)», che Nicola avvia con tre caselle: APPLICA, 48 e 163. È fatto di due lavori. Il primo conta senza scrivere e mostra l'elenco. Il secondo riconta, controlla che la copia del database non stia girando e che su main non sia cambiato niente. Poi applica con lo script ufficiale e fa sei controlli finali. Se si ferma a metà, scrive cosa manca ancora e con che caselle riavviare.
+
+**Perché.** Dallo strumento Supabase della sessione le conferme per le migrazioni che cancellano qualcosa non arrivano sul telefono di Nicola: è entrata solo la 091. Il pulsante usa lo stesso script del rilascio automatico, provato l'11/10 su una copia fedele.
+
+**Collaudo.** Quattro giri, con collaudatori che non l'hanno scritto. Il secondo e il terzo hanno bocciato il pulsante, con difetti gravi tutti corretti. Fra questi c'erano l'«Approve» chiesto prima del conto e la finestra notturna sull'orario sbagliato: la copia gira fra le 07 e le 10 UTC. Il quarto giro ha detto «regge» con due lenti su tre: 16 difetti minori, corretti in 04110a4. Il più utile è un sesto controllo finale sulla guardia dei contanti. La 125, la 126 e la 127 la tolgono, solo la 163 la rimette, e i cinque controlli della procedura non se ne accorgevano. Prove: 85 mutazioni su 85 rosse e il percorso completo su una copia locale, compreso un guasto a metà.
+
+**Registro dei difetti del sito.** Aggiunte 18 schede «deploy-sre», già riparate (16 del quarto giro e 2 del mio riesame). Le schede aperte non cambiano: 574.
+
+**Cosa NON ho fatto.** Le 48 migrazioni. Aspettano il segreto del Session pooler, l'unione della #260 e l'«avvia» di Nicola.

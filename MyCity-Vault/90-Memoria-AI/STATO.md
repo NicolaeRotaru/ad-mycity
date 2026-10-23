@@ -1,8 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-10-19 08:45
+aggiornato: 2026-10-20 14:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔘 **2026-10-20 14:45 — Il pulsante delle 48 migrazioni è pronto.**
+>
+> Dallo strumento Supabase di questa sessione è entrata solo la 091: per le altre la conferma sul tuo telefono non compare. Allora ho costruito un pulsante su GitHub, nella richiesta #260 del sito. Prima conta le migrazioni che mancano senza scrivere niente, poi le applica con lo script ufficiale. Alla fine fa sei controlli, fra cui la guardia sui contanti.
+>
+> L'hanno collaudato quattro giri di controllori che non l'hanno scritto. Il quarto non ha trovato niente di grave, e i 16 difetti minori sono corretti. Sulla copia locale del database ho provato anche un guasto a metà e il riavvio.
+>
+> Cosa serve da te, in ordine. Cambia il segreto `SUPABASE_DB_URL` su GitHub con la riga del «Session pooler». Se vuoi, metti la spunta «Required reviewers» nell'ambiente `database-produzione`. Unisci la #260 e scrivimi «avvia».
+>
+> Non l'ho provato sul database vero: da GitHub ci si collega solo dopo che cambi il segreto.
+
+> 📸 **2026-10-19 18:58 — Supabase è sul piano Pro: le foto del sito escono di nuovo, e il database ha una copia automatica.**
+>
+> Hai pagato l'abbonamento, e Supabase ha acceso subito il servizio che rimpicciolisce le foto. Fino alle 17:50 ogni foto vera di Pane Quotidiano veniva rifiutata. Alle 18:56 la stessa foto è tornata, chiesta dal sito pubblicato. Ho chiuso la scheda bloccante delle foto rotte.
+>
+> Col piano Pro, Supabase fa una copia del database al giorno e la tiene sette giorni. È la copia che serviva prima delle migrazioni, perché i dati non cambiano dal 5 settembre. Guarda in Supabase, alla voce «Database» e poi «Backups», la data dell'ultima copia. Scrivimela insieme a «vai», e lancio le migrazioni.
+>
+> L'elenco delle copie non l'ho visto: da qui non lo posso leggere.
 
 > ✅ **2026-10-19 08:45 — Il sito legge i negozi dalla vista pubblica, ed è in produzione. Adesso tocca alla copia del database.**
 >

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-18 21:18",
+  "aggiornato": "2026-10-20 14:45",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4070,6 +4070,40 @@
       "nota": "terzo collaudo del 18/10 su b9bc130 (lenti A e B): regge; un buco di prova chiuso in a08ae23",
       "file": {
         "app/rider/orders/[id]/page.tsx": "06226b26cd54"
+      }
+    },
+    {
+      "quando": "2026-10-20 14:45",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 18,
+      "schede": [
+        "Pulsante delle migrazioni: Se il passo che scrive viene annullato o scade, il riepilogo resta vuoto: il database è a metà e il riepilogo non lo dice",
+        "Pulsante delle migrazioni: Il riepilogo di un guasto dice «il database resta a metà» e parla della guardia sui contanti anche quando non è entrato niente, o quando il guasto è prima della 125",
+        "Pulsante delle migrazioni: I cinque controlli finali sono verdi anche con la guardia sui contanti spenta, che è proprio la cosa che il documento dice tolta a metà strada",
+        "Pulsante delle migrazioni: Il confronto con main nel lavoro che scrive avviene minuti prima della scrittura, non subito prima",
+        "Pulsante delle migrazioni: Il riepilogo dice «il database resta a metà» anche quando non è entrato niente, e la seconda passata chiama «manca ancora qualcosa» un collegamento caduto",
+        "Pulsante delle migrazioni: Se la scrittura si rompe, il motivo non arriva nel riepilogo: resta solo nel log, che Nicola non legge",
+        "Pulsante delle migrazioni: npm ci e controllo della deriva vengono dopo la scrittura: un intoppo lì fa rosso un lavoro che ha già applicato tutto",
+        "Pulsante delle migrazioni: L'avviso sull'Approve non distingue l'ambiente mai creato: nel caso più probabile al primo avvio dice «non sono riuscito a leggere», mentre il secondo lavoro scriverà senza aspettare",
+        "Pulsante delle migrazioni: Caselle scritte dal telefono con uno spazio in più vengono rifiutate con un messaggio che non nomina lo spazio",
+        "Pulsante delle migrazioni: La prova del «tetto 0» non distingue 0 da «quante», e nessuna prova lancia lo script vero col tetto 0: il lavoro che conta può scrivere tutte le 48 in produzione e le prove restano verdi",
+        "Pulsante delle migrazioni: Nessuna prova guarda «cancel-in-progress»: il rilascio può annullare a metà il lavoro che applica le migrazioni",
+        "Pulsante delle migrazioni: La prova del confronto con main copre 2 dei 5 percorsi: tolti workflow, script del conto e controllo della deriva dall'elenco, un «Re-run» di un avvio vecchio passa",
+        "Pulsante delle migrazioni: I finti non guardano dove e con che chiave gira il comando: modifiche che fanno fallire SEMPRE il primo avvio restano verdi (si ferma in sicurezza, ma con un messaggio che manda a riavviare)",
+        "Pulsante delle migrazioni: Il psql finto risponde uguale qualunque cosa gli si chieda: le opzioni e la query del riepilogo dopo un guasto e dei cinque controlli non sono provate",
+        "Pulsante delle migrazioni: Il riepilogo non è provato quando non è partito nessun file, né nel conto riuscito: si può togliere l'elenco o troncare la spiegazione",
+        "Pulsante delle migrazioni: I passi di contorno e due correzioni dei collaudi passati non hanno prova: si possono annullare restando verdi",
+        "Pulsante delle migrazioni: un tetto vuoto, per lo script ufficiale, vorrebbe dire «nessun tetto»",
+        "Pulsante delle migrazioni: nel riepilogo di un guasto, gli avvisi NOTICE di Postgres coprivano l'errore vero"
+      ],
+      "nota": "Quarto collaudo a tre lenti con verifica avversariale su 5821710 (16 difetti, tutti minori dopo la verifica) e riesame della v5 con la lente deploy-sre (2). Tutti riparati in 04110a4, 85 mutazioni rosse.",
+      "file": {
+        ".github/workflows/migrazioni-a-mano.yml": "407c81b024aa",
+        "scripts/conta-migrazioni-mancanti.sh": "fd5b0223ca6c"
       }
     }
   ]

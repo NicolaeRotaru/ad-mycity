@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-10 12:05",
+  "aggiornato": "2026-10-19 18:57",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -336,13 +336,17 @@
     {
       "id": "infrastruttura.supabase",
       "nome": "Supabase: piano e stato dei due database",
-      "valore": "Supabase: organizzazione «mycity.inizioditutto»; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — erano IN PAUSA la mattina del 2026-10-10 e sono stati RIACCESI dall'AD con la firma di Nicola («ok 199»): attivi (ACTIVE_HEALTHY) dalle 10:16. Alle 11:58 l'organizzazione risultava ancora sul PIANO GRATUITO, benché Nicola avesse scritto di aver pagato l'abbonamento: sul gratuito un progetto torna in pausa dopo ~7 giorni di poca attività. Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
-      "fonte": "Supabase MCP restore_project + list_projects + get_organization, 2026-10-10",
-      "aggiornato": "2026-10-10 12:04",
+      "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO PRO: letto con get_organization il 2026-10-19 18:50, subito dopo che Nicola ha scritto di aver pagato l'abbonamento. Il progetto «Mycity» (database del sito, clmpyfvpvfjgeviworth) è attivo (ACTIVE_HEALTHY) il 2026-10-19; «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) non riletto quel giorno. Sul piano Pro Supabase tiene le copie automatiche giornaliere degli ultimi 7 giorni (Database → Backups) e non mette in pausa i progetti per poca attività; il ripristino al minuto (PITR) è un'aggiunta a pagamento a parte, che il 19/10 nessuno ha chiesto (da confermare in Database → Backups). Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
+      "fonte": "Supabase MCP get_organization (plan: pro) + get_project, 2026-10-19 18:50; documentazione Supabase «Database Backups»",
+      "aggiornato": "2026-10-19 18:51",
       "storia": [
         {
           "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO GRATUITO; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — risultano IN PAUSA (INACTIVE) al 2026-10-10 08:56. Effetto: il sito risponde ma non carica negozi/prodotti (/api/health 503) e la Cabina non legge la memoria. Si riaccendono con un clic entro 90 giorni dalla pausa (data della pausa non letta: la dice la mail di Supabase). Sul piano gratuito un progetto si mette in pausa dopo ~7 giorni di poca attività; con fattura scaduta Supabase mette in pausa e riporta al gratuito. Da riconciliare con finanza.costi_infrastruttura, che conta Supabase 50 €/m confermati da Nicola il 20/7. Card #199.",
           "fino_a": "2026-10-10 12:04"
+        },
+        {
+          "valore": "Supabase: organizzazione «mycity.inizioditutto»; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — erano IN PAUSA la mattina del 2026-10-10 e sono stati RIACCESI dall'AD con la firma di Nicola («ok 199»): attivi (ACTIVE_HEALTHY) dalle 10:16. Alle 11:58 l'organizzazione risultava ancora sul PIANO GRATUITO, benché Nicola avesse scritto di aver pagato l'abbonamento: sul gratuito un progetto torna in pausa dopo ~7 giorni di poca attività. Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
+          "fino_a": "2026-10-19 18:51"
         }
       ],
       "caccia": [
@@ -350,9 +354,23 @@
           "pattern": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO GRATUITO; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — risultano IN PAUSA (INACTIVE) al 2026-10-10 08:56. Effetto: il sito risponde ma non carica negozi/prodotti (/api/health 503) e la Cabina non legge la memoria. Si riaccendono con un clic entro 90 giorni dalla pausa (data della pausa non letta: la dice la mail di Supabase). Sul piano gratuito un progetto si mette in pausa dopo ~7 giorni di poca attività; con fattura scaduta Supabase mette in pausa e riporta al gratuito. Da riconciliare con finanza.costi_infrastruttura, che conta Supabase 50 €/m confermati da Nicola il 20/7. Card #199.",
           "dal": "2026-10-10 12:04",
           "chiusa": "2026-10-10 12:05"
+        },
+        {
+          "pattern": "risultava ancora sul PIANO GRATUITO",
+          "dal": "2026-10-19 18:51",
+          "chiusa": "2026-10-19 18:57"
+        },
+        {
+          "pattern": "Supabase: organizzazione «mycity.inizioditutto»; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — erano IN PAUSA la mattina del 2026-10-10 e sono stati RIACCESI dall'AD con la firma di Nicola («ok 199»): attivi (ACTIVE_HEALTHY) dalle 10:16. Alle 11:58 l'organizzazione risultava ancora sul PIANO GRATUITO, benché Nicola avesse scritto di aver pagato l'abbonamento: sul gratuito un progetto torna in pausa dopo ~7 giorni di poca attività. Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
+          "dal": "2026-10-19 18:51",
+          "chiusa": "2026-10-19 18:57"
         }
       ],
-      "esenzioni": []
+      "esenzioni": [
+        "MyCity-Vault/90-Memoria-AI/Archivio/",
+        "consegne/audit/2026-10-11-radiografia.md",
+        "consegne/design/2026-10-11-radiografia-design-raw.json"
+      ]
     },
     {
       "id": "logistica.bici-consegna",
