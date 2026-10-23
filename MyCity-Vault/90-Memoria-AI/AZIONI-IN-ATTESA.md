@@ -248,7 +248,9 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 ---
 
-### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40
+### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40 · ✅ fatta 2026-10-24 01:30
+
+> ✅ **2026-10-24 01:30 — Entrate tutte e 48, col tuo «avvia».** Le ha messe il pulsante «Migrazioni a mano» su GitHub, che è finito tutto verde. Ho ricontrollato in sola lettura e il database vero risulta allineato al codice. I sei controlli finali sono tutti veri, e i dati sono gli stessi di prima: 9 prodotti, 9 profili, 1 ordine. La scheda di un prodotto vero si apre, col negozio e il pulsante «Aggiungi al carrello».
 
 > 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
 
@@ -890,6 +892,8 @@ prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche 
 ---
 
 ### 🔴 #161 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20 · 🔁 riscritta 2026-10-16 12:40
+
+> 🔓 **2026-10-24 01:30 — Il database è allineato, e il segreto del database su GitHub adesso funziona.** Il passo 2 qui sotto, `"main": false`, non aspetta più la carta #191. Per il passo 1 mancano ancora le tre chiavi di Vercel.
 
 > ⚠️ **2026-10-16 12:40 — Prima unisci la #206.** La guardia che aspettavi è lì dentro. Poi accendi la regola «Main»: è la carta #177.
 
