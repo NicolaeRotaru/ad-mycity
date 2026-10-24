@@ -1,0 +1,1666 @@
+{
+ "_cosa_e": "Il piano di riparazione del sito del 24/10/2026: dal ricettario della pre-diagnosi alle cause comuni, alle semplificazioni, alle decisioni in blocco per Nicola, ai suoi passi in ordine e alle fasi del lavoro. Poi la critica di completezza, le cui correzioni valgono sul piano. La nota libera del pianificatore è tolta: citava una falla della corsia riservata. Le carte sono la #209 e la #210.",
+ "data": "2026-10-24 14:20",
+ "ricettario": "consegne/audit/2026-10-24-ricettario-sito.json",
+ "piano": {
+  "cause_trasversali": [
+   {
+    "nome": "Manca la chiave di servizio su Vercel, e il giorno che arriva sveglia tutto insieme",
+    "idx": [
+     388,
+     94,
+     23,
+     48,
+     49,
+     1215,
+     85,
+     119,
+     1240,
+     1241,
+     1252,
+     19,
+     114,
+     22,
+     96,
+     1293,
+     1394,
+     1285,
+     177,
+     1289,
+     175,
+     432,
+     1272,
+     342,
+     253,
+     551,
+     82,
+     57,
+     1374,
+     417,
+     56
+    ],
+    "una_riparazione": "Non si ripara territorio per territorio: si fa un giorno solo, in un ordine fisso. Prima si unisce il codice che decide cosa parte quando la chiave si accende: interruttori delle funzioni spente, squadra della posta, conteggio dei documenti da potare. Poi Nicola firma la pulizia della coda vecchia, verifica il mittente su Resend, mette le caselle, ruota le chiavi (#203) e mette la nuova su Vercel (#154). Subito dopo, un ordine di prova in contanti fino all'email spedita.",
+    "perche": "Oggi in produzione, senza questa chiave, non funzionano l'ordine in contanti, il salvataggio dei prodotti del negozio, l'approvazione dei negozi, le email, i lavori notturni e i bonifici. Le riparazioni si possono unire, ma non si vedono. In più la chiave sveglia dieci lavori notturni in un colpo: partirebbero le email arretrate con i 5 € che non esistono, i carrelli vecchi di mesi, le cancellazioni d'account in attesa (irreversibili) e la potatura dei documenti con la regola larga."
+   },
+   {
+    "nome": "Una lettura fallita viene presa per «non c'è niente», un invio fallito per «fatto»",
+    "idx": [
+     1229,
+     1230,
+     280,
+     93,
+     1310,
+     1209,
+     1208,
+     1215,
+     1286,
+     1333,
+     281,
+     300,
+     1293,
+     119,
+     1355,
+     1248,
+     1363,
+     1358,
+     1362,
+     1352,
+     1354,
+     1176,
+     1236,
+     1234,
+     141,
+     285,
+     286,
+     288,
+     290,
+     291,
+     294,
+     287,
+     289,
+     105,
+     106,
+     108,
+     111,
+     1266,
+     1351,
+     1199,
+     1318,
+     184,
+     1330,
+     127,
+     1372,
+     1373,
+     1344
+    ],
+    "una_riparazione": "Una regola scritta una volta. Nelle pagine si usa vistaDaQuery (lib/vista-query.ts) con ErrorState e «Riprova», e «vuoto» si dice solo dopo aver letto. Nelle rotte si guardano l'errore e il numero di righe: un guasto risponde 503, mai «riuscito». Il freno è uno solo: la prova degli esiti buttati (tests/unit/aiuti/esiti-del-database-buttati.ts, oggi solo su Stripe) si allarga ad app/, components/ e app/api, con un elenco di eccezioni che può solo calare.",
+    "perche": "È la stessa malattia nel pannello admin, nella vetrina, nella cassa, nei resi, nella privacy, nell'IA e in una quarantina di minori di nove territori. Riparata pagina per pagina, ricompare nella pagina accanto. Con un freno sul codice resta chiusa."
+   },
+   {
+    "nome": "Le promesse sono scritte a mano invece di nascere dall'interruttore o dal numero che decide",
+    "idx": [
+     250,
+     251,
+     253,
+     255,
+     120,
+     50,
+     247,
+     248,
+     249,
+     1206,
+     296,
+     54,
+     252,
+     254,
+     23,
+     147,
+     1260,
+     239,
+     300,
+     96,
+     1245,
+     22,
+     259,
+     261,
+     263,
+     266,
+     268,
+     65,
+     69,
+     70,
+     72,
+     1366,
+     66,
+     1340,
+     1337,
+     1339,
+     1338,
+     1343,
+     1173,
+     262,
+     265,
+     267,
+     269,
+     134,
+     130
+    ],
+    "una_riparazione": "Una squadra sola, «testi di promessa», possiede lib/promesse-pubbliche.ts e le pagine che promettono: home, come funziona, piè di pagina, FAQ, spedizioni, aiuto fattorini, contatti, aiuto negozi. Ogni frase con un numero o un servizio nasce dalla costante o dall'interruttore che fa la cosa. La prova le-promesse-che-il-sito-non-mantiene si allarga alle pagine vere. Prima Nicola firma le promesse (consegna, prezzo al negozio, regali), così ogni frase si scrive una volta sola.",
+    "perche": "Più di venti gravi e una trentina di minori, in sette territori, sono la stessa cosa: la pagina dice 30-60 minuti, 5 € di regalo, «nessun costo mensile», «carta adesso» o un telefono finto, e il codice fa altro. Le ricette toccano gli stessi file: HomeSectionRenderer.tsx da otto ricette di tre territori, promesse-pubbliche.ts da cinque. Con più squadre si riscriverebbero a vicenda."
+   },
+   {
+    "nome": "Funzioni pubblicate senza un interruttore per spegnerle",
+    "idx": [
+     161,
+     53,
+     54,
+     296,
+     147,
+     239,
+     47,
+     1222,
+     164,
+     176,
+     112,
+     169,
+     167,
+     165,
+     60,
+     333,
+     301,
+     302,
+     473,
+     360
+    ],
+    "una_riparazione": "Un solo file di interruttori (lib/funzioni-al-lancio.ts, oppure in lib/constants.ts accanto a RITIRO_IN_NEGOZIO_ATTIVO), creato una volta da una squadra sola nella prima ondata, con tutti gli interruttori della #204 e delle aggiunte. Ogni interruttore lo leggono sia la pagina sia la rotta del server, che risponde 503 o 409. Sono costanti nel codice, non variabili su Vercel. Nelle prove si accendono con un vi.mock nel file di avvio. Il filtro delle sezioni spente della home (sezioniAccese) si scrive una volta.",
+    "perche": "IA per i negozi, buoni regalo, classifica inviti, Drop del giorno, newsletter, app installabile e PostHog oggi li ferma solo una chiave che manca per caso: il giorno della chiave partono tutti insieme. Tre ricette di due territori vogliono creare lo stesso file nuovo: senza un proprietario nascono un conflitto o tre file diversi."
+   },
+   {
+    "nome": "Almeno nove territori vogliono la migrazione numero 164, e lo script salta in silenzio il secondo",
+    "idx": [
+     3,
+     21,
+     182,
+     7,
+     94,
+     254,
+     1333,
+     1294,
+     1285,
+     408,
+     1336,
+     49,
+     1241,
+     1252,
+     1260,
+     71,
+     205,
+     210,
+     414,
+     17,
+     9,
+     10,
+     1288,
+     1368,
+     325,
+     324,
+     329,
+     234,
+     1250,
+     314,
+     326,
+     327,
+     1198,
+     332,
+     386,
+     29,
+     1353,
+     1332,
+     404,
+     107
+    ],
+    "una_riparazione": "Una prova che diventa rossa se due file di migrazione hanno lo stesso numero, e che segnala il buco del 162. I numeri si assegnano solo alla ricucitura, mai dalle squadre. Ogni CREATE OR REPLACE ripete i suoi REVOKE e GRANT e il suo blocco di autocontrollo. Le firme diventano due sole: il pacchetto che aggiunge o allarga e il pacchetto che stringe.",
+    "perche": "scripts/applica-migrazioni-mancanti.sh salta un file con un numero già registrato, e il controllo di deriva guarda solo numero e nome. Due «164» passano la CI e in produzione il secondo non gira mai, senza avviso. Sulla funzione dei profili, poi, vince l'ultima riscrittura: è lo stesso meccanismo che il 9/9 aveva riportato indietro 11 funzioni."
+   },
+   {
+    "nome": "Una regola che si stringe rompe chi contava su quella larga (la lezione della 119)",
+    "idx": [
+     3,
+     24,
+     1294,
+     1076,
+     1209,
+     1310,
+     241,
+     10,
+     1288,
+     1368,
+     325,
+     326,
+     327,
+     314,
+     1250,
+     324,
+     1211,
+     138,
+     423,
+     1141
+    ],
+    "una_riparazione": "«Espandi, poi restringi» come regola del lotto e come prova che gira: i minori 423 e 1141 la applicano a ogni migrazione dopo la 163. Ogni stretta porta nella PR l'elenco di chi scrive davvero con la regola larga, cercato nel codice. Entra da sola, dopo che il codice che la regge è online, e mai mentre gira la copia notturna del database.",
+    "perche": "È successo il 24/10: la 119 e la 161 hanno acceso il modulo «diventa negozio» respinto e la «richiesta in valutazione» senza richiesta. Lo stesso rischio sta nelle prove SQL della 1294, negli orari del 24, nel controllo dei negozi della 1209 e in nove migrazioni dei minori. Quando il rilascio applicherà le migrazioni da solo (1076), il codice vecchio resterà sopra la regola stretta per tutta la durata della build."
+   },
+   {
+    "nome": "Lo stato di chi aspetta l'approvazione si decide in cinque posti con regole diverse",
+    "idx": [
+     3,
+     18,
+     85,
+     119,
+     182,
+     343,
+     1252,
+     86,
+     1253,
+     1254,
+     1255
+    ],
+    "una_riparazione": "Un modulo puro, lib/venditore/stato-richiesta.ts, dice in un punto solo: da completare, in valutazione, respinta, sospesa, approvata. Lo leggono /sell, il layout del venditore e il portiere. Per l'amministratore conta il ruolo, non «approvato». Il ruolo lo cambia solo la rotta di approvazione: la candidatura da /sell lascia il cliente cliente e scrive la data della richiesta. La rotta moderate ha una funzione sola motiviPerNonApprovare: P.IVA per i negozi, età e scadenze per i fattorini, patente solo per scooter e auto.",
+    "perche": "Oggi tutte e tre le porte del negozio sono chiuse: sono i due bloccanti 3 e 18. Le ricette 85 (iscrizione) e 86 (sicurezza, un minore) toccano la stessa riga di middleware.ts con prove opposte. E quattro ricette di due territori toccano la stessa select e lo stesso switch della rotta moderate."
+   },
+   {
+    "nome": "Dopo la migrazione 161 i nomi degli altri non si leggono più da profiles",
+    "idx": [
+     114,
+     1336,
+     1394,
+     85,
+     1353,
+     1371,
+     1370,
+     1360
+    ],
+    "una_riparazione": "Per ogni nome altrui una fonte che chi guarda può già leggere. Il negozio prende la prima parola di delivery_full_name dai suoi ordini. Il cliente legge il nome del suo fattorino da una funzione piccola che lo dà solo per il suo ordine. Il ripiego è «Cliente» o «Il tuo rider», mai una pagina d'errore. Nessuna lettura chiede colonne che profiles non ha, come l'email.",
+    "perche": "La 161 ha chiuso profiles, ed era giusto. Le pagine di cinque territori però sono rimaste a leggerlo: recensioni del negozio sempre in errore, chat con «Utente», reclami e registro admin vuoti, controllo d'identità del fattorino con «profilo non trovato»."
+   },
+   {
+    "nome": "I banchi di prova sono più gentili del database vero",
+    "idx": [
+     26,
+     1289,
+     1394,
+     85,
+     25,
+     1290,
+     1123,
+     280,
+     34,
+     36,
+     38,
+     42,
+     37,
+     40,
+     35,
+     39,
+     41,
+     1144
+    ],
+    "una_riparazione": "Una squadra sola possiede tests/unit/aiuti/* nella prima ondata. Il finto dei pagamenti applica i filtri e l'«oppure» e risponde PGRST204 e PGRST205. database-coi-permessi.ts non dichiara più profiles.email, e una prova pretende che ogni colonna dichiarata esista in lib/database.types.ts. Il giro notturno finto impara single e maybeSingle. Nasce il «database che cade». Le altre squadre li importano soltanto.",
+    "perche": "Togliendo quattro controlli sui soldi, 4.257 prove su 4.258 restano verdi. Il banco dei permessi dichiara la stessa colonna inesistente del codice, così la prova del 85 e del 1394 non può diventare rossa. Riparare sopra banchi gentili è la scorciatoia del «fatto, tutto verde»."
+   },
+   {
+    "nome": "Nei casi storti i soldi si muovono da soli, e ogni strada di ritorno ha fatto nascere difetti",
+    "idx": [
+     1267,
+     1268,
+     1317,
+     177,
+     1287,
+     1313,
+     1286,
+     1333,
+     193,
+     1269,
+     1291,
+     192,
+     1302
+    ],
+    "una_riparazione": "Una regola sola, quella che Nicola ha già scelto il 17/10 per i contanti. Quando un pagamento va storto il sito si ferma, non sposta soldi da solo e manda un avviso unico: cifra, ordine, chiave, una volta sola, e il rimedio da fare a mano. Quindi: contestazioni con l'opzione C (via lo storno all'apertura e la restituzione, circa 250 righe in meno); resi senza pulsante di ripresa e senza la frase «già fatto»; credito non restituito con ritentativo e avviso; rimborso respinto senza ripagare il negozio da solo.",
+    "perche": "Contestazioni carta, resi e rimborsi respinti stanno in tre territori, ma hanno la stessa forma: ogni ritorno automatico dei soldi ha un caso che paga due volte o non ripaga. È il posto dove la prima ondata ha fatto nascere i suoi difetti. In produzione oggi ci sono 0 contestazioni, 0 resi e 1 solo ordine, annullato: il lavoro a mano vale quasi zero."
+   },
+   {
+    "nome": "La posta parte da un gancio solo, che non conosce tutti gli stati e non sa dire «non spedita»",
+    "idx": [
+     94,
+     23,
+     388,
+     254,
+     93,
+     147,
+     56,
+     98,
+     100,
+     102,
+     103,
+     386,
+     257,
+     264,
+     258,
+     274
+    ],
+    "una_riparazione": "Una squadra «posta» su lib/email/templates.ts, sul giro send-emails e sul sorvegliante. Fa: il messaggio per l'ordine annullato, la fascia di consegna in chiaro, via «entro 15 minuti» e i 5 €. Aggiunge una funzione decidi(riga) con le uscite che mancano: «rimanda senza consumare tentativi» e «annulla perché non ha più senso». E sendEmail dice «non spedita» a chi la chiama. Si unisce prima della chiave.",
+    "perche": "Cassa in contanti, pannello admin, rilascio, rotte del server e testi hanno lo stesso guasto visto da lati diversi. Con il giro send-emails sistemato, la pulizia a mano delle 7 email e dei 3 carrelli della carta #154 non serve più."
+   },
+   {
+    "nome": "Mancano i dati d'impresa, sia di MyCity sia dei negozi",
+    "idx": [
+     46,
+     146,
+     182,
+     248,
+     53,
+     247,
+     22
+    ],
+    "una_riparazione": "Nicola apre la posizione fiscale e mette i dati del titolare su Vercel. Scrive lui i dati di Pane Quotidiano, in 5 minuti. La rotta di approvazione blocca solo la prima approvazione di un negozio senza P.IVA, ragione sociale e sede. «Venduto da» traduce la forma giuridica in parole e mostra il telefono anche da solo. Il controllo VIES accetta la P.IVA scritta come sulla visura.",
+    "perche": "Senza P.IVA l'informativa non ha un titolare, la commissione non si fattura, il canone non si può chiedere, il buono regalo non ha un emittente e non si apre l'INAIL per i fattorini. Lo stesso dato manca in quattro territori. In più, oggi «Venduto da» è l'unico contatto del negozio sulla scheda prodotto."
+   }
+  ],
+  "semplificazioni": [
+   {
+    "cosa": "Firmare la #204 e spegnere al lancio, con il file di interruttori, anche Traduci, il prezzo barrato scritto a mano, il riquadro «Ordinato N volte», le due rotte IA che nessuna pagina usa e le voci di menu del negozio che servono solo con tanti negozi",
+    "idx_che_spariscono": [
+     159,
+     160,
+     162,
+     164,
+     405,
+     1262,
+     1325,
+     47,
+     1222,
+     1327,
+     1312,
+     1295,
+     1263,
+     1296,
+     1264,
+     1261,
+     173,
+     1328,
+     1330,
+     166,
+     167,
+     170,
+     171,
+     404,
+     1331,
+     1326,
+     165,
+     1223,
+     1224,
+     197,
+     1163,
+     333,
+     288,
+     258,
+     242,
+     579,
+     473,
+     60,
+     360,
+     1311,
+     1304,
+     1279,
+     1301,
+     1315,
+     1329
+    ],
+    "costo_per_nicola": "Al lancio niente IA per i negozi, buoni regalo, classifica inviti, newsletter, Drop del giorno, app installabile e PostHog. Pane Quotidiano carica i prodotti a mano: ne ha 5. Le visite si contano col registro interno del sito, che riparte con la chiave.",
+    "perche_conviene": "Escono dal percorso del lancio 9 gravi e circa 40 minori. Solo per l'IA: 4-6 ore di squadra invece di 2-3 giorni (stima dei revisori). Restano liste pronte «prima di riaccendere»; il 159 ha la scadenza del 30/11 solo se l'IA si accende prima."
+   },
+   {
+    "cosa": "Fattorini al lancio: consegni tu con un secondo account; gli altri li recluti di persona; nessun documento d'identità caricato dal sito; reclutamento pubblico chiuso finché non c'è la posizione INAIL",
+    "idx_che_spariscono": [
+     1240,
+     1241,
+     1252,
+     115,
+     96,
+     241,
+     116,
+     1289,
+     21,
+     1245,
+     342,
+     247,
+     29,
+     205,
+     192,
+     1337,
+     1338,
+     1339
+    ],
+    "costo_per_nicola": "Consegni tu fino a circa 30 ordini al giorno, come già deciso. Patente e polizza le guardi dal vivo. «Diventa rider» porta a un contatto. Prima del primo fattorino esterno serve un'ondata dedicata, circa una giornata.",
+    "perche_conviene": "Oggi i fattorini approvati sono 0. L'iscrizione da soli ha quattro chiusure indipendenti, e le ricette su documenti, SOS, GPS e compenso servono solo quando c'è qualcuno che le usa. La ricetta 119 scende da L a S, e il sito custodisce meno dati sensibili."
+   },
+   {
+    "cosa": "Al lancio si paga solo in contanti, come oggi: la carta si accende dopo, con la sua lista",
+    "idx_che_spariscono": [
+     1267,
+     1268,
+     1317,
+     177,
+     1313,
+     1289,
+     26,
+     183,
+     340,
+     1238,
+     1239
+    ],
+    "costo_per_nicola": "Chi vuole pagare con carta non può. È già così in produzione: la chiave pubblica di Stripe non c'è.",
+    "perche_conviene": "Le contestazioni carta, il compenso del fattorino con carta e il doppio rimborso con carta diventano una lista da chiudere prima di accendere. Lo stato di Stripe non è verificato, e i resi in contanti hanno già la regola del 17/10."
+   },
+   {
+    "cosa": "Nei casi storti dei soldi il sito si ferma e ti avvisa con la cifra: niente storni, ripagamenti o pulsanti di ripresa automatici",
+    "idx_che_spariscono": [
+     1268,
+     1317,
+     193,
+     1269,
+     1291,
+     192
+    ],
+    "costo_per_nicola": "Quando capita, fai tu lo storno o il bonifico dal cruscotto Stripe, guidato dall'avviso, come per il rimborso dei contanti del 17/10. Le ricette 1287, 1313, 1286 e 1333 diventano più piccole: niente pulsante, niente seconda migrazione per ora.",
+    "perche_conviene": "Con l'opzione C delle contestazioni si cancellano circa 250 righe in lib/stripe/webhook/dispute.ts. Le strade di ritorno automatiche sono proprio quelle dove la prima ondata ha fatto nascere i difetti. Oggi i casi sono 0."
+   },
+   {
+    "cosa": "Nessun regalo in euro al lancio: via le promesse dei 5 € di benvenuto e della newsletter, codici sconto spenti anche sul server, inviti con 5 € e punti fedeltà spenti",
+    "idx_che_spariscono": [
+     7,
+     1260,
+     9,
+     17,
+     107,
+     332,
+     1198,
+     1217
+    ],
+    "costo_per_nicola": "Niente leve di sconto al lancio. Quando vorrai una promozione, prima decidi chi la paga (raccomandato: MyCity, con un tetto), poi si accende.",
+    "perche_conviene": "Oggi nessuno di questi regali funziona: in cassa ogni codice viene rifiutato e i 5 € non compaiono mai. Ripararli accende soldi veri senza tetto, con sconti pagati per il 90% dal negozio. Il 176 diventa un interruttore dentro validateCoupon, il 254 un togliere frasi."
+   },
+   {
+    "cosa": "La porta del negozio senza migrazione sul guardiano dei profili: il ruolo lo cambia solo la rotta di approvazione, niente PEC e SDI, niente blocco delle date dal browser per ora",
+    "idx_che_spariscono": [],
+    "costo_per_nicola": "Nessuno. Un negozio respinto resta cliente e può continuare a comprare.",
+    "perche_conviene": "Spariscono la migrazione M1 (firma rossa) sul guardiano più delicato, la nascita «cliente respinto resta negozio per sempre» e lo scontro con la ricetta 71 sulla stessa funzione. I difetti 3, 21 e 182 restano da chiudere, ma col codice. Da verificare con la prova SQL che il guardiano lasci scrivere la richiesta a un cliente."
+   },
+   {
+    "cosa": "Importazione dei prodotti da file tolta al lancio (tre collegamenti)",
+    "idx_che_spariscono": [
+     112,
+     135
+    ],
+    "costo_per_nicola": "I prodotti si caricano uno alla volta. Pane Quotidiano ne ha 5.",
+    "perche_conviene": "L'importazione salta i controlli del modulo e farebbe nascere bozze impubblicabili finché manca la chiave. La migrazione sugli ingredienti della 1294 serve comunque e resta."
+   },
+   {
+    "cosa": "Chat cliente→negozio tolta: al suo posto «Chiama il negozio»; i nomi dei clienti si prendono dagli ordini, senza vista nuova",
+    "idx_che_spariscono": [
+     1336,
+     1360
+    ],
+    "costo_per_nicola": "Il cliente telefona al negozio. Il negozio non riceve messaggi scritti dal sito.",
+    "perche_conviene": "Il negozio oggi non vede quei messaggi. Senza chat, il 22 diventa un togliere (S), il 1336 una frase senza migrazione, il 114 una riga. Rispetta il paletto «nessuna app nuova da imparare»."
+   },
+   {
+    "cosa": "Pannello admin più piccolo: scheda ordine solo da guardare, segnalazioni decise a mano, nessuna paginazione, tre schede declassate o chiuse come superate",
+    "idx_che_spariscono": [
+     551,
+     1216,
+     405
+    ],
+    "costo_per_nicola": "Annulli dall'elenco ordini come oggi. Le segnalazioni le decidi tu con un'email già scritta. Le foto delle categorie restano un colore finché non hai foto vere.",
+    "perche_conviene": "La scheda completa del 118 mostrerebbe il codice sbagliato sui ritiri in negozio. Il 49 completo è una funzione nuova di dieci file, la forma che nella prima ondata faceva nascere 15-27 difetti a giro. Il volume oggi è zero."
+   },
+   {
+    "cosa": "Vetrina e cassa nella versione corta: via il banner «arriva oggi», nessun pulsante «cliente assente» né «ferie», categorie vuote filtrate in un punto solo e senza noindex, niente HEIC dal telefono, portiere solo col sigillo e il contatore, nessuna ora calcolata nell'email al negozio",
+    "idx_che_spariscono": [
+     342
+    ],
+    "costo_per_nicola": "Il cliente assente lo gestisci annullando dal pannello. Per le ferie chiudi i giorni. Il tetto lungo del portiere (1137) resta un debito dichiarato finché il contatore non dice che serve.",
+    "perche_conviene": "Il 300 completo tocca 12 file e al primo guasto toglierebbe da Google categorie piene. Il 1137 completo cambia i tempi di ogni pagina. Il 23 con l'ora calcolata ha tre modi di sbagliare. Le versioni corte chiudono la parte che si vede."
+   },
+   {
+    "cosa": "Rilascio senza ritorno indietro automatico e senza piani B delle migrazioni; niente prova a mutazioni notturna; foto copiate a mano",
+    "idx_che_spariscono": [
+     25
+    ],
+    "costo_per_nicola": "Se un rilascio nuovo non passa la prova, resta online quello vecchio. La copia automatica delle foto la decidi dopo il lancio.",
+    "perche_conviene": "La scelta «a chi tornare» ha già fatto nascere difetti il 31/8 e il 16/10. Dopo main:false, circa dieci piani B (1290, 1289, migrazioni 124, 126, 148) diventano codice morto da togliere. La chiave S3 per le foto avrebbe poteri su tutti i secchi, documenti compresi."
+   }
+  ],
+  "decisioni": [
+   {
+    "domanda": "Firmi la #204 così com'è, e aggiungiamo allo stesso interruttore altre cose da spegnere al lancio: Traduci, il prezzo barrato scritto a mano, il caricamento da file, i codici sconto, le due funzioni IA che nessuna pagina usa, il riquadro «Ordinato N volte» e le voci di menu del negozio che non servono a un forno? E PostHog, quando lo riaccenderai, senza filmati delle sessioni?",
+    "opzioni": [
+     "A — sì alla #204 e alle aggiunte: un file solo di interruttori, tutto spento finché non lo riaccendi con una modifica piccola",
+     "B — solo la #204; le aggiunte si riparano",
+     "C — niente spegnimenti: si riparano tutte (solo l'IA vale 2-3 giorni di squadre invece di 4-6 ore)"
+    ],
+    "raccomandazione": "A, con i filmati di PostHog spenti.",
+    "perche": "Oggi queste funzioni sono ferme solo perché mancano delle chiavi: il giorno della chiave partono insieme, senza regole. Spente, escono dal lancio 9 gravi e circa 40 minori. Pane Quotidiano non perde niente: ha 5 prodotti caricati a mano.",
+    "sblocca_idx": [
+     161,
+     159,
+     160,
+     162,
+     164,
+     405,
+     1262,
+     1325,
+     53,
+     54,
+     296,
+     147,
+     239,
+     47,
+     1222,
+     112,
+     169,
+     167,
+     165,
+     60,
+     333,
+     288,
+     258,
+     473,
+     242,
+     579,
+     1163,
+     1223,
+     1224,
+     197,
+     301,
+     302,
+     360,
+     1311,
+     1304,
+     1279,
+     1301,
+     1315,
+     1326,
+     1327,
+     1312,
+     1295,
+     1263,
+     1296,
+     1264,
+     1261,
+     173,
+     1328,
+     1330,
+     166,
+     170,
+     171,
+     404,
+     1331,
+     1329
+    ],
+    "carta_esistente": "#204"
+   },
+   {
+    "domanda": "Al lancio consegni tu con un secondo account da fattorino, e quelli esterni li cerchi di persona, senza farli iscrivere dal sito caricando i documenti? Chiudiamo il reclutamento pubblico finché non c'è la posizione INAIL, e «Lavora con noi» smette di raccontare quattro posti di lavoro? E che numero mettiamo nel pulsante SOS per «Chiama MyCity»?",
+    "opzioni": [
+     "A — consegni tu, reclutamento di persona e pubblico chiuso; numero di reperibilità aziendale",
+     "B — iscrizione da soli dal sito: circa una giornata di riparazioni in più, e serve la chiave",
+     "C — un fattorino esterno a 3-5 € a consegna: va trovato prima di aprire gli ordini"
+    ],
+    "raccomandazione": "A. Il numero di reperibilità sia aziendale e scelto per essere pubblico, oppure letto solo dai fattorini approvati: non il tuo cellulare in una variabile pubblica.",
+    "perche": "I fattorini approvati sono 0, e «consegne fatte in proprio» è già nel registro. Così una decina di gravi (documenti, SOS, GPS, compenso con carta) vanno nella lista «prima del primo fattorino esterno». Il sito custodisce meno documenti d'identità.",
+    "sblocca_idx": [
+     253,
+     119,
+     85,
+     21,
+     343,
+     1240,
+     1241,
+     1252,
+     247,
+     1245,
+     342,
+     96,
+     115,
+     241,
+     116,
+     1289,
+     66,
+     29,
+     205,
+     192,
+     1337,
+     1338,
+     1339,
+     1353
+    ],
+    "carta_esistente": ""
+   },
+   {
+    "domanda": "Al lancio si paga solo in contanti, come oggi? E quando qualcosa va storto coi soldi (una contestazione in banca, un rimborso respinto, un credito non restituito) il sito si ferma, ti avvisa con la cifra esatta e la correzione la fai tu a mano, come hai scelto il 17/10? Confermi anche le tre regole della #208?",
+    "opzioni": [
+     "A — solo contanti al lancio; «si ferma e avvisa»; il compenso del fattorino non si riprende mai a consegna fatta; le tre regole della #208 confermate",
+     "B — contanti e carta subito: prima vanno chiusi 6-7 gravi della carta e va verificato Stripe",
+     "C — rimedi automatici: storni e ripagamenti fatti dal sito, la strada dove la prima ondata ha fatto nascere i difetti"
+    ],
+    "raccomandazione": "A. Per i resi parziali, la quota del negozio in proporzione al rimborso (formula della ricetta 191), da confermare con @finanza. Il registro dei rimborsi con la chiave (seconda fase della 1333) dopo il lancio, ridisegnato.",
+    "perche": "In produzione ci sono 0 contestazioni, 0 resi e 1 ordine nella storia. Togliere i ritorni automatici cancella circa 250 righe e 7-8 gravi. È la stessa scelta del 17/10, quindi nessuna regola nuova da imparare.",
+    "sblocca_idx": [
+     1267,
+     1268,
+     1317,
+     177,
+     1289,
+     1313,
+     1287,
+     1286,
+     1333,
+     193,
+     1269,
+     1291,
+     192,
+     191,
+     1302,
+     340,
+     26
+    ],
+    "carta_esistente": "#208"
+   },
+   {
+    "domanda": "Le migrazioni del lotto le firmi in due pacchetti? Uno subito, con quelle che aggiungono o allargano e non possono rompere niente. L'altro con quelle che stringono un permesso: entrano una alla volta, dopo che il codice che le regge è online e con l'elenco di chi scriveva con la regola larga.",
+    "opzioni": [
+     "A — due pacchetti come sopra, una firma ciascuno",
+     "B — una firma per ogni migrazione, man mano: più attese in fila",
+     "C — tutte insieme in un colpo: è la strada che il 24/10 ha acceso i difetti 3 e 18"
+    ],
+    "raccomandazione": "A.",
+    "perche": "Così le firme arrivano tutte il primo giorno e nessuna squadra resta ferma ad aspettare. E nessuna stretta arriva prima del codice che la regge, che è la lezione della 119.",
+    "sblocca_idx": [
+     1294,
+     1285,
+     94,
+     408,
+     205,
+     210,
+     414,
+     386,
+     1353,
+     10,
+     1288,
+     1368,
+     325,
+     327,
+     326,
+     314,
+     1250,
+     324,
+     234,
+     329,
+     49,
+     1241,
+     21
+    ],
+    "carta_esistente": ""
+   },
+   {
+    "domanda": "Apri la partita IVA adesso, come ditta individuale, e mi dici quale casella email e quale indirizzo pubblichiamo come titolare? E un negozio senza partita IVA, ragione sociale e sede non si approva?",
+    "opzioni": [
+     "A — P.IVA adesso; intanto nome, indirizzo e una casella che leggi già; blocco solo alla prima approvazione di un negozio",
+     "B — adesso solo il ponte privacy, la P.IVA prima del primo incasso vero; blocco sì",
+     "C — tutto come oggi (sconsigliato: l'informativa resta senza titolare con 9 profili già raccolti)"
+    ],
+    "raccomandazione": "A, decisa col commercialista. Un indirizzo che può diventare pubblico, se possibile non casa tua: diventa il destinatario dei resi e del recesso. Nessun telefono pubblico finché qualcuno non risponde davvero. Ai negozi niente PEC e SDI: codice destinatario 0000000.",
+    "perche": "Il 46 è un bloccante. Senza P.IVA non si fattura la commissione, il buono regalo non ha un emittente e non si apre l'INAIL. Per una ditta individuale l'etichetta «P.IVA / C.F.» stamperebbe un dato sbagliato: va deciso prima di scrivere i valori.",
+    "sblocca_idx": [
+     46,
+     182,
+     146,
+     48,
+     76,
+     249,
+     247,
+     248,
+     53,
+     346
+    ],
+    "carta_esistente": "#165"
+   },
+   {
+    "domanda": "Al lancio non regaliamo euro? Togliamo le promesse dei 5 € di benvenuto e della newsletter, i due codici sconto restano spenti anche in cassa, gli inviti da 5 € e i punti fedeltà si spengono. Quando vorrai una promozione, la paga MyCity con un tetto.",
+    "opzioni": [
+     "A — nessun regalo in euro al lancio",
+     "B — solo gli inviti accesi, riparati, con un tetto di premi per persona",
+     "C — tutto acceso; lo sconto lo paga MyCity con un tetto sulla sua parte"
+    ],
+    "raccomandazione": "A. La ricetta 1260 consigliava di tenere gli inviti: costano quanto spegnerli, ma accendono un pagamento mai partito, senza controllo sugli account finti.",
+    "perche": "Oggi nessuno di questi regali funziona: in cassa ogni codice viene rifiutato e i 5 € non compaiono mai. Promettere un regalo che non arriva è pubblicità ingannevole. I punti erano già stati decisi spenti.",
+    "sblocca_idx": [
+     254,
+     7,
+     176,
+     147,
+     1260,
+     9,
+     17,
+     107,
+     332,
+     1198,
+     1217
+    ],
+    "carta_esistente": "#204"
+   },
+   {
+    "domanda": "Che promessa di consegna scriviamo finché la bici non torna: «in 30-60 minuti», come deciso il 21/8, o «in giornata»? E il prezzo: solo i 3 € di consegna, o anche la spedizione a chilometri, che oggi fa pagare 11,50 € per 20 € di spesa a 5 km? E il confine dei 25 km?",
+    "opzioni": [
+     "A — «in giornata»; solo i 3 € di consegna; il confine lo chiudi nella #196",
+     "B — restano i 30-60 minuti e il listino a chilometri di oggi",
+     "C — «in giornata» e spedizione fissa 2,50 € sotto i 30 €, più i 3 € di consegna"
+    ],
+    "raccomandazione": "A. Sono fatti del registro: si aggiornano con coerenza-fatti nello stesso lavoro.",
+    "perche": "I 30-60 minuti non sono mai stati mantenuti: 0 consegne, bici non operativa dal 14/7. Il listino a chilometri è la causa classica dei carrelli abbandonati in cassa. Con la promessa decisa, una riga sola cambia tutte le pagine.",
+    "sblocca_idx": [
+     253,
+     250,
+     120,
+     23,
+     239,
+     300
+    ],
+    "carta_esistente": "#196"
+   },
+   {
+    "domanda": "I testi legali (Termini, Privacy, Cookie) li facciamo rileggere a un legale una volta sola, alla fine del lotto? Nello stesso giro: consulente del lavoro sull'INAIL dei fattorini, fiscalista sul DAC7, la dichiarazione dei 18 anni nella spunta dei Termini anche per chi compra, la seconda casella delle clausole per i negozi. E confermi che, se il database è lento, la persona entra e la domanda dei Termini si ripete al link dopo?",
+    "opzioni": [
+     "A — una rilettura sola a fine lotto; intanto restano i riquadri «bozza»",
+     "B — una rilettura a ogni modifica: più attese",
+     "C — nessuna rilettura (sconsigliato)"
+    ],
+    "raccomandazione": "A, e sì alla scelta sul database lento.",
+    "perche": "Ogni riparazione di testo farebbe scadere di nuovo la versione. Oggi nessuno ha accettato i testi, quindi alzare la versione una volta sola alla fine non costa niente.",
+    "sblocca_idx": [
+     79,
+     78,
+     62,
+     68,
+     71,
+     75,
+     346,
+     1297,
+     343,
+     247,
+     1123,
+     1280,
+     52
+    ],
+    "carta_esistente": ""
+   },
+   {
+    "domanda": "Sui resi: quali prodotti non si rendono per ripensamento, e chi può chiudere un reso senza rimborsare? E dopo che il negozio ha accettato l'ordine, il cliente che vuole cambiarlo cosa fa?",
+    "opzioni": [
+     "A — esclusi pane e freschi (le sottocategorie fresche); «chiudi senza rimborso» solo tu, da qualunque stato; il negozio rifiuta solo dichiarando «prodotto escluso» e tu ricevi un avviso; dopo l'accettazione «chiama il negozio»",
+     "B — come la ricetta 52: il negozio chiude da «richiesto», e da «approvato» dopo 14 giorni",
+     "C — tutta la categoria Alimentari esclusa: rischio di pratica scorretta"
+    ],
+    "raccomandazione": "A. Un ordine misto pane più vasetto passa: il negozio rende solo la parte che si può rendere. Niente vino fra i suggeriti: per ora gli alcolici non si vendono. I testi della pagina Resi vanno nella rilettura legale.",
+    "perche": "Oggi il sito promette «reso senza domande» anche sul pane. La versione col timer della ricetta 52 lascia aperta una porta laterale (avanza verso CANCELED). Con un negozio solo, la regola corta basta.",
+    "sblocca_idx": [
+     50,
+     52,
+     1280,
+     1246,
+     391,
+     73,
+     44,
+     45
+    ],
+    "carta_esistente": ""
+   },
+   {
+    "domanda": "Al lancio il cliente parla col negozio solo per telefono? Si toglie la chat cliente-negozio, che il negozio oggi non vede, e si mette «Chiama il negozio». Il cliente non chiama il fattorino: lo chiama il fattorino, se serve. E il negozio vede dei clienti solo il nome di battesimo?",
+    "opzioni": [
+     "A — telefono e nome di battesimo",
+     "B — tenere la chat: mezza giornata e una migrazione, e finché manca la chiave il negozio non viene avvisato",
+     "C — WhatsApp del negozio: ogni negozio deve inserire il suo numero"
+    ],
+    "raccomandazione": "A, con C come passo successivo. Quali contatti dei clienti dare al negozio lo decidiamo dopo, col legale.",
+    "perche": "Rispetta il paletto «nessuna app nuova da imparare». Il 22 diventa un togliere, il 1336 una frase senza migrazione, il 114 una riga.",
+    "sblocca_idx": [
+     22,
+     1336,
+     114,
+     1245,
+     137,
+     1360
+    ],
+    "carta_esistente": ""
+   },
+   {
+    "domanda": "Per la vetrina di Pane Quotidiano: chiami tu il negozio questa settimana per partita IVA, ragione sociale e sede, per allergeni e ingredienti degli alimenti che non li hanno e per la categoria dei 5 prodotti? Togliamo l'approvazione al Panificio Demo dopo l'ordine di prova? Nascondiamo da home, menu e Google le categorie senza prodotti (8 su 9)?",
+    "opzioni": [
+     "A — sì a tutto; i dati li scrivi tu dal pannello (5 minuti); niente pulsante «ferie»",
+     "B — gli alimenti senza allergeni vanno in bozza d'ufficio e spariscono dalla vetrina finché non si completano",
+     "C — lasciare tutto com'è"
+    ],
+    "raccomandazione": "A.",
+    "perche": "Oggi 8 alimenti su 9 in vendita non hanno gli allergeni (controllo del 24/10 10:45). La legge chiede ragione sociale e P.IVA del venditore prima dell'acquisto. Un negozio finto approvato vende a clienti veri senza identità.",
+    "sblocca_idx": [
+     1294,
+     50,
+     146,
+     260,
+     153,
+     300,
+     24
+    ],
+    "carta_esistente": "#201"
+   },
+   {
+    "domanda": "Ai negozi niente canone di 50 € al mese finché non incassano? E la commissione del 10% la scriviamo «IVA inclusa», come fa già la cassa?",
+    "opzioni": [
+     "A — niente canone; 10% IVA inclusa",
+     "B — canone da subito: Termini nuovi, 30 giorni di preavviso a Pane Quotidiano, serve la P.IVA",
+     "C — 10% più IVA a parte, cioè il 12,2%: cambia la cassa"
+    ],
+    "raccomandazione": "A. L'IVA la conferma il commercialista. Il fatto pricing.abbonamento si aggiorna nel registro con coerenza-fatti.",
+    "perche": "Oggi il sito dice «nessun costo mensile» in sei punti e poi chiede 50 €. Il pulsante «Attiva €50/mese» fallisce comunque, perché manca la chiave Stripe. Il canone subito rompe il paletto «primo risultato in cassa in 2-4 settimane».",
+    "sblocca_idx": [
+     248,
+     252,
+     66,
+     299,
+     261,
+     190,
+     68
+    ],
+    "carta_esistente": "#204"
+   },
+   {
+    "domanda": "Nel pannello: la scheda di un ordine solo da guardare, con lo stato dei codici di consegna? Le segnalazioni di contenuti le decidi tu a mano, con un'email già scritta? E mi autorizzi a declassare a minore o a chiudere come scelta sei schede che oggi non fanno danno?",
+    "opzioni": [
+     "A — scheda da guardare; segnalazioni a mano; declassare o chiudere 551, 1216, 405 (la parte superata), 355, 1370 e 1371",
+     "B — scheda anche con «segna consegnato» e «cambia fattorino»: un lotto a parte, perché tocca il bonifico al negozio",
+     "C — segnalazioni con email automatiche"
+    ],
+    "raccomandazione": "A. Il codice di consegna visibile a te, perché serve all'assistenza quando il cliente chiama.",
+    "perche": "La scheda completa del 118 mostrerebbe il codice sbagliato sui ritiri. Il 49 completo è una funzione nuova da dieci file. Oggi il volume è zero.",
+    "sblocca_idx": [
+     118,
+     49,
+     551,
+     1216,
+     405,
+     355,
+     1370,
+     1371
+    ],
+    "carta_esistente": ""
+   },
+   {
+    "domanda": "Tre scelte di privacy. Per quanto teniamo i documenti di chi non diventa fattorino, e il testo dell'avviso del bonifico con l'email del cliente? Le 17 righe vecchie del registro con nomi e telefoni le ripulisco, tenendo solo quali campi sono cambiati? Se un cliente cancella l'account, i suoi reclami restano senza nome invece di sparire?",
+    "opzioni": [
+     "A — 90 giorni per tutti e due (l'avviso si anonimizza, non si cancella); pulizia del registro; reclami anonimi che restano",
+     "B — 180 giorni; cancellare tutto il dettaglio vecchio del registro",
+     "C — lasciare che le righe scadano da sole fra 8 e 12 mesi"
+    ],
+    "raccomandazione": "A: 90 giorni è lo stesso numero già usato per i respinti e per le foto di consegna, una regola sola.",
+    "perche": "L'avviso del bonifico non si può cancellare: il suo id impedisce un doppio bonifico. L'informativa dice che i reclami si tengono fino a dieci anni, ma oggi spariscono con l'account.",
+    "sblocca_idx": [
+     408,
+     1241,
+     1335,
+     1332,
+     67
+    ],
+    "carta_esistente": "#208"
+   },
+   {
+    "domanda": "Per il rilascio e le copie: accendi la regola «Main» e lasci spenta «Require up to date» finché le PR arrivano una alla volta; niente prova a mutazioni notturna; le foto le copi a mano adesso e la copia automatica dopo il lancio. Vuoi anche un secondo progetto Supabase gratuito per vedere le anteprime prima di unire, e Sentry in Europa per vedere gli errori del sito?",
+    "opzioni": [
+     "A — sì a tutto come detto",
+     "B — copia automatica delle foto subito su Backblaze: la chiave avrebbe poteri su tutti i secchi, documenti compresi",
+     "C — rimandare anteprime e Sentry"
+    ],
+    "raccomandazione": "A.",
+    "perche": "La regola «Main» costa 30 secondi e ferma le PR rosse. Le anteprime oggi mostrano un sito senza database: non puoi vedere una modifica prima di unirla. Il giorno del lancio nessuno vedrebbe un errore del sito.",
+    "sblocca_idx": [
+     148,
+     434,
+     25,
+     26,
+     156,
+     152,
+     436
+    ],
+    "carta_esistente": "#177"
+   }
+  ],
+  "passi_di_nicola": [
+   {
+    "passo": "Cambia la password dell'amministratore",
+    "dove": "come scritto nella carta #202",
+    "minuti": 5,
+    "sblocca_idx": [],
+    "prima_di": "Indipendente: conviene farlo per primo.",
+    "carta_esistente": "#202"
+   },
+   {
+    "passo": "Accendi la regola «Main» su GitHub",
+    "dove": "GitHub → repository mycity → Settings → Rules → «Main»: attiva su main, col nome del controllo della CI che ti scrive la squadra del rilascio; «Require branches to be up to date» resta spenta",
+    "minuti": 2,
+    "sblocca_idx": [
+     148
+    ],
+    "prima_di": "Indipendente. Dopo, una riparazione d'urgenza con un push diretto su main non passa più: il manuale lo aggiorna la squadra del rilascio.",
+    "carta_esistente": "#177"
+   },
+   {
+    "passo": "Accendi la protezione contro le password già rubate",
+    "dove": "Supabase → Authentication → impostazioni delle password (HaveIBeenPwned); sul piano Pro dovrebbe esserci, da controllare",
+    "minuti": 2,
+    "sblocca_idx": [
+     320
+    ],
+    "prima_di": "Indipendente.",
+    "carta_esistente": ""
+   },
+   {
+    "passo": "Dimmi com'è messo Stripe: chiavi vere o di prova, conto collegato di Pane Quotidiano, indirizzi dei webhook",
+    "dove": "cruscotto Stripe",
+    "minuti": 10,
+    "sblocca_idx": [
+     175,
+     1290,
+     1289,
+     177,
+     255
+    ],
+    "prima_di": "Prima della risposta sulla carta e sui soldi storti.",
+    "carta_esistente": ""
+   },
+   {
+    "passo": "Verifica il mittente delle email su Resend",
+    "dove": "Resend → Domains, poi su Vercel RESEND_FROM e RESEND_API_KEY",
+    "minuti": 15,
+    "sblocca_idx": [
+     388,
+     93,
+     94,
+     23
+    ],
+    "prima_di": "Prima della chiave di servizio: senza, il sorvegliante risponde errore ogni 15 minuti e nessuna email parte. La verifica del dominio può chiedere qualche ora.",
+    "carta_esistente": "#195"
+   },
+   {
+    "passo": "Metti su Vercel le caselle che leggi davvero e controlla due variabili",
+    "dove": "Vercel → Settings → Environment Variables: NEXT_PUBLIC_TITOLARE_EMAIL_PRIVACY, NEXT_PUBLIC_TITOLARE_EMAIL_SEGNALAZIONI, SUPPORT_EMAIL; controlla che TURNSTILE_SECRET_KEY e CRON_SECRET ci siano",
+    "minuti": 10,
+    "sblocca_idx": [
+     48,
+     76,
+     96,
+     1215,
+     432
+    ],
+    "prima_di": "Prima che si unisca la riparazione 48 e prima della chiave. Le variabili NEXT_PUBLIC valgono dal rilascio dopo, cioè quello della chiave.",
+    "carta_esistente": "#154"
+   },
+   {
+    "passo": "Firma la pulizia della coda prima della chiave",
+    "dove": "SQL preparato dalla macchina: annulla le email arretrate di benvenuto e di richiamo e i carrelli vecchi; insieme ti mostro le cancellazioni d'account in attesa e i documenti che la pulizia notturna toglierebbe",
+    "minuti": 15,
+    "sblocca_idx": [
+     388,
+     254,
+     1241
+    ],
+    "prima_di": "Dopo che la squadra della posta ha unito il suo lavoro, prima della chiave.",
+    "carta_esistente": "#154"
+   },
+   {
+    "passo": "Ruota le chiavi del database",
+    "dove": "Supabase, come scritto nella carta #203",
+    "minuti": 10,
+    "sblocca_idx": [],
+    "prima_di": "Prima della chiave su Vercel: quella da copiare è la nuova.",
+    "carta_esistente": "#203"
+   },
+   {
+    "passo": "Metti la chiave di servizio su Vercel e fai un nuovo rilascio",
+    "dove": "Vercel → Settings → Environment Variables (Production): SUPABASE_SERVICE_ROLE_KEY, poi Redeploy",
+    "minuti": 10,
+    "sblocca_idx": [
+     388,
+     94,
+     23,
+     48,
+     49,
+     1215,
+     19,
+     114,
+     22,
+     1293,
+     1394,
+     342,
+     253,
+     551,
+     57,
+     1374,
+     417
+    ],
+    "prima_di": "Dopo i passi del mittente, delle caselle, della pulizia e della rotazione, e dopo che le squadre «interruttori» e «posta» hanno unito.",
+    "carta_esistente": "#154"
+   },
+   {
+    "passo": "Approva il tuo secondo account da fattorino e mettilo online",
+    "dove": "pannello admin → utenti, poi /rider",
+    "minuti": 5,
+    "sblocca_idx": [
+     253
+    ],
+    "prima_di": "Dopo la chiave e dopo la riparazione della rotta di approvazione (controllo dell'età). Mai con un UPDATE a mano sul database: salta età e registro.",
+    "carta_esistente": ""
+   },
+   {
+    "passo": "Fai un ordine di prova in contanti fino all'email spedita",
+    "dove": "dal sito, con un account cliente, su Pane Quotidiano avvisato prima (oppure sul negozio di prova, prima di spegnerlo)",
+    "minuti": 20,
+    "sblocca_idx": [
+     388,
+     94,
+     23,
+     253
+    ],
+    "prima_di": "Dopo la chiave e dopo l'approvazione del tuo account da fattorino.",
+    "carta_esistente": "#154"
+   },
+   {
+    "passo": "Togli l'approvazione al Panificio Demo",
+    "dove": "pannello admin → utenti",
+    "minuti": 2,
+    "sblocca_idx": [
+     153
+    ],
+    "prima_di": "Dopo l'ordine di prova, che può usarlo.",
+    "carta_esistente": "#201"
+   },
+   {
+    "passo": "Metti i quattro segreti di Vercel su GitHub, lancia il rilascio a mano, poi approva la PR di una riga",
+    "dove": "GitHub → Settings → Secrets (compreso il bypass); Actions → rilascio → Run workflow su main, deve finire «✅ Il sito risponde»; su Vercel un lavoro automatico deve rispondere 200 e l'accesso deve funzionare; poi Run del controllo di deriva e PR con \"main\": false",
+    "minuti": 25,
+    "sblocca_idx": [
+     432,
+     1076,
+     144,
+     1272,
+     1273
+    ],
+    "prima_di": "Dopo che le riparazioni 1272 e il pezzo di codice del 1076 sono su main, e dopo la chiave: senza, la prova di fumo esce sempre rossa.",
+    "carta_esistente": "#161"
+   },
+   {
+    "passo": "Cambia i due modelli email per la nuova password e prova su due dispositivi",
+    "dove": "Supabase → Authentication → Email Templates, come nella carta #207; non toccare il Site URL, oppure metti il dominio di oggi fra i Redirect URLs",
+    "minuti": 15,
+    "sblocca_idx": [
+     82,
+     1298
+    ],
+    "prima_di": "Dopo la chiave e dopo la riparazione 1298 della rotta /auth/confirm.",
+    "carta_esistente": "#207"
+   },
+   {
+    "passo": "Telefona a Pane Quotidiano e scrivi i suoi dati",
+    "dove": "telefono, poi pannello: P.IVA, ragione sociale e sede; allergeni e ingredienti degli alimenti; categoria dei 5 prodotti; descrizione e logo",
+    "minuti": 30,
+    "sblocca_idx": [
+     146,
+     182,
+     1294,
+     50,
+     260
+    ],
+    "prima_di": "I dati d'impresa dopo la riparazione del formato VIES; gli ingredienti prima della migrazione della 1294.",
+    "carta_esistente": ""
+   },
+   {
+    "passo": "Copia a mano le foto dei prodotti",
+    "dove": "Supabase → Storage → secchio products",
+    "minuti": 15,
+    "sblocca_idx": [
+     434
+    ],
+    "prima_di": "Indipendente. La copia automatica, se un giorno la vuoi, solo dopo che la 1225 è unita.",
+    "carta_esistente": "#162"
+   },
+   {
+    "passo": "Applica le migrazioni firmate",
+    "dove": "GitHub → Actions → «Migrazioni a mano», oppure l'unione della PR dopo main:false",
+    "minuti": 5,
+    "sblocca_idx": [
+     94,
+     1285,
+     408,
+     1294,
+     205,
+     210,
+     414,
+     386,
+     1353
+    ],
+    "prima_di": "Dopo il codice che le regge; una stretta alla volta; non fra le 8 e le 10:30 circa, ora di Piacenza, quando gira la copia del database.",
+    "carta_esistente": ""
+   },
+   {
+    "passo": "Crea su Stripe il secondo indirizzo per gli avvisi dei conti dei negozi",
+    "dove": "Stripe → Developers → Webhooks: eventi account.updated e payout.failed, segreto su Vercel; mai mescolare modalità di prova e vera",
+    "minuti": 10,
+    "sblocca_idx": [
+     175,
+     188
+    ],
+    "prima_di": "Dopo la chiave, prima dei bonifici veri ai negozi.",
+    "carta_esistente": "#154"
+   },
+   {
+    "passo": "Apri la partita IVA e metti i dati del titolare",
+    "dove": "commercialista, poi Vercel: NEXT_PUBLIC_TITOLARE_* e un rilascio; verifica su /status",
+    "minuti": 60,
+    "sblocca_idx": [
+     46,
+     247,
+     248,
+     53,
+     346
+    ],
+    "prima_di": "Decidi col commercialista l'etichetta P.IVA o C.F. e un indirizzo che può diventare pubblico.",
+    "carta_esistente": "#165"
+   },
+   {
+    "passo": "Accendi Sentry in Europa e un controllo esterno del sito",
+    "dove": "Sentry (regione UE): DSN su Vercel; monitor esterno su /api/health/ready con avviso sul telefono",
+    "minuti": 20,
+    "sblocca_idx": [
+     152,
+     436
+    ],
+    "prima_di": "Dopo la chiave, altrimenti il monitor è rosso da subito.",
+    "carta_esistente": ""
+   },
+   {
+    "passo": "Manda i testi al legale e le due domande ai consulenti",
+    "dove": "legale per Termini, Privacy e Cookie; consulente del lavoro per l'INAIL dei fattorini; fiscalista per il DAC7",
+    "minuti": 60,
+    "sblocca_idx": [
+     79,
+     78,
+     346,
+     247,
+     52,
+     71
+    ],
+    "prima_di": "Alla fine del lotto dei testi, quando tutte le frasi nuove sono dentro.",
+    "carta_esistente": ""
+   }
+  ],
+  "ordine": [
+   {
+    "fase": "0 — Oggi, mezz'ora: chiudere gli 8 già risolti con le prove che esistono, e fare i conteggi in sola lettura",
+    "idx": [
+     51,
+     1138,
+     1237,
+     1300,
+     1244,
+     1319,
+     1299,
+     312
+    ],
+    "aspetta": "Niente.",
+    "perche_prima": "Zero rischio e 8 gravi in meno. I conteggi servono alle firme del primo giorno: orari veri di Pane Quotidiano (24), documenti che la pulizia toglierebbe (1241), alimenti senza ingredienti (1294), foto HEIC già caricate (1228), righe vecchie del registro (408)."
+   },
+   {
+    "fase": "1 — Giorno 1, le fondamenta comuni: quattro squadre, ognuna proprietaria di un pezzo che le altre importano",
+    "idx": [
+     1394,
+     26,
+     280,
+     1123,
+     161,
+     53,
+     54,
+     296,
+     147,
+     239,
+     176,
+     164,
+     112,
+     423,
+     1141,
+     1225,
+     1272,
+     1076,
+     25
+    ],
+    "aspetta": "La firma della #204 per i valori degli interruttori; il file si scrive comunque, spento come oggi.",
+    "perche_prima": "Banchi di prova, file degli interruttori, guardia dei numeri delle migrazioni e rilascio servono a tutti: costruiti due volte, fanno un conflitto o una copia. La 1272 e il pezzo del 1076 devono essere su main prima dei segreti di Vercel."
+   },
+   {
+    "fase": "2 — Giorno 1-2, prima della chiave: posta, allarmi e privacy",
+    "idx": [
+     254,
+     94,
+     23,
+     93,
+     48,
+     1215,
+     1123,
+     240,
+     1293,
+     56,
+     98,
+     100,
+     102,
+     103
+    ],
+    "aspetta": "La scelta sui regali per i testi; le caselle su Vercel prima del 48.",
+    "perche_prima": "La chiave spedisce quello che trova. Questo codice decide cosa parte e cosa no la notte dopo. Della 1293 solo la metà del messaggio chiaro, che regge con e senza chiave."
+   },
+   {
+    "fase": "3 — Il giorno della chiave, poi il rilascio controllato (passi di Nicola)",
+    "idx": [
+     388,
+     253,
+     432,
+     1076,
+     144,
+     1273
+    ],
+    "aspetta": "La fase 2 unita, il mittente Resend, la pulizia della coda firmata, la rotazione delle chiavi.",
+    "perche_prima": "Senza chiave nessuna riparazione si vede in produzione, e la prova di fumo del rilascio controllato esce sempre rossa. L'ordine è fisso: chiave, segreti di Vercel, poi la PR main:false."
+   },
+   {
+    "fase": "4 — Ondata 1, cinque squadre su file disgiunti: le porte e quello che vedono i clienti",
+    "idx": [
+     85,
+     1214,
+     1137,
+     18,
+     3,
+     182,
+     343,
+     1252,
+     119,
+     113,
+     255,
+     250,
+     50,
+     120,
+     253,
+     252,
+     247,
+     249,
+     1206,
+     1209,
+     1208,
+     23,
+     256,
+     19,
+     1293
+    ],
+    "aspetta": "La scelta sui fattorini (119 e la parte fattorino del 85), la promessa di consegna (253), i dati d'impresa (182).",
+    "perche_prima": "Qui stanno i due bloccanti della porta del negozio (3, 18) e le bugie che i clienti leggono oggi. Squadre: portiere (solo middleware.ts, montaggio vero prima della consegna); porta del negozio (/sell, layout, useProfile, rotta moderate, pagina utenti, selettore della mappa); testi di promessa; cassa contanti in fila 1209 → 1208 → 23; catalogo (256, 19, resto della 1293)."
+   },
+   {
+    "fase": "5 — Ondata 2, cinque squadre: pannello, negozio, soldi dei resi, vetrina, conti del negozio",
+    "idx": [
+     1394,
+     280,
+     1229,
+     1230,
+     281,
+     118,
+     114,
+     1336,
+     22,
+     1245,
+     24,
+     1287,
+     1313,
+     1333,
+     1286,
+     278,
+     1310,
+     300,
+     1228,
+     195,
+     1290
+    ],
+    "aspetta": "La scelta sui soldi storti per i resi, sui contatti per 22/1245/1336, sul pannello per il 118; il banco «database che cade» della fase 1.",
+    "perche_prima": "Servono quando arrivano ordini veri. La squadra dei resi lavora da sola sui file dei soldi, in serie: 1287 e 1313 piccole, poi l'avviso della 1333, poi la 1286 senza pulsante. Lì la prima ondata ha fatto nascere i difetti. La 281 sta col pannello perché tocca lo stesso lib/queries/keys.ts."
+   },
+   {
+    "fase": "6 — Ondata 3: quello che aspetta una firma o un file appena cambiato da un'altra squadra",
+    "idx": [
+     248,
+     52,
+     50,
+     1280,
+     1246,
+     49
+    ],
+    "aspetta": "La scelta sul prezzo ai negozi (248), sui resi (52, 50); l'unione delle squadre della porta del negozio e dei resi.",
+    "perche_prima": "La 248 tocca SellerApplicationForm, /sell e la FAQ appena cambiati; la 52 e la seconda fase della 50 toccano decide, avanza e la card dei resi; la 1246 dipende da cosa vuol dire REFUNDED dopo la 1287; la 49 condivide keys.ts e AdminSidebar col 118. In fila evitano le riscritture."
+   },
+   {
+    "fase": "7 — Le migrazioni, in due firme",
+    "idx": [
+     94,
+     1285,
+     408,
+     1353,
+     205,
+     210,
+     414,
+     386,
+     1294,
+     10,
+     1288,
+     1368,
+     325,
+     327,
+     326,
+     314,
+     1250,
+     324
+    ],
+    "aspetta": "La firma dei due pacchetti; il codice che le regge già online; fuori dalla finestra della copia notturna.",
+    "perche_prima": "Prima il pacchetto che aggiunge (94, 1285 con il suo codice nella stessa PR, 408, 1353 e i minori dei numeri), poi le strette una alla volta: la 1294 dopo che la 1293 è online e Pane Quotidiano ha completato le schede, poi i minori che stringono."
+   },
+   {
+    "fase": "8 — Le liste «prima di accendere»: non ora, il giorno in cui accendi la cosa",
+    "idx": [
+     159,
+     160,
+     162,
+     1325,
+     164,
+     1262,
+     405,
+     47,
+     1222,
+     1289,
+     1313,
+     1267,
+     1268,
+     1317,
+     177,
+     26,
+     175,
+     115,
+     96,
+     241,
+     116,
+     21,
+     1240,
+     1241,
+     1252,
+     7,
+     1260
+    ],
+    "aspetta": "La tua decisione di accendere IA, PostHog, carta, primo fattorino esterno, codici sconto o inviti.",
+    "perche_prima": "Ogni lista chiude i difetti che quella funzione sveglia. Fatti adesso, sono lavoro su codice che nessuno usa, nei posti dove nascono più difetti."
+   },
+   {
+    "fase": "9 — I minori, per file, con le stesse squadre che possiedono quei file",
+    "idx": [],
+    "aspetta": "I gravi dello stesso file già uniti.",
+    "perche_prima": "Sono 429, di cui circa 42 spenti al lancio. Si ammucchiano negli stessi file (scheda prodotto 14, email 13, cassa 13, pagina dell'ordine 11, bonifici 11): li fa chi ha già quel file, dopo i gravi, per non aprirlo due volte."
+   }
+  ],
+  "zone_calde": "Dove le lenti B prevedono più nascite, dal più pericoloso.\n1) I soldi dei resi: decide, avanza, ReturnRequestCard, refundOrder in lib/stripe/payout.ts e il giro release-payouts (1287, 1313, 1333 a rischio alto; 52 alto; 1286; la 1285 tocca lo stesso giro). È il posto dove la prima ondata ha fatto nascere i suoi difetti. Qui si fa la versione piccola: niente pulsanti, niente «già fatto», avviso con la cifra. Una squadra sola, in serie, collaudo a due lenti, il codice prima della migrazione.\n2) Il portiere e la porta del negozio: middleware.ts, /sell, layout del venditore, useProfile (usato da 23 file), rotta moderate (3 alto, 113 alto, 1137 con nascita alta, 85, 18, 1214, e il minore 86 sulla stessa riga 582 con una prova opposta). Se si sbaglia, escono tutti, negozi e admin compresi. Una PR sola per middleware.ts e il montaggio vero prima della consegna.\n3) L'unica porta di scrittura del negoziante: rotta PATCH dei prodotti, ProductForm, prontoPerLaVendita, aiPatch (1293 alto/alto, 1294 alto, 19, 112). Un errore lì blocca ogni modifica di ogni prodotto. Oggi quella rotta risponde 503 per la chiave mancante: una prova verde non dimostra niente in produzione.\n4) La cassa in contanti: app/api/orders/cod/route.ts con quattro ricette, app/checkout/page.tsx con undici minori (7 alto, perché accende sconti pagati dal negozio; 1208, il cui rollback dentro lo stesso guasto fa nascere un secondo ordine; 1209). Una squadra sola, nell'ordine 1209, 1208, 23.\n5) Il giorno della chiave e il rilascio (388 alto: sveglia dieci lavori notturni insieme; 432 alto e 1272 alto: il cancello blocca tutto finché la produzione è degradata; 1076: la migrazione che stringe applicata prima del codice). Qui si scrive poco codice: si sbaglia l'ordine dei passi.\n6) La home e le promesse: 300 alto/alto (dodici file, «noindex» al buio), HomeSectionRenderer.tsx toccato da otto ricette di tre territori, lib/promesse-pubbliche.ts da cinque. Il 300 si taglia al primo lotto; home e promesse vanno a una squadra sola.\n7) Le funzioni nuove: 49 alto (dieci file), 118 alto (codice sbagliato sui ritiri), 115 alto (l'avviso SOS può perdersi nella chiamata), seconda fase del 50 alto (ordine misto), 21 alto (il rinnovo della polizza senza uscita). Le prime due si rimpiccioliscono, le altre si rinviano o si fanno nella versione della lente B.\n8) Le migrazioni: almeno nove territori vogliono il numero 164, lo script salta in silenzio il secondo, e ogni stretta (1294, e nei minori 10, 1288, 1368, 325, 326, 327, 1250, 314) va da sola dopo il codice.\nIn tutte le zone: le prove che diventano rosse per scelta si riscrivono apertamente nella stessa PR, mai ammorbidendo il finto."
+ },
+ "critica": {
+  "mancanze": [
+   {
+    "cosa": "Il piano dice «nessun regalo in euro al lancio» e che «oggi nessuno di questi regali funziona». Non è vero per i punti fedeltà. Nel database sono accesi: chi si iscrive riceve 100 punti (migrazione 029:31-32), e ogni ordine consegnato dà 1 punto per euro (045:49-55). In Profilo › Punti, 100 punti diventano 5 € di credito (087:117-133), e la cassa in contanti spende quel credito (cod/route.ts:670-680). Oggi è tutto fermo solo perché la cassa in contanti cade senza la chiave. Il giorno della chiave ogni account nuovo vale 5 €, e ogni ordine restituisce il 5% al cliente. Non c'è nessun controllo sugli account finti, e paga MyCity. Per spegnerli non basta un interruttore nel codice: la conversione è una funzione del database che il browser chiama direttamente, quindi serve la migrazione del 107. Il piano mette invece 107, 9 e 17 fra quelli che «spariscono», senza fase e senza firma. In più la ricetta 254 riscrive il messaggio di benvenuto dicendo «100 punti diventano 5 € di credito», che è l'opposto della decisione 6.",
+    "gravita": "alta",
+    "rimedio": "Mettere la migrazione «spegni i punti» del 107 nel pacchetto che si firma il primo giorno: toglie i punti dati all'iscrizione e quelli dati con gli ordini, e chiude la conversione in credito. Va applicata col pulsante «Migrazioni a mano» PRIMA della chiave. Va aggiunta una decisione per Nicola: cosa fare dei 100 punti già dati ai 9 iscritti (tenerli convertibili costa al massimo 45 €, toglierli rompe un messaggio già mandato). Poi la parte SQL della 254 si riscrive senza promettere soldi, e la 9 si chiude con lei. Fra i controlli del giorno della chiave va aggiunto: «nessun saldo punti si può convertire».",
+    "idx": [
+     107,
+     9,
+     17,
+     254
+    ]
+   },
+   {
+    "cosa": "La corsia delle falle riservate non ha un posto nel calendario: il piano dice solo che «segue le stesse regole». Ma circa metà delle sue ricette sono migrazioni, quasi tutte strette di permessi. È proprio il tipo di modifica che il 24/10 ha acceso i difetti 3 e 18. Alcune dipendono dalla chiave di servizio, e la corsia tocca almeno tre dei file caldi delle ondate. Senza un posto succedono tre cose. Le sue strette non entrano nel «pacchetto che stringe» della decisione 4, quindi a Nicola arriva una terza fila di firme. Nessuno garantisce che le sue squadre non lavorino sugli stessi file delle altre nella stessa ondata. E le falle che la chiave sveglia non sono nel giro del giorno della chiave.",
+    "gravita": "alta",
+    "rimedio": "Scrivere per la corsia una riga di calendario senza dettagli: in quali ondate lavora, e quali file tiene in ciascuna (detti solo alle squadre che li toccano). Le sue strette vanno nel pacchetto che stringe, una alla volta, ognuna con l'elenco di chi scriveva con la regola larga. Le sue firme arrivano lo stesso giorno delle altre. Prima della chiave si fa un controllo sulle falle che la chiave sveglia.",
+    "idx": []
+   },
+   {
+    "cosa": "La carta #203 è un'urgenza di sicurezza, ma nel piano è l'ottavo passo e viaggia legata al giorno della chiave. È aperta dall'11/10, la chiave risultava ancora accettata, e la scelta col DPO sul Garante aveva scadenza il 14/10: nel piano quella scelta non c'è. In più la carta lascia intendere che il sito pubblicato oggi legga con quella chiave («accettata 244 volte, tutte letture del sito»). Se è così, cambiarla cambia i permessi con cui il sito legge. È la lezione della 119 in grande, e il piano non prevede nessuna prova subito dopo.",
+    "gravita": "alta",
+    "rimedio": "Spostare la #203 fra i passi indipendenti di oggi, accanto alla #202. Prima di cambiarla, fare l'elenco di chi usa la chiave vecchia: Vercel, segreti di GitHub, sensori della macchina. Subito dopo, provare a mano la vetrina, l'accesso e la cassa. La scelta sul Garante va messa in una carta per Nicola e il DPO, che dica se la notifica è stata fatta, è da fare o è da documentare. Da verificare: se la chiave esposta è davvero quella con cui legge il sito.",
+    "idx": []
+   },
+   {
+    "cosa": "Con «solo contanti» il piano non dice come viene pagato il negozio. Il bonifico a Pane Quotidiano parte comunque da Stripe, dal saldo di MyCity, e solo dopo che Nicola conferma la rimessa (release-payouts:343-417). I contanti raccolti non entrano nel saldo Stripe, e il sito lo sa già: manda l'avviso «saldo insufficiente». Mancano tre cose: la scelta fra ricaricare il saldo Stripe e fare un bonifico a mano, il passo relativo, e la verifica che il conto Stripe di Pane Quotidiano possa ricevere. Senza, il negozio vende e non incassa, e questo rompe il paletto «si vede in cassa in 2-4 settimane». In più il minore 142 («Conferma rimessa» paga i negozi senza dire quanti contanti sono arrivati) diventa la porta principale dei soldi, ma il piano lo lascia nella fase 9.",
+    "gravita": "alta",
+    "rimedio": "Aggiungere alla decisione 3 la domanda «come paghi il negozio per i contanti», con un passo per Nicola subito dopo il controllo di Stripe. Portare il 142, il 1265, il 1277 e il 111 nell'ondata che apre già il pannello e il sorvegliante. Chiedere al legale, nella stessa rilettura, se i contanti tenuti da MyCity rispettano il perimetro del §4.7 e del §10 di CONTESTO_BUSINESS.md (i fondi non passano per le mani della piattaforma).",
+    "idx": [
+     142,
+     1265,
+     1277,
+     111,
+     1290
+    ]
+   },
+   {
+    "cosa": "La semplificazione 6 dice che la porta del negozio non costa niente e non ha bisogno della migrazione: il candidato resta «cliente» finché non lo si approva. Così però rompe tre ricette e lascia aperta una regola. ① La ricetta 18 tratta il «cliente» come «da completare»: chi ha già mandato la richiesta rivede il modulo invece di «in valutazione». ② Il minore 1254 fa rispondere 400 alla rotta di moderazione se chi va approvato non è negozio o fattorino. Con la semplificazione il candidato è un cliente, quindi non si approva più nessun negozio. Anche i testi per ruolo, il blocco della P.IVA (182, 146) e la coda del pannello guardano il ruolo. ③ La regola «un negozio sospeso non si rimette in coda da solo» doveva stare nella migrazione M1 (lente A della 18, punto 3). Tolta M1, non ha più casa, e oggi un sospeso si rimette in attesa da solo.",
+    "gravita": "alta",
+    "rimedio": "Nella squadra della porta del negozio, una richiesta di negozio si riconosce dalla data della richiesta (approval_requested_at), non dal ruolo. Lo stato della ricetta 18 deve dire «in valutazione» anche al cliente che ha la data. I minori 1253, 1254 e 1255 vanno nella stessa PR della rotta di moderazione, con l'eccezione per il cliente che ha una richiesta. La regola sul sospeso va nel codice (/sell e rotta) e nella migrazione che riscrive comunque il guardiano dei profili (326 o 71). Serve una prova che approva un candidato rimasto cliente e lo trova negozio.",
+    "idx": [
+     3,
+     18,
+     1254,
+     1253,
+     1255,
+     182,
+     146
+    ]
+   },
+   {
+    "cosa": "Il grave 251 non compare da nessuna parte: né in una fase, né in una decisione, né in una semplificazione. È il «Ritiro in negozio» promesso sulla pagina di Pane Quotidiano e nell'errore di cassa, mentre il servizio è spento. Il calcolo delle ondate lo aveva messo insieme al 24, perché tocca lo stesso lib/store-hours.ts.",
+    "gravita": "media",
+    "rimedio": "Metterlo col 24, nella stessa squadra della fase 5. Oppure con i testi di promessa della fase 4, ma allora il 24 va spostato lì: lib/store-hours.ts deve avere un proprietario solo.",
+    "idx": [
+     251,
+     24
+    ]
+   },
+   {
+    "cosa": "Ci sono quattro conflitti di file dentro la stessa ondata, contro la regola che il piano stesso scrive. Ondata 1 (fase 4): app/orders/[id]/page.tsx è toccata sia dalla cassa (23) sia dai testi (253); app/product/[id]/page.tsx sia dai testi (50) sia dal catalogo (256). Ondata 2 (fase 5): app/admin/orders/page.tsx è toccata sia dal pannello (1229) sia dai resi (1286), che il calcolo delle ondate aveva messo insieme. Fasi 1 e 2, che il piano fa partire lo stesso giorno: HomeSectionRenderer.tsx è toccato sia dagli interruttori (147, 296) sia dalla posta (254); app/profile/settings/page.tsx sia dal 1123 sia dal 48.",
+    "gravita": "media",
+    "rimedio": "Dare un proprietario per tutte le ondate alla pagina dell'ordine e alla scheda prodotto, che si porta dietro anche i loro 10 e 14 minori. Il 1286 va col pannello, oppure nell'ondata dopo. La fase 2 parte dopo l'unione della fase 1; in alternativa la parte testi della 254 passa alla squadra dei testi. Il 1123 resta in una fase sola.",
+    "idx": [
+     23,
+     253,
+     50,
+     256,
+     1229,
+     1286,
+     147,
+     296,
+     254,
+     1123,
+     48
+    ]
+   },
+   {
+    "cosa": "Alcune ricette dipendono da lavori che il piano mette dopo di loro, o che non mette da nessuna parte. ① Il passo #207 (82) aspetta la riparazione 1298, che è un minore e sta nella fase 9. ② Il passo «telefona a Pane Quotidiano e scrivi i dati» aspetta «la riparazione del formato VIES», ma nessuna fase la fa. Scrivere la P.IVA come sulla visura fa rispondere 400 al controllo del negozio, e «Venduto da» stamperebbe «ditta_individuale» (lente B della 146). ③ Lo stesso passo, se fatto dal sito, ha bisogno della chiave e della 1293 (oggi la rotta risponde 503). Se fatto dalla tabella di Supabase, salta i controlli e il registro. ④ Il 1273 tocca lo stesso file del rilascio della 1272, ma sta nella fase 3: serve prima dei segreti. ⑤ Il secondo account fattorino di Nicola non ha bisogno solo del 343: serve anche il 85 (portiere, e date e codice fiscale vuoti mandati come null, correzione della lente A). ⑥ Per il 46, l'etichetta «P.IVA / C.F.» in lib/legal/titolare.ts:143 è codice, e non ha una fase prima che Nicola metta i valori.",
+    "gravita": "media",
+    "rimedio": "Il 1298 entra nella fase 2 o 3. Il prefisso VIES e la forma giuridica scritta in parole si fanno nella squadra della porta del negozio, prima del passo su Pane Quotidiano. Il passo va fatto dopo la chiave e dopo la 1293, dal pannello del sito. Il 1273 (con 1160 e 1162) va nella squadra del rilascio della fase 1. Il passo «approva il tuo account fattorino» va dopo il 85. L'etichetta del titolare si mette nella squadra privacy della fase 2.",
+    "idx": [
+     82,
+     1298,
+     146,
+     182,
+     1293,
+     1273,
+     1272,
+     85,
+     343,
+     46
+    ]
+   },
+   {
+    "cosa": "L'ordine di prova non dice come finisce. E intanto il «Panificio Demo» resta comprabile dai clienti veri, dal giorno della chiave fino a dopo l'approvazione del fattorino, cioè dopo l'ondata 1. Se l'ordine di prova si consegna su Pane Quotidiano, il bonifico al negozio parte davvero dopo la rimessa. Se resta aperto, lo annulla il giro degli ordini scaduti. In nessuno dei due casi il piano dice cosa si deve vedere. Non verifica nemmeno che Pane Quotidiano venga avvisato dell'ordine e lo possa accettare dal telefono.",
+    "gravita": "media",
+    "rimedio": "Togliere l'approvazione al Demo prima della chiave, non dopo. Come prova, un ordine vero su Pane Quotidiano: Nicola compra il pane e paga in contanti, il negozio accetta dal telefono, Nicola consegna e conferma la rimessa, e il bonifico parte. Così si collaudano in un giro solo email, rimessa e pagamento al negozio. Il passo deve scrivere l'esito atteso di ogni tappa.",
+    "idx": [
+     153,
+     388,
+     142
+    ]
+   },
+   {
+    "cosa": "Dopo l'accensione del rilascio controllato mancano due protezioni che la lente B aveva indicato (432, 1272). ① Con la produzione già degradata (un database lento, una chiave che manca) la prova di fumo boccia ogni rilascio: nessuna riparazione può andare online, e il piano non prevede nessuna valvola. ② I quattro segreti di Vercel stanno fra i segreti di tutto il repository: qualsiasi lavoro spinto su un ramo, compresi i rami claude/**, li può leggere. Con quel token si leggono tutte le variabili di produzione.",
+    "gravita": "media",
+    "rimedio": "I quattro segreti vanno in un ambiente di GitHub limitato al ramo main: è un passo di Nicola più una riga nel workflow della squadra del rilascio. Va aggiunta una strada d'emergenza scritta nel manuale: «metti online lo stesso», solo con la conferma di Nicola.",
+    "idx": [
+     432,
+     1272,
+     1076
+    ]
+   },
+   {
+    "cosa": "Le «liste prima di accendere» (fase 8) non hanno né un freno né una data. Niente impedisce di riaccendere la carta, l'IA o i buoni con la lista ancora aperta. Due date poi contano davvero. Per il 159 il piano scrive «scadenza 30/11 solo se l'IA si accende prima», ma dopo il 30/11 il modello vecchio non risponde più: il 159 è un prerequisito di qualunque riaccensione. E per CONTESTO_BUSINESS.md §6 novembre è il mese di regali, carta regalo cittadina e welfare: spegnere i buoni senza una data salta quella finestra senza dirlo.",
+    "gravita": "media",
+    "rimedio": "Una prova che diventa rossa se un interruttore è acceso mentre la sua lista ha difetti gravi aperti. Va detto a Nicola che spegnere i buoni regalo sposta la finestra di novembre, chiedendogli se la lista dei buoni va pronta entro metà novembre (servono il 46 e il parere legale) o se novembre si salta. Il 159 va in cima alla lista dell'IA, qualunque data si scelga.",
+    "idx": [
+     53,
+     46,
+     159,
+     161,
+     1289,
+     1267,
+     177
+    ]
+   },
+   {
+    "cosa": "Il piano vuole che nelle prove gli interruttori si accendano con un vi.mock nel file di avvio comune. Così tutte le prove girano su un sito con le funzioni accese, mentre in produzione sono spente. È la stessa malattia che il piano chiama «banchi più gentili del database vero», applicata alle sue stesse fondamenta.",
+    "gravita": "media",
+    "rimedio": "Nelle prove il valore di partenza è quello di produzione, cioè spento. Una funzione si accende solo nel file che la prova accesa. La prova delle promesse gira con i valori veri degli interruttori.",
+    "idx": [
+     161,
+     53,
+     54,
+     296,
+     147,
+     239,
+     176,
+     164,
+     112
+    ]
+   },
+   {
+    "cosa": "La decisione 10 («il negozio vede dei clienti solo il nome di battesimo») e il rinvio del 137 rompono il paletto «i suoi clienti restano suoi». CONTESTO_BUSINESS.md §4.2 dice che dati e contatti dei clienti sono sempre visibili, esportabili e del negozio. Il piano non lo segnala, mentre il CLAUDE.md chiede di fermarsi e dirlo a Nicola prima di partire.",
+    "gravita": "media",
+    "rimedio": "Scrivere nella decisione che quella scelta rompe il §4.2, e proporre una versione minima. Nella scheda dell'ordine il negozio vede nome e telefono di chi ha ordinato, che servono già per la consegna. L'esportazione arriva dopo la rilettura legale.",
+    "idx": [
+     1336,
+     137,
+     114
+    ]
+   },
+   {
+    "cosa": "Restano nella fase 9 alcuni minori che stanno proprio sul percorso del lancio in contanti. Sono: 74 (la conferma d'ordine non vale come conferma del contratto, e parte a ogni ordine), 257 (la conferma non dice quanto pagare in contanti), 264 («accetta entro 15 minuti»), 86 (stessa riga di middleware.ts del 85), 1320 e 1253-1255 (rotta di moderazione). Lasciarli lì vuol dire riaprire file caldi già chiusi, e mandare a ogni cliente un'email che non rispetta la legge.",
+    "gravita": "media",
+    "rimedio": "Farli dentro le squadre che hanno già aperto quei file. Posta (fase 2): 74, 257, 264. Portiere (fase 4): 86. Porta del negozio (fase 4): 1253-1255. Pannello (fase 5): 1320.",
+    "idx": [
+     74,
+     257,
+     264,
+     86,
+     1320,
+     1253,
+     1254,
+     1255
+    ]
+   },
+   {
+    "cosa": "Nella nota del piano, fra i «difetti nuovi», c'è una falla della corsia riservata, descritta con nome e modo di sfruttarla. È materia della corsia riservata, e il piano è un testo da condividere. Altri tre «difetti nuovi» sono già dentro ricette esistenti: start-check sta nella 1394, useProfile e l'iscrizione del fattorino nella 85, la lettura dei codici sconto nella 7 e nella 176. Registrarli di nuovo farebbe salire il conto dei difetti aperti e abbasserebbe il tasso di chiusura.",
+    "gravita": "media",
+    "rimedio": "Togliere dalla nota la falla di autorizzazione e passarla alla corsia riservata. Registrare solo i difetti davvero nuovi, e quelli già coperti segnarli come pezzi della loro ricetta.",
+    "idx": [
+     1394,
+     85,
+     7,
+     176
+    ]
+   },
+   {
+    "cosa": "Alcuni difetti stanno in più posti con istruzioni diverse, e chi esegue non sa se farli adesso. 1313 è nella fase 5, nella fase 8 e nella semplificazione 3. 1252 è nella fase 4, nella fase 8 e nella semplificazione 2. 205 è fra le migrazioni della fase 7 ma «sparisce» con la semplificazione 2. 25 e 26 sono nella fase 1 ma «spariscono». 1394 e 280 sono sia nella fase 1 sia nella fase 5. 1290 è nella fase 5, mentre la semplificazione 11 lo dà per codice morto dopo main:false e la sua ricetta lo vuole insieme al 1289, che sta nella fase 8.",
+    "gravita": "bassa",
+    "rimedio": "Una riga per ogni idx con fase, squadra e quale pezzo. Il 1290 si chiude dopo main:false togliendo il piano B, con la prova del primo rilascio che applica le migrazioni prima di pubblicare. Del 1313 si fa adesso solo la parte in comune con la 1287, nella versione piccola.",
+    "idx": [
+     1313,
+     1252,
+     205,
+     25,
+     26,
+     1394,
+     280,
+     1290,
+     1289
+    ]
+   },
+   {
+    "cosa": "Fra le 15 decisioni del primo giorno ce ne sono alcune che non servono adesso, o che non sono di Nicola. La prova a mutazioni notturna (26), l'opzione «Require up to date» (148) e la scelta sull'architettura delle pagine (355) sono tecniche. Il numero dell'SOS (96) non serve finché il fattorino è Nicola. I giorni di conservazione dei documenti dei fattorini (1241) non servono finché nessuno li carica. La lezione era: le firme arrivate tardi e in fila hanno fermato il lavoro.",
+    "gravita": "bassa",
+    "rimedio": "Le scelte tecniche le decide l'AD e le annota in DECISIONI. Le altre si rinviano alla lista del primo fattorino esterno. Il primo giorno restano solo le firme che sbloccano codice o soldi.",
+    "idx": [
+     26,
+     148,
+     355,
+     96,
+     1241
+    ]
+   },
+   {
+    "cosa": "Due difetti si chiudono senza sistemare il testo che promette. Per il 342 il piano sceglie l'annullo a mano con rimborso pieno, ma il titolo dice che i Termini promettono tre telefonate e un rimborso senza le spese di consegna. Per la 1260 la ricetta avvisava che spegnere gli inviti tocca menu, profilo, pagina degli inviti e Termini, ma nessuna squadra della fase 1 ha quei file.",
+    "gravita": "bassa",
+    "rimedio": "Il paragrafo «cliente assente» dei Termini va nella rilettura legale. Lo spegnimento degli inviti, con i suoi file, va dato alla squadra degli interruttori.",
+    "idx": [
+     342,
+     1260,
+     56
+    ]
+   }
+  ],
+  "contraddizioni": "Sei punti dove ricette di territori diversi toccano la stessa cosa in modi che non stanno insieme.\n\n1) La stessa funzione del database scritta in tre modi diversi, quella del regalo di benvenuto. La 254 (cassa in contanti) la riscrive con il testo «100 punti diventano 5 € di credito». La 9 (permessi del database) la riscrive con un altro testo, oppure con una regola nuova dentro la conversione. La 107 la spegne, e la decisione 6 del piano dice «nessun regalo in euro». Se nessuno sceglie, vince l'ultima migrazione che gira. Va presa una strada sola: la 107. La 254 e la 9 si adattano a quella.\n\n2) Due ricette riscrivono la stessa funzione che mette in coda le email degli ordini, enqueue_order_status_email. Sono la 94 (aggiunge «ordine annullato») e il minore 386 (aggiunge la traccia quando la posta fallisce). Il piano le mette tutte e due nel «pacchetto che aggiunge» della fase 7. Ognuna copia il corpo dalla migrazione 150, quindi la seconda cancella in silenzio il ramo della prima. Servono una migrazione e una squadra sole.\n\n3) Il guardiano dei profili, enforce_profile_update_rules. La semplificazione 6 dice che «spariscono M1 e lo scontro con la 71». Ma il minore 326 (in fase 7) lo riscrive per renderlo SECURITY INVOKER, e la 71 lo riscrive per aggiungere la seconda casella delle clausole. Resta anche senza casa la regola «da sospeso non si torna in attesa» (lente A della 18). Una sola migrazione deve riscriverlo, con tutte e tre le cose dentro.\n\n4) La rotta di moderazione. Con la semplificazione 6 il candidato resta «cliente» fino all'approvazione. Invece il minore 1254 rifiuta di moderare chi non è negozio o fattorino. La ricetta 18 tratta il cliente come «da completare». Le ricette 182 e 146 legano il blocco della P.IVA al ruolo «negozio». Tutte e quattro devono usare la stessa definizione: una richiesta di negozio si riconosce dalla data della richiesta, non dal ruolo.\n\n5) Due righe di codice con due mani ciascuna. In middleware.ts:582 le ricette 85 e 86 hanno prove opposte. La causa 7 del piano risolve il conflitto («per l'amministratore conta il ruolo»), ma il minore 86 resta nella fase 9. In start-check:31 lavorano sia la 85 sia la 1394, e la 1394 è messa in due fasi diverse. Servono una squadra e una PR per riga.\n\n6) Un file di migrazione in comune, spezzato in tre tempi. Le ricette 7, 94 e 254 prevedono lo stesso file «164». Il piano applica la 94 nella fase 7, rimanda la 7 alla fase 8 (codici spenti), e la parte SQL della 254 non compare da nessuna parte. In più, se il blocco di autocontrollo di quel file fallisce, cadono tutte e tre (lente B della 94, punto 6). Va diviso in tre file, ognuno nella fase in cui serve.\n\nCi sono anche due contraddizioni interne al piano.\n- La causa 11 dice che, con il giro delle email sistemato, la pulizia a mano della coda «non serve più». Il passo 7 chiede comunque a Nicola di firmarla.\n- La semplificazione 10 parla di categorie vuote «senza noindex». La decisione 11 chiede invece di nasconderle «da Google». Le due frasi vanno allineate: per esempio fuori dalla mappa del sito, ma senza noindex.",
+  "correzioni_al_piano": "IN PAROLE SEMPLICI. Il piano regge nella forma: il giorno della chiave preparato prima, le fondamenta comuni, le strette dopo il codice, le cose rischiose spente. Ma lascia fuori quattro cose che costano soldi o sicurezza, e ha qualche conflitto di file che la prima ondata ha già pagato.\n\nLe correzioni, nell'ordine in cui conviene farle:\n\n1) Oggi, fuori dal lotto: la #203 insieme alla #202. Prima di cambiare la chiave si fa l'elenco di chi usa quella vecchia, subito dopo si provano vetrina, accesso e cassa, e serve una carta per Nicola e il DPO sul Garante. Da verificare: se il sito pubblicato legge davvero con quella chiave. Se sì, cambiarla è anche una stretta.\n\n2) Prima della chiave, nel pacchetto che si firma il primo giorno: la migrazione «spegni i punti» del 107 (punti all'iscrizione, punti sugli ordini e conversione in credito), con la decisione su cosa fare dei punti dei 9 iscritti. La parte SQL della 254 si riscrive senza promettere soldi. Va tolta anche l'approvazione al Panificio Demo.\n\n3) Alla decisione 3 («solo contanti») va aggiunto come viene pagato il negozio: ricarica del saldo Stripe o bonifico a mano, con il passo relativo dopo il controllo di Stripe. Il 142 e gli altri minori della rimessa vanno nell'ondata che apre il pannello. Al legale va chiesto se i contanti tenuti da MyCity stanno nel perimetro del §4.7 e del §10.\n\n4) La corsia riservata entra nel calendario senza dettagli: in quali ondate lavora, quali file tiene, le sue strette nel «pacchetto che stringe» una alla volta, le sue firme lo stesso giorno delle altre. Va controllato prima della chiave quali delle sue falle la chiave sveglia. La falla riservata citata nella nota passa a quella corsia.\n\n5) La semplificazione 6 resta, ma la squadra della porta del negozio usa una definizione sola: una richiesta di negozio si riconosce dalla data della richiesta, non dal ruolo. Le ricette 18, 1253-1255, 182 e 146 la seguono. La regola «da sospeso non si torna in attesa» va nel codice e nell'unica migrazione che riscrive il guardiano dei profili (326 e 71 insieme). Serve una prova che approva un candidato rimasto cliente.\n\n6) I file con un proprietario solo. La pagina dell'ordine e la scheda prodotto hanno una squadra per tutte le ondate, che fa anche i loro minori. Il 1286 va col pannello. La fase 2 parte dopo l'unione della fase 1. Il 251 va col 24. Ogni funzione del database ha una migrazione sola: enqueue_order_status_email per 94 e 386, il benvenuto per 254, 9 e 107. Il file «164» in comune fra 7, 94 e 254 si divide.\n\n7) Le dipendenze vanno rimesse in ordine.\n- 1298 prima del passo #207.\n- Il prefisso VIES e la forma giuridica in parole prima del passo su Pane Quotidiano, che si fa dal sito dopo la chiave e dopo la 1293.\n- 1273 (con 1160 e 1162) nella squadra del rilascio della fase 1.\n- L'etichetta del titolare in titolare.ts prima che Nicola scriva i valori.\n- L'account fattorino di Nicola dopo il 85.\n\n8) Il rilascio controllato: i quattro segreti in un ambiente di GitHub limitato al ramo main, più una strada d'emergenza «metti online lo stesso» con la conferma di Nicola.\n\n9) L'ordine di prova diventa un acquisto vero su Pane Quotidiano, dall'ordine fino al bonifico al negozio, con l'esito atteso scritto per ogni tappa.\n\n10) Il freno sulle liste «prima di accendere»: una prova che diventa rossa se un interruttore è acceso mentre la sua lista ha difetti gravi aperti. Nelle prove il valore di partenza degli interruttori è quello di produzione, spento. Vanno dette a Nicola due date: il 159 prima di qualunque riaccensione dell'IA, e i buoni regalo rispetto alla finestra di novembre del §6.\n\n11) Meno firme il primo giorno. Le scelte tecniche le decide l'AD: prova a mutazioni, «Require up to date», architettura delle pagine. Si rinviano il numero dell'SOS e i giorni di conservazione dei documenti. La decisione 10 deve dire che il «nome di battesimo» rompe il §4.2, e proporre la versione minima (nome e telefono nella scheda dell'ordine).\n\n12) Per chi esegue: una riga per ogni idx che oggi è scritto in più fasi (1313, 1252, 205, 25, 26, 1394, 280, 1123, 1290, 94, 23, 50, 1293), con fase, squadra e pezzo. I minori del percorso dei contanti (74, 257, 264, 86, 1320, 1265, 1277, 111) passano dalla fase 9 alle squadre che hanno già il file aperto.\n\n13) Onestà sui tempi. Le 18-20 ore in fila valgono solo per i gravi rimasti. Non contano i giri di collaudo, i difetti che nasceranno riparando (13 bocciature su 14 il 23/8), la corsia riservata e i 429 minori. Per i minori il calcolo delle ondate dà circa 100 ore in fila.\n\nCosa non ho verificato: non ho eseguito niente sul sito. Ho controllato nel codice a 3ee0d53 solo queste cose: il guardiano dei profili (migrazione 119), i punti e il credito (migrazioni 029, 045 e 087, cod/route.ts), i bonifici dei contanti (release-payouts) e l'elenco delle migrazioni. Il resto viene dalle ricette e dalle lenti. Non so con quale chiave legge oggi il sito pubblicato, e non conosco lo stato di Stripe."
+ },
+ "correzioni_applicate": [
+  "Le carte #202 e #203 vanno oggi, prima di tutto, non il giorno della chiave.",
+  "I punti fedeltà si spengono nel primo pacchetto di migrazioni, prima della chiave (scelta 7 della #209).",
+  "Con «solo contanti» si decide come si paga il negozio (scelta 4 della #209).",
+  "La porta del negozio riconosce una richiesta dalla data della richiesta, non dal ruolo.",
+  "La pagina dell'ordine e la scheda prodotto hanno una squadra sola per tutte le ondate.",
+  "Il Panificio Demo si toglie prima della chiave; l'ordine di prova è vero, su Pane Quotidiano.",
+  "Togliere la chat cliente-negozio tocca il paletto «i clienti restano suoi»: il negozio vede nome e telefono di chi ordina (scelta 11 della #209).",
+  "Le scelte tecniche (prova a mutazioni notturna, «Require up to date», architettura delle pagine) le prende l'AD e le scrive in DECISIONI; il numero dell'SOS aspetta il primo fattorino esterno; la decisione 15 del piano diventa passi della #210.",
+  "Negli interruttori le prove partono dal valore di produzione (spento), e un interruttore acceso con la sua lista di gravi aperta fa diventare rossa una prova."
+ ]
+}
