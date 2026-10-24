@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-11 23:18** — Automatico: **101 aperte · 38 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-24 16:38** — Automatico: **102 aperte · 42 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,6 +30,62 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
+
+### 🔴 #211 — Decidi se togliere dal ramo pubblico le prime versioni del ricettario del sito · ⏳ accodata 2026-10-24 18:58
+
+**In parole semplici.** La prima versione del ricettario del sito aveva in chiaro 23 passaggi che le riletture di riservatezza del pomeriggio hanno poi oscurato. Parlano di falle riservate di gravità bassa o media. Sono rimasti sul ramo pubblico da 24 minuti a un'ora e quaranta, poi li ho oscurati con tre correzioni: il ramo li porta dalle 17:31. Ma nella storia del ramo le versioni vecchie si leggono ancora. Cosa dicono te l'ho scritto in chat, non qui.
+
+**Cosa cambia:** se dici sì, riscrivo la storia del ramo della pre-diagnosi prima dell'unione, e le versioni vecchie non stanno più sul ramo. Chi ne ha già l'indirizzo esatto potrebbe raggiungerle ancora per un po'. La cura vera resta chiudere quelle falle, che sono già nel piano.
+
+**Se va bene:** spinta forzata solo sul ramo della pre-diagnosi, poi unisci la richiesta come al solito e il ramo si cancella.
+
+---
+
+### 🔴 #210 — Il giorno della chiave: i tuoi passi, nell'ordine giusto · ⏳ accodata 2026-10-24 14:20
+
+**In parole semplici.** Il sito oggi non prende ordini perché su Vercel manca la chiave di servizio del database. Quando la metti, partono insieme dieci lavori notturni e si accendono cose che oggi dormono. Per questo i passi vanno in fila, e alcuni solo dopo il mio via.
+
+**Cosa cambia:** dopo questi passi un cliente può ordinare in contanti da Pane Quotidiano, il fornaio salva i prodotti, tu approvi i negozi, e le email partono davvero.
+
+**Cosa devi fare tu, in ordine.**
+- **Oggi, da soli:** cambia la password dell'amministratore e le chiavi del database, con le carte #202 e #203. Prima di cambiare la chiave, controlliamo insieme chi usa quella vecchia.
+- **Oggi, se vuoi:** accendi la regola «Main» su GitHub, carta #177, in 2 minuti. In Supabase accendi la protezione contro le password già rubate, in 2 minuti.
+- **Lunedì:** dimmi com'è messo Stripe, in 10 minuti. Poi verifica il mittente delle email su Resend, carta #195, in 15 minuti.
+- **Solo dopo il mio via:** togli l'approvazione al «Panificio Demo», carta #201. Poi copia su Vercel la chiave di servizio nuova e le caselle del titolare, carta #154, e fai un nuovo rilascio.
+- **Subito dopo:** un ordine vero di pane da Pane Quotidiano, pagato in contanti e consegnato da te, fino alla rimessa registrata.
+- **Dopo le riparazioni del rilascio:** i segreti di Vercel su GitHub, carta #161, e le due firme sulle migrazioni.
+
+**Se va bene:** controllo che ogni lavoro notturno parta come deve, e chiudo i difetti che la chiave risolve. Elenco completo con i minuti in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `passi_di_nicola`.
+
+---
+
+### 🔴 #209 — Firma in un messaggio solo le 14 scelte che servono a riparare il sito · ⏳ accodata 2026-10-24 14:20
+
+**In parole semplici.** Oggi ho scritto in anticipo come si ripara ognuno dei 551 difetti non riservati del sito. Diciannove difetti seri aspettano una tua scelta, e molti altri si accorciano se spegniamo qualcosa al lancio. Ho fuso tutto in 14 domande. Accanto a ognuna c'è la scelta che farei io.
+
+**Cosa cambia:** se rispondi tutto in una volta, le squadre partono lunedì e i problemi seri del codice si chiudono verso il 31 ottobre. Se le firme arrivano a rate, ogni giorno di attesa è un giorno in più.
+
+**Le 14 scelte, con la mia raccomandazione:**
+- ① **Al lancio spegniamo** IA per i negozi, buoni regalo, classifica inviti, newsletter, Drop del giorno, app installabile e PostHog, più Traduci, prezzo barrato e caricamento da file. → Sì.
+- ② **Consegni tu**, con un secondo account da fattorino. Gli esterni li cerchi di persona, senza documenti caricati sul sito. → Sì.
+- ③ **Al lancio solo contanti**, come oggi. Quando un pagamento va storto il sito si ferma e ti avvisa, come per i contanti del 17/10. → Sì. Confermi anche le tre regole della #208.
+- ④ **Il negozio, per i contanti, lo paghi** con un bonifico a mano dopo la rimessa registrata, oppure ricaricando il saldo Stripe. → Bonifico a mano, finché gli ordini sono pochi.
+- ⑤ **Le migrazioni in due firme:** subito quelle che aggiungono, una alla volta quelle che stringono un permesso. → Sì.
+- ⑥ **Partita IVA adesso**, come ditta individuale, col commercialista. Un indirizzo pubblicabile che non sia casa tua. Un negozio senza partita IVA non si approva. → Sì.
+- ⑦ **Nessun regalo in euro al lancio:** via i 5 € di benvenuto e della newsletter, spenti codici sconto, inviti e punti fedeltà. → Sì.
+- ⑧ **La promessa di consegna:** «in giornata» invece di «30-60 minuti», e solo i 3 € di consegna, senza la spedizione a chilometri. → Sì.
+- ⑨ **Una rilettura legale sola**, a fine lotto, per Termini, Privacy e Cookie, insieme alle domande al consulente del lavoro. → Sì.
+- ⑩ **I resi:** pane e freschi non si rendono per ripensamento, e «chiudi senza rimborso» lo puoi fare solo tu. → Sì.
+- ⑪ **Cliente e negozio si parlano al telefono:** via la chat, che il negozio oggi non vede. Il negozio vede nome e telefono di chi ordina. → Sì.
+- ⑫ **Pane Quotidiano:** lo chiami tu questa settimana per partita IVA, sede, allergeni e categorie. Nascondiamo le categorie vuote. → Sì.
+- ⑬ **Niente canone di 50 € al mese** finché il negozio non incassa, e il 10% scritto «IVA inclusa». → Sì, l'IVA la conferma il commercialista.
+- ⑭ **Privacy:** 90 giorni per i documenti di chi non diventa fattorino e per l'email nell'avviso del bonifico. Ripulisco il vecchio registro attività. → Sì.
+
+**Cosa devi fare tu.** Scrivimi «ok 209», oppure il numero delle scelte da cambiare. Le opzioni intere e i perché sono in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `decisioni`.
+
+**Se va bene:** aggiorno il registro dei fatti dove cambia (consegna, prezzi, canone), e le squadre partono dalle fondamenta.
+
+---
 
 ### 🔴 #208 — Tre scelte che la riparazione ha fatto per te: dimmi se vanno bene · ⏳ accodata 2026-10-16 12:40 · 🔁 riscritta 2026-10-17 18:11
 
@@ -62,20 +118,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · ✅ unita e in produzione
-
-> ✅ **2026-10-18 20:54 — Unita e pubblicata.** Ho chiuso nel registro le 11 schede riparate del tutto. Le 8 parziali dicono cosa manca.
-
-**In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati e collaudati da chi non li aveva scritti. Dentro c'è la tua scelta del 17/10: chi paga in contanti è rimborsato a mano, senza IBAN sul sito.
-
-**Cosa cambia:** il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso. E per ogni rimborso di contanti ti arriva l'avviso «💶 Bonifico di rimborso da fare», anche per email a info@mycity-marketplace.com: chiedi l'IBAN al cliente e fai il bonifico. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
-
-**Cosa devi fare tu.** Controlla che quella casella esista e la leggi. Poi unisci: la produzione si aggiorna da sola. Poi la regola «Main» (carta #177) e i due passi della #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
-
-**Se va bene:** controllo la produzione e chiudo le schede nel registro dei difetti del sito.
-
----
-
 ### 🟡 #205 — Ripara il codice del sito prima di applicare le migrazioni · ⏳ accodata 2026-10-11 23:15 · ✅ prima ondata nella #206
 
 > ✅ **2026-10-18 20:54 — La seconda parte è nella richiesta 259 del sito.**
@@ -105,6 +147,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 ### 🔴 #203 — Cambia oggi le chiavi del database del sito: una chiave segreta non è più segreta · ⏳ accodata 2026-10-11 23:15
+
+> ⏰ **2026-10-24 14:20 — È ancora la cosa più urgente.** Il piano di riparazione la mette oggi, insieme alla #202, prima di tutto il resto. Finché la chiave vecchia vive, il giorno della chiave della #210 non può partire.
 
 > ⚠️ **2026-10-12 17:55 — Ancora aperta.** Accettata 244 volte in 24 ore, tutte letture del sito. Nel database nessuna traccia di intrusi. La procedura collaudata è in chat del 12/10.
 
@@ -245,26 +289,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 **Cosa non ho verificato.** Il lucchetto e la catena del certificato: da qui la rete non lascia bussare al sito per la via normale. E nessuno ha ancora fatto un ordine vero dal nome nuovo.
 
 **Se va bene:** restano tre cose fuori dal sito, da fare una volta sola. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google. La procedura distesa sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`.
-
----
-
-### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40 · ✅ fatta 2026-10-24 01:30
-
-> ✅ **2026-10-24 01:30 — Entrate tutte e 48, col tuo «avvia».** Le ha messe il pulsante «Migrazioni a mano» su GitHub, che è finito tutto verde. Ho ricontrollato in sola lettura e il database vero risulta allineato al codice. I sei controlli finali sono tutti veri, e i dati sono gli stessi di prima: 9 prodotti, 9 profili, 1 ordine. La scheda di un prodotto vero si apre, col negozio e il pulsante «Aggiungi al carrello».
-
-> 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
-
-> ✅ **2026-10-19 08:45 — Il lotto che sblocca le 48 è in produzione.** Hai unito la richiesta 259 del sito e Vercel l'ha pubblicata. Adesso fai la copia del database: i passi sono nel referto del lotto. Poi mi dici «vai» e le lancio io.
-
-**In parole semplici.** Il database vero è indietro di circa 48 migrazioni rispetto al codice. Per questo oggi l'email «ordine pronto» non parte e la pagina Analisi del venditore va in errore. E chi ha appena comprato può ricevere il messaggio del carrello abbandonato.
-
-**Cosa cambia:** con le migrazioni applicate, database e codice tornano uguali. La procedura provata è in `docs/migrazioni-baseline-produzione.md`. La migrazione 161 rimette a posto quello che il passo lanciato a mano il 9 settembre aveva riportato indietro: 11 funzioni e 27 regole di accesso. Provata su una copia fedele della produzione: 33 prove di sicurezza verdi su 33.
-
-**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta una migrazione sola, la 163: si lancia da sola, è nella carta #207.
-
-**Se va bene:** ricontrollo oggetto per oggetto che in produzione ci sia tutto.
-
-**Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto. E la prova è girata su PostgreSQL 16, mentre la produzione è la 17. I passaggi precedenti sono scritti in DECISIONI: 3/9, 7/9 e 11/10.
 
 ---
 
@@ -933,64 +957,9 @@ non si applicano non pubblica. Quella finestra si chiude per sempre.
 
 ---
 
-### 🔴 #159 — Applica la migrazione 120: la vetrina non deve più dare l'identificativo degli ordini · ⏳ accodata 2026-08-22 09:20
-
-**Cosa cambia:** il riquadro «attività dal vivo» in home restituisce ancora, a chiunque e senza
-account, l'identificativo di ogni ordine recente e l'ora al secondo. Servono a due cose sbagliate:
-un concorrente li legge a intervalli. Così conta quanti ordini fa ogni negozio, e a che ora. E
-quegli stessi identificativi erano la materia prima del difetto sul rimborso chiuso ieri.
-
-Questa migrazione è **scritta dal 18 agosto e mai applicata**. La bloccava il sito, che chiedeva
-ancora quella colonna. Il codice nuovo è in produzione da giorni: adesso si può applicare senza
-rompere la home.
-
-**Se va bene:** la vetrina resta identica a vedersi (dice «poco fa» invece dell'ora esatta) e
-smette di essere un contatore degli ordini altrui.
-
-```
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/120_vetrina_attivita_senza_id.sql
-psql "$SUPABASE_DB_URL" -c "select pg_get_viewdef('public.live_activity_public'::regclass, true);"
-```
-
-Nella definizione che torna indietro **non** ci deve essere `id`.
-
----
-
-### 🔴 #158 — Applica al database la migrazione 126, quella del lotto dei cento difetti · ⏳ accodata 2026-08-22 09:20
-
-**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte.
-
-- Il credito MyCity torna al cliente quando il negozio rifiuta l'ordine. Oggi evapora.
-- Il negozio non viene più pagato per contanti che nessuno ha registrato.
-- Un alimentare senza allergeni non si può pubblicare.
-- Sulle pagine prodotto e negozio compaiono i dati del venditore: ragione sociale, sede, partita IVA.
-- Nasce il registro delle segnalazioni di contenuti illeciti.
-
-Il codice regge anche prima: è scritto apposta per non rompersi nella finestra in mezzo. Ma quelle
-riparazioni non fanno effetto finché la migrazione non è applicata.
-
-**Se va bene:** i cento difetti chiusi diventano cento davvero, e non novantacinque.
-
-**Il comando** (dal VPS, o da chi ha la stringa di connessione):
-
-```
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/126_radiografia_22_agosto.sql
-```
-
-È idempotente: riapplicarla non fa danni. L'ho già fatta girare due volte, così com'è. Una su un
-database ricostruito da zero qui dentro: 127 migrazioni applicate, zero fallite. Una su un database
-che ha già dentro degli ordini.
-
-**Come si controlla che sia andata:**
-
-```
-psql "$SUPABASE_DB_URL" -c "select count(*) from public.segnalazioni;"
-psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_del_negozio';"
-```
-
----
-
 ### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
+
+> ⏸️ **2026-10-24 14:20 — La chiave di servizio, aspetta il mio via.** Oggi alle 13:40 in produzione c'erano 12 variabili, e la chiave di servizio non c'era. Senza, ogni rotta che chiede l'accesso risponde «non disponibile». Ma il giorno che arriva, partono insieme dieci lavori notturni e si svegliano cose che oggi dormono. Prima le preparo io: i passi in ordine sono nella #210.
 
 > ➕ **2026-10-19 08:45 — Dopo la richiesta 259 del sito, la chiave di servizio serve anche al profilo pubblico.** Senza, la pagina del profilo dice «non trovato». Oggi nessuno l'ha acceso, quindi non tocca nessuno.
 
@@ -2963,5 +2932,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 38.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 42.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

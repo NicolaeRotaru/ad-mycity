@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-11 23:18
+aggiornato: 2026-10-24 16:38
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-24 16:38 · 42 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -1257,3 +1264,94 @@ promozione accesa lo mostra a un cliente.
 
 **Se va bene:** con la (a) controllo che il primo rilascio applichi da solo le quattro mancanti. Con
 la (b) te le applico in ordine, e ti porto la misura di ognuna.
+
+---
+
+### ✅ #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · ✅ unita e in produzione · fatta 2026-10-18 13:18
+
+> ✅ **2026-10-18 20:54 — Unita e pubblicata.** Ho chiuso nel registro le 11 schede riparate del tutto. Le 8 parziali dicono cosa manca.
+
+**In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati e collaudati da chi non li aveva scritti. Dentro c'è la tua scelta del 17/10: chi paga in contanti è rimborsato a mano, senza IBAN sul sito.
+
+**Cosa cambia:** il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso. E per ogni rimborso di contanti ti arriva l'avviso «💶 Bonifico di rimborso da fare», anche per email a info@mycity-marketplace.com: chiedi l'IBAN al cliente e fai il bonifico. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
+
+**Cosa devi fare tu.** Controlla che quella casella esista e la leggi. Poi unisci: la produzione si aggiorna da sola. Poi la regola «Main» (carta #177) e i due passi della #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
+
+**Se va bene:** controllo la produzione e chiudo le schede nel registro dei difetti del sito.
+
+---
+
+### ✅ #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40 · ✅ fatta 2026-10-24 01:30
+
+> ✅ **2026-10-24 01:30 — Entrate tutte e 48, col tuo «avvia».** Le ha messe il pulsante «Migrazioni a mano» su GitHub, che è finito tutto verde. Ho ricontrollato in sola lettura e il database vero risulta allineato al codice. I sei controlli finali sono tutti veri, e i dati sono gli stessi di prima: 9 prodotti, 9 profili, 1 ordine. La scheda di un prodotto vero si apre, col negozio e il pulsante «Aggiungi al carrello».
+
+> 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
+
+> ✅ **2026-10-19 08:45 — Il lotto che sblocca le 48 è in produzione.** Hai unito la richiesta 259 del sito e Vercel l'ha pubblicata. Adesso fai la copia del database: i passi sono nel referto del lotto. Poi mi dici «vai» e le lancio io.
+
+**In parole semplici.** Il database vero è indietro di circa 48 migrazioni rispetto al codice. Per questo oggi l'email «ordine pronto» non parte e la pagina Analisi del venditore va in errore. E chi ha appena comprato può ricevere il messaggio del carrello abbandonato.
+
+**Cosa cambia:** con le migrazioni applicate, database e codice tornano uguali. La procedura provata è in `docs/migrazioni-baseline-produzione.md`. La migrazione 161 rimette a posto quello che il passo lanciato a mano il 9 settembre aveva riportato indietro: 11 funzioni e 27 regole di accesso. Provata su una copia fedele della produzione: 33 prove di sicurezza verdi su 33.
+
+**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta una migrazione sola, la 163: si lancia da sola, è nella carta #207.
+
+**Se va bene:** ricontrollo oggetto per oggetto che in produzione ci sia tutto.
+
+**Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto. E la prova è girata su PostgreSQL 16, mentre la produzione è la 17. I passaggi precedenti sono scritti in DECISIONI: 3/9, 7/9 e 11/10.
+
+---
+
+### ✅ #159 — Applica la migrazione 120: la vetrina non deve più dare l'identificativo degli ordini · ⏳ accodata 2026-08-22 09:20 · fatta 2026-10-24 01:30, entrata con le 48 (registro delle migrazioni di produzione riletto il 2026-10-24 14:30)
+
+**Cosa cambia:** il riquadro «attività dal vivo» in home restituisce ancora, a chiunque e senza
+account, l'identificativo di ogni ordine recente e l'ora al secondo. Servono a due cose sbagliate:
+un concorrente li legge a intervalli. Così conta quanti ordini fa ogni negozio, e a che ora. E
+quegli stessi identificativi erano la materia prima del difetto sul rimborso chiuso ieri.
+
+Questa migrazione è **scritta dal 18 agosto e mai applicata**. La bloccava il sito, che chiedeva
+ancora quella colonna. Il codice nuovo è in produzione da giorni: adesso si può applicare senza
+rompere la home.
+
+**Se va bene:** la vetrina resta identica a vedersi (dice «poco fa» invece dell'ora esatta) e
+smette di essere un contatore degli ordini altrui.
+
+```
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/120_vetrina_attivita_senza_id.sql
+psql "$SUPABASE_DB_URL" -c "select pg_get_viewdef('public.live_activity_public'::regclass, true);"
+```
+
+Nella definizione che torna indietro **non** ci deve essere `id`.
+
+---
+
+### ✅ #158 — Applica al database la migrazione 126, quella del lotto dei cento difetti · ⏳ accodata 2026-08-22 09:20 · fatta 2026-10-24 01:30, entrata con le 48 (registro delle migrazioni di produzione riletto il 2026-10-24 14:30)
+
+**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte.
+
+- Il credito MyCity torna al cliente quando il negozio rifiuta l'ordine. Oggi evapora.
+- Il negozio non viene più pagato per contanti che nessuno ha registrato.
+- Un alimentare senza allergeni non si può pubblicare.
+- Sulle pagine prodotto e negozio compaiono i dati del venditore: ragione sociale, sede, partita IVA.
+- Nasce il registro delle segnalazioni di contenuti illeciti.
+
+Il codice regge anche prima: è scritto apposta per non rompersi nella finestra in mezzo. Ma quelle
+riparazioni non fanno effetto finché la migrazione non è applicata.
+
+**Se va bene:** i cento difetti chiusi diventano cento davvero, e non novantacinque.
+
+**Il comando** (dal VPS, o da chi ha la stringa di connessione):
+
+```
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/126_radiografia_22_agosto.sql
+```
+
+È idempotente: riapplicarla non fa danni. L'ho già fatta girare due volte, così com'è. Una su un
+database ricostruito da zero qui dentro: 127 migrazioni applicate, zero fallite. Una su un database
+che ha già dentro degli ordini.
+
+**Come si controlla che sia andata:**
+
+```
+psql "$SUPABASE_DB_URL" -c "select count(*) from public.segnalazioni;"
+psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_del_negozio';"
+```
