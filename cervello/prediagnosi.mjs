@@ -20,7 +20,7 @@
 //   node cervello/prediagnosi.mjs raccogli --cartella DIR JOURNAL...          il ricettario completo, fuori dal repo
 //   node cervello/prediagnosi.mjs riservato --cartella DIR    i materiali per i revisori della riservatezza
 //   Workflow prediagnosi, modo «riservatezza»: due revisori segnano i passaggi da oscurare
-//   node cervello/prediagnosi.mjs raccogli --cartella DIR JOURNAL... --scrivi --riservato <journal della riservatezza>
+//   node cervello/prediagnosi.mjs raccogli --cartella DIR JOURNAL... --scrivi --riservato <journal della riservatezza> [--riservato <elenco>]
 //   node cervello/prediagnosi.mjs ondate --ricettario FILE --repo <cartella del sito> [--parziale] [--scrivi]
 //
 // ⚠️ LA CORSIA RISERVATA. Il deposito della memoria e quello del sito sono PUBBLICI. Le falle di
@@ -28,19 +28,23 @@
 // «privata» SOLO dentro --cartella, e --cartella non puo' stare dentro un repository git (nemmeno
 // passando da un collegamento simbolico). Nel ricettario pubblico di una falla resta il titolo, mai
 // il testo. Il 24/10 tre ricette scritte per difetti PUBBLICI nominavano di passaggio una falla
-// riservata: per questo `--scrivi` vuole sempre `--riservato` (il lavoro dei revisori, o la parola
-// «nessuno» detta apposta), e in piu' il comando cerca da se' nel testo pubblico le frasi copiate
-// dalle falle riservate. Lo prova cervello/test/prediagnosi.test.mjs.
+// riservata, e la rilettura di quel pomeriggio ne ha trovate altre. Per questo `--scrivi` pubblica
+// solo se: i due revisori della riservatezza sono tornati tutti e due, hanno riletto QUESTO testo
+// (l'impronta), ogni campo che ripete una frase lunga o un nome che sta solo nelle falle è stato
+// oscurato o giudicato già pubblico, e nessun campo oscurato in un ricettario pubblico di prima torna
+// in chiaro senza un giudizio scritto. Lo prova cervello/test/prediagnosi.test.mjs.
 //
 // ⚠️ UNA CHIUSURA VUOLE DUE VOCI. Un difetto esce dal lavoro come «gia' risolto» solo se lo dice chi
-// ha scritto la ricetta E il revisore che aveva il mandato di smentirlo. Una voce sola lo lascia da
-// riparare: chiudere per sbaglio un difetto vero costa piu' che ripararne uno gia' chiuso.
+// ha scritto la ricetta E il revisore che aveva il mandato di smentirlo. Una voce sola, o due voci in
+// disaccordo, lo mandano da rivedere: chiudere per sbaglio un difetto vero costa piu' che ripararne
+// uno gia' chiuso.
 //
 // Uscita: 0 = fatto · 2 = non ho potuto misurare (argomento storto, registro illeggibile, cartella
-// nel posto sbagliato, journal senza risultati, oscuratura che manca il bersaglio, conti che non
-// tornano). Ogni uscita 2 arriva PRIMA di qualunque scrittura. Mai un verde su zero.
-// 🟢 legge, scrive solo dove gli dici.
-import { readFileSync, mkdirSync, existsSync, realpathSync } from "fs";
+// nel posto sbagliato, journal senza risultati, oscuratura che manca il bersaglio, revisione della
+// riservatezza incompleta, conti che non tornano). Ogni uscita 2 arriva PRIMA di qualunque scrittura.
+// Mai un verde su zero. 🟢 legge, scrive solo dove gli dici.
+import { readFileSync, readdirSync, mkdirSync, existsSync, realpathSync, statSync } from "fs";
+import { createHash } from "crypto";
 import path from "path";
 import { fileURLToPath } from "url";
 import { chiaveProblema } from "./referti-sito.mjs";
@@ -52,6 +56,8 @@ const RE_PRIVATA = /^Falla di sicurezza R\d+/;
 const MAX_SERI = 11;
 const MAX_MINORI = 30;
 const PER_ONDATA = 5; // .claude/skills/cantiere/SKILL.md: «Tre-cinque corsie e' la misura giusta»
+// Le due lenti del modo «riservatezza» del workflow: la pubblicazione le vuole tutte e due.
+export const LENTI_RISERVATEZZA = ["riservato:istruzioni", "riservato:nomi"];
 
 function cieco(perche) {
   console.error(`⚪ non ho potuto misurare: ${perche}`);
@@ -65,6 +71,9 @@ const COMANDO = ARG[0];
 const COMANDI = new Set(["prepara", "raccogli", "riservato", "ondate"]);
 const NOTI = new Set(["--cartella", "--scrivi", "--ricettario", "--registro", "--repo", "--riservato", "--parziale"]);
 const CON_VALORE = new Set(["--cartella", "--ricettario", "--registro", "--repo", "--riservato"]);
+// --riservato si ripete: il journal dei revisori più gli elenchi di prima. Gli altri valgono una
+// volta sola: un secondo --cartella che vince in silenzio sul primo è un errore da dire.
+const RIPETIBILI = new Set(["--riservato"]);
 const posizionali = [];
 const opz = {};
 function leggiArgomenti() {
@@ -75,7 +84,9 @@ function leggiArgomenti() {
       if (!NOTI.has(a)) cieco(`non conosco l'argomento ${a}`);
       if (CON_VALORE.has(a)) {
         if (!ARG[i + 1] || ARG[i + 1].startsWith("-")) cieco(`${a} vuole un valore dopo`);
-        opz[a] = ARG[++i];
+        if (RIPETIBILI.has(a)) opz[a] = [...(opz[a] || []), ARG[++i]];
+        else if (a in opz) cieco(`${a} si dà una volta sola`);
+        else opz[a] = ARG[++i];
       } else opz[a] = true;
     } else posizionali.push(a);
   }
@@ -128,6 +139,24 @@ function scrivi(percorso, dati) {
   if (!scriviJsonAtomico(percorso, dati)) cieco(`la scrittura di ${percorso} è stata fermata dal freno della memoria`);
 }
 
+/**
+ * Una scheda riservata ha due segni: il titolo «Falla di sicurezza R<n>» e il file «(nel referto
+ * privato)». Riconoscerla dal titolo soltanto voleva dire che una squadra che lo ritocca la rende
+ * pubblica (collaudo del 24/10). Basta un segno per trattarla da riservata; segni discordi sono un
+ * registro da sistemare, e il comando si ferma. La fonte «id R<n>» NON è un segno: la radiografia dà
+ * quel numero a ogni difetto, e sul registro vero del 24/10 lo portavano 265 schede pubbliche. Pura.
+ */
+export function segniRiservati(d) {
+  return [RE_PRIVATA.test(String(d?.titolo || "")), /nel referto privato/i.test(String(d?.file || ""))];
+}
+export function eRiservata(d) {
+  return segniRiservati(d).some(Boolean);
+}
+function fermaSeSegniDiscordi(aperti) {
+  const discordi = aperti.filter((d) => eRiservata(d) && !segniRiservati(d).every(Boolean)).map((d) => d._idx);
+  if (discordi.length) cieco(`${discordi.length} schede aperte hanno solo uno dei due segni di una falla riservata (titolo «Falla di sicurezza R…», file «(nel referto privato)»): idx ${discordi.slice(0, 12).join(",")} — rimetti i tre segni d'accordo nel registro`);
+}
+
 // ── prepara ────────────────────────────────────────────────────────────────────────────────────
 /** Divide in pezzi da al piu' `max`, e fonde i pezzi piccoli finche' stanno sotto `max`. */
 export function dividiPerGruppo(difetti, chiaveGruppo, max) {
@@ -158,26 +187,36 @@ export function dividiPerGruppo(difetti, chiaveGruppo, max) {
   return [...grandi, ...fusi];
 }
 
+/** I territori di «prepara»: le falle riservate stanno solo fra i privati, mai fra seri e minori. Pura. */
+export function territoriDaPreparare(aperti) {
+  const privati = aperti.filter(eRiservata);
+  const seri = aperti.filter((d) => d.severita !== "minore" && !eRiservata(d));
+  const minori = aperti.filter((d) => d.severita === "minore" && !eRiservata(d));
+  return {
+    seri: dividiPerGruppo(seri, (d) => d.dimensione, MAX_SERI),
+    // I minori portano il nome del gruppo con «minori-» davanti: con lo stesso nome dei seri, un
+    // giudizio dato a una copia finiva sull'altra (collaudo del 24/10).
+    minori: dividiPerGruppo(minori, (d) => `minori-${d.dimensione}`, MAX_MINORI),
+    privati: privati.map((d) => ({ idx: d._idx, id: (d.titolo.match(/R\d+/) || [""])[0], severita: d.severita, categoria: (d.titolo.match(/\(([^)]+)\)/) || [])[1] || "", si_ripara: (String(d.fonte_radiografia || "").match(/si ripara: ([\w-]+)/) || [])[1] || "" })),
+    conti: { seri: seri.length, minori: minori.length, privati: privati.length },
+  };
+}
+
 function prepara() {
   const dir = cartella();
   const tutte = leggiRegistro().map((d, i) => ({ ...d, _idx: i, _chiave: chiaveProblema(d) }));
   const aperti = tutte.filter((d) => d.stato === "aperto");
   if (!aperti.length) cieco("il registro non ha difetti aperti: niente da pre-diagnosticare (o il campo «stato» ha cambiato nome)");
+  fermaSeSegniDiscordi(aperti);
+  const territori = territoriDaPreparare(aperti);
+  const conta = (xs) => xs.reduce((s, t) => s + t.indici.length, 0);
+  // Il controllo viene PRIMA delle scritture, come promette l'intestazione.
+  if (conta(territori.seri) !== territori.conti.seri || conta(territori.minori) !== territori.conti.minori) cieco("un difetto si è perso nella divisione in territori");
   mkdirSync(path.join(dir, "difetti"), { recursive: true });
   for (const d of aperti) scrivi(path.join(dir, "difetti", `${d._idx}.json`), d);
-  const privati = aperti.filter((d) => RE_PRIVATA.test(d.titolo));
-  const seri = aperti.filter((d) => d.severita !== "minore" && !privati.includes(d));
-  const minori = aperti.filter((d) => d.severita === "minore" && !privati.includes(d));
-  const territori = {
-    seri: dividiPerGruppo(seri, (d) => d.dimensione, MAX_SERI),
-    minori: dividiPerGruppo(minori, (d) => d.dimensione, MAX_MINORI),
-    privati: privati.map((d) => ({ idx: d._idx, id: (d.titolo.match(/R\d+/) || [""])[0], severita: d.severita, categoria: (d.titolo.match(/\(([^)]+)\)/) || [])[1] || "", si_ripara: (String(d.fonte_radiografia || "").match(/si ripara: ([\w-]+)/) || [])[1] || "" })),
-  };
   scrivi(path.join(dir, "territori.json"), territori);
-  const conta = (xs) => xs.reduce((s, t) => s + t.indici.length, 0);
   console.log(`🔎 PRE-DIAGNOSI — preparata in ${dir}`);
-  console.log(`Aperti: ${aperti.length} · seri ${seri.length} in ${territori.seri.length} territori · minori ${minori.length} in ${territori.minori.length} gruppi · falle riservate ${privati.length}.`);
-  if (conta(territori.seri) !== seri.length || conta(territori.minori) !== minori.length) cieco("un difetto si è perso nella divisione in territori");
+  console.log(`Aperti: ${aperti.length} · seri ${territori.conti.seri} in ${territori.seri.length} territori · minori ${territori.conti.minori} in ${territori.minori.length} gruppi · falle riservate ${territori.conti.privati}.`);
   console.log(`Poi: Workflow .claude/workflows/prediagnosi.js con args {cartella: "${dir}", modo: "seri", territori: <territori.json → seri>} — e lo stesso per «minori».`);
   console.log(`Per le falle riservate il modo «privata» vuole le aree scritte a mano: {area, db, schede, cosa} (formato nel passo ⓪ di cervello/lotto-a-pacchetti.md). Le schede sono in territori.json → privati.`);
   console.log(`I territori per dimensione sono il punto di partenza: se il lotto chiede territori per mestiere (soldi, contanti, iscrizioni…), riscrivili in territori.json prima di lanciare.`);
@@ -231,22 +270,47 @@ export function risultatiDalJournal(testo) {
   return conEtichetta;
 }
 
-/** Il verdetto finale di un difetto, dalle voci che lo hanno guardato. Pura: la prova la esegue. */
+/** Il verdetto di UNA combinazione di voci (una ricetta, una lente A, un revisore dei chiusi). Pura. */
 export function verdettoFinale({ ricetta, lenteA, chiuso }) {
   if (!ricetta) return "senza_ricetta";
+  const no = ricetta.ancora_vero === "no";
   if (lenteA) {
-    // Le due voci devono dire la stessa cosa: se la lente dice «già chiuso» e la ricetta «ancora vero»,
-    // nessuna delle due decide da sola (collaudo del 24/10).
-    if (lenteA.verdetto === "gia_chiuso_confermato") return ricetta.ancora_vero === "no" ? "gia_risolto" : "da_rivedere";
+    // La lente dice «già chiuso»: chiude solo se lo dice anche la ricetta E la lente non si
+    // contraddice da sola col suo «ancora vero» (collaudo del 24/10: otto lenti avevano scritto «si»).
+    if (lenteA.verdetto === "gia_chiuso_confermato") return no && lenteA.ancora_vero_corretto === "no" ? "gia_risolto" : "da_rivedere";
     if (lenteA.verdetto === "non_reale") return "da_rivedere";
-    if (lenteA.ancora_vero_corretto === "no" && ricetta.ancora_vero !== "no") return "da_rivedere";
+    if (lenteA.ancora_vero_corretto === "no" && !no) return "da_rivedere";
+    // La ricetta dice «già chiuso» e la lente no: la ricetta è «niente da fare», e a una squadra
+    // serve una ricetta vera.
+    if (no) return "da_rivedere";
     return "da_riparare";
   }
-  if (ricetta.ancora_vero === "no") return chiuso && chiuso.gia_chiuso_confermato === true ? "gia_risolto" : "da_riparare";
+  if (no) {
+    if (chiuso && chiuso.gia_chiuso_confermato === true) return "gia_risolto";
+    // Una voce sola, o il revisore che la smentisce: da rivedere, non da riparare con una ricetta vuota.
+    return "da_rivedere";
+  }
   return "da_riparare";
 }
 
+/**
+ * Il verdetto di un difetto dalle sue voci, anche quando sono più d'una per tipo (il modo «lenti»
+ * rilancia una lente già tornata, due territori parlano dello stesso difetto). Si guardano tutte le
+ * combinazioni: se non danno lo stesso esito, il difetto va rivisto. Prima vinceva l'ultima voce letta,
+ * e una chiusura dipendeva dall'ordine dei journal (collaudo del 24/10). Pura.
+ */
+export function verdettoDelleVoci({ ricette = [], lentiA = [], chiusi = [] }) {
+  if (!ricette.length) return { esito: "senza_ricetta", discordi: false };
+  const esiti = new Set();
+  for (const r of ricette) for (const a of lentiA.length ? lentiA : [undefined]) for (const c of chiusi.length ? chiusi : [undefined]) esiti.add(verdettoFinale({ ricetta: r, lenteA: a, chiuso: c }));
+  return esiti.size === 1 ? { esito: [...esiti][0], discordi: false } : { esito: "da_rivedere", discordi: true };
+}
+
 export const OSCURATO = "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]";
+
+/** Il nome di un bersaglio, come lo scrivono i controlli: «difetto 7» o «territorio seri:soldi». */
+const nomeDifetto = (d) => `difetto ${d.idx}`;
+const nomeTerritorio = (t) => `territorio ${t.modo}:${t.territorio}`;
 
 /**
  * Oscura nel ricettario PUBBLICO i campi che un revisore della riservatezza ha segnato: una ricetta
@@ -255,15 +319,16 @@ export const OSCURATO = "[riservato: il testo tocca una falla della corsia riser
  * Un campo segnato che non esiste, o un difetto che non c'è, è un errore: un'oscuratura che non trova
  * il suo bersaglio è un'oscuratura che non è avvenuta. Una voce con `pubblico: true` è il giudizio
  * opposto: il revisore ha guardato il campo e dice che rivela solo cose già pubbliche. Non si oscura,
- * ma il suo percorso torna in `lasciati`, e anche lui deve esistere.
- * Pura: torna { ricettario, oscurati, mancati, lasciati }.
+ * ma il suo percorso torna in `lasciati`, e anche lui deve esistere. Un giudizio «pubblico» su un nome
+ * di territorio che si ripete vuole il «modo»: largo va bene quando si oscura, non quando si lascia.
+ * Pura: torna { ricettario, oscurati (campi distinti), mancati, lasciati, contesi }.
  */
 export function oscura(ricettario, elenco) {
   const copia = JSON.parse(JSON.stringify(ricettario));
-  let oscurati = 0;
+  const oscurati = new Set();
   const mancati = [];
   const lasciati = [];
-  if (!Array.isArray(elenco)) return { ricettario: copia, oscurati, mancati: ["l'elenco non è una lista"], lasciati };
+  if (!Array.isArray(elenco)) return { ricettario: copia, oscurati: 0, mancati: ["l'elenco non è una lista"], lasciati, contesi: [] };
   for (const voce of elenco) {
     const nome = voce && (voce.territorio ?? voce.idx);
     // Una voce scritta male («campo» al singolare, campi vuoto) non oscura niente: è un mancato,
@@ -285,6 +350,10 @@ export function oscura(ricettario, elenco) {
       mancati.push(String(nome));
       continue;
     }
+    if (voce.pubblico === true && bersagli.length > 1) {
+      mancati.push(`${nome}: «già pubblico» su un nome che hanno ${bersagli.length} territori vuole il «modo»`);
+      continue;
+    }
     for (const bersaglio of bersagli) {
       for (const campo of voce.campi) {
         const parti = campo.split(".");
@@ -295,19 +364,22 @@ export function oscura(ricettario, elenco) {
           mancati.push(`${nome}:${campo}`);
           continue;
         }
+        const percorso = `${voce.territorio != null ? nomeTerritorio(bersaglio) : nomeDifetto(bersaglio)}.${campo}`;
         if (voce.pubblico === true) {
-          lasciati.push(`${voce.territorio != null ? `territorio ${bersaglio.modo}:${bersaglio.territorio}` : `difetto ${bersaglio.idx}`}.${campo}`);
+          lasciati.push(percorso);
           continue;
         }
         dove[ultimo] = OSCURATO;
-        oscurati++;
+        oscurati.add(percorso);
       }
     }
   }
-  return { ricettario: copia, oscurati, mancati, lasciati };
+  // Un revisore oscura, l'altro dice «già pubblico»: vince l'oscuratura, e il disaccordo si conta.
+  const contesi = lasciati.filter((l) => oscurati.has(l));
+  return { ricettario: copia, oscurati: oscurati.size, mancati, lasciati, contesi };
 }
 
-/** Le frasi in comune che nessun revisore ha giudicato: né oscurate, né dichiarate pubbliche. Pura. */
+/** I campi segnalati che nessun revisore ha giudicato: né oscurati, né dichiarati pubblici. Pura. */
 export function nonGiudicate(copiate, lasciati) {
   return copiate.filter((c) => !lasciati.some((l) => c === l || c.startsWith(`${l}.`)));
 }
@@ -319,13 +391,13 @@ export function nonGiudicate(copiate, lasciati) {
  * davvero restano un errore, e oscura() lo ferma. I «giudicati_pubblici» di un revisore diventano
  * voci con `pubblico: true`.
  */
+const senzaVuoti = (v) => (v && typeof v === "object" && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).filter(([, x]) => x !== "" && x !== null)) : v);
+const dalRevisore = (r) => [
+  ...(Array.isArray(r.da_oscurare) ? r.da_oscurare : []),
+  ...(Array.isArray(r.giudicati_pubblici) ? r.giudicati_pubblici.map((v) => ({ ...v, pubblico: true })) : []),
+];
+const eRevisore = (x) => x && (Array.isArray(x.da_oscurare) || Array.isArray(x.giudicati_pubblici));
 export function elencoRiservato(testo, nomeFile = "") {
-  const senzaVuoti = (v) => (v && typeof v === "object" && !Array.isArray(v) ? Object.fromEntries(Object.entries(v).filter(([, x]) => x !== "" && x !== null)) : v);
-  const dalRevisore = (r) => [
-    ...(Array.isArray(r.da_oscurare) ? r.da_oscurare : []),
-    ...(Array.isArray(r.giudicati_pubblici) ? r.giudicati_pubblici.map((v) => ({ ...v, pubblico: true })) : []),
-  ];
-  const eRevisore = (x) => x && (Array.isArray(x.da_oscurare) || Array.isArray(x.giudicati_pubblici));
   if (/\.jsonl$/.test(nomeFile)) {
     const voci = risultatiDalJournal(testo).filter((r) => r.label.startsWith("riservato:"));
     if (!voci.length) return null;
@@ -335,6 +407,40 @@ export function elencoRiservato(testo, nomeFile = "") {
   if (Array.isArray(j)) return j.flatMap((x) => (eRevisore(x) ? dalRevisore(x) : [x])).map(senzaVuoti);
   if (eRevisore(j)) return dalRevisore(j).map(senzaVuoti);
   return j;
+}
+
+/**
+ * Il lavoro dei revisori della riservatezza, da uno o più journal: quali lenti sono tornate, quali
+ * sono partite e mai tornate, quanto hanno riletto e su quale testo (l'impronta). Il 24/10 un giro
+ * era «a 1 su 2» mentre lo si poteva già usare per pubblicare. Pura.
+ */
+export function revisioneRiservatezza(journals) {
+  const risultati = journals.flatMap((t) => risultatiDalJournal(t).filter((r) => r.label.startsWith("riservato:")));
+  const persi = journals.flatMap((t) => risultatiDalJournal(t).persi.filter((l) => l.startsWith("riservato:")));
+  const tornate = new Set(risultati.map((r) => r.label));
+  return {
+    voci: risultati.flatMap((r) => dalRevisore(r.result)).map(senzaVuoti),
+    tornate: [...tornate],
+    persi: persi.filter((l) => !tornate.has(l)),
+    lenti: risultati.map((r) => ({ label: r.label, controllati: r.result.controllati, impronta: r.result.impronta })),
+  };
+}
+
+/**
+ * Che cosa manca perché la revisione valga per QUESTO testo: tutte e due le lenti tornate, nessuna
+ * persa, ognuna ha riletto qualcosa e l'ha fatto sull'impronta di oggi. Torna la lista dei motivi
+ * (vuota = vale). Pura.
+ */
+export function revisioneIncompleta(rev, improntaDiOggi) {
+  const motivi = [];
+  for (const l of LENTI_RISERVATEZZA) {
+    const sue = rev.lenti.filter((x) => x.label === l);
+    if (!sue.length) motivi.push(`la lente «${l}» non è tornata`);
+    else if (!sue.some((x) => Number(x.controllati) > 0)) motivi.push(`la lente «${l}» dice di aver riletto zero campi`);
+    else if (!sue.some((x) => x.impronta === improntaDiOggi && Number(x.controllati) > 0)) motivi.push(`la lente «${l}» ha riletto un testo diverso da questo (impronta ${sue.map((x) => String(x.impronta || "assente").slice(0, 12)).join(", ")} contro ${improntaDiOggi.slice(0, 12)})`);
+  }
+  if (rev.persi.length) motivi.push(`revisori partiti e mai tornati: ${rev.persi.join(", ")}`);
+  return motivi;
 }
 
 // Le frasi copiate. Un revisore può non accorgersi che una ricetta pubblica ha ricopiato un pezzo di
@@ -352,12 +458,32 @@ export function sequenze(testo, n = LUNGA) {
   for (let i = 0; i + n <= p.length; i++) fuori.add(p.slice(i, i + n).join(" "));
   return fuori;
 }
+
+/**
+ * Ogni testo che sta per diventare pubblico, col suo percorso («difetto 7.lente_b.nascite_previste»,
+ * «territorio seri:soldi.cause_comuni.0.perche»). Tutti i campi del difetto, comprese le voci doppie:
+ * la prima versione guardava solo ricetta e lenti, e una voce in più passava senza controllo. Pura.
+ */
+const CAMPI_DEL_REGISTRO = new Set(["idx", "chiave", "titolo", "severita", "dimensione", "esito", "riservato"]);
+export function testiPubblici(ricettario) {
+  const fuori = [];
+  const visita = (o, dove) => {
+    if (typeof o === "string") fuori.push([dove, o]);
+    else if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) visita(v, `${dove}.${k}`);
+  };
+  for (const d of ricettario.difetti || []) {
+    if (d.riservato) continue;
+    for (const [k, v] of Object.entries(d)) if (!CAMPI_DEL_REGISTRO.has(k)) visita(v, `${nomeDifetto(d)}.${k}`);
+  }
+  for (const t of ricettario.territori || []) for (const [k, v] of Object.entries(t)) if (k !== "territorio" && k !== "modo") visita(v, `${nomeTerritorio(t)}.${k}`);
+  return fuori;
+}
+
 /**
  * I campi del ricettario pubblico che contengono una sequenza di otto parole di un testo riservato.
  * Le sequenze che stanno GIÀ in un testo pubblico (il registro dei difetti, il contesto dato a tutti
- * i revisori) non contano: lì non c'è niente da nascondere, e sui dati veri del 24/10 erano tutti e
- * otto i campi segnati — «usa la chiave di servizio che manca», la funzione che un difetto pubblico
- * nomina già. Un controllo che suona a vuoto a ogni giro insegna a oscurare alla cieca. Pura.
+ * i revisori) non contano: lì non c'è niente da nascondere. Le altre si mandano ai revisori, che le
+ * oscurano o le giudicano già pubbliche. Pura.
  */
 export function frasiCopiate(pubblico, testiRiservati, giaPubblici = []) {
   const note = new Set();
@@ -365,16 +491,24 @@ export function frasiCopiate(pubblico, testiRiservati, giaPubblici = []) {
   const vietate = new Set();
   for (const t of testiRiservati) for (const q of sequenze(t)) if (!note.has(q)) vietate.add(q);
   if (!vietate.size) return [];
-  const trovati = [];
-  const visita = (o, dove) => {
-    if (typeof o === "string") {
-      for (const q of sequenze(o)) if (vietate.has(q)) return void trovati.push(dove);
-    } else if (o && typeof o === "object") for (const [k, v] of Object.entries(o)) visita(v, dove ? `${dove}.${k}` : k);
-  };
-  (pubblico.difetti || []).forEach((d) => visita({ ricetta: d.ricetta, lente_a: d.lente_a, lente_b: d.lente_b, chiuso: d.chiuso }, `difetto ${d.idx}`));
-  (pubblico.territori || []).forEach((t) => visita(t, `territorio ${t.modo}:${t.territorio}`));
-  return trovati;
+  return testiPubblici(pubblico).filter(([, t]) => [...sequenze(t)].some((q) => vietate.has(q))).map(([dove]) => dove);
 }
+
+// I nomi propri delle falle: funzioni, regole, tabelle (con un trattino basso) e file.
+const RE_NOME = /[A-Za-z_][A-Za-z0-9_]*_[A-Za-z0-9_]+|[\w./[\]-]+\.(?:tsx?|sql|ya?ml|mjs|js|sh)\b/g;
+/** I nomi che compaiono nelle falle riservate e in NESSUN testo già pubblico. Pura. */
+export function nomiSoloRiservati(testiRiservati, giaPubblici = []) {
+  const pubblico = giaPubblici.join("\n");
+  const nomi = new Set();
+  for (const t of testiRiservati) for (const m of String(t).matchAll(RE_NOME)) if (m[0].length > 5 && !pubblico.includes(m[0])) nomi.add(m[0]);
+  return [...nomi];
+}
+/** I campi pubblici che nominano uno di quei nomi. Pura. */
+export function campiConNomi(pubblico, nomi) {
+  if (!nomi.length) return [];
+  return testiPubblici(pubblico).filter(([, t]) => nomi.some((n) => t.includes(n))).map(([dove]) => dove);
+}
+
 /** Ogni testo dentro un valore JSON, uno per stringa: le frasi non si spezzano sulle virgolette. */
 function stringheDi(o, fuori = []) {
   if (typeof o === "string") fuori.push(o);
@@ -385,25 +519,90 @@ function stringheDi(o, fuori = []) {
 // nelle due corsie senza che nessuna abbia copiato dall'altra.
 const CONTESTO_PUBBLICO = [".claude/workflows/prediagnosi.js", "MyCity-Vault/90-Memoria-AI/STATO.md", "MyCity-Vault/90-Memoria-AI/registro-fatti.json", "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"];
 function testiGiaPubblici(problemi) {
-  const testi = stringheDi(problemi);
+  // I titoli e i testi delle schede riservate sono pubblici anche loro (il registro sta nel repo),
+  // ma una frase o un nome che sta SOLO lì non va contato come già pubblico: si tolgono.
+  const testi = stringheDi(problemi.filter((p) => !eRiservata(p)));
   for (const f of CONTESTO_PUBBLICO) if (existsSync(path.join(ROOT, f))) testi.push(readFileSync(path.join(ROOT, f), "utf8"));
   return testi;
 }
-function testiDellaCorsiaRiservata(privata) {
+/** Ogni testo della corsia riservata: falle intere, verifiche, mancate e note. */
+export function testiDellaCorsiaRiservata(privata) {
   const testi = [];
   for (const { result } of privata) {
-    for (const f of result.falle || []) testi.push(f.titolo, f.dove, f.come_si_sfrutta, f.ricetta, f.prova_rossa);
-    for (const v of result.verdetti || []) testi.push(v.motivo);
+    for (const f of result.falle || []) testi.push(...stringheDi(f));
+    for (const v of result.verdetti || []) testi.push(...stringheDi(v));
     if (result.mancate) testi.push(result.mancate);
+    if (result.note) testi.push(result.note);
   }
-  return testi.filter(Boolean);
+  return testi.filter((t) => typeof t === "string" && t.length > 3);
+}
+
+/**
+ * L'impronta del testo che si pubblica: i revisori la ricopiano dai loro materiali, e la
+ * pubblicazione la ricalcola. Se il testo è cambiato dopo la rilettura (un territorio rifatto, un
+ * journal in più), le impronte non tornano. Non dipende dall'ordine dei journal. Pura.
+ */
+export function impronta(ricettario) {
+  const ordina = (xs) => xs.map((x) => JSON.stringify(x)).sort();
+  const difetti = (ricettario.difetti || []).filter((d) => !d.riservato).map((d) => {
+    const voci = {};
+    for (const k of ["ricetta", "lente_a", "lente_b", "chiuso"]) voci[k] = ordina([d[k], ...(d[`${k}_altre`] || [])].filter(Boolean));
+    return [d.idx, d.chiave, voci];
+  }).sort((a, b) => a[0] - b[0]);
+  const territori = ordina(ricettario.territori || []);
+  return createHash("sha256").update(JSON.stringify({ difetti, territori })).digest("hex");
+}
+
+/**
+ * La memoria delle oscurature: i campi che un ricettario pubblico di prima aveva oscurato. Un secondo
+ * giro della riservatezza che non li rivede li rimetterebbe in chiaro in silenzio (collaudo del 24/10:
+ * con i passi naturali le 34 oscurature del mattino sparivano). Si legge per CHIAVE del difetto. Pura.
+ */
+export function oscuratiPrima(ricettariPrima) {
+  const fuori = [];
+  for (const r of ricettariPrima) {
+    for (const d of r.difetti || []) {
+      if (d.riservato) continue;
+      for (const [dove, t] of testiPubblici({ difetti: [d] })) if (t === OSCURATO) fuori.push({ chiave: d.chiave, campo: dove.slice(nomeDifetto(d).length + 1) });
+    }
+    for (const t of r.territori || []) for (const [dove, x] of testiPubblici({ territori: [t] })) if (x === OSCURATO) fuori.push({ territorio: t.territorio, modo: t.modo, campo: dove.slice(nomeTerritorio(t).length + 1) });
+  }
+  return fuori;
+}
+/** I campi oscurati prima che nel testo di oggi tornerebbero in chiaro senza un giudizio «già pubblico». Pura. */
+export function tornatiInChiaro(pubblico, prima, lasciati) {
+  const prendi = (o, campo) => campo.split(".").reduce((x, k) => (x && typeof x === "object" ? x[k] : undefined), o);
+  const fuori = new Set();
+  for (const p of prima) {
+    const bersaglio = p.chiave ? (pubblico.difetti || []).find((d) => d.chiave === p.chiave && !d.riservato) : (pubblico.territori || []).find((t) => t.territorio === p.territorio && t.modo === p.modo);
+    if (!bersaglio) continue;
+    const v = prendi(bersaglio, p.campo);
+    if (typeof v !== "string" || v === OSCURATO) continue;
+    const percorso = `${p.chiave ? nomeDifetto(bersaglio) : nomeTerritorio(bersaglio)}.${p.campo}`;
+    if (!nonGiudicate([percorso], lasciati).length) continue;
+    fuori.add(percorso);
+  }
+  return [...fuori];
+}
+function ricettariPubbliciDiPrima() {
+  const audit = path.join(ROOT, "consegne/audit");
+  if (!existsSync(audit)) return [];
+  const fuori = [];
+  for (const f of readdirSync(audit).filter((x) => x.endsWith("ricettario-sito.json"))) {
+    try {
+      fuori.push(JSON.parse(readFileSync(path.join(audit, f), "utf8")));
+    } catch (e) {
+      cieco(`il ricettario pubblico di prima ${f} è illeggibile (${e.name}): senza, non so quali campi erano oscurati`);
+    }
+  }
+  return fuori;
 }
 
 function raccogli() {
   const dir = cartella();
   if (!posizionali.length) cieco("dimmi i journal dei workflow: raccogli --cartella DIR <journal.jsonl> ...");
   if (opz["--scrivi"] && !opz["--riservato"]) {
-    cieco("--scrivi vuole --riservato: il journal del modo «riservatezza» o il suo elenco, oppure «--riservato nessuno» detto apposta. Il 24/10 tre ricette pubbliche nominavano una falla riservata.");
+    cieco("--scrivi vuole --riservato: il journal del modo «riservatezza» (più, se ci sono, gli elenchi delle riletture di prima). Il 24/10 tre ricette pubbliche nominavano una falla riservata.");
   }
   const voci = [];
   const revisoriPersi = [];
@@ -416,67 +615,99 @@ function raccogli() {
     voci.push(...r);
   }
   if (!voci.length) cieco("nessun risultato d'agente nei journal: workflow ancora in corso, o journal di un altro formato");
+  // Un revisore perso in un giro ma tornato in un altro (il modo «lenti» rilancia apposta) non è perso.
+  const tornate = new Set(voci.map((v) => v.label));
+  const persiDavvero = [...new Set(revisoriPersi.filter((l) => !tornate.has(l)))];
   const registro = leggiRegistro();
   const tutte = registro.map((d, i) => ({ ...d, _idx: i, _chiave: chiaveProblema(d) }));
   const perIdx = new Map(tutte.map((d) => [d._idx, d]));
+  fermaSeSegniDiscordi(tutte.filter((d) => d.stato === "aperto"));
   // L'idx è la POSIZIONE nel registro al momento di «prepara». Se fra la preparazione e la raccolta
-  // un'altra sessione sposta le schede, una ricetta finirebbe sul difetto accanto. Il fascicolo porta
-  // la chiave del difetto: si riaggancia per chiave, e quello che non si ritrova si conta e si dice.
-  const perChiave = new Map(tutte.map((d) => [d._chiave, d._idx]));
-  const spostati = [];
-  const persi = [];
+  // un'altra sessione sposta le schede, una ricetta finirebbe sul difetto accanto. Il fascicolo dice
+  // di quale difetto parlava: si riaggancia per chiave, e quello che non si ritrova si conta e si dice.
+  // Senza il fascicolo non si può sapere: ci si ferma (collaudo del 24/10).
+  const perChiave = new Map();
+  for (const d of tutte) perChiave.set(d._chiave, perChiave.has(d._chiave) ? null : d._idx);
+  const spostati = new Set();
+  const persi = new Set();
+  const senzaFascicolo = new Set();
   const dove = (idx) => {
     const f = path.join(dir, "difetti", `${idx}.json`);
-    if (!existsSync(f)) return idx;
-    let chiave;
+    if (!existsSync(f)) {
+      senzaFascicolo.add(idx);
+      return idx;
+    }
+    let fascicolo;
     try {
-      chiave = JSON.parse(readFileSync(f, "utf8"))._chiave;
+      fascicolo = JSON.parse(readFileSync(f, "utf8"));
     } catch (e) {
       cieco(`il fascicolo ${f} è illeggibile: ${e.message}`);
     }
-    if (!chiave || perIdx.get(idx)?._chiave === chiave) return idx;
-    if (perChiave.has(chiave)) {
-      spostati.push(idx);
+    const chiave = fascicolo._chiave || chiaveProblema(fascicolo);
+    if (perIdx.get(idx)?._chiave === chiave) return idx;
+    if (perChiave.get(chiave) != null) {
+      spostati.add(idx);
       return perChiave.get(chiave);
     }
-    persi.push(idx);
+    persi.add(idx);
     return null;
   };
-  const metti = (mappa, idx, valore, territorio) => {
+  const suRiservati = new Set();
+  const doppie = { ricette: 0, lenti_a: 0, lenti_b: 0, chiusi: 0 };
+  const metti = (mappa, tipo, idx, valore, territorio) => {
     const qui = dove(idx);
     if (qui == null) return;
-    mappa.set(qui, valore);
-    if (perIdx.get(qui) && RE_PRIVATA.test(perIdx.get(qui).titolo)) suRiservati.add(territorio || "(senza territorio)");
+    if (perIdx.get(qui) && eRiservata(perIdx.get(qui))) suRiservati.add(territorio || "(senza territorio)");
+    const gia = mappa.get(qui) || [];
+    // La stessa voce letta due volte (lo stesso journal passato due volte) non è una seconda voce.
+    if (gia.some((x) => JSON.stringify(x) === JSON.stringify(valore))) return;
+    if (gia.length) doppie[tipo]++;
+    mappa.set(qui, [...gia, valore]);
   };
-  const suRiservati = new Set();
   const ricette = new Map(), lentiA = new Map(), lentiB = new Map(), chiusi = new Map();
   const territori = [];
   const privata = [];
+  const interazioni = new Map();
   for (const { label, result } of voci) {
     const [tipo, ...resto] = label.split(":");
     const nome = resto.join(":") || result.territorio;
     if (tipo === "ricette" || tipo === "minori") {
       territori.push({ territorio: nome, descrizione: result.territorio, modo: tipo === "ricette" ? "seri" : "minori", cause_comuni: result.cause_comuni, ordine: result.ordine ?? "", conflitti: result.conflitti ?? "", semplificazioni: result.semplificazioni ?? "" });
-      for (const r of result.ricette || []) metti(ricette, r.idx, { ...r, territorio: nome }, nome);
-    } else if (tipo === "lente-A") for (const v of result.verdetti || []) metti(lentiA, v.idx, v, nome);
-    else if (tipo === "lente-B") for (const v of result.rischi || []) metti(lentiB, v.idx, v, nome);
-    else if (tipo === "chiusi") for (const v of result.verdetti || []) metti(chiusi, v.idx, v, nome);
+      for (const r of result.ricette || []) metti(ricette, "ricette", r.idx, { ...r, territorio: nome }, nome);
+    } else if (tipo === "lente-A") for (const v of result.verdetti || []) metti(lentiA, "lenti_a", v.idx, v, nome);
+    else if (tipo === "lente-B") {
+      for (const v of result.rischi || []) metti(lentiB, "lenti_b", v.idx, v, nome);
+      // Lo schema la chiede, e prima si buttava via: i file toccati anche da altri territori.
+      if (result.interazioni_fra_territori) interazioni.set(nome, [...new Set([...(interazioni.get(nome) || []), result.interazioni_fra_territori])]);
+    } else if (tipo === "chiusi") for (const v of result.verdetti || []) metti(chiusi, "chiusi", v.idx, v, nome);
     else if (tipo === "privata" || tipo === "privata-v") privata.push({ label, result });
+  }
+  for (const [nome, testi] of interazioni) {
+    const t = territori.find((x) => x.territorio === nome && x.modo === "seri");
+    if (t) t.interazioni_fra_territori = testi.join("\n---\n");
+    else territori.push({ territorio: nome, modo: "seri", interazioni_fra_territori: testi.join("\n---\n") });
   }
   // Un territorio pubblico che ha lavorato su una falla riservata porta il suo testo (cause comuni,
   // ordine) nel pubblico: si rifà quel territorio senza la falla. Si dice solo il nome.
   if (suRiservati.size) cieco(`ricette pubbliche su una falla riservata, nei territori: ${[...suRiservati].join(", ")} — rifalli senza le schede riservate`);
+  if (senzaFascicolo.size) cieco(`${senzaFascicolo.size} difetti citati dai journal non hanno il fascicolo in ${path.join(dir, "difetti")} (idx ${[...senzaFascicolo].slice(0, 10).join(",")}): senza, una ricetta può finire sul difetto accanto. È la cartella di «prepara»?`);
   const aperti = tutte.filter((d) => d.stato === "aperto");
   if (!aperti.length) cieco("il registro non ha difetti aperti (o il campo «stato» ha cambiato nome)");
   const voce = [];
+  let discordi = 0;
+  const conAltre = (nome, xs) => (xs && xs.length > 1 ? { [`${nome}_altre`]: xs.slice(1) } : {});
   for (const d of aperti) {
-    if (RE_PRIVATA.test(d.titolo)) {
+    if (eRiservata(d)) {
       voce.push({ idx: d._idx, chiave: d._chiave, titolo: d.titolo, severita: d.severita, riservato: true });
       continue;
     }
-    const r = ricette.get(d._idx);
-    const esito = verdettoFinale({ ricetta: r, lenteA: lentiA.get(d._idx), chiuso: chiusi.get(d._idx) });
-    voce.push({ idx: d._idx, chiave: d._chiave, titolo: d.titolo, severita: d.severita, dimensione: d.dimensione, esito, ricetta: r || null, lente_a: lentiA.get(d._idx) || null, lente_b: lentiB.get(d._idx) || null, chiuso: chiusi.get(d._idx) || null });
+    const r = ricette.get(d._idx) || [];
+    const a = lentiA.get(d._idx) || [];
+    const b = lentiB.get(d._idx) || [];
+    const c = chiusi.get(d._idx) || [];
+    const v = verdettoDelleVoci({ ricette: r, lentiA: a, chiusi: c });
+    if (v.discordi) discordi++;
+    voce.push({ idx: d._idx, chiave: d._chiave, titolo: d.titolo, severita: d.severita, dimensione: d.dimensione, esito: v.esito, ricetta: r[0] || null, lente_a: a[0] || null, lente_b: b[0] || null, chiuso: c[0] || null, ...conAltre("ricetta", r), ...conAltre("lente_a", a), ...conAltre("lente_b", b), ...conAltre("chiuso", c) });
   }
   const estranei = [...ricette.keys()].filter((i) => !perIdx.has(i) || perIdx.get(i).stato !== "aperto");
   const conta = (f) => voce.filter(f).length;
@@ -488,50 +719,47 @@ function raccogli() {
     gia_risolti: conta((v) => v.esito === "gia_risolto"),
     da_rivedere: conta((v) => v.esito === "da_rivedere"),
     da_riparare: conta((v) => v.esito === "da_riparare"),
+    voci_in_disaccordo_sull_esito: discordi,
+    voci_doppie: doppie,
     seri_senza_lente_a: conta((v) => v.ricetta && v.severita !== "minore" && !v.lente_a),
     seri_senza_lente_b: conta((v) => v.ricetta && v.severita !== "minore" && !v.lente_b),
     minori_gia_risolti_senza_verifica: conta((v) => v.ricetta && v.severita === "minore" && v.ricetta.ancora_vero === "no" && !v.chiuso),
-    revisori_partiti_e_mai_tornati: revisoriPersi.length,
+    revisori_partiti_e_mai_tornati: persiDavvero.length,
     ricette_su_difetti_non_aperti: estranei.length,
-    ricette_riagganciate_per_chiave: new Set(spostati).size,
-    ricette_senza_difetto: new Set(persi).size,
+    ricette_riagganciate_per_chiave: spostati.size,
+    ricette_senza_difetto: persi.size,
   };
   // Tutti i controlli che fermano vengono PRIMA di qualunque scrittura (collaudo del 24/10).
   if (!sintesi.con_ricetta) cieco("nessun difetto aperto ha una ricetta: i journal non corrispondono a questo registro");
   const ricettario = { _cosa_e: "Il ricettario della pre-diagnosi del sito: per ogni difetto aperto, se è ancora vero e come si ripara. Lo scrive cervello/prediagnosi.mjs raccogli. Le falle di sicurezza riservate qui compaiono solo col titolo pubblico.", data: new Date().toISOString(), registro: REGISTRO, sintesi, territori, difetti: voce };
-  let pubblico = null;
-  let lasciati = [];
-  if (opz["--scrivi"]) {
-    pubblico = ricettario;
-    if (opz["--riservato"] !== "nessuno") {
-      let elenco;
-      try {
-        elenco = elencoRiservato(readFileSync(opz["--riservato"], "utf8"), opz["--riservato"]);
-      } catch (e) {
-        cieco(`non riesco a leggere l'elenco del riservato ${opz["--riservato"]}: ${e.message}`);
-      }
-      if (elenco == null) cieco(`${opz["--riservato"]} non porta il lavoro dei revisori della riservatezza (etichette «riservato:…»)`);
-      const esito = oscura(ricettario, elenco);
-      if (esito.mancati.length) cieco(`l'elenco del riservato non colpisce il bersaglio: ${esito.mancati.slice(0, 8).join(" · ")} — un'oscuratura che manca il bersaglio non è avvenuta`);
-      pubblico = esito.ricettario;
-      lasciati = esito.lasciati;
-      console.log(`🔒 oscurati ${esito.oscurati} campi segnati dai revisori della riservatezza${lasciati.length ? `; ${lasciati.length} giudicati pubblici` : ""}`);
-    } else console.log("🔓 --riservato nessuno: dichiarato da chi ha riletto, nessun passaggio da oscurare");
-    const testi = testiDellaCorsiaRiservata(privata);
-    if (testi.length) {
-      const copiate = frasiCopiate(pubblico, testi, testiGiaPubblici(registro));
-      const restano = nonGiudicate(copiate, lasciati);
-      if (restano.length) cieco(`il testo pubblico ripete frasi della corsia riservata in ${restano.length} campi che nessun revisore ha giudicato: ${restano.slice(0, 12).join(" · ")} — mandali ai revisori della riservatezza («riservato» li mette nei loro materiali): li oscurano, o li dichiarano già pubblici col perché`);
-      console.log(`🔎 frasi della corsia riservata nel testo pubblico: ${copiate.length} campi, tutti giudicati dai revisori (${testi.length} testi riservati confrontati)`);
-    } else console.log("⚪ fra i journal non c'è la corsia riservata: il confronto automatico delle frasi non è stato fatto");
+  // La corsia riservata. Se fra i journal non c'è, si riprende quella già raccolta nella cartella: chi
+  // pubblica tende a tenere il materiale privato lontano dal comando che pubblica, e così la rete delle
+  // frasi si spegneva e il ricettario completo perdeva la corsia (collaudo del 24/10).
+  const fileCompleto = path.join(dir, "ricettario-completo.json");
+  let privataUsata = privata;
+  if (!privata.length && existsSync(fileCompleto)) {
+    let prima;
+    try {
+      prima = JSON.parse(readFileSync(fileCompleto, "utf8"));
+    } catch (e) {
+      cieco(`il ricettario completo di prima (${fileCompleto}) è illeggibile: ${e.name}`);
+    }
+    if (Array.isArray(prima.privata) && prima.privata.length) {
+      privataUsata = prima.privata;
+      console.log(`↪️  fra i journal non c'è la corsia riservata: ripresa dal ricettario completo della cartella (${prima.privata.length} risultati)`);
+    }
   }
-  scrivi(path.join(dir, "ricettario-completo.json"), { ...ricettario, privata });
+  let pubblico = null;
+  if (opz["--scrivi"]) pubblico = pubblica(ricettario, privataUsata, registro);
+  scrivi(fileCompleto, { ...ricettario, privata: privataUsata });
   console.log(`🔎 PRE-DIAGNOSI — raccolta da ${posizionali.length} journal, ${voci.length} risultati d'agente`);
   console.log(JSON.stringify(sintesi));
   if (estranei.length) console.log(`⚠️  ${estranei.length} ricette parlano di difetti non più aperti (registro cambiato sotto le mani?): ${estranei.slice(0, 10).join(", ")}`);
-  if (spostati.length) console.log(`↪️  ${new Set(spostati).size} difetti avevano cambiato posizione nel registro: riagganciati per chiave`);
-  if (persi.length) console.log(`⚠️  ${new Set(persi).size} ricette non ritrovano il loro difetto nel registro (titolo cambiato?), scartate: ${[...new Set(persi)].slice(0, 10).join(", ")}`);
-  if (revisoriPersi.length) console.log(`⚠️  ${revisoriPersi.length} revisori partiti e mai tornati: ${revisoriPersi.slice(0, 10).join(", ")} — i loro difetti non hanno quella voce`);
+  if (spostati.size) console.log(`↪️  ${spostati.size} difetti avevano cambiato posizione nel registro: riagganciati per chiave`);
+  if (persi.size) console.log(`⚠️  ${persi.size} ricette non ritrovano il loro difetto nel registro (titolo cambiato?), scartate: ${[...persi].slice(0, 10).join(", ")}`);
+  if (persiDavvero.length) console.log(`⚠️  ${persiDavvero.length} revisori partiti e mai tornati: ${persiDavvero.slice(0, 10).join(", ")} — i loro difetti non hanno quella voce`);
+  const quanteDoppie = Object.values(doppie).reduce((s, x) => s + x, 0);
+  if (quanteDoppie) console.log(`⚠️  ${quanteDoppie} voci doppie (${Object.entries(doppie).filter(([, x]) => x).map(([k, x]) => `${k} ${x}`).join(" · ")}): stanno tutte nel ricettario; ${discordi} difetti danno esiti diversi a seconda della voce, e vanno rivisti`);
   if (sintesi.seri_senza_lente_a || sintesi.seri_senza_lente_b) console.log(`⚠️  difetti seri senza una delle due verifiche: lente A mancante ${sintesi.seri_senza_lente_a}, lente B mancante ${sintesi.seri_senza_lente_b}`);
   if (pubblico) {
     const ora = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Rome" }).replace(/[-: ]/g, "").slice(0, 12);
@@ -541,22 +769,80 @@ function raccogli() {
   }
 }
 
+/** Le regole della pubblicazione: torna il ricettario pubblico, o si ferma. Non scrive niente. */
+function pubblica(ricettario, privata, registro) {
+  const fonti = opz["--riservato"];
+  const testiRiservati = testiDellaCorsiaRiservata(privata);
+  const ciSonoFalle = ricettario.sintesi.riservati > 0;
+  if (ciSonoFalle && !testiRiservati.length) cieco(`il registro ha ${ricettario.sintesi.riservati} falle riservate aperte e fra i journal, e nella cartella, non c'è la loro corsia: senza, il confronto con il testo pubblico non si può fare. Passa anche il journal del modo «privata».`);
+  if (fonti.includes("nessuno")) {
+    // «nessuno» vale solo dove non c'è niente da nascondere: era la scorciatoia che il messaggio
+    // stesso suggeriva, e pubblicava anche con falle aperte (collaudo del 24/10).
+    if (fonti.length > 1 || ciSonoFalle || testiRiservati.length) cieco(`«--riservato nessuno» vale solo per un registro senza falle riservate e senza corsia riservata: qui le falle aperte sono ${ricettario.sintesi.riservati} e i testi riservati ${testiRiservati.length}. Serve il journal del modo «riservatezza».`);
+    console.log("🔓 nessuna falla riservata aperta e nessuna corsia riservata: niente da rileggere");
+    return ricettario;
+  }
+  const journals = [];
+  let elenco = [];
+  for (const f of fonti) {
+    if (!existsSync(f)) cieco(`l'elenco del riservato ${f} non esiste`);
+    const testo = readFileSync(f, "utf8");
+    if (/\.jsonl$/.test(f)) {
+      if (!revisioneRiservatezza([testo]).lenti.length) cieco(`${f} non porta il lavoro dei revisori della riservatezza (etichette «riservato:…»)`);
+      journals.push(testo);
+      continue;
+    }
+    let voci;
+    try {
+      voci = elencoRiservato(testo, f);
+    } catch (e) {
+      // Il messaggio di JSON.parse riporta un pezzo del testo: qui si dice solo dove guardare.
+      cieco(`l'elenco del riservato ${f} non è JSON valido (${e.name})`);
+    }
+    if (!Array.isArray(voci)) cieco(`l'elenco del riservato ${f} non è una lista di voci, né l'uscita di un revisore`);
+    elenco.push(...voci);
+  }
+  const rev = revisioneRiservatezza(journals);
+  elenco = [...elenco, ...rev.voci];
+  const improntaDiOggi = impronta(ricettario);
+  if (ciSonoFalle || testiRiservati.length) {
+    const motivi = revisioneIncompleta(rev, improntaDiOggi);
+    if (motivi.length) cieco(`la revisione della riservatezza non vale per questo testo: ${motivi.join(" · ")}. Rifai «riservato --cartella …» e il workflow in modo «riservatezza», poi passa qui il suo journal (e gli elenchi delle riletture di prima).`);
+  }
+  const esito = oscura(ricettario, elenco);
+  if (esito.mancati.length) cieco(`l'elenco del riservato non colpisce il bersaglio: ${esito.mancati.slice(0, 8).join(" · ")} — un'oscuratura che manca il bersaglio non è avvenuta`);
+  const pubblico = esito.ricettario;
+  console.log(`🔒 oscurati ${esito.oscurati} campi segnati dai revisori della riservatezza${esito.lasciati.length ? `; ${esito.lasciati.length} giudicati pubblici` : ""}${esito.contesi.length ? `; su ${esito.contesi.length} i revisori non erano d'accordo, e vince l'oscuratura` : ""}`);
+  // Le reti che non dipendono dai revisori: frasi lunghe e nomi che stanno solo nelle falle. Ogni
+  // campo che pescano va oscurato o giudicato, e il giudizio sta scritto nel journal.
+  const gia = testiGiaPubblici(registro);
+  const frasi = nonGiudicate(frasiCopiate(pubblico, testiRiservati, gia), esito.lasciati);
+  if (frasi.length) cieco(`il testo pubblico ripete frasi della corsia riservata in ${frasi.length} campi che nessun revisore ha giudicato: ${frasi.slice(0, 12).join(" · ")} — «riservato --cartella …» li mette nei materiali dei revisori: li oscurano, o li dichiarano già pubblici col perché`);
+  const nomi = nomiSoloRiservati(testiRiservati, gia);
+  const conNomi = nonGiudicate(campiConNomi(pubblico, nomi), esito.lasciati);
+  if (conNomi.length) cieco(`${conNomi.length} campi pubblici nominano una funzione, una regola o un file che sta solo nelle falle riservate, e nessun revisore li ha giudicati: ${conNomi.slice(0, 12).join(" · ")}`);
+  // La memoria: un campo oscurato in un ricettario pubblico di prima non torna in chiaro in silenzio.
+  const tornati = tornatiInChiaro(pubblico, oscuratiPrima(ricettariPubbliciDiPrima()), esito.lasciati);
+  if (tornati.length) cieco(`${tornati.length} campi oscurati in un ricettario pubblico di prima tornerebbero in chiaro senza un giudizio «già pubblico»: ${tornati.slice(0, 12).join(" · ")} — passa anche l'elenco delle riletture di prima, oppure fai giudicare quei campi`);
+  console.log(`🔎 controllati ${testiRiservati.length} testi riservati: nessuna frase lunga e nessun nome solo riservato senza giudizio; nessuna oscuratura di prima tornata in chiaro`);
+  return pubblico;
+}
+
 // ── riservato ──────────────────────────────────────────────────────────────────────────────────
 /**
- * I materiali per i revisori della riservatezza: dal ricettario completo (che porta la corsia
- * riservata) i nomi propri delle falle — funzioni, regole, file — e i difetti pubblici i cui testi li
- * nominano. Un nome che compare in tanti difetti pubblici è un nome comune (order_id, middleware.ts)
- * e non segnala niente: si tiene solo chi compare al più in `RARO` difetti. Pura nella parte che decide.
+ * I materiali per i revisori della riservatezza. Dal ricettario completo (che porta la corsia
+ * riservata): i campi che il comando che pubblica pretenderà giudicati (frasi lunghe e nomi che
+ * stanno solo nelle falle), e come guida di lettura i difetti che nominano un nome raro delle falle.
+ * Un nome che compare in tanti difetti pubblici è un nome comune (order_id, middleware.ts) e non
+ * segnala niente: si tiene solo chi compare al più in `RARO` difetti. Pura nella parte che decide.
  */
 const RARO = 8;
 export function candidatiRiservati(ricettario) {
   const testi = testiDellaCorsiaRiservata(ricettario.privata || []);
   const nomi = new Set();
-  for (const t of testi) {
-    for (const m of String(t).matchAll(/[A-Za-z_][A-Za-z0-9_]*_[A-Za-z0-9_]+|[\w./[\]-]+\.(?:tsx?|sql|ya?ml|mjs|js|sh)\b/g)) if (m[0].length > 5) nomi.add(m[0]);
-  }
+  for (const t of testi) for (const m of String(t).matchAll(RE_NOME)) if (m[0].length > 5) nomi.add(m[0]);
   const pubblici = (ricettario.difetti || []).filter((d) => !d.riservato && d.ricetta);
-  const testoDi = (d) => JSON.stringify({ r: d.ricetta, a: d.lente_a, b: d.lente_b, c: d.chiuso });
+  const testoDi = (d) => JSON.stringify(d);
   const quanti = new Map();
   for (const n of nomi) quanti.set(n, pubblici.filter((d) => testoDi(d).includes(n)).length);
   const rari = [...nomi].filter((n) => quanti.get(n) > 0 && quanti.get(n) <= RARO);
@@ -572,20 +858,23 @@ function riservato() {
   const r = JSON.parse(readFileSync(f, "utf8"));
   if (!(r.privata || []).length) cieco("il ricettario completo non porta la corsia riservata: passa a «raccogli» anche il suo journal");
   const c = candidatiRiservati(r);
-  // Le frasi in comune con la corsia riservata: il comando che pubblica si ferma su ognuna che i
-  // revisori non hanno giudicato, quindi vanno nei loro materiali, campo per campo.
-  const frasi = frasiCopiate(r, testiDellaCorsiaRiservata(r.privata), testiGiaPubblici(leggiRegistro()));
-  const idxFrasi = new Set(frasi.filter((f) => f.startsWith("difetto ")).map((f) => Number(f.split(/[ .]/)[1])));
-  const perIdx = new Map(r.difetti.map((d) => [d.idx, d]));
-  const segnalati = [...new Set([...c.difetti, ...idxFrasi])].filter((i) => perIdx.has(i)).sort((a, b) => a - b);
+  const testi = testiDellaCorsiaRiservata(r.privata);
+  const gia = testiGiaPubblici(leggiRegistro());
+  const frasi = frasiCopiate(r, testi, gia);
+  const conNomi = campiConNomi(r, nomiSoloRiservati(testi, gia));
+  const daGiudicare = [...new Set([...frasi, ...conNomi])].sort();
   scrivi(path.join(dir, "da-controllare-riservato.json"), {
-    frasi_in_comune: frasi,
-    difetti: segnalati.map((i) => ({ idx: i, perche_segnalato: [c.difetti.includes(i) ? "nome raro" : "", idxFrasi.has(i) ? "frase in comune" : ""].filter(Boolean).join(" + "), testi_da_pubblicare: { ricetta: perIdx.get(i).ricetta, lente_a: perIdx.get(i).lente_a, lente_b: perIdx.get(i).lente_b, chiuso: perIdx.get(i).chiuso } })),
-    territori: r.territori.filter((t) => c.territori.some((x) => x.territorio === t.territorio && x.modo === t.modo) || frasi.some((f) => f.startsWith(`territorio ${t.modo}:${t.territorio}.`))),
+    _come_si_usa: "Ogni percorso di «da_giudicare» va oscurato (da_oscurare) o dichiarato già pubblico (giudicati_pubblici), sennò il comando non pubblica. «impronta» va ricopiata nella risposta: dice su quale testo hai lavorato. I testi stanno in ricettario-completo.json, alla voce del difetto o del territorio.",
+    impronta: impronta(r),
+    da_giudicare: daGiudicare.map((p) => ({ percorso: p, perche_segnalato: [frasi.includes(p) ? "frase lunga in comune con una falla" : "", conNomi.includes(p) ? "nome che sta solo nelle falle" : ""].filter(Boolean).join(" + ") })),
+    difetti_con_nomi_rari: c.difetti,
+    territori_con_nomi_rari: c.territori,
   });
-  scrivi(path.join(dir, "PRIVATO-elenco.json"), r.privata.flatMap(({ result }) => (result.falle || []).map((x) => ({ titolo: x.titolo, dove: x.dove, come_si_sfrutta: x.come_si_sfrutta }))));
-  console.log(`🔒 RISERVATEZZA — ${c.difetti.length} difetti pubblici e ${c.territori.length} territori nominano un nome raro della corsia riservata (${c.nomi_rari.length} nomi, da ${c.testi} testi riservati); ${frasi.length} campi ripetono una frase lunga di una falla. In tutto ${segnalati.length} difetti da rileggere.`);
-  console.log(`Poi: Workflow .claude/workflows/prediagnosi.js con args {cartella: "${dir}", modo: "riservatezza"}; il suo journal va a «raccogli --scrivi --riservato <journal>».`);
+  // Tutto il testo riservato, non solo le falle degli auditori: le «mancate» dei verificatori sono
+  // falle nuove, e il 24/10 restavano fuori dai materiali dei revisori.
+  scrivi(path.join(dir, "PRIVATO-elenco.json"), r.privata.map(({ label, result }) => ({ label, falle: result.falle || [], verdetti: result.verdetti || [], mancate: result.mancate || "", note: result.note || "" })));
+  console.log(`🔒 RISERVATEZZA — ${daGiudicare.length} campi da giudicare (${frasi.length} con una frase lunga di una falla, ${conNomi.length} con un nome che sta solo nelle falle); da leggere anche ${c.difetti.length} difetti e ${c.territori.length} territori che nominano un nome raro delle falle.`);
+  console.log(`Poi: Workflow .claude/workflows/prediagnosi.js con args {cartella: "${dir}", modo: "riservatezza"}; il suo journal va a «raccogli --scrivi --riservato <journal>», insieme agli elenchi delle riletture di prima.`);
 }
 
 // ── ondate ─────────────────────────────────────────────────────────────────────────────────────
@@ -599,38 +888,70 @@ const RE_PERCORSO = /[\w./@[\]()-]+\.(?:tsx?|jsx?|mjs|cjs|sql|json|css|sh|md|ya?
 export function nomeDelFile(f, radice = "") {
   const testo = String(f || "").trim();
   const m = testo.match(RE_PERCORSO);
-  let nome = (m ? m[0] : testo).replace(/^\.\//, "");
+  let nome = (m && !testo.includes("*") ? m[0] : testo).replace(/^\.\//, "");
   // Un revisore può scrivere il percorso intero della sua macchina: si toglie la radice del sito, se
   // la si conosce, o la parte fino alla cartella del sito («…/mycity/» o «…/marketplace/»).
   if (radice && nome.startsWith(radice.replace(/\/?$/, "/"))) nome = nome.slice(radice.replace(/\/?$/, "/").length);
   else nome = nome.replace(/^\/.*?\/(?:mycity|marketplace)\//, "");
   return nome;
 }
+const fileDiProva = (f) => /^tests?\//.test(f) || /(^|\/)__tests__\//.test(f) || /\.(test|spec)\.[jt]sx?$/.test(f);
+const fileDiMigrazione = (f) => /^(supabase\/)?migrations\//.test(f);
+/** Una citazione larga: una cartella o un modello con l'asterisco. Tocca file che non si contano. */
+export const citazioneLarga = (f, eCartella = () => false) => f.includes("*") || f.endsWith("/") || eCartella(f);
 
 /**
- * Il territorio di una ricetta per le ondate: i file che ESISTONO già nel sito e non sono prove.
- * Una prova nuova, o una migrazione nuova che due ricette chiamano «164_…», non è un conflitto vero:
- * il 24/10 contarle ha fuso 356 difetti in un blocco solo da 315 ore. Senza --repo non si sa cosa
- * esiste, e restano fuori solo le prove.
+ * Il territorio di una ricetta per le ondate: i file che la squadra scriverà, tolte le prove e le
+ * migrazioni. Una prova nuova, o una migrazione che due ricette chiamano «164_…», non è un conflitto
+ * di squadra: il 24/10 contarle ha fuso 356 difetti in un blocco solo da 315 ore (i numeri delle
+ * migrazioni si ricuciono a parte). Un file NUOVO che non è una prova invece conta: due squadre che lo
+ * creano entrambe si pestano i piedi (collaudo del 24/10, lib/rider/idoneita.ts in tre ricette).
+ * Un campo oscurato (una stringa al posto della lista) vale come nessun file.
  */
 export function territorio(ricetta, esiste = () => true, radice = "") {
-  return [...new Set((ricetta.file_toccati || []).map((f) => nomeDelFile(f, radice)).filter((f) => f && !/^tests?\//.test(f) && !/(^|\/)__tests__\//.test(f) && esiste(f)))];
+  const lista = Array.isArray(ricetta?.file_toccati) ? ricetta.file_toccati : [];
+  return [...new Set(lista.map((f) => nomeDelFile(f, radice)).filter((f) => f && !fileDiProva(f) && !fileDiMigrazione(f) && (esiste(f) || !citazioneLarga(f))))];
+}
+/** Perché una ricetta resta senza territorio: solo prove, solo migrazioni, niente citato, o il campo oscurato. */
+function perchéLibero(ricetta, radice) {
+  if (!Array.isArray(ricetta?.file_toccati)) return "file oscurati";
+  const nomi = ricetta.file_toccati.map((f) => nomeDelFile(f, radice)).filter(Boolean);
+  if (!nomi.length) return "nessun file citato";
+  if (nomi.every(fileDiMigrazione)) return "solo migrazioni";
+  if (nomi.every(fileDiProva)) return "solo prove";
+  return "solo prove e migrazioni";
 }
 
 /**
  * Pacchetti e ondate, come in pacchetti-lotto.mjs: un pacchetto per file «caldo» (il file del
  * territorio che più ricette toccano), una squadra per pacchetto, e due pacchetti che condividono
- * anche un solo file non stanno mai nella stessa ondata. Pura: la prova la esegue.
+ * anche un solo file non stanno mai nella stessa ondata. Una ricetta che cita una cartella o un
+ * modello con l'asterisco tocca file che non si possono contare: va da sola, in un'ondata sua
+ * (collaudo del 24/10: una sostituzione su «app/» stava accanto a due pacchetti dentro «app/»).
+ * Pura: la prova la esegue.
  */
-export function pianoDelleOndate(difetti, { esiste = () => true, perOndata = PER_ONDATA, radice = "" } = {}) {
+export function pianoDelleOndate(difetti, { esiste = () => true, eCartella = () => false, perOndata = PER_ONDATA, radice = "" } = {}) {
   const conti = new Map();
-  const conTerr = difetti.map((d) => ({ d, file: territorio(d.ricetta, esiste, radice) }));
+  const conTerr = difetti.map((d) => {
+    const lista = Array.isArray(d.ricetta?.file_toccati) ? d.ricetta.file_toccati : [];
+    const larghe = lista.map((f) => nomeDelFile(f, radice)).filter((f) => f && !fileDiProva(f) && !fileDiMigrazione(f) && citazioneLarga(f, eCartella));
+    return { d, file: territorio(d.ricetta, esiste, radice).filter((f) => !citazioneLarga(f, eCartella)), larghe };
+  });
   for (const { file } of conTerr) for (const f of file) conti.set(f, (conti.get(f) || 0) + 1);
   const pacchi = new Map();
   const liberi = [];
-  for (const { d, file } of conTerr) {
+  const perché = {};
+  const larghi = [];
+  const ore = (d) => ORE[d.ricetta?.stima] ?? ORE.M;
+  for (const { d, file, larghe } of conTerr) {
+    if (larghe.length) {
+      larghi.push({ chiave: `${larghe[0]} (largo)`, difetti: [d.idx], file: [...file, ...larghe], ore: ore(d), peggiore: PESO[d.severita] ?? 2, rischio_alto: (d.lente_b?.rischio_rivisto || d.ricetta?.rischio_nascita) === "alto" ? 1 : 0 });
+      continue;
+    }
     if (!file.length) {
       liberi.push(d.idx);
+      const p = perchéLibero(d.ricetta, radice);
+      perché[p] = (perché[p] || 0) + 1;
       continue;
     }
     const caldo = [...file].sort((a, b) => (conti.get(b) - conti.get(a)) || a.localeCompare(b))[0];
@@ -638,9 +959,9 @@ export function pianoDelleOndate(difetti, { esiste = () => true, perOndata = PER
     const p = pacchi.get(caldo);
     p.difetti.push(d.idx);
     for (const f of file) p.file.add(f);
-    p.ore += ORE[d.ricetta.stima] ?? ORE.M;
+    p.ore += ore(d);
     p.peggiore = Math.min(p.peggiore, PESO[d.severita] ?? 2);
-    if ((d.lente_b?.rischio_rivisto || d.ricetta.rischio_nascita) === "alto") p.rischio_alto++;
+    if ((d.lente_b?.rischio_rivisto || d.ricetta?.rischio_nascita) === "alto") p.rischio_alto++;
   }
   const ordinati = [...pacchi.values()].sort((a, b) => a.peggiore - b.peggiore || b.ore - a.ore || a.chiave.localeCompare(b.chiave));
   const ondate = [];
@@ -649,13 +970,18 @@ export function pianoDelleOndate(difetti, { esiste = () => true, perOndata = PER
     if (!o) ondate.push((o = []));
     o.push(p);
   }
-  const ore = ondate.map((w) => Math.max(...w.map((p) => p.ore)));
+  for (const p of larghi.sort((a, b) => a.peggiore - b.peggiore)) ondate.push([{ ...p, file: new Set(p.file) }]);
+  const orePerOndata = ondate.map((w) => Math.max(...w.map((p) => p.ore)));
+  const oreLiberi = conTerr.filter(({ d }) => liberi.includes(d.idx)).reduce((s, { d }) => s + ore(d), 0);
   return {
     ondate: ondate.map((w) => w.map((p) => ({ ...p, file: [...p.file] }))),
     liberi,
-    ore_per_ondata: ore,
-    ore_in_fila: ore.reduce((s, x) => s + x, 0),
-    ore_di_squadra: ordinati.reduce((s, p) => s + p.ore, 0),
+    liberi_perche: perché,
+    ore_per_ondata: orePerOndata,
+    ore_in_fila: orePerOndata.reduce((s, x) => s + x, 0),
+    ore_dei_liberi: oreLiberi,
+    // Tutto il lavoro, compreso quello senza un file: prima i liberi restavano fuori dal totale.
+    ore_di_squadra: ordinati.reduce((s, p) => s + p.ore, 0) + larghi.reduce((s, p) => s + p.ore, 0) + oreLiberi,
     caldi: [...conti].sort((a, b) => b[1] - a[1]).slice(0, 10),
   };
 }
@@ -686,7 +1012,8 @@ function ondate() {
   if (!Array.isArray(r.difetti)) cieco(`${file} non è un ricettario: manca «difetti»`);
   const repo = opz["--repo"] ? path.resolve(opz["--repo"]) : null;
   if (repo && !existsSync(path.join(repo, "package.json"))) cieco(`${repo} non sembra il repository del sito: manca package.json`);
-  const esiste = repo ? (f) => existsSync(path.join(repo, f)) : () => true;
+  const esiste = repo ? (f) => existsSync(path.join(repo, f)) && !statSync(path.join(repo, f)).isDirectory() : () => true;
+  const eCartella = repo ? (f) => existsSync(path.join(repo, f)) && statSync(path.join(repo, f)).isDirectory() : () => false;
   const daRiparare = r.difetti.filter((d) => d.esito === "da_riparare" && d.ricetta);
   const squadra = daRiparare.filter((d) => LAVORO_DI_SQUADRA.has(d.ricetta.chi_ripara));
   const corsie = {};
@@ -696,24 +1023,25 @@ function ondate() {
   // piano fino a farlo sembrare finito (collaudo del 24/10): almeno metà dei file citati che non sono
   // prove deve esistere davvero.
   if (repo) {
-    const citati = [...new Set(squadra.flatMap((d) => (d.ricetta.file_toccati || []).map((f) => nomeDelFile(f, repo)).filter((f) => f && !/^tests?\//.test(f) && !/^migrations\//.test(f))))];
+    const citati = [...new Set(squadra.flatMap((d) => (Array.isArray(d.ricetta.file_toccati) ? d.ricetta.file_toccati : []).map((f) => nomeDelFile(f, repo)).filter((f) => f && !fileDiProva(f) && !fileDiMigrazione(f) && !citazioneLarga(f))))];
     const trovati = citati.filter(esiste).length;
     if (citati.length && trovati * 2 < citati.length) cieco(`in ${repo} esistono solo ${trovati} dei ${citati.length} file citati dalle ricette: è la cartella giusta?`);
   }
   const conto = contoDelPiano(r.difetti, squadra, corsie);
   if (!conto.torna) cieco(`il conto non torna: ${conto.somma} difetti nel piano contro ${conto.totale} nel ricettario`);
-  const piano = pianoDelleOndate(squadra, { esiste: (f) => esiste(f), radice: repo || "" });
+  const piano = pianoDelleOndate(squadra, { esiste, eCartella, radice: repo || "" });
   const pacchetti = piano.ondate.reduce((s, w) => s + w.length, 0);
-  console.log(`🌊 ONDATE — ${squadra.length} difetti di codice in ${pacchetti} pacchetti, ${piano.ondate.length} ondate da al più ${PER_ONDATA} squadre${repo ? "" : " (senza --repo: conto come territorio anche i file che non esistono ancora)"}`);
+  const nelPiano = squadra.length - piano.liberi.length;
+  console.log(`🌊 ONDATE — ${squadra.length} difetti di codice: ${nelPiano} in ${pacchetti} pacchetti e ${piano.ondate.length} ondate da al più ${PER_ONDATA} squadre, ${piano.liberi.length} senza un file da contare${repo ? "" : " (senza --repo: conto come territorio anche i file che non esistono ancora)"}`);
   console.log(`Fuori dalle squadre: ${Object.entries(corsie).map(([k, v]) => `${k} ${v.length}`).join(" · ") || "nessuno"}`);
   console.log(`Fuori dal piano: già risolti ${conto.fuori.gia_risolti.length} · riservati ${conto.fuori.riservati.length} (la loro corsia) · senza ricetta ${conto.fuori.senza_ricetta.length} · da rivedere ${conto.fuori.da_rivedere.length}. Il conto torna: ${conto.somma} su ${conto.totale}.`);
-  console.log(`Ore di squadra in tutto: ${piano.ore_di_squadra} · in fila, ondata dopo ondata: ${piano.ore_in_fila} (stima dei revisori: S mezz'ora, M un'ora e mezza, L quattro ore).`);
+  console.log(`Ore di squadra in tutto: ${piano.ore_di_squadra} (di cui ${piano.ore_dei_liberi} dei difetti senza un file) · in fila, ondata dopo ondata: ${piano.ore_in_fila} (stima dei revisori: S mezz'ora, M un'ora e mezza, L quattro ore).`);
   console.log(`I file più caldi: ${piano.caldi.map(([f, n]) => `${f} (${n})`).join(", ")}`);
   piano.ondate.forEach((o, i) => {
     console.log(`── ONDATA ${i + 1} · ${piano.ore_per_ondata[i]} h`);
     for (const b of o) console.log(`  📦 ${b.chiave} · ${b.difetti.length} difetti · ${b.ore} h · idx ${b.difetti.join(",")}${b.rischio_alto ? ` · ⚠️ ${b.rischio_alto} a rischio alto di nascite` : ""}`);
   });
-  if (piano.liberi.length) console.log(`── SENZA UN FILE ESISTENTE (solo prove o migrazioni nuove): ${piano.liberi.length} difetti, a una squadra a parte · idx ${piano.liberi.join(",")}`);
+  if (piano.liberi.length) console.log(`── SENZA UN FILE DA CONTARE (${Object.entries(piano.liberi_perche).map(([k, v]) => `${k} ${v}`).join(" · ")}): ${piano.liberi.length} difetti, a una squadra a parte · idx ${piano.liberi.join(",")}`);
   if (conto.seriScoperti.length && !opz["--parziale"]) {
     cieco(`${conto.seriScoperti.length} difetti seri sono senza ricetta o da rivedere (idx ${conto.seriScoperti.slice(0, 12).join(",")}): rifai quei territori, o lancia con --parziale sapendo che il piano non li copre`);
   }

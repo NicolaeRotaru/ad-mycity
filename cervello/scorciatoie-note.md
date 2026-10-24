@@ -98,3 +98,37 @@
     fonte che cita il file di un'altra voce dà un falso rosso. Misurato l'11/10/2026 dall'ottavo
     collaudo della CI, fra lo scadenzario e i registri del cancello. *Cura: il legame è un campo
     apposta, confrontato per uguaglianza; chi non ha il campo non c'entra.*
+
+## H. La riservatezza che si spegne da sola
+
+Misurate il 24/10/2026 da due giri di collaudo e da un montaggio sui dati veri della pre-diagnosi
+del sito (`cervello/prediagnosi.mjs`), dove un testo pubblicato per sbaglio non si ritira più.
+
+23. **L'ingresso facoltativo che spegne la rete.** Il confronto con le falle riservate girava solo se
+    il journal della corsia privata stava fra gli ingressi. Ma chi pubblica tiene il materiale
+    privato lontano dal comando che pubblica: è il gesto naturale. Risultato: rete spenta, una riga
+    «⚪ non fatto» e uscita 0. *Cura: l'ingresso che tiene in piedi una difesa si pretende, o si
+    ricostruisce da dove era già: mai facoltativo.*
+24. **Il revisore a metà.** Su due revisori ne torna uno, e il comando prende quello che c'è. Il giro
+    vero era «a 1 su 2» mentre lo si poteva già usare. *Cura: si pretende ogni lente, e che abbia
+    riletto qualcosa su QUESTO testo (un'impronta ricopiata dai suoi materiali).*
+25. **La seconda passata che cancella la prima.** Un argomento ripetuto vince l'ultimo, e un elenco
+    nuovo sostituisce quello vecchio: con i passi naturali le 34 oscurature del mattino sparivano,
+    uscita 0. *Cura: gli elenchi si uniscono, e quello che era nascosto nell'uscita di prima resta
+    nascosto finché qualcuno non scrive che si può mostrare.*
+26. **Il giudizio largo.** «Coprire in più» è giusto quando si nasconde, sbagliato quando si libera:
+    un «già pubblico» dato a un nome di territorio che si ripete liberava anche la copia mai letta.
+    *Cura: largo quando si chiude, esatto quando si apre.*
+27. **La legatura per posizione senza il foglio.** Le ricette si attaccano ai difetti per posizione,
+    con il fascicolo a dire di chi parlavano. Senza il fascicolo l'aggancio restava per posizione,
+    e un difetto grave usciva «già risolto» con le voci di un altro. *Cura: manca il foglio che
+    lega, ci si ferma.*
+28. **Il segno che tutti hanno.** Un collaudatore propone un terzo segno per riconoscere le falle
+    («id R<n>» nella fonte); il banco lo prova verde. Sul registro vero lo portavano 265 schede
+    pubbliche su 539: la radiografia dà quel numero a ogni difetto. *Cura: il banco scrive i
+    record normali come li scrive il registro vero, e il montaggio sui dati veri viene prima della
+    consegna.*
+29. **L'allarme che suona sempre.** La rete delle frasi copiate suonava su otto campi su otto per
+    frasi già pubbliche o di contesto dato a tutti («la chiave di servizio che manca»). Un allarme
+    che suona a ogni giro insegna a zittirlo alla cieca. *Cura: si toglie quello che è già
+    pubblico, e ogni allarme che resta diventa un giudizio scritto, campo per campo.*

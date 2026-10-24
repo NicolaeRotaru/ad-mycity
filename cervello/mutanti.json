@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-24 17:26",
+ "aggiornato": "2026-10-24 18:16",
  "mutanti": [
   {
    "lotto": 30,
@@ -9707,13 +9707,13 @@
    "nome": "il ricettario pubblico torna a portare la corsia riservata",
    "file": "cervello/prediagnosi.mjs",
    "cerca": "    scrivi(fuori, pubblico);",
-   "sostituisci": "    scrivi(fuori, { ...pubblico, privata });",
+   "sostituisci": "    scrivi(fuori, { ...pubblico, privata: privataUsata });",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "si pubblica senza che nessuno abbia riletto la riservatezza",
+   "nome": "si pubblica senza dire che manca il passaggio della riservatezza",
    "file": "cervello/prediagnosi.mjs",
    "cerca": "  if (opz[\"--scrivi\"] && !opz[\"--riservato\"]) {",
    "sostituisci": "  if (false) {",
@@ -9749,19 +9749,10 @@
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "una frase ricopiata da una falla riservata arriva nel deposito pubblico",
+   "nome": "un giudizio «già pubblico» su un nome ripetuto copre anche la copia mai giudicata",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": "      if (restano.length) cieco(`il testo pubblico ripete frasi",
-   "sostituisci": "      if (false) cieco(`il testo pubblico ripete frasi",
-   "test": "cervello/test/prediagnosi.test.mjs"
-  },
-  {
-   "lotto": "prediagnosi",
-   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "il giudizio su un campo copre anche gli altri campi",
-   "file": "cervello/prediagnosi.mjs",
-   "cerca": "  return copiate.filter((c) => !lasciati.some((l) => c === l || c.startsWith(`${l}.`)));",
-   "sostituisci": "  return copiate.filter((c) => !lasciati.some(() => true));",
+   "cerca": "    if (voce.pubblico === true && bersagli.length > 1) {",
+   "sostituisci": "    if (false) {",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
@@ -9776,64 +9767,154 @@
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "le frasi già pubbliche tornano a suonare come copie",
+   "nome": "il giudizio su un campo copre anche gli altri campi",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": "  for (const t of testiRiservati) for (const q of sequenze(t)) if (!note.has(q)) vietate.add(q);",
-   "sostituisci": "  for (const t of testiRiservati) for (const q of sequenze(t)) vietate.add(q);",
+   "cerca": "  return copiate.filter((c) => !lasciati.some((l) => c === l || c.startsWith(`${l}.`)));",
+   "sostituisci": "  return copiate.filter((c) => !lasciati.some(() => true));",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "il punto a fine frase separa due parole uguali",
+   "nome": "una frase ricopiata da una falla riservata arriva nel deposito pubblico",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": ".map((w) => w.replace(/^[./-]+|[./-]+$/g, \"\"))",
-   "sostituisci": "",
-   "test": "cervello/test/prediagnosi.test.mjs"
-  },
-  {
-   "lotto": "prediagnosi",
-   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "i campi con una frase in comune non arrivano ai revisori",
-   "file": "cervello/prediagnosi.mjs",
-   "cerca": "  const segnalati = [...new Set([...c.difetti, ...idxFrasi])]",
-   "sostituisci": "  const segnalati = [...new Set([...c.difetti])]",
-   "test": "cervello/test/prediagnosi.test.mjs"
-  },
-  {
-   "lotto": "prediagnosi",
-   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "una ricetta pubblica scritta su una falla riservata passa",
-   "file": "cervello/prediagnosi.mjs",
-   "cerca": "  if (suRiservati.size) cieco(",
+   "cerca": "  if (frasi.length) cieco(",
    "sostituisci": "  if (false) cieco(",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "un journal di un altro registro diventa un ricettario",
+   "nome": "un nome che sta solo nelle falle arriva nel deposito pubblico",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": "  if (!sintesi.con_ricetta) cieco(",
+   "cerca": "  if (conNomi.length) cieco(",
    "sostituisci": "  if (false) cieco(",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "la ricetta da sola chiude un difetto",
+   "nome": "una seconda pubblicazione rimette in chiaro un campo oscurato prima",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": "  if (ricetta.ancora_vero === \"no\") return chiuso && chiuso.gia_chiuso_confermato === true ? \"gia_risolto\" : \"da_riparare\";",
-   "sostituisci": "  if (ricetta.ancora_vero === \"no\") return \"gia_risolto\";",
+   "cerca": "  if (tornati.length) cieco(",
+   "sostituisci": "  if (false) cieco(",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "la lente che dice «già chiuso» chiude anche quando la ricetta dice «ancora vero»",
+   "nome": "si pubblica con una revisione della riservatezza incompleta",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": "    if (lenteA.verdetto === \"gia_chiuso_confermato\") return ricetta.ancora_vero === \"no\" ? \"gia_risolto\" : \"da_rivedere\";",
-   "sostituisci": "    if (lenteA.verdetto === \"gia_chiuso_confermato\") return \"gia_risolto\";",
+   "cerca": "    if (motivi.length) cieco(",
+   "sostituisci": "    if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una revisione fatta su un altro testo vale per questo",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    else if (!sue.some((x) => x.impronta === improntaDiOggi && Number(x.controllati) > 0)) motivi.push(",
+   "sostituisci": "    else if (false) motivi.push(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una lente che non ha riletto niente vale come rilettura",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    else if (!sue.some((x) => Number(x.controllati) > 0)) motivi.push(",
+   "sostituisci": "    else if (false) motivi.push(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un revisore della riservatezza partito e mai tornato non si dice",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (rev.persi.length) motivi.push(",
+   "sostituisci": "  if (false) motivi.push(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "«--riservato nessuno» pubblica anche con falle aperte",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    if (fonti.length > 1 || ciSonoFalle || testiRiservati.length) cieco(",
+   "sostituisci": "    if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "senza la corsia riservata il confronto si spegne in silenzio",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (ciSonoFalle && !testiRiservati.length) cieco(",
+   "sostituisci": "  if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "la corsia riservata non si riprende dalla cartella",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (!privata.length && existsSync(fileCompleto)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "con la corsia riservata ma senza falle aperte si pubblica senza revisione",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (ciSonoFalle || testiRiservati.length) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una scheda riservata col titolo ritoccato diventa pubblica",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  return [RE_PRIVATA.test(String(d?.titolo || \"\")), /nel referto privato/i.test(String(d?.file || \"\"))];",
+   "sostituisci": "  return [RE_PRIVATA.test(String(d?.titolo || \"\"))];",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "il numero «id R» della radiografia torna a valere come segno di una falla",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  return [RE_PRIVATA.test(String(d?.titolo || \"\")), /nel referto privato/i.test(String(d?.file || \"\"))];",
+   "sostituisci": "  return [RE_PRIVATA.test(String(d?.titolo || \"\")), /nel referto privato/i.test(String(d?.file || \"\")), /\\bid R\\d+\\b/.test(String(d?.fonte_radiografia || \"\"))];",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "segni discordi su una scheda riservata passano",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (discordi.length) cieco(",
+   "sostituisci": "  if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "senza i fascicoli le ricette si attaccano per posizione",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (senzaFascicolo.size) cieco(",
+   "sostituisci": "  if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un fascicolo vecchio senza chiave spegne il riaggancio",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    const chiave = fascicolo._chiave || chiaveProblema(fascicolo);",
+   "sostituisci": "    const chiave = fascicolo._chiave;",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
@@ -9841,8 +9922,71 @@
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
    "nome": "una ricetta finisce sul difetto accanto quando il registro si sposta",
    "file": "cervello/prediagnosi.mjs",
-   "cerca": "    if (!chiave || perIdx.get(idx)?._chiave === chiave) return idx;",
+   "cerca": "    if (perIdx.get(idx)?._chiave === chiave) return idx;",
    "sostituisci": "    return idx;",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "con due voci vince l'ultima letta",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  return esiti.size === 1 ? { esito: [...esiti][0], discordi: false } : { esito: \"da_rivedere\", discordi: true };",
+   "sostituisci": "  return { esito: [...esiti].at(-1), discordi: false };",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "lo stesso journal passato due volte fa voci doppie",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    if (gia.some((x) => JSON.stringify(x) === JSON.stringify(valore))) return;",
+   "sostituisci": "    if (false) return;",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una lente che si contraddice chiude il difetto",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    if (lenteA.verdetto === \"gia_chiuso_confermato\") return no && lenteA.ancora_vero_corretto === \"no\" ? \"gia_risolto\" : \"da_rivedere\";",
+   "sostituisci": "    if (lenteA.verdetto === \"gia_chiuso_confermato\") return no ? \"gia_risolto\" : \"da_rivedere\";",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un «già risolto» smentito dalla lente va a una squadra con una ricetta vuota",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    // serve una ricetta vera.\n    if (no) return \"da_rivedere\";",
+   "sostituisci": "    // serve una ricetta vera.",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un «true» scritto come testo vale come conferma",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    if (chiuso && chiuso.gia_chiuso_confermato === true) return \"gia_risolto\";",
+   "sostituisci": "    if (chiuso && chiuso.gia_chiuso_confermato) return \"gia_risolto\";",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "la ricetta da sola che dice «già chiuso» va a una squadra",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    return \"da_rivedere\";\n  }\n  return \"da_riparare\";\n}",
+   "sostituisci": "    return \"da_riparare\";\n  }\n  return \"da_riparare\";\n}",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un revisore rilanciato in un altro giro resta un falso allarme",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  const persiDavvero = [...new Set(revisoriPersi.filter((l) => !tornate.has(l)))];",
+   "sostituisci": "  const persiDavvero = [...new Set(revisoriPersi)];",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
@@ -9857,28 +10001,46 @@
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "una cartella dentro un repository torna a essere accettata",
-   "file": "cervello/prediagnosi.mjs",
-   "cerca": "    if (existsSync(path.join(d, \".git\"))) return true;",
-   "sostituisci": "    if (false) return true;",
-   "test": "cervello/test/prediagnosi.test.mjs"
-  },
-  {
-   "lotto": "prediagnosi",
-   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "un collegamento simbolico porta la cartella di lavoro dentro un repository",
-   "file": "cervello/prediagnosi.mjs",
-   "cerca": "  if (dentroUnRepo(esistente) || dentroUnRepo(vera)) cieco(",
-   "sostituisci": "  if (dentroUnRepo(esistente)) cieco(",
-   "test": "cervello/test/prediagnosi.test.mjs"
-  },
-  {
-   "lotto": "prediagnosi",
-   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
    "nome": "due squadre sullo stesso file nella stessa ondata",
    "file": "cervello/prediagnosi.mjs",
    "cerca": "    let o = ondate.find((w) => w.length < perOndata && w.every((q) => ![...p.file].some((f) => q.file.has(f))));",
    "sostituisci": "    let o = ondate.find((w) => w.length < perOndata);",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una ricetta che cita una cartella intera sta accanto alle altre",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    if (larghe.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un file nuovo creato da due squadre non conta come conflitto",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": ".filter((f) => f && !fileDiProva(f) && !fileDiMigrazione(f) && (esiste(f) || !citazioneLarga(f)))",
+   "sostituisci": ".filter((f) => f && !fileDiProva(f) && !fileDiMigrazione(f) && esiste(f))",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "le ore di squadra lasciano fuori i difetti senza un file",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "+ larghi.reduce((s, p) => s + p.ore, 0) + oreLiberi,",
+   "sostituisci": "+ larghi.reduce((s, p) => s + p.ore, 0),",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una lista di file oscurata fa cadere il piano",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  const lista = Array.isArray(ricetta?.file_toccati) ? ricetta.file_toccati : [];\n  return",
+   "sostituisci": "  const lista = ricetta?.file_toccati || [];\n  return",
    "test": "cervello/test/prediagnosi.test.mjs"
   },
   {
@@ -9911,10 +10073,145 @@
   {
    "lotto": "prediagnosi",
    "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
-   "nome": "un nome comune a tutti i difetti manda tutto ai revisori della riservatezza",
+   "nome": "un nome comune a tutti i difetti finisce fra i nomi rari",
    "file": "cervello/prediagnosi.mjs",
    "cerca": "  const rari = [...nomi].filter((n) => quanti.get(n) > 0 && quanti.get(n) <= RARO);",
    "sostituisci": "  const rari = [...nomi].filter((n) => quanti.get(n) > 0);",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "i campi con una frase in comune non arrivano ai revisori",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  const daGiudicare = [...new Set([...frasi, ...conNomi])].sort();",
+   "sostituisci": "  const daGiudicare = [...new Set([...conNomi])].sort();",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "le falle mancate dai verificatori restano fuori dai materiali dei revisori",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "mancate: result.mancate || \"\",",
+   "sostituisci": "mancate: \"\",",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "le frasi già pubbliche tornano a suonare come copie",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  for (const t of testiRiservati) for (const q of sequenze(t)) if (!note.has(q)) vietate.add(q);",
+   "sostituisci": "  for (const t of testiRiservati) for (const q of sequenze(t)) vietate.add(q);",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "il punto a fine frase separa due parole uguali",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": ".map((w) => w.replace(/^[./-]+|[./-]+$/g, \"\"))",
+   "sostituisci": "",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "le frasi si cercano solo nella ricetta, non nelle lenti e nelle voci doppie",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    for (const [k, v] of Object.entries(d)) if (!CAMPI_DEL_REGISTRO.has(k)) visita(v, `${nomeDifetto(d)}.${k}`);",
+   "sostituisci": "    visita(d.ricetta, `${nomeDifetto(d)}.ricetta`);",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "i testi dei territori non si controllano",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  for (const t of ricettario.territori || []) for (const [k, v] of Object.entries(t)) if (k !== \"territorio\" && k !== \"modo\") visita(v, `${nomeTerritorio(t)}.${k}`);",
+   "sostituisci": "",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "l'impronta cambia con l'ordine dei journal",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  const territori = ordina(ricettario.territori || []);",
+   "sostituisci": "  const territori = (ricettario.territori || []).map((x) => JSON.stringify(x));",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un secondo --riservato cancella in silenzio il primo",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "        if (RIPETIBILI.has(a)) opz[a] = [...(opz[a] || []), ARG[++i]];",
+   "sostituisci": "        if (RIPETIBILI.has(a)) opz[a] = [ARG[++i]];",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un argomento ripetuto vince in silenzio sul primo",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "        else if (a in opz) cieco(`${a} si dà una volta sola`);",
+   "sostituisci": "",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un journal qualunque passato a --riservato vale come revisione",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "      if (!revisioneRiservatezza([testo]).lenti.length) cieco(",
+   "sostituisci": "      if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una ricetta pubblica scritta su una falla riservata passa",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (suRiservati.size) cieco(",
+   "sostituisci": "  if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un journal senza ricette diventa un ricettario",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (!sintesi.con_ricetta) cieco(",
+   "sostituisci": "  if (false) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "una cartella dentro un repository torna a essere accettata",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "    if (existsSync(path.join(d, \".git\"))) return true;",
+   "sostituisci": "    if (false) return true;",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "un collegamento simbolico porta la cartella di lavoro dentro un repository",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "  if (dentroUnRepo(esistente) || dentroUnRepo(vera)) cieco(",
+   "sostituisci": "  if (dentroUnRepo(esistente)) cieco(",
+   "test": "cervello/test/prediagnosi.test.mjs"
+  },
+  {
+   "lotto": "prediagnosi",
+   "difetto": "pre-diagnosi del sito (24/10, collaudo a due lenti)",
+   "nome": "le interazioni fra territori della lente B si buttano via",
+   "file": "cervello/prediagnosi.mjs",
+   "cerca": "      if (result.interazioni_fra_territori) interazioni.set(",
+   "sostituisci": "      if (false) interazioni.set(",
    "test": "cervello/test/prediagnosi.test.mjs"
   }
  ],

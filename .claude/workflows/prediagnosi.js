@@ -22,7 +22,8 @@
 //                         pubblico e segnano i passaggi che rivelano una falla riservata (passo 5)
 //      Gli args opzionali: sito (dove sta il codice), commit, contesto (fatti di produzione e scelte
 //      di Nicola, se no il revisore li legge da STATO.md e dal registro dei fatti), senior (chi fa
-//      cosa: {ricette, lenteA, lenteB, minori, chiusi, privata, privataV}, o `senior` sul territorio).
+//      cosa: {ricette, lenteA, lenteB, minori, chiusi, privata, privataV, istruzioni, nomi}, o `senior`
+//      sul territorio).
 //      Le aree «privata» con db: true chiedono di leggere i cataloghi del database: per primo con lo
 //      strumento in sola lettura del repo (supabase-marketplace, --read-only in .mcp.json); se il senior
 //      di sicurezza non ha nessuno strumento SQL, passa in senior.privata un agente che ce l'ha.
@@ -33,6 +34,8 @@
 //   4. node cervello/prediagnosi.mjs riservato --cartella <stessa>   → i materiali dei revisori
 //   5. questo workflow con args {cartella, modo: "riservatezza"}
 //   6. node cervello/prediagnosi.mjs raccogli --cartella <stessa> <journal…> --scrivi --riservato <journal del passo 5>
+//      [--riservato <elenco di una rilettura di prima>]: la corsia privata, se non è fra i journal, si
+//      riprende dalla cartella; i campi oscurati in un ricettario pubblico di prima restano oscurati.
 //   7. node cervello/prediagnosi.mjs ondate --ricettario <il ricettario pubblico> --repo ../mycity --scrivi
 //
 // Come gli altri workflow di questa casa: nessun import, `export const meta` è la prima istruzione.
@@ -51,9 +54,10 @@ export const meta = {
 // facevano finire il workflow «verde» con zero agenti, o con prompt che puntavano a «undefined/difetti»
 // (collaudo del 24/10).
 const MODI = ['seri', 'minori', 'privata', 'lenti', 'riservatezza']
-const SP = args.cartella
-const MODO = args.modo
-const TERR = args.territori || []
+const ARGS = args || {}
+const SP = ARGS.cartella
+const MODO = ARGS.modo
+const TERR = ARGS.territori || []
 if (typeof SP !== 'string' || !SP.trim()) throw new Error('serve args.cartella: la cartella di lavoro di «prediagnosi.mjs prepara», fuori dai repository')
 if (!MODI.includes(MODO)) throw new Error(`args.modo è uno fra ${MODI.join(', ')}, non «${MODO}»`)
 if (MODO === 'riservatezza') {
@@ -71,14 +75,14 @@ if (MODO === 'riservatezza') {
 }
 // Dove sta il codice del sito: come in radiografia.js, mai un percorso scritto qui dentro — sul VPS
 // e nella sessione cloud le cartelle sono diverse.
-const SITO = args.sito || "la cartella indicata da `$MARKETPLACE_REPO` se c'è, altrimenti la copia locale `marketplace/` dentro il repo dell'AD"
-const COMMIT = args.commit || 'quello di origin/main di oggi (git log -1 nella cartella del sito per saperlo)'
+const SITO = ARGS.sito || "la cartella indicata da `$MARKETPLACE_REPO` se c'è, altrimenti la copia locale `marketplace/` dentro il repo dell'AD"
+const COMMIT = ARGS.commit || 'quello di origin/main di oggi (git log -1 nella cartella del sito per saperlo)'
 // Chi lavora: un senior vero della squadra, risolto dal registro con `agentType` (regola della porta,
 // cervello/prompt-senior.mjs). Il mestiere arriva dal suo mansionario, non da una frase qui dentro.
-const SENIOR = Object.assign({ ricette: 'tech', lenteA: 'qa', lenteB: 'sdet', minori: 'tech', chiusi: 'qa', privata: 'security', privataV: 'infosec-soc', istruzioni: 'security', nomi: 'infosec-soc' }, args.senior || {})
+const SENIOR = Object.assign({ ricette: 'tech', lenteA: 'qa', lenteB: 'sdet', minori: 'tech', chiusi: 'qa', privata: 'security', privataV: 'infosec-soc', istruzioni: 'security', nomi: 'infosec-soc' }, ARGS.senior || {})
 // I fatti di produzione e le scelte di Nicola invecchiano: si passano a ogni lancio. Senza, il
 // revisore li legge da sé dalla memoria, che è la loro unica casa.
-const FATTI = args.contesto || `- Fatti di produzione e scelte di Nicola: leggili tu, prima di cominciare, nelle prime 60 righe di MyCity-Vault/90-Memoria-AI/STATO.md e in MyCity-Vault/90-Memoria-AI/registro-fatti.json, nel repo dell'AD. Non inventarli.`
+const FATTI = ARGS.contesto || `- Fatti di produzione e scelte di Nicola: leggili tu, prima di cominciare, nelle prime 60 righe di MyCity-Vault/90-Memoria-AI/STATO.md e in MyCity-Vault/90-Memoria-AI/registro-fatti.json, nel repo dell'AD. Non inventarli.`
 
 const CTX = `
 CONTESTO (vale per tutto il lavoro):
@@ -366,7 +370,7 @@ Il tuo compito: revisione di sicurezza. Una radiografia ha trovato falle di sicu
 Le schede da ritrovare in quest'area: ${a.schede}.
 Cosa guardare: ${a.cosa}
 
-${a.db ? `Puoi interrogare la struttura del database di produzione (progetto Supabase ${args.progetto_db || 'clmpyfvpvfjgeviworth'}). Per primo usa mcp__supabase-marketplace__execute_sql: è configurato in sola lettura nel repo (.mcp.json, --read-only), quindi una scrittura sbagliata la rifiuta lui. Solo se in questa sessione non c'è, usa mcp__Supabase__execute_sql (caricalo con ToolSearch, «select:mcp__Supabase__execute_sql»): quello può scrivere, quindi ogni chiamata è UNA istruzione sola che comincia con SELECT o WITH, senza punti e virgola in mezzo. In tutti e due i casi: solo i cataloghi (pg_policies, pg_class, pg_proc, information_schema.role_table_grants, information_schema.routine_privileges, pg_views, storage.buckets, pg_trigger); MAI INSERT, UPDATE, DELETE, ALTER, CREATE, DROP, GRANT, SET ROLE, né funzioni che scrivono; mai dati delle persone, solo la struttura.` : 'Lavora sul codice e sulle migrazioni.'}
+${a.db ? `Puoi interrogare la struttura del database di produzione (progetto Supabase ${ARGS.progetto_db || 'clmpyfvpvfjgeviworth'}). Per primo usa mcp__supabase-marketplace__execute_sql: è configurato in sola lettura nel repo (.mcp.json, --read-only), quindi una scrittura sbagliata la rifiuta lui. Solo se in questa sessione non c'è, usa mcp__Supabase__execute_sql (caricalo con ToolSearch, «select:mcp__Supabase__execute_sql»): quello può scrivere, quindi ogni chiamata è UNA istruzione sola che comincia con SELECT o WITH, senza punti e virgola in mezzo. In tutti e due i casi: solo i cataloghi (pg_policies, pg_class, pg_proc, information_schema.role_table_grants, information_schema.routine_privileges, pg_views, storage.buckets, pg_trigger); MAI INSERT, UPDATE, DELETE, ALTER, CREATE, DROP, GRANT, SET ROLE, né funzioni che scrivono; mai dati delle persone, solo la struttura.` : 'Lavora sul codice e sulle migrazioni.'}
 
 Per ogni falla: dove sta, come si sfrutta (chi, con quale richiesta, cosa ottiene), la ricetta, la prova rossa (per le regole del database: una prova SQL che si collega come utente qualunque e oggi riesce dove non dovrebbe), chi ripara, la certezza, e se la riconosci l'id R probabile. Elenca anche cosa hai controllato e trovato pulito: serve a chiudere le schede che non esistono più.`
 }
@@ -402,9 +406,10 @@ const SCHEMA_RISERVATEZZA = {
     da_oscurare: { type: 'array', items: BERSAGLIO, description: 'i campi che rivelano una falla riservata' },
     giudicati_pubblici: { type: 'array', items: BERSAGLIO, description: 'i campi segnalati per una frase in comune che hai riletto e che dicono solo cose già pubbliche: già nel registro dei difetti, nelle carte, o contesto dato a tutti' },
     controllati: { type: 'integer', description: 'quanti difetti e territori pubblici hai riletto' },
+    impronta: { type: 'string', description: 'il campo «impronta» di da-controllare-riservato.json, ricopiato così com\'è: dice su quale testo hai lavorato' },
     note: { type: 'string', description: 'cosa non hai potuto rileggere, senza ripetere le falle' },
   },
-  required: ['da_oscurare', 'giudicati_pubblici', 'controllati', 'note'],
+  required: ['da_oscurare', 'giudicati_pubblici', 'controllati', 'impronta', 'note'],
 }
 
 const LENTI_RISERVATEZZA = {
@@ -418,13 +423,13 @@ function promptRiservatezza(lente) {
 
 Il tuo compito: rileggere il testo che sta per diventare pubblico, il ricettario della pre-diagnosi del sito, e segnare ogni passaggio che rivela una delle falle di sicurezza riservate. Una falla aperta descritta in un deposito pubblico è un manuale per chi la vuole sfruttare. Il 24/10 tre ricette pubbliche ne nominavano una di passaggio.
 
-- Le falle riservate: ${SP}/PRIVATO-elenco.json. Leggile, ma non ripeterle.
-- Da rileggere per primi: ${SP}/da-controllare-riservato.json, i difetti e i territori pubblici che nominano un nome raro delle falle o ripetono una loro frase lunga. Le frasi in comune sono in «frasi_in_comune», campo per campo: il comando che pubblica si ferma su ognuna che nessuno ha giudicato. Per ciascuna scegli: la oscuri, oppure la metti in «giudicati_pubblici» col perché, se dice solo cose già pubbliche (il difetto pubblico la nomina già, è un fatto delle carte, è il contesto dato a tutti i revisori).
+- Le falle riservate: ${SP}/PRIVATO-elenco.json (falle, verifiche, falle mancate, note). Leggile tutte, ma non ripeterle.
+- I tuoi materiali: ${SP}/da-controllare-riservato.json. In «da_giudicare» ci sono i campi, uno per percorso, che ripetono una frase lunga di una falla o un nome che sta solo nelle falle: il comando che pubblica si ferma su ognuno che nessuno ha giudicato. Per ciascuno scegli: lo oscuri, oppure lo metti in «giudicati_pubblici» col perché, se dice solo cose già pubbliche (il difetto pubblico ne parla già nel registro, è un fatto delle carte, è il contesto dato a tutti i revisori). «difetti_con_nomi_rari» e «territori_con_nomi_rari» sono da leggere per primi. Ricopia «impronta» nella risposta.
 - Il testo pubblico intero: ${SP}/ricettario-completo.json, nei campi «difetti» (solo quelli senza «riservato: true») e «territori». Il campo «privata» NON si pubblica: lascialo stare. Il file è grande: cerca con grep le parole di ogni falla (tabelle, funzioni, rotte, e frasi come «qualunque utente», «senza login», «chiunque abbia un account»).
 
 La tua lente: ${LENTI_RISERVATEZZA[lente]}
 
-Per ogni passaggio dai il bersaglio (idx del difetto OPPURE territorio, mai tutti e due), i campi da oscurare come percorsi dentro quel bersaglio, e il perché in poche parole. Nel dubbio oscura: oscurare in più costa una riga illeggibile, in meno una falla pubblica. Il comando che pubblica si ferma se un campo segnato non esiste: controlla i nomi dei campi sul file.`
+Per ogni passaggio dai il bersaglio (idx del difetto OPPURE territorio, mai tutti e due; un percorso «difetto 7.lente_b.nascite_previste» è idx 7 col campo «lente_b.nascite_previste», «territorio minori:ux.descrizione» è territorio «ux», modo «minori», campo «descrizione»), i campi come percorsi dentro quel bersaglio, e il perché in poche parole. Un giudizio «già pubblico» su un territorio vuole sempre il «modo». Nel dubbio oscura: oscurare in più costa una riga illeggibile, in meno una falla pubblica. Il comando che pubblica si ferma se un campo segnato non esiste: controlla i nomi dei campi sul file.`
 }
 
 let risultati
