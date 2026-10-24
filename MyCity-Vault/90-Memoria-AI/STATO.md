@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-10-20 14:45
+aggiornato: 2026-10-24 11:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🗄️ **2026-10-24 11:10 — Le 48 migrazioni sono nel database vero, e stamattina è riuscita la prima copia notturna.**
+>
+> Col tuo «avvia» sono entrate tutte e 48, all'01:30. I sei controlli finali sono verdi: il database conosce tutte le 157 migrazioni del sito. Alle 09:17 la copia notturna è riuscita per la prima volta dal 19 agosto, cifrata.
+>
+> Due verificatori hanno riguardato le 14 schede legate alle migrazioni. Ne ho chiuse 2, più quella grave delle copie. Due difetti invece li hanno accesi le migrazioni. Un cliente che chiede di diventare negozio dal modulo viene respinto. Chi si iscrive già come negozio legge «richiesta in valutazione» senza averla mai mandata.
+>
+> Email, notifiche e bonifici ai negozi restano fermi: su Vercel manca la chiave di servizio del database (carta #154). Il rilascio automatico non applica ancora le migrazioni: mancano le tre chiavi di Vercel su GitHub (carta #161).
+>
+> Non ho provato un ordine vero né aperto il sito: ho letto il database, i registri e GitHub.
 
 > 🔘 **2026-10-20 14:45 — Il pulsante delle 48 migrazioni è pronto.**
 >
