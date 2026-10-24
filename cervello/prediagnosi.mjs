@@ -623,13 +623,18 @@ export function daRiapplicare(pubblico, prima, lasciati) {
 export function tornatiInChiaro(pubblico, prima, lasciati) {
   return daRiapplicare(pubblico, prima, lasciati).map((x) => x.percorso);
 }
+// Il recinto non si deduce dal posto dove oggi li scrive «raccogli»: un ricettario spostato in una
+// sottocartella di consegne/ porta ancora le sue oscurature, e se la memoria non lo vedesse i suoi
+// campi tornerebbero in chiaro (malattia «perimetro-dedotto-non-misurato», cervello/malattie.json).
 function ricettariPubbliciDiPrima() {
-  const audit = path.join(ROOT, "consegne/audit");
-  if (!existsSync(audit)) return [];
+  const consegne = path.join(ROOT, "consegne");
+  if (!existsSync(consegne)) return [];
   const fuori = [];
-  for (const f of readdirSync(audit).filter((x) => x.endsWith("ricettario-sito.json"))) {
+  const tutti = readdirSync(consegne, { recursive: true }).map(String);
+  for (const f of tutti) {
+    if (!f.endsWith("ricettario-sito.json")) continue;
     try {
-      fuori.push(JSON.parse(readFileSync(path.join(audit, f), "utf8")));
+      fuori.push(JSON.parse(readFileSync(path.join(consegne, f), "utf8")));
     } catch (e) {
       cieco(`il ricettario pubblico di prima ${f} è illeggibile (${e.name}): senza, non so quali campi erano oscurati`);
     }

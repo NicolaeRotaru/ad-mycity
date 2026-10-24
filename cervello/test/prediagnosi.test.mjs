@@ -65,7 +65,7 @@ const AUDIT = path.join(RADICE, "consegne/audit");
 const pubblici = () => readdirSync(AUDIT).filter((f) => f.endsWith("ricettario-sito.json"));
 const ultimoPubblico = () => (pubblici().length ? JSON.parse(readFileSync(path.join(AUDIT, pubblici().sort().at(-1)), "utf8")) : null);
 const svuotaAudit = () => {
-  for (const f of readdirSync(AUDIT)) rmSync(path.join(AUDIT, f));
+  for (const f of readdirSync(AUDIT)) rmSync(path.join(AUDIT, f), { recursive: true, force: true });
 };
 const SEGRETO = "LA-FALLA-STA-NELLA-REGOLA-XYZ-E-SI-SFRUTTA-COSI";
 // Una frase lunga della corsia riservata: se una ricetta pubblica la ricopia, il comando deve fermarsi.
@@ -230,9 +230,11 @@ try {
   esegui("riservato", "--cartella", LAVORO);
   dico((materiali(LAVORO).oscurati_prima || []).includes("difetto 1.ricetta.raggio"), "① i materiali dei revisori dicono quali campi erano oscurati prima");
   // un ricettario pubblico più vecchio ancora, con un altro campo oscurato: valgono tutti, non solo l'ultimo
-  writeFileSync(path.join(AUDIT, "2026-01-01-0000-ricettario-sito.json"), JSON.stringify({ difetti: [{ idx: 3, chiave: chiaveProblema(problemi[3]), ricetta: { evidenza: OSCURATO } }], territori: [] }));
+  // e lo tiene in una sottocartella: la memoria non deve dipendere da dove oggi li scrive «raccogli»
+  mkdirSync(path.join(AUDIT, "archivio"), { recursive: true });
+  writeFileSync(path.join(AUDIT, "archivio", "2026-01-01-0000-ricettario-sito.json"), JSON.stringify({ difetti: [{ idx: 3, chiave: chiaveProblema(problemi[3]), ricetta: { evidenza: OSCURATO } }], territori: [] }));
   const rpiu = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA);
-  dico(rpiu.status === 0 && ultimoPubblico()?.difetti.find((x) => x.idx === 3)?.ricetta?.evidenza === OSCURATO && ultimoPubblico()?.difetti.find((x) => x.idx === 1)?.ricetta?.raggio === OSCURATO, "① la memoria legge tutti i ricettari pubblici di prima, non solo l'ultimo", uscita(rpiu));
+  dico(rpiu.status === 0 && ultimoPubblico()?.difetti.find((x) => x.idx === 3)?.ricetta?.evidenza === OSCURATO && ultimoPubblico()?.difetti.find((x) => x.idx === 1)?.ricetta?.raggio === OSCURATO, "① la memoria legge tutti i ricettari pubblici di prima, non solo l'ultimo, anche dentro una sottocartella", uscita(rpiu));
   writeFileSync(path.join(AUDIT, "zz-rotto-ricettario-sito.json"), "{ rotto");
   const rrotto = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA);
   dico(rrotto.status === 2, "① un ricettario pubblico di prima illeggibile ferma: senza, non so cosa era oscurato", uscita(rrotto));
