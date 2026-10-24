@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-19 18:57",
+  "aggiornato": "2026-10-24 11:02",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -336,9 +336,9 @@
     {
       "id": "infrastruttura.supabase",
       "nome": "Supabase: piano e stato dei due database",
-      "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO PRO: letto con get_organization il 2026-10-19 18:50, subito dopo che Nicola ha scritto di aver pagato l'abbonamento. Il progetto «Mycity» (database del sito, clmpyfvpvfjgeviworth) è attivo (ACTIVE_HEALTHY) il 2026-10-19; «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) non riletto quel giorno. Sul piano Pro Supabase tiene le copie automatiche giornaliere degli ultimi 7 giorni (Database → Backups) e non mette in pausa i progetti per poca attività; il ripristino al minuto (PITR) è un'aggiunta a pagamento a parte, che il 19/10 nessuno ha chiesto (da confermare in Database → Backups). Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
-      "fonte": "Supabase MCP get_organization (plan: pro) + get_project, 2026-10-19 18:50; documentazione Supabase «Database Backups»",
-      "aggiornato": "2026-10-19 18:51",
+      "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO PRO: letto con get_organization il 2026-10-19 18:50, subito dopo che Nicola ha scritto di aver pagato l'abbonamento. Il progetto «Mycity» (database del sito, clmpyfvpvfjgeviworth) è attivo (ACTIVE_HEALTHY) il 2026-10-19; «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) non riletto quel giorno. Dal 2026-10-24 01:30 il database del sito è allineato al codice: col pulsante «Migrazioni a mano» (run 40038665053, «avvia» di Nicola) sono entrate le 48 che mancavano, e il registro delle migrazioni ha 240 righe, tutte le 157 migrazioni del repository. Il segreto GitHub SUPABASE_DB_URL è la riga del Session pooler (cambiato da Nicola fra le 01:09 e le 01:13 del 24/10): con quello, il 2026-10-24 alle 09:17 la copia notturna di GitHub è riuscita per la prima volta (database, utenti ed elenco delle foto, cifrati, 416 KB, tenuti 30 giorni). Sul piano Pro Supabase tiene in più le copie automatiche giornaliere degli ultimi 7 giorni (Database → Backups) e non mette in pausa i progetti per poca attività; il ripristino al minuto (PITR) è un'aggiunta a pagamento a parte, che il 19/10 nessuno ha chiesto. Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
+      "fonte": "Supabase MCP get_organization (plan: pro), 2026-10-19 18:50; SELECT su supabase_migrations.schema_migrations (240 righe), 2026-10-24 10:57; GitHub Actions run 40038665053 (migrazioni) e 40073532638 (copia notturna, verde)",
+      "aggiornato": "2026-10-24 11:02",
       "storia": [
         {
           "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO GRATUITO; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — risultano IN PAUSA (INACTIVE) al 2026-10-10 08:56. Effetto: il sito risponde ma non carica negozi/prodotti (/api/health 503) e la Cabina non legge la memoria. Si riaccendono con un clic entro 90 giorni dalla pausa (data della pausa non letta: la dice la mail di Supabase). Sul piano gratuito un progetto si mette in pausa dopo ~7 giorni di poca attività; con fattura scaduta Supabase mette in pausa e riporta al gratuito. Da riconciliare con finanza.costi_infrastruttura, che conta Supabase 50 €/m confermati da Nicola il 20/7. Card #199.",
@@ -347,6 +347,10 @@
         {
           "valore": "Supabase: organizzazione «mycity.inizioditutto»; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — erano IN PAUSA la mattina del 2026-10-10 e sono stati RIACCESI dall'AD con la firma di Nicola («ok 199»): attivi (ACTIVE_HEALTHY) dalle 10:16. Alle 11:58 l'organizzazione risultava ancora sul PIANO GRATUITO, benché Nicola avesse scritto di aver pagato l'abbonamento: sul gratuito un progetto torna in pausa dopo ~7 giorni di poca attività. Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
           "fino_a": "2026-10-19 18:51"
+        },
+        {
+          "valore": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO PRO: letto con get_organization il 2026-10-19 18:50, subito dopo che Nicola ha scritto di aver pagato l'abbonamento. Il progetto «Mycity» (database del sito, clmpyfvpvfjgeviworth) è attivo (ACTIVE_HEALTHY) il 2026-10-19; «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) non riletto quel giorno. Sul piano Pro Supabase tiene le copie automatiche giornaliere degli ultimi 7 giorni (Database → Backups) e non mette in pausa i progetti per poca attività; il ripristino al minuto (PITR) è un'aggiunta a pagamento a parte, che il 19/10 nessuno ha chiesto (da confermare in Database → Backups). Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
+          "fino_a": "2026-10-24 11:02"
         }
       ],
       "caccia": [
@@ -364,6 +368,11 @@
           "pattern": "Supabase: organizzazione «mycity.inizioditutto»; i due progetti — «Mycity» (database del sito, clmpyfvpvfjgeviworth) e «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) — erano IN PAUSA la mattina del 2026-10-10 e sono stati RIACCESI dall'AD con la firma di Nicola («ok 199»): attivi (ACTIVE_HEALTHY) dalle 10:16. Alle 11:58 l'organizzazione risultava ancora sul PIANO GRATUITO, benché Nicola avesse scritto di aver pagato l'abbonamento: sul gratuito un progetto torna in pausa dopo ~7 giorni di poca attività. Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
           "dal": "2026-10-19 18:51",
           "chiusa": "2026-10-19 18:57"
+        },
+        {
+          "pattern": "Supabase: organizzazione «mycity.inizioditutto» sul PIANO PRO: letto con get_organization il 2026-10-19 18:50, subito dopo che Nicola ha scritto di aver pagato l'abbonamento. Il progetto «Mycity» (database del sito, clmpyfvpvfjgeviworth) è attivo (ACTIVE_HEALTHY) il 2026-10-19; «ad-mycity» (memoria della macchina, xjljcsorpbqwttrejqte) non riletto quel giorno. Sul piano Pro Supabase tiene le copie automatiche giornaliere degli ultimi 7 giorni (Database → Backups) e non mette in pausa i progetti per poca attività; il ripristino al minuto (PITR) è un'aggiunta a pagamento a parte, che il 19/10 nessuno ha chiesto (da confermare in Database → Backups). Da riconciliare con finanza.costi_infrastruttura (Supabase 50 €/m confermati il 20/7).",
+          "dal": "2026-10-24 11:02",
+          "chiusa": "2026-10-24 11:02"
         }
       ],
       "esenzioni": [

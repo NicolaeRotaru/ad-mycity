@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1394,
+    "findings": 1396,
     "bloccanti": 35,
-    "gravi": 472,
-    "minori": 886,
+    "gravi": 473,
+    "minori": 888,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -320,7 +320,13 @@
       "prova_eseguita": "Ho letto le righe: role non è nell'elenco 'consentiti' della 119. La 161 dice che la procedura «riapplica la 119» e quindi riporta in produzione proprio questa guardia. Ho tentato di ricrearla su un Postgres locale usa e getta, ma non sono riuscito ad avviarlo per i permessi delle cartelle. Prova quindi solo da lettura del codice. · Verifica tecnica: Ho ricreato la guardia in un Postgres 16 usa e getta, con la funzione COPIATA PARI PARI da migrations/119_radiografia_18_agosto.sql:66-130 (script: verifica-frontend-venditore/guardia-119.sql). Ho fatto l'update di /sell con i claim 'authenticated'. Caso cliente (buyer→seller): «ERROR: profiles: campo riservato non modificabile» (line 35 at RAISE). Caso profilo già seller: UPDATE 1. In produzione (SELECT pg_get_functiondef) enforce_profile_update_rules blocca solo NEW.role='admin', quindi oggi passerebbe. Policy di update su profiles in produzione: auth.uid()=id, senza WITH CHECK. Ho letto lib/errors.ts:18 (42501 → «Non hai i permessi…»), sign-in:200-202 (il link verso sign-up porta solo returnTo) e sign-up:76 (senza ?role il ruolo è buyer). Il grep conferma l'unica scrittura di role:'seller' a sell/page.tsx:107. I due negozi in produzione non hanno approval_requested_at, cioè nessuno è mai passato da /sell.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R5 · si ripara: migrazione-database"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R5 · si ripara: migrazione-database",
+      "riverifica": {
+        "verdetto": "ancora_presente",
+        "prova": "Registro di produzione: righe 107, 119 e 161 presenti. enforce_profile_update_rules in produzione ha la lista dei campi consentiti della 119 (migrations/119:66-122), senza «role». app/sell/page.tsx:107 scrive role:'seller' con il client di chi è collegato: il database risponde 42501, e a schermo esce «Non hai i permessi per questa azione.» (lib/errors.ts:18).",
+        "nota": "Prima del 24/10 non succedeva: in produzione c'era la guardia vecchia, che bloccava solo il passaggio ad admin. L'ha accesa la 119, entrata con le 48. Oggi un cliente che compila /sell viene respinto. Passa solo chi si registra già da /sign-up?role=seller. Serve una migrazione nuova (🔴, da firmare) che ammetta solo cliente→negozio con approvazione «pending».",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "rls-database",
@@ -560,7 +566,13 @@
       "prova_eseguita": "Ho letto le righe: la condizione di /sell non distingue fra «nato in attesa» e «richiesta inviata». Il ramo che mostra il modulo è irraggiungibile per un profilo nato venditore. Non ho potuto leggere quale versione della funzione di iscrizione gira oggi in produzione, perché lo strumento del database non era disponibile in questa sessione. Secondo la 161, quella di oggi è rotta in un altro modo (già noto); dopo la 161 diventa questa. · Verifica tecnica: In un Postgres 16 usa e getta ho eseguito la handle_new_user COPIATA da migrations/161_…sql:97-121, con un insert in auth.users con meta {\"role\":\"seller\"}. Riga creata: role=seller, is_approved=false, approval_status=pending, approval_requested_at=null. Su quella riga ho valutato con node la condizione vera di app/sell/page.tsx:140: PendingNotice al posto del modulo = true. Il middleware non tocca /sell: non è in ROLE_PROTECTED, perché '/sell' non inizia con '/seller', e non è fra le pagine del catalogo. Lettura di app/seller/layout.tsx:130-147 e di middleware.ts:574-586 (rimando circolare per un venditore non approvato). handle_new_user in produzione oggi è la versione 015 (is_approved=true per seller), quindi oggi questo ramo non si raggiunge.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R4 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R4 · si ripara: codice",
+      "riverifica": {
+        "verdetto": "ancora_presente",
+        "prova": "Registro di produzione: riga 161 presente, quindi handle_new_user è la versione della 114. app/sell/page.tsx:140 mostra «Richiesta in valutazione» a un profilo nato negozio, anche se il modulo non è mai stato inviato.",
+        "nota": "Adesso è raggiungibile in produzione: l'ha acceso la 161. Oggi nessuna vittima. La correzione è nel codice del sito, non serve una migrazione.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "qa-flussi",
@@ -1919,7 +1931,13 @@
       "prova_eseguita": "Ho letto adesso le righe citate: per un ordine in contanti annullato o rifiutato nessuna email parte. L'unico avviso è nella tabella notifications, cioè campanella più push, e solo se è attivata. · Verifica tecnica: Ho letto expire-stale-orders/route.ts:130-160 e 215-245, reject/route.ts:60-130, annulla.ts:215-245, admin cancel/route.ts:70-80 e il grilletto della migrazione 150:95-145 (solo READY e DELIVERED). Ho cercato con grep un template d'annullo (order_canceled, ordine_annullato e simili) e non ne esiste nessuno. Ho cercato PushNotificationOptIn, requestPermission e pushManager.subscribe: compare solo nelle impostazioni del profilo. Ho cercato duplicati in noti-aperti e noti-chiusi (K28, K190 e K77 parlano d'altro): nessuno.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: email-notifiche · id R23 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: email-notifiche · id R23 · si ripara: codice",
+      "riverifica": {
+        "verdetto": "ancora_presente",
+        "prova": "Nessun template «ordine annullato» nel codice di main (3ee0d53). Il grilletto enqueue_order_status_email della 150, ora in produzione, accoda solo per READY e DELIVERED.",
+        "nota": "Non dipendeva dalle migrazioni: la correzione è nel codice. In più, il giro send-emails oggi risponde 503 perché su Vercel manca la chiave di servizio (carta #154).",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "api-backend",
@@ -2766,7 +2784,7 @@
     {
       "dimensione": "frontend-ux",
       "reparto": "Interfaccia",
-      "titolo": "I filtri «Aperti ora» e «4 stelle e più» danno sempre zero prodotti e ne danno la colpa ai filtri",
+      "titolo": "Se la domanda su chi è aperto o sul voto fallisce, la griglia dice che i filtri sono troppo stretti",
       "severita": "minore",
       "file": "components/ProductGrid.tsx:162-183 · components/ProductGrid.tsx:205-207 · lib/queries/griglia-prodotti.ts:141-142 · app/search/page.tsx:370,596-599 · app/category/[slug]/page.tsx:285,302-305 · components/StoreProductExplorer.tsx:36,191 · app/stores/page.tsx:96,147-152 · migrations/127_minori_22_agosto.sql:775,814,852",
       "descrizione": "I due filtri chiedono al database due funzioni: negozi_aperti_adesso e prodotti_con_voto_almeno. ProductGrid legge solo il dato e butta via l'errore (`const { data } = await supabase.rpc(...)`, righe 170 e 180). Se la chiamata fallisce, l'elenco dei negozi aperti diventa una lista vuota. Con la lista vuota, leggiProdottiDellaGriglia restituisce subito zero prodotti (griglia-prodotti.ts:141-142). La pagina scrive «Nessun prodotto trovato — I filtri attivi sono troppo stretti. Prova ad allargarli». In produzione queste funzioni mancano proprio. Sono nella migrazione 127, e nell'elenco delle funzioni di produzione estratto oggi (scratchpad/rls-database/prod_fn.txt) non ci sono né negozi_aperti_adesso, né prodotti_con_voto_almeno, né categorie_per_negozio. Quindi oggi i due filtri sono rotti per tutti. Ci sono nella ricerca, nelle pagine categoria e, per il voto, nella pagina del negozio. Terza conseguenza, più piccola: su /stores il filtro per categoria, senza categorie_per_negozio, vede solo le categorie dei primi 4 prodotti di ogni negozio. Che il database sia indietro di qualche migrazione è già in coda a Nicola (card #184). Che il sito nasconda il guasto, invece, non è in nessun difetto noto.\n\nScenario: Una cliente cerca «pane» alle 18, accende «Aperti ora» per ordinare subito. Il sito chiama negozi_aperti_adesso, che in produzione non esiste (risposta 404). Lei vede «Nessun prodotto trovato. I filtri attivi sono troppo stretti», anche se Pane Quotidiano è aperto. Pensa che a quell'ora non ci sia nessuno e chiude. Cosa dovrebbe succedere: o il filtro funziona, o la pagina dice che il filtro adesso non è disponibile e offre di riprovare o di toglierlo.",
@@ -2779,7 +2797,14 @@
       "prova_eseguita": "/search?aperti=1 → in rete «RPC negozi_aperti_adesso -> 404», messaggio d'errore a video: NO. Il testo dice «Tutti i prodotti Nessun prodotto Aperti ora … Nessun prodotto trovato I filtri attivi sono troppo stretti. Prova ad allargarli.». Con /search?stelle=4 succede lo stesso («RPC prodotti_con_voto_almeno -> 404», nessun errore, «Rating 4+ … Nessun prodotto trovato»). In prod_fn.txt le tre funzioni della migrazione 127 non compaiono, mentre compaiono store_cards e vetrina_home. · Verifica tecnica: In produzione (SELECT su pg_proc) esistono store_cards e vetrina_home, ma negozi_aperti_adesso, prodotti_con_voto_almeno e categorie_per_negozio no. In schema_migrations nessuna versione corrisponde a 127. Ho rifatto girare filtri.cjs da una mia copia: su /search?aperti=1 e /search?stelle=4 la rete mostra RPC → 404, nessun messaggio d'errore a video, testo «Nessun prodotto trovato I filtri attivi sono troppo stretti. Prova ad allargarli.». Limite della prova: il finto Supabase restituisce zero prodotti comunque. Per questo il legame tra 404 e lista vuota l'ho verificato leggendo il codice (righe 141-142), ed è deterministico.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-cliente · id R247 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-cliente · id R247 · si ripara: codice",
+      "titolo_prima": "I filtri «Aperti ora» e «4 stelle e più» danno sempre zero prodotti e ne danno la colpa ai filtri",
+      "riverifica": {
+        "verdetto": "in_parte",
+        "prova": "Le tre funzioni della 127 esistono in produzione e rispondono: alle 10:34 di sabato negozi_aperti_adesso() = 2, prodotti_con_voto_almeno(4) = 0 (le recensioni sono 0, lo zero è giusto). components/ProductGrid.tsx:170 e :180 su main leggono ancora solo data e buttano l'errore.",
+        "nota": "Il «sempre zero» del titolo vecchio non c'è più: l'ha risolto la 127. Resta la parte che solo questa scheda registrava: se una di quelle chiamate fallisce, la griglia esce vuota e dà la colpa ai filtri. Titolo riscritto sul resto. [gravita oggi: minore]",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "frontend-ux",
@@ -2839,7 +2864,13 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: deploy-sre · id R53 · si ripara: decisione-nicola",
-      "nota_riparazione": "2026-10-18 20:44 — parte di codice nella #258, unita e pubblicata; resta da collegare il controllo col database vero: serve la stringa del Session pooler (carta #191)."
+      "nota_riparazione": "2026-10-18 20:44 — parte di codice nella #258, unita e pubblicata; resta da collegare il controllo col database vero: serve la stringa del Session pooler (carta #191).",
+      "riverifica": {
+        "verdetto": "in_parte",
+        "prova": "Il segreto SUPABASE_DB_URL è stato cambiato con il Session pooler fra le 01:09 e le 01:13 del 24/10: la corsa delle 23:13 UTC si è collegata, e alle 23:30 UTC il controllo di deriva dentro «Migrazioni a mano» dice che tutte le 157 migrazioni sono applicate.",
+        "nota": "Non l'hanno sistemata le migrazioni, l'ha sistemata il segreto nuovo. Si chiude con la prima corsa notturna verde di «Deriva migrazioni (produzione)», che non ha ancora girato dopo le migrazioni. Il rilascio controllato resta spento finché mancano le chiavi di Vercel (carta #161).",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -2851,13 +2882,22 @@
       "impatto": "Perdita definitiva di ordini, account, quadrature contanti e storico dei versamenti ai negozi in caso di incidente: senza dati non si possono ricostruire i soldi dovuti ai negozi né rispondere a una contestazione. Il documento di ripristino dà una falsa sicurezza.",
       "fix": "1) Nicola sostituisce il segreto GitHub SUPABASE_DB_URL con la stringa «Session pooler» di Supabase (host aws-0-eu-west-3.pooler.supabase.com, porta 5432, utente postgres.clmpyfvpvfjgeviworth), che risponde in IPv4; in alternativa compra l'add-on IPv4. 2) Avvia a mano «Backup database» e controlla che il pacchetto pesi più di 170 byte. 3) Nel codice: riga 120 del lavoro e docs/backup-restore.md:117 devono indicare «Session pooler», non «Direct»; correggere le righe 34-38 e la tabella 63-66 finché la prima copia non è verde (unire o chiudere #255/#257). 4) Valutare il passaggio a Supabase Pro (copie giornaliere per 7 giorni) prima di incassare ordini veri.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "1) gh run list -R NicolaeRotaru/mycity --workflow backup-db.yml -L 100 --json conclusion,createdAt → raggruppato: [{\"c\":\"failure\",\"n\":60,\"primo\":\"2026-08-19T03:11:16Z\",\"ultimo\":\"2026-10-11T08:50:29Z\"}]. 2) mcp__github__get_job_logs run 38126229986 (11/10): «pg_dump: error: connection to server at \"db.clmpyfvpvfjgeviworth.supabase.co\" (2a05:d012:5aa:c900:91f4:3d05:b0f7:9572), port 5432 failed: Network is unreachable» e poi «Artifact … Final size is 170 bytes»; stesso pacchetto da 170 byte nel run 34745296382 del 13/9. 3) mcp__Supabase__get_organization xwbccbdkgcmdudcuxwdc → \"plan\":\"free\". 4) mcp__Supabase__search_docs «Database Backups»: «We automatically back up all Pro, Team, and Enterprise Plan projects on a daily basis… We recommend that free tier plan projects regularly export their data». 5) sed -n 120p .github/workflows/backup-db.yml → «…scheda «Direct connection»: va incollata la riga intera…».",
       "prova_tipo": "comando",
       "prova_eseguita": "Visto adesso: 60 corse su 60 fallite, l'ultima stamattina alle 08:50 UTC con «Network is unreachable» verso l'indirizzo IPv6 del database; piano Supabase \"free\"; la documentazione Supabase conferma che il piano Free non ha copie giornaliere. Le istruzioni del lavoro e di docs/backup-restore.md:117 rimandano ancora alla «Direct connection». · Verifica tecnica: 1) gh run list sul lavoro della copia notturna, ultime 100 corse: 60 su 60 in «failure» (56 programmate, 4 a mano). La prima è del 19/8 (32211239843), l'ultima di oggi alle 08:50 UTC (38126229986). 2) Registro della corsa 38126229986 (get_job_logs): «pg_dump: error: connection to server at db.clmpyfvpvfjgeviworth.supabase.co (2a05:d012:5aa:c900:…), port 5432 failed: Network is unreachable». Subito dopo: «Uploaded bytes 170 … Final size is 170 bytes». Lo stesso pacchetto da 170 byte c'è nella corsa 36849102362 del 1/10. 3) Passo fallito nelle corse a campione: il 7/9 mattina «Installa il client», l'8/9 «Verifica di sapere dove copiare», il 7/9 sera, il 13/9 e l'1/10 «Esegui il backup». 4) get_organization xwbccbdkgcmdudcuxwdc → plan free. search_docs «Database Backups»: «We automatically back up all Pro, Team, and Enterprise Plan projects… We recommend that free tier plan projects regularly export their data». 5) Letti backup-db.yml:120 e docs/backup-restore.md:34-38, 63-66, 73, 117. 6) Cercata un'altra copia nel repo AD (pg_dump o backup-db in cervello e pannello): nessuna.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: deploy-sre · id R54 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: deploy-sre · id R54 · si ripara: decisione-nicola",
+      "chiuso_il": "2026-10-24 11:05",
+      "chiuso_da": "Segreto SUPABASE_DB_URL cambiato da Nicola con la riga del Session pooler (2026-10-24 01:13) e copia notturna verde: run 40073532638 di «Backup database», 2026-10-24 09:17 ora di Piacenza",
+      "nota_riparazione": "La copia notturna è partita davvero per la prima volta: database, utenti ed elenco delle foto, cifrati, 416 KB, tenuti 30 giorni fra gli artefatti. In più Supabase, sul piano Pro dal 19/10, fa una copia al giorno per 7 giorni. Il lavoro adesso indica il Session pooler (backup-db.yml:120 e :136-150). Restano a parte le foto vere senza copia (scheda 434) e la prova mensile di ripristino, che non ha ancora girato (scheda 155).",
+      "riverifica": {
+        "verdetto": "risolta",
+        "prova": "Registro del lavoro 120811913755 (run 40073532638, evento schedule, commit 3ee0d53): «[backup] Starting pg_dump», «Cifrato: …dump.gpg» tre volte, «Done in 52s — size: 416K», «Artifact backup-database-40073532638 has been successfully uploaded! Final size is 415761 bytes». Prima: run 39918379010 del 23/10 rossa.",
+        "nota": "Prima copia vera dal 19/8: le corse prima erano tutte rosse (60 su 60 fino all’11/10, rosse anche il 22 e il 23/10). Non ho riaperto la copia: la prova di ripristino è il lavoro mensile.",
+        "data": "2026-10-24 11:05"
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -2877,7 +2917,13 @@
       "verificato": true,
       "gia_noto": "K42",
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · ricomparso dopo essere stato chiuso · id R55 · si ripara: migrazione-database",
-      "nota_riparazione": "2026-10-18 20:44 — parte di codice nella #258, unita e pubblicata; il codice regge senza la 126; il riquadro «Venduto da» compare quando la 126 arriva in produzione con le altre 48 migrazioni (carta #191)."
+      "nota_riparazione": "2026-10-18 20:44 — parte di codice nella #258, unita e pubblicata; il codice regge senza la 126; il riquadro «Venduto da» compare quando la 126 arriva in produzione con le altre 48 migrazioni (carta #191).",
+      "riverifica": {
+        "verdetto": "in_parte",
+        "prova": "Registro: riga 126 presente. La vista seller_public_profiles ha le sei colonne d'impresa, leggibili da chi non ha l'account. In profiles, 0 negozi approvati su 2 hanno ragione sociale, forma, P.IVA o sede.",
+        "nota": "La domanda del riquadro non fallisce più. Ma il cliente legge ancora solo insegna, indirizzo e telefono, perché i dati d'impresa non ci sono: Pane Quotidiano deve compilarli, e oggi solo un amministratore li può inserire (nessun modulo del venditore li scrive).",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -4357,14 +4403,23 @@
       "impatto": "Una riparazione chiusa che in produzione non c'è. Il conto delle migrazioni mancanti di K42 è sbagliato per difetto. Il rischio è applicare il recupero partendo dal numero sbagliato.",
       "fix": "Con una SELECT su supabase_migrations.schema_migrations e su pg_indexes, verificare quali tra 125, 126, 127, 128 e 129 risultano applicate. Correggere il perimetro di K42 e riaprire il difetto delle sette chiavi finché la 127 non è applicata. L'esecuzione della migrazione resta una firma di Nicola.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "python3 su scratchpad/advisors-performance.json: le 7 voci unindexed_foreign_keys contro le righe 212-226 della migrazione 127. Mappatura dei 150 indici inutilizzati di produzione sulle migrazioni che li creano.",
       "prova_tipo": "comando",
       "prova_eseguita": "Le 7 chiavi senza indice in produzione coincidono una per una con quelle che la 127 indicizza. Delle altre due della 127 (segnalazioni), l'avviso non dice niente: probabilmente la tabella segnalazioni, creata dalla 126, in produzione non c'è, ma è da verificare. Gli indici inutilizzati presenti in produzione arrivano fino alla migrazione 124 (payment_attempts_created_idx, orders_payout_status_created_idx, orders_delivery_status_created_idx); nessuno delle migrazioni dalla 125 in su. · Verifica tecnica: Ho eseguito una SELECT su progetto clmpyfvpvfjgeviworth. pg_indexes per i 9 nomi della 127 (payment_attempts_user_idx, …, site_settings_updated_by_idx) restituisce null. pg_policies su products restituisce ancora [\"Admin sees all products\",\"Seller sees own products\"]. to_regclass('public.segnalazioni') restituisce null. schema_migrations: 191 righe, ultima 20260909080417, e fra i nomi 1xx solo 125a_divieti_che_vietano_davvero, 125b_codice_consegna_non_si_aggira, 125c_storna_rimborso e 129p_ponte_produzione_catalogo_visibile. Ho letto migrations/127_minori_22_agosto.sql:195-229. Ho confrontato con K42 in noti-aperti.txt («migrations/130-150»).",
       "giro": 1,
       "verificato": true,
       "gia_noto": "K42",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: performance · ricomparso dopo essere stato chiuso · id R300 · si ripara: migrazione-database"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: performance · ricomparso dopo essere stato chiuso · id R300 · si ripara: migrazione-database",
+      "chiuso_il": "2026-10-24 10:45",
+      "chiuso_da": "Le 48 migrazioni entrate in produzione col pulsante «Migrazioni a mano» (run 40038665053 del 2026-10-24 01:30, PR NicolaeRotaru/mycity#260), dopo l'«avvia» di Nicola",
+      "nota_riparazione": "Risolta dalla migrazione 127, entrata con le 48: in produzione ci sono tutti e nove i suoi indici, validi, e l'avviso «unindexed_foreign_keys» di Supabase non compare più. Sono sparite anche le due regole doppie sui prodotti. L'indice doppio su order_items resta, ma è già la scheda 234.",
+      "riverifica": {
+        "verdetto": "risolta",
+        "prova": "SELECT su pg_index per i 9 nomi della 127: 9 righe su 9, tutte valide. Confronto pg_constraint/pg_index su tutto public: nessuna chiave esterna senza indice. get_advisors performance (2026-10-24 08:29 UTC): 0 voci «unindexed». Registro: riga 127 «minori_22_agosto» presente, 240 righe in tutto.",
+        "nota": "Verificato in sola lettura sul database di produzione, e confermato da un secondo verificatore che ha provato a smentirlo.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "performance",
@@ -6379,11 +6434,19 @@
       "fonte_radiografia": "totale 2026-09-03",
       "fuori_dal_referto": true,
       "riverifica": {
-        "verdetto": "ancora_presente",
-        "prova": "Dettagli della verifica nel referto privato consegnato a Nicola l 11/10/2026: la falla e ancora aperta e il deposito e pubblico.",
-        "nota": "",
-        "data": "2026-10-11 21:30"
-      }
+        "verdetto": "in_parte",
+        "prova": "pg_policies su products in produzione: 8 regole, «Admin sees all products» e «Seller sees own products» non ci sono più (le ha tolte la 127). idx_order_items_order_id e order_items_order_idx sono ancora identici (get_advisors: duplicate_index 1).",
+        "nota": "Le due regole doppie sono sparite. Resta l'indice doppio, che è anche la scheda 234.",
+        "data": "2026-10-24 10:45"
+      },
+      "riverifiche_precedenti": [
+        {
+          "verdetto": "ancora_presente",
+          "prova": "Dettagli della verifica nel referto privato consegnato a Nicola l 11/10/2026: la falla e ancora aperta e il deposito e pubblico.",
+          "nota": "",
+          "data": "2026-10-11 21:30"
+        }
+      ]
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -7851,11 +7914,19 @@
       "fonte_radiografia": "totale 2026-09-03",
       "fuori_dal_referto": true,
       "riverifica": {
-        "verdetto": "ancora_presente",
-        "prova": "Produzione, SELECT su pg_trigger: trg_enqueue_order_status_email → 0. pg_proc enqueue_order_status_email → 0. In supabase_migrations.schema_migrations non c'è nessuna voce 126/131/150/155/158 (ultima versione 20260909080417). Il codice ce l'ha in migrations/150:162-163.",
-        "nota": "La migrazione 150 non è applicata in produzione: le email «ordine pronto» (con il codice di ritiro) e «consegnato» non vengono accodate. Anche applicandola, oggi non partirebbero, perché in produzione mancano la chiave di servizio e la chiave Resend (già in card #154). [gravita oggi: grave]",
-        "data": "2026-10-11 21:30"
-      }
+        "verdetto": "in_parte",
+        "prova": "In produzione ci sono il trigger trg_enqueue_order_status_email (AFTER UPDATE OF delivery_status) e la funzione della 150. email_queue: 0 righe order_ready e 0 order_delivered, perché da allora nessun ordine ha cambiato stato.",
+        "nota": "Il grilletto adesso c'è. Le email però non partono lo stesso: il giro send-emails risponde 503 senza la chiave di servizio su Vercel (carta #154). Si chiude con un ordine vero che arriva fino all'email spedita.",
+        "data": "2026-10-24 10:45"
+      },
+      "riverifiche_precedenti": [
+        {
+          "verdetto": "ancora_presente",
+          "prova": "Produzione, SELECT su pg_trigger: trg_enqueue_order_status_email → 0. pg_proc enqueue_order_status_email → 0. In supabase_migrations.schema_migrations non c'è nessuna voce 126/131/150/155/158 (ultima versione 20260909080417). Il codice ce l'ha in migrations/150:162-163.",
+          "nota": "La migrazione 150 non è applicata in produzione: le email «ordine pronto» (con il codice di ritiro) e «consegnato» non vengono accodate. Anche applicandola, oggi non partirebbero, perché in produzione mancano la chiave di servizio e la chiave Resend (già in card #154). [gravita oggi: grave]",
+          "data": "2026-10-11 21:30"
+        }
+      ]
     },
     {
       "dimensione": "qa-flussi",
@@ -8815,7 +8886,7 @@
       "impatto": "Ogni pagina o giro che usa quegli oggetti in produzione fallisce o degrada in silenzio: analisi del venditore in errore, colonna Venduti in errore, tetto di spesa AI non condiviso fra le copie del sito, email «ordine pronto/consegnato» mai accodate, carrello non marcato recuperato dopo l'ordine. E ogni prossima unione allarga il buco.",
       "fix": "🔴 Nicola: configurare i quattro segreti su GitHub (card #161) e lanciare una volta scripts/applica-migrazioni-mancanti.sh contro produzione (idempotente, provato in CI); poi il cancello notturno deriva-migrazioni-produzione.yml diventa rosso da solo alla prossima deriva. Riaprire la scheda «Il rilascio non applica le migrazioni» finché il comportamento non cambia.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "SUPABASE_DB_URL=<stringa di connessione di produzione> node scripts/check-migration-drift.mjs   → rosso (21 migrazioni non applicate). Oppure in sola lettura: select exists(select 1 from information_schema.columns where table_name='order_items' and column_name='product_name') → false in produzione.",
       "prova_tipo": "comando",
       "prova_eseguita": true,
@@ -8826,11 +8897,22 @@
       "fonte_radiografia": "totale 2026-09-03",
       "fuori_dal_referto": true,
       "riverifica": {
-        "verdetto": "ancora_presente",
-        "prova": "SELECT su supabase_migrations.schema_migrations: l'ultima della serie 12x-16x è 129p_ponte_produzione_catalogo_visibile, mentre il repo ha 26 file 130-161 (ls migrations). Controllo oggetto per oggetto in produzione: order_items.product_name, abandoned_carts.recovered_at, venduti_per_prodotto, enqueue_order_status_email, ai_spend_daily, foto_consegna_da_cancellare e wallet_ledger_chiave_idx sono tutti ASSENTI. gh run list deploy-dopo-ci.yml: ultimo giro 11/10 09:30 fallito con «VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID non configurati»",
-        "nota": "Il distacco è cresciuto: da 21 a 26 migrazioni non applicate. Fra queste ci sono le riparazioni di sicurezza 151-161 (ad esempio revoca agli anonimi, viste con i permessi di chi legge), e la 161 è già nota (card #191/#202). Molte pagine hanno un ripiego, ma intanto i buchi di accesso restano aperti in produzione. [gravita oggi: bloccante]",
-        "data": "2026-10-11 21:30"
-      }
+        "verdetto": "risolta",
+        "prova": "Registri edge di Supabase: GET seller_public_profiles con i campi business_* → 400 42703 il 23/10 22:49 UTC, → 200 il 24/10 08:23 UTC. Schema: 47 RPC, 76 relazioni e 354 colonne scritte dal codice, 0 mancanti. Vercel: nessun errore di schema dalle 23:25 UTC sul rilascio dpl_CkZYZPAN5jsQikqQMrdkrTsc8WGW (commit 3ee0d53). Run 40038665053: «Seconda passata» e «Il registro delle migrazioni torna col codice» verdi.",
+        "nota": "Verificato in sola lettura sul database di produzione, e confermato da un secondo verificatore che ha provato a smentirlo.",
+        "data": "2026-10-24 10:45"
+      },
+      "chiuso_il": "2026-10-24 10:45",
+      "chiuso_da": "Le 48 migrazioni entrate in produzione col pulsante «Migrazioni a mano» (run 40038665053 del 2026-10-24 01:30, PR NicolaeRotaru/mycity#260), dopo l'«avvia» di Nicola",
+      "nota_riparazione": "Risolta: il database di produzione conosce tutte le 157 migrazioni del repository, e ogni tabella, colonna e funzione che il codice di main chiama esiste. La stessa richiesta che il 23/10 alle 22:49 UTC falliva con «colonna inesistente» il 24/10 alle 08:23 UTC risponde 200. La causa radice (il rilascio non applica le migrazioni) resta aperta: come chiedeva questa scheda, è stata riaperta la scheda 1076.",
+      "riverifiche_precedenti": [
+        {
+          "verdetto": "ancora_presente",
+          "prova": "SELECT su supabase_migrations.schema_migrations: l'ultima della serie 12x-16x è 129p_ponte_produzione_catalogo_visibile, mentre il repo ha 26 file 130-161 (ls migrations). Controllo oggetto per oggetto in produzione: order_items.product_name, abandoned_carts.recovered_at, venduti_per_prodotto, enqueue_order_status_email, ai_spend_daily, foto_consegna_da_cancellare e wallet_ledger_chiave_idx sono tutti ASSENTI. gh run list deploy-dopo-ci.yml: ultimo giro 11/10 09:30 fallito con «VERCEL_TOKEN / VERCEL_ORG_ID / VERCEL_PROJECT_ID non configurati»",
+          "nota": "Il distacco è cresciuto: da 21 a 26 migrazioni non applicate. Fra queste ci sono le riparazioni di sicurezza 151-161 (ad esempio revoca agli anonimi, viste con i permessi di chi legge), e la 161 è già nota (card #191/#202). Molte pagine hanno un ripiego, ma intanto i buchi di accesso restano aperti in produzione. [gravita oggi: bloccante]",
+          "data": "2026-10-11 21:30"
+        }
+      ]
     },
     {
       "dimensione": "deploy-sre",
@@ -21015,10 +21097,18 @@
       "impatto": "Un rilascio che tocca lo schema manda in produzione codice che interroga tabelle o colonne che non esistono: 500 sulle rotte coinvolte, e se tocca checkout→ordine→pagamento il cliente paga e l'ordine non nasce. Il rollback del codice non basta quando una migrazione parziale ha già cambiato lo schema.",
       "fix": "Aggiungere in render.yaml un `preDeployCommand` che applichi le migrazioni mancanti (Render lo esegue prima di dirottare il traffico e, se fallisce, non promuove il rilascio); oppure spostare il rilascio dentro deploy-dopo-ci.yml nell'ordine CI verde → applica migrazioni → chiama il deploy hook. In entrambi i casi mettere `SALTO_E_ERRORE=1 npm run db:check-drift` come cancello immediatamente prima del rilascio. 🔴 (tocca il rilascio vero): preparare e far firmare a Nicola.",
       "fonte": "marketplace",
-      "stato": "chiuso",
+      "stato": "aperto",
       "chiuso_il": "2026-08-22",
       "chiuso_da": "lotto marketplace 22/8 — ramo claude/marketplace-100-difetti-c62gmv",
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "riaperto_il": "2026-10-24 10:45",
+      "riaperto_da": "Verifica del 24/10 dopo le 48 migrazioni, come chiedeva la scheda 426: il rilascio vero lo fa ancora Vercel a ogni unione su main, senza applicare migrazioni. Il passo delle migrazioni in deploy-dopo-ci.yml c'è ma è spento, perché mancano VERCEL_TOKEN, VERCEL_ORG_ID e VERCEL_PROJECT_ID (carta #161). Le 48 sono entrate solo col pulsante a mano.",
+      "riverifica": {
+        "verdetto": "ancora_presente",
+        "prova": "Run 40036810774 di «Rilascio dopo CI verde» (23/10 22:57 UTC): rossa, passo «Applica le migrazioni al database, prima di pubblicare» saltato. Il rilascio di produzione dpl_CkZYZPAN5jsQikqQMrdkrTsc8WGW è partito da Vercel all'unione della PR #260.",
+        "nota": "Il ritardo, se torna, si vede: la sentinella notturna deriva-migrazioni-produzione.yml adesso si collega al database. Si chiude quando la carta #161 è fatta e un rilascio vero applica una migrazione da solo.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "deploy-sre",
@@ -25665,7 +25755,13 @@
       "prova": "/tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/smista-s2/prova-sql.sh ricostruisce il database dalle migrazioni ed esce 3. Righe stampate: «ROSSO — reclamo aperto normalmente: orders.dispute_status (la colonna del chargeback in banca) diventa OPEN (dispute_status=OPEN internal=NULL)» e «ROSSO — reclamo chiuso a favore del negozio: l ordine NON passa il filtro del giro dei bonifici (dispute_status null o WON) (dispute_status=OPEN internal=RESOLVED)». Il reclamo è inserito con il ruolo authenticated e le stesse colonne che scrive app/orders/[id]/dispute/page.tsx.\n\nVerifica del secondo revisore: Il difetto regge: ho seguito la catena e l'ho riprodotto da solo.\n\n**Il codice**\n- La funzione dispute_block_payout (migrazione 063, righe 84-98) scrive orders.dispute_status='OPEN' a ogni nuova riga in disputes.\n- Nessuna migrazione successiva, fino alla 163, la ridefinisce o la toglie. La 064 le revoca solo il permesso di esecuzione.\n- La 119 (righe 827-836) separa le due colonne. Il suo commento dice proprio: «un reclamo interno perso bloccava per sempre il pagamento di un ordine che in banca non aveva nulla». Però il trigger non l'ha toccato.\n- La rotta che chiude i reclami (righe 215-258) scrive solo internal_dispute_status. Il suo stesso commento alle righe 217-221 descrive questo difetto come se fosse già riparato. In realtà la divisione 050/173 l'ha riaperto.\n- Il giro dei bonifici esclude gli ordini con dispute_status 'OPEN' su tutti e quattro i passaggi (righe 200, 280, 320, 358), con PAYOUT_DISPUTE_FILTER = vuoto o 'WON'.\n- 'WON' lo scrive solo dispute.ts:304, cioè il webhook di Stripe. Nessun altro codice riporta indietro 'OPEN'.\n- Nessun altro trigger su orders lo azzera, e nessun test copre il caso.\n\n**La mia prova**\n- Database mycity_res_s2_rimborsi, ricostruito da tutte le migrazioni, 153 compresa.\n- Ordine con carta da 25 € in stato HELD. Reclamo inserito come authenticated con le stesse colonne e lo stesso motivo minuscolo 'damaged' della pagina del cliente.\n- Dopo l'apertura: dispute_status=OPEN.\n- Dopo la chiusura a favore del negozio, fatta come la fa la ",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "riverifica": {
+        "verdetto": "ancora_presente",
+        "prova": "In produzione dispute_block_payout ha ancora il corpo della 063: a ogni nuovo reclamo scrive orders.dispute_status='OPEN', la colonna del chargeback. Il trigger trg_dispute_block_payout è acceso. Nessuna delle 48 lo corregge.",
+        "nota": "Non dipendeva dalle migrazioni. Oggi 0 reclami, quindi nessun negozio fermo. Serve una migrazione nuova (🔴): il trigger deve scrivere internal_dispute_status.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -25681,7 +25777,13 @@
       "prova": "cd /home/user/wt/finale && npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/smista-s2/vitest.smista.config.mts -t \"wallet_credit cade\". La prova chiama annullaERimborsa vera sul finto database dei rimborsi, con wallet_credit che risponde 57014. Risultato: rossa, «ordine annullato, 5 € di credito spariti e nessun avviso: resta solo una riga di registro: expected 0 to be greater than 0». Fatti stampati: {\"esito\":{\"ok\":true,\"refundId\":null},\"stato\":\"CANCELED\",\"credito\":0,\"avvisiAdmin\":0}.\n\nVerifica del secondo revisore: Confermato leggendo il codice e facendo girare la prova.\n\n**Il codice.** In /home/user/wt/finale/lib/ordini/annulla.ts, alle righe 91-105, `restituisciCredito` chiama `wallet_credit`. Se c'è un errore o un'eccezione, il codice scrive solo `logger.warn`. In /home/user/wt/finale/lib/logger.ts, `warn` fa soltanto `console.warn`, senza Sentry e senza nessun avviso. Sul ramo dei contanti l'ordine diventa CANCELED, con l'UPDATE condizionato `.neq('delivery_status','CANCELED')`. Solo dopo parte la restituzione del credito. A quel punto `annullaERimborsa` risponde `{ok:true}` comunque. Un secondo annullo trova zero righe e torna `GIA_ANNULLATO`, quindi l'accredito non si ritenta. Le rotte di cliente, negozio e amministratore si fermano tutte a quel controllo.\n\n**Le difese.** Ho cercato e non ne esiste nessuna:\n- nessun `notifyAdmins` in annulla.ts;\n- nessun giro notturno (cron) che confronti gli ordini annullati con `wallet_applied_cents>0` contro `wallet_ledger`;\n- nessuna vista o azione dell'amministratore sul registro del credito.\n\n**Un'aggravante.** La rotta /home/user/wt/finale/app/api/seller/orders/[id]/reject/route.ts:101-106 scrive al cliente «Il credito MyCity che avevi usato (€X) è tornato sul tuo saldo». Lo scrive anche quando l'accredito è fallito, quindi il cliente legge una cosa falsa.\n\n**La prova.** Ho lanciato `npx vitest run --config .../smista-s2/vitest.smista.config.mts -t \"wallet_credit cade\"`. È rossa, come dichiarato. Fatti stampati: `{\"esito\":{\"ok\":true,\"refund",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "riverifica": {
+        "verdetto": "ancora_presente",
+        "prova": "lib/ordini/annulla.ts:100-114 su main: se wallet_credit fallisce scrive solo logger.warn, e annullaERimborsa risponde ok. Nessun segno «credito da restituire» nel database.",
+        "nota": "Non dipendeva dalle migrazioni. La 143, ora in produzione, rende sicuro ritentare l'accredito: la riparazione futura (avviso, segno sull'ordine) adesso non rischia doppi accrediti. Oggi 0 ordini con credito usato.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -25745,7 +25847,13 @@
       "prova": "Prova che gira: cd /home/user/wt/finale && npx vitest run --config /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/smist-s1/prove/vitest.config.mjs --dir /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/smist-s1/prove pgrst204. Oggi è ROSSA: eSchemaIndietro({code:'PGRST204'}) restituisce false («expected false to be true»), quindi conRipiegoSchema non ripiega. Misura su PostgREST 12.2.3: una PATCH /orders?id=eq.1&select=id con un campo che la tabella non ha risponde {\"code\":\"PGRST204\",\"message\":\"Could not find the 'rider_payout_claimed_at' column of 'orders' in the schema cache\"}.\n\nVerifica del secondo revisore: Ho provato a smontarla e regge. Ho seguito tutta la catena e l'ho fatta girare, compreso il controllo al contrario.\n\n① Codice. In lib/db/migrazione-124.ts:50-102, eSchemaIndietro riconosce solo 42703, 42883 e 42P01, più il 23514 quando nomina uno dei due vincoli di stato. PGRST204 non c'è. conRipiegoSchema (righe 109-122) quindi restituisce l'errore così com'è. In payout.ts il turno del negozio scrive payout_claimed_at e quello del fattorino rider_payout_claimed_at. Tutte e due le colonne nascono solo con migrations/126_radiografia_22_agosto.sql:59-60. La lettura iniziale di releaseOrderPayout usa solo colonne della 116 e della 124, quindi passa e si arriva davvero al turno. Il codice c'era già prima del lotto: nella base 775b62 payout.ts:124-137 è identico.\n\n② PostgREST vero. Ho fatto una PATCH con una colonna che la tabella non ha, sulle versioni 12.2.3, 13.0.5 e 14.0. Tutte e tre rispondono 400 {\"code\":\"PGRST204\",\"message\":\"Could not find the 'payout_claimed_at' column of 'orders' in the schema cache\"}. La stessa colonna chiesta in una SELECT dà invece 42703: la scheda dice il vero, il piano B scatta in lettura e non in scrittura.\n\n③ Prova completa che ho scritto io. È in /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/ver-pgrst204/prove/e2e-turno.test.ts. Chiama il vero releaseOrderPayout contro PostgREST 12.2.3 su un database senza la 126; Stripe e il logger sono finti. Risultato: {\"ok\":false,\"code\":\"TRANSFER_FAILED\",\"reason\":\"Claim payout fallit",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "riverifica": {
+        "verdetto": "in_parte",
+        "prova": "Registro: riga 126 presente, payout_claimed_at e rider_payout_claimed_at esistono. lib/db/migrazione-124.ts:50-58 e :94-102 su main non riconoscono ancora PGRST204.",
+        "nota": "Il PGRST204 di quella colonna non c'è più. Il bonifico non parte comunque, perché il giro release-payouts risponde 503 senza la chiave di servizio (carta #154). E il piano B continua a non scattare sulle scritture: il buco si riapre alla prossima colonna nuova.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -25793,7 +25901,13 @@
       "prova": "Prova vitest che chiama il PATCH vero della rotta con il database finto delle prove (come fa tests/unit/dalla-chat-un-alimento-non-va-in-vendita-senza-i-controlli-del-modulo.test.ts con le rotte dell'AI): prodotto in bozza nella sottocategoria «Pane e forno» con attributes {} e payload {status:'available'} → si aspetta 400 con «Allergeni, Ingredienti» e nessuna scrittura su products. Oggi risponde 200 e scrive status available: la prova è rossa. Secondo caso: il database risponde errore 23514 col messaggio del guardiano → si aspetta quel messaggio, non «Riprova».\n\nVerifica del secondo revisore: Ho controllato tutta la catena e regge. Nell'elenco prodotti, toggleStatus (app/seller/products/page.tsx:141-152) manda «available» per ogni stato diverso da available, bozza compresa. Il pulsante «Attiva» (righe 409-412 e 500-503) compare su ogni bozza. La rotta PATCH (app/api/seller/products/[id]/route.ts) controlla solo le colonne ammesse e il proprietario, poi chiama salvaProdottoTracciato, che legge, scrive e registra: nessun controllo su foto, descrizione, allergeni o ingredienti. Il modulo (ProductForm.tsx:680-697) lascia davvero salvare la bozza senza i campi obbligatori: chiede solo la foto. cosaMancaDopoLaModifica ed erroreDiSalvataggio esistono, ma li usano soltanto le rotte dell'assistente AI.\n\nHo fatto girare il PATCH vero con un client finto. Bozza nella sottocategoria «Pane e forno», attributi vuoti, payload {status:'available'}: la rotta risponde 200 e scrive status available. Con il database che risponde 23514 e il messaggio del guardiano, la rotta risponde 500 «Non sono riuscito a salvare. Riprova.». Prova in /tmp/claude-0/-home-user/06076910-34c9-5b70-bac3-566ef0676b66/scratchpad/s4-attiva-verifica/attiva-bozza.test.ts.\n\nNessuna protezione copre il buco. Nelle migrazioni c'è un solo trigger sulla pubblicazione, il 126, e guarda solo gli allergeni: gli ingredienti passano anche quando sarà applicato. In AZIONI-IN-ATTESA la migrazione 126 risulta ancora da applicare in produzione (carta #158; STATO cita la #184, produzione indietro di 126-129). Che manchi anc",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "riverifica": {
+        "verdetto": "in_parte",
+        "prova": "In produzione il guardiano degli allergeni della 126 è acceso: una bozza di alimento senza allergeni che riceve «Attiva» viene rifiutata con 23514. app/api/seller/products/[id]/route.ts su main non chiama cosaMancaDopoLaModifica, e il catch (righe 72-73) trasforma il 23514 in 500.",
+        "nota": "Il caso esatto del titolo non va più in vendita. Adesso però è accesa la seconda metà del difetto: il negoziante legge «Non sono riuscito a salvare. Riprova.» invece di «dichiara gli allergeni», e riprovare dà sempre lo stesso errore. Senza ingredienti si va ancora in vendita. Oggi 8 alimenti su 9 in vendita non hanno allergeni.",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "rls-database",
@@ -25809,7 +25923,13 @@
       "prova": "Prova SQL in tests/sql (come gli altri *.test.sql del repo): con la 126 e la migrazione nuova applicate, insert di un prodotto nella sottocategoria di «alimentari» con status 'available', attributes {\"allergeni\":\"Glutine\"} e ingredienti assente → si aspetta errore 23514. Oggi l'insert passa: la prova è rossa. Prova vitest sulla pagina di importazione montata con una riga «alimentari» → si aspetta che il payload inviato a products abbia status 'draft' (oggi 'available').\n\nVerifica del secondo revisore: Il difetto è reale: ho seguito tutto il percorso nel codice unito e l'ho rifatto su un database di prova.\n\n1) app/seller/products/import/page.tsx (il lotto non l'ha toccata). Le colonne richieste sono name, description, price, stock e category_slug: non ci sono allergeni né ingredienti. importAll (:137-148) fa supabase.from('products').insert dal browser con status 'available' e nessun attributo. Il modello CSV che la pagina fa scaricare ha come prima riga d'esempio «Pane casereccio…,alimentari», cioè proprio il caso descritto nella scheda. La pagina si apre dal cruscotto («Importa prodotti») e dall'elenco dei prodotti.\n\n2) La regola d'accesso 119 «Approved sellers can insert products» controlla solo seller_id, il ruolo e l'approvazione. Sui campi non c'è nessun controllo.\n\n3) Il guardiano della 126 (:528-532) legge solo attributes->>'allergeni'. Nessuna migrazione successiva, fino alla 163, aggiunge gli ingredienti. Prova eseguita su mycity_res_s4_ai_allergeni, dentro una transazione annullata alla fine:\n- un alimento in vendita senza attributi viene rifiutato con 23514, e col caricamento a blocchi cade l'intero file;\n- un alimento in vendita in «panificio» con {\"allergeni\":\"Glutine\"} e senza ingredienti viene inserito;\n- una bozza con soli allergeni portata in vendita con UPDATE passa.\n\n4) Anche la strada «Attiva» dall'elenco passa senza controlli. Usa salvaProdottoDalBrowser, cioè PATCH /api/seller/products/[id], e quella rotta non controlla i campi obbligatori.\n\n5) In pro",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "riverifica": {
+        "verdetto": "in_parte",
+        "prova": "Il guardiano della 126 legge solo attributes->>'allergeni', mai 'ingredienti'. La pagina di importazione manda status 'available' senza attributi, con un inserimento a blocchi.",
+        "nota": "Una riga alimentare senza allergeni adesso fa rifiutare l'intero file, anche i prodotti non alimentari, e il negoziante legge solo «Il valore inserito non è valido.». Gli ingredienti vuoti passano ancora: serve una migrazione nuova (🔴).",
+        "data": "2026-10-24 10:45"
+      }
     },
     {
       "dimensione": "ai-endpoints",
@@ -27397,23 +27517,57 @@
       "stato": "riparato",
       "riparato_in": "04110a4 (PR NicolaeRotaru/mycity#260)",
       "prova": "Percorso completo sulla copia locale con la 128 rotta: il riepilogo mostra «ERROR:  division by zero»; mutazione applica-motivo-con-indirizzi rossa."
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "titolo": "Tre pagine chiedono l'email dalla tabella dei profili, che non ce l'ha: i reclami e il registro dell'amministratore escono vuoti, e il controllo d'identità dice «profilo non trovato»",
+      "severita": "grave",
+      "file": "app/admin/disputes/page.tsx:64 · app/admin/audit/page.tsx:45 · app/api/kyc/start-check/route.ts:29",
+      "descrizione": "Le tre letture chiedono profiles.email, una colonna che nessuna migrazione ha mai creato: l'email sta in auth.users. PostgREST risponde 400 con 42703 a tutta la domanda, non solo al campo. Le due pagine dell'amministratore leggono solo data e buttano l'errore, quindi mostrano un elenco vuoto. La rotta del controllo d'identità riceve profile null e risponde «Profilo non trovato». Esempio: oggi il registro delle azioni ha 22 righe, e la pagina /admin/audit non ne mostra nessuna.",
+      "impatto": "L'amministratore non vede i reclami dei clienti né il registro delle azioni. Il venditore che avvia il controllo d'identità si ferma subito. Oggi i reclami sono 0; il registro ha 22 righe nascoste.",
+      "fix": "Togliere email dalle tre select. Se l'email serve, leggerla dal server con una funzione che la prende da auth.users. Nelle due pagine dell'amministratore leggere anche error e mostrarlo. Prova: un test che passa le tre select a PostgREST vero sulla copia delle migrazioni e diventa rosso con 42703.",
+      "fonte": "verifica delle schede dopo le 48 migrazioni, 2026-10-24 (secondo verificatore della scheda 426)",
+      "stato": "aperto",
+      "prova": "SELECT count(*) FROM information_schema.columns WHERE table_schema='public' AND table_name='profiles' AND column_name='email' → 0 in produzione (2026-10-24 10:57). audit_logs: 22 righe. lib/database.types.ts, generato dalle migrazioni: la tabella profiles non ha il campo email.",
+      "prova_tipo": "comando",
+      "prova_eseguita": "Eseguita in sola lettura il 2026-10-24 10:57 sul progetto clmpyfvpvfjgeviworth: la colonna non esiste (0), il registro ha 22 righe. Non eseguita una chiamata REST vera, perché il proxy di questa sessione non raggiunge il sito.",
+      "verificato": true,
+      "nato_oggi": true
+    },
+    {
+      "dimensione": "navigazione-gerarchia",
+      "reparto": "Navigazione",
+      "titolo": "Su «Negozi», il filtro per categoria fa sparire il negozio i cui prodotti stanno solo in una sottocategoria",
+      "severita": "minore",
+      "file": "app/stores/page.tsx:89-90 (solo categorie madri) · app/stores/page.tsx:212-213 (confronto con le categorie dei prodotti)",
+      "descrizione": "Le opzioni del filtro sono solo le 9 categorie madri (parent_id nullo). Il confronto però guarda le categorie dei prodotti, che spesso sono figlie: in produzione ci sono 63 sottocategorie. Esempio vero: col filtro «Alimentari» sparisce il negozio 44444444-…0001, perché i suoi prodotti stanno solo in «Panificio», figlia di «Alimentari». È lo stesso errore che la scheda 632 aveva corretto nella ricerca.",
+      "impatto": "Un cliente che filtra i negozi per categoria non trova i negozi giusti. Con 2 negozi approvati, basta per far sparire metà dell'offerta.",
+      "fix": "Confrontare la categoria scelta con le categorie del negozio e con le loro madri, come fa già la ricerca dopo la 632. Prova: un test con un negozio che ha solo prodotti in una figlia, filtrato per la madre.",
+      "fonte": "verifica delle schede dopo le 48 migrazioni, 2026-10-24 (secondo verificatore della scheda 141)",
+      "stato": "aperto",
+      "prova": "Lettura di app/stores/page.tsx:89-90 e :212-213 su main 3ee0d53. In produzione: 9 categorie madri, 63 figlie; categorie_per_negozio() dà al negozio 44444444-…0001 solo «Panificio».",
+      "prova_tipo": "comando",
+      "prova_eseguita": "Eseguita in sola lettura il 2026-10-24 10:57 (conteggio delle categorie) e dal secondo verificatore alle 10:34 (categorie_per_negozio).",
+      "verificato": true,
+      "nato_oggi": true
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-20 14:56",
+    "aggiornato": "2026-10-24 11:05",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
     "findings_aperti": 574,
-    "findings_chiusi": 820,
-    "findings_tot": 1394,
+    "findings_chiusi": 822,
+    "findings_tot": 1396,
     "aperti_per_severita": {
       "bloccante": 9,
       "grave": 120,
       "minore": 445,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1394,
+    "dichiarati_dal_referto": 1396,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

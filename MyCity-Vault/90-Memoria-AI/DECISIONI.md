@@ -5614,3 +5614,21 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Registro dei difetti del sito.** Aggiunte 18 schede «deploy-sre», già riparate (16 del quarto giro e 2 del mio riesame). Le schede aperte non cambiano: 574.
 
 **Cosa NON ho fatto.** Le 48 migrazioni. Aspettano il segreto del Session pooler, l'unione della #260 e l'«avvia» di Nicola.
+
+## 2026-10-24 01:30 — 🔴 Le 48 migrazioni entrano nel database vero, col «avvia» di Nicola
+
+**Cosa.** Nicola ha cambiato il segreto `SUPABASE_DB_URL` su GitHub con la riga del Session pooler: la prima volta senza pooler, poi corretto fra le 01:09 e le 01:13. Poi ha scritto «avvia». Il pulsante «Migrazioni a mano» (run 40038665053) ha contato 48 migrazioni, l'ultima la 163, e le ha applicate tutte. Seconda passata, sei controlli finali e confronto col codice: verdi. Il registro delle migrazioni ha 240 righe.
+
+**Verifica dopo, in sola lettura (fra le 08:30 e le 11:00).** Due verificatori per ognuna delle 14 schede del sito legate alle migrazioni: uno verifica, l'altro prova a smentirlo.
+- 2 risolte e confermate: gli indici della 127 e il database indietro rispetto al codice. Chiuse.
+- 6 risolte in parte: la metà che dipendeva dalle migrazioni è a posto, resta codice o la chiave di servizio su Vercel. Fra queste, i filtri «Aperti ora» e «4 stelle»: titolo riscritto sul resto.
+- 2 ancora vere, e accese proprio dalle migrazioni: il modulo per diventare negozio respinto dalla 119, e «richiesta in valutazione» senza richiesta, raggiungibile dalla 161.
+- 4 non dipendevano dalle migrazioni. Una si è sistemata in parte col segreto nuovo: il controllo che confronta il database col codice adesso si collega.
+
+**Altro sul registro dei difetti.** Chiusa la scheda grave delle copie: alle 09:17 la copia notturna è riuscita per la prima volta, 416 KB cifrati (run 40073532638). Riaperta la scheda bloccante «il rilascio non applica le migrazioni», come chiedeva la scheda del database indietro: le 48 sono entrate solo a mano. Aggiunte 2 schede nate dalla verifica. La prima è grave: tre pagine chiedono l'email alla tabella dei profili, che non ce l'ha. La seconda è minore: il filtro per categoria dei negozi fa sparire chi vende solo in una sottocategoria. Annotata la scheda delle regole doppie sui prodotti: le regole sono sparite, resta l'indice doppio. Aperte 574 come prima: 9 bloccanti, 120 gravi, 445 minori.
+
+**Fatto aggiornato.** «infrastruttura.supabase» nel registro dei fatti: database allineato, segreto del Session pooler, copia notturna verde.
+
+**Cosa NON ho fatto.** Riparare i due difetti accesi: il modulo per diventare negozio chiede una migrazione nuova, da firmare. Non ho provato un ordine vero, né aperto il sito: il proxy della sessione non lo raggiunge.
+
+**La lezione.** Una migrazione che stringe un permesso non ripara soltanto: accende i difetti che il permesso largo nascondeva. Qui la 119 ha chiuso il cambio di ruolo, e il modulo per diventare negozio, che cambia proprio il ruolo, ha smesso di funzionare. Prima di lanciare migrazioni che stringono, va cercata nel codice ogni scrittura che il permesso nuovo rifiuta. Il freno non c'è ancora: è debito dichiarato.
