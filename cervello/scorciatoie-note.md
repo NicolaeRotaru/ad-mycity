@@ -132,3 +132,18 @@ del sito (`cervello/prediagnosi.mjs`), dove un testo pubblicato per sbaglio non 
     frasi già pubbliche o di contesto dato a tutti («la chiave di servizio che manca»). Un allarme
     che suona a ogni giro insegna a zittirlo alla cieca. *Cura: si toglie quello che è già
     pubblico, e ogni allarme che resta diventa un giudizio scritto, campo per campo.*
+30. **L'impronta che non vede l'ordine, e i bersagli scritti per posizione.** L'impronta del testo
+    riletto non dipendeva dall'ordine delle voci doppie, ma le oscurature e la memoria le
+    indirizzavano per posizione («la seconda lente A»). Cambiato l'ordine dei journal, l'impronta
+    tornava uguale e l'oscuratura cadeva sulla voce sbagliata. Sui dati veri un campo oscurato al
+    mattino tornava in chiaro, e il comando stampava «nessuna oscuratura tornata in chiaro».
+    *Cura: un ordine fisso per le voci, e la memoria cerca il campo in tutte le voci di quel tipo.*
+31. **Il giudizio che sopravvive al suo testo.** Un «già pubblico» scritto da una rilettura vecchia
+    valeva anche dopo che quel campo era stato riscritto, e zittiva l'allarme sul testo nuovo.
+    *Cura: un giudizio che apre vale solo dalla rilettura di QUESTO testo, e solo sul percorso esatto
+    che nomina; un giudizio che chiude vale sempre.*
+32. **L'elenco di prima che invecchia.** Fra due pubblicazioni il lotto chiude dei difetti: un
+    elenco del mattino che ne nominava uno faceva fermare ogni ripubblicazione, e l'unica via era
+    ritoccarlo a mano. Il banco provava la seconda pubblicazione sullo stesso registro, mai dopo una
+    chiusura. *Cura: la voce su un difetto chiuso si conta e si dice, e quello che era nascosto si
+    rinasconde da solo, per chiave, senza dipendere dagli elenchi di ieri.*

@@ -424,7 +424,7 @@ function promptRiservatezza(lente) {
 Il tuo compito: rileggere il testo che sta per diventare pubblico, il ricettario della pre-diagnosi del sito, e segnare ogni passaggio che rivela una delle falle di sicurezza riservate. Una falla aperta descritta in un deposito pubblico è un manuale per chi la vuole sfruttare. Il 24/10 tre ricette pubbliche ne nominavano una di passaggio.
 
 - Le falle riservate: ${SP}/PRIVATO-elenco.json (falle, verifiche, falle mancate, note). Leggile tutte, ma non ripeterle.
-- I tuoi materiali: ${SP}/da-controllare-riservato.json. In «da_giudicare» ci sono i campi, uno per percorso, che ripetono una frase lunga di una falla o un nome che sta solo nelle falle: il comando che pubblica si ferma su ognuno che nessuno ha giudicato. Per ciascuno scegli: lo oscuri, oppure lo metti in «giudicati_pubblici» col perché, se dice solo cose già pubbliche (il difetto pubblico ne parla già nel registro, è un fatto delle carte, è il contesto dato a tutti i revisori). «difetti_con_nomi_rari» e «territori_con_nomi_rari» sono da leggere per primi. Ricopia «impronta» nella risposta.
+- I tuoi materiali: ${SP}/da-controllare-riservato.json. In «da_giudicare» ci sono i campi, uno per percorso, che ripetono una frase lunga di una falla o un nome che sta solo nelle falle: il comando che pubblica si ferma su ognuno che nessuno ha giudicato. Per ciascuno scegli: lo oscuri, oppure lo metti in «giudicati_pubblici» col perché, se dice solo cose già pubbliche (il difetto pubblico ne parla già nel registro, è un fatto delle carte, è il contesto dato a tutti i revisori). In «oscurati_prima» ci sono i campi già oscurati in un ricettario pubblico di prima: il comando li rioscura da solo, quindi tocca a te solo se uno va liberato (giudicati_pubblici, col perché). «difetti_con_nomi_rari» e «territori_con_nomi_rari» sono da leggere per primi. Ricopia «impronta» nella risposta.
 - Il testo pubblico intero: ${SP}/ricettario-completo.json, nei campi «difetti» (solo quelli senza «riservato: true») e «territori». Il campo «privata» NON si pubblica: lascialo stare. Il file è grande: cerca con grep le parole di ogni falla (tabelle, funzioni, rotte, e frasi come «qualunque utente», «senza login», «chiunque abbia un account»).
 
 La tua lente: ${LENTI_RISERVATEZZA[lente]}
@@ -481,5 +481,5 @@ if (MODO === 'seri') {
     agent(promptRiservatezza(lente), { label: `riservato:${lente}`, phase: 'Verifica', schema: SCHEMA_RISERVATEZZA, agentType: SENIOR[lente] })))
 }
 const persi = MODO === 'lenti' || MODO === 'riservatezza' ? risultati.filter(x => !x).length : risultati.filter(x => !x || !(x.ricette || x.audit)).length
-if (persi) log(`${persi} territori senza risultato: da rifare`)
+if (persi) log(`${persi} ${MODO === 'riservatezza' ? 'lenti della riservatezza' : MODO === 'privata' ? 'aree' : 'territori'} senza risultato: da rifare`)
 return { modo: MODO, risultati }

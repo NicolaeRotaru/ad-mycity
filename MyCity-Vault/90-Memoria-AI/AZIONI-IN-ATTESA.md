@@ -31,6 +31,16 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #211 — Decidi se togliere dal ramo pubblico le prime versioni del ricettario del sito · ⏳ accodata 2026-10-24 18:58
+
+**In parole semplici.** La prima versione del ricettario del sito aveva in chiaro 17 passaggi che la rilettura di riservatezza del pomeriggio ha poi oscurato. Parlano di falle riservate di gravità bassa o media. Sono rimasti sul ramo pubblico per circa tre ore, poi li ho oscurati con due correzioni. Ma nella storia del ramo le versioni vecchie si leggono ancora. Cosa dicono te l'ho scritto in chat, non qui.
+
+**Cosa cambia:** se dici sì, riscrivo la storia del ramo della pre-diagnosi prima dell'unione, e le versioni vecchie non stanno più sul ramo. Chi ne ha già l'indirizzo esatto potrebbe raggiungerle ancora per un po'. La cura vera resta chiudere quelle falle, che sono già nel piano.
+
+**Se va bene:** spinta forzata solo sul ramo della pre-diagnosi, poi unisci la richiesta come al solito e il ramo si cancella.
+
+---
+
 ### 🔴 #210 — Il giorno della chiave: i tuoi passi, nell'ordine giusto · ⏳ accodata 2026-10-24 14:20
 
 **In parole semplici.** Il sito oggi non prende ordini perché su Vercel manca la chiave di servizio del database. Quando la metti, partono insieme dieci lavori notturni e si accendono cose che oggi dormono. Per questo i passi vanno in fila, e alcuni solo dopo il mio via.

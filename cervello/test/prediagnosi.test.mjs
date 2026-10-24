@@ -31,7 +31,7 @@ import { spawnSync } from "child_process";
 import { tmpdir } from "os";
 import path from "path";
 import { fileURLToPath } from "url";
-import { campiConNomi, candidatiRiservati, contoDelPiano, elencoRiservato, frasiCopiate, impronta, nonGiudicate, oscura, OSCURATO, pianoDelleOndate, risultatiDalJournal, territoriDaPreparare, territorio, tornatiInChiaro, verdettoDelleVoci, verdettoFinale } from "../prediagnosi.mjs";
+import { campiConNomi, candidatiRiservati, contoDelPiano, elencoRiservato, frasiCopiate, impronta, listaFile, nonGiudicate, oscura, OSCURATO, oscuratiPrima, pianoDelleOndate, risultatiDalJournal, territoriDaPreparare, territorio, testiDellaCorsiaRiservata, tornatiInChiaro, verdettoDelleVoci, verdettoFinale } from "../prediagnosi.mjs";
 import { chiaveProblema } from "../referti-sito.mjs";
 
 const QUI = path.dirname(fileURLToPath(import.meta.url));
@@ -131,6 +131,8 @@ const revisione = (dir, nome, { lenti = ["istruzioni", "nomi"], da_oscurare = []
     ...perse.map((l) => ({ label: `riservato:${l}` })),
   ]);
 };
+// Una seconda lente A sul difetto 0, rilanciata in un altro giro.
+const LENTE_ALTRA = { label: "lente-A:soldi", result: { verdetti: [{ idx: 0, verdetto: "da_correggere", ancora_vero_corretto: "si", motivo: "manca un caso", correzioni_ricetta: "aggiungi il caso", prova_corretta: "" }] } };
 // La rilettura giusta del banco: il campo che nomina la funzione della falla si oscura.
 const OSCURA_0 = [{ idx: 0, campi: ["ricetta.raggio"], perche: "nomina la funzione della falla" }];
 
@@ -153,6 +155,7 @@ try {
   dico(rr0.status === 2 && /segni/.test(rr0.stderr), "① segni discordi su una scheda riservata fermano «prepara»", uscita(rr0));
 
   // in più: un risultato orfano (nessuna etichetta da nessuna parte) e un revisore partito e mai tornato
+  const LENTI_ALTRA = scriviJournal(LAVORO, "lente-altra.jsonl", [LENTE_ALTRA]);
   const FILE_JOURNAL = scriviJournal(LAVORO, "journal.jsonl", [...journal, { label: "lente-B:ux" }], [JSON.stringify({ type: "result", key: "orfano", agentId: "orfano", result: { ricette: [{ idx: 5, ancora_vero: "no" }] } })]);
 
   // ── ① senza la riservatezza non si pubblica ─────────────────────────────────────────────────
@@ -223,7 +226,23 @@ try {
   const rm0 = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA, "--riservato", A_MANO);
   dico(rm0.status === 0 && ultimoPubblico()?.difetti.find((x) => x.idx === 1)?.ricetta?.raggio === OSCURATO, "① l'elenco a mano si unisce alla revisione: --riservato si ripete", uscita(rm0));
   const rm = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA);
-  dico(rm.status === 2 && pubblici().length === 1 && /tornerebbero in chiaro/.test(rm.stderr) && /difetto 1\.ricetta\.raggio/.test(rm.stderr), "① una seconda pubblicazione che dimentica un campo oscurato prima non lo rimette in chiaro: esce 2", uscita(rm));
+  dico(rm.status === 0 && /1 campi oscurati in un ricettario pubblico di prima restano oscurati/.test(rm.stdout) && ultimoPubblico()?.difetti.find((x) => x.idx === 1)?.ricetta?.raggio === OSCURATO, "① una seconda pubblicazione senza l'elenco di prima non rimette in chiaro il campo: lo rioscura da sola, e lo dice", uscita(rm));
+  esegui("riservato", "--cartella", LAVORO);
+  dico((materiali(LAVORO).oscurati_prima || []).includes("difetto 1.ricetta.raggio"), "① i materiali dei revisori dicono quali campi erano oscurati prima");
+  // un ricettario pubblico più vecchio ancora, con un altro campo oscurato: valgono tutti, non solo l'ultimo
+  writeFileSync(path.join(AUDIT, "2026-01-01-0000-ricettario-sito.json"), JSON.stringify({ difetti: [{ idx: 3, chiave: chiaveProblema(problemi[3]), ricetta: { evidenza: OSCURATO } }], territori: [] }));
+  const rpiu = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA);
+  dico(rpiu.status === 0 && ultimoPubblico()?.difetti.find((x) => x.idx === 3)?.ricetta?.evidenza === OSCURATO && ultimoPubblico()?.difetti.find((x) => x.idx === 1)?.ricetta?.raggio === OSCURATO, "① la memoria legge tutti i ricettari pubblici di prima, non solo l'ultimo", uscita(rpiu));
+  writeFileSync(path.join(AUDIT, "zz-rotto-ricettario-sito.json"), "{ rotto");
+  const rrotto = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA);
+  dico(rrotto.status === 2, "① un ricettario pubblico di prima illeggibile ferma: senza, non so cosa era oscurato", uscita(rrotto));
+  rmSync(path.join(AUDIT, "zz-rotto-ricettario-sito.json"));
+  // un elenco del mattino nomina un difetto che il registro ha chiuso nel frattempo
+  writeFileSync(A_MANO, JSON.stringify([{ idx: 6, campi: ["ricetta.raggio"], perche: "difetto chiuso dopo la rilettura" }]));
+  const rdec = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA, "--riservato", A_MANO);
+  dico(rdec.status === 0 && /1 voci degli elenchi parlano di difetti che il registro ha chiuso/.test(rdec.stdout), "① una voce su un difetto chiuso nel frattempo non ferma la ripubblicazione: si conta e si dice", uscita(rdec));
+  writeFileSync(A_MANO, JSON.stringify([{ idx: 99, campi: ["ricetta.raggio"], perche: "un idx che non esiste" }]));
+  dico(esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_BUONA, "--riservato", A_MANO).status === 2, "① una voce su un difetto che non c'è mai stato resta un bersaglio mancato: esce 2");
   const J_GIUDICA = revisione(LAVORO, "rev-giudica.jsonl", { da_oscurare: OSCURA_0, giudicati_pubblici: [{ idx: 1, campi: ["ricetta.raggio"], perche: "riletto: non dice niente della falla" }] });
   const rm2 = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, "--scrivi", "--riservato", J_GIUDICA);
   dico(rm2.status === 0 && ultimoPubblico()?.difetti.find((x) => x.idx === 1)?.ricetta?.raggio === "r", "① un giudizio «già pubblico» scritto dal revisore lo rimette in chiaro, apposta", uscita(rm2));
@@ -233,13 +252,17 @@ try {
   const J_PUBBLICI = scriviJournal(LAVORO, "pubblici.jsonl", soloPubblici);
   svuotaAudit();
   const rp1 = esegui("raccogli", "--cartella", LAVORO, J_PUBBLICI, "--scrivi", "--riservato", J_BUONA);
-  dico(rp1.status === 0 && /ripresa dal ricettario completo/.test(rp1.stdout), "① senza il journal della corsia riservata, la corsia si riprende dalla cartella e i controlli girano", uscita(rp1));
+  dico(rp1.status === 0 && /ripresi dal ricettario completo/.test(rp1.stdout), "① senza il journal della corsia riservata, la corsia si riprende dalla cartella e i controlli girano", uscita(rp1));
   dico(JSON.stringify(leggiJson(path.join(LAVORO, "ricettario-completo.json")).privata).includes(SEGRETO), "① e il ricettario completo non perde la corsia");
   const VUOTA = nuova("senza-corsia");
   esegui("prepara", "--cartella", VUOTA);
   svuotaAudit();
   const rp2 = esegui("raccogli", "--cartella", VUOTA, J_PUBBLICI, "--scrivi", "--riservato", J_BUONA);
-  dico(rp2.status === 2 && pubblici().length === 0, "① senza la corsia, né fra i journal né nella cartella, con falle aperte: esce 2", uscita(rp2));
+  dico(rp2.status === 2 && pubblici().length === 0 && /non c'è la loro corsia/.test(rp2.stderr), "① senza la corsia, né fra i journal né nella cartella, con falle aperte: esce 2 e dice perché", uscita(rp2));
+  const MEZZA = scriviJournal(LAVORO, "mezza.jsonl", [...soloPubblici, journal.find((v) => v.label === "privata:regole")]);
+  svuotaAudit();
+  const rp3 = esegui("raccogli", "--cartella", LAVORO, MEZZA, "--scrivi", "--riservato", J_BUONA);
+  dico(rp3.status === 0 && /manca una parte della corsia riservata/.test(rp3.stdout) && leggiJson(path.join(LAVORO, "ricettario-completo.json")).privata.length === 2, "① con una parte sola della corsia fra i journal, l'altra si riprende dalla cartella e il completo non la perde", uscita(rp3));
 
   // ── ① l'impronta: un territorio rifatto dopo la rilettura ───────────────────────────────────
   const J_RIFATTO = scriviJournal(LAVORO, "rifatto.jsonl", [{ label: "ricette:qa", result: { territorio: "qa", ricette: [ricetta(5)], cause_comuni: [] } }]);
@@ -247,6 +270,16 @@ try {
   const ri = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, J_RIFATTO, "--scrivi", "--riservato", J_BUONA);
   dico(ri.status === 2 && pubblici().length === 0 && /testo diverso/.test(ri.stderr), "① un territorio rifatto dopo la rilettura cambia l'impronta: esce 2", uscita(ri));
   dico(impronta(comp) === impronta({ ...comp, territori: [...comp.territori].reverse(), difetti: [...comp.difetti].reverse() }), "① l'impronta non dipende dall'ordine dei journal");
+  dico(impronta(comp) !== impronta({ ...comp, privata: [...comp.privata, { label: "privata:nuova", result: { falle: [{ titolo: "una falla trovata dopo la rilettura" }] } }] }), "① una falla trovata dopo la rilettura cambia l'impronta: i revisori non l'avevano vista");
+  const conAltra = JSON.parse(JSON.stringify(comp));
+  conAltra.difetti[0].lente_a_altre = [{ motivo: "una voce in più" }];
+  dico(impronta(comp) !== impronta(conAltra), "① anche una voce doppia in più cambia l'impronta");
+  const rOrdine1 = esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL, LENTI_ALTRA);
+  const v1 = leggiJson(path.join(LAVORO, "ricettario-completo.json")).difetti.find((x) => x.idx === 0);
+  const rOrdine2 = esegui("raccogli", "--cartella", LAVORO, LENTI_ALTRA, FILE_JOURNAL);
+  const v2 = leggiJson(path.join(LAVORO, "ricettario-completo.json")).difetti.find((x) => x.idx === 0);
+  dico(rOrdine1.status === 0 && rOrdine2.status === 0 && JSON.stringify(v1.lente_a) === JSON.stringify(v2.lente_a) && JSON.stringify(v1.lente_a_altre) === JSON.stringify(v2.lente_a_altre), "① le voci doppie stanno nello stesso posto in qualunque ordine si passino i journal");
+  esegui("raccogli", "--cartella", LAVORO, FILE_JOURNAL);
 
   // ── ① le frasi copiate e i nomi solo riservati ─────────────────────────────────────────────
   const COPIA = nuova("copia");
@@ -267,6 +300,13 @@ try {
   const voce5 = ultimoPubblico()?.difetti.find((x) => x.idx === 5);
   dico(r11.status === 0 && voce5?.ricetta?.raggio?.includes("attenzione") && /1 giudicati pubblici/.test(r11.stdout), "① una frase giudicata già pubblica dal revisore si pubblica intera, e il giudizio è detto", uscita(r11));
   svuotaAudit();
+  const vecchia = revisione(COPIA, "vecchia.jsonl", { improntaData: "1".repeat(64), giudicati_pubblici: [{ idx: 5, campi: ["ricetta.raggio"], perche: "giudicato su un altro testo" }] });
+  const rvec = esegui("raccogli", "--cartella", COPIA, FILE_JOURNAL, J_COPIA, "--scrivi", "--riservato", revisione(COPIA, "nuova.jsonl", { da_oscurare: OSCURA_0 }), "--riservato", vecchia);
+  dico(rvec.status === 2 && pubblici().length === 0 && /ignorati/.test(rvec.stdout), "① un «già pubblico» di una rilettura fatta su un altro testo non zittisce gli allarmi di oggi", uscita(rvec));
+  writeFileSync(path.join(COPIA, "a-mano.json"), JSON.stringify([{ idx: 5, campi: ["ricetta.raggio"], pubblico: true, perche: "scritto a mano" }]));
+  const rman = esegui("raccogli", "--cartella", COPIA, FILE_JOURNAL, J_COPIA, "--scrivi", "--riservato", revisione(COPIA, "nuova2.jsonl", { da_oscurare: OSCURA_0 }), "--riservato", path.join(COPIA, "a-mano.json"));
+  dico(rman.status === 2 && pubblici().length === 0, "① un «già pubblico» scritto in un elenco senza impronta non apre niente", uscita(rman));
+  svuotaAudit();
   const r12 = esegui("raccogli", "--cartella", COPIA, FILE_JOURNAL, J_COPIA, "--scrivi", "--riservato", revisione(COPIA, "r12.jsonl", { da_oscurare: OSCURA_0, giudicati_pubblici: [{ idx: 5, campi: ["ricetta.non_esiste"], perche: "x" }] }));
   dico(r12.status === 2 && pubblici().length === 0, "① un giudizio su un campo che non c'è non vale: esce 2", uscita(r12));
   svuotaAudit();
@@ -277,7 +317,11 @@ try {
   dico(frasiCopiate({ difetti: [{ idx: 1, ricetta: { raggio: "un account può chiamare la funzione" } }] }, [FRASE]).length === 0, "① sei parole in comune non sono una copia");
   dico(frasiCopiate({ difetti: [{ idx: 1, lente_b: { nascite_previste: FRASE }, lente_a_altre: [{ motivo: FRASE }] }], territori: [{ territorio: "t", modo: "seri", conflitti: FRASE }] }, [FRASE]).join() === "difetto 1.lente_b.nascite_previste,difetto 1.lente_a_altre.0.motivo,territorio seri:t.conflitti", "① la copia si cerca in tutte le voci, anche doppie, e nei territori");
   dico(campiConNomi({ difetti: [{ idx: 3, chiuso: { motivo: `vedi ${NOME}` } }] }, [NOME]).join() === "difetto 3.chiuso.motivo", "① un nome che sta solo nelle falle si trova anche nella verifica dei chiusi");
-  dico(nonGiudicate(["territorio seri:soldi.cause_comuni.0.perche", "difetto 3.ricetta.raggio"], ["territorio seri:soldi.cause_comuni"]).join() === "difetto 3.ricetta.raggio", "① un giudizio su un campo copre quello che c'è dentro, e niente altro");
+  const tutta = testiDellaCorsiaRiservata([{ result: { falle: [{ dove: "uno uno" }], verdetti: [{ motivo: "due due" }], mancate: "tre tre", note: "quattro quattro" } }]);
+  dico(["uno uno", "due due", "tre tre", "quattro quattro"].every((t) => tutta.includes(t)), "① la rete confronta tutta la corsia riservata: falle, verifiche, falle mancate e note");
+  dico(JSON.stringify(oscuratiPrima([{ difetti: [], territori: [{ territorio: "t", modo: "seri", cause_comuni: OSCURATO }] }])) === JSON.stringify([{ territorio: "t", modo: "seri", campo: "cause_comuni" }]), "① la memoria delle oscurature tiene anche i campi dei territori");
+  dico(tornatiInChiaro({ difetti: [{ idx: 7, chiave: "k", ricetta: { raggio: "in chiaro" } }] }, [{ chiave: "k", campo: "ricetta.raggio" }], ["difetto 7.ricetta"]).length === 1, "① un «già pubblico» sul campo che contiene non riapre quello oscurato dentro");
+  dico(nonGiudicate(["territorio seri:soldi.cause_comuni.0.perche", "difetto 3.ricetta.raggio"], ["territorio seri:soldi.cause_comuni", "difetto 3.ricetta.raggio"]).join() === "territorio seri:soldi.cause_comuni.0.perche", "① un giudizio «già pubblico» vale per il percorso esatto, non per quello che c'è dentro");
 
   // ── ① una ricetta pubblica su una falla riservata ───────────────────────────────────────────
   const INTRUSO = nuova("intruso");
@@ -318,6 +362,11 @@ try {
   const conteso = oscura({ difetti: [{ idx: 1, ricetta: { raggio: "r" } }] }, [{ idx: 1, campi: ["ricetta.raggio"], pubblico: true }, { idx: 1, campi: ["ricetta.raggio"] }]);
   dico(conteso.ricettario.difetti[0].ricetta.raggio === OSCURATO && conteso.contesi.length === 1, "① se un revisore oscura e l'altro dice «già pubblico», vince l'oscuratura e il disaccordo si conta");
   dico(tornatiInChiaro({ difetti: [{ idx: 7, chiave: "k", ricetta: { raggio: "in chiaro" } }] }, [{ chiave: "k", campo: "ricetta.raggio" }], []).join() === "difetto 7.ricetta.raggio", "① un campo oscurato prima, per chiave del difetto, è segnato se torna in chiaro");
+  dico(tornatiInChiaro({ difetti: [{ idx: 7, chiave: "k", lente_a: { motivo: "a" }, lente_a_altre: [{ motivo: "b" }] }] }, [{ chiave: "k", campo: "lente_a_altre.0.motivo" }], []).sort().join() === "difetto 7.lente_a.motivo,difetto 7.lente_a_altre.0.motivo", "① la memoria su una voce doppia guarda tutte le voci di quel tipo, in qualunque posto siano oggi");
+  dico(tornatiInChiaro({ territori: [{ territorio: "soldi", modo: "seri", cause_comuni: [{ nome: "x" }] }] }, [{ territorio: "soldi", modo: "seri", campo: "cause_comuni" }], []).join() === "territorio seri:soldi.cause_comuni", "① un campo oscurato per intero che oggi è una lista torna fra quelli da rioscurare");
+  dico(tornatiInChiaro({ territori: [{ territorio: "minori-ux", modo: "minori", descrizione: "in chiaro" }] }, [{ territorio: "ux", modo: "minori", campo: "descrizione" }], []).join() === "territorio minori:minori-ux.descrizione", "① la memoria ritrova un territorio dei minori anche col prefisso nuovo «minori-»");
+  dico(oscura({ difetti: [] }, [{ idx: 6, campi: ["x"] }], { decaduta: (i) => i === 6 }).decadute.join() === "6" && oscura({ difetti: [] }, [{ idx: 6, campi: ["x"] }], { decaduta: (i) => i === 6 }).mancati.length === 0, "① una voce su un difetto chiuso è decaduta, non mancata");
+  dico(oscura({ difetti: [{ idx: 1, ricetta: { raggio: "r" } }] }, [{ idx: 1, campi: ["ricetta.raggio"], pubblico: true }, { idx: 1, campi: ["ricetta.raggio"], pubblico: true }]).lasciati.length === 1, "① due lenti che giudicano lo stesso campo contano un campo solo");
 
   // ── ② due voci, e l'ordine dei journal non decide ───────────────────────────────────────────
   dico(verdettoFinale({ ricetta: { ancora_vero: "no" } }) === "da_rivedere", "② la ricetta da sola che dice «già chiuso» non chiude: va rivista");
@@ -386,6 +435,7 @@ try {
   dico(territorio({ file_toccati: ["tests/x.test.ts", "lib/a.ts:1", "lib/a.ts", "lib/b.spec.ts"] }).join() === "lib/a.ts", "③ il territorio toglie le prove e i doppioni");
   dico(territorio({ file_toccati: ["/srv/sito/lib/a.ts:3"] }, () => true, "/srv/sito").join() === "lib/a.ts", "③ il percorso intero si riporta a quello del sito, con la radice data");
   dico(territorio({ file_toccati: OSCURATO }).length === 0, "③ una lista di file oscurata non fa cadere il piano");
+  dico(listaFile({ file_toccati: ["lib/a.ts", OSCURATO] }).join() === "lib/a.ts", "③ una voce oscurata dentro la lista dei file non è un file");
   const tuttiPacchi = piano.ondate.flat();
   dico(piano.ore_di_squadra === tuttiPacchi.reduce((s, p) => s + p.ore, 0) + piano.ore_dei_liberi && piano.ore_dei_liberi === 1.5, "③ le ore di squadra contano anche i difetti senza un file", `${piano.ore_di_squadra} · liberi ${piano.ore_dei_liberi}`);
   dico(piano.ore_in_fila === piano.ore_per_ondata.reduce((s, x) => s + x, 0) && piano.ore_per_ondata.every((x, i) => x === Math.max(...piano.ondate[i].map((p) => p.ore))), "③ le ore in fila sono la somma della squadra più lenta di ogni ondata");
@@ -469,6 +519,10 @@ try {
     dico(rc.status === 2 && !existsSync(nascerebbe), `④ ${cosa} esce 2 e non nasce nemmeno vuota`, uscita(rc));
   }
   dico(esegui("ondate").status === 2, "④ ondate senza ricettario esce 2");
+  dico(esegui("ondate", "--ricettario", path.join(LAVORO, "ricettario-completo.json"), "--parziale").status === 2, "④ ondate rifiuta il ricettario completo, quello con la corsia riservata");
+  writeFileSync(path.join(VECCHI, "ricettario-completo.json"), `${SEGRETO} non è json`);
+  const rrc = esegui("riservato", "--cartella", VECCHI);
+  dico(rrc.status === 2 && !rrc.stderr.includes(SEGRETO.slice(0, 8)), "④ «riservato» su un ricettario completo rovinato esce 2 senza ripeterne nemmeno un pezzo del testo", uscita(rrc));
   dico(esegui("prepara", "--boh").status === 2, "④ un argomento sconosciuto esce 2");
   dico(esegui("ripara").status === 2, "④ un comando sconosciuto esce 2");
 } finally {
