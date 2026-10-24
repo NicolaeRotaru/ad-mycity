@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-10-24 14:20
+aggiornato: 2026-10-24 19:12
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -11,6 +11,8 @@ fonte: AD digitale (giro, cervello/giro.md)
 > La cosa più grave non è nel codice: su Vercel manca la chiave di servizio, e il sito non prende ordini. Ma quella chiave sveglia tutto in un giorno, anche alcune falle: non metterla finché non ti do il via. Oggi tocca a te la password dell'amministratore e le chiavi del database. Lunedì, le 14 scelte della carta #209 in un messaggio solo.
 >
 > Con le firme lunedì, i problemi seri del codice si chiudono verso il 31 ottobre: è una stima. Non ho fatto girare prove né aperto il sito. Referto: `consegne/audit/2026-10-24-prediagnosi-sito.md`.
+>
+> ⏰ **2026-10-24 19:12 — Dopo i collaudi.** Tre giri di collaudo hanno bocciato il comando della pre-diagnosi. I difetti trovati sono corretti. Per la regola d'arresto, però, resta uno strumento da lanciare a mano. Le riletture di riservatezza del pomeriggio hanno trovato 23 passaggi in chiaro nella prima versione del ricettario. Erano sul ramo pubblico, e adesso sono oscurati. La carta #211 ti chiede se riscrivere la storia del ramo. Il ricettario di oggi è `consegne/audit/2026-10-24-1910-ricettario-sito.json`.
 
 > 🗄️ **2026-10-24 11:10 — Le 48 migrazioni sono nel database vero, e stamattina è riuscita la prima copia notturna.**
 >

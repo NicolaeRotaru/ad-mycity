@@ -3,7 +3,7 @@ data: 2026-10-24 14:10
 tipo: prediagnosi-sito
 richiesta: «A che punto siamo con la risoluzione dei problemi del markeplace? Dobbiamo risolverli nel minor tempo possibile, riesci a trovare un modo, magari capendo in anticipo come risolverli o qualcosa del genere» (Nicola, 24/10)
 codice: NicolaeRotaru/mycity, main a 3ee0d53 (dopo la #258, la #259, la #260 e le 48 migrazioni del 24/10 alle 01:30)
-fonti: registro dei difetti del sito · 77 revisori della pre-diagnosi · variabili di produzione su Vercel, lette per nome il 24/10 alle 13:40 · cataloghi del database di produzione, letti dalla corsia riservata
+fonti: registro dei difetti del sito · 79 revisori della pre-diagnosi · 8 revisori della riservatezza in quattro riletture · 6 collaudatori del comando in tre giri · variabili di produzione su Vercel, lette per nome il 24/10 alle 13:40 · cataloghi del database di produzione, letti dalla corsia riservata
 ---
 
 # Il modo più veloce: scrivere prima come si ripara ogni difetto, e firmare tutto in una volta
@@ -50,6 +50,7 @@ Il pezzo più lento resta la partita IVA: senza, le pagine legali non dicono chi
 
 - **Oggi:** cambia la password dell'amministratore e le chiavi del database, con i passi che ti ho dato in chat il 12 ottobre. La chiave esposta è aperta dall'11 ottobre: è l'urgenza vera.
 - **Fino al mio via, non mettere la chiave di servizio su Vercel.** Il motivo è nel punto «la chiave sveglia tutto»: prima chiudo quello che si accenderebbe.
+- **Prima di unire questa richiesta:** rispondi alla carta #211, sì o no. Riguarda 23 passaggi che la prima versione del ricettario aveva in chiaro sul ramo pubblico, oscurati nel pomeriggio. Il dettaglio è in chat.
 - **Lunedì:** leggi la carta delle 14 scelte e rispondimi. Se vanno tutte bene, scrivi «ok 209».
 - **Lunedì:** dimmi com'è messo Stripe: chiavi vere o di prova, e se Pane Quotidiano ha collegato il suo conto.
 - **Quando hai firmato:** scrivimi «parti», e faccio partire le fondamenta.
@@ -60,6 +61,8 @@ Il pezzo più lento resta la partita IVA: senza, le pagine legali non dicono chi
 - **Le ricette dei minori le ha verificate un revisore solo**, e solo dove dicevano «già risolto». Due voci le hanno avute solo i problemi seri.
 - **Il sito vero non l'ho aperto**, né su un telefono né in un browser. Stripe non lo vedo.
 - **La corsia riservata non è in questo testo.** Le falle di sicurezza aperte le ho ritrovate oggi, ma questo deposito è pubblico: il resoconto è in chat. Le 23 schede riservate restano aperte finché non le chiudo davvero.
+- **La rilettura di riservatezza non ha letto tutto riga per riga.** Ha cercato i nomi e le frasi di ogni falla in tutto il ricettario. Poi ha letto per intero solo i campi trovati: 31 e 43, secondo le due lenti. Un passaggio che descrive una falla con parole del tutto diverse le può essere sfuggito, e lo scrivono i revisori stessi.
+- **Il comando non è un freno automatico.** Tre giri di collaudo l'hanno bocciato tre volte, l'ultima su difetti che poi ho corretto. Per la regola d'arresto resta uno strumento da lanciare a mano, e le correzioni dell'ultimo giro non le ha ricollaudate nessuno.
 - **Il calendario regge solo se le firme arrivano lunedì.** Se arrivano a rate, ogni giorno di attesa è un giorno in più.
 
 ---
@@ -76,17 +79,19 @@ Il pezzo più lento resta la partita IVA: senza, le pagine legali non dicono chi
 - I 118 seri non riservati in 13 territori per mestiere: resi e rimborsi, contestazioni, bonifici e sconti, contanti e cassa, iscrizioni, rilascio, promesse di consegna, promesse ai negozi, IA e alimenti, privacy, pannello, negozio e fattorino, vetrina e accesso. Per ognuno: ricetta, lente A («è giusta, la prova sa diventare rossa?»), lente B («cosa farebbe nascere?»).
 - I 433 minori non riservati in 20 gruppi per dimensione: ricetta, e un revisore sui «già risolti».
 - La corsia riservata: 4 aree, ognuna con un revisore e un verificatore. Lettura dei cataloghi del database di produzione, solo SELECT.
-- 77 revisori conclusi su 81 partiti: 2 doppioni fermati apposta, 2 della riservatezza ancora al lavoro mentre scrivevo. Il motore tiene due agenti per volta per giro su questa macchina da 4 processori: per questo i giri erano sette in parallelo. Ricette e verifiche: circa due ore, dalle 11:26 alle 13:20.
+- 79 revisori conclusi su 81 partiti: 2 doppioni fermati apposta. Il motore tiene due agenti per volta per giro su questa macchina da 4 processori: per questo i giri erano sette in parallelo. Ricette e verifiche: circa due ore, dalle 11:26 alle 13:20.
+- La riservatezza: quattro riletture da due revisori. Le ultime due sono state fatte sul ricettario rigenerato col registro di oggi, con l'impronta del testo e della corsia riservata. Hanno segnato 23 campi che la versione del mattino aveva in chiaro: oscurati sul ramo con tre commit, alle 17:55, alle 18:38 e alle 19:10. Il ricettario era sul ramo dalle 17:31.
 
 ### Cosa dicono le ricette
 
 | | seri (118) | minori (433) |
 |---|---:|---:|
 | già risolti, chiusi oggi | 8 | 4 |
-| da riparare | 110 | 429 |
-| di cui codice | 66 | 367 |
+| da riparare | 110 | 425 |
+| da rivedere: la ricetta dice «già chiuso», il revisore no | — | 4 |
+| di cui codice | 66 | 364 |
 | di cui migrazione | 11 | 24 |
-| di cui tua scelta | 19 | 26 |
+| di cui tua scelta | 19 | 25 |
 | di cui impostazioni (GitHub, Vercel, Supabase, Stripe) | 7 | 5 |
 | di cui da spegnere | 4 | 6 |
 | di cui nel mondo reale | 3 | 1 |
@@ -94,7 +99,7 @@ Il pezzo più lento resta la partita IVA: senza, le pagine legali non dicono chi
 | a rischio alto di nascite (lente B) | 17 | — |
 | dove la lente B consiglia di semplificare | 33 | — |
 
-**Le ore, dalle taglie dei revisori** (S mezz'ora, M un'ora e mezza, L quattro ore): i seri di codice e migrazione sono 77, in 44 pacchetti e 9 ondate. Valgono 97 ore di squadra, 27 in fila. I file più caldi sono `app/api/orders/cod/route.ts`, `app/api/cron/operational-alerts/route.ts`, `lib/products/prontoPerLaVendita.ts`, `middleware.ts` e la rotta di moderazione. Con le semplificazioni il pianificatore stima 18-20 ore in fila, in tre ondate. Tutti i difetti di codice, minori compresi, sono 468 in 189 pacchetti: 376 ore di squadra.
+**Le ore, dalle taglie dei revisori** (S mezz'ora, M un'ora e mezza, L quattro ore): i seri di codice e migrazione sono 77, in 45 pacchetti e 9 ondate, più 4 senza un file da contare. Valgono 99 ore di squadra, 27 in fila. I file più caldi sono `app/api/orders/cod/route.ts`, `app/api/cron/operational-alerts/route.ts`, `lib/products/prontoPerLaVendita.ts`, `middleware.ts` e la rotta di moderazione. Con le semplificazioni il pianificatore stima 18-20 ore in fila, in tre ondate. Tutti i difetti di codice, minori compresi, sono 465: 435 in 191 pacchetti e 41 ondate, 30 senza un file da contare. Valgono 402 ore di squadra, 108 e mezza in fila.
 
 **I bloccanti non riservati aperti:** 3 e 18, la porta del negozio rotta dalle migrazioni · 46, il titolare che manca · 432 e 1076, il rilascio che pubblica senza aspettare la CI e senza applicare le migrazioni.
 
@@ -122,7 +127,18 @@ Il pezzo più lento resta la partita IVA: senza, le pagine legali non dicono chi
 
 ### Dove stanno i materiali
 
-- Ricettario pubblico: `consegne/audit/2026-10-24-ricettario-sito.json`. I passaggi che toccavano una falla riservata sono oscurati, segnati da due revisori della riservatezza.
+- Ricettario pubblico di oggi, sul registro con le 12 chiusure: `consegne/audit/2026-10-24-1910-ricettario-sito.json`, con accanto il piano delle ondate `…-ondate.json`. I passaggi che toccavano una falla riservata sono oscurati: 59 campi.
+- Ricettario del mattino: `consegne/audit/2026-10-24-ricettario-sito.json`. Resta come base delle 12 chiusure, con gli stessi passaggi oscurati.
 - Piano e critica: `consegne/audit/2026-10-24-piano-riparazione-sito.json`.
-- Carte: #209 (le 14 scelte) e #210 (i tuoi passi in ordine) in `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`.
-- La prova del comando: `cervello/test/prediagnosi.test.mjs`. Verde, con quattro mutazioni che la fanno diventare rossa.
+- Carte: #209 (le 14 scelte), #210 (i tuoi passi in ordine) e #211 (la storia del ramo) in `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md`.
+- La prova del comando: `cervello/test/prediagnosi.test.mjs`, 145 controlli verdi; 80 mutazioni in `cervello/mutanti.json` (lotto «prediagnosi») la fanno diventare rossa.
+
+### I buchi dichiarati del comando
+
+Il comando `cervello/prediagnosi.mjs` è passato da tre giri di collaudo, sempre con due collaudatori che non l'avevano scritto, e tutti e tre l'hanno bocciato. Ogni difetto trovato è stato corretto e ha una mutazione. Quello che resta, scritto perché nessuno lo prenda per un verde:
+
+- Le reti automatiche cercano frasi di otto parole e nomi che stanno solo nelle falle. Una parafrasi con parole tutte diverse la vedono solo i revisori.
+- «Riletto» lo dichiarano i revisori, col numero dei campi letti per intero. Il comando pretende che sia più di zero, non che sia tutto.
+- Le ondate con una citazione larga, cioè una cartella intera o un modello con l'asterisco, vanno sempre in fondo, qualunque sia la gravità. Oggi sono 3 minori.
+- Una prova già esistente toccata da due squadre non conta come conflitto: 18 coppie di pacchetti ne condividono una, nessuna nella stessa ondata.
+- Le correzioni del terzo giro non le ha ricollaudate nessuno.

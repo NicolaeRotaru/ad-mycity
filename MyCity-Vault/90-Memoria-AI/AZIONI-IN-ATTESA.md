@@ -33,7 +33,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #211 — Decidi se togliere dal ramo pubblico le prime versioni del ricettario del sito · ⏳ accodata 2026-10-24 18:58
 
-**In parole semplici.** La prima versione del ricettario del sito aveva in chiaro 23 passaggi che le riletture di riservatezza del pomeriggio hanno poi oscurato. Parlano di falle riservate di gravità bassa o media. Sono rimasti sul ramo pubblico per circa tre ore, poi li ho oscurati con tre correzioni. Ma nella storia del ramo le versioni vecchie si leggono ancora. Cosa dicono te l'ho scritto in chat, non qui.
+**In parole semplici.** La prima versione del ricettario del sito aveva in chiaro 23 passaggi che le riletture di riservatezza del pomeriggio hanno poi oscurato. Parlano di falle riservate di gravità bassa o media. Sono rimasti sul ramo pubblico da 24 minuti a un'ora e quaranta, poi li ho oscurati con tre correzioni: il ramo li porta dalle 17:31. Ma nella storia del ramo le versioni vecchie si leggono ancora. Cosa dicono te l'ho scritto in chat, non qui.
 
 **Cosa cambia:** se dici sì, riscrivo la storia del ramo della pre-diagnosi prima dell'unione, e le versioni vecchie non stanno più sul ramo. Chi ne ha già l'indirizzo esatto potrebbe raggiungerle ancora per un po'. La cura vera resta chiudere quelle falle, che sono già nel piano.
 
