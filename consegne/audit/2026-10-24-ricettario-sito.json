@@ -15083,10 +15083,10 @@
    "ricetta": {
     "idx": 1260,
     "ancora_vero": "si",
-    "evidenza": "app/sign-up/page.tsx:119-127 cerca chi ha invitato leggendo profiles dal browser di una persona che non ha ancora un account. La 161 (righe 353-354) ha tolto «Anyone can view approved seller profiles» e «Public profile read»: su profiles restano solo «la propria riga» e is_admin, quindi referrerId è sempre null. :164-170: l'insert in referrals parte senza sessione (la conferma email è accesa), e la regola 092:30-32 vuole referred_id = auth.uid(); l'errore non viene guardato. :214 scrive «Codice … applicato». handle_new_user (161:97-121) non legge nessun ref. migrations/089 premia solo le righe che stanno in referrals.",
+    "evidenza": "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]",
     "causa_radice": "Un passo d'iscrizione che riguarda due persone (chi invita e chi è invitato) è stato scritto nel browser, che non può vedere né scrivere per l'altra persona. Le regole strette dopo (122, 161) l'hanno reso impossibile, senza che niente lo segnalasse.",
     "chi_ripara": "migrazione",
-    "ricetta": "1) Nuova migrazione, funzione public.registra_invito_alla_nascita() RETURNS trigger, SECURITY DEFINER, search_path public.\n- Tutto il corpo sta dentro BEGIN … EXCEPTION WHEN OTHERS THEN RAISE WARNING … END: un invito sbagliato non deve MAI far fallire un'iscrizione (la 161 racconta cosa succede quando l'iscrizione si rompe).\n- Legge upper(btrim(raw_user_meta_data->>'ref')) da auth.users per NEW.id; se non combacia con ^[A-F0-9]{8}$, esce.\n- Cerca profiles.referral_code = codice AND id <> NEW.id.\n- Se lo trova: INSERT INTO public.referrals (referrer_id, referred_id) VALUES (…) ON CONFLICT (referred_id) DO NOTHING. Il premio lo fissa già il trigger della 119:186-206.\n- REVOKE EXECUTE FROM PUBLIC, anon, authenticated.\n2) CREATE TRIGGER trg_registra_invito_alla_nascita AFTER INSERT ON public.profiles FOR EACH ROW EXECUTE FUNCTION … È un trigger separato: handle_new_user NON si tocca.\n3) Chiudere l'inserimento dal browser: DROP POLICY \"Authenticated users can create referral\" ON public.referrals (092:30-32). Non la usa nessun altro.\n4) app/sign-up/page.tsx:\n- togliere :119-127 e :164-170;\n- in options.data (:153-157) aggiungere ref: refCode, solo se combacia con /^[A-F0-9]{8}$/;\n- il testo di :214 diventa «Codice X: lo colleghiamo al tuo account quando confermi l'email», evitando le frasi vietate da tests/unit/le-promesse-di-invito-e-reso-dicono-quello-che-il-codice-fa.test.ts.",
+    "ricetta": "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]",
     "file_toccati": [
      "migrations/166_l_invito_si_registra_alla_nascita_dell_account.sql (nuova, numero da confermare)",
      "app/sign-up/page.tsx",
@@ -15107,7 +15107,7 @@
     "idx": 1260,
     "verdetto": "da_correggere",
     "ancora_vero_corretto": "si",
-    "motivo": "Il difetto è vero. app/sign-up/page.tsx:119-127 legge profiles dal browser di chi non ha ancora un account. Dopo 161:353-354, su profiles restano solo la lettura della propria riga (001:66-68) e quella dell'admin (012:37-38). L'insert in referrals (righe 164-170) parte senza sessione, contro la regola 092:30-32, e l'errore non viene guardato. Riga 214 dice «applicato». handle_new_user (161:97-121) ignora il ref. La ricetta regge: UNIQUE(referred_id) esiste (015:123), quindi ON CONFLICT funziona. La prova sa diventare rossa. Ma il testo nuovo proposto sarebbe falso. Il trigger scatta quando nasce la riga in auth.users, cioè a signUp e PRIMA della conferma dell'email: dire «lo colleghiamo quando confermi l'email» rifà il difetto «la promessa dice una cosa, il codice ne fa un'altra». Correzione al raggio: trg_referral_achievements scatta solo AFTER UPDATE OF status (032:134-138), non all'inserimento.",
+    "motivo": "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]",
     "correzioni_ricetta": "Testo di riga 214: «Codice X: verrà collegato al tuo account», senza legarlo alla conferma; poi ripassare tests/unit/le-promesse-di-invito-e-reso-dicono-quello-che-il-codice-fa.test.ts. Da dichiarare: la riga di invito nasce anche per chi non conferma mai l'email, e la pagina /profile/referral la conta fra gli invitati.",
     "prova_corretta": ""
    },
@@ -16636,13 +16636,13 @@
    "ricetta": {
     "idx": 1307,
     "ancora_vero": "si",
-    "evidenza": "app/reset-password/page.tsx:105-110: con l'evento SIGNED_IN il modulo è subito pronto. Le righe :116-118 lo rendono pronto con qualunque sessione: `if (data.session) setRecoveryReady(true)`. Il motivo si calcola solo quando la sessione non c'è. Il modulo non dice mai per quale email si sta cambiando la password.",
+    "evidenza": "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]",
     "chi_ripara": "codice",
-    "ricetta": "Salvare l'email della sessione e mostrare sopra il modulo «Stai cambiando la password di <email>. Non sei tu? Esci e chiedi un link nuovo» (signOut). Se l'URL ha ?code= e l'evento PASSWORD_RECOVERY non è arrivato, mostrare il motivo «altro-browser» anche con una sessione aperta.",
+    "ricetta": "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]",
     "file_toccati": [
      "app/reset-password/page.tsx"
     ],
-    "prova": "jsdom con supabase.auth finto (getSession → sessione di negozio@x, nessun PASSWORD_RECOVERY) e URL ?code=abc: oggi la pagina mostra «Nuova password» senza email (rosso); dopo mostra negozio@x e l'avviso altro-browser.",
+    "prova": "[riservato: il testo tocca una falla della corsia riservata, e sta fuori dal deposito pubblico]",
     "stima": "S",
     "spento_al_lancio": false,
     "causa_comune": "sessione-aperta-scambiata-per-recupero",
