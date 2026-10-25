@@ -5267,7 +5267,7 @@
    "difetto": "AR-779 un-numero-solo-per-la-coda",
    "nome": "chi scrive in coda si riconta i numeri da sé: guarda le righe-tabella e ignora le card-titolo",
    "file": "cervello/git-pr.mjs",
-   "cerca": "  const num = prossimoNumero(content);",
+   "cerca": "  const num = prossimoNumero(content, archivio);",
    "sostituisci": "  let max = 0;\n  for (const line of content.split(\"\\n\")) {\n    const m = line.match(/^\\|\\s*(\\d+)\\s*\\|/);\n    if (m) max = Math.max(max, Number(m[1]));\n  }\n  const num = max + 1;",
    "test": "cervello/test/carte-numerate.test.mjs",
    "lezione": "L-2026-0821-01"
