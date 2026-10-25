@@ -5695,3 +5695,13 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Cosa ho spostato prima di chiudere.** La carta 167 era riparata ma mai provata su un database vero: la prova della copertina caricata da negoziante adesso sta nella 210. La seconda metà della 130, la chiusura automatica delle carte di unione, esisteva già dal 13/7 nel Pannello (carta 11).
 
 **Il conto.** Le carte aperte sono 41, e a Nicola ne toccano 38, elencate in chat il 25/10 per urgenza. Il file della coda è sceso da circa 200.000 a 92.496 caratteri: il cancello torna a leggerlo tutto.
+
+## 2026-10-25 13:46 — 🟡 La chat con l'Assistenza si chiama «Assistenza MyCity»: richiesta di unione al sito (PR 261)
+
+**Cosa.** Nicola ha chiesto di mostrare il nome quando dall'altra parte c'è l'Assistenza. Prima il cliente vedeva «Utente» nell'elenco dei messaggi e «Utente · Negozio» dentro la chat. Adesso legge «Assistenza MyCity», con le cuffie e «Ufficiale» nell'elenco, e «Account ufficiale di MyCity» sotto il nome nella chat. Un negozio che si chiamasse allo stesso modo non prende nessuno dei due segni: l'Assistenza si riconosce dall'account, non dal nome.
+
+**Come è stato controllato.** Tre giri di controllo indipendente: i primi due hanno chiesto correzioni, il terzo ha trovato solo difetti minori, tutti corretti tranne uno lasciato apposta e spiegato nella richiesta di unione. Trentacinque guasti messi apposta nel codice, tutti fermati dalle prove. Verifica completa del sito verde: 5.694 prove su 5.694.
+
+**Colore.** 🟡: è codice del sito su un ramo, non va online finché Nicola non unisce. Niente database, niente chiavi.
+
+**Chiude** la scheda 1360 della radiografia del marketplace, quando Nicola unisce.
