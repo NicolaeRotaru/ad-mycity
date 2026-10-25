@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-24 19:12
+aggiornato: 2026-10-25 11:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔐 **2026-10-25 11:50 — La carta 202 è chiusa: l'amministratore del sito adesso sei solo tu.**
+>
+> Il tuo secondo account è amministratore dalle 11:27. Alle 11:50 hai lanciato la seconda parte: i due account di prova non entrano più. L'ho verificato in sola lettura.
+>
+> Adesso la cosa più urgente è la chiave della carta 203. Finché la vecchia funziona, chi la conosce può riaprire quegli account.
 
 > 🔎 **2026-10-24 14:20 — Il modo più veloce per riparare il sito: la ricetta di ogni difetto scritta prima, e le tue firme in una volta sola.**
 >

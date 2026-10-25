@@ -5648,3 +5648,30 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Nessuna riga del sito cambiata, nessuna prova del sito eseguita, nessuna scrittura sul database. Le ore sono stime dalle taglie dei revisori. Il sito vero e Stripe non li ho visti.
 
 **Le lezioni.** ① La prima versione di `ondate` univa a catena i difetti con un file in comune: ha fuso 356 difetti in un blocco da 315 ore, perché prove nuove e migrazioni nuove facevano da ponte. Il territorio di una ricetta sono i file che esistono e non sono prove. ② Tre ricette scritte per difetti pubblici nominavano di passaggio una falla riservata. Un ricettario pubblico passa da due revisori della riservatezza, e il comando oscura i campi segnati o si ferma. ③ Su una macchina da 4 processori il motore tiene due agenti per volta per workflow: più workflow in parallelo sono l'unico modo di fare presto.
+
+## 2026-10-25 11:50 — 🔴 Il secondo account di Nicola è l'unico amministratore, e gli account di prova non entrano più (carta 202)
+
+**Cosa.** Nicola ha chiesto di mettere come amministratore il suo secondo account Gmail. L'indirizzo non lo scrivo qui, perché questo file è pubblico. La parte 1 l'ho lanciata io alle 11:27, col collegamento a Supabase di questa sessione: me l'ha chiesto lui («riesci ad incollarli tu?»). Lo segno come sua firma, ed è un'eccezione alla regola «l'AD sul database solo legge». Ho provato due volte a lanciare la parte 2, e tutte e due le volte la conferma del collegamento non è arrivata a Nicola entro il minuto: è lo stesso problema del 20/10. Così la parte 2 l'ha lanciata lui, dall'editor SQL di Supabase, alle 11:50.
+
+**Cosa è cambiato, verificato in sola lettura subito dopo.**
+- C'è 1 amministratore, cioè lui.
+- Nessun account si apre più con le password dei file pubblici del sito.
+- L'amministratore di prova è diventato un cliente bloccato.
+- Il fattorino di prova è sospeso e bloccato.
+- Sono state chiuse 2 sessioni e cancellati 7 gettoni di rinnovo.
+- La chat di assistenza di Pane Quotidiano è passata al nuovo amministratore.
+- Il registro di amministrazione ha 3 righe (una nomina e due sospensioni), il registro attività ne ha 4.
+- Il Panificio Demo non è stato toccato: resta la carta 201.
+
+**Gli accessi del 13/10 e del 19/10 agli account di prova.** Sono passati dai server del sito e non dicono chi c'era dietro. Nicola: «sì penso che ero io». Li ho trattati come pulizia. La traccia delle due sessioni del fattorino è salvata nel registro attività prima della chiusura.
+
+**Il collaudo.** Tre giri, con due revisori diversi per giro. Nel primo giro tutti e due rossi, nel secondo pure. Nel terzo uno verde e uno rosso: le tracce della chiusura avrebbero fatto comparire il fattorino come «online» nel pannello Attività. Ho corretto quel punto e sei minori, ma le correzioni del terzo giro non le ha ricollaudate nessuno. Le ho provate io su un database locale finto, in 10 situazioni, e tutte sono andate come previsto. Per la regola d'arresto era un comando da lanciare a mano, ed è stato lanciato a mano.
+
+**Resta da fare.**
+- La carta 203 nello stesso giorno: chi ha la chiave esposta potrebbe riaprire gli account di prova.
+- La verifica in due passaggi di Google sull'account del nuovo amministratore.
+- Togliere le password dai file del codice del sito, con una richiesta di unione 🟡 da preparare.
+- Un nome per l'account dell'assistenza: oggi i clienti vedrebbero «Utente».
+- Le proposte dei revisori per il sito: una difesa che impedisca di togliere l'ultimo amministratore, e il secondo fattore d'accesso per il pannello di amministrazione.
+
+**La lezione.** Sulle scritture che cancellano qualcosa, il collegamento a Supabase di questa sessione chiede una conferma che a Nicola non arriva. Per quei comandi la strada è l'editor SQL di Nicola, con un file pronto da incollare e una tabella finale che dice cosa aspettarsi.

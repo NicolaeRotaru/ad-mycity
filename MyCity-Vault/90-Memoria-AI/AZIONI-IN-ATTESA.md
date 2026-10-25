@@ -48,7 +48,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Cosa cambia:** dopo questi passi un cliente può ordinare in contanti da Pane Quotidiano, il fornaio salva i prodotti, tu approvi i negozi, e le email partono davvero.
 
 **Cosa devi fare tu, in ordine.**
-- **Oggi, da soli:** cambia la password dell'amministratore e le chiavi del database, con le carte #202 e #203. Prima di cambiare la chiave, controlliamo insieme chi usa quella vecchia.
+- **Oggi, da soli:** cambia la password dell'amministratore e le chiavi del database, con le carte #202 e #203. Prima di cambiare la chiave, controlliamo insieme chi usa quella vecchia. *(La #202 è fatta, il 25/10 alle 11:50. Chi usa la chiave vecchia l'ho controllato il 25/10 all'01:25: il sito, il Pannello e il VPS. L'ordine dei passi te l'ho dato in chat.)*
 - **Oggi, se vuoi:** accendi la regola «Main» su GitHub, carta #177, in 2 minuti. In Supabase accendi la protezione contro le password già rubate, in 2 minuti.
 - **Lunedì:** dimmi com'è messo Stripe, in 10 minuti. Poi verifica il mittente delle email su Resend, carta #195, in 15 minuti.
 - **Solo dopo il mio via:** togli l'approvazione al «Panificio Demo», carta #201. Poi copia su Vercel la chiave di servizio nuova e le caselle del titolare, carta #154, e fai un nuovo rilascio.
@@ -162,7 +162,15 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40
+### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40 · ✅ FATTA 2026-10-25 11:50
+
+> ✅ **2026-10-25 11:50 — Fatta. Non devi più fare niente su questa carta.**
+>
+> Alle 11:27 il tuo secondo account è diventato amministratore: l'ho lanciato io, perché me l'hai chiesto tu. Alle 11:50 hai lanciato tu la seconda parte, dall'editor SQL di Supabase. L'ho verificato subito dopo, in sola lettura.
+>
+> L'amministratore e il fattorino di prova non entrano più: sono bloccati, con una password nuova a caso e nessuna sessione aperta. Adesso l'amministratore sei solo tu. La chat di assistenza di Pane Quotidiano è passata al tuo account. Il Panificio Demo non è stato toccato: è la #201.
+>
+> **Restano tre cose.** La porta resta chiusa solo se cambi anche la chiave della #203. Sulla casella Google del nuovo amministratore va accesa la verifica in due passaggi. Le vecchie password vanno tolte anche dai file del codice del sito: la richiesta la preparo io.
 
 **In parole semplici.** La password dell'amministratore del marketplace non è più segreta. Il perché è in chat: questo file è pubblico.
 
