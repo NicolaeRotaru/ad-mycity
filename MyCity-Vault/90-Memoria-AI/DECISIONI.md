@@ -5706,6 +5706,16 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 
 **Chiude** la scheda 1360 della radiografia del marketplace, quando Nicola unisce.
 
+## 2026-10-25 14:44 — 🟡 L'elenco dei permessi da incollare vede anche i lanci fatti attraverso il giro
+
+**Cosa.** Lo strumento che rifà l'elenco dei permessi (`cervello/permessi-elenco.mjs`) non vedeva i programmi lanciati con `sensore "x.mjs"`, né quelli lanciati dai file che il giro e il worker caricano. Rigenerare la consegna toglieva 3 script; la consegna su main ne mancava già 14, e la card #42 19. Adesso le funzioni che lanciano si riconoscono dal corpo, si leggono anche i file caricati, e una rigenerazione che toglie uno script ancora sul disco lo dice. Consegna rigenerata e card #42 riallineata: 147 programmi, tutti quelli che lo strumento trova lanciati, nessuna riga tolta. Restano fuori verifica-automazione.mjs e prepara-giro.mjs, lanciati solo da giro.md e da un workflow, che lo strumento non legge: c'era già prima. Scheda AR-1013.
+
+**Perché.** Applicato com'era, l'elenco avrebbe tolto il permesso a programmi che si lanciano ogni giorno. Il 1/9 era già successo a cinque sensori senza nessun rosso.
+
+**Scelta.** `chiudi-sito.mjs` resta nell'elenco: si lancia a mano nella chiusura di un lotto del sito. Nessun lanciatore lo nominava, e il metodo del lotto (`cervello/lotto-a-pacchetti.md` ⑤) diceva ancora che quel comando non esiste. Adesso lo nomina, ed è fonte dell'elenco.
+
+**Cosa NON ho fatto.** Non ho applicato l'elenco al foglio dei permessi: è di Nicola. Il foglio vale per i comandi della macchina, non per le righe che giro.sh esegue da solo in bash.
+
 ## 2026-10-25 15:58 — 🟡 Il numero di una card chiusa resta speso, e un numero già usato si ferma prima di arrivare sul disco (PR 890)
 
 **Cosa.** Dopo il «ok 130» la card più alta in coda era la 210, ma la 211 era già stata usata e archiviata. Chi contava dalla coda scriveva 211 un'altra volta: con «ok 211» Nicola avrebbe potuto approvare la card sbagliata. La causa: dal 23/8 le card chiuse vivono in un file a parte, e chi sceglieva il numero guardava solo la coda. Adesso il numero si conta su coda e archivio insieme, in un punto solo (`contaNumeri` in `pausa-coda.mjs`), per i tre scrittori automatici e per l'AD che scrive a mano.

@@ -22,7 +22,16 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { bloccoDaIncollare, elencoAmmesso, mancantiNellaConsegna, scriptLanciatiIn } from "../permessi-elenco.mjs";
+import {
+  bloccoDaIncollare,
+  caricatiIn,
+  conCartellaPropria,
+  elencoAmmesso,
+  lanciatoriIn,
+  mancantiNellaConsegna,
+  scriptLanciatiIn,
+  toltiDallaConsegna,
+} from "../permessi-elenco.mjs";
 
 // ─────────────────────────── chi lancia, e chi no ───────────────────────────
 
@@ -162,5 +171,237 @@ test("SUL REPO VERO: la consegna che Nicola ha in mano copre tutto quello che si
     mancanti,
     [],
     `la consegna è indietro di ${mancanti.length} script: applicarla così li spegnerebbe. Rigenera con \`node cervello/permessi-elenco.mjs\``,
+  );
+});
+
+// ─────────────────────────── AR-1013: i lanci che passano da una funzione ───────────────────────────
+//
+// Il difetto, misurato il 25/10: AR-859 ha convertito le righe dei sensori del giro alla forma
+// `sensore "taste-file.mjs" 2 --sonda`. Il `node` sta dentro la funzione, in `giro-esito.sh`, e la
+// riga che lancia non lo nomina più. Lo strumento cercava solo `node x.mjs`: il 1/9 la consegna
+// rigenerata ha perso cinque sensori senza che niente diventasse rosso, e il 25/10 rigenerarla ne
+// avrebbe tolti altri due. Più nove script lanciati dai file che il giro e il worker caricano o
+// lanciano, dove lo strumento non guardava proprio.
+
+/** Le due funzioni di casa, nella forma che hanno davvero in `cervello/giro-esito.sh`. */
+const ESITO = [
+  "sensore() {",
+  '  local _script="$1" _righe="${2:-3}"; shift 2 || shift',
+  '  _out="$(node "${SCRIPT_DIR:-.}/$_script" "$@" 2>&1)"; _rc=$?',
+  '  return "$_rc"',
+  "}",
+  "",
+  "guardiano() {",
+  '  local _script="$1"; shift',
+  '  GUARDIANO_OUT="$(node "${SCRIPT_DIR:-.}/$_script" "$@" 2>&1)"; GUARDIANO_RC=$?',
+  '  _marca_out="$(node "${SCRIPT_DIR:-.}/freno-scattato.mjs" "$_script" --rc "$GUARDIANO_RC" 2>&1)"',
+  "}",
+].join("\n");
+
+test("AR-1013 · un lancio via `sensore` finisce nell'elenco", () => {
+  const { leggi, esiste } = finto(
+    {
+      "cervello/giro.sh": [
+        '. "$SCRIPT_DIR/giro-esito.sh"',
+        '  sensore "taste-file.mjs" 2 --sonda || true',
+        '  sensore "pota-apprendimento.mjs" 3 --se-serve || true',
+      ].join("\n"),
+      "cervello/giro-esito.sh": ESITO,
+    },
+    new Set(["cervello/taste-file.mjs", "cervello/pota-apprendimento.mjs"]),
+  );
+  const e = elencoAmmesso(leggi, esiste);
+  for (const s of ["taste-file.mjs", "pota-apprendimento.mjs"]) {
+    assert.ok(e.mjs.includes(s), `${s} si lancia via sensore ed è fuori dall'elenco: applicato, quel lancio smetterebbe di partire`);
+  }
+});
+
+test("AR-1013 · anche `guardiano`, con e senza virgolette, dentro un `if !`, e il freno che lancia lui", () => {
+  const { leggi, esiste } = finto(
+    {
+      "cervello/giro.sh": [
+        '. "$SCRIPT_DIR/giro-esito.sh"',
+        "  if ! guardiano tasso-lezioni.mjs --json; then",
+        '  guardiano "allocazione-check.mjs" || true',
+      ].join("\n"),
+      "cervello/giro-esito.sh": ESITO,
+    },
+    new Set(["cervello/tasso-lezioni.mjs", "cervello/allocazione-check.mjs", "cervello/freno-scattato.mjs"]),
+  );
+  assert.deepEqual(elencoAmmesso(leggi, esiste).mjs, ["allocazione-check.mjs", "freno-scattato.mjs", "tasso-lezioni.mjs"]);
+});
+
+test("AR-1013 · il lanciatore si riconosce dal CORPO, non dal nome", () => {
+  // Un nome nuovo che nessun elenco conosce: deve entrare da solo, o il difetto torna alla prima
+  // funzione scritta domani.
+  const testo = [
+    "ts() { date '+%H:%M'; }",
+    "controllo() {",
+    '  node "$SCRIPT_DIR/$1" "$@"',
+    "}",
+    "stampa() {",
+    '  node "$SCRIPT_DIR/fisso.mjs" "$1"',
+    "}",
+    "spento() {",
+    '  local _script="$1"',
+    '  # node "${SCRIPT_DIR:-.}/$_script" — la vecchia forma, lasciata come nota',
+    '  echo "$_script"',
+    "}",
+  ].join("\n");
+  const nomi = lanciatoriIn(testo);
+  assert.ok(nomi.has("controllo"), "un lanciatore con un nome nuovo non è stato riconosciuto");
+  assert.ok(!nomi.has("stampa"), "una funzione che lancia uno script FISSO non prende lo script dall'argomento");
+  assert.ok(!nomi.has("ts"), "la funzione su una riga sola si è presa il corpo di quella dopo");
+  assert.ok(!nomi.has("spento"), "un lancio in un commento non fa di una funzione un lanciatore");
+});
+
+test("AR-1013 · una funzione non si prende il corpo di quello che viene dopo, e la variabile è l'argomento", () => {
+  // Tre casi trovati dalla rilettura indipendente. Ognuno lo ferma una difesa diversa, e
+  // ognuno allargherebbe l'elenco: una funzione presa per lanciatore fa entrare ogni sua chiamata.
+  //
+  // ① la funzione su una riga con una coda dopo la graffa, seguita da codice di primo livello che
+  //   lancia il proprio argomento: la riga sola finisce lì anche col commento in coda.
+  const coda = ['log() { echo "$*"; }  # stampa', '_script="$1"', 'node "$SCRIPT_DIR/$_script"'].join("\n");
+  assert.ok(!lanciatoriIn(coda).has("log"), "la funzione su una riga, con un commento in coda, si è presa le righe dopo");
+  // ② una funzione rientrata dentro un `if`: la sua graffa non sta in colonna zero, quindi il corpo
+  //   deve fermarsi al più tardi dove comincia la funzione successiva.
+  const rientrata = ["if true; then", "  prima() {", "    echo uno", "  }", "fi", "dopo() {", '  node "$SCRIPT_DIR/$1"', "}"].join("\n");
+  const nomi = lanciatoriIn(rientrata);
+  assert.ok(!nomi.has("prima"), "la funzione rientrata si è presa il corpo di quella dopo");
+  assert.ok(nomi.has("dopo"), "il lanciatore vero dopo una funzione rientrata è sparito");
+  // ③ la variabile del lancio non è l'argomento: la funzione lancia uno script suo.
+  const audit = ["audit() {", "  local f=fisso.mjs", '  node "$SCRIPT_DIR/$f" "$1"', "}"].join("\n");
+  assert.ok(!lanciatoriIn(audit).has("audit"), "una funzione che lancia uno script SUO è stata presa per lanciatore");
+  assert.ok(lanciatoriIn(['corre() {', '  local _s="$1"; shift', '  node "${SCRIPT_DIR:-.}/$_s" "$@"', "}"].join("\n")).has("corre"));
+});
+
+test("AR-1013 · la cartella del file stesso, `$dir/`, si legge come quella del giro", () => {
+  // `motore-ai.sh` lancia `conto-motore.mjs` così, e non lo nominava nient'altro: era un lancio vero
+  // fuori dall'elenco. Trovato dalla rilettura indipendente.
+  const motore = [
+    "  local dir out",
+    '  dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"',
+    '  out="$(node "$dir/conto-motore.mjs" --modello 2>/dev/null)" || out=""',
+    '  altro="$HOME/attrezzi"',
+    '  node "$altro/sconosciuto.mjs"',
+  ].join("\n");
+  const trovati = scriptLanciatiIn(conCartellaPropria("cervello/motore-ai.sh", motore));
+  assert.ok(trovati.has("conto-motore.mjs"), "il lancio dalla cartella del file stesso è sparito");
+  // Una variabile che non dice da sé dove punta resta sconosciuta, e resta fuori.
+  assert.ok(!trovati.has("sconosciuto.mjs"), "una variabile qualunque è stata presa per la cartella del cervello");
+  // Nella sottocartella del server la cartella propria è `vps/`, non la radice del cervello.
+  const vps = ['D="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"', 'bash "$D/ripara.sh"'].join("\n");
+  assert.ok(scriptLanciatiIn(conCartellaPropria("cervello/vps/giro-ora.sh", vps)).has("vps/ripara.sh"));
+});
+
+test("AR-1013 · una chiamata in un commento, o in una frase, non è un lancio", () => {
+  const lanciatori = new Set(["sensore", "guardiano"]);
+  assert.equal(scriptLanciatiIn("  # il guardiano firma-check.mjs ha detto rosso", lanciatori).size, 0);
+  assert.equal(scriptLanciatiIn('# sensore "x.mjs" 2 — la vecchia forma', lanciatori).size, 0);
+  // «guardiano» è anche una parola italiana: nei testi che non sono shell i lanciatori non valgono.
+  const { leggi, esiste } = finto(
+    { "CLAUDE.md": "il guardiano firma-check.mjs lo dice", "cervello/giro.sh": '. "$SCRIPT_DIR/giro-esito.sh"', "cervello/giro-esito.sh": ESITO },
+    new Set(["cervello/firma-check.mjs"]),
+  );
+  assert.deepEqual(elencoAmmesso(leggi, esiste).mjs, []);
+});
+
+test("AR-1013 · le librerie CARICATE si leggono, e non entrano nell'elenco come script", () => {
+  assert.deepEqual(
+    [...caricatiIn(['. "$SCRIPT_DIR/a.sh"', 'source "$REPO/cervello/b.sh"', '  # . "$SCRIPT_DIR/c.sh"', "if x; then . \"$SCRIPT_DIR/d.sh\"; fi"].join("\n"))].sort(),
+    ["a.sh", "b.sh", "d.sh"],
+  );
+  const { leggi, esiste } = finto(
+    {
+      "cervello/giro.sh": '. "$SCRIPT_DIR/lib-cadenza.sh"',
+      "cervello/worker.sh": 'source "$SCRIPT_DIR/lib-esito.sh"',
+      "cervello/lib-cadenza.sh": '  node "${SCRIPT_DIR:-cervello}/registra-cadenza.mjs" \\',
+      "cervello/lib-esito.sh": '  x="$(PATCH=1 node "${SCRIPT_DIR:-cervello}/esito-scrittura.mjs" sync)"',
+    },
+    new Set(["cervello/lib-cadenza.sh", "cervello/lib-esito.sh", "cervello/registra-cadenza.mjs", "cervello/esito-scrittura.mjs"]),
+  );
+  const e = elencoAmmesso(leggi, esiste);
+  assert.deepEqual(e.mjs, ["esito-scrittura.mjs", "registra-cadenza.mjs"]);
+  // Una libreria caricata gira dentro chi la carica: non ha bisogno di un permesso suo.
+  assert.deepEqual(e.sh, []);
+});
+
+test("AR-1013 · uno script di shell lanciato è un lanciatore anche lui", () => {
+  const { leggi, esiste } = finto(
+    {
+      "cervello/giro.sh": '_hook_out="$(bash "$SCRIPT_DIR/installa-hooks.sh" 2>&1)"',
+      "cervello/installa-hooks.sh": 'VERDETTO="$(node "$SCRIPT_DIR/istante-cancello.mjs" aggancio)"',
+    },
+    new Set(["cervello/installa-hooks.sh", "cervello/istante-cancello.mjs"]),
+  );
+  const e = elencoAmmesso(leggi, esiste);
+  assert.deepEqual(e.sh, ["installa-hooks.sh"]);
+  assert.deepEqual(e.mjs, ["istante-cancello.mjs"]);
+});
+
+test("AR-1013 · un permesso già scritto non è un lancio", () => {
+  // `motore-ai.sh` porta una lista di permessi, e uno è per `git-github.mjs`: un modulo senza
+  // comando. Contarla avrebbe allargato il perimetro proprio mentre lo si stringe.
+  assert.equal(scriptLanciatiIn('local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-github.mjs:*),Bash(git add:*)}"').size, 0);
+  assert.equal(scriptLanciatiIn('"Bash(bash cervello/vps/setup.sh:*)",').size, 0);
+  assert.ok(scriptLanciatiIn("Bash(node cervello/a.mjs:*) e poi node cervello/b.mjs").has("b.mjs"), "il lancio vero accanto al permesso è sparito");
+});
+
+test("AR-1013 · il verso che nessuno guardava: chi esce dalla consegna si vede", () => {
+  const consegna = '"Bash(node cervello/resta.mjs:*)",\n"Bash(node cervello/sparito.mjs:*)",\n"Bash(bash cervello/vps/via.sh:*)",';
+  assert.deepEqual(toltiDallaConsegna({ mjs: ["resta.mjs"], sh: [] }, consegna), ["sparito.mjs", "vps/via.sh"]);
+  assert.deepEqual(toltiDallaConsegna({ mjs: ["resta.mjs"], sh: [] }, '"Bash(node cervello/resta.mjs:*)",'), []);
+});
+
+test("AR-1013 · SUL REPO VERO: ogni `sensore` e `guardiano` del giro finisce nell'elenco", () => {
+  // L'oracolo è scritto a mano APPOSTA: i due nomi e la forma della chiamata, cercati con una regola
+  // che non è quella dello strumento. Se lo strumento smette di riconoscere uno dei due, o una riga
+  // nuova del giro chiama uno script in una forma che non legge, questa prova diventa rossa.
+  const radice = join(import.meta.dirname, "..", "..");
+  const chiamati = new Set();
+  for (const riga of readFileSync(join(radice, "cervello/giro.sh"), "utf8").split("\n")) {
+    if (/^\s*#/.test(riga)) continue;
+    const m = riga.match(/\b(?:sensore|guardiano)\s+["']?([\w./-]+\.mjs)/);
+    if (m) chiamati.add(m[1]);
+  }
+  assert.ok(chiamati.size >= 2, `trovati solo ${chiamati.size} lanci via funzione nel giro: l'oracolo non sta guardando`);
+  const elenco = elencoAmmesso();
+  const fuori = [...chiamati].filter((s) => !elenco.mjs.includes(s));
+  assert.deepEqual(fuori, [], `lanciati via sensore/guardiano ma fuori dall'elenco: ${fuori.join(", ")}`);
+  const esito = readFileSync(join(radice, "cervello/giro-esito.sh"), "utf8");
+  for (const n of ["sensore", "guardiano"]) assert.ok(lanciatoriIn(esito).has(n), `${n} non è riconosciuto come lanciatore in giro-esito.sh`);
+});
+
+test("AR-1013 · SUL REPO VERO: la consegna non porta script che lo strumento non vede più lanciare", () => {
+  // È la prova che il 1/9 mancava. Quando una riga del giro cambia forma e lo strumento non la
+  // legge, l'elenco perde lo script e la consegna lo porta ancora: qui diventa rosso PRIMA che una
+  // rigenerazione lo tolga in silenzio.
+  const radice = join(import.meta.dirname, "..", "..");
+  const consegna = readFileSync(join(radice, "consegne/sicurezza/2026-07-29-permessi-senza-jolly.md"), "utf8");
+  const tolti = toltiDallaConsegna(elencoAmmesso(), consegna);
+  assert.deepEqual(
+    tolti,
+    [],
+    `la consegna porta ${tolti.length} script che lo strumento non vede più lanciare: ${tolti.join(", ")}. ` +
+      "O non li lancia più nessuno (rigenera con `node cervello/permessi-elenco.mjs --consegna`), o li lancia una forma che lo strumento non legge (insegnagliela).",
+  );
+});
+
+test("AR-1013 · SUL REPO VERO: la card #42 che Nicola applica copre tutto quello che si lancia", (t) => {
+  // La card porta il materiale DENTRO (AR-524), quindi è una seconda copia dell'elenco. Il 25/10 era
+  // indietro di 19, perché nessuno la confrontava con niente: `materiale-in-mano.mjs` sa che il
+  // blocco c'è, non se è giusto, e lo dice lui stesso.
+  const radice = join(import.meta.dirname, "..", "..");
+  const coda = readFileSync(join(radice, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), "utf8");
+  const inizio = coda.search(/^### .*#42 —/m);
+  if (inizio === -1) return t.skip("la card #42 non è più in coda: non c'è niente da confrontare");
+  const fine = coda.indexOf("\n### ", inizio + 1);
+  const card = coda.slice(inizio, fine === -1 ? undefined : fine);
+  if (/✅ FATTO/.test(card)) return t.skip("la card #42 è fatta: il gesto è già passato");
+  const mancanti = mancantiNellaConsegna(elencoAmmesso(), card);
+  assert.deepEqual(
+    mancanti,
+    [],
+    `la card #42 è indietro di ${mancanti.length} script: applicata così li spegnerebbe. Rifai i due blocchi da \`node cervello/permessi-elenco.mjs\`.`,
   );
 });

@@ -4179,6 +4179,22 @@
         "cervello/ritmo.sh": "2f2c21793399",
         "cervello/worker.sh": "b85d4329521b"
       }
+    },
+    {
+      "quando": "2026-10-25 14:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1013"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/permessi-elenco.mjs": "60482553b2a7"
+      }
     }
   ]
 }

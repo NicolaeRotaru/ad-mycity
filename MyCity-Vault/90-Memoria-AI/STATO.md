@@ -10,6 +10,14 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > Alle 16:29 hai unito anche la richiesta della macchina, la 890. Oltre alla pre-diagnosi, porta la correzione dei numeri delle card: la prossima card nuova è la #212, perché il conto include anche l'archivio.
 
+> 🔐 **2026-10-25 14:44 — L'elenco dei permessi da incollare era indietro di 19 programmi: adesso vede anche quelli lanciati attraverso il giro.**
+>
+> Lo strumento che rifà l'elenco cercava solo la forma `node x.mjs`. Il giro però lancia una parte dei sensori con la funzione `sensore`, e altri programmi partono dai file che il giro e il worker caricano. Rigenerando, `taste-file.mjs` e `pota-apprendimento.mjs` sparivano; il 1/9 erano spariti cinque sensori senza nessun rosso.
+>
+> Adesso l'elenco porta 147 programmi, tutti quelli che lo strumento trova lanciati, nel documento e nella card #42. Ne restano fuori due che si lanciano solo dalle istruzioni del giro e di un workflow: quei file lo strumento non li legge, ed era così già prima. Nessuna riga tolta. Una prova diventa rossa se la consegna o la card restano indietro, o se un lancio via `sensore` non entra.
+>
+> Non ho applicato l'elenco al foglio dei permessi: lo fai tu.
+
 > 🔐 **2026-10-25 11:50 — La carta 202 è chiusa: l'amministratore del sito adesso sei solo tu.**
 >
 > Il tuo secondo account è amministratore dalle 11:27. Alle 11:50 hai lanciato la seconda parte: i due account di prova non entrano più. L'ho verificato in sola lettura.
