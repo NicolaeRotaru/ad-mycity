@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-25 18:10
+aggiornato: 2026-10-25 17:20
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> ✅ **2026-10-25 16:40 — Due unioni oggi pomeriggio: l'Assistenza ha il suo nome in chat, e le card nuove non riusano un numero già speso.**
+>
+> Alle 16:31 hai unito la richiesta del sito, la 261: alle 16:39 il rilascio di produzione era pronto. Un cliente che scrive all'Assistenza legge «Assistenza MyCity», non più «Utente · Negozio». La scheda 1360 è chiusa, e i difetti aperti del sito passano da 562 a 561.
+>
+> Alle 16:29 hai unito anche la richiesta della macchina, la 890. Oltre alla pre-diagnosi, porta la correzione dei numeri delle card: la prossima card nuova è la #212, perché il conto include anche l'archivio.
 
 > 🪙 **2026-10-25 14:50 — Un'ondata del sito si mangiava la settimana. Ecco il metodo per farne dodici in un mese.**
 >
