@@ -29,7 +29,7 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   ambitoDelFatto,
   codiceUscita,
@@ -309,4 +309,6 @@ function risveglia(testoCoda, daRisvegliare) {
   return daRisvegliare.map((r) => r.card);
 }
 
-main();
+// Parte solo quando è il programma lanciato, non quando una prova lo importa: chi lo importava
+// si trovava la coda vera letta e il processo chiuso da `process.exit` (`import-che-esegue.mjs`).
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
