@@ -88,3 +88,17 @@ blocco_prompt_del_giro() {
   [[ "$out" == *"NON LETTO"* ]]
   [ "$durata" -lt 20 ]
 }
+
+@test "anche il ritmo (mattino e sera) mette la riga nel suo prompt: il blocco vero, eseguito" {
+  r="$ROOT/cervello/ritmo.sh"
+  da="$(grep -n -F 'PROMPT="Sei l' "$r" | head -1 | cut -d: -f1)"
+  a="$(grep -n -F '# AR-024: RECUPERO CADENZA' "$r" | head -1 | cut -d: -f1)"
+  [ -n "$da" ] && [ -n "$a" ]
+  blocco="$(sed -n "${da},$((a - 1))p" "$r")"
+  [[ "$blocco" == *"riga_prossima_card"* ]]
+  ts() { echo "2026-10-25 14:00"; }
+  RITMO_SEZIONE="mattino"; RITMO_TITOLO="Piano del mattino"
+  SCRIPT_DIR="$ROOT/cervello"
+  eval "$blocco"
+  [[ "$PROMPT" == *"Numero per una card NUOVA: adesso è #212 "* ]]
+}

@@ -15,9 +15,9 @@
 // EXIT: 0 = numero stampato · 2 = CIECO: la coda o il suo archivio non si leggono, e un numero scelto
 // senza averli visti può essere un doppione. Meglio nessun numero che uno sbagliato.
 
-import { readFileSync } from "node:fs";
+import { readFileSync, realpathSync } from "node:fs";
 import { resolve } from "node:path";
-import { pathToFileURL } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import { CODA, testoArchivioDi } from "./coda-e-archivio.mjs";
 import { prossimoNumero } from "./pausa-coda.mjs";
 
@@ -38,4 +38,18 @@ function main() {
   }
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+/** Vero se questo file è il programma lanciato, anche quando il percorso passa da un collegamento
+ *  simbolico (giro.sh lo chiama da SCRIPT_DIR, che è il percorso logico): confrontare solo gli URL
+ *  lasciava il programma muto, uscita 0 e nessuna riga — un verde senza aver guardato. Stessa forma
+ *  di scadenzario-check.mjs. */
+function eIlProgrammaLanciato() {
+  const arg = process.argv[1];
+  if (!arg) return false;
+  try {
+    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return import.meta.url === pathToFileURL(arg).href;
+  }
+}
+
+if (eIlProgrammaLanciato()) main();

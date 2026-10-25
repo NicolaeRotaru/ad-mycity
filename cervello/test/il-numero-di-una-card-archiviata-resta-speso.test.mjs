@@ -20,7 +20,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
 import { createHash } from "node:crypto";
-import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { copyFileSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -153,8 +153,10 @@ test("③bis un archivio che non c'è vale vuoto; uno che c'è e non si legge fe
   }
 });
 
-test("④ la card di merge, scritta per davvero da accodaAzione, prende il numero dopo l'archivio", () => {
-  const f = cartellaFinta();
+test("④ la card di merge, scritta per davvero da accodaAzione, prende il numero dopo il SUO archivio", () => {
+  // L'archivio finto arriva a 950, un numero che quello vero non ha: se accodaAzione leggesse
+  // l'archivio del vault invece di quello accanto alla coda ricevuta, qui uscirebbe un altro numero.
+  const f = cartellaFinta({ archivio: "### ✅ #950 — Una card archiviata · ⏳ accodata 2026-10-24 18:00\n" });
   try {
     accodaAzione({
       prUrl: "https://example.invalid/pr/1",
@@ -167,8 +169,7 @@ test("④ la card di merge, scritta per davvero da accodaAzione, prende il numer
       percorsoCoda: f.coda,
     });
     const dopo = readFileSync(f.coda, "utf8");
-    assert.match(dopo, /^\| 212 \| .*Merge PR #1 ad-mycity/m, "la card di merge doveva prendere il 212: il 211 è dell'archivio");
-    assert.doesNotMatch(dopo, /^\| 211 \|/m);
+    assert.match(dopo, /^\| 951 \| .*Merge PR #1 ad-mycity/m, "la card di merge doveva prendere il 951: il 950 è del suo archivio");
   } finally {
     f.pulisci();
   }
@@ -316,4 +317,37 @@ test("⑪ l'hook vero, sulla coda vera: rifiuta il numero più alto dell'archivi
 test("⑫ un codice lungo in una tabella non diventa un numero di card", () => {
   const coda = "### 🟡 #210 — a · ⏳ accodata 2026-10-21 10:00\n| 1234567890123456789012 | 12 € |\n";
   assert.equal(prossimoNumero(coda), 211, "un numero di 22 cifre diventava 1.2e+21 e il prossimo numero restava uguale all'infinito");
+});
+
+test("⑬ git-pr --accoda con l'archivio illeggibile si ferma cieco PRIMA di toccare git o GitHub", () => {
+  const f = cartellaFinta({ archivioIlleggibile: true });
+  try {
+    const r = spawnSync("node", [join(REPO, "cervello/git-pr.mjs"), "--repo", "ad-mycity", "--accoda", "--dry-run"], {
+      cwd: REPO,
+      encoding: "utf8",
+      timeout: 30_000,
+      env: { ...process.env, GIT_PR_CODA_FILE: f.coda },
+    });
+    assert.equal(r.status, 2, `doveva uscire cieco (2), è uscito ${r.status}: ${r.stderr}`);
+    assert.match(r.stderr, /CIECO/);
+    assert.doesNotMatch(`${r.stdout}${r.stderr}`, /DRY-RUN/, "è andato avanti verso git e GitHub senza sapere quale numero dare alla card");
+  } finally {
+    f.pulisci();
+  }
+});
+
+test("⑭ lanciati passando da un collegamento simbolico, i due programmi partono davvero", () => {
+  // giro.sh li chiama da SCRIPT_DIR, il percorso logico: se il repo sta dietro un collegamento,
+  // confrontare solo gli URL li lasciava muti, uscita 0 e nessuna riga.
+  const dir = mkdtempSync(join(tmpdir(), "mycity-collegamento-"));
+  try {
+    const link = join(dir, "repo");
+    symlinkSync(REPO, link);
+    const pausa = spawnSync("node", [join(link, "cervello/pausa-check.mjs"), "--json"], { cwd: dir, encoding: "utf8" });
+    assert.match(pausa.stdout, /"card_in_pausa"/, `pausa-check è rimasto muto (uscita ${pausa.status})`);
+    const numero = spawnSync("node", [join(link, "cervello/prossima-card.mjs")], { cwd: dir, encoding: "utf8" });
+    assert.match(numero.stdout.trim(), /^\d+$/, `prossima-card non ha stampato il numero (uscita ${numero.status})`);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });

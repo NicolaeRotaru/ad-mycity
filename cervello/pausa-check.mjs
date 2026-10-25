@@ -27,7 +27,7 @@
 //
 // Exit (contratto AR-322): 0 = pause sane · 1 = violazione · 2 = cieco (non ho potuto calcolare)
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
@@ -317,6 +317,21 @@ function risveglia(testoCoda, daRisvegliare) {
   return daRisvegliare.map((r) => r.card);
 }
 
+
+/** Vero se questo file è il programma lanciato, anche quando il percorso passa da un collegamento
+ *  simbolico (giro.sh lo chiama da SCRIPT_DIR, che è il percorso logico): confrontare solo gli URL
+ *  lasciava il programma muto, uscita 0 e nessuna riga — un verde senza aver guardato. Stessa forma
+ *  di scadenzario-check.mjs. */
+function eIlProgrammaLanciato() {
+  const arg = process.argv[1];
+  if (!arg) return false;
+  try {
+    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return import.meta.url === pathToFileURL(arg).href;
+  }
+}
+
 // Parte solo quando è il programma lanciato, non quando una prova lo importa: chi lo importava
 // si trovava la coda vera letta e il processo chiuso da `process.exit` (`import-che-esegue.mjs`).
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();
+if (eIlProgrammaLanciato()) main();

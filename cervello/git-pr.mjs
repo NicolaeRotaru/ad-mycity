@@ -48,7 +48,8 @@ import {
 import { prossimoNumero } from "./pausa-coda.mjs";
 import { testoArchivioDi } from "./coda-e-archivio.mjs";
 
-const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+// La coda si sposta solo nelle prove (GIT_PR_CODA_FILE): il valore di partenza non cambia.
+const AZIONI_PATH = process.env.GIT_PR_CODA_FILE || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
 const GENERIC_BODY_RE = /^PR aperta dall'AD MyCity/i;
 const MIN_BODY_LEN = 80;
@@ -195,7 +196,7 @@ export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when
 
 /** Scrive la card di merge nella coda. `percorsoCoda` si sposta solo nelle prove: il numero si
  * sceglie guardando anche l'archivio che sta accanto a quella coda. */
-export function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun, percorsoCoda = AZIONI_PATH }) {
+export function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun, percorsoCoda = AZIONI_PATH, archivio }) {
   if (!existsSync(percorsoCoda)) {
     console.warn("⚠️  AZIONI-IN-ATTESA.md non trovato — salto accoda.");
     return;
@@ -207,7 +208,7 @@ export function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun
     base,
     repoLabel: cfg.key === "mycity" ? "mycity" : "ad-mycity",
     when: nowPiacenza(),
-    archivio: testoArchivioDi(percorsoCoda),
+    archivio: archivio ?? testoArchivioDi(percorsoCoda),
   });
 
   if (dryRun) {
@@ -712,6 +713,18 @@ async function main() {
 
   const dryRun = Boolean(args["dry-run"]);
   const accoda = Boolean(args.accoda);
+  // Con --accoda serve l'archivio delle card, per il numero della card di merge: si legge PRIMA di
+  // toccare git o GitHub. Illeggibile, ci si ferma qui (cieco, 2) — non dopo aver aperto una PR che
+  // resterebbe senza card (collaudo del 25/10).
+  let archivioCard;
+  if (accoda) {
+    try {
+      archivioCard = testoArchivioDi(AZIONI_PATH);
+    } catch (e) {
+      console.error(`⚪ CIECO: l'archivio delle card non si legge (${e?.code ?? e?.message}) — con --accoda non apro la PR senza sapere quale numero dare alla card di merge.`);
+      process.exit(2);
+    }
+  }
   const noPush = Boolean(args["no-push"]);
   const noRebase = Boolean(args["no-rebase"]);
 
@@ -962,6 +975,7 @@ async function main() {
       branch,
       title,
       dryRun,
+      archivio: archivioCard,
     });
   }
 
