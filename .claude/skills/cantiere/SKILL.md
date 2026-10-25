@@ -238,6 +238,10 @@ boccialo*. Due lenti diverse, mai due copie della stessa domanda:
 · **sa diventare rosso davvero?** — ricrea il difetto e guarda
 · **nasce rotto?** — montalo sul serio: blocca la macchina per tutti?
 
+Le lenti sono sempre due; **i collaudatori sono due solo dove il lavoro tocca soldi, dati o
+permessi**, altrove uno solo le porta tutte e due. Il dosaggio sta nella skill `collaudo`, sezione
+«Il dosaggio»; il perché col numero, nella sezione «Il giro che converge» qui sotto.
+
 **Prima di costruire, non dopo:** `cervello/scorciatoie-note.md` — le venti scorciatoie già misurate
 con cui un pezzo passa il controllo senza funzionare. Il costruttore che le conosce non le lascia
 aperte, e il collaudo scende da quattro giri a due.
@@ -284,9 +288,18 @@ Misurato il 23/8: un freno dichiarava «cieco sul 40%», era l'81%.
    a mordere in un altro modulo. Chiedilo al file, non al ricordo:
    `node -e "…difetti.filter(d => /parola/.test(d.titolo))"`.
 
-**Quando fermarsi:** quando un giro intero non trova **niente da guardare**. Se un giro trova
-qualcosa, il giro dopo non è facoltativo — chi ha appena sbagliato ha appena dimostrato di poter
-sbagliare ancora. Il 30/7: il secondo giro ha trovato tre cose vere, il terzo ne ha trovate due da
+**Quando fermarsi:** quando un giro intero non trova **niente da guardare**. Se un giro trova un
+grave o un bloccante, il giro dopo non è facoltativo — chi ha appena sbagliato ha appena dimostrato
+di poter sbagliare ancora. Un minore nato non riapre il giro: va al registro (R-B). **E il giro dopo
+ha un tetto**: al terzo rosso sullo stesso pezzo — o oltre due giri di correzione in un'ondata — non
+riparte da solo, la scelta passa a Nicola. Senza tetto «non è facoltativo» è il giro che non
+converge, misurato il 17/10 (sezione «Il giro che converge»). Il perimetro dipende da chi guarda. Il
+riesame di un'ondata, fatto da molti agenti, dal secondo giro guarda il diff nuovo e i chiamanti
+(R-C). Il ricontrollo di fine turno di una sessione sola — l'hook Stop `cervello/collaudo.mjs` —
+tiene apposta il perimetro del primo giro: il pezzo mai scritto non compare in nessun diff
+incrementale. ⚠️ *Debito dichiarato il 25/10:* quell'hook si ripete «finché un giro esce a mani
+vuote», e non conosce né il tetto del terzo rosso né la differenza fra grave e minore. Va allineato
+nel suo file, che non era di questo lavoro. Il 30/7: il secondo giro ha trovato tre cose vere, il terzo ne ha trovate due da
 investigare che si sono rivelate innocue (uno script one-shot mai lanciato, e un modulo che scrive su
 una lista diversa). **«Innocuo» è un esito del giro, non un motivo per non farlo** — e la ragione per
 cui era innocuo va scritta nella nota del difetto, o il giro dopo qualcuno la ri-deriva da capo.
@@ -421,6 +434,152 @@ era verde: uno dei venti non doveva esserci. **Quindi: a ogni difetto che dichia
 **Il collo di bottiglia non sono le corsie, sono i merge.** Aggiungere corsie non accorcia il lotto
 oltre un certo punto; quello che lo accorcia è consegnare presto e in pezzi che stanno in piedi da
 soli. Dieci lotti pronti e non mergiati valgono meno di tre mergiati.
+
+## Il giro che converge — riesame, correzione, arresto
+
+> Nato il 25/10 dalla prima ondata del sito (14-17/10): più di 600 subagenti in tre giorni, sette
+> riesami con 15, 18, 16, 21, 20, 6 e 27 difetti nati: 123 in tutto, 109 minori. Il giro riesame →
+> correzione non aveva un criterio d'arresto, e il 17/10 la lezione è finita in DECISIONI come
+> debito: *«il freno non è scritto»*. Queste otto regole sono il metodo che converge. **Quattro le
+> applica da solo `ondata-sito.js`**, ognuna con una prova di `cervello/test/ondata-sito.test.mjs` che
+> il 25/10 è diventata rossa rompendo il codice apposta: il tetto dei due giri (R-D), il fermo al terzo
+> rosso (R-F), i minori nati al registro (R-B), le lenti dosate sul rischio (R-E); in più il tetto
+> sugli agenti, e il grave nato nel collaudo che non sparisce (R-F). **Quattro pezzi non li applica nessuno**: il triage dei minori (R-A), «reso
+> raggiungibile» (R-C), lo stop sullo stesso modulo (R-D), i minori nati nell'ondata dopo (R-B). Ogni
+> regola dice il suo stato col suo debito: una regola che non gira non è un freno. Valgono per le
+> ondate del sito e per i lotti a corsie.
+> Il referto da cui vengono i numeri: `consegne/audit/2026-10-16-prima-ondata-sito.md`.
+
+**Il consumo è una moltiplicazione: contesto fisso × turni × agenti.** Misurato il 25/10: un agente
+`general-purpose` parte da 91.078 gettoni al primo turno e li rilegge a ogni turno. Un analista da 29
+turni ne ha letti 3.632.127 in entrata e scritti 10.156 in uscita: circa tre quarti dell'entrata è il
+contesto fisso. Si risparmia togliendo **agenti** e **turni**, non accorciando le risposte. Nel modello
+ricostruito dell'ondata 1 (circa 762 subagenti) i verificatori erano 513: due agenti su tre.
+
+**R-A · Chi verifica cosa.** La verifica a due voci — un secondo agente che prova a smontare il
+reperto — solo sui reperti **gravi o bloccanti nati dal lotto**. I minori e i preesistenti non hanno
+un verificatore uno per uno: **un solo agente di triage per riesame** legge i minori e promuove quelli
+che gli sembrano gravi, che a quel punto passano alla verifica. Chi trova un difetto lo classifica con
+l'asticella: grave o bloccante solo se sa scrivere il comando che diventa rosso. *Perché:* dei 233
+difetti veri dei riesami e delle note, i gravi e bloccanti nati erano 15, e li verificavamo tutti uno
+per uno. Un preesistente lo riverifica comunque chi lo ripara: la scheda è un indizio (②).
+⚠️ *Debito dichiarato il 25/10:* `ondata-sito.js` non ha ancora l'agente di triage — lì classifica solo
+chi trova. Finché manca, il triage lo fa l'AD quando legge il `registro` che il workflow restituisce.
+
+**R-B · I minori nati non tornano nel giro.** Vanno nel registro del sito con `fonte` «nato dal lotto
+#<numero della richiesta di unione>», con `stato: "aperto"` e il loro `file`: senza quei due campi
+nessun comando le vede, e il conto dei minori in attesa stampa zero mentre crescono. Quali campi
+scrivere lo dice `cervello/lotto-a-pacchetti.md`, sezione «Come si lancia un'ondata»; il conto della
+sezione «La forma della consegna» diventa rosso su una voce scritta male. Nel giro di correzione
+tornano **solo i gravi e i bloccanti nati**. *Perché:* nei sette riesami dell'ondata 1 i nati erano 123, e **109 su 123 erano minori**. Ogni
+minore rimesso nel giro chiamava squadra, collaudo e riesame, e ogni riesame ne trovava fra 6 e 25 nuovi.
+⚠️ *Debito dichiarato il 25/10:* la regola vuole che diventino un pacchetto dell'ondata dopo, sullo
+stesso file, e **oggi nessun comando lo fa**. Il piano si salva una volta sola, con `--gravi`, quindi
+senza minori; `schede-pacchetto.mjs` prende solo le chiavi già scritte nel piano. Un minore nato resta
+nel registro finché non si fa un piano senza `--gravi` (`pacchetti-lotto.mjs --sito`): lì si raggruppa
+per file con gli altri minori di quel file, e se cade nella metà «fuori dal lotto» il comando lo
+stampa. Perché non si accumulino in silenzio — col metro dell'ondata 1, un centinaio a ondata — il
+referto d'ondata li conta (`cervello/lotto-a-pacchetti.md`, sezione «La forma della consegna»). Cosa
+manca: un'opzione di `schede-pacchetto.mjs` che aggiunga a ogni pacchetto le schede aperte «nato dal
+lotto» dei suoi file.
+
+**R-C · Il riesame si fa sul delta.** Il primo guarda il diff dell'ondata (`git diff <base>..HEAD`
+dei file toccati), mai i file interi. Dal secondo in poi il revisore riceve solo le parti cambiate
+dall'ultimo riesame (`git diff <commit di prima>..HEAD`) e i chiamanti diretti di ciò che è cambiato,
+col mandato: *«solo difetti introdotti o resi raggiungibili da questo diff»*. In `ondata-sito.js` il
+secondo e il terzo riesame sono il collaudo di ogni giro di correzione, sul suo delta. Quello che
+c'era già va al registro come preesistente. ⚠️ *Debito dichiarato il 25/10:* nel workflow il mandato
+dice solo «introdotto da questo delta», senza «reso raggiungibile». Un difetto vecchio che il diff
+rende raggiungibile finisce quindi nel registro come preesistente, e in quell'ondata non si corregge.
+*Perché:*
+l'ondata 1 riesaminava il perimetro — 92 file, poi 58, poi 37 — e fra riesami e note delle squadre
+sono usciti 79 preesistenti: lavoro vero, ma non del giro, pagato al prezzo del giro.
+
+**R-D · Due giri di correzione, poi decide Nicola.** Al massimo **2 giri di correzione per ondata**.
+E se **due riesami di fila trovano gravi nati nello stesso modulo**, ci si ferma subito, anche prima
+del tetto. In tutti e due i casi non parte un altro giro: la domanda a Nicola ha tre strade —
+**semplifica** (togli la parte che continua a rompersi), **restringi** (l'ondata esce senza quel
+modulo), **un giro ancora**. Il tetto dei due giri lo fa scattare `.claude/workflows/ondata-sito.js`,
+che restituisce `chiedi_a_nicola: true` col motivo invece di lanciare squadre; lo stesso fa se un
+pacchetto si ferma o se finisce il tetto di agenti (`max_agenti`, 45 se non lo dai).
+⚠️ *Debito dichiarato il 25/10, e non si copre a mano:* il freno «stesso modulo due volte di fila» il
+workflow non ce l'ha, e l'AD non lo può fare al posto suo. Il workflow lancia da solo la correzione 1,
+il suo collaudo e la correzione 2; l'AD entra solo alla fine, e `gravi_aperti` porta i gravi rimasti
+senza la storia giro per giro. Nel caso peggiore — un grave nato in un file al riesame, un altro
+nello stesso file al collaudo della correzione 1 — parte una correzione 2 che la regola non vorrebbe:
+una squadra in più su quel pacchetto, coi suoi collaudi (due, se tocca soldi), poi il tetto ferma tutto. Il controllo va scritto
+in `ondata-sito.js`, fra un giro e l'altro. Chi lo scrive cambia anche la prova «un grave nato che non
+si lascia correggere: due giri, poi si ferma e chiede a Nicola» di `cervello/test/ondata-sito.test.mjs`:
+oggi dà per giusti due giri proprio con lo stesso file due volte. *Perché:* il 17/10 la domanda giusta — semplificare — è
+arrivata dopo il settimo riesame. Col tetto di due giri l'ondata 1 si fermava al terzo; dal quarto in
+poi sono stati spesi 342 subagenti e 64 milioni di gettoni (il numero del motore dei workflow, che non
+coincide con nessuno dei due contatori di `conto-token.mjs`).
+
+**R-E · Il collaudo si dosa sul rischio.** Due collaudatori diversi, uno per lente, solo dove il lavoro
+tocca soldi, dati o permessi; altrove uno solo che porta tutte e due le domande. Restano **sempre**: chi
+ha costruito non collauda, e il difetto ricreato nella variante scomoda. Il dosaggio e il suo perché
+stanno nella skill `collaudo`, sezione «Il dosaggio»: qui non si copia.
+
+**R-F · Al terzo rosso, niente quarto giro.** Al terzo rosso del collaudo sullo stesso pezzo si porta
+a Nicola **semplifica, restringi o continua**. Per un freno della macchina «restringi» è la regola di
+sempre: non si aggancia e resta da lanciare a mano. *Perché:* nell'ondata 1 la squadra dell'AI è stata
+bocciata tre volte e rifatta da capo, e quella dei soldi della semplificazione è passata al quinto collaudo.
+*Chi lo fa scattare:* `ondata-sito.js`, con `MAX_RIFACIMENTI = 2`. Dopo due rifacimenti, alla terza
+bocciatura il pacchetto va nei `fermi`, e i `fermi` accendono `chiedi_a_nicola`. La prova è «al massimo
+due rifacimenti per pacchetto, poi si ferma»: col tetto portato a 5 diventa rossa (25/10).
+*Un grave nato nel collaudo non sparisce.* Prende la sua chiave (`nato|file|titolo`) e arriva al
+rifacimento in JSON, con la regola: fra i `chiusi` solo con la prova rossa-poi-verde, altrimenti nei
+`parziali` col perché. Dopo il rifacimento il workflow cerca la chiave fra i chiusi di quel frammento:
+se manca — parziale, taciuta o un'altra chiave — il pacchetto si ferma subito, senza spendere un
+ricollaudo. Dichiarato chiuso, il grave esce dal conto solo quando un collaudo dopo regge: se il
+ricollaudo cade o lo ritrova, resta aperto, e se lo ritrova torna al rifacimento dopo con la sua chiave.
+Il ricollaudo riceve i motivi della bocciatura e i gravi da rilanciare; lo stesso vale per il collaudo
+della correzione dopo il riesame. Il grave fermo esce in `gravi_aperti` col perché della squadra, una
+volta sola anche dopo tre bocciature, e accende `chiedi_a_nicola`. *Perché:* prima arrivava al
+rifacimento come testo senza chiave, la squadra lo metteva nei parziali, il ricollaudo non sapeva di
+cercarlo, e il ramo dei soldi usciva «regge» col grave sparito. Le prove sono tre di
+`cervello/test/ondata-sito.test.mjs`, rosse il 25/10 rompendo il codice: senza il fermo sul grave non
+chiuso, senza i gravi passati al ricollaudo, o col grave tolto dal conto appena dichiarato chiuso.
+
+**R-G · Il peso di ogni agente.**
+- Il tipo segue i **permessi** del mestiere, non il nome del passo. `ondata-sito.js` ne usa due.
+  `tipo_costruisce` (`tech` se non lo dai) scrive o muta: squadre, rifacimenti, correzioni, la lente A
+  del collaudo, la lente unica dei pacchetti senza rischio, il verificatore dei gravi nati.
+  `tipo_controlla` (`qa` se non lo dai) legge e basta: la lente B e i revisori del riesame. Il
+  mansionario di `qa` è in sola lettura e gli vieta git, quindi non gli tocca mai una mutazione in un
+  worktree. I vecchi `args.tipo` e `args.tipo_controllo` fermano il workflow con un errore. **Mai
+  `general-purpose`**: 91.078 gettoni al primo turno contro 53.210 di `tech` (sonda del 25/10).
+- Il tipo snello `squadra-sito` è una **proposta da firmare**, non un tipo che c'è. Un agente coi soli
+  sei strumenti di lavoro partirebbe da circa 35.000 gettoni invece dei 53.210 di `tech`: stima dalle
+  parti misurate, non provata, perché l'elenco dei tipi si carica solo all'avvio della sessione. Con la
+  firma di Nicola si passa `tipo_costruisce: "squadra-sito"`.
+- Le schede arrivano da `node cervello/schede-pacchetto.mjs --piano P --ondata N --json`, già tagliate
+  e senza storia — non dal registro da 4,75 MB.
+- Le prove della squadra sono `node cervello/prova-sito.mjs --repo <worktree> --file …`. La suite
+  intera, `npm run verify`, la lancia **solo l'AD** al cancello finale, ad albero fermo.
+- I file grossi si leggono a pezzi (`grep -n`, poi le righe che servono); il riesame legge `git diff`,
+  non i file interi.
+*Perché:* ogni riga letta resta nel contesto e si rilegge a ogni turno dopo. L'analista da 29 turni ha
+letto dalla cache 3.529.878 gettoni su 3.632.127.
+
+**R-H · La misura va nel referto.** Ogni referto d'ondata riporta gli **agenti per fase** (squadre,
+collaudatori, triage, verificatori, riesami) e i **gettoni veri**, letti con
+`node cervello/conto-token.mjs --workflow <runId>`, **con e senza** le letture dalla cache. Cosa conti
+il limite settimanale di Nicola non lo sappiamo: si scrivono tutti e due i numeri e si dice così.
+*Perché:* fino al 25/10 il costo di un'ondata era «stimato e mai misurato», e la stima sbagliava la
+forma — contava le risposte, mentre tre quarti del conto è il contesto riletto.
+
+**Il giro di un'ondata, in ordine:**
+```
+schede-pacchetto --json → squadre (una per pacchetto, prova-sito) → collaudo dosato sul rischio
+(grave nato non chiuso dal rifacimento: fermo subito · terzo rosso: fermo) → riesame sul diff dell'ondata → due voci sui gravi nati → minori nati e
+preesistenti al registro → correzione 1 + collaudo sul suo delta → [stesso modulo due volte: fermo —
+NON ancora nel workflow] → correzione 2 + collaudo sul suo delta → gravi nati ancora?
+chiedi_a_nicola · no? triage dei minori (oggi l'AD, appena il workflow rientra: un minore promosso a
+grave torna nella domanda a Nicola e il suo pacchetto non si ricuce) → ricucitura e verify dell'AD ad
+albero fermo → richiesta di unione → registro → referto con conto-token
+```
+Come si lancia, con i comandi: `cervello/lotto-a-pacchetti.md`, sezione «Come si lancia un'ondata».
 
 ## La porta d'ingresso è misurata
 
