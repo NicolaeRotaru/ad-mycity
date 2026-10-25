@@ -77,6 +77,14 @@
 19. **Il pezzo avvelena il proprio banco.** La variabile che evita la ricorsione passa ai figli e fa
     fallire 7 dei 24 casi della sua stessa prova; il pezzo vede la suite rossa, grida «nasce rotto»
     e blocca il cancello — con un'accusa falsa e sette minuti e mezzo di attesa.
+36. **Il collaudatore lascia acceso il banco.** *(Aggiunta del 25/10.)* Per montare il pezzo, un
+    collaudatore ha avviato il Pannello (`next dev`, porta 3939) in una copia del repo, e a referto
+    consegnato il server era ancora acceso, due ore dopo. Il cancello lanciato da chi aveva costruito
+    è uscito rosso su undici asserzioni di `c2-schermo` e `c4-schermo-coda` (EADDRINUSE): un rosso
+    che sembrava del lotto e non lo era. Spento quel processo, le due prove sono tornate verdi. È la
+    stessa porta di AR-782 e AR-928, ma con un'origine nuova: il collaudo stesso. *Cura: chi avvia un
+    server per collaudare lo spegne prima di consegnare il referto; chi riceve il referto, prima di
+    lanciare il cancello, controlla che la porta 3939 sia libera.*
 
 ## F. Il costo
 
