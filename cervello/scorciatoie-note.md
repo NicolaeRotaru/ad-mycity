@@ -147,3 +147,26 @@ del sito (`cervello/prediagnosi.mjs`), dove un testo pubblicato per sbaglio non 
     ritoccarlo a mano. Il banco provava la seconda pubblicazione sullo stesso registro, mai dopo una
     chiusura. *Cura: la voce su un difetto chiuso si conta e si dice, e quello che era nascosto si
     rinasconde da solo, per chiave, senza dipendere dagli elenchi di ieri.*
+
+## I. La cura che arriva agli scrittori automatici e non a chi scrive davvero
+
+*(Collaudo del 25/10 sul numero delle card che ignorava l'archivio.)*
+
+33. **La regola data a chi scrive a mano come una frase.** Archiviata la card più alta, il numero
+    nuovo tornava a essere uno già speso. La prima cura ha corretto i tre scrittori automatici e,
+    per l'AD, ha aggiunto una riga alla regola scritta. Ma 23 card su 24, a settembre e ottobre, le
+    aveva scritte l'AD a mano, guardando una coda che finiva a #210. *Cura: prima si conta CHI scrive
+    davvero; poi a chi scrive a mano si dà il dato pronto (un comando, e la riga nel suo contesto),
+    non una frase da ricordare.*
+34. **La risposta attesa calcolata con la funzione che si controlla.** La prova sul file vero
+    chiedeva a `numeriUsati` quali numeri erano spesi e a `prossimoNumero` (che usa `numeriUsati`)
+    quale proporre: se la funzione tornava a ignorare l'archivio, sbagliavano insieme e la prova
+    restava verde. Era rossa solo per caso, per un conteggio. *Cura: la risposta attesa si calcola
+    in un altro modo (qui, sul testo grezzo), mai con il codice sotto esame.*
+35. **La prova che, sotto mutazione, scrive nei file veri.** Una prova faceva girare la pulizia della
+    coda puntandola su una coda finta. La pulizia ricava il vault dalla cartella del suo file: con la
+    mutazione «l'archivio fisso nel vault» ha scritto la carta finta nell'archivio VERO. La prova è
+    diventata rossa, ma il danno era fatto, e il cancello fa girare le mutazioni anche in CI e sul
+    VPS. *Cura: un programma che ricava i suoi percorsi da dove sta si prova da una COPIA in una
+    cartella temporanea; e chi lancia le mutazioni controlla, dopo ognuna, che i file veri siano
+    intatti.*
