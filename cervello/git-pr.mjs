@@ -46,6 +46,7 @@ import {
 //
 // Adesso la domanda ha un padrone solo.
 import { prossimoNumero } from "./pausa-coda.mjs";
+import { testoArchivioDi } from "./coda-e-archivio.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
@@ -174,9 +175,9 @@ function sanitize(err, token) {
  * `accodaAzione` legge il file vero e scrive sul file vero, quindi da una prova non si può chiamare.
  * Finché il numero si sceglieva là dentro, nessun test poteva vederlo sbagliare — e infatti non l'ha
  * visto. Qui il testo della coda entra come argomento: una prova gli passa una coda finta e legge il
- * numero che ne esce. */
-export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when }) {
-  const num = prossimoNumero(content);
+ * numero che ne esce. `archivio` è il testo delle carte chiuse: anche i loro numeri sono spesi. */
+export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when, archivio = "" }) {
+  const num = prossimoNumero(content, archivio);
   const dove = repoLabel === "mycity" ? "Vercel (sito)" : "Vercel (Pannello)";
   const row =
     `| ${num} | ${when} | @tech | Merge PR #${prNumber} ${repoLabel} → ${base} | 🔴 | ${prUrl} | github | in attesa | ` +
@@ -197,6 +198,7 @@ function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
     base,
     repoLabel: cfg.key === "mycity" ? "mycity" : "ad-mycity",
     when: nowPiacenza(),
+    archivio: testoArchivioDi(AZIONI_PATH),
   });
 
   if (dryRun) {

@@ -41,6 +41,7 @@ import {
   statoPausa,
 } from "./pausa-coda.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+import { testoArchivioDi } from "./coda-e-archivio.mjs";
 import { ciecoPerDatoIllegibile, codiceDiUscita } from "./esito-guardiano.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -292,7 +293,7 @@ function risveglia(testoCoda, daRisvegliare) {
     "",
     `<!-- pausa-scaduta-risveglio -->`,
     "",
-    `### 🟡 #${prossimoNumero(righe.join("\n"))} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
+    `### 🟡 #${prossimoNumero(righe.join("\n"), testoArchivioDi(percorso(CODA)))} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
     "",
     `**Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: ${elenco}. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.`,
     "",

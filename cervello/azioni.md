@@ -65,7 +65,9 @@ l'identificatore che Nicola legge e pronuncia («ok 41»). Regole per chi accoda
   ### 🟡 #41 — Titolo umano che si capisce a voce · ⏳ accodata AAAA-MM-GG HH:MM
   ```
 - **Numero nuovo = il più alto mai usato + 1.** Mai riusare un numero, mai rinumerare le card
-  esistenti: «ok 41» deve indicare la stessa card oggi e fra un mese.
+  esistenti: «ok 41» deve indicare la stessa card oggi e fra un mese. «Mai usato» conta anche
+  l'archivio (`Archivio/AZIONI-archivio.md`): una card archiviata tiene il suo numero. Il 25/10,
+  archiviata la #211, contando solo la coda il numero nuovo tornava 211.
 - **Le card nuove vanno IN ALTO** (subito dopo «Come approvare»): la coda si legge dalla più recente.
 - **La data di nascita è obbligatoria** («⏳ accodata …», con l'ora — regola dell'orario).
 - **Lo slug resta nell'ancora** `<!-- slug -->`: i riferimenti macchina (es. `permessi-debito.json`,

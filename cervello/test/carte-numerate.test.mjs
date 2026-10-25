@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 import { blocchiCoda, trovaAzione } from "../consenso-azione.mjs";
 import { lettoreDellaCabina } from "../coda-cabina.mjs";
 import { numeriUsati, prossimoNumero } from "../pausa-coda.mjs";
+import { testoArchivioDi } from "../coda-e-archivio.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -106,10 +107,13 @@ test("i vecchi identificatori restano validi (id stabile e codice casella)", () 
 });
 
 // ── 3) Il file VERO della coda ───────────────────────────────────────────────
-test("nel file vero ogni card ha il suo numero, unico, con la data di nascita", () => {
+test("nel file vero ogni card ha il suo numero, unico anche contro l'archivio, con la data di nascita", () => {
   const md = readFileSync(CODA_VERA, "utf8");
   const heading = md.split("\n").filter((r) => r.startsWith("### "));
-  assert.ok(heading.length >= 50, `attese decine di card, trovate ${heading.length}`);
+  // 25/10: qui si chiedevano almeno 50 card nella coda. Il «ok 130» ne ha archiviate 62 e ne restano
+  // 39 — la coda si accorcia perché Nicola risponde, ed è la cosa giusta. Il conteggio serviva a non
+  // controllare un file vuoto: adesso lo fa il conteggio su coda + archivio, qui sotto.
+  assert.ok(heading.length > 0, "la coda vera non ha nessuna card: sto leggendo il file giusto?");
   const numeri = [];
   for (const h of heading) {
     const m = h.match(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/u);
@@ -123,6 +127,12 @@ test("nel file vero ogni card ha il suo numero, unico, con la data di nascita", 
     const m = r.match(/^\|\s*(\d+)\s*\|/);
     if (m) numeri.push(Number(m[1]));
   }
+  // Dal 23/8 le card chiuse vivono in un file loro, e tengono il numero: un numero speso là è speso
+  // anche qui. Il 25/10 archiviare la #211 aveva fatto tornare libero il 211 per chi lo assegnava.
+  const archivio = testoArchivioDi(CODA_VERA);
+  for (const m of archivio.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) numeri.push(Number(m[1]));
+  for (const m of archivio.matchAll(/^\|\s*(\d+)\s*\|/gm)) numeri.push(Number(m[1]));
+  assert.ok(numeri.length >= 50, `attese decine di card fra coda e archivio, trovate ${numeri.length}`);
   assert.equal(new Set(numeri).size, numeri.length, "due card portano lo stesso numero");
 });
 

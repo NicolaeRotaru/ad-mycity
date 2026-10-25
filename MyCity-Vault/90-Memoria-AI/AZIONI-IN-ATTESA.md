@@ -14,7 +14,7 @@ fonte: senior dell'AD
 > Nicola dà l'ok → l'azione passa a ✅ FATTO e parte (via i canali del marketplace o a mano).
 
 ## Come approvare
-Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numero non cambia mai. Una card nuova prende il numero successivo al più alto mai usato.
+Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numero non cambia mai. Una card nuova prende il numero successivo al più alto mai usato, contando anche le card chiuse dell'archivio.
 Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 

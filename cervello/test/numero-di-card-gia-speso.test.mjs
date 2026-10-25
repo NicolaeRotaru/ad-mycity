@@ -21,6 +21,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 import { prossimoNumero, numeriUsati } from "../pausa-coda.mjs";
+import { testoArchivioDi } from "../coda-e-archivio.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const CODA_VERA = join(QUI, "..", "..", "MyCity-Vault", "90-Memoria-AI", "AZIONI-IN-ATTESA.md");
@@ -63,10 +64,13 @@ test("④ una tabella senza numeri non conta: solo la prima colonna numerica è 
   assert.equal(numeriUsati(md).size, 0, "una data in prima colonna non è il numero di una card");
 });
 
-test("⑤ sul file VERO il numero proposto è libero davvero", () => {
+test("⑤ sul file VERO il numero proposto è libero davvero, anche nell'archivio", () => {
+  // 25/10: le card chiuse stanno in un file loro dal 23/8. Contando solo la coda, archiviata la #211
+  // il numero proposto tornava 211. Si guardano tutte e due le case, come fa chi assegna i numeri.
   const md = readFileSync(CODA_VERA, "utf8");
-  const usati = numeriUsati(md);
-  const n = prossimoNumero(md);
+  const archivio = testoArchivioDi(CODA_VERA);
+  const usati = numeriUsati(md, archivio);
+  const n = prossimoNumero(md, archivio);
   assert.ok(usati.size > 50, `attese decine di card numerate, trovate ${usati.size}`);
   assert.equal(usati.has(n), false, `il prossimo numero proposto (#${n}) è già di un'altra card`);
 });
