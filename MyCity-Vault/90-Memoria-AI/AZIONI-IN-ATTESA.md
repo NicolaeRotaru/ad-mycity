@@ -31,6 +31,23 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #212 — Firma il metodo nuovo delle ondate del sito, quello che consuma molti meno gettoni · ⏳ accodata 2026-10-25 15:10
+
+**In parole semplici.** Un'ondata del sito si mangiava la settimana: ogni agente rilegge tutto a ogni passo, e la prima ne ha accesi più di 600. Il metodo nuovo ne accende al massimo 45, più leggeri. Cambia il manuale dell'AD: serve la tua firma.
+
+**Cosa cambia:**
+- Un'ondata: al massimo 45 agenti e due giri di correzione, poi si ferma e ti chiede.
+- Il manuale che ogni agente rilegge scende da 75 a 35 KB.
+- Un comando misura i gettoni veri, agente per agente.
+
+**Cosa devi fare tu.** Leggi il referto e unisci la richiesta di unione. Poi dimmi due cose: se creo il tipo snello per le squadre, e quando parte l'ondata 2.
+
+**Se va bene:** alla prossima ondata uso il metodo nuovo, e ti porto il conto vero accanto a quello dell'ondata 1.
+
+Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
+
+---
+
 ### 🔴 #210 — Il giorno della chiave: i tuoi passi, nell'ordine giusto · ⏳ accodata 2026-10-24 14:20
 
 **In parole semplici.** Il sito oggi non prende ordini perché su Vercel manca la chiave di servizio del database. Quando la metti, partono insieme dieci lavori notturni e si accendono cose che oggi dormono. Per questo i passi vanno in fila, e alcuni solo dopo il mio via.
@@ -1011,7 +1028,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 **⚠️ Aggiornato il 25/10: l'elenco qui sotto era indietro di 19 programmi** (il 23/8 lo era di 51). Dieci erano entrati nel documento ma non in questa card. Nove non li vedeva lo strumento che rifà l'elenco. Adesso una prova diventa rossa se questa card resta indietro rispetto a chi lancia.
 
-Al posto di `"Bash(node cervello/*.mjs:*)"` — 130 righe:
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 134 righe:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -1040,6 +1057,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 130 righe:
       "Bash(node cervello/conflitti-memoria.mjs:*)",
       "Bash(node cervello/contesto-lezioni.mjs:*)",
       "Bash(node cervello/conto-motore.mjs:*)",
+      "Bash(node cervello/conto-token.mjs:*)",
       "Bash(node cervello/correzione-nicola-gate.mjs:*)",
       "Bash(node cervello/costo-ai.mjs:*)",
       "Bash(node cervello/cristallizza-apprendimento.mjs:*)",
@@ -1099,6 +1117,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 130 righe:
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prediagnosi.mjs:*)",
       "Bash(node cervello/prossima-card.mjs:*)",
+      "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
       "Bash(node cervello/radiografia-in-corsa.mjs:*)",
@@ -1111,6 +1130,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 130 righe:
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",
       "Bash(node cervello/sensore-cassa.mjs:*)",
@@ -1136,6 +1156,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 130 righe:
       "Bash(node cervello/test/battito-esterno.test.mjs:*)",
       "Bash(node cervello/test/i-freni-di-spesa-scollegati.test.mjs:*)",
       "Bash(node cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs:*)",
+      "Bash(node cervello/test/lotto-a-pacchetti-conto.test.mjs:*)",
       "Bash(node cervello/test/lucchetto-per-corsia.test.mjs:*)",
       "Bash(node cervello/test/pw-driver.mjs:*)",
       "Bash(node cervello/uscite-check.mjs:*)",

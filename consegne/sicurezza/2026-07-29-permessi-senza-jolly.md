@@ -8,7 +8,7 @@
 
 Oggi due righe del foglio dei permessi dicono «puoi lanciare qualunque programma finisca in quella
 cartella», e quella cartella la scrive la macchina stessa.
-Qui sotto c'è l'elenco esplicito che le sostituisce: **130 programmi e 17 script di avvio.**
+Qui sotto c'è l'elenco esplicito che le sostituisce: **134 programmi e 17 script di avvio.**
 
 ## In parole semplici
 
@@ -29,7 +29,7 @@ Non sto dicendo che sia successo. Sto dicendo che oggi nessuno lo impedirebbe.
 ## Cosa cambia per te
 
 Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste
-130:
+134:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -58,6 +58,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/conflitti-memoria.mjs:*)",
       "Bash(node cervello/contesto-lezioni.mjs:*)",
       "Bash(node cervello/conto-motore.mjs:*)",
+      "Bash(node cervello/conto-token.mjs:*)",
       "Bash(node cervello/correzione-nicola-gate.mjs:*)",
       "Bash(node cervello/costo-ai.mjs:*)",
       "Bash(node cervello/cristallizza-apprendimento.mjs:*)",
@@ -117,6 +118,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prediagnosi.mjs:*)",
       "Bash(node cervello/prossima-card.mjs:*)",
+      "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
       "Bash(node cervello/radiografia-in-corsa.mjs:*)",
@@ -129,6 +131,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",
       "Bash(node cervello/sensore-cassa.mjs:*)",
@@ -154,6 +157,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/test/battito-esterno.test.mjs:*)",
       "Bash(node cervello/test/i-freni-di-spesa-scollegati.test.mjs:*)",
       "Bash(node cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs:*)",
+      "Bash(node cervello/test/lotto-a-pacchetti-conto.test.mjs:*)",
       "Bash(node cervello/test/lucchetto-per-corsia.test.mjs:*)",
       "Bash(node cervello/test/pw-driver.mjs:*)",
       "Bash(node cervello/uscite-check.mjs:*)",

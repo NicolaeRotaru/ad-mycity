@@ -28,6 +28,7 @@ import {
   ultimiEsitiSenior,
 } from "../turno-senior.mjs";
 import { readFileSync } from "node:fs";
+import { ORGANIGRAMMA } from "../deferral-agenti.mjs";
 
 const RADICE = radiceRepo();
 const SENIOR = elencoSenior(RADICE);
@@ -36,13 +37,15 @@ const OGGI = "2026-08-13";
 const I_SEI_DI_PRIMA = ["vendite", "crm-lifecycle", "growth-monetizzazione", "marketing", "operations", "analista"];
 
 /** Un repo finto: squadra, numeri, sala e quaderni, tutti dentro una cartella temporanea. */
-function repoFinto({ agenti, okr = "", sala = "", quaderni = {}, claude = "" }) {
+function repoFinto({ agenti, okr = "", sala = "", quaderni = {}, organigramma = "", claude = "" }) {
   const dir = mkdtempSync(join(tmpdir(), "turno-"));
   mkdirSync(join(dir, ".claude/agents"), { recursive: true });
   mkdirSync(join(dir, "MyCity-Vault/05-Soldi-Rischi"), { recursive: true });
+  mkdirSync(join(dir, "MyCity-Vault/07-Agenti"), { recursive: true });
   mkdirSync(join(dir, "MyCity-Vault/90-Memoria-AI"), { recursive: true });
   mkdirSync(join(dir, "memoria-squadra"), { recursive: true });
   writeFileSync(join(dir, "CLAUDE.md"), claude || "# finto");
+  if (organigramma) writeFileSync(join(dir, ORGANIGRAMMA), organigramma);
   for (const a of agenti) writeFileSync(join(dir, `.claude/agents/${a}.md`), `---\nname: ${a}\n---\nSono ${a}.`);
   writeFileSync(join(dir, "MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md"), okr);
   writeFileSync(join(dir, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md"), sala);
@@ -131,7 +134,7 @@ test("il giro resta il motore dei soldi: metà turno ai motori dell'organigramma
 });
 
 test("i motori di soldi si leggono dall'organigramma, non da una lista in questo file", () => {
-  const motori = motoriDiSoldi(readFileSync(join(RADICE, "CLAUDE.md"), "utf8"), SENIOR);
+  const motori = motoriDiSoldi(readFileSync(join(RADICE, ORGANIGRAMMA), "utf8"), SENIOR);
   assert.ok(motori.includes("vendite"), "vendite non è riconosciuto come motore di soldi");
   assert.ok(motori.length >= 10, `solo ${motori.length} motori letti dall'organigramma`);
   assert.ok(!motori.includes("security"), "un reparto di fondamenta è finito fra i motori di soldi");
@@ -139,6 +142,37 @@ test("i motori di soldi si leggono dall'organigramma, non da una lista in questo
   // E se domani l'organigramma cambia, cambia il turno: nessun nome è inchiodato nel codice.
   const finto = "**💰 Motori di soldi & crescita** (i più importanti):\n- 🧪 **alfa** — vende.\n\n**🛡️ Fondamenta:**\n- 🔒 **beta** — protegge.\n";
   assert.deepEqual(motoriDiSoldi(finto, ["alfa", "beta"]), ["alfa"]);
+});
+
+// Il 25/10/2026 il roster è uscito da CLAUDE.md (ogni agente lo rileggeva a ogni turno) ed è andato in
+// ORGANIGRAMMA.md. Il turno deve seguirlo: se lo leggesse ancora dal manuale, i motori di soldi
+// sparirebbero dal turno in silenzio e il giro smetterebbe di occuparsi di ordini e negozi.
+test("il turno prende i motori di soldi dall'organigramma, non dal manuale dell'AD", () => {
+  const roster = "**💰 Motori di soldi & crescita** (i più importanti):\n- 🧪 **alfa** — vende.\n\n**🛡️ Fondamenta:**\n- 🔒 **beta** — protegge.\n";
+  const dalla = repoFinto({ agenti: ["alfa", "beta"], organigramma: roster });
+  const voce = turnoDelGiro({ radice: dalla, oggi: OGGI, quanti: 2 }).turno.find((v) => v.key === "alfa");
+  assert.ok(voce?.motore, "alfa sta fra i motori nell'organigramma ma il turno non lo vede");
+  // Lo stesso roster lasciato nel manuale non conta più: la casa è una sola.
+  const nelManuale = repoFinto({ agenti: ["alfa", "beta"], claude: roster });
+  const v2 = turnoDelGiro({ radice: nelManuale, oggi: OGGI, quanti: 2 }).turno.find((v) => v.key === "alfa");
+  assert.ok(!v2?.motore, "il turno legge ancora i motori da CLAUDE.md");
+});
+
+// La casa dei motori è una nota che Nicola può rinominare in Obsidian. Prima, senza la nota, il turno
+// usciva con le sole chiavi {turno, copertura} e nessun segno: la quota dei soldi spariva in silenzio.
+test("senza l'organigramma il turno si dichiara CIECO sui motori, non pieno e tranquillo", () => {
+  const senza = turnoDelGiro({ radice: repoFinto({ agenti: ["vendite", "marketing", "security"] }), oggi: OGGI, quanti: 2 });
+  assert.equal(senza.copertura.motoriCieco, true, "manca ORGANIGRAMMA.md e il turno non lo dice");
+  assert.equal(senza.copertura.fonteMotori, "mancante");
+  // La nota c'è ma ha cambiato forma: zero motori trovati è cieco lo stesso, non «nessun motore».
+  const storta = repoFinto({ agenti: ["alfa", "beta"], organigramma: "# Organigramma\n- **alfa** — vende.\n" });
+  assert.equal(turnoDelGiro({ radice: storta, oggi: OGGI, quanti: 2 }).copertura.fonteMotori, "senza-motori");
+  const buona = repoFinto({ agenti: ["alfa", "beta"], organigramma: "**💰 Motori di soldi & crescita**:\n- 🧪 **alfa** — vende.\n" });
+  const c = turnoDelGiro({ radice: buona, oggi: OGGI, quanti: 2 }).copertura;
+  assert.equal(c.motoriCieco, false, "con la fonte letta il turno non deve gridare al cieco");
+  assert.equal(c.fonteMotori, "letta");
+  // E sul repo vero la fonte si legge: se questa cade, la nota è stata spostata o ha cambiato forma.
+  assert.equal(turnoDelGiro({ radice: RADICE, oggi: OGGI }).copertura.motoriCieco, false);
 });
 
 test("il numero che ogni senior possiede si legge da OKR-Squadra", () => {

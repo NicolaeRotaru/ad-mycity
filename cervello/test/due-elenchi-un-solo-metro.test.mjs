@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // AR-186 — l'organigramma dei 120 vive in due posti che potevano divergere in silenzio.
 //
-// La riga-roster di `CLAUDE.md` è la mappa che legge Nicola; il campo `description` del mansionario
-// è il contratto che legge il router. Un rimando presente in uno solo dei due manda il lavoro a un
+// La riga-roster dell'organigramma (fino al 25/10/2026 stava nel manuale dell'AD, adesso in
+// ORGANIGRAMMA.md) è la mappa che legge Nicola; il campo `description` del mansionario è il contratto
+// che legge il router. Un rimando presente in uno solo dei due manda il lavoro a un
 // senior che non lo rivendica — o lo tiene a uno che l'aveva ceduto.
 //
 // **La parte che conta non è «allinea due liste», è che il numero diventa ricalcolabile.** La scheda
@@ -31,12 +32,17 @@ import {
   driftDeferral,
   nuoviRispettoAlDebito,
   rimandiDi,
-  rosterDaClaudeMd,
+  ORGANIGRAMMA,
+  rosterDaOrganigramma,
 } from "../deferral-agenti.mjs";
+import { pesoManuale, rimandiAlVecchioRoster, rosterNelManuale, TETTO_MANUALE_BYTE } from "../agent-registry-check.mjs";
+import { readdirSync } from "node:fs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const GUARDIANO = join(REPO, "cervello/deferral-agenti.mjs");
+const REGISTRO = join(REPO, "cervello/agent-registry-check.mjs");
+const NOMI = readdirSync(join(REPO, ".claude/agents")).filter((f) => f.endsWith(".md")).map((f) => f.slice(0, -3));
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -62,13 +68,13 @@ prova("una freccia FUORI dalle parentesi è prosa, non una cessione di mandato",
 });
 
 prova("i nomi di due lettere esistono: qa non è un caso limite, è un senior", () => {
-  const roster = rosterDaClaudeMd("- ✅ **qa** — verifica end-to-end (→ automazione = **sdet**).");
+  const roster = rosterDaOrganigramma("- ✅ **qa** — verifica end-to-end (→ automazione = **sdet**).");
   assert.ok(roster.has("qa"), "qa deve entrare nel roster");
   assert.deepEqual([...roster.get("qa")], ["sdet"]);
 });
 
 prova("un agente non rimanda a se stesso", () => {
-  const roster = rosterDaClaudeMd("- 🎬 **ai-video** — lo **script** → **ai-video** monta (→ calendario = **content-social**).");
+  const roster = rosterDaOrganigramma("- 🎬 **ai-video** — lo **script** → **ai-video** monta (→ calendario = **content-social**).");
   assert.deepEqual([...roster.get("ai-video")].sort(), ["content-social"]);
 });
 
@@ -87,7 +93,7 @@ prova("un agente presente in un solo elenco è divergente a sua volta", () => {
   const soloRoster = driftDeferral(new Map([["a", new Set()]]), new Map());
   const soloScheda = driftDeferral(new Map(), new Map([["a", new Set()]]));
   assert.match(soloRoster[0].motivo, /senza mansionario/);
-  assert.match(soloScheda[0].motivo, /roster di CLAUDE\.md non lo nomina/);
+  assert.match(soloScheda[0].motivo, /roster dell'organigramma non lo nomina/);
 });
 
 prova("due elenchi identici non producono nessun rumore", () => {
@@ -115,7 +121,7 @@ prova("il debito noto non fa rumore, e quello riparato si vede", () => {
 // ── L'innesto: il guardiano vero su un parco finto ──────────────────────────
 
 /**
- * Un organigramma finto: CLAUDE.md, i mansionari, e il debito dichiarato.
+ * Un organigramma finto: ORGANIGRAMMA.md, i mansionari, e il debito dichiarato.
  * Prende una LISTA di agenti perché il caso più insidioso — «uno allineato e uno nuovo, totale
  * identico» — non si può esprimere con un agente solo, e senza quel caso la prova resta verde anche
  * se il guardiano torna a giudicare sul conteggio. (Verificato: la prima versione di questo file
@@ -134,12 +140,12 @@ function parco({ agenti: lista, debito = {} }) {
         `---\nname: ${a.nome}\ndescription: Usa per roba${a.scheda ? ` (→ roba = **${a.scheda}**)` : ""}\ntools: All tools\n---\n`,
       );
     }
-    writeFileSync(join(dir, "CLAUDE.md"), `${righe.join("\n")}\n`);
+    writeFileSync(join(dir, "ORGANIGRAMMA.md"), `${righe.join("\n")}\n`);
     const bl = join(dir, "baseline.json");
     writeFileSync(bl, JSON.stringify({ dichiarato_il: "2026-07-29", agenti: debito }));
     const r = spawnSync("node", [GUARDIANO, "--json"], {
       encoding: "utf8",
-      env: { ...process.env, DEFERRAL_CLAUDE_MD: join(dir, "CLAUDE.md"), DEFERRAL_AGENTS_DIR: agenti, DEFERRAL_BASELINE: bl },
+      env: { ...process.env, DEFERRAL_ORGANIGRAMMA: join(dir, "ORGANIGRAMMA.md"), DEFERRAL_AGENTS_DIR: agenti, DEFERRAL_BASELINE: bl },
     });
     let json = null;
     try { json = JSON.parse(r.stdout); } catch { /* lo guarda il caso */ }
@@ -193,11 +199,11 @@ prova("senza il debito dichiarato il guardiano è CIECO, non verde", () => {
   try {
     const agenti = join(dir, "agents");
     mkdirSync(agenti, { recursive: true });
-    writeFileSync(join(dir, "CLAUDE.md"), "- 🔧 **alfa** — mandato.\n");
+    writeFileSync(join(dir, "ORGANIGRAMMA.md"), "- 🔧 **alfa** — mandato.\n");
     writeFileSync(join(agenti, "alfa.md"), "---\nname: alfa\ndescription: Usa per roba\ntools: All tools\n---\n");
     const r = spawnSync("node", [GUARDIANO], {
       encoding: "utf8",
-      env: { ...process.env, DEFERRAL_CLAUDE_MD: join(dir, "CLAUDE.md"), DEFERRAL_AGENTS_DIR: agenti, DEFERRAL_BASELINE: join(dir, "non-esiste.json") },
+      env: { ...process.env, DEFERRAL_ORGANIGRAMMA: join(dir, "ORGANIGRAMMA.md"), DEFERRAL_AGENTS_DIR: agenti, DEFERRAL_BASELINE: join(dir, "non-esiste.json") },
     });
     assert.equal(r.status, 2, `atteso cieco (rc=2), avuto ${r.status}`);
     assert.match(`${r.stdout}${r.stderr}`, /CIECO/);
@@ -207,6 +213,205 @@ prova("senza il debito dichiarato il guardiano è CIECO, non verde", () => {
 });
 
 // ── Il repo VERO ────────────────────────────────────────────────────────────
+
+// Il 25/10/2026 il roster è uscito da CLAUDE.md, che ogni agente rilegge a ogni turno (ne era il 56%),
+// ed è andato in ORGANIGRAMMA.md. Due cose devono restare vere insieme: la casa nuova porta tutte le
+// righe, e il manuale non ne riporta nessuna — altrimenti il peso torna e nasce una seconda copia.
+prova("sul repo vero: il roster sta nell'organigramma e non più nel manuale dell'AD", () => {
+  const nelManuale = rosterDaOrganigramma(readFileSync(join(REPO, "CLAUDE.md"), "utf8"));
+  assert.deepEqual([...nelManuale.keys()], [], "righe di roster tornate in CLAUDE.md");
+  const casa = rosterDaOrganigramma(readFileSync(join(REPO, ORGANIGRAMMA), "utf8"));
+  assert.ok(casa.has("vendite") && casa.has("investor-relations"), "l'organigramma ha perso la testa o la coda del roster");
+});
+
+prova("il registro accusa per nome la riga di roster tornata nel manuale, e solo quella", () => {
+  const manuale = [
+    "# Manuale dell'AD",
+    "- 🤝 **vendite** — SOLO prospecting (→ trattativa = **onboarding-negozi**).",
+    "- **\"fai un giro\"** → giro: leggi i dati reali.",
+    "- 🔴 **Le figure professionali** istruiscono e preparano.",
+  ].join("\n");
+  assert.deepEqual(rosterNelManuale(manuale), ["vendite"]);
+  assert.deepEqual(rosterNelManuale(readFileSync(join(REPO, "CLAUDE.md"), "utf8")), []);
+  assert.deepEqual(rosterNelManuale(readFileSync(join(REPO, "CLAUDE.md"), "utf8"), NOMI), [], "un senior vero è tornato in elenco nel manuale");
+});
+
+// IL CASO CHE HA BOCCIATO LA PRIMA VERSIONE. Il freno riconosceva solo il trattino lungo: il collaudo
+// ha reincollato tutto il roster col trattino corto e il freno è rimasto a zero con 41 KB in più nel
+// manuale. Qui il roster vero viene rimesso nel manuale vero in ogni forma che lo aggirava.
+prova("il roster reincollato nel manuale si vede in QUALUNQUE forma, non solo col trattino lungo", () => {
+  const manuale = readFileSync(join(REPO, "CLAUDE.md"), "utf8");
+  const roster = readFileSync(join(REPO, ORGANIGRAMMA), "utf8");
+  const forme = {
+    "trattino corto": (t) => t.replaceAll("** — ", "** – "),
+    "trattino semplice": (t) => t.replaceAll("** — ", "** - "),
+    "dentro una citazione": (t) => t.split("\n").map((r) => `> ${r}`).join("\n"),
+    "in tabella": (t) => t.split("\n").map((r) => r.replace(/^- (?:(\S+) )?\*\*([a-z0-9-]+)\*\* — /, "| $1 | **$2** | ")).join("\n"),
+    "senza grassetto": (t) => t.replace(/\*\*([a-z0-9-]+)\*\* — /g, "$1 – "),
+    "elenco numerato": (t) => t.replace(/^- /gm, "1. "),
+    // il secondo collaudo: la stessa riga con un'altra VESTE sul nome
+    "tra apici inversi": (t) => t.replace(/\*\*([a-z0-9-]+)\*\* — /g, "`$1` — "),
+    "come link": (t) => t.replace(/\*\*([a-z0-9-]+)\*\* — /g, "[**$1**](../../.claude/agents/$1.md) — "),
+    "con la chiocciola": (t) => t.replace(/\*\*([a-z0-9-]+)\*\* — /g, "@$1 — "),
+    "in corsivo": (t) => t.replace(/\*\*([a-z0-9-]+)\*\* — /g, "*$1* — "),
+    "come titolo": (t) => t.replace(/^- (?:\S+ )?\*\*([a-z0-9-]+)\*\* — /gm, "### $1 — "),
+    "in tabella con gli apici": (t) => t.split("\n").map((r) => r.replace(/^- (?:(\S+) )?\*\*([a-z0-9-]+)\*\* — /, "| $1 | `$2` | ")).join("\n"),
+  };
+  for (const [forma, cambia] of Object.entries(forme)) {
+    const reincollato = `${manuale}\n${cambia(roster)}`;
+    assert.equal(rosterNelManuale(reincollato, NOMI).length, NOMI.length, `${forma}: il freno non vede tutti i ${NOMI.length} senior`);
+    assert.equal(pesoManuale(reincollato).oltre, true, `${forma}: la bilancia non scatta`);
+  }
+});
+
+// Il caso «per abitudine»: non il roster intero (lo ferma la bilancia) ma UNA riga, con la veste
+// che il primo riconoscitore non leggeva. La bilancia qui non scatta: tocca al riconoscitore.
+prova("un senior solo, rimesso nel manuale con un'altra veste sul nome, si vede lo stesso", () => {
+  const manuale = readFileSync(join(REPO, "CLAUDE.md"), "utf8");
+  const righe = [
+    "- 🤝 `vendite` — prospecting nuovi negozi",
+    "- [**vendite**](.claude/agents/vendite.md) — prospecting",
+    "- @vendite — prospecting",
+    "- *vendite* — prospecting",
+    "### vendite — prospecting",
+    "| 🤝 | `vendite` | prospecting |",
+    // il terzo collaudo: i due punti DENTRO il grassetto, che è lo stile degli elenchi di CLAUDE.md
+    "- 🤝 **vendite:** SOLO prospecting nuovi negozi",
+    "- **vendite:** prospecting",
+  ];
+  for (const r of righe) {
+    assert.equal(pesoManuale(`${manuale}\n${r}`).oltre, false, "premessa: una riga sola non sfonda la bilancia");
+    assert.deepEqual(rosterNelManuale(`${manuale}\n${r}`, NOMI), ["vendite"], `non vede: ${r}`);
+  }
+  // e la veste che non si richiude, o che continua in un percorso, resta codice: niente accusa a vuoto
+  for (const r of ["- `cervello/vendite.mjs` legge i dati", "- `vendite.md` è il mansionario", "- @vendite/x", "- `vendite** x", "- `vendite:3000` è una porta"]) {
+    assert.deepEqual(rosterNelManuale(r, NOMI), [], `accusa a vuoto: ${r}`);
+  }
+});
+
+prova("la prosa che nomina un senior NON è un roster: il freno non accusa a vuoto", () => {
+  const prosa = [
+    "- **Le \"mani\"** per agire: le collega il senior **builder-automazioni**.",
+    "> il **tech** analizza il codice del sito",
+    "  **qa** sul lavoro indipendente, **riuso** della memoria.",
+    "- **\"fai un giro\"** → giro: leggi i dati reali.",
+  ].join("\n");
+  assert.deepEqual(rosterNelManuale(prosa, ["builder-automazioni", "tech", "qa"]), []);
+});
+
+prova("la bilancia vede anche il roster scritto in prosa, che nessun riconoscitore di righe vede", () => {
+  const manuale = readFileSync(join(REPO, "CLAUDE.md"), "utf8");
+  assert.equal(pesoManuale(manuale).oltre, false, `il manuale vero pesa ${pesoManuale(manuale).byte} byte, oltre ${TETTO_MANUALE_BYTE}`);
+  const roster = readFileSync(join(REPO, ORGANIGRAMMA), "utf8").replace(/\n/g, " ");
+  assert.deepEqual(rosterNelManuale(`${manuale}\nI senior sono questi: ${roster}`, NOMI), [], "premessa della prova: in prosa le righe non si vedono");
+  assert.equal(pesoManuale(`${manuale}\nI senior sono questi: ${roster}`).oltre, true);
+});
+
+// ── Le istruzioni che mandano ancora a cercare il roster nel manuale ───────
+
+prova("trova le istruzioni vecchie nelle sei righe vere del 25/10, e lascia stare storia e omonimi", () => {
+  const testi = {
+    "w.js": "{ key: 'coerenza-agenti', focus: 'agenti orfani mai richiamati da CLAUDE.md/COMANDI.md.' }",
+    "s.md": "| Drift registro agenti | drift > 0 | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI ai file reali | 🟡 |",
+    "k.md": "Cosa cerchi: agenti citati in `CLAUDE.md` che non hanno un file",
+    "a.md": "doppioni di mandato, agenti orfani mai\nrichiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto.",
+    "g.sh": "# il roster di CLAUDE.md e le schede dei senior",
+    // il sesto, trovato dal collaudo nel vincolo di deferral-agenti in giro.sh
+    "v.sh": "\"⛔ RIMANDI FRA SENIOR DIVERGENTI: un agente rimanda a qualcuno in CLAUDE.md ma non nella sua scheda\"",
+    // storia e omonimi: nessuno di questi dice dove cercare gli agenti oggi
+    "storia.md": "Il roster dei senior stava in CLAUDE.md/AGENTI.md; adesso sta in ORGANIGRAMMA.md.",
+    "controlli.md": "i controlli chiave (oggi solo abbozzati in AGENTI.md/CLAUDE.md)",
+    "vettori.md": "> senior ottimi producono un'azienda\n> incoerente. Richiamato da `CLAUDE.md`.",
+    "workflow.mjs": "WORKFLOW ORFANI (nessun comando in COMANDI.md/CLAUDE.md li evoca)",
+    "cervello/agent-registry-check.mjs": "agenti orfani mai richiamati da CLAUDE.md/COMANDI.md",
+  };
+  const trovati = rimandiAlVecchioRoster(testi).map((r) => `${r.file}:${r.riga}`);
+  assert.deepEqual(trovati, ["w.js:1", "s.md:1", "k.md:1", "a.md:2", "g.sh:1", "v.sh:1"]);
+});
+
+/**
+ * Il guardiano del registro VERO su un repo finto (una cartella git con due senior). Serve a vedere
+ * il rosso arrivare fino al codice d'uscita: una funzione giusta che il guardiano non somma è un
+ * freno staccato, e solo l'innesto lo dice.
+ */
+function registroFinto({ claude = "# Manuale\n", sentinelle = "", extra = {} } = {}) {
+  const dir = mkdtempSync(join(tmpdir(), "mycity-registro-"));
+  try {
+    const scrivi = (rel, t) => { mkdirSync(join(dir, dirname(rel)), { recursive: true }); writeFileSync(join(dir, rel), t); };
+    for (const [n, d] of [["alfa", "Usa per vendere ai negozi"], ["beta", "Usa per proteggere i dati"]]) {
+      scrivi(`.claude/agents/${n}.md`, `---\nname: ${n}\ndescription: ${d}\ntools: Read\n---\nCorpo.\n`);
+    }
+    scrivi(ORGANIGRAMMA, "- 🧪 **alfa** — vende.\n- 🔒 **beta** — protegge.\n");
+    scrivi("MyCity-Vault/07-Agenti/AGENTI.md", "Mappa dei 2 senior: alfa, beta.\n");
+    scrivi("MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md", "| alfa | ordini | 1 |\n| beta | incidenti | 0 |\n");
+    scrivi("COMANDI.md", "# Comandi\n");
+    scrivi("CLAUDE.md", claude);
+    scrivi("cervello/sentinelle.md", sentinelle || "| Sentinella | soglia | chi | rimedio |\n");
+    for (const [rel, t] of Object.entries(extra)) scrivi(rel, t);
+    spawnSync("git", ["init", "-q"], { cwd: dir });
+    spawnSync("git", ["add", "-A"], { cwd: dir });
+    const r = spawnSync("node", [REGISTRO, "--json"], {
+      encoding: "utf8",
+      env: { ...process.env, AGENT_REGISTRY_ROOT: dir, SUPABASE_URL: "", SUPABASE_SERVICE_KEY: "" },
+    });
+    let json = null;
+    try { json = JSON.parse(r.stdout); } catch { /* lo guarda il caso */ }
+    return { rc: r.status, out: `${r.stdout}${r.stderr}`.slice(0, 1500), json };
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+prova("innesto: il registro vero è VERDE su un repo finto pulito", () => {
+  const r = registroFinto();
+  assert.equal(r.json?.drift_totale, 0, `atteso drift 0:\n${r.out}`);
+  assert.equal(r.rc, 0);
+});
+
+prova("innesto: una sentinella che manda a riallineare il manuale fa diventare ROSSO il registro", () => {
+  const r = registroFinto({ sentinelle: "| Drift registro agenti | drift > 0 | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI ai file reali | 🟡 |\n" });
+  assert.deepEqual(r.json?.rimandi_al_vecchio_roster?.righe?.map((x) => x.file), ["cervello/sentinelle.md"], r.out);
+  assert.equal(r.rc, 1, "l'istruzione vecchia è trovata ma non arriva al codice d'uscita");
+});
+
+// Il sesto rimando stava in uno script di shell, fuori dal perimetro dei conteggi: il registro lo
+// legge anche lì, perché i vincoli di giro.sh finiscono nel prompt del motore.
+prova("innesto: un vincolo di shell che manda i rimandi in CLAUDE.md fa diventare ROSSO il registro", () => {
+  const vincolo = "DEFERRAL_VINCOLO=\"⛔ RIMANDI FRA SENIOR DIVERGENTI: un agente rimanda a qualcuno in CLAUDE.md ma non nella sua scheda\"\n";
+  const r = registroFinto({ extra: { "cervello/giro.sh": vincolo } });
+  assert.deepEqual(r.json?.rimandi_al_vecchio_roster?.righe?.map((x) => x.file), ["cervello/giro.sh"], r.out);
+  assert.equal(r.rc, 1, "il vincolo vecchio nello script è trovato ma non arriva al codice d'uscita");
+  const pulito = registroFinto({ extra: { "cervello/giro.sh": vincolo.replace("in CLAUDE.md", "in ORGANIGRAMMA.md") } });
+  assert.equal(pulito.rc, 0, `riscritto verso l'organigramma deve tornare verde:\n${pulito.out}`);
+});
+
+prova("innesto: il roster reincollato col trattino corto fa diventare ROSSO il registro", () => {
+  const r = registroFinto({ claude: "# Manuale\n- 🧪 **alfa** – vende.\n- 🔒 **beta** – protegge.\n" });
+  assert.deepEqual(r.json?.roster_nel_manuale, ["alfa", "beta"], r.out);
+  assert.equal(r.rc, 1);
+});
+
+prova("innesto: un manuale oltre il tetto in byte fa diventare ROSSO il registro, in qualunque forma", () => {
+  const r = registroFinto({ claude: `# Manuale\n${"prosa che pesa ".repeat(Math.ceil(TETTO_MANUALE_BYTE / 15) + 10)}\n` });
+  assert.equal(r.json?.peso_manuale?.oltre, true, r.out);
+  assert.equal(r.rc, 1);
+});
+
+prova("se l'organigramma non c'è il guardiano è CIECO, non verde", () => {
+  const dir = mkdtempSync(join(tmpdir(), "mycity-deferral-"));
+  try {
+    const agenti = join(dir, "agents");
+    mkdirSync(agenti, { recursive: true });
+    writeFileSync(join(agenti, "alfa.md"), "---\nname: alfa\ndescription: Usa per roba\ntools: All tools\n---\n");
+    const r = spawnSync("node", [GUARDIANO], {
+      encoding: "utf8",
+      env: { ...process.env, DEFERRAL_ORGANIGRAMMA: join(dir, "ORGANIGRAMMA.md"), DEFERRAL_AGENTS_DIR: agenti },
+    });
+    assert.equal(r.status, 2, `atteso cieco (rc=2), avuto ${r.status}`);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
 
 prova("sul repo vero: 120 nel roster, 120 mansionari, e nessuna divergenza non dichiarata", () => {
   const r = spawnSync("node", [GUARDIANO, "--json"], { cwd: REPO, encoding: "utf8" });

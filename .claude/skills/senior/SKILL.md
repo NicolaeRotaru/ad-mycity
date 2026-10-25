@@ -39,7 +39,7 @@ node cervello/agent-registry-check.mjs        # exit 1 = drift
 node cervello/keyword-owner-check.mjs         # exit 1 = keyword con 2 owner senza deferral
 ls .claude/agents/*.md | wc -l                # la fonte di verità: i file
 ```
-Cosa cerchi: agenti citati in `CLAUDE.md` che non hanno un file, file senza citazione (orfani), nome
+Cosa cerchi: agenti citati in `MyCity-Vault/07-Agenti/ORGANIGRAMMA.md` che non hanno un file, file senza citazione (orfani), nome
 del file ≠ `name` nel frontmatter, conteggio che non torna.
 
 ## ② Doppioni e buchi di mandato

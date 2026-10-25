@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-10-25 16:40
+aggiornato: 2026-10-25 17:20
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -9,6 +9,14 @@ fonte: AD digitale (giro, cervello/giro.md)
 > Alle 16:31 hai unito la richiesta del sito, la 261: alle 16:39 il rilascio di produzione era pronto. Un cliente che scrive all'Assistenza legge «Assistenza MyCity», non più «Utente · Negozio». La scheda 1360 è chiusa, e i difetti aperti del sito passano da 562 a 561.
 >
 > Alle 16:29 hai unito anche la richiesta della macchina, la 890. Oltre alla pre-diagnosi, porta la correzione dei numeri delle card: la prossima card nuova è la #212, perché il conto include anche l'archivio.
+
+> 🪙 **2026-10-25 14:50 — Un'ondata del sito si mangiava la settimana. Ecco il metodo per farne dodici in un mese.**
+>
+> Il costo non è il lavoro, è il rileggere: ogni agente rilegge tutto il suo contesto a ogni passo. Un agente generico parte già da 91.078 gettoni, un senior `tech` da 53.210: misurato oggi. L'ondata 1 ne ha accesi più di 600, due su tre per verificare, in sette riesami senza freno.
+>
+> Ho costruito tre attrezzi e li ho fatti collaudare. Un workflow d'ondata con tetto di 45 agenti e due giri al massimo. Il manuale dell'AD da 75 a 35 KB. Un contatore vero dei gettoni. Stima: le dodici ondate insieme fanno meno agenti della prima da sola. Il freno dei senior l'ho tenuto fuori, per un lotto suo.
+>
+> Serve la tua firma sulla richiesta di unione: è un'auto-modifica. Il workflow d'ondata non ha ancora girato su un'ondata vera.
 
 > 🔐 **2026-10-25 14:44 — L'elenco dei permessi da incollare era indietro di 19 programmi: adesso vede anche quelli lanciati attraverso il giro.**
 >

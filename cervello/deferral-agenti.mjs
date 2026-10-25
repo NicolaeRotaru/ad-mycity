@@ -4,8 +4,10 @@
 //
 // AR-186 — Perché esiste, e perché non è «allinea due liste».
 //
-// L'organigramma vive in due posti: la riga-roster di `CLAUDE.md` (la mappa leggibile per Nicola) e
-// il campo `description` del mansionario (il contratto che legge il router). Nessuno dei due è
+// L'organigramma vive in due posti: la riga-roster di `MyCity-Vault/07-Agenti/ORGANIGRAMMA.md` (la
+// mappa leggibile per Nicola) e il campo `description` del mansionario (il contratto che legge il router).
+// Fino al 25/10/2026 il roster stava dentro `CLAUDE.md`: ogni agente se lo rileggeva a ogni turno, ed era
+// il 56% del manuale. È stato spostato riga per riga; questo guardiano lo legge dalla casa nuova. Nessuno dei due è
 // dichiarato derivato dall'altro, quindi possono divergere in silenzio — e un rimando che esiste in
 // un posto solo manda il lavoro a un senior che non lo rivendica, o lo tiene a uno che l'ha ceduto.
 //
@@ -56,8 +58,15 @@ export function rimandiDi(testo = "") {
   return nomi;
 }
 
-/** La riga-roster di un agente in CLAUDE.md: `- 🛡️ **nome** — mandato (→ … = **altro**)`. */
-export function rosterDaClaudeMd(testo = "") {
+/**
+ * La casa dell'organigramma, relativa alla radice dell'AD. Un posto solo: la leggono anche
+ * `agent-registry-check.mjs` (orfani) e `turno-senior.mjs` (i motori di soldi), e un percorso
+ * ricopiato in tre file è un percorso che alla prossima mossa diverge.
+ */
+export const ORGANIGRAMMA = "MyCity-Vault/07-Agenti/ORGANIGRAMMA.md";
+
+/** La riga-roster di un agente nell'organigramma: `- 🛡️ **nome** — mandato (→ … = **altro**)`. */
+export function rosterDaOrganigramma(testo = "") {
   const per = new Map();
   for (const riga of String(testo).split("\n")) {
     const m = riga.match(/^\s*[-*]\s*(?:\S+\s+)?\*\*([a-z0-9][a-z0-9-]{1,})\*\*\s*—/);
@@ -86,7 +95,7 @@ export function driftDeferral(roster, schede) {
   for (const [nome, dalRoster] of roster) {
     const dallaScheda = schede.get(nome);
     if (!dallaScheda) {
-      fuori.push({ nome, motivo: "nel roster di CLAUDE.md ma senza mansionario" });
+      fuori.push({ nome, motivo: "nel roster dell'organigramma ma senza mansionario" });
       continue;
     }
     const soloRoster = [...dalRoster].filter((x) => !dallaScheda.has(x)).sort();
@@ -94,7 +103,7 @@ export function driftDeferral(roster, schede) {
     if (soloRoster.length || soloScheda.length) fuori.push({ nome, solo_roster: soloRoster, solo_scheda: soloScheda });
   }
   for (const nome of schede.keys()) {
-    if (!roster.has(nome)) fuori.push({ nome, motivo: "ha un mansionario ma il roster di CLAUDE.md non lo nomina" });
+    if (!roster.has(nome)) fuori.push({ nome, motivo: "ha un mansionario ma il roster dell'organigramma non lo nomina" });
   }
   return fuori.sort((a, b) => a.nome.localeCompare(b.nome));
 }
@@ -123,16 +132,16 @@ export function debitoRiparato(fuori, baseline = {}) {
 function main() {
   const jsonMode = process.argv.includes("--json");
   const soloConta = process.argv.includes("--conta");
-  const claudeMd = process.env.DEFERRAL_CLAUDE_MD || join(AD_ROOT, "CLAUDE.md");
+  const organigramma = process.env.DEFERRAL_ORGANIGRAMMA || join(AD_ROOT, ORGANIGRAMMA);
   const agentsDir = process.env.DEFERRAL_AGENTS_DIR || join(AD_ROOT, ".claude/agents");
   const BASELINE = process.env.DEFERRAL_BASELINE || join(AD_ROOT, "cervello/deferral-baseline.json");
 
   // Cieco, non verde (AR-322): se non c'è niente da leggere non ho misurato.
-  if (!existsSync(claudeMd) || !existsSync(agentsDir)) {
-    console.error("⛔ DEFERRAL-AGENTI CIECO: manca CLAUDE.md o .claude/agents/");
+  if (!existsSync(organigramma) || !existsSync(agentsDir)) {
+    console.error(`⛔ DEFERRAL-AGENTI CIECO: manca ${ORGANIGRAMMA} o .claude/agents/`);
     process.exit(2);
   }
-  const roster = rosterDaClaudeMd(readFileSync(claudeMd, "utf8"));
+  const roster = rosterDaOrganigramma(readFileSync(organigramma, "utf8"));
   const schede = new Map();
   // Il perimetro si DERIVA, non si scrive (lotto 33): elencaFile scende ricorsivamente, così un
   // mansionario in una sottocartella non resta fuori dal confronto in silenzio. Torna `null` — non
@@ -184,11 +193,11 @@ function main() {
       console.log(`❌ ${nuovi.length} agenti divergono e NON erano nel debito dichiarato il ${baseline.dichiarato_il}:\n`);
       for (const d of nuovi) {
         if (d.motivo) console.log(`  • ${d.nome}: ${d.motivo}`);
-        else console.log(`  • ${d.nome.padEnd(22)} solo in CLAUDE.md: [${d.solo_roster.join(", ")}]  solo nella scheda: [${d.solo_scheda.join(", ")}]`);
+        else console.log(`  • ${d.nome.padEnd(22)} solo nell'organigramma: [${d.solo_roster.join(", ")}]  solo nella scheda: [${d.solo_scheda.join(", ")}]`);
       }
       console.log(`\nAllinea i due, oppure dichiaralo con motivo in cervello/deferral-baseline.json —`);
       console.log(`allargare quella lista è una decisione visibile, non un effetto collaterale.`);
-      console.log(`Il router legge la scheda, Nicola legge CLAUDE.md, e il lavoro va dove dice il primo.`);
+      console.log(`Il router legge la scheda, Nicola legge l'organigramma, e il lavoro va dove dice il primo.`);
     }
     if (riparati.length) {
       console.log(`\n   🎉 Allineati (da togliere da deferral-baseline.json): ${riparati.join(", ")}`);

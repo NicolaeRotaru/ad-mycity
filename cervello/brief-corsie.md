@@ -4,8 +4,10 @@ Sei una **corsia** di un lotto di riparazione del cantiere di auto-coscienza di 
 L'AD (la sessione principale) ricuce il lavoro di tutte le corsie. Tu lavori **solo** dentro il tuo
 territorio e consegni **un frammento JSON**.
 
-Prima di iniziare leggi `.claude/skills/cantiere/SKILL.md` e `cervello/come-riparo.md`: sono lo
-standard di casa. Qui sotto solo le regole che valgono **per te come corsia**.
+Prima di iniziare leggi lo standard di casa, **a pezzi**: di `.claude/skills/cantiere/SKILL.md` solo
+le sezioni ②, ③, ④, ⑤ e «Il giro che converge» (`grep -n '^## '`, poi `sed -n` sulle righe che servono),
+e `cervello/come-riparo.md`. La skill intera pesa più di 40 KB (`wc -c` per il conto di oggi), e
+quello che leggi lo rileggi a ogni turno. Qui sotto solo le regole che valgono **per te come corsia** — o come squadra di un'ondata del sito.
 
 ---
 
@@ -31,6 +33,10 @@ standard di casa. Qui sotto solo le regole che valgono **per te come corsia**.
    `await import(join(REPO, "pannello/src/lib/x.ts"))` (Node 22, type stripping).
    Il test si lancia da solo: `node cervello/test/<nome>.test.mjs` deve uscire 0 se verde, 1 se rosso.
    Guarda un test esistente e copia la forma.
+   **Se il fix tocca `pannello/src/**` o uno script `cervello/*.sh`** e la decisione che hai cambiato
+   non è finita in una funzione pura con la sua prova, serve anche la prova a RUNTIME, con la skill
+   `verify`: Playwright per il Pannello, bats per gli script. Senza, quel difetto resta aperto e lo
+   dichiari (skill cantiere, ⑤).
 
 5. **La non-vacuità va ESEGUITA, non ragionata.** Per ogni difetto: rompi il fix apposta e pretendi
    il rosso. Se resta verde, la prova non prova niente. Dichiara nel frammento la voce del mutante:
@@ -58,10 +64,47 @@ standard di casa. Qui sotto solo le regole che valgono **per te come corsia**.
 - ❌ **Non assegnare id nuovi (AR-xxx)** ai difetti che scopri: li conia l'AD. Mettili in
   `difetti_nuovi` con titolo, causa radice e dove li hai visti.
 - ❌ **Non allargare il lotto.** I difetti nuovi che trovi riparando NON entrano nel tuo lavoro.
+  Mettili in `difetti_nuovi`, e classificali con l'asticella: grave o bloccante **solo se sai
+  scrivere il comando che diventa rosso**, altrimenti minore. I minori vanno al registro e lì
+  restano: oggi non tornano da soli nell'ondata dopo, li prende un piano fatto senza `--gravi`.
+  (Ondata 1 del sito: 109 nati su 123 erano minori, e rimetterli nel giro è ciò che non lo fermava.)
+  A te tornano solo i gravi e i bloccanti nati. **Solo quelli del riesame** arrivano dopo una
+  seconda voce che ha provato a smontarli. Tutti gli altri arrivano **senza seconda voce**: i gravi
+  che il collaudo trova nel tuo diff (nel rifacimento, il messaggio che comincia con «Il collaudo ti
+  ha bocciato», il caso più frequente), i gravi del collaudo della correzione 1, la bocciatura senza
+  nome che il workflow trasforma in grave. Quelli senza seconda voce verificali tu sul codice prima di
+  correggerli (regola 2).
+  Ogni grave arriva in JSON con la sua chiave (`nato|file|titolo`). La metti in `chiusi` **scritta
+  esattamente com'è arrivata**, e solo con la prova rossa-poi-verde. Se non regge, o il fix sta fuori
+  dal tuo territorio, non lo correggi: lo metti in `parziali` col perché. Sappi cosa succede dopo: un
+  grave che non è fra i tuoi `chiusi` ferma il pacchetto subito, e il workflow lo porta a Nicola col
+  tuo perché. Dichiararlo chiuso non basta: il collaudo dopo rilancia la sua prova, e se la ritrova
+  rossa il grave torna da te.
+- ❌ **Non collaudare il tuo lavoro.** Lo collauda un altro agente. Tu porti la prova rossa-poi-verde.
 - ❌ **Non inventare esenzioni** senza il perché scritto.
 
 Puoi (e devi) lanciare i **tuoi** test: `node cervello/test/<tuo-file>.test.mjs`, e
 `node cervello/test-cervello.mjs --solo <pezzo-del-nome>` per il giro stretto sui tuoi.
+**Sul sito** le tue prove sono una chiamata sola, nel tuo worktree:
+`node cervello/prova-sito.mjs --repo <worktree> --file <i file che hai toccato, separati da virgola>`.
+Mai `npm run verify`, mai la suite intera: la lancia l'AD, una volta, ad albero fermo.
+
+---
+
+## Il peso — ogni riga che leggi la rileggi a ogni turno
+
+Misurato il 25/10: un analista da 29 turni ha letto 3.632.127 gettoni in entrata e ne ha scritti
+10.156 in uscita. Tre quarti dell'entrata era il contesto riletto a ogni turno. Quindi:
+
+- **Le schede le hai nel compito.** Arrivano tagliate e senza storia; non aprire il registro del
+  sito, che pesa 4,75 MB.
+- **I file grossi a pezzi:** `grep -n`, poi `sed -n` sulle righe che servono. Mai un file intero
+  sopra 30 KB.
+- **Più comandi indipendenti in una chiamata sola**, e l'uscita filtrata (`| tail -20`).
+- **Non rileggere un file dopo averlo modificato:** se la modifica non fosse riuscita, lo strumento
+  l'avrebbe detto.
+
+Sul sito la gravità si scrive come nel registro: `bloccante`, `grave` o `minore`.
 
 ---
 
@@ -111,5 +154,7 @@ mutazione l'ha fatto diventare rosso **davvero, eseguendola**. In tutti gli altr
 con il perché — e se resta aperto **dichiara `togli_verifica_a_pattern: true`**, altrimenti la
 vecchia prova a grep lo richiude da sola smentendo la firma di Nicola.
 
-Alla fine, nella tua risposta all'AD, scrivi solo: quanti riparati, quanti aperti e perché, quali
-file hai toccato, cosa non hai potuto verificare.
+Alla fine, nella tua risposta all'AD, scrivi solo — **al massimo 10 righe**: quanti riparati, quanti
+aperti e perché, quali file hai toccato, cosa non hai potuto verificare. La tua risposta entra nel
+contesto dell'AD, che il 25/10 partiva da 162.343 gettoni a ogni turno (misura presa prima del
+taglio del CLAUDE.md: dopo non è stata rifatta).

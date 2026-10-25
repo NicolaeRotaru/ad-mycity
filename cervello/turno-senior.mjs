@@ -29,6 +29,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { elencoSenior, radiceRepo, ultimoEsito, percorsiSenior } from "./prompt-senior.mjs";
+import { ORGANIGRAMMA } from "./deferral-agenti.mjs";
 
 /** Quanti senior mette al lavoro un giro. Sei come oggi: il tetto è il costo, non l'organigramma. */
 export const QUANTI_PER_GIRO = 6;
@@ -76,7 +77,8 @@ export function senioriDaOkr(testoOkr, senior) {
 }
 
 /**
- * I motori di soldi, letti dall'organigramma di CLAUDE.md (le sezioni «Motori di soldi & crescita»).
+ * I motori di soldi, letti dall'organigramma (le sezioni «Motori di soldi & crescita»). Il roster
+ * stava in CLAUDE.md fino al 25/10/2026; adesso vive in MyCity-Vault/07-Agenti/ORGANIGRAMMA.md.
  *
  * Serve a non ribaltare il difetto: aprire il turno a tutti i 120 senza una quota riservata ai
  * motori significherebbe che per venti giri di fila lavorano solo i reparti fermi da sempre — e il
@@ -84,14 +86,14 @@ export function senioriDaOkr(testoOkr, senior) {
  * negozi. Metà turno resta sui soldi, metà apre la squadra.
  *
  * La fonte è il manuale che l'AD già mantiene: nessun elenco di nomi vive in questo file.
- * @param {string} testoClaudeMd
+ * @param {string} testoOrganigramma
  * @param {string[]} senior
  * @returns {string[]}
  */
-export function motoriDiSoldi(testoClaudeMd, senior) {
+export function motoriDiSoldi(testoOrganigramma, senior) {
   const fuori = [];
   let dentro = false;
-  for (const riga of String(testoClaudeMd || "").split("\n")) {
+  for (const riga of String(testoOrganigramma || "").split("\n")) {
     const intestazione = /^\s*\*\*/.test(riga) && /:\s*$|\)\s*:\s*$|:\*\*|\*\*\s*\(/.test(riga);
     if (intestazione) dentro = /Motori di soldi/i.test(riga);
     if (!dentro || !/^\s*[-*]\s/.test(riga)) continue;
@@ -102,6 +104,18 @@ export function motoriDiSoldi(testoClaudeMd, senior) {
     if (m && senior.includes(m[1]) && !fuori.includes(m[1])) fuori.push(m[1]);
   }
   return fuori;
+}
+
+/**
+ * Da dove sono arrivati i motori di soldi: «letta», «mancante» (il file non c'è o non si legge) o
+ * «senza-motori» (il file c'è ma nessuna sezione «Motori di soldi» porta un senior vero, cioè la nota
+ * ha cambiato forma). Gli ultimi due sono ciechi: zero motori non vuol dire «nessun motore».
+ * @param {string|null} testoOrganigramma
+ * @param {string[]} motori
+ */
+export function statoFonteMotori(testoOrganigramma, motori) {
+  if (testoOrganigramma == null) return "mancante";
+  return motori.length ? "letta" : "senza-motori";
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -266,7 +280,7 @@ export function focusDelTurno(voce) {
  *   ⑤ riempimento con gli altri senior, il più fermo per primo (così nessuno resta fuori per sempre)
  *
  * @param {{radice?:string, oggi?:string, quanti?:number, convocati?:string[]}} opzioni
- * @returns {{turno:object[], copertura:object}}
+ * @returns {{turno:object[], copertura:object}}  `copertura.motoriCieco` dice se la fonte dei motori mancava
  */
 export function turnoDelGiro(opzioni = {}) {
   const radice = opzioni.radice || radiceRepo();
@@ -275,7 +289,13 @@ export function turnoDelGiro(opzioni = {}) {
   const senior = elencoSenior(radice);
   const okr = senioriDaOkr(leggiSePresente(join(radice, "MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md")), senior);
   const perOkr = new Map(okr.map((o) => [o.key, o]));
-  const motori = motoriDiSoldi(leggiSePresente(join(radice, "CLAUDE.md")), senior);
+  // La casa dei motori è una nota del vault, che Nicola apre in Obsidian e può rinominare o svuotare.
+  // Il manuale non lo rinominava nessuno; questa sì. Senza fonte la quota dei motori sparisce e il
+  // turno resta pieno di altri reparti: sembra un turno normale, e invece il giro ha smesso di
+  // occuparsi dei soldi. Perciò lo stato della fonte esce in `copertura`, e non solo il risultato.
+  const testoOrganigramma = leggiSePresente(join(radice, ORGANIGRAMMA));
+  const motori = motoriDiSoldi(testoOrganigramma, senior);
+  const fonteMotori = statoFonteMotori(testoOrganigramma, motori);
   const sala = leggiSePresente(join(radice, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md"));
   const pendenti = handoffPendenti(sala, { senior, oggi });
   const esiti = ultimiEsitiSenior(radice, senior);
@@ -321,7 +341,7 @@ export function turnoDelGiro(opzioni = {}) {
   const inCoda = (lista) => rotazioneDelGiorno(lista, oggi).sort(perAttesa);
 
   // Metà turno ai motori di soldi, e dentro quella metà tre criteri diversi apposta:
-  //   · il capofila dell'organigramma (il primo elencato in CLAUDE.md: è la priorità dichiarata);
+  //   · il capofila dell'organigramma (il primo elencato in ORGANIGRAMMA.md: è la priorità dichiarata);
   //   · uno che ruota col giorno, così in una settimana passano tutti;
   //   · il più dimenticato, che è il modo in cui un motore smette di esistere senza che nessuno lo dica.
   // Un criterio solo li avrebbe schiacciati: per attesa lavorerebbero solo i mai usati, per ordine
@@ -350,6 +370,8 @@ export function turnoDelGiro(opzioni = {}) {
       motoriInTurno: turno.filter((v) => v.motore).length,
       giriPerPassareTutti: quanti > 0 ? Math.ceil(senior.length / quanti) : 0,
       passaggiPendenti: pendenti.length,
+      fonteMotori,
+      motoriCieco: fonteMotori !== "letta",
     },
   };
 }
@@ -390,5 +412,6 @@ if (process.argv[1] && process.argv[1].endsWith("turno-senior.mjs")) {
     console.log(`🎽 in turno oggi (${turno.length} di ${copertura.senior} senior · tutti passano in ${copertura.giriPerPassareTutti} giri):\n`);
     for (const v of turno) console.log(`   · @${v.key} — ${v.motivo}${v.kpi ? ` · ${v.kpi}` : ""}`);
     if (copertura.passaggiPendenti) console.log(`\n   ⚠️ ${copertura.passaggiPendenti} passaggi fra colleghi ancora da raccogliere`);
+    if (copertura.motoriCieco) console.log(`\n   ⛔ motori di soldi CIECHI (${copertura.fonteMotori}): ${ORGANIGRAMMA} non li porta, il turno non ha la quota dei soldi`);
   }
 }

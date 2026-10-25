@@ -16,6 +16,7 @@
 //   node cervello/prepara-giro.mjs --umano   -> la stessa cosa in una riga leggibile
 
 import { pathToFileURL } from "node:url";
+import { ORGANIGRAMMA } from "./deferral-agenti.mjs";
 import { FATTI_DEL_GIRO, fattiVivi, radiceRepo } from "./prompt-senior.mjs";
 import { turnoDelGiro } from "./turno-senior.mjs";
 
@@ -32,6 +33,13 @@ export function bagaglioDelGiro({ radice = radiceRepo() } = {}) {
     ({ turno, copertura } = turnoDelGiro({ radice }));
   } catch (e) {
     cieco.push(`turno non calcolabile: ${e.message}`);
+  }
+  // Senza l'organigramma il turno esce PIENO lo stesso, ma senza la metà riservata ai motori di
+  // soldi: sei senior, e un motore ci entra solo se lo pesca la rotazione. Un turno così ha la faccia
+  // di un turno sano, e il giro partiva con uscita 0 senza la quota per ordini e negozi. `turnoDelGiro`
+  // lo sapeva e lo scriveva solo in `copertura`: qui diventa un cieco vero, che ferma il lancio.
+  if (copertura?.motoriCieco) {
+    cieco.push(`motori di soldi non letti (${copertura.fonteMotori}): ${ORGANIGRAMMA} non li porta, il turno è senza la quota dei soldi`);
   }
   let fatti = null;
   try {
@@ -54,6 +62,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     console.log(JSON.stringify(b, null, 2));
   }
   // Un turno vuoto NON è un giro senza lavoro: è un bagaglio che non si può consegnare. Chi lancia
-  // il workflow deve accorgersene qui, non scoprirlo da un giro che propone niente.
-  process.exit(b.turno.length ? 0 : 1);
+  // il workflow deve accorgersene qui, non scoprirlo da un giro che propone niente. Lo stesso per un
+  // bagaglio cieco (per esempio senza i motori di soldi): il JSON si stampa, ma l'uscita è 1.
+  process.exit(b.turno.length && !b.cieco.length ? 0 : 1);
 }

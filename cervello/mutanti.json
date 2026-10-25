@@ -10819,6 +10819,51 @@
    "cerca": "() => `$SCRIPT_DIR/${sotto}`",
    "sostituisci": "() => `$SCRIPT_DIR/`",
    "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 65,
+   "difetto": "AR-1014",
+   "nome": "il riesame dell'ondata torna a guardare solo i file dichiarati appena la squadra ne nomina uno di codice: il file del piano esce dalla rete",
+   "file": ".claude/workflows/ondata-sito.js",
+   "cerca": "const guardati = (e) => unione(e.p.file, e.f.file_toccati)",
+   "sostituisci": "const guardati = (e) => ((e.f.file_toccati || []).some((x) => !/^tests\\//.test(x)) ? e.f.file_toccati : unione(e.p.file, e.f.file_toccati))",
+   "test": "cervello/test/ondata-sito.test.mjs"
+  },
+  {
+   "lotto": 65,
+   "difetto": "AR-1015",
+   "nome": "il budget del motore non tiene più da parte il posto del riesame né il conto di chi è in corso: il riesame salta per primo",
+   "file": ".claude/workflows/ondata-sito.js",
+   "cerca": "  if (r - RISERVA >= (inCorso + riservaRiesame + k) * costo) return null",
+   "sostituisci": "  if (r - RISERVA >= k * costo) return null",
+   "test": "cervello/test/ondata-sito.test.mjs"
+  },
+  {
+   "lotto": 65,
+   "difetto": "AR-1019",
+   "nome": "il vecchio nome «Task» nel matcher torna a far sembrare sorvegliato «Agent»: un rosso travestito da verde",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "    return new RegExp(`^(?:${matcher})$`).test(strumento);",
+   "sostituisci": "    const re = new RegExp(`^(?:${matcher})$`); return re.test(strumento) || (strumento === \"Agent\" && re.test(\"Task\"));",
+   "test": "cervello/test/mappa-copertura.test.mjs"
+  },
+  {
+   "lotto": 65,
+   "difetto": "AR-1020",
+   "nome": "senza l'organigramma il giro torna a partire senza i motori di soldi e senza dirlo",
+   "file": "cervello/prepara-giro.mjs",
+   "cerca": "  if (copertura?.motoriCieco) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/bagaglio-senza-organigramma.test.mjs"
+  },
+  {
+   "lotto": 65,
+   "difetto": "AR-1021",
+   "nome": "il rischio dei pacchetti torna a ignorare i dettagli della scheda: segreti e accessi fra negozi scritti nella descrizione non accendono più le due lenti",
+   "file": "cervello/schede-pacchetto.mjs",
+   "cerca": "  for (const t of [...testi, ...dettagli]) {",
+   "sostituisci": "  for (const t of [...testi]) {",
+   "test": "cervello/test/schede-pacchetto.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

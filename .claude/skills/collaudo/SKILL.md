@@ -31,12 +31,13 @@ da zero, con un mandato scritto: *dimostra che questa cosa non funziona; nel dub
    il male è che scopri cose vecchie o che ne crei di nuove, curerai quello sbagliato.
 2. **Uno costruisce.** Con la spec, il caso vero in mano, e l'obbligo di eseguire davvero: l'output
    vero, mai una promessa.
-3. **Un altro prova a distruggere.** Almeno due collaudatori, con **lenti diverse** — non due copie
-   della stessa domanda. Le due che funzionano:
+3. **Un altro prova a distruggere.** Con **due lenti diverse** — non due copie della stessa
+   domanda. Le due che funzionano:
    · *sa diventare rosso davvero?* (ricrea il difetto e guarda)
    · *nasce rotto?* (montato sul serio, blocca la macchina per tutti?)
-4. **Chi ha costruito ripara, e si torna al 3.** Finché regge, o finché si scrive nero su bianco
-   «questo pezzo non lo so fare».
+   Le lenti sono sempre due; quanti collaudatori le portano lo dice il dosaggio, qui sotto.
+4. **Chi ha costruito ripara, e si torna al 3.** Finché regge, o fino al terzo rosso: lì decide
+   Nicola (vedi la regola di arresto).
 
 ## Le quattro leggi del collaudatore
 
@@ -56,7 +57,11 @@ Se dici a qualcuno «trova un buco», un buco lo trova sempre. Quindi si dichiar
 
 - si boccia **solo** per una scorciatoia che capita da sola nel lavoro normale; una che richiede
   malafede deliberata si scrive e non blocca;
-- **al terzo rosso il pezzo non si aggancia**: resta uno strumento da lanciare a mano, dichiarato;
+- **al terzo rosso sullo stesso pezzo non parte un quarto giro**: si porta a Nicola *semplifica,
+  restringi o continua*. Per un freno della macchina «restringi» vuol dire che non si aggancia e
+  resta uno strumento da lanciare a mano, dichiarato. *Perché:* nella prima ondata del sito (14-17/10)
+  una squadra è stata bocciata tre volte e rifatta da capo, un'altra è passata al quinto collaudo. Il
+  giro intero che non converge sta nella skill `cantiere`, sezione «Il giro che converge»;
 - quello che non si sa misurare **si toglie dal verdetto e si scrive come buco, col numero vero**.
   Meglio stretto e vero che largo e finto.
 
@@ -65,9 +70,28 @@ Se dici a qualcuno «trova un buco», un buco lo trova sempre. Quindi si dichiar
 | Cosa stai facendo | Quanto collaudo |
 |---|---|
 | Una riga di testo, una nota | Nessuno |
-| Un fix piccolo e locale | Un collaudatore, una lente |
-| Qualcosa che entra nel cancello, o tocca soldi/dati/clienti | Due lenti + il montaggio vero |
-| Qualcosa dove sbagliare costa giorni | Il giro intero, finché regge |
+| Un fix o un freno che non tocca soldi, dati o permessi | **Un collaudatore solo**, con tutte e due le lenti + il montaggio vero |
+| Qualcosa che tocca soldi, dati o permessi | **Due collaudatori diversi**, uno per lente + il montaggio vero |
+| Qualcosa dove sbagliare costa giorni | Il giro intero, fino al terzo rosso |
+
+Tre cose non si dosano mai: **chi ha costruito non collauda**, il **difetto ricreato nella variante
+scomoda**, il **montaggio vero** prima della consegna. Sul sito il rischio non si giudica a occhio: è
+il campo `rischio` (soldi, dati, permessi o nessuno) che `node cervello/schede-pacchetto.mjs` calcola
+per ogni pacchetto dalla mappa delle lenti. Una squadra che ha scritto fuori dal suo territorio conta
+come a rischio, qualunque sia il campo. Dopo una bocciatura si ricollauda **solo con la lente che ha
+bocciato**: la rete per il resto è il riesame sul diff dell'ondata, che viene dopo. Il ricollaudo è un
+lavoratore nuovo, quindi riceve i motivi della bocciatura e i gravi nati da rilanciare: senza, regge
+senza averli cercati. Un grave nato nel collaudo esce dal conto solo quando la squadra lo mette fra i
+chiusi **e** un collaudo dopo regge (skill `cantiere`, R-F).
+
+*Perché si dosa, col numero.* Ogni collaudatore è un agente che parte da 53.210 gettoni al primo
+turno se è un senior come `tech`, da 91.078 se è un `general-purpose`, e li rilegge a ogni turno
+(misura del 25/10). Nella
+prima ondata del sito le 13 squadre delle prime tre correzioni sono passate tutte al primo collaudo:
+lì il secondo collaudatore ha solo confermato. Le bocciature ripetute sono arrivate sui rimborsi — la
+squadra dei soldi è passata al quinto collaudo, quella dei testi del rimborso è stata bocciata al
+terzo — e sulla parte dell'AI, bocciata tre volte. Il secondo collaudatore si spende dove sbagliare
+costa soldi o dati.
 
 ## Il catalogo delle scorciatoie — leggilo PRIMA di costruire
 
@@ -92,8 +116,15 @@ La gerarchia: *rendere impossibile* batte *misurare*, che batte *verificare*, ch
 ## Come si esegue in pratica
 
 Il giro completo gira come workflow a squadre separate: una fase che studia e censisce l'esistente,
-una che costruisce, una che collauda con due lenti in parallelo, una che monta e lancia il cancello
-intero. Gli script dei quattro giri del 23/8 sono l'esempio di riferimento, e i referti dei
+una che costruisce, una che collauda con le due lenti (in parallelo, quando i collaudatori sono due),
+una che monta e lancia il cancello intero. Sul sito il workflow è `.claude/workflows/ondata-sito.js`,
+e il tipo del collaudatore segue i permessi della sua lente. La lente A, e la lente unica dei pacchetti
+senza rischio, ricreano il difetto con una mutazione in un worktree loro: girano con `tipo_costruisce`,
+`tech` se non lo dai. La lente B legge il delta e lancia le prove senza scrivere: gira con
+`tipo_controlla`, `qa` se non lo dai, come i revisori del riesame. Il mansionario di `qa` è in sola
+lettura e non tocca git, quindi non gli tocca mai una mutazione. Chi ha costruito non collauda resta
+vero: ogni collaudo è un lavoratore nuovo, non la squadra che ha scritto. Il tipo snello `squadra-sito`
+è una proposta ancora da firmare (skill `cantiere`, R-G). Mai `general-purpose`. Lavorano sul `git diff`. Gli script dei quattro giri del 23/8 sono l'esempio di riferimento, e i referti dei
 collaudatori stanno in `consegne/audit/2026-08-23-collaudo-tre-freni/`.
 
 **Prima di far partire il costruttore, dagli sempre tre cose:** il caso vero da leggere (non il

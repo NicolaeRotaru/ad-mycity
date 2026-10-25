@@ -267,7 +267,7 @@ FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la
 PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
 CABLATI_VINCOLO=""       # 21/8: un percorso di UNA macchina sola rientrato nel codice (correzione Nicola 4/7)
 STASH_VINCOLO=""         # 21/8: messe da parte che nessuno riprende — 7.849 sul server, e nessun sensore
-DEFERRAL_VINCOLO=""      # AR-186: il roster di CLAUDE.md e le schede dei senior si rimandano cose diverse
+DEFERRAL_VINCOLO=""      # AR-186: l'organigramma (ORGANIGRAMMA.md) e le schede dei senior si rimandano cose diverse
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 GUARDIANI_VINCOLO=""     # 29/7: un guardiano che gira senza una riga in bacheca — protezione promessa e non spiegata
@@ -347,7 +347,7 @@ if command -v node >/dev/null 2>&1; then
   _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
   printf '%s\n' "$_agenti_out" | tail -4
   if [ "$_agenti_rc" -ne 0 ]; then
-    AGENTI_VINCOLO="⛔ REGISTRO AGENTI INCONSISTENTE (agent-registry-check.mjs rc=$_agenti_rc, AR-007/008): un agente è orfano o il conteggio dei 120 file .claude/agents/ non torna. Correggi prima di delegare nuovo lavoro."
+    AGENTI_VINCOLO="⛔ REGISTRO AGENTI INCONSISTENTE (agent-registry-check.mjs rc=$_agenti_rc, AR-007/008): il registro dei senior ha drift. Il motivo NON è per forza un orfano: può essere un conteggio vecchio oltre il tetto, un'istruzione che manda ancora a cercare il roster in CLAUDE.md invece che in MyCity-Vault/07-Agenti/ORGANIGRAMMA.md, il roster rientrato nel manuale, un nome o un KPI mancante. Leggi quale con node cervello/agent-registry-check.mjs e correggi QUELLO prima di delegare nuovo lavoro. Mai rimettere i senior in CLAUDE.md: la loro casa è l'organigramma."
     echo "[$(ts)] ⚠️  AR-007/008: agent-registry-check FALLITO (rc=$_agenti_rc) → vincolo hard al motore." >&2
   fi
   # AR-291 — il verdetto di questo guardiano finiva in una pipe e poi in un `|| true`, mentre quello
@@ -393,13 +393,13 @@ if command -v node >/dev/null 2>&1; then
     STASH_VINCOLO="$(vincolo_da_rc "stash-dimenticate" "$GUARDIANO_RC" "⛔ MESSE DA PARTE MAI RIPRESE (stash-dimenticate.mjs rc=$GUARDIANO_RC): ci sono modifiche messe da parte con git stash che nessuno ha ripreso. È il guasto che il 21/8 ha tenuto il server scollegato da GitHub per giorni, 7.849 volte: chi crea una messa da parte deve restituirla, sempre, riuscito o fallito il lavoro. NON buttarle: dentro può esserci memoria vera. Guarda cosa contengono con node cervello/stash-dimenticate.mjs --dettaglio")"
     echo "[$(ts)] ⚠️  stash dimenticate rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
-  # AR-186 — i due elenchi che governano i 120: la riga-roster di CLAUDE.md (la legge Nicola) e il
+  # AR-186 — i due elenchi che governano i 120: la riga-roster di ORGANIGRAMMA.md (la legge Nicola) e il
   # campo description del mansionario (lo legge il router). Un rimando presente in uno solo dei due
   # manda il lavoro a un senior che non lo rivendica. Nasce VERDE sui tredici dichiarati il 29/7 in
   # cervello/deferral-baseline.json: blocca il quattordicesimo.
   echo "[$(ts)] Guardiano dei rimandi fra senior (AR-186 — gate hard)..."
   if ! guardiano deferral-agenti.mjs; then
-    DEFERRAL_VINCOLO="$(vincolo_da_rc "deferral-agenti" "$GUARDIANO_RC" "⛔ RIMANDI FRA SENIOR DIVERGENTI (deferral-agenti.mjs rc=$GUARDIANO_RC, AR-186): un agente rimanda a qualcuno in CLAUDE.md ma non nella sua scheda (o viceversa), e non era nel debito dichiarato. Il router legge la scheda, Nicola legge CLAUDE.md: il lavoro va dove dice il primo. Allinea i due, oppure dichiaralo con motivo in cervello/deferral-baseline.json. Dettaglio: node cervello/deferral-agenti.mjs")"
+    DEFERRAL_VINCOLO="$(vincolo_da_rc "deferral-agenti" "$GUARDIANO_RC" "⛔ RIMANDI FRA SENIOR DIVERGENTI (deferral-agenti.mjs rc=$GUARDIANO_RC, AR-186): un agente rimanda a qualcuno in MyCity-Vault/07-Agenti/ORGANIGRAMMA.md ma non nella sua scheda (o viceversa), e non era nel debito dichiarato. Il router legge la scheda, Nicola legge l'organigramma: il lavoro va dove dice il primo. Allinea i due, oppure dichiaralo con motivo in cervello/deferral-baseline.json. Dettaglio: node cervello/deferral-agenti.mjs")"
     echo "[$(ts)] ⚠️  AR-186: deferral-agenti rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] Guardiano stampo senior (vettori-installati / Come pensa l'AD — gate hard)..."

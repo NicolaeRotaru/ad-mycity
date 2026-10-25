@@ -4,7 +4,8 @@
 // ogni scheda (la stringa su cui il Task-router instrada davvero) e FALLISCE quando due senior
 // rivendicano lo stesso mandato SENZA che nessuno dei due rimandi all'altro ("→ ...").
 //
-// Perché (AR-027): la deconfliction "un mandato = un owner" vive nel roster di CLAUDE.md ma NON
+// Perché (AR-027): la deconfliction "un mandato = un owner" vive nel roster (oggi in
+// MyCity-Vault/07-Agenti/ORGANIGRAMMA.md, fino al 25/10/2026 dentro CLAUDE.md) ma NON
 // nelle description. Il router instrada sulle description, quindi keyword duplicate senza deferral
 // (es. marketing↔crm-lifecycle, trust-safety↔dispute) creano doppioni invisibili. Questo check
 // misura il drift a ogni giro, come agent-registry-check per il registro agenti.

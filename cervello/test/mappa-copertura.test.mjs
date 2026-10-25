@@ -37,6 +37,16 @@ test("LA REGOLA CHE CONTA: il confronto è ancorato — Edit|Write NON copre Not
   );
 });
 
+test("AR-1019 — «Task» nel matcher NON fa sorvegliato «Agent»: la guardia si sveglia ma non pianta l'ancora, e l'attesa ha una data", async () => {
+  // Riesame del 25/10: dare Agent per coperto da un alias del matcher era un rosso travestito da verde.
+  // Il matcher «Task» sveglia pre-scrittura su Agent (libro mastro 25/10 12:01:20), ma per Agent la
+  // guardia non fa niente finché il lotto del freno dei senior non la ripara (AR-1009).
+  assert.equal(copre("Bash|Monitor|Task|mcp__.*", "Agent"), false);
+  const { IN_ATTESA } = await import("../mappa-copertura.mjs");
+  assert.match(String(IN_ATTESA.Agent?.scade || ""), /^\d{4}-\d{2}-\d{2}$/, "Agent resta in attesa, con la sua data");
+  assert.match(String(IN_ATTESA.Agent?.perche || ""), /ancora/, "e il perche' dice la causa vera: l'ancora non si pianta");
+});
+
 test("un matcher con jolly copre la famiglia giusta e non le altre", () => {
   assert.equal(copre("Bash|Task|mcp__.*", "mcp__github__create_pull_request"), true);
   assert.equal(copre("Bash|Task|mcp__.*", "WebFetch"), false);

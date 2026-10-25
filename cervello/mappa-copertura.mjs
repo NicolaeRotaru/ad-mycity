@@ -170,9 +170,14 @@ export const ESENZIONI = {
 // Tutte e tre restano scoperte finché Nicola non incolla la riga in `.claude/settings.json` (file
 // che questa sessione non può scrivere, righe 80-83 lo vietano apposta).
 export const IN_ATTESA = {
+  // 25/10 — la causa vera, verificata: il matcher di settings.json che nomina «Task» SVEGLIA già
+  // pre-scrittura su «Agent» (libro mastro 2026-10-25 12:01:20), ma pre-scrittura pianta l'ancora del
+  // senior solo se lo strumento si chiama «Task», quindi per Agent la guardia si apre e non fa niente.
+  // Non è coperto: è in attesa del lotto del freno dei senior (patch pronta). Dare Agent per sorvegliato
+  // da un alias del matcher era un rosso travestito da verde (riesame del 25/10).
   Agent: {
-    perche: "delega compiti a un collega (sub-agente) che apre/scrive file veri e lancia comandi per conto mio: stessa famiglia di Bash, nessuna guardia lo vede finché Nicola non incolla la riga in .claude/settings.json (card #158)",
-    scade: "2026-09-07",
+    perche: "delega compiti a un collega (sub-agente) che apre/scrive file veri e lancia comandi per conto mio. La guardia pre-scrittura si sveglia su Agent (il matcher «Task» lo prende), ma non pianta l'ancora del senior perché confronta il nome con «Task» e basta: lo ripara il lotto del freno dei senior, partendo da consegne/audit/2026-10-25-freno-senior-rinviato.patch (card #119 e #212)",
+    scade: "2026-11-08",
   },
   TaskCreate: {
     perche: "crea righe nella lista dei task di sessione (stato locale, non scrive nel repo né tocca il mondo fuori): nessuna guardia lo vede perché non è in POTERI né nel matcher del file dei freni",
