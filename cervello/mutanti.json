@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-25 13:20",
+ "aggiornato": "2026-10-25 14:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -10462,7 +10462,7 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "la card dei sensori spenti non guarda l'archivio",
    "file": "cervello/sensori-spenti-check.mjs",
-   "cerca": "prossimoNumero(testoCoda, testoArchivioDi(via(CODA)))",
+   "cerca": "prossimoNumero(testoCoda, testoArchivio)",
    "sostituisci": "prossimoNumero(testoCoda)",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
@@ -10471,9 +10471,81 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "la card del risveglio delle pause non guarda l'archivio",
    "file": "cervello/pausa-check.mjs",
-   "cerca": "prossimoNumero(righe.join(\"\\n\"), testoArchivioDi(percorso(CODA)))",
+   "cerca": "prossimoNumero(righe.join(\"\\n\"), testoArchivio)",
    "sostituisci": "prossimoNumero(righe.join(\"\\n\"))",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "accodaAzione non passa l'archivio alla card di merge",
+   "file": "cervello/git-pr.mjs",
+   "cerca": "    archivio: testoArchivioDi(percorsoCoda),\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "la card di merge accetta di non sapere l'archivio",
+   "file": "cervello/git-pr.mjs",
+   "cerca": "  if (typeof archivio !== \"string\") {\n    throw new Error(",
+   "sostituisci": "  if (false) {\n    throw new Error(",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "la pulizia scrive l'archivio fisso nel vault, lontano dalla sua coda",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  const ARCHIVIO = process.env.CODA_ARCHIVIO || archivioDi(FILE);",
+   "sostituisci": "  const ARCHIVIO = process.env.CODA_ARCHIVIO || path.join(VAULT, 'Archivio', 'AZIONI-archivio.md');",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il comando per chi scrive a mano guarda solo la coda",
+   "file": "cervello/prossima-card.mjs",
+   "cerca": "  return prossimoNumero(coda, testoArchivioDi(percorsoCoda, { leggi }));",
+   "sostituisci": "  return prossimoNumero(coda);",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il comando per chi scrive a mano non si dice cieco",
+   "file": "cervello/prossima-card.mjs",
+   "cerca": "    process.exit(2);\n",
+   "sostituisci": "    process.exit(0);\n",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il risveglio delle pause indovina il numero con l'archivio illeggibile",
+   "file": "cervello/pausa-check.mjs",
+   "cerca": "    esciCieco(ciecoPerDatoIllegibile(\"non so quali numeri di card sono già spesi\"",
+   "sostituisci": "    testoArchivio = \"\"; void (0 && ciecoPerDatoIllegibile(\"non so quali numeri di card sono già spesi\"",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "i sensori spenti indovinano il numero con l'archivio illeggibile",
+   "file": "cervello/sensori-spenti-check.mjs",
+   "cerca": "— non scelgo un numero che potrebbe essere già speso.`);\n    process.exit(2);\n",
+   "sostituisci": "— non scelgo un numero che potrebbe essere già speso.`);\n    testoArchivio = \"\";\n",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il contesto del worker non dà il numero per una card nuova",
+   "file": "cervello/worker.sh",
+   "cerca": "    && prossima_card=\"$(node \"${SCRIPT_DIR:-cervello}/prossima-card.mjs\" --coda MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md 2>/dev/null)\" \\\n",
+   "sostituisci": "    && prossima_card=\"\" \\\n",
+   "test": "cervello/test/contesto-chat.bats"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

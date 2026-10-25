@@ -69,8 +69,15 @@ test("⑤ sul file VERO il numero proposto è libero davvero, anche nell'archivi
   // il numero proposto tornava 211. Si guardano tutte e due le case, come fa chi assegna i numeri.
   const md = readFileSync(CODA_VERA, "utf8");
   const archivio = testoArchivioDi(CODA_VERA);
-  const usati = numeriUsati(md, archivio);
+  // Il collaudo del 25/10: con `numeriUsati` qui, risposta e domanda le calcolava la stessa funzione,
+  // e un `numeriUsati` che torna a ignorare l'archivio sbagliava in tutti e due i posti, restando
+  // verde. I numeri spesi si contano sul testo grezzo, indipendentemente.
+  const usati = new Set();
+  for (const testo of [md, archivio]) {
+    for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) usati.add(Number(m[1]));
+    for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gm)) usati.add(Number(m[1]));
+  }
   const n = prossimoNumero(md, archivio);
-  assert.ok(usati.size > 50, `attese decine di card numerate, trovate ${usati.size}`);
+  assert.ok(usati.size > 50, `attese decine di card numerate fra coda e archivio, trovate ${usati.size}`);
   assert.equal(usati.has(n), false, `il prossimo numero proposto (#${n}) è già di un'altra card`);
 });

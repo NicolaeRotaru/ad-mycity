@@ -273,6 +273,14 @@ function main() {
  */
 function risveglia(testoCoda, daRisvegliare) {
   if (!daRisvegliare.length) return [];
+  // Il numero della card nuova conta anche l'archivio. Se l'archivio c'è ma non si legge, non si
+  // indovina un numero che potrebbe essere già speso: cieco, PRIMA di toccare la coda.
+  let testoArchivio;
+  try {
+    testoArchivio = testoArchivioDi(percorso(CODA));
+  } catch (e) {
+    esciCieco(ciecoPerDatoIllegibile("non so quali numeri di card sono già spesi", { cosa: `archivio delle card illeggibile (${e?.code ?? e?.message})` }));
+  }
   const righe = testoCoda.split("\n");
   for (const r of daRisvegliare) {
     const i = r.riga - 1;
@@ -293,7 +301,7 @@ function risveglia(testoCoda, daRisvegliare) {
     "",
     `<!-- pausa-scaduta-risveglio -->`,
     "",
-    `### 🟡 #${prossimoNumero(righe.join("\n"), testoArchivioDi(percorso(CODA)))} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
+    `### 🟡 #${prossimoNumero(righe.join("\n"), testoArchivio)} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
     "",
     `**Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: ${elenco}. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.`,
     "",

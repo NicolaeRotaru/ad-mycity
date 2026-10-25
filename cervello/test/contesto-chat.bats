@@ -61,3 +61,23 @@ carica_funzione() {
   grep -q '_ctx_block="$(contesto_macchina_chat' "$WORKER"
   grep -q 'LEZIONI-CHAT.md' "$WORKER"
 }
+
+# 25/10/2026 — Il numero per una card NUOVA. L'AD scrive a mano la maggior parte delle card e vede
+# solo la coda: archiviata la #211, la più alta in coda era la #210 e «il più alto + 1» era già speso.
+@test "dà il numero per una card nuova contando anche l'archivio" {
+  carica_funzione
+  mkdir -p MyCity-Vault/90-Memoria-AI/Archivio
+  printf '### 🟡 #210 — Una card in attesa · ⏳ accodata 2026-10-21 10:00\n' > MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md
+  printf '### ✅ #211 — Una card archiviata · ⏳ accodata 2026-10-24 18:00\n' > MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md
+  out="$(SCRIPT_DIR="$ROOT/cervello" contesto_macchina_chat)"
+  [[ "$out" == *"Numero per una card NUOVA: #212 "* ]]
+}
+
+@test "se l'archivio non si legge, il numero dice NON LETTO invece di inventarne uno" {
+  carica_funzione
+  mkdir -p MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md
+  printf '### 🟡 #210 — Una card in attesa · ⏳ accodata 2026-10-21 10:00\n' > MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md
+  out="$(SCRIPT_DIR="$ROOT/cervello" contesto_macchina_chat)"
+  [[ "$out" == *"Numero per una card NUOVA: NON LETTO"* ]]
+  [[ "$out" != *"#211"* ]]
+}

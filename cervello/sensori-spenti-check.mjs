@@ -139,12 +139,20 @@ function accoda(testoCoda, buchi, inAttesa = buchi.map((b) => b.sensore)) {
   const marca = "<!-- sensori-spenti-senza-motivo -->";
   const elenco = [...new Set(inAttesa)].sort().map((s) => `\`${s}\``).join(", ");
   if (testoCoda.includes(marca)) return rinfresca(testoCoda, marca, buchi, elenco);
+  // Il numero della card nuova conta anche l'archivio: illeggibile, non si indovina (AR-322: cieco).
+  let testoArchivio;
+  try {
+    testoArchivio = testoArchivioDi(via(CODA));
+  } catch (e) {
+    console.error(`⚠️  GUARDIANO CIECO: l'archivio delle card non si legge (${e?.code ?? e?.message}) — non scelgo un numero che potrebbe essere già speso.`);
+    process.exit(2);
+  }
   const adesso = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Rome" }).slice(0, 16);
   const card = [
     "",
     marca,
     "",
-    `### 🟡 #${prossimoNumero(testoCoda, testoArchivioDi(via(CODA)))} — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata ${adesso}`,
+    `### 🟡 #${prossimoNumero(testoCoda, testoArchivio)} — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata ${adesso}`,
     "",
     `**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: ${elenco}. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.`,
     "",

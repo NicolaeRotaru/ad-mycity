@@ -819,6 +819,13 @@ contesto_macchina_chat() {
     | sed 's/^### //' \
     | cut -c1-120 \
     || true)"
+  # Il numero per una card NUOVA, contando anche l'archivio (collaudo del 25/10). La maggior parte
+  # delle card la scrive l'AD a mano, e dall'elenco qui sopra la più alta può essere più bassa di una
+  # card già archiviata: archiviata la #211, la coda finiva a #210 e «il più alto + 1» era un doppione.
+  prossima_card=""
+  [ -f MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md ] \
+    && prossima_card="$(node "${SCRIPT_DIR:-cervello}/prossima-card.mjs" --coda MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md 2>/dev/null)" \
+    || true
   blocco="## CONTESTO MACCHINA (raccolto ADESSO dal worker: fidati di questo, non dei ricordi di sessione)
 - Ora: $(date '+%Y-%m-%d %H:%M') (Europe/Rome)
 - Repo: branch \`$branch_ora\` · ultimo commit: $commit_ora
@@ -845,6 +852,13 @@ $decisioni"
   [ -n "$azioni_aperte" ] && blocco="$blocco
 - Azioni ancora in coda (AZIONI-IN-ATTESA.md — non ri-accodare se è già qui):
 $azioni_aperte"
+  if [ -n "$prossima_card" ]; then
+    blocco="$blocco
+- Numero per una card NUOVA: #$prossima_card (il più alto mai usato + 1, contando anche l'archivio delle card chiuse: mai uno più basso)"
+  elif [ -f MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md ]; then
+    blocco="$blocco
+- Numero per una card NUOVA: NON LETTO — prima di accodare lancia node cervello/prossima-card.mjs (conta anche l'archivio)"
+  fi
   # 🧼 Bonifica UTF-8 alla fonte: i troncamenti qui sopra (`cut -c1-N`, `head -c`) in locale C possono
   # spezzare un carattere multibyte (emoji/·/accento) e lasciare un byte orfano. Questo blocco entra in
   # testa a OGNI prompt di chat/lavoro: un solo byte invalido farebbe rifiutare l'intero argv da `claude`.

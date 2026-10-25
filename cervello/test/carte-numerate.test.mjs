@@ -149,12 +149,17 @@ test("chi assegna il prossimo numero conta anche le card in riga-tabella", () =>
   assert.equal(prossimoNumero(coda), 41, "il numero più alto è quello della riga-tabella: il prossimo è 41");
 });
 
-test("il prossimo numero non è già di qualcun altro, nella coda VERA", () => {
+test("il prossimo numero non è già di qualcun altro, nella coda VERA né nel suo archivio", () => {
   const md = readFileSync(CODA_VERA, "utf8");
+  const archivio = testoArchivioDi(CODA_VERA);
+  // I numeri presi si contano qui sul testo grezzo, NON con numeriUsati: se la risposta attesa la
+  // calcolasse la stessa funzione che si controlla, sbaglierebbero insieme e la prova resterebbe verde.
   const presi = new Set();
-  for (const m of md.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) presi.add(Number(m[1]));
-  for (const m of md.matchAll(/^\|\s*(\d+)\s*\|/gmu)) presi.add(Number(m[1]));
-  const prossimo = prossimoNumero(md);
+  for (const testo of [md, archivio]) {
+    for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) presi.add(Number(m[1]));
+    for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gmu)) presi.add(Number(m[1]));
+  }
+  const prossimo = prossimoNumero(md, archivio);
   assert.ok(!presi.has(prossimo), `il numero ${prossimo} è già di una card che esiste`);
 });
 
@@ -197,6 +202,7 @@ test("git-pr.mjs chiede il numero a chi lo distribuisce, non se lo conta da solo
     base: "main",
     repoLabel: "ad-mycity",
     when: "2026-08-21 18:00",
+    archivio: "",
   });
 
   assert.equal(num, 143, `ha scelto ${num}: sta guardando solo le righe-tabella, non le card-titolo`);

@@ -175,8 +175,15 @@ function sanitize(err, token) {
  * `accodaAzione` legge il file vero e scrive sul file vero, quindi da una prova non si può chiamare.
  * Finché il numero si sceglieva là dentro, nessun test poteva vederlo sbagliare — e infatti non l'ha
  * visto. Qui il testo della coda entra come argomento: una prova gli passa una coda finta e legge il
- * numero che ne esce. `archivio` è il testo delle carte chiuse: anche i loro numeri sono spesi. */
-export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when, archivio = "" }) {
+ * numero che ne esce. `archivio` è il testo delle carte chiuse: anche i loro numeri sono spesi.
+ *
+ * `archivio` è OBBLIGATORIO (una stringa, anche vuota se l'archivio non esiste ancora). Con un valore
+ * di default vuoto, chi lo dimenticava riavrebbe il guasto del 25/10 senza nessun rumore: il numero
+ * della card archiviata più alta torna libero. Dimenticato, qui ci si ferma. */
+export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when, archivio }) {
+  if (typeof archivio !== "string") {
+    throw new Error("rigaDaAccodare: manca il testo dell'archivio delle card — senza, il numero può essere già speso");
+  }
   const num = prossimoNumero(content, archivio);
   const dove = repoLabel === "mycity" ? "Vercel (sito)" : "Vercel (Pannello)";
   const row =
@@ -186,19 +193,21 @@ export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when
   return { num, row };
 }
 
-function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
-  if (!existsAzioni()) {
+/** Scrive la card di merge nella coda. `percorsoCoda` si sposta solo nelle prove: il numero si
+ * sceglie guardando anche l'archivio che sta accanto a quella coda. */
+export function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun, percorsoCoda = AZIONI_PATH }) {
+  if (!existsSync(percorsoCoda)) {
     console.warn("⚠️  AZIONI-IN-ATTESA.md non trovato — salto accoda.");
     return;
   }
-  const content = readFileSync(AZIONI_PATH, "utf8");
+  const content = readFileSync(percorsoCoda, "utf8");
   const { num, row } = rigaDaAccodare(content, {
     prUrl,
     prNumber,
     base,
     repoLabel: cfg.key === "mycity" ? "mycity" : "ad-mycity",
     when: nowPiacenza(),
-    archivio: testoArchivioDi(AZIONI_PATH),
+    archivio: testoArchivioDi(percorsoCoda),
   });
 
   if (dryRun) {
@@ -209,21 +218,13 @@ function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
   const marker = "<!-- I senior aggiungono righe qui sotto.";
   const idx = content.indexOf(marker);
   if (idx >= 0) {
-    writeFileSync(AZIONI_PATH, content.slice(0, idx) + row + content.slice(idx), "utf8");
+    writeFileSync(percorsoCoda, content.slice(0, idx) + row + content.slice(idx), "utf8");
   } else {
-    appendFileSync(AZIONI_PATH, row, "utf8");
+    appendFileSync(percorsoCoda, row, "utf8");
   }
   console.log(`✓ Accodata azione #${num} in AZIONI-IN-ATTESA.md (merge 🔴)`);
 }
 
-function existsAzioni() {
-  try {
-    readFileSync(AZIONI_PATH, "utf8");
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 function branchSlug(branch) {
   return branch.replace(/[/\\]+/g, "-");
