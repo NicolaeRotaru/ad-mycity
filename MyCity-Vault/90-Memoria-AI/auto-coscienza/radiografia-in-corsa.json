@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-20 14:45",
+  "aggiornato": "2026-10-25 16:12",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4104,6 +4104,63 @@
       "file": {
         ".github/workflows/migrazioni-a-mano.yml": "407c81b024aa",
         "scripts/conta-migrazioni-mancanti.sh": "fd5b0223ca6c"
+      }
+    },
+    {
+      "quando": "2026-10-25 16:12",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "AR-1012",
+        "AR-1013",
+        "AR-1014",
+        "AR-1015",
+        "AR-1016"
+      ],
+      "nota": "",
+      "file": {
+        ".claude/skills/cantiere/SKILL.md": "5b0476d49d73",
+        ".claude/skills/collaudo/SKILL.md": "d1648c1d2554",
+        ".claude/skills/senior/SKILL.md": "58addb645c7b",
+        ".claude/workflows/auto-radiografia.js": "62be1a1e497e",
+        ".claude/workflows/ondata-sito.js": "73613d116660",
+        ".claude/workflows/radiografia-totale.js": "95be76c34139",
+        "cervello/giro.sh": "417e70337f69"
+      }
+    },
+    {
+      "quando": "2026-10-25 16:12",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 7,
+      "schede": [
+        "AR-1017",
+        "AR-1018",
+        "AR-1019",
+        "AR-1020",
+        "AR-1021",
+        "AR-1022",
+        "AR-1009"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/agent-registry-check.mjs": "f6e8eedb8a19",
+        "cervello/censimento-macchina.mjs": "49644b0333e7",
+        "cervello/conto-token.mjs": "49ede0f02f5e",
+        "cervello/deferral-agenti.mjs": "660d4dd0966b",
+        "cervello/keyword-owner-check.mjs": "333599184581",
+        "cervello/mappa-copertura.mjs": "cc61aebb7245",
+        "cervello/prepara-giro.mjs": "38ce6bb97bcb",
+        "cervello/prova-sito.mjs": "cf41eb97e484",
+        "cervello/schede-pacchetto.mjs": "f9a88df12c58",
+        "cervello/turno-senior.mjs": "af694a70d5fa"
       }
     }
   ]

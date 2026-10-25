@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-24 11:10
+aggiornato: 2026-10-25 14:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🪙 **2026-10-25 14:50 — Un'ondata del sito si mangiava la settimana. Ecco il metodo per farne dodici in un mese.**
+>
+> Il costo non è il lavoro, è il rileggere: ogni agente rilegge tutto il suo contesto a ogni passo. Un agente generico parte già da 91.078 gettoni, un senior `tech` da 53.210: misurato oggi. L'ondata 1 ne ha accesi più di 600, due su tre per verificare, in sette riesami senza freno.
+>
+> Ho costruito tre attrezzi e li ho fatti collaudare. Un workflow d'ondata con tetto di 45 agenti e due giri al massimo. Il manuale dell'AD da 75 a 35 KB. Un contatore vero dei gettoni. Stima: le dodici ondate insieme fanno meno agenti della prima da sola. Il freno dei senior l'ho tenuto fuori, per un lotto suo.
+>
+> Serve la tua firma sulla richiesta di unione: è un'auto-modifica. Il workflow d'ondata non ha ancora girato su un'ondata vera.
 
 > 🗄️ **2026-10-24 11:10 — Le 48 migrazioni sono nel database vero, e stamattina è riuscita la prima copia notturna.**
 >

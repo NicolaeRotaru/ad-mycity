@@ -5632,3 +5632,16 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Riparare i due difetti accesi: il modulo per diventare negozio chiede una migrazione nuova, da firmare. Non ho provato un ordine vero, né aperto il sito: il proxy della sessione non lo raggiunge.
 
 **La lezione.** Una migrazione che stringe un permesso non ripara soltanto: accende i difetti che il permesso largo nascondeva. Qui la 119 ha chiuso il cambio di ruolo, e il modulo per diventare negozio, che cambia proprio il ruolo, ha smesso di funzionare. Prima di lanciare migrazioni che stringono, va cercata nel codice ogni scrittura che il permesso nuovo rifiuta. Il freno non c'è ancora: è debito dichiarato.
+
+
+## 2026-10-25 14:50 — 🟡 Il metodo nuovo delle ondate del sito: meno agenti, meno peso per passo, il conto misurato
+
+**Cosa.** Nicola: «stai consumando tantissimi token … con una sola ondata fai fuori i limiti della settimana … fai un'analisi approfondita». Quattro analisti in sola lettura, poi cinque pezzi costruiti e collaudati da chi non li aveva scritti, poi un giro di correzione. Nella richiesta di unione: `cervello/conto-token.mjs`; `.claude/workflows/ondata-sito.js` con `cervello/schede-pacchetto.mjs` e `cervello/prova-sito.mjs`; l'organigramma spostato dal CLAUDE.md in `MyCity-Vault/07-Agenti/ORGANIGRAMMA.md` (75.031 → 35.377 byte); il protocollo che converge nelle skill `cantiere` e `collaudo` e in `lotto-a-pacchetti.md`; il blocco «🪙 Il consumo è una moltiplicazione» nel CLAUDE.md. Referto: `consegne/audit/2026-10-25-consumo-token.md`.
+
+**Perché.** Misure del 25/10. Primo turno di un agente: 91.078 gettoni il generico, 53.210 `tech`, 45.394 `Explore`, 162.343 il ciclo principale. Un analista: 29 turni, 3,6 milioni riletti per 10.000 scritti. Ondata 1 ricostruita: circa 762 subagenti, 513 verificatori, sette riesami, 109 minori su 123 nati rientrati nel giro. Il protocollo taglia gli agenti (tetto 45, verifica a due voci solo sui gravi, minori al registro, due giri poi si chiede). Il manuale e i tipi ristretti tagliano il peso di ogni passo.
+
+**Cosa NON ho fatto.** Il tipo snello `squadra-sito`: farlo accettare dai guardiani toccava più di otto file, e resta una proposta. Il freno dei senior: il collaudo ha trovato che l'ancora non si pianta mai, perché `pre-scrittura.mjs` riconosce solo «Task» e lo strumento si chiama «Agent». Correggendolo diventava raggiungibile un difetto vecchio: l'ancora non scade mai. Al terzo rosso sullo stesso pezzo ho ristretto, come dice la regola nuova. Il lavoro è in `consegne/audit/2026-10-25-freno-senior-rinviato.patch`. Il workflow d'ondata non ha mai girato su un'ondata vera.
+
+**Il costo di questo lavoro, misurato.** Tre workflow: 236 milioni di gettoni con le riletture, 8,5 milioni senza. Più della metà della costruzione l'ha presa il collaudo.
+
+**La lezione.** Un giro che trova difetti nati deve avere un freno che si ferma, non solo una regola che ne cerca altri. E il costo va misurato agente per agente prima di decidere quanti accenderne: il «stimato e mai misurato» del foglio del lotto nascondeva il fattore più grosso.
