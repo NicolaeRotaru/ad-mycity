@@ -8,7 +8,7 @@
 
 Oggi due righe del foglio dei permessi dicono «puoi lanciare qualunque programma finisca in quella
 cartella», e quella cartella la scrive la macchina stessa.
-Qui sotto c'è l'elenco esplicito che le sostituisce: **111 programmi e 17 script di avvio.**
+Qui sotto c'è l'elenco esplicito che le sostituisce: **114 programmi e 17 script di avvio.**
 
 ## In parole semplici
 
@@ -29,7 +29,7 @@ Non sto dicendo che sia successo. Sto dicendo che oggi nessuno lo impedirebbe.
 ## Cosa cambia per te
 
 Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste
-111:
+114:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -47,13 +47,13 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/cantiere-prove.mjs:*)",
       "Bash(node cervello/capacita.mjs:*)",
       "Bash(node cervello/chiusura-loop.mjs:*)",
-      "Bash(node cervello/chiudi-sito.mjs:*)",
       "Bash(node cervello/ci-stato.mjs:*)",
       "Bash(node cervello/coerenza-fatti.mjs:*)",
       "Bash(node cervello/coerenza-rischi.mjs:*)",
       "Bash(node cervello/collega-marketplace.mjs:*)",
       "Bash(node cervello/conflitti-memoria.mjs:*)",
       "Bash(node cervello/contesto-lezioni.mjs:*)",
+      "Bash(node cervello/conto-token.mjs:*)",
       "Bash(node cervello/correzione-nicola-gate.mjs:*)",
       "Bash(node cervello/costo-ai.mjs:*)",
       "Bash(node cervello/cristallizza-apprendimento.mjs:*)",
@@ -103,8 +103,8 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/piani-data.mjs:*)",
       "Bash(node cervello/piani-verita.mjs:*)",
       "Bash(node cervello/porte-check.mjs:*)",
-      "Bash(node cervello/pota-apprendimento.mjs:*)",
       "Bash(node cervello/pota-memoria.mjs:*)",
+      "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
       "Bash(node cervello/radiografia-in-corsa.mjs:*)",
@@ -116,6 +116,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sblocco-capacita.mjs:*)",
       "Bash(node cervello/scadenzario-check.mjs:*)",
       "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/schede-pacchetto.mjs:*)",
       "Bash(node cervello/scritture-a-rischio.mjs:*)",
       "Bash(node cervello/senior-sola-lettura.mjs:*)",
       "Bash(node cervello/sensore-cassa.mjs:*)",
@@ -134,7 +135,6 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sync-worker-plugins.mjs:*)",
       "Bash(node cervello/tasso-chiusura.mjs:*)",
       "Bash(node cervello/tasso-lezioni.mjs:*)",
-      "Bash(node cervello/taste-file.mjs:*)",
       "Bash(node cervello/test-cervello.mjs:*)",
       "Bash(node cervello/test-pannello.mjs:*)",
       "Bash(node cervello/test/battito-esterno.test.mjs:*)",

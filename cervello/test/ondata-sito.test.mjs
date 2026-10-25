@@ -42,13 +42,15 @@ const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(
 /**
  * Lancia il workflow con un motore finto. `scenario(label, prompt, opts)` risponde per ogni
  * lavoratore; quello che non risponde riceve il comportamento di default (tutto regge).
+ * `motore` (facoltativo, da aGettoni) fa lavorare ogni lavoratore un passo d'orologio e addebita il budget.
  */
-async function lancia(scenario = () => undefined, args = ARGS, budget = undefined) {
+async function lancia(scenario = () => undefined, args = ARGS, budget = undefined, motore = undefined) {
   const chiamate = [];
   const righe = [];
   let commit = 0;
   const agent = async (prompt, opts) => {
     chiamate.push({ label: opts.label, tipo: opts.agentType, fase: opts.phase, prompt });
+    if (motore) await motore.lavora();
     const r = scenario(opts.label, prompt, opts);
     if (r instanceof Error) throw r; // un lavoratore che cade
     if (r !== undefined) return r;
@@ -65,6 +67,28 @@ async function lancia(scenario = () => undefined, args = ARGS, budget = undefine
   const pipeline = (items, uno, due) => Promise.all(items.map(async (x) => due(await uno(x), x)));
   const esito = await CORPO(args, agent, parallel, pipeline, () => {}, (m) => righe.push(m), budget, { runId: "run-finto" });
   return { esito, chiamate, righe, etichette: chiamate.map((c) => c.label) };
+}
+
+/**
+ * Un budget a gettoni. «fine»: il lavoratore paga tutto quando finisce, cioe' mentre lavora il motore
+ * non ha ancora tolto niente (la variante scomoda, quella del collaudo del 25/10). «meta»: meta' quando
+ * parte e meta' quando finisce (scende mentre lavora). «avvio»: tutto quando parte (il modello comodo).
+ * `minimo` e' il punto piu' basso toccato dal budget: sotto la riserva vuol dire riserva mangiata.
+ */
+function aGettoni(modo, totale, { iniziale = totale, costo = 10 } = {}) {
+  let speso = 0;
+  let minimo = iniziale;
+  const paga = (x) => { speso += x; minimo = Math.min(minimo, iniziale - speso); };
+  const prima = { fine: 0, meta: costo / 2, avvio: costo }[modo];
+  return {
+    budget: { total: totale, remaining: () => iniziale - speso },
+    minimo: () => minimo,
+    async lavora() {
+      paga(prima);
+      await new Promise((ok) => setTimeout(ok, 1));
+      paga(costo - prima);
+    },
+  };
 }
 
 test("tutto regge: due lenti solo sul pacchetto dei soldi, una sola altrove, un riesame per lente", async () => {
@@ -617,4 +641,155 @@ test("un grave del piano chiuso, che il rifacimento dichiara parziale, resta ape
   const p = esito.pacchetti.find((x) => x.pacchetto === "lib/stripe/payout.ts");
   assert.ok(!p.chiusi.includes(CHIAVE), "il grave non deve risultare chiuso");
   assert.ok((p.parziali || []).some((x) => x.chiave === CHIAVE), "il grave resta visibile fra i parziali col suo perche'");
+});
+
+// ── il riesame del 25/10 (lente cadenza-esecuzione): il riesame saltato in silenzio ──────────────
+
+test("AR-1012 — il riesame guarda SEMPRE il territorio del piano: file_toccati vuoti o parziali non tolgono la rete al pacchetto dei soldi", async () => {
+  const CHIAVE = "pagamenti-stripe|rimborso doppio";
+  // Vuoti: prima nessun gruppo nasceva da [], nessun revisore guardava i soldi, e il pacchetto usciva
+  // «regge» col suo chiuso contato e chiedi_a_nicola:false.
+  const vuoti = await lancia((l) => (l === "squadra:lib-stripe-payout-ts" ? { ramo: "r", worktree: "wt-p", commit: "c1", chiusi: [CHIAVE], file_toccati: [] } : undefined));
+  const rv = vuoti.chiamate.find((c) => c.label === "riesame:pagamenti-stripe");
+  assert.ok(rv, "il pacchetto dei soldi deve avere il suo revisore: " + vuoti.etichette.join(" "));
+  assert.match(rv.prompt, /git -C wt-p diff b0\.\.HEAD -- lib\/stripe\/payout\.ts\n/, "il revisore guarda il territorio del piano");
+  const p = vuoti.esito.pacchetti.find((x) => x.pacchetto === "lib/stripe/payout.ts");
+  assert.deepEqual(p.chiusi, [], "un chiuso senza nessun file toccato non si conta");
+  assert.match(p.parziali.find((x) => x.chiave === CHIAVE).perche, /nessun file toccato/, "e torna parziale col perche'");
+  assert.equal(vuoti.esito.chiedi_a_nicola, true);
+  assert.match(vuoti.esito.motivo, /nessun file toccato \(lib\/stripe\/payout\.ts\)/, "il motivo lo dice, non lo tace");
+  // Parziali: la squadra dichiara solo la sua prova. Il revisore guarda anche il file del piano, e i chiusi contano.
+  const parziali = await lancia((l) => (l === "squadra:lib-stripe-payout-ts" ? { ramo: "r", worktree: "wt-p", commit: "c1", chiusi: [CHIAVE], file_toccati: ["tests/unit/payout.test.ts"] } : undefined));
+  assert.match(parziali.chiamate.find((c) => c.label === "riesame:pagamenti-stripe").prompt, /diff b0\.\.HEAD -- lib\/stripe\/payout\.ts tests\/unit\/payout\.test\.ts\n/);
+  assert.deepEqual(parziali.esito.pacchetti.find((x) => x.pacchetto === "lib/stripe/payout.ts").chiusi, [CHIAVE]);
+  assert.equal(parziali.esito.chiedi_a_nicola, false);
+  // Il padrone di un grave nato si cerca negli stessi file che il revisore ha guardato: con [] dichiarato
+  // e due rami nella stessa lente, il grave va al suo pacchetto e non ferma quello accanto.
+  const nato = await lancia((l) => {
+    if (l === "squadra:lib-stripe-payout-ts") return { ramo: "r", worktree: "wt-p", commit: "c1", chiusi: [CHIAVE], file_toccati: [] };
+    if (l.startsWith("riesame:pagamenti")) return { regge: false, difetti: [NATO] };
+    return undefined;
+  }, { ...ARGS, schede: TRE });
+  assert.ok(nato.etichette.includes("correzione1:lib-stripe-payout-ts"), nato.etichette.join(" "));
+  assert.equal(stato(nato.esito, "lib/stripe/refund.ts"), "regge");
+  // Niente da guardare (ne' piano ne' squadra nominano un file): il riesame non c'e' stato, e non e' un «regge».
+  const nudo = { ondata: 6, pacchetti: [{ chiave: "lib/x.ts", file: [], rischio: "nessuno", lente: "qa-flussi", difetti: [{ chiave: "qa-flussi|x", titolo: "x", gravita: "grave" }] }], lenti_per_file: {} };
+  const senza = await lancia((l) => (l.startsWith("squadra") ? { ramo: "r", worktree: "wt-x", commit: "c1", chiusi: ["qa-flussi|x"], file_toccati: [] } : undefined), { ...ARGS, schede: nudo });
+  assert.match(stato(senza.esito, "lib/x.ts"), /niente da riesaminare/);
+  assert.equal(senza.esito.chiedi_a_nicola, true);
+});
+
+test("AR-1013 — col budget del motore il posto del riesame resta tenuto da parte mentre lavorano squadre e collaudi", async () => {
+  // Il modello comodo (addebito quando l'agente parte); quello scomodo, addebito alla fine, e' piu' sotto.
+  // Ogni lavoratore costa 10 unita' di budget su 100, riserva 10. La lente unica del carrello boccia
+  // sempre: prima i due rifacimenti e i ricollaudi mangiavano il budget, e il riesame dei soldi
+  // trovava 10 su 10 e saltava, col motivo «il revisore non ha risposto».
+  let speso = 0;
+  const budget = { total: 100, remaining: () => 100 - speso };
+  const { esito, etichette } = await lancia((l) => {
+    speso += 10;
+    return l === "collaudoAB:components-cart-pay-tsx" ? { regge: false, perche: "npx vitest run z rosso", difetti: [] } : undefined;
+  }, ARGS, budget);
+  assert.ok(etichette.includes("riesame:pagamenti-stripe"), "il riesame dei soldi deve partire: " + etichette.join(" "));
+  assert.ok(!esito.agenti.saltati.some((l) => l.startsWith("riesame")), "riesame saltato: " + esito.agenti.saltati);
+  assert.equal(stato(esito, "lib/stripe/payout.ts"), "regge");
+  assert.match(stato(esito, "components/cart/Pay.tsx"), /budget vicino[\s\S]*precedenza/, "a fermarsi e' il rifacimento, e dice che e' il budget");
+  assert.ok(100 - speso >= 10, "la riserva del motore resta intatta: restano " + (100 - speso));
+});
+
+test("AR-1013 — il motivo di un riesame mancato dice quale freno: budget, tetto degli agenti o revisore caduto", async () => {
+  // Budget: il motore scende di colpo sotto la riserva dopo squadre e collaudi.
+  let n = 0;
+  const budget = { total: 100, remaining: () => (++n <= 6 ? 50 : 5) };
+  const b = await lancia(undefined, ARGS, budget);
+  assert.ok(b.esito.agenti.saltati.some((l) => l.startsWith("riesame")), "la prova vuole un riesame saltato dal budget: " + b.esito.agenti.saltati);
+  for (const s of b.esito.riesame_non_concluso) assert.match(s.perche, /budget/, s.lente);
+  assert.doesNotMatch(b.esito.motivo, /non ha risposto|tetto/, "un budget finito non e' un revisore muto ne' un tetto");
+  assert.match(b.esito.motivo, /budget del motore finito/);
+  // Tetto: un pacchetto con due file in due lenti, tetto 3, riserva del riesame 1: il secondo revisore non c'entra.
+  const due = { ondata: 7, pacchetti: [{ chiave: "components/cart/Pay.tsx", file: ["components/cart/Pay.tsx", "components/cart/Riga.tsx"], rischio: "nessuno", lente: "frontend-ux", difetti: [{ chiave: "frontend-ux|pulsante sparito", titolo: "Pulsante sparito", gravita: "grave" }] }],
+    lenti_per_file: { "components/cart/Pay.tsx": "frontend-ux", "components/cart/Riga.tsx": "design-system" } };
+  const t = await lancia(undefined, { ...ARGS, schede: due, max_agenti: 3 });
+  assert.equal(t.esito.riesame_non_concluso.length, 1, JSON.stringify(t.esito.riesame_non_concluso));
+  assert.match(t.esito.riesame_non_concluso[0].perche, /tetto degli agenti/);
+  assert.match(t.esito.motivo, /tetto degli agenti raggiunto/);
+  assert.doesNotMatch(t.esito.motivo, /budget|non ha risposto/);
+  // Caduto: il revisore e' partito ed e' caduto.
+  const c = await lancia((l) => (l === "riesame:pagamenti-stripe" ? new Error("rete caduta") : undefined));
+  assert.match(c.esito.riesame_non_concluso[0].perche, /caduto/);
+  assert.doesNotMatch(c.esito.motivo, /budget|tetto/);
+});
+
+// ── il collaudo del 25/10 (rifacimento): il posto del riesame sul budget che scende MENTRE lavorano ──
+
+const pk = (chiave, rischio, lente) => ({ chiave, file: [chiave], rischio, lente, difetti: [{ chiave: lente + "|" + chiave, titolo: "d " + chiave, gravita: "grave" }] });
+// La misura di un'ondata vera: uno dei soldi che regge e quattro del carrello che la lente unica boccia sempre.
+const CINQUE = { ondata: 3, pacchetti: [pk("lib/stripe/payout.ts", "soldi", "pagamenti-stripe"), ...["a", "b", "c", "d"].map((x) => pk("components/" + x + ".tsx", "nessuno", "frontend-ux"))],
+  lenti_per_file: { "lib/stripe/payout.ts": "pagamenti-stripe" } };
+// Quattro pacchetti dei soldi in quattro lenti (il riesame usa tutti e quattro i posti) e uno del carrello bocciato.
+const QUATTRO = { ondata: 3, pacchetti: [...[1, 2, 3, 4].map((i) => pk("lib/l" + i + "/x.ts", "soldi", "lente" + i)), pk("components/z.tsx", "nessuno", "frontend-ux")],
+  lenti_per_file: Object.fromEntries([1, 2, 3, 4].map((i) => ["lib/l" + i + "/x.ts", "lente" + i])) };
+const bocciaIlCarrello = (l) => (/^collaudoAB:components/.test(l) ? { regge: false, perche: "npx vitest run z rosso", difetti: [] } : undefined);
+const quantiReggono = (esito) => esito.pacchetti.filter((p) => p.stato === "regge").length;
+
+test("AR-1013 — col budget che scende mentre gli agenti lavorano il riesame non salta mai, e la riserva del motore resta intatta", async () => {
+  // Prima, col costo addebitato alla fine: a 130, 170, 200, 210 e 300 il riesame dei soldi era l'UNICO
+  // passo saltato, dopo otto rifacimenti facoltativi partiti. budget.remaining() non contava chi era in
+  // corso, la media divideva per i partiti (chi non aveva pagato contava zero) e il «-1» lasciava a chi
+  // chiamava un posto della riserva. Si scandisce il budget, perche' il guasto stava a budget sparsi.
+  for (const modo of ["fine", "meta"]) {
+    for (let totale = 100; totale <= 320; totale += 10) {
+      const m = aGettoni(modo, totale);
+      const { esito, etichette } = await lancia(bocciaIlCarrello, { ...ARGS, schede: CINQUE }, m.budget, m);
+      const dove = modo + " " + totale + ": ";
+      assert.ok(!esito.agenti.saltati.some((l) => l.startsWith("riesame")), dove + "riesame saltato · " + esito.agenti.saltati + " · partiti " + etichette.filter((l) => l.startsWith("rifacimento")));
+      assert.ok(m.minimo() >= Math.round(totale * 0.1), dove + "riserva del motore mangiata: il budget e' sceso a " + m.minimo());
+      if (totale >= 150) assert.equal(stato(esito, "lib/stripe/payout.ts"), "regge", dove + "col budget che basta il pacchetto dei soldi arriva in fondo");
+    }
+  }
+  // Quattro revisori: il posto tenuto da parte e' di quattro, e nessuno di loro scava nella riserva del motore.
+  for (let totale = 100; totale <= 260; totale += 10) {
+    const m = aGettoni("fine", totale);
+    const { esito } = await lancia(bocciaIlCarrello, { ...ARGS, schede: QUATTRO }, m.budget, m);
+    assert.ok(!esito.agenti.saltati.some((l) => l.startsWith("riesame")), totale + ": riesame saltato · " + esito.agenti.saltati);
+    assert.ok(m.minimo() >= Math.round(totale * 0.1), totale + ": riserva del motore mangiata, il budget e' sceso a " + m.minimo());
+    if (totale >= 210) assert.equal(quantiReggono(esito), 4, totale + ": i quattro dei soldi arrivano in fondo");
+  }
+});
+
+test("prima che un lavoratore finisca la sola stima del costo e' la quota del tetto: la prima ondata non scava nella riserva", async () => {
+  // Totale 450 su 45 agenti: 10 a lavoratore. Il motore ne ha gia' spesi tanti: ne restano 90, la riserva
+  // e' 45, e sopra ci sta il posto del riesame (quattro revisori, 40) e nessuna squadra intera in piu'.
+  // Nessuno ha ancora finito, quindi non c'e' una media: senza la quota (o con meta' quota) il costo
+  // stimato e' troppo basso, partono le cinque squadre insieme e il budget scende a 40, sotto la riserva,
+  // per un lavoro che nessuno potra' collaudare.
+  const m = aGettoni("fine", 450, { iniziale: 90 });
+  const { esito } = await lancia(bocciaIlCarrello, { ...ARGS, schede: CINQUE }, m.budget, m);
+  assert.ok(m.minimo() >= 45, "riserva del motore mangiata: il budget e' sceso a " + m.minimo());
+  assert.equal(esito.chiedi_a_nicola, true);
+  assert.match(esito.motivo, /budget del motore finito/);
+});
+
+test("col budget addebitato quando l'agente parte, un no del budget con altri in corso aspetta il conto esatto", async () => {
+  // Qui la stima prudente sbaglia per eccesso: chi e' in corso ha gia' pagato, ma conta come se non avesse
+  // pagato niente. Se il no fosse subito definitivo, il collaudo dei soldi non partirebbe mai a 200 di budget.
+  for (const modo of ["avvio", "meta"]) {
+    const m = aGettoni(modo, 200);
+    const { esito, etichette } = await lancia(bocciaIlCarrello, { ...ARGS, schede: CINQUE }, m.budget, m);
+    assert.equal(stato(esito, "lib/stripe/payout.ts"), "regge", modo + ": " + etichette.join(" "));
+    assert.ok(etichette.includes("riesame:pagamenti-stripe"), modo);
+    assert.ok(m.minimo() >= 20, modo + ": riserva del motore mangiata, il budget e' sceso a " + m.minimo());
+  }
+});
+
+test("AR-1012 — la squadra dei soldi dichiara un file di codice ma non quello del piano: il riesame guarda lo stesso il file del piano", async () => {
+  // La variante scomoda che il collaudo del 25/10 ha trovato scoperta (il suo mutante A4): il territorio
+  // del piano saltato appena la squadra dichiara almeno un file di codice suo.
+  const CHIAVE = "pagamenti-stripe|rimborso doppio";
+  const { chiamate, etichette } = await lancia((l) => (l === "squadra:lib-stripe-payout-ts" ? { ramo: "r", worktree: "wt-p", commit: "c1", chiusi: [CHIAVE], file_toccati: ["lib/stripe/helper.ts"] } : undefined));
+  const rv = chiamate.find((c) => c.label === "riesame:pagamenti-stripe");
+  assert.ok(rv, "il pacchetto dei soldi deve avere il suo revisore: " + etichette.join(" "));
+  const riga = rv.prompt.split("\n").find((r) => r.includes("git -C wt-p diff"));
+  assert.ok(riga && riga.includes("lib/stripe/payout.ts"), "il revisore guarda il file del piano anche se la squadra non lo nomina: " + riga);
+  assert.ok(riga.includes("lib/stripe/helper.ts"), "e anche il file che la squadra ha dichiarato");
 });

@@ -136,6 +136,7 @@ export const DESCRIZIONI = {
     "auto-radiografia": "La macchina che analizza sé stessa: 12 dimensioni sull'architettura, più pre-mortem e confronto coi migliori.",
     "giro-operativo": "Il giro fatto da una flotta di senior in parallelo: ognuno propone le mosse a maggior ritorno, poi l'AD ordina.",
     "radiografia-totale": "Tutti gli organi insieme in tre giri: 48 dimensioni su macchina, Pannello, senior, worker, GitHub e codice, dove ogni giro cerca ciò che il precedente non ha visto.",
+    "ondata-sito": "Ripara un'ondata del piano dei pacchetti del sito con pochi agenti (al massimo 45): una squadra per pacchetto, collaudo doppio solo dove si toccano soldi, dati o permessi, un riesame solo, poi si ferma e ti chiede. Si lancia a mano quando l'AD apre un'ondata, con le schede preparate da schede-pacchetto.mjs.",
   },
 };
 

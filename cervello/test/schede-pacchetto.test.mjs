@@ -17,7 +17,7 @@ import { chiaveProblema } from "../referti-sito.mjs";
 import {
   TETTO_SCHEDA, schedaCompatta, tagliaTesto, rischioDi, dimensioniSconosciute, fileDelPacchetto,
   lentiPerFile, preparaOndata, leggiArgomenti, RISCHIO_DELLE_DIMENSIONI, soloCoordinate, rischioDalNome,
-  rischioDalTesto, fileCitati, percorsoDelSito,
+  rischioDalTesto, fileCitati, percorsoDelSito, rischioDeiSegreti, fileDelRilascio,
 } from "../schede-pacchetto.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -304,4 +304,60 @@ test("il testo della scheda arriva al rischio anche passando dal piano, non solo
   const e = preparaOndata({ piano, registro: { problemi: [prezzo] }, mappa: MAPPA, ondata: 1 });
   assert.ok(e.ok, e.motivo);
   assert.equal(e.args.pacchetti[0].rischio, "soldi");
+});
+
+test("AR-1019 — segreti, accessi fra negozi, firme dei webhook e file del rilascio non escono «nessuno»", () => {
+  // Il riesame del 25/10: questi pacchetti finivano con un collaudatore solo. La frase del revisore
+  // per prima, poi le forme in cui la stessa cosa si scrive nel registro.
+  assert.equal(rischioDi({ testi: ["la chiave service-role finisce nel bundle del browser"] }, MAPPA).rischio, "permessi");
+  const permessi = [
+    "La rotta usa SUPABASE_SERVICE_ROLE_KEY anche dal browser",
+    "Il componente crea il client con serviceRole",
+    "la chiave dell'AI arriva al client",
+    "Il segreto dei lavori periodici si confronta lettera per lettera",
+    "il token di accesso resta valido dopo l'uscita",
+    "La firma dei webhook di Resend non si controlla mai",
+    "Un webhook non firmato viene accettato lo stesso",
+    "Il negoziante legge gli ordini altrui",
+    "si vedono i dati di un altro negozio",
+    "Senza CRON_SECRET il giro parte per chiunque",
+  ];
+  for (const t of permessi) assert.equal(rischioDeiSegreti(t)?.rischio, "permessi", t);
+  // «dati» dove con quei poteri si SCRIVE.
+  assert.equal(rischioDeiSegreti("il copilot modifica i prodotti di un altro negozio")?.rischio, "dati");
+  assert.equal(rischioDeiSegreti("la rotta scrive le recensioni con la chiave di servizio")?.rischio, "dati");
+  // Le frasi sono strette: la prosa di tutti i giorni e i nomi tecnici innocui restano neutri.
+  for (const neutro of ["Il nome del token inganna: le etichette maiuscole respirano in quattro modi",
+    "Il bundle della vetrina pesa 400 KB", "La parola chiave della ricerca non trova il pane",
+    "in attesa di firma di Nicola", "Le recensioni degli altri clienti non compaiono", "La voce CART_UPDATED_AT_KEY del carrello",
+    "Il cliente se ne va a un altro negozio"]) {
+    assert.equal(rischioDeiSegreti(neutro), null, neutro);
+  }
+  // Il caso vero dell'ondata 8: titolo e impatto non nominano la chiave, la descrizione si'.
+  const aiClient = { file: ["lib/ai/client.ts", "app/api/ai/description/route.ts"], dimensioni: ["ai-endpoints"],
+    testi: ["In produzione tutti i pulsanti di intelligenza artificiale rispondono «servizio non configurato»"] };
+  assert.equal(rischioDi(aiClient, MAPPA).rischio, "nessuno", "senza la descrizione il caso non si vede: e' quello da coprire");
+  assert.equal(rischioDi({ ...aiClient, dettagli: ["In produzione la chiave ANTHROPIC_API_KEY non c'e'"] }, MAPPA).rischio, "permessi");
+  // I file del rilascio: fra i file del pacchetto e, per quelli nudi nella radice, nel «dove» grezzo.
+  assert.equal(rischioDi({ file: [".github/workflows/ci.yml"] }, MAPPA).rischio, "permessi");
+  assert.equal(rischioDi({ dove: ["vercel.json:12 (le intestazioni)"] }, MAPPA).rischio, "permessi");
+  assert.deepEqual(fileDelRilascio("vercel.json · /home/user/ad-mycity/.github/workflows/giro.yml · scripts/x.sh"), ["vercel.json"],
+    "un workflow dell'AD non e' un file del rilascio del sito");
+  assert.equal(rischioDi({ file: ["lib/webhooks/resend.ts"] }, MAPPA).rischio, "permessi", "il nome «webhook» accende il file");
+  assert.equal(rischioDi({ file: ["lib/queries/keys.ts"] }, MAPPA).rischio, "nessuno", "le chiavi delle query non sono segreti");
+});
+
+test("AR-1019 — il segreto nella descrizione arriva al rischio anche passando dal piano", () => {
+  const ai = scheda("ai-endpoints", "Tutti i pulsanti AI rispondono «servizio non configurato»", {
+    file: "lib/ai/client.ts:108-130", impatto: "il negozio prova l'AI e fallisce", descrizione: "In produzione la chiave ANTHROPIC_API_KEY non c'e'",
+  });
+  const rilascio = scheda("deploy-sre", "Le intestazioni del rilascio non si applicano", { file: "vercel.json:3", impatto: "nessun effetto visibile", descrizione: "corta" });
+  const piano = { registro: "sito", ondate: [[
+    { chiave: "lib/ai/client.ts", difetti: [{ chiave: chiaveProblema(ai) }] },
+    { chiave: "vercel.json", difetti: [{ chiave: chiaveProblema(rilascio) }] },
+  ]] };
+  const e = preparaOndata({ piano, registro: { problemi: [ai, rilascio] }, mappa: MAPPA, ondata: 1 });
+  assert.ok(e.ok, e.motivo);
+  assert.deepEqual(e.args.pacchetti.map((p) => p.rischio), ["permessi", "permessi"]);
+  assert.match(e.args.pacchetti[1].perche_rischio[0], /vercel\.json → file del rilascio/);
 });

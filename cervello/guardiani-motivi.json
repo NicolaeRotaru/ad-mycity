@@ -84,6 +84,14 @@
   "spazzata-frase.mjs": {
    "motivo": "decisione",
    "perche": "Si lancia a mano, e il perche' e' che gli serve una FRASE come argomento. Nato il 3/9/2026 per un difetto misurato: le schede nominano circa un terzo dei posti in cui una frase promessa e' scritta, e chi ripara fidandosi della scheda ripara un terzo. Oggi lo lancia chi ripara un testo, prima di dichiarare chiuso — tre squadre del lotto di quel giorno l'hanno usato, e sulla promessa dell'invito ha trovato un sesto posto che nessuna scheda nominava. Per metterlo di guardia da solo servirebbe un elenco di frasi da sorvegliare con il loro numero atteso, che oggi non esiste: e' registrato come AR-906, ed e' debito dichiarato, non lavoro finito. Il suo contratto (le tre uscite, i collegamenti simbolici, le quattro cartelle) e' comunque sorvegliato dal banco: cervello/test/spazzata-frase.test.mjs lo esegue davvero."
+  },
+  "schede-pacchetto.mjs": {
+   "motivo": "decisione",
+   "perche": "Non emette un giudizio sulla salute della macchina: prepara gli args di UN'ondata del sito (le schede di ogni pacchetto ritrovate nel registro, tagliate, col rischio soldi/dati/permessi) e si lancia a mano quando l'AD apre quell'ondata, subito prima di .claude/workflows/ondata-sito.js (cervello/lotto-a-pacchetti.md e skill cantiere). Gli servono --piano e --ondata, che esistono solo quando un piano dei pacchetti e' stato scritto: un processo ricorrente non saprebbe quale ondata preparare, e prepararla da solo vorrebbe dire aprire un lavoro sul sito, che e' una decisione di Nicola, non un controllo. Non esce mai 1: esce 2 quando non puo' preparare l'ondata (scheda che non si ritrova, mappa delle lenti rinominata, argomento storto), per non consegnare un args piu' corto spacciato per completo. La sua logica e' di guardia davvero: cervello/test/schede-pacchetto.test.mjs la esegue su sedici casi, scheda mancante e rischio dai nomi compresi."
+  },
+  "prova-sito.mjs": {
+   "motivo": "decisione",
+   "perche": "Si lancia a mano dentro un'ondata del sito, e solo li': ogni squadra lo lancia nel SUO worktree sui file che ha toccato (il comando arriva nel brief di .claude/workflows/ondata-sito.js e in cervello/brief-corsie.md). Senza --repo e --file non ha niente da provare: un processo ricorrente della macchina non ha un worktree del sito ne' un elenco di file cambiati, e lanciarlo sulla copia collegata vorrebbe dire provare codice che nessuno ha toccato. L'uscita 1 e' il rosso della squadra sul suo pacchetto, non un giudizio sulla salute della macchina; l'uscita 2 e' «non ho potuto provare», verde vuoto compreso. Il cancello del sito resta npm run verify nel repo del sito, questo e' solo la sua versione muta da 30 righe. La sua logica e' di guardia davvero: cervello/test/prova-sito.test.mjs la esegue su nove casi, fra cui il verde vuoto, il tempo finito e il file fuori dal repo."
   }
  },
  "verdetti_morti_dichiarati": {},

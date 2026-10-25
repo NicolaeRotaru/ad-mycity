@@ -17,15 +17,19 @@
 //   ⑤ si correggono solo i gravi nati, al massimo due giri; poi il workflow si ferma e restituisce
 //      chiedi_a_nicola:true col motivo. La risposta di Nicola del 17/10 all'ondata 1 e' stata «Semplifica».
 // Freni: un contatore di agenti con tetto (args.max_agenti, 45 di default) e, quando il motore da' un
-// budget, budget.remaining() con una riserva. Una parte del tetto e' TOLTA alle squadre e ai collaudi
-// finche' il riesame non parte: e' la rete di sicurezza di tutta l'ondata, e non deve essere il passo
-// che salta per primo. Un riesame che non avviene — revisore caduto, saltato, o che boccia senza dire
-// cosa — non diventa mai un «regge»: ferma i suoi pacchetti e chiede a Nicola. Lo stesso vale per un
-// grave nato confermato di cui non si sa il pacchetto («payout.ts:40» senza cartella, o un file che
-// nessuna squadra del gruppo dichiara): si fermano TUTTI i pacchetti che quel revisore ha guardato,
-// perche' un ramo con un grave aperto sui soldi non si ricuce per caso. Per la stessa ragione un grave
-// nato si chiude solo se la squadra lo mette fra i chiusi E il collaudo dopo regge, in tutti e due i
-// posti dove nasce: nel collaudo (lo ripara il rifacimento) e nel riesame (lo ripara la correzione).
+// budget, budget.remaining() con una riserva. Una parte del tetto — e, sul budget, quanto costano quei
+// revisori — e' TOLTA alle squadre e ai collaudi finche' il riesame non parte: e' la rete di sicurezza
+// di tutta l'ondata, e non deve essere il passo che salta per primo. Sul budget si conta anche quello
+// che gli agenti in corso devono ancora pagare (il motore lo toglie mentre lavorano, o alla fine).
+// Il riesame guarda sempre almeno il territorio del piano, anche quando la squadra dichiara pochi file
+// o nessuno. Un riesame che non avviene — revisore caduto, saltato dal budget o dal tetto (il motivo
+// dice quale), o che boccia senza dire cosa — non diventa mai un «regge»: ferma i suoi pacchetti e
+// chiede a Nicola. Lo stesso vale per un grave nato confermato di cui non si sa il pacchetto
+// («payout.ts:40» senza cartella, o un file che nessuna squadra del gruppo dichiara): si fermano TUTTI
+// i pacchetti che quel revisore ha guardato, perche' un ramo con un grave aperto sui soldi non si
+// ricuce per caso. Per la stessa ragione un grave nato si chiude solo se la squadra lo mette fra i
+// chiusi E il collaudo dopo regge, in tutti e due i posti dove nasce: nel collaudo (lo ripara il
+// rifacimento) e nel riesame (lo ripara la correzione).
 // Nei parziali o taciuto resta aperto, ferma il suo ramo, esce in gravi_aperti e accende chiedi_a_nicola.
 //
 // STIMA, NON MISURA: da 24 a 41 lanci per ondata (5 squadre, 6-8 collaudi, qualche rifacimento, fino a 4
@@ -118,15 +122,56 @@ const RISERVA_RIESAME = Math.min(MAX_REVISORI, PAC.length)
 // ── i freni ────────────────────────────────────────────────────────────────────────────────────
 const HA_BUDGET = typeof budget !== "undefined" && budget && budget.total
 const RISERVA = A.riserva !== undefined && Number(A.riserva) >= 0 ? Number(A.riserva) : HA_BUDGET ? Math.round(budget.total * 0.1) : 0
+const BUDGET_INIZIO = HA_BUDGET ? budget.remaining() : 0
 let usati = 0
 const saltati = []
+const saltatiPer = { tetto: [], budget: [] } // perche' un passo non e' partito: il motivo a Nicola deve dire quale freno
 const caduti = []
 // La riserva si toglie dal tetto, non si controlla a parole: con i pacchetti in parallelo, un «c'e'
 // posto per me piu' la riserva?» chiesto da ognuno non conta i ricollaudi che gli altri hanno gia' in
 // corso. Il collaudo del 25/10 l'ha misurato: tetto 45, cinque pacchetti a rischio bocciati due volte,
 // e in 2 lanci su 3 il riesame partiva con 0 revisori su 4. Si azzera quando il riesame comincia.
 let riservaRiesame = RISERVA_RIESAME
-const resta = (n) => usati + (n || 1) <= MAX_AGENTI - riservaRiesame && (!HA_BUDGET || budget.remaining() > RISERVA)
+// Lo stesso posto si tiene sul budget del motore, e si tiene sul budget che RESTERA', non su quello che
+// il motore mostra adesso. Un budget a gettoni scende mentre l'agente lavora, o tutto quando finisce:
+// budget.remaining() non ha ancora tolto quello che pagheranno gli agenti in corso. Il collaudo del
+// 25/10 l'ha misurato col costo addebitato alla fine: cinque pacchetti, otto rifacimenti facoltativi
+// partiti, e il riesame dei soldi l'unico passo saltato. Tre regole, lo stesso «conta subito» del tetto:
+//   · chi e' in corso deve ancora un lavoratore intero (inCorso, contato quando parte);
+//   · il costo di un lavoratore e' il piu' alto fra la quota del tetto (budget.total / MAX_AGENTI, la
+//     sola stima finche' nessuno ha finito) e la spesa divisa per i lavoratori FINITI: dividere per i
+//     partiti contava a costo zero chi non aveva ancora pagato;
+//   · chi chiama paga i suoi k lavoratori sopra il posto del riesame, mai dentro.
+let inCorso = 0
+let finiti = 0
+const costoAgente = (restante) => Math.max(budget.total / MAX_AGENTI, finiti ? (BUDGET_INIZIO - restante) / finiti : 0)
+// Perche' n lavoratori non possono partire adesso: null se possono, {tipo, testo} se no.
+function percheNo(n) {
+  const k = n || 1
+  if (usati + k > MAX_AGENTI - riservaRiesame) return { tipo: "tetto", testo: "tetto degli agenti (" + usati + "/" + MAX_AGENTI + (riservaRiesame ? ", " + riservaRiesame + " tenuti per il riesame" : "") + ")" }
+  if (!HA_BUDGET) return null
+  const r = budget.remaining()
+  const costo = costoAgente(r)
+  if (r - RISERVA >= (inCorso + riservaRiesame + k) * costo) return null
+  return { tipo: "budget", testo: "budget del motore (restante " + Math.round(r) + ", riserva " + RISERVA + (inCorso ? ", " + inCorso + " in corso da pagare" : "") + (riservaRiesame ? ", " + Math.round(riservaRiesame * costo) + " tenuti per il riesame" : "") + ")" }
+}
+// Un «no» del budget mentre altri lavorano non e' ancora la risposta: la stima e' la piu' prudente (chi
+// e' in corso conta come se non avesse pagato niente, e la media dei finiti conta anche quello che i
+// lavoratori in corso hanno gia' pagato). Si aspetta che ne finisca uno e si rifa' il conto; quando
+// nessuno e' in corso il conto e' esatto, e il no diventa definitivo. Il tetto non aspetta: usati non scende.
+const attese = []
+function quandoCePosto(k, decidi) {
+  const no = percheNo(k)
+  if (no && no.tipo === "budget" && inCorso > 0) attese.push({ k, decidi })
+  else decidi(no)
+}
+function sveglia() {
+  for (let i = 0; i < attese.length; ) {
+    const no = percheNo(attese[i].k)
+    if (no && no.tipo === "budget" && inCorso > 0) { i++; continue }
+    attese.splice(i, 1)[0].decidi(no)
+  }
+}
 
 // L'UNICA porta verso un lavoratore: conta, frena, e dichiara il tipo su ogni chiamata (la regola
 // porta-unica di cervello/prompt-senior.mjs). Un lavoratore che cade torna null e finisce in «caduti».
@@ -135,20 +180,27 @@ const resta = (n) => usati + (n || 1) <= MAX_AGENTI - riservaRiesame && (!HA_BUD
 function chiama(prompt, opzioni) {
   const { tipo, ...opts } = opzioni
   if (tipo !== TIPO_COSTRUISCE && tipo !== TIPO_CONTROLLA) throw new Error(opts.label + ": chiama() senza tipo_costruisce ne' tipo_controlla")
-  if (!resta(1)) {
-    saltati.push(opts.label)
-    const quanto = HA_BUDGET ? ", budget restante " + budget.remaining() : ""
-    log("tetto raggiunto (" + usati + "/" + MAX_AGENTI + " agenti" + quanto + "): " + opts.label + " non parte")
-    return Promise.resolve(null)
-  }
-  usati++
-  return Promise.resolve()
-    .then(() => agent(prompt, { ...opts, agentType: tipo }))
-    .catch((e) => {
-      caduti.push(opts.label)
-      log(opts.label + " e' caduto: " + String((e && e.message) || e).slice(0, 200))
-      return null
-    })
+  // Il controllo e il conto (usati, inCorso) stanno nello stesso passo sincrono: due chiamate in
+  // parallelo non vedono mai lo stesso posto libero.
+  return new Promise((esito) => quandoCePosto(1, (no) => {
+    if (no) {
+      saltati.push(opts.label)
+      saltatiPer[no.tipo].push(opts.label)
+      log(no.testo + ": " + opts.label + " non parte")
+      return esito(null)
+    }
+    usati++
+    inCorso++
+    const finito = (v) => { inCorso--; finiti++; sveglia(); return v }
+    esito(Promise.resolve()
+      .then(() => agent(prompt, { ...opts, agentType: tipo }))
+      .catch((e) => {
+        caduti.push(opts.label)
+        log(opts.label + " e' caduto: " + String((e && e.message) || e).slice(0, 200))
+        return null
+      })
+      .then(finito))
+  }))
 }
 
 // ── piccoli attrezzi ───────────────────────────────────────────────────────────────────────────
@@ -317,8 +369,11 @@ const esiti = await pipeline(PAC,
       const motivi = rossi.concat(gravi.map((d) => d.titolo + " @ " + d.dove + (d.prova ? " (prova: " + d.prova + ")" : ""))).slice(0, 8)
       if (giro >= MAX_RIFACIMENTI) return esce("fermo: bocciato " + (giro + 1) + " volte dal collaudo", { motivi })
       // Un rifacimento parte solo se c'e' posto anche per il suo ricollaudo. Il posto del riesame non
-      // si conta qui: e' gia' tolto dal tetto (riservaRiesame), quindi nessun pacchetto glielo ruba.
-      if (!resta(1 + bocciano.length)) return esce("fermo: tetto vicino, il riesame ha la precedenza sul rifacimento", { motivi })
+      // si conta qui: e' gia' tolto dal tetto e dal budget (riservaRiesame), quindi nessun pacchetto glielo ruba.
+      // Qui non si aspetta: il rifacimento e' facoltativo, e su una stima prudente cede il passo. (Aspettare il
+      // conto esatto faceva avanzare tutti i pacchetti insieme fino a finire il budget a meta' di ognuno.)
+      const no = percheNo(1 + bocciano.length)
+      if (no) return esce("fermo: " + (no.tipo === "tetto" ? "tetto vicino" : "budget vicino") + " (" + no.testo + "), il riesame ha la precedenza sul rifacimento", { motivi })
       const rifatto = await squadra(p, "Il collaudo ti ha bocciato. Nello stesso worktree correggi SOLO questo." +
         (rossi.length ? "\n- " + rossi.slice(0, 8).join("\n- ") : "") +
         (gravi.length ? "\nGravi NATI dal tuo diff, trovati dal collaudo con la loro prova rossa. Metti le loro chiavi in chiusi solo con la prova rossa-poi-verde; se il fix sta fuori dal tuo territorio, mettile in parziali col perche': il pacchetto si ferma e lo si dice a Nicola.\n" + JSON.stringify(gravi.map(perLavoro)) : ""),
@@ -346,10 +401,17 @@ riservaRiesame = 0 // le squadre e i collaudi sono finiti: il posto tenuto da pa
 const tutti = esiti.filter(Boolean)
 const ok = tutti.filter((e) => e.stato === "regge")
 const fermi = tutti.filter((e) => e.stato !== "regge")
+// Quello che il riesame guarda di un pacchetto: SEMPRE il territorio del piano, piu' i file dichiarati.
+// Prima solo i dichiarati: un pacchetto dei soldi che dichiarava [] (o solo la sua prova in tests/)
+// non entrava in nessun gruppo, nessun revisore lo guardava, e usciva «regge» coi chiusi contati.
+const guardati = (e) => unione(e.p.file, e.f.file_toccati)
+const scoperti = []
 const gruppi = new Map()
 for (const e of ok) {
   const wt = wtDiE(e)
-  for (const file of e.f.file_toccati || []) {
+  const daGuardare = guardati(e)
+  if (!daGuardare.length) { scoperti.push({ lente: e.p.lente || "nessuna", wts: [wt], perche: "niente da riesaminare: ne' il piano ne' la squadra nominano un file" }); continue }
+  for (const file of daGuardare) {
     const lente = LPF[file] || e.p.lente || "qa-flussi"
     if (!gruppi.has(lente)) gruppi.set(lente, new Map())
     const perWt = gruppi.get(lente)
@@ -376,12 +438,20 @@ const risposte = await parallel(G.map((g) => () => chiama(
 // risposto (caduto o saltato dal tetto), oppure ha detto regge:false senza nominare il grave nato —
 // un rosso senza bersaglio, che non si sa a quale squadra mandare. In tutti e due i pacchetti di
 // quella lente si fermano e Nicola lo sa: prima il primo caso usciva con chiedi_a_nicola:false.
-const scoperti = []
+// Il motivo dice QUALE freno: «non ha risposto» per un revisore che il budget non ha fatto partire
+// mandava Nicola a cercare un guasto che non c'era.
 const trovati = []
 risposte.forEach((r, i) => {
   const g = G[i]
   const wts = g.voci.map(([wt]) => wt)
-  if (!r) { scoperti.push({ lente: g.lente, wts, perche: "il revisore non ha risposto" }); return }
+  if (!r) {
+    const l = "riesame:" + slug(g.lente)
+    const perche = saltatiPer.budget.includes(l) ? "saltato: budget del motore finito"
+      : saltatiPer.tetto.includes(l) ? "saltato: tetto degli agenti raggiunto"
+      : caduti.includes(l) ? "il revisore e' caduto" : "il revisore non ha risposto"
+    scoperti.push({ lente: g.lente, wts, perche })
+    return
+  }
   const difetti = r.difetti || []
   trovati.push(...difetti.map((d) => ({ ...d, wts }))) // il gruppo che l'ha visto: serve se il padrone non si trova
   if (r.regge === false && !difetti.some((d) => pesante(d) && d.nato_dal_lotto)) {
@@ -405,7 +475,7 @@ const candidati = smista(unici, null, "riesame").map((d) => ({ ...d, chiave: "na
 // restava «regge» con un grave confermato aperto. Ambiguo o vuoto → null: il chiamante ferma il gruppo.
 function padrone(d) {
   const gruppo = d.wts ? ok.filter((e) => d.wts.includes(wtDiE(e))) : ok
-  const chi = gruppo.filter((e) => (e.f.file_toccati || []).some((x) => citaIlFile(d.dove, x)))
+  const chi = gruppo.filter((e) => guardati(e).some((x) => citaIlFile(d.dove, x))) // gli stessi file che il revisore ha guardato
   if (chi.length === 1) return chi[0]
   return !chi.length && gruppo.length === 1 ? gruppo[0] : null
 }
@@ -438,8 +508,9 @@ phase("Correzione")
 let aperti = veri
 let giro = 0
 while (aperti.length && giro < MAX_GIRI) {
-  if (!resta(2)) {
-    log("tetto: la correzione non parte")
+  const no = percheNo(2) // qui nessuno e' in corso: il conto e' esatto
+  if (no) {
+    log(no.tipo + ": la correzione non parte")
     break
   }
   const per = new Map()
@@ -507,15 +578,22 @@ for (const d of aperti) {
 }
 
 // ── il risultato: compatto, perche' rientra nel contesto dell'AD che lo ricuce ─────────────────
+const senzaFile = [] // i pacchetti che dichiarano chiusi ma nessun file toccato: i loro chiusi non contano, e si dice
 const pacchetti = tutti.map((e) => {
   const f = e.f || {}
   const proprie = new Set(e.p.difetti.map((d) => d.chiave))
-  const chiusi = (f.chiusi || []).filter((k) => proprie.has(k))
-  const dichiarate = new Set([...chiusi, ...(f.parziali || []).map((x) => x.chiave)])
+  const dichiaratiChiusi = (f.chiusi || []).filter((k) => proprie.has(k))
+  // Una chiusura senza nessun file toccato non si puo' riesaminare sul suo diff: il riesame ha guardato
+  // solo il territorio del piano. Non si conta in silenzio: torna parziale col perche', e Nicola lo sa.
+  const nessunFile = !(f.file_toccati || []).length && dichiaratiChiusi.length > 0
+  if (nessunFile) senzaFile.push(e.p.chiave)
+  const chiusi = nessunFile ? [] : dichiaratiChiusi
+  const nonContati = nessunFile ? dichiaratiChiusi.map((k) => ({ chiave: k, perche: "dichiarato chiuso, ma la squadra non ha dichiarato nessun file toccato: la chiusura non si conta (il riesame ha guardato solo il territorio del piano)" })) : []
+  const dichiarate = new Set([...dichiaratiChiusi, ...(f.parziali || []).map((x) => x.chiave)])
   const mute = [...proprie].filter((k) => !dichiarate.has(k)).map((k) => ({ chiave: k, perche: "la squadra non l'ha dichiarato ne' chiuso ne' parziale" }))
   // Una chiave che il piano non ha non chiude niente nel registro: si mostra, non si conta.
   const sconosciute = (f.chiusi || []).filter((k) => !proprie.has(k) && !String(k).startsWith("nato|"))
-  const voce = { pacchetto: e.p.chiave, rischio: e.p.rischio, stato: e.stato, ramo: f.ramo || null, worktree: f.worktree || null, commit: f.commit || null, chiusi, parziali: (f.parziali || []).filter((x) => proprie.has(x.chiave)).concat(mute) }
+  const voce = { pacchetto: e.p.chiave, rischio: e.p.rischio, stato: e.stato, ramo: f.ramo || null, worktree: f.worktree || null, commit: f.commit || null, chiusi, parziali: (f.parziali || []).filter((x) => proprie.has(x.chiave)).concat(nonContati, mute) }
   if (sconosciute.length) voce.chiavi_sconosciute = sconosciute
   if (e.motivi) voce.motivi = e.motivi
   return voce
@@ -533,7 +611,9 @@ if (graviCollaudo.length) perche.push(graviCollaudo.length + " gravi nati nel co
 if (aperti.length) perche.push(aperti.length + " gravi nati ancora aperti dopo " + giro + " giri di correzione: semplificare il fix o rinviare il pacchetto?")
 if (fermi.length) perche.push(fermi.length + " pacchetti su " + tutti.length + " fermi prima del riesame (" + fermi.map((e) => e.p.chiave).join(", ") + ")")
 if (scoperti.length) perche.push("riesame non concluso su " + scoperti.length + " lenti (" + scoperti.map((s) => s.lente + ": " + s.perche).join("; ").slice(0, 400) + "): quei pacchetti non hanno avuto la rete")
-if (saltati.length) perche.push("tetto raggiunto: " + saltati.length + " passi non partiti (" + saltati.slice(0, 6).join(", ") + ")")
+if (senzaFile.length) perche.push(senzaFile.length + " pacchetti dichiarano chiusi ma nessun file toccato (" + senzaFile.join(", ") + "): i loro chiusi non contano, il riesame ha guardato solo il territorio del piano")
+if (saltatiPer.tetto.length) perche.push("tetto degli agenti raggiunto (" + MAX_AGENTI + "): " + saltatiPer.tetto.length + " passi non partiti (" + saltatiPer.tetto.slice(0, 6).join(", ") + ")")
+if (saltatiPer.budget.length) perche.push("budget del motore finito (riserva " + RISERVA + "): " + saltatiPer.budget.length + " passi non partiti (" + saltatiPer.budget.slice(0, 6).join(", ") + ")")
 if (perche.length) log("Mi fermo e chiedo a Nicola: " + perche.join(" · "))
 
 const RUN = (typeof workflow === "object" && workflow && (workflow.runId || workflow.id)) || "<runId>"

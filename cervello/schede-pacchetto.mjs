@@ -26,6 +26,9 @@
 //      decide la SCHEDA stessa (RISCHIO_DAL_TESTO, su titolo e impatto): lib/products/aiPatch.ts e'
 //      «ai-endpoints» e non ha soldi nel nome, ma la sua scheda dice «cambiare un prezzo»; lo stesso
 //      per lib/ai/tettoSpesa.ts (il tetto di spesa AI) e per la prova e2e della cassa (fuori mappa).
+//      Segreti e chiavi, accessi fra negozi e firme dei webhook li riconoscono FRASI strette
+//      (RISCHIO_DEI_SEGRETI), anche nella descrizione; i file del rilascio una lista (RE_RILASCIO):
+//      il riesame del 25/10 ha trovato lib/ai/client.ts, la casa della chiave dell'AI, a «nessuno».
 //   ⑤ Una scheda gia' chiusa nel registro (l'ondata 1 ne ha chiuse undici) non va a una squadra: esce
 //      in `gia_chiusi`, dichiarata, e il conteggio lo dice.
 //
@@ -122,7 +125,7 @@ export const RISCHIO_DAI_NOMI = Object.freeze({
   dati: ["backup", "restore", "migrat", "migraz", "supabase", "database", "db", "sql", "esport", "export", "cancellaz",
     "delet", "elimin", "gdpr", "privacy", "consens", "consent", "utent", "users", "rls"],
   permessi: ["auth", "login", "logout", "sessio", "cookie", "admin", "middleware", "permess", "ruol", "role", "token",
-    "password", "otp", "mfa", "kyc", "portiere"],
+    "password", "otp", "mfa", "kyc", "portiere", "secret", "segret", "env", "webhook", "signature", "hmac"],
 });
 
 /**
@@ -141,6 +144,82 @@ export const RISCHIO_DAL_TESTO = Object.freeze({
   dati: ["cancell", "elimin", "sovrascriv", "backup", "ripristin", "migrazion", "gdpr", "privacy", "consens", "personali", "rls"],
   permessi: ["password", "session", "login", "autorizz", "permess", "otp"],
 });
+
+/**
+ * Segreti, accessi fra negozi e firme dei webhook: il rischio che le radici di una parola sola non
+ * vedono. Il riesame del 25/10 ha trovato lib/ai/client.ts (ondata 8) a «nessuno», cioe' con un
+ * collaudatore solo, su un fix che decide se la chiave dell'AI va al server o al browser: «chiave»,
+ * «token», «bundle», «firma» da sole accendono le ombre del design system, il peso del JavaScript e
+ * le firme di Nicola. Per questo qui ci sono FRASI, provate sul testo ridotto a parole minuscole
+ * (CamelCase e trattini diventano spazi: «service-role», «SERVICE_ROLE» e «serviceRole» sono la
+ * stessa frase). Tarate sul registro del 25/10 (1.396 schede): nessuna accende una scheda di colori,
+ * di prestazioni o di testi. Valgono su titolo e impatto E su descrizione e correzione, perche' la
+ * chiave di solito la nomina solo la descrizione («ANTHROPIC_API_KEY non c'e'»).
+ * «dati» dove si SCRIVE con quei poteri; «permessi» quando li si espone o li si legge.
+ */
+const PAROLE = "(?: [a-z0-9àèéìòù]+){0,5}";
+const SCRIVE = "(?:scriv|sovrascriv|modific|aggiorn|cambi|cancell|elimin|insert|update|upsert)[a-z0-9àèéìòù]*";
+const ALTRUI = "(?:altrui|(?:di|del|dell) (?:un )?altr[oa] (?:negoz|venditor|negozian|esercent|utent|client)[a-z0-9àèéìòù]*)";
+const SERVIZIO = "(?:service role|chiav[ei] di servizio)";
+export const RISCHIO_DEI_SEGRETI = Object.freeze({
+  dati: Object.freeze([
+    new RegExp(` ${SCRIVE}${PAROLE} ${ALTRUI} `), // «modifica i prodotti di un altro negozio»
+    new RegExp(` ${SCRIVE}${PAROLE} ${SERVIZIO} `), // «scrive con la chiave di servizio»
+    new RegExp(` ${SERVIZIO}${PAROLE} ${SCRIVE} `), // «la service role, che scavalca le regole, per scrivere»
+  ]),
+  permessi: Object.freeze([
+    / service role /,
+    / (?:api|secret|private|access|service|signing) keys? /,
+    / chiav[ei] (?:di servizio|del servizio|segret[aei]|privat[aei]|api|dell ai|per l ai|di firma|del webhook|dei webhook|(?:di )?(?:anthropic|openai|gemini|stripe|supabase|resend|upstash|vercel)) /,
+    / chiav[ei](?: [a-z0-9àèéìòù]+){0,4} (?:bundle|browser|lato client) /, // «la chiave finisce nel bundle del browser»
+    / segret[oiae] /,
+    / secrets? /,
+    / (?:access|refresh|bearer|jwt|csrf|auth) tokens? /,
+    / token (?:di accesso|di sessione|di autenticazione|di conferma|di reset|di invito|di disiscrizione|jwt|segret[oiae]|del webhook|di firma) /,
+    / jwt /,
+    / firm[aei][a-z]*(?: [a-z0-9àèéìòù]+){0,3} webhook| webhook(?: [a-z0-9àèéìòù]+){0,3} (?:non )?firmat/, // «la firma dei webhook»
+    / signatures? | hmac /,
+    new RegExp(` ${ALTRUI} `), // «legge gli ordini altrui», «i dati di un altro negozio»
+    / (?:cross )?tenant | idor /,
+  ]),
+});
+/**
+ * Il nome di una variabile d'ambiente segreta, sul testo originale: «CRON_SECRET», «BLOB_READ_WRITE_TOKEN»,
+ * «SUPABASE_SERVICE_ROLE_KEY». Un «_KEY» da solo no: «CART_UPDATED_AT_KEY» e' il nome di una voce del
+ * carrello nel browser, non una chiave.
+ */
+const RE_VARIABILE_SEGRETA = /\b[A-Z][A-Z0-9]*(?:_[A-Z0-9]+)*_(?:SECRET|TOKEN|(?:API|SECRET|ROLE|PRIVATE|ACCESS|SIGNING|ANON|WEBHOOK)_KEY)\b/;
+
+/** Il testo ridotto a parole minuscole fra due spazi: CamelCase, trattini e trattini bassi diventano spazi. */
+const testoInParole = (testo) => ` ${String(testo ?? "").slice(0, TETTO_CAMPO).replace(/([a-z0-9])([A-Z])/g, "$1 $2").toLowerCase()
+  .split(/[^a-z0-9àèéìòù]+/).filter(Boolean).join(" ")} `;
+
+/** Il primo rischio che le frasi dei segreti accendono in un testo, con la frase che l'ha acceso. */
+export function rischioDeiSegreti(testo, tabella = RISCHIO_DEI_SEGRETI) {
+  const parole = testoInParole(testo);
+  for (const r of ORDINE_RISCHIO) {
+    for (const re of tabella[r] || []) {
+      const m = parole.match(re);
+      if (m) return { rischio: r, pezzo: m[0].trim() };
+    }
+    if (r === "permessi") {
+      const v = String(testo ?? "").match(RE_VARIABILE_SEGRETA);
+      if (v) return { rischio: r, pezzo: v[0] };
+    }
+  }
+  return null;
+}
+
+/**
+ * I file del rilascio: chi li tocca cambia cosa va in produzione e con quali segreti. La mappa li
+ * chiama «deploy-sre», che qui non porta rischio (la coda delle email non e' un permesso); questi
+ * due si', e valgono «permessi». vercel.json sta nella radice del sito, senza una barra nel nome, e
+ * il territorio non lo conta (un «page.tsx» nudo indirizza a decine di file): per questo si cerca
+ * anche nel «dove» grezzo delle schede, non solo fra i file del pacchetto. next.config.js resta
+ * fuori apposta: sul piano del 15/10 lo tocca solo la scheda PWA, per lo streaming dei metadata, e
+ * «permessi» le darebbe la lente sbagliata; un segreto messo nel bundle da li' lo vede gia' il testo.
+ */
+export const RE_RILASCIO = /^(?:\.github\/workflows\/.+|vercel\.json)$/;
 
 // ── il taglio, in byte veri ────────────────────────────────────────────────────────────────────
 
@@ -274,6 +353,16 @@ export function fileCitati(testo) {
   return [...puliti];
 }
 
+/**
+ * I file del rilascio (RE_RILASCIO) citati in un testo, anche nudi nella radice del sito («vercel.json»).
+ * Non passa da RE_FILE: li' «js» viene prima di «json» fra le estensioni, e «vercel.json» esce «vercel.js».
+ */
+const RE_RILASCIO_NEL_TESTO = /[\w./@[\]-]*(?:\.github\/workflows\/[\w.-]+|vercel\.json)/g;
+export function fileDelRilascio(testo) {
+  const grezzi = String(testo ?? "").slice(0, TETTO_CAMPO).match(RE_RILASCIO_NEL_TESTO) || [];
+  return [...new Set(grezzi.map(percorsoDelSito).filter((n) => n && RE_RILASCIO.test(n)))];
+}
+
 /** Il territorio: il file che da' il nome al pacchetto, poi quelli citati dalle sue schede. */
 export function fileDelPacchetto(chiavePacchetto, schede) {
   const territorio = String(chiavePacchetto ?? "").replace(/\s*\(parte \d+ di \d+\)\s*$/, "").trim();
@@ -331,10 +420,12 @@ export function rischioDalTesto(testo, tabella = RISCHIO_DAL_TESTO) {
  * schede. Un file conta per tre strade: la sua lente obbligatoria nella mappa, le lenti che la mappa
  * gli consiglia (RISCHIO_DALLE_CONSIGLIATE), e i nomi del suo percorso (RISCHIO_DAI_NOMI) — tutte e
  * tre solo se la mappa lo conosce. Il testo (titolo e impatto, RISCHIO_DAL_TESTO) vale sempre: e'
- * la scheda che dice cosa si rompe. Vince il rischio piu' alto in ORDINE_RISCHIO.
+ * la scheda che dice cosa si rompe. Segreti, accessi fra negozi e firme (RISCHIO_DEI_SEGRETI) si
+ * cercano nei `testi` e nei `dettagli` (descrizione, correzione, causa radice); i file del rilascio
+ * (RE_RILASCIO) fra i `file` e nel `dove` grezzo. Vince il rischio piu' alto in ORDINE_RISCHIO.
  * @returns {{rischio: "soldi"|"dati"|"permessi"|"nessuno", perche: string[]}}
  */
-export function rischioDi({ dimensioni = [], file = [], testi = [] } = {}, mappa = {}) {
+export function rischioDi({ dimensioni = [], file = [], testi = [], dettagli = [], dove = [] } = {}, mappa = {}) {
   const visti = new Map(); // rischio -> motivi
   const segna = (r, motivo) => {
     if (!r) return;
@@ -350,8 +441,13 @@ export function rischioDi({ dimensioni = [], file = [], testi = [] } = {}, mappa
     const n = rischioDalNome(f);
     if (n) segna(n.rischio, `${f} → nome «${n.pezzo}»`);
   }
+  for (const f of fileDelRilascio([...file, ...dove].join(" "))) segna("permessi", `${f} → file del rilascio`);
   for (const t of testi) {
     const n = rischioDalTesto(t);
+    if (n) segna(n.rischio, `scheda «${tagliaTesto(t, 48)}» → «${n.pezzo}»`);
+  }
+  for (const t of [...testi, ...dettagli]) {
+    const n = rischioDeiSegreti(t);
     if (n) segna(n.rischio, `scheda «${tagliaTesto(t, 48)}» → «${n.pezzo}»`);
   }
   const rischio = ORDINE_RISCHIO.find((r) => visti.has(r)) || "nessuno";
@@ -420,7 +516,9 @@ export function preparaOndata({ piano, registro, mappa, ondata, nomePiano = "", 
     giaChiusi += chiuse.length;
     const file = fileDelPacchetto(p?.chiave, trovate.length ? trovate : []);
     const testi = trovate.map((s) => [primoPieno(s, ["titolo"]), primoPieno(s, ["impatto", "impatto_crescita"])].filter(Boolean).join(" · "));
-    const { rischio, perche } = rischioDi({ dimensioni: trovate.map((s) => s.dimensione), file, testi }, mappa);
+    const dettagli = trovate.map((s) => [primoPieno(s, ["descrizione"]), primoPieno(s, ["fix", "fix_proposto"]), primoPieno(s, ["causa_radice"])].filter(Boolean).join(" · "));
+    const dove = [p?.chiave, ...trovate.map((s) => s.file)].filter(Boolean);
+    const { rischio, perche } = rischioDi({ dimensioni: trovate.map((s) => s.dimensione), file, testi, dettagli, dove }, mappa);
     Object.assign(lenti, lentiPerFile(file, mappa));
     const pac = {
       chiave: p?.chiave,
