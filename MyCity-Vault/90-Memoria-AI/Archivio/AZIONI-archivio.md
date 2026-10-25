@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-24 16:38
+aggiornato: 2026-10-25 12:00
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-25 12:00 · 43 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -1355,3 +1362,25 @@ che ha già dentro degli ordini.
 psql "$SUPABASE_DB_URL" -c "select count(*) from public.segnalazioni;"
 psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_del_negozio';"
 ```
+
+---
+
+### ✅ #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40 · ✅ FATTA 2026-10-25 11:50
+
+> ✅ **2026-10-25 11:50 — Fatta. Non devi più fare niente su questa carta.**
+>
+> Alle 11:27 il tuo secondo account è diventato amministratore: l'ho lanciato io, perché me l'hai chiesto tu. Alle 11:50 hai lanciato tu la seconda parte, dall'editor SQL di Supabase. L'ho verificato subito dopo, in sola lettura.
+>
+> L'amministratore e il fattorino di prova non entrano più: sono bloccati, con una password nuova a caso e nessuna sessione aperta. Adesso l'amministratore sei solo tu. La chat di assistenza di Pane Quotidiano è passata al tuo account. Il Panificio Demo non è stato toccato: è la #201.
+>
+> **Restano tre cose.** La porta resta chiusa solo se cambi anche la chiave della #203. Sulla casella Google del nuovo amministratore va accesa la verifica in due passaggi. Le vecchie password vanno tolte anche dai file del codice del sito: la richiesta la preparo io.
+
+**In parole semplici.** La password dell'amministratore del marketplace non è più segreta. Il perché è in chat: questo file è pubblico.
+
+> ⚠️ **2026-10-12 17:55 — Password ancora vecchia.** L'account di prova va bloccato, non cancellato: il database lo registra come chi ha dato il via al primo negozio. Il comando collaudato è in chat del 12/10.
+
+**Cosa cambia:** chi la conosce entra come amministratore: approva negozi, vede ordini e profili. L'ultimo accesso è del 28 settembre: se non eri tu, dimmelo.
+
+**Cosa devi fare tu.** Incolla nell'editor SQL di Supabase il comando della chat del 12/10. Se qualcosa non torna, si annulla da solo. Da amministratore, il tuo account non potrà più comprare.
+
+**Se va bene:** controllo che la password vecchia non funzioni più.
