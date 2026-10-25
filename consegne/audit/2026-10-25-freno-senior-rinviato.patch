@@ -1,0 +1,538 @@
+diff --git a/cervello/cancello-senior.mjs b/cervello/cancello-senior.mjs
+index b698e8c1f..d078e597b 100644
+--- a/cervello/cancello-senior.mjs
++++ b/cervello/cancello-senior.mjs
+@@ -26,12 +26,18 @@
+ //   ③ il quadro: quali file il senior ha toccato. Informativo, ma è l'unica riga che mi dice cosa ha
+ //      fatto davvero invece di cosa dice di aver fatto.
+ //
+-// IL PERIMETRO, e qui c'è un limite che dichiaro invece di nasconderlo. L'evento non dice QUALE
+-// senior sta finendo. Con un senior solo in volo il perimetro è esatto (l'ancora la pianta
+-// `pre-scrittura.mjs` quando parte). Con più senior in parallelo — cosa che faccio spesso, ed è
+-// giusto farla — il perimetro è CONDIVISO: so cosa è successo, non da quale mano. In quel caso il
+-// cancello NON blocca: racconta e basta. Punire il senior sbagliato è peggio che non punire nessuno,
+-// perché insegna che il verdetto non c'entra con quello che hai fatto.
++// IL PERIMETRO, e qui c'è un limite che dichiaro invece di nasconderlo. L'ancora la pianta
++// `pre-scrittura.mjs` quando parte un senior, e conta QUANTI sono in volo, non QUALI. L'evento di fine
++// porta `agent_id` e `agent_type` (lo dice la documentazione degli hook), ma l'ancora non li registra:
++// qui non so abbinare chi finisce a chi è partito. Con un senior solo in volo il perimetro è esatto.
++// Con più senior in parallelo — cosa che faccio spesso, ed è giusto farla — il perimetro è CONDIVISO:
++// so cosa è successo, non da quale mano. In quel caso il cancello NON blocca: racconta e basta.
++// Punire il senior sbagliato è peggio che non punire nessuno, perché insegna che il verdetto non
++// c'entra con quello che hai fatto. Limite aperto, dedotto e non osservato: il contatore scende a OGNI
++// fine di agente, anche di chi non l'ha alzato (un agente di workflow, un agente interno della
++// piattaforma), e quello si prende il perimetro del senior vero.
++// Lo stesso «racconto e non blocco» vale, più forte, quando l'ancora non c'è affatto: il perimetro
++// diventa tutto il lavoro non committato (`perimetroSenior`, dove sta anche il perché manca).
+ //
+ // COSA NON FA. Non giudica la qualità del lavoro del senior, non legge la sua risposta, non sa se ha
+ // consegnato ciò che gli avevo chiesto. Tre misure meccaniche su ciò che ha lasciato per terra.
+@@ -54,7 +60,9 @@ import { ANCORA_SENIOR } from "./pre-scrittura.mjs";
+ import { percorsiDaGit } from "./percorsi-git.mjs";
+ 
+ const QUI = dirname(fileURLToPath(import.meta.url));
+-const REPO = dirname(QUI);
++// L'override serve alle prove: fanno girare il cancello vero, col suo exit, su un repo finto in /tmp
++// invece che su questo, dove l'ancora e il battito sono quelli del lavoro in corso.
++const REPO = process.env.CANCELLO_SENIOR_REPO || dirname(QUI);
+ const CODA = "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md";
+ 
+ // ─────────────────────────────────────────────────────────────────────────────
+@@ -74,6 +82,62 @@ export function chiudiSenior(precedente = null) {
+   return { ancora: { ...precedente, aperti: aperti - 1 }, ultimo: false, condiviso: true };
+ }
+ 
++/**
++ * Di chi è il perimetro che sto per giudicare: l'ancora decide se posso attribuire, e quindi bloccare.
++ *
++ * Tre casi, e solo il primo è di un senior solo:
++ *   - ancora con un senior in volo → perimetro esatto, il blocco è giusto;
++ *   - ancora con più senior in volo → perimetro condiviso, racconto senza bloccare;
++ *   - NESSUNA ancora → il perimetro è tutto il lavoro non committato e tutte le voci vive del
++ *     sorvegliante, cioè anche quelle lasciate da me o da chi è passato prima. Bloccare qui è la
++ *     stessa ingiustizia del perimetro condiviso, solo più larga — e costa cara: un turno in più di
++ *     un agente rilegge da capo tutto il suo contesto, 50-150 mila token, per una voce che magari
++ *     non è sua.
++ *
++ * PERCHÉ L'ANCORA MANCAVA — cosa è verificato e cosa no (AR-1009, 25/10):
++ *   verificato · la delega arriva all'hook col nome «Agent». Il libro mastro lo registra: il 25/10
++ *     alle 12:01:20 pre-scrittura ha visto «Agent», sulla delega a security.
++ *   verificato · la causa era UNA: `pre-scrittura.mjs` piantava l'ancora solo su «Task». Su quella
++ *     delega la riga del libro mastro chiude «ok» con motivo vuoto, cioè il ramo dei comandi e non
++ *     quello dell'ancora. Adesso il codice riconosce i due nomi (`STRUMENTI_DI_DELEGA`).
++ *   verificato · il filtro dell'hook NON c'entra. In `.claude/settings.json` è «Bash|Monitor|Task|mcp__.*»,
++ *     fermo dal 26/08, ed è lui che alle 12:01:20 ha fatto partire pre-scrittura su «Agent». Claude
++ *     Code 2.1.310 tratta «Task» come altro nome di Agent, come diceva anthropics/claude-code#29677.
++ *     Controprova che il filtro filtra davvero: alle 11:56 è passato lo strumento Skill, e pre-scrittura
++ *     non l'ha visto. La prova che il filtro di oggi porta la delega sta in `test/pre-scrittura.test.mjs`.
++ *   ne segue, dedotto dalla catena · il freno blocca già adesso, perché l'hook esegue il file della
++ *     copia di lavoro; su main bloccherà dall'unione. Da lì è vivo anche il limite del contatore scritto
++ *     in testa al file: dipende dall'unione, non dal filtro. Aggiungere «Agent» al filtro non accende
++ *     niente: è una cintura per il giorno in cui una versione nuova togliesse l'alias.
++ *   non osservato · la catena intera dal vivo (delega → ancora sul disco → blocco). Si vede alla
++ *     prossima delega: la riga di pre-scrittura nel libro mastro deve dire «ancora piantata».
++ *   dedotto · l'alias l'ho visto su un evento solo e su questa versione: non è un contratto scritto.
++ *     Se sparisse, nessuna prova offline se ne accorge; lo dice solo il libro mastro.
++ *   dedotto · gli agenti dei workflow partono dallo strumento `Workflow`, non da `Agent`: non piantano
++ *     l'ancora, filtro o no. Torna col codice e con la documentazione, non l'ho osservato su un
++ *     evento vero.
++ *
++ * `attribuibile: false` non vuol dire tacere: le righe si dicono lo stesso, cambia solo l'exit.
++ */
++export function perimetroSenior(ancora = null) {
++  const { ancora: rimasta, condiviso } = chiudiSenior(ancora);
++  if (!ancora) {
++    return {
++      rimasta,
++      attribuibile: false,
++      nota: "nessuna ancora del senior in questa copia: guardo tutto il lavoro non committato, quindi qui sotto può comparire roba di prima. Non so di chi è, quindi non blocco.",
++    };
++  }
++  if (condiviso) {
++    return {
++      rimasta,
++      attribuibile: false,
++      nota: "più senior in volo insieme: il perimetro qui sotto è condiviso, quindi dico cosa è successo ma non a chi. Non blocco nessuno.",
++    };
++  }
++  return { rimasta, attribuibile: true, nota: null };
++}
++
+ /**
+  * Gli allarmi scritti in una consegna senza che la coda di Nicola sia stata toccata.
+  *
+@@ -88,7 +152,8 @@ export function allarmiDelSenior(consegne = [], codaToccata = false) {
+ /**
+  * Il verdetto. Righe da dire + se il senior deve tornare indietro.
+  *
+- * `condiviso` è la valvola dell'onestà: con più senior in volo non attribuisco, quindi non blocco.
++ * `condiviso` è la valvola dell'onestà: quando il perimetro non è di un senior solo (più senior in
++ * volo, oppure nessuna ancora: vedi `perimetroSenior`) non attribuisco, quindi non blocco.
+  * `giaBloccato` è la valvola anti-cappio, la stessa del cancello dello Stop: se il senior sta già
+  * ripartendo per colpa mia, bloccarlo di nuovo è un senior che non finisce mai.
+  */
+@@ -190,14 +255,9 @@ async function main() {
+   }
+ 
+   const ancora = leggiJson(ANCORA_SENIOR);
+-  const { ancora: rimasta, condiviso } = chiudiSenior(ancora);
++  const { rimasta, attribuibile, nota } = perimetroSenior(ancora);
+ 
+   const toccati = fileDa(ancora?.commit || null);
+-  const nota = ancora
+-    ? condiviso
+-      ? `più senior in volo insieme: il perimetro qui sotto è condiviso, quindi dico cosa è successo ma non a chi. Non blocco nessuno.`
+-      : null
+-    : "nessuna ancora del senior in questa copia: guardo tutto il lavoro non committato, quindi qui sotto può comparire roba di prima.";
+ 
+   let voci = [];
+   const b = leggiJson(BATTITO);
+@@ -218,7 +278,7 @@ async function main() {
+     voci,
+     allarmi: allarmiDelSenior(consegne, codaToccata),
+     fileToccati: toccati || [],
+-    condiviso,
++    condiviso: !attribuibile,
+     giaBloccato,
+     nota,
+   });
+diff --git a/cervello/mutanti.json b/cervello/mutanti.json
+index a90e5e04d..20d4f0a65 100644
+--- a/cervello/mutanti.json
++++ b/cervello/mutanti.json
+@@ -1643,6 +1643,46 @@
+    "sostituisci": "  if (aperti <= 1) return { ancora: precedente, ultimo: true, condiviso: aperti > 1 };",
+    "test": "cervello/test/cancello-senior.test.mjs"
+   },
++  {
++   "difetto": "AR-527",
++   "nome": "senza ancora del senior il cancello torna a bloccare: un agente di workflow rifà un turno intero per voci che possono averle lasciate altri, e la prova sul repo finto senza ancora deve accorgersene",
++   "file": "cervello/cancello-senior.mjs",
++   "cerca": "  if (!ancora) {\n    return {\n      rimasta,\n      attribuibile: false,",
++   "sostituisci": "  if (!ancora) {\n    return {\n      rimasta,\n      attribuibile: true,",
++   "test": "cervello/test/cancello-senior.test.mjs"
++  },
++  {
++   "difetto": "AR-1009",
++   "nome": "il freno che parla prima torna a riconoscere solo il vecchio nome «Task»: con lo strumento «Agent» di oggi l'ancora del senior non nasce mai, e il cancello dei senior non blocca più nessuno",
++   "file": "cervello/pre-scrittura.mjs",
++   "cerca": "export const STRUMENTI_DI_DELEGA = new Set([\"Agent\", \"Task\"]);",
++   "sostituisci": "export const STRUMENTI_DI_DELEGA = new Set([\"Task\"]);",
++   "test": "cervello/test/pre-scrittura.test.mjs"
++  },
++  {
++   "difetto": "AR-1009",
++   "nome": "la mossa dell'hook torna a confrontare il nome dello strumento a mano con «Task»: l'elenco dei nomi c'è, ma la strada vera non lo usa",
++   "file": "cervello/pre-scrittura.mjs",
++   "cerca": "  if (parteUnSenior(strumento)) {",
++   "sostituisci": "  if (strumento === \"Task\") {",
++   "test": "cervello/test/pre-scrittura.test.mjs"
++  },
++  {
++   "difetto": "AR-1009",
++   "nome": "l'elenco dei nomi della delega perde «Task»: il filtro dell'hook di oggi dice Task e porta la delega Agent per alias, e non risulta più legato a nessun nome della delega",
++   "file": "cervello/pre-scrittura.mjs",
++   "cerca": "export const STRUMENTI_DI_DELEGA = new Set([\"Agent\", \"Task\"]);",
++   "sostituisci": "export const STRUMENTI_DI_DELEGA = new Set([\"Agent\"]);",
++   "test": "cervello/test/pre-scrittura.test.mjs"
++  },
++  {
++   "difetto": "AR-527",
++   "nome": "il cancello dei senior smette di leggere stop_hook_active: un senior con una voce grave che non riesce a sistemare viene rimandato indietro all'infinito, 50-150 mila token a giro",
++   "file": "cervello/cancello-senior.mjs",
++   "cerca": "      giaBloccato = Boolean(ev?.stop_hook_active);",
++   "sostituisci": "      giaBloccato = false;",
++   "test": "cervello/test/cancello-senior.test.mjs"
++  },
+   {
+    "difetto": "AR-528",
+    "nome": "la memoria conta come «mai risolta» anche una voce che avevo sistemato mentre lavoravo",
+diff --git a/cervello/pre-scrittura.mjs b/cervello/pre-scrittura.mjs
+index 47684dd3f..78396f855 100644
+--- a/cervello/pre-scrittura.mjs
++++ b/cervello/pre-scrittura.mjs
+@@ -32,7 +32,8 @@
+ //   ③ `git push --force` su main    → riscrive una storia che altri hanno già letto
+ //   ④ scrittura via strumento MCP   → non passa da nessuna guardia, né prima né dopo
+ //
+-// E UNA MOSSA CHE NON CHIEDE NIENTE, ma è la ragione per cui questo file è agganciato anche al `Task`:
++// E UNA MOSSA CHE NON CHIEDE NIENTE, ma è la ragione per cui questo file è agganciato anche allo
++// strumento di delega (`Agent` oggi, `Task` nelle versioni vecchie: `STRUMENTI_DI_DELEGA`):
+ // quando parte un senior, qui si pianta l'ancora del suo lavoro (commit + scatto della guardia + ora).
+ // Senza, il cancello dei senior non avrebbe modo di sapere DA DOVE guardare — e misurerebbe come
+ // «lavoro del senior» tutto ciò che c'era prima, cioè la stessa malattia del perimetro largo che il
+@@ -80,6 +81,21 @@ export const VERBI_DI_SCRITTURA = /(create|update|delete|push|write|merge|apply|
+ /** Riconosce uno strumento MCP dal nome, che per contratto comincia così. */
+ export const E_MCP = /^mcp__/;
+ 
++/**
++ * Gli strumenti con cui parte un senior (AR-1009).
++ *
++ * Oggi si chiama «Agent»: è il nome nella documentazione degli hook e nell'elenco strumenti di
++ * Claude Code 2.1.310. «Task» è il nome delle versioni vecchie e resta, perché una copia ferma a una
++ * versione vecchia non deve perdere l'ancora. Fino al 25/10 qui c'era un confronto con «Task» e basta:
++ * l'ancora non nasceva mai, e il cancello dei senior giudicava ogni delega come «nessuna ancora».
++ */
++export const STRUMENTI_DI_DELEGA = new Set(["Agent", "Task"]);
++
++/** Questa mossa fa partire un senior? */
++export function parteUnSenior(strumento = "") {
++  return STRUMENTI_DI_DELEGA.has(strumento);
++}
++
+ // ─────────────────────────────────────────────────────────────────────────────
+ // IL CUORE — puro. Riceve la mossa già letta e torna la decisione: così una prova può eseguire ogni
+ // caso senza avere né un repo né un evento vero.
+@@ -189,22 +205,62 @@ export function apriSenior(precedente = null, { commit = null, scatto = 0, quand
+ // LO STRATO I/O
+ // ─────────────────────────────────────────────────────────────────────────────
+ 
+-function leggiJson(percorso) {
++function leggiJson(percorso, repo = REPO) {
++  try {
++    return JSON.parse(readFileSync(join(repo, percorso), "utf8"));
++  } catch {
++    return null;
++  }
++}
++
++function headOra(repo = REPO) {
+   try {
+-    return JSON.parse(readFileSync(join(REPO, percorso), "utf8"));
++    return execFileSync("git", ["rev-parse", "HEAD"], { cwd: repo, encoding: "utf8", stdio: ["ignore", "pipe", "ignore"] }).trim();
+   } catch {
+     return null;
+   }
+ }
+ 
+-function headOra() {
++/** Pianta l'ancora del senior in `repo`. Torna l'ancora scritta, o null se il disco non l'ha presa. */
++export function piantaAncora(repo = REPO, quando = new Date().toISOString()) {
++  const b = leggiJson(BATTITO, repo);
++  const nuova = apriSenior(leggiJson(ANCORA_SENIOR, repo), { commit: headOra(repo), scatto: Number(b?.scatto) || 0, quando });
+   try {
+-    return execFileSync("git", ["rev-parse", "HEAD"], { cwd: REPO, encoding: "utf8" }).trim();
++    writeFileSync(join(repo, ANCORA_SENIOR), JSON.stringify(nuova));
++    return nuova;
+   } catch {
++    // Senza ancora il cancello dei senior guarderà un perimetro largo e lo dirà: peggiore, non falso.
+     return null;
+   }
+ }
+ 
++/**
++ * Una mossa letta dall'hook → la busta da stampare. È main() senza stdin e senza uscita, così una
++ * prova la fa girare tutta su un repo finto.
++ *
++ * Il libro mastro arriva da fuori per lo stesso motivo: una prova che scrivesse nel registro vero
++ * metterebbe «pre-scrittura ha visto Agent» in un turno dove non l'ha visto nessuno, e
++ * mappa-copertura lo leggerebbe come copertura vera.
++ */
++export function suMossa(ev, { repo = REPO, difese = difeseDelRepo, mastro = { annota, chiudi } } = {}) {
++  const strumento = ev?.tool_name || "";
++
++  // Il libro mastro: da qui in poi ogni uscita chiude la sua riga. Aprirla senza chiuderla
++  // significherebbe dichiarare questa guardia morta a metà, che è il difetto opposto.
++  const id = mastro.annota({ guardia: "pre-scrittura", evento: "PreToolUse", strumento, bersaglio: comandoDi(ev?.tool_input) });
++
++  // Parte un senior: pianto l'ancora del suo lavoro e non chiedo niente.
++  if (parteUnSenior(strumento)) {
++    const ancora = piantaAncora(repo);
++    mastro.chiudi(id, "ok", ancora ? "parte un senior: ancora piantata, niente da chiedere" : "parte un senior: ancora NON scritta sul disco");
++    return { busta: null, ancora };
++  }
++
++  const d = decidi({ strumento, comando: comandoDi(ev?.tool_input), difese: difese() });
++  mastro.chiudi(id, d.chiedi ? "chiede" : "ok", d.chiedi ? d.motivo : "");
++  return { busta: bustaDecisione(d), ancora: null };
++}
++
+ async function leggiStdin() {
+   const pezzi = [];
+   for await (const p of process.stdin) pezzi.push(p);
+@@ -240,33 +296,8 @@ async function main() {
+     process.exit(0);
+   }
+ 
+-  const strumento = ev?.tool_name || "";
+-
+-  // Il libro mastro: da qui in poi ogni uscita chiude la sua riga. Aprirla senza chiuderla
+-  // significherebbe dichiarare questa guardia morta a metà, che è il difetto opposto.
+-  const mastro = annota({ guardia: "pre-scrittura", evento: "PreToolUse", strumento, bersaglio: comandoDi(ev?.tool_input) });
+-
+-  // Parte un senior: pianto l'ancora del suo lavoro e non chiedo niente.
+-  if (strumento === "Task") {
+-    const b = leggiJson(BATTITO);
+-    const nuova = apriSenior(leggiJson(ANCORA_SENIOR), {
+-      commit: headOra(),
+-      scatto: Number(b?.scatto) || 0,
+-      quando: new Date().toISOString(),
+-    });
+-    try {
+-      writeFileSync(join(REPO, ANCORA_SENIOR), JSON.stringify(nuova));
+-    } catch {
+-      // Senza ancora il cancello dei senior guarderà un perimetro largo e lo dirà: peggiore, non falso.
+-    }
+-    chiudi(mastro, "ok", "parte un senior: ancora piantata, niente da chiedere");
+-    process.exit(0);
+-  }
+-
+-  const d = decidi({ strumento, comando: comandoDi(ev?.tool_input), difese: difeseDelRepo() });
+-  const busta = bustaDecisione(d);
++  const { busta } = suMossa(ev);
+   if (busta) console.log(busta);
+-  chiudi(mastro, d.chiedi ? "chiede" : "ok", d.chiedi ? d.motivo : "");
+   process.exit(0);
+ }
+ 
+diff --git a/cervello/test/cancello-senior.test.mjs b/cervello/test/cancello-senior.test.mjs
+index 545933d5d..8b1d647a0 100644
+--- a/cervello/test/cancello-senior.test.mjs
++++ b/cervello/test/cancello-senior.test.mjs
+@@ -7,7 +7,16 @@
+ 
+ import { test } from "node:test";
+ import assert from "node:assert/strict";
+-import { chiudiSenior, allarmiDelSenior, verdettoSenior } from "../cancello-senior.mjs";
++import { execFileSync, spawnSync } from "node:child_process";
++import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { dirname, join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { chiudiSenior, perimetroSenior, allarmiDelSenior, verdettoSenior } from "../cancello-senior.mjs";
++import { ANCORA_SENIOR } from "../pre-scrittura.mjs";
++import { BATTITO } from "../sorvegliante.mjs";
++
++const CANCELLO = join(dirname(fileURLToPath(import.meta.url)), "..", "cancello-senior.mjs");
+ 
+ const grave = { file: "cervello/x.mjs", cosa: "malattia nuova", gravita: "grave" };
+ 
+@@ -85,3 +94,78 @@ test("niente di niente: nessuna riga, e il senior chiude senza rumore", () => {
+ test("un allarme non accodato blocca quanto una voce grave: un 🔴 senza lettore è un verdetto perso", () => {
+   assert.equal(verdettoSenior({ allarmi: ["consegne/x.md"] }).blocca, true);
+ });
++
++// ── senza ancora ─────────────────────────────────────────────────────────────
++// L'ancora manca quando nessuno l'ha piantata. Fino al 25/10 succedeva a OGNI delega: pre-scrittura
++// riconosceva solo «Task» e lo strumento oggi si chiama «Agent» (AR-1009, verificato). Per gli agenti
++// dei workflow succede anche dopo, perché partono da `Workflow` (dedotto, non osservato). Il
++// perimetro allora è TUTTO il lavoro non committato: bloccare lì vuol dire far rifare un turno
++// (50-150 mila token di contesto riletto) a un agente per una voce che può aver lasciato un altro.
++
++test("senza ancora il perimetro non è attribuibile: si racconta, e la nota dice perché non blocco", () => {
++  const p = perimetroSenior(null);
++  assert.equal(p.attribuibile, false);
++  assert.match(p.nota, /nessuna ancora/);
++  assert.match(p.nota, /non blocco/);
++});
++
++test("con l'ancora e un senior solo il perimetro è suo: attribuibile, nessuna nota", () => {
++  const p = perimetroSenior({ commit: "aaa", scatto: 3, aperti: 1 });
++  assert.equal(p.attribuibile, true);
++  assert.equal(p.nota, null);
++  assert.equal(p.rimasta, null, "l'ultimo che chiude toglie l'ancora");
++});
++
++test("con l'ancora e due senior in volo resta il perimetro condiviso di prima", () => {
++  const p = perimetroSenior({ commit: "aaa", scatto: 3, aperti: 2 });
++  assert.equal(p.attribuibile, false);
++  assert.match(p.nota, /condiviso/);
++});
++
++/** Un repo finto con una voce GRAVE viva nel battito del sorvegliante, e l'ancora solo se richiesta.
++ *  Fa girare il cancello vero come lo lancia l'hook SubagentStop e torna l'exit. */
++function giraIlCancello({ conAncora, evento = "{}" }) {
++  const dir = mkdtempSync(join(tmpdir(), "cancello-senior-"));
++  try {
++    execFileSync("git", ["init", "-q", "."], { cwd: dir });
++    execFileSync("git", ["-c", "user.email=prova@prova", "-c", "user.name=prova", "commit", "-q", "--allow-empty", "-m", "zero"], { cwd: dir });
++    const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: dir, encoding: "utf8" }).trim();
++    mkdirSync(join(dir, "cervello"), { recursive: true });
++    writeFileSync(
++      join(dir, BATTITO),
++      JSON.stringify({ scatto: 4, viste: { k: { n: 1, scatto: 4, file: "cervello/x.mjs", cosa: "malattia nuova", gravita: "grave" } } }),
++    );
++    if (conAncora) writeFileSync(join(dir, ANCORA_SENIOR), JSON.stringify({ commit: head, scatto: 3, quando: "", aperti: 1 }));
++    const r = spawnSync(process.execPath, [CANCELLO, "--hook"], {
++      input: evento,
++      encoding: "utf8",
++      env: { ...process.env, CANCELLO_SENIOR_REPO: dir },
++    });
++    return { exit: r.status, detto: `${r.stdout}${r.stderr}`, ancoraRimasta: existsSync(join(dir, ANCORA_SENIOR)) };
++  } finally {
++    rmSync(dir, { recursive: true, force: true });
++  }
++}
++
++test("IL CASO DEI WORKFLOW: senza ancora e con una voce grave il senior chiude (exit 0), ma la voce si dice", () => {
++  const r = giraIlCancello({ conAncora: false });
++  assert.equal(r.exit, 0, "senza ancora non so di chi è la voce: bloccare punisce l'agente sbagliato");
++  assert.match(r.detto, /voce grave/, "non attribuire non vuol dire tacere");
++  assert.match(r.detto, /nessuna ancora/);
++});
++
++test("con l'ancora e un senior solo la voce grave BLOCCA come prima (exit 2), e l'ancora resta per il giro di ritorno", () => {
++  const r = giraIlCancello({ conAncora: true });
++  assert.equal(r.exit, 2);
++  assert.match(r.detto, /voce grave/);
++  assert.equal(r.ancoraRimasta, true, "il senior che torna indietro lavora ancora nello stesso perimetro");
++});
++
++test("LA VALVOLA ANTI-CAPPIO: al giro di ritorno (stop_hook_active) il senior chiude anche con la voce grave, e l'ancora si toglie", () => {
++  // Senza questa valvola un senior che non riesce a sistemare la voce gira all'infinito, e ogni giro
++  // rilegge 50-150 mila token: è proprio il costo che il cancello vuole togliere.
++  const r = giraIlCancello({ conAncora: true, evento: JSON.stringify({ stop_hook_active: true }) });
++  assert.equal(r.exit, 0, "il senior sta già ripartendo per colpa mia: bloccarlo di nuovo è un cappio");
++  assert.match(r.detto, /voce grave/, "lasciarlo chiudere non vuol dire tacere");
++  assert.equal(r.ancoraRimasta, false, "il senior ha finito: l'ancora non deve passare al prossimo");
++});
+diff --git a/cervello/test/pre-scrittura.test.mjs b/cervello/test/pre-scrittura.test.mjs
+index c0c7071b5..74b02ce03 100644
+--- a/cervello/test/pre-scrittura.test.mjs
++++ b/cervello/test/pre-scrittura.test.mjs
+@@ -7,7 +7,13 @@
+ 
+ import { test } from "node:test";
+ import assert from "node:assert/strict";
+-import { decidi, bustaDecisione, apriSenior, comandoDi, VERBI_DI_SCRITTURA } from "../pre-scrittura.mjs";
++import { execFileSync } from "node:child_process";
++import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
++import { tmpdir } from "node:os";
++import { join } from "node:path";
++import { fileURLToPath } from "node:url";
++import { decidi, bustaDecisione, apriSenior, comandoDi, suMossa, ANCORA_SENIOR, STRUMENTI_DI_DELEGA, VERBI_DI_SCRITTURA } from "../pre-scrittura.mjs";
++import { BATTITO } from "../sorvegliante.mjs";
+ 
+ const difese = new Map([["cervello/test/sorvegliante.test.mjs", "è il freno della lezione L-2026-0730-531"]]);
+ 
+@@ -103,3 +109,90 @@ test("il comando si legge solo dove esiste: uno strumento senza `command` non ne
+   assert.equal(comandoDi({ file_path: "a.md" }), "");
+   assert.equal(comandoDi(undefined), "");
+ });
++
++// ── l'ancora si pianta col nome di OGGI dello strumento di delega (AR-1009) ───
++// Fino al 25/10 l'ancora nasceva solo se lo strumento si chiamava esattamente «Task». Oggi si chiama
++// «Agent»: l'ancora non nasceva mai, e il cancello dei senior giudicava ogni delega come «nessuna
++// ancora», cioè raccontava e non bloccava nessuno. Queste prove fanno girare la mossa intera (la
++// stessa strada dell'hook, senza stdin) su un repo finto, e guardano il file che nasce davvero.
++
++/** Un repo finto con un commit e il battito del sorvegliante allo scatto 7; torna l'ancora scritta. */
++function giraLaMossa(tool_name, tool_input = {}) {
++  const dir = mkdtempSync(join(tmpdir(), "pre-scrittura-"));
++  try {
++    execFileSync("git", ["init", "-q", "."], { cwd: dir });
++    execFileSync("git", ["-c", "commit.gpgsign=false", "-c", "user.email=prova@prova", "-c", "user.name=prova", "commit", "-q", "--allow-empty", "-m", "zero"], { cwd: dir });
++    const head = execFileSync("git", ["rev-parse", "HEAD"], { cwd: dir, encoding: "utf8" }).trim();
++    mkdirSync(join(dir, "cervello"), { recursive: true });
++    writeFileSync(join(dir, BATTITO), JSON.stringify({ scatto: 7, viste: {} }));
++    const mastro = { aperte: 0, chiuse: [], annota() { this.aperte++; return "id-prova"; }, chiudi(id, verdetto) { this.chiuse.push(verdetto); } };
++    const r = suMossa({ tool_name, tool_input }, { repo: dir, difese: () => new Map(), mastro });
++    const p = join(dir, ANCORA_SENIOR);
++    return { ...r, head, mastro, scritta: existsSync(p) ? JSON.parse(readFileSync(p, "utf8")) : null };
++  } finally {
++    rmSync(dir, { recursive: true, force: true });
++  }
++}
++
++test("IL NOME DI OGGI: un senior che parte con lo strumento «Agent» pianta l'ancora sul disco", () => {
++  const r = giraLaMossa("Agent", { subagent_type: "qa", prompt: "leggi STATO.md" });
++  assert.ok(r.scritta, "con «Agent» l'ancora deve nascere: senza, il cancello dei senior non blocca più nessuno");
++  assert.equal(r.scritta.aperti, 1);
++  assert.equal(r.scritta.scatto, 7, "lo scatto viene dal battito del repo dove lavoro, non da zero");
++  assert.equal(r.scritta.commit, r.head, "il commit è quello del repo dove lavoro, non di un altro");
++  assert.equal(r.busta, null, "far partire un senior non chiede niente");
++  assert.deepEqual([r.mastro.aperte, r.mastro.chiuse], [1, ["ok"]], "la riga del libro mastro si apre e si chiude");
++});
++
++test("il nome delle versioni vecchie, «Task», pianta l'ancora come prima", () => {
++  const r = giraLaMossa("Task", { subagent_type: "qa", prompt: "x" });
++  assert.ok(r.scritta);
++  assert.equal(r.scritta.aperti, 1);
++});
++
++test("un comando di shell NON pianta l'ancora: un'ancora finta farebbe giudicare un senior che non è partito", () => {
++  const r = giraLaMossa("Bash", { command: "ls" });
++  assert.equal(r.scritta, null);
++  assert.equal(r.busta, null);
++  assert.deepEqual(r.mastro.chiuse, ["ok"]);
++});
++
++test("un nome che CONTIENE «Agent» non pianta niente: il confronto è sul nome intero", () => {
++  assert.equal(giraLaMossa("ListAgents").scritta, null);
++});
++
++// ── il filtro di OGGI porta la delega a pre-scrittura (AR-1009) ──────────────
++// Il primo giro di questo fix scriveva il contrario, come fatto verificato: «senza Agent nel filtro,
++// pre-scrittura non parte». Il libro mastro del 25/10 lo smentisce. Col filtro «Bash|Monitor|Task|mcp__.*»,
++// fermo dal 26/08, pre-scrittura ha visto «Agent» alle 12:01:20: Claude Code 2.1.310 tratta «Task» come
++// altro nome di Agent. Questa prova legge il filtro VERO e guarda due cose. Deve prendere almeno uno
++// dei nomi della delega, sennò l'ancora non nasce. E non deve prendere Skill, sennò non filtra niente.
++// Cosa NON vede: se una versione nuova togliesse l'alias, qui resterebbe verde. Lo direbbe il libro mastro.
++
++const RADICE = fileURLToPath(new URL("../../", import.meta.url));
++
++/** I filtri dei gruppi PreToolUse che lanciano pre-scrittura, letti da `.claude/settings.json`. */
++function filtriDiPreScrittura() {
++  const cfg = JSON.parse(readFileSync(join(RADICE, ".claude/settings.json"), "utf8"));
++  return (cfg.hooks?.PreToolUse || [])
++    .filter((g) => (g.hooks || []).some((h) => /cervello\/pre-scrittura\.mjs\b/.test(h.command || "")))
++    .map((g) => g.matcher ?? "");
++}
++
++/** Il filtro prende questo nome? Lettura prudente: espressione regolare sul nome intero. */
++function prende(filtro, nome) {
++  if (filtro === "" || filtro === "*") return true;
++  return new RegExp(`^(?:${filtro})$`).test(nome);
++}
++
++test("IL FILTRO DI OGGI porta la delega a pre-scrittura: prende un nome della delega, e Skill no", () => {
++  const filtri = filtriDiPreScrittura();
++  assert.equal(filtri.length, 1, "un hook solo deve lanciare pre-scrittura prima di ogni mossa");
++  const [filtro] = filtri;
++  const nomi = [...STRUMENTI_DI_DELEGA];
++  assert.ok(
++    nomi.some((n) => prende(filtro, n)),
++    `il filtro «${filtro}» non prende nessun nome della delega (${nomi.join(", ")}): pre-scrittura non parte e l'ancora non nasce`,
++  );
++  assert.equal(prende(filtro, "Skill"), false, "controprova: un filtro che prende tutto non filtra niente");
++});
