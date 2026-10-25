@@ -189,10 +189,13 @@ export function leggiCard(testoFile) {
  */
 export function numeriUsati(testoFile, ...altreCase) {
   const numeri = new Set();
+  // Al massimo sei cifre: un numero di card vero ne ha tre. Una tabella nel corpo di una card con
+  // un codice lungo in prima colonna diventava un numero in virgola mobile («1.2e+21»), la card scritta
+  // con quel numero non si riconosceva più, e il prossimo numero tornava uguale all'infinito.
   for (const pezzo of [testoFile, ...altreCase]) {
     const testo = String(pezzo || "");
-    for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) numeri.add(Number(m[1]));
-    for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gm)) numeri.add(Number(m[1]));
+    for (const m of testo.matchAll(/^###\s+\S+\s+#(\d{1,6})\s+[—–-]\s/gmu)) numeri.add(Number(m[1]));
+    for (const m of testo.matchAll(/^\|\s*(\d{1,6})\s*\|/gm)) numeri.add(Number(m[1]));
   }
   return numeri;
 }

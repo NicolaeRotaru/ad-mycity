@@ -70,7 +70,7 @@ carica_funzione() {
   printf '### 🟡 #210 — Una card in attesa · ⏳ accodata 2026-10-21 10:00\n' > MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md
   printf '### ✅ #211 — Una card archiviata · ⏳ accodata 2026-10-24 18:00\n' > MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md
   out="$(SCRIPT_DIR="$ROOT/cervello" contesto_macchina_chat)"
-  [[ "$out" == *"Numero per una card NUOVA: #212 "* ]]
+  [[ "$out" == *"Numero per una card NUOVA: adesso è #212 "* ]]
 }
 
 @test "se l'archivio non si legge, il numero dice NON LETTO invece di inventarne uno" {

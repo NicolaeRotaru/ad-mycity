@@ -827,7 +827,8 @@ contesto_macchina_chat() {
   if . "${SCRIPT_DIR:-cervello}/riga-prossima-card.sh" 2>/dev/null; then
     riga_card="$(riga_prossima_card "${SCRIPT_DIR:-cervello}")"
   elif [ -f MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md ]; then
-    riga_card="- Numero per una card NUOVA: NON LETTO (manca riga-prossima-card.sh) — prima di accodare lancia node cervello/prossima-card.mjs"
+    echo "[$(date '+%Y-%m-%d %H:%M')] ⚠️  riga-prossima-card.sh non caricato: il contesto esce senza il numero della prossima card." >&2
+    riga_card="- Numero per una card NUOVA: NON LETTO (riga-prossima-card.sh non caricato) — prima di accodare lancia node cervello/prossima-card.mjs"
   fi
   blocco="## CONTESTO MACCHINA (raccolto ADESSO dal worker: fidati di questo, non dei ricordi di sessione)
 - Ora: $(date '+%Y-%m-%d %H:%M') (Europe/Rome)

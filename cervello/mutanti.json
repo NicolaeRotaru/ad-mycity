@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-25 14:20",
+ "aggiornato": "2026-10-25 15:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -4922,7 +4922,7 @@
    "difetto": "AR-751",
    "nome": "chi dà il numero alla prossima card torna a non vedere l'archivio: propone un numero già speso e nessuno se ne accorge finché non è su disco",
    "file": "cervello/pausa-coda.mjs",
-   "cerca": "  for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gm)) numeri.add(Number(m[1]));",
+   "cerca": "    for (const m of testo.matchAll(/^\\|\\s*(\\d{1,6})\\s*\\|/gm)) numeri.add(Number(m[1]));",
    "sostituisci": "",
    "test": "cervello/test/numero-di-card-gia-speso.test.mjs",
    "nota_riaggancio": "Se questa riga cambia forma, il mutante va riscritto sulla riga nuova, non tolto: la cosa da rompere è che `numeriUsati` legga ANCHE le righe-tabella dell'archivio. Tolta quella lettura, il prossimo numero torna a uscire da soli i titoli in attesa — che il 16/8 valeva 82 su una coda dove 82 era già di un'altra card."
@@ -10552,7 +10552,7 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "la riga per l'AD non chiede il numero e lo lascia contare da solo",
    "file": "cervello/riga-prossima-card.sh",
-   "cerca": "  n=\"$(node \"$dir/prossima-card.mjs\" --coda \"$coda\" 2>/dev/null)\" || n=\"\"\n",
+   "cerca": "  n=\"$(timeout 10s node \"$dir/prossima-card.mjs\" --coda \"$coda\" 2>/dev/null)\" || n=\"\"\n",
    "sostituisci": "  n=\"\"\n",
    "test": "cervello/test/il-numero-della-card-nuova-arriva-all-ad.bats"
   },
@@ -10563,6 +10563,60 @@
    "file": "cervello/giro.sh",
    "cerca": "  _riga_card=\"$(riga_prossima_card \"$SCRIPT_DIR\")\"\n",
    "sostituisci": "  _riga_card=\"\"\n",
+   "test": "cervello/test/il-numero-della-card-nuova-arriva-all-ad.bats"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il freno prima della scrittura non guarda la coda",
+   "file": "cervello/mano-fermata.mjs",
+   "cerca": "    if (assoluto === CODA || join(REPO, file) === CODA) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "riscrivere una card che c'è conta come una card nuova",
+   "file": "cervello/mano-fermata.mjs",
+   "cerca": "      if (vecchi.has(n)) continue;\n",
+   "sostituisci": "",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "lo stesso numero due volte nello stesso testo passa",
+   "file": "cervello/mano-fermata.mjs",
+   "cerca": "      if (giaInCasa || volte > 1) spesi.add(n);",
+   "sostituisci": "      if (giaInCasa) spesi.add(n);",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "un codice lungo in tabella diventa un numero di card",
+   "file": "cervello/pausa-coda.mjs",
+   "cerca": "    for (const m of testo.matchAll(/^\\|\\s*(\\d{1,6})\\s*\\|/gm)) numeri.add(Number(m[1]));",
+   "sostituisci": "    for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gm)) numeri.add(Number(m[1]));",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il numero della prossima card si aspetta senza tetto",
+   "file": "cervello/riga-prossima-card.sh",
+   "cerca": "  n=\"$(timeout 10s node \"$dir/prossima-card.mjs\" --coda",
+   "sostituisci": "  n=\"$(node \"$dir/prossima-card.mjs\" --coda",
+   "test": "cervello/test/il-numero-della-card-nuova-arriva-all-ad.bats"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il giro senza la riga condivisa tace invece di dire NON LETTO",
+   "file": "cervello/giro.sh",
+   "cerca": "  PROMPT=\"$PROMPT\n\n- Numero per una card NUOVA: NON LETTO (riga-prossima-card.sh non caricato) — prima di accodare lancia node cervello/prossima-card.mjs\"\n",
+   "sostituisci": "",
    "test": "cervello/test/il-numero-della-card-nuova-arriva-all-ad.bats"
   }
  ],

@@ -46,6 +46,8 @@ import { dirname, isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { righeDiFileNuovo, sorveglia } from "./sorvegliante.mjs";
 import { annota, chiudi } from "./libro-mastro.mjs";
+import { numeriUsati, prossimoNumero } from "./pausa-coda.mjs";
+import { CODA, testoArchivioDi } from "./coda-e-archivio.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -100,6 +102,62 @@ export function testoInArrivo(toolInput = {}) {
     return pezzi.length ? pezzi.join("\n") : null; // MultiEdit: tutti i pezzi nuovi
   }
   return null;
+}
+
+/**
+ * 🔢 IL NUMERO DI UNA CARD GIÀ SPESO (25/10). Le card della coda hanno un numero fisso: Nicola
+ * scrive «ok 211» e deve esserci UNA card col 211. Archiviata la #211, la coda finiva a #210 e chi
+ * contava dalla coda riusava il 211. E il numero dato nel contesto è una fotografia: in un lavoro
+ * sul codice `git-pr.mjs --accoda` scrive la card di merge col #212, e subito dopo l'AD scriveva la
+ * sua col #212 preso dal contesto. Qui la scrittura si ferma PRIMA, qualunque sia la porta.
+ *
+ * Contano solo i numeri NUOVI: quelli nel testo che arriva e non in quello che sostituisce. Segnare
+ * «### ✅ #211» al posto di «### 🟡 #211» riscrive una card che c'è, non ne crea un'altra.
+ * Per un Write del file intero, il confronto è col file com'era. Torna i numeri già spesi.
+ */
+export function numeriGiaSpesi({ toolInput = {}, testoCoda = "", testoArchivio = "" } = {}) {
+  const coppie = typeof toolInput.content === "string"
+    ? [[testoCoda, toolInput.content]]
+    : Array.isArray(toolInput.edits)
+      ? toolInput.edits.map((e) => [e?.old_string ?? "", e?.new_string ?? ""])
+      : typeof toolInput.new_string === "string" ? [[toolInput.old_string ?? "", toolInput.new_string]] : [];
+  const usati = numeriUsati(testoCoda, testoArchivio);
+  const spesi = new Set();
+  for (const [prima, dopo] of coppie) {
+    const vecchi = numeriUsati(prima);
+    const contati = new Map();
+    for (const n of numeriTuttiDi(dopo)) contati.set(n, (contati.get(n) || 0) + 1);
+    for (const [n, volte] of contati) {
+      if (vecchi.has(n)) continue;
+      // Nuovo nel testo: è speso se c'è già in coda o in archivio, o se il testo lo usa due volte.
+      // Per un Write, «già in coda» vuol dire nel file di prima: lì `vecchi` l'ha già escluso.
+      const giaInCasa = typeof toolInput.content === "string" ? numeriUsati(testoArchivio).has(n) : usati.has(n);
+      if (giaInCasa || volte > 1) spesi.add(n);
+    }
+  }
+  return [...spesi].sort((a, b) => a - b);
+}
+
+/** Ogni numero di card nel testo, ripetizioni comprese (numeriUsati le fonde). */
+function numeriTuttiDi(testo) {
+  const t = String(testo || "");
+  const out = [];
+  for (const m of t.matchAll(/^###\s+\S+\s+#(\d{1,6})\s+[—–-]\s/gmu)) out.push(Number(m[1]));
+  for (const m of t.matchAll(/^\|\s*(\d{1,6})\s*\|/gm)) out.push(Number(m[1]));
+  return out;
+}
+
+/** La busta che rifiuta una card col numero già speso, col numero giusto davanti agli occhi. */
+export function bustaNumeroSpeso(spesi = [], prossimo = null) {
+  if (!spesi.length) return null;
+  const elenco = spesi.map((n) => `#${n}`).join(", ");
+  const testo =
+    `🖐️ MANO FERMATA — non ho scritto nella coda: ${elenco} ${spesi.length > 1 ? "sono già di altre card" : "è già di un'altra card"} (in coda o nell'archivio delle card chiuse).\n` +
+    `«ok ${spesi[0]}» avrebbe avuto due risposte, e il Pannello avrebbe aperto la card sbagliata.\n` +
+    `→ ${prossimo ? `il primo numero libero adesso è #${prossimo}` : "il numero libero non l'ho potuto calcolare"}: rilancia node cervello/prossima-card.mjs subito prima di ogni card nuova.`;
+  return JSON.stringify({
+    hookSpecificOutput: { hookEventName: "PreToolUse", permissionDecision: "deny", permissionDecisionReason: testo },
+  });
 }
 
 /**
@@ -207,6 +265,17 @@ async function main() {
     if (file.startsWith("..")) {
       chiudi(mastro, "ok", "fuori dalla casa: non è giurisdizione di questo freno");
       process.exit(0); // fuori dalla casa: non è giurisdizione di questo freno
+    }
+    // La coda delle card: un numero già speso non si scrive (vedi numeriGiaSpesi).
+    if (assoluto === CODA || join(REPO, file) === CODA) {
+      const testoCoda = readFileSync(CODA, "utf8");
+      const testoArchivio = testoArchivioDi(CODA);
+      const spesi = numeriGiaSpesi({ toolInput: ev?.tool_input || {}, testoCoda, testoArchivio });
+      if (spesi.length) {
+        process.stdout.write(bustaNumeroSpeso(spesi, prossimoNumero(testoCoda, testoArchivio)));
+        chiudi(mastro, "nega", `numero di card già speso: ${spesi.join(", ")}`);
+        process.exit(0);
+      }
     }
     const voci = giudizioScrittura({ file, testo, malattie: leggiMalattie() });
     const busta = bustaManoFermata(voci, file);

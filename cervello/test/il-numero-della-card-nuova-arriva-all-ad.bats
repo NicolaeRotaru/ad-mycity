@@ -21,7 +21,8 @@ teardown() { rm -rf "$TMP"; }
 
 @test "il caso che ha rotto: il numero conta anche la card archiviata" {
   out="$(riga_prossima_card "$ROOT/cervello")"
-  [[ "$out" == "- Numero per una card NUOVA: #212 "* ]]
+  [[ "$out" == "- Numero per una card NUOVA: adesso è #212 "* ]]
+  [[ "$out" == *"OGNI card"* ]]
   [[ "$out" != *"#211"* ]]
 }
 
@@ -39,15 +40,51 @@ teardown() { rm -rf "$TMP"; }
   [ -z "$out" ]
 }
 
-@test "il giro mette la stessa riga nel suo prompt, prima di partire" {
-  # Il prompt del giro è costruito in mezzo a giro.sh e non si può eseguire da solo: qui si
-  # controlla che carichi la riga condivisa e la attacchi a PROMPT. La riga stessa è provata sopra.
-  grep -q '^if \. "\$SCRIPT_DIR/riga-prossima-card.sh"; then$' "$ROOT/cervello/giro.sh"
-  grep -q '_riga_card="\$(riga_prossima_card "\$SCRIPT_DIR")"' "$ROOT/cervello/giro.sh"
-  riga_prompt="$(grep -n '^PROMPT="Sei l.AD digitale' "$ROOT/cervello/giro.sh" | head -1 | cut -d: -f1)"
-  riga_card="$(grep -n '_riga_card="\$(riga_prossima_card' "$ROOT/cervello/giro.sh" | head -1 | cut -d: -f1)"
-  riga_lancio="$(grep -n '"\${AI_CMD\[@\]}" "\$PROMPT"' "$ROOT/cervello/giro.sh" | head -1 | cut -d: -f1)"
-  [ -n "$riga_lancio" ]
-  [ "$riga_prompt" -lt "$riga_card" ]
-  [ "$riga_card" -lt "$riga_lancio" ]
+# Il blocco VERO di giro.sh che costruisce il prompt, dalla riga che apre PROMPT fino a quella prima
+# di GIRO_EXTRA_INSTRUCTION: si ritaglia e si ESEGUE, invece di cercarne il testo.
+riga_di() { grep -n -F "$1" "$ROOT/cervello/giro.sh" | head -1 | cut -d: -f1; }
+blocco_prompt_del_giro() {
+  local da a
+  da="$(riga_di 'PROMPT="Sei l')"
+  a="$(riga_di 'if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then')"
+  [ -n "$da" ] && [ -n "$a" ] || return 1
+  sed -n "${da},$((a - 1))p" "$ROOT/cervello/giro.sh"
+}
+
+@test "il giro mette la riga nel suo prompt: il blocco vero, eseguito" {
+  blocco="$(blocco_prompt_del_giro)"
+  [[ "$blocco" == *"riga_prossima_card"* ]]
+  ts() { echo "2026-10-25 14:00"; }
+  SCRIPT_DIR="$ROOT/cervello"
+  eval "$blocco"
+  [[ "$PROMPT" == *"Numero per una card NUOVA: adesso è #212 "* ]]
+}
+
+@test "il giro senza la riga condivisa dice NON LETTO nel prompt, non tace" {
+  blocco="$(blocco_prompt_del_giro)"
+  ts() { echo "2026-10-25 14:00"; }
+  SCRIPT_DIR="$TMP/cartella-vuota"
+  mkdir -p "$SCRIPT_DIR"
+  eval "$blocco" 2>/dev/null
+  [[ "$PROMPT" == *"Numero per una card NUOVA: NON LETTO"* ]]
+}
+
+@test "dopo il blocco, nessuno riscrive PROMPT da capo prima di lanciare il giro" {
+  inizio="$(riga_di 'if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then')"
+  lancio="$(riga_di '"${AI_CMD[@]}" "$PROMPT"')"
+  [ -n "$inizio" ] && [ -n "$lancio" ]
+  # Ogni assegnazione a PROMPT fra i due deve ripartire da "$PROMPT": una che riparte da capo perde la riga.
+  da_capo="$(sed -n "${inizio},${lancio}p" "$ROOT/cervello/giro.sh" | grep -E '^[[:space:]]*PROMPT="' | grep -vF 'PROMPT="$PROMPT' || true)"
+  [ -z "$da_capo" ]
+}
+
+@test "un node che si pianta non tiene appeso il turno: dopo 10 secondi dice NON LETTO" {
+  mkdir -p "$TMP/finto"
+  printf '#!/usr/bin/env bash\nsleep 60\n' > "$TMP/finto/node"
+  chmod +x "$TMP/finto/node"
+  inizio=$SECONDS
+  out="$(PATH="$TMP/finto:$PATH" riga_prossima_card "$ROOT/cervello")"
+  durata=$((SECONDS - inizio))
+  [[ "$out" == *"NON LETTO"* ]]
+  [ "$durata" -lt 20 ]
 }

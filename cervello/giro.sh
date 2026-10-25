@@ -1101,7 +1101,10 @@ if . "$SCRIPT_DIR/riga-prossima-card.sh"; then
 
 $_riga_card"
 else
-  echo "[$(ts)] ⚠️  riga-prossima-card.sh non caricato: il prompt del giro esce senza il numero della prossima card." >&2
+  echo "[$(ts)] ⚠️  riga-prossima-card.sh non caricato: il prompt del giro dice NON LETTO al posto del numero della prossima card." >&2
+  PROMPT="$PROMPT
+
+- Numero per una card NUOVA: NON LETTO (riga-prossima-card.sh non caricato) — prima di accodare lancia node cervello/prossima-card.mjs"
 fi
 if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
   PROMPT="$PROMPT
