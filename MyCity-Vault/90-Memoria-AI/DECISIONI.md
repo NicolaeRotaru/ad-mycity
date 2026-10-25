@@ -5632,3 +5632,13 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Riparare i due difetti accesi: il modulo per diventare negozio chiede una migrazione nuova, da firmare. Non ho provato un ordine vero, né aperto il sito: il proxy della sessione non lo raggiunge.
 
 **La lezione.** Una migrazione che stringe un permesso non ripara soltanto: accende i difetti che il permesso largo nascondeva. Qui la 119 ha chiuso il cambio di ruolo, e il modulo per diventare negozio, che cambia proprio il ruolo, ha smesso di funzionare. Prima di lanciare migrazioni che stringono, va cercata nel codice ogni scrittura che il permesso nuovo rifiuta. Il freno non c'è ancora: è debito dichiarato.
+
+## 2026-10-25 14:44 — 🟡 L'elenco dei permessi da incollare vede anche i lanci fatti attraverso il giro
+
+**Cosa.** Lo strumento che rifà l'elenco dei permessi (`cervello/permessi-elenco.mjs`) non vedeva i programmi lanciati con `sensore "x.mjs"`, né quelli lanciati dai file che il giro e il worker caricano. Rigenerare la consegna toglieva 3 script; la consegna su main ne mancava già 14, e la card #42 17. Adesso le funzioni che lanciano si riconoscono dal corpo, si leggono anche i file caricati, e una rigenerazione che toglie uno script ancora sul disco lo dice. Consegna rigenerata e card #42 riallineata: 145 su 145, nessuna riga tolta. Scheda AR-1012.
+
+**Perché.** Applicato com'era, l'elenco avrebbe tolto il permesso a programmi che si lanciano ogni giorno. Il 1/9 era già successo a cinque sensori senza nessun rosso.
+
+**Scelta.** `chiudi-sito.mjs` resta nell'elenco: si lancia a mano nella chiusura di un lotto del sito. Nessun lanciatore lo nominava, e il metodo del lotto (`cervello/lotto-a-pacchetti.md` ⑤) diceva ancora che quel comando non esiste. Adesso lo nomina, ed è fonte dell'elenco.
+
+**Cosa NON ho fatto.** Non ho applicato l'elenco al foglio dei permessi: è di Nicola. Il foglio vale per i comandi della macchina, non per le righe che giro.sh esegue da solo in bash.

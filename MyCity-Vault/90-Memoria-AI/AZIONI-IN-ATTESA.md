@@ -2068,14 +2068,14 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-08-23 19:20
+### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-10-25 14:19
 
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
 **Se va bene:** sostituisci le due righe col jolly con i due blocchi qui sotto. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
 
-**⚠️ Aggiornato il 23/8: l'elenco che avevi in mano era indietro di 51 programmi.** Era curato a mano, ed era già stato ritoccato una volta il 13/8. Applicarlo com'era avrebbe spento 51 programmi che il giro lancia ogni giorno — cioè la cura rompeva il giro. Adesso l'elenco si ricalcola da chi lancia davvero, e una prova diventa rossa se torna indietro.
+**⚠️ Aggiornato il 25/10: l'elenco qui sotto era indietro di 17 programmi** (il 23/8 lo era di 51). Otto erano entrati nel documento ma non in questa card. Nove non li vedeva lo strumento che rifà l'elenco. Adesso una prova diventa rossa se questa card resta indietro rispetto a chi lancia.
 
-Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 128 righe:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -2088,11 +2088,14 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/banco-ai.mjs:*)",
       "Bash(node cervello/battito-esterno.mjs:*)",
       "Bash(node cervello/bilancio-vivo.mjs:*)",
+      "Bash(node cervello/bottega/scelta-worker.mjs:*)",
+      "Bash(node cervello/bottega/testo-lavoro.mjs:*)",
       "Bash(node cervello/c4-cancelli.mjs:*)",
       "Bash(node cervello/calibrazione.mjs:*)",
       "Bash(node cervello/cancello-lotto.mjs:*)",
       "Bash(node cervello/cantiere-prove.mjs:*)",
       "Bash(node cervello/capacita.mjs:*)",
+      "Bash(node cervello/chiudi-sito.mjs:*)",
       "Bash(node cervello/chiusura-loop.mjs:*)",
       "Bash(node cervello/ci-stato.mjs:*)",
       "Bash(node cervello/coerenza-fatti.mjs:*)",
@@ -2100,19 +2103,24 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/collega-marketplace.mjs:*)",
       "Bash(node cervello/conflitti-memoria.mjs:*)",
       "Bash(node cervello/contesto-lezioni.mjs:*)",
+      "Bash(node cervello/conto-motore.mjs:*)",
       "Bash(node cervello/correzione-nicola-gate.mjs:*)",
       "Bash(node cervello/costo-ai.mjs:*)",
       "Bash(node cervello/cristallizza-apprendimento.mjs:*)",
       "Bash(node cervello/cronicita-allarmi.mjs:*)",
       "Bash(node cervello/deferral-agenti.mjs:*)",
       "Bash(node cervello/delta-gate.mjs:*)",
+      "Bash(node cervello/due-case.mjs:*)",
+      "Bash(node cervello/entrate-senza-cancello.mjs:*)",
       "Bash(node cervello/errore-motore.mjs:*)",
       "Bash(node cervello/esegui-azione.mjs:*)",
       "Bash(node cervello/esito-cadenza.mjs:*)",
       "Bash(node cervello/esito-claim.mjs:*)",
+      "Bash(node cervello/esito-scrittura.mjs:*)",
       "Bash(node cervello/esperimenti-check.mjs:*)",
       "Bash(node cervello/firma-check.mjs:*)",
       "Bash(node cervello/freno-costi.mjs:*)",
+      "Bash(node cervello/freno-scattato.mjs:*)",
       "Bash(node cervello/freschezza-cadenze.mjs:*)",
       "Bash(node cervello/freschezza-checklist.mjs:*)",
       "Bash(node cervello/freschezza-intelligence.mjs:*)",
@@ -2126,7 +2134,9 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/guardiano-capacita.mjs:*)",
       "Bash(node cervello/guardiano-tempo.mjs:*)",
       "Bash(node cervello/housekeeping-azioni.mjs:*)",
+      "Bash(node cervello/housekeeping-stato.mjs:*)",
       "Bash(node cervello/intelligence-agenda.mjs:*)",
+      "Bash(node cervello/istante-cancello.mjs:*)",
       "Bash(node cervello/keyword-owner-check.mjs:*)",
       "Bash(node cervello/letargo.mjs:*)",
       "Bash(node cervello/lezione-nuova.mjs:*)",
@@ -2140,6 +2150,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/north-star-check.mjs:*)",
       "Bash(node cervello/notifica-approvazioni.mjs:*)",
       "Bash(node cervello/onesta-check.mjs:*)",
+      "Bash(node cervello/pacchetti-lotto.mjs:*)",
       "Bash(node cervello/pagella-intelligenza.mjs:*)",
       "Bash(node cervello/pausa-check.mjs:*)",
       "Bash(node cervello/percorsi-git.mjs:*)",
@@ -2152,6 +2163,8 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
+      "Bash(node cervello/radiografia-in-corsa.mjs:*)",
+      "Bash(node cervello/registra-cadenza.mjs:*)",
       "Bash(node cervello/registro-scelte-check.mjs:*)",
       "Bash(node cervello/retry-policy.mjs:*)",
       "Bash(node cervello/riconcilia-perimetro.mjs:*)",
@@ -2166,6 +2179,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/sensori-spenti-check.mjs:*)",
       "Bash(node cervello/sentinella-budget.mjs:*)",
       "Bash(node cervello/sentinella-fonti.mjs:*)",
+      "Bash(node cervello/serratura-ramo.mjs:*)",
       "Bash(node cervello/si-capisce.mjs:*)",
       "Bash(node cervello/sincronizza-proposte.mjs:*)",
       "Bash(node cervello/sistema-immunitario.mjs:*)",
@@ -2182,6 +2196,8 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/test-cervello.mjs:*)",
       "Bash(node cervello/test-pannello.mjs:*)",
       "Bash(node cervello/test/battito-esterno.test.mjs:*)",
+      "Bash(node cervello/test/i-freni-di-spesa-scollegati.test.mjs:*)",
+      "Bash(node cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs:*)",
       "Bash(node cervello/test/lucchetto-per-corsia.test.mjs:*)",
       "Bash(node cervello/test/pw-driver.mjs:*)",
       "Bash(node cervello/uscite-check.mjs:*)",
@@ -2192,10 +2208,11 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
       "Bash(node cervello/verifica-sensori.mjs:*)",
 ```
 
-Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
+Al posto di `"Bash(bash cervello/*.sh:*)"` — 17 righe:
 
 ```json
       "Bash(bash cervello/giro.sh:*)",
+      "Bash(bash cervello/installa-bats.sh:*)",
       "Bash(bash cervello/installa-hooks.sh:*)",
       "Bash(bash cervello/ritmo.sh:*)",
       "Bash(bash cervello/vps/aggiorna-cervello.sh:*)",

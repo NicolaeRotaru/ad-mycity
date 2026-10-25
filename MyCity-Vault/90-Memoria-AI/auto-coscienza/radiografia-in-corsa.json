@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-20 14:45",
+  "aggiornato": "2026-10-25 14:36",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4104,6 +4104,22 @@
       "file": {
         ".github/workflows/migrazioni-a-mano.yml": "407c81b024aa",
         "scripts/conta-migrazioni-mancanti.sh": "fd5b0223ca6c"
+      }
+    },
+    {
+      "quando": "2026-10-25 14:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1012"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/permessi-elenco.mjs": "60482553b2a7"
       }
     }
   ]

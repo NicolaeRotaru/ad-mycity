@@ -22014,6 +22014,32 @@
         "AR-824",
         "AR-560"
       ]
+    },
+    {
+      "id": "AR-1012",
+      "titolo": "L'elenco dei permessi non vedeva i lanci fatti via `sensore`: rigenerarlo toglieva script che il giro lancia",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-10-25 14:21",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-859 (#850, #855): la conversione delle righe del giro alla forma `sensore \"x.mjs\"` ha tolto il `node` dalla riga che lancia",
+      "dimensione": "rischio-sicurezza-se",
+      "trovato_da": "misura del 25/10/2026: `node cervello/permessi-elenco.mjs --consegna` toglieva taste-file.mjs, pota-apprendimento.mjs e chiudi-sito.mjs",
+      "sintomo": "Rigenerando la consegna dei permessi (consegne/sicurezza/2026-07-29-permessi-senza-jolly.md) spariscono `taste-file.mjs` (giro.sh:617, `sensore \"taste-file.mjs\" 2 --sonda`), `pota-apprendimento.mjs` (giro.sh:945) e `chiudi-sito.mjs`. Misurato meglio, il buco era più largo: la consegna su main era già indietro di 14. Cinque sensori (bilancio-vivo, guardiano-tempo, metabolismo, midollo-spinale, sentinella-fonti) li aveva persi la rigenerazione del 1/9 (#858), subito dopo la loro conversione a `sensore` (#850). Altri nove non li aveva mai visti: li lanciano i file che il giro e il worker caricano (giro-esito.sh, lib-cadenza.sh, lib-esito-lavoro.sh, gate-pubblicazione.sh, worker-coda.sh, worker-bottega.sh, motore-ai.sh) e installa-hooks.sh. La card #42, che porta lo stesso elenco dentro, era indietro di 17. `--scaduto` diceva verde su tutto, perché guarda un verso solo: «la consegna copre l'elenco?».",
+      "causa_radice": "① Lo strumento cercava la forma `node x.mjs`, e con `sensore \"x.mjs\"` il `node` sta dentro la funzione, in un altro file. ② Leggeva solo i file elencati a mano come lanciatori: le librerie caricate con `.` girano nello stesso processo del giro, ma non erano fonti. E la forma `${SCRIPT_DIR:-cervello}/x.mjs` che usano non si normalizzava. ③ Nessuna prova guardava il verso opposto: uno script che esce dalla consegna mentre esiste ancora sul disco. Così il 1/9 la rigenerazione ha tolto cinque sensori senza che niente diventasse rosso. ④ `chiudi-sito.mjs` si lancia a mano nella ricucitura del lotto del sito, ma nessun lanciatore lo nominava: era entrato nella consegna aggiunto a mano il 9/9 (#876), in un file che dice «generato, non correggerlo a mano». Il metodo del lotto (lotto-a-pacchetti.md ⑤) diceva ancora «sul sito quel comando non esiste».",
+      "fix_proposto": "🟡 FATTO. In `cervello/permessi-elenco.mjs`: (a) le funzioni che lanciano lo script ricevuto come argomento si riconoscono dal CORPO (`node \"<cartella>/$variabile\"`, con la variabile presa da `$1`), non dal nome — oggi `sensore` e `guardiano`, domani quella che verrà; le loro chiamate contano solo nelle righe di shell che non sono commenti. (b) Si leggono anche i file che le shell caricano (`.`/`source`) e gli script `.sh` che le fonti lanciano, finché non resta niente di nuovo; i caricati si leggono e basta, non entrano nell'elenco. (c) `${SCRIPT_DIR:-…}/` si normalizza, e così la variabile che una shell riempie con la propria cartella (`dir=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"`, in motore-ai.sh): da lì arriva `conto-motore.mjs`. (d) Un permesso scritto, `Bash(node cervello/…:*)`, non conta come lancio: senza, entrava `git-github.mjs`, un modulo senza comando. (e) `--consegna` dice quali script toglie e quali di questi esistono ancora. `chiudi-sito.mjs` resta: lotto-a-pacchetti.md ⑤ ora nomina il comando, ed è fonte. Consegna rigenerata (131 → 145, nessuna riga tolta) e card #42 riallineata (128 → 145).",
+      "impatto_crescita": "Nullo sui soldi. Toglie la trappola dalla card #42: applicata com'era, 17 script smettevano di avere il permesso, e la volta dopo nessuno l'avrebbe più applicata.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs",
+        "nota": "26 casi. Tredici nuovi per AR-1012: dieci costruiti (sensore, guardiano, il lanciatore riconosciuto dal corpo, la funzione che non si prende il corpo di quella dopo e la variabile che deve essere l'argomento, commenti e frasi, librerie caricate, shell lanciata, la cartella del file stesso, permesso scritto, il verso opposto) e tre sul repo vero (ogni sensore/guardiano del giro nell'elenco con un oracolo scritto a mano; la consegna non porta script che lo strumento non vede più lanciare; la card #42 copre l'elenco). Quindici mutazioni in mutanti.json, tutte rosse. La prova sulla card diventa rossa sulla card di main (indietro di 17)."
+      },
+      "nota_riparazione": "La prova del verso opposto ha preso subito un errore mio: l'esempio `Bash(node cervello/x.mjs:*)` scritto nella prosa della consegna veniva letto come una riga dell'elenco. Cambiato in `…`. Poi una rilettura indipendente con la lente della sicurezza, eseguendo le funzioni, ha trovato tre cose vere: `conto-motore.mjs` ancora fuori (lanciato da `$dir/` in motore-ai.sh), una funzione su una riga con un commento in coda che si prendeva il corpo di quella dopo, e una funzione che lancia uno script suo presa per lanciatore. Riparate tutte e tre, con la loro prova e la loro mutazione. Restano come prima, apposta: i lanci scritti nei commenti contano (`# Prova: node cervello/test/x.test.mjs` è un comando che qualcuno lancia, ed era già la regola), e i commenti in coda a una riga di codice non si tolgono. Resta un'avvertenza che non è di questa scheda: il foglio dei permessi governa i comandi della macchina, non le righe che giro.sh esegue da solo in bash.",
+      "chiuso_il": "2026-10-25 14:21",
+      "chiuso_come": "riparato",
+      "chiuso_da": "ramo claude/practical-carson-0mqdgo",
+      "malattia": "perimetro-dedotto-non-misurato"
     }
   ],
   "meta": {

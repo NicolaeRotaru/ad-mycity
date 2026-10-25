@@ -59,6 +59,11 @@ const CHI_LANCIA = [
   "cervello/test-cervello.mjs",
   "CLAUDE.md",
   "COMANDI.md",
+  // 25/10 — il metodo del lotto del sito. COMANDI.md («chiudi i gravi del sito») rimanda qui per i
+  // passi, e uno di quei passi — `chiudi-sito.mjs`, la chiusura nel registro del sito — si lancia a
+  // mano e non lo nominava nessun lanciatore: era entrato nella consegna aggiunto a mano il 9/9, e
+  // la prima rigenerazione l'avrebbe tolto.
+  "cervello/lotto-a-pacchetti.md",
 ];
 
 /** Le cartelle dove stanno gli altri lanciatori: CI, avvio del VPS, skill. */
@@ -119,7 +124,9 @@ function dentroIlCervello(grezzo) {
   // la prova che lo tiene fermo lo dice: è costruito, non pescato dai dati.
   const i = s.indexOf("cervello/");
   if (i >= 0) s = s.slice(i + "cervello/".length);
-  else s = s.replace(/^\.\//, "").replace(/^\$\{?SCRIPT_DIR\}?\//, "");
+  // 25/10 — anche `${SCRIPT_DIR:-cervello}/` e `${SCRIPT_DIR:-.}/`, la forma col valore di riserva
+  // che usano le librerie caricate dal giro e dal worker: prima restava il `$` e il lancio spariva.
+  else s = s.replace(/^\.\//, "").replace(/^\$(?:SCRIPT_DIR|\{SCRIPT_DIR(?::-[^}]*)?\})\//, "");
   // Un percorso che continua a uscire dalla cartella non lo copre questo elenco.
   //
   // ⚠️ 27/8, AR-846 — QUESTO CONTROLLO GUARDAVA SOLO L'INIZIO. `startsWith("..")` fermava
@@ -132,11 +139,109 @@ function dentroIlCervello(grezzo) {
   return s;
 }
 
-export function scriptLanciatiIn(testo) {
+/** Un percorso come lo scrive la shell, compreso `${VAR:-riserva}`. */
+const PERCORSO = /(?:\$\{\w+:-[^}\s"']*\}|[\w$${}./-])+/.source;
+
+/** Una riga che la shell non esegue. */
+const COMMENTO = /^\s*#/;
+
+/**
+ * `lanciatori` sono le funzioni di casa che lanciano lo script ricevuto come primo argomento — oggi
+ * `sensore` e `guardiano` di `cervello/giro-esito.sh`. Si contano solo nelle righe di shell che non
+ * sono commenti: «guardiano» è anche una parola italiana, e una frase che la usa non è un lancio.
+ */
+export function scriptLanciatiIn(testo, lanciatori = new Set()) {
   const trovati = new Set();
-  const forme = [/\bnode\s+["']?([\w$${}./-]+\.mjs)/g, /\bbash\s+["']?([\w$${}./-]+\.sh)/g];
+  // `Bash(node cervello/x.mjs:*)` è un PERMESSO scritto, non un lancio: `motore-ai.sh` ne porta una
+  // lista, e contarla metteva nell'elenco `git-github.mjs`, che è un modulo senza comando.
+  const forme = [new RegExp(String.raw`(?<!Bash\()\bnode\s+["']?(${PERCORSO}\.mjs)`, "g"), new RegExp(String.raw`(?<!Bash\()\bbash\s+["']?(${PERCORSO}\.sh)`, "g")];
   for (const re of forme) {
     for (const m of String(testo).matchAll(re)) {
+      const nome = dentroIlCervello(m[1]);
+      if (nome) trovati.add(nome);
+    }
+  }
+  if (lanciatori.size) {
+    const re = new RegExp(String.raw`(?:^|[\s;&|(!])(?:${[...lanciatori].join("|")})\s+["']?([\w./-]+\.mjs)`, "g");
+    for (const riga of String(testo).split("\n")) {
+      if (COMMENTO.test(riga)) continue;
+      for (const m of riga.matchAll(re)) {
+        const nome = dentroIlCervello(m[1]);
+        if (nome) trovati.add(nome);
+      }
+    }
+  }
+  return trovati;
+}
+
+/**
+ * Le funzioni della shell che lanciano uno script il cui nome arriva da una variabile.
+ *
+ * 25/10 — IL DIFETTO CHE L'HA FATTA NASCERE. AR-859 ha convertito le righe dei sensori alla forma
+ * `sensore "taste-file.mjs" 2 --sonda`: il `node` c'è ancora, ma sta dentro la funzione, e la riga
+ * che lancia non lo nomina più. Lo strumento cercava solo `node x.mjs`, quindi a ogni riga convertita
+ * uno script spariva dall'elenco senza che niente diventasse rosso. Il 1/9 (#858) la consegna
+ * rigenerata ne ha persi cinque — bilancio-vivo, guardiano-tempo, metabolismo, midollo-spinale,
+ * sentinella-fonti — e il 25/10 ne stavano per sparire altri due.
+ *
+ * La funzione si riconosce dal CORPO, non dal nome: un `node "<cartella>/$variabile"`, dove la
+ * variabile è il primo argomento (`$1`, o `local _script="$1"`). Così un lanciatore nuovo scritto
+ * domani entra da solo, invece di aspettare che qualcuno aggiorni un elenco di nomi — che sarebbe la
+ * stessa malattia, spostata di un piano.
+ */
+export function lanciatoriIn(testo) {
+  const nomi = new Set();
+  const lancia = /\bnode\s+["']?\$\{?\w+(?::-[^}]*)?\}?\/\$\{?(\w+)\}?["'\s]/;
+  const definizione = /^\s*(?:function\s+)?([A-Za-z_]\w*)\s*\(\)\s*\{(.*)$/;
+  const quante = (s, c) => s.split(c).length - 1;
+  const righe = String(testo).split("\n");
+  for (let i = 0; i < righe.length; i++) {
+    const def = righe[i].match(definizione);
+    if (!def) continue;
+    // Una funzione su una riga sola finisce lì: senza questo, `ts() { date; }  # ora` si prenderebbe
+    // il corpo della funzione dopo. Si contano le graffe, perché una coda (`;`, un commento) non
+    // cambia il fatto che la funzione si è chiusa. Le altre finiscono alla prima `}` in colonna zero,
+    // o al più tardi dove comincia la funzione successiva.
+    const corpo = [];
+    if (quante(def[2], "}") > quante(def[2], "{")) corpo.push(def[2]);
+    else for (let j = i + 1; j < righe.length && !/^\}/.test(righe[j]) && !definizione.test(righe[j]); j++) corpo.push(righe[j]);
+    // 25/10, dalla rilettura indipendente: la variabile deve essere l'ARGOMENTO. Senza questo,
+    // `audit() { local f=fisso.mjs; node "$SCRIPT_DIR/$f" "$1"; }` diventava un lanciatore, e
+    // `audit x.mjs` metteva x.mjs nell'elenco.
+    const daArgomento = (v) => v === "1" || corpo.some((r) => new RegExp(String.raw`\b${v}=["']?\$\{?1(?!\d)`).test(r));
+    const lanci = corpo.filter((r) => !COMMENTO.test(r)).map((r) => r.match(lancia)).filter(Boolean);
+    if (lanci.some((m) => daArgomento(m[1]))) nomi.add(def[1]);
+  }
+  return nomi;
+}
+
+/**
+ * Le variabili che una shell riempie con la SUA cartella, riscritte come `$SCRIPT_DIR/`.
+ *
+ * 25/10, dalla rilettura indipendente: `motore-ai.sh` lancia `conto-motore.mjs` come
+ * `node "$dir/conto-motore.mjs"`, con `dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"`.
+ * Lo strumento scarta i percorsi con un `$` che non conosce — giusto, perché `$dir` potrebbe essere
+ * qualunque cosa — e così quel lancio spariva. Qui si riconosce solo la forma che dice da sé dove
+ * punta: la cartella del file stesso. Le altre variabili restano sconosciute, e restano fuori.
+ */
+export function conCartellaPropria(file, testo) {
+  if (!String(file).startsWith("cervello/")) return String(testo);
+  const sotto = file.slice("cervello/".length).replace(/[^/]*$/, ""); // "" oppure "vps/"
+  const propria = /\b(\w+)="?\$\(cd "\$\(dirname "\$\{BASH_SOURCE\[0\][^}]*\}"\)" && pwd\)"?/g;
+  let t = String(testo);
+  for (const nome of new Set([...t.matchAll(propria)].map((m) => m[1]))) {
+    t = t.replace(new RegExp(String.raw`\$(?:\{${nome}\}|${nome}\b)\/`, "g"), () => `$SCRIPT_DIR/${sotto}`);
+  }
+  return t;
+}
+
+/** I file di shell CARICATI (`. "$SCRIPT_DIR/x.sh"`, `source …`): girano nello stesso processo di chi li carica. */
+export function caricatiIn(testo) {
+  const trovati = new Set();
+  const re = new RegExp(String.raw`(?:^|[\s;&|(])(?:\.|source)\s+["']?(${PERCORSO}\.sh)`, "g");
+  for (const riga of String(testo).split("\n")) {
+    if (COMMENTO.test(riga)) continue;
+    for (const m of riga.matchAll(re)) {
       const nome = dentroIlCervello(m[1]);
       if (nome) trovati.add(nome);
     }
@@ -147,15 +252,34 @@ export function scriptLanciatiIn(testo) {
 /** L'elenco: chi viene lanciato E esiste davvero sul disco. */
 export function elencoAmmesso(leggi = (f) => readFileSync(join(AD_ROOT, f), "utf8"), esiste = (f) => existsSync(join(AD_ROOT, f))) {
   const fonti = [...CHI_LANCIA, ...CARTELLE_LANCIATRICI.flatMap(fileDi).filter((f) => /\.(ya?ml|sh|mjs|md)$/.test(f))];
-  const nominati = new Set();
-  for (const f of fonti) {
+  // 25/10 — CHI LANCIA NON STA TUTTO NEI FILE QUI SOPRA. Il giro carica `giro-esito.sh`, ed è lì
+  // che vive `sensore`; il worker carica le sue librerie, e quelle lanciano a loro volta. Uno script
+  // di shell che si lancia è un lanciatore anche lui. Quindi si legge anche quello che le shell
+  // caricano e quello che le fonti lanciano in `.sh`, finché non resta niente di nuovo.
+  const testi = new Map();
+  const daLeggere = [...fonti];
+  while (daLeggere.length) {
+    const f = daLeggere.shift();
+    if (testi.has(f)) continue;
+    testi.set(f, "");
     let txt;
     try {
       txt = leggi(f);
     } catch {
       continue; // una fonte illeggibile non allarga l'elenco: al massimo lo lascia più stretto
     }
-    for (const s of scriptLanciatiIn(txt)) nominati.add(s);
+    if (f.endsWith(".sh")) txt = conCartellaPropria(f, txt);
+    testi.set(f, txt);
+    if (f.endsWith(".sh")) for (const s of caricatiIn(txt)) daLeggere.push(`cervello/${s}`);
+    for (const s of scriptLanciatiIn(txt)) if (s.endsWith(".sh")) daLeggere.push(`cervello/${s}`);
+  }
+  // Prima i lanciatori di TUTTE le shell lette, poi le loro chiamate: `sensore` è definita in un
+  // file e chiamata in un altro.
+  const shell = [...testi].filter(([f]) => f.endsWith(".sh"));
+  const lanciatori = new Set(shell.flatMap(([, txt]) => [...lanciatoriIn(txt)]));
+  const nominati = new Set();
+  for (const [f, txt] of testi) {
+    for (const s of scriptLanciatiIn(txt, f.endsWith(".sh") ? lanciatori : undefined)) nominati.add(s);
   }
   // Un nome lanciato che sul disco non c'è NON entra: un permesso per un file che non esiste è un
   // permesso che aspetta qualcuno che lo crei — cioè esattamente il jolly, scritto una riga alla volta.
@@ -173,10 +297,29 @@ export function bloccoDaIncollare({ mjs, sh }) {
   return [...mjs.map((s) => riga("node", s)), ...sh.map((s) => riga("bash", s))].join("\n");
 }
 
+/** Gli script che una consegna nomina nel suo blocco da incollare. */
+function nellaConsegna(testoConsegna) {
+  return new Set([...String(testoConsegna).matchAll(/Bash\((?:node|bash) cervello\/([\w./-]+):\*\)/g)].map((m) => m[1]));
+}
+
 /** Quali script lanciati NON sono nella consegna che Nicola ha in mano. */
 export function mancantiNellaConsegna(elenco, testoConsegna) {
-  const dentro = new Set([...String(testoConsegna).matchAll(/Bash\((?:node|bash) cervello\/([\w./-]+):\*\)/g)].map((m) => m[1]));
+  const dentro = nellaConsegna(testoConsegna);
   return [...elenco.mjs, ...elenco.sh].filter((s) => !dentro.has(s));
+}
+
+/**
+ * Il verso opposto: quali script la consegna di oggi porta e l'elenco rigenerato NON porta più.
+ *
+ * 25/10 — è il verso che nessuno guardava. `--scaduto` chiede «la consegna copre l'elenco?», e il
+ * 1/9 rispondeva sì: ma l'elenco aveva perso cinque sensori, e la consegna rigenerata li ha persi
+ * con lui. Uno script che esce dalla consegna mentre il suo file è ancora sul disco o non lo lancia
+ * più nessuno, o lo lancia una forma che questo strumento non sa leggere. Da qui le due cose non si
+ * distinguono, quindi si dice ad alta voce, invece di riscrivere in silenzio.
+ */
+export function toltiDallaConsegna(elenco, testoConsegna) {
+  const ora = new Set([...elenco.mjs, ...elenco.sh]);
+  return [...nellaConsegna(testoConsegna)].filter((s) => !ora.has(s)).sort();
 }
 
 /**
@@ -314,21 +457,35 @@ dopo nessuno la applica più. Un elenco che invecchia in silenzio è peggio di n
 sembra pronto.
 
 **Come si ricava.** \`cervello/permessi-elenco.mjs\` cerca la forma dell'ESECUZIONE — \`node x.mjs\`,
-\`bash x.sh\`, nelle cinque varianti che il repo usa davvero, percorso assoluto del server compreso —
-e non il nome nudo: un file citato in una frase è una citazione, non un lancio. Le fonti sono chi
-lancia: il giro, il worker, il cancello del lotto, la suite, la CI, i timer del server, le skill,
-CLAUDE.md e COMANDI.md.
+\`bash x.sh\`, nelle varianti che il repo usa davvero, percorso assoluto del server compreso —
+e non il nome nudo: un file citato in una frase è una citazione, non un lancio. Conta anche i lanci
+che passano da una funzione di casa, come \`sensore "taste-file.mjs" 2 --sonda\` nel giro. Le fonti
+sono chi lancia: il giro, il worker, le librerie che caricano, gli script di shell che lanciano, il
+cancello del lotto, la suite, la CI, i timer del server, le skill, CLAUDE.md, COMANDI.md e il metodo
+del lotto del sito.
 
-**Due scelte prudenti.** Uno script nominato ma non presente sul disco resta fuori: un permesso per
+**Il 25/10 questa consegna era indietro di 14 script, e rigenerarla ne avrebbe tolti altri 3.** Il
+giro lancia una parte dei sensori attraverso la funzione \`sensore\`, e lo strumento cercava solo
+\`node x.mjs\`. Il 1/9 una rigenerazione ne aveva già persi cinque, senza che niente diventasse rosso.
+Gli altri nove stanno nei file che il giro e il worker caricano o lanciano — le loro librerie, il
+motore e l'installatore dei cancelli del commit — e lì lo strumento non guardava. Adesso le funzioni che
+lanciano si riconoscono dal loro corpo, e si leggono anche quei file.
+Quando una rigenerazione toglie uno script che esiste ancora sul disco, lo dice.
+
+**Tre scelte prudenti.** Uno script nominato ma non presente sul disco resta fuori: un permesso per
 un file che non esiste è un permesso che aspetta qualcuno che lo crei, cioè l'asterisco scritto una
-riga alla volta. E una fonte illeggibile lascia l'elenco più stretto, mai più largo — un errore di
-lettura non deve poter allargare il perimetro.
+riga alla volta. Una fonte illeggibile lascia l'elenco più stretto, mai più largo — un errore di
+lettura non deve poter allargare il perimetro. E un permesso già scritto, come
+\`Bash(node cervello/…:*)\`, non conta come lancio: è una concessione, non un'esecuzione.
 
 **Difetto:** AR-206, parte (a). La parte (b) — la regola \`no-jolly-su-cartella-scrivibile\` in
 \`permessi-check.mjs\` — esiste dal lotto 33 e funziona.
 
-**Prova:** \`node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs\` — 11 casi, di cui
-uno sul repo vero che diventa rosso quando questa consegna resta indietro.
+**Prova:** \`node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs\` — 26 casi, di cui
+quattro sul repo vero. Il primo diventa rosso quando questa consegna resta indietro. Il secondo quando
+porta uno script che lo strumento non vede più lanciare. Il terzo quando un lancio via \`sensore\` o
+\`guardiano\` non entra nell'elenco. Il quarto quando la card in coda che porta lo stesso elenco resta
+indietro.
 `;
 }
 
@@ -336,13 +493,21 @@ function main() {
   const elenco = elencoAmmesso();
   const consegna = existsSync(join(AD_ROOT, CONSEGNA)) ? readFileSync(join(AD_ROOT, CONSEGNA), "utf8") : "";
   const mancanti = consegna ? mancantiNellaConsegna(elenco, consegna) : [];
+  const tolti = consegna ? toltiDallaConsegna(elenco, consegna) : [];
 
   if (SCRIVI) {
     // 🟡 scrive UN file solo, la consegna che Nicola legge. Non tocca i permessi: quelli non sono suoi.
     writeFileSync(join(AD_ROOT, CONSEGNA), testoConsegna(elenco), "utf8");
     console.log(`✅ consegna riscritta: ${CONSEGNA} — ${elenco.mjs.length} programmi e ${elenco.sh.length} script di avvio.`);
+    if (tolti.length) {
+      const vivi = tolti.filter((s) => existsSync(join(AD_ROOT, "cervello", s)));
+      console.error(`⚠️  tolti dalla consegna: ${tolti.join(", ")}`);
+      if (vivi.length) {
+        console.error(`   ${vivi.length} esistono ancora sul disco (${vivi.join(", ")}): o non li lancia più nessuno, o li lancia una forma che questo strumento non legge. Guarda chi li lanciava prima di consegnare.`);
+      }
+    }
   } else if (JSON_MODE) {
-    console.log(JSON.stringify({ ...elenco, consegna: CONSEGNA, mancanti_nella_consegna: mancanti }, null, 2));
+    console.log(JSON.stringify({ ...elenco, consegna: CONSEGNA, mancanti_nella_consegna: mancanti, tolti_dalla_consegna: tolti }, null, 2));
   } else if (SCADUTO) {
     if (!consegna) {
       console.error(`⚪ la consegna non c'è (${CONSEGNA}): non ho potuto confrontare niente.`);

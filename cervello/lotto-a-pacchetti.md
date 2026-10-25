@@ -129,7 +129,14 @@ Il formato da scrivere è `chiuso_il` come `AAAA-MM-GG HH:MM` più `chiuso_da` c
 
 Sulla macchina gli stati **non si toccano dentro il lotto**: restano `aperto`, e le chiusure le applica `node cervello/auto-fix.mjs verifica --applica` dopo l'unione.
 
-⚠️ **Sul sito quel comando non esiste.** Nessuno script scrive `stato` o `chiuso_il` dentro il registro del sito: oggi è una modifica a mano su un file di ottomila righe, con una chiave che si rompe se una squadra ritocca un titolo. Se il passo salta, il lotto successivo ripianifica gli stessi difetti già riparati e nessun rosso lo segnala. È il terzo pezzo della card 186.
+**Sul sito il comando c'è dal 9/9: `cervello/chiudi-sito.mjs`.** Legge i frammenti delle corsie e scrive `stato`, `chiuso_il` e `chiuso_da` nel registro del sito. La chiave la fa chiamando `chiaveProblema`, non imitandola. Chiude solo una riparazione che porta il comando della prova e l'esito della mutazione. Si lancia prima a vuoto, poi per scrivere:
+
+```bash
+node cervello/chiudi-sito.mjs <cartella-dei-frammenti>                                       # cosa farebbe
+node cervello/chiudi-sito.mjs <cartella-dei-frammenti> --applica --pr <numero> --commit <sha>  # scrive
+```
+
+Esce 1 se una chiave non aggancia nessun difetto: vuol dire che una squadra ha ritoccato un titolo mentre riparava. Quella chiusura sparirebbe in silenzio. Se il passo salta del tutto, il lotto successivo ripianifica gli stessi difetti già riparati. Era il terzo pezzo della card 186.
 
 ### ⑥ Cosa questo lotto non muove
 

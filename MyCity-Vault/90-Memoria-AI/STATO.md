@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-24 11:10
+aggiornato: 2026-10-25 14:44
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔐 **2026-10-25 14:44 — L'elenco dei permessi da incollare era indietro di 17 programmi: adesso vede anche quelli lanciati attraverso il giro.**
+>
+> Lo strumento che rifà l'elenco cercava solo la forma `node x.mjs`. Il giro però lancia una parte dei sensori con la funzione `sensore`, e altri programmi partono dai file che il giro e il worker caricano. Rigenerando, `taste-file.mjs` e `pota-apprendimento.mjs` sparivano; il 1/9 erano spariti cinque sensori senza nessun rosso.
+>
+> Adesso l'elenco porta 145 programmi su 145 che qualcuno lancia, nel documento e nella card #42. Nessuna riga tolta. Una prova diventa rossa se la consegna o la card restano indietro, o se un lancio via `sensore` non entra.
+>
+> Non ho applicato l'elenco al foglio dei permessi: lo fai tu.
 
 > 🗄️ **2026-10-24 11:10 — Le 48 migrazioni sono nel database vero, e stamattina è riuscita la prima copia notturna.**
 >
