@@ -174,7 +174,7 @@ test("SUL REPO VERO: la consegna che Nicola ha in mano copre tutto quello che si
   );
 });
 
-// ─────────────────────────── AR-1012: i lanci che passano da una funzione ───────────────────────────
+// ─────────────────────────── AR-1013: i lanci che passano da una funzione ───────────────────────────
 //
 // Il difetto, misurato il 25/10: AR-859 ha convertito le righe dei sensori del giro alla forma
 // `sensore "taste-file.mjs" 2 --sonda`. Il `node` sta dentro la funzione, in `giro-esito.sh`, e la
@@ -198,7 +198,7 @@ const ESITO = [
   "}",
 ].join("\n");
 
-test("AR-1012 · un lancio via `sensore` finisce nell'elenco", () => {
+test("AR-1013 · un lancio via `sensore` finisce nell'elenco", () => {
   const { leggi, esiste } = finto(
     {
       "cervello/giro.sh": [
@@ -216,7 +216,7 @@ test("AR-1012 · un lancio via `sensore` finisce nell'elenco", () => {
   }
 });
 
-test("AR-1012 · anche `guardiano`, con e senza virgolette, dentro un `if !`, e il freno che lancia lui", () => {
+test("AR-1013 · anche `guardiano`, con e senza virgolette, dentro un `if !`, e il freno che lancia lui", () => {
   const { leggi, esiste } = finto(
     {
       "cervello/giro.sh": [
@@ -231,7 +231,7 @@ test("AR-1012 · anche `guardiano`, con e senza virgolette, dentro un `if !`, e 
   assert.deepEqual(elencoAmmesso(leggi, esiste).mjs, ["allocazione-check.mjs", "freno-scattato.mjs", "tasso-lezioni.mjs"]);
 });
 
-test("AR-1012 · il lanciatore si riconosce dal CORPO, non dal nome", () => {
+test("AR-1013 · il lanciatore si riconosce dal CORPO, non dal nome", () => {
   // Un nome nuovo che nessun elenco conosce: deve entrare da solo, o il difetto torna alla prima
   // funzione scritta domani.
   const testo = [
@@ -255,7 +255,7 @@ test("AR-1012 · il lanciatore si riconosce dal CORPO, non dal nome", () => {
   assert.ok(!nomi.has("spento"), "un lancio in un commento non fa di una funzione un lanciatore");
 });
 
-test("AR-1012 · una funzione non si prende il corpo di quello che viene dopo, e la variabile è l'argomento", () => {
+test("AR-1013 · una funzione non si prende il corpo di quello che viene dopo, e la variabile è l'argomento", () => {
   // Tre casi trovati dalla rilettura indipendente. Ognuno lo ferma una difesa diversa, e
   // ognuno allargherebbe l'elenco: una funzione presa per lanciatore fa entrare ogni sua chiamata.
   //
@@ -275,7 +275,7 @@ test("AR-1012 · una funzione non si prende il corpo di quello che viene dopo, e
   assert.ok(lanciatoriIn(['corre() {', '  local _s="$1"; shift', '  node "${SCRIPT_DIR:-.}/$_s" "$@"', "}"].join("\n")).has("corre"));
 });
 
-test("AR-1012 · la cartella del file stesso, `$dir/`, si legge come quella del giro", () => {
+test("AR-1013 · la cartella del file stesso, `$dir/`, si legge come quella del giro", () => {
   // `motore-ai.sh` lancia `conto-motore.mjs` così, e non lo nominava nient'altro: era un lancio vero
   // fuori dall'elenco. Trovato dalla rilettura indipendente.
   const motore = [
@@ -294,7 +294,7 @@ test("AR-1012 · la cartella del file stesso, `$dir/`, si legge come quella del 
   assert.ok(scriptLanciatiIn(conCartellaPropria("cervello/vps/giro-ora.sh", vps)).has("vps/ripara.sh"));
 });
 
-test("AR-1012 · una chiamata in un commento, o in una frase, non è un lancio", () => {
+test("AR-1013 · una chiamata in un commento, o in una frase, non è un lancio", () => {
   const lanciatori = new Set(["sensore", "guardiano"]);
   assert.equal(scriptLanciatiIn("  # il guardiano firma-check.mjs ha detto rosso", lanciatori).size, 0);
   assert.equal(scriptLanciatiIn('# sensore "x.mjs" 2 — la vecchia forma', lanciatori).size, 0);
@@ -306,7 +306,7 @@ test("AR-1012 · una chiamata in un commento, o in una frase, non è un lancio",
   assert.deepEqual(elencoAmmesso(leggi, esiste).mjs, []);
 });
 
-test("AR-1012 · le librerie CARICATE si leggono, e non entrano nell'elenco come script", () => {
+test("AR-1013 · le librerie CARICATE si leggono, e non entrano nell'elenco come script", () => {
   assert.deepEqual(
     [...caricatiIn(['. "$SCRIPT_DIR/a.sh"', 'source "$REPO/cervello/b.sh"', '  # . "$SCRIPT_DIR/c.sh"', "if x; then . \"$SCRIPT_DIR/d.sh\"; fi"].join("\n"))].sort(),
     ["a.sh", "b.sh", "d.sh"],
@@ -326,7 +326,7 @@ test("AR-1012 · le librerie CARICATE si leggono, e non entrano nell'elenco come
   assert.deepEqual(e.sh, []);
 });
 
-test("AR-1012 · uno script di shell lanciato è un lanciatore anche lui", () => {
+test("AR-1013 · uno script di shell lanciato è un lanciatore anche lui", () => {
   const { leggi, esiste } = finto(
     {
       "cervello/giro.sh": '_hook_out="$(bash "$SCRIPT_DIR/installa-hooks.sh" 2>&1)"',
@@ -339,7 +339,7 @@ test("AR-1012 · uno script di shell lanciato è un lanciatore anche lui", () =>
   assert.deepEqual(e.mjs, ["istante-cancello.mjs"]);
 });
 
-test("AR-1012 · un permesso già scritto non è un lancio", () => {
+test("AR-1013 · un permesso già scritto non è un lancio", () => {
   // `motore-ai.sh` porta una lista di permessi, e uno è per `git-github.mjs`: un modulo senza
   // comando. Contarla avrebbe allargato il perimetro proprio mentre lo si stringe.
   assert.equal(scriptLanciatiIn('local _allowed="${AI_ALLOWED_TOOLS:-Bash(node cervello/git-github.mjs:*),Bash(git add:*)}"').size, 0);
@@ -347,13 +347,13 @@ test("AR-1012 · un permesso già scritto non è un lancio", () => {
   assert.ok(scriptLanciatiIn("Bash(node cervello/a.mjs:*) e poi node cervello/b.mjs").has("b.mjs"), "il lancio vero accanto al permesso è sparito");
 });
 
-test("AR-1012 · il verso che nessuno guardava: chi esce dalla consegna si vede", () => {
+test("AR-1013 · il verso che nessuno guardava: chi esce dalla consegna si vede", () => {
   const consegna = '"Bash(node cervello/resta.mjs:*)",\n"Bash(node cervello/sparito.mjs:*)",\n"Bash(bash cervello/vps/via.sh:*)",';
   assert.deepEqual(toltiDallaConsegna({ mjs: ["resta.mjs"], sh: [] }, consegna), ["sparito.mjs", "vps/via.sh"]);
   assert.deepEqual(toltiDallaConsegna({ mjs: ["resta.mjs"], sh: [] }, '"Bash(node cervello/resta.mjs:*)",'), []);
 });
 
-test("AR-1012 · SUL REPO VERO: ogni `sensore` e `guardiano` del giro finisce nell'elenco", () => {
+test("AR-1013 · SUL REPO VERO: ogni `sensore` e `guardiano` del giro finisce nell'elenco", () => {
   // L'oracolo è scritto a mano APPOSTA: i due nomi e la forma della chiamata, cercati con una regola
   // che non è quella dello strumento. Se lo strumento smette di riconoscere uno dei due, o una riga
   // nuova del giro chiama uno script in una forma che non legge, questa prova diventa rossa.
@@ -372,7 +372,7 @@ test("AR-1012 · SUL REPO VERO: ogni `sensore` e `guardiano` del giro finisce ne
   for (const n of ["sensore", "guardiano"]) assert.ok(lanciatoriIn(esito).has(n), `${n} non è riconosciuto come lanciatore in giro-esito.sh`);
 });
 
-test("AR-1012 · SUL REPO VERO: la consegna non porta script che lo strumento non vede più lanciare", () => {
+test("AR-1013 · SUL REPO VERO: la consegna non porta script che lo strumento non vede più lanciare", () => {
   // È la prova che il 1/9 mancava. Quando una riga del giro cambia forma e lo strumento non la
   // legge, l'elenco perde lo script e la consegna lo porta ancora: qui diventa rosso PRIMA che una
   // rigenerazione lo tolga in silenzio.
@@ -387,9 +387,9 @@ test("AR-1012 · SUL REPO VERO: la consegna non porta script che lo strumento no
   );
 });
 
-test("AR-1012 · SUL REPO VERO: la card #42 che Nicola applica copre tutto quello che si lancia", (t) => {
+test("AR-1013 · SUL REPO VERO: la card #42 che Nicola applica copre tutto quello che si lancia", (t) => {
   // La card porta il materiale DENTRO (AR-524), quindi è una seconda copia dell'elenco. Il 25/10 era
-  // indietro di 17, perché nessuno la confrontava con niente: `materiale-in-mano.mjs` sa che il
+  // indietro di 19, perché nessuno la confrontava con niente: `materiale-in-mano.mjs` sa che il
   // blocco c'è, non se è giusto, e lo dice lui stesso.
   const radice = join(import.meta.dirname, "..", "..");
   const coda = readFileSync(join(radice, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), "utf8");

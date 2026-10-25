@@ -11,6 +11,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
+import { archivioDi } from './coda-e-archivio.mjs';
 
 // RISPOSTA AL SORVEGLIANTE, che su questo file ha alzato la voce del RAGGIO quattro volte.
 //
@@ -96,7 +97,11 @@ function main() {
   // La cura NON è alzare il tetto (provato il 22/8 e rimesso indietro: una soglia che sale nasconde i
   // problemi). La cura è il file: tolte le carte chiuse, la coda scende a ~167.000 e il guardiano la
   // legge tutta. Chi ha bisogno delle carte chiuse legge ANCHE questo file — vedi CODA_E_ARCHIVIO.
-  const ARCHIVIO = process.env.CODA_ARCHIVIO || path.join(VAULT, 'Archivio', 'AZIONI-archivio.md');
+  // L'archivio si ricava dalla SUA coda (`archivioDi`), la stessa regola che usa chi assegna i numeri
+  // delle card nuove. Prima era fisso nel vault: con la sola CODA_FILE spostata, la pulizia di una coda
+  // finta scriveva le sue carte nell'archivio VERO, e chi cercava i numeri spesi guardava un posto
+  // diverso da quello dove la pulizia li aveva messi (collaudo del 25/10).
+  const ARCHIVIO = process.env.CODA_ARCHIVIO || archivioDi(FILE);
   const DRY_RUN = process.argv.includes('--dry-run');
   const SOGLIA_CARD_CHIUSE = 20; // sopra questa soglia il giro fa housekeeping in automatico
 

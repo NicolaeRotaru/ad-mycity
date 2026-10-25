@@ -1,0 +1,3375 @@
+{
+  "ondate": [
+    [
+      {
+        "chiave": "app/admin/users/page.tsx",
+        "difetti": [
+          18
+        ],
+        "file": [
+          "lib/venditore/stato-richiesta.ts",
+          "app/sell/page.tsx",
+          "app/seller/layout.tsx",
+          "app/admin/users/page.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 0,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/product/[id]/page.tsx",
+        "difetti": [
+          72,
+          77,
+          128,
+          131,
+          219,
+          226,
+          256,
+          268,
+          276,
+          362,
+          483,
+          488,
+          649,
+          1375
+        ],
+        "file": [
+          "lib/promesse-pubbliche.ts",
+          "app/product/[id]/page.tsx",
+          "app/terms/page.tsx",
+          "lib/category-attributes.ts",
+          "lib/products/schema.ts",
+          "components/seller/ProductForm.tsx",
+          "app/orders/[id]/review/page.tsx",
+          "lib/email/templates.ts",
+          "components/ui/Button.tsx",
+          "app/lists/[id]/page.tsx",
+          "app/seller/stories/page.tsx",
+          "app/shop-of-month/page.tsx",
+          "components/MobileAccountSheet.tsx",
+          "components/StoryViewer.tsx",
+          "components/home/ShopOfMonthHero.tsx",
+          "components/home/StoriesCarousel.tsx",
+          "components/store-sections/ReviewsSection.tsx",
+          "components/seller/AttributesFields.tsx",
+          "lib/products/draftFromVision.ts",
+          "app/faq/page.tsx",
+          "app/product/[id]/layout.tsx",
+          "lib/queries/recensioni-della-scheda.ts",
+          "components/ui/Card.tsx",
+          "app/cart/page.tsx",
+          "app/checkout/page.tsx",
+          "docs/mockup/guidelines/cards/spacing-radii.html",
+          "app/seller/dashboard/page.tsx",
+          "app/seller/reviews/page.tsx",
+          "app/seller/customers/page.tsx",
+          "app/orders/[id]/return/page.tsx",
+          "components/home/HeroStoreCard.tsx",
+          "app/rider/history/page.tsx",
+          "app/seller/earnings/page.tsx",
+          "lib/ui/larghezze.ts",
+          "app/categorie/page.tsx",
+          "components/store-sections/misure-vetrina.ts",
+          "app/stores/page.tsx",
+          "app/api/health/route.ts",
+          "components/ProductCard.tsx"
+        ],
+        "ore": 18.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/stripe/payout.ts",
+        "difetti": [
+          1270,
+          1276,
+          1278,
+          1289,
+          1316,
+          1318,
+          1322,
+          1323,
+          1324,
+          1333,
+          1334
+        ],
+        "file": [
+          "lib/stripe/payout.ts",
+          "app/api/cron/operational-alerts/route.ts",
+          "lib/stripe/webhook/comune.ts",
+          "lib/stripe/webhook/rimborsi.ts",
+          "app/api/returns/[id]/decide/route.ts",
+          "app/api/returns/[id]/avanza/route.ts",
+          "app/api/admin/disputes/[id]/resolve/route.ts"
+        ],
+        "ore": 14,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": "app/seller/products/import/page.tsx",
+        "difetti": [
+          112,
+          135,
+          1211,
+          1294
+        ],
+        "file": [
+          "lib/products/importa-csv.ts",
+          "app/seller/products/import/page.tsx",
+          "lib/products/csv-prodotti.ts",
+          "lib/products/salvataggio-tracciato.ts",
+          "app/api/seller/products/[id]/route.ts",
+          "lib/products/nascondi.ts",
+          "app/seller/products/new/page.tsx",
+          "_un_alimento_in_vendita_dichiara_anche_gli_ingredienti.sql"
+        ],
+        "ore": 8.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/queries/keys.ts",
+        "difetti": [
+          49,
+          118
+        ],
+        "file": [
+          "lib/moderazione/decisione-segnalazione.ts",
+          "app/admin/segnalazioni/page.tsx",
+          "components/admin/AdminSidebar.tsx",
+          "lib/queries/keys.ts",
+          "components/Segnala.tsx",
+          "app/api/segnalazioni/route.ts",
+          "app/admin/orders/[id]/page.tsx",
+          "lib/admin/scheda-ordine.ts"
+        ],
+        "ore": 8,
+        "peggiore": 1,
+        "rischio_alto": 2
+      }
+    ],
+    [
+      {
+        "chiave": "lib/email/templates.ts",
+        "difetti": [
+          23,
+          56,
+          74,
+          94,
+          99,
+          100,
+          257,
+          258,
+          264,
+          270,
+          272,
+          274
+        ],
+        "file": [
+          "lib/ordini/fascia-in-chiaro.ts",
+          "app/seller/orders/[id]/page.tsx",
+          "app/seller/orders/page.tsx",
+          "app/api/orders/cod/route.ts",
+          "lib/stripe/webhook/comune.ts",
+          "lib/stripe/webhook/ordini.ts",
+          "lib/email/templates.ts",
+          "app/orders/[id]/page.tsx",
+          "app/rider/page.tsx",
+          "app/rider/orders/[id]/page.tsx",
+          "app/api/cron/send-emails/route.ts",
+          "app/api/admin/users/[id]/moderate/route.ts",
+          "app/stores/page.tsx",
+          "components/Turnstile.tsx",
+          "app/rider/onboarding/page.tsx",
+          "app/api/rider/cash-confirm/route.ts",
+          "lib/errors.ts",
+          "app/api/ai/catalog-create/route.ts",
+          "app/api/ai/catalog-apply/route.ts",
+          "app/product/[id]/opengraph-image.tsx",
+          "components/ShareCartButton.tsx",
+          "app/profile/loyalty/page.tsx",
+          "messages/it.json",
+          "app/search/page.tsx",
+          "app/shipping/page.tsx",
+          "components/home-sections/HomeSectionRenderer.tsx"
+        ],
+        "ore": 16.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/layout.tsx",
+        "difetti": [
+          126,
+          233,
+          239,
+          265,
+          300
+        ],
+        "file": [
+          "app/layout.tsx",
+          "app/page.tsx",
+          "app/regali/page.tsx",
+          "app/categorie/layout.tsx",
+          "app/novita/layout.tsx",
+          "app/piu-venduti/layout.tsx",
+          "app/piccoli-prezzi/layout.tsx",
+          "app/promozioni/layout.tsx",
+          "app/lists/[id]/layout.tsx",
+          "app/stores/layout.tsx",
+          "lib/categorie-con-merce.ts",
+          "lib/queries/catalogo.ts",
+          "components/CategoryBar.tsx",
+          "components/Footer.tsx",
+          "app/categorie/page.tsx",
+          "components/SearchBar.tsx",
+          "app/sitemap.ts",
+          "app/category/[slug]/layout.tsx"
+        ],
+        "ore": 7,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": ".github/workflows/deploy-dopo-ci.yml",
+        "difetti": [
+          1160,
+          1162,
+          1272,
+          1273
+        ],
+        "file": [
+          ".github/workflows/deploy-dopo-ci.yml",
+          ".github/workflows/migrazioni-a-mano.yml",
+          "scripts/riepilogo-migrazioni.sh",
+          "scripts/prova-di-fumo.mjs"
+        ],
+        "ore": 6.5,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": "app/checkout/page.tsx",
+        "difetti": [
+          63,
+          129,
+          255,
+          283,
+          450,
+          487,
+          1202,
+          1204,
+          1357,
+          1358,
+          1362
+        ],
+        "file": [
+          "lib/bozza-checkout.ts",
+          "app/checkout/page.tsx",
+          "components/Navbar.tsx",
+          "app/cookies/page.tsx",
+          "lib/promesse-pubbliche.ts",
+          "app/come-funziona/page.tsx",
+          "components/cart/CarrelloVuoto.tsx",
+          "app/cart/page.tsx",
+          "app/globals.css",
+          "lib/ui/barra-in-fondo.ts",
+          "components/MobileTabBar.tsx",
+          "components/StickyAddToCart.tsx",
+          "lib/quando-arriva.ts",
+          "lib/indirizzo-di-consegna.ts",
+          "lib/ordini/merce-che-tengo-io.ts",
+          "lib/checkout/credito-da-mandare.ts"
+        ],
+        "ore": 6.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/SellerApplicationForm.tsx",
+        "difetti": [
+          71,
+          113,
+          134,
+          298,
+          662
+        ],
+        "file": [
+          "components/SellerApplicationForm.tsx",
+          "app/sell/page.tsx",
+          "components/StoreLocationPicker.tsx",
+          "components/VendorForm.tsx",
+          "lib/constants.ts",
+          "lib/negozio/posizione-del-negozio.ts",
+          "components/checkout/ShippingAddressForm.tsx",
+          "app/profile/addresses/page.tsx",
+          "app/rider/profile/page.tsx",
+          "components/providers/QueryProvider.tsx",
+          "lib/site-branding.ts",
+          "lib/site-branding-schema.ts",
+          "app/admin/branding/page.tsx",
+          "app/api/admin/branding/route.ts",
+          "lib/products/schema.ts"
+        ],
+        "ore": 5.5,
+        "peggiore": 1,
+        "rischio_alto": 1
+      }
+    ],
+    [
+      {
+        "chiave": "app/orders/[id]/page.tsx",
+        "difetti": [
+          30,
+          31,
+          217,
+          294,
+          367,
+          585,
+          1246,
+          1352,
+          1353,
+          1359
+        ],
+        "file": [
+          "app/orders/[id]/page.tsx",
+          "app/seller/orders/[id]/page.tsx",
+          "app/api/cron/operational-alerts/route.ts",
+          "components/orders/ContactSheet.tsx",
+          "app/seller/products/page.tsx",
+          "app/shared-cart/page.tsx",
+          "components/PushNotificationOptIn.tsx",
+          "lib/rimborsi/il-reso.ts",
+          "app/orders/[id]/return/page.tsx",
+          "app/api/returns/create/route.ts",
+          "app/api/cron/release-payouts/route.ts",
+          "app/orders/[id]/review/page.tsx",
+          "lib/riordino.ts",
+          "app/orders/page.tsx"
+        ],
+        "ore": 9,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/products/aiPatch.ts",
+        "difetti": [
+          160,
+          162,
+          1264,
+          1279,
+          1301,
+          1304,
+          1315,
+          1325,
+          1326,
+          1329
+        ],
+        "file": [
+          "lib/products/aiPatch.ts",
+          "app/api/ai/catalog-apply/route.ts",
+          "app/api/ai/catalog-apply-bulk/route.ts",
+          "lib/products/prontoPerLaVendita.ts",
+          "app/api/ai/catalog-chat/route.ts",
+          "app/api/ai/copilot/route.ts",
+          "lib/ai/patchSchema.ts",
+          "app/api/ai/improve-product/route.ts",
+          "app/api/ai/product-chat/route.ts",
+          "components/seller/ProductForm.tsx",
+          "lib/products/schema.ts",
+          "lib/products/avvisoDellaDettatura.ts",
+          "components/seller/QuickAiTools.tsx"
+        ],
+        "ore": 9,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/admin/users/[id]/moderate/route.ts",
+        "difetti": [
+          119,
+          343,
+          1252,
+          1253,
+          1254,
+          1255
+        ],
+        "file": [
+          "lib/rider/idoneita.ts",
+          "app/api/admin/users/[id]/moderate/route.ts",
+          "app/api/admin/users/[id]/documenti/route.ts",
+          "app/admin/users/page.tsx",
+          "app/sign-up/page.tsx"
+        ],
+        "ore": 6.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/orders/cod/route.ts",
+        "difetti": [
+          7,
+          332,
+          1158,
+          1208,
+          1209,
+          1217
+        ],
+        "file": [
+          "app/api/orders/cod/route.ts",
+          "app/api/stripe/checkout/route.ts",
+          "lib/coupons.ts",
+          "lib/ordini/annulla.ts",
+          "lib/ordini/zona-di-consegna.ts",
+          "lib/zona-di-consegna.ts",
+          "lib/shipping.ts",
+          "lib/ordini/valida-carrello.ts"
+        ],
+        "ore": 6,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": "app/privacy/page.tsx",
+        "difetti": [
+          62,
+          78,
+          220,
+          236,
+          350,
+          351,
+          1123,
+          1241
+        ],
+        "file": [
+          "app/privacy/page.tsx",
+          "lib/legal/versione.ts",
+          "app/terms/page.tsx",
+          "app/cookies/page.tsx",
+          "lib/auth/accettazione-testi.ts",
+          "app/api/account/accetta-condizioni/route.ts",
+          "lib/seo/og-pagina.ts",
+          "app/about/page.tsx",
+          "app/come-funziona/page.tsx",
+          "app/lavora-con-noi/page.tsx",
+          "app/help/page.tsx",
+          "app/shipping/page.tsx",
+          "app/returns/page.tsx",
+          "app/status/page.tsx",
+          "app/accessibility/page.tsx",
+          "lib/account/cancellazione.ts",
+          "lib/privacy/potature-ritenzione.ts",
+          "app/api/account/delete/route.ts",
+          "app/profile/settings/page.tsx"
+        ],
+        "ore": 6,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/seller/orders/[id]/page.tsx",
+        "difetti": [
+          212,
+          292,
+          1156,
+          1287,
+          1313
+        ],
+        "file": [
+          "components/Segnala.tsx",
+          "app/seller/orders/[id]/page.tsx",
+          "components/VerifyCodeDialog.tsx",
+          "components/OrderTimeline.tsx",
+          "app/api/returns/[id]/decide/route.ts",
+          "app/api/returns/[id]/avanza/route.ts",
+          "lib/rimborsi/bonifici-da-fare.ts",
+          "components/seller/ReturnRequestCard.tsx"
+        ],
+        "ore": 5.5,
+        "peggiore": 1,
+        "rischio_alto": 2
+      },
+      {
+        "chiave": "app/rider/page.tsx",
+        "difetti": [
+          21,
+          286,
+          1337,
+          1369,
+          1373
+        ],
+        "file": [
+          "app/rider/page.tsx",
+          "app/rider/profile/page.tsx",
+          "lib/rider/idoneita.ts",
+          "app/api/kyc/upload-document/route.ts",
+          "app/rider/onboarding/page.tsx",
+          "lib/queries/consegne-del-fattorino.ts",
+          "lib/queries/negozio-dell-ordine.ts"
+        ],
+        "ore": 4.5,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": "components/home-sections/HomeSectionRenderer.tsx",
+        "difetti": [
+          65,
+          120,
+          261,
+          266,
+          552
+        ],
+        "file": [
+          "components/home-sections/HomeSectionRenderer.tsx",
+          "app/come-funziona/page.tsx",
+          "lib/constants.ts",
+          "app/api/seller/subscription/checkout/route.ts",
+          "app/seller/earnings/commissione.ts",
+          "app/seller/help/domande.ts",
+          "app/faq/page.tsx",
+          "app/sell/layout.tsx",
+          "app/about/page.tsx",
+          "components/admin/home/HomeSectionConfigForm.tsx",
+          "app/page.tsx",
+          "components/ui/DeliveryCutoff.tsx",
+          "components/home/PromoDeals.tsx",
+          "components/ProductGrid.tsx"
+        ],
+        "ore": 4.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/ai/run.ts",
+        "difetti": [
+          159,
+          404
+        ],
+        "file": [
+          "lib/ai/client.ts",
+          "lib/ai/run.ts",
+          "lib/ai/tettoSpesa.ts",
+          "app/api/marketplace/import-fetch/route.ts"
+        ],
+        "ore": 4.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/metriche-venditore.ts",
+        "difetti": [
+          195,
+          198,
+          204,
+          207,
+          209
+        ],
+        "file": [
+          "lib/metriche-venditore.ts",
+          "app/seller/dashboard/page.tsx",
+          "app/seller/analytics/page.tsx",
+          "app/seller/customers/page.tsx"
+        ],
+        "ore": 4.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/messages/[id]/page.tsx",
+        "difetti": [
+          1336,
+          1350,
+          1360,
+          1372
+        ],
+        "file": [
+          "lib/queries/controparte-della-chat.ts",
+          "app/messages/page.tsx",
+          "app/messages/[id]/page.tsx",
+          "app/api/support/conversation/route.ts"
+        ],
+        "ore": 4,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/sign-up/page.tsx",
+        "difetti": [
+          218,
+          297,
+          1260,
+          1308
+        ],
+        "file": [
+          "app/sign-in/page.tsx",
+          "app/sign-up/page.tsx",
+          "components/providers/ToastProvider.tsx",
+          "components/ui/AuthShell.tsx",
+          "lib/safe-redirect.ts"
+        ],
+        "ore": 4,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/operational-alerts/route.ts",
+        "difetti": [
+          93,
+          405,
+          1213,
+          1265,
+          1266
+        ],
+        "file": [
+          "app/api/cron/operational-alerts/route.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/orders/[id]/return/page.tsx",
+        "difetti": [
+          214,
+          215,
+          1248,
+          1249,
+          1280,
+          1281,
+          1282
+        ],
+        "file": [
+          "components/PhotoReviewUpload.tsx",
+          "app/seller/products/import/page.tsx",
+          "app/orders/[id]/return/page.tsx",
+          "app/orders/[id]/dispute/page.tsx",
+          "app/profile/gift-cards/page.tsx",
+          "lib/rimborsi/il-reso.ts",
+          "app/api/returns/create/route.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/rider/orders/[id]/page.tsx",
+        "difetti": [
+          241,
+          259,
+          275,
+          1338,
+          1339
+        ],
+        "file": [
+          "app/rider/orders/[id]/page.tsx",
+          "lib/cassa/prova-incasso.ts",
+          "components/rider/CashConfirmDialog.tsx",
+          "messages/it.json",
+          "app/rider/onboarding/page.tsx",
+          "components/StoreLocationPicker.tsx",
+          "lib/posizione.ts",
+          "lib/rider/link-naviga.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/Navbar.tsx",
+        "difetti": [
+          244,
+          278,
+          305
+        ],
+        "file": [
+          "components/Navbar.tsx",
+          "lib/push/dispositivo.ts",
+          "components/PushNotificationOptIn.tsx"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/analytics/posthog.tsx",
+        "difetti": [
+          47,
+          1163,
+          1222,
+          1223,
+          1224
+        ],
+        "file": [
+          "lib/analytics/posthog.tsx",
+          "lib/analytics/proprieta-senza-dati-personali.ts",
+          "lib/analytics/server.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/promesse-pubbliche.ts",
+        "difetti": [
+          69,
+          70,
+          250,
+          252,
+          263
+        ],
+        "file": [
+          "lib/promesse-pubbliche.ts",
+          "app/faq/page.tsx",
+          "app/terms/page.tsx",
+          "components/SponsoredCarousel.tsx",
+          "app/shipping/page.tsx",
+          "components/home-sections/HomeSectionRenderer.tsx",
+          "components/admin/home/HomeSectionConfigForm.tsx"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "middleware.ts",
+        "difetti": [
+          86,
+          1137,
+          1214
+        ],
+        "file": [
+          "middleware.ts",
+          "lib/auth/decisione-portiere.ts",
+          "lib/auth/cookie-di-sessione.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/orders/page.tsx",
+        "difetti": [
+          33,
+          1229,
+          1236,
+          1286
+        ],
+        "file": [
+          "app/api/admin/orders/[id]/cancel/route.ts",
+          "app/admin/orders/page.tsx",
+          "lib/admin/vista-delle-campagne.ts",
+          "lib/ordini/annulla.ts",
+          "app/api/seller/orders/[id]/reject/route.ts",
+          "app/api/cron/expire-stale-orders/route.ts",
+          "app/api/admin/orders/[id]/restituisci-credito/route.ts"
+        ],
+        "ore": 3,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/seller/ProductForm.tsx",
+        "difetti": [
+          19,
+          172,
+          1194
+        ],
+        "file": [
+          "components/seller/ProductForm.tsx",
+          "app/seller/products/[id]/edit/page.tsx",
+          "lib/products/persistVariants.ts",
+          "lib/products/persistVariantsServer.ts",
+          "components/seller/QuickAiTools.tsx"
+        ],
+        "ore": 2.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/kyc/start-check/route.ts",
+        "difetti": [
+          311,
+          1394
+        ],
+        "file": [
+          "app/api/kyc/start-check/route.ts",
+          "app/admin/disputes/page.tsx",
+          "app/admin/audit/page.tsx"
+        ],
+        "ore": 2,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/page.tsx",
+        "difetti": [
+          201,
+          202,
+          1230
+        ],
+        "file": [
+          "app/admin/page.tsx",
+          "lib/pagamenti/tasso-autorizzazione.ts",
+          "lib/salute-marketplace.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/admin/disputes/[id]/resolve/route.ts",
+        "difetti": [
+          1285
+        ],
+        "file": [
+          "app/api/admin/disputes/[id]/resolve/route.ts",
+          "app/api/cron/release-payouts/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/catalog-create/route.ts",
+        "difetti": [
+          1262
+        ],
+        "file": [
+          "lib/products/draftFromVision.ts",
+          "app/api/ai/catalog-create-bulk/route.ts",
+          "app/api/ai/catalog-create/route.ts",
+          "components/seller/BulkPhotoCreate.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/admin/audit/page.tsx",
+        "difetti": [
+          280
+        ],
+        "file": [
+          "app/admin/cod-remittance/page.tsx",
+          "app/admin/payouts/page.tsx",
+          "app/admin/disputes/page.tsx",
+          "app/admin/support/page.tsx",
+          "app/admin/products/page.tsx",
+          "app/admin/audit/page.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/process-deletions/route.ts",
+        "difetti": [
+          1215
+        ],
+        "file": [
+          "app/api/cron/process-deletions/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/kyc/upload-document/route.ts",
+        "difetti": [
+          1240,
+          1242,
+          1243
+        ],
+        "file": [
+          "app/api/kyc/upload-document/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/faq/page.tsx",
+        "difetti": [
+          247
+        ],
+        "file": [
+          "lib/promesse-ai-fattorini.ts",
+          "app/rider/help/page.tsx",
+          "app/lavora-con-noi/page.tsx",
+          "app/faq/page.tsx",
+          "app/rider/earnings/page.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/rider/onboarding/page.tsx",
+        "difetti": [
+          85
+        ],
+        "file": [
+          "lib/auth/aree-protette.ts",
+          "middleware.ts",
+          "components/hooks/useProfile.ts",
+          "app/seller/layout.tsx",
+          "app/rider/onboarding/page.tsx",
+          "app/api/kyc/start-check/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/ProductGrid.tsx",
+        "difetti": [
+          140,
+          281,
+          290
+        ],
+        "file": [
+          "lib/queries/promozioni-del-negozio.ts",
+          "components/store-sections/useStorePageData.ts",
+          "components/ProductGrid.tsx",
+          "lib/queries/keys.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/rider/SOSButton.tsx",
+        "difetti": [
+          115
+        ],
+        "file": [
+          "components/rider/SOSButton.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": "lib/products/prontoPerLaVendita.ts",
+        "difetti": [
+          1293
+        ],
+        "file": [
+          "lib/products/prontoPerLaVendita.ts",
+          "lib/products/salvataggio-tracciato.ts",
+          "app/api/seller/products/[id]/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 1
+      },
+      {
+        "chiave": "lib/storage/carica-immagine.ts",
+        "difetti": [
+          1228
+        ],
+        "file": [
+          "lib/storage/regole-secchi.ts",
+          "lib/storage/casella-di-caricamento.ts",
+          "lib/storage/carica-immagine.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/store-hours.ts",
+        "difetti": [
+          24,
+          32,
+          251
+        ],
+        "file": [
+          "lib/store-hours.ts",
+          "lib/promessa-consegna.ts",
+          "components/seller/StoreHoursEditor.tsx",
+          "components/seller/SellerOnboardingChecklist.tsx",
+          "lib/store-customization.ts",
+          "components/store-sections/HeroSection.tsx",
+          "components/seller/BadgePicker.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/rider/help/page.tsx",
+        "difetti": [
+          249,
+          341
+        ],
+        "file": [
+          "lib/contatto-telefono.ts",
+          "app/contact/page.tsx",
+          "app/rider/help/page.tsx",
+          ".env.example",
+          "app/seller/help/domande.ts"
+        ],
+        "ore": 1,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/admin/esporta-utenti.ts",
+        "difetti": [
+          1174,
+          1216
+        ],
+        "file": [
+          "lib/ordini/esporta-ordini.ts",
+          "lib/admin/esporta-utenti.ts",
+          "lib/esporta/raccogli-a-finestre.ts"
+        ],
+        "ore": 1,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "public/sw.js",
+        "difetti": [
+          229,
+          240
+        ],
+        "file": [
+          "public/sw.js"
+        ],
+        "ore": 1,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": ".github/workflows/backup-db.yml",
+        "difetti": [
+          1225
+        ],
+        "file": [
+          ".github/workflows/backup-db.yml"
+        ],
+        "ore": 0.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/rider/history/page.tsx",
+        "difetti": [
+          116
+        ],
+        "file": [
+          "app/rider/history/page.tsx",
+          "lib/guadagni/fattorino.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/seller/reviews/page.tsx",
+        "difetti": [
+          114
+        ],
+        "file": [
+          "app/seller/reviews/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/ConfirmDialog.tsx",
+        "difetti": [
+          1206
+        ],
+        "file": [
+          "components/ConfirmDialog.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/db/migrazione-124.ts",
+        "difetti": [
+          1290
+        ],
+        "file": [
+          "lib/db/migrazione-124.ts",
+          "lib/db/migrazione-148.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/queries/suggerimenti-ricerca.ts",
+        "difetti": [
+          1310
+        ],
+        "file": [
+          "lib/queries/suggerimenti-ricerca.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 1,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": ".github/workflows/ci.yml",
+        "difetti": [
+          37,
+          39,
+          150,
+          155,
+          224,
+          428
+        ],
+        "file": [
+          ".github/workflows/ci.yml",
+          ".github/workflows/deriva-migrazioni-produzione.yml",
+          "scripts/check-migration-drift.mjs",
+          "playwright.config.ts",
+          ".npmrc",
+          ".github/workflows/backup-db.yml",
+          "package.json",
+          "package-lock.json"
+        ],
+        "ore": 7,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "lib/stripe/webhook/rimborsi.ts",
+        "difetti": [
+          194,
+          197,
+          1291,
+          1302
+        ],
+        "file": [
+          "lib/stripe/webhook/rimborsi.ts",
+          "lib/stripe/webhook/dispute.ts",
+          "lib/stripe/webhook/comune.ts",
+          "lib/stripe/webhook/sponsorizzati.ts",
+          "lib/analytics/server.ts",
+          "lib/ordini/annulla.ts",
+          "app/api/cron/expire-stale-orders/route.ts",
+          "lib/stripe/rimborso-respinto.ts"
+        ],
+        "ore": 5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/cart/page.tsx",
+        "difetti": [
+          221,
+          222,
+          282,
+          306,
+          1203
+        ],
+        "file": [
+          "app/cart/page.tsx",
+          "app/globals.css",
+          "lib/ordini/merce-che-tengo-io.ts"
+        ],
+        "ore": 4.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/u/[handle]/page.tsx",
+        "difetti": [
+          123,
+          230,
+          1348,
+          1351,
+          1365,
+          1366,
+          1367
+        ],
+        "file": [
+          "app/product/[id]/layout.tsx",
+          "app/store/[id]/layout.tsx",
+          "app/category/[slug]/layout.tsx",
+          "app/store/[id]/[slug]/layout.tsx",
+          "app/u/[handle]/page.tsx",
+          "app/not-found.tsx",
+          "lib/supabase/lettura-per-metadati.ts",
+          "lib/queries/scheda-con-venduto-da.ts",
+          "lib/queries/precarico.ts",
+          "components/PublicProfileToggle.tsx"
+        ],
+        "ore": 4.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/send-emails/route.ts",
+        "difetti": [
+          61,
+          98,
+          102,
+          103
+        ],
+        "file": [
+          "app/api/cron/send-emails/route.ts",
+          "app/api/cron/abandoned-carts/route.ts"
+        ],
+        "ore": 4,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/account/cancellazione.ts",
+        "difetti": [
+          67,
+          384,
+          1321,
+          1332
+        ],
+        "file": [
+          "app/profile/settings/page.tsx",
+          "lib/account/cancellazione.ts",
+          "lib/cron-cancellazioni.ts",
+          "app/api/account/delete/route.ts",
+          "app/api/admin/disputes/[id]/resolve/route.ts",
+          "lib/database.types.ts"
+        ],
+        "ore": 4,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/disiscrizione/page.tsx",
+        "difetti": [
+          58,
+          59,
+          284
+        ],
+        "file": [
+          "lib/email/client.ts",
+          "app/api/newsletter/confirm/route.ts",
+          "app/disiscrizione/page.tsx",
+          "app/api/unsubscribe/route.ts",
+          "lib/email/unsubscribe.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/notifications/page.tsx",
+        "difetti": [
+          132,
+          289,
+          293,
+          506,
+          610
+        ],
+        "file": [
+          "lib/safe-redirect.ts",
+          "components/Navbar.tsx",
+          "app/profile/page.tsx",
+          "app/notifications/page.tsx",
+          "components/ui/Eyebrow.tsx",
+          "app/orders/page.tsx",
+          "app/profile/addresses/page.tsx",
+          "app/returns/page.tsx",
+          "app/messages/page.tsx",
+          "app/favorites/page.tsx",
+          "components/CollectionHeader.tsx",
+          "lib/notifiche/titolo.ts",
+          "app/api/cron/send-push/route.ts"
+        ],
+        "ore": 3.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/stores/page.tsx",
+        "difetti": [
+          141,
+          1153,
+          1154,
+          1180,
+          1395
+        ],
+        "file": [
+          "components/ProductGrid.tsx",
+          "app/stores/page.tsx",
+          "lib/store-hours.ts",
+          "components/StoreListRow.tsx",
+          "components/store-sections/HeroSection.tsx",
+          "components/store-sections/HoursSection.tsx",
+          "components/home/HeroStoreCard.tsx",
+          "components/StorePreviewCard.tsx"
+        ],
+        "ore": 3.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/events/page.tsx",
+        "difetti": [
+          285,
+          1340,
+          1341,
+          1342
+        ],
+        "file": [
+          "app/events/page.tsx",
+          "app/shop-of-month/page.tsx",
+          "lib/queries/negozio-del-mese.ts",
+          "components/home/HomeEvents.tsx",
+          "lib/eventi/stato-dalle-date.ts"
+        ],
+        "ore": 3,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/catalog-apply-bulk/route.ts",
+        "difetti": [
+          1218,
+          1330,
+          1331
+        ],
+        "file": [
+          "app/api/ai/catalog-apply/route.ts",
+          "app/api/ai/catalog-apply-bulk/route.ts",
+          "app/api/ai/catalog-batch/apply/route.ts",
+          "app/api/admin/products/route.ts"
+        ],
+        "ore": 2.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/search/page.tsx",
+        "difetti": [
+          232,
+          243,
+          277
+        ],
+        "file": [
+          "lib/queries/catalogo.ts",
+          "lib/queries/categorie-pubbliche.ts",
+          "app/api/catalogo/albero/route.ts",
+          "app/api/catalogo/sito/route.ts",
+          "components/Footer.tsx",
+          "components/CategoryBar.tsx",
+          "app/search/page.tsx",
+          "app/category/[slug]/page.tsx",
+          "components/hooks/useBranding.ts",
+          "components/PromoTicker.tsx",
+          "app/admin/branding/page.tsx",
+          "app/novita/page.tsx",
+          "app/piu-venduti/page.tsx",
+          "app/piccoli-prezzi/page.tsx",
+          "app/promozioni/page.tsx",
+          "app/regali/RegaliClient.tsx",
+          "app/seller/products/page.tsx"
+        ],
+        "ore": 2.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/catalog-batch/apply/route.ts",
+        "difetti": [
+          1263,
+          1295
+        ],
+        "file": [
+          "app/api/ai/catalog-batch/apply/route.ts",
+          "app/seller/products/ai-batch/page.tsx"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/catalog-chat/route.ts",
+        "difetti": [
+          166,
+          1327
+        ],
+        "file": [
+          "app/api/ai/copilot/route.ts",
+          "app/api/ai/catalog-chat/route.ts",
+          "lib/ai/moderation.ts",
+          "components/SupportProductAssistant.tsx"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/send-push/route.ts",
+        "difetti": [
+          106,
+          394
+        ],
+        "file": [
+          "app/api/cron/send-push/route.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/rider/cash-confirm/route.ts",
+        "difetti": [
+          111,
+          1277
+        ],
+        "file": [
+          "lib/cassa/quadratura.ts",
+          "app/api/cron/riquadra-casse/route.ts",
+          "app/api/rider/cash-confirm/route.ts",
+          "app/api/admin/cod-incasso-dichiarato/route.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/stripe/checkout/route.ts",
+        "difetti": [
+          1238,
+          1239
+        ],
+        "file": [
+          "app/api/stripe/checkout/route.ts",
+          "lib/ordini/riserve-abbandonate.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/rider/earnings/page.tsx",
+        "difetti": [
+          205,
+          267
+        ],
+        "file": [
+          "app/rider/earnings/page.tsx",
+          "app/rider/profile/page.tsx",
+          "app/rider/history/page.tsx"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/seller/products/ai-batch/page.tsx",
+        "difetti": [
+          171,
+          1296
+        ],
+        "file": [
+          "app/api/ai/catalog-batch/start/route.ts",
+          "app/api/ai/catalog-batch/status/route.ts",
+          "app/seller/products/ai-batch/page.tsx",
+          "lib/ai/catalogBatch.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/status/page.tsx",
+        "difetti": [
+          154,
+          273
+        ],
+        "file": [
+          "lib/health/checks.ts",
+          "lib/health/titolare-check.ts",
+          "app/status/page.tsx",
+          "lib/shipping-etichetta/label.ts",
+          "lib/format.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/queries/catalogo.ts",
+        "difetti": [
+          660,
+          1306
+        ],
+        "file": [
+          "components/home/HeroStoreCard.tsx",
+          "lib/queries/precarico.ts",
+          "lib/queries/catalogo.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "lib/stripe/client.ts",
+        "difetti": [
+          183,
+          189
+        ],
+        "file": [
+          "lib/stripe/client.ts",
+          "app/api/stripe/connect/onboarding/route.ts"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "scripts/backup-db.sh",
+        "difetti": [
+          1142,
+          1161,
+          1226,
+          1227
+        ],
+        "file": [
+          "scripts/backup-db.sh",
+          ".github/workflows/backup-db.yml"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "scripts/check-migration-drift.mjs",
+        "difetti": [
+          424,
+          1292
+        ],
+        "file": [
+          "scripts/applica-migrazioni-mancanti.sh",
+          "scripts/check-migration-drift.mjs"
+        ],
+        "ore": 2,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/activity/page.tsx",
+        "difetti": [
+          203
+        ],
+        "file": [
+          "app/admin/activity/page.tsx",
+          "app/api/admin/registro-attivita/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/account/export/route.ts",
+        "difetti": [
+          1151
+        ],
+        "file": [
+          "app/api/account/export/route.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/auth/conferma/page.tsx",
+        "difetti": [
+          1298
+        ],
+        "file": [
+          "app/auth/confirm/route.ts",
+          "app/auth/conferma/page.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/category/[slug]/layout.tsx",
+        "difetti": [
+          124
+        ],
+        "file": [
+          "app/sitemap.ts",
+          "app/category/[slug]/layout.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/globals.css",
+        "difetti": [
+          478,
+          482,
+          490
+        ],
+        "file": [
+          "app/globals.css",
+          "docs/mockup/tokens/colors.css",
+          "lib/order-status.ts",
+          "tailwind.config.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/lists/[id]/page.tsx",
+        "difetti": [
+          291,
+          1343,
+          1344
+        ],
+        "file": [
+          "app/lists/[id]/page.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/profile/addresses/page.tsx",
+        "difetti": [
+          287
+        ],
+        "file": [
+          "app/profile/addresses/page.tsx",
+          "lib/indirizzi/salva-indirizzo.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/store/[id]/layout.tsx",
+        "difetti": [
+          125
+        ],
+        "file": [
+          "lib/seo/schema-negozio.ts",
+          "app/store/[id]/layout.tsx",
+          "app/store/[id]/page.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/DeliveryMap.tsx",
+        "difetti": [
+          1179
+        ],
+        "file": [
+          "components/DeliveryMap.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/ProductViewTracker.tsx",
+        "difetti": [
+          208,
+          410,
+          1257
+        ],
+        "file": [
+          "lib/analytics/visita-prodotto.ts",
+          "components/ProductViewTracker.tsx",
+          "components/RecentlyViewed.tsx",
+          "lib/queries/fasce-prodotti.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/seller/SellerShell.tsx",
+        "difetti": [
+          231,
+          245,
+          1193
+        ],
+        "file": [
+          "components/seller/SellerShell.tsx",
+          "components/admin/AdminSidebar.tsx",
+          "components/hooks/useBottomSheetA11y.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "docs/mockup/components/core/Badge.jsx",
+        "difetti": [
+          480
+        ],
+        "file": [
+          "docs/mockup/components/core/Badge.jsx",
+          "docs/mockup/components/core/Button.jsx",
+          "docs/mockup/components/core/Card.jsx",
+          "docs/mockup/components/core/core.card.html"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/store-sections/HeroSection.tsx",
+        "difetti": [
+          206
+        ],
+        "file": [
+          "components/store-sections/useStorePageData.ts",
+          "app/store/[id]/page.tsx",
+          "components/store-sections/HeroSection.tsx",
+          "components/store-sections/ReviewsSection.tsx",
+          "components/store-sections/SectionRenderer.tsx"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "docs/runbook.md",
+        "difetti": [
+          157,
+          423,
+          1141
+        ],
+        "file": [
+          "lib/api/middleware.ts",
+          "docs/runbook.md"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/api/responses.ts",
+        "difetti": [
+          271
+        ],
+        "file": [
+          "lib/api/responses.ts",
+          "lib/zod-i18n.ts",
+          "lib/errors.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/cart-sync.ts",
+        "difetti": [
+          196
+        ],
+        "file": [
+          "lib/cart-sync.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/queries/seller-public-profiles.ts",
+        "difetti": [
+          1361
+        ],
+        "file": [
+          "lib/queries/seller-public-profiles.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "lib/stripe/webhook/ordini.ts",
+        "difetti": [
+          186
+        ],
+        "file": [
+          "app/orders/page.tsx",
+          "lib/stripe/webhook/ordini.ts"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "package-lock.json",
+        "difetti": [
+          223
+        ],
+        "file": [
+          "package.json",
+          "package-lock.json"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/accessibility/page.tsx",
+        "difetti": [
+          279,
+          1207
+        ],
+        "file": [
+          "app/accessibility/page.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/product-chat/route.ts",
+        "difetti": [
+          1312,
+          1328
+        ],
+        "file": [
+          "lib/ai/moderation.ts",
+          "app/api/ai/product-chat/route.ts",
+          "components/seller/ProductChatAssistant.tsx",
+          "lib/ai/productContext.ts",
+          "app/api/ai/voice-product/route.ts",
+          "app/api/ai/barcode-lookup/route.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/expire-stale-orders/route.ts",
+        "difetti": [
+          109,
+          110
+        ],
+        "file": [
+          "app/api/cron/expire-stale-orders/route.ts",
+          "lib/ordini/annulla.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/cron/external-price-alerts/route.ts",
+        "difetti": [
+          97,
+          608
+        ],
+        "file": [
+          "app/api/cron/external-price-alerts/route.ts",
+          "lib/notifiche/scrivi.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/release-payouts/route.ts",
+        "difetti": [
+          108,
+          1150
+        ],
+        "file": [
+          "app/api/cron/release-payouts/route.ts",
+          "app/api/cron/expire-checkouts/route.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/health/route.ts",
+        "difetti": [
+          436,
+          1219
+        ],
+        "file": [
+          "lib/analytics/ambiente.ts",
+          "app/api/health/route.ts",
+          "lib/health-env.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/returns/[id]/avanza/route.ts",
+        "difetti": [
+          44,
+          493
+        ],
+        "file": [
+          "app/api/returns/[id]/avanza/route.ts",
+          "components/seller/ReturnRequestCard.tsx",
+          "app/api/seller/orders/[id]/reject/route.ts",
+          "lib/coupons.ts",
+          "components/ShareCartButton.tsx",
+          "app/product/[id]/opengraph-image.tsx",
+          "app/profile/loyalty/page.tsx",
+          "app/api/returns/[id]/decide/route.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/vision/extract-product/route.ts",
+        "difetti": [
+          170,
+          1261
+        ],
+        "file": [
+          "lib/products/visionShared.ts",
+          "app/api/vision/extract-product/route.ts",
+          "lib/products/externalSync.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/orders/[id]/dispute/page.tsx",
+        "difetti": [
+          1355,
+          1356
+        ],
+        "file": [
+          "app/orders/[id]/dispute/page.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/product/[id]/layout.tsx",
+        "difetti": [
+          121,
+          127
+        ],
+        "file": [
+          "app/product/[id]/layout.tsx",
+          "lib/products/disponibilita.ts",
+          "lib/supabase/lettura-per-metadati.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/seller/products/page.tsx",
+        "difetti": [
+          414,
+          553
+        ],
+        "file": [
+          "app/seller/products/page.tsx",
+          "components/home/DropOfDay.tsx",
+          "components/seller/FeaturedProductsPicker.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/shared-cart/page.tsx",
+        "difetti": [
+          1346,
+          1347
+        ],
+        "file": [
+          "app/shared-cart/page.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/sitemap.ts",
+        "difetti": [
+          122,
+          302
+        ],
+        "file": [
+          "app/sitemap.ts",
+          "components/Footer.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/ActivityTracker.tsx",
+        "difetti": [
+          200,
+          1112
+        ],
+        "file": [
+          "components/ActivityTracker.tsx",
+          "lib/analytics/registro-accessi.ts",
+          "lib/analytics/events.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/CategoryBar.tsx",
+        "difetti": [
+          269,
+          1186
+        ],
+        "file": [
+          "components/CategoryBar.tsx",
+          "app/piu-venduti/page.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/rider/CashConfirmDialog.tsx",
+        "difetti": [
+          1274,
+          1275
+        ],
+        "file": [
+          "components/rider/CashConfirmDialog.tsx"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/riordino.ts",
+        "difetti": [
+          1345,
+          1364
+        ],
+        "file": [
+          "components/home-sections/ReorderRail.tsx",
+          "lib/riordino.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/stripe/webhook/trasferimenti.ts",
+        "difetti": [
+          184,
+          1199
+        ],
+        "file": [
+          "lib/stripe/webhook/trasferimenti.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "tailwind.config.ts",
+        "difetti": [
+          472,
+          476
+        ],
+        "file": [
+          "tailwind.config.ts"
+        ],
+        "ore": 1,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/categories/page.tsx",
+        "difetti": [
+          138
+        ],
+        "file": [
+          "app/api/admin/categories/route.ts",
+          "app/admin/categories/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/cod-remittance/page.tsx",
+        "difetti": [
+          142
+        ],
+        "file": [
+          "app/admin/cod-remittance/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/funnel/page.tsx",
+        "difetti": [
+          199
+        ],
+        "file": [
+          "app/admin/funnel/page.tsx",
+          "lib/funnel-spese.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/admin/sponsored/page.tsx",
+        "difetti": [
+          1231
+        ],
+        "file": [
+          "app/admin/sponsored/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/admin/today/page.tsx",
+        "difetti": [
+          1173
+        ],
+        "file": [
+          "app/admin/today/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/account/accetta-condizioni/route.ts",
+        "difetti": [
+          315
+        ],
+        "file": [
+          "app/api/account/accetta-condizioni/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/admin/cms/[slug]/route.ts",
+        "difetti": [
+          130
+        ],
+        "file": [
+          "lib/cms-page.ts",
+          "app/api/admin/cms/[slug]/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/admin/orders/[id]/cancel/route.ts",
+        "difetti": [
+          1320
+        ],
+        "file": [
+          "app/api/admin/orders/[id]/cancel/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/admin/products/route.ts",
+        "difetti": [
+          139
+        ],
+        "file": [
+          "app/admin/products/new/page.tsx",
+          "app/api/admin/products/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/admin/users/[id]/kyc/route.ts",
+        "difetti": [
+          88
+        ],
+        "file": [
+          "lib/audit-azioni.ts",
+          "app/api/admin/users/[id]/kyc/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/answer-qa/route.ts",
+        "difetti": [
+          225
+        ],
+        "file": [
+          "components/checkout/useTotaliCarrello.ts",
+          "app/api/ai/answer-qa/route.ts",
+          "app/api/ai/reviews-summary/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/ai/description/route.ts",
+        "difetti": [
+          173
+        ],
+        "file": [
+          "app/api/ai/description/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/contact/route.ts",
+        "difetti": [
+          101
+        ],
+        "file": [
+          "app/api/contact/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/cron/abandoned-carts/route.ts",
+        "difetti": [
+          105
+        ],
+        "file": [
+          "app/api/cron/abandoned-carts/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/health/ready/route.ts",
+        "difetti": [
+          151
+        ],
+        "file": [
+          "app/api/health/ready/route.ts",
+          "lib/env.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/locale/route.ts",
+        "difetti": [
+          611
+        ],
+        "file": [
+          "app/api/locale/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/returns/[id]/decide/route.ts",
+        "difetti": [
+          1314
+        ],
+        "file": [
+          "app/api/returns/[id]/decide/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/seller/orders/[id]/reject/route.ts",
+        "difetti": [
+          104
+        ],
+        "file": [
+          "lib/api/responses.ts",
+          "app/api/seller/orders/[id]/reject/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/api/stripe/webhook/route.ts",
+        "difetti": [
+          1271
+        ],
+        "file": [
+          "lib/stripe/webhook/registro-eventi.ts",
+          "app/api/stripe/webhook/route.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/api/seller/products/[id]/route.ts",
+        "difetti": [
+          1210
+        ],
+        "file": [
+          "app/api/seller/products/[id]/route.ts",
+          "lib/api/responses.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/categorie/layout.tsx",
+        "difetti": [
+          211
+        ],
+        "file": [
+          "app/cart/layout.tsx",
+          "app/checkout/layout.tsx",
+          "app/sign-in/layout.tsx",
+          "app/sign-up/layout.tsx",
+          "app/reset-password/layout.tsx",
+          "app/categorie/layout.tsx",
+          "app/promozioni/layout.tsx",
+          "app/novita/layout.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/favorites/page.tsx",
+        "difetti": [
+          1258
+        ],
+        "file": [
+          "lib/queries/preferiti.ts",
+          "app/favorites/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/lists/page.tsx",
+        "difetti": [
+          1176
+        ],
+        "file": [
+          "app/lists/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/loading.tsx",
+        "difetti": [
+          1178
+        ],
+        "file": [
+          "app/loading.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/orders/[id]/loading.tsx",
+        "difetti": [
+          539
+        ],
+        "file": [
+          "app/product/[id]/loading.tsx",
+          "app/orders/[id]/loading.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/orders/[id]/review/page.tsx",
+        "difetti": [
+          1363
+        ],
+        "file": [
+          "app/orders/[id]/review/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/orders/page.tsx",
+        "difetti": [
+          1354
+        ],
+        "file": [
+          "app/orders/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/page.tsx",
+        "difetti": [
+          228
+        ],
+        "file": [
+          "app/page.tsx",
+          "lib/queries/precarico.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/product/[id]/opengraph-image.tsx",
+        "difetti": [
+          238
+        ],
+        "file": [
+          "app/product/[id]/opengraph-image.tsx",
+          "app/store/[id]/opengraph-image.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/profile/gift-cards/page.tsx",
+        "difetti": [
+          288
+        ],
+        "file": [
+          "app/profile/gift-cards/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/reset-password/page.tsx",
+        "difetti": [
+          1307
+        ],
+        "file": [
+          "app/reset-password/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/sell/page.tsx",
+        "difetti": [
+          133
+        ],
+        "file": [
+          "lib/telefono.ts",
+          "components/VendorForm.tsx",
+          "app/sell/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/seller/customers/page.tsx",
+        "difetti": [
+          262
+        ],
+        "file": [
+          "components/seller/SellerOnboardingChecklist.tsx",
+          "app/seller/customers/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/seller/earnings/commissione.ts",
+        "difetti": [
+          185
+        ],
+        "file": [
+          "lib/stripe/tempi-bonifico.ts",
+          "app/seller/earnings/page.tsx",
+          "app/seller/earnings/commissione.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/seller/products/[id]/edit/page.tsx",
+        "difetti": [
+          1234
+        ],
+        "file": [
+          "app/seller/products/[id]/edit/page.tsx",
+          "app/seller/products/new/page.tsx",
+          "lib/queries/categorie-del-modulo.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/seller/promote/page.tsx",
+        "difetti": [
+          1149
+        ],
+        "file": [
+          "app/seller/promote/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/shipping/page.tsx",
+        "difetti": [
+          75
+        ],
+        "file": [
+          "app/shipping/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/sign-in/page.tsx",
+        "difetti": [
+          1259
+        ],
+        "file": [
+          "lib/auth/conferma-email.ts",
+          "app/sign-in/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "app/terms/page.tsx",
+        "difetti": [
+          303
+        ],
+        "file": [
+          "app/terms/page.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/CartCrossDeviceSync.tsx",
+        "difetti": [
+          27
+        ],
+        "file": [
+          "components/CartCrossDeviceSync.tsx",
+          "lib/cart.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/CategoryShowcase.tsx",
+        "difetti": [
+          1232
+        ],
+        "file": [
+          "components/CategoryShowcase.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/home/DropOfDay.tsx",
+        "difetti": [
+          473
+        ],
+        "file": [
+          "components/home/DropOfDay.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/home/ShopOfMonthHero.tsx",
+        "difetti": [
+          237
+        ],
+        "file": [
+          "components/home/ShopOfMonthHero.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/home/StoriesCarousel.tsx",
+        "difetti": [
+          1349
+        ],
+        "file": [
+          "components/home/StoriesCarousel.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/hooks/useFollowStore.ts",
+        "difetti": [
+          295
+        ],
+        "file": [
+          "components/products/SellerCard.tsx",
+          "components/hooks/useFollowStore.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/LocationPill.tsx",
+        "difetti": [
+          304
+        ],
+        "file": [
+          "components/LocationPill.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/orders/ContactSheet.tsx",
+        "difetti": [
+          1247
+        ],
+        "file": [
+          "components/orders/ContactSheet.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/ProductCard.tsx",
+        "difetti": [
+          650
+        ],
+        "file": [
+          "components/ProductCard.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/PromoTicker.tsx",
+        "difetti": [
+          584
+        ],
+        "file": [
+          "components/PromoTicker.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/providers/QueryProvider.tsx",
+        "difetti": [
+          87
+        ],
+        "file": [
+          "components/providers/QueryProvider.tsx",
+          "lib/queries/svuota-all-uscita.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/PWAInstallBanner.tsx",
+        "difetti": [
+          242
+        ],
+        "file": [
+          "components/PWAInstallBanner.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/seller/BulkPhotoCreate.tsx",
+        "difetti": [
+          1311
+        ],
+        "file": [
+          "components/seller/BulkPhotoCreate.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/seller/ReturnRequestCard.tsx",
+        "difetti": [
+          45
+        ],
+        "file": [
+          "components/seller/ReturnRequestCard.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/StoreAvatar.tsx",
+        "difetti": [
+          1177
+        ],
+        "file": [
+          "lib/image-loader.ts",
+          "components/StoreAvatar.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "components/SupportProductAssistant.tsx",
+        "difetti": [
+          1157
+        ],
+        "file": [
+          "lib/storage/regole-secchi.ts",
+          "lib/products/uploadImages.ts",
+          "lib/products/rehostImages.ts",
+          "components/SupportProductAssistant.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/ui/FreeShippingProgress.tsx",
+        "difetti": [
+          216
+        ],
+        "file": [
+          "components/ui/FreeShippingProgress.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "components/VerifyCodeDialog.tsx",
+        "difetti": [
+          213
+        ],
+        "file": [
+          "components/VerifyCodeDialog.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/admin/vista-delle-campagne.ts",
+        "difetti": [
+          1220
+        ],
+        "file": [
+          "lib/vista-query.ts",
+          "lib/admin/vista-dei-coupon.ts",
+          "lib/admin/vista-delle-campagne.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/analytics/events.ts",
+        "difetti": [
+          64
+        ],
+        "file": [
+          "lib/analytics/events.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "lib/banner-vetrina.ts",
+        "difetti": [
+          1131
+        ],
+        "file": [
+          "lib/banner-vetrina.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/design/cuore-preferito.ts",
+        "difetti": [
+          522
+        ],
+        "file": [
+          "lib/design/cuore-preferito.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/errors.ts",
+        "difetti": [
+          1233
+        ],
+        "file": [
+          "lib/storage/carica-immagine.ts",
+          "lib/errors.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/format.ts",
+        "difetti": [
+          1195
+        ],
+        "file": [
+          "lib/format.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/image-url.ts",
+        "difetti": [
+          561
+        ],
+        "file": [
+          "lib/image-url.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "lib/media/foto-del-negozio.ts",
+        "difetti": [
+          1235
+        ],
+        "file": [
+          "lib/media/foto-del-negozio.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/privacy/potature-ritenzione.ts",
+        "difetti": [
+          1212
+        ],
+        "file": [
+          "lib/privacy/potature-ritenzione.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/products/uploadImages.ts",
+        "difetti": [
+          1221
+        ],
+        "file": [
+          "lib/products/uploadImages.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/queries/scheda-con-venduto-da.ts",
+        "difetti": [
+          1305
+        ],
+        "file": [
+          "lib/queries/scheda-con-venduto-da.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "lib/store-customization.ts",
+        "difetti": [
+          136
+        ],
+        "file": [
+          "lib/telefono.ts",
+          "lib/store-customization.ts",
+          "components/seller/SocialLinksFields.tsx"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "lib/ui/schede-in-fondo.ts",
+        "difetti": [
+          652
+        ],
+        "file": [
+          "lib/ui/schede-in-fondo.ts"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "public/apple-touch-icon.png",
+        "difetti": [
+          458
+        ],
+        "file": [
+          "public/icon-192.png",
+          "public/icon-512.png",
+          "public/icon-maskable-512.png",
+          "public/apple-touch-icon.png"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      },
+      {
+        "chiave": "scripts/applica-migrazioni-mancanti.sh",
+        "difetti": [
+          1159
+        ],
+        "file": [
+          "scripts/applica-migrazioni-mancanti.sh"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/** (largo)",
+        "difetti": [
+          471
+        ],
+        "file": [
+          "app/**",
+          "components/**"
+        ],
+        "ore": 1.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "app/ (largo)",
+        "difetti": [
+          502
+        ],
+        "file": [
+          "tailwind.config.ts",
+          "app/",
+          "components/"
+        ],
+        "ore": 4,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ],
+    [
+      {
+        "chiave": "public/screenshots/ (largo)",
+        "difetti": [
+          579
+        ],
+        "file": [
+          "public/manifest.json",
+          "public/screenshots/"
+        ],
+        "ore": 0.5,
+        "peggiore": 2,
+        "rischio_alto": 0
+      }
+    ]
+  ],
+  "liberi": [
+    3,
+    10,
+    17,
+    25,
+    26,
+    29,
+    34,
+    35,
+    36,
+    38,
+    40,
+    41,
+    42,
+    43,
+    210,
+    234,
+    314,
+    324,
+    325,
+    326,
+    327,
+    329,
+    386,
+    408,
+    1144,
+    1198,
+    1250,
+    1251,
+    1288,
+    1368
+  ],
+  "liberi_perche": {
+    "solo prove e migrazioni": 19,
+    "solo prove": 11
+  },
+  "ore_per_ondata": [
+    18.5,
+    16.5,
+    9,
+    5.5,
+    4,
+    3.5,
+    2.5,
+    1.5,
+    1.5,
+    1,
+    7,
+    5,
+    3.5,
+    2.5,
+    2,
+    2,
+    1.5,
+    1.5,
+    1.5,
+    1.5,
+    1,
+    1,
+    1,
+    1,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    0.5,
+    1.5,
+    4,
+    0.5
+  ],
+  "ore_in_fila": 108.5,
+  "ore_dei_liberi": 23,
+  "ore_di_squadra": 402,
+  "caldi": [
+    [
+      "app/product/[id]/page.tsx",
+      14
+    ],
+    [
+      "lib/email/templates.ts",
+      13
+    ],
+    [
+      "app/checkout/page.tsx",
+      13
+    ],
+    [
+      "app/orders/[id]/page.tsx",
+      11
+    ],
+    [
+      "lib/stripe/payout.ts",
+      11
+    ],
+    [
+      "app/api/orders/cod/route.ts",
+      10
+    ],
+    [
+      "lib/products/aiPatch.ts",
+      10
+    ],
+    [
+      "app/cart/page.tsx",
+      10
+    ],
+    [
+      "app/orders/[id]/return/page.tsx",
+      9
+    ],
+    [
+      "app/api/cron/operational-alerts/route.ts",
+      8
+    ]
+  ],
+  "corsie": {
+    "decisione-nicola": [
+      9,
+      22,
+      46,
+      50,
+      52,
+      66,
+      68,
+      73,
+      79,
+      96,
+      107,
+      137,
+      147,
+      153,
+      156,
+      161,
+      165,
+      176,
+      182,
+      190,
+      191,
+      192,
+      193,
+      248,
+      253,
+      254,
+      299,
+      301,
+      340,
+      342,
+      346,
+      355,
+      391,
+      417,
+      434,
+      551,
+      1245,
+      1267,
+      1268,
+      1269,
+      1317,
+      1335,
+      1370,
+      1371
+    ],
+    "config-vercel": [
+      48,
+      57,
+      76,
+      152,
+      388,
+      1374
+    ],
+    "spegnere-funzione": [
+      53,
+      54,
+      60,
+      164,
+      167,
+      169,
+      296,
+      333,
+      360,
+      593
+    ],
+    "config-supabase": [
+      82,
+      320
+    ],
+    "mondo-reale": [
+      144,
+      146,
+      177,
+      260
+    ],
+    "config-github": [
+      148,
+      432,
+      1076
+    ],
+    "config-stripe": [
+      175
+    ]
+  },
+  "fuori_dal_piano": {
+    "riservati": [
+      0,
+      1,
+      4,
+      5,
+      6,
+      8,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      80,
+      81,
+      83,
+      84,
+      89,
+      90,
+      91,
+      92,
+      149,
+      168,
+      179
+    ],
+    "gia_risolti": [],
+    "senza_ricetta": [],
+    "da_rivedere": [
+      55,
+      415,
+      1297,
+      1303
+    ]
+  }
+}

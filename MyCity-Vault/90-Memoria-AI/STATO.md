@@ -4,13 +4,29 @@ aggiornato: 2026-10-25 14:44
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> 🔐 **2026-10-25 14:44 — L'elenco dei permessi da incollare era indietro di 17 programmi: adesso vede anche quelli lanciati attraverso il giro.**
+> 🔐 **2026-10-25 14:44 — L'elenco dei permessi da incollare era indietro di 19 programmi: adesso vede anche quelli lanciati attraverso il giro.**
 >
 > Lo strumento che rifà l'elenco cercava solo la forma `node x.mjs`. Il giro però lancia una parte dei sensori con la funzione `sensore`, e altri programmi partono dai file che il giro e il worker caricano. Rigenerando, `taste-file.mjs` e `pota-apprendimento.mjs` sparivano; il 1/9 erano spariti cinque sensori senza nessun rosso.
 >
-> Adesso l'elenco porta 145 programmi su 145 che qualcuno lancia, nel documento e nella card #42. Nessuna riga tolta. Una prova diventa rossa se la consegna o la card restano indietro, o se un lancio via `sensore` non entra.
+> Adesso l'elenco porta 147 programmi, tutti quelli che lo strumento trova lanciati, nel documento e nella card #42. Ne restano fuori due che si lanciano solo dalle istruzioni del giro e di un workflow: quei file lo strumento non li legge, ed era così già prima. Nessuna riga tolta. Una prova diventa rossa se la consegna o la card restano indietro, o se un lancio via `sensore` non entra.
 >
 > Non ho applicato l'elenco al foglio dei permessi: lo fai tu.
+
+> 🔐 **2026-10-25 11:50 — La carta 202 è chiusa: l'amministratore del sito adesso sei solo tu.**
+>
+> Il tuo secondo account è amministratore dalle 11:27. Alle 11:50 hai lanciato la seconda parte: i due account di prova non entrano più. L'ho verificato in sola lettura.
+>
+> Adesso la cosa più urgente è la chiave della carta 203. Finché la vecchia funziona, chi la conosce può riaprire quegli account.
+
+> 🔎 **2026-10-24 14:20 — Il modo più veloce per riparare il sito: la ricetta di ogni difetto scritta prima, e le tue firme in una volta sola.**
+>
+> Mi hai chiesto a che punto siamo e come andare più veloci. Restano 562 difetti aperti: 9 bloccanti, 112 gravi, 441 minori. Oggi, prima di toccare il codice, 77 revisori hanno scritto e verificato la ricetta di ognuno dei 551 non riservati. Dodici erano già risolti, e li ho chiusi. Su 118 ricette dei problemi seri, 62 andavano corrette: la correzione è scritta accanto, prima che una squadra le esegua.
+>
+> La cosa più grave non è nel codice: su Vercel manca la chiave di servizio, e il sito non prende ordini. Ma quella chiave sveglia tutto in un giorno, anche alcune falle: non metterla finché non ti do il via. Oggi tocca a te la password dell'amministratore e le chiavi del database. Lunedì, le 14 scelte della carta #209 in un messaggio solo.
+>
+> Con le firme lunedì, i problemi seri del codice si chiudono verso il 31 ottobre: è una stima. Non ho fatto girare prove né aperto il sito. Referto: `consegne/audit/2026-10-24-prediagnosi-sito.md`.
+>
+> ⏰ **2026-10-24 19:12 — Dopo i collaudi.** Tre giri di collaudo hanno bocciato il comando della pre-diagnosi. I difetti trovati sono corretti. Per la regola d'arresto, però, resta uno strumento da lanciare a mano. Le riletture di riservatezza del pomeriggio hanno trovato 23 passaggi in chiaro nella prima versione del ricettario. Erano sul ramo pubblico, e adesso sono oscurati. La carta #211 ti chiede se riscrivere la storia del ramo. *(Fatto il 25/10 alle 12:08, col tuo «sì».)* Il ricettario di oggi è `consegne/audit/2026-10-24-1910-ricettario-sito.json`.
 
 > 🗄️ **2026-10-24 11:10 — Le 48 migrazioni sono nel database vero, e stamattina è riuscita la prima copia notturna.**
 >
