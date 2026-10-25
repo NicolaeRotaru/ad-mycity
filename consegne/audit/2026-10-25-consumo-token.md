@@ -107,8 +107,8 @@ Ondata 1, ricostruita da `consegne/audit/2026-10-16-prima-ondata-sito.md` e dal 
 
 Due revisori in sola lettura hanno riguardato i 17 file toccati, ognuno con la lente della sua dimensione (cadenza-esecuzione e rischio-sicurezza-se). Hanno trovato 12 difetti, e 5 erano gravi nati da questo lavoro. È il caso esatto che il protocollo nuovo deve reggere, e l'ha retto: i minori sono andati nel registro e i gravi a un giro di correzione. Il giro ha avuto un rifacimento e poi si è fermato, a due giri.
 
-- Chiusi, ognuno con la sua prova e la sua mutazione rossa: AR-1013 e AR-1014 (il riesame dell'ondata saltava pacchetti e budget), AR-1018 (l'equivalenza Task-Agent), AR-1019 (il giro senza organigramma), AR-1020 (il rischio dei pacchetti).
-- Aperti come debito minore: AR-1015, AR-1016, AR-1017, AR-1021, AR-1022, AR-1023, più AR-1009 che c'era già.
+- Chiusi, ognuno con la sua prova e la sua mutazione rossa: AR-1014 e AR-1015 (il riesame dell'ondata saltava pacchetti e budget), AR-1019 (l'equivalenza Task-Agent), AR-1020 (il giro senza organigramma), AR-1021 (il rischio dei pacchetti).
+- Aperti come debito minore: AR-1016, AR-1017, AR-1018, AR-1022, AR-1023, AR-1024, più AR-1009 che c'era già.
 
 Il cancello del lotto: «si può consegnare dichiarando i buchi». L'unico ⚪ è il controllo dei tipi del Pannello, che qui non gira perché mancano le sue librerie; questo lavoro non tocca il Pannello. La suite della macchina: 0 rossi in Node su 484 file; in bash 1, il debito dichiarato AR-834 sotto il suo tetto.
 

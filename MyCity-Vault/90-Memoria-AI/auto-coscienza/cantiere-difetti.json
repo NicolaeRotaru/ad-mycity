@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-10-25 17:30",
+  "aggiornato": "2026-10-25 18:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -22038,6 +22038,32 @@
     },
     {
       "id": "AR-1013",
+      "titolo": "L'elenco dei permessi non vedeva i lanci fatti via `sensore`: rigenerarlo toglieva script che il giro lancia",
+      "gravita": "grave",
+      "stato": "chiuso",
+      "nato": "2026-10-25 14:21",
+      "area": "macchina",
+      "nato_come": "regressione",
+      "nato_da": "AR-859 (#850, #855): la conversione delle righe del giro alla forma `sensore \"x.mjs\"` ha tolto il `node` dalla riga che lancia",
+      "dimensione": "rischio-sicurezza-se",
+      "trovato_da": "misura del 25/10/2026: `node cervello/permessi-elenco.mjs --consegna` toglieva taste-file.mjs, pota-apprendimento.mjs e chiudi-sito.mjs",
+      "sintomo": "Rigenerando la consegna dei permessi (consegne/sicurezza/2026-07-29-permessi-senza-jolly.md) spariscono `taste-file.mjs` (giro.sh:617, `sensore \"taste-file.mjs\" 2 --sonda`), `pota-apprendimento.mjs` (giro.sh:945) e `chiudi-sito.mjs`. Misurato meglio, il buco era più largo: la consegna su main era già indietro di 14. Cinque sensori (bilancio-vivo, guardiano-tempo, metabolismo, midollo-spinale, sentinella-fonti) li aveva persi la rigenerazione del 1/9 (#858), subito dopo la loro conversione a `sensore` (#850). Altri nove non li aveva mai visti: li lanciano i file che il giro e il worker caricano (giro-esito.sh, lib-cadenza.sh, lib-esito-lavoro.sh, gate-pubblicazione.sh, worker-coda.sh, worker-bottega.sh, motore-ai.sh) e installa-hooks.sh. La card #42, che porta lo stesso elenco dentro, era indietro di 19. `--scaduto` diceva verde su tutto, perché guarda un verso solo: «la consegna copre l'elenco?».",
+      "causa_radice": "① Lo strumento cercava la forma `node x.mjs`, e con `sensore \"x.mjs\"` il `node` sta dentro la funzione, in un altro file. ② Leggeva solo i file elencati a mano come lanciatori: le librerie caricate con `.` girano nello stesso processo del giro, ma non erano fonti. E la forma `${SCRIPT_DIR:-cervello}/x.mjs` che usano non si normalizzava. ③ Nessuna prova guardava il verso opposto: uno script che esce dalla consegna mentre esiste ancora sul disco. Così il 1/9 la rigenerazione ha tolto cinque sensori senza che niente diventasse rosso. ④ `chiudi-sito.mjs` si lancia a mano nella ricucitura del lotto del sito, ma nessun lanciatore lo nominava: era entrato nella consegna aggiunto a mano il 9/9 (#876), in un file che dice «generato, non correggerlo a mano». Il metodo del lotto (lotto-a-pacchetti.md ⑤) diceva ancora «sul sito quel comando non esiste».",
+      "fix_proposto": "🟡 FATTO. In `cervello/permessi-elenco.mjs`: (a) le funzioni che lanciano lo script ricevuto come argomento si riconoscono dal CORPO (`node \"<cartella>/$variabile\"`, con la variabile presa da `$1`), non dal nome — oggi `sensore` e `guardiano`, domani quella che verrà; le loro chiamate contano solo nelle righe di shell che non sono commenti. (b) Si leggono anche i file che le shell caricano (`.`/`source`) e gli script `.sh` che le fonti lanciano, finché non resta niente di nuovo; i caricati si leggono e basta, non entrano nell'elenco. (c) `${SCRIPT_DIR:-…}/` si normalizza, e così la variabile che una shell riempie con la propria cartella (`dir=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"`, in motore-ai.sh): da lì arriva `conto-motore.mjs`. (d) Un permesso scritto, `Bash(node cervello/…:*)`, non conta come lancio: senza, entrava `git-github.mjs`, un modulo senza comando. (e) `--consegna` dice quali script toglie e quali di questi esistono ancora. `chiudi-sito.mjs` resta: lotto-a-pacchetti.md ⑤ ora nomina il comando, ed è fonte. Consegna rigenerata (133 su main → 147, nessuna riga tolta) e card #42 riallineata (128 → 147).",
+      "impatto_crescita": "Nullo sui soldi. Toglie la trappola dalla card #42: applicata com'era, 19 script smettevano di avere il permesso, e la volta dopo nessuno l'avrebbe più applicata.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs",
+        "nota": "26 casi. Tredici nuovi per AR-1013: dieci costruiti (sensore, guardiano, il lanciatore riconosciuto dal corpo, la funzione che non si prende il corpo di quella dopo e la variabile che deve essere l'argomento, commenti e frasi, librerie caricate, shell lanciata, la cartella del file stesso, permesso scritto, il verso opposto) e tre sul repo vero (ogni sensore/guardiano del giro nell'elenco con un oracolo scritto a mano; la consegna non porta script che lo strumento non vede più lanciare; la card #42 copre l'elenco). Quindici mutazioni in mutanti.json, tutte rosse. La prova sulla card diventa rossa sulla card di main (indietro di 19)."
+      },
+      "nota_riparazione": "La prova del verso opposto ha preso subito un errore mio: l'esempio `Bash(node cervello/x.mjs:*)` scritto nella prosa della consegna veniva letto come una riga dell'elenco. Cambiato in `…`. Poi una rilettura indipendente con la lente della sicurezza, eseguendo le funzioni, ha trovato tre cose vere: `conto-motore.mjs` ancora fuori (lanciato da `$dir/` in motore-ai.sh), una funzione su una riga con un commento in coda che si prendeva il corpo di quella dopo, e una funzione che lancia uno script suo presa per lanciatore. Riparate tutte e tre, con la loro prova e la loro mutazione. Restano come prima, apposta: i lanci scritti nei commenti contano (`# Prova: node cervello/test/x.test.mjs` è un comando che qualcuno lancia, ed era già la regola), e i commenti in coda a una riga di codice non si tolgono. Resta un'avvertenza che non è di questa scheda: il foglio dei permessi governa i comandi della macchina, non le righe che giro.sh esegue da solo in bash. Dalla verifica dell'unione con main (#890), dichiarato e non riparato qui: lo strumento non legge cervello/giro.md né i workflow .claude/workflows/*.js, quindi verifica-automazione.mjs (giro.md riga 40) e prepara-giro.mjs (giro-operativo.js) restano fuori dall'elenco. Il buco c'era già alla base 6cfd713b9: è un'altra fonte, non la forma di lancio di questa scheda.",
+      "chiuso_il": "2026-10-25 14:21",
+      "chiuso_come": "riparato",
+      "chiuso_da": "ramo claude/practical-carson-0mqdgo",
+      "malattia": "perimetro-dedotto-non-misurato"
+    },
+    {
+      "id": "AR-1014",
       "titolo": "Il riesame dell'ondata saltava in silenzio un pacchetto che dichiarava pochi file o nessuno: restava «regge» coi chiusi contati",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (guardati)",
@@ -22061,7 +22087,7 @@
       }
     },
     {
-      "id": "AR-1014",
+      "id": "AR-1015",
       "titolo": "Col budget del motore il riesame dell'ondata saltava per primo, e il motivo dato a Nicola era falso",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (resta, riservaRiesame, motivi)",
@@ -22085,7 +22111,7 @@
       }
     },
     {
-      "id": "AR-1015",
+      "id": "AR-1016",
       "titolo": "La correzione dell'ondata lancia squadra e collaudi su un pacchetto già fermato da un riesame non concluso",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (padroneDi cerca in ok senza guardare lo stato)",
@@ -22102,7 +22128,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1016",
+      "id": "AR-1017",
       "titolo": "La riserva del riesame vale min(4, pacchetti) invece di un revisore per lente",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (RISERVA_RIESAME)",
@@ -22119,7 +22145,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1017",
+      "id": "AR-1018",
       "titolo": "L'hook Stop del collaudo si ripete finché un giro esce a mani vuote, senza il tetto del terzo rosso",
       "dimensione": "cadenza-esecuzione",
       "dove": "cervello/collaudo.mjs:32,162",
@@ -22136,7 +22162,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1018",
+      "id": "AR-1019",
       "titolo": "La mappa delle guardie dava Agent per sorvegliato con un'equivalenza di nomi, mentre per Agent la guardia non fa niente",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/mappa-copertura.mjs (copre, IN_ATTESA.Agent)",
@@ -22160,7 +22186,7 @@
       }
     },
     {
-      "id": "AR-1019",
+      "id": "AR-1020",
       "titolo": "Senza la nota dell'organigramma il giro partiva senza i motori di soldi e senza dirlo",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/prepara-giro.mjs (cieco)",
@@ -22184,7 +22210,7 @@
       }
     },
     {
-      "id": "AR-1020",
+      "id": "AR-1021",
       "titolo": "Il rischio dei pacchetti non riconosceva segreti, accessi fra negozi, firme dei webhook e file del rilascio: quei fix andavano a un collaudatore solo",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/schede-pacchetto.mjs (rischioDi)",
@@ -22208,7 +22234,7 @@
       }
     },
     {
-      "id": "AR-1021",
+      "id": "AR-1022",
       "titolo": "prova-sito lancia vitest, tsc ed eslint con tutto l'ambiente: il codice di prova del worktree vede i token della sessione",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/prova-sito.mjs (esecutore senza env)",
@@ -22225,7 +22251,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1022",
+      "id": "AR-1023",
       "titolo": "conto-token esce 0 senza stampare niente se il percorso contiene uno spazio o passa da un collegamento",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/conto-token.mjs (guardia di avvio import.meta.url)",
@@ -22242,7 +22268,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1023",
+      "id": "AR-1024",
       "titolo": "agent-registry-check con una radice finta pubblica lo stesso il segnale nella Cabina vera",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/agent-registry-check.mjs (RADICE da env, stampSegnale)",

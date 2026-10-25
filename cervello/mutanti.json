@@ -10701,8 +10701,128 @@
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
   {
-   "lotto": 65,
    "difetto": "AR-1013",
+   "nome": "i lanci via sensore e guardiano tornano invisibili: lo strumento cerca di nuovo solo «node x.mjs»",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  if (lanciatori.size) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "i file caricati dal giro non si leggono più: sensore, che vive in giro-esito.sh, smette di essere un lanciatore",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    if (f.endsWith(\".sh\")) for (const s of caricatiIn(txt)) daLeggere.push(`cervello/${s}`);\n",
+   "sostituisci": "",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "uno script di shell lanciato smette di essere letto: quello che lancia lui esce dall'elenco",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    for (const s of scriptLanciatiIn(txt)) if (s.endsWith(\".sh\")) daLeggere.push(`cervello/${s}`);\n",
+   "sostituisci": "",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "la forma ${SCRIPT_DIR:-cervello}/ torna a non normalizzarsi: i lanci delle librerie spariscono",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "replace(/^\\$(?:SCRIPT_DIR|\\{SCRIPT_DIR(?::-[^}]*)?\\})\\//, \"\")",
+   "sostituisci": "replace(/^\\$\\{?SCRIPT_DIR\\}?\\//, \"\")",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "la funzione su una riga, con un commento in coda, torna a prendersi le righe dopo",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    if (quante(def[2], \"}\") > quante(def[2], \"{\")) corpo.push(def[2]);",
+   "sostituisci": "    if (/\\}\\s*$/.test(def[2])) corpo.push(def[2]);",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "un lancio scritto in un commento torna a fare di una funzione un lanciatore",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "const lanci = corpo.filter((r) => !COMMENTO.test(r))",
+   "sostituisci": "const lanci = corpo.filter(() => true)",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "«il guardiano x.mjs» in un commento torna a contare come lancio",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    const re = new RegExp(String.raw`(?:^|[\\s;&|(!])(?:${[...lanciatori].join(\"|\")})\\s+[\"']?([\\w./-]+\\.mjs)`, \"g\");\n    for (const riga of String(testo).split(\"\\n\")) {\n      if (COMMENTO.test(riga)) continue;",
+   "sostituisci": "    const re = new RegExp(String.raw`(?:^|[\\s;&|(!])(?:${[...lanciatori].join(\"|\")})\\s+[\"']?([\\w./-]+\\.mjs)`, \"g\");\n    for (const riga of String(testo).split(\"\\n\")) {",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "i lanciatori tornano a valere anche nelle frasi delle .md: «il guardiano x.mjs» diventa un lancio",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "scriptLanciatiIn(txt, f.endsWith(\".sh\") ? lanciatori : undefined)",
+   "sostituisci": "scriptLanciatiIn(txt, lanciatori)",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "un permesso già scritto torna a contare come lancio: git-github.mjs, un modulo senza comando, entra nell'elenco",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "new RegExp(String.raw`(?<!Bash\\()\\bnode\\s+",
+   "sostituisci": "new RegExp(String.raw`\\bnode\\s+",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "il verso opposto torna muto: uno script che esce dalla consegna non si vede più",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  return [...nellaConsegna(testoConsegna)].filter((s) => !ora.has(s)).sort();",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "il corpo di una funzione rientrata torna a correre fino alla graffa in colonna zero, dentro la funzione dopo",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": " && !definizione.test(righe[j]); j++) corpo.push(righe[j]);",
+   "sostituisci": "; j++) corpo.push(righe[j]);",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "una funzione che lancia uno script SUO torna a contare come lanciatore: la variabile non deve più essere l'argomento",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    if (lanci.some((m) => daArgomento(m[1]))) nomi.add(def[1]);",
+   "sostituisci": "    if (lanci.length) nomi.add(def[1]);",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "la cartella del file stesso torna a non leggersi: conto-motore.mjs esce dall'elenco",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    if (f.endsWith(\".sh\")) txt = conCartellaPropria(f, txt);\n",
+   "sostituisci": "",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "una variabile qualunque torna a passare per la cartella del cervello",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  const propria = /\\b(\\w+)=\"?\\$\\(cd \"\\$\\(dirname \"\\$\\{BASH_SOURCE\\[0\\][^}]*\\}\"\\)\" && pwd\\)\"?/g;",
+   "sostituisci": "  const propria = /\\b(\\w+)=/g;",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "difetto": "AR-1013",
+   "nome": "nella cartella del server la cartella propria torna a essere la radice del cervello",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "() => `$SCRIPT_DIR/${sotto}`",
+   "sostituisci": "() => `$SCRIPT_DIR/`",
+   "test": "cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 65,
+   "difetto": "AR-1014",
    "nome": "il riesame dell'ondata torna a guardare solo i file dichiarati appena la squadra ne nomina uno di codice: il file del piano esce dalla rete",
    "file": ".claude/workflows/ondata-sito.js",
    "cerca": "const guardati = (e) => unione(e.p.file, e.f.file_toccati)",
@@ -10711,7 +10831,7 @@
   },
   {
    "lotto": 65,
-   "difetto": "AR-1014",
+   "difetto": "AR-1015",
    "nome": "il budget del motore non tiene più da parte il posto del riesame né il conto di chi è in corso: il riesame salta per primo",
    "file": ".claude/workflows/ondata-sito.js",
    "cerca": "  if (r - RISERVA >= (inCorso + riservaRiesame + k) * costo) return null",
@@ -10720,7 +10840,7 @@
   },
   {
    "lotto": 65,
-   "difetto": "AR-1018",
+   "difetto": "AR-1019",
    "nome": "il vecchio nome «Task» nel matcher torna a far sembrare sorvegliato «Agent»: un rosso travestito da verde",
    "file": "cervello/mappa-copertura.mjs",
    "cerca": "    return new RegExp(`^(?:${matcher})$`).test(strumento);",
@@ -10729,7 +10849,7 @@
   },
   {
    "lotto": 65,
-   "difetto": "AR-1019",
+   "difetto": "AR-1020",
    "nome": "senza l'organigramma il giro torna a partire senza i motori di soldi e senza dirlo",
    "file": "cervello/prepara-giro.mjs",
    "cerca": "  if (copertura?.motoriCieco) {",
@@ -10738,7 +10858,7 @@
   },
   {
    "lotto": 65,
-   "difetto": "AR-1020",
+   "difetto": "AR-1021",
    "nome": "il rischio dei pacchetti torna a ignorare i dettagli della scheda: segreti e accessi fra negozi scritti nella descrizione non accendono più le due lenti",
    "file": "cervello/schede-pacchetto.mjs",
    "cerca": "  for (const t of [...testi, ...dettagli]) {",

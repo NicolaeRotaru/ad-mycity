@@ -37,7 +37,7 @@ test("LA REGOLA CHE CONTA: il confronto è ancorato — Edit|Write NON copre Not
   );
 });
 
-test("AR-1018 — «Task» nel matcher NON fa sorvegliato «Agent»: la guardia si sveglia ma non pianta l'ancora, e l'attesa ha una data", async () => {
+test("AR-1019 — «Task» nel matcher NON fa sorvegliato «Agent»: la guardia si sveglia ma non pianta l'ancora, e l'attesa ha una data", async () => {
   // Riesame del 25/10: dare Agent per coperto da un alias del matcher era un rosso travestito da verde.
   // Il matcher «Task» sveglia pre-scrittura su Agent (libro mastro 25/10 12:01:20), ma per Agent la
   // guardia non fa niente finché il lotto del freno dei senior non la ripara (AR-1009).

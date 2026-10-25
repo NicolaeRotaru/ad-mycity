@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-25 16:41",
+  "aggiornato": "2026-10-25 16:59",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4181,7 +4181,23 @@
       }
     },
     {
-      "quando": "2026-10-25 16:41",
+      "quando": "2026-10-25 14:36",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1013"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/permessi-elenco.mjs": "60482553b2a7"
+      }
+    },
+    {
+      "quando": "2026-10-25 16:59",
       "casa": "macchina",
       "dimensione": "cadenza-esecuzione",
       "repo": "ad",
@@ -4189,11 +4205,11 @@
       "chi": "AD",
       "trovati": 5,
       "schede": [
-        "AR-1013",
         "AR-1014",
         "AR-1015",
         "AR-1016",
-        "AR-1017"
+        "AR-1017",
+        "AR-1018"
       ],
       "nota": "",
       "file": {
@@ -4207,7 +4223,7 @@
       }
     },
     {
-      "quando": "2026-10-25 16:41",
+      "quando": "2026-10-25 16:59",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
       "repo": "ad",
@@ -4215,12 +4231,12 @@
       "chi": "AD",
       "trovati": 7,
       "schede": [
-        "AR-1018",
         "AR-1019",
         "AR-1020",
         "AR-1021",
         "AR-1022",
         "AR-1023",
+        "AR-1024",
         "AR-1009"
       ],
       "nota": "",

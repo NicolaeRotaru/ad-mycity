@@ -645,7 +645,7 @@ test("un grave del piano chiuso, che il rifacimento dichiara parziale, resta ape
 
 // ── il riesame del 25/10 (lente cadenza-esecuzione): il riesame saltato in silenzio ──────────────
 
-test("AR-1013 — il riesame guarda SEMPRE il territorio del piano: file_toccati vuoti o parziali non tolgono la rete al pacchetto dei soldi", async () => {
+test("AR-1014 — il riesame guarda SEMPRE il territorio del piano: file_toccati vuoti o parziali non tolgono la rete al pacchetto dei soldi", async () => {
   const CHIAVE = "pagamenti-stripe|rimborso doppio";
   // Vuoti: prima nessun gruppo nasceva da [], nessun revisore guardava i soldi, e il pacchetto usciva
   // «regge» col suo chiuso contato e chiedi_a_nicola:false.
@@ -679,7 +679,7 @@ test("AR-1013 — il riesame guarda SEMPRE il territorio del piano: file_toccati
   assert.equal(senza.esito.chiedi_a_nicola, true);
 });
 
-test("AR-1014 — col budget del motore il posto del riesame resta tenuto da parte mentre lavorano squadre e collaudi", async () => {
+test("AR-1015 — col budget del motore il posto del riesame resta tenuto da parte mentre lavorano squadre e collaudi", async () => {
   // Il modello comodo (addebito quando l'agente parte); quello scomodo, addebito alla fine, e' piu' sotto.
   // Ogni lavoratore costa 10 unita' di budget su 100, riserva 10. La lente unica del carrello boccia
   // sempre: prima i due rifacimenti e i ricollaudi mangiavano il budget, e il riesame dei soldi
@@ -697,7 +697,7 @@ test("AR-1014 — col budget del motore il posto del riesame resta tenuto da par
   assert.ok(100 - speso >= 10, "la riserva del motore resta intatta: restano " + (100 - speso));
 });
 
-test("AR-1014 — il motivo di un riesame mancato dice quale freno: budget, tetto degli agenti o revisore caduto", async () => {
+test("AR-1015 — il motivo di un riesame mancato dice quale freno: budget, tetto degli agenti o revisore caduto", async () => {
   // Budget: il motore scende di colpo sotto la riserva dopo squadre e collaudi.
   let n = 0;
   const budget = { total: 100, remaining: () => (++n <= 6 ? 50 : 5) };
@@ -732,7 +732,7 @@ const QUATTRO = { ondata: 3, pacchetti: [...[1, 2, 3, 4].map((i) => pk("lib/l" +
 const bocciaIlCarrello = (l) => (/^collaudoAB:components/.test(l) ? { regge: false, perche: "npx vitest run z rosso", difetti: [] } : undefined);
 const quantiReggono = (esito) => esito.pacchetti.filter((p) => p.stato === "regge").length;
 
-test("AR-1014 — col budget che scende mentre gli agenti lavorano il riesame non salta mai, e la riserva del motore resta intatta", async () => {
+test("AR-1015 — col budget che scende mentre gli agenti lavorano il riesame non salta mai, e la riserva del motore resta intatta", async () => {
   // Prima, col costo addebitato alla fine: a 130, 170, 200, 210 e 300 il riesame dei soldi era l'UNICO
   // passo saltato, dopo otto rifacimenti facoltativi partiti. budget.remaining() non contava chi era in
   // corso, la media divideva per i partiti (chi non aveva pagato contava zero) e il «-1» lasciava a chi
@@ -782,7 +782,7 @@ test("col budget addebitato quando l'agente parte, un no del budget con altri in
   }
 });
 
-test("AR-1013 — la squadra dei soldi dichiara un file di codice ma non quello del piano: il riesame guarda lo stesso il file del piano", async () => {
+test("AR-1014 — la squadra dei soldi dichiara un file di codice ma non quello del piano: il riesame guarda lo stesso il file del piano", async () => {
   // La variante scomoda che il collaudo del 25/10 ha trovato scoperta (il suo mutante A4): il territorio
   // del piano saltato appena la squadra dichiara almeno un file di codice suo.
   const CHIAVE = "pagamenti-stripe|rimborso doppio";

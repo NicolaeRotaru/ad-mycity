@@ -8,7 +8,7 @@
 
 Oggi due righe del foglio dei permessi dicono «puoi lanciare qualunque programma finisca in quella
 cartella», e quella cartella la scrive la macchina stessa.
-Qui sotto c'è l'elenco esplicito che le sostituisce: **116 programmi e 17 script di avvio.**
+Qui sotto c'è l'elenco esplicito che le sostituisce: **134 programmi e 17 script di avvio.**
 
 ## In parole semplici
 
@@ -29,7 +29,7 @@ Non sto dicendo che sia successo. Sto dicendo che oggi nessuno lo impedirebbe.
 ## Cosa cambia per te
 
 Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste
-116:
+134:
 
 ```json
       "Bash(node cervello/adozione-medicine.mjs:*)",
@@ -41,11 +41,15 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/avviso-telegram.mjs:*)",
       "Bash(node cervello/banco-ai.mjs:*)",
       "Bash(node cervello/battito-esterno.mjs:*)",
+      "Bash(node cervello/bilancio-vivo.mjs:*)",
+      "Bash(node cervello/bottega/scelta-worker.mjs:*)",
+      "Bash(node cervello/bottega/testo-lavoro.mjs:*)",
       "Bash(node cervello/c4-cancelli.mjs:*)",
       "Bash(node cervello/calibrazione.mjs:*)",
       "Bash(node cervello/cancello-lotto.mjs:*)",
       "Bash(node cervello/cantiere-prove.mjs:*)",
       "Bash(node cervello/capacita.mjs:*)",
+      "Bash(node cervello/chiudi-sito.mjs:*)",
       "Bash(node cervello/chiusura-loop.mjs:*)",
       "Bash(node cervello/ci-stato.mjs:*)",
       "Bash(node cervello/coerenza-fatti.mjs:*)",
@@ -53,6 +57,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/collega-marketplace.mjs:*)",
       "Bash(node cervello/conflitti-memoria.mjs:*)",
       "Bash(node cervello/contesto-lezioni.mjs:*)",
+      "Bash(node cervello/conto-motore.mjs:*)",
       "Bash(node cervello/conto-token.mjs:*)",
       "Bash(node cervello/correzione-nicola-gate.mjs:*)",
       "Bash(node cervello/costo-ai.mjs:*)",
@@ -66,9 +71,11 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/esegui-azione.mjs:*)",
       "Bash(node cervello/esito-cadenza.mjs:*)",
       "Bash(node cervello/esito-claim.mjs:*)",
+      "Bash(node cervello/esito-scrittura.mjs:*)",
       "Bash(node cervello/esperimenti-check.mjs:*)",
       "Bash(node cervello/firma-check.mjs:*)",
       "Bash(node cervello/freno-costi.mjs:*)",
+      "Bash(node cervello/freno-scattato.mjs:*)",
       "Bash(node cervello/freschezza-cadenze.mjs:*)",
       "Bash(node cervello/freschezza-checklist.mjs:*)",
       "Bash(node cervello/freschezza-intelligence.mjs:*)",
@@ -80,15 +87,19 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/git-pr.mjs:*)",
       "Bash(node cervello/guardiani-check.mjs:*)",
       "Bash(node cervello/guardiano-capacita.mjs:*)",
+      "Bash(node cervello/guardiano-tempo.mjs:*)",
       "Bash(node cervello/housekeeping-azioni.mjs:*)",
       "Bash(node cervello/housekeeping-stato.mjs:*)",
       "Bash(node cervello/intelligence-agenda.mjs:*)",
+      "Bash(node cervello/istante-cancello.mjs:*)",
       "Bash(node cervello/keyword-owner-check.mjs:*)",
       "Bash(node cervello/letargo.mjs:*)",
       "Bash(node cervello/lezione-nuova.mjs:*)",
       "Bash(node cervello/macchina-del-tempo.mjs:*)",
       "Bash(node cervello/mappa-macchina.mjs:*)",
       "Bash(node cervello/marketplace.mjs:*)",
+      "Bash(node cervello/metabolismo.mjs:*)",
+      "Bash(node cervello/midollo-spinale.mjs:*)",
       "Bash(node cervello/no-path-cablati-check.mjs:*)",
       "Bash(node cervello/non-vacuita.mjs:*)",
       "Bash(node cervello/north-star-check.mjs:*)",
@@ -103,6 +114,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/piani-data.mjs:*)",
       "Bash(node cervello/piani-verita.mjs:*)",
       "Bash(node cervello/porte-check.mjs:*)",
+      "Bash(node cervello/pota-apprendimento.mjs:*)",
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prediagnosi.mjs:*)",
       "Bash(node cervello/prossima-card.mjs:*)",
@@ -110,6 +122,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
       "Bash(node cervello/radiografia-in-corsa.mjs:*)",
+      "Bash(node cervello/registra-cadenza.mjs:*)",
       "Bash(node cervello/registro-scelte-check.mjs:*)",
       "Bash(node cervello/retry-policy.mjs:*)",
       "Bash(node cervello/riconcilia-perimetro.mjs:*)",
@@ -124,6 +137,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sensore-cassa.mjs:*)",
       "Bash(node cervello/sensori-spenti-check.mjs:*)",
       "Bash(node cervello/sentinella-budget.mjs:*)",
+      "Bash(node cervello/sentinella-fonti.mjs:*)",
       "Bash(node cervello/serratura-ramo.mjs:*)",
       "Bash(node cervello/si-capisce.mjs:*)",
       "Bash(node cervello/sincronizza-proposte.mjs:*)",
@@ -137,9 +151,13 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/sync-worker-plugins.mjs:*)",
       "Bash(node cervello/tasso-chiusura.mjs:*)",
       "Bash(node cervello/tasso-lezioni.mjs:*)",
+      "Bash(node cervello/taste-file.mjs:*)",
       "Bash(node cervello/test-cervello.mjs:*)",
       "Bash(node cervello/test-pannello.mjs:*)",
       "Bash(node cervello/test/battito-esterno.test.mjs:*)",
+      "Bash(node cervello/test/i-freni-di-spesa-scollegati.test.mjs:*)",
+      "Bash(node cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs:*)",
+      "Bash(node cervello/test/lotto-a-pacchetti-conto.test.mjs:*)",
       "Bash(node cervello/test/lucchetto-per-corsia.test.mjs:*)",
       "Bash(node cervello/test/pw-driver.mjs:*)",
       "Bash(node cervello/uscite-check.mjs:*)",
@@ -254,18 +272,32 @@ dopo nessuno la applica più. Un elenco che invecchia in silenzio è peggio di n
 sembra pronto.
 
 **Come si ricava.** `cervello/permessi-elenco.mjs` cerca la forma dell'ESECUZIONE — `node x.mjs`,
-`bash x.sh`, nelle cinque varianti che il repo usa davvero, percorso assoluto del server compreso —
-e non il nome nudo: un file citato in una frase è una citazione, non un lancio. Le fonti sono chi
-lancia: il giro, il worker, il cancello del lotto, la suite, la CI, i timer del server, le skill,
-CLAUDE.md e COMANDI.md.
+`bash x.sh`, nelle varianti che il repo usa davvero, percorso assoluto del server compreso —
+e non il nome nudo: un file citato in una frase è una citazione, non un lancio. Conta anche i lanci
+che passano da una funzione di casa, come `sensore "taste-file.mjs" 2 --sonda` nel giro. Le fonti
+sono chi lancia: il giro, il worker, le librerie che caricano, gli script di shell che lanciano, il
+cancello del lotto, la suite, la CI, i timer del server, le skill, CLAUDE.md, COMANDI.md e il metodo
+del lotto del sito.
 
-**Due scelte prudenti.** Uno script nominato ma non presente sul disco resta fuori: un permesso per
+**Il 25/10 questa consegna era indietro di 14 script, e rigenerarla ne avrebbe tolti altri 3.** Il
+giro lancia una parte dei sensori attraverso la funzione `sensore`, e lo strumento cercava solo
+`node x.mjs`. Il 1/9 una rigenerazione ne aveva già persi cinque, senza che niente diventasse rosso.
+Gli altri nove stanno nei file che il giro e il worker caricano o lanciano — le loro librerie, il
+motore e l'installatore dei cancelli del commit — e lì lo strumento non guardava. Adesso le funzioni che
+lanciano si riconoscono dal loro corpo, e si leggono anche quei file.
+Quando una rigenerazione toglie uno script che esiste ancora sul disco, lo dice.
+
+**Tre scelte prudenti.** Uno script nominato ma non presente sul disco resta fuori: un permesso per
 un file che non esiste è un permesso che aspetta qualcuno che lo crei, cioè l'asterisco scritto una
-riga alla volta. E una fonte illeggibile lascia l'elenco più stretto, mai più largo — un errore di
-lettura non deve poter allargare il perimetro.
+riga alla volta. Una fonte illeggibile lascia l'elenco più stretto, mai più largo — un errore di
+lettura non deve poter allargare il perimetro. E un permesso già scritto, come
+`Bash(node cervello/…:*)`, non conta come lancio: è una concessione, non un'esecuzione.
 
 **Difetto:** AR-206, parte (a). La parte (b) — la regola `no-jolly-su-cartella-scrivibile` in
 `permessi-check.mjs` — esiste dal lotto 33 e funziona.
 
-**Prova:** `node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs` — 11 casi, di cui
-uno sul repo vero che diventa rosso quando questa consegna resta indietro.
+**Prova:** `node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs` — 26 casi, di cui
+quattro sul repo vero. Il primo diventa rosso quando questa consegna resta indietro. Il secondo quando
+porta uno script che lo strumento non vede più lanciare. Il terzo quando un lancio via `sensore` o
+`guardiano` non entra nell'elenco. Il quarto quando la card in coda che porta lo stesso elenco resta
+indietro.

@@ -1,4 +1,4 @@
-// AR-1019 — il bagaglio del giro senza l'organigramma (node --test).
+// AR-1020 — il bagaglio del giro senza l'organigramma (node --test).
 //
 // Il difetto: se MyCity-Vault/07-Agenti/ORGANIGRAMMA.md sparisce o cambia forma, `turnoDelGiro`
 // consegna lo stesso sei senior — ma nessuno dei motori di soldi — e lo scrive solo in

@@ -215,7 +215,14 @@ Il formato da scrivere è `chiuso_il` come `AAAA-MM-GG HH:MM` più `chiuso_da` c
 
 Sulla macchina gli stati **non si toccano dentro il lotto**: restano `aperto`, e le chiusure le applica `node cervello/auto-fix.mjs verifica --applica` dopo l'unione.
 
-**Sul sito il comando adesso c'è:** `node cervello/chiudi-sito.mjs <cartella dei frammenti> --pr <n> --commit <sha>`, a vuoto finché non gli dai `--applica`. Chiama `chiaveProblema` invece di imitarla, e chiude solo un difetto che porta una prova che gira: un `riparato` senza `verifica_comando` e senza `non_vacuita` non chiude niente. Esce `1` se una chiave non aggancia niente, `2` se non ha potuto leggere. Fino al 28/8 era una modifica a mano su un file di ottomila righe: era il terzo pezzo della card 186.
+**Sul sito il comando c'è dal 9/9: `cervello/chiudi-sito.mjs`.** Legge i frammenti delle corsie e scrive `stato`, `chiuso_il` e `chiuso_da` nel registro del sito. La chiave la fa chiamando `chiaveProblema`, non imitandola. Chiude solo una riparazione che porta il comando della prova e l'esito della mutazione. Si lancia prima a vuoto, poi per scrivere:
+
+```bash
+node cervello/chiudi-sito.mjs <cartella-dei-frammenti>                                       # cosa farebbe
+node cervello/chiudi-sito.mjs <cartella-dei-frammenti> --applica --pr <numero> --commit <sha>  # scrive
+```
+
+Esce 1 se una chiave non aggancia nessun difetto: vuol dire che una squadra ha ritoccato un titolo mentre riparava. Quella chiusura sparirebbe in silenzio. Se il passo salta del tutto, il lotto successivo ripianifica gli stessi difetti già riparati. Era il terzo pezzo della card 186.
 
 ### ⑥ Cosa questo lotto non muove
 
