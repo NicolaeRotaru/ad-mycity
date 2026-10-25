@@ -27012,11 +27012,14 @@
       "impatto": "Chi cerca aiuto non riconosce la conversazione con l'Assistenza. Vale in tutti e tre i mondi.",
       "fix": "Riconoscere la conversazione dell'Assistenza (seller_id uguale all'account usato da /api/support/conversation, oppure un campo sulla conversazione) e mostrare «Assistenza MyCity» con un'etichetta sua al posto di «Negozio».",
       "fonte": "riesame del perimetro del lotto «letture dalla vista pubblica», 2026-10-18 (verificato da un secondo revisore; c'era già prima del lotto)",
-      "stato": "aperto",
+      "stato": "chiuso",
       "prova": "Eseguito su una copia di mycity_base, con le regole di OGGI ricreate. Per il cliente la conversazione con l'admin dà in_vista = 0 e nome dal profilo vuoto. Letti app/api/support/conversation/route.ts (l'assistenza è seller_id, primo admin per created_at) e app/messages/[id]/page.tsx (sottotitolo iAmBuyer ? 'Negozio' : 'Cliente'). — Verifica: Copia di mycity_base, con le regole di oggi ricreate. Per il cliente la conversazione con l'amministratore dà 0 righe nella vista seller_public_profiles e un nome vuoto dal profilo. Con tutte le migrazioni il risultato è lo stesso. Codice letto: app/api/support/conversation/route.ts (seller_id = primo profilo con role='admin' per created_at), components/SupportChatModal.tsx (dopo l'invio apre il filo /messages/[id]), app/messages/[id]/page.tsx:275 ({iAmBuyer ? 'Negozio' : 'Cliente'}). Nessun codice riconosce la conversazione dell'Assistenza.",
       "prova_tipo": "verificata da un secondo revisore",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-25 16:31",
+      "chiuso_da": "PR NicolaeRotaru/mycity#261 (commit di unione fd4821aa3e), unita il 2026-10-25 16:31 e pubblicata (Vercel: rilascio di produzione dpl_9Q3EMjgGiERjPc2eCMzVAjprT3CR pronto)",
+      "nota_riparazione": "La chat con l'Assistenza si riconosce dall'account (GET /api/support/conversation), non dal nome: nell'elenco «Assistenza MyCity» con le cuffie e «Ufficiale», nella testata «Account ufficiale di MyCity». Un negozio con lo stesso nome non prende nessuno dei due segni."
     },
     {
       "dimensione": "architettura",
@@ -27580,17 +27583,17 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-24 16:41",
+    "aggiornato": "2026-10-25 16:39",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 562,
-    "findings_chiusi": 834,
+    "findings_aperti": 561,
+    "findings_chiusi": 835,
     "findings_tot": 1396,
     "aperti_per_severita": {
       "bloccante": 9,
       "grave": 112,
-      "minore": 441,
+      "minore": 440,
       "altre": 0
     },
     "dichiarati_dal_referto": 1396,
