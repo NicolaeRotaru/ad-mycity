@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-11 23:18** — Automatico: **101 aperte · 38 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-25 12:58** — Automatico: **41 aperte · 106 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -14,7 +14,7 @@ fonte: senior dell'AD
 > Nicola dà l'ok → l'azione passa a ✅ FATTO e parte (via i canali del marketplace o a mano).
 
 ## Come approvare
-Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numero non cambia mai. Una card nuova prende il numero successivo al più alto mai usato.
+Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numero non cambia mai. Una card nuova prende il numero successivo al più alto mai usato, contando anche le card chiuse dell'archivio.
 Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 
@@ -31,18 +31,49 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🔴 #208 — Tre scelte che la riparazione ha fatto per te: dimmi se vanno bene · ⏳ accodata 2026-10-16 12:40 · 🔁 riscritta 2026-10-17 18:11
+### 🔴 #210 — Il giorno della chiave: i tuoi passi, nell'ordine giusto · ⏳ accodata 2026-10-24 14:20
 
-**In parole semplici.** Per chiudere tre difetti ho scelto io una regola, che si cambia in pochi minuti.
+**In parole semplici.** Il sito oggi non prende ordini perché su Vercel manca la chiave di servizio del database. Quando la metti, partono insieme dieci lavori notturni e si accendono cose che oggi dormono. Per questo i passi vanno in fila, e alcuni solo dopo il mio via.
 
-**Cosa cambia:**
-- **Contanti senza foto.** Sotto i 50 € il fattorino conferma l'incasso anche senza foto. Da 50 € in su scrive il motivo, e agli amministratori arriva un avviso.
-- **Ordine pagato in parte col credito.** Il bonifico rende i contanti, il credito torna credito: se lo vuoi in soldi è una riga. Con l'account cancellato quel credito si perde, e l'avviso lo dice.
-- **L'avviso del bonifico.** Ha l'email del cliente e resta nelle notifiche e nella casella info finché non lo cancelli: decidi tu per quanto.
+**Cosa cambia:** dopo questi passi un cliente può ordinare in contanti da Pane Quotidiano, il fornaio salva i prodotti, tu approvi i negozi, e le email partono davvero.
 
-**Cosa devi fare tu.** Scrivimi «ok 208», oppure cosa cambiare. Fai rileggere a un legale i testi nuovi sul rimborso: email, informativa, Termini al punto 7, FAQ.
+**Cosa devi fare tu, in ordine.**
+- **Oggi, da soli:** cambia la password dell'amministratore e le chiavi del database, con le carte #202 e #203. Prima di cambiare la chiave, controlliamo insieme chi usa quella vecchia. *(La #202 è fatta, il 25/10 alle 11:50. Chi usa la chiave vecchia l'ho controllato il 25/10 all'01:25: il sito, il Pannello e il VPS. L'ordine dei passi te l'ho dato in chat.)*
+- **Oggi, se vuoi:** accendi la regola «Main» su GitHub, carta #177, in 2 minuti. In Supabase accendi la protezione contro le password già rubate, in 2 minuti.
+- **Lunedì:** dimmi com'è messo Stripe, in 10 minuti. Poi verifica il mittente delle email su Resend, carta #195, in 15 minuti.
+- **Solo dopo il mio via:** togli l'approvazione al «Panificio Demo», carta #201. Poi copia su Vercel la chiave di servizio nuova e le caselle del titolare, carta #154, e fai un nuovo rilascio.
+- **Subito dopo:** un ordine vero di pane da Pane Quotidiano, pagato in contanti e consegnato da te, fino alla rimessa registrata. Nello stesso giro, 5 minuti: carica una foto di copertina entrando come negoziante. La riparazione della carta 167 non è mai stata provata su un database vero.
+- **Dopo le riparazioni del rilascio:** i segreti di Vercel su GitHub, carta #161, e le due firme sulle migrazioni.
 
-**Se va bene:** le segno come decise in DECISIONI.
+**Se va bene:** controllo che ogni lavoro notturno parta come deve, e chiudo i difetti che la chiave risolve. Elenco completo con i minuti in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `passi_di_nicola`.
+
+---
+
+### 🔴 #209 — Firma in un messaggio solo le 14 scelte che servono a riparare il sito · ⏳ accodata 2026-10-24 14:20
+
+**In parole semplici.** Oggi ho scritto in anticipo come si ripara ognuno dei 551 difetti non riservati del sito. Diciannove difetti seri aspettano una tua scelta, e molti altri si accorciano se spegniamo qualcosa al lancio. Ho fuso tutto in 14 domande. Accanto a ognuna c'è la scelta che farei io.
+
+**Cosa cambia:** se rispondi tutto in una volta, le squadre partono lunedì e i problemi seri del codice si chiudono verso il 31 ottobre. Se le firme arrivano a rate, ogni giorno di attesa è un giorno in più.
+
+**Le 14 scelte, con la mia raccomandazione:**
+- ① **Al lancio spegniamo** IA per i negozi, buoni regalo, classifica inviti, newsletter, Drop del giorno, app installabile e PostHog, più Traduci, prezzo barrato e caricamento da file. → Sì.
+- ② **Consegni tu**, con un secondo account da fattorino. Gli esterni li cerchi di persona, senza documenti caricati sul sito. → Sì.
+- ③ **Al lancio solo contanti**, come oggi. Quando un pagamento va storto il sito si ferma e ti avvisa, come per i contanti del 17/10. → Sì. Confermi anche le tre regole della #208.
+- ④ **Il negozio, per i contanti, lo paghi** con un bonifico a mano dopo la rimessa registrata, oppure ricaricando il saldo Stripe. → Bonifico a mano, finché gli ordini sono pochi.
+- ⑤ **Le migrazioni in due firme:** subito quelle che aggiungono, una alla volta quelle che stringono un permesso. → Sì.
+- ⑥ **Partita IVA adesso**, come ditta individuale, col commercialista. Un indirizzo pubblicabile che non sia casa tua. Un negozio senza partita IVA non si approva. → Sì.
+- ⑦ **Nessun regalo in euro al lancio:** via i 5 € di benvenuto e della newsletter, spenti codici sconto, inviti e punti fedeltà. → Sì.
+- ⑧ **La promessa di consegna:** «in giornata» invece di «30-60 minuti», e solo i 3 € di consegna, senza la spedizione a chilometri. → Sì.
+- ⑨ **Una rilettura legale sola**, a fine lotto, per Termini, Privacy e Cookie, insieme alle domande al consulente del lavoro. → Sì.
+- ⑩ **I resi:** pane e freschi non si rendono per ripensamento, e «chiudi senza rimborso» lo puoi fare solo tu. → Sì.
+- ⑪ **Cliente e negozio si parlano al telefono:** via la chat, che il negozio oggi non vede. Il negozio vede nome e telefono di chi ordina. → Sì.
+- ⑫ **Pane Quotidiano:** lo chiami tu questa settimana per partita IVA, sede, allergeni e categorie. Nascondiamo le categorie vuote. → Sì.
+- ⑬ **Niente canone di 50 € al mese** finché il negozio non incassa, e il 10% scritto «IVA inclusa». → Sì, l'IVA la conferma il commercialista.
+- ⑭ **Privacy:** 90 giorni per i documenti di chi non diventa fattorino e per l'email nell'avviso del bonifico. Ripulisco il vecchio registro attività. → Sì.
+
+**Cosa devi fare tu.** Scrivimi «ok 209», oppure il numero delle scelte da cambiare. Le opzioni intere e i perché sono in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `decisioni`.
+
+**Se va bene:** aggiorno il registro dei fatti dove cambia (consegna, prezzi, canone), e le squadre partono dalle fondamenta.
 
 ---
 
@@ -62,49 +93,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #206 — Unisci la prima riparazione del sito: appena la unisci va in produzione · ⏳ accodata 2026-10-16 12:40 · ✅ unita e in produzione
-
-> ✅ **2026-10-18 20:54 — Unita e pubblicata.** Ho chiuso nel registro le 11 schede riparate del tutto. Le 8 parziali dicono cosa manca.
-
-**In parole semplici.** È la richiesta di unione della prima ondata: 21 problemi seri riparati e collaudati da chi non li aveva scritti. Dentro c'è la tua scelta del 17/10: chi paga in contanti è rimborsato a mano, senza IBAN sul sito.
-
-**Cosa cambia:** il fattorino non chiude più una consegna in contanti senza aver confermato l'incasso. E per ogni rimborso di contanti ti arriva l'avviso «💶 Bonifico di rimborso da fare», anche per email a info@mycity-marketplace.com: chiedi l'IBAN al cliente e fai il bonifico. Richiesta: https://github.com/NicolaeRotaru/mycity/pull/258
-
-**Cosa devi fare tu.** Controlla che quella casella esista e la leggi. Poi unisci: la produzione si aggiorna da sola. Poi la regola «Main» (carta #177) e i due passi della #207. **Non applicare ancora la 161**: aspetta il prossimo lotto.
-
-**Se va bene:** controllo la produzione e chiudo le schede nel registro dei difetti del sito.
-
----
-
-### 🟡 #205 — Ripara il codice del sito prima di applicare le migrazioni · ⏳ accodata 2026-10-11 23:15 · ✅ prima ondata nella #206
-
-> ✅ **2026-10-18 20:54 — La seconda parte è nella richiesta 259 del sito.**
-
-**In parole semplici.** La 161 chiude la lettura dei profili, ma scheda prodotto, vetrine e pagine dell'ordine prendono il negozio proprio da lì. Applicata oggi, ogni prodotto mostrerebbe «non disponibile».
-
-**Cosa cambia:** riparo io il codice in un ramo, con la migrazione che completa la 161 e la guardia del rilascio su GitHub. Poi iscrizione di negozi e fattorini, promesse false e soldi. Dettagli: `consegne/audit/2026-10-11-radiografia.md`.
-
-**Se va bene:** ti apro la richiesta di unione sul sito, collaudata da chi non l'ha scritta.
-
----
-
-### 🔴 #204 — Sei decisioni che servono prima del lancio · ⏳ accodata 2026-10-11 23:15
-
-**In parole semplici.** Cinque difetti gravi si riparano solo dopo una tua scelta. Per ognuna ti dico cosa farei.
-
-**Cosa cambia:** finché non scegli, il sito promette cose diverse da quelle che fa.
-- **Dati del titolare** (card #165): aprirei la partita IVA adesso, non a 5.000 euro.
-- **Supabase Pro:** sì. Senza, le foto rischiano di non vedersi e i database si addormentano.
-- **50 euro al mese ai negozi:** niente canone finché il negozio non incassa.
-- **5 euro di benvenuto:** li toglierei dalle pagine finché la cassa non li applica.
-- **Lo sconto di MyCity:** lo pagherei noi, non il fornaio.
-- **Al lancio (13/10 09:13):** terrei spente IA, buoni regalo, inviti, newsletter e altre tre: 14 gravi in meno.
-
-**Se va bene:** sistemo pagine e codice nella richiesta di unione della #205.
-
----
-
 ### 🔴 #203 — Cambia oggi le chiavi del database del sito: una chiave segreta non è più segreta · ⏳ accodata 2026-10-11 23:15
+
+> ⏰ **2026-10-24 14:20 — È ancora la cosa più urgente.** Il piano di riparazione la mette oggi, insieme alla #202, prima di tutto il resto. Finché la chiave vecchia vive, il giorno della chiave della #210 non può partire.
 
 > ⚠️ **2026-10-12 17:55 — Ancora aperta.** Accettata 244 volte in 24 ore, tutte letture del sito. Nel database nessuna traccia di intrusi. La procedura collaudata è in chat del 12/10.
 
@@ -115,20 +106,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Cosa devi fare tu.** I passi della chat del 12/10, nell'ordine. Mai tornare a una pubblicazione vecchia. Sul Garante decidi col DPO entro mercoledì 14 ottobre in serata.
 
 **Se va bene:** controllo che il sito pubblicato abbia solo la chiave pubblica.
-
----
-
-### 🔴 #202 — Cambia oggi la password dell'account amministratore del sito · ⏳ accodata 2026-10-11 10:40
-
-**In parole semplici.** La password dell'amministratore del marketplace non è più segreta. Il perché è in chat: questo file è pubblico.
-
-> ⚠️ **2026-10-12 17:55 — Password ancora vecchia.** L'account di prova va bloccato, non cancellato: il database lo registra come chi ha dato il via al primo negozio. Il comando collaudato è in chat del 12/10.
-
-**Cosa cambia:** chi la conosce entra come amministratore: approva negozi, vede ordini e profili. L'ultimo accesso è del 28 settembre: se non eri tu, dimmelo.
-
-**Cosa devi fare tu.** Incolla nell'editor SQL di Supabase il comando della chat del 12/10. Se qualcosa non torna, si annulla da solo. Da amministratore, il tuo account non potrà più comprare.
-
-**Se va bene:** controllo che la password vecchia non funzioni più.
 
 ---
 
@@ -145,50 +122,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 **Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
 
 > ⚠️ **2026-10-12 17:55 — Da dove viene.** È un account di prova come gli altri due, nato il 5/9 da un programma. Il 7/9 alle 21:37 qualcuno ci è entrato, tre minuti dopo un accesso dal tuo account. Se eri tu, scrivimi «ok 201».
-
----
-
-### 🔴 #200 — Avvisa il fornaio: il Comune paga una parte della differenziata, ma il bando chiude il 23 ottobre · ⏳ accodata 2026-10-10 09:40
-
-**In parole semplici.** Il Comune ha 400.000 € per le piccole attività che migliorano la differenziata: compostiere, meno usa e getta, meno sprechi. Pane Quotidiano ha i requisiti, e i soldi vanno a chi chiede per primo.
-
-**Cosa cambia:** è un favore concreto al nostro unico negozio vero, e non dipende dal sito.
-
-**Cosa devi fare tu.** Leggere il messaggio pronto e mandarlo tu su WhatsApp: `consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md`.
-
-**Se va bene:** al prossimo giro guardo se il fornaio ha fatto la domanda.
-
-**Cosa non ho verificato:** se nel fondo restano soldi.
-
----
-
-### 🟡 #198 — Il pulsante più importante della home non si vede quando lo raggiungi col tasto Tab · ⏳ accodata 2026-09-07 09:40
-
-**In parole semplici.** Chi non usa il mouse gira per il sito col tasto Tab. A ogni salto il browser disegna un anello intorno alla cosa selezionata, così sai dove sei. Sul pulsante principale della home quell'anello c'è, ma è arancione su fondo arancione scuro: non si vede.
-
-**Come l'ho misurato.** Non l'ho letto, l'ho contato. L'anello è `#C0492C`, il fondo del pulsante è `#A03B25`. Il loro stacco è 1,34 a 1. La soglia riconosciuta per un elemento non testuale è 3 a 1. Il pulsante di fianco, che sta su fondo bianco, il suo anello ce l'ha.
-
-**Cosa cambia:** il primo passo del percorso d'acquisto è invisibile a chi naviga da tastiera. Il pulsante funziona: è il «sei qui» che manca.
-
-**Perché non l'ho riparato da solo.** La riparazione è una parola sola nella classe del pulsante, e l'ho già scritta nella scheda. Ma la richiesta di unione del sito, la 250, l'hai già unita: aprirne un'altra da sola è una decisione tua, non mia. E c'è la domanda più larga: i punti del sito con quel fondo scuro e senza anello proprio sono 97, e non li ho guardati uno per uno.
-
-**Cosa devi fare tu.** Dirmi quale delle due: solo il pulsante della home adesso, oppure il giro completo sui 97 punti come pacchetto a parte.
-
-**Se va bene:** apro il ramo sul sito, riparo, e la prova che tiene è il conto del contrasto — diventa rossa se qualcuno rimette l'anello arancione sul fondo scuro.
-
----
-
-### 🟡 #197 — Il guardiano del perimetro conta meno di quello che ho trovato: serve la tua firma per ripararlo · ⏳ accodata 2026-09-06 21:55
-
-**In parole semplici.** Quando riguardo i file che ho appena toccato, devo dichiarare al guardiano quanti difetti ho trovato, e nominarli. Il guardiano li riconosce dal titolo, e separa l'elenco con la virgola. Ma i titoli dei difetti del sito sono frasi italiane, e 25 su 58 una virgola ce l'hanno dentro. Quelli non li posso dichiarare.
-
-**Cosa cambia:** oggi il registro dice che riguardando i 202 file ho trovato 33 difetti. Ne ho trovati 58. Il lavoro è stato fatto tutto, la contabilità no — e la differenza non si vede da nessuna parte. Chi legge la copertura la crede completa.
-
-**Perché non l'ho riparato da solo.** È codice della macchina, e la regola che mi hai dato dice che non mi tocco da sola, nemmeno per un fix banale. E per aprire la scheda di difetto servirebbe una prova che gira, che è a sua volta codice della macchina.
-
-**Cosa devi fare tu.** Dirmi solo di sì. La riparazione è piccola: o si separa l'elenco con un carattere che nei titoli non compare, oppure — meglio — si dà un identificativo alle schede del sito, come ce l'hanno quelle della macchina. La seconda strada chiude anche un'altra fragilità: oggi la chiave di una scheda è il suo titolo, quindi una squadra che ritocca un titolo mentre ripara scollega la chiusura, e al referto dopo il difetto risulta di nuovo aperto.
-
-**Se va bene:** apro la scheda nel cantiere con la sua prova, riparo, e la copertura registrata torna a dire la verità.
 
 ---
 
@@ -222,18 +155,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 
 ---
 
-### 🟡 #194 — Il negoziante che fotografa con l'iPhone si sente dire di no: decidi se è giusto · ⏳ accodata 2026-09-06 19:10
-
-**In parole semplici.** I moduli dove si caricano le foto accettano JPG, PNG e WEBP. L'iPhone però salva in HEIC, che è un formato diverso. Fino a oggi quella foto spariva in silenzio: il negoziante trascinava e non succedeva niente. Adesso il rifiuto si sente, con una frase in italiano.
-
-**Cosa cambia:** il difetto era che il no fosse muto, e quello l'ho chiuso. Ma resta la domanda vera, che è tua: quel no ci deve essere? Il magazzino delle foto accetterebbe sette formati, HEIC compreso. Sono i moduli a essere più stretti.
-
-**Cosa devi fare tu.** Dimmi quale delle due: o allarghiamo i moduli a quello che il magazzino già accetta, o teniamo stretto e allora la frase deve spiegare al negoziante come fare (sull'iPhone si cambia in Impostazioni, Fotocamera, Formati, «Massima compatibilità»).
-
-**Se va bene:** apro il lavoro sulla strada che scegli. Nel frattempo nessuno perde più una foto senza sapere perché.
-
----
-
 ### 🟡 #192 — Il dominio funziona: resta da mettere d'accordo il nome che il sito dichiara · ⏳ accodata 2026-09-03 09:35 · ✅ il grosso è fatto il 2026-09-06 17:09
 
 **In parole semplici.** Il nome del sito ha portato a un server spento per trentotto giorni. Il 6 settembre hai cambiato le due righe nel pannello Netsons, e adesso porta al marketplace. Controllato da qui: il nome nudo risponde `216.150.1.1`, il `www` porta all'indirizzo di Vercel, la pagina che arriva è il marketplace vero, e la riga della posta è intatta.
@@ -245,54 +166,6 @@ Te lo chiedo perché da qui le variabili di Vercel non le posso leggere.
 **Cosa non ho verificato.** Il lucchetto e la catena del certificato: da qui la rete non lascia bussare al sito per la via normale. E nessuno ha ancora fatto un ordine vero dal nome nuovo.
 
 **Se va bene:** restano tre cose fuori dal sito, da fare una volta sola. L'indirizzo dove Stripe manda l'avviso di pagamento. L'elenco dei rientri ammessi dopo il login su Supabase. La richiesta di riscansione a Google. La procedura distesa sta in `consegne/devops/2026-09-04-dominio-su-vercel.md`.
-
----
-
-### 🔴 #191 — Porta il database di produzione al passo del codice: mancano le ultime migrazioni · ⏳ accodata 2026-09-03 09:35 · 🔁 riscritta 2026-10-16 12:40 · ✅ fatta 2026-10-24 01:30
-
-> ✅ **2026-10-24 01:30 — Entrate tutte e 48, col tuo «avvia».** Le ha messe il pulsante «Migrazioni a mano» su GitHub, che è finito tutto verde. Ho ricontrollato in sola lettura e il database vero risulta allineato al codice. I sei controlli finali sono tutti veri, e i dati sono gli stessi di prima: 9 prodotti, 9 profili, 1 ordine. La scheda di un prodotto vero si apre, col negozio e il pulsante «Aggiungi al carrello».
-
-> 🔎 **2026-10-18 17:12 — Contate in sola lettura: in produzione ne mancano 48, più la 163 che ho lanciato a parte.** Non le ho lanciate: la 110, la 112 e la 161 chiudono la lettura dei profili, e carrello, cassa e pagine del fattorino oggi la usano ancora. E una copia del database non esiste.
-
-> ✅ **2026-10-19 08:45 — Il lotto che sblocca le 48 è in produzione.** Hai unito la richiesta 259 del sito e Vercel l'ha pubblicata. Adesso fai la copia del database: i passi sono nel referto del lotto. Poi mi dici «vai» e le lancio io.
-
-**In parole semplici.** Il database vero è indietro di circa 48 migrazioni rispetto al codice. Per questo oggi l'email «ordine pronto» non parte e la pagina Analisi del venditore va in errore. E chi ha appena comprato può ricevere il messaggio del carrello abbandonato.
-
-**Cosa cambia:** con le migrazioni applicate, database e codice tornano uguali. La procedura provata è in `docs/migrazioni-baseline-produzione.md`. La migrazione 161 rimette a posto quello che il passo lanciato a mano il 9 settembre aveva riportato indietro: 11 funzioni e 27 regole di accesso. Provata su una copia fedele della produzione: 33 prove di sicurezza verdi su 33.
-
-**Cosa devi fare tu.** Adesso niente. Dopo il prossimo lotto: i passi 2 e 3 della procedura, nello stesso giro, con la stringa del database che hai solo tu. La #206 porta una migrazione sola, la 163: si lancia da sola, è nella carta #207.
-
-**Se va bene:** ricontrollo oggetto per oggetto che in produzione ci sia tutto.
-
-**Cosa non ho verificato.** Il comando sulla produzione vera: da qui si legge soltanto. E la prova è girata su PostgreSQL 16, mentre la produzione è la 17. I passaggi precedenti sono scritti in DECISIONI: 3/9, 7/9 e 11/10.
-
----
-
-### 🔴 #190 — Un cliente può approvare da solo il proprio reso e farsi rimborsare un ordine consegnato · ⏳ accodata 2026-09-03 09:35
-
-**In parole semplici.** Nel database c'è una regola che lascia al cliente scrivere la riga del reso, e in quella riga c'è anche il campo che dice «il negozio ha ricevuto la merce». Chi sa farlo può scriverlo da sé e far partire il rimborso di un ordine che ha già in casa.
-
-**Cosa cambia:** è l'unico problema trovato oggi in cui i soldi escono davvero, e a deciderlo è chi li incassa. Oggi il rischio è teorico perché di ordini veri ce n'è uno solo, mai pagato. Diventa concreto il giorno in cui il marketplace vende.
-
-**Cosa devi fare tu.** Questa è una riparazione nel codice del sito, quindi non parte da sola: dimmi se la faccio io in un ramo a parte, con la sua prova che diventa rossa se il buco torna. Il fix è stretto: la riga del reso la può scrivere solo il server, e i controlli che oggi vivono in una sola porta devono valere per tutte.
-
-**Se va bene:** apro il ramo, ti porto la riparazione con la prova, e resta a te firmarne l'unione.
-
-> 🔧 **Aggiornamento AD 2026-09-03 19:05 — il codice è fatto. Resta la tua firma sulla migrazione.** Il ramo esiste: `claude/marketplace-issues-52cttv`. Dentro c'è la riparazione su tutte e due le gambe.
->
-> Le rotte malate erano due, non una. Sia quella che fa avanzare il reso sia quella che lo decide stabilivano chi fosse «il negozio» leggendo un campo scritto dal cliente. Ora il negozio arriva dall'ordine, letto dal server.
->
-> Le due prove girano. Rimettendo il difetto, quella del codice dice che la porta si apre invece di chiudersi. Quella del database dice: «quarantadue euro pronti a uscire senza che il fornaio sappia niente».
->
-> La seconda gamba è la migrazione `153_il_reso_lo_apre_il_server_non_il_cliente.sql`. **Non l'ho applicata.** Finché non la applichi tu, il permesso nel database resta largo com'è oggi.
-
----
-
-### 🟡 #189 — La pausa sui negozi è finita: 10 azioni sono tornate vive · ⏳ accodata 2026-09-03 03:12
-
-**Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: `#post-carosello-bio-2307`, `#referral-porta-un-amico`, `#post-lunedi-turno-mattina-2007`, `#post-domenica-settimana-1907`, `#post-siamo-in-23`, `#zona-orario-consegna`, `#post-meteo-pioggia-20lug`, `#welcome-email-23`, `#ordine-test-pq`, `#inserisci-tazzina-pq`. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.
-
-**Se va bene:** le guardi una per una e dici quali far partire davvero. Se nel frattempo hai cambiato idea sulla data, basta che me lo dici: la sposto nel registro e tutte le pause si spostano insieme.
 
 ---
 
@@ -363,84 +236,6 @@ pagine.
 **Se va bene:** costruisco tre cose. Il comando unico del cancello del sito. Il campo della prova
 nello schema delle schede, col controllo che lo legge. Il comando che scrive le chiusure dopo
 l'unione. Resta tutto in una richiesta di unione, e la firma resta tua.
-
----
-
-<!-- scadenza-29-agosto-passata -->
-
-### 🔴 #185 — La scadenza che avevi fissato tu, il 29 agosto, è passata da due giorni · ⏳ accodata 2026-08-31 21:05
-
-**In parole semplici.** Il 23 agosto avevi detto: quattro cose finite entro il 29 agosto. I difetti
-aperti della macchina. I difetti aperti del design del marketplace. Il worker per le botteghe da
-costruire. Il design della parte venditore. Oggi è il 31. Non ho riverificato punto per punto a
-che punto sta ciascuna delle quattro. Questo giro ha verificato solo il business, che resta fermo,
-e il sito, che resta giù. Non ha toccato il cantiere.
-
-**Cosa cambia per te.** Se aspettavi un aggiornamento sulle quattro cose per il 29, non l'hai
-ancora avuto da me con numeri veri.
-
-**Cosa devi fare.** Dimmi se vuoi che riapra il cantiere. Ti porto il conto esatto: quanti difetti
-restano aperti su ciascuna delle quattro, e a che punto sono le due costruzioni, cioè il worker e
-il design venditore. Oppure dimmi se nel frattempo hai già deciso diversamente: allora questa card
-va chiusa.
-
-**Cosa non ho verificato.** Lo stato reale delle quattro cose: questa card segnala solo che la
-data è passata senza controllo, non dichiara nessuna delle quattro fatta o mancata.
-
-**Cosa cambia:** senza risposta, il prossimo giro tratta questa scadenza come ancora aperta e
-continua a non riverificarla nel merito.
-
-**Se va bene:** riapro il cantiere-difetti.json e la radiografia del design, e ti porto il conto
-per ciascuna delle quattro nel prossimo giro.
-
----
-
-### 🔴 #182 — Pane Quotidiano non incassa da 18 giorni, e i post in coda promettono comunque la consegna · ⏳ accodata 2026-08-28 12:55
-
-**In parole semplici.** Ho controllato adesso, non a memoria. Pane Quotidiano è l'unico negozio vero
-su MyCity. Non può ancora incassare con la carta. Tre interruttori sono ancora spenti: dati inviati,
-pagamenti attivi, versamenti attivi. Lo stesso quadro c'era già il 10 agosto. Sono passati 18 giorni
-e non è cambiato niente.
-
-**Per esempio.** Nella coda di oggi ci sono almeno sei post già pronti. Sono quelli di luglio, più
-quello di agosto sui fornelli spenti. Dicono «ordina da casa, te lo portiamo» con un link diretto al
-checkout. Se uno partisse oggi e un cliente pagasse con carta, il pagamento fallirebbe sotto i suoi
-occhi. L'unico ordine mai arrivato su questo negozio è del 24 giugno, pagamento alla consegna, ed è
-stato annullato. Quindi non ho nemmeno la controprova che il contrassegno da solo vada a buon fine.
-
-**Cosa cambia per te.** Ogni post di Pane Quotidiano scritto finora promette una consegna che oggi il
-sito non sa mantenere. Vale anche per quelli fermi da settimane in attesa solo del tuo ok. Se ne
-pubblichi anche solo uno con quella promessa, il primo cliente che prova a pagare con carta trova un
-errore, non un ordine. Per il post di oggi (merenda pudding, card #180 qui sotto) ho tolto la
-promessa di consegna proprio per questo. Gli altri già in coda ce l'hanno ancora.
-
-**Cosa devi fare.** Scegliere fra due strade.
-
-**(a) Attiva i pagamenti prima di pubblicare qualunque post con «ordina/consegna».** Serve completare
-l'onboarding Stripe di Pane Quotidiano (il fascicolo ha dati mai inviati). Con il tuo via, preparo con
-backend-dev i passi esatti — probabilmente serve un'azione del titolare stesso su un link Stripe, non
-solo mia.
-
-**(b) Pubblica comunque, ma prima fammi riscrivere la CTA di ogni post già pronto in coda** — tolgo
-«ordina, ti portiamo», metto «scopri il catalogo» o «vieni in negozio», così nessuno promette una
-consegna che non parte.
-
-**Io farei la (a)**: è il negozio vero, l'unico che può davvero incassare oggi, e il blocco è
-probabilmente un solo passaggio del titolare su un link Stripe.
-
-Rispondi «ok 179 a» o «ok 179 b».
-
-**Cosa non ho verificato.** Se il pagamento in contrassegno (senza carta) riesca comunque a chiudersi
-oggi senza Stripe attivo — l'unico test è stato annullato e non so per quale motivo. Non ho letto il
-codice del checkout per confermare se anche il contrassegno dipende dall'onboarding Stripe del
-negozio.
-
-**Cosa cambia:** i post pronti di Pane Quotidiano promettono una consegna che il checkout oggi non
-mantiene con pagamento a carta.
-
-**Se va bene:** con la (a) preparo la checklist Stripe per il titolare e avviso appena i tre
-interruttori sono verdi; con la (b) riscrivo le CTA di tutti i post di Pane Quotidiano già in coda
-entro lo stesso lotto.
 
 ---
 
@@ -595,75 +390,6 @@ quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più ri
 
 ---
 
-<!-- permesso-speciale-morto-tolto -->
-### 🟡 #176 — Ho tolto un permesso speciale rimasto in giro, morto · ⏳ accodata 2026-08-24 13:10
-
-**In parole semplici.** C'è un controllo che chiede: un'operazione delicata da quante porte si può
-fare, e ci passano tutte davanti alla guardia? Aveva un permesso speciale per un programma, scritto
-quando quel programma la guardia non ce l'aveva.
-
-La mia riparazione di questo mese gliel'ha fatta fare davvero. Quel permesso è rimasto lì, morto.
-
-**Cosa cambia per te.** Un permesso morto non fa danni oggi. Fa danni il giorno che serve davvero,
-perché nasconde il caso vero dietro un'eccezione che nessuno ricorda più perché c'è. L'ho tolto.
-
-**Cosa devi fare.** Niente: è già dentro la richiesta di unione della macchina.
-
-**Se va bene:** quel controllo torna a guardare tutte le porte, senza eccezioni.
-
-**Cosa non ho verificato.** Il controllo non l'ho scritto io e non l'ho riletto riga per riga: l'ho
-fatto girare e ho guardato cosa dice. Montarlo nel cancello l'ha fatto un altro ramo, non io — il
-mio lavoro qui è solo il permesso tolto.
-
----
-
-### 🟡 #175 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
-
-**In parole semplici.** Su ogni prodotto sopra i 30 € il sito mette il bollino «Sped. gratis». Poi,
-al momento di pagare, aggiunge 3 € di «Consegna MyCity» su ogni ordine a domicilio. Sempre, anche
-sopra i 30 €.
-
-Per chi compra, «spedizione» e «consegna» sono la stessa cosa. Quindi il bollino promette una cosa e
-la cassa ne fa un'altra.
-
-**Per esempio:** una persona mette nel carrello un prodotto da 34 €. Sulla scheda legge «Spedizione
-gratuita». Arriva al carrello e trova 37 €. È il primo posto dove quei 3 € compaiono. Sulla scheda
-prodotto non ci sono da nessuna parte, ed è l'ultimo schermo prima di aggiungere al carrello.
-
-E c'è il dettaglio che fa più male. Al momento di pagare, il riepilogo scrive «Spedizione: Gratis».
-Subito sotto scrive «Consegna MyCity 3,00 €». E sotto ancora: «Pagamento sicuro. Niente costi
-nascosti».
-
-**Cosa cambia per te.** Oggi il sito fa una promessa sui soldi che non mantiene, su ogni prodotto
-sopra i 30 €. Non è un difetto tecnico. È quello che un cliente chiamerebbe una sorpresa alla cassa,
-ed è la cosa che fa abbandonare il carrello e non tornare più.
-
-**Cosa devi fare.** Scegliere fra due strade, perché una costa soldi e la decisione è tua.
-
-**(a) Dire come stanno le cose.** Il bollino diventa «Sped. gratis · 3 € di consegna», e i 3 €
-compaiono già sulla scheda prodotto. Non cambia un euro di quello che incassi. Cambia che chi compra
-lo sa prima. Costo: zero. Rischio: il bollino perde un po' di forza.
-
-**(b) Tenere la promessa.** Sopra i 30 € i 3 € non si pagano più: se li assorbe MyCity. Il bollino
-resta com'è ed è vero. Costo: 3 € su ogni ordine a domicilio sopra i 30 €, tolti dal tuo margine.
-
-**Io farei la (a)**, e non per prudenza. La (b) è una decisione sul prezzo, e le decisioni sul prezzo
-sono tue. La (a) invece non è una scelta. È smettere di dire una cosa non vera, e si può fare oggi.
-
-Rispondi «ok 169 a» o «ok 169 b». Lo faccio nel lotto dopo.
-
-**Cosa non ho verificato.** Non so quanti ordini a domicilio superino i 30 €, quindi non so quanto
-costerebbe la (b). Il sensore dei pagamenti non è collegato, e dal cloud non posso contarli. Se vuoi
-la cifra prima di decidere, serve collegare Stripe in sola lettura.
-
-**Cosa cambia:** il bollino «Sped. gratis» su ogni prodotto sopra i 30 € oggi promette una cosa che
-la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
-
-**Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
-numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
-
----
-
 ### 🟡 #172 — Centoquarantotto difetti sono chiusi con una prova che non può diventare rossa · ⏳ accodata 2026-08-24 11:45
 
 **In parole semplici.** Il collaudo di ieri ha misurato una cosa che nessuno aveva contato: **148
@@ -756,32 +482,6 @@ AI risponde «auth»: `bash cervello/vps/collega-claude.sh`. Schede: AR-518, AR-
 
 ---
 
-### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
-
-**Cosa cambia:** il magazzino delle immagini accetta un file solo se la **prima cartella** del
-percorso è l'identificativo di chi carica. Per gli amministratori c'è una sola eccezione, la
-cartella `home`.
-
-Tre punti del sito caricano invece in cartelle che si chiamano `store-media`, `events` e `shop`.
-Il magazzino li rifiuta, e non arriva nessun errore utile.
-
-Un esempio. Il negoziante di Pane Quotidiano sceglie la foto del bancone e la carica. Il file parte
-verso `store-media`, il magazzino guarda la prima cartella, non ci trova il suo identificativo, e
-rifiuta. La copertina semplicemente non compare, e la vetrina resta sul colore di ripiego.
-
-Lo stesso vale per te dall'amministrazione: non si caricano le copertine degli **Eventi** né quella
-del **Negozio del mese**.
-
-**Cosa devi fare:** dirmi se la riparo. È una riga per punto, tre punti in tutto: basta mettere
-l'identificativo (o `home`, per l'admin) come prima cartella. Nello stesso progetto ci sono già due
-file che lo fanno giusto e lo spiegano nel commento, quindi non è una scelta nuova: è allinearsi a
-quella già presa.
-
-**Se va bene:** correggo i tre percorsi in un ramo, apro la richiesta di unione e ti dico cosa
-controllare. Non tocco la regola del magazzino: quella è giusta, sono i tre percorsi a essere fuori.
-
----
-
 ### 🔴 #165 — Scrivi i dati veri del titolare: l'informativa privacy esce col nome «MyCity» e basta · ⏳ accodata 2026-08-22 14:10
 
 **Cosa cambia:** l'informativa privacy, i termini e la pagina dei contatti leggono il nome, la sede,
@@ -834,44 +534,6 @@ passare al piano a pagamento oppure no.
 
 ---
 
-### 🟡 #163 — La coda è diventata lunga tre ore, e un controllo ne guarda solo due terzi · ⏳ accodata 2026-08-22 13:20
-
-> **In due righe.** Questo file è cresciuto fino a tre ore di lettura. Un controllo che dovrebbe
-> tenerlo leggibile riesce a guardarne solo i primi due terzi, quindi su questo file non protegge più.
-
-**In parole semplici.** C'è un controllo che sorveglia i testi che leggi tu. Il suo compito è uno
-solo: impedire che diventino più difficili di com'erano. Oggi su questo file non ci riesce, perché
-il file è più lungo di quanto lui sappia leggere.
-
-**Facciamo un esempio di cosa vuol dire.** Stamattina quel controllo mi ha accusata due volte di
-averti reso il file più difficile. Ho tirato fuori i punti che indicava, uno per uno: **nessuno era
-nel mio testo.** Stavano in carte scritte giorni prima. Il controllo confrontava due porzioni diverse
-del file e attribuiva a me la differenza. Ho perso due giri a limare un testo che non era il problema.
-
-**Cosa ho già fatto.** Il controllo adesso, quando non riesce a leggere tutto, lo dice invece di
-accusare. Non mi manda più a cercare dalla parte sbagliata.
-
-**Cosa NON ho fatto, e perché te lo chiedo.** Accorciare il file. Ci ho provato, spostando le 23
-carte già chiuse in un archivio. Ha rotto due controlli: alcune carte chiuse vengono ancora cercate
-qui dentro da altri pezzi della macchina. *«Chiusa» non vuol dire «archiviabile»*, e non lo sapevo.
-Ho annullato tutto e ricontato le carte: 99, tutte al loro posto.
-
-**Cosa cambia per te se dici di sì.** Il file torna a leggersi in un'ora invece che in tre, e il
-controllo torna a proteggerlo davvero. Le carte non si buttano: si spostano in un archivio, parola
-per parola come stanno.
-
-**Cosa devi fare.** Rispondimi «ok 163» e lo progetto per bene: prima la regola su quali carte chiuse sono
-davvero archiviabili, poi lo spostamento, poi i controlli verdi. Se preferisci lasciare tutto com'è,
-dimmelo e chiudo la carta: il debito resta scritto e visibile.
-
-**Cosa non ho verificato.** Quante carte siano archiviabili davvero. So solo che 23 sono chiuse e che
-almeno 3 di quelle servono ancora dov'è. Il conto vero lo faccio dopo il tuo ok.
-
-**Se va bene:** la coda torna corta, e il controllo che ti protegge la leggibilità ricomincia a
-funzionare su di lei.
-
----
-
 ### 🔴 #162 — Un posto dove tenere una copia delle foto dei prodotti · ⏳ accodata 2026-08-22 09:20
 
 **Cosa cambia:** le immagini dei prodotti **non hanno nessuna copia**. Né uno script, né un passo
@@ -913,84 +575,9 @@ prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche 
 
 ---
 
-### 🔴 #160 — Il segreto che fa applicare le migrazioni prima di ogni pubblicazione · ⏳ accodata 2026-08-22 09:20
-
-**Cosa cambia:** oggi il rilascio pubblica il codice e basta. Le migrazioni si applicano a mano, in
-un momento qualsiasi: fra l'unione e la firma sul database c'è sempre una finestra in cui gira
-codice che chiede colonne che non esistono ancora. In PostgreSQL una colonna che non c'è non viene
-ignorata: fa fallire l'istruzione intera. È così che il 21 agosto, per un po', **non si poteva
-creare nessun ordine**.
-
-Il passo è già scritto nel rilascio (`.github/workflows/deploy-dopo-ci.yml`) e oggi non fa niente,
-perché gli manca il segreto.
-
-**Cosa devi fare:** GitHub → il repo `mycity` → Settings → Secrets and variables → Actions → New
-repository secret. Nome: `SUPABASE_DB_URL`. Valore: la riga del **Session pooler**
-(Supabase → Connect → Session pooler, porta 5432), come nella #134.
-
-**Se va bene:** da quel momento ogni rilascio applica le migrazioni **prima** di pubblicare, e se
-non si applicano non pubblica. Quella finestra si chiude per sempre.
-
----
-
-### 🔴 #159 — Applica la migrazione 120: la vetrina non deve più dare l'identificativo degli ordini · ⏳ accodata 2026-08-22 09:20
-
-**Cosa cambia:** il riquadro «attività dal vivo» in home restituisce ancora, a chiunque e senza
-account, l'identificativo di ogni ordine recente e l'ora al secondo. Servono a due cose sbagliate:
-un concorrente li legge a intervalli. Così conta quanti ordini fa ogni negozio, e a che ora. E
-quegli stessi identificativi erano la materia prima del difetto sul rimborso chiuso ieri.
-
-Questa migrazione è **scritta dal 18 agosto e mai applicata**. La bloccava il sito, che chiedeva
-ancora quella colonna. Il codice nuovo è in produzione da giorni: adesso si può applicare senza
-rompere la home.
-
-**Se va bene:** la vetrina resta identica a vedersi (dice «poco fa» invece dell'ora esatta) e
-smette di essere un contatore degli ordini altrui.
-
-```
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/120_vetrina_attivita_senza_id.sql
-psql "$SUPABASE_DB_URL" -c "select pg_get_viewdef('public.live_activity_public'::regclass, true);"
-```
-
-Nella definizione che torna indietro **non** ci deve essere `id`.
-
----
-
-### 🔴 #158 — Applica al database la migrazione 126, quella del lotto dei cento difetti · ⏳ accodata 2026-08-22 09:20
-
-**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte.
-
-- Il credito MyCity torna al cliente quando il negozio rifiuta l'ordine. Oggi evapora.
-- Il negozio non viene più pagato per contanti che nessuno ha registrato.
-- Un alimentare senza allergeni non si può pubblicare.
-- Sulle pagine prodotto e negozio compaiono i dati del venditore: ragione sociale, sede, partita IVA.
-- Nasce il registro delle segnalazioni di contenuti illeciti.
-
-Il codice regge anche prima: è scritto apposta per non rompersi nella finestra in mezzo. Ma quelle
-riparazioni non fanno effetto finché la migrazione non è applicata.
-
-**Se va bene:** i cento difetti chiusi diventano cento davvero, e non novantacinque.
-
-**Il comando** (dal VPS, o da chi ha la stringa di connessione):
-
-```
-psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/126_radiografia_22_agosto.sql
-```
-
-È idempotente: riapplicarla non fa danni. L'ho già fatta girare due volte, così com'è. Una su un
-database ricostruito da zero qui dentro: 127 migrazioni applicate, zero fallite. Una su un database
-che ha già dentro degli ordini.
-
-**Come si controlla che sia andata:**
-
-```
-psql "$SUPABASE_DB_URL" -c "select count(*) from public.segnalazioni;"
-psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_del_negozio';"
-```
-
----
-
 ### 🔴 #154 — Copia su Vercel le nove chiavi di Supabase, Stripe, Resend e Upstash: senza, il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56 · riscritta 2026-10-10 15:50
+
+> ⏸️ **2026-10-24 14:20 — La chiave di servizio, aspetta il mio via.** Oggi alle 13:40 in produzione c'erano 12 variabili, e la chiave di servizio non c'era. Senza, ogni rotta che chiede l'accesso risponde «non disponibile». Ma il giorno che arriva, partono insieme dieci lavori notturni e si svegliano cose che oggi dormono. Prima le preparo io: i passi in ordine sono nella #210.
 
 > ➕ **2026-10-19 08:45 — Dopo la richiesta 259 del sito, la chiave di servizio serve anche al profilo pubblico.** Senza, la pagina del profilo dice «non trovato». Oggi nessuno l'ha acceso, quindi non tocca nessuno.
 
@@ -1014,83 +601,6 @@ le email vecchie».
 
 > Storia: accodata il 22/8, quando dopo il passaggio da Render il sito scriveva «localhost» come suo
 > indirizzo. Il 10/10 alle 09:30 ho letto la lista vera: 4 chiavi su 21. Alle 15:43 ne ho aggiunte 8.
-
----
-
-### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
-
-> **In due righe.** Il comando che ti avevo dato si spegneva da solo mentre girava. È riparato, ma
-> prima devi unire la richiesta di unione **#822**: senza, il server non riesce a posare il codice.
-
-**In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
-sei. Stamattina alle 11:56 hai lanciato il comando che ti avevo dato. Non ha funzionato, e la colpa
-è del comando, non della riparazione.
-
-**Cosa è successo davvero.** Il comando faceva due cose in fila: scaricare il codice nuovo, e poi
-lanciare il programma di allineamento. Ma quel programma, per fare il suo lavoro, mette da parte i
-file che trova cambiati — e i file appena scaricati erano proprio quelli. Si è messo da parte da
-solo, mentre girava.
-
-**Facciamo un esempio.** Immagina di leggere ad alta voce da un foglio, e che a metà
-qualcuno te lo sostituisca con una versione più corta. Tu continui a leggere dal punto in cui eri,
-trovi la fine, e smetti. Non ti accorgi di aver saltato niente. È esattamente quello che fa il
-programma che esegue quei comandi: si ferma a metà e **chiude dichiarando successo**, senza stampare
-un solo errore.
-
-L'ho provato in laboratorio, su un programma di quattro righe che si accorcia da solo: ne esegue
-**una** e finisce con successo. Nessun errore.
-
-**Cosa cambia per te:** la riparazione era arrivata sul server e non è stata letta. Adesso i lavori
-fermi sono **29**, erano dodici stamattina e quattro ieri sera.
-
-**Cosa ho corretto.** Due cose. Il programma adesso lavora su una **copia di sé stesso**, che nessuno
-può cambiare mentre gira. E il comando che ti do qui sotto non scarica più niente prima: ci pensa il
-programma stesso, che il codice da GitHub se lo prende da solo.
-
-**⚠️ Aggiornamento 2026-08-22 11:30.** Continuando a controllare ho trovato un **quarto** guasto.
-Finché c'è, questa carta non può funzionare. Cambia l'ordine dei passi, quindi te lo racconto.
-
-Il server sta sul ramo principale, dove un cancello controlla chi scrive. Quel cancello ha una
-regola giusta, ed è proprio per questo che fermava la cosa sbagliata: per riallinearsi il server deve
-scrivere del codice, e lì scrivere codice non è permesso. Glielo rifiutava. La riga che lo fa buttava via l'errore, e
-subito dopo stampava «Codice allineato». Il codice restava a mezz'aria. Al giro dopo se lo riportava
-via il prestito.
-
-L'ho provato su un server finto, con il cancello vero. Il commit non atterra. Il file resta sporco.
-E lo schermo dice che è andata bene. Quarto difetto di fila della stessa famiglia — *il programma
-dice che qualcuno farà una cosa, e quel qualcuno non c'è.*
-
-La riparazione è nella richiesta di unione **#822**. La deroga è la più stretta che si possa
-scrivere. Il commit passa **solo se è identico, byte per byte, a quello che il ramo principale ha
-già**. Non può quindi far entrare niente che tu non abbia visto in una richiesta di unione.
-
-**L'ordine adesso è: ① unisci la #822 · ② poi i due lanci qui sotto.** Prima della #822 non lanciare
-niente: perderesti un altro giro.
-
-**Cosa devi fare (dopo aver unito la #822).** Lancialo **due volte**. La prima porta il codice nuovo
-sul server, la seconda lo usa.
-
-```
-cd /opt/mycity/ad-mycity
-sudo bash cervello/vps/aggiorna-cervello.sh
-sudo bash cervello/vps/aggiorna-cervello.sh
-```
-
-Guarda le ultime righe della **seconda**. Cerca una di queste tre:
-
-- **«✓ Commit pendenti pubblicati»** → è fatta, i 29 lavori sono usciti.
-- **«🧩 Conflitti di MEMORIA risolti da soli»** seguita dalla riga sopra → è fatta anche così.
-- **«🧩 I conflitti NON si risolvono da soli»** con un elenco di file → mandami quell'elenco. Vuol
-  dire che serve giudizio, e lì decidiamo insieme.
-
-Se non compare **nessuna** di queste tre, mandami lo schermo lo stesso: vuol dire che la riparazione
-ancora non viene eseguita, e il motivo è un altro da cercare.
-
-**Cosa non ho verificato:** che sul server vada. Da qui non ci arrivo. Quello che ho provato è la
-protezione, su copie vere: un programma che si accorcia da solo si ferma a una riga; lo stesso
-programma, protetto, arriva in fondo. Togliendo la protezione la prova torna rossa.
-
-**Se va bene:** il server torna a pubblicare da solo, e questo nodo non si riforma più.
 
 ---
 
@@ -1153,91 +663,6 @@ crescono, uno, due, tre. Con la riparazione restano zero e il server pubblica.
 domani un guardiano suona da solo se i cassetti ricominciano ad accumularsi.
 
 *(La #144 e la #142 nel frattempo si sono chiuse per conto loro: le trovi segnate ✅ più sotto.)*
-
----
-
-### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
-
-> **In due righe.** Ho usato uno strumento che lancia comandi e che nessuno dei miei controllori
-> guarda. La riga che lo copre è una parola sola in un file che io non posso toccare.
-
-**In parole semplici.** Questa carta parla dei miei freni, non del sito e non dei negozi. Serve a
-chiuderne uno che manca.
-
-Ho una lista di controllori che mi guardano le mani. Prima che io faccia una cosa che tocca il mondo,
-uno di loro si mette in mezzo e chiede il permesso. Quali strumenti sorvegliare è scritto a mano in
-un file, e la lista dice: Bash, Task, e tutto quello che comincia per mcp.
-
-Oggi ho usato uno strumento che si chiama **Monitor**. Serve a tenere d'occhio una cosa che sta
-girando. Non è in quella lista, quindi non l'ha guardato nessuno. E Monitor lancia comandi
-esattamente come Bash.
-
-**Cosa cambia per te.** C'è una porta di servizio senza il campanello che ha la porta principale.
-Non è che io farei cose diverse: è che se le facessi, nessuno se ne accorgerebbe.
-
-Un esempio di cosa vuol dire. Oggi alle 15:10 ho chiesto a Monitor di tenere d'occhio i controlli
-automatici della PR. Se avessi sbagliato a scrivere quel comando, nessuno me l'avrebbe fermato. Non è
-successo niente solo perché l'ambiente mi ha negato il permesso per conto suo — un caso, non un
-controllo.
-
-**Ho provato a farla io, e il sistema mi ha detto di no.** Me l'hai chiesto tu, e ci ho provato per
-la strada giusta. La risposta è stata: *«File is in a directory that is denied by your permission
-settings»*. Non è una mia esitazione. È una regola scritta dentro quel file, alle righe 80-83, che
-vieta a me di modificarlo.
-
-Quella regola l'hai messa tu ed è quella giusta. Quel file può staccare tutti i freni insieme,
-compreso il divieto di leggermi le password.
-
-C'era una scorciatoia: scrivere il file da un'altra parte, con un comando invece che con lo strumento
-che ha il divieto. **Non l'ho presa.** Aggirare un divieto perché è scomodo è la cosa che i divieti
-servono a impedire.
-
-**Quello che ho fatto invece.** La macchina aveva già la risposta a questo caso, un piano più giù.
-Per i guardiani esiste lo stato «in attesa di aggancio»: vuol dire *il freno c'è, manca una riga che
-solo Nicola può incollare*. E vale solo con una data di scadenza.
-
-L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un buco silenzioso, e non è
-un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
-buco da solo.
-
-> ✅ **FATTA — 21/8 20:20. Non devi più fare niente su questa carta.**
->
-> Mentre lavoravo al server, un'altra sessione ha portato la modifica su GitHub per la sua strada
-> giusta: un ramo e una richiesta di unione. Ho confrontato le impostazioni su `main` col file che
-> avevo preparato: **identiche, riga per riga**. Dentro ci sono tutte e due le cose — la parola
-> `Monitor` (questa carta) e le righe del plugin (la #142). Anche la **#142 è chiusa**.
->
-> **La lezione, che vale per la prossima volta.** Ti avevo scritto di copiare il file sopra le
-> impostazioni. L'hai fatto, e un minuto dopo era sparito: ogni minuto il server si riallinea a
-> GitHub e rimette i file versionati come stanno lì. `.claude/settings.json` è uno di quelli, quindi
-> la copia veniva riscritta in silenzio. Una modifica a quel file **regge solo se passa da una
-> richiesta di unione** — che è poi la regola che impedisce a chiunque, me compresa, di cambiare i
-> freni con un colpo di mano.
-
-⚠️ **Questo file fa anche la carta #142**, quella del plugin. Le due carte toccano lo stesso file,
-quindi applicarle in due copie separate vorrebbe dire che la seconda cancella la prima. Con questo
-blocco le fai tutte e due insieme, e la #142 puoi darla per chiusa.
-
-Cosa c'è dentro, controllato numero per numero: **63 permessi concessi, 15 vietati, 10 gruppi di
-guardie** — gli stessi identici di adesso. Le uniche differenze sono le due righe del plugin e la
-parola `Monitor` nel matcher.
-
-**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa.
-
-**Una domanda più grande, se hai voglia.** Quella lista è fatta di nomi scritti a mano. Vuol dire che
-ogni strumento nuovo nasce senza controllo, finché qualcuno non si ricorda di aggiungerlo. È così che
-è passato Monitor. Il contrario sarebbe: sorveglia tutto, e scrivi l'elenco di quelli che non
-servono. Non l'ho fatto perché cambia il comportamento di ogni singola mossa, non solo di una: dimmi
-tu.
-
-**Cosa non ho verificato.** Non ho potuto provare che il freno funzioni su Monitor dopo l'aggiunta.
-Per collaudarlo dovrei modificare proprio il file che non posso toccare. So che il controllore è lo
-stesso che già guarda Bash, e che la lista è una sola.
-
-**Dettagli tecnici** — blocco `PreToolUse` in `.claude/settings.json`, guardia
-`cervello/pre-scrittura.mjs --hook` · dichiarazione in `IN_ATTESA` dentro
-`cervello/mappa-copertura.mjs`, scadenza `2026-09-04` · prova
-`cervello/test/attesa-con-una-data.test.mjs`.
 
 ---
 
@@ -1343,366 +768,6 @@ li leggo.
 **Dettagli tecnici** — prova: `node cervello/freschezza-cadenze.mjs` · unità in
 `cervello/vps/mycity-*.timer`, tutte scritte correttamente nel repo (fuso dichiarato,
 `Persistent=true`), quindi la causa è sul server · ultimo commit del server: `66dab11`, 21/08 16:46.
-
----
-
-### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
-
-> **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
-> secondi. Senza quello, il lavoro che ho fatto oggi riparte spento a ogni sessione. Il resto della
-> card spiega perché, e cosa rischi.
-
-**In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
-Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
-un modo di lavorare. Superpowers è il più usato dei plugin, e porta quattordici metodi.
-
-Un esempio di cosa cambia in pratica. Il 20 agosto il server si era fermato per il disco pieno.
-Senza quei metodi io guardo l'errore e libero spazio: il sintomo. Il metodo «cerca la causa vera»
-mi obbliga prima a chiedermi *perché* si riempie, e a scrivere la risposta. È la differenza fra
-liberare il disco oggi e non doverlo più liberare.
-
-L'ho installato e da adesso è acceso: in questa sessione la macchina ce li ha. Il problema è che
-l'ho acceso nella parte della macchina che vive un giorno solo. Quando questa sessione finisce, il
-plugin sparisce con lei, e la prossima riparte senza.
-
-Per farlo restare va scritta una riga in un file di configurazione del progetto. Quel file, tu, l'hai
-messo apposta nella lista di quelli che io non posso toccare da sola. È una tua regola e la rispetto:
-per questo te lo chiedo invece di farlo.
-
-**Cosa cambia:** oggi due delle quattordici skill le avevamo già, copiate a mano dentro il repo a
-luglio. Erano copie ferme a quella data. Col plugin arrivano aggiornate e si aggiornano da sole. Se
-non lo rendi permanente, ogni sessione riparte con le due copie vecchie e senza le altre dodici.
-
-**Se va bene:** me l'hai chiesto tu di farlo io, e ho provato — il blocco ha tenuto. Quel file l'hai
-chiuso in scrittura apposta: è quello che accende e spegne tutti i miei freni insieme, e la regola
-serve proprio a impedire che io mi allarghi i permessi da sola. Ha funzionato come doveva.
-
-Il 4 agosto ci siamo già bruciati su questo. Ti avevo detto «aggiungi due righe lì dentro» e il
-testo si era rotto in silenzio: una virgola sbagliata, nessun errore a schermo, solo il lavoro che
-non funzionava. Quindi non ti faccio incollare niente a mano.
-
-Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho generato dal tuo
-file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
-identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
-
-> ✅ **FATTA — 21/8 20:20, insieme alla #144: erano lo stesso file.**
->
-> Le righe del plugin sono su `main`. Confrontato riga per riga: le impostazioni pubblicate sono
-> identiche al file che avevo preparato. Non devi fare niente.
->
-> Il blocco qui sotto resta per storia, ma **non va applicato**: quella copia a mano il server la
-> cancella entro un minuto, riallineandosi a GitHub — provata e vista sparire il 21/8 alle 19:26.
-
-**Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
-porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
-nella tua home e non trovano niente — è successo davvero il 21/8 alle 16:32, ed era colpa mia che
-te li avevo dati nudi.
-
-```
-cd /opt/mycity/ad-mycity
-cp consegne/tech/settings-con-superpowers.json .claude/settings.json
-```
-
-Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
-
-```
-cd /opt/mycity/ad-mycity
-node cervello/plugin-acceso.mjs
-```
-
-L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto sul server. Se dice **spento**
-o che il file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin
-si leggono all'avvio, non mentre lavori.
-
-**Manca ancora di salvarlo.** Quel file lo segue git. Finché resta solo sul server è una modifica
-viva ma non registrata: alla prima pulizia sparisce. E le sessioni fuori dal server ripartono
-comunque spente.
-
-Su `main` però non si può committare a mano. È una regola nostra: il codice ci arriva solo da una
-richiesta di unione. Quindi si passa da un ramo di lavoro.
-
-```
-cd /opt/mycity/ad-mycity
-git reset HEAD -- .claude/settings.json
-git checkout -b accendi-superpowers
-node cervello/git-pr.mjs --repo ad-mycity --base main --branch accendi-superpowers --title "Accendi il plugin superpowers per tutte le sessioni" --message "Accendi il plugin superpowers per tutte le sessioni"
-```
-
-L'ultimo comando è quello della macchina, e fa tre cose. Committa sul ramo. Manda il ramo su GitHub
-usando la chiave che il server ha già, quindi non ti chiede nessuna password. Apre la richiesta di
-unione. Poi la firmi tu, come tutte le altre.
-
-Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
-la copia doppia.
-
-**Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
-scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non
-è una versione bloccata: se domani chi lo scrive cambia qualcosa, noi ce lo prendiamo senza che
-nessuno l'abbia riletto. Le due copie a mano di luglio avevano il difetto opposto — vecchie, ma
-lette da noi. Oggi è un progetto serio e diffuso, quindi il rischio è basso; non è zero, e la
-scelta è tua. Se preferisci il blocco, dimmelo e fisso la versione di oggi, la 6.3.0.
-
-E non ho potuto provare il server da qui: che le quattordici skill si accendano davvero l'ho visto
-solo su questa sessione.
-
-C'è un secondo punto che ho trovato guardandoci dentro, e conta per la firma. Il plugin non aspetta
-di essere chiamato. A ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo.
-Dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta. Anche prima
-delle domande che ti farei per capire cosa vuoi.
-
-Sul lavoro lungo è il comportamento giusto. Su una domanda secca tua, rischia di mettermi un
-passaggio in mezzo prima di risponderti. È lo stesso problema che avemmo a luglio con *caveman*, che
-poi spegnemmo nella chat con te e lasciammo solo sui lavori interni. Qui non tocca il modo in cui
-ti scrivo, solo quanto giro faccio prima. Lo tengo d'occhio: se lo vedi appesantire le risposte
-brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
-
----
-
-### 🔴 #141 — Il rilascio va agganciato a Vercel, non a Render · ⏳ accodata 2026-08-21 03:20 · riscritta 2026-08-21 15:45
-
-**Cosa cambia:** questa carta ti diceva tre mosse su Render. Erano puntate sul bersaglio sbagliato,
-e me ne sono accorto facendola.
-
-Ho guardato i rilasci veri. Il sito lo pubblica **Vercel**: ogni unione su `main` fa partire una
-pubblicazione in produzione entro pochi secondi, senza aspettare i controlli. Le tre unioni di oggi
-hanno fatto esattamente questo. Spegnere Render non avrebbe chiuso niente, e tu avresti creduto di
-essere protetto.
-
-Il lavoro che rilascia solo a controlli verdi adesso punta su Vercel. È spento finché non ha le
-chiavi, come prima.
-
-**Se va bene:** tre passi, e l'ordine conta perché al contrario il sito smette di aggiornarsi.
-
-Primo, i segreti. Su GitHub vai in Settings → Secrets and variables → Actions. Servono tre nomi.
-`VERCEL_TOKEN` lo crei su Vercel, in Account Settings → Tokens → Create. `VERCEL_ORG_ID` e
-`VERCEL_PROJECT_ID` stanno su Vercel, dentro il progetto, in Settings → General, in fondo.
-
-Secondo, dimmelo e ti cambio io una parola: `"main": true` diventa `false` in `vercel.json`.
-
-Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
-
-**Aggiornamento 2026-08-22 09:56:** qui c'era anche un quarto passo su `render.yaml`. Quel file non
-esiste più, e Render è dismesso: verificato guardando i progetti Vercel, dove il sito pubblica
-davvero. Il passo è stato tolto — una strada morta lasciata in una carta è una trappola per chi la
-legge di corsa.
-
-**Cosa non ho verificato:** se il servizio Render sia stato chiuso davvero o solo lasciato scadere.
-Da qui non lo raggiungo. So che il dominio ci punta ancora (vedi la carta #154).
-
----
-
-### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
-
-**Cosa cambia:** c'e' una persona iscritta come fattorino dal 25 maggio, ferma in attesa. Non era
-colpa sua e non era colpa di una pulizia andata storta: nel pannello i pulsanti di approvazione
-comparivano solo accanto ai negozi, quindi un fattorino non era approvabile da nessuno.
-
-E' questo il motivo per cui ti ho ripetuto tutto il giorno «zero fattorini approvati». Senza uno
-approvato la bacheca delle consegne resta vuota per forza, e nessun ordine puo' essere preso.
-
-Il negozio invece sta bene: Pane Quotidiano risulta approvato con la sua data. La bonifica di
-luglio non aveva disapprovato nessuno.
-
-**Se va bene:** unisci la richiesta `mycity#229`, poi apri il pannello degli utenti, filtra «in
-attesa» e premi Approva. Da quel momento la bacheca puo' riempirsi.
-
----
-
-### ⚪ #136 — Una domanda sola: la spedizione del cliente resta a distanza? · ⏳ accodata 2026-08-20 17:00
-
-**Cosa cambia:** mi hai detto che il fattorino prende 3 euro fissi, e l'ho fatto. Ma quanto paga il
-cliente per la spedizione non me l'hai detto, e l'ho lasciato com'era: a distanza, sotto i 30 euro.
-
-Cosi' paghiamo una cifra fissa e ne chiediamo una variabile. Un cliente vicino paga 2,50 euro, uno
-a 5 chilometri ne paga 8,50, e a noi la consegna costa 3 euro in tutti e due i casi.
-
-Non e' rotto e non perde soldi. E' solo strano, e prima o poi qualcuno lo chiede.
-
-**Se va bene:** dimmi una cosa sola — spedizione fissa a 3 euro per tutti, oppure lasciamo la
-distanza. Se scegli fissa, e' una riga.
-
----
-
-### 🔴 #134 — Del database non esiste nessuna copia: mancano due segreti, non uno · ⏳ accodata 2026-08-20 11:30 · 🔁 corretta 2026-08-20 13:35
-
-> 🔁 **2026-10-16 12:40 — Per `SUPABASE_DB_URL` usa la riga del «Session pooler».** La trovi in Supabase → Connect. Da GitHub la connessione diretta non arriva.
-
-**Cosa cambia:** oggi del database non c'e' **nessuna copia**, da nessuna parte. Il lavoro
-notturno esiste e parte ogni notte alle 4:17, ma si ferma subito. Le due volte che e' partito, il
-19 e il 20 agosto, si e' fermato dopo sedici secondi.
-
-Quando te l'ho accodata ti avevo detto che mancava la parola d'ordine. E' vero, ma non e' il
-motivo per cui si ferma: sono andata a leggere i registri delle due esecuzioni e il blocco e' un
-altro. Manca prima di tutto l'indirizzo del database. Il lavoro non arriva nemmeno a controllare
-la parola d'ordine.
-
-Il file di copia contiene nomi, indirizzi, telefoni e ordini di tutti i clienti, e resta trenta
-giorni fra i file di GitHub. Per questo la parola d'ordine serve comunque: senza, quel file
-starebbe li' in chiaro, scaricabile da chiunque abbia accesso al repository.
-
-**Se va bene:** vai su GitHub, nel pannello Settings → Secrets and variables → Actions del
-repository del sito, e aggiungi due voci.
-
-La prima si chiama `SUPABASE_DB_URL`. E' l'indirizzo di collegamento al database, quello che
-Supabase chiama stringa di connessione. Lo trovi nel pannello Supabase, alla voce delle
-impostazioni del database.
-
-La seconda si chiama `BACKUP_PASSPHRASE`. Scegli una parola d'ordine lunga: non una parola sola,
-una frase intera. Salvala dove tieni le password. Attenzione: senza quella frase il file non si
-riapre piu'. Se la perdi, hai perso il backup.
-
-Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
-sia andata davvero.
-
-> 🩻 **Aggiornamento dell'8/9 09:28.** Le chiavi le hai messe e funzionano: la copia arriva fino
-> a bussare al database. Il guasto del programma vecchio è riparato. Resta l'indirizzo, e te
-> l'avevo indicato male io. Serve la riga del **Session pooler**: contiene `pooler.supabase.com`.
-> Non la diretta, che da GitHub non si raggiunge. Non il Transaction pooler (porta 6543).
-> Incollala dopo aver unito la #255 del sito, e dimmelo: rilancio io.
-
----
-
-### 🔴 #131 — L'ultima riparazione del sito: il riquadro in home smette di essere un contatore di ordini · ⏳ accodata 2026-08-19 22:20
-
-**Cosa cambia:** in home c'e' il riquadro «cosa sta succedendo a Piacenza». Oggi, insieme a
-ognuna di quelle righe, il sito consegna anche il numero di riconoscimento dell'ordine e l'ora
-al secondo.
-
-Con quei due dati un concorrente puo' leggere il riquadro ogni tanto, riconoscere gli ordini uno
-per uno e tenere il conto. Non «qui si compra», ma «Pane Quotidiano oggi ha fatto quattordici
-ordini, il primo alle 9:12».
-
-Dopo: resta il negozio, la citta', lo stato della consegna e l'ora arrotondata. Basta a far
-vedere che il marketplace e' vivo, non basta a mettere gli ordini in fila.
-
-**Se va bene:** applico il file `120_vetrina_attivita_senza_id.sql` al database vero. Un minuto,
-reversibile.
-
-Aspettava una cosa sola, ed e' arrivata stasera: il codice della home non chiede piu' quel
-numero, e da quando hai unito la richiesta #226 alle 22:05 il sito pubblicato e' quello nuovo.
-Se avessi applicato prima, il riquadro sarebbe sparito dalla home.
-
-**Dettagli tecnici:** difetto 040 del referto del 18/8. La vista `live_activity_public` perde la
-colonna `id` e arrotonda `created_at` all'ora. Unico lettore:
-`components/LiveActivityFeed.tsx:54`, che dalla #225 seleziona cinque colonne senza `id`
-(verificato su `origin/main`). Pubblicazione in produzione: `dpl_E6FzECJdBCtcYzApB6rhf9SCHykZ`,
-stato READY.
-
----
-
-### 🟡 #130 — In questa pagina ci sono cento cose, non sessantadue: dammi il via a fare ordine · ⏳ accodata 2026-08-19 22:55
-
-**Cosa cambia:** ho letto e verificato una per una tutte le cose che aspettano la tua
-firma. Le caselle che vedi sono 62. Ma in fondo alla pagina c'è una vecchia tabella con
-altre 37 righe ancora in attesa che nessuno conta. Fanno novantanove voci in tutto.
-
-E nessuno sa quante siano davvero. Il banner in cima ne dichiara 77. Il programma della
-pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 37. Tre strumenti, tre numeri
-diversi.
-
-Dentro quelle novantanove voci ho trovato **dieci cose già fatte o morte**. Le ho verificate
-una per una, adesso. La #17 chiede un lavoro che è già dentro il sito da settimane. La
-#31 chiedeva di salvare la memoria «entro domani»: quel domani era il 28 luglio, e la
-cura è entrata il 18 agosto. La #18 chiede una pulizia che esiste e ha girato ieri
-l'altro alle 06:25. Le #52 e #55 hanno già scritto «fatto» dentro, e stanno ancora fra
-le aperte.
-
-Ho anche trovato **perché la coda non cala mai**. Il programma che fa pulizia qui
-dentro sposta in archivio solo le caselle che qualcuno ha già marcato a mano. Non
-chiede mai a GitHub se una richiesta di unione è stata unita. È esattamente la cosa che
-mi avevi chiesto il 18 luglio, la casella #11: aperta da trentadue giorni.
-
-**Se va bene:** faccio tre cose in un lavoro solo. Chiudo le dieci verificate come già
-fatte, spiegando per ognuna dove si vede che è fatta. Porto le 38 righe della vecchia
-tabella nello stesso formato delle caselle, così le vedi anche tu nel Pannello invece
-che solo io nel file. E aggancio il controllo su GitHub che chiude da sola una casella
-«unisci la richiesta N» quando la unisci tu.
-
-**Cosa devi fare:** una parola. Le prime due cose le faccio subito. La terza è codice,
-quindi te la porto in una richiesta di unione come sempre.
-
-**Cosa non ho verificato:** delle otto righe «unisci la richiesta N» ne ho controllate
-tre su GitHub, non tutte e otto. Delle dieci che dichiaro morte ne ho provate otto, nel
-codice o su GitHub. Le altre due sono la #52 e la #55. Quelle le ho lette dal loro stesso
-testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse vero.
-
-- **Colore:** 🟡 — tocca la pagina da cui approvi, che è tua: non chiudo niente senza il tuo ok.
-- **Reparto:** AD + chief-of-staff
-- **Origine:** `{origine:analisi-coda-2026-08-19, referto:consegne/audit/2026-08-19-analisi-coda-approvazioni.md, pr:773}`
-
-🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 37 righe tabellari con stato `in attesa`. Totale 99 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
-
-> 🔄 **Aggiornamento 2026-10-10 09:30 — la coda sta toccando il tetto.** Stamattina il file era a 54
-> caratteri dal limite che il controllo riesce a leggere. Ho chiuso solo tre card che i fatti avevano
-> già chiuso (#155, #166, #193), con la prova scritta dentro. Fra le altre, sette chiedono di pubblicare
-> post di luglio e agosto che promettono una consegna che oggi non parte. Una parola, «ok 130», e
-> ti porto l'elenco delle chiusure, una riga per card col perché.
-
----
-
----
-
-### 🔴 #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35
-
-**Cosa cambia:** applicando le riparazioni al database vero ho scoperto una cosa che nessuna
-prova poteva vedere da qui. Il sito ha una funzione che fa scrivere le schede prodotto
-all'intelligenza artificiale. Quella funzione salva il lavoro in un cassetto del database che si
-chiama `catalog_ai_jobs`.
-
-Sul database vero quel cassetto non c'e'. Non c'e' mai stato: le istruzioni per costruirlo sono
-state scritte a giugno e sono rimaste nel repo del sito senza essere mai eseguite.
-
-Tre pezzi del sito provano a scrivere in un posto che non c'e'. Uno fa partire il lavoro. Uno
-ne chiede lo stato. Uno lo applica al catalogo. Tutti e tre falliscono ogni volta.
-
-In pratica: se domani il fornaio prova a farsi scrivere le schede dei suoi prodotti
-dall'intelligenza artificiale, non succede niente.
-
-Perche' non l'avevo visto prima: i miei controlli automatici ricostruiscono il database da zero
-partendo da tutte le istruzioni, quindi da loro il cassetto c'e' sempre. Solo toccando il
-database vero si vede la differenza. E' esattamente il tipo di errore che si trova andando a
-guardare, non leggendo.
-
-**Se va bene:** dammi il via e applico al database vero le istruzioni che creano quel cassetto
-(il file `099_catalog_ai_jobs.sql`, gia' scritto e gia' provato). Prima pero' controllo se
-quella funzione la usa qualcuno oggi: se e' spenta, la scelta e' fra accenderla e toglierla dal
-sito, e quella e' una tua decisione, non mia.
-
-**Dettagli tecnici:** migrazione `099_catalog_ai_jobs.sql` presente in `marketplace/migrations/`,
-assente da `supabase_migrations.schema_migrations` del progetto `clmpyfvpvfjgeviworth`.
-Verificato con `select … from pg_class where relname='catalog_ai_jobs'` → 0 righe. Codice che la
-usa: `app/api/ai/catalog-batch/{start,status,apply}/route.ts`. Nella migrazione 119 ho messo una
-guardia `to_regclass` sul blocco che la tocca. Senza, quella riga annullava in blocco le altre
-sei riparazioni della stessa transazione. E' successo davvero il 19/8 alle 20:12.
-
----
-
-### 🟡 #128 — Incolla una parola nei freni: lo strumento «Monitor» oggi non lo guarda nessuno · ⏳ accodata 2026-08-19 14:30
-
-**Cosa cambia:** ho uno strumento che si chiama `Monitor`. Avvia un comando di sistema e mi
-manda una riga ogni volta che quel comando dice qualcosa. Fa girare comandi come `Bash`.
-
-Il freno che controlla `Bash` prima di lasciarlo partire pero' non lo conosce. Vuol dire che da
-li' posso far girare un comando senza che nessuna guardia lo veda passare.
-
-In questo turno non ha fatto girare niente. L'unica chiamata e' stata rifiutata prima di
-partire. Il buco pero' resta aperto per la prossima volta.
-
-**Se va bene:** basta aggiungere una parola nel file `.claude/settings.json`, alla riga del
-`PreToolUse`:
-
-`"matcher": "Bash|Task|mcp__.*"` → `"matcher": "Bash|Monitor|Task|mcp__.*"`
-
-Da quel momento lo strumento passa dallo stesso controllo di `Bash`, e il cancello dello Stop
-smette di segnalarlo.
-
-**Perche' non l'ho fatto io:** quel file e' nell'elenco di quelli che non posso toccare —
-stesso muro delle card #104 e #42. Ho provato, mi e' stato negato, e non ho girato intorno al
-divieto.
-
-**Cosa non ho verificato:** non ho potuto provare che con quella parola il freno scatti
-davvero, proprio perche' non posso modificare il file per provarlo. E' un ragionamento sul
-testo del matcher, non una misura.
 
 ---
 
@@ -1818,48 +883,6 @@ solo le caselle email ufficiali delle redazioni (via web, il 17/8), non i nomi d
 
 ---
 
-### 🔴 #116 — Il programma punti + gift card è pronto da un mese, ma resta spento · ⏳ accodata 2026-08-17 12:24
-
-**Cosa cambia:** ti avevo chiesto di preparare punti spendibili in tutta la rete e gift card MyCity. L'ho già fatto, per intero, il 6 luglio. Da allora l'ho ricontrollato altre 5 volte (20/7, 27/7, 3/8, 10/8, oggi) invece di rifare il lavoro da capo ogni volta, perché il risultato sarebbe stato identico: il testo e la meccanica sono fermi in `consegne/growth/2026-07-06-playbook-fedelta-di-rete.md`. Restano spenti perché mancano ancora tutti e 5 i via libera che avevo scritto il 6/7: almeno 5 negozi veri (oggi 1 solo, Pane Quotidiano), ordini pagati (oggi 0), Stripe collegato in scrittura (ancora solo lettura), la percentuale di cashback firmata da te, e un parere legale sulla gift card. In più oggi Pane Quotidiano da solo non riesce nemmeno a incassare (dati mai inviati, incassi e versamenti disattivati) — quello è il blocco più urgente, non la fedeltà. Le due card che tenevano visibile questa proposta (#44 e #45) sono sparite dalla coda durante una pulizia automatica: questa le rimpiazza con una sola, per non perdere la traccia che il lavoro è già pronto.
-
-**Se va bene:** quando il primo negozio vero incassa un ordine pagato (o arrivano altri negozi), riprendo il playbook e lo accendo per davvero — non serve rifare la meccanica, solo aggiornarla ai numeri veri e mandartela per la firma su cashback e gift card.
-
-**Cosa non ho verificato:** non ho verificato di persona il testo del 6/7, solo che esiste ed è lo stesso citato nelle 5 volte precedenti — se lo vuoi rileggere prima che arrivi il momento di accenderlo, è nel file sopra.
-
-- **Colore:** 🔴 — tocca soldi veri (percentuale di cashback, gift card come denaro anticipato): resta ferma finché non firmi tu, e comunque non parte prima che i 5 via libera siano tutti sbloccati.
-- **Reparto:** growth-monetizzazione + loyalty-membership
-- **Origine:** `{origine:playbook-fedelta-rete, invocazione:6, gate:invariato-dal-2026-08-10}`
-
----
-
-### 🟡 #115 — Nessuna guardia controlla quando delego lavoro a un senior · ⏳ accodata 2026-08-17 06:20
-
-**Cosa cambia:** stamattina ho dato a un senior (backend-dev) un compito vero: verificare un bug e preparare una correzione. L'ho fatto con lo strumento che uso per delegare. Il controllo di fine turno mi ha segnalato una cosa vera: quello strumento non ha nessuna guardia agganciata. Gli strumenti di sola lettura non ne hanno bisogno, e sono dichiarati esenti con un motivo scritto. Questo invece può scrivere file, aprire branch, toccare il mondo — attraverso il senior a cui delego. Oggi gli ho dato istruzioni caute e i risultati sono stati verificati (il senior ha controllato la sua stessa diagnosi riga per riga). Ma la guardia non c'è: se un giorno delegassi con istruzioni meno caute, o un senior capisse male, nessun freno se ne accorgerebbe prima che sia fatto.
-
-**Se va bene:** due strade, decide un tecnico con te. (a) Si aggancia una guardia vera allo strumento di delega. Controlla cosa fanno i senior prima che tocchino file sensibili. È coerente con le altre guardie già in campo su modifica e comando. (b) Si accetta il rischio per ora, scrivendolo esplicitamente come eccezione, col motivo. Non ho scelto io: la scelta tocca la sicurezza del sistema, non un dettaglio tecnico.
-
-**Cosa non ho verificato:** non so se una guardia su questo strumento sia facile da scrivere o se richieda un lavoro grande. Non ho verificato quante altre volte questo varco è stato usato prima di oggi.
-
-- **Colore:** 🟡 — nessuna scrittura sul mondo reale in questa card, ma la decisione su come chiudere il varco tocca `.claude/settings.json`, che solo tu puoi modificare.
-- **Reparto:** security + prompt-engineer
-- **Origine:** `{origine:cancello-stop-2026-08-17, strumento:Agent, guardiano:mappa-copertura.mjs}`
-
----
-
-### 🔴 #107 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
-
-**Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora. Aggancia il caldo di metà agosto: chi non ha voglia di stare ai fornelli. Lo lega a due prodotti reali del suo catalogo, già pronti. Il primo è l'hummus di ceci bio, a 2,95€. Il secondo è il pesto genovese bio, a 5€ — basta cuocere la pasta. Prezzi e descrizioni sono letti oggi, in diretta, dal database del marketplace. Zero numeri inventati. Zero recensioni finte: il negozio non ne ha ancora, e il post non ne parla.
-
-**Se va bene:** il post porta qualche click in più verso la scheda del negozio su MyCity. Si misura col codice `no-fornelli-1608`. Apre anche un filone da ripetere ogni settimana, con un'altra coppia prodotto-bisogno. Ogni volta la coppia va letta dal vivo dal database: così non si rischia mai di inventare un numero.
-
-**Cosa devi fare:** scrivi «ok 106» se va bene così. Il testo e l'immagine sono già pronti, basta pubblicarli sui canali social di MyCity (Instagram, la sua Storia, Facebook e i gruppi locali).
-
-**Cosa non ho verificato:** non ho controllato con il titolare di Pane Quotidiano se oggi è aperto per davvero. L'orario nel suo profilo è quello standard settimanale, non una conferma per questo giorno specifico. Il post comunque non promette apertura oggi: parla solo del prodotto ordinabile online. Non ho scattato foto vere dei due prodotti: l'immagine proposta è tipografica (testo su sfondo colorato), non una foto reale del vasetto.
-
-🔧 Dettagli tecnici: testo completo, caption per i gruppi Facebook e idea visual in `consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md`; sintesi anche in [[AZIONI-PRONTE]] A41. Reparto: content-social (sintesi AD). Fonte prezzi/descrizioni: query SQL diretta `products` (seller Pane Quotidiano), 2026-08-16 ~12:00.
-
----
-
 ### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · 🔄 refresh 2026-08-21 14:50
 
 *Nota: rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile).*
@@ -1887,22 +910,6 @@ Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, n
 **Riconferma 21/8 15:35 — stesso blocco, e il freno verificabile esiste già.** Ho riprovato io stessa `node cervello/salute.mjs`: respinto subito, "richiede approvazione", nessuna scrittura possibile. Il file `.claude/settings.local.json` ha ancora le stesse 5 righe `Write(...)` alle righe 24-28. Non serve costruire un nuovo controllo: `cervello/permessi-check.mjs` (regola `forma-file-non-applicata`, AR-562) individua già esattamente questo pattern e diventa rosso se lo trova — è il freno che la card chiede, ma può leggerlo solo chi gira SUL VPS (il file è locale, fuori dal repo). **Cosa fare in più, in un solo giro:** dopo aver cambiato le 5 righe, lanciare sul VPS `node cervello/permessi-check.mjs` — se esce pulito (exit 0) la correzione è confermata dal proprio guardiano, non solo "a occhio".
 
 <!-- posthog-off-vps -->
-
----
-
-### 🟡 #80 — Spegni davvero il sensore PostHog sul server, come avevi deciso · ⏳ accodata 2026-08-13 18:15
-
-**Cosa cambia:** il 5 luglio hai deciso di spegnere PostHog. Nel codice lo spegnimento c'è, ma sul server manca l'interruttore: la chiave è ancora nel file di configurazione e il sensore gira davvero — oggi alle 14:14 risultava verde. Con questa azione il server smette di interrogare PostHog e la Cabina lo mostra come «spento per decisione», non come acceso.
-
-**Se va bene:** i sensori raccontano solo ciò che hai scelto di tenere acceso, e se un giorno vorrai riaccendere PostHog basterà togliere la riga.
-
-**Cosa fare.** Apri il terminale del VPS e aggiungi una riga al file di configurazione:
-```
-echo 'POSTHOG_OFF=1' >> /root/ad-mycity/.env
-```
-(la scheda tecnica è AR-653 nel cantiere)
-
-<!-- occhi-ambiente-cloud -->
 
 ---
 
@@ -1951,27 +958,6 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ---
 
-### 🟡 #70 — Togli le dieci righe che riempiono di avvisi ogni analisi · ⏳ accodata 2026-08-10 16:25
-
-**Cosa cambia:** quel muro di scritte in inglese in cima a molte analisi non lo scrivo io. Lo scrive
-il programma che mi fa girare, appena parte. Dieci righe del foglio dei permessi sono in una forma
-vecchia: lui le legge, non le applica, e ti avvisa ogni volta. Cinque stanno nel foglio del server e
-dovevano darmi il permesso di scrivere in memoria, nelle consegne e nel Pannello. Oggi non me lo danno.
-
-**Se va bene:** due comandi, uno per file, con la copia di sicurezza inclusa. Sono pronti in
-`consegne/sicurezza/2026-08-10-avvisi-permessi.md`, insieme alla prova che ho fatto e alla tabella di
-cosa resta protetto. Nessuna protezione salta: le righe che tolgo hanno già la loro gemella valida.
-
-**Serve da te:** lanciarli sul server e riavviare il worker. Io non posso: quei due file sono negati
-in scrittura alla macchina, ed è giusto così.
-- **Colore:** 🟡 (cambia il foglio dei permessi: non manda niente a nessuno, ma dopo va visto che worker e giro girino)
-- **Reparto:** devops-sre + security
-- **Origine:** `{origine:segnalazione-nicola-2026-08-10, difetto:AR-571}`
-
-<!-- piani-da-rivedere -->
-
----
-
 ### 🟡 #69 — Dimmi quali piani riscrivo, e in che ordine · ⏳ accodata 2026-08-10 16:15
 
 **Cosa cambia:** i tuoi dieci piani non vengono rivisti dal 24-25 giugno, e adesso so anche cosa dicono di sbagliato: **48 frasi smentite dai fatti**, su nove piani su dieci. Ho messo l'avviso in cima a ognuno, così quando lo apri lo vedi subito, ma **il testo non l'ho toccato**: riscrivere un tuo piano è una revisione tua. La più urgente è il **Piano Istituzionale**, che apre dicendo che il Bando Commercio ER è aperto fino al 21 luglio. Quel bando è chiuso dal 23 giugno — due giorni prima che tu scrivessi quel piano. E il **Piano Vendite** lo ha trasformato in una frase da dire al negoziante: «lo Stato rimborsa il 40%, ma chiude il 21 luglio». È l'unica di queste frasi che può uscire di casa e arrivare a un commerciante vero: se qualcuno la usa, promette soldi che non esistono più.
@@ -2015,56 +1001,6 @@ in scrittura alla macchina, ed è giusto così.
 🔧 Dettagli tecnici: due funzioni sono coinvolte. Sono `ancoraDelTurno()` e `piantaAncora()`. Vivono in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto. La funzione che controlla questo stato si chiama `alberoSporco()`. Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683). Più i blocchi `#pr-675`/`#pr-678` sopra. Nota 17/8: questo è il motivo per cui i collaudi di fine turno di oggi appaiono enormi (centinaia di file) — l'ancora è ferma qui, non riflette il lavoro del turno.
 
 <!-- sorvegliante-esenzione-vault -->
-
----
-
-### 🟡 #56 — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
-
-**Cosa cambia:** `cantiere-prove.json` è il referto dei difetti aperti. La macchina lo salva spesso. Ogni volta il controllo di sicurezza accusa "hai tolto una difesa" — anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza. È successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga, i test esistono ancora, girano ancora, 131/131 passano. Ma il rumore nasconde i controlli veri.
-
-**Se va bene:** un tecnico sceglie una delle due cure proposte nel dettaglio. Le porta in un branch. Con la prova che il fix non spalanca la porta ad accuse vere. Non è urgente. Per ora la macchina lavora attorno al problema: esclude il file dal commit quando serve.
-
-- **Colore:** 🟡 (fix di codice in `cervello/sorvegliante.mjs` o `cervello/cantiere-prove.mjs`, serve branch+PR)
-- **Reparto:** tech
-- **Origine:** `{origine:giro-2026-08-04-sera, collaudo-giro-16}`
-
-🔧 Dettagli tecnici: analisi completa e due cure proposte in `consegne/tech/2026-08-04-sorvegliante-esenzione-vault.md`. Causa: `eCodice()` esclude `MyCity-Vault/` (AR-554). Per questo nessun marcatore di esenzione può vivere in un commit che tocca solo memoria.
-
-<!-- pr-678-rinforzo-lezione-worker-concorrente -->
-
----
-
-### 🟡 #55 — Mergia il rinforzo della lezione sul worker che scrive mentre lavoro io · ⏳ accodata 2026-08-04 18:20
-
-**Cosa cambia:** questa PR scrive più a fondo, nei quaderni di memoria, una lezione già imparata. Il worker sul VPS può muovere HEAD/branch mentre una sessione come questa lavora in parallelo: mai forzare sopra dati più freschi. Aggiunge anche in coda il comando per mergiare la PR #677, il fix vero del falso allarme ripetuto 3 volte.
-
-**Se va bene:** nessuna azione tua richiesta per capire cosa contiene — solo il click di merge quando vuoi portarla su `main`, come le altre PR di memoria di oggi.
-
-- **Stato:** ✅ CHIUSA 2026-08-10 17:05 — chiusa senza unirla. La lezione che portava è già su main.
-- **Colore:** 🟡 (PR di memoria, merge sempre a tua firma)
-- **Reparto:** AD
-- **Origine:** `{origine:giro-2026-08-04-sera, pr:678}`
-
-🔧 Dettagli tecnici: repo `ad-mycity`, branch `memoria/2026-08-04-rinforzo-lezione-worker-concorrente` → `main`, https://github.com/NicolaeRotaru/ad-mycity/pull/678. Riepilogo in `consegne/tech/pr-ad-mycity-678.md`.
-
-<!-- pr-675-gate-settings-json-rossa -->
-
----
-
-### 🟡 #52 — PR #675 aperta da un'altra sessione, i controlli automatici sono rossi · ⏳ accodata 2026-08-04 17:30
-
-**Cosa cambia:** un'altra sessione della macchina (parallela a questa) ha aperto una PR per costruire un test che in futuro accorge se `.claude/settings.json` si rompe come è successo oggi con l'incollaggio della card #prevenzione-a-monte. Non l'ho scritta io in questo turno, ma nessuno l'aveva ancora messa in coda — la metto ora perché non resti solo in uno screenshot.
-
-**Se va bene:** nessuna azione tua richiesta subito. Il test è ancora rosso (3 controlli falliti), quindi non è pronta per il merge. La prossima sessione che se ne occupa deve leggere l'errore dei controlli e sistemarlo prima di riproporla; se resta ferma qualche giorno, chiedimi di controllare a che punto è.
-
-- **Stato:** ✅ FATTO 2026-08-10 11:28 — l'hai unita tu, e i controlli erano verdi.
-- **Colore:** 🟡 (PR di codice, merge sempre a tua firma)
-- **Reparto:** tech
-- **Origine:** `{origine:sessione-parallela-2026-08-04, pr:675}`
-
-🔧 Dettagli tecnici: repo `ad-mycity`, branch `fix/gate-lezione-settings-json-l20260804-01` → `main`, https://github.com/NicolaeRotaru/ad-mycity/pull/675. Riepilogo in `consegne/tech/pr-ad-mycity-675.md`.
-
-<!-- permessi-senza-jolly -->
 
 ---
 
@@ -2223,189 +1159,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 
 ---
 
-### 🟡 #41 — Rimetti in funzione il comando «radiografia» prima che ti serva davvero · ⏳ accodata 2026-07-29 13:30
-
-**Cosa cambia:** il comando «radiografia» oggi è rotto in **due punti diversi**, e tutti e due li ho scoperti sbattendoci contro invece che leggendo il codice.
-
-① **Non parte.** Il motore dei workflow è cambiato e adesso pretende che il file cominci con la sua scheda di presentazione, mentre il nostro comincia con tre righe tecniche prima: lo rifiuta senza nemmeno provarci. Me ne sono accorto perché l'ho lanciato io e l'ho aggirato con una copia a mano — se lo lanciavi tu, tornava un errore e basta.
-
-② **Il risultato non arrivava nella Cabina.** Questo l'hai visto tu: dopo che avevo consegnato tutto, la pagina «Salute sito» mostrava ancora il 7 luglio. Il Pannello non legge il report — legge un file riassunto che va generato con un comando a parte (`radiografia-marketplace-digest.mjs`), e quel passaggio **non è scritto da nessuna parte** nella spec del comando: né in `CLAUDE.md` né in `AUDIT-MARKETPLACE.md`. Non l'ho saltato per distrazione: il mansionario non lo nomina. In più il file grezzo che avevo scritto aveva la forma sbagliata (lista nuda invece dell'oggetto completo), quindi anche lanciando il comando giusto sarebbe uscito un riassunto **vuoto** senza dire niente a nessuno. Il ② l'ho già riparato a mano — la Cabina ora mostra il 29/7 — ma il buco che l'ha permesso è ancora lì e ricapita alla prossima radiografia.
-
-**Se va bene:** ① sposto la scheda di presentazione in cima nei file che ne hanno bisogno e calcolo il percorso del codice del sito senza le righe tecniche di prima; ② scrivo il passaggio del riassunto dentro la spec del comando in tutti e due i posti, e faccio sì che il file grezzo lo scriva il comando stesso nella forma giusta, invece di lasciarlo a chi passa. Poi due controlli che girano da soli: uno prova ad avviare i cinque comandi e diventa rosso se uno non parte; l'altro diventa rosso se in `consegne/audit/` esiste una radiografia più recente di quella che la Cabina sta mostrando — così un risultato consegnato non può più restare invisibile.
-
-**Nota tecnica:** ① `.claude/workflows/radiografia.js` — `export const meta` deve essere la prima istruzione, oggi è preceduto da tre `import` e dalla risoluzione di `MARKETPLACE_REPO`. Stessa forma in `auto-radiografia.js`, `audit-design.js`, `audit-pannello.js`, `giro-operativo.js`: da verificare uno per uno. ② `cervello/radiografia-marketplace-digest.mjs` legge `raw.result` e `raw.agentCount` → il raw deve essere l'oggetto completo del workflow, non il solo array dei risultati. Il passaggio va aggiunto alla riga «radiografia» di `CLAUDE.md` e alla sezione «Come funziona» di `MyCity-Vault/07-Agenti/AUDIT-MARKETPLACE.md` (passo 3). Il guardiano della freschezza confronta la data del raw più recente in `consegne/audit/` con `data` in `auto-coscienza/radiografia-marketplace.json`. Entrambi i controlli al cancello del giro.
-- **Colore:** 🟡 (auto-modifica della macchina: la firmi tu)
-- **Reparto:** builder-automazioni + devops-sre
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, difetto-macchina}`
-
----
-
----
-
----
-
-### 🟡 #40 — Togli le chiavi vere di Stripe e del database dalle anteprime delle modifiche · ⏳ accodata 2026-07-29 13:30
-
-**Cosa cambia:** ogni volta che si apre una proposta di modifica al sito, Render tira su un ambiente di anteprima che usa **le chiavi di produzione**: stessa Stripe, stesso database, stesse email. Vuol dire che una modifica ancora da approvare può incassare soldi veri, scrivere sugli ordini veri e mandare email a indirizzi veri. In più il deploy automatico su `main` non ha nessun cancello: un test rosso va in produzione lo stesso.
-
-**Se va bene:** in un branch metto le anteprime su chiavi di test (Stripe test mode e un database separato) e aggiungo il cancello che blocca il deploy se i test sono rossi. È la modifica che rende sicuro tutto il resto del lavoro sui bloccanti: senza, ogni fix che provo tocca la produzione.
-
-**Nota tecnica:** `render.yaml:13-14` (`previews: generation: automatic`) + `:32-73` (envVars `sync:false` → ereditano i valori del servizio di produzione); `autoDeploy` su `main` senza gate CI.
-- **Colore:** 🟡 (configurazione di deploy in branch, non tocca la produzione finché non la mandi tu)
-- **Reparto:** devops-sre + security
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensione:deploy-sre}`
-
-<!-- radiografia-2026-07-29-privacy-da-sistemare -->
-
----
-
-### 🟡 #39 — Metti la partita IVA vera nell'informativa e cancella davvero i documenti d'identità · ⏳ accodata 2026-07-29 13:30
-
-**Cosa cambia:** quattro cose che oggi ci mettono fuori regola. ① Nell'informativa privacy pubblica il titolare del trattamento ha la partita IVA `IT00000000000` — un segnaposto mai sostituito: un'informativa senza titolare identificabile è nulla. ② Quando un utente chiede di cancellare l'account, carta d'identità, selfie e patente restano nello storage **per sempre**. ③ Il registro delle attività scrive telefono, indirizzi e nomi in chiaro, e la cancellazione dell'account glieli copia dentro invece di toglierli. ④ Il rider vede l'**intera** riga del profilo del cliente, codice fiscale e IBAN compresi, non solo quello che gli serve per consegnare. Sono tutte cose che un controllo del Garante trova in mezz'ora, e la ② e la ③ sono l'opposto di quello che promettiamo nella pagina privacy.
-
-**Se va bene:** ① la partita IVA me la dai tu e la scrivo (è l'unica che non posso dedurre); ② e ③ le sistemo in un branch — la cancellazione tocca anche i file caricati e ripulisce il registro invece di riempirlo; ④ il rider passa a vedere solo nome, telefono e indirizzo. Anteprima e poi vai tu in produzione.
-
-**Serve da te:** la partita IVA reale (o la ragione sociale con cui è intestato il sito) per il punto ①.
-
-**Nota tecnica:** ① `app/privacy/page.tsx:48-58` e 176-177. ② `app/api/cron/process-deletions/route.ts:48-65` e 108-140 (nessuna rimozione dai bucket dei documenti). ③ `migrations/073_activity_tracking.sql:88` e 108-118. ④ policy su `profiles`, `migrations/011_orders_delivery.sql:149-158` → serve una vista ristretta.
-- **Colore:** 🟡 (branch e bozze; la partita IVA e il deploy restano tuoi)
-- **Reparto:** dpo + legale-privacy + backend-dev
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensione:privacy-legale}`
-
-<!-- radiografia-2026-07-29-soldi-che-scappano -->
-
----
-
-### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30 · 🔍 riverificata sul DB vero 2026-08-21 14:30
-
-**Aggiornamento 2026-08-21:** ho controllato punto per punto sul database di produzione, dopo il grosso lotto di riparazioni del 20-21/8. **Due dei cinque sono già a posto**: ③ il campo del compenso rider (`rider_fee_cents`) NON è più tra quelli che rider/venditore possono cambiare — l'ho letto nella funzione che protegge gli ordini, la lista dei campi liberi non lo contiene; ② la funzione che restituisce l'uso di un coupon dopo un checkout abbandonato (`release_coupon`) ora esiste sul database, prima non c'era. **Gli altri tre non li ho potuti verificare da qui**: doppia vendita (①) e reclamo che blocca per sempre (⑤) dipendono dal codice del sito (cron, webhook) che da questa sessione non leggo — il trigger del reclamo che ho trovato (`dispute_block_payout`) blocca il pagamento all'apertura ma non mostra un modo per sbloccarlo, quindi il punto ⑤ potrebbe essere ancora aperto. **Non chiudo la card**: la declasso da "cinque falle" a "tre da verificare col codice, due già chiuse".
-
-**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ~~② Campagne che si spengono a un terzo~~ — RISOLTO, vedi sopra. ~~③ Il rider si decide lo stipendio~~ — RISOLTO, vedi sopra. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
-
-**Se va bene:** apro un branch e affronto solo i tre punti rimasti (①④⑤, doppia vendita/payout gratuito/reclamo permanente) leggendo il codice del sito. Ti consegno l'anteprima e mandi in produzione tu.
-
-**Nota tecnica:** ① `lib/stripe/client.ts` non passa `expires_at`, `migrations/042_multi_seller_checkout.sql:43` vs cron `expire-checkouts`; `app/api/stripe/webhook/route.ts:210` non gestisce EXPIRED/CANCELED. ② `claim_coupon` (migration 108) chiamata prima di `reserve_stock`, nessuna `release_coupon` esiste. ③ `rider_fee_cents` assente dal freeze di `enforce_order_update_rules` → `lib/stripe/payout.ts`. ④ `lib/stripe/payout.ts:161-166` + `app/api/cron/release-payouts/route.ts:113-136`. ⑤ trigger `dispute_block_payout`, `migrations/063_p1_db_hardening.sql:69-84`. Webhook: handler gift card/sponsor/abbonamento fanno `return` invece di `throw`, il dispatcher marca `processed=true`.
-- **Colore:** 🔴 (tocca pagamenti, payout e database di produzione)
-- **Reparto:** backend-dev + marketplace-payments + finanza
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:api-backend+pagamenti-stripe+qa-flussi}`
-
-<!-- radiografia-2026-07-29-porte-aperte -->
-
----
-
-### 🟡 #34 — Ferma la macchina che si chiude da sola i difetti appena scritti · ⏳ accodata 2026-07-27 12:45
-
-**Cosa cambia:** oggi, sessanta secondi dopo che hai mergiato la radiografia, la macchina ha chiuso da sola 91 dei 173 difetti appena consegnati — il 53%, di cui 17 bloccanti. Per un quarto d'ora il Pannello ti ha mostrato «105 aperti, 163 chiusi» invece dei 196 veri. Nessuna di quelle chiusure poteva essere vera: fra le 9:40 e le 12:15 non è entrato nessun fix. Il motivo: ogni difetto porta una prova per chiudersi da solo, e quelle 91 prove descrivevano **il bug** invece del **fix**. Erano già vere nell'istante in cui il difetto nasceva. Le ho già rovesciate e i difetti sono tornati aperti. Ma il buco che l'ha permesso è ancora lì, e ricapiterà alla prossima radiografia.
-**Se va bene:** l'AD mette due controlli. Il primo: un difetto non può nascere con una prova già vera — se lo fa, il guardiano che gira a ogni giro se ne accorge e blocca. Da solo avrebbe fermato tutti e 91. Il secondo: non chiudere un difetto se il file che dovrebbe contenere il fix non è mai stato toccato da quando il difetto è nato. In più la regola sul come si scrive una prova entra nello stampo del prompt, così non dipende più da chi se la ricorda.
-**Nota tecnica:** difetto AR-330. Il punto è `cervello/auto-fix.mjs:122-129` (`verificaFix`), che considera risolto un difetto quando la prova è soddisfatta senza chiedersi se quella prova descriva il fix o il sintomo. È la manifestazione su scala di AR-144: lì era un sospetto su 72 chiusure vecchie, qui è un fatto misurato su 91.
-- **Colore:** 🟡 (tocca il cervello e il modo in cui la macchina si autovaluta)
-- **Reparto:** internal-audit + devops-sre
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-330}`
-
-<!-- radiografia-triage-cantiere -->
-
----
-
-### 🟡 #33 — Decidi cosa fare dei 193 difetti aperti: così com'è non è una lista di lavoro · ⏳ accodata 2026-07-27 09:40
-
-**Cosa cambia:** la radiografia ha trovato 170 difetti veri, tutti verificati e tutti con la prova per chiudersi da soli quando il fix entra. Sommati ai 23 già aperti fanno 193. Sono onesti, ma 193 voci non sono una coda di lavoro: sono un magazzino, e sul telefono diventano illeggibili. Il report mette in cima i più gravi per impatto sulla crescita — quella è la coda vera. Serve decidere cosa fare del resto.
-**Se va bene:** scegli tu fra tre strade — (a) tenerli tutti aperti e lavorare solo dalla cima; (b) marcare come «accettati» quelli minori, così spariscono dalla vista ma restano tracciati; (c) tenerne aperti solo un numero fisso alla volta e pescare dal magazzino quando se ne chiude uno. La mia raccomandazione è la (c): tiene la coda leggibile senza buttare niente.
-**Nota tecnica:** il cantiere passa da 147 KB a ~400 KB. È sotto il limite di 1 MB, ma è la stessa strada su cui `apprendimento.json` è già caduto — e quando cade, il Pannello non lo dice: mostra zero e sembra a posto.
-- **Colore:** 🟡 (cambia come si organizza il lavoro della macchina)
-- **Reparto:** AD
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-157..AR-326}`
-
----
-
-<!-- conferma-piano-squadra-ripresa-negozi -->
-
----
-
----
-
-<!-- pi26-conferma-ammissibilita -->
-
----
-
----
-
-### 🟡 #32 — Fai in modo che il giro legga i propri controlli invece di ignorarli · ⏳ accodata 2026-07-27 09:40
-
-**Cosa cambia:** oggi il giro si dichiara «completato» anche quando i controlli sono tutti rossi. I quindici vincoli che dovrebbero fermarlo finiscono soltanto dentro il testo del prompt — cioè sono consigli che dà a sé stesso, non cancelli. Su venti vincoli, quindici sono decorativi. Conseguenza pratica: il Pannello ti mostra verde e il worker segna «fatto» anche quando qualcosa è andato storto, e nessun numero di salute della macchina è affidabile finché resta così. È il difetto che viene prima di tutti gli altri.
-**Se va bene:** l'AD promuove a esito reale i tre o quattro controlli che contano davvero (quelli su cui decidi tu), copiando lo schema del controllo sulla coerenza della memoria, che già funziona ed è l'unico coi denti. Gli altri restano avvisi, ma dichiarati come tali invece di sembrare cancelli.
-**Nota tecnica:** difetti AR-300, AR-301, AR-320. L'esito è calcolato in `cervello/giro.sh:894-914`; il modello da copiare è `MEMORIA_INCOERENTE`. Da decidere insieme quali vincoli promuovere: promuoverli tutti bloccherebbe quasi ogni giro.
-- **Colore:** 🟡 (cambia quando un giro si considera riuscito — impatto su tutto il resto)
-- **Reparto:** devops-sre + internal-audit
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-300+AR-301+AR-320}`
-
-<!-- radiografia-congela-memoria -->
-
----
-
-### 🟡 #31 — Salva la memoria prima di domani: da domani le lezioni di giugno iniziano a cancellarsi · ⏳ accodata 2026-07-27 09:40
-
-**Cosa cambia:** il decadimento della memoria conta le esecuzioni, non i giorni. Dal 28/7 le lezioni più vecchie di 28 giorni muoiono in circa quattro giri — cioè poche ore, non settimane. Tutto quello che l'azienda ha imparato a giugno può sparire in una mattinata senza che nessuno lo decida. Non è un rischio teorico: è una data, ed è domani.
-**Se va bene:** l'AD fa due cose nello stesso lavoro — congela subito una copia della memoria di oggi (così qualunque cosa succeda niente è perso) e cambia il decadimento perché conti i giorni veri invece delle esecuzioni.
-**Nota tecnica:** `cervello/cristallizza-apprendimento.mjs:45`, `DECAY_DAYS=28` applicato per esecuzione. Collegato: `apprendimento.json` ha superato 1 MB e il Pannello in produzione mostra già 0 lezioni su 476 in silenzio — quando il decadimento sgonfierà il file la scheda tornerà a funzionare da sola, facendo sembrare risolto un problema risolto buttando via la memoria.
-- **Colore:** 🟡 (tocca il cervello e la memoria, reversibile con la copia congelata)
-- **Reparto:** bi-lead + data-engineer
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:decadimento-per-esecuzione}`
-
-<!-- radiografia-serratura-pannello -->
-
----
-
-### 🟡 #28 — Due piccoli fix ai guardiani della macchina (da chiudere un incidente ripetuto 3 volte e un buco nel rituale ESITO) · ⏳ accodata 2026-07-24 16:00 (review settimanale)
-
-**Cosa cambia:** (1) `cervello/git-pr.mjs` fallirebbe con un errore chiaro se trova file NON legati al lavoro dichiarato invece di committarli in silenzio — è successo 3 volte in 24 ore il 23/7 (PR #513, #516, #517) con file diversi ogni volta, sempre per lo stesso motivo. (2) Un gate che impedisce di segnare chiuso un lavoro 🟡/🔴 senza la riga ESITO in `chiusura-loop.mjs` — questa settimana il quaderno di @tech si è fermato al 20/7 nonostante decine di PR mergiate dopo (AR-154), proprio nei giorni con più da imparare.
-**Se va bene:** l'AD scrive le due modifiche in un branch, le testa (script + 1 caso finto), apre la PR e te la segnala qui per il merge — nessun rischio per il sito, sono solo controlli interni della macchina.
-**Nota tecnica:** dettaglio completo in `auto-coscienza/auto-miglioramento.json` (proposte_auto_riscrittura, finding AR-154 + episodi LEZIONI-CHAT 23/7).
-- **Colore:** 🟡 (tocca script interni della macchina, non il sito)
-- **Reparto:** tech/prompt-engineer
-- **Origine:** `{origine:review-settimanale-2026-07-24}`
-
-<!-- merge-pausa-post-merge-worker -->
-
----
-
-### ⚠️ #27 — Il fix "aspetta 3 minuti dopo un merge" è live ma NON BASTA · ⏳ accodata 2026-07-24 00:33 · **VERIFICATO INSUFFICIENTE 2026-07-24 00:47**
-
-**Cosa è cambiato:** hai chiesto di applicare la pausa dopo la caccia al perché Vercel "parte e sparisce" — trovato che l'AD stessa uccideva i tuoi deploy, scrivendo un commit di log su `main` a pochi secondi da ogni merge, mentre Vercel stava ancora buildando. Quel commit ora aspetta 3 minuti prima di partire.
-**Verifica reale 00:47 — insufficiente:** hai provato un Redeploy manuale su Vercel e hai riportato «mi cancella il deploy manuale» — cancellato di nuovo, fuori da qualsiasi finestra post-merge. Causa: il fix copre solo il commit-di-log-dopo-un-merge, ma OGNI turno di chat produce comunque un commit su `main` (anche solo per rispondere) — e quel commit basta da solo a interrompere un deploy in corso, merge o no.
-**Prossimo passo proposto (non ancora fatto):** allargare la pausa da "dopo un mio merge" a "silenzio di qualche minuto dopo QUALSIASI scrittura recente su `main`" — costo: durante una chat fitta la memoria arriva al Pannello con più ritardo (nulla si perde). Serve conferma di Nicola prima di implementarlo (🟡, tocca il worker).
-**Nota tecnica:** fix parziale entrato su `main` con commit `0592c843` ("fix(worker): pausa il push memoria dopo un merge") — direttamente, non tramite il branch `fix/sync-vault-pausa-post-merge`/commit `812e945a` di questa chat, la cui PR non si è mai aperta (rate limit GitHub): un'altra sessione parallela (`/loop 10m`) ha scritto e portato in main lo stesso fix in autonomia. Vedi [[vercel-deploy-cancellato-da-commit-main]].
-- **Colore:** 🟡 (codice del worker — già in main, ma va allargato)
-- **Reparto:** tech/devops-sre
-- **Origine:** caccia Vercel-deploy-cancellato (chat 24/7 00:08→00:47, ancora aperta)
-
-<!-- merge-scadenzario-check-ar147 -->
-
----
-
-### 🔴 #25 — Pubblica il carosello "Cosa c'è di buono questa settimana" su Instagram e Facebook · ⏳ accodata 2026-07-23 11:23
-
-- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contenuto completo:** `consegne/content/2026-07-23-post-del-giorno-carosello-bio-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A40**
-
-**Testo pronto (hook IG/carosello):**
-
-> 🛒 Cosa c'è di buono questa settimana da Pane Quotidiano (Via Calzolai, bio dal 1976): kefir di capra bio 2,95€, kefir Berchtesgadener 2,05€, hummus di ceci bio 2,95€, pesto genovese bio 5€, pudding alla vaniglia bio 2,05€ — tutto ordinabile ora. Scorri il carosello → link in bio.
-
-**Visual:** carosello 6 slide (copertina + 1 slide a prodotto, prezzo reale) tipografico su palette brand — pubblicabile subito senza foto; boost futuro = foto reale dei 5 prodotti (serve ok titolare).
-
-**Timing:** oggi **17:00–19:00** (pre-cena). Non duplica #post-lunedi-turno-mattina-2007 (BTS/volto) né il post kefir del 14/7 (prodotto singolo) — oggi è il PRIMO carosello con tutto il catalogo reale, letto in diretta dal DB (0 numeri inventati, 0 prova sociale perché 0 ordini pagati reali).
-
-**Cosa cambia:** esce il primo post-rubrica "tutto il catalogo" — se funziona diventa appuntamento settimanale fisso (si aggiorna da solo dal DB, zero rischio di inventare numeri).
-**Se va bene:** click marketplace via UTM `carosello_bio_2307`; PQ può ripubblicare; nasce una rubrica ricorrente riusabile ogni settimana.
-
-- **Colore:** 🔴 (pubblicazione — bozza 🟢 già fatta)
-- **Reparto:** content-social
-
----
-
----
-
 ### 🔴 #24 — Accendi la sveglia intelligence (bandi alle 7 + Telegram) · ⏳ accodata 2026-07-20 12:02
 
 **Playbook:** `consegne/intelligence/PLAYBOOK-ACCENSIONE-2026-07-20.md` (**PR #496 ✅ mergiata 17:44** — codice su main)
@@ -2422,192 +1175,6 @@ Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
 - **Reparto:** builder-automazioni / intelligence
 
 ---
-
----
-
-### 🔴 #23 — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36
-
-- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contenuto completo:** `consegne/crm/2026-07-20-playbook-referral-refresh.md` · playbook base `consegne/crm/2026-07-06-playbook-referral.md` · anteprima [[AZIONI-PRONTE]] **A17**
-
-**Cosa c'è già nel sito (verificato 20/7):** tabella `referrals`, premio €5 al referrer solo su ordine **CONSEGNATO** (mig.089), welcome €5 nuovi iscritti (mig.029), no self-referral (mig.092), pagina `/profile/referral` live. **Non serve nuovo codice** per partire.
-
-**Economia:** messaggio pubblico 5€+5€ · costo incrementale MyCity ≈ **€5** per nuovo cliente che riceve un ordine (i 5€ invitato = welcome standard). Cap mensile proposto **250€** (≈25 conversioni) — da firmare.
-
-**Anti-frode (già attiva):** premio solo su CONSEGNATO · no auto-invito · un premio per invitato · welcome solo ≥€10. A volume (🟡 branch): tetto 5 inviti/7g, clawback rimborso.
-
-**Gate — NON partire finché tutti ❌→✅:**
-- [ ] Ordine-prova Pane Quotidiano **Consegnato** (oggi 0 — North Star bloccato)
-- [ ] Feedback cliente contento (A13 👍)
-- [ ] Firma Nicola su incentivo + cap 250€/mese
-- [ ] Codice referral samir recuperato da admin/DB
-
-**Testo WhatsApp pronto (samir · 🔴):**
-
-> Ciao [Nome], com'è andata la consegna da **Pane Quotidiano**? Se ti è piaciuto, **dillo a un vicino.**
-> Quando qualcuno si iscrive col tuo link e riceve il primo ordine, **5€ vanno a lui e 5€ a te** — automatici.
-> 👉 https://mycity-marketplace.com/sign-up?ref=**[CODICE-SAMIR]**
-> Ogni vicino che ordina è una bottega del centro che incassa. 🧡 Nicola — MyCity
-
-**Cosa cambia:** si accende il canale di crescita più economico (CAC ≈€5) — passaparola incentivato del quartiere.
-**Se va bene:** un cliente reale porta un vicino → secondo buyer senza ads; poi si misura k-factor.
-
-- **Colore:** 🔴 (incentivo € reale + messaggio a cliente — firma Nicola)
-- **Canale:** WhatsApp 348 642 1766 (Resend spento — email opzionale dopo accensione mani)
-- **Reparto:** crm-lifecycle
-- **Nota:** rimandato 9/7 «dopo primo negozio» — PQ è live dal 1/7; blocco reale = zero consegne. **Prima:** ordine test PQ (#ordine-test-pq).
-
-<!-- post-lunedi-turno-mattina-2007 -->
-
----
-
-### 🔴 #22 — Pubblica "Lunedì mattina: il turno è già iniziato" su Instagram e Facebook · ⏳ accodata 2026-07-20 11:28
-
-- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contenuto completo:** `consegne/content/2026-07-20-post-del-giorno-lunedi-turno-mattina-PQ.md` · anteprima [[AZIONI-PRONTE]] **A36**
-
-**Testo pronto (versione feed IG/FB):**
-
-> ☀️ **Lunedì mattina a Piacenza: qualcuno è già al lavoro per te.**
->
-> Mentre la città si sveglia, in Via Calzolai la saracinesca è già su. **Pane Quotidiano** — bio dal 1976 — impasta e prepara. Non è un magazzino fuori città: è una bottega dove qualcuno fa il **suo turno** ogni mattina da quasi cinquant'anni.
->
-> Tu il tuo lo fai da casa: pesto, kefir, freschi bio — ordini dal telefono, te li portiamo. Paghi alla consegna se preferisci.
->
-> **Fai il tuo turno** — anche il lunedì, senza la trafila.
->
-> 👉 Link in bio / primo commento
-
-**Primo commento suggerito:**
-> Ordina da Pane Quotidiano → https://mycity-marketplace.com?utm_source=ig&utm_medium=social&utm_campaign=lunedi_turno_2007
-
-**Visual:** tipografico mattutino su palette brand (pubblicabile subito) — brief completo nel file consegne. Foto interno bottega = ok titolare.
-
-**Timing:** lunedì **11:00–14:00** (fascia pranzo). Non duplica #post-meteo-pioggia-20lug (gruppi/pioggia) né #post-domenica-settimana-1907 (domenica sera).
-
-**Cosa cambia:** esce il post del giorno sul negozio faro — angolo BTS/volto lunedì mattina, diverso da pioggia e da domenica.
-**Se va bene:** click marketplace + PQ può ripubblicare ai clienti abituali.
-
-- **Colore:** 🔴 (pubblicazione IG/FB — firma Nicola)
-- **Canale:** Instagram/Facebook @mycity.piacenza (+ storia 9:16)
-- **Reparto:** content-social
-
----
-
----
-
-### 🔴 #21 — Pubblica il post di stasera "Prepara la settimana da casa" su Facebook e Instagram · ⏳ accodata 2026-07-19 12:58
-
-- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contenuto completo:** `consegne/content/2026-07-19-post-del-giorno-domenica-settimana-PQ.md` · anteprima [[AZIONI-PRONTE]] **A29**
-
-**Testo pronto (versione Gruppi Facebook):**
-
-> Domenica sera e già pensi alla spesa della settimana? 😅
->
-> Su **MyCity** c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) — pesto, kefir e freschi bio già ordinabili. Ordini stasera da casa, lunedì te li portiamo al mattino. Paghi alla consegna se ti è più comodo.
->
-> Se ti va di provare, link nel primo commento 👇
-
-**Primo commento suggerito:**
-> Ordina da Pane Quotidiano → https://mycity-marketplace.com?utm_source=fb-gruppi&utm_medium=social&utm_campaign=domenica_settimana_1907
-
-**Visual:** tipografico serale su palette brand (pubblicabile subito) — brief completo nel file consegne. Foto reale PQ = ok titolare.
-
-**Timing:** entro le **21:00 di oggi** 19/7 (domenica sera).
-
-**Cosa cambia:** esce il post del giorno sul negozio reale — angolo "pianifica la settimana stasera", diverso da kefir (colazione) e da post pioggia di domani.
-**Se va bene:** click su marketplace + Pane Quotidiano può ripubblicare ai suoi clienti.
-
-- **Colore:** 🔴 (pubblicazione IG/FB/gruppi — firma Nicola)
-- **Canale:** Gruppi FB locali + Instagram/Facebook @mycity.piacenza
-- **Reparto:** content-social
-
-<!-- ritmo-venerdì-punteggio -->
-
----
-
-### 🟡 #20 — Apri e mergia la PR per la regola «venerdì ricalcola il punteggio auto-coscienza» · ⏳ accodata 2026-07-19 00:10
-
-**Contesto:** Il 18/7 Nicola ha notato che il punteggio 42/100 era fermo da 15 giorni. L'AD ha aggiunto la regola esplicita a `cervello/ritmo.md` e creato il body PR in `consegne/tech/pr-ad-mycity-466.md`, ma il worker al termine del turno non mostrava nessuna PR aperta — il comando potrebbe non essere andato a buon fine.
-
-**Cosa fare:** Verificare se la PR è già aperta su GitHub (`gh pr list --repo NicolaeRotaru/ad-mycity --state open`). Se non c'è, aprirla:
-```
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
-```
-(assicurarsi di essere sul branch corretto del fix ritmo.md prima di eseguire)
-
-**Cosa cambia:** il ritmo del venerdì include esplicitamente il ricalcolo del punteggio auto-coscienza — la casella non può restare ferma più di 7 giorni.
-**Se va bene:** ogni venerdì il punteggio viene aggiornato automaticamente dal giro; Nicola non vedrà mai più una casella «ferma da 15 giorni».
-
-- **Colore:** 🟡 (modifica `cervello/ritmo.md` → PR → mergia Nicola)
-- **Reparto:** @AD
-
-<!-- apri-pr-chat-crossdevice-24h -->
-
----
-
-### 🟡 #19 — Apri PR per il fix chat cross-device (finestra 24h + tracking per ID) · ⏳ accodata 2026-07-18 23:55
-
-**Contesto:** Il fix cross-device auto-open è stato scritto e committato nel branch `fix/chat-crossdevice-autoopen`. Causa originale: `nuovaChatManualeRef` bloccava permanentemente l'auto-open da altri device; finestra di 2h troppo corta. Fix: tracking per conv ID e finestra estesa a 24h. Il comando PR era bloccato in quella sessione.
-
-**Cosa fare:** Nella prossima chat scrivere «apri pr per fix/chat-crossdevice-autoopen» oppure eseguire:
-```
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
-```
-
-**Cosa cambia:** smartphone e desktop si sincronizzano correttamente — la chat aperta su uno appare sull'altro entro 8 secondi.
-**Se va bene:** il bug «nuova chat contiene risposta vecchia» e «chat telefono non appare su desktop» vengono chiusi con un unico deploy.
-
-<!-- cadenza-housekeeping -->
-
----
-
-### 🟡 #17 — Apri la PR che blocca l'auto-ricarica della vecchia chat · ⏳ accodata 2026-07-18 17:30
-
-**Contesto:** Nicola ha mostrato screenshot: quando premeva «+» per una nuova chat, la conversazione precedente riappariva automaticamente. Causa: un `useEffect` per la sync cross-device riapr1va l'ultima conversazione recente (< 2 ore) dopo che `nuovaConversazione()` l'aveva svuotata.
-
-**Fix implementato:** aggiunto `nuovaChatManualeRef` in `ChatCasella.tsx` — si accende quando premi «+» manualmente e blocca l'auto-apri solo in quel caso. La sync automatica all'apertura pagina (da altro dispositivo) continua a funzionare.
-
-**Commit:** `d4c1e0d0` · Branch: `fix/nuova-chat-auto-apri-bloccato`
-
-**Comando VPS (se bloccato in sessione):**
-```
-node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
-```
-
-**Cosa cambia:** premere «+» apre davvero una chat vuota — la risposta precedente non appare più.
-**Se va bene:** Nicola può aprire nuove chat senza trovare le vecchie risposte dentro.
-
-- **Colore:** 🟡 (codice Pannello → mergia Nicola)
-- **Reparto:** frontend-dev
-
----
-
----
-
----
-
----
-
-### 🔴 #16 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30
-
-- **▶️ Pausa finita:** rinvio negozi · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contesto:** Post del 18/7 — angolo "numeri piccoli come forza" (swipe #6). ⚠️ **Correzione Nicola 19/7: iscritti = 4, non 23** — aggiornare il testo del post prima di pubblicare. Neutro, nessun consenso bottega richiesto. Bozza originale in `consegne/content/2026-07-18-post-del-giorno-siamo-in-23.md`.
-
-**Cosa cambia:** il brand appare sui gruppi Facebook con un dato onesto e un countdown ("mancano 27 ai primi 50"). Prima uscita social della settimana.
-
-**Se va bene:** nuovi iscritti alla lista d'attesa → il 23 sale verso 50 → post celebrativo quando ci siamo.
-
-**Canale:** Facebook gruppi locali (profilo personale Nicola) + opzionale FB Pagina MyCity / Instagram.
-
-**Prima di pubblicare:** aggiorna il numero se nel frattempo gli iscritti sono cambiati. Inserisci il link UTM nel 1° commento: `utm_source=fb-gruppi&utm_content=siamo-in-23`.
-
-<!-- zona-orario-consegna -->
 
 ---
 
@@ -2633,24 +1200,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
-### 🟡 #14 — Pubblica post nei gruppi Facebook il 20/7 (piogge + delivery) · ⏳ accodata 2026-07-18 06:30
-
-- **▶️ Pausa finita:** rinvio negozi — la sua data, il 20/7, è già passata · classe **business** · riprende con `ripresa.lavoro-operativo`
-
-**Contesto:** Piogge previste dal 20/7 su Piacenza. Delivery domestico ha il massimo valore percepito quando piove.
-
-**Testo pronto in `consegne/content/2026-07-18-post-meteo-pioggia.md`**
-
-**Cosa cambia:** visibilità nei gruppi Facebook locali (Piacenza Sei Tu + quartieri). Budget 0.
-
-**Se va bene:** 2-5 nuovi iscritti → 1 ordine.
-
-**Canale:** Facebook gruppi locali (manuale da Nicola il 20/7 mattina)
-
-<!-- welcome-email-23 -->
-
----
-
 ### 🟡 #13 — Invia la welcome email ai 4 iscritti via Gmail · ⏳ accodata 2026-07-18 06:30
 
 - **▶️ Pausa finita:** rinvio negozi — gate su PQ operativo · classe **business** · riprende con `ripresa.lavoro-operativo`
@@ -2668,80 +1217,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 **Canale:** email manuale via Gmail BCC
 
 <!-- ordine-test-pq -->
-
----
-
-### 🟡 #12 — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30
-
-- **▶️ Pausa finita:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo` · congelamento confermato da Nicola (28/7 15:56, [[DECISIONI]])
-
-**Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
-
-**Cosa cambia:** il North Star passa da 0 a 1, si sa che la macchina funziona, si sblocca la comunicazione ai **4 iscritti** (correzione Nicola 19/7).
-
-**Se va bene:** PQ evade l'ordine → possiamo mandare l'email ai 4 iscritti con "la consegna funziona".
-
-**Canale:** manuale (Nicola apre mycity-marketplace.com e ordina)
-
----
-
----
-
-### 🟡 #11 — Implementa: la card «Da approvare» per merge PR sparisce da sola quando Nicola mergia da GitHub · ⏳ accodata 2026-07-18 02:00
-
-**Richiesta esplicita di Nicola (18/7):** «se dentro da approvare una casella che per far mergiare un PR ma io la mergio da GitHub, quella casella deve sparire.»
-
-**Come implementare (2 strade):**
-1. **Al caricamento del Pannello** — per ogni card con `tipo: merge-pr` e PR URL nota, chiama `GET /repos/{owner}/{repo}/pulls/{number}` (GitHub API pubblica, no auth per repo pubblici); se `merged_at` è valorizzato → segna la card FATTO automaticamente.
-2. **Nel giro** — aggiungere un passo in `giro.sh` che controlla le PR aperte in AZIONI-IN-ATTESA e le segna FATTO se già mergiate su GitHub.
-
-**Cosa cambia:** Nicola non deve più dire «l'ho mergiato» — il sistema lo vede da solo entro pochi minuti.
-**Se va bene:** nessuna card zombie per PR già mergiate; AD segna le card FATTO in autonomia (🟢).
-
-- **Colore:** 🟡 (modifica codice Pannello + eventuale giro.sh)
-- **Reparto:** frontend-dev / devops-sre
-
-<!-- checkin-pq-postvp -->
-
----
-
-### 🟡 #10 — Senti il fornaio: com'è andata venerdì e fissiamo il primo ordine · ⏳ accodata 2026-07-18 01:09 · **in pausa dal 2026-07-23 21:36**
-
-**⏸️ IN PAUSA (non riproporre come urgente):** Nicola 23/7 ~21:xx, rispondendo proprio su questa card: rimanda l'INTERO inserimento negozi — Pane Quotidiano compreso — a **dopo il 24 agosto - 1 settembre 2026** (motivi personali/costi + priorità nel frattempo su Pannello/AD/worker/marketplace). Non è abbandono né urgenza mancata: è una scelta esplicita. Vedi `registro-fatti.json` (`ripresa.lavoro-operativo`), STATO e DECISIONI 23/7 ~21:xx.
-
-**📊 Health score PQ — 21/7 00:01 (fonte: REST Supabase live, ultimo dato prima della pausa):**
-- 🔴 Ordini: **0** — stallo **~27 giorni** (dal 24/6) · VP 17/7 passato **4 giorni fa** senza ordini
-- 🟡 Catalogo PQ: **solo 5 prodotti** (kefir ×2, hummus, pesto, pudding)
-- 🟢 Descrizione vetrina ok · negozio approvato LIVE · **4 buyer** registrati, **0 pagati**
-- ❌ Logo, città, indirizzo, telefono **mancano nel DB** (Via Calzolai / 0523 388601 solo in memoria)
-- ❌ Payout Stripe non testato
-- ✅ **Non è abbandono:** Nicola li conosce — rischio = **zero incassi**, non churn
-
-**Quando:** **in pausa** — non prima del **24/8-1/9/2026** (era scaduta 20/7, superata dalla decisione di rinvio)
-
-**Chi:** Pane Quotidiano · **0523 388601** · Via Calzolai 25
-
-**Script (2 min, tono relazione — post VP):**
-
-> «Ciao [nome], ti disturbo un attimo. Com'è andato il Venerdì Piacentini venerdì scorso? C'era interesse al banco? Noi siamo pronti per il **primo ordine vero** — con questa pioggia ha senso portare a casa, ma se la bici non è ancora pronta proviamo subito un ordine con **ritiro da te**. Cosa ti serve da noi? Catalogo online (oggi ci sono solo 5 prodotti), QR in vetrina, qualcosa che non torna?»
-
-**Cosa vuoi capire dalla chiamata:**
-1. Era al banco venerdì 17/7? Domande sul QR / MyCity?
-2. Perché zero ordini (nessuno sapeva? catalogo corto?)
-3. **Data concreta** per primo ordine test (ritiro al banco — bici ~28/7+)
-4. Prezzo tazzina/caffè → sblocca #inserisci-tazzina-pq
-
-**Dossier:** `consegne/account-negozi/2026-07-21-negozio-fermo-pane-quotidiano.md`
-
-**Cosa cambia:** capiamo cosa è successo al VP e fissiamo il primo ordine vero (ritiro).
-**Se va bene:** data ordine test (#ordine-test-pq) + prezzo tazzina + espansione catalogo oltre i 5 prodotti.
-
-- **Colore:** 🟡 (Nicola chiama o scrive — non irreversibile)
-- **Canale:** telefono o WhatsApp
-- **Reparto:** account-negozi
-- **Origine:** `{origine:sentinella:negozio_fermo}` · refresh 21/7 00:01
-
-<!-- burn-mensile-env -->
 
 ---
 
@@ -2823,26 +1298,6 @@ L'AD ha trovato due PAT in chiaro nel file di configurazione git locale del VPS 
 
 ---
 
-### 🟡 #6 — Configura email git riconosciuta da GitHub per i commit dell'AD · ⏳ accodata 2026-07-17 02:55
-
-**Email confermata 2026-07-17 02:25 (Nicola "vai a cercare l'email giusta"): `nicolaflorea50@gmail.com`**
-
-**Cosa fare — 1 riga dal terminale VPS:**
-```bash
-git -C /opt/mycity/ad-mycity config user.email "nicolaflorea50@gmail.com"
-```
-Attualmente i commit dell'AD escono con `ad@city.local` che non esiste su GitHub — Vercel mostra un warning sull'autore (non un errore di codice: il merge resta verde e il build parte).
-
-**Cosa cambia:** i commit dell'AD mostreranno l'avatar corretto su GitHub, Vercel non mostrerà più il warning sull'autore.
-**Se va bene:** nessuna altra sessione sarà disturbata da quel warning; la diagnostica Vercel sarà più pulita.
-
-- **Colore:** 🟡 (modifica config git globale sul VPS — 2 righe, da approvare)
-- **Reparto:** devops-sre
-
-<!-- vercel-script -->
-
----
-
 ### 🟡 #5 — Crea script `cervello/vercel.mjs` per vedere Vercel dalla chat · ⏳ accodata 2026-07-17 02:15
 
 **Cosa fare:**
@@ -2857,88 +1312,6 @@ Scrivere `cervello/vercel.mjs` — uno script Node che, usando `VERCEL_TOKEN` da
 - **Reparto:** builder-automazioni
 
 <!-- chiudi-pr-422 -->
-
----
-
-### 🟡 #4 — Chiudi PR #422 su GitHub (ha conflitti, è la vecchia) · ⏳ accodata 2026-07-17 01:30
-
-**Cosa fare:** vai su GitHub → PR #422 → clicca "Close pull request" (senza merge).
-
-PR #422 = branch `fix/chat-coda-messaggi` — è il branch stale che ha generato i conflitti. I fix che conteneva sono già stati riapplicati e confluiti in PR #424 (quella attiva, typecheck pulito). Lasciare #422 aperta causa confusione nei Checks di Vercel.
-
-**Cosa cambia:** GitHub più pulito, nessun build Vercel spurio su una PR morta.
-**Se va bene:** solo PR #424 rimane attiva per il merge dei 3 fix chat.
-
-- **Colore:** 🟡 (azione su GitHub → Nicola)
-- **Reparto:** frontend-dev
-
-<!-- streaming-worker -->
-
----
-
-### 🟡 #3 — Streaming live chat (testo parola-per-parola come Claude.ai) · ⏳ accodata 2026-07-17
-
-**Cosa fare (nel worker-chat, NON nel Pannello):**
-
-Nicola ha chiesto (17/7): «voglio che la conversazione sia live come quella di claude». Il Pannello già ha il codice per mostrare il testo parziale — il problema è che il worker manda il blocco completo solo a fine elaborazione.
-
-Fix = DUE modifiche nel worker:
-1. **Worker**: ogni N secondi, mentre Claude sta ragionando, scrivi su DB il testo prodotto finora (campo `risposta_parziale` o simile)
-2. **Già fatto**: il frontend legge già questo campo e aggiorna la bolla — non serve toccare il Pannello
-
-**Cosa cambia:** le parole appaiono man mano, come in Claude.ai. Non si aspetta il blocco finale.
-**Se va bene:** esperienza molto più naturale; utente vede subito che la macchina sta ragionando.
-
-- **Colore:** 🟡 (modifica al cuore del worker — l'AD lo esegue dopo ok di Nicola)
-- **Reparto:** frontend-dev / builder-automazioni
-
-<!-- thinking-budget-vps -->
-
----
-
-### 🟡 #2 — Alza il ragionamento interno della chat nel VPS · ⏳ accodata 2026-07-16 17:30
-
-**Cosa fare (sul VPS, nel `.env` del worker-chat):**
-
-Nicola ha confermato: vuole ragionamento profondo interno + output breve. Non serve PR — è un parametro nel `.env`.
-
-Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e alzala al massimo consentito dal modello (tipicamente `10000` o il valore indicato nella config del worker).
-
-**Cosa cambia:** la chat «pensa di più» prima di rispondere — più profondità nell'analisi, stessa risposta breve all'esterno.
-**Se va bene:** nei turni con domande complesse vedrai risposte meglio ragionate senza diventare più lunghe.
-
-- **Colore:** 🟡 (modifica env VPS — Nicola la fa)
-- **Reparto:** prompt-engineer
-
-<!-- post-kefir-estate-1407 -->
-
----
-
-### 🔴 #1 — Pubblica "La vera stella della colazione" sui canali locali · ⏳ accodata 2026-07-14 02:43
-
-**Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
-
-**Testo pronto (versione Gruppi Facebook) — da copiare così com'è:**
-
-```
-Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
-
-Stiamo portando online i negozi veri di Piacenza: c'è Pane Quotidiano (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
-
-Se ti va di provare, link nel primo commento 👇
-```
-
-**Prima del post servono da Nicola (due minuti):**
-1. **Link lista d'attesa** — incollalo e la macchina completa il primo commento
-2. **Visual** — tipografico neutro subito, oppure foto kefir reale da negozio
-
-**Timing suggerito:** oggi entro le 11 (fascia colazione).
-
-**Cosa cambia:** post estivo prodotto-eroe sul negozio reale — colazione fresca a domicilio senza uscire col caldo.
-**Se va bene:** click lista d'attesa via UTM + PQ ripubblica ai clienti.
-
-- **Colore:** 🔴 (pubblicazione IG/FB/gruppi — firma Nicola)
-- **Canale:** Gruppi FB locali + Instagram/Facebook @mycity.piacenza
 
 ---
 
@@ -2963,5 +1336,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 38.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 106.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

@@ -17,11 +17,20 @@
 // una carta si sposta di casa il giorno che riceve risposta.
 
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 
+/**
+ * L'archivio sta SEMPRE accanto alla sua coda, nella cartella `Archivio/`: è lì che la pulizia lo
+ * scrive (`housekeeping-azioni.mjs`). Ricavarlo dalla coda, invece di tenerne il percorso a parte,
+ * fa sì che una prova che mette la coda in una cartella finta si porti dietro anche il suo archivio.
+ */
+export function archivioDi(percorsoCoda) {
+  return join(dirname(percorsoCoda), "Archivio", "AZIONI-archivio.md");
+}
+
 export const CODA = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
-export const ARCHIVIO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md");
+export const ARCHIVIO = archivioDi(CODA);
 
 /** Le due case, in ordine: prima quello che aspetta, poi quello che ha già avuto risposta. */
 export const CASE = [CODA, ARCHIVIO];
@@ -43,4 +52,22 @@ export function testoDelleDueCase({ leggi = (p) => readFileSync(p, "utf8"), case
     }
   }
   return { testo: pezzi.join("\n\n"), mancanti, lette: pezzi.length };
+}
+
+/**
+ * Il testo dell'archivio della coda data, per chi deve scegliere il numero di una carta nuova.
+ *
+ * Il 25/10 i tre scrittori automatici di carte guardavano solo la coda: archiviata la carta più
+ * alta, il numero successivo tornava a essere uno già speso. Un archivio che non c'è ancora (una
+ * coda appena nata, una prova in una cartella finta) vale «nessun numero speso». Un archivio che
+ * c'è e non si legge NON vale vuoto: un numero scelto senza averlo visto può essere un doppione,
+ * e allora è meglio fermarsi.
+ */
+export function testoArchivioDi(percorsoCoda, { leggi = (p) => readFileSync(p, "utf8") } = {}) {
+  try {
+    return leggi(archivioDi(percorsoCoda));
+  } catch (e) {
+    if (e?.code === "ENOENT") return "";
+    throw e;
+  }
 }

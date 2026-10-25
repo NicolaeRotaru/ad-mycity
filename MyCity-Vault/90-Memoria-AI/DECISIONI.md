@@ -5632,3 +5632,88 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 **Cosa NON ho fatto.** Riparare i due difetti accesi: il modulo per diventare negozio chiede una migrazione nuova, da firmare. Non ho provato un ordine vero, né aperto il sito: il proxy della sessione non lo raggiunge.
 
 **La lezione.** Una migrazione che stringe un permesso non ripara soltanto: accende i difetti che il permesso largo nascondeva. Qui la 119 ha chiuso il cambio di ruolo, e il modulo per diventare negozio, che cambia proprio il ruolo, ha smesso di funzionare. Prima di lanciare migrazioni che stringono, va cercata nel codice ogni scrittura che il permesso nuovo rifiuta. Il freno non c'è ancora: è debito dichiarato.
+
+## 2026-10-24 14:20 — 🟡 La pre-diagnosi del sito: la ricetta di ogni difetto prima di riparare, e un comando che la rende ripetibile
+
+**Cosa.** Nicola: «A che punto siamo con la risoluzione dei problemi del markeplace? Dobbiamo risolverli nel minor tempo possibile, riesci a trovare un modo, magari capendo in anticipo come risolverli». Sul codice di main 3ee0d53, in sola lettura, 77 revisori hanno scritto la ricetta di ognuno dei 551 difetti non riservati: se è ancora vero, la causa, la modifica, la prova che deve diventare rossa, cosa rischia di rompere, la scelta per Nicola. I 118 seri hanno avuto due verificatori con lenti diverse; i minori un verificatore sui «già risolti». Una corsia riservata ha ritrovato le falle di sicurezza aperte, senza scriverle nei depositi. Un pianificatore e un critico hanno fuso tutto in un piano. Referto `consegne/audit/2026-10-24-prediagnosi-sito.md`, ricettario `consegne/audit/2026-10-24-ricettario-sito.json`, piano `consegne/audit/2026-10-24-piano-riparazione-sito.json`, carte #209 e #210.
+
+**Registro del sito.** 12 schede chiuse come `gia_riparato_prima`, ognuna con la riga di codice di oggi e due voci d'accordo: 51, 312, 1138, 1237, 1244, 1299, 1300, 1319, 28, 187, 188, 1256. Aperte: da 574 a 562 (9 bloccanti, 112 gravi, 441 minori). `sync_scan` riallineato allo stesso conto.
+
+**Il metodo, nella macchina (🟡, auto-modifica da firmare con la PR).** `cervello/prediagnosi.mjs` (prepara · raccogli · riservato · ondate), il workflow `.claude/workflows/prediagnosi.js` (con il modo «riservatezza»), il passo ⓪ in `cervello/lotto-a-pacchetti.md`, il comando «pre-diagnosi del sito» in `COMANDI.md`. Tre giri di collaudo, ognuno con due collaudatori che non l'avevano scritto, e tutti e tre hanno bocciato. Il primo: si poteva pubblicare senza il passaggio della riservatezza, e un'oscuratura scritta male passava in silenzio. Il secondo: la rete delle frasi si spegneva se mancava il journal della corsia riservata, e un revisore su due bastava. Il terzo: le voci doppie cambiavano posto con l'ordine dei journal, e l'oscuratura poteva cadere sulla voce sbagliata. Tutti corretti; la prova `cervello/test/prediagnosi.test.mjs` fa 145 controlli verdi e 79 mutazioni in `cervello/mutanti.json` (lotto «prediagnosi») la fanno diventare rossa. Per la regola d'arresto il pezzo resta uno strumento da lanciare a mano, coi buchi scritti nel referto.
+
+**Il ramo pubblico.** Le riletture di riservatezza del pomeriggio, fatte sul ricettario intero, hanno segnato 23 campi che il ricettario del mattino aveva in chiaro: nominavano o descrivevano falle riservate di gravità bassa o media. Sono stati oscurati con tre commit appena trovati; restano nella storia del ramo. Se riscrivere la storia è una scelta di Nicola, carta in coda.
+
+**Perché.** Il tempo delle ondate passate non andava nel riparare: andava nello scoprire a lavoro iniziato cosa toccava il codice, nei difetti nati riparando (prima ondata: sette riesami) e nelle firme che arrivavano a rate. Oggi la lente A ha corretto 62 ricette su 118 prima di qualunque squadra, e la lente B ha segnato 17 seri a rischio alto di nascite.
+
+**Cosa NON ho fatto.** Nessuna riga del sito cambiata, nessuna prova del sito eseguita, nessuna scrittura sul database. Le ore sono stime dalle taglie dei revisori. Il sito vero e Stripe non li ho visti.
+
+**Le lezioni.** ① La prima versione di `ondate` univa a catena i difetti con un file in comune: ha fuso 356 difetti in un blocco da 315 ore, perché prove nuove e migrazioni nuove facevano da ponte. Il territorio di una ricetta sono i file che esistono e non sono prove. ② Tre ricette scritte per difetti pubblici nominavano di passaggio una falla riservata. Un ricettario pubblico passa da due revisori della riservatezza, e il comando oscura i campi segnati o si ferma. ③ Su una macchina da 4 processori il motore tiene due agenti per volta per workflow: più workflow in parallelo sono l'unico modo di fare presto.
+
+## 2026-10-25 11:50 — 🔴 Il secondo account di Nicola è l'unico amministratore, e gli account di prova non entrano più (carta 202)
+
+**Cosa.** Nicola ha chiesto di mettere come amministratore il suo secondo account Gmail. L'indirizzo non lo scrivo qui, perché questo file è pubblico. La parte 1 l'ho lanciata io alle 11:27, col collegamento a Supabase di questa sessione: me l'ha chiesto lui («riesci ad incollarli tu?»). Lo segno come sua firma, ed è un'eccezione alla regola «l'AD sul database solo legge». Ho provato due volte a lanciare la parte 2, e tutte e due le volte la conferma del collegamento non è arrivata a Nicola entro il minuto: è lo stesso problema del 20/10. Così la parte 2 l'ha lanciata lui, dall'editor SQL di Supabase, alle 11:50.
+
+**Cosa è cambiato, verificato in sola lettura subito dopo.**
+- C'è 1 amministratore, cioè lui.
+- Nessun account si apre più con le password dei file pubblici del sito.
+- L'amministratore di prova è diventato un cliente bloccato.
+- Il fattorino di prova è sospeso e bloccato.
+- Sono state chiuse 2 sessioni e cancellati 7 gettoni di rinnovo.
+- La chat di assistenza di Pane Quotidiano è passata al nuovo amministratore.
+- Il registro di amministrazione ha 3 righe (una nomina e due sospensioni), il registro attività ne ha 4.
+- Il Panificio Demo non è stato toccato: resta la carta 201.
+
+**Gli accessi del 13/10 e del 19/10 agli account di prova.** Sono passati dai server del sito e non dicono chi c'era dietro. Nicola: «sì penso che ero io». Li ho trattati come pulizia. La traccia delle due sessioni del fattorino è salvata nel registro attività prima della chiusura.
+
+**Il collaudo.** Tre giri, con due revisori diversi per giro. Nel primo giro tutti e due rossi, nel secondo pure. Nel terzo uno verde e uno rosso: le tracce della chiusura avrebbero fatto comparire il fattorino come «online» nel pannello Attività. Ho corretto quel punto e sei minori, ma le correzioni del terzo giro non le ha ricollaudate nessuno. Le ho provate io su un database locale finto, in 10 situazioni, e tutte sono andate come previsto. Per la regola d'arresto era un comando da lanciare a mano, ed è stato lanciato a mano.
+
+**Resta da fare.**
+- La carta 203 nello stesso giorno: chi ha la chiave esposta potrebbe riaprire gli account di prova.
+- La verifica in due passaggi di Google sull'account del nuovo amministratore.
+- Togliere le password dai file del codice del sito, con una richiesta di unione 🟡 da preparare.
+- Un nome per l'account dell'assistenza: oggi i clienti vedrebbero «Utente».
+- Le proposte dei revisori per il sito: una difesa che impedisca di togliere l'ultimo amministratore, e il secondo fattore d'accesso per il pannello di amministrazione.
+
+**La lezione.** Sulle scritture che cancellano qualcosa, il collegamento a Supabase di questa sessione chiede una conferma che a Nicola non arriva. Per quei comandi la strada è l'editor SQL di Nicola, con un file pronto da incollare e una tabella finale che dice cosa aspettarsi.
+
+## 2026-10-25 12:08 — 🔴 La storia del ramo della pre-diagnosi riscritta, col «sì alla 211» di Nicola
+
+**Cosa.** Sul ramo della pre-diagnosi c'erano dieci commit. Quattro portavano versioni del ricettario del sito con 23 passaggi sulle falle riservate ancora in chiaro, poi oscurati il 24/10 alle 17:55, alle 18:38 e alle 19:10. Ho rifatto la storia sopra la stessa base di main, con tre commit:
+- la pre-diagnosi già nella sua forma finale;
+- i due commit della carta 202, ripresi uguali.
+
+Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul ramo remoto non era cambiato niente.
+
+**Verificato prima della spinta.** L'albero finale è identico a quello di prima. In ogni commit nuovo i tre file del ricettario sono quelli finali. I quattro commit vecchi non sono più antenati del ramo.
+
+**Cosa non risolve.** GitHub mostra ancora un commit vecchio a chi ne ha l'indirizzo esatto: controllato subito dopo, risponde ancora. La pagina della richiesta di unione 890 conserva il rimando alla spinta forzata. Per cancellarli del tutto serve una richiesta al supporto di GitHub. La cura vera resta chiudere le falle, già nel piano.
+
+## 2026-10-25 12:57 — 🟢 La coda delle carte pulita col «ok 130» di Nicola: da 103 aperte a 41
+
+**Cosa.** Sei revisori hanno riletto le 103 carte aperte, una per una, chiedendosi se fossero ancora vive, a chi toccassero e cosa servisse. Altri sei hanno ricontrollato quelle date per superate, col mandato di smentirle. Ne ho chiuse 62, ognuna col suo perché scritto sopra. 32 erano già fatte e 30 superate o contenute in un'altra carta, soprattutto la 209 e la 210. Sono tutte in `Archivio/AZIONI-archivio.md`.
+
+**Cosa ho spostato prima di chiudere.** La carta 167 era riparata ma mai provata su un database vero: la prova della copertina caricata da negoziante adesso sta nella 210. La seconda metà della 130, la chiusura automatica delle carte di unione, esisteva già dal 13/7 nel Pannello (carta 11).
+
+**Il conto.** Le carte aperte sono 41, e a Nicola ne toccano 38, elencate in chat il 25/10 per urgenza. Il file della coda è sceso da circa 200.000 a 92.496 caratteri: il cancello torna a leggerlo tutto.
+
+## 2026-10-25 13:46 — 🟡 La chat con l'Assistenza si chiama «Assistenza MyCity»: richiesta di unione al sito (PR 261)
+
+**Cosa.** Nicola ha chiesto di mostrare il nome quando dall'altra parte c'è l'Assistenza. Prima il cliente vedeva «Utente» nell'elenco dei messaggi e «Utente · Negozio» dentro la chat. Adesso legge «Assistenza MyCity», con le cuffie e «Ufficiale» nell'elenco, e «Account ufficiale di MyCity» sotto il nome nella chat. Un negozio che si chiamasse allo stesso modo non prende nessuno dei due segni: l'Assistenza si riconosce dall'account, non dal nome.
+
+**Come è stato controllato.** Tre giri di controllo indipendente: i primi due hanno chiesto correzioni, il terzo ha trovato solo difetti minori, tutti corretti tranne uno lasciato apposta e spiegato nella richiesta di unione. Trentacinque guasti messi apposta nel codice, tutti fermati dalle prove. Verifica completa del sito verde: 5.694 prove su 5.694.
+
+**Colore.** 🟡: è codice del sito su un ramo, non va online finché Nicola non unisce. Niente database, niente chiavi.
+
+**Chiude** la scheda 1360 della radiografia del marketplace, quando Nicola unisce.
+
+## 2026-10-25 15:58 — 🟡 Il numero di una card chiusa resta speso, e un numero già usato si ferma prima di arrivare sul disco (PR 890)
+
+**Cosa.** Dopo il «ok 130» la card più alta in coda era la 210, ma la 211 era già stata usata e archiviata. Chi contava dalla coda scriveva 211 un'altra volta: con «ok 211» Nicola avrebbe potuto approvare la card sbagliata. La causa: dal 23/8 le card chiuse vivono in un file a parte, e chi sceglieva il numero guardava solo la coda. Adesso il numero si conta su coda e archivio insieme, in un punto solo (`contaNumeri` in `pausa-coda.mjs`), per i tre scrittori automatici e per l'AD che scrive a mano.
+
+**Le porte chiuse.** Il worker, il giro e il ritmo mettono nel prompt la riga «Numero per una card NUOVA: adesso è #N», con lo stesso testo per tutti e tre. Chi la scrive a mano ha il comando `prossima-card.mjs`. E un freno (`mano-fermata.mjs`, agganciato prima di ogni Edit e Write) ferma la scrittura di un numero già speso, nella coda o nell'archivio, o scritto due volte nello stesso testo.
+
+**Come è stato controllato.** Tre giri di collaudo indipendente. Il primo e il secondo hanno chiesto correzioni. Il terzo ha trovato 13 difetti minori e nessun grave: sono tutti corretti, quindi il freno resta agganciato. Le 31 mutazioni del lotto diventano tutte rosse.
+
+**Cosa resta scoperto, dichiarato.** Una card scritta da un comando Bash, o da un motore che non è Claude Code, non passa dal freno (AR-1012). La prova in CI sulla coda vera ferma comunque un doppione prima dell'unione. Dodici guardiani hanno ancora il vecchio controllo d'avvio, quello che restava muto passando da un collegamento simbolico (AR-965).
+
+**Colore.** 🟡: è codice della macchina su un ramo, l'unione è di Nicola.

@@ -180,6 +180,27 @@ export function leggiCard(testoFile) {
   });
 }
 
+// Le due forme di una card, in UN posto solo: le usano chi dà il numero (prossimoNumero) e il freno
+// sulla scrittura (mano-fermata). Larghe come le legge il Pannello: un titolo che il Pannello mostra
+// come «#211» e qui non si contava era un doppione possibile (collaudo del 25/10).
+//  · titolo: «##» o «###», emoji facoltativa, «#N», trattino anche senza spazio prima;
+//  · riga-tabella: «| N | AAAA-MM-GG …» — la data in seconda colonna la distingue da una tabella di
+//    passi numerati nel corpo di una card, che non è una card (e faceva rifiutare card legittime).
+// Al massimo sei cifre: un numero di card vero ne ha tre. Un codice di 22 cifre in prima colonna
+// diventava 1.2e+21, la card scritta con quel numero non si riconosceva più, e il prossimo numero
+// tornava uguale all'infinito.
+const TITOLO_CARD = /^#{2,3}\s+(?:\S+\s+)?#(\d{1,6})\s*[—–-]/gmu;
+const RIGA_CARD = /^\|\s*(\d{1,6})\s*\|\s*\d{4}-\d{2}-\d{2}/gm;
+
+/** Quante volte compare ogni numero di card nel testo (le ripetizioni contano: servono al freno). */
+export function contaNumeri(testo) {
+  const conti = new Map();
+  for (const forma of [TITOLO_CARD, RIGA_CARD]) {
+    for (const m of String(testo || "").matchAll(forma)) conti.set(Number(m[1]), (conti.get(Number(m[1])) || 0) + 1);
+  }
+  return conti;
+}
+
 /**
  * Tutti i numeri di card già usati nella coda, in un posto solo.
  *
@@ -187,11 +208,11 @@ export function leggiCard(testoFile) {
  * attesa, e la riga-tabella `| 81 | data | … |` di quelle archiviate. Sono la stessa cosa in due
  * momenti della vita: quando Nicola scrive «ok 81», la risposta deve essere una sola.
  */
-export function numeriUsati(testoFile) {
-  const testo = String(testoFile || "");
+export function numeriUsati(testoFile, ...altreCase) {
   const numeri = new Set();
-  for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) numeri.add(Number(m[1]));
-  for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gm)) numeri.add(Number(m[1]));
+  for (const pezzo of [testoFile, ...altreCase]) {
+    for (const n of contaNumeri(pezzo).keys()) numeri.add(n);
+  }
   return numeri;
 }
 
@@ -215,9 +236,16 @@ export function numeriUsati(testoFile) {
  * `prossimoNumero`, qui vivono in `numeriUsati`, che un test può interrogare da sola — «quali
  * numeri sono già spesi?» è una domanda che serve anche a chi non deve sceglierne uno nuovo.
  * Tenuta questa, tenuta la conseguenza che l'altra aveva visto e questa no: il Pannello.
+ *
+ * 🗄️ E DAL 23/8 LE CASE SONO DUE FILE. Le carte chiuse scendono in `Archivio/AZIONI-archivio.md`
+ * (AR-807): dentro la coda, «il più alto mai usato» è solo il più alto ANCORA IN ATTESA. Il 25/10
+ * il «ok 130» ha archiviato 62 carte, fra cui la #211, la più alta di tutte: la coda si fermava a
+ * 210 e il prossimo numero usciva 211 — di nuovo un numero speso, la stessa malattia del 16/8 in un
+ * file accanto. Per questo `altreCase` riceve il testo dell'archivio: chi scrive una carta nuova
+ * glielo passa (`testoArchivioDi` in `coda-e-archivio.mjs` lo legge accanto alla coda).
  */
-export function prossimoNumero(testoFile) {
-  const usati = numeriUsati(testoFile);
+export function prossimoNumero(testoFile, ...altreCase) {
+  const usati = numeriUsati(testoFile, ...altreCase);
   return usati.size ? Math.max(...usati) + 1 : 1;
 }
 

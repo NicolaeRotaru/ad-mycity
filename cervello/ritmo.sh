@@ -186,6 +186,19 @@ La memoria va sul RAMO UNICO main (il push git lo fa ritmo.sh dopo di te — tu 
 
 ## Risposta in chat
 Al termine restituisci un riepilogo breve (5-8 righe)."
+# Il numero per una card NUOVA, contando anche l'archivio (collaudo del 25/10): il ritmo accoda card a
+# mano come il giro e il worker. La riga è la stessa: vive in riga-prossima-card.sh.
+if . "$SCRIPT_DIR/riga-prossima-card.sh"; then
+  _riga_card="$(riga_prossima_card "$SCRIPT_DIR")"
+  [ -n "$_riga_card" ] && PROMPT="$PROMPT
+
+$_riga_card"
+else
+  echo "[$(ts)] ⚠️  riga-prossima-card.sh non caricato: il prompt del ritmo dice NON LETTO al posto del numero della prossima card." >&2
+  PROMPT="$PROMPT
+
+- Numero per una card NUOVA: NON LETTO (riga-prossima-card.sh non caricato) — prima di accodare lancia node cervello/prossima-card.mjs"
+fi
 
 # AR-024: RECUPERO CADENZA su rate-limit. Se il motore AI fallisce per QUOTA, la cadenza andrebbe
 # persa fino al timer di domani (il retry interno è 3×30s ≈ 90s, troppo corto per un reset che

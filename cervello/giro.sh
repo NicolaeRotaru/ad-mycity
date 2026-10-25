@@ -1092,6 +1092,20 @@ PROMPT="Sei l'AD digitale di MyCity (segui CLAUDE.md e gli agenti in .claude/age
 Leggi ed esegui **per intero** il file \`cervello/giro.md\` in questo repository (aprilo dal disco con Read, NON saltare passi).
 Scrivi sul disco tutti i file richiesti (vault, briefing, auto-coscienza, ecc.). Rispetta 🟢🟡🔴.
 La memoria va sul ramo main — ramo unico, codice+memoria insieme (il push git lo fa giro.sh dopo di te — tu scrivi i file)."
+# Il numero per una card NUOVA, contando anche l'archivio (collaudo del 25/10): anche il giro accoda
+# card a mano, e dalla coda sola la più alta può essere più bassa di una card già archiviata.
+# La riga è la stessa del worker: vive in riga-prossima-card.sh.
+if . "$SCRIPT_DIR/riga-prossima-card.sh"; then
+  _riga_card="$(riga_prossima_card "$SCRIPT_DIR")"
+  [ -n "$_riga_card" ] && PROMPT="$PROMPT
+
+$_riga_card"
+else
+  echo "[$(ts)] ⚠️  riga-prossima-card.sh non caricato: il prompt del giro dice NON LETTO al posto del numero della prossima card." >&2
+  PROMPT="$PROMPT
+
+- Numero per una card NUOVA: NON LETTO (riga-prossima-card.sh non caricato) — prima di accodare lancia node cervello/prossima-card.mjs"
+fi
 if [ -n "${GIRO_EXTRA_INSTRUCTION:-}" ]; then
   PROMPT="$PROMPT
 

@@ -259,11 +259,6 @@
     },
     {
      "file": "cervello/git-pr.mjs",
-     "quale": "riga 176, readFileSync(AZIONI_PATH) -> false",
-     "perche": "Il booleano E la risposta alla domanda «riesco a leggere questo file?»: non e un verdetto calcolato su un contenuto parziale, e il falso significa esattamente cio che e successo."
-    },
-    {
-     "file": "cervello/git-pr.mjs",
      "quale": "riga 280, unmergedPaths -> []",
      "perche": "Fallisce CHIUSO: l'unico chiamante e tryAutoResolveRebaseConflicts, che con un elenco vuoto esce subito con `return false` e NON risolve niente da solo. Un elenco assente porta a fare di meno, non a dichiarare che va tutto bene."
     },
@@ -280,7 +275,7 @@
     {
      "file": "cervello/libro-mastro.mjs",
      "quale": "scrivi(), aggiunta al registro fallita -> false",
-     "perche": "Il booleano E la risposta alla domanda «sono riuscito a scrivere?»: non e un verdetto calcolato su un contenuto parziale, e il falso significa esattamente cio che e successo. Stessa forma gia esente in cervello/git-pr.mjs riga 176."
+     "perche": "Il booleano E la risposta alla domanda «sono riuscito a scrivere?»: non e un verdetto calcolato su un contenuto parziale, e il falso significa esattamente cio che e successo."
     },
     {
      "file": "cervello/mappa-copertura.mjs",
@@ -306,7 +301,7 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 61,
+   "baseline": 60,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
