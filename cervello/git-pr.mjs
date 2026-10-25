@@ -46,8 +46,10 @@ import {
 //
 // Adesso la domanda ha un padrone solo.
 import { prossimoNumero } from "./pausa-coda.mjs";
+import { testoArchivioDi } from "./coda-e-archivio.mjs";
 
-const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+// La coda si sposta solo nelle prove (GIT_PR_CODA_FILE): il valore di partenza non cambia.
+const AZIONI_PATH = process.env.GIT_PR_CODA_FILE || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
 const GENERIC_BODY_RE = /^PR aperta dall'AD MyCity/i;
 const MIN_BODY_LEN = 80;
@@ -174,9 +176,16 @@ function sanitize(err, token) {
  * `accodaAzione` legge il file vero e scrive sul file vero, quindi da una prova non si può chiamare.
  * Finché il numero si sceglieva là dentro, nessun test poteva vederlo sbagliare — e infatti non l'ha
  * visto. Qui il testo della coda entra come argomento: una prova gli passa una coda finta e legge il
- * numero che ne esce. */
-export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when }) {
-  const num = prossimoNumero(content);
+ * numero che ne esce. `archivio` è il testo delle carte chiuse: anche i loro numeri sono spesi.
+ *
+ * `archivio` è OBBLIGATORIO (una stringa, anche vuota se l'archivio non esiste ancora). Con un valore
+ * di default vuoto, chi lo dimenticava riavrebbe il guasto del 25/10 senza nessun rumore: il numero
+ * della card archiviata più alta torna libero. Dimenticato, qui ci si ferma. */
+export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when, archivio }) {
+  if (typeof archivio !== "string") {
+    throw new Error("rigaDaAccodare: manca il testo dell'archivio delle card — senza, il numero può essere già speso");
+  }
+  const num = prossimoNumero(content, archivio);
   const dove = repoLabel === "mycity" ? "Vercel (sito)" : "Vercel (Pannello)";
   const row =
     `| ${num} | ${when} | @tech | Merge PR #${prNumber} ${repoLabel} → ${base} | 🔴 | ${prUrl} | github | in attesa | ` +
@@ -185,18 +194,21 @@ export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when
   return { num, row };
 }
 
-function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
-  if (!existsAzioni()) {
+/** Scrive la card di merge nella coda. `percorsoCoda` si sposta solo nelle prove: il numero si
+ * sceglie guardando anche l'archivio che sta accanto a quella coda. */
+export function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun, percorsoCoda = AZIONI_PATH, archivio }) {
+  if (!existsSync(percorsoCoda)) {
     console.warn("⚠️  AZIONI-IN-ATTESA.md non trovato — salto accoda.");
     return;
   }
-  const content = readFileSync(AZIONI_PATH, "utf8");
+  const content = readFileSync(percorsoCoda, "utf8");
   const { num, row } = rigaDaAccodare(content, {
     prUrl,
     prNumber,
     base,
     repoLabel: cfg.key === "mycity" ? "mycity" : "ad-mycity",
     when: nowPiacenza(),
+    archivio: archivio ?? testoArchivioDi(percorsoCoda),
   });
 
   if (dryRun) {
@@ -207,21 +219,13 @@ function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
   const marker = "<!-- I senior aggiungono righe qui sotto.";
   const idx = content.indexOf(marker);
   if (idx >= 0) {
-    writeFileSync(AZIONI_PATH, content.slice(0, idx) + row + content.slice(idx), "utf8");
+    writeFileSync(percorsoCoda, content.slice(0, idx) + row + content.slice(idx), "utf8");
   } else {
-    appendFileSync(AZIONI_PATH, row, "utf8");
+    appendFileSync(percorsoCoda, row, "utf8");
   }
   console.log(`✓ Accodata azione #${num} in AZIONI-IN-ATTESA.md (merge 🔴)`);
 }
 
-function existsAzioni() {
-  try {
-    readFileSync(AZIONI_PATH, "utf8");
-    return true;
-  } catch {
-    return false;
-  }
-}
 
 function branchSlug(branch) {
   return branch.replace(/[/\\]+/g, "-");
@@ -709,6 +713,18 @@ async function main() {
 
   const dryRun = Boolean(args["dry-run"]);
   const accoda = Boolean(args.accoda);
+  // Con --accoda serve l'archivio delle card, per il numero della card di merge: si prova a leggerlo
+  // PRIMA di toccare git o GitHub. Illeggibile, ci si ferma qui (cieco, 2) — non dopo aver aperto una
+  // PR che resterebbe senza card (collaudo del 25/10). Il numero poi si calcola rileggendolo al momento
+  // di scrivere: fra push e PR la pulizia può aver archiviato la card più alta.
+  if (accoda) {
+    try {
+      testoArchivioDi(AZIONI_PATH);
+    } catch (e) {
+      console.error(`⚪ CIECO: l'archivio delle card non si legge (${e?.code ?? e?.message}) — con --accoda non apro la PR senza sapere quale numero dare alla card di merge.`);
+      process.exit(2);
+    }
+  }
   const noPush = Boolean(args["no-push"]);
   const noRebase = Boolean(args["no-rebase"]);
 

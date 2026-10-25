@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-10-25 16:40",
+  "aggiornato": "2026-10-25 17:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -22017,6 +22017,27 @@
     },
     {
       "id": "AR-1012",
+      "stato": "aperto",
+      "gravita": "minore",
+      "dimensione": "rischio-sicurezza-se",
+      "area": "macchina",
+      "nato": "2026-10-25 15:44",
+      "nato_come": "scoperta",
+      "trovato_da": "Terzo collaudo indipendente del lotto sui numeri delle card (PR 890), il 25/10.",
+      "titolo": "Il freno sui numeri delle card guarda le scritture con Edit e Write, non quelle da Bash: una card scritta con un comando può ancora riusare un numero già speso",
+      "sintomo": "mano-fermata.mjs è agganciato a PreToolUse su Edit|Write|MultiEdit. Se l'AD scrive nella coda con un comando (un heredoc in python, sed, un echo), la scrittura non passa dal freno: una card col numero di una card archiviata entra lo stesso. Nella sessione del 25/10 l'AD ha scritto nella coda con Bash 4 volte su 7.",
+      "causa_radice": "Il freno vede il testo che sta per entrare solo negli strumenti di scrittura; un comando Bash è opaco: non si sa prima cosa scriverà. Lo stesso vale per un motore che non è Claude Code (Cursor), dove gli hook non girano.",
+      "fix_proposto": "🟡 Un controllo DOPO ogni comando Bash (PostToolUse) che riconta i numeri di coda + archivio con contaNumeri di pausa-coda.mjs e, se un numero compare due volte, lo dice subito all'AD col numero libero. Intanto la riga nel contesto dice che il freno vale solo per Edit/Write, e la prova sul file vero in CI (carte-numerate) ferma un doppione prima dell'unione.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando una scrittura della coda fatta da Bash con un numero già speso viene segnalata all'AD nello stesso turno, con una prova che la esegue."
+      },
+      "dove": "cervello/mano-fermata.mjs (hook PreToolUse Edit|Write|MultiEdit) · scritture di MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md fatte da Bash",
+      "impatto_crescita": "basso",
+      "impatto_crescita_nota": "Un doppione fa aprire a Nicola la card sbagliata con «ok N». Oggi lo prendono il numero nel contesto, il comando prossima-card e la prova in CI; resta scoperta la finestra fra una scrittura da Bash e la CI."
+    },
+    {
+      "id": "AR-1013",
       "titolo": "Il riesame dell'ondata saltava in silenzio un pacchetto che dichiarava pochi file o nessuno: restava «regge» coi chiusi contati",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (guardati)",
@@ -22040,7 +22061,7 @@
       }
     },
     {
-      "id": "AR-1013",
+      "id": "AR-1014",
       "titolo": "Col budget del motore il riesame dell'ondata saltava per primo, e il motivo dato a Nicola era falso",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (resta, riservaRiesame, motivi)",
@@ -22064,7 +22085,7 @@
       }
     },
     {
-      "id": "AR-1014",
+      "id": "AR-1015",
       "titolo": "La correzione dell'ondata lancia squadra e collaudi su un pacchetto già fermato da un riesame non concluso",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (padroneDi cerca in ok senza guardare lo stato)",
@@ -22081,7 +22102,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1015",
+      "id": "AR-1016",
       "titolo": "La riserva del riesame vale min(4, pacchetti) invece di un revisore per lente",
       "dimensione": "cadenza-esecuzione",
       "dove": ".claude/workflows/ondata-sito.js (RISERVA_RIESAME)",
@@ -22098,7 +22119,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1016",
+      "id": "AR-1017",
       "titolo": "L'hook Stop del collaudo si ripete finché un giro esce a mani vuote, senza il tetto del terzo rosso",
       "dimensione": "cadenza-esecuzione",
       "dove": "cervello/collaudo.mjs:32,162",
@@ -22115,7 +22136,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1017",
+      "id": "AR-1018",
       "titolo": "La mappa delle guardie dava Agent per sorvegliato con un'equivalenza di nomi, mentre per Agent la guardia non fa niente",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/mappa-copertura.mjs (copre, IN_ATTESA.Agent)",
@@ -22139,7 +22160,7 @@
       }
     },
     {
-      "id": "AR-1018",
+      "id": "AR-1019",
       "titolo": "Senza la nota dell'organigramma il giro partiva senza i motori di soldi e senza dirlo",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/prepara-giro.mjs (cieco)",
@@ -22163,7 +22184,7 @@
       }
     },
     {
-      "id": "AR-1019",
+      "id": "AR-1020",
       "titolo": "Il rischio dei pacchetti non riconosceva segreti, accessi fra negozi, firme dei webhook e file del rilascio: quei fix andavano a un collaudatore solo",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/schede-pacchetto.mjs (rischioDi)",
@@ -22187,7 +22208,7 @@
       }
     },
     {
-      "id": "AR-1020",
+      "id": "AR-1021",
       "titolo": "prova-sito lancia vitest, tsc ed eslint con tutto l'ambiente: il codice di prova del worktree vede i token della sessione",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/prova-sito.mjs (esecutore senza env)",
@@ -22204,7 +22225,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1021",
+      "id": "AR-1022",
       "titolo": "conto-token esce 0 senza stampare niente se il percorso contiene uno spazio o passa da un collegamento",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/conto-token.mjs (guardia di avvio import.meta.url)",
@@ -22221,7 +22242,7 @@
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
     },
     {
-      "id": "AR-1022",
+      "id": "AR-1023",
       "titolo": "agent-registry-check con una radice finta pubblica lo stesso il segnale nella Cabina vera",
       "dimensione": "rischio-sicurezza-se",
       "dove": "cervello/agent-registry-check.mjs (RADICE da env, stampSegnale)",

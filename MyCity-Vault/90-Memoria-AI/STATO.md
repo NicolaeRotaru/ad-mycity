@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-10-25 14:50
+aggiornato: 2026-10-25 17:30
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -11,6 +11,22 @@ fonte: AD digitale (giro, cervello/giro.md)
 > Ho costruito tre attrezzi e li ho fatti collaudare. Un workflow d'ondata con tetto di 45 agenti e due giri al massimo. Il manuale dell'AD da 75 a 35 KB. Un contatore vero dei gettoni. Stima: le dodici ondate insieme fanno meno agenti della prima da sola. Il freno dei senior l'ho tenuto fuori, per un lotto suo.
 >
 > Serve la tua firma sulla richiesta di unione: è un'auto-modifica. Il workflow d'ondata non ha ancora girato su un'ondata vera.
+
+> 🔐 **2026-10-25 11:50 — La carta 202 è chiusa: l'amministratore del sito adesso sei solo tu.**
+>
+> Il tuo secondo account è amministratore dalle 11:27. Alle 11:50 hai lanciato la seconda parte: i due account di prova non entrano più. L'ho verificato in sola lettura.
+>
+> Adesso la cosa più urgente è la chiave della carta 203. Finché la vecchia funziona, chi la conosce può riaprire quegli account.
+
+> 🔎 **2026-10-24 14:20 — Il modo più veloce per riparare il sito: la ricetta di ogni difetto scritta prima, e le tue firme in una volta sola.**
+>
+> Mi hai chiesto a che punto siamo e come andare più veloci. Restano 562 difetti aperti: 9 bloccanti, 112 gravi, 441 minori. Oggi, prima di toccare il codice, 77 revisori hanno scritto e verificato la ricetta di ognuno dei 551 non riservati. Dodici erano già risolti, e li ho chiusi. Su 118 ricette dei problemi seri, 62 andavano corrette: la correzione è scritta accanto, prima che una squadra le esegua.
+>
+> La cosa più grave non è nel codice: su Vercel manca la chiave di servizio, e il sito non prende ordini. Ma quella chiave sveglia tutto in un giorno, anche alcune falle: non metterla finché non ti do il via. Oggi tocca a te la password dell'amministratore e le chiavi del database. Lunedì, le 14 scelte della carta #209 in un messaggio solo.
+>
+> Con le firme lunedì, i problemi seri del codice si chiudono verso il 31 ottobre: è una stima. Non ho fatto girare prove né aperto il sito. Referto: `consegne/audit/2026-10-24-prediagnosi-sito.md`.
+>
+> ⏰ **2026-10-24 19:12 — Dopo i collaudi.** Tre giri di collaudo hanno bocciato il comando della pre-diagnosi. I difetti trovati sono corretti. Per la regola d'arresto, però, resta uno strumento da lanciare a mano. Le riletture di riservatezza del pomeriggio hanno trovato 23 passaggi in chiaro nella prima versione del ricettario. Erano sul ramo pubblico, e adesso sono oscurati. La carta #211 ti chiede se riscrivere la storia del ramo. *(Fatto il 25/10 alle 12:08, col tuo «sì».)* Il ricettario di oggi è `consegne/audit/2026-10-24-1910-ricettario-sito.json`.
 
 > 🗄️ **2026-10-24 11:10 — Le 48 migrazioni sono nel database vero, e stamattina è riuscita la prima copia notturna.**
 >

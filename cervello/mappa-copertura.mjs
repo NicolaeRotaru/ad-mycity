@@ -176,7 +176,7 @@ export const IN_ATTESA = {
   // Non è coperto: è in attesa del lotto del freno dei senior (patch pronta). Dare Agent per sorvegliato
   // da un alias del matcher era un rosso travestito da verde (riesame del 25/10).
   Agent: {
-    perche: "delega compiti a un collega (sub-agente) che apre/scrive file veri e lancia comandi per conto mio. La guardia pre-scrittura si sveglia su Agent (il matcher «Task» lo prende), ma non pianta l'ancora del senior perché confronta il nome con «Task» e basta: lo ripara il lotto del freno dei senior, partendo da consegne/audit/2026-10-25-freno-senior-rinviato.patch (card #119 e #209)",
+    perche: "delega compiti a un collega (sub-agente) che apre/scrive file veri e lancia comandi per conto mio. La guardia pre-scrittura si sveglia su Agent (il matcher «Task» lo prende), ma non pianta l'ancora del senior perché confronta il nome con «Task» e basta: lo ripara il lotto del freno dei senior, partendo da consegne/audit/2026-10-25-freno-senior-rinviato.patch (card #119 e #212)",
     scade: "2026-11-08",
   },
   TaskCreate: {

@@ -101,14 +101,14 @@ Ondata 1, ricostruita da `consegne/audit/2026-10-16-prima-ondata-sito.md` e dal 
 - Nei fogli del lotto i numeri come «600 agenti» sono diventati «600 subagenti». Il guardiano dei conteggi li leggeva come un numero di senior sbagliato.
 - `cervello/mappa-copertura.mjs`: la voce d'attesa di «Agent» era scaduta il 7/9 e diceva una causa sbagliata. Ora dice quella verificata. Il filtro che nomina «Task» sveglia già `pre-scrittura` su «Agent»: lo mostra il libro mastro del 25/10 alle 12:01:20. Ma la guardia non pianta l'ancora, quindi per Agent si apre e non fa niente. La scadenza nuova è l'8/11, legata al lotto del freno dei senior. Avevo provato a dare Agent per sorvegliato con un'equivalenza fra i due nomi: il riesame del perimetro l'ha bocciata, giustamente, perché era un rosso travestito da verde.
 - I pezzi nuovi sono iscritti nei registri della macchina: `cervello/guardiani-motivi.json` (perché `prova-sito` e `schede-pacchetto` li lancia una persona e non il giro), la mappa della bacheca (`cervello/censimento-macchina.mjs`), la consegna dei permessi da applicare (`consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, rigenerata).
-- La carta #209 in «Da approvare» chiede la tua firma su questo lavoro.
+- La carta #212 in «Da approvare» chiede la tua firma su questo lavoro.
 
 ### Il riesame del perimetro, e cosa ha trovato
 
 Due revisori in sola lettura hanno riguardato i 17 file toccati, ognuno con la lente della sua dimensione (cadenza-esecuzione e rischio-sicurezza-se). Hanno trovato 12 difetti, e 5 erano gravi nati da questo lavoro. È il caso esatto che il protocollo nuovo deve reggere, e l'ha retto: i minori sono andati nel registro e i gravi a un giro di correzione. Il giro ha avuto un rifacimento e poi si è fermato, a due giri.
 
-- Chiusi, ognuno con la sua prova e la sua mutazione rossa: AR-1012 e AR-1013 (il riesame dell'ondata saltava pacchetti e budget), AR-1017 (l'equivalenza Task-Agent), AR-1018 (il giro senza organigramma), AR-1019 (il rischio dei pacchetti).
-- Aperti come debito minore: AR-1014, AR-1015, AR-1016, AR-1020, AR-1021, AR-1022, più AR-1009 che c'era già.
+- Chiusi, ognuno con la sua prova e la sua mutazione rossa: AR-1013 e AR-1014 (il riesame dell'ondata saltava pacchetti e budget), AR-1018 (l'equivalenza Task-Agent), AR-1019 (il giro senza organigramma), AR-1020 (il rischio dei pacchetti).
+- Aperti come debito minore: AR-1015, AR-1016, AR-1017, AR-1021, AR-1022, AR-1023, più AR-1009 che c'era già.
 
 Il cancello del lotto: «si può consegnare dichiarando i buchi». L'unico ⚪ è il controllo dei tipi del Pannello, che qui non gira perché mancano le sue librerie; questo lavoro non tocca il Pannello. La suite della macchina: 0 rossi in Node su 484 file; in bash 1, il debito dichiarato AR-834 sotto il suo tetto.
 

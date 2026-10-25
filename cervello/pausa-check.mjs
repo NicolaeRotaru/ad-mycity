@@ -27,9 +27,9 @@
 //
 // Exit (contratto AR-322): 0 = pause sane · 1 = violazione · 2 = cieco (non ho potuto calcolare)
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, realpathSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import {
   ambitoDelFatto,
   codiceUscita,
@@ -41,6 +41,7 @@ import {
   statoPausa,
 } from "./pausa-coda.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+import { testoArchivioDi } from "./coda-e-archivio.mjs";
 import { ciecoPerDatoIllegibile, codiceDiUscita } from "./esito-guardiano.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -272,6 +273,14 @@ function main() {
  */
 function risveglia(testoCoda, daRisvegliare) {
   if (!daRisvegliare.length) return [];
+  // Il numero della card nuova conta anche l'archivio. Se l'archivio c'è ma non si legge, non si
+  // indovina un numero che potrebbe essere già speso: cieco, PRIMA di toccare la coda.
+  let testoArchivio;
+  try {
+    testoArchivio = testoArchivioDi(percorso(CODA));
+  } catch (e) {
+    esciCieco(ciecoPerDatoIllegibile("non so quali numeri di card sono già spesi", { cosa: `archivio delle card illeggibile (${e?.code ?? e?.message})` }));
+  }
   const righe = testoCoda.split("\n");
   for (const r of daRisvegliare) {
     const i = r.riga - 1;
@@ -292,7 +301,7 @@ function risveglia(testoCoda, daRisvegliare) {
     "",
     `<!-- pausa-scaduta-risveglio -->`,
     "",
-    `### 🟡 #${prossimoNumero(righe.join("\n"))} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
+    `### 🟡 #${prossimoNumero(righe.join("\n"), testoArchivio)} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
     "",
     `**Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: ${elenco}. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.`,
     "",
@@ -308,4 +317,21 @@ function risveglia(testoCoda, daRisvegliare) {
   return daRisvegliare.map((r) => r.card);
 }
 
-main();
+
+/** Vero se questo file è il programma lanciato, anche quando il percorso passa da un collegamento
+ *  simbolico (giro.sh lo chiama da SCRIPT_DIR, che è il percorso logico): confrontare solo gli URL
+ *  lasciava il programma muto, uscita 0 e nessuna riga — un verde senza aver guardato. Stessa forma
+ *  di scadenzario-check.mjs. */
+function eIlProgrammaLanciato() {
+  const arg = process.argv[1];
+  if (!arg) return false;
+  try {
+    return realpathSync(arg) === realpathSync(fileURLToPath(import.meta.url));
+  } catch {
+    return import.meta.url === pathToFileURL(arg).href;
+  }
+}
+
+// Parte solo quando è il programma lanciato, non quando una prova lo importa: chi lo importava
+// si trovava la coda vera letta e il processo chiuso da `process.exit` (`import-che-esegue.mjs`).
+if (eIlProgrammaLanciato()) main();

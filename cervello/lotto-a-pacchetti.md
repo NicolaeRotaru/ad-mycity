@@ -82,6 +82,53 @@ Se un giorno qualcuno riscrive «lo faccio io a mano», nessun controllo diventa
 >
 > 📌 I riferimenti sono per **titolo di sezione**, non per numero di riga. Il collaudo del 28/8 ha trovato due citazioni già scadute: le aveva spostate di sei righe la modifica gemella di questa stessa consegna.
 
+### ⓪ Prima dei pacchetti, la pre-diagnosi: la ricetta si scrive prima di riparare
+
+Nicola, 24/10/2026: «Dobbiamo risolverli nel minor tempo possibile, riesci a trovare un modo, magari capendo in anticipo come risolverli». Il tempo delle ondate passate non se n'è andato nel riparare. Se n'è andato nello scoprire a lavoro iniziato chi altro chiamava il codice toccato, e nei difetti **nati** riparando: la prima ondata (16-17/10) ha avuto sette riesami, con 15-27 difetti nati ognuno, quasi tutti nel rimborso dei contanti. Si è chiusa semplificando, non con l'ottavo giro.
+
+La pre-diagnosi sposta quella scoperta **prima** del lotto, una volta sola, in sola lettura. Per ogni difetto aperto un senior scrive la ricetta e due revisori provano a smontarla:
+
+| campo della ricetta | a cosa serve alla squadra |
+|---|---|
+| `ancora_vero` con l'evidenza file:riga di oggi | non riparare quello che un lotto precedente ha già chiuso |
+| `causa_radice` e le `cause_comuni` del territorio | una riparazione sola per più difetti |
+| `ricetta`, `file_toccati`, `dipende_da` | la modifica esatta, il territorio vero, l'ordine |
+| `prova_rossa` | si parte dalla prova che oggi è rossa, non la si inventa alla fine |
+| `raggio` e la lente B (`nascite_previste`) | la lista di quello che la riparazione può rompere: è la lista del collaudatore |
+| `alternativa_semplice` e `semplificare_invece` | dove togliere o spegnere costa meno che riparare: si chiede **prima** |
+| `decisione_per_nicola` | la domanda già scritta, con la raccomandazione: le firme partono il primo giorno, non a metà |
+
+Il giro, in sette passi. La cartella di lavoro sta fuori dai repository, per esempio nello scratchpad della sessione: ci finiscono le falle riservate.
+
+```
+node cervello/prediagnosi.mjs prepara --cartella <cartella FUORI dai repository>
+# workflow .claude/workflows/prediagnosi.js, una volta per modo: seri · minori · privata
+node cervello/prediagnosi.mjs raccogli --cartella <stessa> <journal.jsonl dei workflow>
+node cervello/prediagnosi.mjs riservato --cartella <stessa>
+# workflow .claude/workflows/prediagnosi.js con args {cartella, modo: "riservatezza"}
+node cervello/prediagnosi.mjs raccogli --cartella <stessa> <journal…> --scrivi --riservato <journal della riservatezza> [--riservato <elenco di prima>]
+node cervello/prediagnosi.mjs ondate --ricettario <consegne/audit/…-ricettario-sito.json> --repo ../mycity --scrivi
+```
+
+Il primo `raccogli` scrive solo il ricettario completo, nella cartella di lavoro. `riservato` ne tira fuori i materiali per i due revisori della riservatezza: tutte le falle, compresi i verificatori e le falle mancate, l'impronta del testo, e i campi che il comando pretenderà giudicati. Il secondo `raccogli` pubblica, oscurando i campi che i revisori hanno segnato. `--riservato` si ripete: il journal dei revisori nuovi più gli elenchi delle riletture di prima, che si sommano. Dagli elenchi di prima valgono solo le oscurature, mai i giudizi «già pubblico». La corsia privata che manca fra i journal, tutta o in parte, il comando la riprende dal ricettario completo della cartella. Il modo «privata» vuole le aree scritte a mano, una per gruppo di falle: `{area, db, schede, cosa}`, con `db: true` dove serve leggere la struttura del database in sola lettura, le schede da ritrovare in `territori.json → privati`, e in `cosa` dove guardare.
+
+Le regole che il comando fa rispettare da sé, provate da `cervello/test/prediagnosi.test.mjs`:
+
+- **Una chiusura vuole due voci d'accordo.** «Già risolto» lo devono dire chi scrive la ricetta e il revisore che aveva il mandato di smentirlo. Una voce sola, o due voci in disaccordo, mandano il difetto «da rivedere». Se una lente è tornata due volte (il modo «lenti» la rilancia), contano tutte e due, in qualunque ordine.
+- **Il riservato non esce.** Le falle di sicurezza aperte si lavorano nel modo «privata»: i risultati restano nella cartella di lavoro, che non può stare dentro un repository, nemmeno passando da un collegamento. Nel ricettario pubblico resta il titolo, mai il testo.
+- **Si pubblica solo dopo la riservatezza, e solo su quel testo.** `--scrivi` vuole il journal dei due revisori della riservatezza, tornati tutti e due, con qualcosa di riletto e l'impronta del testo di oggi. Se dopo la rilettura cambia un territorio, l'impronta non torna e si rilegge. `--riservato nessuno` vale solo dove non ci sono falle. Il 24/10 tre ricette pubbliche nominavano di passaggio una falla riservata, e la rilettura del pomeriggio ne ha trovate altre.
+- **Ogni allarme ha un giudizio scritto.** Un campo che ripete una frase di otto parole di una falla, o un nome che sta solo nelle falle, va oscurato o dichiarato «già pubblico» dal revisore, col perché. Le frasi che stanno già nel registro o nel contesto dato a tutti non suonano. Un'oscuratura che non trova il suo campo ferma tutto.
+- **Quello che era nascosto resta nascosto.** Un campo oscurato in un ricettario pubblico di prima si rioscura da solo, riconosciuto per la chiave del difetto, in tutte le voci dello stesso tipo. Per liberarlo serve un «già pubblico» scritto dalla rilettura di oggi, sul percorso esatto. Una voce di un elenco su un difetto chiuso nel frattempo si conta e non ferma niente. Ogni controllo che ferma viene prima di qualunque scrittura.
+- **È uno strumento da lanciare a mano.** Tre giri di collaudo, il terzo ancora bocciato: per la regola d'arresto della skill `collaudo` non si aggancia al giro né al cancello. I buchi che restano sono scritti in `consegne/audit/2026-10-24-prediagnosi-sito.md`.
+- **Il piano non perde nessuno.** `ondate` conta ogni difetto in un posto solo: squadre, corsie, già risolti, riservati, senza ricetta, da rivedere. Se il conto non torna, o se un difetto serio resta senza ricetta, si ferma. Con `--parziale` va avanti sapendolo, e i difetti fuori dal piano restano scritti nel piano.
+- **Il territorio è quello della ricetta.** `ondate --repo ../mycity` mette in un pacchetto i difetti che hanno lo stesso file «caldo», cioè il file che più ricette toccano. Due pacchetti che condividono anche un solo file, esistente o da creare, non stanno nella stessa ondata. Le prove e le migrazioni non contano come conflitto: i numeri delle migrazioni si ricuciono a parte. Una ricetta che cita una cartella intera o un modello con l'asterisco va da sola, in un'ondata sua. La prima versione univa a catena ogni file in comune, e il 24/10 ha fuso 356 difetti in un blocco solo da 315 ore.
+- **Le ore in fila sono la squadra più lenta di ogni ondata, sommate.** È il numero che dice quanto dura il lotto, e lo accorciano due cose sole: spezzare il pacchetto più lungo, o semplificarlo. Le ore di squadra contano tutto, anche i difetti senza un file da contare.
+
+Due cose che si imparano solo facendolo:
+
+- **Il motore tiene due agenti per volta per workflow** su una macchina da 4 processori. Il 24/10 la pre-diagnosi è partita come sette workflow insieme, ognuno con una parte dei territori.
+- **I territori per mestiere battono quelli per dimensione.** `prepara` li fa per dimensione, che è il punto di partenza. Il 24/10 i seri sono stati riscritti a mano in 13 mestieri: resi e rimborsi, contestazioni, contanti, iscrizioni, rilascio, promesse… Così il senior vede insieme i difetti che si toccano.
+
 ### ① I pacchetti si calcolano, non si scelgono a occhio
 
 ```

@@ -15,6 +15,7 @@ import { fileURLToPath } from "node:url";
 import { blocchiCoda, trovaAzione } from "../consenso-azione.mjs";
 import { lettoreDellaCabina } from "../coda-cabina.mjs";
 import { numeriUsati, prossimoNumero } from "../pausa-coda.mjs";
+import { testoArchivioDi } from "../coda-e-archivio.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -106,10 +107,13 @@ test("i vecchi identificatori restano validi (id stabile e codice casella)", () 
 });
 
 // ── 3) Il file VERO della coda ───────────────────────────────────────────────
-test("nel file vero ogni card ha il suo numero, unico, con la data di nascita", () => {
+test("nel file vero ogni card ha il suo numero, unico anche contro l'archivio, con la data di nascita", () => {
   const md = readFileSync(CODA_VERA, "utf8");
   const heading = md.split("\n").filter((r) => r.startsWith("### "));
-  assert.ok(heading.length >= 50, `attese decine di card, trovate ${heading.length}`);
+  // 25/10: qui si chiedevano almeno 50 card nella coda. Il «ok 130» ne ha archiviate 62 e ne restano
+  // 39 — la coda si accorcia perché Nicola risponde, ed è la cosa giusta. Il conteggio serviva a non
+  // controllare un file vuoto: adesso lo fa il conteggio su coda + archivio, qui sotto.
+  assert.ok(heading.length > 0, "la coda vera non ha nessuna card: sto leggendo il file giusto?");
   const numeri = [];
   for (const h of heading) {
     const m = h.match(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/u);
@@ -123,6 +127,12 @@ test("nel file vero ogni card ha il suo numero, unico, con la data di nascita", 
     const m = r.match(/^\|\s*(\d+)\s*\|/);
     if (m) numeri.push(Number(m[1]));
   }
+  // Dal 23/8 le card chiuse vivono in un file loro, e tengono il numero: un numero speso là è speso
+  // anche qui. Il 25/10 archiviare la #211 aveva fatto tornare libero il 211 per chi lo assegnava.
+  const archivio = testoArchivioDi(CODA_VERA);
+  for (const m of archivio.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) numeri.push(Number(m[1]));
+  for (const m of archivio.matchAll(/^\|\s*(\d+)\s*\|/gm)) numeri.push(Number(m[1]));
+  assert.ok(numeri.length >= 50, `attese decine di card fra coda e archivio, trovate ${numeri.length}`);
   assert.equal(new Set(numeri).size, numeri.length, "due card portano lo stesso numero");
 });
 
@@ -139,12 +149,17 @@ test("chi assegna il prossimo numero conta anche le card in riga-tabella", () =>
   assert.equal(prossimoNumero(coda), 41, "il numero più alto è quello della riga-tabella: il prossimo è 41");
 });
 
-test("il prossimo numero non è già di qualcun altro, nella coda VERA", () => {
+test("il prossimo numero non è già di qualcun altro, nella coda VERA né nel suo archivio", () => {
   const md = readFileSync(CODA_VERA, "utf8");
+  const archivio = testoArchivioDi(CODA_VERA);
+  // I numeri presi si contano qui sul testo grezzo, NON con numeriUsati: se la risposta attesa la
+  // calcolasse la stessa funzione che si controlla, sbaglierebbero insieme e la prova resterebbe verde.
   const presi = new Set();
-  for (const m of md.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) presi.add(Number(m[1]));
-  for (const m of md.matchAll(/^\|\s*(\d+)\s*\|/gmu)) presi.add(Number(m[1]));
-  const prossimo = prossimoNumero(md);
+  for (const testo of [md, archivio]) {
+    for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) presi.add(Number(m[1]));
+    for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gmu)) presi.add(Number(m[1]));
+  }
+  const prossimo = prossimoNumero(md, archivio);
   assert.ok(!presi.has(prossimo), `il numero ${prossimo} è già di una card che esiste`);
 });
 
@@ -187,6 +202,7 @@ test("git-pr.mjs chiede il numero a chi lo distribuisce, non se lo conta da solo
     base: "main",
     repoLabel: "ad-mycity",
     when: "2026-08-21 18:00",
+    archivio: "",
   });
 
   assert.equal(num, 143, `ha scelto ${num}: sta guardando solo le righe-tabella, non le card-titolo`);

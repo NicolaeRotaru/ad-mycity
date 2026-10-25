@@ -122,7 +122,7 @@ Passi:
    - ✍️ **Il titolo (`Azione`) scrivilo come lo diresti a voce** (`cervello/scrittura-umana.md`): attacca con un
      verbo e una cosa vera, **niente sigle/ID/path nel titolo** (`AR-004`, `phc_…`, `SQL 107`, `cervello/…:27`) →
      quelli vanno nella colonna `Contenuto`, per chi esegue. Es: «Chiama il fornaio per confermare l'ordine», non «Accetta `58094956…`».
-   - `#` = numero progressivo (solo cifre) · `Data e ora` = `AAAA-MM-GG HH:MM` · `Reparto` = `@nome-senior`
+   - `#` = il numero che stampa `node cervello/prossima-card.mjs`, rilanciato subito prima di OGNI card (conta anche l'archivio delle card chiuse; se esce 2, non accodare e dillo) · `Data e ora` = `AAAA-MM-GG HH:MM` · `Reparto` = `@nome-senior`
    - `Colore` = l'emoji `🟡` o `🔴` · `Contenuto` = link al file in `consegne/` o testo pronto · `Canale` = email/push/in-app/manuale
    - `Stato` = deve contenere la parola **`in attesa`** (è ciò che la Cabina conta in "Da firmare").
    Esempio: `| 6 | 2026-06-26 18:14 | @vendite | Presidio Venerdì Piacentino | 🟡 | consegne/vendite/presidio.md | manuale | in attesa |`

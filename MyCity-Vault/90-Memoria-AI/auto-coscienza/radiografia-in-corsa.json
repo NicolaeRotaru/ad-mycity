@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-25 16:12",
+  "aggiornato": "2026-10-25 16:41",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4107,7 +4107,81 @@
       }
     },
     {
-      "quando": "2026-10-25 16:12",
+      "quando": "2026-10-24 19:09",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "workflow della pre-diagnosi riletto con la lente della cadenza: non gira da solo, lo lancia il comando «pre-diagnosi del sito» (COMANDI.md) e il motivo sta in guardiani-motivi.json; argomenti controllati prima di partire, provato davvero quattro volte in modo «riservatezza»",
+      "file": {
+        ".claude/workflows/prediagnosi.js": "dea597235591"
+      }
+    },
+    {
+      "quando": "2026-10-24 19:09",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "prediagnosi.mjs riletto con la lente della sicurezza in tre giri di collaudo a due lenti (24/10): ogni difetto trovato è stato corretto nel lotto e ha una mutazione; i limiti che restano (parafrasi che le reti non vedono, rilettura parziale dichiarata dai revisori, ondate larghe in fondo, prove esistenti non contate come conflitto) sono scritti nel referto consegne/audit/2026-10-24-prediagnosi-sito.md. censimento-macchina.mjs: solo una riga di descrizione",
+      "file": {
+        "cervello/censimento-macchina.mjs": "4000c7bf4d38",
+        "cervello/prediagnosi.mjs": "69a3cf9ce797"
+      }
+    },
+    {
+      "quando": "2026-10-25 15:44",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-1012"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/censimento-macchina.mjs": "4000c7bf4d38",
+        "cervello/coda-e-archivio.mjs": "991fdec5d8b2",
+        "cervello/git-pr.mjs": "98d46beb0c97",
+        "cervello/housekeeping-azioni.mjs": "ef41b74e5e8f",
+        "cervello/mano-fermata.mjs": "84eb5587f8fe",
+        "cervello/pausa-check.mjs": "7cc080a711bf",
+        "cervello/pausa-coda.mjs": "0ac20e374779",
+        "cervello/prediagnosi.mjs": "69a3cf9ce797",
+        "cervello/prossima-card.mjs": "7537d9028354",
+        "cervello/sensori-spenti-check.mjs": "acc39e54eca6"
+      }
+    },
+    {
+      "quando": "2026-10-25 15:44",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-965"
+      ],
+      "nota": "",
+      "file": {
+        ".claude/workflows/prediagnosi.js": "dea597235591",
+        "cervello/giro.sh": "723af287920c",
+        "cervello/riga-prossima-card.sh": "733a5cca93c5",
+        "cervello/ritmo.sh": "2f2c21793399",
+        "cervello/worker.sh": "b85d4329521b"
+      }
+    },
+    {
+      "quando": "2026-10-25 16:41",
       "casa": "macchina",
       "dimensione": "cadenza-esecuzione",
       "repo": "ad",
@@ -4115,25 +4189,25 @@
       "chi": "AD",
       "trovati": 5,
       "schede": [
-        "AR-1012",
         "AR-1013",
         "AR-1014",
         "AR-1015",
-        "AR-1016"
+        "AR-1016",
+        "AR-1017"
       ],
       "nota": "",
       "file": {
-        ".claude/skills/cantiere/SKILL.md": "5b0476d49d73",
         ".claude/skills/collaudo/SKILL.md": "d1648c1d2554",
         ".claude/skills/senior/SKILL.md": "58addb645c7b",
         ".claude/workflows/auto-radiografia.js": "62be1a1e497e",
         ".claude/workflows/ondata-sito.js": "73613d116660",
         ".claude/workflows/radiografia-totale.js": "95be76c34139",
-        "cervello/giro.sh": "417e70337f69"
+        ".claude/skills/cantiere/SKILL.md": "5b0476d49d73",
+        "cervello/giro.sh": "77e9fbd6e48c"
       }
     },
     {
-      "quando": "2026-10-25 16:12",
+      "quando": "2026-10-25 16:41",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",
       "repo": "ad",
@@ -4141,26 +4215,26 @@
       "chi": "AD",
       "trovati": 7,
       "schede": [
-        "AR-1017",
         "AR-1018",
         "AR-1019",
         "AR-1020",
         "AR-1021",
         "AR-1022",
+        "AR-1023",
         "AR-1009"
       ],
       "nota": "",
       "file": {
         "cervello/agent-registry-check.mjs": "f6e8eedb8a19",
-        "cervello/censimento-macchina.mjs": "49644b0333e7",
         "cervello/conto-token.mjs": "49ede0f02f5e",
         "cervello/deferral-agenti.mjs": "660d4dd0966b",
-        "cervello/keyword-owner-check.mjs": "333599184581",
-        "cervello/mappa-copertura.mjs": "cc61aebb7245",
         "cervello/prepara-giro.mjs": "38ce6bb97bcb",
         "cervello/prova-sito.mjs": "cf41eb97e484",
         "cervello/schede-pacchetto.mjs": "f9a88df12c58",
-        "cervello/turno-senior.mjs": "af694a70d5fa"
+        "cervello/turno-senior.mjs": "af694a70d5fa",
+        "cervello/censimento-macchina.mjs": "cc8b1d74064b",
+        "cervello/keyword-owner-check.mjs": "333599184581",
+        "cervello/mappa-copertura.mjs": "1a0586f9b70c"
       }
     }
   ]

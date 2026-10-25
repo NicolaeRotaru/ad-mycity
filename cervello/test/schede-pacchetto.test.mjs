@@ -306,7 +306,7 @@ test("il testo della scheda arriva al rischio anche passando dal piano, non solo
   assert.equal(e.args.pacchetti[0].rischio, "soldi");
 });
 
-test("AR-1019 — segreti, accessi fra negozi, firme dei webhook e file del rilascio non escono «nessuno»", () => {
+test("AR-1020 — segreti, accessi fra negozi, firme dei webhook e file del rilascio non escono «nessuno»", () => {
   // Il riesame del 25/10: questi pacchetti finivano con un collaudatore solo. La frase del revisore
   // per prima, poi le forme in cui la stessa cosa si scrive nel registro.
   assert.equal(rischioDi({ testi: ["la chiave service-role finisce nel bundle del browser"] }, MAPPA).rischio, "permessi");
@@ -347,7 +347,7 @@ test("AR-1019 — segreti, accessi fra negozi, firme dei webhook e file del rila
   assert.equal(rischioDi({ file: ["lib/queries/keys.ts"] }, MAPPA).rischio, "nessuno", "le chiavi delle query non sono segreti");
 });
 
-test("AR-1019 — il segreto nella descrizione arriva al rischio anche passando dal piano", () => {
+test("AR-1020 — il segreto nella descrizione arriva al rischio anche passando dal piano", () => {
   const ai = scheda("ai-endpoints", "Tutti i pulsanti AI rispondono «servizio non configurato»", {
     file: "lib/ai/client.ts:108-130", impatto: "il negozio prova l'AI e fallisce", descrizione: "In produzione la chiave ANTHROPIC_API_KEY non c'e'",
   });
