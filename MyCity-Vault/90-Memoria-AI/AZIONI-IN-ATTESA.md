@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-25 12:00** — Automatico: **102 aperte · 43 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-25 12:11** — Automatico: **101 aperte · 44 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,16 +30,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
-
-### 🔴 #211 — Decidi se togliere dal ramo pubblico le prime versioni del ricettario del sito · ⏳ accodata 2026-10-24 18:58
-
-**In parole semplici.** La prima versione del ricettario del sito aveva in chiaro 23 passaggi che le riletture di riservatezza del pomeriggio hanno poi oscurato. Parlano di falle riservate di gravità bassa o media. Sono rimasti sul ramo pubblico da 24 minuti a un'ora e quaranta, poi li ho oscurati con tre correzioni: il ramo li porta dalle 17:31. Ma nella storia del ramo le versioni vecchie si leggono ancora. Cosa dicono te l'ho scritto in chat, non qui.
-
-**Cosa cambia:** se dici sì, riscrivo la storia del ramo della pre-diagnosi prima dell'unione, e le versioni vecchie non stanno più sul ramo. Chi ne ha già l'indirizzo esatto potrebbe raggiungerle ancora per un po'. La cura vera resta chiudere quelle falle, che sono già nel piano.
-
-**Se va bene:** spinta forzata solo sul ramo della pre-diagnosi, poi unisci la richiesta come al solito e il ramo si cancella.
-
----
 
 ### 🔴 #210 — Il giorno della chiave: i tuoi passi, nell'ordine giusto · ⏳ accodata 2026-10-24 14:20
 
@@ -2918,5 +2908,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 43.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 44.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-25 12:00
+aggiornato: 2026-10-25 12:11
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-25 12:11 · 44 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -1384,3 +1391,17 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 **Cosa devi fare tu.** Incolla nell'editor SQL di Supabase il comando della chat del 12/10. Se qualcosa non torna, si annulla da solo. Da amministratore, il tuo account non potrà più comprare.
 
 **Se va bene:** controllo che la password vecchia non funzioni più.
+
+---
+
+### ✅ #211 — Decidi se togliere dal ramo pubblico le prime versioni del ricettario del sito · ⏳ accodata 2026-10-24 18:58 · ✅ FATTA 2026-10-25 12:08
+
+> ✅ **2026-10-25 12:08 — Fatta, col tuo «sì alla 211».** Il ramo della pre-diagnosi adesso ha tre commit invece di dieci. Il primo porta la pre-diagnosi già nella sua forma finale, oscurata. Le quattro versioni con i passaggi in chiaro non fanno più parte della storia del ramo: l'ho verificato file per file. Il contenuto finale è identico a prima.
+>
+> **Una cosa resta.** GitHub continua a mostrare un commit vecchio a chi ne conosce l'indirizzo esatto, e la pagina della richiesta di unione conserva il rimando alla spinta forzata. Per farli sparire del tutto serve una richiesta al supporto di GitHub. La cura vera resta chiudere quelle falle, ed è già nel piano.
+
+**In parole semplici.** La prima versione del ricettario del sito aveva in chiaro 23 passaggi che le riletture di riservatezza del pomeriggio hanno poi oscurato. Parlano di falle riservate di gravità bassa o media. Sono rimasti sul ramo pubblico da 24 minuti a un'ora e quaranta, poi li ho oscurati con tre correzioni: il ramo li porta dalle 17:31. Ma nella storia del ramo le versioni vecchie si leggono ancora. Cosa dicono te l'ho scritto in chat, non qui.
+
+**Cosa cambia:** se dici sì, riscrivo la storia del ramo della pre-diagnosi prima dell'unione, e le versioni vecchie non stanno più sul ramo. Chi ne ha già l'indirizzo esatto potrebbe raggiungerle ancora per un po'. La cura vera resta chiudere quelle falle, che sono già nel piano.
+
+**Se va bene:** spinta forzata solo sul ramo della pre-diagnosi, poi unisci la richiesta come al solito e il ramo si cancella.

@@ -5675,3 +5675,15 @@ La procedura del 7/9 (docs/migrazioni-baseline-produzione.md) l'ho provata su un
 - Le proposte dei revisori per il sito: una difesa che impedisca di togliere l'ultimo amministratore, e il secondo fattore d'accesso per il pannello di amministrazione.
 
 **La lezione.** Sulle scritture che cancellano qualcosa, il collegamento a Supabase di questa sessione chiede una conferma che a Nicola non arriva. Per quei comandi la strada è l'editor SQL di Nicola, con un file pronto da incollare e una tabella finale che dice cosa aspettarsi.
+
+## 2026-10-25 12:08 — 🔴 La storia del ramo della pre-diagnosi riscritta, col «sì alla 211» di Nicola
+
+**Cosa.** Sul ramo della pre-diagnosi c'erano dieci commit. Quattro portavano versioni del ricettario del sito con 23 passaggi sulle falle riservate ancora in chiaro, poi oscurati il 24/10 alle 17:55, alle 18:38 e alle 19:10. Ho rifatto la storia sopra la stessa base di main, con tre commit:
+- la pre-diagnosi già nella sua forma finale;
+- i due commit della carta 202, ripresi uguali.
+
+Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul ramo remoto non era cambiato niente.
+
+**Verificato prima della spinta.** L'albero finale è identico a quello di prima. In ogni commit nuovo i tre file del ricettario sono quelli finali. I quattro commit vecchi non sono più antenati del ramo.
+
+**Cosa non risolve.** GitHub mostra ancora un commit vecchio a chi ne ha l'indirizzo esatto: controllato subito dopo, risponde ancora. La pagina della richiesta di unione 890 conserva il rimando alla spinta forzata. Per cancellarli del tutto serve una richiesta al supporto di GitHub. La cura vera resta chiudere le falle, già nel piano.
