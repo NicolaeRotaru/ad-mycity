@@ -5687,3 +5687,11 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Verificato prima della spinta.** L'albero finale è identico a quello di prima. In ogni commit nuovo i tre file del ricettario sono quelli finali. I quattro commit vecchi non sono più antenati del ramo.
 
 **Cosa non risolve.** GitHub mostra ancora un commit vecchio a chi ne ha l'indirizzo esatto: controllato subito dopo, risponde ancora. La pagina della richiesta di unione 890 conserva il rimando alla spinta forzata. Per cancellarli del tutto serve una richiesta al supporto di GitHub. La cura vera resta chiudere le falle, già nel piano.
+
+## 2026-10-25 12:57 — 🟢 La coda delle carte pulita col «ok 130» di Nicola: da 103 aperte a 41
+
+**Cosa.** Sei revisori hanno riletto le 103 carte aperte, una per una, chiedendosi se fossero ancora vive, a chi toccassero e cosa servisse. Altri sei hanno ricontrollato quelle date per superate, col mandato di smentirle. Ne ho chiuse 62, ognuna col suo perché scritto sopra. 32 erano già fatte e 30 superate o contenute in un'altra carta, soprattutto la 209 e la 210. Sono tutte in `Archivio/AZIONI-archivio.md`.
+
+**Cosa ho spostato prima di chiudere.** La carta 167 era riparata ma mai provata su un database vero: la prova della copertina caricata da negoziante adesso sta nella 210. La seconda metà della 130, la chiusura automatica delle carte di unione, esisteva già dal 13/7 nel Pannello (carta 11).
+
+**Il conto.** Le carte aperte sono 41, e a Nicola ne toccano 38, elencate in chat il 25/10 per urgenza. Il file della coda è sceso da circa 200.000 a 92.496 caratteri: il cancello torna a leggerlo tutto.
