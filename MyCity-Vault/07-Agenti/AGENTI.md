@@ -201,4 +201,5 @@ Gli agenti operativi sopra applicano queste lenti al loro reparto.
 ## Collegato a
 - Mansionari operativi: `.claude/agents/*.md`
 - Manuale dell'AD: `CLAUDE.md` (radice)
+- Roster con mandati e rimandi «(→ … = **agente**)», letto dai guardiani: [[ORGANIGRAMMA]] — uscito da `CLAUDE.md` il 25/10/2026 perché ogni agente lo rileggeva a ogni turno. Questa mappa resta quella dei poteri per team: una lista per file, non due copie.
 - Memoria viva: [[STATO]] · [[DECISIONI]] · `90-Memoria-AI/Briefing/`

@@ -1,6 +1,8 @@
 #!/usr/bin/env node
 // Guardiano deterministico del registro agenti — confronta i file reali `.claude/agents/*.md`
-// con gli elenchi umani (CLAUDE.md, COMANDI.md, AGENTI.md) e segnala il DRIFT.
+// con gli elenchi umani (ORGANIGRAMMA.md, COMANDI.md, AGENTI.md) e segnala il DRIFT.
+// Il roster dei senior stava dentro CLAUDE.md fino al 25/10/2026; adesso vive in
+// MyCity-Vault/07-Agenti/ORGANIGRAMMA.md, e questo guardiano diventa rosso se ricompare nel manuale.
 // 🟢 Sola lettura: NON scrive nel vault, NON fa git. Legge e stampa un report (+ opzionale --json).
 //
 // Risolve AR-007 / AR-008: il registro degli agenti è mantenuto A MANO in più file che divergono a
@@ -30,12 +32,16 @@ import {
   separaDescription,
 } from "./mandato-owner.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { ORGANIGRAMMA } from "./deferral-agenti.mjs";
 import { conteggiSbagliati as conteggiSbagliatiPuro, perimetroDaRepo } from "./perimetro-conteggi.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
 // Cartella dei mansionari operativi (fonte di verità) e i tre file "registro" mantenuti a mano.
-const AGENTS_DIR = join(AD_ROOT, ".claude/agents");
+// La radice si può spostare per le prove (`AGENT_REGISTRY_ROOT`): così il guardiano VERO gira su un
+// repo finto, e una prova vede il rosso arrivare fino al codice d'uscita, non solo dentro una funzione.
+const RADICE = process.env.AGENT_REGISTRY_ROOT || AD_ROOT;
+const AGENTS_DIR = join(RADICE, ".claude/agents");
 
 /**
  * Legge un file registro relativo alla radice AD; se manca torna stringa vuota — un file
@@ -52,7 +58,7 @@ function fileDelRepo() {
   try {
     // L'esecutore unico di git (AR-327): il tetto sullo stdout sta in UN posto solo. Allinearlo qui
     // a mano vorrebbe dire tenerne due, e due copie della stessa regola divergono sempre.
-    return gitEsegui(["ls-files"], AD_ROOT).split("\n").filter(Boolean);
+    return gitEsegui(["ls-files"], RADICE).split("\n").filter(Boolean);
   } catch (e) {
     // NON una lista vuota: da vuota uscirebbe «zero conteggi vecchi», cioè un verde costruito su un
     // elenco che non ho potuto leggere. `null` vuol dire «non lo so», e chi chiama lo deve dire.
@@ -66,7 +72,7 @@ function fileDelRepo() {
  */
 function leggiTettoConteggi() {
   try {
-    const j = JSON.parse(readFileSync(join(AD_ROOT, "cervello/tetti-lotto.json"), "utf8"));
+    const j = JSON.parse(readFileSync(join(RADICE, "cervello/tetti-lotto.json"), "utf8"));
     const n = Number(j?.conteggi_agenti_vecchi);
     return Number.isFinite(n) && n >= 0 ? n : 0;
   } catch (e) {
@@ -75,7 +81,7 @@ function leggiTettoConteggi() {
 }
 
 function leggiTesto(rel) {
-  const p = join(AD_ROOT, rel);
+  const p = join(RADICE, rel);
   return existsSync(p) ? readFileSync(p, "utf8") : "";
 }
 
@@ -92,6 +98,135 @@ function citatoNelRoster(testo, nome) {
   const soloRoster = testo.replace(/\([^)]*\)/g, "");
   const nomeEsc = nome.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return new RegExp("\\b" + nomeEsc + "\\b").test(soloRoster); // AR-024: confine di parola, non sottostringa
+}
+
+/**
+ * I senior tornati in elenco dentro il manuale dell'AD. Pura, così una prova la esegue su un testo
+ * finto e non solo sul repo di oggi. Il roster vive in ORGANIGRAMMA.md dal 25/10/2026: CLAUDE.md lo
+ * rilegge ogni agente a ogni turno.
+ *
+ * PERCHÉ NON SI APPOGGIA PIÙ ALLA FORMA DEL ROSTER. La prima versione riconosceva solo la riga
+ * canonica «- emoji **nome** — mandato», cioè col trattino lungo. Il collaudo ha reincollato tutte le
+ * 169 righe col trattino corto «–»: 41 KB tornati nel manuale e il freno a zero. Lo stesso con «-»,
+ * con una tabella, con «> -» dentro una citazione. Un freno che guarda la punteggiatura non protegge
+ * il peso. Qui conta il SOGGETTO della riga: un senior vero subito dopo il segno d'elenco, qualunque
+ * segno e qualunque separatore.
+ *
+ * E QUALUNQUE VESTE. Il secondo collaudo ha scritto un senior vero tra apici inversi (`vendite`), come
+ * link [**vendite**](…), con la chiocciola @vendite, in corsivo, come titolo «### vendite —» e in
+ * tabella con gli apici: il riconoscitore leggeva solo il grassetto e non ne vedeva nessuno. La bilancia
+ * qui sotto ferma il roster intero, ma non i due o tre senior aggiunti «per abitudine», che sono proprio
+ * il caso da fermare. Per questo il nome si legge spogliato della veste — grassetto, corsivo, codice,
+ * link, chiocciola, in qualunque combinazione — e la veste vale solo se si richiude uguale a come si è
+ * aperta: «`cervello/x.mjs`» o «**Le figure professionali**» non sono un nome vestito, sono altro.
+ * Senza l'elenco dei nomi veri vale solo il grassetto: una parola qualunque tra apici è codice, non un senior.
+ * @param {string} testoClaudeMd
+ * @param {string[]|null} nomiReali  i file in .claude/agents; senza, vale ogni nome in forma di slug
+ */
+export function rosterNelManuale(testoClaudeMd = "", nomiReali = null) {
+  const veri = nomiReali ? new Set(nomiReali.map((n) => n.toLowerCase())) : null;
+  const vale = (grezzo) => (veri ? veri.has(grezzo.toLowerCase()) : /^[a-z0-9][a-z0-9-]+$/.test(grezzo));
+  const veste = String.raw`[*_\x60]{0,3}`; // \x60 è l'apice inverso
+  const forma = new RegExp(
+    // il segno: citazione, cella, titolo, trattino/asterisco/più, numero, casella
+    String.raw`^(?<segno>[\s>|]*(?:#{1,6}\s+|(?:[-*+]|\d+[.)])\s+)?(?:\[[ xX]\]\s+)?[\s|]*)` +
+      // al più un'emoji o un simbolo davanti al nome: una PAROLA davanti («il **faro**») è già prosa
+      String.raw`(?:[^\sA-Za-z0-9À-ÿ*_|\x60\[@]+[\s|]+)?` +
+      String.raw`(?<fuori>${veste})(?<link>\[)?(?<dentro>${veste})(?<chi>@)?` +
+      // i due punti DENTRO la veste («- **vendite:** …») sono lo stile degli elenchi del manuale stesso:
+      // senza questo gruppo la veste «**» si richiudeva solo dopo i due punti e la riga veniva scartata
+      String.raw`(?<nome>[A-Za-z0-9][A-Za-z0-9-]+)(?<punti>:)?` +
+      String.raw`(?<chiudeDentro>${veste})(?<url>\]\([^)\s]*\))?(?<chiudeFuori>${veste})(?<resto>.*)$`
+  );
+  const rovescio = (s) => [...s].reverse().join("");
+  const separatore = /^\s*(?:—|–|-|:|\|)/;
+  const trovati = new Set();
+  for (const riga of String(testoClaudeMd).split("\n")) {
+    const g = riga.match(forma)?.groups;
+    if (!g || !vale(g.nome)) continue;
+    // la veste deve richiudersi uguale: un link ha il suo indirizzo, un apice il suo apice
+    const giusta = g.link
+      ? Boolean(g.url) && rovescio(g.fuori) === g.chiudeFuori && rovescio(g.dentro) === g.chiudeDentro
+      : !g.url && rovescio(g.fuori + g.dentro) === g.chiudeDentro + g.chiudeFuori;
+    if (!giusta) continue;
+    // subito dopo il nome non continua un percorso, un file o un'altra parola: «@types/node», «giro.sh»
+    if (/^(?:[A-Za-z0-9À-ÿ/\\@]|\.[A-Za-z0-9])/.test(g.resto)) continue;
+    const vestito = Boolean(g.fuori || g.dentro || g.chi || g.link);
+    const grassetto = /\*\*|__/.test(g.fuori + g.dentro);
+    if (vestito && !veri && !grassetto) continue;
+    const haSegno = /\S/.test(g.segno);
+    const dopo = (g.punti || "") + g.resto; // i due punti chiusi nella veste fanno da separatore
+    const ok = vestito
+      ? haSegno || separatore.test(dopo) // ①-② col segno basta il nome; senza, serve il separatore
+      : Boolean(veri) && haSegno && /^\s*(?:—|–|-|:|\|)\s/.test(dopo); // ③ nome nudo: solo nomi veri
+    if (ok) trovati.add(g.nome.toLowerCase());
+  }
+  return [...trovati].sort();
+}
+
+/**
+ * IL PESO DEL MANUALE, misurato in byte. È la cosa che il freno qui sopra protegge, e l'unica che
+ * nessun cambio di forma aggira: il roster in prosa, in un blocco di codice o in YAML passa sotto
+ * ogni riconoscitore di righe, ma non sotto la bilancia. Il 25/10/2026 il manuale è sceso da 75.031
+ * a 35.377 byte; il roster da solo ne pesa 41.675, quindi reincollarlo in qualunque forma sfonda il
+ * tetto. Il tetto si alza solo con una scelta scritta qui, col suo perché: ogni byte in più lo paga
+ * ogni agente a ogni turno.
+ */
+export const TETTO_MANUALE_BYTE = 40000;
+
+/**
+ * @param {string} testoClaudeMd
+ * @param {number} tetto
+ * @returns {{byte:number, tetto:number, oltre:boolean}}
+ */
+export function pesoManuale(testoClaudeMd = "", tetto = TETTO_MANUALE_BYTE) {
+  const byte = Buffer.byteLength(String(testoClaudeMd), "utf8");
+  return { byte, tetto, oltre: byte > tetto };
+}
+
+/**
+ * LE ISTRUZIONI CHE MANDANO ANCORA A CERCARE IL ROSTER NEL MANUALE. Spostare l'elenco non basta se
+ * un workflow, una skill o una sentinella dicono ancora agli agenti «gli orfani sono quelli mai
+ * richiamati da CLAUDE.md/COMANDI.md»: con quel metro, il 25/10/2026, gli orfani erano 96 su 120
+ * invece di 0. La prossima radiografia li avrebbe registrati come difetti, o «riparati» rimettendo
+ * i senior nel manuale — cioè disfacendo proprio questo lavoro.
+ *
+ * Tre forme, tutte con la PAROLA agenti/senior/roster/mansionari nella stessa riga o in quella prima
+ * (i nomi di file non contano: «AGENTI.md» da solo non dice di che cosa si parla):
+ *   · il manuale elencato con una barra accanto ai registri degli agenti (COMANDI, AGENTI);
+ *   · agenti «citati / richiamati / elencati» nel manuale, al plurale come si scrive di un elenco;
+ *   · «il roster di» seguito dal manuale.
+ * Una riga che nomina anche ORGANIGRAMMA racconta il trasloco: è storia, non un'istruzione.
+ * @param {Record<string,string>} testi  percorso → testo
+ * @returns {{file:string, riga:number, testo:string}[]}
+ */
+export function rimandiAlVecchioRoster(testi = {}) {
+  const ESENTI = {
+    "cervello/agent-registry-check.mjs": "descrive le forme che cerca: citarle è il suo mestiere",
+    "cervello/test/due-elenchi-un-solo-metro.test.mjs": "le prove scrivono apposta le istruzioni sbagliate",
+  };
+  const forme = [
+    /CLAUDE\.md`?\s*\/\s*`?(?:AGENTI|COMANDI)/i,
+    /(?:AGENTI\.md|COMANDI(?:\.md)?)`?\s*\/\s*`?CLAUDE\.md/i,
+    /(?:citati|richiamati|elencati|nominati)\s+(?:in|da|nel|dentro)\s+`?CLAUDE\.md/i,
+    /roster\s+(?:di|del|in|nel|dentro)\s+`?CLAUDE\.md/i,
+    // il vincolo di deferral-agenti in giro.sh: «un agente rimanda a qualcuno in CLAUDE.md» (collaudo del 25/10)
+    /\brimand\w*\b[^.;:]{0,40}?\b(?:in|nel|dentro)\s+`?CLAUDE\.md/i,
+  ];
+  const diAgenti = /\b(?:agent[ei]|senior|roster|mansionari)\b/i;
+  const senzaFile = (t) => t.replace(/[\w./-]+\.(?:md|mjs|js|json|sh)\b/gi, "");
+  const fuori = [];
+  for (const [file, testo] of Object.entries(testi)) {
+    if (ESENTI[file]) continue;
+    const righe = String(testo || "").split("\n");
+    righe.forEach((riga, i) => {
+      if (!forme.some((f) => f.test(riga))) return;
+      const contesto = `${righe[i - 1] || ""}\n${riga}`;
+      if (!diAgenti.test(senzaFile(contesto)) || /ORGANIGRAMMA/.test(contesto)) return;
+      fuori.push({ file, riga: i + 1, testo: riga.trim().slice(0, 160) });
+    });
+  }
+  return fuori;
 }
 
 /** Estrae `description:` dal frontmatter YAML di un mansionario. */
@@ -248,15 +383,28 @@ async function main() {
     .sort();
 
   // 2. Contenuto dei file "registro" tenuti a mano (match a confine di parola sul roster — AR-024).
-  const claude = leggiTesto("CLAUDE.md");
+  const organigramma = leggiTesto(ORGANIGRAMMA);
   const comandi = leggiTesto("COMANDI.md");
   const agentiMd = leggiTesto("MyCity-Vault/07-Agenti/AGENTI.md");
 
-  // 3. Orfani = agenti reali con 0 occorrenze SIA in CLAUDE.md SIA in COMANDI.md:
-  //    il router principale (mansionario dell'AD + menù comandi) non li vede affatto.
+  // 3. Orfani = agenti reali con 0 occorrenze SIA nell'organigramma SIA in COMANDI.md: nessuno dei
+  //    due elenchi che instradano il lavoro li nomina. Fino al 25/10/2026 il primo dei due era
+  //    CLAUDE.md, che conteneva il roster; il roster è stato spostato riga per riga, e il controllo
+  //    lo segue. Se ORGANIGRAMMA.md sparisce il testo è vuoto e tutti diventano orfani: rosso, non verde.
   const orfani = agentiReali.filter(
-    (n) => !citatoNelRoster(claude, n) && !citatoNelRoster(comandi, n) // AR-024: confine di parola sul roster, non includes()
+    (n) => !citatoNelRoster(organigramma, n) && !citatoNelRoster(comandi, n) // AR-024: confine di parola sul roster, non includes()
   );
+
+  // 3bis. IL ROSTER NON TORNA NEL MANUALE. CLAUDE.md lo rilegge ogni agente a ogni turno: il 25/10/2026
+  //    l'elenco dei senior ne era il 56% (41.675 byte su 75.031), moltiplicato per i turni e per gli
+  //    agenti di ogni workflow. Chi aggiunge un senior nel manuale per abitudine, come si faceva prima,
+  //    rifà crescere quel peso senza che niente lo dica, e crea una seconda copia che diverge. Una
+  //    riga che ha per soggetto un senior vero, dentro il manuale, è drift col nome dell'agente.
+  //    Il riconoscitore guarda il SOGGETTO della riga (un senior vero), non la punteggiatura; e sopra
+  //    di lui c'è la bilancia, perché nessun riconoscitore di righe vede il roster scritto in prosa.
+  const testoManuale = leggiTesto("CLAUDE.md");
+  const rosterInManuale = rosterNelManuale(testoManuale, agentiReali);
+  const peso = pesoManuale(testoManuale);
 
   // 4. Assenti da AGENTI.md = agenti reali non citati nella mappa-organigramma leggibile del vault.
   const assentiDaAgentiMd = agentiReali.filter((n) => !agentiMd.includes(n));
@@ -310,6 +458,17 @@ async function main() {
   const perimetro = perimetroDaRepo(elencoRepo || []);
   const testiPerimetro = Object.fromEntries(perimetro.map((rel) => [rel, leggiTesto(rel)]).filter(([, t]) => t));
   const conteggiSbagliati = perimetroCieco ? [] : conteggiSbagliatiPuro(testiPerimetro, nReali);
+  //    3ter. LE ISTRUZIONI VECCHIE, misurate sulla loro conseguenza. Se il manuale non porta più il
+  //    roster, chi conta gli orfani «mai richiamati da CLAUDE.md/COMANDI.md» li trova a decine: il
+  //    25/10/2026 erano 96 su 120. Finché quel metro dà orfani, ogni istruzione che lo prescrive è drift.
+  const orfaniColVecchioMetro = agentiReali.filter((n) => !citatoNelRoster(testoManuale, n) && !citatoNelRoster(comandi, n));
+  //    Gli script di shell stanno fuori dal perimetro dei conteggi, ma i loro vincoli finiscono nel
+  //    prompt del motore: il 25/10 il vincolo di deferral-agenti in giro.sh gli diceva ancora che i
+  //    rimandi vivono «in CLAUDE.md». Qui si leggono anche loro, solo per i rimandi e non per i conteggi.
+  const testiShell = Object.fromEntries(
+    (elencoRepo || []).filter((rel) => rel.endsWith(".sh")).map((rel) => [rel, leggiTesto(rel)]).filter(([, t]) => t)
+  );
+  const rimandiVecchi = orfaniColVecchioMetro.length ? rimandiAlVecchioRoster({ ...testiPerimetro, ...testiShell }) : [];
   //    IL TETTO SUL DEBITO EREDITATO. Allargando il perimetro sono usciti in un colpo 26 conteggi
   //    vecchi che nessuno guardava da mesi: farli fallire tutti insieme renderebbe questo guardiano
   //    rosso per costruzione, e un guardiano sempre rosso si impara a saltare entro la settimana —
@@ -329,6 +488,10 @@ async function main() {
   //    mette il `-z`, quindi un nome con l'accento o con uno spazio non viene troncato a metà, e
   //    cattura lo stderr invece di stamparlo crudo (AR-643). Chi la aggira si riporta dietro
   //    entrambi i difetti — ed è successo proprio qui, in questo lotto.
+  //    L'indice resta quello di AD_ROOT anche quando le prove spostano la radice (AGENT_REGISTRY_ROOT):
+  //    una cartella di prova non è un clone git, e senza indice il controllo diventerebbe muto. Il
+  //    percorso si cerca PRIMA sotto RADICE (`risolviPercorso`), poi nell'indice vero. E su questa riga
+  //    è agganciata la mutazione di AR-689: cambiarla stacca il freno che la protegge.
   let fileTracciati = [];
   try {
     fileTracciati = percorsiDaGit(["ls-files"], { cwd: AD_ROOT });
@@ -342,7 +505,7 @@ async function main() {
     perBasename.get(b).push(f);
   }
   const risolviPercorso = (p) => {
-    if (existsSync(join(AD_ROOT, p))) return true;
+    if (existsSync(join(RADICE, p))) return true;
     if (!fileTracciati.length) return true; // niente indice = niente verdetto (meglio muto che bugiardo)
     return (perBasename.get(basename(p)) || []).some((f) => f === p || f.endsWith("/" + p));
   };
@@ -372,7 +535,10 @@ async function main() {
     nomi.problemi + // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
     percorsiRotti.length + // AR-349
     canaliOrfani.length + // AR-188 / AR-585
-    generalistiMuti.length; // AR-130
+    generalistiMuti.length + // AR-130
+    rosterInManuale.length + // il roster è tornato in CLAUDE.md
+    (peso.oltre ? 1 : 0) + // il manuale ha passato il tetto in byte, in qualunque forma
+    rimandiVecchi.length; // un'istruzione manda ancora a cercare il roster nel manuale
 
   await stampSegnale(
     "agent-registry",
@@ -398,6 +564,9 @@ async function main() {
           percorsi_morti: percorsiRotti, // AR-349
           canali_senza_owner: canaliOrfani, // AR-188 / AR-585
           generalisti_muti: generalistiMuti, // AR-130
+          roster_nel_manuale: rosterInManuale,
+          peso_manuale: peso,
+          rimandi_al_vecchio_roster: { orfani_con_quel_metro: orfaniColVecchioMetro.length, righe: rimandiVecchi },
           drift_totale: driftTotale,
         },
         null,
@@ -417,9 +586,25 @@ async function main() {
       console.log(`\n✅ nessun drift`);
     } else {
       console.log(
-        `\n❌ ${orfani.length} ORFANI (0 occorrenze in CLAUDE.md e COMANDI.md — il router non li vede):`
+        `\n❌ ${orfani.length} ORFANI (0 occorrenze in ORGANIGRAMMA.md e COMANDI.md — nessun elenco li instrada):`
       );
       for (const n of orfani) console.log(`  • ${n}`);
+
+      if (rosterInManuale.length) {
+        console.log(`\n⚠️  ${rosterInManuale.length} righe di roster dentro CLAUDE.md (ogni agente le rilegge a ogni turno; la casa è ${ORGANIGRAMMA}):`);
+        for (const n of rosterInManuale) console.log(`  • ${n}`);
+      }
+
+      if (peso.oltre) {
+        console.log(`\n⚖️  CLAUDE.md pesa ${peso.byte} byte, oltre il tetto di ${peso.tetto}: ogni agente li rilegge a ogni turno.`);
+      }
+
+      if (rimandiVecchi.length) {
+        console.log(
+          `\n🧭 ${rimandiVecchi.length} istruzioni mandano ancora a cercare il roster in CLAUDE.md (con quel metro gli orfani sarebbero ${orfaniColVecchioMetro.length} su ${nReali}; la casa è ${ORGANIGRAMMA}):`
+        );
+        for (const r of rimandiVecchi) console.log(`  • ${r.file}:${r.riga} — ${r.testo}`);
+      }
 
       if (assentiDaAgentiMd.length) {
         console.log(`\n⚠️  ${assentiDaAgentiMd.length} assenti dall'organigramma AGENTI.md:`);

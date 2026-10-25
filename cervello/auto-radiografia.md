@@ -25,7 +25,7 @@ profondità di mestiere) **+** un **revisore indipendente avversariale** che pro
 ## 🩺 Le 12 dimensioni (puntate su TE, repo `/home/user/ad-mycity`, sola lettura)
 1. **`coerenza-agenti`** — i 120 agenti in `.claude/agents/`: buchi di copertura (capacità mancanti),
    doppioni/sovrapposizioni di mandato, `description` vaghe che sballano il routing, agenti orfani mai
-   richiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto. **Conta i file reali, non assumere.**
+   richiamati da ORGANIGRAMMA.md/COMANDI.md, responsabilità in conflitto. **Conta i file reali, non assumere.**
 2. **`vettori-installati`** — i vettori di `VETTORI-MULTINAZIONALE` / `STAMPO-SENIOR-PRO` / `RUBRICA-LIVELLI`
    sono DAVVERO nei prompt degli agenti (loop interno, metro/rubrica, trappole, carburante) o solo descritti
    nei doc? Quali senior sono «a metà».
