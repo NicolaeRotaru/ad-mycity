@@ -22014,6 +22014,27 @@
         "AR-824",
         "AR-560"
       ]
+    },
+    {
+      "id": "AR-1012",
+      "stato": "aperto",
+      "gravita": "minore",
+      "dimensione": "rischio-sicurezza-se",
+      "area": "macchina",
+      "nato": "2026-10-25 15:44",
+      "nato_come": "scoperta",
+      "trovato_da": "Terzo collaudo indipendente del lotto sui numeri delle card (PR 890), il 25/10.",
+      "titolo": "Il freno sui numeri delle card guarda le scritture con Edit e Write, non quelle da Bash: una card scritta con un comando può ancora riusare un numero già speso",
+      "sintomo": "mano-fermata.mjs è agganciato a PreToolUse su Edit|Write|MultiEdit. Se l'AD scrive nella coda con un comando (un heredoc in python, sed, un echo), la scrittura non passa dal freno: una card col numero di una card archiviata entra lo stesso. Nella sessione del 25/10 l'AD ha scritto nella coda con Bash 4 volte su 7.",
+      "causa_radice": "Il freno vede il testo che sta per entrare solo negli strumenti di scrittura; un comando Bash è opaco: non si sa prima cosa scriverà. Lo stesso vale per un motore che non è Claude Code (Cursor), dove gli hook non girano.",
+      "fix_proposto": "🟡 Un controllo DOPO ogni comando Bash (PostToolUse) che riconta i numeri di coda + archivio con contaNumeri di pausa-coda.mjs e, se un numero compare due volte, lo dice subito all'AD col numero libero. Intanto la riga nel contesto dice che il freno vale solo per Edit/Write, e la prova sul file vero in CI (carte-numerate) ferma un doppione prima dell'unione.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Chiuso quando una scrittura della coda fatta da Bash con un numero già speso viene segnalata all'AD nello stesso turno, con una prova che la esegue."
+      },
+      "dove": "cervello/mano-fermata.mjs (hook PreToolUse Edit|Write|MultiEdit) · scritture di MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md fatte da Bash",
+      "impatto_crescita": "basso",
+      "impatto_crescita_nota": "Un doppione fa aprire a Nicola la card sbagliata con «ok N». Oggi lo prendono il numero nel contesto, il comando prossima-card e la prova in CI; resta scoperta la finestra fra una scrittura da Bash e la CI."
     }
   ],
   "meta": {

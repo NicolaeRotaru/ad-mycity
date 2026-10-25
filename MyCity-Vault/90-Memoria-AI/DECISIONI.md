@@ -5705,3 +5705,15 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Colore.** 🟡: è codice del sito su un ramo, non va online finché Nicola non unisce. Niente database, niente chiavi.
 
 **Chiude** la scheda 1360 della radiografia del marketplace, quando Nicola unisce.
+
+## 2026-10-25 15:58 — 🟡 Il numero di una card chiusa resta speso, e un numero già usato si ferma prima di arrivare sul disco (PR 890)
+
+**Cosa.** Dopo il «ok 130» la card più alta in coda era la 210, ma la 211 era già stata usata e archiviata. Chi contava dalla coda scriveva 211 un'altra volta: con «ok 211» Nicola avrebbe potuto approvare la card sbagliata. La causa: dal 23/8 le card chiuse vivono in un file a parte, e chi sceglieva il numero guardava solo la coda. Adesso il numero si conta su coda e archivio insieme, in un punto solo (`contaNumeri` in `pausa-coda.mjs`), per i tre scrittori automatici e per l'AD che scrive a mano.
+
+**Le porte chiuse.** Il worker, il giro e il ritmo mettono nel prompt la riga «Numero per una card NUOVA: adesso è #N», con lo stesso testo per tutti e tre. Chi la scrive a mano ha il comando `prossima-card.mjs`. E un freno (`mano-fermata.mjs`, agganciato prima di ogni Edit e Write) ferma la scrittura di un numero già speso, nella coda o nell'archivio, o scritto due volte nello stesso testo.
+
+**Come è stato controllato.** Tre giri di collaudo indipendente. Il primo e il secondo hanno chiesto correzioni. Il terzo ha trovato 13 difetti minori e nessun grave: sono tutti corretti, quindi il freno resta agganciato. Le 31 mutazioni del lotto diventano tutte rosse.
+
+**Cosa resta scoperto, dichiarato.** Una card scritta da un comando Bash, o da un motore che non è Claude Code, non passa dal freno (AR-1012). La prova in CI sulla coda vera ferma comunque un doppione prima dell'unione. Dodici guardiani hanno ancora il vecchio controllo d'avvio, quello che restava muto passando da un collegamento simbolico (AR-965).
+
+**Colore.** 🟡: è codice della macchina su un ramo, l'unione è di Nicola.
