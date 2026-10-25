@@ -180,6 +180,27 @@ export function leggiCard(testoFile) {
   });
 }
 
+// Le due forme di una card, in UN posto solo: le usano chi dà il numero (prossimoNumero) e il freno
+// sulla scrittura (mano-fermata). Larghe come le legge il Pannello: un titolo che il Pannello mostra
+// come «#211» e qui non si contava era un doppione possibile (collaudo del 25/10).
+//  · titolo: «##» o «###», emoji facoltativa, «#N», trattino anche senza spazio prima;
+//  · riga-tabella: «| N | AAAA-MM-GG …» — la data in seconda colonna la distingue da una tabella di
+//    passi numerati nel corpo di una card, che non è una card (e faceva rifiutare card legittime).
+// Al massimo sei cifre: un numero di card vero ne ha tre. Un codice di 22 cifre in prima colonna
+// diventava 1.2e+21, la card scritta con quel numero non si riconosceva più, e il prossimo numero
+// tornava uguale all'infinito.
+const TITOLO_CARD = /^#{2,3}\s+(?:\S+\s+)?#(\d{1,6})\s*[—–-]/gmu;
+const RIGA_CARD = /^\|\s*(\d{1,6})\s*\|\s*\d{4}-\d{2}-\d{2}/gm;
+
+/** Quante volte compare ogni numero di card nel testo (le ripetizioni contano: servono al freno). */
+export function contaNumeri(testo) {
+  const conti = new Map();
+  for (const forma of [TITOLO_CARD, RIGA_CARD]) {
+    for (const m of String(testo || "").matchAll(forma)) conti.set(Number(m[1]), (conti.get(Number(m[1])) || 0) + 1);
+  }
+  return conti;
+}
+
 /**
  * Tutti i numeri di card già usati nella coda, in un posto solo.
  *
@@ -189,13 +210,8 @@ export function leggiCard(testoFile) {
  */
 export function numeriUsati(testoFile, ...altreCase) {
   const numeri = new Set();
-  // Al massimo sei cifre: un numero di card vero ne ha tre. Una tabella nel corpo di una card con
-  // un codice lungo in prima colonna diventava un numero in virgola mobile («1.2e+21»), la card scritta
-  // con quel numero non si riconosceva più, e il prossimo numero tornava uguale all'infinito.
   for (const pezzo of [testoFile, ...altreCase]) {
-    const testo = String(pezzo || "");
-    for (const m of testo.matchAll(/^###\s+\S+\s+#(\d{1,6})\s+[—–-]\s/gmu)) numeri.add(Number(m[1]));
-    for (const m of testo.matchAll(/^\|\s*(\d{1,6})\s*\|/gm)) numeri.add(Number(m[1]));
+    for (const n of contaNumeri(pezzo).keys()) numeri.add(n);
   }
   return numeri;
 }

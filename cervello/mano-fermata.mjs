@@ -41,12 +41,12 @@
 //    QUALSIASI errore interno lascia passare: un freno rotto che blocca ogni scrittura è il modo
 //    più veloce di farsi spegnere — fail-open dichiarato, il sorvegliante a valle guarda comunque.
 
-import { readFileSync } from "node:fs";
-import { dirname, isAbsolute, join, relative } from "node:path";
+import { readFileSync, realpathSync } from "node:fs";
+import { basename, dirname, isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { righeDiFileNuovo, sorveglia } from "./sorvegliante.mjs";
 import { annota, chiudi } from "./libro-mastro.mjs";
-import { numeriUsati, prossimoNumero } from "./pausa-coda.mjs";
+import { contaNumeri, prossimoNumero } from "./pausa-coda.mjs";
 import { CODA, testoArchivioDi } from "./coda-e-archivio.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -111,53 +111,81 @@ export function testoInArrivo(toolInput = {}) {
  * sul codice `git-pr.mjs --accoda` scrive la card di merge col #212, e subito dopo l'AD scriveva la
  * sua col #212 preso dal contesto. Qui la scrittura si ferma PRIMA, qualunque sia la porta.
  *
- * Contano solo i numeri NUOVI: quelli nel testo che arriva e non in quello che sostituisce. Segnare
- * «### ✅ #211» al posto di «### 🟡 #211» riscrive una card che c'è, non ne crea un'altra.
- * Per un Write del file intero, il confronto è col file com'era. Torna i numeri già spesi.
+ * Si guarda il FILE DOPO la scrittura, non le singole modifiche: si applicano le modifiche alla coda
+ * di adesso e si conta quante volte compare ogni numero, prima e dopo. Il collaudo del 25/10 ha
+ * bocciato il confronto modifica per modifica: un'ancora presa proprio sulla card che ha già il
+ * numero lo lasciava passare, e lo spostamento di una card con MultiEdit veniva rifiutato.
+ * Un numero che compare PIÙ volte di prima è speso se sta in archivio, o se dopo c'è due volte.
+ * Segnare «### ✅ #211» al posto di «### 🟡 #211» lascia il conto uguale: passa.
+ *
+ * Torna `[{ n, perche }]`, con perche = "archivio" · "coda" (c'era già) · "doppio" (due volte nel
+ * testo nuovo). Un Edit il cui testo da sostituire non c'è fallirà da solo: qui passa.
  */
-export function numeriGiaSpesi({ toolInput = {}, testoCoda = "", testoArchivio = "" } = {}) {
-  const coppie = typeof toolInput.content === "string"
-    ? [[testoCoda, toolInput.content]]
-    : Array.isArray(toolInput.edits)
-      ? toolInput.edits.map((e) => [e?.old_string ?? "", e?.new_string ?? ""])
-      : typeof toolInput.new_string === "string" ? [[toolInput.old_string ?? "", toolInput.new_string]] : [];
-  const usati = numeriUsati(testoCoda, testoArchivio);
-  const spesi = new Set();
-  for (const [prima, dopo] of coppie) {
-    const vecchi = numeriUsati(prima);
-    const contati = new Map();
-    for (const n of numeriTuttiDi(dopo)) contati.set(n, (contati.get(n) || 0) + 1);
-    for (const [n, volte] of contati) {
-      if (vecchi.has(n)) continue;
-      // Nuovo nel testo: è speso se c'è già in coda o in archivio, o se il testo lo usa due volte.
-      // Per un Write, «già in coda» vuol dire nel file di prima: lì `vecchi` l'ha già escluso.
-      const giaInCasa = typeof toolInput.content === "string" ? numeriUsati(testoArchivio).has(n) : usati.has(n);
-      if (giaInCasa || volte > 1) spesi.add(n);
+export function esameNumeri({ toolInput = {}, testoCoda = "", testoArchivio = "" } = {}) {
+  let dopo = String(testoCoda);
+  if (typeof toolInput.content === "string") {
+    dopo = toolInput.content;
+  } else {
+    const modifiche = Array.isArray(toolInput.edits) ? toolInput.edits : [toolInput];
+    for (const m of modifiche) {
+      if (typeof m?.new_string !== "string" || typeof m?.old_string !== "string") continue;
+      if (!dopo.includes(m.old_string)) return [];
+      dopo = m.replace_all ? dopo.split(m.old_string).join(m.new_string) : dopo.replace(m.old_string, () => m.new_string);
     }
   }
-  return [...spesi].sort((a, b) => a - b);
+  const prima = contaNumeri(testoCoda);
+  const poi = contaNumeri(dopo);
+  const archivio = contaNumeri(testoArchivio);
+  const esito = [];
+  for (const [n, volte] of poi) {
+    if (volte <= (prima.get(n) || 0)) continue;
+    if (archivio.has(n)) esito.push({ n, perche: "archivio" });
+    else if (volte > 1) esito.push({ n, perche: (prima.get(n) || 0) > 0 ? "coda" : "doppio" });
+  }
+  return esito.sort((a, b) => a.n - b.n);
 }
 
-/** Ogni numero di card nel testo, ripetizioni comprese (numeriUsati le fonde). */
-function numeriTuttiDi(testo) {
-  const t = String(testo || "");
-  const out = [];
-  for (const m of t.matchAll(/^###\s+\S+\s+#(\d{1,6})\s+[—–-]\s/gmu)) out.push(Number(m[1]));
-  for (const m of t.matchAll(/^\|\s*(\d{1,6})\s*\|/gm)) out.push(Number(m[1]));
-  return out;
+/** I soli numeri già spesi, in ordine. */
+export function numeriGiaSpesi(opzioni = {}) {
+  return esameNumeri(opzioni).map((x) => x.n);
 }
 
-/** La busta che rifiuta una card col numero già speso, col numero giusto davanti agli occhi. */
-export function bustaNumeroSpeso(spesi = [], prossimo = null) {
-  if (!spesi.length) return null;
-  const elenco = spesi.map((n) => `#${n}`).join(", ");
+/** La busta che rifiuta una card col numero già speso, col motivo giusto e il numero libero davanti agli occhi. */
+export function bustaNumeroSpeso(esito = [], prossimo = null) {
+  if (!esito.length) return null;
+  const DOVE = {
+    archivio: "è già di una card chiusa, nell'archivio",
+    coda: "c'è già in coda, su un'altra card",
+    doppio: "compare due volte in questa stessa scrittura",
+  };
+  const righe = esito.map(({ n, perche }) => `· #${n} ${DOVE[perche] || "è già speso"}`);
+  const doppi = esito.some((x) => x.perche === "doppio");
+  const libero = prossimo ? `il primo numero libero adesso è #${prossimo}${doppi ? ` (per due card nuove: #${prossimo} e #${prossimo + 1})` : ""}` : "il numero libero non l'ho potuto calcolare";
   const testo =
-    `🖐️ MANO FERMATA — non ho scritto nella coda: ${elenco} ${spesi.length > 1 ? "sono già di altre card" : "è già di un'altra card"} (in coda o nell'archivio delle card chiuse).\n` +
-    `«ok ${spesi[0]}» avrebbe avuto due risposte, e il Pannello avrebbe aperto la card sbagliata.\n` +
-    `→ ${prossimo ? `il primo numero libero adesso è #${prossimo}` : "il numero libero non l'ho potuto calcolare"}: rilancia node cervello/prossima-card.mjs subito prima di ogni card nuova.`;
+    `🖐️ MANO FERMATA — non ho scritto nella coda: un numero di card sarebbe valso due card.\n` +
+    righe.join("\n") +
+    `\n«ok ${esito[0].n}» avrebbe avuto due risposte, e il Pannello avrebbe aperto la card sbagliata.\n` +
+    `→ ${libero}: rilancia node cervello/prossima-card.mjs subito prima di ogni card nuova.`;
   return JSON.stringify({
     hookSpecificOutput: { hookEventName: "PreToolUse", permissionDecision: "deny", permissionDecisionReason: testo },
   });
+}
+
+/** Vero se i due percorsi sono lo stesso file, anche passando da un collegamento simbolico o con
+ *  spazi nel nome. Per un file che non c'è ancora si confronta la cartella reale più il nome. */
+function stessoFile(a, b) {
+  const reale = (p) => {
+    try {
+      return realpathSync(p);
+    } catch {
+      try {
+        return join(realpathSync(dirname(p)), basename(p));
+      } catch {
+        return p;
+      }
+    }
+  };
+  return reale(a) === reale(b);
 }
 
 /**
@@ -261,21 +289,28 @@ async function main() {
       chiudi(mastro, "ok", "nessun testo da guardare in questa scrittura");
       process.exit(0);
     }
+    // La coda delle card: un numero già speso non si scrive (vedi esameNumeri). Si riconosce PRIMA
+    // del controllo «fuori dalla casa»: raggiunta da un collegamento simbolico, la coda sembrerebbe fuori.
+    // In un try suo: se l'archivio non si legge, il controllo dei numeri è cieco e lo dice il libro
+    // mastro — ma quello delle malattie, più sotto, gira comunque.
+    if (stessoFile(isAbsolute(assoluto) ? assoluto : join(REPO, assoluto), CODA)) {
+      try {
+        const testoCoda = readFileSync(CODA, "utf8");
+        const testoArchivio = testoArchivioDi(CODA);
+        const esito = esameNumeri({ toolInput: ev?.tool_input || {}, testoCoda, testoArchivio });
+        if (esito.length) {
+          process.stdout.write(bustaNumeroSpeso(esito, prossimoNumero(testoCoda, testoArchivio)));
+          chiudi(mastro, "nega", `numero di card già speso: ${esito.map((x) => `${x.n} (${x.perche})`).join(", ")}`);
+          process.exit(0);
+        }
+      } catch (e) {
+        annota({ guardia: "mano-fermata", evento: "PreToolUse", strumento: "numeri-card", bersaglio: `cieco: ${e?.code ?? e?.message}` });
+      }
+    }
     const file = isAbsolute(assoluto) ? relative(REPO, assoluto) : assoluto;
     if (file.startsWith("..")) {
       chiudi(mastro, "ok", "fuori dalla casa: non è giurisdizione di questo freno");
       process.exit(0); // fuori dalla casa: non è giurisdizione di questo freno
-    }
-    // La coda delle card: un numero già speso non si scrive (vedi numeriGiaSpesi).
-    if (assoluto === CODA || join(REPO, file) === CODA) {
-      const testoCoda = readFileSync(CODA, "utf8");
-      const testoArchivio = testoArchivioDi(CODA);
-      const spesi = numeriGiaSpesi({ toolInput: ev?.tool_input || {}, testoCoda, testoArchivio });
-      if (spesi.length) {
-        process.stdout.write(bustaNumeroSpeso(spesi, prossimoNumero(testoCoda, testoArchivio)));
-        chiudi(mastro, "nega", `numero di card già speso: ${spesi.join(", ")}`);
-        process.exit(0);
-      }
     }
     const voci = giudizioScrittura({ file, testo, malattie: leggiMalattie() });
     const busta = bustaManoFermata(voci, file);

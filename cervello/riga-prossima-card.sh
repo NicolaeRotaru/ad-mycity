@@ -21,7 +21,7 @@ riga_prossima_card() {
   [ -f "$coda" ] || return 0
   n="$(timeout 10s node "$dir/prossima-card.mjs" --coda "$coda" 2>/dev/null)" || n=""
   if [ -n "$n" ]; then
-    printf '%s' "- Numero per una card NUOVA: adesso è #$n (il più alto mai usato + 1, contando anche l'archivio delle card chiuse). È una fotografia: subito prima di scrivere OGNI card, anche la prima e dopo ogni git-pr.mjs --accoda, rilancia node cervello/prossima-card.mjs. Un numero già speso viene rifiutato."
+    printf '%s' "- Numero per una card NUOVA: adesso è #$n (il più alto mai usato + 1, contando anche l'archivio delle card chiuse). È una fotografia: subito prima di scrivere OGNI card, anche la prima e dopo ogni git-pr.mjs --accoda, rilancia node cervello/prossima-card.mjs. Con Claude Code, una scrittura con Edit o Write che usa un numero già speso viene fermata; da Bash, o con un altro motore, no."
   else
     printf '%s' "- Numero per una card NUOVA: NON LETTO — prima di accodare lancia node cervello/prossima-card.mjs (conta anche l'archivio)."
   fi

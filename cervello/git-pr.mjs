@@ -713,13 +713,13 @@ async function main() {
 
   const dryRun = Boolean(args["dry-run"]);
   const accoda = Boolean(args.accoda);
-  // Con --accoda serve l'archivio delle card, per il numero della card di merge: si legge PRIMA di
-  // toccare git o GitHub. Illeggibile, ci si ferma qui (cieco, 2) — non dopo aver aperto una PR che
-  // resterebbe senza card (collaudo del 25/10).
-  let archivioCard;
+  // Con --accoda serve l'archivio delle card, per il numero della card di merge: si prova a leggerlo
+  // PRIMA di toccare git o GitHub. Illeggibile, ci si ferma qui (cieco, 2) — non dopo aver aperto una
+  // PR che resterebbe senza card (collaudo del 25/10). Il numero poi si calcola rileggendolo al momento
+  // di scrivere: fra push e PR la pulizia può aver archiviato la card più alta.
   if (accoda) {
     try {
-      archivioCard = testoArchivioDi(AZIONI_PATH);
+      testoArchivioDi(AZIONI_PATH);
     } catch (e) {
       console.error(`⚪ CIECO: l'archivio delle card non si legge (${e?.code ?? e?.message}) — con --accoda non apro la PR senza sapere quale numero dare alla card di merge.`);
       process.exit(2);
@@ -975,7 +975,6 @@ async function main() {
       branch,
       title,
       dryRun,
-      archivio: archivioCard,
     });
   }
 

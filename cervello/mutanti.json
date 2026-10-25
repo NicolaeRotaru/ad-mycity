@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-25 15:55",
+ "aggiornato": "2026-10-25 16:40",
  "mutanti": [
   {
    "lotto": 30,
@@ -4922,8 +4922,8 @@
    "difetto": "AR-751",
    "nome": "chi dà il numero alla prossima card torna a non vedere l'archivio: propone un numero già speso e nessuno se ne accorge finché non è su disco",
    "file": "cervello/pausa-coda.mjs",
-   "cerca": "    for (const m of testo.matchAll(/^\\|\\s*(\\d{1,6})\\s*\\|/gm)) numeri.add(Number(m[1]));",
-   "sostituisci": "",
+   "cerca": "const RIGA_CARD = /^\\|\\s*(\\d{1,6})\\s*\\|\\s*\\d{4}-\\d{2}-\\d{2}/gm;",
+   "sostituisci": "const RIGA_CARD = /(?!)/gm;",
    "test": "cervello/test/numero-di-card-gia-speso.test.mjs",
    "nota_riaggancio": "Se questa riga cambia forma, il mutante va riscritto sulla riga nuova, non tolto: la cosa da rompere è che `numeriUsati` legga ANCHE le righe-tabella dell'archivio. Tolta quella lettura, il prossimo numero torna a uscire da soli i titoli in attesa — che il 16/8 valeva 82 su una coda dove 82 era già di un'altra card."
   },
@@ -10570,7 +10570,7 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "il freno prima della scrittura non guarda la coda",
    "file": "cervello/mano-fermata.mjs",
-   "cerca": "    if (assoluto === CODA || join(REPO, file) === CODA) {",
+   "cerca": "    if (stessoFile(isAbsolute(assoluto) ? assoluto : join(REPO, assoluto), CODA)) {",
    "sostituisci": "    if (false) {",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
@@ -10579,7 +10579,7 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "riscrivere una card che c'è conta come una card nuova",
    "file": "cervello/mano-fermata.mjs",
-   "cerca": "      if (vecchi.has(n)) continue;\n",
+   "cerca": "    if (volte <= (prima.get(n) || 0)) continue;\n",
    "sostituisci": "",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
@@ -10588,8 +10588,8 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "lo stesso numero due volte nello stesso testo passa",
    "file": "cervello/mano-fermata.mjs",
-   "cerca": "      if (giaInCasa || volte > 1) spesi.add(n);",
-   "sostituisci": "      if (giaInCasa) spesi.add(n);",
+   "cerca": "    else if (volte > 1) esito.push({ n, perche: (prima.get(n) || 0) > 0 ? \"coda\" : \"doppio\" });\n",
+   "sostituisci": "",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
   {
@@ -10597,8 +10597,8 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "un codice lungo in tabella diventa un numero di card",
    "file": "cervello/pausa-coda.mjs",
-   "cerca": "    for (const m of testo.matchAll(/^\\|\\s*(\\d{1,6})\\s*\\|/gm)) numeri.add(Number(m[1]));",
-   "sostituisci": "    for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gm)) numeri.add(Number(m[1]));",
+   "cerca": "const RIGA_CARD = /^\\|\\s*(\\d{1,6})\\s*\\|\\s*\\d{4}-\\d{2}-\\d{2}/gm;",
+   "sostituisci": "const RIGA_CARD = /^\\|\\s*(\\d+)\\s*\\|\\s*\\d{4}-\\d{2}-\\d{2}/gm;",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
   {
@@ -10633,8 +10633,8 @@
    "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
    "nome": "git-pr apre la PR senza aver letto l'archivio delle card",
    "file": "cervello/git-pr.mjs",
-   "cerca": "  if (accoda) {\n    try {\n      archivioCard = testoArchivioDi(AZIONI_PATH);",
-   "sostituisci": "  if (false) {\n    try {\n      archivioCard = testoArchivioDi(AZIONI_PATH);",
+   "cerca": "  if (accoda) {\n    try {\n      testoArchivioDi(AZIONI_PATH);",
+   "sostituisci": "  if (false) {\n    try {\n      testoArchivioDi(AZIONI_PATH);",
    "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   },
   {
@@ -10663,6 +10663,42 @@
    "cerca": "  _riga_card=\"$(riga_prossima_card \"$SCRIPT_DIR\")\"\n",
    "sostituisci": "  _riga_card=\"\"\n",
    "test": "cervello/test/il-numero-della-card-nuova-arriva-all-ad.bats"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "il freno confronta solo il testo nuovo e non il file dopo la scrittura",
+   "file": "cervello/mano-fermata.mjs",
+   "cerca": "      dopo = m.replace_all ? dopo.split(m.old_string).join(m.new_string) : dopo.replace(m.old_string, () => m.new_string);",
+   "sostituisci": "      dopo = dopo + m.new_string;",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "i titoli larghi che il Pannello legge come card non si contano",
+   "file": "cervello/pausa-coda.mjs",
+   "cerca": "const TITOLO_CARD = /^#{2,3}\\s+(?:\\S+\\s+)?#(\\d{1,6})\\s*[—–-]/gmu;",
+   "sostituisci": "const TITOLO_CARD = /^###\\s+\\S+\\s+#(\\d{1,6})\\s+[—–-]\\s/gmu;",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "una tabella di passi numerati conta come card",
+   "file": "cervello/pausa-coda.mjs",
+   "cerca": "const RIGA_CARD = /^\\|\\s*(\\d{1,6})\\s*\\|\\s*\\d{4}-\\d{2}-\\d{2}/gm;",
+   "sostituisci": "const RIGA_CARD = /^\\|\\s*(\\d{1,6})\\s*\\|/gm;",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
+  },
+  {
+   "lotto": "archivio-numeri",
+   "difetto": "AR-751/AR-779 ricaduti: il numero della card ignorava l'archivio in un file suo (25/10, «ok 130»)",
+   "nome": "la coda raggiunta da un collegamento simbolico non viene riconosciuta",
+   "file": "cervello/mano-fermata.mjs",
+   "cerca": "      return realpathSync(p);\n",
+   "sostituisci": "      return p;\n",
+   "test": "cervello/test/il-numero-di-una-card-archiviata-resta-speso.test.mjs"
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

@@ -275,47 +275,78 @@ test("⑨ con l'archivio illeggibile i due guardiani escono ciechi (2) e non toc
 // interattive, che quella riga non la ricevono. Il freno vero sta un passo prima della scrittura:
 // qualunque porta, un numero già speso non entra in coda.
 
-test("⑩ la regola: un numero NUOVO già speso si ferma; riscrivere una card che c'è passa", async () => {
-  const { numeriGiaSpesi } = await import("../mano-fermata.mjs");
-  const coda = "### 🟡 #210 — a · ⏳ accodata 2026-10-21 10:00\n";
+test("⑩ la regola guarda il FILE DOPO la scrittura: ferma i doppioni, lascia passare i gesti normali", async () => {
+  const { esameNumeri } = await import("../mano-fermata.mjs");
+  const coda = "### 🟡 #210 — a · ⏳ accodata 2026-10-21 10:00\n\ncorpo\n";
   const arch = "### ✅ #211 — b · ⏳ accodata 2026-10-24 18:00\n";
-  const card = (n) => `### 🟡 #${n} — nuova · ⏳ accodata 2026-10-25 14:00\n`;
-  const edit = (nuovo, vecchio = "x") => ({ old_string: vecchio, new_string: nuovo });
-  assert.deepEqual(numeriGiaSpesi({ toolInput: edit(card(211)), testoCoda: coda, testoArchivio: arch }), [211], "il 211 è dell'archivio");
-  assert.deepEqual(numeriGiaSpesi({ toolInput: edit(card(212)), testoCoda: coda, testoArchivio: arch }), []);
-  assert.deepEqual(numeriGiaSpesi({ toolInput: edit("### ✅ #210 — a", "### 🟡 #210 — a"), testoCoda: coda, testoArchivio: arch }), [], "segnare fatta una card che c'è non è una card nuova");
+  const card = (n, pre = "### 🟡") => `${pre} #${n} — nuova · ⏳ accodata 2026-10-25 14:00\n`;
+  const esame = (toolInput, testoCoda = coda) => esameNumeri({ toolInput, testoCoda, testoArchivio: arch });
+  const inCima = (testo) => ({ old_string: "### 🟡 #210", new_string: testo + "### 🟡 #210" });
+  assert.deepEqual(esame(inCima(card(211))), [{ n: 211, perche: "archivio" }], "il 211 è dell'archivio");
+  assert.deepEqual(esame(inCima(card(212))), []);
+  assert.deepEqual(esame({ old_string: "### 🟡 #210", new_string: "### ✅ #210" }), [], "segnare fatta una card che c'è non è una card nuova");
+  // Il caso che il primo freno lasciava passare: l'ancora è PROPRIO la card che ha già il numero.
+  assert.deepEqual(esame({ old_string: "### 🟡 #210 — a", new_string: "### 🟡 #210 — a\n" + card(210) }), [{ n: 210, perche: "coda" }]);
   const dopoIlMerge = coda + "| 212 | 2026-10-25 14:00 | @tech | Merge PR #999 ad-mycity → main | 🔴 |\n";
-  assert.deepEqual(numeriGiaSpesi({ toolInput: edit(card(212)), testoCoda: dopoIlMerge, testoArchivio: arch }), [212], "la card di merge ha appena preso il 212");
-  assert.deepEqual(numeriGiaSpesi({ toolInput: { content: coda + card(212) }, testoCoda: coda, testoArchivio: arch }), []);
-  assert.deepEqual(numeriGiaSpesi({ toolInput: { content: coda + card(211) }, testoCoda: coda, testoArchivio: arch }), [211]);
-  assert.deepEqual(numeriGiaSpesi({ toolInput: { content: coda + card(213) + card(213) }, testoCoda: coda, testoArchivio: arch }), [213], "lo stesso numero due volte nello stesso testo");
+  assert.deepEqual(esame({ old_string: "| 212 | 2026-10-25 14:00 |", new_string: "| 212 | 2026-10-25 14:05 | @ad | Card dell'AD | 🟡 |\n| 212 | 2026-10-25 14:00 |" }, dopoIlMerge), [{ n: 212, perche: "coda" }], "agganciata alla riga di merge col 212");
+  assert.deepEqual(esame(inCima(card(213) + card(213))), [{ n: 213, perche: "doppio" }], "lo stesso numero due volte nello stesso testo");
+  // Spostare una card con MultiEdit (toglierla e rimetterla in cima) non crea un numero nuovo.
+  const conLa192 = coda + "### 🟡 #192 — x · ⏳ accodata 2026-09-01 10:00\nbody\n";
+  const blocco192 = "### 🟡 #192 — x · ⏳ accodata 2026-09-01 10:00\nbody\n";
+  assert.deepEqual(esame({ edits: [{ old_string: blocco192, new_string: "" }, inCima(blocco192)] }, conLa192), [], "uno spostamento non è un doppione");
+  // Un doppione vecchio, già sul disco, non blocca chi tocca quella card senza aggiungerne un altro.
+  const conDoppioneVecchio = coda + "### 🟡 #210 — copia vecchia · ⏳ accodata 2026-10-21 11:00\n";
+  assert.deepEqual(esame({ old_string: "### 🟡 #210 — copia vecchia", new_string: "### ✅ #210 — copia vecchia" }, conDoppioneVecchio), []);
+  // Le forme che il Pannello legge come card: «##», senza emoji, senza spazio prima del trattino.
+  assert.deepEqual(esame(inCima("## 🟡 #211 — x · ⏳ accodata 2026-10-25 14:00\n")), [{ n: 211, perche: "archivio" }]);
+  assert.deepEqual(esame(inCima("### #211 — x · ⏳ accodata 2026-10-25 14:00\n")), [{ n: 211, perche: "archivio" }]);
+  assert.deepEqual(esame(inCima("### 🟡 #211— x · ⏳ accodata 2026-10-25 14:00\n")), [{ n: 211, perche: "archivio" }]);
+  // Una tabella di passi numerati nel corpo non è una card: niente data in seconda colonna.
+  assert.deepEqual(esame(inCima(card(212) + "| # | Passo |\n| --- | --- |\n| 1 | Apri il Pannello |\n| 210 | Chiudi |\n")), []);
 });
 
 function manoFermata(evento) {
   return spawnSync("node", [join(REPO, "cervello/mano-fermata.mjs"), "--hook"], { cwd: REPO, encoding: "utf8", input: JSON.stringify(evento) });
 }
 
-test("⑪ l'hook vero, sulla coda vera: rifiuta il numero più alto dell'archivio, lascia passare quello libero", () => {
+test("⑪ l'hook vero, sulla coda vera: ferma il numero dell'archivio in ogni forma, lascia passare quello libero", () => {
   // Sola lettura sulla coda e sull'archivio veri; il registro dell'hook è un file _tmp_ escluso da git.
   const coda = join(REPO, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+  const testoCoda = readFileSync(coda, "utf8");
   const archivio = testoArchivioDi(coda);
   const alto = Math.max(...numeriUsati(archivio));
   const libero = prossimaCard(coda);
-  const scrivi = (n) => ({ tool_name: "Edit", tool_input: { file_path: coda, old_string: "segnaposto", new_string: `### 🟡 #${n} — prova · ⏳ accodata 2026-10-25 14:00\n` } });
-  const no = manoFermata(scrivi(alto));
-  assert.equal(no.status, 0);
-  const busta = JSON.parse(no.stdout || "{}");
-  assert.equal(busta.hookSpecificOutput?.permissionDecision, "deny", `il #${alto} è dell'archivio: la scrittura doveva fermarsi`);
-  assert.match(busta.hookSpecificOutput.permissionDecisionReason, new RegExp(`#${libero}\\b`), "il rifiuto deve dire il numero libero");
-  const si = manoFermata(scrivi(libero));
+  // Un'ancora vera: la prima riga della coda, che c'è di sicuro.
+  const ancora = testoCoda.split("\n")[0];
+  const titolo = (n) => `### 🟡 #${n} — prova · ⏳ accodata 2026-10-25 14:00\n`;
+  const riga = (n) => `| ${n} | 2026-10-25 14:00 | @tech | prova | 🟡 |\n`;
+  const nega = (evento, perche) => {
+    const r = manoFermata(evento);
+    assert.equal(r.status, 0);
+    const busta = JSON.parse(r.stdout || "{}");
+    assert.equal(busta.hookSpecificOutput?.permissionDecision, "deny", perche);
+    assert.match(busta.hookSpecificOutput.permissionDecisionReason, new RegExp(`#${libero}\\b`), "il rifiuto deve dire il numero libero");
+  };
+  const edit = (file_path, new_string) => ({ tool_name: "Edit", tool_input: { file_path, old_string: ancora, new_string: ancora + "\n" + new_string } });
+  nega(edit(coda, titolo(alto)), `il #${alto} è dell'archivio: la scrittura doveva fermarsi`);
+  nega(edit(coda, riga(alto)), "anche scritta come riga di tabella");
+  nega({ tool_name: "MultiEdit", tool_input: { file_path: coda, edits: [{ old_string: ancora, new_string: ancora + "\n" + titolo(alto) }] } }, "anche con MultiEdit");
+  const dir = mkdtempSync(join(tmpdir(), "mycity-coda-collegata-"));
+  try {
+    symlinkSync(REPO, join(dir, "repo"));
+    nega(edit(join(dir, "repo", "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), titolo(alto)), "anche se la coda si raggiunge da un collegamento simbolico");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+  const si = manoFermata(edit(coda, titolo(libero)));
   assert.equal(si.status, 0);
   assert.equal(si.stdout.trim(), "", `il #${libero} è libero: la scrittura doveva passare`);
-  const altrove = manoFermata({ tool_name: "Edit", tool_input: { file_path: join(REPO, "cervello/azioni.md"), old_string: "x", new_string: `### 🟡 #${alto} — un esempio · ⏳ accodata 2026-10-25 14:00\n` } });
+  const altrove = manoFermata(edit(join(REPO, "cervello/azioni.md"), titolo(alto)));
   assert.equal(altrove.stdout.trim(), "", "fuori dalla coda il freno sui numeri non si applica");
 });
 
-test("⑫ un codice lungo in una tabella non diventa un numero di card", () => {
-  const coda = "### 🟡 #210 — a · ⏳ accodata 2026-10-21 10:00\n| 1234567890123456789012 | 12 € |\n";
+test("⑫ un codice lungo in una riga di tabella non diventa un numero di card", () => {
+  const coda = "### 🟡 #210 — a · ⏳ accodata 2026-10-21 10:00\n| 1234567890123456789012 | 2026-10-25 10:00 | @tech | x | 🟡 |\n";
   assert.equal(prossimoNumero(coda), 211, "un numero di 22 cifre diventava 1.2e+21 e il prossimo numero restava uguale all'infinito");
 });
 
