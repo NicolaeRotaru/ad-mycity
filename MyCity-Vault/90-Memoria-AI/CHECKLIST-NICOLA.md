@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-26 08:20
+aggiornato: 2026-10-26 09:15
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -29,7 +29,7 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 
 ## 1 · Oggi, lunedì 26/10 — due cose
 
-- [ ] 🔴 Mandami il messaggio delle firme: le 14 scelte per riparare il sito, «parti» e le risposte brevi.
+- [x] 🔴 Mandami il messaggio delle firme: le 14 scelte per riparare il sito, «parti» e le risposte brevi.
   → carte #209, #201, #212, #177, #196, #178 · 15 minuti · testo pronto nel referto.
 - [ ] 🔴 Cambia con me le chiavi del database del sito: scrivimi «inizio la 203» quando hai 45 minuti di fila.
   → carta #203 · prima la chiave pubblica nuova su Vercel per sito e Pannello, solo dopo si spegne la vecchia.

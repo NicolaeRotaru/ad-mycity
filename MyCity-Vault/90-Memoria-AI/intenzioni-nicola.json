@@ -1,16 +1,7 @@
 {
-  "data": "2026-10-26 08:30",
-  "sintesi": "Il sito ha un solo negozio vero, Pane Quotidiano, e nessun ordine pagato: l'unico ordine è del 24/6, annullato. Non prende ordini perché su Vercel manca la chiave di servizio del database. Il collo di bottiglia è un tuo messaggio solo: le 14 scelte per riparare il sito e «parti». Lo stesso giorno vanno cambiate le chiavi del database, esposte dall'11/10. In settimana: la visita a Pane Quotidiano, il commercialista per la partita IVA, il corso per il fresco e il legale. Il primo ordine vero è stimato fra il 30/10 e il 1/11, se le firme arrivano oggi.",
+  "data": "2026-10-26 09:15",
+  "sintesi": "Il sito ha un solo negozio vero, Pane Quotidiano, e nessun ordine pagato: l'unico ordine è del 24/6, annullato. Non prende ordini perché su Vercel manca la chiave di servizio del database. Le 14 scelte sono firmate dal 26/10 alle 08:55, e le squadre delle fondamenta del sito sono partite. Adesso tocca al cambio delle chiavi del database, esposte dall'11/10. In settimana: la visita a Pane Quotidiano, il commercialista per la partita IVA, il corso per il fresco e il legale. Il primo ordine vero è stimato fra il 30/10 e il 1/11.",
   "prossime_mosse": [
-    {
-      "titolo": "Mandami il messaggio delle firme: le 14 scelte per riparare il sito e «parti»",
-      "quando": "oggi, lunedì 26/10 mattina",
-      "come": "il testo pronto sta in consegne/ad/2026-10-26-lavori-di-nicola.md: lo copi, cambi quello che non ti va e me lo mandi in chat (carta #209)",
-      "priorita": "alta",
-      "ad_prepara": "con le firme faccio partire le squadre del sito col metodo nuovo delle ondate, e aggiorno il registro dei fatti dove cambia",
-      "senior": "@chief-of-staff",
-      "colore": "🔴"
-    },
     {
       "titolo": "Cambia con me le chiavi del database del sito",
       "quando": "oggi, in 45 minuti di fila",
@@ -85,6 +76,11 @@
     "Dal 15/11 all'una di notte due date scadute fanno diventare rossa ogni prova della macchina, se la riparazione non è unita prima."
   ],
   "serve_da_nicola": [
+    {
+      "ambito": "firme",
+      "cosa_manca": "Le parti del messaggio rimaste fra parentesi quadre: la casella email che leggi e l'indirizzo pubblicabile, sì o no al tipo snello, il progetto Supabase per le anteprime",
+      "domanda_per_nicola": "Qual è la casella che leggi davvero, e quale indirizzo posso pubblicare? Tipo snello e anteprime: sì o no?"
+    },
     {
       "ambito": "negozio di prova",
       "cosa_manca": "Chi ha creato il «Panificio Demo» il 5/9",

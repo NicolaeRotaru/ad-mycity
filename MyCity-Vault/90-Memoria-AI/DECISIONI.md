@@ -5739,3 +5739,22 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Cosa resta scoperto, dichiarato.** Una card scritta da un comando Bash, o da un motore che non è Claude Code, non passa dal freno (AR-1012). La prova in CI sulla coda vera ferma comunque un doppione prima dell'unione. Dodici guardiani hanno ancora il vecchio controllo d'avvio, quello che restava muto passando da un collegamento simbolico (AR-965).
 
 **Colore.** 🟡: è codice della macchina su un ramo, l'unione è di Nicola.
+
+## 2026-10-26 09:05 — 🔴 Nicola firma le 14 scelte per riparare il sito e dà il via alle squadre («ok 209, parti»)
+
+**Cosa.** Alle 08:55 circa Nicola ha mandato in chat il messaggio delle firme preparato nel referto `consegne/ad/2026-10-26-lavori-di-nicola.md`. Firmate tutte le 14 scelte della carta #209 con la raccomandazione dell'AD, più queste risposte:
+- scelta 11 con nome e telefono di chi ordina; telefono pubblico nessuno;
+- Panificio Demo da togliere prima della chiave (ok 201);
+- serratura del codice: B (#177); rilascio e copie: A; foto: A;
+- punti già regalati convertiti ai clienti veri, azzerati agli altri; novembre dei regali saltato;
+- confine di consegna 25 km (#196); attesa su Pane Quotidiano fino al 30/11;
+- preventivo RC dal broker; il negoziante lavora su WhatsApp e usa il pannello per prezzi e conti (#178 B);
+- eccezione temporanea al paletto 7 per i contanti, in attesa del legale; costi per rendere privati i repository.
+
+**Lasciati in bianco nel messaggio** (le parentesi quadre del modello): la casella email che legge e l'indirizzo pubblicabile (scelta 6), chi ha creato il Panificio Demo, sì o no al tipo snello (#212), il progetto Supabase per le anteprime, lo stato della bici. Chiesti di nuovo in chat.
+
+**Cosa ho fatto.** Registro dei fatti aggiornato e coerente (consegna.promessa, pricing.abbonamento, pricing.commissione, negozi.attesa-concordata, finanza.soglia-costi-extra; nuovi pagamenti.al-lancio, consegna.raggio, calendario.novembre-regali, prodotto.spente-al-lancio). Carte #209, #196, #178 chiuse; note su #201, #177, #212, #213. Preparato il piano delle fondamenta del sito (`consegne/audit/2026-10-26-fondamenta-sito.json`, tre pacchetti su file disgiunti) e lancio l'ondata col workflow `ondata-sito`, coi senior tech e qa e il tetto di 45 agenti.
+
+**Perché così.** «Parti» nel piano del 24/10 vuol dire le fondamenta comuni (interruttori delle funzioni spente, rilascio e prove, letture del pannello admin), prima delle ondate. Il 26 esce dal percorso del lancio con «solo contanti». Il 1123 va con la privacy della fase 2. Le falle riservate non partono da qui: il loro referto non è nel repository.
+
+**Colore.** 🔴 firmato da Nicola. L'unione delle richieste di unione del sito resta sua.
