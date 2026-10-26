@@ -1,0 +1,93 @@
+{
+  "_cosa_e": "Piano dei pacchetti delle FONDAMENTA del sito (fase 1 del piano di riparazione del 24/10), scritto a mano dall'AD dopo «ok 209, parti» di Nicola del 26/10. Tre pacchetti su file disgiunti, una sola ondata. Il 26 (controlli sui soldi della carta) non c'è: con «solo contanti» diventa una lista prima di accendere la carta. Il 1123 va con la privacy della fase 2.",
+  "data": "2026-10-26 09:15",
+  "registro": "sito",
+  "origine": "consegne/audit/2026-10-24-piano-riparazione-sito.json, piano.ordine[1]",
+  "ondate": [
+    [
+      {
+        "chiave": "lib/funzioni-al-lancio.ts",
+        "difetti": [
+          {
+            "idx": 161,
+            "chiave": "ai-endpoints|in produzione tutti i pulsanti di intelligenza artificiale del negozio rispondono «servizio non configurato», a partire dal primo prodotto"
+          },
+          {
+            "idx": 53,
+            "chiave": "privacy-legale|i buoni regalo sono in vendita senza nessuna regola nelle condizioni, e i soldi finiscono sul conto di mycity"
+          },
+          {
+            "idx": 54,
+            "chiave": "privacy-legale|la classifica degli inviti promette 100, 50 e 25 euro ai primi tre del mese, ma nessuno li paga ed è un concorso a premi mai comunicato al ministero"
+          },
+          {
+            "idx": 296,
+            "chiave": "flussi-conversione|il «drop del giorno» in home annuncia un prezzo scontato che la cassa non applica, e il codice del «negozio del mese» può non esistere"
+          },
+          {
+            "idx": 147,
+            "chiave": "deploy-sre|in produzione l'iscrizione alla newsletter va in errore, mentre la home continua a promettere 5 euro a chi si iscrive"
+          },
+          {
+            "idx": 239,
+            "chiave": "mobile-pwa|chrome non trova il file che rende mycity installabile: su android l'app non si può mettere in home"
+          },
+          {
+            "idx": 176,
+            "chiave": "pagamenti-stripe|il codice sconto di mycity lo paga il negozio: su 20 euro di pane con 5 euro di sconto incassa 13,50 invece di 18"
+          },
+          {
+            "idx": 164,
+            "chiave": "ai-endpoints|«traduci» sostituisce l'italiano invece di aggiungere una lingua, e sul catalogo intero lo cancella per tutti i clienti"
+          },
+          {
+            "idx": 112,
+            "chiave": "frontend-ux|il caricamento dei prodotti da file non legge i file salvati con excel in italiano"
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/deploy-dopo-ci.yml",
+        "difetti": [
+          {
+            "idx": 1076,
+            "chiave": "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio"
+          },
+          {
+            "idx": 1272,
+            "chiave": "deploy-sre|quando il sito appena pubblicato non risponde, il ritorno indietro va all'ultimo rilascio costruito e non a quello che usavano i clienti: può rimettere online lo stesso codice rotto, e il riepilogo dice «annullato»"
+          },
+          {
+            "idx": 423,
+            "chiave": "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti"
+          },
+          {
+            "idx": 1141,
+            "chiave": "deploy-sre|il ritorno indietro del rilascio riporta il codice ma non il database"
+          },
+          {
+            "idx": 1225,
+            "chiave": "deploy-sre|la copia del database muore per colpa delle foto, quaranta righe sopra la riga che dice che non deve succedere"
+          },
+          {
+            "idx": 25,
+            "chiave": "qa-flussi|le tre prove automatiche dell'acquisto vero sono vuote: passano in tre millesimi senza aprire niente"
+          }
+        ]
+      },
+      {
+        "chiave": "app/admin",
+        "difetti": [
+          {
+            "idx": 280,
+            "chiave": "stati-ui|nel pannello admin rimesse, bonifici, reclami, assistenza e prodotti dicono «non c'è niente» quando in realtà non sono riusciti a leggere"
+          },
+          {
+            "idx": 1394,
+            "chiave": "api-backend|tre pagine chiedono l'email dalla tabella dei profili, che non ce l'ha: i reclami e il registro dell'amministratore escono vuoti, e il controllo d'identità dice «profilo non trovato»"
+          }
+        ]
+      }
+    ]
+  ]
+}

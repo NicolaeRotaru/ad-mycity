@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-24 11:02",
+  "aggiornato": "2026-10-26 09:04",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -150,6 +150,16 @@
       ]
     },
     {
+      "id": "calendario.novembre-regali",
+      "nome": "Novembre e i regali",
+      "valore": "Novembre, il mese dei regali (carta regalo cittadina, welfare, buoni), si salta: i buoni regalo restano spenti al lancio. Vendite e marketing non propongono la carta regalo a enoteche e fiorai. Nicola, 2026-10-26.",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "cantiere.scadenza-zero",
       "nome": "Data zero del cantiere: 29 agosto 2026 (SCADUTA — oggi è il 31/8)",
       "valore": "Quattro cose entro il 29 AGOSTO 2026, corretto da Nicola il 23/8: la data detta il 22/8 era sbagliata di un mese, e «va finito tutto quello che ho detto» — nessuna delle quattro cade. Le quattro: (1) i difetti aperti della macchina (103 aperti + 10 da riverificare, letti dal cantiere il 23/8 09:05: 6 bloccanti, 45 gravi); (2) i 208 difetti aperti del design del marketplace (radiografia 22/8: 2 bloccanti, 86 gravi, 120 minori — nessun lotto ancora aperto su questi); (3) COSTRUIRE il worker per le botteghe, che non esiste (linea di ricavo #2, la macchina BOTTEGA di architettura.tre-macchine); (4) il design della parte venditore del marketplace, mai lavorato. Il conto: 311 difetti aperti + due costruzioni da zero in 7 giorni contando oggi = ~44 difetti chiusi al giorno, festivi inclusi, senza contare le due costruzioni. Il ritmo storico misurato e' 8,4/giorno.",
@@ -221,9 +231,49 @@
     {
       "id": "consegna.promessa",
       "nome": "consegna.promessa",
-      "valore": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
-      "fonte": "Nicola (chat 2026-08-21 19:15) — risposta alla card #147",
-      "aggiornato": "2026-08-21 19:18",
+      "valore": "Consegna promessa al cliente: «in giornata», con solo i 3 euro di consegna e senza la spedizione a chilometri. Firmato da Nicola il 2026-10-26 con «ok 209» (scelta 8 della carta #209). Sostituisce la promessa a minuti del 21/8, che non era mai stata mantenuta: 0 consegne.",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
+      "storia": [
+        {
+          "valore": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
+          "fino_a": "2026-10-26 09:04"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "consegna in 30-60 minuti",
+          "dal": "2026-10-26 09:04",
+          "chiusa": "2026-10-26 09:04"
+        },
+        {
+          "pattern": "consegniamo in 30-60 minuti",
+          "dal": "2026-10-26 09:04",
+          "chiusa": "2026-10-26 09:04"
+        },
+        {
+          "pattern": "Consegna promessa al cliente: 30-60",
+          "dal": "2026-10-26 09:04",
+          "chiusa": "2026-10-26 09:04"
+        },
+        {
+          "pattern": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
+          "dal": "2026-10-26 09:04",
+          "chiusa": "2026-10-26 09:04"
+        }
+      ],
+      "esenzioni": [
+        "consegne/audit/",
+        "consegne/design/",
+        "consegne/lotti/"
+      ]
+    },
+    {
+      "id": "consegna.raggio",
+      "nome": "Confine di consegna",
+      "valore": "Si consegna fino a 25 km dal negozio: Piacenza e cintura sì, Milano e Cremona no. Confermato da Nicola il 2026-10-26 (carta #196); è già il valore RAGGIO_CONSEGNA_KM del codice del sito.",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -306,10 +356,15 @@
     {
       "id": "finanza.soglia-costi-extra",
       "nome": "finanza.soglia-costi-extra",
-      "valore": "Sospesi dal calcolo costi/proiezioni finché l'utile netto mensile di MyCity non raggiunge ~5.000 €/mese: amministrazione (PEC, firma digitale, commercialista, notaio, consulente lavoro), assicurazioni RC (marketplace + consegne), iscrizione app store. Sotto soglia si attivano solo se un evento li rende obbligatori (es. bando, assunzione).",
-      "fonte": "Nicola chat Pannello 2026-07-23 17:25",
-      "aggiornato": "2026-07-23 17:26",
-      "storia": [],
+      "valore": "Sospesi dal calcolo costi/proiezioni finché l'utile netto mensile di MyCity non raggiunge ~5.000 €/mese: amministrazione (PEC, firma digitale, commercialista, notaio, consulente lavoro), assicurazioni RC (marketplace + consegne), iscrizione app store. Sotto soglia si attivano solo se un evento li rende obbligatori (es. bando, assunzione). ECCEZIONI firmate da Nicola il 2026-10-26: partita IVA e commercialista adesso (scelta 6 della #209: vendere al pubblico con una commissione è un obbligo); per l'RC delle consegne si chiede un preventivo al broker prima della prima consegna vera.",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
+      "storia": [
+        {
+          "valore": "Sospesi dal calcolo costi/proiezioni finché l'utile netto mensile di MyCity non raggiunge ~5.000 €/mese: amministrazione (PEC, firma digitale, commercialista, notaio, consulente lavoro), assicurazioni RC (marketplace + consegne), iscrizione app store. Sotto soglia si attivano solo se un evento li rende obbligatori (es. bando, assunzione).",
+          "fino_a": "2026-10-26 09:04"
+        }
+      ],
       "caccia": [],
       "esenzioni": []
     },
@@ -531,11 +586,22 @@
     {
       "id": "negozi.attesa-concordata",
       "nome": "negozi.attesa-concordata",
-      "valore": "c0b240c0-2a86-4218-9d0f-5154f08ff929 (Pane Quotidiano) — attesa concordata con Nicola, non e' churn: la sentinella negozio_fermo non deve alzare l'allarme anti-churn su questo id finche' ripresa.lavoro-operativo non e' raggiunta",
-      "fonte": "Nicola 6/7 e 23/7 (li conosce, aspettano la piattaforma); confermato ripetutamente falso positivo (esiti account-negozi 6/7, 8/7, 13/7, 15/7 e 25 registrazioni successive)",
-      "aggiornato": "2026-07-25 00:05",
-      "storia": [],
-      "caccia": [],
+      "valore": "c0b240c0-2a86-4218-9d0f-5154f08ff929 (Pane Quotidiano) — attesa concordata con Nicola, non e' churn: la sentinella negozio_fermo non deve alzare l'allarme anti-churn su questo id fino al 30/11/2026 compreso (Nicola, 2026-10-26: «Attesa su Pane Quotidiano: fino al 30/11»).",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
+      "storia": [
+        {
+          "valore": "c0b240c0-2a86-4218-9d0f-5154f08ff929 (Pane Quotidiano) — attesa concordata con Nicola, non e' churn: la sentinella negozio_fermo non deve alzare l'allarme anti-churn su questo id finche' ripresa.lavoro-operativo non e' raggiunta",
+          "fino_a": "2026-10-26 09:04"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "c0b240c0-2a86-4218-9d0f-5154f08ff929 (Pane Quotidiano) — attesa concordata con Nicola, non e' churn: la sentinella negozio_fermo non deve alzare l'allarme anti-churn su questo id finche' ripresa.lavoro-operativo non e' raggiunta",
+          "dal": "2026-10-26 09:04",
+          "chiusa": "2026-10-26 09:04"
+        }
+      ],
       "esenzioni": []
     },
     {
@@ -610,6 +676,16 @@
       "esenzioni": []
     },
     {
+      "id": "pagamenti.al-lancio",
+      "nome": "Pagamenti al lancio",
+      "valore": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "pilot.worker-negozi",
       "nome": "I tre negozi di prova del Worker",
       "valore": "I 3 negozi di prova — I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo — pagano 50 euro/mese di abbonamento come tutti gli altri: Nicola, 11/8/2026. Il prezzo bloccato a 149 euro/mese NON esiste più, era nato in una chat del 29/7 e il documento del business non lo nominava. Restano entità da fondare: non risultano nei dati del marketplace, quindi niente asset pesanti intestati a loro.",
@@ -638,10 +714,15 @@
     {
       "id": "pricing.abbonamento",
       "nome": "Abbonamento venditore MyCity",
-      "valore": "50€/mese",
-      "fonte": "Nicola chat Pannello 2026-07-20 12:39 + seller/subscription/checkout (5000 cent)",
-      "aggiornato": "2026-07-20 12:39",
-      "storia": [],
+      "valore": "50€/mese di listino, SOSPESO finché il negozio non incassa: niente canone fino ai primi incassi portati da MyCity (scelta 13 della carta #209, firmata da Nicola il 2026-10-26 con «ok 209»).",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
+      "storia": [
+        {
+          "valore": "50€/mese",
+          "fino_a": "2026-10-26 09:04"
+        }
+      ],
       "caccia": [
         {
           "pattern": "zero fissi",
@@ -666,13 +747,17 @@
     {
       "id": "pricing.commissione",
       "nome": "Commissione piattaforma MyCity",
-      "valore": "10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
-      "fonte": "Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare la delivery» (in risposta alla domanda aperta della PR #701); il 10% è anche nel codice del marketplace, MARKETPLACE_FEE_BPS",
-      "aggiornato": "2026-08-11 10:20",
+      "valore": "10% sul venduto tramite la piattaforma, scritto «IVA inclusa» (scelta 13 della carta #209, firmata il 2026-10-26; l'IVA la conferma il commercialista), e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
       "storia": [
         {
           "valore": "10% sul venduto",
           "fino_a": "2026-08-11 10:20"
+        },
+        {
+          "valore": "10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+          "fino_a": "2026-10-26 09:04"
         }
       ],
       "caccia": [
@@ -695,6 +780,11 @@
           "pattern": "12% solo sul venduto",
           "dal": "2026-07-20 12:39",
           "chiusa": "2026-07-20 20:21"
+        },
+        {
+          "pattern": "10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+          "dal": "2026-10-26 09:04",
+          "chiusa": "2026-10-26 09:04"
         }
       ],
       "esenzioni": [
@@ -754,6 +844,16 @@
       "valore": "Otto regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4): 1) zero commissioni sullo scontrino che il negozio faceva già — canone fisso, eventuali fee solo sul denaro nuovo (welfare, gift card); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero e anteprima-poi-approva su WhatsApp, nessuna app nuova da imparare; 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante: il self-service resta inutilizzato; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi in sola lettura dentro il perimetro Stripe Connect e Issuing, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare; 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero, e le disiscrizioni sono un indicatore di salute critico. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
       "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 4)",
       "aggiornato": "2026-08-11 02:18",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "prodotto.spente-al-lancio",
+      "nome": "Funzioni spente al lancio",
+      "valore": "Spente al lancio, finché Nicola non le riaccende con una modifica piccola: IA per i negozi, buoni regalo, classifica inviti, newsletter, Drop del giorno, app installabile, PostHog, Traduci, prezzo barrato scritto a mano, caricamento da file, codici sconto, inviti e punti fedeltà; nessun regalo in euro (via i 5 € di benvenuto e della newsletter). I 100 punti già regalati si convertono ai clienti veri e si azzerano agli altri. Scelte 1 e 7 della carta #209, firmate il 2026-10-26.",
+      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
+      "aggiornato": "2026-10-26 09:04",
       "storia": [],
       "caccia": [],
       "esenzioni": []

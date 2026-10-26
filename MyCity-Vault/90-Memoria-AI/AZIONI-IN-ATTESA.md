@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-25 12:58** — Automatico: **41 aperte · 106 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-26 09:05** — Automatico: **40 aperte · 109 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -31,7 +31,39 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
+
+> ⏰ **2026-10-26 09:05 — Il messaggio è arrivato.** Resta il cambio delle chiavi del database insieme a me: scrivimi «inizio la 203». Poi le visite brevi della tappa 2.
+
+**In parole semplici.** Ho messo in fila tutti i lavori che toccano a te: 133 aperti, raccolti in 50 voci in «Cose da fare per me». Oggi ne servono due: il messaggio delle firme, che ti ho scritto già pronto, e il cambio delle chiavi del database insieme a me.
+
+**Cosa cambia:** le squadre del sito partono appena arriva il messaggio, e la chiave esposta dall'11/10 smette di funzionare. Con le firme oggi, il primo ordine vero è stimato fra il 30/10 e il 1/11.
+
+**Cosa devi fare tu.** Copia il messaggio dal referto, cambia quello che non ti va e mandamelo. Poi scrivimi «inizio la 203».
+
+L'analisi ha trovato anche nove lavori tuoi che non avevano una carta. Stanno nella lista, alle tappe indicate:
+- **Tappa 2:**
+  - la verifica in due passaggi su Vercel, Supabase, Stripe, Resend, Netsons e Hetzner;
+  - l'email di prova alla casella info del sito;
+  - la data del prossimo addebito di Supabase e la scadenza della carta;
+  - il token di gestione di Supabase diviso in due;
+  - gli avvisi di GitHub sulle librerie con falle note.
+- **Tappa 3:**
+  - le consegne del fresco, cioè corso HACCP, contenitori termici e comunicazione all'ASL;
+  - se I Frutti della Terra, La Canteina e Il Pollivendolo sono negozi veri e d'accordo.
+- **Tappa 7:**
+  - gli accordi sul trattamento dei dati coi fornitori, Supabase per primo;
+  - una persona di riserva per consegne ed emergenze.
+
+**Se va bene:** con il tuo messaggio aggiorno il registro dei fatti e faccio partire le squadre. Le quattro carte che l'analisi dà per chiuse del tutto le sistemo io: la #5, la #15, la #186 e la #188.
+
+Contenuto: `consegne/ad/2026-10-26-lavori-di-nicola.md` (testo del messaggio, la fila per tappe, le tabelle con le prove).
+
+---
+
 ### 🟡 #212 — Firma il metodo nuovo delle ondate del sito, quello che consuma molti meno gettoni · ⏳ accodata 2026-10-25 15:10
+
+> ⏰ **2026-10-26 09:05 — Il metodo è unito, e l'ondata delle fondamenta parte coi senior tech e qa.** Resta solo il sì o il no al tipo snello: nel messaggio era rimasto fra parentesi quadre.
 
 **In parole semplici.** Un'ondata del sito si mangiava la settimana: ogni agente rilegge tutto a ogni passo, e la prima ne ha accesi più di 600. Il metodo nuovo ne accende al massimo 45, più leggeri. Cambia il manuale dell'AD: serve la tua firma.
 
@@ -63,34 +95,6 @@ Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
 - **Dopo le riparazioni del rilascio:** i segreti di Vercel su GitHub, carta #161, e le due firme sulle migrazioni.
 
 **Se va bene:** controllo che ogni lavoro notturno parta come deve, e chiudo i difetti che la chiave risolve. Elenco completo con i minuti in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `passi_di_nicola`.
-
----
-
-### 🔴 #209 — Firma in un messaggio solo le 14 scelte che servono a riparare il sito · ⏳ accodata 2026-10-24 14:20
-
-**In parole semplici.** Oggi ho scritto in anticipo come si ripara ognuno dei 551 difetti non riservati del sito. Diciannove difetti seri aspettano una tua scelta, e molti altri si accorciano se spegniamo qualcosa al lancio. Ho fuso tutto in 14 domande. Accanto a ognuna c'è la scelta che farei io.
-
-**Cosa cambia:** se rispondi tutto in una volta, le squadre partono lunedì e i problemi seri del codice si chiudono verso il 31 ottobre. Se le firme arrivano a rate, ogni giorno di attesa è un giorno in più.
-
-**Le 14 scelte, con la mia raccomandazione:**
-- ① **Al lancio spegniamo** IA per i negozi, buoni regalo, classifica inviti, newsletter, Drop del giorno, app installabile e PostHog, più Traduci, prezzo barrato e caricamento da file. → Sì.
-- ② **Consegni tu**, con un secondo account da fattorino. Gli esterni li cerchi di persona, senza documenti caricati sul sito. → Sì.
-- ③ **Al lancio solo contanti**, come oggi. Quando un pagamento va storto il sito si ferma e ti avvisa, come per i contanti del 17/10. → Sì. Confermi anche le tre regole della #208.
-- ④ **Il negozio, per i contanti, lo paghi** con un bonifico a mano dopo la rimessa registrata, oppure ricaricando il saldo Stripe. → Bonifico a mano, finché gli ordini sono pochi.
-- ⑤ **Le migrazioni in due firme:** subito quelle che aggiungono, una alla volta quelle che stringono un permesso. → Sì.
-- ⑥ **Partita IVA adesso**, come ditta individuale, col commercialista. Un indirizzo pubblicabile che non sia casa tua. Un negozio senza partita IVA non si approva. → Sì.
-- ⑦ **Nessun regalo in euro al lancio:** via i 5 € di benvenuto e della newsletter, spenti codici sconto, inviti e punti fedeltà. → Sì.
-- ⑧ **La promessa di consegna:** «in giornata» invece di «30-60 minuti», e solo i 3 € di consegna, senza la spedizione a chilometri. → Sì.
-- ⑨ **Una rilettura legale sola**, a fine lotto, per Termini, Privacy e Cookie, insieme alle domande al consulente del lavoro. → Sì.
-- ⑩ **I resi:** pane e freschi non si rendono per ripensamento, e «chiudi senza rimborso» lo puoi fare solo tu. → Sì.
-- ⑪ **Cliente e negozio si parlano al telefono:** via la chat, che il negozio oggi non vede. Il negozio vede nome e telefono di chi ordina. → Sì.
-- ⑫ **Pane Quotidiano:** lo chiami tu questa settimana per partita IVA, sede, allergeni e categorie. Nascondiamo le categorie vuote. → Sì.
-- ⑬ **Niente canone di 50 € al mese** finché il negozio non incassa, e il 10% scritto «IVA inclusa». → Sì, l'IVA la conferma il commercialista.
-- ⑭ **Privacy:** 90 giorni per i documenti di chi non diventa fattorino e per l'email nell'avviso del bonifico. Ripulisco il vecchio registro attività. → Sì.
-
-**Cosa devi fare tu.** Scrivimi «ok 209», oppure il numero delle scelte da cambiare. Le opzioni intere e i perché sono in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `decisioni`.
-
-**Se va bene:** aggiorno il registro dei fatti dove cambia (consegna, prezzi, canone), e le squadre partono dalle fondamenta.
 
 ---
 
@@ -128,6 +132,8 @@ Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
 
 ### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
 
+> ⏰ **2026-10-26 09:05 — Hai detto di toglierlo prima della chiave.** Ti preparo il comando che toglie l'approvazione senza cancellare niente. Dimmi solo se l'hai creato tu: se no, prima guardo con la sicurezza l'accesso del 7/9.
+
 **In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
 
 **Cosa cambia:** la home promette «negozi veri di Piacenza». Un cliente può ordinare da un forno che non esiste.
@@ -139,20 +145,6 @@ Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
 **Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
 
 > ⚠️ **2026-10-12 17:55 — Da dove viene.** È un account di prova come gli altri due, nato il 5/9 da un programma. Il 7/9 alle 21:37 qualcuno ci è entrato, tre minuti dopo un accesso dal tuo account. Se eri tu, scrivimi «ok 201».
-
----
-
-### 🔴 #196 — Decidi fin dove consegniamo: adesso il confine è a 25 chilometri dal negozio · ⏳ accodata 2026-09-06 19:10
-
-**In parole semplici.** Fino a oggi la zona di consegna non aveva un confine scritto da nessuna parte. Un ordine da Milano entrava come uno da Piacenza. Per chiudere quel difetto serviva un numero, e la squadra ne ha messo uno: 25 chilometri dal negozio. Piacenza e la cintura passano, Milano e Cremona no.
-
-**Cosa cambia:** quel numero non è una riparazione tecnica, dice a chi possiamo vendere. Con 20 chilometri diventava rossa una prova che c'era già, perché una consegna a 24 chilometri il sito la serve davvero. Quindi 20 è troppo stretto per come funzioniamo oggi.
-
-**C'è una crepa attaccata, e va decisa insieme.** La promessa «30-60 minuti» al bordo della zona non regge: a 24 chilometri la stima vera è 75 minuti. O si stringe la zona, o si cambia la frase. Sono due strade diverse e la scelta è tua.
-
-**Cosa devi fare tu.** Dimmi se 25 chilometri va bene, e cosa facciamo della promessa sui tempi. Se ti va bene così, non devi toccare niente: il numero è già nel ramo, entra quando unisci.
-
-**Se va bene:** il difetto della zona di consegna si chiude e la promessa sui tempi diventa un lavoro a parte.
 
 ---
 
@@ -285,53 +277,11 @@ attive); il layout è descritto ma non renderizzato.
 
 ---
 
-### 🟡 #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40
-
-**In parole semplici.** Il negoziante, per lavorare, apre un pannello con quattordici voci di menù.
-È un gestionale, e un gestionale è una cosa da imparare.
-
-Nel documento sul perché esiste MyCity c'è un paletto scritto da te. Dice che il negoziante non
-deve avere nessuna app nuova da imparare, e che si lavora su WhatsApp con l'anteprima da approvare.
-La parte che conta è «con l'anteprima da approvare»: lui guarda e dice sì, non compila.
-
-Le due cose non stanno insieme. Nessuno le aveva mai messe una accanto all'altra.
-
-**Per esempio**, il fornaio alle sette di sera vuole sapere quanto ha incassato e cosa sta finendo.
-Col paletto gli arriva un messaggio, risponde «ordina» e ha chiuso. Col pannello di oggi apre il
-sito, sceglie fra quattordici voci, e cerca in due pagine diverse.
-
-**Cosa cambia per te.** Finché non scegli, ogni pezzo nuovo del pannello allarga la distanza fra
-quello che hai scritto e quello che c'è. Tre strade, e ti consiglio la seconda:
-
-**(A) Il paletto è cambiato.** Il pannello resta il posto dove si lavora. Legittimo, ma allora il
-paletto va riscritto davvero nel documento, o continuiamo a misurarci con una regola che non
-seguiamo.
-
-**(B) WhatsApp è la porta, il pannello è la casa.** ⭐ Le cose di tutti i giorni arrivano su
-WhatsApp e si rispondono con una parola. Il pannello resta per le cose rare: prezzi, conti,
-catalogo. Il negoziante non impara niente per lavorare.
-
-**(C) Tutto su WhatsApp.** Il pannello sparisce. Coerente col paletto, ma butta via 5.520 righe che
-funzionano, e un catalogo da trecento prodotti dentro una chat non si carica.
-
-**Se va bene:** con la (B) preparo il disegno di quali messaggi arrivano e con quale anteprima, e
-conto cosa serve per mandarli davvero. Non mando niente a nessuno finché non firmi quello.
-
-**Cosa non ho verificato.** Non ho aperto nessuna di quelle diciannove pagine: la rete di questa
-macchina non arriva all'anteprima del sito, quindi ho contato leggendo il codice. E non ho parlato
-con un negoziante: se quella distanza dia fastidio a chi sta dietro un bancone lo sa solo chi ci sta.
-
-**Dettagli tecnici.** Il foglio intero sta in `consegne/design/2026-08-26-parte-venditore-seconda-passata.md`.
-Misurato oggi: 19 pagine, 5.520 righe, 30 componenti, 14 voci di menù. WhatsApp esiste in tre forme
-(link dall'Aiuto del venditore verso di noi, numero del negozio verso i suoi clienti, canale di
-condivisione) e in nessuna delle tre MyCity scrive al negoziante di sua iniziativa. Oggi gli parla
-per email, con un modello solo: «è arrivato un ordine».
-
----
-
 <!-- serratura-cancello -->
 
 ### 🔴 #177 — Il controllo che protegge il codice avvisa ma non ferma: decidi tu se dargli la serratura · ⏳ accodata 2026-08-26 08:05
+
+> ⏰ **2026-10-26 09:05 — Hai scelto la B.** Adesso tocca a te accendere la regola «Main» su GitHub, prima sul sito e poi sulla macchina, in una seduta di 5-6 minuti. Prima ti porto i costi per rendere privati i repository: sul piano gratuito, in un repository privato la regola non vale.
 
 > 🔁 **2026-10-16 12:40 — Sul sito la regola «Main» si può accendere, dopo la #206.** Il controllo che aspettava adesso esiste ed è verde. Oggi nessuno può scavalcarla, quindi accesa così è la strada C. I passi: referto della #206, «I passi dopo l'unione».
 
@@ -1376,5 +1326,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 106.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 109.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-25 12:58
+aggiornato: 2026-10-26 09:05
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-26 09:05 · 109 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -2279,8 +2286,6 @@ testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse
 
 ---
 
----
-
 ### ✅ #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35 · ✅ archiviata 2026-10-25 12:57 («ok 130»)
 
 > 🗄️ **2026-10-25 12:57 — Archiviata con il tuo «ok 130».** Fatta: la migrazione 099 è entrata con le 48 del 24/10, e il cassetto esiste.
@@ -2513,10 +2518,6 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
----
-
----
-
 ### ✅ #40 — Togli le chiavi vere di Stripe e del database dalle anteprime delle modifiche · ⏳ accodata 2026-07-29 13:30 · ✅ archiviata 2026-10-25 12:57 («ok 130»)
 
 > 🗄️ **2026-10-25 12:57 — Archiviata con il tuo «ok 130».** Superata dal passaggio a Vercel: il file di Render non esiste più. Il cancello sul rilascio è nella carta 177.
@@ -2597,18 +2598,6 @@ in scrittura alla macchina, ed è giusto così.
 - **Colore:** 🟡 (cambia come si organizza il lavoro della macchina)
 - **Reparto:** AD
 - **Origine:** `{origine:auto-radiografia-2026-07-27, difetti:AR-157..AR-326}`
-
----
-
-<!-- conferma-piano-squadra-ripresa-negozi -->
-
----
-
----
-
-<!-- pi26-conferma-ammissibilita -->
-
----
 
 ---
 
@@ -2697,8 +2686,6 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
----
-
 ### ❌ #23 — Accendi «porta un amico» (5€+5€) e manda il primo invito a samir · ⏳ refresh 2026-07-20 11:36 · ❌ archiviata 2026-10-25 12:57 («ok 130»)
 
 > 🗄️ **2026-10-25 12:57 — Archiviata con il tuo «ok 130».** La contiene la carta 209 (scelta ⑦: al lancio niente regali in euro, gli inviti si spengono).
@@ -2771,8 +2758,6 @@ in scrittura alla macchina, ed è giusto così.
 - **Colore:** 🔴 (pubblicazione IG/FB — firma Nicola)
 - **Canale:** Instagram/Facebook @mycity.piacenza (+ storia 9:16)
 - **Reparto:** content-social
-
----
 
 ---
 
@@ -2873,12 +2858,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ---
 
----
-
----
-
----
-
 ### ❌ #16 — Pubblica "Siamo in 23" nei gruppi Facebook locali · ⏳ accodata 2026-07-18 11:30 · ❌ archiviata 2026-10-25 12:57 («ok 130»)
 
 > 🗄️ **2026-10-25 12:57 — Archiviata con il tuo «ok 130».** Superata: gli iscritti erano 4 e non 23, e la bozza promette una consegna gratis che oggi non c'è.
@@ -2932,8 +2911,6 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 **Se va bene:** PQ evade l'ordine → possiamo mandare l'email ai 4 iscritti con "la consegna funziona".
 
 **Canale:** manuale (Nicola apre mycity-marketplace.com e ordina)
-
----
 
 ---
 
@@ -3108,3 +3085,95 @@ Se ti va di provare, link nel primo commento 👇
 
 - **Colore:** 🔴 (pubblicazione IG/FB/gruppi — firma Nicola)
 - **Canale:** Gruppi FB locali + Instagram/Facebook @mycity.piacenza
+
+---
+
+### ✅ #209 — Firma in un messaggio solo le 14 scelte che servono a riparare il sito · ⏳ accodata 2026-10-24 14:20 · ✅ firmata 2026-10-26 08:55
+
+> ✅ **2026-10-26 09:05 — Firmata: «ok 209, parti».** Tutte e 14 con la mia raccomandazione, la 11 con nome e telefono di chi ordina. Registro dei fatti aggiornato. Le fondamenta del sito partono col workflow d'ondata. Restano da te la casella email e l'indirizzo pubblicabile della scelta 6.
+
+**In parole semplici.** Oggi ho scritto in anticipo come si ripara ognuno dei 551 difetti non riservati del sito. Diciannove difetti seri aspettano una tua scelta, e molti altri si accorciano se spegniamo qualcosa al lancio. Ho fuso tutto in 14 domande. Accanto a ognuna c'è la scelta che farei io.
+
+**Cosa cambia:** se rispondi tutto in una volta, le squadre partono lunedì e i problemi seri del codice si chiudono verso il 31 ottobre. Se le firme arrivano a rate, ogni giorno di attesa è un giorno in più.
+
+**Le 14 scelte, con la mia raccomandazione:**
+- ① **Al lancio spegniamo** IA per i negozi, buoni regalo, classifica inviti, newsletter, Drop del giorno, app installabile e PostHog, più Traduci, prezzo barrato e caricamento da file. → Sì.
+- ② **Consegni tu**, con un secondo account da fattorino. Gli esterni li cerchi di persona, senza documenti caricati sul sito. → Sì.
+- ③ **Al lancio solo contanti**, come oggi. Quando un pagamento va storto il sito si ferma e ti avvisa, come per i contanti del 17/10. → Sì. Confermi anche le tre regole della #208.
+- ④ **Il negozio, per i contanti, lo paghi** con un bonifico a mano dopo la rimessa registrata, oppure ricaricando il saldo Stripe. → Bonifico a mano, finché gli ordini sono pochi.
+- ⑤ **Le migrazioni in due firme:** subito quelle che aggiungono, una alla volta quelle che stringono un permesso. → Sì.
+- ⑥ **Partita IVA adesso**, come ditta individuale, col commercialista. Un indirizzo pubblicabile che non sia casa tua. Un negozio senza partita IVA non si approva. → Sì.
+- ⑦ **Nessun regalo in euro al lancio:** via i 5 € di benvenuto e della newsletter, spenti codici sconto, inviti e punti fedeltà. → Sì.
+- ⑧ **La promessa di consegna:** «in giornata» invece di «30-60 minuti», e solo i 3 € di consegna, senza la spedizione a chilometri. → Sì.
+- ⑨ **Una rilettura legale sola**, a fine lotto, per Termini, Privacy e Cookie, insieme alle domande al consulente del lavoro. → Sì.
+- ⑩ **I resi:** pane e freschi non si rendono per ripensamento, e «chiudi senza rimborso» lo puoi fare solo tu. → Sì.
+- ⑪ **Cliente e negozio si parlano al telefono:** via la chat, che il negozio oggi non vede. Il negozio vede nome e telefono di chi ordina. → Sì.
+- ⑫ **Pane Quotidiano:** lo chiami tu questa settimana per partita IVA, sede, allergeni e categorie. Nascondiamo le categorie vuote. → Sì.
+- ⑬ **Niente canone di 50 € al mese** finché il negozio non incassa, e il 10% scritto «IVA inclusa». → Sì, l'IVA la conferma il commercialista.
+- ⑭ **Privacy:** 90 giorni per i documenti di chi non diventa fattorino e per l'email nell'avviso del bonifico. Ripulisco il vecchio registro attività. → Sì.
+
+**Cosa devi fare tu.** Scrivimi «ok 209», oppure il numero delle scelte da cambiare. Le opzioni intere e i perché sono in `consegne/audit/2026-10-24-piano-riparazione-sito.json`, voce `decisioni`.
+
+**Se va bene:** aggiorno il registro dei fatti dove cambia (consegna, prezzi, canone), e le squadre partono dalle fondamenta.
+
+---
+
+### ✅ #196 — Decidi fin dove consegniamo: adesso il confine è a 25 chilometri dal negozio · ⏳ accodata 2026-09-06 19:10 · ✅ decisa 2026-10-26 08:55
+
+> ✅ **2026-10-26 09:05 — «196: sì, 25 km».** Il codice ha già questo valore: niente da cambiare. Il fatto è nel registro come consegna.raggio, e la promessa sui tempi è «in giornata» (scelta 8 della #209).
+
+**In parole semplici.** Fino a oggi la zona di consegna non aveva un confine scritto da nessuna parte. Un ordine da Milano entrava come uno da Piacenza. Per chiudere quel difetto serviva un numero, e la squadra ne ha messo uno: 25 chilometri dal negozio. Piacenza e la cintura passano, Milano e Cremona no.
+
+**Cosa cambia:** quel numero non è una riparazione tecnica, dice a chi possiamo vendere. Con 20 chilometri diventava rossa una prova che c'era già, perché una consegna a 24 chilometri il sito la serve davvero. Quindi 20 è troppo stretto per come funzioniamo oggi.
+
+**C'è una crepa attaccata, e va decisa insieme.** La promessa «30-60 minuti» al bordo della zona non regge: a 24 chilometri la stima vera è 75 minuti. O si stringe la zona, o si cambia la frase. Sono due strade diverse e la scelta è tua.
+
+**Cosa devi fare tu.** Dimmi se 25 chilometri va bene, e cosa facciamo della promessa sui tempi. Se ti va bene così, non devi toccare niente: il numero è già nel ramo, entra quando unisci.
+
+**Se va bene:** il difetto della zona di consegna si chiude e la promessa sui tempi diventa un lavoro a parte.
+
+---
+
+### ✅ #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40 · ✅ decisa 2026-10-26 08:55
+
+> ✅ **2026-10-26 09:05 — «178: B».** Il negoziante lavora ogni giorno su WhatsApp con l'anteprima da approvare, e usa il pannello solo per prezzi, conti e catalogo. Il paletto resta com'è. Ti porterò il disegno dei messaggi e quanto costano, senza mandare niente a nessuno.
+
+**In parole semplici.** Il negoziante, per lavorare, apre un pannello con quattordici voci di menù.
+È un gestionale, e un gestionale è una cosa da imparare.
+
+Nel documento sul perché esiste MyCity c'è un paletto scritto da te. Dice che il negoziante non
+deve avere nessuna app nuova da imparare, e che si lavora su WhatsApp con l'anteprima da approvare.
+La parte che conta è «con l'anteprima da approvare»: lui guarda e dice sì, non compila.
+
+Le due cose non stanno insieme. Nessuno le aveva mai messe una accanto all'altra.
+
+**Per esempio**, il fornaio alle sette di sera vuole sapere quanto ha incassato e cosa sta finendo.
+Col paletto gli arriva un messaggio, risponde «ordina» e ha chiuso. Col pannello di oggi apre il
+sito, sceglie fra quattordici voci, e cerca in due pagine diverse.
+
+**Cosa cambia per te.** Finché non scegli, ogni pezzo nuovo del pannello allarga la distanza fra
+quello che hai scritto e quello che c'è. Tre strade, e ti consiglio la seconda:
+
+**(A) Il paletto è cambiato.** Il pannello resta il posto dove si lavora. Legittimo, ma allora il
+paletto va riscritto davvero nel documento, o continuiamo a misurarci con una regola che non
+seguiamo.
+
+**(B) WhatsApp è la porta, il pannello è la casa.** ⭐ Le cose di tutti i giorni arrivano su
+WhatsApp e si rispondono con una parola. Il pannello resta per le cose rare: prezzi, conti,
+catalogo. Il negoziante non impara niente per lavorare.
+
+**(C) Tutto su WhatsApp.** Il pannello sparisce. Coerente col paletto, ma butta via 5.520 righe che
+funzionano, e un catalogo da trecento prodotti dentro una chat non si carica.
+
+**Se va bene:** con la (B) preparo il disegno di quali messaggi arrivano e con quale anteprima, e
+conto cosa serve per mandarli davvero. Non mando niente a nessuno finché non firmi quello.
+
+**Cosa non ho verificato.** Non ho aperto nessuna di quelle diciannove pagine: la rete di questa
+macchina non arriva all'anteprima del sito, quindi ho contato leggendo il codice. E non ho parlato
+con un negoziante: se quella distanza dia fastidio a chi sta dietro un bancone lo sa solo chi ci sta.
+
+**Dettagli tecnici.** Il foglio intero sta in `consegne/design/2026-08-26-parte-venditore-seconda-passata.md`.
+Misurato oggi: 19 pagine, 5.520 righe, 30 componenti, 14 voci di menù. WhatsApp esiste in tre forme
+(link dall'Aiuto del venditore verso di noi, numero del negozio verso i suoi clienti, canale di
+condivisione) e in nessuna delle tre MyCity scrive al negoziante di sua iniziativa. Oggi gli parla
+per email, con un modello solo: «è arrivato un ordine».
