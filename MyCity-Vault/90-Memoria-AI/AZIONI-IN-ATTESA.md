@@ -31,6 +31,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
+
+**In parole semplici.** Ho messo in fila tutti i lavori che toccano a te: 133 aperti, raccolti in 50 voci in «Cose da fare per me». Oggi ne servono due: il messaggio delle firme, che ti ho scritto già pronto, e il cambio delle chiavi del database insieme a me.
+
+**Cosa cambia:** le squadre del sito partono appena arriva il messaggio, e la chiave esposta dall'11/10 smette di funzionare. Con le firme oggi, il primo ordine vero è stimato fra il 30/10 e il 1/11.
+
+**Cosa devi fare tu.** Copia il messaggio dal referto, cambia quello che non ti va e mandamelo. Poi scrivimi «inizio la 203».
+
+L'analisi ha trovato anche nove lavori tuoi che non avevano una carta. Stanno nella lista, alle tappe indicate:
+- **Tappa 2:**
+  - la verifica in due passaggi su Vercel, Supabase, Stripe, Resend, Netsons e Hetzner;
+  - l'email di prova alla casella info del sito;
+  - la data del prossimo addebito di Supabase e la scadenza della carta;
+  - il token di gestione di Supabase diviso in due;
+  - gli avvisi di GitHub sulle librerie con falle note.
+- **Tappa 3:**
+  - le consegne del fresco, cioè corso HACCP, contenitori termici e comunicazione all'ASL;
+  - se I Frutti della Terra, La Canteina e Il Pollivendolo sono negozi veri e d'accordo.
+- **Tappa 7:**
+  - gli accordi sul trattamento dei dati coi fornitori, Supabase per primo;
+  - una persona di riserva per consegne ed emergenze.
+
+**Se va bene:** con il tuo messaggio aggiorno il registro dei fatti e faccio partire le squadre. Le quattro carte che l'analisi dà per chiuse del tutto le sistemo io: la #5, la #15, la #186 e la #188.
+
+Contenuto: `consegne/ad/2026-10-26-lavori-di-nicola.md` (testo del messaggio, la fila per tappe, le tabelle con le prove).
+
+---
+
 ### 🟡 #212 — Firma il metodo nuovo delle ondate del sito, quello che consuma molti meno gettoni · ⏳ accodata 2026-10-25 15:10
 
 **In parole semplici.** Un'ondata del sito si mangiava la settimana: ogni agente rilegge tutto a ogni passo, e la prima ne ha accesi più di 600. Il metodo nuovo ne accende al massimo 45, più leggeri. Cambia il manuale dell'AD: serve la tua firma.

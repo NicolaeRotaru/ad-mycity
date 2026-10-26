@@ -1,81 +1,114 @@
 {
-  "data": "2026-10-10 12:05",
-  "sintesi": "I due database sono di nuovo accesi grazie al tuo «ok 199». Il business resta fermo come a settembre: un negozio vero, nessun ordine pagato. Prima di poter vendere servono tre tue mosse: le chiavi del sito su Vercel, togliere il negozio di prova e riaccendere il server della macchina. Il piano dei segmenti mette a ottobre ottiche, estetiste e mercato coperto: tutto aspetta che il sito venda.",
+  "data": "2026-10-26 08:30",
+  "sintesi": "Il sito ha un solo negozio vero, Pane Quotidiano, e nessun ordine pagato: l'unico ordine è del 24/6, annullato. Non prende ordini perché su Vercel manca la chiave di servizio del database. Il collo di bottiglia è un tuo messaggio solo: le 14 scelte per riparare il sito e «parti». Lo stesso giorno vanno cambiate le chiavi del database, esposte dall'11/10. In settimana: la visita a Pane Quotidiano, il commercialista per la partita IVA, il corso per il fresco e il legale. Il primo ordine vero è stimato fra il 30/10 e il 1/11, se le firme arrivano oggi.",
   "prossime_mosse": [
     {
-      "titolo": "Copia su Vercel le 9 chiavi di Supabase, Stripe, Resend e Upstash",
-      "quando": "adesso: le altre 8 le ho già messe io il 10/10 alle 15:43",
-      "come": "i passi in consegne/salute/2026-10-10-chiavi-vercel.md (card #154), poi scrivimi «fatto 154»",
+      "titolo": "Mandami il messaggio delle firme: le 14 scelte per riparare il sito e «parti»",
+      "quando": "oggi, lunedì 26/10 mattina",
+      "come": "il testo pronto sta in consegne/ad/2026-10-26-lavori-di-nicola.md: lo copi, cambi quello che non ti va e me lo mandi in chat (carta #209)",
       "priorita": "alta",
-      "ad_prepara": "con «fatto 154» ripubblico la stessa versione del sito e controllo che risponda e che i lavori automatici ripartano",
+      "ad_prepara": "con le firme faccio partire le squadre del sito col metodo nuovo delle ondate, e aggiorno il registro dei fatti dove cambia",
+      "senior": "@chief-of-staff",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Cambia con me le chiavi del database del sito",
+      "quando": "oggi, in 45 minuti di fila",
+      "come": "scrivimi «inizio la 203»: prima la chiave pubblica nuova su Vercel per sito e Pannello, solo dopo si spegne la vecchia (carta #203)",
+      "priorita": "alta",
+      "ad_prepara": "ti ripeto l'ordine dei passi della chat del 12/10 e dopo controllo che il sito e la Cabina rispondano",
+      "senior": "@security",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Verifica su Resend il dominio del mittente delle email",
+      "quando": "oggi o domani, per primo fra i servizi: la verifica del dominio può durare ore",
+      "come": "Resend, alla voce Domains; poi chiave e mittente su Vercel (carta #195)",
+      "priorita": "alta",
+      "ad_prepara": "controllo che il mittente sia quello che il codice del sito si aspetta",
       "senior": "@devops-sre",
       "colore": "🔴"
     },
     {
-      "titolo": "Togli dalla vetrina il negozio di prova",
-      "quando": "subito, prima che arrivi un cliente",
-      "come": "card #201: dimmi se l'hai creato tu, e con «ok 201» preparo il comando",
+      "titolo": "Visita Pane Quotidiano una volta sola",
+      "quando": "in settimana, dopo le firme",
+      "come": "partita IVA, sede, allergeni, categorie, IBAN, foto, due frasi del titolare col suo ok, permesso per il kit (carta #209, scelta 12)",
       "priorita": "alta",
-      "ad_prepara": "il comando pronto per toglierlo dalla vetrina, senza cancellare niente",
-      "senior": "@trust-safety",
-      "colore": "🔴"
-    },
-    {
-      "titolo": "Riaccendi il server della macchina",
-      "quando": "dopo i database, perché senza memoria il server non può prendere lavori",
-      "come": "console Hetzner: acceso e pagato? poi i comandi della card #168",
-      "priorita": "alta",
-      "ad_prepara": "comandi pronti nella card #168; appena torna, il primo giro rimette in fila le cadenze arretrate",
-      "senior": "@devops-sre",
-      "colore": "🔴"
-    },
-    {
-      "titolo": "Gira al fornaio il bando rifiuti del Comune",
-      "quando": "entro il 23 ottobre, meglio subito: i fondi vanno in ordine di arrivo",
-      "come": "il messaggio pronto per WhatsApp sta nella card #200",
-      "priorita": "media",
-      "ad_prepara": "testo del messaggio con il link ufficiale, in consegne/account-negozi/2026-10-10-pane-quotidiano-bando-rifiuti.md",
+      "ad_prepara": "la scaletta della visita e il modulo di consenso per foto e frasi",
       "senior": "@account-negozi",
+      "colore": "🟡"
+    },
+    {
+      "titolo": "Apri la partita IVA col commercialista",
+      "quando": "appuntamento da prendere questa settimana",
+      "come": "ditta individuale, con un indirizzo pubblicabile che non sia casa tua (carta #209, scelta 6)",
+      "priorita": "alta",
+      "ad_prepara": "le domande per il commercialista: regime, INPS, il 10% con IVA inclusa, DAC7",
+      "senior": "@commercialista",
       "colore": "🔴"
     },
     {
-      "titolo": "Riprendi i negozi del segmento di ottobre",
-      "quando": "quando il sito vende di nuovo",
-      "come": "ottiche, estetiste, mercato coperto, come da piano dei segmenti",
-      "priorita": "media",
-      "ad_prepara": "niente di pesante finché il sito non vende: solo materiali neutri e riusabili, come vuole la regola di allocazione",
-      "senior": "@vendite",
-      "colore": "🟡"
+      "titolo": "Prepara le consegne del fresco",
+      "quando": "in settimana, prima del primo ordine",
+      "come": "corso HACCP, contenitori termici, comunicazione all'ASL: i prodotti di Pane Quotidiano sono quasi tutti da frigo",
+      "priorita": "alta",
+      "ad_prepara": "la lista del senior della sicurezza alimentare",
+      "senior": "@food-safety",
+      "colore": "🔴"
+    },
+    {
+      "titolo": "Fai il primo ordine vero da Pane Quotidiano e consegnalo tu",
+      "quando": "dopo il giorno della chiave, stima fra il 30/10 e il 1/11",
+      "come": "in contanti, col tuo account da fattorino, guardando il sito dal telefono; poi il bonifico al fornaio (carta #210)",
+      "priorita": "alta",
+      "ad_prepara": "il via alla chiave quando i passi che la precedono sono fatti, e il controllo che ogni lavoro notturno parta",
+      "senior": "@operations",
+      "colore": "🔴"
     }
   ],
   "primi_negozi": [
     {
       "nome": "Pane Quotidiano",
       "perche": "unico negozio vero, faro di MyCity",
-      "stato": "non incassa con la carta (incassi e versamenti spenti dal 10/8, card #182); oggi non visibile perché il database del sito è in pausa"
+      "stato": "approvato e visibile con 5 prodotti; il suo conto Stripe ha incassi e versamenti spenti, quindi al lancio si paga solo in contanti (letto il 25/10 sera)"
+    },
+    {
+      "nome": "Panificio Demo",
+      "perche": "negozio di prova nato il 5/9, non è un negozio vero",
+      "stato": "approvato e visibile ai clienti con 4 prodotti: va tolto prima della chiave (carta #201)"
     }
   ],
   "rischi": [
-    "Se nessuno riaccende i database entro 90 giorni dalla pausa, si perde la riaccensione a un clic: resta solo una copia da rimontare a mano.",
-    "Riaccesi sul piano gratuito, senza il server acceso e senza visitatori, i database si riaddormentano dopo circa una settimana.",
-    "L'allarme della macchina ferma arriva solo su GitHub: è suonato per 37 giorni senza che tu lo vedessi.",
-    "Natale: se il sito torna a vendere dopo metà novembre, i negozi nuovi perdono la stagione più ricca."
+    "La chiave del database esposta l'11/10 funziona ancora: finché funziona, chi l'ha vista può leggere e cambiare i dati del sito.",
+    "Ogni giorno di attesa sulle 14 scelte sposta di un giorno la fine delle riparazioni serie e il lancio.",
+    "Il server della macchina è fermo dal 7/10 con 128 lavori in coda: nessuno sorveglierà i primi ordini finché non riparte.",
+    "Dal 15/11 all'una di notte due date scadute fanno diventare rossa ogni prova della macchina, se la riparazione non è unita prima."
   ],
   "serve_da_nicola": [
     {
       "ambito": "negozio di prova",
-      "cosa_manca": "Chi ha creato «Panificio Demo» il 5 settembre",
-      "domanda_per_nicola": "L'hai creato tu? Se è una prova, lo tolgo dalla vetrina con «ok 201»."
+      "cosa_manca": "Chi ha creato il «Panificio Demo» il 5/9",
+      "domanda_per_nicola": "L'hai creato tu? In tutti e due i casi lo tolgo dalla vetrina con «ok 201»."
     },
     {
-      "ambito": "costi",
-      "cosa_manca": "Dove vanno i 50 € al mese per Supabase che avevi confermato il 20/7: l'organizzazione di MyCity risulta sul piano gratuito",
-      "domanda_per_nicola": "Paghi Supabase su un altro account, o quei 50 € non partono più?"
+      "ambito": "consegne",
+      "cosa_manca": "Se la bici è riparata: il registro dice ancora «in riparazione dal 28/7»",
+      "domanda_per_nicola": "La bici è pronta? Se no, con cosa consegni il primo ordine?"
+    },
+    {
+      "ambito": "pagamenti",
+      "cosa_manca": "Com'è messo Stripe: chiavi vere o di prova, conto di Pane Quotidiano, indirizzi degli avvisi",
+      "domanda_per_nicola": "Mi dici com'è messo Stripe, in 10 minuti dal suo cruscotto?"
     },
     {
       "ambito": "macchina",
-      "cosa_manca": "Se il server è acceso",
-      "domanda_per_nicola": "Dalla console Hetzner il server risulta acceso? Se sì, mi incolli cosa stampano i comandi della card #168?"
+      "cosa_manca": "Se il server Hetzner è acceso e pagato",
+      "domanda_per_nicola": "Dalla console Hetzner il server risulta acceso? C'è una fattura scoperta?"
+    },
+    {
+      "ambito": "posta",
+      "cosa_manca": "Se la casella info del sito esiste e qualcuno la legge",
+      "domanda_per_nicola": "Mandi un'email di prova alla casella info e mi dici se arriva?"
     }
   ]
 }

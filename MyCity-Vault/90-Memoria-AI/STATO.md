@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-25 17:20
+aggiornato: 2026-10-26 08:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🗂️ **2026-10-26 08:40 — La tua lista dei lavori è rifatta da capo: 50 voci in fila, e oggi ne servono due.**
+>
+> Mi hai chiesto l'analisi completa dei lavori che devi fare tu. In memoria ho trovato 708 richieste rivolte a te, sparse in 15 posti: sono 213 lavori diversi. Di questi, 133 sono tuoi e ancora aperti, circa 31 ore. Altri 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
+>
+> Oggi servono due cose. Il messaggio delle firme, che ti ho scritto già pronto. E il cambio delle chiavi del database, insieme a me. La lista nel Pannello, «Cose da fare per me», era ferma al 1/9: adesso segue la stessa fila.
+>
+> Il referto è `consegne/ad/2026-10-26-lavori-di-nicola.md`. Stripe, Hetzner, Resend e Netsons non li vedo da qui. L'analisi è costata 74 agenti in circa 12 ore, più di quanto avevo stimato.
 
 > ✅ **2026-10-25 16:40 — Due unioni oggi pomeriggio: l'Assistenza ha il suo nome in chat, e le card nuove non riusano un numero già speso.**
 >

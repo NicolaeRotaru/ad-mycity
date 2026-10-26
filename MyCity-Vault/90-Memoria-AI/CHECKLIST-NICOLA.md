@@ -1,122 +1,155 @@
 ---
 tipo: checklist-personale
 destinatario: Nicola
-fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-09-01 06:30
+fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
+aggiornato: 2026-10-26 08:20
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma al 28/8 (oltre i 2 giorni della regola AR-030).
->
-> Business fermo: 1 ordine, mai pagato, del 24/6. 0 pagati. Stallo **69 giorni**.
->
-> Il server è ripartito da solo stanotte (card #168 aggiornata). Il sito resta comunque giù da 10
-> giorni: la causa adesso è solo il dominio e due chiavi su Vercel, le due carte qui sotto. E la
-> scadenza che avevi fissato tu, il 29 agosto, è passata da tre giorni. Dimmi se vuoi che ti porti
-> il conto puntuale delle quattro cose.
+> **In due righe.** Sono 50 voci in fila, dalla più urgente alla meno. Oggi ne servono due sole: il messaggio delle firme e il cambio delle chiavi del database.
+
+## In parole semplici
+
+Qui c'è solo quello che richiede te: firme, unioni, accessi che la macchina non ha, materiale vero, persone. L'ho rifatta da capo il 26/10 alle 08:20. La lista di prima era ferma al 1/9, e diceva cose non più vere: per esempio che il server era ripartito, mentre è fermo dal 7/10.
+
+## Cosa cambia per te
+
+Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 50 voci. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
+
+## Cosa devi fare
+
+Comincia dalla tappa 1. Il testo pronto del messaggio delle firme sta nel referto `consegne/ad/2026-10-26-lavori-di-nicola.md`.
+
+## Cosa non ho verificato
+
+Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li vedo da qui. I minuti sono stime, non misure.
 
 ---
 
-## 🔴 IL SITO È GIÙ DA 10 GIORNI — dominio e chiavi Vercel
+## 1 · Oggi, lunedì 26/10 — due cose
 
-- [ ] 🔴 **Metti le due chiavi mancanti su Vercel** (una fa sì che un pagamento riuscito diventi un
-  ordine registrato).
-  → Card `#154`
+- [ ] 🔴 Mandami il messaggio delle firme: le 14 scelte per riparare il sito, «parti» e le risposte brevi.
+  → carte #209, #201, #212, #177, #196, #178 · 15 minuti · testo pronto nel referto.
+- [ ] 🔴 Cambia con me le chiavi del database del sito: scrivimi «inizio la 203» quando hai 45 minuti di fila.
+  → carta #203 · prima la chiave pubblica nuova su Vercel per sito e Pannello, solo dopo si spegne la vecchia.
 
-- [ ] 🔴 **Sposta il dominio `mycity-marketplace.com` su Vercel** (punta ancora a Render).
-  → Card `#155`
+## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
-> ℹ️ **Il server che fa girare la macchina è ripartito da solo** stanotte, dopo il fermo segnalato
-> il 22 agosto. Non serve più una tua azione su questo punto. → Card `#168` (aggiornata)
+- [ ] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore.
+  → carta #195 · 20 minuti.
+- [ ] 🟡 Su Supabase, in una visita: accendi la protezione contro le password rubate, aggiungi il www agli indirizzi di rientro, leggi data del prossimo addebito e scadenza della carta.
+  → carte #210, #192, #207 · 12 minuti.
+- [ ] 🟡 Copia su Vercel le due chiavi di Upstash.
+  → carta #154 · 10 minuti.
+- [ ] 🟡 Guarda Stripe e dimmi com'è messo: chiavi vere o di prova, conto di Pane Quotidiano, indirizzi degli avvisi.
+  → carte #210, #154 · 10 minuti.
+- [ ] 🟡 Manda un'email di prova alla casella info del sito e controlla che arrivi e che qualcuno la legga.
+  → 10 minuti.
+- [ ] 🔴 Accendi la verifica in due passaggi sulla Gmail amministratrice del sito e su Vercel, Supabase, Stripe, Resend, Netsons, Hetzner.
+  → carta #202 · 30 minuti.
+- [ ] 🟡 Guarda nella console Hetzner se il server è acceso e se c'è una fattura scoperta: se è spento non accenderlo, mandami una foto.
+  → carta #168 · 10 minuti.
+- [ ] 🔴 Decidi col DPO se avvisare il Garante della privacy per la chiave esposta, dopo il cambio delle chiavi, entro martedì 27/10 sera.
+  → carta #203 · 30 minuti.
+- [ ] 🟡 Su GitHub, in una seduta: regola «Main» sul sito e sulla macchina, e avvisi sulle librerie con falle note.
+  → carta #177 · 10 minuti · dopo la risposta «177: B».
+- [ ] 🟡 Fai una copia a mano delle foto dei prodotti fuori da Supabase: prima chiedimi se posso scaricarle io.
+  → carta #162 · 15 minuti.
+- [ ] 🟡 Separa su Supabase il token di gestione: uno per il sito, uno per la memoria.
+  → 15 minuti.
+- [ ] 🟡 Dimmi quanto paghi ogni mese di abbonamenti e quanti soldi ci sono in banca.
+  → carta #9 · 15 minuti.
+- [ ] 🟡 Apri la rete delle sessioni cloud verso la Cabina e i due database, e dimmi quali chiavi dare.
+  → carta #76 · 4 minuti.
 
----
+## 3 · In settimana — le persone vere
 
-## 🔴 NOVITÀ — database, pagamenti e la scadenza del 29 agosto
+- [ ] 🔴 Visita Pane Quotidiano una volta sola: partita IVA, sede, allergeni, categorie, IBAN, foto, due frasi del titolare col suo ok, permesso per il kit.
+  → carte #209, #180, #118 · circa 1 ora e mezza · nella stessa visita Piacenza Pay (carta #120) e la tazzina (carta #8).
+- [ ] 🔴 Prendi appuntamento col commercialista e apri la partita IVA.
+  → carte #209, #165 · 1 ora.
+- [ ] 🔴 Prepara le consegne del fresco: corso HACCP, contenitori termici, comunicazione all'ASL.
+  → circa 6 ore.
+- [ ] 🔴 Manda al legale i testi del sito, l'accordo con Pane Quotidiano e la domanda sui contanti.
+  → carta #209 · circa 1 ora.
+- [ ] 🟡 Chiedi al consulente del lavoro la tua posizione INAIL per le consegne.
+  → 5 minuti.
+- [ ] 🟡 Dimmi se I Frutti della Terra, La Canteina e Il Pollivendolo sono negozi veri e d'accordo.
+  → 5 minuti.
 
-- [ ] 🔴 **La scadenza che avevi fissato tu è passata da tre giorni.** Era il 29 agosto. Dimmi se
-  vuoi il conto puntuale delle quattro cose, o se hai già deciso diversamente.
-  → Card `#185`
+## 4 · Quando le squadre consegnano — dal 27 al 31/10
 
-- [ ] 🔴 **Il database di produzione è indietro di 4 migrazioni** (126-129). Scegli fra accendere
-  il cancello del rilascio o farle applicare a mano.
-  → Card `#184`
+- [ ] 🟡 Unisci le richieste di unione delle squadre del sito, una alla volta e solo con le prove verdi.
+  → circa 1 ora in tutto.
+- [ ] 🔴 Applica le migrazioni firmate: prima quelle che aggiungono, poi una alla volta quelle che stringono i permessi, mai fra le 8:00 e le 10:30.
+  → carta #209 · circa 70 minuti.
+- [ ] 🔴 Firma la migrazione che ripara il modulo «diventa negozio».
+  → carta #209 · 15 minuti.
 
-- [ ] 🔴 **Pane Quotidiano non incassa da 18 giorni.** Alcuni post pronti in coda promettono ancora
-  "ordina, ti portiamo". Un pagamento con carta fallirebbe davanti al primo cliente.
-  → Card `#182`
+## 5 · Il giorno della chiave — solo dopo il mio «via»
 
----
+- [ ] 🔴 Firma la pulizia delle email arretrate.
+  → carta #154 · 15 minuti.
+- [ ] 🟡 Metti su Vercel le variabili di Sentry, in Europa.
+  → carta #210 · 25 minuti.
+- [ ] 🔴 Copia su Vercel la chiave di servizio nuova del database e ripubblica l'ultimo rilascio, mai quello del 9/9.
+  → carte #154, #210 · 10 minuti.
 
-## 🔴 MIGRAZIONI DATABASE FERME (bloccano vetrina e sicurezza dati)
+## 6 · Subito dopo la chiave — il primo ordine vero
 
-- [ ] 🔴 Il segreto che applica le migrazioni prima di ogni pubblicazione.
-  → Card `#160`
-- [ ] 🔴 Migrazione 120 — la vetrina non deve più dare l'ID interno degli ordini.
-  → Card `#159`
-- [ ] 🔴 Migrazione 126 — il lotto dei cento difetti riparati.
-  → Card `#158`
-- [ ] 🔴 Le tre chiavi di Vercel + una parola, così in produzione ci va solo ciò che ha passato i controlli.
-  → Card `#161`
+- [ ] 🔴 Scrivi dal pannello del sito i dati di Pane Quotidiano.
+  → carta #209 · 30 minuti.
+- [ ] 🟡 Approva il tuo account da fattorino, con un'email diversa da quella dell'amministratore.
+  → carta #210 · 15 minuti.
+- [ ] 🔴 Fai un ordine vero da Pane Quotidiano in contanti e consegnalo tu, guardando il sito dal telefono.
+  → carta #210 · circa 1 ora.
+- [ ] 🟡 Carica una foto di copertina entrando come negoziante.
+  → carta #210 · 10 minuti.
+- [ ] 🔴 Fai il bonifico a Pane Quotidiano dopo la rimessa.
+  → carta #209 · 10 minuti.
+- [ ] 🟡 Cambia su Supabase i due modelli email della nuova password e prova su due dispositivi.
+  → carta #207 · 25 minuti.
+- [ ] 🔴 Metti su GitHub i segreti di Vercel, lancia il rilascio a mano e unisci la riga che toglie la pubblicazione diretta.
+  → carta #161 · 50 minuti.
 
----
+## 7 · Quando il sito vende — novembre
 
-## 🔴 DECISIONI CHE SOLO TU PUOI PRENDERE
+- [ ] 🔴 Attiva il conto Stripe di MyCity, poi chiavi e avvisi su Vercel, poi il modulo del fornaio: dopo la partita IVA.
+  → carta #154 · circa 1 ora e mezza.
+- [ ] 🔴 Fai a mano i rimborsi ai clienti che hanno pagato in contanti, quando servono.
+  → 10 minuti l'uno.
+- [ ] 🟡 Fai stampare il kit di Pane Quotidiano dopo il primo ordine.
+  → 30 minuti.
+- [ ] 🔴 Dai il via al comunicato di lancio: la tua frase e un contatto stampa che non sia la tua casella.
+  → carta #118 · 35 minuti.
+- [ ] 🟡 Scegli la grafica del post del budino e dai il via.
+  → carta #180 · 10 minuti.
+- [ ] 🟡 Manda a mano il benvenuto agli iscritti.
+  → carta #13 · 15 minuti.
+- [ ] 🟡 Cinque decisioni brevi: piani da riscrivere, soglie delle ricerche, numeri inventati nei testi, a chi può scrivere la macchina, WhatsApp dell'assistenza.
+  → carta #69 · circa 40 minuti.
+- [ ] 🟡 Chiedi a Google Search Console la riscansione del sito.
+  → carta #192 · 15 minuti.
+- [ ] 🟡 Firma o scarica gli accordi sul trattamento dei dati con i fornitori, Supabase per primo.
+  → 30 minuti.
+- [ ] 🟡 Scegli una persona di riserva per consegne ed emergenze quando non ci sei.
+  → 30 minuti.
+- [ ] 🟡 Unisci entro il 30/11 il cambio del modello di intelligenza artificiale del sito, se lo riaccendi.
+  → carta #209 · 5 minuti.
 
-- [ ] 🔴 **Il controllo che protegge il codice avvisa ma non ferma nessuno.** Scegli fra tre strade:
-  A, lascia com'è e conta i casi; B, obbligatorio ma tu puoi scavalcarlo, consigliata; C,
-  obbligatorio e basta.
-  → Card `#177`
-- [ ] 🔴 **Otto richieste di unione ferme in coda**: dimmi quali mergiare e quali chiudere.
-  → Card `#166`
-- [ ] 🔴 **L'informativa privacy esce col nome «MyCity» e basta** — servono i dati veri del titolare.
-  → Card `#165`
-- [ ] 🔴 **Del database non esiste nessuna copia di sicurezza** — mancano due segreti per farla partire.
-  → Card `#134`
-- [ ] 🔴 **Un posto dove tenere una copia delle foto dei prodotti.**
-  → Card `#162`
+## 8 · La macchina — permessi e server
 
----
+- [ ] 🟡 Unisci entro venerdì 14/11 la riparazione delle due date che dal 15/11 fanno rossa ogni prova della macchina.
+  → 5 minuti, quando apro la richiesta di unione.
+- [ ] 🟡 Aggiorna il foglio dei permessi in una modifica sola: elenco dei programmi al posto dei jolly, niente spinte su main, niente SQL, niente credenziali git.
+  → carte #42, #74, #119 · circa 25 minuti.
+- [ ] 🔴 Riaccendi il server nell'ordine giusto: diagnosi, salvataggio del disco, tetto di spesa, freno, revoca dei vecchi token, poi il worker.
+  → carte #168, #7, #9 · circa 2 ore in due sedute.
+- [ ] 🟡 Crea il bot Telegram e accendi la sveglia dei bandi, dopo il server.
+  → carte #24, #66 · 35 minuti.
 
-## 🟡 Decisioni rapide (una parola/un click bastano)
+## 9 · Senza fretta
 
-- [ ] 🟡 **Il pannello del negoziante ha 14 voci di menù**, e il tuo paletto dice «nessuna app
-  nuova»: scegli quale delle due vale.
-  → Card `#178`
-- [ ] 🟡 **Ho tolto un permesso speciale rimasto in giro, morto** — solo da confermare.
-  → Card `#176`
-- [ ] 🟡 **Il sito scrive "spedizione gratis" e poi fa pagare 3 €** — decisione di prezzo, tua.
-  → Card `#175`
-- [ ] 🟡 **148 difetti sono chiusi con una prova che non può diventare rossa** — servirebbe una
-  sessione dedicata a ridarle un morso vero.
-  → Card `#172`
-- [ ] 🟡 **Un post pronto per Pane Quotidiano** (pudding vaniglia, senza promessa di consegna) —
-  aspetta solo il tuo via.
-  → Card `#180`
-
----
-
-## 🟡 CI rossa sul repo memoria/cervello (ad-mycity)
-
-7 PR aperte: 5 rosse per colpa propria (`#855`, `#842`, `#841`, `#741`, `#735`), 1 verde pronta a
-firma (`#858`), 1 ancora in corso (`#860`). Non riparabili da questa sessione: `test-cervello.mjs`
-resta bloccato dall'allowlist Bash (stesso buco noto delle card #104/#42).
-
----
-
-## 🟡 Da valutare quando hai un minuto (non bloccanti)
-
-- [ ] 🟡 **Metti la partita IVA vera nell'informativa privacy** — l'unico dato che non posso dedurre da solo.
-  → Card `#39`
-- [ ] 🟡 **Rimetti in funzione il comando "radiografia"** — rotto in due punti, riparabile in un branch.
-  → Card `#41`
-- [ ] 🟡 **246+ correzioni tue restano senza un freno che scatta da solo** — servirebbe rilanciare
-  `gate-veri.mjs` da un canale con permessi più larghi.
-  → Card `#95`
-- [ ] 🟡 **Comunicato "I fornelli restano spenti"** per Pane Quotidiano — pronto, aspetta il via.
-  → Card `#107`
-
-> ⚠️ **Restano altre righe tecniche in coda** (fix di codice interno, PR da aprire/mergiare lato AD,
-> cure alla memoria) che non richiedono una TUA decisione — in tutto **89 card 🟡/🔴 aperte** (contate
-> ora con grep, non stimate). Elenco completo, sempre aggiornato: [[AZIONI-IN-ATTESA]].
+- [ ] 🟡 Rispondi alle proposte che ti porto: rami vecchi del server, regola che separa i dati delle botteghe, scelte di visione e della Cabina.
+  → carte #168, #211 · circa 1 ora e mezza, quando arrivano.
