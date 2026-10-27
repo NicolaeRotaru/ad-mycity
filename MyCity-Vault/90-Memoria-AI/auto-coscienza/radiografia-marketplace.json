@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1622,
+    "findings": 1658,
     "bloccanti": 35,
     "gravi": 505,
-    "minori": 1082,
+    "minori": 1118,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -29587,23 +29587,349 @@
       "descrizione": "Sul ramo d'integrazione (a6a83e22) le prove nel browser sono 70 passate su 70. Con il ramo della cancellazione dentro: 3 rosse. GET e POST /api/account/delete senza accesso rispondono 503 «Cancellare l'account in automatico non è disponibile…» invece di 401 nel formato ApiErrors. Il ramo guarda la chiave di servizio prima di chiedere chi sei: senza chiave, la porta non controlla più l'accesso.",
       "impatto": "Il contratto «senza accesso → 401» sparisce proprio quando manca la chiave, cioè oggi in produzione; e la CI del sito diventerebbe rossa all'unione.",
       "fix": "Prima chi sei, poi la chiave: chi non ha fatto l'accesso riceve sempre 401 nel formato ApiErrors; chi ha fatto l'accesso e la chiave manca riceve 503 con la strada a mano. Riconoscere la sessione senza la chiave di servizio (client anonimo coi cookie). Prova unitaria col withAuth vero: anonimo senza chiave → 401; con sessione senza chiave → 503 con la casella; e le tre prove di tests/e2e/09-api-endpoints.spec.ts verdi sul sito costruito."
+    },
+    {
+      "titolo": "Se il pannello di una persona fallisce, le email delle persone dopo di lei possono sparire senza che una prova diventi rossa",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts, recapitaAvvisi, riga `if (posta) {`",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del quarto giro della fase 2)",
+      "descrizione": "Mutante `if (posta) {` → `if (posta && rapporto.falliti === 0) {`. prova-sito --file lib/privacy/avvisi-a-chi-aspetta.ts più le 6 prove: exit 0, tutto verde. Manca il caso con due persone: pannello fallito per la prima, email partita per la seconda."
+    },
+    {
+      "titolo": "Il modulo contatti rotto, senza casella privacy, può tornare a dire «scrivici a il modulo dei contatti» con le prove verdi",
+      "severita": "minore",
+      "file": "app/api/contact/route.ts, risposta 503 quando manca la chiave e l'inoltro non parte",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo A del quarto giro della fase 2)",
+      "descrizione": "Mutante `recapito.eUnaCasella ? `Scrivici a` → `recapito.testo ? `Scrivici a`: senza casella la frase diventa «Scrivici a il modulo dei contatti», cioè il giro in tondo. prova-sito exit 0: nessuna prova legge il testo del 503 del modulo senza casella."
+    },
+    {
+      "titolo": "Il turno dell'email rifiutato dal registro è provato solo al secondo tentativo: dal terzo, trattato come «in corso», resta verde",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts, emailDovuta, `if (eUnDoppione(turno.error.message)) return 'in-corso';`",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del quarto giro della fase 2)",
+      "descrizione": "Mutante `if (eUnDoppione(turno.error.message) || tentativo > 2) return 'in-corso';`: 105 prove su 105 verdi, prova-sito exit 0. Con `> 1` diventa rosso, quindi il confine è provato solo al secondo tentativo. Effetto basso: di solito l'allarme esiste già dalla seconda notte."
+    },
+    {
+      "titolo": "La chiusura dell'allarme a email partita è provata con un solo amministratore: dal secondo in poi l'allarme può restare aperto",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts, chiudiGliAllarmiDelleEmailPartite, ciclo sugli amministratori",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo A del quarto giro della fase 2)",
+      "descrizione": "Mutante `.slice(0, 1)` sul ciclo degli amministratori in chiudiGliAllarmiDelleEmailPartite: prova-sito exit 0. Lo stesso mutante sulla creazione (avvisaUnaVoltaPerAvviso) diventa rosso: il caso con due amministratori c'è solo lì."
+    },
+    {
+      "titolo": "Nessuna prova fissa che la spiegazione di legge parta come email transazionale: passata a marketing resta verde",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts, postaVera, `invia: (l) => sendEmail({ ...l, tipo: 'transazionale' })`",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del quarto giro della fase 2)",
+      "descrizione": "Mutante tipo 'marketing' in postaVera: 105 verdi, prova-sito exit 0. Con marketing sendEmail aggiunge il piede di disiscrizione e senza UNSUBSCRIBE_SECRET non spedisce (lib/email/client.ts, riga 140): l'allarme notturno se ne accorgerebbe, le prove no."
+    },
+    {
+      "titolo": "Il riquadro del motivo nella pagina dell'account può tornare a guardare solo il testo e non «rinviata», con le prove verdi",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx circa riga 627, `{pendingDeletion.rinviata || pendingDeletion.motivo ? (`",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "nato dal lotto #262 (collaudo A del quarto giro della fase 2)",
+      "descrizione": "Mutante `{pendingDeletion.motivo ? (` al posto di `rinviata || motivo`: prova-sito exit 0. Quasi equivalente: rinviata:true con motivo:null arriva solo se il body della notifica non è testo, e il giro notturno scrive sempre testo. Quel caso non ha una prova."
+    },
+    {
+      "titolo": "Il commento di avvisaAmministratori è rimasto staccato: ora sta sopra la funzione nuova dell'allarme email",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts:277-298",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo B del quarto giro della fase 2)",
+      "descrizione": "Righe 277-289: il commento di avvisaAmministratori (finisce con «arriva a Sentry»). Subito sotto, righe 290-297, c'è il commento di avvisaUnaVoltaPerAvviso, che inizia a riga 298. La funzione descritta dal primo commento sta più in basso."
+    },
+    {
+      "titolo": "Se la chiusura dell'allarme fallisce la notte in cui l'email parte, «scrivile tu» resta aperto per sempre",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:210 e :365; app/api/cron/process-deletions/route.ts, chiudiGliAllarmiDelleEmailPartite",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo B del quarto giro della fase 2)",
+      "descrizione": "emailPartiteAvvisi si riempie solo con l'esito 'partita' (riga 210). Dalla notte dopo l'esito è 'gia-partita' (riga 365): la chiusura non si ritenta. Se quella notte l'update fallisce resta un logger.warn, e l'allarme rimane aperto."
+    },
+    {
+      "titolo": "Senza chiave, la porta dei diritti risponde prima del limite per persona e scrive un errore a ogni richiesta",
+      "severita": "minore",
+      "file": "lib/api/middleware.ts, authenticate (ramo seMancaLaChiave) e withAuthRateLimit; senzaChiave in app/api/account/delete/route.ts e app/api/account/export/route.ts",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo B del quarto giro della fase 2)",
+      "descrizione": "authenticate restituisce il 503 prima di rateLimitAsync: non scatta il tetto di 3 all'ora (delete) né di 3 al giorno (export). A ogni richiesta senzaChiave fa logger.error, e il rumore verso Sentry lo frena solo il freno per indirizzo."
+    },
+    {
+      "titolo": "Email partita ma non segnata: la notte dopo riparte, e se fallisce l'allarme dice «non partita» per un'email già arrivata",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts, emailDovuta (scrittura di EMAIL_PARTITA, righe ~388-400)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo B del quarto giro della fase 2)",
+      "descrizione": "Se la scrittura di segno fallisce, il catch la annota e restituisce 'partita' senza la riga EMAIL_PARTITA. La notte dopo il tentativo è N+1 (più di 1): se l'invio fallisce l'esito è 'bloccata'. Allora avvisaUnaVoltaPerAvviso scrive «non è partita per email» per un'email già consegnata."
+    },
+    {
+      "titolo": "La regola «la posta del supporto parte» è ricopiata in titolare.ts leggendo process.env, invece di chiederla a lib/env e lib/email/client",
+      "severita": "minore",
+      "file": "lib/legal/titolare.ts:255 ilModuloArrivaSenzaDatabase (default di stradaAManoPerIDiritti :221); stessa regola in app/api/contact/route.ts inoltraSenzaDatabase e lib/email/client.ts",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Fuori rete lib/env.ts:75 ripiega su MITTENTE_DI_RISERVA senza RESEND_FROM e sendEmail spedisce; il predicato dice false. La prova grande mocka sendEmail (riga 162), quindi una deriva fra le copie resta verde. Il modulo è importato da 4 componenti 'use client'."
+    },
+    {
+      "titolo": "Il gancio seMancaLaChiave rende morti i catch sulla chiave nelle rotte; senzaChiave e sullaPorta copiati in due file",
+      "severita": "minore",
+      "file": "lib/api/middleware.ts:251-252 vs app/api/account/delete/route.ts:15-37 e i catch di POST/DELETE/GET; app/api/account/export/route.ts:10-34 e 68-73",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "getAdminSupabase() (lib/supabase/server.ts:62-64) tiene _admin in cache: se authenticate l'ha ottenuto, il secondo richiamo nel gestore non lancia mai. Due strati decidono la stessa 503; i due helper copiati differiscono solo per l'etichetta del log."
+    },
+    {
+      "titolo": "audit_logs, il registro delle azioni amministrative, diventa il lucchetto delle email, scritto fuori da lib/audit.ts e dal catalogo",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:321-405 (REGISTRO_INVII, rigaDegliInvii, emailDovuta); letto da app/admin/audit/page.tsx (ultime 200 righe)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Righe con actor_id null e azioni privacy.avviso_cancellazione.email_* assenti da AZIONI_AUDIT (lib/audit-azioni.ts); con la posta giù +1 riga per avviso a notte nella vista admin. Precedente in lib/stripe/rimborsi-da-dividere.ts: il pattern si allarga."
+    },
+    {
+      "titolo": "L'email trova il collegamento cercando la stringa '/contact' dentro una frase scritta in un altro modulo",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:415-430 (PAGINA_DEI_CONTATTI, corpoDellEmail) e lib/legal/titolare.ts:174, 186, 272",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "'/contact' è letterale in 4 punti senza costante comune e lo split non ha confini di parola: '/contacts' o un URL assoluto verrebbero spezzati; se la frase cambia, l'email perde il collegamento in silenzio."
+    },
+    {
+      "titolo": "avvisi-a-chi-aspetta.ts tiene insieme pannello, lucchetto email, indirizzo, HTML e invio; l'email parte solo se il pannello riesce",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts (577 righe, +372): recapitaAvvisi :154 (continue a :194), emailDovuta :345, corpoDellEmail :417, postaVera :548",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Lettura del flusso: se l'insert in notifications fallisce, il catch fa continue e l'email non si tenta. Il canale pensato per chi non rientra nel sito dipende da quello interno al sito."
+    },
+    {
+      "titolo": "Il finto ClienteAvvisi è riscritto in quattro posti e la prova da 1033 righe mescola rotte, notte e una scansione del sorgente",
+      "severita": "minore",
+      "file": "tests/unit/chi-vuole-cancellarsi-…test.ts (:70 adminDiProva, :560-576); la-spiegazione-…test.ts:26; chi-aspetta-…test.ts letturaVuota; tests/unit/aiuti/finto-giro-notturno.ts",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Il .eq() concatenabile ha chiesto ritocchi in ogni copia. La scansione readdirSync+regex su app/**/*.tsx vede solo `mailto:${…emailPrivacy}`: concatenazione o components/ la aggirano. «La posta dice di no la prima notte» è provato in due file (:480 e :100)."
+    },
+    {
+      "titolo": "authenticate ignora l'errore della lettura del profilo: un guasto del database diventa 403 «Profilo non trovato» su ogni rotta",
+      "severita": "minore",
+      "file": "lib/api/middleware.ts:254-263 (select su profiles con .single(): si legge solo data)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da riesame del quarto giro della fase 2 del lotto #262",
+      "descrizione": "supabase-js non lancia sugli errori: con chiave revocata o database giù data è null e si risponde 403 invece di 503, la stessa confusione tolta il 22/8 per la sessione. C'era già prima del lotto."
+    },
+    {
+      "titolo": "Allarme 'persone non avvisate' riscritto ogni notte, senza dire chi: la stessa classe chiusa per le email resta aperta qui",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts: if (avvisi.falliti > 0) await avvisaAmministratori(...) — insert senza id derivato (riga ~392)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Lettura: avvisaAmministratori inserisce righe senza id fisso e il testo non porta lo userId; con un guasto di scrittura persistente ogni notte una copia per admin e notte rossa (500, niente battito). Non riprodotto a runtime."
+    },
+    {
+      "titolo": "L'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts: chiudiGliAllarmiDelleEmailPartite chiude solo avvisi.emailPartiteAvvisi",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Lettura: l'avviso esce da verdetto.dovuti quando la cancellazione riesce o viene annullata; nessun ramo chiude l'allarme (body 'Chi aspetta: l'utente <id>'), che resta con l'id di una persona cancellata."
+    },
+    {
+      "titolo": "Avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts: const avvisi = await rispondiAChiAspetta(...) → recapitaAvvisi (lib/privacy/avvisi-a-chi-aspetta.ts), pannello+email per persona",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Lettura: ogni email fino a 2x10 s, turno ogni 20 h quindi stesso ordine ogni notte; il riordino ha salvato solo la sveglia, non gli avvisi in coda. Rischio basso alla scala attuale. Non riprodotto."
+    },
+    {
+      "titolo": "Modulo contatti senza database: il messaggio inoltrato perde chi l'ha scritto (user.id) e non lascia traccia",
+      "severita": "minore",
+      "file": "app/api/contact/route.ts: catch di getAdminSupabase → inoltraSenzaDatabase(payload); user calcolato sopra e non passato",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Lettura: htmlDelMessaggio usa solo name/email/subject/message; il ramo con database salva invece user_id e ip. Una richiesta privacy arriva al supporto senza legame all'account."
+    },
+    {
+      "titolo": "Il collegamento details.recapito del 503 del modulo contatti non lo legge nessuno: la casella compare solo in un toast che sparisce",
+      "severita": "minore",
+      "file": "app/api/contact/route.ts (apiError 503 con recapito) vs app/contact/page.tsx:68-76 (toast.error(friendlyError(err)))",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "grep -n recapito app/contact/*.tsx → nessun risultato; la pagina mostra solo toast.error."
+    },
+    {
+      "titolo": "Il campo rinviata è true anche a termine scaduto: la risposta non distingue un rinvio motivato da un ritardo oltre il termine di legge",
+      "severita": "minore",
+      "file": "app/api/account/delete/route.ts GET: rinviata: attesa.inAttesa; attesa.tappa non esposta",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Lettura: attesaDichiarata restituisce tappa 'termine-scaduto' o 'rinviata'; la rotta espone solo inAttesa col nome 'rinviata'."
+    },
+    {
+      "titolo": "Il modulo contatti cade ancora con 500 muto se l'accesso non risponde, e senza inoltro se il database risponde con errore",
+      "severita": "minore",
+      "file": "app/api/contact/route.ts: const user = await getCurrentUser() fuori da try; ramo if (error) → ApiErrors.internal",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "preesistente, trovato da riesame del quarto giro della fase 2 del lotto #262",
+      "descrizione": "Lettura: getCurrentUser lancia AuthNonDisponibile (lib/supabase/server.ts:95-112); il ripiego per email scatta solo se manca la chiave, non a database guasto."
+    },
+    {
+      "titolo": "Cookie policy senza casella: due parentesi di fila e un «casella privacy non ancora attiva» che l'informativa privacy non dice",
+      "severita": "minore",
+      "file": "app/cookies/page.tsx:141-150 (ramo senza casella) contro app/privacy/page.tsx:67-69",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "sed -n 138,151p app/cookies/page.tsx produce: «…su richiesta dal modulo dei contatti (la casella email della privacy non è ancora attiva) (referente: Nicolae Rotaru).» L'informativa, nello stesso caso, dice solo «Contatti del Titolare: il modulo dei contatti»."
+    },
+    {
+      "titolo": "La correzione della cookie policy non ha una prova: se torna il vecchio mailto al ripiego, i test restano verdi",
+      "severita": "minore",
+      "file": "app/cookies/page.tsx:142-149; il controllo esistente è in tests/unit/informativa-senza-dati-finti.test.ts:232",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "git show a6a83e22:app/cookies/page.tsx contiene mailto:${chiSiamo.emailPrivacy}. La regex del controllo /mailto:(?!\\$\\{)/ ne trova 0 (verificato con node). Nessun test dell'ondata cita la cookie policy. Proposta: un test rosso se una pagina legge .emailPrivacy senza passare da recapitoPrivacy."
+    },
+    {
+      "titolo": "Informativa privacy: «scrivendo a il modulo dei contatti» due volte, l'errore che l'ondata descrive e corregge altrove",
+      "severita": "minore",
+      "file": "app/privacy/page.tsx:249-251 e 289-290 (file non toccato dal delta)",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato da riesame del quarto giro della fase 2 del lotto #262",
+      "descrizione": "Senza casella, recapitoPrivacy dà il testo «il modulo dei contatti» e la pagina lo attacca a «scrivendo a». lib/legal/titolare.ts:176-189 (recapitoInUnaFrase) descrive proprio «scrivi a il modulo dei contatti», ma l'informativa non usa quella funzione."
+    },
+    {
+      "titolo": "Senza la casella vera, l'unico recapito del titolare nell'informativa e nella cookie policy è il modulo web",
+      "severita": "minore",
+      "file": "lib/legal/titolare.ts:166-175; app/privacy/page.tsx:67-69; app/cookies/page.tsx:141-149",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da riesame del quarto giro della fase 2 del lotto #262",
+      "descrizione": "recapitoPrivacy restituisce href '/contact' quando NEXT_PUBLIC_TITOLARE_EMAIL_PRIVACY manca. Le linee guida sulla trasparenza (WP260, art. 13.1.a) chiedono di preferenza più canali, per esempio email e posta. La causa è operativa: creare la casella e impostare la variabile."
+    },
+    {
+      "titolo": "Il pulsante «Scrivi a <indirizzo>» non si restringe e schiaccia il messaggio in una colonna stretta, più alta dello schermo su telefono",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx, mostraErroreConLaStrada (action.label con l'indirizzo intero); sonner 1.7.4: [data-button] flex-shrink:0",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Senza chiave di servizio, con casella privacy: Cancella account → 503 con recapito. Toast 356px (328px su telefono da 360px): bottone ~230px che non si riduce, al testo di ~190 caratteri restano ~35-60px (overflow-wrap:anywhere) = 4-8 lettere a riga. Stima, non misurata in browser."
+    },
+    {
+      "titolo": "Toccare il pulsante chiude il messaggio: se l'app di posta non si apre, spiegazione e indirizzo spariscono",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx, mostraErroreConLaStrada: onClick senza event.preventDefault(); sonner chiude il toast dopo ogni action.onClick",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Desktop senza programma di posta: errore 503 → tocca «Scrivi a …» → window.location.assign('mailto:…') non apre nulla e il toast si chiude (sonner: deleteToast se !defaultPrevented). Per rileggere l'indirizzo bisogna ripetere la richiesta."
+    },
+    {
+      "titolo": "Il motivo del rinvio è testo semplice: «(pagina /contact)» e l'indirizzo dentro il motivo non sono cliccabili, nell'email sì",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx, paragrafo role=status in Zona pericolosa ({pendingDeletion.motivo}); testo nato in avviso() di lib/cron-cancellazioni.ts",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Il corpo dell'avviso dice «scrivi a noi con il modulo dei contatti del sito (pagina /contact)»: corpoDellEmail lo trasforma in collegamento, la pagina lo stampa come testo nudo dentro un <p>."
+    },
+    {
+      "titolo": "Gli errori di Cancella account non passano più da friendlyError: spariscono dal conteggio degli errori mostrati (trackErrorShown)",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx, handleDeleteAccount: il ramo !res.ok ora chiama mostraErroreConLaStrada invece di throw → friendlyError",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Prima: throw → catch → friendlyError → trackErrorShown (lib/errors.ts). Ora solo toast.error: un 503/429/500 su Cancella account non lascia più l'evento analitico di errore mostrato. L'export già prima non lo lasciava."
+    },
+    {
+      "titolo": "Cancellazione ferma per un guasto tra l'ottavo e il trentesimo giorno: la pagina conta ancora «tra 0 giorni» con una data già passata",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx, Zona pericolosa: il ramo «rinviata» dipende solo dal flag del server, non da daysRemaining===0 o effectiveAt passato",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "preesistente, trovato da riesame del quarto giro della fase 2 del lotto #262",
+      "descrizione": "verdettoDelGiro non scrive avvisi per i guasti sotto il mese → GET risponde rinviata:false, daysRemaining:0 → «eliminato definitivamente tra 0 giorni (il …)… Puoi annullare entro questa data». Il test della pagina copre 2, 8 e 40 giorni, non ~10 con guasto."
+    },
+    {
+      "titolo": "Il collegamento dell'avviso apre Impostazioni sulla scheda Account: motivo e «Annulla eliminazione» stanno solo in Zona pericolosa",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx: useState<Tab>('account') senza lettura di ?tab; link dell'avviso = '/profile/settings' (PAGINA_DELLE_IMPOSTAZIONI, lib/cron-cancellazioni.ts:224)",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "preesistente, trovato da riesame del quarto giro della fase 2 del lotto #262",
+      "descrizione": "Chi apre l'avviso «La tua richiesta di cancellazione è in attesa» (email: «La tua richiesta, sul sito: …») atterra su Account e non vede né il motivo né il pulsante per annullare finché non apre la quinta scheda."
+    },
+    {
+      "titolo": "Scheda Privacy: senza casella manda sempre al modulo dei contatti, anche quando il server sa che il modulo non arriva a nessuno",
+      "severita": "minore",
+      "file": "app/profile/settings/page.tsx, riquadro «Contatta il responsabile privacy»: recapitoPrivacy() nel browser non conosce ilModuloArrivaSenzaDatabase()",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "nato dal lotto #262 (riesame del quarto giro della fase 2)",
+      "descrizione": "Senza chiave, senza casella e senza SUPPORT_EMAIL/RESEND: il toast dice «la tua richiesta non è partita», la scheda Privacy accanto dice «scrivici dal modulo dei contatti», che senza database non salva. Probabilità molto bassa."
+    },
+    {
+      "titolo": "La prova nel browser «step indicator visible» della cassa dipende da quando la pagina finisce di disegnarsi: a volte passa senza guardare niente, a volte cade",
+      "severita": "minore",
+      "dimensione": "qa-flussi",
+      "stato": "aperto",
+      "file": "tests/e2e/08-checkout-and-flows.spec.ts:36-46 (isVisible senza attesa e «text=Indirizzo» non limitato alla barra dei passi) · components/checkout/StepIndicator.tsx (nav «A che punto sei dell’ordine») · components/LocationPill.tsx:126,132",
+      "fonte": "preesistente, visto dall’AD il 27/10 alle 21:35 sul ramo d’integrazione del lotto #262: 1 rossa su 70 in una corsa, 10 verdi su 10 da sola",
+      "descrizione": "Col carrello vuoto la barra dei passi compare per un attimo mentre la cassa carica, poi sparisce quando arriva «carrello vuoto». La prova controlla «Carrello» con isVisible, che non aspetta: se guarda presto passa senza controllare niente; se guarda nel momento sbagliato cerca «text=Indirizzo» in tutta la pagina e trova le due scritte del riquadro della posizione («Inserisci il tuo indirizzo», «Inserisci indirizzo»): strict mode violation. Una versione limitata alla barra dei passi cade 7 volte su 10, perché la barra sparisce fra il controllo e l’attesa.",
+      "impatto": "Un rosso nella CI che non dipende dal codice: invita a rilanciare invece di capire.",
+      "fix": "Aspettare lo stato finale della cassa (il messaggio «carrello vuoto» o la barra dei passi che resta), poi controllare i passi solo dentro la barra. Col carrello vuoto la prova dei passi ha senso solo con un carrello pieno: seminarne uno nella prova, come fa 12-la-cassa-dal-carrello-al-pagamento."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-27 20:48",
+    "aggiornato": "2026-10-27 21:59",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 787,
+    "findings_aperti": 823,
     "findings_chiusi": 835,
-    "findings_tot": 1622,
+    "findings_tot": 1658,
     "aperti_per_severita": {
       "bloccante": 9,
       "grave": 144,
-      "minore": 634,
+      "minore": 670,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1622,
+    "dichiarati_dal_referto": 1658,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
