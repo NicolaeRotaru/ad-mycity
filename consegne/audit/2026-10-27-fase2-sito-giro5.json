@@ -1,0 +1,114 @@
+{
+  "_cosa_e": "Quinto giro della fase 2 del sito: i due gravi che il riesame del perimetro della fase 2 (run wf_b9d92819-bde) ha confermato. La consegna completa il ramo del terzo giro (fermo su due buchi delle prove della carta), la posta toglie la promessa del ritiro dall'email «3 cose da sapere». Le ondate 1-6 di questo file sono vuote apposta: le schede si leggono con --ondata 7, così i worktree nascono come o7-*. Base: fix/base-ondata-7 (93be1d18), cioè il ramo d'integrazione a4f4161c più il ramo del terzo giro della consegna (21de634c), solo in locale.",
+  "data": "2026-10-27 23:48",
+  "registro": "sito",
+  "origine": "riesame del perimetro della fase 2 (run wf_b9d92819-bde) + consegne/audit/2026-10-27-fase2-sito-giro3.json (run wf_83d2e67e-905)",
+  "ondate": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "chiave": "lib/ordini/riepilogo-ordine.ts",
+        "difetti": [
+          {
+            "idx": 1584,
+            "chiave": "qa-flussi|dopo il pagamento la pagina dell'ordine scrive «spedizione gratuita» sopra «consegna mycity 3,00 €», su ogni ordine (cliente e negoziante)"
+          },
+          {
+            "idx": 1553,
+            "chiave": "architettura|la spedizione a chilometri può tornare sotto i 30 € e oltre i 6 km senza che nessuna prova diventi rossa: tutte usano la casa a 5 km"
+          },
+          {
+            "idx": 1554,
+            "chiave": "architettura|il confine dei 10 km è provato solo est-ovest: se la cassa ignora la latitudine accetta 13 km a nord e le prove restano verdi"
+          },
+          {
+            "idx": 1563,
+            "chiave": "pagamenti-stripe|il confine dei 10 km è provato solo sul contrassegno: alla rotta della carta si può togliere il controllo zona con tutte le prove verdi"
+          },
+          {
+            "idx": 1565,
+            "chiave": "flussi-conversione|ordersummary scrive ancora «spedizione gratis» se riceve spedizione e consegna separate: la guardia vive solo nell'unico chiamante"
+          },
+          {
+            "idx": 1573,
+            "chiave": "qa-flussi|la stessa consegna da 3 € si chiama «consegna mycity» nel carrello e «spedizione» nel riepilogo della cassa"
+          },
+          {
+            "idx": 1568,
+            "chiave": "frontend-ux|la scheda prodotto dice due volte il costo di consegna con due nomi diversi: si può leggere come 6 € invece di 3 €"
+          },
+          {
+            "idx": 1555,
+            "chiave": "flussi-conversione|le prove della pagina spedizioni cercano solo le parole vecchie: 48 ore, preventivo e gratis tornano con altre parole a prove verdi"
+          },
+          {
+            "idx": 1551,
+            "chiave": "architettura|la prova della frase «negozio chiuso» cerca solo la parola «domani»: «l'ordine non parte, riprova domani» resta verde"
+          },
+          {
+            "idx": 1556,
+            "chiave": "frontend-ux|«vicino a te» può partire filtrando a 20 km: la prova guarda solo il massimo del cursore"
+          },
+          {
+            "idx": 1572,
+            "chiave": "frontend-ux|«vicino a te»: a 10 km, il massimo del cursore, l'avviso vuoto dice ancora «aumenta il raggio», che non si può più"
+          },
+          {
+            "idx": 1562,
+            "chiave": "flussi-conversione|la pagina «vicino a te» promette ancora «consegna locale rapida» nella descrizione per google e per le condivisioni"
+          },
+          {
+            "idx": 1571,
+            "chiave": "frontend-ux|admin e /shipping danno il confine di 10 km per stagno, ma senza coordinate la cassa accetta qualunque indirizzo"
+          },
+          {
+            "idx": 1594,
+            "chiave": "api-backend|in contanti il confine dei 10 km può ignorare la latitudine (13 km a nord accettati) e nessuna prova diventa rossa"
+          },
+          {
+            "idx": 1595,
+            "chiave": "pagamenti-stripe|con la carta il controllo zona si può spegnere per l'indirizzo scritto a mano: la prova fa dare la stessa casa anche alla rubrica"
+          },
+          {
+            "idx": 1596,
+            "chiave": "architettura|la spedizione a chilometri può tornare sotto i 30 € e oltre i 6 km nei carrelli con due negozi, a prove tutte verdi"
+          },
+          {
+            "idx": 1597,
+            "chiave": "qa-flussi|pagina dell'ordine: «spedizione gratuita» sopra i 3 € torna a prove verdi, la guardia è un grep /gratuit/ sensibile al maiuscolo"
+          },
+          {
+            "idx": 1608,
+            "chiave": "api-backend|il confine dei 10 km è provato solo sui 4 assi: coi contanti misurati «a quadrato» una casa a 13 km in diagonale passa a prove verdi"
+          },
+          {
+            "idx": 1609,
+            "chiave": "pagamenti-stripe|alla carta il controllo zona si può togliere dal secondo negozio in poi: le prove hanno un negozio solo e restano verdi"
+          },
+          {
+            "idx": 1615,
+            "chiave": "flussi-conversione|la rotta della carta è provata solo sui 4 assi: un confine a quadrato (13 km in diagonale passa) o a rombo resta verde"
+          },
+          {
+            "idx": 1616,
+            "chiave": "flussi-conversione|«in omaggio» accanto ai 3 € nel riepilogo della cassa con la carta: le prove rileggono solo il testo dei contanti"
+          }
+        ]
+      },
+      {
+        "chiave": "lib/email/templates.ts",
+        "difetti": [
+          {
+            "idx": 1658,
+            "chiave": "microcopy|l'email «3 cose da sapere» promette a ogni nuovo cliente «oppure la ritiri tu», ma il ritiro in negozio è spento"
+          }
+        ]
+      }
+    ]
+  ]
+}

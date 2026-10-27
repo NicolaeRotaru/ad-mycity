@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-27 20:50
+aggiornato: 2026-10-27 23:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔎 **2026-10-27 23:55 — La cancellazione dell'account regge. Il riesame ha trovato due difetti gravi: parte il quinto giro.**
+>
+> La cancellazione dell'account è nel ramo del sito, con le prove verdi. Nove revisori hanno riguardato i 33 file toccati dalla fase 2, e i verificatori hanno confermato due difetti gravi. Il primo: dopo il pagamento, il cliente legge che la consegna è gratis, mentre la sta pagando 3 euro. Il secondo: l'email «3 cose da sapere» promette il ritiro in negozio, che è spento.
+>
+> Il quinto giro li sistema tutti e due. Per la consegna parte dal ramo della carta #215 e chiude i buchi delle prove che l'avevano fermato: se regge, la carta si chiude da sola.
 
 > 🧪 **2026-10-27 20:50 — La consegna è pronta. Sulla cancellazione dell'account serve un quarto giro.**
 >

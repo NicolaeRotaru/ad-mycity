@@ -26,9 +26,9 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1658,
+    "findings": 1659,
     "bloccanti": 35,
-    "gravi": 505,
+    "gravi": 506,
     "minori": 1118,
     "agenti": null
   },
@@ -29913,23 +29913,34 @@
       "descrizione": "Col carrello vuoto la barra dei passi compare per un attimo mentre la cassa carica, poi sparisce quando arriva «carrello vuoto». La prova controlla «Carrello» con isVisible, che non aspetta: se guarda presto passa senza controllare niente; se guarda nel momento sbagliato cerca «text=Indirizzo» in tutta la pagina e trova le due scritte del riquadro della posizione («Inserisci il tuo indirizzo», «Inserisci indirizzo»): strict mode violation. Una versione limitata alla barra dei passi cade 7 volte su 10, perché la barra sparisce fra il controllo e l’attesa.",
       "impatto": "Un rosso nella CI che non dipende dal codice: invita a rilanciare invece di capire.",
       "fix": "Aspettare lo stato finale della cassa (il messaggio «carrello vuoto» o la barra dei passi che resta), poi controllare i passi solo dentro la barra. Col carrello vuoto la prova dei passi ha senso solo con un carrello pieno: seminarne uno nella prova, come fa 12-la-cassa-dal-carrello-al-pagamento."
+    },
+    {
+      "titolo": "L'email «3 cose da sapere» promette a ogni nuovo cliente «oppure la ritiri tu», ma il ritiro in negozio è spento",
+      "severita": "grave",
+      "dimensione": "microcopy",
+      "stato": "aperto",
+      "file": "lib/email/templates.ts:588 (html) e :597 (testo), modello tutorial_day2, fra i modelli di servizio a :767 · lib/constants.ts:87 (RITIRO_IN_NEGOZIO_ATTIVO = false) · migrations/033_buyer_public_profile_zone_codes.sql:131 (la mette in coda per ogni nuovo cliente)",
+      "fonte": "nato dal lotto #262 (commit 02484477, posta della fase 2), trovato dal riesame del perimetro del 27/10 sera (run wf_b9d92819-bde, lenti architettura-consegna e architettura-posta-privacy) e confermato grave da due verificatori",
+      "descrizione": "Il lotto ha tolto dalla mail del secondo giorno due promesse false (spedizione gratis sopra 30 euro, 5 euro per l'amico invitato) e ne ha scritta una nuova: «La spesa te la portiamo a casa, oppure la ritiri tu se il negozio lo permette». Al lancio il ritiro è spento per tutti: RITIRO_IN_NEGOZIO_ATTIVO vale false, le due rotte che creano l'ordine lo forzano a falso e la cassa lo nasconde. Nessun negozio ha un'impostazione per «permetterlo». La mail parte a ogni nuovo cliente due giorni dopo l'iscrizione, anche senza consenso alla pubblicità perché è di servizio. La prova del lotto (la-posta-in-coda-non-promette-regali-e-non-si-butta-via.test.ts:110) cerca solo parole di soldi, quindi resta verde.",
+      "impatto": "Ogni nuovo cliente legge nella sua casella che può ritirare in negozio; in cassa non trova l'opzione, e la frase scarica il no sul negozio per una scelta di MyCity.",
+      "fix": "La frase sul ritiro nasce dall'interruttore, come le frasi di lib/promesse-pubbliche.ts: a ritiro spento la mail non nomina il ritiro, né nell'HTML né nel testo semplice né nell'oggetto. Prova: rossa col difetto, verde dopo; un controllo che scorre tutti i modelli di email a ritiro spento. Comando del riesame: D=$(mktemp -d); node_modules/.bin/esbuild lib/email/templates.ts --bundle --platform=node --format=cjs --log-level=error --outfile=$D/t.cjs && NEXT_PUBLIC_APP_URL=https://x.it node -e \"const m=require('$D/t.cjs').preparaEmailCicloDiVita('tutorial_day2',{});process.exit(/ritir/i.test(m.subject+m.html+m.text)?1:0)\" (esce 1 col difetto)."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-27 21:59",
+    "aggiornato": "2026-10-28 00:00",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 823,
+    "findings_aperti": 824,
     "findings_chiusi": 835,
-    "findings_tot": 1658,
+    "findings_tot": 1659,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 144,
+      "grave": 145,
       "minore": 670,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1658,
+    "dichiarati_dal_referto": 1659,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

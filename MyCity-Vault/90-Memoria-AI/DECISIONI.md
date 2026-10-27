@@ -5828,3 +5828,22 @@ Un mio errore lungo la strada: un server del sito rimasto acceso da una prova pr
 **Registro:** 35 voci nuove dal terzo giro (11 gravi, 24 minori; 2 scartate perché doppioni interni), più il grave del 401. Su 786 voci aperte nel registro del sito, 143 sono gravi; di queste circa 31 sono buchi nelle prove e non errori del sito (conto fatto dai titoli).
 
 **Colore.** 🟡 codice nei rami del sito; l'unione della #262 resta di Nicola.
+
+## 2026-10-27 23:55 — 🟡 Fase 2 del sito: la cancellazione dell'account regge, il riesame trova due gravi veri, parte il quinto giro
+
+**Il quarto giro** (run `wf_d46da8ea-d89`, 7 agenti, piano `consegne/audit/2026-10-27-fase2-sito-giro4.json`): regge. Chiuse 40 schede su 43, di cui 15 gravi; la 48 resta a metà perché in produzione servono la casella privacy e la chiave del database su Vercel. Unito nel ramo d'integrazione alle 21:40 (`a4f4161c`): `npm run verify` 657 file e 5.874 prove verdi, CI 9 su 9, prove nel browser in locale 69 su 70 (la rossa è la prova capricciosa della cassa, nel registro).
+
+**Il riesame del perimetro** (run `wf_b9d92819-bde`, 20 agenti: 9 revisori e 11 verificatori, 33 file con la lente della loro dimensione): 92 trovati, 41 nati dal lotto e 51 che c'erano già. I revisori hanno segnalato 11 gravi nati; i verificatori, che dovevano provare a smontarli, ne hanno confermati 4. Sono due difetti soli:
+- la pagina dell'ordine scrive «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €» su ogni ordine a domicilio (voce 1584). La cura c'è già: è nel ramo fermo del terzo giro della consegna, quello della carta #215;
+- l'email «3 cose da sapere», che arriva a ogni nuovo cliente, promette «oppure la ritiri tu», ma il ritiro è spento (voce nuova 1658, nata col commit della posta `02484477`).
+Gli altri sette sono stati declassati a minori: frasi che promettono un po' più di quello che il codice fa, allarmi per l'amministratore, un messaggio che su telefono si stringe troppo.
+
+**La scelta: il quinto giro** (run `wf_1bc11a0a-959`, piano `consegne/audit/2026-10-27-fase2-sito-giro5.json`, ondata 7). Parte da una base locale, `fix/base-ondata-7` (`93be1d18`): il ramo d'integrazione più il ramo del terzo giro della consegna. Sulla base, `npm run verify` è verde: 662 file, 5.951 prove. Due pacchetti:
+- consegna: la squadra completa il ramo del terzo giro e chiude i due buchi delle prove della carta che l'avevano fermato (la distanza in diagonale, «in omaggio» accanto ai 3 euro);
+- posta: la frase sul ritiro nasce dall'interruttore, e una prova scorre tutte le email a ritiro spento.
+
+**Perché senza aspettare la carta #215.** Il riesame ha mostrato che senza quel ramo la #262 porterebbe un difetto grave su ogni ordine. Il giro in più è la strada «215 un altro giro», la più prudente, e non unisce niente che il collaudo non abbia retto. Se regge, la carta #215 si chiude da sola. Se si ferma ancora, la scelta torna a Nicola con le stesse due strade.
+
+**Registro:** il confronto dei 92 trovati con il registro, per non scrivere doppioni, è in corso (run `wf_0eb46399-c63`).
+
+**Colore.** 🟡 codice nei rami del sito, nessuna unione nella #262 senza collaudo che regge; l'unione della #262 resta di Nicola.

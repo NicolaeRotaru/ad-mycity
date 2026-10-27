@@ -33,6 +33,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #215 — Scegli se unire la consegna da 3 euro così com'è: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46
 
+> ⏰ **2026-10-27 23:55 — Il giro in più l'ho fatto partire io.** Il riesame ha confermato grave la pagina dell'ordine che scrive «Spedizione GRATUITA». Senza questo ramo, la #262 porterebbe quella scritta su ogni ordine. Il quinto giro parte da questo ramo e chiude i due buchi delle prove della carta che l'avevano fermato. Se regge, la carta si chiude da sola e non devi fare niente. Se si ferma ancora, torno da te con le stesse due strade.
+
 **In parole semplici.** La squadra della consegna ha finito. La pagina dell'ordine non scrive più «Spedizione GRATUITA» sopra i 3 € di consegna, e la voce ha lo stesso nome ovunque. Il confine dei 10 km è provato in ogni direzione dritta.
 
 Il collaudo l'ha bocciata tre volte, ma non per un errore del sito. Ogni volta ha trovato un modo nuovo di rompere il codice che le prove non vedrebbero. Per esempio: se domani qualcuno sbagliasse il calcolo della distanza solo in diagonale, oggi nessuna prova diventerebbe rossa.
