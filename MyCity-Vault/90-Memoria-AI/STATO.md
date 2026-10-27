@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-27 15:25
+aggiornato: 2026-10-27 18:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🛠️ **2026-10-27 18:50 — La consegna da 3 euro regge. La cancellazione dell'account va al terzo giro.**
+>
+> Nel ramo del sito adesso ci sono il confine dei 10 km e la pagina Spedizioni con le cifre della cassa. In cassa si pagano solo i 3 euro di consegna. Il controllo completo è verde: 5.782 prove su 5.782.
+>
+> La cancellazione dell'account è stata bocciata tre volte dal collaudo. Il codice c'è, ma quattro rotture non fanno diventare rossa nessuna prova. Il terzo giro scrive quelle prove. Nello stesso giro si sistema la pagina dell'ordine, che scrive «Spedizione GRATUITA» sopra i 3 euro di consegna.
 
 > 🚲 **2026-10-27 15:25 — Il confine di consegna scende a 10 km.**
 >

@@ -1,0 +1,184 @@
+{
+  "_cosa_e": "Terzo giro della fase 2 del sito, dopo il secondo (cancellazione dell'account fermo dopo tre bocciature; consegna che regge, con quattro gravi del collaudo da chiudere). Le ondate 1-4 di questo file sono vuote apposta: le schede si leggono con --ondata 5, cosi' i worktree nascono come o5-*. Base: il ramo d'integrazione del sito con la consegna e la configurazione delle prove gia' unite.",
+  "data": "2026-10-27 18:10",
+  "registro": "sito",
+  "origine": "consegne/audit/2026-10-27-fase2-sito-giro2.json (run wf_dea01791-eed) + la richiesta di Nicola del 27/10 sulla cancellazione dell'account",
+  "ondate": [
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "chiave": "app/api/account",
+        "difetti": [
+          {
+            "idx": 48,
+            "chiave": "privacy-legale|chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione"
+          },
+          {
+            "idx": 1215,
+            "chiave": "architettura|l'avviso dovuto a chi ha chiesto la cancellazione viene calcolato ogni notte e buttato via: nessuno chiama recapitaavvisi"
+          },
+          {
+            "idx": 1123,
+            "chiave": "architettura|una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni"
+          },
+          {
+            "idx": 1496,
+            "chiave": "architettura|senza casella privacy e senza posta del supporto, cancella account manda al modulo e il modulo risponde riprova più tardi"
+          },
+          {
+            "idx": 1497,
+            "chiave": "api-backend|il collegamento notturno controlla solo il rinvio: l'avviso di termine di legge scaduto può sparire senza prove rosse"
+          },
+          {
+            "idx": 1498,
+            "chiave": "api-backend|annulla cancellazione e stato cancellazione senza chiave possono tornare al muro senza prova rossa"
+          },
+          {
+            "idx": 1499,
+            "chiave": "api-backend|il campo rinviata della risposta get non è controllato da nessuna prova e la pagina non lo legge"
+          },
+          {
+            "idx": 1500,
+            "chiave": "architettura|senza chiave di servizio, cancella account e scarica dati rispondono ancora «auth non configurato»: la strada a mano non arriva mai"
+          },
+          {
+            "idx": 1501,
+            "chiave": "architettura|la prova del lotto finge withauth e quindi passa su un ramo che in produzione non si esegue mai"
+          },
+          {
+            "idx": 1502,
+            "chiave": "architettura|senza chiave, senza casella privacy e senza posta del supporto, la richiesta gira in tondo tra due messaggi"
+          },
+          {
+            "idx": 1540,
+            "chiave": "api-backend|contatti risponde ok anche se la mail di inoltro non parte, e nessuna prova se ne accorge"
+          },
+          {
+            "idx": 1541,
+            "chiave": "api-backend|avviso di legge non partito: la notte resta verde e nessun amministratore viene svegliato, senza che una prova lo veda"
+          },
+          {
+            "idx": 1580,
+            "chiave": "architettura|se l'email dell'avviso non parte la prima notte non riparte mai, e la notte resta verde senza svegliare nessuno"
+          },
+          {
+            "idx": 1581,
+            "chiave": "frontend-ux|la pagina dell'account può tornare a ignorare «rinviata» senza che nessuna prova diventi rossa"
+          },
+          {
+            "idx": 1582,
+            "chiave": "architettura|con la posta a metà (manca resend_from) cancella account può tornare a mandare al modulo che non inoltra, e la prova resta verde"
+          },
+          {
+            "idx": 1583,
+            "chiave": "api-backend|per chi aspetta da oltre un mese la rotta può tornare a dire rinviata:false e la pagina a contare «tra 0 giorni», senza prova rossa"
+          },
+          {
+            "idx": 1559,
+            "chiave": "architettura|l'avviso di termine di legge scaduto può sparire dalla rotta dell'account (e dalla pagina) senza che una prova diventi rossa"
+          },
+          {
+            "idx": 1544,
+            "chiave": "api-backend|il modulo contatti può tornare a dire ok col fallimento vero di resend: nessuna prova usa {ok:false,error}"
+          },
+          {
+            "idx": 1545,
+            "chiave": "architettura|giro in tondo non provato con resend acceso e support_email assente: togliere support_email dal controllo resta verde"
+          },
+          {
+            "idx": 1546,
+            "chiave": "api-backend|senza casella e senza posta il giro in tondo è provato solo su cancella account, non su scarica dati, annulla e stato"
+          },
+          {
+            "idx": 1547,
+            "chiave": "architettura|le prove chiamano le rotte senza il contesto che next passa sempre: una guardia saltata in produzione resta verde"
+          },
+          {
+            "idx": 1548,
+            "chiave": "api-backend|l'allarme per avviso non partito è provato con una sola persona: allarme solo se falliti > recapitati resta verde"
+          },
+          {
+            "idx": 1549,
+            "chiave": "architettura|il canale email nato nel secondo giro non ha nessuna prova: per questo la perdita dell'avviso passa verde"
+          },
+          {
+            "idx": 1550,
+            "chiave": "architettura|l'email porta il testo del pannello: senza casella dice «pagina /contact» senza indirizzo del sito e senza un collegamento cliccabile"
+          },
+          {
+            "idx": 1557,
+            "chiave": "architettura|con la posta spenta ogni notte è rossa e porta un allarme nuovo finché la cancellazione resta ferma"
+          },
+          {
+            "idx": 1558,
+            "chiave": "architettura|due giri notturni sfalsati spediscono la spiegazione due volte; se il secondo fallisce, la prima notte suona un falso allarme"
+          },
+          {
+            "idx": 1560,
+            "chiave": "architettura|il ritentativo dell'email è provato solo fino alla seconda notte: un tetto a 2 tentativi passa verde"
+          }
+        ]
+      },
+      {
+        "chiave": "lib/ordini/riepilogo-ordine.ts",
+        "difetti": [
+          {
+            "idx": 1584,
+            "chiave": "qa-flussi|dopo il pagamento la pagina dell'ordine scrive «spedizione gratuita» sopra «consegna mycity 3,00 €», su ogni ordine (cliente e negoziante)"
+          },
+          {
+            "idx": 1553,
+            "chiave": "architettura|la spedizione a chilometri può tornare sotto i 30 € e oltre i 6 km senza che nessuna prova diventi rossa: tutte usano la casa a 5 km"
+          },
+          {
+            "idx": 1554,
+            "chiave": "architettura|il confine dei 10 km è provato solo est-ovest: se la cassa ignora la latitudine accetta 13 km a nord e le prove restano verdi"
+          },
+          {
+            "idx": 1563,
+            "chiave": "pagamenti-stripe|il confine dei 10 km è provato solo sul contrassegno: alla rotta della carta si può togliere il controllo zona con tutte le prove verdi"
+          },
+          {
+            "idx": 1565,
+            "chiave": "flussi-conversione|ordersummary scrive ancora «spedizione gratis» se riceve spedizione e consegna separate: la guardia vive solo nell'unico chiamante"
+          },
+          {
+            "idx": 1573,
+            "chiave": "qa-flussi|la stessa consegna da 3 € si chiama «consegna mycity» nel carrello e «spedizione» nel riepilogo della cassa"
+          },
+          {
+            "idx": 1568,
+            "chiave": "frontend-ux|la scheda prodotto dice due volte il costo di consegna con due nomi diversi: si può leggere come 6 € invece di 3 €"
+          },
+          {
+            "idx": 1555,
+            "chiave": "flussi-conversione|le prove della pagina spedizioni cercano solo le parole vecchie: 48 ore, preventivo e gratis tornano con altre parole a prove verdi"
+          },
+          {
+            "idx": 1551,
+            "chiave": "architettura|la prova della frase «negozio chiuso» cerca solo la parola «domani»: «l'ordine non parte, riprova domani» resta verde"
+          },
+          {
+            "idx": 1556,
+            "chiave": "frontend-ux|«vicino a te» può partire filtrando a 20 km: la prova guarda solo il massimo del cursore"
+          },
+          {
+            "idx": 1572,
+            "chiave": "frontend-ux|«vicino a te»: a 10 km, il massimo del cursore, l'avviso vuoto dice ancora «aumenta il raggio», che non si può più"
+          },
+          {
+            "idx": 1562,
+            "chiave": "flussi-conversione|la pagina «vicino a te» promette ancora «consegna locale rapida» nella descrizione per google e per le condivisioni"
+          },
+          {
+            "idx": 1571,
+            "chiave": "frontend-ux|admin e /shipping danno il confine di 10 km per stagno, ma senza coordinate la cassa accetta qualunque indirizzo"
+          }
+        ]
+      }
+    ]
+  ]
+}

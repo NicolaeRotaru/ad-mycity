@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1544,
+    "findings": 1586,
     "bloccanti": 35,
-    "gravi": 484,
-    "minori": 1025,
+    "gravi": 493,
+    "minori": 1058,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -28881,23 +28881,403 @@
       "descrizione": "Sotto i 30 euro per negozio la cassa somma la spedizione a distanza (2,50 € più 1,20 € al km) e i 3 euro di consegna: 20 euro di spesa a 5 km costano 11,50 € di consegna. Sopra i 30 euro la spedizione va a zero ma i 3 euro restano. La promessa firmata il 26/10 è un'altra: il cliente paga solo i 3 euro di consegna per negozio, sempre, e la spedizione a chilometri non esiste più.",
       "impatto": "Il primo cliente vede in cassa una cifra diversa da quella che gli abbiamo promesso, e lascia il carrello: è il primo incasso del negozio che salta.",
       "fix": "Il cliente paga solo PLATFORM_DELIVERY_FEE_CENTS (3 euro) per negozio quando c'è consegna, 0 col ritiro in negozio. La spedizione a distanza e la soglia «gratis sopra 30 €» spariscono da cassa, carrello, barra del «ti mancano X €», email e pagine pubbliche. Il server ricalcola come prima: l'importo mostrato e quello addebitato restano lo stesso numero. Prova rossa se un carrello sotto i 30 euro a 5 km paga più di 3 euro di consegna."
+    },
+    {
+      "titolo": "Il modulo contatti può tornare a dire ok col fallimento vero di Resend: nessuna prova usa {ok:false,error}",
+      "severita": "minore",
+      "file": "app/api/contact/route.ts inoltraSenzaDatabase (return esito.ok === true); prove: chi-vuole-cancellarsi…test.ts, describe 'un messaggio dovuto che non parte'",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "Mutante: return !('skipped' in esito) → vitest related 5 file/44 prove VERDI; prova-sito exit 0. sendEmail su errore Resend ritorna {ok:false,error} senza skipped: le prove coprono solo skipped e throw."
+    },
+    {
+      "titolo": "Giro in tondo non provato con Resend acceso e SUPPORT_EMAIL assente: togliere SUPPORT_EMAIL dal controllo resta verde",
+      "severita": "minore",
+      "file": "lib/legal/titolare.ts ilModuloArrivaSenzaDatabase; manca la prova con RESEND_API_KEY e RESEND_FROM presenti e SUPPORT_EMAIL assente",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "Mutante: [process.env.RESEND_API_KEY, process.env.RESEND_FROM].every(…) → vitest related 127 file/950 prove VERDI. In quella config Cancella account manda a /contact e il modulo, senza SUPPORT_EMAIL, risponde 503: il giro in tondo torna."
+    },
+    {
+      "titolo": "Senza casella e senza posta il giro in tondo è provato solo su Cancella account, non su Scarica dati, Annulla e Stato",
+      "severita": "minore",
+      "file": "app/api/account/export/route.ts senzaChiave; le prove 'senza casella e senza posta' chiamano solo POST /api/account/delete (non export, né DELETE e GET di delete)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "Mutante export: stradaAManoPerIDiritti(cosa, true) → Scarica i miei dati, senza casella e senza posta, manda al modulo che non arriva: vitest related 4 file/44 prove VERDI; prova-sito exit 0."
+    },
+    {
+      "titolo": "Le prove chiamano le rotte senza il contesto che Next passa sempre: una guardia saltata in produzione resta verde",
+      "severita": "minore",
+      "file": "primaLaStradaAMano in app/api/account/delete/route.ts e export/route.ts: il ramo ctx ? rotta(req, ctx), quello di produzione, non lo esegue nessuna prova",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "Mutante in entrambe: 'if (ctx) return rotta(req, ctx);' prima di getAdminSupabase() → in produzione torna «Auth non configurato»; vitest related 4 file/44 prove VERDI. Rimedio: passare {params: Promise.resolve({})} nelle chiamate di prova."
+    },
+    {
+      "titolo": "L'allarme per avviso non partito è provato con una sola persona: allarme solo se falliti > recapitati resta verde",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts (if avvisi.falliti > 0 e status 500): la prova ha un solo fattorino per notte",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "Mutante: falliti > recapitati in entrambi i punti → vitest related 11 file/84 prove VERDI. Notte con 2 persone, 1 avviso fallito e 1 recapitato: 200 e nessun amministratore avvisato."
+    },
+    {
+      "titolo": "Il canale email nato nel secondo giro non ha nessuna prova: per questo la perdita dell'avviso passa verde",
+      "severita": "minore",
+      "file": "tests/ (nessun file nomina emailNonPartite, avvisiEmailNonPartite, PostaAvvisi o speditaAncheTramitePosta)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
+      "descrizione": "grep -rln 'emailNonPartite\\|avvisiEmailNonPartite\\|PostaAvvisi\\|speditaAncheTramitePosta' tests → nessun risultato"
+    },
+    {
+      "titolo": "L'email porta il testo del pannello: senza casella dice «pagina /contact» senza indirizzo del sito e senza un collegamento cliccabile",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts speditaAncheTramitePosta (html = solo escapeHtml(a.corpo), a.link escluso) + lib/cron-cancellazioni.ts:292 + lib/legal/titolare.ts recapitoInUnaFrase",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
+      "descrizione": "lettura: corpo = «Se pensi che non sia giusto scrivi a ${recapito}», recapito senza casella = «noi con il modulo dei contatti del sito (pagina /contact)»; l'email non include link né dominio."
+    },
+    {
+      "titolo": "La prova della frase «negozio chiuso» cerca solo la parola «domani»: «l'ordine non parte, riprova domani» resta verde",
+      "severita": "minore",
+      "file": "lib/promesse-pubbliche.ts NEGOZIO_CHIUSO_COSA_SUCCEDE · al-lancio-si-paga-solo-la-consegna.test.tsx «la frase non scoraggia il pre-ordine della sera»",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Mutante: «Se il negozio è chiuso l'ordine non parte e non viene messo in coda: riprova domani, negli orari di apertura.» → tutte le prove verdi; una regola che chiede /prenot/ e vieta /non parte/ diventa rossa."
+    },
+    {
+      "titolo": "La porta della carta non ha una prova fuori zona: se misura dal negozio al negozio accetta qualunque distanza e tutto resta verde",
+      "severita": "minore",
+      "file": "app/api/stripe/checkout/route.ts:516-521 (solo la rotta contanti è montata con Milano in una-consegna-a-milano-non-passa-piu-in-cassa.test.ts)",
+      "stato": "aperto",
+      "dimensione": "pagamenti-stripe",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Mutante deliveryLat/Lng = s.store_lat/s.store_lng nel controllo zona della rotta carta → 43 file verdi, comprese le prove che montano la rotta carta. Preesistente; conta solo se il pagamento con carta è acceso."
+    },
+    {
+      "titolo": "La spedizione a chilometri può tornare sotto i 30 € e oltre i 6 km senza che nessuna prova diventi rossa: tutte usano la casa a 5 km",
+      "severita": "grave",
+      "file": "lib/shipping.ts:36 shippingForEuro; tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:95-131 (solo CASA_A_5_KM o coordinate null)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Mutante in shippingForEuro: subtotal<30 e km>6 → 2.5+1.2*km. prova-sito --file lib/shipping.ts + 13 prove del delta: tsc/eslint/vitest verdi (113 file, 930 prove). Variante prezziDelCarrello 20 € a 9,0 km est (dentro i 10 km): 1630 invece di 300 → rossa; su 0e423e16 verde."
+    },
+    {
+      "titolo": "Il confine dei 10 km è provato solo est-ovest: se la cassa ignora la latitudine accetta 13 km a nord e le prove restano verdi",
+      "severita": "grave",
+      "file": "lib/ordini/zona-di-consegna.ts:44 fuoriZonaDiConsegna; tests/unit/al-lancio-si-consegna-in-bici-fino-a-10-km.test.ts (tutti i punti a lat 45.0526, come il negozio)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Mutante: haversineKm(storeLat, storeLng, storeLat, deliveryLng). prova-sito --file zona-di-consegna.ts + 13 prove: tutto verde (29 file). Variante fuoriZonaDiConsegna negozio 45.0526,9.6929 → casa 45.1695,9.6929 (13 km nord): attesa true, sul mutante false → rossa; su HEAD verde."
+    },
+    {
+      "titolo": "Le prove della pagina Spedizioni cercano solo le parole vecchie: 48 ore, preventivo e gratis tornano con altre parole a prove verdi",
+      "severita": "minore",
+      "file": "app/shipping/page.tsx; tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:151-162 (regex /gratis|gratuit|preventivo/, /48\\s*(h|ore)/, toContain)",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Aggiunte a /shipping, una per volta: «segnalacelo entro 2 giorni», «oltre il confine su richiesta, con un supplemento», «sopra i trenta euro la consegna te la offriamo noi», «a negozio chiuso non si possono fare ordini»: 61 file, 560 prove verdi ogni volta."
+    },
+    {
+      "titolo": "«Vicino a te» può partire filtrando a 20 km: la prova guarda solo il massimo del cursore",
+      "severita": "minore",
+      "file": "app/near/page.tsx:127 useState(5) e filtro :193; tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:216-229",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Mutante useState(5) → useState(20): la lista mostra negozi fino a 20 km e scrive «entro 20 km», il cursore resta max=RAGGIO_CONSEGNA_KM; 61 file, 560 prove collegate verdi."
+    },
+    {
+      "titolo": "Con la posta spenta ogni notte è rossa e porta un allarme nuovo finché la cancellazione resta ferma",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:310 (tentativo>1 → bloccata, ogni notte) + app/api/cron/process-deletions/route.ts:153-161 e :204",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "Sonda: posta che lancia 5 notti → emailBloccate 1 dalla notte 2 in poi; il ramo della rotta (prove M13b/M13c) dà 500 + notifica admin a ogni emailBloccate>0: un allarme a notte, nessun modo di segnare «gestito», e il 500 non scrive il battito."
+    },
+    {
+      "titolo": "Due giri notturni sfalsati spediscono la spiegazione due volte; se il secondo fallisce, la prima notte suona un falso allarme",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts emailDovuta: il turno N+1 parte mentre il turno N è ancora in invio; il test 'due giri insieme' copre solo il Promise.all allineato",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
+      "descrizione": "sonda esbuild+node su recapitaAvvisi, db finto che rifiuta id doppi: giro A fermo dentro invia, giro B completo, poi A riparte → email=2 (atteso 1). Variante con posta no per B → B emailBloccate=1 già alla prima notte. Riprodotta 2 volte."
+    },
+    {
+      "titolo": "L'avviso di termine di legge scaduto può sparire dalla rotta dell'account (e dalla pagina) senza che una prova diventi rossa",
+      "severita": "grave",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:384 attesaDichiarata (tappe): oltre il mese le prove guardano solo il pannello, nessuna legge GET /api/account/delete",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "avvisi:384 tappe → ['rinviata']; prova-sito --file <14 file> → exit 0, 129 file 959 prove. Sonda: prova della pagina a 40 giorni con guasto nostro (timeout): verde senza mutazione, rossa con (la rotta risponde rinviata:false, niente motivo)."
+    },
+    {
+      "titolo": "Il ritentativo dell'email è provato solo fino alla seconda notte: un tetto a 2 tentativi passa verde",
+      "severita": "minore",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:292 emailDovuta (tentativo); l'allarme in app/api/cron/process-deletions/route.ts:153-161 promette «Il giro riprova da solo ogni notte»",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
+      "descrizione": "avvisi:292 + if (tentativo > 2) return 'bloccata'; prova-sito --file <14 file> → exit 0, 129 file 959 prove. Sonda indipendente (esbuild + recapitaAvvisi, 3 notti di no poi 5 di sì): 1 email senza mutazione, 0 con, exit 1."
+    },
+    {
+      "titolo": "Lo storico del fattorino somma la spedizione del cliente come guadagno: dopo il lotto ogni consegna segna +0,00 €",
+      "severita": "minore",
+      "file": "app/rider/history/page.tsx:61 (totalEarned = somma shipping_cost), :84 «guadagnati», :118 «+shipping_cost»; shipping_cost ora sempre 0 (lib/shipping.ts:36)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "grep -n 'shipping_cost\\|guadagnati' app/rider/history/page.tsx → :61, :84, :118. Il compenso vero (rider_fee_cents, compensoConsegnaEuro) lo leggono rider/earnings e rider/page, qui no. Prima del lotto il numero era già sbagliato, ora è sempre 0."
+    },
+    {
+      "titolo": "La pagina «Vicino a te» promette ancora «consegna locale rapida» nella descrizione per Google e per le condivisioni",
+      "severita": "minore",
+      "file": "app/near/layout.tsx:6 e :10 (description e openGraph); app/category/[slug]/layout.tsx:12; la prova del lotto legge solo app/near/page.tsx",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
+      "descrizione": "grep -rn 'consegna locale rapida' app → app/near/layout.tsx:6,10 e app/category/[slug]/layout.tsx:12. La prova «niente consegna locale rapida senza un confine» legge solo page.tsx."
+    },
+    {
+      "titolo": "Il confine dei 10 km è provato solo sul contrassegno: alla rotta della carta si può togliere il controllo zona con tutte le prove verdi",
+      "severita": "grave",
+      "file": "app/api/stripe/checkout/route.ts:514-526 (fuoriZonaDiConsegna); la sola prova di rotta, una-consegna-a-milano-non-passa-piu-in-cassa.test.ts:195-210, chiama /api/orders/cod",
+      "stato": "aperto",
+      "dimensione": "pagamenti-stripe",
+      "fonte": "preesistente, trovato da collaudo B del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Copia di HEAD in scratchpad/o4c; in app/api/stripe/checkout/route.ts 'const fuori = false && fuoriZonaDiConsegna({' → i 20 file di prove su zona e rotta carta restano verdi (202). Stesso mutante in orders/cod/route.ts → 2 rosse. Manca un POST alla rotta carta con casa a 13 km."
+    },
+    {
+      "titolo": "La pagina categoria tiene il filtro col camioncino «da 30 € in su» della vecchia soglia: tolto da /search, dimenticato qui",
+      "severita": "minore",
+      "file": "app/category/[slug]/page.tsx:270-272 (casella con icona Truck) e :301 (freeShipping ? 30 scritto a mano, sfugge al grep su FREE_SHIPPING_THRESHOLD)",
+      "stato": "aperto",
+      "dimensione": "navigazione-gerarchia",
+      "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
+      "descrizione": "grep -n 'freeShipping ? 30' 'app/category/[slug]/page.tsx' → riga 301. Il delta ha tolto lo stesso filtro (da30) da app/search/page.tsx. Il camioncino accanto a «Da 30 € in su» richiama una spedizione gratis che dal 27/10 non esiste."
+    },
+    {
+      "titolo": "OrderSummary scrive ancora «Spedizione Gratis» se riceve spedizione e consegna separate: la guardia vive solo nell'unico chiamante",
+      "severita": "minore",
+      "file": "components/checkout/OrderSummary.tsx:86-95; unico montaggio app/checkout/page.tsx:1509 (shipping={consegnaDaPagare}), presidiato dalla prova montata della cassa",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "preesistente, trovato da collaudo B del secondo giro della fase 2 del lotto #262",
+      "descrizione": "scratchpad/costruisci.cjs (OrderSummary da solo, spedizione 0 + consegna 3 €) → exit 1: «Spedizione Gratis · Consegna MyCity 3,00 €». La cassa montata è verde su HEAD e 6/6 rossa col cablaggio vecchio. Fix: «Gratis» solo se le due cifre sommano 0."
+    },
+    {
+      "titolo": "Interfacce zombie: shippingForEuro vale sempre 0 ma riceve 7 ingressi; promessaSpedizione ha un argomento morto e campi sempre costanti",
+      "severita": "minore",
+      "file": "lib/shipping.ts:36 · lib/promesse-pubbliche.ts:276-283 (2° posto passato da soglia in € a centesimi) · ProductCard.tsx:134,238 · product/[id]/page.tsx:470,984 · FreeShippingProgress.tsx:17",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
+      "descrizione": "grep -nE '_opts: IngressiSpedizione|_sottototale|sopraSoglia: false|mancano: 0' lib/shipping.ts lib/promesse-pubbliche.ts · in-cassa-…test.ts:154 chiama promessaSpedizione(50, 300): il 50 non conta più"
+    },
+    {
+      "titolo": "Se manca la posizione del negozio o dell'indirizzo, il confine dei 10 km non scatta: l'ordine passa a qualunque distanza",
+      "severita": "minore",
+      "file": "lib/ordini/zona-di-consegna.ts:43 (fuoriZonaDiConsegna dice «dentro zona» senza coordinate) · usata da app/api/orders/cod/route.ts:522 e app/api/stripe/checkout/route.ts:516",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da riesame del secondo giro della fase 2 del lotto #262",
+      "descrizione": "grep -n 'return false;' lib/ordini/zona-di-consegna.ts → riga 43. Scelta documentata, ma con un solo fattorino in bici costa di più: verificare che il negozio del lancio abbia lat/lng."
+    },
+    {
+      "titolo": "La scheda prodotto dice due volte il costo di consegna con due nomi diversi: si può leggere come 6 € invece di 3 €",
+      "severita": "minore",
+      "file": "components/ui/FreeShippingProgress.tsx (riga unica col titolo) sulla scheda app/product/[id]/page.tsx:819-840",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
+      "descrizione": "Riga 819-822, box oliva: «Consegna MyCity 3,00 € per negozio, su ogni ordine a domicilio»; riga 840, subito sotto: «Consegna a casa 3,00 € per negozio». Due nomi, stessa cifra: un cliente può sommarle. Prima del delta la barra parlava della soglia."
+    },
+    {
+      "titolo": "/shipping: col ritiro in negozio acceso le card diventano 4 in una griglia da 3 e l'ultima resta sola sulla seconda riga",
+      "severita": "minore",
+      "file": "app/shipping/page.tsx, griglia sm:grid-cols-3 (consegna, tempi, nuovo confine 10 km, ritiro condizionato)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
+      "descrizione": "Oggi RITIRO_IN_NEGOZIO_ATTIVO=false: 3 card, riga piena (alla base erano 2 su 3). Con il ritiro acceso: 4 card, la quarta orfana. Latente."
+    },
+    {
+      "titolo": "/shipping: con la consegna a 0 € la pagina dice «La consegna non si paga» e subito sotto «paghi due consegne»",
+      "severita": "minore",
+      "file": "app/shipping/page.tsx, blocco «Quanto costa la consegna»: la lista puntata sta fuori dal ternario su quanto",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
+      "descrizione": "Con PLATFORM_DELIVERY_FEE_CENTS=0, quanto=null: esce «La consegna non si paga, qualunque sia la spesa.» e subito sotto, sempre, «Se ordini da due negozi paghi due consegne». Latente: oggi la fee è 300 centesimi."
+    },
+    {
+      "titolo": "Admin e /shipping danno il confine di 10 km per stagno, ma senza coordinate la cassa accetta qualunque indirizzo",
+      "severita": "minore",
+      "file": "app/admin/delivery/page.tsx riga «Confine della consegna» («oltre, la cassa rifiuta»); app/shipping/page.tsx «Aree servite» («ti diciamo subito»)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
+      "descrizione": "fuoriZonaDiConsegna (lib/ordini/zona-di-consegna.ts): se manca una coordinata return false, cioè la cassa accetta a qualunque distanza (indirizzo non geocodificato o negozio senza posizione). Testo nuovo, regola del 6/9. Non verificato in DB se il negozio reale ha store_lat/lng: a tech."
+    },
+    {
+      "titolo": "«Vicino a te»: a 10 km, il massimo del cursore, l'avviso vuoto dice ancora «Aumenta il raggio», che non si può più",
+      "severita": "minore",
+      "file": "app/near/page.tsx:345 (stato vuoto), con max={RAGGIO_CONSEGNA_KM} a riga 312",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato da riesame del secondo giro della fase 2 del lotto #262",
+      "descrizione": "Lo stesso testo era già un vicolo cieco a 20 km prima del delta; ora ci si arriva a 10 km, che è anche il confine della cassa. Dovrebbe dire che oltre 10 km per ora non consegniamo."
+    },
+    {
+      "titolo": "La stessa consegna da 3 € si chiama «Consegna MyCity» nel carrello e «Spedizione» nel riepilogo della cassa",
+      "severita": "minore",
+      "file": "app/checkout/page.tsx:1509 (shipping={consegnaDaPagare}) va nella riga «Spedizione» di components/checkout/OrderSummary.tsx:86; app/cart/page.tsx:629-639 la chiama «Consegna MyCity»",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
+      "descrizione": "grep -n 'shipping={consegnaDaPagare}' app/checkout/page.tsx; grep -n '>Spedizione<' components/checkout/OrderSummary.tsx. Prima del delta le due pagine avevano le stesse due righe. La prova montata accetta tutti e due i nomi (test coi-profili-chiusi:249). In cassa sparisce «N negozi × 3 €»."
+    },
+    {
+      "titolo": "La prova della squadra resta verde su due varianti del difetto: negozio da 30 € in su, e indirizzo senza coordinate",
+      "severita": "minore",
+      "file": "tests/unit/il-codice-spedizione-gratuita-toglie-davvero-la-consegna.test.ts (solo carrelli 8-20 € con coordinate) · lib/ordini/prezzi.ts:125-128",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "nato dal lotto #262 (collaudo correzione 1 del secondo giro della fase 2)",
+      "descrizione": "Mutanti in worktree a parte, prova-sito tsc/eslint/vitest 6/6 verdi su tutti e due: M1 prezzi.ts:128 deliveryFeeCents=!pickup&&coupon&&subtotali[i]>=3000?300:consegnaDaPagare (a 35 € si pagano 3 €); M2 :125 coupon&&consegnaLat!=null"
+    },
+    {
+      "titolo": "Col ritiro in negozio il codice «Spedizione gratuita» viene ancora accettato e consumato senza togliere un centesimo",
+      "severita": "minore",
+      "file": "lib/coupons.ts:125 (accetta senza sapere del ritiro) · lib/ordini/rivendica-il-codice-sconto.ts:129-166 (consuma) · il test nuovo, caso del ritiro, lo dà per giusto",
+      "stato": "aperto",
+      "dimensione": "pagamenti-stripe",
+      "fonte": "preesistente, trovato da collaudo correzione 1 del secondo giro della fase 2 del lotto #262",
+      "descrizione": "echo \"import{prezziDelCarrello as p}from'@/lib/ordini/prezzi';var t=g=>p({gruppi:[{subtotalCents:2e3}],coordinateNegozio:Object,couponScontoCents:0,pickupInStore:1,couponSpedizioneGratis:g}).grandTotalCents;t(1)<t(0)||_\"|npx esbuild --bundle|node"
+    },
+    {
+      "titolo": "Il codice «Spedizione gratuita» sotto 30 € a negozio fa pagare parte della consegna (1 € su 20 €): il nome promette gratis",
+      "severita": "minore",
+      "file": "lib/ordini/prezzi.ts:125 (consegnaDaPagareCents) · app/admin/coupons/page.tsx:166 (opzione «Spedizione gratuita»): resto pagato dalla piattaforma o soglia/nome diverso, da firmare",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato da collaudo correzione 2 del secondo giro della fase 2 del lotto #262",
+      "descrizione": "echo \"import{prezziDelCarrello as p}from'./lib/ordini/prezzi';const[g]=p({gruppi:[{subtotalCents:2e3}],coordinateNegozio:Object,pickupInStore:false,couponScontoCents:0,couponSpedizioneGratis:1}).gruppi;if(g.deliveryFeeCents+g.shippingCents>0)throw 1\"|npx esbuild --bundle|node -"
+    },
+    {
+      "titolo": "La prova del grave «bonifici oltre l'addebito» è verde per NaN e non torna rossa se il difetto ritorna",
+      "severita": "minore",
+      "file": "prova dichiarata del grave su lib/ordini/prezzi.ts:125: senza couponScontoCents deliveryFeeCents vale NaN e 300>200+NaN è sempre falso",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "nato dal lotto #262 (collaudo correzione 2 del secondo giro della fase 2)",
+      "descrizione": "Mutante di HEAD con 1 € di consegna in meno: prova dichiarata exit 0, corretta exit 1. Corretta = stessa riga con coordinateNegozio:()=>({lat:null,lng:null}),pickupInStore:false,couponSpedizioneGratis:true,couponScontoCents:0 e throw se deliveryFeeCents non è finito"
+    },
+    {
+      "titolo": "Col codice, sotto 30 € a negozio la piattaforma resta a zero e paga di tasca la commissione Stripe di ogni addebito",
+      "severita": "minore",
+      "file": "lib/ordini/prezzi.ts:113-114 (consegnaDaPagareCents) · app/admin/coupons/page.tsx:166 (codice senza spesa minima)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo correzione 2 del secondo giro della fase 2)",
+      "descrizione": "20 € col codice: addebito 2100, netto negozio 1800, fattorino 300: alla piattaforma 0, e la commissione Stripe esce dal suo saldo, non dai transfer (docs.stripe.com/connect/separate-charges-and-transfers). Scelta di soldi da decidere con finanza."
+    },
+    {
+      "titolo": "In admin il tipo «Spedizione gratuita» non avvisa che sotto 30 € a negozio il codice copre solo una parte della consegna",
+      "severita": "minore",
+      "file": "app/admin/coupons/page.tsx:166 · lib/coupons.ts:125",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato da collaudo correzione 2 del secondo giro della fase 2 del lotto #262",
+      "descrizione": "8 € dal fornaio col codice: consegna 2,20 € (commissione 0,80 € = quota coperta, su 3 €). Un codice distribuito come «spedizione gratuita» promette più di quanto la cassa fa; la cassa lo spiega solo al pagamento. Da vedere con legale-privacy."
+    },
+    {
+      "titolo": "Se l'email dell'avviso non parte la prima notte non riparte mai, e la notte resta verde senza svegliare nessuno",
+      "severita": "grave",
+      "file": "lib/privacy/avvisi-a-chi-aspetta.ts:162-168 (email solo dopo il primo insert, poi «già detto») + app/api/cron/process-deletions/route.ts:136-146,182 (500 e sveglia solo su avvisi.falliti)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
+      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)"
+    },
+    {
+      "titolo": "La pagina dell'account può tornare a ignorare «rinviata» senza che nessuna prova diventi rossa",
+      "severita": "grave",
+      "file": "app/profile/settings/page.tsx:149 (rinviata: body.rinviata === true): nessuna prova lega la pagina al campo della risposta GET",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
+      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)"
+    },
+    {
+      "titolo": "Con la posta a metà (manca RESEND_FROM) Cancella account può tornare a mandare al modulo che non inoltra, e la prova resta verde",
+      "severita": "grave",
+      "file": "lib/legal/titolare.ts:256 ilModuloArrivaSenzaDatabase (gamba RESEND_FROM); la prova :286 di chi-vuole-cancellarsi accende solo SUPPORT_EMAIL, mai RESEND_API_KEY senza RESEND_FROM",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
+      "descrizione": "fermo: bocciato 3 volte dal collaudo"
+    },
+    {
+      "titolo": "Per chi aspetta da oltre un mese la rotta può tornare a dire rinviata:false e la pagina a contare «tra 0 giorni», senza prova rossa",
+      "severita": "grave",
+      "file": "app/api/account/delete/route.ts:158 (rinviata: attesa.inAttesa): rotta e pagina provate solo a 8 giorni (tappa «rinviata»), mai oltre i 30 («termine-scaduto»)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
+      "descrizione": "fermo: bocciato 3 volte dal collaudo"
+    },
+    {
+      "titolo": "Dopo il pagamento la pagina dell'ordine scrive «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €», su ogni ordine (cliente e negoziante)",
+      "severita": "grave",
+      "file": "lib/ordini/riepilogo-ordine.ts:69 → app/orders/[id]/page.tsx:686 e app/seller/orders/[id]/page.tsx:562 ('GRATUITA'). Prova da lanciare nel worktree o4: exit 1 = difetto",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, il lotto #262 l'ha esteso a ogni ordine (riesame del secondo giro della fase 2: rosso anche sulla base)",
+      "descrizione": "Rossa anche sulla base da364f96 (exit 1, stesse voci); riepilogo-ordine.ts e le 2 pagine identiche; in base soglia 30€ + consegna 300 cent: preesiste, l'ondata 4 l'ha solo estesa a ogni ordine."
+    },
+    {
+      "titolo": "La prima prova di «Chi siamo» compila la pagina in un processo a parte dentro i 5 secondi della prova: sotto carico va in timeout",
+      "severita": "minore",
+      "dimensione": "architettura",
+      "stato": "aperto",
+      "file": "tests/unit/aiuti/monta-componente.ts (execFileSync di compila.mjs dentro la prova) · tests/unit/chi-siamo-e-i-profili-pubblici-reggono-con-i-profili-chiusi.test.ts:95 (it.each senza tempo proprio, testTimeout 5000 di vitest.config.ts)",
+      "fonte": "preesistente, visto dall’AD sul ramo d’integrazione del lotto #262 il 27/10 alle 18:38: npm run verify rosso 1 volta su 2 (5.781 su 5.782, «Test timed out in 5000ms»), poi verde (5.782 su 5.782); da sola la prova gira in 1 secondo",
+      "descrizione": "monta() compila il componente con esbuild in un processo figlio sincrono, dentro il tempo della prova. Il primo caso del file paga la compilazione: da solo ci mette meno di un secondo, con la suite intera in parallelo ha superato i 5 secondi. 86 file di prova usano monta(): lo stesso tempo può mancare a uno qualunque, e in CI diventerebbe un rosso che non dipende dal codice.",
+      "impatto": "Una richiesta di unione può diventare rossa senza un difetto vero, e la tentazione diventa rilanciare invece di capire.",
+      "fix": "Compilare fuori dal tempo della prova: un beforeAll che chiama monta() (gli hook hanno un tempo loro), oppure ritirare il processo a parte ora che vitest legge il JSX (vitest.config.ts del 27/10). Prova: il primo caso di quel file non ha più la compilazione dentro i suoi 5 secondi."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-27 15:34",
+    "aggiornato": "2026-10-27 18:45",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 709,
+    "findings_aperti": 751,
     "findings_chiusi": 835,
-    "findings_tot": 1544,
+    "findings_tot": 1586,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 123,
-      "minore": 577,
+      "grave": 132,
+      "minore": 610,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1544,
+    "dichiarati_dal_referto": 1586,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

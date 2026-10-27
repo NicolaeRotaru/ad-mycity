@@ -5791,3 +5791,22 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Perché così.** La pagina Spedizioni si apre una volta sola, per confine, prezzo e frasi. Il prezzo dei 3 euro è una firma del 26/10, non una scelta dell'AD.
 
 **Colore.** 🟡 codice in un ramo con richiesta di unione (#262): l'unione è di Nicola. La cancellazione del Panificio Demo è 🔴: la fa lui, col comando della carta #201.
+
+## 2026-10-27 18:50 — 🟡 Fase 2 del sito: la consegna regge, la cancellazione dell'account va al terzo giro
+
+**Il secondo giro** (run `wf_dea01791-eed`, 31 agenti, 29 dentro `ondata-sito` su 45):
+- **Configurazione delle prove:** regge (`da364f96`). Il sito legge il JSX nelle prove; il collaudo lo ha rotto e rimesso e ha visto il rosso e il verde. È la radice di AR-1025, che si chiude quando la #262 è unita.
+- **Consegna:** regge, unita nel ramo d'integrazione (`f7bdc623`). Il cliente paga solo i 3 euro di consegna per negozio, la cassa rifiuta oltre 10 km, la pagina Spedizioni e la FAQ prendono cifre e chilometri dalle costanti. Chiusi 8 su 8: il confine (1495), i prezzi della pagina Spedizioni (250), la scelta 8, il negozio chiuso (263), le 48 ore (75), «Vicino a te» a 20 km e le prove del tratto 10-15 km.
+- **Cancellazione dell'account:** ferma dopo tre bocciature del collaudo. Il codice regge in gran parte: 12 mutazioni su 16 uccise. Restano 4 mutazioni verdi e 5 gravi sulle prove: posta a metà senza mittente, chi aspetta da oltre un mese, il tetto dei tentativi, la pagina che non legge «rinviata».
+
+**Il controllo del sito dopo l'unione:** `npm run verify` rosso una volta (5.781 su 5.782: la prima prova di «Chi siamo» oltre i 5 secondi, perché compila la pagina in un processo a parte), verde alla seconda (5.782 su 5.782). Non è un difetto del lotto: è nel registro come minore, con la causa.
+
+**Una scelta di soldi presa nel codice, da guardare quando si riaccendono i codici sconto:** una correzione dentro il giro fa togliere al codice «Spedizione gratuita» la consegna fino a quanto copre la commissione. A 20 euro di spesa il cliente paga 1 euro su 3, e la piattaforma non ci rimette. I codici sono spenti nel database dal 27/10 alle 12:01, quindi oggi non conta. Prima di riaccenderli la decide Nicola.
+
+**Il terzo giro** (run `wf_83d2e67e-905`, piano `consegne/audit/2026-10-27-fase2-sito-giro3.json`, base `f7bdc623`):
+- **Cancellazione dell'account,** dal ramo del secondo giro: le 4 mutazioni da far diventare rosse una per una, e la pagina provata montandola.
+- **Consegna da 3 euro detta bene ovunque:** la pagina dell'ordine che scriveva «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €», lo stesso nome della voce dappertutto, e le prove dei gravi rimasti (oltre i 6 km, nord-sud, rotta della carta).
+
+**Registro e cantiere:** 41 voci nuove nel registro del sito dal secondo giro (9 gravi, 32 minori), più il minore dei tempi di «Chi siamo»; 26 voci scartate perché doppioni, superate da una correzione dello stesso giro, o della macchina. Nel cantiere: AR-1025 con la causa verificata, AR-1026 nuovo (la prova del sito non vede le prove che leggono il codice come testo).
+
+**Colore.** 🟡 codice in un ramo con richiesta di unione (#262); l'unione è di Nicola.
