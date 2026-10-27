@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-27 11:00
+aggiornato: 2026-10-27 12:02
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -36,7 +36,7 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 
 ## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
-- [ ] 🔴 Spegni nel database i due codici sconto ancora attivi: una riga da incollare nell'editor SQL di Supabase.
+- [x] 🔴 Spegni nel database i due codici sconto ancora attivi: una riga da incollare nell'editor SQL di Supabase.
   → carta #214 · 2 minuti.
 - [ ] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore.
   → carta #195 · 20 minuti.

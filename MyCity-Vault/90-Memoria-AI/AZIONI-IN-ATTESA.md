@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-26 09:05** — Automatico: **40 aperte · 109 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-27 12:02** — Automatico: **40 aperte · 110 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,26 +30,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
-
-### 🔴 #214 — Spegni nel database i due codici sconto, prima del giorno della chiave · ⏳ accodata 2026-10-27 11:00
-
-**In parole semplici.** Con la scelta 7 hai deciso niente codici sconto al lancio. La cassa però non legge ancora l'interruttore, e nel database ci sono due codici attivi: BENVENUTO10, il 10% sul primo ordine, e SPED5, 5 € sopra i 25 €. Lo sconto lo paga il negozio: su 30 € con SPED5, il fornaio riceve 22,50 € invece di 27 €.
-
-**Cosa cambia:** dal giorno della chiave nessun cliente può usare quei due codici. Non si cancella niente: si riaccendono con lo stesso comando al contrario. Finora non li ha mai usati nessuno, letto il 26/10.
-
-**Cosa devi fare tu.** In Supabase apri il progetto del sito, poi «SQL Editor». Incolla questa riga e premi «Run»:
-
-```sql
-update public.coupons set active = false where code in ('BENVENUTO10','SPED5');
-```
-
-Deve rispondere che ha cambiato 2 righe. Poi scrivimi «fatto 214».
-
-**Se va bene:** lo controllo in sola lettura. La cassa imparerà a leggere l'interruttore con la squadra della cassa, in un'ondata dopo.
-
-Per riaccenderli: lo stesso comando con `true` al posto di `false`.
-
----
 
 ### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
 
@@ -1346,5 +1326,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 109.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 110.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
