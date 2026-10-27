@@ -5758,3 +5758,16 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Perché così.** «Parti» nel piano del 24/10 vuol dire le fondamenta comuni (interruttori delle funzioni spente, rilascio e prove, letture del pannello admin), prima delle ondate. Il 26 esce dal percorso del lancio con «solo contanti». Il 1123 va con la privacy della fase 2. Le falle riservate non partono da qui: il loro referto non è nel repository.
 
 **Colore.** 🔴 firmato da Nicola. L'unione delle richieste di unione del sito resta sua.
+
+## 2026-10-27 11:00 — 🔴 Fondamenta del sito, secondo giro: Nicola sceglie «ok come consigli»
+
+**Cosa.** Il primo giro delle fondamenta (run `wf_cf281011-0f8`, 24 agenti) si era fermato con `chiedi_a_nicola`. Gli interruttori reggevano; il rilascio era fermo dopo tre bocciature, con 12 gravi nello stesso file di prova; il pannello admin era fermo con un grave nato. Ho spiegato le tre scelte in chat. Nicola ha risposto «ok come consigli» il 27/10 verso le 10:55.
+
+**Le tre scelte.**
+1. **Rilascio: semplifica.** Tenuti la copia notturna del database (1225) e le prove dell'acquisto (25). Tolto il controllo automatico che legge l'SQL delle migrazioni. Il rilascio si rifà con la ricetta del 24/10: pubblicazione senza dominio, prova di fumo, poi promozione. Niente ritorno indietro automatico. La protezione del database è la regola umana già firmata alla scelta 5.
+2. **Pannello admin: un giro ancora, piccolo**, con regole scritte in cima alle schede: correzione e prove nello stesso commit, suite intera verde, rotta KYC senza rompere le prove vecchie.
+3. **Codici sconto: spenti nel database da Nicola** (carta #214, BENVENUTO10 e SPED5, mai usati). La cassa imparerà a leggere l'interruttore con la squadra della cassa. Intanto una squadra toglie dal file degli interruttori le due voci che nessuno legge.
+
+**Cosa ho fatto.** Creato il ramo d'integrazione del sito `fix/fondamenta-sito` (interruttori + 1225 + 25, commit `1256544f`). Lanciato il secondo giro (`wf_86eb0834-491`) su quella base: piano `consegne/audit/2026-10-27-fondamenta-sito-giro2.json`.
+
+**Colore.** 🔴 firmato da Nicola per le scelte; la scrittura sul database dei codici la fa lui. L'unione del sito resta sua.

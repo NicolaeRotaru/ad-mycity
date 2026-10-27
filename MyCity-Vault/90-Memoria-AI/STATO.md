@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-26 09:15
+aggiornato: 2026-10-27 11:00
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔁 **2026-10-27 11:00 — Il secondo giro delle fondamenta del sito è partito.**
+>
+> Al primo giro una squadra su tre ha retto: le funzioni del lancio sono spente davvero. Due si sono fermate. Hai risposto «ok come consigli», e il secondo giro segue le tre scelte.
+>
+> Il rilascio si semplifica: niente controllo automatico che legge le migrazioni, perché il collaudo ci ha trovato 12 buchi. Il pannello admin fa un giro ancora, piccolo. I due codici sconto ancora attivi li spegni tu con una riga nell'editor di Supabase: carta #214.
 
 > ✍️ **2026-10-26 09:15 — Firme arrivate. Le squadre del sito sono partite.**
 >

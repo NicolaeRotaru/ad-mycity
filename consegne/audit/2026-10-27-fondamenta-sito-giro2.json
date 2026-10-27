@@ -1,0 +1,45 @@
+{
+  "_cosa_e": "Secondo giro delle fondamenta del sito, dopo «ok come consigli» di Nicola del 26/10. L'ondata 1 di questo file e' vuota apposta: le schede vanno lette con --ondata 2, cosi' i worktree nascono come o2-* e non toccano quelli del primo giro. Base: il ramo d'integrazione fix/fondamenta-sito (interruttori + copia del database + prove dell'acquisto).",
+  "data": "2026-10-27 11:00",
+  "registro": "sito",
+  "origine": "consegne/audit/2026-10-26-fondamenta-sito.json, giro 1 fermo su due pacchetti",
+  "ondate": [
+    [],
+    [
+      {
+        "chiave": "app/admin",
+        "difetti": [
+          {
+            "idx": 280,
+            "chiave": "stati-ui|nel pannello admin rimesse, bonifici, reclami, assistenza e prodotti dicono «non c'è niente» quando in realtà non sono riusciti a leggere"
+          },
+          {
+            "idx": 1394,
+            "chiave": "api-backend|tre pagine chiedono l'email dalla tabella dei profili, che non ce l'ha: i reclami e il registro dell'amministratore escono vuoti, e il controllo d'identità dice «profilo non trovato»"
+          }
+        ]
+      },
+      {
+        "chiave": ".github/workflows/deploy-dopo-ci.yml",
+        "difetti": [
+          {
+            "idx": 1076,
+            "chiave": "deploy-sre|il rilascio non applica le migrazioni: il codice nuovo arriva su un database vecchio"
+          },
+          {
+            "idx": 1272,
+            "chiave": "deploy-sre|quando il sito appena pubblicato non risponde, il ritorno indietro va all'ultimo rilascio costruito e non a quello che usavano i clienti: può rimettere online lo stesso codice rotto, e il riepilogo dice «annullato»"
+          },
+          {
+            "idx": 423,
+            "chiave": "deploy-sre|se il sito nuovo non risponde si torna indietro col codice ma il database resta avanti"
+          },
+          {
+            "idx": 1141,
+            "chiave": "deploy-sre|il ritorno indietro del rilascio riporta il codice ma non il database"
+          }
+        ]
+      }
+    ]
+  ]
+}

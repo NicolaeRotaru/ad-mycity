@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-26 09:15
+aggiornato: 2026-10-27 11:00
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 50 voci in fila, dalla più urgente alla meno. Oggi ne servono due sole: il messaggio delle firme e il cambio delle chiavi del database.
+> **In due righe.** Sono 51 voci in fila, dalla più urgente alla meno. Oggi ne servono due sole: il messaggio delle firme e il cambio delle chiavi del database.
 
 ## In parole semplici
 
@@ -15,7 +15,7 @@ Qui c'è solo quello che richiede te: firme, unioni, accessi che la macchina non
 
 ## Cosa cambia per te
 
-Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 50 voci. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
+Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 51 voci. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
 
 ## Cosa devi fare
 
@@ -36,6 +36,8 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 
 ## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
+- [ ] 🔴 Spegni nel database i due codici sconto ancora attivi: una riga da incollare nell'editor SQL di Supabase.
+  → carta #214 · 2 minuti.
 - [ ] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore.
   → carta #195 · 20 minuti.
 - [ ] 🟡 Su Supabase, in una visita: accendi la protezione contro le password rubate, aggiungi il www agli indirizzi di rientro, leggi data del prossimo addebito e scadenza della carta.

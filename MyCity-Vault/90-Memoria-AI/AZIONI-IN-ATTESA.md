@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #214 — Spegni nel database i due codici sconto, prima del giorno della chiave · ⏳ accodata 2026-10-27 11:00
+
+**In parole semplici.** Con la scelta 7 hai deciso niente codici sconto al lancio. La cassa però non legge ancora l'interruttore, e nel database ci sono due codici attivi: BENVENUTO10, il 10% sul primo ordine, e SPED5, 5 € sopra i 25 €. Lo sconto lo paga il negozio: su 30 € con SPED5, il fornaio riceve 22,50 € invece di 27 €.
+
+**Cosa cambia:** dal giorno della chiave nessun cliente può usare quei due codici. Non si cancella niente: si riaccendono con lo stesso comando al contrario. Finora non li ha mai usati nessuno, letto il 26/10.
+
+**Cosa devi fare tu.** In Supabase apri il progetto del sito, poi «SQL Editor». Incolla questa riga e premi «Run»:
+
+```sql
+update public.coupons set active = false where code in ('BENVENUTO10','SPED5');
+```
+
+Deve rispondere che ha cambiato 2 righe. Poi scrivimi «fatto 214».
+
+**Se va bene:** lo controllo in sola lettura. La cassa imparerà a leggere l'interruttore con la squadra della cassa, in un'ondata dopo.
+
+Per riaccenderli: lo stesso comando con `true` al posto di `false`.
+
+---
+
 ### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
 
 > ⏰ **2026-10-26 09:05 — Il messaggio è arrivato.** Resta il cambio delle chiavi del database insieme a me: scrivimi «inizio la 203». Poi le visite brevi della tappa 2.
