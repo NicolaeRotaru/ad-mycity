@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1396,
+    "findings": 1544,
     "bloccanti": 35,
-    "gravi": 473,
-    "minori": 888,
+    "gravi": 484,
+    "minori": 1025,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -27580,23 +27580,1324 @@
       "prova_eseguita": "Eseguita in sola lettura il 2026-10-24 10:57 (conteggio delle categorie) e dal secondo verificatore alle 10:34 (categorie_per_negozio).",
       "verificato": true,
       "nato_oggi": true
+    },
+    {
+      "titolo": "La prova della classifica non vede un premio scritto all'italiana, «100,00 €»",
+      "severita": "minore",
+      "file": "tests/unit/le-funzioni-spente-al-lancio-non-si-vedono.test.ts (regex €\\s?\\d|premi|vincono) · app/profile/referral/leaderboard/page.tsx",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Mutante: in ClassificaSpenta aggiungo «I primi tre del mese ricevono un buono da 100,00 € di credito». Con npx vitest run sui due file la prova della classifica resta verde, 11 su 16 passano."
+    },
+    {
+      "titolo": "Il codice sconto rimesso sulla pagina /shop-of-month non fa diventare rossa nessuna prova",
+      "severita": "minore",
+      "file": "app/shop-of-month/page.tsx (la prova monta solo components/home/ShopOfMonthHero.tsx)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Mutante: rimetto {pick.discount_code} -{pick.discount_percent}% sotto «Visita il negozio». Tutte e due le prove della squadra restano verdi."
+    },
+    {
+      "titolo": "Il freno su «Traduci» è provato solo sul catalogo intero: se si limita alla selezione, nessuna prova se ne accorge",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/apply/route.ts:69 · la prova chiama solo {jobId}, senza productIds",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Mutante: if (!onlyIds && !operazioneAccesa(job.operation)). La prova «lavoro translate: 400» resta verde, ma con productIds la traduzione sovrascriverebbe di nuovo il nome italiano."
+    },
+    {
+      "titolo": "La rotta della newsletter non legge l'interruttore: spenta, una chiamata fatta a mano arriva lo stesso al database",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts (non importa NEWSLETTER_ACCESA; la prova lo finge col mock e così sembra che lo legga)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Copia della prova server con in più: newsletterAccesa=false, admin che alza il flag chiesto. Risultato: «expected true to be false». È rossa sul commit 1ab2dca2."
+    },
+    {
+      "titolo": "Due interruttori dichiarati spenti non li legge nessuno: i codici sconto in cassa e l'app installabile",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts: CODICI_SCONTO_IN_CASSA, APP_INSTALLABILE_ACCESA",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Nel worktree grep -rn trova 0 lettori fuori da lib/funzioni-al-lancio.ts. Il file dice «spenti», ma la cassa resta com'era. Forse li collega un altro pacchetto dell'ondata: da qui non l'ho potuto vedere."
+    },
+    {
+      "titolo": "Restano link a funzioni spente, e nel piede della pagina resta una fascia vuota",
+      "severita": "minore",
+      "file": "app/seller/dashboard/page.tsx:455 · app/seller/products/page.tsx:256,302 · components/Footer.tsx:304-311",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Il riquadro «Importa prodotti — Carica in massa (CSV)» e il pulsante del catalogo portano alla pagina «non è attivo». Con la newsletter spenta, il Footer disegna un div con bordo e py-6 senza contenuto."
+    },
+    {
+      "titolo": "Due interruttori dicono «spento» ma nessuno li legge: i codici sconto in cassa e l'app installabile restano accesi",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts (CODICI_SCONTO_IN_CASSA, APP_INSTALLABILE_ACCESA)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Il grep di entrambi dà 0 letture fuori dal file. couponCode è ancora vivo in app/api/orders/cod e in app/api/stripe/checkout. app/layout.tsx:100 ha manifest e :244 PWAInstallBanner. Così chi legge crede spento un coupon MyCity che il negozio paga al 90%."
+    },
+    {
+      "titolo": "La newsletter spenta non è fermata dalla rotta: una POST fatta a mano iscrive e manda la mail",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "La rotta non legge NEWSLETTER_ACCESA, e il file dice «il freno vero è la rotta». Oggi blocca solo la chiave di servizio che manca (503). Appena la chiave c'è, la rotta iscrive."
+    },
+    {
+      "titolo": "Nel piede di ogni pagina pubblica resta una fascia vuota dove c'era la newsletter",
+      "severita": "minore",
+      "file": "components/Footer.tsx:305-311",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "NewsletterForm adesso restituisce null. Il contenitore bg-cream-100 con border-t e py-6, condizionato a !isSellerArea, si disegna lo stesso: resta una banda vuota di circa 48px."
+    },
+    {
+      "titolo": "Si può ancora avviare un lotto «translate» a pagamento che poi la rotta di applicazione rifiuta",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/start/route.ts:50-55",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "start controlla isCatalogOperation e non operazioneAccesa: accetta translate e impegna il costo AI con stimaCostoLottoEur. Poi apply risponde 400. Oggi è mitigato: la pagina ai-batch è spenta e in produzione non c'è la chiave AI."
+    },
+    {
+      "titolo": "I pulsanti «Importa CSV» portano a una pagina che dice «non attivo»",
+      "severita": "minore",
+      "file": "app/seller/products/page.tsx:256,301 · app/seller/dashboard/page.tsx:455",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "I due pulsanti, la tile «Carica in massa (CSV)» e lo stato vuoto del catalogo mandano ancora a /seller/products/import, che ora mostra solo CaricamentoSpento."
+    },
+    {
+      "titolo": "Con l'AI spenta, la scheda prodotto mostra ancora i pulsanti AI che rispondono «servizio non configurato»",
+      "severita": "minore",
+      "file": "components/seller/QuickAiTools.tsx:160-170",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
+      "descrizione": "Solo «Traduci» è legato al suo interruttore. «Perché non vende?» e SEO chiamano ancora /api/ai/* anche con AI_NEGOZI_ACCESA=false."
+    },
+    {
+      "titolo": "Due interruttori dichiarati spenti non li legge nessuno: banner «Metti MyCity in Home», manifest e codici sconto in cassa restano accesi",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts (APP_INSTALLABILE_ACCESA, CODICI_SCONTO_IN_CASSA) · app/layout.tsx:100,244 · app/checkout/page.tsx:53,503 (CouponInput)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "grep -rn 'APP_INSTALLABILE_ACCESA\\|CODICI_SCONTO_IN_CASSA' app components lib | grep -v lib/funzioni-al-lancio.ts → 0 righe (nemmeno negli altri worktree o1-*). layout.tsx e PWAInstallBanner sono nel perimetro ma il diff è vuoto"
+    },
+    {
+      "titolo": "Newsletter spenta lascia nel piede di ogni pagina pubblica una fascia crema vuota (bordo sopra e 48px di spazio)",
+      "severita": "minore",
+      "file": "components/Footer.tsx:304-310 (wrapper non condizionato) + components/NewsletterForm.tsx:157 (ritorna null)",
+      "stato": "aperto",
+      "dimensione": "navigazione-gerarchia",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "sed -n 304,310p components/Footer.tsx: il div border-t bg-cream-100 > div py-6 resta disegnato attorno a <NewsletterForm/>, che con NEWSLETTER_ACCESA=false restituisce null"
+    },
+    {
+      "titolo": "Caricamento da file spento ma ancora offerto in 3 punti: il negoziante clicca e trova «non è attivo»",
+      "severita": "minore",
+      "file": "app/seller/products/page.tsx:256 (Importa CSV) e :302 (CTA secondaria del catalogo vuoto, primo giorno del negozio) · app/seller/dashboard/page.tsx:455 (tessera Importa prodotti)",
+      "stato": "aperto",
+      "dimensione": "layout-responsive",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Passi: negozio con 0 prodotti → /seller/products → «Importa CSV» → pagina «non è attivo» → «Aggiungi un prodotto». Prima del lotto lì il caricamento partiva"
+    },
+    {
+      "titolo": "Con l'AI spenta, «Nuovo prodotto» e «Modifica prodotto» mostrano ancora i pulsanti AI che rispondono «non configurato»",
+      "severita": "minore",
+      "file": "components/seller/ProductForm.tsx:713 (VoiceProductButton), :728 (QuickAiTools: SEO, «Perché non vende?»), :737 (ProductChatAssistant), :20 (AIDescriptionButton)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
+      "descrizione": "La prova del lotto controlla solo il sottotitolo; nel test di QuickAiTools la controprova vuole che gli altri pulsanti AI restino (>0). Il lotto nasconde solo foto/link e «Traduci»"
+    },
+    {
+      "titolo": "Copilot (laterale e flottante), «AI Studio» e «AI sul catalogo» portano tutti alla pagina «strumenti AI non attivi»",
+      "severita": "minore",
+      "file": "components/seller/SellerShell.tsx:35,55,308,495-506 · app/seller/products/page.tsx:253",
+      "stato": "aperto",
+      "dimensione": "accessibilita",
+      "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
+      "descrizione": "Passi: da una qualunque pagina /seller/* → tocco su «Chiedi al Copilot» (in basso a destra) → /seller/products/ai-batch dice «Gli strumenti AI non sono attivi». È la chiamata all'azione più visibile del pannello venditore"
+    },
+    {
+      "titolo": "App installabile spenta solo sulla carta: manifest e banner restano, APP_INSTALLABILE_ACCESA non lo legge nessuno",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts:64 · app/layout.tsx:100 (manifest '/manifest.json') e :244 (<PWAInstallBanner />)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "grep -rn APP_INSTALLABILE_ACCESA app components lib: compare solo nel file degli interruttori"
+    },
+    {
+      "titolo": "Traduci è frenato solo su apply: la rotta start accetta ancora un lotto 'translate', lo paga all'AI e poi apply lo rifiuta",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/start/route.ts:50 (usa isCatalogOperation, non operazioneAccesa) · lib/ai/catalogBatch.ts:347 · app/api/ai/translate/route.ts non legge TRADUCI_ACCESO",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "Il freno è stato messo dopo il punto in cui si spende (stimaCostoLottoEur a start:129). operazioneAccesa va usata anche in start."
+    },
+    {
+      "titolo": "Il freno sulla rotta regge per 3 interruttori su 9: AI, newsletter, classifica e caricamento da file stanno solo nelle pagine",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts (non importa NEWSLETTER_ACCESA) · le 18 rotte app/api/ai/* (non leggono AI_NEGOZI_ACCESA) · lib/funzioni-al-lancio.ts:21-23",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "! timeout 120 npx vitest run tests/unit/la-newsletter-non-riempie-la-casella-di-un-estraneo.test.ts -t 'col gettone buono' -> oggi esce 1: l'iscrizione con POST diretto passa e l'email parte a interruttore spento"
+    },
+    {
+      "titolo": "Con l'AI per i negozi spenta, la scheda prodotto mostra ancora i pulsanti SEO e Diagnosi, che rispondono «Servizio AI non configurato»",
+      "severita": "minore",
+      "file": "components/seller/QuickAiTools.tsx:152,162 (il lotto lo ha toccato ma lo frena solo con TRADUCI_ACCESO, non con AI_NEGOZI_ACCESA) · montato da components/seller/ProductForm.tsx",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "È proprio il caso che la carta #209 voleva spegnere («pulsanti che rispondono servizio non configurato»)."
+    },
+    {
+      "titolo": "Traduci frenato solo all'applicazione: /start accetta ancora il lotto 'translate' e lo fa pagare, poi /apply lo rifiuta",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/start/route.ts:50-55 (valida con isCatalogOperation, non con operazioneAccesa)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "grep -n 'isCatalogOperation(body.operation)\\|operazioneAccesa' app/api/ai/catalog-batch/start/route.ts: c'è solo isCatalogOperation. Con la chiave AI attiva, un POST {operation:'translate'} crea il lotto e impegna stimaCostoLottoEur; poi /apply risponde 400. Oggi la chiave manca, quindi 503."
+    },
+    {
+      "titolo": "AI_NEGOZI_ACCESA non lo legge nessuna rotta /api/ai: il vero interruttore resta la chiave ANTHROPIC_API_KEY",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts:50 contro app/api/ai/* (catalog-create, description, translate, catalog-batch/start)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
+      "descrizione": "grep -rn AI_NEGOZI_ACCESA app/api: nessun risultato. Il commento nuovo dice che ogni interruttore lo rifiuta anche la rotta. Se si mette la chiave per altri usi, catalog-create e gli altri strumenti tornano attivi mentre la pagina dice spenti."
+    },
+    {
+      "titolo": "Anche /api/ai/translate resta aperta: restituisce la patch tradotta se chiamata a mano",
+      "severita": "minore",
+      "file": "app/api/ai/translate/route.ts:61-64",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "preesistente, trovato dal collaudo del giro 1 del lotto #262",
+      "descrizione": "grep -n TRADUCI_ACCESO app/api/ai/translate/route.ts: nessun risultato. La rotta non scrive sul database, è il venditore a salvare. Il rischio è solo sul suo prodotto, e oggi la rotta risponde 503 senza chiave."
+    },
+    {
+      "titolo": "L'interruttore dei codici sconto dice spento, ma la cassa li accetta ancora con carta e alla consegna",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts (CODICI_SCONTO_IN_CASSA) mai letto; app/api/orders/cod/route.ts:539 e app/api/stripe/checkout/route.ts:546 applicano couponCode",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "grep -rn CODICI_SCONTO_IN_CASSA app lib --include=*.ts | grep -v funzioni-al-lancio -> vuoto. Il negozio continua a pagare il 90% di un codice MyCity se un admin ne crea uno. Il rischio c'era già, il lotto ha aggiunto il falso spento"
+    },
+    {
+      "titolo": "La rotta della newsletter ignora il suo interruttore spento, contro la regola del lotto («il freno vero è la rotta»)",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts POST: non legge NEWSLETTER_ACCESA, toccato dal lotto solo per il 503 senza chiave",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
+      "descrizione": "grep -n NEWSLETTER_ACCESA app/api/newsletter/route.ts -> vuoto. Una POST a mano scrive newsletter_subscribers e manda l'email di conferma. Niente soldi: l'email non promette i 5 euro"
+    },
+    {
+      "titolo": "La prova d'identità copre un solo tipo di guasto (57014): un guasto senza codice che diventa «Profilo non trovato» passa verde",
+      "severita": "minore",
+      "file": "tests/unit/il-controllo-d-identita-trova-il-profilo.test.ts (prova ②) contro app/api/kyc/start-check/route.ts:47",
+      "stato": "aperto",
+      "dimensione": "stati-ui",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "Mutante: profiloAssente = !erroreProfilo?.code || code==='PGRST116' || code.startsWith('PGRST') -> vitest sui 2 file: 31/31 verdi. Il codice consegnato è giusto, è la prova a essere stretta. Manca un caso con {code:''} (rete caduta) che pretende >=500."
+    },
+    {
+      "titolo": "Il database finto controlla le colonne della select ma non quelle di filtri e ordinamento",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/database-che-conosce-le-colonne.ts (eq/not/order non validati)",
+      "stato": "aperto",
+      "dimensione": "stati-ui",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "Mutanti .eq('payment_mode','cod') in cod-remittance e .not('seller_payout','is',null) in payouts: la prova ③ resta verde. Col throw ora presente la pagina mostrerebbe 'Non riesco a leggere' fisso, quindi l'errore si vede, ma il nome della prova ('solo colonne che esistono') promette di più."
+    },
+    {
+      "titolo": "La seconda lettura dei reclami (gli ordini, che servono a decidere il rimborso) butta ancora l'errore e restituisce {}",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx:82-97 (useQuery ordiniDeiReclami, 'if (error) return {}')",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 2 del lotto #262",
+      "descrizione": "Era già così prima del lotto, e il commento lo dichiara: il controllo vero lo fa il server in /api/admin/disputes/[id]/resolve. Chi decide il reclamo però non vede come ha pagato il cliente, e nessuno gli dice che quel dato manca."
+    },
+    {
+      "titolo": "Il segnale «cliente che apre reclami ripetuti» non vede chi non ha messo il nome: raggruppa per full_name e non per opener_id",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx:151-156 (riskSignals, byOpener)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "La registrazione accetta il nome vuoto (app/sign-up/page.tsx:155, `fullName.trim() || undefined`). Un cliente senza nome con 3 reclami esce da byOpener e il segnale non scatta. Due omonimi invece si sommano. Va raggruppato per opener_id."
+    },
+    {
+      "titolo": "Nel registro delle azioni un'azione fatta da una persona senza nome risulta fatta «da sistema»",
+      "severita": "minore",
+      "file": "app/admin/audit/page.tsx:111",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "`r.actor?.full_name ?? 'sistema'`: con actor_id pieno e full_name null mostra «da sistema». Prima la lettura falliva sempre, ora le righe arrivano e l'errore si vede. Ripiego giusto: abbreviare actor_id, non scrivere «sistema»."
+    },
+    {
+      "titolo": "Le rimesse contanti hanno ancora un tetto di 1000 righe senza avviso, mentre bonifici e prodotti adesso lo dicono",
+      "severita": "minore",
+      "file": "app/admin/cod-remittance/page.tsx:86 (.limit(1000), «totale da rimettere»)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 2 del lotto #262",
+      "descrizione": "La stessa classe è stata chiusa su payouts e products ma lasciata aperta qui, in un file toccato dal lotto. È improbabile oggi: legge solo AWAITING_REMITTANCE."
+    },
+    {
+      "titolo": "Bonifici: quando l'elenco è tagliato, a sparire sono proprio gli ordini da pagare più vecchi, cioè i più in ritardo",
+      "severita": "minore",
+      "file": "app/admin/payouts/page.tsx:109-110 (order created_at desc + limit TETTO_PAYOUT)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 2 del lotto #262",
+      "descrizione": "L'ordinamento è decrescente: oltre 1000 righe restano fuori i DELIVERED più vecchi. L'avviso «Elenco tagliato» è onesto, ma non dice che gli esclusi sono i più urgenti."
+    },
+    {
+      "titolo": "Avviso «Elenco tagliato» e «1000+» compaiono anche quando le righe sono esattamente 1000, non di più",
+      "severita": "minore",
+      "file": "app/admin/payouts/page.tsx (orders.length >= TETTO_PAYOUT) · app/admin/products/page.tsx (sub con '+' e avviso, products.length >= TETTO_PRODOTTI)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "grep -n \">= TETTO_\\|limit(TETTO_\" app/admin/payouts/page.tsx app/admin/products/page.tsx: la lettura chiede .limit(1000) e la soglia è >= 1000. Con 1000 righe esatte la pagina dice «tagliato». Fix: leggere TETTO+1 righe e avvisare solo se ne arriva una in più"
+    },
+    {
+      "titolo": "Payout: i riquadri «Da pagare / Già pagato» mostrano un totale parziale come cifra esatta, e l'avviso sta sotto",
+      "severita": "minore",
+      "file": "app/admin/payouts/page.tsx: AdminStatCard sopra il banner TETTO_PAYOUT; prodotti invece segna il '+' nel sottotitolo",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "grep -n \"AdminStatCard\\|TETTO_PAYOUT &&\" app/admin/payouts/page.tsx: i riquadri vengono prima del banner e non portano nessun segno «≥» o «almeno». Chi legge solo il riquadro prende la cifra parziale per intera"
+    },
+    {
+      "titolo": "Reclami: «Segnali di rischio» resta coi dati vecchi mentre sotto la lista dice «Non so se ci sono reclami»",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx circa riga 199: {riskSignals.length > 0 && ...} sta fuori dal ternario isLoading/isError",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "grep -n \"riskSignals.length > 0 &&\\|isError ?\" app/admin/disputes/page.tsx. Se la rilettura fallisce dopo una decisione, React Query v5 tiene i dati vecchi: il riquadro dice «N reclami aperti», la lista sotto dice che non lo sa"
+    },
+    {
+      "titolo": "Sei rami isError scritti a mano invece del presidio lib/vista-query.ts (vistaDaQuery): il difetto può tornare alla settima pagina",
+      "severita": "minore",
+      "file": "le 6 pagine del delta (cod-remittance, payouts, disputes, support, products, audit) contro app/admin/today/page.tsx, che usa vistaDaQuery",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "grep -c vistaDaQuery app/admin/{cod-remittance,payouts,disputes,support,products,audit}/page.tsx dà 0 su tutte e sei. lib/vista-query.ts è nato proprio perché «la toppa si dimentica alla dodicesima pagina»"
+    },
+    {
+      "titolo": "Registro azioni: un'azione fatta da un utente reale senza nome viene attribuita a «sistema»",
+      "severita": "minore",
+      "file": "app/admin/audit/page.tsx: da <strong>{r.actor?.full_name ?? 'sistema'}</strong>",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 2 del lotto #262",
+      "descrizione": "grep -n \"?? 'sistema'\" app/admin/audit/page.tsx. Con actor_id presente e full_name nullo la riga dice «sistema». Prima il registro non leggeva niente (errore 42703), ora il caso diventa visibile. Fix: mostrare actor_id abbreviato"
+    },
+    {
+      "titolo": "Segnale anti-abuso sui reclami raggruppa per nome: due omonimi si sommano e chi non ha nome sparisce dal conteggio",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx, useMemo riskSignals: byOpener.get(openerName) con openerName = d.opener?.full_name",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del giro 2 del lotto #262",
+      "descrizione": "grep -n \"byOpener.get(openerName)\\|const openerName\" app/admin/disputes/page.tsx: la chiave è il nome, non opener_id. Due «Mario Rossi» danno un falso allarme di abuso, e un cliente senza nome non conta mai"
+    },
+    {
+      "titolo": "L'aiuto dice di controllare gli agganci ma accetta qualunque legame: un nome di chiave esterna sbagliato passa verde",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/database-che-conosce-le-colonne.ts: leggiSelect/mancanti scartano il suggerimento !..._fkey; lib/database.types.ts ha sempre Relationships: []",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "Sonda con node --experimental-strip-types sull'aiuto: un aggancio con un nome di chiave esterna inventato dà [] (verde). PostgREST vero risponde PGRST200 e la pagina cade."
+    },
+    {
+      "titolo": "L'aiuto segnala come colonne inesistenti forme che PostgREST accetta (count, percorsi JSON, aggancio per colonna)",
+      "severita": "minore",
+      "file": "tests/unit/aiuti/database-che-conosce-le-colonne.ts, funzioni leggiSelect e colonneDellaTabella",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "Sonda: colonneMancanti('orders','id, items:order_items ( count )') dà ['order_items.count']; 'id, metadata->>foo' dà ['orders.metadata->>foo']; 'seller:seller_id ( store_name )' dà ['seller_id (tabella che i tipi non conoscono)']. Falsi rossi sulle prove future."
+    },
+    {
+      "titolo": "Il controllo delle colonne guarda solo la prima lettura della pagina: le letture secondarie restano scoperte",
+      "severita": "minore",
+      "file": "tests/unit/il-pannello-non-chiama-vuoto-una-lettura-caduta.test.ts, letturaPrincipale() restituisce opzioni[0]; reclami ha una seconda lettura su orders",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "La seconda lettura dei reclami (app/admin/disputes/page.tsx, circa riga 82) non passa mai da colonneMancanti. Una colonna sbagliata lì lascia la prova verde."
+    },
+    {
+      "titolo": "La prova sull'errore non copre l'errore con dati già letti in mano, e non verifica che Riprova rilegga davvero",
+      "severita": "minore",
+      "file": "tests/unit/il-pannello-non-chiama-vuoto-una-lettura-caduta.test.ts: G.__ESITO_QUERY__ è un oggetto, fa cadere tutte le letture insieme, con dati undefined o []",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del giro 2 delle fondamenta)",
+      "descrizione": "Il caso dei dati vecchi è valido per i payout (refetchInterval 60s): un aggiornamento in sottofondo che fallisce mette isError a vero e nasconde la lista. Nessuna prova fissa se sia voluto. Il pulsante Riprova si cerca ma non si clicca."
+    },
+    {
+      "titolo": "L'informativa privacy non nomina il selfie, ma la verifica d'identità lo pretende",
+      "severita": "minore",
+      "file": "app/privacy/page.tsx:85 (elenco dati KYC) vs app/api/kyc/start-check/route.ts:56 (selfie obbligatorio)",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal collaudo del giro 2 del lotto #262",
+      "descrizione": "grep -niE 'selfie|biometr' app/privacy/page.tsx -> 0 righe, ma route.ts:56 rifiuta il controllo senza kyc_selfie_url. Il difetto c'era già: il delta lo rende solo raggiungibile. Il delta legge meno dati (via email da profiles). Test unit KYC: 20 su 20 verdi."
+    },
+    {
+      "titolo": "Reclami: dopo una rilettura caduta, «Segnali di rischio» mostra ancora i numeri vecchi sopra l'avviso «non so se ci sono reclami»",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx:142-189 (riskSignals calcolati su `disputes`) e :199 (la sezione si mostra senza guardare isError). Il ramo d'errore aggiunto dal lotto sta a :244-251.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "L'ho riprodotto con una prova di render fuori dalla repo: config /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/prove/vitest.scratch.config.mjs, file reclami-e-registro.qa.test.ts, caso A. Con isError=true e 3 reclami già in mano escono INSIEME «3 reclami aperti in attesa di una decisione. Riducili per tenere alta la fiducia.» e «Non riesco a leggere i reclami… Non so se ci sono reclami da gestire». Che React Query tenga i dati vecchi quando una rilettura cade l'ho verificato col motore vero (@tanstack/query-core, stesse impostazioni di QueryProvider, retry 1): script /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/stati-query.mjs, passo 2 → status=error, isError=true, righe=1. Quando capita davvero: premi «Decidi», parte invalidateQueries e la rilettura cade, così il segnale dice ancora «1 reclamo aperto» sul reclamo appena chiuso. Oppure torni su un filtro letto più di 30 s prima. La casa ha già la regola che lo impedisce: lib/vista-query.ts e lib/admin/vista-dei-coupon.ts mettono i dati a [] quando la lettura è «rotta». Il lotto ha scritto i rami a mano e qui quella regola non c'è. Correzione: nascondere la sezione quando isError, oppure passare da vistaDaQuery. Caso di regressione da aggiungere a il-pannello-non-chiama-vuoto-una-lettura-caduta: __ESITO_QUERY__={isError:true} con __DATI_QUERY__ pieno, e il testo non deve contenere «reclami aperti in attesa»."
+    },
+    {
+      "titolo": "«Riprova» non dà nessun segno: mentre rilegge, e dopo un secondo fallimento, lo schermo resta identico",
+      "severita": "minore",
+      "file": "components/ui/ErrorState.tsx non ha una proprietà di caricamento: il suo Button non riceve mai `loading`. Il lotto lo usa in app/admin/payouts/page.tsx:160, app/admin/products/page.tsx:91, app/admin/support/page.tsx:107, app/admin/audit/page.tsx:87, app/admin/cod-remittance/page.tsx:164 e app/admin/disputes/page.tsx:245.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Ho fatto girare `node /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/stati-query.mjs` (React Query vero, retry 1 come QueryProvider). Passo 3, durante «Riprova»: status=error, isLoading=false, isError=true, isFetching=true. Passo 4, dopo un nuovo fallimento: stato identico. Le sei pagine scelgono cosa mostrare guardando solo isLoading e isError. Quindi per circa 1 s restano sull'avviso senza spinner. Se la lettura cade di nuovo il testo non cambia, e un role=alert identico non viene riletto dal lettore di schermo. Nicola non capisce se ha riprovato davvero e preme più volte. La correzione vale per tutte e sei le pagine: aggiungere a ErrorState una proprietà `riprovando` che accende `loading` sul Button, e far passare isFetching alle pagine."
+    },
+    {
+      "titolo": "Registro delle azioni: un'azione fatta da una persona compare «da sistema» se il suo profilo non ha il nome o è stato cancellato",
+      "severita": "minore",
+      "file": "app/admin/audit/page.tsx:111, `r.actor?.full_name ?? 'sistema'`, riga riscritta dal lotto. actor_id viene letto (:16, :48) ma non si usa.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova di render fuori dalla repo, caso C: una riga con actor_id pieno e actor.full_name=null mostra «da sistema». Ogni riga del registro ha un autore umano: lib/audit.ts rende `actorId` obbligatorio, e lib/stripe/rimborsi-da-dividere.ts:446 scrive `actor_id: chi`. Un autore cancellato diventa NULL per la regola ON DELETE SET NULL (migrations/027_growth_engagement_foundations.sql:156). Quindi su questa pagina «sistema» è sempre falso. Prima del lotto la pagina non mostrava nessuna riga, perché chiedeva profiles.email: quella colonna non esiste, e il database rifiutava tutta la lettura (errore 42703, commit 86bab24b; lib/database.types.ts non ha email in profiles). Il difetto quindi non si vedeva. Il lotto lo ha reso visibile riscrivendo proprio questa riga. Resta minore perché dipende da profili senza nome. Diventa grave se i profili amministratore hanno full_name vuoto: da qui non l'ho potuto verificare, non ho accesso al database."
+    },
+    {
+      "titolo": "Reclami: chi apre il reclamo è riconosciuto solo dal nome. Due clienti omonimi diventano un unico «possibile abuso», e chi non ha nome è sempre «Cliente»",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx:152-157 raggruppa per full_name (riga riscritta dal lotto). :170-177 scrive il segnale «Pattern da verificare per possibili abusi». :280 usa `full_name ?? 'Cliente'`. opener_id viene letto (:63) ma non usato.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova di render fuori dalla repo, caso B: due reclami di clienti diversi (opener_id cliente-1 e cliente-2), tutti e due di nome «Mario Rossi». A video esce «Cliente · Mario Rossi — 2 reclami aperti. Pattern da verificare per possibili abusi.» Prima del lotto la pagina reclami era sempre vuota, per lo stesso errore 42703 su profiles.email, quindi questo segnale non usciva mai. Correzione: raggruppare per opener_id e usare il nome solo come etichetta."
+    },
+    {
+      "titolo": "Drop del giorno spento: in alto la schermata dice «mostrate in home», in basso «la home non lo mostra», e il modulo resta tutto compilabile",
+      "severita": "minore",
+      "file": "app/admin/daily-drops/page.tsx:120 è il sottotitolo: vero alla base, falso da quando il lotto ha spento la sezione. A :145-150 ci sono la nota e il pulsante disabilitato, in fondo al modulo. A :154 c'è «Drop programmati».",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova di render fuori dalla repo, caso D, con DROP_DEL_GIORNO_ACCESO=false. A video escono insieme «Offerte lampo a tempo limitato mostrate in home…» e «Il Drop del giorno è spento al lancio: la home non lo mostra…». Sotto c'è «Drop programmati · gio 29 ottobre · Focaccia 7,00 € (-30%)», come se quel drop dovesse uscire. I 4 campi del modulo restano compilabili. La spiegazione arriva solo in fondo, sopra «Salva drop» disabilitato, e il pulsante ha aria-describedby=null: chi usa un lettore di schermo sente un pulsante spento senza sapere perché. Con `git show fd4821aa:app/admin/daily-drops/page.tsx` il sottotitolo è già alla riga 119: il lotto l'ha lasciato com'era. Il server rifiuta comunque il salvataggio (POST → 409, prova del lotto verde), quindi nessun dato toccato: solo confusione per chi amministra."
+    },
+    {
+      "titolo": "Payout con elenco tagliato: l'avviso parla dei «totali qui sopra», ma anche i «Da liquidare» dei singoli negozi, che stanno sotto, sono parziali",
+      "severita": "minore",
+      "file": "app/admin/payouts/page.tsx:190 è il testo dell'avviso. I «Da liquidare» per negozio stanno a :226-229, sotto l'avviso.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Lettura del codice. groups (:116-137) somma solo gli ordini letti. Arrivati al tetto TETTO_PAYOUT=1000 (:93, :110) quei totali sono parziali quanto i riquadri. L'avviso (:186-193) però nomina solo «i totali qui sopra». Succede solo da 1000 ordini consegnati in su, quindi oggi siamo lontani. Correzione del testo: «I totali di questa pagina, anche quelli dei singoli negozi, possono essere più bassi del vero»."
+    },
+    {
+      "titolo": "Negozio del mese: tre letture ignorano l'errore. Se cade quella del mese, il modulo si apre vuoto con «Imposta pick del mese», e salvando si sovrascrive il pick già scelto (titolo, storia, copertina). Se cade quella dei voti esce «Nessun voto registrato»",
+      "severita": "minore",
+      "file": "app/admin/shop-of-month/page.tsx: letture a :42-52, :63-74 e :76-82; il salvataggio che sovrascrive (upsert onConflict month) a :98-100. È la stessa classe che il lotto chiude in sei pagine, lasciata aperta in un file del perimetro.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Reclami: se cade la seconda lettura (come ha pagato il cliente, quanto si può rimborsare), restituisce {} in silenzio. Il riquadro «Rimborsabile al massimo» sparisce senza dire perché, e si decide il rimborso alla cieca (il server il tetto lo controlla comunque)",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx:82-99 (:95 `if (error) return {}`)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Reclami: il segnale sul cliente dice «N reclami aperti» ma conta i reclami di qualsiasi stato nel filtro caricato. Con «Tutti» o «Risolto…» conta anche quelli chiusi. Si vede solo da ora, perché prima del lotto la pagina era vuota",
+      "severita": "minore",
+      "file": "app/admin/disputes/page.tsx:170-177",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Payout: la colonna «Consegnato» mostra la data del bonifico, o quella di creazione dell'ordine, mai la data di consegna",
+      "severita": "minore",
+      "file": "app/admin/payouts/page.tsx:240 (intestazione) e :259 (`fmtDate(o.payout_at ?? o.created_at)`)",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Rimesse contanti: «Conferma rimessa» sblocca i bonifici ai negozi con un solo tocco, senza finestra di conferma e senza annullamento. Un tocco sbagliato paga i negozi prima che i contanti siano arrivati",
+      "severita": "minore",
+      "file": "app/admin/cod-remittance/page.tsx:195-206",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Assistenza e reclami: a chi usa un lettore di schermo i filtri non dicono quale è attivo (manca aria-pressed). I pulsanti dentro i riquadri usano disabled:opacity-50, che il Button del sito stesso documenta a 1,62:1 di contrasto",
+      "severita": "minore",
+      "file": "app/admin/support/page.tsx:89-101 e :202; app/admin/disputes/page.tsx:226-240, :373 e :395",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Prodotti: lo stato è scritto col codice inglese del database (available, sold…)",
+      "severita": "minore",
+      "file": "app/admin/products/page.tsx:184",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Funzioni spente, da sistemare prima di riaccenderle. Classifica inviti e Drop leggono senza guardare l'errore, quindi mostrano «Classifica vuota · Sii il primo…» e «Nessun drop per oggi» anche quando la lettura è caduta. Il Drop usa il giorno di Greenwich: fra mezzanotte e l'1-2 di notte, ora di Piacenza, la data minima e l'elenco sono su ieri",
+      "severita": "minore",
+      "file": "app/profile/referral/leaderboard/page.tsx:26-35 e :55-60; app/admin/daily-drops/page.tsx:28, :53-78 e :155-156",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "L'AI per i negozi risulta spenta, ma la scheda Nuovo prodotto e Modifica prodotto si apre ancora con «Compila con una foto: l'AI compila...» e 7 pulsanti AI che rispondono «Servizio AI non configurato». Il primo pulsante foto della pagina perde la foto scattata.",
+      "severita": "grave",
+      "file": "L'interruttore AI_NEGOZI_ACCESA (lib/funzioni-al-lancio.ts:55) lo leggono solo app/seller/products/new/page.tsx:214,221 e app/seller/products/ai-batch/page.tsx:484. Restano accesi in components/seller/ProductForm.tsx: righe 711-742 (PhotoFillButton, VoiceProductButton, ImproveAllPanel, QuickAiTools, ProductChatAssistant), riga 918 («Suggerisci varianti con l'AI») e riga 1064 («Ordina foto e scegli la copertina con l'AI»). Valgono per /seller/products/new e /seller/products/[id]/edit. Nessuna rotta app/api/* legge AI_NEGOZI_ACCESA.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262",
+      "descrizione": "Ho montato la pagina davvero, con l'aiuto di montaggio del repo (tests/unit/aiuti/monta-componente + schermo), in una prova scritta fuori dal worktree: /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa/qa-spente.test.ts, lanciata con node_modules/.bin/vitest run --config .../scratchpad/qa/vitest.qa.config.mjs. Con AI_NEGOZI_ACCESA=false il testo a video di app/seller/products/new/page.tsx è: «Nuovo prodotto · Compila la scheda: nome, foto, prezzo e descrizione. · Compila con una foto · Scatta o carica 2–4 foto (fronte + etichetta) e l'AI compila nome, descrizione, categoria, prezzo e caratteristiche per te.» I pulsanti visibili sono [\"Scatta foto\",\"Galleria\",\"Migliora tutto con l'AI\",\"Ottimizza per la ricerca\",\"Perché non vende?\",\"Modifica con l'AI\",\"Genera con AI\",...]. Senza chiave le rotte rispondono 503: app/api/vision/extract-product/route.ts:222 restituisce «Servizio AI non configurato sul server.». In PhotoFillButton.tsx:67-72 l'errore scatta prima di onImages, quindi la foto scattata non entra nella scheda. La prova del lotto (tests/unit/le-funzioni-spente-al-lancio-non-si-vedono.test.ts:129) cerca solo l'assenza della frase «lascia che l'AI» e passa: l'ho fatta girare, 8 test su 8 verdi. La riga :103 addirittura esige che gli altri strumenti AI restino («controprova: gli altri strumenti devono restare»). La pagina AI spenta (ai-batch/page.tsx:490) dice «I prodotti si inseriscono e si modificano dal modulo», e manda il negoziante proprio nel modulo pieno di pulsanti AI. Passi per riprodurre: 1) produzione senza ANTHROPIC_API_KEY, negozio approvato; 2) apri /seller/products/new; 3) tocca «Scatta foto» nel primo riquadro e scatta; 4) compare il messaggio d'errore e la foto non viene aggiunta. Atteso: con AI_NEGOZI_ACCESA=false nessun pulsante AI, e il caricamento foto normale come prima azione. Perché lo conto come nato: i pulsanti morti c'erano già alla base, ma il lotto dichiara l'AI «spenta» e la sua prova blocca i pulsanti al loro posto. Nicola legge «spento», il negoziante vede «acceso». Confidenza: 95% su cosa compare a video (montato); 85% sul messaggio d'errore (letto nel codice, non visto in un browser)."
+    },
+    {
+      "titolo": "Nel piè di pagina pubblico resta una fascia color crema vuota, dove prima c'era la newsletter.",
+      "severita": "minore",
+      "file": "components/Footer.tsx:303-309: il contenitore non è stato toccato, `<div className=\"border-t border-cream-300 bg-cream-100\"><div className=\"container ... py-6 max-w-2xl\">`. Dentro c'è components/NewsletterForm.tsx:157, che ora restituisce null.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Stessa prova scritta fuori dal worktree, con components/Footer.tsx montato. Trova 1 elemento div.border-t.bg-cream-100 con innerHTML `<div class=\"container mx-auto px-4 sm:px-6 py-6 max-w-2xl\"></div>` e testo visibile vuoto. A video è una fascia vuota alta circa 48px (py-6), con bordo sopra, su ogni pagina pubblica (!isSellerArea). Sta subito sopra la striscia di fiducia, che ha il suo border-t: ne esce una doppia riga. Il commento del lotto (NewsletterForm.tsx:152-156) dice «il modulo non si disegna né nel piede né in home»: vero per il modulo, la sua cornice però resta. Atteso: nessuna fascia quando NEWSLETTER_ACCESA=false."
+    },
+    {
+      "titolo": "Le pagine spente (AI e caricamento da file) restano pubblicizzate da menu, pulsante fisso e scorciatoie, e portano a una pagina «non attivo».",
+      "severita": "minore",
+      "file": "components/seller/SellerShell.tsx: riga 35 (voce «AI Studio»), righe 305-322 (pulsante colorato «Copilot · Gestisci parlando» in cima alla barra laterale), righe 494-505 (pulsante fisso «Chiedi al Copilot» in basso a destra su ogni pagina del negozio). app/seller/products/page.tsx: riga 253 («AI sul catalogo»), riga 256 («Importa CSV»), riga 302 (stato vuoto del catalogo, seconda azione «Importa CSV»). app/seller/dashboard/page.tsx:455 (tessera «Importa prodotti · Carica in massa (CSV)»).",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Ho cercato i link con grep: tutti puntano a /seller/products/ai-batch o /seller/products/import. Con l'interruttore a false quelle pagine mostrano solo «Gli strumenti AI non sono attivi» (ai-batch/page.tsx:483-498) oppure «Il caricamento da file non è attivo» (import/page.tsx:287-310). Nessuno di questi file è stato toccato dal lotto (git diff --stat vuoto). Caso concreto: un negozio appena approvato, con 0 prodotti, vede nello stato vuoto due azioni; la seconda, «Importa CSV», porta a una funzione spenta. Il pulsante fisso «Chiedi al Copilot» promette su ogni pagina un assistente che non c'è. Minore perché la pagina d'arrivo spiega e dà l'alternativa giusta. Atteso: niente ingressi verso funzioni spente, o ingressi che lo dicono già nell'etichetta."
+    },
+    {
+      "titolo": "Il Centro venditori dice ancora «Iscriviti alla newsletter per essere avvisato», ma dopo il lotto la newsletter non c'è più in nessuna pagina.",
+      "severita": "minore",
+      "file": "app/seller/help/page.tsx:63, insieme a components/NewsletterForm.tsx:157 e lib/home-site.ts:315.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Con grep ho trovato la frase alla riga 63. Il modulo NewsletterForm restituisce null in ogni punto in cui è usato (Footer.tsx:308 e HomeSectionRenderer.tsx:367), e la sezione newsletter della home la filtra sezioneAccesa. Prima del lotto il modulo c'era nel piè di pagina pubblico. Oggi il negoziante legge un invito che non può seguire."
+    },
+    {
+      "titolo": "Difetto dormiente: se l'AI torna accesa e «Traduci» resta spento, AI Studio continua a promettere «traduci» nel modulo prodotto.",
+      "severita": "minore",
+      "file": "app/seller/products/ai-batch/page.tsx:218-221, nella nota in fondo alla scheda «Crea con AI» della versione accesa.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "La nota elenca «voce, foto, import da link, ottimizza per la ricerca, traduci, «perché non vende?»» come «disponibili nel form prodotto». QuickAiTools.tsx:172, invece, nasconde Traduci quando TRADUCI_ACCESO=false. Il lotto ha separato i due interruttori, ma questo testo non lo sa. Si vede solo con AI_NEGOZI_ACCESA=true e TRADUCI_ACCESO=false: è proprio l'ordine di riaccensione che il file degli interruttori fa prevedere, perché Traduci chiede prima un cambio di schema. Oggi è invisibile."
+    },
+    {
+      "titolo": "«Suggerisci varianti con l'AI» risponde «Nessuna variante sensata per questo prodotto» quando in realtà l'AI non risponde. «Ordina foto con l'AI» fallisce in silenzio. Con l'AI spenta in produzione succede a ogni clic.",
+      "severita": "minore",
+      "file": "components/seller/ProductForm.tsx:571-577 (il caso !res.ok finisce nel ramo «Nessuna variante sensata») e 606-608 (toast.dismiss senza alcun messaggio). Identico alla base fd4821aa.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Se la lettura dei buoni cade, la pagina dice «Nessuna gift card ancora» e la scheda mostra «(0)». Chi ha comprato un buono non ancora usato non vede il codice da girare.",
+      "severita": "minore",
+      "file": "app/profile/gift-cards/page.tsx:94-105: l'errore di supabase viene ignorato e si restituisce []. La pagina stessa, alle righe 71-83, enuncia la regola opposta per il saldo.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Pagina «Invita un amico»: se la lettura del profilo cade, la rotellina gira per sempre; se cade la lettura degli inviti, a video escono «0 invitati» e «€0,00 guadagnati».",
+      "severita": "minore",
+      "file": "app/profile/referral/page.tsx: righe 18-30 e 53 (errore ignorato, profile null, LoadingState infinito); righe 32-51 e 149-158 (zeri di ripiego al posto dell'errore).",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Negozio del mese: se la lettura della classifica cade, la pagina dice «Nessun negozio in classifica per ora». Chi non ha fatto l'accesso e preme «Vota» riceve un avviso senza link per accedere.",
+      "severita": "minore",
+      "file": "app/shop-of-month/page.tsx: righe 75-84 e 166-167 (errore ignorato); riga 197 (toast «Accedi per votare» senza link).",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Le schede Riscatta / Le mie gift card non dicono al lettore di schermo quale è attiva.",
+      "severita": "minore",
+      "file": "app/profile/gift-cards/page.tsx:162-171: TabBtn non ha role=\"tab\", aria-selected né aria-pressed; lo stato attivo si vede solo dal colore del bordo.",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Commento e prova dicono che senza la chiave di servizio il Drop spento risponde comunque 409, ma la rotta vera in quel caso risponde 503",
+      "severita": "minore",
+      "file": "app/api/admin/daily-drops/route.ts righe 27-28; tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts righe 137-148",
+      "stato": "aperto",
+      "dimensione": "sicurezza-auth",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Il commento alle righe 27-28 dice: «prima del corpo e della chiave di servizio, così risponde uguale anche dove la chiave manca». Però il POST è avvolto da withAdminAuth. withAdminAuth chiama authenticate(), che legge il profilo con getAdminSupabase() (lib/api/middleware.ts righe 227-237). Se la chiave manca, creaClientAmministrativo fallisce, il catch scatta e la risposta è ApiErrors.unavailable('Auth non configurato'), cioè 503. Il freno a riga 29 non viene mai raggiunto. La prova «il pannello admin riceve 409 ... anche senza chiave di servizio» passa per un motivo preciso: finge withAdminAuth con un passacarte (vi.mock di '@/lib/api/middleware', righe 39-46). In più getAdminSupabase restituisce un oggetto invece di fallire. La prova quindi dimostra solo l'ordine dentro il gestore, non la frase che porta nel titolo. Come riprodurre: togliere SUPABASE_SERVICE_ROLE_KEY e fare POST /api/admin/daily-drops con il gettone di un admin; si ottiene 503, non 409. Nessun dato è esposto e nessun soldo è in gioco: è una garanzia scritta che non è vera. Il rischio è che chi legge il commento si fidi di una prova che non copre il caso."
+    },
+    {
+      "titolo": "Il server si fida dei prezzi mandati dal browser: original_price, drop_price e discount_percent non vengono confrontati col prezzo vero del prodotto né tra loro. Un admin può salvare un 'prima 100 euro, -50%' su un prodotto da 20 euro, oppure un drop_price più alto dell'original_price",
+      "severita": "minore",
+      "file": "app/api/admin/daily-drops/route.ts righe 17-24 (lo schema dropSchema) e 39-50 (l'upsert); il calcolo sta solo nel client, in app/admin/daily-drops/page.tsx (righe 80-82 alla base)",
+      "stato": "aperto",
+      "dimensione": "sicurezza-auth",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il POST non controlla che il prodotto sia pubblicato e che il negozio sia approvato: la chiave esterna verso products controlla solo che esista. Si può mettere in vetrina un prodotto nascosto o di un negozio sospeso",
+      "severita": "minore",
+      "file": "app/api/admin/daily-drops/route.ts righe 39-50",
+      "stato": "aperto",
+      "dimensione": "sicurezza-auth",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "POST e DELETE del Drop non lasciano traccia nel registro delle azioni (writeAudit): non si sa quale admin ha creato o cancellato un'offerta pubblica, mentre 7 rotte admin su 12 lo fanno",
+      "severita": "minore",
+      "file": "app/api/admin/daily-drops/route.ts (POST righe 26-53, DELETE righe 55-65)",
+      "stato": "aperto",
+      "dimensione": "sicurezza-auth",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Due silenzi: il DELETE risponde ok:true anche se per quella data non c'era nessun drop, e l'upsert su drop_date sovrascrive senza avviso il drop già salvato per lo stesso giorno",
+      "severita": "minore",
+      "file": "app/api/admin/daily-drops/route.ts riga 49 (onConflict: 'drop_date') e righe 62-64",
+      "stato": "aperto",
+      "dimensione": "sicurezza-auth",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "La newsletter risulta spenta, ma il server continua ad accettare iscrizioni e a mandare l'email di conferma",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts: in POST (righe 48-142) non c'è nessun controllo su NEWSLETTER_ACCESA. Il lotto ha spento la funzione in lib/funzioni-al-lancio.ts:51 e l'interruttore lo leggono solo components/NewsletterForm.tsx:157 e lib/home-site.ts:315, cioè solo la parte che si vede nel browser. Eppure lo stesso lotto scrive in lib/funzioni-al-lancio.ts:21-23 che ogni interruttore va letto anche dalla rotta del server, perché quello è il freno vero.",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "PROVA CHE GIRA (diventa rossa finché il difetto c'è). È una prova scritta solo nella scratchpad, senza toccare il worktree, e usa il valore VERO dell'interruttore (false), non un finto: cd /home/user/mycity-ondate/o2-integrazione && node_modules/.bin/vitest run --config /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/prova/vitest.prova.config.mjs → esito ROSSO, riprodotto due volte, con stampato «STATUS 200 adminChiesto 1 insert 1 email 1». PASSI: 1) NEWSLETTER_ACCESA=false (il valore di oggi). 2) POST /api/newsletter con {email:'estraneo@example.com', captchaToken} dato da qualcosa che non è il modulo del sito: una pagina vecchia in cache che promette ancora «€5 in regalo», un client vecchio o uno script. 3) ATTESO: 503 «non disponibile», nessuna scrittura, nessuna email. REALE: 200 ok, una riga nuova in newsletter_subscribers con consenso 'newsletter-v1', e parte l'email «Confermi l'iscrizione alle novità di MyCity?». Cliccando il link, /api/newsletter/confirm (che resta acceso) rende l'iscrizione attiva. PERCHÉ LE PROVE DEL LOTTO NON LO VEDONO: tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts:153 imposta newsletterAccesa=true prima di chiamare la rotta. La rotta però l'interruttore non lo legge, quindi quella riga non cambia niente e fa solo credere che la rotta lo legga. Il guardiano tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts:139 si accontenta di lib/home-site.ts come lettore. Le 3 prove del lotto passano tutte, 24 su 24, e il difetto resta. PROBABILITÀ OGGI: bassa. Secondo il commento in NewsletterForm.tsx:153-155, in produzione manca la chiave di servizio, e con la modifica del lotto la rotta risponde 503 proprio per quello. Ma il giorno in cui SUPABASE_SERVICE_ROLE_KEY arriva su Vercel (serve anche alle funzioni IA, vedi funzioni-al-lancio.ts:54) la newsletter si riaccende sul server con l'interruttore ancora a false, e nessuno se ne accorge. È grave e non minore perché Nicola legge «spenta, la rifiuta il server» nel codice e nella prova, e questo non è vero. FIX PER TECH: in route.ts, subito dopo il limite di richieste e prima di captcha e getAdminSupabase, aggiungere `if (!NEWSLETTER_ACCESA) return ApiErrors.unavailable(...)`. Poi aggiungere alla prova del server il caso 'spenta → 503 e nessun insert né sendEmail', come già c'è per i buoni regalo. CLASSE DI DIFETTO, fuori dai miei file e non verificata a fondo: anche AI_NEGOZI_ACCESA e CARICAMENTO_DA_FILE_ACCESO li legge solo una pagina, mai un file in app/api. Presidio proposto: il guardiano ogni-interruttore pretenda almeno un lettore sotto app/api per ogni interruttore che ha una rotta."
+    },
+    {
+      "titolo": "Newsletter: se il database fallisce, la rotta sbaglia strada o restituisce un errore 500 senza lasciare traccia nel registro",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts righe 85-89: l'errore della lettura viene ignorato, quindi un guasto viene preso per «indirizzo nuovo» e si passa a insert. Su un'email già confermata l'insert sbatte contro il vincolo UNIQUE della colonna email (migrations/015:169) e l'utente riceve 500 «Iscrizione non riuscita». Righe 120-122: l'errore di scrittura non viene registrato nei log. Stessa uscita anche quando due richieste per la stessa email nuova arrivano insieme. Il lotto ha chiuso il 500 muto solo per getAdminSupabase (righe 74-80) e ha lasciato aperti questi due, che sono della stessa classe.",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Newsletter: chi si è disiscritto e prova a iscriversi di nuovo riceve «ok», ma non gli arriva nessuna email e resta fuori dalla lista",
+      "severita": "minore",
+      "file": "app/api/newsletter/route.ts righe 91-93: se confirmed_at è valorizzato la rotta risponde ok e si ferma. La disiscrizione (migrations/118_disiscrizione_che_funziona.sql righe 49-50) mette active=false e unsubscribed_at, ma lascia confirmed_at com'è. Oggi la funzione è spenta, quindi il difetto dorme; si sveglia alla riaccensione.",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Buoni regalo: senza l'intestazione Idempotency-Key e con un'email del destinatario molto lunga, la chiave di riserva supera i 255 caratteri ammessi da Stripe e il pagamento non parte (500)",
+      "severita": "minore",
+      "file": "app/api/gift-cards/checkout/route.ts riga 108. La chiave di riserva è `giftcard_${user.id}_${amountCents}_${recipientEmail}_${finestra}`: 9+36+1+5+1+200+1+7 fa fino a 260 caratteri, mentre lo schema a riga 31 ammette email fino a 200. Il problema scatta con email oltre circa 195 caratteri e senza intestazione. Oggi dorme, perché la vendita è spenta e la rotta risponde 503 prima di arrivare a Stripe.",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "«AI per i negozi» risulta spenta, ma il modulo prodotto mostra ancora 8 pulsanti AI, compreso «l'AI compila nome, descrizione, categoria, prezzo»",
+      "severita": "grave",
+      "file": "lib/funzioni-al-lancio.ts:54-57 (AI_NEGOZI_ACCESA). Lo leggono solo app/seller/products/new/page.tsx:214,221 e app/seller/products/ai-batch/page.tsx:484. In components/seller/ProductForm.tsx:711-741 e :797 i componenti PhotoFillButton, VoiceProductButton, ImproveAllPanel, QuickAiTools, ProductChatAssistant e AIDescriptionButton non hanno nessun interruttore. ProductForm si monta anche in seller/products/[id]/edit e in admin/products new e [id]/edit.",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262",
+      "descrizione": "Prova di montaggio in /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa-architettura/schermo.arch.test.ts (lanciata con vitest run --config .../qa-architettura/vitest.config.mjs, verde). Monta app/seller/products/new/page.tsx con il valore vero AI_NEGOZI_ACCESA=false. A schermo compare: «Compila la scheda: nome, foto, prezzo e descrizione.», subito sotto «Compila con una foto. Scatta o carica 2–4 foto (fronte + etichetta) e l'AI compila nome, descrizione, categoria, prezzo e caratteristiche per te», poi «Migliora tutto con l'AI», «Strumenti AI», «Ottimizza per la ricerca», «Perché non vende?», «Modifica con l'AI», «Genera con AI» e «Crea dalla descrizione». La pagina /seller/products/ai-batch, spenta, scrive «Gli strumenti AI non sono attivi. I prodotti si inseriscono e si modificano dal modulo» e manda il negoziante proprio in quel modulo. Nessuna rotta /api/ai/* o /api/vision/* legge AI_NEGOZI_ACCESA (verificato con grep). Il freno vero resta quindi la chiave ANTHROPIC_API_KEY che manca, cioè «il caso» che il commit 1ab2dca2 dichiara di togliere. Quella chiave serve anche a funzioni che non sono dei negozi: app/api/vision/photo-order/route.ts:61, app/api/marketplace/import-fetch/route.ts:27, app/api/cron/external-price-alerts/route.ts:40. Se la si mette per una di queste, si riaccende tutta l'AI del modulo prodotto con l'interruttore ancora a false, compresi i difetti che la carta #209 cita (prezzo proposto, chat che riscrive). La prova del lotto (le-funzioni-spente-al-lancio-non-si-vedono.test.ts:127-136) guarda solo la frase del sottotitolo, ed è verde. Alla base il sottotitolo prometteva l'AI e il modulo la offriva: le due cose erano coerenti. La contraddizione «spenta» contro «8 pulsanti accesi» nasce con il lotto."
+    },
+    {
+      "titolo": "«Traduci»: il lavoro sul catalogo si blocca quando lo si applica, ma parte e si paga quando lo si avvia",
+      "severita": "minore",
+      "file": "lib/ai/catalogBatch.ts:347-350 (operazioneAccesa). La usa solo app/api/ai/catalog-batch/apply/route.ts:69. app/api/ai/catalog-batch/start/route.ts:50 controlla ancora isCatalogOperation, che accetta 'translate'.",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova in /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa-architettura/server.arch.test.ts (verde). Con il valore vero TRADUCI_ACCESO=false risulta operazioneAccesa('translate')=false ma isCatalogOperation('translate')=true. POST /api/ai/catalog-batch/start con {operation:'translate', targetLang:'en'} e una chiave finta risponde 200. submitBatch, cioè l'invio pagato ad Anthropic, viene chiamato 1 volta. Si scrive una riga catalog_ai_jobs con operation 'translate' e la spesa viene impegnata (log «stimaEur 0.0054» per 1 prodotto; il tetto è 200 prodotti a lavoro e 5 avvii all'ora). Poi apply risponde 400: soldi spesi per un lavoro che non si potrà mai applicare. Oggi la pagina nasconde il pulsante, e senza chiave la rotta risponde 503. Ci si arriva solo con una richiesta fatta a mano o da una scheda aperta prima del rilascio, per questo è minore. Il pericolo si attiva quando si riaccende l'AI tenendo spento Traduci. Correzione proposta a tech: usare operazioneAccesa anche in start, e mettere lo stesso freno in /api/ai/translate."
+    },
+    {
+      "titolo": "La regola «il freno vero è la rotta», scritta nel file degli interruttori, vale per 2 interruttori su 7: la rotta della newsletter iscrive anche a newsletter spenta",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts:21-23. app/api/newsletter/route.ts:48 non legge NEWSLETTER_ACCESA. app/api/ai/translate/route.ts:62 non legge TRADUCI_ACCESO. Per CLASSIFICA_INVITI_ACCESA, CARICAMENTO_DA_FILE_ACCESO e AI_NEGOZI_ACCESA nessuna rotta legge l'interruttore.",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova in /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa-architettura/server.arch.test.ts (verde). Con il valore vero NEWSLETTER_ACCESA=false, POST /api/newsletter {email:'chi@example.com', captchaToken:'x'} risponde 200, scrive 1 riga in newsletter_subscribers e spedisce 1 email di conferma. Dal grep, un lettore lato server ce l'hanno solo BUONI_REGALO (gift-cards/checkout) e DROP (admin/daily-drops), più metà di TRADUCI (solo apply). La prova tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts mette la newsletter, nell'intestazione, fra le funzioni che «rifiuta il server». La sua prova sulla newsletter però accende l'interruttore (newsletterAccesa=true) e misura solo la chiave mancante. ogni-interruttore-del-lancio-lo-legge-qualcuno controlla che un interruttore sia letto, non che spenga davvero qualcosa. È la stessa classe di difetto del punto sull'AI dei negozi. L'impatto è basso: serve una chiamata fatta a mano, l'iscrizione chiede comunque la conferma via email, e la mail non promette i 5 €. Chi legge il file crede però a un freno che non c'è."
+    },
+    {
+      "titolo": "Nel pannello /admin/home «Drop del giorno» e «Newsletter» risultano visibili, ma la home non le disegna",
+      "severita": "minore",
+      "file": "lib/home-site.ts:313-322: il filtro sezioneAccesa sta solo dentro homeEnabledSections, cioè in chi disegna la home. components/admin/home/HomeSectionsEditor.tsx:113-116 legge solo s.enabled. Il menu «Aggiungi sezione» (HOME_SECTION_CATALOG, lib/home-site.ts:59,65) offre ancora «Newsletter — Iscrizione newsletter con incentivo» e «Drop del giorno».",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova di montaggio in /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa-architettura/schermo.arch.test.ts (verde). Monta HomeSectionsEditor con defaultHomeSite(). Le righe risultano «Drop del giorno :: Nascondi sezione» e «Newsletter :: Nascondi sezione»: occhio aperto, nessuna etichetta «nascosta». Intanto homeEnabledSections(defaultHomeSite()) non contiene dropOfDay. L'errore va nella direzione sicura (la sezione resta nascosta), per questo è minore. Però Nicola che aggiunge un Drop o la newsletter dal pannello non vede niente in home e non trova nessuna spiegazione."
+    },
+    {
+      "titolo": "Basta una sola sezione non più valida perché sparisca tutta la home composta dal pannello; e se l'admin salva, la home di partenza la sovrascrive",
+      "severita": "grave",
+      "file": "lib/home-site.ts:291-297 (normalizeHomeSite, identica alla base fd4821aa righe 290-296). La usano app/page.tsx:88, app/admin/home/page.tsx:45 e app/api/admin/home/route.ts:45. Prova in scratchpad/qa-architettura/home.arch.test.ts: una home salvata con un banner a imageUrl 'http://…' e un richText valido restituisce le 11 sezioni di partenza (hero, reorder, popularProducts…), senza log e senza avviso. L'editor mostra quelle come «home effettiva». Non ho verificato se la home_site in produzione abbia oggi una sezione non valida.",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il caricamento da file scrive i prodotti direttamente dal browser: non esiste una rotta in cui mettere il freno di CARICAMENTO_DA_FILE_ACCESO",
+      "severita": "minore",
+      "file": "app/seller/products/import/page.tsx:149 (supabase.from('products').insert(payload) dal client). Lo stesso limite è dichiarato nel commento di app/api/ai/catalog-batch/apply/route.ts: «la porta grande resta aperta». Su questo interruttore il freno può essere solo vetrina. Per un freno vero servono una regola d'accesso (RLS) o un trigger nel database, che è materia per security e tech.",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Con le foto configurate a metà, il riepilogo della copia notturna indica una causa sbagliata («rclone non è installato» oppure «mancano il secchio di destinazione e le sue chiavi»)",
+      "severita": "minore",
+      "file": ".github/workflows/backup-db.yml riga 233 (nuovo `if:` su «Esegui il backup») e riga 418 (nuovo `if:` su «Fai una copia fresca»). Le due righe fanno girare scripts/backup-db.sh righe 362-370 anche quando il controllo delle foto è fallito, e quindi «Prepara rclone» (righe 211-212 e 403-404) è stato saltato.",
+      "stato": "aperto",
+      "dimensione": "deploy-sre",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Ho simulato il caso con uno pg_dump finto, senza rclone nel PATH. Sul runner ubuntu-24.04 rclone non c'è: non compare nell'elenco del software installato, e «Prepara rclone» viene saltato perché il controllo non scrive accesa=si. Comando: `env -i HOME=$S PATH=$S/bin:/usr/bin:/bin SUPABASE_DB_URL=postgresql://x@aws-0.pooler.supabase.com:5432/postgres BACKUP_PASSPHRASE=prova BACKUP_DIR=$S/out STORAGE_SYNC_SOURCE=supabase: STORAGE_SYNC_DEST=b2:mycity-foto GITHUB_STEP_SUMMARY=$S/summary.md bash scripts/backup-db.sh`, con S=/tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/sim. Risultato: EXIT=4. I tre file .gpg ci sono, quindi la correzione del lotto funziona. Il riepilogo però dice «❌ Le foto non sono state copiate — la copia e' configurata ma `rclone` non e' installato sulla macchina che fa il lavoro». La causa vera è un'altra: manca il segreto RCLONE_CONFIG_BASE64, e per questo rclone non è stato installato. Ho riprodotto il caso due volte, con lo stesso esito. Secondo caso, con STORAGE_SYNC_SOURCE vuota e la destinazione impostata: il passo esce con EXIT=0 e il riepilogo dice «⚠️ … mancano il secchio di destinazione e le sue chiavi. Database, utenti ed elenco delle foto sono copiati regolarmente». È falso: destinazione e chiavi ci sono, manca l'origine. Prima del lotto «Esegui il backup» veniva saltato in questi casi, quindi questi riepiloghi non potevano comparire: li ha resi raggiungibili il lotto. È minore e non grave per due motivi. Primo: l'::error:: di «Le foto vanno in copia?» (riga 205, e riga 397 per la prova mensile) nomina sulla stessa pagina la variabile che manca davvero. Secondo: l'esecuzione resta rossa e la copia del database si salva. Proposta per tech: far dipendere il messaggio dello script dal verdetto del passo `foto`, per esempio passando `FOTO_ACCESA: ${{ steps.foto.outputs.accesa }}`, invece di ricavarlo da STORAGE_SYNC_* e dalla presenza di rclone."
+    },
+    {
+      "titolo": "Nessun allarme attivo quando la copia notturna fallisce. Lo stesso file racconta 21 corse fallite di fila (dal 19/8 al 7/9) che nessuno ha visto: non c'è un passo `if: failure()` che avvisi, e nessun sensore della macchina guarda queste esecuzioni (in cervello/ backup-db compare solo dentro un test).",
+      "severita": "grave",
+      "file": ".github/workflows/backup-db.yml: tutto il lavoro `backup` (righe 42-274). La prova sta nelle righe 57-59 e 79-86. C'era già in fd4821aa.",
+      "stato": "aperto",
+      "dimensione": "deploy-sre",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Se la copia delle foto supera i 30 minuti, GitHub annulla il lavoro e «Conserva la copia» (`if: !cancelled()`) non parte. Così si perde il dump del database di quella notte, che era già cifrato prima che le foto partissero. È la stessa famiglia di difetto che il lotto ha chiuso (le foto che uccidono la copia del database), arrivata per un'altra strada.",
+      "severita": "minore",
+      "file": ".github/workflows/backup-db.yml riga 45 (timeout-minutes: 30) e righe 267-268 (if: !cancelled()). Il dump finisce in scripts/backup-db.sh riga 213, le foto partono dalla riga 393. Il pericolo resta nascosto finché le foto sono spente.",
+      "stato": "aperto",
+      "dimensione": "deploy-sre",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il primo del mese, e a ogni avvio a mano, i lavori `backup` e `prova-di-ripristino` girano in parallelo nella stessa esecuzione. Partono due pg_dump insieme sul Session pooler e, con le foto accese, due `rclone sync` sulla stessa destinazione. È proprio quello che il blocco `concurrency` dice di evitare, ma quel blocco mette in fila le esecuzioni, non i lavori dentro una stessa esecuzione. In più il lavoro `backup` gira due volte quel giorno (alle 02:17 e alle 03:41).",
+      "severita": "minore",
+      "file": ".github/workflows/backup-db.yml righe 18-31 (cron e concurrency), riga 42 (`backup` senza `if:`), riga 282.",
+      "stato": "aperto",
+      "dimensione": "deploy-sre",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "La prova mensile di ripristino riapre su un Postgres 16 una copia fatta con pg_dump 17 da un server 17. Insieme al `|| true` su pg_restore, il «La copia si riapre: sì» garantisce solo 4 tabelle e auth.users. Non prova un ripristino su un server uguale alla produzione, e nasconde gli oggetti che non entrano.",
+      "severita": "minore",
+      "file": ".github/workflows/backup-db.yml riga 285 (image: postgres:16), righe 471 e 475 (pg_restore … || true), righe 485-510.",
+      "stato": "aperto",
+      "dimensione": "deploy-sre",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "«Traduci» è spento solo sull'ultimo passo. La rotta che avvia il lotto accetta ancora una traduzione, la manda al modello e ne conta la spesa, poi apply la rifiuta: il lavoro è pagato e non si può più usare",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/start/route.ts:50-57 (controlla solo isCatalogOperation e non legge TRADUCI_ACCESO né operazioneAccesa). Il freno sta solo in app/api/ai/catalog-batch/apply/route.ts:69-71 e in lib/ai/catalogBatch.ts:347-349.",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Prova lanciata due volte, sempre verde (il verde qui conferma il difetto). File di prova: /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa-ai-apply/traduci-start.test.ts. Comando, dalla cartella del worktree: node_modules/.bin/vitest run --config /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/qa-ai-apply/vitest.config.mts. La prova usa il valore VERO TRADUCI_ACCESO=false e finge solo la chiave AI e il database. PASSI: 1) POST /api/ai/catalog-batch/start con {operation:'translate', targetLang:'en'}. 2) Risposta 200 {jobId:'job-1', status:'processing'}, submitBatch chiamato 1 volta, registraSpesaAi(0,0054 €) per 1 prodotto, riga catalog_ai_jobs inserita con operation='translate'. 3) Poi /status la porta a 'ready' e aggiunge la differenza di costo. 4) apply risponde 400: lo dimostra la prova del lotto tests/unit/le-funzioni-spente-al-lancio-le-rifiuta-il-server.test.ts, 8 su 8 verdi. ATTESO: la rotta start rifiuta 'translate' prima di spendere, come fa la pagina. Il commit 1ab2dca2 dice «Traduci: niente pulsante né operazione di lotto», ma è vero solo nella pagina. REALE: si paga fino a 200 prodotti × 5 avvii all'ora per venditore, e ne nasce un lavoro che resta 'ready' per sempre. TRAPPOLA FUTURA: la funzione si riaccende cambiando false in true (lib/funzioni-al-lancio.ts:17-19). In quel momento tutti i lavori 'translate' accumulati tornano applicabili, con il vecchio patch che SOSTITUISCE nome e descrizione italiani: è proprio il danno che l'interruttore voleva evitare. IMPATTO OGGI: zero se in produzione manca ANTHROPIC_API_KEY, perché start risponde 503 alla riga 36. Per questo è minore: nessun dato si rovina, il danno è solo spesa più un lavoro morto, e solo con la chiave presente."
+    },
+    {
+      "titolo": "«AI per i negozi» è spenta, ma nessuna rotta del server legge l'interruttore. apply e start restano aperti a una chiamata fatta a mano: oggi le ferma solo la chiave che manca",
+      "severita": "minore",
+      "file": "lib/funzioni-al-lancio.ts:21-23 promette che ogni interruttore è letto «dalla pagina e dalla rotta del server», e AI_NEGOZI_ACCESA sta alla riga 56. app/api/ai/catalog-batch/apply/route.ts non importa AI_NEGOZI_ACCESA, e lo stesso vale per start/route.ts.",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "nato dal lotto #262 (riesame del perimetro)",
+      "descrizione": "Comando: grep -rn AI_NEGOZI_ACCESA app lib components. Lo leggono solo app/seller/products/ai-batch/page.tsx:484 e app/seller/products/new/page.tsx:214,221, nessun file sotto app/api. La prova del lotto tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts è soddisfatta anche dalla sola pagina, quindi non se ne accorge. COSA SUCCEDE con un POST /api/ai/catalog-batch/apply fatto a mano su un lavoro già 'ready': (a) un lavoro 'moderate' mette ancora in bozza i prodotti segnalati (righe 86-108); (b) un lavoro 'improve' o 'redescribe' senza chiave applica solo tag, categoria e attributi, perché nome e descrizione cadono nel filtro, che senza chiave risponde «no» (moderation.ts:118). Il lavoro viene comunque chiuso come 'applied' (righe 223-227). Se la chiave viene messa su Vercel per un altro motivo, start, translate, catalog-chat e le altre rotte AI dei negozi si riaccendono lato server, mentre le pagine continuano a dire «non attivi». Gravità minore: oggi ci vuole un lavoro 'ready' già esistente (e senza chiave non ne nascono) oppure la chiave presente. Il difetto è la promessa scritta in testa al file, che non vale per questo interruttore."
+    },
+    {
+      "titolo": "Il lotto viene segnato «applicato» anche quando non ha scritto niente. I prodotti scartati dal filtro (anche solo perché il filtro è caduto), quelli fermati dalla regola R36 e le scritture fallite spariscono in silenzio: la risposta dà solo un numero, e il lavoro pagato non si può ripetere. Grave quando l'AI si riaccende; minore oggi perché è spenta",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/apply/route.ts:163-177 (bloccati), :199 (cosaMancaDopoLaModifica fa continue), :90-96 (nel ramo moderate l'errore dell'update è ignorato), :223-227 (status 'applied' messo senza condizioni), :230 (risponde solo {ok, applied}). Con productIds parziale si chiude comunque tutto il lavoro. La rotta gemella catalog-apply-bulk/route.ts:166-175 invece restituisce gli esiti e il motivo per ogni prodotto.",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il filtro dei prodotti vietati lancia fino a 200 chiamate al modello tutte insieme, senza un tetto di contemporaneità e con un solo nuovo tentativo. Una raffica di 429 (troppe richieste) fa scartare come «vietati» anche prodotti puliti, e i costi arrivano tutti in un colpo",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/apply/route.ts:145-160 (Promise.allSettled su tutto daFiltrare); lib/ai/client.ts:135 (maxRetries: 1). Lo stesso schema c'è in catalog-apply-bulk/route.ts:154.",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Due «Applica» partiti insieme sullo stesso lavoro passano tutti e due: il controllo «pronto» e il passaggio ad «applicato» non sono un'operazione unica, quindi la spesa del filtro raddoppia e le righe di audit si duplicano",
+      "severita": "minore",
+      "file": "app/api/ai/catalog-batch/apply/route.ts:65 (legge status) e :223-227 (update senza .eq('status','ready')). Le scritture sui prodotti si possono ripetere senza cambiare il risultato, quindi nessun dato si rovina. Nella pagina il pulsante si blocca con lo stato 'applying', ma due schede aperte o un doppio POST passano lo stesso.",
+      "stato": "aperto",
+      "dimensione": "ai-endpoints",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il lotto riaccende una rotta che alla base era morta: il fattorino vede «KYC inviato, verifica in corso», ma nessuna parte del sistema chiude mai quello stato. I difetti qui sotto erano dormienti e ora si possono raggiungere",
+      "severita": "minore",
+      "file": "app/api/kyc/start-check/route.ts righe 22-24 e 138-145; manca app/api/kyc/webhook; app/api/cron/operational-alerts/route.ts riga 142 (.eq('role','seller'))",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Se il salvataggio dello stato KYC fallisce, la rotta risponde 200 PENDING lo stesso. Al fattorino arriva «KYC inviato, verifica in corso» e nel profilo non resta traccia",
+      "severita": "minore",
+      "file": "app/api/kyc/start-check/route.ts righe 138-145: il risultato di update non viene letto",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Quando si cancella l'account, i campi kyc_provider_check_id, kyc_provider_status e kyc_provider_checked_at non vengono azzerati. Ora questa rotta li scrive davvero",
+      "severita": "minore",
+      "file": "lib/account/cancellazione.ts CAMPI_KYC_DA_AZZERARE (righe 48-72), contro i campi scritti in start-check righe 141-143",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Con il fornitore Onfido acceso, ogni chiamata (fino a 5 l'ora) crea da Onfido una nuova scheda con nome, email e data di nascita, ma senza caricare i documenti. Restano schede orfane con dati personali, e alla cancellazione dell'account nessuno le toglie",
+      "severita": "minore",
+      "file": "lib/kyc/providers.ts OnfidoProvider.startCheck (righe 41-85), chiamato da start-check riga 118",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Nel registro attività finisce solo l'approvazione, che in produzione non succede mai. L'invio dei documenti d'identità (PENDING) non lascia traccia, e kyc_provider_checked_at si sovrascrive a ogni nuovo tentativo",
+      "severita": "minore",
+      "file": "app/api/kyc/start-check/route.ts righe 138-158",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il controllo P.IVA presso il VIES risponde «P.IVA non valida o non attiva» anche quando il VIES è solo irraggiungibile: errore di rete o timeout diventano valid:false. Oggi lo raggiunge solo un venditore che chiama l'API a mano, perché l'interfaccia la usa solo il fattorino",
+      "severita": "minore",
+      "file": "app/api/kyc/start-check/route.ts righe 88-95 + lib/kyc/providers.ts viesVatLookup (catch -> {valid:false})",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "preesistente, trovato dal riesame del perimetro del lotto #262"
+    },
+    {
+      "titolo": "Il sito accetta e promette consegne fino a 25 km dal negozio, ma al lancio Nicola consegna in bici fino a 10 km",
+      "severita": "grave",
+      "dimensione": "flussi-conversione",
+      "file": "lib/constants.ts:57 (RAGGIO_CONSEGNA_KM = 25) · lib/geo.ts:40-42 (stima dei tempi con uno scooter a 25 km/h) · app/shipping/page.tsx:94 («Oltre 10 km — A preventivo») e :126 («entro 15 km») · app/near/page.tsx:309 (cursore fino a 20 km)",
+      "stato": "aperto",
+      "fonte": "decisione di Nicola del 27/10/2026 in chat: «ho la bici e le consegne fino a 10km»",
+      "descrizione": "La cassa accetta indirizzi fino a 25 km dal negozio (lib/ordini/zona-di-consegna.ts confronta con RAGGIO_CONSEGNA_KM) e il modulo dell'indirizzo lo scrive al cliente. Al lancio consegna Nicola, in bici, fino a 10 km: un ordine a 20 km verrebbe accettato e non consegnato. La stima dei tempi in lib/geo.ts usa uno scooter a 25 km/h.",
+      "impatto": "Un cliente fuori dai 10 km ordina, paga in contanti alla consegna e aspetta una consegna che non arriva: il primo cliente perso e un negozio che prepara per niente.",
+      "fix": "Portare RAGGIO_CONSEGNA_KM a 10. Ogni testo che cita il confine lo prende già dalla costante (prova in-cassa-si-sa-subito-fin-dove-consegniamo): controllare che nessun altro testo dica 25. In lib/geo.ts la stima a minuti va tolta o portata a una velocità da bici: la promessa firmata è «in giornata» (scelta 8 della carta #209). Prova che diventa rossa se il confine non è 10."
+    },
+    {
+      "titolo": "Senza casella privacy e senza posta del supporto, Cancella account manda al modulo e il modulo risponde riprova più tardi",
+      "severita": "grave",
+      "file": "lib/legal/titolare.ts recapitoInUnaFrase + app/api/contact/route.ts ramo 503 «Riprova tra qualche ora»",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Prova mia: senza chiave, casella e SUPPORT_EMAIL, POST delete contiene «/contact», poi POST contact attende 200 -> ROSSA a HEAD (503). La prova della squadra afferma entrambe le metà come verdi. Non ho verificato la configurazione Vercel di SUPPORT_EMAIL/Resend."
+    },
+    {
+      "titolo": "Il collegamento notturno controlla solo il rinvio: l'avviso di termine di legge scaduto può sparire senza prove rosse",
+      "severita": "minore",
+      "file": "app/api/cron/process-deletions/route.ts chiamata rispondiAChiAspetta(admin, verdetto, logger)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante dovuti.filter(tappa==='rinviata') -> 10/10 e 111/111 verdi. Prova mia (richiesta 40 giorni fa, attende 2 avvisi) ROSSA sul mutante, verde a HEAD."
+    },
+    {
+      "titolo": "Annulla cancellazione e stato cancellazione senza chiave possono tornare al muro senza prova rossa",
+      "severita": "minore",
+      "file": "app/api/account/delete/route.ts handler DELETE e GET, senzaChiave(...)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante DELETE: `return ApiErrors.unavailable()` (vecchio muro) -> prova squadra e 16 file collegati verdi."
+    },
+    {
+      "titolo": "Il campo rinviata della risposta GET non è controllato da nessuna prova e la pagina non lo legge",
+      "severita": "minore",
+      "file": "app/api/account/delete/route.ts GET: `rinviata: attesa.inAttesa`",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante `rinviata: true` sempre -> 10/10 e 111/111 verdi; app/profile/settings/page.tsx legge solo motivo."
+    },
+    {
+      "titolo": "Senza chiave di servizio, Cancella account e Scarica dati rispondono ancora «Auth non configurato»: la strada a mano non arriva mai",
+      "severita": "grave",
+      "file": "lib/api/middleware.ts:227-237 (authenticate legge il profilo con getAdminSupabase e risponde 503 prima della rotta) → app/api/account/delete e export, senzaChiave mai eseguito",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Uso il middleware vero: anon key presente, chiave di servizio assente. POST /api/account/delete e GET /api/account/export rispondono 503 {message:'Auth non configurato'}. Il test porta.muro.test.ts nella scratchpad: 2 fail su 2"
+    },
+    {
+      "titolo": "La prova del lotto finge withAuth e quindi passa su un ramo che in produzione non si esegue mai",
+      "severita": "minore",
+      "file": "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts:73-76 (vi.mock di @/lib/api/middleware)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Il finto withAuth salta authenticate(). Quando authenticate riesce, il client amministrativo resta in memoria (_admin), quindi il try/catch nella rotta non scatta mai. Classe di bug: una prova che finge il cancello d'ingresso"
+    },
+    {
+      "titolo": "Senza chiave, senza casella privacy e senza posta del supporto, la richiesta gira in tondo tra due messaggi",
+      "severita": "minore",
+      "file": "lib/legal/titolare.ts recapitoInUnaFrase + app/api/contact/route.ts (503 «Riprova tra qualche ora»)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Dipende dalla configurazione: delete risponde «scrivi dal modulo /contact», poi il modulo risponde 503 «riprova tra qualche ora». Nessuna persona riceve la richiesta"
+    },
+    {
+      "titolo": "La prova sull'email di annullo resta verde anche se l'email va al negozio invece che al cliente",
+      "severita": "minore",
+      "file": "tests/unit/chi-paga-alla-consegna-sa-che-l-ordine-e-annullato.test.ts: il finto getUserById risponde maria@example.it per qualunque id",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante in lib/ordini/annulla.ts: avvisaIlClienteDellAnnullo(admin, {...order, user_id: order.seller_id ?? null}, ...). Tutti e 4 i test restano verdi."
+    },
+    {
+      "titolo": "Se il giro degli ordini scaduti non aspetta l'email di annullo, nessuna prova se ne accorge, e su Vercel quell'email può non partire",
+      "severita": "minore",
+      "file": "app/api/cron/expire-stale-orders/route.ts riga ~271 e il test del giro notturno",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante: 'await avvisaIlClienteDellAnnullo' cambiato in 'void avvisaIlClienteDellAnnullo'. Il test 'anche qui parte la email' resta verde."
+    },
+    {
+      "titolo": "Se la lettura dell'indirizzo lancia un'eccezione, la riga si può di nuovo buttare e la prova resta verde",
+      "severita": "minore",
+      "file": "app/api/cron/send-emails/route.ts, catch attorno a getUserById (righe ~235-238)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante: nel catch 'lettura = { data: null, error: null }', cioè la riga si annulla. Il test 'lettura fallisce per un attimo' resta verde, perché copre solo l'errore restituito, non quello lanciato."
+    },
+    {
+      "titolo": "Il controllo sui premi nel «3 cose da sapere» è una ricerca di parole: un premio scritto con altre parole passa",
+      "severita": "minore",
+      "file": "tests/unit/la-posta-in-coda-non-promette-regali-e-non-si-butta-via.test.ts, regex /€|credito|invita|amico|gratis|sconto/",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante in tutorial_day2: '<li>Porta un vicino su MyCity: ti regaliamo la consegna del prossimo ordine</li>'. Il test di Giulia resta verde."
+    },
+    {
+      "titolo": "Con la posta di allarme giù, gli amministratori ricevono una nuova notifica nel sito ogni 15 minuti",
+      "severita": "minore",
+      "file": "app/api/cron/operational-alerts/route.ts: le notifiche vengono inserite prima dell'invio, che ora fallisce senza scrivere l'attesa di sei ore; il cron gira ogni 15 minuti (vercel.json)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Prima del lotto l'attesa si scriveva comunque, quindi una notifica ogni 6 ore. Non l'ho fatto girare."
+    },
+    {
+      "titolo": "L'email di annullo dice «il credito ti è stato restituito» anche quando la restituzione è fallita",
+      "severita": "minore",
+      "file": "app/api/cron/expire-stale-orders/route.ts: se wallet_credit fallisce c'è solo un logger.warn, poi parte ordineAnnullatoTemplate con creditoRestituitoEuro = wallet_applied_cents",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Non l'ho fatto girare. Lettura del codice: l'errore wErr non arriva ad avvisaIlClienteDellAnnullo."
+    },
+    {
+      "titolo": "Se l'email d'allarme fallisce, la campanella dell'admin riceve un avviso nuovo ogni 15 minuti invece che ogni 6 ore",
+      "severita": "minore",
+      "file": "app/api/cron/operational-alerts/route.ts: notifications.insert prima dell'invio, upsert operational_alert_log solo dopo l'invio riuscito",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Test vitest con sendEmail finto {ok:false,skipped:true}: chiamare POST due volte con le stesse anomalie e contare gli insert su notifications. Escono 2 invece di 1, cioe' 96 avvisi al giorno per admin proprio mentre la posta e' giu'."
+    },
+    {
+      "titolo": "Nell'email di annullo mancano il nome del negozio e il numero d'ordine nello stesso formato della conferma",
+      "severita": "minore",
+      "file": "lib/email/templates.ts: ordineAnnullatoTemplate scrive #+6 maiuscole, orderConfirmedBuyerTemplate scrive #+8 minuscole",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Carrello con due negozi: un negozio rifiuta. Il cliente legge l'oggetto «non devi pagare niente» senza sapere quale negozio ha annullato, e puo' credere annullato anche l'altro ordine da pagare alla consegna."
+    },
+    {
+      "titolo": "La nota scritta a mano dall'amministratore arriva per email al cliente in contanti, parola per parola",
+      "severita": "minore",
+      "file": "app/api/admin/orders/[id]/cancel/route.ts body.reason passa per annullaERimborsa, poi motivoDelRimborsoInChiaro, che lascia passare le note umane",
+      "stato": "aperto",
+      "dimensione": "sicurezza-auth",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Annullo admin con reason 'cliente sospetto, non servire': l'html dell'email contiene 'Motivo: cliente sospetto, non servire'."
+    },
+    {
+      "titolo": "Rifiuto del negozio e annullo dell'admin ora aspettano l'invio dell'email: fino a circa 20 secondi se Resend si blocca",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts riga 329: await di avvisaIlClienteDellAnnullo; sendEmail fa 2 tentativi da 10 secondi; stessa attesa in fila nel cron degli ordini scaduti",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Lettura del codice, non misurato. L'annullo e' gia' salvato prima dell'email: il rischio e' solo di attesa e di tempo massimo del cron."
+    },
+    {
+      "titolo": "La prova nuova non controlla il tratto fra 10 e 15 km: una tolleranza di +4,5 km in fuoriZonaDiConsegna lascia tutto verde",
+      "severita": "minore",
+      "file": "tests/unit/al-lancio-si-consegna-in-bici-fino-a-10-km.test.ts (solo punti a 8 e 15 km) · lib/ordini/zona-di-consegna.ts:44",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante `> RAGGIO_CONSEGNA_KM + 4.5`: la cassa accetta fino a 14,5 km e le 5 prove passano 46 su 46, con tsc ed eslint verdi. I mutanti 2,5x, 25 km e scooter invece diventano ROSSI. Manca un punto a circa 10,5-11 km che deve risultare fuori zona."
+    },
+    {
+      "titolo": "Il confine dei 10 km è in linea d'aria, ma la bici va per strada: 10 km in linea d'aria possono essere 12-14 km da pedalare",
+      "severita": "minore",
+      "file": "lib/ordini/zona-di-consegna.ts:44, haversineKm confrontato con RAGGIO_CONSEGNA_KM",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Non l'ho verificato su percorsi reali. È una decisione da confermare con Nicola: i suoi «10 km in bici» sono di strada o in linea d'aria?"
+    },
+    {
+      "titolo": "'Vicino a te' mostra negozi fino a 20 km sotto 'consegna locale rapida', poi la cassa li rifiuta",
+      "severita": "minore",
+      "file": "app/near/page.tsx:309 (cursore max={20}) e :253 (testo 'con consegna locale rapida')",
+      "stato": "aperto",
+      "dimensione": "performance",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Lettura del codice, non provato a schermo: tra 10 e 20 km il negozio compare nella lista e la cassa lo rifiuta con motivoFuoriZona. Stessa classe del difetto sopra: un confine scritto a mano, lontano dalla costante."
+    },
+    {
+      "titolo": "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+      "severita": "minore",
+      "file": "lib/geo.ts deliveryEtaMinutes + EXPRESS_ETA_LABEL (Footer, home, manifest, come-funziona)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "deliveryEtaMinutes(10) = 55: restano 5 minuti di margine. Il commento in constants.ts parla di una promessa 'in giornata' (carta #209), ma il sito dice ancora 30-60 min ovunque. Va allineato a parte."
+    },
+    {
+      "titolo": "La prova non copre «Attiva» su un prodotto esaurito: un controllo ridotto alle sole bozze resta verde",
+      "severita": "minore",
+      "file": "lib/products/salvataggio-tracciato.ts controllaCheSiPossaVendere + test attiva-dall-elenco (solo status 'draft')",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante M2: «if (statoDopo !== 'available' || prima.status !== 'draft') return;». npx vitest run sul test nuovo più ogni-modifica-al-prodotto…: 14 verdi su 14. Eppure toggleStatus manda 'available' anche per i prodotti in stato 'sold'."
+    },
+    {
+      "titolo": "La rotta che torna a dire «Riprova» su una scheda incompleta o su un rifiuto 23514 del database resta verde",
+      "severita": "minore",
+      "file": "app/api/seller/products/[id]/route.ts, ramo catch (DaCompletare e 23514 trasformati in invalidRequest)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutanti M6 (DaCompletare → internal «Riprova») e M7 (23514 → internal): 14 verdi su 14. Nessuna prova esegue la rotta, mentre l'intestazione del test dice di chiudere proprio il «Riprova» per sempre."
+    },
+    {
+      "titolo": "Lo spostamento di categoria di un prodotto già in vendita non è provato: saltare il controllo resta verde",
+      "severita": "minore",
+      "file": "lib/products/salvataggio-tracciato.ts: «if (prima.status === 'available' && !cambiaCategoria) return;»",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Mutante M3: «if (prima.status === 'available') return;». Resta verde, 14 su 14. Sugli Allergeni il controllo del database (migrazione 126) è l'ultima difesa. Sugli Ingredienti non c'è niente."
+    },
+    {
+      "titolo": "Il commento «da nessuna porta» è falso: l'import CSV inserisce prodotti in vendita senza passare da questo controllo",
+      "severita": "minore",
+      "file": "app/seller/products/import/page.tsx:146-149 (insert diretto con status 'available'); commento in salvataggio-tracciato.ts:352",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Nel file import/page.tsx l'insert scrive diretto: supabase.from('products').insert(payload) con status: 'available'. Il database ferma solo gli allergeni mancanti; foto, descrizione e ingredienti non li controlla nessuno."
+    },
+    {
+      "titolo": "Nessun test esegue il ramo della rotta: un DaCompletare o un 23514 che ricade su 500 'Riprova' non farebbe rosso",
+      "severita": "minore",
+      "file": "app/api/seller/products/[id]/route.ts, nel catch (DaCompletare -> invalidRequest, erroreDiSalvataggio -> regola/guasto)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Il nuovo test esegue solo salvaProdottoTracciato; nessun test importa la rotta PATCH, quindi togliere la riga instanceof DaCompletare lascia la suite verde"
+    },
+    {
+      "titolo": "Un alimento gia' in vendita senza allergeni non si salva dal modulo: l'app lo ammette, il trigger 126 lo rifiuta",
+      "severita": "minore",
+      "file": "migrations/126 (trigger BEFORE UPDATE OF status, attributes, category_id) contro controlloDellaModifica (stessa categoria = nessun controllo)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Il modulo manda sempre status, attributes e category_id. Su un alimento legacy 'available' senza allergeni anche un cambio di prezzo va in 23514. Il delta ora mostra il motivo invece di 'Riprova': e' un miglioramento"
+    },
+    {
+      "titolo": "La regola 'mai in vetrina incompleto' vale solo all'ingresso: un prodotto gia' in vendita puo' perdere le foto o la descrizione",
+      "severita": "minore",
+      "file": "lib/products/salvataggio-tracciato.ts controllaCheSiPossaVendere: se prima.status e' available e la categoria non cambia, return",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Un PATCH con {images: []} su un prodotto 'available' passa senza controllo. Solo gli allergeni sono protetti dal database. Il commento dice 'da nessuna porta': e' piu' largo del vero"
+    },
+    {
+      "titolo": "La posta di servizio di un account cancellato resta in coda per sempre: ogni mezz'ora si riprende la riga, si legge l'indirizzo, si rilascia",
+      "severita": "minore",
+      "file": "app/api/cron/send-emails/route.ts: ramo lettura.error di processBatch e rilasciaRiga; lib/account/cancellazione.ts (deleteUser, profilo anonimizzato ma tenuto)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Per un utente che non esiste auth-js risponde {user:null, error 404} (GoTrueAdminApi.js:536). Prova: scratchpad/o3a/zz-collaudo-account-cancellato-in-coda.test.ts, da copiare in tests/unit ed eseguire con npx vitest run. Rossa su 1d5c008e (riga mai chiusa), verde con la route di a1b04140."
+    },
+    {
+      "titolo": "L'email di annullo dice «il credito che avevi usato ti è stato restituito» anche quando la restituzione del credito è fallita",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts: restituisciCredito (solo un avviso nel log) e poi avvisaIlClienteDellAnnullo; lo stesso in expire-stale-orders/route.ts (storno credito ~238, email ~271)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "scratchpad/o3a/zz-collaudo-credito-promesso.test.ts (il test della squadra con 15 euro di credito e restituzione che risponde errore), in tests/unit, npx vitest run: rossa su 1d5c008e, il testo contiene «restituito»."
+    },
+    {
+      "titolo": "La prova del «3 cose da sapere» è un elenco di parole vietate: un incentivo scritto con altre parole passa verde",
+      "severita": "minore",
+      "file": "tests/unit/la-posta-in-coda-non-promette-regali-e-non-si-butta-via.test.ts riga 110 (/€|credito|invita|amico|gratis|sconto/)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Ho cambiato una voce di tutorial_day2 in «Porta un'amica: al suo primo ordine ti regaliamo un buono da 5 euro»: la prova resta verde (mutante D4a)."
+    },
+    {
+      "titolo": "Promemoria carrello rilasciato senza limite d'età: a posta accesa partono avvisi «4 ore» per carrelli vecchi di settimane",
+      "severita": "minore",
+      "file": "app/api/cron/abandoned-carts/route.ts ramo skipped (recovery_email_sent_at=null) + migrations/029 list_abandoned_carts_to_recover (solo last_activity < now-4h, nessun tetto, LIMIT 100 senza ORDER)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Lettura: prima un invio saltato lasciava il carrello segnato e uscito dalla coda. Ora torna candidato per sempre, e la RPC non ha un limite d'età. Il giorno in cui Resend o UNSUBSCRIBE_SECRET si accendono, chi ha dato il consenso riceve un promemoria per carrelli vecchi."
+    },
+    {
+      "titolo": "Le promo saltate per UNSUBSCRIBE_SECRET mancante girano senza scadenza e partono in ritardo quando la chiave arriva",
+      "severita": "minore",
+      "file": "app/api/cron/send-emails/route.ts rilasciaRiga nel ramo res.skipped (send_at +30 min, niente attempts, niente annullo)",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Lettura: una riga di marketing saltata viene rimandata di 30 minuti a ogni giro, senza tetto di tentativi né di età. Quando la chiave viene messa, re-engagement e win-back vecchi partono tutti insieme. Non ho verificato se i template hanno una scadenza propria."
+    },
+    {
+      "titolo": "La email di annullo per la consegna a domicilio dice «credito restituito» anche quando lo storno del wallet è fallito",
+      "severita": "minore",
+      "file": "app/api/cron/expire-stale-orders/route.ts: avvisaIlClienteDellAnnullo(admin,o,…) per !isCardPaid; wallet_credit fallito resta un logger.warn",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Lettura: creditoRestituitoEuro viene da o.wallet_applied_cents senza guardare se wErr è vuoto. Se la RPC wallet_credit fallisce, la nuova email promette un rimborso di credito mai fatto. Caso raro: serve un guasto della RPC."
+    },
+    {
+      "titolo": "Il primo passo del tour scrive a mano «paghi alla consegna», mentre il terzo passo dello stesso tour dice «oppure con carta adesso»",
+      "severita": "minore",
+      "file": "components/BuyerOnboardingTour.tsx STEPS[0].body (riga 34) contro STEPS[2].body, che usa frasePagamento()",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "sed -n 28,52p components/BuyerOnboardingTour.tsx: il passo 1 ha la frase a mano, il passo 3 la prende da frasePagamento() con METODI_AL_CHECKOUT=[carta-adesso, contanti]. Lo stesso file aveva già corretto questa classe di errore nel passo 3"
+    },
+    {
+      "titolo": "L'icona del regalo resta sul benvenuto del tour e sull'etichetta della newsletter, anche se il regalo è stato tolto",
+      "severita": "minore",
+      "file": "components/BuyerOnboardingTour.tsx STEPS[0].icon=Gift; components/home-sections/HomeSectionRenderer.tsx, etichetta della newsletter <Gift/>",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "La fascia newsletter è nascosta al lancio (NEWSLETTER_ACCESA=false, lib/home-site.ts:315). Il tour invece si vede: mostra un pacco regalo senza nessun regalo"
+    },
+    {
+      "titolo": "La striscia in cima al sito promette ancora «Hai €5 di sconto»: è la promessa più visibile e l'ondata l'ha saltata",
+      "severita": "minore",
+      "file": "components/WelcomeCreditBanner.tsx:86, montata in app/layout.tsx:236; trigger trg_profile_welcome_bonus (migrations/029), che regala ancora 100 punti all'iscrizione",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "La striscia contraddice registro-fatti.json:926 («nessun regalo in euro, via i 5 € di benvenuto») e la motivazione del commit 02484477. Esisteva già prima dell'ondata"
+    },
+    {
+      "titolo": "Restano altre promesse dei 5 euro: «€5 di benvenuto» quando non ci sono ordini e «100 punti di benvenuto (valgono €5)» nella registrazione",
+      "severita": "minore",
+      "file": "app/orders/page.tsx:271; app/sign-up/page.tsx:216; app/profile/loyalty/page.tsx:181,230 (registrazione e fedeltà erano tra i file dell'ondata, ma il diff è vuoto)",
+      "stato": "aperto",
+      "dimensione": "pagamenti-stripe",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "grep -rn '€5' app/orders/page.tsx app/sign-up/page.tsx app/profile/loyalty/page.tsx. I punti fedeltà sono spenti al lancio secondo registro-fatti.json:926"
+    },
+    {
+      "titolo": "Il passo 3 del tour promette «oppure con carta adesso», ma al lancio si paga solo in contanti alla consegna",
+      "severita": "minore",
+      "file": "lib/promesse-pubbliche.ts:176, METODI_AL_CHECKOUT contiene 'carta-adesso'; la frase arriva nel tour, al passo 3",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "registro-fatti.json:753 dice «Al lancio si paga solo in contanti alla consegna». La frase ha una fonte unica, ma quella fonte non segue la scelta"
+    },
+    {
+      "titolo": "Chi annulla da solo riceve l'email pensata per il rifiuto del negozio: l'email sta nella funzione condivisa",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts:327-329 (avvisaIlClienteDellAnnullo dentro annullaERimborsa) + app/api/orders/[id]/cancel/route.ts:53-54",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "L'avviso al cliente ora è diviso in tre posti: email COD in lib, email carta in refundOrder, campanella nelle rotte. Il cliente che annulla da I miei ordini riceve 'Motivo: Ordine annullato dal cliente' + 'Cerca in un altro negozio'."
+    },
+    {
+      "titolo": "L'email dice 'il credito ti è stato restituito' senza sapere se la restituzione è riuscita",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts:324-329 (restituisciCredito ritorna void e ingoia l'errore) e lib/email/templates.ts ordineAnnullatoTemplate (rigaCredito da wallet_applied_cents)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "Se wallet_credit fallisce, annulla.ts:112 scrive solo un warn e subito dopo parte l'email con credito>0, che afferma la restituzione. Lo stesso accade nel cron, righe 241-249 e 268-272."
+    },
+    {
+      "titolo": "Email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+      "severita": "minore",
+      "file": "lib/ordini/annulla.ts:327-329; app/api/cron/expire-stale-orders/route.ts:268-272 (giro da 100 ordini, maxDuration 300)",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
+      "descrizione": "sendEmail fa 2 tentativi da 10 s più 300 ms di attesa (client.ts:165-182). Con Resend lento, il Rifiuta del negozio resta in attesa dopo che l'annullo è già scritto. Nel cron, 100 ordini superano i 300 s: le email perse non vengono ritentate."
+    },
+    {
+      "titolo": "Commento falso 'da nessuna porta': import CSV e Nuovo prodotto scrivono status available dal browser",
+      "severita": "minore",
+      "file": "app/seller/products/import/page.tsx:139-149; app/seller/products/new/page.tsx:191; commento in lib/products/salvataggio-tracciato.ts:352",
+      "stato": "aperto",
+      "dimensione": "frontend-ux",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "L'import inserisce products con status:'available', senza foto e senza passare da salvaProdottoTracciato. Sul database vale solo il trigger degli allergeni (migrazione 126); foto e descrizione non sono controllate."
+    },
+    {
+      "titolo": "Il cron degli ordini scaduti ricopia la logica di annullo invece di usare annullaERimborsa",
+      "severita": "minore",
+      "file": "app/api/cron/expire-stale-orders/route.ts:225-272 rispetto a lib/ordini/annulla.ts:87-330",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
+      "descrizione": "Due copie della stessa regola: magazzino, credito, buono e campanella. Il lotto aggiunge la stessa email in due punti di chiamata: ogni modifica futura all'annullo va fatta due volte."
+    },
+    {
+      "titolo": "Contatti risponde ok anche se la mail di inoltro non parte, e nessuna prova se ne accorge",
+      "severita": "grave",
+      "file": "app/api/contact/route.ts, inoltraSenzaDatabase: `return esito.ok === true`",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2: il rifacimento non l'ha chiuso)",
+      "descrizione": "il rifacimento 1 non l'ha chiuso: Prova nuova rossa sul mutante e verde sul codice, vista con vitest run diretto. prova-sito: tsc ed eslint verdi, vitest related cade su un .tsx che non c'entra. Verde ufficiale mancante."
+    },
+    {
+      "titolo": "Avviso di legge non partito: la notte resta verde e nessun amministratore viene svegliato, senza che una prova lo veda",
+      "severita": "grave",
+      "file": "app/api/cron/process-deletions/route.ts: `|| avvisi.falliti > 0` nello status e blocco `if (avvisi.falliti > 0) avvisaAmministratori`",
+      "stato": "aperto",
+      "dimensione": "api-backend",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2: il rifacimento non l'ha chiuso)",
+      "descrizione": "il rifacimento 1 non l'ha chiuso: Prova rossa su entrambi i mutanti (status, soglia 99999) e poi verde, con vitest diretto. prova-sito ha vitest related rotto per un .tsx estraneo: verde ufficiale mancante."
+    },
+    {
+      "titolo": "La pagina pubblica /shipping promette ancora consegne entro 15 km (e «oltre 10 km a preventivo») mentre la cassa ora rifiuta oltre 10",
+      "severita": "grave",
+      "file": "app/shipping/page.tsx:126 «entro 15 km» e :94 «Oltre 10 km — A preventivo» contro lib/constants.ts:56 RAGGIO_CONSEGNA_KM = 10",
+      "stato": "aperto",
+      "dimensione": "privacy-legale",
+      "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2: il rifacimento non l'ha chiuso)",
+      "descrizione": "il rifacimento 1 non l'ha chiuso: Testo scritto a mano in app/shipping/page.tsx (r.126 «entro 15 km», r.94-96 «Oltre 10 km, A preventivo»), fuori territorio. Tornare a 25 km contraddice Nicola: «fino a 10 km»."
+    },
+    {
+      "titolo": "La cassa fa pagare la spedizione a chilometri oltre ai 3 euro di consegna, ma Nicola ha firmato «solo i 3 euro»",
+      "severita": "grave",
+      "dimensione": "flussi-conversione",
+      "stato": "aperto",
+      "file": "lib/shipping.ts shippingForEuro (prezzoSpedizioneEuro sopra la soglia) · lib/geo.ts prezzoSpedizioneEuro · lib/constants.ts SPEDIZIONE_BASE_EUR, SPEDIZIONE_PER_KM_EUR, FREE_SHIPPING_THRESHOLD, PLATFORM_DELIVERY_FEE_CENTS · app/cart/page.tsx · app/checkout/page.tsx · components/ui/FreeShippingProgress.tsx · lib/promesse-pubbliche.ts · lib/ordini/prezzi.ts · lib/ordini/promessa-del-carrello.ts · lib/email/templates.ts · app/admin/delivery/page.tsx · app/search/page.tsx (usano ancora FREE_SHIPPING_THRESHOLD o il prezzo a distanza)",
+      "fonte": "firma di Nicola del 26/10/2026 («ok 209», scelta 8 della carta #209: «in giornata» e solo i 3 euro di consegna, senza la spedizione a chilometri)",
+      "descrizione": "Sotto i 30 euro per negozio la cassa somma la spedizione a distanza (2,50 € più 1,20 € al km) e i 3 euro di consegna: 20 euro di spesa a 5 km costano 11,50 € di consegna. Sopra i 30 euro la spedizione va a zero ma i 3 euro restano. La promessa firmata il 26/10 è un'altra: il cliente paga solo i 3 euro di consegna per negozio, sempre, e la spedizione a chilometri non esiste più.",
+      "impatto": "Il primo cliente vede in cassa una cifra diversa da quella che gli abbiamo promesso, e lascia il carrello: è il primo incasso del negozio che salta.",
+      "fix": "Il cliente paga solo PLATFORM_DELIVERY_FEE_CENTS (3 euro) per negozio quando c'è consegna, 0 col ritiro in negozio. La spedizione a distanza e la soglia «gratis sopra 30 €» spariscono da cassa, carrello, barra del «ti mancano X €», email e pagine pubbliche. Il server ricalcola come prima: l'importo mostrato e quello addebitato restano lo stesso numero. Prova rossa se un carrello sotto i 30 euro a 5 km paga più di 3 euro di consegna."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-25 16:39",
+    "aggiornato": "2026-10-27 15:34",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 561,
+    "findings_aperti": 709,
     "findings_chiusi": 835,
-    "findings_tot": 1396,
+    "findings_tot": 1544,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 112,
-      "minore": 440,
+      "grave": 123,
+      "minore": 577,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1396,
+    "dichiarati_dal_referto": 1544,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

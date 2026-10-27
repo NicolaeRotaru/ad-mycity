@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-27 11:00
+aggiornato: 2026-10-27 15:25
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚲 **2026-10-27 15:25 — Il confine di consegna scende a 10 km.**
+>
+> Hai scritto che consegni tu, in bici, fino a 10 km. Il Panificio Demo è una tua prova: il comando che lo cancella è pronto nella carta #201. E il tipo snello si fa.
+>
+> Al primo giro della fase 2 hanno retto la posta e i prodotti: sono nel ramo del sito, e il controllo completo è verde (5.784 prove). Si sono fermate la cancellazione dell'account e la pagina Spedizioni, che prometteva ancora 15 km.
+>
+> Il secondo giro della fase 2 è partito. Chiude quei buchi e mette in cassa solo i 3 euro di consegna, come hai firmato il 26/10.
 
 > 🔁 **2026-10-27 11:00 — Il secondo giro delle fondamenta del sito è partito.**
 >

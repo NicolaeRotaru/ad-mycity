@@ -22283,6 +22283,28 @@
       "nato_da": "riesame del perimetro del lotto del consumo di token (lenti cadenza-esecuzione e rischio-sicurezza-se)",
       "origine": "radiografia-in-corsa",
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
+    },
+    {
+      "id": "AR-1025",
+      "titolo": "La prova ufficiale delle squadre del sito è rossa su qualunque file: «vitest related» non riesce a leggere i componenti .tsx",
+      "dimensione": "calibrazione-onesta",
+      "dove": "cervello/prova-sito.mjs, passo ③ (vitest related --run --reporter=dot --passWithNoTests <file>)",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "sintomo": "Riprodotto il 27/10 alle 13:30 sul ramo del sito fix/fondamenta-sito (a1b04140): node cervello/prova-sito.mjs --repo <worktree> --file lib/funzioni-al-lancio.ts,tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts esce 1 con «Failed to parse source for import analysis because the content contains invalid JS syntax». Le stesse prove lanciate con vitest run passano: la suite intera è 644 file su 644 verdi. Nelle due ondate delle fondamenta (26-27/10) lo hanno segnalato 23 collaudatori e revisori, uno per pacchetto: la prova ufficiale non distingue un pacchetto sano da uno rotto, e le squadre hanno dovuto lanciare vitest a mano.",
+      "causa_radice": "Ipotesi, non verificata: «vitest related» costruisce il grafo degli import partendo dai file sorgente e li analizza senza la trasformazione JSX che la configurazione del sito applica solo ai file di prova; inciampa sul primo .tsx (ConfirmDialog.tsx). Il commento in cima a prova-sito.mjs dice già che il passo non si era potuto provare sulla versione di vitest del sito.",
+      "fix_proposto": "Far girare le prove collegate senza «related»: trovare con grep i file di tests/ che importano i file dati, più le prove passate in --file, e lanciarli con vitest run. Oppure passare esplicitamente la configurazione del sito. In tutti e due i casi una prova che diventa rossa se il passo vitest esce rosso su un commit pulito.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-27 13:30",
+      "nato_come": "scoperta",
+      "nato_da": "collaudi e riesami delle due ondate delle fondamenta del sito (wf_cf281011-0f8, wf_86eb0834-491) e riesame del perimetro (wf_3a9faf5e-f6d)",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lotto del sito #262 (fondamenta), 26-27/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Su una copia del sito con le dipendenze installate: node cervello/prova-sito.mjs --repo <copia> --file lib/funzioni-al-lancio.ts,tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts deve uscire 0 con le prove viste passare. Oggi esce 1 su vitest. Non è un comando del cantiere perché la prova ha bisogno di una copia del sito con node_modules, che la CI della macchina non ha."
+      }
     }
   ],
   "meta": {

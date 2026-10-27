@@ -1,0 +1,92 @@
+{
+  "_cosa_e": "Fase 2 del piano di riparazione del sito del 24/10 (posta, privacy e cancellazione dell'account), più il confine di consegna a 10 km deciso da Nicola il 27/10. Le ondate 1 e 2 di questo file sono vuote apposta: le schede si leggono con --ondata 3, così i worktree nascono come o3-*. Base: il ramo delle fondamenta (ccr-226e12ab-wcpws3 del sito, richiesta #262).",
+  "data": "2026-10-27 14:00",
+  "registro": "sito",
+  "origine": "consegne/audit/2026-10-24-piano-riparazione-sito.json, piano.ordine[2], più la decisione di Nicola del 27/10 sul confine",
+  "ondate": [
+    [],
+    [],
+    [
+      {
+        "chiave": "app/api/account",
+        "difetti": [
+          {
+            "idx": 48,
+            "chiave": "privacy-legale|chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione"
+          },
+          {
+            "idx": 1215,
+            "chiave": "architettura|l'avviso dovuto a chi ha chiesto la cancellazione viene calcolato ogni notte e buttato via: nessuno chiama recapitaavvisi"
+          },
+          {
+            "idx": 1123,
+            "chiave": "architettura|una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni"
+          }
+        ]
+      },
+      {
+        "chiave": "lib/email/templates.ts",
+        "difetti": [
+          {
+            "idx": 254,
+            "chiave": "microcopy|promettiamo 5 euro di benvenuto (e 5 euro con la newsletter) che si tolgono da soli in cassa, ma in cassa non compaiono mai"
+          },
+          {
+            "idx": 94,
+            "chiave": "api-backend|chi paga alla consegna non riceve nessuna email se il negozio rifiuta o lascia scadere l'ordine"
+          },
+          {
+            "idx": 23,
+            "chiave": "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso"
+          },
+          {
+            "idx": 93,
+            "chiave": "api-backend|se l'email d'allarme non parte, il sorvegliante la dà per spedita, dice «tutto bene» e tace per sei ore"
+          },
+          {
+            "idx": 240,
+            "chiave": "mobile-pwa|le etichette di spedizione con nome, indirizzo e telefono del cliente restano salvate sul dispositivo del negozio anche dopo l'uscita dall'account"
+          },
+          {
+            "idx": 56,
+            "chiave": "privacy-legale|il «3 cose da sapere» con la promozione «invita un amico, ricevi 5 euro» parte anche a chi ha detto no alla pubblicità"
+          },
+          {
+            "idx": 98,
+            "chiave": "api-backend|il benvenuto parte prima che la persona confermi l'email, anche a indirizzi sbagliati o di estranei"
+          },
+          {
+            "idx": 100,
+            "chiave": "api-backend|il «ci manchi» con lo sconto del 10% parte al sessantesimo giorno anche a chi ordina ogni settimana, con un codice che nessuno ha creato"
+          },
+          {
+            "idx": 102,
+            "chiave": "api-backend|la coda delle email non ha scadenza: il giorno dell'accensione partiranno email e promemoria fermi da mesi"
+          },
+          {
+            "idx": 103,
+            "chiave": "api-backend|se la posta non è pronta quando si accende il database, la coda butta via tutte le email in tredici ore"
+          }
+        ]
+      },
+      {
+        "chiave": "lib/constants.ts",
+        "difetti": [
+          {
+            "idx": 1495,
+            "chiave": "flussi-conversione|il sito accetta e promette consegne fino a 25 km dal negozio, ma al lancio nicola consegna in bici fino a 10 km"
+          }
+        ]
+      },
+      {
+        "chiave": "app/seller/products/page.tsx",
+        "difetti": [
+          {
+            "idx": 1293,
+            "chiave": "api-backend|dall'elenco prodotti, il pulsante «attiva» mette in vendita la bozza di un alimento senza allergeni e senza ingredienti"
+          }
+        ]
+      }
+    ]
+  ]
+}

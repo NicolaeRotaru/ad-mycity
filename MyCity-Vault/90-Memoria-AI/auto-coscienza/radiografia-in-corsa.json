@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-25 16:59",
+  "aggiornato": "2026-10-27 12:57",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4251,6 +4251,150 @@
         "cervello/censimento-macchina.mjs": "cc8b1d74064b",
         "cervello/keyword-owner-check.mjs": "333599184581",
         "cervello/mappa-copertura.mjs": "1a0586f9b70c"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:53",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "app/api/kyc/start-check/route.ts": "6039eaaf5eac"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:57",
+      "casa": "marketplace",
+      "dimensione": "ai-endpoints",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "«Traduci» è spento solo sull'ultimo passo. La rotta che avvia il lotto accetta ancora una traduzione, la manda al modello e ne conta la spesa, poi apply la rifiuta: il lavoro è pagato e non si può più usare",
+        "«AI per i negozi» è spenta, ma nessuna rotta del server legge l'interruttore. apply e start restano aperti a una chiamata fatta a mano: oggi le ferma solo la chiave che manca"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/ai/catalog-batch/apply/route.ts": "57b1701020a3"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:57",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "La newsletter risulta spenta, ma il server continua ad accettare iscrizioni e a mandare l'email di conferma"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/gift-cards/checkout/route.ts": "c501841fadd5",
+        "app/api/newsletter/route.ts": "f49c342a4372"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:57",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "«AI per i negozi» risulta spenta, ma il modulo prodotto mostra ancora 8 pulsanti AI, compreso «l'AI compila nome, descrizione, categoria, prezzo»",
+        "«Traduci»: il lavoro sul catalogo si blocca quando lo si applica, ma parte e si paga quando lo si avvia",
+        "La regola «il freno vero è la rotta», scritta nel file degli interruttori, vale per 2 interruttori su 7: la rotta della newsletter iscrive anche a newsletter spenta",
+        "Nel pannello /admin/home «Drop del giorno» e «Newsletter» risultano visibili, ma la home non le disegna"
+      ],
+      "nota": "",
+      "file": {
+        "lib/ai/catalogBatch.ts": "c27115f01fb6",
+        "lib/funzioni-al-lancio.ts": "264fed9108c8",
+        "lib/home-site.ts": "f17f7a341e04"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:57",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Con le foto configurate a metà, il riepilogo della copia notturna indica una causa sbagliata («rclone non è installato» oppure «mancano il secchio di destinazione e le sue chiavi»)"
+      ],
+      "nota": "",
+      "file": {
+        ".github/workflows/backup-db.yml": "1f16e2cc57e0"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:57",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 11,
+      "schede": [
+        "Reclami: dopo una rilettura caduta, «Segnali di rischio» mostra ancora i numeri vecchi sopra l'avviso «non so se ci sono reclami»",
+        "«Riprova» non dà nessun segno: mentre rilegge, e dopo un secondo fallimento, lo schermo resta identico",
+        "Registro delle azioni: un'azione fatta da una persona compare «da sistema» se il suo profilo non ha il nome o è stato cancellato",
+        "Reclami: chi apre il reclamo è riconosciuto solo dal nome. Due clienti omonimi diventano un unico «possibile abuso», e chi non ha nome è sempre «Cliente»",
+        "Drop del giorno spento: in alto la schermata dice «mostrate in home», in basso «la home non lo mostra», e il modulo resta tutto compilabile",
+        "Payout con elenco tagliato: l'avviso parla dei «totali qui sopra», ma anche i «Da liquidare» dei singoli negozi, che stanno sotto, sono parziali",
+        "L'AI per i negozi risulta spenta, ma la scheda Nuovo prodotto e Modifica prodotto si apre ancora con «Compila con una foto: l'AI compila...» e 7 pulsanti AI che rispondono «Servizio AI non configurato». Il primo pulsante foto della pagina perde la foto scattata.",
+        "Nel piè di pagina pubblico resta una fascia color crema vuota, dove prima c'era la newsletter.",
+        "Le pagine spente (AI e caricamento da file) restano pubblicizzate da menu, pulsante fisso e scorciatoie, e portano a una pagina «non attivo».",
+        "Il Centro venditori dice ancora «Iscriviti alla newsletter per essere avvisato», ma dopo il lotto la newsletter non c'è più in nessuna pagina.",
+        "Difetto dormiente: se l'AI torna accesa e «Traduci» resta spento, AI Studio continua a promettere «traduci» nel modulo prodotto."
+      ],
+      "nota": "",
+      "file": {
+        "app/admin/audit/page.tsx": "78fcf2273f4d",
+        "app/admin/cod-remittance/page.tsx": "310f7b3f8af9",
+        "app/admin/daily-drops/page.tsx": "6aea43dce88a",
+        "app/admin/disputes/page.tsx": "b863b5826757",
+        "app/admin/payouts/page.tsx": "f3b9b4c59756",
+        "app/admin/products/page.tsx": "f453f7fb9339",
+        "app/admin/shop-of-month/page.tsx": "7f853172cbeb",
+        "app/admin/support/page.tsx": "9265b5fc2ae3",
+        "app/profile/gift-cards/page.tsx": "6c678abf2545",
+        "app/profile/referral/leaderboard/page.tsx": "cf85a0f3ab72",
+        "app/profile/referral/page.tsx": "2e5aa87f0ce1",
+        "app/seller/products/ai-batch/page.tsx": "2f36caf7fdbe",
+        "app/seller/products/import/page.tsx": "a0d2ad7aea81",
+        "app/seller/products/new/page.tsx": "1e3bbe7851ae",
+        "app/shop-of-month/page.tsx": "666712b5c509",
+        "components/NewsletterForm.tsx": "a8dd77412185",
+        "components/home/ShopOfMonthHero.tsx": "4000561dbac1",
+        "components/seller/QuickAiTools.tsx": "3dfc1c03d817"
+      }
+    },
+    {
+      "quando": "2026-10-27 12:57",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Commento e prova dicono che senza la chiave di servizio il Drop spento risponde comunque 409, ma la rotta vera in quel caso risponde 503"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/admin/daily-drops/route.ts": "8b05eaa1c0e4"
       }
     }
   ]

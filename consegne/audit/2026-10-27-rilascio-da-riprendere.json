@@ -1,0 +1,262 @@
+[
+  {
+    "giro": 1,
+    "titolo": "La guardia della cassa accende solo E2E_DATI_DI_PROVA: un salto legato alle chiavi Stripe, col corpo vuoto, la passa",
+    "gravita": "minore",
+    "dove": "tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts:50 (env della chiamata)",
+    "prova": "Mutante M6: test.skip(!process.env.STRIPE_SECRET_KEY?.startsWith('sk_test_'), NON_SCRITTA+...) sul rimborso, corpo vuoto -> la guardia resta verde (1/1). Con le chiavi di prova accese diventerebbe verde in pochi millesimi.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "La prova di ripristino non ha la prova «client Postgres rotto»: condizionarla a segreti != 'failure' resta verde",
+    "gravita": "minore",
+    "dove": "tests/unit/la-copia-del-database-non-muore-per-le-foto.test.ts (describe «prova mensile») vs .github/workflows/backup-db.yml:418,432",
+    "prova": "Mutante M3: le righe 418 e 432 a steps.segreti.outcome != 'failure' -> 7/7 verdi. Nella copia notturna lo stesso mutante (M2) diventa rosso.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "La guardia ferma solo DROP e RENAME: SET NOT NULL, CHECK e REVOKE passano, e dopo il ritorno indietro il codice di prima si rompe",
+    "gravita": "grave",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts, lista DISTRUTTIVE (righe 33-39) e il commento «il codice di prima regge SEMPRE lo schema nuovo»",
+    "prova": "$S/migrations = copia + 164_x.sql 'ALTER TABLE public.orders ALTER COLUMN delivery_notes SET NOT NULL;'; cd $S && ! vitest run --root <wt> -t 'nessuna toglie' <test> -> exit 1. Con DROP COLUMN in 165 diventa rossa. Caso vero: la 163 stringe verify_delivery_code.",
+    "nato_dal_lotto": false,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "Una migrazione nuova col numero 162, che oggi è libero, salta la guardia: conta solo i numeri sopra 163",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts, filtro numero(f) > ULTIMA_GIA_APPLICATA",
+    "prova": "Nella copia metto 162_toglie_nel_buco.sql con 'ALTER TABLE public.orders DROP COLUMN delivery_notes;': il test 'nessuna toglie' resta verde (eseguito). Rimedio: un elenco esplicito delle esenti al posto della soglia.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "Il commento dice «fino alla 163 già applicate ovunque», ma il documento del 19/10 dice che alla produzione ne mancavano 48, fino alla 163",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts, commento sopra ULTIMA_GIA_APPLICATA; docs/migrazioni-baseline-produzione.md righe 67-73",
+    "prova": "Non verificato sul database: in questa sessione Supabase non c'è. Se sono ancora da applicare, le esenti 134, 140, 148 e 158-161 tolgono qualcosa senza nessuna guardia.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "Con le foto configurate a metà il riepilogo si contraddice: «copia spenta» o «rclone non installato» accanto a «configurata a metà»",
+    "gravita": "minore",
+    "dove": "scripts/backup-db.sh righe 362-370: ora girano anche dopo che il passo «Le foto vanno in copia?» è finito rosso",
+    "prova": "Lettura del codice. Con SOURCE+DEST e senza RCLONE_CONFIG_BASE64, rclone non si installa e lo script scrive «rclone non e' installato». Il dump e la cifratura avvengono prima: la copia del database si salva comunque.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "L'esenzione per l'oggetto nato qui guarda solo il primo nome: un DROP o REVOKE su piu' oggetti toglie anche quelli vecchi",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:120-126 (soggetto) e 156-157",
+    "prova": "printf 'CREATE TABLE public.tmp_import (id int);\\nDROP TABLE public.tmp_import, public.orders;\\n' > migrations/164_x.sql && ! vitest run <guardia> esce 1. Minore: in 157 migrazioni nessun DROP/REVOKE a piu' oggetti.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "Un «--» dentro una stringa SQL fa sparire il resto della riga, DROP compreso",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:116-118 (senzaCommenti)",
+    "prova": "printf \"SELECT '--'; ALTER TABLE public.orders DROP COLUMN note;\\n\" > migrations/164_x.sql && ! node_modules/.bin/vitest run tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts esce 1 (guardia verde).",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "Le esenti si dicono «gia' applicate in produzione», ma la baseline dice che alla produzione ne mancano 48 fino alla 161",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:41 contro docs/migrazioni-baseline-produzione.md:5",
+    "prova": "Non verificato quali delle 79 esenti siano tra le 48 mancanti. Se il rilascio ne applica sotto il tetto di 20, le esenti distruttive (es. 152, security_invoker) passano senza guardia.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "Se il primo nome di un REVOKE o DROP a piu' oggetti nasce nella migrazione, l'esenzione copre anche gli oggetti vecchi della lista",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:107 (SOGGETTO prende solo il primo nome) + :157",
+    "prova": "printf 'CREATE TABLE public.t_nuova (id int);\\nREVOKE INSERT ON public.t_nuova, public.orders FROM authenticated;\\n' > migrations/164_x.sql && ! node_modules/.bin/vitest run tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts -> esce 1",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "Un «--» dentro una stringa SQL cancella il resto della riga: un DROP scritto dopo, sulla stessa riga, sparisce dalla guardia",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:117 (senzaCommenti non distingue le stringhe)",
+    "prova": "printf \"SELECT '--'; ALTER TABLE public.orders DROP COLUMN note;\\n\" > migrations/164_x.sql && ! node_modules/.bin/vitest run tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts -> esce 1",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "ALTER POLICY ... USING (stretta di una regola d'accesso) e ALTER TABLE ... SET SCHEMA passano la guardia",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:88 (DISTRUTTIVE)",
+    "prova": "printf 'ALTER POLICY orders_select ON public.orders USING (false);\\n' > migrations/164_x.sql && ! node_modules/.bin/vitest run tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts -> esce 1; idem 'ALTER TABLE public.orders SET SCHEMA archivio;'",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 1,
+    "titolo": "Un CHECK nuovo con il nome del vincolo tra virgolette e uno spazio non viene visto",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:115 (constraint\\s+\"?\\w+\"?)",
+    "prova": "printf 'ALTER TABLE public.orders ADD CONSTRAINT \"note corta\" CHECK (length(shop_note) < 50);\\n' > migrations/164_x.sql && ! vitest run <guardia> -> esce 1",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "Un «--» dentro una stringa SQL fa sparire dal controllo il resto della riga, DROP compreso",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:151 (senzaCommenti non conosce le stringhe)",
+    "prova": "printf \"SELECT '--'; ALTER TABLE public.orders DROP COLUMN note;\\n\" > migrations/164_x.sql && ! vitest run <guardia> -> esce 1",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 1,
+    "titolo": "Una cartella di foto resa privata (UPDATE storage.buckets SET public = false) passa la guardia, e la 127 lo ha gia' fatto",
+    "gravita": "minore",
+    "dove": "tests/unit/una-migrazione-che-toglie-aspetta-un-rilascio.test.ts:109-127 (DISTRUTTIVE e' un elenco di parole vietate; precedente migrations/127_minori_22_agosto.sql:584-585)",
+    "prova": "printf \"UPDATE storage.buckets SET public = false WHERE id = 'avatars';\\n\" > migrations/164_x.sql && ! vitest run <guardia> esce 1 (verde 18/18). Il problema e' di classe: un elenco di parole vietate non finisce mai, serve un elenco di istruzioni ammesse",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 2,
+    "titolo": "Con il rilascio automatico di Vercel acceso il sito rotto è già online, ma il riepilogo dice clienti sul rilascio di prima",
+    "gravita": "grave",
+    "dove": "scripts/prova-di-fumo.mjs verdettoDelLavoro, ramo SITO_ROTTO (e 4/3), con vercel.json git.deploymentEnabled.main:true (configurazione attuale)",
+    "prova": "verdettoDelLavoro con codiceFumo '1' e rilascioAutomatico true; rilascioAutomaticoAcceso() vale true nel deposito; il testo contiene «i clienti sono rimasti sul rilascio di prima»: test rosso. È il difetto dichiarato chiuso (riepilogo rassicurante, codice rotto online)",
+    "nato_dal_lotto": false,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 2,
+    "titolo": "Il freno sulle migrazioni che tolgono è provato con una sola migrazione mancante",
+    "gravita": "minore",
+    "dove": "deploy-dopo-ci.yml, ciclo `for NOME in $MANCANTI` del passo migrazioni; test «il freno sulle migrazioni…» usa solo ['105']",
+    "prova": "Mutante M4: `for NOME in $(printf \"%s\\n\" \"$MANCANTI\" | head -n1)`, cioè il freno guarda solo la prima. 50/50 verdi. Serve un caso con un'aggiuntiva prima e una DROP dopo",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 2,
+    "titolo": "Il freno non vede le migrazioni che aggiungono vincoli e rompono il codice di prima rimasto online",
+    "gravita": "minore",
+    "dove": "deploy-dopo-ci.yml regex del freno; la lista dei limiti dichiarati in testa al file non li nomina",
+    "prova": "ADD CONSTRAINT … CHECK, CREATE UNIQUE INDEX, ADD COLUMN … NOT NULL o un trigger nuovo passano la regex DROP|REVOKE|RENAME|SET NOT NULL. Se il rilascio non va sul dominio, questi possono far fallire gli insert del codice vecchio",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 2,
+    "titolo": "Col rilascio automatico Vercel acceso, su prova rossa il verdetto dice ancora clienti sul rilascio di prima",
+    "gravita": "grave",
+    "dove": "vercel.json git.deploymentEnabled.main:true + verdettoDelLavoro ramo SITO_ROTTO («rimasti sul rilascio di prima, che non ho toccato»)",
+    "prova": "node --input-type=module -e \"const m=await import('./scripts/prova-di-fumo.mjs');const t=m.verdettoDelLavoro({pronto:true,indirizzo:'https://a.co',codiceFumo:'1',rilascioAutomatico:true}).righe.join();process.exit(/rimasti sul rilascio di prima/.test(t)?1:0)\" esce 1",
+    "nato_dal_lotto": false,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 2,
+    "titolo": "Il freno migrazioni non vede ENABLE RLS, ALTER POLICY, ADD CONSTRAINT, TRUNCATE e non li dichiara",
+    "gravita": "minore",
+    "dove": ".github/workflows/deploy-dopo-ci.yml, passo migrazioni, regex DROP|REVOKE|RENAME|SET NOT NULL; i commenti /* */ non vengono tolti (falsi allarmi)",
+    "prova": "I limiti dichiarati citano solo ALTER COLUMN TYPE, DELETE e le funzioni riscritte. Nessuna migrazione attuale li sfrutta: 155 non ha ne' parole del freno ne' restrizioni.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 2,
+    "titolo": "Non provati sulla CLI vera: promote <url> --yes e deploy --prebuilt --prod --skip-domain con vercel 59.10.0",
+    "gravita": "minore",
+    "dove": ".github/workflows/deploy-dopo-ci.yml, passi 'Rilascia in produzione' e 'Metti sul dominio…'",
+    "prova": "I test usano un npx finto. Documentazione Vercel irraggiungibile da qui (ENOTFOUND). Se un flag viene rifiutato, nessun rilascio prende il dominio: si ferma in modo sicuro ma blocca. Il limite e' dichiarato dal costruttore.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 2,
+    "titolo": "Il ritorno indietro puo' rientrare sotto un altro nome e la prova della squadra resta verde",
+    "gravita": "grave",
+    "dove": "tests/unit/il-rilascio-va-sul-dominio-solo-dopo-la-prova-di-fumo.test.ts, «nessun passo torna indietro»: guarda solo il nome /torna indietro/ e la parola rollback nel run",
+    "prova": "MA4: passo «Rimetti i clienti sul rilascio di prima», if: failure() && fumo codice=='1', `vercel ls --prod | sed -n 2p` poi `vercel promote` su quella riga: restano 55/55 verdi. Con --skip-domain il rilascio rotto sta nell'elenco di produzione: e' il difetto deploy-sre ricreato.",
+    "nato_dal_lotto": false,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 2,
+    "titolo": "Se il numero di migrazioni non arriva, la prova resta verde anche se il verdetto giura che il database e' quello di prima",
+    "gravita": "grave",
+    "dove": "scripts/prova-di-fumo.mjs notaDatabase: il ramo «non so quante» (MIGRAZIONI vuoto, passo migrazioni caduto a meta') non ha nessun test",
+    "prova": "MA6: `if (migrazioni === '0' || migrazioni === '') return`, cioe' il comportamento della base (vuoto = non toccato): restano 55/55 verdi. Nessun test passa migrazioni:'' a verdettoDelLavoro, ed e' il caso della migrazione caduta a meta' col database mezzo avanti.",
+    "nato_dal_lotto": false,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo A"
+  },
+  {
+    "giro": 2,
+    "titolo": "La prova del freno resta verde se dal freno si toglie REVOKE",
+    "gravita": "minore",
+    "dove": "tests/unit/il-rilascio-va-sul-dominio-solo-dopo-la-prova-di-fumo.test.ts, describe del freno: prova solo la 105 (DROP)",
+    "prova": "Mutante: (DROP|REVOKE|RENAME) diventa (DROP|RENAME) in deploy-dopo-ci.yml, il file di prova resta 16/16 verde. REVOKE è la prima riga che fa scattare il freno in 9 migrazioni fra la 117 e la 145",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 2,
+    "titolo": "Con il rilascio automatico di Vercel acceso, il freno trattiene anche le migrazioni che aggiungono, mentre il codice va online da solo",
+    "gravita": "minore",
+    "dove": "deploy-dopo-ci.yml, passo «Applica le migrazioni», freno migrazione-che-toglie; vercel.json git.deploymentEnabled.main: true",
+    "prova": "Sulle ultime 40 migrazioni, il regex del freno ne ferma 31. Il verdetto ora lo dice, ma il codice resta avanti al database fino all'applicazione a mano. È una scelta da far firmare a Nicola, non un errore del codice.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  },
+  {
+    "giro": 2,
+    "titolo": "Se la promozione scade dopo 3 minuti, il verdetto può dire che i clienti sono sul rilascio di prima anche quando Vercel l'ha completata",
+    "gravita": "minore",
+    "dove": "scripts/prova-di-fumo.mjs, verdettoDelLavoro, ramo codice 0 senza promosso (clientiSenzaDominio con rilascio automatico spento)",
+    "prova": "Confidenza 50%, non provato contro Vercel. `vercel promote` ha un timeout predefinito di 3 minuti e la promozione può finire lato server. Conseguenza innocua: rifare la promozione.",
+    "nato_dal_lotto": true,
+    "pacchetto": ".github/workflows/deploy-dopo-ci.yml",
+    "fonte": "collaudo B"
+  }
+]

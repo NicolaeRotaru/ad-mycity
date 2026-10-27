@@ -63,7 +63,9 @@ Contenuto: `consegne/ad/2026-10-26-lavori-di-nicola.md` (testo del messaggio, la
 
 ### 🟡 #212 — Firma il metodo nuovo delle ondate del sito, quello che consuma molti meno gettoni · ⏳ accodata 2026-10-25 15:10
 
-> ⏰ **2026-10-26 09:05 — Il metodo è unito, e l'ondata delle fondamenta parte coi senior tech e qa.** Resta solo il sì o il no al tipo snello: nel messaggio era rimasto fra parentesi quadre.
+> ⏰ **2026-10-27 15:20 — Hai detto sì al tipo snello.** Lo costruisco appena finisce il giro del sito che sta girando adesso: cambiare il tipo di squadra a metà giro mescolerebbe due misure dei gettoni. Ti arriva in una richiesta di unione sua, col conto prima e dopo.
+>
+> ⏰ **2026-10-26 09:05 — Il metodo è unito, e l'ondata delle fondamenta parte coi senior tech e qa.**
 
 **In parole semplici.** Un'ondata del sito si mangiava la settimana: ogni agente rilegge tutto a ogni passo, e la prima ne ha accesi più di 600. Il metodo nuovo ne accende al massimo 45, più leggeri. Cambia il manuale dell'AD: serve la tua firma.
 
@@ -72,7 +74,7 @@ Contenuto: `consegne/ad/2026-10-26-lavori-di-nicola.md` (testo del messaggio, la
 - Il manuale che ogni agente rilegge scende da 75 a 35 KB.
 - Un comando misura i gettoni veri, agente per agente.
 
-**Cosa devi fare tu.** Leggi il referto e unisci la richiesta di unione. Poi dimmi due cose: se creo il tipo snello per le squadre, e quando parte l'ondata 2.
+**Cosa devi fare tu.** Niente, per ora. Il metodo è unito e il sì al tipo snello è arrivato: quando è pronto, ti porto la sua richiesta di unione da firmare.
 
 **Se va bene:** alla prossima ondata uso il metodo nuovo, e ti porto il conto vero accanto a quello dell'ondata 1.
 
@@ -130,21 +132,43 @@ Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
 
 ---
 
-### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
+### 🔴 #201 — Cancella il «Panificio Demo»: è una tua prova, e i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
 
-> ⏰ **2026-10-26 09:05 — Hai detto di toglierlo prima della chiave.** Ti preparo il comando che toglie l'approvazione senza cancellare niente. Dimmi solo se l'hai creato tu: se no, prima guardo con la sicurezza l'accesso del 7/9.
+> ⏰ **2026-10-27 15:20 — Hai scritto che l'hai creato tu e che si può cancellare.** Il comando è qui sotto, pronto. L'ho controllato in sola lettura: niente ordini, recensioni, conversazioni o file collegati.
 
-**In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
+**In parole semplici.** Il «Panificio Demo» è un account di prova con 4 prodotti, approvato come un negozio vero. Il comando toglie in un colpo solo i 4 prodotti, il negozio e l'account.
 
-**Cosa cambia:** la home promette «negozi veri di Piacenza». Un cliente può ordinare da un forno che non esiste.
+**Cosa cambia:** sul sito resta solo Pane Quotidiano, coi suoi 5 prodotti. La cancellazione non si può annullare: il negozio di prova non torna più.
 
-**Cosa devi fare tu.** Dirmi se l'hai creato tu. Se è una prova, scrivimi «ok 201» e preparo il comando che lo toglie dalla vetrina.
+**Cosa devi fare tu.** Apri Supabase, poi «SQL Editor». Incolla il comando e premi «Run». Deve uscire una riga sola: 4 prodotti, «Panificio Demo» e l'indirizzo seller.demo@piacenza-demo.local. Se esce un errore, mandami la foto e non riprovare.
 
-**Se va bene:** nel catalogo restano solo i 5 prodotti di Pane Quotidiano.
+```sql
+with prodotti as (
+  delete from public.products
+  where seller_id = '44444444-4444-4444-4444-aaaaaaaa0001'
+  returning name
+),
+negozio as (
+  delete from public.profiles
+  where id = '44444444-4444-4444-4444-aaaaaaaa0001'
+  returning store_name
+),
+account as (
+  delete from auth.users
+  where id = '44444444-4444-4444-4444-aaaaaaaa0001'
+  returning email
+)
+select
+  (select count(*) from prodotti) as prodotti_cancellati,
+  (select store_name from negozio) as negozio_cancellato,
+  (select email from account) as account_cancellato;
+```
 
-**Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
+**Se va bene:** scrivimi «fatto 201» e lo ricontrollo nel database.
 
-> ⚠️ **2026-10-12 17:55 — Da dove viene.** È un account di prova come gli altri due, nato il 5/9 da un programma. Il 7/9 alle 21:37 qualcuno ci è entrato, tre minuti dopo un accesso dal tuo account. Se eri tu, scrivimi «ok 201».
+**Cosa non ho verificato:** se nel magazzino delle foto ci sono immagini del negozio salvate con un nome diverso dal suo codice. Col suo codice non ne ho trovata nessuna.
+
+> 📜 **Storia.** 12/10 17:55: l'account nasce il 5/9 da un programma, insieme ad altri due di prova; il 7/9 alle 21:37 qualcuno ci entra, tre minuti dopo un accesso dal tuo account. 26/10 09:05: hai detto di toglierlo prima della chiave. 27/10: hai confermato che eri tu.
 
 ---
 

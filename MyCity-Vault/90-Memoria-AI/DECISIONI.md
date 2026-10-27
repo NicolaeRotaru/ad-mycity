@@ -5771,3 +5771,23 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Cosa ho fatto.** Creato il ramo d'integrazione del sito `fix/fondamenta-sito` (interruttori + 1225 + 25, commit `1256544f`). Lanciato il secondo giro (`wf_86eb0834-491`) su quella base: piano `consegne/audit/2026-10-27-fondamenta-sito-giro2.json`.
 
 **Colore.** 🔴 firmato da Nicola per le scelte; la scrittura sul database dei codici la fa lui. L'unione del sito resta sua.
+
+## 2026-10-27 15:20 — 🟡 Fase 2 del sito: le risposte di Nicola, il primo giro e il secondo
+
+**Cosa ha detto Nicola** (chat del 27/10, 12:48):
+- il Panificio Demo l'ha creato lui e si può cancellare (#201);
+- sì al tipo snello per le squadre (#212);
+- niente progetto Supabase per le anteprime, per ora;
+- ha la bici e consegna fino a 10 km: il confine scende da 25 a 10 km;
+- entra col primo cliente quando il marketplace «non ha più difetti e la radiografia non trova difetti»;
+- chiede come creare la casella info@mycity-marketplace.com, di risolvere il problema del cliente che vuole cancellare l'account, e se può non pubblicare indirizzo e nome.
+
+**Il primo giro della fase 2** (run `wlj8skuwu`, 20 agenti su 45): posta e prodotti reggono e sono uniti nel ramo d'integrazione (`bbce5f88`, verify verde: 650 file di prove, 5.784 prove). Fermi due pacchetti. Cancellazione dell'account: il modulo contatti diceva «ok» anche se la mail non partiva, e la notte restava verde con un avviso di legge non partito. Confine dei 10 km: la pagina Spedizioni prometteva ancora 15 km. Nel registro del sito 48 voci nuove (6 gravi, 42 minori; 35 nate dal lotto), più la scheda della scelta 8 (la cassa fa pagare la spedizione a chilometri, Nicola ha firmato solo i 3 euro).
+
+**Il guasto della prova del sito** (AR-1025): `vitest related` si fermava su ogni file che una pagina .tsx importa, perché il sito eredita `jsx: preserve`. Provato: con il JSX letto in automatico passano 171 file e 1.335 prove. La riparazione va nel sito, in `vitest.config.ts`.
+
+**Il secondo giro** (run `wf_dea01791-eed`, piano `consegne/audit/2026-10-27-fase2-sito-giro2.json`): prima una squadra e un collaudo sistemano `vitest.config.ts`; poi `ondata-sito` su due pacchetti. Cancellazione dell'account: si parte dal lavoro del primo giro e si chiudono i buchi del collaudo; la strada che deve funzionare subito è il link alla casella privacy, perché su Vercel mancano la chiave di servizio e la posta. Consegna al lancio: 10 km, pagina Spedizioni presa dalle costanti, solo i 3 euro di consegna (scelta 8). Restano fuori, aperti: la promessa dei 30-60 minuti (difetto 253, pacchetto suo) e il confine in linea d'aria contro la strada (lo decide Nicola).
+
+**Perché così.** La pagina Spedizioni si apre una volta sola, per confine, prezzo e frasi. Il prezzo dei 3 euro è una firma del 26/10, non una scelta dell'AD.
+
+**Colore.** 🟡 codice in un ramo con richiesta di unione (#262): l'unione è di Nicola. La cancellazione del Panificio Demo è 🔴: la fa lui, col comando della carta #201.
