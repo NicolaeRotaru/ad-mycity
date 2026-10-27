@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-27 18:50
+aggiornato: 2026-10-27 20:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧪 **2026-10-27 20:50 — La consegna è pronta. Sulla cancellazione dell'account serve un quarto giro.**
+>
+> Il terzo giro si è fermato sulle prove, non sul sito: i collaudi trovano sempre un modo nuovo di romperlo che nessuna prova vedrebbe. La consegna funziona: ti chiedo nella carta #215 se unirla così.
+>
+> Sulla cancellazione dell'account ho trovato un difetto vero. Senza la chiave del database, la rotta risponde «non disponibile» anche a chi non ha fatto l'accesso, invece di «devi accedere». Il quarto giro lo sistema.
 
 > 🛠️ **2026-10-27 18:50 — La consegna da 3 euro regge. La cancellazione dell'account va al terzo giro.**
 >

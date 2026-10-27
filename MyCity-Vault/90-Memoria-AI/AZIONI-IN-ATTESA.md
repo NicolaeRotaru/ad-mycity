@@ -31,6 +31,24 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #215 — Scegli se unire la consegna da 3 euro così com'è: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46
+
+**In parole semplici.** La squadra della consegna ha finito. La pagina dell'ordine non scrive più «Spedizione GRATUITA» sopra i 3 € di consegna, e la voce ha lo stesso nome ovunque. Il confine dei 10 km è provato in ogni direzione dritta.
+
+Il collaudo l'ha bocciata tre volte, ma non per un errore del sito. Ogni volta ha trovato un modo nuovo di rompere il codice che le prove non vedrebbero. Per esempio: se domani qualcuno sbagliasse il calcolo della distanza solo in diagonale, oggi nessuna prova diventerebbe rossa.
+
+**Cosa cambia:** con «ok 215» unisco la consegna nella richiesta del sito (#262). Il sito si comporta giusto: 5.917 prove automatiche su 5.917, e nel browser nessuna prova rossa della consegna. I buchi delle prove restano nel registro, aperti, e li chiude un giro dedicato.
+
+**Cosa devi fare tu.** Scrivimi «ok 215» per unirla così: è il mio consiglio. Oppure «215 un altro giro», se vuoi prima anche le prove che mancano. Ogni giro costa circa un'ora e mezza e due milioni di gettoni, e finora ha sempre trovato buchi nuovi.
+
+**Se va bene:** la consegna entra nella #262 insieme alla cancellazione dell'account, appena il quarto giro di quella regge. Poi ti ripresento la #262 da unire.
+
+**Cosa non ho verificato:** la consegna da sola nel browser. L'ho provata insieme al ramo dell'account: le sole 3 prove rosse erano dell'account, e le sta sistemando il quarto giro.
+
+Contenuto: `consegne/audit/2026-10-27-fase2-sito-giro3.json`. Il ramo è `fix/ondata-5-lib-ordini-riepilogo-ordine-ts`.
+
+---
+
 ### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
 
 > ⏰ **2026-10-26 09:05 — Il messaggio è arrivato.** Resta il cambio delle chiavi del database insieme a me: scrivimi «inizio la 203». Poi le visite brevi della tappa 2.

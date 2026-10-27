@@ -5810,3 +5810,21 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Registro e cantiere:** 41 voci nuove nel registro del sito dal secondo giro (9 gravi, 32 minori), più il minore dei tempi di «Chi siamo»; 26 voci scartate perché doppioni, superate da una correzione dello stesso giro, o della macchina. Nel cantiere: AR-1025 con la causa verificata, AR-1026 nuovo (la prova del sito non vede le prove che leggono il codice come testo).
 
 **Colore.** 🟡 codice in un ramo con richiesta di unione (#262); l'unione è di Nicola.
+
+## 2026-10-27 20:50 — 🟡 Fase 2 del sito: il terzo giro si ferma sulle prove, il quarto parte solo sull'account
+
+**Il terzo giro** (run `wf_83d2e67e-905`, 14 agenti): tutti e due i pacchetti fermi dopo tre bocciature del collaudo. Il codice si comporta giusto; i collaudi trovano a ogni giro modi nuovi di romperlo che le prove non vedrebbero. Esempi: la distanza misurata solo nelle quattro direzioni dritte e non in diagonale; «in omaggio» al posto di «gratis»; la variabile RESEND_API_KEY tolta da un controllo.
+
+**Cosa ho misurato io**, su un ramo candidato locale con i due rami fermi uniti (`fix/candidata-fase2`, mai pubblicato):
+- `npm run verify` verde, 5.917 prove su 5.917;
+- prove nel browser come nella CI «senza chiavi»: 3 rosse, tutte della cancellazione dell'account. Senza la chiave di servizio, chi non ha fatto l'accesso riceve 503 invece di 401. È un difetto vero, scritto nel registro come grave. Sul ramo d'integrazione `a6a83e22` le prove nel browser sono 70 su 70.
+
+Un mio errore lungo la strada: un server del sito rimasto acceso da una prova precedente ha risposto al posto del ramo giusto per due corse. Quei risultati li ho buttati, e ho rifatto le prove con uno script che spegne tutto prima e dopo e scrive di chi è il server.
+
+**Le scelte:**
+- **Cancellazione dell'account: un quarto giro, solo lei** (run `wf_d46da8ea-d89`, piano `consegne/audit/2026-10-27-fase2-sito-giro4.json`). Lo faccio partire senza chiedere, perché Nicola ha chiesto di risolvere proprio questo, e perché c'è un difetto vero. Regola: prima chi sei, poi la chiave.
+- **Consegna: chiedo a Nicola** (carta #215). Consiglio di unirla così com'è, coi buchi delle prove aperti nel registro. Il ramo fermo non lo unisco senza la sua firma.
+
+**Registro:** 35 voci nuove dal terzo giro (11 gravi, 24 minori; 2 scartate perché doppioni interni), più il grave del 401. Su 786 voci aperte nel registro del sito, 143 sono gravi; di queste circa 31 sono buchi nelle prove e non errori del sito (conto fatto dai titoli).
+
+**Colore.** 🟡 codice nei rami del sito; l'unione della #262 resta di Nicola.
