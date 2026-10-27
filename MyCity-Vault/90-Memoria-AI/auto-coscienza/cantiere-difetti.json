@@ -22327,6 +22327,28 @@
         "tipo": "umano",
         "come": "Su una copia del sito con le dipendenze: cambiare app/cart/page.tsx in un modo che rompe tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts, poi node cervello/prova-sito.mjs --repo <copia> --file app/cart/page.tsx deve uscire rosso. Oggi esce verde. Non è un comando del cantiere perché serve una copia del sito con node_modules, che la CI della macchina non ha."
       }
+    },
+    {
+      "id": "AR-1027",
+      "titolo": "Il collaudo delle ondate del sito dà «grave» a ogni buco nelle prove, anche quando il sito si comporta giusto: i giri si fermano senza un difetto vero",
+      "dimensione": "calibrazione-onesta",
+      "dove": ".claude/workflows/ondata-sito.js: prompt del collaudo (regola «grave o bloccante solo se sai scrivere il comando che diventa rosso») e prompt del riesame (stessa regola)",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "sintomo": "Fase 2 del lotto del sito #262, 27/10. Terzo giro (wf_83d2e67e-905): tutti e due i pacchetti fermi dopo tre bocciature, tutte buchi nelle prove su codice che si comporta giusto (la distanza in diagonale sulla rotta della carta, «in omaggio» accanto ai 3 euro). Quinto giro (wf_1bc11a0a-959): la squadra della posta toglie dall’email «3 cose da sapere» la promessa del ritiro; il collaudo A la boccia due volte con sinonimi che la prova a parole non vede («passi a prenderla in negozio», «Passa tu dal negozio a prenderla»), mentre il collaudo B dice che regge. Nel registro del sito, su 143 gravi aperti, circa 31 sono buchi nelle prove (conto dai titoli, 27/10 20:50). Nel riesame della fase 2, scritto con la regola «un buco nelle prove su un codice giusto è minore», i verificatori hanno declassato 7 gravi su 11.",
+      "causa_radice": "Il prompt del collaudo misura la gravità con una sola domanda: «sai scrivere un comando che diventa rosso?». Per un buco nelle prove il comando c’è sempre: la mutazione più la prova del collaudatore. Così ogni buco diventa grave e boccia il pacchetto. Sono due domande diverse: quanto è grave quello che succede a chi usa il sito, e quanto è forte la prova. La regola le confonde. Il riesame scritto a mano dall’AD il 27/10 le separava, e ha concluso in un giro.",
+      "fix_proposto": "Nel prompt del collaudo e del riesame di ondata-sito.js: «Un buco nelle prove su un codice che si comporta giusto è minore: va nel registro e non boccia il pacchetto. Si boccia solo se il sito si comporta male, oppure se la mutazione che rimette il difetto dichiarato chiuso resta verde.» Più un caso nel motore finto di cervello/test/ondata-sito.test.mjs: un collaudo che porta solo buchi delle prove, su codice giusto e con i difetti dichiarati provati, non ferma il pacchetto. È un’auto-modifica della macchina: 🟡, vale con la firma di Nicola.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-28 00:37",
+      "nato_come": "scoperta",
+      "nato_da": "terzo e quinto giro della fase 2 del sito (wf_83d2e67e-905, wf_1bc11a0a-959)",
+      "origine": "lotto-del-sito",
+      "fonte": "lotto del sito #262 (fase 2), 27/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "La gravità la decide un modello leggendo il prompt: non c’è un comando che la misuri prima del giro. Al prossimo giro di un’ondata si contano le bocciature del collaudo e, per ognuna, se il sito si comportava male o se mancava solo una prova. Oggi i buchi delle prove sono la maggioranza: terzo giro 3 bocciature su 3, quinto giro della posta 2 su 2. Dopo la correzione, un collaudo che trova solo buchi delle prove su codice giusto deve dire «regge» e mettere i buchi nel registro."
+      }
     }
   ],
   "meta": {
