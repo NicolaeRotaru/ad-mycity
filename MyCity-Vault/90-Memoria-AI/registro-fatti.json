@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-29 00:06",
+  "aggiornato": "2026-10-29 00:15",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -797,6 +797,16 @@
       "valore": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
       "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
       "aggiornato": "2026-10-26 09:04",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "pagamenti.rimborso-contanti",
+      "nome": "Come si rimborsa un ordine in contanti",
+      "valore": "Rimborso di un ordine in contanti già pagato e poi annullato: passa sempre dal reclamo, mezzo automatico. Il sito apre da solo il reclamo con la cifra, manda a Nicola un avviso con nome, IBAN, cifra e causale, e la sera toglie al negozio il 90% della merce rimborsata. Il bonifico al cliente lo fa Nicola dall'app della banca, poi tocca «fatto». Mai rimborsi fuori dal sito. Il rimborso diventa automatico con la carta, via Stripe; il credito MyCity solo se il cliente lo sceglie.",
+      "fonte": "Nicola in chat, 2026-10-29 (carta #219, punto 3): «rimborso dal reclamo, mezzo automatico»",
+      "aggiornato": "2026-10-29 00:15",
       "storia": [],
       "caccia": [],
       "esenzioni": []

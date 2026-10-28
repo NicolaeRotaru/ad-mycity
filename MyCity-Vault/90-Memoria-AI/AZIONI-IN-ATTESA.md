@@ -35,7 +35,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 > ✅ **2026-10-29 00:08 — Le tue risposte.** Niente abbigliamento per ora, e tutto il resto sì. L'albero delle categorie va fatto più ampio, con più sottocategorie. Pane Quotidiano vende anche pane, verdura fresca e cura della persona. Il bonus del fattorino si toglie, e si riaccende più avanti. Le foto si caricano solo in JPG. La regola del colore dei link si toglie. Per il fattorino esterno vale il tuo sì al punto sull'INAIL.
 >
-> Resta aperto il rimborso dell'ordine in contanti annullato. Ti ho spiegato in chat come si fa.
+> Il rimborso dell'ordine in contanti annullato passa dal reclamo, in modo mezzo automatico: il sito apre il reclamo e ti prepara il bonifico, tu lo fai dalla banca (scelta delle 00:15).
 
 **In parole semplici.** Prima di riparare l'ondata 2 ho fatto riscrivere le sue ricette sul codice di oggi. Poi due revisori hanno provato a smontare ogni ricetta. Ne hanno bocciate 17 su 27, quasi sempre con la correzione già scritta. Restano sei punti che tocca a te decidere. Su ognuno c'è il mio consiglio.
 

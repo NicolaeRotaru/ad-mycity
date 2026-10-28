@@ -5982,3 +5982,13 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Prossimi lavori, quando torna il limite:** giro B delle promesse; giro B della cassa; piano dell'ondata 2 rifatto sui file delle ricette (`consegne/audit/2026-10-28-ricette-ondata2.json`) e con queste scelte; albero delle categorie da proporre.
 
 **Correzione degli orari di stasera.** Diversi orari che ho scritto in memoria li ho stimati, invece di leggerli dall'orologio. Quelli veri, presi dai commit (ora di Piacenza): la carta #218 è delle 21:45, non 22:10; il referto dell'ondata 1, STATO e DECISIONI sono delle 22:27, non 23:05-23:10; la carta #219 e la riga delle ricette sono delle 22:50, non 23:55; il ricettario è delle 22:55, non 00:20; la correzione della carta #219 è delle 23:46, non 00:40. Prima ancora: l'ondata 1 è partita alle 19:47, non 20:15; la correzione della fase 0 è delle 19:58, non 20:40. Regola per me: l'orario si legge con `TZ=Europe/Rome date`, non si stima.
+
+## 2026-10-29 00:15 — 🔴 Nicola sceglie il rimborso dei contanti: dal reclamo, mezzo automatico (carta #219, punto 3)
+
+**Cosa ha scritto Nicola:** «rimborso dal reclamo, mezzo automatico». Prima aveva chiesto se si poteva fare tutto in automatico. Gli ho risposto di no: i contanti non passano da Stripe, collegare la banca chiede comunque una sua conferma per ogni bonifico, e mandare soldi senza la sua firma va contro la regola d'oro.
+
+**Cosa vuol dire per il sito.** Quando un ordine già pagato in contanti viene annullato, il sito apre da solo il reclamo con la cifra e manda a Nicola un avviso con nome, IBAN, cifra e causale. La sera toglie al negozio la sua parte, il 90% della merce rimborsata. Il bonifico al cliente lo fa Nicola dall'app della banca, poi tocca «fatto». Mai rimborsi fuori dal sito. Registrato come `pagamenti.rimborso-contanti`.
+
+**Dove entra.** Nell'ondata 2, con le ricette del 1320 (il testo dell'annullo) e del 1286 (il credito che non torna), e con i soldi dei resi. L'apertura automatica del reclamo è un pezzo nuovo: va scritto nella ricetta prima di lanciare.
+
+**Colore.** 🔴 firmato da Nicola: tocca il percorso dei soldi del cliente. Nessun codice toccato oggi.
