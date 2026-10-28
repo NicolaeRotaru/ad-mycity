@@ -31,6 +31,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #219 — Sei scelte piccole per preparare l'ondata 2 del sito · ⏳ accodata 2026-10-28 23:55
+
+**In parole semplici.** Prima di riparare l'ondata 2 ho fatto riscrivere le sue ricette sul codice di oggi. Poi due revisori hanno provato a smontare ogni ricetta. Ne hanno bocciate 17 su 27, quasi sempre con la correzione già scritta. Restano sei punti che tocca a te decidere. Su ognuno c'è il mio consiglio.
+
+- **Le categorie del pane.** Il pane di Pane Quotidiano va nella sottocategoria «Panificio», che esiste già. Per hummus e pesto si crea solo «Gastronomia fresca». Latticini e salumi restano fuori dalla lista dei prodotti che non si rendono, finché il legale non rilegge. Consiglio: sì.
+- **Il bonus dei fattorini.** La pagina dei guadagni del fattorino promette «+2 € ogni 5 consegne», ma nessun pezzo del sito lo paga. Consiglio: toglierlo.
+- **L'ordine in contanti già pagato che il cliente annulla.** Il rimborso passa da un reclamo nel pannello. Così il sito segna il bonifico e toglie la quota al negozio. Se lo rimborsi fuori dal sito, rischi di pagare il negozio per intero e il cliente due volte. Consiglio: sì, dal reclamo.
+- **Le foto dell'iPhone.** Il sito smette di chiedere il formato dell'iPhone (HEIC). L'iPhone manda già la foto in JPG da solo. Chi trascina un HEIC dal computer legge «salvala in JPG e riprova». Costa zero codice nuovo. Annulla una scelta dell'8/9, che l'aveva fatto entrare. Consiglio: sì.
+- **Il colore dei link al passaggio del mouse.** Oggi una regola fa diventare 30 link bianchi quasi invisibili sotto il mouse, «Registrati» compreso. Consiglio: togliere la regola per i link che hanno già un colore loro.
+- **La copertura del primo fattorino esterno.** Il primo fattorino esterno consegna solo dopo la posizione INAIL. La risposta «Sono assicurato?» lo dice così. Consiglio: sì.
+
+**Cosa cambia:** con le sei risposte le ricette dell'ondata 2 sono complete. Si possono lanciare appena chiudi la scelta sull'ondata 1, la carta #218.
+
+**Cosa devi fare tu.** Scrivimi per esempio «219: tutto come consigli», oppure dimmi quale cambi, col suo nome: «il pane», «il bonus», e così via.
+
+**Se va bene:** rifaccio il piano dell'ondata 2 con le ricette corrette. Il critico ha trovato file contesi fra i pacchetti, quindi alcuni difetti cambiano squadra. Poi te lo porto, prima di lanciarlo.
+
+**Cosa non ho verificato:** nessuna ricetta è stata eseguita: sono scritte e smontate sulla carta, leggendo il codice. Le letture del database che il critico chiedeva le ho fatte io, in sola lettura: nessun negozio ha tutti i giorni chiusi, nessuno è finito a Roma, non ci sono resi.
+
+Contenuto: la run delle ricette è `wf_b0929d95-4a5`. Il ricettario sta in `consegne/audit/2026-10-28-ricette-ondata2.json`, dopo la rilettura di riservatezza.
+
+---
+
+
 ### 🟡 #218 — Scegli cosa fare dei due pacchetti fermi dell'ondata 1: le promesse e la cassa in contanti · ⏳ accodata 2026-10-28 22:10
 
 **In parole semplici.** L'ondata 1 è finita con 36 agenti su 45. Tre pacchetti su cinque reggono: la porta del negozio, la moderazione degli account e il catalogo. Due si sono fermati dopo tre bocciature del collaudo, e il metodo vuole che decida tu.

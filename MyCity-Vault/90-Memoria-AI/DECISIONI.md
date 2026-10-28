@@ -5948,3 +5948,17 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Un errore mio.** Riscrivendo con Python le fonti delle voci nuove, il file del registro è rimasto troncato su un carattere che Python non sapeva scrivere. L'ho ripristinato dall'ultimo commit e ho rifatto le due modifiche con node, rileggendo il file prima di salvarlo. Il conto di ⑨ dice 0 voci scritte male. Regola per me: il registro si scrive solo con node, e il testo si rilegge prima di salvarlo.
 
 **Colore.** 🟡: codice del sito solo nel ramo della #263; l'unione è di Nicola.
+
+## 2026-10-28 23:55 — 🟢 Le ricette dell'ondata 2 riscritte sul codice di oggi, e sei scelte per Nicola (#219)
+
+**Cosa.** Con ultracode acceso, una squadra per pacchetto ha riscritto in sola lettura, sul main `1776e6b1`, le ricette dei 24 difetti dell'ondata 2 e dei 3 rinviati dell'ondata 1 (50, 113, 247). Due lenti indipendenti le hanno smontate, e un critico di completezza le ha guardate tutte insieme (run `wf_b0929d95-4a5`, 19 agenti). Esito: 27 ricette su 27 «ancora vere» (2 in parte: 1287, 1228), 17 su 27 bocciate da almeno una lente, quasi tutte con la correzione. I rischi più grossi evitati: la ricetta del 1265 fermava il sorvegliante con un errore di sintassi; quella di 1287/1313 bloccava un rimborso in contanti che oggi va a buon fine; il testo del 1320 portava a pagare due volte.
+
+**File contesi che il mio piano non vedeva.** Il piano delle 19:45 misurava i territori sui file delle schede. Le ricette toccano anche altri file: `lib/ordini/annulla.ts` (soldi dei resi e pannello), `components/Footer.tsx` (vetrina e rinviati), `lib/storage/carica-immagine.ts` (vetrina e pannello), `app/api/returns/create/route.ts` (soldi dei resi e rinviati), e la cassa e la scheda prodotto (negozio, orari e rinviati). Il piano dell'ondata 2 va rifatto sui file delle ricette, dopo le risposte alle carte #218 e #219.
+
+**Letture del database fatte da me** (in sola lettura, chieste dal critico): nessun negozio con tutti i giorni chiusi; nessun negozio a Roma (Pane Quotidiano, via Calzolai 25, è a 45.0529/9.6917); 0 resi; 1 ordine; 3 messaggi, 0 non letti; «Panificio» esiste, «Gastronomia fresca» no; la funzione delle categorie per negozio esiste.
+
+**Due scelte tecniche, mie** (come vuole la correzione 8 del piano del 24/10): l'allarme dei contanti non confermati del 1265 guarda gli ordini consegnati nelle ultime 48 ore; il testo dell'annullo di un ordine già pagato in contanti (1320) dice di rimborsare dal reclamo, non fuori dal sito.
+
+**Carta #219** per Nicola: le categorie del pane, il bonus dei fattorini da togliere, il rimborso degli ordini in contanti annullati dal reclamo, le foto dell'iPhone in JPG, il colore dei link, la copertura del primo fattorino esterno.
+
+**Colore.** 🟢: letture e ricette, nessun codice toccato.
