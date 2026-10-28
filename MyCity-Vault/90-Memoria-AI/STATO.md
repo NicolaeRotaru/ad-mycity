@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-28 11:22
+aggiornato: 2026-10-28 15:33
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚀 **2026-10-28 15:33 — Il sito vero è cambiato.**
+>
+> Hai unito alle 15:15 la richiesta del sito e quella della memoria. Il sito pubblicato è cambiato alle 15:16: www.mycity-marketplace.com punta al rilascio nuovo. La pagina Spedizioni dice già «fino a 5 km dal negozio» e «3,00 € per ogni negozio».
+>
+> Nel registro del sito ho chiuso 88 difetti su 893 aperti: 46 gravi su 153 e 42 minori su 731. Ti avevo scritto 35 gravi su 153: mi ero perso 11 gravi su 46, quelli nati durante il lavoro. Restano aperti 805 difetti su 1.729: 9 bloccanti su 35, 107 gravi su 515 e 689 minori su 1.179.
+>
+> Una cosa detta male nella richiesta: la newsletter è nascosta nella home, ma la sua rotta non legge l'interruttore. È nel registro, come difetto minore.
 
 > 🚲 **2026-10-28 11:22 — Il confine scende a 5 km.**
 >

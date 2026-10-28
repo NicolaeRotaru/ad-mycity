@@ -5892,3 +5892,17 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 **Colore.** 🟡: auto-modifica della macchina firmata da Nicola con «ok 216»; codice del sito solo nei rami; l'unione della #262 resta sua.
 
 **Aggiunta delle 11:04.** Il secondo ricollaudo (run `wf_258deb23-0a8`) ha retto, con sette minori; le sue cure, provate dal collaudatore su una copia, sono nel metodo. Il collaudo di quelle cure (run `wf_b8888e09-e59`) ha retto: su 1.080 forme di verdetto il motore nuovo non fa passare niente che il vecchio fermava. Dei suoi minori ho preso quattro pezzi piccoli; il resto è AR-1028. Prove del metodo 62 su 62. Il sesto giro (run `wf_b040c1ca-1b7`, 6 agenti) ha retto al primo collaudo: AR-1027 è chiuso. Il giro ha mostrato un buco nuovo: una prova del sito rotta dal lavoro non boccia (AR-1029, proposta che cambia la regola firmata: serve la firma di Nicola). La prova rotta l'ha sistemata una correzione (`e36741a7`), insieme alle frasi «Piacenza e dintorni» e «Piacenza e provincia», che col confine a 5 km promettevano posti che la cassa rifiuta.
+
+## 2026-10-28 15:33 — 🔴 Nicola unisce la richiesta del sito (#262) e quella della memoria (#895)
+
+**Cosa:** alle 15:15 Nicola ha unito la #262 (commit di unione `1776e6b1`) e la #895 (`157eb4519`, unione compressa). Suo messaggio: «ho fatto il marge di entrambe».
+
+**Perché:** controlli verdi su tutte e due (la #262 9 su 9 su `e36741a7`, la #895 2 su 2 su `794855f9f`), nessun conflitto, nessun commento aperto.
+
+**Dopo l'unione:** rilascio di produzione `dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR` pronto, con l'alias www.mycity-marketplace.com. L'albero di `1776e6b1` è identico a quello di `e36741a7` (0 righe di differenza): le prove del ramo valgono sul codice pubblicato. La pagina `/shipping` pubblicata dice «Fino a 5 km dal negozio, in linea d'aria» e «3,00 € per ogni negozio» (letta col prelievo di Vercel: il dominio è bloccato dalla rete di questa sessione).
+
+**Registro del sito:** 88 chiusure scritte con `cervello/chiudi-sito.mjs` (`--pr 262 --commit 1776e6b1`). 84 sono le schede dichiarate chiuse dalle squadre dei giri il cui commit sta in main, con l'ultima dichiarazione che vince; 4 sono pezzi fatti a mano (1225, 25, 1400, 1402), ognuno con la sua mutazione rossa sul codice unito. Restano a metà 12 schede: 23, 48, 98, 100, 102, 161, 176, 239, 254, 1293, 1589, 1591. Aperti dopo: 805 su 1.729 (9 bloccanti, 107 gravi, 689 minori).
+
+**Due correzioni.** I gravi chiusi sono 46, non 35 come avevo scritto a Nicola il 28/10 mattina e alle 12:05: gli 11 in più sono gravi nati nel lotto (1553, 1554, 1563, 1594, 1595, 1596, 1597, 1608, 1609, 1615, 1616). E la descrizione della #262 diceva che il server rifiuta anche la newsletter chiamata a mano: la home la nasconde, ma `app/api/newsletter/route.ts` non legge `NEWSLETTER_ACCESA`. Restano aperte le 1399 e 1403.
+
+**Colore.** 🔴 firmato da Nicola: l'unione della #262 ha cambiato il sito pubblicato.

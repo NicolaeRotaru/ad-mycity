@@ -696,13 +696,16 @@
       "impatto": "Falsa sicurezza proprio sul flusso che fa entrare i soldi. Lunghezza dell'inganno: zero millisecondi di controllo dietro un nome che promette tutto.",
       "fix": "Riscrivere le tre prove perché facciano il percorso vero sull'ambiente di prova. Contrassegno: dal carrello seminato a POST /api/orders/cod, poi SELECT dell'ordine (stato NEW, totale giusto) e campanella del negozio. Carta: Stripe in modalità test con webhook firmato e ordine PAID. Rifiuto: rimborso registrato. Consegna: giro release-payouts con transfer in test-mode. Finché l'ambiente non c'è, devono restare saltate con il motivo, ma con un corpo vero: mai un'asserzione sulla variabile stessa. Aggiungere una prova unitaria che vieti `expect(SENZA_AMBIENTE_DI_PROVA)` come unica asserzione.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd <copia del repo> && E2E_DATI_DI_PROVA=1 CI=1 E2E_BASE_URL=http://localhost:3100 npx playwright test tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts --project=chromium --retries=0 -g \"nasce e il negozio|il rimborso esiste|il bonifico al negozio\"",
       "prova_tipo": "comando",
       "prova_eseguita": "«3 passed (787ms)»: le tre prove sono verdi in 6, 3 e 3 millisecondi. Contro il sito locale col database finto, che non contiene né un negozio né un prodotto. · Verifica tecnica: Ho letto tests/e2e/12-la-cassa-dal-carrello-al-pagamento.spec.ts:170-213 e cercato E2E_DATI_DI_PROVA in .github/: assente. Ho lanciato dalla mia copia: E2E_DATI_DI_PROVA=1 CI=1 E2E_BASE_URL=http://localhost:3100 npx playwright test …12-la-cassa… --project=chromium --retries=0 -g «nasce e il negozio|il rimborso esiste|il bonifico al negozio». Risultato: «3 passed (934ms)», con le prove in 11, 4 e 2 ms, contro il sito locale con il database finto e vuoto. Ho controllato noti-chiusi.txt: il difetto «Nessuna prova end-to-end attraversa il checkout» risulta chiuso.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: test-qualita · ricomparso dopo essere stato chiuso · id R69 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: test-qualita · ricomparso dopo essere stato chiuso · id R69 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, commit 1256544f: le prove dell'acquisto vero non passano piu' senza aver guardato. — prova: npx vitest run tests/unit/le-prove-della-cassa-non-passano-senza-aver-guardato.test.ts — mutazione: il 28/10 su 1776e6b1: la prova della cassa rimessa com'era su fd4821aa, 1 prova rossa su 1"
     },
     {
       "dimensione": "qa-flussi",
@@ -1211,13 +1214,16 @@
       "impatto": "Si incassano soldi di terzi per un servizio futuro, senza condizioni e senza il parere legale che il business stesso aveva messo come condizione. C'è il rischio del perimetro della moneta elettronica (EMI) e un trattamento IVA non definito. Se qualcosa va storto, il conto lo paga Nicola.",
       "fix": "Subito: nascondere la scheda «Regala» e la voce «Gift card» dal menu account, finché non arriva il parere legale e fiscale. Dopo il parere: una sezione «Buoni regalo» nelle Condizioni (emittente, validità, rimborso, negozi aderenti) e la decisione se l'incasso passa da Stripe Connect.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice: gift-cards/checkout/route.ts:58 mode 'payment', righe 66-68 unit_amount e nome «Gift Card MyCity», nessun transfer_data. gift-cards/page.tsx:43, scheda iniziale 'buy'. Riga 269: «ottiene €{amount} di credito (valido 2 anni)». Comando grep -i -c -E \"gift|buono regalo|buoni regalo\" su app/terms/page.tsx e app/faq/page.tsx: risultato 0. DECISIONI.md riga 832: gift card con condizione «parere @legale/@contabilita su IVA buono multiuso».",
       "prova_tipo": "comando",
       "prova_eseguita": "Il conteggio nelle Condizioni e nelle FAQ è 0. Il pagamento va al conto della piattaforma. La scheda «Regala» è quella che si apre per prima. · Verifica tecnica: Ho letto gift-cards/checkout/route.ts:37 e 55-75: mode 'payment', nessun transfer_data, il solo freno è isStripeConfigured. gift-cards/page.tsx:43 tab 'buy'. Il grep di gift, buono regalo e carta regalo dà 0 in app/terms/page.tsx e in app/faq/page.tsx. Le pagine che citano i buoni sono solo profile/loyalty, profile/gift-cards, checkout e privacy. Nel DB di produzione ho letto il corpo di redeem_gift_card: il saldo diventa wallet_credit. Nel BASELINE: STRIPE_SECRET_KEY assente in produzione.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R78 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R78 · si ripara: decisione-nicola",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
@@ -1229,14 +1235,17 @@
       "impatto": "Fino a 175 € al mese promessi e non pagati, più un'operazione a premio fuori regola: ci sono sanzioni amministrative, e il Ministero può incamerare la cauzione. Oggi nessuno può ancora vincere, perché in produzione non c'è un ordine consegnato. Il rischio parte dal primo mese con consegne vere.",
       "fix": "Subito: togliere dalla pagina i riquadri dei premi e la frase «I primi 3 ricevono il premio», e lasciare la classifica senza premi (oppure toglierla). Se Nicola vuole davvero il concorso: regolamento, comunicazione PREMA al MIMIT 15 giorni prima, cauzione e verbale di chiusura, con @legale-privacy e @contabilita. Da far validare a un legale abilitato.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice: le righe della pagina citate sopra. Poi una ricerca su tutto il repo dei nomi referral_leaderboard, get_referral_leaderboard e converted_referrals: compaiono solo la pagina e le migrazioni che creano la vista e la funzione di sola lettura (030, 048, 064, 113, 151). Nessuna rotta, nessun lavoro automatico, nessuna pagina admin. Con curl su http://localhost:3100/profile/referral/leaderboard la pagina risponde 307 verso /sign-in: quindi esiste ed è dietro l'accesso, aperta a ogni cliente. Le regole del concorso (avviso 15 giorni prima con modulo PREMA, cauzione al 100%) le ho riconfermate sulla pagina ufficiale del MIMIT.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Promessa visibile a ogni cliente collegato. Zero codice che assegna o paga i premi. Nessuna traccia di regolamento o di comunicazione al Ministero, né nel repo né nei Termini. · Verifica tecnica: Letto l'intero app/profile/referral/leaderboard/page.tsx e app/profile/referral/page.tsx:80-92. grep -rnE 'referral_leaderboard|get_referral_leaderboard|leaderboard' su .ts, .tsx, .sql e .json: solo la pagina e le migrazioni 030, 064, 089, 113 e 152, nessun pagamento. grep di classifica, concorso e premi in app/terms/page.tsx: vuoto. SELECT in produzione: referrals=0, righe di referral_leaderboard=0, viewdef = select da get_referral_leaderboard().",
       "giro": 3,
       "verificato": true,
       "gia_noto": "No. N36 riguarda la stessa classifica, ma per i nomi completi dei clienti che espone (privacy), non per i premi.",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-contenuti-legale · id R86 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-contenuti-legale · id R86 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
@@ -1266,13 +1275,16 @@
       "impatto": "Rischio concreto di sanzione per marketing senza consenso, su ogni nuovo iscritto. In più si brucia la fiducia di chi aveva detto «no pubblicità».",
       "fix": "Togliere tutorial_day2 da TEMPLATE_DI_SERVIZIO, così parte solo con consenso, col piede di disiscrizione. Oppure dividerlo: una versione di servizio senza incentivi (come si paga, come si ritira) per tutti, e la riga referral solo a chi ha dato il consenso. Far rivedere il testo a @legale-privacy.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Script di prova (stesso comando del difetto sulle conferme d'ordine), seconda prova: per ogni template stampa se TEMPLATE_DI_SERVIZIO lo contiene e il testo.",
       "prova_tipo": "comando",
       "prova_eseguita": "Esito di adesso: «tutorial_day2 | parte anche senza consenso marketing: true | oggetto: 3 cose da sapere su MyCity», con il testo «Tre cose da sapere: paghi alla consegna, spedizione gratis sopra 30 € nello stesso negozio, e se inviti un amico ricevi €5 di credito quando lui riceve il primo ordine.» · Verifica tecnica: Ho letto templates.ts:386-403 e 540-555, send-emails/route.ts:186-236, migrazione 033:120-140, 054:13 e privacy/page.tsx:121 (marketing solo con consenso). Ho fatto una SELECT in produzione: la riga tutorial_day2 (send_at 2026-08-22) non è inviata né annullata, e il profilo collegato ha email_marketing=false. Ho rivisto l'esito del collega in esito.txt: «tutorial_day2 | parte anche senza consenso marketing: true», con il testo sul referral da €5.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: email-notifiche · id R135 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: email-notifiche · id R135 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 3, pacchetto lib/email/templates.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/email/templates.ts, ondata 3 (run wlj8skuwu, commit 1d5c008e) — mutazione: collaudo dell'ondata 3 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
@@ -1614,13 +1626,16 @@
       "impatto": "Clausola che scoraggia l'esercizio della garanzia. Basso rischio di sanzione, ma toglie fiducia e contraddice la pagina Resi, che parla di garanzia di 24 mesi.",
       "fix": "Riscrivere così: «Se qualcosa non va, scrivici appena puoi: rispondiamo entro un giorno lavorativo. Per i difetti dei prodotti vale comunque la garanzia legale di 24 mesi». Bozza da far validare.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura di app/shipping/page.tsx:132 e della pagina /shipping resa dal server locale (curl http://localhost:3100/shipping).",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Il testo reso contiene «contatta il nostro supporto entro 48h». Per le fonti sull'abolizione del termine di due mesi vedi Brocardi (art. 133 Cod. Cons.) e Il Sole 24 Ore. La conferma finale spetta a un legale. · Verifica tecnica: Ho letto shipping/page.tsx:126-138. curl localhost:3100/shipping | grep 'entro 48h': presente. grep -rnE '48 ?\\* ?(60|3600)|48h|48 ore' su app/api e lib: nessun termine applicato ai reclami dei clienti. grep 'garanzia|24 mesi' in terms.tsx: §8 dice 24 mesi.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: privacy-legale · id R285 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: privacy-legale · id R285 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "privacy-legale",
@@ -1916,13 +1931,16 @@
       "impatto": "L'unico canale che arriva sul telefono di Nicola (soldi bloccati, ordini fermi, incassi che non quadrano) tace mentre il giro si dichiara riuscito. Resta solo la campanella nel pannello, che va aperta a mano. È lo stesso tipo di difetto di «Il sorvegliante fallisce in silenzio e si registra come sano» (chiuso), in un ramo diverso.",
       "fix": "`const inviata = await sendEmail(...); if (!inviata.ok) return 500 {errore:'allarmi non recapitati', motivo}` prima dell'upsert su operational_alert_log. L'attesa va scritta solo per gli allarmi recapitati davvero. Cercare lo stesso schema (await sendEmail senza leggere il risultato) nelle altre rotte.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "1) Comando eseguito, che prova la premessa: sendEmail senza chiave non lancia. `cd /home/user/mycity && timeout 120 node_modules/.bin/esbuild /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/api-backend-2/email.ts --bundle --platform=node --format=cjs --tsconfig=tsconfig.json --outfile=…/email.cjs --external:server-only && env -u RESEND_API_KEY -u RESEND_FROM node …/email.cjs`. 2) Lettura: operational-alerts/route.ts:642-675 fa `await sendEmail({...})` senza assegnare il risultato. Il catch alla riga 666 è l'unico punto che risponde «allarmi non recapitati». Le righe 678-683 scrivono l'upsert dell'attesa, le righe 685-691 rispondono ok:true.",
       "prova_tipo": "comando",
       "prova_eseguita": "Output: «eccezione: nessuna | esito restituito: {\"ok\":false,\"skipped\":true,\"reason\":\"RESEND_API_KEY non configurata\"}». La funzione fallisce senza lanciare, quindi il catch del sorvegliante non viene mai raggiunto, e alle righe 677-691 l'attesa viene scritta e il giro risponde ok. · Verifica tecnica: Ho letto operational-alerts/route.ts:590-700 e client.ts:40-172. Ho ricompilato e rieseguito email.ts senza RESEND_API_KEY e RESEND_FROM: «eccezione: nessuna | esito restituito: {ok:false, skipped:true, reason:'RESEND_API_KEY non configurata'}». Ho estratto da radiografia-marketplace.json il difetto chiuso il 22/8, che chiedeva esplicitamente il 500 su invio fallito.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: api-backend, email-notifiche · doppioni uniti: N232 · id R16 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: api-backend, email-notifiche · doppioni uniti: N232 · id R16 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 3, pacchetto lib/email/templates.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/email/templates.ts, ondata 3 (run wlj8skuwu, commit 1d5c008e) — mutazione: collaudo dell'ondata 3 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "api-backend",
@@ -1934,7 +1952,7 @@
       "impatto": "Al lancio, quando ogni ordine è in contanti, un ordine rifiutato o scaduto diventa un cliente che aspetta per niente. È il modo più rapido per perdere qualcuno al primo ordine. Lo stesso buco vale per gli annullamenti decisi dall'amministratore.",
       "fix": "Aggiungere un template «ordine annullato» (motivo, «non devi pagare niente», link ai negozi alternativi) e spedirlo con tipo 'transazionale' da annullaERimborsa e da expire-stale-orders per TUTTI i metodi di pagamento. Per la carta può sostituire il «Rimborso emesso» o accompagnarlo. Valutare la stessa email anche per «in consegna».",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice. expire-stale-orders/route.ts:142 «if (isCardPaid) { … refundOrder({ … notifyBuyer: true })»: per il contrassegno non c'è un ramo con email. Righe 229-237: solo notifications.insert «Ordine annullato». reject/route.ts:107-127: solo notifications.insert «❌ Ordine rifiutato dal negozio». annulla.ts:228-238: l'email parte solo dentro refundOrder, cioè solo per la carta. Nessuna chiamata a sendEmail in queste rotte (ho cercato tutte le sendEmail del progetto: 13 chiamate, nessuna per annullo o rifiuto).",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Ho letto adesso le righe citate: per un ordine in contanti annullato o rifiutato nessuna email parte. L'unico avviso è nella tabella notifications, cioè campanella più push, e solo se è attivata. · Verifica tecnica: Ho letto expire-stale-orders/route.ts:130-160 e 215-245, reject/route.ts:60-130, annulla.ts:215-245, admin cancel/route.ts:70-80 e il grilletto della migrazione 150:95-145 (solo READY e DELIVERED). Ho cercato con grep un template d'annullo (order_canceled, ordine_annullato e simili) e non ne esiste nessuno. Ho cercato PushNotificationOptIn, requestPermission e pushManager.subscribe: compare solo nelle impostazioni del profilo. Ho cercato duplicati in noti-aperti e noti-chiusi (K28, K190 e K77 parlano d'altro): nessuno.",
@@ -1946,7 +1964,10 @@
         "prova": "Nessun template «ordine annullato» nel codice di main (3ee0d53). Il grilletto enqueue_order_status_email della 150, ora in produzione, accoda solo per READY e DELIVERED.",
         "nota": "Non dipendeva dalle migrazioni: la correzione è nel codice. In più, il giro send-emails oggi risponde 503 perché su Vercel manca la chiave di servizio (carta #154).",
         "data": "2026-10-24 10:45"
-      }
+      },
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 3, pacchetto lib/email/templates.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/email/templates.ts, ondata 3 (run wlj8skuwu, commit 1d5c008e) — mutazione: collaudo dell'ondata 3 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "api-backend",
@@ -2106,13 +2127,16 @@
       "impatto": "Si perdono in silenzio i benvenuti e i promemoria del carrello, cioè la leva di recupero delle vendite. Succede ogni volta che la posta resta ferma più di 13 ore, che al lancio è probabile (due servizi diversi da configurare più la verifica DNS). Quando il grilletto della migrazione 150 sarà in produzione, si perderanno anche «ordine pronto» e «ordine consegnato». In più, l'analisi a posteriori non può capire perché.",
       "fix": "In send-emails, quando `res` è `skipped` (configurazione) non toccare attempts né cancelled_at. Basta rilasciare la prenotazione (claimed_at = null), rimandare di poco e scrivere last_error = res.reason. I tentativi vanno contati solo su `res.error`. Sull'errore di getUserById la riga va rilasciata, non annullata. In abandoned-carts, se l'invio non riesce, rimettere recovery_email_sent_at a null, oppure marcare dopo l'esito con una prenotazione a tempo. Da abbinare alla scadenza per età proposta nel primo giro.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd /home/user/mycity && timeout 120 npx vitest run --config /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/email-notifiche-giro2/vitest.config.mjs t/coda-brucia.test.ts — la prova fa girare le rotte vere app/api/cron/send-emails e app/api/cron/abandoned-carts con un Supabase finto in memoria (t/finto.ts) e RESEND_API_KEY vuota. Sono 6 giri di fila; il finto ignora send_at per simulare il passare delle 13 ore.",
       "prova_tipo": "comando",
       "prova_eseguita": "Visto adesso, in esito.txt. Giri 1-5: HTTP 200 {\"ok\":true,\"sent\":0,\"skipped\":0,\"errors\":2,\"total\":2}. Giro 6: total 0. Riga q1 (welcome): attempts=5, cancelled_at=SI, last_error=\"invio fallito\". Riga q2 (order_delivered): attempts=5, cancelled_at=SI, last_error=\"invio fallito\". Carrelli: HTTP 200 {\"sent\":0,\"errors\":1,\"candidates\":1}, e il carrello c1 risulta comunque marcato come avvisato. · Verifica tecnica: Ho rifatto girare la prova del collega (vitest, 2 file, 5 prove verdi). L'esito è identico: 5 giri con 2 errori ciascuno, poi le righe q1 e q2 risultano con attempts=5, annullate, last_error=\"invio fallito\", e il carrello c1 marcato. Ho letto send-emails/route.ts:158-283, client.ts:58-87 e abandoned-carts/route.ts:39-124. In produzione ho fatto solo SELECT. claim_pending_emails restituisce `attempts` e filtra `attempts < 5`, quindi la logica di annullo funziona anche lì. email_queue ha 7 righe in attesa, tutte con send_at fra il 28/5 e il 27/7 e attempts 0. abandoned_carts ha 4 righe non avvisate, di cui solo 1 con il consenso (last_activity 7/9). Ho controllato anche health/route.ts:118 e 124 (tutte e due le chiavi di Resend sono sorvegliate) e operational-alerts:381-394 (soglia ≥50 righe e send_at già passato: la descrizione del collega su questo punto è giusta).",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: architettura-dipendenze, email-notifiche · doppioni uniti: N303 · id R148 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: architettura-dipendenze, email-notifiche · doppioni uniti: N303 · id R148 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 3, pacchetto lib/email/templates.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/email/templates.ts, ondata 3 (run wlj8skuwu, commit 1d5c008e) — mutazione: collaudo dell'ondata 3 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "api-backend",
@@ -2269,13 +2293,16 @@
       "impatto": "Si rompe proprio lo strumento pensato per mettere online un catalogo intero in pochi minuti, e si rompe per la maggioranza dei negozi italiani. Contraddice il paletto «il primo risultato si vede in 2-4 settimane»: il catalogo è il primo risultato.",
       "fix": "In parseCsv riconoscere il separatore dalla prima riga: se contiene più ';' che ',', usare ';'. È la convenzione di Excel in italiano, e la virgola decimale nel prezzo è già gestita a riga 110. Il modello andrebbe offerto già con ';'. Nell'errore va detto «il file sembra salvato con un separatore diverso». Serve una prova unitaria con un file ';' e BOM. Già che ci si è, gestire le descrizioni su più righe dentro le virgolette: oggi il file viene spezzato a ogni a capo prima di leggere le virgolette.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "node scratchpad/frontend-venditore/csv-excel-it.cjs: estrae la funzione parseCsv VERA dal file app/seller/products/import/page.tsx e la esegue su un file come lo salva Excel italiano: \"﻿name;description;price;stock;category_slug\\r\\nPane casereccio;Pane fresco…;4,50;20;alimentari\"",
       "prova_tipo": "comando",
       "prova_eseguita": "Uscita: intestazioni lette: [\"name;description;price;stock;category_slug\"] — colonne mancanti secondo la pagina: name, description, price, stock, category_slug. L'intera riga d'intestazione viene letta come una colonna sola. · Verifica tecnica: Ho scritto il mio script (verifica-frontend-venditore/csv-it.cjs): estrae la funzione parseCsv vera da app/seller/products/import/page.tsx e ci passa il testo attraverso new Blob([...]).text(), come fa file.text() nella pagina. File Excel IT («﻿name;description;price;stock;category_slug\\r\\n…;4,50;…»): intestazioni [\"name;description;price;stock;category_slug\"], mancanti: tutte e cinque. File con la virgola: mancanti nessuna. Ho letto le righe 98-103 (il messaggio d'errore) e 82-88 (il modello scaricato con la virgola). I link alla pagina sono in seller/products/page.tsx:256 e 302 e in seller/dashboard/page.tsx:455.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R19 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-venditore · id R19 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
@@ -2945,13 +2972,16 @@
       "impatto": "Promessa commerciale pubblica non mantenibile su ogni pagina; il primo contatto con chi vuole comprare finisce in errore.",
       "fix": "Configurare le chiavi (card #154). Nel codice: rispondere 503 leggibile invece di lanciare, e spegnere la sezione newsletter quando il servizio non è configurato.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del percorso app/api/newsletter/route.ts:71 → lib/supabase/server.ts:45-46 → lib/env.ts:241-242 (throw). Fetch di produzione della home (testo «€5 in regalo»). Query select count(*) from newsletter_subscribers.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Home di produzione: «€5 in regalo Iscriviti e prendi €5 di sconto al primo ordine». Il codice lancia senza chiave di servizio, che in produzione manca. newsletter_subscribers = 0. Non ho inviato iscrizioni (vietato scrivere dati). · Verifica tecnica: Ho letto app/api/newsletter/route.ts:1-130, lib/supabase/server.ts:45-50, lib/env.ts:238-244 e components/NewsletterForm.tsx:36-60. Query SELECT in produzione: newsletter_subscribers ha 0 righe, e site_settings.home_site ha la sezione newsletter con enabled:true e config vuota. Con grep ho trovato i testi di riserva «€5 in regalo» in HomeSectionRenderer.tsx:353-357. Ho cercato in confirm/route.ts parole come coupon, credito, sconto e wallet: nessuna. La rotta tocca solo .from('newsletter_subscribers'). Non ho mandato iscrizioni vere, quindi il 500 non l'ho visto: lo deduco dal codice e dalla chiave che manca.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R56 · si ripara: configurazione-vercel"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R56 · si ripara: configurazione-vercel",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "deploy-sre",
@@ -3260,13 +3290,16 @@
       "impatto": "Un solo clic riscrive in un'altra lingua l'intero catalogo del negozio. La ricerca interna e quella di Google per parole italiane smettono di trovarlo, e il negozio non ha modo di tornare indietro da solo. Ai negozianti viene presentata come una funzione utile.",
       "fix": "Subito: nascondere «Traduci» (pulsante del modulo e operazione del lotto) finché il sito è solo in italiano, decisione da prendere con Nicola. Se la funzione serve: colonne o tabella `product_translations(product_id, lang, name, description, tags)`, con la traduzione scritta lì e mai sui campi base. In ogni caso un avviso esplicito e un «ripristina» basato sul campo `prima` già salvato nell'audit.",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del percorso: ai-batch/page.tsx:352 manda {operation:'translate', targetLang}. catalogBatch.ts:153 costruisce un patch su nome/descrizione/tag. catalog-batch/apply/route.ts:176-205 lo passa a resolveAiPatch, che lo scrive nelle colonne `name`/`description`/`tags` (aiPatch.ts:157-163). Poi `grep -rn \"product_translations\\|name_en\\|translations\" app lib components migrations` per cercare un posto dove l'italiano sopravviva.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Il grep non trova nessuna struttura per le traduzioni. translate/route.ts:124 restituisce `{ patch, lang }` con name/description/tags. QuickAiTools.tsx:100-101 chiama onApplyPatch(json.patch) e dice «Annuncio tradotto nel form — controlla e salva». Il lotto non mostra nessun avviso prima di «Applica a tutti». · Verifica tecnica: grep di product_translations|name_en|translations su app, lib, components e migrations: 0 risultati. Ho letto catalogBatch.ts:153-167, app/api/ai/translate/route.ts:95-124 (restituisce {patch,lang} con name, description e tags), QuickAiTools.tsx:96-108, ai-batch/page.tsx:50-60, 370-385, 405-425 e 440-460, e apply/route.ts:169-205. Ho cercato con grep ripristin|undo in app/seller/products e components/seller: nessuna funzione per annullare.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ai-endpoints · id R42 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ai-endpoints · id R42 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "ai-endpoints",
@@ -4665,13 +4698,16 @@
       "impatto": "Dati personali dei clienti finali (nome, indirizzo di casa, telefono, note di consegna) conservati sul dispositivo del negozio oltre la sessione, in contrasto con la minimizzazione GDPR e con quanto il codice promette. È il difetto chiuso «le pagine private finiscono in cache»: la correzione ha coperto le pagine, ma non le navigazioni verso /api/. L'esposizione resta locale al dispositivo: la cache tiene al massimo 30 voci, eliminate in ordine d'arrivo.",
       "fix": "In public/sw.js, dentro networkFirstHtml, aggiungere '/api' a PERCORSI_PRIVATI. Mettere in cache solo le risposte con content-type text/html. Non si può filtrare su Cache-Control: tutte le pagine del sito escono già con «private, no-cache, no-store», per cui quel filtro spegnerebbe la cache offline intera. Poi portare CACHE_VERSION a 'v3', così all'attivazione il service worker cancella le cache html che oggi contengono già etichette sui dispositivi dei negozi. Come freno, una prova (anche in Playwright come giro5) che una navigazione su /api/... non lasci voci in mycity-html-*.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "node /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/pwa-mobile/giro5.cjs. Viene caricato il service worker vero da http://localhost:3100. Poi si apre in una scheda nuova /api/seller/orders/00000000-prova-etichetta/label, con il server simulato da context.route: 200, application/pdf, Cache-Control private, no-cache, corpo con un nome e un indirizzo finti. Infine si leggono le chiavi di caches.open('mycity-html-v2'). Dopo si cancellano i cookie, si stacca la rete e si riapre l'etichetta.",
       "prova_tipo": "browser",
       "prova_eseguita": "La navigazione è servita dal service worker (fromServiceWorker=true). La cache html contiene [\"/\",\"/api/seller/orders/00000000-prova-etichetta/label\"] e la voce trovata contiene \"%PDF-1.4 Mario Rossi, Via Roma 1, 29121 Piacenza, tel 3331234567\". Con cookie cancellati e rete staccata l'etichetta risponde 200 e Chromium la apre nel suo visore PDF. · Verifica tecnica: Ho letto public/sw.js:139-187, la rotta della label (righe 17-58) e il link nella pagina ordine. Grep: nessuna pulizia delle cache all'uscita; ServiceWorkerRegister registra /sw.js con ambito / per tutti. Ho rilanciato giro5 (copia in verifica-pwa-mobile/g5.cjs) con il service worker vero e la risposta del server simulata. Navigazione 200 con fromServiceWorker=true. La cache mycity-html-v2 contiene [\"/\",\"/api/seller/orders/00000000-prova-etichetta/label\"] con il testo \"%PDF-1.4 Mario Rossi, Via Roma 1...\". Senza cookie e offline l'etichetta torna 200 e si apre nel visore PDF di Chromium.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: pwa-mobile · ricomparso dopo essere stato chiuso · id R21 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: pwa-mobile · ricomparso dopo essere stato chiuso · id R21 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 3, pacchetto lib/email/templates.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/email/templates.ts, ondata 3 (run wlj8skuwu, commit 1d5c008e) — mutazione: collaudo dell'ondata 3 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "mobile-pwa",
@@ -4849,13 +4885,16 @@
       "impatto": "Il primo contatto col prezzo vero arriva all'ultimo passo, ed è 2-3 volte quello promesso: è la causa classica di abbandono della cassa. Inoltre l'informazione sui costi di consegna data al consumatore è sbagliata, e il Codice del Consumo (art. 49) la vuole corretta. La cassa poi mostra il prezzo giusto, e questo attenua il rischio legale ma non la perdita di fiducia.",
       "fix": "Non scrivere più le cifre a mano. La tabella va generata dalle costanti, cioè SPEDIZIONE_BASE_EUR, SPEDIZIONE_PER_KM_EUR, PLATFORM_DELIVERY_FEE_CENTS e RAGGIO_CONSEGNA_KM, attraverso prezzoSpedizioneEuro e formatPrice. Il testo diventa per esempio: «2,50 € + 1,20 € al km; gratis sopra 30 € per negozio; resta sempre la consegna, 3,00 € per negozio; consegniamo entro 25 km». Il riquadro verde va riscritto con promessaSpedizione() di lib/promesse-pubbliche, e va corretta la forbice falsa in lib/promesse-pubbliche.ts:157. Infine serve una prova vitest che confronti la pagina con prezziDelCarrello.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "cd /tmp/claude-0/-home-user/df070674-8e02-5d4e-a9b6-d5d8cacdbadc/scratchpad/i18n-microcopy && (cd /home/user/mycity && node_modules/.bin/esbuild lib/ordini/prezzi.ts --bundle --platform=node --format=cjs --alias:@=. --outfile=$PWD/prezzi.cjs) && node prova-spedizione.cjs  — lo script chiama la vera prezziDelCarrello (quella della cassa) con un negozio in Piazza Cavalli e consegne a 1-15 km, e la confronta con la tabella della pagina. In più: pagina /shipping aperta con Chromium su http://localhost:3100/shipping.",
       "prova_tipo": "comando",
       "prova_eseguita": "Risultato dello script, cassa contro pagina: 2 km e spesa da 20 € → pagina 2,50 €, cassa 4,90 + 3,00 = 7,90 €. 5 km → pagina 3,50 €, cassa 8,50 + 3,00 = 11,50 €. 10 km → pagina 4,50 €, cassa 14,50 + 3,00 = 17,50 €. Con spesa da 35 € la pagina dice GRATIS e la cassa addebita sempre 3,00 €. A 15 km la pagina dice «A preventivo» e la cassa chiede 23,50 €. Il testo letto nel browser contiene «Spedizione GRATIS / Per ordini ≥ €30 dallo stesso venditore» e la tabella «0 - 2 km € 2,50 GRATIS … Oltre 10 km A preventivo», senza nessuna menzione dei 3 €. · Verifica tecnica: Ho riletto app/shipping/page.tsx, lib/constants.ts, lib/geo.ts, lib/shipping.ts, lib/ordini/prezzi.ts e lib/promesse-pubbliche.ts:146-157. Ho ricostruito con esbuild la vera prezziDelCarrello e ho rifatto girare prova-spedizione.cjs. Risultati: 2 km e spesa da 20 € → 4,90 + 3,00 = 7,90 € (la pagina dice 2,50 €); 5 km → 11,50 € (pagina 3,50 €); 10 km → 17,50 € (pagina 4,50 €); 15 km → 23,50 € (pagina «A preventivo»); con spesa da 35 € → sempre 3,00 € (pagina «GRATIS»). Ho scaricato con curl la pagina locale /shipping: il testo reso contiene «Spedizione GRATIS Per ordini ≥ €30», la tabella «0 - 2 km € 2,50 GRATIS … Oltre 10 km A preventivo» ed «entro 15 km», e nessun 3,00. Il codice di produzione è lo stesso commit (70a9299).",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo, i18n-microcopy, privacy-legale, prodotto-completezza, produzione-live · doppioni uniti: N134, N170, N248, N259 · ricomparso dopo essere stato chiuso · id R63 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo, i18n-microcopy, privacy-legale, prodotto-completezza, produzione-live · doppioni uniti: N134, N170, N248, N259 · ricomparso dopo essere stato chiuso · id R63 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "microcopy",
@@ -5084,13 +5123,16 @@
       "impatto": "Il testo scoraggia proprio l'abitudine che vogliamo creare, cioè ordinare la sera per la mattina, e fa perdere ordini a un negozio del fresco.",
       "fix": "Riscrivere NEGOZIO_CHIUSO_COSA_SUCCEDE: «Se il negozio è chiuso puoi prenotare per domani, scegliendo una fascia in cassa: la consegna immediata invece no». Da PM: è la leva giusta per il forno, va detta anche nella scheda del negozio quando risulta chiuso.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura del codice: lib/promesse-pubbliche.ts:134-135 contiene il testo citato. lib/store-hours.ts:210-213: con una fascia 'domani' restituisce apertoNellaFinestra(hours[domaniKey], …), senza guardare l'ora attuale. lib/quando-arriva.ts:52-57 elenca le fasce di domani fra quelle ammesse.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Confermato: il server accetta un ordine per domani anche quando il negozio è chiuso adesso. La promessa pubblica dice il contrario. · Verifica tecnica: Ho letto il codice vero: lib/promesse-pubbliche.ts:120-143, lib/store-hours.ts:165-217, lib/quando-arriva.ts:30-80, components/checkout/DeliverySlotPicker.tsx (mattonella Domani mai disabilitata), app/api/orders/cod/route.ts:410-423, lib/ordini/scadenza-accettazione.ts:1-37 e la prova unitaria tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts:72-93. Ho scritto una prova eseguibile, verifica-prodotto-completezza/d1.ts, compilata con l'esbuild del repo ed eseguita con TZ=Europe/Rome. Ha usato le funzioni vere su un forno aperto 7-13 da lunedì a sabato, martedì 13/10 alle 21:30. Risultati: isStoreClosedForOrder=true (chiuso adesso) e consegna 'adesso' rifiutata. «Domani · 9:00–12:00» e «Domani · 12:00–15:00» ammesse (true). «Domani · 15:00–18:30» e «Domani · 18:30–20:00» rifiutate (false). Il testo stampato da NEGOZIO_CHIUSO_COSA_SUCCEDE e dalla FAQ è quello citato. Il sito in locale (curl localhost:3100/shipping) mostra la frase. Nella /faq la risposta sta nel sorgente della pagina ma dentro una fisarmonica chiusa, quindi non compare nell'HTML iniziale. Ho cercato in noti-aperti.txt e noti-chiusi.txt: nessun difetto uguale, solo K148 (parente ma diverso) e i chiusi #473, #483 e #709 (altri casi).",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R224 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R224 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "microcopy",
@@ -5392,13 +5434,16 @@
       "impatto": "Decisioni sui soldi e sui reclami prese su un «zero» falso. Bonifici ai negozi in ritardo e reclami lasciati scadere.",
       "fix": "In ogni pagina: leggere l'errore, lanciarlo e mostrare components/admin/LoadError con Riprova, come in /admin/sos e /admin/today. Per payout e prodotti, dire quando l'elenco è tagliato (limite 1000 o tetto PostgREST) e paginare i prodotti come la lista ordini.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Lettura delle righe indicate: cod-remittance:69 «const { data } = await supabase…» senza error; disputes:68 «const { data } = await q;»; support:48 idem; payouts:89 «const { data: orders = [], isLoading } = useQuery» senza isError, poi a 172 «groups.length === 0 ? Nessun payout»; products:41 stesso schema.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Confermato in tutte e cinque le pagine. Nessuna usa LoadError o vistaDaQuery, già usati altrove nel pannello. · Verifica tecnica: Ho letto: cod-remittance:66-79 («const { data } = await supabase...», errore ignorato) e 147-153; payouts:89-108 (lancia l'errore) e 146 (solo isLoading), poi 172-176 «Nessun payout da riconciliare»; disputes:55-71 («const { data } = await q;») e 207-213; support:40-51 (stesso schema) e 102-107; products:41-56 (lancia l'errore) e 76-83 (solo isLoading, sub «X di Y»). components/providers/QueryProvider.tsx ha solo retry 1 e retry 0, senza onError né throwOnError. components/admin/LoadError.tsx esiste e queste pagine non lo usano.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin · id R52 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin · id R52 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 2, pacchetto app/admin. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/admin, ondata 2 (run wf_86eb0834-491, commit 86bab24b) — mutazione: collaudo dell'ondata 2 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "stati-ui",
@@ -5680,13 +5725,16 @@
       "impatto": "Un prezzo annunciato in home e non rispettato è una pratica commerciale ingannevole (Codice del Consumo, artt. 21-22). Per gli annunci di riduzione di prezzo vale anche l'art. 17-bis: il prezzo di riferimento deve essere il più basso dei 30 giorni precedenti. In più: reclami, e fiducia persa nel punto più visibile del sito. Il danno parte appena l'admin usa una funzione pronta nel suo pannello.",
       "fix": "Finché il prezzo non è applicato davvero, togliere «dropOfDay» dalla home predefinita e nascondere la sezione «Sconto del mese» se il codice non corrisponde a un coupon attivo. Soluzione vera: il drop diventa uno sconto prodotto con data (letto dal calcolo prezzi lato server, quindi da scheda, carrello e ordine), con prezzo barrato calcolato dal server sul minimo dei 30 giorni e consenso del negozio. Nel «Negozio del mese» il codice si sceglie da un elenco dei coupon esistenti. Usare la data di Piacenza al posto di toISOString.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Comando eseguito: grep -rln \"daily_drops\\|drop_price\" app lib components migrations → solo app/admin/daily-drops/page.tsx, app/api/admin/daily-drops/route.ts, components/home/DropOfDay.tsx e le migrazioni 027/049. Nessun file di carrello, checkout, ordini o scheda prodotto. Comando: grep -rn discount_code app components lib → solo admin/shop-of-month, app/shop-of-month e ShopOfMonthHero, nessun legame con coupons. Lettura di route.ts: lo schema accetta original_price e drop_price positivi qualsiasi e li salva con upsert.",
       "prova_tipo": "lettura-codice",
       "prova_eseguita": "Confermato. Il prezzo del drop esiste solo nella grafica della home. Il codice del negozio del mese è un testo che nessuna cassa riconosce, a meno che qualcuno non crei a parte un coupon identico. · Verifica tecnica: grep -rln daily_drops|drop_price|DropOfDay su app, lib, components e migrations: solo admin/daily-drops, api/admin/daily-drops, DropOfDay, HomeSectionRenderer, keys, database.types, DeliveryCutoff (solo nome) e migrazioni 027/049. Ho letto route.ts (zod e upsert in daily_drops, nient'altro), DropOfDay.tsx:47-145 e admin/shop-of-month/page.tsx:88-104 (discount_code a testo libero salvato nella tabella). lib/home-site.ts:43 e :212 mettono dropOfDay nella home predefinita. SQL in produzione: drops=0, shop_of_month=0, coupons=2.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin · id R61 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin · id R61 · si ripara: codice",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 1, pacchetto lib/funzioni-al-lancio.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/funzioni-al-lancio.ts, ondata 1 (run wf_cf281011-0f8, commit 1ab2dca2) — mutazione: collaudo dell'ondata 1 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "flussi-conversione",
@@ -22039,7 +22087,7 @@
       "impatto": "Il rinvio in se' e' difendibile (art. 17.3: conservare per far valere un diritto). Quello che manca e' l'obbligo che ci sta accanto: l'art. 12.3-12.4 impone di informare l'interessato entro un mese se non si da' seguito alla richiesta, dicendo i motivi e la possibilita' di reclamo al Garante. Qui la persona vede un contatore che arriva a zero e non succede niente, per settimane, senza una riga di spiegazione — e la spiegazione esiste, e' gia' scritta in italiano dentro contantiAncoraDaVersare, ma resta nei log. Dal punto di vista di chi guarda da fuori e' una richiesta di cancellazione ignorata: e' esattamente la fattispecie con cui si apre un reclamo.",
       "fix": "npx vitest run tests/unit/chi-aspetta-la-cancellazione-sa-perche-aspetta.test.ts — un fattorino con una giornata di cassa aperta chiede la cancellazione: si esegue il giro notturno e si pretende che (a) resti scritta per lui una notifica/email col motivo e (b) GET /api/account/delete restituisca quel motivo. Oggi rosso su entrambe: l'unica scrittura e' verso profiles.role='admin'.",
       "fonte": "revisione del perimetro del lotto — 2026-09-03 (flussi-privacy)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "npx vitest run tests/unit/chi-aspetta-la-cancellazione-sa-perche-aspetta.test.ts — un fattorino con una giornata di cassa aperta chiede la cancellazione: si esegue il giro notturno e si pretende che (a) resti scritta per lui una notifica/email col motivo e (b) GET /api/account/delete restituisca quel motivo. Oggi rosso su entrambe: l'unica scrittura e' verso profiles.role='admin'.",
       "prova_tipo": "comando",
       "prova_eseguita": false,
@@ -22054,7 +22102,10 @@
         "nota": "I mattoni sono costruiti ma non collegati. La persona il cui rinvio è stato deciso da noi non riceve nessun avviso, e la pagina dell'account non le dice perché aspetta. Va collegato recapitaAvvisi nel giro notturno e motivoDellAttesa nella GET. [gravita oggi: grave]",
         "data": "2026-10-11 21:30"
       },
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "frontend-ux",
@@ -24146,7 +24197,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": "grep su app/ e lib/: recapitaAvvisi e rispondiAChiAspetta vengono chiamati solo dentro lib/privacy/avvisi-a-chi-aspetta.ts (259; il commento a 248 dice come attaccarlo). app/api/cron/process-deletions/route.ts:125-126 calcola verdettoDelGiro e chiama solo sveglia(), mai rispondiAChiAspetta. Produzione: 0 profili con deletion_requested_at",
@@ -24162,7 +24213,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "architettura",
@@ -24426,7 +24480,7 @@
       "impatto": "",
       "fix": "",
       "fonte": "radiografia-in-corsa del lotto gravi del sito",
-      "stato": "aperto",
+      "stato": "riparato",
       "riverifica": {
         "verdetto": "ancora_presente",
         "prova": ".github/workflows/backup-db.yml: il passo 'Le foto vanno in copia?' (riga 154) esce 1 alle righe 173-176 se le variabili sono 1 o 2 su 3; 'Esegui il backup' (riga 197) non ha nessun if:, quindi viene saltato; 'Conserva la copia' (221) ha if: !cancelled() e if-no-files-found: error (228). Il gemello nella prova mensile sta alle righe 349-352 ed è identico.",
@@ -24442,7 +24496,10 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, commit 1256544f: la copia notturna del database non muore piu' per le foto. — prova: npx vitest run tests/unit/la-copia-del-database-non-muore-per-le-foto.test.ts — mutazione: il 28/10 su 1776e6b1: backup-db.yml rimesso com'era su fd4821aa, 4 prove rosse su 7"
     },
     {
       "dimensione": "deploy-sre",
@@ -27564,12 +27621,15 @@
       "impatto": "L'amministratore non vede i reclami dei clienti né il registro delle azioni. Il venditore che avvia il controllo d'identità si ferma subito. Oggi i reclami sono 0; il registro ha 22 righe nascoste.",
       "fix": "Togliere email dalle tre select. Se l'email serve, leggerla dal server con una funzione che la prende da auth.users. Nelle due pagine dell'amministratore leggere anche error e mostrarlo. Prova: un test che passa le tre select a PostgREST vero sulla copia delle migrazioni e diventa rosso con 42703.",
       "fonte": "verifica delle schede dopo le 48 migrazioni, 2026-10-24 (secondo verificatore della scheda 426)",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "SELECT count(*) FROM information_schema.columns WHERE table_schema='public' AND table_name='profiles' AND column_name='email' → 0 in produzione (2026-10-24 10:57). audit_logs: 22 righe. lib/database.types.ts, generato dalle migrazioni: la tabella profiles non ha il campo email.",
       "prova_tipo": "comando",
       "prova_eseguita": "Eseguita in sola lettura il 2026-10-24 10:57 sul progetto clmpyfvpvfjgeviworth: la colonna non esiste (0), il registro ha 22 righe. Non eseguita una chiamata REST vera, perché il proxy di questa sessione non raggiunge il sito.",
       "verificato": true,
-      "nato_oggi": true
+      "nato_oggi": true,
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 2, pacchetto app/admin. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/admin, ondata 2 (run wf_86eb0834-491, commit 86bab24b) — mutazione: collaudo dell'ondata 2 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -27628,10 +27688,13 @@
       "titolo": "Due interruttori dichiarati spenti non li legge nessuno: i codici sconto in cassa e l'app installabile",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts: CODICI_SCONTO_IN_CASSA, APP_INSTALLABILE_ACCESA",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
-      "descrizione": "Nel worktree grep -rn trova 0 lettori fuori da lib/funzioni-al-lancio.ts. Il file dice «spenti», ma la cassa resta com'era. Forse li collega un altro pacchetto dell'ondata: da qui non l'ho potuto vedere."
+      "descrizione": "Nel worktree grep -rn trova 0 lettori fuori da lib/funzioni-al-lancio.ts. Il file dice «spenti», ma la cassa resta com'era. Forse li collega un altro pacchetto dell'ondata: da qui non l'ho potuto vedere.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, commit 00606399: il file non dichiara piu' spenti due interruttori che nessuno legge. Il comportamento resta nelle schede 176 (codici sconto in cassa) e 239 (app installabile). — prova: npx vitest run tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts — mutazione: il 28/10 su 1776e6b1: un interruttore che nessuno legge aggiunto a lib/funzioni-al-lancio.ts, 1 prova rossa su 8"
     },
     {
       "titolo": "Restano link a funzioni spente, e nel piede della pagina resta una fascia vuota",
@@ -27646,10 +27709,13 @@
       "titolo": "Due interruttori dicono «spento» ma nessuno li legge: i codici sconto in cassa e l'app installabile restano accesi",
       "severita": "minore",
       "file": "lib/funzioni-al-lancio.ts (CODICI_SCONTO_IN_CASSA, APP_INSTALLABILE_ACCESA)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del giro 1 delle fondamenta)",
-      "descrizione": "Il grep di entrambi dà 0 letture fuori dal file. couponCode è ancora vivo in app/api/orders/cod e in app/api/stripe/checkout. app/layout.tsx:100 ha manifest e :244 PWAInstallBanner. Così chi legge crede spento un coupon MyCity che il negozio paga al 90%."
+      "descrizione": "Il grep di entrambi dà 0 letture fuori dal file. couponCode è ancora vivo in app/api/orders/cod e in app/api/stripe/checkout. app/layout.tsx:100 ha manifest e :244 PWAInstallBanner. Così chi legge crede spento un coupon MyCity che il negozio paga al 90%.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, commit 00606399 (doppione della 1400). Il comportamento resta nelle schede 176 e 239. — prova: npx vitest run tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts — mutazione: il 28/10 su 1776e6b1: un interruttore che nessuno legge aggiunto a lib/funzioni-al-lancio.ts, 1 prova rossa su 8"
     },
     {
       "titolo": "La newsletter spenta non è fermata dalla rotta: una POST fatta a mano iscrive e manda la mail",
@@ -28449,74 +28515,98 @@
       "severita": "grave",
       "dimensione": "flussi-conversione",
       "file": "lib/constants.ts:57 (RAGGIO_CONSEGNA_KM = 25) · lib/geo.ts:40-42 (stima dei tempi con uno scooter a 25 km/h) · app/shipping/page.tsx:94 («Oltre 10 km — A preventivo») e :126 («entro 15 km») · app/near/page.tsx:309 (cursore fino a 20 km)",
-      "stato": "aperto",
+      "stato": "riparato",
       "fonte": "decisione di Nicola del 27/10/2026 in chat: «ho la bici e le consegne fino a 10km»",
       "descrizione": "La cassa accetta indirizzi fino a 25 km dal negozio (lib/ordini/zona-di-consegna.ts confronta con RAGGIO_CONSEGNA_KM) e il modulo dell'indirizzo lo scrive al cliente. Al lancio consegna Nicola, in bici, fino a 10 km: un ordine a 20 km verrebbe accettato e non consegnato. La stima dei tempi in lib/geo.ts usa uno scooter a 25 km/h.",
       "impatto": "Un cliente fuori dai 10 km ordina, paga in contanti alla consegna e aspetta una consegna che non arriva: il primo cliente perso e un negozio che prepara per niente.",
-      "fix": "Portare RAGGIO_CONSEGNA_KM a 10. Ogni testo che cita il confine lo prende già dalla costante (prova in-cassa-si-sa-subito-fin-dove-consegniamo): controllare che nessun altro testo dica 25. In lib/geo.ts la stima a minuti va tolta o portata a una velocità da bici: la promessa firmata è «in giornata» (scelta 8 della carta #209). Prova che diventa rossa se il confine non è 10."
+      "fix": "Portare RAGGIO_CONSEGNA_KM a 10. Ogni testo che cita il confine lo prende già dalla costante (prova in-cassa-si-sa-subito-fin-dove-consegniamo): controllare che nessun altro testo dica 25. In lib/geo.ts la stima a minuti va tolta o portata a una velocità da bici: la promessa firmata è «in giornata» (scelta 8 della carta #209). Prova che diventa rossa se il confine non è 10.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Senza casella privacy e senza posta del supporto, Cancella account manda al modulo e il modulo risponde riprova più tardi",
       "severita": "grave",
       "file": "lib/legal/titolare.ts recapitoInUnaFrase + app/api/contact/route.ts ramo 503 «Riprova tra qualche ora»",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
-      "descrizione": "Prova mia: senza chiave, casella e SUPPORT_EMAIL, POST delete contiene «/contact», poi POST contact attende 200 -> ROSSA a HEAD (503). La prova della squadra afferma entrambe le metà come verdi. Non ho verificato la configurazione Vercel di SUPPORT_EMAIL/Resend."
+      "descrizione": "Prova mia: senza chiave, casella e SUPPORT_EMAIL, POST delete contiene «/contact», poi POST contact attende 200 -> ROSSA a HEAD (503). La prova della squadra afferma entrambe le metà come verdi. Non ho verificato la configurazione Vercel di SUPPORT_EMAIL/Resend.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il collegamento notturno controlla solo il rinvio: l'avviso di termine di legge scaduto può sparire senza prove rosse",
       "severita": "minore",
       "file": "app/api/cron/process-deletions/route.ts chiamata rispondiAChiAspetta(admin, verdetto, logger)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Mutante dovuti.filter(tappa==='rinviata') -> 10/10 e 111/111 verdi. Prova mia (richiesta 40 giorni fa, attende 2 avvisi) ROSSA sul mutante, verde a HEAD."
+      "descrizione": "Mutante dovuti.filter(tappa==='rinviata') -> 10/10 e 111/111 verdi. Prova mia (richiesta 40 giorni fa, attende 2 avvisi) ROSSA sul mutante, verde a HEAD.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Annulla cancellazione e stato cancellazione senza chiave possono tornare al muro senza prova rossa",
       "severita": "minore",
       "file": "app/api/account/delete/route.ts handler DELETE e GET, senzaChiave(...)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Mutante DELETE: `return ApiErrors.unavailable()` (vecchio muro) -> prova squadra e 16 file collegati verdi."
+      "descrizione": "Mutante DELETE: `return ApiErrors.unavailable()` (vecchio muro) -> prova squadra e 16 file collegati verdi.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il campo rinviata della risposta GET non è controllato da nessuna prova e la pagina non lo legge",
       "severita": "minore",
       "file": "app/api/account/delete/route.ts GET: `rinviata: attesa.inAttesa`",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Mutante `rinviata: true` sempre -> 10/10 e 111/111 verdi; app/profile/settings/page.tsx legge solo motivo."
+      "descrizione": "Mutante `rinviata: true` sempre -> 10/10 e 111/111 verdi; app/profile/settings/page.tsx legge solo motivo.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Senza chiave di servizio, Cancella account e Scarica dati rispondono ancora «Auth non configurato»: la strada a mano non arriva mai",
       "severita": "grave",
       "file": "lib/api/middleware.ts:227-237 (authenticate legge il profilo con getAdminSupabase e risponde 503 prima della rotta) → app/api/account/delete e export, senzaChiave mai eseguito",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
-      "descrizione": "Uso il middleware vero: anon key presente, chiave di servizio assente. POST /api/account/delete e GET /api/account/export rispondono 503 {message:'Auth non configurato'}. Il test porta.muro.test.ts nella scratchpad: 2 fail su 2"
+      "descrizione": "Uso il middleware vero: anon key presente, chiave di servizio assente. POST /api/account/delete e GET /api/account/export rispondono 503 {message:'Auth non configurato'}. Il test porta.muro.test.ts nella scratchpad: 2 fail su 2",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La prova del lotto finge withAuth e quindi passa su un ramo che in produzione non si esegue mai",
       "severita": "minore",
       "file": "tests/unit/chi-vuole-cancellarsi-trova-una-strada-che-funziona.test.ts:73-76 (vi.mock di @/lib/api/middleware)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Il finto withAuth salta authenticate(). Quando authenticate riesce, il client amministrativo resta in memoria (_admin), quindi il try/catch nella rotta non scatta mai. Classe di bug: una prova che finge il cancello d'ingresso"
+      "descrizione": "Il finto withAuth salta authenticate(). Quando authenticate riesce, il client amministrativo resta in memoria (_admin), quindi il try/catch nella rotta non scatta mai. Classe di bug: una prova che finge il cancello d'ingresso",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Senza chiave, senza casella privacy e senza posta del supporto, la richiesta gira in tondo tra due messaggi",
       "severita": "minore",
       "file": "lib/legal/titolare.ts recapitoInUnaFrase + app/api/contact/route.ts (503 «Riprova tra qualche ora»)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Dipende dalla configurazione: delete risponde «scrivi dal modulo /contact», poi il modulo risponde 503 «riprova tra qualche ora». Nessuna persona riceve la richiesta"
+      "descrizione": "Dipende dalla configurazione: delete risponde «scrivi dal modulo /contact», poi il modulo risponde 503 «riprova tra qualche ora». Nessuna persona riceve la richiesta",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La prova sull'email di annullo resta verde anche se l'email va al negozio invece che al cliente",
@@ -28612,10 +28702,13 @@
       "titolo": "La prova nuova non controlla il tratto fra 10 e 15 km: una tolleranza di +4,5 km in fuoriZonaDiConsegna lascia tutto verde",
       "severita": "minore",
       "file": "tests/unit/al-lancio-si-consegna-in-bici-fino-a-10-km.test.ts (solo punti a 8 e 15 km) · lib/ordini/zona-di-consegna.ts:44",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "flussi-conversione",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Mutante `> RAGGIO_CONSEGNA_KM + 4.5`: la cassa accetta fino a 14,5 km e le 5 prove passano 46 su 46, con tsc ed eslint verdi. I mutanti 2,5x, 25 km e scooter invece diventano ROSSI. Manca un punto a circa 10,5-11 km che deve risultare fuori zona."
+      "descrizione": "Mutante `> RAGGIO_CONSEGNA_KM + 4.5`: la cassa accetta fino a 14,5 km e le 5 prove passano 46 su 46, con tsc ed eslint verdi. I mutanti 2,5x, 25 km e scooter invece diventano ROSSI. Manca un punto a circa 10,5-11 km che deve risultare fuori zona.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il confine dei 10 km è in linea d'aria, ma la bici va per strada: 10 km in linea d'aria possono essere 12-14 km da pedalare",
@@ -28630,10 +28723,13 @@
       "titolo": "'Vicino a te' mostra negozi fino a 20 km sotto 'consegna locale rapida', poi la cassa li rifiuta",
       "severita": "minore",
       "file": "app/near/page.tsx:309 (cursore max={20}) e :253 (testo 'con consegna locale rapida')",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "performance",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2)",
-      "descrizione": "Lettura del codice, non provato a schermo: tra 10 e 20 km il negozio compare nella lista e la cassa lo rifiuta con motivoFuoriZona. Stessa classe del difetto sopra: un confine scritto a mano, lontano dalla costante."
+      "descrizione": "Lettura del codice, non provato a schermo: tra 10 e 20 km il negozio compare nella lista e la cassa lo rifiuta con motivoFuoriZona. Stessa classe del difetto sopra: un confine scritto a mano, lontano dalla costante.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
@@ -28857,111 +28953,147 @@
       "titolo": "Contatti risponde ok anche se la mail di inoltro non parte, e nessuna prova se ne accorge",
       "severita": "grave",
       "file": "app/api/contact/route.ts, inoltraSenzaDatabase: `return esito.ok === true`",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2: il rifacimento non l'ha chiuso)",
-      "descrizione": "il rifacimento 1 non l'ha chiuso: Prova nuova rossa sul mutante e verde sul codice, vista con vitest run diretto. prova-sito: tsc ed eslint verdi, vitest related cade su un .tsx che non c'entra. Verde ufficiale mancante."
+      "descrizione": "il rifacimento 1 non l'ha chiuso: Prova nuova rossa sul mutante e verde sul codice, vista con vitest run diretto. prova-sito: tsc ed eslint verdi, vitest related cade su un .tsx che non c'entra. Verde ufficiale mancante.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Avviso di legge non partito: la notte resta verde e nessun amministratore viene svegliato, senza che una prova lo veda",
       "severita": "grave",
       "file": "app/api/cron/process-deletions/route.ts: `|| avvisi.falliti > 0` nello status e blocco `if (avvisi.falliti > 0) avvisaAmministratori`",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2: il rifacimento non l'ha chiuso)",
-      "descrizione": "il rifacimento 1 non l'ha chiuso: Prova rossa su entrambi i mutanti (status, soglia 99999) e poi verde, con vitest diretto. prova-sito ha vitest related rotto per un .tsx estraneo: verde ufficiale mancante."
+      "descrizione": "il rifacimento 1 non l'ha chiuso: Prova rossa su entrambi i mutanti (status, soglia 99999) e poi verde, con vitest diretto. prova-sito ha vitest related rotto per un .tsx estraneo: verde ufficiale mancante.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La pagina pubblica /shipping promette ancora consegne entro 15 km (e «oltre 10 km a preventivo») mentre la cassa ora rifiuta oltre 10",
       "severita": "grave",
       "file": "app/shipping/page.tsx:126 «entro 15 km» e :94 «Oltre 10 km — A preventivo» contro lib/constants.ts:56 RAGGIO_CONSEGNA_KM = 10",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "privacy-legale",
       "fonte": "nato dal lotto #262 (collaudo del primo giro della fase 2: il rifacimento non l'ha chiuso)",
-      "descrizione": "il rifacimento 1 non l'ha chiuso: Testo scritto a mano in app/shipping/page.tsx (r.126 «entro 15 km», r.94-96 «Oltre 10 km, A preventivo»), fuori territorio. Tornare a 25 km contraddice Nicola: «fino a 10 km»."
+      "descrizione": "il rifacimento 1 non l'ha chiuso: Testo scritto a mano in app/shipping/page.tsx (r.126 «entro 15 km», r.94-96 «Oltre 10 km, A preventivo»), fuori territorio. Tornare a 25 km contraddice Nicola: «fino a 10 km».",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La cassa fa pagare la spedizione a chilometri oltre ai 3 euro di consegna, ma Nicola ha firmato «solo i 3 euro»",
       "severita": "grave",
       "dimensione": "flussi-conversione",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "lib/shipping.ts shippingForEuro (prezzoSpedizioneEuro sopra la soglia) · lib/geo.ts prezzoSpedizioneEuro · lib/constants.ts SPEDIZIONE_BASE_EUR, SPEDIZIONE_PER_KM_EUR, FREE_SHIPPING_THRESHOLD, PLATFORM_DELIVERY_FEE_CENTS · app/cart/page.tsx · app/checkout/page.tsx · components/ui/FreeShippingProgress.tsx · lib/promesse-pubbliche.ts · lib/ordini/prezzi.ts · lib/ordini/promessa-del-carrello.ts · lib/email/templates.ts · app/admin/delivery/page.tsx · app/search/page.tsx (usano ancora FREE_SHIPPING_THRESHOLD o il prezzo a distanza)",
       "fonte": "firma di Nicola del 26/10/2026 («ok 209», scelta 8 della carta #209: «in giornata» e solo i 3 euro di consegna, senza la spedizione a chilometri)",
       "descrizione": "Sotto i 30 euro per negozio la cassa somma la spedizione a distanza (2,50 € più 1,20 € al km) e i 3 euro di consegna: 20 euro di spesa a 5 km costano 11,50 € di consegna. Sopra i 30 euro la spedizione va a zero ma i 3 euro restano. La promessa firmata il 26/10 è un'altra: il cliente paga solo i 3 euro di consegna per negozio, sempre, e la spedizione a chilometri non esiste più.",
       "impatto": "Il primo cliente vede in cassa una cifra diversa da quella che gli abbiamo promesso, e lascia il carrello: è il primo incasso del negozio che salta.",
-      "fix": "Il cliente paga solo PLATFORM_DELIVERY_FEE_CENTS (3 euro) per negozio quando c'è consegna, 0 col ritiro in negozio. La spedizione a distanza e la soglia «gratis sopra 30 €» spariscono da cassa, carrello, barra del «ti mancano X €», email e pagine pubbliche. Il server ricalcola come prima: l'importo mostrato e quello addebitato restano lo stesso numero. Prova rossa se un carrello sotto i 30 euro a 5 km paga più di 3 euro di consegna."
+      "fix": "Il cliente paga solo PLATFORM_DELIVERY_FEE_CENTS (3 euro) per negozio quando c'è consegna, 0 col ritiro in negozio. La spedizione a distanza e la soglia «gratis sopra 30 €» spariscono da cassa, carrello, barra del «ti mancano X €», email e pagine pubbliche. Il server ricalcola come prima: l'importo mostrato e quello addebitato restano lo stesso numero. Prova rossa se un carrello sotto i 30 euro a 5 km paga più di 3 euro di consegna.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 4, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 4 (run wf_dea01791-eed, commit 6602b95c) — mutazione: collaudo dell'ondata 4 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il modulo contatti può tornare a dire ok col fallimento vero di Resend: nessuna prova usa {ok:false,error}",
       "severita": "minore",
       "file": "app/api/contact/route.ts inoltraSenzaDatabase (return esito.ok === true); prove: chi-vuole-cancellarsi…test.ts, describe 'un messaggio dovuto che non parte'",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "Mutante: return !('skipped' in esito) → vitest related 5 file/44 prove VERDI; prova-sito exit 0. sendEmail su errore Resend ritorna {ok:false,error} senza skipped: le prove coprono solo skipped e throw."
+      "descrizione": "Mutante: return !('skipped' in esito) → vitest related 5 file/44 prove VERDI; prova-sito exit 0. sendEmail su errore Resend ritorna {ok:false,error} senza skipped: le prove coprono solo skipped e throw.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Giro in tondo non provato con Resend acceso e SUPPORT_EMAIL assente: togliere SUPPORT_EMAIL dal controllo resta verde",
       "severita": "minore",
       "file": "lib/legal/titolare.ts ilModuloArrivaSenzaDatabase; manca la prova con RESEND_API_KEY e RESEND_FROM presenti e SUPPORT_EMAIL assente",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "Mutante: [process.env.RESEND_API_KEY, process.env.RESEND_FROM].every(…) → vitest related 127 file/950 prove VERDI. In quella config Cancella account manda a /contact e il modulo, senza SUPPORT_EMAIL, risponde 503: il giro in tondo torna."
+      "descrizione": "Mutante: [process.env.RESEND_API_KEY, process.env.RESEND_FROM].every(…) → vitest related 127 file/950 prove VERDI. In quella config Cancella account manda a /contact e il modulo, senza SUPPORT_EMAIL, risponde 503: il giro in tondo torna.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Senza casella e senza posta il giro in tondo è provato solo su Cancella account, non su Scarica dati, Annulla e Stato",
       "severita": "minore",
       "file": "app/api/account/export/route.ts senzaChiave; le prove 'senza casella e senza posta' chiamano solo POST /api/account/delete (non export, né DELETE e GET di delete)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "Mutante export: stradaAManoPerIDiritti(cosa, true) → Scarica i miei dati, senza casella e senza posta, manda al modulo che non arriva: vitest related 4 file/44 prove VERDI; prova-sito exit 0."
+      "descrizione": "Mutante export: stradaAManoPerIDiritti(cosa, true) → Scarica i miei dati, senza casella e senza posta, manda al modulo che non arriva: vitest related 4 file/44 prove VERDI; prova-sito exit 0.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Le prove chiamano le rotte senza il contesto che Next passa sempre: una guardia saltata in produzione resta verde",
       "severita": "minore",
       "file": "primaLaStradaAMano in app/api/account/delete/route.ts e export/route.ts: il ramo ctx ? rotta(req, ctx), quello di produzione, non lo esegue nessuna prova",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "Mutante in entrambe: 'if (ctx) return rotta(req, ctx);' prima di getAdminSupabase() → in produzione torna «Auth non configurato»; vitest related 4 file/44 prove VERDI. Rimedio: passare {params: Promise.resolve({})} nelle chiamate di prova."
+      "descrizione": "Mutante in entrambe: 'if (ctx) return rotta(req, ctx);' prima di getAdminSupabase() → in produzione torna «Auth non configurato»; vitest related 4 file/44 prove VERDI. Rimedio: passare {params: Promise.resolve({})} nelle chiamate di prova.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "L'allarme per avviso non partito è provato con una sola persona: allarme solo se falliti > recapitati resta verde",
       "severita": "minore",
       "file": "app/api/cron/process-deletions/route.ts (if avvisi.falliti > 0 e status 500): la prova ha un solo fattorino per notte",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "Mutante: falliti > recapitati in entrambi i punti → vitest related 11 file/84 prove VERDI. Notte con 2 persone, 1 avviso fallito e 1 recapitato: 200 e nessun amministratore avvisato."
+      "descrizione": "Mutante: falliti > recapitati in entrambi i punti → vitest related 11 file/84 prove VERDI. Notte con 2 persone, 1 avviso fallito e 1 recapitato: 200 e nessun amministratore avvisato.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il canale email nato nel secondo giro non ha nessuna prova: per questo la perdita dell'avviso passa verde",
       "severita": "minore",
       "file": "tests/ (nessun file nomina emailNonPartite, avvisiEmailNonPartite, PostaAvvisi o speditaAncheTramitePosta)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
-      "descrizione": "grep -rln 'emailNonPartite\\|avvisiEmailNonPartite\\|PostaAvvisi\\|speditaAncheTramitePosta' tests → nessun risultato"
+      "descrizione": "grep -rln 'emailNonPartite\\|avvisiEmailNonPartite\\|PostaAvvisi\\|speditaAncheTramitePosta' tests → nessun risultato",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "L'email porta il testo del pannello: senza casella dice «pagina /contact» senza indirizzo del sito e senza un collegamento cliccabile",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts speditaAncheTramitePosta (html = solo escapeHtml(a.corpo), a.link escluso) + lib/cron-cancellazioni.ts:292 + lib/legal/titolare.ts recapitoInUnaFrase",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
-      "descrizione": "lettura: corpo = «Se pensi che non sia giusto scrivi a ${recapito}», recapito senza casella = «noi con il modulo dei contatti del sito (pagina /contact)»; l'email non include link né dominio."
+      "descrizione": "lettura: corpo = «Se pensi che non sia giusto scrivi a ${recapito}», recapito senza casella = «noi con il modulo dei contatti del sito (pagina /contact)»; l'email non include link né dominio.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La prova della frase «negozio chiuso» cerca solo la parola «domani»: «l'ordine non parte, riprova domani» resta verde",
       "severita": "minore",
       "file": "lib/promesse-pubbliche.ts NEGOZIO_CHIUSO_COSA_SUCCEDE · al-lancio-si-paga-solo-la-consegna.test.tsx «la frase non scoraggia il pre-ordine della sera»",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante: «Se il negozio è chiuso l'ordine non parte e non viene messo in coda: riprova domani, negli orari di apertura.» → tutte le prove verdi; una regola che chiede /prenot/ e vieta /non parte/ diventa rossa."
+      "descrizione": "Mutante: «Se il negozio è chiuso l'ordine non parte e non viene messo in coda: riprova domani, negli orari di apertura.» → tutte le prove verdi; una regola che chiede /prenot/ e vieta /non parte/ diventa rossa.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La porta della carta non ha una prova fuori zona: se misura dal negozio al negozio accetta qualunque distanza e tutto resta verde",
@@ -28976,73 +29108,97 @@
       "titolo": "La spedizione a chilometri può tornare sotto i 30 € e oltre i 6 km senza che nessuna prova diventi rossa: tutte usano la casa a 5 km",
       "severita": "grave",
       "file": "lib/shipping.ts:36 shippingForEuro; tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:95-131 (solo CASA_A_5_KM o coordinate null)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante in shippingForEuro: subtotal<30 e km>6 → 2.5+1.2*km. prova-sito --file lib/shipping.ts + 13 prove del delta: tsc/eslint/vitest verdi (113 file, 930 prove). Variante prezziDelCarrello 20 € a 9,0 km est (dentro i 10 km): 1630 invece di 300 → rossa; su 0e423e16 verde."
+      "descrizione": "Mutante in shippingForEuro: subtotal<30 e km>6 → 2.5+1.2*km. prova-sito --file lib/shipping.ts + 13 prove del delta: tsc/eslint/vitest verdi (113 file, 930 prove). Variante prezziDelCarrello 20 € a 9,0 km est (dentro i 10 km): 1630 invece di 300 → rossa; su 0e423e16 verde.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Il confine dei 10 km è provato solo est-ovest: se la cassa ignora la latitudine accetta 13 km a nord e le prove restano verdi",
       "severita": "grave",
       "file": "lib/ordini/zona-di-consegna.ts:44 fuoriZonaDiConsegna; tests/unit/al-lancio-si-consegna-in-bici-fino-a-10-km.test.ts (tutti i punti a lat 45.0526, come il negozio)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante: haversineKm(storeLat, storeLng, storeLat, deliveryLng). prova-sito --file zona-di-consegna.ts + 13 prove: tutto verde (29 file). Variante fuoriZonaDiConsegna negozio 45.0526,9.6929 → casa 45.1695,9.6929 (13 km nord): attesa true, sul mutante false → rossa; su HEAD verde."
+      "descrizione": "Mutante: haversineKm(storeLat, storeLng, storeLat, deliveryLng). prova-sito --file zona-di-consegna.ts + 13 prove: tutto verde (29 file). Variante fuoriZonaDiConsegna negozio 45.0526,9.6929 → casa 45.1695,9.6929 (13 km nord): attesa true, sul mutante false → rossa; su HEAD verde.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Le prove della pagina Spedizioni cercano solo le parole vecchie: 48 ore, preventivo e gratis tornano con altre parole a prove verdi",
       "severita": "minore",
       "file": "app/shipping/page.tsx; tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:151-162 (regex /gratis|gratuit|preventivo/, /48\\s*(h|ore)/, toContain)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "flussi-conversione",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Aggiunte a /shipping, una per volta: «segnalacelo entro 2 giorni», «oltre il confine su richiesta, con un supplemento», «sopra i trenta euro la consegna te la offriamo noi», «a negozio chiuso non si possono fare ordini»: 61 file, 560 prove verdi ogni volta."
+      "descrizione": "Aggiunte a /shipping, una per volta: «segnalacelo entro 2 giorni», «oltre il confine su richiesta, con un supplemento», «sopra i trenta euro la consegna te la offriamo noi», «a negozio chiuso non si possono fare ordini»: 61 file, 560 prove verdi ogni volta.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "«Vicino a te» può partire filtrando a 20 km: la prova guarda solo il massimo del cursore",
       "severita": "minore",
       "file": "app/near/page.tsx:127 useState(5) e filtro :193; tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:216-229",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante useState(5) → useState(20): la lista mostra negozi fino a 20 km e scrive «entro 20 km», il cursore resta max=RAGGIO_CONSEGNA_KM; 61 file, 560 prove collegate verdi."
+      "descrizione": "Mutante useState(5) → useState(20): la lista mostra negozi fino a 20 km e scrive «entro 20 km», il cursore resta max=RAGGIO_CONSEGNA_KM; 61 file, 560 prove collegate verdi.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Con la posta spenta ogni notte è rossa e porta un allarme nuovo finché la cancellazione resta ferma",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts:310 (tentativo>1 → bloccata, ogni notte) + app/api/cron/process-deletions/route.ts:153-161 e :204",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "Sonda: posta che lancia 5 notti → emailBloccate 1 dalla notte 2 in poi; il ramo della rotta (prove M13b/M13c) dà 500 + notifica admin a ogni emailBloccate>0: un allarme a notte, nessun modo di segnare «gestito», e il 500 non scrive il battito."
+      "descrizione": "Sonda: posta che lancia 5 notti → emailBloccate 1 dalla notte 2 in poi; il ramo della rotta (prove M13b/M13c) dà 500 + notifica admin a ogni emailBloccate>0: un allarme a notte, nessun modo di segnare «gestito», e il 500 non scrive il battito.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Due giri notturni sfalsati spediscono la spiegazione due volte; se il secondo fallisce, la prima notte suona un falso allarme",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts emailDovuta: il turno N+1 parte mentre il turno N è ancora in invio; il test 'due giri insieme' copre solo il Promise.all allineato",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo B del secondo giro della fase 2)",
-      "descrizione": "sonda esbuild+node su recapitaAvvisi, db finto che rifiuta id doppi: giro A fermo dentro invia, giro B completo, poi A riparte → email=2 (atteso 1). Variante con posta no per B → B emailBloccate=1 già alla prima notte. Riprodotta 2 volte."
+      "descrizione": "sonda esbuild+node su recapitaAvvisi, db finto che rifiuta id doppi: giro A fermo dentro invia, giro B completo, poi A riparte → email=2 (atteso 1). Variante con posta no per B → B emailBloccate=1 già alla prima notte. Riprodotta 2 volte.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "L'avviso di termine di legge scaduto può sparire dalla rotta dell'account (e dalla pagina) senza che una prova diventi rossa",
       "severita": "grave",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts:384 attesaDichiarata (tappe): oltre il mese le prove guardano solo il pannello, nessuna legge GET /api/account/delete",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "avvisi:384 tappe → ['rinviata']; prova-sito --file <14 file> → exit 0, 129 file 959 prove. Sonda: prova della pagina a 40 giorni con guasto nostro (timeout): verde senza mutazione, rossa con (la rotta risponde rinviata:false, niente motivo)."
+      "descrizione": "avvisi:384 tappe → ['rinviata']; prova-sito --file <14 file> → exit 0, 129 file 959 prove. Sonda: prova della pagina a 40 giorni con guasto nostro (timeout): verde senza mutazione, rossa con (la rotta risponde rinviata:false, niente motivo).",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il ritentativo dell'email è provato solo fino alla seconda notte: un tetto a 2 tentativi passa verde",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts:292 emailDovuta (tentativo); l'allarme in app/api/cron/process-deletions/route.ts:153-161 promette «Il giro riprova da solo ogni notte»",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del secondo giro della fase 2)",
-      "descrizione": "avvisi:292 + if (tentativo > 2) return 'bloccata'; prova-sito --file <14 file> → exit 0, 129 file 959 prove. Sonda indipendente (esbuild + recapitaAvvisi, 3 notti di no poi 5 di sì): 1 email senza mutazione, 0 con, exit 1."
+      "descrizione": "avvisi:292 + if (tentativo > 2) return 'bloccata'; prova-sito --file <14 file> → exit 0, 129 file 959 prove. Sonda indipendente (esbuild + recapitaAvvisi, 3 notti di no poi 5 di sì): 1 email senza mutazione, 0 con, exit 1.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Lo storico del fattorino somma la spedizione del cliente come guadagno: dopo il lotto ogni consegna segna +0,00 €",
@@ -29057,19 +29213,25 @@
       "titolo": "La pagina «Vicino a te» promette ancora «consegna locale rapida» nella descrizione per Google e per le condivisioni",
       "severita": "minore",
       "file": "app/near/layout.tsx:6 e :10 (description e openGraph); app/category/[slug]/layout.tsx:12; la prova del lotto legge solo app/near/page.tsx",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "flussi-conversione",
       "fonte": "preesistente, trovato da collaudo A del secondo giro della fase 2 del lotto #262",
-      "descrizione": "grep -rn 'consegna locale rapida' app → app/near/layout.tsx:6,10 e app/category/[slug]/layout.tsx:12. La prova «niente consegna locale rapida senza un confine» legge solo page.tsx."
+      "descrizione": "grep -rn 'consegna locale rapida' app → app/near/layout.tsx:6,10 e app/category/[slug]/layout.tsx:12. La prova «niente consegna locale rapida senza un confine» legge solo page.tsx.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Il confine dei 10 km è provato solo sul contrassegno: alla rotta della carta si può togliere il controllo zona con tutte le prove verdi",
       "severita": "grave",
       "file": "app/api/stripe/checkout/route.ts:514-526 (fuoriZonaDiConsegna); la sola prova di rotta, una-consegna-a-milano-non-passa-piu-in-cassa.test.ts:195-210, chiama /api/orders/cod",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "pagamenti-stripe",
       "fonte": "preesistente, trovato da collaudo B del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Copia di HEAD in scratchpad/o4c; in app/api/stripe/checkout/route.ts 'const fuori = false && fuoriZonaDiConsegna({' → i 20 file di prove su zona e rotta carta restano verdi (202). Stesso mutante in orders/cod/route.ts → 2 rosse. Manca un POST alla rotta carta con casa a 13 km."
+      "descrizione": "Copia di HEAD in scratchpad/o4c; in app/api/stripe/checkout/route.ts 'const fuori = false && fuoriZonaDiConsegna({' → i 20 file di prove su zona e rotta carta restano verdi (202). Stesso mutante in orders/cod/route.ts → 2 rosse. Manca un POST alla rotta carta con casa a 13 km.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La pagina categoria tiene il filtro col camioncino «da 30 € in su» della vecchia soglia: tolto da /search, dimenticato qui",
@@ -29084,10 +29246,13 @@
       "titolo": "OrderSummary scrive ancora «Spedizione Gratis» se riceve spedizione e consegna separate: la guardia vive solo nell'unico chiamante",
       "severita": "minore",
       "file": "components/checkout/OrderSummary.tsx:86-95; unico montaggio app/checkout/page.tsx:1509 (shipping={consegnaDaPagare}), presidiato dalla prova montata della cassa",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "flussi-conversione",
       "fonte": "preesistente, trovato da collaudo B del secondo giro della fase 2 del lotto #262",
-      "descrizione": "scratchpad/costruisci.cjs (OrderSummary da solo, spedizione 0 + consegna 3 €) → exit 1: «Spedizione Gratis · Consegna MyCity 3,00 €». La cassa montata è verde su HEAD e 6/6 rossa col cablaggio vecchio. Fix: «Gratis» solo se le due cifre sommano 0."
+      "descrizione": "scratchpad/costruisci.cjs (OrderSummary da solo, spedizione 0 + consegna 3 €) → exit 1: «Spedizione Gratis · Consegna MyCity 3,00 €». La cassa montata è verde su HEAD e 6/6 rossa col cablaggio vecchio. Fix: «Gratis» solo se le due cifre sommano 0.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Interfacce zombie: shippingForEuro vale sempre 0 ma riceve 7 ingressi; promessaSpedizione ha un argomento morto e campi sempre costanti",
@@ -29111,10 +29276,13 @@
       "titolo": "La scheda prodotto dice due volte il costo di consegna con due nomi diversi: si può leggere come 6 € invece di 3 €",
       "severita": "minore",
       "file": "components/ui/FreeShippingProgress.tsx (riga unica col titolo) sulla scheda app/product/[id]/page.tsx:819-840",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
-      "descrizione": "Riga 819-822, box oliva: «Consegna MyCity 3,00 € per negozio, su ogni ordine a domicilio»; riga 840, subito sotto: «Consegna a casa 3,00 € per negozio». Due nomi, stessa cifra: un cliente può sommarle. Prima del delta la barra parlava della soglia."
+      "descrizione": "Riga 819-822, box oliva: «Consegna MyCity 3,00 € per negozio, su ogni ordine a domicilio»; riga 840, subito sotto: «Consegna a casa 3,00 € per negozio». Due nomi, stessa cifra: un cliente può sommarle. Prima del delta la barra parlava della soglia.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "/shipping: col ritiro in negozio acceso le card diventano 4 in una griglia da 3 e l'ultima resta sola sulla seconda riga",
@@ -29138,28 +29306,37 @@
       "titolo": "Admin e /shipping danno il confine di 10 km per stagno, ma senza coordinate la cassa accetta qualunque indirizzo",
       "severita": "minore",
       "file": "app/admin/delivery/page.tsx riga «Confine della consegna» («oltre, la cassa rifiuta»); app/shipping/page.tsx «Aree servite» («ti diciamo subito»)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
-      "descrizione": "fuoriZonaDiConsegna (lib/ordini/zona-di-consegna.ts): se manca una coordinata return false, cioè la cassa accetta a qualunque distanza (indirizzo non geocodificato o negozio senza posizione). Testo nuovo, regola del 6/9. Non verificato in DB se il negozio reale ha store_lat/lng: a tech."
+      "descrizione": "fuoriZonaDiConsegna (lib/ordini/zona-di-consegna.ts): se manca una coordinata return false, cioè la cassa accetta a qualunque distanza (indirizzo non geocodificato o negozio senza posizione). Testo nuovo, regola del 6/9. Non verificato in DB se il negozio reale ha store_lat/lng: a tech.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "«Vicino a te»: a 10 km, il massimo del cursore, l'avviso vuoto dice ancora «Aumenta il raggio», che non si può più",
       "severita": "minore",
       "file": "app/near/page.tsx:345 (stato vuoto), con max={RAGGIO_CONSEGNA_KM} a riga 312",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "preesistente, trovato da riesame del secondo giro della fase 2 del lotto #262",
-      "descrizione": "Lo stesso testo era già un vicolo cieco a 20 km prima del delta; ora ci si arriva a 10 km, che è anche il confine della cassa. Dovrebbe dire che oltre 10 km per ora non consegniamo."
+      "descrizione": "Lo stesso testo era già un vicolo cieco a 20 km prima del delta; ora ci si arriva a 10 km, che è anche il confine della cassa. Dovrebbe dire che oltre 10 km per ora non consegniamo.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La stessa consegna da 3 € si chiama «Consegna MyCity» nel carrello e «Spedizione» nel riepilogo della cassa",
       "severita": "minore",
       "file": "app/checkout/page.tsx:1509 (shipping={consegnaDaPagare}) va nella riga «Spedizione» di components/checkout/OrderSummary.tsx:86; app/cart/page.tsx:629-639 la chiama «Consegna MyCity»",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "qa-flussi",
       "fonte": "nato dal lotto #262 (riesame del secondo giro della fase 2)",
-      "descrizione": "grep -n 'shipping={consegnaDaPagare}' app/checkout/page.tsx; grep -n '>Spedizione<' components/checkout/OrderSummary.tsx. Prima del delta le due pagine avevano le stesse due righe. La prova montata accetta tutti e due i nomi (test coi-profili-chiusi:249). In cassa sparisce «N negozi × 3 €»."
+      "descrizione": "grep -n 'shipping={consegnaDaPagare}' app/checkout/page.tsx; grep -n '>Spedizione<' components/checkout/OrderSummary.tsx. Prima del delta le due pagine avevano le stesse due righe. La prova montata accetta tutti e due i nomi (test coi-profili-chiusi:249). In cassa sparisce «N negozi × 3 €».",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La prova della squadra resta verde su due varianti del difetto: negozio da 30 € in su, e indirizzo senza coordinate",
@@ -29219,46 +29396,61 @@
       "titolo": "Se l'email dell'avviso non parte la prima notte non riparte mai, e la notte resta verde senza svegliare nessuno",
       "severita": "grave",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts:162-168 (email solo dopo il primo insert, poi «già detto») + app/api/cron/process-deletions/route.ts:136-146,182 (500 e sveglia solo su avvisi.falliti)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
-      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)"
+      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La pagina dell'account può tornare a ignorare «rinviata» senza che nessuna prova diventi rossa",
       "severita": "grave",
       "file": "app/profile/settings/page.tsx:149 (rinviata: body.rinviata === true): nessuna prova lega la pagina al campo della risposta GET",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "frontend-ux",
       "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
-      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)"
+      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Con la posta a metà (manca RESEND_FROM) Cancella account può tornare a mandare al modulo che non inoltra, e la prova resta verde",
       "severita": "grave",
       "file": "lib/legal/titolare.ts:256 ilModuloArrivaSenzaDatabase (gamba RESEND_FROM); la prova :286 di chi-vuole-cancellarsi accende solo SUPPORT_EMAIL, mai RESEND_API_KEY senza RESEND_FROM",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
-      "descrizione": "fermo: bocciato 3 volte dal collaudo"
+      "descrizione": "fermo: bocciato 3 volte dal collaudo",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Per chi aspetta da oltre un mese la rotta può tornare a dire rinviata:false e la pagina a contare «tra 0 giorni», senza prova rossa",
       "severita": "grave",
       "file": "app/api/account/delete/route.ts:158 (rinviata: attesa.inAttesa): rotta e pagina provate solo a 8 giorni (tappa «rinviata»), mai oltre i 30 («termine-scaduto»)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del secondo giro della fase 2: il pacchetto si e' fermato dopo tre bocciature)",
-      "descrizione": "fermo: bocciato 3 volte dal collaudo"
+      "descrizione": "fermo: bocciato 3 volte dal collaudo",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Dopo il pagamento la pagina dell'ordine scrive «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €», su ogni ordine (cliente e negoziante)",
       "severita": "grave",
       "file": "lib/ordini/riepilogo-ordine.ts:69 → app/orders/[id]/page.tsx:686 e app/seller/orders/[id]/page.tsx:562 ('GRATUITA'). Prova da lanciare nel worktree o4: exit 1 = difetto",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "qa-flussi",
       "fonte": "preesistente, il lotto #262 l'ha esteso a ogni ordine (riesame del secondo giro della fase 2: rosso anche sulla base)",
-      "descrizione": "Rossa anche sulla base da364f96 (exit 1, stesse voci); riepilogo-ordine.ts e le 2 pagine identiche; in base soglia 30€ + consegna 300 cent: preesiste, l'ondata 4 l'ha solo estesa a ogni ordine."
+      "descrizione": "Rossa anche sulla base da364f96 (exit 1, stesse voci); riepilogo-ordine.ts e le 2 pagine identiche; in base soglia 30€ + consegna 300 cent: preesiste, l'ondata 4 l'ha solo estesa a ogni ordine.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La prima prova di «Chi siamo» compila la pagina in un processo a parte dentro i 5 secondi della prova: sotto carico va in timeout",
@@ -29275,28 +29467,37 @@
       "titolo": "Due giri sfalsati provati solo la prima notte: con la finestra dal primo tentativo la seconda notte la spiegazione parte due volte",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts, emailDovuta: `const ultimo = Math.max(...)`; prove sfalsate solo a notte 1 (la-spiegazione-…test.ts riga 167, chi-vuole-…test.ts riga 621)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del terzo giro della fase 2)",
-      "descrizione": "Mutante: ultimo = presi.length ? Math.min(...) : -Infinity → 45/45 verdi, prova-sito EXIT 0. Prova mia: notte 1 posta giù; notte 2 primo giro in volo e secondo a +30 min → atteso 2 invii in tutto; mutante 3: rossa; originale verde."
+      "descrizione": "Mutante: ultimo = presi.length ? Math.min(...) : -Infinity → 45/45 verdi, prova-sito EXIT 0. Prova mia: notte 1 posta giù; notte 2 primo giro in volo e secondo a +30 min → atteso 2 invii in tutto; mutante 3: rossa; originale verde.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il «senza tetto» è provato fino a cinque notti: un tetto a 5 tentativi resta verde mentre l'allarme promette «riprova ogni notte»",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts, emailDovuta dopo `tentativo = presi.length + 1`; prove: la-spiegazione-…test.ts riga 210 (4 notti), chi-vuole-…test.ts riga 656 (5 notti)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del terzo giro della fase 2)",
-      "descrizione": "Mutante: if (tentativo > 5) return 'bloccata' → 46/46 verdi, prova-sito EXIT 0. Prova mia: 10 notti di posta giù, all'11ª su → atteso 1 email; mutante 0: rossa; originale verde. Rimedio: ciclo a 30 notti, il mese di legge."
+      "descrizione": "Mutante: if (tentativo > 5) return 'bloccata' → 46/46 verdi, prova-sito EXIT 0. Prova mia: 10 notti di posta giù, all'11ª su → atteso 1 email; mutante 0: rossa; originale verde. Rimedio: ciclo a 30 notti, il mese di legge.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Un giro rifatto entro 20 ore non spedisce e la risposta dice 0 email non partite: sembra tutto partito",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts emailDovuta (ramo in-corso) e app/api/cron/process-deletions/route.ts (nessun contatore dei rimandati)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo B del terzo giro della fase 2)",
-      "descrizione": "Notti 1 e 2 posta giù, posta riparata, giro a mano 6 ore dopo: emailDovuta torna in-corso, invia non viene chiamata, risposta 200 con avvisiEmailNonPartite 0 e avvisiEmailBloccate 0. Letto nel codice, non eseguito."
+      "descrizione": "Notti 1 e 2 posta giù, posta riparata, giro a mano 6 ore dopo: emailDovuta torna in-corso, invia non viene chiamata, risposta 200 con avvisiEmailNonPartite 0 e avvisiEmailBloccate 0. Letto nel codice, non eseguito.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Avviso alla persona che non si scrive nel pannello: un allarme nuovo e una notte rossa ogni notte, senza battito",
@@ -29311,10 +29512,13 @@
       "titolo": "L'allarme per l'email ferma chiede «scrivile tu» ma non dice chi è la persona, e resta anche dopo che l'email è partita",
       "severita": "minore",
       "file": "app/api/cron/process-deletions/route.ts avvisaUnaVoltaPerAvviso: corpo generico, link '/admin/users'",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo B del terzo giro della fase 2)",
-      "descrizione": "Nel corpo nessun identificativo né collegamento alla persona: con più persone in attesa l'amministratore non sa a chi scrivere. Quando la notte dopo l'email parte, nessun «risolto»."
+      "descrizione": "Nel corpo nessun identificativo né collegamento alla persona: con più persone in attesa l'amministratore non sa a chi scrivere. Quando la notte dopo l'email parte, nessun «risolto».",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Con la posta spenta ogni persona in attesa scrive una riga nel registro delle azioni e un errore a Sentry ogni notte, senza tetto",
@@ -29329,55 +29533,73 @@
       "titolo": "La lettura del registro degli invii filtra solo target_id: l'indice (target_table, target_id) non aiuta",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts emailDovuta: .eq('target_id', idAvviso) su audit_logs; indice audit_target_idx in migrations/027",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo B del terzo giro della fase 2)",
-      "descrizione": "L'indice ha target_table in testa: senza .eq('target_table','notifications') la lettura rischia una scansione di tutta audit_logs, una per avviso per notte. Oggi pochi dati, costo trascurabile."
+      "descrizione": "L'indice ha target_table in testa: senza .eq('target_table','notifications') la lettura rischia una scansione di tutta audit_logs, una per avviso per notte. Oggi pochi dati, costo trascurabile.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Le email partono prima della sveglia per le cancellazioni fallite: con Resend appeso e molte persone in attesa la sveglia si perde",
       "severita": "minore",
       "file": "app/api/cron/process-deletions/route.ts: rispondiAChiAspetta (sendEmail fino a 2x10 s per avviso) chiamata prima di sveglia(admin, verdetto)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo B del terzo giro della fase 2)",
-      "descrizione": "maxDuration 300 s (vercel.json): con Resend che non risponde bastano circa 15 avvisi per sforare e perdere la sveglia di quella notte; resta solo il battito mancante. Invertire l'ordine toglie il rischio. Non riprodotto."
+      "descrizione": "maxDuration 300 s (vercel.json): con Resend che non risponde bastano circa 15 avvisi per sforare e perdere la sveglia di quella notte; resta solo il battito mancante. Invertire l'ordine toglie il rischio. Non riprodotto.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "In contanti il confine dei 10 km può ignorare la latitudine (13 km a nord accettati) e nessuna prova diventa rossa",
       "severita": "grave",
       "file": "app/api/orders/cod/route.ts:522-527 (deliveryLat del controllo zona); nord/sud è provato solo sulla rotta carta in la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante deliveryLat: coordPerLaMappa?.lat → s.store_lat ?? null. vitest related cod/route.ts + prove del lotto: 23 file, 232 prove verdi; prova-sito.mjs EXIT=0. Manca la casa 13 km a nord sulla rotta contanti."
+      "descrizione": "Mutante deliveryLat: coordPerLaMappa?.lat → s.store_lat ?? null. vitest related cod/route.ts + prove del lotto: 23 file, 232 prove verdi; prova-sito.mjs EXIT=0. Manca la casa 13 km a nord sulla rotta contanti.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Con la carta il controllo zona si può spegnere per l'indirizzo scritto a mano: la prova fa dare la stessa casa anche alla rubrica",
       "severita": "grave",
       "file": "app/api/stripe/checkout/route.ts:516-521; tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts (i due mock di coordinate restituiscono la stessa casa)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "pagamenti-stripe",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante deliveryLat/Lng: coordPerLaMappa → coordConsegna (solo rubrica). vitest related: 17 file, 191 prove verdi; prova-sito.mjs EXIT=0. Prova mancante: rubrica null + geocodifica a 13 km nord → 400 (verde oggi, rossa sul mutante)."
+      "descrizione": "Mutante deliveryLat/Lng: coordPerLaMappa → coordConsegna (solo rubrica). vitest related: 17 file, 191 prove verdi; prova-sito.mjs EXIT=0. Prova mancante: rubrica null + geocodifica a 13 km nord → 400 (verde oggi, rossa sul mutante).",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La spedizione a chilometri può tornare sotto i 30 € e oltre i 6 km nei carrelli con due negozi, a prove tutte verdi",
       "severita": "grave",
       "file": "lib/ordini/prezzi.ts:129-140 (shippingPerGruppo); la griglia in al-lancio-si-paga-solo-la-consegna.test.tsx usa un negozio solo, la prova a due negozi la casa a 5 km",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante: +250+120·km a gruppo se i negozi sono ≥2, subtotale <3000 cent e km>6. vitest related lib/ordini/prezzi.ts: 33 file, 292 prove verdi; prova-sito.mjs EXIT=0. A 9 km sono 13,30 € in più a negozio."
+      "descrizione": "Mutante: +250+120·km a gruppo se i negozi sono ≥2, subtotale <3000 cent e km>6. vitest related lib/ordini/prezzi.ts: 33 file, 292 prove verdi; prova-sito.mjs EXIT=0. A 9 km sono 13,30 € in più a negozio.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Pagina dell'ordine: «Spedizione gratuita» sopra i 3 € torna a prove verdi, la guardia è un grep /GRATUIT/ sensibile al maiuscolo",
       "severita": "grave",
       "file": "app/orders/[id]/page.tsx:680 e app/seller/orders/[id]/page.tsx:558; tests/unit/la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis.test.tsx (legge il sorgente, non rende la pagina)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "qa-flussi",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "Mutante: riga {Number(order.shipping_cost) === 0 && …<span>gratuita</span>} sopra le voci in app/orders/[id]/page.tsx: 13 file, 210 prove verdi. righeDellaPagina riscrive la pagina a mano invece di renderla."
+      "descrizione": "Mutante: riga {Number(order.shipping_cost) === 0 && …<span>gratuita</span>} sopra le voci in app/orders/[id]/page.tsx: 13 file, 210 prove verdi. righeDellaPagina riscrive la pagina a mano invece di renderla.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Con la consegna non letta (null) il riepilogo scrive «Spedizione GRATUITA» anche se il totale contiene i 3 €",
@@ -29455,37 +29677,49 @@
       "titolo": "Se la lettura dell'allarme già scritto fallisce, togliere «rotto = true» lascia verde la notte e nessuna prova lo vede",
       "severita": "minore",
       "file": "app/api/cron/process-deletions/route.ts, avvisaUnaVoltaPerAvviso: `if (gia.error) { rotto = true; continue; }` — la prova r.808 rifiuta solo l'insert dell'allarme",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo A del terzo giro della fase 2)",
-      "descrizione": "Mutante senza `rotto = true;` (insieme ai due minori sotto): prova-sito su 7 file EXIT 0. Minore: giaNelPannello legge la stessa tabella prima, quindi serve un guasto solo su questa lettura."
+      "descrizione": "Mutante senza `rotto = true;` (insieme ai due minori sotto): prova-sito su 7 file EXIT 0. Minore: giaNelPannello legge la stessa tabella prima, quindi serve un guasto solo su questa lettura.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Con RESEND_FROM o SUPPORT_EMAIL presenti ma vuote, togliere il controllo «non vuota» resta verde: il giro in tondo può tornare",
       "severita": "minore",
       "file": "lib/legal/titolare.ts, ilModuloArrivaSenzaDatabase: `(v) => typeof v === 'string' && v.trim() !== ''`; le prove r.538-558 cancellano le variabili, non le lasciano mai vuote",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del terzo giro della fase 2)",
-      "descrizione": "Mutante `(v) => typeof v === 'string'`: prova-sito su 7 file, titolare.ts compreso, EXIT 0."
+      "descrizione": "Mutante `(v) => typeof v === 'string'`: prova-sito su 7 file, titolare.ts compreso, EXIT 0.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il confine dei 10 km è provato solo sui 4 assi: coi contanti misurati «a quadrato» una casa a 13 km in diagonale passa a prove verdi",
       "severita": "grave",
       "file": "app/api/orders/cod/route.ts (blocco fuoriZonaDiConsegna) · tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts: DIREZIONI solo 0/90/180/270",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "node /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/muta.mjs <wt> VB TD; vitest run tests/unit/zz-collaudo-diagonali-contanti.test.ts → 8 rossi (senza VB 13/13 verdi). Con VB la prova del lotto resta verde in prova-sito (36 file)."
+      "descrizione": "node /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/muta.mjs <wt> VB TD; vitest run tests/unit/zz-collaudo-diagonali-contanti.test.ts → 8 rossi (senza VB 13/13 verdi). Con VB la prova del lotto resta verde in prova-sito (36 file).",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Alla carta il controllo zona si può togliere dal secondo negozio in poi: le prove hanno un negozio solo e restano verdi",
       "severita": "grave",
       "file": "app/api/stripe/checkout/route.ts (ciclo for … of sellers del blocco zona) · tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts: state.sellers col solo S1",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "pagamenti-stripe",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "muta.mjs <wt> VC TC (VC = slice(0, 1) sul ciclo zona; TC = la prova della carta con un negozio sotto casa e uno a 13 km): vitest run tests/unit/zz-collaudo-carta-due-negozi.test.ts → 8 rossi, verde senza VC. Con VC prova-sito (36 file) verde. Il COD a 2 negozi non l'ho mutato."
+      "descrizione": "muta.mjs <wt> VC TC (VC = slice(0, 1) sul ciclo zona; TC = la prova della carta con un negozio sotto casa e uno a 13 km): vitest run tests/unit/zz-collaudo-carta-due-negozi.test.ts → 8 rossi, verde senza VC. Con VC prova-sito (36 file) verde. Il COD a 2 negozi non l'ho mutato.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Il riepilogo della cassa può dire «spedizione in omaggio» sopra i 3 € di consegna: la guardia conosce solo «gratis» e «gratuit»",
@@ -29518,37 +29752,49 @@
       "titolo": "Il ritentativo di ogni notte è provato solo con notti di 24 ore esatte: ORE_TRA_DUE_TENTATIVI a 24 resta verde",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts, ORE_TRA_DUE_TENTATIVI = 20 (motivo scritto: Vercel garantisce l'ora, non il minuto); passaLaNotte avanza sempre di un GIORNO esatto",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del terzo giro della fase 2)",
-      "descrizione": "Mutante 20→24: vitest related sui 6 file 141/141 verdi. Prova mia: posta giù, una notte, poi un giro a GIORNO−10 min → attese 2 lettere: originale verde, mutante 1 (rossa). Ritentativo e allarme slittano di una notte, non si perdono: minore."
+      "descrizione": "Mutante 20→24: vitest related sui 6 file 141/141 verdi. Prova mia: posta giù, una notte, poi un giro a GIORNO−10 min → attese 2 lettere: originale verde, mutante 1 (rossa). Ritentativo e allarme slittano di una notte, non si perdono: minore.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il turno rifiutato è provato solo al primo tentativo: un rifiuto dopo un tentativo già preso, trattato da «in corso», resta verde",
       "severita": "minore",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts, emailDovuta, turno.error; registroInviiRifiutaLeRighe rifiuta dalla prima notte, quindi presi è sempre vuoto",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo A del terzo giro della fase 2)",
-      "descrizione": "Mutante: `if (eUnDoppione(turno.error.message) || presi.length > 0) return 'in-corso';` → vitest related 141/141 verdi. Mutazione con condizione aggiunta, poco naturale: minore."
+      "descrizione": "Mutante: `if (eUnDoppione(turno.error.message) || presi.length > 0) return 'in-corso';` → vitest related 141/141 verdi. Mutazione con condizione aggiunta, poco naturale: minore.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "La rotta della carta è provata solo sui 4 assi: un confine a quadrato (13 km in diagonale passa) o a rombo resta verde",
       "severita": "grave",
       "file": "tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts (13 km N/S/E/O, 8 km N/S, mai diagonali) · app/api/stripe/checkout/route.ts:515",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "flussi-conversione",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "node /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/collA-o5/muta.mjs <wt> CB → prova-sito sulla prova della carta: tutto verde, uscita 0; prove-zz/zz-collaudo-carta-diagonali: 12 rosse su 16. Rombo (muta2.mjs CL1): squadra verde, 3 rosse. Originale 206/206."
+      "descrizione": "node /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/collA-o5/muta.mjs <wt> CB → prova-sito sulla prova della carta: tutto verde, uscita 0; prove-zz/zz-collaudo-carta-diagonali: 12 rosse su 16. Rombo (muta2.mjs CL1): squadra verde, 3 rosse. Originale 206/206.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "«In omaggio» accanto ai 3 € nel riepilogo della cassa con la carta: le prove rileggono solo il testo dei contanti",
       "severita": "grave",
       "file": "components/checkout/OrderSummary.tsx:99 · tests/unit/la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis.test.tsx (RIEPILOGO_RILETTO solo cod; la carta confrontata con sé)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "flussi-conversione",
       "fonte": "preesistente, trovato da collaudo A del terzo giro della fase 2 del lotto #262",
-      "descrizione": "muta.mjs OC: dopo formatPrice(consegna) aggiunge «· in omaggio con la carta» se paymentMethod è card → le 6 prove della squadra e le 2 che montano OrderSummary restano verdi; prove-zz/zz-collaudo-carta-riepilogo (carta, 3 € a parte o sommati: niente gratis/omaggi) rossa, verde sull'originale."
+      "descrizione": "muta.mjs OC: dopo formatPrice(consegna) aggiunge «· in omaggio con la carta» se paymentMethod è card → le 6 prove della squadra e le 2 che montano OrderSummary restano verdi; prove-zz/zz-collaudo-carta-riepilogo (carta, 3 € a parte o sommati: niente gratis/omaggi) rossa, verde sull'originale.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/ordini/riepilogo-ordine.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/ordini/riepilogo-ordine.ts, ondata 7 (run wf_1bc11a0a-959, commit e4fe3ff6) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "La scheda Google della categoria Casa è difesa solo dalle parole vecchie: «consegna veloce in tutta la provincia» passa verde",
@@ -29563,39 +29809,51 @@
       "titolo": "L'allarme «uno per avviso» è provato con una persona sola: deduplicato per amministratore, la seconda email ferma resta muta e verde",
       "severita": "grave",
       "file": "app/api/cron/process-deletions/route.ts, avvisaUnaVoltaPerAvviso: id `${idAvviso}:email-ferma:${a.id}`; prove con un solo fattorino (chi-vuole-cancellarsi-…test.ts riga 656)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "api-backend",
       "fonte": "nato dal lotto #262 (collaudo del terzo giro della fase 2: il pacchetto si è fermato dopo tre bocciature)",
-      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)"
+      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Il turno dell'email rifiutato dal registro (non doppione) può tornare a perdersi in silenzio: niente email, nessun allarme, prove verdi",
       "severita": "grave",
       "file": "lib/privacy/avvisi-a-chi-aspetta.ts, emailDovuta: `if (eUnDoppione(turno.error.message)) return 'in-corso'; throw …` — registroInviiRotto (chi-vuole…test.ts r.78) rifiuta anche la select",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del terzo giro della fase 2: il pacchetto si è fermato dopo tre bocciature)",
-      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)"
+      "descrizione": "la squadra lo dichiara chiuso, ma nessun collaudo ha retto dopo (fermo: bocciato 3 volte dal collaudo)",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Con la posta a metà senza RESEND_API_KEY, cancella account può tornare a mandare al modulo che non inoltra, e le prove restano verdi",
       "severita": "grave",
       "file": "lib/legal/titolare.ts, ilModuloArrivaSenzaDatabase: [SUPPORT_EMAIL, RESEND_API_KEY, RESEND_FROM].every; le prove tolgono solo FROM (chi-vuole…test.ts r.587) o SUPPORT (r.595)",
-      "stato": "aperto",
+      "stato": "riparato",
       "dimensione": "architettura",
       "fonte": "nato dal lotto #262 (collaudo del terzo giro della fase 2: il pacchetto si è fermato dopo tre bocciature)",
-      "descrizione": "fermo: bocciato 3 volte dal collaudo"
+      "descrizione": "fermo: bocciato 3 volte dal collaudo",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Senza la chiave di servizio, chi non ha fatto l'accesso riceve 503 invece di 401 dalla rotta della cancellazione dell'account",
       "severita": "grave",
       "dimensione": "sicurezza-auth",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "app/api/account/delete/route.ts e app/api/account/export/route.ts: primaLaStradaAMano guarda la chiave PRIMA del controllo d'accesso · tests/e2e/09-api-endpoints.spec.ts:8, :13, :44",
       "fonte": "nato dal lotto #262 (ramo fix/ondata-5-app-api-account), trovato dall'AD il 27/10 alle 20:45 con le prove nel browser sul sito costruito come nella CI «senza chiavi»",
       "descrizione": "Sul ramo d'integrazione (a6a83e22) le prove nel browser sono 70 passate su 70. Con il ramo della cancellazione dentro: 3 rosse. GET e POST /api/account/delete senza accesso rispondono 503 «Cancellare l'account in automatico non è disponibile…» invece di 401 nel formato ApiErrors. Il ramo guarda la chiave di servizio prima di chiedere chi sei: senza chiave, la porta non controlla più l'accesso.",
       "impatto": "Il contratto «senza accesso → 401» sparisce proprio quando manca la chiave, cioè oggi in produzione; e la CI del sito diventerebbe rossa all'unione.",
-      "fix": "Prima chi sei, poi la chiave: chi non ha fatto l'accesso riceve sempre 401 nel formato ApiErrors; chi ha fatto l'accesso e la chiave manca riceve 503 con la strada a mano. Riconoscere la sessione senza la chiave di servizio (client anonimo coi cookie). Prova unitaria col withAuth vero: anonimo senza chiave → 401; con sessione senza chiave → 503 con la casella; e le tre prove di tests/e2e/09-api-endpoints.spec.ts verdi sul sito costruito."
+      "fix": "Prima chi sei, poi la chiave: chi non ha fatto l'accesso riceve sempre 401 nel formato ApiErrors; chi ha fatto l'accesso e la chiave manca riceve 503 con la strada a mano. Riconoscere la sessione senza la chiave di servizio (client anonimo coi cookie). Prova unitaria col withAuth vero: anonimo senza chiave → 401; con sessione senza chiave → 503 con la casella; e le tre prove di tests/e2e/09-api-endpoints.spec.ts verdi sul sito costruito.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 6, pacchetto app/api/account. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto app/api/account, ondata 6 (run wf_d46da8ea-d89, commit cfaa3967) — mutazione: collaudo dell'ondata 6 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Se il pannello di una persona fallisce, le email delle persone dopo di lei possono sparire senza che una prova diventi rossa",
@@ -29927,12 +30185,15 @@
       "titolo": "L'email «3 cose da sapere» promette a ogni nuovo cliente «oppure la ritiri tu», ma il ritiro in negozio è spento",
       "severita": "grave",
       "dimensione": "microcopy",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "lib/email/templates.ts:588 (html) e :597 (testo), modello tutorial_day2, fra i modelli di servizio a :767 · lib/constants.ts:87 (RITIRO_IN_NEGOZIO_ATTIVO = false) · migrations/033_buyer_public_profile_zone_codes.sql:131 (la mette in coda per ogni nuovo cliente)",
       "fonte": "nato dal lotto #262 (commit 02484477, posta della fase 2), trovato dal riesame del perimetro del 27/10 sera (run wf_b9d92819-bde, lenti architettura-consegna e architettura-posta-privacy) e confermato grave da due verificatori",
       "descrizione": "Il lotto ha tolto dalla mail del secondo giorno due promesse false (spedizione gratis sopra 30 euro, 5 euro per l'amico invitato) e ne ha scritta una nuova: «La spesa te la portiamo a casa, oppure la ritiri tu se il negozio lo permette». Al lancio il ritiro è spento per tutti: RITIRO_IN_NEGOZIO_ATTIVO vale false, le due rotte che creano l'ordine lo forzano a falso e la cassa lo nasconde. Nessun negozio ha un'impostazione per «permetterlo». La mail parte a ogni nuovo cliente due giorni dopo l'iscrizione, anche senza consenso alla pubblicità perché è di servizio. La prova del lotto (la-posta-in-coda-non-promette-regali-e-non-si-butta-via.test.ts:110) cerca solo parole di soldi, quindi resta verde.",
       "impatto": "Ogni nuovo cliente legge nella sua casella che può ritirare in negozio; in cassa non trova l'opzione, e la frase scarica il no sul negozio per una scelta di MyCity.",
-      "fix": "La frase sul ritiro nasce dall'interruttore, come le frasi di lib/promesse-pubbliche.ts: a ritiro spento la mail non nomina il ritiro, né nell'HTML né nel testo semplice né nell'oggetto. Prova: rossa col difetto, verde dopo; un controllo che scorre tutti i modelli di email a ritiro spento. Comando del riesame: D=$(mktemp -d); node_modules/.bin/esbuild lib/email/templates.ts --bundle --platform=node --format=cjs --log-level=error --outfile=$D/t.cjs && NEXT_PUBLIC_APP_URL=https://x.it node -e \"const m=require('$D/t.cjs').preparaEmailCicloDiVita('tutorial_day2',{});process.exit(/ritir/i.test(m.subject+m.html+m.text)?1:0)\" (esce 1 col difetto)."
+      "fix": "La frase sul ritiro nasce dall'interruttore, come le frasi di lib/promesse-pubbliche.ts: a ritiro spento la mail non nomina il ritiro, né nell'HTML né nel testo semplice né nell'oggetto. Prova: rossa col difetto, verde dopo; un controllo che scorre tutti i modelli di email a ritiro spento. Comando del riesame: D=$(mktemp -d); node_modules/.bin/esbuild lib/email/templates.ts --bundle --platform=node --format=cjs --log-level=error --outfile=$D/t.cjs && NEXT_PUBLIC_APP_URL=https://x.it node -e \"const m=require('$D/t.cjs').preparaEmailCicloDiVita('tutorial_day2',{});process.exit(/ritir/i.test(m.subject+m.html+m.text)?1:0)\" (esce 1 col difetto).",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 7, pacchetto lib/email/templates.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/email/templates.ts, ondata 7 (run wf_1bc11a0a-959, commit 0908731d) — mutazione: collaudo del quinto giro: il difetto rimesso com'era scritto fa diventare rosse le prove; fermo solo su prove migliorabili, poi la copia provata (6ae86ca5) con le prove dei verificatori rosse su a4f4161c e verdi sulla copia, e l'unione firmata da Nicola con «ok 215»"
     },
     {
       "titolo": "Spedizioni e Domande frequenti promettono «a negozio chiuso puoi prenotare per domani», ma la sera prima del giorno di chiusura la cassa rifiuta tutte le fasce",
@@ -30580,12 +30841,15 @@
       "titolo": "Il sito accetta consegne fino a 10 km dal negozio, ma Nicola ha deciso 5 km il 28/10",
       "severita": "grave",
       "dimensione": "flussi-conversione",
-      "stato": "aperto",
+      "stato": "riparato",
       "file": "lib/constants.ts:53 (RAGGIO_CONSEGNA_KM = 10) · tests/unit/al-lancio-si-consegna-in-bici-fino-a-10-km.test.ts (inchioda il 10) · app/near/page.tsx:128 (raggio iniziale 5 scritto a mano) · lib/ordini/zona-di-consegna.ts:44 (il confronto) · le prove del confine: tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts, tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts, tests/unit/in-cassa-si-sa-subito-fin-dove-consegniamo.test.ts, tests/unit/vicino-a-te-montata-al-confine-non-invita-a-cercare-oltre.test.tsx",
       "fonte": "decisione di Nicola del 28/10/2026 08:30 in chat: «mi ero sbagliato, la consegna va fatta in un area 5 km»",
       "descrizione": "Il 27/10 Nicola aveva detto 10 km in bici, e il lotto #262 ha messo RAGGIO_CONSEGNA_KM = 10. Il 28/10 alle 08:30 ha corretto: l'area di consegna è 5 km. Con 10 la cassa accetta un indirizzo a 8 km: il cliente paga, e Nicola in bici non ci arriva. Il sito misura in linea d'aria (haversineKm in lib/ordini/zona-di-consegna.ts:44): 5 km in linea d'aria sono circa 6-7 km di strada, una stima detta a Nicola.",
       "impatto": "Ogni ordine fra 5 e 10 km dal negozio è un ordine pagato che non si può consegnare: rimborso, un negozio che ha preparato per niente, il primo cliente perso.",
-      "fix": "RAGGIO_CONSEGNA_KM = 5, con la decisione del 28/10 nel commento. La prova che inchioda il numero cambia nome e numero (5 km). Le prove del confine hanno punti dentro (3-4 km) e fuori (6-7 km), anche in diagonale e col secondo negozio. «Vicino a te» parte dal confine letto dalla costante, non da un 5 scritto a mano. Nessun «10 km» scritto a mano resta nelle pagine."
+      "fix": "RAGGIO_CONSEGNA_KM = 5, con la decisione del 28/10 nel commento. La prova che inchioda il numero cambia nome e numero (5 km). Le prove del confine hanno punti dentro (3-4 km) e fuori (6-7 km), anche in diagonale e col secondo negozio. «Vicino a te» parte dal confine letto dalla costante, non da un 5 scritto a mano. Nessun «10 km» scritto a mano resta nelle pagine.",
+      "chiuso_il": "2026-10-28 15:28",
+      "chiuso_da": "PR #262 · 1776e6b1, unita il 2026-10-28 15:15 e pubblicata (Vercel dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR)",
+      "nota_riparazione": "Riparato nella #262, ondata 8, pacchetto lib/constants.ts. — prova: npm run verify sul codice unito (1776e6b1 ha lo stesso albero di e36741a7, provato: 666 file, 6.026 prove verdi) e CI della #262 9 su 9; prove del pacchetto lib/constants.ts, ondata 8 (run wf_b040c1ca-1b7, commit 66a2f728) — mutazione: collaudo dell'ondata 8 («regge»): chi non l'aveva scritto ha rimesso il difetto com'era scritto nella scheda, e la prova e' diventata rossa"
     },
     {
       "titolo": "Con un confine non intero il cursore a passo 1 non raggiunge il valore d'apertura: etichetta e pallino divergono",
@@ -30673,17 +30937,17 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-28 11:56",
+    "aggiornato": "2026-10-28 15:42",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 893,
-    "findings_chiusi": 836,
+    "findings_aperti": 805,
+    "findings_chiusi": 924,
     "findings_tot": 1729,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 153,
-      "minore": 731,
+      "grave": 107,
+      "minore": 689,
       "altre": 0
     },
     "dichiarati_dal_referto": 1729,
