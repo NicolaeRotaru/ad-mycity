@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-28 11:17",
+  "aggiornato": "2026-10-28 22:18",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4749,6 +4749,73 @@
       "file": {
         "lib/constants.ts": "4916d0ed0c20",
         "lib/ordini/zona-di-consegna.ts": "cb0275b759d8"
+      }
+    },
+    {
+      "quando": "2026-10-28 22:18",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 7,
+      "schede": [
+        "Se il negoziante cambia la scorta mentre arrivano ordini, il suo numero cancella le vendite e nessuno lo avvisa",
+        "Dall'amministrazione, salvare un prodotto con taglie o varianti rimette in vetrina i pezzi venduti mentre la scheda era aperta",
+        "La regola «la scorta è cambiata?» esiste in due copie diverse, e il modulo che si dice «solo server» lo usa il browser del negoziante",
+        "Il conteggio dei rinnovi di sessione arrivati tardi può restare a zero in produzione",
+        "Il tetto di 10 secondi è diventato quello di serie per tutte le chiamate, e la scelta fra 3 e 10 secondi sta fuori dal modulo provabile",
+        "Se la lettura del profilo non riesce, il portiere manda il negoziante alla home e il catalogo lo rimanda al pannello: gira in tondo finché il database è lento",
+        "L'indirizzo della pagina d'attesa del negozio e il tipo dei ruoli esistono in più copie"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/schema.ts": "b58e234bb60e"
+      }
+    },
+    {
+      "quando": "2026-10-28 22:18",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il conteggio dei rinnovi di sessione arrivati tardi può restare a zero in produzione",
+        "La moderazione non guarda da che stato si parte: «Riattiva» approva anche chi non è mai stato approvato o è appena stato respinto, e «Sospendi» su un respinto ferma la scadenza dei documenti"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/admin/users/[id]/moderate/route.ts": "69b7d33a2f04",
+        "middleware.ts": "39f139143e33"
+      }
+    },
+    {
+      "quando": "2026-10-28 22:18",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Se riapri «Modifica prodotto» entro 5 minuti, il modulo mostra e risalva lo stato e il prezzo vecchi: un prodotto segnato «Esaurito» dall'elenco torna in vendita",
+        "Se la lettura delle varianti non riesce, il modulo si apre senza taglie e il salvataggio le cancella tutte",
+        "Se il negoziante cambia la scorta mentre arrivano ordini, il suo numero cancella le vendite e nessuno lo avvisa",
+        "Dopo la richiesta, «Continua a comprare» porta il negozio alla schermata d'attesa invece che al catalogo",
+        "«Modifica richiesta» porta a una pagina dove la richiesta non si può modificare",
+        "Senza rete, il negozio che ha già mandato la richiesta legge «non ci è ancora arrivata», e la prova della dashboard non se ne può accorgere"
+      ],
+      "nota": "",
+      "file": {
+        "app/sell/page.tsx": "974e6a483e72",
+        "app/seller/layout.tsx": "1516f41c793f",
+        "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
+        "components/seller/ProductForm.tsx": "f2719d81a836"
       }
     }
   ]

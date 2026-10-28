@@ -572,7 +572,8 @@
         "prova": "Registro di produzione: riga 161 presente, quindi handle_new_user è la versione della 114. app/sell/page.tsx:140 mostra «Richiesta in valutazione» a un profilo nato negozio, anche se il modulo non è mai stato inviato.",
         "nota": "Adesso è raggiungibile in produzione: l'ha acceso la 161. Oggi nessuna vittima. La correzione è nel codice del sito, non serve una migrazione.",
         "data": "2026-10-24 10:45"
-      }
+      },
+      "nota_riesame": "2026-10-28 22:30: Dopo l'ondata 10: i negozi rimessi in attesa dalla migrazione 114, che non hanno approval_requested_at, ora leggono «la richiesta non ci è arrivata» (minore: oggi in produzione i 2 negozi sono approvati)."
     },
     {
       "dimensione": "qa-flussi",
@@ -684,7 +685,8 @@
       "prova_eseguita": "La vetrina scrive «Chiuso oggi» (formatToday). Ma negozioPuoServire risponde true sia con «Adesso» sia con «Domani · 9:00–12:00», e isStoreClosedForOrder risponde false. Controprova: con il solo lunedì aperto, la domenica negozioPuoServire risponde false. Quindi il buco scatta proprio quando i giorni chiusi sono tutti e sette. · Verifica tecnica: Ho compilato io con esbuild il vero lib/store-hours.ts (verifica-ordini-ciclo-vita/sh.mjs) e ho eseguito prova.mjs con TZ=UTC, simulando domenica 11/10/2026 alle 10:30. Con sette giorni vuoti: negozioPuoServire(null) = true, negozioPuoServire('Domani · 9:00–12:00') = true, isStoreClosedForOrder = false, formatToday = «Chiuso oggi». Controprova con il solo lunedì aperto: la domenica negozioPuoServire risponde false. Ho cercato in rotte e migrazioni un flag di ferie o pausa: non c'è. Con una SELECT in produzione sugli store_hours: 3 negozi, nessuno con tutti i giorni vuoti.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ordini-ciclo-vita · id R49 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ordini-ciclo-vita · id R49 · si ripara: codice",
+      "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: la stessa radice tocca la promessa in vetrina. haOrari in lib/promessa-consegna.ts:56-61 (e :110-116) tratta sette giorni vuoti come «orari mai inseriti», quindi la scheda prodotto di un negozio in ferie scrive «arriva oggi» (components/ui/DeliveryCutoff.tsx:114) mentre la pagina del negozio dice «Chiuso oggi», e il server accetta l'ordine. Chi ripara store-hours ripari anche lib/promessa-consegna.ts."
     },
     {
       "dimensione": "qa-flussi",
@@ -1805,7 +1807,8 @@
       "prova_eseguita": "Visto adesso: «seller/in-attesa /seller/dashboard -> 307 https://mycity.test/seller/dashboard» per quattro giri di fila, cioè un anello. «seller/in-attesa /product/abc -> 307 …/seller/dashboard» e «/ -> 307 …/seller/dashboard»: anche home e catalogo portano nell'anello. «rider/in-attesa /rider/onboarding -> 307 https://mycity.test/» e «rider/approvato /rider/onboarding -> 200». Il modulo documenti lo vede solo chi è già approvato. · Verifica tecnica: Ho copiato loop.test.ts e rider.test.ts nella mia cartella e li ho eseguiti con vitest contro il middleware vero di /home/user/mycity. Visto: «/seller/dashboard -> 307 …/seller/dashboard» per 4 giri di fila. «/ -> 307 /seller/dashboard» e «/product/abc -> 307 /seller/dashboard». «rider/in-attesa /rider/onboarding -> 307 /». «rider/approvato /rider/onboarding -> 200». «seller/in-attesa /sell -> 200». Ho letto middleware.ts:49-53 e 374-376 (ROLE_PROTECTED, nessuna eccezione), app/seller/layout.tsx:19-29 e 130-150 e app/rider/layout.tsx. Ho interrogato la produzione in sola lettura: profiles ha rider/is_approved=false/pending = 1 (creato il 2026-05-25), seller approvati = 2. La funzione handle_new_user in produzione è la vecchia versione, che mette is_approved=true per seller e rider, e il vincolo chk_approvazione_coerente è NOT VALID.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, sicurezza-auth · doppioni uniti: N106 · id R44 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, sicurezza-auth · doppioni uniti: N106 · id R44 · si ripara: codice",
+      "nota_riesame": "2026-10-28 22:30: Per chi ripara (dal vaglio dell'ondata 10): quando il fattorino non approvato torna a raggiungere la pagina dei documenti, un fattorino 'rejected' che ricarica i documenti resta 'rejected', e i file nuovi cadono a rifiuto+90 giorni (app/api/kyc/upload-document/route.ts:140-143, migrations/135:46-48). Il caricamento fatto da un profilo respinto deve far ripartire l'orologio o riportare lo stato a 'pending'. Prova in tests/sql/rls/20: respinto da 100 giorni, documento appena scritto, documenti_da_cancellare_respinti(90)."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -2453,7 +2456,8 @@
       "prova_eseguita": "Ho visto la promessa «arriva oggi» di domenica pomeriggio nella home renderizzata, e ho letto il codice che non guarda nessun orario di negozio. · Verifica tecnica: Playwright su localhost:3100 con timezoneId Europe/Rome e orologio fissato a domenica 11/10/2026 alle 15:00: il banner dice «Ordina entro 02:59:59 e arriva oggi in 30-60 min». Alle 18:13 vere dice «Arriva domani». Nell'HTML della home di produzione (Vercel web_fetch) il banner olive c'è, con «Arriva oggi» prima che la pagina si attivi. Query di sola lettura su profiles.store_hours dei due negozi: nessuna chiave 'sun'. Codice: DeliveryCutoff.tsx:85-118 e delivery.ts:30-45. Ho controllato anche il registro, dove il perimetro del difetto chiuso era product/[id]/page.tsx ed express.ts.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R62 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: prodotto-completezza · id R62 · si ripara: codice",
+      "nota_riesame": "2026-10-28 22:30: Rimando dal vaglio dell'ondata 10: il caso del negozio in ferie (sette giorni chiusi) sta nella 24; qui resta solo la promessa per i negozi senza orari mai salvati."
     },
     {
       "dimensione": "frontend-ux",
@@ -3788,7 +3792,8 @@
       "giro": 3,
       "verificato": true,
       "gia_noto": "No. «IVA esclusa» non compare in elenco-compatto, noti-aperti, noti-chiusi né in ricontrollo-noti. Il registro rischi (N5, «pianificato») parla della fattura, non dell'importo trattenuto.",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-soldi-ordini · id R262 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-soldi-ordini · id R262 · si ripara: decisione-nicola",
+      "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: le Condizioni scrivono ancora la commissione «IVA esclusa», mentre Nicola ha firmato il 26/10 «IVA inclusa» (decisione 11, A), come già calcola la cassa."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -4948,7 +4953,8 @@
       "prova_eseguita": "rider: totale 1, approvati 0, online 0; il rider ha approval_status pending e zone {}. Tutte le pagine lette in produzione mostrano «Consegna in 30-60 min». · Verifica tecnica: Query SELECT in produzione su profiles, raggruppata per ruolo. rider: totale 1, approvati 0, online 0, approval_status pending, rider_zones []. seller 2, buyer 5, admin 1. Ho letto lib/order-status.ts:80-160 e lib/stripe/payout.ts:299-312. Ho cercato rider e fattorino nelle rotte d'ordine: nessun controllo di disponibilità. Nella scheda del kefir scaricata dalla produzione si legge «Paghi alla consegna Consegna in 30-60 min» in testata e «Disponibile · pronto per la consegna» vicino al prezzo.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R66 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R66 · si ripara: decisione-nicola",
+      "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: è la stessa frase della 1516 (che porta l'elenco dei circa 36 punti e la trappola della fascia «Adesso»). Va riesaminata insieme alla 1516, per chiuderla come superata o fonderla."
     },
     {
       "dimensione": "microcopy",
@@ -4984,7 +4990,8 @@
       "prova_eseguita": "Entrambe le schede in produzione mostrano «Paghi in contanti alla consegna, oppure con carta adesso». Nel codice della cassa stripeAvailable = !!NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY e il metodo iniziale è 'cod' quando manca. · Verifica tecnica: Ho letto in produzione la scheda /product/034d599d-fdef-4ecb-9cb3-9e7bcdb9e0e0 (Pesto Genovese Bio, Pane Quotidiano), HTTP 200. Contiene «Paghi in contanti alla consegna, oppure con carta adesso». Nel codice della pagina non c'è nessuna chiave pubblica Stripe: 0 occorrenze di «pk_». Nel codice ho letto lib/promesse-pubbliche.ts:162-185 e app/checkout/page.tsx:538-560 e 1263-1274. Con grep ho trovato gli usi di frasePagamento e controllato la condizione in PaymentMethodSelector. Ho cercato nei difetti chiusi la voce del 23/8 sulla carta.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R68 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · id R68 · si ripara: codice",
+      "nota_riesame": "2026-10-28 22:30: Dal vaglio dell'ondata 10: anche app/come-funziona/page.tsx:26 promette la carta e Stripe, e frasePagamento (lib/promesse-pubbliche.ts:194-206) contiene sempre 'carta-adesso'. Della stessa classe «scritto a mano»: la variante B dell'hero (app/page.tsx:44, esperimento home_hero :140-144) col titolo fisso «Paghi come vuoi.», la banda fiducia della home (components/home-sections/HomeSectionRenderer.tsx:74) e components/ui/AuthShell.tsx:44. La prova deve rendere anche l'hero in variante B con NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY vuota. Il ramo fermo dell'ondata 10 (fix/ondata-10-lib-promesse-pubbliche-ts, 73ab7cc) ripara /come-funziona: non è unito."
     },
     {
       "dimensione": "microcopy",
@@ -5093,7 +5100,7 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy, prodotto-completezza · doppioni uniti: N191 · id R221 · si ripara: codice",
-      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-account-posta#6 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra."
+      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-account-posta#6 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: la fascia per i negozianti in fondo alla home dice ancora «Vendi online con zero commissioni» (HomeSectionRenderer.tsx:387), e il segnaposto del pannello la suggerisce (components/admin/home/HomeSectionConfigForm.tsx:221). ATTENZIONE: il canone NON è sospeso nel codice, contro la scelta firmata il 26/10 (pricing.abbonamento): components/SellerApplicationForm.tsx:225,238,378 chiede ancora il consenso all'addebito di 50 euro al mese, components/seller/SubscriptionBanner.tsx:57,62 (mostrato a ogni negoziante non abbonato, app/seller/layout.tsx:163) dice «Attiva €50/mese», e app/api/seller/subscription/checkout/route.ts:23,93 addebita 5000 centesimi. Gemello: 248."
     },
     {
       "dimensione": "microcopy",
@@ -25263,7 +25270,8 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "nota_riesame": "2026-10-28 22:30: L'ondata 10 ripara i rifiuti da adesso in poi (route.ts:82). Resta PARZIALE: i profili già respinti hanno approved_at vuoto e la potatura (migrations/135:46-48) li salta. Si chiude solo DOPO il rilascio di route.ts:82, con la conta in produzione (rejected, approved_at null, una delle sei colonne dei documenti piena) a zero, oppure con la migrazione di riempimento firmata da Nicola. Una conta fatta prima del rilascio non chiude niente. Gravità reale oggi bassa: l'11/10 il secchio dei documenti aveva 0 oggetti."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -25291,7 +25299,8 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "nota_riesame": "2026-10-28 22:30: Dopo l'ondata 10 anche le pagine lasciano entrare un amministratore con is_approved=false (il difetto 86 è riparato nel portiere): per togliere l'accesso a un amministratore resta solo cambiargli il ruolo. Diventa grave il giorno che c'è un secondo amministratore."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -25319,7 +25328,8 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "nota_riesame": "2026-10-28 22:30: L'ondata 10 ne chiude due parti su tre (niente moderazione di sé stessi, niente ruoli sbagliati: route.ts:128-135). Resta come miglioria minore, non come difetto, il controllo che l'id sia un UUID: oggi un id inventato prende 404 dal database prima di qualunque scrittura (route.ts:112-118, :192), danno zero."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -25347,7 +25357,8 @@
           "data": "2026-09-08 11:30"
         }
       ],
-      "fuori_dal_referto": true
+      "fuori_dal_referto": true,
+      "nota_riesame": "2026-10-28 22:30: Dopo l'ondata 10 la rotta dice notifica_inviata:false con l'avviso (route.ts:177-182), ma il pannello lo butta: moderateUser lancia un errore solo se !res.ok (app/admin/users/page.tsx:308-309) e mostra il toast di successo (:317, :326). Resta parziale: mancano questa lettura nel pannello e il legame fra stato, notifica e registro, che chiede una migrazione."
     },
     {
       "dimensione": "frontend-ux",
@@ -28739,7 +28750,7 @@
       "dimensione": "architettura",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
       "descrizione": "deliveryEtaMinutes(10) = 55: restano 5 minuti di margine. Il commento in constants.ts parla di una promessa 'in giornata' (carta #209), ma il sito dice ancora 30-60 min ovunque. Va allineato a parte.",
-      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-consegna#6 dice grave; frontend-account-posta#5 dice grave; architettura-consegna#7 dice grave; qa-flussi-cassa#4 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra."
+      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-consegna#6 dice grave; frontend-account-posta#5 dice grave; architettura-consegna#7 dice grave; qa-flussi-cassa#4 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: sul main 1776e6b1 i «30-60 minuti» stanno in circa 36 punti (home: nastro, piè di pagina, Come funziona, hero; carrello, Spedizioni, login, giro di benvenuto, FAQ, chi siamo, negozio, categoria, descrizione per Google, immagini di condivisione, public/manifest.json:4, le etichette della cassa in lib/quando-arriva.ts:64-65,186, app/orders/[id]/page.tsx:347). Si contraddicono già /about (:26 contro :140) e il carrello (:79 contro :80). TRAPPOLA per chi ripara: NON cambiare il valore di EXPRESS_ETA_LABEL (lib/delivery.ts:13). ETICHETTA_ADESSO in lib/quando-arriva.ts:64 sta in FASCE_AMMESSE (:80-84) e le due rotte d'ordine la confrontano alla lettera (app/api/orders/cod/route.ts:76, app/api/stripe/checkout/route.ts:77 via lib/ordini/fascia-consegna.ts:34-38; lib/store-hours.ts:118-119): una cassa aperta prima del rilascio verrebbe rifiutata, e 14 righe che incollano «in ${EXPRESS_ETA_LABEL}» scriverebbero «in in giornata». Serve una costante nuova per la promessa pubblica, separata dall'identificativo della fascia, più una prova che un ordine in contanti con la fascia «Adesso» passa ancora. Se la mattonella «Adesso · 30-60» resti accanto a «in giornata» è una scelta di prodotto da far firmare a Nicola. Va riesaminata insieme alla 253 (stessa frase)."
     },
     {
       "titolo": "La prova non copre «Attiva» su un prodotto esaurito: un controllo ridotto alle sole bozze resta verde",
@@ -30947,6 +30958,239 @@
       "fonte": "preesistente, trovato dalla verifica del sito pubblicato dopo l'unione della #262 (run wf_fb2533cc-fc3, lente del telefono e verifica avversariale)",
       "stato": "aperto",
       "prova": "Script di misura offline in Chromium sull'HTML e sui due CSS scaricati dal rilascio: viewport 390x844, con tocco (isMobile, hasTouch) e con mouse, stesse misure."
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "nato_oggi": true,
+      "titolo": "Le prove della moderazione lasciano passare due errori: il rifiuto di un negozio e il testo sbagliato al fattorino",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "tests/unit/la-moderazione-dice-il-vero.test.ts:76-86 · app/api/admin/users/[id]/moderate/route.ts:60 e :82",
+      "descrizione": "Oggi il sito si comporta giusto: il rifiuto scrive l'ora della decisione per tutti (route.ts:82), e il fattorino riceve i suoi testi (route.ts:60). Ma le prove non lo tengono fermo. La prova del rifiuto rifiuta solo un fattorino ('rider-1', impostato nel beforeEach alla riga 73). Se domani approved_at si scrivesse solo per i fattorini, resterebbe verde. Nessuna prova legge il titolo o il corpo della notifica: se il fattorino tornasse a ricevere «Il tuo negozio è stato approvato», resterebbe verde lo stesso. Il collaudo A ha fatto girare tutte e due le varianti: 12 prove su 12 verdi. La prova che le boccia è già scritta (collaudo-a-moderazione.test.ts, due casi): rifiuto di un negozio con approved_at e testi del fattorino senza la parola «negozio». Va solo aggiunta in tests/unit/. Minore secondo AR-1027: è un buco nelle prove, il sito oggi fa giusto.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Architettura",
+      "nato_oggi": true,
+      "titolo": "La colonna «approvato il» adesso segna anche l'ora del rifiuto, mentre «approvato da» resta il vecchio approvatore",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "app/api/admin/users/[id]/moderate/route.ts:82 (patch del rifiuto) contro :71 (approvazione con approved_by)",
+      "descrizione": "Per far partire i 90 giorni della potatura, il rifiuto ora scrive approved_at = adesso (riga 82), e approved_by resta quello dell'approvazione precedente. Così la colonna ha due significati. Per chi è approvato è la data dell'approvazione. Per chi è respinto è la data del rifiuto. Oggi non fa danno, perché la leggono solo le potature (migrations/119 e 135). Il pannello admin la carica (page.tsx:91) ma non la mostra. Il giorno che qualcuno conta i negozi approvati per mese partendo da approved_at, conterà anche i respinti. E vedrà un approvatore accanto a un rifiuto. Due strade per chiuderlo. Quella giusta: una colonna rejected_at o decided_at, su cui la 135 conta i giorni. È una migrazione, quindi passo 🔴. Quella minima: scrivere il doppio significato nel glossario dei dati. Minore: oggi nessun comportamento del sito è sbagliato.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Architettura",
+      "nato_oggi": true,
+      "titolo": "Il controllo «la sessione va rinnovata?» è provato solo su cookie scritti a mano: se la libreria cambia formato, si torna in silenzio al tetto di 3 secondi",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/auth/cookie-di-sessione.ts:267, 293-344",
+      "descrizione": "Oggi il sito si comporta giusto: su 0df7945 le prove del portiere sono verdi. Però sessioneDaRinnovare ricopia a mano tre regole di @supabase/ssr e auth-js: i pezzi .0/.1, il prefisso base64- e il margine di scadenza (90 s nella libreria, 120 s qui). Le prove costruiscono i cookie a mano e coprono solo i casi puliti. Il code-verifier ora è coperto. Restano senza prova: (1) la tessera in JSON grezzo senza base64-, perché il mutante che fa uscire false su quel ramo resta verde; (2) la tessera intera accanto ai pezzi .0/.1; (3) due progetti sullo stesso dominio; (4) un passaggio con la libreria vera che scrive il cookie, cioè l'unico modo di accorgersi se il formato cambia. Se succede, getUser() torna ad avere 3 secondi anche quando rinnova, e il cliente viene buttato fuori. L'unico segnale sarebbe il warn alTardivo nei log. (Controllato dal contro-vaglio: auth-js 2.106.1 rinnova a 90 s e qui sono 120 s, dalla parte prudente; il formato predefinito di @supabase/ssr 0.5.2 è base64url.)",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Sicurezza e accessi",
+      "nato_oggi": true,
+      "titolo": "Nessuna prova del portiere controlla che la cancellazione della tessera arrivi al browser sul rimando al login",
+      "dimensione": "sicurezza-auth",
+      "severita": "minore",
+      "file": "middleware.ts:456-460 (remove() → raccoglitore.remove) · middleware.ts:523-534 (withCsp e travasaCookie sull'uscita verso /sign-in)",
+      "descrizione": "Oggi il sito fa giusto, ma nessuna delle 9 prove che importano @/middleware chiama remove(): si può togliere raccoglitore.remove a middleware.ts:459 e nessuna prova diventa rossa. È un'altra funzione rispetto al controllo «la sessione va rinnovata?»: qui conta che la tessera cancellata dal servizio di accesso arrivi davvero al browser. travasaCookie da solo è già coperto (tests/unit/il-rinnovo-della-sessione-non-si-perde-nel-rimando.test.ts:75-88). Rimedio: una prova del middleware dove getUser chiama cookieDelClient.remove e il rimando 307 verso /sign-in porta il cookie vuoto. Minore per AR-1027.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Stati dell'interfaccia",
+      "nato_oggi": true,
+      "titolo": "Senza rete, il negozio che ha già mandato la richiesta legge «non ci è ancora arrivata», e la prova della dashboard non se ne può accorgere",
+      "dimensione": "stati-ui",
+      "severita": "minore",
+      "file": "app/seller/layout.tsx:44-62, 79, 169-193 · tests/unit/il-negozio-che-non-ha-mandato-la-richiesta-non-legge-stiamo-verificando.test.tsx:53-55 · app/seller/layout.tsx:62, 178-187 · app/sell/page.tsx:51, 125-127, 155-189",
+      "descrizione": "Il sito usa react-query v5 con networkMode lasciato su 'online' (components/providers/QueryProvider.tsx:11-25 non lo cambia). Senza rete, la lettura dello stato della richiesta resta in pausa: isLoading è false, isError è false e il dato è vuoto. Il layout guarda solo isLoading (:79) e isError (:62), quindi cade nel ramo :169-193. Lì scrive la frase definitiva «la richiesta di attivazione non ci è ancora arrivata. Inviala…» invece del testo prudente di statoIllegibile. Un negozio che la richiesta l'ha già mandata la legge come una notizia vera. È raro: serve il profilo già in memoria e la rete caduta. La prova della dashboard non può accorgersene, perché finge useQuery per intero (righe 53-55) con i soli data, isLoading e isError. Così non rappresenta lo stato in pausa e non controlla le colonne lette. Non controlla neanche che l'invio da /sell rinfreschi la lettura: oggi lo fa, perché la chiave sta sotto queryKeys.profile.all (lib/queries/keys.ts:70, 282). Rimedio: trattare fetchStatus 'paused', o in generale «non ancora riuscita», come statoIllegibile. La prova va fatta con un QueryClient vero, onlineManager su offline e un finto supabase che controlla il select. Stessa famiglia, vista dalla radiografia del perimetro: Il ramo nuovo statoIllegibile scrive «Nella pagina della richiesta vedi se è già in valutazione o se manca ancora qualcosa» e offre il pulsante «Vedi la tua richiesta». Ma /sell non ha uno stato d'errore. Se la sua lettura del profilo fallisce, profile è undefined e la pagina mostra il modulo d'iscrizione vuoto: email, nome e negozio in bianco, come a chi non ha mai chiesto niente. I due guasti vanno di solito insieme, perché toccano la stessa tabella con la stessa rete. Quindi la promessa del testo nuovo cade proprio nel caso in cui il testo compare. Sul layout poi non c'è un pulsante «Riprova».",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "titolo": "Il sito invita ancora a diventare rider, ma chi si iscrive viene rimandato alla home senza una parola",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "app/sign-up/page.tsx:28-32, 75-77 · components/ui/AuthShell.tsx:216-224 · app/faq/page.tsx:171 · app/lavora-con-noi/page.tsx:34 · lib/auth/decisione-portiere.ts:259-260, 271",
+      "descrizione": "Con la scelta firmata il 26/10, cioè reclutamento pubblico chiuso, il portiere tiene fuori il fattorino non approvato, ed è giusto così. Ma quattro punti del sito continuano a reclutare. (1) La mattonella «Rider · Consegna ordini» nell'iscrizione, che si preseleziona anche con ?role=rider. (2) «Diventa rider · Consegna e guadagna» nel riquadro di accesso. (3) La FAQ «Fai tutto dal sito: registrati come rider, poi carichi documento, patente e polizza… appena la verifica è finita puoi accettare le prime consegne». (4) Il link di «Lavora con noi». Chi segue l'invito crea un account rider, conferma l'email, apre /rider e torna alla home senza nessun messaggio. Rimedio: togliere queste porte, oppure sostituirle con «per ora i fattorini li cerchiamo di persona», più una schermata che lo spieghi al rider non approvato invece del rimando muto.",
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "titolo": "Dall'amministrazione, salvare un prodotto con taglie o varianti rimette in vetrina i pezzi venduti mentre la scheda era aperta",
+      "dimensione": "qa-flussi",
+      "severita": "grave",
+      "file": "app/admin/products/[id]/edit/page.tsx:56-64,149 · app/api/admin/products/route.ts:184-187 · lib/products/persistVariantsServer.ts:17,46-47",
+      "descrizione": "La pagina Modifica prodotto dell'amministrazione usa lo stesso modulo del negoziante. Al salvataggio però butta via le scorte viste all'apertura: riga 149, onSubmit passa solo payload e ctx.variants. La PATCH /api/admin/products chiama poi saveProductVariantsServer(admin, id, variants) senza il quarto argomento (route.ts:186). Senza quel numero ogni variante già salvata riscrive la scorta letta all'apertura (persistVariantsServer.ts:17 lo dice: «Senza scorteViste (l'amministrazione) si riscrive tutto, come prima»). Infine il trigger trg_sync_product_variant_rollup (migrations/080_product_variants.sql:59-77) ricalcola products.stock da quella somma. La scorta del prodotto senza varianti invece è protetta anche qui, perché il modulo la toglie quando non è cambiata (ProductForm.tsx:706). Esempio: alle 10 Nicola apre la focaccia con le taglie S (2 pezzi) e M (3) per correggere un refuso. Alle 10:05 un cliente compra una S e in banca dati resta 1. Alle 10:10 Nicola salva: la S torna a 2, e il cliente successivo ordina una focaccia che non esiste. Il rimedio: la pagina admin passa ctx.scorteViste e la PATCH le inoltra a saveProductVariantsServer, come fa già la pagina del negoziante (edit/page.tsx:120,219). Prova rossa oggi: cd /home/user/mycity && node_modules/.bin/jiti /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/triage-prodotti/scorta-vecchia-varianti.ts. Il caso A chiama la funzione vera come fa route.ts:186, su una tabella finta (vista 2, banca dati 1): esce «dopo il salvataggio 2 (giusto: 1)» ed exit 1. Lo scratchpad non resta: chi ripara deve portarla in tests/unit. — Dal contro-vaglio, per chi ripara: (1) la prova scritta nel vaglio non vale, perché chiama saveProductVariantsServer direttamente senza passare dalla rotta: va sostituita da una prova che passa dalla porta dell'amministrazione (vitest sulla PATCH di app/api/admin/products/route.ts:150-190 col client finto, S vista 2 e in banca dati 1, che si aspetta S ancora a 1; oppure montando app/admin/products/[id]/edit/page.tsx col finto di react-query che esegue mutationFn), in un posto che resta. (2) Trappola: updateSchema in route.ts:70-73 è uno z.object non strict e toglie in silenzio le chiavi che non conosce: se scorteViste non entra nello schema, la pagina le manda e la rotta le butta. (3) La prova del lotto tests/unit/chi-corregge-la-descrizione-non-rimette-in-magazzino-la-merce-venduta.test.ts:167-173 («senza le scorte viste... resta tutto come prima») presenta il difetto come voluto: va riscritta quando si chiude questa voce. Lo ha trovato anche la radiografia del perimetro: Stessa cartella di prima: `node --experimental-strip-types --no-warnings scenario2.ts`. Uscita: «admin corregge la descrizione: S in banca = 2 (era 1 dopo la vendita)». La lettura di app/admin/products/[id]/edit/page.tsx:149 mostra `onSubmit={(payload, ctx) => update.mutate({ payload, variants: ctx.variants })}`.",
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "API",
+      "titolo": "Se il negoziante cambia la scorta mentre arrivano ordini, il suo numero cancella le vendite e nessuno lo avvisa",
+      "dimensione": "api-backend",
+      "severita": "grave",
+      "file": "components/seller/ProductForm.tsx:706-708 · lib/products/salvataggio-tracciato.ts:357-361 · lib/products/persistVariantsServer.ts:46-47,59-61 · app/seller/products/page.tsx:154-180 · app/api/admin/products/route.ts:170 (patch.stock = rest.stock, assoluto)",
+      "descrizione": "La scorta si scrive come numero assoluto, e né la porta del prodotto né quella delle varianti controllano che in banca dati ci sia ancora il numero visto all'apertura. salvaProdottoTracciato fa update(...).eq('id').eq('seller_id'), senza nessun filtro sulla scorta (salvataggio-tracciato.ts:357-361). saveProductVariantsServer aggiorna per id (persistVariantsServer.ts:59-61). Il modulo decide solo se mandarla o no (ProductForm.tsx:706), e non avvisa mai che la scorta è cambiata. La modifica veloce dall'elenco prodotti scrive allo stesso modo (app/seller/products/page.tsx:165-180). Esempio: alle 9 il fornaio apre la focaccia, scorta 5. Alle 9:05 due clienti ne comprano una a testa e in banca dati resta 3. Alle 9:10 scrive 6 per aggiungerne una appena sfornata. In banca dati va 6 invece di 4, e due focacce che non esistono tornano in vetrina. Il rimedio: un confronta-e-scrivi lato server (.eq('stock', vista), o una funzione col valore atteso). Se il numero non torna, la risposta è «la scorta è cambiata mentre modificavi: ora è 3», detta a video al negoziante. È la seconda metà del comportamento giusto scritto nel difetto 19 («se la scorta è cambiata da quando la pagina è stata aperta, il negoziante deve essere avvisato»), che il lotto non ha fatto. Prova rossa oggi: cd /home/user/mycity && node_modules/.bin/jiti /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/triage-prodotti/scorta-vecchia-varianti.ts. Il caso B (vista 5, banca dati 3, lui scrive 6) esce «dopo il salvataggio 6 (giusto: 4, o un avviso)» ed exit 1. Va portata in tests/unit da chi ripara. — Dal contro-vaglio: la stessa perdita c'è sulla porta dell'amministrazione (app/api/admin/products/route.ts:170). La prova va scritta da sola, col suo codice d'uscita: verde solo se la banca dati arriva a 4, oppure se la chiamata fallisce con un errore di «scorta cambiata» e la banca dati resta 3; rossa se finisce a 6, o a 3 senza errore. Deve coprire anche il prodotto senza varianti (salvaProdottoTracciato, lib/products/salvataggio-tracciato.ts:357-361) con un db finto che applica i filtri .eq. La radiografia del perimetro l'ha eseguito: Copie di sola lettura da `git show 0df7945:` (senza le righe import) in /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/prova. Comando: `cd /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/prova && node --experimental-strip-types --no-warnings scenario.ts`. Uscita: «in banca dopo le vendite: 1 1» · «in banca dopo il salvataggio: S = 4 (giusto 3 = 1 rimasto + 2 aggiunti), M = 1» · «scortaCambiata(6, 5) = true -> parte stock: 6, la banca aveva 3: giusto sarebbe 4». Per M, non toccata, la cura funziona: resta 1.",
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "nato_oggi": true,
+      "titolo": "Se il negoziante riscrive la stessa scorta che vedeva all'apertura, il sito non la salva ma dice «Modifiche salvate»",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "components/seller/ProductForm.tsx:706-708 · lib/products/schema.ts:146-153 · lib/products/persistVariantsServer.ts:46-47",
+      "descrizione": "Dal lotto la scorta parte solo se è diversa da quella vista all'apertura: scortaCambiata(scritta, vista) in ProductForm.tsx:706, e per le varianti il confronto a persistVariantsServer.ts:46-47. Esempio: apre a 5, due vendite portano la banca dati a 3, lui sforna 2 focacce e scrive 5. scortaCambiata(5,5) dà falso, la scorta non parte e resta 3. Il messaggio dice comunque «Modifiche salvate» (edit/page.tsx:126). Il danno di solito è una scorta più bassa del vero. Ma la scorta può anche SALIRE mentre la scheda è aperta: restore_stock la rialza quando un pagamento con carta viene abbandonato, restore_stock_for_order quando un ordine si annulla (migrations/080_product_variants.sql:118-131,137). Esempio: alle 9:00 un pagamento con carta porta la scorta da 5 a 4; alle 9:02 il fornaio apre e vede 4; alle 9:03 vende una focaccia al banco; alle 9:04 il pagamento viene abbandonato e la scorta torna a 5; alle 9:06 lui riscrive 4, scortaCambiata(4,4) dà falso e in banca dati resta 5: il sito vende una focaccia che non c'è. Prima del lotto quel 4 si scriveva: è una strada nuova, rara, verso la vendita doppia. Il caso è raro, e l'elenco dei prodotti mostra subito 3 (app/seller/products/page.tsx:69). Lo chiude la stessa cura della voce sull'aggiornamento perso: il confronta-e-scrivi con avviso della voce sull'aggiornamento perso. dirtyFields da solo non basta: react-hook-form non segna come toccato un campo riscritto con lo stesso valore iniziale.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "nato_oggi": true,
+      "titolo": "Nessuna prova si accorge se il modulo confronta la scorta col dato riletto invece che con quello visto all'apertura",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "components/seller/ProductForm.tsx:223-228,706,733 · tests/unit/chi-corregge-la-descrizione-non-rimette-in-magazzino-la-merce-venduta.test.ts:63-76",
+      "descrizione": "Il modulo confronta la scorta con un ref fissato all'apertura (scortaAllApertura, ProductForm.tsx:223-228), non con la prop initialValues. La pagina invece ricalcola initialValues a ogni lettura del prodotto (edit/page.tsx:169-184). Se la lettura riparte, per un'invalidazione o al ritorno della rete, la prop porta il numero nuovo mentre il modulo mostra ancora quello vecchio. Un confronto con la prop farebbe ripartire la scorta vecchia. Oggi il codice fa giusto, ma le prove montano il modulo una volta con valori fissi e non lo ridisegnano mai con valori nuovi (test :63-76). Se il ref diventasse la prop, tutte resterebbero verdi. Serve una prova che ridisegni il modulo con initialValues.stock diverso e controlli che la scorta non parta.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "nato_oggi": true,
+      "titolo": "Nessuna prova copre il passaggio da scorta fissa a illimitata (e ritorno) in Modifica prodotto",
+      "dimensione": "qa-flussi",
+      "severita": "minore",
+      "file": "lib/products/schema.ts:146-153 · tests/unit/chi-corregge-la-descrizione-non-rimette-in-magazzino-la-merce-venduta.test.ts:106-113",
+      "descrizione": "scortaCambiata tratta null («scorta illimitata») come un valore. Il ramo a schema.ts:148 restituisce scritta !== vista, quindi da 5 a illimitata, o viceversa, la scorta parte. L'unica prova col null è «illimitata non toccata» (test :106-113): null contro null, non parte. Se quel ramo restituisse sempre falso, quella prova resterebbe verde. Il negoziante che spunta «scorta illimitata» però vedrebbe «Modifiche salvate» con la scorta rimasta 5, e nessuna prova diventerebbe rossa. Serve una prova per 5→null e una per null→5.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Architettura",
+      "nato_oggi": true,
+      "titolo": "La regola «la scorta è cambiata?» esiste in due copie diverse, e il modulo che si dice «solo server» lo usa il browser del negoziante",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/products/persistVariantsServer.ts:4-8,17 · lib/products/persistVariants.ts:31-36 · app/seller/products/[id]/edit/page.tsx:120 · lib/products/schema.ts:146-153 · lib/products/persistVariantsServer.ts:4-8,47 · app/seller/products/[id]/edit/page.tsx:18,120 · lib/products/persistVariants.ts:31-36",
+      "descrizione": "Il lotto ha scritto la stessa decisione due volte. Per il prodotto c'è scortaCambiata, che tratta null, undefined e numeri non finiti. Per le taglie c'è un confronto in linea, `Math.max(0, Math.trunc(vista || 0)) === row.stock`, con un'altra semantica: con vista NaN e scorta 0, scortaCambiata dice «cambiata» (scrive), mentre il confronto in linea dice «uguale» (non scrive). Oggi la differenza non si raggiunge, perché normalizeVariants dà sempre interi non negativi. Ma è il caso che il codice stesso chiama «due copie della stessa regola sono due posti da ricordare» (cookie-di-sessione.ts:56-57, persistVariants.ts:22-27). C'è un secondo punto. La pagina del negoziante ('use client') ora importa direttamente persistVariantsServer col client del browser e salta il punto d'ingresso persistVariants.saveProductVariants, che non accetta le scorte viste. Il commento di testa del file dice ancora «client admin service-role... cosa che il client browser non può fare». Il primo che aggiunge lì codice solo-server rompe la pagina, o la porta dove non deve. La cura: una funzione sola (per esempio scortaCambiata, usata anche per le taglie), saveProductVariants che inoltra scorteViste, e il commento corretto. L'intestazione di saveProductVariantsServer dice che lavora col client amministrativo, quello che salta le regole d'accesso per riga, «cosa che il client browser non può fare». In realtà la chiamano anche il browser del negoziante, attraverso persistVariants.ts:35, e da questo lotto direttamente la pagina Modifica (edit/page.tsx:120), sempre col client soggetto alle regole d'accesso. La riga 17 aggiunta dal lotto («Senza scorteViste (l'amministrazione)…») rafforza l'idea sbagliata. Chi legge può credere che la funzione giri solo lato server, e scrivere controlli che non servono o toglierne uno che serve. Va riscritta l'intestazione: la funzione accetta qualunque client, e i permessi li decide il client che le passi.",
+      "fonte": "nato dal lotto (ramo ccr-b2418a18-982q9d del sito, ondata 10, run wf_2326095d-a6c); vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Flussi critici",
+      "titolo": "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
+      "dimensione": "qa-flussi",
+      "severita": "grave",
+      "file": "lib/ordini/chiave-dopo-l-errore.ts:17-20 · app/checkout/page.tsx:836 e :844 · app/api/orders/cod/route.ts:204 (503 sulla rivendicazione della chiave, senza inCorso) e :760-1044 (finestra fra il primo ordine nato e la riga della chiave riempita)",
+      "descrizione": "Per ogni tentativo d'ordine in contanti il browser tiene una chiave. Serve al server per riconoscere un invio ripetuto e non creare un secondo ordine. Dopo un errore la regola è «butta la chiave, a meno che il server dica inCorso» (chiave-dopo-l-errore.ts:17-20, usata in page.tsx:844). Questo default è sbagliato: in certi errori il server non può garantire che nessun ordine sia nato. Primo caso: la funzione cade (timeout, 5xx della piattaforma) dopo l'insert del primo ordine (route.ts:760) e prima che la riga della chiave venga riempita (route.ts:1039-1044). La risposta non è JSON e page.tsx:836 la legge come {}. La chiave viene buttata ma il carrello resta pieno, così al tocco dopo parte una chiave nuova: secondo ordine. Secondo caso: il primo invio crea l'ordine ma la risposta si perde, e la chiave giustamente resta. Al ritocco l'insert della chiave cade per un errore di rete diverso dal duplicato. Allora route.ts:204 risponde 503 «Impossibile registrare l'ordine, riprova» senza inCorso: il browser butta la chiave e il terzo tocco crea il secondo ordine. Il danno: due ordini per una sola spesa, merce riservata due volte, credito MyCity tolto due volte, il negozio che prepara due spese. In più il «riprova» fa credere al cliente che non sia partito niente. Rimedio per tutta la classe: il server dice esplicitamente «chiave libera» (per esempio chiaveLibera:true) solo dalle uscite di esciERilascia, cioè quando nessun ordine è nato. Il browser butta la chiave solo in quel caso e su ogni altro errore la tiene. Va insieme al difetto aperto idx 1208 (la riga della chiave si riempie senza garanzie): tenendo la chiave dopo un crash, la riga resta con order_ids vuoto e dopo 60 secondi la via della chiave abbandonata ricrea comunque l'ordine. Prova che gira: lo scenario VARIANTE-RIVENDICA (copia della prova del collaudo A nella cartella di lavoro, eseguita col config di prova sul codice uguale a 1776e6b1) è rosso oggi, con 2° 503 senza inCorso, 3° 200 e 2 ordini dove se ne aspetta 1.",
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Sicurezza e accessi",
+      "nato_oggi": true,
+      "titolo": "Il conteggio dei rinnovi di sessione arrivati tardi può restare a zero in produzione",
+      "dimensione": "sicurezza-auth",
+      "severita": "minore",
+      "file": "lib/auth/cookie-di-sessione.ts:223-234,369-384 · middleware.ts:309,463-467,510-512",
+      "descrizione": "Questo punto tocca una falla riservata: qui parlo solo della misura. Il file promette la «scelta d»: quello che arriva a scatola chiusa si conta e si registra. Nel collegamento fatto dal lotto succedono due cose. (1) verificaConsegnaSessione legge perse() subito dopo sigilla(): in quell'istante la lista è sempre vuota, quindi lo stato 'persa' non esce mai da chiediConTettoSuScritturaDiSessione ed è un ramo morto. (2) L'unico segnale vero è la callback alTardivo (middleware.ts:463-467), che scatta solo dopo che il middleware ha già restituito la risposta. Su Vercel il middleware gira come funzione Edge. La firma è `middleware(req)`, senza `event.waitUntil`, quindi il lavoro dopo la risposta non è garantito. Il numero che il file dice di voler finalmente avere («QUANTE volte succede») può restare zero proprio quando il caso succede. La cura: `middleware(req, event)` con `event.waitUntil(...)` sulla chiamata ancora in volo, e via il ramo 'persa' dalla funzione che sigilla, oppure documentarlo. Quanto fidarsi: il punto (1) è certo, l'ho eseguito. Che Vercel tagli il lavoro dopo la risposta senza waitUntil non l'ho verificato in produzione: circa 70%. — Prova: `cd /tmp/claude-0/-home-user/f50634e3-5da1-52ae-85ef-aeb23d45e4ef/scratchpad/prova && node --experimental-strip-types --no-warnings scenario2.ts`. Uscita: «stato consegna al momento della decisione: forse-persa | tardivi contati in quel momento: 0» e poi «tardivi contati dopo (solo se il processo resta vivo): 1 | r.perse(): 1». La lettura di middleware.ts:309 mostra `export async function middleware(req: NextRequest)`, senza event.",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; nato dal lotto"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Architettura",
+      "nato_oggi": true,
+      "titolo": "Il tetto di 10 secondi è diventato quello di serie per tutte le chiamate, e la scelta fra 3 e 10 secondi sta fuori dal modulo provabile",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/auth/cookie-di-sessione.ts:30-33,251-253,372 · middleware.ts:500-509",
+      "descrizione": "Il valore di serie di chiediConTettoSuScritturaDiSessione è passato da TETTO_PORTIERE_MS (3 s) a TETTO_RINNOVO_MS (10 s). Ma il commento della costante dice «per tutti gli altri il tetto resta quello di tre secondi». Il commento di testa dice che la funzione serve «per le chiamate che TOCCANO la sessione, tenuto separato da quello per le semplici letture», mentre ora la usa ogni getUser, letture comprese. La decisione vera, `staRinnovando ? TETTO_RINNOVO_MS : TETTO_PORTIERE_MS`, è scritta in linea in middleware.ts e non in una funzione pura come vuole il resto del portiere (decisione-portiere.ts:17-21). Il prossimo che chiama la funzione senza `ms` aspetta 10 s anche su una lettura, e la scelta 3/10 nessuna prova la esercita da sola. La cura: una funzione tettoPerGetUser(cookie, adesso) in cookie-di-sessione.ts e nessun valore di serie, oppure di serie 3 s. — Prova: Lettura: cookie-di-sessione.ts:372 `ms: number = TETTO_RINNOVO_MS` contro il commento alle righe 251-253; middleware.ts:505-509 dove la scelta è in linea.",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; nato dal lotto"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Architettura",
+      "titolo": "Se la lettura del profilo non riesce, il portiere manda il negoziante alla home e il catalogo lo rimanda al pannello: gira in tondo finché il database è lento",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/auth/decisione-portiere.ts:262-273 · middleware.ts:565-586,610-615",
+      "descrizione": "decidiAccessoArea distingue «ruolo sbagliato» da «non approvato», ma non distingue un terzo caso: «ruolo non letto». Se la lettura del profilo scade o si rompe (middleware.ts:565-574), il ruolo è undefined e la funzione rimanda verso '/'. Sulla home il negoziante col cookie firmato del ruolo ancora valido (10 minuti) viene riconosciuto come venditore e rimandato a /seller/dashboard (middleware.ts:610-615). Lì il profilo si rilegge dal database, fallisce di nuovo, e si torna a '/'. Durante un rallentamento del database il negoziante gira in tondo fino a «troppi reindirizzamenti», invece di vedere «riprova fra poco». È il principio che il file stesso scrive («non ho potuto chiedere» non è un ruolo, righe 26-27), applicato al profilo. Il comportamento c'era già prima del lotto: oggi però la regola vive in una funzione sola, ed è lì che va sistemata, con un campo profiloLetto e un'azione 'riprova' (risposta 503) al posto del rimando. Succede solo con MIDDLEWARE_CACHE_SECRET impostato (senza il segreto non c'è il cookie del ruolo) e con il database lento oltre 3 s. — Prova: scenario2.ts (stessa cartella): «profilo non letto su /seller/orders -> {\"azione\":\"rimanda\",\"verso\":\"/\"}». Poi la lettura del giro: middleware.ts:419-424 e 550 (sul catalogo il ruolo viene dal cookie) → 610-615 (rimando a /seller/dashboard) → 565-586 (sull'area protetta il profilo si rilegge sempre).",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; c'era già prima"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Architettura",
+      "nato_oggi": true,
+      "titolo": "L'indirizzo della pagina d'attesa del negozio e il tipo dei ruoli esistono in più copie",
+      "dimensione": "architettura",
+      "severita": "minore",
+      "file": "lib/auth/decisione-portiere.ts:238,243 · middleware.ts:370,545,614 · lib/shopping-access.ts:65",
+      "descrizione": "Il lotto ha creato PAGINA_ATTESA_NEGOZIO = '/seller/dashboard' come unica fonte, ma middleware.ts scrive ancora lo stesso indirizzo a mano in due punti: l'uscita dalla modalità acquisto (370) e il rimando del venditore dal catalogo (614). Il tipo RuoloArea ripete ProfileRole, che è definito due volte (middleware.ts:545 e lib/shopping-access.ts:65). Oggi non si rompe niente. Ma il giorno che la pagina d'attesa cambia indirizzo, il venditore dal catalogo fa un salto in più, e il commento del lotto («due copie della stessa regola sono due posti da ricordare») resta smentito dal suo stesso diff. — Prova: `git -C /home/user/mycity show 0df7945:middleware.ts | grep -n \"'/seller/dashboard'\"` → righe 370 e 614.",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; nato dal lotto"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Sicurezza e accessi",
+      "titolo": "La moderazione non guarda da che stato si parte: «Riattiva» approva anche chi non è mai stato approvato o è appena stato respinto, e «Sospendi» su un respinto ferma la scadenza dei documenti",
+      "dimensione": "sicurezza-auth",
+      "severita": "minore",
+      "file": "app/api/admin/users/[id]/moderate/route.ts:113-117 (la lettura non prende approval_status) · :86-97 (patch di reactivate e suspend) · :159",
+      "descrizione": "La rotta legge id, role, store_name, full_name e legal_birth_date, ma non approval_status: qualunque azione vale da qualunque stato. La regola «Riattiva solo ai sospesi, Sospendi solo agli approvati» esiste soltanto nel pannello (app/admin/users/page.tsx:652-654 e :690-723), non sul server. Le conseguenze sono tre. (1) reactivate su un negozio 'pending' o 'rejected' lo porta ad 'approved' senza scrivere approved_by. Il registro dice 'user.reactivate' per uno che non è mai stato approvato, e lui riceve «Il tuo negozio è di nuovo operativo». (2) suspend su un respinto lo sposta a 'suspended'. La potatura dei documenti vale solo per 'rejected' (migrations/135:46), quindi carta d'identità e selfie restano per sempre: il danno della voce 1252, appena riparata dal lotto, ritorna da un'altra porta. (3) Un doppio clic su approva manda due notifiche e scrive due righe di registro. Solo un amministratore può farlo, quindi è minore. C'era già prima dell'ondata. — Prova: POST /api/admin/users/<id di un negozio pending che non ha mai inviato il modulo>/moderate, con token admin e corpo {\"action\":\"reactivate\"}. Risposta 200 {ok:true,notifica_inviata:true}. Il profilo diventa is_approved=true, approval_status='approved', approved_by=null, e arriva la notifica «✅ Negozio riattivato». Scenario dal pannello: un amministratore ha la lista aperta, non ricaricata, con Rossi «Sospeso»; intanto un altro respinge Rossi per documenti falsi; il primo preme «Riattiva» e il rifiuto sparisce senza che nessuno se ne accorga. Fix minimo: leggere approval_status e rifiutare con 409 le transizioni non ammesse (reactivate solo da suspended, suspend solo da approved, approve e reject solo da pending, o anche da suspended se si vuole).",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; c'era già prima"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Interfaccia",
+      "titolo": "Se riapri «Modifica prodotto» entro 5 minuti, il modulo mostra e risalva lo stato e il prezzo vecchi: un prodotto segnato «Esaurito» dall'elenco torna in vendita",
+      "dimensione": "frontend-ux",
+      "severita": "grave",
+      "file": "app/seller/products/[id]/edit/page.tsx:30-46, 154, 169-184 · components/seller/ProductForm.tsx:155-165, 203, 667 · app/seller/products/page.tsx:128, 141-150, 186 · components/providers/QueryProvider.tsx:14-16",
+      "descrizione": "La pagina di modifica legge il prodotto con la chiave ['seller','product',id]. L'elenco prodotti può segnare «Esaurito», nascondere il prodotto o cambiare prezzo e scorta in blocco, ma dopo svuota solo ['seller','products']. Quella chiave non è un prefisso di ['seller','product',id], quindi la copia della pagina di modifica non viene toccata. La copia resta in memoria 5 minuti (gcTime) e per 30 secondi vale come fresca (staleTime). Quando riapri «Modifica», isLoading è falso perché c'è il dato in memoria. La pagina quindi monta subito ProductForm con i valori vecchi. Quando arriva la rilettura il modulo non si aggiorna: defaultValues e useState vengono letti una volta sola, e non ci sono né reset né key. Al salvataggio stato e prezzo partono sempre, perché il lotto ha messo il freno solo sulla scorta. In più l'intestazione della pagina legge il dato fresco: può dire «Segnato come esaurito» mentre il selettore Stato, sotto, dice «In vendita». Per un prodotto a scorta illimitata, come il pane del giorno, «Esaurito» è l'unico modo di fermare le vendite: col salvataggio torna ordinabile. — Prova: 1) Apri «Modifica» sulla focaccia (In vendita, 3,00 €) e torna indietro con «← I miei prodotti» senza salvare. 2) Nell'elenco premi «Esaurito», oppure porta il prezzo a 3,50 con la modifica in blocco. 3) Entro 5 minuti riapri «Modifica»: Stato dice «In vendita» e Prezzo dice 3,00. 4) Correggi una parola della descrizione e premi Salva. Atteso: resta Esaurito a 3,50. Reale: torna In vendita a 3,00. Verifica fatta con @tanstack/query-core del repo, in uno script nella cartella temporanea: QueryClient con staleTime 30s e gcTime 5min, invalidate su ['seller','products']. Alla riapertura isLoading=false e data={status:'available',price:3}. Correzione proposta a tech: far svuotare anche queryKeys.seller.product(id) alle azioni dell'elenco, oppure in modifica usare staleTime 0, aspettare la rilettura prima di montare il modulo e dare al modulo key={dataUpdatedAt}.",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; c'era già prima"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Interfaccia",
+      "titolo": "Se la lettura delle varianti non riesce, il modulo si apre senza taglie e il salvataggio le cancella tutte",
+      "dimensione": "frontend-ux",
+      "severita": "grave",
+      "file": "app/seller/products/[id]/edit/page.tsx:48-51, 120, 154 · lib/products/persistVariantsServer.ts:25-30, 54-58 · migrations/080_product_variants.sql:36",
+      "descrizione": "La pagina legge le varianti con `const { data: variants = [] }`: se la lettura fallisce, il ripiego è un elenco vuoto e nessuno guarda l'errore. La pagina controlla solo l'errore del prodotto. Il modulo si apre come se il prodotto non avesse varianti, con il campo «Disponibilità (pezzi)» che mostra la somma. Al salvataggio saveProductVariantsServer rilegge gli id delle varianti esistenti. Il modulo ne manda zero, quindi li cancella tutti. order_items.variant_id diventa NULL (ON DELETE SET NULL): negli ordini già fatti si perde il collegamento alla taglia. Il prodotto resta in vetrina senza la scelta della taglia, con la scorta totale. Il negoziante legge «Modifiche salvate». La probabilità è bassa, perché le due letture partono insieme, ma il danno sono dati persi. — Prova: Prodotto «Maglietta» con le varianti M (3) e L (2). Fai cadere solo la lettura di product_variants (1 tentativo di riprova) mentre quella di products riesce. Si può fare con un blocco di rete in DevTools sull'URL /rest/v1/product_variants. Apri «Modifica»: niente varianti, «Disponibilità (pezzi)» 5. Cambia il prezzo e premi Salva. Risultato: product_variants del prodotto vuota, has_variants=false. Correzione proposta: con la lettura varianti in errore mostrare l'errore e non montare il modulo, o comunque non chiamare saveProductVariantsServer. Ho seguito la catena nel codice, non l'ho cliccata. Fiducia circa 80%.",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; c'era già prima"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Interfaccia",
+      "nato_oggi": true,
+      "titolo": "Dopo la richiesta, «Continua a comprare» porta il negozio alla schermata d'attesa invece che al catalogo",
+      "dimensione": "frontend-ux",
+      "severita": "minore",
+      "file": "app/sell/page.tsx:207-212 · middleware.ts:608-616 · lib/shopping-access.ts:58-75 · confronto con app/seller/layout.tsx:188, 209",
+      "descrizione": "Il riquadro «Richiesta in valutazione» dice «Nel frattempo puoi continuare a comprare normalmente», e il pulsante «Continua a comprare» porta a «/». Per un account negozio senza la modalità acquisto (?shop=1), il portiere rimanda «/» a /seller/dashboard. Prima dell'ondata quel rimando finiva in un giro chiuso di reindirizzamenti (#85). Il portiere nuovo dell'ondata lascia entrare il negozio non approvato su /seller/dashboard, quindi adesso ci si arriva davvero: il negoziante voleva comprare e si trova davanti «Negozio in attesa di approvazione». Il pulsante c'era già prima, ma questo arrivo sbagliato nasce col diff dell'ondata. Il layout, per lo stesso scopo, usa già «/?shop=1». — Prova: Profilo role=seller, approval_status=pending, approval_requested_at valorizzato, nessun cookie mycity_shopping_mode. Apri /sell e premi «Continua a comprare». L'indirizzo finale è /seller/dashboard e si vede la schermata d'attesa, non il catalogo. Correzione: href=\"/?shop=1\" anche in PendingNotice.",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; nato dal lotto"
+    },
+    {
+      "stato": "aperto",
+      "reparto": "Interfaccia",
+      "titolo": "«Modifica richiesta» porta a una pagina dove la richiesta non si può modificare",
+      "dimensione": "frontend-ux",
+      "severita": "minore",
+      "file": "app/seller/layout.tsx:208 · app/sell/page.tsx:144-150, 194-218",
+      "descrizione": "Il riquadro «Negozio in attesa di approvazione» ha il pulsante «Modifica richiesta», che porta a /sell. Per chi la richiesta l'ha mandata davvero (approval_requested_at pieno), /sell mostra solo «Richiesta in valutazione» con due pulsanti: «Continua a comprare» e «Contatta il supporto». Nessun campo si può modificare. #18 descriveva questo giro chiuso per chi la richiesta non l'aveva mai mandata: il lotto lo chiude per loro, ma per chi l'ha mandata resta. Esempio: il negoziante che ha sbagliato l'IBAN o l'indirizzo legge «Modifica richiesta» e non trova dove correggere. — Prova: Profilo role=seller, pending, approval_requested_at='2026-10-27'. Apri /seller/dashboard, premi «Modifica richiesta», arrivi su /sell: c'è solo il riquadro d'attesa, nessun modulo. Correzione: scrivere «Vedi la richiesta» sul pulsante, oppure far mostrare a /sell il modulo già compilato dietro un pulsante «Modifica».",
+      "fonte": "radiografia del perimetro dell'ondata 10 (run wf_80358590-efb), sul commit 0df7945; c'era già prima"
     }
   ],
   "sync_scan": {
