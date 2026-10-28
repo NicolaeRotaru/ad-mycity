@@ -31226,7 +31226,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-28 22:28",
+    "aggiornato": "2026-10-28 22:34",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
@@ -31239,8 +31239,8 @@
       "minore": 710,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1730,
-    "divergenza_dal_dichiarato": 25,
+    "dichiarati_dal_referto": 1755,
+    "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
   }
