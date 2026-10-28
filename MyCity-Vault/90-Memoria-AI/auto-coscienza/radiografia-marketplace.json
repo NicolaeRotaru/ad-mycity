@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1728,
+    "findings": 1729,
     "bloccanti": 35,
     "gravi": 515,
-    "minori": 1178,
+    "minori": 1179,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -714,14 +714,17 @@
       "impatto": "Le regressioni sul percorso del denaro (incasso → ordine → bonifico al negozio) arriverebbero in produzione con la CI verde. Secondo il difetto già noto K45 ogni unione su main viene pubblicata comunque. Il danno potenziale è merce consegnata senza incasso, o un negozio pagato prima della consegna o due volte.",
       "fix": "Quattro prove unitarie sul comportamento, ognuna vista fallire con la sua mutazione. ① handleCheckoutCompleted con payment_status 'unpaid' → nessun insert su orders. ② amount_total diverso da total_cents → nessun ordine, refunds.create chiamato con la chiave refund_quadratura_<id>, pending in stato MISMATCH. ③ releaseOrderPayout su un ordine con delivery_status 'SHIPPED' → NOT_DELIVERED e transfers.create mai chiamato. ④ il turno restituisce zero righe (ordine già PROCESSING) → BAD_STATE e nessun transfer. In più, ogni notte un giro di test di mutazione (Stryker) su lib/stripe/** e lib/ordini/**, con soglia sulle mutazioni sopravvissute (pipeline di @devops-sre).",
       "fonte": "marketplace",
-      "stato": "aperto",
+      "stato": "riparato",
       "prova": "Copia del repo in scratchpad/test-qualita/copia. Con lo script muta.mjs sostituisco: `if (!sessionePagata(session)) {` → `if (false) {`; `Math.abs(incassatoCents - attesoCents) > 1)` → `> 1e9)`; in payout.ts `if (order.delivery_status !== 'DELIVERED') {` → `if (false) {`; tolgo la riga `.in('payout_status', ['HELD', 'PENDING_SELLER_ONBOARDING'])` dal turno. Poi lancio `npx vitest run` su tutti i 540 file di tests/unit, in due metà da 272 e 268 file.",
       "prova_tipo": "comando",
       "prova_eseguita": "Prima metà: «272 passed · 2092 passed». Seconda metà: «1 failed | 267 passed · 1 failed | 2165 passed», dove l'unica rossa è la-vetrina-del-negozio-non-rimpicciolisce-il-testo.test.ts. Quella resta rossa anche col codice originale ripristinato («Command failed: git grep»), quindi non c'entra. Prese una per volta sulle prove mirate: ① e ② sopravvivono a 102 file e 679 prove; ③ e ④ a 64 file e 413 prove. Per confronto, la mutazione «importo pieno ignorando gli storni» viene colta (2 prove rosse). · Verifica tecnica: Ho creato una copia mia del repo (verifica-test-qualita/copia, node_modules collegato) e applicato le quattro mutazioni: 1 sostituzione in ordini.ts:88, 1 sulla soglia in ordini.ts:188, 1 su payout.ts:88, 2 righe .in('payout_status',…) tolte da payout.ts (ramo principale e ramo di ripiego). Ho lanciato i 97 file di tests/unit che nominano stripe, payout o webhook: «97 passed, 628 passed». Poi l'intera suite: «1 failed | 539 passed (540) · 1 failed | 4257 passed (4258)». L'unica rossa è la-vetrina-del-negozio-non-rimpicciolisce-il-testo.test.ts, che usa git grep e fallisce perché nella copia non c'è .git. Ho anche letto il filtro del cron e la chiave di idempotenza del transfer.",
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: test-qualita · id R70 · si ripara: codice",
-      "nota_riparazione": "2026-10-18 20:44 — parte di codice nella #258, unita e pubblicata; le prove nuove coprono i quattro controlli sui soldi; resta la prova delle mutazioni su tutta la suite (Stryker)."
+      "nota_riparazione": "Le quattro prove sul comportamento sono entrate con la #258, unita il 17/10 e pubblicata. Ricontrollo del 28/10 sul codice pubblicato: ogni controllo, se lo si toglie, fa diventare rossa almeno una prova. Il giro notturno di mutazioni resta fuori: e' una prova migliorabile su un sito che fa giusto, nel registro come minore a parte — prova: npx vitest run tests/unit/il-webhook-non-crea-ordini-per-soldi-non-arrivati.test.ts tests/unit/la-merce-del-carrello-che-non-quadra-torna-in-vendita.test.ts tests/unit/un-avviso-ripetuto-non-rifa-il-lavoro.test.ts tests/unit/il-bonifico-al-negozio-parte-solo-a-consegna-e-una-volta.test.ts — mutazione: sul codice pubblicato (fd4821aa) rimesse una alla volta le quattro mutazioni della scheda, su 157 file di prove che nominano stripe, payout o webhook (1.301 prove, tutte verdi senza mutazioni): ① `if (!sessionePagata(session))` → `if (false)`: 1 rossa; ② soglia `> 1` → `> 1e9`: 10 rosse in 3 file; ③ `delivery_status !== 'DELIVERED'` → `false` nel bonifico al negozio: 1 rossa; ④ tolte le due righe `.in('payout_status', …)` del turno: 2 rosse",
+      "chiuso_il": "2026-10-28 11:55",
+      "chiuso_da": "PR #258 · ricontrollato sul codice pubblicato fd4821aa",
+      "riparato_in": "NicolaeRotaru/mycity#258"
     },
     {
       "dimensione": "qa-flussi",
@@ -30655,23 +30658,35 @@
       "file": "components/LocationPill.tsx:166 (il CAP salvato sotto mc_delivery_location)",
       "fonte": "preesistente, trovato dal collaudo della correzione del sesto giro del lotto #262 (run wf_f1674a4c-628, commit e36741a7)",
       "descrizione": "grep -rn 'mc_delivery' in app, components e lib: la chiave c'è solo in LocationPill.tsx. La riga sotto adesso dice il limite vero dei 5 km, e la cassa rifiuta l'indirizzo lontano prima del pagamento."
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "titolo": "Nessun giro notturno di mutazioni sul percorso dei soldi: un controllo nuovo su incasso o bonifico puo' entrare senza una prova che lo tenga",
+      "severita": "minore",
+      "file": "lib/stripe/** · lib/ordini/** · .github/workflows/ (il giro notturno non c'e')",
+      "descrizione": "I quattro controlli sui soldi della voce «Si possono togliere quattro controlli sui soldi e 4.257 prove automatiche su 4.258 restano verdi» oggi hanno ognuno una prova che diventa rossa se lo si toglie: ricontrollo del 28/10 sul codice pubblicato. Ma quella copertura l'ha misurata una persona, mutando il codice a mano. Un controllo aggiunto domani sul percorso dei soldi puo' entrare senza prova, e nessun giro automatico se ne accorge. Il sito oggi fa giusto: e' una prova migliorabile, non un comportamento sbagliato.",
+      "impatto": "Una regressione su un controllo nuovo dei soldi arriverebbe in produzione con la CI verde. I controlli di oggi sono coperti.",
+      "fix": "Un giro notturno di test di mutazione (Stryker) su lib/stripe/** e lib/ordini/**, con una soglia sulle mutazioni sopravvissute che fa diventare rosso il giro (pipeline di @devops-sre).",
+      "fonte": "residuo della voce del 2026-10-11 (radiografia, corsia test-qualita, R70), separato il 2026-10-28 quando i quattro controlli si sono visti coperti",
+      "stato": "aperto"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-28 11:33",
+    "aggiornato": "2026-10-28 11:56",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
     "findings_aperti": 893,
-    "findings_chiusi": 835,
-    "findings_tot": 1728,
+    "findings_chiusi": 836,
+    "findings_tot": 1729,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 154,
-      "minore": 730,
+      "grave": 153,
+      "minore": 731,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1728,
+    "dichiarati_dal_referto": 1729,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
