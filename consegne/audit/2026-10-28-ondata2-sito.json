@@ -1,0 +1,139 @@
+{
+ "_cosa_e": "Ondata 2 del piano di riparazione del sito del 24/10 (fase 5: pannello, negozio, soldi dei resi, vetrina, conti del negozio), con le correzioni della critica: 1394 e 280 già riparati e tolti; 1290 rinviato (si chiude dopo main:false insieme al 1289, fase 8); 251 col 24 perché lib/store-hours.ts ha un proprietario solo; 142, 1265, 1277, 111 e 1320 col pannello; 278 con la squadra del negozio perché components/Navbar.tsx lo tocca anche il 22; 195 con orari e cassa perché app/api/orders/cod/route.ts lo tocca anche il 251. Territori disgiunti (misurati con fileDelPacchetto). Le ondate 1-8 di questo file sono vuote apposta: le schede si leggono con --ondata 9, così i worktree nascono come o9-* e non si confondono coi giri passati. Base: main del sito 1776e6b1 (unione della #262). Scelte che la reggono, tutte firmate con «ok 209» il 26/10: decisione 2 (solo contanti, il sito si ferma e avvisa con la cifra, correzione a mano; del 1313 solo la parte in comune con la 1287), decisione 9 (niente chat cliente-negozio al lancio, «Chiama il negozio»; scelta 11: il negozio vede nome e telefono di chi ordina), decisione 10 (categorie vuote nascoste), decisione 12 (scheda ordine admin solo da guardare, col codice di consegna visibile all'amministratore).",
+ "data": "2026-10-28 19:45",
+ "registro": "sito",
+ "origine": "consegne/audit/2026-10-24-piano-riparazione-sito.json, piano.ordine[5] e critica.mancanze",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "app/admin/orders/page.tsx",
+    "difetti": [
+     {
+      "idx": 1229,
+      "chiave": "frontend-ux|il pannello ordini dice «0 ordini · nessun ordine» quando la lettura e' caduta — lo stesso difetto che il lotto ha chiuso nelle due pagine sorelle"
+     },
+     {
+      "idx": 1230,
+      "chiave": "frontend-ux|il cruscotto admin resta sullo scheletro per sempre se la lettura non riesce — la riga che il lotto ha appena descritto come difetto sul cruscotto del negoziante"
+     },
+     {
+      "idx": 118,
+      "chiave": "frontend-ux|il dettaglio di un ordine nel pannello admin non esiste: ogni link «ordine» e ogni allarme portano a una pagina non trovata"
+     },
+     {
+      "idx": 142,
+      "chiave": "frontend-ux|basta un tocco su «conferma rimessa» per far pagare i negozi, senza dire quanti contanti sono arrivati davvero"
+     },
+     {
+      "idx": 1320,
+      "chiave": "sicurezza-auth|annullando un ordine già pagato in contanti, chi amministra legge una frase mozzata e un'istruzione che non si può eseguire"
+     },
+     {
+      "idx": 1265,
+      "chiave": "api-backend|l'allarme «contanti non confermati» guarda solo gli ordini creati ieri e perde quelli consegnati due o più giorni dopo l'ordine"
+     },
+     {
+      "idx": 111,
+      "chiave": "api-backend|se la lettura degli ordini non riesce, la cassa del fattorino viene riscritta come «tutto in ordine, zero euro» sopra un ammanco vero"
+     },
+     {
+      "idx": 1277,
+      "chiave": "api-backend|sopra i 50 euro qualunque testo vale come foto dei contanti, e l'avviso «incasso senza foto» si evita con un percorso inventato"
+     },
+     {
+      "idx": 281,
+      "chiave": "stati-ui|la pagina promozioni va in errore quando non c'è nessuna promozione attiva"
+     }
+    ]
+   },
+   {
+    "chiave": "app/messages/page.tsx",
+    "difetti": [
+     {
+      "idx": 114,
+      "chiave": "frontend-ux|la pagina recensioni del negozio va sempre in errore: il negoziante non vede né può rispondere alle recensioni"
+     },
+     {
+      "idx": 1336,
+      "chiave": "frontend-ux|in chat il negoziante vede «utente» al posto del nome di ogni cliente"
+     },
+     {
+      "idx": 22,
+      "chiave": "qa-flussi|il cliente può scrivere al negozio, ma il negozio non viene mai avvisato e dal suo pannello non vede i messaggi"
+     },
+     {
+      "idx": 1245,
+      "chiave": "qa-flussi|«contatta il rider» chiama il numero del negozio, non del rider"
+     },
+     {
+      "idx": 278,
+      "chiave": "accessibilita-visiva|metà del logo e il pulsante «accedi» nella testata hanno lo stesso colore dello sfondo e non si vedono"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/stripe/payout.ts",
+    "difetti": [
+     {
+      "idx": 1287,
+      "chiave": "pagamenti-stripe|dopo un guasto, chiudere il reso con i passi normali registra due volte lo stesso rimborso, e al negozio la sua parte viene tolta due volte"
+     },
+     {
+      "idx": 1313,
+      "chiave": "api-backend|con la carta, se la scrittura sul reso cade dopo il rimborso, «rimborsa e chiudi» rimborsa di nuovo: il negozio perde la sua parte due volte e dopo un giorno il cliente riceve i soldi due volte"
+     },
+     {
+      "idx": 1333,
+      "chiave": "pagamenti-stripe|se la risposta del database si perde dopo aver prenotato il rimborso dei contanti, l'ordine risulta rimborsato per intero senza che sia uscito niente, e nessun amministratore viene avvisato"
+     },
+     {
+      "idx": 1286,
+      "chiave": "pagamenti-stripe|se l'annullo di un ordine non riesce a restituire il credito mycity usato, il cliente lo perde e nessuno se ne accorge"
+     }
+    ]
+   },
+   {
+    "chiave": "components/CategoryShowcase.tsx",
+    "difetti": [
+     {
+      "idx": 1310,
+      "chiave": "frontend-ux|se la rete cade mentre il cliente cerca, la tendina dice «nessun risultato» invece di «non riesco a cercare»"
+     },
+     {
+      "idx": 300,
+      "chiave": "navigazione-gerarchia|home, piè di pagina e mappa per google mettono in mostra categorie vuote: otto su nove non hanno prodotti"
+     },
+     {
+      "idx": 1228,
+      "chiave": "frontend-ux|le foto dell'iphone (heic) adesso entrano davvero, ma nessuno le converte: sul telefono android e su chrome restano un riquadro rotto"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/store-hours.ts",
+    "difetti": [
+     {
+      "idx": 24,
+      "chiave": "qa-flussi|se il negoziante segna chiusi tutti i giorni, per esempio per ferie, il sito lo considera sempre aperto e accetta ordini a qualsiasi ora"
+     },
+     {
+      "idx": 251,
+      "chiave": "microcopy|la pagina dell'unico negozio vero e l'errore di cassa offrono il «ritiro in negozio», ma il servizio è spento"
+     },
+     {
+      "idx": 195,
+      "chiave": "dati-analytics|il cruscotto del negoziante mostra meno soldi di quelli che riceve quando il cliente paga anche col credito mycity"
+     }
+    ]
+   }
+  ]
+ ]
+}

@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-28 16:22
+aggiornato: 2026-10-28 19:55
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🌊 **2026-10-28 19:55 — L'ondata 2 è pronta. Prima ti chiedo quale ondata parte per prima.**
+>
+> Ho guardato il sito pubblicato in sola lettura. È in piedi, ma la cassa non funziona: su circa 5.400 errori degli ultimi sette giorni, tutti tranne 2 vengono dalla chiave di servizio che manca su Vercel. Nel database ci sono 2 negozi approvati, 9 prodotti e un solo ordine, del 24 giugno.
+>
+> L'ondata 2 ha cinque squadre e 24 difetti, su file che non si toccano. Le scelte le hai già firmate il 26/10. L'ondata 1, quella della porta del negozio, ha ancora 24 difetti aperti su 25, e le due ondate vanno in fila. La scelta è nella carta #217.
 
 > 🚀 **2026-10-28 15:33 — Il sito vero è cambiato.**
 >

@@ -5908,3 +5908,29 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 **Colore.** 🔴 firmato da Nicola: l'unione della #262 ha cambiato il sito pubblicato.
 
 **Aggiunta delle 16:22 — la verifica del sito pubblicato.** Run `wf_fb2533cc-fc3`, 18 agenti, 57 minuti, cinque lenti (consegna, funzioni spente, account e admin, pagine ed errori, telefono) e una verifica avversariale per ogni guasto. Il dominio è bloccato dalla rete della sessione: le pagine si leggono col prelievo di Vercel sul rilascio di produzione. Esito: 101 controlli, 67 a posto, 13 guasti, 21 non visti (servono il JavaScript nel browser o l'accesso). Tutti i 13 guasti sono stati confermati. Nessun grave è nato dalla #262: i due guasti che vengono dal lotto, la fascia vuota del piede e «Nei comuni serviti», erano già nel registro come minori. Dieci sono difetti già nel registro, due dei quali visti da due lenti; gli otto distinti sono «Nei comuni serviti», la fascia vuota del piede, la frase dei diritti, il telefono finto in Contatti, il bollino «Ritiro in negozio», la pagina dello stato, il titolare senza dati, il logo che sul telefono si legge solo «My». Due sono le chiavi che Nicola conosce: la carta #154, per i lavori notturni che falliscono senza la chiave di servizio, e la carta #203. Una voce nuova nel registro: sei bersagli di tocco della testata sotto i 44 pixel (minore, preesistente). Aperti dopo: 806 su 1.730 (9 bloccanti, 107 gravi, 690 minori).
+
+## 2026-10-28 19:55 — 🟢 Analisi del sito dopo l'unione, e l'ondata 2 preparata (non lanciata)
+
+**Cosa ha chiesto Nicola:** «Fai l'analisi completa di come è messo il marketplace e preparati per l'ondata 2».
+
+**Cosa ho fatto, in sola lettura.** Database del sito: 9 account, 2 negozi approvati (Pane Quotidiano e il Panificio Demo, ancora lì), 9 prodotti disponibili, 1 ordine in tutto (24/6). Errori di Vercel su 7 giorni: circa 5.400, tutti tranne 2 dalla chiave di servizio mancante (lavori notturni 503, consenso, registro visite). Controllo di sicurezza di Supabase: le regole d'accesso segnalate sono già nella corsia riservata; protezione password rubate ancora spenta. Registro del sito: 806 aperti su 1.730 (9 bloccanti, 107 gravi, 690 minori); fase 0 ancora 8 su 8 aperti, ondata 1 24 su 25, ondata 2 19 su 21. Nessuna radiografia nuova: il tasso di chiusura della macchina in ottobre è 0,09 (74 aperti, 7 chiusi).
+
+**L'ondata 2.** Piano `consegne/audit/2026-10-28-ondata2-sito.json` (si legge con `--ondata 9`), cinque pacchetti, 24 schede trovate da `schede-pacchetto.mjs` (exit 0), territori disgiunti misurati con `fileDelPacchetto`. Correzioni della critica applicate: 1394 e 280 tolti perché riparati; 1290 rinviato con il 1289 dopo `main:false`; 251 col 24 (un padrone per `lib/store-hours.ts`); 142, 1265, 1277, 111, 1320 col pannello; 278 col negozio (testata condivisa col 22); 195 con gli orari (cassa contanti condivisa col 251). Scelte già firmate con «ok 209» (decisioni 2, 9, 10, 12 del piano). Ondata 1 e ondata 2 condividono 7 file: vanno in serie. Referto: `consegne/audit/2026-10-28-ondata2-preparazione.md`. Carta #217: quale ondata prima (consiglio: A, prima l'ondata 1).
+
+**Perché non l'ho lanciata.** Nicola ha chiesto di prepararla. L'ondata costa da 24 a 41 agenti, e l'ordine fra ondata 1 e 2 è una sua scelta.
+
+**Colore.** 🟢: letture, un piano e un referto. Nessun codice del sito toccato.
+
+## 2026-10-28 20:15 — 🟡 Nicola sceglie l'ondata 1 («Parti con l'ondata 1»): partita
+
+**Cosa.** Carta #217 decisa: prima l'ondata 1 (fase 4 del piano del 24/10). Piano `consegne/audit/2026-10-28-ondata1-sito.json` (`--ondata 10`, worktree `o10-*`), 25 schede su 5 pacchetti, territori disgiunti tranne la migrazione 161, citata come lettura (le migrazioni non contano come conflitto). Pacchetti: portiere e porta del negozio (85, 1214, 1137, 86, 18, 3, 182, 343, 119); moderazione (1252-1255); promesse e scheda prodotto (255, 252, 120, 253, 1206, 249, 256); cassa in contanti (1209, 1208, 23); catalogo (19, 1293). Tolto 250 (riparato). Rinviati a un mezzo giro dopo: 50, 113, 247.
+
+**Le scelte firmate passano alle squadre.** Il motore non porta le decisioni: le ho scritte nel campo `scelta_di_nicola` di 14 schede su 25, aggiunto all'uscita di `schede-pacchetto.mjs` (fattorini A, promessa «in giornata» a 5 km con solo i 3 euro, solo contanti, niente numeri finti, partita IVA obbligatoria per approvare, alimenti senza allergeni fuori vendita, commissione 10% IVA inclusa). È un buco del metodo: va scritto nel cantiere della macchina.
+
+**Lancio.** Run `wf_2326095d-a6c`, base `1776e6b1` (main del sito, verify verde 6.026 su 6.026), tipi `tech` e `qa`, tetto 45.
+
+**Colore.** 🟡: codice del sito solo nei rami delle squadre; la richiesta di unione la apro io, l'unione è di Nicola.
+
+## 2026-10-28 20:40 — 🟢 Correzione: la fase 0 del piano è fatta, non aperta
+
+Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato: gli 8 gravi (51, 1138, 1237, 1300, 1244, 1319, 1299, 312) sono nello stato `gia_riparato_prima`. Il mio conto contava come aperto ogni stato diverso da `riparato` e `chiuso`. Rifatto con `stato === "aperto"`: fase 0 0 su 8, le altre fasi come prima. Corretti il referto `consegne/audit/2026-10-28-ondata2-preparazione.md` e la descrizione della #897.
