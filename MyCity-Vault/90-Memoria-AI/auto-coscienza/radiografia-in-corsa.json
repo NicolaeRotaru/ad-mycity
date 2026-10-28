@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-28 01:01",
+  "aggiornato": "2026-10-28 07:00",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4600,6 +4600,95 @@
       "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
       "file": {
         "lib/stripe/client.ts": "73fe82c7de4e"
+      }
+    },
+    {
+      "quando": "2026-10-28 07:00",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_f46054b4-45d (qa)",
+      "trovati": 18,
+      "schede": [
+        "Con la consegna regalata la cassa la chiama «Consegna MyCity · Gratis» e la pagina dell'ordine «Spedizione GRATUITA»: due nomi per la stessa riga",
+        "Una prova collauda ancora la riga della consegna di un componente che nessuna pagina monta più: se torna nel carrello, la consegna si legge due volte a prove verdi",
+        "Il sito promette «Reso entro 14 giorni» e «Ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+        "La scheda prodotto promette «Consegna in 2-3 giorni» sui prodotti esauriti e su tutti quelli di un negozio senza Express, ma in cassa quella consegna non esiste",
+        "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+        "La scheda prodotto dice che consegna il negozio, i Termini e la cassa dicono MyCity",
+        "Pagina del negozio: se la prima lettura cade, un ordine in contanti appare «Carta (online)» con «Spedizione GRATUITA»",
+        "Pagina dell'ordine del negozio: se la lettura del codice di ritiro o del reso fallisce, il riquadro sparisce senza avviso e senza «Riprova»",
+        "Il riquadro «Rifiutare l'ordine?» del negoziante lascia scappare il fuoco col Tab, non lo riporta su «Rifiuta» alla chiusura, e il campo del motivo non ha nome",
+        "Pagina admin «Zone & tariffe»: accanto alla spiegazione lunga del confine, il valore «10 km» si spezza su due righe, «10» sopra «km»",
+        "Confine senza coordinate chiuso solo a parole: l'ordine non misurato passa senza nessun segno, e ora /shipping lo annuncia",
+        "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+        "La pagina Spedizioni dice «ti diciamo subito se ci arriviamo», ma la cassa avvisa del fuori zona solo al clic finale (chi non ha l’account, dopo l’accesso)",
+        "La pagina Spedizioni elenca ancora lo stato «Pronto per il ritiro / la consegna» fra i passaggi dell’ordine, ma il ritiro in negozio è spento",
+        "«Vicino a te» senza posizione: il cursore non c'è, ma la lista vuota dice «entro 5 km, aumenta il raggio»",
+        "«Vicino a te»: dopo aver dato la posizione non si torna più all’elenco intero, e i negozi senza posizione sulla mappa spariscono senza una parola",
+        "Su Google e nelle anteprime WhatsApp le sottocategorie si presentano come «Acquista bambini», «Acquista uomo», «Acquista donna» dai negozi di Piacenza",
+        "Il negozio che scrive l'indirizzo senza premere «Cerca» viene messo a Roma, e da Piacenza nessuno può più ordinargli una consegna"
+      ],
+      "nota": "riesame della copia del quinto giro, 28/10 notte: 4 revisori, nessun grave nato",
+      "file": {
+        "app/category/[slug]/layout.tsx": "474ee9cd2b50",
+        "app/near/layout.tsx": "0d15c4ad98e5",
+        "app/admin/delivery/page.tsx": "ad5664bfe894",
+        "app/near/page.tsx": "941402c83d3b",
+        "app/product/[id]/page.tsx": "9e2ec9c4b83c",
+        "app/seller/orders/[id]/page.tsx": "3af93c832c90",
+        "app/shipping/page.tsx": "68b853b148b0",
+        "components/checkout/OrderSummary.tsx": "aa836568a8ea",
+        "components/ui/FreeShippingProgress.tsx": "2acdde2a7ec4"
+      }
+    },
+    {
+      "quando": "2026-10-28 07:00",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_f46054b4-45d (qa)",
+      "trovati": 8,
+      "schede": [
+        "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+        "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+        "Nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce",
+        "Pagina del negozio: se la prima lettura cade, un ordine in contanti appare «Carta (online)» con «Spedizione GRATUITA»",
+        "L’email «3 cose da sapere» scrive «Paghi alla consegna: la carta non è obbligatoria», come se alla porta si potesse pagare con la carta: al lancio solo contanti",
+        "L’email dei 14 giorni promette «gli sconti del momento», ma al lancio codici sconto e prezzi barrati sono spenti",
+        "La consegna da 3 € ha ancora altri nomi: «Costo di consegna» su Stripe, «Consegna a domicilio» in cassa, «Consegna a casa» in home",
+        "A ordine pronto la campanella del sito e la pagina dell’ordine dicono ancora «un rider lo ritirerà», mentre l’email ora dice «passa a prenderlo»"
+      ],
+      "nota": "riesame della copia del quinto giro, 28/10 notte: 4 revisori, nessun grave nato",
+      "file": {
+        "lib/ordini/riepilogo-ordine.ts": "1cd40d54607e",
+        "lib/email/templates.ts": "e1f7a0b0b9ec",
+        "lib/promesse-pubbliche.ts": "3b3d84c5550f"
+      }
+    },
+    {
+      "quando": "2026-10-28 07:00",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_f46054b4-45d (qa)",
+      "trovati": 7,
+      "schede": [
+        "Nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso",
+        "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+        "Il carrello scrive «Disponibile · Consegna in 30-60 min» anche a negozio chiuso, e il rifiuto arriva solo all'ultimo tocco in cassa",
+        "Nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce",
+        "«Contatta il rider» chiama il numero del NEGOZIO, non del rider",
+        "«Invia un messaggio» chiude il pannello e non manda niente",
+        "Chi abita appena oltre i 10 km, come a Podenzano o Rottofreno, scopre di essere fuori zona solo premendo «Ordina»: carrello e cassa non lo avvisano prima"
+      ],
+      "nota": "riesame della copia del quinto giro, 28/10 notte: 4 revisori, nessun grave nato",
+      "file": {
+        "app/cart/page.tsx": "cdaac7841f83",
+        "app/orders/[id]/page.tsx": "3abbff9ef4f9"
       }
     }
   ]
