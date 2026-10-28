@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-27 23:55
+aggiornato: 2026-10-28 06:36
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧩 **2026-10-28 06:36 — Due lavori del sito aspettano la tua firma.**
+>
+> Sono la consegna da 3 euro e l'email del ritiro. Il quinto giro li ha completati. Il collaudo li ha fermati tre volte ciascuno, sempre su prove che si potrebbero scrivere meglio. Il sito, invece, si comporta giusto: l'ho provato io su una copia, con le prove automatiche, nel browser e con le prove dei verificatori.
+>
+> Ti chiedo due firme. La carta #215: unire così i due lavori. La carta #216: la regola che fa finire i giri, perché questo succede a ogni giro.
 
 > 🔎 **2026-10-27 23:55 — La cancellazione dell'account regge. Il riesame ha trovato due difetti gravi: parte il quinto giro.**
 >

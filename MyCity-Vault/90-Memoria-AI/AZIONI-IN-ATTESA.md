@@ -31,23 +31,45 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🟡 #215 — Scegli se unire la consegna da 3 euro così com'è: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46
+### 🟡 #216 — Firma la regola che fa finire i giri del sito: una prova migliorabile, su un sito che funziona, è un difetto piccolo · ⏳ accodata 2026-10-28 06:35
 
-> ⏰ **2026-10-27 23:55 — Il giro in più l'ho fatto partire io.** Il riesame ha confermato grave la pagina dell'ordine che scrive «Spedizione GRATUITA». Senza questo ramo, la #262 porterebbe quella scritta su ogni ordine. Il quinto giro parte da questo ramo e chiude i due buchi delle prove della carta che l'avevano fermato. Se regge, la carta si chiude da sola e non devi fare niente. Se si ferma ancora, torno da te con le stesse due strade.
+**In parole semplici.** Ogni giro di riparazione del sito finisce con un collaudo: un collaudatore che non ha scritto il lavoro prova a romperlo. Oggi il collaudatore boccia anche quando il sito fa la cosa giusta, se trova una prova che si potrebbe scrivere meglio.
 
-**In parole semplici.** La squadra della consegna ha finito. La pagina dell'ordine non scrive più «Spedizione GRATUITA» sopra i 3 € di consegna, e la voce ha lo stesso nome ovunque. Il confine dei 10 km è provato in ogni direzione dritta.
+Un esempio di stanotte. Nell'email «3 cose da sapere» la squadra ha tolto la promessa del ritiro in negozio, e l'email adesso è giusta. Il collaudo l'ha bocciata tre volte: la prova non vedrebbe la stessa promessa scritta con altre parole, come «passa tu dal negozio a prenderla».
 
-Il collaudo l'ha bocciata tre volte, ma non per un errore del sito. Ogni volta ha trovato un modo nuovo di rompere il codice che le prove non vedrebbero. Per esempio: se domani qualcuno sbagliasse il calcolo della distanza solo in diagonale, oggi nessuna prova diventerebbe rossa.
+**Cosa cambia:** cambio una regola del collaudo nel metodo delle ondate. Il collaudo boccia solo se il sito si comporta male, oppure se la prova di un difetto chiuso non diventa rossa quando lo si rimette. Una prova migliorabile su un sito che funziona entra nel registro come difetto piccolo, e il giro va avanti. Il terzo e il quinto giro della fase 2 si sono fermati così: 12 bocciature, tutte su prove migliorabili, nessuna su un errore del sito.
 
-**Cosa cambia:** con «ok 215» unisco la consegna nella richiesta del sito (#262). Il sito si comporta giusto: 5.917 prove automatiche su 5.917, e nel browser nessuna prova rossa della consegna. I buchi delle prove restano nel registro, aperti, e li chiude un giro dedicato.
+**Cosa devi fare tu.** Scrivimi «ok 216». Cambia il metodo della macchina: vale solo con la tua firma.
 
-**Cosa devi fare tu.** Scrivimi «ok 215» per unirla così: è il mio consiglio. Oppure «215 un altro giro», se vuoi prima anche le prove che mancano. Ogni giro costa circa un'ora e mezza e due milioni di gettoni, e finora ha sempre trovato buchi nuovi.
+**Se va bene:** al prossimo giro i pacchetti che funzionano reggono al primo collaudo, e le prove migliorabili le chiude un giro a parte. Ti porto il conto delle bocciature prima e dopo.
 
-**Se va bene:** la consegna entra nella #262 insieme alla cancellazione dell'account, appena il quarto giro di quella regge. Poi ti ripresento la #262 da unire.
+**Cosa non ho verificato:** la regola la applica un modello che legge le istruzioni del collaudo. Se la segue davvero, lo vedremo solo al prossimo giro.
 
-**Cosa non ho verificato:** la consegna da sola nel browser. L'ho provata insieme al ramo dell'account: le sole 3 prove rosse erano dell'account, e le sta sistemando il quarto giro.
+Contenuto: il difetto AR-1027 nel cantiere della macchina, con la causa e la cura.
 
-Contenuto: `consegne/audit/2026-10-27-fase2-sito-giro3.json`. Il ramo è `fix/ondata-5-lib-ordini-riepilogo-ordine-ts`.
+---
+
+### 🟡 #215 — Scegli se unire così la consegna da 3 euro e l'email del ritiro: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46
+
+> ⏰ **2026-10-28 06:35 — Il giro in più si è fermato come il primo.** Adesso i lavori da unire sono due: la consegna e l'email. Il quinto giro ha completato la consegna e ha tolto dall'email la promessa del ritiro. Tutti e due i pacchetti si sono fermati dopo tre bocciature, sempre su prove migliorabili. La scelta resta tua, con le stesse due strade.
+
+**In parole semplici.** Sono pronti due lavori del sito, e tutti e due si comportano giusto.
+- La consegna da 3 euro detta bene ovunque. Dopo il pagamento la pagina dell'ordine non scrive più «Spedizione GRATUITA» sopra i 3 euro. La voce ha lo stesso nome in scheda, carrello, cassa e ordine. Il confine dei 10 km è provato anche in diagonale.
+- L'email «3 cose da sapere». Arriva a ogni nuovo cliente e non promette più il ritiro in negozio, che al lancio è spento.
+
+Il collaudo li ha bocciati tre volte ciascuno, ma non per un errore del sito: ogni volta ha trovato una prova che si potrebbe scrivere meglio. Per esempio: se domani qualcuno aggiungesse «passa tu dal negozio a prenderla» solo nelle email col nome del cliente, oggi nessuna prova diventerebbe rossa.
+
+**Cosa cambia:** con «ok 215» unisco i due lavori nella richiesta del sito (#262). Senza, la #262 porterebbe su ogni ordine la scritta «Spedizione GRATUITA» sopra i 3 euro. E a ogni nuovo cliente arriverebbe la promessa del ritiro. Le prove migliorabili restano nel registro, aperte.
+
+**Come l'ho provato.** Ho messo le due correzioni in una copia del sito e l'ho provata io. Il controllo completo è verde: 6.018 prove su 6.018. Nel browser, come nella CI, 70 prove passate e 6 saltate, nessuna rossa. Le prove dei due verificatori sono rosse sul ramo di oggi e verdi sulla copia. Il riesame dei 14 file nuovi non ha trovato difetti gravi nati.
+
+**Cosa devi fare tu.** Scrivimi «ok 215» per unirli così: è il mio consiglio. Oppure «215 un altro giro». Per la consegna sarebbe il terzo giro: i primi due si sono fermati nello stesso modo.
+
+**Se va bene:** unisco i due lavori nella #262, rifaccio le prove e te la ripresento da unire.
+
+**Cosa non ho verificato:** il sito pubblicato e un telefono vero. Ho provato la copia in locale, con le prove automatiche e nel browser.
+
+Contenuto: `consegne/audit/2026-10-27-fase2-sito-giro5.json`. I rami sono `fix/ondata-7-lib-ordini-riepilogo-ordine-ts` e `fix/ondata-7-lib-email-templates-ts`. La copia provata è `fix/candidata-fase2-giro5`, commit `6ae86ca5`.
 
 ---
 

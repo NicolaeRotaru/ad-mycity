@@ -5847,3 +5847,26 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 **Registro:** il confronto dei 92 trovati con il registro, per non scrivere doppioni, è in corso (run `wf_0eb46399-c63`).
 
 **Colore.** 🟡 codice nei rami del sito, nessuna unione nella #262 senza collaudo che regge; l'unione della #262 resta di Nicola.
+
+## 2026-10-28 06:36 — 🟡 Fase 2 del sito: il quinto giro si ferma sulle prove, e la scelta torna a Nicola con due lavori pronti
+
+**Il quinto giro** (run `wf_1bc11a0a-959`, 14 agenti, ondata 7, base locale `fix/base-ondata-7`): tutti e due i pacchetti fermi dopo tre bocciature del collaudo.
+- Consegna (`e4fe3ff6`): la squadra dichiara chiuse le 21 schede, compresa la 1584 (la pagina dell'ordine «GRATUITA»). Le bocciature: la carta in diagonale, i contanti a 12 km o a ottagono, «in omaggio» sopra i 30 euro, la carta sopra i 30 euro, la pagina dell'ordine da 50 euro. Tutte prove migliorabili su codice che si comporta giusto.
+- Posta (`0908731d`): la promessa del ritiro è tolta dall'email «3 cose da sapere» (1658). Le bocciature: sinonimi della stessa promessa che la prova non vedrebbe.
+
+**Cosa ho provato io**, sulla copia `fix/candidata-fase2-giro5` (`6ae86ca5`: ramo d'integrazione, ramo del terzo giro della consegna e i due rami del quinto):
+- `npm run verify`: 664 file, 6.018 prove, tutto verde;
+- prove nel browser come nella CI: 70 passate, 6 saltate, nessuna rossa, col server della copia giusta;
+- le prove dei verificatori del riesame: la pagina dell'ordine è rossa su `a4f4161c` (2 casi su 2) e verde sulla copia; l'email del secondo giorno promette il ritiro su `a4f4161c`, col nome e senza, e sulla copia no;
+- riesame del perimetro dei 14 file nuovi (run `wf_f46054b4-45d`, 4 revisori): nessun grave nato, 4 minori nati, 30 trovati che c'erano già;
+- nel database, in sola lettura: Pane Quotidiano ha la posizione giusta, a 100 metri dal centro di Piacenza, quindi il confine dei 10 km funziona per lui. Il Panificio Demo è ancora lì: aspetta il comando della carta #201.
+
+**Le scelte:**
+- Carta #215 riscritta: unire così i due lavori (il mio consiglio) o fare un altro giro. Un ramo fermo non lo unisco senza la firma di Nicola.
+- Carta #216 nuova: la regola che fa finire i giri (difetto AR-1027 della macchina). È un'auto-modifica: 🟡, vale con la firma.
+
+**Un errore mio.** Nella notte il computer della sessione si è riavviato due volte. Dopo il primo riavvio ho ripreso i lavori dal diario, senza rifare i passi finiti. Dopo il secondo ho creduto di aver finito e mi sono fermato, a metà del controllo sul database. Mi ha svegliato il controllo programmato delle 05:24: il lavoro è rimasto fermo circa tre ore e mezza.
+
+**Registro:** 12 voci aperte dal quinto giro (5 gravi e 7 minori; dei gravi, 4 sono prove migliorabili e uno è un difetto vecchio della pagina del negozio). I trovati del riesame della copia entrano dopo il confronto col registro (run `wf_f44d7ca7-de2`).
+
+**Colore.** 🟡: codice nei rami, nessuna unione; l'unione della #262 resta di Nicola.

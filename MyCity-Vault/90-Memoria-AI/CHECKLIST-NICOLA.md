@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-27 20:50
+aggiornato: 2026-10-28 06:35
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 55 voci in fila, dalla più urgente alla meno. Oggi ne servono cinque: tre scelte da un minuto, un comando da incollare in Supabase e il cambio delle chiavi del database.
+> **In due righe.** Sono 56 voci in fila, dalla più urgente alla meno. Oggi ne servono sei: quattro scelte da un minuto, un comando da incollare in Supabase e il cambio delle chiavi del database.
 
 ## In parole semplici
 
@@ -15,7 +15,7 @@ Qui c'è solo quello che richiede te: firme, unioni, accessi che la macchina non
 
 ## Cosa cambia per te
 
-Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 51 voci il 26/10; il 27/10 se ne sono aggiunte quattro. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
+Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 51 voci il 26/10; il 27/10 se ne sono aggiunte quattro, il 28/10 una. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
 
 ## Cosa devi fare
 
@@ -37,8 +37,10 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
   → messaggio del 27/10 · 1 minuto · A = zero bloccanti e zero gravi, B = zero anche i minori, C = zero sul percorso del primo ordine.
 - [ ] 🟡 Dimmi A o B sul rilascio controllato: A lo rimando, B faccio un terzo giro adesso.
   → messaggio del 27/10 · 1 minuto.
-- [ ] 🟡 Dimmi se unire la consegna da 3 euro così com'è: «ok 215» o «215 un altro giro».
+- [ ] 🟡 Dimmi se unire così la consegna da 3 euro e l'email del ritiro: «ok 215» o «215 un altro giro».
   → carta #215 · 1 minuto.
+- [ ] 🟡 Firma la regola che fa finire i giri del sito: «ok 216».
+  → carta #216 · 1 minuto.
 
 ## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
