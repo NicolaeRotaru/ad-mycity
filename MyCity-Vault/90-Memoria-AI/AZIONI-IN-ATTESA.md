@@ -31,6 +31,31 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #218 — Scegli cosa fare dei due pacchetti fermi dell'ondata 1: le promesse e la cassa in contanti · ⏳ accodata 2026-10-28 22:10
+
+**In parole semplici.** L'ondata 1 è finita con 36 agenti su 45. Tre pacchetti su cinque reggono: la porta del negozio, la moderazione degli account e il catalogo. Due si sono fermati dopo tre bocciature del collaudo, e il metodo vuole che decida tu.
+
+**Le promesse.** La squadra ha sistemato cinque frasi false: «oppure con carta», «ogni euro va ai negozi», il telefono finto in Contatti, «Vegano false» nelle schede, il dialogo di conferma. Il collaudo l'ha fermata per un motivo solo. La home dice ancora «in 30-60 minuti» nel nastro in alto e nel piè di pagina, e la stessa frase sta in una dozzina di altre pagine: carrello, Spedizioni, login, FAQ, la descrizione per Google.
+
+**La cassa in contanti.** Qui è peggio. Per evitare il doppio ordine, la squadra ha cambiato il modo in cui il sito riconosce un ordine già fatto. Il collaudo ha provato che adesso, in un caso, il sito prende per buono l'ordine di un altro carrello. Dice «fatto» al cliente, gli svuota il carrello, e l'ordine vero non nasce. Sul sito di oggi questo non succede.
+
+**Cosa cambia:** scegli una strada per ognuno dei due.
+- Promesse, A (il mio consiglio): restringere. Si uniscono le cinque frasi sistemate, dopo un collaudo che guarda solo quelle. I «30-60 minuti» li toglie un giro piccolo apposta, su tutte le pagine dove stanno.
+- Promesse, B: un giro ancora sullo stesso pacchetto, allargato a tutte le pagine dei 30-60 minuti.
+- Cassa, A (il mio consiglio): semplificare. Il ramo non si unisce. Un giro piccolo fa due cose che non toccano i soldi: il controllo del negozio chiuso e l'orario di consegna che oggi nessuno vede. Il doppio ordine diventa un lavoro a sé, disegnato prima su carta e collaudato con due lenti, perché è il punto dove i soldi del cliente raddoppiano.
+- Cassa, B: un giro ancora sullo stesso pacchetto.
+
+**Cosa devi fare tu.** Scrivimi per esempio «promesse A, cassa A».
+
+**Se va bene:** i tre pacchetti che reggono vanno in una richiesta di unione del sito appena il controllo completo è verde. I due giri piccoli partono dopo, col tetto di 45 agenti ciascuno.
+
+**Cosa non ho verificato:** il caso dell'ordine perso l'ha provato il collaudatore su una copia del ramo, con una prova che diventa rossa. Io non l'ho rifatto da me.
+
+Contenuto: run `wf_2326095d-a6c`, rami `fix/ondata-10-lib-promesse-pubbliche-ts` (`251867d`) e `fix/ondata-10-app-api-orders-cod-route-ts` (`7a39cc2`).
+
+---
+
+
 ### 🟡 #217 — Scegli quale ondata di riparazione del sito parte per prima · ⏳ accodata 2026-10-28 19:55 · ✅ scelta 2026-10-28 20:05
 
 > ✅ **2026-10-28 20:15 — Hai scritto «Parti con l'ondata 1».** È partita alle 20:15 con cinque squadre e 25 difetti, tetto di 45 agenti. Tre difetti li ho rinviati a un mezzo giro dopo, perché incrocerebbero i file delle altre squadre: le promesse del reso, il negozio messo a Roma, la pagina d'aiuto dei fattorini. L'ondata 2 resta pronta per dopo.
