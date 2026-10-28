@@ -47,11 +47,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa devi fare tu.** Scrivimi per esempio «promesse A, cassa A».
 
-**Se va bene:** i tre pacchetti che reggono vanno in una richiesta di unione del sito appena il controllo completo è verde. I due giri piccoli partono dopo, col tetto di 45 agenti ciascuno.
+**Se va bene:** i due giri piccoli partono subito, col tetto di 45 agenti ciascuno. I tre pacchetti che reggono sono già nella richiesta di unione #263 del sito, e aspettano la tua firma.
 
 **Cosa non ho verificato:** il caso dell'ordine perso l'ha provato il collaudatore su una copia del ramo, con una prova che diventa rossa. Io non l'ho rifatto da me.
 
-Contenuto: run `wf_2326095d-a6c`, rami `fix/ondata-10-lib-promesse-pubbliche-ts` (`251867d`) e `fix/ondata-10-app-api-orders-cod-route-ts` (`7a39cc2`).
+Contenuto: la run dell'ondata è `wf_2326095d-a6c`. Il ramo delle promesse è `fix/ondata-10-lib-promesse-pubbliche-ts` (`251867d`). Il ramo della cassa è `fix/ondata-10-app-api-orders-cod-route-ts` (`7a39cc2`).
 
 ---
 
