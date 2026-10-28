@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-27 12:57",
+  "aggiornato": "2026-10-28 01:01",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4395,6 +4395,211 @@
       "nota": "",
       "file": {
         "app/api/admin/daily-drops/route.ts": "8b05eaa1c0e4"
+      }
+    },
+    {
+      "quando": "2026-10-28 01:01",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_b9d92819-bde (qa)",
+      "trovati": 21,
+      "schede": [
+        "Admin e /shipping danno il confine di 10 km per stagno, ma senza coordinate la cassa accetta qualunque indirizzo",
+        "Spedizioni e Domande frequenti promettono «a negozio chiuso puoi prenotare per domani», ma la sera prima del giorno di chiusura la cassa rifiuta tutte le fasce",
+        "«Vicino a te»: a 10 km, il massimo del cursore, l'avviso vuoto dice ancora «Aumenta il raggio», che non si può più",
+        "La scheda prodotto dice due volte il costo di consegna con due nomi diversi: si può leggere come 6 € invece di 3 €",
+        "La pagina categoria tiene il filtro col camioncino «da 30 € in su» della vecchia soglia: tolto da /search, dimenticato qui",
+        "/shipping: col ritiro in negozio acceso le card diventano 4 in una griglia da 3 e l'ultima resta sola sulla seconda riga",
+        "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+        "La pagina dell'unico negozio vero e l'errore di cassa offrono il «Ritiro in negozio», ma il servizio è spento",
+        "La pagina Spedizioni elenca ancora lo stato «Pronto per il ritiro / la consegna» fra i passaggi dell’ordine, ma il ritiro in negozio è spento",
+        "«Vicino a te»: dopo aver dato la posizione non si torna più all’elenco intero, e i negozi senza posizione sulla mappa spariscono senza una parola",
+        "Il pulsante «Scrivi a <indirizzo>» non si restringe e schiaccia il messaggio in una colonna stretta, più alta dello schermo su telefono",
+        "Scheda Privacy: senza casella manda sempre al modulo dei contatti, anche quando il server sa che il modulo non arriva a nessuno",
+        "Il riquadro newsletter della home, se riacceso, promette «una volta a settimana, ogni venerdì», ma nessun invio esiste e le impostazioni la chiamano «mensile»",
+        "Il motivo del rinvio è testo semplice: «(pagina /contact)» e l'indirizzo dentro il motivo non sono cliccabili, nell'email sì",
+        "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+        "Ai negozianti diciamo «zero commissioni» e «apri gratis», poi chiediamo 50 euro al mese più il 10%",
+        "La home e «Come funziona» promettono «ti rimborsiamo senza domande» su un forno, dove il reso per legge non c'è",
+        "Cancellazione ferma per un guasto tra l'ottavo e il trentesimo giorno: la pagina conta ancora «tra 0 giorni» con una data già passata",
+        "Con la cancellazione automatica spenta la pagina dell'account non lo dice: mostra «Elimina» anche a chi l'ha già chiesta, e il no arriva solo dopo aver scritto ELIMINA",
+        "La striscia in cima al sito promette ancora «Hai €5 di sconto»: è la promessa più visibile e l'ondata l'ha saltata",
+        "Nelle impostazioni si accendono «Newsletter mensile» e «Promozioni e sconti… coupon», funzioni spente al lancio: la scelta si salva per avvisi che non arriveranno"
+      ],
+      "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
+      "file": {
+        "app/admin/delivery/page.tsx": "f7f20c4d6988",
+        "app/near/page.tsx": "4009c7878350",
+        "components/BuyerOnboardingTour.tsx": "fb74dac9f2c9",
+        "app/profile/settings/page.tsx": "0b1eb227f69d",
+        "app/search/page.tsx": "7b8dd2df608e",
+        "app/shipping/page.tsx": "026df9af06a7",
+        "components/home-sections/HomeSectionRenderer.tsx": "2174f5131771",
+        "components/ui/FreeShippingProgress.tsx": "42c34c7885a2"
+      }
+    },
+    {
+      "quando": "2026-10-28 01:01",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_b9d92819-bde (qa)",
+      "trovati": 23,
+      "schede": [
+        "L'allarme 'scrivile tu' si chiude solo se l'email parte: se la persona annulla o viene cancellata resta aperto per sempre col suo id",
+        "Oltre i 30 giorni, con la posta ferma, l'amministratore riceve due allarmi identici per la stessa persona e non capisce quale spiegazione è bloccata",
+        "Avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello",
+        "Dopo i 30 giorni di attesa, ogni notte ogni amministratore riceve un nuovo avviso «Cancellazioni account non eseguite», uguale a quello della notte prima",
+        "Il giro notturno delle cancellazioni risponde a chi lo chiama, anche al cron esterno, con gli identificativi delle persone e i messaggi grezzi del database",
+        "L'avviso all'assistenza per un messaggio dal modulo contatti parte senza essere aspettato: su Vercel può non partire mai",
+        "Il modulo contatti cade ancora con 500 muto se l'accesso non risponde, e senza inoltro se il database risponde con errore",
+        "Se la lettura del profilo salta durante «Cancella account», una richiesta già in corso riparte da oggi: i 7 giorni e il termine dei 30 si azzerano",
+        "Chi preme di nuovo «Cancella account» su una richiesta già ferma legge «Richiesta registrata… tra 0 giorni» e non vede più il motivo del rinvio",
+        "Se il sito non riesce a rileggere il motivo del rinvio, la pagina dice che non c'è nessun rinvio e torna a contare «tra 0 giorni»",
+        "Cancellazione ferma per un guasto tra l'ottavo e il trentesimo giorno: la pagina conta ancora «tra 0 giorni» con una data già passata",
+        "Se l'email d'allarme fallisce, la campanella dell'admin riceve un avviso nuovo ogni 15 minuti invece che ogni 6 ore",
+        "Le promo saltate per UNSUBSCRIBE_SECRET mancante girano senza scadenza e partono in ritardo quando la chiave arriva",
+        "L'email di annullo dice «il credito ti è stato restituito» anche quando la restituzione è fallita",
+        "Email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+        "Promemoria carrello rilasciato senza limite d'età: a posta accesa partono avvisi «4 ore» per carrelli vecchi di settimane",
+        "Senza la casella degli allarmi il sorvegliante si ferma prima della campanella: gli amministratori non ricevono nessun allarme, nemmeno nel pannello",
+        "Quando il giro degli ordini scaduti non riesce a restituire credito, buono o merce, resta solo una riga nel log: il credito del cliente può sparire e nessuno riprova",
+        "Senza la chiave di servizio il giro degli ordini scaduti si rompe con un errore non gestito: niente risposta «non configurato», niente battito",
+        "Se il sorvegliante non riesce a scrivere l'attesa di sei ore o l'avviso nella campanella non lo dice: gli allarmi ripartono a ogni giro o la campanella resta vuota",
+        "L'email d'allarme agli amministratori mette nomi di negozi e fattorini nell'HTML senza filtro: un nome con un link finisce in un messaggio ufficiale MyCity",
+        "Il promemoria del carrello abbandonato può arrivare due volte alla stessa persona se due giri partono insieme: la presa in carico non guarda se era già preso",
+        "Se la lettura dei profili non riesce, la coda email tratta tutti come «senza consenso» e annulla per sempre le promozioni di quel giro"
+      ],
+      "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
+      "file": {
+        "app/api/account/delete/route.ts": "8630b7b3a3ea",
+        "app/api/contact/route.ts": "86f3ae93a53f",
+        "app/api/account/export/route.ts": "4ffad10296df",
+        "app/api/cron/abandoned-carts/route.ts": "a363e04f1e82",
+        "app/api/cron/expire-stale-orders/route.ts": "627de542821e",
+        "app/api/cron/operational-alerts/route.ts": "7d95d8056ada",
+        "app/api/cron/process-deletions/route.ts": "c58cde50d99e",
+        "app/api/cron/send-emails/route.ts": "cfac3688e95e",
+        "app/api/seller/products/[id]/route.ts": "e526c92f682d"
+      }
+    },
+    {
+      "quando": "2026-10-28 01:01",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_b9d92819-bde (qa)",
+      "trovati": 14,
+      "schede": [
+        "Senza chiave di servizio, «Annulla eliminazione» dice «Riprova fra un momento» invece di dove scrivere, e promette risposta entro un mese a chi ha solo 7 giorni",
+        "Quando nessun canale arriva a una persona, chi chiede la cancellazione resta senza una strada e senza il diritto di reclamo al Garante, e il server non annota chi era",
+        "Il controllo «il modulo arriva a una persona» guarda solo che le variabili non siano vuote: col supporto su mycity.it le richieste privacy vanno dove nessuno legge",
+        "Cookie policy senza casella: due parentesi di fila e un «casella privacy non ancora attiva» che l'informativa privacy non dice",
+        "La correzione della cookie policy non ha una prova: se torna il vecchio mailto al ripiego, i test restano verdi",
+        "La cookie policy dice che il cookie di accesso dura una settimana, ma resta sul dispositivo 400 giorni",
+        "Il sito non dice chi c'è dietro: niente nome, sede, partita IVA né PEC, il titolare risulta solo «MyCity»",
+        "Cancellazione ferma per un guasto tra l'ottavo e il trentesimo giorno: la pagina conta ancora «tra 0 giorni» con una data già passata",
+        "La cookie policy, fra i trasferimenti fuori dall'Unione europea, non nomina PostHog, che la sua stessa tabella mette negli Stati Uniti",
+        "La cookie policy dice che il cookie _ga di Google Analytics dura 14 mesi, ma il sito non ne fissa la durata e quella predefinita è di 2 anni",
+        "Termini, Privacy e Cookie dicono in pubblico di essere bozze da far validare a un avvocato prima del lancio",
+        "Termini e Privacy sono cambiati diciotto volte da agosto ma dicono ancora «versione 2.0 del 24 maggio», e a chi li aveva accettati non viene chiesto di riaccettarli",
+        "La cookie policy dice che i cookie funzionali ricordano lingua, ultima ricerca e mappa salvata, e subito dopo che non ne installiamo nessuno",
+        "Chi aspetta la cancellazione può riscrivere da solo l'avviso che il sito gli rimostra come «quello che ti abbiamo detto, parola per parola»"
+      ],
+      "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
+      "file": {
+        "app/cookies/page.tsx": "c8b0e2bfadfa"
+      }
+    },
+    {
+      "quando": "2026-10-28 01:01",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_b9d92819-bde (qa)",
+      "trovati": 20,
+      "schede": [
+        "Dopo il pagamento la pagina dell'ordine scrive «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €», su ogni ordine (cliente e negoziante)",
+        "L'email «3 cose da sapere» promette a ogni nuovo cliente «oppure la ritiri tu», ma il ritiro in negozio è spento",
+        "Spedizioni e Domande frequenti promettono «a negozio chiuso puoi prenotare per domani», ma la sera prima del giorno di chiusura la cassa rifiuta tutte le fasce",
+        "La pagina Spedizioni dice «ti diciamo subito se ci arriviamo», ma la cassa avvisa del fuori zona solo al clic finale (chi non ha l’account, dopo l’accesso)",
+        "Le note nel codice dei conti dicono ancora «tariffa fissa» e «la consegna paga da sola il fattorino»: col codice sconto è falso, e chi ci crede sbaglia i bonifici",
+        "La prova sulle «quattro promesse della home» controlla un elenco che nessuna pagina mostra: se la home torna a promettere «gratis», le prove restano verdi",
+        "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+        "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+        "Nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce",
+        "La home e «Come funziona» promettono «ti rimborsiamo senza domande» su un forno, dove il reso per legge non c'è",
+        "Se manca la posizione del negozio o dell'indirizzo, il confine dei 10 km non scatta: l'ordine passa a qualunque distanza",
+        "L'email di annullo dice «il credito che avevi usato ti è stato restituito» anche quando la restituzione del credito è fallita",
+        "Chi aspetta la cancellazione può ricevere un'email con una cifra diversa da quella che la pagina dell'account dice di avergli mandato",
+        "L'email che spiega a chi aspetta la cancellazione perché è ferma arriva nuda: senza intestazione MyCity e senza il piede con Privacy e Preferenze",
+        "Avvisi ed email in un giro senza tetto di tempo: con posta appesa e ~15 in attesa, gli ultimi non hanno nemmeno l'avviso nel pannello",
+        "Email di annullo spedita dentro la richiesta, senza coda: fino a circa 20 s di attesa, e se fallisce resta solo nel registro",
+        "Nell'email di annullo mancano il nome del negozio e il numero d'ordine nello stesso formato della conferma",
+        "Se l'annullo di un ordine non riesce a restituire il credito MyCity usato, il cliente lo perde e nessuno se ne accorge",
+        "Commento falso 'da nessuna porta': import CSV e Nuovo prodotto scrivono status available dal browser",
+        "Quando un ordine si annulla e la merce non riesce a tornare a scaffale, il prodotto resta con meno pezzi del vero e non resta traccia dell'errore"
+      ],
+      "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
+      "file": {
+        "lib/geo.ts": "27af79961955",
+        "lib/ordini/prezzi.ts": "d22fded5b4ef",
+        "lib/api/middleware.ts": "463797b6eaab",
+        "lib/constants.ts": "56fd3ef724e1",
+        "lib/cron-cancellazioni.ts": "2e6a0d7d9abb",
+        "lib/email/templates.ts": "6fdc0e134c0d",
+        "lib/legal/titolare.ts": "fd5a9f9fc704",
+        "lib/ordini/annulla.ts": "1ec0b30906b1",
+        "lib/privacy/avvisi-a-chi-aspetta.ts": "28eeee00a85a",
+        "lib/products/salvataggio-tracciato.ts": "969741ca45c4",
+        "lib/promesse-pubbliche.ts": "9ca973020efb",
+        "lib/shipping.ts": "6e4843d446ec"
+      }
+    },
+    {
+      "quando": "2026-10-28 01:01",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_b9d92819-bde (qa)",
+      "trovati": 6,
+      "schede": [
+        "Dopo il pagamento la pagina dell'ordine scrive «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €», su ogni ordine (cliente e negoziante)",
+        "In cassa la riga «Il codice copre X € della consegna» non ha nessuna prova: se si stacca, sopra una consegna scontata torna la tariffa piena e tutto resta verde",
+        "Chi abita appena oltre i 10 km, come a Podenzano o Rottofreno, scopre di essere fuori zona solo premendo «Ordina»: carrello e cassa non lo avvisano prima",
+        "Su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare",
+        "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+        "Nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce"
+      ],
+      "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
+      "file": {
+        "app/cart/page.tsx": "a7201c4ff1d7",
+        "app/checkout/page.tsx": "76ba6ed6f60b"
+      }
+    },
+    {
+      "quando": "2026-10-28 01:01",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "workflow",
+      "chi": "riesame wf_b9d92819-bde (qa)",
+      "trovati": 4,
+      "schede": [
+        "Lo Storico consegne dice al fattorino che ha guadagnato zero sulle spese sopra i 30 euro",
+        "Rimborso parziale con la carta prima dei bonifici: a negozio e fattorino va più di quanto resta del pagamento, su ogni spesa fino a 30 € col codice «Spedizione gratuita»",
+        "L'email di annullo dice «il credito che avevi usato ti è stato restituito» anche quando la restituzione del credito è fallita",
+        "Se il primo collegamento a Stripe si interrompe e poi cambiano email o ruolo, negozio e fattorino leggono «Errore Stripe» a ogni nuovo tentativo per 24 ore"
+      ],
+      "nota": "riesame del perimetro della fase 2, 27/10 sera: 9 revisori, 11 verificatori; gravi nati confermati 1584 e 1658",
+      "file": {
+        "lib/stripe/client.ts": "73fe82c7de4e"
       }
     }
   ]
