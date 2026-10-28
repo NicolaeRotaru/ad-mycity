@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-28 11:24
+aggiornato: 2026-10-28 15:31
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 57 voci in fila, dalla più urgente alla meno; due le hai fatte il 28/10 mattina. Oggi ne servono cinque: due scelte da un minuto, l'unione della richiesta del sito, un comando da incollare in Supabase e il cambio delle chiavi del database.
+> **In due righe.** Sono 57 voci in fila, dalla più urgente alla meno; tre le hai fatte il 28/10. Oggi ne servono quattro: due scelte da un minuto, un comando da incollare in Supabase e il cambio delle chiavi del database.
 
 ## In parole semplici
 
@@ -41,8 +41,8 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
   → carta #215 · fatto il 28/10 alle 08:30, unite alle 08:40.
 - [x] 🟡 Firma la regola che fa finire i giri del sito: «ok 216».
   → carta #216 · firmata il 28/10 alle 08:30, nel metodo dalle 09:43.
-- [ ] 🔴 Unisci la richiesta grande del sito, quando i suoi controlli automatici sono verdi.
-  → richiesta #262 · 2 minuti · dentro anche i 5 km · non tocca il database, ma il sito vero cambia dopo pochi secondi.
+- [x] 🔴 Unisci la richiesta grande del sito, quando i suoi controlli automatici sono verdi.
+  → richiesta #262 · fatto il 28/10 alle 15:15, sul sito vero dalle 15:16 · dentro anche i 5 km.
 
 ## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
