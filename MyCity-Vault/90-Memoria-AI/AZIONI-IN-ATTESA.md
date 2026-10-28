@@ -31,6 +31,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #217 — Scegli quale ondata di riparazione del sito parte per prima · ⏳ accodata 2026-10-28 19:55
+
+**In parole semplici.** L'ondata 2 è pronta: cinque squadre, 24 difetti, file che non si toccano fra loro. Ripara il pannello ordini, i rimborsi dei resi, le recensioni del negozio, gli orari di chiusura e i soldi nel cruscotto del negoziante. Le scelte che servono le hai già firmate il 26/10.
+
+Ma l'ondata 1 non è ancora partita: ha 24 difetti aperti su 25. È quella che ripara la porta del negozio. Oggi un negoziante nuovo che si iscrive viene respinto, oppure legge «richiesta in valutazione» senza aver compilato niente: sono due dei 9 difetti bloccanti. Le due ondate condividono 7 file, quindi vanno una dopo l'altra.
+
+**Cosa cambia:** decidi l'ordine. Con A parte prima l'ondata 1, poi la 2: è il mio consiglio, perché ripara le porte e le promesse che i clienti leggono oggi. Con B parte subito la 2: conviene se il primo ordine di Pane Quotidiano arriva prima di un secondo negozio.
+
+**Cosa devi fare tu.** Scrivimi «ondata 1» oppure «ondata 2».
+
+**Se va bene:** l'ondata parte col tetto di 45 agenti e due giri di correzione al massimo. Alla fine ti apro la richiesta di unione: unirla resta una tua firma.
+
+**Cosa non ho verificato:** le schede descrivono il codice di quando sono state scritte. Le squadre rileggono il codice di oggi, e qualche difetto potrebbe risultare già risolto.
+
+Contenuto: il referto `consegne/audit/2026-10-28-ondata2-preparazione.md` e il piano `consegne/audit/2026-10-28-ondata2-sito.json`.
+
+---
+
+
 ### 🟡 #216 — Firma la regola che fa finire i giri del sito: una prova migliorabile, su un sito che funziona, è un difetto piccolo · ⏳ accodata 2026-10-28 06:35 · ✅ firmata 2026-10-28 08:30
 
 > ✅ **2026-10-28 11:04 — Al primo giro vero la regola ha funzionato.** Il giro dei 5 km ha retto al primo collaudo. Non ha avuto rifacimenti, e ha usato 6 agenti invece dei 14-16 dei giri che si fermavano. Le prove migliorabili sono finite nel registro come difetti piccoli. Una prova che il lavoro aveva rotto l'ha vista il mio controllo finale, e la squadra l'ha sistemata.
