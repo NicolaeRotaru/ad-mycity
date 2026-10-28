@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1696,
+    "findings": 1708,
     "bloccanti": 35,
-    "gravi": 511,
-    "minori": 1150,
+    "gravi": 516,
+    "minori": 1157,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -30337,23 +30337,131 @@
       "descrizione": "createConnectOnboardingLink crea il conto Express con una chiave di idempotenza sempre uguale per la stessa persona: connect_<id>. Stripe riaccetta quella chiave solo con parametri identici. Con parametri diversi risponde con un errore di idempotenza finché la chiave non scade, dopo circa 24 ore. Il caso: al primo tentativo il conto nasce su Stripe, ma il suo id non arriva nel profilo. Succede se il link di onboarding fallisce dopo la creazione, oppure se fallisce la scrittura del profilo, di cui nessuno controlla l'esito. Al tentativo dopo existingAccount è vuoto e si richiama accounts.create con la stessa chiave. Può essere cambiata l'email dell'account, o la stessa persona può passare dalla rotta negozio a quella fattorino (capacità diverse). In questi casi Stripe rifiuta e la rotta risponde 500 «Errore Stripe». Passi: 1) primo «Collega Stripe», col link che fallisce dopo la creazione del conto; 2) cambio dell'email dell'account; 3) secondo «Collega Stripe» entro 24 ore: «Errore Stripe» a ogni tentativo. Da verificare: scaduta la chiave, lo stesso tentativo creerebbe un secondo conto e lascerebbe orfano il primo. È proprio il caso che la chiave doveva evitare (commento a client.ts:314-318). Prova: solo lettura del codice. Il trovato non porta una prova che gira, e il comportamento di Stripe non è stato provato in modalità test.",
       "impatto": "Il negoziante o il fattorino che prova a collegare il conto per ricevere i bonifici legge «Errore Stripe» a ogni tentativo per un giorno intero. Non sa perché né cosa fare, e intanto bonifici e compensi con carta restano fermi. È raro: serve un primo tentativo interrotto subito dopo la creazione del conto, più un cambio di email o di ruolo prima del secondo.",
       "fix": "Salvare l'id del conto nel profilo appena accounts.create risponde, prima di creare il link, e controllare l'esito della scrittura. Così il tentativo dopo riusa il conto e non richiama accounts.create con parametri diversi. Aggiungere una prova con Stripe finto: conto creato, link fallito, secondo tentativo con email diversa. Deve tornare lo stesso conto, non un 500."
+    },
+    {
+      "titolo": "Il riepilogo della cassa con la carta può scrivere «la consegna te la regaliamo» sopra i 30 €: tutte le prove usano 20 €",
+      "severita": "grave",
+      "file": "components/checkout/OrderSummary.tsx:99 · tests/unit/la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis.test.tsx: subtotal fisso a 20 in ogni caso",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
+      "descrizione": "Mutante: dopo i 3 € {paymentMethod==='card' && subtotal>=30 ? ' · la consegna te la regaliamo noi' : ''}. Verdi le prove della squadra e prova-sito. Rossa: zz-collaudo-a-riepilogo-sopra-30.test.tsx (35 €, carta), stessa cartella del difetto 1."
+    },
+    {
+      "titolo": "La pagina dell'ordine può regalare la consegna appena sopra il riepilogo: la prova legge solo il riquadro e il grep non conosce «regal»",
+      "severita": "minore",
+      "file": "app/orders/[id]/page.tsx:680 · la-pagina-vera-dell-ordine-non-regala-la-consegna-da-3-euro.test.ts legge solo riquadroDelRiepilogo; il grep del sorgente non ha «regal»",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
+      "descrizione": "Mutante: <p>Questa consegna te la regaliamo noi</p> subito prima del riquadro del riepilogo. Verdi la prova della pagina vera e il grep del sorgente. Rossa: zz-collaudo-a-pagina-intera.test.ts (legge la pagina intera), stessa cartella del difetto 1."
+    },
+    {
+      "titolo": "Pagina del negozio: se la prima lettura cade, un ordine in contanti appare «Carta (online)» con «Spedizione GRATUITA»",
+      "severita": "grave",
+      "file": "app/seller/orders/[id]/page.tsx righe 158-167: il ripiego scatta su qualsiasi errore, non solo sulla colonna mancante; la nuova prova della pagina copre solo la strada felice",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
+      "descrizione": "npx vitest run tests/unit/zz-collaudo-ripiego-negozio.test.ts nella copia /tmp/claude-0/-home-user/40b36d9c-6326-50fe-ac23-4b7cabf1231b/scratchpad/sbx (prima select → errore 57014): ROSSA sul codice attuale, «Spedizione GRATUITA Pagamento Carta (online) Totale 23,00 €»."
+    },
+    {
+      "titolo": "La rotta della carta può allargare da sola il confine a 12 km a prove verdi: le case di prova stanno a 13 km o a 8-9 km",
+      "severita": "minore",
+      "file": "app/api/stripe/checkout/route.ts (controllo zona, riga ~516) e la prova la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
+      "descrizione": "Stesso mutanti2.sh, M7: nella sola rotta carta fuori = fuoriZonaDiConsegna(...) && distanza > 12 → 22 file di zona e cassa, 279/279 verdi. Nella funzione condivisa il confine è inchiodato (12,5 km: 2 rosse)."
+    },
+    {
+      "titolo": "La prova nuova riconosce il ritiro solo dalla parola «ritir» e legge solo i modelli il cui nome finisce in Template",
+      "severita": "minore",
+      "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts righe ~80, 109, 141",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "nato dal lotto #262 (quinto giro della fase 2, run wf_1bc11a0a-959, collaudo, pacchetto lib/email/templates.ts)",
+      "descrizione": "Mutazione ragionata, non eseguita: con «oppure passi tu in negozio a prenderla» nella riga spenta i 3 test restano verdi. Un modello esportato senza il suffisso Template non viene letto. Lo stesso lotto ha riscritto «un rider lo ritira» solo per non far scattare la parola cercata."
+    },
+    {
+      "titolo": "Due commenti dicono il contrario su come si chiude un ritiro: chi deve decidere se riaccendere l'interruttore legge due versioni",
+      "severita": "minore",
+      "file": "lib/constants.ts:75-86 contro migrations/124_radiografia_21_agosto.sql:160-243 e lib/email/templates.ts:172-174",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/email/templates.ts)",
+      "descrizione": "constants.ts dice che solo il fattorino chiude l'ordine e che al venditore manca la strada. La 124 crea confirm_pickup_by_seller (READY→DELIVERED, il negozio viene pagato) e app/seller/orders/[id]/page.tsx:305 la usa. Non verificato se la 124 è applicata in produzione."
+    },
+    {
+      "titolo": "A ritiro acceso la prova vieta solo «se il negozio lo permette»: «se il negoziante lo consente» rientra e resta verde",
+      "severita": "minore",
+      "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts: terzo test (interruttore acceso); ramo acceso di comeArrivaLaSpesa in lib/email/templates.ts",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "nato dal lotto #262 (quinto giro della fase 2, run wf_1bc11a0a-959, collaudo, pacchetto lib/email/templates.ts)",
+      "descrizione": "sed -i \"s/oppure la ritiri tu in negozio',/oppure la ritiri tu in negozio, se il negoziante lo consente',/\" lib/email/templates.ts && grep -q 'negoziante lo consente' lib/email/templates.ts && ! npx vitest run la-guida-del-secondo esce 1 (3/3 verdi). Interruttore oggi false."
+    },
+    {
+      "titolo": "Dentro i tag la guida la tiene ancora solo la rete: «passa tu dal negozio a prenderla» in un alt o in un title resta verde",
+      "severita": "minore",
+      "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts: paroleDellHtml toglie i tag con i loro attributi, dentro resta solo PAROLE_DEL_RITIRO",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "nato dal lotto #262 (quinto giro della fase 2, run wf_1bc11a0a-959, collaudo, pacchetto lib/email/templates.ts)",
+      "descrizione": "<img alt=\"Se preferisci, passa tu dal negozio a prenderla\"> dopo </ul>, oppure title=\"…\" sulla voce dell'elenco: squadra 3/3 verde. L'elenco di alt/title/aria-label nell'HTML della guida toEqual([]): verde su base, rosso su tutti e due."
+    },
+    {
+      "titolo": "La rete degli altri modelli lascia fuori «passa a prender», il modo più comune di dirlo: nel benvenuto «passa a prenderla tu» resta verde",
+      "severita": "minore",
+      "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts: PAROLE_DEL_RITIRO ha «passi a prender», non «passa a prender»; welcome in lib/email/templates.ts",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "nato dal lotto #262 (quinto giro della fase 2, run wf_1bc11a0a-959, collaudo, pacchetto lib/email/templates.ts)",
+      "descrizione": "Benvenuto (va a ogni nuovo cliente) con «<p>Se preferisci, passa a prenderla tu.</p>» dopo il primo </p>: squadra 3/3 verde, eppure il secondo test si intitola «nessun modello di email del file … nomina il ritiro»."
+    },
+    {
+      "titolo": "Con la carta il controllo zona si può togliere sopra i 30 € di spesa a prove verdi: le prove della carta hanno un carrello da 10 €",
+      "severita": "grave",
+      "file": "app/api/stripe/checkout/route.ts:514 (if (!body.pickupInStore)) · tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts (price: 10 alle righe 187, 248, 249, 346, 462)",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
+      "descrizione": "Mutante in rotta carta: if (!body.pickupInStore && grandSubtotalCents < 3000). 35 file, 431 prove verdi (i 2 rossi sono del mutante contanti, preso da una-consegna-a-milano a 35 €). zz-collaudo-a-carta-sopra-30.test.ts (copia con price: 35): verde su e4fe3ff6, 36 rosse col mutante."
+    },
+    {
+      "titolo": "Pagina dell'ordine: «Spedizione GRATUITA» sopra i 3 € torna a prove verdi da 50 € in su, e la carta è provata solo a 20 €",
+      "severita": "grave",
+      "file": "lib/ordini/riepilogo-ordine.ts:80 · app/orders/[id]/page.tsx:685 · prove: riepilogo solo a 20 €, pagina a 20/35 € in contanti e 20 € con la carta",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
+      "descrizione": "Mutanti: riepilogo con sopraLaSoglia=subtotale>=5000 che rimette «Spedizione GRATUITA»; pagina cliente con «· la paghiamo noi» su carta >30 € (fuori dal grep). Prove squadra verdi. zz-collaudo-a-riepilogo-sopra-50 (3 rosse), zz-collaudo-a-pagina-carta-sopra-30 (5 rosse): verdi su e4fe3ff6."
+    },
+    {
+      "titolo": "La prova esatta legge solo la guida senza dati: con il nome, come parte davvero, «passa tu dal negozio a prenderla» torna e resta verde",
+      "severita": "grave",
+      "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts: toEqual/toBe solo su preparaEmailCicloDiVita('tutorial_day2', {}); send-emails/route.ts:228 passa name",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "nato dal lotto #262 (quinto giro della fase 2, run wf_1bc11a0a-959, ultimo collaudo, ancora aperto, pacchetto lib/email/templates.ts)",
+      "descrizione": "fermo: bocciato 3 volte dal collaudo"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-28 01:01",
+    "aggiornato": "2026-10-28 01:24",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 861,
+    "findings_aperti": 873,
     "findings_chiusi": 835,
-    "findings_tot": 1696,
+    "findings_tot": 1708,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 150,
-      "minore": 702,
+      "grave": 155,
+      "minore": 709,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1696,
+    "dichiarati_dal_referto": 1708,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
