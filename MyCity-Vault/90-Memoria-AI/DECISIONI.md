@@ -5934,3 +5934,17 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 ## 2026-10-28 20:40 — 🟢 Correzione: la fase 0 del piano è fatta, non aperta
 
 Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato: gli 8 gravi (51, 1138, 1237, 1300, 1244, 1319, 1299, 312) sono nello stato `gia_riparato_prima`. Il mio conto contava come aperto ogni stato diverso da `riparato` e `chiuso`. Rifatto con `stato === "aperto"`: fase 0 0 su 8, le altre fasi come prima. Corretti il referto `consegne/audit/2026-10-28-ondata2-preparazione.md` e la descrizione della #897.
+
+## 2026-10-28 23:10 — 🟡 L'ondata 1 del sito: tre pacchetti reggono (#263), due fermi aspettano Nicola (#218)
+
+**Esito** (run `wf_2326095d-a6c`, 36 agenti su 45): reggono `middleware.ts` (85, 1214, 1137, 86 chiusi; 18 riparato ma non dichiarato), la moderazione (1254 intero; 1252, 1253, 1255 in parte) e il catalogo (19, 1293). Fermi dopo tre bocciature: le promesse (i 30-60 minuti restano nel nastro e nel piè di pagina) e la cassa in contanti (il ramo nuovo della chiave abbandonata prende per suo l'ordine di un altro carrello; 5 gravi nati aperti). `chiedi_a_nicola: true`: carta #218 con le tre strade e il consiglio «promesse A (restringi), cassa A (semplifica)». Non rilancio da solo.
+
+**Dopo il giro, con ultracode acceso da Nicola alle 20:40:** ricucitura dei tre rami in `fix/ondata-10-integrazione` = `ccr-b2418a18-982q9d` del sito (`0df7945`), `npm run verify` verde (6.068 su 6.068); radiografia del perimetro (run `wf_80358590-efb`, 10 file, 3 lenti, nessun grave nato, 3 gravi preesistenti verificati); vaglio delle 77 segnalazioni (run `wf_414a376a-0f4`, 5 vagli e 5 contro-vagli); collaudo a due lenti del bloccante 18 (run `wf_c91379e4-eb5`: regge). Registro: 25 voci nuove (5 gravi, 20 minori; 15 nate dal lotto) e 13 note su schede aperte. Richiesta di unione mycity #263, nessuna migrazione. Referto: `consegne/audit/2026-10-28-ondata1-sito-referto.md`.
+
+**Due buchi del motore** (`ondata-sito.js`), da portare nel cantiere della macchina: ① dopo un rifacimento il risultato tiene solo l'ultimo frammento della squadra, e i `parziali` col perché del primo frammento si perdono; ② le scelte firmate da Nicola non arrivano alle squadre: le ho scritte a mano in `scelta_di_nicola`.
+
+**Una scoperta da dire a Nicola:** il canone da 50 euro al mese, sospeso il 26/10 (`pricing.abbonamento`), nel codice è ancora attivo (modulo d'iscrizione, banner del negoziante, rotta di addebito). Nota sulla scheda 261.
+
+**Un errore mio.** Riscrivendo con Python le fonti delle voci nuove, il file del registro è rimasto troncato su un carattere che Python non sapeva scrivere. L'ho ripristinato dall'ultimo commit e ho rifatto le due modifiche con node, rileggendo il file prima di salvarlo. Il conto di ⑨ dice 0 voci scritte male. Regola per me: il registro si scrive solo con node, e il testo si rilegge prima di salvarlo.
+
+**Colore.** 🟡: codice del sito solo nel ramo della #263; l'unione è di Nicola.

@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-28 19:55
+aggiornato: 2026-10-28 23:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧱 **2026-10-28 23:10 — L'ondata 1: tre pacchetti reggono e sono nella richiesta #263. Su due serve la tua scelta.**
+>
+> Reggono la porta del negozio, la moderazione degli account e il catalogo. Il negoziante nuovo trova il modulo e non più «richiesta in valutazione»: era uno dei 9 bloccanti. Il controllo completo è verde, 6.068 prove su 6.068.
+>
+> Sono fermi le promesse e la cassa in contanti. Le promesse, per i «30-60 minuti» rimasti in una trentina di punti. La cassa, perché la riparazione faceva perdere un ordine. La scelta è nella carta #218.
+>
+> Una cosa che contraddice una tua scelta: il codice chiede ancora il canone da 50 euro al mese, che il 26/10 hai sospeso.
 
 > 🌊 **2026-10-28 19:55 — L'ondata 2 è pronta. Prima ti chiedo quale ondata parte per prima.**
 >
