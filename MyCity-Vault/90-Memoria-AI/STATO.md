@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-28 23:10
+aggiornato: 2026-10-29 00:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 📝 **2026-10-29 00:10 — Hai scelto, e il limite della settimana sta finendo: ho annotato tutto.**
+>
+> Ondata 1: un giro in più sia sulle promesse sia sulla cassa (B e B). Ondata 2: niente abbigliamento per ora, un albero delle categorie più ampio, il bonus del fattorino tolto, foto solo in JPG, la regola del colore dei link tolta, il primo fattorino esterno dopo l'INAIL. Resta aperto il rimborso dell'ordine in contanti annullato.
+>
+> Quando torna il limite: i due giri dell'ondata 1, il piano dell'ondata 2 rifatto e la proposta delle categorie. Le richieste #263 e #898 aspettano la tua firma.
 
 > 🧱 **2026-10-28 23:10 — L'ondata 1: tre pacchetti reggono e sono nella richiesta #263. Su due serve la tua scelta.**
 >

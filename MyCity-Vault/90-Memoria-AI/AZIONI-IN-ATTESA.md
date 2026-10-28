@@ -31,7 +31,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🟡 #219 — Sei scelte piccole per preparare l'ondata 2 del sito · ⏳ accodata 2026-10-28 23:55
+### 🟡 #219 — Sei scelte piccole per preparare l'ondata 2 del sito · ⏳ accodata 2026-10-28 22:50 · ✅ scelte 2026-10-29 00:05
+
+> ✅ **2026-10-29 00:08 — Le tue risposte.** Niente abbigliamento per ora, e tutto il resto sì. L'albero delle categorie va fatto più ampio, con più sottocategorie. Pane Quotidiano vende anche pane, verdura fresca e cura della persona. Il bonus del fattorino si toglie, e si riaccende più avanti. Le foto si caricano solo in JPG. La regola del colore dei link si toglie. Per il fattorino esterno vale il tuo sì al punto sull'INAIL.
+>
+> Resta aperto il rimborso dell'ordine in contanti annullato. Ti ho spiegato in chat come si fa.
 
 **In parole semplici.** Prima di riparare l'ondata 2 ho fatto riscrivere le sue ricette sul codice di oggi. Poi due revisori hanno provato a smontare ogni ricetta. Ne hanno bocciate 17 su 27, quasi sempre con la correzione già scritta. Restano sei punti che tocca a te decidere. Su ognuno c'è il mio consiglio.
 
@@ -57,7 +61,9 @@ Contenuto: la run delle ricette è `wf_b0929d95-4a5`. Il ricettario sta in `cons
 ---
 
 
-### 🟡 #218 — Scegli cosa fare dei due pacchetti fermi dell'ondata 1: le promesse e la cassa in contanti · ⏳ accodata 2026-10-28 22:10
+### 🟡 #218 — Scegli cosa fare dei due pacchetti fermi dell'ondata 1: le promesse e la cassa in contanti · ⏳ accodata 2026-10-28 21:45 · ✅ scelta 2026-10-29 00:05
+
+> ✅ **2026-10-29 00:08 — Hai scelto B e B:** un giro in più su tutti e due i pacchetti. Le promesse si allargano a tutte le pagine dei 30-60 minuti. La cassa riparte dal suo ramo, con i 5 gravi nati da chiudere. I due giri partono quando torna il limite della settimana.
 
 **In parole semplici.** L'ondata 1 è finita con 36 agenti su 45. Tre pacchetti su cinque reggono: la porta del negozio, la moderazione degli account e il catalogo. Due si sono fermati dopo tre bocciature del collaudo, e il metodo vuole che decida tu.
 

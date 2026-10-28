@@ -5964,3 +5964,21 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Colore.** 🟢: letture e ricette, nessun codice toccato.
 
 **Aggiunta del 29/10 00:20 — il ricettario nel deposito.** I due revisori automatici di riservatezza (run `wf_9922f442-f0f`) sono caduti tutti e due per un errore del servizio, prima di leggere. Ho riletto io i 37 campi del ricettario che parlano di permessi, chiavi, funzioni del database e falle. Ogni rimando alla corsia riservata è un rimando senza istruzioni. Quattro passaggi indicavano un punto preciso: la guardia dei resi nelle due lenti del 1287, e la scrittura diretta nella chat del 22 nella ricetta e nella lente A. Li ho oscurati. Il ricettario è in `consegne/audit/2026-10-28-ricette-ondata2.json`. È una rilettura a una voce sola, non le due che vuole il metodo, e lo scrivo nel file.
+
+## 2026-10-29 00:08 — 🔴 Nicola risponde alle carte #218 e #219, e chiede di annotare tutto perché finisce il limite della settimana
+
+**Cosa ha scritto Nicola alle 00:05:** «218: 1) B 2) B · 219: 1) Esatto Pane Quotidiano oltre a pane vende anche altre come hai visto, in più verdura fresca e molto altro di alimentare o cura della persona. In più le categorie che hai messo sono carine ma mi sembra incompleta, dare un ventaglio di scelta maggiore o delle sotto categorie, e non ci sarà per adesso abbigliamento ma tutto il resto sì, perché sono piccoli negozi che glovo e deliveroo non guardano · 2) togli bonus fattorino, ma sarà un buon incentivo più avanti · 3) come deve essere fatto questo rimborso nel modo giusto? · 4) foto jpg · 5) togli la regola · 6) dopo la posizione INAIL».
+
+**#218, contro il mio consiglio (A, A):**
+- **Promesse B:** un giro in più sullo stesso pacchetto, allargato a tutte le pagine dei 30-60 minuti (nota 1516: non cambiare EXPRESS_ETA_LABEL, serve una costante nuova per la promessa pubblica). Il ramo `fix/ondata-10-lib-promesse-pubbliche-ts` (`251867d`) è la base.
+- **Cassa B:** un giro in più sullo stesso pacchetto, sul ramo `fix/ondata-10-app-api-orders-cod-route-ts` (`7a39cc2`), con i 5 gravi nati da chiudere (la chiave abbandonata che prende l'ordine di un altro carrello; il 409 e il 503 senza inCorso). Il metodo dice «semplifica» dopo tre bocciature nello stesso file: lo scelgo di non fare perché Nicola ha deciso così, e lo scrivo qui.
+
+**#219:**
+- **Categorie:** Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona. L'albero va rifatto più ampio, con più sottocategorie, sui negozi piccoli che Glovo e Deliveroo non guardano. Niente abbigliamento per ora, tutto il resto sì. Fatto `catalogo.categorie` nel registro. Prossimo passo: la proposta dell'albero completo, da firmare, poi una migrazione (🔴).
+- **Bonus del fattorino:** si toglie dal sito; da riaccendere più avanti come incentivo. Fatto `logistica.fattorino-esterno`.
+- **Rimborso dell'ordine in contanti annullato:** Nicola chiede come si fa nel modo giusto. Risposta in chat alle 00:10; la scelta resta aperta.
+- **Foto dell'iPhone:** solo JPG. **Colore dei link:** si toglie la regola. **Primo fattorino esterno:** solo dopo la posizione INAIL.
+
+**Prossimi lavori, quando torna il limite:** giro B delle promesse; giro B della cassa; piano dell'ondata 2 rifatto sui file delle ricette (`consegne/audit/2026-10-28-ricette-ondata2.json`) e con queste scelte; albero delle categorie da proporre.
+
+**Correzione degli orari di stasera.** Diversi orari che ho scritto in memoria li ho stimati, invece di leggerli dall'orologio. Quelli veri, presi dai commit (ora di Piacenza): la carta #218 è delle 21:45, non 22:10; il referto dell'ondata 1, STATO e DECISIONI sono delle 22:27, non 23:05-23:10; la carta #219 e la riga delle ricette sono delle 22:50, non 23:55; il ricettario è delle 22:55, non 00:20; la correzione della carta #219 è delle 23:46, non 00:40. Prima ancora: l'ondata 1 è partita alle 19:47, non 20:15; la correzione della fase 0 è delle 19:58, non 20:40. Regola per me: l'orario si legge con `TZ=Europe/Rome date`, non si stima.

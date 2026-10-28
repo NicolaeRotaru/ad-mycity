@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-28 08:35",
+  "aggiornato": "2026-10-29 00:06",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -226,6 +226,16 @@
           "chiusa": "2026-08-23 11:45"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "catalogo.categorie",
+      "nome": "Le categorie del sito al lancio",
+      "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
+      "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
+      "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
@@ -589,6 +599,16 @@
       "valore": "Consegne fatte in proprio fino a circa 30 ordini al giorno; rider a 3-5 euro a consegna solo per coprire i picchi orari. Packaging termico a carico dei negozi. Kit del negozio = QR + vetrofania, stampati in copisteria. Niente white-label ad altre città: prima Piacenza, gestita da una persona sola.",
       "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 11)",
       "aggiornato": "2026-08-11 02:18",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "logistica.fattorino-esterno",
+      "nome": "Il fattorino esterno e il suo bonus",
+      "valore": "Il primo fattorino esterno consegna solo dopo la posizione INAIL; la pagina «Sono assicurato?» lo dice così. Il bonus «+2 € ogni 5 consegne» si toglie dal sito, ma Nicola lo considera un buon incentivo da riaccendere più avanti (Nicola, 2026-10-29 00:05).",
+      "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punti 2 e 6)",
+      "aggiornato": "2026-10-29 00:06",
       "storia": [],
       "caccia": [],
       "esenzioni": []
