@@ -5920,3 +5920,13 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 **Perché non l'ho lanciata.** Nicola ha chiesto di prepararla. L'ondata costa da 24 a 41 agenti, e l'ordine fra ondata 1 e 2 è una sua scelta.
 
 **Colore.** 🟢: letture, un piano e un referto. Nessun codice del sito toccato.
+
+## 2026-10-28 20:15 — 🟡 Nicola sceglie l'ondata 1 («Parti con l'ondata 1»): partita
+
+**Cosa.** Carta #217 decisa: prima l'ondata 1 (fase 4 del piano del 24/10). Piano `consegne/audit/2026-10-28-ondata1-sito.json` (`--ondata 10`, worktree `o10-*`), 25 schede su 5 pacchetti, territori disgiunti tranne la migrazione 161, citata come lettura (le migrazioni non contano come conflitto). Pacchetti: portiere e porta del negozio (85, 1214, 1137, 86, 18, 3, 182, 343, 119); moderazione (1252-1255); promesse e scheda prodotto (255, 252, 120, 253, 1206, 249, 256); cassa in contanti (1209, 1208, 23); catalogo (19, 1293). Tolto 250 (riparato). Rinviati a un mezzo giro dopo: 50, 113, 247.
+
+**Le scelte firmate passano alle squadre.** Il motore non porta le decisioni: le ho scritte nel campo `scelta_di_nicola` di 14 schede su 25, aggiunto all'uscita di `schede-pacchetto.mjs` (fattorini A, promessa «in giornata» a 5 km con solo i 3 euro, solo contanti, niente numeri finti, partita IVA obbligatoria per approvare, alimenti senza allergeni fuori vendita, commissione 10% IVA inclusa). È un buco del metodo: va scritto nel cantiere della macchina.
+
+**Lancio.** Run `wf_2326095d-a6c`, base `1776e6b1` (main del sito, verify verde 6.026 su 6.026), tipi `tech` e `qa`, tetto 45.
+
+**Colore.** 🟡: codice del sito solo nei rami delle squadre; la richiesta di unione la apro io, l'unione è di Nicola.

@@ -31,7 +31,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🟡 #217 — Scegli quale ondata di riparazione del sito parte per prima · ⏳ accodata 2026-10-28 19:55
+### 🟡 #217 — Scegli quale ondata di riparazione del sito parte per prima · ⏳ accodata 2026-10-28 19:55 · ✅ scelta 2026-10-28 20:05
+
+> ✅ **2026-10-28 20:15 — Hai scritto «Parti con l'ondata 1».** È partita alle 20:15 con cinque squadre e 25 difetti, tetto di 45 agenti. Tre difetti li ho rinviati a un mezzo giro dopo, perché incrocerebbero i file delle altre squadre: le promesse del reso, il negozio messo a Roma, la pagina d'aiuto dei fattorini. L'ondata 2 resta pronta per dopo.
 
 **In parole semplici.** L'ondata 2 è pronta: cinque squadre, 24 difetti, file che non si toccano fra loro. Ripara il pannello ordini, i rimborsi dei resi, le recensioni del negozio, gli orari di chiusura e i soldi nel cruscotto del negoziante. Le scelte che servono le hai già firmate il 26/10.
 

@@ -1,0 +1,144 @@
+{
+ "_cosa_e": "Ondata 1 del piano di riparazione del sito del 24/10 (fase 4: le porte e quello che vedono i clienti), partita con «Parti con l'ondata 1» di Nicola del 28/10. Correzioni della critica: 86 col portiere, 1253-1255 con la moderazione, la scheda prodotto (255, 256) a una squadra sola, la cassa in fila 1209 → 1208 → 23. 250 tolto perché riparato. Rinviati a un mezzo giro dopo, perché incrocerebbero i territori: 50 (AuthShell col 18, e la sua seconda fase è già nell'ondata 3), 113 (SellerApplicationForm e /sell col 182, la cassa col 1209) e 247 (la pagina d'iscrizione dei fattorini col 85, constants col 252). Le scelte firmate da Nicola sono scritte in ogni difetto, campo scelta_di_nicola, aggiunto all'uscita di schede-pacchetto. Le ondate 1-9 sono vuote: si legge con --ondata 10, worktree o10-*. Base: main del sito 1776e6b1.",
+ "data": "2026-10-28 20:10",
+ "registro": "sito",
+ "origine": "consegne/audit/2026-10-24-piano-riparazione-sito.json, piano.ordine[4] e critica.mancanze",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "middleware.ts",
+    "difetti": [
+     {
+      "idx": 85,
+      "chiave": "sicurezza-auth|il controllo all'ingresso chiude fuori chi aspetta l'approvazione: il negozio nuovo gira in tondo e il fattorino non arriva mai alla pagina dei documenti"
+     },
+     {
+      "idx": 1214,
+      "chiave": "architettura|il modulo che ripara la disconnessione silenziosa non e' collegato a niente: middleware.ts butta ancora via i cookie di sessione rinnovati"
+     },
+     {
+      "idx": 1137,
+      "chiave": "sicurezza-auth|il tetto di tre secondi del portiere puo bruciare la sessione di un cliente che era regolarmente dentro"
+     },
+     {
+      "idx": 86,
+      "chiave": "sicurezza-auth|chi viene promosso amministratore dal pannello non riesce poi a entrare nel pannello"
+     },
+     {
+      "idx": 18,
+      "chiave": "qa-flussi|chi si iscrive come negozio trova scritto «richiesta in valutazione» senza aver mai potuto compilare la richiesta"
+     },
+     {
+      "idx": 3,
+      "chiave": "rls-database|un cliente che chiede di diventare negozio viene respinto dal database dopo aver compilato tutto il modulo"
+     },
+     {
+      "idx": 182,
+      "chiave": "pagamenti-stripe|nessuna pagina chiede al negozio la partita iva: lo approviamo senza, e «venduto da» resta vuoto"
+     },
+     {
+      "idx": 343,
+      "chiave": "privacy-legale|un quindicenne può iscriversi come rider: la data di nascita si salva ma nessuno la confronta con i 18 anni, nemmeno chi approva"
+     },
+     {
+      "idx": 119,
+      "chiave": "frontend-ux|l'amministratore approva i fattorini alla cieca: il pannello non mostra patente, polizza, documento né età"
+     }
+    ]
+   },
+   {
+    "chiave": "app/api/admin/users/[id]/moderate/route.ts",
+    "difetti": [
+     {
+      "idx": 1252,
+      "chiave": "sicurezza-auth|il rifiuto non fa partire il cronometro dei 90 giorni: i documenti del respinto non scadono mai"
+     },
+     {
+      "idx": 1253,
+      "chiave": "sicurezza-auth|sospendere un amministratore non gli toglie niente, e la rotta risponde che e' fatto"
+     },
+     {
+      "idx": 1254,
+      "chiave": "sicurezza-auth|il bersaglio non e' validato: si modera un id qualunque, sé stessi compresi, con i testi di un altro ruolo"
+     },
+     {
+      "idx": 1255,
+      "chiave": "sicurezza-auth|se la notifica non parte nessuno lo sa, e i tre passi non sono legati"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/promesse-pubbliche.ts",
+    "difetti": [
+     {
+      "idx": 255,
+      "chiave": "microcopy|su ogni scheda prodotto c'è scritto «oppure con carta adesso», ma in produzione la carta non si può usare"
+     },
+     {
+      "idx": 252,
+      "chiave": "microcopy|nel carrello diciamo che ogni euro va ai negozi e che la nostra parte è solo la consegna, ma teniamo anche il 10% della merce"
+     },
+     {
+      "idx": 120,
+      "chiave": "frontend-ux|la home promette «arriva oggi in 30-60 minuti» anche di domenica, senza guardare se un negozio è aperto"
+     },
+     {
+      "idx": 253,
+      "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato"
+     },
+     {
+      "idx": 1206,
+      "chiave": "accessibilita|la dichiarazione promette che i dialoghi di conferma trattengono il fuoco e lo riportano indietro: il dialogo di conferma non fa nessuna delle due cose"
+     },
+     {
+      "idx": 249,
+      "chiave": "microcopy|il numero di telefono +39 0523 000000 è finto: sta nella pagina contatti e come numero d'emergenza dei fattorini"
+     },
+     {
+      "idx": 256,
+      "chiave": "microcopy|nelle schede prodotto vere compaiono «vegano false», «biologico true» e «alt text», e il negozio vede spuntate caselle sbagliate"
+     }
+    ]
+   },
+   {
+    "chiave": "app/api/orders/cod/route.ts",
+    "difetti": [
+     {
+      "idx": 1209,
+      "chiave": "api-backend|la lettura dei negozi non viene mai controllata: se torna corta, saltano il controllo 'negozio chiuso' e quello 'fuori zona', e la consegna va a tariffa fissa"
+     },
+     {
+      "idx": 1208,
+      "chiave": "api-backend|la prova che rende idempotente l'ordine in contanti si scrive best-effort, e la risposta dice riuscito lo stesso"
+     },
+     {
+      "idx": 23,
+      "chiave": "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso"
+     }
+    ]
+   },
+   {
+    "chiave": "components/seller/ProductForm.tsx",
+    "difetti": [
+     {
+      "idx": 19,
+      "chiave": "qa-flussi|chi corregge la descrizione di un prodotto rimette in magazzino la merce venduta nel frattempo"
+     },
+     {
+      "idx": 1293,
+      "chiave": "api-backend|dall'elenco prodotti, il pulsante «attiva» mette in vendita la bozza di un alimento senza allergeni e senza ingredienti"
+     }
+    ]
+   }
+  ]
+ ]
+}
