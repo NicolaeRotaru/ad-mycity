@@ -22,7 +22,7 @@ L'ondata 2 è pronta: cinque squadre, 24 difetti, file che non si toccano fra lo
 
 - **Il piano dell'ondata 2 è scritto e controllato.** Lo strumento che prepara le schede delle squadre le ha trovate tutte: 24 su 24.
 - **Le scelte che servono le hai già firmate** il 26/10, con la tua risposta alla carta delle 14 scelte. Pagamento solo in contanti. Niente chat fra cliente e negozio: c'è «Chiama il negozio». Categorie vuote nascoste. Scheda dell'ordine nel pannello solo da guardare. Non ti chiedo firme nuove per partire.
-- **Il controllo completo del sito sulla versione pubblicata** è nei dettagli tecnici, con l'esito.
+- **La base da cui partono le squadre è sana.** Sulla versione pubblicata, il controllo completo del sito è verde: 6.026 prove su 6.026.
 
 ## Cosa devi fare
 
@@ -126,7 +126,7 @@ Così le cinque squadre non condividono nessun file: l'ho misurato con lo stesso
   - `lib/store-hours.ts`: 24, 251, 195
 - Tolti: 1394 e 280 (`riparato`). Rinviato: 1290, con il 1289, dopo `main:false` (critica, `mancanze` «stanno in più posti»).
 - File in comune fra ondata 1 (fase 4) e ondata 2: `app/product/[id]/page.tsx`, `app/orders/[id]/page.tsx`, `lib/stripe/payout.ts`, `components/Footer.tsx`, `app/api/orders/cod/route.ts`, `app/api/stripe/checkout/route.ts`, `lib/constants.ts`. Le due ondate vanno in serie.
-- Base: main del sito `1776e6b1` (unione della #262). Esito di `npm run verify` sulla base: vedi la riga «Controllo della base» qui sotto.
+- Base: main del sito `1776e6b1` (unione della #262). `npm run verify` sulla base (installazione come la CI, `npm ci --legacy-peer-deps`): tipi e regole di scrittura a posto, 666 file di prove, 6.026 prove passate su 6.026.
 - Lancio, quando Nicola sceglie: `node cervello/schede-pacchetto.mjs --piano consegne/audit/2026-10-28-ondata2-sito.json --ondata 9 --json` come `args.schede` del workflow `.claude/workflows/ondata-sito.js`, con `repo: /home/user/mycity`, `radice_ad: /home/user/ad-mycity`, `base: 1776e6b1`, `max_agenti: 45`, tipi `tech` e `qa`.
 - Errori di Vercel: progetto `mycity`, finestra 7 giorni, rilascio `dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR`. Gruppi: send-push 2.016, service role 1.359, send-emails 1.007, release-payouts 672, external-price-alerts 168, abandoned-carts 168, activity-record 6, refresh token 2.
 - Voto di chiusura della macchina: `node cervello/tasso-chiusura.mjs` → ottobre 74 aperti, 7 chiusi, 0,09.
