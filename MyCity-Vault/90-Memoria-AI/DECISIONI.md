@@ -5930,3 +5930,7 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 **Lancio.** Run `wf_2326095d-a6c`, base `1776e6b1` (main del sito, verify verde 6.026 su 6.026), tipi `tech` e `qa`, tetto 45.
 
 **Colore.** 🟡: codice del sito solo nei rami delle squadre; la richiesta di unione la apro io, l'unione è di Nicola.
+
+## 2026-10-28 20:40 — 🟢 Correzione: la fase 0 del piano è fatta, non aperta
+
+Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato: gli 8 gravi (51, 1138, 1237, 1300, 1244, 1319, 1299, 312) sono nello stato `gia_riparato_prima`. Il mio conto contava come aperto ogni stato diverso da `riparato` e `chiuso`. Rifatto con `stato === "aperto"`: fase 0 0 su 8, le altre fasi come prima. Corretti il referto `consegne/audit/2026-10-28-ondata2-preparazione.md` e la descrizione della #897.

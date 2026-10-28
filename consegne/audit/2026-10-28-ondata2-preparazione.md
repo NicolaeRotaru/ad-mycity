@@ -77,7 +77,7 @@ Su circa 5.400 errori, tutti tranne 2 vengono dalla stessa chiave che manca. Gli
 
 | Fase del piano del 24/10 | Aperti |
 |---|---|
-| 0 — gli 8 già risolti da chiudere con le prove | 8 su 8 |
+| 0 — gli 8 già risolti da chiudere con le prove | 0 su 8: fatta |
 | 1 — le fondamenta comuni | 7 su 19 |
 | 2 — posta, allarmi e privacy | 7 su 14 |
 | 3 — il giorno della chiave, coi passi tuoi | 6 su 6 |
@@ -87,7 +87,7 @@ Su circa 5.400 errori, tutti tranne 2 vengono dalla stessa chiave che manca. Gli
 | 7 — le migrazioni | 17 su 18 |
 | 8 — le liste «prima di accendere» | 25 su 27 |
 
-Una cosa che ho notato: la fase 0 doveva chiudere 8 gravi già risolti, mezz'ora di lavoro, e sono ancora tutti aperti. È lavoro facile che abbassa il conto: lo propongo come primo passo di qualunque ondata.
+**Correzione delle 20:40.** Alla prima stesura avevo scritto che la fase 0 era ancora tutta aperta. Non è vero: gli 8 gravi sono segnati «riparati prima» nel registro, e il mio conto aveva escluso solo gli stati «riparato» e «chiuso». La fase 0 è fatta.
 
 ## L'ondata 2, squadra per squadra
 
