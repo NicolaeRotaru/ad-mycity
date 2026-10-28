@@ -1,6 +1,6 @@
 {
   "data": "2026-10-27 15:25",
-  "sintesi": "Le 14 scelte sono firmate e le prime riparazioni del sito sono in una richiesta di unione da unire (#262): funzioni del lancio spente davvero, pannello admin che dice «errore», copia del database protetta. La fase 2, con la cancellazione dell'account e il confine a 10 km, è in lavorazione. Consegni tu in bici fino a 10 km. Vuoi partire col primo cliente quando il sito non ha più difetti: va precisato se contano anche i minori. Restano da te: la casella info, le chiavi del database da cambiare insieme, e la cancellazione del negozio di prova con la riga della carta #201.",
+  "sintesi": "Le 14 scelte sono firmate. La richiesta di unione grande del sito (#262) è pronta da unire: dentro ci sono le fondamenta, la posta, la consegna da 3 euro e la cancellazione dell'account, con i controlli verdi. Il confine di consegna passa a 5 km (tua correzione del 28/10): lo porta sul sito un giro a parte. Consegni tu, in bici. Vuoi partire col primo cliente quando il sito non ha più difetti: resta da scegliere il criterio, A, B o C, e il rilascio, A o B. Restano da te anche la casella info, le chiavi del database da cambiare insieme, e la cancellazione del negozio di prova con la riga della carta #201.",
   "prossime_mosse": [
     {
       "titolo": "Crea la casella info@mycity-marketplace.com e inoltrala alla tua Gmail",
@@ -68,7 +68,7 @@
     {
       "titolo": "Fai il primo ordine vero da Pane Quotidiano e consegnalo tu",
       "quando": "quando il sito è pronto secondo il tuo criterio (zero difetti: da precisare se contano anche i minori)",
-      "come": "in contanti, in bici entro 10 km, col tuo account da fattorino, guardando il sito dal telefono; poi il bonifico al fornaio (carta #210)",
+      "come": "in contanti, in bici entro 5 km dal negozio, col tuo account da fattorino, guardando il sito dal telefono; poi il bonifico al fornaio (carta #210)",
       "priorita": "alta",
       "ad_prepara": "il via alla chiave quando i passi che la precedono sono fatti, e il controllo che ogni lavoro notturno parta",
       "senior": "@operations",

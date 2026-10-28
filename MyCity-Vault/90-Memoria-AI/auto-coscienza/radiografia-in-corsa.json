@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-28 07:00",
+  "aggiornato": "2026-10-28 11:17",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4689,6 +4689,66 @@
       "file": {
         "app/cart/page.tsx": "cdaac7841f83",
         "app/orders/[id]/page.tsx": "3abbff9ef4f9"
+      }
+    },
+    {
+      "quando": "2026-10-28 11:03",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "AR-1028",
+        "AR-1029"
+      ],
+      "nota": "",
+      "file": {
+        ".claude/skills/cantiere/SKILL.md": "b2349ce577b8",
+        ".claude/skills/collaudo/SKILL.md": "e165e312ec40",
+        ".claude/workflows/ondata-sito.js": "2180d10e21cc"
+      }
+    },
+    {
+      "quando": "2026-10-28 11:17",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Con un confine non intero il cursore a passo 1 non raggiunge il valore d'apertura: etichetta e pallino divergono",
+        "«Vicino a te» misura dal telefono, la cassa dall'indirizzo di consegna: la lista può mostrare negozi che poi la cassa rifiuta",
+        "La pagina Spedizioni e la FAQ dicono «Nei comuni serviti»: col confine a 5 km il comune servito e' in pratica solo Piacenza",
+        "La tendina della posizione dice «Mostriamo i negozi che consegnano al tuo CAP», ma il CAP salvato non lo legge nessuna pagina"
+      ],
+      "nota": "",
+      "file": {
+        "app/near/page.tsx": "864e67c4fe35",
+        "app/shipping/page.tsx": "fcfcf20d3643",
+        "components/LocationPill.tsx": "b83713daac7f",
+        "components/checkout/ShippingAddressForm.tsx": "63aa58a58ed7"
+      }
+    },
+    {
+      "quando": "2026-10-28 11:17",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "La frase della zona vive in quattro posti (cassa, Spedizioni, rifiuto, tendina della posizione) piu' FAQ e «Vicino a te»: le tiene allineate solo una prova",
+        "Se manca la posizione del negozio o dell'indirizzo, il confine dei 10 km non scatta: l'ordine passa a qualunque distanza",
+        "Chi abita appena oltre i 10 km, come a Podenzano o Rottofreno, scopre di essere fuori zona solo premendo «Ordina»: carrello e cassa non lo avvisano prima"
+      ],
+      "nota": "",
+      "file": {
+        "lib/constants.ts": "4916d0ed0c20",
+        "lib/ordini/zona-di-consegna.ts": "cb0275b759d8"
       }
     }
   ]

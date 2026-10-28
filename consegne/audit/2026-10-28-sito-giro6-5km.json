@@ -1,0 +1,26 @@
+{
+  "_cosa_e": "Sesto giro del sito: il confine di consegna da 10 a 5 km, correzione di Nicola del 28/10 alle 08:30. Le ondate 1-7 di questo file sono vuote apposta: le schede si leggono con --ondata 8, cosi' i worktree nascono come o8-*. Base: il ramo d'integrazione della richiesta #262 (6ae86ca5).",
+  "data": "2026-10-28 09:52",
+  "registro": "sito",
+  "origine": "decisione di Nicola del 28/10/2026 08:30 (registro-fatti.json, consegna.raggio)",
+  "ondate": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      {
+        "chiave": "lib/constants.ts",
+        "difetti": [
+          {
+            "idx": 1719,
+            "chiave": "flussi-conversione|il sito accetta consegne fino a 10 km dal negozio, ma nicola ha deciso 5 km il 28/10"
+          }
+        ]
+      }
+    ]
+  ]
+}

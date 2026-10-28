@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-10-28 06:36
+aggiornato: 2026-10-28 11:22
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚲 **2026-10-28 11:22 — Il confine scende a 5 km.**
+>
+> Con «ok 215» la consegna e l'email sono entrate nella richiesta grande del sito. Sono la consegna da 3 euro e l'email senza il ritiro.
+>
+> Con «ok 216» la regola nuova è nel metodo: si boccia per il sito, non per la prova. Al primo giro vero, quello dei 5 km, il lavoro ha retto al primo collaudo. Una prova rotta dal lavoro l'ha vista il mio controllo finale, e una correzione l'ha sistemata.
+>
+> Adesso la richiesta grande porta anche i 5 km. Ti restano due scelte da un minuto, il criterio per il primo cliente e il rilascio, e il comando del Panificio Demo.
 
 > 🧩 **2026-10-28 06:36 — Due lavori del sito aspettano la tua firma.**
 >

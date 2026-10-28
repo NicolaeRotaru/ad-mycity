@@ -31,7 +31,12 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
-### 🟡 #216 — Firma la regola che fa finire i giri del sito: una prova migliorabile, su un sito che funziona, è un difetto piccolo · ⏳ accodata 2026-10-28 06:35
+### 🟡 #216 — Firma la regola che fa finire i giri del sito: una prova migliorabile, su un sito che funziona, è un difetto piccolo · ⏳ accodata 2026-10-28 06:35 · ✅ firmata 2026-10-28 08:30
+
+> ✅ **2026-10-28 11:04 — Al primo giro vero la regola ha funzionato.** Il giro dei 5 km ha retto al primo collaudo. Non ha avuto rifacimenti, e ha usato 6 agenti invece dei 14-16 dei giri che si fermavano. Le prove migliorabili sono finite nel registro come difetti piccoli. Una prova che il lavoro aveva rotto l'ha vista il mio controllo finale, e la squadra l'ha sistemata.
+
+> ✅ **2026-10-28 09:43 — Firmata con «ok 216», e messa nel metodo.** Prima di usarla l'ho fatta collaudare da due collaudatori che non l'avevano scritta. La prima versione l'hanno bocciata: in due casi un errore vero del sito poteva passare per «prova migliorabile». Adesso la regola è una sola per ogni collaudo, e il perché di ogni bocciatura lo legge il motore, non solo l'istruzione scritta. Le prove del metodo sono verdi, 51 su 51, e venti rotture fatte apposta le fanno diventare rosse tutte. Un ultimo ricollaudo sta girando. Nel registro del sito 4 gravi del quinto giro erano solo prove migliorabili: adesso sono minori.
+
 
 **In parole semplici.** Ogni giro di riparazione del sito finisce con un collaudo: un collaudatore che non ha scritto il lavoro prova a romperlo. Oggi il collaudatore boccia anche quando il sito fa la cosa giusta, se trova una prova che si potrebbe scrivere meglio.
 
@@ -49,7 +54,10 @@ Contenuto: il difetto AR-1027 nel cantiere della macchina, con la causa e la cur
 
 ---
 
-### 🟡 #215 — Scegli se unire così la consegna da 3 euro e l'email del ritiro: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46
+### 🟡 #215 — Scegli se unire così la consegna da 3 euro e l'email del ritiro: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46 · ✅ fatto 2026-10-28 08:40
+
+> ✅ **2026-10-28 08:40 — Unite, con il tuo «ok 215».** Sono nella richiesta grande del sito. Alle 08:39 i suoi 9 controlli automatici erano verdi. La richiesta si può unire: non tocca il database.
+
 
 > ⏰ **2026-10-28 06:35 — Il giro in più si è fermato come il primo.** Adesso i lavori da unire sono due: la consegna e l'email. Il quinto giro ha completato la consegna e ha tolto dall'email la promessa del ritiro. Tutti e due i pacchetti si sono fermati dopo tre bocciature, sempre su prove migliorabili. La scelta resta tua, con le stesse due strade.
 

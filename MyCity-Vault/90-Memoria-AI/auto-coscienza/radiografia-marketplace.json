@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1719,
+    "findings": 1728,
     "bloccanti": 35,
-    "gravi": 518,
-    "minori": 1166,
+    "gravi": 515,
+    "minori": 1178,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -30341,12 +30341,13 @@
     },
     {
       "titolo": "Il riepilogo della cassa con la carta può scrivere «la consegna te la regaliamo» sopra i 30 €: tutte le prove usano 20 €",
-      "severita": "grave",
+      "severita": "minore",
       "file": "components/checkout/OrderSummary.tsx:99 · tests/unit/la-consegna-da-3-euro-ha-un-nome-solo-e-non-e-mai-gratis.test.tsx: subtotal fisso a 20 in ogni caso",
       "stato": "aperto",
       "dimensione": "qa-flussi",
       "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
-      "descrizione": "Mutante: dopo i 3 € {paymentMethod==='card' && subtotal>=30 ? ' · la consegna te la regaliamo noi' : ''}. Verdi le prove della squadra e prova-sito. Rossa: zz-collaudo-a-riepilogo-sopra-30.test.tsx (35 €, carta), stessa cartella del difetto 1."
+      "descrizione": "Mutante: dopo i 3 € {paymentMethod==='card' && subtotal>=30 ? ' · la consegna te la regaliamo noi' : ''}. Verdi le prove della squadra e prova-sito. Rossa: zz-collaudo-a-riepilogo-sopra-30.test.tsx (35 €, carta), stessa cartella del difetto 1.",
+      "nota_severita": "2026-10-28 09:09: da grave a minore con la regola firmata da Nicola («ok 216», AR-1027): è un buco nelle prove su un sito che fa giusto. Controllato sul codice di 6ae86ca5: nessun «regaliamo» nel codice del sito fuori dalle prove."
     },
     {
       "titolo": "La pagina dell'ordine può regalare la consegna appena sopra il riepilogo: la prova legge solo il riquadro e il grep non conosce «regal»",
@@ -30423,30 +30424,33 @@
     },
     {
       "titolo": "Con la carta il controllo zona si può togliere sopra i 30 € di spesa a prove verdi: le prove della carta hanno un carrello da 10 €",
-      "severita": "grave",
+      "severita": "minore",
       "file": "app/api/stripe/checkout/route.ts:514 (if (!body.pickupInStore)) · tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts (price: 10 alle righe 187, 248, 249, 346, 462)",
       "stato": "aperto",
       "dimensione": "qa-flussi",
       "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
-      "descrizione": "Mutante in rotta carta: if (!body.pickupInStore && grandSubtotalCents < 3000). 35 file, 431 prove verdi (i 2 rossi sono del mutante contanti, preso da una-consegna-a-milano a 35 €). zz-collaudo-a-carta-sopra-30.test.ts (copia con price: 35): verde su e4fe3ff6, 36 rosse col mutante."
+      "descrizione": "Mutante in rotta carta: if (!body.pickupInStore && grandSubtotalCents < 3000). 35 file, 431 prove verdi (i 2 rossi sono del mutante contanti, preso da una-consegna-a-milano a 35 €). zz-collaudo-a-carta-sopra-30.test.ts (copia con price: 35): verde su e4fe3ff6, 36 rosse col mutante.",
+      "nota_severita": "2026-10-28 09:09: da grave a minore con la regola firmata da Nicola («ok 216», AR-1027): è un buco nelle prove su un sito che fa giusto. Controllato sul codice di 6ae86ca5: app/api/stripe/checkout/route.ts:514-526: il controllo zona vale per ogni ordine con consegna, e non guarda la spesa (nota corretta alle 09:45: prima citava la riga 402, che è il controllo «negozio chiuso»)."
     },
     {
       "titolo": "Pagina dell'ordine: «Spedizione GRATUITA» sopra i 3 € torna a prove verdi da 50 € in su, e la carta è provata solo a 20 €",
-      "severita": "grave",
+      "severita": "minore",
       "file": "lib/ordini/riepilogo-ordine.ts:80 · app/orders/[id]/page.tsx:685 · prove: riepilogo solo a 20 €, pagina a 20/35 € in contanti e 20 € con la carta",
       "stato": "aperto",
       "dimensione": "qa-flussi",
       "fonte": "preesistente, trovato dal quinto giro della fase 2 del lotto #262 (run wf_1bc11a0a-959, collaudo, pacchetto lib/ordini/riepilogo-ordine.ts)",
-      "descrizione": "Mutanti: riepilogo con sopraLaSoglia=subtotale>=5000 che rimette «Spedizione GRATUITA»; pagina cliente con «· la paghiamo noi» su carta >30 € (fuori dal grep). Prove squadra verdi. zz-collaudo-a-riepilogo-sopra-50 (3 rosse), zz-collaudo-a-pagina-carta-sopra-30 (5 rosse): verdi su e4fe3ff6."
+      "descrizione": "Mutanti: riepilogo con sopraLaSoglia=subtotale>=5000 che rimette «Spedizione GRATUITA»; pagina cliente con «· la paghiamo noi» su carta >30 € (fuori dal grep). Prove squadra verdi. zz-collaudo-a-riepilogo-sopra-50 (3 rosse), zz-collaudo-a-pagina-carta-sopra-30 (5 rosse): verdi su e4fe3ff6.",
+      "nota_severita": "2026-10-28 09:09: da grave a minore con la regola firmata da Nicola («ok 216», AR-1027): è un buco nelle prove su un sito che fa giusto. Controllato sul codice di 6ae86ca5: lib/ordini/riepilogo-ordine.ts:110: «GRATUITA» solo quando il riepilogo dice gratis; la prova del verificatore della 1584 è verde sulla copia 6ae86ca5."
     },
     {
       "titolo": "La prova esatta legge solo la guida senza dati: con il nome, come parte davvero, «passa tu dal negozio a prenderla» torna e resta verde",
-      "severita": "grave",
+      "severita": "minore",
       "file": "tests/unit/la-guida-del-secondo-giorno-non-promette-il-ritiro-spento.test.ts: toEqual/toBe solo su preparaEmailCicloDiVita('tutorial_day2', {}); send-emails/route.ts:228 passa name",
       "stato": "aperto",
       "dimensione": "microcopy",
       "fonte": "nato dal lotto #262 (quinto giro della fase 2, run wf_1bc11a0a-959, ultimo collaudo, ancora aperto, pacchetto lib/email/templates.ts)",
-      "descrizione": "fermo: bocciato 3 volte dal collaudo"
+      "descrizione": "fermo: bocciato 3 volte dal collaudo",
+      "nota_severita": "2026-10-28 09:09: da grave a minore con la regola firmata da Nicola («ok 216», AR-1027): è un buco nelle prove su un sito che fa giusto. Controllato sul codice di 6ae86ca5: lib/email/templates.ts:25-26: il ritiro si nomina solo se RITIRO_IN_NEGOZIO_ATTIVO; la prova del verificatore della 1658 è verde sulla copia 6ae86ca5."
     },
     {
       "titolo": "La scheda prodotto promette «Consegna in 2-3 giorni» sui prodotti esauriti e su tutti quelli di un negozio senza Express, ma in cassa quella consegna non esiste",
@@ -30568,23 +30572,106 @@
       "descrizione": "Il lotto ha cambiato l'email «ordine pronto» da «lo ritira» a «un rider passa a prenderlo». Il motivo, scritto nel commento: detto al cliente, «ritira» si confonde col ritiro in negozio, che al lancio è spento. La stessa notizia però arriva al cliente da altri due canali con la parola vecchia. Il primo è la notifica nella campanella, creata dal trigger della migrazione 122: «Il tuo ordine #… è pronto: un rider lo ritirerà a breve». Il secondo è il sottotitolo della pagina dell'ordine: «Pronto in negozio · un rider sta per ritirarlo». Così lo stesso ordine ha due modi di dirlo. Prova: grep -n \"ritirer\" migrations/122_radiografia_20_agosto.sql (righe 114, 119, 124); sed -n 324,330p app/orders/[id]/page.tsx; sed -n 195,215p lib/email/templates.ts. La voce chiusa 609 aveva riparato solo l'etichetta dello stato (lib/order-status.ts). Trovato preesistente, non passato dal verificatore.",
       "impatto": "Basso: il soggetto è il rider, quindi quasi tutti capiscono. Un cliente può però leggere «ritirarlo» accanto a «Pronto in negozio» come un invito ad andare lui, e telefonare al negozio. E il sito dice la stessa cosa in due modi diversi fra email e pagina.",
       "fix": "Una frase sola per lo stato «pronto», scritta in un posto solo (lib/order-status.ts o lib/promesse-pubbliche.ts) e legata all'interruttore del ritiro: «È pronto: un rider passa a prenderlo e te lo porta». La pagina dell'ordine la legge da lì. Il testo della notifica si cambia con una nuova migrazione, che sul database di produzione è 🔴 e va firmata a parte. Prova: montare la pagina in stato pronto e confrontare il sottotitolo esatto; leggere il testo esatto del trigger."
+    },
+    {
+      "titolo": "Il sito accetta consegne fino a 10 km dal negozio, ma Nicola ha deciso 5 km il 28/10",
+      "severita": "grave",
+      "dimensione": "flussi-conversione",
+      "stato": "aperto",
+      "file": "lib/constants.ts:53 (RAGGIO_CONSEGNA_KM = 10) · tests/unit/al-lancio-si-consegna-in-bici-fino-a-10-km.test.ts (inchioda il 10) · app/near/page.tsx:128 (raggio iniziale 5 scritto a mano) · lib/ordini/zona-di-consegna.ts:44 (il confronto) · le prove del confine: tests/unit/i-contanti-misurano-il-confine-in-ogni-direzione-e-da-ogni-fonte.test.ts, tests/unit/la-carta-rifiuta-l-indirizzo-fuori-zona-come-i-contanti.test.ts, tests/unit/in-cassa-si-sa-subito-fin-dove-consegniamo.test.ts, tests/unit/vicino-a-te-montata-al-confine-non-invita-a-cercare-oltre.test.tsx",
+      "fonte": "decisione di Nicola del 28/10/2026 08:30 in chat: «mi ero sbagliato, la consegna va fatta in un area 5 km»",
+      "descrizione": "Il 27/10 Nicola aveva detto 10 km in bici, e il lotto #262 ha messo RAGGIO_CONSEGNA_KM = 10. Il 28/10 alle 08:30 ha corretto: l'area di consegna è 5 km. Con 10 la cassa accetta un indirizzo a 8 km: il cliente paga, e Nicola in bici non ci arriva. Il sito misura in linea d'aria (haversineKm in lib/ordini/zona-di-consegna.ts:44): 5 km in linea d'aria sono circa 6-7 km di strada, una stima detta a Nicola.",
+      "impatto": "Ogni ordine fra 5 e 10 km dal negozio è un ordine pagato che non si può consegnare: rimborso, un negozio che ha preparato per niente, il primo cliente perso.",
+      "fix": "RAGGIO_CONSEGNA_KM = 5, con la decisione del 28/10 nel commento. La prova che inchioda il numero cambia nome e numero (5 km). Le prove del confine hanno punti dentro (3-4 km) e fuori (6-7 km), anche in diagonale e col secondo negozio. «Vicino a te» parte dal confine letto dalla costante, non da un 5 scritto a mano. Nessun «10 km» scritto a mano resta nelle pagine."
+    },
+    {
+      "titolo": "Con un confine non intero il cursore a passo 1 non raggiunge il valore d'apertura: etichetta e pallino divergono",
+      "severita": "minore",
+      "file": "app/near/page.tsx:131 useState<number>(RAGGIO_CONSEGNA_KM), accanto a min={1} e step={1} scritti a mano (righe 312-317)",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "nato dal lotto #262 (sesto giro, il confine a 5 km, run wf_b040c1ca-1b7, riesame)",
+      "descrizione": "Latente: oggi il confine è 5, intero, e il sito fa giusto. Con il confine a 7.5 la pagina si apre su «Raggio: 7.5 km» (col punto, la riga negozio scrive 7,5), il browser aggancia il pallino a 7, e una volta mosso il cursore 7,5 non torna. Prima, sopra 5, partiva da 5."
+    },
+    {
+      "titolo": "La prova nuova finge solo un confine sotto 5: il caso «confine sopra 5» (pagina aperta a metà, come il 27/10) resta scoperto",
+      "severita": "minore",
+      "file": "tests/unit/vicino-a-te-si-apre-al-confine-letto-dalla-costante.test.tsx (vi.mock RAGGIO_CONSEGNA_KM: 3)",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "nato dal lotto #262 (sesto giro, il confine a 5 km, run wf_b040c1ca-1b7, riesame)",
+      "descrizione": "Il mutante useState<number>(Math.min(5, RAGGIO_CONSEGNA_KM)) resta verde col confine finto a 3 e col vero 5, ma col confine a 10 riaprirebbe a metà. Il codice oggi fa giusto, quindi è un buco nelle prove: minore. Serve un secondo confine finto sopra 5, per esempio 8."
+    },
+    {
+      "titolo": "«Vicino a te» misura dal telefono, la cassa dall'indirizzo di consegna: la lista può mostrare negozi che poi la cassa rifiuta",
+      "severita": "minore",
+      "file": "app/near/page.tsx:151-153 (getCurrentPosition → setPos) e filtro alla riga 197; c'era già, fuori dal delta",
+      "stato": "aperto",
+      "dimensione": "flussi-conversione",
+      "fonte": "preesistente, trovato dal sesto giro del lotto #262 (il confine a 5 km, run wf_b040c1ca-1b7, riesame)",
+      "descrizione": "Telefono in ufficio a 2 km da un negozio, consegna a casa a 7 km: il negozio compare entro 5 km e la cassa lo rifiuta. Il commento del delta («negozi che la cassa poi rifiuta») vale solo se casa e telefono coincidono."
+    },
+    {
+      "titolo": "Una prova dei 3 euro si intitola «a ogni distanza dentro la zona» ma guarda una casa a 9 km, che col confine a 5 la cassa rifiuta",
+      "severita": "minore",
+      "file": "tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx («IL CASO DEL COLLAUDO — 20 euro di spesa a 9 km»)",
+      "stato": "aperto",
+      "dimensione": "qa-flussi",
+      "fonte": "nato dal lotto #262 (correzione del sesto giro, commit e36741a7: lasciato fuori dalla squadra, detto nel suo referto)",
+      "descrizione": "La prova protegge dalla tariffa a chilometri oltre i 6 km ed e' verde, ma il titolo dice «dentro la zona» per una casa fuori zona: chi la legge capisce una cosa falsa sul confine."
+    },
+    {
+      "titolo": "La pagina Spedizioni e la FAQ dicono «Nei comuni serviti»: col confine a 5 km il comune servito e' in pratica solo Piacenza",
+      "severita": "minore",
+      "file": "app/shipping/page.tsx:54 · lib/promesse-pubbliche.ts:156",
+      "stato": "aperto",
+      "dimensione": "microcopy",
+      "fonte": "nato dal lotto #262 (correzione del sesto giro, commit e36741a7: lasciato fuori dalla squadra, detto nel suo referto)",
+      "descrizione": "Vago, non falso. La prova delle promesse tiene ferma la frase."
+    },
+    {
+      "titolo": "La frase della zona vive in quattro posti (cassa, Spedizioni, rifiuto, tendina della posizione) piu' FAQ e «Vicino a te»: le tiene allineate solo una prova",
+      "severita": "minore",
+      "file": "components/checkout/ShippingAddressForm.tsx · app/shipping/page.tsx · lib/ordini/zona-di-consegna.ts (motivoFuoriZona) · components/LocationPill.tsx · lib/promesse-pubbliche.ts · app/near/page.tsx",
+      "stato": "aperto",
+      "dimensione": "architettura",
+      "fonte": "preesistente, visto dalla correzione del sesto giro del lotto #262 (commit e36741a7)",
+      "descrizione": "Proposta della squadra: una frase della zona in un posto solo, letta da RAGGIO_CONSEGNA_KM, usata da tutte. Oggi la prova le-frasi-della-zona-dicono-il-confine-della-cassa.test.tsx diventa rossa se una si sposta."
+    },
+    {
+      "titolo": "Con la lista delle direzioni vuota la prova dei carrelli a più negozi passa senza guardare niente",
+      "severita": "minore",
+      "dimensione": "qa-flussi",
+      "stato": "aperto",
+      "file": "tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:162 (DIREZIONI) e il controllo «verificati = DIREZIONI × DISTANZE × carrelli»",
+      "fonte": "nato dal lotto #262, trovato dal collaudo della correzione del sesto giro del lotto #262 (run wf_f1674a4c-628, commit e36741a7)",
+      "descrizione": "Con const DIREZIONI = [] e un mutante del prezzo (1,50 € fra 4,6 e 4,94 km) la copia della prova esce verde: il conteggio si calcola dalle stesse liste del ciclo, quindi 0 = 0. Sul commit 6ae86ca5 la vecchia soglia la faceva rossa. Il sito non sbaglia: oggi le direzioni sono 8. Cura: expect(verificati).toBeGreaterThan(0), o DIREZIONI.length almeno 8."
+    },
+    {
+      "titolo": "La tendina della posizione dice «Mostriamo i negozi che consegnano al tuo CAP», ma il CAP salvato non lo legge nessuna pagina",
+      "severita": "minore",
+      "dimensione": "microcopy",
+      "stato": "aperto",
+      "file": "components/LocationPill.tsx:166 (il CAP salvato sotto mc_delivery_location)",
+      "fonte": "preesistente, trovato dal collaudo della correzione del sesto giro del lotto #262 (run wf_f1674a4c-628, commit e36741a7)",
+      "descrizione": "grep -rn 'mc_delivery' in app, components e lib: la chiave c'è solo in LocationPill.tsx. La riga sotto adesso dice il limite vero dei 5 km, e la cassa rifiuta l'indirizzo lontano prima del pagamento."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-28 07:01",
+    "aggiornato": "2026-10-28 11:33",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 884,
+    "findings_aperti": 893,
     "findings_chiusi": 835,
-    "findings_tot": 1719,
+    "findings_tot": 1728,
     "aperti_per_severita": {
       "bloccante": 9,
-      "grave": 157,
-      "minore": 718,
+      "grave": 154,
+      "minore": 730,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1719,
+    "dichiarati_dal_referto": 1728,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

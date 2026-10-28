@@ -22339,15 +22339,62 @@
       "causa_radice": "Il prompt del collaudo misura la gravità con una sola domanda: «sai scrivere un comando che diventa rosso?». Per un buco nelle prove il comando c’è sempre: la mutazione più la prova del collaudatore. Così ogni buco diventa grave e boccia il pacchetto. Sono due domande diverse: quanto è grave quello che succede a chi usa il sito, e quanto è forte la prova. La regola le confonde. Il riesame scritto a mano dall’AD il 27/10 le separava, e ha concluso in un giro.",
       "fix_proposto": "Nel prompt del collaudo e del riesame di ondata-sito.js: «Un buco nelle prove su un codice che si comporta giusto è minore: va nel registro e non boccia il pacchetto. Si boccia solo se il sito si comporta male, oppure se la mutazione che rimette il difetto dichiarato chiuso resta verde.» Più un caso nel motore finto di cervello/test/ondata-sito.test.mjs: un collaudo che porta solo buchi delle prove, su codice giusto e con i difetti dichiarati provati, non ferma il pacchetto. È un’auto-modifica della macchina: 🟡, vale con la firma di Nicola.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-10-28 00:37",
       "nato_come": "scoperta",
       "nato_da": "terzo e quinto giro della fase 2 del sito (wf_83d2e67e-905, wf_1bc11a0a-959)",
       "origine": "lotto-del-sito",
       "fonte": "lotto del sito #262 (fase 2), 27/10/2026",
       "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/ondata-sito.test.mjs",
+        "nota": "62 prove. La causa di ogni bocciatura sta in boccia_per e la legge il motore: «variante» non boccia, ma vale solo da una lente che muta e col comando nel perche'; tre schemi, uno per ruolo; il verificatore prova il codice di oggi prima di dire solo_prova, e sa dire preesistente. Collaudata quattro volte prima dell'uso: wf_a499c8b8-08c (bocciata da tutte e due le lenti), wf_040a3d61-2de (coerenza regge, scappatoie no), wf_258deb23-0a8 (regge, sette minori, curati), wf_b8888e09-e59 (regge, quattro minori: due curati, gli altri in AR-1028). Mutazioni: 34 rotture del motore, tutte rosse; due in cervello/mutanti.json con la lezione L-2026-1028-01. Al giro vero: 6 agenti invece dei 14-16 dei giri fermi, 0 rifacimenti. Quello che il giro vero ha mostrato di nuovo sta in AR-1029 (una prova che il lavoro rompe non boccia)."
+      },
+      "chiuso_il": "2026-10-28 10:43",
+      "chiuso_da": "regola firmata da Nicola con «ok 216» il 28/10 alle 08:30, nel metodo delle ondate (.claude/workflows/ondata-sito.js, regola ⑥), e vista al primo giro vero: il sesto giro del sito (run wf_b040c1ca-1b7) regge al primo collaudo, con 16 minori nel registro e nessuna bocciatura su una prova migliorabile"
+    },
+    {
+      "id": "AR-1028",
+      "titolo": "Il collaudo delle ondate ha ancora quattro casi rari in cui un pacchetto sano si ferma, o un difetto vecchio si legge come nuovo",
+      "dimensione": "calibrazione-onesta",
+      "dove": ".claude/workflows/ondata-sito.js: riesame (un revisore che dice regge:true con «sito» su un grave che c'era gia'), verificatore («rossa anche sulla base» quando sulla base la prova sbaglia in un altro modo), posto dei ricollaudi con due pacchetti bocciati insieme, correzione 2 con una variante scritta male",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "sintomo": "Collaudo delle ultime cure della regola 216 (run wf_b8888e09-e59, 28/10): regge, 0 forme di verdetto su 1.080 in cui il motore nuovo fa passare cio' che il vecchio fermava. Restano quattro casi rari: 24 forme del riesame fermano il pacchetto dei soldi con un motivo sbagliato quando il grave c'era gia' (Q3b); il verificatore puo' chiamare «c'era gia'» un doppio rimborso nato, se sulla base la prova sbaglia per un altro motivo; con due pacchetti bocciati insieme il posto del ricollaudo non e' tenuto e si paga un rifacimento per niente (200 su 4.800 giri a caso); in correzione 2 una variante senza comando ferma un pacchetto sano.",
+      "causa_radice": "Le uscite che fanno passare o fermare si fidano di una dichiarazione del lavoratore che il motore non vede, e il posto del ricollaudo si controlla prima del rifacimento ma non si tiene.",
+      "fix_proposto": "La cura del collaudatore, provata su una copia (59 prove su 59): il dubbio del riesame va al verificatore (K3), i posti dei ricollaudi tenuti fino al ricollaudo (K7, senza il throw: un pacchetto si ferma, l'ondata no). Per il verificatore: righe d'errore della prova sulla base, non solo l'uscita. Idea in piu': la tabella delle 1.080 uscite come prova fissa nella repo. Auto-modifica: 🟡, nella famiglia della carta 216.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-28 10:42",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo delle cure del secondo ricollaudo della regola 216 (wf_b8888e09-e59)",
+      "origine": "lotto-della-macchina",
+      "fonte": "collaudo della regola 216, 28/10/2026",
+      "verifica": {
         "tipo": "umano",
-        "come": "La gravità la decide un modello leggendo il prompt: non c’è un comando che la misuri prima del giro. Al prossimo giro di un’ondata si contano le bocciature del collaudo e, per ognuna, se il sito si comportava male o se mancava solo una prova. Oggi i buchi delle prove sono la maggioranza: terzo giro 3 bocciature su 3, quinto giro della posta 2 su 2. Dopo la correzione, un collaudo che trova solo buchi delle prove su codice giusto deve dire «regge» e mettere i buchi nel registro."
+        "come": "Ai prossimi giri si contano i pacchetti fermati con «riesame non concluso» o «tetto vicino» mentre il sito si comportava giusto, e i gravi registrati come «c'era gia'». Si chiude con la cura K3+K7 e una prova del motore finto per ognuno dei quattro casi."
+      }
+    },
+    {
+      "id": "AR-1029",
+      "titolo": "Il collaudo delle ondate non boccia una prova del sito che il lavoro fa diventare rossa: la suite resta rossa fino al controllo dell'AD",
+      "dimensione": "calibrazione-onesta",
+      "dove": ".claude/workflows/ondata-sito.js: comeDecidi (boccia per «sito» solo se il comando mostra il sito che sbaglia) e SOBRIO («mai la suite intera» alla squadra)",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "sintomo": "Sesto giro del sito, confine a 5 km (run wf_b040c1ca-1b7, 28/10): il pacchetto regge al primo collaudo, ma la prova tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx diventa rossa (la soglia di 10.000 casi era tarata sui 10 km). Collaudo A, collaudo B e due revisori la vedono, col comando rosso, e la scrivono minore, come vuole la regola: il sito fa giusto. La suite del ramo (6.021 prove) ha 1 rossa: senza il controllo dell'AD dopo la ricucitura, la richiesta di unione avrebbe la CI rossa.",
+      "causa_radice": "La regola 216 separa il sito che sbaglia dalla prova migliorabile, ma una prova che il delta rompe non e' una prova migliorabile: e' la suite rotta. La squadra non lancia la suite intera (SOBRIO), e nessun collaudo ha una causa per dirlo.",
+      "fix_proposto": "Una causa in piu' che boccia: la suite che il delta fa diventare rossa (una prova che c'era, verde sulla base e rossa sul ramo, anche se il sito fa giusto). Va al rifacimento della stessa squadra, che ha il contesto. In alternativa la squadra lancia la suite intera prima di consegnare. Cambia la regola firmata con «ok 216»: serve la firma di Nicola.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-28 10:42",
+      "nato_come": "scoperta",
+      "nato_da": "sesto giro del sito (wf_b040c1ca-1b7)",
+      "origine": "lotto-del-sito",
+      "fonte": "lotto del sito #262, sesto giro, 28/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova del motore finto: un collaudo che riporta una prova rossa sul ramo e verde sulla base fa partire il rifacimento, anche con il sito che fa giusto. Fino alla firma, la rete resta npm run verify dell'AD dopo la ricucitura."
       }
     }
   ],

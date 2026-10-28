@@ -234,7 +234,8 @@ che c'erano già.*
 **Come si innesta.** Quando il lotto gira a corsie (più agenti), il collaudo di una corsia lo fa
 **un'altra corsia**, mai la sua. Quando il lotto è una sessione sola, il collaudo si fa **in un
 agente separato**, con questo mandato: *dimostra che questo lavoro non funziona; nel dubbio,
-boccialo*. Due lenti diverse, mai due copie della stessa domanda:
+boccialo*. Sul sito il dubbio riguarda il sito, non la prova: una prova migliorabile su un sito che fa
+giusto è un minore nel registro (AR-1027). Due lenti diverse, mai due copie della stessa domanda:
 · **sa diventare rosso davvero?** — ricrea il difetto e guarda
 · **nasce rotto?** — montalo sul serio: blocca la macchina per tutti?
 
@@ -460,7 +461,10 @@ ricostruito dell'ondata 1 (circa 762 subagenti) i verificatori erano 513: due ag
 reperto — solo sui reperti **gravi o bloccanti nati dal lotto**. I minori e i preesistenti non hanno
 un verificatore uno per uno: **un solo agente di triage per riesame** legge i minori e promuove quelli
 che gli sembrano gravi, che a quel punto passano alla verifica. Chi trova un difetto lo classifica con
-l'asticella: grave o bloccante solo se sa scrivere il comando che diventa rosso. *Perché:* dei 233
+l'asticella: grave o bloccante solo se sa scrivere il comando che diventa rosso, e quel comando deve
+mostrare il **sito** che sbaglia, non solo una prova debole: un buco nelle prove su un sito che fa
+giusto resta minore, anche se la mutazione che lo mostra si sa scrivere (AR-1027, «ok 216» del 28/10).
+Nel triage quei minori non si ripromuovono a gravi a mano. *Perché:* dei 233
 difetti veri dei riesami e delle note, i gravi e bloccanti nati erano 15, e li verificavamo tutti uno
 per uno. Un preesistente lo riverifica comunque chi lo ripara: la scheda è un indizio (②).
 ⚠️ *Debito dichiarato il 25/10:* `ondata-sito.js` non ha ancora l'agente di triage — lì classifica solo
@@ -517,8 +521,11 @@ coincide con nessuno dei due contatori di `conto-token.mjs`).
 
 **R-E · Il collaudo si dosa sul rischio.** Due collaudatori diversi, uno per lente, solo dove il lavoro
 tocca soldi, dati o permessi; altrove uno solo che porta tutte e due le domande. Restano **sempre**: chi
-ha costruito non collauda, e il difetto ricreato nella variante scomoda. Il dosaggio e il suo perché
-stanno nella skill `collaudo`, sezione «Il dosaggio»: qui non si copia.
+ha costruito non collauda, e il difetto ricreato nella variante scomoda. Si boccia per il sito, non
+per la prova (AR-1027): il motore legge la causa nel campo `boccia_per`, e una «variante» su un sito
+che fa giusto va nel registro come minore. La accetta solo da una lente che muta, col comando che la
+prova: dalla lente che legge e basta, o senza comando, vale come bocciatura. Il dosaggio e il suo perché stanno nella skill `collaudo`,
+sezione «Il dosaggio»: qui non si copia.
 
 **R-F · Al terzo rosso, niente quarto giro.** Al terzo rosso del collaudo sullo stesso pezzo si porta
 a Nicola **semplifica, restringi o continua**. Per un freno della macchina «restringi» è la regola di

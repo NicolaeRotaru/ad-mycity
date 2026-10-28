@@ -52,6 +52,8 @@ Quattro regole che fermano il giro il comando dell'ondata le applica da solo. Le
 
 Sono il tetto dei due giri, lo stop alla terza bocciatura dello stesso pezzo, i difetti piccoli mandati all'elenco, e due controllori solo dove ci sono soldi o dati.
 
+Dal 28/10 ce n'è una quinta, firmata da Nicola con «ok 216»: si boccia per il sito, non per la prova. Ogni collaudo scrive perché boccia in un campo che il comando legge, `boccia_per`. Se il sito fa giusto e manca solo una prova migliore, la causa è «variante»: il pezzo va avanti, e la prova mancante entra nell'elenco come difetto piccolo. Il comando accetta «variante» solo dal collaudatore che modifica il codice per provarlo, e solo col comando che la mostra: dagli altri vale come una bocciatura. Anche questa l'ho rotta apposta, e la sua prova è diventata rossa.
+
 Altre quattro cose le regole le chiedono, e il comando non le fa ancora.
 
 La prima è un controllo solo che rilegga i difetti piccoli e promuova quelli seri. Questo lo faccio io appena il comando mi restituisce l'elenco, prima di ricucire i pezzi.
@@ -316,12 +318,12 @@ node cervello/conto-token.mjs --workflow <runId>
 
 Cosa fa l'AD col risultato, in quest'ordine:
 1. **Se `chiedi_a_nicola` è vero, si ferma.** Porta a Nicola il `motivo` con le tre strade — semplifica, restringi, un giro ancora — e la sua raccomandazione. Non rilancia da solo. Se due `gravi_aperti` stanno nello stesso file, la raccomandazione è semplifica.
-2. **Fa il triage dei minori**, finché il workflow non ha il suo agente: legge il `registro` e promuove a grave il minore nato che lo è. Il pacchetto di quel minore non si ricuce, e il grave va nella domanda a Nicola come un grave aperto.
+2. **Fa il triage dei minori**, finché il workflow non ha il suo agente: legge il `registro` e promuove a grave il minore nato che lo è. Il pacchetto di quel minore non si ricuce, e il grave va nella domanda a Nicola come un grave aperto. Un buco nelle prove su un sito che fa giusto **non si promuove** (AR-1027): resta minore anche se la mutazione che lo mostra si sa scrivere. Si promuove solo un minore che mostra il sito sbagliato.
 3. **Ricuce** i rami dei pacchetti che reggono e lancia il cancello di ③, una volta, ad albero fermo.
 4. **Apre la richiesta di unione** (⑨). Il suo numero serve al passo dopo.
 5. **Scrive il `registro`** nel registro del sito, cioè in `problemi[]` di `radiografia-marketplace.json`. Il workflow e il registro chiamano gli stessi campi con nomi diversi, e un campo sbagliato non dà errore: la voce sparisce. Ogni voce prende questi campi, tutti:
    - `titolo` ← `titolo`, uguale: con `dimensione` fa la chiave (`chiaveProblema` è `dimensione|titolo`).
-   - `severita` ← `gravita`.
+   - `severita` ← `gravita`. Un `gravi_aperti` che è solo un buco nelle prove su un sito che fa giusto si scrive `minore` (AR-1027): le voci del quinto giro scritte gravi il 28/10 alle 00:32 lo dimostrano, e il giro dopo le avrebbe riprese come gravi.
    - `file` ← `dove`, così com'è, anche con la riga. Il registro non ha un campo `dove`: `pacchetti-lotto.mjs` prende il file da `file`, e tutte le 1396 schede del 25/10 ce l'hanno.
    - `stato: "aperto"`. Il workflow non lo manda; senza, la voce non la vedono né `pacchetti-lotto.mjs` né il conto di ⑨, che filtrano su `stato`.
    - `dimensione`, che il workflow non manda: da `lenti_per_file` delle schede del passo 2, col file di `dove` senza la riga; se il file non c'è, dalla `lente` del pacchetto nominato in `pacchetto`.

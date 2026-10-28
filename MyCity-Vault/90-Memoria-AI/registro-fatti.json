@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-27 13:00",
+  "aggiornato": "2026-10-28 08:35",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -271,13 +271,17 @@
     {
       "id": "consegna.raggio",
       "nome": "Confine di consegna",
-      "valore": "Si consegna fino a 10 km dal negozio: al lancio consegna Nicola, in bici. Nicola, 2026-10-27: «ho la bici e le consegne fino a 10km». Prima il confine firmato era 25 km (26/10); il codice del sito (RAGGIO_CONSEGNA_KM) si cambia nella fase 2.",
-      "fonte": "Nicola, chat 2026-10-27 ~13:20",
-      "aggiornato": "2026-10-27 12:59",
+      "valore": "Si consegna fino a 5 km dal negozio, in linea d'aria: al lancio consegna Nicola, in bici. Nicola, 2026-10-28: «mi ero sbagliato, la consegna va fatta in un area 5 km». Prima il confine era 10 km (27/10) e 25 km (26/10); il codice del sito (RAGGIO_CONSEGNA_KM) passa a 5 nel sesto giro della fase 2.",
+      "fonte": "Nicola, chat 2026-10-28 ~08:30",
+      "aggiornato": "2026-10-28 08:35",
       "storia": [
         {
           "valore": "Si consegna fino a 25 km dal negozio: Piacenza e cintura sì, Milano e Cremona no. Confermato da Nicola il 2026-10-26 (carta #196); è già il valore RAGGIO_CONSEGNA_KM del codice del sito.",
           "fino_a": "2026-10-27 12:59"
+        },
+        {
+          "valore": "Si consegna fino a 10 km dal negozio: al lancio consegna Nicola, in bici. Nicola, 2026-10-27: «ho la bici e le consegne fino a 10km». Prima il confine firmato era 25 km (26/10); il codice del sito (RAGGIO_CONSEGNA_KM) si cambia nella fase 2.",
+          "fino_a": "2026-10-28 08:35"
         }
       ],
       "caccia": [
@@ -305,6 +309,14 @@
           "pattern": "Si consegna fino a 25 km dal negozio: Piacenza e cintura sì, Milano e Cremona no. Confermato da Nicola il 2026-10-26 (carta #196); è già il valore RAGGIO_CONSEGNA_KM del codice del sito.",
           "dal": "2026-10-27 12:59",
           "chiusa": "2026-10-27 13:00"
+        },
+        {
+          "pattern": "fino a 10 km dal negozio",
+          "dal": "2026-10-28 08:35"
+        },
+        {
+          "pattern": "Si consegna fino a 10 km dal negozio: al lancio consegna Nicola, in bici. Nicola, 2026-10-27: «ho la bici e le consegne fino a 10km». Prima il confine firmato era 25 km (26/10); il codice del sito (RAGGIO_CONSEGNA_KM) si cambia nella fase 2.",
+          "dal": "2026-10-28 08:35"
         }
       ],
       "esenzioni": [
@@ -483,9 +495,9 @@
     {
       "id": "logistica.bici-consegna",
       "nome": "Bici consegna — disponibilità",
-      "valore": "Bici pronta: Nicola consegna in bici, fino a 10 km dal negozio (Nicola, 2026-10-27).",
-      "fonte": "Nicola, chat 2026-10-27 ~13:20",
-      "aggiornato": "2026-10-27 12:59",
+      "valore": "Bici pronta: Nicola consegna in bici, fino a 5 km dal negozio (Nicola, 2026-10-28).",
+      "fonte": "Nicola, chat 2026-10-28 ~08:30",
+      "aggiornato": "2026-10-28 08:35",
       "storia": [
         {
           "valore": "Non operativa entro venerdì 17/7/2026; Nicola va in riparazione lunedì 21/7/2026",
@@ -494,6 +506,10 @@
         {
           "valore": "Non operativa; prossima settimana (21-27/7) bollette; riparazione bici settimana dopo (~28/7+); inserimento botteghe solo con bici pronta",
           "fino_a": "2026-10-27 12:59"
+        },
+        {
+          "valore": "Bici pronta: Nicola consegna in bici, fino a 10 km dal negozio (Nicola, 2026-10-27).",
+          "fino_a": "2026-10-28 08:35"
         }
       ],
       "caccia": [
@@ -551,6 +567,14 @@
           "pattern": "Non operativa; prossima settimana (21-27/7) bollette; riparazione bici settimana dopo (~28/7+); inserimento botteghe solo con bici pronta",
           "dal": "2026-10-27 12:59",
           "chiusa": "2026-10-27 13:00"
+        },
+        {
+          "pattern": "consegna in bici, fino a 10 km",
+          "dal": "2026-10-28 08:35"
+        },
+        {
+          "pattern": "Bici pronta: Nicola consegna in bici, fino a 10 km dal negozio (Nicola, 2026-10-27).",
+          "dal": "2026-10-28 08:35"
         }
       ],
       "esenzioni": [

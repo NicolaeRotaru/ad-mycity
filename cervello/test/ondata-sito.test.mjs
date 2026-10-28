@@ -49,7 +49,7 @@ async function lancia(scenario = () => undefined, args = ARGS, budget = undefine
   const righe = [];
   let commit = 0;
   const agent = async (prompt, opts) => {
-    chiamate.push({ label: opts.label, tipo: opts.agentType, fase: opts.phase, prompt });
+    chiamate.push({ label: opts.label, tipo: opts.agentType, fase: opts.phase, prompt, schema: opts.schema });
     if (motore) await motore.lavora();
     const r = scenario(opts.label, prompt, opts);
     if (r instanceof Error) throw r; // un lavoratore che cade
@@ -792,4 +792,336 @@ test("AR-1014 — la squadra dei soldi dichiara un file di codice ma non quello 
   const riga = rv.prompt.split("\n").find((r) => r.includes("git -C wt-p diff"));
   assert.ok(riga && riga.includes("lib/stripe/payout.ts"), "il revisore guarda il file del piano anche se la squadra non lo nomina: " + riga);
   assert.ok(riga.includes("lib/stripe/helper.ts"), "e anche il file che la squadra ha dichiarato");
+});
+
+test("AR-1027 — la regola del collaudo e' UNA: arriva uguale a ogni collaudo, a ogni revisore e a ogni verificatore", async () => {
+  // Nicola, 28/10, «ok 216»: si boccia per il sito, non per la prova. Il motore finto non sa cosa decide
+  // un lavoratore vero: qui si prova che la stessa regola arriva a OGNI collaudo (primo, ricollaudo,
+  // collaudo della correzione), con la sola differenza fra chi muta e chi legge e basta. Il collaudo del
+  // 28/10 (run wf_a499c8b8-08c) aveva trovato una frase «questo e' un RICOLLAUDO» che arrivava anche al
+  // primo collaudo di una correzione e alla lente B, e le diceva di chiamare minore un grave vero.
+  let bocciatoPay = false;
+  let bocciatoB = false;
+  let inCorrezione = false;
+  const scenario = (l) => {
+    if (l.startsWith("correzione")) inCorrezione = true;
+    if (l === "collaudoAB:components-cart-pay-tsx" && !bocciatoPay) { bocciatoPay = true; return { regge: false, boccia_per: "sito", perche: "npx vitest run z rosso", difetti: [] }; }
+    if (l === "collaudoB:lib-stripe-payout-ts" && !bocciatoB) { bocciatoB = true; return { regge: false, boccia_per: "sito", perche: "npx vitest run tests/unit/cod.test.ts rosso", difetti: [] }; }
+    if (l.startsWith("riesame:pagamenti") && !inCorrezione) return { regge: false, boccia_per: "sito", difetti: [NATO] };
+    return undefined;
+  };
+  const { chiamate } = await lancia(scenario);
+  const collaudi = chiamate.filter((c) => /^collaudo/.test(c.label));
+  const revisori = chiamate.filter((c) => /^riesame:/.test(c.label));
+  const verificatori = chiamate.filter((c) => /^verifica:/.test(c.label));
+  const iCorr = chiamate.findIndex((c) => c.label.startsWith("correzione"));
+  assert.ok(iCorr > 0 && collaudi.length >= 5 && revisori.length >= 1 && verificatori.length >= 1, "la prova deve vedere collaudi, ricollaudi, correzione, revisori e verificatori: " + chiamate.map((c) => c.label).join(" "));
+  const muta = (c) => !/^collaudoB:/.test(c.label);
+  for (const c of collaudi) {
+    assert.match(c.prompt, /COME DECIDI \(una regola sola, uguale in ogni collaudo; il motore legge boccia_per\)\. Si boccia per il sito, non per la prova\./, c.label + ": la regola unica manca");
+    assert.match(c.prompt, /boccia_per «sito» se un comando rosso sul codice di oggi del ramo, senza mutarlo/, c.label + ": «il sito sbaglia» va mostrato sul codice di oggi");
+    assert.match(c.prompt, /nato_dal_lotto:true se non c'e' sul commit b0, la base dell'ondata/, c.label + ": il nato si misura sulla base dell'ondata, non sul solo delta della correzione");
+    assert.match(c.prompt, /Grave o bloccante solo se il sito si comporta male; un buco nelle prove su un sito che fa giusto e' sempre minore\./, c.label + ": la riga finale della gravita' manca");
+    assert.doesNotMatch(c.prompt, /RICOLLAUDO|variante NUOVA/, c.label + ": non c'e' una seconda regola per il ricollaudo");
+    if (muta(c)) {
+      assert.match(c.prompt, /boccia_per «difetto_rimesso» se un difetto dichiarato chiuso, rimesso com'e' scritto nella sua scheda, lascia verdi le prove della squadra/, c.label + ": il difetto chiuso rimesso resta un motivo per bocciare");
+      assert.match(c.prompt, /una condizione in piu' \(solo sopra una cifra, solo con un dato, solo da un negozio in poi\) fa una variante/, c.label + ": «com'e' scritto» va detto");
+      assert.match(c.prompt, /Una variante scomoda si prova prima sul codice di oggi, SENZA mutarlo: rossa li' vuol dire «sito»/, c.label + ": «il sito fa giusto» va provato, non supposto");
+      assert.match(c.prompt, /Va in difetti come minore, con in prova il comando che la uccide/, c.label + ": il buco nelle prove e' minore");
+      assert.match(c.prompt, /boccia_per «variante», che il motore tratta come regge solo se in perche c'e' quel comando/, c.label + ": l'uscita «variante» e il suo prezzo");
+      assert.match(c.prompt, /prima rimettilo COM'E' SCRITTO nella scheda \(la mutazione ovvia\)/, c.label + ": la lente A rimette prima il difetto com'e' scritto");
+      assert.deepEqual(c.schema.properties.boccia_per.enum, ["nessuno", "sito", "difetto_rimesso", "motivo_aperto", "variante"], c.label + ": chi muta ha le cinque cause");
+    } else {
+      assert.match(c.prompt, /Tu non muti\. Se leggendo vedi che le prove non coprono un caso, e in quel caso il codice di oggi fa giusto, e' un buco nelle prove/, c.label + ": la lente B ha la sua riga");
+      assert.match(c.prompt, /o non sai dire se fa giusto: regge:false con boccia_per «sito»/, c.label + ": nel dubbio, per la lente B, e' il sito");
+      assert.doesNotMatch(c.prompt, /boccia_per «variante»|difetto_rimesso|rimettilo com'e' descritto/, c.label + ": alla lente B non si chiede una mutazione");
+      assert.deepEqual(c.schema.properties.boccia_per.enum, ["nessuno", "sito", "motivo_aperto"], c.label + ": la lente B non ha «variante» ne' «difetto_rimesso», che si provano solo mutando");
+    }
+    assert.deepEqual(c.schema.required, ["regge", "boccia_per", "difetti"], c.label + ": la causa e' obbligatoria");
+  }
+  // Il blocco COME DECIDI e' lo stesso, carattere per carattere, in tutti i collaudi dello stesso tipo.
+  const blocco = (c) => c.prompt.slice(c.prompt.indexOf("COME DECIDI (una regola sola"), c.prompt.indexOf("SOBRIETA'"));
+  for (const tipo of [true, false]) assert.equal(new Set(collaudi.filter((c) => muta(c) === tipo).map(blocco)).size, 1, (tipo ? "chi muta" : "la lente B") + ": COME DECIDI cambia da un collaudo all'altro");
+  // Il ricollaudo ha in piu' solo le righe dei motivi e dei gravi: nessuna seconda regola nascosta.
+  // (Il collaudo di una correzione guarda il SUO delta: «diff <commit di prima>..HEAD» e' l'unica altra differenza ammessa.)
+  const righe = (c) => c.prompt.replace(/\bc\d+\b/g, "C").replace(/diff \S+\.\.HEAD/g, "diff X..HEAD").split("\n").filter((r) => !/^(La volta prima il collaudo|Gravi nati che la squadra|Se il comando di un grave nomina|Nota della squadra|\[\{|Chiusi dichiarati)/.test(r));
+  for (const nome of ["collaudoAB:components-cart-pay-tsx", "collaudoB:lib-stripe-payout-ts", "collaudoA:lib-stripe-payout-ts"]) {
+    const giri = collaudi.filter((c) => c.label === nome);
+    assert.ok(giri.length >= 2, nome + ": serve un collaudo e un collaudo dopo (ricollaudo o correzione): " + giri.length);
+    for (const g of giri.slice(1)) assert.deepEqual(righe(g), righe(giri[0]), nome + ": un collaudo dopo il primo ha una riga di regola che il primo non ha");
+  }
+  const dopoCorr = chiamate.slice(iCorr).filter((c) => /^collaudo/.test(c.label));
+  assert.ok(dopoCorr.length >= 2, "serve il collaudo della correzione, con le sue due lenti");
+  for (const c of dopoCorr) {
+    if (muta(c)) assert.match(c.prompt, /rimettilo com'e' descritto e verifica che una prova della squadra diventi ROSSA/, c.label + ": la cura di un grave confermato si prova rimettendolo");
+    else assert.match(c.prompt, /rilancia il comando di ognuno sul codice di oggi, dove deve passare/, c.label + ": la lente B rilancia e basta");
+  }
+  const ricPay = collaudi.filter((c) => c.label === "collaudoAB:components-cart-pay-tsx").at(-1);
+  assert.match(ricPay.prompt, /\[sito\] npx vitest run z rosso[^\n]*boccia_per «motivo_aperto»/, "il ricollaudo riceve i motivi con la loro causa");
+  for (const r of revisori) {
+    assert.match(r.prompt, /buco nelle prove su un codice che si comporta giusto e' MINORE/, r.label + ": il riesame deve conoscere la regola");
+    assert.match(r.prompt, /se leggendo il diff non sai dire che il sito oggi fa giusto in quel caso, non chiamarlo buco nelle prove: mettilo grave con la sua prova, e decide il verificatore/, r.label + ": nel dubbio decide chi lancia la prova");
+    assert.deepEqual(r.schema.properties.boccia_per.enum, ["nessuno", "sito"], r.label + ": il riesame non ha «variante»");
+  }
+  for (const v of verificatori) {
+    assert.match(v.prompt, /Prima di dire solo_prova, scrivi e lancia sul ramo, senza mutare niente, la prova del comportamento giusto/, v.label + ": il verificatore prova il codice di oggi prima di dire «solo una prova»");
+    assert.match(v.prompt, /reale:false e preesistente:true/, v.label + ": il verificatore sa dire «c'era gia'»");
+    assert.ok(v.schema.properties.solo_prova && v.schema.properties.preesistente, v.label + ": lo schema ha solo_prova e preesistente");
+  }
+});
+
+test("AR-1027 — una variante su un sito che fa giusto non ferma il pacchetto: diventa un minore nel registro", async () => {
+  // Il caso dell'email del quinto giro: «passa tu dal negozio a prenderla» resta verde con le prove della
+  // squadra, ma il sito di oggi non lo scrive. Il motore legge boccia_per: nessun rifacimento, pacchetto
+  // «regge», e il buco nelle prove nel registro col comando che lo uccide.
+  const PERCHE = "npx vitest run tests/unit/email.test.ts: verde sul codice di oggi, rosso sul mutante «passa tu dal negozio»";
+  const { esito, etichette } = await lancia((l) => (l === "collaudoAB:components-cart-pay-tsx" ? { regge: false, boccia_per: "variante", perche: PERCHE, difetti: [] } : undefined));
+  assert.ok(!etichette.some((l) => l.startsWith("rifacimento")), "una variante non fa partire un rifacimento: " + etichette.join(" "));
+  const pay = esito.pacchetti.find((p) => p.pacchetto === "components/cart/Pay.tsx");
+  assert.equal(pay.stato, "regge");
+  const voce = esito.registro.find((d) => d.prova === PERCHE);
+  assert.ok(voce, "il buco nelle prove deve finire nel registro: " + JSON.stringify(esito.registro));
+  assert.equal(voce.gravita, "minore");
+  assert.equal(esito.chiedi_a_nicola, false);
+  // Se la lente ha gia' scritto lo stesso minore fra i difetti, il registro non lo raddoppia.
+  const MINORE = { titolo: "La prova non vede «passa tu dal negozio»", gravita: "minore", dove: "components/cart/Pay.tsx:3", prova: PERCHE, nato_dal_lotto: true };
+  const due = await lancia((l) => (l === "collaudoAB:components-cart-pay-tsx" ? { regge: false, boccia_per: "variante", perche: PERCHE, difetti: [MINORE] } : undefined));
+  assert.equal(due.esito.registro.filter((d) => d.prova === PERCHE).length, 1, "un minore solo: " + JSON.stringify(due.esito.registro));
+  // Un minore che non c'entra non fa sparire la variante (ricollaudo del 28/10).
+  const ALTRO = { titolo: "Etichetta storta", gravita: "minore", dove: "components/cart/Pay.tsx:9", prova: "si vede a occhio", nato_dal_lotto: true };
+  const tre = await lancia((l) => (l === "collaudoAB:components-cart-pay-tsx" ? { regge: false, boccia_per: "variante", perche: PERCHE, difetti: [ALTRO] } : undefined));
+  assert.ok(tre.esito.registro.some((d) => d.prova === PERCHE), "la variante resta nel registro accanto all'altro minore: " + JSON.stringify(tre.esito.registro));
+});
+
+test("AR-1027 — «variante» vale solo da chi muta e col comando: dalla lente B, o senza comando, boccia", async () => {
+  // Il ricollaudo del 28/10 (run wf_040a3d61-2de): la lente B legge il pulsante «Rimborsa» che rimborsa
+  // due volte, non puo' scriverne la prova, e sceglie «variante»: il pacchetto dei soldi usciva «regge».
+  // Il perche' porta un comando: cosi' a fermarla e' solo la lente che parla, non la mancanza del comando.
+  const PANNELLO = "npx vitest run tests/unit/pannello.test.ts: il pulsante Rimborsa chiama rimborsa() senza id evento, due tocchi due rimborsi";
+  let fattoB = false;
+  const b = await lancia((l) => (l === "collaudoB:lib-stripe-payout-ts" && !fattoB ? ((fattoB = true), { regge: false, boccia_per: "variante", perche: PANNELLO, difetti: [] }) : undefined));
+  assert.ok(b.etichette.includes("rifacimento1:lib-stripe-payout-ts"), "un regge:false della lente B boccia sempre: " + b.etichette.join(" "));
+  assert.ok(!b.esito.registro.some((d) => d.prova === PANNELLO), "e non diventa un minore nel registro");
+  let fattoA = false;
+  const a = await lancia((l) => (l === "collaudoA:lib-stripe-payout-ts" && !fattoA ? ((fattoA = true), { regge: false, boccia_per: "variante", perche: "una variante resta verde", difetti: [] }) : undefined));
+  assert.ok(a.etichette.includes("rifacimento1:lib-stripe-payout-ts"), "una «variante» senza comando boccia: " + a.etichette.join(" "));
+  // Nel collaudo della correzione: la «variante» della lente B non chiude il grave dei soldi.
+  let inCorr = false;
+  const c = await lancia((l) => {
+    if (l.startsWith("correzione")) inCorr = true;
+    if (l.startsWith("riesame:pagamenti") && !inCorr) return { regge: false, boccia_per: "sito", difetti: [NATO] };
+    if (inCorr && l === "collaudoB:lib-stripe-payout-ts") return { regge: false, boccia_per: "variante", perche: PANNELLO, difetti: [] };
+    return undefined;
+  });
+  assert.notEqual(c.esito.pacchetti.find((p) => p.pacchetto === "lib/stripe/payout.ts").stato, "regge", "il pacchetto dei soldi non esce «regge»");
+  assert.ok(!c.esito.registro.some((d) => d.prova === PANNELLO), "e il doppio rimborso non finisce nel registro come buco nelle prove");
+  assert.equal(c.esito.chiedi_a_nicola, true);
+});
+
+test("AR-1027 — bocciano ancora: «sito», «difetto_rimesso», «motivo_aperto», un regge:false senza causa o con «nessuno», un grave nato, e una causa che boccia anche con regge:true", async () => {
+  for (const [nome, risposta] of [
+    ["sito", { regge: false, boccia_per: "sito", perche: "npx vitest run z: rosso sul codice di oggi", difetti: [] }],
+    ["difetto_rimesso", { regge: false, boccia_per: "difetto_rimesso", perche: "rimesso com'e' scritto, le prove restano verdi", difetti: [] }],
+    ["motivo_aperto", { regge: false, boccia_per: "motivo_aperto", perche: "il motivo di prima resta", difetti: [] }],
+    ["senza causa", { regge: false, perche: "npx vitest run z rosso", difetti: [] }],
+    ["nessuno", { regge: false, boccia_per: "nessuno", perche: "npx vitest run z rosso", difetti: [] }],
+    ["grave nato con regge:true", { regge: true, boccia_per: "nessuno", difetti: [{ titolo: "Il pulsante paga due volte", gravita: "grave", dove: "components/cart/Pay.tsx:9", prova: "npx vitest run y", nato_dal_lotto: true }] }],
+    ["regge:true ma «sito»", { regge: true, boccia_per: "sito", perche: "npx vitest run tests/unit/zona.test.ts: ROSSO sul codice di oggi", difetti: [] }],
+    ["regge:true ma «difetto_rimesso»", { regge: true, boccia_per: "difetto_rimesso", perche: "rimesso, verde", difetti: [] }],
+    ["regge:true ma «motivo_aperto»", { regge: true, boccia_per: "motivo_aperto", perche: "il motivo di prima resta", difetti: [] }],
+  ]) {
+    let fatto = false;
+    const { etichette } = await lancia((l) => (l === "collaudoAB:components-cart-pay-tsx" && !fatto ? ((fatto = true), risposta) : undefined));
+    assert.ok(etichette.includes("rifacimento1:components-cart-pay-tsx"), nome + ": deve bocciare e far partire il rifacimento: " + etichette.join(" "));
+  }
+});
+
+test("AR-1027 — un grave trovato dalla sola lente B si ricollauda anche con la lente A, che lo rimette", async () => {
+  let fatto = false;
+  const GRAVE_B = { titolo: "Il rimborso del pannello parte due volte", gravita: "grave", dove: "lib/stripe/payout.ts:52", prova: "npx vitest run tests/unit/pannello.test.ts", nato_dal_lotto: true };
+  const { etichette, chiamate } = await lancia((l) => (l === "collaudoB:lib-stripe-payout-ts" && !fatto ? ((fatto = true), { regge: false, boccia_per: "sito", perche: GRAVE_B.prova, difetti: [GRAVE_B] }) : undefined));
+  const iRif = etichette.indexOf("rifacimento1:lib-stripe-payout-ts");
+  assert.ok(iRif > 0, etichette.join(" "));
+  const dopo = chiamate.slice(iRif + 1).filter((c) => c.label.startsWith("collaudo")).map((c) => c.label);
+  assert.ok(dopo.includes("collaudoA:lib-stripe-payout-ts") && dopo.includes("collaudoB:lib-stripe-payout-ts"), "il ricollaudo prende anche chi muta: " + dopo.join(" "));
+  // Se ha bocciato la sola B senza un grave da rimettere, si ricollauda solo con B (regola ②).
+  let solo = false;
+  const due = await lancia((l) => (l === "collaudoB:lib-stripe-payout-ts" && !solo ? ((solo = true), { regge: false, boccia_per: "sito", perche: "npx vitest run tests/unit/cod.test.ts rosso", difetti: [] }) : undefined));
+  const i2 = due.etichette.indexOf("rifacimento1:lib-stripe-payout-ts");
+  assert.deepEqual(due.chiamate.slice(i2 + 1).filter((c) => c.label.startsWith("collaudo")).map((c) => c.label), ["collaudoB:lib-stripe-payout-ts"]);
+});
+
+test("AR-1027 — nel collaudo di una correzione una variante non diventa un grave da correggere", async () => {
+  let inCorrezione = false;
+  const PERCHE = "npx vitest run tests/unit/payout.test.ts: verde sul codice di oggi, rosso sul mutante del pulsante";
+  const { esito, etichette } = await lancia((l) => {
+    if (l.startsWith("correzione")) inCorrezione = true;
+    if (l.startsWith("riesame:pagamenti") && !inCorrezione) return { regge: false, boccia_per: "sito", difetti: [NATO] };
+    if (inCorrezione && l === "collaudoA:lib-stripe-payout-ts") return { regge: false, boccia_per: "variante", perche: PERCHE, difetti: [] };
+    return undefined;
+  });
+  assert.equal(etichette.filter((l) => l.startsWith("correzione")).length, 1, "un giro di correzione solo: la variante non apre un secondo giro (" + etichette.join(" ") + ")");
+  assert.deepEqual(esito.gravi_aperti, []);
+  assert.ok(esito.registro.some((d) => d.prova === PERCHE && d.gravita === "minore"), "la variante va nel registro: " + JSON.stringify(esito.registro));
+  assert.equal(esito.pacchetti.find((p) => p.pacchetto === "lib/stripe/payout.ts").stato, "regge");
+});
+
+test("AR-1027 — il verificatore: «solo una prova» entra come minore col suo comando, «c'era gia'» entra come preesistente, il falso allarme no", async () => {
+  const COMANDO = "npx vitest run tests/unit/doppio.test.ts: verde sul ramo";
+  const giro = (risposta) => lancia((l) => {
+    if (l.startsWith("riesame:pagamenti")) return { regge: false, boccia_per: "sito", difetti: [NATO] };
+    if (l.startsWith("verifica")) return risposta;
+    return undefined;
+  });
+  const uno = await giro({ reale: false, solo_prova: true, perche: COMANDO });
+  assert.ok(!uno.etichette.some((l) => l.startsWith("correzione")), "niente correzione per un buco nelle prove");
+  assert.ok(uno.esito.smontati.some((d) => d.titolo === NATO.titolo && d.solo_prova), "resta fra gli smontati, segnato");
+  const voce = uno.esito.registro.find((d) => d.titolo === NATO.titolo);
+  assert.ok(voce && voce.gravita === "minore" && voce.prova === COMANDO, "e nel registro come minore col comando del verificatore: " + JSON.stringify(uno.esito.registro));
+  const due = await giro({ reale: false, preesistente: true, perche: "rossa sul ramo e sul commit b0" });
+  const vecchio = due.esito.registro.find((d) => d.titolo === NATO.titolo);
+  assert.ok(vecchio && vecchio.gravita === "grave" && vecchio.nato_dal_lotto === false, "un difetto vero che c'era gia' va nel registro con la sua gravita': " + JSON.stringify(due.esito.registro));
+  const tre = await giro({ reale: false, perche: "la prova e' verde sul ramo: il difetto non c'e'" });
+  assert.ok(!tre.esito.registro.some((d) => d.titolo === NATO.titolo), "un falso allarme non entra nel registro");
+});
+
+// Il secondo ricollaudo del 28/10 (run wf_258deb23-0a8) ha retto, con sette minori. Queste prove tengono le
+// sue cure: le aveva scritte rosse sul motore di prima e verdi con la cura (R1-R6), piu' le due rotture che
+// lasciava verdi (il titolo della variante, la scheda dei chiusi) e la variante detta con regge:true.
+const ARGS_VERI = { schede: SCHEDE, repo: "/home/user/mycity", radice_ad: "/home/user/ad-mycity", base: "6ae86ca5" };
+const una = (label, risposta) => { let fatto = false; return (l) => (l === label && !fatto ? ((fatto = true), risposta) : undefined); };
+const statoDi = (esito, k) => esito.pacchetti.find((p) => p.pacchetto === k).stato;
+const G_PANNELLO = { titolo: "Il rimborso del pannello parte due volte", gravita: "grave", dove: "lib/stripe/payout.ts:52", prova: "npx vitest run tests/unit/pannello.test.ts", nato_dal_lotto: true };
+
+test("AR-1027 R1 — «variante» col comando solo in un minore che non c'entra boccia: il comando della variante va nel perche'", async () => {
+  const ALTRO = { titolo: "Etichetta storta nel riepilogo", gravita: "minore", dove: "lib/stripe/payout.ts:3", prova: "npx vitest run tests/unit/etichetta.test.ts", nato_dal_lotto: true };
+  const { etichette } = await lancia(una("collaudoA:lib-stripe-payout-ts", { regge: false, boccia_per: "variante", perche: "il webhook ripetuto con importo diverso resta verde", difetti: [ALTRO] }));
+  assert.ok(etichette.includes("rifacimento1:lib-stripe-payout-ts"), etichette.join(" "));
+});
+
+test("AR-1027 R2 — coi percorsi veri, una variante e un minore lanciati tutti e due con prova-sito entrano tutti e due nel registro", async () => {
+  const PRE = "timeout 540 node /home/user/ad-mycity/cervello/prova-sito.mjs --repo /home/user/mycity-ondate/o2-lib-stripe-payout-ts";
+  const PERCHE = PRE + "-mutanti-a --file lib/stripe/payout.ts,tests/unit/webhook-ripetuto.test.ts: verde oggi, rosso sul mutante";
+  const ALTRO = { titolo: "Etichetta storta nel riepilogo", gravita: "minore", dove: "lib/stripe/payout.ts:3", prova: PRE + " --file components/Riepilogo.tsx", nato_dal_lotto: true };
+  const { esito } = await lancia(una("collaudoA:lib-stripe-payout-ts", { regge: false, boccia_per: "variante", perche: PERCHE, difetti: [ALTRO] }), ARGS_VERI);
+  assert.ok(esito.registro.some((d) => d.prova === PERCHE), JSON.stringify(esito.registro.map((d) => d.titolo)));
+  assert.ok(esito.registro.some((d) => d.titolo === ALTRO.titolo));
+});
+
+test("AR-1027 R3 — un revisore che dice «sito» senza mettere il grave fra i difetti, anche con regge:true, ferma il pacchetto", async () => {
+  const { esito } = await lancia((l) => (l.startsWith("riesame:pagamenti") ? { regge: true, boccia_per: "sito", perche: "il rimborso del pannello parte due volte", difetti: [] } : undefined));
+  assert.notEqual(statoDi(esito, "lib/stripe/payout.ts"), "regge");
+  assert.equal(esito.chiedi_a_nicola, true);
+  assert.match(esito.motivo, /riesame non concluso/);
+});
+
+test("AR-1027 R4 — col tetto a 9 il rifacimento non parte se il suo ricollaudo, con la lente A aggiunta, non ci sta", async () => {
+  const { esito, etichette } = await lancia(una("collaudoB:lib-stripe-payout-ts", { regge: false, boccia_per: "sito", perche: G_PANNELLO.prova, difetti: [G_PANNELLO] }), { ...ARGS, max_agenti: 9 });
+  assert.ok(!etichette.includes("rifacimento1:lib-stripe-payout-ts"), "nessun rifacimento pagato senza il posto per il suo ricollaudo: " + etichette.join(" "));
+  assert.match(statoDi(esito, "lib/stripe/payout.ts"), /tetto vicino/);
+});
+
+test("AR-1027 R5 — la stessa variante, trovata al primo collaudo e al ricollaudo con la lente A aggiunta, fa una riga sola", async () => {
+  const P = "npx vitest run tests/unit/zz-variante.test.ts: verde oggi, rosso sul mutante";
+  let b = false;
+  const { esito } = await lancia((l) => {
+    if (l === "collaudoA:lib-stripe-payout-ts") return { regge: false, boccia_per: "variante", perche: P, difetti: [] };
+    if (l === "collaudoB:lib-stripe-payout-ts" && !b) { b = true; return { regge: false, boccia_per: "sito", perche: "in sola lettura non posso provarlo", difetti: [G_PANNELLO] }; }
+    return undefined;
+  });
+  assert.equal(esito.registro.filter((d) => d.prova === P).length, 1, JSON.stringify(esito.registro.map((d) => d.titolo)));
+});
+
+test("AR-1027 R6 — il verificatore sa che «rossa anche sulla base» non vale per un codice che sulla base non c'e'", async () => {
+  const { chiamate } = await lancia((l) => (l.startsWith("riesame:pagamenti") ? { regge: false, boccia_per: "sito", difetti: [NATO] } : undefined));
+  const v = chiamate.find((c) => c.label.startsWith("verifica"));
+  assert.match(v.prompt, /non si carica perche' il codice che prova non c'era, e' nato: reale:true/);
+  assert.match(v.prompt, /per lo stesso comportamento \(il passo vitest che fallisce sul controllo, non tsc ne' un import che li' non c'e'\)/);
+});
+
+test("AR-1027 — due varianti diverse dello stesso pacchetto, da due collaudi, fanno due righe; e una variante detta con regge:true entra lo stesso", async () => {
+  // Il titolo porta il file di prova del comando: due varianti con prove diverse non diventano una sola.
+  let inCorr = false;
+  // Il comando vero comincia sempre col lungo percorso di prova-sito: e' il caso in cui due titoli fatti
+  // dall'inizio del perche' sarebbero uguali per sessanta caratteri, e il registro ne terrebbe uno.
+  const PRE = "timeout 540 node /home/user/ad-mycity/cervello/prova-sito.mjs --repo /home/user/mycity-ondate/o2-lib-stripe-payout-ts-mutanti-a --file lib/stripe/payout.ts,";
+  const P1 = PRE + "tests/unit/webhook-ripetuto.test.ts: verde oggi, rosso sul mutante";
+  const P2 = PRE + "tests/unit/importo-negativo.test.ts: verde oggi, rosso sul mutante";
+  const { esito } = await lancia((l) => {
+    if (l.startsWith("correzione")) inCorr = true;
+    if (l === "collaudoA:lib-stripe-payout-ts") return inCorr ? { regge: false, boccia_per: "variante", perche: P2, difetti: [] } : { regge: false, boccia_per: "variante", perche: P1, difetti: [] };
+    if (l.startsWith("riesame:pagamenti") && !inCorr) return { regge: false, boccia_per: "sito", difetti: [NATO] };
+    return undefined;
+  });
+  assert.ok(esito.registro.some((d) => d.prova === P1) && esito.registro.some((d) => d.prova === P2), "due righe: " + JSON.stringify(esito.registro.map((d) => d.titolo)));
+  const P3 = "npx vitest run tests/unit/carrello.test.ts: verde oggi, rosso sul mutante";
+  const tre = await lancia(una("collaudoAB:components-cart-pay-tsx", { regge: true, boccia_per: "variante", perche: P3, difetti: [] }));
+  assert.ok(tre.esito.registro.some((d) => d.prova === P3), "una variante detta con regge:true va nel registro: " + JSON.stringify(tre.esito.registro));
+  assert.ok(!tre.etichette.some((l) => l.startsWith("rifacimento")));
+});
+
+test("AR-1027 — il collaudo vede la scheda dei chiusi, non solo la chiave: «com'e' scritto» si decide sulla descrizione", async () => {
+  const schede = JSON.parse(JSON.stringify(SCHEDE));
+  schede.pacchetti[0].difetti[0] = { ...schede.pacchetti[0].difetti[0], dove: "lib/stripe/payout.ts:40", descrizione: "il webhook ripetuto rimborsa due volte lo stesso ordine" };
+  const { chiamate } = await lancia(() => undefined, { ...ARGS, schede });
+  const a = chiamate.find((c) => c.label === "collaudoA:lib-stripe-payout-ts");
+  assert.match(a.prompt, /Chiusi dichiarati: pagamenti-stripe\|rimborso doppio \[lib\/stripe\/payout\.ts:40 — il webhook ripetuto rimborsa due volte lo stesso ordine\]/, a.prompt.split("\n").find((r) => r.startsWith("Chiusi")));
+});
+
+// Il collaudo delle cure del secondo ricollaudo (run wf_b8888e09-e59) ha retto, con quattro minori. Di
+// questi si tengono i pezzi piccoli: la nota di chi ha costruito arriva al collaudatore solo per trovare la
+// prova nuova di un grave, e la nota e' quella dell'ultimo frammento; nel registro una variante si
+// riconosce dal comando intero, anche quando la lente l'ha gia' scritta fra i minori con la sola parte comando.
+test("AR-1027 — la nota della squadra non arriva al primo collaudo; al ricollaudo di un grave arriva l'ultima, con la sua cornice", async () => {
+  let rif = false;
+  let b = false;
+  const GRAVE_B = { titolo: "Il rimborso del pannello parte due volte", gravita: "grave", dove: "lib/stripe/payout.ts:52", prova: "npx vitest run tests/unit/pannello.test.ts (da scrivere)", nato_dal_lotto: true };
+  const { chiamate } = await lancia((l, prompt) => {
+    if (l === "squadra:lib-stripe-payout-ts") return { ramo: "r", worktree: "wt-p", commit: "c1", chiusi: ["pagamenti-stripe|rimborso doppio"], file_toccati: ["lib/stripe/payout.ts"], nota: "ho usato un aiuto nuovo, NOTA-VECCHIA" };
+    if (l === "rifacimento1:lib-stripe-payout-ts") { rif = true; return { ramo: "r", worktree: "wt-p", commit: "c2", chiusi: [...prompt.matchAll(/"chiave":"([^"]+)"/g)].map((m) => m[1]), file_toccati: ["lib/stripe/payout.ts", "tests/unit/payout-pannello.test.ts"], nota: "la prova del grave sta in tests/unit/payout-pannello.test.ts, NOTA-NUOVA" }; }
+    if (l === "collaudoB:lib-stripe-payout-ts" && !b) { b = true; return { regge: false, boccia_per: "sito", perche: GRAVE_B.prova, difetti: [GRAVE_B] }; }
+    return undefined;
+  });
+  assert.ok(rif, "serve un rifacimento");
+  const primi = chiamate.filter((c) => c.label.startsWith("collaudo")).slice(0, 2);
+  for (const c of primi) assert.doesNotMatch(c.prompt, /Nota della squadra|NOTA-VECCHIA/, c.label + ": al primo collaudo chi ha costruito non parla a chi collauda");
+  const dopo = chiamate.slice(chiamate.findIndex((c) => c.label.startsWith("rifacimento1")) + 1).filter((c) => c.label.startsWith("collaudo"));
+  assert.ok(dopo.length >= 1);
+  for (const c of dopo) {
+    assert.match(c.prompt, /Nota della squadra \(la scrive chi ha costruito: non e' una prova e non cambia COME DECIDI[^\n]*NOTA-NUOVA/, c.label + ": al ricollaudo di un grave arriva la nota nuova, con la cornice");
+    assert.doesNotMatch(c.prompt, /NOTA-VECCHIA/, c.label + ": la nota vecchia non resta appiccicata");
+  }
+});
+
+test("AR-1027 — nel registro due varianti nello stesso file di prova sono due righe, e la stessa scritta due volte e' una", async () => {
+  const BASE_CMD = "npx vitest run tests/unit/payout.test.ts -t ";
+  const P1 = BASE_CMD + "'webhook ripetuto': verde oggi, rosso sul mutante";
+  const P2 = BASE_CMD + "'importo negativo': verde oggi, rosso sul mutante";
+  let inCorr = false;
+  const { esito } = await lancia((l) => {
+    if (l.startsWith("correzione")) inCorr = true;
+    if (l === "collaudoA:lib-stripe-payout-ts") return { regge: false, boccia_per: "variante", perche: inCorr ? P2 : P1, difetti: [] };
+    if (l.startsWith("riesame:pagamenti") && !inCorr) return { regge: false, boccia_per: "sito", difetti: [NATO] };
+    return undefined;
+  });
+  assert.ok(esito.registro.some((d) => d.prova === P1) && esito.registro.some((d) => d.prova === P2), "due righe: " + JSON.stringify(esito.registro.map((d) => d.prova)));
+  // La lente ha gia' scritto il minore con lo stesso comando e una nota diversa: la variante non lo raddoppia.
+  const SOLO = "npx vitest run tests/unit/carrello.test.ts";
+  const MINORE = { titolo: "La prova del carrello non vede la variante", gravita: "minore", dove: "components/cart/Pay.tsx:3", prova: SOLO + " (verde oggi, rosso sul mutante)", nato_dal_lotto: true };
+  const due = await lancia(una("collaudoAB:components-cart-pay-tsx", { regge: false, boccia_per: "variante", perche: SOLO + ": verde sul codice di oggi, rosso sul mutante", difetti: [MINORE] }));
+  assert.equal(due.esito.registro.filter((d) => String(d.prova || "").startsWith(SOLO)).length, 1, JSON.stringify(due.esito.registro));
+});
+
+test("AR-1027 — un rifacimento senza nota non si porta dietro la nota del primo frammento", async () => {
+  let b = false;
+  const GRAVE_B = { titolo: "Il rimborso del pannello parte due volte", gravita: "grave", dove: "lib/stripe/payout.ts:52", prova: "npx vitest run tests/unit/pannello.test.ts", nato_dal_lotto: true };
+  const { chiamate } = await lancia((l, prompt) => {
+    if (l === "squadra:lib-stripe-payout-ts") return { ramo: "r", worktree: "wt-p", commit: "c1", chiusi: ["pagamenti-stripe|rimborso doppio"], file_toccati: ["lib/stripe/payout.ts"], nota: "NOTA-VECCHIA" };
+    if (l === "rifacimento1:lib-stripe-payout-ts") return { ramo: "r", worktree: "wt-p", commit: "c2", chiusi: [...prompt.matchAll(/"chiave":"([^"]+)"/g)].map((m) => m[1]), file_toccati: ["lib/stripe/payout.ts"] };
+    if (l === "collaudoB:lib-stripe-payout-ts" && !b) { b = true; return { regge: false, boccia_per: "sito", perche: GRAVE_B.prova, difetti: [GRAVE_B] }; }
+    return undefined;
+  });
+  const dopo = chiamate.slice(chiamate.findIndex((c) => c.label.startsWith("rifacimento1")) + 1).filter((c) => c.label.startsWith("collaudo"));
+  assert.ok(dopo.length >= 1);
+  for (const c of dopo) assert.doesNotMatch(c.prompt, /NOTA-VECCHIA/, c.label + ": la nota del primo frammento non vale per il rifacimento");
 });

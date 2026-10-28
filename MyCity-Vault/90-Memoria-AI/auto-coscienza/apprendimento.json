@@ -12479,6 +12479,19 @@
    "testo": "**I due database dormivano, e nessun guardiano sapeva dirlo.** Il 10/10 la macchina era ferma da 39 giorni e il sito non vendeva. La causa era una sola: su Supabase, piano gratuito, il database del sito e quello della memoria risultavano in pausa. I sensori dicevano «cieco» su tutto, la visita elencava otto rossi separati, e nessuno dei due nominava il guasto. Il nome l'ha dato una sola domanda allo stato del progetto: INACTIVE.",
    "regola": "Quando i sensori sono ciechi tutti insieme, prima di cercare tanti guasti dentro la macchina chiedi lo stato dei servizi da cui dipende (database, hosting, fatturazione): un buio totale è quasi sempre un servizio spento.",
    "gate": "cervello/test/sensori-verita.test.mjs"
+  },
+  {
+   "id": "L-2026-1028-01",
+   "data": "2026-10-28 09:41",
+   "nato": "2026-10-28",
+   "ultima_conferma": "2026-10-28 09:41",
+   "stato": "attiva",
+   "confidenza": 0.8,
+   "evidenze": 12,
+   "fonte": "correzione di Nicola (carta 216, «ok 216»)",
+   "testo": "**Il collaudo bocciava per la prova, non per il sito.** Il 27-28/10 il terzo e il quinto giro della fase 2 del sito si sono fermati 12 volte su 12. Ogni collaudo trovava una mutazione nuova che restava verde, per esempio «passa tu dal negozio a prenderla» al posto della promessa del ritiro, mentre il sito si comportava giusto. Nicola ha firmato la regola: si boccia se il sito si comporta male, o se la prova di un difetto chiuso non diventa rossa quando lo si rimette; una prova migliorabile su un sito che funziona è un difetto piccolo.",
+   "regola": "Nel collaudo del sito la causa di ogni bocciatura si scrive in un campo che il motore legge (boccia_per). «Il sito fa giusto» va provato sul codice di oggi, non supposto. La causa che fa passare («variante») la accetta solo da chi la può provare: una lente che muta, con il comando che uccide la variante.",
+   "gate": "cervello/test/ondata-sito.test.mjs"
   }
  ],
  "principi": [

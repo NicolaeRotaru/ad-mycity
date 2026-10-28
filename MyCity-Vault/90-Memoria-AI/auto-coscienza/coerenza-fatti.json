@@ -1,14 +1,39 @@
 {
-  "data": "2026-10-27 13:00",
-  "esito": "non_verificato",
-  "copertura": 0,
+  "data": "2026-10-28 08:35",
+  "esito": "ok",
+  "copertura": 1257,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 47,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
+  "cacce_aperte": 4,
+  "file_scansionati": 1257,
   "incoerenze": [],
-  "cacce": [],
+  "cacce": [
+    {
+      "fatto": "consegna.raggio",
+      "pattern": "fino a 10 km dal negozio",
+      "dal": "2026-10-28 08:35",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.raggio",
+      "pattern": "Si consegna fino a 10 km dal negozio: al lancio consegna Nicola, in bici. Nicola, 2026-10-27: «ho la bici e le consegne fino a 10km». Prima il confine firmato era 25 km (26/10); il codice del sito (RAGGIO_CONSEGNA_KM) si cambia nella fase 2.",
+      "dal": "2026-10-28 08:35",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "logistica.bici-consegna",
+      "pattern": "consegna in bici, fino a 10 km",
+      "dal": "2026-10-28 08:35",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "logistica.bici-consegna",
+      "pattern": "Bici pronta: Nicola consegna in bici, fino a 10 km dal negozio (Nicola, 2026-10-27).",
+      "dal": "2026-10-28 08:35",
+      "copie_trovate": 0
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
@@ -18,5 +43,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211)."
+  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
 }

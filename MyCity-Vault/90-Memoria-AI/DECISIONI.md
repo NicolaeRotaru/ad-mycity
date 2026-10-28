@@ -5870,3 +5870,25 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 **Registro:** 12 voci aperte dal quinto giro (5 gravi e 7 minori; dei gravi, 4 sono prove migliorabili e uno è un difetto vecchio della pagina del negozio). I trovati del riesame della copia entrano dopo il confronto col registro (run `wf_f44d7ca7-de2`).
 
 **Colore.** 🟡: codice nei rami, nessuna unione; l'unione della #262 resta di Nicola.
+
+## 2026-10-28 09:44 — 🟡 Le risposte di Nicola delle 08:30: consegna ed email unite, regola del collaudo nel metodo, confine a 5 km
+
+**Cosa ha scritto Nicola alle 08:30:** «1) ok 215 2) ok 216 3) mi ero sbagliato, la consegna va fatta in un area 5 km 4) di quale comando stai parlando per cancellare il panificio demo? 5) spiega il criterio del mio primo cliente ed il rilascio».
+
+**① «ok 215».** I due lavori del quinto giro, la consegna da 3 euro e l'email senza il ritiro, sono uniti nel ramo d'integrazione e caricati sulla #262 (testa `6ae86ca5`). Alle 08:39 i suoi 9 controlli erano verdi. La richiesta non porta migrazioni: si può unire.
+
+**② «ok 216».** La regola del collaudo (AR-1027) l'ho scritta nel metodo delle ondate, e prima di usarla l'ho fatta collaudare.
+- Primo collaudo (run `wf_a499c8b8-08c`, due lenti): bocciata da tutte e due. In due casi un errore vero del sito poteva passare per «prova migliorabile»: la variante non veniva provata sul codice di oggi, e una frase del ricollaudo arrivava anche dove non c'era un ricollaudo.
+- Correzione: una regola sola per ogni collaudo, e la causa di ogni bocciatura in un campo che il motore legge (`boccia_per`).
+- Primo ricollaudo (run `wf_040a3d61-2de`): la lente della coerenza regge, quella delle scappatoie no. La causa che fa passare, «variante», il motore la prendeva da chiunque, anche dalla lente che non muta.
+- Seconda correzione: «variante» vale solo da chi muta e con un comando da lanciare; tre schemi, uno per ruolo; il verificatore prova il codice di oggi prima di dire «solo una prova», e sa dire «c'era già». Prove del metodo 51 su 51 verdi; venti rotture fatte apposta, tutte rosse. Lezione `L-2026-1028-01` con due mutazioni in `cervello/mutanti.json`.
+- Secondo ricollaudo, solo con la lente che ha bocciato: run `wf_258deb23-0a8`, in corso.
+- Registro del sito: 1696, 1705, 1706 e 1707 passano da grave a minore, controllate sul codice di `6ae86ca5`. La 1698 resta grave: lì il sito sbaglia davvero.
+
+**③ 5 km.** Registrati in `registro-fatti.json` (`consegna.raggio`, `logistica.bici-consegna`) e riscritti in `intenzioni-nicola.json`. Sul sito li porta un sesto giro, che parte appena il secondo ricollaudo regge. Il sito misura in linea d'aria: 5 km in linea d'aria sono circa 6-7 km di strada (stima), e l'ho detto a Nicola.
+
+**④ e ⑤.** Risposta mandata a Nicola alle 09:03: il comando del Panificio Demo con i passi (ricontrollato alle 08:50: 4 prodotti, nessun ordine), e la spiegazione del criterio A/B/C e del rilascio A/B, coi numeri del registro (9 bloccanti, 157 gravi, 718 minori aperti; la #262 ne chiude 34 gravi). Consiglio: criterio A, rilascio A, ma con il rilascio sistemato prima del primo cliente, perché due dei 9 bloccanti sono proprio il rilascio.
+
+**Colore.** 🟡: auto-modifica della macchina firmata da Nicola con «ok 216»; codice del sito solo nei rami; l'unione della #262 resta sua.
+
+**Aggiunta delle 11:04.** Il secondo ricollaudo (run `wf_258deb23-0a8`) ha retto, con sette minori; le sue cure, provate dal collaudatore su una copia, sono nel metodo. Il collaudo di quelle cure (run `wf_b8888e09-e59`) ha retto: su 1.080 forme di verdetto il motore nuovo non fa passare niente che il vecchio fermava. Dei suoi minori ho preso quattro pezzi piccoli; il resto è AR-1028. Prove del metodo 62 su 62. Il sesto giro (run `wf_b040c1ca-1b7`, 6 agenti) ha retto al primo collaudo: AR-1027 è chiuso. Il giro ha mostrato un buco nuovo: una prova del sito rotta dal lavoro non boccia (AR-1029, proposta che cambia la regola firmata: serve la firma di Nicola). La prova rotta l'ha sistemata una correzione (`e36741a7`), insieme alle frasi «Piacenza e dintorni» e «Piacenza e provincia», che col confine a 5 km promettevano posti che la cassa rifiuta.

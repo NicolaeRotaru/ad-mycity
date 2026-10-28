@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-28 06:35
+aggiornato: 2026-10-28 11:24
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 56 voci in fila, dalla più urgente alla meno. Oggi ne servono sei: quattro scelte da un minuto, un comando da incollare in Supabase e il cambio delle chiavi del database.
+> **In due righe.** Sono 57 voci in fila, dalla più urgente alla meno; due le hai fatte il 28/10 mattina. Oggi ne servono cinque: due scelte da un minuto, l'unione della richiesta del sito, un comando da incollare in Supabase e il cambio delle chiavi del database.
 
 ## In parole semplici
 
@@ -15,7 +15,7 @@ Qui c'è solo quello che richiede te: firme, unioni, accessi che la macchina non
 
 ## Cosa cambia per te
 
-Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 51 voci il 26/10; il 27/10 se ne sono aggiunte quattro, il 28/10 una. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
+Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 51 voci il 26/10; il 27/10 se ne sono aggiunte quattro, il 28/10 due. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
 
 ## Cosa devi fare
 
@@ -34,13 +34,15 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 - [ ] 🔴 Cambia con me le chiavi del database del sito: scrivimi «inizio la 203» quando hai 45 minuti di fila.
   → carta #203 · prima la chiave pubblica nuova su Vercel per sito e Pannello, solo dopo si spegne la vecchia.
 - [ ] 🔴 Dimmi cosa vuol dire «senza difetti» per entrare col primo cliente: A, B o C.
-  → messaggio del 27/10 · 1 minuto · A = zero bloccanti e zero gravi, B = zero anche i minori, C = zero sul percorso del primo ordine.
-- [ ] 🟡 Dimmi A o B sul rilascio controllato: A lo rimando, B faccio un terzo giro adesso.
-  → messaggio del 27/10 · 1 minuto.
-- [ ] 🟡 Dimmi se unire così la consegna da 3 euro e l'email del ritiro: «ok 215» o «215 un altro giro».
-  → carta #215 · 1 minuto.
-- [ ] 🟡 Firma la regola che fa finire i giri del sito: «ok 216».
-  → carta #216 · 1 minuto.
+  → spiegato il 28/10 alle 09:03 · 1 minuto · A = zero bloccanti e zero gravi, B = zero anche i minori, C = zero sul percorso del primo ordine.
+- [ ] 🟡 Dimmi A o B sul rilascio controllato: A lo rimando a subito prima della carta #161, B faccio un terzo giro adesso.
+  → spiegato il 28/10 alle 09:03 · 1 minuto.
+- [x] 🟡 Dimmi se unire così la consegna da 3 euro e l'email del ritiro: «ok 215» o «215 un altro giro».
+  → carta #215 · fatto il 28/10 alle 08:30, unite alle 08:40.
+- [x] 🟡 Firma la regola che fa finire i giri del sito: «ok 216».
+  → carta #216 · firmata il 28/10 alle 08:30, nel metodo dalle 09:43.
+- [ ] 🔴 Unisci la richiesta grande del sito, quando i suoi controlli automatici sono verdi.
+  → richiesta #262 · 2 minuti · dentro anche i 5 km · non tocca il database, ma il sito vero cambia dopo pochi secondi.
 
 ## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
