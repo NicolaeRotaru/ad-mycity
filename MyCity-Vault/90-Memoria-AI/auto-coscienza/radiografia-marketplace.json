@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1729,
+    "findings": 1730,
     "bloccanti": 35,
     "gravi": 515,
-    "minori": 1179,
+    "minori": 1180,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -30934,23 +30934,36 @@
       "fix": "Un giro notturno di test di mutazione (Stryker) su lib/stripe/** e lib/ordini/**, con una soglia sulle mutazioni sopravvissute che fa diventare rosso il giro (pipeline di @devops-sre).",
       "fonte": "residuo della voce del 2026-10-11 (radiografia, corsia test-qualita, R70), separato il 2026-10-28 quando i quattro controlli si sono visti coperti",
       "stato": "aperto"
+    },
+    {
+      "dimensione": "accessibilita",
+      "reparto": "Accessibilita'",
+      "titolo": "Sul telefono sei pulsanti della testata sono sotto i 44 pixel: pausa della striscia, logo, CAP e tre voci delle categorie",
+      "severita": "minore",
+      "file": "components/PromoTicker.tsx:116 · components/Navbar.tsx:128 e :217 · components/LocationPill.tsx:94 · components/CategoryBar.tsx:178 e :197",
+      "descrizione": "Misurati sul sito pubblicato (rilascio dpl_H1JjMwfrGpP7z4ih2fKV9k8DTEAR), a 390x844 con l'HTML e i fogli di stile veri, uguali su /, /shipping e /near: «Metti in pausa la striscia degli annunci» 30x32, logo «MyCity» 66x20, pillola del CAP «29121» 90x28, «Tutte le categorie» 182x42, «Tutti i negozi» 129x42, «Promozioni» 119x42. Ricerca, pulsanti della home e barra in basso superano i 44. C'era gia' prima della #262: PromoTicker, CategoryBar e Navbar non cambiano, e nella LocationPill la classe del pulsante e' la stessa di fd4821aa.",
+      "impatto": "Sul telefono chi ha le dita grandi o la vista bassa sbaglia il tocco in cima alla pagina, dove si cambia CAP e si sceglie la categoria.",
+      "fix": "Altezza minima di 44 px per i sei bersagli (min-h-11 o un'area di tocco piu' grande con uno pseudo-elemento trasparente, come voleva docs/mockup/ui_kits/_a11y.css:46-60, mai importato nel sito).",
+      "fonte": "preesistente, trovato dalla verifica del sito pubblicato dopo l'unione della #262 (run wf_fb2533cc-fc3, lente del telefono e verifica avversariale)",
+      "stato": "aperto",
+      "prova": "Script di misura offline in Chromium sull'HTML e sui due CSS scaricati dal rilascio: viewport 390x844, con tocco (isMobile, hasTouch) e con mouse, stesse misure."
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-10-28 15:42",
+    "aggiornato": "2026-10-28 16:24",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 805,
+    "findings_aperti": 806,
     "findings_chiusi": 924,
-    "findings_tot": 1729,
+    "findings_tot": 1730,
     "aperti_per_severita": {
       "bloccante": 9,
       "grave": 107,
-      "minore": 689,
+      "minore": 690,
       "altre": 0
     },
-    "dichiarati_dal_referto": 1729,
+    "dichiarati_dal_referto": 1730,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-10-11",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
