@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-10-25 15:44",
+ "aggiornato": "2026-10-28 09:41",
  "mutanti": [
   {
    "lotto": 30,
@@ -10864,6 +10864,25 @@
    "cerca": "  for (const t of [...testi, ...dettagli]) {",
    "sostituisci": "  for (const t of [...testi]) {",
    "test": "cervello/test/schede-pacchetto.test.mjs"
+  },
+  {
+   "lezione": "L-2026-1028-01",
+   "difetto": "AR-1027",
+   "nome": "il collaudo torna a bocciare per una prova migliorabile su un sito che fa giusto: una «variante» ferma di nuovo il pacchetto",
+   "file": ".claude/workflows/ondata-sito.js",
+   "cerca": "const soloVariante = (v, L) => variante(v, L) && v.regge === false // il regge:false che non boccia",
+   "sostituisci": "const soloVariante = (v, L) => false // il regge:false che non boccia",
+   "test": "cervello/test/ondata-sito.test.mjs",
+   "perche_conta": "È la regola che Nicola ha firmato il 28/10 con «ok 216». Senza questa riga una variante scomoda su un sito che fa giusto torna a far partire il rifacimento, e dopo tre bocciature il pacchetto si ferma: i 12 stop su 12 del terzo e del quinto giro della fase 2."
+  },
+  {
+   "difetto": "AR-1027",
+   "nome": "la causa «variante» torna ad arrivare da chi non muta: la lente B fa passare un doppio rimborso chiamandolo variante",
+   "file": ".claude/workflows/ondata-sito.js",
+   "cerca": "const variante = (v, L) => !!v && !!L && !!L.muta && v.boccia_per === \"variante\"",
+   "sostituisci": "const variante = (v, L) => !!v && !!L && v.boccia_per === \"variante\"",
+   "test": "cervello/test/ondata-sito.test.mjs",
+   "perche_conta": "Il ricollaudo del 28/10 (run wf_040a3d61-2de) l'ha trovato: la lente B legge un pulsante che rimborsa due volte, non può scriverne la prova, sceglie «variante» dall'elenco e il pacchetto dei soldi esce «regge». La variante la può provare solo chi muta."
   }
  ],
  "_tolte_27_8": "Tre mutazioni arrivate con main sono uscite nella fusione del 27/8. Erano DOPPIE — lo stesso difetto ha gia' la sua mutazione in questo file — e messe sotto esecuzione NON mordevano: il test resta verde col fix rotto. AR-081 puntava a `ALLOC_VINCOLO=\"\"`, la riga di inizializzazione sostituita da AR-843 stamattina; AR-071 cercava una parola in sentinella-dati.mjs mentre la mutazione che morde tocca la query di ordini-in-ritardo.mjs; AR-078 puntava a una riga dentro la funzione che l'altra mutazione riscrive intera. Tenerle avrebbe contato come copertura tre difese che non difendono — che e' AR-840 scritto al contrario.",

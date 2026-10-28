@@ -1,7 +1,25 @@
 {
-  "data": "2026-10-26 09:15",
-  "sintesi": "Il sito ha un solo negozio vero, Pane Quotidiano, e nessun ordine pagato: l'unico ordine è del 24/6, annullato. Non prende ordini perché su Vercel manca la chiave di servizio del database. Le 14 scelte sono firmate dal 26/10 alle 08:55, e le squadre delle fondamenta del sito sono partite. Adesso tocca al cambio delle chiavi del database, esposte dall'11/10. In settimana: la visita a Pane Quotidiano, il commercialista per la partita IVA, il corso per il fresco e il legale. Il primo ordine vero è stimato fra il 30/10 e il 1/11.",
+  "data": "2026-10-27 15:25",
+  "sintesi": "Le 14 scelte sono firmate. La richiesta di unione grande del sito (#262) è pronta da unire: dentro ci sono le fondamenta, la posta, la consegna da 3 euro e la cancellazione dell'account, con i controlli verdi. Il confine di consegna passa a 5 km (tua correzione del 28/10): lo porta sul sito un giro a parte. Consegni tu, in bici. Vuoi partire col primo cliente quando il sito non ha più difetti: resta da scegliere il criterio, A, B o C, e il rilascio, A o B. Restano da te anche la casella info, le chiavi del database da cambiare insieme, e la cancellazione del negozio di prova con la riga della carta #201.",
   "prossime_mosse": [
+    {
+      "titolo": "Crea la casella info@mycity-marketplace.com e inoltrala alla tua Gmail",
+      "quando": "oggi o domani",
+      "come": "dal pannello Netsons, alla voce della posta del dominio; poi un'email di prova dalla tua Gmail",
+      "priorita": "alta",
+      "ad_prepara": "appena esiste la metto su Vercel come casella privacy, segnalazioni e assistenza",
+      "senior": "@devops-sre",
+      "colore": "🟡"
+    },
+    {
+      "titolo": "Cancella il Panificio Demo dal sito",
+      "quando": "oggi, 3 minuti",
+      "come": "Supabase, editor SQL: incolla il comando della carta #201 e premi Run; deve uscire una riga con 4 prodotti, «Panificio Demo» e l’indirizzo di prova",
+      "priorita": "alta",
+      "ad_prepara": "il comando è pronto e controllato in sola lettura (nessun ordine o file collegato); dopo il tuo «fatto 201» ricontrollo il database",
+      "senior": "@trust-safety",
+      "colore": "🔴"
+    },
     {
       "titolo": "Cambia con me le chiavi del database del sito",
       "quando": "oggi, in 45 minuti di fila",
@@ -49,8 +67,8 @@
     },
     {
       "titolo": "Fai il primo ordine vero da Pane Quotidiano e consegnalo tu",
-      "quando": "dopo il giorno della chiave, stima fra il 30/10 e il 1/11",
-      "come": "in contanti, col tuo account da fattorino, guardando il sito dal telefono; poi il bonifico al fornaio (carta #210)",
+      "quando": "quando il sito è pronto secondo il tuo criterio (zero difetti: da precisare se contano anche i minori)",
+      "come": "in contanti, in bici entro 5 km dal negozio, col tuo account da fattorino, guardando il sito dal telefono; poi il bonifico al fornaio (carta #210)",
       "priorita": "alta",
       "ad_prepara": "il via alla chiave quando i passi che la precedono sono fatti, e il controllo che ogni lavoro notturno parta",
       "senior": "@operations",
@@ -65,8 +83,8 @@
     },
     {
       "nome": "Panificio Demo",
-      "perche": "negozio di prova nato il 5/9, non è un negozio vero",
-      "stato": "approvato e visibile ai clienti con 4 prodotti: va tolto prima della chiave (carta #201)"
+      "perche": "negozio di prova creato da Nicola il 5/9",
+      "stato": "da cancellare: Nicola ha detto sì il 27/10, la riga da lanciare è nella carta #201"
     }
   ],
   "rischi": [
@@ -77,19 +95,19 @@
   ],
   "serve_da_nicola": [
     {
-      "ambito": "firme",
-      "cosa_manca": "Le parti del messaggio rimaste fra parentesi quadre: la casella email che leggi e l'indirizzo pubblicabile, sì o no al tipo snello, il progetto Supabase per le anteprime",
-      "domanda_per_nicola": "Qual è la casella che leggi davvero, e quale indirizzo posso pubblicare? Tipo snello e anteprime: sì o no?"
+      "ambito": "lancio",
+      "cosa_manca": "Il criterio per partire col primo cliente: «zero difetti» comprende anche i minori?",
+      "domanda_per_nicola": "Partiamo con zero bloccanti e zero gravi e una radiografia senza gravi nuovi, o vuoi zero anche i minori?"
     },
     {
-      "ambito": "negozio di prova",
-      "cosa_manca": "Chi ha creato il «Panificio Demo» il 5/9",
-      "domanda_per_nicola": "L'hai creato tu? In tutti e due i casi lo tolgo dalla vetrina con «ok 201»."
+      "ambito": "dati del titolare",
+      "cosa_manca": "L'indirizzo da pubblicare sul sito, che non sia casa tua",
+      "domanda_per_nicola": "Chiedi al commercialista se puoi usare il suo studio come sede o domicilio, oppure una domiciliazione?"
     },
     {
-      "ambito": "consegne",
-      "cosa_manca": "Se la bici è riparata: il registro dice ancora «in riparazione dal 28/7»",
-      "domanda_per_nicola": "La bici è pronta? Se no, con cosa consegni il primo ordine?"
+      "ambito": "rilascio",
+      "cosa_manca": "Se il rilascio controllato si rimanda o si fa un terzo giro",
+      "domanda_per_nicola": "Rilascio A (lo rimando a prima della carta #161) o B (terzo giro adesso)?"
     },
     {
       "ambito": "pagamenti",
@@ -100,11 +118,6 @@
       "ambito": "macchina",
       "cosa_manca": "Se il server Hetzner è acceso e pagato",
       "domanda_per_nicola": "Dalla console Hetzner il server risulta acceso? C'è una fattura scoperta?"
-    },
-    {
-      "ambito": "posta",
-      "cosa_manca": "Se la casella info del sito esiste e qualcuno la legge",
-      "domanda_per_nicola": "Mandi un'email di prova alla casella info e mi dici se arriva?"
     }
   ]
 }

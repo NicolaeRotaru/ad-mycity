@@ -1,8 +1,54 @@
 ---
 tipo: stato
-aggiornato: 2026-10-26 09:15
+aggiornato: 2026-10-28 11:22
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚲 **2026-10-28 11:22 — Il confine scende a 5 km.**
+>
+> Con «ok 215» la consegna e l'email sono entrate nella richiesta grande del sito. Sono la consegna da 3 euro e l'email senza il ritiro.
+>
+> Con «ok 216» la regola nuova è nel metodo: si boccia per il sito, non per la prova. Al primo giro vero, quello dei 5 km, il lavoro ha retto al primo collaudo. Una prova rotta dal lavoro l'ha vista il mio controllo finale, e una correzione l'ha sistemata.
+>
+> Adesso la richiesta grande porta anche i 5 km. Ti restano due scelte da un minuto, il criterio per il primo cliente e il rilascio, e il comando del Panificio Demo.
+
+> 🧩 **2026-10-28 06:36 — Due lavori del sito aspettano la tua firma.**
+>
+> Sono la consegna da 3 euro e l'email del ritiro. Il quinto giro li ha completati. Il collaudo li ha fermati tre volte ciascuno, sempre su prove che si potrebbero scrivere meglio. Il sito, invece, si comporta giusto: l'ho provato io su una copia, con le prove automatiche, nel browser e con le prove dei verificatori.
+>
+> Ti chiedo due firme. La carta #215: unire così i due lavori. La carta #216: la regola che fa finire i giri, perché questo succede a ogni giro.
+
+> 🔎 **2026-10-27 23:55 — La cancellazione dell'account regge. Il riesame ha trovato due difetti gravi: parte il quinto giro.**
+>
+> La cancellazione dell'account è nel ramo del sito, con le prove verdi. Nove revisori hanno riguardato i 33 file toccati dalla fase 2, e i verificatori hanno confermato due difetti gravi. Il primo: dopo il pagamento, il cliente legge che la consegna è gratis, mentre la sta pagando 3 euro. Il secondo: l'email «3 cose da sapere» promette il ritiro in negozio, che è spento.
+>
+> Il quinto giro li sistema tutti e due. Per la consegna parte dal ramo della carta #215 e chiude i buchi delle prove che l'avevano fermato: se regge, la carta si chiude da sola.
+
+> 🧪 **2026-10-27 20:50 — La consegna è pronta. Sulla cancellazione dell'account serve un quarto giro.**
+>
+> Il terzo giro si è fermato sulle prove, non sul sito: i collaudi trovano sempre un modo nuovo di romperlo che nessuna prova vedrebbe. La consegna funziona: ti chiedo nella carta #215 se unirla così.
+>
+> Sulla cancellazione dell'account ho trovato un difetto vero. Senza la chiave del database, la rotta risponde «non disponibile» anche a chi non ha fatto l'accesso, invece di «devi accedere». Il quarto giro lo sistema.
+
+> 🛠️ **2026-10-27 18:50 — La consegna da 3 euro regge. La cancellazione dell'account va al terzo giro.**
+>
+> Nel ramo del sito adesso ci sono il confine dei 10 km e la pagina Spedizioni con le cifre della cassa. In cassa si pagano solo i 3 euro di consegna. Il controllo completo è verde: 5.782 prove su 5.782.
+>
+> La cancellazione dell'account è stata bocciata tre volte dal collaudo. Il codice c'è, ma quattro rotture non fanno diventare rossa nessuna prova. Il terzo giro scrive quelle prove. Nello stesso giro si sistema la pagina dell'ordine, che scrive «Spedizione GRATUITA» sopra i 3 euro di consegna.
+
+> 🚲 **2026-10-27 15:25 — Il confine di consegna scende a 10 km.**
+>
+> Hai scritto che consegni tu, in bici, fino a 10 km. Il Panificio Demo è una tua prova: il comando che lo cancella è pronto nella carta #201. E il tipo snello si fa.
+>
+> Al primo giro della fase 2 hanno retto la posta e i prodotti: sono nel ramo del sito, e il controllo completo è verde (5.784 prove). Si sono fermate la cancellazione dell'account e la pagina Spedizioni, che prometteva ancora 15 km.
+>
+> Il secondo giro della fase 2 è partito. Chiude quei buchi e mette in cassa solo i 3 euro di consegna, come hai firmato il 26/10.
+
+> 🔁 **2026-10-27 11:00 — Il secondo giro delle fondamenta del sito è partito.**
+>
+> Al primo giro una squadra su tre ha retto: le funzioni del lancio sono spente davvero. Due si sono fermate. Hai risposto «ok come consigli», e il secondo giro segue le tre scelte.
+>
+> Il rilascio si semplifica: niente controllo automatico che legge le migrazioni, perché il collaudo ci ha trovato 12 buchi. Il pannello admin fa un giro ancora, piccolo. I due codici sconto ancora attivi li spegni tu con una riga nell'editor di Supabase: carta #214.
 
 > ✍️ **2026-10-26 09:15 — Firme arrivate. Le squadre del sito sono partite.**
 >

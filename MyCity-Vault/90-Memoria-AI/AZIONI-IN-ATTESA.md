@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-10-26 09:05** — Automatico: **40 aperte · 109 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-10-27 12:02** — Automatico: **40 aperte · 110 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -30,6 +30,56 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- radiografia-totale-sito-3-9 -->
 
 <!-- chiave-anti-robot-prima-di-unire -->
+
+### 🟡 #216 — Firma la regola che fa finire i giri del sito: una prova migliorabile, su un sito che funziona, è un difetto piccolo · ⏳ accodata 2026-10-28 06:35 · ✅ firmata 2026-10-28 08:30
+
+> ✅ **2026-10-28 11:04 — Al primo giro vero la regola ha funzionato.** Il giro dei 5 km ha retto al primo collaudo. Non ha avuto rifacimenti, e ha usato 6 agenti invece dei 14-16 dei giri che si fermavano. Le prove migliorabili sono finite nel registro come difetti piccoli. Una prova che il lavoro aveva rotto l'ha vista il mio controllo finale, e la squadra l'ha sistemata.
+
+> ✅ **2026-10-28 09:43 — Firmata con «ok 216», e messa nel metodo.** Prima di usarla l'ho fatta collaudare da due collaudatori che non l'avevano scritta. La prima versione l'hanno bocciata: in due casi un errore vero del sito poteva passare per «prova migliorabile». Adesso la regola è una sola per ogni collaudo, e il perché di ogni bocciatura lo legge il motore, non solo l'istruzione scritta. Le prove del metodo sono verdi, 51 su 51, e venti rotture fatte apposta le fanno diventare rosse tutte. Un ultimo ricollaudo sta girando. Nel registro del sito 4 gravi del quinto giro erano solo prove migliorabili: adesso sono minori.
+
+
+**In parole semplici.** Ogni giro di riparazione del sito finisce con un collaudo: un collaudatore che non ha scritto il lavoro prova a romperlo. Oggi il collaudatore boccia anche quando il sito fa la cosa giusta, se trova una prova che si potrebbe scrivere meglio.
+
+Un esempio di stanotte. Nell'email «3 cose da sapere» la squadra ha tolto la promessa del ritiro in negozio, e l'email adesso è giusta. Il collaudo l'ha bocciata tre volte: la prova non vedrebbe la stessa promessa scritta con altre parole, come «passa tu dal negozio a prenderla».
+
+**Cosa cambia:** cambio una regola del collaudo nel metodo delle ondate. Il collaudo boccia solo se il sito si comporta male, oppure se la prova di un difetto chiuso non diventa rossa quando lo si rimette. Una prova migliorabile su un sito che funziona entra nel registro come difetto piccolo, e il giro va avanti. Il terzo e il quinto giro della fase 2 si sono fermati così: 12 bocciature, tutte su prove migliorabili, nessuna su un errore del sito.
+
+**Cosa devi fare tu.** Scrivimi «ok 216». Cambia il metodo della macchina: vale solo con la tua firma.
+
+**Se va bene:** al prossimo giro i pacchetti che funzionano reggono al primo collaudo, e le prove migliorabili le chiude un giro a parte. Ti porto il conto delle bocciature prima e dopo.
+
+**Cosa non ho verificato:** la regola la applica un modello che legge le istruzioni del collaudo. Se la segue davvero, lo vedremo solo al prossimo giro.
+
+Contenuto: il difetto AR-1027 nel cantiere della macchina, con la causa e la cura.
+
+---
+
+### 🟡 #215 — Scegli se unire così la consegna da 3 euro e l'email del ritiro: il sito funziona, mancano alcune prove · ⏳ accodata 2026-10-27 20:46 · ✅ fatto 2026-10-28 08:40
+
+> ✅ **2026-10-28 08:40 — Unite, con il tuo «ok 215».** Sono nella richiesta grande del sito. Alle 08:39 i suoi 9 controlli automatici erano verdi. La richiesta si può unire: non tocca il database.
+
+
+> ⏰ **2026-10-28 06:35 — Il giro in più si è fermato come il primo.** Adesso i lavori da unire sono due: la consegna e l'email. Il quinto giro ha completato la consegna e ha tolto dall'email la promessa del ritiro. Tutti e due i pacchetti si sono fermati dopo tre bocciature, sempre su prove migliorabili. La scelta resta tua, con le stesse due strade.
+
+**In parole semplici.** Sono pronti due lavori del sito, e tutti e due si comportano giusto.
+- La consegna da 3 euro detta bene ovunque. Dopo il pagamento la pagina dell'ordine non scrive più «Spedizione GRATUITA» sopra i 3 euro. La voce ha lo stesso nome in scheda, carrello, cassa e ordine. Il confine dei 10 km è provato anche in diagonale.
+- L'email «3 cose da sapere». Arriva a ogni nuovo cliente e non promette più il ritiro in negozio, che al lancio è spento.
+
+Il collaudo li ha bocciati tre volte ciascuno, ma non per un errore del sito: ogni volta ha trovato una prova che si potrebbe scrivere meglio. Per esempio: se domani qualcuno aggiungesse «passa tu dal negozio a prenderla» solo nelle email col nome del cliente, oggi nessuna prova diventerebbe rossa.
+
+**Cosa cambia:** con «ok 215» unisco i due lavori nella richiesta del sito (#262). Senza, la #262 porterebbe su ogni ordine la scritta «Spedizione GRATUITA» sopra i 3 euro. E a ogni nuovo cliente arriverebbe la promessa del ritiro. Le prove migliorabili restano nel registro, aperte.
+
+**Come l'ho provato.** Ho messo le due correzioni in una copia del sito e l'ho provata io. Il controllo completo è verde: 6.018 prove su 6.018. Nel browser, come nella CI, 70 prove passate e 6 saltate, nessuna rossa. Le prove dei due verificatori sono rosse sul ramo di oggi e verdi sulla copia. Il riesame dei 14 file nuovi non ha trovato difetti gravi nati.
+
+**Cosa devi fare tu.** Scrivimi «ok 215» per unirli così: è il mio consiglio. Oppure «215 un altro giro». Per la consegna sarebbe il terzo giro: i primi due si sono fermati nello stesso modo.
+
+**Se va bene:** unisco i due lavori nella #262, rifaccio le prove e te la ripresento da unire.
+
+**Cosa non ho verificato:** il sito pubblicato e un telefono vero. Ho provato la copia in locale, con le prove automatiche e nel browser.
+
+Contenuto: `consegne/audit/2026-10-27-fase2-sito-giro5.json`. I rami sono `fix/ondata-7-lib-ordini-riepilogo-ordine-ts` e `fix/ondata-7-lib-email-templates-ts`. La copia provata è `fix/candidata-fase2-giro5`, commit `6ae86ca5`.
+
+---
 
 ### 🔴 #213 — Comincia dal messaggio delle firme: la tua lista dei lavori è rifatta da capo · ⏳ accodata 2026-10-26 08:50
 
@@ -63,7 +113,9 @@ Contenuto: `consegne/ad/2026-10-26-lavori-di-nicola.md` (testo del messaggio, la
 
 ### 🟡 #212 — Firma il metodo nuovo delle ondate del sito, quello che consuma molti meno gettoni · ⏳ accodata 2026-10-25 15:10
 
-> ⏰ **2026-10-26 09:05 — Il metodo è unito, e l'ondata delle fondamenta parte coi senior tech e qa.** Resta solo il sì o il no al tipo snello: nel messaggio era rimasto fra parentesi quadre.
+> ⏰ **2026-10-27 15:20 — Hai detto sì al tipo snello.** Lo costruisco appena finisce il giro del sito che sta girando adesso: cambiare il tipo di squadra a metà giro mescolerebbe due misure dei gettoni. Ti arriva in una richiesta di unione sua, col conto prima e dopo.
+>
+> ⏰ **2026-10-26 09:05 — Il metodo è unito, e l'ondata delle fondamenta parte coi senior tech e qa.**
 
 **In parole semplici.** Un'ondata del sito si mangiava la settimana: ogni agente rilegge tutto a ogni passo, e la prima ne ha accesi più di 600. Il metodo nuovo ne accende al massimo 45, più leggeri. Cambia il manuale dell'AD: serve la tua firma.
 
@@ -72,7 +124,7 @@ Contenuto: `consegne/ad/2026-10-26-lavori-di-nicola.md` (testo del messaggio, la
 - Il manuale che ogni agente rilegge scende da 75 a 35 KB.
 - Un comando misura i gettoni veri, agente per agente.
 
-**Cosa devi fare tu.** Leggi il referto e unisci la richiesta di unione. Poi dimmi due cose: se creo il tipo snello per le squadre, e quando parte l'ondata 2.
+**Cosa devi fare tu.** Niente, per ora. Il metodo è unito e il sì al tipo snello è arrivato: quando è pronto, ti porto la sua richiesta di unione da firmare.
 
 **Se va bene:** alla prossima ondata uso il metodo nuovo, e ti porto il conto vero accanto a quello dell'ondata 1.
 
@@ -130,21 +182,43 @@ Contenuto: `consegne/audit/2026-10-25-consumo-token.md`.
 
 ---
 
-### 🔴 #201 — Sul sito c'è un «Panificio Demo» approvato: i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
+### 🔴 #201 — Cancella il «Panificio Demo»: è una tua prova, e i clienti lo vedono come un negozio vero · ⏳ accodata 2026-10-10 12:05
 
-> ⏰ **2026-10-26 09:05 — Hai detto di toglierlo prima della chiave.** Ti preparo il comando che toglie l'approvazione senza cancellare niente. Dimmi solo se l'hai creato tu: se no, prima guardo con la sicurezza l'accesso del 7/9.
+> ⏰ **2026-10-27 15:20 — Hai scritto che l'hai creato tu e che si può cancellare.** Il comando è qui sotto, pronto. L'ho controllato in sola lettura: niente ordini, recensioni, conversazioni o file collegati.
 
-**In parole semplici.** Il 5 settembre è nato un secondo negozio, «Panificio Demo», con 4 prodotti disponibili. È approvato come Pane Quotidiano, quindi compare accanto ai negozi veri.
+**In parole semplici.** Il «Panificio Demo» è un account di prova con 4 prodotti, approvato come un negozio vero. Il comando toglie in un colpo solo i 4 prodotti, il negozio e l'account.
 
-**Cosa cambia:** la home promette «negozi veri di Piacenza». Un cliente può ordinare da un forno che non esiste.
+**Cosa cambia:** sul sito resta solo Pane Quotidiano, coi suoi 5 prodotti. La cancellazione non si può annullare: il negozio di prova non torna più.
 
-**Cosa devi fare tu.** Dirmi se l'hai creato tu. Se è una prova, scrivimi «ok 201» e preparo il comando che lo toglie dalla vetrina.
+**Cosa devi fare tu.** Apri Supabase, poi «SQL Editor». Incolla il comando e premi «Run». Deve uscire una riga sola: 4 prodotti, «Panificio Demo» e l'indirizzo seller.demo@piacenza-demo.local. Se esce un errore, mandami la foto e non riprovare.
 
-**Se va bene:** nel catalogo restano solo i 5 prodotti di Pane Quotidiano.
+```sql
+with prodotti as (
+  delete from public.products
+  where seller_id = '44444444-4444-4444-4444-aaaaaaaa0001'
+  returning name
+),
+negozio as (
+  delete from public.profiles
+  where id = '44444444-4444-4444-4444-aaaaaaaa0001'
+  returning store_name
+),
+account as (
+  delete from auth.users
+  where id = '44444444-4444-4444-4444-aaaaaaaa0001'
+  returning email
+)
+select
+  (select count(*) from prodotti) as prodotti_cancellati,
+  (select store_name from negozio) as negozio_cancellato,
+  (select email from account) as account_cancellato;
+```
 
-**Cosa non ho verificato:** chi l'ha creato; e l'ho letto nel database, non sulla pagina del sito.
+**Se va bene:** scrivimi «fatto 201» e lo ricontrollo nel database.
 
-> ⚠️ **2026-10-12 17:55 — Da dove viene.** È un account di prova come gli altri due, nato il 5/9 da un programma. Il 7/9 alle 21:37 qualcuno ci è entrato, tre minuti dopo un accesso dal tuo account. Se eri tu, scrivimi «ok 201».
+**Cosa non ho verificato:** se nel magazzino delle foto ci sono immagini del negozio salvate con un nome diverso dal suo codice. Col suo codice non ne ho trovata nessuna.
+
+> 📜 **Storia.** 12/10 17:55: l'account nasce il 5/9 da un programma, insieme ad altri due di prova; il 7/9 alle 21:37 qualcuno ci entra, tre minuti dopo un accesso dal tuo account. 26/10 09:05: hai detto di toglierlo prima della chiave. 27/10: hai confermato che eri tu.
 
 ---
 
@@ -1326,5 +1400,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 109.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 110.
 > Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

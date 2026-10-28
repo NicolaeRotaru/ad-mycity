@@ -24,6 +24,9 @@ description: >-
 **Chi ha costruito il pezzo non lo collauda.** Non per sfiducia: perché chi costruisce cerca
 conferme, e mette in scena la variante del difetto che al suo lavoro conviene. Il collaudatore parte
 da zero, con un mandato scritto: *dimostra che questa cosa non funziona; nel dubbio, bocciala.*
+Sul sito il dubbio riguarda il comportamento del sito, non la forza della prova: una prova
+migliorabile su un sito che fa giusto si scrive nel registro come minore e non boccia (AR-1027,
+firmata da Nicola il 28/10 con «ok 216»).
 
 ## I quattro passi
 
@@ -57,6 +60,12 @@ Se dici a qualcuno «trova un buco», un buco lo trova sempre. Quindi si dichiar
 
 - si boccia **solo** per una scorciatoia che capita da sola nel lavoro normale; una che richiede
   malafede deliberata si scrive e non blocca;
+- **sul sito si boccia per il sito, non per la prova** (AR-1027). Il difetto chiuso, rimesso com'è
+  scritto nella scheda, deve far diventare rossa la prova della squadra. La variante scomoda si cerca
+  sempre e si lancia prima sul codice di oggi: rossa lì vuol dire che il sito sbaglia, e si boccia.
+  Verde lì, se la prova della squadra non la vede, è un buco nelle prove: minore nel registro, col
+  comando che la uccide. *Perché:* il terzo e il quinto giro della fase 2 si erano fermati 12 volte su
+  12 su prove migliorabili, con il sito che si comportava giusto;
 - **al terzo rosso sullo stesso pezzo non parte un quarto giro**: si porta a Nicola *semplifica,
   restringi o continua*. Per un freno della macchina «restringi» vuol dire che non si aggancia e
   resta uno strumento da lanciare a mano, dichiarato. *Perché:* nella prima ondata del sito (14-17/10)
@@ -75,7 +84,8 @@ Se dici a qualcuno «trova un buco», un buco lo trova sempre. Quindi si dichiar
 | Qualcosa dove sbagliare costa giorni | Il giro intero, fino al terzo rosso |
 
 Tre cose non si dosano mai: **chi ha costruito non collauda**, il **difetto ricreato nella variante
-scomoda**, il **montaggio vero** prima della consegna. Sul sito il rischio non si giudica a occhio: è
+scomoda**, il **montaggio vero** prima della consegna. La variante scomoda non si dosa, ma su un sito
+che fa giusto la prova che non la vede è un minore, non un rosso (AR-1027). Sul sito il rischio non si giudica a occhio: è
 il campo `rischio` (soldi, dati, permessi o nessuno) che `node cervello/schede-pacchetto.mjs` calcola
 per ogni pacchetto dalla mappa delle lenti. Una squadra che ha scritto fuori dal suo territorio conta
 come a rischio, qualunque sia il campo. Dopo una bocciatura si ricollauda **solo con la lente che ha

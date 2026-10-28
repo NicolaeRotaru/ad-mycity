@@ -2,12 +2,12 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale, analisi completa dei lavori di Nicola del 25-26/10 (consegne/ad/2026-10-26-lavori-di-nicola.md)
-aggiornato: 2026-10-26 09:15
+aggiornato: 2026-10-28 11:24
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
-> **In due righe.** Sono 50 voci in fila, dalla più urgente alla meno. Oggi ne servono due sole: il messaggio delle firme e il cambio delle chiavi del database.
+> **In due righe.** Sono 57 voci in fila, dalla più urgente alla meno; due le hai fatte il 28/10 mattina. Oggi ne servono cinque: due scelte da un minuto, l'unione della richiesta del sito, un comando da incollare in Supabase e il cambio delle chiavi del database.
 
 ## In parole semplici
 
@@ -15,7 +15,7 @@ Qui c'è solo quello che richiede te: firme, unioni, accessi che la macchina non
 
 ## Cosa cambia per te
 
-Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 50 voci. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
+Su 213 lavori che in memoria citano te, 133 sono tuoi e aperti, cioè quasi due su tre: stanno qui sotto, raccolti in 51 voci il 26/10; il 27/10 se ne sono aggiunte quattro, il 28/10 due. Gli altri 80 te li tolgo io. 53 sono già fatti o superati, 19 li faccio io e 8 li verifico prima di chiedertili.
 
 ## Cosa devi fare
 
@@ -27,15 +27,29 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
 
 ---
 
-## 1 · Oggi, lunedì 26/10 — due cose
+## 1 · Oggi — le scelte e le chiavi
 
 - [x] 🔴 Mandami il messaggio delle firme: le 14 scelte per riparare il sito, «parti» e le risposte brevi.
   → carte #209, #201, #212, #177, #196, #178 · 15 minuti · testo pronto nel referto.
 - [ ] 🔴 Cambia con me le chiavi del database del sito: scrivimi «inizio la 203» quando hai 45 minuti di fila.
   → carta #203 · prima la chiave pubblica nuova su Vercel per sito e Pannello, solo dopo si spegne la vecchia.
+- [ ] 🔴 Dimmi cosa vuol dire «senza difetti» per entrare col primo cliente: A, B o C.
+  → spiegato il 28/10 alle 09:03 · 1 minuto · A = zero bloccanti e zero gravi, B = zero anche i minori, C = zero sul percorso del primo ordine.
+- [ ] 🟡 Dimmi A o B sul rilascio controllato: A lo rimando a subito prima della carta #161, B faccio un terzo giro adesso.
+  → spiegato il 28/10 alle 09:03 · 1 minuto.
+- [x] 🟡 Dimmi se unire così la consegna da 3 euro e l'email del ritiro: «ok 215» o «215 un altro giro».
+  → carta #215 · fatto il 28/10 alle 08:30, unite alle 08:40.
+- [x] 🟡 Firma la regola che fa finire i giri del sito: «ok 216».
+  → carta #216 · firmata il 28/10 alle 08:30, nel metodo dalle 09:43.
+- [ ] 🔴 Unisci la richiesta grande del sito, quando i suoi controlli automatici sono verdi.
+  → richiesta #262 · 2 minuti · dentro anche i 5 km · non tocca il database, ma il sito vero cambia dopo pochi secondi.
 
 ## 2 · Oggi o domani, da solo — visite brevi ai servizi
 
+- [x] 🔴 Spegni nel database i due codici sconto ancora attivi: una riga da incollare nell'editor SQL di Supabase.
+  → carta #214 · 2 minuti.
+- [ ] 🔴 Cancella il Panificio Demo: un comando da incollare nell'editor SQL di Supabase.
+  → carta #201 · 3 minuti · non si può annullare.
 - [ ] 🔴 Verifica su Resend il dominio del mittente e metti chiave e mittente su Vercel: fallo per primo, la verifica può durare ore.
   → carta #195 · 20 minuti.
 - [ ] 🟡 Su Supabase, in una visita: accendi la protezione contro le password rubate, aggiungi il www agli indirizzi di rientro, leggi data del prossimo addebito e scadenza della carta.
@@ -44,8 +58,8 @@ Stripe, Hetzner, Resend, Netsons e le impostazioni di accesso di Supabase non li
   → carta #154 · 10 minuti.
 - [ ] 🟡 Guarda Stripe e dimmi com'è messo: chiavi vere o di prova, conto di Pane Quotidiano, indirizzi degli avvisi.
   → carte #210, #154 · 10 minuti.
-- [ ] 🟡 Manda un'email di prova alla casella info del sito e controlla che arrivi e che qualcuno la legga.
-  → 10 minuti.
+- [ ] 🟡 Crea la casella info@mycity-marketplace.com nel pannello Netsons, inoltrala alla tua Gmail e mandale un'email di prova.
+  → 15 minuti · è la strada con cui un cliente chiede di cancellare l'account finché la chiave del database non c'è.
 - [ ] 🔴 Accendi la verifica in due passaggi sulla Gmail amministratrice del sito e su Vercel, Supabase, Stripe, Resend, Netsons, Hetzner.
   → carta #202 · 30 minuti.
 - [ ] 🟡 Guarda nella console Hetzner se il server è acceso e se c'è una fattura scoperta: se è spento non accenderlo, mandami una foto.

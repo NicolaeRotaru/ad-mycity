@@ -1,0 +1,103 @@
+{
+  "_cosa_e": "Secondo giro della fase 2 del sito, dopo lo stop del primo giro su due pacchetti (cancellazione dell'account e confine dei 10 km). Le ondate 1-3 di questo file sono vuote apposta: le schede si leggono con --ondata 4, cosi' i worktree nascono come o4-*. Base: il ramo delle fondamenta con posta e prodotti gia' uniti, piu' il passo «Config» (vitest.config.ts che legge il JSX).",
+  "data": "2026-10-27 15:20",
+  "registro": "sito",
+  "origine": "consegne/audit/2026-10-27-fase2-sito.json (primo giro, fermo su app/api/account e lib/constants.ts) + la richiesta di Nicola del 27/10 sulla cancellazione dell'account + la scelta 8 della carta #209",
+  "ondate": [
+    [],
+    [],
+    [],
+    [
+      {
+        "chiave": "app/api/account",
+        "difetti": [
+          {
+            "idx": 48,
+            "chiave": "privacy-legale|chi vuole scaricare i propri dati o cancellarsi non ha nessuna strada che funzioni in produzione"
+          },
+          {
+            "idx": 1215,
+            "chiave": "architettura|l'avviso dovuto a chi ha chiesto la cancellazione viene calcolato ogni notte e buttato via: nessuno chiama recapitaavvisi"
+          },
+          {
+            "idx": 1123,
+            "chiave": "architettura|una cancellazione rinviata la sa solo l'amministratore — e solo dopo trenta giorni"
+          },
+          {
+            "idx": 1496,
+            "chiave": "architettura|senza casella privacy e senza posta del supporto, cancella account manda al modulo e il modulo risponde riprova più tardi"
+          },
+          {
+            "idx": 1497,
+            "chiave": "api-backend|il collegamento notturno controlla solo il rinvio: l'avviso di termine di legge scaduto può sparire senza prove rosse"
+          },
+          {
+            "idx": 1498,
+            "chiave": "api-backend|annulla cancellazione e stato cancellazione senza chiave possono tornare al muro senza prova rossa"
+          },
+          {
+            "idx": 1499,
+            "chiave": "api-backend|il campo rinviata della risposta get non è controllato da nessuna prova e la pagina non lo legge"
+          },
+          {
+            "idx": 1500,
+            "chiave": "architettura|senza chiave di servizio, cancella account e scarica dati rispondono ancora «auth non configurato»: la strada a mano non arriva mai"
+          },
+          {
+            "idx": 1501,
+            "chiave": "architettura|la prova del lotto finge withauth e quindi passa su un ramo che in produzione non si esegue mai"
+          },
+          {
+            "idx": 1502,
+            "chiave": "architettura|senza chiave, senza casella privacy e senza posta del supporto, la richiesta gira in tondo tra due messaggi"
+          },
+          {
+            "idx": 1540,
+            "chiave": "api-backend|contatti risponde ok anche se la mail di inoltro non parte, e nessuna prova se ne accorge"
+          },
+          {
+            "idx": 1541,
+            "chiave": "api-backend|avviso di legge non partito: la notte resta verde e nessun amministratore viene svegliato, senza che una prova lo veda"
+          }
+        ]
+      },
+      {
+        "chiave": "lib/constants.ts",
+        "difetti": [
+          {
+            "idx": 1495,
+            "chiave": "flussi-conversione|il sito accetta e promette consegne fino a 25 km dal negozio, ma al lancio nicola consegna in bici fino a 10 km"
+          },
+          {
+            "idx": 250,
+            "chiave": "microcopy|la pagina spedizioni mostra prezzi più bassi di quelli che fa pagare la cassa e scrive «gratis» dove si pagano sempre 3 euro di consegna"
+          },
+          {
+            "idx": 263,
+            "chiave": "microcopy|domande frequenti e spedizioni dicono che a negozio chiuso non si può ordinare, ma la cassa lascia prenotare per domani"
+          },
+          {
+            "idx": 75,
+            "chiave": "privacy-legale|la pagina spedizioni dice di segnalare entro 48 ore il pacco danneggiato o mai arrivato: la legge non mette questo limite"
+          },
+          {
+            "idx": 1513,
+            "chiave": "flussi-conversione|la prova nuova non controlla il tratto fra 10 e 15 km: una tolleranza di +4,5 km in fuorizonadiconsegna lascia tutto verde"
+          },
+          {
+            "idx": 1515,
+            "chiave": "performance|'vicino a te' mostra negozi fino a 20 km sotto 'consegna locale rapida', poi la cassa li rifiuta"
+          },
+          {
+            "idx": 1542,
+            "chiave": "privacy-legale|la pagina pubblica /shipping promette ancora consegne entro 15 km (e «oltre 10 km a preventivo») mentre la cassa ora rifiuta oltre 10"
+          },
+          {
+            "idx": 1543,
+            "chiave": "flussi-conversione|la cassa fa pagare la spedizione a chilometri oltre ai 3 euro di consegna, ma nicola ha firmato «solo i 3 euro»"
+          }
+        ]
+      }
+    ]
+  ]
+}

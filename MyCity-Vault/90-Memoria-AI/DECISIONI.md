@@ -5758,3 +5758,137 @@ Poi ho fatto la spinta forzata protetta, solo su quel ramo: partiva solo se sul 
 **Perché così.** «Parti» nel piano del 24/10 vuol dire le fondamenta comuni (interruttori delle funzioni spente, rilascio e prove, letture del pannello admin), prima delle ondate. Il 26 esce dal percorso del lancio con «solo contanti». Il 1123 va con la privacy della fase 2. Le falle riservate non partono da qui: il loro referto non è nel repository.
 
 **Colore.** 🔴 firmato da Nicola. L'unione delle richieste di unione del sito resta sua.
+
+## 2026-10-27 11:00 — 🔴 Fondamenta del sito, secondo giro: Nicola sceglie «ok come consigli»
+
+**Cosa.** Il primo giro delle fondamenta (run `wf_cf281011-0f8`, 24 agenti) si era fermato con `chiedi_a_nicola`. Gli interruttori reggevano; il rilascio era fermo dopo tre bocciature, con 12 gravi nello stesso file di prova; il pannello admin era fermo con un grave nato. Ho spiegato le tre scelte in chat. Nicola ha risposto «ok come consigli» il 27/10 verso le 10:55.
+
+**Le tre scelte.**
+1. **Rilascio: semplifica.** Tenuti la copia notturna del database (1225) e le prove dell'acquisto (25). Tolto il controllo automatico che legge l'SQL delle migrazioni. Il rilascio si rifà con la ricetta del 24/10: pubblicazione senza dominio, prova di fumo, poi promozione. Niente ritorno indietro automatico. La protezione del database è la regola umana già firmata alla scelta 5.
+2. **Pannello admin: un giro ancora, piccolo**, con regole scritte in cima alle schede: correzione e prove nello stesso commit, suite intera verde, rotta KYC senza rompere le prove vecchie.
+3. **Codici sconto: spenti nel database da Nicola** (carta #214, BENVENUTO10 e SPED5, mai usati). La cassa imparerà a leggere l'interruttore con la squadra della cassa. Intanto una squadra toglie dal file degli interruttori le due voci che nessuno legge.
+
+**Cosa ho fatto.** Creato il ramo d'integrazione del sito `fix/fondamenta-sito` (interruttori + 1225 + 25, commit `1256544f`). Lanciato il secondo giro (`wf_86eb0834-491`) su quella base: piano `consegne/audit/2026-10-27-fondamenta-sito-giro2.json`.
+
+**Colore.** 🔴 firmato da Nicola per le scelte; la scrittura sul database dei codici la fa lui. L'unione del sito resta sua.
+
+## 2026-10-27 15:20 — 🟡 Fase 2 del sito: le risposte di Nicola, il primo giro e il secondo
+
+**Cosa ha detto Nicola** (chat del 27/10, 12:48):
+- il Panificio Demo l'ha creato lui e si può cancellare (#201);
+- sì al tipo snello per le squadre (#212);
+- niente progetto Supabase per le anteprime, per ora;
+- ha la bici e consegna fino a 10 km: il confine scende da 25 a 10 km;
+- entra col primo cliente quando il marketplace «non ha più difetti e la radiografia non trova difetti»;
+- chiede come creare la casella info@mycity-marketplace.com, di risolvere il problema del cliente che vuole cancellare l'account, e se può non pubblicare indirizzo e nome.
+
+**Il primo giro della fase 2** (run `wlj8skuwu`, 20 agenti su 45): posta e prodotti reggono e sono uniti nel ramo d'integrazione (`bbce5f88`, verify verde: 650 file di prove, 5.784 prove). Fermi due pacchetti. Cancellazione dell'account: il modulo contatti diceva «ok» anche se la mail non partiva, e la notte restava verde con un avviso di legge non partito. Confine dei 10 km: la pagina Spedizioni prometteva ancora 15 km. Nel registro del sito 48 voci nuove: 47 dal collaudo (5 gravi, 42 minori; 35 nate dal lotto) e la scheda della scelta 8 (la cassa fa pagare la spedizione a chilometri, Nicola ha firmato solo i 3 euro).
+
+**Il guasto della prova del sito** (AR-1025): `vitest related` si fermava su ogni file che una pagina .tsx importa, perché il sito eredita `jsx: preserve`. Provato: con il JSX letto in automatico passano 171 file e 1.335 prove. La riparazione va nel sito, in `vitest.config.ts`.
+
+**Il secondo giro** (run `wf_dea01791-eed`, piano `consegne/audit/2026-10-27-fase2-sito-giro2.json`): prima una squadra e un collaudo sistemano `vitest.config.ts`; poi `ondata-sito` su due pacchetti. Cancellazione dell'account: si parte dal lavoro del primo giro e si chiudono i buchi del collaudo; la strada che deve funzionare subito è il link alla casella privacy, perché su Vercel mancano la chiave di servizio e la posta. Consegna al lancio: 10 km, pagina Spedizioni presa dalle costanti, solo i 3 euro di consegna (scelta 8). Restano fuori, aperti: la promessa dei 30-60 minuti (difetto 253, pacchetto suo) e il confine in linea d'aria contro la strada (lo decide Nicola).
+
+**Perché così.** La pagina Spedizioni si apre una volta sola, per confine, prezzo e frasi. Il prezzo dei 3 euro è una firma del 26/10, non una scelta dell'AD.
+
+**Colore.** 🟡 codice in un ramo con richiesta di unione (#262): l'unione è di Nicola. La cancellazione del Panificio Demo è 🔴: la fa lui, col comando della carta #201.
+
+## 2026-10-27 18:50 — 🟡 Fase 2 del sito: la consegna regge, la cancellazione dell'account va al terzo giro
+
+**Il secondo giro** (run `wf_dea01791-eed`, 31 agenti, 29 dentro `ondata-sito` su 45):
+- **Configurazione delle prove:** regge (`da364f96`). Il sito legge il JSX nelle prove; il collaudo lo ha rotto e rimesso e ha visto il rosso e il verde. È la radice di AR-1025, che si chiude quando la #262 è unita.
+- **Consegna:** regge, unita nel ramo d'integrazione (`f7bdc623`). Il cliente paga solo i 3 euro di consegna per negozio, la cassa rifiuta oltre 10 km, la pagina Spedizioni e la FAQ prendono cifre e chilometri dalle costanti. Chiusi 8 su 8: il confine (1495), i prezzi della pagina Spedizioni (250), la scelta 8, il negozio chiuso (263), le 48 ore (75), «Vicino a te» a 20 km e le prove del tratto 10-15 km.
+- **Cancellazione dell'account:** ferma dopo tre bocciature del collaudo. Il codice regge in gran parte: 12 mutazioni su 16 uccise. Restano 4 mutazioni verdi e 5 gravi sulle prove: posta a metà senza mittente, chi aspetta da oltre un mese, il tetto dei tentativi, la pagina che non legge «rinviata».
+
+**Il controllo del sito dopo l'unione:** `npm run verify` rosso una volta (5.781 su 5.782: la prima prova di «Chi siamo» oltre i 5 secondi, perché compila la pagina in un processo a parte), verde alla seconda (5.782 su 5.782). Non è un difetto del lotto: è nel registro come minore, con la causa.
+
+**Una scelta di soldi presa nel codice, da guardare quando si riaccendono i codici sconto:** una correzione dentro il giro fa togliere al codice «Spedizione gratuita» la consegna fino a quanto copre la commissione. A 20 euro di spesa il cliente paga 1 euro su 3, e la piattaforma non ci rimette. I codici sono spenti nel database dal 27/10 alle 12:01, quindi oggi non conta. Prima di riaccenderli la decide Nicola.
+
+**Il terzo giro** (run `wf_83d2e67e-905`, piano `consegne/audit/2026-10-27-fase2-sito-giro3.json`, base `f7bdc623`):
+- **Cancellazione dell'account,** dal ramo del secondo giro: le 4 mutazioni da far diventare rosse una per una, e la pagina provata montandola.
+- **Consegna da 3 euro detta bene ovunque:** la pagina dell'ordine che scriveva «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €», lo stesso nome della voce dappertutto, e le prove dei gravi rimasti (oltre i 6 km, nord-sud, rotta della carta).
+
+**Registro e cantiere:** 41 voci nuove nel registro del sito dal secondo giro (9 gravi, 32 minori), più il minore dei tempi di «Chi siamo»; 26 voci scartate perché doppioni, superate da una correzione dello stesso giro, o della macchina. Nel cantiere: AR-1025 con la causa verificata, AR-1026 nuovo (la prova del sito non vede le prove che leggono il codice come testo).
+
+**Colore.** 🟡 codice in un ramo con richiesta di unione (#262); l'unione è di Nicola.
+
+## 2026-10-27 20:50 — 🟡 Fase 2 del sito: il terzo giro si ferma sulle prove, il quarto parte solo sull'account
+
+**Il terzo giro** (run `wf_83d2e67e-905`, 14 agenti): tutti e due i pacchetti fermi dopo tre bocciature del collaudo. Il codice si comporta giusto; i collaudi trovano a ogni giro modi nuovi di romperlo che le prove non vedrebbero. Esempi: la distanza misurata solo nelle quattro direzioni dritte e non in diagonale; «in omaggio» al posto di «gratis»; la variabile RESEND_API_KEY tolta da un controllo.
+
+**Cosa ho misurato io**, su un ramo candidato locale con i due rami fermi uniti (`fix/candidata-fase2`, mai pubblicato):
+- `npm run verify` verde, 5.917 prove su 5.917;
+- prove nel browser come nella CI «senza chiavi»: 3 rosse, tutte della cancellazione dell'account. Senza la chiave di servizio, chi non ha fatto l'accesso riceve 503 invece di 401. È un difetto vero, scritto nel registro come grave. Sul ramo d'integrazione `a6a83e22` le prove nel browser sono 70 su 70.
+
+Un mio errore lungo la strada: un server del sito rimasto acceso da una prova precedente ha risposto al posto del ramo giusto per due corse. Quei risultati li ho buttati, e ho rifatto le prove con uno script che spegne tutto prima e dopo e scrive di chi è il server.
+
+**Le scelte:**
+- **Cancellazione dell'account: un quarto giro, solo lei** (run `wf_d46da8ea-d89`, piano `consegne/audit/2026-10-27-fase2-sito-giro4.json`). Lo faccio partire senza chiedere, perché Nicola ha chiesto di risolvere proprio questo, e perché c'è un difetto vero. Regola: prima chi sei, poi la chiave.
+- **Consegna: chiedo a Nicola** (carta #215). Consiglio di unirla così com'è, coi buchi delle prove aperti nel registro. Il ramo fermo non lo unisco senza la sua firma.
+
+**Registro:** 35 voci nuove dal terzo giro (11 gravi, 24 minori; 2 scartate perché doppioni interni), più il grave del 401. Su 786 voci aperte nel registro del sito, 143 sono gravi; di queste circa 31 sono buchi nelle prove e non errori del sito (conto fatto dai titoli).
+
+**Colore.** 🟡 codice nei rami del sito; l'unione della #262 resta di Nicola.
+
+## 2026-10-27 23:55 — 🟡 Fase 2 del sito: la cancellazione dell'account regge, il riesame trova due gravi veri, parte il quinto giro
+
+**Il quarto giro** (run `wf_d46da8ea-d89`, 7 agenti, piano `consegne/audit/2026-10-27-fase2-sito-giro4.json`): regge. Chiuse 40 schede su 43, di cui 15 gravi; la 48 resta a metà perché in produzione servono la casella privacy e la chiave del database su Vercel. Unito nel ramo d'integrazione alle 21:40 (`a4f4161c`): `npm run verify` 657 file e 5.874 prove verdi, CI 9 su 9, prove nel browser in locale 69 su 70 (la rossa è la prova capricciosa della cassa, nel registro).
+
+**Il riesame del perimetro** (run `wf_b9d92819-bde`, 20 agenti: 9 revisori e 11 verificatori, 33 file con la lente della loro dimensione): 92 trovati, 41 nati dal lotto e 51 che c'erano già. I revisori hanno segnalato 11 gravi nati; i verificatori, che dovevano provare a smontarli, ne hanno confermati 4. Sono due difetti soli:
+- la pagina dell'ordine scrive «Spedizione GRATUITA» sopra «Consegna MyCity 3,00 €» su ogni ordine a domicilio (voce 1584). La cura c'è già: è nel ramo fermo del terzo giro della consegna, quello della carta #215;
+- l'email «3 cose da sapere», che arriva a ogni nuovo cliente, promette «oppure la ritiri tu», ma il ritiro è spento (voce nuova 1658, nata col commit della posta `02484477`).
+Gli altri sette sono stati declassati a minori: frasi che promettono un po' più di quello che il codice fa, allarmi per l'amministratore, un messaggio che su telefono si stringe troppo.
+
+**La scelta: il quinto giro** (run `wf_1bc11a0a-959`, piano `consegne/audit/2026-10-27-fase2-sito-giro5.json`, ondata 7). Parte da una base locale, `fix/base-ondata-7` (`93be1d18`): il ramo d'integrazione più il ramo del terzo giro della consegna. Sulla base, `npm run verify` è verde: 662 file, 5.951 prove. Due pacchetti:
+- consegna: la squadra completa il ramo del terzo giro e chiude i due buchi delle prove della carta che l'avevano fermato (la distanza in diagonale, «in omaggio» accanto ai 3 euro);
+- posta: la frase sul ritiro nasce dall'interruttore, e una prova scorre tutte le email a ritiro spento.
+
+**Perché senza aspettare la carta #215.** Il riesame ha mostrato che senza quel ramo la #262 porterebbe un difetto grave su ogni ordine. Il giro in più è la strada «215 un altro giro», la più prudente, e non unisce niente che il collaudo non abbia retto. Se regge, la carta #215 si chiude da sola. Se si ferma ancora, la scelta torna a Nicola con le stesse due strade.
+
+**Registro:** il confronto dei 92 trovati con il registro, per non scrivere doppioni, è in corso (run `wf_0eb46399-c63`).
+
+**Colore.** 🟡 codice nei rami del sito, nessuna unione nella #262 senza collaudo che regge; l'unione della #262 resta di Nicola.
+
+## 2026-10-28 06:36 — 🟡 Fase 2 del sito: il quinto giro si ferma sulle prove, e la scelta torna a Nicola con due lavori pronti
+
+**Il quinto giro** (run `wf_1bc11a0a-959`, 14 agenti, ondata 7, base locale `fix/base-ondata-7`): tutti e due i pacchetti fermi dopo tre bocciature del collaudo.
+- Consegna (`e4fe3ff6`): la squadra dichiara chiuse le 21 schede, compresa la 1584 (la pagina dell'ordine «GRATUITA»). Le bocciature: la carta in diagonale, i contanti a 12 km o a ottagono, «in omaggio» sopra i 30 euro, la carta sopra i 30 euro, la pagina dell'ordine da 50 euro. Tutte prove migliorabili su codice che si comporta giusto.
+- Posta (`0908731d`): la promessa del ritiro è tolta dall'email «3 cose da sapere» (1658). Le bocciature: sinonimi della stessa promessa che la prova non vedrebbe.
+
+**Cosa ho provato io**, sulla copia `fix/candidata-fase2-giro5` (`6ae86ca5`: ramo d'integrazione, ramo del terzo giro della consegna e i due rami del quinto):
+- `npm run verify`: 664 file, 6.018 prove, tutto verde;
+- prove nel browser come nella CI: 70 passate, 6 saltate, nessuna rossa, col server della copia giusta;
+- le prove dei verificatori del riesame: la pagina dell'ordine è rossa su `a4f4161c` (2 casi su 2) e verde sulla copia; l'email del secondo giorno promette il ritiro su `a4f4161c`, col nome e senza, e sulla copia no;
+- riesame del perimetro dei 14 file nuovi (run `wf_f46054b4-45d`, 4 revisori): nessun grave nato, 4 minori nati, 30 trovati che c'erano già;
+- nel database, in sola lettura: Pane Quotidiano ha la posizione giusta, a 100 metri dal centro di Piacenza, quindi il confine dei 10 km funziona per lui. Il Panificio Demo è ancora lì: aspetta il comando della carta #201.
+
+**Le scelte:**
+- Carta #215 riscritta: unire così i due lavori (il mio consiglio) o fare un altro giro. Un ramo fermo non lo unisco senza la firma di Nicola.
+- Carta #216 nuova: la regola che fa finire i giri (difetto AR-1027 della macchina). È un'auto-modifica: 🟡, vale con la firma.
+
+**Un errore mio.** Nella notte il computer della sessione si è riavviato due volte. Dopo il primo riavvio ho ripreso i lavori dal diario, senza rifare i passi finiti. Dopo il secondo ho creduto di aver finito e mi sono fermato, a metà del controllo sul database. Mi ha svegliato il controllo programmato delle 05:24: il lavoro è rimasto fermo circa tre ore e mezza.
+
+**Registro:** 12 voci aperte dal quinto giro (5 gravi e 7 minori; dei gravi, 4 sono prove migliorabili e uno è un difetto vecchio della pagina del negozio). I trovati del riesame della copia entrano dopo il confronto col registro (run `wf_f44d7ca7-de2`).
+
+**Colore.** 🟡: codice nei rami, nessuna unione; l'unione della #262 resta di Nicola.
+
+## 2026-10-28 09:44 — 🟡 Le risposte di Nicola delle 08:30: consegna ed email unite, regola del collaudo nel metodo, confine a 5 km
+
+**Cosa ha scritto Nicola alle 08:30:** «1) ok 215 2) ok 216 3) mi ero sbagliato, la consegna va fatta in un area 5 km 4) di quale comando stai parlando per cancellare il panificio demo? 5) spiega il criterio del mio primo cliente ed il rilascio».
+
+**① «ok 215».** I due lavori del quinto giro, la consegna da 3 euro e l'email senza il ritiro, sono uniti nel ramo d'integrazione e caricati sulla #262 (testa `6ae86ca5`). Alle 08:39 i suoi 9 controlli erano verdi. La richiesta non porta migrazioni: si può unire.
+
+**② «ok 216».** La regola del collaudo (AR-1027) l'ho scritta nel metodo delle ondate, e prima di usarla l'ho fatta collaudare.
+- Primo collaudo (run `wf_a499c8b8-08c`, due lenti): bocciata da tutte e due. In due casi un errore vero del sito poteva passare per «prova migliorabile»: la variante non veniva provata sul codice di oggi, e una frase del ricollaudo arrivava anche dove non c'era un ricollaudo.
+- Correzione: una regola sola per ogni collaudo, e la causa di ogni bocciatura in un campo che il motore legge (`boccia_per`).
+- Primo ricollaudo (run `wf_040a3d61-2de`): la lente della coerenza regge, quella delle scappatoie no. La causa che fa passare, «variante», il motore la prendeva da chiunque, anche dalla lente che non muta.
+- Seconda correzione: «variante» vale solo da chi muta e con un comando da lanciare; tre schemi, uno per ruolo; il verificatore prova il codice di oggi prima di dire «solo una prova», e sa dire «c'era già». Prove del metodo 51 su 51 verdi; venti rotture fatte apposta, tutte rosse. Lezione `L-2026-1028-01` con due mutazioni in `cervello/mutanti.json`.
+- Secondo ricollaudo, solo con la lente che ha bocciato: run `wf_258deb23-0a8`, in corso.
+- Registro del sito: 1696, 1705, 1706 e 1707 passano da grave a minore, controllate sul codice di `6ae86ca5`. La 1698 resta grave: lì il sito sbaglia davvero.
+
+**③ 5 km.** Registrati in `registro-fatti.json` (`consegna.raggio`, `logistica.bici-consegna`) e riscritti in `intenzioni-nicola.json`. Sul sito li porta un sesto giro, che parte appena il secondo ricollaudo regge. Il sito misura in linea d'aria: 5 km in linea d'aria sono circa 6-7 km di strada (stima), e l'ho detto a Nicola.
+
+**④ e ⑤.** Risposta mandata a Nicola alle 09:03: il comando del Panificio Demo con i passi (ricontrollato alle 08:50: 4 prodotti, nessun ordine), e la spiegazione del criterio A/B/C e del rilascio A/B, coi numeri del registro (9 bloccanti, 157 gravi, 718 minori aperti; la #262 ne chiude 34 gravi). Consiglio: criterio A, rilascio A, ma con il rilascio sistemato prima del primo cliente, perché due dei 9 bloccanti sono proprio il rilascio.
+
+**Colore.** 🟡: auto-modifica della macchina firmata da Nicola con «ok 216»; codice del sito solo nei rami; l'unione della #262 resta sua.
+
+**Aggiunta delle 11:04.** Il secondo ricollaudo (run `wf_258deb23-0a8`) ha retto, con sette minori; le sue cure, provate dal collaudatore su una copia, sono nel metodo. Il collaudo di quelle cure (run `wf_b8888e09-e59`) ha retto: su 1.080 forme di verdetto il motore nuovo non fa passare niente che il vecchio fermava. Dei suoi minori ho preso quattro pezzi piccoli; il resto è AR-1028. Prove del metodo 62 su 62. Il sesto giro (run `wf_b040c1ca-1b7`, 6 agenti) ha retto al primo collaudo: AR-1027 è chiuso. Il giro ha mostrato un buco nuovo: una prova del sito rotta dal lavoro non boccia (AR-1029, proposta che cambia la regola firmata: serve la firma di Nicola). La prova rotta l'ha sistemata una correzione (`e36741a7`), insieme alle frasi «Piacenza e dintorni» e «Piacenza e provincia», che col confine a 5 km promettevano posti che la cassa rifiuta.

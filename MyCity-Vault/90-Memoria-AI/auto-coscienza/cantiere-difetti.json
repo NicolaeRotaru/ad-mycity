@@ -22283,6 +22283,119 @@
       "nato_da": "riesame del perimetro del lotto del consumo di token (lenti cadenza-esecuzione e rischio-sicurezza-se)",
       "origine": "radiografia-in-corsa",
       "fonte": "lotto 25/10/2026 — il consumo di token, riesame del perimetro"
+    },
+    {
+      "id": "AR-1025",
+      "titolo": "La prova ufficiale delle squadre del sito è rossa su qualunque file: «vitest related» non riesce a leggere i componenti .tsx",
+      "dimensione": "calibrazione-onesta",
+      "dove": "cervello/prova-sito.mjs, passo ③ (vitest related --run --reporter=dot --passWithNoTests <file>)",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "sintomo": "Riprodotto il 27/10 alle 13:30 sul ramo del sito fix/fondamenta-sito (a1b04140): node cervello/prova-sito.mjs --repo <worktree> --file lib/funzioni-al-lancio.ts,tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts esce 1 con «Failed to parse source for import analysis because the content contains invalid JS syntax». Le stesse prove lanciate con vitest run passano: la suite intera è 644 file su 644 verdi. Nelle due ondate delle fondamenta (26-27/10) lo hanno segnalato 23 collaudatori e revisori, uno per pacchetto: la prova ufficiale non distingue un pacchetto sano da uno rotto, e le squadre hanno dovuto lanciare vitest a mano.",
+      "causa_radice": "Verificata il 27/10 alle 14:10: «vitest related» fa l’analisi degli import su tutto il grafo, e il sito eredita da tsconfig.json \"jsx\": \"preserve\" (serve a Next.js). Il primo .tsx che incontra (components/ConfirmDialog.tsx) non si legge. Con la trasformazione JSX in automatico nella configurazione di vitest, vitest related lib/constants.ts passa: 171 file e 1.335 prove. Il difetto vive nel sito, non in prova-sito.mjs.",
+      "fix_proposto": "Fatto nel sito, non nella macchina: vitest.config.ts con oxc jsx runtime automatic (commit da364f96 del ramo fix/ondata-4-vitest-jsx, collaudato: torna rosso riportando la configurazione di prima), unito nella richiesta di unione #262. Si chiude quando #262 è unita: a quel punto la verifica umana qui sotto esce 0.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-27 13:30",
+      "nato_come": "scoperta",
+      "nato_da": "collaudi e riesami delle due ondate delle fondamenta del sito (wf_cf281011-0f8, wf_86eb0834-491) e riesame del perimetro (wf_3a9faf5e-f6d)",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lotto del sito #262 (fondamenta), 26-27/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Su una copia del sito con le dipendenze installate: node cervello/prova-sito.mjs --repo <copia> --file lib/funzioni-al-lancio.ts,tests/unit/ogni-interruttore-del-lancio-lo-legge-qualcuno.test.ts deve uscire 0 con le prove viste passare. Oggi esce 1 su vitest. Non è un comando del cantiere perché la prova ha bisogno di una copia del sito con node_modules, che la CI della macchina non ha."
+      }
+    },
+    {
+      "id": "AR-1026",
+      "titolo": "La prova ufficiale delle squadre del sito può dire «tutto verde» mentre la suite intera è rossa: «vitest related» non vede le prove che leggono il codice come testo",
+      "dimensione": "calibrazione-onesta",
+      "dove": "cervello/prova-sito.mjs, passo ③ (vitest related sui soli file dati, riga 83)",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "sintomo": "Trovato dal collaudo B della consegna nel secondo giro della fase 2 (run wf_dea01791-eed, 27/10): prova-sito sui 23 file del pacchetto esce verde (160 file, 1.240 prove), mentre npx vitest run sulle prove che citano i simboli toccati, fuori dal delta, dà 2 fallite in tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts. Molte prove del sito leggono il sorgente con readFileSync: vitest related non le collega ai file che leggono, perché non c’è un import. Secondo sintomo, 28/10 notte (quinto giro della fase 2, wf_1bc11a0a-959): un collaudo ha visto che prova-sito su components/checkout/OrderSummary.tsx fa girare 2 file di prova su 24, perché le prove che montano le pagine con monta() le compilano in un processo a parte e per vitest related non risultano collegate. Stessa classe: il grafo degli import non vede le prove che leggono o compilano il codice per conto loro.",
+      "causa_radice": "vitest related costruisce il grafo dagli import. Una prova che fa readFileSync(\"app/cart/page.tsx\") non importa quel file, quindi per vitest non dipende da lui: cambiando la pagina, quella prova non gira e il verde di prova-sito non la conta.",
+      "fix_proposto": "In prova-sito, oltre a vitest related, far girare anche le prove di tests/ che nominano per percorso uno dei file dati (grep del percorso relativo nei file di prova). Una prova del cervello che diventa rossa se un file di prova che legge il sorgente di un file dato non entra nella lista.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-27 18:41",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo B del pacchetto della consegna, secondo giro della fase 2 del sito (wf_dea01791-eed)",
+      "origine": "radiografia-in-corsa",
+      "fonte": "lotto del sito #262 (fase 2), 27/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Su una copia del sito con le dipendenze: cambiare app/cart/page.tsx in un modo che rompe tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts, poi node cervello/prova-sito.mjs --repo <copia> --file app/cart/page.tsx deve uscire rosso. Oggi esce verde. Non è un comando del cantiere perché serve una copia del sito con node_modules, che la CI della macchina non ha."
+      }
+    },
+    {
+      "id": "AR-1027",
+      "titolo": "Il collaudo delle ondate del sito dà «grave» a ogni buco nelle prove, anche quando il sito si comporta giusto: i giri si fermano senza un difetto vero",
+      "dimensione": "calibrazione-onesta",
+      "dove": ".claude/workflows/ondata-sito.js: prompt del collaudo (regola «grave o bloccante solo se sai scrivere il comando che diventa rosso») e prompt del riesame (stessa regola)",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "sintomo": "Fase 2 del lotto del sito #262, 27/10. Terzo giro (wf_83d2e67e-905): tutti e due i pacchetti fermi dopo tre bocciature, tutte buchi nelle prove su codice che si comporta giusto (la distanza in diagonale sulla rotta della carta, «in omaggio» accanto ai 3 euro). Quinto giro (wf_1bc11a0a-959): la squadra della posta toglie dall’email «3 cose da sapere» la promessa del ritiro; il collaudo A la boccia due volte con sinonimi che la prova a parole non vede («passi a prenderla in negozio», «Passa tu dal negozio a prenderla»), mentre il collaudo B dice che regge. Nel registro del sito, su 143 gravi aperti, circa 31 sono buchi nelle prove (conto dai titoli, 27/10 20:50). Nel riesame della fase 2, scritto con la regola «un buco nelle prove su un codice giusto è minore», i verificatori hanno declassato 7 gravi su 11.",
+      "causa_radice": "Il prompt del collaudo misura la gravità con una sola domanda: «sai scrivere un comando che diventa rosso?». Per un buco nelle prove il comando c’è sempre: la mutazione più la prova del collaudatore. Così ogni buco diventa grave e boccia il pacchetto. Sono due domande diverse: quanto è grave quello che succede a chi usa il sito, e quanto è forte la prova. La regola le confonde. Il riesame scritto a mano dall’AD il 27/10 le separava, e ha concluso in un giro.",
+      "fix_proposto": "Nel prompt del collaudo e del riesame di ondata-sito.js: «Un buco nelle prove su un codice che si comporta giusto è minore: va nel registro e non boccia il pacchetto. Si boccia solo se il sito si comporta male, oppure se la mutazione che rimette il difetto dichiarato chiuso resta verde.» Più un caso nel motore finto di cervello/test/ondata-sito.test.mjs: un collaudo che porta solo buchi delle prove, su codice giusto e con i difetti dichiarati provati, non ferma il pacchetto. È un’auto-modifica della macchina: 🟡, vale con la firma di Nicola.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-10-28 00:37",
+      "nato_come": "scoperta",
+      "nato_da": "terzo e quinto giro della fase 2 del sito (wf_83d2e67e-905, wf_1bc11a0a-959)",
+      "origine": "lotto-del-sito",
+      "fonte": "lotto del sito #262 (fase 2), 27/10/2026",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/ondata-sito.test.mjs",
+        "nota": "62 prove. La causa di ogni bocciatura sta in boccia_per e la legge il motore: «variante» non boccia, ma vale solo da una lente che muta e col comando nel perche'; tre schemi, uno per ruolo; il verificatore prova il codice di oggi prima di dire solo_prova, e sa dire preesistente. Collaudata quattro volte prima dell'uso: wf_a499c8b8-08c (bocciata da tutte e due le lenti), wf_040a3d61-2de (coerenza regge, scappatoie no), wf_258deb23-0a8 (regge, sette minori, curati), wf_b8888e09-e59 (regge, quattro minori: due curati, gli altri in AR-1028). Mutazioni: 34 rotture del motore, tutte rosse; due in cervello/mutanti.json con la lezione L-2026-1028-01. Al giro vero: 6 agenti invece dei 14-16 dei giri fermi, 0 rifacimenti. Quello che il giro vero ha mostrato di nuovo sta in AR-1029 (una prova che il lavoro rompe non boccia)."
+      },
+      "chiuso_il": "2026-10-28 10:43",
+      "chiuso_da": "regola firmata da Nicola con «ok 216» il 28/10 alle 08:30, nel metodo delle ondate (.claude/workflows/ondata-sito.js, regola ⑥), e vista al primo giro vero: il sesto giro del sito (run wf_b040c1ca-1b7) regge al primo collaudo, con 16 minori nel registro e nessuna bocciatura su una prova migliorabile"
+    },
+    {
+      "id": "AR-1028",
+      "titolo": "Il collaudo delle ondate ha ancora quattro casi rari in cui un pacchetto sano si ferma, o un difetto vecchio si legge come nuovo",
+      "dimensione": "calibrazione-onesta",
+      "dove": ".claude/workflows/ondata-sito.js: riesame (un revisore che dice regge:true con «sito» su un grave che c'era gia'), verificatore («rossa anche sulla base» quando sulla base la prova sbaglia in un altro modo), posto dei ricollaudi con due pacchetti bocciati insieme, correzione 2 con una variante scritta male",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "sintomo": "Collaudo delle ultime cure della regola 216 (run wf_b8888e09-e59, 28/10): regge, 0 forme di verdetto su 1.080 in cui il motore nuovo fa passare cio' che il vecchio fermava. Restano quattro casi rari: 24 forme del riesame fermano il pacchetto dei soldi con un motivo sbagliato quando il grave c'era gia' (Q3b); il verificatore puo' chiamare «c'era gia'» un doppio rimborso nato, se sulla base la prova sbaglia per un altro motivo; con due pacchetti bocciati insieme il posto del ricollaudo non e' tenuto e si paga un rifacimento per niente (200 su 4.800 giri a caso); in correzione 2 una variante senza comando ferma un pacchetto sano.",
+      "causa_radice": "Le uscite che fanno passare o fermare si fidano di una dichiarazione del lavoratore che il motore non vede, e il posto del ricollaudo si controlla prima del rifacimento ma non si tiene.",
+      "fix_proposto": "La cura del collaudatore, provata su una copia (59 prove su 59): il dubbio del riesame va al verificatore (K3), i posti dei ricollaudi tenuti fino al ricollaudo (K7, senza il throw: un pacchetto si ferma, l'ondata no). Per il verificatore: righe d'errore della prova sulla base, non solo l'uscita. Idea in piu': la tabella delle 1.080 uscite come prova fissa nella repo. Auto-modifica: 🟡, nella famiglia della carta 216.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-28 10:42",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo delle cure del secondo ricollaudo della regola 216 (wf_b8888e09-e59)",
+      "origine": "lotto-della-macchina",
+      "fonte": "collaudo della regola 216, 28/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Ai prossimi giri si contano i pacchetti fermati con «riesame non concluso» o «tetto vicino» mentre il sito si comportava giusto, e i gravi registrati come «c'era gia'». Si chiude con la cura K3+K7 e una prova del motore finto per ognuno dei quattro casi."
+      }
+    },
+    {
+      "id": "AR-1029",
+      "titolo": "Il collaudo delle ondate non boccia una prova del sito che il lavoro fa diventare rossa: la suite resta rossa fino al controllo dell'AD",
+      "dimensione": "calibrazione-onesta",
+      "dove": ".claude/workflows/ondata-sito.js: comeDecidi (boccia per «sito» solo se il comando mostra il sito che sbaglia) e SOBRIO («mai la suite intera» alla squadra)",
+      "gravita": "minore",
+      "impatto_crescita": "medio",
+      "sintomo": "Sesto giro del sito, confine a 5 km (run wf_b040c1ca-1b7, 28/10): il pacchetto regge al primo collaudo, ma la prova tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx diventa rossa (la soglia di 10.000 casi era tarata sui 10 km). Collaudo A, collaudo B e due revisori la vedono, col comando rosso, e la scrivono minore, come vuole la regola: il sito fa giusto. La suite del ramo (6.021 prove) ha 1 rossa: senza il controllo dell'AD dopo la ricucitura, la richiesta di unione avrebbe la CI rossa.",
+      "causa_radice": "La regola 216 separa il sito che sbaglia dalla prova migliorabile, ma una prova che il delta rompe non e' una prova migliorabile: e' la suite rotta. La squadra non lancia la suite intera (SOBRIO), e nessun collaudo ha una causa per dirlo.",
+      "fix_proposto": "Una causa in piu' che boccia: la suite che il delta fa diventare rossa (una prova che c'era, verde sulla base e rossa sul ramo, anche se il sito fa giusto). Va al rifacimento della stessa squadra, che ha il contesto. In alternativa la squadra lancia la suite intera prima di consegnare. Cambia la regola firmata con «ok 216»: serve la firma di Nicola.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-10-28 10:42",
+      "nato_come": "scoperta",
+      "nato_da": "sesto giro del sito (wf_b040c1ca-1b7)",
+      "origine": "lotto-del-sito",
+      "fonte": "lotto del sito #262, sesto giro, 28/10/2026",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova del motore finto: un collaudo che riporta una prova rossa sul ramo e verde sulla base fa partire il rifacimento, anche con il sito che fa giusto. Fino alla firma, la rete resta npm run verify dell'AD dopo la ricucitura."
+      }
     }
   ],
   "meta": {

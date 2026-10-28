@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-10-26 09:05
+aggiornato: 2026-10-27 12:02
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-10-27 12:02 · 110 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -3177,3 +3184,25 @@ Misurato oggi: 19 pagine, 5.520 righe, 30 componenti, 14 voci di menù. WhatsApp
 (link dall'Aiuto del venditore verso di noi, numero del negozio verso i suoi clienti, canale di
 condivisione) e in nessuna delle tre MyCity scrive al negoziante di sua iniziativa. Oggi gli parla
 per email, con un modello solo: «è arrivato un ordine».
+
+---
+
+### ✅ #214 — Spegni nel database i due codici sconto, prima del giorno della chiave · ⏳ accodata 2026-10-27 11:00 · ✅ fatta 2026-10-27 12:01
+
+> ✅ **2026-10-27 12:02 — Fatta da Nicola alle 12:01.** Controllato in sola lettura: BENVENUTO10 e SPED5 sono spenti, mai usati. L'editor di Supabase ha risposto «Success. No rows returned»: per un comando che modifica risponde sempre così. La carta diceva «2 righe cambiate», ed era sbagliato. Nei comandi per Nicola aggiungo d'ora in poi la parte che mostra le righe cambiate.
+
+**In parole semplici.** Con la scelta 7 hai deciso niente codici sconto al lancio. La cassa però non legge ancora l'interruttore, e nel database ci sono due codici attivi: BENVENUTO10, il 10% sul primo ordine, e SPED5, 5 € sopra i 25 €. Lo sconto lo paga il negozio: su 30 € con SPED5, il fornaio riceve 22,50 € invece di 27 €.
+
+**Cosa cambia:** dal giorno della chiave nessun cliente può usare quei due codici. Non si cancella niente: si riaccendono con lo stesso comando al contrario. Finora non li ha mai usati nessuno, letto il 26/10.
+
+**Cosa devi fare tu.** In Supabase apri il progetto del sito, poi «SQL Editor». Incolla questa riga e premi «Run»:
+
+```sql
+update public.coupons set active = false where code in ('BENVENUTO10','SPED5');
+```
+
+Deve rispondere che ha cambiato 2 righe. Poi scrivimi «fatto 214».
+
+**Se va bene:** lo controllo in sola lettura. La cassa imparerà a leggere l'interruttore con la squadra della cassa, in un'ondata dopo.
+
+Per riaccenderli: lo stesso comando con `true` al posto di `false`.

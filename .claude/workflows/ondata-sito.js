@@ -6,7 +6,7 @@
 // cui 513 di verificatori, il 67%. (Sono lanci, non senior: i senior restano quelli di .claude/agents.) Il protocollo non convergeva perche' ogni minore nato tornava a una squadra,
 // ogni squadra tornava al collaudo con tutte e due le lenti, e ogni giro apriva un riesame nuovo.
 //
-// IL PROTOCOLLO CHE CONVERGE (le cinque regole, ognuna contro un pezzo di quel conto):
+// IL PROTOCOLLO CHE CONVERGE (le sei regole, ognuna contro un pezzo di quel conto):
 //   ① i minori nati e i difetti che c'erano gia' NON tornano alle squadre: vanno nel registro che il
 //      workflow restituisce, e l'AD li scrive nel registro del sito (diventano schede delle ondate dopo);
 //   ② due lenti di collaudo solo dove il pacchetto tocca soldi, dati o permessi; altrove una sola, che
@@ -16,6 +16,24 @@
 //   ④ la verifica a due voci — un verificatore che prova a smontare — solo sui gravi e bloccanti nati;
 //   ⑤ si correggono solo i gravi nati, al massimo due giri; poi il workflow si ferma e restituisce
 //      chiedi_a_nicola:true col motivo. La risposta di Nicola del 17/10 all'ondata 1 e' stata «Semplifica».
+//   ⑥ (AR-1027, firmata da Nicola il 28/10 con «ok 216») si boccia per il SITO, non per la prova. Il
+//      terzo e il quinto giro della fase 2 si erano fermati 12 volte su 12 su mutazioni inventate dal
+//      collaudo che restavano verdi, mentre il sito si comportava giusto. La regola e' UNA, uguale al primo
+//      collaudo, al ricollaudo e al collaudo di una correzione, e il motore la legge da un campo
+//      (boccia_per), non dal tono del prompt:
+//        «sito»            un comando rosso sul codice di oggi del ramo, non mutato, mostra il sito sbagliato;
+//        «difetto_rimesso» un difetto chiuso, rimesso COM'E' SCRITTO nella scheda, lascia verdi le prove;
+//        «motivo_aperto»   un motivo della bocciatura di prima non e' chiuso;
+//        «variante»        il sito fa giusto, ma una variante scomoda resta verde con le prove della
+//                          squadra: NON boccia, e il motore la mette nel registro come minore. La prende
+//                          solo da una lente che muta, col comando che la prova scritto nel perche'.
+//      Ogni altro regge:false boccia, anche senza causa: nel dubbio si sta dalla parte del sito. «Il sito
+//      fa giusto» va provato, non supposto: la variante si lancia prima sul codice di oggi, e se li' e'
+//      rossa e' «sito». Il collaudo del 28/10 (run wf_a499c8b8-08c) ha trovato la strada che quel passo
+//      chiude: una mutazione che non cambia niente, perche' il codice sbaglia gia', faceva passare un
+//      difetto vero per «prova migliorabile». Lo stesso nel riesame: chi solo legge, nel dubbio, segna
+//      grave e lascia decidere il verificatore, che lancia la prova; un buco nelle prove smontato da lui
+//      entra nel registro come minore, invece di sparire fra gli smontati.
 // Freni: un contatore di agenti con tetto (args.max_agenti, 45 di default) e, quando il motore da' un
 // budget, budget.remaining() con una riserva. Una parte del tetto — e, sul budget, quanto costano quei
 // revisori — e' TOLTA alle squadre e ai collaudi finche' il riesame non parte: e' la rete di sicurezza
@@ -240,7 +258,7 @@ const aRischio = (p, f) => p.rischio !== "nessuno" || fuoriTerritorio(p, f).leng
 function unisci(f, g) {
   const riaperti = new Set((g.parziali || []).map((x) => x.chiave))
   const chiusi = unione(f.chiusi, g.chiusi).filter((k) => !riaperti.has(k))
-  return { ...f, ...g, chiusi, file_toccati: unione(f.file_toccati, g.file_toccati), parziali: (g.parziali || f.parziali || []).filter((x) => !chiusi.includes(x.chiave)) }
+  return { ...f, ...g, nota: g.nota, chiusi, file_toccati: unione(f.file_toccati, g.file_toccati), parziali: (g.parziali || f.parziali || []).filter((x) => !chiusi.includes(x.chiave)) }
 }
 
 // Il registro: minori nati e difetti che c'erano gia'. Non si riparano in questa ondata, ma restano visibili.
@@ -252,6 +270,31 @@ function smista(difetti, pacchetto, fonte) {
     else registro.push({ ...d, pacchetto, fonte })
   }
   return daCorreggere
+}
+
+// AR-1027: la causa decide, non il regge da solo. Una «variante» su un sito che fa giusto non boccia:
+// diventa un minore nel registro, col comando che la uccide (verde sul codice di oggi, rosso sul mutante).
+// Il motore la prende solo da chi la puo' provare: da una lente che MUTA, e con un comando da lanciare.
+// Dalla lente B, o senza comando, e' un regge:false come gli altri, e boccia. Il ricollaudo del 28/10
+// (run wf_040a3d61-2de) l'ha mostrato: la lente B che legge un doppio rimborso, e non puo' scriverne la
+// prova, trovava «variante» nell'elenco e il pacchetto dei soldi usciva «regge». E una causa che boccia
+// boccia anche con regge:true: un verdetto che si contraddice e' il dubbio, e nel dubbio si sta dalla
+// parte del sito.
+const COMANDO = /\b(npx|npm|node|vitest|prova-sito)\b/
+const CAUSE_CHE_BOCCIANO = ["sito", "difetto_rimesso", "motivo_aperto"]
+const conComando = (v) => COMANDO.test(String(v.perche || "")) // nel perche', come dice il prompt: un minore qualsiasi col suo comando non prova la variante
+const variante = (v, L) => !!v && !!L && !!L.muta && v.boccia_per === "variante" && conComando(v) // va nel registro, anche con regge:true
+const soloVariante = (v, L) => variante(v, L) && v.regge === false // il regge:false che non boccia
+const boccia = (v, L) => !!v && ((v.regge === false && !soloVariante(v, L)) || CAUSE_CHE_BOCCIANO.includes(v.boccia_per))
+function registraVariante(v, pacchetto, dove, fonte) {
+  const perche = String(v.perche || "")
+  if (!COMANDO.test(perche)) return // il comando sta in un minore fra i difetti: smista l'ha gia' messo nel registro
+  // Gia' scritta dalla lente: un minore che porta lo STESSO comando. Un minore qualsiasi non basta.
+  const nucleo = (x) => String(x).replace(/\s*[:(—–-]*\s*\(?verde (sul codice di )?oggi\b.*$/i, "").trim() // il comando senza la nota che il prompt chiede
+  if ((v.difetti || []).some((d) => !pesante(d) && d.prova && (perche.includes(String(d.prova)) || String(d.prova).includes(perche) || nucleo(d.prova) === nucleo(perche)))) return
+  // Il titolo porta il file di prova del comando (o la fonte, se non c'e'); il doppione lo decide chiaveR, sul comando intero.
+  const fileProva = (perche.match(/tests\/[\w./-]+\.test\.[cm]?[jt]sx?/) || [])[0]
+  registro.push({ titolo: "Buco nelle prove, " + (fileProva || fonte) + ": " + perche.slice(0, 110), gravita: "minore", dove, prova: perche, nato_dal_lotto: true, pacchetto, fonte: fonte + " (variante: non boccia, AR-1027)" })
 }
 
 const SOBRIO = (strumenti) => "SOBRIETA' (vincolante): rispondi SOLO con lo schema, niente prosa fuori. Al massimo " + strumenti + " chiamate di strumento. Ogni Bash con \"timeout 120\", tranne la prova del sito: \"" + LANCIA_PROVA + " ...\", e " + TEMPO_PROVA + ". Leggi solo i file che ti servono e a pezzi (grep -n, poi sed -n), mai un file intero sopra 30 KB. Mai npm install, mai npm ci, mai la suite intera, mai git push."
@@ -266,9 +309,17 @@ const S_FRAMMENTO = { type: "object", required: ["ramo", "worktree", "commit", "
 const DIFETTO = { type: "object", required: ["titolo", "gravita", "dove", "nato_dal_lotto"], properties: {
   titolo: { type: "string", maxLength: 140 }, gravita: { type: "string", enum: ["bloccante", "grave", "minore"] },
   dove: { type: "string", maxLength: 200 }, prova: { type: "string", maxLength: 300 }, nato_dal_lotto: { type: "boolean" } } }
-const S_VERDETTO = { type: "object", required: ["regge", "difetti"], properties: {
-  regge: { type: "boolean" }, perche: { type: "string", maxLength: 300 }, difetti: { type: "array", maxItems: 8, items: DIFETTO } } }
-const S_REALE = { type: "object", required: ["reale"], properties: { reale: { type: "boolean" }, perche: { type: "string", maxLength: 200 } } }
+// boccia_per (AR-1027): la causa di un regge:false, che il motore legge. Ogni ruolo ha solo le cause che
+// puo' provare: «variante» e' di chi muta; la lente B non muta; il riesame dice solo se c'e' un grave nato.
+const CAUSE = ["nessuno", "sito", "difetto_rimesso", "motivo_aperto", "variante"]
+const verdetto = (cause) => ({ type: "object", required: ["regge", "boccia_per", "difetti"], properties: {
+  regge: { type: "boolean" }, boccia_per: { type: "string", enum: cause }, perche: { type: "string", maxLength: 300 },
+  difetti: { type: "array", maxItems: 8, items: DIFETTO } } })
+const S_VERDETTO = verdetto(CAUSE) // la lente A e la lente unica, che mutano
+const S_VERDETTO_LEGGE = verdetto(["nessuno", "sito", "motivo_aperto"]) // la lente B: «variante» e «difetto_rimesso» si provano solo mutando
+const S_VERDETTO_RIESAME = verdetto(["nessuno", "sito"])
+// solo_prova: il sito fa giusto e manca solo una prova. preesistente: rosso anche sulla base, c'era gia'.
+const S_REALE = { type: "object", required: ["reale"], properties: { reale: { type: "boolean" }, solo_prova: { type: "boolean" }, preesistente: { type: "boolean" }, perche: { type: "string", maxLength: 200 } } }
 
 // ── la squadra ─────────────────────────────────────────────────────────────────────────────────
 function squadra(p, compito, opz) {
@@ -291,7 +342,7 @@ function squadra(p, compito, opz) {
 }
 
 // ── il collaudo: le lenti dosate sul rischio ───────────────────────────────────────────────────
-const LENTE_A = "Lente A, sa diventare rosso? Per ogni difetto dichiarato chiuso ricrea il difetto nella variante scomoda (una mutazione scelta da te, non quella ovvia) e verifica che la prova della squadra diventi ROSSA; poi rimetti a posto."
+const LENTE_A = "Lente A, sa diventare rosso? Per ogni difetto dichiarato chiuso: prima rimettilo COM'E' SCRITTO nella scheda (la mutazione ovvia) e verifica che la prova della squadra diventi ROSSA; poi cerca la variante scomoda, una forma diversa dello stesso difetto scelta da te, e trattala come dice COME DECIDI. Alla fine rimetti tutto a posto."
 const LENTE_B = "Lente B, nasce rotto? Leggi il delta, cerca gli altri chiamanti dei simboli cambiati (grep nel worktree), immagina la produzione senza le migrazioni nuove applicate, e lancia la prova del sito sui file toccati."
 // `muta`: la lente ricrea il difetto in un worktree suo, quindi scrive (git e file) e la fa chi costruisce.
 // La B da sola legge e lancia prove: la fa chi controlla, e il suo prompt non nomina mutazioni ne' worktree.
@@ -301,21 +352,56 @@ const lentiPer = (p, f) => (aRischio(p, f)
 
 // `verifica`: quello che il ricollaudo deve ricontrollare. Il ricollaudo e' un lavoratore nuovo, e la
 // lente A guarda solo i «chiusi dichiarati»: se il prompt non nomina i motivi della bocciatura e i gravi
-// nati che la squadra dice di aver chiuso, regge senza averli cercati.
-function daRiverificare(v) {
+// nati che la squadra dice di aver chiuso, regge senza averli cercati. Qui non c'e' una regola diversa
+// dal primo collaudo (AR-1027): le varianti nuove le decide COME DECIDI, uguale per tutti. Una frase
+// «questo e' un ricollaudo» arrivava anche al primo collaudo di una correzione e alla lente B, che non
+// muta, e le diceva di chiamare minore un grave vero (collaudo del 28/10).
+// La lente B non muta: le si chiede solo quello che puo' fare, rilanciare un comando sul codice di oggi.
+// Rimettere il grave e guardare la prova diventare rossa lo fa chi muta (il ciclo dei pacchetti
+// aggiunge la lente A al ricollaudo quando un grave l'ha trovato la sola B).
+function daRiverificare(v, muta) {
   if (!v) return ""
   let t = ""
-  if (v.motivi && v.motivi.length) t += "La volta prima il collaudo ha bocciato per: " + v.motivi.join(" · ") + ". Controlla per prima cosa che non sia piu' vero.\n"
-  if (v.gravi && v.gravi.length) t += "Gravi nati che la squadra dichiara chiusi: rilancia la prova di ognuno. Se e' ancora rossa, rimettilo in difetti con lo stesso titolo e lo stesso dove, nato_dal_lotto:true, e regge:false.\n" +
+  if (v.motivi && v.motivi.length) t += "La volta prima il collaudo ha bocciato per (fra parentesi quadre la causa): " + v.motivi.join(" · ") + ". Ogni motivo deve essere chiuso: un comando che mostrava il sito sbagliato ora passa" + (muta ? "; una mutazione che lasciava verdi le prove della squadra ora ne fa diventare rossa una" : "") + ". Se uno non e' chiuso, regge:false con boccia_per «motivo_aperto» e quel motivo in perche.\n"
+  if (v.gravi && v.gravi.length) t += (muta
+    ? "Gravi nati che la squadra dichiara chiusi. Per ognuno: rimettilo com'e' descritto e verifica che una prova della squadra diventi ROSSA; poi rilancia il suo comando sul codice di oggi, dove deve passare. Se col grave rimesso le prove restano verdi, regge:false con boccia_per «difetto_rimesso»; se sul codice di oggi il suo comando fallisce ancora, regge:false con boccia_per «motivo_aperto». In tutti e due i casi rimettilo in difetti con lo stesso titolo e lo stesso dove, nato_dal_lotto:true.\n"
+    : "Gravi nati che la squadra dichiara chiusi: rilancia il comando di ognuno sul codice di oggi, dove deve passare. Se fallisce ancora, rimettilo in difetti con lo stesso titolo e lo stesso dove, nato_dal_lotto:true, regge:false e boccia_per «motivo_aperto».\n") +
+    "Se il comando di un grave nomina una prova ancora da scrivere, vale quella che la squadra ha scritto per lui: la trovi nel diff, in tests/unit/, o nella nota della squadra.\n" +
     JSON.stringify(v.gravi.map((d) => ({ titolo: d.titolo, gravita: d.gravita, dove: d.dove, prova: d.prova }))) + "\n"
   return t
+}
+
+// COME DECIDI (AR-1027): la regola del collaudo, una sola. La stessa frase va al primo collaudo, al
+// ricollaudo e al collaudo di una correzione; cambia solo fra chi muta e chi legge e basta. La lente B
+// non puo' fare una mutazione, quindi non ha l'uscita «variante»: un buco nelle prove che vede leggendo,
+// su un codice che fa giusto, lo mette fra i minori; nel dubbio sul codice di oggi, boccia per il sito.
+function comeDecidi(muta) {
+  return "COME DECIDI (una regola sola, uguale in ogni collaudo; il motore legge boccia_per). Si boccia per il sito, non per la prova.\n" +
+    "- regge:false con boccia_per «sito» se un comando rosso sul codice di oggi del ramo, senza mutarlo, mostra il sito che sbaglia in quello che il pacchetto dichiara chiuso o che il suo delta cambia. Sbagliare vuol dire che chi usa il sito, oggi o in produzione, vede o paga una cosa sbagliata, soldi, dati e permessi compresi. Il comando va in perche.\n" +
+    (muta
+      ? "- regge:false con boccia_per «difetto_rimesso» se un difetto dichiarato chiuso, rimesso com'e' scritto nella sua scheda, lascia verdi le prove della squadra. Com'e' scritto vuol dire la forma che la scheda descrive: una condizione in piu' (solo sopra una cifra, solo con un dato, solo da un negozio in poi) fa una variante, non il difetto com'e' scritto.\n" +
+        "- Una variante scomoda si prova prima sul codice di oggi, SENZA mutarlo: rossa li' vuol dire «sito». Se li' e' verde, il sito fa giusto; se la tua mutazione nella variante lascia verdi le prove della squadra, e' un buco nelle prove. Va in difetti come minore, con in prova il comando che la uccide (verde sul codice di oggi, rosso sul mutante), e non boccia: regge:true, oppure regge:false con boccia_per «variante», che il motore tratta come regge solo se in perche c'e' quel comando.\n"
+      : "- Tu non muti. Se leggendo vedi che le prove non coprono un caso, e in quel caso il codice di oggi fa giusto, e' un buco nelle prove: mettilo in difetti come minore, e non boccia. Se il codice di oggi sbaglia per chi usa il sito, o non sai dire se fa giusto: regge:false con boccia_per «sito». Se in sola lettura non puoi provarlo, mettilo anche in difetti come grave, con in prova il comando che lo farebbe diventare rosso: lo scrivera' la squadra.\n") +
+    "- Niente di questo: regge:true e boccia_per «nessuno».\n" +
+    "Per ogni difetto in difetti: nato_dal_lotto:true se non c'e' sul commit " + BASE + ", la base dell'ondata, anche se viene da un pezzo dell'ondata fuori dal delta qui sopra; quello che c'era gia' va con false, finisce nel registro e non boccia. Grave o bloccante solo se il sito si comporta male; un buco nelle prove su un sito che fa giusto e' sempre minore.\n"
+}
+
+// I chiusi con la loro scheda: «com'e' scritto» si decide sulla descrizione, non sul solo titolo della
+// chiave (ricollaudo del 28/10: la scheda 1616 dice la mutazione esatta, il collaudo vedeva solo il titolo).
+function chiusiDescritti(p, f) {
+  const chiusi = f.chiusi || []
+  if (!chiusi.length) return "nessuno"
+  return chiusi.map((k) => {
+    const d = p.difetti.find((x) => x.chiave === k)
+    const scheda = d ? [d.file || d.dove, d.descrizione].filter(Boolean).map((x) => String(x).slice(0, 200)).join(" — ") : ""
+    return k + (scheda ? " [" + scheda + "]" : "")
+  }).join(" · ")
 }
 
 function collaudo(p, f, lenti, da, verifica) {
   const wt = f.worktree || wtDi(p)
   const fuori = fuoriTerritorio(p, f)
   const avviso = fuori.length ? "\nLa squadra ha scritto FUORI dal suo territorio: " + fuori.join(", ") + ". Guardali per primi." : ""
-  const ricontrolla = daRiverificare(verifica)
   return parallel(lenti.map((L) => () => {
     const mutanti = wt + "-mutanti-" + L.nome.toLowerCase()
     return chiama(
@@ -326,10 +412,10 @@ function collaudo(p, f, lenti, da, verifica) {
         ? "Le mutazioni NON si fanno in " + wt + ": un'altra lente puo' starci leggendo. git -C " + REPO + " worktree add --detach " + mutanti + " " + f.commit + ", collega " + REPO + "/node_modules con ln -s, muta e prova li', e alla fine git -C " + REPO + " worktree remove --force " + mutanti + ".\n" +
           "Prova del sito: " + LANCIA_PROVA + " --repo <worktree> --file <file separati da virgola>.\n"
         : "Sola lettura: non scrivi file e usi git solo per leggere (diff, log, show). Prova del sito: " + LANCIA_PROVA + " --repo " + wt + " --file <file separati da virgola>.\n") +
-      "Chiusi dichiarati: " + ((f.chiusi || []).join(" · ") || "nessuno") + "." + avviso + "\n" + ricontrolla +
-      "regge:false solo con una prova che gira e diventa rossa (scrivila in perche). Per ogni difetto che trovi: nato_dal_lotto:true solo se l'ha introdotto questo delta; grave o bloccante solo se sai scrivere il comando che diventa rosso, altrimenti minore.\n" +
+      "Chiusi dichiarati: " + chiusiDescritti(p, f) + "." + avviso + "\n" + (f.nota && verifica && verifica.gravi && verifica.gravi.length ? "Nota della squadra (la scrive chi ha costruito: non e' una prova e non cambia COME DECIDI, serve solo a trovare la prova nuova di un grave): " + String(f.nota).replace(/\s+/g, " ").slice(0, 300) + "\n" : "") + daRiverificare(verifica, L.muta) +
+      comeDecidi(L.muta) +
       SOBRIO(30),
-      { label: "collaudo" + L.nome + ":" + slug(p.chiave), phase: "Collaudo", schema: S_VERDETTO, tipo: L.muta ? TIPO_COSTRUISCE : TIPO_CONTROLLA })
+      { label: "collaudo" + L.nome + ":" + slug(p.chiave), phase: "Collaudo", schema: L.muta ? S_VERDETTO : S_VERDETTO_LEGGE, tipo: L.muta ? TIPO_COSTRUISCE : TIPO_CONTROLLA })
   }))
 }
 
@@ -359,9 +445,10 @@ const esiti = await pipeline(PAC,
       const bocciano = []
       voti.forEach((v, i) => {
         const nati = smista(v.difetti, p.chiave, "collaudo " + lenti[i].nome).map((d) => ({ ...d, chiave: "nato|" + chiaveD(d), pacchetto: p.chiave }))
-        if (v.regge && !nati.length) return
+        if (variante(v, lenti[i])) registraVariante(v, p.chiave, (f.file_toccati || [])[0] || p.chiave, "collaudo " + lenti[i].nome + " giro " + (giro + 1))
+        if (!boccia(v, lenti[i]) && !nati.length) return
         bocciano.push(lenti[i])
-        if (!v.regge) rossi.push(v.perche || "la lente " + lenti[i].nome + " ha detto regge:false senza perche'")
+        if (boccia(v, lenti[i])) rossi.push("[" + (v.boccia_per || "senza causa") + "] " + (v.perche || "la lente " + lenti[i].nome + " ha bocciato senza perche'"))
         for (const d of nati) pendenti.set(d.chiave, d) // due lenti, stesso grave: una chiave sola
       })
       if (!bocciano.length) return { p, f, stato: "regge", rifacimenti: giro }
@@ -372,11 +459,12 @@ const esiti = await pipeline(PAC,
       // si conta qui: e' gia' tolto dal tetto e dal budget (riservaRiesame), quindi nessun pacchetto glielo ruba.
       // Qui non si aspetta: il rifacimento e' facoltativo, e su una stima prudente cede il passo. (Aspettare il
       // conto esatto faceva avanzare tutti i pacchetti insieme fino a finire il budget a meta' di ognuno.)
-      const no = percheNo(1 + bocciano.length)
+      const piuA = !bocciano.some((L) => L.muta) && pendenti.size > 0 ? 1 : 0 // la lente A che il ricollaudo aggiunge
+      const no = percheNo(1 + bocciano.length + piuA)
       if (no) return esce("fermo: " + (no.tipo === "tetto" ? "tetto vicino" : "budget vicino") + " (" + no.testo + "), il riesame ha la precedenza sul rifacimento", { motivi })
       const rifatto = await squadra(p, "Il collaudo ti ha bocciato. Nello stesso worktree correggi SOLO questo." +
         (rossi.length ? "\n- " + rossi.slice(0, 8).join("\n- ") : "") +
-        (gravi.length ? "\nGravi NATI dal tuo diff, trovati dal collaudo con la loro prova rossa. Metti le loro chiavi in chiusi solo con la prova rossa-poi-verde; se il fix sta fuori dal tuo territorio, mettile in parziali col perche': il pacchetto si ferma e lo si dice a Nicola.\n" + JSON.stringify(gravi.map(perLavoro)) : ""),
+        (gravi.length ? "\nGravi NATI dal tuo diff, trovati dal collaudo con la loro prova rossa. Metti le loro chiavi in chiusi solo con la prova rossa-poi-verde; se il fix sta fuori dal tuo territorio, mettile in parziali col perche': il pacchetto si ferma e lo si dice a Nicola. Per ognuno scrivi la prova nel file che il suo comando nomina; se non puoi, scrivi in nota il comando nuovo.\n" + JSON.stringify(gravi.map(perLavoro)) : ""),
         { fase: "Collaudo", etichetta: "rifacimento" + (giro + 1) })
       if (!rifatto) return esce("fermo: la squadra non ha consegnato il rifacimento")
       f = unisci(f, rifatto)
@@ -390,7 +478,11 @@ const esiti = await pipeline(PAC,
       const nonChiusi = [...pendenti.values()].filter((d) => !d.dichiarato).length
       if (nonChiusi) return esce("fermo: " + nonChiusi + " gravi nati nel collaudo non chiusi dal rifacimento " + (giro + 1), { motivi })
       verifica = { motivi: rossi.slice(0, 8), gravi: [...pendenti.values()] }
-      lenti = bocciano // si ricollauda solo con la lente che ha bocciato, e le si dice cosa ricontrollare
+      // Si ricollauda solo con la lente che ha bocciato, e le si dice cosa ricontrollare. Un grave che ha
+      // trovato la sola lente B lo ricontrolla anche chi muta: B non puo' rimetterlo e guardare la prova
+      // diventare rossa, che e' la seconda meta' della carta 216 (ricollaudo del 28/10).
+      const chiMuta = lentiPer(p, f).find((L) => L.muta)
+      lenti = !bocciano.some((L) => L.muta) && verifica.gravi.length && chiMuta ? [chiMuta, ...bocciano] : bocciano
     }
   })
 
@@ -432,8 +524,9 @@ const risposte = await parallel(G.map((g) => () => chiama(
   g.voci.map(([wt, file]) => "git -C " + wt + " diff " + BASE + "..HEAD -- " + file.join(" ")).join("\n") + "\n" +
   "Sola lettura: non scrivi file e usi git solo per leggere.\n" +
   "nato_dal_lotto:true solo se il difetto l'ha introdotto questo delta; quello che c'era gia' va con false (finisce nel registro, non si ripara adesso). Grave o bloccante solo con un comando che diventa rosso, scritto in prova; senza, e' minore. regge:false se c'e' almeno un grave nato, e quel grave va in difetti.\n" +
+  "Si boccia per il sito, non per la prova. Un buco nelle prove su un codice che si comporta giusto e' MINORE anche se sai scrivere la mutazione che resta verde: grave o bloccante solo se il sito si comporta male. Ma se leggendo il diff non sai dire che il sito oggi fa giusto in quel caso, non chiamarlo buco nelle prove: mettilo grave con la sua prova, e decide il verificatore, che la lancia. boccia_per: «sito» se c'e' un grave nato, altrimenti «nessuno».\n" +
   SOBRIO(30),
-  { label: "riesame:" + slug(g.lente), phase: "Riesame", schema: S_VERDETTO, tipo: TIPO_CONTROLLA })))
+  { label: "riesame:" + slug(g.lente), phase: "Riesame", schema: S_VERDETTO_RIESAME, tipo: TIPO_CONTROLLA })))
 // Un riesame che non c'e' stato NON e' un riesame pulito. Due modi di mancarlo: il revisore non ha
 // risposto (caduto o saltato dal tetto), oppure ha detto regge:false senza nominare il grave nato —
 // un rosso senza bersaglio, che non si sa a quale squadra mandare. In tutti e due i pacchetti di
@@ -454,7 +547,7 @@ risposte.forEach((r, i) => {
   }
   const difetti = r.difetti || []
   trovati.push(...difetti.map((d) => ({ ...d, wts }))) // il gruppo che l'ha visto: serve se il padrone non si trova
-  if (r.regge === false && !difetti.some((d) => pesante(d) && d.nato_dal_lotto)) {
+  if ((r.regge === false || r.boccia_per === "sito") && !difetti.some((d) => pesante(d) && d.nato_dal_lotto)) {
     scoperti.push({ lente: g.lente, wts, perche: "ha bocciato senza nominare il difetto: " + String(r.perche || "nessun perche'").slice(0, 200) })
   }
 })
@@ -490,13 +583,20 @@ const veri = (await parallel(candidati.map((d) => () => {
   return chiama(
     "Due voci: un revisore dice che questo difetto e' NATO dall'ondata " + ONDATA + " del sito. Il tuo mandato e' smontarlo.\n" + JSON.stringify(perLavoro(d)) + "\n" +
     "Worktree in cui vive: " + (e ? wtDiE(e) : "trovalo dal file in dove, fra " + ((d.wts && d.wts.join(", ")) || BASE_WT + "-*")) + ". reale:true solo se la sua prova gira e diventa rossa su quel ramo, e passa (o non esiste) sul commit " + BASE + ". Nel dubbio, false.\n" +
+    "Si boccia per il sito, non per la prova (AR-1027). Prima di dire solo_prova, scrivi e lancia sul ramo, senza mutare niente, la prova del comportamento giusto in quel caso. Se li' e' rossa, il sito sbaglia: reale:true se sul commit " + BASE + " passa o non c'e'. Se la mutazione del revisore non cambia il codice, il codice fa gia' cosi': non e' un buco nelle prove. solo_prova:true solo se la tua prova e' verde sul ramo, col suo comando in perche: finisce nel registro come minore. Se la prova e' rossa anche sul commit " + BASE + " per lo stesso comportamento (il passo vitest che fallisce sul controllo, non tsc ne' un import che li' non c'e'), reale:false e preesistente:true: c'era gia', e va nel registro con la sua gravita'. Se sulla base non si carica perche' il codice che prova non c'era, e' nato: reale:true.\n" +
     "La base NON si prova in quel worktree (e' il ramo di una squadra): git -C " + REPO + " worktree add --detach " + BASE_WT + "-base-" + slug(d.titolo) + " " + BASE + ", collega " + REPO + "/node_modules con ln -s, prova li' con " + LANCIA_PROVA + ", e alla fine git -C " + REPO + " worktree remove --force quella cartella.\n" +
     SOBRIO(15),
     { label: "verifica:" + slug(d.titolo), phase: "Riesame", schema: S_REALE, tipo: TIPO_COSTRUISCE })
     .then((v) => {
       if (!v) return { ...d, non_verificato: true } // nessuna seconda voce: si tiene, per prudenza, e si dice
       if (v.reale) return d
-      smontati.push({ titolo: d.titolo, dove: d.dove, perche: v.perche || "" })
+      smontati.push({ titolo: d.titolo, dove: d.dove, perche: v.perche || "", ...(v.solo_prova ? { solo_prova: true } : {}), ...(v.preesistente ? { preesistente: true } : {}) })
+      const pacchetto = e ? e.p.chiave : null
+      // Un difetto vero che c'era gia' sulla base non sparisce: va nel registro come preesistente (regola ①).
+      if (v.preesistente) registro.push({ titolo: d.titolo, gravita: d.gravita, dove: d.dove, prova: d.prova, nato_dal_lotto: false, pacchetto, fonte: "riesame: rosso anche sulla base, c'era gia' (verificatore)" })
+      // Un buco nelle prove smontato non sparisce (AR-1027): e' il minore che la regola vuole nel registro,
+      // con il comando del verificatore, che e' verde sul ramo.
+      else if (v.solo_prova) registro.push({ titolo: d.titolo, gravita: "minore", dove: d.dove, prova: v.perche || d.prova, nato_dal_lotto: !!d.nato_dal_lotto, pacchetto, fonte: "riesame, smontato dal verificatore: solo un buco nelle prove (AR-1027)" })
       return null
     })
 }))).filter(Boolean)
@@ -524,11 +624,13 @@ while (aperti.length && giro < MAX_GIRI) {
   if (!per.size) { aperti = restano; break } // niente da dare a una squadra: un giro vuoto non si conta
   giro++
   const rifatti = await pipeline([...per.entries()],
-    ([e, ds]) => squadra(e.p, "Correzione " + giro + " di " + MAX_GIRI + ": difetti NATI dal tuo diff, confermati da un verificatore. Correggi SOLO questi, e metti le loro chiavi in chiusi:\n" + JSON.stringify(ds.map(perLavoro)),
+    ([e, ds]) => squadra(e.p, "Correzione " + giro + " di " + MAX_GIRI + ": difetti NATI dal tuo diff, confermati da un verificatore. Correggi SOLO questi, e metti le loro chiavi in chiusi. Per ognuno scrivi la prova nel file che il suo comando nomina; se non puoi, scrivi in nota il comando nuovo:\n" + JSON.stringify(ds.map(perLavoro)),
       { fase: "Correzione", etichetta: "correzione" + giro }).then((f) => ({ prima: e.f.commit, f })),
-    (r, [e, ds]) => (r && r.f
-      ? collaudo(e.p, r.f, lentiPer(e.p, r.f), r.prima, { gravi: ds.filter((d) => (r.f.chiusi || []).includes(d.chiave)) }).then((vs) => ({ e, ds, f: r.f, vs }))
-      : { e, ds, f: null, vs: [null] }))
+    (r, [e, ds]) => {
+      if (!r || !r.f) return { e, ds, f: null, vs: [null], lenti: [] }
+      const lenti = lentiPer(e.p, r.f) // ogni voto si legge con la sua lente: «variante» vale solo da chi muta
+      return collaudo(e.p, r.f, lenti, r.prima, { gravi: ds.filter((d) => (r.f.chiusi || []).includes(d.chiave)) }).then((vs) => ({ e, ds, f: r.f, vs, lenti }))
+    })
   aperti = restano
   for (const r of rifatti) {
     if (!r || !r.f || r.vs.some((v) => !v)) {
@@ -546,12 +648,15 @@ while (aperti.length && giro < MAX_GIRI) {
       const parz = (r.f.parziali || []).find((x) => x && x.chiave === d.chiave)
       aperti.push({ ...d, perche: "la correzione " + giro + " non l'ha chiuso: " + (parz ? String(parz.perche || "parziale, senza perche'") : "non e' fra i chiusi che ha dichiarato") })
     }
-    for (const v of r.vs) {
+    for (const [k, v] of r.vs.entries()) {
+      const L = r.lenti[k]
       const nati = smista(v.difetti, r.e.p.chiave, "collaudo correzione " + giro).map((d) => ({ ...d, chiave: "nato|" + chiaveD(d), pacchetto: r.e.p.chiave }))
       aperti.push(...nati)
+      // Una variante su un sito che fa giusto non diventa un grave da correggere (AR-1027): va nel registro.
+      if (variante(v, L)) registraVariante(v, r.e.p.chiave, (r.f.file_toccati || [])[0] || r.e.p.chiave, "collaudo " + (L ? L.nome : "") + " correzione " + giro)
       // Un regge:false che ha gia' nominato il suo grave e' QUEL grave, non un secondo: costruirne
       // un altro dal «perche» raddoppiava il conto (titoli diversi, il filtro dei doppioni non li vede).
-      if (!v.regge && !nati.length) {
+      if (boccia(v, L) && !nati.length) {
         const titolo = v.perche || "il collaudo della correzione ha bocciato"
         aperti.push({ titolo, dove: (r.e.f.file_toccati || [])[0] || r.e.p.chiave, gravita: "grave", nato_dal_lotto: true, chiave: "nato|" + slug(r.e.p.chiave) + "|" + slug(titolo), pacchetto: r.e.p.chiave })
       }
@@ -599,8 +704,10 @@ const pacchetti = tutti.map((e) => {
   return voce
 })
 const giaVisti = new Set()
+// Una variante si riconosce dal suo comando intero: due varianti nello stesso file di prova sono due righe.
+const chiaveR = (d) => (/\(variante: non boccia/.test(String(d.fonte || "")) ? "variante|" + String(d.prova || "") : chiaveD(d))
 const registroUnico = registro
-  .filter((d) => !giaVisti.has(chiaveD(d)) && giaVisti.add(chiaveD(d)))
+  .filter((d) => !giaVisti.has(chiaveR(d)) && giaVisti.add(chiaveR(d)))
   .map((d) => ({ titolo: d.titolo, gravita: d.gravita, dove: d.dove, prova: d.prova, nato_dal_lotto: !!d.nato_dal_lotto, pacchetto: d.pacchetto, fonte: d.fonte }))
 
 // I gravi nati nel collaudo che il loro pacchetto si porta dietro fermandosi (il ramo e' gia' fermo:
