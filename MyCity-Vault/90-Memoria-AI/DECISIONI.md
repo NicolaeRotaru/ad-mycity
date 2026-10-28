@@ -5962,3 +5962,5 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Carta #219** per Nicola: le categorie del pane, il bonus dei fattorini da togliere, il rimborso degli ordini in contanti annullati dal reclamo, le foto dell'iPhone in JPG, il colore dei link, la copertura del primo fattorino esterno.
 
 **Colore.** 🟢: letture e ricette, nessun codice toccato.
+
+**Aggiunta del 29/10 00:20 — il ricettario nel deposito.** I due revisori automatici di riservatezza (run `wf_9922f442-f0f`) sono caduti tutti e due per un errore del servizio, prima di leggere. Ho riletto io i 37 campi del ricettario che parlano di permessi, chiavi, funzioni del database e falle. Ogni rimando alla corsia riservata è un rimando senza istruzioni. Quattro passaggi indicavano un punto preciso: la guardia dei resi nelle due lenti del 1287, e la scrittura diretta nella chat del 22 nella ricetta e nella lente A. Li ho oscurati. Il ricettario è in `consegne/audit/2026-10-28-ricette-ondata2.json`. È una rilettura a una voce sola, non le due che vuole il metodo, e lo scrivo nel file.
