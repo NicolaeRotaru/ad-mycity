@@ -6057,3 +6057,23 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 Ogni chiusura porta la prova e la mutazione vista rossa. Restano parziali 1252, 1253, 1255, 23 e 1742. Aperti: 848 su 1.794 (8 bloccanti, 104 gravi, 736 minori).
 
 **La #898 è stata unita in un commit solo** (`9a108fdb2`): il contenuto di main coincide con l ultimo salvataggio del ramo, che ho fatto ripartire da main. I controlli di sicurezza sulle due richieste sono fermati.
+
+## 2026-10-29 21:13 — 🟡 Parte il pacchetto del prezzo della consegna, in due ondate
+
+**Cosa ha scritto Nicola:** «parti con il pacchetto del prezzo» (letto alle 21:05).
+
+**Come l ho diviso.** Il prezzo e le frasi pubbliche stanno negli stessi file: per questo vanno in due ondate, in fila.
+- **Ondata 13, adesso:** due squadre in parallelo.
+  - Il prezzo e il primo freno della veloce: schede 1777, 253 e 1709.
+  - La fascia scelta dal cliente nelle pagine del negozio, del fattorino e del cliente: scheda 23.
+- **Ondata 14, sopra la 13:**
+  - le frasi dei 30-60 minuti e di quando arriva la spesa: schede 1516, 1784, 1779, 1774 e 1708;
+  - il secondo freno, cioè la conferma della veloce entro 10 minuti, con la scheda 264.
+
+Il piano è `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, la base è il main del sito `0df5557`.
+
+**Due scelte ragionate mie, da correggere se sbagliate.**
+- La soglia dei 10 euro vale per negozio, sulla merce di quel negozio dopo gli sconti. È la stessa base su cui si calcola la commissione: così un buono non può far superare i bonifici all incasso.
+- Il codice «Spedizione gratuita» toglie solo la parte dei 3 euro che toglie oggi. L euro in più resta sempre da pagare, perché è il margine di MyCity e paga la corsa singola. Al lancio i codici sono spenti, quindi oggi non cambia niente per nessuno.
+
+**Colore:** 🟡: codice in un ramo del sito, l unione è di Nicola.

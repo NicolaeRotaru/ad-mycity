@@ -1,0 +1,48 @@
+{
+ "_cosa_e": "Ondata 13 del sito: il pacchetto del prezzo della consegna, chiesto da Nicola il 29/10 («parti con il pacchetto del prezzo», letto alle 21:05), sulla regola firmata alle 16:13 (registro dei fatti, consegna.promessa). Due pacchetti con territori disgiunti: il prezzo e la consegna veloce coi suoi freni (soldi: due lenti), e la fascia scelta dal cliente mostrata a negozio, fattorino e cliente. Le frasi dei 30-60 minuti e di quando arriva la spesa (1516, 1784, 1779, 1774, 1708) sono l ondata 14, sopra questa: stanno negli stessi file delle frasi di prezzo. Base: main del sito 0df5557 (la #263 unita). Le ondate 1-12 sono vuote: si legge con --ondata 13, worktree o13-*.",
+ "data": "2026-10-29 21:13",
+ "registro": "sito",
+ "origine": "consegne/finanza/2026-10-29-prezzo-della-consegna.md, carta #220 (archiviata), controllo wf_bfe6f488-73d",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/prezzi.ts",
+    "difetti": [
+     {
+      "idx": 1777,
+      "chiave": "pagamenti-stripe|la consegna costa sempre 3 euro: i 50 centesimi sotto i 10 euro e i 50 centesimi della consegna veloce, firmati da nicola il 29/10, non sono ancora nel codice"
+     },
+     {
+      "idx": 253,
+      "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato"
+     },
+     {
+      "idx": 1709,
+      "chiave": "qa-flussi|il carrello scrive «disponibile · consegna in 30-60 min» anche a negozio chiuso, e il rifiuto arriva solo all'ultimo tocco in cassa"
+     }
+    ]
+   },
+   {
+    "chiave": "app/seller/orders/[id]/page.tsx",
+    "difetti": [
+     {
+      "idx": 23,
+      "chiave": "qa-flussi|nessuno vede l'orario di consegna scelto dal cliente: né il negozio, né il fattorino, né il cliente stesso"
+     }
+    ]
+   }
+  ]
+ ]
+}
