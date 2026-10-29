@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1794,
+    "findings": 1809,
     "bloccanti": 35,
-    "gravi": 529,
-    "minori": 1230,
+    "gravi": 531,
+    "minori": 1243,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -31726,6 +31726,171 @@
       "file": "lib/products/aiPatch.ts:744,1060 (value = typeof rawValue === 'string' ? … : '') · components/seller/ProductForm.tsx:389-395",
       "descrizione": "Con patch.attributes = {cruelty_free: true} il valore diventa '' e la casella viene saltata con continue. Altrove (aiPatch.ts:751,1067) i booleani sono gestiti. C era già prima del mezzo giro.",
       "fonte": "preesistente: c è anche su 6cdb4f1; trovato nel mezzo giro del sì/no (ondata 12, run wf_d0a5cee9-177)"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con più negozi nel carrello la consegna costa 3 o 4 euro per ogni negozio: la regola firmata dice 3 euro di base e 1 euro per ogni negozio in più",
+      "file": "lib/ordini/prezzi.ts prezziDelCarrello (tariffa per gruppo) · app/cart/page.tsx · app/checkout/page.tsx · app/shipping/page.tsx · lib/promesse-pubbliche.ts",
+      "descrizione": "Regola del 29/10 alle 22:21: 3 euro di base per tutto il carrello; 1 euro per ogni negozio in più; 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro; 1 euro per la veloce una volta sola, compresa se c è già almeno un euro della spesa piccola. Esempi (fascia/veloce): 15 € → 3/4; 8 € → 4/4; 15+12 → 4/5; 15+6 → 5/5; 6+7 → 6/6; 15+12+20 → 5/6; 5+6+7 → 8/8. Il codice dell ondata 13 fa pagare la tariffa intera a ogni negozio: con 15+12 sono 6 euro invece di 4. Minore perché oggi c è un solo negozio vero e la decisione ha pochi minuti; va nell ondata 14.",
+      "fonte": "regola firmata da Nicola il 2026-10-29 alle 22:21 (registro dei fatti, consegna.promessa): non ancora nel codice"
+    },
+    {
+      "dimensione": "flussi-conversione",
+      "reparto": "Flussi di conversione",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il carrello non spiega come si calcola la consegna: il cliente vede la cifra, ma non perché paga l euro in più né come evitarlo",
+      "file": "app/cart/page.tsx (riga «Consegna MyCity», avviso «ogni negozio consegna separatamente») · app/checkout/page.tsx · lib/promesse-pubbliche.ts",
+      "descrizione": "Nicola, 29/10, letto alle 22:21: «va spiegata molto bene al cliente, soprattutto nel carrello». Con la regola in quattro passi il cliente deve leggere nel carrello le righe che si sommano (base, negozi in più, spesa piccola per negozio, veloce) e cosa manca ai 10 euro in un negozio. L avviso «ogni negozio consegna separatamente» diventa falso: la consegna è un giro solo.",
+      "fonte": "regola firmata da Nicola il 2026-10-29 alle 22:21 (registro dei fatti, consegna.promessa): non ancora nel codice"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La pagina Spedizioni e le domande frequenti dicono «3,00 € per ogni negozio, qualunque sia la spesa», ma sotto i 10 € la cassa ne addebita 4",
+      "file": "app/shipping/page.tsx:47-49 (riquadro in cima) · lib/promesse-pubbliche.ts:183 rispostaCostoSpedizione, mostrata da app/faq/page.tsx:41",
+      "descrizione": "Il paragrafo sotto il riquadro è stato corretto dalla squadra, il riquadro in cima no; la risposta della FAQ nemmeno. Un cliente che legge la FAQ prima di ordinare un kefir da 2,05 € si aspetta 3 € e in cassa ne trova 4. Nella stessa pagina la frase nuova scrive anche «mai di più .» con uno spazio prima del punto.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Ordine con carta pagato dopo mezzanotte: negozio, fattorino e cliente leggono la consegna un giorno dopo quello scelto",
+      "file": "lib/ordini/fascia-leggibile.ts:74-84 (ancora su orders.created_at) · lib/stripe/webhook/ordini.ts:298-339 (l ordine nasce al webhook, created_at = now()) · tests/unit/la-fascia-scelta-in-cassa-la-vedono-negozio-fattorino-e-cliente.test.ts:123-126",
+      "descrizione": "Il cliente sceglie lunedì alle 23:50 «Domani · 9:00–12:00» (martedì 3/11) e paga con la carta alle 00:10: l ordine nasce al webhook e la pagina scrive «mer 4/11». Succede anche con un pagamento asincrono riuscito giorni dopo. Con i contanti l ordine nasce quando si sceglie, e la data è giusta. Al lancio la carta è spenta, quindi oggi non succede; la squadra dice che servirebbe una colonna nuova (migrazione).",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Quindici prove vecchie si aspettano ancora la consegna a 3 euro fissi: il controllo completo del sito è rosso sul ramo del prezzo",
+      "file": "tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:141,219,318,339 · tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts · tests/unit/in-cassa-il-totale-mostrato-e-quello-addebitato.test.ts:68 · tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.ts",
+      "descrizione": "Il sito segue la regola nuova, sono le prove a essere vecchie (attese 300 e «3,00 €», ricevute 400 e «4,00 €»). Finché restano rosse, i controlli «il carrello fa lo stesso conto della cassa» e «mostrato uguale ad addebitato» si fermano prima e non proteggono più niente.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buchi nelle prove del prezzo: una rotta può passare «non veloce» al conto, la lettura dei fattorini può cadere su «sì», e il carrello può trattare ogni risposta come «sì», con le prove verdi",
+      "file": "app/api/stripe/checkout/route.ts ~645 e app/api/orders/cod/route.ts ~829 (consegnaVeloce in prezziDelCarrello) · app/api/orders/cod/route.ts ~672 (contaFattoriniOnline) · app/cart/page.tsx ~75 e setVeloceSiPuoAdesso",
+      "descrizione": "Mutanti visti verdi dal collaudo: «consegnaVeloce: false» nelle rotte (un ordine veloce da 15 € pagherebbe 3 €), «contaFattoriniOnline(admin) ?? 1», «veloce ?? true» e «esito ? true : null» nel carrello. La prova della rotta cerca solo la parola: serve una prova che chiami la rotta con la fascia «Adesso» e guardi i centesimi.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Col codice «Spedizione gratuita» e la consegna veloce, a 40 euro la cassa scrive «da 30 euro la copre tutta» e fa pagare 1 euro",
+      "file": "lib/promesse-pubbliche.ts rigaDelCodiceSpedizione · lib/ordini/prezzi.ts consegnaDaPagareCents",
+      "descrizione": "Il codice copre i 3 euro e non l euro della veloce (scelta ragionata dell AD del 29/10), ma la frase dice che da 30 euro copre tutta la consegna. I codici al lancio sono spenti.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il carrello scrive «Consegna in 30-60 min» e intanto conta nel totale la consegna con la fascia",
+      "file": "app/cart/page.tsx:418-436 (consegnaVeloce:false) · lib/ordini/consegna-veloce.ts rigaQuandoArrivaNelCarrello",
+      "descrizione": "Carrello da 15 € con la veloce possibile: la riga promette i 30-60 minuti, il totale conta 3 €; in cassa la veloce mostra «+1 €». Nessun addebito sbagliato, ma il carrello mescola due consegne.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se la lettura della consegna veloce cade, la cassa sposta da sola la scelta «Adesso» sulla prima fascia di oggi, senza dirlo",
+      "file": "components/checkout/DeliverySlotPicker.tsx (useEffect day==='now' && !expressAvailable) · app/checkout/page.tsx:541-560",
+      "descrizione": "Il cliente sceglie «Adesso», la rete cade per un minuto e l ordine parte con la fascia, a 1 euro in meno. Niente soldi persi, ma la scelta cambia in silenzio: va detto con una riga.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "sicurezza-auth",
+      "reparto": "Sicurezza e accessi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La rotta nuova della consegna veloce è pubblica, senza limite di richieste, e risponde diverso se un profilo esiste",
+      "file": "app/api/consegna/veloce/route.ts:26-55 (GET senza withAuthRateLimit, chiave di servizio su ids arbitrari)",
+      "descrizione": "Dice a chiunque se c è un fattorino online e, con un uuid di cliente al posto di un negozio, risponde diverso da un uuid inesistente. Impatto basso (gli uuid non si indovinano), ma va chiuso: limite di richieste e lettura solo dei negozi pubblici.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il carrello vuoto scrive «Consegna MyCity 3,00 € per negozio» e non dice i 4 euro sotto i 10 euro",
+      "file": "app/cart/page.tsx:55 descrizioneDelCarrelloVuoto · lib/promesse-pubbliche.ts:369 promessaSpedizione().titolo · lib/constants.ts:171 VALUE_PROPS",
+      "descrizione": "La frase è incompleta, non falsa: 3 € è la base. Con la regola dei negozi in più «per negozio» diventa sbagliato del tutto.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con una fascia oraria l ordine passa anche senza nessun fattorino approvato: il controllo del fattorino vale solo per la veloce",
+      "file": "app/api/orders/cod/route.ts ~672 · app/api/stripe/checkout/route.ts ~462 · lib/stripe/payout.ts:310",
+      "descrizione": "Dopo l ondata 13 la veloce chiede un fattorino online; la fascia no. Al lancio il fattorino è Nicola, che deve avere il suo account approvato prima del primo ordine.",
+      "fonte": "preesistente: c è anche su 0df5557; trovato dal collaudo dell ondata 13 (run wf_a2ec12a7-8aa)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove della fascia non si accorgono di tre cose: «30-60 min dalla conferma» in cima con una fascia per domani, la bacheca che toglie la fascia agli ordini in preparazione, due varianti di data",
+      "file": "app/orders/[id]/page.tsx:353 · app/rider/page.tsx:616 · lib/ordini/fascia-leggibile.ts",
+      "descrizione": "Il sito oggi fa giusto; i mutanti restano verdi con le prove della squadra. Le prove del collaudo che li uccidono sono nella scratch della sessione (collaudo-a-fascia.test.ts): vanno portate nel sito.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "L avviso «Nuovo ordine» e l email al negozio escono ancora senza la fascia scelta dal cliente",
+      "file": "app/api/orders/cod/route.ts:1124-1127 · lib/stripe/webhook/comune.ts:292-298 · lib/email/templates.ts newOrderSellerTemplate",
+      "descrizione": "Il residuo della scheda 23: la fascia ora si vede aprendo l ordine, ma l avviso e l email dicono solo numero, cifra e metodo di pagamento.",
+      "fonte": "preesistente: c è anche su 0df5557; trovato dal collaudo dell ondata 13 (run wf_a2ec12a7-8aa)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Nella lista ordini del negozio un ordine veloce già consegnato mostra ancora «Consegna: Adesso · arrivo in 30-60 min»",
+      "file": "app/seller/orders/page.tsx:151-168 · app/orders/[id]/page.tsx:767-771 · lib/ordini/fascia-leggibile.ts",
+      "descrizione": "fasciaLeggibile restituisce l etichetta della veloce per qualunque stato e data: su un ordine consegnato la settimana scorsa sembra una promessa ancora in corso.",
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
     }
   ],
   "sync_scan": {

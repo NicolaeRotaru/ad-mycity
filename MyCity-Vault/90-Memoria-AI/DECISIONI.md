@@ -6077,3 +6077,24 @@ Il piano è `consegne/audit/2026-10-29-ondata13-prezzo-sito.json`, la base è il
 - Il codice «Spedizione gratuita» toglie solo la parte dei 3 euro che toglie oggi. L euro in più resta sempre da pagare, perché è il margine di MyCity e paga la corsa singola. Al lancio i codici sono spenti, quindi oggi non cambia niente per nessuno.
 
 **Colore:** 🟡: codice in un ramo del sito, l unione è di Nicola.
+
+## 2026-10-29 22:21 — 🔴 Nicola completa il prezzo della consegna: i negozi in più e la soglia per negozio
+
+**Cosa ha scritto Nicola**, in tre messaggi:
+- «per ogni negozio in più si aggiunge un euro»;
+- «l euro in più della spesa sotto i 10 euro vale solo per negozio»;
+- con un negozio solo sotto i 10 euro «la spesa veloce è compresa».
+
+Gli ho mandato lo schema in quattro passi, con una tabella da uno a tre negozi. Ha risposto «sì tutto giusto».
+
+**La regola:**
+- 3 euro di base per tutto il carrello;
+- 1 euro per ogni negozio in più;
+- 1 euro per ogni negozio sotto i 10 euro;
+- 1 euro per la veloce, una volta sola; la veloce è compresa se c è già almeno un euro della spesa piccola.
+
+Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua regola delle 16:13 («i due euro non si sommano mai»). L ho scritta nello schema e lui l ha confermata.
+
+**Ancora aperto:** quanto prende il fattorino per un giro con più negozi. Ho consigliato 3 euro più 1 per ogni fermata in più. Non blocca il lancio: c è un negozio solo e consegna lui.
+
+**Fatto** `consegna.promessa` aggiornato alle 22:22, con tre cacce; il controllo di coerenza è verde. Nicola ha chiesto anche di spiegarla bene al cliente, soprattutto nel carrello: tre proposte di testo sono in giudizio (run `wf_1bfb78d5-949`), poi entrano nell ondata 14.

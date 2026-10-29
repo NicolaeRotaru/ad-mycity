@@ -1,14 +1,92 @@
 {
-  "data": "2026-10-29 00:15",
+  "data": "2026-10-29 22:22",
   "esito": "ok",
-  "copertura": 1257,
+  "copertura": 1296,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 50,
-  "cacce_aperte": 4,
-  "file_scansionati": 1257,
+  "cacce_aperte": 17,
+  "file_scansionati": 1296,
   "incoerenze": [],
   "cacce": [
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna promessa al cliente: «in giornata»",
+      "dal": "2026-10-29 12:29",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "la consegna adesso è «in giornata»",
+      "dal": "2026-10-29 12:29",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna promessa al cliente: «in giornata», con solo i 3 euro di consegna e senza la spedizione a chilometri. Firmato da Nicola il 2026-10-26 con «ok 209» (scelta 8 della carta #209). Sostituisce la promessa a minuti del 21/8, che non era mai stata mantenuta: 0 consegne.",
+      "dal": "2026-10-29 12:29",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "il cliente paga 1 euro in più dei 3 euro di consegna",
+      "dal": "2026-10-29 13:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Due modi di consegna, scelti dal cliente in cassa. Veloce: la spesa arriva in 30-60 minuti e il cliente paga 1 euro in più dei 3 euro di consegna. Altrimenti il cliente sceglie una fascia oraria in cui possiamo consegnare, coi 3 euro di sempre. Detto da Nicola in chat il 2026-10-29, fra le 12:24 e le 12:29, rispondendo alla domanda sui 30-60 minuti. Sostituisce la promessa «in giornata» del 26/10 (carta #209).",
+      "dal": "2026-10-29 13:44",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "50 centesimi in più sotto i 10 euro",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "fascia oraria 3,50 euro",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Sotto i 10 euro di spesa il cliente paga 50 centesimi in più",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
+      "dal": "2026-10-29 16:13",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna 3 euro per negozio",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "sotto i 10 euro fascia e veloce costano tutte e due 4 euro",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Il massimo è 4 euro",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
+      "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
     {
       "fatto": "consegna.raggio",
       "pattern": "fino a 10 km dal negozio",
