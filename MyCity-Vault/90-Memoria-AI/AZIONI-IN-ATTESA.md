@@ -31,6 +31,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🔴 #220 — Scegli quanto costa la consegna: 3 euro fissi, oppure 2 euro da 10 euro di spesa · ⏳ accodata 2026-10-29 13:12
+
+**In parole semplici.** Mi hai chiesto se la consegna standard deve costare 2 o 3 euro. Nella tua idea si aggiunge 1 euro sotto i 10 euro di spesa, e 1 euro per la consegna veloce. Sotto i 10 euro le due strade sono uguali: il cliente paga 3 euro. Si separano solo da 10 euro in su. Su un kefir da 2,05 euro la consegna pesa comunque il 146% della spesa. Il peso si toglie con un carrello più grande, cioè mettendo online pane e verdura.
+
+**Cosa cambia:** scegli una strada.
+- Strada 1 (il mio consiglio): 3 euro con la fascia oraria, 4 euro con la consegna veloce. Non perde mai in contanti. Lo sconto «da 10 euro di spesa scende a 2» si prepara già nel codice. Si accende dopo i primi 20 ordini. Prima serve sapere dal commercialista come paghiamo l IVA.
+- Strada 2: la tua idea subito, detta come uno sconto. «Consegna 3 euro. Da 10 euro di spesa scende a 2. Adesso, in 30-60 minuti: 1 euro in più.» Il cliente legge un premio e non una multa. Ma se MyCity paga l IVA ordinaria, fra 10 e 16,54 euro di spesa ogni consegna perde soldi.
+- La differenza vale al massimo 1 euro per ogni ordine da 10 euro in su: circa 10 euro al mese con 20 ordini.
+
+**Se va bene:** costruisco il pacchetto della consegna veloce. Dentro ci sono l euro in più, due freni e le frasi dei 30-60 minuti su tutte le pagine. Il primo freno offre «Adesso» solo quando sei segnato disponibile. Controlla anche l orario sul server. Il secondo propone una fascia senza l euro se il negozio non conferma entro 10 minuti. Parte dopo l unione del giro di riparazione in corso, che tocca gli stessi file. Unire resta una tua firma.
+
+**Cosa devi fare tu.** Scrivimi «consegna strada 1» oppure «consegna strada 2». Chiedi al commercialista se MyCity paga l IVA ordinaria, e se il 10% di commissione è IVA inclusa o esclusa. Quando passi da Pane Quotidiano, mandami foto e prezzi di pane e verdura.
+
+**Cosa non ho verificato:** lo scontrino tipico non esiste ancora: c è stato un solo ordine vero, da 19,05 euro, mai consegnato. Era del 24 giugno. I prezzi dei concorrenti vengono da fonti deboli. Le regole sui prezzi sono una bozza da far guardare a un legale abilitato. I tempi in bici vengono da un modello, perché le consegne fatte sono 0.
+
+Contenuto: analisi completa in `consegne/finanza/2026-10-29-prezzo-della-consegna.md` (run `wf_dc8a1e45-5a6`: 6 ricerche e 3 giudici; cro per la strada 2, finanza e qa per la strada 1). Fatto collegato: `consegna.promessa` (29/10). Territorio del pacchetto: `lib/ordini/prezzi.ts`, le due rotte d ordine, `lib/quando-arriva.ts`, `app/checkout/page.tsx`, `app/cart/page.tsx`, `lib/constants.ts`, schede 253 e 1516.
+
+---
+
+
 ### 🟡 #219 — Sei scelte piccole per preparare l'ondata 2 del sito · ⏳ accodata 2026-10-28 22:50 · ✅ scelte 2026-10-29 00:05
 
 > ✅ **2026-10-29 00:08 — Le tue risposte.** Niente abbigliamento per ora, e tutto il resto sì. L'albero delle categorie va fatto più ampio, con più sottocategorie. Pane Quotidiano vende anche pane, verdura fresca e cura della persona. Il bonus del fattorino si toglie, e si riaccende più avanti. Le foto si caricano solo in JPG. La regola del colore dei link si toglie. Per il fattorino esterno vale il tuo sì al punto sull'INAIL.
