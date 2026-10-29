@@ -34,6 +34,8 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ### 🟡 #221 — Scegli come chiudere le promesse: la frase semplice di ieri, o un altro giro sulla home · ⏳ accodata 2026-10-29 13:56 · ✅ scelta 2026-10-29 14:35
 
 > ✅ **2026-10-29 14:35 — Hai scelto A.** Il collaudo delle sei frasi è partito, con due collaudatori: uno ricrea i difetti, l altro guarda se il sito nasce rotto. Se regge, cassa e promesse entrano insieme nella richiesta di unione #263.
+>
+> ✅ **2026-10-29 15:40 — Fatto.** Il collaudo ha retto. La radiografia ha trovato un solo difetto nato, il sì/no delle caratteristiche, e l ha riparato un mezzo giro. Adesso tutto è dentro la #263, e passano 6.144 prove su 6.144.
 
 **In parole semplici.** Il giro B è finito. La cassa in contanti regge: 6 difetti chiusi su 8, e sul ramo della #263 passano 6.099 prove su 6.099. Le promesse invece si sono fermate di nuovo, e sempre sulla home. Questa volta la squadra ha costruito un conto alla rovescia furbo, che guarda gli orari dei negozi. Il collaudo ha trovato 8 casi in cui la home dice un giorno che la cassa non sa prenotare. Esempio: sabato alle 7:30, col forno aperto dalle 7, la home dice «Arriva lunedì». Dalle 8, però, la cassa consegna oggi.
 

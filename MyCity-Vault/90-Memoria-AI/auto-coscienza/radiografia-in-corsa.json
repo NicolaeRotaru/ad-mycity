@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-29 15:15",
+  "aggiornato": "2026-10-29 15:36",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4949,6 +4949,63 @@
       "nota": "",
       "file": {
         "app/checkout/page.tsx": "9d25c81d0421"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:36",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "La griglia «Caratteristiche» scrive «sí» con l accento acuto, «1» e «0» così come sono, mentre casella e marchio li leggono come sì o no",
+        "Il riepilogo della bozza da foto ha ancora un suo sì/no: «no», «0» e «falso» contano come dichiarazione",
+        "La griglia traduce in Sì e No le parole «sì», «no», «yes» anche nei campi di testo, allergeni compresi",
+        "Un vero o falso mandato dall assistente come booleano per una casella si perde in silenzio"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/category-attributes.ts": "42672a3ba6a2",
+        "lib/ordini/chiave-dopo-l-errore.ts": "abd649fbd9f9",
+        "lib/products/aiPatch.ts": "e3060ad0b9be",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/prontoPerLaVendita.ts": "75ec579ca06c",
+        "lib/products/qualityMarks.ts": "4a6aff7e23d2",
+        "lib/products/schema.ts": "b58e234bb60e",
+        "lib/promesse-pubbliche.ts": "76853ccbab43"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:36",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Un vero o falso mandato dall assistente come booleano per una casella si perde in silenzio"
+      ],
+      "nota": "",
+      "file": {
+        "app/come-funziona/page.tsx": "157e0ffcdde3",
+        "app/contact/page.tsx": "af3947e92d1f",
+        "app/page.tsx": "1e6cb6f1f980",
+        "app/product/[id]/page.tsx": "1e90b4cdda3a",
+        "app/rider/help/page.tsx": "df4bafd6af45",
+        "app/sell/page.tsx": "974e6a483e72",
+        "app/seller/layout.tsx": "1516f41c793f",
+        "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
+        "components/ConfirmDialog.tsx": "51e3578284a2",
+        "components/home-sections/HomeSectionRenderer.tsx": "e88d50da2323",
+        "components/home/HowItWorks.tsx": "84e4aa7e0a84",
+        "components/seller/AttributesFields.tsx": "0fb081459bb7",
+        "components/seller/ProductForm.tsx": "2d4f7c397bde",
+        "components/ui/DeliveryCutoff.tsx": "7840a5bfc341"
       }
     }
   ]

@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1789,
+    "findings": 1794,
     "bloccanti": 35,
     "gravi": 529,
-    "minori": 1225,
+    "minori": 1230,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -31604,6 +31604,61 @@
       "file": "lib/promesse-pubbliche.ts:213-217 (cartaAlCheckoutDisponibile legge NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)",
       "descrizione": "La scelta di Nicola (al lancio solo contanti) non ha un interruttore suo: la governa la presenza della chiave. Rimedio: un interruttore esplicito, acceso da Nicola.",
       "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove del sì/no legano la regola alla funzione ma non alla casella vera del negoziante",
+      "file": "components/seller/AttributesFields.tsx:218 (checked=) · tests/unit/il-si-no-dice-la-stessa-cosa-in-tutti-i-punti.test.ts",
+      "descrizione": "Il sito oggi fa giusto. Con checked={values[f.key] === true} le 52 prove della squadra restano verdi, mentre la prova del collaudo zz-collaudo-sino.test.tsx (scratch della sessione) dà 8 rossi su 17: va portata nelle prove del sito.",
+      "fonte": "nato dal lotto: mezzo giro del sì/no (ondata 12, run wf_d0a5cee9-177, commit 2b1737b)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La griglia «Caratteristiche» scrive «sí» con l accento acuto, «1» e «0» così come sono, mentre casella e marchio li leggono come sì o no",
+      "file": "lib/category-attributes.ts formatAttributeValue · app/product/[id]/page.tsx:929",
+      "descrizione": "Con cruelty_free:'1' la casella è spuntata e il marchio compare, ma la griglia scrive «Cruelty free: 1»; con '0' scrive «Cruelty free: 0»; con 'sí' (accento acuto) casella e marchio dicono no e la griglia scrive «sí». La griglia non conosce il tipo del campo.",
+      "fonte": "preesistente: c è anche su 6cdb4f1; trovato nel mezzo giro del sì/no (ondata 12, run wf_d0a5cee9-177)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il riepilogo della bozza da foto ha ancora un suo sì/no: «no», «0» e «falso» contano come dichiarazione",
+      "file": "lib/products/prontoPerLaVendita.ts:250 diceQualcosa (usata a :285 in tutteLeDichiarazioniLette)",
+      "descrizione": "diceQualcosa scarta solo false e /^false$/i. Con senza_glutine:'no' la riga «Senza glutine: No» resta tra le dichiarazioni, mentre per attributoSpuntato è un no. È il quinto punto che la regola sola non ha unificato.",
+      "fonte": "preesistente: c è anche su 6cdb4f1; trovato nel mezzo giro del sì/no (ondata 12, run wf_d0a5cee9-177)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La griglia traduce in Sì e No le parole «sì», «no», «yes» anche nei campi di testo, allergeni compresi",
+      "file": "lib/category-attributes.ts:238-242 formatAttributeValue (usata anche da AllergensAccordion)",
+      "descrizione": "formatAttributeValue('no') dà 'No' e ('yes') dà 'Sì' per qualunque chiave, anche un campo di testo. Prima lo faceva solo per true e false. Raro e solo estetico.",
+      "fonte": "nato dal lotto: mezzo giro del sì/no (ondata 12, run wf_d0a5cee9-177, commit 2b1737b)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Un vero o falso mandato dall assistente come booleano per una casella si perde in silenzio",
+      "file": "lib/products/aiPatch.ts:744,1060 (value = typeof rawValue === 'string' ? … : '') · components/seller/ProductForm.tsx:389-395",
+      "descrizione": "Con patch.attributes = {cruelty_free: true} il valore diventa '' e la casella viene saltata con continue. Altrove (aiPatch.ts:751,1067) i booleani sono gestiti. C era già prima del mezzo giro.",
+      "fonte": "preesistente: c è anche su 6cdb4f1; trovato nel mezzo giro del sì/no (ondata 12, run wf_d0a5cee9-177)"
     }
   ],
   "sync_scan": {

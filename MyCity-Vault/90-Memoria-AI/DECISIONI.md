@@ -6025,3 +6025,13 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 ## 2026-10-29 14:54 — 🔴 Nicola conferma i due supplementi della consegna
 
 **Cosa ha scritto Nicola:** «la consegna veloce sotto i 10€ costa 4€, però se non sceglie la consegna veloce ovvero quella nella fascia oraria costa 3,5€». È la lettura «si sommano» della voce delle 14:35, ora confermata con le sue parole. Tabella: sotto i 10 euro fascia 3,50 e veloce 4,00; da 10 euro in su fascia 3,00 e veloce 3,50. Resta una mia lettura non chiesta, da ricordare a chi costruisce il pacchetto: la soglia dei 10 euro vale per negozio e sulla merce dopo gli sconti, come la consegna. Fatto `consegna.promessa` aggiornato nella fonte.
+
+## 2026-10-29 15:40 — 🟡 L ondata 1 del sito è completa nella richiesta #263 (cassa, promesse A, sì/no)
+
+**Cosa ho fatto.** Ho portato sul ramo `ccr-b2418a18-982q9d` del sito, sopra `0df7945`, tre pezzi: la cassa del giro B (`bc79688`, file identici al ramo collaudato `fe8aee8`), le promesse del ramo di ieri (`6cdb4f1`) e il mezzo giro del sì/no (`2b1737b`). `npm run verify`: 683 file e 6.144 prove. Perimetro verde: 29 file su 6 dimensioni. Ho aggiornato titolo e testo della #263 e mi sono iscritto ai suoi eventi.
+
+**Perché un mezzo giro.** La radiografia del perimetro delle promesse ha trovato un grave nato: la regola nuova del sì/no era più stretta di quelle del sito (voce 1778). Il metodo vuole che un grave nato si ripari prima di unire. L ha fatto una squadra sola col motore delle ondate (ondata 12, run `wf_d0a5cee9-177`), e il collaudo ha retto.
+
+**Cosa resta fuori di proposito.** Il conto alla rovescia del giro B (`37732cb`), con 8 gravi nati. Le frasi dei 30-60 minuti (253 e 1516), che vanno col pacchetto del prezzo. «Paghi come vuoi», «zero commissioni» e «senza domande», che c erano già: sono nel registro, coi pacchetti che riscrivono quelle frasi.
+
+**Referto:** `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`. **Colore:** 🟡: codice in un ramo, l unione è di Nicola.

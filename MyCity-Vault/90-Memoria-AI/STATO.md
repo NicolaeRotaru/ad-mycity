@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-29 00:10
+aggiornato: 2026-10-29 15:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧱 **2026-10-29 15:40 — L ondata 1 del sito è completa: cassa, promesse e sì/no nella richiesta #263.**
+>
+> La cassa in contanti non fa più ordini doppi nei casi riparati, e le frasi pubbliche dicono il vero in sei punti. Passano tutte le 6.144 prove del sito. Il conto alla rovescia furbo della home non entra: aveva 8 gravi nati.
+>
+> Hai firmato il prezzo della consegna: 3 euro, 50 centesimi in più sotto i 10 euro, 50 centesimi in più per la veloce in 30-60 minuti. Arriva nel codice col suo pacchetto, dopo l unione della #263. Da firmare adesso: la #263 del sito e la #898 della memoria.
 
 > 📝 **2026-10-29 00:10 — Hai scelto, e il limite della settimana sta finendo: ho annotato tutto.**
 >
