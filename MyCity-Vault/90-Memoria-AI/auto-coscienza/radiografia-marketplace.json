@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1809,
+    "findings": 1810,
     "bloccanti": 35,
     "gravi": 531,
-    "minori": 1243,
+    "minori": 1244,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -31892,6 +31892,17 @@
       "file": "app/seller/orders/page.tsx:151-168 · app/orders/[id]/page.tsx:767-771 · lib/ordini/fascia-leggibile.ts",
       "descrizione": "fasciaLeggibile restituisce l etichetta della veloce per qualunque stato e data: su un ordine consegnato la settimana scorsa sembra una promessa ancora in corso.",
       "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Con più negozi il fattorino prende 3 euro per ogni ordine di negozio: la regola firmata dice 3 euro per il giro e 1 euro per ogni negozio in più",
+      "file": "lib/shipping.ts compensoRiderCents · lib/ordini/prezzi.ts (riderFeeCents per gruppo) · lib/stripe/payout.ts · lib/rider/incasso-alla-consegna.ts · app/rider/earnings/page.tsx",
+      "descrizione": "Nicola, 29/10 (letto alle 23:04): «il fattorino prende 1€ per ogni negozio in più» (registro dei fatti, logistica.compenso-fattorino): un negozio 3 euro, due 4, tre 5. Il codice paga 3 euro per ogni ordine di negozio: con tre spese da 10 euro il cliente paga 5 euro di consegna, MyCity prende 3 euro di commissione e il fattorino ne riceverebbe 9, cioè MyCity ci rimette 1 euro. Minore perché oggi c è un solo negozio vero e il fattorino è Nicola; va sistemato prima del secondo negozio, nell ondata 15, con i bonifici del fattorino che restano dentro l incasso.",
+      "fonte": "regola firmata da Nicola il 2026-10-29 alle 23:04 (registro dei fatti, logistica.compenso-fattorino): non ancora nel codice"
     }
   ],
   "sync_scan": {

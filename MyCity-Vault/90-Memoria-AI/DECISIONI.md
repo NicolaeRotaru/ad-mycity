@@ -6098,3 +6098,13 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 **Ancora aperto:** quanto prende il fattorino per un giro con più negozi. Ho consigliato 3 euro più 1 per ogni fermata in più. Non blocca il lancio: c è un negozio solo e consegna lui.
 
 **Fatto** `consegna.promessa` aggiornato alle 22:22, con tre cacce; il controllo di coerenza è verde. Nicola ha chiesto anche di spiegarla bene al cliente, soprattutto nel carrello: tre proposte di testo sono in giudizio (run `wf_1bfb78d5-949`), poi entrano nell ondata 14.
+
+## 2026-10-29 23:04 — 🔴 Nicola decide il compenso del fattorino con più negozi
+
+**Cosa ha scritto Nicola:** «il fattorino prende 1€ per ogni negozio in più», rispondendo alla domanda «3 euro più 1 per ogni fermata in più, oppure 3 euro per ogni negozio?».
+
+**La regola:** 3 euro per il giro e 1 euro per ogni negozio in più. Un negozio 3 euro, due 4, tre 5. L euro che il cliente paga per il negozio in più paga la fermata in più; la veloce e la spesa sotto i 10 euro restano a MyCity.
+
+**Fatto** nuovo `logistica.compenso-fattorino` alle 23:04; `consegna.promessa` aggiornato per rimandarci. Nel registro del sito la voce 1809: il codice paga ancora 3 euro per ogni ordine di negozio. L ondata 14 che sta girando non lo tocca, perché la sua scheda dice di lasciare il compenso com è; entra nell ondata 15, con la conferma della veloce entro 10 minuti.
+
+**Colore:** 🔴 (soldi), firmato da Nicola.

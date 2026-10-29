@@ -1,11 +1,11 @@
 {
-  "data": "2026-10-29 22:22",
+  "data": "2026-10-29 23:04",
   "esito": "ok",
   "copertura": 1296,
   "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 50,
-  "cacce_aperte": 17,
+  "fatti_totali": 51,
+  "cacce_aperte": 19,
   "file_scansionati": 1296,
   "incoerenze": [],
   "cacce": [
@@ -85,6 +85,18 @@
       "fatto": "consegna.promessa",
       "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
       "dal": "2026-10-29 22:22",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Quanto prende il fattorino per un giro con più negozi è ancora da decidere",
+      "dal": "2026-10-29 23:04",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "consegna.promessa",
+      "pattern": "Consegna: 3 euro di base per tutto il carrello, con la fascia oraria scelta dal cliente. Si aggiunge 1 euro per ogni negozio in più nel carrello. Si aggiunge 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro: la soglia si guarda negozio per negozio, non sul totale. La consegna veloce in 30-60 minuti costa 1 euro in più, una volta sola per tutto il carrello; se nel carrello c è già almeno un euro della spesa sotto i 10 euro, la veloce è compresa: l euro della veloce e quello della spesa piccola non si sommano mai. Esempi (fascia / veloce): un negozio con 15 euro 3 / 4; un negozio con 8 euro 4 / 4; due negozi con 15 e 12 euro 4 / 5; due negozi con 15 e 6 euro 5 / 5; due negozi con 6 e 7 euro 6 / 6; tre negozi con 15, 12 e 20 euro 5 / 6; tre negozi con 5, 6 e 7 euro 8 / 8. Al lancio il fattorino è Nicola. Quanto prende il fattorino per un giro con più negozi è ancora da decidere, prima del secondo negozio vero. Deciso da Nicola in chat il 2026-10-29 sera, in tre messaggi, e confermato con «sì tutto giusto» sullo schema (letto alle 22:21). Sostituisce «3 euro per negozio» delle 16:13.",
+      "dal": "2026-10-29 23:04",
       "copie_trovate": 0
     },
     {
