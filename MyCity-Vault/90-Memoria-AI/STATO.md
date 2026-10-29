@@ -6,7 +6,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > 💶 **2026-10-30 00:14 — Il prezzo della consegna è deciso, e nel sito è quasi costruito.**
 >
-> Hai fissato la regola: 3 euro di base per tutto il carrello, 1 euro per ogni negozio in più, 1 euro per ogni negozio sotto i 10 euro, 1 euro per la veloce una volta sola. Il fattorino prende 3 euro per il giro e 1 euro per ogni negozio in più. Le ondate 13 e 14 l hanno costruita, con la spiegazione nel carrello, ma non sono ancora pronte da unire.
+> Hai fissato la regola. Si parte da 3 euro di base per tutto il carrello. Si aggiunge 1 euro per ogni negozio in più e 1 euro per ogni negozio sotto i 10 euro. La veloce costa 1 euro, una volta sola. Il fattorino prende 3 euro per il giro e 1 euro per ogni negozio in più. Le ondate 13 e 14 l hanno costruita, con la spiegazione nel carrello, ma non sono ancora pronte da unire.
 >
 > Ti chiedo una scelta: cosa succede alla consegna se in un carrello con più negozi uno rifiuta l ordine. Poi parte l ondata 15, la correzione. Il resoconto dei costi e delle commissioni è in consegne/finanza/2026-10-29-costi-e-commissioni.md.
 
