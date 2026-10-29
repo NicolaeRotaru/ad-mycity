@@ -6119,3 +6119,13 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 **Cosa decido.** Il ramo della fascia con la carta non entra: la carta al lancio è spenta, e la scheda 1797 resta aperta nella lista delle cose da fare prima di accenderla, con la 1810. Il prezzo e le frasi si cuciono insieme e vanno a un giro di correzione (ondata 15), dopo la risposta di Nicola sul rimborso.
 
 **Colore:** 🟡 (codice in rami del sito, niente unito).
+
+## 2026-10-30 00:35 — 🔴 Nicola decide cosa succede alla consegna quando un negozio del carrello rifiuta l ordine
+
+**Cosa ha scritto Nicola:** «Si va bene», alla proposta di ricalcolare la consegna sui negozi rimasti.
+
+**La regola:** se in un carrello con più negozi un negozio rifiuta, non conferma in tempo o il suo ordine viene annullato prima della consegna, la consegna si rifà sui negozi rimasti. Esempio: pane 15 euro e frutta 12 euro, consegna 4 euro; il forno rifiuta; al cliente tornano 16 euro e il fattorino prende 3 euro invece di 4. Con i contanti il cliente paga di meno alla porta.
+
+**Lettura mia, da correggere se sbagliata:** vale per gli annullamenti prima della consegna. Un reso dopo la consegna non cambia la consegna, perché il giro è stato fatto.
+
+**Fatto** nuovo `consegna.negozio-che-rifiuta` alle 00:35. Entra nell ondata 15.

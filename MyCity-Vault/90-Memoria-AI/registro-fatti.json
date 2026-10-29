@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-29 23:04",
+  "aggiornato": "2026-10-30 00:35",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -234,6 +234,16 @@
       "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
       "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
       "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "consegna.negozio-che-rifiuta",
+      "nome": "Quando un negozio del carrello rifiuta l ordine",
+      "valore": "Se in un carrello con più negozi un negozio rifiuta l ordine, non lo conferma in tempo o il suo ordine viene annullato prima della consegna, la consegna si ricalcola sui negozi rimasti con la stessa regola (consegna.promessa). Al cliente torna la merce di quel negozio più la differenza della consegna; il fattorino prende il compenso del giro coi negozi rimasti (logistica.compenso-fattorino). Esempio: pane 15 euro e frutta 12 euro, consegna 4 euro; il forno rifiuta; resta la frutta, consegna 3 euro; al cliente tornano 16 euro (15 di pane e 1 di consegna); il fattorino prende 3 euro invece di 4. Con i contanti il cliente paga semplicemente di meno alla porta. Lettura dell AD: vale per gli annullamenti prima della consegna; un reso dopo la consegna non cambia la consegna, che è stata fatta. Deciso da Nicola in chat il 2026-10-30 («Si va bene», letto alle 00:35) sulla proposta dell AD.",
+      "fonte": "Nicola, chat 2026-10-30: «Si va bene» alla proposta di ricalcolare la consegna sui negozi rimasti",
+      "aggiornato": "2026-10-30 00:35",
       "storia": [],
       "caccia": [],
       "esenzioni": []

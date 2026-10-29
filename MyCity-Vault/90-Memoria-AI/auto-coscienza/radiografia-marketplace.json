@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1813,
+    "findings": 1821,
     "bloccanti": 35,
-    "gravi": 532,
-    "minori": 1246,
+    "gravi": 536,
+    "minori": 1250,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -31936,6 +31936,94 @@
       "file": "lib/stripe/client.ts:341 (capabilities card_payments e transfers)",
       "descrizione": "Il cliente paga sul conto di MyCity e il negozio riceve solo trasferimenti: gli basta la capacità transfers. Chiedere anche card_payments allunga la verifica del negozio e può bloccarlo per documenti che non servono. Da confermare con la documentazione Stripe Connect, che da questa sessione non si apre.",
       "fonte": "preesistente: c è su 0df5557 e su 41a84111; trovato dal controllo dei costi e delle commissioni (run wf_90ac7bed-c22, 2026-10-29), riletto nel codice dall AD"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se in un carrello con più negozi uno rifiuta o viene annullato prima della consegna, gli altri restano con 1 euro di consegna invece di ricalcolarla sui negozi rimasti",
+      "file": "lib/ordini/prezzi.ts vociDellaConsegna (la base e la veloce stanno solo sull ordine primo) · lib/ordini/annulla.ts · app/api/seller/orders/[id]/reject/route.ts · app/api/cron/expire-stale-orders/route.ts · lib/stripe/payout.ts refundOrder",
+      "descrizione": "Regola di Nicola del 30/10 (consegna.negozio-che-rifiuta): la consegna si rifà sui negozi rimasti. Esempio: pane 15 € e frutta 12 €, consegna 4 €; il forno rifiuta; resta la frutta a 3 € di consegna; al cliente tornano 16 €; il fattorino prende 3 €. Oggi l ordine della frutta resta con 1 € di consegna e la base sparisce col rimborso del forno. Vale per gli annullamenti prima della consegna (rifiuto, scadenza, annullo); un reso dopo la consegna non cambia la consegna.",
+      "fonte": "regola firmata da Nicola il 2026-10-30 alle 00:35 (registro dei fatti, consegna.negozio-che-rifiuta): non ancora nel codice"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Con la carta e più negozi i bonifici al negozio e al fattorino possono superare l addebito del cliente: Stripe rifiuta l ultimo",
+      "file": "lib/ordini/prezzi.ts prezziDelCarrello (consegna per ordine) · lib/stripe/payout.ts:242,422 (source_transaction sulla stessa charge) · tests/unit/col-codice-spedizione-gratuita-i-bonifici-stanno-nell-addebito.test.ts:66",
+      "descrizione": "Prova del collaudo sul ramo dell ondata 14 prima del rifacimento: tre negozi da 10 €, addebito 35,00 €, bonifici 36,00 €; 15+12+11 € 43,00 contro 43,20; con il codice 15+12 29,50 contro 30,30. Nasceva dal compenso del fattorino a 3 € per ogni ordine e dalla prova ristretta a un negozio. Il rifacimento (552008c6) dice di averlo chiuso: nessun collaudo l ha ancora visto reggere.",
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Le domande frequenti e le descrizioni Google dei negozi e delle categorie promettono ancora i 30-60 minuti come cosa certa",
+      "file": "lib/promesse-pubbliche.ts rispostaTempiDiConsegna («In 30-60 min dalla conferma») e fraseComeArriva («Consegna locale in 30-60 min»), usate da app/faq/page.tsx e dai metadati di app/store e app/category",
+      "descrizione": "Sono le due frasi che hanno fermato il pacchetto delle frasi nell ondata 14: vivono nel file delle frasi di prezzo, che quella squadra non poteva toccare. Regola: la consegna arriva nella fascia scelta; la veloce in 30-60 minuti solo quando c è un fattorino in servizio e i negozi sono aperti.",
+      "fonte": "preesistente: c è su 41a84111; trovato dal collaudo dell ondata 14 (run wf_f5280289-22c)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "Interfaccia",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La pagina consegne dell amministratore scrive «3,00 €–4,00 €» a consegna, ma ora un ordine porta da 1 a 4 euro e il carrello non ha un massimo",
+      "file": "app/admin/delivery/page.tsx",
+      "descrizione": "Con la regola dei negozi in più il secondo ordine porta 1 € e un carrello di tre negozi sotto i 10 € arriva a 8 €. La pagina deve dire la regola, non un intervallo per ordine.",
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il pacchetto delle frasi fa diventare rosse tre prove che erano verdi: le guardie della pagina Spedizioni e del negozio chiuso",
+      "file": "tests/unit (guardie della pagina Spedizioni e del negozio chiuso, citate dal collaudo dell ondata 14)",
+      "descrizione": "Le frasi nuove sono giuste, ma tre prove vecchie le confrontano con il testo di prima. Vanno aggiornate senza indebolirle, perché npm run verify torni verde.",
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buchi nelle prove delle frasi: la scheda negozio della home, il conto alla rovescia dopo il caricamento, il prodotto esaurito, la descrizione Google e la copia di «in giornata» possono tornare indietro con le prove verdi",
+      "file": "components/home/HeroStoreCard.tsx:206 · components/ui/DeliveryCutoff.tsx · app/product/[id]/page.tsx · app/product/[id]/layout.tsx · app/page.tsx",
+      "descrizione": "Mutanti visti verdi dal collaudo: «oggi, in 30-60 min» rimesso nella scheda negozio della home; il conto alla rovescia fino alle 18 dopo l idratazione; esaurito={false} sulla scheda prodotto; «consegna locale in 30-60 minuti» nella descrizione Google; la frase «in giornata» ricopiata fra virgolette doppie; un titolo della home che promette carta o contanti.",
+      "fonte": "nato dal lotto: ondata 14, il prezzo con più negozi e le frasi (run wf_f5280289-22c, rami 552008c6 e 3fca82ba)"
+    },
+    {
+      "dimensione": "coerenza-brand",
+      "reparto": "Coerenza del marchio",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il titolo grande della home in produzione viene dal database e dice ancora «arriva a casa in 30-60 min» e «abbigliamento»",
+      "file": "site_settings.home_site in produzione (sottotitolo dell eroe della home, salvato il 2026-06-24) · lib/site-branding.ts e il renderer della home che lo leggono prima dei valori del codice",
+      "descrizione": "Letto in sola lettura il 2026-10-30 fra le 00:35 e le 00:37 (Supabase, tabella site_settings, riga 1) e sulla home pubblicata (Vercel): il sottotitolo dell eroe dice «Alimentari, abbigliamento, casa, elettronica: ordini dai commercianti del tuo quartiere in pochi tap, arriva a casa in 30-60 min e paghi alla consegna.» Il codice delle ondate 13 e 14 cambia le frasi di partenza, ma questa riga salvata dall amministratore il 24/6 vince su di loro, quindi resta pubblicata anche dopo l unione. Due promesse sbagliate: i 30-60 minuti come cosa certa, e l abbigliamento, che al lancio non c è (catalogo.categorie). La striscia in testata invece non ha voci salvate (branding.announcement vuoto): usa le frasi del codice. Rimedio: cambiare il testo dal pannello dell amministratore della home, oppure con una scrittura nel database firmata da Nicola (🔴). Nella stessa home pubblicata, la meta descrizione per Google dice ancora «abbigliamento… Consegna in 30-60 minuti»: quella è nel codice e la cambia l ondata.",
+      "fonte": "letto dall AD in sola lettura il 2026-10-30 (Supabase execute_sql su site_settings; home pubblicata via Vercel web_fetch)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La descrizione Google della home e il titolo di riserva della home nominano l abbigliamento, che al lancio non c è",
+      "file": "app/layout.tsx:100 (meta description) · app/page.tsx:32 (sottotitolo di riserva dell eroe)",
+      "descrizione": "Nicola il 29/10 alle 00:05 (catalogo.categorie): niente abbigliamento per ora. Le due frasi dicono «alimentari, abbigliamento, casa, elettronica». Il sottotitolo vero della home pubblicata viene dal database (voce 1819) e va cambiato a parte.",
+      "fonte": "preesistente: c è su 0df5557 e sul ramo dell ondata 14; trovato dall AD il 2026-10-30 leggendo la home pubblicata"
     }
   ],
   "sync_scan": {
