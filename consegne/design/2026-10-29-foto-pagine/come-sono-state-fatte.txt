@@ -1,0 +1,50 @@
+Fotografie delle pagine vere di MyCity, 29/10/2026 20:15.
+Come sono fatte: l'HTML e il CSS di produzione letti attraverso Vercel (la rete della sessione blocca il dominio), aperti in Chromium con i soli script in linea di React e senza i pacchetti JavaScript dell'app; font veri (Inter e Fraunces dal pacchetto pubblico).
+Limiti: le foto dei prodotti non si scaricano da qui (riquadro grigio «FOTO»); le parti caricate dal browser dopo (file di prodotti, barra «Aggiungi», numero sul carrello) compaiono come riquadri di caricamento.
+Nomi: <pagina>--mobile.png = prima schermata del telefono 390x844; --desktop.png = prima schermata del computer 1440x900; --mobile-intera.png = pagina intera.
+
+Registro della fotografia:
+home mobile altezza=5025px foto-sostituite=0 
+home mobile-intera altezza=5025px foto-sostituite=0 
+home desktop altezza=3396px foto-sostituite=0 
+home desktop-intera altezza=3396px foto-sostituite=0 
+negozio-pane-quotidiano mobile altezza=4392px foto-sostituite=1 
+negozio-pane-quotidiano mobile-intera altezza=4392px foto-sostituite=1 
+negozio-pane-quotidiano desktop altezza=2816px foto-sostituite=1 
+negozio-pane-quotidiano desktop-intera altezza=2816px foto-sostituite=1 
+prodotto-kefir mobile altezza=5527px foto-sostituite=1 
+prodotto-kefir mobile-intera altezza=5527px foto-sostituite=1 
+prodotto-kefir desktop altezza=3824px foto-sostituite=1 
+prodotto-kefir desktop-intera altezza=3824px foto-sostituite=1 
+ricerca-kefir mobile altezza=2901px foto-sostituite=0 
+ricerca-kefir mobile-intera altezza=2901px foto-sostituite=0 
+ricerca-kefir desktop altezza=1605px foto-sostituite=0 
+ricerca-kefir desktop-intera altezza=1605px foto-sostituite=0 
+negozi mobile altezza=2095px foto-sostituite=0 
+negozi mobile-intera altezza=2095px foto-sostituite=0 
+negozi desktop altezza=1561px foto-sostituite=0 
+negozi desktop-intera altezza=1561px foto-sostituite=0 
+categoria-alimentari mobile altezza=2095px foto-sostituite=0 
+categoria-alimentari mobile-intera altezza=2095px foto-sostituite=0 
+categoria-alimentari desktop altezza=1561px foto-sostituite=0 
+categoria-alimentari desktop-intera altezza=1561px foto-sostituite=0 
+carrello mobile altezza=2179px foto-sostituite=0 
+carrello mobile-intera altezza=2179px foto-sostituite=0 
+carrello desktop altezza=1561px foto-sostituite=0 
+carrello desktop-intera altezza=1561px foto-sostituite=0 
+piu-venduti mobile altezza=7980px foto-sostituite=0 
+piu-venduti mobile-intera altezza=7980px foto-sostituite=0 
+piu-venduti desktop altezza=5431px foto-sostituite=0 
+piu-venduti desktop-intera altezza=5431px foto-sostituite=0 
+categorie mobile altezza=2095px foto-sostituite=0 
+categorie mobile-intera altezza=2095px foto-sostituite=0 
+categorie desktop altezza=1561px foto-sostituite=0 
+categorie desktop-intera altezza=1561px foto-sostituite=0 
+checkout mobile altezza=2716px foto-sostituite=0 
+checkout mobile-intera altezza=2716px foto-sostituite=0 
+checkout desktop altezza=1744px foto-sostituite=0 
+checkout desktop-intera altezza=1744px foto-sostituite=0 
+categoria-elettronica mobile altezza=2095px foto-sostituite=0 
+categoria-elettronica mobile-intera altezza=2095px foto-sostituite=0 
+categoria-elettronica desktop altezza=1561px foto-sostituite=0 
+categoria-elettronica desktop-intera altezza=1561px foto-sostituite=0 
