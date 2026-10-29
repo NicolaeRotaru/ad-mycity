@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-29 14:47",
+  "aggiornato": "2026-10-29 15:15",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4874,6 +4874,81 @@
       "nota": "",
       "file": {
         "app/api/stripe/checkout/route.ts": "f1bb7bf4fa01"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:15",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "Il titolo grande della home (variante B, metà dei visitatori) dice «Paghi come vuoi.», e il giro di benvenuto «Ordina, paghi come vuoi»: la cassa offre solo i contanti",
+        "Il sito promette «Reso entro 14 giorni» e «Ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+        "La descrizione della foto scritta per chi non vede è sparita dalla scheda, ma la foto del cliente non la usa: non la riceve nessuno",
+        "La pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+        "Contatti senza WhatsApp e senza telefono: resta una scheda su tre, sotto «Scegli il canale più comodo» e con gli orari di un canale che non c è"
+      ],
+      "nota": "",
+      "file": {
+        "app/come-funziona/page.tsx": "157e0ffcdde3",
+        "app/contact/page.tsx": "af3947e92d1f",
+        "app/page.tsx": "1e6cb6f1f980",
+        "app/product/[id]/page.tsx": "1e90b4cdda3a",
+        "app/rider/help/page.tsx": "df4bafd6af45",
+        "app/sell/page.tsx": "974e6a483e72",
+        "app/seller/layout.tsx": "1516f41c793f",
+        "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
+        "components/ConfirmDialog.tsx": "51e3578284a2",
+        "components/home-sections/HomeSectionRenderer.tsx": "e88d50da2323",
+        "components/home/HowItWorks.tsx": "84e4aa7e0a84",
+        "components/seller/AttributesFields.tsx": "0fb081459bb7",
+        "components/seller/ProductForm.tsx": "f2719d81a836",
+        "components/ui/DeliveryCutoff.tsx": "7840a5bfc341"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:15",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "La casella sì/no del negozio risulta vuota mentre il cliente vede il marchio «Bio» o «Cruelty free»: il sì/no ha quattro regole diverse in cinque punti",
+        "Ai negozianti diciamo «zero commissioni» e «apri gratis», poi chiediamo 50 euro al mese più il 10%",
+        "FAQ e Termini danno tre risposte diverse su come si paga, e una è la carta al rider che non esiste",
+        "«Al lancio solo contanti» si regge solo sull assenza di una variabile: se qualcuno mette la chiave pubblica di Stripe su Vercel, cambiano la cassa e tutte le frasi senza nessun avviso"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/category-attributes.ts": "2dc5884031dd",
+        "lib/ordini/chiave-dopo-l-errore.ts": "abd649fbd9f9",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/schema.ts": "b58e234bb60e",
+        "lib/promesse-pubbliche.ts": "76853ccbab43"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:15",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il titolo grande della home (variante B, metà dei visitatori) dice «Paghi come vuoi.», e il giro di benvenuto «Ordina, paghi come vuoi»: la cassa offre solo i contanti",
+        "FAQ e Termini danno tre risposte diverse su come si paga, e una è la carta al rider che non esiste"
+      ],
+      "nota": "",
+      "file": {
+        "app/checkout/page.tsx": "9d25c81d0421"
       }
     }
   ]

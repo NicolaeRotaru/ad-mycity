@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1778,
+    "findings": 1789,
     "bloccanti": 35,
-    "gravi": 526,
-    "minori": 1217,
+    "gravi": 529,
+    "minori": 1225,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -1166,7 +1166,8 @@
       "prova_eseguita": "Home: «Reso entro 14 giorni / Cambi idea? Ti rimborsiamo senza domande.». Come funziona: stesso testo. Piè di pagina di ogni pagina: «Reso entro 14 giorni». La ricerca dei campi di esclusione dà zero risultati. · Verifica tecnica: Ho letto product/[id]/page.tsx:824-829, lib/promesse-pubbliche.ts:190-199, OrderSummary.tsx:198-207, cart/page.tsx:760-783, HomeSectionRenderer.tsx:71-77 e come-funziona/page.tsx:31. In PRODUZIONE, con web_fetch_vercel_url: /product/529439d9… (Focaccia) mostra «Consegna MyCity 3,00 € … Reso entro 14 giorni»; /come-funziona mostra «Cambi idea? Ti rimborsiamo senza domande.»; nella home la frase non c'è. Con una SELECT sulle colonne di products in produzione: nessuna colonna return, perish o deperib. Ho elencato i 9 prodotti con la loro categoria. In returns/create/route.ts:12 c'è REASON con CHANGED_MIND, senza nessun filtro. Il testo locale di /terms e /returns contiene l'esclusione dei deperibili.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy, privacy-legale · doppioni uniti: N199 · id R60 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy, privacy-legale · doppioni uniti: N199 · id R60 · si ripara: codice",
+      "nota_riesame": "2026-10-29 15:15: confermato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b): HomeSectionRenderer.tsx:80 e app/come-funziona/page.tsx:31-32 contro app/returns/page.tsx:69,102. C è su 0df7945. Va con l ondata 2 (resi)."
     },
     {
       "dimensione": "privacy-legale",
@@ -1506,13 +1507,14 @@
       "giro": 3,
       "verificato": true,
       "gia_noto": "No. I difetti sull'abbonamento (N15, N98, N205, N233) riguardano la contraddizione «nessun costo mensile» contro i 50 €. K14 e N9 riguardano i tempi del bonifico. Nessuno riguarda la base IVA della commissione o la fatturazione al negozio.",
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-contenuti-legale · id R269 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: critico-contenuti-legale · id R269 · si ripara: decisione-nicola",
+      "nota_riesame": "2026-10-29 15:15: confermato dal collaudo delle promesse A: app/terms/page.tsx:269-270 invariato; il riquadro del carrello ora dice il 10% del lordo. Domanda al commercialista nella carta #220."
     },
     {
       "dimensione": "privacy-legale",
       "reparto": "Privacy e legale",
       "titolo": "FAQ e Termini danno tre risposte diverse su come si paga, e una è la carta al rider che non esiste",
-      "severita": "minore",
+      "severita": "grave",
       "file": "app/faq/page.tsx:55-56 · app/terms/page.tsx (§5 Pagamenti) · app/privacy/page.tsx (§4, Stripe Payments Europe Ltd.)",
       "descrizione": "La FAQ «Quali metodi di pagamento accettate?» risponde «pagamento alla consegna (contanti o POS al rider). Stiamo integrando carte, PayPal e Apple/Google Pay». I Termini (§5) dicono «Modalità accettate: carta di credito/debito (Visa, Mastercard, Amex), Apple Pay, Google Pay e, dove indicato dal Venditore, contanti», con pagamenti gestiti da «Stripe, S.A.» e incasso «in custodia (escrow)». La privacy nomina invece Stripe Payments Europe Ltd. In produzione si paga solo in contanti. La carta al rider (POS) non esiste: era già un difetto chiuso per la scheda prodotto.\n\nScenario: Un cliente legge in FAQ che può pagare con POS al rider, ordina senza contanti; alla porta il rider non ha POS. Un altro legge nei Termini che può pagare con Amex o Apple Pay e in cassa non li trova.",
       "impatto": "Contratto (Termini) che descrive metodi di pagamento non offerti e un intermediario di pagamento con un nome diverso da quello dell'informativa; FAQ che promette un mezzo inesistente. Il difetto chiuso «Carta o contanti alla consegna, decidi tu: la carta alla consegna non esiste» è ancora vivo nella FAQ.",
@@ -1524,7 +1526,8 @@
       "prova_eseguita": "/terms in produzione: «Modalità accettate: carta di credito/debito (Visa, Mastercard, Amex), Apple Pay, Google Pay» e «provider PSP autorizzati (Stripe, S.A.)». app/faq/page.tsx:56: «contanti o POS al rider». La risposta della FAQ si apre a fisarmonica e non è nell'HTML iniziale: l'ho letta dal codice. · Verifica tecnica: Ho riletto /terms in produzione. Il §5 dice «gestiti da provider PSP autorizzati (Stripe, S.A.)» e «Modalità accettate: carta di credito/debito (Visa, Mastercard, Amex), Apple Pay, Google Pay e, dove indicato dal Venditore, pagamento alla consegna in contanti». La pagina FAQ si costruisce nel browser ('use client'), quindi l'ho aperta con Playwright (Chromium 1194) sul sito locale, che è lo stesso codice della produzione (commit 70a9299). Dopo il clic, la risposta dice «...POS al rider). Stiamo integrando carte, PayPal e Apple/Google Pay.» Con grep ho trovato «Stripe» in privacy/page.tsx:169 e terms/page.tsx:144-151. Ho cercato nel registro i difetti chiusi «Carta o contanti...»: nei loro file la FAQ non c'è.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · ricomparso dopo essere stato chiuso · id R279 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: produzione-live · ricomparso dopo essere stato chiuso · id R279 · si ripara: codice",
+      "nota_riesame": "2026-10-29 15:15: passata da minore a grave: il collaudo delle promesse A (lente B, run wf_f24a412a-336) e la radiografia del perimetro la danno grave. La FAQ (app/faq/page.tsx:56) promette «contanti o POS al rider», il fattorino non ha un POS e la carta è spenta: chi conta di pagare col POS alla porta non riesce a pagare. I Termini (app/terms/page.tsx:144-152) elencano carta, Apple Pay e Google Pay, e i contanti solo «dove indicato dal Venditore». C è su 0df7945."
     },
     {
       "dimensione": "privacy-legale",
@@ -4843,7 +4846,8 @@
       "prova_eseguita": "Confermate tutte e cinque le contraddizioni nel codice di oggi. Nessun pezzo del sito calcola un compenso a chilometri o produce un PDF mensile. Ci sono tre tempi di pagamento diversi in tre posti. · Verifica tecnica: Ho letto app/rider/help/page.tsx:45-70, app/lavora-con-noi/page.tsx:22-43, app/rider/onboarding/page.tsx:15-25 e :272-282, lib/shipping.ts:53-77, lib/constants.ts:83-100, vercel.json (release-payouts */15) e app/terms/page.tsx:116. Grep di pdf, settimana e mensile nell'area fattorini. In produzione ho fatto una SELECT dei profili per ruolo: rider 1, is_approved=false.",
       "giro": 2,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, prodotto-completezza · doppioni uniti: N110 · id R30 · si ripara: decisione-nicola"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: frontend-rider-admin, prodotto-completezza · doppioni uniti: N110 · id R30 · si ripara: decisione-nicola",
+      "nota_riesame": "2026-10-29 15:15: confermato dal collaudo e dalla radiografia delle promesse: rider/help:62-63 «Sì, MyCity stipula una polizza RC» (il registro dice che il preventivo è da chiedere) e :43 contro :53 «compenso fisso» poi «base fissa + km percorsi» (COMPENSO_RIDER_CENTS = 300, non a chilometro). Oggi nessun fattorino approvato la legge; va corretta prima del primo fattorino esterno (registro logistica.fattorino-esterno)."
     },
     {
       "dimensione": "microcopy",
@@ -5101,7 +5105,7 @@
       "giro": 1,
       "verificato": true,
       "fonte_radiografia": "radiografia 2026-10-11 · corsie: i18n-microcopy, prodotto-completezza · doppioni uniti: N191 · id R221 · si ripara: codice",
-      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-account-posta#6 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: la fascia per i negozianti in fondo alla home dice ancora «Vendi online con zero commissioni» (HomeSectionRenderer.tsx:387), e il segnaposto del pannello la suggerisce (components/admin/home/HomeSectionConfigForm.tsx:221). ATTENZIONE: il canone NON è sospeso nel codice, contro la scelta firmata il 26/10 (pricing.abbonamento): components/SellerApplicationForm.tsx:225,238,378 chiede ancora il consenso all'addebito di 50 euro al mese, components/seller/SubscriptionBanner.tsx:57,62 (mostrato a ogni negoziante non abbonato, app/seller/layout.tsx:163) dice «Attiva €50/mese», e app/api/seller/subscription/checkout/route.ts:23,93 addebita 5000 centesimi. Gemello: 248."
+      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-account-posta#6 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: la fascia per i negozianti in fondo alla home dice ancora «Vendi online con zero commissioni» (HomeSectionRenderer.tsx:387), e il segnaposto del pannello la suggerisce (components/admin/home/HomeSectionConfigForm.tsx:221). ATTENZIONE: il canone NON è sospeso nel codice, contro la scelta firmata il 26/10 (pricing.abbonamento): components/SellerApplicationForm.tsx:225,238,378 chiede ancora il consenso all'addebito di 50 euro al mese, components/seller/SubscriptionBanner.tsx:57,62 (mostrato a ogni negoziante non abbonato, app/seller/layout.tsx:163) dice «Attiva €50/mese», e app/api/seller/subscription/checkout/route.ts:23,93 addebita 5000 centesimi. Gemello: 248. · 2026-10-29 15:15: confermato dalla radiografia del perimetro delle promesse: il ripiego della fascia sellerCta in HomeSectionRenderer.tsx:390 dice «Vendi online con zero commissioni», mentre il carrello ora dice «a noi il 10%»."
     },
     {
       "dimensione": "microcopy",
@@ -31479,6 +31483,127 @@
       "file": "lib/ordini/prezzi.ts consegnaDaPagareCents (sempre PLATFORM_DELIVERY_FEE_CENTS = 300) · prezziDelCarrello non riceve la fascia: app/api/stripe/checkout/route.ts ~606 · app/api/orders/cod/route.ts ~805 · app/cart/page.tsx:393",
       "descrizione": "La regola firmata il 29/10 (registro dei fatti consegna.promessa, carta #220) dice 3 euro, 50 centesimi in più sotto i 10 euro di spesa, 50 centesimi in più per la consegna veloce. Nel codice la consegna è 3 euro fissi. Prova della radiografia: prezziDelCarrello con un negozio, 800 centesimi, consegna a domicilio: atteso 350, esce 300, su 0df7945 e sul ramo. Oggi carta, contanti e schermo dicono tutti 3 euro: nessuna sorpresa al cliente, MyCity incassa da 50 centesimi a 1 euro in meno su ogni ordine piccolo o veloce. Minore perché la decisione ha poche ore ed è già pianificata come pacchetto suo (il pacchetto del prezzo, dopo l unione della #263). Trappola per chi la fa: la fascia deve entrare nel conto da tutte e due le rotte e dallo schermo insieme, e l euro va dentro delivery_fee_cents.",
       "fonte": "preesistente rispetto alla decisione del 29/10; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb, lente pagamenti-stripe) il 2026-10-29 14:47"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La casella sì/no del negozio risulta vuota mentre il cliente vede il marchio «Bio» o «Cruelty free»: il sì/no ha quattro regole diverse in cinque punti",
+      "file": "lib/category-attributes.ts:204-208 (attributoSpuntato: solo true e «true») · lib/products/qualityMarks.ts:68-76 (isTruthyAttr: anche «sì», «si», «yes», «1», 1) · lib/products/aiPatch.ts:539,741-749,1050-1076 · components/seller/ProductForm.tsx:406,508-509 · lib/products/prontoPerLaVendita.ts:259",
+      "descrizione": "La riparazione di «Vegano false» (scheda 256) ha messo una regola nuova, più stretta di quelle che il sito usa già. Per «false» adesso è giusto. Per «sì», «yes», «1» e 1 la casella del negoziante risulta vuota, mentre la scheda pubblica mostra il marchio e «Cruelty free: sì». Prima, con Boolean(), andavano d accordo. Succede quando l assistente scrive «sì» in un campo checkbox di un negozio di bellezza o di casa: al lancio, col solo forno, è improbabile. Sonda della radiografia sui file veri. Rimedio: una sola funzione sì/no usata dai cinque punti, oppure normalizzare in booleano quando si scrive un campo checkbox; prova: per ogni valore dell insieme coincidono casella spuntata, marchio e «Sì» nella griglia.",
+      "fonte": "nato dal lotto: radiografia del perimetro delle promesse (run wf_656030ba-22b) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Il titolo grande della home (variante B, metà dei visitatori) dice «Paghi come vuoi.», e il giro di benvenuto «Ordina, paghi come vuoi»: la cassa offre solo i contanti",
+      "file": "app/page.tsx:43,51 · components/BuyerOnboardingTour.tsx:45-48 · lib/experiments.ts:30-34 (home_hero a/b acceso)",
+      "descrizione": "La frase c era già. Con le promesse A la riga sotto dice «paghi in contanti alla consegna»: la stessa schermata si contraddice da sola. Chi vuole pagare con la carta lo scopre in cassa, dopo aver scritto l indirizzo. Non verificato se l admin ha un titolo suo in site_settings.home_site. Va nel pacchetto del prezzo, che riscrive i testi della home.",
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "UX",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Esc sulla finestra di conferma chiude anche la finestra che sta sotto: l admin perde la modifica dell utente",
+      "file": "components/ui/Modal.tsx:106 (non guarda e.defaultPrevented) · components/ConfirmDialog.tsx · app/admin/users/page.tsx:851-870",
+      "descrizione": "Modal vero con «Salva», poi la conferma «Cambiare il ruolo?» e Esc: onClose del Modal chiamato 1 volta, uguale su 0df7945 e sul ramo. Riguarda solo l admin.",
+      "fonte": "preesistente: c è anche su 0df7945; trovato dal collaudo delle promesse A (run wf_f24a412a-336)"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Le prove delle frasi pubbliche cercano parole nel codice: sette mutanti che rimettono i difetti restano verdi",
+      "file": "tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx · app/product/[id]/page.tsx:813 · app/cart/page.tsx:685 · components/home-sections/HomeSectionRenderer.tsx:170 · components/ConfirmDialog.tsx · app/rider/help/page.tsx · components/seller/AttributesFields.tsx:218",
+      "descrizione": "Il sito oggi fa giusto. Restano verdi: la frase del pagamento riscritta a mano su scheda prodotto e carrello; senzaNegozio={false} nella home; Maiusc+Tab rotto nel dialogo; il numero finto scritto «0523 000 000»; checked={!!values[f.key]}; il filtro della griglia reso inutile. Per ucciderli: rendere le pagine vere con l orologio finto (domenica alle 23) e montare i componenti veri, come hanno fatto i collaudatori.",
+      "fonte": "nato dal lotto: collaudo a due lenti delle promesse A (run wf_f24a412a-336) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La prova che il carrello usa il riquadro «Lo sapevi?» cerca la parola, non la chiamata: trova la riga dell import",
+      "file": "tests/unit/le-promesse-che-il-sito-non-mantiene.test.ts:206-210",
+      "descrizione": "Al posto di {RIQUADRO_LO_SAPEVI} si scrive la frase vecchia a mano, lasciando l import: 47 prove verdi. Scorciatoia n. 12 del catalogo.",
+      "fonte": "preesistente: c è anche su 0df7945; trovato dal collaudo delle promesse A (run wf_f24a412a-336)"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Home e «Come funziona» dicono «in giornata» accanto a «30-60 min», senza dire che i 30-60 minuti sono la consegna veloce",
+      "file": "app/come-funziona/page.tsx:9,54 · components/home/HowItWorks.tsx:48 · components/home/HeroStoreCard.tsx:206 · lib/site-branding.ts:63 · components/Footer.tsx:321 · app/layout.tsx:99 · app/page.tsx:33,51",
+      "descrizione": "Dopo la frase semplice delle promesse A, nella stessa pagina convivono «in giornata» e «in 30-60 minuti». Non inganna sui soldi. Le due varianti del titolo grande dicono solo «Consegna in giornata.», senza «negli orari di apertura del negozio». Si chiude col pacchetto del prezzo nuovo, insieme alle schede 253 e 1516: la consegna veloce in 30-60 minuti costa 50 centesimi in più, e tutte le pagine la diranno così.",
+      "fonte": "nato dal lotto: collaudo a due lenti delle promesse A (run wf_f24a412a-336) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La frase «Consegna in giornata, negli orari di apertura del negozio» vive in due copie",
+      "file": "components/ui/DeliveryCutoff.tsx:59 (RIGA_CONSEGNA_SENZA_NEGOZIO) · lib/promesse-pubbliche.ts:157 (QUANDO_ARRIVA_SENZA_NEGOZIO)",
+      "descrizione": "Il commento dice che la copia serve perché DeliveryCutoff è un componente client, ma lib/promesse-pubbliche.ts è già importato da componenti client. Oggi coincidono; il giorno che la regola cambia, una resta indietro.",
+      "fonte": "nato dal lotto: collaudo a due lenti delle promesse A (run wf_f24a412a-336) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La variabile del telefono di supporto non è scritta da nessuna parte: quando Nicola sceglierà il numero, nessuno saprà come si chiama",
+      "file": ".env.example (c è NEXT_PUBLIC_WHATSAPP_NUMBER, manca NEXT_PUBLIC_SUPPORT_PHONE)",
+      "descrizione": "grep SUPPORT_PHONE .env.example non trova niente.",
+      "fonte": "nato dal lotto: collaudo a due lenti delle promesse A (run wf_f24a412a-336) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "UX",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La descrizione della foto scritta per chi non vede è sparita dalla scheda, ma la foto del cliente non la usa: non la riceve nessuno",
+      "file": "lib/category-attributes.ts:210-214 (CHIAVI_FUORI_DALLA_GRIGLIA, il commento dice «già usata come testo alternativo») · app/product/[id]/page.tsx:576,681 (alt={product.name})",
+      "descrizione": "alt_text si usa solo nell anteprima del venditore (ProductForm.tsx:1114). Il nome come testo alternativo è comunque accettabile. Letto nel codice, non provato con uno screen reader.",
+      "fonte": "nato dal lotto: radiografia del perimetro delle promesse (run wf_656030ba-22b) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "UX",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Contatti senza WhatsApp e senza telefono: resta una scheda su tre, sotto «Scegli il canale più comodo» e con gli orari di un canale che non c è",
+      "file": "app/contact/page.tsx:87,90-123,211-218",
+      "descrizione": "Con le variabili assenti, come in produzione, la griglia a tre colonne mostra una scheda sola e il riquadro «Orari assistenza» Lun-Ven 9-18, Sab 10-14 resta.",
+      "fonte": "nato dal lotto: radiografia del perimetro delle promesse (run wf_656030ba-22b) sul ramo cucito 6cdb4f1"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "«Al lancio solo contanti» si regge solo sull assenza di una variabile: se qualcuno mette la chiave pubblica di Stripe su Vercel, cambiano la cassa e tutte le frasi senza nessun avviso",
+      "file": "lib/promesse-pubbliche.ts:213-217 (cartaAlCheckoutDisponibile legge NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)",
+      "descrizione": "La scelta di Nicola (al lancio solo contanti) non ha un interruttore suo: la governa la presenza della chiave. Rimedio: un interruttore esplicito, acceso da Nicola.",
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro delle promesse (run wf_656030ba-22b)"
     }
   ],
   "sync_scan": {

@@ -1,0 +1,30 @@
+{
+ "_cosa_e": "Mezzo giro dopo il giro B dell ondata 1: ripara il solo grave nato dalle promesse A (scheda 1778, il sì/no con quattro regole) prima di aggiornare la #263. Base: il ramo cucito 6cdb4f1 (0df7945 + cassa + promesse di ieri). Si legge con --ondata 12, worktree o12-*.",
+ "data": "2026-10-29 15:15",
+ "registro": "sito",
+ "origine": "radiografia del perimetro delle promesse (run wf_656030ba-22b), carta #221",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/category-attributes.ts",
+    "difetti": [
+     {
+      "idx": 1778,
+      "chiave": "architettura|la casella sì/no del negozio risulta vuota mentre il cliente vede il marchio «bio» o «cruelty free»: il sì/no ha quattro regole diverse in cinque punti"
+     }
+    ]
+   }
+  ]
+ ]
+}
