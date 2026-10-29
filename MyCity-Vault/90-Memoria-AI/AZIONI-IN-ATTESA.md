@@ -57,6 +57,8 @@ Contenuto: run del giro `wf_8774d9cc-eb7` (19 agenti su 45). Cassa `fe8aee8`, po
 ### 🔴 #220 — Scegli quanto costa la consegna: 3 euro fissi, oppure 2 euro da 10 euro di spesa · ⏳ accodata 2026-10-29 13:12 · ✅ scelta 2026-10-29 13:44
 
 > ✅ **2026-10-29 13:44 — Hai scelto una terza strada.** La consegna costa 3 euro. Sotto i 10 euro di spesa si pagano 50 centesimi in più. La consegna veloce in 30-60 minuti costa 50 centesimi in più. I due supplementi si sommano, quindi il massimo è 4 euro: veloce con una spesa sotto i 10 euro. Coi conti del sito non perde mai, nemmeno con l IVA ordinaria. Il pacchetto del prezzo parte dopo l unione del giro di riparazione.
+>
+> ✅ **2026-10-29 14:54 — Confermato.** Sotto i 10 euro: fascia oraria 3,50 euro, veloce 4 euro. Da 10 euro in su: fascia 3 euro, veloce 3,50 euro.
 
 **In parole semplici.** Mi hai chiesto se la consegna standard deve costare 2 o 3 euro. Nella tua idea si aggiunge 1 euro sotto i 10 euro di spesa, e 1 euro per la consegna veloce. Sotto i 10 euro le due strade sono uguali: il cliente paga 3 euro. Si separano solo da 10 euro in su. Su un kefir da 2,05 euro la consegna pesa comunque il 146% della spesa. Il peso si toglie con un carrello più grande, cioè mettendo online pane e verdura.
 
