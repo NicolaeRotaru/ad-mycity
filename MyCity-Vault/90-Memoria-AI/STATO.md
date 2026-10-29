@@ -4,9 +4,9 @@ aggiornato: 2026-10-30 00:35
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
-> 🛍️ **2026-10-30 00:35 — Il sito visto da chi compra: non siamo ancora al livello di Amazon e Glovo, ma le prime mosse costano minuti.**
+> 🛍️ **2026-10-30 00:35 — Il sito visto da chi compra non è ancora al livello di Amazon e Glovo.**
 >
-> Hai chiesto se il marketplace ha i requisiti dei migliori, guardando solo cosa vede e tocca il cliente. Ho controllato 191 requisiti in 14 aree: 13 sono al livello, 112 ci sono ma sotto, 14 mancano, 51 oggi fanno danno. Come è costruito il sito prende 5,3 su 10. Quello che il cliente vede oggi, con 9 prodotti, prende 3,3.
+> Le prime mosse costano minuti. Hai chiesto se il marketplace ha i requisiti dei migliori, guardando solo cosa vede e tocca il cliente. Ho controllato 191 requisiti in 14 aree: 13 sono al livello, 112 ci sono ma sotto, 14 mancano, 51 oggi fanno danno. Come è costruito il sito prende 5,3 su 10. Quello che il cliente vede oggi, con 9 prodotti, prende 3,3.
 >
 > La prima mossa è tua: cancellare il negozio di prova col comando pronto della carta #201. Poi la merce nella prima schermata, via gli scaffali vuoti, il marchio intero in testata. La chiave di servizio su Vercel manca ancora, riletta alle 00:25: finché manca, la cassa non registra ordini. Referto, foto delle pagine e dieci mosse nella richiesta di unione di stanotte.
 
