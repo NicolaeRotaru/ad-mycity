@@ -6043,3 +6043,17 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **I conti** (formula del sito, fattorino 3 euro): a MyCity resta sempre almeno il 10% della merce; sotto i 10 euro e con la veloce, 1 euro in più. Con l IVA ordinaria al 22% la fascia da 10 euro in su regge, perché il 10% fa almeno 1 euro. **Conseguenza detta a Nicola:** sotto i 10 euro fascia e veloce costano uguale, quindi quasi tutte le spese piccole saranno veloci, una corsa da sola entro un ora.
 
 **Fatto** `consegna.promessa` aggiornato; la regola dei 50 centesimi delle 13:44 è nella sua storia. Carta #220 e STATO aggiornati. Il pacchetto del prezzo lo costruirà così.
+
+## 2026-10-29 18:16 — 🟡 Nicola unisce la #263 del sito e la #898 della memoria: 22 difetti chiusi nel registro
+
+**Cosa è successo.** Nicola ha unito le due richieste alle 18:12. Il main del sito (`0df5557`) ha lo stesso albero del ramo provato (`2b1737b`). Il rilascio di produzione `dpl_EcMdUboG8ZkhxhFJ1oR6x4EbkzWQ` è pronto dalle 18:14, su www.mycity-marketplace.com. La home pubblicata dice la frase nuova, e non contiene più «arriva oggi», «Ordina entro» né «oppure con carta».
+
+**Il registro.** `cervello/chiudi-sito.mjs --applica --pr 263` ha chiuso 22 difetti, senza chiavi orfane:
+- ondata 10: 85, 1214, 1137, 86, 18, 1254, 19, 1293;
+- cassa: 1209, 1208, 1755, 1756, 1757, 1758;
+- promesse: 255, 252, 120, 266, 1206, 249, 256;
+- sì/no: 1778.
+
+Ogni chiusura porta la prova e la mutazione vista rossa. Restano parziali 1252, 1253, 1255, 23 e 1742. Aperti: 848 su 1.794 (8 bloccanti, 104 gravi, 736 minori).
+
+**La #898 è stata unita in un commit solo** (`9a108fdb2`): il contenuto di main coincide con l ultimo salvataggio del ramo, che ho fatto ripartire da main. I controlli di sicurezza sulle due richieste sono fermati.

@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-10-29 15:40
+aggiornato: 2026-10-29 18:16
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚀 **2026-10-29 18:16 — Hai unito la #263 e la #898: il sito vero è cambiato.**
+>
+> Il sito pubblicato è cambiato alle 18:14. La home dice «Consegna in giornata, negli orari di apertura del negozio». Non promette più «arriva oggi», e non offre più la carta che non si può usare.
+>
+> Nel registro del sito ho chiuso 22 difetti, ognuno con la sua prova e la mutazione vista rossa. Restano aperti 848 difetti su 1.794: 8 bloccanti, 104 gravi e 736 minori. Il prossimo lavoro è il pacchetto del prezzo della consegna, poi l ondata 2.
 
 > 🧱 **2026-10-29 15:40 — L ondata 1 del sito è completa: cassa, promesse e sì/no nella richiesta #263.**
 >
