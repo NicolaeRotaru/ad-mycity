@@ -31780,7 +31780,8 @@
       "titolo": "Quindici prove vecchie si aspettano ancora la consegna a 3 euro fissi: il controllo completo del sito è rosso sul ramo del prezzo",
       "file": "tests/unit/al-lancio-si-paga-solo-la-consegna.test.tsx:141,219,318,339 · tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts · tests/unit/in-cassa-il-totale-mostrato-e-quello-addebitato.test.ts:68 · tests/unit/le-promesse-della-consegna-cambiano-solo-di-proposito.test.ts",
       "descrizione": "Il sito segue la regola nuova, sono le prove a essere vecchie (attese 300 e «3,00 €», ricevute 400 e «4,00 €»). Finché restano rosse, i controlli «il carrello fa lo stesso conto della cassa» e «mostrato uguale ad addebitato» si fermano prima e non proteggono più niente.",
-      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
+      "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)",
+      "nota_riesame": "2026-10-29 22:28 (letto a quell ora): npm run verify sulla base dell ondata 14 (41a84111, il prezzo e la fascia cuciti): 22 prove rosse su 6.178, in 5 file. Ai quattro del titolo si aggiunge tests/unit/il-carrello-non-promette-mezz-ora-alle-undici-di-sera.test.ts (5 rosse) e tests/unit/il-carrello-e-la-cassa-dicono-lo-stesso-numero.test.ts (2 rosse); da guardare se sono attese vecchie o un difetto vero."
     },
     {
       "dimensione": "pagamenti-stripe",
