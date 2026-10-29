@@ -6108,3 +6108,14 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 **Fatto** nuovo `logistica.compenso-fattorino` alle 23:04; `consegna.promessa` aggiornato per rimandarci. Nel registro del sito la voce 1809: il codice paga ancora 3 euro per ogni ordine di negozio. L ondata 14 che sta girando non lo tocca, perché la sua scheda dice di lasciare il compenso com è; entra nell ondata 15, con la conferma della veloce entro 10 minuti.
 
 **Colore:** 🔴 (soldi), firmato da Nicola.
+
+## 2026-10-30 00:14 — 🟡 L ondata 14 del sito si ferma: il prezzo e le frasi reggono quasi tutto, la data della fascia con la carta esce dal lavoro
+
+**Cosa è successo** (run `wf_f5280289-22c`, 19 agenti su 40). Tre pacchetti, tutti e tre fermi prima del riesame.
+- **Il prezzo** (`fix/ondata-14-lib-ordini-prezzi-ts`, `552008c6`): la regola dei negozi in più e la spiegazione nel carrello sono costruite. Il rifacimento ha messo anche il compenso del fattorino delle 23:04. Resta un grave nato che chiede una scelta di Nicola: se in un carrello con più negozi il primo rifiuta o viene rimborsato, gli altri restano con 1 euro di consegna.
+- **Le frasi** (`fix/ondata-14-lib-site-branding-ts`, `3fca82ba`): le pagine non promettono più i 30-60 minuti. Il collaudo resta aperto su due frasi che vivono in `lib/promesse-pubbliche.ts`, il file della squadra del prezzo: la risposta sui tempi nelle domande frequenti e la descrizione dei negozi per Google. Errore mio di divisione, il secondo dopo quello dell ondata 13.
+- **La data della fascia con la carta** (`9161cdfd`): la riparazione ha retrodatato la nascita dell ordine e ha fatto nascere due gravi peggiori, fra cui un ordine annullato prima delle 3 ore del negozio.
+
+**Cosa decido.** Il ramo della fascia con la carta non entra: la carta al lancio è spenta, e la scheda 1797 resta aperta nella lista delle cose da fare prima di accenderla, con la 1810. Il prezzo e le frasi si cuciono insieme e vanno a un giro di correzione (ondata 15), dopo la risposta di Nicola sul rimborso.
+
+**Colore:** 🟡 (codice in rami del sito, niente unito).
