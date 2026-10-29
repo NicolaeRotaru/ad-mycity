@@ -1,0 +1,122 @@
+{
+ "_cosa_e": "Ondata 14 del sito, sopra l ondata 13 cucita (fix/base-ondata-14 = 41a84111: il prezzo per un negozio, il primo freno della veloce e la fascia visibile). Nicola il 29/10 ha completato la regola del prezzo (registro dei fatti consegna.promessa, 22:21) e ha chiesto di spiegarla bene al cliente, soprattutto nel carrello (testo scelto dal giudizio wf_1bfb78d5-949). Tre pacchetti con territori disgiunti: A il prezzo con più negozi e la spiegazione nel carrello (soldi); B le frasi di quando arriva la spesa (253, 1516, 1784, 1779, 1774, 1708); C la data della fascia con la carta. Il secondo freno (conferma della veloce entro 10 minuti, con la 264) è l ondata 15: ha bisogno della regola dei negozi in più già costruita. Le ondate 1-13 sono vuote: si legge con --ondata 14, worktree o14-*.",
+ "data": "2026-10-29 22:52",
+ "registro": "sito",
+ "origine": "registro dei fatti consegna.promessa (22:21), DECISIONI 2026-10-29 22:21, esito dell ondata 13 (wf_a2ec12a7-8aa), giudizio del testo (wf_1bfb78d5-949)",
+ "ondate": [
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [
+   {
+    "chiave": "lib/ordini/prezzi.ts",
+    "difetti": [
+     {
+      "idx": 1794,
+      "chiave": "pagamenti-stripe|con più negozi nel carrello la consegna costa 3 o 4 euro per ogni negozio: la regola firmata dice 3 euro di base e 1 euro per ogni negozio in più"
+     },
+     {
+      "idx": 1795,
+      "chiave": "flussi-conversione|il carrello non spiega come si calcola la consegna: il cliente vede la cifra, ma non perché paga l euro in più né come evitarlo"
+     },
+     {
+      "idx": 1796,
+      "chiave": "microcopy|la pagina spedizioni e le domande frequenti dicono «3,00 € per ogni negozio, qualunque sia la spesa», ma sotto i 10 € la cassa ne addebita 4"
+     },
+     {
+      "idx": 1777,
+      "chiave": "pagamenti-stripe|la consegna costa sempre 3 euro: i 50 centesimi sotto i 10 euro e i 50 centesimi della consegna veloce, firmati da nicola il 29/10, non sono ancora nel codice"
+     },
+     {
+      "idx": 1709,
+      "chiave": "qa-flussi|il carrello scrive «disponibile · consegna in 30-60 min» anche a negozio chiuso, e il rifiuto arriva solo all'ultimo tocco in cassa"
+     },
+     {
+      "idx": 1798,
+      "chiave": "qa-flussi|quindici prove vecchie si aspettano ancora la consegna a 3 euro fissi: il controllo completo del sito è rosso sul ramo del prezzo"
+     },
+     {
+      "idx": 1799,
+      "chiave": "pagamenti-stripe|buchi nelle prove del prezzo: una rotta può passare «non veloce» al conto, la lettura dei fattorini può cadere su «sì», e il carrello può trattare ogni risposta come «sì», con le prove verdi"
+     },
+     {
+      "idx": 1800,
+      "chiave": "microcopy|col codice «spedizione gratuita» e la consegna veloce, a 40 euro la cassa scrive «da 30 euro la copre tutta» e fa pagare 1 euro"
+     },
+     {
+      "idx": 1801,
+      "chiave": "qa-flussi|il carrello scrive «consegna in 30-60 min» e intanto conta nel totale la consegna con la fascia"
+     },
+     {
+      "idx": 1802,
+      "chiave": "qa-flussi|se la lettura della consegna veloce cade, la cassa sposta da sola la scelta «adesso» sulla prima fascia di oggi, senza dirlo"
+     },
+     {
+      "idx": 1803,
+      "chiave": "sicurezza-auth|la rotta nuova della consegna veloce è pubblica, senza limite di richieste, e risponde diverso se un profilo esiste"
+     },
+     {
+      "idx": 1804,
+      "chiave": "microcopy|il carrello vuoto scrive «consegna mycity 3,00 € per negozio» e non dice i 4 euro sotto i 10 euro"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/site-branding.ts",
+    "difetti": [
+     {
+      "idx": 253,
+      "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato"
+     },
+     {
+      "idx": 1516,
+      "chiave": "architettura|promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio"
+     },
+     {
+      "idx": 1784,
+      "chiave": "architettura|la frase «consegna in giornata, negli orari di apertura del negozio» vive in due copie"
+     },
+     {
+      "idx": 1779,
+      "chiave": "microcopy|il titolo grande della home (variante b, metà dei visitatori) dice «paghi come vuoi.», e il giro di benvenuto «ordina, paghi come vuoi»: la cassa offre solo i contanti"
+     },
+     {
+      "idx": 1774,
+      "chiave": "frontend-ux|la scheda prodotto conta sempre fino alle 18: dà cinque ore e mezza a un forno che chiude alle 13, e la sera promette «domani» a negozi chiusi domani"
+     },
+     {
+      "idx": 1708,
+      "chiave": "flussi-conversione|la scheda prodotto promette «consegna in 2-3 giorni» sui prodotti esauriti e su tutti quelli di un negozio senza express, ma in cassa quella consegna non esiste"
+     }
+    ]
+   },
+   {
+    "chiave": "lib/ordini/fascia-leggibile.ts",
+    "difetti": [
+     {
+      "idx": 1797,
+      "chiave": "qa-flussi|ordine con carta pagato dopo mezzanotte: negozio, fattorino e cliente leggono la consegna un giorno dopo quello scelto"
+     },
+     {
+      "idx": 1806,
+      "chiave": "qa-flussi|le prove della fascia non si accorgono di tre cose: «30-60 min dalla conferma» in cima con una fascia per domani, la bacheca che toglie la fascia agli ordini in preparazione, due varianti di data"
+     },
+     {
+      "idx": 1808,
+      "chiave": "frontend-ux|nella lista ordini del negozio un ordine veloce già consegnato mostra ancora «consegna: adesso · arrivo in 30-60 min»"
+     }
+    ]
+   }
+  ]
+ ]
+}

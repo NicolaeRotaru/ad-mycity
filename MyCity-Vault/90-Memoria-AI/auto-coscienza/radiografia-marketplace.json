@@ -31734,7 +31734,7 @@
       "stato": "aperto",
       "nato_oggi": false,
       "titolo": "Con più negozi nel carrello la consegna costa 3 o 4 euro per ogni negozio: la regola firmata dice 3 euro di base e 1 euro per ogni negozio in più",
-      "file": "lib/ordini/prezzi.ts prezziDelCarrello (tariffa per gruppo) · app/cart/page.tsx · app/checkout/page.tsx · app/shipping/page.tsx · lib/promesse-pubbliche.ts",
+      "file": "lib/ordini/prezzi.ts prezziDelCarrello (tariffa per gruppo) · app/api/orders/cod/route.ts · app/api/stripe/checkout/route.ts · app/cart/page.tsx · app/checkout/page.tsx · lib/promesse-pubbliche.ts (le frasi di prezzo che la pagina Spedizioni mostra)",
       "descrizione": "Regola del 29/10 alle 22:21: 3 euro di base per tutto il carrello; 1 euro per ogni negozio in più; 1 euro per ogni negozio in cui la spesa sta sotto i 10 euro; 1 euro per la veloce una volta sola, compresa se c è già almeno un euro della spesa piccola. Esempi (fascia/veloce): 15 € → 3/4; 8 € → 4/4; 15+12 → 4/5; 15+6 → 5/5; 6+7 → 6/6; 15+12+20 → 5/6; 5+6+7 → 8/8. Il codice dell ondata 13 fa pagare la tariffa intera a ogni negozio: con 15+12 sono 6 euro invece di 4. Minore perché oggi c è un solo negozio vero e la decisione ha pochi minuti; va nell ondata 14.",
       "fonte": "regola firmata da Nicola il 2026-10-29 alle 22:21 (registro dei fatti, consegna.promessa): non ancora nel codice"
     },
@@ -31756,7 +31756,7 @@
       "stato": "aperto",
       "nato_oggi": true,
       "titolo": "La pagina Spedizioni e le domande frequenti dicono «3,00 € per ogni negozio, qualunque sia la spesa», ma sotto i 10 € la cassa ne addebita 4",
-      "file": "app/shipping/page.tsx:47-49 (riquadro in cima) · lib/promesse-pubbliche.ts:183 rispostaCostoSpedizione, mostrata da app/faq/page.tsx:41",
+      "file": "lib/promesse-pubbliche.ts riquadroTariffaConsegna e fraseTariffaConsegna (mostrate da app/shipping/page.tsx:47-49, che non va toccata: le legge e basta) · lib/promesse-pubbliche.ts:183 rispostaCostoSpedizione (mostrata da app/faq/page.tsx:41)",
       "descrizione": "Il paragrafo sotto il riquadro è stato corretto dalla squadra, il riquadro in cima no; la risposta della FAQ nemmeno. Un cliente che legge la FAQ prima di ordinare un kefir da 2,05 € si aspetta 3 € e in cassa ne trova 4. Nella stessa pagina la frase nuova scrive anche «mai di più .» con uno spazio prima del punto.",
       "fonte": "nato dal lotto: ondata 13, il prezzo e la fascia (run wf_a2ec12a7-8aa, rami 1af183c9 e 50655846, cuciti in 41a84111)"
     },
