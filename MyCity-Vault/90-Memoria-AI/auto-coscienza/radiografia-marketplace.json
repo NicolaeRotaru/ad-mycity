@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1759,
+    "findings": 1778,
     "bloccanti": 35,
-    "gravi": 523,
-    "minori": 1201,
+    "gravi": 526,
+    "minori": 1217,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -667,7 +667,8 @@
       "prova_eseguita": "delivery_slot compare in 10 file, e tutti lavorano dietro le quinte: le due rotte che la scrivono, il webhook, la cassa, il selettore della fascia, quando-arriva, fascia-consegna, scadenza-accettazione e il cron degli ordini fermi. Il decimo è app/rider/page.tsx: la fascia è solo nel tipo (r.41) e nella query (r.118), mai nella parte che disegna la pagina. Zero occorrenze in app/seller, app/orders, app/admin e lib/email. La notifica al negozio dice `Ordine #… · €… · pagamento alla consegna`, senza fascia. · Verifica tecnica: Ho cercato delivery_slot e deliverySlot in app, components, lib e migrations. Risultato: zero occorrenze in app/seller, app/orders, app/admin, lib/email e components/rider; in app/rider/page.tsx solo alle righe 41 e 118. Ho letto la query di app/seller/orders/[id]/page.tsx:138-150 (delivery_slot non c'è) e il testo della notifica in cod/route.ts:855-863. Ho letto FASCE_DI_DOMANI in lib/quando-arriva.ts:47-57. Ho cercato nelle migrazioni: delivery_slot sta solo nella colonna (102) e nelle viste (122, 124, 161), nessun trigger di notifica.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ordini-ciclo-vita · id R48 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: ordini-ciclo-vita · id R48 · si ripara: codice",
+      "nota_riesame": "2026-10-29 14:46: giro B (ondata 11): non fatto. Servono anche la lista ordini del negozio e l email «Nuovo ordine» (app/seller/orders/page.tsx, lib/email/templates), fuori dal territorio della squadra."
     },
     {
       "dimensione": "qa-flussi",
@@ -5193,7 +5194,8 @@
       "prova_eseguita": "Nella foto a 768 c'è il banner «Ordina entro 02:47:49 e arriva oggi in 30-60 min», scattato di domenica alle 17:12 circa. Nel codice la chiamata della home non passa storeHours. · Verifica tecnica: Ho letto HomeSectionRenderer.tsx:160-172, DeliveryCutoff.tsx:1-140, lib/delivery.ts:8 e 30-45, e cod/route.ts:405-424. In produzione ho fatto una SELECT: select store_name, offers_express, store_hours from profiles where store_name is not null. Nessuno dei due negozi ha la chiave «sun». Ho scaricato la home di produzione con web_fetch_vercel_url: dal server arriva già il banner bg-olive-50 «Arriva oggi», che dopo l'idratazione diventa il conto alla rovescia. Ho cercato nel registro dell'AD (radiografia-marketplace.json) i file del difetto chiuso: c'è solo la scheda prodotto.",
       "giro": 1,
       "verificato": true,
-      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo · id R228 · si ripara: codice"
+      "fonte_radiografia": "radiografia 2026-10-11 · corsie: design-visivo · id R228 · si ripara: codice",
+      "nota_riesame": "2026-10-29 14:46: stessa frase della 120. Si chiude con la 120, con la frase semplice della home scelta da Nicola (promesse A)."
     },
     {
       "dimensione": "microcopy",
@@ -31096,7 +31098,8 @@
       "severita": "grave",
       "file": "lib/ordini/chiave-dopo-l-errore.ts:17-20 · app/api/orders/cod/route.ts:204 (503 sulla rivendicazione della chiave, senza inCorso) e :760-1044 (finestra fra il primo ordine nato e la riga della chiave riempita)",
       "descrizione": "Per ogni tentativo d'ordine in contanti il browser tiene una chiave. Serve al server per riconoscere un invio ripetuto e non creare un secondo ordine. Dopo un errore la regola è «butta la chiave, a meno che il server dica inCorso» (chiave-dopo-l-errore.ts:17-20, usata in page.tsx:844). Questo default è sbagliato: in certi errori il server non può garantire che nessun ordine sia nato. Primo caso: la funzione cade (timeout, 5xx della piattaforma) dopo l'insert del primo ordine (route.ts:760) e prima che la riga della chiave venga riempita (route.ts:1039-1044). La risposta non è JSON e page.tsx:836 la legge come {}. La chiave viene buttata ma il carrello resta pieno, così al tocco dopo parte una chiave nuova: secondo ordine. Secondo caso: il primo invio crea l'ordine ma la risposta si perde, e la chiave giustamente resta. Al ritocco l'insert della chiave cade per un errore di rete diverso dal duplicato. Allora route.ts:204 risponde 503 «Impossibile registrare l'ordine, riprova» senza inCorso: il browser butta la chiave e il terzo tocco crea il secondo ordine. Il danno: due ordini per una sola spesa, merce riservata due volte, credito MyCity tolto due volte, il negozio che prepara due spese. In più il «riprova» fa credere al cliente che non sia partito niente. Rimedio per tutta la classe: il server dice esplicitamente «chiave libera» (per esempio chiaveLibera:true) solo dalle uscite di esciERilascia, cioè quando nessun ordine è nato. Il browser butta la chiave solo in quel caso e su ogni altro errore la tiene. Va insieme al difetto aperto idx 1208 (la riga della chiave si riempie senza garanzie): tenendo la chiave dopo un crash, la riga resta con order_ids vuoto e dopo 60 secondi la via della chiave abbandonata ricrea comunque l'ordine. Prova che gira: lo scenario VARIANTE-RIVENDICA (copia della prova del collaudo A nella cartella di lavoro, eseguita col config di prova sul codice uguale a 1776e6b1) è rosso oggi, con 2° 503 senza inCorso, 3° 200 e 2 ordini dove se ne aspetta 1. Per chi ripara (giro B dell ondata 1, 29/10): il punto dove si vede è app/checkout/page.tsx, ma la cura va nella rotta (rispondere col segnale inCorso) o in lib/ordini/chiave-dopo-l-errore.ts, che la pagina già usa. In questo giro la pagina della cassa appartiene al pacchetto delle promesse.",
-      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
+      "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4",
+      "nota_riesame": "2026-10-29 14:46: giro B (ondata 11): chiuso il 503 sulla rivendicazione della chiave (ora inCorso). Resta aperto il caso della rotta che cade dopo il primo ordine: la piattaforma risponde con testo (504), il browser legge {} e butta la chiave. Confermato da due lenti della radiografia del perimetro (run wf_5fe12725-8cb), su 0df7945 e sul ramo. Cura: buttare la chiave solo su una risposta sicuramente della rotta (ok:false senza inCorso)."
     },
     {
       "stato": "aperto",
@@ -31267,6 +31270,215 @@
       "file": "tests/unit/contanti-la-chiave-si-prende-prima.test.ts (4) · tests/unit/ordini-contrassegno-due-negozi.test.ts (6) · tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts (3)",
       "descrizione": "Il ramo della cassa ora controlla che ogni negozio del carrello sia in vetrina e approvato, e risponde 409 «Un negozio del carrello non accetta ordini» (route.ts:553). I database finti di tre file di prove servono i negozi senza role e is_approved, oppure l'admin restituisce un elenco vuoto: 13 prove su 230 diventano rosse. In produzione la vetrina e il client di servizio restituiscono i negozi approvati, quindi il sito fa giusto; ma npm run verify resta rosso e il ramo non si può unire. Minore per AR-1027, da chiudere nel giro B.",
       "fonte": "nato dal lotto (ramo fermo fix/ondata-10-app-api-orders-cod-route-ts, ondata 10, run wf_2326095d-a6c); si chiude nel giro B scelto da Nicola il 28/10"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se la risposta del primo «Ordina» si perde, il prossimo ordine in contanti in quella scheda, anche giorni dopo e con un altro negozio, dice «Ordine effettuato» col vecchio ordine: il nuovo non arriva",
+      "file": "app/api/orders/cod/route.ts (ramo order_ids e ramo chiave abbandonata) · lib/ordini/tentativo.ts chiaveTentativo (la chiave vive in sessionStorage e non cambia col carrello)",
+      "descrizione": "La chiave del tentativo resta nella scheda quando la risposta si perde, perché chiudiTentativo non gira. Il prossimo ordine in quella scheda riusa la stessa chiave: la rotta trova la riga col vecchio ordine e risponde «fatto» con quello. Il carrello si svuota, si apre la pagina dell ordine vecchio, e al negozio nuovo non arriva niente. Il contro-vaglio l ha allargato: non serve cambiare il carrello subito, basta il prossimo ordine nella stessa scheda. Prova: tests/unit/zz-vaglio-contro1-cassa.test.ts (copia nello scratch della sessione), rossa su 0df7945 e sul ramo cucito. Rimedio: legare la chiave al contenuto del carrello, o farla ruotare quando il carrello cambia.",
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo l avviso «una parte del tuo ordine è già arrivata», in quella scheda ogni carrello nuovo riceve lo stesso blocco finché la scheda non si chiude",
+      "file": "app/api/orders/cod/route.ts:186-205 (ordineArrivatoInParte con inCorso:true) e :387-402 (negozi che non coincidono) · lib/ordini/tentativo.ts",
+      "descrizione": "Raccoglie le segnalazioni V5, V11, V18 e V25 del giro B. Con la chiave tenuta dopo un ordine nato a metà, ogni carrello nuovo nella stessa scheda riceve di nuovo 409 «una parte è arrivata»; rimettendo gli stessi negozi arriva «fatto» col vecchio ordine. Rarissimo: servono la riga della chiave non scritta, la risposta persa e un ritocco dopo 60 secondi con negozi diversi. Su 0df7945 non c era.",
+      "fonte": "nato dal lotto (giro B dell ondata 1, ondata 11, run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb sul ramo cucito bc79688"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove della cassa: se la rilettura degli ordini guardasse solo i negozi del carrello di adesso, o confrontasse solo il numero dei negozi, nessuna prova diventerebbe rossa",
+      "file": "app/api/orders/cod/route.ts:71,357 (NEGOZI_PER_CARRELLO) e :387-392 (tuttiINegozi)",
+      "descrizione": "Raccoglie V6, V7 e V8. Il sito oggi fa giusto. I mutanti del collaudo A restano verdi su 242 prove; li uccidono i casi V1 e V2 di zz-collaudo-a-varianti.test.ts (scratch della sessione), da portare nelle prove del sito.",
+      "fonte": "nato dal lotto (giro B dell ondata 1, ondata 11, run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb sul ramo cucito bc79688"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se un primo invio lentissimo e un ritocco dopo un minuto creano lo stesso ordine, il secondo legge «errore», il browser butta la chiave e il tocco dopo fa il doppione",
+      "file": "app/api/orders/cod/route.ts ramo orderErr (23505 su orders → esciERilascia, 500 senza inCorso) · lib/ordini/chiave-dopo-l-errore.ts:34-37 (il commento dice che il doppione non può nascere)",
+      "descrizione": "Raccoglie V9, V17 e V26. Serve un invio vivo per più di un minuto prima di creare l ordine. Su 0df7945 il doppione arriva subito, sul ramo un tocco dopo: il ramo non peggiora. Rimedio proposto: 23505 su orders → ordineGiaInCorso senza liberare la chiave.",
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Nei minuti del rilascio, una chiave rimasta vuota da prima non ritrova i suoi ordini con l id casuale e lascia nascere il secondo ordine",
+      "file": "app/api/orders/cod/route.ts:357-362 (cerca solo gli id ricavati dalla chiave) e :424-433",
+      "descrizione": "Raccoglie V10, V24 e V27. È la coda del registro 1208 per le sole chiavi nate prima del rilascio e ancora vive in una scheda aperta. Rarissimo.",
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove: nessuna prova fa fallire la scrittura dell ordine col credito usato, quindi un riferimento sbagliato nello storno non verrebbe notato",
+      "file": "app/api/orders/cod/route.ts:934 (walletRef) e :1029-1039",
+      "descrizione": "V16. Il sito oggi restituisce il credito nel modo giusto. Prova che lo fissa: zz-collaudo-v3-storno-ordine-non-scritto.test.ts (scratch della sessione).",
+      "fonte": "nato dal lotto (giro B dell ondata 1, ondata 11, run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb sul ramo cucito bc79688"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se il cliente toglie un negozio dal carrello dopo un ordine arrivato per intero, il sito gli dice che ne è arrivata solo una parte",
+      "file": "app/api/orders/cod/route.ts:389-392 e :199",
+      "descrizione": "V23. Il testo è falso, ma la mossa che chiede va bene: in «I miei ordini» ci sono tutti e due gli ordini. Rimedio: dire «una parte» solo se manca un negozio del carrello.",
+      "fonte": "nato dal lotto (giro B dell ondata 1, ondata 11, run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb sul ramo cucito bc79688"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Testi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Se il sito non riesce a registrare il tentativo, chi ritocca «Ordina» legge «attendi qualche secondo» fino a un minuto",
+      "file": "app/api/orders/cod/route.ts:172-181,295,436 · lib/ordini/tentativo.ts:22 (ABBANDONATO_DOPO_MS = 60 s)",
+      "descrizione": "V28. Scambio voluto e giusto (meglio aspettare che fare il doppione del 1742). Restano il testo ottimista e una prova che fissi l attesa massima.",
+      "fonte": "nato dal lotto (giro B dell ondata 1, ondata 11, run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb sul ramo cucito bc79688"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se dopo un errore l annullamento non riesce, al negozio resta un ordine fantasma, e nessun allarme lo segnala",
+      "file": "app/api/orders/cod/route.ts:858-887 (delete, restore_stock e wallet_credit senza leggere l errore) e :1029-1041",
+      "descrizione": "V29. Su 0df7945 e sul ramo. Sul ramo il fantasma ha l id fatto dalla chiave, quindi un ritocco con la stessa chiave prende un 500.",
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Se il database salva l ordine ma la risposta torna con un errore, la cassa lo tratta come mai nato: rimette la merce, ridà il credito, butta la chiave, e il tocco dopo crea un secondo ordine",
+      "file": "app/api/orders/cod/route.ts:1029-1042 (ramo orderErr || !order)",
+      "descrizione": "Quando l inserimento in orders torna con errore, la rotta non sa se la riga è nata davvero (per esempio la connessione fra server e database cade dopo il salvataggio). Annulla solo gli ordini dei negozi precedenti, chiama restore_stock, ridà il credito, libera la chiave e risponde 500 senza inCorso. L ordine resta senza articoli e il tocco dopo ne crea un altro. Sul ramo l identificativo dell ordine è noto prima dell inserimento: la rotta potrebbe rileggerlo. Prova temporanea della radiografia, verde sul ramo cucito come riproduzione del difetto.",
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Ordine arrivato solo in parte: al cliente si dice «ti aiutiamo noi», ma nessuno viene avvisato",
+      "file": "app/api/orders/cod/route.ts:393-402 e :184-205",
+      "descrizione": "L unico avviso è logger.error, che va a Sentry, e in produzione Sentry non è configurato. Nessuna notifica agli amministratori. Rimedio: notifyAdmins con l ordine e la cifra, una volta per chiave.",
+      "fonte": "nato dal lotto: radiografia del perimetro del giro B (run wf_5fe12725-8cb, sul ramo cucito bc79688)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La riga finale della chiave risulta scritta anche quando non tocca nessuna riga: l allarme «prova del tentativo non scritta» non scatta",
+      "file": "app/api/orders/cod/route.ts:1312-1330",
+      "descrizione": "Un update che non trova righe risponde senza errore. Rimedio: .update(...).select() e zero righe trattate come errore, con una breve pausa fra i tre tentativi.",
+      "fonte": "preesistente: c è anche su 0df7945; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Sulla chiave abbandonata la cassa dice «Ordine effettuato!» anche se l ordine ritrovato è già annullato dal negozio",
+      "file": "app/api/orders/cod/route.ts:357-422 (la rilettura non guarda delivery_status né le righe dei prodotti)",
+      "descrizione": "È il residuo di una variante del 1755 (gli ordini già annullati presi per buoni): il caso dell ordine di un altro carrello è chiuso, questo no. Il browser mostra «Ordine effettuato!», svuota il carrello e apre una pagina che dice «Annullato». Raro: serve un ordine rifiutato dal negozio prima del ritocco con la stessa chiave.",
+      "fonte": "nato dal lotto: radiografia del perimetro del giro B (run wf_5fe12725-8cb, sul ramo cucito bc79688)"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Buco nelle prove della carta: se sparisce il ripescaggio del negozio senza insegna, o il filtro «solo negozi approvati», nessuna prova diventa rossa",
+      "file": "app/api/stripe/checkout/route.ts:400-431 · tests/unit/la-carta-si-ferma-se-la-lettura-dei-negozi-torna-corta.test.ts",
+      "descrizione": "Il sito oggi fa giusto. Nella prova la lettura finta del profilo torna sempre vuota. Mancano tre casi: ripescaggio riuscito → 200; profilo non approvato → 409; profilo illeggibile → 503.",
+      "fonte": "nato dal lotto: radiografia del perimetro del giro B (run wf_5fe12725-8cb, sul ramo cucito bc79688)"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello",
+      "file": "lib/ordini/chiave-dopo-l-errore.ts:10-20 · app/api/orders/cod/route.ts:125,156,177,201",
+      "descrizione": "Tre risposte nuove con inCorso:true (503, 503 e 409) accanto al vecchio ordineGiaInCorso. Il browser non distingue «aspetta e riprova» da «fermati». È la causa comune dei blocchi già scritti qui sopra.",
+      "fonte": "nato dal lotto: radiografia del perimetro del giro B (run wf_5fe12725-8cb, sul ramo cucito bc79688)"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "UX",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La scheda prodotto conta sempre fino alle 18: dà cinque ore e mezza a un forno che chiude alle 13, e la sera promette «domani» a negozi chiusi domani",
+      "file": "components/ui/DeliveryCutoff.tsx (ramo storeHours: il conto punta a DEFAULT_CUTOFF_HOUR) · lib/delivery.ts:8,30-45 · app/product/[id]/page.tsx:802",
+      "descrizione": "Raccoglie V1, V14 e V21. Sabato 31/10 alle 12:30, forno aperto 08-13: la cassa accetta fino alle 12:59, ma la scheda scrive «Ordina entro 05:30:00 e arriva oggi». Il sabato alle 21:30 la scheda dice «Arriva domani» anche se domenica è chiuso. Il no arriva dal server, dopo indirizzo e pagamento. Prova: zz-vaglio-contro-scheda.test.tsx (scratch della sessione), 4 rossi su 6 su 0df7945. Va nel pacchetto del prezzo nuovo, che ridisegna quando arriva la spesa sulle regole della cassa.",
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+    },
+    {
+      "dimensione": "frontend-ux",
+      "reparto": "UX",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "Su un telefono non impostato sull ora italiana la scheda prodotto sbaglia il conto alla rovescia e può dire «arriva oggi» a forno già chiuso",
+      "file": "components/ui/DeliveryCutoff.tsx:103 (adesso = new Date(), l ora del telefono) · lib/delivery.ts:33",
+      "descrizione": "V3. Colpisce chi ha il telefono fuori dall ora italiana, per esempio un turista inglese. Non è un doppione del 1153.",
+      "fonte": "preesistente: c è anche su 0df7945 (ramo della #263); trovato nel giro B dell ondata 1 (run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "La prova sulla casella sì/no cerca una sola scrittura del codice: se la casella tornasse a spuntarsi su «false» scritta in altro modo, resterebbe verde",
+      "file": "components/seller/AttributesFields.tsx:218 · tests/unit/le-frasi-pubbliche-seguono-la-cassa-e-la-realta.test.tsx:165-172",
+      "descrizione": "V13. Sul ramo delle promesse la casella fa giusto. La prova giusta monta il componente vero: zz-vaglio-contro-casella.test.tsx (scratch della sessione). Famiglia del 1600.",
+      "fonte": "nato dal lotto (giro B dell ondata 1, ondata 11, run wf_8774d9cc-eb7), confermato dal vaglio e contro-vaglio wf_5fe12725-8cb sul ramo cucito bc79688"
+    },
+    {
+      "dimensione": "pagamenti-stripe",
+      "reparto": "Pagamenti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": false,
+      "titolo": "La consegna costa sempre 3 euro: i 50 centesimi sotto i 10 euro e i 50 centesimi della consegna veloce, firmati da Nicola il 29/10, non sono ancora nel codice",
+      "file": "lib/ordini/prezzi.ts consegnaDaPagareCents (sempre PLATFORM_DELIVERY_FEE_CENTS = 300) · prezziDelCarrello non riceve la fascia: app/api/stripe/checkout/route.ts ~606 · app/api/orders/cod/route.ts ~805 · app/cart/page.tsx:393",
+      "descrizione": "La regola firmata il 29/10 (registro dei fatti consegna.promessa, carta #220) dice 3 euro, 50 centesimi in più sotto i 10 euro di spesa, 50 centesimi in più per la consegna veloce. Nel codice la consegna è 3 euro fissi. Prova della radiografia: prezziDelCarrello con un negozio, 800 centesimi, consegna a domicilio: atteso 350, esce 300, su 0df7945 e sul ramo. Oggi carta, contanti e schermo dicono tutti 3 euro: nessuna sorpresa al cliente, MyCity incassa da 50 centesimi a 1 euro in meno su ogni ordine piccolo o veloce. Minore perché la decisione ha poche ore ed è già pianificata come pacchetto suo (il pacchetto del prezzo, dopo l unione della #263). Trappola per chi la fa: la fascia deve entrare nel conto da tutte e due le rotte e dallo schermo insieme, e l euro va dentro delivery_fee_cents.",
+      "fonte": "preesistente rispetto alla decisione del 29/10; trovato dalla radiografia del perimetro del giro B (run wf_5fe12725-8cb, lente pagamenti-stripe) il 2026-10-29 14:47"
     }
   ],
   "sync_scan": {

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-28 22:18",
+  "aggiornato": "2026-10-29 14:47",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4816,6 +4816,64 @@
         "app/seller/layout.tsx": "1516f41c793f",
         "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
         "components/seller/ProductForm.tsx": "f2719d81a836"
+      }
+    },
+    {
+      "quando": "2026-10-29 14:47",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
+        "Ordine arrivato solo in parte: al cliente si dice «ti aiutiamo noi», ma nessuno viene avvisato",
+        "La riga finale della chiave risulta scritta anche quando non tocca nessuna riga: l allarme «prova del tentativo non scritta» non scatta",
+        "Sulla chiave abbandonata la cassa dice «Ordine effettuato!» anche se l ordine ritrovato è già annullato dal negozio"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/orders/cod/route.ts": "96a5e7e05b9c"
+      }
+    },
+    {
+      "quando": "2026-10-29 14:47",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
+        "Se il database salva l ordine ma la risposta torna con un errore, la cassa lo tratta come mai nato: rimette la merce, ridà il credito, butta la chiave, e il tocco dopo crea un secondo ordine",
+        "Il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/ordini/chiave-dopo-l-errore.ts": "abd649fbd9f9",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/schema.ts": "b58e234bb60e"
+      }
+    },
+    {
+      "quando": "2026-10-29 14:47",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Buco nelle prove della carta: se sparisce il ripescaggio del negozio senza insegna, o il filtro «solo negozi approvati», nessuna prova diventa rossa",
+        "La consegna costa sempre 3 euro: i 50 centesimi sotto i 10 euro e i 50 centesimi della consegna veloce, firmati da Nicola il 29/10, non sono ancora nel codice"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "f1bb7bf4fa01"
       }
     }
   ]
