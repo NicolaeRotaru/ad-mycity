@@ -26,10 +26,10 @@
   "fonti_non_lette": [],
   "sintesi": "Radiografia completa dell 11 ottobre 2026: codice, design, database vero e sito di produzione, 195 revisori in 23 corsie piu 6 critici, ogni difetto verificato due volte. 307 difetti nuovi (9 bloccanti, 80 gravi, 218 minori; 25 erano stati chiusi e sono tornati) e 163 noti ancora presenti; 38 noti chiusi perche risolti. I piu cari: due porte del database aperte a chiunque (dettagli fuori dal deposito pubblico), l iscrizione dei negozi rotta, la migrazione 161 che applicata cosi spegne le schede prodotto, e 23 promesse del sito che il sito non mantiene.",
   "meta": {
-    "findings": 1755,
+    "findings": 1759,
     "bloccanti": 35,
-    "gravi": 520,
-    "minori": 1200,
+    "gravi": 523,
+    "minori": 1201,
     "agenti": null
   },
   "confronto_precedente": null,
@@ -28745,12 +28745,12 @@
     {
       "titolo": "Promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
       "severita": "grave",
-      "file": "lib/geo.ts deliveryEtaMinutes + EXPRESS_ETA_LABEL (Footer, home, manifest, come-funziona)",
+      "file": "lib/geo.ts deliveryEtaMinutes · lib/delivery.ts EXPRESS_ETA_LABEL · components/Footer.tsx:321 · lib/site-branding.ts:63,68 · app/come-funziona/page.tsx:9,54 · components/home/HeroStoreCard.tsx:206 · app/about/page.tsx:11,26 · app/shipping/page.tsx:53,75 · components/ui/AuthShell.tsx:45 · components/BuyerOnboardingTour.tsx:48 · app/layout.tsx:99 · app/category/[slug]/layout.tsx:35 · app/stores/layout.tsx:10 · app/product/[id]/layout.tsx:26 · components/store-sections/ContactSection.tsx:64 · app/opengraph-image.tsx:57 · app/store/[id]/opengraph-image.tsx:81 · public/manifest.json:4 · app/seller/profile/page.tsx:180 · components/seller/ProductForm.tsx:1044",
       "stato": "aperto",
       "dimensione": "architettura",
       "fonte": "preesistente, trovato dal collaudo del primo giro della fase 2 del lotto #262",
       "descrizione": "deliveryEtaMinutes(10) = 55: restano 5 minuti di margine. Il commento in constants.ts parla di una promessa 'in giornata' (carta #209), ma il sito dice ancora 30-60 min ovunque. Va allineato a parte.",
-      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-consegna#6 dice grave; frontend-account-posta#5 dice grave; architettura-consegna#7 dice grave; qa-flussi-cassa#4 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: sul main 1776e6b1 i «30-60 minuti» stanno in circa 36 punti (home: nastro, piè di pagina, Come funziona, hero; carrello, Spedizioni, login, giro di benvenuto, FAQ, chi siamo, negozio, categoria, descrizione per Google, immagini di condivisione, public/manifest.json:4, le etichette della cassa in lib/quando-arriva.ts:64-65,186, app/orders/[id]/page.tsx:347). Si contraddicono già /about (:26 contro :140) e il carrello (:79 contro :80). TRAPPOLA per chi ripara: NON cambiare il valore di EXPRESS_ETA_LABEL (lib/delivery.ts:13). ETICHETTA_ADESSO in lib/quando-arriva.ts:64 sta in FASCE_AMMESSE (:80-84) e le due rotte d'ordine la confrontano alla lettera (app/api/orders/cod/route.ts:76, app/api/stripe/checkout/route.ts:77 via lib/ordini/fascia-consegna.ts:34-38; lib/store-hours.ts:118-119): una cassa aperta prima del rilascio verrebbe rifiutata, e 14 righe che incollano «in ${EXPRESS_ETA_LABEL}» scriverebbero «in in giornata». Serve una costante nuova per la promessa pubblica, separata dall'identificativo della fascia, più una prova che un ordine in contanti con la fascia «Adesso» passa ancora. Se la mattonella «Adesso · 30-60» resti accanto a «in giornata» è una scelta di prodotto da far firmare a Nicola. Va riesaminata insieme alla 253 (stessa frase)."
+      "nota_riesame": "28/10 01:15: passata da minore a grave dopo il riesame del perimetro della fase 2 del lotto #262 (run wf_b9d92819-bde, 27/10 sera) (frontend-consegna#6 dice grave; frontend-account-posta#5 dice grave; architettura-consegna#7 dice grave; qa-flussi-cassa#4 dice grave). È una promessa pubblica falsa, su ogni pagina che la mostra. · 2026-10-28 22:30: Dal vaglio dell'ondata 10: sul main 1776e6b1 i «30-60 minuti» stanno in circa 36 punti (home: nastro, piè di pagina, Come funziona, hero; carrello, Spedizioni, login, giro di benvenuto, FAQ, chi siamo, negozio, categoria, descrizione per Google, immagini di condivisione, public/manifest.json:4, le etichette della cassa in lib/quando-arriva.ts:64-65,186, app/orders/[id]/page.tsx:347). Si contraddicono già /about (:26 contro :140) e il carrello (:79 contro :80). TRAPPOLA per chi ripara: NON cambiare il valore di EXPRESS_ETA_LABEL (lib/delivery.ts:13). ETICHETTA_ADESSO in lib/quando-arriva.ts:64 sta in FASCE_AMMESSE (:80-84) e le due rotte d'ordine la confrontano alla lettera (app/api/orders/cod/route.ts:76, app/api/stripe/checkout/route.ts:77 via lib/ordini/fascia-consegna.ts:34-38; lib/store-hours.ts:118-119): una cassa aperta prima del rilascio verrebbe rifiutata, e 14 righe che incollano «in ${EXPRESS_ETA_LABEL}» scriverebbero «in in giornata». Serve una costante nuova per la promessa pubblica, separata dall'identificativo della fascia, più una prova che un ordine in contanti con la fascia «Adesso» passa ancora. Se la mattonella «Adesso · 30-60» resti accanto a «in giornata» è una scelta di prodotto da far firmare a Nicola. Va riesaminata insieme alla 253 (stessa frase). · 2026-10-29 12:23: per il giro B (scelta B di Nicola, «allargato a tutte le pagine dei 30-60 minuti») il campo file elenca i punti trovati con git grep sulla base fff2c3e, fuori dal pacchetto della cassa. lib/quando-arriva.ts:64-65,186 e app/orders/[id]/page.tsx:347 restano alla squadra della cassa, che li tocca già per la fascia (scheda 23)."
     },
     {
       "titolo": "La prova non copre «Attiva» su un prodotto esaurito: un controllo ridotto alle sole bozze resta verde",
@@ -31094,8 +31094,8 @@
       "titolo": "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
       "dimensione": "qa-flussi",
       "severita": "grave",
-      "file": "lib/ordini/chiave-dopo-l-errore.ts:17-20 · app/checkout/page.tsx:836 e :844 · app/api/orders/cod/route.ts:204 (503 sulla rivendicazione della chiave, senza inCorso) e :760-1044 (finestra fra il primo ordine nato e la riga della chiave riempita)",
-      "descrizione": "Per ogni tentativo d'ordine in contanti il browser tiene una chiave. Serve al server per riconoscere un invio ripetuto e non creare un secondo ordine. Dopo un errore la regola è «butta la chiave, a meno che il server dica inCorso» (chiave-dopo-l-errore.ts:17-20, usata in page.tsx:844). Questo default è sbagliato: in certi errori il server non può garantire che nessun ordine sia nato. Primo caso: la funzione cade (timeout, 5xx della piattaforma) dopo l'insert del primo ordine (route.ts:760) e prima che la riga della chiave venga riempita (route.ts:1039-1044). La risposta non è JSON e page.tsx:836 la legge come {}. La chiave viene buttata ma il carrello resta pieno, così al tocco dopo parte una chiave nuova: secondo ordine. Secondo caso: il primo invio crea l'ordine ma la risposta si perde, e la chiave giustamente resta. Al ritocco l'insert della chiave cade per un errore di rete diverso dal duplicato. Allora route.ts:204 risponde 503 «Impossibile registrare l'ordine, riprova» senza inCorso: il browser butta la chiave e il terzo tocco crea il secondo ordine. Il danno: due ordini per una sola spesa, merce riservata due volte, credito MyCity tolto due volte, il negozio che prepara due spese. In più il «riprova» fa credere al cliente che non sia partito niente. Rimedio per tutta la classe: il server dice esplicitamente «chiave libera» (per esempio chiaveLibera:true) solo dalle uscite di esciERilascia, cioè quando nessun ordine è nato. Il browser butta la chiave solo in quel caso e su ogni altro errore la tiene. Va insieme al difetto aperto idx 1208 (la riga della chiave si riempie senza garanzie): tenendo la chiave dopo un crash, la riga resta con order_ids vuoto e dopo 60 secondi la via della chiave abbandonata ricrea comunque l'ordine. Prova che gira: lo scenario VARIANTE-RIVENDICA (copia della prova del collaudo A nella cartella di lavoro, eseguita col config di prova sul codice uguale a 1776e6b1) è rosso oggi, con 2° 503 senza inCorso, 3° 200 e 2 ordini dove se ne aspetta 1.",
+      "file": "lib/ordini/chiave-dopo-l-errore.ts:17-20 · app/api/orders/cod/route.ts:204 (503 sulla rivendicazione della chiave, senza inCorso) e :760-1044 (finestra fra il primo ordine nato e la riga della chiave riempita)",
+      "descrizione": "Per ogni tentativo d'ordine in contanti il browser tiene una chiave. Serve al server per riconoscere un invio ripetuto e non creare un secondo ordine. Dopo un errore la regola è «butta la chiave, a meno che il server dica inCorso» (chiave-dopo-l-errore.ts:17-20, usata in page.tsx:844). Questo default è sbagliato: in certi errori il server non può garantire che nessun ordine sia nato. Primo caso: la funzione cade (timeout, 5xx della piattaforma) dopo l'insert del primo ordine (route.ts:760) e prima che la riga della chiave venga riempita (route.ts:1039-1044). La risposta non è JSON e page.tsx:836 la legge come {}. La chiave viene buttata ma il carrello resta pieno, così al tocco dopo parte una chiave nuova: secondo ordine. Secondo caso: il primo invio crea l'ordine ma la risposta si perde, e la chiave giustamente resta. Al ritocco l'insert della chiave cade per un errore di rete diverso dal duplicato. Allora route.ts:204 risponde 503 «Impossibile registrare l'ordine, riprova» senza inCorso: il browser butta la chiave e il terzo tocco crea il secondo ordine. Il danno: due ordini per una sola spesa, merce riservata due volte, credito MyCity tolto due volte, il negozio che prepara due spese. In più il «riprova» fa credere al cliente che non sia partito niente. Rimedio per tutta la classe: il server dice esplicitamente «chiave libera» (per esempio chiaveLibera:true) solo dalle uscite di esciERilascia, cioè quando nessun ordine è nato. Il browser butta la chiave solo in quel caso e su ogni altro errore la tiene. Va insieme al difetto aperto idx 1208 (la riga della chiave si riempie senza garanzie): tenendo la chiave dopo un crash, la riga resta con order_ids vuoto e dopo 60 secondi la via della chiave abbandonata ricrea comunque l'ordine. Prova che gira: lo scenario VARIANTE-RIVENDICA (copia della prova del collaudo A nella cartella di lavoro, eseguita col config di prova sul codice uguale a 1776e6b1) è rosso oggi, con 2° 503 senza inCorso, 3° 200 e 2 ordini dove se ne aspetta 1. Per chi ripara (giro B dell ondata 1, 29/10): il punto dove si vede è app/checkout/page.tsx, ma la cura va nella rotta (rispondere col segnale inCorso) o in lib/ordini/chiave-dopo-l-errore.ts, che la pagina già usa. In questo giro la pagina della cassa appartiene al pacchetto delle promesse.",
       "fonte": "c'era già prima: trovato dall'ondata 10 (run wf_2326095d-a6c), vaglio wf_414a376a-0f4"
     },
     {
@@ -31223,6 +31223,50 @@
       "file": "app/sell/page.tsx:144-155 · migrations/119_radiografia_18_agosto.sql (enforce_profile_update_rules)",
       "descrizione": "C'era già prima dell'ondata 10. /sell mostra il modulo a un negozio sospeso, perché la condizione guarda solo pending; inviandolo, lo stato torna pending, e la guardia del database (migrazione 119) permette a chi non è staff di portare approval_status a pending partendo da qualunque valore, anche suspended. Il negozio esce dall'etichetta «sospeso» ed entra nella coda delle richieste: non riceve accesso, ma l'amministratore lo rivede come una richiesta nuova. Da guardare con @security.",
       "fonte": "c'era già prima; collaudo del bloccante 18 sul ramo dell'ondata 10 (run wf_c91379e4-eb5, commit 0df7945)"
+    },
+    {
+      "dimensione": "api-backend",
+      "reparto": "API",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Sulla chiave abbandonata la cassa prende per suo l'ordine in contanti di un altro carrello: dice «fatto», svuota il carrello e l'ordine di adesso non nasce",
+      "file": "app/api/orders/cod/route.ts (ramo chiave-abbandonata, lettura ordiniDopo ~r.264-269)",
+      "descrizione": "Nel ramo nuovo della chiave abbandonata, la rotta cerca gli ordini già nati filtrando solo per cliente, pagamento in contanti e created_at dopo la chiave: senza limite in alto, senza i negozi del carrello, senza legame con la chiave e senza filtro sullo stato. Un ordine in contanti dello stesso cliente partito da un'altra scheda o da un altro dispositivo, o già annullato, viene preso per questo carrello: la risposta è 200 «già fatto», il carrello si svuota e l'ordine di adesso non nasce. Vale anche per un ordine a metà su due negozi. Sul base 1776e6b1 la chiave si liberava e l'ordine nasceva. Il collaudo l'ha reso rosso con una prova sul ramo (200 ripetuto con l'ordine dell'altro carrello, 1 ordine su 2). Rimedio vero: legare l'ordine alla chiave (colonna, quindi migrazione) oppure confrontare negozi e contenuto del carrello. Le varianti trovate dai collaudi: 409 falso «già arrivato» per un ordine di un'altra scheda; ordini già annullati presi per buoni.",
+      "fonte": "nato dal lotto (ramo fermo fix/ondata-10-app-api-orders-cod-route-ts, ondata 10, run wf_2326095d-a6c); si chiude nel giro B scelto da Nicola il 28/10"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo l'avviso «il tuo ordine è già arrivato» il browser dimentica il tentativo, e il tocco successivo su Ordina crea il secondo ordine in contanti",
+      "file": "app/api/orders/cod/route.ts (ramo chiave-abbandonata: ApiErrors.conflict senza inCorso, ~r.280) · lib/ordini/chiave-dopo-l-errore.ts:17",
+      "descrizione": "La rotta risponde 409 «il tuo ordine è già arrivato» senza il segnale inCorso. Il browser applica la regola «butta la chiave, a meno che il server dica inCorso» e la butta, mentre il carrello resta pieno. Il tocco dopo parte con una chiave nuova e crea il secondo ordine: merce riservata due volte e credito MyCity tolto due volte. Trovato da due collaudi diversi. Per chi ripara (giro B dell ondata 1, 29/10): il punto dove si vede è app/checkout/page.tsx, ma la cura va nella rotta (rispondere col segnale inCorso) o in lib/ordini/chiave-dopo-l-errore.ts, che la pagina già usa. In questo giro la pagina della cassa appartiene al pacchetto delle promesse.",
+      "fonte": "nato dal lotto (ramo fermo fix/ondata-10-app-api-orders-cod-route-ts, ondata 10, run wf_2326095d-a6c); si chiude nel giro B scelto da Nicola il 28/10"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "Dopo l'avviso «non riusciamo a controllare il tuo ordine» il browser dimentica il tentativo, e il tocco successivo crea il secondo ordine in contanti",
+      "file": "app/api/orders/cod/route.ts (ramo chiave-abbandonata, errOrdiniDopo: ApiErrors.unavailable senza inCorso) · lib/ordini/chiave-dopo-l-errore.ts:17",
+      "descrizione": "Quando la lettura degli ordini già nati cade sulla chiave abbandonata, la rotta risponde 503 senza inCorso. Il browser butta la chiave, il carrello resta pieno, e il tocco dopo crea il secondo ordine. È la stessa famiglia del difetto 1742, che c'era già prima: chi ripara guardi le due cose insieme. Per chi ripara (giro B dell ondata 1, 29/10): il punto dove si vede è app/checkout/page.tsx, ma la cura va nella rotta (rispondere col segnale inCorso) o in lib/ordini/chiave-dopo-l-errore.ts, che la pagina già usa. In questo giro la pagina della cassa appartiene al pacchetto delle promesse.",
+      "fonte": "nato dal lotto (ramo fermo fix/ondata-10-app-api-orders-cod-route-ts, ondata 10, run wf_2326095d-a6c); si chiude nel giro B scelto da Nicola il 28/10"
+    },
+    {
+      "dimensione": "qa-flussi",
+      "reparto": "Flussi critici",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato_oggi": true,
+      "titolo": "13 prove vecchie della cassa in contanti diventano rosse col ramo della cassa: i loro database finti non danno al negozio la vetrina né ruolo e approvazione",
+      "file": "tests/unit/contanti-la-chiave-si-prende-prima.test.ts (4) · tests/unit/ordini-contrassegno-due-negozi.test.ts (6) · tests/unit/la-cassa-mostra-la-spedizione-che-addebita-coi-profili-chiusi.test.ts (3)",
+      "descrizione": "Il ramo della cassa ora controlla che ogni negozio del carrello sia in vetrina e approvato, e risponde 409 «Un negozio del carrello non accetta ordini» (route.ts:553). I database finti di tre file di prove servono i negozi senza role e is_approved, oppure l'admin restituisce un elenco vuoto: 13 prove su 230 diventano rosse. In produzione la vetrina e il client di servizio restituiscono i negozi approvati, quindi il sito fa giusto; ma npm run verify resta rosso e il ramo non si può unire. Minore per AR-1027, da chiudere nel giro B.",
+      "fonte": "nato dal lotto (ramo fermo fix/ondata-10-app-api-orders-cod-route-ts, ondata 10, run wf_2326095d-a6c); si chiude nel giro B scelto da Nicola il 28/10"
     }
   ],
   "sync_scan": {
