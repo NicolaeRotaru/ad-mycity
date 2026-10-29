@@ -6005,3 +6005,13 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Un dato che sostiene la soglia dei 10 euro.** L 11/8 Nicola ha deciso che il 10% di commissione serve a pagare la consegna. Il fattorino prende 3 euro a consegna (`COMPENSO_RIDER_CENTS`). Con la consegna a 2 euro manca 1 euro, e il 10% lo copre da 10 euro di spesa in su.
 
 **Colore.** 🔴: è un prezzo pagato dal cliente. Nessun prezzo cambiato nel codice; il pacchetto del prezzo parte solo con la firma sulla carta che scrivo dopo l analisi.
+
+## 2026-10-29 13:44 — 🔴 Nicola firma il prezzo della consegna: 3 euro, più 50 centesimi sotto i 10 euro, più 50 centesimi per la veloce (carta #220)
+
+**Cosa ha scritto Nicola** (fra le 13:22 e le 13:44, dopo l analisi): «la consegna costa 3€, sotto i 10€ paga 0.5€ in più e se la vuole subito entro 30-60 min paga 0.5€ in più». Non è né la strada 1 (3 euro e 4 la veloce) né la strada 2 (2 euro da 10 euro di spesa) della carta: è una sua terza strada.
+
+**I conti, con la formula del sito** (commissione 10% arrotondata, fattorino 3 euro). Fascia oraria: 3,50 euro sotto i 10 euro, 3,00 da 10 euro in su. Veloce: 4,00 sotto i 10 euro, 3,50 da 10 euro in su. A MyCity, contando il fattorino da 3 euro, restano sempre almeno 50 centesimi più il 10% della merce. Con l IVA ordinaria al 22% la fascia perde solo sotto 1,55 euro di spesa: con questa regola il dubbio sul regime IVA non blocca più il prezzo. Il peso della consegna su un kefir da 2,05 euro sale al 171%: il peso si toglie solo coi carrelli più grandi (pane e verdura online).
+
+**Due letture mie, da confermare se sbagliate.** I due supplementi si sommano, perché Nicola li ha scritti uno dopo l altro con «e». La soglia dei 10 euro vale per negozio e sulla merce dopo gli sconti, come la consegna, perché altrimenti un buono può far superare l incasso ai bonifici quando torna la carta. Il fattorino resta a 3 euro e i centesimi in più restano a MyCity.
+
+**Fatto registrato:** `consegna.promessa`. **Colore:** 🔴 firmato da Nicola. Nessun prezzo cambiato nel codice oggi: il pacchetto del prezzo (tariffa in una funzione sola, l euro dentro la consegna, i due freni sulla veloce, le frasi dei 30-60 minuti) parte dopo l unione del giro B.
