@@ -31,6 +31,114 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- chiave-anti-robot-prima-di-unire -->
 
+### 🟡 #221 — Scegli come chiudere le promesse: la frase semplice di ieri, o un altro giro sulla home · ⏳ accodata 2026-10-29 13:56 · ✅ scelta 2026-10-29 14:35
+
+> ✅ **2026-10-29 14:35 — Hai scelto A.** Il collaudo delle sei frasi è partito, con due collaudatori: uno ricrea i difetti, l altro guarda se il sito nasce rotto. Se regge, cassa e promesse entrano insieme nella richiesta di unione #263.
+>
+> ✅ **2026-10-29 15:40 — Fatto.** Il collaudo ha retto. La radiografia ha trovato un solo difetto nato, il sì/no delle caratteristiche, e l ha riparato un mezzo giro. Adesso tutto è dentro la #263, e passano 6.144 prove su 6.144.
+
+**In parole semplici.** Il giro B è finito. La cassa in contanti regge: 6 difetti chiusi su 8, e sul ramo della #263 passano 6.099 prove su 6.099. Le promesse invece si sono fermate di nuovo, e sempre sulla home. Questa volta la squadra ha costruito un conto alla rovescia furbo, che guarda gli orari dei negozi. Il collaudo ha trovato 8 casi in cui la home dice un giorno che la cassa non sa prenotare. Esempio: sabato alle 7:30, col forno aperto dalle 7, la home dice «Arriva lunedì». Dalle 8, però, la cassa consegna oggi.
+
+**La cosa che ho scoperto.** Le cinque frasi riparate sono già nel ramo di ieri: la carta che non si può usare, il 10% nascosto, il telefono finto, «Vegano false» e il dialogo di conferma. Quel ramo sulla home mette una sola frase onesta: «Consegna in giornata, negli orari di apertura del negozio». Non promette «oggi» di domenica, e non ha il conto alla rovescia. Ieri si era fermato solo per i 30-60 minuti rimasti nelle pagine. Con la tua scelta di oggi quei 30-60 minuti non sono più un errore: sono la consegna veloce. Unito alla cassa, il sito supera 6.117 prove su 6.117.
+
+**Cosa cambia:** scegli una strada.
+- A (il mio consiglio): unisco la cassa e il ramo di ieri delle promesse, dopo un collaudo che guarda solo quelle frasi. Il conto alla rovescia furbo di oggi non entra. La home dirà quando arriva la spesa col pacchetto del prezzo nuovo, usando le stesse regole della cassa. Il motivo è uno: il difetto di oggi nasce da una home che si calcola un calendario suo invece di chiederlo alla cassa.
+- B: un terzo giro sulla home, da solo, prima del pacchetto del prezzo.
+
+**Se va bene:** con A lancio il collaudo delle cinque frasi, due collaudatori perché la pagina della cassa tocca i soldi. Poi aggiorno la richiesta di unione #263 con cassa e promesse insieme. La firma sull unione resta tua.
+
+**Cosa devi fare tu.** Scrivimi «promesse A» oppure «promesse B».
+
+**Cosa non ho verificato:** le 29 segnalazioni nuove del giro sono ancora nel vaglio. Ognuna ha un vaglio e un contro-vaglio, e serve a sapere quali ci sono anche sul sito di oggi. Ti dico l esito appena finisce. Le cinque frasi le avevano già collaudate ieri, ma con la vecchia promessa in testa.
+
+Contenuto: run del giro `wf_8774d9cc-eb7` (19 agenti su 45). Cassa `fe8aee8`, portata sul ramo della #263 come `bc79688` con i file identici. Promesse di oggi `37732cb`, ferma, con 8 gravi nati in `lib/promesse-pubbliche.ts` consegnaDellaHome e `components/ui/DeliveryCutoff.tsx`. Ramo di ieri: `3787062`, `73ab7cc`, `251867d`; prova su `bc79688` nel worktree `mycity-ondate/prova-a`, `npm run verify` verde con 682 file. Parziali della cassa: 23 (la fascia scelta mostrata a negozio, fattorino e cliente: fuori territorio) e 1742 (la rotta che cade dopo il primo ordine).
+
+---
+
+
+### 🔴 #220 — Scegli quanto costa la consegna: 3 euro fissi, oppure 2 euro da 10 euro di spesa · ⏳ accodata 2026-10-29 13:12 · ✅ scelta 2026-10-29 16:13
+
+> 🔁 **2026-10-29 16:13 — Hai cambiato il prezzo.** La consegna costa 3 euro. La consegna veloce in 30-60 minuti costa 1 euro in più, cioè 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, cioè 4 euro, e la veloce è compresa. Il massimo è sempre 4 euro. Coi conti del sito non perde mai, nemmeno con l IVA ordinaria. Il pacchetto del prezzo parte dopo l unione della #263.
+>
+> *Prima, alle 13:44 e confermata alle 14:54, la regola era di due supplementi da mezzo euro. È superata dalla scelta delle 16:13.*
+
+**In parole semplici.** Mi hai chiesto se la consegna standard deve costare 2 o 3 euro. Nella tua idea si aggiunge 1 euro sotto i 10 euro di spesa, e 1 euro per la consegna veloce. Sotto i 10 euro le due strade sono uguali: il cliente paga 3 euro. Si separano solo da 10 euro in su. Su un kefir da 2,05 euro la consegna pesa comunque il 146% della spesa. Il peso si toglie con un carrello più grande, cioè mettendo online pane e verdura.
+
+**Cosa cambia:** scegli una strada.
+- Strada 1 (il mio consiglio): 3 euro con la fascia oraria, 4 euro con la consegna veloce. Non perde mai in contanti. Lo sconto «da 10 euro di spesa scende a 2» si prepara già nel codice. Si accende dopo i primi 20 ordini. Prima serve sapere dal commercialista come paghiamo l IVA.
+- Strada 2: la tua idea subito, detta come uno sconto. «Consegna 3 euro. Da 10 euro di spesa scende a 2. Adesso, in 30-60 minuti: 1 euro in più.» Il cliente legge un premio e non una multa. Ma se MyCity paga l IVA ordinaria, fra 10 e 16,54 euro di spesa ogni consegna perde soldi.
+- La differenza vale al massimo 1 euro per ogni ordine da 10 euro in su: circa 10 euro al mese con 20 ordini.
+
+**Se va bene:** costruisco il pacchetto della consegna veloce. Dentro ci sono l euro in più, due freni e le frasi dei 30-60 minuti su tutte le pagine. Il primo freno offre «Adesso» solo quando sei segnato disponibile. Controlla anche l orario sul server. Il secondo propone una fascia senza l euro se il negozio non conferma entro 10 minuti. Parte dopo l unione del giro di riparazione in corso, che tocca gli stessi file. Unire resta una tua firma.
+
+**Cosa devi fare tu.** Scrivimi «consegna strada 1» oppure «consegna strada 2». Chiedi al commercialista se MyCity paga l IVA ordinaria, e se il 10% di commissione è IVA inclusa o esclusa. Quando passi da Pane Quotidiano, mandami foto e prezzi di pane e verdura.
+
+**Cosa non ho verificato:** lo scontrino tipico non esiste ancora: c è stato un solo ordine vero, da 19,05 euro, mai consegnato. Era del 24 giugno. I prezzi dei concorrenti vengono da fonti deboli. Le regole sui prezzi sono una bozza da far guardare a un legale abilitato. I tempi in bici vengono da un modello, perché le consegne fatte sono 0.
+
+Contenuto: analisi completa in `consegne/finanza/2026-10-29-prezzo-della-consegna.md` (run `wf_dc8a1e45-5a6`: 6 ricerche e 3 giudici; cro per la strada 2, finanza e qa per la strada 1). Fatto collegato: `consegna.promessa` (29/10). Territorio del pacchetto: `lib/ordini/prezzi.ts`, le due rotte d ordine, `lib/quando-arriva.ts`, `app/checkout/page.tsx`, `app/cart/page.tsx`, `lib/constants.ts`, schede 253 e 1516.
+
+---
+
+
+### 🟡 #219 — Sei scelte piccole per preparare l'ondata 2 del sito · ⏳ accodata 2026-10-28 22:50 · ✅ scelte 2026-10-29 00:05
+
+> ✅ **2026-10-29 00:08 — Le tue risposte.** Niente abbigliamento per ora, e tutto il resto sì. L'albero delle categorie va fatto più ampio, con più sottocategorie. Pane Quotidiano vende anche pane, verdura fresca e cura della persona. Il bonus del fattorino si toglie, e si riaccende più avanti. Le foto si caricano solo in JPG. La regola del colore dei link si toglie. Per il fattorino esterno vale il tuo sì al punto sull'INAIL.
+>
+> Il rimborso dell'ordine in contanti annullato passa dal reclamo, in modo mezzo automatico: il sito apre il reclamo e ti prepara il bonifico, tu lo fai dalla banca (scelta delle 00:15).
+
+**In parole semplici.** Prima di riparare l'ondata 2 ho fatto riscrivere le sue ricette sul codice di oggi. Poi due revisori hanno provato a smontare ogni ricetta. Ne hanno bocciate 17 su 27, quasi sempre con la correzione già scritta. Restano sei punti che tocca a te decidere. Su ognuno c'è il mio consiglio.
+
+- **Le categorie del pane.** Il pane di Pane Quotidiano va nella sottocategoria «Panificio», che esiste già. Per hummus e pesto si crea solo «Gastronomia fresca». Latticini e salumi restano fuori dalla lista dei prodotti che non si rendono, finché il legale non rilegge. Consiglio: sì.
+
+  > ⚠️ **Correzione del 29/10 00:40.** Sul database i 5 prodotti di Pane Quotidiano non sono pane: sono due kefir, un hummus, un pesto e un budino alla vaniglia. Il pane in «Panificio» è del Panificio Demo, la tua prova. Nicola ha chiesto di sistemare tutte le categorie in base al target: la proposta è nella risposta in chat delle 00:40, e aspetta il suo ok.
+- **Il bonus dei fattorini.** La pagina dei guadagni del fattorino promette «+2 € ogni 5 consegne», ma nessun pezzo del sito lo paga. Consiglio: toglierlo.
+- **L'ordine in contanti già pagato che il cliente annulla.** Il rimborso passa da un reclamo nel pannello. Così il sito segna il bonifico e toglie la quota al negozio. Se lo rimborsi fuori dal sito, rischi di pagare il negozio per intero e il cliente due volte. Consiglio: sì, dal reclamo.
+- **Le foto dell'iPhone.** Il sito smette di chiedere il formato dell'iPhone (HEIC). L'iPhone manda già la foto in JPG da solo. Chi trascina un HEIC dal computer legge «salvala in JPG e riprova». Costa zero codice nuovo. Annulla una scelta dell'8/9, che l'aveva fatto entrare. Consiglio: sì.
+- **Il colore dei link al passaggio del mouse.** Oggi una regola fa diventare 30 link bianchi quasi invisibili sotto il mouse, «Registrati» compreso. Consiglio: togliere la regola per i link che hanno già un colore loro.
+- **La copertura del primo fattorino esterno.** Il primo fattorino esterno consegna solo dopo la posizione INAIL. La risposta «Sono assicurato?» lo dice così. Consiglio: sì.
+
+**Cosa cambia:** con le sei risposte le ricette dell'ondata 2 sono complete. Si possono lanciare appena chiudi la scelta sull'ondata 1, la carta #218.
+
+**Cosa devi fare tu.** Scrivimi per esempio «219: tutto come consigli», oppure dimmi quale cambi, col suo nome: «il pane», «il bonus», e così via.
+
+**Se va bene:** rifaccio il piano dell'ondata 2 con le ricette corrette. Il critico ha trovato file contesi fra i pacchetti, quindi alcuni difetti cambiano squadra. Poi te lo porto, prima di lanciarlo.
+
+**Cosa non ho verificato:** nessuna ricetta è stata eseguita: sono scritte e smontate sulla carta, leggendo il codice. Le letture del database che il critico chiedeva le ho fatte io, in sola lettura: nessun negozio ha tutti i giorni chiusi, nessuno è finito a Roma, non ci sono resi.
+
+Contenuto: la run delle ricette è `wf_b0929d95-4a5`. Il ricettario sta in `consegne/audit/2026-10-28-ricette-ondata2.json`, dopo la rilettura di riservatezza.
+
+---
+
+
+### 🟡 #218 — Scegli cosa fare dei due pacchetti fermi dell'ondata 1: le promesse e la cassa in contanti · ⏳ accodata 2026-10-28 21:45 · ✅ scelta 2026-10-29 00:05
+
+> ✅ **2026-10-29 00:08 — Hai scelto B e B:** un giro in più su tutti e due i pacchetti. Le promesse si allargano a tutte le pagine dei 30-60 minuti. La cassa riparte dal suo ramo, con i 5 gravi nati da chiudere. I due giri partono quando torna il limite della settimana.
+>
+> 🔁 **2026-10-29 12:34 — La promessa è cambiata.** Alla mia domanda sui 30-60 minuti hai risposto: la consegna veloce arriva in 30-60 minuti con 1 euro in più, altrimenti il cliente sceglie una fascia oraria. I due giri sono partiti. Quello delle promesse va senza le frasi dei minuti: quelle si cambiano insieme al prezzo nuovo, dopo questo giro. Il prezzo standard, 2 o 3 euro, lo decidi tu: l analisi è in corso.
+
+**In parole semplici.** L'ondata 1 è finita con 36 agenti su 45. Tre pacchetti su cinque reggono: la porta del negozio, la moderazione degli account e il catalogo. Due si sono fermati dopo tre bocciature del collaudo, e il metodo vuole che decida tu.
+
+**Le promesse.** La squadra ha sistemato cinque frasi false: «oppure con carta», «ogni euro va ai negozi», il telefono finto in Contatti, «Vegano false» nelle schede, il dialogo di conferma. Il collaudo l'ha fermata per un motivo solo. La home dice ancora «in 30-60 minuti» nel nastro in alto e nel piè di pagina, e la stessa frase sta in una dozzina di altre pagine: carrello, Spedizioni, login, FAQ, la descrizione per Google.
+
+**La cassa in contanti.** Qui è peggio. Per evitare il doppio ordine, la squadra ha cambiato il modo in cui il sito riconosce un ordine già fatto. Il collaudo ha provato che adesso, in un caso, il sito prende per buono l'ordine di un altro carrello. Dice «fatto» al cliente, gli svuota il carrello, e l'ordine vero non nasce. Sul sito di oggi questo non succede.
+
+**Cosa cambia:** scegli una strada per ognuno dei due.
+- Promesse, A (il mio consiglio): restringere. Si uniscono le cinque frasi sistemate, dopo un collaudo che guarda solo quelle. I «30-60 minuti» li toglie un giro piccolo apposta, su tutte le pagine dove stanno.
+- Promesse, B: un giro ancora sullo stesso pacchetto, allargato a tutte le pagine dei 30-60 minuti.
+- Cassa, A (il mio consiglio): semplificare. Il ramo non si unisce. Un giro piccolo fa due cose che non toccano i soldi: il controllo del negozio chiuso e l'orario di consegna che oggi nessuno vede. Il doppio ordine diventa un lavoro a sé, disegnato prima su carta e collaudato con due lenti, perché è il punto dove i soldi del cliente raddoppiano.
+- Cassa, B: un giro ancora sullo stesso pacchetto.
+
+**Cosa devi fare tu.** Scrivimi per esempio «promesse A, cassa A».
+
+**Se va bene:** i due giri piccoli partono subito, col tetto di 45 agenti ciascuno. I tre pacchetti che reggono sono già nella richiesta di unione #263 del sito, e aspettano la tua firma.
+
+**Cosa non ho verificato:** il caso dell'ordine perso l'ha provato il collaudatore su una copia del ramo, con una prova che diventa rossa. Io non l'ho rifatto da me.
+
+Contenuto: la run dell'ondata è `wf_2326095d-a6c`. Il ramo delle promesse è `fix/ondata-10-lib-promesse-pubbliche-ts` (`251867d`). Il ramo della cassa è `fix/ondata-10-app-api-orders-cod-route-ts` (`7a39cc2`).
+
+---
+
+
 ### 🟡 #217 — Scegli quale ondata di riparazione del sito parte per prima · ⏳ accodata 2026-10-28 19:55 · ✅ scelta 2026-10-28 20:05
 
 > ✅ **2026-10-28 20:15 — Hai scritto «Parti con l'ondata 1».** È partita alle 20:15 con cinque squadre e 25 difetti, tetto di 45 agenti. Tre difetti li ho rinviati a un mezzo giro dopo, perché incrocerebbero i file delle altre squadre: le promesse del reso, il negozio messo a Roma, la pagina d'aiuto dei fattorini. L'ondata 2 resta pronta per dopo.

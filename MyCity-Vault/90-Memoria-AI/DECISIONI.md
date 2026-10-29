@@ -5934,3 +5934,112 @@ Gli altri sette sono stati declassati a minori: frasi che promettono un po' più
 ## 2026-10-28 20:40 — 🟢 Correzione: la fase 0 del piano è fatta, non aperta
 
 Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato: gli 8 gravi (51, 1138, 1237, 1300, 1244, 1319, 1299, 312) sono nello stato `gia_riparato_prima`. Il mio conto contava come aperto ogni stato diverso da `riparato` e `chiuso`. Rifatto con `stato === "aperto"`: fase 0 0 su 8, le altre fasi come prima. Corretti il referto `consegne/audit/2026-10-28-ondata2-preparazione.md` e la descrizione della #897.
+
+## 2026-10-28 23:10 — 🟡 L'ondata 1 del sito: tre pacchetti reggono (#263), due fermi aspettano Nicola (#218)
+
+**Esito** (run `wf_2326095d-a6c`, 36 agenti su 45): reggono `middleware.ts` (85, 1214, 1137, 86 chiusi; 18 riparato ma non dichiarato), la moderazione (1254 intero; 1252, 1253, 1255 in parte) e il catalogo (19, 1293). Fermi dopo tre bocciature: le promesse (i 30-60 minuti restano nel nastro e nel piè di pagina) e la cassa in contanti (il ramo nuovo della chiave abbandonata prende per suo l'ordine di un altro carrello; 5 gravi nati aperti). `chiedi_a_nicola: true`: carta #218 con le tre strade e il consiglio «promesse A (restringi), cassa A (semplifica)». Non rilancio da solo.
+
+**Dopo il giro, con ultracode acceso da Nicola alle 20:40:** ricucitura dei tre rami in `fix/ondata-10-integrazione` = `ccr-b2418a18-982q9d` del sito (`0df7945`), `npm run verify` verde (6.068 su 6.068); radiografia del perimetro (run `wf_80358590-efb`, 10 file, 3 lenti, nessun grave nato, 3 gravi preesistenti verificati); vaglio delle 77 segnalazioni (run `wf_414a376a-0f4`, 5 vagli e 5 contro-vagli); collaudo a due lenti del bloccante 18 (run `wf_c91379e4-eb5`: regge). Registro: 25 voci nuove (5 gravi, 20 minori; 15 nate dal lotto) e 13 note su schede aperte. Richiesta di unione mycity #263, nessuna migrazione. Referto: `consegne/audit/2026-10-28-ondata1-sito-referto.md`.
+
+**Due buchi del motore** (`ondata-sito.js`), da portare nel cantiere della macchina: ① dopo un rifacimento il risultato tiene solo l'ultimo frammento della squadra, e i `parziali` col perché del primo frammento si perdono; ② le scelte firmate da Nicola non arrivano alle squadre: le ho scritte a mano in `scelta_di_nicola`.
+
+**Una scoperta da dire a Nicola:** il canone da 50 euro al mese, sospeso il 26/10 (`pricing.abbonamento`), nel codice è ancora attivo (modulo d'iscrizione, banner del negoziante, rotta di addebito). Nota sulla scheda 261.
+
+**Un errore mio.** Riscrivendo con Python le fonti delle voci nuove, il file del registro è rimasto troncato su un carattere che Python non sapeva scrivere. L'ho ripristinato dall'ultimo commit e ho rifatto le due modifiche con node, rileggendo il file prima di salvarlo. Il conto di ⑨ dice 0 voci scritte male. Regola per me: il registro si scrive solo con node, e il testo si rilegge prima di salvarlo.
+
+**Colore.** 🟡: codice del sito solo nel ramo della #263; l'unione è di Nicola.
+
+## 2026-10-28 23:55 — 🟢 Le ricette dell'ondata 2 riscritte sul codice di oggi, e sei scelte per Nicola (#219)
+
+**Cosa.** Con ultracode acceso, una squadra per pacchetto ha riscritto in sola lettura, sul main `1776e6b1`, le ricette dei 24 difetti dell'ondata 2 e dei 3 rinviati dell'ondata 1 (50, 113, 247). Due lenti indipendenti le hanno smontate, e un critico di completezza le ha guardate tutte insieme (run `wf_b0929d95-4a5`, 19 agenti). Esito: 27 ricette su 27 «ancora vere» (2 in parte: 1287, 1228), 17 su 27 bocciate da almeno una lente, quasi tutte con la correzione. I rischi più grossi evitati: la ricetta del 1265 fermava il sorvegliante con un errore di sintassi; quella di 1287/1313 bloccava un rimborso in contanti che oggi va a buon fine; il testo del 1320 portava a pagare due volte.
+
+**File contesi che il mio piano non vedeva.** Il piano delle 19:45 misurava i territori sui file delle schede. Le ricette toccano anche altri file: `lib/ordini/annulla.ts` (soldi dei resi e pannello), `components/Footer.tsx` (vetrina e rinviati), `lib/storage/carica-immagine.ts` (vetrina e pannello), `app/api/returns/create/route.ts` (soldi dei resi e rinviati), e la cassa e la scheda prodotto (negozio, orari e rinviati). Il piano dell'ondata 2 va rifatto sui file delle ricette, dopo le risposte alle carte #218 e #219.
+
+**Letture del database fatte da me** (in sola lettura, chieste dal critico): nessun negozio con tutti i giorni chiusi; nessun negozio a Roma (Pane Quotidiano, via Calzolai 25, è a 45.0529/9.6917); 0 resi; 1 ordine; 3 messaggi, 0 non letti; «Panificio» esiste, «Gastronomia fresca» no; la funzione delle categorie per negozio esiste.
+
+**Due scelte tecniche, mie** (come vuole la correzione 8 del piano del 24/10): l'allarme dei contanti non confermati del 1265 guarda gli ordini consegnati nelle ultime 48 ore; il testo dell'annullo di un ordine già pagato in contanti (1320) dice di rimborsare dal reclamo, non fuori dal sito.
+
+**Carta #219** per Nicola: le categorie del pane, il bonus dei fattorini da togliere, il rimborso degli ordini in contanti annullati dal reclamo, le foto dell'iPhone in JPG, il colore dei link, la copertura del primo fattorino esterno.
+
+**Colore.** 🟢: letture e ricette, nessun codice toccato.
+
+**Aggiunta del 29/10 00:20 — il ricettario nel deposito.** I due revisori automatici di riservatezza (run `wf_9922f442-f0f`) sono caduti tutti e due per un errore del servizio, prima di leggere. Ho riletto io i 37 campi del ricettario che parlano di permessi, chiavi, funzioni del database e falle. Ogni rimando alla corsia riservata è un rimando senza istruzioni. Quattro passaggi indicavano un punto preciso: la guardia dei resi nelle due lenti del 1287, e la scrittura diretta nella chat del 22 nella ricetta e nella lente A. Li ho oscurati. Il ricettario è in `consegne/audit/2026-10-28-ricette-ondata2.json`. È una rilettura a una voce sola, non le due che vuole il metodo, e lo scrivo nel file.
+
+## 2026-10-29 00:08 — 🔴 Nicola risponde alle carte #218 e #219, e chiede di annotare tutto perché finisce il limite della settimana
+
+**Cosa ha scritto Nicola alle 00:05:** «218: 1) B 2) B · 219: 1) Esatto Pane Quotidiano oltre a pane vende anche altre come hai visto, in più verdura fresca e molto altro di alimentare o cura della persona. In più le categorie che hai messo sono carine ma mi sembra incompleta, dare un ventaglio di scelta maggiore o delle sotto categorie, e non ci sarà per adesso abbigliamento ma tutto il resto sì, perché sono piccoli negozi che glovo e deliveroo non guardano · 2) togli bonus fattorino, ma sarà un buon incentivo più avanti · 3) come deve essere fatto questo rimborso nel modo giusto? · 4) foto jpg · 5) togli la regola · 6) dopo la posizione INAIL».
+
+**#218, contro il mio consiglio (A, A):**
+- **Promesse B:** un giro in più sullo stesso pacchetto, allargato a tutte le pagine dei 30-60 minuti (nota 1516: non cambiare EXPRESS_ETA_LABEL, serve una costante nuova per la promessa pubblica). Il ramo `fix/ondata-10-lib-promesse-pubbliche-ts` (`251867d`) è la base.
+- **Cassa B:** un giro in più sullo stesso pacchetto, sul ramo `fix/ondata-10-app-api-orders-cod-route-ts` (`7a39cc2`), con i 5 gravi nati da chiudere (la chiave abbandonata che prende l'ordine di un altro carrello; il 409 e il 503 senza inCorso). Il metodo dice «semplifica» dopo tre bocciature nello stesso file: lo scelgo di non fare perché Nicola ha deciso così, e lo scrivo qui.
+
+**#219:**
+- **Categorie:** Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona. L'albero va rifatto più ampio, con più sottocategorie, sui negozi piccoli che Glovo e Deliveroo non guardano. Niente abbigliamento per ora, tutto il resto sì. Fatto `catalogo.categorie` nel registro. Prossimo passo: la proposta dell'albero completo, da firmare, poi una migrazione (🔴).
+- **Bonus del fattorino:** si toglie dal sito; da riaccendere più avanti come incentivo. Fatto `logistica.fattorino-esterno`.
+- **Rimborso dell'ordine in contanti annullato:** Nicola chiede come si fa nel modo giusto. Risposta in chat alle 00:10; la scelta resta aperta.
+- **Foto dell'iPhone:** solo JPG. **Colore dei link:** si toglie la regola. **Primo fattorino esterno:** solo dopo la posizione INAIL.
+
+**Prossimi lavori, quando torna il limite:** giro B delle promesse; giro B della cassa; piano dell'ondata 2 rifatto sui file delle ricette (`consegne/audit/2026-10-28-ricette-ondata2.json`) e con queste scelte; albero delle categorie da proporre.
+
+**Correzione degli orari di stasera.** Diversi orari che ho scritto in memoria li ho stimati, invece di leggerli dall'orologio. Quelli veri, presi dai commit (ora di Piacenza): la carta #218 è delle 21:45, non 22:10; il referto dell'ondata 1, STATO e DECISIONI sono delle 22:27, non 23:05-23:10; la carta #219 e la riga delle ricette sono delle 22:50, non 23:55; il ricettario è delle 22:55, non 00:20; la correzione della carta #219 è delle 23:46, non 00:40. Prima ancora: l'ondata 1 è partita alle 19:47, non 20:15; la correzione della fase 0 è delle 19:58, non 20:40. Regola per me: l'orario si legge con `TZ=Europe/Rome date`, non si stima.
+
+## 2026-10-29 00:15 — 🔴 Nicola sceglie il rimborso dei contanti: dal reclamo, mezzo automatico (carta #219, punto 3)
+
+**Cosa ha scritto Nicola:** «rimborso dal reclamo, mezzo automatico». Prima aveva chiesto se si poteva fare tutto in automatico. Gli ho risposto di no: i contanti non passano da Stripe, collegare la banca chiede comunque una sua conferma per ogni bonifico, e mandare soldi senza la sua firma va contro la regola d'oro.
+
+**Cosa vuol dire per il sito.** Quando un ordine già pagato in contanti viene annullato, il sito apre da solo il reclamo con la cifra e manda a Nicola un avviso con nome, IBAN, cifra e causale. La sera toglie al negozio la sua parte, il 90% della merce rimborsata. Il bonifico al cliente lo fa Nicola dall'app della banca, poi tocca «fatto». Mai rimborsi fuori dal sito. Registrato come `pagamenti.rimborso-contanti`.
+
+**Dove entra.** Nell'ondata 2, con le ricette del 1320 (il testo dell'annullo) e del 1286 (il credito che non torna), e con i soldi dei resi. L'apertura automatica del reclamo è un pezzo nuovo: va scritto nella ricetta prima di lanciare.
+
+**Colore.** 🔴 firmato da Nicola: tocca il percorso dei soldi del cliente. Nessun codice toccato oggi.
+
+## 2026-10-29 12:34 — 🔴 Nicola cambia la promessa di consegna: veloce in 30-60 minuti con 1 euro in più, oppure una fascia oraria
+
+**Cosa ha scritto Nicola** (fra le 12:24 e le 12:29, rispondendo a «a cosa ti riferisci con 30-60 minuti»): «la spesa arriva in 30-60 minuti, però il cliente deve pagare 1€ in più, se no può indicare una fascia oraria in cui possiamo consegnare». Subito dopo ha chiesto se è meglio una consegna standard da 2 o da 3 euro, con 1 euro in più sotto i 10 euro di spesa o per la consegna veloce.
+
+**Cosa ho fatto.**
+- Il fatto `consegna.promessa` nel registro ora dice la scelta nuova; «in giornata» del 26/10 è nella sua storia. Il guardiano della coerenza è verde dopo aver corretto la riga 85 di STATO.
+- Il giro B dell ondata 1 è partito fra le 12:29 e le 12:34 (run `wf_8774d9cc-eb7`, base `fff2c3e`, tetto 45, tipi tech e qa). La cassa è com era. Le promesse vanno con 6 difetti su 8: la 253 e la 1516, cioè le frasi dei 30-60 minuti, sono rinviate al pacchetto del prezzo nuovo. Le frasi già portate a «in giornata, negli orari di apertura del negozio» dal ramo di ieri restano: sono vere anche con la scelta nuova.
+- L analisi del prezzo è partita (run `wf_dc8a1e45-5a6`): sei lenti (conti, concorrenti, percezione del cliente, regole, codice, consegna reale) e tre giudici.
+
+**Un dato che sostiene la soglia dei 10 euro.** L 11/8 Nicola ha deciso che il 10% di commissione serve a pagare la consegna. Il fattorino prende 3 euro a consegna (`COMPENSO_RIDER_CENTS`). Con la consegna a 2 euro manca 1 euro, e il 10% lo copre da 10 euro di spesa in su.
+
+**Colore.** 🔴: è un prezzo pagato dal cliente. Nessun prezzo cambiato nel codice; il pacchetto del prezzo parte solo con la firma sulla carta che scrivo dopo l analisi.
+
+## 2026-10-29 13:44 — 🔴 Nicola firma il prezzo della consegna: 3 euro, più 50 centesimi sotto i 10 euro, più 50 centesimi per la veloce (carta #220)
+
+**Cosa ha scritto Nicola** (fra le 13:22 e le 13:44, dopo l analisi): «la consegna costa 3€, sotto i 10€ paga 0.5€ in più e se la vuole subito entro 30-60 min paga 0.5€ in più». Non è né la strada 1 (3 euro e 4 la veloce) né la strada 2 (2 euro da 10 euro di spesa) della carta: è una sua terza strada.
+
+**I conti, con la formula del sito** (commissione 10% arrotondata, fattorino 3 euro). Fascia oraria: 3,50 euro sotto i 10 euro, 3,00 da 10 euro in su. Veloce: 4,00 sotto i 10 euro, 3,50 da 10 euro in su. A MyCity, contando il fattorino da 3 euro, restano sempre almeno 50 centesimi più il 10% della merce. Con l IVA ordinaria al 22% la fascia perde solo sotto 1,55 euro di spesa: con questa regola il dubbio sul regime IVA non blocca più il prezzo. Il peso della consegna su un kefir da 2,05 euro sale al 171%: il peso si toglie solo coi carrelli più grandi (pane e verdura online).
+
+**Due letture mie, da confermare se sbagliate.** I due supplementi si sommano, perché Nicola li ha scritti uno dopo l altro con «e». La soglia dei 10 euro vale per negozio e sulla merce dopo gli sconti, come la consegna, perché altrimenti un buono può far superare l incasso ai bonifici quando torna la carta. Il fattorino resta a 3 euro e i centesimi in più restano a MyCity.
+
+**Fatto registrato:** `consegna.promessa`. **Colore:** 🔴 firmato da Nicola. Nessun prezzo cambiato nel codice oggi: il pacchetto del prezzo (tariffa in una funzione sola, l euro dentro la consegna, i due freni sulla veloce, le frasi dei 30-60 minuti) parte dopo l unione del giro B.
+
+## 2026-10-29 14:35 — 🟡 Nicola sceglie «promesse A» (carta #221); i due supplementi della consegna restano da confermare
+
+**Cosa ha scritto Nicola:** «promesse A, i supplementi si sommano». Subito dopo ha chiesto: «cosa intendi dire con la frase "i supplementari si sommano"?». Gli ho spiegato con la tabella: sotto i 10 euro con la consegna veloce, sommati fanno 4 euro, non sommati 3,50. Il mio consiglio è sommarli: altrimenti sotto i 10 euro la veloce costa quanto la fascia e la scelgono tutti. **La conferma vale solo se ha inteso questo**: il fatto `consegna.promessa` dice «si sommano», e lo correggo se risponde «non si sommano». Nessun prezzo è ancora nel codice.
+
+**Promesse A.** Entrano le sei frasi del ramo di ieri (`3787062`, `73ab7cc`, `251867d`), cucite sopra la cassa: la carta, il 10%, il telefono finto, «Vegano false», il dialogo di conferma, e la home con una frase sola, «Consegna in giornata, negli orari di apertura del negozio». Il conto alla rovescia del giro B (`37732cb`, 8 gravi nati) non entra: la home dirà quando arriva la spesa col pacchetto del prezzo, sulle regole della cassa. Prova sul ramo cucito: `npm run verify` verde, 682 file e 6.117 prove. Collaudo a due lenti partito (run `wf_f24a412a-336`).
+
+## 2026-10-29 14:54 — 🔴 Nicola conferma i due supplementi della consegna
+
+**Cosa ha scritto Nicola:** «la consegna veloce sotto i 10€ costa 4€, però se non sceglie la consegna veloce ovvero quella nella fascia oraria costa 3,5€». È la lettura «si sommano» della voce delle 14:35, ora confermata con le sue parole. Tabella: sotto i 10 euro fascia 3,50 e veloce 4,00; da 10 euro in su fascia 3,00 e veloce 3,50. Resta una mia lettura non chiesta, da ricordare a chi costruisce il pacchetto: la soglia dei 10 euro vale per negozio e sulla merce dopo gli sconti, come la consegna. Fatto `consegna.promessa` aggiornato nella fonte.
+
+## 2026-10-29 15:40 — 🟡 L ondata 1 del sito è completa nella richiesta #263 (cassa, promesse A, sì/no)
+
+**Cosa ho fatto.** Ho portato sul ramo `ccr-b2418a18-982q9d` del sito, sopra `0df7945`, tre pezzi: la cassa del giro B (`bc79688`, file identici al ramo collaudato `fe8aee8`), le promesse del ramo di ieri (`6cdb4f1`) e il mezzo giro del sì/no (`2b1737b`). `npm run verify`: 683 file e 6.144 prove. Perimetro verde: 29 file su 6 dimensioni. Ho aggiornato titolo e testo della #263 e mi sono iscritto ai suoi eventi.
+
+**Perché un mezzo giro.** La radiografia del perimetro delle promesse ha trovato un grave nato: la regola nuova del sì/no era più stretta di quelle del sito (voce 1778). Il metodo vuole che un grave nato si ripari prima di unire. L ha fatto una squadra sola col motore delle ondate (ondata 12, run `wf_d0a5cee9-177`), e il collaudo ha retto.
+
+**Cosa resta fuori di proposito.** Il conto alla rovescia del giro B (`37732cb`), con 8 gravi nati. Le frasi dei 30-60 minuti (253 e 1516), che vanno col pacchetto del prezzo. «Paghi come vuoi», «zero commissioni» e «senza domande», che c erano già: sono nel registro, coi pacchetti che riscrivono quelle frasi.
+
+**Referto:** `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`. **Colore:** 🟡: codice in un ramo, l unione è di Nicola.
+
+## 2026-10-29 16:14 — 🔴 Nicola cambia il prezzo della consegna: veloce a 4 euro, sotto i 10 euro 4 euro con la veloce compresa
+
+**Cosa ha scritto Nicola:** «ci ho ripensato sul prezzo della consegna, entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entra 30-60min compresa». Gli ho rimandato la tabella (sotto i 10 euro: fascia 4, veloce 4; da 10 euro: fascia 3, veloce 4) e ha risposto «sì, esatto».
+
+**I conti** (formula del sito, fattorino 3 euro): a MyCity resta sempre almeno il 10% della merce; sotto i 10 euro e con la veloce, 1 euro in più. Con l IVA ordinaria al 22% la fascia da 10 euro in su regge, perché il 10% fa almeno 1 euro. **Conseguenza detta a Nicola:** sotto i 10 euro fascia e veloce costano uguale, quindi quasi tutte le spese piccole saranno veloci, una corsa da sola entro un ora.
+
+**Fatto** `consegna.promessa` aggiornato; la regola dei 50 centesimi delle 13:44 è nella sua storia. Carta #220 e STATO aggiornati. Il pacchetto del prezzo lo costruirà così.

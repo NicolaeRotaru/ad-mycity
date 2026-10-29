@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-10-28 19:55
+aggiornato: 2026-10-29 15:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧱 **2026-10-29 15:40 — L ondata 1 del sito è completa: cassa, promesse e sì/no nella richiesta #263.**
+>
+> La cassa in contanti non fa più ordini doppi nei casi riparati, e le frasi pubbliche dicono il vero in sei punti. Passano tutte le 6.144 prove del sito. Il conto alla rovescia furbo della home non entra: aveva 8 gravi nati.
+>
+> Hai firmato il prezzo della consegna: 3 euro, e 4 euro per la veloce in 30-60 minuti. Sotto i 10 euro di spesa si pagano 4 euro, con la veloce compresa. Arriva nel codice col suo pacchetto, dopo l unione della #263. Da firmare adesso: la #263 del sito e la #898 della memoria.
+
+> 📝 **2026-10-29 00:10 — Hai scelto, e il limite della settimana sta finendo: ho annotato tutto.**
+>
+> Ondata 1: un giro in più sia sulle promesse sia sulla cassa (B e B). Ondata 2: niente abbigliamento per ora, un albero delle categorie più ampio, il bonus del fattorino tolto, foto solo in JPG, la regola del colore dei link tolta, il primo fattorino esterno dopo l'INAIL. Resta aperto il rimborso dell'ordine in contanti annullato.
+>
+> Quando torna il limite: i due giri dell'ondata 1, il piano dell'ondata 2 rifatto e la proposta delle categorie. Le richieste #263 e #898 aspettano la tua firma.
+
+> 🧱 **2026-10-28 23:10 — L'ondata 1: tre pacchetti reggono e sono nella richiesta #263. Su due serve la tua scelta.**
+>
+> Reggono la porta del negozio, la moderazione degli account e il catalogo. Il negoziante nuovo trova il modulo e non più «richiesta in valutazione»: era uno dei 9 bloccanti. Il controllo completo è verde, 6.068 prove su 6.068.
+>
+> Sono fermi le promesse e la cassa in contanti. Le promesse, per i «30-60 minuti» rimasti in una trentina di punti. La cassa, perché la riparazione faceva perdere un ordine. La scelta è nella carta #218.
+>
+> Una cosa che contraddice una tua scelta: il codice chiede ancora il canone da 50 euro al mese, che il 26/10 hai sospeso.
 
 > 🌊 **2026-10-28 19:55 — L'ondata 2 è pronta. Prima ti chiedo quale ondata parte per prima.**
 >
@@ -68,7 +88,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > ✍️ **2026-10-26 09:15 — Firme arrivate. Le squadre del sito sono partite.**
 >
-> Alle 08:55 hai mandato «ok 209, parti» con le risposte brevi. Il registro dei fatti è aggiornato e coerente: la consegna adesso è «in giornata», il canone è sospeso finché il negozio non incassa, al lancio si paga solo in contanti. Ho chiuso le carte #209, #196 e #178.
+> Alle 08:55 hai mandato «ok 209, parti» con le risposte brevi. Il registro dei fatti è aggiornato e coerente: la consegna era passata a «in giornata». Il canone è sospeso finché il negozio non incassa. Al lancio si paga solo in contanti. Il 29/10 Nicola ha cambiato di nuovo la consegna: quella veloce arriva in 30-60 minuti e costa 1 euro in più, altrimenti si sceglie una fascia oraria. Ho chiuso le carte #209, #196 e #178.
 >
 > Le fondamenta sono tre squadre su file separati. La prima spegne le funzioni del lancio, la seconda sistema rilascio e prove, la terza fa leggere davvero il pannello admin. Il controllo del sito prima di partire era verde: 5.694 prove su 5.694.
 >

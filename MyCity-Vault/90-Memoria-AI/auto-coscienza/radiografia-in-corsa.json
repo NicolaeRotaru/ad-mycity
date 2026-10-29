@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-10-28 11:17",
+  "aggiornato": "2026-10-29 15:36",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -4749,6 +4749,263 @@
       "file": {
         "lib/constants.ts": "4916d0ed0c20",
         "lib/ordini/zona-di-consegna.ts": "cb0275b759d8"
+      }
+    },
+    {
+      "quando": "2026-10-28 22:18",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 7,
+      "schede": [
+        "Se il negoziante cambia la scorta mentre arrivano ordini, il suo numero cancella le vendite e nessuno lo avvisa",
+        "Dall'amministrazione, salvare un prodotto con taglie o varianti rimette in vetrina i pezzi venduti mentre la scheda era aperta",
+        "La regola «la scorta è cambiata?» esiste in due copie diverse, e il modulo che si dice «solo server» lo usa il browser del negoziante",
+        "Il conteggio dei rinnovi di sessione arrivati tardi può restare a zero in produzione",
+        "Il tetto di 10 secondi è diventato quello di serie per tutte le chiamate, e la scelta fra 3 e 10 secondi sta fuori dal modulo provabile",
+        "Se la lettura del profilo non riesce, il portiere manda il negoziante alla home e il catalogo lo rimanda al pannello: gira in tondo finché il database è lento",
+        "L'indirizzo della pagina d'attesa del negozio e il tipo dei ruoli esistono in più copie"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/schema.ts": "b58e234bb60e"
+      }
+    },
+    {
+      "quando": "2026-10-28 22:18",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il conteggio dei rinnovi di sessione arrivati tardi può restare a zero in produzione",
+        "La moderazione non guarda da che stato si parte: «Riattiva» approva anche chi non è mai stato approvato o è appena stato respinto, e «Sospendi» su un respinto ferma la scadenza dei documenti"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/admin/users/[id]/moderate/route.ts": "69b7d33a2f04",
+        "middleware.ts": "39f139143e33"
+      }
+    },
+    {
+      "quando": "2026-10-28 22:18",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 6,
+      "schede": [
+        "Se riapri «Modifica prodotto» entro 5 minuti, il modulo mostra e risalva lo stato e il prezzo vecchi: un prodotto segnato «Esaurito» dall'elenco torna in vendita",
+        "Se la lettura delle varianti non riesce, il modulo si apre senza taglie e il salvataggio le cancella tutte",
+        "Se il negoziante cambia la scorta mentre arrivano ordini, il suo numero cancella le vendite e nessuno lo avvisa",
+        "Dopo la richiesta, «Continua a comprare» porta il negozio alla schermata d'attesa invece che al catalogo",
+        "«Modifica richiesta» porta a una pagina dove la richiesta non si può modificare",
+        "Senza rete, il negozio che ha già mandato la richiesta legge «non ci è ancora arrivata», e la prova della dashboard non se ne può accorgere"
+      ],
+      "nota": "",
+      "file": {
+        "app/sell/page.tsx": "974e6a483e72",
+        "app/seller/layout.tsx": "1516f41c793f",
+        "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
+        "components/seller/ProductForm.tsx": "f2719d81a836"
+      }
+    },
+    {
+      "quando": "2026-10-29 14:47",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
+        "Ordine arrivato solo in parte: al cliente si dice «ti aiutiamo noi», ma nessuno viene avvisato",
+        "La riga finale della chiave risulta scritta anche quando non tocca nessuna riga: l allarme «prova del tentativo non scritta» non scatta",
+        "Sulla chiave abbandonata la cassa dice «Ordine effettuato!» anche se l ordine ritrovato è già annullato dal negozio"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/orders/cod/route.ts": "96a5e7e05b9c"
+      }
+    },
+    {
+      "quando": "2026-10-29 14:47",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 3,
+      "schede": [
+        "Dopo certi errori del server il sito dimentica che l'ordine in contanti era già partito, e chi ritocca «Ordina» ne crea un secondo",
+        "Se il database salva l ordine ma la risposta torna con un errore, la cassa lo tratta come mai nato: rimette la merce, ridà il credito, butta la chiave, e il tocco dopo crea un secondo ordine",
+        "Il segnale «tieni la chiave» ora vuol dire quattro cose diverse, e la regola nel file racconta ancora che vale solo per l invio gemello"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/ordini/chiave-dopo-l-errore.ts": "abd649fbd9f9",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/schema.ts": "b58e234bb60e"
+      }
+    },
+    {
+      "quando": "2026-10-29 14:47",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Buco nelle prove della carta: se sparisce il ripescaggio del negozio senza insegna, o il filtro «solo negozi approvati», nessuna prova diventa rossa",
+        "La consegna costa sempre 3 euro: i 50 centesimi sotto i 10 euro e i 50 centesimi della consegna veloce, firmati da Nicola il 29/10, non sono ancora nel codice"
+      ],
+      "nota": "",
+      "file": {
+        "app/api/stripe/checkout/route.ts": "f1bb7bf4fa01"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:15",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 5,
+      "schede": [
+        "Il titolo grande della home (variante B, metà dei visitatori) dice «Paghi come vuoi.», e il giro di benvenuto «Ordina, paghi come vuoi»: la cassa offre solo i contanti",
+        "Il sito promette «Reso entro 14 giorni» e «Ti rimborsiamo senza domande» anche su pane e freschi, che sono esclusi, e non c'è modo di segnarli come esclusi",
+        "La descrizione della foto scritta per chi non vede è sparita dalla scheda, ma la foto del cliente non la usa: non la riceve nessuno",
+        "La pagina d'aiuto dei fattorini promette polizza pagata da noi, compenso a chilometri e bonifici a date fisse che il sito non fa, con un numero d'emergenza finto",
+        "Contatti senza WhatsApp e senza telefono: resta una scheda su tre, sotto «Scegli il canale più comodo» e con gli orari di un canale che non c è"
+      ],
+      "nota": "",
+      "file": {
+        "app/come-funziona/page.tsx": "157e0ffcdde3",
+        "app/contact/page.tsx": "af3947e92d1f",
+        "app/page.tsx": "1e6cb6f1f980",
+        "app/product/[id]/page.tsx": "1e90b4cdda3a",
+        "app/rider/help/page.tsx": "df4bafd6af45",
+        "app/sell/page.tsx": "974e6a483e72",
+        "app/seller/layout.tsx": "1516f41c793f",
+        "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
+        "components/ConfirmDialog.tsx": "51e3578284a2",
+        "components/home-sections/HomeSectionRenderer.tsx": "e88d50da2323",
+        "components/home/HowItWorks.tsx": "84e4aa7e0a84",
+        "components/seller/AttributesFields.tsx": "0fb081459bb7",
+        "components/seller/ProductForm.tsx": "f2719d81a836",
+        "components/ui/DeliveryCutoff.tsx": "7840a5bfc341"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:15",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "La casella sì/no del negozio risulta vuota mentre il cliente vede il marchio «Bio» o «Cruelty free»: il sì/no ha quattro regole diverse in cinque punti",
+        "Ai negozianti diciamo «zero commissioni» e «apri gratis», poi chiediamo 50 euro al mese più il 10%",
+        "FAQ e Termini danno tre risposte diverse su come si paga, e una è la carta al rider che non esiste",
+        "«Al lancio solo contanti» si regge solo sull assenza di una variabile: se qualcuno mette la chiave pubblica di Stripe su Vercel, cambiano la cassa e tutte le frasi senza nessun avviso"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/category-attributes.ts": "2dc5884031dd",
+        "lib/ordini/chiave-dopo-l-errore.ts": "abd649fbd9f9",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/schema.ts": "b58e234bb60e",
+        "lib/promesse-pubbliche.ts": "76853ccbab43"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:15",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 2,
+      "schede": [
+        "Il titolo grande della home (variante B, metà dei visitatori) dice «Paghi come vuoi.», e il giro di benvenuto «Ordina, paghi come vuoi»: la cassa offre solo i contanti",
+        "FAQ e Termini danno tre risposte diverse su come si paga, e una è la carta al rider che non esiste"
+      ],
+      "nota": "",
+      "file": {
+        "app/checkout/page.tsx": "9d25c81d0421"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:36",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 4,
+      "schede": [
+        "La griglia «Caratteristiche» scrive «sí» con l accento acuto, «1» e «0» così come sono, mentre casella e marchio li leggono come sì o no",
+        "Il riepilogo della bozza da foto ha ancora un suo sì/no: «no», «0» e «falso» contano come dichiarazione",
+        "La griglia traduce in Sì e No le parole «sì», «no», «yes» anche nei campi di testo, allergeni compresi",
+        "Un vero o falso mandato dall assistente come booleano per una casella si perde in silenzio"
+      ],
+      "nota": "",
+      "file": {
+        "lib/auth/cookie-di-sessione.ts": "afea0afd2ca0",
+        "lib/auth/decisione-portiere.ts": "ba4c066aa887",
+        "lib/category-attributes.ts": "42672a3ba6a2",
+        "lib/ordini/chiave-dopo-l-errore.ts": "abd649fbd9f9",
+        "lib/products/aiPatch.ts": "e3060ad0b9be",
+        "lib/products/persistVariantsServer.ts": "92a9ba3792a5",
+        "lib/products/prontoPerLaVendita.ts": "75ec579ca06c",
+        "lib/products/qualityMarks.ts": "4a6aff7e23d2",
+        "lib/products/schema.ts": "b58e234bb60e",
+        "lib/promesse-pubbliche.ts": "76853ccbab43"
+      }
+    },
+    {
+      "quando": "2026-10-29 15:36",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "repo": "marketplace",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "Un vero o falso mandato dall assistente come booleano per una casella si perde in silenzio"
+      ],
+      "nota": "",
+      "file": {
+        "app/come-funziona/page.tsx": "157e0ffcdde3",
+        "app/contact/page.tsx": "af3947e92d1f",
+        "app/page.tsx": "1e6cb6f1f980",
+        "app/product/[id]/page.tsx": "1e90b4cdda3a",
+        "app/rider/help/page.tsx": "df4bafd6af45",
+        "app/sell/page.tsx": "974e6a483e72",
+        "app/seller/layout.tsx": "1516f41c793f",
+        "app/seller/products/[id]/edit/page.tsx": "131de44d08f2",
+        "components/ConfirmDialog.tsx": "51e3578284a2",
+        "components/home-sections/HomeSectionRenderer.tsx": "e88d50da2323",
+        "components/home/HowItWorks.tsx": "84e4aa7e0a84",
+        "components/seller/AttributesFields.tsx": "0fb081459bb7",
+        "components/seller/ProductForm.tsx": "2d4f7c397bde",
+        "components/ui/DeliveryCutoff.tsx": "7840a5bfc341"
       }
     }
   ]

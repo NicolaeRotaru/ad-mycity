@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-28 08:35",
+  "aggiornato": "2026-10-29 16:13",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -229,15 +229,37 @@
       "esenzioni": []
     },
     {
+      "id": "catalogo.categorie",
+      "nome": "Le categorie del sito al lancio",
+      "valore": "Categorie al lancio, firmate da Nicola il 2026-10-29 00:05: niente abbigliamento per ora; tutto il resto sì, per i piccoli negozi che Glovo e Deliveroo non guardano: spesa fresca (pane e forno, frutta e verdura, macelleria, salumi e formaggi, latticini, gastronomia fresca, pasta fresca, dispensa), cura della persona, parafarmacia, regali e ricorrenze. L'albero va reso più ampio, con più sottocategorie di quello proposto il 29/10 alle 00:40. Pane Quotidiano vende pane, verdura fresca, alimentari e cura della persona.",
+      "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punto 1)",
+      "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "consegna.promessa",
       "nome": "consegna.promessa",
-      "valore": "Consegna promessa al cliente: «in giornata», con solo i 3 euro di consegna e senza la spedizione a chilometri. Firmato da Nicola il 2026-10-26 con «ok 209» (scelta 8 della carta #209). Sostituisce la promessa a minuti del 21/8, che non era mai stata mantenuta: 0 consegne.",
-      "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
-      "aggiornato": "2026-10-26 09:04",
+      "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
+      "fonte": "Nicola, chat 2026-10-29: «ci ho ripensato sul prezzo della consegna, entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entra 30-60min compresa», poi «sì, esatto» alla tabella (sotto i 10 euro 4 e 4; da 10 euro 3 e 4)",
+      "aggiornato": "2026-10-29 16:13",
       "storia": [
         {
           "valore": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
           "fino_a": "2026-10-26 09:04"
+        },
+        {
+          "valore": "Consegna promessa al cliente: «in giornata», con solo i 3 euro di consegna e senza la spedizione a chilometri. Firmato da Nicola il 2026-10-26 con «ok 209» (scelta 8 della carta #209). Sostituisce la promessa a minuti del 21/8, che non era mai stata mantenuta: 0 consegne.",
+          "fino_a": "2026-10-29 12:29"
+        },
+        {
+          "valore": "Due modi di consegna, scelti dal cliente in cassa. Veloce: la spesa arriva in 30-60 minuti e il cliente paga 1 euro in più dei 3 euro di consegna. Altrimenti il cliente sceglie una fascia oraria in cui possiamo consegnare, coi 3 euro di sempre. Detto da Nicola in chat il 2026-10-29, fra le 12:24 e le 12:29, rispondendo alla domanda sui 30-60 minuti. Sostituisce la promessa «in giornata» del 26/10 (carta #209).",
+          "fino_a": "2026-10-29 13:44"
+        },
+        {
+          "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
+          "fino_a": "2026-10-29 16:13"
         }
       ],
       "caccia": [
@@ -260,6 +282,42 @@
           "pattern": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
           "dal": "2026-10-26 09:04",
           "chiusa": "2026-10-26 09:04"
+        },
+        {
+          "pattern": "Consegna promessa al cliente: «in giornata»",
+          "dal": "2026-10-29 12:29"
+        },
+        {
+          "pattern": "la consegna adesso è «in giornata»",
+          "dal": "2026-10-29 12:29"
+        },
+        {
+          "pattern": "Consegna promessa al cliente: «in giornata», con solo i 3 euro di consegna e senza la spedizione a chilometri. Firmato da Nicola il 2026-10-26 con «ok 209» (scelta 8 della carta #209). Sostituisce la promessa a minuti del 21/8, che non era mai stata mantenuta: 0 consegne.",
+          "dal": "2026-10-29 12:29"
+        },
+        {
+          "pattern": "il cliente paga 1 euro in più dei 3 euro di consegna",
+          "dal": "2026-10-29 13:44"
+        },
+        {
+          "pattern": "Due modi di consegna, scelti dal cliente in cassa. Veloce: la spesa arriva in 30-60 minuti e il cliente paga 1 euro in più dei 3 euro di consegna. Altrimenti il cliente sceglie una fascia oraria in cui possiamo consegnare, coi 3 euro di sempre. Detto da Nicola in chat il 2026-10-29, fra le 12:24 e le 12:29, rispondendo alla domanda sui 30-60 minuti. Sostituisce la promessa «in giornata» del 26/10 (carta #209).",
+          "dal": "2026-10-29 13:44"
+        },
+        {
+          "pattern": "50 centesimi in più sotto i 10 euro",
+          "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "fascia oraria 3,50 euro",
+          "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "Sotto i 10 euro di spesa il cliente paga 50 centesimi in più",
+          "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
+          "dal": "2026-10-29 16:13"
         }
       ],
       "esenzioni": [
@@ -594,6 +652,16 @@
       "esenzioni": []
     },
     {
+      "id": "logistica.fattorino-esterno",
+      "nome": "Il fattorino esterno e il suo bonus",
+      "valore": "Il primo fattorino esterno consegna solo dopo la posizione INAIL; la pagina «Sono assicurato?» lo dice così. Il bonus «+2 € ogni 5 consegne» si toglie dal sito, ma Nicola lo considera un buon incentivo da riaccendere più avanti (Nicola, 2026-10-29 00:05).",
+      "fonte": "Nicola in chat, 2026-10-29 00:05 (carta #219, punti 2 e 6)",
+      "aggiornato": "2026-10-29 00:06",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "marketplace.hosting",
       "nome": "marketplace.hosting",
       "valore": "Marketplace su VERCEL (progetto 'mycity', team nicolaerotarus-projects, piano Pro, Node 24.x). Render dismesso. IL DOMINIO E' VIVO, verificato 2026-09-07 16:40: mycity-marketplace.com e www sono collegati al progetto Vercel, il DNS punta a vercel-dns-016.com, l'apex fa 308 verso www e www risponde HTTP 200 con la vetrina vera (titolo 'MyCity Piacenza - Marketplace dei negozi della tua citta'', negozi, prodotti, carrello). La protezione e' ssoProtection=all_except_custom_domains: i domini personalizzati sono esenti, quindi il pubblico passa. NON provato da finestra anonima: il proxy della sessione blocca quel dominio, la lettura e' passata dallo strumento Vercel autenticato. RESTA APERTO: /api/health risponde 503 'unhealthy' - ma per un motivo nuovo, non piu' le variabili d'ambiente: 'battiti non leggibili', 0 lavori periodici letti su 10 attesi. E il database di produzione e' fermo al 28/8 mentre il codice e' al 2/9 (vedi card 199).",
@@ -777,6 +845,16 @@
       "valore": "Al lancio si paga solo in contanti alla consegna, come oggi; la carta si accende dopo, con la sua lista. Quando un pagamento va storto il sito si ferma e avvisa Nicola con la cifra. Il negozio, per i contanti, lo paga Nicola con un bonifico a mano dopo la rimessa registrata. Eccezione temporanea al paletto 7 («la piattaforma non tocca mai i fondi») accettata da Nicola per il lancio, in attesa del parere del legale. Scelte 3 e 4 della carta #209, firmate il 2026-10-26.",
       "fonte": "Nicola, chat 2026-10-26 ~08:55, «ok 209, parti» e risposte brevi",
       "aggiornato": "2026-10-26 09:04",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "pagamenti.rimborso-contanti",
+      "nome": "Come si rimborsa un ordine in contanti",
+      "valore": "Rimborso di un ordine in contanti già pagato e poi annullato: passa sempre dal reclamo, mezzo automatico. Il sito apre da solo il reclamo con la cifra, manda a Nicola un avviso con nome, IBAN, cifra e causale, e la sera toglie al negozio il 90% della merce rimborsata. Il bonifico al cliente lo fa Nicola dall'app della banca, poi tocca «fatto». Mai rimborsi fuori dal sito. Il rimborso diventa automatico con la carta, via Stripe; il credito MyCity solo se il cliente lo sceglie.",
+      "fonte": "Nicola in chat, 2026-10-29 (carta #219, punto 3): «rimborso dal reclamo, mezzo automatico»",
+      "aggiornato": "2026-10-29 00:15",
       "storia": [],
       "caccia": [],
       "esenzioni": []
