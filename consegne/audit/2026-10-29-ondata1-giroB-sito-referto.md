@@ -16,7 +16,7 @@ Ieri sera l'ondata 1 si era fermata a metà. Tre pacchetti reggevano. Due no: le
 
 Oggi il giro è andato così. La cassa ha retto al primo colpo. Le promesse si sono fermate di nuovo, sul conto alla rovescia della home. Ho scoperto che le cinque frasi buone erano già nel ramo di ieri, con una frase semplice per la home. Tu hai scelto di unire quelle («promesse A»). Il collaudo le ha tenute buone, e la radiografia ha trovato un solo difetto nato: il sì/no delle caratteristiche. L'ha riparato un mezzo giro, e ha retto.
 
-In mezzo hai deciso il prezzo della consegna: 3 euro, 50 centesimi in più sotto i 10 euro, 50 centesimi in più per la veloce. Il prezzo è scritto in memoria. Nel codice arriva col suo pacchetto, dopo questa unione.
+In mezzo hai deciso il prezzo della consegna: 3 euro, 50 centesimi in più sotto i 10 euro, 50 centesimi in più per la veloce. Alle 16:13 l'hai cambiato: 3 euro, 4 euro per la veloce, e 4 euro sotto i 10 euro con la veloce compresa. Il prezzo è scritto in memoria. Nel codice arriva col suo pacchetto, dopo questa unione.
 
 ## Cosa cambia per te
 
@@ -38,7 +38,7 @@ In mezzo hai deciso il prezzo della consegna: 3 euro, 50 centesimi in più sotto
 
 - **Niente sul sito vero.** Le prove girano sul codice, col database e le letture simulati. In produzione la cassa resta ferma finché su Vercel manca la chiave di servizio del database.
 - **La radiografia dei cinque file del sì/no** l'ho registrata sul riesame del mezzo giro, che li ha guardati con le stesse lenti dopo l'ultima modifica. Non è una radiografia separata.
-- **Il prezzo dei 50 centesimi** l'ho controllato sui conti del sito, non sul codice: nel codice non c'è ancora.
+- **Il prezzo della consegna** l'ho controllato sui conti del sito, non sul codice: nel codice non c'è ancora.
 
 ---
 

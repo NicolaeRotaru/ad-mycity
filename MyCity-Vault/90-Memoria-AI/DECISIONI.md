@@ -6035,3 +6035,11 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Cosa resta fuori di proposito.** Il conto alla rovescia del giro B (`37732cb`), con 8 gravi nati. Le frasi dei 30-60 minuti (253 e 1516), che vanno col pacchetto del prezzo. «Paghi come vuoi», «zero commissioni» e «senza domande», che c erano già: sono nel registro, coi pacchetti che riscrivono quelle frasi.
 
 **Referto:** `consegne/audit/2026-10-29-ondata1-giroB-sito-referto.md`. **Colore:** 🟡: codice in un ramo, l unione è di Nicola.
+
+## 2026-10-29 16:14 — 🔴 Nicola cambia il prezzo della consegna: veloce a 4 euro, sotto i 10 euro 4 euro con la veloce compresa
+
+**Cosa ha scritto Nicola:** «ci ho ripensato sul prezzo della consegna, entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entra 30-60min compresa». Gli ho rimandato la tabella (sotto i 10 euro: fascia 4, veloce 4; da 10 euro: fascia 3, veloce 4) e ha risposto «sì, esatto».
+
+**I conti** (formula del sito, fattorino 3 euro): a MyCity resta sempre almeno il 10% della merce; sotto i 10 euro e con la veloce, 1 euro in più. Con l IVA ordinaria al 22% la fascia da 10 euro in su regge, perché il 10% fa almeno 1 euro. **Conseguenza detta a Nicola:** sotto i 10 euro fascia e veloce costano uguale, quindi quasi tutte le spese piccole saranno veloci, una corsa da sola entro un ora.
+
+**Fatto** `consegna.promessa` aggiornato; la regola dei 50 centesimi delle 13:44 è nella sua storia. Carta #220 e STATO aggiornati. Il pacchetto del prezzo lo costruirà così.

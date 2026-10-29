@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-10-29 13:44",
+  "aggiornato": "2026-10-29 16:13",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -241,9 +241,9 @@
     {
       "id": "consegna.promessa",
       "nome": "consegna.promessa",
-      "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
-      "fonte": "Nicola, chat 2026-10-29 fra le 13:22 e le 13:44: «la consegna costa 3€, sotto i 10€ paga 0.5€ in più e se la vuole subito entro 30-60 min paga 0.5€ in più» · confermato da Nicola il 2026-10-29 14:54: «la consegna veloce sotto i 10€ costa 4€, però se non sceglie la consegna veloce ovvero quella nella fascia oraria costa 3,5€»",
-      "aggiornato": "2026-10-29 14:54",
+      "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. La consegna veloce in 30-60 minuti costa 1 euro in più: 4 euro. Sotto i 10 euro di spesa si paga 1 euro in più, 4 euro, e la consegna veloce è compresa: sotto i 10 euro fascia e veloce costano tutte e due 4 euro. Il massimo è 4 euro; i due euro in più non si sommano mai. Il fattorino resta a 3 euro a consegna; l euro in più resta a MyCity. Deciso da Nicola in chat il 2026-10-29: «entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entro 30-60min compresa», confermato con «sì, esatto» dopo la tabella. Sostituisce la regola dei 50 centesimi delle 13:44.",
+      "fonte": "Nicola, chat 2026-10-29: «ci ho ripensato sul prezzo della consegna, entro 30-60 min 1€ in più e sotto i 10€ +1€ e con la consegna entra 30-60min compresa», poi «sì, esatto» alla tabella (sotto i 10 euro 4 e 4; da 10 euro 3 e 4)",
+      "aggiornato": "2026-10-29 16:13",
       "storia": [
         {
           "valore": "Consegna promessa al cliente: 30-60 minuti. Deciso da Nicola in chat il 2026-08-21 alle 19:15, rispondendo alla card #147: la home aveva ragione, il resto del sito (24-48 ore, 36 punti in 28 file) e da riallineare. ATTENZIONE: e una promessa mai ancora mantenuta nemmeno una volta — ordini consegnati = 0, e la bici e dichiarata non operativa dal 14/7.",
@@ -256,6 +256,10 @@
         {
           "valore": "Due modi di consegna, scelti dal cliente in cassa. Veloce: la spesa arriva in 30-60 minuti e il cliente paga 1 euro in più dei 3 euro di consegna. Altrimenti il cliente sceglie una fascia oraria in cui possiamo consegnare, coi 3 euro di sempre. Detto da Nicola in chat il 2026-10-29, fra le 12:24 e le 12:29, rispondendo alla domanda sui 30-60 minuti. Sostituisce la promessa «in giornata» del 26/10 (carta #209).",
           "fino_a": "2026-10-29 13:44"
+        },
+        {
+          "valore": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
+          "fino_a": "2026-10-29 16:13"
         }
       ],
       "caccia": [
@@ -298,6 +302,22 @@
         {
           "pattern": "Due modi di consegna, scelti dal cliente in cassa. Veloce: la spesa arriva in 30-60 minuti e il cliente paga 1 euro in più dei 3 euro di consegna. Altrimenti il cliente sceglie una fascia oraria in cui possiamo consegnare, coi 3 euro di sempre. Detto da Nicola in chat il 2026-10-29, fra le 12:24 e le 12:29, rispondendo alla domanda sui 30-60 minuti. Sostituisce la promessa «in giornata» del 26/10 (carta #209).",
           "dal": "2026-10-29 13:44"
+        },
+        {
+          "pattern": "50 centesimi in più sotto i 10 euro",
+          "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "fascia oraria 3,50 euro",
+          "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "Sotto i 10 euro di spesa il cliente paga 50 centesimi in più",
+          "dal": "2026-10-29 16:13"
+        },
+        {
+          "pattern": "Consegna 3 euro per negozio, con la fascia oraria scelta dal cliente. Sotto i 10 euro di spesa il cliente paga 50 centesimi in più. Se la vuole subito, con la consegna veloce in 30-60 minuti, paga 50 centesimi in più. I due supplementi si sommano: sotto i 10 euro la consegna veloce costa 4 euro, il massimo. Il fattorino resta a 3 euro a consegna; i centesimi in più restano a MyCity. Deciso da Nicola in chat il 2026-10-29 fra le 13:22 e le 13:44, dopo l analisi della carta #220. Sostituisce «1 euro in più per la veloce» delle 12:29.",
+          "dal": "2026-10-29 16:13"
         }
       ],
       "esenzioni": [
