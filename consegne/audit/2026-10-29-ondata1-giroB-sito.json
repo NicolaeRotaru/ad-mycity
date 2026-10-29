@@ -1,5 +1,5 @@
 {
- "_cosa_e": "Giro B dell ondata 1 del sito, scelto da Nicola il 29/10 alle 00:05 («218: 1) B 2) B») e chiesto con «parti con i due giri» (29/10 mattina); prima del lancio il territorio delle promesse è stato allargato alle pagine trovate con git grep (scheda 1516, 12:23). Due pacchetti che riprendono i rami fermi dell ondata 10: le promesse, allargate a tutte le pagine dei 30-60 minuti (con la 1516), e la cassa in contanti, con i 4 difetti nati nel suo ramo (1755-1758) e il preesistente 1742. Il 113 resta fuori: toccherebbe lib/constants.ts, che in questo giro è delle promesse. Base: fix/base-ondata-11 (fff2c3e) = il ramo d integrazione della #263 (0df7945) più i due rami fermi. Sulla base npm run verify è ROSSO di proposito: 13 prove vecchie della cassa (scheda 1758). Le ondate 1-10 sono vuote: si legge con --ondata 11, worktree o11-*.",
+ "_cosa_e": "Giro B dell ondata 1 del sito, scelto da Nicola il 29/10 alle 00:05 («218: 1) B 2) B») e chiesto con «parti con i due giri» (29/10 mattina); prima del lancio il territorio delle promesse è stato allargato alle pagine trovate con git grep (scheda 1516, 12:23). Due pacchetti che riprendono i rami fermi dell ondata 10: le promesse, allargate a tutte le pagine dei 30-60 minuti (con la 1516), e la cassa in contanti, con i 4 difetti nati nel suo ramo (1755-1758) e il preesistente 1742. Il 113 resta fuori: toccherebbe lib/constants.ts, che in questo giro è delle promesse. Base: fix/base-ondata-11 (fff2c3e) = il ramo d integrazione della #263 (0df7945) più i due rami fermi. Sulla base npm run verify è ROSSO di proposito: 13 prove vecchie della cassa (scheda 1758). Le ondate 1-10 sono vuote: si legge con --ondata 11, worktree o11-*. Il 29/10, fra le 12:29 e le 12:34, la 253 e la 1516 (le frasi dei 30-60 minuti) sono uscite dal giro: Nicola tiene la consegna veloce in 30-60 minuti con 1 euro in più, e il prezzo standard (2 o 3 euro) è ancora da decidere.",
  "data": "2026-10-29 12:20",
  "registro": "sito",
  "origine": "consegne/audit/2026-10-28-ondata1-sito.json (ondata 10) e carta #218",
@@ -31,10 +31,6 @@
       "chiave": "frontend-ux|la home promette «arriva oggi in 30-60 minuti» anche di domenica, senza guardare se un negozio è aperto"
      },
      {
-      "idx": 253,
-      "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato"
-     },
-     {
       "idx": 1206,
       "chiave": "accessibilita|la dichiarazione promette che i dialoghi di conferma trattengono il fuoco e lo riportano indietro: il dialogo di conferma non fa nessuna delle due cose"
      },
@@ -45,10 +41,6 @@
      {
       "idx": 256,
       "chiave": "microcopy|nelle schede prodotto vere compaiono «vegano false», «biologico true» e «alt text», e il negozio vede spuntate caselle sbagliate"
-     },
-     {
-      "idx": 1516,
-      "chiave": "architettura|promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio"
      }
     ]
    },
@@ -90,5 +82,17 @@
     ]
    }
   ]
+ ],
+ "rinviati": [
+  {
+   "idx": 253,
+   "chiave": "microcopy|ogni pagina promette la consegna in 30-60 minuti, ma in produzione non c'è nessun fattorino approvato",
+   "perche": "Nicola 2026-10-29 (fra le 12:24 e le 12:29): la consegna veloce resta in 30-60 minuti con 1 euro in più, oppure una fascia oraria. Le frasi dei 30-60 minuti si cambiano insieme al prezzo nuovo, in un pacchetto dopo questo giro, quando Nicola ha deciso 2 o 3 euro."
+  },
+  {
+   "idx": 1516,
+   "chiave": "architettura|promessa 30-60 min al limite in bici: 55 min a 10 km senza contare l'andata del fattorino al negozio",
+   "perche": "Nicola 2026-10-29 (fra le 12:24 e le 12:29): la consegna veloce resta in 30-60 minuti con 1 euro in più, oppure una fascia oraria. Le frasi dei 30-60 minuti si cambiano insieme al prezzo nuovo, in un pacchetto dopo questo giro, quando Nicola ha deciso 2 o 3 euro."
+  }
  ]
 }

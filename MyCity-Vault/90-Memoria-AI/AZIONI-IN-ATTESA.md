@@ -64,6 +64,8 @@ Contenuto: la run delle ricette è `wf_b0929d95-4a5`. Il ricettario sta in `cons
 ### 🟡 #218 — Scegli cosa fare dei due pacchetti fermi dell'ondata 1: le promesse e la cassa in contanti · ⏳ accodata 2026-10-28 21:45 · ✅ scelta 2026-10-29 00:05
 
 > ✅ **2026-10-29 00:08 — Hai scelto B e B:** un giro in più su tutti e due i pacchetti. Le promesse si allargano a tutte le pagine dei 30-60 minuti. La cassa riparte dal suo ramo, con i 5 gravi nati da chiudere. I due giri partono quando torna il limite della settimana.
+>
+> 🔁 **2026-10-29 12:34 — La promessa è cambiata.** Alla mia domanda sui 30-60 minuti hai risposto: la consegna veloce arriva in 30-60 minuti con 1 euro in più, altrimenti il cliente sceglie una fascia oraria. I due giri sono partiti. Quello delle promesse va senza le frasi dei minuti: quelle si cambiano insieme al prezzo nuovo, dopo questo giro. Il prezzo standard, 2 o 3 euro, lo decidi tu: l analisi è in corso.
 
 **In parole semplici.** L'ondata 1 è finita con 36 agenti su 45. Tre pacchetti su cinque reggono: la porta del negozio, la moderazione degli account e il catalogo. Due si sono fermati dopo tre bocciature del collaudo, e il metodo vuole che decida tu.
 

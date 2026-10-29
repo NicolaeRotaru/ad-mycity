@@ -82,7 +82,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > ✍️ **2026-10-26 09:15 — Firme arrivate. Le squadre del sito sono partite.**
 >
-> Alle 08:55 hai mandato «ok 209, parti» con le risposte brevi. Il registro dei fatti è aggiornato e coerente: la consegna adesso è «in giornata», il canone è sospeso finché il negozio non incassa, al lancio si paga solo in contanti. Ho chiuso le carte #209, #196 e #178.
+> Alle 08:55 hai mandato «ok 209, parti» con le risposte brevi. Il registro dei fatti è aggiornato e coerente: la consegna era passata a «in giornata». Il canone è sospeso finché il negozio non incassa. Al lancio si paga solo in contanti. Il 29/10 Nicola ha cambiato di nuovo la consegna: quella veloce arriva in 30-60 minuti e costa 1 euro in più, altrimenti si sceglie una fascia oraria. Ho chiuso le carte #209, #196 e #178.
 >
 > Le fondamenta sono tre squadre su file separati. La prima spegne le funzioni del lancio, la seconda sistema rilascio e prove, la terza fa leggere davvero il pannello admin. Il controllo del sito prima di partire era verde: 5.694 prove su 5.694.
 >

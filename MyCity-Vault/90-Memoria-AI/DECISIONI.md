@@ -5992,3 +5992,16 @@ Nella riga delle 19:55 ho scritto «fase 0 ancora 8 su 8 aperti». È sbagliato:
 **Dove entra.** Nell'ondata 2, con le ricette del 1320 (il testo dell'annullo) e del 1286 (il credito che non torna), e con i soldi dei resi. L'apertura automatica del reclamo è un pezzo nuovo: va scritto nella ricetta prima di lanciare.
 
 **Colore.** 🔴 firmato da Nicola: tocca il percorso dei soldi del cliente. Nessun codice toccato oggi.
+
+## 2026-10-29 12:34 — 🔴 Nicola cambia la promessa di consegna: veloce in 30-60 minuti con 1 euro in più, oppure una fascia oraria
+
+**Cosa ha scritto Nicola** (fra le 12:24 e le 12:29, rispondendo a «a cosa ti riferisci con 30-60 minuti»): «la spesa arriva in 30-60 minuti, però il cliente deve pagare 1€ in più, se no può indicare una fascia oraria in cui possiamo consegnare». Subito dopo ha chiesto se è meglio una consegna standard da 2 o da 3 euro, con 1 euro in più sotto i 10 euro di spesa o per la consegna veloce.
+
+**Cosa ho fatto.**
+- Il fatto `consegna.promessa` nel registro ora dice la scelta nuova; «in giornata» del 26/10 è nella sua storia. Il guardiano della coerenza è verde dopo aver corretto la riga 85 di STATO.
+- Il giro B dell ondata 1 è partito fra le 12:29 e le 12:34 (run `wf_8774d9cc-eb7`, base `fff2c3e`, tetto 45, tipi tech e qa). La cassa è com era. Le promesse vanno con 6 difetti su 8: la 253 e la 1516, cioè le frasi dei 30-60 minuti, sono rinviate al pacchetto del prezzo nuovo. Le frasi già portate a «in giornata, negli orari di apertura del negozio» dal ramo di ieri restano: sono vere anche con la scelta nuova.
+- L analisi del prezzo è partita (run `wf_dc8a1e45-5a6`): sei lenti (conti, concorrenti, percezione del cliente, regole, codice, consegna reale) e tre giudici.
+
+**Un dato che sostiene la soglia dei 10 euro.** L 11/8 Nicola ha deciso che il 10% di commissione serve a pagare la consegna. Il fattorino prende 3 euro a consegna (`COMPENSO_RIDER_CENTS`). Con la consegna a 2 euro manca 1 euro, e il 10% lo copre da 10 euro di spesa in su.
+
+**Colore.** 🔴: è un prezzo pagato dal cliente. Nessun prezzo cambiato nel codice; il pacchetto del prezzo parte solo con la firma sulla carta che scrivo dopo l analisi.
