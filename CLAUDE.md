@@ -80,7 +80,7 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
 
 > 🪙 **Lavoro snello: fatto bene col minimo dei token.** Nicola, 30/10/2026: «fai i lavori veloce e fatti bene,
 > senza errori, controlla quello che hai fatto, consumando il minor numero di token possibile». Il conto: l'ondata
-> del 28/10 = 54 agenti e 118 milioni di token riletti, 3 su 4 a controllare; il prezzo della consegna ha chiesto
+> del 28/10 = 54 subagenti e 118 milioni di token riletti, 3 su 4 a controllare; il prezzo della consegna ha chiesto
 > 8 ondate; un turno dell'AD pesa ~134.000 token prima di fare niente. Le regole:
 > ① una funzione, **al massimo due ondate**: al terzo giro ci si ferma e si chiede a Nicola · ② **prima le scelte,
 > poi il codice**: le domande aperte a Nicola e i casi da provare (dato → atteso) vengono prima di costruire ·
@@ -88,7 +88,7 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
 > toglie la correzione; poi `npm run verify` una volta per ondata · ④ **un collaudo per ondata, non per pacchetto**
 > (due lenti se tocca soldi, dati o permessi): porta le lenti delle dimensioni toccate e vale come radiografia del
 > perimetro, niente vagli né controlli separati · ⑤ il vecchio trovato strada facendo **va nel registro**, non apre
-> un'ondata · ⑥ **istruzioni precise** (file, righe, comando della prova) e agenti leggeri, tetto 12 agenti per
+> un'ondata · ⑥ **istruzioni precise** (file, righe, comando della prova) e agenti leggeri, tetto 12 subagenti per
 > ondata col motore snello · ⑦ **l'AD per primo**: comandi raggruppati, file letti a pezzi, niente workflow per una
 > domanda · ⑧ il conto misurato (`node cervello/conto-token.mjs`) **nel referto di ogni ondata**. Il motore snello
 > (`ondata-snella.js`, `prova-rimessa.mjs`, tipo `squadra-sito`) è in costruzione: fino ad allora le ondate girano
