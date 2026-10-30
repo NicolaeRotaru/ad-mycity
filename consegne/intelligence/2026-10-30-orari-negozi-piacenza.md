@@ -15,6 +15,7 @@ Ho trovato un orario con fonte per 9 negozi su 16, poco più della metà.
 Per gli altri 7 non ho trovato niente, e non ho scritto orari a caso.
 
 Il quadro che esce è chiaro.
+Prima delle 8 sono aperti solo 3 negozi su 9: Montanari dalle 6, Amendolara e Groppi dalle 7:30.
 La mattina quasi tutti chiudono tra le 13 e le 14.
 Il pomeriggio riaprono tra le 15:30 e le 17.
 La sera la maggior parte chiude alle 19 o alle 19:30.
@@ -33,13 +34,16 @@ Le fasce di oggi non seguono gli orari dei negozi. Tre esempi con Pane Quotidian
 - «Stasera 18–20»: funziona solo se Nicola ritira entro le 19:30, quando il negozio chiude.
 
 Ti propongo tre griglie nuove, più strette.
-La mia raccomandazione è la prima: 9–11, 11–13, 16:30–18, 18–19:30.
-Ogni fascia di questa griglia cade quando i negozi sono aperti.
+La mia raccomandazione è la prima: 7:30–9, 9–11, 11–13, 16:30–18, 18–19:30.
+Dalle 9 in poi ogni fascia cade quando i negozi sono aperti.
+La fascia 7:30–9, che hai chiesto tu, la possono servire solo 3 negozi su 9.
+Pane Quotidiano non può: apre alle 9.
 
 ## Cosa devi fare
 
 - Scegli una delle tre griglie della sezione «Proposte». Io consiglio la A.
 - Decidi se il sito deve togliere le fasce del pomeriggio il giovedì. Serve ai 4 negozi che il giovedì pomeriggio sono chiusi, Pane Quotidiano compreso.
+- Decidi se tenere la fascia 7:30–9 anche se oggi la servono solo 3 negozi, e nessuno è già su MyCity.
 - Quando passi da Pane Quotidiano, chiedi conferma dell'orario. È l'unico negozio vero di oggi, e la mia fonte è una scheda online senza data.
 
 ## Cosa non ho verificato
@@ -50,6 +54,7 @@ Ogni fascia di questa griglia cade quando i negozi sono aperti.
 - Quindi nessun negozio ha due fonti indipendenti che concordano. Amendolara e Rasparini hanno una seconda fonte, ma dice cose un po' diverse.
 - Solo 3 fonti hanno una data. Garetti è di circa 2 anni fa, Frolla Couture di circa 17 mesi fa, Panetteria Del Corso di circa 6 anni fa.
 - Non so se gli orari cambiano d'estate o a dicembre.
+- I tre forni senza orario sono Struzzi, Anzico e L'Albero del Pane. Potrebbero aprire alle 7 o prima: non l'ho potuto verificare.
 - Di quanto fidarsi: 70% sul quadro generale. Parlo della pausa 13–16:30, della chiusura 19–19:30 e del giovedì pomeriggio. Sul singolo orario di un singolo negozio, 50%.
 
 ## La tabella: negozio per giorno
@@ -76,6 +81,22 @@ Come leggerla: «8–13, 16–19:30» vuol dire aperto la mattina e il pomeriggi
 | 16 | Salumeria Montanari, Piazza Casali 2 (in più, dal vault) | 6–14 | 6–14 | 6–14 | 6–14 | 6–14 | 6–14 | non indicato | Sito ufficiale [P]. Le sue pagine non concordano: la home dice 7–14 da martedì a giovedì. Forse chiuso ad agosto. |
 
 Nota sul punto 15 della richiesta: nel vault esiste un solo Peretti, quello di Via Alberici. Al suo posto ho messo Groppi e Montanari, due negozi già citati nel vault come candidati.
+
+## L'ora di apertura del mattino, negozio per negozio
+
+È il dato che decide chi può servire una consegna prima delle 9.
+
+- Salumeria Montanari: 6:00 (la home del sito dice 7:00 da martedì a giovedì)
+- Caseificio Amendolara: 7:30, domenica 9:00
+- Panetteria Groppi: 7:30, anche la domenica
+- Antica Salumeria Garetti: 8:00, domenica 9:00
+- Frolla Couture: 8:00
+- Rasparini panificio: 8:00
+- Macelleria Callegari: 8:00, ma il lunedì mattina è chiusa
+- Pane Quotidiano: 9:00
+- Panetteria Del Corso: 9:00
+- Peretti, Struzzi, Anzico Forno, L'Albero del Pane: non trovato
+- Macelleria di Via Scalabrini 16a, Macelleria Polleria, Macelleria Carne Bovina: non trovato
 
 ## Il riassunto
 
@@ -146,6 +167,11 @@ Da qui tre regole semplici:
 2. Una fascia finisce al massimo 30 minuti dopo la chiusura del negozio.
 3. La scelta si chiude 60 minuti prima della fine: in quell'ora il negozio prepara, Nicola ritira e consegna.
 
+Per la fascia del primo mattino vale lo stesso conto.
+Con Groppi, che apre alle 7:30, la fascia 7:30–9 si sceglie fino alle 8:00.
+Groppi prepara entro le 8:30, Nicola ritira e consegna entro le 9:00.
+Con un negozio che apre alle 8:00 il conto non torna: deve preparare la sera prima.
+
 Un esempio con Pane Quotidiano, che chiude alle 19:30.
 La fascia 18–19:30 si può scegliere fino alle 18:30.
 Il negozio prepara tra le 18:30 e le 19:00.
@@ -157,38 +183,45 @@ Nicola ritira entro le 19:15 e consegna entro le 19:30.
 
 È la mia raccomandazione.
 
-**9–11 · 11–13 · 16:30–18 · 18–19:30**
+**7:30–9 · 9–11 · 11–13 · 16:30–18 · 18–19:30**
 
-La scelta si chiude alle 10:00, alle 12:00, alle 17:00 e alle 18:30.
+La scelta si chiude alle 8:00, alle 10:00, alle 12:00, alle 17:00 e alle 18:30.
 
 Il sito mostra a ogni negozio solo le fasce in cui è aperto:
 
+- la fascia 7:30–9 solo per chi apre entro le 7:30, cioè Amendolara, Groppi e Montanari;
 - il giovedì niente fasce del pomeriggio per Pane Quotidiano, Garetti, Frolla Couture e Rasparini;
 - per chi chiude alle 19, cioè Rasparini e Frolla Couture, l'ultima fascia diventa 18–19;
 - la domenica solo 9–11 e 11–13, e solo per i 3 negozi aperti.
 
 La consegna veloce, 30–60 minuti, si accende solo dalle 9:00 alle 12:00 e dalle 16:30 alle 18:30. Sono le ore in cui il negozio è aperto e manca almeno un'ora alla chiusura.
 
-- **Pro:** ogni fascia dura un'ora e mezza o due ore, contro le tre ore di oggi. Tutte cadono quando i negozi sono aperti. Copre anche chi chiude alle 19:30. Per un fattorino solo sono 4 giri al giorno, uno per fascia.
+- **Pro:** ogni fascia dura un'ora e mezza o due ore, contro le tre ore di oggi. Tutte cadono quando i negozi sono aperti. Copre anche chi chiude alle 19:30. Per un fattorino solo sono 5 giri al giorno, uno per fascia.
 - **Contro:** niente consegne tra le 13 e le 16:30. Il sito deve sapere l'orario di ogni negozio, e questo è lavoro tecnico. Con un fattorino solo ogni fascia regge pochi ordini: stimo 3–4 consegne in bici in centro, è un'ipotesi.
+- **La fascia 7:30–9, pro:** il cliente riceve pane e spesa prima di uscire per il lavoro. Nicola è libero, perché nessun'altra fascia si sovrappone.
+- **La fascia 7:30–9, contro:** la servono 3 negozi su 9, e nessuno è già su MyCity. Alle 7:30 il negozio deve avere la merce pronta, e Nicola deve essere in bici dalle 7:15. Chi apre alle 8, come Garetti, ci entra solo preparando la sera prima.
 
 ### B. Sei fasce da un'ora
 
-**9–10 · 10–11 · 11–12 · 12–13 · 17–18 · 18–19:30**
+**7:30–8:30 · 9–10 · 10–11 · 11–12 · 12–13 · 17–18 · 18–19:30**
 
 Con fasce da un'ora la scelta si chiude all'inizio della fascia stessa. L'ultima si chiude alle 18:30.
 
 - **Pro:** il cliente sa l'ora quasi esatta. È la promessa più vicina a quella di Glovo.
 - **Contro:** il negozio prepara e Nicola consegna dentro la stessa ora. Se arrivano due ordini da due negozi diversi nella stessa ora, uno dei due rischia il ritardo. Con un fattorino solo è la griglia più fragile.
+- **La fascia 7:30–8:30, pro:** è la promessa più precisa per chi esce di casa alle 8:30.
+- **La fascia 7:30–8:30, contro:** si sceglie fino alle 7:30, cioè all'ora in cui aprono Amendolara e Groppi. In pratica l'ordine va fatto la sera prima. Pane Quotidiano e i negozi che aprono alle 8 restano fuori.
 
-### C. Due giri al giorno
+### C. Tre giri al giorno
 
-**10:30–13 · 17:30–19:30**
+**7:30–9 · 10:30–13 · 17:30–19:30**
 
-La scelta si chiude alle 12:00 e alle 18:30.
+La scelta si chiude alle 8:00, alle 12:00 e alle 18:30.
 
-- **Pro:** è la griglia con meno giri: 2 al giorno, contro i 4 della A. Nicola fa un giro la mattina e uno la sera. In un passaggio ritira da più negozi. Meno corse a vuoto.
+- **Pro:** è la griglia con meno giri: 3 al giorno, contro i 5 della A. Nicola fa un giro all'alba, uno a fine mattina e uno la sera. In un passaggio ritira da più negozi. Meno corse a vuoto.
 - **Contro:** le fasce restano larghe, due ore e mezza e due ore. È proprio il difetto che hai segnalato. Va bene per le prime settimane di lancio, non come punto d'arrivo.
+- **Il giro 7:30–9, pro:** con un solo giro all'alba Nicola passa da Groppi e Amendolara insieme.
+- **Il giro 7:30–9, contro:** se in un giorno nessuno dei 3 negozi del primo mattino ha ordini, è un'ora di sveglia a vuoto. Conviene accenderlo solo nei giorni con almeno un ordine prenotato.
 
 **La mia scelta: la A.** Passerei alla C solo se nelle prime settimane gli ordini sono pochissimi e le corse a vuoto pesano più della comodità del cliente.
 
