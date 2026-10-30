@@ -180,7 +180,7 @@ export const MAX_BUFFER_GIT = 64 * 1024 * 1024;
  *
  * Alza l'eccezione: chi la vuole tollerante usa `gitLetto`.
  */
-export function gitEsegui(args, cwd, env = {}, { timeout = 0 } = {}) {
+export function gitEsegui(args, cwd, env = {}, { timeout = 0, grezzo = false } = {}) {
   // ⏱️ IL TIMEOUT È OPZIONALE E NON CAMBIA NIENTE PER CHI NON LO CHIEDE (26/8, AR-800).
   //
   // Serviva a `storia-git.mjs`, che da oggi può dare `git fetch --unshallow` per curarsi la cecità
@@ -188,14 +188,19 @@ export function gitEsegui(args, cwd, env = {}, { timeout = 0 } = {}) {
   // vuole la rete. La strada comoda era darsi lì il proprio `execFileSync` — e sarebbe stata la
   // porta laterale numero otto della malattia `git-letto-senza-tetto`, che dice a chiare lettere che
   // la cura è avere UN esecutore solo. Quindi l'esecutore si estende, non si duplica.
-  return execFileSync("git", args, {
+  //
+  // 🧱 GREZZO (30/10/2026): i byte esatti, senza utf8 e senza .trim(). Li vuole `prova-rimessa.mjs`, che
+  // rimette un file com'era sul commit di base: col .trim() perderebbe l'a capo finale e rimetterebbe un
+  // file diverso. Stessa strada del timeout: l'esecutore si estende, chi non lo chiede non vede niente.
+  const uscita = execFileSync("git", args, {
     cwd,
-    encoding: "utf8",
+    encoding: grezzo ? "buffer" : "utf8",
     maxBuffer: MAX_BUFFER_GIT,
     stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env, ...env },
     ...(timeout ? { timeout } : {}),
-  }).trim();
+  });
+  return grezzo ? uscita : uscita.trim();
 }
 
 /** Legge da git senza il tetto di 1 MB. `null` se il comando fallisce (non si indovina un valore). */

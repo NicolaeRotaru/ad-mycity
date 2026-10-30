@@ -22396,6 +22396,50 @@
         "tipo": "umano",
         "come": "Si chiude con una prova del motore finto: un collaudo che riporta una prova rossa sul ramo e verde sulla base fa partire il rifacimento, anche con il sito che fa giusto. Fino alla firma, la rete resta npm run verify dell'AD dopo la ricucitura."
       }
+    },
+    {
+      "stato": "aperto",
+      "nato": "2026-10-30 22:10",
+      "origine": "lotto-della-macchina",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del motore snello, 30/10/2026",
+      "colore": "🟡",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "fonte": "collaudo del motore snello (quattro giri, 30/10/2026), consegne/audit/2026-10-30-motore-snello.md",
+      "id": "AR-1030",
+      "titolo": "La prova rimessa non vede un membro nuovo dentro un oggetto esportato che c'era gia': una prova che ne controlla solo l'esistenza puo' darle un falso «regge»",
+      "dimensione": "rischio-sicurezza-se",
+      "dove": "cervello/prova-rimessa.mjs: nomiNuoviUsati legge solo i nomi esportati in cima al file",
+      "sintomo": "Base `export const api = { somma }`, correzione che aggiunge `doppio` dentro `api`, prova `assert.equal(typeof m.api.doppio, 'function')`: uscita 0 «regge» (ricollaudo del 30/10, difetto 4).",
+      "causa_radice": "Il segno «nome nuovo usato dalle prove» guarda gli export di primo livello, non i membri degli oggetti esportati.",
+      "fix_proposto": "Confrontare anche le chiavi degli oggetti letterali esportati, o dichiarare il caso al collaudo (oggi: limite scritto nell'intestazione; la lente A rilancia la prova e cerca la variante).",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con un caso nella prova la-correzione-tolta-deve-far-cadere-la-prova: il membro nuovo dentro un oggetto esportato deve dare uscita 3."
+      }
+    },
+    {
+      "stato": "aperto",
+      "nato": "2026-10-30 22:10",
+      "origine": "lotto-della-macchina",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo del motore snello, 30/10/2026",
+      "colore": "🟡",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "fonte": "collaudo del motore snello (quattro giri, 30/10/2026), consegne/audit/2026-10-30-motore-snello.md",
+      "id": "AR-1031",
+      "titolo": "Il blocco della prova rimessa puo' far partire due corse insieme se un blocco stantio e' conteso nello stesso istante",
+      "dimensione": "rischio-sicurezza-se",
+      "dove": "cervello/prova-rimessa.mjs: prendiBlocco (lettura del pid stantio, poi unlink e nuovo tentativo)",
+      "sintomo": "Visto leggendo, non riprodotto (ricollaudo del 30/10, difetto E): con un blocco stantio e due corse nuove insieme, la piu' lenta puo' togliere il blocco appena preso dall'altra.",
+      "causa_radice": "Il passaggio «blocco stantio → tolto → ripreso» non e' atomico.",
+      "fix_proposto": "Prendere il blocco stantio con un rename atomico verso un nome unico prima di toglierlo, o usare un lock del sistema (flock). Nel giro d'ondata ogni worktree ha un lavoratore solo, quindi oggi il caso non si presenta.",
+      "verifica": {
+        "tipo": "umano",
+        "come": "Si chiude con una prova che lancia due corse insieme su un blocco stantio e vede uscire 2 la seconda."
+      }
     }
   ],
   "meta": {

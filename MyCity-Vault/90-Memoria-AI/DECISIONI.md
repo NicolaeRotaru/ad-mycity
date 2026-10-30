@@ -6275,3 +6275,17 @@ Per non sbagliare i territori una quinta volta, prima di dividere ho cercato tut
 **Perché.** Nicola, 30/10 sera: «fai i lavori veloce e fatti bene senza errori … consumando il minor numero di token possibile». Le misure: l'ondata del 28/10 = 54 agenti, 118.274.378 token con le riletture, 27 su 36 nei collaudi; il prezzo della consegna = 8 ondate (13-20); delle 8 voci dichiarate chiuse della #265 ne reggono 5. Referto: `consegne/audit/2026-10-30-metodo-snello.md`.
 
 **Colore:** 🟡 auto-modifica, vale con la firma di Nicola sull'unione.
+
+## 2026-10-30 20:12 — 🔴 Nicola unisce la #903 della memoria: le otto regole del metodo snello sono nel manuale
+
+**Cosa.** Unita su GitHub alle 20:12 (19:12 UTC), coi due controlli verdi sul commit `706afbf`. Poi, in chat: «vai, costruisci il motore snello».
+
+**Colore:** 🔴 l'unione, di Nicola.
+
+## 2026-10-30 20:27 — 🟡 Il motore snello delle ondate: lo strumento della prova rimessa e il giro d'ondata con un collaudo solo
+
+**Cosa.** `cervello/prova-rimessa.mjs` (toglie la correzione, la prova deve cadere, poi la rimette: zero agenti) e `.claude/workflows/ondata-snella.js` (una squadra per pacchetto, un collaudo per ondata, un giro di correzione, tetto 12 subagenti). Nel manuale i comandi rapidi diventano un elenco corto; il testo per esteso va in fondo a `COMANDI.md`.
+
+**Perché non nasce il tipo leggero `squadra-sito`.** In 37 posti (19 strumenti e 18 prove) la macchina enumera `.claude/agents/` e conta «i 120 senior»: un tipo in più li farebbe cadere tutti. Sistemarli costava più dei circa 14.000 token a turno che il tipo avrebbe risparmiato.
+
+**Colore:** 🟡 auto-modifica, vale con la firma di Nicola sull'unione.

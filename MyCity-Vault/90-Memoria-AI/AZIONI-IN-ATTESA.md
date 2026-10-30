@@ -31,7 +31,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 <!-- metodo-snello-ondate -->
 
-### 🟡 #223 — Firma le otto regole per fare le ondate con molti meno token, e dimmi se costruisco il motore · ⏳ accodata 2026-10-30 19:56
+### 🟡 #223 — Firma il metodo snello delle ondate del sito · ⏳ accodata 2026-10-30 19:56 · aggiornata 2026-10-30 20:27
+
+> ✏️ **2026-10-30 20:27 — Hai unito la #903 alle 20:12 e hai detto «vai».** Il motore snello è nella richiesta di unione di stasera. Quando la unisci, questa carta è fatta. L'agente leggero per le squadre non nasce: il perché è nel referto `consegne/audit/2026-10-30-motore-snello.md`.
 
 **In parole semplici.** Un'ondata del sito costa soprattutto in controlli. Quella del 28/10 ha acceso 54 subagenti e riletto 118 milioni di token, e 27 subagenti su 36 controllavano. Le otto regole spostano il primo controllo su una prova automatica, fanno un solo collaudo per ondata e fermano una funzione dopo due ondate.
 
@@ -1004,6 +1006,7 @@ Al posto di `"Bash(node cervello/*.mjs:*)"` — 134 righe:
       "Bash(node cervello/pota-memoria.mjs:*)",
       "Bash(node cervello/prediagnosi.mjs:*)",
       "Bash(node cervello/prossima-card.mjs:*)",
+      "Bash(node cervello/prova-rimessa.mjs:*)",
       "Bash(node cervello/prova-sito.mjs:*)",
       "Bash(node cervello/prova-trigger.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
