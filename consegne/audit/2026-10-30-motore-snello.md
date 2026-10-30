@@ -31,17 +31,18 @@ Poi un solo collaudatore guarda tutta l'ondata, invece di uno o due per ogni gru
 ## Cosa non ho verificato
 
 - **Il giro nuovo non ha mai girato su un'ondata vera.** L'ho provato su un motore finto, in 20 scenari su 20 verdi. Il costo vero lo misuro sulla prima ondata.
-- **Lo strumento non l'ho provato con le prove vere del sito**, perché qui il sito non ha le sue librerie. L'ho provato su piccoli repo git, in 22 casi su 22 verdi.
+- **Lo strumento non l'ho provato con le prove vere del sito**, perché qui il sito non ha le sue librerie. L'ho provato su piccoli repo git, in 27 casi su 27 verdi.
 - **Un nome nuovo usato in un modo che non riconosco** può ancora sfuggire. Per esempio una prova che controlla solo che esista `api.doppio`, dentro un oggetto che c'era già. Per questo il collaudatore rilancia la prova e cerca la variante: la macchina viene prima, non da sola.
 - **Se lo strumento viene ucciso di colpo** (kill -9) a metà, un file resta com'era alla base. La correzione però non si perde, perché sta nel commit. La corsa dopo si ferma e dice il comando per rimetterlo.
 
 ## Il collaudo
 
-Un agente che non ha costruito niente ha provato a rompere il lavoro, in tre giri.
+Un agente che non ha costruito niente ha provato a rompere il lavoro, in quattro giri. In tutto ha trovato 8 difetti gravi e 26 minori, e li ho chiusi tutti tranne due minori, che sono dichiarati come limiti.
 
 - **Primo giro: 4 difetti gravi e 13 minori.** Il più importante: lo strumento dava per buona una prova che cadeva solo perché mancava un nome nuovo. Li ho corretti tutti, ognuno con una prova che lo rifà.
 - **Secondo giro: i 4 gravi erano chiusi, ma ne erano nati 2 nuovi.** Stavano tutti e due nel salvataggio che doveva proteggere da un kill -9: in un caso scriveva una versione vecchia sopra lavoro più nuovo.
 - **Terzo giro: un altro caso raro, sempre nel salvataggio.** Era il quarto difetto nato da quel pezzo. Allora l'ho tolto: lo strumento lavora solo su file già committati, e così dopo un'interruzione la correzione giusta è sempre nel commit.
+- **Quarto giro: un ultimo buco grave nel patto nuovo.** Un file della correzione dimenticato fuori dal commit dava ancora un falso «regge». Adesso tutto il worktree deve essere pulito. Questa correzione l'ho verificata io, con le prove e rompendola di proposito: per la regola delle due ondate non ho aperto un quinto giro.
 
 Ogni protezione l'ho anche rotta di proposito, una alla volta. Ogni volta la sua prova è diventata rossa.
 
@@ -49,9 +50,9 @@ Ogni protezione l'ho anche rotta di proposito, una alla volta. Ogni volta la sua
 
 ## Dettagli tecnici
 
-- `cervello/prova-rimessa.mjs` e la sua prova `cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs` (22 casi). Uscite: 0 regge · 1 non regge · 2 non provato · 3 la macchina non decide · 4 non ripristinato. Legge git da `gitEsegui` (`cervello/git-github.mjs`), che ha l'opzione nuova `grezzo`: i byte esatti, senza trim. La prima versione aveva un suo `execFileSync("git")`, e il cancello del commit l'ha fermata (malattia `git-letto-senza-tetto`).
+- `cervello/prova-rimessa.mjs` e la sua prova `cervello/test/la-correzione-tolta-deve-far-cadere-la-prova.test.mjs` (27 casi). Uscite: 0 regge · 1 non regge · 2 non provato · 3 la macchina non decide · 4 non ripristinato. Legge git da `gitEsegui` (`cervello/git-github.mjs`), che ha l'opzione nuova `grezzo`: i byte esatti, senza trim. La prima versione aveva un suo `execFileSync("git")`, e il cancello del commit l'ha fermata (malattia `git-letto-senza-tetto`).
 - `.claude/workflows/ondata-snella.js` e la sua prova `cervello/test/ondata-snella.test.mjs` (20 scenari). Tetto 12, posti del collaudo tenuti da parte, un giro di correzione, ricollaudo per lente, vecchi args rifiutati.
 - Il tipo `squadra-sito` non nasce: `.claude/agents/` lo enumerano 19 strumenti e 18 prove (`grep -l` del 30/10).
 - `CLAUDE.md`: comandi rapidi in elenco corto; il testo per esteso è in fondo a `COMANDI.md`; il comando «lancia l'ondata N del sito» porta a `ondata-snella`.
 - Permessi: `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md` rigenerata (`node cervello/permessi-elenco.mjs --consegna`) e la carta #42 con `prova-rimessa.mjs`.
-- Collaudo: un agente `tech`, quattro giri; contatore del motore 153.461 + 214.859 + 242.828 token per i primi tre. Il salvataggio di <tmp>/prova-rimessa è tolto: blocco e log stanno in `git rev-parse --absolute-git-dir`, e un file non committato in `--file` esce 2.
+- Collaudo: un agente `tech`, quattro giri; contatore del motore 153.461 + 214.859 + 242.828 + 255.770 token. Limiti dichiarati: un membro nuovo dentro un oggetto esportato che c'era già; un blocco stantio conteso da due corse nello stesso istante. Il salvataggio di <tmp>/prova-rimessa è tolto: blocco e log stanno in `git rev-parse --absolute-git-dir`, e un file non committato in `--file` esce 2.
