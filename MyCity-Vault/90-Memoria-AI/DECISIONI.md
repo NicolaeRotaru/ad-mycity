@@ -6161,3 +6161,23 @@ Con più negozi la «veloce compresa» è una lettura mia, per tenere la sua reg
 - Nel registro del sito 33 voci nuove dall ondata 16, dalla 1851 alla 1883. Le cose trovate sul ramo del freno non entrano: quel ramo non si unisce, e vanno nella scheda dell ondata 17.
 
 **Colore:** 🟡: codice in rami del sito, niente unito.
+
+## 2026-10-30 11:05 — 🟡 L ondata 17 del sito: entrano le schede del negozio, il freno della veloce resta fuori dalla richiesta del sito
+
+**Cosa è successo** (run `wf_4a75acee-a4a`, 23 agenti su 45).
+- **Regge** «consegna oggi» nelle schede del negozio (`2df5c6eb`). L elenco dei negozi, le schede della home e la vetrina seguono la stessa regola della cassa. L assistente e la foto non scrivono più «usato». Cucito in `fix/base-ondata-18` (`12e2ea35`).
+- **Il freno della veloce è fermo per la seconda volta**, con 3 gravi nati, scesi da 5.
+  - Con la carta, l euro reso al cliente lo pagherebbe per circa il 70% il negozio.
+  - Il freno legge una colonna della migrazione 124 senza il ripiego.
+  - Il lavoro del freno gira senza sorveglianza: se si ferma, nessun allarme. La riga che lo sorveglia sta in un file fuori dal territorio della squadra, ed è il quarto errore di divisione mio.
+- **L ora nel carrello è ferma.** Il carrello passerebbe all ora di Roma mentre la cassa legge ancora quella del telefono, e su un telefono con un altro fuso direbbero cose diverse. La cassa non era nel territorio della squadra.
+
+**Cosa decido.**
+- La richiesta di unione del sito parte con le ondate 13-17, senza il freno della veloce e senza l ora del carrello.
+- Il freno l hai approvato tu con la carta #220. Al lancio però il fattorino sei tu, c è un negozio solo e la carta è spenta. Ti chiedo se partire con un freno semplice, un avviso a te dopo 10 minuti, e rifare quello automatico dopo.
+- Prima della richiesta i 64 file toccati dalle ondate 13-17 si riguardano con la lente giusta (run `wf_8404b4d0-c10`).
+- Nel registro del sito 20 voci nuove dall ondata 17, dalla 1884 alla 1903. Le cose trovate sui rami del freno e del carrello non entrano: quei rami non si uniscono.
+
+**La lezione dei territori**, quattro volte in quattro ondate. Prima di dividere, per ogni file del pacchetto vanno cercati anche quelli che lo chiamano e lo sorvegliano: chi scrive l email, chi legge l ora, il semaforo dei lavori periodici.
+
+**Colore:** 🟡: codice in rami del sito, niente unito.
